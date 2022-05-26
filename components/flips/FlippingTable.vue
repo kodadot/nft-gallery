@@ -38,6 +38,12 @@
       <b-table-column v-slot="props" cell-class="is-vcentered" label="Owners">
         {{ props.row.owners }}
       </b-table-column>
+      <b-table-column
+        v-slot="props"
+        cell-class="is-vcentered"
+        label="Distribution">
+        {{ props.row.distribution }}
+      </b-table-column>
       <b-table-column v-slot="props" cell-class="is-vcentered" label="Emotes">
         {{ props.row.emotes }}
       </b-table-column>
@@ -85,6 +91,7 @@ type ResNFT = {
   date: string
   total: number
   prevOwners: number
+  distribution: string
 }
 
 @Component({ components })
@@ -93,7 +100,7 @@ export default class FlippingTable extends mixins(PrefixMixin, ChainMixin) {
 
   async fetch() {
     const res: ResNFT[] = await this.fetchData()
-    this.data = res.map((nft, index) => {
+    const result = res.map((nft, index) => {
       const { date } = nft
       return {
         ...nft,
@@ -105,6 +112,9 @@ export default class FlippingTable extends mixins(PrefixMixin, ChainMixin) {
         current: formatBalance(parseInt(nft.current), this.decimals, ''),
       }
     })
+    // const stats = await this.fetchStats(['24d573f4dfa1d7fd33-KAN'])
+
+    this.data = this.data.concat(result)
   }
 
   private calcPercent(nft: ResNFT): string {

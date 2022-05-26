@@ -1,5 +1,6 @@
 query MyQuery {
   result: flippingNFTs {
+    distribution
     previous
     current
     author
