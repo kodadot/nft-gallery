@@ -224,8 +224,9 @@ export default class CreateToken extends mixins(
     } catch (e) {
       if (e instanceof Error) {
         showNotification(e.toString(), notificationTypes.danger)
-        this.isLoading = false
       }
+    } finally {
+      this.stopLoader()
     }
   }
 
