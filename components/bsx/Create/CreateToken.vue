@@ -83,7 +83,7 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
-import { Royalty } from '@/utils/royalty'
+import { isRoyaltyValid, Royalty } from '@/utils/royalty'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -216,9 +216,20 @@ export default class CreateToken extends mixins(
         ? [api.tx.marketplace.setPrice(collectionId, nextId, this.price)]
         : []
 
+      const addRoyalty = isRoyaltyValid(this.royalty)
+        ? [
+            api.tx.marketplace.addRoyalty(
+              collectionId,
+              nextId,
+              this.royalty.address,
+              this.royalty.amount
+            ),
+          ]
+        : []
+
       // const support = await canSupport(this.hasSupport)
       //
-      const args = [[create, ...list]]
+      const args = [[create, ...list, ...addRoyalty]]
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
         showNotification(
@@ -227,13 +238,13 @@ export default class CreateToken extends mixins(
         )
 
         this.navigateToDetail(collectionId, String(nextId))
+        this.stopLoader()
       })
     } catch (e) {
       if (e instanceof Error) {
         showNotification(e.toString(), notificationTypes.danger)
+        this.stopLoader()
       }
-    } finally {
-      this.stopLoader()
     }
   }
 
