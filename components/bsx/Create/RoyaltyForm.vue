@@ -6,6 +6,7 @@
       v-show="!isMine"
       label="mint.royalty.receiver"
       v-model="destinationAddress"
+      @input="handleAddressUpdate"
       :strict="false"
       emptyOnError />
   </div>
