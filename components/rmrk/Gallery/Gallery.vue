@@ -56,7 +56,6 @@
                 <span
                   v-if="!isLoading"
                   class="title mb-0 is-4 has-text-centered"
-                  id="hover-title"
                   :title="nft.name">
                   <nuxt-link :to="`/${urlPrefix}/gallery/${nft.id}`">
                     <div class="has-text-overflow-ellipsis">

@@ -94,15 +94,10 @@ export default class Collections extends mixins(PrefixMixin) {
   }
 
   public async created() {
-    const isRemark = this.urlPrefix === 'rmrk'
-    // const query = isRemark
-    //   ? await import('@/queries/collectionListWithSearch.graphql')
-    //   : await import('@/queries/unique/collectionListWithSearch.graphql')
     const query = await resolveQueryPath(
       this.urlPrefix,
       'collectionListWithSearch'
     )
-    console.log(query)
     this.$apollo.addSmartQuery('collection', {
       query: query.default,
       manual: true,
@@ -166,10 +161,10 @@ export default class Collections extends mixins(PrefixMixin) {
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
-      const isRemark = this.urlPrefix === 'rmrk'
-      const query = isRemark
-        ? await import('@/queries/collectionListWithSearch.graphql')
-        : await import('@/queries/unique/collectionListWithSearch.graphql')
+      const query = await resolveQueryPath(
+        this.urlPrefix,
+        'collectionListWithSearch'
+      )
       const collections = this.$apollo.query({
         query: query.default,
         variables: {

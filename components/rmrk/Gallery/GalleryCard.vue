@@ -8,13 +8,10 @@
       :link="link"
       :param="id"
       tag="a">
-
       <div class="card-image">
         <span v-if="emoteCount" class="card-image__emotes">
           <b-icon icon="heart" />
-          <span class="card-image__emotes__count">{{
-            emoteCount
-          }}</span>
+          <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
         <BasicImage
           v-show="image"
@@ -27,9 +24,7 @@
           :src="animatedUrl"
           :metadata="metadata"
           :mimeType="type" />
-        <span
-          v-if="price > 0 && showPriceValue"
-          class="card-image__price">
+        <span v-if="price > 0 && showPriceValue" class="card-image__price">
           <Money :value="price" inline />
         </span>
       </div>
@@ -37,7 +32,6 @@
       <div class="card-content">
         <span
           class="has-text-centered has-text-primary"
-          id="hover-title"
           :class="{ 'title is-4': largeDisplay }"
           :title="name">
           <div class="has-text-overflow-ellipsis">

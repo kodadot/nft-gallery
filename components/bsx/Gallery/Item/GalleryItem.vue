@@ -326,18 +326,5 @@ export default class GalleryItem extends mixins(
       showNotification('INSTANCE REMOVED', notificationTypes.warn)
     }
   }
-
-  protected handleUnlist() {
-    console.log('unlist')
-  }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/variables';
-
-hr.comment-divider {
-  border-top: 1px solid $lightpink;
-  border-bottom: 1px solid $lightpink;
-}
-</style>
