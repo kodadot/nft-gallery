@@ -138,6 +138,7 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     listed: true,
     priceMin: undefined,
     priceMax: undefined,
+    owned: false,
   }
   private isLoading = true
 
