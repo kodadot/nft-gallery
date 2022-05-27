@@ -129,6 +129,7 @@ import { InstanceDetails } from '@polkadot/types/interfaces'
 import axios from 'axios'
 import { get, set } from 'idb-keyval'
 import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { processMedia } from '~/utils/gallery/media'
 import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import resolveQueryPath from '~/utils/queryPathResolver'
@@ -223,7 +224,6 @@ export default class GalleryItem extends mixins(
     this.nft = {
       ...this.nft,
       ...nftEntity,
-      metadata: nftEntity.metadata,
     }
 
     if (nftEntity.meta) {
@@ -250,21 +250,6 @@ export default class GalleryItem extends mixins(
 
   onImageError(e: any) {
     this.$consola.warn('Image error', e)
-  }
-
-  public async fetchAnimationData() {
-    if (this.meta.animation_url && !this.mimeType) {
-      const { headers } = await axios.head(this.meta.animation_url)
-      this.mimeType = headers['content-type']
-      this.$consola.log(this.mimeType)
-      const mediaType = resolveMedia(this.mimeType)
-      this.imageVisible = ![
-        MediaType.VIDEO,
-        MediaType.MODEL,
-        MediaType.IFRAME,
-        MediaType.OBJECT,
-      ].some((t) => t === mediaType)
-    }
   }
 
   public async fetchMetadata() {
@@ -297,16 +282,11 @@ export default class GalleryItem extends mixins(
 
       this.$consola.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
-        const { headers } = await axios.head(this.meta.animation_url)
-        this.mimeType = headers['content-type']
-        this.$consola.log(this.mimeType)
-        const mediaType = resolveMedia(this.mimeType)
-        this.imageVisible = ![
-          MediaType.VIDEO,
-          MediaType.MODEL,
-          MediaType.IFRAME,
-          MediaType.OBJECT,
-        ].some((t) => t === mediaType)
+        const { mimeType, imageVisible } = await processMedia(
+          this.meta.animation_url
+        )
+        this.mimeType = mimeType
+        this.imageVisible = imageVisible
       }
 
       if (!cachedMeta) {
