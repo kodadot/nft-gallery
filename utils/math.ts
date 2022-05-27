@@ -21,6 +21,23 @@ export function pairListBuyEvent(events: Interaction[]): Interaction[] {
   }
 }
 
+export function getSum(list: Array<number | number>): bigint | number {
+  return list
+    .map((x) => x)
+    .map((x) => BigInt(x || 0))
+    .reduce((acc, cur) => acc + cur, BigInt(0))
+}
+
+export function getSumOfObjectField<T>(
+  list: Array<T>,
+  field: string
+): bigint | number {
+  return list
+    .map((x) => x[field])
+    .map((x) => BigInt(x || 0))
+    .reduce((acc, cur) => acc + cur, BigInt(0))
+}
+
 export function getVolume(events: Interaction[]): bigint {
   return events
     .map((x) => x.meta)

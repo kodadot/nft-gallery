@@ -42,6 +42,7 @@
     </b-field>
 
     <b-table
+      sticky-header
       :data="data"
       :default-sort="[sortBy.field, sortBy.value]"
       default-sort-direction="desc"
@@ -267,11 +268,11 @@
       </b-table-column>
 
       <b-table-column
-          v-slot="props"
-          field="emoteCount"
-          :label="$t('series.emoteCount')"
-          numeric
-          cell-class="is-vcentered">
+        v-slot="props"
+        field="emoteCount"
+        :label="$t('series.emoteCount')"
+        numeric
+        cell-class="is-vcentered">
         <template v-if="!isLoading">
           {{ Math.ceil(props.row.emoteCount) }}
         </template>
