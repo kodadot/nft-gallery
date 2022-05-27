@@ -1,7 +1,6 @@
 <template>
   <div>
     <Loader v-model="isLoading" />
-
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
         <h1 class="title is-2">Newest List</h1>
@@ -45,7 +44,8 @@ const components = {
   components,
 })
 export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
-  @Prop({ required: false, default: [''] }) passionList: string[]
+  @Prop({ type: Array, required: false, default: () => [''] })
+  passionList: string[]
 
   private nfts: any[] = []
   private events: any[] = []

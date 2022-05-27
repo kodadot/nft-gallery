@@ -79,7 +79,7 @@ export default class Landing extends mixins(AuthMixin) {
         account: this.accountId,
       },
     })
-    return passionFeed.map((item) => item.id)
+    return passionFeed?.map((item) => item.id) || []
   }
 }
 </script>

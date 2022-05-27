@@ -43,7 +43,8 @@ const components = {
   components,
 })
 export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
-  @Prop({ required: false, default: [''] }) passionList: string[]
+  @Prop({ required: false, type: Array, default: () => [''] })
+  passionList?: string[]
 
   private nfts: any[] = []
   private events: any[] = []

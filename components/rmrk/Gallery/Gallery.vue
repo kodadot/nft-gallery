@@ -261,7 +261,7 @@ export default class Gallery extends mixins(
         account: this.accountId,
       },
     })
-    this.passionList = passionFeed.map((x) => x.id)
+    this.passionList = passionFeed?.map((x) => x.id) || []
   }
 
   protected async handleResult(
