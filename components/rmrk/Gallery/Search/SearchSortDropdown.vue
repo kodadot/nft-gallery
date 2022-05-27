@@ -1,15 +1,17 @@
 <template>
   <b-field>
-    <b-select
+    <b-dropdown
       v-if="multipleSelect"
       multiple
       v-model="selectedActionArray"
-      placeholder="Sort by"
       class="select-dropdown">
-      <option v-for="action in actions" :key="action" :value="action">
+      <template #trigger>
+        <b-button type="is-primary" icon-right="menu-down"> Sort by </b-button>
+      </template>
+      <b-dropdown-item v-for="action in actions" :key="action" :value="action">
         {{ $t('sort.' + action) }}
-      </option>
-    </b-select>
+      </b-dropdown-item>
+    </b-dropdown>
     <b-select
       v-else
       v-model="selectedAction"
