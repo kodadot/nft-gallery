@@ -29,6 +29,7 @@ import {
   actionComponent,
   getActionList,
   iconResolver,
+  ShoppingActions,
 } from '@/utils/shoppingActions'
 import shouldUpdate from '@/utils/shouldUpdate'
 import Connector from '@kodadot1/sub-api'
@@ -55,7 +56,7 @@ export default class AvailableActions extends mixins(
   @Prop(String) public collectionId!: string
   @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
-  private selectedAction: NFTAction | '' = ''
+  private selectedAction: ShoppingActions | '' = ''
   private meta: string | number = ''
 
   get actions() {
@@ -96,7 +97,7 @@ export default class AvailableActions extends mixins(
     return iconResolver[value]
   }
 
-  protected handleAction(action: NFTAction) {
+  protected handleAction(action: ShoppingActions) {
     if (shouldUpdate(action, this.selectedAction)) {
       this.selectedAction = action
     } else {
@@ -110,13 +111,8 @@ export default class AvailableActions extends mixins(
     return Boolean(accountId && Number(price) > 0)
   }
 
-  private handleSelect(value: NFTAction) {
-    this.selectedAction = value
-    this.meta = ''
-  }
-
   get isConsume() {
-    return this.selectedAction === 'CONSUME'
+    return this.selectedAction === ShoppingActions.CONSUME
   }
 
   protected updateMeta(value: string | number) {
