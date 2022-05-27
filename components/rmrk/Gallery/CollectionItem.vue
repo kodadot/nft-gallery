@@ -10,9 +10,7 @@
             customClass="collection__image" />
         </div>
         <h1 class="title is-2">
-          <template>
-            {{ name }}
-          </template>
+          {{ name }}
         </h1>
       </div>
     </div>
@@ -33,7 +31,7 @@
         </div>
       </div>
 
-      <div class="column is-6-tablet is-7-desktop is-8-widescreen">
+      <div v-if="id" class="column is-6-tablet is-7-desktop is-8-widescreen">
         <CollectionActivity :id="id" />
       </div>
 
@@ -66,6 +64,7 @@
       <b-tab-item label="Items" value="items">
         <Search
           v-bind.sync="searchQuery"
+          :showOwnerSwitch="!!accountId"
           :disableToggle="!totalListed"
           :sortOption="collectionProfileSortOption">
           <Layout class="mr-5" />
@@ -93,6 +92,7 @@
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
           @infinite="reachBottomHandler"></InfiniteLoading>
+        <ScrollTopButton />
       </b-tab-item>
       <b-tab-item label="Chart" value="chart">
         <CollectionPriceChart :priceData="priceData" />
@@ -141,6 +141,7 @@ import { NFT } from '@/components/rmrk/service/scheme'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { SearchQuery } from './Search/types'
 import ChainMixin from '@/utils/mixins/chainMixin'
+import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
 import { mapOnlyMetadata } from '~/utils/mappers'
@@ -176,6 +177,7 @@ const components = {
     import('@/components/rmrk/Gallery/Holder/Holder.vue'),
   Flipper: () => import('@/components/rmrk/Gallery/Flipper.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 @Component<CollectionItem>({
   components,
@@ -184,7 +186,8 @@ export default class CollectionItem extends mixins(
   ChainMixin,
   PrefixMixin,
   CreatedAtMixin,
-  InfiniteScrollMixin
+  InfiniteScrollMixin,
+  AuthMixin
 ) {
   @Ref('tabsContainer') readonly tabsContainer
   private id = ''
@@ -196,6 +199,7 @@ export default class CollectionItem extends mixins(
       type: '',
       sortBy: (this.$route.query.sort as string) ?? 'BLOCK_NUMBER_DESC',
       listed: false,
+      owned: null,
     },
     this.$route.query
   )
@@ -278,13 +282,19 @@ export default class CollectionItem extends mixins(
 
     if (this.searchQuery.search) {
       params.push({
-        name: `%${this.searchQuery.search}%`,
+        name: { likeInsensitive: `%${this.searchQuery.search}%` },
       })
     }
 
     if (this.searchQuery.listed || checkForEmpty) {
       params.push({
         price: { greaterThan: '0' },
+      })
+    }
+
+    if (this.searchQuery.owned && this.accountId) {
+      params.push({
+        currentOwner: { equalTo: this.accountId },
       })
     }
 
@@ -330,6 +340,7 @@ export default class CollectionItem extends mixins(
     this.endPage = page
     this.nfts = []
     this.isLoading = true
+    this.isFetchingData = false
     this.fetchPageData(page)
   }
 
@@ -439,8 +450,11 @@ export default class CollectionItem extends mixins(
   ): Promise<void> {
     const { collectionEntity } = data
     if (!collectionEntity) {
-      this.$router.push({ name: 'errorcollection' })
-      return
+      return this.$nuxt.error({
+        statusCode: 404,
+        message: 'Oops! Collection Not Found',
+        path: this.$route.path,
+      })
     }
     this.firstMintDate = collectionEntity.createdAt
     const newNfts = collectionEntity.nfts.nodes.map((e: any) => ({

@@ -3,6 +3,14 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
+      <template v-slot:next-filter>
+        <b-switch
+          class="gallery-switch"
+          v-model="hasPassionFeed"
+          :rounded="false">
+          Passion Feed
+        </b-switch>
+      </template>
       <Pagination
         hasMagicBtn
         simple
@@ -79,6 +87,7 @@
       <InfiniteLoading
         v-if="canLoadNextPage && !isLoading && total > 0"
         @infinite="reachBottomHandler"></InfiniteLoading>
+      <ScrollTopButton />
     </div>
   </div>
 </template>
@@ -103,10 +112,14 @@ import { DocumentNode } from 'graphql'
 import 'lazysizes'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
 import { NFTMetadata } from '../service/scheme'
 import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
 import shouldUpdate from '~/utils/shouldUpdate'
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
+
+import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -121,13 +134,18 @@ const components = {
   PreviewMediaResolver: () =>
     import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 
 @Component<Gallery>({
   components,
   name: 'Gallery',
 })
-export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
+export default class Gallery extends mixins(
+  PrefixMixin,
+  InfiniteScrollMixin,
+  AuthMixin
+) {
   private nfts: NFTWithCollectionMeta[] = []
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() || '',
@@ -138,6 +156,8 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     priceMax: undefined,
   }
   private isLoading = true
+  private hasPassionFeed = true
+  private passionList: string[] = []
 
   get showPriceValue(): boolean {
     return (
@@ -179,6 +199,9 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
 
   public async created() {
     await this.fetchPageData(this.startPage)
+    exist(this.$route.query.hasPassionFeed, (val) => {
+      this.hasPassionFeed = val === 'true'
+    })
     this.onResize()
   }
 
@@ -205,6 +228,11 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     const query = isRemark
       ? await import('@/queries/nftListWithSearch.graphql')
       : await import('@/queries/unique/nftListWithSearch.graphql')
+
+    if (this.hasPassionFeed) {
+      await this.fetchPassionList()
+    }
+
     const result = await this.$apollo.query({
       query: query.default,
       client: this.urlPrefix,
@@ -221,6 +249,19 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     await this.handleResult(result, loadDirection)
     this.isFetchingData = false
     return true
+  }
+
+  public async fetchPassionList() {
+    const {
+      data: { passionFeed },
+    } = await this.$apollo.query({
+      query: passionQuery,
+      client: 'subsquid',
+      variables: {
+        account: this.accountId,
+      },
+    })
+    this.passionList = passionFeed?.map((x) => x.id) || []
   }
 
   protected async handleResult(
@@ -336,6 +377,13 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
         },
       })
     }
+
+    if (this.hasPassionFeed) {
+      params.push({
+        issuer: { in: this.passionList },
+      })
+    }
+
     return params
   }
 
@@ -345,6 +393,18 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
       this.resetPage()
       this.searchQuery.search = val || ''
     }
+  }
+
+  @Watch('hasPassionFeed')
+  protected onHasPassionFeed() {
+    this.gotoPage(1)
+    this.$router.replace({
+      path: String(this.$route.path),
+      query: {
+        ...this.$route.query,
+        hasPassionFeed: String(this.hasPassionFeed),
+      },
+    })
   }
 
   @Watch('searchQuery', { deep: true })
@@ -366,6 +426,10 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
 }
 
 .gallery {
+  &-switch {
+    margin-left: 10px;
+  }
+
   &__image-wrapper {
     position: relative;
     margin: auto;

@@ -1,82 +1,49 @@
 {
   "translation": "english",
   "create": "Create",
-  "Create": "Create",
   "credit": "Credit",
-  "Credit": "Credit",
   "gallery": "Gallery",
-  "Gallery": "Gallery",
-  "Classic": "Classic",
+  "collection": "Collection",
+  "collections": "Collections",
+  "classic": "Classic",
+  "account": "Account",
   "accounts": "Accounts",
-  "Accounts": "Accounts",
   "transfer": "Transfer",
-  "Transfer": "Transfer",
-  "Transform": "Transform",
-  "Identity": "Identity",
-  "Profile": "Profile",
+  "transform": "Transform",
   "settings": "Settings",
-  "Settings": "Settings",
   "first NFT market explorer on Kusama and Polkadot": "first NFT market explorer on Kusama and Polkadot",
   "legend": "Legend",
-  "collection": "Collection",
-  "Collection": "Collection",
   "owner": "Owner",
-  "actions": "Actions",
   "facts": "Facts",
-  "instance": "Instance",
-  "Instance": "Instance",
-  "context": "Create Collection for your NFTs",
-  "using": "using",
   "computed id": "Computed id",
-  "content": "Content",
   "create collection": "Create Collection",
-  "Owner address of minted art": "Owner address of minted art",
-  "Name you want to show in gallery view": "Name you want to show in gallery view",
-  "Symbol you want to trade it under": "Symbol you want to trade it under",
-  "Describe your collection, it will show under collection view": "Describe your collection, it will show under collection view",
-  "Add collection cover which will show up at collection view": "Add collection cover which will show up at collection view",
   "Select collection where do you want mint your token": "Select collection where do you want mint your token",
   "Maximum NFTs in collection": "Maximum NFTs in collection",
-  "Account": "Account",
-  "Name": "Name",
-  "Symbol": "Symbol (Short name)",
-  "Description": "Description",
-  "Multimedia data": "Multimedia data",
-  "Metadata IPFS Hash": "Metadata IPFS Hash",
-  "Learn More": "Learn More",
-  "See More": "See More",
-  "Latest sales": "Latest sales",
-  "Add Token": "Add Token",
-  "Mint": "Mint",
-  "Transferable is by default": "Transferable is by default",
-  "Serial Number": "Serial Number",
-  "Name of your token": "Name of your token",
+  "name": "Name",
+  "simple": "Simple",
+  "about": "About",
+  "ambassador program": "Ambassador Program",
+  "press kit": "Press Kit",
+  "careers": "Careers",
+  "contribute": "Contribute",
+  "qrCode": "QR",
+  "documentation": "Documentation",
+  "grants": "Grants",
+  "theatre": "theatre",
+  "view": "view",
+  "price": "price",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
-  "Upload will upload your image of the NFT": "Upload will upload your image of the NFT",
-  "Click to add image": "Click to add image",
-  "Add Animated File": "Add Animated File",
-  "Image data": "Image data",
-  "Explorer": "Explorer",
-  "Gallery of NFT Tokens and Collectibles": "Gallery of NFT Tokens and Collectibles",
-  "Create your NFT Token & Collectibles": "Create your NFT Token & Collectibles",
-  "New here? We have F.A.Q.": "New here? We have F.A.Q.",
-  "Feedback? We\\'d be happy to discuss it.": "Feedback? We'd be happy to discuss it.",
-  "Read our story, how we started.": "Read our story, how we started.",
-  "User Interface Mode": "User Interface Mode",
   "Minting Settings": "Minting Settings",
-  "Advanced User Interface": "Advanced User Interface",
-  "Basic User Interface": "Basic User Interface",
-  "Enable Theatre View on default": "Enable Theatre View on default",
-  "Fold history and price chart in NFT view on default": "Fold history and price chart in NFT view on default",
-  "Fold description in collection view on default": "Fold description in collection view on default",
-  "Replace buy now with YOLO": "Replace buy now with YOLO",
-  "Always show NFT price by default": "Always show NFT price by default",
+  "user interface mode": "User Interface Mode",
+  "advanced user interface": "Advanced User Interface",
+  "basic user interface": "Basic User Interface",
   "Layout Options": "Layout Options",
   "Gallery Items Per Page": "Gallery Items Per Page",
   "Collections Per Page": "Collections Per Page",
   "I am helping to cover costs": "I am helping to cover costs",
   "I do not want to support": "I do not want to support",
   "faq": {
+    "page": "FAQ",
     "title": "Frequently Asked Questions",
     "box_heading1": "Don't have time to read?",
     "box_heading2": "No problem, check out",
@@ -427,7 +394,8 @@
     "PRICE_DESC": "Price: High to Low",
     "PRICE_ASC": "Price: Low to High",
     "SN_ASC": "Serial Number Ascending",
-    "listed": "Buy now"
+    "listed": "Buy now",
+    "own": "Own"
   },
   "mint": {
     "submit": "Click to create NFT(s)",
@@ -493,9 +461,11 @@
     "sold": "Nfts sold by",
     "collected": "Nfts collected by",
     "buy": "Show only nfts available for purchase",
+    "own": "Show only nfts you own",
     "random": "Go to random page",
     "buyDisabled": "Not enough balance",
-    "holdings": "Nfts owned by"
+    "holdings": "Nfts owned by",
+    "gains": "Gained by"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
@@ -506,12 +476,12 @@
     "related": "More From This Collection",
     "visited": "Visited NFTs",
     "event": {
-      "MINTNFT": "🖼 MINT",
-      "LIST": "📰 LIST",
-      "UNLIST": "🗞 UNLIST",
-      "SEND": "🎁 GIFT",
-      "CONSUME": "🔥 BURN",
-      "BUY": "🤝 BUY"
+      "MINTNFT": "MINT",
+      "LIST": "LIST",
+      "UNLIST": "UNLIST",
+      "SEND": "GIFT",
+      "CONSUME": "BURN",
+      "BUY": "BUY"
     }
   },
   "loader": {
@@ -527,17 +497,6 @@
     "uploading": "({0}/{1}) Uploading data to IPFS",
     "checkBalance": "Checking if you have enough balance"
   },
-  "Spotlight": "Spotlight",
-  "Simple": "Simple",
-  "About": "About",
-  "FAQ": "FAQ",
-  "Ambassador Program": "Ambassador Program",
-  "Press Kit": "Press Kit",
-  "Jobs": "Jobs",
-  "Contribute": "Contribute",
-  "theatre": "theatre",
-  "view": "view",
-  "price": "price",
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
     "uploadNo": "Do not use Arweave",
@@ -555,14 +514,23 @@
     "accept": "I confirm that I hold full copyright ownership of the submitted digital asset (or have sufficient permission by the owner to use the asset)"
   },
   "profile": {
+    "page": "Profile",
     "user": "User",
     "created": "Created",
     "collected": "Collected",
     "sold": "Sold",
     "holdings": "Holdings",
-    "showQr": "Show QR"
+    "gains": "Gains",
+    "showQr": "Show QR",
+    "collectedFromCreator": "Collected {0} NFT(s) from this creator"
+  },
+  "sales": {
+    "page": "Sales",
+    "title": "Latest KUSAMA Sales",
+    "subtitle": "Featuring the most recently sold NFTs on RMRK."
   },
   "spotlight": {
+    "page": "Spotlight",
     "title": "User Spotlight",
     "subtitle": "Featuring the most active collectors and artits on RMRK.",
     "filter_accounts": "Accounts With Identity",
@@ -576,7 +544,7 @@
     "score": "Score",
     "empty": "Empty",
     "uniqueCollectors": "∃! collectors",
-    "soldHistory": "Last 30Days Sold"
+    "soldHistory": "Last 30 Days Sold"
   },
   "series": {
     "title": "Top Collection",
@@ -585,10 +553,13 @@
     "buys": "Buys",
     "collected": "Collected",
     "floorprice": "Floor price",
+    "averagePrice": "Average price",
     "highestSale": "Highest Sale",
     "owners": "Owners",
     "volume": "Volume",
-    "buyHistory": "Last 30Days Buy"
+    "score": "Score",
+    "emoteCount": "Emotes",
+    "buyHistory": "Last 30 Days Buy"
   },
   "activity": {
     "listed": "Listed",
@@ -602,12 +573,26 @@
     "distribution": "DISTRIBUTION",
     "floorPrice": "FLOOR PRICE"
   },
+  "profileStats": {
+    "listed": "Listed",
+    "totalItems": "Σ Items",
+    "highestSale": "HIGHEST SALE",
+    "totalBuys": "Σ BUYS",
+    "highestBuy":"Highest buy",
+    "totalAmountSpend":"Σ amount spend",
+    "holdingsNfts":"Holdings values",
+    "maxSoldPrice":"Max sold price",
+    "totalSellValues":"Σ sell values",
+    "totalSoldItems":"Σ sold items",
+    "totalHoldingsBoughtValues":"KSM spend for holdings nfts"
+  },
   "tutorial": {
     "create": "1. Create polkadot js account",
     "ksm": "2. Get KSM",
     "mint": "3. Minting"
   },
   "general": {
+    "using": "using",
     "balance": "Balance",
     "connect": "Connect",
     "connect_wallet": "Connect your wallet",
@@ -618,9 +603,12 @@
     "copyUrl": "Copy URL",
     "openUrl": "Open URL",
     "copyRewardTooltip": "Your reward link copied to clipboard",
-    "copyRewardLink": "Copy Reward Me link"
+    "copyRewardLink": "Copy Reward Me link",
+    "latestSales": "Latest sales"
   },
   "helper": {
+    "seeMore": "See More",
+    "learnMore": "Learn More",
     "noCollections": "You have no collections",
     "noInfinityCollections": "You have no collections with unlimited NFTs",
     "indexerReadOnly": "App is in read only mode, try reload app or visit Discord",
@@ -645,6 +633,7 @@
     "sendToMyself": "Send to myself"
   },
   "identity": {
+    "page": "Identity",
     "set": "Create on-chain identity",
     "click": "Click to create identity",
     "handleRequired": "Your handle is required",
@@ -696,6 +685,7 @@
     "newTransactionWhilePriceSet": "Setting the price now requires making an additional transaction."
   },
   "teleport": {
+    "page": "Teleport",
     "route": "Teleporting {0} from {1} to {2}"
   },
   "preferences": {
@@ -710,6 +700,7 @@
     "priceVisible": "Always show price in gallery and collection view by default",
     "mintTimeVisible": "Always show mint time in collection view by default",
     "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)",
-    "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs"
+    "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs",
+    "exploreTabOrder": "Default tab in explore"
   }
 }

@@ -1,6 +1,6 @@
 import { RowSeries, SimpleSeriesNFT, SortType } from './types'
-import formatBalance from '@/utils/formatBalance'
-import * as store from '~/store'
+// import formatBalance from '@/utils/formatBalance'
+// import * as store from '~/store'
 import { getVolume, pairListBuyEvent, after, between } from '@/utils/math'
 import { subDays, eachDayOfInterval, formatISO } from 'date-fns'
 
@@ -10,8 +10,8 @@ export const nftFn = (a: any): RowSeries => {
   const collectionNfts = a.nfts.nodes
   const sold = a.nfts.nodes.reduce(soldFn, 0)
   const unique = a.nfts.nodes.reduce(uniqueFn, new Set()).size
-  const averagePrice =
-    a.nfts.nodes.filter(onlyOwned).reduce(sumFn, 0) / (a.nfts.nodes.length || 1)
+  // const averagePrice =
+  //   a.nfts.nodes.filter(onlyOwned).reduce(sumFn, 0) / (a.nfts.nodes.length || 1)
   const uniqueCollectors = [
     ...new Set(a.nfts.nodes.map((nft: SimpleSeriesNFT) => nft.currentOwner)),
   ].length
@@ -50,7 +50,6 @@ export const nftFn = (a: any): RowSeries => {
     unique,
     buys,
     uniqueCollectors,
-    averagePrice,
     floorPrice,
     dailyVolume,
     weeklyVolume,
@@ -62,18 +61,18 @@ export const nftFn = (a: any): RowSeries => {
   }
 }
 
-const tokenDecimals = store.getters[
-  'chain/getChainPropertiesTokenDecimals'
-] as any
-const formatNumber = (val: SimpleSeriesNFT) =>
-  Number(formatBalance(val.price, tokenDecimals, false, true))
-const sumFn = (acc: number, val: SimpleSeriesNFT) => acc + formatNumber(val)
+// const tokenDecimals = store.getters[
+//   'chain/getChainPropertiesTokenDecimals'
+// ] as any
+// const formatNumber = (val: SimpleSeriesNFT) =>
+//   Number(formatBalance(val.price, tokenDecimals, false, true))
+// const sumFn = (acc: number, val: SimpleSeriesNFT) => acc + formatNumber(val)
 const soldFn = (acc: number, val: SimpleSeriesNFT) =>
   val.issuer !== val.currentOwner ? acc + 1 : acc
 const uniqueFn = (acc: Set<string>, val: SimpleSeriesNFT) =>
   acc.add(val.metadata)
-const onlyOwned = ({ issuer, currentOwner }: SimpleSeriesNFT) =>
-  issuer === currentOwner
+// const onlyOwned = ({ issuer, currentOwner }: SimpleSeriesNFT) =>
+//   issuer === currentOwner
 // const onlyBuyEvents = ({ events }: SimpleSeriesNFT) => events.filter((e: { interaction: string }) => e.interaction === 'BUY')
 // const onlyListEvents = (e: { interaction: string }) => e.interaction === 'LIST'
 // const reducer = (a: number, b: number): number => Number(a) + Number(b)
@@ -109,4 +108,8 @@ export function defaultEvents(start: Date, end: Date) {
     res[date] = 0
     return res
   }, {})
+}
+
+export function calculateAvgPrice(volume: string, buys: number): string {
+  return String(Math.round(parseInt(volume) / buys))
 }

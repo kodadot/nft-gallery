@@ -451,11 +451,11 @@
     "name": "Nomeie seu NFT",
     "frozen": "NFT está congelado",
     "event": {
-      "MINTNFT": "🖼  'CUNHAR'",
-      "LIST": "📰  LISTAR",
-      "SEND": "🎁  PRESENTEAR",
-      "CONSUME": "🔥 QUEIMAR",
-      "BUY": "🤝  COMPRAR"
+      "MINTNFT": "CUNHAR",
+      "LIST": "LISTAR",
+      "SEND": "PRESENTEAR",
+      "CONSUME": "QUEIMAR",
+      "BUY": "COMPRAR"
     }
   },
   "loader": {
@@ -527,6 +527,8 @@
     "collected": "Colecionado",
     "floorprice": "Preço mínimo",
     "owners": "Proprietários",
+    "score": "Pontuação",
+    "emoteCount": "Emotes",
     "volume": "Volume"
   },
   "tutorial": {

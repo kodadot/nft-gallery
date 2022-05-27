@@ -1,0 +1,62 @@
+#import "../../fragments/event.graphql"
+#import "../../fragments/nftSubsquid.graphql"
+
+query profileStatsById($id: String!) {
+  listed: nftEntitiesConnection(
+    where: {
+      currentOwner_eq: $id
+      price_gt: "0"
+      events_some: {
+        caller_eq: $id
+        interaction_eq: LIST
+        nft: { currentOwner_eq: $id, burned_eq: false }
+      }
+    }
+    orderBy: name_ASC
+  ) {
+    totalCount
+  }
+
+  obtained: nftEntitiesConnection(
+    where: { currentOwner_eq: $id, burned_eq: false }
+    orderBy: name_ASC
+  ) {
+    totalCount
+  }
+
+  sold: nftEntitiesConnection(
+    where: {
+      currentOwner_not_eq: $id
+      issuer_eq: $id
+      name_not_eq: "%Kanaria%"
+      burned_not_eq: true
+      events_some: { interaction_eq: BUY }
+    }
+    orderBy: name_ASC
+  ) {
+    totalCount
+    edges {
+      node {
+        events(
+          where: {
+            interaction_eq: BUY
+            currentOwner_eq: $id
+            caller_not_eq: $id
+          }
+        ) {
+          meta
+        }
+      }
+    }
+  }
+
+  invested: events(
+    where: { caller_eq: $id, interaction_eq: BUY, nft: { burned_eq: false } }
+  ) {
+    ...event
+    nft {
+      ...nftSubsquid
+    }
+  }
+  
+}

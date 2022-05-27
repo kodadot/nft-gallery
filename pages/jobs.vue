@@ -14,7 +14,7 @@
         target="_blank"
         rel="noopener noreferrer"
         type="my-5 is-primary">
-        {{ $t('Learn More') }}
+        {{ $t('helper.learnMore') }}
       </b-button>
     </div>
   </div>

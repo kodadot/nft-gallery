@@ -64,7 +64,7 @@
               :to="{
                 name: 'rmrk-u-id',
                 params: { id: props.row[groupKey] },
-                query: { tab: 'holdings' },
+                query: { tab: groupKey === 'Holder' ? 'holdings' : 'gains' },
               }">
               <Identity :address="props.row[groupKey]" inline noOverflow />
             </nuxt-link>
@@ -106,7 +106,7 @@
             {{ props.row.SaleFormatted }}
           </b-table-column>
           <b-table-column
-            v-if="groupKey === 'Flipper'"
+            v-if="displayPercentage"
             :visible="columnsVisible['Percentage'].display"
             field="Percentage"
             label="Percentage"
@@ -160,7 +160,7 @@
                 {{ item.SaleFormatted }}
               </td>
               <td
-                v-if="groupKey === 'Flipper'"
+                v-if="displayPercentage"
                 :class="percentageTextClassName(item.Percentage)"
                 v-show="columnsVisible['Percentage'].display">
                 {{ item.Percentage | toPercent('-') }}
@@ -190,11 +190,12 @@
 import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { Interaction } from '../../service/scheme'
+import { Interaction as EventInteraction } from '../../service/scheme'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { formatDistanceToNow } from 'date-fns'
 import { parsePriceForItem, parseDate } from './helper'
 import { Debounce } from 'vue-debounce-decorator'
+import { Interaction } from '@kodadot1/minimark'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -208,7 +209,7 @@ export type NftHolderEvent = {
       id: string
     }
   }
-} & Interaction
+} & EventInteraction
 
 type NFTItem = {
   id: string
@@ -254,6 +255,8 @@ export default class CommonHolderTable extends mixins(
   @Prop({ type: String, default: 'Sale' }) saleHeaderLabel!: string
   @Prop({ type: String, default: '' }) collapseTitleOption!: string
   @Prop({ type: String, default: 'Amount' }) defaultSortOption!: string
+  @Prop({ type: Boolean, default: false }) displayPercentage!: boolean
+  @Prop({ type: Boolean, default: false }) isFlipper!: boolean
 
   private readonly openOnDefault!: boolean
   private currentPage = parseInt(this.$route.query?.page as string) || 1
@@ -361,7 +364,7 @@ export default class CommonHolderTable extends mixins(
         Amount: 1,
       }
       const nftId = newEvent['nft'].id
-      if (newEvent['interaction'] === 'MINTNFT') {
+      if (newEvent['interaction'] === Interaction.MINTNFT) {
         if (!itemRowMap[nftId]) {
           itemRowMap[nftId] = {
             Item: newEvent['nft'],
@@ -372,7 +375,7 @@ export default class CommonHolderTable extends mixins(
             ...commonInfo,
           }
         }
-      } else if (newEvent['interaction'] === 'LIST') {
+      } else if (newEvent['interaction'] === Interaction.LIST) {
         const listPrice = parseInt(newEvent['meta'])
         if (itemRowMap[nftId]) {
           if (!('Sale' in itemRowMap[nftId])) {
@@ -386,7 +389,7 @@ export default class CommonHolderTable extends mixins(
             ...commonInfo,
           }
         }
-      } else if (newEvent['interaction'] === 'SEND') {
+      } else if (newEvent['interaction'] === Interaction.SEND) {
         if (itemRowMap[nftId]) {
           if (!('Bought' in itemRowMap[nftId])) {
             itemRowMap[nftId]['Bought'] = 0
@@ -402,7 +405,7 @@ export default class CommonHolderTable extends mixins(
             ...commonInfo,
           }
         }
-      } else if (newEvent['interaction'] === 'CONSUME') {
+      } else if (newEvent['interaction'] === Interaction.CONSUME) {
         if (!itemRowMap[nftId]) {
           itemRowMap[nftId] = {
             Item: newEvent['nft'],
@@ -412,7 +415,7 @@ export default class CommonHolderTable extends mixins(
             ...commonInfo,
           }
         }
-      } else if (newEvent['interaction'] === 'BUY') {
+      } else if (newEvent['interaction'] === Interaction.BUY) {
         const bought = parseInt(newEvent['meta'])
         if (itemRowMap[nftId]) {
           if (!('Bought' in itemRowMap[nftId])) {
@@ -455,6 +458,9 @@ export default class CommonHolderTable extends mixins(
       case 'Holder':
         return (item) => item.Holder !== '-'
       case 'CollectionId':
+        if (this.isFlipper) {
+          return (item) => item.Flipper === this.$route.params.id
+        }
         return (item) => item.Holder === this.$route.params.id
       default:
         return () => true
@@ -557,6 +563,8 @@ export default class CommonHolderTable extends mixins(
 }
 </script>
 <style lang="scss">
+@import '@/styles/variables.scss';
+
 .collapseHidden {
   .collapse-trigger {
     display: none;
@@ -573,8 +581,10 @@ export default class CommonHolderTable extends mixins(
       flex-direction: column-reverse;
     }
   }
-  .short-name-column {
-    max-width: 20em;
+  @include tablet {
+    .short-name-column {
+      width: 20%;
+    }
   }
 }
 </style>

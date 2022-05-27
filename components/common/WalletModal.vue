@@ -42,6 +42,7 @@
             tag="a"
             :href="guideUrl"
             target="_blank"
+            rel="noopener noreferrer"
             size="is-medium"
             type="is-info"
             expanded>
@@ -69,7 +70,7 @@
             <b>{{ selectedWalletProvider.extensionName }}</b> account
           </div>
 
-          <b-field :label="$i18n.t('Account')" v-if="walletAccounts.length">
+          <b-field :label="$t('account')" v-if="walletAccounts.length">
             <b-select v-model="account" placeholder="Select account" expanded>
               <option disabled selected value="">--</option>
               <option

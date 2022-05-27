@@ -15,6 +15,7 @@
           type="is-primary is-bordered-light"
           class="is-hidden-mobile mr-2"
           @click="isVisible = !isVisible" />
+        <slot name="next-filter"></slot>
         <b-autocomplete
           v-if="!hideSearchInput"
           class="gallery-search"
@@ -31,6 +32,7 @@
           expanded
           @typing="updateSuggestion"
           @keydown.native.enter="nativeSearch"
+          @focus="fetchSuggestionsOnce"
           @select="updateSelected">
           <template slot-scope="props">
             <div v-if="props.option.type === 'Search'">
@@ -210,14 +212,18 @@ export default class SearchBar extends mixins(
   private defaultNFTSuggestions: NFTWithMeta[] = []
   private defaultCollectionSuggestions: CollectionWithMeta[] = []
 
-  public async fetch() {
-    if (this.showDefaultSuggestions) {
+  public async fetchSuggestionsOnce() {
+    if (
+      this.showDefaultSuggestions &&
+      this.urlPrefix === 'rmrk' &&
+      this.defaultCollectionSuggestions.length === 0
+    ) {
       try {
         const { data } = await this.$apollo.query<{
           events: [{ meta; timestamp; nft }]
         }>({
           query: lastNftListByEvent,
-          client: 'legacysquid',
+          client: 'subsquid',
           variables: {
             limit: this.searchSuggestionEachTypeMaxNum,
             event: 'LIST',
@@ -250,7 +256,7 @@ export default class SearchBar extends mixins(
 
         const result = await this.$apollo.query({
           query: seriesInsightList,
-          client: 'subsquid',
+          client: this.client,
           variables: {
             limit: this.searchSuggestionEachTypeMaxNum,
             orderBy: 'volume_DESC',
@@ -358,6 +364,9 @@ export default class SearchBar extends mixins(
   }
 
   get searchSuggestion() {
+    if (this.urlPrefix !== 'rmrk') {
+      return []
+    }
     const suggestions: SearchSuggestion[] = []
     const eachTypeMaxNum = this.searchSuggestionEachTypeMaxNum
 

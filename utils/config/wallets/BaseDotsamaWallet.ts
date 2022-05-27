@@ -127,6 +127,7 @@ export class BaseDotsamaWallet implements Wallet {
     const accounts = await this._extension.accounts.get()
 
     return accounts.map((account) => {
+      account.address = encodeAddress(decodeAddress(account.address), 2)
       return {
         ...account,
         source: this._extension?.name as string,

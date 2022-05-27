@@ -1,22 +1,25 @@
 <template>
   <CommonHolderTable
     :tableRowsOption="flipperTableRowList"
-    groupKeyOption="Flipper"
+    :groupKeyOption="groupKeyOption"
     openOnDefault
     dateHeaderLabel="Last Activity"
-    nameHeaderLabel="User"
+    :nameHeaderLabel="nameHeaderLabel"
     saleHeaderLabel="Sold"
     defaultSortOption="Percentage"
+    displayPercentage
+    isFlipper
     :collapseTitleOption="$t('Flipper')"
     hideCollapse />
 </template>
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import { Interaction } from '../service/scheme'
+import { Interaction as EventInteraction } from '../service/scheme'
 import { TableRow } from '@/components/rmrk/Gallery/Holder/Holder.vue'
 import { parseDate } from '@/components/rmrk/Gallery/Holder/helper'
 import { formatDistanceToNow } from 'date-fns'
+import { Interaction } from '@kodadot1/minimark'
 
 const components = {
   CommonHolderTable: () =>
@@ -27,7 +30,9 @@ type FlipperTableRowMap = Record<string, TableRow[]>
 
 @Component({ components })
 export default class Flipper extends Vue {
-  @Prop({ type: Array }) events!: Interaction[]
+  @Prop({ type: Array }) events!: EventInteraction[]
+  @Prop({ type: String, default: 'Flipper' }) groupKeyOption!: string
+  @Prop({ type: String, default: 'User' }) nameHeaderLabel!: string
   private flipperTableRowList: TableRow[] = []
 
   createTableRowListByEvents() {
@@ -57,7 +62,7 @@ export default class Flipper extends Vue {
       }
       const nftId = newEvent['nft'].id
       rowListMap[nftId] = rowListMap[nftId] ?? []
-      if (newEvent['interaction'] === 'MINTNFT') {
+      if (newEvent['interaction'] === Interaction.MINTNFT) {
         rowListMap[nftId].push({
           Item: newEvent['nft'],
           Flipper: newEvent['caller'],
@@ -65,21 +70,17 @@ export default class Flipper extends Vue {
           Sale: 0,
           ...commonInfo,
         })
-      } else if (newEvent['interaction'] === 'LIST') {
-        const listPrice = parseInt(newEvent['meta'])
-
+      } else if (newEvent['interaction'] === Interaction.LIST) {
         rowListMap[nftId] = rowListMap[nftId] ?? []
-        const len = rowListMap[nftId].length
-        if (len && rowListMap[nftId][len - 1]['Bought']) {
-          rowListMap[nftId].push({
-            Item: newEvent['nft'],
-            Flipper: newEvent['caller'],
-            Bought: 0,
-            Sale: listPrice,
-            ...commonInfo,
-          })
-        }
-      } else if (newEvent['interaction'] === 'SEND') {
+        // for saving Last Activity
+        rowListMap[nftId].push({
+          Item: newEvent['nft'],
+          Flipper: newEvent['caller'],
+          Bought: 0,
+          Sale: 0,
+          ...commonInfo,
+        })
+      } else if (newEvent['interaction'] === Interaction.SEND) {
         rowListMap[nftId] = rowListMap[nftId] ?? []
         rowListMap[nftId].push(
           {
@@ -97,17 +98,26 @@ export default class Flipper extends Vue {
             ...commonInfo,
           }
         )
-      } else if (newEvent['interaction'] === 'BUY') {
-        const bought = parseInt(newEvent['meta'])
+      } else if (newEvent['interaction'] === Interaction.BUY) {
+        const price = parseInt(newEvent['meta'])
 
         rowListMap[nftId] = rowListMap[nftId] ?? []
-        rowListMap[nftId].push({
-          Item: newEvent['nft'],
-          Flipper: newEvent['caller'],
-          Bought: bought,
-          Sale: 0,
-          ...commonInfo,
-        })
+        rowListMap[nftId].push(
+          {
+            Item: newEvent['nft'],
+            Flipper: newEvent['caller'],
+            Bought: price,
+            Sale: 0,
+            ...commonInfo,
+          },
+          {
+            Item: newEvent['nft'],
+            Flipper: newEvent['currentOwner'],
+            Bought: 0,
+            Sale: price,
+            ...commonInfo,
+          }
+        )
       }
     }
 
