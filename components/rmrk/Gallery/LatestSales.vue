@@ -43,7 +43,7 @@ const components = {
   components,
 })
 export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
-  @Prop({ required: false, type: Array, default: () => [''] })
+  @Prop({ required: false, type: Array, default: () => [] })
   passionList?: string[]
 
   private nfts: any[] = []
@@ -53,6 +53,10 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
 
   get isLoading(): boolean {
     return false
+  }
+
+  async fetch() {
+    this.fetchData()
   }
 
   @Watch('passionList')
