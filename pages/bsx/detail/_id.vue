@@ -15,11 +15,11 @@ import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
     GalleryItem,
   },
   head() {
-    const title = this.currentlyViewedItem.title
+    const { title, description, author: content } = this.currentlyViewedItem
     const metaData = {
       title,
       type: 'profile',
-      description: this.currentlyViewedItem.description,
+      description,
       url: this.$route.path,
       image: this.image,
     }
@@ -30,7 +30,7 @@ import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
         {
           hid: 'og:author',
           property: 'og:author',
-          content: this.currentlyViewedItem.author,
+          content,
         },
       ],
     }
