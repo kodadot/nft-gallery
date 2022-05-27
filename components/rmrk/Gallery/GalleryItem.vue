@@ -141,7 +141,7 @@
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
 import { sanitizeIpfsUrl, getSanitizer } from '../utils'
-import { processMedia } from 'utils/gallery/media'
+import { processMedia } from '@/utils/gallery/media'
 import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
 
