@@ -530,8 +530,8 @@
     "subtitle": "Featuring the most recently sold NFTs on RMRK."
   },
   "hot": {
-    "title": "Recently KUSAMA Sales",
-    "subtitle": "Featuring the hot sold NFTs on RMRK"
+    "title": "Recently KUSAMA Sales In One Week",
+    "subtitle": "Featuring the recently sold NFTs on RMRK"
   },
   "spotlight": {
     "page": "Spotlight",
@@ -582,13 +582,13 @@
     "totalItems": "Σ Items",
     "highestSale": "HIGHEST SALE",
     "totalBuys": "Σ BUYS",
-    "highestBuy":"Highest buy",
-    "totalAmountSpend":"Σ amount spend",
-    "holdingsNfts":"Holdings values",
-    "maxSoldPrice":"Max sold price",
-    "totalSellValues":"Σ sell values",
-    "totalSoldItems":"Σ sold items",
-    "totalHoldingsBoughtValues":"KSM spend for holdings nfts"
+    "highestBuy": "Highest buy",
+    "totalAmountSpend": "Σ amount spend",
+    "holdingsNfts": "Holdings values",
+    "maxSoldPrice": "Max sold price",
+    "totalSellValues": "Σ sell values",
+    "totalSoldItems": "Σ sold items",
+    "totalHoldingsBoughtValues": "KSM spend for holdings nfts"
   },
   "tutorial": {
     "create": "1. Create polkadot js account",
