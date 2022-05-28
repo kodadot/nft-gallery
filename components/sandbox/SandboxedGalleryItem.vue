@@ -104,14 +104,27 @@ export default class GalleryItem extends mixins(AuthMixin) {
 
   // TODO: mock data from url params
   async fetch() {
+    console.log(this.$route.query)
     try {
       if (!this.id) {
         throw new Error('No id provided')
       }
+
+      this.overrideParams()
       this.fetchMetadata()
 
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
+    }
+  }
+
+  protected overrideParams() {
+    const overrides = this.$route.query as Record<string, string>
+    const useAccount = this.accountId ? { currentOwner: this.accountId, issuer: this.accountId } : {}
+    this.nft = {
+      ...this.nft,
+      ...useAccount,
+      ...overrides
     }
   }
 
@@ -137,9 +150,8 @@ export default class GalleryItem extends mixins(AuthMixin) {
       }
 
       this.nft = {
+        ...this.nft,
         ...meta,
-        issuer: this.accountId,
-        currentOwner: this.accountId,
       }
 
       if (this.meta.animation_url && !this.mimeType) {
