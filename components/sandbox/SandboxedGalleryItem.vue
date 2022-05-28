@@ -39,18 +39,7 @@
             <div
               class="column is-flex is-flex-direction-column is-justify-content-space-between">
               <div class="card bordered mb-4" aria-id="contentIdForA11y3">
-                <div :class="{ 'money-cursor': hasPrice }" class="card-content">
-                  <template v-if="hasPrice">
-                    <div class="label">
-                      {{ $t('price') }}
-                    </div>
-                    <div class="price-block__container">
-                      <div class="price-block__original">
-                        <Money :value="nft.price" inline />
-                      </div>
-                    </div>
-                  </template>
-
+                <div class="card-content">
                   <div class="content pt-4">
                     <p class="subtitle">
                       <Auth />
@@ -81,7 +70,6 @@ import { get, set } from 'idb-keyval'
 import { MediaType } from '@/components/rmrk/types'
 import axios from 'axios'
 import Orientation from '@/utils/directives/DeviceOrientation'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 import AuthMixin from '~/utils/mixins/authMixin'
 import { toUrl } from '~/utils/ipfs'
 
@@ -101,7 +89,7 @@ import { toUrl } from '~/utils/ipfs'
     orientation: Orientation,
   },
 })
-export default class GalleryItem extends mixins(PrefixMixin, AuthMixin) {
+export default class GalleryItem extends mixins(AuthMixin) {
   private nft: NFT = emptyObject<NFT>()
   private nftsFromSameCollection: NFT[] = []
   private imageVisible = true
@@ -148,7 +136,9 @@ export default class GalleryItem extends mixins(PrefixMixin, AuthMixin) {
       }
 
       this.nft = {
-        ...meta
+        ...meta,
+        issuer: this.accountId,
+        currentOwner: this.accountId,
       }
 
       if (this.meta.animation_url && !this.mimeType) {
@@ -181,10 +171,6 @@ export default class GalleryItem extends mixins(PrefixMixin, AuthMixin) {
 
   get balance(): string {
     return this.$store.getters.getAuthBalance
-  }
-
-  get hasPrice(): boolean {
-    return Number(this.nft.price) > 0
   }
 }
 </script>
