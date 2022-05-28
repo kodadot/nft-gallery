@@ -1,6 +1,6 @@
 import Axios from 'axios'
 
-export const BASE_URL = '' // TODO: @petersopko
+export const BASE_URL = 'https://petersopko.api.stdlib.com/imagedescription@dev/' // TODO: @petersopko
 
 const api = Axios.create({
   baseURL: BASE_URL,
@@ -12,11 +12,7 @@ export type GptResponse = {
 }
 
 export const askGpt = async (url: string) => {
-  // const { status, data } = await api.get<GptResponse>(`askGpt/${url}`)
-  // console.log(status)
-  const data: GptResponse = {
-    title: 'Very good title',
-    description: `Very good ${url}`,
-  }
+  const { status, data } = await api.post<GptResponse>('titleDescriptionGenerator', { url })
+  console.log('[GPT::askGpt]', status)
   return data
 }
