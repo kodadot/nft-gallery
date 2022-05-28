@@ -21,11 +21,11 @@
         expanded
         preview />
 
-      <LabeledText label="mint.nft.name.label" class="mb-2">
+      <LabeledText label="mint.nft.name.label" class="mb-2" :isLoading="isGptLoading">
         {{ rmrkMint.name }}
       </LabeledText>
 
-      <LabeledText label="mint.nft.description.label">
+      <LabeledText label="mint.nft.description.label" :isLoading="isGptLoading">
         {{ rmrkMint.description }}
       </LabeledText>
 
@@ -108,11 +108,14 @@ export default class CreativeMint extends mixins(
     ...emptyObject<SimpleNFT>(),
     max: 1,
     symbol: makeSymbol(),
+    name: '~',
+    description: '~'
   }
   private meta: NFTMetadata = emptyObject<NFTMetadata>()
   private file: File | null = null
   private price = 0
   private fileHash = ''
+  private isGptLoading = false
 
   layout() {
     return 'centered-half-layout'
@@ -260,12 +263,18 @@ export default class CreativeMint extends mixins(
       'pinning/fetchPinningKey',
       this.accountId
     )
-
-     this.fileHash = await pinFileToIPFS(file, token)
-     const url = sanitizeIpfsUrl(unSanitizeIpfsUrl(this.fileHash))
-     const { title, description } = await askGpt(url)
-     this.$set(this.rmrkMint, 'name', title)
-     this.$set(this.rmrkMint, 'description', description)
+    try {
+      this.fileHash = await pinFileToIPFS(file, token)
+      const url = sanitizeIpfsUrl(unSanitizeIpfsUrl(this.fileHash))
+      this.isGptLoading = true
+      const { title, description } = await askGpt(url)
+      this.$set(this.rmrkMint, 'name', title)
+      this.$set(this.rmrkMint, 'description', description)
+      this.isGptLoading = false
+    } catch (e) {
+      this.$consola.error(e)
+      this.isGptLoading = false
+    }
   }
 }
 </script>
