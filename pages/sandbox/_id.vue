@@ -1,6 +1,6 @@
 <template>
-  <div>SanboxWork!</div>
-  <!-- <SandboxedGalleryItem /> -->
+  <!-- <div>SanboxWork!</div> -->
+  <SandboxedGalleryItem />
 </template>
 
 <script lang="ts">
