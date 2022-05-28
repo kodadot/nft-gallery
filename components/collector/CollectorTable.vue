@@ -136,7 +136,7 @@
       </b-table-column>
 
       <template #detail="props">
-        <SpotlightDetail v-if="props.row.total" :account="props.row.id" />
+        <CollectorDetail v-if="props.row.total" :account="props.row.id" />
         <div v-else class="has-text-centered">{{ $t('collector.empty') }}</div>
       </template>
 
@@ -154,7 +154,6 @@
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { Column, Row } from './types'
-// import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
 import collectorList from '@/queries/rmrk/subsquid/collectorList.graphql'
 import collectorBoughtHistory from '@/queries/rmrk/subsquid/collectorBoughtHistory.graphql'
 
@@ -182,7 +181,7 @@ type Address = string | GenericAccountId | undefined
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  SpotlightDetail: () => import('./SpotlightDetail.vue'),
+  CollectorDetail: () => import('./CollectorDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
 }
 
@@ -224,7 +223,7 @@ export default class CollectorTable extends mixins(
       this.sortBy.field = val.slice(1)
       this.sortBy.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
     })
-    await this.fetchSpotlightData()
+    await this.fetchCollectorData()
     this.initKeyboardEventHandler({
       g: this.bindPaginationEvents,
     })
@@ -268,7 +267,7 @@ export default class CollectorTable extends mixins(
     }
   }
 
-  public async fetchSpotlightData(sort: string = toSort(this.sortBy)) {
+  public async fetchCollectorData(sort: string = toSort(this.sortBy)) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       // query: spotlightList,

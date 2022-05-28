@@ -23,7 +23,7 @@ type NftSimpleView = {
 }
 
 @Component({ components })
-export default class SpotlightDetail extends mixins(PrefixMixin) {
+export default class CollectorDetail extends mixins(PrefixMixin) {
   @Prop(String) public account!: string
   protected nfts: NftSimpleView[] = []
   protected isLoading = true
@@ -47,7 +47,7 @@ export default class SpotlightDetail extends mixins(PrefixMixin) {
   }
 
   @Watch('account', { immediate: true })
-  watchAccount(val: string, oldVal: string) {
+  onAccountChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
       this.fetchNFT(val)
     }

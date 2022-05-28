@@ -25,12 +25,12 @@ import { Component, Vue } from 'nuxt-property-decorator'
     CollectorTable: () => import('@/components/collector/CollectorTable.vue'),
   },
   head() {
-    const title = 'NFT Collector rank'
+    const title = 'Collector Whales on RMRK'
     const metaData = {
       title,
       type: 'profile',
-      description: 'Discover new collectors based on ranking',
-      url: '/spotlight',
+      description: 'Discover the most active collector whales on RMRK.',
+      url: '/collector-whale',
       image: `${this.$config.baseUrl}/k_card_spotlight.png`,
     }
     return {

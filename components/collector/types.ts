@@ -23,7 +23,7 @@ export type Row = {
   uniqueCollectors: number
   volume: VolumeType
   collections: number
-  bought: number
+  bought?: number
 }
 
 export type SimpleSpotlightNFT = {
