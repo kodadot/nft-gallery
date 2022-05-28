@@ -10,6 +10,9 @@
           {{ props.row.name }}
         </nuxt-link>
       </b-table-column>
+      <b-table-column v-slot="props" cell-class="is-vcentered" label="Buys">
+        {{ props.row.buys }}
+      </b-table-column>
       <b-table-column
         v-slot="props"
         cell-class="is-vcentered"
@@ -25,7 +28,7 @@
       <b-table-column
         v-slot="props"
         cell-class="is-vcentered"
-        label="Time Since Last">
+        label="Time Since Last Sale">
         {{ props.row.latestSoldTime }}
       </b-table-column>
 
