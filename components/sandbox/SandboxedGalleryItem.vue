@@ -102,6 +102,7 @@ export default class GalleryItem extends mixins(AuthMixin) {
     return this.$route.params.id
   }
 
+  // TODO: mock data from url params
   async fetch() {
     try {
       if (!this.id) {
@@ -154,7 +155,7 @@ export default class GalleryItem extends mixins(AuthMixin) {
       }
 
       if (!m) {
-        set(this.nft.metadata, meta)
+        set(link, meta)
       }
 
       this.isLoading = false
