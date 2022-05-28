@@ -4,9 +4,8 @@
       {{ $t(label) }}
     </p>
     <p class="subtitle is-size-6">
-      <slot>
-        <b-skeleton :active="isLoading"></b-skeleton>
-      </slot>
+      <slot v-if="!isLoading">~</slot>
+      <b-skeleton :active="isLoading"></b-skeleton>
     </p>
   </div>
 </template>
