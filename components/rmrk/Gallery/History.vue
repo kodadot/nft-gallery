@@ -93,6 +93,16 @@
           </b-table-column>
           <b-table-column
             cell-class="short-identity__table"
+            :visible="isPercentageColumnVisible"
+            field="Percentage"
+            label="Percentage"
+            v-slot="props">
+            <span :class="percentageTextClassName(props.row.Percentage)">
+              {{ props.row.Percentage | toPercent('-') }}
+            </span>
+          </b-table-column>
+          <b-table-column
+            cell-class="short-identity__table"
             field="Date"
             label="Date"
             v-slot="props">
@@ -224,6 +234,10 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     )
   }
 
+  get isPercentageColumnVisible() {
+    return [HistoryEventType.ALL, Interaction.BUY].includes(this.event)
+  }
+
   get selectedEvent(): HistoryEventType {
     return this.event
   }
@@ -244,6 +258,15 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         : [...new Set(this.copyTableData.filter((v) => v.Type === event))]
   }
 
+  private percentageTextClassName(percentage: number) {
+    if (percentage > 0) {
+      return 'has-text-success'
+    } else if (percentage < 0) {
+      return 'has-text-danger'
+    }
+    return ''
+  }
+
   @Debounce(100)
   replaceUrl(value: string, key = 'event') {
     this.$router
@@ -262,10 +285,12 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       buy: [],
       list: [],
     }
+    const previousPriceMap = {}
 
     for (const newEvent of this.events) {
       const event: any = {}
 
+      const nftId = newEvent['nft'] ? newEvent['nft']['id'] : 'id'
       // Type
       switch (newEvent['interaction']) {
         case Interaction.MINTNFT:
@@ -293,6 +318,15 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
           event['From'] = newEvent['currentOwner']
           event['To'] = newEvent['caller']
           event['Amount'] = this.parsePrice(newEvent['meta'])
+          if (previousPriceMap[nftId]) {
+            event['Percentage'] =
+              ((parseInt(newEvent['meta']) - previousPriceMap[nftId]) /
+                previousPriceMap[nftId]) *
+              100
+          } else {
+            event['Percentage'] = 100
+          }
+          previousPriceMap[nftId] = parseInt(newEvent['meta'])
           break
         default:
           // unsupported event
