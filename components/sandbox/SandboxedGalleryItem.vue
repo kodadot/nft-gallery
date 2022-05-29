@@ -72,6 +72,9 @@ import axios from 'axios'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import AuthMixin from '~/utils/mixins/authMixin'
 import { toUrl } from '~/utils/ipfs'
+import { parse, build, OneOrMore, IfThat } from '@kodadot1/if-that'
+
+type MetaWithLogic = NFTMetadata & { logic: IfThat<NFT & NFTMetadata>[] }
 
 @Component<GalleryItem>({
   components: {
@@ -95,7 +98,7 @@ export default class GalleryItem extends mixins(AuthMixin) {
   private imageVisible = true
   public isLoading = true
   public mimeType = ''
-  public meta: NFTMetadata = emptyObject<NFTMetadata>()
+  public meta: MetaWithLogic = emptyObject()
   public showNavigation = false
 
   get id(): string {
@@ -149,9 +152,12 @@ export default class GalleryItem extends mixins(AuthMixin) {
         ),
       }
 
+      // const parsedLogic = this.meta.logic ? build(this.meta.logic, this.nft) : {}
+
       this.nft = {
         ...this.nft,
         ...meta,
+        // ...parsedLogic,
       }
 
       if (this.meta.animation_url && !this.mimeType) {
