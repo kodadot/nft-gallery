@@ -118,6 +118,7 @@ import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
 import shouldUpdate from '~/utils/shouldUpdate'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { notificationTypes, showNotification } from '@/utils/notification'
 
 import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
@@ -152,6 +153,7 @@ export default class Gallery extends mixins(
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
+    owned: true,
     priceMin: undefined,
     priceMax: undefined,
   }
@@ -198,7 +200,11 @@ export default class Gallery extends mixins(
   }
 
   public async created() {
-    await this.fetchPageData(this.startPage)
+    try {
+      await this.fetchPageData(this.startPage)
+    } catch (e) {
+      showNotification((e as Error).message, notificationTypes.danger)
+    }
     exist(this.$route.query.hasPassionFeed, (val) => {
       this.hasPassionFeed = val === 'true'
     })
