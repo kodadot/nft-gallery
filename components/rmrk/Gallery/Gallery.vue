@@ -5,6 +5,7 @@
     <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
       <template v-slot:next-filter>
         <b-switch
+          v-if="isLogIn"
           class="gallery-switch"
           v-model="hasPassionFeed"
           :rounded="false">
