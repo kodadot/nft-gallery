@@ -10,6 +10,7 @@
 ### What's new?
 
 - [ ] PR closes #<issue_number>
+- [ ] Requires deployment <rubick/magick_issue>
 - [ ] <brief_description_of_what_I've_added>
 
 ### Before submitting Pull Request, please make sure:
