@@ -38,12 +38,12 @@
         :placeholder="$t('mint.nft.edition.placeholder')"
         expanded />
 
-      <BalanceInput :step="0.1" @input="updateMeta" label="Price" expanded />
+      <!-- <BalanceInput :step="0.1" @input="updateMeta" label="Price" expanded />
       <div class="content mt-3">
         <p>
           Hint: Setting the price now requires making an additional transaction.
         </p>
-      </div>
+      </div> -->
 
       <SubmitButton
         label="mint.submit"
@@ -83,7 +83,7 @@ import {
   SimpleNFT
 } from '../service/scheme'
 import { MediaType } from '../types'
-import { resolveMedia, sanitizeImage, sanitizeIpfsUrl } from '../utils'
+import { resolveMedia, sanitizeIpfsUrl } from '../utils'
 import { askGpt } from '@/utils/gpt'
 
 const components = {
@@ -224,7 +224,7 @@ export default class CreativeMint extends mixins(
 
     const meta = createMetadata(
       rmrkMint.name,
-      m.description || '',
+      rmrkMint.description,
       imageHash,
       animationUrl,
       attributes,
