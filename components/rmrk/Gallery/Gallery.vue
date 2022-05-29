@@ -158,7 +158,7 @@ export default class Gallery extends mixins(
     priceMax: undefined,
   }
   private isLoading = true
-  private hasPassionFeed = true
+  private hasPassionFeed = false
   private passionList: string[] = []
 
   get showPriceValue(): boolean {
@@ -205,10 +205,19 @@ export default class Gallery extends mixins(
     } catch (e) {
       showNotification((e as Error).message, notificationTypes.danger)
     }
-    exist(this.$route.query.hasPassionFeed, (val) => {
-      this.hasPassionFeed = val === 'true'
-    })
     this.onResize()
+  }
+
+  async mounted() {
+    // only fetch passionFeed if logged in
+    if (this.isLogIn) {
+      try {
+        this.hasPassionFeed = true
+        await this.fetchPassionList()
+      } catch (e) {
+        showNotification((e as Error).message, notificationTypes.danger)
+      }
+    }
   }
 
   @Debounce(500)
@@ -402,15 +411,12 @@ export default class Gallery extends mixins(
   }
 
   @Watch('hasPassionFeed')
-  protected onHasPassionFeed() {
-    this.gotoPage(1)
-    this.$router.replace({
-      path: String(this.$route.path),
-      query: {
-        ...this.$route.query,
-        hasPassionFeed: String(this.hasPassionFeed),
-      },
-    })
+  protected async onHasPassionFeed() {
+    try {
+      this.resetPage()
+    } catch (e) {
+      showNotification((e as Error).message, notificationTypes.danger)
+    }
   }
 
   @Watch('searchQuery', { deep: true })
