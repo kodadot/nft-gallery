@@ -76,6 +76,14 @@
               {{ $t('simple') }}
             </b-navbar-item>
           </b-tooltip>
+          <b-tooltip
+            label="Simplified process to create your NFT in a single step"
+            position="is-right"
+            style="display: block">
+            <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/creative`">
+              {{ $t('creative') }}
+            </b-navbar-item>
+          </b-tooltip>
         </template>
       </b-navbar-dropdown>
       <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/explore`">
