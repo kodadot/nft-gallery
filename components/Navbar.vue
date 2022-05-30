@@ -77,7 +77,7 @@
             </b-navbar-item>
           </b-tooltip>
           <b-tooltip
-            label="AI powered process to create your NFT with generated title and description"
+            label="AI powered process to create your NFT"
             position="is-right"
             style="display: block">
             <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/creative`">
