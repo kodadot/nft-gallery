@@ -130,7 +130,7 @@ export default class CreativeMint extends mixins(
   }
 
   get rmrkId(): string {
-    return toCollectionId(this.accountId, this.rmrkMint.symbol)
+    return this.accountId ? toCollectionId(this.accountId, this.rmrkMint.symbol) : ''
   }
 
   get canCalculateTransactionFees(): boolean {
