@@ -295,7 +295,6 @@ export default class SearchBar extends mixins(
   }
 
   public mounted(): void {
-    console.log('jarsen this.', this)
     this.getSearchHistory()
     exist(this.$route.query.search, this.updateSearch)
     exist(this.$route.query.min, this.updatePriceMin)
