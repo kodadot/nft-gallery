@@ -6,7 +6,7 @@
       v-model="selectedActionArray"
       class="select-dropdown">
       <template #trigger>
-        <b-button type="is-primary" icon-right="menu-down"> Sort by </b-button>
+        <b-button type="is-primary" icon-right="caret-down"> Sort by </b-button>
       </template>
       <b-dropdown-item v-for="action in actions" :key="action" :value="action">
         {{ $t('sort.' + action) }}
