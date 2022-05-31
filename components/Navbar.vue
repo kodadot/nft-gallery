@@ -79,7 +79,7 @@
           <b-tooltip
             label="AI powered process to create your NFT"
             position="is-right"
-            style="display: block">
+            append-to-body>
             <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/creative`">
               {{ $t('creative') }}
             </b-navbar-item>
