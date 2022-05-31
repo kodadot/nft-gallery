@@ -157,14 +157,18 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import {
-  Attribute,
   SimpleNFT,
   NFTMetadata,
   NFT,
   getNftId,
   Collection,
 } from '../service/scheme'
-import { unSanitizeIpfsUrl } from '@/utils/ipfs'
+import {
+  unSanitizeIpfsUrl,
+  createInteraction,
+  Attribute,
+  Interaction,
+} from '@kodadot1/minimark'
 import { formatBalance } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { canSupport, feeTx } from '@/utils/support'
@@ -532,8 +536,8 @@ export default class SimpleMint extends mixins(
           ? onlyNfts
               .slice(outOfTheNamesForTheRemarks.length)
               .map((nft) =>
-                NFTUtils.createInteraction(
-                  'LIST',
+                createInteraction(
+                  Interaction.LIST,
                   version,
                   nft.id,
                   String(price)

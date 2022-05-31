@@ -1,17 +1,15 @@
 import { hexToString, isHex } from '@polkadot/util'
-import { unwrap } from '@kodadot1/minimark/'
-import { RmrkEvent, RMRK } from '../types'
 import { generateId } from '../service/Consolidator'
 import { Collection, NFT, NFTWithMeta, SimpleNFT } from './scheme'
 import slugify from 'slugify'
 import { RmrkWithMetaType } from './scheme'
+import { UpdateFunction, upperTrim } from '@kodadot1/minimark'
 
 export type MintType = {
   collection: Collection
   nfts: NFT[]
 }
 
-export type UpdateFunction = (name: string, index: number) => string
 export const basicUpdateFunction = (name: string, index: number): string =>
   `${name} #${index + 1}`
 
@@ -24,18 +22,6 @@ class NFTUtils {
     return NFTUtils.decode(
       isHex(rmrkString) ? hexToString(rmrkString) : rmrkString
     )
-  }
-
-  public static convert(rmrkString: string): RMRK {
-    try {
-      return {
-        event: NFTUtils.getAction(rmrkString),
-        view: unwrap(rmrkString),
-      }
-    } catch (e) {
-      console.warn(e)
-      throw e
-    }
   }
 
   public static toString(
@@ -66,19 +52,6 @@ class NFTUtils {
     return `RMRK::MINTNFT::${version}::${encodeURIComponent(
       JSON.stringify(nft)
     )}`
-  }
-
-  public static createInteraction(
-    action: 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | 'EMOTE',
-    version = '1.0.0',
-    objectId: string,
-    meta: string
-  ): string {
-    if (!objectId) {
-      throw new ReferenceError(`[${action}] Could not create, because nftId`)
-    }
-
-    return `RMRK::${action}::${version}::${objectId}${meta ? '::' + meta : ''}`
   }
 
   public static collectionFromNFT(
@@ -133,7 +106,7 @@ class NFTUtils {
     name: string,
     metadata: string
   ): NFT {
-    const instance = NFTUtils.upperTrim(name, true)
+    const instance = upperTrim(name, true)
     const sn = NFTUtils.nftSerialNumber(index)
     return {
       events: [],
@@ -171,11 +144,6 @@ class NFTUtils {
       )
   }
 
-  public static upperTrim(name: string, slug?: boolean) {
-    const result = name.trim().toUpperCase()
-    return slug ? slugify(result, '_') : result
-  }
-
   public static nftSerialNumber(
     index: number,
     offset = 0,
@@ -194,10 +162,6 @@ class NFTUtils {
     object: Collection | NFT | RmrkWithMetaType
   ): object is NFT | NFTWithMeta {
     return 'currentOwner' in object && 'instance' in object
-  }
-
-  public static decodeAndConvert(rmrkString: string) {
-    return NFTUtils.convert(NFTUtils.decodeRmrk(rmrkString))
   }
 
   public static generateRemarks(
@@ -238,42 +202,6 @@ class NFTUtils {
       collection,
       nfts,
     }
-  }
-
-  public static getAction = (rmrkString: string): RmrkEvent => {
-    if (RmrkActionRegex.MINT.test(rmrkString)) {
-      return RmrkEvent.MINT
-    }
-
-    if (RmrkActionRegex.MINTNFT.test(rmrkString)) {
-      return RmrkEvent.MINTNFT
-    }
-
-    if (RmrkActionRegex.SEND.test(rmrkString)) {
-      return RmrkEvent.SEND
-    }
-
-    if (RmrkActionRegex.BUY.test(rmrkString)) {
-      return RmrkEvent.BUY
-    }
-
-    if (RmrkActionRegex.CONSUME.test(rmrkString)) {
-      return RmrkEvent.CONSUME
-    }
-
-    if (RmrkActionRegex.CHANGEISSUER.test(rmrkString)) {
-      return RmrkEvent.CHANGEISSUER
-    }
-
-    if (RmrkActionRegex.LIST.test(rmrkString)) {
-      return RmrkEvent.LIST
-    }
-
-    if (RmrkActionRegex.EMOTE.test(rmrkString)) {
-      return RmrkEvent.EMOTE
-    }
-
-    throw new EvalError(`[NFTUtils] Unable to get action from ${rmrkString}`)
   }
 }
 
