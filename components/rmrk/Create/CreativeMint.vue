@@ -259,7 +259,7 @@ export default class CreativeMint extends mixins(
   }
 
   protected async uploadFile(file: File) {
-        const { token }: PinningKey = await this.$store.dispatch(
+    const { token }: PinningKey = await this.$store.dispatch(
       'pinning/fetchPinningKey',
       this.accountId
     )
