@@ -1,6 +1,7 @@
 import Axios from 'axios'
+import { URLS } from './constants'
 
-export const BASE_URL = 'https://api.coingecko.com/api/v3'
+export const BASE_URL = URLS.providers.coingecko
 
 const api = Axios.create({
   baseURL: BASE_URL,
