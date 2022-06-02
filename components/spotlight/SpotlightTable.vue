@@ -182,6 +182,7 @@ import { Debounce } from 'vue-debounce-decorator'
 import { Column, Row } from './types'
 import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
 import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.graphql'
+import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
@@ -189,6 +190,7 @@ import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import AuthMixin from '~/utils/mixins/authMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { PER_PAGE } from '~/utils/constants'
 import {
@@ -215,7 +217,8 @@ const components = {
 export default class SpotlightTable extends mixins(
   TransactionMixin,
   PrefixMixin,
-  KeyboardEventsMixin
+  KeyboardEventsMixin,
+  AuthMixin
 ) {
   protected data: Row[] = []
   protected onlyWithIdentity = this.$route.query?.identity || false
@@ -243,6 +246,7 @@ export default class SpotlightTable extends mixins(
     },
     { field: 'rank', label: this.$t('spotlight.score'), numeric: true },
   ]
+  private passionList: string[] = []
 
   async created() {
     exist(this.$route.query.sort, (val) => {
@@ -375,6 +379,19 @@ export default class SpotlightTable extends mixins(
       data: { nftEntities },
     } = data
     return nftEntities
+  }
+
+  public async fetchPassionList() {
+    const {
+      data: { passionFeed },
+    } = await this.$apollo.query({
+      query: passionQuery,
+      client: this.client,
+      variables: {
+        account: this.accountId,
+      },
+    })
+    this.passionList = passionFeed?.map((x) => x.id) || []
   }
 
   private onPageChange(page: number) {
