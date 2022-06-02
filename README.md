@@ -30,6 +30,7 @@ Test out KodaDot's [Beta](https://beta.kodadot.xyz/)
 - Read about [our progress](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours) with KodaDot.
 - Read about KodaDot's [newest features](https://docs.kodadot.xyz/writings.html)
 - Read on the ever-evolving states of our [data storage](https://medium.com/kodadot/on-the-past-present-and-future-of-data-storage-at-kodadot-7634a0c32530)
+- Read up on our efforts to be a [public good](https://medium.com/kodadot/on-sustaining-open-source-as-a-public-good-a3e8c36e67d6)
 
 
 # Support KodaDot
