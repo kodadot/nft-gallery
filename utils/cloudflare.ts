@@ -1,6 +1,7 @@
 import Axios from 'axios'
+import { URLS } from './constants'
 
-export const BASE_URL = 'https://durable-jpeg.kodadot.workers.dev/'
+export const BASE_URL = URLS.koda.cloudflare
 
 const headers = {
   'Content-Type': 'application/json',

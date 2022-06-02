@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { URLS } from '~/utils/constants'
 
 export async function handler(event) {
-  const BASE_URL = 'https://api.pinata.cloud/users/revokeApiKey'
+  const BASE_URL = `${URLS.providers.pinata}users/revokeApiKey`
   const key = event.queryStringParameters.key
 
   if (!key) {
