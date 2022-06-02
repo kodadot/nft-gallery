@@ -16,7 +16,7 @@ import CreativeMint from '@/components/rmrk/Create/CreativeMint.vue'
       title,
       type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
-      url: '/mint',
+      url: '/rmrk/creative',
       image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {

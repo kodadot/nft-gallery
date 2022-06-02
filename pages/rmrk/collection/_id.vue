@@ -5,6 +5,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
+import { URLS } from '~/utils/constants'
 
 @Component<CollectionItemPage>({
   name: 'CollectionItemPage',
@@ -12,7 +13,7 @@ import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
     CollectionItem,
   },
   head() {
-    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(
+    const image = `${URLS.koda.seoCard}${encodeURIComponent(
       this.currentlyViewedCollection.name as string
     )}.jpeg?price=Items:${this.currentlyViewedCollection.numberOfItems}&image=${
       this.currentlyViewedCollection.image as string

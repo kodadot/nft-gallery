@@ -5,6 +5,7 @@
     <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
       <template v-slot:next-filter>
         <b-switch
+          v-if="isLogIn"
           class="gallery-switch"
           v-model="hasPassionFeed"
           :rounded="false">
@@ -118,6 +119,7 @@ import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
 import shouldUpdate from '~/utils/shouldUpdate'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { notificationTypes, showNotification } from '@/utils/notification'
 
 import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
@@ -152,11 +154,12 @@ export default class Gallery extends mixins(
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
+    owned: true,
     priceMin: undefined,
     priceMax: undefined,
   }
   private isLoading = true
-  private hasPassionFeed = true
+  private hasPassionFeed = false
   private passionList: string[] = []
 
   get showPriceValue(): boolean {
@@ -198,11 +201,24 @@ export default class Gallery extends mixins(
   }
 
   public async created() {
-    await this.fetchPageData(this.startPage)
-    exist(this.$route.query.hasPassionFeed, (val) => {
-      this.hasPassionFeed = val === 'true'
-    })
+    try {
+      await this.fetchPageData(this.startPage)
+    } catch (e) {
+      showNotification((e as Error).message, notificationTypes.danger)
+    }
     this.onResize()
+  }
+
+  async mounted() {
+    // only fetch passionFeed if logged in
+    if (this.isLogIn) {
+      try {
+        this.hasPassionFeed = true
+        await this.fetchPassionList()
+      } catch (e) {
+        showNotification((e as Error).message, notificationTypes.danger)
+      }
+    }
   }
 
   @Debounce(500)
@@ -215,6 +231,7 @@ export default class Gallery extends mixins(
     this.startPage = page
     this.endPage = page
     this.nfts = []
+    this.isFetchingData = false
     this.isLoading = true
     this.fetchPageData(page)
   }
@@ -396,15 +413,12 @@ export default class Gallery extends mixins(
   }
 
   @Watch('hasPassionFeed')
-  protected onHasPassionFeed() {
-    this.gotoPage(1)
-    this.$router.replace({
-      path: String(this.$route.path),
-      query: {
-        ...this.$route.query,
-        hasPassionFeed: String(this.hasPassionFeed),
-      },
-    })
+  protected async onHasPassionFeed() {
+    try {
+      this.resetPage()
+    } catch (e) {
+      showNotification((e as Error).message, notificationTypes.danger)
+    }
   }
 
   @Watch('searchQuery', { deep: true })
