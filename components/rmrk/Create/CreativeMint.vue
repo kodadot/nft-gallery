@@ -205,7 +205,7 @@ export default class CreativeMint extends mixins(
   }
 
   public async constructMeta(): Promise<string | undefined> {
-    const { file, rmrkMint, meta: m } = this
+    const { file, rmrkMint } = this
     if (!file) {
       throw new ReferenceError('No file found!')
     }
@@ -234,9 +234,8 @@ export default class CreativeMint extends mixins(
 
     const metaHash = await pinJson(meta, imageHash)
 
-    if (file) {
-      uploadDirect(file, metaHash).catch(this.$consola.warn)
-    }
+    uploadDirect(file, metaHash).catch(this.$consola.warn)
+
     return unSanitizeIpfsUrl(metaHash)
   }
 
