@@ -21,6 +21,13 @@
             <b-switch v-model="onlyWithIdentity" :rounded="false">
               {{ $t('spotlight.filter_accounts') }}
             </b-switch>
+            <b-switch
+              v-if="isLogIn"
+              class="gallery-switch"
+              v-model="hasPassionFeed"
+              :rounded="false">
+              Passion Feed
+            </b-switch>
           </div>
         </b-field>
         <b-button
@@ -247,6 +254,7 @@ export default class SpotlightTable extends mixins(
     { field: 'rank', label: this.$t('spotlight.score'), numeric: true },
   ]
   private passionList: string[] = []
+  private hasPassionFeed = false
 
   async created() {
     exist(this.$route.query.sort, (val) => {
@@ -299,15 +307,22 @@ export default class SpotlightTable extends mixins(
 
   public async fetchSpotlightData(sort: string = toSort(this.sortBy)) {
     this.isLoading = true
+    const queryVars = {
+      offset: 0,
+      orderBy: sort || 'sold_DESC',
+      where: {},
+    }
+    if (this.isLogIn && this.hasPassionFeed) {
+      await this.fetchPassionList()
+      queryVars.where = {
+        id_in: this.passionList,
+      }
+    }
+
     const collections = await this.$apollo.query({
       query: spotlightList,
       client: 'subsquid',
-      variables: {
-        // denyList, not yet
-        // limit: 100,
-        offset: 0,
-        orderBy: sort || 'sold_DESC',
-      },
+      variables: queryVars,
     })
 
     const {
@@ -403,6 +418,11 @@ export default class SpotlightTable extends mixins(
   private async onOnlyWithIdentityChange(val: boolean) {
     this.replaceUrl(val ? 'true' : '', 'identity')
     await this.updateSoldHistory()
+  }
+
+  @Watch('hasPassionFeed')
+  private onHasPassionFeed() {
+    this.fetchSpotlightData()
   }
 
   public onSort(field: string, order: string) {
