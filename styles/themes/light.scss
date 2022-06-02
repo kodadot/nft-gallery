@@ -1,0 +1,127 @@
+html.light-mode {
+	background-color: $background-light;
+
+	body,
+	div#__nuxt,
+	div#__layout,
+	main {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		background-color: $background-light;
+		color: #1f1f1f;
+	}
+
+	.text {
+		&__stroked {
+			-webkit-text-fill-color: #fff;
+		}
+	}
+
+	.navbar {
+		.navbar-item,
+		.navbar-link,
+		.button.is-text {
+			color: #1f1f1f;
+		}
+
+		button.button.navbar-link-background {
+			color: #1f1f1f;
+			background-color: rgba(229, 229, 229, 0.55);
+		}
+		.navbar-item:hover,
+		.navbar-link:hover,
+		.navbar-item:focus,
+		.navbar-link:focus {
+			background-color: inherit;
+		}
+
+		.navbar-item.has-dropdown:focus .navbar-link,
+		.navbar-item.has-dropdown:hover .navbar-link,
+		.navbar-item.has-dropdown.is-active .navbar-link {
+			background-color: transparent!important;
+		}
+
+		&.navbar-shrink {
+			background-color: rgba(12, 12, 12, 0.7) !important;
+		}
+
+		.navbar-dropdown {
+			color: #1f1f1f;
+			background-color: #ededed;
+			box-shadow: rgba(229, 229, 229, 0.55)  !important;
+		}
+
+		.dropdown .dropdown-menu .has-link a {
+			color: #1f1f1f;
+		}
+
+		.search-navbar {
+			input {
+				background-color: rgba(229, 229, 229, 0.55);
+			}
+		}
+	}
+
+	.dropdown-content {
+		color: #1f1f1f;
+		background-color: #ededed;
+		.dropdown-item:not(.is-active) {
+			color: #1f1f1f;
+		}
+	}
+
+	.homepage .tile .box {
+		border-color: #f3f3f3;
+		box-shadow: -8px 4px 8px #f3f3f3;
+		background-color: #ededed;
+
+		.subtitle {
+			color: #1f1f1f;
+		}
+	}
+
+	.select select {
+		color: #1f1f1f;
+		background-color: #b0b0b0;
+	}
+
+	.tabs li:not(.is-active) a,
+	.pagination-previous,
+	.pagination-next,
+	.pagination-link,
+	body .title:not(h2),
+	.auth-avatar .subtitle {
+		color: #1f1f1f;
+	}
+
+	.level .title,
+	.homepage .title:not(h2),
+	body .card-header-title,
+	.card-header-icon {
+		color: #1f1f1f !important;
+	}
+
+	.button:not(.is-primary),
+	.input {
+		color: #1f1f1f;
+		background-color: #ededed;
+	}
+
+	.list-header,
+	.collapse.card {
+		background: inherit;
+	}
+
+	.select select::placeholder,
+	.taginput .taginput-container.is-focusable::placeholder,
+	.textarea::placeholder,
+	.input::placeholder {
+		color: inherit;
+	}
+
+	.scroll-top-button {
+		color: #1f1f1f;
+		background-color: #fff;
+	}
+}

@@ -96,7 +96,8 @@
       <LazySwitchLocale
         class="navbar-item has-dropdown"
         id="NavLocaleChanger" />
-      <NavbarProfileDropdown class="ml-2" :isRmrk="isRmrk" id="NavProfile" />
+      <ColorModeButton />
+      <NavbarProfileDropdown :isRmrk="isRmrk" id="NavProfile" />
     </template>
     <template #end v-else>
       <div class="image is-32x32 mr-2">
@@ -118,6 +119,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import Identity from '@/components/shared/format/Identity.vue'
 import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
+import ColorModeButton from '@/components/common/ColorModeButton.vue'
 
 import { identityStore } from '@/utils/idbStore'
 import { get } from 'idb-keyval'
@@ -128,6 +130,7 @@ import { get } from 'idb-keyval'
     Search,
     Identity,
     BasicImage,
+    ColorModeButton,
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {

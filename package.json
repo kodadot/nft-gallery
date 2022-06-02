@@ -117,6 +117,7 @@
     "@nuxt/bridge": "npm:@nuxt/bridge-edge@3.0.0-27470397.9ebea90",
     "@nuxt/test-utils": "^0.2.2",
     "@nuxt/types": "^2.15.8",
+    "@nuxtjs/color-mode": "^2.1.1",
     "@nuxtjs/pwa": "^3.3.5",
     "@open-wc/webpack-import-meta-loader": "^0.4.7",
     "@types/jest": "^27.5.1",
