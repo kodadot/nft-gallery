@@ -108,6 +108,7 @@ export default class PaginatedCardList extends mixins(
     this.startPage = page
     this.endPage = page
     this.items = []
+    this.isFetchingData = false
     this.isLoading = true
     this.fetchPageData(page)
   }
