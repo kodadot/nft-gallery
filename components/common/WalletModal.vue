@@ -8,15 +8,17 @@
           icon-left="chevron-left"
           @click="hasSelectedWalletProvider = !hasSelectedWalletProvider"
           v-show="hasSelectedWalletProvider" />
-        <p class="modal-card-title">Connect Wallet</p>
+        <p class="modal-card-title">{{ $t('modal.walletHeading') }}</p>
         <button type="button" class="delete" @click="$emit('close')" />
       </header>
       <section v-if="!hasUserAuthorized" class="modal-card-body">
         <div class="mb-5">
-          Kodadot will never ask you to provide mnemonic phrase or private key.
+          {{ $t('modal.authText') }}
         </div>
         <div>
-          <b-checkbox v-model="hasUserAuthorized">I understand</b-checkbox>
+          <b-checkbox v-model="hasUserAuthorized">
+            {{ $t('modal.understand') }}</b-checkbox
+          >
         </div>
       </section>
       <section class="modal-card-body" v-if="hasUserAuthorized">
@@ -54,7 +56,7 @@
             size="is-medium"
             type="is-info"
             expanded>
-            Lean how to Connect
+            {{ $t('modal.learnText') }}
           </b-button>
           <b-button
             tag="a"
@@ -64,7 +66,7 @@
             outlined
             size="is-medium"
             expanded>
-            Download extension
+            {{ $t('modal.downloadExtension') }}
           </b-button>
         </div>
 
