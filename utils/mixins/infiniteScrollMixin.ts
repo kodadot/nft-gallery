@@ -83,7 +83,7 @@ export default class InfiniteScrollMixin extends Vue {
 
   @Debounce(1000)
   protected async reachTopHandler($state): Promise<void> {
-    if (this.startPage < 1) {
+    if (this.startPage <= 1) {
       return
     }
     const nextPage = this.startPage - 1
