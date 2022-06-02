@@ -231,6 +231,7 @@ export default class Gallery extends mixins(
     this.startPage = page
     this.endPage = page
     this.nfts = []
+    this.isFetchingData = false
     this.isLoading = true
     this.fetchPageData(page)
   }

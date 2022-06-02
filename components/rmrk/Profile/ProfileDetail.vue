@@ -587,6 +587,7 @@ export default class Profile extends mixins(
     this.startPage = page
     this.endPage = page
     this.collections = []
+    this.isFetchingData = false
     this.isLoading = true
     this.fetchPageData(page)
   }
