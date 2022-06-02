@@ -26,7 +26,7 @@
               class="gallery-switch"
               v-model="hasPassionFeed"
               :rounded="false">
-              Passion Feed
+              {{ $t('passion') }}
             </b-switch>
           </div>
         </b-field>
@@ -231,28 +231,6 @@ export default class SpotlightTable extends mixins(
   protected onlyWithIdentity = this.$route.query?.identity || false
   protected currentPage = 1
   protected sortBy: SortType = { field: 'sold', value: 'DESC' }
-  protected columns: Column[] = [
-    { field: 'id', label: this.$t('spotlight.id') },
-    { field: 'sold', label: this.$t('spotlight.sold'), numeric: true },
-    { field: 'unique', label: this.$t('spotlight.unique'), numeric: true },
-    { field: 'total', label: this.$t('spotlight.total'), numeric: true },
-    {
-      field: 'averagePrice',
-      label: this.$t('spotlight.averagePrice'),
-      numeric: true,
-    },
-    {
-      field: 'collections',
-      label: this.$t('spotlight.count'),
-      numeric: true,
-    },
-    {
-      field: 'collectors',
-      label: this.$t('spotlight.collectors'),
-      numeric: true,
-    },
-    { field: 'rank', label: this.$t('spotlight.score'), numeric: true },
-  ]
   private passionList: string[] = []
   private hasPassionFeed = false
 
@@ -321,7 +299,7 @@ export default class SpotlightTable extends mixins(
 
     const collections = await this.$apollo.query({
       query: spotlightList,
-      client: 'subsquid',
+      client: this.client,
       variables: queryVars,
     })
 
@@ -383,7 +361,7 @@ export default class SpotlightTable extends mixins(
   public async fetchSpotlightSoldHistory() {
     const data = await this.$apollo.query({
       query: spotlightSoldHistory,
-      client: 'subsquid',
+      client: this.client,
       variables: {
         ids: this.ids,
         lte: today,
