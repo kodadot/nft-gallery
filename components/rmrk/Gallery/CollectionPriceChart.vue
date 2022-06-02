@@ -80,18 +80,6 @@ export default class PriceChart extends mixins(ChainMixin) {
     document!.getElementById('collectionPriceChart')!.style.cursor = 'auto'
   }
 
-  protected onCanvasMouseDownBar(): void {
-    document!.getElementById('collectionPriceBar')!.style.cursor = 'grabbing'
-  }
-
-  protected onCanvasMouseUpBar(): void {
-    document!.getElementById('collectionPriceBar')!.style.cursor = 'auto'
-  }
-
-  protected onCanvasMouseLeaveBar(): void {
-    document!.getElementById('collectionPriceBar')!.style.cursor = 'auto'
-  }
-
   public async created() {
     window.addEventListener('resize', this.onWindowResize)
   }

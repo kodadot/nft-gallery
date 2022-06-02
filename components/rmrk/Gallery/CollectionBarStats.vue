@@ -9,9 +9,9 @@
     <div class="chart-container mt-5">
       <canvas
         id="collectionPriceBar"
-        @mousedown="onCanvasMouseDownBar"
-        @mouseup="onCanvasMouseUpBar"
-        @mouseleave="onCanvasMouseLeaveBar" />
+        @mousedown="onCanvasMouseDownBar('collectionPriceBar')"
+        @mouseup="onCanvasMouseUpBar('collectionPriceBar')"
+        @mouseleave="onCanvasMouseLeaveBar('collectionPriceBar')" />
     </div>
   </div>
 </template>
@@ -38,6 +38,7 @@ import {
   getLabel,
   CollectionChartData as ChartData,
 } from '@/utils/chart'
+import ChartMixin from '~/utils/mixins/chartMixin'
 
 Chart.register(zoomPlugin)
 Chart.register(annotationPlugin)
@@ -45,7 +46,7 @@ Chart.register(annotationPlugin)
 const components = {}
 
 @Component({ components })
-export default class PriceChart extends mixins(ChainMixin) {
+export default class PriceChart extends mixins(ChainMixin, ChartMixin) {
   @Prop({ type: Array, required: true }) public priceData!: [
     ChartData[],
     ChartData[]
@@ -63,18 +64,6 @@ export default class PriceChart extends mixins(ChainMixin) {
     if (this.ChartBar) {
       this.ChartBar.resize()
     }
-  }
-
-  protected onCanvasMouseDownBar(): void {
-    document!.getElementById('collectionPriceBar')!.style.cursor = 'grabbing'
-  }
-
-  protected onCanvasMouseUpBar(): void {
-    document!.getElementById('collectionPriceBar')!.style.cursor = 'auto'
-  }
-
-  protected onCanvasMouseLeaveBar(): void {
-    document!.getElementById('collectionPriceBar')!.style.cursor = 'auto'
   }
 
   public async created() {
