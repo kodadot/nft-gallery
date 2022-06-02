@@ -11,7 +11,15 @@
         <p class="modal-card-title">Connect Wallet</p>
         <button type="button" class="delete" @click="$emit('close')" />
       </header>
-      <section class="modal-card-body">
+      <section v-if="!hasUserAuthorized" class="modal-card-body">
+        <div class="mb-5">
+          Kodadot will never ask you to provide mnemonic phrase or private key.
+        </div>
+        <div>
+          <b-checkbox v-model="hasUserAuthorized">I understand</b-checkbox>
+        </div>
+      </section>
+      <section class="modal-card-body" v-if="hasUserAuthorized">
         <div class="has-text-centered">
           <img
             src="~/assets/Koda_Beta.svg"
@@ -109,6 +117,7 @@ export default class WalletModal extends Vue {
   protected guideUrl = ''
   protected extensionUrl = ''
   protected walletAccounts: WalletAccount[] = []
+  private hasUserAuthorized = false
 
   set account(account: string) {
     this.$emit('close')
@@ -207,6 +216,13 @@ export default class WalletModal extends Vue {
   .modal-card-body,
   .modal-card-head {
     background: unset;
+  }
+
+  .modal-card-body {
+    height: 303px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
   }
 
   .buttons button {
