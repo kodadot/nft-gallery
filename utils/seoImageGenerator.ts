@@ -1,10 +1,12 @@
+import { URLS } from './constants'
+
 export const generateNftImage = (
   name: string,
   price: string,
   image: string,
   mimeType = ''
 ): string => {
-  return `https://og-image-green-seven.vercel.app/${encodeURIComponent(
+  return `${URLS.koda.seoCard}${encodeURIComponent(
     name
   )}.jpeg?price=${price}&image=${image}&mime=${mimeType}`
 }

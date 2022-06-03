@@ -14,14 +14,7 @@
       <b-button
         type="is-primary"
         tag="a"
-        :href="
-          `https://ramp.network/buy/?defaultAsset=KSM` +
-          `&userAddress=${accountId}` +
-          `&hostAppName=KodaDot` +
-          `&hostLogoUrl=https://kodadot.xyz/apple-touch-icon.png` +
-          `&finalUrl=https://kodadot.xyz` +
-          `&hostApiKey=a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc`
-        "
+        :href="getLink(accountId)"
         target="_blank"
         rel="noopener noreferrer">
         Buy Kusama
@@ -36,6 +29,7 @@
 import { Component, mixins } from 'nuxt-property-decorator'
 import AccountSelect from '@/components/shared/AccountSelect.vue'
 import AuthMixin from '@/utils/mixins/authMixin'
+import { URLS } from '~/utils/constants'
 
 const components = {
   AccountSelect,
@@ -45,6 +39,10 @@ const components = {
 export default class RampCredit extends mixins(AuthMixin) {
   layout() {
     return 'centered-half-layout'
+  }
+
+  protected getLink(accountId: string) {
+    return `${URLS.providers.ramp}?defaultAsset=KSM&userAddress=${accountId}&hostAppName=KodaDot&hostLogoUrl=https://kodadot.xyz/apple-touch-icon.png&finalUrl=https://kodadot.xyz&hostApiKey=a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc`
   }
 }
 </script>
