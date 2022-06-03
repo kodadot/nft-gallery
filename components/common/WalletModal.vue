@@ -15,11 +15,11 @@
         <div class="mb-5">
           {{ $t('walletConnect.authText') }}
         </div>
-        <div>
+        <b-field>
           <b-checkbox v-model="hasUserAuthorized" @input="setUserAuthValue">
-            {{ $t('walletConnect.understand') }}</b-checkbox
-          >
-        </div>
+            {{ $t('walletConnect.understand') }}
+          </b-checkbox>
+        </b-field>
       </section>
       <section class="modal-card-body" v-if="hasUserWalletAuth">
         <div class="has-text-centered">
