@@ -333,13 +333,13 @@ import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { RowSeries, SortType, BuyHistory } from './types'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import collectionsEvents from '@/queries/rmrk/subsquid/collectionsEvents.graphql'
-import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 import { NFTMetadata, Collection } from '../rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
+import PassionListAuthMixin from '@/utils/mixins/passionListMixin'
 import {
   toSort,
   lastmonthDate,
@@ -356,7 +356,11 @@ const components = {
 }
 
 @Component({ components })
-export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
+export default class SeriesTable extends mixins(
+  PrefixMixin,
+  AuthMixin,
+  PassionListAuthMixin
+) {
   protected data: RowSeries[] = []
   protected usersWithIdentity: RowSeries[] = []
   protected nbDays = '7'
@@ -364,8 +368,7 @@ export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
   protected sortBy: SortType = { field: 'volume', value: 'DESC' }
   public isLoading = false
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
-  public passionList: string[] = []
-  private hasPassionList = false
+  private hasPassionFeed = false
 
   async created() {
     exist(this.$route.query.rows, (val) => {
@@ -380,19 +383,6 @@ export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
     })
     await this.fetchPassionList()
     await this.fetchCollectionsSeries(Number(this.nbRows))
-  }
-
-  public async fetchPassionList() {
-    const {
-      data: { passionFeed },
-    } = await this.$apollo.query({
-      query: passionQuery,
-      client: 'subsquid',
-      variables: {
-        account: this.accountId,
-      },
-    })
-    this.passionList = passionFeed?.map((x) => x.id) || []
   }
 
   public async fetchCollectionsSeries(
