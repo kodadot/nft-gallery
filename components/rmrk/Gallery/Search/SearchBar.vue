@@ -663,7 +663,7 @@ export default class SearchBar extends mixins(
         query: {
           page: '1',
           ...this.$route.query,
-          search: this.searchQuery,
+          search: this.searchQuery || undefined,
           [key]: value,
           [key2]: value2,
         },
