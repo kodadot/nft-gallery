@@ -349,15 +349,7 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { min, differenceInCalendarDays } from 'date-fns'
-import {
-  toSort,
-  defaultHistory,
-  lastmonthDate,
-  today,
-  getDateArray,
-  onlyDate,
-  calculateAvgPrice,
-} from './utils'
+import { defaultHistory, today, onlyDate, calculateAvgPrice } from './utils'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
