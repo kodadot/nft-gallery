@@ -8,20 +8,20 @@
           icon-left="chevron-left"
           @click="hasSelectedWalletProvider = !hasSelectedWalletProvider"
           v-show="hasSelectedWalletProvider" />
-        <p class="modal-card-title">{{ $t('modal.walletHeading') }}</p>
+        <p class="modal-card-title">{{ $t('walletConnect.walletHeading') }}</p>
         <button type="button" class="delete" @click="$emit('close')" />
       </header>
-      <section v-if="!hasUserAuthorized" class="modal-card-body">
+      <section v-if="!hasUserWalletAuth" class="modal-card-body">
         <div class="mb-5">
-          {{ $t('modal.authText') }}
+          {{ $t('walletConnect.authText') }}
         </div>
         <div>
-          <b-checkbox v-model="hasUserAuthorized">
-            {{ $t('modal.understand') }}</b-checkbox
+          <b-checkbox v-model="hasUserAuthorized" @input="setUserAuthValue">
+            {{ $t('walletConnect.understand') }}</b-checkbox
           >
         </div>
       </section>
-      <section class="modal-card-body" v-if="hasUserAuthorized">
+      <section class="modal-card-body" v-if="hasUserWalletAuth">
         <div class="has-text-centered">
           <img
             src="~/assets/Koda_Beta.svg"
@@ -56,7 +56,7 @@
             size="is-medium"
             type="is-info"
             expanded>
-            {{ $t('modal.learnText') }}
+            {{ $t('walletConnect.learnText') }}
           </b-button>
           <b-button
             tag="a"
@@ -66,7 +66,7 @@
             outlined
             size="is-medium"
             expanded>
-            {{ $t('modal.downloadExtension') }}
+            {{ $t('walletConnect.downloadExtension') }}
           </b-button>
         </div>
 
@@ -144,11 +144,24 @@ export default class WalletModal extends Vue {
     return this.chainProperties?.ss58Format
   }
 
+  get hasUserWalletAuth() {
+    return (
+      localStorage.getItem('user_auth_wallet_add') || this.hasUserAuthorized
+    )
+  }
+
   @Watch('walletAccounts', { immediate: true })
   handleAccounts(value: WalletAccount[], oldVal: WalletAccount[]): void {
     if (shouldUpdate(value, oldVal)) {
       this.walletAccounts = value
     }
+  }
+
+  protected setUserAuthValue() {
+    localStorage.setItem(
+      'user_auth_wallet_add',
+      (!!this.hasUserAuthorized).toString()
+    )
   }
 
   protected setWallet(wallet: BaseDotsamaWallet): void {
@@ -221,10 +234,11 @@ export default class WalletModal extends Vue {
   }
 
   .modal-card-body {
-    height: 303px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    // height: 303px;
+    // display: flex;
+    // justify-content: center;
+    // flex-direction: column;
+    display: block;
   }
 
   .buttons button {

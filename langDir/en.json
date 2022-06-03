@@ -703,7 +703,7 @@
     "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs",
     "exploreTabOrder": "Default tab in explore"
   },
-  "modal": {
+  "walletConnect": {
     "walletHeading": "Connect Wallet",
     "authText": "Kodadot will never ask you to provide mnemonic phrase or private key.",
     "understand": "I understand",
