@@ -276,7 +276,7 @@ export default class CollectorTable extends mixins(
       variables: {
         // denyList, not yet
         limit: this.limit,
-        offset: ((this.currentPage - 1) * this.limit).toString(),
+        offset: (this.currentPage - 1) * this.limit,
         orderBy: this.sortBy.field,
         orderDirection: this.sortBy.value,
       },

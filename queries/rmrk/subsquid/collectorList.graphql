@@ -1,5 +1,5 @@
-query collectorList($limit: Float, $offset: String, $orderBy: String, $orderDirection: String) {
-  collectionEntities: collectorTable(limit: $limit, offset: $offset, orderBy: $orderBy, orderDirection:$orderDirection) {
+query collectorList($limit: Int!, $offset: Int!) {
+  collectionEntities: collectors(limit: $limit, offset: $offset) {
     id
     unique
     total
