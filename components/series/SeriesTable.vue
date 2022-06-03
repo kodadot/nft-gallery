@@ -2,6 +2,18 @@
   <div>
     <Loader :value="isLoading" />
     <b-field grouped>
+      <b-field class="mb-0" position="is-left">
+        <div class="control is-flex">
+          <b-switch
+            v-if="isLogIn"
+            class="gallery-switch"
+            v-model="hasPassionFeed"
+            :rounded="false">
+            {{ $t('passion') }}
+          </b-switch>
+        </div>
+      </b-field>
+
       <!-- <b-field
         position="is-left"
         expanded
@@ -381,24 +393,36 @@ export default class SeriesTable extends mixins(
       this.sortBy.field = val.slice(1)
       this.sortBy.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
     })
-    await this.fetchPassionList()
     await this.fetchCollectionsSeries(Number(this.nbRows))
   }
 
+  private async seriesQueryParams(limit, sort) {
+    const queryVars = {
+      limit,
+      offset: 0,
+      orderBy: sort || 'volume_DESC',
+      where: {
+        floorPrice_isNull: false,
+      },
+    }
+    if (this.isLogIn && this.hasPassionFeed) {
+      this.passionList = this.passionList.concat(await this.fetchPassionList())
+      queryVars.where.issuer_in = this.passionList
+    }
+
+    return queryVars
+  }
+
   public async fetchCollectionsSeries(
-    limit = 10,
+    limit = Number(this.nbRows),
     sort: string = toSort(this.sortBy)
   ) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: seriesInsightList,
       client: 'subsquid',
-      variables: {
-        // denyList, not yet
-        limit,
-        offset: 0,
-        orderBy: sort || 'volume_DESC',
-      },
+      variables: await this.seriesQueryParams(limit, sort),
+      fetchPolicy: 'cache-first',
     })
 
     const {
@@ -508,6 +532,11 @@ export default class SeriesTable extends mixins(
         query: { ...this.$route.query, period: value },
       })
       .catch((e) => this.$consola.warn(e))
+  }
+
+  @Watch('hasPassionFeed', { immediate: true })
+  public onHasPassionFeed() {
+    this.fetchCollectionsSeries()
   }
 
   public displayVolumePercent(
