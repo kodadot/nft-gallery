@@ -234,10 +234,6 @@ export default class WalletModal extends Vue {
   }
 
   .modal-card-body {
-    // height: 303px;
-    // display: flex;
-    // justify-content: center;
-    // flex-direction: column;
     display: block;
   }
 
