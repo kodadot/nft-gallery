@@ -1,14 +1,14 @@
 <template>
-  <SimpleMint />
+  <CreativeMint />
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import SimpleMint from '@/components/rmrk/Create/SimpleMint.vue'
+import CreativeMint from '@/components/rmrk/Create/CreativeMint.vue'
 
 @Component({
   components: {
-    SimpleMint,
+    CreativeMint,
   },
   head() {
     const title = 'KodaDot | Low fees and low carbon minting'
@@ -16,7 +16,7 @@ import SimpleMint from '@/components/rmrk/Create/SimpleMint.vue'
       title,
       type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
-      url: '/mint',
+      url: '/rmrk/creative',
       image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {
@@ -25,7 +25,7 @@ import SimpleMint from '@/components/rmrk/Create/SimpleMint.vue'
     }
   },
 })
-export default class SimpleMintPage extends Vue {
+export default class CreativeMintPage extends Vue {
   layout() {
     return 'centered-half-layout'
   }
