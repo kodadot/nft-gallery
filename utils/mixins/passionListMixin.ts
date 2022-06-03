@@ -8,11 +8,11 @@ type PassionList = string[]
 
 @Component
 export default class PassionListMixin extends mixins(AuthMixin, PrefixMixin) {
-  private passionList: string[] = []
+  public passionList: string[] = ['']
 
-  async fetch() {
+  async created() {
     if (this.isLogIn) {
-      this.passionList = await this.fetchPassionList()
+      this.passionList = this.passionList.concat(await this.fetchPassionList())
     }
   }
 
@@ -25,6 +25,7 @@ export default class PassionListMixin extends mixins(AuthMixin, PrefixMixin) {
       variables: {
         account: this.accountId,
       },
+      fetchPolicy: 'cache-first',
     })
 
     return passionFeed?.map((x) => x.id) || []
