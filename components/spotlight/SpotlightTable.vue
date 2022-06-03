@@ -186,18 +186,16 @@
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { Column, Row } from './types'
+import { Row } from './types'
 import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
 import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.graphql'
-import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import AuthMixin from '~/utils/mixins/authMixin'
+import PassionListMixin from '~/utils/mixins/passionListMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { PER_PAGE } from '~/utils/constants'
 import {
@@ -223,15 +221,13 @@ const components = {
 @Component({ components })
 export default class SpotlightTable extends mixins(
   TransactionMixin,
-  PrefixMixin,
   KeyboardEventsMixin,
-  AuthMixin
+  PassionListMixin
 ) {
   protected data: Row[] = []
   protected onlyWithIdentity = this.$route.query?.identity || false
   protected currentPage = 1
   protected sortBy: SortType = { field: 'sold', value: 'DESC' }
-  private passionList: string[] = []
   private hasPassionFeed = false
 
   async created() {
@@ -260,6 +256,9 @@ export default class SpotlightTable extends mixins(
   }
 
   public get ids(): string[] {
+    if (this.computedData.length === 0) {
+      return ['']
+    }
     const start = (this.currentPage - 1) * PER_PAGE
     const end = this.currentPage * PER_PAGE
     return this.computedData.slice(start, end).map((x) => x.id)
@@ -372,19 +371,6 @@ export default class SpotlightTable extends mixins(
       data: { nftEntities },
     } = data
     return nftEntities
-  }
-
-  public async fetchPassionList() {
-    const {
-      data: { passionFeed },
-    } = await this.$apollo.query({
-      query: passionQuery,
-      client: this.client,
-      variables: {
-        account: this.accountId,
-      },
-    })
-    this.passionList = passionFeed?.map((x) => x.id) || []
   }
 
   private onPageChange(page: number) {

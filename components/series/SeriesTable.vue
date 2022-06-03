@@ -420,7 +420,7 @@ export default class SeriesTable extends mixins(
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: seriesInsightList,
-      client: 'subsquid',
+      client: this.client,
       variables: await this.seriesQueryParams(limit, sort),
       fetchPolicy: 'cache-first',
     })
@@ -479,7 +479,7 @@ export default class SeriesTable extends mixins(
       // const today = new Date()
       const { data } = await this.$apollo.query<{ events }>({
         query: collectionsEvents,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           ids: ids,
           and: {
