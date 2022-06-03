@@ -11,7 +11,7 @@
         <p class="modal-card-title">{{ $t('walletConnect.walletHeading') }}</p>
         <button type="button" class="delete" @click="$emit('close')" />
       </header>
-      <section v-if="!hasUserWalletAuth" class="modal-card-body">
+      <section class="modal-card-body py-6" v-if="!hasUserWalletAuth">
         <div class="mb-5">
           {{ $t('walletConnect.authText') }}
         </div>
