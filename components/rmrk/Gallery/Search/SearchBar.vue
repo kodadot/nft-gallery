@@ -15,6 +15,7 @@
           type="is-primary is-bordered-light"
           class="is-hidden-mobile mr-2"
           @click="isVisible = !isVisible" />
+        <slot name="next-filter"></slot>
         <b-autocomplete
           v-if="!hideSearchInput"
           class="gallery-search"
@@ -666,7 +667,7 @@ export default class SearchBar extends mixins(
         query: {
           page: '1',
           ...this.$route.query,
-          search: this.searchQuery,
+          search: this.searchQuery || undefined,
           [key]: value,
           [key2]: value2,
         },

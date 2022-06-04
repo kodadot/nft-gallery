@@ -1,4 +1,4 @@
-import { CreatedNFT } from '@kodadot1/minimark'
+import { CreatedNFT, Attribute } from '@kodadot1/minimark'
 import { sanitizeIpfsUrl } from '../utils'
 
 export interface CompletePack extends BasePack {
@@ -13,19 +13,6 @@ export type CollectionOrNFT = Collection | NFT
 export interface CompletePackWithItemMeta extends BasePack {
   collections: CollectionWithMeta[]
   nfts: NFTWithMeta[]
-}
-
-export interface Attribute {
-  display_type?: DisplayType
-  trait_type?: string
-  value: number | string
-}
-
-export enum DisplayType {
-  null,
-  'boost_number',
-  'number',
-  'boost_percentage',
 }
 
 export interface SimpleNFT {

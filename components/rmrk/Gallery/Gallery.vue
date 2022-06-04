@@ -3,6 +3,15 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
+      <template v-slot:next-filter>
+        <b-switch
+          v-if="isLogIn"
+          class="gallery-switch"
+          v-model="hasPassionFeed"
+          :rounded="false">
+          Passion Feed
+        </b-switch>
+      </template>
       <Pagination
         hasMagicBtn
         simple
@@ -104,10 +113,15 @@ import { DocumentNode } from 'graphql'
 import 'lazysizes'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
 import { NFTMetadata } from '../service/scheme'
 import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
 import shouldUpdate from '~/utils/shouldUpdate'
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { notificationTypes, showNotification } from '@/utils/notification'
+
+import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -129,17 +143,24 @@ const components = {
   components,
   name: 'Gallery',
 })
-export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
+export default class Gallery extends mixins(
+  PrefixMixin,
+  InfiniteScrollMixin,
+  AuthMixin
+) {
   private nfts: NFTWithCollectionMeta[] = []
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() || '',
     type: '',
     listed: true,
+    owned: true,
     priceMin: undefined,
     priceMax: undefined,
     sortByMultiple: ['BLOCK_NUMBER_DESC'],
   }
   private isLoading = true
+  private hasPassionFeed = false
+  private passionList: string[] = []
 
   get showPriceValue(): boolean {
     return (
@@ -180,8 +201,24 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
   }
 
   public async created() {
-    await this.fetchPageData(this.startPage)
+    try {
+      await this.fetchPageData(this.startPage)
+    } catch (e) {
+      showNotification((e as Error).message, notificationTypes.danger)
+    }
     this.onResize()
+  }
+
+  async mounted() {
+    // only fetch passionFeed if logged in
+    if (this.isLogIn) {
+      try {
+        this.hasPassionFeed = true
+        await this.fetchPassionList()
+      } catch (e) {
+        showNotification((e as Error).message, notificationTypes.danger)
+      }
+    }
   }
 
   @Debounce(500)
@@ -194,6 +231,7 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     this.startPage = page
     this.endPage = page
     this.nfts = []
+    this.isFetchingData = false
     this.isLoading = true
     this.fetchPageData(page)
   }
@@ -207,6 +245,11 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     const query = isRemark
       ? await import('@/queries/nftListWithSearch.graphql')
       : await import('@/queries/unique/nftListWithSearch.graphql')
+
+    if (this.hasPassionFeed) {
+      await this.fetchPassionList()
+    }
+
     const result = await this.$apollo.query({
       query: query.default,
       client: this.urlPrefix,
@@ -223,6 +266,19 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     await this.handleResult(result, loadDirection)
     this.isFetchingData = false
     return true
+  }
+
+  public async fetchPassionList() {
+    const {
+      data: { passionFeed },
+    } = await this.$apollo.query({
+      query: passionQuery,
+      client: 'subsquid',
+      variables: {
+        account: this.accountId,
+      },
+    })
+    this.passionList = passionFeed?.map((x) => x.id) || []
   }
 
   protected async handleResult(
@@ -338,6 +394,13 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
         },
       })
     }
+
+    if (this.hasPassionFeed) {
+      params.push({
+        issuer: { in: this.passionList },
+      })
+    }
+
     return params
   }
 
@@ -346,6 +409,15 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     if (shouldUpdate(val, oldVal)) {
       this.resetPage()
       this.searchQuery.search = val || ''
+    }
+  }
+
+  @Watch('hasPassionFeed')
+  protected async onHasPassionFeed() {
+    try {
+      this.resetPage()
+    } catch (e) {
+      showNotification((e as Error).message, notificationTypes.danger)
     }
   }
 
@@ -368,6 +440,10 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
 }
 
 .gallery {
+  &-switch {
+    margin-left: 10px;
+  }
+
   &__image-wrapper {
     position: relative;
     margin: auto;

@@ -1,0 +1,10 @@
+#import "../../fragments/event.graphql"
+
+query nftByIdMinimal($id: ID!) {
+  nft: nftEntityById(id: $id) {
+    id
+    events {
+      ...event
+    }
+  }
+}

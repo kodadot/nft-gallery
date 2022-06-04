@@ -1,14 +1,8 @@
+import { DisplayType, Interaction } from '@kodadot1/minimark'
 export interface Attribute {
   display_type: DisplayType
   trait_type: string
   value: number | string
-}
-
-export enum DisplayType {
-  null,
-  'boost_number',
-  'number',
-  'boost_percentage',
 }
 
 export interface CollectionMetadata {
@@ -44,17 +38,6 @@ export interface RmrkInteraction {
   metadata?: string
 }
 
-export enum RmrkEvent {
-  MINT = 'MINT',
-  MINTNFT = 'MINTNFT',
-  LIST = 'LIST',
-  BUY = 'BUY',
-  CONSUME = 'CONSUME',
-  CHANGEISSUER = 'CHANGEISSUER',
-  SEND = 'SEND',
-  EMOTE = 'EMOTE',
-}
-
 export enum MediaType {
   VIDEO = 'Video',
   MODEL = 'Model',
@@ -68,7 +51,7 @@ export enum MediaType {
 }
 
 export interface RMRK {
-  event: RmrkEvent
+  event: Interaction
   view: RmrkType
 }
 

@@ -26,6 +26,7 @@
   "press kit": "Press Kit",
   "careers": "Careers",
   "contribute": "Contribute",
+  "qrCode": "QR",
   "documentation": "Documentation",
   "grants": "Grants",
   "theatre": "theatre",
@@ -475,12 +476,12 @@
     "related": "More From This Collection",
     "visited": "Visited NFTs",
     "event": {
-      "MINTNFT": "🖼 MINT",
-      "LIST": "📰 LIST",
-      "UNLIST": "🗞 UNLIST",
-      "SEND": "🎁 GIFT",
-      "CONSUME": "🔥 BURN",
-      "BUY": "🤝 BUY"
+      "MINTNFT": "MINT",
+      "LIST": "LIST",
+      "UNLIST": "UNLIST",
+      "SEND": "GIFT",
+      "CONSUME": "BURN",
+      "BUY": "BUY"
     }
   },
   "loader": {
@@ -571,6 +572,19 @@
     "owners": "OWNERS",
     "distribution": "DISTRIBUTION",
     "floorPrice": "FLOOR PRICE"
+  },
+  "profileStats": {
+    "listed": "Listed",
+    "totalItems": "Σ Items",
+    "highestSale": "HIGHEST SALE",
+    "totalBuys": "Σ BUYS",
+    "highestBuy":"Highest buy",
+    "totalAmountSpend":"Σ amount spend",
+    "holdingsNfts":"Holdings values",
+    "maxSoldPrice":"Max sold price",
+    "totalSellValues":"Σ sell values",
+    "totalSoldItems":"Σ sold items",
+    "totalHoldingsBoughtValues":"KSM spend for holdings nfts"
   },
   "tutorial": {
     "create": "1. Create polkadot js account",
@@ -688,5 +702,12 @@
     "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)",
     "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs",
     "exploreTabOrder": "Default tab in explore"
+  },
+  "walletConnect": {
+    "walletHeading": "Connect Wallet",
+    "authText": "Kodadot will never ask you to provide your mnemonic phrase or private key.",
+    "understand": "I understand",
+    "learnText": "Learn how to Connect",
+    "downloadExtension": "Download extension"
   }
 }
