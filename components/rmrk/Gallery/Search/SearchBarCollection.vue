@@ -183,7 +183,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
         path: String(this.$route.path),
         query: {
           ...this.$route.query,
-          search: this.searchQuery,
+          search: this.searchQuery || undefined,
           [key]: value,
         },
       })
