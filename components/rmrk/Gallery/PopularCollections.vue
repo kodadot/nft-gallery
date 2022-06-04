@@ -43,7 +43,7 @@ const components = {
   components,
 })
 export default class PopularCollections extends mixins(PrefixMixin) {
-  private nfts: any[] = []
+  private nfts: RowSeries[] = []
   private total = 0
   private currentValue = 1
 
