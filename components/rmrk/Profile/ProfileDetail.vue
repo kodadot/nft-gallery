@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div class="columns is-mobile is-align-items-center">
+    <div class="columns is-align-items-center">
       <div class="column">
         <div class="label">
           {{ $t('profile.user') }}
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <div class="column is-6-tablet is-7-desktop is-8-widescreen">
+      <div class="column is-12-mobile is-6-tablet is-7-desktop is-8-widescreen">
         <ProfileActivity :id="id" />
       </div>
       <div class="column has-text-right">
