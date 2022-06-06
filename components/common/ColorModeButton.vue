@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a @click="toggleColorMode()" class="navbar-item">
+    <a @click="toggleColorMode" class="navbar-item">
       <ColorScheme placeholder="...">
         <!-- SUN -->
         <svg
