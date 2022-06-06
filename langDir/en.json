@@ -383,10 +383,10 @@
   },
   "sort": {
     "EMOTES_COUNT_DESC": "Most reacted",
-    "BLOCK_NUMBER_DESC": "New first",
-    "BLOCK_NUMBER_ASC": "Old first",
-    "UPDATED_AT_DESC": "Last interacted",
-    "UPDATED_AT_ASC": "Least Interacted",
+    "BLOCK_NUMBER_DESC": "Recently Created",
+    "BLOCK_NUMBER_ASC": "Oldest",
+    "UPDATED_AT_DESC": "Recently Interacted",
+    "UPDATED_AT_ASC": "Unpopular",
     "blockNumber_DESC": "New first",
     "blockNumber_ASC": "Old first",
     "updatedAt_DESC": "Last interacted",
@@ -702,5 +702,12 @@
     "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)",
     "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs",
     "exploreTabOrder": "Default tab in explore"
+  },
+  "walletConnect": {
+    "walletHeading": "Connect Wallet",
+    "authText": "Kodadot will never ask you to provide your mnemonic phrase or private key.",
+    "understand": "I understand",
+    "learnText": "Learn how to Connect",
+    "downloadExtension": "Download extension"
   }
 }

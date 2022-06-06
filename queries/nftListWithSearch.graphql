@@ -6,10 +6,10 @@ query nftListWithSearch(
   $offset: Int
   $denyList: [String!]
   $search: [NFTEntityFilter!]
-  $orderBy: NftEntitiesOrderBy = BLOCK_NUMBER_DESC
+  $orderBy: [NftEntitiesOrderBy!] = [BLOCK_NUMBER_DESC]
 ) {
   nFTEntities(
-    orderBy: [$orderBy, BLOCK_NUMBER_DESC]
+    orderBy: $orderBy
     first: $first
     offset: $offset
     filter: {
