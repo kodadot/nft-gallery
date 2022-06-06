@@ -261,7 +261,7 @@ export default defineNuxtConfig({
       subsquid: toApolloEndpoint(
         process.env.SUBSQUID_ENDPOINT || URLS.koda.subsquidv6
       ),
-      bsx: toApolloEndpoint('http://localhost:4350/graphql'),
+      bsx: toApolloEndpoint(URLS.koda.snekk),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
