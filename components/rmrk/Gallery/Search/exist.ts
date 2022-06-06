@@ -8,3 +8,12 @@ export const exist = (
     cb(value)
   }
 }
+
+export const existArray = (
+  value: string[],
+  cb: (arg: string[]) => void
+): void => {
+  if (value && value.length) {
+    cb(value)
+  }
+}
