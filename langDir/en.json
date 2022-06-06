@@ -383,10 +383,10 @@
   },
   "sort": {
     "EMOTES_COUNT_DESC": "Most reacted",
-    "BLOCK_NUMBER_DESC": "New first",
-    "BLOCK_NUMBER_ASC": "Old first",
-    "UPDATED_AT_DESC": "Last interacted",
-    "UPDATED_AT_ASC": "Least Interacted",
+    "BLOCK_NUMBER_DESC": "Recently Created",
+    "BLOCK_NUMBER_ASC": "Oldest",
+    "UPDATED_AT_DESC": "Recently Interacted",
+    "UPDATED_AT_ASC": "Unpopular",
     "blockNumber_DESC": "New first",
     "blockNumber_ASC": "Old first",
     "updatedAt_DESC": "Last interacted",
@@ -482,12 +482,12 @@
     "related": "More From This Collection",
     "visited": "Visited NFTs",
     "event": {
-      "MINTNFT": "🖼 MINT",
-      "LIST": "📰 LIST",
-      "UNLIST": "🗞 UNLIST",
-      "SEND": "🎁 GIFT",
-      "CONSUME": "🔥 BURN",
-      "BUY": "🤝 BUY"
+      "MINTNFT": "MINT",
+      "LIST": "LIST",
+      "UNLIST": "UNLIST",
+      "SEND": "GIFT",
+      "CONSUME": "BURN",
+      "BUY": "BUY"
     },
     "action": {
       "submit": "Submit {0}"
@@ -714,5 +714,12 @@
   },
   "navbar": {
     "teleport": "Teleport"
+  },
+  "walletConnect": {
+    "walletHeading": "Connect Wallet",
+    "authText": "Kodadot will never ask you to provide your mnemonic phrase or private key.",
+    "understand": "I understand",
+    "learnText": "Learn how to Connect",
+    "downloadExtension": "Download extension"
   }
 }

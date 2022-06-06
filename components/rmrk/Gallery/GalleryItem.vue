@@ -149,11 +149,13 @@ import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
 import nftByIdMini from '@/queries/nftByIdMinimal.graphql'
 import nftListIdsByCollection from '@/queries/nftIdListByCollection.graphql'
+import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import { fetchNFTMetadata } from '../utils'
 import { get, set } from 'idb-keyval'
 import { exist } from './Search/exist'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Debounce } from 'vue-debounce-decorator'
 
 @Component<GalleryItem>({
   components: {
@@ -217,6 +219,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
       this.fetchMetadata()
       this.fetchCollectionItems()
+      this.updateEventList()
 
       this.isLoading = false
 
@@ -254,6 +257,22 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   public setPriceChartData(data: [Date, number][][]) {
     this.priceChartData = data
+  }
+
+  @Debounce(500)
+  private async updateEventList() {
+    const { data } = await this.$apollo.query<{ nft }>({
+      client: 'subsquid',
+      query: nftByIdMinimal,
+      variables: {
+        id: this.id,
+      },
+    })
+    this.nft.events =
+      data.nft?.events.map((e) => ({
+        ...e,
+        nft: { id: this.id },
+      })) ?? []
   }
 
   public async fetchCollectionItems() {
@@ -386,6 +405,13 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         mimeType: this.mimeType,
       })
     }
+  }
+
+  @Watch('nft.currentOwner')
+  @Watch('nft.price')
+  @Watch('nft.burned')
+  watchEventChange() {
+    this.updateEventList()
   }
 }
 </script>

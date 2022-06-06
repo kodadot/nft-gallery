@@ -54,6 +54,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { extractCid } from '@/utils/ipfs'
 import { NFT, NFTMetadata } from '../../service/scheme'
 import { emptyObject } from '@/utils/empty'
+import { URLS } from '~/utils/constants'
 const components = {
   ArweaveLink: () => import('@/components/shared/ArweaveLink.vue'),
 }
@@ -65,8 +66,8 @@ export default class Facts extends Vue {
   public multimediaCid = ''
   public showGwLinks = false
   public gwList: any = [
-    'https://kodadot.mypinata.cloud/ipfs/',
-    'https://cloudflare-ipfs.com/ipfs/',
+    URLS.koda.pinata,
+    URLS.providers.cloudflare,
     'https://gateway.ipfs.io/ipfs/',
     'https://ipfs.fleek.co/ipfs/',
     'https://dweb.link/ipfs/',

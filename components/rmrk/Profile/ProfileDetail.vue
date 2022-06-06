@@ -72,15 +72,13 @@
         v-model="activeTab"
         destroy-on-hide
         expanded>
-        <b-tab-item value="nft" :headerClass="{ 'is-hidden': !total }">
+        <b-tab-item value="nft" :headerClass="{ 'is-hidden': !totalCreated }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.created')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.created') }}
-              <span class="tab-counter" v-if="totalCreated">{{
-                totalCreated
-              }}</span>
+              <span class="tab-counter">{{ totalCreated }}</span>
             </b-tooltip>
           </template>
           <PaginatedCardList
@@ -91,15 +89,15 @@
             :showSearchBar="true" />
         </b-tab-item>
         <b-tab-item
-          :label="`Collections - ${total}`"
+          :label="`Collections - ${totalCollections}`"
           value="collection"
-          :headerClass="{ 'is-hidden': !total }">
+          :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.collections')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('collections') }}
-              <span class="tab-counter" v-if="total">{{ total }}</span>
+              <span class="tab-counter">{{ totalCollections }}</span>
             </b-tooltip>
           </template>
           <div class="is-flex is-justify-content-flex-end">
@@ -107,11 +105,11 @@
             <Pagination
               hasMagicBtn
               replace
-              :total="total"
+              :total="totalCollections"
               v-model="currentValue" />
           </div>
           <InfiniteLoading
-            v-if="startPage > 1 && !isLoading && total > 0"
+            v-if="startPage > 1 && !isLoading && totalCollections > 0"
             direction="top"
             @infinite="reachTopHandler">
           </InfiniteLoading>
@@ -122,19 +120,25 @@
             link="rmrk/collection"
             horizontalLayout />
           <InfiniteLoading
-            v-if="canLoadNextPage && !isLoading && total > 0"
+            v-if="canLoadNextPage && !isLoading && totalCollections > 0"
             @infinite="reachBottomHandler">
           </InfiniteLoading>
           <ScrollTopButton />
         </b-tab-item>
-        <b-tab-item label="History" value="history">
+        <b-tab-item
+          :label="`History - ${totalHistory}`"
+          value="history"
+          :headerClass="{ 'is-hidden': !totalHistory }">
           <History
             v-if="!isLoading && activeTab === 'history'"
             :events="eventsOfNftCollection"
             :openOnDefault="isHistoryOpen"
             hideCollapse />
         </b-tab-item>
-        <b-tab-item label="Sales" value="sales">
+        <b-tab-item
+          :label="`Sales - ${totalSales}`"
+          value="sales"
+          :headerClass="{ 'is-hidden': !totalSales }">
           <Sales
             v-if="!isLoading && activeTab === 'sales'"
             :issuer="id"
@@ -143,13 +147,13 @@
             :openOnDefault="isHistoryOpen"
             hideCollapse />
         </b-tab-item>
-        <b-tab-item value="sold" :headerClass="{ 'is-hidden': !total }">
+        <b-tab-item value="sold" :headerClass="{ 'is-hidden': !totalSold }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.sold')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.sold') }}
-              <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
+              <span class="tab-counter">{{ totalSold }}</span>
             </b-tooltip>
           </template>
           <PaginatedCardList
@@ -159,15 +163,15 @@
             :account="id"
             showSearchBar />
         </b-tab-item>
-        <b-tab-item value="collected">
+        <b-tab-item
+          value="collected"
+          :headerClass="{ 'is-hidden': !totalCollected }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.collected')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.collected') }}
-              <span class="tab-counter" v-if="totalCollected">{{
-                totalCollected
-              }}</span>
+              <span class="tab-counter">{{ totalCollected }}</span>
             </b-tooltip>
           </template>
           <PaginatedCardList
@@ -177,22 +181,26 @@
             :account="id"
             showSearchBar />
         </b-tab-item>
-        <b-tab-item value="holdings">
+        <b-tab-item
+          value="holdings"
+          :headerClass="{ 'is-hidden': !totalHoldings }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.holdings')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.holdings') }}
+              <span class="tab-counter">{{ totalHoldings }}</span>
             </b-tooltip>
           </template>
           <Holding :account-id="id" />
         </b-tab-item>
-        <b-tab-item value="gains">
+        <b-tab-item value="gains" :headerClass="{ 'is-hidden': !totalGains }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.gains')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.gains') }}
+              <span class="tab-counter">{{ totalGains }}</span>
             </b-tooltip>
           </template>
           <UserGainHistory :account-id="id" />
@@ -210,6 +218,7 @@ import {
   CollectionWithMeta,
   Pack,
   Interaction,
+  NftEvents,
 } from '@/components/rmrk/service/scheme'
 
 import isShareMode from '@/utils/isShareMode'
@@ -234,6 +243,9 @@ import firstNftByIssuer from '@/queries/subsquid/general/firstNftByIssuer.graphq
 import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'
 import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
+import allNftSaleEventsByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
+import { NftHolderEvent } from '~/components/rmrk/Gallery/Holder/Holder.vue'
+import allNftSaleEventsHistoryByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
 
 const components = {
   GalleryCardList: () =>
@@ -307,6 +319,12 @@ export default class Profile extends mixins(
   protected totalCreated = 0
   protected totalCollected = 0
   protected totalSold = 0
+  protected totalCollections = 0
+  protected totalHoldings = 0
+  protected totalHistory = 0
+  protected totalSales = 0
+  protected totalGains = 0
+
   private myNftCount = 0
   protected networks = [
     {
@@ -337,6 +355,159 @@ export default class Profile extends mixins(
   readonly recentSalesForCreator = recentSalesForCreator
   private openHistory = true
   private openSalesTab = true
+
+  created() {
+    /*
+    set totalCreated
+     */
+    this.$apollo
+      .query({
+        query: nftListByIssuer,
+        client: this.client,
+        variables: {
+          account: this.id,
+          limit: this.first,
+        },
+        fetchPolicy: 'no-cache',
+      })
+      .then((result) => {
+        const { data } = result
+        if (data) {
+          const {
+            nftEntitiesConnection: { totalCount },
+          } = data
+          this.totalCreated = totalCount
+        }
+      })
+
+    /*
+    set totalCollections
+    already done in mounted method
+     */
+
+    /*
+    set totalSold
+     */
+    this.$apollo
+      .query({
+        query: nftListSold,
+        client: this.client,
+        variables: {
+          account: this.id,
+          limit: this.first,
+        },
+        fetchPolicy: 'no-cache',
+      })
+      .then((result) => {
+        const { data } = result
+        if (data) {
+          const {
+            nftEntitiesConnection: { totalCount },
+          } = data
+          this.totalSold = totalCount
+        }
+      })
+
+    /*
+    set totalCollected
+     */
+    this.$apollo
+      .query({
+        query: nftListCollected,
+        client: this.client,
+        variables: {
+          account: this.id,
+          limit: this.first,
+        },
+        fetchPolicy: 'no-cache',
+      })
+      .then((result) => {
+        const { data } = result
+        if (data) {
+          const {
+            nftEntitiesConnection: { totalCount },
+          } = data
+          this.totalCollected = totalCount
+        }
+      })
+
+    /*
+    set totalHoldings
+     */
+    this.$apollo
+      .query<NftEvents>({
+        query: allNftSaleEventsByAccountId,
+        client: 'subsquid',
+        variables: {
+          id: this.accountId,
+        },
+      })
+      .then((result) => {
+        const { data } = result
+        if (data && data.nftEntities && data.nftEntities.length) {
+          this.totalHoldings = data.nftEntities.length
+        }
+      })
+
+    /*
+    set history
+     */
+    this.$apollo
+      .query<{ events: Interaction[] }>({
+        query: allEventsByProfile,
+        client: 'subsquid',
+        variables: {
+          id: this.id,
+          search: {
+            caller_eq: this.id,
+          },
+        },
+      })
+      .then((result) => {
+        const { data } = result
+        if (data && data.events && data.events.length) {
+          this.totalHistory = data.events.length
+        }
+      })
+
+    /*
+    set totalSales
+     */
+    this.$apollo
+      .query<{ events: Interaction[] }>({
+        query: recentSalesForCreator,
+        client: 'subsquid',
+        variables: {
+          id: this.id,
+          limit: this.first,
+          offset: (this.currentPage - 1) * this.first,
+        },
+      })
+      .then((result) => {
+        const { data } = result
+        if (data && data.events && data.events.length) {
+          this.totalSales = data.events.length
+        }
+      })
+
+    /*
+    set totalGains
+     */
+    this.$apollo
+      .query<{ events: NftHolderEvent[] }>({
+        query: allNftSaleEventsHistoryByAccountId,
+        client: 'subsquid',
+        variables: {
+          id: this.accountId,
+        },
+      })
+      .then((result) => {
+        const { data } = result
+        if (data && data.events && data.events.length) {
+          this.totalGains = data.events.length
+        }
+      })
+  }
 
   public async mounted() {
     await this.fetchProfile()
@@ -416,6 +587,7 @@ export default class Profile extends mixins(
     this.startPage = page
     this.endPage = page
     this.collections = []
+    this.isFetchingData = false
     this.isLoading = true
     this.fetchPageData(page)
   }
@@ -486,7 +658,7 @@ export default class Profile extends mixins(
     loadDirection = 'down'
   ) {
     if (data) {
-      this.total = data.stats.totalCount
+      this.totalCollections = data.stats.totalCount
       const newCollections = data.collectionEntities
 
       if (loadDirection === 'up') {
@@ -498,7 +670,7 @@ export default class Profile extends mixins(
     }
     // in case user is only a collector, set tab to collected
     if (
-      this.total === 0 &&
+      this.totalCollections === 0 &&
       this.activeTab &&
       !tabNameWithoutCollections.includes(this.activeTab)
     ) {
@@ -552,6 +724,7 @@ export default class Profile extends mixins(
       if (data && data.events && data.events.length) {
         let events: Interaction[] = data.events
         this.eventsOfNftCollection = [...sortedEventByDate(events, 'DESC')]
+        console.log(this.eventsOfNftCollection)
         this.checkTabLocate()
       }
     } catch (e) {

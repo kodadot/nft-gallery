@@ -451,11 +451,11 @@
     "name": "Nomeie seu NFT",
     "frozen": "NFT está congelado",
     "event": {
-      "MINTNFT": "🖼  'CUNHAR'",
-      "LIST": "📰  LISTAR",
-      "SEND": "🎁  PRESENTEAR",
-      "CONSUME": "🔥 QUEIMAR",
-      "BUY": "🤝  COMPRAR"
+      "MINTNFT": "CUNHAR",
+      "LIST": "LISTAR",
+      "SEND": "PRESENTEAR",
+      "CONSUME": "QUEIMAR",
+      "BUY": "COMPRAR"
     }
   },
   "loader": {

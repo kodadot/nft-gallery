@@ -4,6 +4,8 @@ import defineApolloConfig, {
   toApolloEndpoint,
 } from './utils/config/defineApolloConfig'
 
+import { URLS } from './utils/constants'
+
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
 export default defineNuxtConfig({
@@ -257,8 +259,7 @@ export default defineNuxtConfig({
     clientConfigs: {
       ...defineApolloConfig(),
       subsquid: toApolloEndpoint(
-        process.env.SUBSQUID_ENDPOINT ||
-          'https://app.gc.subsquid.io/beta/rubick/006/graphql'
+        process.env.SUBSQUID_ENDPOINT || URLS.koda.subsquidv6
       ),
       bsx: toApolloEndpoint('http://localhost:4350/graphql'),
     }, // https://github.com/nuxt-community/apollo-module#options

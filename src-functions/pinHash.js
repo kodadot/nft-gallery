@@ -1,8 +1,9 @@
 import axios from 'axios'
+import { URLS } from '~/utils/constants'
 
 export async function handler(event) {
   // const location = event.queryStringParameters.location || "home";
-  const BASE_URL = 'https://api.pinata.cloud/pinning/pinByHash'
+  const BASE_URL = `${URLS.providers.pinata}pinning/pinByHash`
   const object = event.body
 
   try {

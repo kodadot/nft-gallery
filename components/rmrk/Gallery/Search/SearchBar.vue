@@ -15,6 +15,7 @@
           type="is-primary is-bordered-light"
           class="is-hidden-mobile mr-2"
           @click="isVisible = !isVisible" />
+        <slot name="next-filter"></slot>
         <b-autocomplete
           v-if="!hideSearchInput"
           class="gallery-search"
@@ -114,7 +115,11 @@
       animation="opacitySlide"
       v-model="isVisible">
       <div class="columns mb-0">
-        <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
+        <Sort
+          multipleSelect
+          class="column is-4 mb-0"
+          :value="sortByMultiple"
+          @input="updateSortBy" />
         <BasicSwitch
           class="is-flex column is-4"
           v-model="vListed"
@@ -144,7 +149,7 @@
 <script lang="ts">
 import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { exist } from './exist'
+import { exist, existArray } from './exist'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
@@ -181,7 +186,7 @@ export default class SearchBar extends mixins(
 ) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
-  @Prop(String) public sortBy!: string
+  @Prop(Array) public sortByMultiple!: string[]
   @Prop(String) public searchColumnClass!: string
   @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
@@ -192,8 +197,8 @@ export default class SearchBar extends mixins(
   private query: SearchQuery = {
     search: '',
     type: '',
-    sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
+    sortByMultiple: ['BLOCK_NUMBER_DESC'],
   }
 
   private first = 30
@@ -299,7 +304,7 @@ export default class SearchBar extends mixins(
     exist(this.$route.query.min, this.updatePriceMin)
     exist(this.$route.query.max, this.updatePriceMax)
     exist(this.$route.query.type, this.updateType)
-    exist(this.$route.query.sort, this.updateSortBy)
+    existArray(this.$route.query.sort as string[], this.updateSortBy)
     exist(this.$route.query.listed, this.updateListed)
   }
 
@@ -315,16 +320,16 @@ export default class SearchBar extends mixins(
         this.updateListed(!this.vListed)
         break
       case 'n':
-        this.updateSortBy('BLOCK_NUMBER_DESC')
+        this.updateSortBy(['BLOCK_NUMBER_DESC'])
         break
       case 'o':
-        this.updateSortBy('BLOCK_NUMBER_ASC')
+        this.updateSortBy(['BLOCK_NUMBER_ASC'])
         break
       case 'e':
-        this.updateSortBy('PRICE_DESC')
+        this.updateSortBy(['PRICE_DESC'])
         break
       case 'c':
-        this.updateSortBy('PRICE_ASC')
+        this.updateSortBy(['PRICE_ASC'])
         break
     }
   }
@@ -463,9 +468,9 @@ export default class SearchBar extends mixins(
     return value
   }
 
-  @Emit('update:sortBy')
+  @Emit('update:sortByMultiple')
   @Debounce(400)
-  updateSortBy(value: string): string {
+  updateSortBy(value: string[]): string[] {
     this.replaceUrl(value, undefined, 'sort')
     return value
   }
@@ -570,7 +575,7 @@ export default class SearchBar extends mixins(
           first: this.first,
           offset: this.offset,
           denyList,
-          orderBy: this.query.sortBy,
+          orderBy: this.query.sortByMultiple,
           search: this.buildSearchParam(),
         },
       })
@@ -616,7 +621,7 @@ export default class SearchBar extends mixins(
           first: this.first,
           offset: this.offset,
           denyList,
-          orderBy: this.query.sortBy,
+          orderBy: this.query.sortByMultiple,
           search: this.buildSearchParam(),
         },
       })
@@ -655,14 +660,14 @@ export default class SearchBar extends mixins(
   }
 
   @Debounce(100)
-  replaceUrl(value: string, value2?, key = 'search', key2?): void {
+  replaceUrl(value: string | string[], value2?, key = 'search', key2?): void {
     this.$router
       .replace({
         path: String(this.$route.path),
         query: {
           page: '1',
           ...this.$route.query,
-          search: this.searchQuery,
+          search: this.searchQuery || undefined,
           [key]: value,
           [key2]: value2,
         },

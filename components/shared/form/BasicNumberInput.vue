@@ -22,7 +22,7 @@
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
 
 @Component
-export default class BasicInput extends Vue {
+export default class BasicNumberInput extends Vue {
   // Dev: make vValue required
   @VModel({ type: Number }) vValue!: number
   @Prop({ type: String, required: true }) label!: string
