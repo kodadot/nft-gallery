@@ -28,7 +28,7 @@
           <div class="media">
             <div class="media-content">
               <div class="title is-5 is-ellipsis">
-                <nuxt-link :to="`/rmrk/gallery/${list.id}`">
+                <nuxt-link :to="`/${url}/${list.id}`">
                   {{ list.name }}
                 </nuxt-link>
               </div>
@@ -63,7 +63,7 @@
                     class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
-              <time class="is-size-7 icon-text">
+              <time class="is-size-7 icon-text" v-if="list.timestamp">
                 <b-icon icon="clock" />
                 <span>{{ list.timestamp }}</span>
               </time>
@@ -98,7 +98,7 @@ const components = {
 export default class CarouselList extends mixins(AuthMixin) {
   @Prop({ type: Array, required: true }) nfts!: CarouselNFT[]
   @Prop({ type: Number, default: 1 }) page!: number
-
+  @Prop({ type: String, default: 'rmrk/gallery' }) url!: string
   get current() {
     return this.page - 1 // 0-indexed
   }

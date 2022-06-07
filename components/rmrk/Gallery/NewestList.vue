@@ -64,7 +64,7 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
           meta_not_eq: '0',
         },
       }
-      if (this.isLogIn) {
+      if (this.isLogIn && this.passionList.length > 9) {
         queryVariables.and.nft = {
           issuer_in: this.passionList,
         }
