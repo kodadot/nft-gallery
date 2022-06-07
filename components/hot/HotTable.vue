@@ -63,14 +63,7 @@ import formatBalance from '@/utils/formatBalance'
 import { getVolume } from '@/utils/math'
 import { lastweekDate } from '@/components/series/utils'
 
-const components = {
-  Money: () => import('@/components/shared/format/Money.vue'),
-  Loader: () => import('@/components/shared/Loader.vue'),
-  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  BasicPopup: () => import('@/components/shared/view/BasicPopup.vue'),
-}
-
-@Component({ components })
+@Component({})
 export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
   protected data: RowHot[] = []
   private toKSM(amount) {
