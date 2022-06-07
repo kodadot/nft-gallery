@@ -122,15 +122,17 @@
         </b-switch>
       </b-field>
       <b-field>
-        <b-button
-          type="is-primary"
-          icon-left="paper-plane"
-          @click="sub"
-          :disabled="disabled"
-          :loading="isLoading"
-          outlined>
-          {{ $t('mint.submit') }}
-        </b-button>
+        <b-tooltip :active="isMintDisabled" :label="$t('tooltip.buyDisabled')">
+          <b-button
+            type="is-primary"
+            icon-left="paper-plane"
+            @click="sub"
+            :disabled="disabled"
+            :loading="isLoading"
+            outlined>
+            {{ $t('mint.submit') }}
+          </b-button>
+        </b-tooltip>
       </b-field>
       <b-field>
         <b-icon icon="calculator" />
@@ -334,14 +336,16 @@ export default class SimpleMint extends mixins(
 
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint
-    return !(
-      name &&
-      symbol &&
-      max &&
-      this.hasToS &&
-      this.accountId &&
-      this.file &&
-      !this.syncVisible
+    return (
+      !(
+        name &&
+        symbol &&
+        max &&
+        this.hasToS &&
+        this.accountId &&
+        this.file &&
+        !this.syncVisible
+      ) || this.isMintDisabled
     )
   }
 
@@ -410,6 +414,14 @@ export default class SimpleMint extends mixins(
 
   get actualDistribution(): number {
     return toDistribute(this.parseAddresses.length, this.distribution)
+  }
+
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
+  }
+
+  get isMintDisabled(): boolean {
+    return Number(this.balance) < Number(this.estimated)
   }
 
   protected syncEdition(): void {

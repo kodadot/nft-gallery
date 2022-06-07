@@ -32,11 +32,13 @@
       </template>
 
       <template v-slot:footer>
-        <SubmitButton
-          label="create collection"
-          :disabled="disabled"
-          :loading="isLoading"
-          @click="submit" />
+        <b-tooltip :active="isMintDisabled" :label="$t('tooltip.buyDisabled')">
+          <SubmitButton
+            label="create collection"
+            :disabled="disabled"
+            :loading="isLoading"
+            @click="submit" />
+        </b-tooltip>
       </template>
     </BaseCollectionForm>
   </div>
@@ -103,6 +105,14 @@ export default class CreateCollection extends mixins(
     return addressToHex(this.accountId)
   }
 
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
+  }
+
+  get isMintDisabled(): boolean {
+    return Number(this.balance) <= 0
+  }
+
   get disabled(): boolean {
     const {
       base: { name },
@@ -111,7 +121,10 @@ export default class CreateCollection extends mixins(
       accountId,
       unlimited,
     } = this
-    return !(name && symbol && (unlimited || max) && accountId)
+    return (
+      !(name && symbol && (unlimited || max) && accountId) ||
+      this.isMintDisabled
+    )
   }
 
   public constructRmrkMint(metadata: string): CreatedCollection {
