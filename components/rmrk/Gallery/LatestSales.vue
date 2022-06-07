@@ -5,7 +5,9 @@
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
         <h1 class="title is-2">{{ $t('general.latestSales') }}</h1>
-        <p class="subtitle is-size-5">Discover the most recent sales on rmrk</p>
+        <p class="subtitle is-size-5">
+          {{ $t('landingPage.latestSalesheading') }}
+        </p>
       </div>
       <div class="column has-text-right">
         <Pagination

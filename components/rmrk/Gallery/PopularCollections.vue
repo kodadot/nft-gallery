@@ -4,9 +4,11 @@
 
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
-        <h1 class="title is-2">{{ $t('Popular Collections') }}</h1>
+        <h1 class="title is-2">
+          {{ $t('landingPage.popularCollectionsHeading') }}
+        </h1>
         <p class="subtitle is-size-5">
-          Discover the most popular collections on rmrk
+          {{ $t('landingPage.popularCollectionsDesc') }}
         </p>
       </div>
       <div class="column has-text-right">
