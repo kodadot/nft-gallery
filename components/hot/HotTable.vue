@@ -97,7 +97,7 @@ export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
         buys,
         latestSoldSize: this.toKSM(latestSale.meta),
         latestSoldTime: formatDistanceToNow(new Date(latestSale.timestamp)),
-        medianDate: parseDate(nfts[medianIdx].timestamp),
+        medianDate: formatDistanceToNow(new Date(nfts[medianIdx].timestamp)),
         nfts,
       }
     })
