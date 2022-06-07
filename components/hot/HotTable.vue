@@ -61,7 +61,6 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import formatBalance from '@/utils/formatBalance'
 import { getVolume } from '@/utils/math'
-import { parseDate } from '@/utils/datetime'
 import { lastweekDate } from '@/components/series/utils'
 
 const components = {
