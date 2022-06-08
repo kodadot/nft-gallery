@@ -5,12 +5,12 @@
     <b-button
       tag="nuxt-link"
       icon-left="chevron-left"
-      :to="`/rmrk/gallery/${this.items[this.prevIndex]}`"
+      :to="properUrl(this.prevIndex)"
       outlined />
     <b-button
       tag="nuxt-link"
       icon-left="chevron-right"
-      :to="`/rmrk/gallery/${this.items[this.nextIndex]}`"
+      :to="properUrl(this.nextIndex)"
       outlined />
   </div>
 </template>
@@ -18,13 +18,14 @@
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
 }
 
 @Component({ components })
-export default class Navigation extends mixins(KeyboardEventsMixin) {
+export default class Navigation extends mixins(KeyboardEventsMixin, PrefixMixin) {
   @Prop({ type: Array }) readonly items!: string[]
   @Prop(Boolean) public showNavigation!: boolean
   @Prop({ type: String }) readonly currentId!: string
@@ -96,9 +97,11 @@ export default class Navigation extends mixins(KeyboardEventsMixin) {
   }
 
   public gotoNextItem(reverse: boolean) {
-    this.$router.push(
-      `/rmrk/gallery/${this.items[reverse ? this.prevIndex : this.nextIndex]}`
-    )
+    this.$router.push(this.properUrl(reverse ? this.prevIndex : this.nextIndex))
+  }
+
+  protected properUrl(index: number) {
+    return `/${this.urlPrefix}/gallery/${this.items[index]}`
   }
 }
 </script>

@@ -224,7 +224,6 @@ import {
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
-import nftListByIssuerAndOwner from '@/queries/nftListByIssuerAndOwner.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
@@ -246,6 +245,7 @@ import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
 import allNftSaleEventsByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
 import { NftHolderEvent } from '~/components/rmrk/Gallery/Holder/Holder.vue'
 import allNftSaleEventsHistoryByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
+import resolveQueryPath from '~/utils/queryPathResolver'
 
 const components = {
   GalleryCardList: () =>
@@ -279,7 +279,7 @@ const components = {
       type: 'profile',
       description:
         this.firstNFTData.description || 'Find more NFTs from this creator',
-      url: `/westmint/u/${this.id}`,
+      url: `/${this.urlPrefix}/u/${this.id}`,
       image: this.firstNFTData.image || this.defaultNFTImage,
     }
     return {
@@ -633,10 +633,6 @@ export default class Profile extends mixins(
         },
         fetchPolicy: 'cache-and-network',
       })
-      // this.packs = await rmrkService
-      //   .getPackListForAccount(this.id)
-      //   .then(defaultSortBy);
-      // this.$consola.log(packs)
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
       this.$consola.warn(e)
@@ -761,16 +757,20 @@ export default class Profile extends mixins(
 
   @Watch('accountId')
   public async fetchMyNftByIssuer() {
-    if (this.accountId && this.id && this.accountId !== this.id) {
+    if (this.id && shouldUpdate(this.accountId, this.id)) {
+      const query = await resolveQueryPath(
+        this.urlPrefix,
+        'nftListByIssuerAndOwner'
+      )
       const { data } = await this.$apollo.query({
-        query: nftListByIssuerAndOwner,
+        query: query.default,
         client: this.urlPrefix,
         variables: {
           account: this.id,
           currentOwner: this.accountId,
         },
       })
-      this.myNftCount = data.nFTEntities?.totalCount || 0
+      this.myNftCount = data.nftList?.totalCount || 0
     }
   }
 

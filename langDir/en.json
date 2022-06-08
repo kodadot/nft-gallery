@@ -417,6 +417,11 @@
       "postfix": "Add hashtag and index after the name (e.g #1)",
       "sync": "Sync editions to {0}"
     },
+    "royalty": {
+      "amount": "Royalty Amount",
+      "mine": "Pay royalty to this account",
+      "receiver": "Destination account for royalty"
+    },
     "collection": {
       "name": {
         "label": "Collection name",
@@ -432,7 +437,8 @@
         "label": "Symbol (short name)",
         "placeholder": "3-5 character long name",
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
-      }
+      },
+      "create": "Create collection"
     },
     "nft": {
       "name": {
@@ -482,6 +488,9 @@
       "SEND": "GIFT",
       "CONSUME": "BURN",
       "BUY": "BUY"
+    },
+    "action": {
+      "submit": "Submit {0}"
     }
   },
   "loader": {
@@ -528,6 +537,10 @@
     "page": "Sales",
     "title": "Latest KUSAMA Sales",
     "subtitle": "Featuring the most recently sold NFTs on RMRK."
+  },
+  "hot": {
+    "title": "Recently KUSAMA Sales In One Week",
+    "subtitle": "Featuring the recently sold NFTs on RMRK"
   },
   "spotlight": {
     "page": "Spotlight",
@@ -710,6 +723,9 @@
     "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)",
     "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs",
     "exploreTabOrder": "Default tab in explore"
+  },
+  "navbar": {
+    "teleport": "Teleport"
   },
   "walletConnect": {
     "walletHeading": "Connect Wallet",

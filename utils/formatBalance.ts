@@ -18,14 +18,6 @@ function format(
       withSi,
     })
   } catch (e: any) {
-    console.warn(
-      '[FORMAT BALANCE]',
-      e.message,
-      String(balance),
-      typeof balance,
-      decimals,
-      withUnit
-    )
     return ''
   }
 }

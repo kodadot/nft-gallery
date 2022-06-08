@@ -3,11 +3,11 @@ import { getActions, ownerActions, buyActions } from '@/utils/shoppingActions'
 describe('GET ACTIONS TEST', (): void => {
   it('owner actions', () => {
     const actions = getActions(true, false)
-    expect(actions).toBe(ownerActions)
+    expect(actions).to.eql(ownerActions)
   })
   it('can buy', () => {
     const actions = getActions(false, true)
-    expect(actions).toBe(buyActions)
+    expect(actions).to.eql(buyActions)
   })
   it('has no action', () => {
     const actions = getActions(false, false)
