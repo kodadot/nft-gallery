@@ -6,7 +6,15 @@
           <Avatar :value="id" />
         </div>
         <h1 class="title is-2">
+          <Identity
+            v-if="isBsx"
+            ref="identity"
+            :address="id"
+            inline
+            emit
+            @change="handleIdentity" />
           <a
+            v-else
             :href="`https://kusama.subscan.io/account/${id}`"
             target="_blank"
             rel="noopener noreferrer">
@@ -41,7 +49,7 @@
         <ProfileActivity :id="id" />
       </div>
       <div class="column has-text-right">
-        <div class="is-flex is-justify-content-right">
+        <div class="is-flex is-justify-content-right" v-if="!isBsx">
           <div class="control" v-for="network in networks" :key="network.alt">
             <b-button class="share-button" type="is-primary is-bordered-light">
               <a
@@ -530,6 +538,10 @@ export default class Profile extends mixins(
     this.$router.replace({
       query: { tab: val },
     })
+  }
+
+  get isBsx(): boolean {
+    return this.urlPrefix === 'bsx'
   }
 
   get isHistoryOpen(): boolean {
