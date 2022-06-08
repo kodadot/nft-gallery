@@ -280,7 +280,7 @@ export default class Gallery extends mixins(
     this.passionList = passionFeed?.map((x) => x.id) || []
 
     // only show passion feed if it has some length
-    if (this.passionList.length > 3) {
+    if (this.passionList.length > 5) {
       this.hasPassionFeed = true
     }
   }
