@@ -71,8 +71,7 @@
             @change="totalCreated = $event"
             :account="id"
             :showSearchBar="true"
-            link="westmint/gallery"
-            route="/westmint/gallery" />
+            route="gallery" />
         </b-tab-item>
         <b-tab-item
           :label="`Collections - ${totalCollections}`"
@@ -82,10 +81,7 @@
             replace
             :total="totalCollections"
             v-model="currentCollectionPage" />
-          <GalleryCardList
-            :items="collections"
-            link="westmint/collection"
-            route="/westmint/collection" />
+          <GalleryCardList :items="collections" route="collection" />
           <Pagination
             replace
             class="pt-5 pb-5"
@@ -102,8 +98,7 @@
             :query="nftListSold"
             @change="totalSold = $event"
             :account="id"
-            link="westmint/gallery"
-            route="/westmint/gallery" />
+            route="gallery" />
         </b-tab-item>
         <b-tab-item value="collected">
           <template #header>
@@ -117,8 +112,7 @@
             :query="nftListCollected"
             @change="totalCollected = $event"
             :account="id"
-            link="westmint/gallery"
-            route="/westmint/gallery" />
+            route="gallery" />
         </b-tab-item>
 
         <!-- <b-tab-item label="Packs" value="pack">

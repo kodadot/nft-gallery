@@ -24,9 +24,7 @@ query nftListCollected(
     ...subsquidNft
     ...nftDetails
     ...collectionMeta
-    emotes {
-      id
-    }
+    # ...nftEmotes
     createdAt
   }
   nftEntitiesConnection(

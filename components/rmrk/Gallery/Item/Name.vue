@@ -28,13 +28,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import isShareMode from '@/utils/isShareMode'
 import { NFTWithMeta } from '../../service/scheme'
 import { emptyObject } from '@/utils/empty'
-// import Identity from '@/components/shared/format/Identity.vue'
 
-const components = {
-  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-}
-
-@Component({ components })
+@Component({ })
 export default class Name extends Vue {
   @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta
   @Prop() public isLoading!: boolean

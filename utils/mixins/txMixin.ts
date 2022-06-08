@@ -34,4 +34,9 @@ export default class TransactionMixin extends Vue {
     this.isLoading = true
     this.status = 'loader.sign'
   }
+
+  public stopLoader(): void {
+    this.isLoading = false
+    this.status = ''
+  }
 }

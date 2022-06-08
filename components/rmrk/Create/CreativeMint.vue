@@ -21,7 +21,10 @@
         expanded
         preview />
 
-      <LabeledText label="mint.nft.name.label" class="mb-2" :isLoading="isGptLoading">
+      <LabeledText
+        label="mint.nft.name.label"
+        class="mb-2"
+        :isLoading="isGptLoading">
         {{ rmrkMint.name }}
       </LabeledText>
 
@@ -69,19 +72,16 @@ import {
   createMultipleNFT,
   Interaction,
   makeSymbol,
-  mapAsSystemRemark, toCollectionId, unSanitizeIpfsUrl
+  mapAsSystemRemark,
+  toCollectionId,
+  unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import shouldUpdate from '~/utils/shouldUpdate'
-import {
-  getNftId,
-  NFT,
-  NFTMetadata,
-  SimpleNFT
-} from '../service/scheme'
+import { getNftId, NFT, NFTMetadata, SimpleNFT } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia, sanitizeIpfsUrl } from '../utils'
 import { askGpt } from '@/utils/gpt'
@@ -102,14 +102,14 @@ export default class CreativeMint extends mixins(
   RmrkVersionMixin,
   MetaTransactionMixin,
   ChainMixin,
-  AuthMixin,
+  AuthMixin
 ) {
   private rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
     max: 1,
     symbol: makeSymbol(),
     name: '~',
-    description: '~'
+    description: '~',
   }
   private meta: NFTMetadata = emptyObject<NFTMetadata>()
   private file: File | null = null
@@ -130,7 +130,9 @@ export default class CreativeMint extends mixins(
   }
 
   get rmrkId(): string {
-    return this.accountId ? toCollectionId(this.accountId, this.rmrkMint.symbol) : ''
+    return this.accountId
+      ? toCollectionId(this.accountId, this.rmrkMint.symbol)
+      : ''
   }
 
   get canCalculateTransactionFees(): boolean {

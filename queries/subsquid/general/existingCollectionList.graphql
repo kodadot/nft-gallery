@@ -1,0 +1,5 @@
+query existingCollectionList($ids: [ID!]) {
+  collectionEntities(where: {id_in: $ids}) {
+    id
+  }
+}

@@ -140,21 +140,18 @@
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
-import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
+import { sanitizeIpfsUrl, getSanitizer } from '../utils'
+import { processMedia } from '@/utils/gallery/media'
 import { emptyObject } from '@/utils/empty'
-
-import AvailableActions from './AvailableActions.vue'
 import { notificationTypes, showNotification } from '@/utils/notification'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
 import nftByIdMini from '@/queries/nftByIdMinimal.graphql'
+import nftListIdsByCollection from '@/queries/nftIdListByCollection.graphql'
 import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
-import nftListIdsByCollection from '@/queries/nftListIdsByCollection.graphql'
 import { fetchNFTMetadata } from '../utils'
 import { get, set } from 'idb-keyval'
-import { MediaType } from '../types'
-import axios from 'axios'
 import { exist } from './Search/exist'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -297,11 +294,11 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         })
 
         const {
-          data: { nFTEntities },
+          data: { nftEntities },
         } = nfts
 
         this.nftsFromSameCollection =
-          nFTEntities?.nodes.map((n: { id: string }) => n.id) || []
+          nftEntities?.nodes.map((n: { id: string }) => n.id) || []
         this.$store.dispatch('history/setCurrentCollection', {
           id: collectionId,
           nftIds: this.nftsFromSameCollection,
@@ -334,15 +331,11 @@ export default class GalleryItem extends mixins(PrefixMixin) {
       }
 
       if (this.meta.animation_url && !this.mimeType) {
-        const { headers } = await axios.head(this.meta.animation_url)
-        this.mimeType = headers['content-type']
-        const mediaType = resolveMedia(this.mimeType)
-        this.imageVisible = ![
-          MediaType.VIDEO,
-          MediaType.MODEL,
-          MediaType.IFRAME,
-          MediaType.OBJECT,
-        ].some((t) => t === mediaType)
+        const { mimeType, imageVisible } = await processMedia(
+          this.meta.animation_url
+        )
+        this.mimeType = mimeType
+        this.imageVisible = imageVisible
       }
 
       if (!m) {
