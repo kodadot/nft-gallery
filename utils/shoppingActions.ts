@@ -32,6 +32,7 @@ export const ownerActions = [
   ShoppingActions.SEND,
   ShoppingActions.CONSUME,
   ShoppingActions.DOWNLOAD,
+  ShoppingActions.LIST,
 ]
 
 export const listActions: [Interaction] = [ShoppingActions.LIST]
@@ -41,7 +42,11 @@ export const getActions = (isOwner: boolean, isAvailableToBuy: boolean) => {
   return getActionList('rmrk', isOwner, isAvailableToBuy)
 }
 
-export const getMarketplaceActions = (prefix: string, isOwner: boolean, hasPrice: boolean): [Interaction] | [] => {
+export const getMarketplaceActions = (
+  prefix: string,
+  isOwner: boolean,
+  hasPrice: boolean
+): [Interaction] | [] => {
   const isMarketAvailable = hasMarketplace(prefix)
 
   if (!isMarketAvailable) {
@@ -59,19 +64,31 @@ export const getMarketplaceActions = (prefix: string, isOwner: boolean, hasPrice
   return []
 }
 
-
-export const getActionList = (prefix: string, isOwner: boolean, hasPrice: boolean): ShoppingActions[] => {
+export const getActionList = (
+  prefix: string,
+  isOwner: boolean,
+  hasPrice: boolean
+): ShoppingActions[] => {
   let baseActions = isOwner ? ownerActions : []
-  baseActions = [...baseActions, ...getMarketplaceActions(prefix, isOwner, hasPrice)]
-  baseActions = [...baseActions, ...getChainSpecificActions(prefix, isOwner, hasPrice)]
-  return baseActions
+  baseActions = [
+    ...baseActions,
+    ...getMarketplaceActions(prefix, isOwner, hasPrice),
+  ]
+  baseActions = [
+    ...baseActions,
+    ...getChainSpecificActions(prefix, isOwner, hasPrice),
+  ]
+  return [...new Set(baseActions)]
 }
 
-export const getChainSpecificActions = (prefix: string, isOwner: boolean, hasPrice: boolean) => {
+export const getChainSpecificActions = (
+  prefix: string,
+  isOwner: boolean,
+  hasPrice: boolean
+) => {
   // TODO: add chain specific actions
   return []
 }
-
 
 export const actionComponent: Record<string, string> = {
   SEND: 'AddressInput',
@@ -91,17 +108,20 @@ export const iconResolver: Record<string, DescriptionTuple> = {
   [ShoppingActions.DOWNLOAD]: ['is-warning'],
 }
 
-
 export const getActionButtonColor = (action: ShoppingActions): string => {
   const [color] = iconResolver[action]
   return color
 }
 
-export const getActionButtonIcon = (action: ShoppingActions): string | undefined => {
+export const getActionButtonIcon = (
+  action: ShoppingActions
+): string | undefined => {
   const [, icon] = iconResolver[action]
   return icon
 }
 
-export const getActionComponent = (action: ShoppingActions): string | undefined => {
+export const getActionComponent = (
+  action: ShoppingActions
+): string | undefined => {
   return actionComponent[action]
 }
