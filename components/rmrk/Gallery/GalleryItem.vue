@@ -156,11 +156,12 @@ import { exist } from './Search/exist'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { Debounce } from 'vue-debounce-decorator'
+import AvailableActions from './AvailableActions.vue'
 
 @Component<GalleryItem>({
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
-    AvailableActions: () => import('./AvailableActions.vue'),
+    AvailableActions,
     Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
