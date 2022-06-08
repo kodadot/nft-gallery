@@ -3,8 +3,8 @@
     <Loader v-model="isLoading" />
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
-        <h1 class="title is-2">{{ $t('landingPage.newestListHeading') }}</h1>
-        <p class="subtitle is-size-5">{{ $t('landingPage.newestListDesc') }}</p>
+        <h1 class="title is-2">{{ $t('general.newestListHeading') }}</h1>
+        <p class="subtitle is-size-5">{{ $t('general.newestListDesc') }}</p>
       </div>
       <div class="column has-text-right">
         <b-button

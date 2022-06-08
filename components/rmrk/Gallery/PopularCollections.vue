@@ -5,10 +5,10 @@
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
         <h1 class="title is-2">
-          {{ $t('landingPage.popularCollectionsHeading') }}
+          {{ $t('general.popularCollectionsHeading') }}
         </h1>
         <p class="subtitle is-size-5">
-          {{ $t('landingPage.popularCollectionsDesc') }}
+          {{ $t('general.popularCollectionsDesc') }}
         </p>
       </div>
       <div class="column has-text-right">

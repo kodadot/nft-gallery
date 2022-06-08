@@ -578,13 +578,13 @@
     "totalItems": "Σ Items",
     "highestSale": "HIGHEST SALE",
     "totalBuys": "Σ BUYS",
-    "highestBuy":"Highest buy",
-    "totalAmountSpend":"Σ amount spend",
-    "holdingsNfts":"Holdings values",
-    "maxSoldPrice":"Max sold price",
-    "totalSellValues":"Σ sell values",
-    "totalSoldItems":"Σ sold items",
-    "totalHoldingsBoughtValues":"KSM spend for holdings nfts"
+    "highestBuy": "Highest buy",
+    "totalAmountSpend": "Σ amount spend",
+    "holdingsNfts": "Holdings values",
+    "maxSoldPrice": "Max sold price",
+    "totalSellValues": "Σ sell values",
+    "totalSoldItems": "Σ sold items",
+    "totalHoldingsBoughtValues": "KSM spend for holdings nfts"
   },
   "tutorial": {
     "create": "1. Create polkadot js account",
@@ -604,7 +604,14 @@
     "openUrl": "Open URL",
     "copyRewardTooltip": "Your reward link copied to clipboard",
     "copyRewardLink": "Copy Reward Me link",
-    "latestSales": "Latest sales"
+    "latestSales": "Latest sales",
+    "searchResultsText": "Showing results for",
+    "ksmDiscoverText": "Discover, collect and sell Kusama NFTs",
+    "latestSalesheading": "Discover the most recent sales on rmrk",
+    "newestListDesc": "Discover the latest items on sale",
+    "newestListHeading": "Newest List",
+    "popularCollectionsHeading": "Popular Collections",
+    "popularCollectionsDesc": "Discover the most popular collections on rmrk"
   },
   "helper": {
     "seeMore": "See More",
@@ -617,7 +624,8 @@
       "label": "URL to transform",
       "placeholder": "singular.rmrk.app/collectibles/",
       "copy": "Kodadot link successfuly copied"
-    }
+    },
+    "ksmBuilt": "Built on"
   },
   "cookies": {
     "notice": "We use third-party 🍪 in order to personalize your site experience",
@@ -709,15 +717,5 @@
     "understand": "I understand",
     "learnText": "Learn how to Connect",
     "downloadExtension": "Download extension"
-  },
-  "landingPage": {
-    "searchResultsText": "Showing results for",
-    "ksmDiscoverText": "Discover, collect and sell Kusama NFTs",
-    "ksmBuilt": "Built on",
-    "latestSalesheading": "Discover the most recent sales on rmrk",
-    "newestListDesc": "Discover the latest items on sale",
-    "newestListHeading": "Newest List",
-    "popularCollectionsHeading": "Popular Collections",
-    "popularCollectionsDesc": "Discover the most popular collections on rmrk"
   }
 }

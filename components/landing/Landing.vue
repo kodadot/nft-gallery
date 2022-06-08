@@ -17,10 +17,10 @@
           <h3
             class="title is-1 is-size-3-mobile is-flex is-flex-direction-column uppercase homepage__heading">
             <span class="text__stroked my-5">
-              {{ $t('landingPage.ksmDiscoverText') }}
+              {{ $t('general.ksmDiscoverText') }}
             </span>
             <span class="title is-6 homepage__subtitle uppercase text-semibold">
-              {{ $t('landingPage.ksmBuilt') }}
+              {{ $t('helper.ksmBuilt') }}
               <span class="text-bold text-primary"> {{ buildOn }} </span>
             </span>
           </h3>
