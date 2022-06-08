@@ -3,14 +3,14 @@
     <p class="control">
       <b-button size="is-medium" icon-left="times" @click="remove" />
     </p>
-    <b-field label="Type" expanded>
+    <b-field label="Trait" expanded>
       <b-input
         v-model="vKey"
         placeholder="Background"
         expanded
         spellcheck="true" />
     </b-field>
-    <b-field label="Name" expanded>
+    <b-field label="Value" expanded>
       <b-input v-model="vValue" placeholder="Dark" expanded spellcheck="true" />
     </b-field>
   </b-field>
