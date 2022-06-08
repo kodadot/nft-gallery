@@ -437,7 +437,7 @@ export default class Profile extends mixins(
     this.$apollo
       .query<NftEvents>({
         query: allNftSaleEventsByAccountId,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.accountId,
         },
@@ -455,7 +455,7 @@ export default class Profile extends mixins(
     this.$apollo
       .query<{ events: Interaction[] }>({
         query: allEventsByProfile,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
           search: {
@@ -476,7 +476,7 @@ export default class Profile extends mixins(
     this.$apollo
       .query<{ events: Interaction[] }>({
         query: recentSalesForCreator,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
           limit: this.first,
@@ -496,7 +496,7 @@ export default class Profile extends mixins(
     this.$apollo
       .query<{ events: NftHolderEvent[] }>({
         query: allNftSaleEventsHistoryByAccountId,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.accountId,
         },

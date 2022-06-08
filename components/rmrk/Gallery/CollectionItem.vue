@@ -401,7 +401,7 @@ export default class CollectionItem extends mixins(
     try {
       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
         query: allCollectionSaleEvents,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
           and: {
