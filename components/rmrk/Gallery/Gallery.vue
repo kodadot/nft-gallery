@@ -156,7 +156,6 @@ export default class Gallery extends mixins(
     owned: true,
     priceMin: undefined,
     priceMax: undefined,
-    owned: false,
     sortByMultiple: ['BLOCK_NUMBER_DESC'],
   }
   private isLoading = true
@@ -182,7 +181,9 @@ export default class Gallery extends mixins(
     return {
       first: this.first,
       denyList: getDenyList(this.urlPrefix),
-      orderBy: this.searchQuery.sortByMultiple,
+      orderBy: this.isRmrk
+        ? this.searchQuery.sortByMultiple
+        : ['blockNumber_DESC'],
       search: this.buildSearchParam(),
       priceMin: this.searchQuery.priceMin,
       priceMax: this.searchQuery.priceMax,
@@ -252,7 +253,9 @@ export default class Gallery extends mixins(
       client: this.urlPrefix,
       variables: {
         denyList: getDenyList(this.urlPrefix),
-        orderBy: this.searchQuery.sortByMultiple,
+        orderBy: this.isRmrk
+          ? this.searchQuery.sortByMultiple
+          : ['blockNumber_DESC'],
         search: this.buildSearchParam(),
         priceMin: this.searchQuery.priceMin,
         priceMax: this.searchQuery.priceMax,
@@ -333,7 +336,9 @@ export default class Gallery extends mixins(
           first: this.first,
           offset,
           denyList: getDenyList(this.urlPrefix),
-          orderBy: this.searchQuery.sortByMultiple,
+          orderBy: this.isRmrk
+            ? this.searchQuery.sortByMultiple
+            : ['blockNumber_DESC'],
           search: this.buildSearchParam(),
           priceMin: this.searchQuery.priceMin,
           priceMax: this.searchQuery.priceMax,
