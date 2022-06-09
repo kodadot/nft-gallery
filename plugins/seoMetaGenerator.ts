@@ -1,4 +1,3 @@
-import { stringify } from 'postcss'
 import type { MetaInfo } from 'vue-meta'
 import { MediaType } from '~/components/rmrk/types'
 
@@ -20,7 +19,6 @@ type MetaProperties = {
 export default function ({ app }, inject): void {
   const getMetaType = (mediaType: MediaType | string | undefined): string => {
     let ogType: string | undefined
-    console.log('yyy', mediaType)
     switch (mediaType) {
       case MediaType.VIDEO:
         ogType = 'video:other'
@@ -43,7 +41,6 @@ export default function ({ app }, inject): void {
     const title = 'KodaDot - Kusama NFT Market Explorer'
     const description = 'Creating Carbonless NFTs on Kusama'
     const image = `${baseUrl}/kodadot_card_root.png`
-    console.log('Xxx', meta)
     return [
       {
         hid: 'description',
