@@ -1,0 +1,5 @@
+fragment nftEmotes on NFTEntity {
+  emotes @include(if: $rmrk) {
+    id
+  }
+}

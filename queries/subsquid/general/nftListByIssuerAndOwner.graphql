@@ -1,0 +1,12 @@
+query nftListByIssuerAndOwner($account: String!, $currentOwner: String!) {
+  nftList: nftEntitiesConnection(
+    where: {
+      issuer_eq: $account
+      currentOwner_eq: $currentOwner
+      burned_eq: false
+    }
+    orderBy: blockNumber_ASC
+  ) {
+    totalCount
+  }
+}

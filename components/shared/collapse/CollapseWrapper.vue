@@ -26,11 +26,11 @@ export default class CollapseWrapper extends Vue {
   @Prop({ type: String, default: 'Show' }) visible!: string
   @Prop({ type: String, default: 'Hide' }) hidden!: string
   @Prop({ type: Boolean, default: false })
-  private readonly openOnDefault!: boolean
-  @Prop(Boolean) bottom!: boolean
+  @Prop(Boolean)
+  bottom!: boolean
   @Prop({ type: Boolean, default: false }) isSelectable!: boolean
 
-  protected isOpen = this.openOnDefault
+  protected isOpen = false
 
   get position(): string {
     return this.bottom ? 'is-bottom' : 'is-top'

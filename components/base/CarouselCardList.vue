@@ -11,7 +11,7 @@
     <template #item="list">
       <div class="card mx-2">
         <div class="card-image p-4">
-          <nuxt-link :to="`/rmrk/gallery/${list.id}`">
+          <nuxt-link :to="`/${urlPrefix}/gallery/${list.id}`">
             <PreviewMediaResolver
               v-if="list.animationUrl"
               :src="list.animationUrl"
@@ -38,7 +38,7 @@
                 </nuxt-link>
               </div>
               <nuxt-link
-                :to="{ name: 'rmrk-u-id', params: { id: list.issuer } }">
+                :to="{ name: profileUrl, params: { id: list.issuer } }">
                 <div class="is-size-7 icon-text">
                   <b-icon icon="palette" />
                   <Identity
@@ -51,7 +51,7 @@
               <nuxt-link
                 v-if="list.currentOwner"
                 :to="{
-                  name: 'rmrk-u-id',
+                  name: profileUrl,
                   params: { id: list.currentOwner },
                 }">
                 <div class="is-size-7 icon-text">
@@ -85,6 +85,7 @@ import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import AuthMixin from '@/utils/mixins/authMixin'
 
 import type { CarouselNFT } from './types'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -99,12 +100,16 @@ const components = {
 @Component<CarouselList>({
   components,
 })
-export default class CarouselList extends mixins(AuthMixin) {
+export default class CarouselList extends mixins(AuthMixin, PrefixMixin) {
   @Prop({ type: Array, required: true }) nfts!: CarouselNFT[]
   @Prop({ type: Number, default: 1 }) page!: number
   @Prop({ type: String, default: 'rmrk/gallery' }) url!: string
   get current() {
     return this.page - 1 // 0-indexed
+  }
+
+  get profileUrl() {
+    return `${this.urlPrefix}-u-id`
   }
 
   get options() {

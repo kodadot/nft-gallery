@@ -71,8 +71,8 @@
             @change="totalCreated = $event"
             :account="id"
             :showSearchBar="true"
-            link="statemine/gallery"
-            route="/statemine/gallery" />
+            link="gallery"
+            route="gallery" />
         </b-tab-item>
         <b-tab-item
           :label="`Collections - ${totalCollections}`"
@@ -84,8 +84,8 @@
             v-model="currentCollectionPage" />
           <GalleryCardList
             :items="collections"
-            link="statemine/collection"
-            route="/statemine/collection" />
+            link="collection"
+            route="collection" />
           <Pagination
             replace
             class="pt-5 pb-5"
@@ -102,8 +102,8 @@
             :query="nftListSold"
             @change="totalSold = $event"
             :account="id"
-            link="statemine/gallery"
-            route="/statemine/gallery" />
+            link="gallery"
+            route="gallery" />
         </b-tab-item>
         <b-tab-item value="collected">
           <template #header>
@@ -117,8 +117,8 @@
             :query="nftListCollected"
             @change="totalCollected = $event"
             :account="id"
-            link="statemine/gallery"
-            route="/statemine/gallery" />
+            link="gallery"
+            route="gallery" />
         </b-tab-item>
 
         <!-- <b-tab-item label="Packs" value="pack">
@@ -250,7 +250,7 @@ export default class Profile extends mixins(PrefixMixin) {
 
   get defaultNFTImage(): string {
     const url = new URL(window.location.href)
-    return `${url.protocol}//${url.hostname}/placeholder.webp`
+    return `${url.protocol}/${url.hostname}/placeholder.webp`
   }
 
   protected async fetchProfile() {

@@ -9,7 +9,7 @@ html.light-mode {
 		width: 100%;
 		height: 100%;
 		background-color: $background-light;
-		color: #1f1f1f;
+		color: $text-light-theme;
 	}
 
 	.text {
@@ -22,11 +22,11 @@ html.light-mode {
 		.navbar-item,
 		.navbar-link,
 		.button.is-text {
-			color: #1f1f1f;
+			color: $text-light-theme;
 		}
 
 		button.button.navbar-link-background {
-			color: #1f1f1f;
+			color: $text-light-theme;
 			background-color: rgba(229, 229, 229, 0.55);
 		}
 		.navbar-item:hover,
@@ -47,13 +47,13 @@ html.light-mode {
 		}
 
 		.navbar-dropdown {
-			color: #1f1f1f;
-			background-color: #ededed;
+			color: $text-light-theme;
+			background-color: #fff;
 			box-shadow: rgba(229, 229, 229, 0.55)  !important;
 		}
 
 		.dropdown .dropdown-menu .has-link a {
-			color: #1f1f1f;
+			color: $text-light-theme;
 		}
 
 		.search-navbar {
@@ -64,25 +64,25 @@ html.light-mode {
 	}
 
 	.dropdown-content {
-		color: #1f1f1f;
-		background-color: #ededed;
+		color: $text-light-theme;
+		background-color: #fff;
 		.dropdown-item:not(.is-active) {
-			color: #1f1f1f;
+			color: $text-light-theme;
 		}
 	}
 
 	.homepage .tile .box {
 		border-color: #f3f3f3;
 		box-shadow: -8px 4px 8px #f3f3f3;
-		background-color: #ededed;
+		background-color: #fff;
 
 		.subtitle {
-			color: #1f1f1f;
+			color: $text-light-theme;
 		}
 	}
 
 	.select select {
-		color: #1f1f1f;
+		color: $text-light-theme;
 		background-color: #b0b0b0;
 	}
 
@@ -92,20 +92,20 @@ html.light-mode {
 	.pagination-link,
 	body .title:not(h2),
 	.auth-avatar .subtitle {
-		color: #1f1f1f;
+		color: $text-light-theme;
 	}
 
 	.level .title,
 	.homepage .title:not(h2),
 	body .card-header-title,
 	.card-header-icon {
-		color: #1f1f1f !important;
+		color: $text-light-theme !important;
 	}
 
 	.button:not(.is-primary),
 	.input {
-		color: #1f1f1f;
-		background-color: #ededed;
+		color: $text-light-theme;
+		background-color: #fff;
 	}
 
 	.list-header,
@@ -121,7 +121,7 @@ html.light-mode {
 	}
 
 	.scroll-top-button {
-		color: #1f1f1f;
+		color: $text-light-theme;
 		background-color: #fff;
 	}
 }

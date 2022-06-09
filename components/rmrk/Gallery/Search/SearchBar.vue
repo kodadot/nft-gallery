@@ -188,7 +188,7 @@ export default class SearchBar extends mixins(
   @Prop(String) public type!: string
   @Prop(Array) public sortByMultiple!: string[]
   @Prop(String) public searchColumnClass!: string
-  @Prop(Boolean) public listed!: boolean
+  @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
   @Prop(Boolean) public hideSearchInput!: boolean
   @Prop(Boolean) public showDefaultSuggestions!: boolean
@@ -228,7 +228,7 @@ export default class SearchBar extends mixins(
           events: [{ meta; timestamp; nft }]
         }>({
           query: lastNftListByEvent,
-          client: 'subsquid',
+          client: this.client,
           variables: {
             limit: this.searchSuggestionEachTypeMaxNum,
             event: 'LIST',
