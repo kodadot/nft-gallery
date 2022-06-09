@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="$route.query.search" class="block">
-      Showing results for
+      {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
     <b-tabs v-model="selectedTab">
