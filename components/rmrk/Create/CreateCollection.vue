@@ -110,7 +110,7 @@ export default class CreateCollection extends mixins(
   }
 
   get isMintDisabled(): boolean {
-    return Number(this.balance) <= 0
+    return Number(this.balance) <= 2
   }
 
   get disabled(): boolean {
