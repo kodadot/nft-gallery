@@ -94,7 +94,9 @@ export default class CreateCollection extends mixins(
   private max = 1
   protected unlimited = true
   protected hasSupport = true
-
+  created() {
+    window.col = this
+  }
   get rmrkId(): string {
     return generateId(this.accountId, this.symbol)
   }
@@ -192,6 +194,7 @@ export default class CreateCollection extends mixins(
             `[Collection] Saved ${this.base.name} in block ${blockNumber}`,
             notificationTypes.success
           )
+          this.$emit('created')
         }
       )
     } catch (e: any) {

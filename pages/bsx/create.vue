@@ -16,11 +16,6 @@ const NFT = () => import('@/components/bsx/Create/CreateToken.vue')
 
 const components = { Collection, NFT }
 
-const enum CreateComponent {
-  Collection = 'Collection',
-  NFT = 'NFT',
-}
-
 @Component<BsxCreatePage>({
   components,
   layout() {
@@ -47,12 +42,5 @@ export default class BsxCreatePage extends Vue {
     CreateComponent.Collection,
     CreateComponent.NFT,
   ]
-
-  switchToCreateNFT() {
-    const targetIdx = this.components.findIndex(
-      (componentName) => componentName === CreateComponent.NFT
-    )
-    this.activeTab = targetIdx > -1 ? targetIdx : 0
-  }
 }
 </script>
