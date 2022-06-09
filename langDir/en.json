@@ -638,7 +638,7 @@
       "placeholder": "singular.rmrk.app/collectibles/",
       "copy": "Kodadot link successfuly copied"
     },
-    "ksmBuilt": "Built on"
+    "builtOn": "Built on"
   },
   "cookies": {
     "notice": "We use third-party 🍪 in order to personalize your site experience",
