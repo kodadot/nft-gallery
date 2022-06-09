@@ -20,7 +20,7 @@
               {{ $t('general.ksmDiscoverText') }}
             </span>
             <span class="title is-6 homepage__subtitle uppercase text-semibold">
-              {{ $t('helper.ksmBuilt') }}
+              {{ $t('helper.builtOn') }}
               <span class="text-bold text-primary"> {{ buildOn }} </span>
             </span>
           </h3>
