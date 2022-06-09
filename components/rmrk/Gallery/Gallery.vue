@@ -263,7 +263,6 @@ export default class Gallery extends mixins(
         offset: (page - 1) * this.first,
       },
     })
-    console.log(result.data)
     await this.handleResult(result, loadDirection)
     this.isFetchingData = false
     return true

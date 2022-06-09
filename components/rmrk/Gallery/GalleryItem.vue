@@ -144,13 +144,16 @@ import { sanitizeIpfsUrl, getSanitizer } from '../utils'
 import { processMedia } from '@/utils/gallery/media'
 import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import { generateNftImage } from '@/utils/seoImageGenerator'
+import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
 import nftByIdMini from '@/queries/nftByIdMinimal.graphql'
 import nftListIdsByCollection from '@/queries/nftIdListByCollection.graphql'
 import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
-import { fetchNFTMetadata } from '../utils'
+
+import { fetchNFTMetadata, resolveMedia } from '../utils'
 import { get, set } from 'idb-keyval'
 import { exist } from './Search/exist'
 import Orientation from '@/utils/directives/DeviceOrientation'
@@ -159,6 +162,24 @@ import { Debounce } from 'vue-debounce-decorator'
 import AvailableActions from './AvailableActions.vue'
 
 @Component<GalleryItem>({
+  name: 'GalleryItem',
+  head() {
+    const metaData = {
+      type: resolveMedia(this.mimeType),
+      description: this.meta.description,
+      url: this.$route.path,
+      image: this.image,
+    }
+    return {
+      meta: [
+        ...this.$seoMeta(metaData),
+        {
+          hid: 'og:author',
+          property: 'og:author',
+        },
+      ],
+    }
+  },
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions,
@@ -199,6 +220,15 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   get id(): string {
     return `${this.$route.params.id}${this.$route.hash || ''}`
+  }
+
+  get image(): string {
+    return generateNftImage(
+      this.nft.name,
+      formatBalanceEmptyOnZero(this.nft.price),
+      this.meta.image,
+      this.mimeType
+    )
   }
 
   async fetch() {
