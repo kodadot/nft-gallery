@@ -3,7 +3,7 @@
     <br />
     <b-tabs v-model="activeTab" destroy-on-hide expanded>
       <b-tab-item v-for="x in components" :key="x" :label="x">
-        <component :is="x" />
+        <component :is="x" @switchToNFT="switchToCreateNFT" />
       </b-tab-item>
     </b-tabs>
   </section>
@@ -15,6 +15,11 @@ const Collection = () => import('@/components/bsx/Create/Create.vue')
 const NFT = () => import('@/components/bsx/Create/CreateToken.vue')
 
 const components = { Collection, NFT }
+
+const enum CreateComponent {
+  Collection = 'Collection',
+  NFT = 'NFT',
+}
 
 @Component<BsxCreatePage>({
   components,
@@ -38,6 +43,16 @@ const components = { Collection, NFT }
 })
 export default class BsxCreatePage extends Vue {
   public activeTab = 0
-  public components: string[] = ['Collection', 'NFT']
+  public components: CreateComponent[] = [
+    CreateComponent.Collection,
+    CreateComponent.NFT,
+  ]
+
+  switchToCreateNFT() {
+    const targetIdx = this.components.findIndex(
+      (componentName) => componentName === CreateComponent.NFT
+    )
+    this.activeTab = targetIdx > -1 ? targetIdx : 0
+  }
 }
 </script>
