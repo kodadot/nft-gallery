@@ -656,7 +656,7 @@ export default class SimpleMint extends mixins(
         .filter(NFTUtils.isNFT)
         .map((nft) => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
         .map((nft) =>
-          NFTUtils.createInteraction('LIST', version, nft.id, String(price))
+          createInteraction(Interaction.LIST, version, nft.id, String(price))
         )
 
       if (!onlyNfts.length) {
