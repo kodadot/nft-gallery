@@ -713,7 +713,7 @@ export default class Profile extends mixins(
     try {
       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
         query: allEventsByProfile,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
           search: {
@@ -724,7 +724,6 @@ export default class Profile extends mixins(
       if (data && data.events && data.events.length) {
         let events: Interaction[] = data.events
         this.eventsOfNftCollection = [...sortedEventByDate(events, 'DESC')]
-        console.log(this.eventsOfNftCollection)
         this.checkTabLocate()
       }
     } catch (e) {
@@ -738,7 +737,7 @@ export default class Profile extends mixins(
       this.isFetchingData = true
       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
         query: recentSalesForCreator,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
           limit: this.first,
