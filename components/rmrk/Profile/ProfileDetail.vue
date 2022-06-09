@@ -1,20 +1,12 @@
 <template>
   <section>
-    <div class="columns is-centered">
+    <div v-if="!isBsx" class="columns is-centered">
       <div class="column is-half has-text-centered">
         <div class="container image is-64x64 mb-2">
           <Avatar :value="id" />
         </div>
         <h1 class="title is-2">
-          <Identity
-            v-if="isBsx"
-            ref="identity"
-            :address="id"
-            inline
-            emit
-            @change="handleIdentity" />
           <a
-            v-else
             :href="`https://kusama.subscan.io/account/${id}`"
             target="_blank"
             rel="noopener noreferrer">
@@ -34,7 +26,7 @@
     </div>
 
     <div class="columns is-align-items-center">
-      <div class="column">
+      <div class="column" v-if="!isBsx">
         <div class="label">
           {{ $t('profile.user') }}
         </div>
@@ -45,6 +37,7 @@
           </div>
         </div>
       </div>
+      <div v-else class="column" />
       <div class="column is-12-mobile is-6-tablet is-7-desktop is-8-widescreen">
         <ProfileActivity :id="id" />
       </div>
