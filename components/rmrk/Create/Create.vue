@@ -15,7 +15,7 @@ import CreateCollection from './CreateCollection.vue'
 })
 export default class Create extends Vue {
   onCollectionCreated() {
-    this.$emit('switchToNFT')
+    this.$emit('navigateToCreateNftTab')
   }
 }
 </script>
