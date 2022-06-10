@@ -94,9 +94,6 @@ export default class CreateCollection extends mixins(
   private max = 1
   protected unlimited = true
   protected hasSupport = true
-  created() {
-    window.col = this
-  }
   get rmrkId(): string {
     return generateId(this.accountId, this.symbol)
   }
