@@ -166,11 +166,13 @@ import AvailableActions from './AvailableActions.vue'
   head() {
     const metaData = {
       type: resolveMedia(this.mimeType),
+      title: this.pageTitle,
       description: this.meta.description,
       url: this.$route.path,
       image: this.image,
     }
     return {
+      title: this.pageTitle,
       meta: [
         ...this.$seoMeta(metaData),
         {
@@ -220,6 +222,10 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   get id(): string {
     return `${this.$route.params.id}${this.$route.hash || ''}`
+  }
+
+  get pageTitle(): string {
+    return `NFT | ${this.nft.name || ''}`
   }
 
   get image(): string {
