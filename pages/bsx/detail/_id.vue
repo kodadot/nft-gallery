@@ -4,9 +4,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+
 import GalleryItem from '@/components/rmrk/Gallery/GalleryItem.vue'
-import formatBalance from '@/utils/formatBalance'
 import { generateNftImage } from '@/utils/seoImageGenerator'
+import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 
 @Component<GalleryItemPage>({
   name: 'GalleryItemPage',
@@ -14,11 +15,11 @@ import { generateNftImage } from '@/utils/seoImageGenerator'
     GalleryItem,
   },
   head() {
-    const title = this.currentlyViewedItem.name
+    const { title, description, author: content } = this.currentlyViewedItem
     const metaData = {
       title,
       type: 'profile',
-      description: this.currentlyViewedItem.description,
+      description,
       url: this.$route.path,
       image: this.image,
     }
@@ -29,7 +30,7 @@ import { generateNftImage } from '@/utils/seoImageGenerator'
         {
           hid: 'og:author',
           property: 'og:author',
-          content: this.currentlyViewedItem.author,
+          content,
         },
       ],
     }
@@ -40,22 +41,10 @@ export default class GalleryItemPage extends Vue {
     return this.$store.getters['history/getCurrentlyViewedItem']
   }
 
-  get currentPrice(): string {
-    // need to remove whitespaces here since formatBalance return 'xxx KSM'
-    const price =
-      this.currentlyViewedItem.price !== '0'
-        ? formatBalance(this.currentlyViewedItem.price, 12, 'KSM').replaceAll(
-            ' ',
-            ''
-          )
-        : ''
-    return price
-  }
-
   get image(): string {
     return generateNftImage(
       this.currentlyViewedItem.name,
-      this.currentPrice,
+      formatBalanceEmptyOnZero(this.currentlyViewedItem.price),
       this.currentlyViewedItem.image,
       this.currentlyViewedItem.mimeType
     )

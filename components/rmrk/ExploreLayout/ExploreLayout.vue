@@ -1,33 +1,18 @@
 <template>
   <div>
     <div v-if="$route.query.search" class="block">
-      Showing results for
+      {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
     <b-tabs v-model="selectedTab">
-      <template v-if="tabOrder === 'GALLERY'">
-        <b-tab-item :label="$t('gallery')" value="GALLERY">
-          <Gallery v-if="selectedTab === 'GALLERY'" />
-        </b-tab-item>
-        <b-tab-item :label="$t('collections')" value="COLLECTION">
-          <template v-if="selectedTab === 'COLLECTION'">
-            <CollectionList v-if="type === 'rmrk'" />
-            <Collections v-if="type !== 'rmrk'" />
-          </template>
-        </b-tab-item>
-      </template>
-
-      <template v-else>
-        <b-tab-item :label="$t('collections')" value="COLLECTION">
-          <template v-if="selectedTab === 'COLLECTION'">
-            <CollectionList v-if="type === 'rmrk'" />
-            <Collections v-if="type !== 'rmrk'" />
-          </template>
-        </b-tab-item>
-        <b-tab-item :label="$t('gallery')" value="GALLERY">
-          <Gallery v-if="selectedTab === 'GALLERY'" />
-        </b-tab-item>
-      </template>
+      <b-tab-item label="Collections" value="COLLECTION">
+        <template v-if="selectedTab === 'COLLECTION'">
+          <CollectionList />
+        </template>
+      </b-tab-item>
+      <b-tab-item label="Gallery" value="GALLERY"
+        ><Gallery v-if="selectedTab === 'GALLERY'"
+      /></b-tab-item>
     </b-tabs>
   </div>
 </template>
@@ -35,12 +20,10 @@
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
 import CollectionList from '@/components/rmrk/Collection/List/CollectionList.vue'
-import Collections from '@/components/rmrk/Gallery/Collections.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   CollectionList,
-  Collections,
 }
 
 @Component<ExploreLayout>({

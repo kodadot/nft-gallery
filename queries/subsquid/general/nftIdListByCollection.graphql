@@ -1,0 +1,5 @@
+query nftIdListByCollection($id: ID!) {
+  nftEntities(where: {collection: {id_eq: $id}, burned_eq: false}) {
+    id
+  }
+}

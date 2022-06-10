@@ -16,7 +16,7 @@ const NFT = () => import('@/components/unique/Create/CreateToken.vue')
 
 const components = { Collection, NFT }
 
-@Component<Remark>({
+@Component<UniqueCreatePage>({
   components,
   layout() {
     return 'centered-half-layout'
@@ -36,7 +36,7 @@ const components = { Collection, NFT }
     }
   },
 })
-export default class Remark extends Vue {
+export default class UniqueCreatePage extends Vue {
   public activeTab = 0
   public components: string[] = ['Collection', 'NFT']
 }
