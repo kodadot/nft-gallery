@@ -109,11 +109,9 @@
 
 <script lang="ts">
 import { Emote, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
-import { MediaType } from '@/components/rmrk/types'
 import {
   fetchNFTMetadata,
   getSanitizer,
-  resolveMedia,
   sanitizeIpfsUrl,
 } from '@/components/rmrk/utils'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
@@ -126,7 +124,6 @@ import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { Option, u128 } from '@polkadot/types'
 import { InstanceDetails } from '@polkadot/types/interfaces'
-import axios from 'axios'
 import { get, set } from 'idb-keyval'
 import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import { processMedia } from '@/utils/gallery/media'
@@ -232,6 +229,8 @@ export default class GalleryItem extends mixins(
         ...nftEntity.meta,
         image: sanitizeIpfsUrl(nftEntity.meta.image || ''),
       }
+    } else {
+      this.fetchMetadata()
     }
   }
 
