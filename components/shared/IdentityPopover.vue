@@ -89,9 +89,11 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { MintInfo } from '@/store/identityMint'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import CreatedAtMixin from '~/utils/mixins/createdAtMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
 import { isAfter, subHours } from 'date-fns'
+import shouldUpdate from '@/utils/shouldUpdate'
+import resolveQueryPath from '@/utils/queryPathResolver'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
@@ -123,11 +125,13 @@ export default class IdentityPopover extends mixins(
     this.$buefy.toast.open(message)
   }
 
-  public async mounted() {
-    await this.fetchNFTStats()
+  @Watch('identity.address', { immediate: true })
+  protected async onAddressChanged(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      await this.fetchNFTStats()
+    }
   }
 
-  @Watch('identity.address')
   protected async fetchNFTStats() {
     try {
       const data = this.$store.getters['identityMint/getIdentityMintFor'](
@@ -140,10 +144,7 @@ export default class IdentityPopover extends mixins(
         // if cache exist and within 12h
         await this.handleResult({ data, type: 'cache' })
       } else {
-        const query =
-          this.urlPrefix === 'rmrk'
-            ? await import('@/queries/nftStatsByIssuer.graphql')
-            : await import('@/queries/unique/nftStatsByIssuer.graphql')
+        const query = await resolveQueryPath(this.urlPrefix, 'nftStatsByIssuer')
         this.$apollo.addSmartQuery('collections', {
           query: query.default,
           manual: true,
