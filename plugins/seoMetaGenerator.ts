@@ -42,6 +42,11 @@ export default function ({ app }, inject): void {
 
     const seoTags = [
       {
+        hid: 'title',
+        name: 'title',
+        content: meta?.title ? `${meta.title} | ${title}` : title,
+      },
+      {
         hid: 'description',
         name: 'description',
         content: meta?.description || description,
@@ -59,7 +64,7 @@ export default function ({ app }, inject): void {
       {
         hid: 'og:title',
         property: 'og:title',
-        content: meta?.title || title,
+        content: meta?.title ? `${meta.title} | ${title}` : title,
       },
       {
         hid: 'og:description',
@@ -95,6 +100,11 @@ export default function ({ app }, inject): void {
         hid: 'twitter:image',
         name: 'twitter:image',
         content: meta?.image || image,
+      },
+      {
+        hid: 'twitter:player',
+        name: 'twitter:player',
+        content: meta?.video,
       },
     ]
 
