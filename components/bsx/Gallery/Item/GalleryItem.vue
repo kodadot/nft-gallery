@@ -40,7 +40,7 @@
           </div>
 
           <div class="block" v-if="meta.attributes && meta.attributes.length">
-            <Properties :attributes="meta.attributes" />
+            <Properties :attributes="meta.attributes" fieldKey="trait_type" />
           </div>
         </div>
 
