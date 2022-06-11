@@ -1,3 +1,4 @@
+import { filter } from 'lodash'
 import type { MetaInfo } from 'vue-meta'
 import { MediaType } from '~/components/rmrk/types'
 
@@ -14,26 +15,23 @@ type MetaProperties = {
   title?: string
   description?: string
   image?: string
+  author?: string
+  video?: string
 }
 
 export default function ({ app }, inject): void {
   const getMetaType = (mediaType: MediaType | string | undefined): string => {
-    let ogType: string | undefined
     switch (mediaType) {
       case MediaType.VIDEO:
-        ogType = 'video:other'
-        break
+        return 'video:other'
       case MediaType.AUDIO:
-        ogType = 'music:song'
-        break
+        return 'music:song'
       case MediaType.IMAGE:
       case MediaType.JSON:
       case MediaType.OBJECT:
       default:
-        ogType = 'website'
+        return 'website'
     }
-
-    return ogType
   }
 
   const seoMeta = (meta: MetaProperties): MetaInfo['meta'] => {
@@ -41,7 +39,8 @@ export default function ({ app }, inject): void {
     const title = 'KodaDot - Kusama NFT Market Explorer'
     const description = 'Creating Carbonless NFTs on Kusama'
     const image = `${baseUrl}/kodadot_card_root.png`
-    return [
+
+    const seoTags = [
       {
         hid: 'description',
         name: 'description',
@@ -73,6 +72,11 @@ export default function ({ app }, inject): void {
         content: meta?.image || image,
       },
       {
+        hid: 'og:video',
+        property: 'og:video',
+        content: meta?.video,
+      },
+      {
         hid: 'twitter:url',
         name: 'twitter:url',
         content: `${baseUrl}${meta?.url || ''}`,
@@ -93,6 +97,9 @@ export default function ({ app }, inject): void {
         content: meta?.image || image,
       },
     ]
+
+    // only return non null, not undefined, not empty string
+    return filter(seoTags, (tag) => tag && tag.content !== '')
   }
   inject('seoMeta', seoMeta)
 }

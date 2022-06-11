@@ -170,16 +170,11 @@ import AvailableActions from './AvailableActions.vue'
       description: this.meta.description,
       url: this.$route.path,
       image: this.image,
+      video: this.meta.animation_url,
     }
     return {
       title: this.pageTitle,
-      meta: [
-        ...this.$seoMeta(metaData),
-        {
-          hid: 'og:author',
-          property: 'og:author',
-        },
-      ],
+      meta: [...this.$seoMeta(metaData)],
     }
   },
   components: {
