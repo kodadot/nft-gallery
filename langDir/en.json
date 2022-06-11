@@ -638,7 +638,8 @@
       "placeholder": "singular.rmrk.app/collectibles/",
       "copy": "Kodadot link successfuly copied"
     },
-    "builtOn": "Built on"
+    "builtOn": "Built on",
+    "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction."
   },
   "cookies": {
     "notice": "We use third-party 🍪 in order to personalize your site experience",
