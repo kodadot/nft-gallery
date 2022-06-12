@@ -394,6 +394,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   .search-navbar {
     background-color: transparent;
     box-shadow: none;
+    width: min-content;
     min-width: 140px;
     margin: 0 1rem;
     input {
