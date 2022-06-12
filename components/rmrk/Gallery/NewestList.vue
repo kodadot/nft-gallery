@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
@@ -55,37 +55,44 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
     return false
   }
 
-  mounted() {
-    setTimeout(async () => {
-      const queryVariables = {
-        limit: 10,
-        event: 'LIST',
-        and: {
-          meta_not_eq: '0',
-        },
-      }
-      if (this.isLogIn && this.passionList.length > 9) {
-        queryVariables.and.nft = {
-          issuer_in: this.passionList,
-        }
-      }
-      const result = await this.$apollo
-        .query<{
-          events: { meta; nft: { meta: { id; image } } }
-        }>({
-          query: lastNftListByEvent,
-          client: this.client,
-          variables: queryVariables,
-        })
-        .catch((e) => {
-          this.$consola.error(e)
-          return { data: null }
-        })
+  async fetch() {
+    this.fetchData()
+  }
 
-      if (result.data) {
-        this.handleResult(result)
+  @Watch('passionList')
+  private onPassionList() {
+    this.fetchData()
+  }
+
+  async fetchData() {
+    const queryVariables = {
+      limit: 10,
+      event: 'LIST',
+      and: {
+        meta_not_eq: '0',
+      },
+    }
+    if (this.isLogIn && this.passionList.length) {
+      queryVariables.and.nft = {
+        issuer_in: this.passionList,
       }
-    }, 500)
+    }
+    const result = await this.$apollo
+      .query<{
+        events: { meta; nft: { meta: { id; image } } }
+      }>({
+        query: lastNftListByEvent,
+        client: this.client,
+        variables: queryVariables,
+      })
+      .catch((e) => {
+        this.$consola.error(e)
+        return { data: null }
+      })
+
+    if (result.data) {
+      this.handleResult(result)
+    }
   }
 
   protected async handleResult({ data }: any) {

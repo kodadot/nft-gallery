@@ -41,9 +41,20 @@
         </div>
       </div>
       <div v-if="prefix === 'rmrk'">
-        <LazyGalleryLatestSales :passionList="passionList" class="my-5" />
+        <b-switch
+          v-if="isLogIn"
+          class="mt-3"
+          v-model="hasPassionFeed"
+          :rounded="false">
+          Passion Feed
+        </b-switch>
+        <LazyGalleryLatestSales
+          :passionList="hasPassionFeed ? passionList : []"
+          class="my-5" />
         <LazyGalleryPopularCollections class="my-5" />
-        <LazyGalleryNewestList :passionList="passionList" class="my-5" />
+        <LazyGalleryNewestList
+          :passionList="hasPassionFeed ? passionList : []"
+          class="my-5" />
       </div>
     </div>
   </section>
@@ -60,9 +71,11 @@ export default class Landing extends mixins(AuthMixin) {
   @Prop({ type: String, default: 'RMRK Protocol' }) buildOn!: string
 
   private passionList: string[] = ['']
+  private hasPassionFeed = false
 
   async created() {
     if (this.isLogIn) {
+      this.hasPassionFeed = true
       const result = await this.fetchPassionList()
       if (result.length) {
         this.passionList = this.passionList.concat(result)
