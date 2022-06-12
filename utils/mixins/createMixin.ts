@@ -1,5 +1,5 @@
 import { Component, Vue } from 'nuxt-property-decorator'
-
+import { showNotification } from '@/utils/notification'
 export const enum CreateComponent {
   Collection = 'Collection',
   NFT = 'NFT',
@@ -18,6 +18,9 @@ export default class CreateMixin extends Vue {
     const targetIdx = this.components.findIndex(
       (componentName) => componentName === CreateComponent.NFT
     )
-    this.activeTab = targetIdx > -1 ? targetIdx : 0
+    const delaySwitchFn = () =>
+      (this.activeTab = targetIdx > -1 ? targetIdx : 0)
+    showNotification('You will go to create nft in 2 seconds')
+    setTimeout(delaySwitchFn, 2000)
   }
 }
