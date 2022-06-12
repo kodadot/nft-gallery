@@ -1,13 +1,13 @@
 <template>
   <div v-if="detailVisible">
-    <p class="title" :class="[detailVisible ? 'is-size-1' : 'is-size-3']">
+    <h1 class="title" :class="[detailVisible ? 'is-size-1' : 'is-size-3']">
       <span v-if="!isLoading">
         <span v-if="nft.burned">「🔥」</span>
         <span :class="{ 'has-text-info': nft.isFrozen }">{{ nft.name }}</span>
         <span v-if="carbonlessBadge">「🌱」</span>
       </span>
       <b-skeleton size="is-large" :active="isLoading"></b-skeleton>
-    </p>
+    </h1>
     <p v-if="nft.isFrozen" class="title is-size-4 has-text-info">
       {{ $t('nft.frozen') }} 「❄️」
       <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
@@ -29,7 +29,7 @@ import isShareMode from '@/utils/isShareMode'
 import { NFTWithMeta } from '../../service/scheme'
 import { emptyObject } from '@/utils/empty'
 
-@Component({ })
+@Component({})
 export default class Name extends Vue {
   @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta
   @Prop() public isLoading!: boolean
