@@ -61,7 +61,7 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
 
   @Watch('passionList')
   private onPassionList() {
-    this.fetchData()
+    this.$fetch()
   }
 
   async fetchData() {
