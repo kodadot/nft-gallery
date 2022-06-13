@@ -1,6 +1,7 @@
 import { filter } from 'lodash'
 import type { MetaInfo } from 'vue-meta'
 import { MediaType } from '~/components/rmrk/types'
+import { resolveMedia } from '~/utils/gallery/media'
 
 declare module 'vue/types/vue' {
   // this.$seoMeta inside Vue components
@@ -17,6 +18,7 @@ type MetaProperties = {
   image?: string
   author?: string
   video?: string
+  mime?: string
 }
 
 export default function ({ app }, inject): void {
@@ -39,6 +41,7 @@ export default function ({ app }, inject): void {
     const title = 'KodaDot - Kusama NFT Market Explorer'
     const description = 'Creating Carbonless NFTs on Kusama'
     const image = `${baseUrl}/kodadot_card_root.png`
+    const type = resolveMedia(meta.mime)
 
     const seoTags = [
       {
@@ -54,7 +57,7 @@ export default function ({ app }, inject): void {
       {
         hid: 'og:type',
         property: 'og:type',
-        content: getMetaType(meta?.type),
+        content: getMetaType(type),
       },
       {
         hid: 'og:url',
@@ -76,10 +79,20 @@ export default function ({ app }, inject): void {
         property: 'og:image',
         content: meta?.image || image,
       },
-      {
+      type === MediaType.IMAGE && {
+        hid: 'og:image:type',
+        property: 'og:image:type',
+        content: meta?.mime,
+      },
+      type === MediaType.VIDEO && {
         hid: 'og:video',
         property: 'og:video',
         content: meta?.video,
+      },
+      type === MediaType.VIDEO && {
+        hid: 'og:video:type',
+        property: 'og:video:type',
+        content: meta?.mime,
       },
       {
         hid: 'twitter:url',

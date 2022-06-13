@@ -153,7 +153,7 @@ import nftByIdMini from '@/queries/nftByIdMinimal.graphql'
 import nftListIdsByCollection from '@/queries/nftIdListByCollection.graphql'
 import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 
-import { fetchNFTMetadata, resolveMedia } from '../utils'
+import { fetchNFTMetadata } from '../utils'
 import { get, set } from 'idb-keyval'
 import { exist } from './Search/exist'
 import Orientation from '@/utils/directives/DeviceOrientation'
@@ -165,7 +165,7 @@ import AvailableActions from './AvailableActions.vue'
   name: 'GalleryItem',
   head() {
     const metaData = {
-      type: resolveMedia(this.mimeType),
+      mime: this.mimeType,
       title: this.pageTitle,
       description: this.meta.description,
       url: this.$route.path,
