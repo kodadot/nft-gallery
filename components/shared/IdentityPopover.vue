@@ -145,6 +145,10 @@ export default class IdentityPopover extends mixins(
         await this.handleResult({ data, type: 'cache' })
       } else {
         const query = await resolveQueryPath(this.urlPrefix, 'nftStatsByIssuer')
+        if (!query) {
+          // unimplemented query
+          return
+        }
         this.$apollo.addSmartQuery('collections', {
           query: query.default,
           manual: true,
