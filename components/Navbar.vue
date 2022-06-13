@@ -259,44 +259,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
 }
 
-// Reserved for future adjustments
-
-// @media only screen and (min-width: 1215px) and (max-width: 1140px) {
-//   a#NavProfile {
-//     display: none;
-//   }
-// }
-
-// @media only screen and (min-width: 1215px) and (max-width: 1160px) {
-//   a#NavStats {
-//     display: none;
-//   }
-// }
-
-@media only screen and (min-width: 1024px) and (max-width: 1100px) {
-  div#NavHistoryBrowser {
-    display: none;
-  }
-}
-
-@media only screen and (min-width: 1024px) and (max-width: 1200px) {
-  a#NavCreate {
-    display: none;
-  }
-}
-
-@media only screen and (min-width: 1024px) and (max-width: 1250px) {
-  div#NavChainSelect {
-    display: none;
-  }
-}
-
-@media only screen and (min-width: 1024px) and (max-width: 1340px) {
-  div#NavLocaleChanger {
-    display: none;
-  }
-}
-
 @include touch {
   .navbar {
     .navbar-item,
@@ -345,6 +307,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
 
   .navbar-item {
+    height: 40px;
     text-transform: uppercase;
     font-weight: 500;
     border-top: 1px solid $primary;
@@ -390,11 +353,46 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   .search-navbar {
     background-color: transparent;
     box-shadow: none;
-    min-width: 350px;
     margin: 0 1rem;
+    overflow: visible;
+
+    @media only screen and (min-width: $tablet) and (max-width: $widescreen) {
+      width: 140px;
+
+      .gallery-search {
+        width: 0;
+        min-width: 100%;
+        transition: width 0.3s;
+        z-index: 5;
+
+        &::after {
+          content: '';
+          width: 50px;
+          position: absolute;
+          right: -50px;
+          top: 0;
+          bottom: 0;
+          background: transparent;
+        }
+
+        .dropdown-menu {
+          min-width: 350px;
+        }
+      }
+
+      &:hover {
+        .gallery-search {
+          width: 350px;
+          &::after {
+            background: linear-gradient(90deg, rgb(41, 41, 47), transparent);
+          }
+        }
+      }
+    }
+
     input {
       border: inherit;
-      background-color: rgba(41, 41, 47, 0.5);
+      background-color: rgb(41, 41, 47);
       &::placeholder {
         color: #898991 !important;
       }
