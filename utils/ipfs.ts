@@ -1,20 +1,11 @@
-import { logError } from '@/utils/mappers'
-import consola from 'consola'
-
-export const unSanitizeIpfsUrl = (url: string): string => {
-  return `ipfs://ipfs/${url}`
-}
-
-export const justHash = (ipfsLink?: string): boolean => {
-  return /^[a-zA-Z0-9]+$/.test(ipfsLink || '')
-}
+export const ipfsUrlPrefix = 'ipfs://ipfs/'
 
 export const fastExtract = (ipfsLink?: string): string => {
   if (!ipfsLink) {
     return ''
   }
 
-  return ipfsLink.replace('ipfs://ipfs/', '')
+  return ipfsLink.replace(ipfsUrlPrefix, '')
 }
 
 const cidRegex = /ipfs\/([a-zA-Z0-9]+)/
@@ -32,20 +23,6 @@ export const extractCid = (ipfsLink?: string): string => {
   return match[1]
 }
 
-const IPFS2AR = 'https://ipfs2arweave.com/permapin/'
-export const ipfsToArweave = async (ipfsLink: string): Promise<string> => {
-  const hash = justHash(ipfsLink) ? ipfsLink : extractCid(ipfsLink)
-  try {
-    const res = await fetch(IPFS2AR + hash, { method: 'POST' })
-    if (res.ok) {
-      return (await res.json()).arweaveId
-    }
-
-    return ''
-  } catch (e: any) {
-    logError(e, (msg) => {
-      consola.error(`[IPFS2AR] Unable to Arweave ${msg}`)
-    })
-    return ''
-  }
+export const dummyIpfsCid = (): string => {
+  return ipfsUrlPrefix + 'QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
 }

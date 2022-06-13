@@ -54,7 +54,7 @@ import {
 } from '@/components/rmrk/Create/mintUtils'
 import { Attribute } from '@/components/rmrk/types'
 import collectionForMint from '@/queries/unique/collectionForMint.graphql'
-import { unSanitizeIpfsUrl } from '@/utils/ipfs'
+import { unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'

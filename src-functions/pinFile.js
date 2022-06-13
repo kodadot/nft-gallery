@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { URLS } from '~/utils/constants'
 
 export async function handler(event) {
-  const BASE_URL = 'https://api.pinata.cloud/pinning/pinFileToIPFS'
+  const BASE_URL = `${URLS.providers.pinata}pinning/pinFileToIPFS`
   const object = event.body
 
   try {

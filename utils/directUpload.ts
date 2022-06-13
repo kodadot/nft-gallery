@@ -1,7 +1,8 @@
 import Axios from 'axios'
 import { saveKey } from '@/utils/cloudflare'
+import { URLS } from './constants'
 
-export const BASE_URL = 'https://direct-upload.kodadot.workers.dev/'
+export const BASE_URL = URLS.koda.directUpload
 
 const api = Axios.create({
   baseURL: BASE_URL,

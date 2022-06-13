@@ -76,6 +76,14 @@
               {{ $t('simple') }}
             </b-navbar-item>
           </b-tooltip>
+          <b-tooltip
+            label="AI powered process to create your NFT"
+            position="is-right"
+            append-to-body>
+            <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/creative`">
+              {{ $t('creative') }}
+            </b-navbar-item>
+          </b-tooltip>
         </template>
       </b-navbar-dropdown>
       <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/explore`">
@@ -93,6 +101,7 @@
             Series
           </b-navbar-item>
           <b-navbar-item tag="nuxt-link" to="/sales"> Sales </b-navbar-item>
+          <b-navbar-item tag="nuxt-link" to="/hot"> Hot </b-navbar-item>
         </template>
       </b-navbar-dropdown>
       <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />

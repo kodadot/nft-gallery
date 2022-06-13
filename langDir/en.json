@@ -26,6 +26,7 @@
   "press kit": "Press Kit",
   "careers": "Careers",
   "contribute": "Contribute",
+  "qrCode": "QR",
   "documentation": "Documentation",
   "grants": "Grants",
   "theatre": "theatre",
@@ -382,10 +383,10 @@
   },
   "sort": {
     "EMOTES_COUNT_DESC": "Most reacted",
-    "BLOCK_NUMBER_DESC": "New first",
-    "BLOCK_NUMBER_ASC": "Old first",
-    "UPDATED_AT_DESC": "Last interacted",
-    "UPDATED_AT_ASC": "Least Interacted",
+    "BLOCK_NUMBER_DESC": "Recently Created",
+    "BLOCK_NUMBER_ASC": "Oldest",
+    "UPDATED_AT_DESC": "Recently Interacted",
+    "UPDATED_AT_ASC": "Unpopular",
     "blockNumber_DESC": "New first",
     "blockNumber_ASC": "Old first",
     "updatedAt_DESC": "Last interacted",
@@ -416,6 +417,11 @@
       "postfix": "Add hashtag and index after the name (e.g #1)",
       "sync": "Sync editions to {0}"
     },
+    "royalty": {
+      "amount": "Royalty Amount",
+      "mine": "Pay royalty to this account",
+      "receiver": "Destination account for royalty"
+    },
     "collection": {
       "name": {
         "label": "Collection name",
@@ -431,7 +437,8 @@
         "label": "Symbol (short name)",
         "placeholder": "3-5 character long name",
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
-      }
+      },
+      "create": "Create collection"
     },
     "nft": {
       "name": {
@@ -475,12 +482,15 @@
     "related": "More From This Collection",
     "visited": "Visited NFTs",
     "event": {
-      "MINTNFT": "🖼 MINT",
-      "LIST": "📰 LIST",
-      "UNLIST": "🗞 UNLIST",
-      "SEND": "🎁 GIFT",
-      "CONSUME": "🔥 BURN",
-      "BUY": "🤝 BUY"
+      "MINTNFT": "MINT",
+      "LIST": "LIST",
+      "UNLIST": "UNLIST",
+      "SEND": "GIFT",
+      "CONSUME": "BURN",
+      "BUY": "BUY"
+    },
+    "action": {
+      "submit": "Submit {0}"
     }
   },
   "loader": {
@@ -528,6 +538,10 @@
     "title": "Latest KUSAMA Sales",
     "subtitle": "Featuring the most recently sold NFTs on RMRK."
   },
+  "hot": {
+    "title": "Recently KUSAMA Sales In One Week",
+    "subtitle": "Featuring the recently sold NFTs on RMRK"
+  },
   "spotlight": {
     "page": "Spotlight",
     "title": "User Spotlight",
@@ -572,6 +586,19 @@
     "distribution": "DISTRIBUTION",
     "floorPrice": "FLOOR PRICE"
   },
+  "profileStats": {
+    "listed": "Listed",
+    "totalItems": "Σ Items",
+    "highestSale": "HIGHEST SALE",
+    "totalBuys": "Σ BUYS",
+    "highestBuy": "Highest buy",
+    "totalAmountSpend": "Σ amount spend",
+    "holdingsNfts": "Holdings values",
+    "maxSoldPrice": "Max sold price",
+    "totalSellValues": "Σ sell values",
+    "totalSoldItems": "Σ sold items",
+    "totalHoldingsBoughtValues": "KSM spend for holdings nfts"
+  },
   "tutorial": {
     "create": "1. Create polkadot js account",
     "ksm": "2. Get KSM",
@@ -590,7 +617,14 @@
     "openUrl": "Open URL",
     "copyRewardTooltip": "Your reward link copied to clipboard",
     "copyRewardLink": "Copy Reward Me link",
-    "latestSales": "Latest sales"
+    "latestSales": "Latest sales",
+    "searchResultsText": "Showing results for",
+    "ksmDiscoverText": "Discover, collect and sell Kusama NFTs",
+    "latestSalesheading": "Discover the most recent sales on rmrk",
+    "newestListDesc": "Discover the latest items on sale",
+    "newestListHeading": "Newest List",
+    "popularCollectionsHeading": "Popular Collections",
+    "popularCollectionsDesc": "Discover the most popular collections on rmrk"
   },
   "helper": {
     "seeMore": "See More",
@@ -603,7 +637,9 @@
       "label": "URL to transform",
       "placeholder": "singular.rmrk.app/collectibles/",
       "copy": "Kodadot link successfuly copied"
-    }
+    },
+    "builtOn": "Built on",
+    "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction."
   },
   "cookies": {
     "notice": "We use third-party 🍪 in order to personalize your site experience",
@@ -688,5 +724,15 @@
     "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)",
     "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs",
     "exploreTabOrder": "Default tab in explore"
+  },
+  "navbar": {
+    "teleport": "Teleport"
+  },
+  "walletConnect": {
+    "walletHeading": "Connect Wallet",
+    "authText": "Kodadot will never ask you to provide your mnemonic phrase or private key.",
+    "understand": "I understand",
+    "learnText": "Learn how to Connect",
+    "downloadExtension": "Download extension"
   }
 }

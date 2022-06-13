@@ -25,5 +25,9 @@ import SimpleMint from '@/components/rmrk/Create/SimpleMint.vue'
     }
   },
 })
-export default class SimpleMintPage extends Vue {}
+export default class SimpleMintPage extends Vue {
+  layout() {
+    return 'centered-half-layout'
+  }
+}
 </script>

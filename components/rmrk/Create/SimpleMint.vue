@@ -122,15 +122,17 @@
         </b-switch>
       </b-field>
       <b-field>
-        <b-button
-          type="is-primary"
-          icon-left="paper-plane"
-          @click="sub"
-          :disabled="disabled"
-          :loading="isLoading"
-          outlined>
-          {{ $t('mint.submit') }}
-        </b-button>
+        <b-tooltip :active="isMintDisabled" :label="$t('tooltip.buyDisabled')">
+          <b-button
+            type="is-primary"
+            icon-left="paper-plane"
+            @click="sub"
+            :disabled="disabled"
+            :loading="isLoading"
+            outlined>
+            {{ $t('mint.submit') }}
+          </b-button>
+        </b-tooltip>
       </b-field>
       <b-field>
         <b-icon icon="calculator" />
@@ -157,14 +159,18 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import {
-  Attribute,
   SimpleNFT,
   NFTMetadata,
   NFT,
   getNftId,
   Collection,
 } from '../service/scheme'
-import { unSanitizeIpfsUrl } from '@/utils/ipfs'
+import {
+  unSanitizeIpfsUrl,
+  createInteraction,
+  Attribute,
+  Interaction,
+} from '@kodadot1/minimark'
 import { formatBalance } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { canSupport, feeTx } from '@/utils/support'
@@ -330,14 +336,16 @@ export default class SimpleMint extends mixins(
 
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint
-    return !(
-      name &&
-      symbol &&
-      max &&
-      this.hasToS &&
-      this.accountId &&
-      this.file &&
-      !this.syncVisible
+    return (
+      !(
+        name &&
+        symbol &&
+        max &&
+        this.hasToS &&
+        this.accountId &&
+        this.file &&
+        !this.syncVisible
+      ) || this.isMintDisabled
     )
   }
 
@@ -406,6 +414,14 @@ export default class SimpleMint extends mixins(
 
   get actualDistribution(): number {
     return toDistribute(this.parseAddresses.length, this.distribution)
+  }
+
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
+  }
+
+  get isMintDisabled(): boolean {
+    return Number(this.balance) < Number(this.estimated)
   }
 
   protected syncEdition(): void {
@@ -532,8 +548,8 @@ export default class SimpleMint extends mixins(
           ? onlyNfts
               .slice(outOfTheNamesForTheRemarks.length)
               .map((nft) =>
-                NFTUtils.createInteraction(
-                  'LIST',
+                createInteraction(
+                  Interaction.LIST,
                   version,
                   nft.id,
                   String(price)
@@ -640,7 +656,7 @@ export default class SimpleMint extends mixins(
         .filter(NFTUtils.isNFT)
         .map((nft) => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
         .map((nft) =>
-          NFTUtils.createInteraction('LIST', version, nft.id, String(price))
+          createInteraction(Interaction.LIST, version, nft.id, String(price))
         )
 
       if (!onlyNfts.length) {

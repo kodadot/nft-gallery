@@ -57,12 +57,12 @@ import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   },
 })
-export default class SearchBar extends mixins(KeyboardEventsMixin) {
+export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
-  @Prop(Boolean) public listed!: boolean
-  @Prop(Boolean) public owned!: boolean
+  @Prop({ type: Boolean, default: false }) public listed!: boolean
+  @Prop({ type: Boolean, default: false }) public owned!: boolean
   @Prop(Boolean) public disableToggle!: boolean
   @Prop(Boolean) public hideSearch!: boolean
   @Prop(Boolean) public showOwnerSwitch!: boolean
@@ -183,7 +183,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
         path: String(this.$route.path),
         query: {
           ...this.$route.query,
-          search: this.searchQuery,
+          search: this.searchQuery || undefined,
           [key]: value,
         },
       })

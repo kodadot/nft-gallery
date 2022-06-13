@@ -1,11 +1,10 @@
 <template>
   <div>
     <Loader v-model="isLoading" />
-
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
-        <h1 class="title is-2">Newest List</h1>
-        <p class="subtitle is-size-5">Discover the latest items on sale</p>
+        <h1 class="title is-2">{{ $t('general.newestListHeading') }}</h1>
+        <p class="subtitle is-size-5">{{ $t('general.newestListDesc') }}</p>
       </div>
       <div class="column has-text-right">
         <b-button
@@ -14,7 +13,7 @@
           inverted
           outlined
           icon-right="chevron-right"
-          to="/rmrk/explore?search=&sort=UPDATED_AT_DESC&tab=GALLERY">
+          :to="`/${urlPrefix}/explore?search=&sort=UPDATED_AT_DESC&tab=GALLERY`">
           {{ $t('helper.seeMore') }}
         </b-button>
       </div>
@@ -25,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
@@ -34,6 +33,7 @@ import { formatDistanceToNow } from 'date-fns'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { fallbackMetaByNftEvent, deduplicateListById } from '@/utils/carousel'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
@@ -43,7 +43,10 @@ const components = {
 @Component<NewestList>({
   components,
 })
-export default class NewestList extends mixins(PrefixMixin) {
+export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
+  @Prop({ type: Array, required: false, default: () => [] })
+  passionList: string[]
+
   private nfts: any[] = []
   private events: any[] = []
   private total = 0
@@ -54,19 +57,25 @@ export default class NewestList extends mixins(PrefixMixin) {
 
   mounted() {
     setTimeout(async () => {
+      const queryVariables = {
+        limit: 10,
+        event: 'LIST',
+        and: {
+          meta_not_eq: '0',
+        },
+      }
+      if (this.isLogIn && this.passionList.length > 9) {
+        queryVariables.and.nft = {
+          issuer_in: this.passionList,
+        }
+      }
       const result = await this.$apollo
         .query<{
           events: { meta; nft: { meta: { id; image } } }
         }>({
           query: lastNftListByEvent,
           client: this.client,
-          variables: {
-            limit: 10,
-            event: 'LIST',
-            and: {
-              meta_not_eq: '0',
-            },
-          },
+          variables: queryVariables,
         })
         .catch((e) => {
           this.$consola.error(e)
