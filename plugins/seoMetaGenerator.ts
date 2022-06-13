@@ -1,4 +1,3 @@
-import { filter } from 'lodash'
 import type { MetaInfo } from 'vue-meta'
 import { MediaType } from '~/components/rmrk/types'
 import { resolveMedia } from '~/utils/gallery/media'
@@ -122,7 +121,7 @@ export default function ({ app }, inject): void {
     ]
 
     // only return non null, not undefined, not empty string
-    return filter(seoTags, (tag) => tag && tag.content !== '')
+    return seoTags.filter((tag) => tag && tag.content !== '')
   }
   inject('seoMeta', seoMeta)
 }
