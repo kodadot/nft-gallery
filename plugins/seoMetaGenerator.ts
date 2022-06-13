@@ -41,7 +41,7 @@ export default function ({ app }, inject): void {
     const title = 'KodaDot - Kusama NFT Market Explorer'
     const description = 'Creating Carbonless NFTs on Kusama'
     const image = `${baseUrl}/kodadot_card_root.png`
-    const type = resolveMedia(meta.mime)
+    const type = resolveMedia(meta?.mime)
 
     const seoTags = [
       {
