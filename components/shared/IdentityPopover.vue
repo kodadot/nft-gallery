@@ -93,7 +93,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
 import { isAfter, subHours } from 'date-fns'
 import shouldUpdate from '@/utils/shouldUpdate'
-// import resolveQueryPath from '@/utils/queryPathResolver'
+import resolveQueryPath from '@/utils/queryPathResolver'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
@@ -144,18 +144,18 @@ export default class IdentityPopover extends mixins(
         // if cache exist and within 12h
         await this.handleResult({ data, type: 'cache' })
       } else {
-        // const query = await resolveQueryPath(this.urlPrefix, 'userStatsByAccount')
-        // this.$apollo.addSmartQuery('collections', {
-        //   query: query.default,
-        //   manual: true,
-        //   client: this.urlPrefix,
-        //   loadingKey: 'isLoading',
-        //   result: this.handleResult,
-        //   variables: {
-        //     account: this.identity.address || '',
-        //   },
-        //   fetchPolicy: 'cache-and-network',
-        // })
+        const query = await resolveQueryPath(this.urlPrefix, 'nftStatsByIssuer')
+        this.$apollo.addSmartQuery('collections', {
+          query: query.default,
+          manual: true,
+          client: this.urlPrefix,
+          loadingKey: 'isLoading',
+          result: this.handleResult,
+          variables: {
+            account: this.identity.address || '',
+          },
+          fetchPolicy: 'cache-and-network',
+        })
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
