@@ -337,10 +337,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     }
   }
 
-  .koda-is-hidden-desktop {
-    background-color: $primary !important;
-  }
-
   .navbar-link {
     &:hover {
       background-color: $primary !important;
