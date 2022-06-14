@@ -13,7 +13,7 @@
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
 
 @Component
-export default class BasicSwitch extends Vue {
+export default class BasicSlider extends Vue {
   @VModel({ type: Number, required: true }) vValue!: number
   @Prop({ type: String, required: true }) label!: string
   @Prop({ type: Number, default: 0 }) min!: number

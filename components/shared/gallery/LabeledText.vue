@@ -19,6 +19,5 @@ export default class LabeledText extends Vue {
   public label!: string
   @Prop({ type: Boolean, default: false })
   public isLoading!: string
-
 }
 </script>
