@@ -1,13 +1,14 @@
 <template>
   <section>
-    <div v-if="!isBsx" class="columns is-centered">
+    <div class="columns is-centered">
       <div class="column is-half has-text-centered">
         <div class="container image is-64x64 mb-2">
           <Avatar :value="id" />
         </div>
         <h1 class="title is-2">
           <a
-            :href="`https://kusama.subscan.io/account/${id}`"
+            v-if="hasBlockExplorer"
+            :href="explorer"
             target="_blank"
             rel="noopener noreferrer">
             <Identity
@@ -17,16 +18,23 @@
               emit
               @change="handleIdentity" />
           </a>
+          <Identity
+            v-else
+            ref="identity"
+            :address="id"
+            inline
+            emit
+            @change="handleIdentity" />
         </h1>
 
-        <nuxt-link v-if="!displayName && isMyProfile" to="/identity">
+        <nuxt-link v-if="isAllowSetIdentity" to="/identity">
           + {{ $t('identity.set') }}
         </nuxt-link>
       </div>
     </div>
 
     <div class="columns is-align-items-center">
-      <div class="column" v-if="!isBsx">
+      <div class="column" v-if="hasBlockExplorer">
         <div class="label">
           {{ $t('profile.user') }}
         </div>
@@ -42,7 +50,7 @@
         <ProfileActivity :id="id" />
       </div>
       <div class="column has-text-right">
-        <div class="is-flex is-justify-content-right" v-if="!isBsx">
+        <div class="is-flex is-justify-content-right" v-if="hasBlockExplorer">
           <div class="control" v-for="network in networks" :key="network.alt">
             <b-button class="share-button" type="is-primary is-bordered-light">
               <a
@@ -325,6 +333,9 @@ export default class Profile extends mixins(
   protected totalHistory = 0
   protected totalSales = 0
   protected totalGains = 0
+  private supportedExplorers = {
+    rmrk: `https://kusama.subscan.io/account/${this.id}`,
+  }
 
   private myNftCount = 0
   protected networks = [
@@ -533,8 +544,16 @@ export default class Profile extends mixins(
     })
   }
 
-  get isBsx(): boolean {
-    return this.urlPrefix === 'bsx'
+  get isAllowSetIdentity(): boolean {
+    return !this.displayName && this.isMyProfile && this.hasBlockExplorer
+  }
+
+  get hasBlockExplorer(): boolean {
+    return Object.keys(this.supportedExplorers).includes(this.urlPrefix)
+  }
+
+  get explorer() {
+    return this.supportedExplorers[this.urlPrefix]
   }
 
   get isHistoryOpen(): boolean {
