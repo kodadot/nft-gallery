@@ -39,7 +39,10 @@ export default class CollectionNavigation extends mixins(PrefixMixin) {
 
   protected async fetchNftIdList() {
     try {
-      const query = await resolveQueryPath(this.urlPrefix, 'nftIdListByCollection')
+      const query = await resolveQueryPath(
+        this.urlPrefix,
+        'nftIdListByCollection'
+      )
       const nfts = await this.$apollo.query({
         query: query.default,
         client: this.urlPrefix,

@@ -14,9 +14,7 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
-import {
-  getActionButtonColor, ShoppingActions
-} from '@/utils/shoppingActions'
+import { getActionButtonColor, ShoppingActions } from '@/utils/shoppingActions'
 
 @Component({})
 export default class ActionList extends Vue {
