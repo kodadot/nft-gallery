@@ -251,29 +251,24 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 @import '@/styles/variables';
 
 // Reserved for future adjustments
-@media only screen and (min-width: 1024px) and (max-width: 1100px) {
-  div#NavHistoryBrowser {
-    display: none;
-  }
-}
 
-@media only screen and (min-width: 1024px) and (max-width: 1200px) {
-  a#NavCreate {
-    display: none;
-  }
-}
+//@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+//  a#NavCreate {
+//    display: none;
+//  }
+//}
 
-@media only screen and (min-width: 1024px) and (max-width: 1250px) {
-  div#NavChainSelect {
-    display: none;
-  }
-}
+//@media only screen and (min-width: 1024px) and (max-width: 1250px) {
+//  div#NavChainSelect {
+//    display: none;
+//  }
+//}
 
-@media only screen and (min-width: 1024px) and (max-width: 1340px) {
-  div#NavLocaleChanger {
-    display: none;
-  }
-}
+//@media only screen and (min-width: 1024px) and (max-width: 1340px) {
+//  div#NavLocaleChanger {
+//    display: none;
+//  }
+//}
 
 @include touch {
   .navbar {
@@ -349,7 +344,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   .search-navbar {
     background-color: transparent;
     box-shadow: none;
-    min-width: 350px;
+    width: min-content;
+    min-width: 140px;
     margin: 0 1rem;
     .icon {
       color: $placeholder-color !important;

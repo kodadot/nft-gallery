@@ -18,15 +18,19 @@ const components = {
 export default class Properties extends Vue {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public attributes!: Attribute[]
-  protected columns = [
-    {
-      field: 'key',
-      label: 'Key',
-    },
-    {
-      field: 'value',
-      label: 'Value',
-    },
-  ]
+  @Prop({ type: String, default: 'key' }) private fieldKey!: string
+
+  get columns() {
+    return [
+      {
+        field: this.fieldKey,
+        label: 'Key',
+      },
+      {
+        field: 'value',
+        label: 'Value',
+      },
+    ]
+  }
 }
 </script>
