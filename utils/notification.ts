@@ -50,3 +50,10 @@ export const infiniteNotif = (message: string) => {
 
   return notif
 }
+
+export const infoMessage = (msg) =>
+  showNotification(`[INFO] ${msg}`, notificationTypes.info)
+export const warningMessage = (msg) =>
+  showNotification(`[WARN] ${msg}`, notificationTypes.warn)
+export const dangerMessage = (msg) =>
+  showNotification(`[ERR] ${msg}`, notificationTypes.danger)

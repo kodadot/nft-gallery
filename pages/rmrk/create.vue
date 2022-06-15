@@ -17,7 +17,7 @@ const NFT = () => import('@/components/rmrk/Create/CreateToken.vue')
 const components = { Collection, NFT }
 
 @Component({ components })
-export default class Remark extends Vue {
+export default class RmrkCreatePage extends Vue {
   public activeTab = 0
   public components: string[] = ['Collection', 'NFT']
 

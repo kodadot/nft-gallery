@@ -418,6 +418,11 @@
       "postfix": "Add hashtag and index after the name (e.g #1)",
       "sync": "Sync editions to {0}"
     },
+    "royalty": {
+      "amount": "Royalty Amount",
+      "mine": "Pay royalty to this account",
+      "receiver": "Destination account for royalty"
+    },
     "collection": {
       "name": {
         "label": "Collection name",
@@ -433,7 +438,8 @@
         "label": "Symbol (short name)",
         "placeholder": "3-5 character long name",
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
-      }
+      },
+      "create": "Create collection"
     },
     "nft": {
       "name": {
@@ -483,6 +489,9 @@
       "SEND": "GIFT",
       "CONSUME": "BURN",
       "BUY": "BUY"
+    },
+    "action": {
+      "submit": "Submit {0}"
     }
   },
   "loader": {
@@ -609,7 +618,14 @@
     "openUrl": "Open URL",
     "copyRewardTooltip": "Your reward link copied to clipboard",
     "copyRewardLink": "Copy Reward Me link",
-    "latestSales": "Latest sales"
+    "latestSales": "Latest sales",
+    "searchResultsText": "Showing results for",
+    "ksmDiscoverText": "Discover, collect and sell Kusama NFTs",
+    "latestSalesheading": "Discover the most recent sales on rmrk",
+    "newestListDesc": "Discover the latest items on sale",
+    "newestListHeading": "Newest List",
+    "popularCollectionsHeading": "Popular Collections",
+    "popularCollectionsDesc": "Discover the most popular collections on rmrk"
   },
   "helper": {
     "seeMore": "See More",
@@ -622,7 +638,9 @@
       "label": "URL to transform",
       "placeholder": "singular.rmrk.app/collectibles/",
       "copy": "Kodadot link successfuly copied"
-    }
+    },
+    "builtOn": "Built on",
+    "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction."
   },
   "cookies": {
     "notice": "We use third-party 🍪 in order to personalize your site experience",
@@ -707,6 +725,9 @@
     "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)",
     "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs",
     "exploreTabOrder": "Default tab in explore"
+  },
+  "navbar": {
+    "teleport": "Teleport"
   },
   "walletConnect": {
     "walletHeading": "Connect Wallet",

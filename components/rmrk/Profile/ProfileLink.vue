@@ -14,11 +14,9 @@
       <Identity
         :address="address"
         :show-twitter="showTwitter"
+        :show-discord="showDiscord"
         :vertical-align="true"
         class="pt-2" />
-    </template>
-    <template v-if="showDiscord">
-      <Identity :address="address" :show-discord="showDiscord" class="pt-2" />
     </template>
     <a
       v-if="showDotscanner"
@@ -53,6 +51,10 @@ export default class ProfileLink extends mixins(InlineMixin, PrefixMixin) {
   @Prop(Boolean) public showDotscanner!: boolean
   get shortendId(): string {
     return shortAddress(this.address)
+  }
+
+  get verticalAlign(): boolean {
+    return this.showTwitter
   }
 }
 </script>
