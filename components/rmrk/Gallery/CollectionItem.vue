@@ -130,6 +130,7 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { NFT } from '@/components/rmrk/service/scheme'
 import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
 import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
+import collectionById from '@/queries/collectionById.graphql'
 import { getCloudflareImageLinks } from '@/utils/cachingStrategy'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import { emptyObject } from '@/utils/empty'
@@ -315,14 +316,14 @@ export default class CollectionItem extends mixins(
       return false
     }
     this.isFetchingData = true
-    const query = await resolveQueryPath(this.urlPrefix, 'collectionById')
+    // const query = await resolveQueryPath(this.urlPrefix, 'collectionById')
     const result = await this.$apollo.query({
-      query: query.default,
+      query: collectionById,
       client: this.urlPrefix,
       variables: {
         id: this.id,
-        orderBy: 'blockNumber_DESC',
-        // orderBy: this.searchQuery.sortBy,
+        // orderBy: 'blockNumber_DESC',
+        orderBy: this.searchQuery.sortBy,
         search: this.buildSearchParam(),
         first: this.first,
         offset: (page - 1) * this.first,
