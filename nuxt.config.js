@@ -219,6 +219,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
+    skipSettingLocaleOnNavigate: true,
     vueI18nLoader: true,
     defaultLocale: 'en',
     detectBrowserLanguage: {
