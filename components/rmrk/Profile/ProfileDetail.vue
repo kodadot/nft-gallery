@@ -334,9 +334,6 @@ export default class Profile extends mixins(
   protected totalHistory = 0
   protected totalSales = 0
   protected totalGains = 0
-  private supportedExplorers = {
-    rmrk: `https://kusama.subscan.io/account/${this.id}`,
-  }
 
   private myNftCount = 0
   protected networks = [
