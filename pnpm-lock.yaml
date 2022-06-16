@@ -17,7 +17,7 @@ specifiers:
   '@keeex/qrcodejs-kx': ^1.0.2
   '@kodadot1/minimark': ^0.0.1-rc.7
   '@kodadot1/sub-api': ^0.0.1-rc.3
-  '@kodadot1/vuex-options': ^0.0.1-rc.4
+  '@kodadot1/vuex-options': ^0.0.1-rc.5
   '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27470397.9ebea90
   '@nuxt/test-utils': ^0.2.2
   '@nuxt/types': ^2.15.8
@@ -97,7 +97,7 @@ dependencies:
   '@keeex/qrcodejs-kx': 1.0.2
   '@kodadot1/minimark': 0.0.1-rc.7
   '@kodadot1/sub-api': 0.0.1-rc.3
-  '@kodadot1/vuex-options': 0.0.1-rc.4
+  '@kodadot1/vuex-options': 0.0.1-rc.5
   '@nuxtjs/apollo': 4.0.1-rc.5_bxdthn3ysjabr5yy33n467wu6m
   '@nuxtjs/i18n': 7.2.2
   '@polkadot/extension-dapp': 0.42.10
@@ -2344,8 +2344,8 @@ packages:
       - supports-color
     dev: false
 
-  /@kodadot1/vuex-options/0.0.1-rc.4:
-    resolution: {integrity: sha512-g7NzSL6lzcdsMI2LN7unfxtg446ZB+DpiO/wZ+vMTMH8kibnoRInYy5MKjce3+3cvASGw2gj7z8v9vAXNng+8g==}
+  /@kodadot1/vuex-options/0.0.1-rc.5:
+    resolution: {integrity: sha512-0Ci5ELU2N2pa+qa/GOkMh5mvIFAUdl8TrPvnKJo3LdbUHuSzMkXsnjdLOg434llhSupPlE7XJ0F+Q3UrE0uxkg==}
     dependencies:
       '@polkadot/networks': 7.9.2
     dev: false
@@ -9618,6 +9618,7 @@ packages:
 
   /file-uri-to-path/1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    requiresBuild: true
 
   /filelist/1.0.4:
     resolution: {integrity: sha512-w1cEuf3S+DrLCQL7ET6kz+gmlJdbq9J7yXCSjK/OZCPA+qEN1WyF4ZAf0YYJa4/shHJra2t/d/r8SV4Ji+x+8Q==}
@@ -10368,6 +10369,7 @@ packages:
   /graphql/16.5.0:
     resolution: {integrity: sha512-qbHgh8Ix+j/qY+a/ZcJnFQ+j8ezakqPiHwPiZhV/3PgGlgf96QMBB5/f2rkiC9sgLoy/xvT6TSiaf2nTHJh5iA==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
+    dev: false
 
   /gzip-size/6.0.0:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
@@ -12467,6 +12469,7 @@ packages:
 
   /nan/2.16.0:
     resolution: {integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==}
+    requiresBuild: true
     optional: true
 
   /nanoid/3.3.4:
@@ -16609,6 +16612,7 @@ packages:
     resolution: {integrity: sha512-WOkT3XYvrpXx4vMMqlD+8R8R37fZkjyLGlxavMc4iB8lrl8L0DeTcHbYgw/v0N/z9wAFsgBhcsF0ruoySS22mA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
+    dev: true
 
   /ua-parser-js/0.7.31:
     resolution: {integrity: sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==}
@@ -17650,6 +17654,7 @@ packages:
 
   /vue/2.6.14:
     resolution: {integrity: sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==}
+    dev: false
 
   /vuex-class/0.3.2_ot447vtrjddcfneoczzpyjkfhe:
     resolution: {integrity: sha512-m0w7/FMsNcwJgunJeM+wcNaHzK2KX1K1rw2WUQf7Q16ndXHo7pflRyOV/E8795JO/7fstyjH3EgqBI4h4n4qXQ==}
@@ -17735,7 +17740,7 @@ packages:
     dev: false
 
   /wcwidth/1.0.1:
-    resolution: {integrity: sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=}
+    resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
     dependencies:
       defaults: 1.0.3
     dev: true
