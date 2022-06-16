@@ -255,6 +255,7 @@ import allNftSaleEventsByAccountId from '~/queries/rmrk/subsquid/allNftSaleEvent
 import { NftHolderEvent } from '~/components/rmrk/Gallery/Holder/Holder.vue'
 import allNftSaleEventsHistoryByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
 import resolveQueryPath from '~/utils/queryPathResolver'
+import { hasExplorer, getExplorer } from './utils'
 
 const components = {
   GalleryCardList: () =>
@@ -549,11 +550,11 @@ export default class Profile extends mixins(
   }
 
   get hasBlockExplorer(): boolean {
-    return Object.keys(this.supportedExplorers).includes(this.urlPrefix)
+    return hasExplorer(this.urlPrefix)
   }
 
   get explorer() {
-    return this.supportedExplorers[this.urlPrefix]
+    return getExplorer(this.urlPrefix, this.id)
   }
 
   get isHistoryOpen(): boolean {
