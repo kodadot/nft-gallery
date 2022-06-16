@@ -1,13 +1,9 @@
-import consola from 'consola'
-
 function resolveQueryPath(
   prefix: string,
   queryName: string
 ): Promise<typeof import('*.graphql')> {
   const path = getPath(prefix)
-  return import(`@/queries/${path}${queryName}.graphql`).catch((e) => {
-    consola.error(`import queries ${queryName} error`, e)
-  })
+  return import(`@/queries/${path}${queryName}.graphql`)
 }
 
 function getPath(prefix: string) {

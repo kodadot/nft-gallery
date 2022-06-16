@@ -148,10 +148,7 @@ export default class IdentityPopover extends mixins(
           this.urlPrefix,
           'userStatsByAccount'
         )
-        if (!query) {
-          // unimplemented query
-          return
-        }
+
         this.$apollo.addSmartQuery('collections', {
           query: query.default,
           manual: true,
@@ -190,10 +187,14 @@ export default class IdentityPopover extends mixins(
 
       if (data?.firstMint?.length > 0) {
         this.firstMintDate = data.firstMint[0].createdAt
+      } else if (data?.firstMint?.nodes?.length > 0) {
+        this.firstMintDate = data.firstMint.nodes[0].createdAt
       }
-      if (data?.lastBought?.edges[0]?.node?.events.length > 0) {
-        this.lastBoughtDate =
-          data?.lastBought?.edges[0].node.events[0].timestamp
+
+      if (data?.collected?.nodes?.length > 0) {
+        this.lastBoughtDate = data.collected.nodes[0].collection.createdAt
+      } else if (data?.collected?.edges?.length > 0) {
+        this.lastBoughtDate = data.collected.edges[0].node.events[0].timestamp
       }
       const cacheData = {
         totalCreated: this.totalCreated,
