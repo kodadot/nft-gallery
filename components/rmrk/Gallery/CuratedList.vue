@@ -54,10 +54,9 @@ import {
   getCloudflareImageLinks,
   getProperImageLink,
 } from '~/utils/cachingStrategy'
-import collectionCuratedList from '@/queries/rmrk/subsquid/collectionCuratedList.graphql'
-import lastCollectionCuratedList from '@/queries/subsquid/general/collectionCuratedList.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import Unknown from '../Media/JsonMedia.vue'
+import resolveQueryPath from '~/utils/queryPathResolver'
 
 const components = {
   // Identicon: () => import('@polkadot/vue-identicon'),
@@ -80,12 +79,13 @@ export default class CuratedList extends mixins(AuthMixin, PrefixMixin) {
   protected collections: [] = []
 
   async fetch() {
+    const query = await resolveQueryPath(
+      this.urlPrefix,
+      'collectionCuratedList'
+    )
     const result = await this.$apollo
       .query<any>({
-        query:
-          this.urlPrefix === 'rmrk'
-            ? collectionCuratedList
-            : lastCollectionCuratedList,
+        query: query.default,
         client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
         variables:
           this.urlPrefix === 'rmrk' ? { list: curatedCollection } : Unknown,
