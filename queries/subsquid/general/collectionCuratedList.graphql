@@ -1,0 +1,12 @@
+query collectionCuratedList {
+  collectionEntities(orderBy: blockNumber_DESC limit: 5) {
+    id
+    issuer
+    name
+    meta {
+      id
+      name
+      image
+    }
+  }
+}

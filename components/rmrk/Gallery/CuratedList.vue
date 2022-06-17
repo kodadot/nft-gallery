@@ -21,13 +21,16 @@
           <div class="content has-text-left">
             <nuxt-link
               :to="{
-                name: 'rmrk-collection-id',
+                name: `${urlPrefix}-collection-id`,
                 params: { id: collection.id },
               }">
               <h2 class="title is-5">{{ collection.name }}</h2>
             </nuxt-link>
             <nuxt-link
-              :to="{ name: 'rmrk-u-id', params: { id: collection.issuer } }">
+              :to="{
+                name: `${urlPrefix}-u-id`,
+                params: { id: collection.issuer },
+              }">
               <div class="is-size-7 icon-text">
                 <b-icon icon="palette" />
                 <Identity
@@ -52,6 +55,9 @@ import {
   getProperImageLink,
 } from '~/utils/cachingStrategy'
 import collectionCuratedList from '@/queries/rmrk/subsquid/collectionCuratedList.graphql'
+import lastCollectionCuratedList from '@/queries/subsquid/general/collectionCuratedList.graphql'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
+import Unknown from '../Media/JsonMedia.vue'
 
 const components = {
   // Identicon: () => import('@polkadot/vue-identicon'),
@@ -70,17 +76,19 @@ const curatedCollection = [
 @Component<CuratedList>({
   components,
 })
-export default class CuratedList extends mixins(AuthMixin) {
-  private collections: [] = []
+export default class CuratedList extends mixins(AuthMixin, PrefixMixin) {
+  protected collections: [] = []
 
   async fetch() {
     const result = await this.$apollo
       .query<any>({
-        query: collectionCuratedList,
-        client: 'subsquid',
-        variables: {
-          list: curatedCollection,
-        },
+        query:
+          this.urlPrefix === 'rmrk'
+            ? collectionCuratedList
+            : lastCollectionCuratedList,
+        client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+        variables:
+          this.urlPrefix === 'rmrk' ? { list: curatedCollection } : Unknown,
       })
       .catch((e) => {
         this.$consola.error(e)
