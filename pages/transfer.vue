@@ -271,9 +271,6 @@ export default class Transfer extends mixins(
         this.destinationAddress,
         calculateBalance(this.price, this.decimals),
       ]
-      if (usedNodeUrls.length < 1) {
-        throw new Error('test')
-      }
       const tx = await exec(
         this.accountId,
         '',
