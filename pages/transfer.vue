@@ -258,7 +258,7 @@ export default class Transfer extends mixins(
     }
   }
 
-  public async submit(): Promise<void> {
+  public async submit(event: any, usedNodeUrls: string[] = []): Promise<void> {
     showNotification(
       `${this.$route.query.target ? 'Sent for Sign' : 'Dispatched'}`
     )
@@ -271,7 +271,9 @@ export default class Transfer extends mixins(
         this.destinationAddress,
         calculateBalance(this.price, this.decimals),
       ]
-
+      if (usedNodeUrls.length < 1) {
+        throw new Error('test')
+      }
       const tx = await exec(
         this.accountId,
         '',
@@ -305,10 +307,32 @@ export default class Transfer extends mixins(
           (res) => this.resolveStatus(res.status)
         )
       )
-    } catch (e) {
-      this.$consola.error('[ERR: TRANSFER SUBMIT]', e)
-      if (e instanceof Error) {
+    } catch (e: any) {
+      if (e.message === 'Cancelled') {
         showNotification(e.message, notificationTypes.danger)
+        this.isLoading = false
+        return
+      }
+      const availableNodesByPrefix: { value: string }[] =
+        this.$store.getters['availableNodesByPrefix']
+      const availableUrls = availableNodesByPrefix.map((node) => node.value)
+      if (usedNodeUrls.length === 0) {
+        usedNodeUrls.push(this.$store.getters.getSettings['apiUrl'])
+      }
+      if (usedNodeUrls.length < availableUrls.length) {
+        const nextTryUrls = availableUrls.filter(
+          (url) => !usedNodeUrls.includes(url)
+        )
+        const { getInstance: Api } = Connector
+        // try to connect next possible url
+        await Api().connect(nextTryUrls[0])
+        await this.$store.dispatch('setApiUrl', nextTryUrls[0])
+        this.submit(event, [nextTryUrls[0]].concat(usedNodeUrls))
+      } else {
+        this.$consola.error('[ERR: TRANSFER SUBMIT]', e)
+        if (e instanceof Error) {
+          showNotification(e.message, notificationTypes.danger)
+        }
       }
     }
   }
