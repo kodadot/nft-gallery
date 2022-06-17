@@ -8,10 +8,9 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 const components = {
-  Auth: () => import('@/components/shared/Auth.vue')
+  Auth: () => import('@/components/shared/Auth.vue'),
 }
 
 @Component({ components })
-export default class AuthField extends Vue {
-}
+export default class AuthField extends Vue {}
 </script>

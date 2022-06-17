@@ -85,7 +85,7 @@ export const toSort = (sortBy: SortType): string =>
 
 export const today = new Date()
 const yesterdayDate: Date = subDays(today, 1)
-const lastweekDate: Date = subDays(today, 7)
+export const lastweekDate: Date = subDays(today, 7)
 export const lastmonthDate: Date = subDays(today, 30)
 const sub2dayDate: Date = subDays(today, 2)
 const last2weekDate: Date = subDays(today, 14)

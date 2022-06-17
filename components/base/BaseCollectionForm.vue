@@ -50,7 +50,7 @@ const components = {
 
 @Component({ components })
 export default class BaseCollectionForm extends Vue {
-  @Prop({ type: String, default: 'context' }) label!: string
+  @Prop({ type: String, default: 'mint.collection.create' }) label!: string
   @Prop(Boolean) protectiveMargin!: boolean
   @PropSync('name', { type: String }) vName!: string
   @PropSync('description', { type: String }) vDescription!: string

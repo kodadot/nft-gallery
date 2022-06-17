@@ -34,7 +34,7 @@
           :key="collection.id">
           <div class="card collection-card">
             <nuxt-link
-              :to="`/rmrk/collection/${collection.id}`"
+              :to="`/${urlPrefix}/collection/${collection.id}`"
               tag="div"
               class="collection-card__skeleton">
               <div class="card-image">
@@ -45,7 +45,7 @@
               </div>
 
               <div class="card-content">
-                <nuxt-link :to="`/rmrk/collection/${collection.id}`">
+                <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
                   <CollectionDetail
                     :nfts="collection.nfts"
                     :name="collection.name" />
@@ -78,7 +78,7 @@ import { getSanitizer } from '@/components/rmrk/utils'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
 import 'lazysizes'
 
-import collectionListWithSearch from '@/queries/rmrk/subsquid/collectionListWithSearch.graphql'
+import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import { mapOnlyMetadata } from '~/utils/mappers'
