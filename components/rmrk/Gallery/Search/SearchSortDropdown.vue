@@ -29,8 +29,8 @@ import { Component, Vue, VModel, Prop } from 'nuxt-property-decorator'
 import { NFT_SORT_CONDITION_LIST } from '@/utils/constants'
 @Component
 export default class SearchSortDropdown extends Vue {
-  @VModel({ default: 'blockNumber_DESC' }) selectedAction!: string
-  @VModel({ default: () => ['BLOCK_NUMBER_DESC'] })
+  @VModel({ type: String, default: 'blockNumber_DESC' }) selectedAction!: string
+  @VModel({ type: Array, default: () => ['BLOCK_NUMBER_DESC'] })
   selectedActionArray!: string[]
   @Prop(Array) public sortOption?: string[]
   @Prop(Boolean) public multipleSelect!: boolean
