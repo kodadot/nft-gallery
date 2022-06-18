@@ -124,7 +124,7 @@ export default class IdentityPopover extends mixins(
       },
     })
     if (data.events.length) {
-      this.lastBoughtDate = data.events[0].timestamp
+      this.lastBoughtDate = new Date(data.events[0].timestamp)
     }
   }
 
