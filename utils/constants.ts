@@ -40,3 +40,13 @@ export const URLS = {
     pinata: 'https://api.pinata.cloud/',
   },
 }
+
+export const NFT_SORT_CONDITION_LIST: string[] = [
+  'EMOTES_COUNT_DESC',
+  'BLOCK_NUMBER_DESC',
+  'BLOCK_NUMBER_ASC',
+  'UPDATED_AT_DESC',
+  'UPDATED_AT_ASC',
+  'PRICE_DESC',
+  'PRICE_ASC',
+]
