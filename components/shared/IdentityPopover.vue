@@ -52,7 +52,7 @@
           </p>
           <p
             class="is-size-7 is-flex is-align-items-center py-3"
-            v-if="totalCollected && formattedLastBoughtToNow">
+            v-if="formattedLastBoughtToNow">
             <b-icon icon="clock" size="is-small" />
             <span class="ml-2">Last bought {{ formattedLastBoughtToNow }}</span>
           </p>
@@ -94,6 +94,8 @@ import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
 import { isAfter, subHours } from 'date-fns'
 import shouldUpdate from '@/utils/shouldUpdate'
 import resolveQueryPath from '@/utils/queryPathResolver'
+import { Interaction } from '@/components/rmrk/service/scheme'
+import buyEventByProfile from '@/queries/rmrk/subsquid/buyEventByProfile.graphql'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
@@ -112,6 +114,19 @@ export default class IdentityPopover extends mixins(
   protected totalCreated = 0
   protected totalCollected = 0
   protected totalSold = 0
+
+  public async mounted() {
+    const { data } = await this.$apollo.query<{ events: Interaction[] }>({
+      query: buyEventByProfile,
+      client: 'subsquid',
+      variables: {
+        id: this.identity.address,
+      },
+    })
+    if (data.events.length) {
+      this.lastBoughtDate = data.events[0].timestamp
+    }
+  }
 
   get shortenedAddress(): Address {
     return shortAddress(this.resolveAddress(this.identity.address))
@@ -175,7 +190,6 @@ export default class IdentityPopover extends mixins(
       this.totalCollected = data.totalCollected
       this.totalSold = data.totalSold
       this.firstMintDate = data.firstMintDate
-      this.lastBoughtDate = data.lastBoughtDate
     } else if (data) {
       this.totalCreated = data.nFTCreated.totalCount
       this.totalCollected = data.nFTCollected.totalCount
@@ -184,15 +198,11 @@ export default class IdentityPopover extends mixins(
       if (data?.firstMint?.nodes.length > 0) {
         this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
       }
-      if (data?.nFTCollected?.nodes.length > 0) {
-        this.lastBoughtDate = data.nFTCollected.nodes[0].collection.createdAt
-      }
       const cacheData = {
         totalCreated: this.totalCreated,
         totalCollected: this.totalCollected,
         totalSold: this.totalSold,
         firstMintDate: this.firstMintDate,
-        lastBoughtDate: this.lastBoughtDate,
         updatedAt: Date.now(),
       }
       await this.$store.dispatch('identityMint/setIdentity', {
