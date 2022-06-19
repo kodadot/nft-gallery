@@ -71,14 +71,16 @@ export default class OfferList extends mixins(
     try {
       const { api } = Connector.getInstance()
       this.initTransactionLoader()
-      const cb = !isSameAccount(this.accountId, maker)
+      const isMe = isSameAccount(this.accountId, maker)
+      const cb = !isMe
         ? api.tx.marketplace.acceptOffer
-        : api.tx.marketplace.withDrawOffer
+        : api.tx.marketplace.withdrawOffer
       const args = [collectionId, nftId, maker]
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
+        const msg = !isMe ? 'nft is yours' : 'your offer has been withdrawn'
         showNotification(
-          `[OFFER] THIS NFT belongs to ${maker} since block ${blockNumber}`,
+          `[OFFER] Since block ${blockNumber} ${msg}`,
           notificationTypes.success
         )
       })
