@@ -191,16 +191,13 @@ export default class GalleryItem extends mixins(
   }
 
   protected observeOwner(data: Option<InstanceDetails>) {
-    this.$consola.log('Owner', data.toHuman())
     const instance = unwrapOrNull(data)
     if (instance) {
-      this.$consola.log('Owner2', toHuman(instance.owner))
       this.$set(this.nft, 'currentOwner', toHuman(instance.owner))
     }
   }
 
   protected observePrice(data: Option<u128>) {
-    this.$consola.log('price', data.toHuman())
     this.$set(this.nft, 'price', unwrapOrDefault(data).toString())
   }
 
@@ -223,8 +220,6 @@ export default class GalleryItem extends mixins(
       // showNotification(`No NFT with ID ${this.id}`, notificationTypes.warn)
       return
     }
-
-    this.$consola.log('nft', nftEntity)
 
     this.nft = {
       ...this.nft,
@@ -269,7 +264,6 @@ export default class GalleryItem extends mixins(
             this.nft,
             getSanitizer(this.nft.metadata, 'cloudflare', 'permafrost')
           )
-      this.$consola.log(meta)
 
       const imageSanitizer = getSanitizer(meta.image, 'cloudflare')
       this.meta = {
@@ -285,7 +279,6 @@ export default class GalleryItem extends mixins(
         Vue.set(this.nft, 'name', meta.name)
       }
 
-      this.$consola.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { mimeType, imageVisible } = await processMedia(
           this.meta.animation_url
