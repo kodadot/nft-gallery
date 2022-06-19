@@ -20,8 +20,6 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { createTokenId } from '~/components/unique/utils'
 import offerListByNftId from '@/queries/subsquid/bsx/offerListByNftId.graphql'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
-import onApiConnect from '~/utils/api/general'
-import { getOffers, hasAllPallets } from '../Gallery/Item/utils'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
