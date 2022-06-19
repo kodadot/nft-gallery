@@ -487,11 +487,21 @@
       "UNLIST": "UNLIST",
       "SEND": "GIFT",
       "CONSUME": "BURN",
-      "BUY": "BUY"
+      "BUY": "BUY",
+      "MAKE_OFFER": "MAKE OFFER"
     },
     "action": {
       "submit": "Submit {0}"
+    },
+    "offer": {
+      "count": "Number of offers {0}"
     }
+  },
+  "offer": {
+    "caller": "Maker",
+    "price": "Price",
+    "expiration": "Expiration",
+    "action": "Action"
   },
   "loader": {
     "casting": "(1/3) Casting the tx to blockchain",
