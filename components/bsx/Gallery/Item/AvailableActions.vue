@@ -82,7 +82,7 @@ export default class AvailableActions extends mixins(
   }
 
   get metaValid() {
-    if (Number.isInteger(this.meta)) {
+    if (Number.isInteger(Number(this.meta))) {
       return this.meta >= 0
     }
 
