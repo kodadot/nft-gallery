@@ -81,7 +81,6 @@ export const getActionList = (
   ]
   const specific = getChainSpecificActions(prefix, isOwner, hasPrice)
 
-  console.log(specific)
   baseActions = [...baseActions, ...specific]
   return [...new Set(baseActions)]
 }
@@ -91,7 +90,6 @@ export const getChainSpecificActions = (
   isOwner: boolean,
   hasPrice: boolean
 ) => {
-  console.log
   if (prefix === 'bsx') {
     return !isOwner ? makeOfferActions : []
   }

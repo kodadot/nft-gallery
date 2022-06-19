@@ -17,9 +17,7 @@
       :label="$t('offer.price')"
       v-slot="props"
       sortable>
-      <template>
-        <Money :value="props.row.price" inline hideUnit />
-      </template>
+      <Money :value="props.row.price" inline hideUnit />
     </b-table-column>
     <b-table-column
       cell-class="is-vcentered"
@@ -27,7 +25,7 @@
       :label="$t('offer.expiration')"
       v-slot="props"
       sortable>
-      <template>{{ props.row.expiration }}</template>
+      {{ props.row.expiration }}
     </b-table-column>
     <b-table-column
       cell-class="is-vcentered"
