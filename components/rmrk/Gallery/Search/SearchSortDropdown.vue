@@ -38,13 +38,6 @@ export default class SearchSortDropdown extends Vue {
   get actions(): string[] {
     return this.sortOption || this.sort
   }
-  created() {
-    if (!this.selectedAction) {
-      this.selectedAction = this.multipleSelect
-        ? ['BLOCK_NUMBER_DESC']
-        : 'blockNumber_DESC'
-    }
-  }
 }
 </script>
 

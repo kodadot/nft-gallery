@@ -15,7 +15,6 @@ query nftListWithSearch(
     where: {
       burned_eq: false
       issuer_not_in: $denyList
-      name_not_contains: "Kanaria"
       AND: $search
     }
   ) {
