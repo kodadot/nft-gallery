@@ -130,6 +130,7 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { NFT } from '@/components/rmrk/service/scheme'
 import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
 import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
+import collectionById from '@/queries/collectionById.graphql'
 import { getCloudflareImageLinks } from '@/utils/cachingStrategy'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import { emptyObject } from '@/utils/empty'
@@ -144,7 +145,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { sortedEventByDate } from '@/utils/sorting'
-import { correctPrefix, unwrapSafe } from '@/utils/uniquery'
+import { correctPrefix, ifRMRK, unwrapSafe } from '@/utils/uniquery'
 import { Component, mixins, Ref, Watch } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
@@ -321,8 +322,12 @@ export default class CollectionItem extends mixins(
       client: this.urlPrefix,
       variables: {
         id: this.id,
-        orderBy: 'blockNumber_DESC',
-        // orderBy: this.searchQuery.sortBy,
+        // orderBy: 'blockNumber_DESC',
+        orderBy: ifRMRK(
+          this.urlPrefix,
+          this.searchQuery.sortBy,
+          'blockNumber_DESC'
+        ),
         search: this.buildSearchParam(),
         first: this.first,
         offset: (page - 1) * this.first,
@@ -401,7 +406,7 @@ export default class CollectionItem extends mixins(
     try {
       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
         query: allCollectionSaleEvents,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
           and: {

@@ -25,7 +25,10 @@ const components = {
 }
 
 @Component({ components })
-export default class Navigation extends mixins(KeyboardEventsMixin, PrefixMixin) {
+export default class Navigation extends mixins(
+  KeyboardEventsMixin,
+  PrefixMixin
+) {
   @Prop({ type: Array }) readonly items!: string[]
   @Prop(Boolean) public showNavigation!: boolean
   @Prop({ type: String }) readonly currentId!: string

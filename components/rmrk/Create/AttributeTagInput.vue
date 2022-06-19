@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
-import { Attribute } from '../service/scheme'
+import { Attribute } from '@kodadot1/minimark'
 
 const valueOf = ({ value }: Attribute) => String(value)
 

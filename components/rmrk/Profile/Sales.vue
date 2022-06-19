@@ -132,7 +132,7 @@ type ChartData = {
 }
 
 @Component({ components })
-export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
+export default class Sales extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: Event[]
   @Prop({ type: Boolean, default: true })
   private readonly openOnDefault!: boolean
@@ -297,7 +297,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   @Watch('events', { immediate: true })
-  public watchEvent(): void {
+  public watchEvents(): void {
     if (this.events) {
       this.createTable()
     }

@@ -7,9 +7,9 @@
       :disabled="disabled"
       :loading="loading"
       outlined>
-        <slot>
-          {{ $t(label) }}
-        </slot>
+      <slot>
+        {{ $t(label) }}
+      </slot>
     </b-button>
   </b-field>
 </template>
