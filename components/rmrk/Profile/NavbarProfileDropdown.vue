@@ -34,23 +34,23 @@
       <b-dropdown-item v-if="isRmrk" has-link aria-role="menuitem">
         <nuxt-link to="/rmrk/admin">{{ $t('Admin') }}</nuxt-link>
       </b-dropdown-item>
-      <b-dropdown-item has-link aria-role="menuitem">
+      <b-dropdown-item has-link aria-role="menuitem" v-if="isRmrk">
         <a @click="showRampSDK">
           {{ $t('credit') }}
         </a>
       </b-dropdown-item>
-      <b-dropdown-item has-link aria-role="menuitem">
+      <b-dropdown-item has-link aria-role="menuitem" v-if="isRmrk">
         <nuxt-link :to="{ name: 'identity' }">
           {{ $t('identity.page') }}
         </nuxt-link>
       </b-dropdown-item>
-      <b-dropdown-item has-link aria-role="menuitem">
+      <b-dropdown-item has-link aria-role="menuitem" v-if="isRmrk">
         <nuxt-link to="/teleport">{{ $t('navbar.teleport') }}</nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
       </b-dropdown-item>
-      <b-dropdown-item has-link aria-role="menuitem">
+      <b-dropdown-item has-link aria-role="menuitem" v-if="isRmrk">
         <nuxt-link to="/transform">{{ $t('transform') }}</nuxt-link>
       </b-dropdown-item>
 
