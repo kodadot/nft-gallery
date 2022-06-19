@@ -145,7 +145,7 @@
                     name: 'rmrk-gallery-id',
                     params: { id: item.Item.id },
                   }">
-                  {{ item.Item.name }}
+                  {{ item.Item.name || item.Item.id }}
                 </nuxt-link>
               </td>
               <td
