@@ -12,12 +12,16 @@ enum UniqueActions {
   UNFREEZE = 'UNFREEZE',
 }
 
-enum BasilicActions {}
+enum BasiliskActions {
+  MAKE_OFFER = 'MAKE_OFFER',
+  SET_ROYALTY = 'SET_ROYALTY',
+}
 
-export type ShoppingActions = Interaction | OffChainActions
+export type ShoppingActions = Interaction | OffChainActions | BasiliskActions
 export const ShoppingActions = {
   ...Interaction,
   ...OffChainActions,
+  ...BasiliskActions,
 }
 
 export const KeyboardValueToActionMap = {
@@ -37,6 +41,7 @@ export const ownerActions = [
 
 export const listActions: [Interaction] = [ShoppingActions.LIST]
 export const buyActions: [Interaction] = [ShoppingActions.BUY]
+export const makeOfferActions: [BasiliskActions] = [ShoppingActions.MAKE_OFFER]
 
 export const getActions = (isOwner: boolean, isAvailableToBuy: boolean) => {
   return getActionList('rmrk', isOwner, isAvailableToBuy)
@@ -69,15 +74,15 @@ export const getActionList = (
   isOwner: boolean,
   hasPrice: boolean
 ): ShoppingActions[] => {
-  let baseActions = isOwner ? ownerActions : []
+  let baseActions: ShoppingActions[] = isOwner ? ownerActions : []
   baseActions = [
     ...baseActions,
     ...getMarketplaceActions(prefix, isOwner, hasPrice),
   ]
-  baseActions = [
-    ...baseActions,
-    ...getChainSpecificActions(prefix, isOwner, hasPrice),
-  ]
+  const specific = getChainSpecificActions(prefix, isOwner, hasPrice)
+
+  console.log(specific)
+  baseActions = [...baseActions, ...specific]
   return [...new Set(baseActions)]
 }
 
@@ -86,7 +91,11 @@ export const getChainSpecificActions = (
   isOwner: boolean,
   hasPrice: boolean
 ) => {
-  // TODO: add chain specific actions
+  console.log
+  if (prefix === 'bsx') {
+    return !isOwner ? makeOfferActions : []
+  }
+
   return []
 }
 
@@ -106,6 +115,7 @@ export const iconResolver: Record<string, DescriptionTuple> = {
   [ShoppingActions.LIST]: ['is-light'],
   [ShoppingActions.BUY]: ['is-success is-dark'],
   [ShoppingActions.DOWNLOAD]: ['is-warning'],
+  [ShoppingActions.MAKE_OFFER]: ['is-orange'],
 }
 
 export const getActionButtonColor = (action: ShoppingActions): string => {
