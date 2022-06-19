@@ -487,7 +487,8 @@
       "UNLIST": "UNLIST",
       "SEND": "GIFT",
       "CONSUME": "BURN",
-      "BUY": "BUY"
+      "BUY": "BUY",
+      "MAKE_OFFER": "MAKE OFFER"
     },
     "action": {
       "submit": "Submit {0}"
