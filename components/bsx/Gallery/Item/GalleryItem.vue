@@ -104,6 +104,12 @@
         </div>
       </div>
     </template>
+    <template v-slot:footer>
+      <OfferList
+        :current-owner-id="nft.currentOwner"
+        :nftId="id"
+        :collectionId="collectionId" />
+    </template>
   </BaseGalleryItem>
 </template>
 
@@ -148,6 +154,7 @@ import { isEmpty } from '@kodadot1/minimark'
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
+    OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
   },
   directives: {
     orientation: Orientation,
