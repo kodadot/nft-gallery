@@ -19,6 +19,9 @@ import { notificationTypes, showNotification } from '~/utils/notification'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { createTokenId } from '~/components/unique/utils'
 import offerListByNftId from '@/queries/subsquid/bsx/offerListByNftId.graphql'
+import SubscribeMixin from '~/utils/mixins/subscribeMixin'
+import onApiConnect from '~/utils/api/general'
+import { getOffers, hasAllPallets } from '../Gallery/Item/utils'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -31,7 +34,8 @@ const components = {
 export default class OfferList extends mixins(
   AuthMixin,
   MetaTransactionMixin,
-  PrefixMixin
+  PrefixMixin,
+  SubscribeMixin
 ) {
   protected offers: Offer[] = []
   protected total = 0
@@ -48,7 +52,15 @@ export default class OfferList extends mixins(
   }
 
   fetch() {
-    this.fetchOffers()
+    onApiConnect((api) => {
+      if (hasAllPallets(api)) {
+        this.subscribe(getOffers(api), [this.tokenId, null], this.fetchOffers)
+      }
+    })
+  }
+
+  get tokenId(): [string, string] {
+    return [this.collectionId, this.nftId]
   }
 
   protected async fetchOffers() {
