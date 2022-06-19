@@ -492,6 +492,9 @@
     },
     "action": {
       "submit": "Submit {0}"
+    },
+    "offer": {
+      "count": "Number of offers {0}"
     }
   },
   "loader": {
