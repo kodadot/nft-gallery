@@ -1,0 +1,11 @@
+query offerListByNftId($id: ID!) {
+  offers(where: {nft: {id_eq: $id}}) {
+    id
+    caller
+    expiration
+    price
+  }
+  stats: offersConnection(orderBy: id_ASC) {
+    total: totalCount
+  }
+}
