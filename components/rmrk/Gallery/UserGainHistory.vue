@@ -27,7 +27,7 @@ export default class UserGainHistory extends mixins(PrefixMixin) {
     try {
       const { data } = await this.$apollo.query<{ events: NftHolderEvent[] }>({
         query: allNftSaleEventsHistoryByAccountId,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.accountId,
         },
