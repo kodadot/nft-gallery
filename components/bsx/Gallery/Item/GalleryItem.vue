@@ -260,12 +260,10 @@ export default class GalleryItem extends mixins(
   }
 
   public async fetchMetadata() {
-    // this.$consola.log(this.nft);
-
     if (this.nft['metadata'] && !this.meta['image']) {
       const cachedMeta = await get(this.nft.metadata)
 
-      const meta = cachedMeta
+      const meta = !isEmpty(cachedMeta)
         ? cachedMeta
         : await fetchNFTMetadata(
             this.nft,
