@@ -220,6 +220,7 @@ export default class CreateCollection extends mixins(
           `[Collection] Saved ${this.base.name} in block ${blockNumber}`,
           notificationTypes.success
         )
+        this.$emit('created')
       })
     } catch (e: any) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
