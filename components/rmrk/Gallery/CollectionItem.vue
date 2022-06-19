@@ -145,7 +145,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { sortedEventByDate } from '@/utils/sorting'
-import { correctPrefix, unwrapSafe } from '@/utils/uniquery'
+import { correctPrefix, ifRMRK, unwrapSafe } from '@/utils/uniquery'
 import { Component, mixins, Ref, Watch } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
@@ -316,14 +316,18 @@ export default class CollectionItem extends mixins(
       return false
     }
     this.isFetchingData = true
-    // const query = await resolveQueryPath(this.urlPrefix, 'collectionById')
+    const query = await resolveQueryPath(this.urlPrefix, 'collectionById')
     const result = await this.$apollo.query({
-      query: collectionById,
+      query: query.default,
       client: this.urlPrefix,
       variables: {
         id: this.id,
         // orderBy: 'blockNumber_DESC',
-        orderBy: this.searchQuery.sortBy,
+        orderBy: ifRMRK(
+          this.urlPrefix,
+          this.searchQuery.sortBy,
+          'blockNumber_DESC'
+        ),
         search: this.buildSearchParam(),
         first: this.first,
         offset: (page - 1) * this.first,
