@@ -730,7 +730,7 @@
   },
   "walletConnect": {
     "walletHeading": "Connect Wallet",
-    "authText": "Kodadot will never ask you to provide your mnemonic phrase or private key.",
+    "authText": "KodaDot will never ask you to provide your mnemonic phrase or private key.",
     "understand": "I understand",
     "learnText": "Learn how to Connect",
     "downloadExtension": "Download extension"

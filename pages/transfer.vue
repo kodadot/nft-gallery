@@ -269,7 +269,7 @@ export default class Transfer extends mixins(
       const cb = api.tx.balances.transfer
       const arg = [
         this.destinationAddress,
-        calculateBalance(this.price, this.decimals),
+        String(calculateBalance(this.price, this.decimals)),
       ]
 
       const tx = await exec(
