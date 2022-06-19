@@ -131,6 +131,7 @@ import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import resolveQueryPath from '~/utils/queryPathResolver'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
+import { isEmpty } from '@kodadot1/minimark'
 
 @Component<GalleryItem>({
   components: {
@@ -288,7 +289,7 @@ export default class GalleryItem extends mixins(
         this.imageVisible = imageVisible
       }
 
-      if (!cachedMeta) {
+      if (!cachedMeta && !isEmpty(meta)) {
         set(this.nft.metadata, meta)
       }
     }
