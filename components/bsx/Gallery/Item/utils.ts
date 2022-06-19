@@ -21,9 +21,7 @@ export function getOwner(api: ApiPromise) {
 }
 
 export function hasAllPallets(api: ApiPromise): boolean {
-  return [
-    api.query.uniques,
-    api.query.nft,
-    api.query.marketplace
-  ].every((pallet) => pallet)
+  return [api.query.uniques, api.query.nft, api.query.marketplace].every(
+    (pallet) => pallet
+  )
 }
