@@ -23,7 +23,9 @@ export function unwrapSafe<T = any>(value: OneOf<T>): List<T> {
   }
 }
 
-export function unwrapId(value: Primitive | EntityWithId<Primitive>): Primitive {
+export function unwrapId(
+  value: Primitive | EntityWithId<Primitive>
+): Primitive {
   if (typeof value === 'string' || typeof value === 'number') {
     return value
   }
