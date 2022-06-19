@@ -41,8 +41,10 @@ export default class SettingChooser extends Vue {
   }
 
   set selected(value) {
-    const { getInstance: Api } = Connector
-    Api().connect(value)
+    if (this.setter === 'setApiUrl') {
+      const { getInstance: Api } = Connector
+      Api().connect(value)
+    }
     this.$store.dispatch(this.setter, value)
   }
 
