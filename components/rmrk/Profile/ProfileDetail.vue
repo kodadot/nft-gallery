@@ -125,8 +125,8 @@
           <GalleryCardList
             :items="collections"
             type="collectionDetail"
-            route="/rmrk/collection"
-            link="rmrk/collection"
+            :route="`/${urlPrefix}/collection`"
+            :link="`${urlPrefix}/collection`"
             horizontalLayout />
           <InfiniteLoading
             v-if="canLoadNextPage && !isLoading && totalCollections > 0"
