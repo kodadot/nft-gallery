@@ -1,14 +1,15 @@
 <template>
   <CollapseCardWrapper label="offers">
+    <Loader v-model="isLoading" :status="status" />
     <p class="title is-size-4 has-text-success">
-      {{ $t('nft.offer.count', [total]) }} 「🌱」
+      {{ $t('nft.offer.count', [total]) }}
     </p>
-    <OfferTable :offers="offers" @select="submit" />
+    <OfferTable :offers="offers" @select="submit" :accountId="accountId" />
   </CollapseCardWrapper>
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import { isSameAccount } from '~/utils/account'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
@@ -20,6 +21,7 @@ import { createTokenId } from '~/components/unique/utils'
 import offerListByNftId from '@/queries/subsquid/bsx/offerListByNftId.graphql'
 
 const components = {
+  Loader: () => import('@/components/shared/Loader.vue'),
   CollapseCardWrapper: () =>
     import('@/components/shared/collapse/CollapseCardWrapper.vue'),
   OfferTable: () => import('@/components/bsx/Offer/OfferTable.vue'),
@@ -46,7 +48,7 @@ export default class OfferList extends mixins(
   }
 
   fetch() {
-    // this.fetchData()
+    this.fetchOffers()
   }
 
   protected async fetchOffers() {
@@ -58,7 +60,7 @@ export default class OfferList extends mixins(
       })
 
       this.offers = data.offers
-      this.total = 0
+      this.total = data.stats.total
     } catch (e) {
       this.$consola.error(e)
     }
@@ -69,7 +71,9 @@ export default class OfferList extends mixins(
     try {
       const { api } = Connector.getInstance()
       this.initTransactionLoader()
-      const cb = api.tx.marketplace.acceptOffer
+      const cb = !isSameAccount(this.accountId, maker)
+        ? api.tx.marketplace.acceptOffer
+        : api.tx.marketplace.withDrawOffer
       const args = [collectionId, nftId, maker]
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
