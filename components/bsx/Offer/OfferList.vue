@@ -52,11 +52,7 @@ export default class OfferList extends mixins(
   }
 
   fetch() {
-    onApiConnect((api) => {
-      if (hasAllPallets(api)) {
-        this.subscribe(getOffers(api), [this.tokenId, null], this.fetchOffers)
-      }
-    })
+    this.fetchOffers()
   }
 
   get tokenId(): [string, string] {
@@ -95,6 +91,10 @@ export default class OfferList extends mixins(
           `[OFFER] Since block ${blockNumber} ${msg}`,
           notificationTypes.success
         )
+
+        setTimeout(() => {
+          this.fetch()
+        }, 5000)
       })
     } catch (e: any) {
       showNotification(`[OFFER::ERR] ${e}`, notificationTypes.danger)
