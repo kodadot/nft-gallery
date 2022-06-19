@@ -103,6 +103,7 @@ export const actionComponent: Record<string, string> = {
   SEND: 'AddressInput',
   DELEGATE: 'AddressInput',
   LIST: 'BalanceInput',
+  MAKE_OFFER: 'BalanceInput',
 }
 
 type DescriptionTuple = [string, string] | [string]
