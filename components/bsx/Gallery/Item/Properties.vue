@@ -1,6 +1,6 @@
 <template>
   <CollapseCardWrapper label="properties">
-    <b-table :data="attributes" :columns="columns" />
+    <b-table :data="displayAttributes" :columns="columns" />
   </CollapseCardWrapper>
 </template>
 
@@ -28,5 +28,9 @@ export default class Properties extends Vue {
       label: 'Value',
     },
   ]
+
+  get displayAttributes() {
+    return this.attributes.filter((attribute) => attribute['key'])
+  }
 }
 </script>
