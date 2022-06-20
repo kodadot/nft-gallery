@@ -69,7 +69,6 @@ export default class OfferList extends mixins(
   }
 
   protected setResponse(response: OfferResponse) {
-    console.log('updated offers')
     this.offers = response.offers
     this.total = response.stats.total
   }
@@ -82,8 +81,7 @@ export default class OfferList extends mixins(
         variables: { id: createTokenId(this.collectionId, this.nftId) },
       })
 
-      this.offers = data.offers
-      this.total = data.stats.total
+      this.setResponse(data)
     } catch (e) {
       this.$consola.error(e)
     }
