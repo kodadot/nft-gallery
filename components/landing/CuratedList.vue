@@ -91,7 +91,7 @@ export default class CuratedList extends mixins(AuthMixin, PrefixMixin) {
     const result = await this.$apollo
       .query<any>({
         query: query.default,
-        client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+        client: this.client,
         variables:
           this.urlPrefix === 'rmrk' ? { list: curatedCollection } : Unknown,
       })
