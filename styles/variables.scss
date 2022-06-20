@@ -61,6 +61,12 @@ $colors: mergeColorMaps(
       $grey-darker,
       $white,
     ),
+    "orange": (
+      $orange,
+      $orange-invert,
+      $orange-light,
+      $orange-dark,
+    )
   ),
   $custom-colors
 );

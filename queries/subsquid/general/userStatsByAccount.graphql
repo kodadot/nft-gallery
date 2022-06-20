@@ -18,7 +18,23 @@ query userStatsByAccount($account: String!) {
     where: { issuer_not_eq: $account, currentOwner_eq: $account }
   ) {
     totalCount
+    edges {
+      node {
+        events(
+          orderBy: timestamp_DESC
+          limit: 1,
+          where: {
+            interaction_eq: BUY,
+            caller_eq: $account
+          }
+        ) {
+          meta
+          timestamp
+        }
+      }
+    }
   }
+
   sold: nftEntitiesConnection(
     orderBy: blockNumber_DESC
     where: { issuer_eq: $account, currentOwner_not_eq: $account }
