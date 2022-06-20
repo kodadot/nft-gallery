@@ -49,12 +49,29 @@ export default class OfferList extends mixins(
     )
   }
 
-  fetch() {
-    this.fetchOffers()
-  }
+  // fetch() {
+  //   this.fetchOffers()
+  // }
 
   get tokenId(): [string, string] {
     return [this.collectionId, this.nftId]
+  }
+
+  public mounted() {
+    this.$apollo.addSmartQuery<OfferResponse>('offers', {
+      client: this.urlPrefix,
+      query: offerListByNftId,
+      variables: { id: createTokenId(this.collectionId, this.nftId) },
+      manual: true,
+      result: ({ data }) => this.setResponse(data),
+      pollInterval: 15000,
+    })
+  }
+
+  protected setResponse(response: OfferResponse) {
+    console.log('updated offers')
+    this.offers = response.offers
+    this.total = response.stats.total
   }
 
   protected async fetchOffers() {
@@ -89,10 +106,6 @@ export default class OfferList extends mixins(
           `[OFFER] Since block ${blockNumber} ${msg}`,
           notificationTypes.success
         )
-
-        setTimeout(() => {
-          this.fetch()
-        }, 5000)
       })
     } catch (e: any) {
       showNotification(`[OFFER::ERR] ${e}`, notificationTypes.danger)
