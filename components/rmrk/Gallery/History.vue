@@ -170,9 +170,9 @@ type ChartData = {
 
 @Component({ components })
 export default class History extends mixins(
+  PrefixMixin,
   ChainMixin,
-  KeyboardEventsMixin,
-  PrefixMixin
+  KeyboardEventsMixin
 ) {
   @Prop({ type: Array }) public events!: EventInteraction[]
   @Prop({ type: Boolean, default: true })
@@ -181,7 +181,8 @@ export default class History extends mixins(
 
   private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: HistoryEventType = HistoryEventType.BUY
-  private isCollectionPage = this.$route.name === 'rmrk-collection-id'
+  private isCollectionPage =
+    this.$route.name === `${this.urlPrefix}-collection-id`
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
