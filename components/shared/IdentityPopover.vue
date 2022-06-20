@@ -116,9 +116,11 @@ export default class IdentityPopover extends mixins(
   protected totalSold = 0
 
   public async mounted() {
+    const prefix = this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix
+    const query = await resolveQueryPath(prefix, 'buyEventByProfile')
     const { data } = await this.$apollo.query<{ events: Interaction[] }>({
-      query: buyEventByProfile,
-      client: 'subsquid',
+      query: query.default,
+      client: prefix,
       variables: {
         id: this.identity.address,
       },
