@@ -1,5 +1,6 @@
 // TODO: hacky, but works for now
 import { queryBatch } from '@/utils/cloudflare'
+import { isEmpty } from '@kodadot1/minimark'
 import { get, getMany, setMany, update } from 'idb-keyval'
 import { fetchMetadata, getSanitizer, zip } from '~/components/rmrk/utils'
 import { emptyObject } from './empty'
@@ -42,7 +43,7 @@ export const cacheOrFetchMetadata = async <T>(
   fromCache: T | undefined,
   metadata: string
 ): P<T> => {
-  if (fromCache) {
+  if (fromCache && !isEmpty(fromCache)) {
     return fromCache
   }
 
