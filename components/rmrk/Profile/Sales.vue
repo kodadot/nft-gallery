@@ -24,7 +24,7 @@
             cell-class="type-table">
             <nuxt-link
               :to="{
-                name: 'rmrk-collection-id',
+                name: `${urlPrefix}-collection-id`,
                 params: { id: props.row.Collection.id },
               }">
               {{ props.row.Collection.name }}
@@ -37,7 +37,7 @@
             cell-class="type-table">
             <nuxt-link
               :to="{
-                name: 'rmrk-gallery-id',
+                name: `${urlPrefix}-gallery-id`,
                 params: { id: props.row.Nft.id },
               }">
               {{ props.row.Nft.name }}
@@ -50,7 +50,7 @@
             v-slot="props">
             <nuxt-link
               :to="{
-                name: 'rmrk-u-id',
+                name: `${urlPrefix}-u-id`,
                 params: { id: props.row.Buyer },
               }">
               <Identity :address="props.row.Buyer" inline noOverflow />
@@ -98,6 +98,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
 import { Event } from '../service/types'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -132,7 +133,11 @@ type ChartData = {
 }
 
 @Component({ components })
-export default class Sales extends mixins(ChainMixin, KeyboardEventsMixin) {
+export default class Sales extends mixins(
+  PrefixMixin,
+  ChainMixin,
+  KeyboardEventsMixin
+) {
   @Prop({ type: Array }) public events!: Event[]
   @Prop({ type: Boolean, default: true })
   private readonly openOnDefault!: boolean

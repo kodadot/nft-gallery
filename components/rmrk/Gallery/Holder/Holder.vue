@@ -62,7 +62,7 @@
             <nuxt-link
               v-if="groupKey === 'Holder' || groupKey === 'Flipper'"
               :to="{
-                name: 'rmrk-u-id',
+                name: `${urlPrefix}-u-id`,
                 params: { id: props.row[groupKey] },
                 query: { tab: groupKey === 'Holder' ? 'holdings' : 'gains' },
               }">
@@ -71,7 +71,7 @@
             <nuxt-link
               v-else-if="groupKey === 'CollectionId'"
               :to="{
-                name: 'rmrk-collection-id',
+                name: `${urlPrefix}-collection-id`,
                 params: { id: props.row.CollectionId },
               }">
               <Identity
@@ -142,7 +142,7 @@
                 v-show="columnsVisible['Name'].display">
                 <nuxt-link
                   :to="{
-                    name: 'rmrk-gallery-id',
+                    name: `${urlPrefix}-gallery-id`,
                     params: { id: item.Item.id },
                   }">
                   {{ item.Item.name || item.Item.id }}
@@ -196,6 +196,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { parsePriceForItem, parseDate } from './helper'
 import { Debounce } from 'vue-debounce-decorator'
 import { Interaction } from '@kodadot1/minimark'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -243,6 +244,7 @@ type BaseTableRow = {
   components,
 })
 export default class CommonHolderTable extends mixins(
+  PrefixMixin,
   ChainMixin,
   KeyboardEventsMixin
 ) {
