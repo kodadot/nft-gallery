@@ -41,6 +41,7 @@
           class="mb-2"
           :label="name"
           :iframe="iframeSettings">
+          <DestroyCollection v-if="isOwner && urlPrefix === 'bsx'" :id="id" />
           <DonationButton :address="issuer" />
         </Sharing>
       </div>
@@ -156,6 +157,7 @@ import {
   sanitizeIpfsUrl,
 } from '../utils'
 import { SearchQuery } from './Search/types'
+import { isSameAccount } from '~/utils/account'
 
 const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
 
@@ -181,6 +183,8 @@ const components = {
   Flipper: () => import('@/components/rmrk/Gallery/Flipper.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
+  DestroyCollection: () =>
+    import('@/components/bsx/specific/DestroyCollection.vue'),
 }
 @Component<CollectionItem>({
   components,
@@ -278,6 +282,10 @@ export default class CollectionItem extends mixins(
 
   get currentValue() {
     return this.currentPage
+  }
+
+  get isOwner() {
+    return isSameAccount(this.collection.issuer, this.accountId)
   }
 
   private buildSearchParam(checkForEmpty?): Record<string, unknown>[] {
