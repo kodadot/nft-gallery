@@ -213,6 +213,8 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         },
       })
 
+      console.log(nFTEntity)
+
       this.nft = {
         ...nFTEntity,
         emotes: nFTEntity?.emotes?.nodes,
