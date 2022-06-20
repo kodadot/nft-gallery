@@ -12,7 +12,6 @@ query nftListByIssuer(
   nftEntities(
     where: {
       issuer_eq: $account
-      name_not_contains: "%Kanaria%"
       burned_eq: false
       AND: $and
     }
@@ -27,7 +26,6 @@ query nftListByIssuer(
   nftEntitiesConnection(
     where: {
       issuer_eq: $account
-      name_not_contains: "%Kanaria%"
       burned_eq: false
       AND: $and
     }

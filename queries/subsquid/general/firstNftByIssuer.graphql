@@ -2,7 +2,6 @@ query firstNftByIssuer($account: String!) {
   nftEntities(
     where: {
       issuer_eq: $account
-      name_not_contains: "%Kanaria%"
       burned_eq: false
     },
     orderBy: blockNumber_DESC
