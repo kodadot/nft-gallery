@@ -1,5 +1,5 @@
 <template>
-  <CollapseCardWrapper label="properties">
+  <CollapseCardWrapper :label="$t('nft.properties.label')">
     <b-table :data="displayAttributes" :columns="columns" />
   </CollapseCardWrapper>
 </template>

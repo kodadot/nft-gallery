@@ -1,5 +1,5 @@
 <template>
-  <CollapseCardWrapper label="offers">
+  <CollapseCardWrapper :label="$t('nft.offer.label')">
     <Loader v-model="isLoading" :status="status" />
     <p class="title is-size-4 has-text-success">
       {{ $t('nft.offer.count', [total]) }}
