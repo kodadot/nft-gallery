@@ -4,7 +4,11 @@
     <p class="title is-size-4 has-text-success">
       {{ $t('nft.offer.count', [total]) }}
     </p>
-    <OfferTable :offers="offers" @select="submit" :accountId="accountId" />
+    <OfferTable
+      :offers="offers"
+      @select="submit"
+      :accountId="accountId"
+      :isOwner="isOwner" />
   </CollapseCardWrapper>
 </template>
 
