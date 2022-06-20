@@ -40,11 +40,11 @@
           <LazyGalleryCuratedList />
         </div>
       </div>
-      <!-- <div v-if="prefix === 'rmrk'">
+      <div v-if="prefix === 'rmrk'">
         <LazyGalleryLatestSales :passionList="passionList" class="my-5" />
         <LazyGalleryPopularCollections class="my-5" />
         <LazyGalleryNewestList :passionList="passionList" class="my-5" />
-      </div> -->
+      </div>
     </div>
   </section>
 </template>

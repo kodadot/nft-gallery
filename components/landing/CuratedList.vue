@@ -48,15 +48,20 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import AuthMixin from '@/utils/mixins/authMixin'
 import {
   getCloudflareImageLinks,
-  getProperImageLink,
+  processMetadata,
 } from '~/utils/cachingStrategy'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import Unknown from '../Media/JsonMedia.vue'
+import Unknown from '../rmrk/Media/JsonMedia.vue'
 import resolveQueryPath from '~/utils/queryPathResolver'
+import { mapOnlyMetadata } from '~/utils/mappers'
+import { CollectionMetadata } from '../rmrk/types'
+import { fastExtract } from '~/utils/ipfs'
+import { getSanitizer } from '../rmrk/utils'
+import { Collection } from '~/components/unique/types'
 
 const components = {
   // Identicon: () => import('@polkadot/vue-identicon'),
@@ -76,7 +81,7 @@ const curatedCollection = [
   components,
 })
 export default class CuratedList extends mixins(AuthMixin, PrefixMixin) {
-  protected collections: [] = []
+  protected collections: Collection[] = []
 
   async fetch() {
     const query = await resolveQueryPath(
@@ -100,14 +105,22 @@ export default class CuratedList extends mixins(AuthMixin, PrefixMixin) {
   }
 
   protected async handleResult({ data }: any) {
-    const images = await getCloudflareImageLinks(
-      data.collectionEntities.map((e: any) => e.meta.id)
-    )
-    const imageOf = getProperImageLink(images)
     this.collections = data.collectionEntities.map((e: any) => ({
       ...e,
-      image: imageOf(e.meta.id, e.meta.image),
+      metadata: e.meta.id || e.metadata,
     }))
+    const metadataList: string[] = this.collections.map(mapOnlyMetadata)
+    const imageLinks = await getCloudflareImageLinks(metadataList)
+
+    processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
+      Vue.set(this.collections, i, {
+        ...this.collections[i],
+        ...meta,
+        image:
+          imageLinks[fastExtract(this.collections[i]?.metadata)] ||
+          getSanitizer(meta.image || '')(meta.image || ''),
+      })
+    })
   }
 }
 </script>

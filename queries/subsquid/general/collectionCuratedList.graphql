@@ -1,12 +1,9 @@
+#import "../../fragments/collection.graphql"
+#import "../../fragments/collectionDetails.graphql"
+
 query collectionCuratedList {
-  collectionEntities(orderBy: blockNumber_DESC limit: 5) {
-    id
-    issuer
-    name
-    meta {
-      id
-      name
-      image
-    }
+  collectionEntities(orderBy: blockNumber_DESC, limit: 5, where: { nfts_some: { burned_eq: false }}) {
+    ...collection
+    ...collectionDetails
   }
 }
