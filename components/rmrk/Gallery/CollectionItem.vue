@@ -285,7 +285,11 @@ export default class CollectionItem extends mixins(
   }
 
   get isOwner() {
-    return isSameAccount(this.collection.issuer, this.accountId)
+    return (
+      this.collection.issuer &&
+      this.accountId &&
+      isSameAccount(this.collection.issuer, this.accountId)
+    )
   }
 
   private buildSearchParam(checkForEmpty?): Record<string, unknown>[] {
