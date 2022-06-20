@@ -187,7 +187,8 @@ export default class SearchBar extends mixins(
 ) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
-  @Prop(Array) public sortByMultiple!: string[]
+  @Prop({ type: Array, default: () => ['BLOCK_NUMBER_DESC'] })
+  public sortByMultiple!: string[]
   @Prop(String) public searchColumnClass!: string
   @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
