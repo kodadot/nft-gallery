@@ -54,3 +54,17 @@ export const fallbackMetaByNftEvent = async (events: Events[]) => {
     }
   }
 }
+
+export const convertLastEventToNft = (e: any) => {
+  return {
+    id: e.id,
+    name: e.name,
+    issuer: e.issuer,
+    currentOwner: e.currentOwner,
+    metadata: e.metadata,
+    meta: {
+      id: e.metadata,
+      image: e.image,
+    },
+  }
+}

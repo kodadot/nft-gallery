@@ -167,6 +167,7 @@ import {
   processMetadata,
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
+import { convertLastEventToNft } from '@/utils/carousel'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
@@ -224,7 +225,7 @@ export default class SearchBar extends mixins(
     ) {
       try {
         const { data } = await this.$apollo.query<{
-          events: [{ meta; timestamp; nft }]
+          lastEvent: [{ meta; timestamp; nft }]
         }>({
           query: lastNftListByEvent,
           client: this.client,
@@ -237,8 +238,11 @@ export default class SearchBar extends mixins(
           },
         })
 
-        const nfts = [...data.events].map((event) => event.nft)
-        const nFTMetadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
+        const nfts = [...data.lastEvent].map((e) => convertLastEventToNft(e))
+
+        const nFTMetadataList: string[] = (nfts as any).map(
+          mapNFTorCollectionMetadata
+        )
         getCloudflareImageLinks(nFTMetadataList).then((imageLinks) => {
           const nftResult: NFTWithMeta[] = []
           processMetadata<NFTWithMeta>(nFTMetadataList, (meta, i) => {
