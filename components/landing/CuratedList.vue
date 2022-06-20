@@ -93,7 +93,7 @@ export default class CuratedList extends mixins(AuthMixin, PrefixMixin) {
         query: query.default,
         client: this.client,
         variables:
-          this.urlPrefix === 'rmrk' ? { list: curatedCollection } : Unknown,
+          this.urlPrefix === 'rmrk' ? { list: curatedCollection } : undefined,
       })
       .catch((e) => {
         this.$consola.error(e)
