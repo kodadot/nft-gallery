@@ -105,7 +105,6 @@ export default class CuratedList extends mixins(AuthMixin, PrefixMixin) {
   }
 
   protected async handleResult({ data }: any) {
-    console.log(data)
     this.collections = data.collectionEntities.map((e: any) => ({
       ...e,
       metadata: e.meta?.id || e.metadata,
