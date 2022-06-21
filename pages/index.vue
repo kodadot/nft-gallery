@@ -1,9 +1,10 @@
 <template>
-  <Landing prefix="rmrk" />
+  <Landing :prefix="urlPrefix" :buildOn="prefixBuildOnText" />
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 @Component({
   name: 'LandingPage',
@@ -11,7 +12,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
     Landing: () => import('@/components/landing/Landing.vue'),
   },
 })
-export default class LandingPage extends Vue {
+export default class LandingPage extends mixins(PrefixMixin) {
   layout() {
     return 'full-width-layout'
   }

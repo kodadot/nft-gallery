@@ -20,4 +20,17 @@ export default class PrefixMixin extends Vue {
   get client(): string {
     return this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix
   }
+
+  get prefixBuildOnText() {
+    switch (this.urlPrefix) {
+      case 'bsx':
+        return 'Basilisk'
+      case 'statemine':
+        return 'Statemine Unique Pallet'
+      case 'westmint':
+        return 'Statemine Unique Pallet'
+      default:
+        return 'RMRK Protocol'
+    }
+  }
 }
