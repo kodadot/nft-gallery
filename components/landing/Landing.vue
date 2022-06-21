@@ -41,13 +41,13 @@
         </div>
       </div>
       <div v-if="prefix === 'rmrk'">
-        <b-switch
+        <span
           v-if="isLogIn"
-          class="mt-3"
-          v-model="hasPassionFeed"
-          :rounded="false">
-          Passion Feed
-        </b-switch>
+          class="homepage__toggle"
+          type="is-text"
+          @click="togglePassionValue"
+          >Show {{ hasPassionFeed ? 'global' : 'personalized' }} data</span
+        >
         <LazyGalleryLatestSales
           :passionList="hasPassionFeed ? passionList : []"
           class="my-5" />
@@ -81,6 +81,10 @@ export default class Landing extends mixins(AuthMixin) {
         this.passionList = this.passionList.concat(result)
       }
     }
+  }
+
+  public togglePassionValue() {
+    this.hasPassionFeed = !this.hasPassionFeed
   }
 
   public async fetchPassionList() {
@@ -124,6 +128,15 @@ export default class Landing extends mixins(AuthMixin) {
   &__heading {
     font-size: 4rem;
     color: $text;
+  }
+
+  &__toggle {
+    text-decoration: underline;
+    color: $primary;
+    cursor: pointer;
+    &:hover {
+      color: $white;
+    }
   }
 }
 .title {
