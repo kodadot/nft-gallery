@@ -118,10 +118,12 @@ export default class CreateCollection extends mixins(
 
     const imageHash = await pinImageSafe(file, pinningKey.token)
     const type = getImageTypeSafe(file)
-    const attributes = this.attributes.map((val) => ({
-      ...val,
-      display_type: null,
-    }))
+    const attributes = this.attributes
+      .map((val) => ({
+        ...val,
+        display_type: null,
+      }))
+      .filter((item) => item.trait_type || item.display_type)
     const meta = createMetadata(
       name,
       description,
@@ -219,6 +221,7 @@ export default class CreateCollection extends mixins(
           `[Collection] Saved ${this.base.name} in block ${blockNumber}`,
           notificationTypes.success
         )
+        this.$emit('created')
       })
     } catch (e: any) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)

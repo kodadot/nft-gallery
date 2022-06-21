@@ -15,6 +15,7 @@ export const bsxActionResolver: CallDictionary = {
   CONSUME: ['nft', 'burn'],
   BUY: ['marketplace', 'buy'],
   LIST: ['marketplace', 'setPrice'],
+  MAKE_OFFER: ['marketplace', 'makeOffer'],
 }
 
 export const bsxParamResolver = (
@@ -29,6 +30,7 @@ export const bsxParamResolver = (
     CONSUME: [collectionId, tokenId],
     BUY: [collectionId, tokenId],
     LIST: [collectionId, tokenId, meta],
+    MAKE_OFFER: [collectionId, tokenId, meta, 1000000], // TODO: this is a hack
   }
 
   return actions[selectedAction]

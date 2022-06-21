@@ -3,7 +3,7 @@
     <b-dropdown
       v-if="multipleSelect"
       multiple
-      v-model="selectedActionArray"
+      v-model="selectedAction"
       class="select-dropdown">
       <template #trigger>
         <b-button type="is-primary" icon-right="caret-down"> Sort by </b-button>
@@ -26,23 +26,14 @@
 
 <script lang="ts">
 import { Component, Vue, VModel, Prop } from 'nuxt-property-decorator'
-
+import { NFT_SORT_CONDITION_LIST } from '@/utils/constants'
 @Component
 export default class SearchSortDropdown extends Vue {
-  @VModel({ default: 'blockNumber_DESC' }) selectedAction!: string
-  @VModel({ default: ['BLOCK_NUMBER_DESC'] }) selectedActionArray!: string[]
+  @VModel({ type: [Array, String] }) selectedAction!: string | string[]
   @Prop(Array) public sortOption?: string[]
   @Prop(Boolean) public multipleSelect!: boolean
 
-  private sort: string[] = [
-    'EMOTES_COUNT_DESC',
-    'BLOCK_NUMBER_DESC',
-    'BLOCK_NUMBER_ASC',
-    'UPDATED_AT_DESC',
-    'UPDATED_AT_ASC',
-    'PRICE_DESC',
-    'PRICE_ASC',
-  ]
+  private sort: string[] = NFT_SORT_CONDITION_LIST
 
   get actions(): string[] {
     return this.sortOption || this.sort

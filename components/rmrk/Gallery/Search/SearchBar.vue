@@ -167,6 +167,7 @@ import {
   processMetadata,
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
+import { NFT_SORT_CONDITION_LIST } from '@/utils/constants'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
@@ -186,7 +187,8 @@ export default class SearchBar extends mixins(
 ) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
-  @Prop(Array) public sortByMultiple!: string[]
+  @Prop({ type: Array, default: () => ['BLOCK_NUMBER_DESC'] })
+  public sortByMultiple!: string[]
   @Prop(String) public searchColumnClass!: string
   @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
@@ -470,9 +472,13 @@ export default class SearchBar extends mixins(
 
   @Emit('update:sortByMultiple')
   @Debounce(400)
-  updateSortBy(value: string[]): string[] {
-    this.replaceUrl(value, undefined, 'sort')
-    return value
+  updateSortBy(value: string[] | string): string[] {
+    const final = (Array.isArray(value) ? value : [value]).filter((condition) =>
+      NFT_SORT_CONDITION_LIST.includes(condition)
+    )
+
+    this.replaceUrl(final, undefined, 'sort')
+    return final
   }
 
   // not highlight search, just input keyword and enter
