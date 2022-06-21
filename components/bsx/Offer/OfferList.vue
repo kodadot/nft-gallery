@@ -11,7 +11,7 @@
       :isOwner="isOwner" />
   </CollapseCardWrapper>
   <CollapseCardWrapper :label="$t('nft.offer.label')" v-else>
-    <p>{{ 'There are currently no offers for this NFT.' }}</p>
+    <p>{{ $t('nft.offer.empty') }}</p>
   </CollapseCardWrapper>
 </template>
 
@@ -120,3 +120,4 @@ export default class OfferList extends mixins(
   }
 }
 </script>
+``
