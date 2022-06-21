@@ -24,7 +24,7 @@ export default class PrefixMixin extends Vue {
   get prefixBuildOnText() {
     switch (this.urlPrefix) {
       case 'bsx':
-        return 'Basilisk'
+        return 'Basilisk NFT Pallet'
       case 'statemine':
         return 'Statemine Unique Pallet'
       case 'westmint':
