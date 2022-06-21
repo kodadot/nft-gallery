@@ -1,6 +1,6 @@
 <template>
   <div class="mb-6">
-    <CreateCollection />
+    <CreateCollection @created="onCollectionCreated" />
   </div>
 </template>
 
@@ -13,5 +13,9 @@ import CreateCollection from './CreateCollection.vue'
     CreateCollection,
   },
 })
-export default class Create extends Vue {}
+export default class Create extends Vue {
+  onCollectionCreated() {
+    this.$emit('navigateToCreateNftTab')
+  }
+}
 </script>

@@ -54,7 +54,7 @@
             v-slot="props">
             <nuxt-link
               :to="{
-                name: 'rmrk-gallery-id',
+                name: `${urlPrefix}-gallery-id`,
                 params: { id: props.row.Item.id },
               }">
               {{ props.row.Item.name }}
@@ -67,7 +67,7 @@
             v-slot="props">
             <nuxt-link
               :to="{
-                name: 'rmrk-u-id',
+                name: `${urlPrefix}-u-id`,
                 params: { id: props.row.From },
               }">
               <Identity :address="props.row.From" inline noOverflow />
@@ -80,7 +80,7 @@
             label="To"
             v-slot="props">
             <nuxt-link
-              :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }">
+              :to="{ name: `${urlPrefix}-u-id`, params: { id: props.row.To } }">
               <Identity :address="props.row.To" inline noOverflow />
             </nuxt-link>
           </b-table-column>
@@ -141,6 +141,7 @@ import {
   parseAmount,
 } from '@/utils/historyEvent'
 import { Interaction } from '@kodadot1/minimark'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -168,7 +169,11 @@ type ChartData = {
 }
 
 @Component({ components })
-export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
+export default class History extends mixins(
+  PrefixMixin,
+  ChainMixin,
+  KeyboardEventsMixin
+) {
   @Prop({ type: Array }) public events!: EventInteraction[]
   @Prop({ type: Boolean, default: true })
   private readonly openOnDefault!: boolean
@@ -176,7 +181,8 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
   private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: HistoryEventType = HistoryEventType.BUY
-  private isCollectionPage = this.$route.name === 'rmrk-collection-id'
+  private isCollectionPage =
+    this.$route.name === `${this.urlPrefix}-collection-id`
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
