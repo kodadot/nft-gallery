@@ -28,6 +28,7 @@ import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
 import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'
+import { LastEvent } from '~/utils/types/types'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
@@ -78,7 +79,7 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
     }
     const result = await this.$apollo
       .query<{
-        events: { meta; nft: { meta: { id; image } } }
+        events: LastEvent[]
       }>({
         query: lastNftListByEvent,
         client: this.client,
@@ -94,11 +95,8 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
     }
   }
 
-  protected async handleResult({ data }: any) {
-    this.events = [...data.lastEvent].map((e) => ({
-      ...e,
-      nft: convertLastEventToNft(e),
-    }))
+  protected async handleResult({ data }: { data: { events: LastEvent[] } }) {
+    this.events = [...data.events].map(convertLastEventToNft)
 
     this.total = this.events.length
 

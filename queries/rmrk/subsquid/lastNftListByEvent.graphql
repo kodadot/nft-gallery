@@ -1,5 +1,5 @@
 query lastNftListByEvent($limit: Float!, $event: String!) {
-  lastEvent(
+  events: lastEvent(
     limit: $limit
     offset: 0
     interaction: $event

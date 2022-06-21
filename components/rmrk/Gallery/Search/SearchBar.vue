@@ -169,6 +169,7 @@ import {
 import { fastExtract } from '~/utils/ipfs'
 import { convertLastEventToNft } from '@/utils/carousel'
 import { NFT_SORT_CONDITION_LIST } from '@/utils/constants'
+import { LastEvent } from '~/utils/types/types'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
@@ -227,20 +228,17 @@ export default class SearchBar extends mixins(
     ) {
       try {
         const { data } = await this.$apollo.query<{
-          lastEvent: [{ meta; timestamp; nft }]
+          events: LastEvent[]
         }>({
           query: lastNftListByEvent,
           client: this.client,
           variables: {
             limit: this.searchSuggestionEachTypeMaxNum,
             event: 'LIST',
-            and: {
-              meta_not_eq: '0',
-            },
           },
         })
 
-        const nfts = [...data.lastEvent].map((e) => convertLastEventToNft(e))
+        const nfts = [...data.events].map((e) => convertLastEventToNft(e).nft)
 
         const nFTMetadataList: string[] = (nfts as any).map(
           mapNFTorCollectionMetadata

@@ -89,10 +89,7 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
   }
 
   protected async handleResult({ data }: any) {
-    this.events = [...data.lastEvent].map((e) => ({
-      ...e,
-      nft: convertLastEventToNft(e),
-    }))
+    this.events = [...data.events].map(convertLastEventToNft)
 
     await fallbackMetaByNftEvent(this.events)
     const images = await getCloudflareImageLinks(
