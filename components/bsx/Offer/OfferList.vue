@@ -1,7 +1,7 @@
 <template>
-  <CollapseCardWrapper :label="$t('nft.offer.label')" v-if="total">
+  <CollapseCardWrapper :label="$t('nft.offer.label', [total])">
     <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-4 has-text-success">
+    <p class="title is-size-4 has-text-success" v-if="total">
       {{ $t('nft.offer.count', [total]) }}
     </p>
     <OfferTable
@@ -9,9 +9,6 @@
       @select="submit"
       :accountId="accountId"
       :isOwner="isOwner" />
-  </CollapseCardWrapper>
-  <CollapseCardWrapper :label="$t('nft.offer.label')" v-else>
-    <p>{{ $t('nft.offer.empty') }}</p>
   </CollapseCardWrapper>
 </template>
 
@@ -120,4 +117,3 @@ export default class OfferList extends mixins(
   }
 }
 </script>
-``
