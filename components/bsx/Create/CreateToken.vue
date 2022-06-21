@@ -84,6 +84,8 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
 import { isRoyaltyValid, Royalty } from '@/utils/royalty'
+import { fetchCollectionMetadata } from '~/components/rmrk/utils'
+import { getMany, update } from 'idb-keyval'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -174,6 +176,34 @@ export default class CreateToken extends mixins(
       alreadyMinted: ce.nfts?.length,
       lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
     }))
+
+    this.loadCollectionMeta()
+  }
+
+  protected async loadCollectionMeta() {
+    const storedMetadata = await getMany(
+      this.collections.map(({ metadata }: any) => metadata)
+    )
+
+    storedMetadata.forEach(async (m, i) => {
+      if (!m) {
+        try {
+          const meta = await fetchCollectionMetadata(this.collections[i])
+          this.$set(this.collections, i, {
+            ...this.collections[i],
+            ...meta,
+          })
+          update(this.collections[i].metadata, () => meta)
+        } catch (e) {
+          this.$consola.warn('[ERR] unable to get metadata')
+        }
+      } else {
+        this.$set(this.collections, i, {
+          ...this.collections[i],
+          ...m,
+        })
+      }
+    })
   }
 
   get disabled() {
@@ -278,7 +308,7 @@ export default class CreateToken extends mixins(
       ...(this.attributes || []),
       ...nsfwAttribute(this.nsfw),
       ...offsetAttribute(this.hasCarbonOffset),
-    ]
+    ].filter((attribute) => attribute.display_type || attribute.trait_type)
 
     const meta = createMetadata(
       name,

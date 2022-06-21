@@ -54,8 +54,8 @@ export default class BalanceInput extends mixins(ChainMixin) {
     this.balance?.focus()
   }
 
-  formatSelectedValue(value: number): number {
-    return value * 10 ** this.decimals * this.selectedUnit
+  formatSelectedValue(value: number): string {
+    return String(value * 10 ** this.decimals * this.selectedUnit)
   }
 
   get calculatedBalance() {

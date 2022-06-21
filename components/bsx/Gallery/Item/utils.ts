@@ -13,7 +13,7 @@ export function getPrice(api: ApiPromise) {
 }
 
 export function getOffers(api: ApiPromise) {
-  return api.query.marketplace.prices
+  return api.query.marketplace.offers.keys
 }
 
 export function getOwner(api: ApiPromise) {
