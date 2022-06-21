@@ -1,4 +1,7 @@
 query statsForBsx {
+  eventsConnection(orderBy: id_ASC, where: {interaction_eq: BUY}) {
+    totalCount
+  }
   offerEvents {
     id
   }
@@ -18,8 +21,5 @@ query statsForBsx {
   }
   nftEntities(where: {burned_eq: false}) {
     id
-  }
-  eventsConnection(orderBy: id_ASC, where: {interaction_eq: BUY}) {
-    totalCount
   }
 }
