@@ -233,14 +233,16 @@ export default class CreateToken extends mixins(
         metadata,
         false
       )
-      const attributes = this.attributes.map((a) =>
-        api.tx.uniques.setAttribute(
-          collectionId,
-          String(nextId),
-          a.trait_type,
-          String(a.value)
+      const attributes = this.attributes
+        .filter((item) => item.trait_type || item.display_type)
+        .map((a) =>
+          api.tx.uniques.setAttribute(
+            collectionId,
+            String(nextId),
+            a.trait_type,
+            String(a.value)
+          )
         )
-      )
 
       const support = await canSupport(this.hasSupport)
       //

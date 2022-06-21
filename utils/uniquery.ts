@@ -23,7 +23,9 @@ export function unwrapSafe<T = any>(value: OneOf<T>): List<T> {
   }
 }
 
-export function unwrapId(value: Primitive | EntityWithId<Primitive>): Primitive {
+export function unwrapId(
+  value: Primitive | EntityWithId<Primitive>
+): Primitive {
   if (typeof value === 'string' || typeof value === 'number') {
     return value
   }
@@ -32,5 +34,9 @@ export function unwrapId(value: Primitive | EntityWithId<Primitive>): Primitive 
 }
 
 export function correctPrefix(prefix: string): string {
-  return prefix === 'rmrk' ? '' : prefix
+  return prefix === 'rmrk' ? 'subsquid' : prefix
+}
+
+export function ifRMRK<T>(prefix: string, first: T, second: T): T {
+  return prefix === 'rmrk' ? first : second
 }

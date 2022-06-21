@@ -13,7 +13,6 @@ query nftListCollected(
     where: {
       issuer_not_eq: $account
       currentOwner_eq: $account
-      name_not_contains: "%Kanaria%"
       burned_eq: false
       AND: $and
     }
@@ -31,7 +30,6 @@ query nftListCollected(
     where: {
       issuer_not_eq: $account
       currentOwner_eq: $account
-      name_not_contains: "%Kanaria%"
       burned_eq: false
       AND: $and
     }

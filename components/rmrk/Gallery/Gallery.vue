@@ -215,7 +215,6 @@ export default class Gallery extends mixins(
     // only fetch passionFeed if logged in
     if (this.isLogIn) {
       try {
-        this.hasPassionFeed = true
         await this.fetchPassionList()
       } catch (e) {
         showNotification((e as Error).message, notificationTypes.danger)
@@ -279,6 +278,11 @@ export default class Gallery extends mixins(
       },
     })
     this.passionList = passionFeed?.map(mapToId) || []
+
+    // only show passion feed if it has some length
+    if (this.passionList.length > 5) {
+      this.hasPassionFeed = true
+    }
   }
 
   protected async handleResult(

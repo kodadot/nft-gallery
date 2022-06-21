@@ -28,10 +28,9 @@ export const URLS = {
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
     magick: 'https://api.subquery.network/sq/vikiival/magick',
-    subsquidv4: 'https://app.gc.subsquid.io/beta/rubick/004/graphql',
     subsquidv5: 'https://app.gc.subsquid.io/beta/rubick/005/graphql',
     subsquidv6: 'https://app.gc.subsquid.io/beta/rubick/006/graphql',
-    snekk: 'https://app.gc.subsquid.io/beta/snekk/001/graphql',
+    snekk: 'https://app.gc.subsquid.io/beta/snekk/003/graphql',
   },
   providers: {
     coingecko: 'https://api.coingecko.com/api/v3',
@@ -40,3 +39,13 @@ export const URLS = {
     pinata: 'https://api.pinata.cloud/',
   },
 }
+
+export const NFT_SORT_CONDITION_LIST: string[] = [
+  'EMOTES_COUNT_DESC',
+  'BLOCK_NUMBER_DESC',
+  'BLOCK_NUMBER_ASC',
+  'UPDATED_AT_DESC',
+  'UPDATED_AT_ASC',
+  'PRICE_DESC',
+  'PRICE_ASC',
+]

@@ -144,7 +144,11 @@ export default class IdentityPopover extends mixins(
         // if cache exist and within 12h
         await this.handleResult({ data, type: 'cache' })
       } else {
-        const query = await resolveQueryPath(this.urlPrefix, 'nftStatsByIssuer')
+        const query = await resolveQueryPath(
+          this.urlPrefix,
+          'userStatsByAccount'
+        )
+
         this.$apollo.addSmartQuery('collections', {
           query: query.default,
           manual: true,
@@ -177,15 +181,20 @@ export default class IdentityPopover extends mixins(
       this.firstMintDate = data.firstMintDate
       this.lastBoughtDate = data.lastBoughtDate
     } else if (data) {
-      this.totalCreated = data.nFTCreated.totalCount
-      this.totalCollected = data.nFTCollected.totalCount
-      this.totalSold = data.nFTSold.totalCount
+      this.totalCreated = data.created.totalCount
+      this.totalCollected = data.collected.totalCount
+      this.totalSold = data.sold.totalCount
 
-      if (data?.firstMint?.nodes.length > 0) {
-        this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
+      if (data?.firstMint?.length > 0) {
+        this.firstMintDate = data.firstMint[0].createdAt
+      } else if (data?.firstMint?.nodes?.length > 0) {
+        this.firstMintDate = data.firstMint.nodes[0].createdAt
       }
-      if (data?.nFTCollected?.nodes.length > 0) {
-        this.lastBoughtDate = data.nFTCollected.nodes[0].collection.createdAt
+
+      if (data?.collected?.nodes?.length > 0) {
+        this.lastBoughtDate = data.collected.nodes[0].collection.createdAt
+      } else if (data?.collected?.edges?.length > 0) {
+        this.lastBoughtDate = data.collected.edges[0].node.events[0].timestamp
       }
       const cacheData = {
         totalCreated: this.totalCreated,
