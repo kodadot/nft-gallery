@@ -1,0 +1,25 @@
+query statsForBsx {
+  offerEvents {
+    id
+  }
+  offers {
+    id
+    price
+    status
+  }
+  nftEntitiesConnection(orderBy: id_ASC) {
+    totalCount
+  }
+  collectionEntitiesConnection(orderBy: id_ASC) {
+    totalCount
+  }
+  offersConnection(orderBy: id_ASC, where: {AND: {status_not_eq: WITHDRAWN}, status_not_eq: EXPIRED}) {
+    totalCount
+  }
+  nftEntities(where: {burned_eq: false}) {
+    id
+  }
+  eventsConnection(orderBy: id_ASC, where: {interaction_eq: BUY}) {
+    totalCount
+  }
+}
