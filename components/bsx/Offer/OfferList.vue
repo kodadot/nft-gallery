@@ -1,10 +1,14 @@
 <template>
-  <CollapseCardWrapper label="offers">
+  <CollapseCardWrapper :label="$t('nft.offer.label')">
     <Loader v-model="isLoading" :status="status" />
     <p class="title is-size-4 has-text-success">
       {{ $t('nft.offer.count', [total]) }}
     </p>
-    <OfferTable :offers="offers" @select="submit" :accountId="accountId" />
+    <OfferTable
+      :offers="offers"
+      @select="submit"
+      :accountId="accountId"
+      :isOwner="isOwner" />
   </CollapseCardWrapper>
 </template>
 
@@ -49,12 +53,28 @@ export default class OfferList extends mixins(
     )
   }
 
-  fetch() {
-    this.fetchOffers()
-  }
+  // fetch() {
+  //   this.fetchOffers()
+  // }
 
   get tokenId(): [string, string] {
     return [this.collectionId, this.nftId]
+  }
+
+  public mounted() {
+    this.$apollo.addSmartQuery<OfferResponse>('offers', {
+      client: this.urlPrefix,
+      query: offerListByNftId,
+      variables: { id: createTokenId(this.collectionId, this.nftId) },
+      manual: true,
+      result: ({ data }) => this.setResponse(data),
+      pollInterval: 15000,
+    })
+  }
+
+  protected setResponse(response: OfferResponse) {
+    this.offers = response.offers
+    this.total = response.stats.total
   }
 
   protected async fetchOffers() {
@@ -65,8 +85,7 @@ export default class OfferList extends mixins(
         variables: { id: createTokenId(this.collectionId, this.nftId) },
       })
 
-      this.offers = data.offers
-      this.total = data.stats.total
+      this.setResponse(data)
     } catch (e) {
       this.$consola.error(e)
     }
@@ -89,10 +108,6 @@ export default class OfferList extends mixins(
           `[OFFER] Since block ${blockNumber} ${msg}`,
           notificationTypes.success
         )
-
-        setTimeout(() => {
-          this.fetch()
-        }, 5000)
       })
     } catch (e: any) {
       showNotification(`[OFFER::ERR] ${e}`, notificationTypes.danger)

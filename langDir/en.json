@@ -493,7 +493,11 @@
     "action": {
       "submit": "Submit {0}"
     },
+    "properties": {
+      "label": "Properties"
+    },
     "offer": {
+      "label": "Offers",
       "count": "Number of offers {0}"
     }
   },
