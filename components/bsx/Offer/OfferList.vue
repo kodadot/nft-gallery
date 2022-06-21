@@ -1,5 +1,5 @@
 <template>
-  <CollapseCardWrapper :label="$t('nft.offer.label')">
+  <CollapseCardWrapper :label="$t('nft.offer.label')" v-if="total">
     <Loader v-model="isLoading" :status="status" />
     <p class="title is-size-4 has-text-success">
       {{ $t('nft.offer.count', [total]) }}
@@ -9,6 +9,9 @@
       @select="submit"
       :accountId="accountId"
       :isOwner="isOwner" />
+  </CollapseCardWrapper>
+  <CollapseCardWrapper :label="$t('nft.offer.label')" v-else>
+    <p>{{ 'There are currently no offers for this NFT.' }}</p>
   </CollapseCardWrapper>
 </template>
 
