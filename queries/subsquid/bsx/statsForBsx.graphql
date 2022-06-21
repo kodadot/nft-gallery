@@ -2,24 +2,27 @@ query statsForBsx {
   eventsConnection(orderBy: id_ASC, where: {interaction_eq: BUY}) {
     totalCount
   }
-  offerEvents {
-    id
-  }
-  offers {
-    id
+  offers(where: {status_eq: ACCEPTED, OR: {status_eq: ACTIVE}}) {
     price
     status
-  }
-  nftEntitiesConnection(orderBy: id_ASC) {
-    totalCount
   }
   collectionEntitiesConnection(orderBy: id_ASC) {
     totalCount
   }
-  offersConnection(orderBy: id_ASC, where: {AND: {status_not_eq: WITHDRAWN}, status_not_eq: EXPIRED}) {
-    totalCount
+  events {
+    caller
   }
   nftEntities(where: {burned_eq: false}) {
     id
+    events {
+      interaction
+    }
+    price
+  }
+  nftEntitiesConnection(orderBy: id_ASC, where: {burned_eq: false}) {
+    totalCount
+    edges {
+      node
+    }
   }
 }
