@@ -52,7 +52,7 @@
           </p>
           <p
             class="is-size-7 is-flex is-align-items-center py-3"
-            v-if="formattedLastBoughtToNow">
+            v-if="totalCollected && formattedLastBoughtToNow">
             <b-icon icon="clock" size="is-small" />
             <span class="ml-2">Last bought {{ formattedLastBoughtToNow }}</span>
           </p>
