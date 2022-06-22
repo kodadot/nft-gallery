@@ -31,9 +31,9 @@
         </div>
       </div>
 
-      <div v-if="id" class="column is-6-tablet is-7-desktop is-8-widescreen">
+      <!-- <div v-if="id" class="column is-6-tablet is-7-desktop is-8-widescreen">
         <CollectionActivity :id="id" />
-      </div>
+      </div> -->
 
       <div class="column has-text-right">
         <Sharing
@@ -88,6 +88,8 @@
         <GalleryCardList
           :items="nfts"
           :listed="!!(searchQuery && searchQuery.listed)"
+          :link="`${urlPrefix}/gallery`"
+          :route="`/${urlPrefix}/gallery`"
           horizontalLayout />
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
@@ -124,35 +126,36 @@
 </template>
 
 <script lang="ts">
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { NFT } from '@/components/rmrk/service/scheme'
+import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
+import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
+import collectionById from '@/queries/collectionById.graphql'
+import { getCloudflareImageLinks } from '@/utils/cachingStrategy'
+import { CollectionChartData as ChartData } from '@/utils/chart'
 import { emptyObject } from '@/utils/empty'
-import { Component, mixins, Watch, Ref } from 'nuxt-property-decorator'
+import isShareMode from '@/utils/isShareMode'
+import { mapDecimals, mapOnlyMetadata } from '@/utils/mappers'
+import AuthMixin from '@/utils/mixins/authMixin'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
+import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { sortedEventByDate } from '@/utils/sorting'
+import { correctPrefix, unwrapSafe } from '@/utils/uniquery'
+import { Component, mixins, Ref, Watch } from 'nuxt-property-decorator'
+import { Debounce } from 'vue-debounce-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
+import { CollectionMetadata } from '../types'
 import {
-  sanitizeIpfsUrl,
   fetchCollectionMetadata,
   onlyPriceEvents,
+  sanitizeIpfsUrl,
 } from '../utils'
-import isShareMode from '@/utils/isShareMode'
-import shouldUpdate from '@/utils/shouldUpdate'
-import collectionById from '@/queries/collectionById.graphql'
-import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
-import { CollectionMetadata } from '../types'
-import { NFT } from '@/components/rmrk/service/scheme'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { SearchQuery } from './Search/types'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import AuthMixin from '~/utils/mixins/authMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
-import { mapOnlyMetadata } from '~/utils/mappers'
-import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
-import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
-import { CollectionChartData as ChartData } from '@/utils/chart'
-import { mapDecimals } from '@/utils/mappers'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
-import { sortedEventByDate } from '~/utils/sorting'
-import { Debounce } from 'vue-debounce-decorator'
 
 const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
 
@@ -199,7 +202,7 @@ export default class CollectionItem extends mixins(
       type: '',
       sortBy: (this.$route.query.sort as string) ?? 'BLOCK_NUMBER_DESC',
       listed: false,
-      owned: null,
+      owned: false,
     },
     this.$route.query
   )
@@ -301,10 +304,10 @@ export default class CollectionItem extends mixins(
     return params
   }
 
-  public created(): void {
+  public async created(): Promise<void> {
     this.checkId()
     this.checkActiveTab()
-    this.checkIfEmptyListed()
+    // this.checkIfEmptyListed()
     this.fetchPageData(this.startPage)
   }
 
@@ -313,11 +316,13 @@ export default class CollectionItem extends mixins(
       return false
     }
     this.isFetchingData = true
+    // const query = await resolveQueryPath(this.urlPrefix, 'collectionById')
     const result = await this.$apollo.query({
       query: collectionById,
       client: this.urlPrefix,
       variables: {
         id: this.id,
+        // orderBy: 'blockNumber_DESC',
         orderBy: this.searchQuery.sortBy,
         search: this.buildSearchParam(),
         first: this.first,
@@ -345,24 +350,25 @@ export default class CollectionItem extends mixins(
   }
 
   public async checkIfEmptyListed(): Promise<void> {
-    // if the collection is empty, we need to check if there are any listed NFTs
-    this.$apollo.addSmartQuery('totalListed', {
-      query: collectionById,
-      client: this.urlPrefix,
-      update: (data) => {
-        return data.collectionEntity.nfts.totalCount
-      },
-      variables: () => {
-        return {
+    const query = await resolveQueryPath(
+      'subsquid',
+      'nftListedCountByCollection'
+    )
+    this.totalListed = await this.$apollo
+      .query<{ nodes: { totalCount: number } }>({
+        query: query.default,
+        client: correctPrefix(this.urlPrefix),
+        variables: {
           id: this.id,
-          orderBy: this.searchQuery.sortBy,
-          search: this.buildSearchParam(true),
-          first: this.first,
-          offset: this.offset,
-        }
-      },
-    })
+        },
+      })
+      .then(({ data }) => data.nodes.totalCount)
+      .catch((err) => {
+        this.$consola.error('Failed to fetch total listed', err.message)
+        return 0
+      })
   }
+
   public setPriceChartData(data: [Date, number][][]) {
     this.priceChartData = data
   }
@@ -456,8 +462,9 @@ export default class CollectionItem extends mixins(
         path: this.$route.path,
       })
     }
+
     this.firstMintDate = collectionEntity.createdAt
-    const newNfts = collectionEntity.nfts.nodes.map((e: any) => ({
+    const newNfts = unwrapSafe(collectionEntity.nfts).map((e: any) => ({
       ...e,
       emoteCount: e?.emotes?.totalCount,
     }))

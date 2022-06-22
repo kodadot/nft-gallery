@@ -219,6 +219,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
+    skipSettingLocaleOnNavigate: true,
     vueI18nLoader: true,
     defaultLocale: 'en',
     detectBrowserLanguage: {
@@ -261,6 +262,7 @@ export default defineNuxtConfig({
       subsquid: toApolloEndpoint(
         process.env.SUBSQUID_ENDPOINT || URLS.koda.subsquidv6
       ),
+      bsx: toApolloEndpoint(URLS.koda.snekk),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
