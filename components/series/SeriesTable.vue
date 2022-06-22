@@ -475,6 +475,9 @@ export default class SeriesTable extends mixins(
   }
 
   protected async fetchCollectionEvents(ids: string[]) {
+    if (ids.length === 0) {
+      return []
+    }
     try {
       // const today = new Date()
       const { data } = await this.$apollo.query<{ events }>({
