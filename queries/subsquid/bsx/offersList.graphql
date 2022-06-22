@@ -1,0 +1,8 @@
+query offerList {
+  offers{
+    caller
+    expiration
+    price
+    status
+  }
+}
