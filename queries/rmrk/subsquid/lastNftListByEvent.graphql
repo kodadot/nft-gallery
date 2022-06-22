@@ -1,21 +1,16 @@
-query lastNftListByEvent($limit: Int!, $event: Interaction!, $and: [EventWhereInput!]) {
-  events(
+query lastNftListByEvent($limit: Float!, $event: String!) {
+  events: lastEvent(
     limit: $limit
-    where: { interaction_eq: $event, AND: $and, nft: {burned_eq: false} }
-    orderBy: timestamp_DESC
+    offset: 0
+    interaction: $event
   ) {
-    meta
+    meta: value
     timestamp
-    nft {
-      id
-      name
-      issuer
-      currentOwner
-      metadata
-      meta {
-        id
-        image
-      }
-    }
+    id
+    name
+    issuer
+    currentOwner
+    metadata
+    image
   }
 }
