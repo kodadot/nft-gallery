@@ -1,4 +1,3 @@
-import type { MetaInfo } from 'vue-meta'
 import { MediaType } from '~/components/rmrk/types'
 import { resolveMedia } from '~/utils/gallery/media'
 
@@ -9,7 +8,7 @@ declare module 'vue/types/vue' {
   }
 }
 
-type MetaProperties = {
+interface MetaProperties {
   type?: string
   url?: string
   title?: string
@@ -18,6 +17,13 @@ type MetaProperties = {
   author?: string
   video?: string
   mime?: string
+}
+
+interface MetaTag {
+  hid?: string
+  name?: string
+  property?: string
+  content?: string
 }
 
 export default function ({ app }, inject): void {
@@ -35,14 +41,14 @@ export default function ({ app }, inject): void {
     }
   }
 
-  const seoMeta = (meta: MetaProperties): MetaInfo['meta'] => {
+  const seoMeta = (meta: MetaProperties): MetaTag[] => {
     const baseUrl: string = app.$config.baseUrl
     const title = 'KodaDot - Kusama NFT Market Explorer'
     const description = 'Creating Carbonless NFTs on Kusama'
     const image = `${baseUrl}/kodadot_card_root.png`
     const type = resolveMedia(meta?.mime)
 
-    const seoTags = [
+    const seoTags: MetaTag[] = [
       {
         hid: 'title',
         name: 'title',
@@ -78,36 +84,6 @@ export default function ({ app }, inject): void {
         property: 'og:image',
         content: meta?.image || image,
       },
-      type === MediaType.IMAGE && {
-        hid: 'og:image:type',
-        property: 'og:image:type',
-        content: meta?.mime,
-      },
-      type === MediaType.VIDEO && {
-        hid: 'og:video',
-        property: 'og:video',
-        content: meta?.video,
-      },
-      type === MediaType.VIDEO && {
-        hid: 'og:video:type',
-        property: 'og:video:type',
-        content: meta?.mime,
-      },
-      type === MediaType.VIDEO && {
-        hid: 'twitter:player:width',
-        property: 'twitter:player:width',
-        content: '1280',
-      },
-      type === MediaType.VIDEO && {
-        hid: 'twitter:player:height',
-        property: 'twitter:player:height',
-        content: '720',
-      },
-      type === MediaType.VIDEO && {
-        hid: 'twitter:card',
-        property: 'twitter:card',
-        content: 'player',
-      },
       {
         hid: 'twitter:url',
         name: 'twitter:url',
@@ -128,15 +104,57 @@ export default function ({ app }, inject): void {
         name: 'twitter:image',
         content: meta?.image || image,
       },
-      {
-        hid: 'twitter:player',
-        name: 'twitter:player',
-        content: meta?.video,
-      },
     ]
 
+    if (type === MediaType.IMAGE) {
+      const imageMetaTags: MetaTag[] = [
+        {
+          hid: 'og:image:type',
+          property: 'og:image:type',
+          content: meta?.mime,
+        },
+      ]
+      seoTags.concat(imageMetaTags)
+    }
+
+    if (type === MediaType.VIDEO) {
+      const videoMetaTags: MetaTag[] = [
+        {
+          hid: 'og:video',
+          property: 'og:video',
+          content: meta?.video,
+        },
+        {
+          hid: 'og:video:type',
+          property: 'og:video:type',
+          content: meta?.mime,
+        },
+        {
+          hid: 'twitter:player:width',
+          property: 'twitter:player:width',
+          content: '1280',
+        },
+        {
+          hid: 'twitter:player:height',
+          property: 'twitter:player:height',
+          content: '720',
+        },
+        {
+          hid: 'twitter:card',
+          property: 'twitter:card',
+          content: 'player',
+        },
+        {
+          hid: 'twitter:player',
+          name: 'twitter:player',
+          content: meta?.video,
+        },
+      ]
+      seoTags.concat(videoMetaTags)
+    }
+
     // only return non null, not undefined, not empty string
-    return seoTags.filter((tag) => tag && tag.content !== '')
+    return seoTags.filter((tag: MetaTag) => tag && tag.content !== '')
   }
   inject('seoMeta', seoMeta)
 }
