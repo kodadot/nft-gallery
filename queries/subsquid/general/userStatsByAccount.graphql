@@ -9,20 +9,28 @@ query userStatsByAccount($account: String!) {
   }
   created: nftEntitiesConnection(
     orderBy: blockNumber_DESC
-    where: { issuer_eq: $account }
+    where: { issuer_eq: $account, burned_eq: false }
   ) {
     totalCount
   }
   collected: nftEntitiesConnection(
     orderBy: blockNumber_DESC
-    where: { issuer_not_eq: $account, currentOwner_eq: $account }
+    where: {
+      issuer_not_eq: $account
+      currentOwner_eq: $account
+      burned_eq: false
+    }
   ) {
     totalCount
   }
 
   sold: nftEntitiesConnection(
     orderBy: blockNumber_DESC
-    where: { issuer_eq: $account, currentOwner_not_eq: $account }
+    where: {
+      issuer_eq: $account
+      currentOwner_not_eq: $account
+      burned_eq: false
+    }
   ) {
     totalCount
   }
