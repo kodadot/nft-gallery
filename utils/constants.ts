@@ -28,7 +28,6 @@ export const URLS = {
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
     magick: 'https://api.subquery.network/sq/vikiival/magick',
-    subsquidv4: 'https://app.gc.subsquid.io/beta/rubick/004/graphql',
     subsquidv5: 'https://app.gc.subsquid.io/beta/rubick/005/graphql',
     subsquidv6: 'https://app.gc.subsquid.io/beta/rubick/006/graphql',
     snekk: 'https://app.gc.subsquid.io/beta/snekk/003/graphql',
