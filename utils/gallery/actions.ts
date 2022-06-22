@@ -15,7 +15,7 @@ export const isAvailableToBuy = (accountId: string, price: string): boolean => {
 export const isOwner = (accountId: string, owner: string): boolean => {
   return Boolean(
     isLoggedIn(accountId) &&
-    isLoggedIn(owner) &&
-    isSameAccount(accountId, owner)
+      isLoggedIn(owner) &&
+      isSameAccount(accountId, owner)
   )
 }
