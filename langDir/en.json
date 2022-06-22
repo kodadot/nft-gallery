@@ -499,7 +499,9 @@
     "offer": {
       "label": "Offers ({0})",
       "count": "Number of offers {0}",
-      "empty": "There are currently no offers for this NFT."
+      "empty": "There are currently no offers for this NFT.",
+      "link": "Link to NFT",
+      "status": "Offer status"
     }
   },
   "offer": {
@@ -507,6 +509,18 @@
     "price": "Price",
     "expiration": "Expiration",
     "action": "Action"
+  },
+  "statsOverview": {
+    "buys": "Total number of buys",
+    "offerStats": {
+      "status": "Status",
+      "totalCount": "Total count",
+      "totalPrice": "Total price"
+    },
+    "listed": "Total number of listed NFTs",
+    "minted": "Total number of minted NFTs",
+    "createdCollections": "Total number of created collections",
+    "activeWallets": "Total number of active wallets"
   },
   "loader": {
     "casting": "(1/3) Casting the tx to blockchain",

@@ -2,6 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <p class="title is-size-4 has-text-success"></p>
+    <StatsOverview></StatsOverview>
     <OfferTable :offers="offers" :accountId="accountId" />
   </div>
 </template>
@@ -10,16 +11,19 @@
 import { Component, mixins } from 'nuxt-property-decorator'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
-import { Offer, OfferResponse } from './types'
+import { Offer, OfferResponse, StatsResponse } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import offersList from '@/queries/subsquid/bsx/offersList.graphql'
+import offerList from '@/queries/subsquid/bsx/offerList.graphql'
+import statsForBsx from '@/queries/subsquid/bsx/statsForBsx.graphql'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
+import { emptyObject } from '@kodadot1/minimark'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   CollapseCardWrapper: () =>
     import('@/components/shared/collapse/CollapseCardWrapper.vue'),
   OfferTable: () => import('@/components/bsx/Offer/OfferTable.vue'),
+  StatsOverview: () => import('~/components/bsx/Offer/StatsOverview.vue'),
 }
 
 @Component({ components })
@@ -31,6 +35,7 @@ export default class OfferList extends mixins(
 ) {
   protected offers: Offer[] = []
   protected total = 0
+  protected statsResponse: StatsResponse = emptyObject<StatsResponse>()
 
   fetch() {
     this.fetchOffers()
@@ -38,14 +43,13 @@ export default class OfferList extends mixins(
 
   protected setResponse(response: OfferResponse) {
     this.offers = response.offers
-    this.total = response.stats.total
   }
 
   protected async fetchOffers() {
     try {
       const { data } = await this.$apollo.query<OfferResponse>({
         client: this.urlPrefix,
-        query: offersList,
+        query: offerList,
       })
       console.log(data)
       this.setResponse(data)

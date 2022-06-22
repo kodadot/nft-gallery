@@ -2,9 +2,10 @@ query statsForBsx {
   buys: eventsConnection(orderBy: id_ASC, where: {interaction_eq: BUY}) {
     totalCount
   }
-  offers(where: {status_eq: ACCEPTED, OR: {status_eq: ACTIVE}}) {
-    price
+  offerStats {
     status
+    totalCount
+    totalPrice
   }
   listed: nftEntitiesConnection(orderBy: id_ASC, where: {burned_eq: false, price_gt: "0"}) {
     count: totalCount
@@ -13,6 +14,9 @@ query statsForBsx {
     count: totalCount
   }
   createdCollections: collectionEntitiesConnection(orderBy: id_ASC) {
+    totalCount
+  }
+  activeWallets {
     totalCount
   }
 }

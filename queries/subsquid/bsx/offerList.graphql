@@ -1,8 +1,12 @@
 query offerList {
-  offers{
+  offers {
     caller
     expiration
     price
     status
+    nft {
+      id
+      name
+    }
   }
 }
