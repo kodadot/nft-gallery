@@ -506,6 +506,7 @@ export default class CollectionItem extends mixins(
   public async fetchMetadata(): Promise<void> {
     if (this.collection['metadata'] && !this.meta['image']) {
       const meta = await fetchCollectionMetadata(this.collection)
+      this.collection = Object.assign(this.collection, { ...meta })
       this.meta = {
         ...meta,
         image: sanitizeIpfsUrl(meta.image || ''),

@@ -48,7 +48,7 @@
     </b-table-column>
     <template #empty>
       <div class="has-text-centered">
-        {{ $t('spotlight.empty') }}
+        {{ $t('nft.offer.empty') }}
       </div>
     </template>
   </b-table>
