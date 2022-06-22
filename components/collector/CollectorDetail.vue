@@ -31,7 +31,7 @@ export default class CollectorDetail extends mixins(PrefixMixin) {
   protected async fetchNFT(account: string) {
     const nfts = await this.$apollo.query({
       query: nftSimpleListByAccount,
-      client: 'subsquid',
+      client: this.client,
       variables: {
         account,
         first: 4,
