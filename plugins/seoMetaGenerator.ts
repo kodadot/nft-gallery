@@ -93,6 +93,21 @@ export default function ({ app }, inject): void {
         property: 'og:video:type',
         content: meta?.mime,
       },
+      type === MediaType.VIDEO && {
+        hid: 'twitter:player:width',
+        property: 'twitter:player:width',
+        content: '1280',
+      },
+      type === MediaType.VIDEO && {
+        hid: 'twitter:player:height',
+        property: 'twitter:player:height',
+        content: '720',
+      },
+      type === MediaType.VIDEO && {
+        hid: 'twitter:card',
+        property: 'twitter:card',
+        content: 'player',
+      },
       {
         hid: 'twitter:url',
         name: 'twitter:url',
