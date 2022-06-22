@@ -125,6 +125,16 @@ export default function ({ app }, inject): void {
           content: meta?.video,
         },
         {
+          hid: 'og:video:width',
+          property: 'og:video:width',
+          content: '1280',
+        },
+        {
+          hid: 'og:video:height',
+          property: 'og:video:height',
+          content: '720',
+        },
+        {
           hid: 'og:video:type',
           property: 'og:video:type',
           content: meta?.mime,
