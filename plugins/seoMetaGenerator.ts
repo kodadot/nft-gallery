@@ -114,7 +114,7 @@ export default function ({ app }, inject): void {
           content: meta?.mime,
         },
       ]
-      seoTags.concat(imageMetaTags)
+      seoTags.push(...imageMetaTags)
     }
 
     if (type === MediaType.VIDEO) {
@@ -150,7 +150,7 @@ export default function ({ app }, inject): void {
           content: meta?.video,
         },
       ]
-      seoTags.concat(videoMetaTags)
+      seoTags.push(...videoMetaTags)
     }
 
     // only return non null, not undefined, not empty string
