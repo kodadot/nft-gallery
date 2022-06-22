@@ -47,7 +47,7 @@
             {{ getEventDisplayName(props.row.Type) }}
           </b-table-column>
           <b-table-column
-            v-if="isCollectionPage"
+            v-if="displayItem"
             cell-class="short-identity__table"
             field="Item"
             label="Item"
@@ -57,7 +57,7 @@
                 name: `${urlPrefix}-gallery-id`,
                 params: { id: props.row.Item.id },
               }">
-              {{ props.row.Item.name }}
+              {{ props.row.Item.name || props.row.Item.id }}
             </nuxt-link>
           </b-table-column>
           <b-table-column
@@ -178,11 +178,10 @@ export default class History extends mixins(
   @Prop({ type: Boolean, default: true })
   private readonly openOnDefault!: boolean
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
+  @Prop({ type: Boolean, default: false }) displayItem!: boolean
 
   private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: HistoryEventType = HistoryEventType.BUY
-  private isCollectionPage =
-    this.$route.name === `${this.urlPrefix}-collection-id`
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
@@ -342,7 +341,7 @@ export default class History extends mixins(
       event['Type'] = event['Type'] ?? newEvent['interaction']
 
       // Item
-      if (this.isCollectionPage) {
+      if (this.displayItem) {
         event['Item'] = newEvent['nft']
       }
 
