@@ -1,4 +1,4 @@
-lockfileVersion: 5.4
+lockfileVersion: 5.3
 
 specifiers:
   '@babel/core': ^7.18.2
@@ -391,7 +391,7 @@ packages:
     resolution: {integrity: sha512-46MJZZo9y3o4kmhBVc7zW7i8dtR1oIK/sdO5NcfcZRhTGYi+KKJRtHNgsU6c4VUcJmUNV/LQdebD/9Dlv4K+Tg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.17.10
+      '@babel/types': 7.18.4
       '@jridgewell/gen-mapping': 0.1.1
       jsesc: 2.5.2
     dev: false
@@ -1547,8 +1547,8 @@ packages:
       '@babel/generator': 7.18.2
       '@babel/helper-function-name': 7.17.9
       '@babel/helper-split-export-declaration': 7.16.7
-      '@babel/parser': 7.12.16
-      '@babel/types': 7.12.13
+      '@babel/parser': 7.18.4
+      '@babel/types': 7.18.4
       debug: 4.3.4
       globals: 11.12.0
       lodash: 4.17.21
@@ -2725,7 +2725,7 @@ packages:
       '@netlify/functions': 1.0.0
       '@nuxt/devalue': 2.0.0
       '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27470397.9ebea90_g5rf3icusfse4b63pimitbrmgu
-      '@nuxt/ui-templates': /@nuxt/ui-templates-edge/0.1.1-27576930.52eaf32
+      '@nuxt/ui-templates': /@nuxt/ui-templates-edge/0.1.1-27597075.ecafcef
       '@rollup/plugin-alias': 3.1.9_rollup@2.75.6
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.75.6
       '@rollup/plugin-inject': 4.0.4_rollup@2.75.6
@@ -2948,8 +2948,8 @@ packages:
       - webpack
     dev: true
 
-  /@nuxt/ui-templates-edge/0.1.1-27576930.52eaf32:
-    resolution: {integrity: sha512-eB+HyQUdSGbHdZ+f/pqvvyjvRtFzI4qxU8WGmnRz8nJ9tSIL+ox/RzTDXUiakjfNay7smtMx6txDAKPyq+FC0Q==}
+  /@nuxt/ui-templates-edge/0.1.1-27597075.ecafcef:
+    resolution: {integrity: sha512-3+Bu2PT+L7+ZZ6IPl+ib8G0S3UB32PzMs5+zjuqjAjqO3Zsq0Lnw0CfY7TlQVyWA6BQqd8Eq9AORMAEe94PGGA==}
     dev: true
 
   /@nuxt/utils-edge/2.16.0-27358576.777a4b7f:
@@ -17312,7 +17312,7 @@ packages:
     dev: false
 
   /yallist/2.1.2:
-    resolution: {integrity: sha1-HBH5IY8HYImkfdUS+TxmmaaoHVI=}
+    resolution: {integrity: sha512-ncTzHV7NvsQZkYe1DW7cbDLm0YpzHmZF5r/iyP3ZnQtMiJ+pjzisCiMNI+Sj+xQF5pXhSHxSB3uDbsBTzY/c2A==}
 
   /yallist/3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
