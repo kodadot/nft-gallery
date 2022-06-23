@@ -15791,7 +15791,7 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
     dependencies:
-      glob: 7.2.3
+      glob: 7.1.7
       interpret: 1.4.0
       rechoir: 0.6.2
     dev: false
