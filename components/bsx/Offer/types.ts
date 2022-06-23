@@ -19,7 +19,7 @@ export type OfferResponse = {
 export type OfferStats = {
   status: string
   totalCount: number
-  totalPrice: bigint
+  totalPrice: string
 }
 
 export type ActiveWallets = {

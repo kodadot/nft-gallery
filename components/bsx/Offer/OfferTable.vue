@@ -20,7 +20,7 @@
       <Money :value="props.row.price" inline hideUnit />
     </b-table-column>
     <b-table-column
-      v-if="!isOffersStats"
+      v-if="!isBsxStats"
       cell-class="is-vcentered"
       field="expiration"
       :label="$t('offer.expiration')"
@@ -29,7 +29,7 @@
       {{ props.row.expiration }}
     </b-table-column>
     <b-table-column
-      v-if="!isOffersStats"
+      v-if="!isBsxStats"
       cell-class="is-vcentered"
       :label="$t('offer.action')"
       v-slot="props"
@@ -49,7 +49,7 @@
         @click="tellFrens(props.row.caller)" />
     </b-table-column>
     <b-table-column
-      v-if="isOffersStats"
+      v-if="isBsxStats"
       cell-class="is-vcentered"
       :label="$t('nft.offer.link')"
       v-slot="props">
@@ -59,7 +59,7 @@
       </nuxt-link>
     </b-table-column>
     <b-table-column
-      v-if="isOffersStats"
+      v-if="isBsxStats"
       field="status"
       cell-class="is-vcentered"
       :label="$t('nft.offer.status')"
@@ -90,7 +90,7 @@ export default class OfferTable extends Vue {
   public offers!: Offer[]
   @Prop(Boolean) public isOwner!: boolean
   @Prop(String) public accountId!: string
-  public isOffersStats = this.$nuxt.$route.name === 'bsx-offers'
+  public isBsxStats = this.$nuxt.$route.name === 'bsx-stats'
 
   @Emit('select')
   tellFrens(caller: string) {
