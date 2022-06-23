@@ -51,7 +51,6 @@ export default class OfferList extends mixins(
         client: this.urlPrefix,
         query: offerList,
       })
-      console.log(data)
       this.setResponse(data)
     } catch (e) {
       this.$consola.error(e)

@@ -42,7 +42,10 @@
         </div>
       </div>
     </div>
-    <div class="level-item has-text-centered" v-for="data in offerStats">
+    <div
+      class="level-item has-text-centered"
+      v-for="data in offerStats"
+      v-bind:key="data.status">
       <div>
         <p class="heading text-bold">
           {{ data.status + ' ' + $t('statsOverview.offers') }}
