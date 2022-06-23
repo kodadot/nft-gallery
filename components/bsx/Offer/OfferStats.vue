@@ -11,12 +11,10 @@
 import { Component, mixins } from 'nuxt-property-decorator'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
-import { Offer, OfferResponse, StatsResponse } from './types'
+import { Offer, OfferResponse } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import offerList from '@/queries/subsquid/bsx/offerList.graphql'
-import statsForBsx from '@/queries/subsquid/bsx/statsForBsx.graphql'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
-import { emptyObject } from '@kodadot1/minimark'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -35,7 +33,6 @@ export default class OfferList extends mixins(
 ) {
   protected offers: Offer[] = []
   protected total = 0
-  protected statsResponse: StatsResponse = emptyObject<StatsResponse>()
 
   fetch() {
     this.fetchOffers()
