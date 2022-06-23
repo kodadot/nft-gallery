@@ -17,6 +17,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import AddOption from './AddOption.vue'
+import Connector from '@kodadot1/sub-api'
 
 @Component({
   components: {
@@ -40,6 +41,10 @@ export default class SettingChooser extends Vue {
   }
 
   set selected(value) {
+    if (this.setter === 'setApiUrl') {
+      const { getInstance: Api } = Connector
+      Api().connect(value)
+    }
     this.$store.dispatch(this.setter, value)
   }
 

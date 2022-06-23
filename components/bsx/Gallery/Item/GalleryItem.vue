@@ -104,6 +104,12 @@
         </div>
       </div>
     </template>
+    <template v-slot:footer>
+      <OfferList
+        :current-owner-id="nft.currentOwner"
+        :nftId="id"
+        :collectionId="collectionId" />
+    </template>
   </BaseGalleryItem>
 </template>
 
@@ -131,6 +137,7 @@ import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import resolveQueryPath from '~/utils/queryPathResolver'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
+import { isEmpty } from '@kodadot1/minimark'
 
 @Component<GalleryItem>({
   components: {
@@ -147,6 +154,7 @@ import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
+    OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
   },
   directives: {
     orientation: Orientation,
@@ -183,16 +191,13 @@ export default class GalleryItem extends mixins(
   }
 
   protected observeOwner(data: Option<InstanceDetails>) {
-    this.$consola.log('Owner', data.toHuman())
     const instance = unwrapOrNull(data)
     if (instance) {
-      this.$consola.log('Owner2', toHuman(instance.owner))
       this.$set(this.nft, 'currentOwner', toHuman(instance.owner))
     }
   }
 
   protected observePrice(data: Option<u128>) {
-    this.$consola.log('price', data.toHuman())
     this.$set(this.nft, 'price', unwrapOrDefault(data).toString())
   }
 
@@ -215,8 +220,6 @@ export default class GalleryItem extends mixins(
       // showNotification(`No NFT with ID ${this.id}`, notificationTypes.warn)
       return
     }
-
-    this.$consola.log('nft', nftEntity)
 
     this.nft = {
       ...this.nft,
@@ -252,20 +255,17 @@ export default class GalleryItem extends mixins(
   }
 
   public async fetchMetadata() {
-    // this.$consola.log(this.nft);
-
     if (this.nft['metadata'] && !this.meta['image']) {
       const cachedMeta = await get(this.nft.metadata)
 
-      const meta = cachedMeta
+      const meta = !isEmpty(cachedMeta)
         ? cachedMeta
         : await fetchNFTMetadata(
             this.nft,
-            getSanitizer(this.nft.metadata, undefined, 'permafrost')
+            getSanitizer(this.nft.metadata, 'cloudflare', 'permafrost')
           )
-      this.$consola.log(meta)
 
-      const imageSanitizer = getSanitizer(meta.image)
+      const imageSanitizer = getSanitizer(meta.image, 'cloudflare')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
@@ -279,7 +279,6 @@ export default class GalleryItem extends mixins(
         Vue.set(this.nft, 'name', meta.name)
       }
 
-      this.$consola.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { mimeType, imageVisible } = await processMedia(
           this.meta.animation_url
@@ -288,7 +287,7 @@ export default class GalleryItem extends mixins(
         this.imageVisible = imageVisible
       }
 
-      if (!cachedMeta) {
+      if (!cachedMeta && !isEmpty(meta)) {
         set(this.nft.metadata, meta)
       }
     }
