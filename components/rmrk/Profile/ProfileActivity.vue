@@ -66,8 +66,8 @@ import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import { getSum, getSumOfObjectField } from '@/utils/math'
 import { subDays } from 'date-fns'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import profileStatsById from '@/queries/rmrk/subsquid/profileStatsById.graphql'
 import { Event } from '../service/types'
+import resolveQueryPath from '~/utils/queryPathResolver'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
@@ -108,9 +108,11 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
       return
     }
 
+    const query = await resolveQueryPath(this.urlPrefix, 'profileStatsById')
+
     const { data } = await this.$apollo.query({
-      query: profileStatsById,
-      client: 'subsquid',
+      query: query.default,
+      client: this.client,
       variables: {
         id: this.id,
       },
