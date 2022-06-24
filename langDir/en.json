@@ -489,7 +489,8 @@
       "SEND": "GIFT",
       "CONSUME": "BURN",
       "BUY": "BUY",
-      "MAKE_OFFER": "MAKE OFFER"
+      "MAKE_OFFER": "MAKE OFFER",
+      "ROYALTY": "ROYALTY"
     },
     "action": {
       "submit": "Submit {0}"
