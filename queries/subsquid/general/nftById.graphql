@@ -25,5 +25,6 @@ query nftById($id: ID!) {
         value
       }
     }
+    royalty
   }
 }

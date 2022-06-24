@@ -32,6 +32,7 @@
   "theatre": "theatre",
   "view": "view",
   "price": "price",
+  "royalty": "royalty",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Minting Settings": "Minting Settings",
   "user interface mode": "User Interface Mode",
@@ -42,6 +43,7 @@
   "Collections Per Page": "Collections Per Page",
   "I am helping to cover costs": "I am helping to cover costs",
   "I do not want to support": "I do not want to support",
+  "passion": "Passion Feed",
   "faq": {
     "page": "FAQ",
     "title": "Frequently Asked Questions",
@@ -497,8 +499,9 @@
       "label": "Properties"
     },
     "offer": {
-      "label": "Offers",
-      "count": "Number of offers {0}"
+      "label": "Offers ({0})",
+      "count": "Number of offers {0}",
+      "empty": "There are currently no offers for this NFT."
     }
   },
   "offer": {
