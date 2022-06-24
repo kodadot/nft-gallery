@@ -6,7 +6,7 @@ import {
 
 import { CarouselNFT } from '@/components/base/types'
 import { processSingleMetadata } from '~/utils/cachingStrategy'
-
+import { LastEvent } from '~/utils/types/types'
 /**
  * Format the data to fit with CarouselNFT[]
  * Get cloudflare images
@@ -52,5 +52,23 @@ export const fallbackMetaByNftEvent = async (events: Events[]) => {
       }
       await processSingleMetadata(event.nft.metadata)
     }
+  }
+}
+
+export const convertLastEventToNft = (e: LastEvent) => {
+  return {
+    meta: e.meta,
+    timestamp: e.timestamp,
+    nft: {
+      id: e.id,
+      name: e.name,
+      issuer: e.issuer,
+      currentOwner: e.currentOwner,
+      metadata: e.metadata,
+      meta: {
+        id: e.metadata,
+        image: e.image,
+      },
+    },
   }
 }
