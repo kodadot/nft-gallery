@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { prefixBuildOnText } from '@/utils/prefix'
 
