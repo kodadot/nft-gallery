@@ -21,6 +21,13 @@
             <b-switch v-model="onlyWithIdentity" :rounded="false">
               {{ $t('spotlight.filter_accounts') }}
             </b-switch>
+            <b-switch
+              v-if="isLogIn"
+              class="gallery-switch"
+              v-model="hasPassionFeed"
+              :rounded="false">
+              {{ $t('passion') }}
+            </b-switch>
           </div>
         </b-field>
         <b-button
@@ -179,7 +186,7 @@
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { Column, Row } from './types'
+import { Row } from './types'
 import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
 import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.graphql'
 
@@ -188,7 +195,7 @@ import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import PassionListMixin from '~/utils/mixins/passionListMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { PER_PAGE } from '~/utils/constants'
 import {
@@ -214,35 +221,14 @@ const components = {
 @Component({ components })
 export default class SpotlightTable extends mixins(
   TransactionMixin,
-  PrefixMixin,
-  KeyboardEventsMixin
+  KeyboardEventsMixin,
+  PassionListMixin
 ) {
   protected data: Row[] = []
   protected onlyWithIdentity = this.$route.query?.identity || false
   protected currentPage = 1
   protected sortBy: SortType = { field: 'sold', value: 'DESC' }
-  protected columns: Column[] = [
-    { field: 'id', label: this.$t('spotlight.id') },
-    { field: 'sold', label: this.$t('spotlight.sold'), numeric: true },
-    { field: 'unique', label: this.$t('spotlight.unique'), numeric: true },
-    { field: 'total', label: this.$t('spotlight.total'), numeric: true },
-    {
-      field: 'averagePrice',
-      label: this.$t('spotlight.averagePrice'),
-      numeric: true,
-    },
-    {
-      field: 'collections',
-      label: this.$t('spotlight.count'),
-      numeric: true,
-    },
-    {
-      field: 'collectors',
-      label: this.$t('spotlight.collectors'),
-      numeric: true,
-    },
-    { field: 'rank', label: this.$t('spotlight.score'), numeric: true },
-  ]
+  private hasPassionFeed = false
 
   async created() {
     exist(this.$route.query.sort, (val) => {
@@ -270,6 +256,9 @@ export default class SpotlightTable extends mixins(
   }
 
   public get ids(): string[] {
+    if (this.computedData.length === 0) {
+      return ['']
+    }
     const start = (this.currentPage - 1) * PER_PAGE
     const end = this.currentPage * PER_PAGE
     return this.computedData.slice(start, end).map((x) => x.id)
@@ -295,15 +284,22 @@ export default class SpotlightTable extends mixins(
 
   public async fetchSpotlightData(sort: string = toSort(this.sortBy)) {
     this.isLoading = true
+    const queryVars = {
+      offset: 0,
+      orderBy: sort || 'sold_DESC',
+      where: {},
+    }
+    if (this.isLogIn && this.hasPassionFeed) {
+      await this.fetchPassionList()
+      queryVars.where = {
+        id_in: this.passionList,
+      }
+    }
+
     const collections = await this.$apollo.query({
       query: spotlightList,
-      client: 'subsquid',
-      variables: {
-        // denyList, not yet
-        // limit: 100,
-        offset: 0,
-        orderBy: sort || 'sold_DESC',
-      },
+      client: this.client,
+      variables: queryVars,
     })
 
     const {
@@ -364,7 +360,7 @@ export default class SpotlightTable extends mixins(
   public async fetchSpotlightSoldHistory() {
     const data = await this.$apollo.query({
       query: spotlightSoldHistory,
-      client: 'subsquid',
+      client: this.client,
       variables: {
         ids: this.ids,
         lte: today,
@@ -386,6 +382,11 @@ export default class SpotlightTable extends mixins(
   private async onOnlyWithIdentityChange(val: boolean) {
     this.replaceUrl(val ? 'true' : '', 'identity')
     await this.updateSoldHistory()
+  }
+
+  @Watch('hasPassionFeed')
+  private onHasPassionFeed() {
+    this.fetchSpotlightData()
   }
 
   public onSort(field: string, order: string) {
