@@ -1,5 +1,6 @@
 <template>
   <BaseGalleryItem
+    v-if="nft"
     :image="meta.image"
     :animationUrl="meta.animation_url"
     :description="meta.description"
@@ -142,6 +143,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import resolveQueryPath from '~/utils/queryPathResolver'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
 import { isEmpty } from '@kodadot1/minimark'
+import { royaltyOf } from '@/utils/royalty'
 
 @Component<GalleryItem>({
   components: {
@@ -181,7 +183,7 @@ export default class GalleryItem extends mixins(
 
   public async created() {
     this.checkId()
-    this.fetchNftData()
+    await this.fetchNftData()
     onApiConnect((api) => {
       if (hasAllPallets(api)) {
         this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
@@ -313,12 +315,10 @@ export default class GalleryItem extends mixins(
     return Number(this.nft.price) > 0
   }
 
-  get nftRoyalties(): number {
-    return (
-      Number(
-        this.nft.events?.find((event) => event.interaction === 'ROYALTY')?.meta
-      ) || 0
-    )
+  get nftRoyalties(): string {
+    return this.nft.price && this.nft.royalty
+      ? royaltyOf(this.nft.price, this.nft.royalty)
+      : ''
   }
 
   get nftId() {
