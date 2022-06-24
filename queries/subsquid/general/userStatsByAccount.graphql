@@ -22,21 +22,6 @@ query userStatsByAccount($account: String!) {
     }
   ) {
     totalCount
-    edges {
-      node {
-        events(
-          orderBy: timestamp_DESC
-          limit: 1,
-          where: {
-            interaction_eq: BUY,
-            caller_eq: $account
-          }
-        ) {
-          meta
-          timestamp
-        }
-      }
-    }
   }
 
   sold: nftEntitiesConnection(

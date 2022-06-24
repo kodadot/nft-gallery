@@ -26,11 +26,6 @@ query userStatsByAccount($account: String!) {
     first: 1
   ) {
     totalCount
-    nodes {
-      collection {
-        createdAt
-      }
-    }
   }
 
   sold: nFTEntities(
