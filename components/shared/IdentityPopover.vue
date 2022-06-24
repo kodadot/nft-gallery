@@ -95,7 +95,6 @@ import { isAfter, subHours } from 'date-fns'
 import shouldUpdate from '@/utils/shouldUpdate'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { Interaction } from '@/components/rmrk/service/scheme'
-import buyEventByProfile from '@/queries/rmrk/subsquid/buyEventByProfile.graphql'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
