@@ -70,6 +70,10 @@
                           <Money :value="nft.price" inline />
                         </div>
                       </div>
+                      <div v-if="nftRoyalties">
+                        ⊆ {{ $t('royalty') }}
+                        <Money :value="nftRoyalties" inline />
+                      </div>
                     </template>
                     <div class="content pt-4">
                       <p class="subtitle">
@@ -305,8 +309,16 @@ export default class GalleryItem extends mixins(
     this.$buefy.toast.open(message)
   }
 
-  get hasPrice() {
+  get hasPrice(): boolean {
     return Number(this.nft.price) > 0
+  }
+
+  get nftRoyalties(): number {
+    return (
+      Number(
+        this.nft.events?.find((event) => event.interaction === 'ROYALTY')?.meta
+      ) || 0
+    )
   }
 
   get nftId() {
