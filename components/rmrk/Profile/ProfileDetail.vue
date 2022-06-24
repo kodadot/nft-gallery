@@ -142,6 +142,7 @@
             v-if="!isLoading && activeTab === 'history'"
             :events="eventsOfNftCollection"
             :openOnDefault="isHistoryOpen"
+            displayItem
             hideCollapse />
         </b-tab-item>
         <b-tab-item

@@ -106,6 +106,7 @@
           :events="eventsOfNftCollection"
           :openOnDefault="isHistoryOpen"
           hideCollapse
+          displayItem
           @setPriceChartData="setPriceChartData" />
       </b-tab-item>
       <b-tab-item label="Holders" value="holders">

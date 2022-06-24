@@ -94,6 +94,7 @@ import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
 import { isAfter, subHours } from 'date-fns'
 import shouldUpdate from '@/utils/shouldUpdate'
 import resolveQueryPath from '@/utils/queryPathResolver'
+import { Interaction } from '@/components/rmrk/service/scheme'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
@@ -112,6 +113,20 @@ export default class IdentityPopover extends mixins(
   protected totalCreated = 0
   protected totalCollected = 0
   protected totalSold = 0
+
+  public async mounted() {
+    const query = await resolveQueryPath(this.client, 'buyEventByProfile')
+    const { data } = await this.$apollo.query<{ events: Interaction[] }>({
+      query: query.default,
+      client: this.client,
+      variables: {
+        id: this.identity.address,
+      },
+    })
+    if (data.events.length) {
+      this.lastBoughtDate = new Date(data.events[0].timestamp)
+    }
+  }
 
   get shortenedAddress(): Address {
     return shortAddress(this.resolveAddress(this.identity.address))
@@ -179,7 +194,6 @@ export default class IdentityPopover extends mixins(
       this.totalCollected = data.totalCollected
       this.totalSold = data.totalSold
       this.firstMintDate = data.firstMintDate
-      this.lastBoughtDate = data.lastBoughtDate
     } else if (data) {
       this.totalCreated = data.created.totalCount
       this.totalCollected = data.collected.totalCount
@@ -190,18 +204,11 @@ export default class IdentityPopover extends mixins(
       } else if (data?.firstMint?.nodes?.length > 0) {
         this.firstMintDate = data.firstMint.nodes[0].createdAt
       }
-
-      if (data?.collected?.nodes?.length > 0) {
-        this.lastBoughtDate = data.collected.nodes[0].collection.createdAt
-      } else if (data?.collected?.edges?.length > 0) {
-        this.lastBoughtDate = data.collected.edges[0].node.events[0].timestamp
-      }
       const cacheData = {
         totalCreated: this.totalCreated,
         totalCollected: this.totalCollected,
         totalSold: this.totalSold,
         firstMintDate: this.firstMintDate,
-        lastBoughtDate: this.lastBoughtDate,
         updatedAt: Date.now(),
       }
       await this.$store.dispatch('identityMint/setIdentity', {
