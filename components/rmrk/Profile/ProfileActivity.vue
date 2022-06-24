@@ -109,7 +109,6 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
     }
 
     const query = await resolveQueryPath(this.urlPrefix, 'profileStatsById')
-
     const { data } = await this.$apollo.query({
       query: query.default,
       client: this.client,
@@ -122,15 +121,14 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
       this.$consola.log('stats is null')
       return
     }
-    const listedEvents = data.listed
+
+    this.stats = {
+      listedCount: data.listed.totalCount,
+      totalCollected: data.obtained.totalCount,
+    }
 
     this.getSellerEvents(data)
     this.getInvestorStatsEvents(data)
-
-    this.stats = {
-      listedCount: listedEvents.totalCount,
-      totalCollected: data.obtained.totalCount,
-    }
   }
 
   get totalCollected(): number {
