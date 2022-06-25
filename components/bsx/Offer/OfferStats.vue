@@ -3,7 +3,7 @@
     <Loader v-model="isLoading" :status="status" />
     <p class="title is-size-4 has-text-success"></p>
     <StatsOverview></StatsOverview>
-    <OfferTable :offers="offers" :accountId="accountId" />
+    <OfferTable :offers="offers" :accountId="accountId" is-bsx-stats />
   </div>
 </template>
 

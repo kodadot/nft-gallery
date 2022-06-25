@@ -90,7 +90,7 @@ export default class OfferTable extends Vue {
   public offers!: Offer[]
   @Prop(Boolean) public isOwner!: boolean
   @Prop(String) public accountId!: string
-  public isBsxStats = this.$nuxt.$route.name === 'bsx-stats'
+  @Prop(Boolean) public isBsxStats!: boolean
 
   @Emit('select')
   tellFrens(caller: string) {
