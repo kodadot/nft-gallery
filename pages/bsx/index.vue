@@ -1,5 +1,5 @@
 <template>
-  <Landing prefix="bsx" buildOn="Basilisk" />
+  <Landing prefix="bsx" buildOn="Basilisk NFT Pallet" />
 </template>
 
 <script lang="ts">
