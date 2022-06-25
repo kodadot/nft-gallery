@@ -19,6 +19,7 @@ Before you being:
 - Please have a read the [code of conduct](CODE_OF_CONDUCT.md)
 - [Learn how to set up your environment for the first time](FIRST_TIME.md)
 - Get familiar with our [coding conventions & recommendations](STYLE_GUIDE.md)
+- Read up on our [tech stack](https://medium.com/kodadot/the-tech-stack-at-kodadot-8a83880f8624) to get a better picture of the infrastructure we rely on
 
 ### Which issue should you pick?
 
