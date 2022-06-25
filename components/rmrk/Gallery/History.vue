@@ -143,6 +143,8 @@ import {
 } from '@/utils/historyEvent'
 import { Interaction } from '@kodadot1/minimark'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { royaltyOf } from '~/utils/royalty'
+import resolveQueryPath from '~/utils/queryPathResolver'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -188,6 +190,7 @@ export default class History extends mixins(
   protected copyTableData: TableRow[] = []
   public isOpen = false
   public shortAddress = shortAddress
+  public query: any = null
 
   public async created() {
     this.initKeyboardEventHandler({
@@ -283,7 +286,7 @@ export default class History extends mixins(
       .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
   }
 
-  protected createTable(): void {
+  protected async createTable(): Promise<void> {
     this.data = []
     this.copyTableData = []
 
@@ -336,7 +339,26 @@ export default class History extends mixins(
           break
         case InteractionBsxOnly.ROYALTY:
           event['From'] = newEvent['caller']
-          event['Amount'] = this.parsePrice(newEvent['meta'])
+          if (!this.query) {
+            this.query = await resolveQueryPath(this.urlPrefix, 'nftById')
+          }
+          if (this.query && nftId !== 'id') {
+            const nft = await this.$apollo.query({
+              query: this.query.default,
+              client: this.urlPrefix,
+              variables: {
+                id: nftId,
+              },
+            })
+            const {
+              data: { nftEntity },
+            } = nft
+            const amount =
+              nftEntity.price && nftEntity.royalty
+                ? royaltyOf(nftEntity.price, nftEntity.royalty)
+                : ''
+            event['Amount'] = this.parsePrice(amount)
+          }
           break
         default:
           // unsupported event
