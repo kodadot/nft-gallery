@@ -17,7 +17,7 @@
         v-bind:key="data.status">
         <div>
           <p class="title">
-            {{ `${data.totalCount}/` }}
+            {{ `${data.totalCount} /` }}
             <Money :value="data.totalPrice" inline hideUnit />
           </p>
           <p class="heading text-bold mb-5">
