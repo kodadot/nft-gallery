@@ -1,5 +1,4 @@
 import { isAddress } from '@polkadot/util-crypto'
-import consola from 'consola'
 
 export type Royalty = {
   amount: number
@@ -12,4 +11,11 @@ export const isRoyaltyValid = ({ amount, address }: Royalty): boolean => {
     `Royalty is valid: ${result}, amount: ${amount}, address: ${address}`
   )
   return result
+}
+
+export const royaltyOf = (
+  amount: number | string | bigint,
+  percent: number | bigint
+): string => {
+  return String((BigInt(amount) * BigInt(percent || 0)) / BigInt(100))
 }
