@@ -3,6 +3,7 @@
     v-if="nft"
     :image="meta.image"
     :animationUrl="meta.animation_url"
+    :mimeType="mimeType"
     :description="meta.description"
     :imageVisible="imageVisible"
     :isLoading="isLoading">
