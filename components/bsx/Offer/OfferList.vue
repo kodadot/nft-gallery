@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Emit, mixins, Prop } from 'nuxt-property-decorator'
 import { isSameAccount } from '~/utils/account'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
@@ -72,6 +72,7 @@ export default class OfferList extends mixins(
     })
   }
 
+  @Emit('offersUpdate')
   protected setResponse(response: OfferResponse) {
     this.offers = response.offers
     this.total = response.stats.total
