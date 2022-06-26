@@ -33,8 +33,7 @@
 </template>
 
 <script lang="ts">
-import { emptyObject } from '@kodadot1/minimark'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import { OfferStats, StatsResponse } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { countOf } from '~/utils/countOf'
@@ -47,10 +46,9 @@ const components = {
 
 @Component({ components })
 export default class BsxStats extends mixins(PrefixMixin) {
-  @Prop({ type: Object, default: () => emptyObject<StatsResponse>() })
   public statsResponse!: StatsResponse
   protected offerStats: OfferStats[] = []
-  protected keysObject: string[] | undefined
+  protected keysObject: string[] = []
 
   fetch() {
     this.getOfferStats()

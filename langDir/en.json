@@ -502,7 +502,7 @@
       "label": "Offers ({0})",
       "count": "Number of offers {0}",
       "empty": "There are currently no offers for this NFT.",
-      "link": "Link to NFT",
+      "item": "Item",
       "status": "Offer status"
     }
   },

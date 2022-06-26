@@ -4,6 +4,7 @@ query offerList {
     expiration
     price
     status
+    createdAt
     nft {
       id
       name

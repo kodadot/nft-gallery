@@ -4,6 +4,7 @@ export type Offer = {
   expiration: string
   price: string
   status: string
+  createdAt: Date
   nft: {
     id: string
     name: string
