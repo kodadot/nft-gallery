@@ -12,7 +12,6 @@ query nftListSold(
     where: {
       issuer_eq: $account
       currentOwner_not_eq: $account
-      name_not_contains: "%Kanaria%"
       burned_eq: false,
       AND: $and
     }
@@ -28,7 +27,6 @@ query nftListSold(
     where: {
       issuer_eq: $account
       currentOwner_not_eq: $account
-      name_not_contains: "%Kanaria%"
       burned_eq: false,
       AND: $and
     }

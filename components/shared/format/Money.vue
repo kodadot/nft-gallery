@@ -1,5 +1,5 @@
 <template>
-  <div :class="['money', { 'money--inline': inline }]">
+  <div :class="['money', { 'is-inline-block': inline }]">
     <span v-if="!hideUnit">
       {{ value | checkInvalidBalance | formatBalance(decimals, unit) }}
     </span>
@@ -31,7 +31,6 @@ export default class Money extends Vue {
   @Prop(Boolean) readonly hideUnit!: boolean
 
   private readonly coinId: string = 'kusama'
-  private fiatValue = 0
 
   get chainProperties() {
     return this.$store.getters['chain/getChainProperties']
@@ -46,11 +45,3 @@ export default class Money extends Vue {
   }
 }
 </script>
-
-<style scoped lang="scss">
-.money {
-  &--inline {
-    display: inline-block;
-  }
-}
-</style>

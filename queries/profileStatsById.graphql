@@ -1,5 +1,5 @@
-#import "../../fragments/event.graphql"
-#import "../../fragments/nftSubsquid.graphql"
+#import "./fragments/event.graphql"
+#import "./fragments/nftSubsquid.graphql"
 
 query profileStatsById($id: String!) {
   listed: nftEntitiesConnection(
@@ -58,5 +58,4 @@ query profileStatsById($id: String!) {
       ...nftSubsquid
     }
   }
-  
 }
