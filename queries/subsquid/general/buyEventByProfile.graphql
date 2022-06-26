@@ -1,0 +1,8 @@
+query buyEventByProfile($id: String) {
+  events(
+    where: { caller_eq: $id, interaction_eq: BUY }
+    orderBy: timestamp_DESC
+  ) {
+    timestamp
+  }
+}

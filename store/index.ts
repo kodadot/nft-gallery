@@ -3,6 +3,11 @@ import Connector from '@kodadot1/sub-api'
 import correctFormat from '@/utils/ss58Format'
 import { GetterTree, MutationTree, Store } from 'vuex'
 
+type VuexAction = {
+  type: string
+  payload: string
+}
+
 const apiPlugin = (store: Store<any>): void => {
   const { getInstance: Api } = Connector
 
@@ -44,7 +49,16 @@ const apiPlugin = (store: Store<any>): void => {
     console.log('[API] disconnected')
   })
 }
+const myPlugin = (store: Store<null>): void => {
+  const { getInstance: Api } = Connector
 
+  store.subscribeAction(({ type, payload }: VuexAction) => {
+    if (type === 'setApiUrl' && payload) {
+      store.commit('setLoading', true)
+      Api().connect(payload)
+    }
+  })
+}
 export const state = () => ({
   loading: false,
   keyringLoaded: false,
@@ -84,4 +98,4 @@ export const getters: GetterTree<IndexState, IndexState> = {
   },
 }
 
-export const plugins = [apiPlugin]
+export const plugins = [apiPlugin, myPlugin]
