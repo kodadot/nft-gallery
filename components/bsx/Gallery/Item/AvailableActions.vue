@@ -52,7 +52,7 @@ export default class AvailableActions extends mixins(
 ) {
   @Prop(String) public currentOwnerId!: string
   @Prop() public price!: string
-  @Prop() public nftId!: string
+  @Prop(String) public nftId!: string
   @Prop(String) public collectionId!: string
   @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
@@ -82,7 +82,7 @@ export default class AvailableActions extends mixins(
   }
 
   get metaValid() {
-    if (Number.isInteger(this.meta)) {
+    if (Number.isInteger(Number(this.meta))) {
       return this.meta >= 0
     }
 

@@ -33,7 +33,7 @@ export function getSumOfObjectField<T>(
   field: string
 ): bigint | number {
   return list
-    .map((x) => x[field])
+    .map((x) => Number(x[field]))
     .map((x) => BigInt(x || 0))
     .reduce((acc, cur) => acc + cur, BigInt(0))
 }
