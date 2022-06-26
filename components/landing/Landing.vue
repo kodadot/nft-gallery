@@ -41,12 +41,8 @@
         </div>
       </div>
       <div v-if="prefix === 'rmrk'">
-        <span
-          v-if="isLogIn"
-          class="homepage__toggle"
-          type="is-text"
-          @click="togglePassionValue"
-          >Show {{ hasPassionFeed ? 'global' : 'personalized' }} data</span
+        <a v-if="isLogIn" type="is-text" @click="togglePassionValue"
+          >Show {{ hasPassionFeed ? 'global' : 'personalized' }} data</a
         >
         <LazyGalleryLatestSales
           :passionList="hasPassionFeed ? passionList : []"
@@ -128,15 +124,6 @@ export default class Landing extends mixins(AuthMixin) {
   &__heading {
     font-size: 4rem;
     color: $text;
-  }
-
-  &__toggle {
-    text-decoration: underline;
-    color: $primary;
-    cursor: pointer;
-    &:hover {
-      color: $white;
-    }
   }
 }
 .title {
