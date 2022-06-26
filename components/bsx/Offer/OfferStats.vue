@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <StatsOverview></StatsOverview>
+    <StatsOverview/>
     <OfferTable :offers="offers" :accountId="accountId" is-bsx-stats />
   </div>
 </template>
