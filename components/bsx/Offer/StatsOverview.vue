@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="level my-4 collection is-align-items-center mb-5">
-      <div v-for="key in keysObject" class="level-item has-text-centered">
+      <div
+        v-for="key in keysObject"
+        class="level-item has-text-centered"
+        v-bind:key="key">
         <div>
           <p class="title">{{ returnTotalCounts(key, statsResponse) }}</p>
           <p class="heading">
