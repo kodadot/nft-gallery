@@ -122,6 +122,10 @@ export const getActionButtonColor = (action: ShoppingActions): string => {
   return color
 }
 
+export const getActionButtonLabel = (action: ShoppingActions): string => {
+  return action.replace(/_/g, ' ')
+}
+
 export const getActionButtonIcon = (
   action: ShoppingActions
 ): string | undefined => {
