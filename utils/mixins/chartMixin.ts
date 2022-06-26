@@ -7,14 +7,14 @@ import { Component, Vue } from 'nuxt-property-decorator'
 @Component
 export default class ChartMixin extends Vue {
   protected onCanvasMouseDownBar(id: string): void {
-    document!.getElementById(id)!.style.cursor = 'grabbing' ?? false
+    document!.getElementById(id)!.style!.cursor = 'grabbing'
   }
 
   protected onCanvasMouseUpBar(id: string): void {
-    document!.getElementById(id)!.style!.cursor = 'auto' ?? false
+    document!.getElementById(id)!.style!.cursor = 'auto'
   }
 
   protected onCanvasMouseLeaveBar(id: string): void {
-    document!.getElementById(id)!.style!.cursor = 'auto' ?? false
+    document!.getElementById(id)!.style!.cursor = 'auto'
   }
 }
