@@ -41,6 +41,10 @@ export function resolveMedia(mimeType?: string): MediaType {
     return MediaType.MODEL
   }
 
+  if (/^model\/gltf-binary/.test(mimeType)) {
+    return MediaType.MODEL
+  }
+
   if (/^text\/html/.test(mimeType)) {
     return MediaType.IFRAME
   }
