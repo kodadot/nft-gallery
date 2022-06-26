@@ -70,7 +70,7 @@
       v-if="isBsxStats"
       field="Date"
       cell-class="is-vcentered"
-      :label="$t('nft.offer.status')"
+      :label="$t('nft.offer.date')"
       v-slot="props"
       ><p>
         {{ new Date(props.row.createdAt) | formatDistanceToNow }}
