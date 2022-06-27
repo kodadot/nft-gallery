@@ -41,8 +41,10 @@
         </div>
       </div>
       <div v-if="prefix === 'rmrk'">
-        <a v-if="isLogIn" type="is-text" @click="togglePassionValue"
-          >Show {{ hasPassionFeed ? 'global' : 'personalized' }} data</a
+        <span v-if="isLogIn" type="is-text" @click="togglePassionValue"
+          ><a
+            >Show {{ hasPassionFeed ? 'global' : 'personalized' }} data</a
+          ></span
         >
         <LazyGalleryLatestSales
           :passionList="hasPassionFeed ? passionList : []"
