@@ -33,9 +33,10 @@ export default function ({ app }, inject): void {
         return 'video:other'
       case MediaType.AUDIO:
         return 'music:song'
+      case MediaType.OBJECT:
+        return 'threed.asset'
       case MediaType.IMAGE:
       case MediaType.JSON:
-      case MediaType.OBJECT:
       default:
         return 'website'
     }
@@ -108,11 +109,6 @@ export default function ({ app }, inject): void {
 
     if (type === MediaType.MODEL) {
       const modelMetaTags: MetaTag[] = [
-        {
-          hid: 'og:type',
-          property: 'og:type',
-          content: 'threed.asset',
-        },
         {
           hid: 'og:asset',
           property: 'og:asset',
