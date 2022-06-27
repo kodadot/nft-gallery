@@ -33,8 +33,9 @@ export default function ({ app }, inject): void {
         return 'video:other'
       case MediaType.AUDIO:
         return 'music:song'
-      case MediaType.OBJECT:
+      case MediaType.MODEL:
         return 'threed.asset'
+      case MediaType.OBJECT:
       case MediaType.IMAGE:
       case MediaType.JSON:
       default:
