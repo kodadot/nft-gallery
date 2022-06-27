@@ -3,6 +3,7 @@
     v-if="nft"
     :image="meta.image"
     :animationUrl="meta.animation_url"
+    :mimeType="mimeType"
     :description="meta.description"
     :imageVisible="imageVisible"
     :isLoading="isLoading">
@@ -238,9 +239,9 @@ export default class GalleryItem extends mixins(
         ...nftEntity.meta,
         image: sanitizeIpfsUrl(nftEntity.meta.image || ''),
       }
-    } else {
-      this.fetchMetadata()
     }
+
+    this.fetchMetadata()
   }
 
   protected fetchRPCMetadata() {
@@ -261,7 +262,7 @@ export default class GalleryItem extends mixins(
   }
 
   public async fetchMetadata() {
-    if (this.nft['metadata'] && !this.meta['image']) {
+    if (this.nft['metadata']) {
       const cachedMeta = await get(this.nft.metadata)
 
       const meta = !isEmpty(cachedMeta)
