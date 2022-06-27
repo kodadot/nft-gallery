@@ -139,6 +139,7 @@ import {
   wrapEventNameWithIcon,
   parseDate,
   parseAmount,
+  InteractionBsxOnly,
 } from '@/utils/historyEvent'
 import { Interaction } from '@kodadot1/minimark'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -332,6 +333,16 @@ export default class History extends mixins(
             event['Percentage'] = 100
           }
           previousPriceMap[nftId] = parseInt(newEvent['meta'])
+          break
+        case InteractionBsxOnly.ROYALTY:
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          event['Percentage'] = parseInt(newEvent['meta'])
+          break
+        case InteractionBsxOnly.PAY_ROYALTY:
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          event['Amount'] = this.parsePrice(newEvent['meta'])
           break
         default:
           // unsupported event
