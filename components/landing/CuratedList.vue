@@ -55,12 +55,11 @@ import {
   processMetadata,
 } from '~/utils/cachingStrategy'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import Unknown from '../rmrk/Media/JsonMedia.vue'
 import resolveQueryPath from '~/utils/queryPathResolver'
 import { mapOnlyMetadata } from '~/utils/mappers'
 import { CollectionMetadata } from '../rmrk/types'
 import { fastExtract } from '~/utils/ipfs'
-import { getSanitizer } from '../rmrk/utils'
+import { getSanitizer, SomethingWithMeta } from '../rmrk/utils'
 import { Collection } from '~/components/unique/types'
 
 const components = {
@@ -72,7 +71,6 @@ const curatedCollection = [
   '800f8a914281765a7d-KITTY', // Kitty
   '2075be44ea4b9e422d-🐺', // WolfAngryClub
   '160a6f4320f11acb25-LCKWV', // PixelBabe
-  '7472058104f9f93924-KSMRAI', // Kusamurais (substraknights)
   '7cf9daa38281a57331-BSS', // Spaceships (ClownWorldHouse)
   '900D19DC7D3C444E4C-KSMBOT', // KusamaBot (deepologics)
 ]
@@ -81,7 +79,7 @@ const curatedCollection = [
   components,
 })
 export default class CuratedList extends mixins(AuthMixin, PrefixMixin) {
-  protected collections: Collection[] = []
+  protected collections: Collection[] | SomethingWithMeta[] = []
 
   async fetch() {
     const query = await resolveQueryPath(
@@ -108,7 +106,7 @@ export default class CuratedList extends mixins(AuthMixin, PrefixMixin) {
     this.collections = data.collectionEntities.map((e: any) => ({
       ...e,
       metadata: e.meta?.id || e.metadata,
-    }))
+    })) as SomethingWithMeta[]
     const metadataList: string[] = this.collections.map(mapOnlyMetadata)
     const imageLinks = await getCloudflareImageLinks(metadataList)
 
