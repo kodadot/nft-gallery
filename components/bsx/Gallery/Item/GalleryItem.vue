@@ -221,7 +221,7 @@ export default class GalleryItem extends mixins(
   get image(): string {
     return generateNftImage(
       this.nft.name,
-      formatBalanceEmptyOnZero(this.nft.price as string),
+      formatBalanceEmptyOnZero(this.nft.price as string, 0, 'BSX'),
       this.meta.image as string,
       this.mimeType
     )
