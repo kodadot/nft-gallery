@@ -29,6 +29,13 @@ type CurrentCollection = {
       image: this.image,
     }
     return {
+      link: [
+        {
+          hid: 'canonical',
+          rel: 'canonical',
+          href: this.$root.$config.baseUrl + this.$route.path,
+        },
+      ],
       title,
       meta: [...this.$seoMeta(metaData)],
     }
