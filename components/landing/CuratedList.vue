@@ -71,6 +71,7 @@ const curatedCollection = [
   '800f8a914281765a7d-KITTY', // Kitty
   '2075be44ea4b9e422d-🐺', // WolfAngryClub
   '160a6f4320f11acb25-LCKWV', // PixelBabe
+  '0a24c7876a892acb79-RADTOADZ', // RadToadz (ZestLifeLab)
   '7cf9daa38281a57331-BSS', // Spaceships (ClownWorldHouse)
   '900D19DC7D3C444E4C-KSMBOT', // KusamaBot (deepologics)
 ]
