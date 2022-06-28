@@ -527,7 +527,8 @@
     "minted": "Minted",
     "createdCollections": "Created Collections",
     "activeWallets": "Active wallets",
-    "offers": "Offers"
+    "offers": "Offers",
+    "bsxTitle":  "Basilisk Marketplace Statistics"
   },
   "loader": {
     "casting": "(1/3) Casting the tx to blockchain",

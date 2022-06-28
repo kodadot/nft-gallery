@@ -1,7 +1,12 @@
 <template>
   <div>
+    <div>
+      <h1 class="title is-2 has-text-centered">
+        {{ $t('statsOverview.bsxTitle') }}
+      </h1>
+    </div>
     <Loader v-model="isLoading" :status="status" />
-    <StatsOverview/>
+    <StatsOverview />
     <OfferTable :offers="offers" :accountId="accountId" is-bsx-stats />
   </div>
 </template>
