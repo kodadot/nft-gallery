@@ -88,6 +88,7 @@
                           :delegateId="nft.delegate"
                           :collectionId="collectionId"
                           :frozen="nft.isFrozen"
+                          :isMakeOffersAllowed="isMakeOffersAllowed"
                           :ipfs-hashes="[
                             nft.image,
                             nft.animation_url,
@@ -114,6 +115,7 @@
       <OfferList
         :current-owner-id="nft.currentOwner"
         :nftId="id"
+        @offersUpdate="offersUpdate"
         :collectionId="collectionId" />
     </template>
   </BaseGalleryItem>
@@ -198,6 +200,7 @@ export default class GalleryItem extends mixins(
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
   public emotes: Emote[] = []
   public message = ''
+  public isMakeOffersAllowed = true
 
   public async created() {
     this.checkId()
@@ -225,6 +228,12 @@ export default class GalleryItem extends mixins(
       this.meta.image as string,
       this.mimeType
     )
+  }
+
+  public offersUpdate({ offers }) {
+    this.isMakeOffersAllowed = !offers.find(({ caller }) => {
+      return caller === this.accountId
+    })
   }
 
   protected observeOwner(data: Option<InstanceDetails>) {
