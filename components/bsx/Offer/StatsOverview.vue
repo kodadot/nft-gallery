@@ -63,9 +63,7 @@ export default class BsxStats extends mixins(PrefixMixin) {
     this.keysObject = Object.keys(response.data).filter(
       (key) => key !== 'offerStats'
     )
-    this.offerStats = this.statsResponse.offerStats.filter(
-      (offer: OfferStats) => offer.status !== 'EXPIRED'
-    )
+    this.offerStats = this.statsResponse.offerStats
   }
   protected returnTotalCounts(key, statsResponse) {
     if (key === 'activeWallets') {

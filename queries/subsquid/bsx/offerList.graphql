@@ -1,5 +1,5 @@
 query offerList {
-  offers {
+  offers(orderBy: createdAt_DESC) {
     caller
     expiration
     price
