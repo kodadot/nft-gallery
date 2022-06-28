@@ -473,7 +473,8 @@
     "random": "Go to random page",
     "buyDisabled": "Not enough balance",
     "holdings": "Nfts owned by",
-    "gains": "Gained by"
+    "gains": "Gained by",
+    "makeOfferDisabled": "You have already made an offer for this NFT"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
