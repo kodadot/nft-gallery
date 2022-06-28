@@ -89,6 +89,12 @@
       <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/explore`">
         <span>{{ $t('explore') }}</span>
       </b-navbar-item>
+      <b-navbar-item
+        v-if="urlPrefix === 'bsx'"
+        tag="nuxt-link"
+        :to="`/${urlPrefix}/stats`">
+        <span>{{ $t('stats') }}</span>
+      </b-navbar-item>
       <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
         <template #label>
           <span>{{ $t('stats') }}</span>

@@ -491,7 +491,9 @@
       "SEND": "GIFT",
       "CONSUME": "BURN",
       "BUY": "BUY",
-      "MAKE_OFFER": "MAKE OFFER"
+      "MAKE_OFFER": "MAKE OFFER",
+      "ROYALTY": "ROYALTY",
+      "PAY_ROYALTY": "PAY_ROYALTY"
     },
     "action": {
       "submit": "Submit {0}"
@@ -502,7 +504,10 @@
     "offer": {
       "label": "Offers ({0})",
       "count": "Number of offers {0}",
-      "empty": "There are currently no offers for this NFT."
+      "empty": "There are currently no offers for this NFT.",
+      "item": "Item",
+      "status": "Offer status",
+      "date": "Date"
     }
   },
   "offer": {
@@ -510,6 +515,19 @@
     "price": "Price",
     "expiration": "Expiration",
     "action": "Action"
+  },
+  "statsOverview": {
+    "buys": "Buys",
+    "offerStats": {
+      "status": "Status",
+      "totalCount": "Total Count",
+      "totalPrice": "Total price"
+    },
+    "listed": "Listed",
+    "minted": "Minted",
+    "createdCollections": "Created Collections",
+    "activeWallets": "Active wallets",
+    "offers": "Offers"
   },
   "loader": {
     "casting": "(1/3) Casting the tx to blockchain",

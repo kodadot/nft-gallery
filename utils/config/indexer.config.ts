@@ -26,7 +26,3 @@ function getDefaultIndexer(prefix: Prefix) {
 function indexOf(client: AvailableClient): 0 | 1 {
   return client === 'subsquid' ? 1 : 0
 }
-
-function implementationAvailableFor(prefix: Prefix): ImplementationAvailable {
-  return implementationAvailable[prefix]
-}
