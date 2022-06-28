@@ -420,7 +420,7 @@
       "sync": "Sync editions to {0}"
     },
     "royalty": {
-      "amount": "Royalty Amount",
+      "rate": "Royalty Rate",
       "mine": "Pay royalty to this account",
       "receiver": "Destination account for royalty"
     },
@@ -526,7 +526,8 @@
     "minted": "Minted",
     "createdCollections": "Created Collections",
     "activeWallets": "Active wallets",
-    "offers": "Offers"
+    "offers": "Offers",
+    "bsxTitle":  "Basilisk Marketplace Statistics"
   },
   "loader": {
     "casting": "(1/3) Casting the tx to blockchain",
