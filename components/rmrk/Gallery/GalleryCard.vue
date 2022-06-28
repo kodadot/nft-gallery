@@ -14,7 +14,7 @@
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
         <BasicImage
-          v-show="image"
+          v-show="!animatedUrl"
           :src="image"
           :alt="title"
           customClass="gallery__image-wrapper" />

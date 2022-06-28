@@ -167,7 +167,9 @@ import {
   processMetadata,
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
+import { convertLastEventToNft } from '@/utils/carousel'
 import { NFT_SORT_CONDITION_LIST } from '@/utils/constants'
+import { LastEvent } from '~/utils/types/types'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
@@ -187,7 +189,8 @@ export default class SearchBar extends mixins(
 ) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
-  @Prop(Array) public sortByMultiple!: string[]
+  @Prop({ type: Array, default: () => ['BLOCK_NUMBER_DESC'] })
+  public sortByMultiple!: string[]
   @Prop(String) public searchColumnClass!: string
   @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
@@ -226,21 +229,21 @@ export default class SearchBar extends mixins(
     ) {
       try {
         const { data } = await this.$apollo.query<{
-          events: [{ meta; timestamp; nft }]
+          events: LastEvent[]
         }>({
           query: lastNftListByEvent,
           client: this.client,
           variables: {
             limit: this.searchSuggestionEachTypeMaxNum,
             event: 'LIST',
-            and: {
-              meta_not_eq: '0',
-            },
           },
         })
 
-        const nfts = [...data.events].map((event) => event.nft)
-        const nFTMetadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
+        const nfts = [...data.events].map((e) => convertLastEventToNft(e).nft)
+
+        const nFTMetadataList: string[] = (nfts as any).map(
+          mapNFTorCollectionMetadata
+        )
         getCloudflareImageLinks(nFTMetadataList).then((imageLinks) => {
           const nftResult: NFTWithMeta[] = []
           processMetadata<NFTWithMeta>(nFTMetadataList, (meta, i) => {
@@ -472,13 +475,13 @@ export default class SearchBar extends mixins(
 
   @Emit('update:sortByMultiple')
   @Debounce(400)
-  updateSortBy(value: string[]): string[] {
-    value = value.filter((condition) =>
+  updateSortBy(value: string[] | string): string[] {
+    const final = (Array.isArray(value) ? value : [value]).filter((condition) =>
       NFT_SORT_CONDITION_LIST.includes(condition)
     )
 
-    this.replaceUrl(value, undefined, 'sort')
-    return value
+    this.replaceUrl(final, undefined, 'sort')
+    return final
   }
 
   // not highlight search, just input keyword and enter

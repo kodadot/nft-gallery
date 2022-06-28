@@ -10,7 +10,9 @@ query userStatsByAccount($account: String!) {
     }
   }
 
-  created: nFTEntities(filter: { issuer: { equalTo: $account } }) {
+  created: nFTEntities(
+    filter: { issuer: { equalTo: $account }, burned: { distinctFrom: true } }
+  ) {
     totalCount
   }
 
@@ -18,6 +20,7 @@ query userStatsByAccount($account: String!) {
     filter: {
       issuer: { notEqualTo: $account }
       currentOwner: { equalTo: $account }
+      burned: { distinctFrom: true }
     }
     orderBy: BLOCK_NUMBER_DESC
     first: 1
@@ -29,6 +32,7 @@ query userStatsByAccount($account: String!) {
     filter: {
       issuer: { equalTo: $account }
       currentOwner: { notEqualTo: $account }
+      burned: { distinctFrom: true }
     }
   ) {
     totalCount

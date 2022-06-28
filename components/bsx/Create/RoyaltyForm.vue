@@ -1,6 +1,9 @@
 <template>
   <div>
-    <BasicSlider v-model="vRoyalty" label="mint.royalty.amount" />
+    <BasicSlider
+      v-model="vRoyalty"
+      label="mint.royalty.rate"
+      :customFormatter="(v) => `${v}%`" />
     <BasicSwitch v-model="isMine" label="mint.royalty.mine" />
     <AddressInput
       v-show="!isMine"

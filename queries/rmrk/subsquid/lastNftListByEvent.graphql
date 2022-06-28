@@ -8,7 +8,7 @@ query lastNftListByEvent(
     where: { interaction_eq: $event, AND: $and, nft: { burned_eq: false } }
     orderBy: timestamp_DESC
   ) {
-    meta
+    meta: value
     timestamp
     nft {
       id

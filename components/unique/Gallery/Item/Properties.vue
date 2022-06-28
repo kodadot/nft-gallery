@@ -1,6 +1,6 @@
 <template>
-  <CollapseCardWrapper label="properties">
-    <b-table :data="attributes" :columns="columns" />
+  <CollapseCardWrapper :label="$t('nft.properties.label')">
+    <b-table :data="displayAttributes" :columns="columns" />
   </CollapseCardWrapper>
 </template>
 
@@ -19,6 +19,10 @@ export default class Properties extends Vue {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public attributes!: Attribute[]
   @Prop({ type: String, default: 'key' }) private fieldKey!: string
+
+  get displayAttributes() {
+    return this.attributes.filter((attribute) => attribute[this.fieldKey])
+  }
 
   get columns() {
     return [

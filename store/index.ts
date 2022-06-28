@@ -49,7 +49,6 @@ const apiPlugin = (store: Store<any>): void => {
     console.log('[API] disconnected')
   })
 }
-
 const myPlugin = (store: Store<null>): void => {
   const { getInstance: Api } = Connector
 
@@ -60,7 +59,6 @@ const myPlugin = (store: Store<null>): void => {
     }
   })
 }
-
 export const state = () => ({
   loading: false,
   keyringLoaded: false,

@@ -60,7 +60,7 @@ import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
-  @Prop(String) public sortBy!: string
+  @Prop({ type: String, default: 'blockNumber_DESC' }) public sortBy!: string
   @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop({ type: Boolean, default: false }) public owned!: boolean
   @Prop(Boolean) public disableToggle!: boolean

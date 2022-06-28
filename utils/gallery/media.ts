@@ -5,6 +5,7 @@ const mediaWithoutImage = [
   MediaType.VIDEO,
   MediaType.MODEL,
   MediaType.IFRAME,
+  MediaType.AUDIO,
   MediaType.OBJECT,
 ]
 
@@ -40,6 +41,10 @@ export function resolveMedia(mimeType?: string): MediaType {
     return MediaType.MODEL
   }
 
+  if (/^model\/gltf-binary/.test(mimeType)) {
+    return MediaType.MODEL
+  }
+
   if (/^text\/html/.test(mimeType)) {
     return MediaType.IFRAME
   }
@@ -50,6 +55,10 @@ export function resolveMedia(mimeType?: string): MediaType {
 
   if (/^application\/pdf/.test(mimeType)) {
     return MediaType.OBJECT
+  }
+
+  if (/^audio/.test(mimeType)) {
+    return MediaType.AUDIO
   }
 
   const match = mimeType.match(/^[a-z]+/)

@@ -26,7 +26,7 @@
           </a>
         </div>
         <div class="column">
-          <LazyGalleryCuratedList v-if="prefix === 'rmrk'" />
+          <LazyCuratedList />
         </div>
       </div>
       <div class="mt-6">

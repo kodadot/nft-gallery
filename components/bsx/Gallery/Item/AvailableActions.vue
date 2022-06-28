@@ -1,7 +1,11 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <ActionList v-if="accountId" :actions="actions" @click="handleAction" />
+    <ActionList
+      v-if="accountId"
+      :actions="actions"
+      :isMakeOffersAllowed="isMakeOffersAllowed"
+      @click="handleAction" />
     <component
       class="mb-4"
       v-if="showMeta"
@@ -52,8 +56,9 @@ export default class AvailableActions extends mixins(
 ) {
   @Prop(String) public currentOwnerId!: string
   @Prop() public price!: string
-  @Prop() public nftId!: string
+  @Prop(String) public nftId!: string
   @Prop(String) public collectionId!: string
+  @Prop(Boolean) public isMakeOffersAllowed!: boolean
   @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
   private selectedAction: ShoppingActions | '' = ''
@@ -82,7 +87,7 @@ export default class AvailableActions extends mixins(
   }
 
   get metaValid() {
-    if (Number.isInteger(this.meta)) {
+    if (Number.isInteger(Number(this.meta))) {
       return this.meta >= 0
     }
 
