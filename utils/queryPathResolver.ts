@@ -34,7 +34,7 @@ function getPath(prefix: string) {
     case 'subsquid':
       return 'subsquid/general/'
     default:
-      return ''
+      return 'subsquid/general/'
   }
 }
 
