@@ -72,7 +72,7 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
       limit: 10,
       event: 'BUY',
     }
-    if (this.isLogIn && this.passionList.length > 9) {
+    if (this.isLogIn) {
       queryVars.and.nft = {
         issuer_in: this.passionList,
       }
