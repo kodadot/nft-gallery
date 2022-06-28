@@ -110,7 +110,7 @@
               :label="props.row.Date"
               position="is-right"
               append-to-body>
-              <span v-if="disableBlockUrl"> {{ props.row.Time }}</span>
+              <span v-if="hasDisabledBlockUrl"> {{ props.row.Time }}</span>
               <a
                 v-else
                 target="_blank"
@@ -246,7 +246,7 @@ export default class History extends mixins(
     return [HistoryEventType.ALL, Interaction.BUY].includes(this.event)
   }
 
-  get disableBlockUrl() {
+  get hasDisabledBlockUrl(): boolean {
     const disableBlockUrlPrefix = ['bsx']
     return disableBlockUrlPrefix.includes(this.urlPrefix)
   }
