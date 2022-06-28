@@ -420,7 +420,7 @@
       "sync": "Sync editions to {0}"
     },
     "royalty": {
-      "amount": "Royalty Amount",
+      "rate": "Royalty Rate",
       "mine": "Pay royalty to this account",
       "receiver": "Destination account for royalty"
     },
@@ -490,7 +490,9 @@
       "SEND": "GIFT",
       "CONSUME": "BURN",
       "BUY": "BUY",
-      "MAKE_OFFER": "MAKE OFFER"
+      "MAKE_OFFER": "MAKE OFFER",
+      "ROYALTY": "ROYALTY",
+      "PAY_ROYALTY": "PAY_ROYALTY"
     },
     "action": {
       "submit": "Submit {0}"
@@ -524,7 +526,8 @@
     "minted": "Minted",
     "createdCollections": "Created Collections",
     "activeWallets": "Active wallets",
-    "offers": "Offers"
+    "offers": "Offers",
+    "bsxTitle":  "Basilisk Marketplace Statistics"
   },
   "loader": {
     "casting": "(1/3) Casting the tx to blockchain",
