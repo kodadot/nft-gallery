@@ -110,7 +110,9 @@
               :label="props.row.Date"
               position="is-right"
               append-to-body>
+              <span v-if="disableBlockUrl"> {{ props.row.Time }}</span>
               <a
+                v-else
                 target="_blank"
                 rel="noopener noreferrer"
                 :href="getBlockUrl(props.row.Block)">
@@ -242,6 +244,11 @@ export default class History extends mixins(
 
   get isPercentageColumnVisible() {
     return [HistoryEventType.ALL, Interaction.BUY].includes(this.event)
+  }
+
+  get disableBlockUrl() {
+    const disableBlockUrlPrefix = ['bsx']
+    return disableBlockUrlPrefix.includes(this.urlPrefix)
   }
 
   get selectedEvent(): HistoryEventType {
