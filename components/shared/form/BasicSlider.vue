@@ -5,6 +5,7 @@
       :min="min"
       :max="max"
       :ticks="ticks"
+      :customFormatter="customFormatter"
       :lazy="lazy" />
   </b-field>
 </template>
@@ -20,5 +21,8 @@ export default class BasicSlider extends Vue {
   @Prop({ type: Number, default: 100 }) max!: number
   @Prop(Boolean) ticks!: boolean
   @Prop(Boolean) lazy!: boolean
+  @Prop({ type: Function, required: false }) customFormatter!: (
+    v: string
+  ) => string
 }
 </script>
