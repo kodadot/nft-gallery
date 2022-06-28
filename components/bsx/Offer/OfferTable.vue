@@ -69,7 +69,7 @@
     <b-table-column
       v-if="isBsxStats"
       field="Date"
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       :label="$t('nft.offer.date')"
       v-slot="props"
       ><p>
