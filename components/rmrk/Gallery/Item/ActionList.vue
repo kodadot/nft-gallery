@@ -19,6 +19,7 @@ import {
   getActionButtonLabel,
   ShoppingActions,
 } from '@/utils/shoppingActions'
+import { TranslateResult } from 'vue-i18n/types'
 
 @Component({})
 export default class ActionList extends Vue {
@@ -33,8 +34,8 @@ export default class ActionList extends Vue {
     return getActionButtonColor(value)
   }
 
-  protected actionLabel(value: ShoppingActions): string {
-    return getActionButtonLabel(value)
+  protected actionLabel(value: ShoppingActions): TranslateResult {
+    return getActionButtonLabel(value, this)
   }
 }
 </script>

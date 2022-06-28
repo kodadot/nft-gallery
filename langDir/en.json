@@ -751,5 +751,13 @@
     "understand": "I understand",
     "learnText": "Learn how to Connect",
     "downloadExtension": "Download extension"
+  },
+  "actionLabels": {
+     "MAKE_OFFER": "MAKE OFFER",
+     "BUY": "BUY",
+     "SEND": "SEND",
+     "CONSUME": "CONSUME",
+     "DOWNLOAD": "DOWNLOAD",
+     "LIST": "LIST"
   }
 }
