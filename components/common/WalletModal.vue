@@ -119,7 +119,7 @@ export default class WalletModal extends Vue {
   protected hasWalletProviderExtension = false
   protected guideUrl = ''
   protected extensionUrl = ''
-  protected walletAccounts: WalletAccount[] = []
+  protected walletAccounts: WalletAccount[] | string[] = []
   private hasUserAuthorized = false
 
   set account(account: string) {
@@ -172,7 +172,7 @@ export default class WalletModal extends Vue {
     )
   }
 
-  protected setWallet(wallet: BaseDotsamaWallet): void {
+  protected setWallet(wallet): void {
     this.selectedWalletProvider = wallet
     this.hasSelectedWalletProvider = true
     this.walletAccounts = []
@@ -188,6 +188,8 @@ export default class WalletModal extends Vue {
       })
     }
 
+    console.log(wallet)
+
     if (!wallet.installed) {
       this.hasWalletProviderExtension = false
       this.guideUrl = wallet.guideUrl
@@ -202,23 +204,36 @@ export default class WalletModal extends Vue {
       // web3 wallet connect logic here & show accountSelect, async or not?
       // wallet.enable()
 
-      // init account
-      wallet
-        .getAccounts()
-        .then((data) => {
-          this.walletAccounts = data ? data.map(this.formatAccount) : []
-        })
-        .catch((e) => {
-          this.$consola.error('init account error', e)
-        })
+      if (wallet.isEvmWallet) {
+        // init evm account
+        wallet
+          .getAccounts()
+          .then((data: string) => {
+            console.log(data)
+            this.walletAccounts = [{ address: data } as WalletAccount]
+          })
+          .catch((e) => {
+            this.$consola.error('init account error', e)
+          })
+      } else {
+        // init Dotsama account
+        wallet
+          .getAccounts()
+          .then((data) => {
+            this.walletAccounts = data ? data.map(this.formatAccount) : []
+          })
+          .catch((e) => {
+            this.$consola.error('init account error', e)
+          })
 
-      // subscribe change
-      wallet.subscribeAccounts((accounts) => {
-        // list of supported accounts for this wallet to show in AccoutSelect
-        if (accounts) {
-          this.walletAccounts = accounts.map(this.formatAccount)
-        }
-      })
+        // subscribe change
+        wallet.subscribeAccounts((accounts) => {
+          // list of supported accounts for this wallet to show in AccoutSelect
+          if (accounts) {
+            this.walletAccounts = accounts.map(this.formatAccount)
+          }
+        })
+      }
       this.hasWalletProviderExtension = true
     }
   }

@@ -1,9 +1,13 @@
 import { PolkadotjsWallet } from '~/utils/config/wallets/PolkadotjsWallet'
+import { MetamaskWallet } from '~/utils/config/wallets/MetamaskWallet'
 import { MathWallet } from '~/utils/config/wallets/MathWallet'
 import { NovaWallet } from '~/utils/config/wallets/NovaWallet'
 import { SubWallet } from '~/utils/config/wallets/SubWallet'
 import { TalismanWallet } from '~/utils/config/wallets/TalismanWallet'
 import { isMobileDevice } from '~/utils/extension'
+import { MetaMaskInpageProvider } from '@metamask/providers'
+import { RequestArguments } from '@metamask/providers/dist/BaseProvider'
+import { Maybe } from '@metamask/providers/dist/utils'
 
 // source as 'polkadot-js' in mobile app
 export enum SupportWalletExtension {
@@ -19,6 +23,7 @@ export enum SupportWalletExtension {
 
 export const SubstrateWallets = [
   SupportWalletExtension.PolkadotJs,
+  SupportWalletExtension.MetaMask,
   SupportWalletExtension.Clover,
   SupportWalletExtension.Math,
   SupportWalletExtension.Nova,
@@ -28,7 +33,12 @@ export const SubstrateWallets = [
 
 export const SupportedWallets = isMobileDevice
   ? [new MathWallet(), new NovaWallet()]
-  : [new TalismanWallet(), new PolkadotjsWallet(), new SubWallet()]
+  : [
+      new PolkadotjsWallet(),
+      new MetamaskWallet(),
+      new SubWallet(),
+      new TalismanWallet(),
+    ]
 
 export function getWalletBySource(
   source: string | unknown
@@ -86,10 +96,24 @@ interface Signer {
 }
 
 interface Connector {
-  enable: () => unknown
+  enable: () => Promise<unknown>
 
   // The subscribe to accounts function
-  subscribeAccounts: (callback: SubscriptionFn) => unknown
+  subscribeAccounts: (callback: SubscriptionFn) => Promise<unknown>
+}
+
+export interface EvmWalletInfo extends WalletData {
+  isSetGlobalString: string
+  initEvent?: string
+}
+
+export interface EvmWallet extends EvmWalletInfo {
+  installed: boolean
+  extension: MetaMaskInpageProvider | undefined
+  isReady: Promise<MetaMaskInpageProvider | undefined>
+
+  request<T>(args: RequestArguments): Promise<Maybe<T>>
+  enable(): Promise<boolean>
 }
 
 export interface Wallet
