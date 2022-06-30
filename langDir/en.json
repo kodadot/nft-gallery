@@ -421,7 +421,7 @@
     },
     "royalty": {
       "rate": "Royalty Rate",
-      "mine": "Pay royalty to this account",
+      "mine": "Pay royalties to the creator account",
       "receiver": "Destination account for royalty"
     },
     "collection": {
