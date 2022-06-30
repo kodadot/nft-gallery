@@ -110,7 +110,9 @@
               :label="props.row.Date"
               position="is-right"
               append-to-body>
+              <span v-if="hasDisabledBlockUrl"> {{ props.row.Time }}</span>
               <a
+                v-else
                 target="_blank"
                 rel="noopener noreferrer"
                 :href="getBlockUrl(props.row.Block)">
@@ -139,6 +141,7 @@ import {
   wrapEventNameWithIcon,
   parseDate,
   parseAmount,
+  InteractionBsxOnly,
 } from '@/utils/historyEvent'
 import { Interaction } from '@kodadot1/minimark'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -243,6 +246,11 @@ export default class History extends mixins(
     return [HistoryEventType.ALL, Interaction.BUY].includes(this.event)
   }
 
+  get hasDisabledBlockUrl(): boolean {
+    const disableBlockUrlPrefix = ['bsx']
+    return disableBlockUrlPrefix.includes(this.urlPrefix)
+  }
+
   get selectedEvent(): HistoryEventType {
     return this.event
   }
@@ -332,6 +340,16 @@ export default class History extends mixins(
             event['Percentage'] = 100
           }
           previousPriceMap[nftId] = parseInt(newEvent['meta'])
+          break
+        case InteractionBsxOnly.ROYALTY:
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          event['Percentage'] = parseInt(newEvent['meta'])
+          break
+        case InteractionBsxOnly.PAY_ROYALTY:
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          event['Amount'] = this.parsePrice(newEvent['meta'])
           break
         default:
           // unsupported event
