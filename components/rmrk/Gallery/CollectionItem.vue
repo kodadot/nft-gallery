@@ -320,7 +320,7 @@ export default class CollectionItem extends mixins(
   public async created(): Promise<void> {
     this.checkId()
     this.checkActiveTab()
-    // this.checkIfEmptyListed()
+    this.checkIfEmptyListed()
     this.fetchPageData(this.startPage)
   }
 

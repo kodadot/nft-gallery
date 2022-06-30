@@ -1,0 +1,13 @@
+query offerList {
+  offers(orderBy: createdAt_DESC) {
+    caller
+    expiration
+    price
+    status
+    createdAt
+    nft {
+      id
+      name
+    }
+  }
+}

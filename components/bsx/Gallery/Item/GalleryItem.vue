@@ -3,6 +3,7 @@
     v-if="nft"
     :image="meta.image"
     :animationUrl="meta.animation_url"
+    :mimeType="mimeType"
     :description="meta.description"
     :imageVisible="imageVisible"
     :isLoading="isLoading">
@@ -87,6 +88,7 @@
                           :delegateId="nft.delegate"
                           :collectionId="collectionId"
                           :frozen="nft.isFrozen"
+                          :isMakeOffersAllowed="isMakeOffersAllowed"
                           :ipfs-hashes="[
                             nft.image,
                             nft.animation_url,
@@ -113,6 +115,7 @@
       <OfferList
         :current-owner-id="nft.currentOwner"
         :nftId="id"
+        @offersUpdate="offersUpdate"
         :collectionId="collectionId" />
     </template>
   </BaseGalleryItem>
@@ -180,6 +183,7 @@ export default class GalleryItem extends mixins(
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
   public emotes: Emote[] = []
   public message = ''
+  public isMakeOffersAllowed = true
 
   public async created() {
     this.checkId()
@@ -194,6 +198,12 @@ export default class GalleryItem extends mixins(
 
   get tokenId(): [string, string] {
     return [this.collectionId, this.id]
+  }
+
+  public offersUpdate({ offers }) {
+    this.isMakeOffersAllowed = !offers.find(({ caller }) => {
+      return caller === this.accountId
+    })
   }
 
   protected observeOwner(data: Option<InstanceDetails>) {
@@ -238,9 +248,9 @@ export default class GalleryItem extends mixins(
         ...nftEntity.meta,
         image: sanitizeIpfsUrl(nftEntity.meta.image || ''),
       }
-    } else {
-      this.fetchMetadata()
     }
+
+    this.fetchMetadata()
   }
 
   protected fetchRPCMetadata() {
@@ -261,7 +271,7 @@ export default class GalleryItem extends mixins(
   }
 
   public async fetchMetadata() {
-    if (this.nft['metadata'] && !this.meta['image']) {
+    if (this.nft['metadata']) {
       const cachedMeta = await get(this.nft.metadata)
 
       const meta = !isEmpty(cachedMeta)

@@ -1,14 +1,22 @@
 <template>
   <div class="buttons">
-    <b-button
-      v-for="action in actions"
-      :key="action"
-      :type="iconType(action)"
-      outlined
-      expanded
-      @click="handleActionSelect(action)">
-      {{ actionLabel(action) }}
-    </b-button>
+    <b-tooltip
+      class="w-100"
+      :active="!isMakeOffersAllowed"
+      :label="$t('tooltip.makeOfferDisabled')">
+      <b-button
+        v-for="action in actions"
+        :key="action"
+        :type="iconType(action)"
+        :disabled="
+          action === ShoppingActions.MAKE_OFFER && !isMakeOffersAllowed
+        "
+        outlined
+        expanded
+        @click="handleActionSelect(action)">
+        {{ actionLabel(action) }}
+      </b-button>
+    </b-tooltip>
   </div>
 </template>
 
@@ -24,6 +32,9 @@ import { TranslateResult } from 'vue-i18n/types'
 @Component({})
 export default class ActionList extends Vue {
   @Prop({ type: Array, required: false }) public actions!: ShoppingActions[]
+  @Prop(Boolean) public isMakeOffersAllowed!: boolean
+
+  private ShoppingActions = ShoppingActions
 
   @Emit('click')
   protected handleActionSelect(action: ShoppingActions) {
