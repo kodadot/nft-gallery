@@ -72,12 +72,9 @@
               :label="props.row.Date"
               position="is-right"
               append-to-body>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="getBlockUrl(props.row.Block)">
-                {{ props.row.Time }}</a
-              >
+              <BlockExplorerLink
+                :text="props.row.Time"
+                :blockId="props.row.Block" />
             </b-tooltip>
           </b-table-column>
         </b-table>
@@ -88,7 +85,6 @@
 
 <script lang="ts">
 import { DocumentNode } from 'graphql'
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
@@ -103,6 +99,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
+  BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }
 
 type TableRowItem = {
@@ -291,14 +288,6 @@ export default class Sales extends mixins(
       timeZone: 'UTC',
       timeZoneName: 'short',
     })
-  }
-
-  protected getBlockUrl(block: string): string {
-    return urlBuilderBlockNumber(
-      block,
-      this.$store.getters['explorer/getCurrentChain'],
-      'subscan'
-    )
   }
 
   @Watch('events', { immediate: true })
