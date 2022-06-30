@@ -494,7 +494,7 @@
       "MAKE_OFFER": "MAKE OFFER",
       "DOWNLOAD": "DOWNLOAD",
       "ROYALTY": "ROYALTY",
-      "PAY_ROYALTY": "PAY_ROYALTY"
+      "PAY_ROYALTY": "PAY ROYALTY"
     },
     "action": {
       "submit": "Submit {0}"
