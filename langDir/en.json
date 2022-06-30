@@ -490,7 +490,8 @@
       "SEND": "GIFT",
       "CONSUME": "BURN",
       "BUY": "BUY",
-      "MAKE_OFFER": "MAKE OFFER"
+      "MAKE_OFFER": "MAKE OFFER",
+      "DOWNLOAD": "DOWNLOAD"
     },
     "action": {
       "submit": "Submit {0}"
@@ -751,13 +752,5 @@
     "understand": "I understand",
     "learnText": "Learn how to Connect",
     "downloadExtension": "Download extension"
-  },
-  "actionLabels": {
-     "MAKE_OFFER": "MAKE OFFER",
-     "BUY": "BUY",
-     "SEND": "SEND",
-     "CONSUME": "CONSUME",
-     "DOWNLOAD": "DOWNLOAD",
-     "LIST": "LIST"
   }
 }

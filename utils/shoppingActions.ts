@@ -123,7 +123,7 @@ export const getActionButtonColor = (action: ShoppingActions): string => {
 }
 
 export const getActionButtonLabel = (action: ShoppingActions, ref): string => {
-  return ref.$t(`actionLabels.${action}`)
+  return ref.$t(`nft.event.${action}`)
 }
 
 export const getActionButtonIcon = (
