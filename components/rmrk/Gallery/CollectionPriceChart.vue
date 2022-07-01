@@ -84,6 +84,10 @@ export default class PriceChart extends mixins(ChainMixin) {
     window.addEventListener('resize', this.onWindowResize)
   }
 
+  public async beforeDestroy() {
+    window.removeEventListener('resize', this.onWindowResize)
+  }
+
   public async mounted() {
     this.priceChart()
   }
@@ -102,7 +106,7 @@ export default class PriceChart extends mixins(ChainMixin) {
             labels: this.priceData[1].map(getLabel),
             datasets: [
               {
-                label: 'Sold NFT Price',
+                label: 'Sold Price',
                 data: getCollectionChartData(this.priceData[1]),
                 borderColor: '#00BB7F',
                 ...baseLineOptions,
@@ -138,9 +142,20 @@ export default class PriceChart extends mixins(ChainMixin) {
                   afterLabel: ({ label, dataIndex, dataset }) => {
                     let count = (dataset.data[dataIndex] as any).count || 0
                     let avg = (dataset.data[dataIndex] as any).average
+                    let price = (dataset.data[dataIndex] as any).value
                     if (avg) {
+                      if (price) {
+                        return `Price : ${price}
+                        Count: ${count}
+                        Average : ${avg}`
+                      }
                       return `Count: ${count}
                       Average : ${avg}`
+                    }
+
+                    if (price) {
+                      return `Price : ${price}
+                      Count: ${count}`
                     }
 
                     return `Count: ${count}`

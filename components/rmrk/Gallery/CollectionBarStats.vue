@@ -70,6 +70,10 @@ export default class PriceChart extends mixins(ChainMixin, ChartMixin) {
     window.addEventListener('resize', this.onWindowResize)
   }
 
+  public async beforeDestroy() {
+    window.removeEventListener('resize', this.onWindowResize)
+  }
+
   public async mounted() {
     this.priceChart()
   }
@@ -91,11 +95,12 @@ export default class PriceChart extends mixins(ChainMixin, ChartMixin) {
                 label: 'Listing Price',
                 data: getCollectionChartData(this.priceData[0]),
                 borderColor: '#d32e79',
-                borderWidth: 1,
+                hidden: true,
+                // borderWidth: 1,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
               },
               {
-                label: 'Sold NFT Price',
+                label: 'Sold Price',
                 data: getCollectionChartData(this.priceData[1]),
                 borderColor: '#00BB7F',
                 type: 'line',
@@ -109,9 +114,25 @@ export default class PriceChart extends mixins(ChainMixin, ChartMixin) {
               tooltip: {
                 callbacks: {
                   afterLabel: ({ dataIndex, dataset }) => {
-                    return `Count: ${
-                      (dataset.data[dataIndex] as any).count || 0
-                    }`
+                    let count = (dataset.data[dataIndex] as any).count || 0
+                    let avg = (dataset.data[dataIndex] as any).average
+                    let price = (dataset.data[dataIndex] as any).value
+                    if (avg) {
+                      if (price) {
+                        return `Price : ${price}
+                        Count: ${count}
+                        Average : ${avg}`
+                      }
+                      return `Count: ${count}
+                      Average : ${avg}`
+                    }
+
+                    if (price) {
+                      return `Price : ${price}
+                      Count: ${count}`
+                    }
+
+                    return `Count: ${count}`
                   },
                 },
               },
