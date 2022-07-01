@@ -30,6 +30,7 @@
           max-height="550px"
           dropdown-position="is-bottom-left"
           expanded
+          @blur="onBlur"
           @typing="updateSuggestion"
           @keydown.native.enter="nativeSearch"
           @focus="fetchSuggestionsOnce"
@@ -530,10 +531,16 @@ export default class SearchBar extends mixins(
     }
   }
 
+  onBlur() {
+    this.updateSearch(this.name)
+  }
+
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
-    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
+    if (value !== this.searchQuery) {
+      this.replaceUrl(value)
+    }
     this.redirectToGalleryPageIfNeed()
     return value
   }

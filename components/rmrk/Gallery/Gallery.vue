@@ -408,7 +408,7 @@ export default class Gallery extends mixins(
 
   @Watch('$route.query.search')
   protected onSearchChange(val: string, oldVal: string) {
-    if (shouldUpdate(val, oldVal)) {
+    if (val !== oldVal) {
       this.resetPage()
       this.searchQuery.search = val || ''
     }
