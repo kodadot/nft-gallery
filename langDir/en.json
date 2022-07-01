@@ -421,7 +421,7 @@
     },
     "royalty": {
       "rate": "Royalty Rate",
-      "mine": "Pay royalty to this account",
+      "mine": "Pay royalties to the creator account",
       "receiver": "Destination account for royalty"
     },
     "collection": {
@@ -492,8 +492,9 @@
       "CONSUME": "BURN",
       "BUY": "BUY",
       "MAKE_OFFER": "MAKE OFFER",
+      "DOWNLOAD": "DOWNLOAD",
       "ROYALTY": "ROYALTY",
-      "PAY_ROYALTY": "PAY_ROYALTY"
+      "PAY_ROYALTY": "PAY ROYALTY"
     },
     "action": {
       "submit": "Submit {0}"
