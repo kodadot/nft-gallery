@@ -24,7 +24,6 @@ import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import annotationPlugin from 'chartjs-plugin-annotation'
 import ChainMixin from '@/utils/mixins/chainMixin'
-
 const baseLineOptions = {
   tension: 0.3,
   pointBackgroundColor: 'white',
@@ -32,81 +31,67 @@ const baseLineOptions = {
   pointRadius: 4,
   pointHoverRadius: 6,
 }
-
 import {
   getCollectionChartData,
   getLabel,
   CollectionChartData as ChartData,
   mapToAverage,
+  getCollectionMedian,
   getMovingAverage,
 } from '@/utils/chart'
-
 Chart.register(zoomPlugin)
 Chart.register(annotationPlugin)
-
 const components = {}
-
 @Component({ components })
 export default class PriceChart extends mixins(ChainMixin) {
   @Prop({ type: Array, required: true }) public priceData!: [
     ChartData[],
     ChartData[]
   ] // [listings, buys]
-
   protected chartOptionsLine: any = {}
   protected Chart!: Chart<'line', any, unknown>
-  protected ChartBar!: Chart<'bar', any, unknown>
-
   @Debounce(200)
   protected resetZoom(): void {
     this.Chart.resetZoom()
   }
-
   protected onWindowResize() {
     if (this.Chart) {
       this.Chart.resize()
     }
   }
-
   protected onCanvasMouseDown(): void {
     document!.getElementById('collectionPriceChart')!.style.cursor = 'grabbing'
   }
-
   protected onCanvasMouseUp(): void {
     document!.getElementById('collectionPriceChart')!.style.cursor = 'auto'
   }
-
   protected onCanvasMouseLeave(): void {
     document!.getElementById('collectionPriceChart')!.style.cursor = 'auto'
   }
-
   public async created() {
     window.addEventListener('resize', this.onWindowResize)
   }
-
   public async beforeDestroy() {
+    this.Chart.destroy()
     window.removeEventListener('resize', this.onWindowResize)
   }
-
   public async mounted() {
     this.priceChart()
   }
-
   protected priceChart() {
     if (this.priceData.length) {
       const ctx = (
         document?.getElementById('collectionPriceChart') as HTMLCanvasElement
       )?.getContext('2d')
-
       if (ctx) {
+        const median = getCollectionMedian(this.priceData[1])
         const chart = new Chart(ctx, {
           type: 'line',
-
           data: {
             labels: this.priceData[1].map(getLabel),
             datasets: [
               {
-                label: 'Sold Price',
+                label: 'Sold NFT Price',
                 data: getCollectionChartData(this.priceData[1]),
                 borderColor: '#00BB7F',
                 ...baseLineOptions,
@@ -117,54 +102,34 @@ export default class PriceChart extends mixins(ChainMixin) {
                   getCollectionChartData(this.priceData[1], mapToAverage)
                 ) as any,
                 borderColor: 'yellow',
-                type: 'line',
-                // ...baseLineOptions,
+                ...baseLineOptions,
               },
             ],
           },
           options: {
             maintainAspectRatio: false,
             plugins: {
-              title: {
-                text: 'Price action',
-                position: 'top',
-                align: 'center',
-                font: {
-                  size: 30,
-                },
-                display: true,
-              },
               tooltip: {
                 callbacks: {
-                  label: ({ label, dataIndex, dataset }) => {
-                    return label
-                  },
-                  afterLabel: ({ label, dataIndex, dataset }) => {
-                    let count = (dataset.data[dataIndex] as any).count || 0
-                    let avg = (dataset.data[dataIndex] as any).average
-                    let price = (dataset.data[dataIndex] as any).value
-                    if (avg) {
-                      if (price) {
-                        return `Price : ${price}
-                        Count: ${count}
-                        Average : ${avg}`
-                      }
-                      return `Count: ${count}
-                      Average : ${avg}`
-                    }
-
-                    if (price) {
-                      return `Price : ${price}
-                      Count: ${count}`
-                    }
-
-                    return `Count: ${count}`
+                  afterLabel: ({ dataIndex, dataset }) => {
+                    return `Count: ${
+                      (dataset.data[dataIndex] as any).count || 0
+                    }`
                   },
                 },
               },
-              annotation: {
-                annotations: {},
-              },
+              // annotation: {
+              //   annotations: {
+              //     median: {
+              //       type: 'line',
+              //       yMin: median,
+              //       yMax: median,
+              //       borderColor: '#00BB7F',
+              //       borderWidth: 2,
+              //       borderDash: [10, 5],
+              //     },
+              //   },
+              // },
               zoom: {
                 limits: {
                   x: { min: 0 },
@@ -217,7 +182,6 @@ export default class PriceChart extends mixins(ChainMixin) {
                     return `${Number(value).toFixed(2)} ${this.unit}`
                   },
                   maxTicksLimit: 7,
-
                   color: '#fff',
                 },
                 grid: {
@@ -227,12 +191,10 @@ export default class PriceChart extends mixins(ChainMixin) {
             },
           },
         })
-
         this.Chart = chart
       }
     }
   }
-
   @Watch('priceData')
   async watchData() {
     this.priceChart()
@@ -242,7 +204,6 @@ export default class PriceChart extends mixins(ChainMixin) {
 
 <style scoped lang="scss">
 @import 'bulma/sass/utilities/mixins.sass';
-
 .chart-container {
   position: relative;
   height: 45vh;
@@ -260,7 +221,7 @@ export default class PriceChart extends mixins(ChainMixin) {
 }
 @include desktop {
   .chart-container {
-    height: 456px;
+    height: 656px;
   }
 }
 </style>

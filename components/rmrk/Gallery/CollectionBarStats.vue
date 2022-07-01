@@ -71,6 +71,7 @@ export default class PriceChart extends mixins(ChainMixin, ChartMixin) {
   }
 
   public async beforeDestroy() {
+    this.ChartBar.destroy()
     window.removeEventListener('resize', this.onWindowResize)
   }
 
@@ -95,7 +96,7 @@ export default class PriceChart extends mixins(ChainMixin, ChartMixin) {
                 label: 'Listing Price',
                 data: getCollectionChartData(this.priceData[0]),
                 borderColor: '#d32e79',
-                hidden: true,
+                // hidden: true,
                 // borderWidth: 1,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
               },
