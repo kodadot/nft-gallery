@@ -20,9 +20,7 @@ import {
   Component,
   Emit,
   mixins,
-  Prop,
   PropSync,
-  Vue,
   Watch,
 } from 'nuxt-property-decorator'
 import AuthMixin from '~/utils/mixins/authMixin'

@@ -14,7 +14,7 @@
         outlined
         expanded
         @click="handleActionSelect(action)">
-        {{ action }}
+        {{ actionLabel(action) }}
       </b-button>
     </b-tooltip>
   </div>
@@ -22,7 +22,12 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
-import { getActionButtonColor, ShoppingActions } from '@/utils/shoppingActions'
+import {
+  getActionButtonColor,
+  getActionButtonLabel,
+  ShoppingActions,
+} from '@/utils/shoppingActions'
+import { TranslateResult } from 'vue-i18n/types'
 
 @Component({})
 export default class ActionList extends Vue {
@@ -38,6 +43,10 @@ export default class ActionList extends Vue {
 
   protected iconType(value: ShoppingActions): string {
     return getActionButtonColor(value)
+  }
+
+  protected actionLabel(value: ShoppingActions): TranslateResult {
+    return getActionButtonLabel(value, this)
   }
 }
 </script>
