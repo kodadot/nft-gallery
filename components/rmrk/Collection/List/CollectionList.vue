@@ -66,7 +66,6 @@
 
 <script lang="ts">
 import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
-import shouldUpdate from '~/utils/shouldUpdate'
 import { Debounce } from 'vue-debounce-decorator'
 import {
   CollectionWithMeta,
