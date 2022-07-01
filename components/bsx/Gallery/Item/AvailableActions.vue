@@ -40,6 +40,7 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import formatBalance from '@/utils/formatBalance'
+import { TranslateResult } from 'vue-i18n/types'
 
 const components = {
   ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
@@ -68,7 +69,7 @@ export default class AvailableActions extends mixins(
 
   public minimumOfferAmount = 0
   public isMakeOffersDisabled = true
-  public tooltipOfferLabel: any = ''
+  public tooltipOfferLabel = {}
 
   get balance(): number {
     return Number(this.$store.getters.getAuthBalance)
