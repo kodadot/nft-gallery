@@ -4,7 +4,8 @@
     <ActionList
       v-if="accountId"
       :actions="actions"
-      :isMakeOffersAllowed="isMakeOffersAllowed"
+      :isMakeOffersAllowed="!isMakeOffersDisabled"
+      :tooltipOfferLabel="tooltipOfferLabel"
       @click="handleAction" />
     <component
       class="mb-4"
@@ -38,6 +39,7 @@ import {
 import shouldUpdate from '@/utils/shouldUpdate'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import formatBalance from '@/utils/formatBalance'
 
 const components = {
   ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
@@ -63,6 +65,14 @@ export default class AvailableActions extends mixins(
 
   private selectedAction: ShoppingActions | '' = ''
   private meta: string | number = ''
+
+  public minimumOfferAmount = 0
+  public isMakeOffersDisabled = true
+  public tooltipOfferLabel: any = ''
+
+  get balance(): number {
+    return Number(this.$store.getters.getAuthBalance)
+  }
 
   get actions() {
     return getActionList('bsx', this.isOwner, this.isAvailableToBuy)
@@ -96,6 +106,28 @@ export default class AvailableActions extends mixins(
 
   get showMeta() {
     return actionComponent[this.selectedAction]
+  }
+
+  public async created(): Promise<void> {
+    setTimeout(() => {
+      const { api } = Connector.getInstance()
+      this.minimumOfferAmount = parseFloat(
+        formatBalance(
+          api?.consts?.marketplace?.minimumOfferAmount?.toString(),
+          12,
+          false
+        ).replace(/,/g, '')
+      )
+
+      this.isMakeOffersDisabled =
+        !this.isMakeOffersAllowed || this.minimumOfferAmount > this.balance
+
+      if (!this.isMakeOffersAllowed) {
+        this.tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
+      } else if (this.minimumOfferAmount > this.balance) {
+        this.tooltipOfferLabel = this.$t('tooltip.makeOfferNotEnoughBalance')
+      }
+    }, 3000)
   }
 
   protected iconType(value: string) {
