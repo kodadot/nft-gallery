@@ -40,7 +40,7 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import formatBalance from '@/utils/formatBalance'
-import { TranslateResult } from 'vue-i18n/types'
+import onApiConnect from '@/utils/api/general'
 
 const components = {
   ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
@@ -110,7 +110,7 @@ export default class AvailableActions extends mixins(
   }
 
   public async created(): Promise<void> {
-    setTimeout(() => {
+    onApiConnect(() => {
       const { api } = Connector.getInstance()
       this.minimumOfferAmount = parseFloat(
         formatBalance(
@@ -128,7 +128,7 @@ export default class AvailableActions extends mixins(
       } else if (this.minimumOfferAmount > this.balance) {
         this.tooltipOfferLabel = this.$t('tooltip.makeOfferNotEnoughBalance')
       }
-    }, 3000)
+    })
   }
 
   protected iconType(value: string) {
