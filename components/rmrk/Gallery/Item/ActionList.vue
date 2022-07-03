@@ -3,7 +3,7 @@
     <b-tooltip
       class="w-100"
       :active="!isMakeOffersAllowed"
-      :label="$t('tooltip.makeOfferDisabled')">
+      :label="tooltipOfferLabel">
       <b-button
         v-for="action in actions"
         :key="action"
@@ -33,6 +33,7 @@ import { TranslateResult } from 'vue-i18n/types'
 export default class ActionList extends Vue {
   @Prop({ type: Array, required: false }) public actions!: ShoppingActions[]
   @Prop(Boolean) public isMakeOffersAllowed!: boolean
+  @Prop(String) public tooltipOfferLabel!: string
 
   private ShoppingActions = ShoppingActions
 
