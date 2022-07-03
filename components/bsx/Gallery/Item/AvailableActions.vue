@@ -13,9 +13,13 @@
       :is="showMeta"
       @input="updateMeta"
       emptyOnError />
-    <SubmitButton v-if="showSubmit" @click="submit">
-      {{ $t('nft.action.submit', [selectedAction]) }}
-    </SubmitButton>
+    <b-tooltip
+      :active="isSubmitOffer"
+      :label="$t('tooltip.makeOfferLessThanMinimum')">
+      <SubmitButton v-if="showSubmit" @click="submit" :disabled="isSubmitOffer">
+        {{ $t('nft.action.submit', [selectedAction]) }}
+      </SubmitButton>
+    </b-tooltip>
   </div>
 </template>
 
@@ -66,13 +70,17 @@ export default class AvailableActions extends mixins(
 
   private selectedAction: ShoppingActions | '' = ''
   private meta: string | number = ''
-
+  public metaFormatted = 0
   public minimumOfferAmount = 0
   public isMakeOffersDisabled = true
-  public tooltipOfferLabel = {}
+  public tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
 
   get balance(): number {
     return Number(this.$store.getters.getAuthBalance)
+  }
+
+  get isSubmitOffer(): boolean {
+    return this.metaFormatted < this.minimumOfferAmount
   }
 
   get actions() {
@@ -156,6 +164,9 @@ export default class AvailableActions extends mixins(
   protected updateMeta(value: string | number) {
     this.$consola.log(typeof value, value)
     this.meta = value
+    this.metaFormatted = parseFloat(
+      formatBalance(value, 12, false).replace(/,/g, '')
+    )
   }
 
   protected async submit() {
