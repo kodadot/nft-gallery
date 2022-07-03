@@ -84,7 +84,6 @@ export default class PriceChart extends mixins(ChainMixin) {
         document?.getElementById('collectionPriceChart') as HTMLCanvasElement
       )?.getContext('2d')
       if (ctx) {
-        const median = getCollectionMedian(this.priceData[1])
         const chart = new Chart(ctx, {
           type: 'line',
           data: {
