@@ -1,4 +1,4 @@
-name: Feature Request
+name: Feature Request / User Experience
 description: Suggest an idea for KodaDot to be better for your friends
 title: "Be descriptive and short"
 labels: ["enhancement"]
@@ -6,14 +6,13 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this feature request!
+        Thanks for taking the time to fill out this feature request, it would help us upgrade user experience for others users like you!
   - type: textarea
     id: feature-request
     attributes:
       label: Is your feature request related to a problem?
       description: A clear and concise description of what the problem is
       placeholder: I'm always frustrated when [...]
-      value: "I'm always frustrated when [...]"
     validations:
       required: true
   - type: textarea
@@ -22,7 +21,6 @@ body:
       label: Describe the solution you would like
       description: A clear and concise description of what you want to happen.
       placeholder: I would like to see
-      value: "I would like to see"
     validations:
       required: true
   - type: textarea
@@ -31,15 +29,17 @@ body:
       label: Describe alternatives you have considered
       description: A clear and concise description of any alternative solutions or features you have considered.
       placeholder: I have tried this alternative
-      value: "I have tried this alternative"
     validations:
       required: true
   - type: textarea
     id: screenshots
     attributes:
       label: Screeenshots
-      description: Sometimes, visuals are much better than words
+      description: Most times, visuals are much better than words
       placeholder: Paste your vision
-      value: "Paste your vision"
-    validations:
-      required: true
+  - type: textarea
+    id: relatedissues
+    attributes:
+      label: Are there opened related issues?
+      description: Linking it with existing issue would help us sort out things faster on our side
+      placeholder: Link to Github issue in our repository or from elsewhere helps a lot!

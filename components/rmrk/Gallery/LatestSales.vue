@@ -68,14 +68,13 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
   }
 
   async fetchData() {
-    const queryVars = {
-      limit: 10,
-      event: 'BUY',
-    }
-    if (this.isLogIn && this.passionList.length > 9) {
-      queryVars.and.nft = {
-        issuer_in: this.passionList,
+    const queryVars: { limit: number; event: string; passionAccount?: string } =
+      {
+        limit: 10,
+        event: 'BUY',
       }
+    if (this.isLogIn) {
+      queryVars.passionAccount = this.accountId
     }
     const result = await this.$apollo
       .query<{

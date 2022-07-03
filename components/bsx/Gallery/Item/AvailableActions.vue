@@ -1,7 +1,12 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <ActionList v-if="accountId" :actions="actions" @click="handleAction" />
+    <ActionList
+      v-if="accountId"
+      :actions="actions"
+      :isMakeOffersAllowed="!isMakeOffersDisabled"
+      :tooltipOfferLabel="tooltipOfferLabel"
+      @click="handleAction" />
     <component
       class="mb-4"
       v-if="showMeta"
@@ -34,6 +39,8 @@ import {
 import shouldUpdate from '@/utils/shouldUpdate'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import formatBalance from '@/utils/formatBalance'
+import onApiConnect from '@/utils/api/general'
 
 const components = {
   ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
@@ -54,10 +61,19 @@ export default class AvailableActions extends mixins(
   @Prop() public price!: string
   @Prop(String) public nftId!: string
   @Prop(String) public collectionId!: string
+  @Prop(Boolean) public isMakeOffersAllowed!: boolean
   @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
   private selectedAction: ShoppingActions | '' = ''
   private meta: string | number = ''
+
+  public minimumOfferAmount = 0
+  public isMakeOffersDisabled = true
+  public tooltipOfferLabel = {}
+
+  get balance(): number {
+    return Number(this.$store.getters.getAuthBalance)
+  }
 
   get actions() {
     return getActionList('bsx', this.isOwner, this.isAvailableToBuy)
@@ -91,6 +107,28 @@ export default class AvailableActions extends mixins(
 
   get showMeta() {
     return actionComponent[this.selectedAction]
+  }
+
+  public async created(): Promise<void> {
+    onApiConnect(() => {
+      const { api } = Connector.getInstance()
+      this.minimumOfferAmount = parseFloat(
+        formatBalance(
+          api?.consts?.marketplace?.minimumOfferAmount?.toString(),
+          12,
+          false
+        ).replace(/,/g, '')
+      )
+
+      this.isMakeOffersDisabled =
+        !this.isMakeOffersAllowed || this.minimumOfferAmount > this.balance
+
+      if (!this.isMakeOffersAllowed) {
+        this.tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
+      } else if (this.minimumOfferAmount > this.balance) {
+        this.tooltipOfferLabel = this.$t('tooltip.makeOfferNotEnoughBalance')
+      }
+    })
   }
 
   protected iconType(value: string) {
