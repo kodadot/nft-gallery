@@ -310,6 +310,7 @@ export default class Gallery extends mixins(
       Vue.set(this.nfts, i, {
         ...this.nfts[i],
         ...meta,
+        id: this.nfts[i].id,
         image:
           imageLinks[
             fastExtract(
