@@ -731,12 +731,6 @@ export default class SearchBar extends mixins(
     })
   }
 
-  // private oldSearchResult(value: string): boolean {
-  //   // whether this search exactly match the old search
-  //   const res = this.searched.filter((r) => r.name === value)
-  //   return !!res.length
-  // }
-
   private removeSearchHistory(value: string): void {
     this.searched = this.searched.filter((r) => r.name !== value)
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
