@@ -119,7 +119,7 @@
           multipleSelect
           class="column is-4 mb-0"
           :value="sortByMultiple"
-          @input="updateSortBy" />
+          @input="updateSortBy($event, sortByMultiple)" />
         <BasicSwitch
           class="is-flex column is-4"
           v-model="vListed"
@@ -362,13 +362,9 @@ export default class SearchBar extends mixins(
   get autocompleteFooterShow() {
     const searchResultExist =
       this.nftResult.length > 0 || this.collectionResult.length > 0
-    if (
-      searchResultExist &&
-      this.searchSuggestionEachTypeMaxNum !== this.bigNum
-    ) {
-      return true
-    }
-    return false
+    return (
+      searchResultExist && this.searchSuggestionEachTypeMaxNum !== this.bigNum
+    )
   }
 
   get searchSuggestion() {
@@ -474,13 +470,24 @@ export default class SearchBar extends mixins(
 
   @Emit('update:sortByMultiple')
   @Debounce(400)
-  updateSortBy(value: string[] | string): string[] {
+  updateSortBy(value: string[] | string, $event?): string[] {
     const final = (Array.isArray(value) ? value : [value]).filter((condition) =>
       NFT_SORT_CONDITION_LIST.includes(condition)
     )
-
-    this.replaceUrl(final, undefined, 'sort')
-    return final
+    if ($event?.length > final.length || !$event) {
+      this.replaceUrl(final, undefined, 'sort')
+      return final
+    }
+    let newFinal: string[] = []
+    if (final.length > 0) {
+      const newlySelected = final[final.length - 1].split('_')[0]
+      newFinal = $event.filter(
+        (option) => option.split('_')[0] !== newlySelected
+      )
+      newFinal.push(final[final?.length - 1])
+    }
+    this.replaceUrl(newFinal, undefined, 'sort')
+    return newFinal
   }
 
   // not highlight search, just input keyword and enter
@@ -724,11 +731,11 @@ export default class SearchBar extends mixins(
     })
   }
 
-  private oldSearchResult(value: string): boolean {
-    // whether this search exactly match the old search
-    const res = this.searched.filter((r) => r.name === value)
-    return !!res.length
-  }
+  // private oldSearchResult(value: string): boolean {
+  //   // whether this search exactly match the old search
+  //   const res = this.searched.filter((r) => r.name === value)
+  //   return !!res.length
+  // }
 
   private removeSearchHistory(value: string): void {
     this.searched = this.searched.filter((r) => r.name !== value)
