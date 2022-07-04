@@ -52,7 +52,8 @@
       v-if="isBsxStats"
       cell-class="is-vcentered"
       :label="$t('nft.offer.item')"
-      v-slot="props">
+      v-slot="props"
+      sortable>
       <nuxt-link :to="`gallery/${props.row.nft.id}`">
         <p v-if="props.row.nft.name">{{ props.row.nft.name }}</p>
         <p v-else>{{ props.row.nft.id }}</p>
@@ -64,7 +65,8 @@
       cell-class="is-vcentered"
       :label="$t('nft.offer.status')"
       v-slot="props"
-      ><p>{{ props.row.status }}</p></b-table-column
+      sortable>
+      <p>{{ props.row.status }}</p></b-table-column
     >
     <b-table-column
       v-if="isBsxStats"
