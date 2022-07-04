@@ -484,7 +484,7 @@ export default class SearchBar extends mixins(
       newFinal = $event.filter(
         (option) => option.split('_')[0] !== newlySelected
       )
-      newFinal.push(final[final?.length - 1])
+      newFinal.push(final[final.length - 1])
     }
     this.replaceUrl(newFinal, undefined, 'sort')
     return newFinal
