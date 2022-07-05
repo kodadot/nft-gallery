@@ -30,6 +30,7 @@
           max-height="550px"
           dropdown-position="is-bottom-left"
           expanded
+          @blur="onBlur"
           @typing="updateSuggestion"
           @keydown.native.enter="nativeSearch"
           @focus="fetchSuggestionsOnce"
@@ -158,7 +159,6 @@ import { SearchQuery, SearchSuggestion } from './types'
 import { denyList } from '@/utils/constants'
 import { NFT, NFTWithMeta, CollectionWithMeta } from '../../service/scheme'
 import { getSanitizer } from '../../utils'
-import shouldUpdate from '~/utils/shouldUpdate'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { mapNFTorCollectionMetadata } from '~/utils/mappers'
@@ -537,10 +537,16 @@ export default class SearchBar extends mixins(
     }
   }
 
+  onBlur() {
+    this.updateSearch(this.name)
+  }
+
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
-    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
+    if (value !== this.searchQuery) {
+      this.replaceUrl(value)
+    }
     this.redirectToGalleryPageIfNeed()
     return value
   }
