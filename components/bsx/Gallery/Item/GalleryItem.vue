@@ -278,10 +278,10 @@ export default class GalleryItem extends mixins(
         ? cachedMeta
         : await fetchNFTMetadata(
             this.nft,
-            getSanitizer(this.nft.metadata, 'cloudflare', 'permafrost')
+            getSanitizer(this.nft.metadata, 'pinata', 'permafrost')
           )
 
-      const imageSanitizer = getSanitizer(meta.image, 'cloudflare')
+      const imageSanitizer = getSanitizer(meta.image, 'pinata')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
