@@ -58,6 +58,31 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
   async fetch() {
     this.fetchData()
   }
+  // mounted() {
+  //   setTimeout(async () => {
+  //     const queryVariables: {
+  //       limit: number
+  //       event: string
+  //       passionAccount?: string
+  //     } = {
+  //       limit: 10,
+  //       event: 'LIST',
+  //     }
+  //     if (this.isLogIn && this.passionList.length > 9) {
+  //       queryVariables.passionAccount = this.accountId
+  //     }
+  //     const result = await this.$apollo
+  //       .query<{
+  //         events: { meta; nft: { meta: { id; image } } }
+  //       }>({
+  //         query: lastNftListByEvent,
+  //         client: this.client,
+  //         variables: queryVariables,
+  //       })
+  //       .catch((e) => {
+  //         this.$consola.error(e)
+  //         return { data: null }
+  //       })
 
   @Watch('passionList')
   private onPassionList() {
@@ -65,17 +90,16 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
   }
 
   async fetchData() {
-    const queryVariables = {
+    const queryVariables: {
+      limit: number
+      event: string
+      passionAccount?: string
+    } = {
       limit: 10,
       event: 'LIST',
-      and: {
-        meta_not_eq: '0',
-      },
     }
-    if (this.isLogIn && this.passionList.length) {
-      queryVariables.and.nft = {
-        issuer_in: this.passionList,
-      }
+    if (this.isLogIn && this.passionList.length > 9) {
+      queryVariables.passionAccount = this.accountId
     }
     const result = await this.$apollo
       .query<{
@@ -89,7 +113,6 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
         this.$consola.error(e)
         return { data: null }
       })
-
     if (result.data) {
       this.handleResult(result)
     }

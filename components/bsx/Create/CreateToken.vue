@@ -7,10 +7,13 @@
       :hasEdition="false">
       <template v-slot:main>
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
+        <BasicSwitch key="listed" v-model="listed" label="mint.listForSale" />
         <BalanceInput
+          v-if="listed"
           label="Price"
           expanded
           key="price"
+          value="0.1"
           @input="updatePrice"
           class="mb-3" />
         <CustomAttributeInput
@@ -127,14 +130,21 @@ export default class CreateToken extends mixins(
   protected depositPerByte = BigInt(0)
   protected attributes: Attribute[] = []
   protected nsfw = false
-  protected price: string | number = 0
+  protected price: string | number = 0.1
+  protected listed = true
   protected royalty: Royalty = {
     amount: 0,
     address: '',
   }
 
-  protected updatePrice(value: number) {
+  protected updatePrice(value: string) {
     this.price = value
+    if (parseFloat(value) === 0 && this.listed) {
+      showNotification(
+        'In order to list NFT, price has to be more than 0',
+        notificationTypes.info
+      )
+    }
   }
 
   get hasPrice() {
@@ -156,6 +166,13 @@ export default class CreateToken extends mixins(
     }
   }
 
+  @Watch('listed', { immediate: true })
+  onListedChange(value: boolean, oldVal: boolean) {
+    if (value === oldVal) {
+      return
+    }
+    this.price = value ? 0.1 : 0
+  }
   public async fetchCollections() {
     const query = await resolveQueryPath(this.urlPrefix, 'collectionForMint')
     const collections = await this.$apollo.query({

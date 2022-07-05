@@ -110,12 +110,9 @@
               :label="props.row.Date"
               position="is-right"
               append-to-body>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="getBlockUrl(props.row.Block)">
-                {{ props.row.Time }}</a
-              >
+              <BlockExplorerLink
+                :blockId="props.row.Block"
+                :text="props.row.Time" />
             </b-tooltip>
           </b-table-column>
         </b-table>
@@ -125,7 +122,6 @@
 </template>
 
 <script lang="ts">
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction as EventInteraction } from '../service/scheme'
@@ -139,6 +135,7 @@ import {
   wrapEventNameWithIcon,
   parseDate,
   parseAmount,
+  InteractionBsxOnly,
 } from '@/utils/historyEvent'
 import { Interaction } from '@kodadot1/minimark'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -146,6 +143,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
+  BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }
 
 type TableRowItem = {
@@ -333,6 +331,16 @@ export default class History extends mixins(
           }
           previousPriceMap[nftId] = parseInt(newEvent['meta'])
           break
+        case InteractionBsxOnly.ROYALTY:
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          event['Percentage'] = parseInt(newEvent['meta'])
+          break
+        case InteractionBsxOnly.PAY_ROYALTY:
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          event['Amount'] = this.parsePrice(newEvent['meta'])
+          break
         default:
           // unsupported event
           continue
@@ -381,14 +389,6 @@ export default class History extends mixins(
 
   private parsePrice(amount): string {
     return parseAmount(amount, this.decimals, this.unit)
-  }
-
-  protected getBlockUrl(block: string): string {
-    return urlBuilderBlockNumber(
-      block,
-      this.$store.getters['explorer/getCurrentChain'],
-      'subscan'
-    )
   }
 
   @Watch('events', { immediate: true })

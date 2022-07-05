@@ -21,7 +21,7 @@
           outlined
           @click="handleAction(action)"
           expanded>
-          {{ action }}
+          {{ actionLabel(action) }}
         </b-button>
       </template>
       <template v-else-if="isForSale">
@@ -33,7 +33,7 @@
             outlined
             @click="handleAction(ShoppingActions.BUY)"
             expanded>
-            {{ replaceBuyNowWithYolo ? 'YOLO' : 'BUY' }}
+            {{ replaceBuyNowWithYolo ? 'YOLO' : actionLabel('BUY') }}
           </b-button>
         </b-tooltip>
       </template>
@@ -84,7 +84,9 @@ import {
   ShoppingActions,
   KeyboardValueToActionMap,
   getActions,
+  getActionButtonLabel,
 } from '@/utils/shoppingActions'
+import { TranslateResult } from 'vue-i18n/types'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
@@ -409,6 +411,10 @@ export default class AvailableActions extends mixins(
     this.selectedAction = ShoppingActions.LIST
     this.meta = 0
     this.submit()
+  }
+
+  protected actionLabel(value: ShoppingActions): TranslateResult {
+    return getActionButtonLabel(value, this)
   }
 }
 </script>

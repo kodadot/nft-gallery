@@ -4,8 +4,17 @@ import { Interaction } from '@kodadot1/minimark'
 enum SpecialHistoryEventType {
   ALL = 'ALL',
 }
-export type HistoryEventType = Interaction | SpecialHistoryEventType
+
+export enum InteractionBsxOnly {
+  ROYALTY = 'ROYALTY',
+  PAY_ROYALTY = 'PAY_ROYALTY',
+}
+export type HistoryEventType =
+  | Interaction
+  | SpecialHistoryEventType
+  | InteractionBsxOnly
 export const HistoryEventType = {
+  ...InteractionBsxOnly,
   ...SpecialHistoryEventType,
   ...Interaction,
 }
@@ -17,10 +26,12 @@ export const eventToIconMap = {
   [Interaction.SEND]: '🎁',
   [Interaction.CONSUME]: '🔥',
   [Interaction.BUY]: '🤝',
+  [InteractionBsxOnly.ROYALTY]: '👑',
+  [InteractionBsxOnly.PAY_ROYALTY]: '💰',
 }
 
 export const wrapEventNameWithIcon = (
-  type: Interaction,
+  type: Interaction | InteractionBsxOnly,
   eventName: string
 ): string => `${eventToIconMap[type]} ${eventName}`
 

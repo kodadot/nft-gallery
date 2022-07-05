@@ -126,12 +126,9 @@
               :label="props.row.Date"
               position="is-right"
               append-to-body>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="getBlockUrl(props.row.Block)">
-                {{ props.row.Time }}</a
-              >
+              <BlockExplorerLink
+                :text="props.row.Time"
+                :blockId="props.row.Block" />
             </b-tooltip>
           </b-table-column>
           <template slot="detail" slot-scope="props">
@@ -170,12 +167,7 @@
                   :label="item.Date"
                   position="is-right"
                   append-to-body>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    :href="getBlockUrl(item.Block)">
-                    {{ item.Time }}</a
-                  >
+                  <BlockExplorerLink :text="item.Time" :blockId="item.Block" />
                 </b-tooltip>
               </td>
             </tr>
@@ -187,7 +179,6 @@
 </template>
 
 <script lang="ts">
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction as EventInteraction } from '../../service/scheme'
@@ -200,6 +191,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
+  BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }
 
 export type NftHolderEvent = {
@@ -525,14 +517,6 @@ export default class CommonHolderTable extends mixins(
       group['Percentage'] = group['Percentage'] / group['Amount']
     })
     return customGroupsList
-  }
-
-  protected getBlockUrl(block: string): string {
-    return urlBuilderBlockNumber(
-      block,
-      this.$store.getters['explorer/getCurrentChain'],
-      'subscan'
-    )
   }
 
   @Watch('events', { immediate: true })
