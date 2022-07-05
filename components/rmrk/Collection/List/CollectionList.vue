@@ -66,7 +66,6 @@
 
 <script lang="ts">
 import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
-import shouldUpdate from '~/utils/shouldUpdate'
 import { Debounce } from 'vue-debounce-decorator'
 import {
   CollectionWithMeta,
@@ -263,7 +262,7 @@ export default class CollectionList extends mixins(
 
   @Watch('$route.query.search')
   protected onSearchChange(val: string, oldVal: string) {
-    if (shouldUpdate(val, oldVal)) {
+    if (val !== oldVal) {
       this.resetPage()
       this.searchQuery.search = val || ''
     }
