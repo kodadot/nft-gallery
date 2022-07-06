@@ -193,7 +193,7 @@ import {
   shuffleFunction,
   toDistribute,
 } from '@/components/accounts/utils'
-import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/nftStorage'
 import { uploadDirect } from '@/utils/directUpload'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
 import { createMetadata, findUniqueSymbol } from '@kodadot1/minimark'

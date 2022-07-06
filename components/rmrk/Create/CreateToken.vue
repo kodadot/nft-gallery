@@ -54,7 +54,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, PinningKey, pinJson } from '@/utils/pinning'
+import { pinFileToIPFS, PinningKey, pinJson } from '@/utils/nftStorage'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
 import {

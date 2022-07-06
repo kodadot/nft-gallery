@@ -63,7 +63,7 @@ import { emptyObject } from '@/utils/empty'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
 import {
   basicUpdateNameFunction,
   createCollection,
