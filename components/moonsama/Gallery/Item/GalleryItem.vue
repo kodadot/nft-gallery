@@ -75,22 +75,7 @@
                     </template>
                     <div class="content pt-4">
                       <p class="subtitle">
-                        <!-- <AvailableActions
-                          ref="actions"
-                          :account-id="accountId"
-                          :current-owner-id="nft.currentOwner"
-                          :price="nft.price"
-                          :nftId="id"
-                          :delegateId="nft.delegate"
-                          :collectionId="collectionId"
-                          :frozen="nft.isFrozen"
-                          :ipfs-hashes="[
-                            nft.image,
-                            nft.animation_url,
-                            nft.metadata,
-                          ]"
-                          @change="handleAction" /> -->
-                        <Auth class="mt-4" />
+                        <Auth class="mt-4" evm />
                       </p>
                     </div>
                     <Sharing class="mb-4" />
@@ -138,7 +123,6 @@ import { royaltyOf } from '@/utils/royalty'
 @Component<GalleryItem>({
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
-    AvailableActions: () => import('./AvailableActions.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
