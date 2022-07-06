@@ -1,7 +1,7 @@
 <template>
   <b-table :data="offers">
     <b-table-column
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       field="caller"
       :label="$t('offer.caller')"
       v-slot="props"
@@ -12,7 +12,7 @@
     </b-table-column>
 
     <b-table-column
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       field="price"
       :label="$t('offer.price')"
       v-slot="props"
@@ -21,7 +21,7 @@
     </b-table-column>
     <b-table-column
       v-if="!isBsxStats"
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       field="expiration"
       :label="$t('offer.expiration')"
       v-slot="props"
@@ -30,7 +30,7 @@
     </b-table-column>
     <b-table-column
       v-if="!isBsxStats"
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       :label="$t('offer.action')"
       v-slot="props"
       width="120"
@@ -50,9 +50,10 @@
     </b-table-column>
     <b-table-column
       v-if="isBsxStats"
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       :label="$t('nft.offer.item')"
-      v-slot="props">
+      v-slot="props"
+      sortable>
       <nuxt-link :to="`gallery/${props.row.nft.id}`">
         <p v-if="props.row.nft.name">{{ props.row.nft.name }}</p>
         <p v-else>{{ props.row.nft.id }}</p>
@@ -61,10 +62,11 @@
     <b-table-column
       v-if="isBsxStats"
       field="status"
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       :label="$t('nft.offer.status')"
       v-slot="props"
-      ><p>{{ props.row.status }}</p></b-table-column
+      sortable>
+      <p>{{ props.row.status }}</p></b-table-column
     >
     <b-table-column
       v-if="isBsxStats"
