@@ -25,6 +25,7 @@ export const URLS = {
     pinata: 'https://kodadot.mypinata.cloud/ipfs/',
     directUpload: 'https://direct-upload.kodadot.workers.dev/',
     estuary: 'https://pinning.kodadot.workers.dev/',
+    nftStorage: 'https://nft-storage.kodadot.workers.dev/',
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
     magick: 'https://api.subquery.network/sq/vikiival/magick',
