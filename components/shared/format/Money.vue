@@ -31,11 +31,14 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
       if (disableFilter) {
         return value
       }
+      const number = Number(value.replace(/,/g, ''))
+      const hasDecimals = number % 1 !== 0
       // `undefined` params in toLocaleString() means use host default language
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString#using_options
-      return Number(value.replace(/,/g, '')).toLocaleString(undefined, {
-        minimumFractionDigits: limit,
-        maximumFractionDigits: limit,
+      const fractionDigits = hasDecimals ? limit : 0
+      return number.toLocaleString(undefined, {
+        minimumFractionDigits: fractionDigits,
+        maximumFractionDigits: fractionDigits,
       })
     },
   },
