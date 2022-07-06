@@ -55,21 +55,20 @@ export const getKey = async (address: string): Promise<PinningKey> => {
 }
 
 export const pinFileToIPFS = async (
-  file: File,
-  token: string
+  file: Blob,
+  token?: string
 ): Promise<string> => {
   try {
-    const { status, data } = await Axios.post<StorageApiResponse>(
-      UPLOAD_URL,
+    const { status, data } = await api.post<StorageApiResponse>(
+      '/pinFile',
       file,
       {
         headers: {
-          'Content-Type': file.type ? `${file.type};` : '',
-          Authorization: `Bearer ${token}`,
+          'Content-Type': file.type ? `${file.type}` : '*/*',
         },
       }
     )
-    console.log('[NFT::STORAGE::DIRECT] Pin Image', status)
+    console.log('[NFT::STORAGE] Pin Image', status)
     if (status < 400) {
       return data.value.cid
     } else {
