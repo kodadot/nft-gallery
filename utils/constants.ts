@@ -34,6 +34,7 @@ export const URLS = {
     subsquidv5: 'https://app.gc.subsquid.io/beta/rubick/005/graphql',
     subsquidv6: 'https://app.gc.subsquid.io/beta/rubick/006/graphql',
     snekk: 'https://app.gc.subsquid.io/beta/snekk/003/graphql',
+    click: 'https://app.gc.subsquid.io/beta/click/001-rc0/graphql',
   },
   providers: {
     coingecko: 'https://api.coingecko.com/api/v3',
