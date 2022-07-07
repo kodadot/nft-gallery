@@ -1,5 +1,5 @@
 <template>
-  <ExploreLayout type="rmrk" />
+  <ExploreLayout />
 </template>
 
 <script lang="ts">
@@ -10,7 +10,7 @@ const components = {
   ExploreLayout,
 }
 
-@Component<ExploreBsx>({
+@Component<ExploreMoonsama>({
   components,
   head() {
     const title = 'Low minting fees and carbonless NFTs'
@@ -27,5 +27,5 @@ const components = {
     }
   },
 })
-export default class ExploreBsx extends Vue {}
+export default class ExploreMoonsama extends Vue {}
 </script>
