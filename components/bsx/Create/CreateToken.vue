@@ -90,8 +90,12 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
 import { isRoyaltyValid, Royalty } from '@/utils/royalty'
-import { fetchCollectionMetadata } from '~/components/rmrk/utils'
+import {
+  fetchCollectionMetadata,
+  preheatFileFromIPFS,
+} from '~/components/rmrk/utils'
 import { getMany, update } from 'idb-keyval'
+import { uploadDirect } from '~/utils/directUpload'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -340,6 +344,8 @@ export default class CreateToken extends mixins(
       file.type
     )
 
+    preheatFileFromIPFS(fileHash)
+    // uploadDirect(file, this.accountId).catch(this.$consola.warn)
     const metaHash = await pinJson(meta, imageHash)
     return unSanitizeIpfsUrl(metaHash)
   }

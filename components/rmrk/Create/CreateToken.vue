@@ -85,6 +85,7 @@ import {
   secondaryFileVisible,
 } from './mintUtils'
 import { uploadDirect } from '~/utils/directUpload'
+import { preheatFileFromIPFS } from '../utils'
 
 type MintedCollection = BaseMintedCollection & {
   name: string
@@ -291,6 +292,7 @@ export default class CreateToken extends mixins(
     )
 
     const metaHash = await pinJson(meta, imageHash)
+    preheatFileFromIPFS(fileHash)
     uploadDirect(file, metaHash).catch(this.$consola.warn)
     return unSanitizeIpfsUrl(metaHash)
   }
