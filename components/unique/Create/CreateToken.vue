@@ -67,7 +67,10 @@ import { getMany, update } from 'idb-keyval'
 import { BaseMintedCollection, BaseTokenType } from '~/components/base/types'
 import { fetchCollectionMetadata } from '~/components/rmrk/utils'
 import onApiConnect from '~/utils/api/general'
-import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
+import {
+  DETAIL_TIMEOUT,
+  IPFS_KODADOT_IMAGE_PLACEHOLDER,
+} from '~/utils/constants'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -310,13 +313,15 @@ export default class CreateToken extends mixins(
   }
 
   protected navigateToDetail(collection: string, id: string): void {
-    showNotification('You will go to the detail in 2 seconds')
+    showNotification(
+      `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+    )
     const go = () =>
       this.$router.push({
         path: `/${this.urlPrefix}/gallery/${createTokenId(collection, id)}`,
         query: { message: 'congrats' },
       })
-    setTimeout(go, 2000)
+    setTimeout(go, DETAIL_TIMEOUT)
   }
 }
 </script>
