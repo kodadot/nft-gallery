@@ -95,7 +95,6 @@ import {
   preheatFileFromIPFS,
 } from '~/components/rmrk/utils'
 import { getMany, update } from 'idb-keyval'
-import { uploadDirect } from '~/utils/directUpload'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
