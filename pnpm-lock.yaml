@@ -16,8 +16,8 @@ specifiers:
   '@google/model-viewer': ^1.12.0
   '@keeex/qrcodejs-kx': ^1.0.2
   '@kodadot1/minimark': ^0.0.1-rc.7
-  '@kodadot1/sub-api': 0.0.1-rc.3
-  '@kodadot1/vuex-options': 0.0.1-rc.8
+  '@kodadot1/sub-api': ^0.0.1-rc.3
+  '@kodadot1/vuex-options': 0.0.1-rc.10
   '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27470397.9ebea90
   '@nuxt/test-utils': ^0.2.2
   '@nuxt/types': ^2.15.8
@@ -97,7 +97,7 @@ dependencies:
   '@keeex/qrcodejs-kx': 1.0.2
   '@kodadot1/minimark': 0.0.1-rc.7
   '@kodadot1/sub-api': 0.0.1-rc.3
-  '@kodadot1/vuex-options': 0.0.1-rc.8
+  '@kodadot1/vuex-options': 0.0.1-rc.10
   '@nuxtjs/apollo': 4.0.1-rc.5_bxdthn3ysjabr5yy33n467wu6m
   '@nuxtjs/i18n': 7.2.2
   '@polkadot/extension-dapp': 0.42.10
@@ -2344,8 +2344,8 @@ packages:
       - supports-color
     dev: false
 
-  /@kodadot1/vuex-options/0.0.1-rc.8:
-    resolution: {integrity: sha512-i1jTECVU5/t84qBE88XAXJGUH5/aZDN0xunqBsiVxb7pX/jmMRy87mB2LTxJMbjZ07vS7DhNh3XD+YE349Zgiw==}
+  /@kodadot1/vuex-options/0.0.1-rc.10:
+    resolution: {integrity: sha512-FxXyLrYJAKu9DtQYLSK5pveH2nlH+n+ANU9ablNM+GCvL/y42Y/nImNGg1bQZ2+e1NUz9nRfp7bwcwOG5/OrlQ==}
     dependencies:
       '@polkadot/networks': 7.9.2
     dev: false
@@ -10369,7 +10369,6 @@ packages:
   /graphql/16.5.0:
     resolution: {integrity: sha512-qbHgh8Ix+j/qY+a/ZcJnFQ+j8ezakqPiHwPiZhV/3PgGlgf96QMBB5/f2rkiC9sgLoy/xvT6TSiaf2nTHJh5iA==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
-    dev: false
 
   /gzip-size/6.0.0:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
@@ -16612,7 +16611,6 @@ packages:
     resolution: {integrity: sha512-WOkT3XYvrpXx4vMMqlD+8R8R37fZkjyLGlxavMc4iB8lrl8L0DeTcHbYgw/v0N/z9wAFsgBhcsF0ruoySS22mA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /ua-parser-js/0.7.31:
     resolution: {integrity: sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==}
@@ -17654,7 +17652,6 @@ packages:
 
   /vue/2.6.14:
     resolution: {integrity: sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==}
-    dev: false
 
   /vuex-class/0.3.2_ot447vtrjddcfneoczzpyjkfhe:
     resolution: {integrity: sha512-m0w7/FMsNcwJgunJeM+wcNaHzK2KX1K1rw2WUQf7Q16ndXHo7pflRyOV/E8795JO/7fstyjH3EgqBI4h4n4qXQ==}
