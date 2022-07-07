@@ -6,7 +6,8 @@
         v-model="inputValue"
         type="number"
         :step="step"
-        min="0"
+        :min="min"
+        :max="max"
         :expanded="expanded"
         @input="handleInput" />
       <p class="control balance">
@@ -37,6 +38,8 @@ export default class BalanceInput extends mixins(ChainMixin) {
   @Prop({ default: true }) public calculate!: boolean
   @Prop(Boolean) public expanded!: boolean
   @Prop({ default: 0.001 }) public step!: number
+  @Prop(Number) public min!: number
+  @Prop(Number) public max!: number
   protected units: Unit[] = defaultUnits
   private selectedUnit = 1
 
@@ -77,6 +80,10 @@ export default class BalanceInput extends mixins(ChainMixin) {
   @Emit('input')
   public handleInput(value: number) {
     return this.calculate ? this.formatSelectedValue(value) : value
+  }
+
+  public checkValidity() {
+    return this.balance.checkHtml5Validity()
   }
 }
 </script>
