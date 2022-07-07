@@ -35,7 +35,6 @@ export const KeyboardValueToActionMap = {
 export const ownerActions = [
   ShoppingActions.SEND,
   ShoppingActions.CONSUME,
-  ShoppingActions.DOWNLOAD,
   ShoppingActions.LIST,
 ]
 

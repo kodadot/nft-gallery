@@ -18,6 +18,7 @@
           v-for="action in actions"
           :key="action"
           :type="iconType(action)[0]"
+          class="only-border-top"
           outlined
           @click="handleAction(action)"
           expanded>
@@ -27,6 +28,7 @@
       <template v-else-if="isForSale">
         <b-tooltip :active="buyDisabled" :label="$t('tooltip.buyDisabled')">
           <b-button
+            class="only-border-top"
             :type="iconType(ShoppingActions.BUY)[0]"
             :disabled="buyDisabled || !isAvailableToBuy"
             style="border-width: 2px"
@@ -208,11 +210,6 @@ export default class AvailableActions extends mixins(
         case ShoppingActions.SEND:
           this.addressInput?.focusInput()
           break
-        case ShoppingActions.DOWNLOAD: {
-          const { image, name } = this.currentGalleryItemImage
-          image && downloadImage(image, name)
-          break
-        }
         default:
           break
       }
@@ -289,10 +286,6 @@ export default class AvailableActions extends mixins(
 
   get realworldFullPath() {
     return `${window.location.origin}${this.$route.fullPath}`
-  }
-
-  get currentGalleryItemImage(): { image: string; name: string } {
-    return this.$store.getters['history/getCurrentlyViewedItem'] || {}
   }
 
   @Watch('originialOwner', { immediate: true })
@@ -439,5 +432,10 @@ export default class AvailableActions extends mixins(
       width: 100%;
     }
   }
+}
+.only-border-top {
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
 }
 </style>
