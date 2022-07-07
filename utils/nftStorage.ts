@@ -2,7 +2,6 @@ import Axios from 'axios'
 import { URLS } from './constants'
 
 export const BASE_URL = URLS.koda.nftStorage
-const UPLOAD_URL = 'https://api.nft.storage/upload'
 
 const api = Axios.create({
   baseURL: BASE_URL,
@@ -54,10 +53,7 @@ export const getKey = async (address: string): Promise<PinningKey> => {
   }
 }
 
-export const pinFileToIPFS = async (
-  file: Blob,
-  token?: string
-): Promise<string> => {
+export const pinFileToIPFS = async (file: Blob, _: string): Promise<string> => {
   try {
     const { status, data } = await api.post<StorageApiResponse>(
       '/pinFile',
