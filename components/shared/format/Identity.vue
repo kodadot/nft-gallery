@@ -43,14 +43,14 @@
           >
         </template>
       </span>
-      <template v-if="!hideIdentityPopover">
+      <template v-if="!hideIdentityPopover && !showOnchainIdentity">
         <IdentityPopover :identity="{ ...identity, address }">
           <template #trigger>
             {{ name | toString }}
           </template>
         </IdentityPopover>
       </template>
-      <span v-else>
+      <span v-if="!showOnchainIdentity">
         {{ name | toString }}
       </span>
     </template>

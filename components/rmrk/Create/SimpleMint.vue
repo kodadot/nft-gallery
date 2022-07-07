@@ -193,9 +193,12 @@ import {
   shuffleFunction,
   toDistribute,
 } from '@/components/accounts/utils'
-import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/nftStorage'
 import { uploadDirect } from '@/utils/directUpload'
-import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
+import {
+  DETAIL_TIMEOUT,
+  IPFS_KODADOT_IMAGE_PLACEHOLDER,
+} from '~/utils/constants'
 import { createMetadata, findUniqueSymbol } from '@kodadot1/minimark'
 import Vue from 'vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -783,13 +786,15 @@ export default class SimpleMint extends mixins(
   }
 
   protected navigateToDetail(nft: NFT, blockNumber: string) {
-    showNotification('You will go to the detail in 2 seconds')
+    showNotification(
+      `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+    )
     const go = () =>
       this.$router.push({
         path: `/rmrk/detail/${getNftId(nft, blockNumber)}`,
         query: { message: 'congrats' },
       })
-    setTimeout(go, 2000)
+    setTimeout(go, DETAIL_TIMEOUT)
   }
 
   protected getUsdFromKsm() {
