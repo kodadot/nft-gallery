@@ -102,15 +102,11 @@ import {
   sanitizeIpfsUrl,
 } from '@/components/rmrk/utils'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
-import { toHuman, unwrapOrDefault, unwrapOrNull } from '@/utils/api/format'
-import onApiConnect from '@/utils/api/general'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import { emptyObject } from '@/utils/empty'
 import isShareMode from '@/utils/isShareMode'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { Option, u128 } from '@polkadot/types'
-import { InstanceDetails } from '@polkadot/types/interfaces'
 import { get, set } from 'idb-keyval'
 import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import { processMedia } from '@/utils/gallery/media'
@@ -164,17 +160,6 @@ export default class GalleryItem extends mixins(
     return [this.collectionId, this.id]
   }
 
-  protected observeOwner(data: Option<InstanceDetails>) {
-    const instance = unwrapOrNull(data)
-    if (instance) {
-      this.$set(this.nft, 'currentOwner', toHuman(instance.owner))
-    }
-  }
-
-  protected observePrice(data: Option<u128>) {
-    this.$set(this.nft, 'price', unwrapOrDefault(data).toString())
-  }
-
   private async fetchNftData() {
     const query = await resolveQueryPath(this.urlPrefix, 'nftById')
     const nft = await this.$apollo.query({
@@ -209,19 +194,6 @@ export default class GalleryItem extends mixins(
 
     this.fetchMetadata()
   }
-
-  // protected fetchRPCMetadata() {
-  //   onApiConnect(async (api) => {
-  //     const metacall = getMetadata(api)
-  //     const res = await metacall(this.collectionId, this.id).then((option) =>
-  //       unwrapOrNull(option as Option<any>)
-  //     )
-  //     if (res) {
-  //       Vue.set(this.nft, 'metadata', res.metadata.toHuman())
-  //       this.fetchMetadata()
-  //     }
-  //   })
-  // }
 
   onImageError(e: any) {
     this.$consola.warn('Image error', e)
