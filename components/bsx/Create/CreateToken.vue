@@ -63,7 +63,7 @@ import {
 } from '@/components/rmrk/Create/mintUtils'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
 import shouldUpdate from '@/utils/shouldUpdate'
 import {
   Attribute,
@@ -80,14 +80,20 @@ import {
 } from '@/components/unique/apiConstants'
 import { createTokenId } from '@/components/unique/utils'
 import onApiConnect from '@/utils/api/general'
-import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
+import {
+  DETAIL_TIMEOUT,
+  IPFS_KODADOT_IMAGE_PLACEHOLDER,
+} from '@/utils/constants'
 import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
 import { isRoyaltyValid, Royalty } from '@/utils/royalty'
-import { fetchCollectionMetadata } from '~/components/rmrk/utils'
+import {
+  fetchCollectionMetadata,
+  preheatFileFromIPFS,
+} from '~/components/rmrk/utils'
 import { getMany, update } from 'idb-keyval'
 
 type MintedCollection = BaseMintedCollection & {
@@ -337,18 +343,22 @@ export default class CreateToken extends mixins(
       file.type
     )
 
+    preheatFileFromIPFS(fileHash)
+    // uploadDirect(file, this.accountId).catch(this.$consola.warn)
     const metaHash = await pinJson(meta, imageHash)
     return unSanitizeIpfsUrl(metaHash)
   }
 
   protected navigateToDetail(collection: string, id: string): void {
-    showNotification('You will go to the detail in 2 seconds')
+    showNotification(
+      `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+    )
     const go = () =>
       this.$router.push({
         path: `/${this.urlPrefix}/gallery/${createTokenId(collection, id)}`,
         query: { message: 'congrats' },
       })
-    setTimeout(go, 2000)
+    setTimeout(go, DETAIL_TIMEOUT)
   }
 }
 </script>
