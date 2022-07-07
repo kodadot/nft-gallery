@@ -7,7 +7,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 import GalleryItem from '@/components/bsx/Gallery/Item/GalleryItem.vue'
 import { generateNftImage } from '@/utils/seoImageGenerator'
-import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
+import { formatBsxBalanceEmptyOnZero } from '@/utils/format/balance'
 
 @Component<GalleryItemPage>({
   name: 'GalleryItemPage',
@@ -51,7 +51,7 @@ export default class GalleryItemPage extends Vue {
   get image(): string {
     return generateNftImage(
       this.currentlyViewedItem.name,
-      formatBalanceEmptyOnZero(this.currentlyViewedItem.price),
+      formatBsxBalanceEmptyOnZero(this.currentlyViewedItem.price),
       this.currentlyViewedItem.image,
       this.currentlyViewedItem.mimeType
     )
