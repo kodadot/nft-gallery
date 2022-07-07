@@ -27,6 +27,7 @@ function getPath(prefix: string) {
     case 'rmrk':
       return ''
     case 'bsx':
+    case 'moonsama':
       return 'subsquid/general/'
     case 'statemine':
     case 'westmint':
@@ -34,7 +35,7 @@ function getPath(prefix: string) {
     case 'subsquid':
       return 'subsquid/general/'
     default:
-      return 'subsquid/general/'
+      return ''
   }
 }
 
