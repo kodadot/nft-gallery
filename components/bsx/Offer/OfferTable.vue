@@ -17,7 +17,7 @@
       :label="$t('offer.price')"
       v-slot="props"
       sortable>
-      <Money :value="props.row.price" inline hideUnit />
+      <Money :value="props.row.price" inline />
     </b-table-column>
     <b-table-column
       v-if="!isBsxStats"
