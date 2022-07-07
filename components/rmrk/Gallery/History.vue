@@ -47,17 +47,17 @@
             {{ getEventDisplayName(props.row.Type) }}
           </b-table-column>
           <b-table-column
-            v-if="isCollectionPage"
+            v-if="displayItem"
             cell-class="short-identity__table"
             field="Item"
             label="Item"
             v-slot="props">
             <nuxt-link
               :to="{
-                name: 'rmrk-gallery-id',
+                name: `${urlPrefix}-gallery-id`,
                 params: { id: props.row.Item.id },
               }">
-              {{ props.row.Item.name }}
+              {{ props.row.Item.name || props.row.Item.id }}
             </nuxt-link>
           </b-table-column>
           <b-table-column
@@ -67,7 +67,7 @@
             v-slot="props">
             <nuxt-link
               :to="{
-                name: 'rmrk-u-id',
+                name: `${urlPrefix}-u-id`,
                 params: { id: props.row.From },
               }">
               <Identity :address="props.row.From" inline noOverflow />
@@ -80,7 +80,7 @@
             label="To"
             v-slot="props">
             <nuxt-link
-              :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }">
+              :to="{ name: `${urlPrefix}-u-id`, params: { id: props.row.To } }">
               <Identity :address="props.row.To" inline noOverflow />
             </nuxt-link>
           </b-table-column>
@@ -110,12 +110,9 @@
               :label="props.row.Date"
               position="is-right"
               append-to-body>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="getBlockUrl(props.row.Block)">
-                {{ props.row.Time }}</a
-              >
+              <BlockExplorerLink
+                :blockId="props.row.Block"
+                :text="props.row.Time" />
             </b-tooltip>
           </b-table-column>
         </b-table>
@@ -125,7 +122,6 @@
 </template>
 
 <script lang="ts">
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction as EventInteraction } from '../service/scheme'
@@ -139,12 +135,15 @@ import {
   wrapEventNameWithIcon,
   parseDate,
   parseAmount,
+  InteractionBsxOnly,
 } from '@/utils/historyEvent'
 import { Interaction } from '@kodadot1/minimark'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
+  BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }
 
 type TableRowItem = {
@@ -168,15 +167,19 @@ type ChartData = {
 }
 
 @Component({ components })
-export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
+export default class History extends mixins(
+  PrefixMixin,
+  ChainMixin,
+  KeyboardEventsMixin
+) {
   @Prop({ type: Array }) public events!: EventInteraction[]
   @Prop({ type: Boolean, default: true })
   private readonly openOnDefault!: boolean
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
+  @Prop({ type: Boolean, default: false }) displayItem!: boolean
 
   private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: HistoryEventType = HistoryEventType.BUY
-  private isCollectionPage = this.$route.name === 'rmrk-collection-id'
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
@@ -328,6 +331,16 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
           }
           previousPriceMap[nftId] = parseInt(newEvent['meta'])
           break
+        case InteractionBsxOnly.ROYALTY:
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          event['Percentage'] = parseInt(newEvent['meta'])
+          break
+        case InteractionBsxOnly.PAY_ROYALTY:
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          event['Amount'] = this.parsePrice(newEvent['meta'])
+          break
         default:
           // unsupported event
           continue
@@ -336,7 +349,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       event['Type'] = event['Type'] ?? newEvent['interaction']
 
       // Item
-      if (this.isCollectionPage) {
+      if (this.displayItem) {
         event['Item'] = newEvent['nft']
       }
 
@@ -376,14 +389,6 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
   private parsePrice(amount): string {
     return parseAmount(amount, this.decimals, this.unit)
-  }
-
-  protected getBlockUrl(block: string): string {
-    return urlBuilderBlockNumber(
-      block,
-      this.$store.getters['explorer/getCurrentChain'],
-      'subscan'
-    )
   }
 
   @Watch('events', { immediate: true })

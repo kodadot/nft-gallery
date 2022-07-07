@@ -76,10 +76,24 @@
               {{ $t('simple') }}
             </b-navbar-item>
           </b-tooltip>
+          <b-tooltip
+            label="AI powered process to create your NFT"
+            position="is-right"
+            append-to-body>
+            <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/creative`">
+              {{ $t('creative') }}
+            </b-navbar-item>
+          </b-tooltip>
         </template>
       </b-navbar-dropdown>
       <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/explore`">
         <span>{{ $t('explore') }}</span>
+      </b-navbar-item>
+      <b-navbar-item
+        v-if="urlPrefix === 'bsx'"
+        tag="nuxt-link"
+        :to="`/${urlPrefix}/stats`">
+        <span>{{ $t('stats') }}</span>
       </b-navbar-item>
       <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
         <template #label>
@@ -93,6 +107,7 @@
             Series
           </b-navbar-item>
           <b-navbar-item tag="nuxt-link" to="/sales"> Sales </b-navbar-item>
+          <b-navbar-item tag="nuxt-link" to="/hot"> Hot </b-navbar-item>
         </template>
       </b-navbar-dropdown>
       <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
@@ -264,29 +279,29 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 //   }
 // }
 
-@media only screen and (min-width: 1024px) and (max-width: 1100px) {
-  div#NavHistoryBrowser {
-    display: none;
-  }
-}
+//@media only screen and (min-width: 1024px) and (max-width: 1100px) {
+//  div#NavHistoryBrowser {
+//    display: none;
+//  }
+//}
 
-@media only screen and (min-width: 1024px) and (max-width: 1200px) {
-  a#NavCreate {
-    display: none;
-  }
-}
+//@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+//  a#NavCreate {
+//    display: none;
+//  }
+//}
 
-@media only screen and (min-width: 1024px) and (max-width: 1250px) {
-  div#NavChainSelect {
-    display: none;
-  }
-}
+//@media only screen and (min-width: 1024px) and (max-width: 1250px) {
+//  div#NavChainSelect {
+//    display: none;
+//  }
+//}
 
-@media only screen and (min-width: 1024px) and (max-width: 1340px) {
-  div#NavLocaleChanger {
-    display: none;
-  }
-}
+//@media only screen and (min-width: 1024px) and (max-width: 1340px) {
+//  div#NavLocaleChanger {
+//    display: none;
+//  }
+//}
 
 @include touch {
   .navbar {
@@ -381,7 +396,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   .search-navbar {
     background-color: transparent;
     box-shadow: none;
-    min-width: 350px;
+    width: min-content;
+    min-width: 140px;
     margin: 0 1rem;
     input {
       border: inherit;

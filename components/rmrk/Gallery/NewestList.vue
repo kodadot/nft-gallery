@@ -3,8 +3,8 @@
     <Loader v-model="isLoading" />
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
-        <h1 class="title is-2">Newest List</h1>
-        <p class="subtitle is-size-5">Discover the latest items on sale</p>
+        <h1 class="title is-2">{{ $t('general.newestListHeading') }}</h1>
+        <p class="subtitle is-size-5">{{ $t('general.newestListDesc') }}</p>
       </div>
       <div class="column has-text-right">
         <b-button
@@ -13,7 +13,7 @@
           inverted
           outlined
           icon-right="chevron-right"
-          to="/rmrk/explore?search=&sort=UPDATED_AT_DESC&tab=GALLERY">
+          :to="`/${urlPrefix}/explore?search=&sort=UPDATED_AT_DESC&tab=GALLERY`">
           {{ $t('helper.seeMore') }}
         </b-button>
       </div>
@@ -31,7 +31,7 @@ import {
 } from '~/utils/cachingStrategy'
 import { formatDistanceToNow } from 'date-fns'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
-import { fallbackMetaByNftEvent } from '@/utils/carousel'
+import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 
@@ -57,17 +57,16 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
 
   mounted() {
     setTimeout(async () => {
-      const queryVariables = {
+      const queryVariables: {
+        limit: number
+        event: string
+        passionAccount?: string
+      } = {
         limit: 10,
         event: 'LIST',
-        and: {
-          meta_not_eq: '0',
-        },
       }
-      if (this.isLogIn) {
-        queryVariables.and.nft = {
-          issuer_in: this.passionList,
-        }
+      if (this.isLogIn && this.passionList.length > 9) {
+        queryVariables.passionAccount = this.accountId
       }
       const result = await this.$apollo
         .query<{
@@ -89,7 +88,8 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
   }
 
   protected async handleResult({ data }: any) {
-    this.events = [...data.events]
+    this.events = [...data.events].map(convertLastEventToNft)
+
     await fallbackMetaByNftEvent(this.events)
     const images = await getCloudflareImageLinks(
       this.events.map((event) => event.nft.meta.id)

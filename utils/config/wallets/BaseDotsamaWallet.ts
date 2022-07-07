@@ -1,7 +1,7 @@
 import type { Signer as InjectedSigner } from '@polkadot/api/types'
-import { decodeAddress, encodeAddress } from '@polkadot/keyring'
 import { SubscriptionFn, Wallet } from '@/utils/config/wallets'
 import { logError } from '@/utils/mappers'
+import { formatAccount } from '@/utils/account'
 import {
   InjectedAccount,
   InjectedExtension,
@@ -99,7 +99,7 @@ export class BaseDotsamaWallet implements Wallet {
     const unsubscribe = this._extension.accounts.subscribe(
       (accounts: InjectedAccount[]) => {
         const accountsWithWallet = accounts.map((account) => {
-          account.address = encodeAddress(decodeAddress(account.address), 2)
+          account.address = formatAccount(account.address)
           return {
             ...account,
             source: this._extension?.name as string,
@@ -127,7 +127,7 @@ export class BaseDotsamaWallet implements Wallet {
     const accounts = await this._extension.accounts.get()
 
     return accounts.map((account) => {
-      account.address = encodeAddress(decodeAddress(account.address), 2)
+      account.address = formatAccount(account.address)
       return {
         ...account,
         source: this._extension?.name as string,

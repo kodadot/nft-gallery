@@ -24,7 +24,7 @@
             cell-class="type-table">
             <nuxt-link
               :to="{
-                name: 'rmrk-collection-id',
+                name: `${urlPrefix}-collection-id`,
                 params: { id: props.row.Collection.id },
               }">
               {{ props.row.Collection.name }}
@@ -37,7 +37,7 @@
             cell-class="type-table">
             <nuxt-link
               :to="{
-                name: 'rmrk-gallery-id',
+                name: `${urlPrefix}-gallery-id`,
                 params: { id: props.row.Nft.id },
               }">
               {{ props.row.Nft.name }}
@@ -50,7 +50,7 @@
             v-slot="props">
             <nuxt-link
               :to="{
-                name: 'rmrk-u-id',
+                name: `${urlPrefix}-u-id`,
                 params: { id: props.row.Buyer },
               }">
               <Identity :address="props.row.Buyer" inline noOverflow />
@@ -72,12 +72,9 @@
               :label="props.row.Date"
               position="is-right"
               append-to-body>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="getBlockUrl(props.row.Block)">
-                {{ props.row.Time }}</a
-              >
+              <BlockExplorerLink
+                :text="props.row.Time"
+                :blockId="props.row.Block" />
             </b-tooltip>
           </b-table-column>
         </b-table>
@@ -88,7 +85,6 @@
 
 <script lang="ts">
 import { DocumentNode } from 'graphql'
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
@@ -98,10 +94,12 @@ import { formatDistanceToNow } from 'date-fns'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
 import { Event } from '../service/types'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
+  BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }
 
 type TableRowItem = {
@@ -132,7 +130,11 @@ type ChartData = {
 }
 
 @Component({ components })
-export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
+export default class Sales extends mixins(
+  PrefixMixin,
+  ChainMixin,
+  KeyboardEventsMixin
+) {
   @Prop({ type: Array }) public events!: Event[]
   @Prop({ type: Boolean, default: true })
   private readonly openOnDefault!: boolean
@@ -288,16 +290,8 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     })
   }
 
-  protected getBlockUrl(block: string): string {
-    return urlBuilderBlockNumber(
-      block,
-      this.$store.getters['explorer/getCurrentChain'],
-      'subscan'
-    )
-  }
-
   @Watch('events', { immediate: true })
-  public watchEvent(): void {
+  public watchEvents(): void {
     if (this.events) {
       this.createTable()
     }

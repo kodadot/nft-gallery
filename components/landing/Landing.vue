@@ -17,10 +17,10 @@
           <h3
             class="title is-1 is-size-3-mobile is-flex is-flex-direction-column uppercase homepage__heading">
             <span class="text__stroked my-5">
-              Discover, collect and sell Kusama NFTs
+              {{ $t('general.ksmDiscoverText') }}
             </span>
             <span class="title is-6 homepage__subtitle uppercase text-semibold">
-              Built on
+              {{ $t('helper.builtOn') }}
               <span class="text-bold text-primary"> {{ buildOn }} </span>
             </span>
           </h3>
@@ -37,11 +37,12 @@
           </a>
         </div>
         <div class="column">
-          <LazyGalleryCuratedList v-if="prefix === 'rmrk'" />
+          <LazyCuratedList />
         </div>
       </div>
       <div v-if="prefix === 'rmrk'">
         <LazyGalleryLatestSales :passionList="passionList" class="my-5" />
+        <LazyGalleryPopularCollections class="my-5" />
         <LazyGalleryNewestList :passionList="passionList" class="my-5" />
       </div>
     </div>

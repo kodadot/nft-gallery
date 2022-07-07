@@ -1,6 +1,7 @@
 import Axios from 'axios'
+import { URLS } from './constants'
 
-export const BASE_URL = 'https://api.pinata.cloud/pinning/'
+export const BASE_URL = `${URLS.providers.pinata}pinning/`
 
 export type APIKeys = {
   pinata_api_key: string
@@ -15,8 +16,10 @@ const api = Axios.create({
   withCredentials: false,
 })
 
-
-export const pinFileToIPFS = async (file: Blob, keys: APIKeys): Promise<string> => {
+export const pinFileToIPFS = async (
+  file: Blob,
+  keys: APIKeys
+): Promise<string> => {
   const formData = new FormData()
   formData.append('file', file)
 

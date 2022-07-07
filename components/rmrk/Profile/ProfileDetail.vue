@@ -7,7 +7,8 @@
         </div>
         <h1 class="title is-2">
           <a
-            :href="`https://kusama.subscan.io/account/${id}`"
+            v-if="hasBlockExplorer"
+            :href="explorer"
             target="_blank"
             rel="noopener noreferrer">
             <Identity
@@ -17,16 +18,23 @@
               emit
               @change="handleIdentity" />
           </a>
+          <Identity
+            v-else
+            ref="identity"
+            :address="id"
+            inline
+            emit
+            @change="handleIdentity" />
         </h1>
 
-        <nuxt-link v-if="!displayName && isMyProfile" to="/identity">
+        <nuxt-link v-if="isAllowSetIdentity" to="/identity">
           + {{ $t('identity.set') }}
         </nuxt-link>
       </div>
     </div>
 
-    <div class="columns is-mobile is-align-items-center">
-      <div class="column">
+    <div class="columns is-align-items-center">
+      <div class="column" v-if="hasBlockExplorer">
         <div class="label">
           {{ $t('profile.user') }}
         </div>
@@ -37,11 +45,12 @@
           </div>
         </div>
       </div>
-      <div class="column is-6-tablet is-7-desktop is-8-widescreen">
+      <div v-else class="column" />
+      <div class="column is-12-mobile is-6-tablet is-7-desktop is-8-widescreen">
         <ProfileActivity :id="id" />
       </div>
       <div class="column has-text-right">
-        <div class="is-flex is-justify-content-right">
+        <div class="is-flex is-justify-content-right" v-if="hasBlockExplorer">
           <div class="control" v-for="network in networks" :key="network.alt">
             <b-button class="share-button" type="is-primary is-bordered-light">
               <a
@@ -116,8 +125,8 @@
           <GalleryCardList
             :items="collections"
             type="collectionDetail"
-            route="/rmrk/collection"
-            link="rmrk/collection"
+            :route="`/${urlPrefix}/collection`"
+            :link="`${urlPrefix}/collection`"
             horizontalLayout />
           <InfiniteLoading
             v-if="canLoadNextPage && !isLoading && totalCollections > 0"
@@ -133,6 +142,7 @@
             v-if="!isLoading && activeTab === 'history'"
             :events="eventsOfNftCollection"
             :openOnDefault="isHistoryOpen"
+            displayItem
             hideCollapse />
         </b-tab-item>
         <b-tab-item
@@ -224,7 +234,6 @@ import {
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
-import nftListByIssuerAndOwner from '@/queries/nftListByIssuerAndOwner.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
@@ -246,6 +255,8 @@ import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
 import allNftSaleEventsByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
 import { NftHolderEvent } from '~/components/rmrk/Gallery/Holder/Holder.vue'
 import allNftSaleEventsHistoryByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
+import resolveQueryPath from '~/utils/queryPathResolver'
+import { hasExplorer, getExplorer } from './utils'
 
 const components = {
   GalleryCardList: () =>
@@ -279,7 +290,7 @@ const components = {
       type: 'profile',
       description:
         this.firstNFTData.description || 'Find more NFTs from this creator',
-      url: `/westmint/u/${this.id}`,
+      url: `/${this.urlPrefix}/u/${this.id}`,
       image: this.firstNFTData.image || this.defaultNFTImage,
     }
     return {
@@ -437,7 +448,7 @@ export default class Profile extends mixins(
     this.$apollo
       .query<NftEvents>({
         query: allNftSaleEventsByAccountId,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.accountId,
         },
@@ -455,7 +466,7 @@ export default class Profile extends mixins(
     this.$apollo
       .query<{ events: Interaction[] }>({
         query: allEventsByProfile,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
           search: {
@@ -476,7 +487,7 @@ export default class Profile extends mixins(
     this.$apollo
       .query<{ events: Interaction[] }>({
         query: recentSalesForCreator,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
           limit: this.first,
@@ -496,7 +507,7 @@ export default class Profile extends mixins(
     this.$apollo
       .query<{ events: NftHolderEvent[] }>({
         query: allNftSaleEventsHistoryByAccountId,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.accountId,
         },
@@ -530,6 +541,18 @@ export default class Profile extends mixins(
     this.$router.replace({
       query: { tab: val },
     })
+  }
+
+  get isAllowSetIdentity(): boolean {
+    return !this.displayName && this.isMyProfile && this.hasBlockExplorer
+  }
+
+  get hasBlockExplorer(): boolean {
+    return hasExplorer(this.urlPrefix)
+  }
+
+  get explorer() {
+    return getExplorer(this.urlPrefix, this.id)
   }
 
   get isHistoryOpen(): boolean {
@@ -587,6 +610,7 @@ export default class Profile extends mixins(
     this.startPage = page
     this.endPage = page
     this.collections = []
+    this.isFetchingData = false
     this.isLoading = true
     this.fetchPageData(page)
   }
@@ -632,10 +656,6 @@ export default class Profile extends mixins(
         },
         fetchPolicy: 'cache-and-network',
       })
-      // this.packs = await rmrkService
-      //   .getPackListForAccount(this.id)
-      //   .then(defaultSortBy);
-      // this.$consola.log(packs)
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
       this.$consola.warn(e)
@@ -716,7 +736,7 @@ export default class Profile extends mixins(
     try {
       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
         query: allEventsByProfile,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
           search: {
@@ -727,7 +747,6 @@ export default class Profile extends mixins(
       if (data && data.events && data.events.length) {
         let events: Interaction[] = data.events
         this.eventsOfNftCollection = [...sortedEventByDate(events, 'DESC')]
-        console.log(this.eventsOfNftCollection)
         this.checkTabLocate()
       }
     } catch (e) {
@@ -741,7 +760,7 @@ export default class Profile extends mixins(
       this.isFetchingData = true
       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
         query: recentSalesForCreator,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
           limit: this.first,
@@ -760,16 +779,20 @@ export default class Profile extends mixins(
 
   @Watch('accountId')
   public async fetchMyNftByIssuer() {
-    if (this.accountId && this.id && this.accountId !== this.id) {
+    if (this.id && shouldUpdate(this.accountId, this.id)) {
+      const query = await resolveQueryPath(
+        this.urlPrefix,
+        'nftListByIssuerAndOwner'
+      )
       const { data } = await this.$apollo.query({
-        query: nftListByIssuerAndOwner,
+        query: query.default,
         client: this.urlPrefix,
         variables: {
           account: this.id,
           currentOwner: this.accountId,
         },
       })
-      this.myNftCount = data.nFTEntities?.totalCount || 0
+      this.myNftCount = data.nftList?.totalCount || 0
     }
   }
 

@@ -5,7 +5,9 @@
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
         <h1 class="title is-2">{{ $t('general.latestSales') }}</h1>
-        <p class="subtitle is-size-5">Discover the most recent sales on rmrk</p>
+        <p class="subtitle is-size-5">
+          {{ $t('general.latestSalesheading') }}
+        </p>
       </div>
       <div class="column has-text-right">
         <Pagination
@@ -25,7 +27,8 @@
 import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
-import { fallbackMetaByNftEvent } from '@/utils/carousel'
+import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'
+import { LastEvent } from '~/utils/types/types'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
@@ -65,19 +68,17 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
   }
 
   async fetchData() {
-    const queryVars = {
-      limit: 10,
-      event: 'BUY',
-      and: {},
-    }
-    if (this.isLogIn) {
-      queryVars.and.nft = {
-        issuer_in: this.passionList,
+    const queryVars: { limit: number; event: string; passionAccount?: string } =
+      {
+        limit: 10,
+        event: 'BUY',
       }
+    if (this.isLogIn) {
+      queryVars.passionAccount = this.accountId
     }
     const result = await this.$apollo
       .query<{
-        events: { meta; nft: { meta: { id; image } } }
+        events: LastEvent[]
       }>({
         query: lastNftListByEvent,
         client: this.client,
@@ -93,9 +94,10 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
     }
   }
 
-  protected async handleResult({ data }: any) {
-    this.events = [...data.events]
-    this.total = data.events.length
+  protected async handleResult({ data }: { data: { events: LastEvent[] } }) {
+    this.events = [...data.events].map(convertLastEventToNft)
+
+    this.total = this.events.length
 
     await fallbackMetaByNftEvent(this.events)
     const images = await getCloudflareImageLinks(

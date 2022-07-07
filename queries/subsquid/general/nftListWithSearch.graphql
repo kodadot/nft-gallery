@@ -1,0 +1,24 @@
+#import "../../fragments/nft.graphql"
+#import "../../fragments/nftDetails.graphql"
+
+query nftListWithSearch(
+  $first: Int!
+  $offset: Int
+  $denyList: [String!]
+  $search: [NFTEntityWhereInput!]
+  $orderBy: [NFTEntityOrderByInput] = [blockNumber_DESC]
+) {
+  nFTEntities: nftEntities(
+    orderBy: $orderBy
+    limit: $first
+    offset: $offset
+    where: {
+      burned_eq: false
+      issuer_not_in: $denyList
+      AND: $search
+    }
+  ) {
+    ...nft
+    ...nftDetails
+  }
+}

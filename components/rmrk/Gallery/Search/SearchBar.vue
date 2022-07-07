@@ -30,6 +30,7 @@
           max-height="550px"
           dropdown-position="is-bottom-left"
           expanded
+          @blur="onBlur"
           @typing="updateSuggestion"
           @keydown.native.enter="nativeSearch"
           @focus="fetchSuggestionsOnce"
@@ -115,7 +116,11 @@
       animation="opacitySlide"
       v-model="isVisible">
       <div class="columns mb-0">
-        <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
+        <Sort
+          multipleSelect
+          class="column is-4 mb-0"
+          :value="sortByMultiple"
+          @input="updateSortBy($event, sortByMultiple)" />
         <BasicSwitch
           class="is-flex column is-4"
           v-model="vListed"
@@ -145,7 +150,7 @@
 <script lang="ts">
 import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { exist } from './exist'
+import { exist, existArray } from './exist'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
@@ -154,7 +159,6 @@ import { SearchQuery, SearchSuggestion } from './types'
 import { denyList } from '@/utils/constants'
 import { NFT, NFTWithMeta, CollectionWithMeta } from '../../service/scheme'
 import { getSanitizer } from '../../utils'
-import shouldUpdate from '~/utils/shouldUpdate'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { mapNFTorCollectionMetadata } from '~/utils/mappers'
@@ -163,6 +167,9 @@ import {
   processMetadata,
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
+import { convertLastEventToNft } from '@/utils/carousel'
+import { NFT_SORT_CONDITION_LIST } from '@/utils/constants'
+import { LastEvent } from '~/utils/types/types'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
@@ -182,9 +189,10 @@ export default class SearchBar extends mixins(
 ) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
-  @Prop(String) public sortBy!: string
+  @Prop({ type: Array, default: () => ['BLOCK_NUMBER_DESC'] })
+  public sortByMultiple!: string[]
   @Prop(String) public searchColumnClass!: string
-  @Prop(Boolean) public listed!: boolean
+  @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
   @Prop(Boolean) public hideSearchInput!: boolean
   @Prop(Boolean) public showDefaultSuggestions!: boolean
@@ -193,8 +201,8 @@ export default class SearchBar extends mixins(
   private query: SearchQuery = {
     search: '',
     type: '',
-    sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
+    sortByMultiple: ['BLOCK_NUMBER_DESC'],
   }
 
   private first = 30
@@ -220,21 +228,21 @@ export default class SearchBar extends mixins(
     ) {
       try {
         const { data } = await this.$apollo.query<{
-          events: [{ meta; timestamp; nft }]
+          events: LastEvent[]
         }>({
           query: lastNftListByEvent,
-          client: 'subsquid',
+          client: this.client,
           variables: {
             limit: this.searchSuggestionEachTypeMaxNum,
             event: 'LIST',
-            and: {
-              meta_not_eq: '0',
-            },
           },
         })
 
-        const nfts = [...data.events].map((event) => event.nft)
-        const nFTMetadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
+        const nfts = [...data.events].map((e) => convertLastEventToNft(e).nft)
+
+        const nFTMetadataList: string[] = (nfts as any).map(
+          mapNFTorCollectionMetadata
+        )
         getCloudflareImageLinks(nFTMetadataList).then((imageLinks) => {
           const nftResult: NFTWithMeta[] = []
           processMetadata<NFTWithMeta>(nFTMetadataList, (meta, i) => {
@@ -300,7 +308,7 @@ export default class SearchBar extends mixins(
     exist(this.$route.query.min, this.updatePriceMin)
     exist(this.$route.query.max, this.updatePriceMax)
     exist(this.$route.query.type, this.updateType)
-    exist(this.$route.query.sort, this.updateSortBy)
+    existArray(this.$route.query.sort as string[], this.updateSortBy)
     exist(this.$route.query.listed, this.updateListed)
   }
 
@@ -316,16 +324,16 @@ export default class SearchBar extends mixins(
         this.updateListed(!this.vListed)
         break
       case 'n':
-        this.updateSortBy('BLOCK_NUMBER_DESC')
+        this.updateSortBy(['BLOCK_NUMBER_DESC'])
         break
       case 'o':
-        this.updateSortBy('BLOCK_NUMBER_ASC')
+        this.updateSortBy(['BLOCK_NUMBER_ASC'])
         break
       case 'e':
-        this.updateSortBy('PRICE_DESC')
+        this.updateSortBy(['PRICE_DESC'])
         break
       case 'c':
-        this.updateSortBy('PRICE_ASC')
+        this.updateSortBy(['PRICE_ASC'])
         break
     }
   }
@@ -354,13 +362,9 @@ export default class SearchBar extends mixins(
   get autocompleteFooterShow() {
     const searchResultExist =
       this.nftResult.length > 0 || this.collectionResult.length > 0
-    if (
-      searchResultExist &&
-      this.searchSuggestionEachTypeMaxNum !== this.bigNum
-    ) {
-      return true
-    }
-    return false
+    return (
+      searchResultExist && this.searchSuggestionEachTypeMaxNum !== this.bigNum
+    )
   }
 
   get searchSuggestion() {
@@ -464,11 +468,26 @@ export default class SearchBar extends mixins(
     return value
   }
 
-  @Emit('update:sortBy')
+  @Emit('update:sortByMultiple')
   @Debounce(400)
-  updateSortBy(value: string): string {
-    this.replaceUrl(value, undefined, 'sort')
-    return value
+  updateSortBy(value: string[] | string, $event?): string[] {
+    const final = (Array.isArray(value) ? value : [value]).filter((condition) =>
+      NFT_SORT_CONDITION_LIST.includes(condition)
+    )
+    if ($event?.length > final.length || !$event) {
+      this.replaceUrl(final, undefined, 'sort')
+      return final
+    }
+    let newFinal: string[] = []
+    if (final.length > 0) {
+      const newlySelected = final[final.length - 1].split('_')[0]
+      newFinal = $event.filter(
+        (option) => option.split('_')[0] !== newlySelected
+      )
+      newFinal.push(final[final.length - 1])
+    }
+    this.replaceUrl(newFinal, undefined, 'sort')
+    return newFinal
   }
 
   // not highlight search, just input keyword and enter
@@ -518,10 +537,16 @@ export default class SearchBar extends mixins(
     }
   }
 
+  onBlur() {
+    this.updateSearch(this.name)
+  }
+
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
-    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
+    if (value !== this.searchQuery) {
+      this.replaceUrl(value)
+    }
     this.redirectToGalleryPageIfNeed()
     return value
   }
@@ -571,7 +596,7 @@ export default class SearchBar extends mixins(
           first: this.first,
           offset: this.offset,
           denyList,
-          orderBy: this.query.sortBy,
+          orderBy: this.query.sortByMultiple,
           search: this.buildSearchParam(),
         },
       })
@@ -617,7 +642,7 @@ export default class SearchBar extends mixins(
           first: this.first,
           offset: this.offset,
           denyList,
-          orderBy: this.query.sortBy,
+          orderBy: this.query.sortByMultiple,
           search: this.buildSearchParam(),
         },
       })
@@ -656,14 +681,14 @@ export default class SearchBar extends mixins(
   }
 
   @Debounce(100)
-  replaceUrl(value: string, value2?, key = 'search', key2?): void {
+  replaceUrl(value: string | string[], value2?, key = 'search', key2?): void {
     this.$router
       .replace({
         path: String(this.$route.path),
         query: {
           page: '1',
           ...this.$route.query,
-          search: this.searchQuery,
+          search: this.searchQuery || undefined,
           [key]: value,
           [key2]: value2,
         },
@@ -710,12 +735,6 @@ export default class SearchBar extends mixins(
           .indexOf((this.searchString || '').toLowerCase()) >= 0
       )
     })
-  }
-
-  private oldSearchResult(value: string): boolean {
-    // whether this search exactly match the old search
-    const res = this.searched.filter((r) => r.name === value)
-    return !!res.length
   }
 
   private removeSearchHistory(value: string): void {

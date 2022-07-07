@@ -21,12 +21,16 @@ const apiPlugin = (store: Store<any>): void => {
       chainTokens,
       genesisHash,
     })
+
+    const ss58Format = correctFormat(chainSS58)
     store.dispatch('chain/setChainProperties', {
-      ss58Format: correctFormat(chainSS58),
+      ss58Format,
       tokenDecimals: chainDecimals[0] || 12,
       tokenSymbol: chainTokens[0] || 'Unit',
       genesisHash: genesisHash || '',
     })
+
+    store.dispatch('setCorrectAddressFormat', ss58Format)
 
     const nodeInfo = store.getters.availableNodes
       .filter((o: any) => o.value === store.state.setting.apiUrl)
@@ -45,7 +49,6 @@ const apiPlugin = (store: Store<any>): void => {
     console.log('[API] disconnected')
   })
 }
-
 const myPlugin = (store: Store<null>): void => {
   const { getInstance: Api } = Connector
 
@@ -56,7 +59,6 @@ const myPlugin = (store: Store<null>): void => {
     }
   })
 }
-
 export const state = () => ({
   loading: false,
   keyringLoaded: false,
