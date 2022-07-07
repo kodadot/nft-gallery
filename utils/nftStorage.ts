@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import { URLS } from './constants'
+import consola from 'consola'
 
 export const BASE_URL = URLS.koda.nftStorage
 
@@ -28,7 +29,7 @@ export const pinJson = async (object: Record<string, any>, name: string) => {
       `pinJson/${name}`,
       object
     )
-    console.log('[NFT::STORAGE] Pin JSON', status)
+    consola.log('[NFT::STORAGE] Pin JSON', status)
     if (status < 400) {
       return data.value.cid
     } else {
@@ -37,7 +38,7 @@ export const pinJson = async (object: Record<string, any>, name: string) => {
       )
     }
   } catch (e) {
-    console.warn(e)
+    consola.warn(e)
     throw e
   }
 }
@@ -45,10 +46,10 @@ export const pinJson = async (object: Record<string, any>, name: string) => {
 export const getKey = async (address: string): Promise<PinningKey> => {
   try {
     const { status, data } = await api.get<PinningKey>(`getKey/${address}`)
-    console.log('[NFT::STORAGE] Obtain', status)
+    consola.log('[NFT::STORAGE] Obtain', status)
     return data
   } catch (e) {
-    console.warn(e)
+    consola.warn(e)
     throw e
   }
 }
@@ -64,16 +65,16 @@ export const pinFileToIPFS = async (file: Blob, _: string): Promise<string> => {
         },
       }
     )
-    console.log('[NFT::STORAGE] Pin Image', status)
+    consola.log('[NFT::STORAGE] Pin File', status)
     if (status < 400) {
       return data.value.cid
     } else {
       throw new Error(
-        `[NFT::STORAGE] Unable to PIN Image for reasons ${status} ${data}`
+        `[NFT::STORAGE] Unable to PIN File for reasons ${status} ${data}`
       )
     }
   } catch (e) {
-    console.warn(e)
+    consola.warn(e)
     throw e
   }
 }
