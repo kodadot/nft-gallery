@@ -17,7 +17,7 @@
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
 
 @Component({})
-export default class extends Vue {
+export default class BasicDatePicker extends Vue {
   @VModel({ type: Date }) vValue!: Date
   @Prop({ type: String, required: true }) label!: string
   @Prop({ type: String, required: true }) placeholder!: string
