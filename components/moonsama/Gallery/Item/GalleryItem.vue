@@ -78,7 +78,11 @@
                         <Auth class="mt-4" evm />
                       </p>
                     </div>
-                    <Sharing class="mb-4" />
+                    <Sharing
+                      :current-gallery-item-image="
+                        $store.getters['history/getCurrentlyViewedItem']
+                      "
+                      class="mb-4" />
                   </div>
                 </div>
               </template>
