@@ -56,7 +56,11 @@
       <LazyHistoryBrowser
         class="custom-navbar-item navbar-link-background is-hidden-touch"
         id="NavHistoryBrowser" />
-      <b-navbar-dropdown arrowless collapsible id="NavCreate">
+      <b-navbar-dropdown
+        arrowless
+        collapsible
+        id="NavCreate"
+        v-show="isCreateVisible">
         <template #label>
           <span>{{ $t('create') }}</span>
         </template>
@@ -134,6 +138,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import Identity from '@/components/shared/format/Identity.vue'
 import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
+import { createVisible } from '@/utils/config/permision.config'
 
 import { identityStore } from '@/utils/idbStore'
 import { get } from 'idb-keyval'
@@ -171,6 +176,10 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
   get inUserProfilePage(): boolean {
     return this.$route.name === 'rmrk-u-id'
+  }
+
+  get isCreateVisible(): boolean {
+    return createVisible(this.urlPrefix)
   }
 
   get isTargetPage(): boolean {

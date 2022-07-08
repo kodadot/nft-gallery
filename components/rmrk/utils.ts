@@ -9,6 +9,8 @@ import { NFTMetadata, Collection, NFT, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
 import { justHash, Interaction } from '@kodadot1/minimark'
 import { logError } from '@/utils/mappers'
+import consola from 'consola'
+import { fastExtract } from '~/utils/ipfs'
 
 export const SQUARE = '::'
 export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/'
@@ -99,6 +101,15 @@ export const fetchMetadata = async <T>(
   }
 
   return emptyObject<T>()
+}
+
+export const preheatFileFromIPFS = async (ipfsUrl: string) => {
+  const url = sanitizeIpfsUrl(ipfsUrl, 'pinata')
+  const hash = fastExtract(url)
+  api
+    .get(url)
+    .then(() => consola.log(`[PREHEAT] ${hash}`))
+    .catch((err) => consola.warn(`[PREHEAT] ${hash} ${err.message}`))
 }
 
 export const unSanitizeArweaveId = (url: string): string => {
