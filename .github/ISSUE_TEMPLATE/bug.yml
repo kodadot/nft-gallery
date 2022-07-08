@@ -48,14 +48,6 @@ body:
         - Mobile Android Chrome
         - Mobile Firefox
   - type: dropdown
-    id: logged-in
-    attributes:
-      label: Are you logged in?
-      multiple: false
-      options:
-        - "Yes"
-        - "No"
-  - type: dropdown
     id: beta-yes-no
     attributes:
       label: At which address did you encounter bug?
@@ -64,7 +56,24 @@ body:
         - beta.kodadot.xyz
         - kodadot.xyz
   - type: dropdown
+    id: logged-in
+    attributes:
+      label: Are you logged in?
+      multiple: false
+      options:
+        - "Yes"
+        - "No"
+  - type: dropdown
     id: chain-selector
+    attributes:
+      label: Which wallet you are using? 
+      multiple: true
+      options:
+        - PolkadotJS
+        - Talisman
+        - Subwallet
+  - type: dropdown
+    id: wallet-selector
     attributes:
       label: At which chain did you encounter bug?
       multiple: true
