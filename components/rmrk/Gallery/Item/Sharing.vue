@@ -13,7 +13,7 @@
       </b-button>
 
       <b-button
-        v-if="currentGalleryItemImage"
+        v-if="showDownloadIcon"
         @click="downloadImage()"
         type="is-primary is-bordered-light share-button">
         <b-icon size="is-small" pack="fas" icon="download" />
@@ -100,11 +100,7 @@ const components = {
 export default class Sharing extends Vue {
   @Prop({ default: 'Check out this cool NFT on KodaDot' }) label!: string
   @Prop({ default: () => emptyIframe }) iframe!: IFrame
-  @Prop(Boolean) onlyCopyLink!: boolean
-  @Prop({ default: undefined }) currentGalleryItemImage!: {
-    image: string
-    name: string
-  }
+  @Prop(Boolean) showDownloadIcon!: boolean
 
   private active = false
 
@@ -150,9 +146,9 @@ export default class Sharing extends Vue {
     this.$buefy.toast.open(message)
   }
 
-  // get currentGalleryItemImage(): { image: string; name: string } {
-  //   return this.$store.getters['history/getCurrentlyViewedItem'] || {}
-  // }
+  get currentGalleryItemImage(): { image: string; name: string } {
+    return this.$store.getters['history/getCurrentlyViewedItem'] || {}
+  }
 
   public async shareTooltip(): Promise<void> {
     this.openFallbackShareTooltip()

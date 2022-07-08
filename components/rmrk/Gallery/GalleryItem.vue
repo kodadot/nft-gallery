@@ -18,7 +18,7 @@
             </p>
           </div>
           <div class="column">
-            <Sharing onlyCopyLink />
+            <Sharing show-download-icon />
           </div>
         </div>
       </b-message>
@@ -105,11 +105,7 @@
                     </p>
                   </div>
 
-                  <Sharing
-                    :current-gallery-item-image="
-                      $store.getters['history/getCurrentlyViewedItem']
-                    "
-                    class="mb-4" />
+                  <Sharing show-download-icon class="mb-4" />
                 </div>
               </div>
             </div>
