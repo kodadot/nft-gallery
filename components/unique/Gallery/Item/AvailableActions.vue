@@ -9,6 +9,7 @@
         :type="iconType(action)[0]"
         outlined
         expanded
+        class="only-border-top"
         @click="handleAction(action)">
         {{ action }}
       </b-button>
@@ -311,3 +312,11 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.only-border-top {
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+</style>
