@@ -18,8 +18,10 @@
         </b-button>
       </div>
     </div>
-
-    <CarouselCardList :nfts="nfts" />
+    <div v-if="isPassionFeedAllowed">
+      no results for {{ $t('general.newestListHeading') }}
+    </div>
+    <CarouselCardList v-else :nfts="nfts" />
   </div>
 </template>
 
@@ -44,9 +46,9 @@ const components = {
   components,
 })
 export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
-  @Prop({ type: Array, required: false, default: () => [] })
-  passionList: string[]
-
+  @Prop({ required: false, type: Array, default: () => [] })
+  passionList?: string[]
+  @Prop(Boolean) hasPassionFeed!: boolean
   private nfts: any[] = []
   private events: any[] = []
   private total = 0
@@ -55,34 +57,13 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
     return false
   }
 
+  get isPassionFeedAllowed(): boolean {
+    return this.hasPassionFeed
+  }
+
   async fetch() {
     this.fetchData()
   }
-  // mounted() {
-  //   setTimeout(async () => {
-  //     const queryVariables: {
-  //       limit: number
-  //       event: string
-  //       passionAccount?: string
-  //     } = {
-  //       limit: 10,
-  //       event: 'LIST',
-  //     }
-  //     if (this.isLogIn && this.passionList.length > 9) {
-  //       queryVariables.passionAccount = this.accountId
-  //     }
-  //     const result = await this.$apollo
-  //       .query<{
-  //         events: { meta; nft: { meta: { id; image } } }
-  //       }>({
-  //         query: lastNftListByEvent,
-  //         client: this.client,
-  //         variables: queryVariables,
-  //       })
-  //       .catch((e) => {
-  //         this.$consola.error(e)
-  //         return { data: null }
-  //       })
 
   @Watch('passionList')
   private onPassionList() {
@@ -98,7 +79,7 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
       limit: 10,
       event: 'LIST',
     }
-    if (this.isLogIn && this.passionList.length > 9) {
+    if (this.isLogIn) {
       queryVariables.passionAccount = this.accountId
     }
     const result = await this.$apollo

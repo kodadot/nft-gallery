@@ -47,10 +47,12 @@
           ></span
         >
         <LazyGalleryLatestSales
+          :hasPassionFeed="hasPassionFeed"
           :passionList="hasPassionFeed ? passionList : []"
           class="my-5" />
         <LazyGalleryPopularCollections class="my-5" />
         <LazyGalleryNewestList
+          :hasPassionFeed="hasPassionFeed"
           :passionList="hasPassionFeed ? passionList : []"
           class="my-5" />
       </div>

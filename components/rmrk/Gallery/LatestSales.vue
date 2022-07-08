@@ -18,8 +18,10 @@
           :perPage="1" />
       </div>
     </div>
-
-    <CarouselCardList :nfts="nfts" :page="currentValue" />
+    <div v-if="isPassionFeedAllowed">
+      no results for {{ $t('general.latestSales') }}
+    </div>
+    <CarouselCardList v-else :nfts="nfts" :page="currentValue" />
   </div>
 </template>
 
@@ -49,6 +51,8 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
   @Prop({ required: false, type: Array, default: () => [] })
   passionList?: string[]
 
+  @Prop(Boolean) hasPassionFeed!: boolean
+
   private nfts: any[] = []
   private events: any[] = []
   private currentValue = 1
@@ -56,6 +60,10 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
 
   get isLoading(): boolean {
     return false
+  }
+
+  get isPassionFeedAllowed(): boolean {
+    return this.hasPassionFeed
   }
 
   async fetch() {
