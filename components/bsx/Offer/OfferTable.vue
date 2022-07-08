@@ -20,7 +20,7 @@
       <Money :value="props.row.price" inline />
     </b-table-column>
     <b-table-column
-      v-if="isBsxStats"
+      v-if="!isBsxStats"
       cell-class="is-vcentered is-narrow"
       field="expiration"
       :label="$t('offer.expiration')"
