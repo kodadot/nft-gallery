@@ -44,9 +44,9 @@ body:
         - Firefox
         - Safari
         - Microsoft Edge
-        - [Mobile] Android Chrome
-        - [Mobile] iOS Safari
-        - [Mobile] Firefox
+        - Mobile Android Chrome
+        - Mobile iOS Safari
+        - Mobile Firefox
   - type: dropdown
     id: beta-yes-no
     attributes:
