@@ -12,6 +12,7 @@
           label="Price"
           expanded
           key="price"
+          :step="0.1"
           @input="updatePrice"
           class="mb-3" />
         <b-message
@@ -129,7 +130,7 @@ export default class CreateToken extends mixins(
   protected nsfw = false
   protected postfix = true
 
-  protected updatePrice(value: number) {
+  protected updatePrice(value: string) {
     this.price = value
   }
 
