@@ -13,6 +13,7 @@
         "
         outlined
         expanded
+        class="only-border-top"
         @click="handleActionSelect(action)">
         {{ actionLabel(action) }}
       </b-button>
@@ -51,3 +52,11 @@ export default class ActionList extends Vue {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.only-border-top {
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+</style>
