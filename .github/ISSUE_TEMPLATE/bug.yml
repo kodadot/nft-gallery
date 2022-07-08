@@ -63,6 +63,15 @@ body:
       options:
         - beta.kodadot.xyz
         - kodadot.xyz
+  - type: dropdown
+    id: chain-selector
+    attributes:
+      label: At which chain did you encounter bug?
+      multiple: true
+      options:
+        - Basilisk
+        - MoonSama
+        - RMRK
   - type: textarea
     id: Screenshots
     attributes:
