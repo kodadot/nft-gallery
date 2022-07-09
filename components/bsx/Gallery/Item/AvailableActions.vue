@@ -16,7 +16,10 @@
       :is="showMeta"
       @input="updateMeta"
       emptyOnError />
-    <SubmitButton v-if="showSubmit" @click="submit" :disabled="!isActionValid">
+    <SubmitButton
+      v-if="showSubmit"
+      @click="submit"
+      :disabled="disableSubmitButton">
       {{ $t('nft.action.submit', [selectedAction]) }}
     </SubmitButton>
   </div>
@@ -72,7 +75,7 @@ export default class AvailableActions extends mixins(
   private meta: string | number = ''
   public minimumOfferAmount = 0
   public isMakeOffersDisabled = true
-  public isActionValid = false
+  public isBalanceInputValid = false
   public tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
 
   get balance(): number {
@@ -81,6 +84,14 @@ export default class AvailableActions extends mixins(
 
   get actions() {
     return getActionList('bsx', this.isOwner, this.isAvailableToBuy)
+  }
+
+  get disableSubmitButton() {
+    if (this.selectedAction === ShoppingActions.MAKE_OFFER) {
+      return !this.isBalanceInputValid
+    }
+
+    return false
   }
 
   get isOwner(): boolean {
@@ -158,7 +169,7 @@ export default class AvailableActions extends mixins(
 
   protected updateMeta(value: string | number) {
     const balanceInputComponent = this.$refs.balanceInput as BalanceInput
-    this.isActionValid = balanceInputComponent.checkValidity()
+    this.isBalanceInputValid = balanceInputComponent.checkValidity()
     this.$consola.log(typeof value, value)
     this.meta = value
   }
