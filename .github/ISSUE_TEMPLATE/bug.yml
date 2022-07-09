@@ -40,13 +40,21 @@ body:
       label: What browsers are you seeing the problem on?
       multiple: true
       options:
-        - Firefox
         - Chrome
+        - Firefox
         - Safari
         - Microsoft Edge
-        - Mobile iOS Safari
         - Mobile Android Chrome
+        - Mobile iOS Safari
         - Mobile Firefox
+  - type: dropdown
+    id: beta-yes-no
+    attributes:
+      label: At which address did you encounter bug?
+      multiple: true
+      options:
+        - beta.kodadot.xyz
+        - kodadot.xyz
   - type: dropdown
     id: logged-in
     attributes:
@@ -56,13 +64,23 @@ body:
         - "Yes"
         - "No"
   - type: dropdown
-    id: beta-yes-no
+    id: chain-selector
     attributes:
-      label: At which address did you encounter bug?
+      label: Which wallet you are using? 
       multiple: true
       options:
-        - beta.kodadot.xyz
-        - kodadot.xyz
+        - PolkadotJS
+        - Talisman
+        - SubWallet
+  - type: dropdown
+    id: wallet-selector
+    attributes:
+      label: At which chain did you encounter bug?
+      multiple: true
+      options:
+        - Basilisk
+        - MoonSama
+        - RMRK
   - type: textarea
     id: Screenshots
     attributes:
