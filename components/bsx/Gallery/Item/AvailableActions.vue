@@ -76,7 +76,7 @@ export default class AvailableActions extends mixins(
   public tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
 
   get balance(): number {
-    return Number(this.$store.getters.getAuthBalance)
+    return this.formatBalance(this.$store.getters.getAuthBalance)
   }
 
   get actions() {
@@ -113,15 +113,14 @@ export default class AvailableActions extends mixins(
     return actionComponent[this.selectedAction]
   }
 
+  formatBalance(balance: string) {
+    return parseFloat(formatBalance(balance, 12, false).replace(/,/g, ''))
+  }
   public async created(): Promise<void> {
     onApiConnect(() => {
       const { api } = Connector.getInstance()
-      this.minimumOfferAmount = parseFloat(
-        formatBalance(
-          api?.consts?.marketplace?.minimumOfferAmount?.toString(),
-          12,
-          false
-        ).replace(/,/g, '')
+      this.minimumOfferAmount = this.formatBalance(
+        api?.consts?.marketplace?.minimumOfferAmount?.toString()
       )
       this.isMakeOffersDisabled =
         !this.isMakeOffersAllowed || this.minimumOfferAmount > this.balance
