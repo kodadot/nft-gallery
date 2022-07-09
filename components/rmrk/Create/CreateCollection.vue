@@ -53,7 +53,7 @@ import { unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { canSupport } from '@/utils/support'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
 import { uploadDirect } from '@/utils/directUpload'
 import AuthMixin from '@/utils/mixins/authMixin'
 import {
