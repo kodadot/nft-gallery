@@ -148,7 +148,7 @@ import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
 import { isEmpty } from '@kodadot1/minimark'
 import { royaltyOf } from '@/utils/royalty'
 import { generateNftImage } from '~/utils/seoImageGenerator'
-import { formatBalanceEmptyOnZero } from '~/utils/format/balance'
+import { formatBsxBalanceEmptyOnZero } from '~/utils/format/balance'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -224,7 +224,7 @@ export default class GalleryItem extends mixins(
   get image(): string {
     return generateNftImage(
       this.nft.name,
-      formatBalanceEmptyOnZero(this.nft.price as string, 0, 'BSX'),
+      formatBsxBalanceEmptyOnZero(this.nft.price as string),
       this.meta.image as string,
       this.mimeType
     )

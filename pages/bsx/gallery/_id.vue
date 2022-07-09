@@ -6,8 +6,6 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 import GalleryItem from '@/components/bsx/Gallery/Item/GalleryItem.vue'
-import { generateNftImage } from '@/utils/seoImageGenerator'
-import { formatBsxBalanceEmptyOnZero } from '@/utils/format/balance'
 
 @Component<GalleryItemPage>({
   name: 'GalleryItemPage',
@@ -15,16 +13,7 @@ import { formatBsxBalanceEmptyOnZero } from '@/utils/format/balance'
     GalleryItem,
   },
   head() {
-    const title = this.currentlyViewedItem.title
-    const metaData = {
-      title,
-      type: 'profile',
-      description: this.currentlyViewedItem.description,
-      url: this.$route.path,
-      image: this.image,
-    }
     return {
-      title,
       link: [
         {
           hid: 'canonical',
@@ -32,29 +21,8 @@ import { formatBsxBalanceEmptyOnZero } from '@/utils/format/balance'
           href: this.$root.$config.baseUrl + this.$route.path,
         },
       ],
-      meta: [
-        ...this.$seoMeta(metaData),
-        {
-          hid: 'og:author',
-          property: 'og:author',
-          content: this.currentlyViewedItem.author,
-        },
-      ],
     }
   },
 })
-export default class GalleryItemPage extends Vue {
-  get currentlyViewedItem() {
-    return this.$store.getters['history/getCurrentlyViewedItem']
-  }
-
-  get image(): string {
-    return generateNftImage(
-      this.currentlyViewedItem.name,
-      formatBsxBalanceEmptyOnZero(this.currentlyViewedItem.price),
-      this.currentlyViewedItem.image,
-      this.currentlyViewedItem.mimeType
-    )
-  }
-}
+export default class GalleryItemPage extends Vue {}
 </script>

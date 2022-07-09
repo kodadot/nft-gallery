@@ -16,12 +16,19 @@ export const formatBsxBalanceEmptyOnZero = (
   decimals?: number,
   symbol?: string
 ) => {
-  return amount === '0'
-    ? ''
-    : Number(
-        formatBalance(amount, decimals || 12, symbol || 'KSM')
-      ).toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })
+  if (amount === '0' || amount == undefined) {
+    return ''
+  }
+
+  const formatedBalance = formatBalance(amount, decimals || 12, symbol || 'BSX')
+  const number = Number(formatedBalance.split(' ')[0].replace(/,/g, ''))
+  const hasDecimals = number % 1 !== 0
+  const fractionDigits = hasDecimals ? decimals : 0
+
+  return (
+    number.toLocaleString(undefined, {
+      minimumFractionDigits: fractionDigits,
+      maximumFractionDigits: fractionDigits,
+    }) + ' BSX'
+  )
 }
