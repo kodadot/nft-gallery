@@ -54,8 +54,9 @@
       v-slot="props"
       sortable>
       <nuxt-link :to="`gallery/${props.row.nft.id}`">
-        <p v-if="props.row.nft.name">{{ props.row.nft.name }}</p>
-        <p v-else>{{ props.row.nft.id }}</p>
+        <p class="limit-width-text">
+          {{ props.row.nft.name ? props.row.nft.name : props.row.nft.id }}
+        </p>
       </nuxt-link>
     </b-table-column>
     <b-table-column
@@ -127,3 +128,10 @@ export default class OfferTable extends Vue {
   }
 }
 </script>
+<style scoped>
+.limit-width-text {
+  max-width: 50ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>
