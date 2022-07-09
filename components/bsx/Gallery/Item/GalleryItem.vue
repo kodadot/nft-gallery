@@ -99,7 +99,7 @@
                         <Auth class="mt-4" />
                       </p>
                     </div>
-                    <Sharing enableDownload class="mb-4" />
+                    <Sharing :enableDownload="isOwner" class="mb-4" />
                   </div>
                 </div>
               </template>

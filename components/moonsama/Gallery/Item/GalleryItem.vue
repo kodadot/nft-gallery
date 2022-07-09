@@ -17,7 +17,7 @@
             </p>
           </div>
           <div class="column">
-            <Sharing enableDownload />
+            <Sharing :enableDownload="isOwner" />
           </div>
         </div>
       </b-message>
