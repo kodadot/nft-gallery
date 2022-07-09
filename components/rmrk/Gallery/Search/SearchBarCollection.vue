@@ -142,9 +142,9 @@ export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
   @Emit('update:listed')
   @Debounce(50)
   updateListed(value: string | boolean): boolean {
-    const v = String(value)
+    const v = String(value) === 'true'
     this.replaceUrl(v, 'listed')
-    return v === 'true'
+    return String(value) === 'true'
   }
 
   @Emit('update:owned')
@@ -177,14 +177,14 @@ export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
   }
 
   @Debounce(100)
-  replaceUrl(value: string, key = 'search'): void {
+  replaceUrl(value: boolean | string, key = 'search'): void {
     this.$router
       .replace({
         path: String(this.$route.path),
         query: {
           ...this.$route.query,
           search: this.searchQuery || undefined,
-          [key]: value,
+          [key]: value ? String(value) : undefined,
         },
       })
       .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
