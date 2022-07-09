@@ -62,6 +62,7 @@ export default class AvailableActions extends mixins(
   @Prop(String) public nftId!: string
   @Prop(String) public collectionId!: string
   @Prop(Boolean) public isMakeOffersAllowed!: boolean
+  @Prop(Boolean) public isOwner!: boolean
   @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
   private selectedAction: ShoppingActions | '' = ''
@@ -77,20 +78,6 @@ export default class AvailableActions extends mixins(
 
   get actions() {
     return getActionList('bsx', this.isOwner, this.isAvailableToBuy)
-  }
-
-  get isOwner(): boolean {
-    this.$consola.log(
-      '{ currentOwnerId, accountId }',
-      this.currentOwnerId,
-      this.accountId
-    )
-
-    return Boolean(
-      this.currentOwnerId &&
-        this.accountId &&
-        isSameAccount(this.currentOwnerId, this.accountId)
-    )
   }
 
   get showSubmit() {
@@ -226,3 +213,11 @@ export default class AvailableActions extends mixins(
   }
 }
 </script>
+
+<style scoped>
+.only-border-top {
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+</style>

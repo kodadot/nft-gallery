@@ -18,7 +18,7 @@
             </p>
           </div>
           <div class="column">
-            <Sharing show-download-icon />
+            <Sharing :enableDownload="isOwner" />
           </div>
         </div>
       </b-message>
@@ -86,6 +86,7 @@
                         <AvailableActions
                           ref="actions"
                           :current-owner-id="nft.currentOwner"
+                          :isOwer="isOwner"
                           :price="nft.price"
                           :originialOwner="nft.issuer"
                           :nft-id="nft.id"
@@ -105,7 +106,7 @@
                     </p>
                   </div>
 
-                  <Sharing show-download-icon class="mb-4" />
+                  <Sharing :enableDownload="isOwner" class="mb-4" />
                 </div>
               </div>
             </div>
@@ -160,6 +161,7 @@ import Orientation from '@/utils/directives/DeviceOrientation'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { Debounce } from 'vue-debounce-decorator'
 import AvailableActions from './AvailableActions.vue'
+import { isOwner } from '~/utils/account'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -289,6 +291,10 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   public setPriceChartData(data: [Date, number][][]) {
     this.priceChartData = data
+  }
+
+  get isOwner(): boolean {
+    return isOwner(this.nft.currentOwner, this.accountId)
   }
 
   @Debounce(500)

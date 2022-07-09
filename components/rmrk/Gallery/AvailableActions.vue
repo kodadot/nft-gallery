@@ -120,6 +120,7 @@ export default class AvailableActions extends mixins(
   @Prop() public originialOwner!: string
   @Prop() public price!: string
   @Prop() public nftId!: string
+  @Prop(Boolean) public isOwner!: boolean
   @Prop({ default: () => [] }) public ipfsHashes!: string[]
   @Prop({ default: false }) public buyDisabled!: boolean
   private selectedAction: ShoppingActions | '' = ''
@@ -233,20 +234,6 @@ export default class AvailableActions extends mixins(
 
   get isActionEmpty() {
     return this.selectedAction === ''
-  }
-
-  get isOwner(): boolean {
-    this.$consola.log(
-      '{ currentOwnerId, accountId }',
-      this.currentOwnerId,
-      this.accountId
-    )
-
-    return Boolean(
-      this.currentOwnerId &&
-        this.accountId &&
-        this.currentOwnerId === this.accountId
-    )
   }
 
   get isAvailableToBuy(): boolean {

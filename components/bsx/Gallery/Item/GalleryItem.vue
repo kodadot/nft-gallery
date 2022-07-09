@@ -17,7 +17,7 @@
             </p>
           </div>
           <div class="column">
-            <Sharing show-download-icon />
+            <Sharing :enableDownload="isOwner" />
           </div>
         </div>
       </b-message>
@@ -82,6 +82,7 @@
                         <AvailableActions
                           ref="actions"
                           :account-id="accountId"
+                          :isOwer="isOwner"
                           :current-owner-id="nft.currentOwner"
                           :price="nft.price"
                           :nftId="id"
@@ -98,7 +99,7 @@
                         <Auth class="mt-4" />
                       </p>
                     </div>
-                    <Sharing show-download-icon class="mb-4" />
+                    <Sharing enableDownload class="mb-4" />
                   </div>
                 </div>
               </template>
@@ -147,6 +148,7 @@ import resolveQueryPath from '~/utils/queryPathResolver'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
 import { isEmpty } from '@kodadot1/minimark'
 import { royaltyOf } from '@/utils/royalty'
+import { isOwner } from '~/utils/account'
 
 @Component<GalleryItem>({
   components: {
@@ -194,6 +196,10 @@ export default class GalleryItem extends mixins(
         this.subscribe(getPrice(api), this.tokenId, this.observePrice)
       }
     })
+  }
+
+  get isOwner(): boolean {
+    return isOwner(this.nft.currentOwner, this.accountId)
   }
 
   get tokenId(): [string, string] {

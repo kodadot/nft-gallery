@@ -13,7 +13,7 @@
       </b-button>
 
       <b-button
-        v-if="showDownloadIcon"
+        v-if="enableDownload"
         @click="downloadImage()"
         type="is-primary is-bordered-light share-button">
         <b-icon size="is-small" pack="fas" icon="download" />
@@ -100,7 +100,7 @@ const components = {
 export default class Sharing extends Vue {
   @Prop({ default: 'Check out this cool NFT on KodaDot' }) label!: string
   @Prop({ default: () => emptyIframe }) iframe!: IFrame
-  @Prop(Boolean) showDownloadIcon!: boolean
+  @Prop(Boolean) enableDownload!: boolean
 
   private active = false
 
