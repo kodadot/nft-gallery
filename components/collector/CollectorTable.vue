@@ -112,7 +112,7 @@
         :label="$t('collector.score')"
         numeric>
         <template v-slot:header="{ column }">
-          <b-tooltip label="sold * (unique / total)" dashed>
+          <b-tooltip label="total bought / nft sold" dashed>
             {{ column.label }}
           </b-tooltip>
         </template>
@@ -136,7 +136,7 @@
       </b-table-column>
 
       <template #detail="props">
-        <CollectorDetail v-if="props.row.total" :account="props.row.id" />
+        <CollectorDetail v-if="props.row.id" :account="props.row.id" />
         <div v-else class="has-text-centered">{{ $t('collector.empty') }}</div>
       </template>
 
@@ -194,8 +194,8 @@ export default class CollectorTable extends mixins(
   protected data: Row[] = []
   protected onlyWithIdentity = this.$route.query?.identity || false
   protected currentPage = 1
-  protected limit = 20
-  protected sortBy: SortType = { field: 'total', value: 'DESC' }
+  protected limit = 100
+  protected sortBy: SortType = { field: 'volume', value: 'DESC' }
   protected columns: Column[] = [
     { field: 'id', label: this.$t('collector.id') },
     { field: 'total', label: this.$t('collector.total'), numeric: true },
@@ -277,8 +277,7 @@ export default class CollectorTable extends mixins(
         // denyList, not yet
         limit: this.limit,
         offset: (this.currentPage - 1) * this.limit,
-        orderBy: this.sortBy.field,
-        orderDirection: this.sortBy.value,
+        orderBy: `${this.sortBy.field}_${this.sortBy.value}`,
       },
     })
 
@@ -369,7 +368,7 @@ export default class CollectorTable extends mixins(
       value: order === 'desc' ? 'DESC' : 'ASC',
     }
     this.replaceUrl((order === 'desc' ? '-' : '+') + field, 'sort')
-    this.fetchSpotlightData(toSort(sort))
+    this.fetchCollectorData(toSort(sort))
   }
 
   @Debounce(100)

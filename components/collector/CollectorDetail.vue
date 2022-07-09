@@ -10,7 +10,8 @@
 import { Component, Prop, mixins, Watch } from 'nuxt-property-decorator'
 import shouldUpdate from '@/utils/shouldUpdate'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import nftSimpleListByAccount from '@/queries/nftSimpleListByAccount.graphql'
+// import nftSimpleListByAccount from '@/queries/nftSimpleListByAccount.graphql'
+import nftListByOwner from '@/queries/subsquid/general/nftListByOwner.graphql'
 
 const components = {
   GalleryCard: () => import('@/components/rmrk/Gallery/GalleryCard.vue'),
@@ -26,24 +27,23 @@ type NftSimpleView = {
 export default class CollectorDetail extends mixins(PrefixMixin) {
   @Prop(String) public account!: string
   protected nfts: NftSimpleView[] = []
+  protected nftsConnection: NftSimpleView[] = []
   protected isLoading = true
 
   protected async fetchNFT(account: string) {
     const nfts = await this.$apollo.query({
-      query: nftSimpleListByAccount,
-      client: this.client,
+      query: nftListByOwner,
+      client: 'subsquid',
       variables: {
         account,
-        first: 4,
+        limit: 4,
       },
-      fetchPolicy: 'network-only',
+      // fetchPolicy: 'network-only',
     })
-
     const {
-      data: { nFTEntities },
+      data: { nftEntities },
     } = nfts
-
-    this.nfts = nFTEntities?.nodes || []
+    this.nfts = nftEntities || []
   }
 
   @Watch('account', { immediate: true })
