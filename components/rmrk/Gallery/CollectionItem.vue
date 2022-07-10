@@ -301,13 +301,12 @@ export default class CollectionItem extends mixins(
     }
 
     if (this.searchQuery.listed || checkForEmpty) {
-      const prefix = this.$store.getters.currentUrlPrefix
-      if (prefix === 'bsx') {
-        params.push({ price_gt: '0' })
-      } else {
+      if (this.urlPrefix === 'rmrk') {
         params.push({
           price: { greaterThan: '0' },
         })
+      } else {
+        params.push({ price_gt: '0' })
       }
     }
 

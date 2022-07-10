@@ -142,17 +142,17 @@ export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
   @Emit('update:listed')
   @Debounce(50)
   updateListed(value: string | boolean): boolean {
-    const v = String(value) === 'true'
-    this.replaceUrl(v, 'listed')
+    const queryValue = String(value) === 'true'
+    this.replaceUrl(queryValue, 'listed')
     return String(value) === 'true'
   }
 
   @Emit('update:owned')
   @Debounce(50)
   updateOwned(value: string | boolean): boolean {
-    const v = value ? String(value) : ''
-    this.replaceUrl(v, 'owned')
-    return Boolean(v)
+    const queryValue = value ? String(value) : ''
+    this.replaceUrl(queryValue, 'owned')
+    return Boolean(queryValue)
   }
 
   @Emit('update:type')
