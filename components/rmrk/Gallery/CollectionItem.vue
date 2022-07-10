@@ -471,7 +471,7 @@ export default class CollectionItem extends mixins(
     { data }: any,
     loadDirection = 'down'
   ): Promise<void> {
-    const { collectionEntity } = data
+    const { collectionEntity, nftEntitiesConnection } = data
     if (!collectionEntity) {
       return this.$nuxt.error({
         statusCode: 404,
@@ -498,7 +498,8 @@ export default class CollectionItem extends mixins(
     } else {
       this.nfts = this.nfts.concat(newNfts)
     }
-    this.total = collectionEntity.nfts.totalCount
+    this.total =
+      collectionEntity.nfts.totalCount || nftEntitiesConnection.totalCount
     this.isLoading = false
 
     await this.fetchMetadata()
