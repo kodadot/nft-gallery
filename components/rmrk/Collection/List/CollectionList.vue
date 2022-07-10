@@ -120,10 +120,10 @@ export default class CollectionList extends mixins(
   private placeholder = '/placeholder.webp'
   private isLoading = true
   private searchQuery: SearchQuery = {
-    search: (this.$route.query.search as string) ?? '',
-    type: (this.$route.query.type as string) ?? '',
-    sortBy: (this.$route.query.sort as string) ?? 'blockNumber_DESC',
-    listed: (this.$route.query.listed as string) === 'true',
+    search: this.$route.query?.search?.toString() ?? '',
+    type: this.$route.query?.type?.toString() ?? '',
+    sortBy: this.$route.query?.sort?.toString() ?? 'blockNumber_DESC',
+    listed: this.$route.query?.listed?.toString() === 'true',
   }
   private collectionSortOption: string[] = [
     'blockNumber_DESC',
