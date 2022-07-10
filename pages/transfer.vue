@@ -3,7 +3,7 @@
     <Loader v-model="isLoading" :status="status" />
     <nuxt-link
       v-if="$route.query.target"
-      :to="`/${chainPrefix}/u/${correctAddress}`"
+      :to="`/${this.urlPrefix}/u/${correctAddress}`"
       class="linkartist">
       <b-icon icon="chevron-left" size="is-small" class="linkartist--icon" />
       Go to artist's profile
@@ -138,6 +138,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
+import prefixMixin from '@/utils/mixins/prefixMixin'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { calculateBalance } from '@/utils/formatBalance'
 import correctFormat from '@/utils/ss58Format'
@@ -161,7 +162,8 @@ import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
 export default class Transfer extends mixins(
   TransactionMixin,
   AuthMixin,
-  ChainMixin
+  ChainMixin,
+  prefixMixin
 ) {
   protected destinationAddress = ''
   protected transactionValue = ''
@@ -201,15 +203,7 @@ export default class Transfer extends mixins(
   }
 
   get isBSX(): boolean {
-    return this.unit === 'BSX'
-  }
-
-  get chainPrefix() {
-    if (this.isBSX) {
-      return 'bsx'
-    } else {
-      return 'rmrk'
-    }
+    return this.urlPrefix === 'bsx'
   }
 
   get balance(): string {
