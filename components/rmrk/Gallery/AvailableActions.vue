@@ -399,6 +399,7 @@ export default class AvailableActions extends mixins(
 }
 </script>
 <style scoped lang="scss">
+@import '@/styles/border';
 .joy {
   font-size: 16px;
   margin-top: 2px;
@@ -419,10 +420,5 @@ export default class AvailableActions extends mixins(
       width: 100%;
     }
   }
-}
-.only-border-top {
-  border-bottom: none;
-  border-left: none;
-  border-right: none;
 }
 </style>

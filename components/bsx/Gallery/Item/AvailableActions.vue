@@ -213,11 +213,3 @@ export default class AvailableActions extends mixins(
   }
 }
 </script>
-
-<style scoped>
-.only-border-top {
-  border-bottom: none;
-  border-left: none;
-  border-right: none;
-}
-</style>

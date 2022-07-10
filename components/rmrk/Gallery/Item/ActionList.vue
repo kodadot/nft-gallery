@@ -54,9 +54,5 @@ export default class ActionList extends Vue {
 </script>
 
 <style scoped lang="scss">
-.only-border-top {
-  border-bottom: none;
-  border-left: none;
-  border-right: none;
-}
+@import '@/styles/border';
 </style>

@@ -300,10 +300,6 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
 }
 </script>
 
-<style scoped>
-.only-border-top {
-  border-bottom: none;
-  border-left: none;
-  border-right: none;
-}
+<style scoped lang="scss">
+@import '@/styles/border';
 </style>
