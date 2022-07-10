@@ -5,7 +5,7 @@
     <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
       <template v-slot:next-filter>
         <b-switch
-          v-if="isLogIn"
+          v-if="isLogIn && !isBsx"
           class="gallery-switch"
           v-model="hasPassionFeed"
           :rounded="false">
@@ -159,6 +159,11 @@ export default class Gallery extends mixins(
   private isLoading = true
   private hasPassionFeed = false
   private passionList: string[] = []
+
+  // hiding until passion feet gets implemented for bsx
+  get isBsx() {
+    return this.urlPrefix === 'bsx'
+  }
 
   get showPriceValue(): boolean {
     return (
