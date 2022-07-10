@@ -205,11 +205,10 @@ export default class Transfer extends mixins(
   }
 
   get chainPrefix() {
-    if (this.isKSM) {
-      return 'rmrk'
-    }
     if (this.isBSX) {
       return 'bsx'
+    } else {
+      return 'rmrk'
     }
   }
 
