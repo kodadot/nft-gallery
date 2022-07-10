@@ -3,15 +3,15 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
-      <template v-slot:next-filter>
-        <b-switch
-          v-if="isLogIn && !isBsx"
-          class="gallery-switch"
-          v-model="hasPassionFeed"
-          :rounded="false">
-          Passion Feed
-        </b-switch>
-      </template>
+      <!--      <template v-slot:next-filter>-->
+      <!--        <b-switch-->
+      <!--          v-if="isLogIn"-->
+      <!--          class="gallery-switch"-->
+      <!--          v-model="hasPassionFeed"-->
+      <!--          :rounded="false">-->
+      <!--          Passion Feed-->
+      <!--        </b-switch>-->
+      <!--      </template>-->
       <Pagination
         hasMagicBtn
         simple
@@ -159,11 +159,6 @@ export default class Gallery extends mixins(
   private isLoading = true
   private hasPassionFeed = false
   private passionList: string[] = []
-
-  // hiding until passion feet gets implemented for bsx
-  get isBsx() {
-    return this.urlPrefix === 'bsx'
-  }
 
   get showPriceValue(): boolean {
     return (
