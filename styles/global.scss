@@ -97,10 +97,20 @@ body {
     color: $lightpink;
   }
 
-  .message.is-primary {
-    background-color: $primary-light !important;
+  .button.is-text {
+    &:hover {
+      background-color: $grey-darker;
+    }
+
+    &:focus {
+      background-color: $grey-darker;
+      border: none;
+    }
   }
 
+  .icon.is-primary {
+    color: $primary !important;
+  }
   .navbar-start .nuxt-link-active {
     color: $primary;
     background-color: #121212;
@@ -123,8 +133,9 @@ body {
     color: $primary-light;
   }
 
-  .message.is-primary .message-body {
-    color: $primary-light !important;
+  .message.is-primary .message-body,
+  .message.is-primary .icon {
+    color: $white !important;
   }
 
   .b-tabs .tab-content {

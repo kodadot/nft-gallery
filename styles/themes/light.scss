@@ -1,6 +1,15 @@
 html.light-mode {
 	background-color: $background-light;
 
+	a {
+		color: $primary;
+	}
+
+	a:hover {
+		color: $primary-light;
+	}
+
+
 	body,
 	div#__nuxt,
 	div#__layout,
@@ -123,5 +132,15 @@ html.light-mode {
 	.scroll-top-button {
 		color: $text-light-theme;
 		background-color: #fff;
+	}
+
+	.carousel-card-list .card {
+		box-shadow: -8px 4px 8px #f3f3f3;
+		border-color: #f3f3f3;
+		background-color: #fff;
+
+		.card-footer {
+			color: $text-light-theme;
+		}
 	}
 }

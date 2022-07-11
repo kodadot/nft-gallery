@@ -4,15 +4,19 @@
     <ActionList
       v-if="accountId"
       :actions="actions"
-      :isMakeOffersAllowed="isMakeOffersAllowed"
+      :isMakeOffersAllowed="!isMakeOffersDisabled"
+      :tooltipOfferLabel="tooltipOfferLabel"
       @click="handleAction" />
     <component
+      ref="balanceInput"
       class="mb-4"
       v-if="showMeta"
+      :min="minimumOfferAmount"
+      :max="balance"
       :is="showMeta"
       @input="updateMeta"
       emptyOnError />
-    <SubmitButton v-if="showSubmit" @click="submit">
+    <SubmitButton v-if="showSubmit" @click="submit" :disabled="!isActionValid">
       {{ $t('nft.action.submit', [selectedAction]) }}
     </SubmitButton>
   </div>
@@ -38,6 +42,9 @@ import {
 import shouldUpdate from '@/utils/shouldUpdate'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import formatBalance from '@/utils/formatBalance'
+import onApiConnect from '@/utils/api/general'
+import BalanceInput from '@/components/shared/BalanceInput.vue'
 
 const components = {
   ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
@@ -63,6 +70,14 @@ export default class AvailableActions extends mixins(
 
   private selectedAction: ShoppingActions | '' = ''
   private meta: string | number = ''
+  public minimumOfferAmount = 0
+  public isMakeOffersDisabled = true
+  public isActionValid = false
+  public tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
+
+  get balance(): number {
+    return this.formatBalance(this.$store.getters.getAuthBalance)
+  }
 
   get actions() {
     return getActionList('bsx', this.isOwner, this.isAvailableToBuy)
@@ -98,6 +113,26 @@ export default class AvailableActions extends mixins(
     return actionComponent[this.selectedAction]
   }
 
+  formatBalance(balance: string) {
+    return parseFloat(formatBalance(balance, 12, false).replace(/,/g, ''))
+  }
+  public async created(): Promise<void> {
+    onApiConnect(() => {
+      const { api } = Connector.getInstance()
+      this.minimumOfferAmount = this.formatBalance(
+        api?.consts?.marketplace?.minimumOfferAmount?.toString()
+      )
+      this.isMakeOffersDisabled =
+        !this.isMakeOffersAllowed || this.minimumOfferAmount > this.balance
+
+      if (!this.isMakeOffersAllowed) {
+        this.tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
+      } else if (this.minimumOfferAmount > this.balance) {
+        this.tooltipOfferLabel = this.$t('tooltip.makeOfferNotEnoughBalance')
+      }
+    })
+  }
+
   protected iconType(value: string) {
     return iconResolver[value]
   }
@@ -121,6 +156,8 @@ export default class AvailableActions extends mixins(
   }
 
   protected updateMeta(value: string | number) {
+    const balanceInputComponent = this.$refs.balanceInput as BalanceInput
+    this.isActionValid = balanceInputComponent.checkValidity()
     this.$consola.log(typeof value, value)
     this.meta = value
   }

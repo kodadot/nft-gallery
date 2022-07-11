@@ -98,6 +98,10 @@
                         <Auth class="mt-4" />
                       </p>
                     </div>
+                    <p class="subtitle is-size-6" v-if="accountId">
+                      <span>{{ $t('general.balance') }}: </span>
+                      <Money :value="balance" inline />
+                    </p>
                     <Sharing class="mb-4" />
                   </div>
                 </div>
@@ -196,6 +200,10 @@ export default class GalleryItem extends mixins(
     })
   }
 
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
+  }
+
   get tokenId(): [string, string] {
     return [this.collectionId, this.id]
   }
@@ -278,10 +286,10 @@ export default class GalleryItem extends mixins(
         ? cachedMeta
         : await fetchNFTMetadata(
             this.nft,
-            getSanitizer(this.nft.metadata, 'cloudflare', 'permafrost')
+            getSanitizer(this.nft.metadata, 'pinata', 'permafrost')
           )
 
-      const imageSanitizer = getSanitizer(meta.image, 'cloudflare')
+      const imageSanitizer = getSanitizer(meta.image, 'pinata')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),

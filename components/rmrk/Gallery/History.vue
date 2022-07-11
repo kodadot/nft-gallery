@@ -110,12 +110,9 @@
               :label="props.row.Date"
               position="is-right"
               append-to-body>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="getBlockUrl(props.row.Block)">
-                {{ props.row.Time }}</a
-              >
+              <BlockExplorerLink
+                :blockId="props.row.Block"
+                :text="props.row.Time" />
             </b-tooltip>
           </b-table-column>
         </b-table>
@@ -125,7 +122,6 @@
 </template>
 
 <script lang="ts">
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction as EventInteraction } from '../service/scheme'
@@ -147,6 +143,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
+  BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }
 
 type TableRowItem = {
@@ -392,14 +389,6 @@ export default class History extends mixins(
 
   private parsePrice(amount): string {
     return parseAmount(amount, this.decimals, this.unit)
-  }
-
-  protected getBlockUrl(block: string): string {
-    return urlBuilderBlockNumber(
-      block,
-      this.$store.getters['explorer/getCurrentChain'],
-      'subscan'
-    )
   }
 
   @Watch('events', { immediate: true })

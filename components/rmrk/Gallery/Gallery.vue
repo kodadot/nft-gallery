@@ -115,10 +115,8 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import { NFTMetadata } from '../service/scheme'
 import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
-import shouldUpdate from '~/utils/shouldUpdate'
 import resolveQueryPath from '~/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { notificationTypes, showNotification } from '@/utils/notification'
 
 import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
@@ -286,11 +284,16 @@ export default class Gallery extends mixins(
   }
 
   protected async handleResult(
-    { data }: WithData<GraphResponse>,
+    {
+      data,
+    }: WithData<
+      GraphResponse & { nftEntitiesConnection: { totalCount: number } }
+    >,
     loadDirection = 'down'
   ) {
     const { nFTEntities } = data
-    this.total = nFTEntities.totalCount
+    this.total =
+      nFTEntities.totalCount || data.nftEntitiesConnection?.totalCount
 
     const newNfts = unwrapSafe(nFTEntities).map((e: any) => ({
       ...e,
@@ -310,6 +313,7 @@ export default class Gallery extends mixins(
       Vue.set(this.nfts, i, {
         ...this.nfts[i],
         ...meta,
+        id: this.nfts[i].id,
         image:
           imageLinks[
             fastExtract(
@@ -408,7 +412,7 @@ export default class Gallery extends mixins(
 
   @Watch('$route.query.search')
   protected onSearchChange(val: string, oldVal: string) {
-    if (shouldUpdate(val, oldVal)) {
+    if (val !== oldVal) {
       this.resetPage()
       this.searchQuery.search = val || ''
     }

@@ -407,6 +407,7 @@
     "shareWithFriends": "Share {0} with your friends",
     "unlimited": "Unlimited items in in your collection",
     "nfsw": "Explicit content (NSFW)",
+    "listForSale": "List NFT for sale",
     "mass": "NFT mass minter",
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
@@ -421,7 +422,7 @@
     },
     "royalty": {
       "rate": "Royalty Rate",
-      "mine": "Pay royalty to this account",
+      "mine": "Pay royalties to the creator account",
       "receiver": "Destination account for royalty"
     },
     "collection": {
@@ -474,7 +475,8 @@
     "buyDisabled": "Not enough balance",
     "holdings": "Nfts owned by",
     "gains": "Gained by",
-    "makeOfferDisabled": "You have already made an offer for this NFT"
+    "makeOfferDisabled": "You have already made an offer for this NFT",
+    "makeOfferNotEnoughBalance": "You do not have enough funds"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
@@ -492,14 +494,15 @@
       "CONSUME": "BURN",
       "BUY": "BUY",
       "MAKE_OFFER": "MAKE OFFER",
+      "DOWNLOAD": "DOWNLOAD",
       "ROYALTY": "ROYALTY",
-      "PAY_ROYALTY": "PAY_ROYALTY"
+      "PAY_ROYALTY": "PAY ROYALTY"
     },
     "action": {
       "submit": "Submit {0}"
     },
     "properties": {
-      "label": "Properties"
+      "label": "Traits"
     },
     "offer": {
       "label": "Offers ({0})",

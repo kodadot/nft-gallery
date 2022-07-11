@@ -30,6 +30,7 @@
           max-height="550px"
           dropdown-position="is-bottom-left"
           expanded
+          @blur="onBlur"
           @typing="updateSuggestion"
           @keydown.native.enter="nativeSearch"
           @focus="fetchSuggestionsOnce"
@@ -119,7 +120,7 @@
           multipleSelect
           class="column is-4 mb-0"
           :value="sortByMultiple"
-          @input="updateSortBy" />
+          @input="updateSortBy($event, sortByMultiple)" />
         <BasicSwitch
           class="is-flex column is-4"
           v-model="vListed"
@@ -158,7 +159,6 @@ import { SearchQuery, SearchSuggestion } from './types'
 import { denyList } from '@/utils/constants'
 import { NFT, NFTWithMeta, CollectionWithMeta } from '../../service/scheme'
 import { getSanitizer } from '../../utils'
-import shouldUpdate from '~/utils/shouldUpdate'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { mapNFTorCollectionMetadata } from '~/utils/mappers'
@@ -363,13 +363,9 @@ export default class SearchBar extends mixins(
   get autocompleteFooterShow() {
     const searchResultExist =
       this.nftResult.length > 0 || this.collectionResult.length > 0
-    if (
-      searchResultExist &&
-      this.searchSuggestionEachTypeMaxNum !== this.bigNum
-    ) {
-      return true
-    }
-    return false
+    return (
+      searchResultExist && this.searchSuggestionEachTypeMaxNum !== this.bigNum
+    )
   }
 
   get searchSuggestion() {
@@ -475,13 +471,24 @@ export default class SearchBar extends mixins(
 
   @Emit('update:sortByMultiple')
   @Debounce(400)
-  updateSortBy(value: string[] | string): string[] {
+  updateSortBy(value: string[] | string, $event?): string[] {
     const final = (Array.isArray(value) ? value : [value]).filter((condition) =>
       NFT_SORT_CONDITION_LIST.includes(condition)
     )
-
-    this.replaceUrl(final, undefined, 'sort')
-    return final
+    if ($event?.length > final.length || !$event) {
+      this.replaceUrl(final, undefined, 'sort')
+      return final
+    }
+    let newFinal: string[] = []
+    if (final.length > 0) {
+      const newlySelected = final[final.length - 1].split('_')[0]
+      newFinal = $event.filter(
+        (option) => option.split('_')[0] !== newlySelected
+      )
+      newFinal.push(final[final.length - 1])
+    }
+    this.replaceUrl(newFinal, undefined, 'sort')
+    return newFinal
   }
 
   // not highlight search, just input keyword and enter
@@ -531,10 +538,16 @@ export default class SearchBar extends mixins(
     }
   }
 
+  onBlur() {
+    this.updateSearch(this.name)
+  }
+
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
-    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
+    if (value !== this.searchQuery) {
+      this.replaceUrl(value)
+    }
     this.redirectToGalleryPageIfNeed()
     return value
   }
@@ -723,12 +736,6 @@ export default class SearchBar extends mixins(
           .indexOf((this.searchString || '').toLowerCase()) >= 0
       )
     })
-  }
-
-  private oldSearchResult(value: string): boolean {
-    // whether this search exactly match the old search
-    const res = this.searched.filter((r) => r.name === value)
-    return !!res.length
   }
 
   private removeSearchHistory(value: string): void {

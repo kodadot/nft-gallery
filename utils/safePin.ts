@@ -1,5 +1,5 @@
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from './constants'
-import { pinFileToIPFS } from './pinning'
+import { pinFileToIPFS } from './nftStorage'
 
 type MaybeFile = File | null | undefined
 

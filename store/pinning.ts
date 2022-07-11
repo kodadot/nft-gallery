@@ -1,19 +1,20 @@
 import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
-import { PinningKey, getKey as getPinningKey } from '@/utils/pinning'
+import { PinningKey, getKey as getPinningKey } from '@/utils/nftStorage'
 import { emptyObject, isEmpty } from '@/utils/empty'
 
 type PinningState = {
-  pinningKey: PinningKey,
+  pinningKey: PinningKey
 }
 
 export const state = (): PinningState => ({
   pinningKey: emptyObject<PinningKey>(),
 })
 
-
 export const getters: GetterTree<PinningState, PinningState> = {
   getPinningKey: (state) => state.pinningKey?.token,
-  isKeyValid: (state) => !!state.pinningKey?.expiry && new Date(state.pinningKey.expiry).getTime() < Date.now(),
+  isKeyValid: (state) =>
+    !!state.pinningKey?.expiry &&
+    new Date(state.pinningKey.expiry).getTime() < Date.now(),
 }
 
 export const mutations: MutationTree<PinningState> = {
@@ -23,8 +24,15 @@ export const mutations: MutationTree<PinningState> = {
 }
 
 export const actions: ActionTree<PinningState, PinningState> = {
-  async fetchPinningKey({ commit, state }: { commit: Commit, state: PinningState }, address: string): Promise<PinningKey> {
-    if (isEmpty(state.pinningKey) || isExpired(state.pinningKey)) {
+  async fetchPinningKey(
+    { commit, state }: { commit: Commit; state: PinningState },
+    address: string
+  ): Promise<PinningKey> {
+    if (
+      isEmpty(state.pinningKey) ||
+      isExpired(state.pinningKey) ||
+      isFromEstuary(state.pinningKey)
+    ) {
       const pinningKey = await getPinningKey(address)
       commit('SET_PINNING_KEY', pinningKey)
       return pinningKey
@@ -41,4 +49,8 @@ const isExpired = (pinningKey: PinningKey) => {
   }
 
   return false
+}
+
+const isFromEstuary = (pinningKey: PinningKey) => {
+  return pinningKey.token.startsWith('EST')
 }
