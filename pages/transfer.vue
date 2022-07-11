@@ -18,7 +18,9 @@
       <b-field>
         <Auth />
       </b-field>
-      <div v-if="$route.query.target && !isBSX" class="box--target-info">
+      <div
+        v-if="$route.query.target && this.hasBlockExplorer"
+        class="box--target-info">
         Your donation will be sent to:
         <a
           :href="`https://kusama.subscan.io/account/${$route.query.target}`"
@@ -75,7 +77,7 @@
           {{ $t('general.submit') }}
         </b-button>
         <b-button
-          v-if="transactionValue && !isBSX"
+          v-if="transactionValue && this.hasBlockExplorer"
           type="is-success"
           class="tx"
           icon-left="external-link-alt"
@@ -85,7 +87,7 @@
           }}{{ '...' }}
         </b-button>
         <b-button
-          v-if="transactionValue && !isBSX"
+          v-if="transactionValue && this.hasBlockExplorer"
           @click="toast('URL copied to clipboard')"
           v-clipboard:copy="getUrl()"
           type="is-primary">
@@ -145,6 +147,7 @@ import correctFormat from '@/utils/ss58Format'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
+import { hasExplorer } from '~/components/rmrk/Profile/utils'
 
 @Component({
   components: {
@@ -202,8 +205,8 @@ export default class Transfer extends mixins(
     return this.unit === 'KSM'
   }
 
-  get isBSX(): boolean {
-    return this.urlPrefix === 'bsx'
+  get hasBlockExplorer(): boolean {
+    return hasExplorer(this.urlPrefix)
   }
 
   get balance(): string {
