@@ -18,3 +18,38 @@ export const MIN_CAROUSEL_NFT = 3
 export const PER_PAGE = 20
 
 export const SHOW_SCROLL_TOP_BUTTON_HEIGHT = 350
+
+export const DETAIL_TIMEOUT = 3000
+
+export const URLS = {
+  koda: {
+    cloudflare: 'https://durable-jpeg.kodadot.workers.dev/',
+    pinata: 'https://kodadot.mypinata.cloud/ipfs/',
+    directUpload: 'https://direct-upload.kodadot.workers.dev/',
+    estuary: 'https://pinning.kodadot.workers.dev/',
+    nftStorage: 'https://nft-storage.kodadot.workers.dev/',
+    netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
+    seoCard: 'https://og-image-green-seven.vercel.app/',
+    magick: 'https://api.subquery.network/sq/vikiival/magick',
+    subsquidv5: 'https://app.gc.subsquid.io/beta/rubick/005/graphql',
+    subsquidv6: 'https://app.gc.subsquid.io/beta/rubick/006/graphql',
+    snekk: 'https://app.gc.subsquid.io/beta/snekk/003/graphql',
+    click: 'https://app.gc.subsquid.io/beta/click/001-rc0/graphql',
+  },
+  providers: {
+    coingecko: 'https://api.coingecko.com/api/v3',
+    ramp: 'https://ramp.network/buy/',
+    cloudflare: 'https://cloudflare-ipfs.com/ipfs/',
+    pinata: 'https://api.pinata.cloud/',
+  },
+}
+
+export const NFT_SORT_CONDITION_LIST: string[] = [
+  'EMOTES_COUNT_DESC',
+  'BLOCK_NUMBER_DESC',
+  'BLOCK_NUMBER_ASC',
+  'UPDATED_AT_DESC',
+  'UPDATED_AT_ASC',
+  'PRICE_DESC',
+  'PRICE_ASC',
+]

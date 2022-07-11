@@ -32,11 +32,13 @@
       </template>
 
       <template v-slot:footer>
-        <SubmitButton
-          label="create collection"
-          :disabled="disabled"
-          :loading="isLoading"
-          @click="submit" />
+        <b-tooltip :active="isMintDisabled" :label="$t('tooltip.buyDisabled')">
+          <SubmitButton
+            label="create collection"
+            :disabled="disabled"
+            :loading="isLoading"
+            @click="submit" />
+        </b-tooltip>
       </template>
     </BaseCollectionForm>
   </div>
@@ -51,7 +53,7 @@ import { unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { canSupport } from '@/utils/support'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
 import { uploadDirect } from '@/utils/directUpload'
 import AuthMixin from '@/utils/mixins/authMixin'
 import {
@@ -94,13 +96,20 @@ export default class CreateCollection extends mixins(
   private max = 1
   protected unlimited = true
   protected hasSupport = true
-
   get rmrkId(): string {
     return generateId(this.accountId, this.symbol)
   }
 
   get accountIdToPubKey(): string {
     return addressToHex(this.accountId)
+  }
+
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
+  }
+
+  get isMintDisabled(): boolean {
+    return Number(this.balance) <= 2
   }
 
   get disabled(): boolean {
@@ -111,7 +120,10 @@ export default class CreateCollection extends mixins(
       accountId,
       unlimited,
     } = this
-    return !(name && symbol && (unlimited || max) && accountId)
+    return (
+      !(name && symbol && (unlimited || max) && accountId) ||
+      this.isMintDisabled
+    )
   }
 
   public constructRmrkMint(metadata: string): CreatedCollection {
@@ -192,6 +204,7 @@ export default class CreateCollection extends mixins(
             `[Collection] Saved ${this.base.name} in block ${blockNumber}`,
             notificationTypes.success
           )
+          this.$emit('created')
         }
       )
     } catch (e: any) {

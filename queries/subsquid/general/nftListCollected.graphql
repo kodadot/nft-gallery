@@ -13,7 +13,6 @@ query nftListCollected(
     where: {
       issuer_not_eq: $account
       currentOwner_eq: $account
-      name_not_contains: "%Kanaria%"
       burned_eq: false
       AND: $and
     }
@@ -24,16 +23,13 @@ query nftListCollected(
     ...subsquidNft
     ...nftDetails
     ...collectionMeta
-    emotes {
-      id
-    }
+    # ...nftEmotes
     createdAt
   }
   nftEntitiesConnection(
     where: {
       issuer_not_eq: $account
       currentOwner_eq: $account
-      name_not_contains: "%Kanaria%"
       burned_eq: false
       AND: $and
     }

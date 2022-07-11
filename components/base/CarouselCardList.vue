@@ -11,7 +11,7 @@
     <template #item="list">
       <div class="card mx-4">
         <div class="card-image">
-          <nuxt-link :to="`/rmrk/gallery/${list.id}`">
+          <nuxt-link :to="`/${urlPrefix}/gallery/${list.id}`">
             <PreviewMediaResolver
               v-if="list.animationUrl"
               :src="list.animationUrl"
@@ -28,7 +28,7 @@
           <div class="media">
             <div class="media-content">
               <div class="title is-5 is-ellipsis">
-                <nuxt-link :to="`/rmrk/gallery/${list.id}`">
+                <nuxt-link :to="`/${url}/${list.id}`">
                   {{ list.name }}
                 </nuxt-link>
               </div>
@@ -38,7 +38,7 @@
                 </p>
               </b-field>
               <nuxt-link
-                :to="{ name: 'rmrk-u-id', params: { id: list.issuer } }">
+                :to="{ name: profileUrl, params: { id: list.issuer } }">
                 <div class="is-size-7 icon-text">
                   <b-icon icon="palette" />
                   <Identity
@@ -51,7 +51,7 @@
               <nuxt-link
                 v-if="list.currentOwner"
                 :to="{
-                  name: 'rmrk-u-id',
+                  name: profileUrl,
                   params: { id: list.currentOwner },
                 }">
                 <div class="is-size-7 icon-text">
@@ -63,7 +63,7 @@
                     class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
-              <time class="is-size-7 icon-text">
+              <time class="is-size-7 icon-text" v-if="list.timestamp">
                 <b-icon icon="clock" />
                 <span>{{ list.timestamp }}</span>
               </time>
@@ -80,6 +80,7 @@ import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import AuthMixin from '@/utils/mixins/authMixin'
 
 import type { CarouselNFT } from './types'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   // Identicon,
@@ -95,12 +96,16 @@ const components = {
 @Component<CarouselList>({
   components,
 })
-export default class CarouselList extends mixins(AuthMixin) {
+export default class CarouselList extends mixins(AuthMixin, PrefixMixin) {
   @Prop({ type: Array, required: true }) nfts!: CarouselNFT[]
   @Prop({ type: Number, default: 1 }) page!: number
-
+  @Prop({ type: String, default: 'rmrk/gallery' }) url!: string
   get current() {
     return this.page - 1 // 0-indexed
+  }
+
+  get profileUrl() {
+    return `${this.urlPrefix}-u-id`
   }
 
   get options() {

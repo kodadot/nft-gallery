@@ -451,11 +451,11 @@
     "name": "Beri nama NFT Anda",
     "frozen": "NFT dibekukan",
     "event": {
-      "MINTNFT": "🖼  CETAK",
-      "LIST": "📰  DAFTAR",
-      "SEND": "🎁  HADIAH",
-      "CONSUME": "🔥 BAKAR",
-      "BUY": "🤝 BELI"
+      "MINTNFT": "CETAK",
+      "LIST": "DAFTAR",
+      "SEND": "HADIAH",
+      "CONSUME": "BAKAR",
+      "BUY": "BELI"
     }
   },
   "loader": {

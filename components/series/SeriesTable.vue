@@ -2,6 +2,18 @@
   <div>
     <Loader :value="isLoading" />
     <b-field grouped>
+      <b-field class="mb-0" position="is-left">
+        <div class="control is-flex">
+          <b-switch
+            v-if="isLogIn"
+            class="gallery-switch"
+            v-model="hasPassionFeed"
+            :rounded="false">
+            {{ $t('passion') }}
+          </b-switch>
+        </div>
+      </b-field>
+
       <!-- <b-field
         position="is-left"
         expanded
@@ -42,6 +54,7 @@
     </b-field>
 
     <b-table
+      sticky-header
       :data="data"
       :default-sort="[sortBy.field, sortBy.value]"
       default-sort-direction="desc"
@@ -267,11 +280,11 @@
       </b-table-column>
 
       <b-table-column
-          v-slot="props"
-          field="emoteCount"
-          :label="$t('series.emoteCount')"
-          numeric
-          cell-class="is-vcentered">
+        v-slot="props"
+        field="emoteCount"
+        :label="$t('series.emoteCount')"
+        numeric
+        cell-class="is-vcentered">
         <template v-if="!isLoading">
           {{ Math.ceil(props.row.emoteCount) }}
         </template>
@@ -337,6 +350,8 @@ import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
+import PassionListAuthMixin from '@/utils/mixins/passionListMixin'
 import {
   toSort,
   lastmonthDate,
@@ -353,7 +368,11 @@ const components = {
 }
 
 @Component({ components })
-export default class SeriesTable extends mixins(PrefixMixin) {
+export default class SeriesTable extends mixins(
+  PrefixMixin,
+  AuthMixin,
+  PassionListAuthMixin
+) {
   protected data: RowSeries[] = []
   protected usersWithIdentity: RowSeries[] = []
   protected nbDays = '7'
@@ -361,6 +380,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   protected sortBy: SortType = { field: 'volume', value: 'DESC' }
   public isLoading = false
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
+  private hasPassionFeed = false
 
   async created() {
     exist(this.$route.query.rows, (val) => {
@@ -376,20 +396,33 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     await this.fetchCollectionsSeries(Number(this.nbRows))
   }
 
+  private async seriesQueryParams(limit, sort) {
+    const queryVars = {
+      limit,
+      offset: 0,
+      orderBy: sort || 'volume_DESC',
+      where: {
+        floorPrice_isNull: false,
+      },
+    }
+    if (this.isLogIn && this.hasPassionFeed) {
+      this.passionList = this.passionList.concat(await this.fetchPassionList())
+      queryVars.where.issuer_in = this.passionList
+    }
+
+    return queryVars
+  }
+
   public async fetchCollectionsSeries(
-    limit = 10,
+    limit = Number(this.nbRows),
     sort: string = toSort(this.sortBy)
   ) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: seriesInsightList,
-      client: 'subsquid',
-      variables: {
-        // denyList, not yet
-        limit,
-        offset: 0,
-        orderBy: sort || 'volume_DESC',
-      },
+      client: this.client,
+      variables: await this.seriesQueryParams(limit, sort),
+      fetchPolicy: 'cache-first',
     })
 
     const {
@@ -442,11 +475,14 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   }
 
   protected async fetchCollectionEvents(ids: string[]) {
+    if (ids.length === 0) {
+      return []
+    }
     try {
       // const today = new Date()
       const { data } = await this.$apollo.query<{ events }>({
         query: collectionsEvents,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           ids: ids,
           and: {
@@ -499,6 +535,11 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         query: { ...this.$route.query, period: value },
       })
       .catch((e) => this.$consola.warn(e))
+  }
+
+  @Watch('hasPassionFeed', { immediate: true })
+  public onHasPassionFeed() {
+    this.fetchCollectionsSeries()
   }
 
   public displayVolumePercent(

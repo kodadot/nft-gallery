@@ -4,6 +4,7 @@ query allEventsByProfile($id: String, $search: [EventWhereInput!]) {
     interaction
     blockNumber
     timestamp
+    currentOwner
     caller
     id
     nft {

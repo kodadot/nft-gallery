@@ -8,3 +8,14 @@ export interface KeyringAccount {
   publicKey: string
   type: string
 }
+
+export type LastEvent = {
+  meta: string
+  timestamp: string
+  id: string
+  name: string
+  issuer: string
+  currentOwner: string
+  metadata: string
+  image: string
+}

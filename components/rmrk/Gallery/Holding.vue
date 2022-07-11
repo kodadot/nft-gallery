@@ -32,7 +32,7 @@ export default class Holding extends mixins(PrefixMixin) {
     try {
       const { data } = await this.$apollo.query<NftEvents>({
         query: allNftSaleEventsByAccountId,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.accountId,
         },

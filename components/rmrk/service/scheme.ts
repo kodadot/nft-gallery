@@ -162,6 +162,7 @@ export interface NFT {
   blockNumber?: number
   emoteCount?: number
   emotes?: Emote[]
+  royalty?: number
 }
 
 export interface Interaction {

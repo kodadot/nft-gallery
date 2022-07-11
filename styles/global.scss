@@ -127,10 +127,6 @@ body {
     color: $lightpink;
   }
 
-  .message.is-primary {
-    background-color: #ffebfa !important;
-  }
-
   .button.is-text {
     &:hover {
       background-color: $grey-darker;
@@ -172,9 +168,11 @@ body {
     color: $primary-light;
   }
 
-  .message.is-primary .message-body {
-    color: $primary-light !important;
+  .message.is-primary .message-body,
+  .message.is-primary .icon {
+    color: $white !important;
   }
+
   .tabs-container-mobile {
     .tab-content {
       @media screen and (max-width: 1023px) {
@@ -285,4 +283,8 @@ button.button.navbar-link-background {
 .pagination-link {
   border: none!important;
   border-top: 1px solid $primary!important;
+}
+
+.w-100 {
+  width: 100%;
 }

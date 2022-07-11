@@ -1,27 +1,22 @@
-<template>
-  <Landing prefix="rmrk" buildOn="RMRK Protocol" />
-</template>
-
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({
-  components: {
-    Landing: () => import('@/components/landing/Landing.vue'),
-  },
+  components: {},
 })
 export default class LandingPage extends Vue {
   layout() {
     return 'full-width-layout'
   }
 
-  middleware({ store }) {
+  middleware({ store, redirect }) {
     // If the user is not authenticated
     const prefix = store.getters.currentUrlPrefix
     if (prefix !== 'rmrk') {
       this.$consola.log('Not RMRK')
       store.dispatch('setUrlPrefix', 'rmrk')
     }
+    redirect('/')
   }
 }
 </script>

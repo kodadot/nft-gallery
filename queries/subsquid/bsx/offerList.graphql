@@ -1,0 +1,16 @@
+query offerList {
+  offers(
+    orderBy: createdAt_DESC,
+    where: { nft: { burned_not_eq: true } }
+  ) {
+    caller
+    expiration
+    price
+    status
+    createdAt
+    nft {
+      id
+      name
+    }
+  }
+}
