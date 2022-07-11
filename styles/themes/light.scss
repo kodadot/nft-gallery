@@ -143,4 +143,18 @@ html.light-mode {
 			color: $text-light-theme;
 		}
 	}
+
+	.modal-card {
+		background: #fff!important;
+		color: $text-light-theme;
+		&-title {
+			color: $text-light-theme!important;
+		}
+
+		.button.is-primary.is-inverted.is-outlined {
+			background-color: transparent;
+			border-color: $primary;
+			color: $primary;
+		}
+	}
 }
