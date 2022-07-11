@@ -4,7 +4,7 @@
       <ColorScheme placeholder="...">
         <!-- SUN -->
         <svg
-          v-if="$colorMode.value === 'light'"
+          v-if="$colorMode.value === 'dark'"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
