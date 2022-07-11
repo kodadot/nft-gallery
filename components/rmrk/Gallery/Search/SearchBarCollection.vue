@@ -144,7 +144,7 @@ export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
   updateListed(value: string | boolean): boolean {
     const queryValue = String(value) === 'true'
     this.replaceUrl(queryValue, 'listed')
-    return String(value) === 'true'
+    return queryValue
   }
 
   @Emit('update:owned')
