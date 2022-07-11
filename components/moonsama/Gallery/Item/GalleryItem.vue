@@ -72,36 +72,12 @@
                           <Money :value="nft.price" inline />
                         </div>
                       </div>
-                      <div v-if="nftRoyalties">
-                        ⊆ {{ $t('royalty') }}
-                        <Money :value="nftRoyalties" inline />
-                      </div>
                     </template>
                     <div class="content pt-4">
                       <p class="subtitle">
-                        <AvailableActions
-                          ref="actions"
-                          :account-id="accountId"
-                          :current-owner-id="nft.currentOwner"
-                          :price="nft.price"
-                          :nftId="id"
-                          :delegateId="nft.delegate"
-                          :collectionId="collectionId"
-                          :frozen="nft.isFrozen"
-                          :isMakeOffersAllowed="isMakeOffersAllowed"
-                          :ipfs-hashes="[
-                            nft.image,
-                            nft.animation_url,
-                            nft.metadata,
-                          ]"
-                          @change="handleAction" />
-                        <Auth class="mt-4" />
+                        <Auth class="mt-4" evm />
                       </p>
                     </div>
-                    <p class="subtitle is-size-6" v-if="accountId">
-                      <span>{{ $t('general.balance') }}: </span>
-                      <Money :value="balance" inline />
-                    </p>
                     <Sharing class="mb-4" />
                   </div>
                 </div>
@@ -115,13 +91,6 @@
         </div>
       </div>
     </template>
-    <template v-slot:footer>
-      <OfferList
-        :current-owner-id="nft.currentOwner"
-        :nftId="id"
-        @offersUpdate="offersUpdate"
-        :collectionId="collectionId" />
-    </template>
   </BaseGalleryItem>
 </template>
 
@@ -133,29 +102,23 @@ import {
   sanitizeIpfsUrl,
 } from '@/components/rmrk/utils'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
-import { toHuman, unwrapOrDefault, unwrapOrNull } from '@/utils/api/format'
-import onApiConnect from '@/utils/api/general'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import { emptyObject } from '@/utils/empty'
 import isShareMode from '@/utils/isShareMode'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { Option, u128 } from '@polkadot/types'
-import { InstanceDetails } from '@polkadot/types/interfaces'
 import { get, set } from 'idb-keyval'
 import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import { processMedia } from '@/utils/gallery/media'
 import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import resolveQueryPath from '~/utils/queryPathResolver'
-import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
 import { isEmpty } from '@kodadot1/minimark'
 import { royaltyOf } from '@/utils/royalty'
 
 @Component<GalleryItem>({
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
-    AvailableActions: () => import('./AvailableActions.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
@@ -187,42 +150,14 @@ export default class GalleryItem extends mixins(
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
   public emotes: Emote[] = []
   public message = ''
-  public isMakeOffersAllowed = true
 
-  public async created() {
+  public created() {
     this.checkId()
-    await this.fetchNftData()
-    onApiConnect((api) => {
-      if (hasAllPallets(api)) {
-        this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
-        this.subscribe(getPrice(api), this.tokenId, this.observePrice)
-      }
-    })
-  }
-
-  get balance(): string {
-    return this.$store.getters.getAuthBalance
+    this.fetchNftData()
   }
 
   get tokenId(): [string, string] {
     return [this.collectionId, this.id]
-  }
-
-  public offersUpdate({ offers }) {
-    this.isMakeOffersAllowed = !offers.find(({ caller }) => {
-      return caller === this.accountId
-    })
-  }
-
-  protected observeOwner(data: Option<InstanceDetails>) {
-    const instance = unwrapOrNull(data)
-    if (instance) {
-      this.$set(this.nft, 'currentOwner', toHuman(instance.owner))
-    }
-  }
-
-  protected observePrice(data: Option<u128>) {
-    this.$set(this.nft, 'price', unwrapOrDefault(data).toString())
   }
 
   private async fetchNftData() {
@@ -239,8 +174,7 @@ export default class GalleryItem extends mixins(
     } = nft
 
     if (!nftEntity) {
-      this.$consola.warn(`No NFT with ID ${this.id} fallback to RPC Node`)
-      this.fetchRPCMetadata()
+      this.$consola.warn(`No NFT with ID ${this.id}`)
       // showNotification(`No NFT with ID ${this.id}`, notificationTypes.warn)
       return
     }
@@ -261,19 +195,6 @@ export default class GalleryItem extends mixins(
     this.fetchMetadata()
   }
 
-  protected fetchRPCMetadata() {
-    onApiConnect(async (api) => {
-      const metacall = getMetadata(api)
-      const res = await metacall(this.collectionId, this.id).then((option) =>
-        unwrapOrNull(option as Option<any>)
-      )
-      if (res) {
-        Vue.set(this.nft, 'metadata', res.metadata.toHuman())
-        this.fetchMetadata()
-      }
-    })
-  }
-
   onImageError(e: any) {
     this.$consola.warn('Image error', e)
   }
@@ -286,10 +207,10 @@ export default class GalleryItem extends mixins(
         ? cachedMeta
         : await fetchNFTMetadata(
             this.nft,
-            getSanitizer(this.nft.metadata, 'pinata', 'permafrost')
+            getSanitizer(this.nft.metadata, 'cloudflare', 'permafrost')
           )
 
-      const imageSanitizer = getSanitizer(meta.image, 'pinata')
+      const imageSanitizer = getSanitizer(meta.image, 'cloudflare')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),

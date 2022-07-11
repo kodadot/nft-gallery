@@ -284,11 +284,16 @@ export default class Gallery extends mixins(
   }
 
   protected async handleResult(
-    { data }: WithData<GraphResponse>,
+    {
+      data,
+    }: WithData<
+      GraphResponse & { nftEntitiesConnection: { totalCount: number } }
+    >,
     loadDirection = 'down'
   ) {
     const { nFTEntities } = data
-    this.total = nFTEntities.totalCount
+    this.total =
+      nFTEntities.totalCount || data.nftEntitiesConnection?.totalCount
 
     const newNfts = unwrapSafe(nFTEntities).map((e: any) => ({
       ...e,
@@ -308,6 +313,7 @@ export default class Gallery extends mixins(
       Vue.set(this.nfts, i, {
         ...this.nfts[i],
         ...meta,
+        id: this.nfts[i].id,
         image:
           imageLinks[
             fastExtract(
