@@ -201,16 +201,14 @@ export default class CollectionItem extends mixins(
   private id = ''
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>()
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>()
-  private searchQuery: SearchQuery = Object.assign(
-    {
-      search: '',
-      type: '',
-      sortBy: (this.$route.query.sort as string) ?? 'BLOCK_NUMBER_DESC',
-      listed: false,
-      owned: false,
-    },
-    this.$route.query
-  )
+  private searchQuery: SearchQuery = {
+    search: this.$route.query?.search?.toString() ?? '',
+    type: this.$route.query?.type?.toString() ?? '',
+    sortBy: this.$route.query?.sort?.toString() ?? 'BLOCK_NUMBER_DESC',
+    listed: this.$route.query?.listed?.toString() === 'true',
+    owned: false,
+  }
+
   public activeTab = 'items'
   protected first = 16
   protected totalListed = 0
@@ -303,9 +301,13 @@ export default class CollectionItem extends mixins(
     }
 
     if (this.searchQuery.listed || checkForEmpty) {
-      params.push({
-        price: { greaterThan: '0' },
-      })
+      if (this.urlPrefix === 'rmrk') {
+        params.push({
+          price: { greaterThan: '0' },
+        })
+      } else {
+        params.push({ price_gt: '0' })
+      }
     }
 
     if (this.searchQuery.owned && this.accountId) {
