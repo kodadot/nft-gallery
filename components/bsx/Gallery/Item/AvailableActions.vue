@@ -8,12 +8,15 @@
       :tooltipOfferLabel="tooltipOfferLabel"
       @click="handleAction" />
     <component
+      ref="balanceInput"
       class="mb-4"
       v-if="showMeta"
+      :min="minimumOfferAmount"
+      :max="balance"
       :is="showMeta"
       @input="updateMeta"
       emptyOnError />
-    <SubmitButton v-if="showSubmit" @click="submit">
+    <SubmitButton v-if="showSubmit" @click="submit" :disabled="!isActionValid">
       {{ $t('nft.action.submit', [selectedAction]) }}
     </SubmitButton>
   </div>
@@ -41,6 +44,7 @@ import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import formatBalance from '@/utils/formatBalance'
 import onApiConnect from '@/utils/api/general'
+import BalanceInput from '@/components/shared/BalanceInput.vue'
 
 const components = {
   ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
@@ -66,13 +70,13 @@ export default class AvailableActions extends mixins(
 
   private selectedAction: ShoppingActions | '' = ''
   private meta: string | number = ''
-
   public minimumOfferAmount = 0
   public isMakeOffersDisabled = true
-  public tooltipOfferLabel = {}
+  public isActionValid = false
+  public tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
 
   get balance(): number {
-    return Number(this.$store.getters.getAuthBalance)
+    return this.formatBalance(this.$store.getters.getAuthBalance)
   }
 
   get actions() {
@@ -109,17 +113,15 @@ export default class AvailableActions extends mixins(
     return actionComponent[this.selectedAction]
   }
 
+  formatBalance(balance: string) {
+    return parseFloat(formatBalance(balance, 12, false).replace(/,/g, ''))
+  }
   public async created(): Promise<void> {
     onApiConnect(() => {
       const { api } = Connector.getInstance()
-      this.minimumOfferAmount = parseFloat(
-        formatBalance(
-          api?.consts?.marketplace?.minimumOfferAmount?.toString(),
-          12,
-          false
-        ).replace(/,/g, '')
+      this.minimumOfferAmount = this.formatBalance(
+        api?.consts?.marketplace?.minimumOfferAmount?.toString()
       )
-
       this.isMakeOffersDisabled =
         !this.isMakeOffersAllowed || this.minimumOfferAmount > this.balance
 
@@ -154,6 +156,8 @@ export default class AvailableActions extends mixins(
   }
 
   protected updateMeta(value: string | number) {
+    const balanceInputComponent = this.$refs.balanceInput as BalanceInput
+    this.isActionValid = balanceInputComponent.checkValidity()
     this.$consola.log(typeof value, value)
     this.meta = value
   }
