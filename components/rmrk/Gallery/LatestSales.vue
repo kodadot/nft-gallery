@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
 import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'

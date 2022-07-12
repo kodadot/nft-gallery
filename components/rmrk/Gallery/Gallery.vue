@@ -102,7 +102,7 @@ import {
 } from '@/utils/cachingStrategy'
 import { getDenyList } from '@/utils/prefix'
 import { fastExtract } from '@/utils/ipfs'
-import { logError, mapNFTorCollectionMetadata, mapToId } from '@/utils/mappers'
+import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 import {
   NFTEntitiesWithCount,
   NFTWithCollectionMeta,
