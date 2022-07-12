@@ -41,20 +41,9 @@
         </div>
       </div>
       <div v-if="prefix === 'rmrk'">
-        <span v-if="isLogIn" type="is-text" @click="togglePassionValue"
-          ><a
-            >Show {{ hasPassionFeed ? 'global' : 'personalized' }} data</a
-          ></span
-        >
-        <LazyGalleryLatestSales
-          :hasPassionFeed="hasPassionFeed"
-          :passionList="hasPassionFeed ? passionList : []"
-          class="my-5" />
+        <LazyGalleryLatestSales class="my-5" />
         <LazyGalleryPopularCollections class="my-5" />
-        <LazyGalleryNewestList
-          :hasPassionFeed="hasPassionFeed"
-          :passionList="hasPassionFeed ? passionList : []"
-          class="my-5" />
+        <LazyGalleryNewestList class="my-5" />
       </div>
     </div>
   </section>
@@ -74,31 +63,28 @@ export default class Landing extends mixins(AuthMixin) {
   private hasPassionFeed = false
 
   async created() {
-    if (this.isLogIn) {
-      this.hasPassionFeed = true
-      const result = await this.fetchPassionList()
-      if (result.length) {
-        this.passionList = this.passionList.concat(result)
-      }
-    }
+    // commenting passion feed for landing page
+    // if (this.isLogIn) {
+    //   this.hasPassionFeed = true
+    //   const result = await this.fetchPassionList()
+    //   if (result.length) {
+    //     this.passionList = this.passionList.concat(result)
+    //   }
+    // }
   }
 
-  public togglePassionValue() {
-    this.hasPassionFeed = !this.hasPassionFeed
-  }
-
-  public async fetchPassionList() {
-    const {
-      data: { passionFeed },
-    } = await this.$apollo.query({
-      query: passionQuery,
-      client: 'subsquid',
-      variables: {
-        account: this.accountId,
-      },
-    })
-    return passionFeed?.map((item) => item.id) || []
-  }
+  // public async fetchPassionList() {
+  //   const {
+  //     data: { passionFeed },
+  //   } = await this.$apollo.query({
+  //     query: passionQuery,
+  //     client: 'subsquid',
+  //     variables: {
+  //       account: this.accountId,
+  //     },
+  //   })
+  //   return passionFeed?.map((item) => item.id) || []
+  // }
 }
 </script>
 

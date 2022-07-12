@@ -18,10 +18,7 @@
           :perPage="1" />
       </div>
     </div>
-    <div v-if="isPassionFeedAllowed">
-      no results for {{ $t('general.latestSales') }}
-    </div>
-    <CarouselCardList v-else :nfts="nfts" :page="currentValue" />
+    <CarouselCardList :nfts="nfts" :page="currentValue" />
   </div>
 </template>
 
@@ -49,10 +46,6 @@ const components = {
 })
 export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
   @Prop({ required: false, type: Array, default: () => [] })
-  passionList?: string[]
-
-  @Prop(Boolean) hasPassionFeed!: boolean
-
   private nfts: any[] = []
   private events: any[] = []
   private currentValue = 1
@@ -62,18 +55,14 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
     return false
   }
 
-  get isPassionFeedAllowed(): boolean {
-    return this.hasPassionFeed
-  }
-
   async fetch() {
     this.fetchData()
   }
 
-  @Watch('passionList')
-  private onPassionList() {
-    this.fetchData()
-  }
+  // @Watch('passionList')
+  // private onPassionList() {
+  //   this.fetchData()
+  // }
 
   async fetchData() {
     const queryVars: { limit: number; event: string; passionAccount?: string } =
@@ -81,9 +70,9 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
         limit: 10,
         event: 'BUY',
       }
-    if (this.isLogIn) {
-      queryVars.passionAccount = this.accountId
-    }
+    // if (this.isLogIn) {
+    //   queryVars.passionAccount = this.accountId
+    // }
     const result = await this.$apollo
       .query<{
         events: LastEvent[]

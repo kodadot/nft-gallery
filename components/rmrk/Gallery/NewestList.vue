@@ -18,10 +18,7 @@
         </b-button>
       </div>
     </div>
-    <div v-if="isPassionFeedAllowed">
-      no results for {{ $t('general.newestListHeading') }}
-    </div>
-    <CarouselCardList v-else :nfts="nfts" />
+    <CarouselCardList :nfts="nfts" />
   </div>
 </template>
 
@@ -57,18 +54,14 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
     return false
   }
 
-  get isPassionFeedAllowed(): boolean {
-    return this.hasPassionFeed
-  }
-
   async fetch() {
     this.fetchData()
   }
 
-  @Watch('passionList')
-  private onPassionList() {
-    this.$fetch()
-  }
+  // @Watch('passionList')
+  // private onPassionList() {
+  //   this.$fetch()
+  // }
 
   async fetchData() {
     const queryVariables: {
@@ -79,9 +72,9 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
       limit: 10,
       event: 'LIST',
     }
-    if (this.isLogIn) {
-      queryVariables.passionAccount = this.accountId
-    }
+    // if (this.isLogIn) {
+    //   queryVariables.passionAccount = this.accountId
+    // }
     const result = await this.$apollo
       .query<{
         events: { meta; nft: { meta: { id; image } } }
