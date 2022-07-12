@@ -35,16 +35,16 @@
       width="120"
       sortable>
       <b-button
-        v-if="isOwner"
-        type="is-success"
-        outlined
-        icon-left="money-bill"
-        @click="tellFrens(props.row.caller)" />
-      <b-button
         v-if="props.row.caller === accountId"
         type="is-orange"
         outlined
         icon-left="times"
+        @click="tellFrens(props.row.caller)" />
+      <b-button
+        v-else-if="isOwner"
+        type="is-success"
+        outlined
+        icon-left="money-bill"
         @click="tellFrens(props.row.caller)" />
     </b-table-column>
     <b-table-column
