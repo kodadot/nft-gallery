@@ -226,7 +226,7 @@ export default class GalleryItem extends mixins(
   }
 
   get pageTitle(): string {
-    return `${this.nft.name || ''}`
+    return this.nft?.name || ''
   }
 
   get image(): string {
