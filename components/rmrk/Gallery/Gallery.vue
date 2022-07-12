@@ -306,9 +306,7 @@ export default class Gallery extends mixins(
       this.nfts = this.nfts.concat(newNfts)
     }
 
-    const metadataList: string[] = this.nfts
-      .map(mapNFTorCollectionMetadata)
-      .filter(Boolean)
+    const metadataList: string[] = this.nfts.map(mapNFTorCollectionMetadata)
     const imageLinks = await getCloudflareImageLinks(metadataList)
 
     await processMetadata<NFTMetadata>(metadataList, (meta, i) => {
