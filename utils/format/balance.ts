@@ -15,7 +15,7 @@ export const formatBsxBalanceEmptyOnZero = (
   amount: string,
   decimals?: number,
   symbol?: string
-) => {
+): string => {
   if (amount === '0' || amount == undefined) {
     return ''
   }
