@@ -191,7 +191,7 @@
             :account="id"
             showSearchBar />
         </b-tab-item>
-        <b-tab-item
+        <!-- <b-tab-item
           value="holdings"
           :headerClass="{ 'is-hidden': !totalHoldings }">
           <template #header>
@@ -203,8 +203,8 @@
             </b-tooltip>
           </template>
           <Holding :account-id="id" />
-        </b-tab-item>
-        <b-tab-item value="gains" :headerClass="{ 'is-hidden': !totalGains }">
+        </b-tab-item> -->
+        <!-- <b-tab-item value="gains" :headerClass="{ 'is-hidden': !totalGains }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.gains')} ${labelDisplayName}`"
@@ -214,7 +214,7 @@
             </b-tooltip>
           </template>
           <UserGainHistory :account-id="id" />
-        </b-tab-item>
+        </b-tab-item> -->
       </b-tabs>
     </section>
   </section>
@@ -228,7 +228,6 @@ import {
   CollectionWithMeta,
   Pack,
   Interaction,
-  NftEvents,
 } from '@/components/rmrk/service/scheme'
 
 import isShareMode from '@/utils/isShareMode'
@@ -252,9 +251,6 @@ import firstNftByIssuer from '@/queries/subsquid/general/firstNftByIssuer.graphq
 import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'
 import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
-import allNftSaleEventsByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
-import { NftHolderEvent } from '~/components/rmrk/Gallery/Holder/Holder.vue'
-import allNftSaleEventsHistoryByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
 import resolveQueryPath from '~/utils/queryPathResolver'
 import { hasExplorer, getExplorer } from './utils'
 
@@ -445,20 +441,20 @@ export default class Profile extends mixins(
     /*
     set totalHoldings
      */
-    this.$apollo
-      .query<NftEvents>({
-        query: allNftSaleEventsByAccountId,
-        client: this.client,
-        variables: {
-          id: this.accountId,
-        },
-      })
-      .then((result) => {
-        const { data } = result
-        if (data && data.nftEntities && data.nftEntities.length) {
-          this.totalHoldings = data.nftEntities.length
-        }
-      })
+    // this.$apollo
+    //   .query<NftEvents>({
+    //     query: allNftSaleEventsByAccountId,
+    //     client: this.client,
+    //     variables: {
+    //       id: this.accountId,
+    //     },
+    //   })
+    //   .then((result) => {
+    //     const { data } = result
+    //     if (data && data.nftEntities && data.nftEntities.length) {
+    //       this.totalHoldings = data.nftEntities.length
+    //     }
+    //   })
 
     /*
     set history
@@ -504,20 +500,20 @@ export default class Profile extends mixins(
     /*
     set totalGains
      */
-    this.$apollo
-      .query<{ events: NftHolderEvent[] }>({
-        query: allNftSaleEventsHistoryByAccountId,
-        client: this.client,
-        variables: {
-          id: this.accountId,
-        },
-      })
-      .then((result) => {
-        const { data } = result
-        if (data && data.events && data.events.length) {
-          this.totalGains = data.events.length
-        }
-      })
+    // this.$apollo
+    //   .query<{ events: NftHolderEvent[] }>({
+    //     query: allNftSaleEventsHistoryByAccountId,
+    //     client: this.client,
+    //     variables: {
+    //       id: this.accountId,
+    //     },
+    //   })
+    //   .then((result) => {
+    //     const { data } = result
+    //     if (data && data.events && data.events.length) {
+    //       this.totalGains = data.events.length
+    //     }
+    //   })
   }
 
   public async mounted() {
