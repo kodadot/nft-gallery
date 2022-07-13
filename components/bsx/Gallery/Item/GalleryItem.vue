@@ -195,7 +195,8 @@ export default class GalleryItem extends mixins(
     onApiConnect((api) => {
       if (hasAllPallets(api)) {
         this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
-        this.subscribe(getPrice(api), this.tokenId, this.observePrice)
+        // todo: a better way to observe price change
+        // this.subscribe(getPrice(api), this.tokenId, this.observePrice)
       }
     })
   }
