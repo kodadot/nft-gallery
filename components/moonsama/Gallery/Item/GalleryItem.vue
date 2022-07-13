@@ -90,6 +90,11 @@
             :active="isLoading"></b-skeleton>
         </div>
       </div>
+      <div class="columns">
+        <div class="column">
+          <LazyGalleryHistory v-if="!isLoading" :events="nft.events" />
+        </div>
+      </div>
     </template>
   </BaseGalleryItem>
 </template>

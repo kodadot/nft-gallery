@@ -192,6 +192,7 @@
             showSearchBar />
         </b-tab-item>
         <b-tab-item
+          v-if="isMoonsama"
           value="holdings"
           :headerClass="{ 'is-hidden': !totalHoldings }">
           <template #header>
@@ -204,7 +205,10 @@
           </template>
           <Holding :account-id="id" />
         </b-tab-item>
-        <b-tab-item value="gains" :headerClass="{ 'is-hidden': !totalGains }">
+        <b-tab-item
+          value="gains"
+          v-if="isMoonsama"
+          :headerClass="{ 'is-hidden': !totalGains }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.gains')} ${labelDisplayName}`"
@@ -252,11 +256,11 @@ import firstNftByIssuer from '@/queries/subsquid/general/firstNftByIssuer.graphq
 import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'
 import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
-import allNftSaleEventsByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
-import { NftHolderEvent } from '~/components/rmrk/Gallery/Holder/Holder.vue'
-import allNftSaleEventsHistoryByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
 import resolveQueryPath from '~/utils/queryPathResolver'
+import allNftSaleEventsByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
+import allNftSaleEventsHistoryByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
 import { hasExplorer, getExplorer } from './utils'
+import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
 
 const components = {
   GalleryCardList: () =>
@@ -295,6 +299,13 @@ const components = {
     }
     return {
       title,
+      link: [
+        {
+          hid: 'canonical',
+          rel: 'canonical',
+          href: this.$root.$config.baseUrl + this.$route.path,
+        },
+      ],
       meta: [...this.$seoMeta(metaData)],
     }
   },
@@ -443,24 +454,6 @@ export default class Profile extends mixins(
       })
 
     /*
-    set totalHoldings
-     */
-    this.$apollo
-      .query<NftEvents>({
-        query: allNftSaleEventsByAccountId,
-        client: this.client,
-        variables: {
-          id: this.accountId,
-        },
-      })
-      .then((result) => {
-        const { data } = result
-        if (data && data.nftEntities && data.nftEntities.length) {
-          this.totalHoldings = data.nftEntities.length
-        }
-      })
-
-    /*
     set history
      */
     this.$apollo
@@ -501,23 +494,43 @@ export default class Profile extends mixins(
         }
       })
 
-    /*
+    if (this.isMoonsama) {
+      /*
+    set totalHoldings
+     */
+      this.$apollo
+        .query<NftEvents>({
+          query: allNftSaleEventsByAccountId,
+          client: this.client,
+          variables: {
+            id: this.accountId,
+          },
+        })
+        .then((result) => {
+          const { data } = result
+          if (data && data.nftEntities && data.nftEntities.length) {
+            this.totalHoldings = data.nftEntities.length
+          }
+        })
+
+      /*
     set totalGains
      */
-    this.$apollo
-      .query<{ events: NftHolderEvent[] }>({
-        query: allNftSaleEventsHistoryByAccountId,
-        client: this.client,
-        variables: {
-          id: this.accountId,
-        },
-      })
-      .then((result) => {
-        const { data } = result
-        if (data && data.events && data.events.length) {
-          this.totalGains = data.events.length
-        }
-      })
+      this.$apollo
+        .query<{ events: NftHolderEvent[] }>({
+          query: allNftSaleEventsHistoryByAccountId,
+          client: this.client,
+          variables: {
+            id: this.accountId,
+          },
+        })
+        .then((result) => {
+          const { data } = result
+          if (data && data.events && data.events.length) {
+            this.totalGains = data.events.length
+          }
+        })
+    }
   }
 
   public async mounted() {
@@ -530,6 +543,10 @@ export default class Profile extends mixins(
       this.id = this.$route.params.id
       this.shortendId = shortAddress(this.id)
     }
+  }
+
+  get isMoonsama(): boolean {
+    return this.urlPrefix === 'moonsama'
   }
 
   get activeTab(): string {
