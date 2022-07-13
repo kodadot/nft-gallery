@@ -295,9 +295,13 @@ export default class CollectionItem extends mixins(
     const params: any[] = []
 
     if (this.searchQuery.search) {
-      params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` },
-      })
+      if (this.urlPrefix === 'rmrk') {
+        params.push({
+          name: { likeInsensitive: this.searchQuery.search },
+        })
+      } else {
+        params.push({ name_containsInsensitive: this.searchQuery.search })
+      }
     }
 
     if (this.searchQuery.listed || checkForEmpty) {
