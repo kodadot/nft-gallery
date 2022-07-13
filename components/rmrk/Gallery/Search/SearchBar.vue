@@ -516,13 +516,16 @@ export default class SearchBar extends mixins(
       this.insertNewHistory()
       this.updateSearch(value.name)
     } else if (value.__typename === 'NFTEntity') {
-      this.$router.push({ name: 'rmrk-detail-id', params: { id: value.id } })
+      this.$router.push({
+        name: this.routeOf('detail-id'),
+        params: { id: value.id },
+      })
     } else if (
       value.__typename === 'CollectionEntity' ||
       value.__typename === 'Series'
     ) {
       this.$router.push({
-        name: 'rmrk-collection-id',
+        name: this.routeOf('collection-id'),
         params: { id: value.id },
       })
     }
@@ -531,10 +534,14 @@ export default class SearchBar extends mixins(
   redirectToGalleryPageIfNeed() {
     if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
       this.$router.replace({
-        name: 'rmrk-explore',
+        name: this.routeOf('explore'),
         query: this.$route.query,
       })
     }
+  }
+
+  protected routeOf(url: string): string {
+    return `${this.urlPrefix}-${url}`
   }
 
   onBlur() {
