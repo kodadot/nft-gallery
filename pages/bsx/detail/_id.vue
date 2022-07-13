@@ -5,9 +5,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
-import GalleryItem from '@/components/rmrk/Gallery/GalleryItem.vue'
-import { generateNftImage } from '@/utils/seoImageGenerator'
-import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
+import GalleryItem from '@/components/bsx/Gallery/Item/GalleryItem.vue'
 
 @Component<GalleryItemPage>({
   name: 'GalleryItemPage',
@@ -15,39 +13,16 @@ import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
     GalleryItem,
   },
   head() {
-    const { title, description, author: content } = this.currentlyViewedItem
-    const metaData = {
-      title,
-      type: 'profile',
-      description,
-      url: this.$route.path,
-      image: this.image,
-    }
     return {
-      title,
-      meta: [
-        ...this.$seoMeta(metaData),
+      link: [
         {
-          hid: 'og:author',
-          property: 'og:author',
-          content,
+          hid: 'canonical',
+          rel: 'canonical',
+          href: this.$root.$config.baseUrl + this.$route.path,
         },
       ],
     }
   },
 })
-export default class GalleryItemPage extends Vue {
-  get currentlyViewedItem() {
-    return this.$store.getters['history/getCurrentlyViewedItem']
-  }
-
-  get image(): string {
-    return generateNftImage(
-      this.currentlyViewedItem.name,
-      formatBalanceEmptyOnZero(this.currentlyViewedItem.price),
-      this.currentlyViewedItem.image,
-      this.currentlyViewedItem.mimeType
-    )
-  }
-}
+export default class GalleryItemPage extends Vue {}
 </script>

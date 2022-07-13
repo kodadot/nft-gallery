@@ -98,6 +98,10 @@
                         <Auth class="mt-4" />
                       </p>
                     </div>
+                    <p class="subtitle is-size-6" v-if="accountId">
+                      <span>{{ $t('general.balance') }}: </span>
+                      <Money :value="balance" inline />
+                    </p>
                     <Sharing class="mb-4" />
                   </div>
                 </div>
@@ -147,8 +151,25 @@ import resolveQueryPath from '~/utils/queryPathResolver'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
 import { isEmpty } from '@kodadot1/minimark'
 import { royaltyOf } from '@/utils/royalty'
+import { generateNftImage } from '~/utils/seoImageGenerator'
+import { formatBsxBalanceEmptyOnZero } from '~/utils/format/balance'
 
 @Component<GalleryItem>({
+  name: 'GalleryItem',
+  head() {
+    const metaData = {
+      mime: this.mimeType,
+      title: this.pageTitle,
+      description: this.meta.description,
+      url: this.$route.path,
+      image: this.image,
+      video: this.meta.animation_url,
+    }
+    return {
+      title: this.pageTitle,
+      meta: [...this.$seoMeta(metaData)],
+    }
+  },
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions: () => import('./AvailableActions.vue'),
@@ -196,8 +217,25 @@ export default class GalleryItem extends mixins(
     })
   }
 
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
+  }
+
   get tokenId(): [string, string] {
     return [this.collectionId, this.id]
+  }
+
+  get pageTitle(): string {
+    return this.nft?.name || ''
+  }
+
+  get image(): string {
+    return generateNftImage(
+      this.nft.name,
+      formatBsxBalanceEmptyOnZero(this.nft.price as string),
+      this.meta.image as string,
+      this.mimeType
+    )
   }
 
   public offersUpdate({ offers }) {
