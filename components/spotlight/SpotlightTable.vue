@@ -21,13 +21,13 @@
             <b-switch v-model="onlyWithIdentity" :rounded="false">
               {{ $t('spotlight.filter_accounts') }}
             </b-switch>
-            <b-switch
+            <!-- <b-switch
               v-if="isLogIn"
               class="gallery-switch"
               v-model="hasPassionFeed"
               :rounded="false">
               {{ $t('passion') }}
-            </b-switch>
+            </b-switch> -->
           </div>
         </b-field>
         <b-button
@@ -195,7 +195,7 @@ import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
-import PassionListMixin from '~/utils/mixins/passionListMixin'
+// import PassionListMixin from '~/utils/mixins/passionListMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { PER_PAGE } from '~/utils/constants'
 import {
@@ -221,21 +221,20 @@ const components = {
 @Component({ components })
 export default class SpotlightTable extends mixins(
   TransactionMixin,
-  KeyboardEventsMixin,
-  PassionListMixin
+  KeyboardEventsMixin
 ) {
   protected data: Row[] = []
   protected onlyWithIdentity = this.$route.query?.identity || false
   protected currentPage = 1
   protected sortBy: SortType = { field: 'sold', value: 'DESC' }
-  private hasPassionFeed = false
+  // private hasPassionFeed = false
 
   async created() {
     exist(this.$route.query.sort, (val) => {
       this.sortBy.field = val.slice(1)
       this.sortBy.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
     })
-    await this.fetchSpotlightData()
+    // await this.fetchSpotlightData()
     this.initKeyboardEventHandler({
       g: this.bindPaginationEvents,
     })
@@ -287,14 +286,14 @@ export default class SpotlightTable extends mixins(
     const queryVars = {
       offset: 0,
       orderBy: sort || 'sold_DESC',
-      where: {},
+      // where: {},
     }
-    if (this.isLogIn && this.hasPassionFeed) {
-      await this.fetchPassionList()
-      queryVars.where = {
-        id_in: this.passionList,
-      }
-    }
+    // if (this.isLogIn && this.hasPassionFeed) {
+    //   await this.fetchPassionList()
+    //   queryVars.where = {
+    //     id_in: this.passionList,
+    //   }
+    // }
 
     const collections = await this.$apollo.query({
       query: spotlightList,
@@ -384,10 +383,10 @@ export default class SpotlightTable extends mixins(
     await this.updateSoldHistory()
   }
 
-  @Watch('hasPassionFeed')
-  private onHasPassionFeed() {
-    this.fetchSpotlightData()
-  }
+  // @Watch('hasPassionFeed')
+  // private onHasPassionFeed() {
+  //   this.fetchSpotlightData()
+  // }
 
   public onSort(field: string, order: string) {
     let sort: SortType = {
