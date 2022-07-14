@@ -16,7 +16,7 @@ export default class LandingPage extends Vue {
       this.$consola.log('Not RMRK')
       store.dispatch('setUrlPrefix', 'rmrk')
     }
-    redirect('/')
+    setTimeout(() => redirect('/'))
   }
 }
 </script>

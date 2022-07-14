@@ -16,7 +16,7 @@ export default class LandingPage extends Vue {
       this.$consola.log('Not westend')
       store.dispatch('setUrlPrefix', 'westend')
     }
-    redirect('/')
+    setTimeout(() => redirect('/'))
   }
 }
 </script>
