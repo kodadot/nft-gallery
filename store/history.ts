@@ -7,6 +7,7 @@ export interface HistoryItem {
   image: string
   collection: string
   date: Date
+  prefix: string
 }
 
 export interface GalleryItem extends HistoryItem {
@@ -21,6 +22,7 @@ export interface Collectionitem {
   image: string
   description: string
   numberOfItems: number
+  prefix: string
 }
 
 export const state = () => ({
@@ -109,8 +111,8 @@ export const mutations: MutationTree<HistoryState> = {
 export const actions: ActionTree<HistoryState, HistoryState> = {
   addHistoryItem({ commit }: { commit: Commit }, data: HistoryItem) {
     commit('UPDATE_CURRENTLY_VIEWED_ITEM', data)
-    const { id, title, image, collection, date } = data
-    const historyItem = { id, title, image, collection, date }
+    const { id, title, image, collection, date, prefix } = data
+    const historyItem = { id, title, image, collection, date, prefix }
     commit('UPDATE_HISTORY_ITEM', historyItem)
   },
   setCurrentlyViewedCollection(
@@ -124,7 +126,7 @@ export const actions: ActionTree<HistoryState, HistoryState> = {
   },
   setCurrentCollection(
     { commit }: { commit: Commit },
-    data: { id: string; nftIds: string[] }
+    data: { id: string; nftIds: string[]; prefix: string }
   ) {
     commit('UPDATE_CURRENT_COLLECTION', data)
   },

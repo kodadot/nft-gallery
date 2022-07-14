@@ -520,6 +520,7 @@ export default class CollectionItem extends mixins(
         image: this.image,
         description: this.description,
         numberOfItems: this.total || 0,
+        prefix: this.urlPrefix,
       })
     }
   }
