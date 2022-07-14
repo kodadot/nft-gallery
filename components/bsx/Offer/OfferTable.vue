@@ -35,16 +35,16 @@
       width="120"
       sortable>
       <b-button
-        v-if="isOwner"
-        type="is-success"
-        outlined
-        icon-left="money-bill"
-        @click="tellFrens(props.row.caller)" />
-      <b-button
         v-if="props.row.caller === accountId"
         type="is-orange"
         outlined
         icon-left="times"
+        @click="tellFrens(props.row.caller)" />
+      <b-button
+        v-else-if="isOwner"
+        type="is-success"
+        outlined
+        icon-left="money-bill"
         @click="tellFrens(props.row.caller)" />
     </b-table-column>
     <b-table-column
@@ -54,8 +54,11 @@
       v-slot="props"
       sortable>
       <nuxt-link :to="`gallery/${props.row.nft.id}`">
-        <p v-if="props.row.nft.name">{{ props.row.nft.name }}</p>
-        <p v-else>{{ props.row.nft.id }}</p>
+        <p
+          class="limit-width-text"
+          :title="props.row.nft.name ? props.row.nft.name : props.row.nft.id">
+          {{ props.row.nft.name ? props.row.nft.name : props.row.nft.id }}
+        </p>
       </nuxt-link>
     </b-table-column>
     <b-table-column
@@ -127,3 +130,10 @@ export default class OfferTable extends Vue {
   }
 }
 </script>
+<style scoped>
+.limit-width-text {
+  max-width: 50ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

@@ -3,7 +3,7 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
-      <template v-slot:next-filter>
+      <!-- <template v-slot:next-filter>
         <b-switch
           v-if="isLogIn"
           class="gallery-switch"
@@ -11,7 +11,7 @@
           :rounded="false">
           Passion Feed
         </b-switch>
-      </template>
+      </template> -->
       <Pagination
         hasMagicBtn
         simple
@@ -102,7 +102,7 @@ import {
 } from '@/utils/cachingStrategy'
 import { getDenyList } from '@/utils/prefix'
 import { fastExtract } from '@/utils/ipfs'
-import { logError, mapNFTorCollectionMetadata, mapToId } from '@/utils/mappers'
+import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 import {
   NFTEntitiesWithCount,
   NFTWithCollectionMeta,
@@ -119,7 +119,7 @@ import resolveQueryPath from '~/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
 import { notificationTypes, showNotification } from '@/utils/notification'
 
-import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
+// import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -157,8 +157,8 @@ export default class Gallery extends mixins(
     sortByMultiple: ['BLOCK_NUMBER_DESC'],
   }
   private isLoading = true
-  private hasPassionFeed = false
-  private passionList: string[] = []
+  // private hasPassionFeed = false
+  // private passionList: string[] = []
 
   get showPriceValue(): boolean {
     return (
@@ -211,13 +211,13 @@ export default class Gallery extends mixins(
 
   async mounted() {
     // only fetch passionFeed if logged in
-    if (this.isLogIn) {
-      try {
-        await this.fetchPassionList()
-      } catch (e) {
-        showNotification((e as Error).message, notificationTypes.danger)
-      }
-    }
+    // if (this.isLogIn) {
+    //   try {
+    //     await this.fetchPassionList()
+    //   } catch (e) {
+    //     showNotification((e as Error).message, notificationTypes.danger)
+    //   }
+    // }
   }
 
   @Debounce(500)
@@ -242,9 +242,9 @@ export default class Gallery extends mixins(
     this.isFetchingData = true
     const query = await resolveQueryPath(this.urlPrefix, 'nftListWithSearch')
 
-    if (this.hasPassionFeed) {
-      await this.fetchPassionList()
-    }
+    // if (this.hasPassionFeed) {
+    //   await this.fetchPassionList()
+    // }
     const result = await this.$apollo.query({
       query: query.default,
       client: this.urlPrefix,
@@ -265,30 +265,35 @@ export default class Gallery extends mixins(
     return true
   }
 
-  public async fetchPassionList() {
-    const {
-      data: { passionFeed },
-    } = await this.$apollo.query({
-      query: passionQuery,
-      client: 'subsquid', // TODO: change to usable value
-      variables: {
-        account: this.accountId,
-      },
-    })
-    this.passionList = passionFeed?.map(mapToId) || []
+  // public async fetchPassionList() {
+  //   const {
+  //     data: { passionFeed },
+  //   } = await this.$apollo.query({
+  //     query: passionQuery,
+  //     client: 'subsquid', // TODO: change to usable value
+  //     variables: {
+  //       account: this.accountId,
+  //     },
+  //   })
+  //   this.passionList = passionFeed?.map(mapToId) || []
 
-    // only show passion feed if it has some length
-    if (this.passionList.length > 5) {
-      this.hasPassionFeed = true
-    }
-  }
+  //   // only show passion feed if it has some length
+  //   if (this.passionList.length > 5) {
+  //     this.hasPassionFeed = true
+  //   }
+  // }
 
   protected async handleResult(
-    { data }: WithData<GraphResponse>,
+    {
+      data,
+    }: WithData<
+      GraphResponse & { nftEntitiesConnection: { totalCount: number } }
+    >,
     loadDirection = 'down'
   ) {
     const { nFTEntities } = data
-    this.total = nFTEntities.totalCount
+    this.total =
+      nFTEntities.totalCount || data.nftEntitiesConnection?.totalCount
 
     const newNfts = unwrapSafe(nFTEntities).map((e: any) => ({
       ...e,
@@ -396,11 +401,11 @@ export default class Gallery extends mixins(
       })
     }
 
-    if (this.hasPassionFeed) {
-      params.push({
-        issuer: { in: this.passionList },
-      })
-    }
+    // if (this.hasPassionFeed) {
+    //   params.push({
+    //     issuer: { in: this.passionList },
+    //   })
+    // }
 
     return params
   }
@@ -413,14 +418,14 @@ export default class Gallery extends mixins(
     }
   }
 
-  @Watch('hasPassionFeed')
-  protected async onHasPassionFeed() {
-    try {
-      this.resetPage()
-    } catch (e) {
-      showNotification((e as Error).message, notificationTypes.danger)
-    }
-  }
+  // @Watch('hasPassionFeed')
+  // protected async onHasPassionFeed() {
+  //   try {
+  //     this.resetPage()
+  //   } catch (e) {
+  //     showNotification((e as Error).message, notificationTypes.danger)
+  //   }
+  // }
 
   @Watch('searchQuery', { deep: true })
   protected onSearchQueryChange() {

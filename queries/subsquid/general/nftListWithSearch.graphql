@@ -15,10 +15,22 @@ query nftListWithSearch(
     where: {
       burned_eq: false
       issuer_not_in: $denyList
+      metadata_not_eq: ""
       AND: $search
     }
   ) {
     ...nft
     ...nftDetails
+  }
+  nftEntitiesConnection(
+    where: {
+      burned_eq: false
+      issuer_not_in: $denyList
+      metadata_not_eq: ""
+      AND: $search
+    }
+    orderBy: blockNumber_DESC
+  ) {
+    totalCount
   }
 }
