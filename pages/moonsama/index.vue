@@ -16,8 +16,7 @@ export default class LandingPage extends Vue {
       this.$consola.log('Not Moonsama')
       store.dispatch('setUrlPrefix', 'moonsama')
     }
-
-    redirect('/')
+    setTimeout(() => redirect('/'))
   }
 }
 </script>
