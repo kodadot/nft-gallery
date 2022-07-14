@@ -532,6 +532,7 @@ export default class SearchBar extends mixins(
   }
 
   redirectToGalleryPageIfNeed() {
+    console.log('callledd')
     if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
       this.$router.replace({
         name: this.routeOf('explore'),
@@ -554,7 +555,9 @@ export default class SearchBar extends mixins(
     if (value !== this.searchQuery) {
       this.replaceUrl(value)
     }
-    this.redirectToGalleryPageIfNeed()
+    if (value) {
+      this.redirectToGalleryPageIfNeed()
+    }
     return value
   }
 
