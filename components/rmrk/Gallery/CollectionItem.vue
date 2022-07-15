@@ -227,7 +227,7 @@ export default class CollectionItem extends mixins(
   private isLoading = true
   private nfts: NFT[] = []
 
-  collectionProfileSortOption: string[] = [
+  protected collectionProfileSortOption: string[] = [
     'EMOTES_COUNT_DESC',
     'BLOCK_NUMBER_DESC',
     'BLOCK_NUMBER_ASC',
@@ -238,7 +238,7 @@ export default class CollectionItem extends mixins(
     'SN_ASC',
   ]
 
-  squidCollectionProfileSortOption: string[] = [
+  protected squidCollectionProfileSortOption: string[] = [
     'blockNumber_DESC',
     'blockNumber_ASC',
     'updatedAt_DESC',
