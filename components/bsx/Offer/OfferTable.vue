@@ -1,7 +1,7 @@
 <template>
   <b-table :data="offers">
     <b-table-column
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       field="caller"
       :label="$t('offer.caller')"
       v-slot="props"
@@ -12,59 +12,63 @@
     </b-table-column>
 
     <b-table-column
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       field="price"
       :label="$t('offer.price')"
       v-slot="props"
       sortable>
-      <Money :value="props.row.price" inline hideUnit />
+      <Money :value="props.row.price" inline />
     </b-table-column>
     <b-table-column
       v-if="!isBsxStats"
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       field="expiration"
       :label="$t('offer.expiration')"
-      v-slot="props"
       sortable>
-      {{ props.row.expiration }}
+      {{ expiration }}
     </b-table-column>
     <b-table-column
       v-if="!isBsxStats"
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       :label="$t('offer.action')"
       v-slot="props"
       width="120"
       sortable>
-      <b-button
-        v-if="isOwner"
-        type="is-success"
-        outlined
-        icon-left="money-bill"
-        @click="tellFrens(props.row.caller)" />
       <b-button
         v-if="props.row.caller === accountId"
         type="is-orange"
         outlined
         icon-left="times"
         @click="tellFrens(props.row.caller)" />
+      <b-button
+        v-else-if="isOwner"
+        type="is-success"
+        outlined
+        icon-left="money-bill"
+        @click="tellFrens(props.row.caller)" />
     </b-table-column>
     <b-table-column
       v-if="isBsxStats"
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       :label="$t('nft.offer.item')"
-      v-slot="props">
+      v-slot="props"
+      sortable>
       <nuxt-link :to="`gallery/${props.row.nft.id}`">
-        <p v-if="props.row.nft.name">{{ props.row.nft.name }}</p>
-        <p v-else>{{ props.row.nft.id }}</p>
+        <p
+          class="limit-width-text"
+          :title="props.row.nft.name ? props.row.nft.name : props.row.nft.id">
+          {{ props.row.nft.name ? props.row.nft.name : props.row.nft.id }}
+        </p>
       </nuxt-link>
     </b-table-column>
     <b-table-column
       v-if="isBsxStats"
       field="status"
-      cell-class="is-vcentered"
+      cell-class="is-vcentered is-narrow"
       :label="$t('nft.offer.status')"
       v-slot="props"
-      ><p>{{ props.row.status }}</p></b-table-column
+      sortable>
+      <p>{{ props.row.status }}</p></b-table-column
     >
     <b-table-column
       v-if="isBsxStats"
@@ -89,6 +93,7 @@ import { Attribute, emptyArray } from '@kodadot1/minimark'
 import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
 import { Offer } from './types'
 import { formatDistanceToNow } from 'date-fns'
+import onApiConnect from '~/utils/api/general'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -102,6 +107,19 @@ export default class OfferTable extends Vue {
   @Prop(Boolean) public isOwner!: boolean
   @Prop(String) public accountId!: string
   @Prop(Boolean) public isBsxStats!: boolean
+  private expiration = 'loading' // expiration = current block + number of blocks * 14
+
+  created() {
+    onApiConnect(async (api) => {
+      const BLOCK_OFFSET = 5 // time between submit & finalization
+      const BLOCK_PER_DAY_COUNT = 7200 // 7200 = 86400 / 12
+      const DAY_COUNT = 14 // two weeks
+      const currentBlock = await api.query.system.number()
+      const expiration =
+        currentBlock.toNumber() + BLOCK_OFFSET + BLOCK_PER_DAY_COUNT * DAY_COUNT
+      this.expiration = expiration.toString()
+    })
+  }
 
   @Emit('select')
   tellFrens(caller: string) {
@@ -112,3 +130,10 @@ export default class OfferTable extends Vue {
   }
 }
 </script>
+<style scoped>
+.limit-width-text {
+  max-width: 50ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

@@ -110,6 +110,7 @@ export default class OfferList extends mixins(
           notificationTypes.success
         )
       })
+      this.fetchOffers()
     } catch (e: any) {
       showNotification(`[OFFER::ERR] ${e}`, notificationTypes.danger)
       this.$consola.error(e)

@@ -43,7 +43,7 @@
           >
         </template>
       </span>
-      <template v-if="!hideIdentityPopover">
+      <template v-else-if="!hideIdentityPopover">
         <IdentityPopover :identity="{ ...identity, address }">
           <template #trigger>
             {{ name | toString }}

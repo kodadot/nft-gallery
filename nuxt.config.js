@@ -263,6 +263,7 @@ export default defineNuxtConfig({
         process.env.SUBSQUID_ENDPOINT || URLS.koda.subsquidv6
       ),
       bsx: toApolloEndpoint(URLS.koda.snekk),
+      moonsama: toApolloEndpoint(URLS.koda.click),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
@@ -285,6 +286,7 @@ export default defineNuxtConfig({
       '@polkadot/ui-settings',
       '@polkadot/hw-ledger',
       '@polkadot/types-codec',
+      '@polkadot/wasm-bridge',
       '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
     ],
     extend(config) {

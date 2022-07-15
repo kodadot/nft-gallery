@@ -10,9 +10,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
     OfferStats: () => import('@/components/bsx/Offer/OfferStats.vue'),
   },
 })
-export default class OfferStatsPage extends Vue {
-  layout() {
-    return 'centered-half-layout'
-  }
-}
+export default class OfferStatsPage extends Vue {}
 </script>

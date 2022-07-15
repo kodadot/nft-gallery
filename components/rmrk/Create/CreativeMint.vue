@@ -63,7 +63,7 @@ import { emptyObject } from '@/utils/empty'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
 import {
   basicUpdateNameFunction,
   createCollection,
@@ -85,6 +85,7 @@ import { getNftId, NFT, NFTMetadata, SimpleNFT } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia, sanitizeIpfsUrl } from '../utils'
 import { askGpt } from '@/utils/gpt'
+import { DETAIL_TIMEOUT } from '~/utils/constants'
 
 const components = {
   AuthField: () => import('@/components/shared/form/AuthField.vue'),
@@ -242,13 +243,15 @@ export default class CreativeMint extends mixins(
   }
 
   protected navigateToDetail(nft: NFT, blockNumber: string) {
-    showNotification('You will go to the detail in 2 seconds')
+    showNotification(
+      `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+    )
     const go = () =>
       this.$router.push({
         path: `/rmrk/detail/${getNftId(nft, blockNumber)}`,
         query: { message: 'congrats' },
       })
-    setTimeout(go, 2000)
+    setTimeout(go, DETAIL_TIMEOUT)
   }
 
   @Watch('file')

@@ -6,10 +6,10 @@ query collectionListWithSearch(
   $offset: Int
   $search: [CollectionEntityFilter!]
   $listed: [NFTEntityFilter!]
-  $orderBy: CollectionEntitiesOrderBy = BLOCK_NUMBER_DESC
+  $orderBy: [CollectionEntitiesOrderBy!] = [BLOCK_NUMBER_DESC]
 ) {
   collectionEntities(
-    orderBy: [$orderBy, BLOCK_NUMBER_DESC]
+    orderBy: $orderBy
     first: $first
     offset: $offset
     filter: { id: { notLike: "%KAN%" }, and: $search }

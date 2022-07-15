@@ -34,9 +34,10 @@ export function prefixBuildOnText(prefix: string): string {
     case 'bsx':
       return 'Basilisk NFT Pallet'
     case 'statemine':
-      return 'Statemine Unique Pallet'
     case 'westmint':
       return 'Statemine Unique Pallet'
+    case 'moonsama':
+      return 'EVM Smart Contracts'
     default:
       return 'RMRK Protocol'
   }

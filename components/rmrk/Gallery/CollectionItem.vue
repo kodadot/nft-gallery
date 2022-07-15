@@ -201,16 +201,14 @@ export default class CollectionItem extends mixins(
   private id = ''
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>()
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>()
-  private searchQuery: SearchQuery = Object.assign(
-    {
-      search: '',
-      type: '',
-      sortBy: (this.$route.query.sort as string) ?? 'BLOCK_NUMBER_DESC',
-      listed: false,
-      owned: false,
-    },
-    this.$route.query
-  )
+  private searchQuery: SearchQuery = {
+    search: this.$route.query?.search?.toString() ?? '',
+    type: this.$route.query?.type?.toString() ?? '',
+    sortBy: this.$route.query?.sort?.toString() ?? 'BLOCK_NUMBER_DESC',
+    listed: this.$route.query?.listed?.toString() === 'true',
+    owned: false,
+  }
+
   public activeTab = 'items'
   protected first = 16
   protected totalListed = 0
@@ -297,15 +295,23 @@ export default class CollectionItem extends mixins(
     const params: any[] = []
 
     if (this.searchQuery.search) {
-      params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` },
-      })
+      if (this.urlPrefix === 'rmrk') {
+        params.push({
+          name: { likeInsensitive: this.searchQuery.search },
+        })
+      } else {
+        params.push({ name_containsInsensitive: this.searchQuery.search })
+      }
     }
 
     if (this.searchQuery.listed || checkForEmpty) {
-      params.push({
-        price: { greaterThan: '0' },
-      })
+      if (this.urlPrefix === 'rmrk') {
+        params.push({
+          price: { greaterThan: '0' },
+        })
+      } else {
+        params.push({ price_gt: '0' })
+      }
     }
 
     if (this.searchQuery.owned && this.accountId) {
@@ -471,7 +477,7 @@ export default class CollectionItem extends mixins(
     { data }: any,
     loadDirection = 'down'
   ): Promise<void> {
-    const { collectionEntity } = data
+    const { collectionEntity, nftEntitiesConnection } = data
     if (!collectionEntity) {
       return this.$nuxt.error({
         statusCode: 404,
@@ -498,7 +504,8 @@ export default class CollectionItem extends mixins(
     } else {
       this.nfts = this.nfts.concat(newNfts)
     }
-    this.total = collectionEntity.nfts.totalCount
+    this.total =
+      collectionEntity.nfts.totalCount || nftEntitiesConnection.totalCount
     this.isLoading = false
 
     await this.fetchMetadata()
