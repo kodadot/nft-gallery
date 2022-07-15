@@ -67,7 +67,11 @@
           v-bind.sync="searchQuery"
           :showOwnerSwitch="!!accountId"
           :disableToggle="!totalListed"
-          :sortOption="collectionProfileSortOption">
+          :sortOption="
+            urlPrefix === 'rmrk'
+              ? collectionProfileSortOption
+              : squidCollectionProfileSortOption
+          ">
           <Layout class="mr-5" />
           <b-field>
             <Pagination
@@ -132,7 +136,6 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { NFT } from '@/components/rmrk/service/scheme'
 import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
 import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
-import collectionById from '@/queries/collectionById.graphql'
 import { getCloudflareImageLinks } from '@/utils/cachingStrategy'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import { emptyObject } from '@/utils/empty'
@@ -235,6 +238,16 @@ export default class CollectionItem extends mixins(
     'SN_ASC',
   ]
 
+  squidCollectionProfileSortOption: string[] = [
+    'blockNumber_DESC',
+    'blockNumber_ASC',
+    'updatedAt_DESC',
+    'updatedAt_ASC',
+    'price_DESC',
+    'price_ASC',
+    'sn_ASC',
+  ]
+
   get hasChartData(): boolean {
     return this.priceData.length > 0
   }
@@ -315,9 +328,13 @@ export default class CollectionItem extends mixins(
     }
 
     if (this.searchQuery.owned && this.accountId) {
-      params.push({
-        currentOwner: { equalTo: this.accountId },
-      })
+      if (this.urlPrefix === 'rmrk') {
+        params.push({
+          currentOwner: { equalTo: this.accountId },
+        })
+      } else {
+        params.push({ currentOwner_eq: this.accountId })
+      }
     }
 
     return params
@@ -341,12 +358,7 @@ export default class CollectionItem extends mixins(
       client: this.urlPrefix,
       variables: {
         id: this.id,
-        // orderBy: 'blockNumber_DESC',
-        orderBy: ifRMRK(
-          this.urlPrefix,
-          this.searchQuery.sortBy,
-          'blockNumber_DESC'
-        ),
+        orderBy: this.searchQuery.sortBy,
         search: this.buildSearchParam(),
         first: this.first,
         offset: (page - 1) * this.first,

@@ -396,6 +396,9 @@
     "PRICE_DESC": "Price: High to Low",
     "PRICE_ASC": "Price: Low to High",
     "SN_ASC": "Serial Number Ascending",
+    "price_DESC": "Price: High to Low",
+    "price_ASC": "Price: Low to High",
+    "sn_ASC": "Serial Number Ascending",
     "listed": "Buy now",
     "own": "Own"
   },
