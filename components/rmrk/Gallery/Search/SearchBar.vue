@@ -200,12 +200,6 @@ export default class SearchBar extends mixins(
   @Prop(Boolean) public showDefaultSuggestions!: boolean
 
   protected isVisible = false
-  // private query: SearchQuery = {
-  //   search: '',
-  //   type: '',
-  //   listed: true,
-  //   sortByMultiple: ['BLOCK_NUMBER_DESC'],
-  // }
   private query: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
