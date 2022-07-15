@@ -207,26 +207,29 @@ export default class CollectionItem extends mixins(
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
-    sortBy: this.$route.query?.sort?.toString() ?? 'BLOCK_NUMBER_DESC',
+    sortBy:
+      this.$route.query?.sort?.toString() ?? this.urlPrefix === 'rmrk'
+        ? 'BLOCK_NUMBER_DESC'
+        : 'blockNumber_DESC',
     listed: this.$route.query?.listed?.toString() === 'true',
     owned: false,
   }
 
   public activeTab = 'items'
+  protected isLoading = true
   protected first = 16
   protected totalListed = 0
   protected stats: NFT[] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []
-  private queryLoading = 0
   public eventsOfNftCollection: Interaction[] | [] = []
   public ownerEventsOfNftCollection: Interaction[] | [] = []
   public selectedEvent = 'all'
   public priceChartData: [Date, number][][] = []
   private openHistory = true
   private openHolder = true
-  private isLoading = true
   private nfts: NFT[] = []
 
+  // replacee with constant
   protected collectionProfileSortOption: string[] = [
     'EMOTES_COUNT_DESC',
     'BLOCK_NUMBER_DESC',
@@ -238,6 +241,7 @@ export default class CollectionItem extends mixins(
     'SN_ASC',
   ]
 
+  // move to constant
   protected squidCollectionProfileSortOption: string[] = [
     'blockNumber_DESC',
     'blockNumber_ASC',
