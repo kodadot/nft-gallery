@@ -25,15 +25,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, VModel, Prop } from 'nuxt-property-decorator'
-import { NFT_SORT_CONDITION_LIST } from '@/utils/constants'
+import { Component, mixins, VModel, Prop } from 'nuxt-property-decorator'
+import {
+  NFT_SORT_CONDITION_LIST,
+  NFT_SQUID_SORT_CONDITION_LIST,
+} from '@/utils/constants'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
 @Component
-export default class SearchSortDropdown extends Vue {
+export default class SearchSortDropdown extends mixins(PrefixMixin) {
   @VModel({ type: [Array, String] }) selectedAction!: string | string[]
   @Prop(Array) public sortOption?: string[]
   @Prop(Boolean) public multipleSelect!: boolean
 
-  private sort: string[] = NFT_SORT_CONDITION_LIST
+  private sort: string[] =
+    this.urlPrefix === 'rmrk'
+      ? NFT_SORT_CONDITION_LIST
+      : NFT_SQUID_SORT_CONDITION_LIST
 
   get actions(): string[] {
     return this.sortOption || this.sort

@@ -15,7 +15,7 @@ export type SearchQuery = {
   owned?: boolean | null
   priceMin?: number
   priceMax?: number
-  sortByMultiple?: any
+  sortByMultiple?: string[]
 }
 
 export type SearchSuggestion = {

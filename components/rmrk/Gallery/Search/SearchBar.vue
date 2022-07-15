@@ -168,7 +168,10 @@ import {
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
 import { convertLastEventToNft } from '@/utils/carousel'
-import { NFT_SORT_CONDITION_LIST } from '@/utils/constants'
+import {
+  NFT_SORT_CONDITION_LIST,
+  NFT_SQUID_SORT_CONDITION_LIST,
+} from '@/utils/constants'
 import { LastEvent } from '~/utils/types/types'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
@@ -189,8 +192,7 @@ export default class SearchBar extends mixins(
 ) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
-  @Prop({ type: Array, default: () => ['BLOCK_NUMBER_DESC'] })
-  public sortByMultiple!: string[]
+  @Prop({ type: Array, default: () => [] }) public sortByMultiple!: string[]
   @Prop(String) public searchColumnClass!: string
   @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
@@ -198,11 +200,17 @@ export default class SearchBar extends mixins(
   @Prop(Boolean) public showDefaultSuggestions!: boolean
 
   protected isVisible = false
+  // private query: SearchQuery = {
+  //   search: '',
+  //   type: '',
+  //   listed: true,
+  //   sortByMultiple: ['BLOCK_NUMBER_DESC'],
+  // }
   private query: SearchQuery = {
-    search: '',
-    type: '',
-    listed: true,
-    sortByMultiple: ['BLOCK_NUMBER_DESC'],
+    search: this.$route.query?.search?.toString() ?? '',
+    type: this.$route.query?.type?.toString() ?? '',
+    sortByMultiple: this.sortByMultiple ?? [],
+    listed: this.$route.query?.listed?.toString() === 'true',
   }
 
   private first = 30
@@ -471,8 +479,10 @@ export default class SearchBar extends mixins(
   @Emit('update:sortByMultiple')
   @Debounce(400)
   updateSortBy(value: string[] | string, $event?): string[] {
-    const final = (Array.isArray(value) ? value : [value]).filter((condition) =>
-      NFT_SORT_CONDITION_LIST.includes(condition)
+    const final = (Array.isArray(value) ? value : [value]).filter(
+      (condition) =>
+        NFT_SORT_CONDITION_LIST.includes(condition) ||
+        NFT_SQUID_SORT_CONDITION_LIST.includes(condition)
     )
     if ($event?.length > final.length || !$event) {
       this.replaceUrl(final, undefined, 'sort')
@@ -709,14 +719,18 @@ export default class SearchBar extends mixins(
 
     if (this.query.search) {
       params.push({
-        name: { likeInsensitive: `%${this.query.search}%` },
+        name: { likeInsensitive: this.query.search },
       })
     }
 
     if (this.query.listed) {
-      params.push({
-        price: { greaterThan: '0' },
-      })
+      if (this.urlPrefix === 'rmrk') {
+        params.push({
+          price: { greaterThan: '0' },
+        })
+      } else {
+        params.push({ price_gt: '0' })
+      }
     }
 
     return params
