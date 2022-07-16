@@ -14,7 +14,7 @@ describe(
       })
       cy.visit('https://beta.kodadot.xyz/')
     })
-    it('checkLanding', function () {
+    it('checkLanding', () => {
       cy.get('#NavCreate').should('be.visible')
       cy.get('#NavCreate').click()
       cy.get('[href="/rmrk/create"]')
