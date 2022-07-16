@@ -15,7 +15,7 @@ export default class LandingPage extends Vue {
       this.$consola.log('[EXPECT]', route.name, 'got', prefix)
       store.dispatch('setUrlPrefix', route.name)
     }
-    redirect('/')
+    setTimeout(() => redirect('/'))
   }
 }
 </script>

@@ -16,8 +16,7 @@ export default class LandingPage extends Vue {
       this.$consola.log('Not BSX')
       store.dispatch('setUrlPrefix', 'bsx')
     }
-
-    redirect('/')
+    setTimeout(() => redirect('/'))
   }
 }
 </script>
