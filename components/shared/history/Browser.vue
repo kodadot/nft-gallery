@@ -31,7 +31,7 @@
       <div v-if="visitedPastMonth && visitedPastMonth.length">
         <div class="list-header">This Month</div>
         <HistoryBrowserItem
-          v-for="item in visitedToday"
+          v-for="item in visitedPastMonth"
           :key="item.id"
           :item="item" />
       </div>

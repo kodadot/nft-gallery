@@ -67,10 +67,18 @@ export const getters: GetterTree<HistoryState, HistoryState> = {
   getVisitedPastMonth: ({ visitedNFTs }: any) =>
     visitedNFTs.filter(
       (nft) =>
-        isThisMonth(new Date(nft.date)) && !isThisWeek(new Date(nft.date))
+        isThisMonth(new Date(nft.date)) &&
+        !isThisWeek(new Date(nft.date)) &&
+        !isToday(new Date(nft.date)) &&
+        !isYesterday(new Date(nft.date))
     ),
   getVisitedEarlier: ({ visitedNFTs }: any) =>
-    visitedNFTs.filter((nft) => !isThisMonth(new Date(nft.date))),
+    visitedNFTs.filter(
+      (nft) =>
+        !isThisMonth(new Date(nft.date)) &&
+        !isToday(new Date(nft.date)) &&
+        !isYesterday(new Date(nft.date))
+    ),
   getCurrentlyViewedItem: ({ currentlyViewedItem }) => currentlyViewedItem,
   getCurrentlyViewedCollection: ({ currentlyViewedCollection }) =>
     currentlyViewedCollection,
