@@ -221,6 +221,8 @@ export default class GalleryItem extends mixins(
 
   get isOwner(): boolean {
     return isOwner(this.nft.currentOwner, this.accountId)
+  }
+
   get balance(): string {
     return this.$store.getters.getAuthBalance
   }
