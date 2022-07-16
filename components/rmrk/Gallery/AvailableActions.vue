@@ -80,7 +80,6 @@ import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { emptyObject } from '~/utils/empty'
 import { isAddress } from '@polkadot/util-crypto'
-import { downloadImage } from '@/utils/download'
 import { createInteraction, JustInteraction } from '@kodadot1/minimark'
 import {
   ShoppingActions,
