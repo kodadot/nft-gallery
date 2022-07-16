@@ -12,9 +12,9 @@ TERM = "xterm"
 # run Cypress E2E tests
 [[plugins]]
 package = "netlify-plugin-cypress"
-[plugins.inputs.preBuild]
-# skip the default tests before the deploy
-enable = false
+#[plugins.inputs.preBuild]
+## skip the default tests before the deploy
+#enable = false
 # run the tests after the deploy
 [plugins.inputs.postBuild]
 enable = true
