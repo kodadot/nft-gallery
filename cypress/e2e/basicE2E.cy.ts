@@ -12,7 +12,7 @@ describe(
         console.log('error', e)
         return false
       })
-      cy.visit('https://beta.kodadot.xyz/rmrk')
+      cy.visit('/rmrk')
     })
     it('checkNavbar', () => {
       cy.get('#NavCreate').should('be.visible')
@@ -62,7 +62,7 @@ describe(
         console.log('error', e)
         return false
       })
-      cy.visit('https://beta.kodadot.xyz/bsx')
+      cy.visit('/bsx')
     })
     it('checkNavbar', () => {
       cy.get('#NavCreate').should('be.visible')
@@ -96,7 +96,7 @@ describe(
         console.log('error', e)
         return false
       })
-      cy.visit('https://beta.kodadot.xyz/rmrk/explore')
+      cy.visit('/rmrk/explore')
     })
     it('checkTabs', () => {
       cy.get('.tabs > ul').should('be.visible')
@@ -141,7 +141,7 @@ describe(
         console.log('error', e)
         return false
       })
-      cy.visit('https://beta.kodadot.xyz/rmrk/explore')
+      cy.visit('/rmrk/explore')
     })
     it('checkTabs', () => {
       cy.get('.tabs > ul').should('be.visible')

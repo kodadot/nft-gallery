@@ -1,22 +1,37 @@
 [build.environment]
-  NODE_VERSION = "16"
-  NPM_FLAGS = "--version" # prevent Netlify npm install
+NODE_VERSION = "16"
+NPM_FLAGS = "--version" # prevent Netlify npm install
+# cache Cypress binary in local "node_modules" folder
+# so Netlify caches it
+CYPRESS_CACHE_FOLDER = "./node_modules/CypressBinary"
+# set TERM variable for terminal output
+TERM = "xterm"
+
+# run Cypress E2E tests
+[[plugins]]
+package = "netlify-plugin-cypress"
+[plugins.inputs]
+# skip the default tests before the deploy
+skip = true
+[plugins.inputs.onSuccess]
+# run tests after the deploy
+enable = true
 
 [build]
-  # This will be your default build command.
-  command = "npm i -g pnpm && npm run generate:pnpm"
-  # This is the directory that you are publishing from.
-  publish = "dist"
-  # This is where Netlify will look for your lambda functions.
-  functions = "src-functions"
+# This will be your default build command.
+command = "npm i -g pnpm && npm run generate:pnpm"
+# This is the directory that you are publishing from.
+publish = "dist"
+# This is where Netlify will look for your lambda functions.
+functions = "src-functions"
 
 [functions]
-  node_bundler = "esbuild"
+node_bundler = "esbuild"
 
 [dev]
-   command = "npx pnpm dev"
-   port = 9000
-   targetPort = 9090
+command = "npx pnpm dev"
+port = 9000
+targetPort = 9090
 
 [context.deploy-preview]
 command = 'export BASE_URL=$DEPLOY_PRIME_URL && env && npm run generate:pnpm'
@@ -25,26 +40,26 @@ command = 'export BASE_URL=$DEPLOY_PRIME_URL && env && npm run generate:pnpm'
 command = 'export BASE_URL=$URL && env && npm run generate:pnpm'
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/*"
+to = "/index.html"
+status = 200
 
 [[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    # Referrer Policy is a new header that allows a site to control how much information the browser includes with navigations away from a document and should be set by all sites.
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    # Don't load any resource type not explicitly enabled
-    # Disable plugins like Flash or Silverlight
-    # Load images, scripts, stylesheets and fonts from self
-    ## Content-Security-Policy = "upgrade-insecure-requests" <- this did not work tho
-    # Prevent browsers from incorrectly detecting non-scripts as scripts
-    X-Content-Type-Options = "nosniff"
-    # Block site from being framed with X-Frame-Options and CSP
-    Content-Security-Policy = "frame-ancestors 'self';"
-    # Basic one if one above won't work
-    # Content-Security-Policy = "default-src 'self';"
-    # For future testing, refer to https://github.com/kodadot/nft-gallery/issues/540
-    # Permissions-Policy = "interest-cohort=()"
+for = "/*"
+[headers.values]
+X-Frame-Options = "DENY"
+X-XSS-Protection = "1; mode=block"
+# Referrer Policy is a new header that allows a site to control how much information the browser includes with navigations away from a document and should be set by all sites.
+Referrer-Policy = "strict-origin-when-cross-origin"
+# Don't load any resource type not explicitly enabled
+# Disable plugins like Flash or Silverlight
+# Load images, scripts, stylesheets and fonts from self
+## Content-Security-Policy = "upgrade-insecure-requests" <- this did not work tho
+# Prevent browsers from incorrectly detecting non-scripts as scripts
+X-Content-Type-Options = "nosniff"
+# Block site from being framed with X-Frame-Options and CSP
+Content-Security-Policy = "frame-ancestors 'self';"
+# Basic one if one above won't work
+# Content-Security-Policy = "default-src 'self';"
+# For future testing, refer to https://github.com/kodadot/nft-gallery/issues/540
+# Permissions-Policy = "interest-cohort=()"
