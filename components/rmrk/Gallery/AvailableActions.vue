@@ -98,7 +98,6 @@ const iconResolver: Record<string, DescriptionTuple> = {
   [ShoppingActions.CONSUME]: ['is-danger'],
   [ShoppingActions.LIST]: ['is-light'],
   [ShoppingActions.BUY]: ['is-success is-dark'],
-  [ShoppingActions.DOWNLOAD]: ['is-warning'],
 }
 
 const components = {
