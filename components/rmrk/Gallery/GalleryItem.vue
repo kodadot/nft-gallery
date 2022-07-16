@@ -86,7 +86,7 @@
                         <AvailableActions
                           ref="actions"
                           :current-owner-id="nft.currentOwner"
-                          :isOwer="isOwner"
+                          :is-owner="isOwner"
                           :price="nft.price"
                           :originialOwner="nft.issuer"
                           :nft-id="nft.id"
