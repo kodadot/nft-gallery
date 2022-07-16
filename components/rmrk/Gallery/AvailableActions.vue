@@ -5,7 +5,7 @@
       <ShareNetwork
         v-if="identity && identity.twitter && this.isOwner"
         tag="button"
-        class="button is-info is-dark is-outlined is-fullwidth twitter-btn"
+        class="button is-info is-dark is-outlined is-fullwidth twitter-btn only-border-top"
         network="twitter"
         :hashtags="'KodaDot'"
         :url="realworldFullPath"
