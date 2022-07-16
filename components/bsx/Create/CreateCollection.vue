@@ -6,12 +6,13 @@
         <b-field class="mb-5" />
       </template>
       <template v-slot:footer>
-        <CustomAttributeInput
+        <!-- Hidden as of 11.July.2022 due to lack of convenience #3407 -->
+        <!-- <CustomAttributeInput
           :max="10"
           v-model="attributes"
           class="mb-3"
           visible="collapse.collection.attributes.show"
-          hidden="collapse.collection.attributes.hide" />
+          hidden="collapse.collection.attributes.hide" /> -->
         <b-field>
           <p class="has-text-weight-medium is-size-6 has-text-warning">
             {{ $t('mint.deposit') }}:
@@ -67,8 +68,8 @@ const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  CustomAttributeInput: () =>
-    import('@/components/rmrk/Create/CustomAttributeInput.vue'),
+  // CustomAttributeInput: () =>
+  //   import('@/components/rmrk/Create/CustomAttributeInput.vue'),
 }
 
 @Component({ components })
