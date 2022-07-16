@@ -127,6 +127,7 @@
     "@typescript-eslint/parser": "^5.30.5",
     "all-contributors-cli": "^6.20.0",
     "consola": "^2.15.3",
+    "cypress": "^10.3.0",
     "eslint": "^8.19.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unicorn": "^42.0.0",
