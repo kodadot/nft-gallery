@@ -5,6 +5,7 @@ describe(
     viewportWidth: 1024,
   },
   () => {
+    //test
     it('loadLanding', () => {
       cy.clearCookies()
       // inspect the caught error
