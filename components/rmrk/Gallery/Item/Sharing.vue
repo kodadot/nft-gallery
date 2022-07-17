@@ -12,6 +12,13 @@
         <b-icon size="is-small" pack="fas" icon="link" />
       </b-button>
 
+      <b-button
+        v-if="enableDownload"
+        @click="downloadImage()"
+        type="is-primary is-bordered-light share-button">
+        <b-icon size="is-small" pack="fas" icon="download" />
+      </b-button>
+
       <b-tooltip
         position="is-left"
         class="share__tooltip"
@@ -82,6 +89,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { IFrame, emptyIframe } from '../../types'
+import { downloadImage } from '~/utils/download'
 
 const components = {
   ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
@@ -92,7 +100,7 @@ const components = {
 export default class Sharing extends Vue {
   @Prop({ default: 'Check out this cool NFT on KodaDot' }) label!: string
   @Prop({ default: () => emptyIframe }) iframe!: IFrame
-  @Prop(Boolean) onlyCopyLink!: boolean
+  @Prop(Boolean) enableDownload!: boolean
 
   private active = false
 
@@ -138,6 +146,10 @@ export default class Sharing extends Vue {
     this.$buefy.toast.open(message)
   }
 
+  get currentGalleryItemImage(): { image: string; name: string } {
+    return this.$store.getters['history/getCurrentlyViewedItem'] || {}
+  }
+
   public async shareTooltip(): Promise<void> {
     this.openFallbackShareTooltip()
     if (navigator.share) {
@@ -152,6 +164,11 @@ export default class Sharing extends Vue {
         this.$consola.error(err)
       }
     }
+  }
+
+  protected downloadImage() {
+    const { image, name } = this.currentGalleryItemImage
+    image && downloadImage(image, name)
   }
 
   public openFallbackShareTooltip(): void {

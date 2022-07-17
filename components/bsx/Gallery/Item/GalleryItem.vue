@@ -17,7 +17,7 @@
             </p>
           </div>
           <div class="column">
-            <Sharing onlyCopyLink />
+            <Sharing :enableDownload="isOwner" />
           </div>
         </div>
       </b-message>
@@ -82,6 +82,7 @@
                         <AvailableActions
                           ref="actions"
                           :account-id="accountId"
+                          :is-owner="isOwner"
                           :current-owner-id="nft.currentOwner"
                           :price="nft.price"
                           :nftId="id"
@@ -102,7 +103,7 @@
                       <span>{{ $t('general.balance') }}: </span>
                       <Money :value="balance" inline />
                     </p>
-                    <Sharing class="mb-4" />
+                    <Sharing :enableDownload="isOwner" class="mb-4" />
                   </div>
                 </div>
               </template>
@@ -151,6 +152,7 @@ import resolveQueryPath from '~/utils/queryPathResolver'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
 import { isEmpty } from '@kodadot1/minimark'
 import { royaltyOf } from '@/utils/royalty'
+import { isOwner } from '~/utils/account'
 import { generateNftImage } from '~/utils/seoImageGenerator'
 import { formatBsxBalanceEmptyOnZero } from '~/utils/format/balance'
 
@@ -215,6 +217,10 @@ export default class GalleryItem extends mixins(
         this.subscribe(getPrice(api), this.tokenId, this.observePrice)
       }
     })
+  }
+
+  get isOwner(): boolean {
+    return isOwner(this.nft.currentOwner, this.accountId)
   }
 
   get balance(): string {
