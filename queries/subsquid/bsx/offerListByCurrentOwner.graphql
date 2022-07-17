@@ -1,0 +1,16 @@
+query offerListByCurrentOwner($id: String!) {
+  offers(
+    orderBy: createdAt_DESC,
+    where: { nft: { currentOwner_eq: $id, burned_eq: false } }
+  ) {
+    caller
+    expiration
+    price
+    status
+    createdAt
+    nft {
+      id
+      name
+    }
+  }
+}

@@ -536,6 +536,13 @@
     "offers": "Offers",
     "bsxTitle":  "Basilisk Marketplace Statistics"
   },
+  "myOffer": {
+    "bsxTitle": "My Offer",
+    "price": "Amount",
+    "caller": "Offer Maker",
+    "date": "Time",
+    "empty": "There are currently no offers."
+  },
   "loader": {
     "casting": "(1/3) Casting the tx to blockchain",
     "finalized": "(3/3) Finalized",
