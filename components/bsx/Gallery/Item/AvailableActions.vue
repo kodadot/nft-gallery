@@ -149,7 +149,6 @@ export default class AvailableActions extends mixins(
   }
 
   protected handleAction(action: ShoppingActions) {
-    console.log('handle action')
     if (shouldUpdate(action, this.selectedAction)) {
       this.selectedAction = action
     } else {
@@ -175,7 +174,6 @@ export default class AvailableActions extends mixins(
   }
 
   protected async submit() {
-    console.log('submit')
     const { api } = Connector.getInstance()
     this.initTransactionLoader()
 
@@ -224,8 +222,6 @@ export default class AvailableActions extends mixins(
 
   protected getArgs(expiration?: number): any[] {
     const { selectedAction, collectionId, nftId, currentOwnerId, meta } = this
-
-    console.log(collectionId, nftId)
 
     return bsxParamResolver(
       createTokenId(collectionId, nftId),
