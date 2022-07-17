@@ -32,6 +32,7 @@
             <VueMarkdown
               v-if="!isLoading"
               class="is-size-5"
+              :style="{ wordBreak: 'break-word' }"
               :source="meta.description.replaceAll('\n', '  \n')" />
             <b-skeleton
               :count="3"
