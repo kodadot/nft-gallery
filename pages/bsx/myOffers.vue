@@ -10,5 +10,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
     MyOffer: () => import('@/components/bsx/Offer/MyOffer.vue'),
   },
 })
-export default class MyOfferPage extends Vue {}
+export default class MyOffersPage extends Vue {}
 </script>
