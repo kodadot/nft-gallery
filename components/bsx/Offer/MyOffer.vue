@@ -51,7 +51,7 @@
       >
       <template #empty>
         <div class="has-text-centered">
-          {{ $t('myOffer.empty') }}
+          {{ $t(isLogIn ? 'myOffer.empty' : 'myOffer.needLogin') }}
         </div>
       </template>
     </b-table>

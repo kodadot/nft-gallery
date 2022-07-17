@@ -541,6 +541,7 @@
     "price": "Amount",
     "caller": "Offer Maker",
     "date": "Time",
+    "needLogin": "Connect wallet to see your offers here.",
     "empty": "There are currently no offers."
   },
   "loader": {
