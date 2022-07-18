@@ -88,6 +88,7 @@ export const actions = {
     }
   },
   async fetchBalance({ commit, dispatch }, address: string) {
+    // TODO: bit hard to fix now
     onApiConnect(async (api) => {
       try {
         const balanceSub = await api.derive.balances.all(

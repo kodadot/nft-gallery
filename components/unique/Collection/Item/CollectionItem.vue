@@ -81,14 +81,14 @@
 <script lang="ts">
 import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { Component } from 'vue-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import {
   fetchCollectionMetadata,
   sanitizeIpfsUrl,
 } from '@/components/rmrk/utils'
 import isShareMode from '@/utils/isShareMode'
 
-import Connector from '@kodadot1/sub-api'
+import Connector, { onApiConnect } from '@kodadot1/sub-api'
 import { Option } from '@polkadot/types'
 import { NFTWithMeta } from '@/components/rmrk/service/scheme'
 import { ClassDetails, ClassMetadata } from '@polkadot/types/interfaces'
@@ -97,10 +97,9 @@ import { CollectionMetadata } from '@/components/rmrk/service/scheme'
 import { tokenIdToRoute } from '../../utils'
 import { Collection, Attribute } from '@/components/unique/types'
 import AuthMixin from '@/utils/mixins/authMixin'
-import { mixins } from 'vue-class-component'
-import onApiConnect from '~/utils/api/general'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import UseApiMixin from '~/utils/mixins/useApiMixin'
 
 const components = {
   GalleryCardList: () =>
@@ -120,7 +119,8 @@ const components = {
 export default class CollectionItem extends mixins(
   AuthMixin,
   SubscribeMixin,
-  PrefixMixin
+  PrefixMixin,
+  UseApiMixin
 ) {
   private id = ''
   private collection: Collection & CollectionMetadata = emptyObject()
@@ -170,7 +170,7 @@ export default class CollectionItem extends mixins(
   public created() {
     this.checkId()
     this.fetchCollection()
-    onApiConnect((api) => {
+    onApiConnect(this.apiUrl, (api) => {
       this.loadMagic()
       this.subscribe(api.query.uniques.class, [this.id], this.observeOwner)
     })

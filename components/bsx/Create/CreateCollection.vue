@@ -36,7 +36,6 @@ import {
   getMetadataDeposit,
 } from '@/components/unique/apiConstants'
 import { getRandomValues, hasEnoughToken } from '@/components/unique/utils'
-// import onApiConnect from '@/utils/api/general'
 import { uploadDirect } from '@/utils/directUpload'
 import formatBalance from '@/utils/formatBalance'
 import { mapToId } from '@/utils/mappers'

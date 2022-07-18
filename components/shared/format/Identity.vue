@@ -59,17 +59,17 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, mixins, Emit } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
+import Connector, { onApiConnect } from '@kodadot1/sub-api'
 import InlineMixin from '@/utils/mixins/inlineMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { hexToString, isHex } from '@polkadot/util'
-import onApiConnect from '@/utils/api/general'
 import { emptyObject } from '@/utils/empty'
 import { Data } from '@polkadot/types'
 import shortAddress from '@/utils/shortAddress'
 import { get, update } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import shouldUpdate from '@/utils/shouldUpdate'
+import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
@@ -79,7 +79,7 @@ const components = {
 }
 
 @Component({ components })
-export default class Identity extends mixins(InlineMixin) {
+export default class Identity extends mixins(InlineMixin, ApiUrlMixin) {
   @Prop() public address!: Address
   @Prop(Boolean) public verticalAlign!: boolean
   @Prop(Boolean) public noOwerflow!: boolean
@@ -128,7 +128,7 @@ export default class Identity extends mixins(InlineMixin) {
    * https://vuejs.org/guide/essentials/lifecycle.html
    */
   mounted() {
-    onApiConnect(async () => {
+    onApiConnect(this.apiUrl, async () => {
       this.identity = await this.identityOf(this.resolveAddress(this.address))
     })
   }

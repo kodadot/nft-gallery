@@ -61,12 +61,11 @@ import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
 import { createMetadata } from '@kodadot1/minimark'
-import Connector from '@kodadot1/sub-api'
+import Connector, { onApiConnect } from '@kodadot1/sub-api'
 import { getMany, update } from 'idb-keyval'
 
 import { BaseMintedCollection, BaseTokenType } from '~/components/base/types'
 import { fetchCollectionMetadata } from '~/components/rmrk/utils'
-import onApiConnect from '~/utils/api/general'
 import {
   DETAIL_TIMEOUT,
   IPFS_KODADOT_IMAGE_PLACEHOLDER,
@@ -76,6 +75,7 @@ import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getInstanceDeposit, getMetadataDeposit } from '../apiConstants'
 import { createTokenId, tokenIdToRoute } from '../utils'
+import UseApiMixin from '~/utils/mixins/useApiMixin'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -100,7 +100,8 @@ export default class CreateToken extends mixins(
   MetaTransactionMixin,
   ChainMixin,
   PrefixMixin,
-  AuthMixin
+  AuthMixin,
+  UseApiMixin
 ) {
   protected base: BaseTokenType<MintedCollection> = {
     name: '',
@@ -122,9 +123,9 @@ export default class CreateToken extends mixins(
   }
 
   public async created() {
-    onApiConnect(() => {
-      const instanceDeposit = getInstanceDeposit()
-      const metadataDeposit = getMetadataDeposit()
+    onApiConnect(this.apiUrl, (api) => {
+      const instanceDeposit = getInstanceDeposit(api)
+      const metadataDeposit = getMetadataDeposit(api)
       this.deposit = (instanceDeposit + metadataDeposit).toString()
     })
   }

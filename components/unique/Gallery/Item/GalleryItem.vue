@@ -136,11 +136,11 @@ import { MediaType } from '@/components/rmrk/types'
 import axios from 'axios'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
-import Connector from '@kodadot1/sub-api'
+import Connector, { onApiConnect } from '@kodadot1/sub-api'
 import { Option } from '@polkadot/types'
 import { createTokenId, tokenIdToRoute } from '../../utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import onApiConnect from '@/utils/api/general'
+import UseApiMixin from '~/utils/mixins/useApiMixin'
 
 @Component<GalleryItem>({
   components: {
@@ -161,7 +161,11 @@ import onApiConnect from '@/utils/api/general'
     orientation: Orientation,
   },
 })
-export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
+export default class GalleryItem extends mixins(
+  SubscribeMixin,
+  PrefixMixin,
+  UseApiMixin
+) {
   private id = ''
   private collectionId = ''
   private nft: NFT = emptyObject<NFT>()
@@ -183,7 +187,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
   public async created() {
     this.checkId()
     this.fetchCollection()
-    onApiConnect((api) => {
+    onApiConnect(this.apiUrl, (api) => {
       this.loadMagic()
       if (api.query.uniques) {
         this.subscribe(

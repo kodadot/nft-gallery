@@ -113,7 +113,7 @@
 
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
+import Connector, { onApiConnect } from '@kodadot1/sub-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import TransactionMixin from '@/utils/mixins/txMixin'
@@ -126,7 +126,7 @@ import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
 import { findCall, getApiParams } from '@/utils/teleport'
-import onApiConnect from '~/utils/api/general'
+import UseApiMixin from '~/utils/mixins/useApiMixin'
 
 @Component({
   components: {
@@ -145,7 +145,8 @@ import onApiConnect from '~/utils/api/general'
 export default class Transfer extends mixins(
   TransactionMixin,
   AuthMixin,
-  ChainMixin
+  ChainMixin,
+  UseApiMixin
 ) {
   protected destinationAddress = ''
   protected transactionValue = ''
@@ -185,7 +186,7 @@ export default class Transfer extends mixins(
   protected created() {
     this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
-    onApiConnect(async (api) => {
+    onApiConnect(this.apiUrl, async (api) => {
       const paraId = await api.query.parachainInfo?.parachainId()
       this.paraTeleport = paraId?.toString() || ''
     })
