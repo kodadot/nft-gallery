@@ -28,7 +28,6 @@
 <script lang="ts">
 import { NFTAction } from '@/components/unique/NftUtils'
 import { createTokenId } from '@/components/unique/utils'
-import { isSameAccount } from '@/utils/account'
 import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
 import AuthMixin from '@/utils/mixins/authMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
@@ -69,6 +68,7 @@ export default class AvailableActions extends mixins(
   @Prop(String) public nftId!: string
   @Prop(String) public collectionId!: string
   @Prop(Boolean) public isMakeOffersAllowed!: boolean
+  @Prop(Boolean) public isOwner!: boolean
   @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
   private selectedAction: ShoppingActions | '' = ''
@@ -92,20 +92,6 @@ export default class AvailableActions extends mixins(
     }
 
     return false
-  }
-
-  get isOwner(): boolean {
-    this.$consola.log(
-      '{ currentOwnerId, accountId }',
-      this.currentOwnerId,
-      this.accountId
-    )
-
-    return Boolean(
-      this.currentOwnerId &&
-        this.accountId &&
-        isSameAccount(this.currentOwnerId, this.accountId)
-    )
   }
 
   get showSubmit() {

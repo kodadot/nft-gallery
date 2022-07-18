@@ -17,7 +17,7 @@
             </p>
           </div>
           <div class="column">
-            <Sharing onlyCopyLink />
+            <Sharing :enableDownload="isOwner" />
           </div>
         </div>
       </b-message>
@@ -78,7 +78,7 @@
                         <Auth class="mt-4" evm />
                       </p>
                     </div>
-                    <Sharing class="mb-4" />
+                    <Sharing :enableDownload="isOwner" class="mb-4" />
                   </div>
                 </div>
               </template>
@@ -120,6 +120,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import resolveQueryPath from '~/utils/queryPathResolver'
 import { isEmpty } from '@kodadot1/minimark'
 import { royaltyOf } from '@/utils/royalty'
+import { isOwner } from '~/utils/account'
 
 @Component<GalleryItem>({
   components: {
@@ -198,6 +199,10 @@ export default class GalleryItem extends mixins(
     }
 
     this.fetchMetadata()
+  }
+
+  get isOwner(): boolean {
+    return isOwner(this.nft.currentOwner, this.accountId)
   }
 
   onImageError(e: any) {

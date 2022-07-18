@@ -15,7 +15,7 @@
             </p>
           </div>
           <div class="column">
-            <Sharing onlyCopyLink />
+            <Sharing :enableDownload="isOwner" />
           </div>
         </div>
       </b-message>
@@ -72,6 +72,7 @@
                           <AvailableActions
                             ref="actions"
                             :account-id="accountId"
+                            :is-owner="isOwner"
                             :current-owner-id="nft.currentOwner"
                             :price="nft.price"
                             :nftId="id"
@@ -95,7 +96,7 @@
                       :nftId="id"
                       :collectionId="collectionId"
                       :attributes="nft.attributes" />
-                    <Sharing class="mb-4" />
+                    <Sharing :enableDownload="isOwner" class="mb-4" />
                   </div>
                 </div>
               </template>
@@ -119,6 +120,7 @@ import {
   resolveMedia,
   getSanitizer,
 } from '@/components/rmrk/utils'
+import { isOwner } from '~/utils/account'
 import { emptyObject } from '@/utils/empty'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -141,6 +143,7 @@ import { Option } from '@polkadot/types'
 import { createTokenId, tokenIdToRoute } from '../../utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import onApiConnect from '@/utils/api/general'
+import AuthMixin from '~/utils/mixins/authMixin'
 
 @Component<GalleryItem>({
   components: {
@@ -161,7 +164,11 @@ import onApiConnect from '@/utils/api/general'
     orientation: Orientation,
   },
 })
-export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
+export default class GalleryItem extends mixins(
+  SubscribeMixin,
+  PrefixMixin,
+  AuthMixin
+) {
   private id = ''
   private collectionId = ''
   private nft: NFT = emptyObject<NFT>()
@@ -172,12 +179,12 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
   public emotes: Emote[] = []
   public message = ''
 
-  get accountId() {
-    return this.$store.getters.getAuthAddress
-  }
-
   get emoteVisible() {
     return this.urlPrefix === 'rmrk'
+  }
+
+  get isOwner(): boolean {
+    return isOwner(this.nft.currentOwner, this.accountId)
   }
 
   public async created() {
