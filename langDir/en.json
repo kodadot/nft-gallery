@@ -402,6 +402,12 @@
     "listed": "Buy now",
     "own": "Own"
   },
+  "query": {
+    "priceRange": {
+      "minPrice": "MIN PRICE",
+      "maxPrice": "MAX PRICE"
+    }
+  },
   "mint": {
     "submit": "Click to create NFT(s)",
     "estimate": "Show me the transaction fees",
@@ -648,6 +654,7 @@
     "mint": "3. Minting"
   },
   "general": {
+    "apply": "Apply",
     "using": "using",
     "balance": "Balance",
     "connect": "Connect",

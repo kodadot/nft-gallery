@@ -17,6 +17,10 @@ export default class PrefixMixin extends Vue {
     return this.$store.getters.currentUrlPrefix
   }
 
+  get token(): string {
+    return this.urlPrefix === 'bsx' ? 'BSX' : 'KSM'
+  }
+
   get client(): string {
     return this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix
   }

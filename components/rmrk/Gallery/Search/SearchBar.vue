@@ -2,8 +2,7 @@
   <div class="mb-3">
     <div class="row" v-if="!isVisible && !hideSearchInput">
       <div v-if="sliderDirty && !hideFilter" class="is-size-7">
-        Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
-        {{ this.query.priceMax / 1000000000000 }}
+        {{ priceRange }}
       </div>
     </div>
     <div class="columns mb-0">
@@ -92,8 +91,7 @@
         </b-autocomplete>
         <div v-if="!isVisible && hideSearchInput">
           <div v-if="sliderDirty" class="is-size-7">
-            Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
-            {{ this.query.priceMax / 1000000000000 }}
+            {{ priceRange }}
           </div>
         </div>
       </b-field>
@@ -128,27 +126,32 @@
           size="is-medium"
           labelColor="is-success" />
       </div>
-      <b-slider
-        v-if="listed"
-        class="column is-half"
-        v-model="rangeSlider"
-        :custom-formatter="(val) => `${val} KSM`"
-        :max="30"
-        :min="0"
-        :step="1"
-        ticks
-        @change="sliderChange">
-      </b-slider>
+      <div v-if="listed" class="columns is-half">
+        <b-input
+          class="column is-2"
+          :placeholder="$t('query.priceRange.minPrice')"
+          v-model="rangeSlider[0]">
+        </b-input>
+        <b-input
+          class="column is-2"
+          :placeholder="$t('query.priceRange.maxPrice')"
+          v-model="rangeSlider[1]">
+        </b-input>
+        <div class="column is-1">
+          <b-button class="is-primary" @click="sliderChange(rangeSlider)">
+            {{ $t('general.apply') }}
+          </b-button>
+        </div>
+      </div>
       <div v-if="sliderDirty" class="is-size-7">
-        Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
-        {{ this.query.priceMax / 1000000000000 }}
+        {{ priceRange }}
       </div>
     </b-collapse>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, Emit, mixins, Watch } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
@@ -214,13 +217,30 @@ export default class SearchBar extends mixins(
   private searchString = ''
   private name = ''
   private searched: NFT[] = []
-  private rangeSlider = [0, 5]
+  private rangeSlider: [number | undefined, number | undefined] = [
+    undefined,
+    undefined,
+  ]
   private sliderDirty = false
   private searchSuggestionEachTypeMaxNum = 3
   private bigNum = 1e10
   private keyDownNativeEnterFlag = true
   private defaultNFTSuggestions: NFTWithMeta[] = []
   private defaultCollectionSuggestions: CollectionWithMeta[] = []
+
+  get priceRange(): string {
+    const min = this.$route.query.min
+    const max = this.$route.query.max
+    if (min && max) {
+      return `Prices ranging from ${min} ${this.token} to
+            ${max} ${this.token}`
+    } else if (min && !max) {
+      return `Prices ranging from ${min} ${this.token}`
+    } else if (!min && max) {
+      return `Prices ranging from 0 to ${max} ${this.token}`
+    }
+    return ''
+  }
 
   public async fetchSuggestionsOnce() {
     if (
@@ -693,7 +713,7 @@ export default class SearchBar extends mixins(
   }
 
   @Debounce(100)
-  replaceUrl(value: string | string[], value2?, key = 'search', key2?): void {
+  replaceUrl(value?: string | string[], value2?, key = 'search', key2?): void {
     this.$router
       .replace({
         path: String(this.$route.path),
@@ -758,27 +778,29 @@ export default class SearchBar extends mixins(
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
   }
 
-  @Debounce(50)
-  private sliderChange([min, max]: [number, number]): void {
+  private sliderChange([min, max]: [
+    number | undefined,
+    number | undefined
+  ]): void {
     if (!this.sliderDirty) {
       this.sliderDirty = true
     }
-    this.sliderChangeMin(min * 1000000000000)
-    this.sliderChangeMax(max * 1000000000000)
-    const priceMin = String(min)
-    const priceMax = String(max)
+    this.sliderChangeMin(min ? min * 1000000000000 : undefined)
+    this.sliderChangeMax(max ? max * 1000000000000 : undefined)
+    const priceMin = min ? String(min) : undefined
+    const priceMax = max ? String(max) : undefined
     this.replaceUrl(priceMin, priceMax, 'min', 'max')
   }
 
   @Emit('update:priceMin')
   @Debounce(50)
-  private sliderChangeMin(min: number): void {
+  private sliderChangeMin(min?: number): void {
     this.query.priceMin = min
   }
 
   @Emit('update:priceMax')
   @Debounce(50)
-  private sliderChangeMax(max: number): void {
+  private sliderChangeMax(max?: number): void {
     this.query.priceMax = max
   }
 }
