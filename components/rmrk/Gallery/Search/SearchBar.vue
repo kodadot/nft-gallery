@@ -151,7 +151,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
