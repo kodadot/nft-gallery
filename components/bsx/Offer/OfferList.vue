@@ -18,12 +18,12 @@ import { isSameAccount } from '~/utils/account'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import { Offer, OfferResponse } from './types'
-import Connector from '@kodadot1/sub-api'
 import { notificationTypes, showNotification } from '~/utils/notification'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { createTokenId } from '~/components/unique/utils'
 import offerListByNftId from '@/queries/subsquid/bsx/offerListByNftId.graphql'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
+import UseApiMixin from '~/utils/mixins/useApiMixin'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -37,7 +37,8 @@ export default class OfferList extends mixins(
   AuthMixin,
   MetaTransactionMixin,
   PrefixMixin,
-  SubscribeMixin
+  SubscribeMixin,
+  UseApiMixin
 ) {
   protected offers: Offer[] = []
   protected total = 0
@@ -95,7 +96,7 @@ export default class OfferList extends mixins(
   protected async submit(maker: string) {
     const { collectionId, nftId } = this
     try {
-      const { api } = Connector.getInstance()
+      const api = await this.useApi()
       this.initTransactionLoader()
       const isMe = isSameAccount(this.accountId, maker)
       const cb = !isMe
