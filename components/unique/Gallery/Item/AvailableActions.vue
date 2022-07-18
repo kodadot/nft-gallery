@@ -9,6 +9,7 @@
         :type="iconType(action)[0]"
         outlined
         expanded
+        class="only-border-top"
         @click="handleAction(action)">
         {{ action }}
       </b-button>
@@ -78,6 +79,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
   @Prop() public nftId!: string
   @Prop(String) public collectionId!: string
   @Prop(Boolean) public frozen!: boolean
+  @Prop(Boolean) public isOwner!: boolean
   @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
   private selectedAction: NFTAction = NFTAction.NONE
@@ -129,20 +131,6 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
   get isDelegator() {
     return (
       this.delegateId && this.accountId && this.delegateId === this.accountId
-    )
-  }
-
-  get isOwner() {
-    this.$consola.log(
-      '{ currentOwnerId, accountId }',
-      this.currentOwnerId,
-      this.accountId
-    )
-
-    return (
-      this.currentOwnerId &&
-      this.accountId &&
-      this.currentOwnerId === this.accountId
     )
   }
 
@@ -311,3 +299,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@import '@/styles/border';
+</style>

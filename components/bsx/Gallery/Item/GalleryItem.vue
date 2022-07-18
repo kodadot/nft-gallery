@@ -17,7 +17,7 @@
             </p>
           </div>
           <div class="column">
-            <Sharing onlyCopyLink />
+            <Sharing :enableDownload="isOwner" />
           </div>
         </div>
       </b-message>
@@ -34,6 +34,7 @@
             <VueMarkdown
               v-if="!isLoading"
               class="is-size-5"
+              :style="{ wordBreak: 'break-word' }"
               :source="meta.description.replaceAll('\n', '  \n')" />
             <b-skeleton
               :count="3"
@@ -82,6 +83,7 @@
                         <AvailableActions
                           ref="actions"
                           :account-id="accountId"
+                          :is-owner="isOwner"
                           :current-owner-id="nft.currentOwner"
                           :price="nft.price"
                           :nftId="id"
@@ -102,7 +104,7 @@
                       <span>{{ $t('general.balance') }}: </span>
                       <Money :value="balance" inline />
                     </p>
-                    <Sharing class="mb-4" />
+                    <Sharing :enableDownload="isOwner" class="mb-4" />
                   </div>
                 </div>
               </template>
@@ -143,7 +145,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { Option, u128 } from '@polkadot/types'
 import { InstanceDetails } from '@polkadot/types/interfaces'
 import { get, set } from 'idb-keyval'
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { processMedia } from '@/utils/gallery/media'
 import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -151,6 +153,7 @@ import resolveQueryPath from '~/utils/queryPathResolver'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
 import { isEmpty } from '@kodadot1/minimark'
 import { royaltyOf } from '@/utils/royalty'
+import { isOwner } from '~/utils/account'
 import { generateNftImage } from '~/utils/seoImageGenerator'
 import { formatBsxBalanceEmptyOnZero } from '~/utils/format/balance'
 
@@ -215,6 +218,10 @@ export default class GalleryItem extends mixins(
         this.subscribe(getPrice(api), this.tokenId, this.observePrice)
       }
     })
+  }
+
+  get isOwner(): boolean {
+    return isOwner(this.nft.currentOwner, this.accountId)
   }
 
   get balance(): string {
@@ -376,6 +383,25 @@ export default class GalleryItem extends mixins(
 
   get detailVisible() {
     return !isShareMode
+  }
+
+  @Watch('meta', { deep: true })
+  handleNFTPopulationFinished(newVal) {
+    if (newVal) {
+      // save visited detail page to history
+      this.$store.dispatch('history/addHistoryItem', {
+        id: this.id,
+        name: this.nft.name,
+        image: this.meta.image,
+        collection: (this.nft.collection as any).name,
+        date: new Date(),
+        description: this.meta.description,
+        author: this.nft.currentOwner,
+        price: this.nft.price,
+        mimeType: this.mimeType,
+        prefix: this.urlPrefix,
+      })
+    }
   }
 
   protected handleAction(deleted: boolean) {
