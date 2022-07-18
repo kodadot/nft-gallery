@@ -21,7 +21,7 @@
       v-if="showSubmit"
       @click="submit"
       :disabled="disableSubmitButton">
-      {{ $t('nft.action.submit', [selectedAction.replace('_', ' ')]) }}
+      {{ $t('nft.action.submit', [$t(`nft.event.${selectedAction}`)]) }}
     </SubmitButton>
   </div>
 </template>
