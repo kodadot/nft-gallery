@@ -171,7 +171,12 @@ export default class AvailableActions extends mixins(
 
       showNotification(`[${this.selectedAction}] ${this.nftId}`)
       let cb = getApiCall(api, this.urlPrefix, this.selectedAction)
-      let arg: any[] = this.getArgs()
+      let expiration: number | undefined = undefined
+      if (this.selectedAction === ShoppingActions.MAKE_OFFER) {
+        const currentBlock = await api.query.system.number()
+        expiration = this.getExpiration(currentBlock.toNumber())
+      }
+      let arg: any[] = this.getArgs(expiration)
 
       this.howAboutToExecute(
         this.accountId,
@@ -201,17 +206,25 @@ export default class AvailableActions extends mixins(
     }
   }
 
-  protected getArgs(): any[] {
+  protected getArgs(expiration?: number): any[] {
     const { selectedAction, collectionId, nftId, currentOwnerId, meta } = this
-
-    console.log(collectionId, nftId)
 
     return bsxParamResolver(
       createTokenId(collectionId, nftId),
       selectedAction,
       meta,
-      currentOwnerId
+      currentOwnerId,
+      expiration
     )
+  }
+
+  protected getExpiration(currentBlock: number): number {
+    const BLOCK_OFFSET = 5 // time between submit & finalization
+    const BLOCK_PER_DAY_COUNT = 7200 // 7200 = 86400 / 12
+    const DAY_COUNT = 14 // two weeks
+    const expiration =
+      currentBlock + BLOCK_OFFSET + BLOCK_PER_DAY_COUNT * DAY_COUNT
+    return expiration
   }
 
   protected unpinNFT() {
