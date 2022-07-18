@@ -208,6 +208,7 @@ import {
 } from '../series/utils'
 import { SortType } from '../series/types'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 type Address = string | GenericAccountId | undefined
 
@@ -221,7 +222,8 @@ const components = {
 @Component({ components })
 export default class SpotlightTable extends mixins(
   TransactionMixin,
-  KeyboardEventsMixin
+  KeyboardEventsMixin,
+  PrefixMixin
 ) {
   protected data: Row[] = []
   protected onlyWithIdentity = this.$route.query?.identity || false
@@ -234,7 +236,7 @@ export default class SpotlightTable extends mixins(
       this.sortBy.field = val.slice(1)
       this.sortBy.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
     })
-    // await this.fetchSpotlightData()
+    await this.fetchSpotlightData()
     this.initKeyboardEventHandler({
       g: this.bindPaginationEvents,
     })
