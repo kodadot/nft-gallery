@@ -55,7 +55,7 @@ const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
-  DaySelect: () => import('@/components/base/DaysSelect.vue'),
+  DaySelect: () => import('~/components/base/DaySelect.vue'),
 }
 
 @Component({ components })
