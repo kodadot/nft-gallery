@@ -43,11 +43,11 @@ import {
   ShoppingActions,
 } from '@/utils/shoppingActions'
 import shouldUpdate from '@/utils/shouldUpdate'
-import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import formatBalance from '@/utils/formatBalance'
-import onApiConnect from '@/utils/api/general'
+import { onApiConnect } from '@kodadot1/sub-api'
 import BalanceInput from '@/components/shared/BalanceInput.vue'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
 
 const components = {
   ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
@@ -62,7 +62,8 @@ export default class AvailableActions extends mixins(
   PrefixMixin,
   KeyboardEventsMixin,
   MetaTransactionMixin,
-  AuthMixin
+  AuthMixin,
+  UseApiMixin
 ) {
   @Prop(String) public currentOwnerId!: string
   @Prop() public price!: string
@@ -128,8 +129,7 @@ export default class AvailableActions extends mixins(
     return parseFloat(formatBalance(balance, 12, false).replace(/,/g, ''))
   }
   public async created(): Promise<void> {
-    onApiConnect(() => {
-      const { api } = Connector.getInstance()
+    onApiConnect(this.apiUrl, (api) => {
       this.minimumOfferAmount = this.formatBalance(
         api?.consts?.marketplace?.minimumOfferAmount?.toString()
       )
@@ -174,7 +174,7 @@ export default class AvailableActions extends mixins(
   }
 
   protected async submit() {
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     this.initTransactionLoader()
 
     try {
