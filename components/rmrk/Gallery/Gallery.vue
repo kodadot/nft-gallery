@@ -149,7 +149,7 @@ export default class Gallery extends mixins(
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
-    sortByMultiple: [this.$route.query?.sort?.toString() ?? undefined],
+    sortByMultiple: [this.$route.query?.sort?.toString() ?? ''],
     listed: this.$route.query?.listed?.toString() === 'true',
     owned: this.$route.query?.owned?.toString() === 'true',
     priceMin: undefined,
