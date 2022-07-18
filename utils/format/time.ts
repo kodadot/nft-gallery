@@ -5,5 +5,7 @@ export const formatSecondsToDuration = (seconds: number) => {
     start: new Date(),
     end: addSeconds(new Date(), seconds),
   })
-  return formatDuration(duration, { format: ['days', 'hours', 'minutes'] })
+  return formatDuration(duration, {
+    format: ['months', 'days', 'hours', 'minutes'],
+  })
 }
