@@ -113,7 +113,7 @@ import isShareMode from '@/utils/isShareMode'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { get, set } from 'idb-keyval'
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { processMedia } from '@/utils/gallery/media'
 import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -282,6 +282,25 @@ export default class GalleryItem extends mixins(
   protected handleAction(deleted: boolean) {
     if (deleted) {
       showNotification('INSTANCE REMOVED', notificationTypes.warn)
+    }
+  }
+
+  @Watch('meta', { deep: true })
+  handleNFTPopulationFinished(newVal) {
+    if (newVal) {
+      // save visited detail page to history
+      this.$store.dispatch('history/addHistoryItem', {
+        id: this.id,
+        name: this.nft.name,
+        image: this.meta.image,
+        collection: (this.nft.collection as any).name,
+        date: new Date(),
+        description: this.meta.description,
+        author: this.nft.currentOwner,
+        price: this.nft.price,
+        mimeType: this.mimeType,
+        prefix: this.urlPrefix,
+      })
     }
   }
 }

@@ -144,7 +144,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { Option, u128 } from '@polkadot/types'
 import { InstanceDetails } from '@polkadot/types/interfaces'
 import { get, set } from 'idb-keyval'
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { processMedia } from '@/utils/gallery/media'
 import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -382,6 +382,25 @@ export default class GalleryItem extends mixins(
 
   get detailVisible() {
     return !isShareMode
+  }
+
+  @Watch('meta', { deep: true })
+  handleNFTPopulationFinished(newVal) {
+    if (newVal) {
+      // save visited detail page to history
+      this.$store.dispatch('history/addHistoryItem', {
+        id: this.id,
+        name: this.nft.name,
+        image: this.meta.image,
+        collection: (this.nft.collection as any).name,
+        date: new Date(),
+        description: this.meta.description,
+        author: this.nft.currentOwner,
+        price: this.nft.price,
+        mimeType: this.mimeType,
+        prefix: this.urlPrefix,
+      })
+    }
   }
 
   protected handleAction(deleted: boolean) {
