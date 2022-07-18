@@ -164,7 +164,7 @@ export default class OfferTable extends Vue {
 </script>
 <style scoped>
 .limit-width-text {
-  max-width: 50ch;
+  max-width: 20ch;
   overflow: hidden;
   text-overflow: ellipsis;
 }
