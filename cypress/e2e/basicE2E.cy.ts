@@ -13,6 +13,7 @@ describe(
         console.log('error', e)
         return false
       })
+      cy.visit('/e2e-login')
       cy.visit('/rmrk')
     })
     it('checkNavbar', () => {
