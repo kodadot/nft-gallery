@@ -368,9 +368,6 @@ export default class SearchBar extends mixins(
   }
 
   get searchSuggestion() {
-    if (this.urlPrefix !== 'rmrk') {
-      return []
-    }
     const suggestions: SearchSuggestion[] = []
     const eachTypeMaxNum = this.searchSuggestionEachTypeMaxNum
 
@@ -408,6 +405,10 @@ export default class SearchBar extends mixins(
             ? this.filterSearch.slice(0, eachTypeMaxNum)
             : this.filterSearch,
       })
+    }
+
+    if (this.urlPrefix !== 'rmrk') {
+      return suggestions
     }
 
     // whether show Collection Item
