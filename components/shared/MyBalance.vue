@@ -7,7 +7,6 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-
 import AuthMixin from '@/utils/mixins/authMixin'
 
 const components = {

@@ -57,7 +57,6 @@ import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins } from 'nuxt-property-decorator'
 import { dummyIpfsCid } from '@/utils/ipfs'
-import MyBalance from '../../shared/MyBalance.vue'
 
 type BaseCollectionType = {
   name: string
