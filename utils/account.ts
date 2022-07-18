@@ -73,6 +73,13 @@ export const isSameAccount = (
   return addressEq(address1, address2)
 }
 
+export const isOwner = (
+  account1?: KeyringAccount | string,
+  account2?: KeyringAccount | string
+): boolean => {
+  return Boolean(account1 && account2 && isSameAccount(account1, account2))
+}
+
 export const accountToEvm = (account: KeyringAccount | string): string => {
   const address = accountToAddress(account)
   return addressToEvm(address)?.toString()
