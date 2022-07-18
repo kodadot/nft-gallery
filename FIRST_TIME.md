@@ -215,8 +215,6 @@ Then we can use it like this:
   import UseApiMixin from '@/utils/mixins/useApiMixin'
   // import AuthMixin from '@/utils/mixins/authMixin' // get currently logged in account
 
-  import Connector from '@kodadot1/sub-api'
-
   @Component({})
   export default class GalleryItem extends mixins(MetaTransactionMixin, UseApiMixin) {
     async submit() {
