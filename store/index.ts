@@ -98,4 +98,5 @@ export const getters: GetterTree<IndexState, IndexState> = {
   },
 }
 
-export const plugins = [apiPlugin, myPlugin]
+export const plugins = []
+// export const plugins = [apiPlugin, myPlugin]
