@@ -520,7 +520,10 @@
     "caller": "Maker",
     "price": "Price",
     "expiration": "Expiration",
-    "action": "Action"
+    "action": "Action",
+    "daySelectLabel": "offer expires in",
+    "daySelectPlaceholder": "select day to expire",
+    "days": "days"
   },
   "statsOverview": {
     "buys": "Buys",

@@ -1,12 +1,11 @@
 <template>
-  <b-field :label="$t('offer expires in')">
+  <b-field :label="$t('offer.daySelectLabel')">
     <b-select
-      placeholder="Select day to expire"
+      placeholder="$t('offer.daySelectPlaceholder')"
       v-model="selectedDays"
       expanded>
-      <option disabled selected value="">--</option>
       <option v-for="option in days" :value="option" :key="option">
-        {{ option }} {{ $t('days') }}
+        {{ option }} {{ $t('offer.days') }}
       </option>
     </b-select>
   </b-field>
