@@ -149,13 +149,13 @@ export default class Gallery extends mixins(
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
-    sortByMultiple: this.isRmrk ? ['BLOCK_NUMBER_DESC'] : ['blockNumber_DESC'],
+    sortByMultiple: [this.$route.query?.type?.toString() ?? ''],
     listed: this.$route.query?.listed?.toString() === 'true',
     owned: this.$route.query?.owned?.toString() === 'true',
     priceMin: undefined,
     priceMax: undefined,
   }
-  private isLoading = true
+  protected isLoading = true
   // private hasPassionFeed = false
   // private passionList: string[] = []
 
@@ -168,23 +168,6 @@ export default class Gallery extends mixins(
 
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
-  }
-
-  get getLoadAllArtwork(): boolean {
-    return this.$store.getters['preferences/getLoadAllArtwork']
-  }
-
-  get queryVariables() {
-    return {
-      first: this.first,
-      denyList: getDenyList(this.urlPrefix),
-      orderBy: this.isRmrk
-        ? this.searchQuery.sortByMultiple
-        : ['blockNumber_DESC'],
-      search: this.buildSearchParam(),
-      priceMin: this.searchQuery.priceMin,
-      priceMax: this.searchQuery.priceMax,
-    }
   }
 
   set currentValue(page: number) {
@@ -249,7 +232,7 @@ export default class Gallery extends mixins(
       client: this.urlPrefix,
       variables: {
         denyList: getDenyList(this.urlPrefix),
-        orderBy: this.searchQuery.sortByMultiple,
+        orderBy: this.isRmrk ? ['BLOCK_NUMBER_DESC'] : ['blockNumber_DESC'],
         search: this.buildSearchParam(),
         priceMin: this.searchQuery.priceMin,
         priceMax: this.searchQuery.priceMax,

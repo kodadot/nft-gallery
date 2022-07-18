@@ -38,13 +38,14 @@ export default class SearchSortDropdown extends mixins(PrefixMixin) {
   @Prop(Array) public sortOption?: string[]
   @Prop(Boolean) public multipleSelect!: boolean
 
-  private sort: string[] =
-    this.urlPrefix === 'rmrk'
-      ? NFT_SORT_CONDITION_LIST
-      : NFT_SQUID_SORT_CONDITION_LIST
-
   get actions(): string[] {
     return this.sortOption || this.sort
+  }
+
+  get sort(): string[] {
+    return this.urlPrefix === 'rmrk'
+      ? NFT_SORT_CONDITION_LIST
+      : NFT_SQUID_SORT_CONDITION_LIST
   }
 }
 </script>
