@@ -100,10 +100,7 @@
                         <Auth class="mt-4" />
                       </p>
                     </div>
-                    <p class="subtitle is-size-6" v-if="accountId">
-                      <span>{{ $t('general.balance') }}: </span>
-                      <Money :value="balance" inline />
-                    </p>
+                    <MyBalance />
                     <Sharing :enableDownload="isOwner" class="mb-4" />
                   </div>
                 </div>
@@ -187,6 +184,7 @@ import { formatBsxBalanceEmptyOnZero } from '~/utils/format/balance'
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
+    MyBalance: () => import('@/components/shared/MyBalance.vue'),
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
   },
   directives: {
