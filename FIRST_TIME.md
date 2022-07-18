@@ -212,13 +212,15 @@ Then we can use it like this:
 <script lang="ts">
   import { Component, mixins } from 'nuxt-property-decorator'
   import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-  // import AuthMixin from '~/utils/mixins/authMixin' // get currently logged in account
+  import UseApiMixin from '@/utils/mixins/useApiMixin'
+  // import AuthMixin from '@/utils/mixins/authMixin' // get currently logged in account
 
   import Connector from '@kodadot1/sub-api'
 
   @Component({})
-  export default class GalleryItem extends mixins(MetaTransactionMixin) {
+  export default class GalleryItem extends mixins(MetaTransactionMixin, UseApiMixin) {
     async submit() {
+      const api = await this.useApi()
       const cb = api.tx.system.remark
       const args = 'Hello World'
 
