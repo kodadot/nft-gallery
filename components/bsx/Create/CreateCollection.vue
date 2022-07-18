@@ -19,6 +19,9 @@
             <Money :value="collectionDeposit" inline />
           </p>
         </b-field>
+        <b-field>
+          <MyBalance />
+        </b-field>
         <SubmitButton
           label="create collection"
           :disabled="disabled"
@@ -54,6 +57,7 @@ import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins } from 'nuxt-property-decorator'
 import { dummyIpfsCid } from '@/utils/ipfs'
+import MyBalance from '../../shared/MyBalance.vue'
 
 type BaseCollectionType = {
   name: string
@@ -68,6 +72,7 @@ const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
+  MyBalance: () => import('@/components/shared/MyBalance.vue'),
   // CustomAttributeInput: () =>
   //   import('@/components/rmrk/Create/CustomAttributeInput.vue'),
 }
