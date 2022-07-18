@@ -4,6 +4,7 @@ import TransactionMixin from './txMixin'
 import Connector from '@kodadot1/sub-api'
 import { notificationTypes, showNotification } from '../notification'
 import { DispatchError } from '@polkadot/types/interfaces'
+import UseApiMixin from './useApiMixin'
 
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
@@ -11,7 +12,10 @@ import { DispatchError } from '@polkadot/types/interfaces'
  * class ExtendedClass extends Mixins(ActualMixin) {
  */
 @Component
-export default class MetaTransactionMixin extends Mixins(TransactionMixin) {
+export default class MetaTransactionMixin extends Mixins(
+  TransactionMixin,
+  UseApiMixin
+) {
   public async howAboutToExecute(
     account: string,
     cb: (...params: any[]) => Extrinsic,
@@ -20,7 +24,7 @@ export default class MetaTransactionMixin extends Mixins(TransactionMixin) {
     onError?: () => void
   ): Promise<void> {
     try {
-      const { api } = Connector.getInstance()
+      const api = await this.useApi()
       const tx = await exec(
         account,
         '',
