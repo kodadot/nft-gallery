@@ -347,6 +347,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         this.$store.dispatch('history/setCurrentCollection', {
           id: collectionId,
           nftIds: this.nftsFromSameCollection,
+          prefix: this.urlPrefix,
         })
       } catch (e) {
         showNotification(`${e}`, notificationTypes.warn)
@@ -448,6 +449,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         author: this.nft.currentOwner,
         price: this.nft.price,
         mimeType: this.mimeType,
+        prefix: this.urlPrefix,
       })
     }
   }

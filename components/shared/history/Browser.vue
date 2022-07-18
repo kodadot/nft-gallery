@@ -31,7 +31,7 @@
       <div v-if="visitedPastMonth && visitedPastMonth.length">
         <div class="list-header">This Month</div>
         <HistoryBrowserItem
-          v-for="item in visitedToday"
+          v-for="item in visitedPastMonth"
           :key="item.id"
           :item="item" />
       </div>
@@ -47,8 +47,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import { HistoryItem } from '~/store/history'
+import { filterHistoryItemByPrefix } from '@/utils/history'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 @Component({
   filters: {
@@ -60,33 +62,51 @@ import { HistoryItem } from '~/store/history'
     },
   },
 })
-export default class Browser extends Vue {
+export default class Browser extends mixins(PrefixMixin) {
   get hasHistory() {
     return this.history && this.history.length
   }
 
   get history() {
-    return this.$store.state.history['visitedNFTs']
+    return filterHistoryItemByPrefix(
+      this.$store.state.history['visitedNFTs'],
+      this.urlPrefix
+    )
   }
 
   get visitedToday(): HistoryItem[] {
-    return this.$store.getters['history/getVisitedToday']
+    return filterHistoryItemByPrefix(
+      this.$store.getters['history/getVisitedToday'],
+      this.urlPrefix
+    )
   }
 
   get visitedYesterday(): HistoryItem[] {
-    return this.$store.getters['history/getVisitedYesterday']
+    return filterHistoryItemByPrefix(
+      this.$store.getters['history/getVisitedYesterday'],
+      this.urlPrefix
+    )
   }
 
   get visitedPastWeek(): HistoryItem[] {
-    return this.$store.getters['history/getVisitedPastWeek']
+    return filterHistoryItemByPrefix(
+      this.$store.getters['history/getVisitedPastWeek'],
+      this.urlPrefix
+    )
   }
 
   get visitedPastMonth(): HistoryItem[] {
-    return this.$store.getters['history/getVisitedPastMonth']
+    return filterHistoryItemByPrefix(
+      this.$store.getters['history/getVisitedPastMonth'],
+      this.urlPrefix
+    )
   }
 
   get visitedEarlier(): HistoryItem[] {
-    return this.$store.getters['history/getVisitedEarlier']
+    return filterHistoryItemByPrefix(
+      this.$store.getters['history/getVisitedEarlier'],
+      this.urlPrefix
+    )
   }
 }
 </script>
