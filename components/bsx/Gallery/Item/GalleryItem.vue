@@ -134,7 +134,6 @@ import {
 } from '@/components/rmrk/utils'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
 import { toHuman, unwrapOrDefault, unwrapOrNull } from '@/utils/api/format'
-import onApiConnect from '@/utils/api/general'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import { emptyObject } from '@/utils/empty'
 import isShareMode from '@/utils/isShareMode'
@@ -153,6 +152,8 @@ import { isEmpty } from '@kodadot1/minimark'
 import { royaltyOf } from '@/utils/royalty'
 import { generateNftImage } from '~/utils/seoImageGenerator'
 import { formatBsxBalanceEmptyOnZero } from '~/utils/format/balance'
+import ApiUrlMixin from '~/utils/mixins/apiUrlMixin'
+import { onApiConnect } from '@kodadot1/sub-api'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -193,7 +194,8 @@ import { formatBsxBalanceEmptyOnZero } from '~/utils/format/balance'
 export default class GalleryItem extends mixins(
   SubscribeMixin,
   PrefixMixin,
-  AuthMixin
+  AuthMixin,
+  ApiUrlMixin
 ) {
   private id = ''
   private collectionId = ''
@@ -209,7 +211,7 @@ export default class GalleryItem extends mixins(
   public async created() {
     this.checkId()
     await this.fetchNftData()
-    onApiConnect((api) => {
+    onApiConnect(this.apiUrl, (api) => {
       if (hasAllPallets(api)) {
         this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
         this.subscribe(getPrice(api), this.tokenId, this.observePrice)
@@ -292,7 +294,7 @@ export default class GalleryItem extends mixins(
   }
 
   protected fetchRPCMetadata() {
-    onApiConnect(async (api) => {
+    onApiConnect(this.apiUrl, async (api) => {
       const metacall = getMetadata(api)
       const res = await metacall(this.collectionId, this.id).then((option) =>
         unwrapOrNull(option as Option<any>)
