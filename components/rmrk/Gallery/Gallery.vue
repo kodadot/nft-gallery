@@ -149,7 +149,7 @@ export default class Gallery extends mixins(
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
-    sortByMultiple: [this.$route.query?.type?.toString() ?? ''],
+    sortByMultiple: [this.$route.query?.sort?.toString() ?? undefined],
     listed: this.$route.query?.listed?.toString() === 'true',
     owned: this.$route.query?.owned?.toString() === 'true',
     priceMin: undefined,
@@ -232,7 +232,7 @@ export default class Gallery extends mixins(
       client: this.urlPrefix,
       variables: {
         denyList: getDenyList(this.urlPrefix),
-        orderBy: this.isRmrk ? ['BLOCK_NUMBER_DESC'] : ['blockNumber_DESC'],
+        orderBy: this.searchQuery.sortByMultiple,
         search: this.buildSearchParam(),
         priceMin: this.searchQuery.priceMin,
         priceMax: this.searchQuery.priceMax,
