@@ -8,6 +8,10 @@ export type Offer = {
   nft: {
     id: string
     name: string
+    collection: {
+      id: string
+      name: string
+    }
   }
 }
 
