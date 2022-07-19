@@ -521,6 +521,9 @@
     "price": "Price",
     "expiration": "Expiration",
     "action": "Action",
+    "daySelectLabel": "offer expires in",
+    "daySelectPlaceholder": "select day to expire",
+    "days": "days",
     "collection": "Collection",
     "nftName": "Name"
   },
