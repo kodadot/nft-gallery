@@ -90,7 +90,7 @@
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { Offer, OfferResponse } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import offerListByCurrentOwner from '@/queries/subsquid/bsx/offerListByCurrentOwner.graphql'
+import acceptableOfferByCurrentOwner from '@/queries/subsquid/bsx/acceptableOfferByCurrentOwner.graphql'
 import { formatDistanceToNow } from 'date-fns'
 import OfferMixin from '~/utils/mixins/offerMixin'
 import { tokenIdToRoute } from '@/components/unique/utils'
@@ -111,7 +111,7 @@ export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
     if (this.accountId) {
       this.$apollo.addSmartQuery<OfferResponse>('offers', {
         client: this.urlPrefix,
-        query: offerListByCurrentOwner,
+        query: acceptableOfferByCurrentOwner,
         variables: { id: this.accountId },
         manual: true,
         result: ({ data }) => this.setResponse(data),
@@ -135,7 +135,7 @@ export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
     try {
       const { data } = await this.$apollo.query<OfferResponse>({
         client: this.urlPrefix,
-        query: offerListByCurrentOwner,
+        query: acceptableOfferByCurrentOwner,
         variables: {
           id: this.accountId,
         },
