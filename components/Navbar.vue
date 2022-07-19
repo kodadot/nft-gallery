@@ -116,7 +116,7 @@
       </b-navbar-dropdown>
       <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
       <LazySwitchLocale class="custom-navbar-item" id="NavLocaleChanger" />
-      <NavbarProfileDropdown :isRmrk="isRmrk" id="NavProfile" />
+      <NavbarProfileDropdown :isRmrk="isRmrk" :isBsx="isBsx" id="NavProfile" />
     </template>
     <template #end v-else>
       <div class="image is-32x32 mr-2">
@@ -166,6 +166,10 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
+  }
+
+  get isBsx(): boolean {
+    return this.urlPrefix === 'bsx'
   }
 
   get inCollectionPage(): boolean {
