@@ -2,9 +2,10 @@
   <b-table :data="offers">
     <b-table-column
       cell-class="is-vcentered is-narrow"
-      field="item"
+      field="nft.name"
       :label="$t('nft.offer.item')"
-      v-slot="props">
+      v-slot="props"
+      sortable>
       <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.nft.id}`">
         <p
           class="limit-width-text"
@@ -25,14 +26,16 @@
       cell-class="is-vcentered is-narrow"
       field="price"
       :label="$t('offer.price')"
-      v-slot="props">
+      v-slot="props"
+      sortable>
       <Money :value="props.row.price" inline />
     </b-table-column>
     <b-table-column
-      field="date"
+      field="createdAt"
       cell-class="is-vcentered is-narrow"
       :label="$t('nft.offer.date')"
       v-slot="props"
+      sortable
       ><p>
         {{ timestampOffer(props.row.createdAt) }}
       </p></b-table-column
