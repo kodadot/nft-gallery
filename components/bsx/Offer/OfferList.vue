@@ -20,7 +20,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { createTokenId } from '~/components/unique/utils'
 import offerListByNftId from '@/queries/subsquid/bsx/offerListByNftId.graphql'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
-import OfferSubmitMixin from '~/utils/mixins/offerSubmitMixin'
+import OfferMixin from '~/utils/mixins/offerMixin'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -33,7 +33,7 @@ const components = {
 export default class OfferList extends mixins(
   PrefixMixin,
   SubscribeMixin,
-  OfferSubmitMixin
+  OfferMixin
 ) {
   protected offers: Offer[] = []
   protected total = 0

@@ -5,6 +5,8 @@ import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import Connector from '@kodadot1/sub-api'
 import { notificationTypes, showNotification } from '~/utils/notification'
+import onApiConnect from '~/utils/api/general'
+import { formatSecondsToDuration } from '~/utils/format/time'
 
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
@@ -12,11 +14,32 @@ import { notificationTypes, showNotification } from '~/utils/notification'
  * class ExtendedClass extends Mixins(ActualMixin) {
  */
 @Component
-export default class OfferSubmitMixin extends mixins(
+export default class OfferMixin extends mixins(
   AuthMixin,
   MetaTransactionMixin
 ) {
   public isLoading = false
+  public currentBlock = 0
+
+  created() {
+    onApiConnect(async (api) => {
+      const currentBlock = await api.query.system.number()
+      this.currentBlock = currentBlock.toNumber()
+    })
+  }
+
+  public calcExpirationTime(expirationBlock: number) {
+    if (this.currentBlock === 0) {
+      return 'computing'
+    }
+    if (this.currentBlock > expirationBlock) {
+      return 'expired'
+    }
+    const secondsForEachBlock = 12
+    const diffSeconds =
+      secondsForEachBlock * (expirationBlock - this.currentBlock)
+    return formatSecondsToDuration(diffSeconds)
+  }
 
   protected async submit(
     maker: string,

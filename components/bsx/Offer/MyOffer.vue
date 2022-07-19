@@ -40,6 +40,14 @@
       </b-table-column>
       <b-table-column
         cell-class="is-vcentered is-narrow"
+        field="expiration"
+        :label="$t('offer.expiration')"
+        v-slot="props"
+        sortable>
+        {{ calcExpirationTime(props.row.expiration) }}
+      </b-table-column>
+      <b-table-column
+        cell-class="is-vcentered is-narrow"
         :label="$t('offer.action')"
         v-slot="props"
         width="120"
@@ -84,7 +92,7 @@ import { Offer, OfferResponse } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import offerListByCurrentOwner from '@/queries/subsquid/bsx/offerListByCurrentOwner.graphql'
 import { formatDistanceToNow } from 'date-fns'
-import OfferSubmitMixin from '~/utils/mixins/offerSubmitMixin'
+import OfferMixin from '~/utils/mixins/offerMixin'
 import { tokenIdToRoute } from '@/components/unique/utils'
 
 const components = {
@@ -96,7 +104,7 @@ const components = {
   components,
   filters: { formatDistanceToNow },
 })
-export default class MyOffer extends mixins(PrefixMixin, OfferSubmitMixin) {
+export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
   protected offers: Offer[] = []
 
   mounted() {
