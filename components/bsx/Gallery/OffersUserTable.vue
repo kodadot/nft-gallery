@@ -5,8 +5,12 @@
       field="item"
       :label="$t('nft.offer.item')"
       v-slot="props">
-      <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.offer.nft.id}`">
-        {{ props.row.offer.nft.name || props.row.offer.nft.id }}
+      <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.nft.id}`">
+        <p
+          class="limit-width-text"
+          :title="props.row.nft.name ? props.row.nft.name : props.row.nft.id">
+          {{ props.row.nft.name || props.row.nft.id }}
+        </p>
       </nuxt-link>
     </b-table-column>
     <b-table-column
@@ -14,7 +18,7 @@
       field="status"
       :label="$t('nft.offer.status')"
       v-slot="props">
-      <p>{{ props.row.offer.status || '-' }}</p>
+      <p>{{ props.row.status || '-' }}</p>
     </b-table-column>
 
     <b-table-column
@@ -22,7 +26,7 @@
       field="price"
       :label="$t('offer.price')"
       v-slot="props">
-      <Money :value="props.row.offer.price" inline />
+      <Money :value="props.row.price" inline />
     </b-table-column>
     <b-table-column
       field="date"
@@ -30,7 +34,7 @@
       :label="$t('nft.offer.date')"
       v-slot="props"
       ><p>
-        {{ timestampOffer(props.row.timestamp) }}
+        {{ timestampOffer(props.row.createdAt) }}
       </p></b-table-column
     >
     <b-table-column
@@ -39,7 +43,7 @@
       v-slot="props"
       width="120">
       <b-button
-        v-if="props.row.offer.status === 'ACTIVE'"
+        v-if="props.row.status === 'ACTIVE'"
         type="is-orange"
         outlined
         icon-left="times"
@@ -80,7 +84,7 @@ export default class OffersUserTable extends mixins(
     return formatDistanceToNow(new Date(date), { addSuffix: true })
   }
 
-  async withdrawOffer({ offer }) {
+  async withdrawOffer(offer) {
     const { caller, nft } = offer
     try {
       const { api } = Connector.getInstance()
@@ -103,3 +107,10 @@ export default class OffersUserTable extends mixins(
   }
 }
 </script>
+<style scoped>
+.limit-width-text {
+  max-width: 20ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

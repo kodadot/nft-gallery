@@ -268,7 +268,7 @@ import allNftSaleEventsByAccountId from '~/queries/rmrk/subsquid/allNftSaleEvent
 import allNftSaleEventsHistoryByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
 import { hasExplorer, getExplorer } from './utils'
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
-import { OfferResponse } from '~/components/bsx/Offer/types'
+import { Offer, OfferResponse } from '~/components/bsx/Offer/types'
 
 const components = {
   GalleryCardList: () =>
@@ -334,7 +334,7 @@ export default class Profile extends mixins(
   protected isLoading = false
   protected collections: CollectionWithMeta[] = []
   public eventsOfNftCollection: Interaction[] | [] = []
-  public userOfferList: OfferResponse[] | [] = []
+  public userOfferList: Offer[] = []
   public eventsOfSales: Interaction[] | [] = []
   public priceChartData: [Date, number][][] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []
@@ -733,15 +733,7 @@ export default class Profile extends mixins(
         .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
     }
 
-    if (this.activeTab === 'history') {
-      this.fetchCollectionEvents()
-    }
-    if (this.activeTab === 'sales') {
-      this.fetchSalesEventByCreator()
-    }
-    if (this.activeTab === 'offers') {
-      this.fetchOfferEvents()
-    }
+    this.fetchCurrentTabData()
   }
 
   protected handleIdentity(identityFields: Record<string, string>) {
@@ -814,17 +806,15 @@ export default class Profile extends mixins(
   // Get offers for user
   protected async fetchOfferEvents() {
     try {
-      const { data } = await this.$apollo.query<{
-        offerEvents: OfferResponse[]
-      }>({
+      const { data } = await this.$apollo.query<OfferResponse>({
         query: offerListUser,
         client: this.client,
         variables: {
           id: this.id,
         },
       })
-      if (data?.offerEvents?.length) {
-        this.userOfferList = data.offerEvents
+      if (data?.offers?.length) {
+        this.userOfferList = data.offers
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
@@ -856,20 +846,16 @@ export default class Profile extends mixins(
       this.resetPage()
       this.fetchProfile()
 
-      if (this.activeTab === 'history') {
-        this.fetchCollectionEvents()
-      }
-      if (this.activeTab === 'sales') {
-        this.fetchSalesEventByCreator()
-      }
-      if (this.activeTab === 'offers') {
-        this.fetchOfferEvents()
-      }
+      this.fetchCurrentTabData()
     }
   }
 
   @Watch('activeTab')
   protected onTabChange(): void {
+    this.fetchCurrentTabData()
+  }
+
+  protected fetchCurrentTabData() {
     if (this.activeTab === 'history') {
       this.fetchCollectionEvents()
     }
