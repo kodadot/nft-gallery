@@ -245,7 +245,7 @@
   "funfacts": {
     "1": {
       "heading": "Did you know...",
-      "question": "that back in 2015 we launched the first official NFT called Etheria?"
+      "question": "that back in 2015 there was the first official NFT called Etheria on Etheruem?"
     },
     "2": {
       "heading": "Did you know...",
@@ -397,6 +397,9 @@
     "PRICE_DESC": "Price: High to Low",
     "PRICE_ASC": "Price: Low to High",
     "SN_ASC": "Serial Number Ascending",
+    "price_DESC": "Price: High to Low",
+    "price_ASC": "Price: Low to High",
+    "sn_ASC": "Serial Number Ascending",
     "listed": "Buy now",
     "own": "Own"
   },
@@ -518,7 +521,12 @@
     "caller": "Maker",
     "price": "Price",
     "expiration": "Expiration",
-    "action": "Action"
+    "action": "Action",
+    "daySelectLabel": "offer expires in",
+    "daySelectPlaceholder": "select day to expire",
+    "days": "days",
+    "collection": "Collection",
+    "nftName": "Name"
   },
   "statsOverview": {
     "buys": "Buys",

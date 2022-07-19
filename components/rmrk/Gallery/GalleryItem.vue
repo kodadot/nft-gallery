@@ -18,7 +18,7 @@
             </p>
           </div>
           <div class="column">
-            <Sharing onlyCopyLink />
+            <Sharing :enableDownload="isOwner" />
           </div>
         </div>
       </b-message>
@@ -86,6 +86,7 @@
                         <AvailableActions
                           ref="actions"
                           :current-owner-id="nft.currentOwner"
+                          :is-owner="isOwner"
                           :price="nft.price"
                           :originialOwner="nft.issuer"
                           :nft-id="nft.id"
@@ -105,7 +106,7 @@
                     </p>
                   </div>
 
-                  <Sharing class="mb-4" />
+                  <Sharing :enableDownload="isOwner" class="mb-4" />
                 </div>
               </div>
             </div>
@@ -160,6 +161,7 @@ import Orientation from '@/utils/directives/DeviceOrientation'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { Debounce } from 'vue-debounce-decorator'
 import AvailableActions from './AvailableActions.vue'
+import { isOwner } from '~/utils/account'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -174,6 +176,13 @@ import AvailableActions from './AvailableActions.vue'
     }
     return {
       title: this.pageTitle,
+      link: [
+        {
+          hid: 'canonical',
+          rel: 'canonical',
+          href: this.$root.$config.baseUrl + this.$route.path,
+        },
+      ],
       meta: [...this.$seoMeta(metaData)],
     }
   },
@@ -291,6 +300,10 @@ export default class GalleryItem extends mixins(PrefixMixin) {
     this.priceChartData = data
   }
 
+  get isOwner(): boolean {
+    return isOwner(this.nft.currentOwner, this.accountId)
+  }
+
   @Debounce(500)
   private async updateEventList() {
     const { data } = await this.$apollo.query<{ nft }>({
@@ -334,6 +347,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         this.$store.dispatch('history/setCurrentCollection', {
           id: collectionId,
           nftIds: this.nftsFromSameCollection,
+          prefix: this.urlPrefix,
         })
       } catch (e) {
         showNotification(`${e}`, notificationTypes.warn)
@@ -435,6 +449,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         author: this.nft.currentOwner,
         price: this.nft.price,
         mimeType: this.mimeType,
+        prefix: this.urlPrefix,
       })
     }
   }

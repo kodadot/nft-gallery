@@ -17,7 +17,7 @@
             </p>
           </div>
           <div class="column">
-            <Sharing onlyCopyLink />
+            <Sharing :enableDownload="isOwner" />
           </div>
         </div>
       </b-message>
@@ -34,6 +34,7 @@
             <VueMarkdown
               v-if="!isLoading"
               class="is-size-5"
+              :style="{ wordBreak: 'break-word' }"
               :source="meta.description.replaceAll('\n', '  \n')" />
             <b-skeleton
               :count="3"
@@ -78,7 +79,7 @@
                         <Auth class="mt-4" evm />
                       </p>
                     </div>
-                    <Sharing class="mb-4" />
+                    <Sharing :enableDownload="isOwner" class="mb-4" />
                   </div>
                 </div>
               </template>
@@ -88,6 +89,11 @@
             :count="2"
             size="is-large"
             :active="isLoading"></b-skeleton>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <LazyGalleryHistory v-if="!isLoading" :events="nft.events" />
         </div>
       </div>
     </template>
@@ -108,13 +114,14 @@ import isShareMode from '@/utils/isShareMode'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { get, set } from 'idb-keyval'
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { processMedia } from '@/utils/gallery/media'
 import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import resolveQueryPath from '~/utils/queryPathResolver'
 import { isEmpty } from '@kodadot1/minimark'
 import { royaltyOf } from '@/utils/royalty'
+import { isOwner } from '~/utils/account'
 
 @Component<GalleryItem>({
   components: {
@@ -195,6 +202,10 @@ export default class GalleryItem extends mixins(
     this.fetchMetadata()
   }
 
+  get isOwner(): boolean {
+    return isOwner(this.nft.currentOwner, this.accountId)
+  }
+
   onImageError(e: any) {
     this.$consola.warn('Image error', e)
   }
@@ -272,6 +283,25 @@ export default class GalleryItem extends mixins(
   protected handleAction(deleted: boolean) {
     if (deleted) {
       showNotification('INSTANCE REMOVED', notificationTypes.warn)
+    }
+  }
+
+  @Watch('meta', { deep: true })
+  handleNFTPopulationFinished(newVal) {
+    if (newVal) {
+      // save visited detail page to history
+      this.$store.dispatch('history/addHistoryItem', {
+        id: this.id,
+        name: this.nft.name,
+        image: this.meta.image,
+        collection: (this.nft.collection as any).name,
+        date: new Date(),
+        description: this.meta.description,
+        author: this.nft.currentOwner,
+        price: this.nft.price,
+        mimeType: this.mimeType,
+        prefix: this.urlPrefix,
+      })
     }
   }
 }

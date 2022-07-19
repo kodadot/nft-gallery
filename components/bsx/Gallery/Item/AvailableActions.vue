@@ -16,11 +16,12 @@
       :is="showMeta"
       @input="updateMeta"
       emptyOnError />
+    <DaySelect v-if="showDaySelect" v-model="selectedDay" :days="dayList" />
     <SubmitButton
       v-if="showSubmit"
       @click="submit"
       :disabled="disableSubmitButton">
-      {{ $t('nft.action.submit', [selectedAction]) }}
+      {{ $t('nft.action.submit', [$t(`nft.event.${selectedAction}`)]) }}
     </SubmitButton>
   </div>
 </template>
@@ -28,7 +29,6 @@
 <script lang="ts">
 import { NFTAction } from '@/components/unique/NftUtils'
 import { createTokenId } from '@/components/unique/utils'
-import { isSameAccount } from '@/utils/account'
 import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
 import AuthMixin from '@/utils/mixins/authMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
@@ -55,6 +55,7 @@ const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+  DaySelect: () => import('~/components/bsx/Offer/DaySelect.vue'),
 }
 
 @Component({ components })
@@ -69,6 +70,7 @@ export default class AvailableActions extends mixins(
   @Prop(String) public nftId!: string
   @Prop(String) public collectionId!: string
   @Prop(Boolean) public isMakeOffersAllowed!: boolean
+  @Prop(Boolean) public isOwner!: boolean
   @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
   private selectedAction: ShoppingActions | '' = ''
@@ -77,6 +79,8 @@ export default class AvailableActions extends mixins(
   public isMakeOffersDisabled = true
   public isBalanceInputValid = false
   public tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
+  public selectedDay = 14
+  public dayList = [1, 3, 7, 14, 30]
 
   get balance(): number {
     return this.formatBalance(this.$store.getters.getAuthBalance)
@@ -92,20 +96,6 @@ export default class AvailableActions extends mixins(
     }
 
     return false
-  }
-
-  get isOwner(): boolean {
-    this.$consola.log(
-      '{ currentOwnerId, accountId }',
-      this.currentOwnerId,
-      this.accountId
-    )
-
-    return Boolean(
-      this.currentOwnerId &&
-        this.accountId &&
-        isSameAccount(this.currentOwnerId, this.accountId)
-    )
   }
 
   get showSubmit() {
@@ -157,6 +147,10 @@ export default class AvailableActions extends mixins(
     }
   }
 
+  get showDaySelect(): boolean {
+    return this.selectedAction === ShoppingActions.MAKE_OFFER
+  }
+
   get isAvailableToBuy(): boolean {
     const { price, accountId } = this
     return Boolean(accountId && Number(price) > 0)
@@ -185,7 +179,12 @@ export default class AvailableActions extends mixins(
 
       showNotification(`[${this.selectedAction}] ${this.nftId}`)
       let cb = getApiCall(api, this.urlPrefix, this.selectedAction)
-      let arg: any[] = this.getArgs()
+      let expiration: number | undefined = undefined
+      if (this.selectedAction === ShoppingActions.MAKE_OFFER) {
+        const currentBlock = await api.query.system.number()
+        expiration = this.getExpiration(currentBlock.toNumber())
+      }
+      let arg: any[] = this.getArgs(expiration)
 
       this.howAboutToExecute(
         this.accountId,
@@ -201,7 +200,7 @@ export default class AvailableActions extends mixins(
             `[${this.selectedAction}] ${this.nftId}`,
             notificationTypes.success
           )
-          this.$emit('change')
+          this.$emit('change', this.selectedAction)
           this.selectedAction = ''
         },
         () => {
@@ -215,17 +214,25 @@ export default class AvailableActions extends mixins(
     }
   }
 
-  protected getArgs(): any[] {
+  protected getArgs(expiration?: number): any[] {
     const { selectedAction, collectionId, nftId, currentOwnerId, meta } = this
-
-    console.log(collectionId, nftId)
 
     return bsxParamResolver(
       createTokenId(collectionId, nftId),
       selectedAction,
       meta,
-      currentOwnerId
+      currentOwnerId,
+      expiration
     )
+  }
+
+  protected getExpiration(currentBlock: number): number {
+    const BLOCK_OFFSET = 5 // time between submit & finalization
+    const BLOCK_PER_DAY_COUNT = 7200 // 7200 = 86400 / 12
+    const DAY_COUNT = this.selectedDay
+    const expiration =
+      currentBlock + BLOCK_OFFSET + BLOCK_PER_DAY_COUNT * DAY_COUNT
+    return expiration
   }
 
   protected unpinNFT() {
