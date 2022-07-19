@@ -406,7 +406,8 @@
     "priceRange": {
       "minPrice": "MIN PRICE",
       "maxPrice": "MAX PRICE",
-      "priceValidation": "min price has to smaller than max price!"
+      "priceValidation": "min price has to smaller than max price!",
+      "range": "Price range"
     }
   },
   "mint": {
@@ -675,7 +676,9 @@
     "newestListDesc": "Discover the latest items on sale",
     "newestListHeading": "Newest List",
     "popularCollectionsHeading": "Popular Collections",
-    "popularCollectionsDesc": "Discover the most popular collections on rmrk"
+    "popularCollectionsDesc": "Discover the most popular collections on rmrk",
+    "from": "from",
+    "to": "to"
   },
   "helper": {
     "seeMore": "See More",

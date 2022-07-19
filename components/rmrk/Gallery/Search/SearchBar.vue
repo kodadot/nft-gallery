@@ -2,7 +2,7 @@
   <div class="mb-3">
     <div class="row" v-if="!isVisible && !hideSearchInput">
       <div v-if="sliderDirty && !hideFilter" class="is-size-7">
-        {{ priceRange }}
+        <PriceRange :from="minPrice" :to="maxPrice" inline />
       </div>
     </div>
     <div class="columns mb-0">
@@ -91,7 +91,7 @@
         </b-autocomplete>
         <div v-if="!isVisible && hideSearchInput">
           <div v-if="sliderDirty" class="is-size-7">
-            {{ priceRange }}
+            <PriceRange :from="minPrice" :to="maxPrice" inline />
           </div>
         </div>
       </b-field>
@@ -126,7 +126,7 @@
           size="is-medium"
           labelColor="is-success" />
       </div>
-      <div v-if="listed" class="columns is-half">
+      <div v-if="!hideFilter" class="columns is-half">
         <b-input
           type="number"
           min="0"
@@ -155,7 +155,7 @@
         </div>
       </div>
       <div v-if="sliderDirty" class="is-size-7">
-        {{ priceRange }}
+        <PriceRange :from="minPrice" :to="maxPrice" inline />
       </div>
     </b-collapse>
   </div>
@@ -187,6 +187,7 @@ import {
   NFT_SQUID_SORT_CONDITION_LIST,
 } from '@/utils/constants'
 import { LastEvent } from '~/utils/types/types'
+import ChainMixin from '~/utils/mixins/chainMixin'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
@@ -197,12 +198,14 @@ const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+    PriceRange: () => import('@/components/shared/format/PriceRange.vue'),
     // PreviewMediaResolver: () => import('@/components/rmrk/Media/PreviewMediaResolver.vue'), // TODO: need to fix CSS for model-viewer
   },
 })
 export default class SearchBar extends mixins(
   PrefixMixin,
-  KeyboardEventsMixin
+  KeyboardEventsMixin,
+  ChainMixin
 ) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
@@ -247,18 +250,18 @@ export default class SearchBar extends mixins(
     return min > max
   }
 
-  get priceRange(): string {
-    const min = this.$route.query.min
-    const max = this.$route.query.max
-    if (min && max) {
-      return `Prices ranging from ${min} ${this.token} to
-            ${max} ${this.token}`
-    } else if (min && !max) {
-      return `Prices ranging from ${min} ${this.token}`
-    } else if (!min && max) {
-      return `Prices ranging from 0 to ${max} ${this.token}`
+  get minPrice(): number | undefined {
+    if (this.$route.query.min) {
+      return parseFloat(this.$route.query.min.toString()) * 10 ** this.decimals
     }
-    return ''
+    return undefined
+  }
+
+  get maxPrice(): number | undefined {
+    if (this.$route.query.max) {
+      return parseFloat(this.$route.query.max.toString()) * 10 ** this.decimals
+    }
+    return undefined
   }
 
   public async fetchSuggestionsOnce() {
@@ -609,7 +612,7 @@ export default class SearchBar extends mixins(
         this.sliderDirty = true
       }
       this.rangeSlider = [min, this.rangeSlider[1]]
-      this.sliderChangeMin(min * 1000000000000)
+      this.sliderChangeMin(min * 10 ** this.decimals)
     }
   }
 
@@ -620,7 +623,7 @@ export default class SearchBar extends mixins(
         this.sliderDirty = true
       }
       this.rangeSlider = [this.rangeSlider[0], max]
-      this.sliderChangeMax(max * 1000000000000)
+      this.sliderChangeMax(max * 10 ** this.decimals)
     }
   }
 
@@ -804,8 +807,8 @@ export default class SearchBar extends mixins(
     if (!this.sliderDirty) {
       this.sliderDirty = true
     }
-    this.sliderChangeMin(min ? min * 1000000000000 : undefined)
-    this.sliderChangeMax(max ? max * 1000000000000 : undefined)
+    this.sliderChangeMin(min ? min * 10 ** this.decimals : undefined)
+    this.sliderChangeMax(max ? max * 10 ** this.decimals : undefined)
     const priceMin = min ? String(min) : undefined
     const priceMax = max ? String(max) : undefined
     this.replaceUrl(priceMin, priceMax, 'min', 'max')
