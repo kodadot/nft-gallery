@@ -128,11 +128,15 @@
       </div>
       <div v-if="listed" class="columns is-half">
         <b-input
+          type="number"
+          min="0"
           class="column is-2"
           :placeholder="$t('query.priceRange.minPrice')"
           v-model="rangeSlider[0]">
         </b-input>
         <b-input
+          min="0"
+          type="number"
           class="column is-2"
           :placeholder="$t('query.priceRange.maxPrice')"
           v-model="rangeSlider[1]">
