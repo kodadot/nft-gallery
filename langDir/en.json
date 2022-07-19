@@ -520,7 +520,9 @@
     "caller": "Maker",
     "price": "Price",
     "expiration": "Expiration",
-    "action": "Action"
+    "action": "Action",
+    "collection": "Collection",
+    "nftName": "Name"
   },
   "statsOverview": {
     "buys": "Buys",
