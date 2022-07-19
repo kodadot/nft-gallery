@@ -16,22 +16,17 @@ import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import { Offer, OfferResponse } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import offerListByCollectionId from '@/queries/subsquid/bsx/offerListByCollectionId.graphql'
-import SubscribeMixin from '~/utils/mixins/subscribeMixin'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
-  CollapseCardWrapper: () =>
-    import('@/components/shared/collapse/CollapseCardWrapper.vue'),
   OfferTable: () => import('@/components/bsx/Offer/OfferTable.vue'),
-  StatsOverview: () => import('~/components/bsx/Offer/StatsOverview.vue'),
 }
 
 @Component({ components })
 export default class CollectionOffers extends mixins(
   AuthMixin,
   MetaTransactionMixin,
-  PrefixMixin,
-  SubscribeMixin
+  PrefixMixin
 ) {
   @Prop(String) public collectionId!: string
   protected offers: Offer[] = []
