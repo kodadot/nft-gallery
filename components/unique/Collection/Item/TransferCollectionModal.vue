@@ -25,11 +25,10 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import { showNotification } from '~/utils/notification'
 import { isAddress } from '@polkadot/util-crypto'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { showNotification } from '@/utils/notification'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -58,7 +57,7 @@ export default class TransferCollectionModal extends mixins(
   }
 
   protected async submit() {
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     this.initTransactionLoader()
     const cb = api.tx.uniques.transferOwnership
     const args = [this.collectionId, this.destinationAddress]
