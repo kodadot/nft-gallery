@@ -5,6 +5,7 @@
         {{ $t('myOffer.bsxTitle') }}
       </h1>
     </div>
+    <Loader v-model="isLoading" :status="status" />
     <b-table :data="offers">
       <b-table-column
         cell-class="is-vcentered is-narrow"
@@ -38,6 +39,25 @@
         </nuxt-link>
       </b-table-column>
       <b-table-column
+        cell-class="is-vcentered is-narrow"
+        :label="$t('offer.action')"
+        v-slot="props"
+        width="120"
+        sortable>
+        <b-button
+          v-if="props.row.caller === accountId"
+          type="is-orange"
+          outlined
+          icon-left="times"
+          @click="onClick(props.row)" />
+        <b-button
+          v-else
+          type="is-success"
+          outlined
+          icon-left="money-bill"
+          @click="onClick(props.row)" />
+      </b-table-column>
+      <b-table-column
         field="Date"
         cell-class="is-vcentered is-narrow"
         :label="$t('myOffer.date')"
@@ -60,11 +80,12 @@
 
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import AuthMixin from '~/utils/mixins/authMixin'
 import { Offer, OfferResponse } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import offerListByCurrentOwner from '@/queries/subsquid/bsx/offerListByCurrentOwner.graphql'
 import { formatDistanceToNow } from 'date-fns'
+import OfferSubmitMixin from '~/utils/mixins/offerSubmitMixin'
+import { tokenIdToRoute } from '@/components/unique/utils'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -75,13 +96,27 @@ const components = {
   components,
   filters: { formatDistanceToNow },
 })
-export default class MyOffer extends mixins(AuthMixin, PrefixMixin) {
+export default class MyOffer extends mixins(PrefixMixin, OfferSubmitMixin) {
   protected offers: Offer[] = []
 
-  fetch() {
+  mounted() {
     if (this.accountId) {
-      this.fetchMyOffers()
+      this.$apollo.addSmartQuery<OfferResponse>('offers', {
+        client: this.urlPrefix,
+        query: offerListByCurrentOwner,
+        variables: { id: this.accountId },
+        manual: true,
+        result: ({ data }) => this.setResponse(data),
+        pollInterval: 10000,
+      })
     }
+  }
+
+  public onClick = async (offer: Offer) => {
+    const { caller, nft } = offer
+    const { id: collectionId, item } = tokenIdToRoute(nft.id)
+    this.isLoading = true
+    await this.submit(caller, item, collectionId, this.fetchMyOffers)
   }
 
   protected setResponse(response: OfferResponse) {
