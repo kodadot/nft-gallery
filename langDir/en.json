@@ -160,8 +160,8 @@
       },
       "16": {
         "m": "We've been long working with @.md:faq.a.16.l1 to have features such as royalties, make an offer and accept an offer for creators. Therefore we are offering a preview of what would be possible on MetaPrime.network once the feature set is a part of Kusama.network. The current implementation on BSX is being tested in beta. If you're interested in testing with us, visit the qa-lobby channel in our @.md:faq.a.16.l2",
-        "l1": "[Basilisk team](@.common:links.https://bsx.fi)",
-        "l2": "[Discord](@.common:links.https://discord.gg/35hzy2dXXh)"
+        "l1": "[Basilisk team](@.common:links.basilisk_website.href)",
+        "l2": "[Discord](@.common:links.kodadot_social.discord.href)"
       },
       "17": {
         "m": "We believe that costs for actions at Ethereum may be high in future and its current PoW is not environmentally friendly. We believe in network effects of Kusama/Polkadot effects from other parachains. A more detailed answer can be found @.md:faq.a.17.l1",
