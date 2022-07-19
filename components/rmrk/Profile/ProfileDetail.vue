@@ -219,6 +219,12 @@
           </template>
           <UserGainHistory :account-id="id" />
         </b-tab-item>
+        <b-tab-item
+          v-if="isBsx"
+          :label="`Offers Made - ${userOfferList.length}`"
+          value="offers">
+          <OffersUserTable :offers="userOfferList" hideCollapse />
+        </b-tab-item>
       </b-tabs>
     </section>
   </section>
@@ -244,6 +250,7 @@ import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAcc
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import allEventsByProfile from '@/queries/rmrk/subsquid/allEventsByProfile.graphql'
+import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
 import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator.graphql'
 import { sortedEventByDate } from '~/utils/sorting'
 import ChainMixin from '~/utils/mixins/chainMixin'
@@ -261,6 +268,7 @@ import allNftSaleEventsByAccountId from '~/queries/rmrk/subsquid/allNftSaleEvent
 import allNftSaleEventsHistoryByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
 import { hasExplorer, getExplorer } from './utils'
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
+import { OfferResponse } from '~/components/bsx/Offer/types'
 
 const components = {
   GalleryCardList: () =>
@@ -281,6 +289,7 @@ const components = {
   UserGainHistory: () =>
     import('@/components/rmrk/Gallery/UserGainHistory.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
+  OffersUserTable: () => import('@/components/bsx/Gallery/OffersUserTable.vue'),
   Sales: () => import('@/components/rmrk/Profile/Sales.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
@@ -325,6 +334,7 @@ export default class Profile extends mixins(
   protected isLoading = false
   protected collections: CollectionWithMeta[] = []
   public eventsOfNftCollection: Interaction[] | [] = []
+  public userOfferList: OfferResponse[] | [] = []
   public eventsOfSales: Interaction[] | [] = []
   public priceChartData: [Date, number][][] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []
@@ -549,6 +559,10 @@ export default class Profile extends mixins(
     return this.urlPrefix === 'moonsama'
   }
 
+  get isBsx(): boolean {
+    return this.urlPrefix === 'bsx'
+  }
+
   get activeTab(): string {
     return (this.$route.query.tab as string) || 'nft'
   }
@@ -725,6 +739,9 @@ export default class Profile extends mixins(
     if (this.activeTab === 'sales') {
       this.fetchSalesEventByCreator()
     }
+    if (this.activeTab === 'offers') {
+      this.fetchOfferEvents()
+    }
   }
 
   protected handleIdentity(identityFields: Record<string, string>) {
@@ -794,6 +811,26 @@ export default class Profile extends mixins(
     }
   }
 
+  // Get offers for user
+  protected async fetchOfferEvents() {
+    try {
+      const { data } = await this.$apollo.query<{
+        offerEvents: OfferResponse[]
+      }>({
+        query: offerListUser,
+        client: this.client,
+        variables: {
+          id: this.id,
+        },
+      })
+      if (data?.offerEvents?.length) {
+        this.userOfferList = data.offerEvents
+      }
+    } catch (e) {
+      showNotification(`${e}`, notificationTypes.warn)
+    }
+  }
+
   @Watch('accountId')
   public async fetchMyNftByIssuer() {
     if (this.id && shouldUpdate(this.accountId, this.id)) {
@@ -825,6 +862,9 @@ export default class Profile extends mixins(
       if (this.activeTab === 'sales') {
         this.fetchSalesEventByCreator()
       }
+      if (this.activeTab === 'offers') {
+        this.fetchOfferEvents()
+      }
     }
   }
 
@@ -835,6 +875,9 @@ export default class Profile extends mixins(
     }
     if (this.activeTab === 'sales') {
       this.fetchSalesEventByCreator()
+    }
+    if (this.activeTab === 'offers') {
+      this.fetchOfferEvents()
     }
   }
 }

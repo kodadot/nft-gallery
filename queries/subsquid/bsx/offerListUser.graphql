@@ -1,0 +1,16 @@
+query offerListUser($id: String!) {
+  offerEvents(where: { caller_eq: $id }) {
+    offer {
+      id
+      caller
+      expiration
+      price
+      status
+      nft {
+        name
+        id
+      }
+    }
+    timestamp
+  }
+}
