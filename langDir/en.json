@@ -405,7 +405,8 @@
   "query": {
     "priceRange": {
       "minPrice": "MIN PRICE",
-      "maxPrice": "MAX PRICE"
+      "maxPrice": "MAX PRICE",
+      "priceValidation": "min price has to smaller than max price!"
     }
   },
   "mint": {

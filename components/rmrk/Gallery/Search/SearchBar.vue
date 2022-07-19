@@ -142,9 +142,16 @@
           v-model="rangeSlider[1]">
         </b-input>
         <div class="column is-1">
-          <b-button class="is-primary" @click="sliderChange(rangeSlider)">
-            {{ $t('general.apply') }}
-          </b-button>
+          <b-tooltip
+            :label="$t('query.priceRange.priceValidation')"
+            :active="applyDisabled">
+            <b-button
+              class="is-primary"
+              @click="sliderChange(rangeSlider)"
+              :disabled="applyDisabled">
+              {{ $t('general.apply') }}
+            </b-button>
+          </b-tooltip>
         </div>
       </div>
       <div v-if="sliderDirty" class="is-size-7">
@@ -231,6 +238,14 @@ export default class SearchBar extends mixins(
   private keyDownNativeEnterFlag = true
   private defaultNFTSuggestions: NFTWithMeta[] = []
   private defaultCollectionSuggestions: CollectionWithMeta[] = []
+
+  get applyDisabled(): boolean {
+    const [min, max] = this.rangeSlider
+    if (!min || !max) {
+      return false
+    }
+    return min > max
+  }
 
   get priceRange(): string {
     const min = this.$route.query.min
