@@ -45,27 +45,27 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import { unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import { generateId } from '@/components/rmrk/service/Consolidator'
-import { canSupport } from '@/utils/support'
-import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
 import { uploadDirect } from '@/utils/directUpload'
 import AuthMixin from '@/utils/mixins/authMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { canSupport } from '@/utils/support'
 import {
-  createMetadata,
+  addressToHex,
+  asSystemRemark,
   createCollection,
   CreatedCollection,
+  createMetadata,
   createMintInteaction,
   Interaction,
-  asSystemRemark,
-  addressToHex,
+  unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
-import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
+import { Component, mixins } from 'nuxt-property-decorator'
 
 type BaseCollectionType = {
   name: string
@@ -85,7 +85,8 @@ const components = {
 export default class CreateCollection extends mixins(
   RmrkVersionMixin,
   MetaTransactionMixin,
-  AuthMixin
+  AuthMixin,
+  UseApiMixin
 ) {
   private base: BaseCollectionType = {
     name: '',
@@ -179,7 +180,7 @@ export default class CreateCollection extends mixins(
         mint
       )
 
-      const { api } = Connector.getInstance()
+      const api = await this.useApi()
       showNotification(
         `Creating collection ${this.base.name}`,
         notificationTypes.info
