@@ -100,7 +100,7 @@
                         <Auth class="mt-4" />
                       </p>
                     </div>
-                    <MyBalance />
+                    <AccountBalance />
                     <Sharing :enableDownload="isOwner" class="mb-4" />
                   </div>
                 </div>
@@ -184,7 +184,7 @@ import { formatBsxBalanceEmptyOnZero } from '~/utils/format/balance'
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
-    MyBalance: () => import('@/components/shared/MyBalance.vue'),
+    AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
   },
   directives: {

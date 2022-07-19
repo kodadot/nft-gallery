@@ -44,7 +44,7 @@
           </p>
         </b-field>
         <b-field key="balance">
-          <MyBalance />
+          <AccountBalance />
         </b-field>
         <SubmitButton
           key="submit"
@@ -115,7 +115,7 @@ const components = {
   RoyaltyForm: () => import('@/components/bsx/Create/RoyaltyForm.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
-  MyBalance: () => import('@/components/shared/MyBalance.vue'),
+  AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
 }
 
 @Component({ components })

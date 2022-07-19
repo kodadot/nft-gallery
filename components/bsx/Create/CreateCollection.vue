@@ -20,7 +20,7 @@
           </p>
         </b-field>
         <b-field>
-          <MyBalance />
+          <AccountBalance />
         </b-field>
         <SubmitButton
           label="create collection"
@@ -71,7 +71,7 @@ const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  MyBalance: () => import('@/components/shared/MyBalance.vue'),
+  AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
   // CustomAttributeInput: () =>
   //   import('@/components/rmrk/Create/CustomAttributeInput.vue'),
 }
