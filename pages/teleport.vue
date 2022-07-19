@@ -274,7 +274,7 @@ export default class Transfer extends mixins(
     this.initTransactionLoader()
 
     try {
-      const { api } = Connector.getInstance()
+      const api = await this.useApi()
       const isParaTeleport = await api.query.parachainInfo?.parachainId()
 
       const cb = findCall(api)
@@ -327,8 +327,8 @@ export default class Transfer extends mixins(
     }
   }
 
-  protected onTxError(dispatchError: DispatchError): void {
-    const { api } = Connector.getInstance()
+  protected async onTxError(dispatchError: DispatchError): Promise<void> {
+    const api = await this.useApi()
     if (dispatchError.isModule) {
       const decoded = api.registry.findMetaError(dispatchError.asModule)
       const { docs, name, section } = decoded
