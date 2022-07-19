@@ -156,6 +156,7 @@ import { royaltyOf } from '@/utils/royalty'
 import { isOwner } from '~/utils/account'
 import { generateNftImage } from '~/utils/seoImageGenerator'
 import { formatBsxBalanceEmptyOnZero } from '~/utils/format/balance'
+import { ShoppingActions } from '@/utils/shoppingActions'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -404,9 +405,13 @@ export default class GalleryItem extends mixins(
     }
   }
 
-  protected handleAction(deleted: boolean) {
+  protected handleAction(action: ShoppingActions) {
+    const deleted = action === ShoppingActions.CONSUME
     if (deleted) {
       showNotification('INSTANCE REMOVED', notificationTypes.warn)
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
     }
   }
 }
