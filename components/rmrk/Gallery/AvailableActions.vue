@@ -61,32 +61,32 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Ref, Watch } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
+import nftById from '@/queries/nftById.graphql'
+import { downloadImage } from '@/utils/download'
+import { identityStore } from '@/utils/idbStore'
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
-import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import { somePercentFromTX } from '@/utils/support'
-import shouldUpdate from '@/utils/shouldUpdate'
-import nftById from '@/queries/nftById.graphql'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import AuthMixin from '~/utils/mixins/authMixin'
-import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import MetaTransactionMixin from '~/utils/mixins/metaMixin'
-import { get } from 'idb-keyval'
-import { identityStore } from '@/utils/idbStore'
-import { emptyObject } from '~/utils/empty'
-import { isAddress } from '@polkadot/util-crypto'
-import { downloadImage } from '@/utils/download'
-import { createInteraction, JustInteraction } from '@kodadot1/minimark'
 import {
-  ShoppingActions,
-  KeyboardValueToActionMap,
-  getActions,
   getActionButtonLabel,
+  getActions,
+  KeyboardValueToActionMap,
+  ShoppingActions,
 } from '@/utils/shoppingActions'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { somePercentFromTX } from '@/utils/support'
+import { createInteraction, JustInteraction } from '@kodadot1/minimark'
+import { GenericAccountId } from '@polkadot/types/generic/AccountId'
+import { isAddress } from '@polkadot/util-crypto'
+import { get } from 'idb-keyval'
+import { Component, mixins, Prop, Ref, Watch } from 'nuxt-property-decorator'
 import { TranslateResult } from 'vue-i18n/types'
+import { emptyObject } from '@/utils/empty'
+import AuthMixin from '@/utils/mixins/authMixin'
+import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
@@ -112,7 +112,8 @@ export default class AvailableActions extends mixins(
   PrefixMixin,
   KeyboardEventsMixin,
   MetaTransactionMixin,
-  AuthMixin
+  AuthMixin,
+  UseApiMixin
 ) {
   @Prop() public currentOwnerId!: string
   @Prop() public originialOwner!: string
@@ -342,7 +343,7 @@ export default class AvailableActions extends mixins(
   }
 
   protected async submit() {
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     const rmrk = this.constructRmrk()
     this.isLoading = true
 
