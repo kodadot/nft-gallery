@@ -523,7 +523,9 @@
     "action": "Action",
     "daySelectLabel": "offer expires in",
     "daySelectPlaceholder": "select day to expire",
-    "days": "days"
+    "days": "days",
+    "collection": "Collection",
+    "nftName": "Name"
   },
   "statsOverview": {
     "buys": "Buys",
