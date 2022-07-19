@@ -192,7 +192,7 @@ export default class AvailableActions extends mixins(
             `[${this.selectedAction}] ${this.nftId}`,
             notificationTypes.success
           )
-          this.$emit('change')
+          this.$emit('change', this.selectedAction)
           this.selectedAction = ''
         },
         () => {
