@@ -16,11 +16,12 @@
       :is="showMeta"
       @input="updateMeta"
       emptyOnError />
+    <DaySelect v-if="showDaySelect" v-model="selectedDay" :days="dayList" />
     <SubmitButton
       v-if="showSubmit"
       @click="submit"
       :disabled="disableSubmitButton">
-      {{ $t('nft.action.submit', [selectedAction]) }}
+      {{ $t('nft.action.submit', [$t(`nft.event.${selectedAction}`)]) }}
     </SubmitButton>
   </div>
 </template>
@@ -54,6 +55,7 @@ const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+  DaySelect: () => import('~/components/bsx/Offer/DaySelect.vue'),
 }
 
 @Component({ components })
@@ -77,6 +79,8 @@ export default class AvailableActions extends mixins(
   public isMakeOffersDisabled = true
   public isBalanceInputValid = false
   public tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
+  public selectedDay = 14
+  public dayList = [1, 3, 7, 14, 30]
 
   get balance(): number {
     return this.formatBalance(this.$store.getters.getAuthBalance)
@@ -141,6 +145,10 @@ export default class AvailableActions extends mixins(
       this.selectedAction = NFTAction.NONE
       this.meta = ''
     }
+  }
+
+  get showDaySelect(): boolean {
+    return this.selectedAction === ShoppingActions.MAKE_OFFER
   }
 
   get isAvailableToBuy(): boolean {
@@ -221,7 +229,7 @@ export default class AvailableActions extends mixins(
   protected getExpiration(currentBlock: number): number {
     const BLOCK_OFFSET = 5 // time between submit & finalization
     const BLOCK_PER_DAY_COUNT = 7200 // 7200 = 86400 / 12
-    const DAY_COUNT = 14 // two weeks
+    const DAY_COUNT = this.selectedDay
     const expiration =
       currentBlock + BLOCK_OFFSET + BLOCK_PER_DAY_COUNT * DAY_COUNT
     return expiration
