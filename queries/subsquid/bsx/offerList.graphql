@@ -11,6 +11,10 @@ query offerList {
     nft {
       id
       name
+      collection {
+        id
+        name
+      }
     }
   }
 }

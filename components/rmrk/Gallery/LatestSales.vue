@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
 import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'
@@ -46,9 +46,8 @@ const components = {
   components,
 })
 export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
-  @Prop({ required: false, type: Array, default: () => [] })
-  passionList?: string[]
-
+  // @Prop({ required: false, type: Array, default: () => [] })
+  // passionList?: string[]
   private nfts: any[] = []
   private events: any[] = []
   private currentValue = 1
@@ -62,20 +61,19 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
     this.fetchData()
   }
 
-  @Watch('passionList')
-  private onPassionList() {
-    this.fetchData()
-  }
+  // @Watch('passionList')
+  // private onPassionList() {
+  //   this.fetchData()
+  // }
 
   async fetchData() {
-    const queryVars: { limit: number; event: string; passionAccount?: string } =
-      {
-        limit: 10,
-        event: 'BUY',
-      }
-    if (this.isLogIn) {
-      queryVars.passionAccount = this.accountId
+    const queryVars: { limit: number; event: string } = {
+      limit: 10,
+      event: 'BUY',
     }
+    // if (this.isLogIn) {
+    //   queryVars.passionAccount = this.accountId
+    // }
     const result = await this.$apollo
       .query<{
         events: LastEvent[]

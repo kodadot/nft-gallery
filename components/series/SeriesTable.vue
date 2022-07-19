@@ -2,7 +2,7 @@
   <div>
     <Loader :value="isLoading" />
     <b-field grouped>
-      <b-field class="mb-0" position="is-left">
+      <!-- <b-field class="mb-0" position="is-left">
         <div class="control is-flex">
           <b-switch
             v-if="isLogIn"
@@ -12,7 +12,7 @@
             {{ $t('passion') }}
           </b-switch>
         </div>
-      </b-field>
+      </b-field> -->
 
       <!-- <b-field
         position="is-left"
@@ -351,7 +351,7 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
-import PassionListAuthMixin from '@/utils/mixins/passionListMixin'
+// import PassionListAuthMixin from '@/utils/mixins/passionListMixin'
 import {
   toSort,
   lastmonthDate,
@@ -368,11 +368,7 @@ const components = {
 }
 
 @Component({ components })
-export default class SeriesTable extends mixins(
-  PrefixMixin,
-  AuthMixin,
-  PassionListAuthMixin
-) {
+export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
   protected data: RowSeries[] = []
   protected usersWithIdentity: RowSeries[] = []
   protected nbDays = '7'
@@ -380,7 +376,7 @@ export default class SeriesTable extends mixins(
   protected sortBy: SortType = { field: 'volume', value: 'DESC' }
   public isLoading = false
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
-  private hasPassionFeed = false
+  // private hasPassionFeed = false
 
   async created() {
     exist(this.$route.query.rows, (val) => {
@@ -405,10 +401,10 @@ export default class SeriesTable extends mixins(
         floorPrice_isNull: false,
       },
     }
-    if (this.isLogIn && this.hasPassionFeed) {
-      this.passionList = this.passionList.concat(await this.fetchPassionList())
-      queryVars.where.issuer_in = this.passionList
-    }
+    // if (this.isLogIn && this.hasPassionFeed) {
+    //   this.passionList = this.passionList.concat(await this.fetchPassionList())
+    //   queryVars.where.issuer_in = this.passionList
+    // }
 
     return queryVars
   }
@@ -537,10 +533,10 @@ export default class SeriesTable extends mixins(
       .catch((e) => this.$consola.warn(e))
   }
 
-  @Watch('hasPassionFeed', { immediate: true })
-  public onHasPassionFeed() {
-    this.fetchCollectionsSeries()
-  }
+  // @Watch('hasPassionFeed', { immediate: true })
+  // public onHasPassionFeed() {
+  //   this.fetchCollectionsSeries()
+  // }
 
   public displayVolumePercent(
     priceNow: number,
