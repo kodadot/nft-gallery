@@ -1,7 +1,7 @@
 <template>
   <b-table :data="offers">
     <b-table-column
-      v-if="isBsxStats"
+      v-if="isBsxStats && !isCollection"
       cell-class="is-vcentered is-narrow"
       :label="$t('offer.collection')"
       v-slot="props"
@@ -131,6 +131,7 @@ export default class OfferTable extends Vue {
   @Prop(Boolean) public isOwner!: boolean
   @Prop(String) public accountId!: string
   @Prop(Boolean) public isBsxStats!: boolean
+  @Prop(Boolean) public isCollection!: boolean
   public currentBlock = 0
 
   @Emit('select')
