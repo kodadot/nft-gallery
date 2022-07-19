@@ -1,7 +1,6 @@
 <template>
   <div class="gallery container">
     <Loader :value="isLoading" />
-    <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
       <!-- <template v-slot:next-filter>
         <b-switch
@@ -148,15 +147,17 @@ export default class Gallery extends mixins(
 ) {
   private nfts: NFTWithCollectionMeta[] = []
   private searchQuery: SearchQuery = {
-    search: this.$route.query?.search?.toString() || '',
-    type: '',
-    listed: true,
-    owned: true,
+    search: this.$route.query?.search?.toString() ?? '',
+    type: this.$route.query?.type?.toString() ?? '',
+    sortByMultiple: this.$route.query?.sort?.toString()
+      ? [this.$route.query?.sort?.toString()]
+      : undefined,
+    listed: this.$route.query?.listed?.toString() === 'true',
+    owned: this.$route.query?.owned?.toString() === 'true',
     priceMin: undefined,
     priceMax: undefined,
-    sortByMultiple: ['BLOCK_NUMBER_DESC'],
   }
-  private isLoading = true
+  protected isLoading = true
   // private hasPassionFeed = false
   // private passionList: string[] = []
 
@@ -169,23 +170,6 @@ export default class Gallery extends mixins(
 
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
-  }
-
-  get getLoadAllArtwork(): boolean {
-    return this.$store.getters['preferences/getLoadAllArtwork']
-  }
-
-  get queryVariables() {
-    return {
-      first: this.first,
-      denyList: getDenyList(this.urlPrefix),
-      orderBy: this.isRmrk
-        ? this.searchQuery.sortByMultiple
-        : ['blockNumber_DESC'],
-      search: this.buildSearchParam(),
-      priceMin: this.searchQuery.priceMin,
-      priceMax: this.searchQuery.priceMax,
-    }
   }
 
   set currentValue(page: number) {
@@ -250,9 +234,7 @@ export default class Gallery extends mixins(
       client: this.urlPrefix,
       variables: {
         denyList: getDenyList(this.urlPrefix),
-        orderBy: this.isRmrk
-          ? this.searchQuery.sortByMultiple
-          : ['blockNumber_DESC'],
+        orderBy: this.searchQuery.sortByMultiple,
         search: this.buildSearchParam(),
         priceMin: this.searchQuery.priceMin,
         priceMax: this.searchQuery.priceMax,
@@ -343,9 +325,7 @@ export default class Gallery extends mixins(
           first: this.first,
           offset,
           denyList: getDenyList(this.urlPrefix),
-          orderBy: this.isRmrk
-            ? this.searchQuery.sortByMultiple
-            : ['blockNumber_DESC'],
+          orderBy: this.searchQuery.sortByMultiple,
           search: this.buildSearchParam(),
           priceMin: this.searchQuery.priceMin,
           priceMax: this.searchQuery.priceMax,
@@ -378,27 +358,30 @@ export default class Gallery extends mixins(
       })
     }
 
-    if (
-      this.searchQuery.priceMin == undefined &&
-      this.searchQuery.listed &&
-      this.isRmrk
-    ) {
-      params.push({
-        price: { greaterThan: '0' },
-      })
+    if (this.searchQuery.priceMin == undefined && this.searchQuery.listed) {
+      if (this.isRmrk) {
+        params.push({
+          price: { greaterThan: '0' },
+        })
+      } else {
+        params.push({ price_gt: '0' })
+      }
     }
 
-    if (
-      this.searchQuery.priceMin != undefined &&
-      this.searchQuery.listed &&
-      this.isRmrk
-    ) {
-      params.push({
-        price: {
-          greaterThan: this.searchQuery.priceMin,
-          lessThanOrEqualTo: this.searchQuery.priceMax,
-        },
-      })
+    if (this.searchQuery.priceMin != undefined && this.searchQuery.listed) {
+      if (this.isRmrk) {
+        params.push({
+          price: {
+            greaterThan: this.searchQuery.priceMin,
+            lessThanOrEqualTo: this.searchQuery.priceMax,
+          },
+        })
+      } else {
+        params.push({
+          price_gt: this.searchQuery.priceMin,
+          price_lte: this.searchQuery.priceMax,
+        })
+      }
     }
 
     // if (this.hasPassionFeed) {
