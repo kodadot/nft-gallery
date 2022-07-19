@@ -17,6 +17,7 @@ export const notificationTypes: NotificationList = {
   danger: {
     type: 'is-danger',
     actionText: 'Oh no!',
+    duration: 15000,
   },
   warn: {
     type: 'is-warning',
@@ -29,7 +30,7 @@ export const showNotification = (
   params: any = notificationTypes.info
 ): void => {
   Notification.open({
-    duration: 5000,
+    duration: 10000,
     message,
     type: 'is-success',
     position: 'is-top-right',
@@ -50,3 +51,10 @@ export const infiniteNotif = (message: string) => {
 
   return notif
 }
+
+export const infoMessage = (msg) =>
+  showNotification(`[INFO] ${msg}`, notificationTypes.info)
+export const warningMessage = (msg) =>
+  showNotification(`[WARN] ${msg}`, notificationTypes.warn)
+export const dangerMessage = (msg) =>
+  showNotification(`[ERR] ${msg}`, notificationTypes.danger)

@@ -1,7 +1,7 @@
 ## Rewards
 
-To scale our development and operations, we prefer paid trials to know developers better and fit the team. More your PRs gets merged to `main` branch, **more-likely you'll be part of the inner team.**
-On-demand or part-time contributions are welcome, and **we will reward them in $KSM**
+To scale our development and operations, we prefer paid trials to know developers better and fit the team. The more your PRs gets merged to `main` branch,the  **more-likely you'll be part of the inner team.**
+On-demand or part-time contributions are welcome, and we will reward them in $KSM.
 
 KodaDot has started on [Kusama.network](https://kusama.network), and we prefer to pay out for your work in $KSM, which is the native cryptocurrency of Kusama network, [Polkadot's Canary network](https://polkadot.network) with bearing value.
 
@@ -30,6 +30,8 @@ Check `balances` under your _[accounts](https://polkadot.js.org/apps/#/accounts)
 ### Bounty levels
 
 Our typical payout structure for bounties is per label on the issue. Here is the table for an overview
+
+***The reward amount is in USD, paid in KSM***
 
 |                              $                               |                          $$                           |                                $$$                                |                              $$$$                               |                                         $$$$$                                          |
 | :----------------------------------------------------------: | :---------------------------------------------------: | :---------------------------------------------------------------: | :-------------------------------------------------------------: | :------------------------------------------------------------------------------------: |

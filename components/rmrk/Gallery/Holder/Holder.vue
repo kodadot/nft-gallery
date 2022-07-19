@@ -62,7 +62,7 @@
             <nuxt-link
               v-if="groupKey === 'Holder' || groupKey === 'Flipper'"
               :to="{
-                name: 'rmrk-u-id',
+                name: `${urlPrefix}-u-id`,
                 params: { id: props.row[groupKey] },
                 query: { tab: groupKey === 'Holder' ? 'holdings' : 'gains' },
               }">
@@ -71,7 +71,7 @@
             <nuxt-link
               v-else-if="groupKey === 'CollectionId'"
               :to="{
-                name: 'rmrk-collection-id',
+                name: `${urlPrefix}-collection-id`,
                 params: { id: props.row.CollectionId },
               }">
               <Identity
@@ -126,12 +126,9 @@
               :label="props.row.Date"
               position="is-right"
               append-to-body>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="getBlockUrl(props.row.Block)">
-                {{ props.row.Time }}</a
-              >
+              <BlockExplorerLink
+                :text="props.row.Time"
+                :blockId="props.row.Block" />
             </b-tooltip>
           </b-table-column>
           <template slot="detail" slot-scope="props">
@@ -142,10 +139,10 @@
                 v-show="columnsVisible['Name'].display">
                 <nuxt-link
                   :to="{
-                    name: 'rmrk-gallery-id',
+                    name: `${urlPrefix}-gallery-id`,
                     params: { id: item.Item.id },
                   }">
-                  {{ item.Item.name }}
+                  {{ item.Item.name || item.Item.id }}
                 </nuxt-link>
               </td>
               <td
@@ -170,12 +167,7 @@
                   :label="item.Date"
                   position="is-right"
                   append-to-body>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    :href="getBlockUrl(item.Block)">
-                    {{ item.Time }}</a
-                  >
+                  <BlockExplorerLink :text="item.Time" :blockId="item.Block" />
                 </b-tooltip>
               </td>
             </tr>
@@ -187,7 +179,6 @@
 </template>
 
 <script lang="ts">
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction as EventInteraction } from '../../service/scheme'
@@ -196,9 +187,11 @@ import { formatDistanceToNow } from 'date-fns'
 import { parsePriceForItem, parseDate } from './helper'
 import { Debounce } from 'vue-debounce-decorator'
 import { Interaction } from '@kodadot1/minimark'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
+  BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }
 
 export type NftHolderEvent = {
@@ -243,6 +236,7 @@ type BaseTableRow = {
   components,
 })
 export default class CommonHolderTable extends mixins(
+  PrefixMixin,
   ChainMixin,
   KeyboardEventsMixin
 ) {
@@ -523,14 +517,6 @@ export default class CommonHolderTable extends mixins(
       group['Percentage'] = group['Percentage'] / group['Amount']
     })
     return customGroupsList
-  }
-
-  protected getBlockUrl(block: string): string {
-    return urlBuilderBlockNumber(
-      block,
-      this.$store.getters['explorer/getCurrentChain'],
-      'subscan'
-    )
   }
 
   @Watch('events', { immediate: true })

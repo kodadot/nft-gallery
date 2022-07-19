@@ -3,12 +3,13 @@
     <Loader v-model="isLoading" :status="status" />
     <BaseCollectionForm v-bind.sync="base">
       <template v-slot:footer>
-        <CustomAttributeInput
+        <!-- Hidden as of 11.July.2022 due to lack of convenience #3407 -->
+        <!-- <CustomAttributeInput
           :max="10"
           v-model="attributes"
           class="mb-3"
           visible="collapse.collection.attributes.show"
-          hidden="collapse.collection.attributes.hide" />
+          hidden="collapse.collection.attributes.hide" /> -->
         <b-field>
           <p class="has-text-weight-medium is-size-6 has-text-warning">
             {{ $t('mint.deposit') }}:
@@ -34,7 +35,7 @@ import { unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
 import { canSupport } from '@/utils/support'
 import { estimate, Extrinsic } from '@/utils/transactionExecutor'
 import { createMetadata } from '@kodadot1/minimark'
@@ -60,8 +61,8 @@ const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  CustomAttributeInput: () =>
-    import('@/components/rmrk/Create/CustomAttributeInput.vue'),
+  // CustomAttributeInput: () =>
+  //   import('@/components/rmrk/Create/CustomAttributeInput.vue'),
 }
 
 @Component({ components })
@@ -113,10 +114,12 @@ export default class CreateCollection extends mixins(
       ? IPFS_KODADOT_IMAGE_PLACEHOLDER
       : await pinFileToIPFS(file, pinningKey.token)
     const type = !file ? 'image/png' : file.type
-    const attributes = this.attributes.map((val) => ({
-      ...val,
-      display_type: null,
-    }))
+    const attributes = this.attributes
+      .map((val) => ({
+        ...val,
+        display_type: null,
+      }))
+      .filter((item) => item.trait_type || item.display_type)
     const meta = createMetadata(
       name,
       description,
@@ -155,9 +158,16 @@ export default class CreateCollection extends mixins(
     const create = api.tx.uniques.create(randomId, this.accountId)
     // Option to freeze metadata
     const meta = api.tx.uniques.setClassMetadata(randomId, metadata, false)
-    const attributes = this.attributes.map((a) =>
-      api.tx.uniques.setAttribute(randomId, null, a.trait_type, String(a.value))
-    )
+    const attributes = this.attributes
+      .filter((item) => item.trait_type || item.display_type)
+      .map((a) =>
+        api.tx.uniques.setAttribute(
+          randomId,
+          null,
+          a.trait_type,
+          String(a.value)
+        )
+      )
 
     return [create, meta, ...attributes]
   }
@@ -220,6 +230,7 @@ export default class CreateCollection extends mixins(
           `[Collection] Saved ${this.base.name} in block ${blockNumber}`,
           notificationTypes.success
         )
+        this.$emit('created')
       })
     } catch (e: any) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)

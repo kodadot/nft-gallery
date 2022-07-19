@@ -1,9 +1,10 @@
 import { emptyObject } from '@/utils/empty'
-import { Registration } from '@polkadot/types/interfaces/identity/types'
 import Connector from '@kodadot1/sub-api'
-import Vue from 'vue'
-import onApiConnect from '~/utils/api/general'
+import { Registration } from '@polkadot/types/interfaces/identity/types'
 import consola from 'consola'
+import Vue from 'vue'
+import { formatAddress } from '@/utils/account'
+import onApiConnect from '@/utils/api/general'
 
 declare type Unsubscribe = () => void
 
@@ -59,6 +60,13 @@ export const mutations = {
     // Set new subscription
     Vue.set(state, 'balanceSub', sub)
   },
+  changeAddressFormat(state: IdentityStruct, ss58Prefix: number): void {
+    if (state.auth.address) {
+      const address = formatAddress(state.auth.address, ss58Prefix)
+      Vue.set(state.auth, 'address', address)
+      localStorage.setItem('kodaauth', address)
+    }
+  },
 }
 
 export const actions = {
@@ -100,6 +108,10 @@ export const actions = {
   },
   setBalance({ commit }, balance: string): void {
     commit('addBalance', balance)
+  },
+  setCorrectAddressFormat({ commit }, ss58Prefix: number): void {
+    consola.log('[SET CORRECT ADDRESS FORMAT]', ss58Prefix)
+    commit('changeAddressFormat', ss58Prefix)
   },
 }
 

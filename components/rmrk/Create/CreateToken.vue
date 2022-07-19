@@ -12,6 +12,7 @@
           label="Price"
           expanded
           key="price"
+          :step="0.1"
           @input="updatePrice"
           class="mb-3" />
         <b-message
@@ -54,7 +55,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, PinningKey, pinJson } from '@/utils/pinning'
+import { pinFileToIPFS, PinningKey, pinJson } from '@/utils/nftStorage'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
 import {
@@ -71,7 +72,10 @@ import { formatBalance } from '@polkadot/util'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { BaseMintedCollection, BaseTokenType } from '~/components/base/types'
-import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
+import {
+  DETAIL_TIMEOUT,
+  IPFS_KODADOT_IMAGE_PLACEHOLDER,
+} from '~/utils/constants'
 import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { basicUpdateFunction } from '../service/NftUtils'
@@ -82,6 +86,7 @@ import {
   secondaryFileVisible,
 } from './mintUtils'
 import { uploadDirect } from '~/utils/directUpload'
+import { preheatFileFromIPFS } from '../utils'
 
 type MintedCollection = BaseMintedCollection & {
   name: string
@@ -125,7 +130,7 @@ export default class CreateToken extends mixins(
   protected nsfw = false
   protected postfix = true
 
-  protected updatePrice(value: number) {
+  protected updatePrice(value: string) {
     this.price = value
   }
 
@@ -275,7 +280,7 @@ export default class CreateToken extends mixins(
       ...(this.tags || []),
       ...nsfwAttribute(this.nsfw),
       ...offsetAttribute(this.hasCarbonOffset),
-    ]
+    ].filter((item) => item.trait_type || item.display_type)
 
     const meta = createMetadata(
       name,
@@ -288,6 +293,7 @@ export default class CreateToken extends mixins(
     )
 
     const metaHash = await pinJson(meta, imageHash)
+    preheatFileFromIPFS(fileHash)
     uploadDirect(file, metaHash).catch(this.$consola.warn)
     return unSanitizeIpfsUrl(metaHash)
   }
@@ -340,13 +346,15 @@ export default class CreateToken extends mixins(
   }
 
   protected navigateToDetail(nft: CreatedNFT, blockNumber: string) {
-    showNotification('You will go to the detail in 2 seconds')
+    showNotification(
+      `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+    )
     const go = () =>
       this.$router.push({
         path: `/rmrk/detail/${toNFTId(nft, blockNumber)}`,
         query: { message: 'congrats' },
       })
-    setTimeout(go, 2000)
+    setTimeout(go, DETAIL_TIMEOUT)
   }
 }
 </script>

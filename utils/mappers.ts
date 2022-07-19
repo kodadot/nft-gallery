@@ -7,7 +7,7 @@ export const mapOnlyMetadata = (item: SomethingWithMeta): string =>
 export const mapNFTorCollectionMetadata = ({
   metadata,
   collection,
-}: NFTWithCollectionMeta): string => metadata || collection.metadata
+}: NFTWithCollectionMeta): string => metadata || collection?.metadata
 
 // DEV: to -> value * 10 ** decimals ; from -> value / 10 ** decimals
 export function mapDecimals(decimals: number, to = true): (number) => number {
@@ -23,4 +23,8 @@ export const logError = (
   if (error instanceof Error) {
     cb(error.message)
   }
+}
+
+export function mapToId(value: { id: string }): string {
+  return value.id
 }

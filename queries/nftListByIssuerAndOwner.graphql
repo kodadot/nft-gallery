@@ -2,7 +2,7 @@ query nftListByIssuerAndOwner(
   $account: String!
   $currentOwner: String!
 ) {
-  nFTEntities(
+  nftList: nFTEntities(
     filter: {
       issuer: { equalTo: $account }
       currentOwner: { equalTo: $currentOwner }

@@ -1,5 +1,15 @@
-query spotlightLitst($limit: Int, $offset: Int, $orderBy: SpotlightOrderByInput) {
-  collectionEntities: spotlights(limit: $limit, offset: $offset, orderBy: [$orderBy]) {
+query spotlightLitst(
+  $limit: Int
+  $offset: Int
+  $orderBy: SpotlightOrderByInput
+  $where: SpotlightWhereInput
+) {
+  collectionEntities: spotlights(
+    limit: $limit
+    offset: $offset
+    orderBy: [$orderBy]
+    where: $where
+  ) {
     id
     unique
     sold

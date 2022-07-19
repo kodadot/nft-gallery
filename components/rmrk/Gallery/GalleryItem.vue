@@ -18,7 +18,7 @@
             </p>
           </div>
           <div class="column">
-            <Sharing onlyCopyLink />
+            <Sharing :enableDownload="isOwner" />
           </div>
         </div>
       </b-message>
@@ -86,6 +86,7 @@
                         <AvailableActions
                           ref="actions"
                           :current-owner-id="nft.currentOwner"
+                          :is-owner="isOwner"
                           :price="nft.price"
                           :originialOwner="nft.issuer"
                           :nft-id="nft.id"
@@ -105,7 +106,7 @@
                     </p>
                   </div>
 
-                  <Sharing class="mb-4" />
+                  <Sharing :enableDownload="isOwner" class="mb-4" />
                 </div>
               </div>
             </div>
@@ -140,28 +141,54 @@
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
-import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
+import { sanitizeIpfsUrl, getSanitizer } from '../utils'
+import { processMedia } from '@/utils/gallery/media'
 import { emptyObject } from '@/utils/empty'
-
-import AvailableActions from './AvailableActions.vue'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import { generateNftImage } from '@/utils/seoImageGenerator'
+import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
 import nftByIdMini from '@/queries/nftByIdMinimal.graphql'
-import nftListIdsByCollection from '@/queries/nftListIdsByCollection.graphql'
+import nftListIdsByCollection from '@/queries/nftIdListByCollection.graphql'
+import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
+
 import { fetchNFTMetadata } from '../utils'
 import { get, set } from 'idb-keyval'
-import { MediaType } from '../types'
-import axios from 'axios'
 import { exist } from './Search/exist'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Debounce } from 'vue-debounce-decorator'
+import AvailableActions from './AvailableActions.vue'
+import { isOwner } from '~/utils/account'
 
 @Component<GalleryItem>({
+  name: 'GalleryItem',
+  head() {
+    const metaData = {
+      mime: this.mimeType,
+      title: this.pageTitle,
+      description: this.meta.description,
+      url: this.$route.path,
+      image: this.image,
+      video: this.meta.animation_url,
+    }
+    return {
+      title: this.pageTitle,
+      link: [
+        {
+          hid: 'canonical',
+          rel: 'canonical',
+          href: this.$root.$config.baseUrl + this.$route.path,
+        },
+      ],
+      meta: [...this.$seoMeta(metaData)],
+    }
+  },
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
-    AvailableActions: () => import('./AvailableActions.vue'),
+    AvailableActions,
     Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
@@ -201,6 +228,19 @@ export default class GalleryItem extends mixins(PrefixMixin) {
     return `${this.$route.params.id}${this.$route.hash || ''}`
   }
 
+  get pageTitle(): string {
+    return `${this.nft.name || ''}`
+  }
+
+  get image(): string {
+    return generateNftImage(
+      this.nft.name,
+      formatBalanceEmptyOnZero(this.nft.price as string),
+      this.meta.image as string,
+      this.mimeType
+    )
+  }
+
   async fetch() {
     try {
       const {
@@ -220,6 +260,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
       this.fetchMetadata()
       this.fetchCollectionItems()
+      this.updateEventList()
 
       this.isLoading = false
 
@@ -259,6 +300,26 @@ export default class GalleryItem extends mixins(PrefixMixin) {
     this.priceChartData = data
   }
 
+  get isOwner(): boolean {
+    return isOwner(this.nft.currentOwner, this.accountId)
+  }
+
+  @Debounce(500)
+  private async updateEventList() {
+    const { data } = await this.$apollo.query<{ nft }>({
+      client: 'subsquid',
+      query: nftByIdMinimal,
+      variables: {
+        id: this.id,
+      },
+    })
+    this.nft.events =
+      data.nft?.events.map((e) => ({
+        ...e,
+        nft: { id: this.id },
+      })) ?? []
+  }
+
   public async fetchCollectionItems() {
     const collectionId = this.nft?.collectionId
     if (collectionId) {
@@ -278,14 +339,15 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         })
 
         const {
-          data: { nFTEntities },
+          data: { nftEntities },
         } = nfts
 
         this.nftsFromSameCollection =
-          nFTEntities?.nodes.map((n: { id: string }) => n.id) || []
+          nftEntities?.nodes.map((n: { id: string }) => n.id) || []
         this.$store.dispatch('history/setCurrentCollection', {
           id: collectionId,
           nftIds: this.nftsFromSameCollection,
+          prefix: this.urlPrefix,
         })
       } catch (e) {
         showNotification(`${e}`, notificationTypes.warn)
@@ -315,15 +377,11 @@ export default class GalleryItem extends mixins(PrefixMixin) {
       }
 
       if (this.meta.animation_url && !this.mimeType) {
-        const { headers } = await axios.head(this.meta.animation_url)
-        this.mimeType = headers['content-type']
-        const mediaType = resolveMedia(this.mimeType)
-        this.imageVisible = ![
-          MediaType.VIDEO,
-          MediaType.MODEL,
-          MediaType.IFRAME,
-          MediaType.OBJECT,
-        ].some((t) => t === mediaType)
+        const { mimeType, imageVisible } = await processMedia(
+          this.meta.animation_url
+        )
+        this.mimeType = mimeType
+        this.imageVisible = imageVisible
       }
 
       if (!m) {
@@ -391,8 +449,16 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         author: this.nft.currentOwner,
         price: this.nft.price,
         mimeType: this.mimeType,
+        prefix: this.urlPrefix,
       })
     }
+  }
+
+  @Watch('nft.currentOwner')
+  @Watch('nft.price')
+  @Watch('nft.burned')
+  watchEventChange() {
+    this.updateEventList()
   }
 }
 </script>

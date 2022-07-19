@@ -3,7 +3,7 @@
     <Loader v-model="isLoading" :status="status" />
     <nuxt-link
       v-if="$route.query.target"
-      :to="`/rmrk/u/${destinationAddress}`"
+      :to="`/${this.urlPrefix}/u/${correctAddress}`"
       class="linkartist">
       <b-icon icon="chevron-left" size="is-small" class="linkartist--icon" />
       Go to artist's profile
@@ -18,7 +18,9 @@
       <b-field>
         <Auth />
       </b-field>
-      <div v-if="$route.query.target" class="box--target-info">
+      <div
+        v-if="$route.query.target && this.hasBlockExplorer"
+        class="box--target-info">
         Your donation will be sent to:
         <a
           :href="`https://kusama.subscan.io/account/${$route.query.target}`"
@@ -75,7 +77,7 @@
           {{ $t('general.submit') }}
         </b-button>
         <b-button
-          v-if="transactionValue"
+          v-if="transactionValue && this.hasBlockExplorer"
           type="is-success"
           class="tx"
           icon-left="external-link-alt"
@@ -85,7 +87,7 @@
           }}{{ '...' }}
         </b-button>
         <b-button
-          v-if="transactionValue"
+          v-if="transactionValue && this.hasBlockExplorer"
           @click="toast('URL copied to clipboard')"
           v-clipboard:copy="getUrl()"
           type="is-primary">
@@ -138,12 +140,14 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
+import prefixMixin from '@/utils/mixins/prefixMixin'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { calculateBalance } from '@/utils/formatBalance'
 import correctFormat from '@/utils/ss58Format'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
+import { hasExplorer } from '~/components/rmrk/Profile/utils'
 
 @Component({
   components: {
@@ -161,7 +165,8 @@ import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
 export default class Transfer extends mixins(
   TransactionMixin,
   AuthMixin,
-  ChainMixin
+  ChainMixin,
+  prefixMixin
 ) {
   protected destinationAddress = ''
   protected transactionValue = ''
@@ -198,6 +203,10 @@ export default class Transfer extends mixins(
 
   get isKSM(): boolean {
     return this.unit === 'KSM'
+  }
+
+  get hasBlockExplorer(): boolean {
+    return hasExplorer(this.urlPrefix)
   }
 
   get balance(): string {
@@ -258,7 +267,7 @@ export default class Transfer extends mixins(
     }
   }
 
-  public async submit(): Promise<void> {
+  public async submit(event: any, usedNodeUrls: string[] = []): Promise<void> {
     showNotification(
       `${this.$route.query.target ? 'Sent for Sign' : 'Dispatched'}`
     )
@@ -269,9 +278,8 @@ export default class Transfer extends mixins(
       const cb = api.tx.balances.transfer
       const arg = [
         this.destinationAddress,
-        calculateBalance(this.price, this.decimals),
+        String(calculateBalance(this.price, this.decimals)),
       ]
-
       const tx = await exec(
         this.accountId,
         '',
@@ -305,10 +313,32 @@ export default class Transfer extends mixins(
           (res) => this.resolveStatus(res.status)
         )
       )
-    } catch (e) {
-      this.$consola.error('[ERR: TRANSFER SUBMIT]', e)
-      if (e instanceof Error) {
+    } catch (e: any) {
+      if (e.message === 'Cancelled') {
         showNotification(e.message, notificationTypes.danger)
+        this.isLoading = false
+        return
+      }
+      const availableNodesByPrefix: { value: string }[] =
+        this.$store.getters['availableNodesByPrefix']
+      const availableUrls = availableNodesByPrefix.map((node) => node.value)
+      if (usedNodeUrls.length === 0) {
+        usedNodeUrls.push(this.$store.getters.getSettings['apiUrl'])
+      }
+      if (usedNodeUrls.length < availableUrls.length) {
+        const nextTryUrls = availableUrls.filter(
+          (url) => !usedNodeUrls.includes(url)
+        )
+        const { getInstance: Api } = Connector
+        // try to connect next possible url
+        await Api().connect(nextTryUrls[0])
+        await this.$store.dispatch('setApiUrl', nextTryUrls[0])
+        this.submit(event, [nextTryUrls[0]].concat(usedNodeUrls))
+      } else {
+        this.$consola.error('[ERR: TRANSFER SUBMIT]', e)
+        if (e instanceof Error) {
+          showNotification(e.message, notificationTypes.danger)
+        }
       }
     }
   }

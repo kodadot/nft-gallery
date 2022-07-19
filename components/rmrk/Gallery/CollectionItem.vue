@@ -31,9 +31,9 @@
         </div>
       </div>
 
-      <div v-if="id" class="column is-6-tablet is-7-desktop is-8-widescreen">
+      <!-- <div v-if="id" class="column is-6-tablet is-7-desktop is-8-widescreen">
         <CollectionActivity :id="id" />
-      </div>
+      </div> -->
 
       <div class="column has-text-right">
         <Sharing
@@ -41,6 +41,7 @@
           class="mb-2"
           :label="name"
           :iframe="iframeSettings">
+          <DestroyCollection v-if="isOwner && urlPrefix === 'bsx'" :id="id" />
           <DonationButton :address="issuer" />
         </Sharing>
       </div>
@@ -66,7 +67,11 @@
           v-bind.sync="searchQuery"
           :showOwnerSwitch="!!accountId"
           :disableToggle="!totalListed"
-          :sortOption="collectionProfileSortOption">
+          :sortOption="
+            urlPrefix === 'rmrk'
+              ? collectionProfileSortOption
+              : squidCollectionProfileSortOption
+          ">
           <Layout class="mr-5" />
           <b-field>
             <Pagination
@@ -88,6 +93,8 @@
         <GalleryCardList
           :items="nfts"
           :listed="!!(searchQuery && searchQuery.listed)"
+          :link="`${urlPrefix}/gallery`"
+          :route="`/${urlPrefix}/gallery`"
           horizontalLayout />
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
@@ -103,6 +110,7 @@
           :events="eventsOfNftCollection"
           :openOnDefault="isHistoryOpen"
           hideCollapse
+          displayItem
           @setPriceChartData="setPriceChartData" />
       </b-tab-item>
       <b-tab-item label="Holders" value="holders">
@@ -124,35 +132,36 @@
 </template>
 
 <script lang="ts">
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { NFT } from '@/components/rmrk/service/scheme'
+import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
+import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
+import { getCloudflareImageLinks } from '@/utils/cachingStrategy'
+import { CollectionChartData as ChartData } from '@/utils/chart'
 import { emptyObject } from '@/utils/empty'
-import { Component, mixins, Watch, Ref } from 'nuxt-property-decorator'
+import isShareMode from '@/utils/isShareMode'
+import { mapDecimals, mapOnlyMetadata } from '@/utils/mappers'
+import AuthMixin from '@/utils/mixins/authMixin'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
+import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { sortedEventByDate } from '@/utils/sorting'
+import { correctPrefix, unwrapSafe } from '@/utils/uniquery'
+import { Component, mixins, Ref, Watch } from 'nuxt-property-decorator'
+import { Debounce } from 'vue-debounce-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
+import { CollectionMetadata } from '../types'
 import {
-  sanitizeIpfsUrl,
   fetchCollectionMetadata,
   onlyPriceEvents,
+  sanitizeIpfsUrl,
 } from '../utils'
-import isShareMode from '@/utils/isShareMode'
-import shouldUpdate from '@/utils/shouldUpdate'
-import collectionById from '@/queries/collectionById.graphql'
-import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
-import { CollectionMetadata } from '../types'
-import { NFT } from '@/components/rmrk/service/scheme'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { SearchQuery } from './Search/types'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import AuthMixin from '~/utils/mixins/authMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
-import { mapOnlyMetadata } from '~/utils/mappers'
-import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
-import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
-import { CollectionChartData as ChartData } from '@/utils/chart'
-import { mapDecimals } from '@/utils/mappers'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
-import { sortedEventByDate } from '~/utils/sorting'
-import { Debounce } from 'vue-debounce-decorator'
+import { isSameAccount } from '~/utils/account'
 
 const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
 
@@ -178,6 +187,8 @@ const components = {
   Flipper: () => import('@/components/rmrk/Gallery/Flipper.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
+  DestroyCollection: () =>
+    import('@/components/bsx/specific/DestroyCollection.vue'),
 }
 @Component<CollectionItem>({
   components,
@@ -193,32 +204,30 @@ export default class CollectionItem extends mixins(
   private id = ''
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>()
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>()
-  private searchQuery: SearchQuery = Object.assign(
-    {
-      search: '',
-      type: '',
-      sortBy: (this.$route.query.sort as string) ?? 'BLOCK_NUMBER_DESC',
-      listed: false,
-      owned: null,
-    },
-    this.$route.query
-  )
+  private searchQuery: SearchQuery = {
+    search: this.$route.query?.search?.toString() ?? '',
+    type: this.$route.query?.type?.toString() ?? '',
+    sortBy: this.$route.query?.sort?.toString() ?? '',
+    listed: this.$route.query?.listed?.toString() === 'true',
+    owned: false,
+  }
+
   public activeTab = 'items'
+  protected isLoading = true
   protected first = 16
   protected totalListed = 0
   protected stats: NFT[] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []
-  private queryLoading = 0
   public eventsOfNftCollection: Interaction[] | [] = []
   public ownerEventsOfNftCollection: Interaction[] | [] = []
   public selectedEvent = 'all'
   public priceChartData: [Date, number][][] = []
   private openHistory = true
   private openHolder = true
-  private isLoading = true
   private nfts: NFT[] = []
 
-  collectionProfileSortOption: string[] = [
+  // replacee with constant
+  protected collectionProfileSortOption: string[] = [
     'EMOTES_COUNT_DESC',
     'BLOCK_NUMBER_DESC',
     'BLOCK_NUMBER_ASC',
@@ -227,6 +236,17 @@ export default class CollectionItem extends mixins(
     'PRICE_DESC',
     'PRICE_ASC',
     'SN_ASC',
+  ]
+
+  // move to constant
+  protected squidCollectionProfileSortOption: string[] = [
+    'blockNumber_DESC',
+    'blockNumber_ASC',
+    'updatedAt_DESC',
+    'updatedAt_ASC',
+    'price_DESC',
+    'price_ASC',
+    'sn_ASC',
   ]
 
   get hasChartData(): boolean {
@@ -277,35 +297,66 @@ export default class CollectionItem extends mixins(
     return this.currentPage
   }
 
+  get isOwner() {
+    return (
+      this.collection.issuer &&
+      this.accountId &&
+      isSameAccount(this.collection.issuer, this.accountId)
+    )
+  }
+
   private buildSearchParam(checkForEmpty?): Record<string, unknown>[] {
     const params: any[] = []
 
     if (this.searchQuery.search) {
-      params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` },
-      })
+      if (this.urlPrefix === 'rmrk') {
+        params.push({
+          name: { likeInsensitive: this.searchQuery.search },
+        })
+      } else {
+        params.push({ name_containsInsensitive: this.searchQuery.search })
+      }
     }
 
     if (this.searchQuery.listed || checkForEmpty) {
-      params.push({
-        price: { greaterThan: '0' },
-      })
+      if (this.urlPrefix === 'rmrk') {
+        params.push({
+          price: { greaterThan: '0' },
+        })
+      } else {
+        params.push({ price_gt: '0' })
+      }
     }
 
     if (this.searchQuery.owned && this.accountId) {
-      params.push({
-        currentOwner: { equalTo: this.accountId },
-      })
+      if (this.urlPrefix === 'rmrk') {
+        params.push({
+          currentOwner: { equalTo: this.accountId },
+        })
+      } else {
+        params.push({ currentOwner_eq: this.accountId })
+      }
     }
 
     return params
   }
 
-  public created(): void {
+  public async created(): Promise<void> {
     this.checkId()
     this.checkActiveTab()
     this.checkIfEmptyListed()
+    this.checkSortBy()
     this.fetchPageData(this.startPage)
+  }
+
+  private checkSortBy() {
+    const currentSortBy = this.searchQuery.sortBy
+    const newSortBy =
+      this.urlPrefix === 'rmrk' ? 'BLOCK_NUMBER_DESC' : 'blockNumber_DESC'
+
+    if (!currentSortBy && newSortBy !== currentSortBy) {
+      this.searchQuery.sortBy = newSortBy
+    }
   }
 
   public async fetchPageData(page: number, loadDirection = 'down') {
@@ -313,8 +364,9 @@ export default class CollectionItem extends mixins(
       return false
     }
     this.isFetchingData = true
+    const query = await resolveQueryPath(this.urlPrefix, 'collectionById')
     const result = await this.$apollo.query({
-      query: collectionById,
+      query: query.default,
       client: this.urlPrefix,
       variables: {
         id: this.id,
@@ -345,24 +397,25 @@ export default class CollectionItem extends mixins(
   }
 
   public async checkIfEmptyListed(): Promise<void> {
-    // if the collection is empty, we need to check if there are any listed NFTs
-    this.$apollo.addSmartQuery('totalListed', {
-      query: collectionById,
-      client: this.urlPrefix,
-      update: (data) => {
-        return data.collectionEntity.nfts.totalCount
-      },
-      variables: () => {
-        return {
+    const query = await resolveQueryPath(
+      'subsquid',
+      'nftListedCountByCollection'
+    )
+    this.totalListed = await this.$apollo
+      .query<{ nodes: { totalCount: number } }>({
+        query: query.default,
+        client: correctPrefix(this.urlPrefix),
+        variables: {
           id: this.id,
-          orderBy: this.searchQuery.sortBy,
-          search: this.buildSearchParam(true),
-          first: this.first,
-          offset: this.offset,
-        }
-      },
-    })
+        },
+      })
+      .then(({ data }) => data.nodes.totalCount)
+      .catch((err) => {
+        this.$consola.error('Failed to fetch total listed', err.message)
+        return 0
+      })
   }
+
   public setPriceChartData(data: [Date, number][][]) {
     this.priceChartData = data
   }
@@ -396,7 +449,7 @@ export default class CollectionItem extends mixins(
     try {
       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
         query: allCollectionSaleEvents,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
           and: {
@@ -448,7 +501,7 @@ export default class CollectionItem extends mixins(
     { data }: any,
     loadDirection = 'down'
   ): Promise<void> {
-    const { collectionEntity } = data
+    const { collectionEntity, nftEntitiesConnection } = data
     if (!collectionEntity) {
       return this.$nuxt.error({
         statusCode: 404,
@@ -456,8 +509,9 @@ export default class CollectionItem extends mixins(
         path: this.$route.path,
       })
     }
+
     this.firstMintDate = collectionEntity.createdAt
-    const newNfts = collectionEntity.nfts.nodes.map((e: any) => ({
+    const newNfts = unwrapSafe(collectionEntity.nfts).map((e: any) => ({
       ...e,
       emoteCount: e?.emotes?.totalCount,
     }))
@@ -474,7 +528,8 @@ export default class CollectionItem extends mixins(
     } else {
       this.nfts = this.nfts.concat(newNfts)
     }
-    this.total = collectionEntity.nfts.totalCount
+    this.total =
+      collectionEntity.nfts.totalCount || nftEntitiesConnection.totalCount
     this.isLoading = false
 
     await this.fetchMetadata()
@@ -483,6 +538,7 @@ export default class CollectionItem extends mixins(
   public async fetchMetadata(): Promise<void> {
     if (this.collection['metadata'] && !this.meta['image']) {
       const meta = await fetchCollectionMetadata(this.collection)
+      this.collection = Object.assign(this.collection, { ...meta })
       this.meta = {
         ...meta,
         image: sanitizeIpfsUrl(meta.image || ''),
@@ -492,6 +548,7 @@ export default class CollectionItem extends mixins(
         image: this.image,
         description: this.description,
         numberOfItems: this.total || 0,
+        prefix: this.urlPrefix,
       })
     }
   }

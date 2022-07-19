@@ -5,7 +5,9 @@
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
         <h1 class="title is-2">{{ $t('general.latestSales') }}</h1>
-        <p class="subtitle is-size-5">Discover the most recent sales on rmrk</p>
+        <p class="subtitle is-size-5">
+          {{ $t('general.latestSalesheading') }}
+        </p>
       </div>
       <div class="column has-text-right">
         <Pagination
@@ -25,12 +27,14 @@
 import { Component, mixins } from 'nuxt-property-decorator'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
-import { fallbackMetaByNftEvent } from '@/utils/carousel'
+import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'
+import { LastEvent } from '~/utils/types/types'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
 } from '~/utils/cachingStrategy'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
@@ -41,7 +45,9 @@ const components = {
 @Component<LatestSales>({
   components,
 })
-export default class LatestSales extends mixins(PrefixMixin) {
+export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
+  // @Prop({ required: false, type: Array, default: () => [] })
+  // passionList?: string[]
   private nfts: any[] = []
   private events: any[] = []
   private currentValue = 1
@@ -52,16 +58,29 @@ export default class LatestSales extends mixins(PrefixMixin) {
   }
 
   async fetch() {
+    this.fetchData()
+  }
+
+  // @Watch('passionList')
+  // private onPassionList() {
+  //   this.fetchData()
+  // }
+
+  async fetchData() {
+    const queryVars: { limit: number; event: string } = {
+      limit: 10,
+      event: 'BUY',
+    }
+    // if (this.isLogIn) {
+    //   queryVars.passionAccount = this.accountId
+    // }
     const result = await this.$apollo
       .query<{
-        events: { meta; nft: { meta: { id; image } } }
+        events: LastEvent[]
       }>({
         query: lastNftListByEvent,
         client: this.client,
-        variables: {
-          limit: 10,
-          event: 'BUY',
-        },
+        variables: queryVars,
       })
       .catch((e) => {
         this.$consola.error(e)
@@ -73,9 +92,10 @@ export default class LatestSales extends mixins(PrefixMixin) {
     }
   }
 
-  protected async handleResult({ data }: any) {
-    this.events = [...data.events]
-    this.total = data.events.length
+  protected async handleResult({ data }: { data: { events: LastEvent[] } }) {
+    this.events = [...data.events].map(convertLastEventToNft)
+
+    this.total = this.events.length
 
     await fallbackMetaByNftEvent(this.events)
     const images = await getCloudflareImageLinks(

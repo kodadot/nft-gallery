@@ -12,8 +12,8 @@ body:
     attributes:
       label: What happened?
       description: Tell us, what happened?
-      placeholder: Tell us what you seen!
-      value: "A bug happened!"
+      placeholder: Tell us what you've seen!
+
     validations:
       required: true
   - type: textarea
@@ -22,7 +22,6 @@ body:
       label: Please reproduce in steps
       description: Tells us steps how to reproduce the bug behaviour
       placeholder: Go to ... Click on .... See error
-      value: "Go to ... Click on .... See error"
     validations:
       required: true
   - type: textarea
@@ -30,8 +29,7 @@ body:
     attributes:
       label: Expected Behavior
       description: A clear and concise description of what you expected to happen.
-      placeholder: Tell us what you want to see!
-      value: "I've expected ..."
+      placeholder: I've expected ...
     validations:
       required: true
   - type: dropdown
@@ -40,13 +38,21 @@ body:
       label: What browsers are you seeing the problem on?
       multiple: true
       options:
-        - Firefox
         - Chrome
+        - Firefox
         - Safari
         - Microsoft Edge
-        - Mobile iOS Safari
         - Mobile Android Chrome
+        - Mobile iOS Safari
         - Mobile Firefox
+  - type: dropdown
+    id: beta-yes-no
+    attributes:
+      label: At which address did you encounter bug?
+      multiple: true
+      options:
+        - beta.kodadot.xyz
+        - kodadot.xyz
   - type: dropdown
     id: logged-in
     attributes:
@@ -56,20 +62,29 @@ body:
         - "Yes"
         - "No"
   - type: dropdown
-    id: beta-yes-no
+    id: chain-selector
     attributes:
-      label: At which address did you encounter bug?
+      label: Which wallet you are using? 
       multiple: true
       options:
-        - beta.kodadot.xyz
-        - kodadot.xyz
+        - PolkadotJS
+        - Talisman
+        - SubWallet
+  - type: dropdown
+    id: wallet-selector
+    attributes:
+      label: At which chain did you encounter bug?
+      multiple: true
+      options:
+        - Basilisk
+        - MoonSama
+        - RMRK
   - type: textarea
     id: Screenshots
     attributes:
       label: Screenshots
       description: Screenshot/Video is worth more than debug logs!
       placeholder: Paste from your clipboard or upload screenshots/video
-      value: "Paste from your clipboard or upload screenshots/video"
     validations:
       required: true
   - type: textarea

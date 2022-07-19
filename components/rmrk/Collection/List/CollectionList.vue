@@ -34,7 +34,7 @@
           :key="collection.id">
           <div class="card collection-card">
             <nuxt-link
-              :to="`/rmrk/collection/${collection.id}`"
+              :to="`/${urlPrefix}/collection/${collection.id}`"
               tag="div"
               class="collection-card__skeleton">
               <div class="card-image">
@@ -45,7 +45,7 @@
               </div>
 
               <div class="card-content">
-                <nuxt-link :to="`/rmrk/collection/${collection.id}`">
+                <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
                   <CollectionDetail
                     :nfts="collection.nfts"
                     :name="collection.name" />
@@ -66,7 +66,6 @@
 
 <script lang="ts">
 import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
-import shouldUpdate from '~/utils/shouldUpdate'
 import { Debounce } from 'vue-debounce-decorator'
 import {
   CollectionWithMeta,
@@ -78,7 +77,7 @@ import { getSanitizer } from '@/components/rmrk/utils'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
 import 'lazysizes'
 
-import collectionListWithSearch from '@/queries/rmrk/subsquid/collectionListWithSearch.graphql'
+import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import { mapOnlyMetadata } from '~/utils/mappers'
@@ -120,16 +119,12 @@ export default class CollectionList extends mixins(
   private meta: Metadata[] = []
   private placeholder = '/placeholder.webp'
   private isLoading = true
-  private searchQuery: SearchQuery = Object.assign(
-    {
-      search: '',
-      type: '',
-      sortBy: (this.$route.query.sort as string) ?? 'blockNumber_DESC',
-      listed: false,
-    },
-    this.$route.query
-  )
-
+  private searchQuery: SearchQuery = {
+    search: this.$route.query?.search?.toString() ?? '',
+    type: this.$route.query?.type?.toString() ?? '',
+    sortBy: this.$route.query?.sort?.toString() ?? 'blockNumber_DESC',
+    listed: this.$route.query?.listed?.toString() === 'true',
+  }
   private collectionSortOption: string[] = [
     'blockNumber_DESC',
     'blockNumber_ASC',
@@ -159,6 +154,7 @@ export default class CollectionList extends mixins(
     this.startPage = page
     this.endPage = page
     this.collections = []
+    this.isFetchingData = false
     this.isLoading = true
     this.fetchPageData(page)
   }
@@ -262,7 +258,7 @@ export default class CollectionList extends mixins(
 
   @Watch('$route.query.search')
   protected onSearchChange(val: string, oldVal: string) {
-    if (shouldUpdate(val, oldVal)) {
+    if (val !== oldVal) {
       this.resetPage()
       this.searchQuery.search = val || ''
     }

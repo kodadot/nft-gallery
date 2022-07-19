@@ -1,11 +1,12 @@
 query seriesInsightList(
   $limit: Int
   $orderBy: SeriesOrderByInput
+  $where: SeriesWhereInput
 ) {
   collectionEntities: series(
     limit: $limit
     orderBy: [$orderBy]
-    where: { floorPrice_isNull: false }
+    where: $where
   ) {
     id
     floorPrice

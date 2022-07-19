@@ -1,6 +1,19 @@
 <template>
   <b-field>
+    <b-dropdown
+      v-if="multipleSelect"
+      multiple
+      v-model="selectedAction"
+      class="select-dropdown">
+      <template #trigger>
+        <b-button type="is-primary" icon-right="caret-down"> Sort by </b-button>
+      </template>
+      <b-dropdown-item v-for="action in actions" :key="action" :value="action">
+        {{ $t('sort.' + action) }}
+      </b-dropdown-item>
+    </b-dropdown>
     <b-select
+      v-else
       v-model="selectedAction"
       placeholder="Sort by"
       class="select-dropdown">
@@ -12,25 +25,27 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, VModel, Prop } from 'nuxt-property-decorator'
+import { Component, mixins, VModel, Prop } from 'nuxt-property-decorator'
+import {
+  NFT_SORT_CONDITION_LIST,
+  NFT_SQUID_SORT_CONDITION_LIST,
+} from '@/utils/constants'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 @Component
-export default class SearchSortDropdown extends Vue {
-  @VModel({ type: String }) selectedAction!: string
+export default class SearchSortDropdown extends mixins(PrefixMixin) {
+  @VModel({ type: [Array, String] }) selectedAction!: string | string[]
   @Prop(Array) public sortOption?: string[]
-
-  private sort: string[] = [
-    'EMOTES_COUNT_DESC',
-    'BLOCK_NUMBER_DESC',
-    'BLOCK_NUMBER_ASC',
-    'UPDATED_AT_DESC',
-    'UPDATED_AT_ASC',
-    'PRICE_DESC',
-    'PRICE_ASC',
-  ]
+  @Prop(Boolean) public multipleSelect!: boolean
 
   get actions(): string[] {
     return this.sortOption || this.sort
+  }
+
+  get sort(): string[] {
+    return this.urlPrefix === 'rmrk'
+      ? NFT_SORT_CONDITION_LIST
+      : NFT_SQUID_SORT_CONDITION_LIST
   }
 }
 </script>

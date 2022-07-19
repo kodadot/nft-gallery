@@ -70,9 +70,9 @@
         label="Relative Date">
         <div>
           <b-tooltip :label="props.row.date">
-            <a :href="getBlockUrl(props.row.blockNumber)" target="_blank">
-              {{ props.row.relDate }}
-            </a>
+            <BlockExplorerLink
+              :text="props.row.relDate"
+              :blockId="props.row.blockNumber" />
           </b-tooltip>
         </div>
       </b-table-column>
@@ -101,7 +101,6 @@ import { RowSales } from './types'
 import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
@@ -111,6 +110,7 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   BasicPopup: () => import('@/components/shared/view/BasicPopup.vue'),
+  BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }
 
 @Component({ components })
@@ -126,14 +126,6 @@ export default class SalesTable extends mixins(PrefixMixin) {
       timeZone: 'UTC',
       timeZoneName: 'short',
     })
-  }
-
-  protected getBlockUrl(block: string): string {
-    return urlBuilderBlockNumber(
-      block,
-      this.$store.getters['explorer/getCurrentChain'],
-      'subscan'
-    )
   }
 
   public async fetchSalesFeed() {

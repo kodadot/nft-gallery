@@ -4,6 +4,8 @@ import defineApolloConfig, {
   toApolloEndpoint,
 } from './utils/config/defineApolloConfig'
 
+import { URLS } from './utils/constants'
+
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
 export default defineNuxtConfig({
@@ -217,6 +219,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
+    skipSettingLocaleOnNavigate: true,
     vueI18nLoader: true,
     defaultLocale: 'en',
     detectBrowserLanguage: {
@@ -257,9 +260,10 @@ export default defineNuxtConfig({
     clientConfigs: {
       ...defineApolloConfig(),
       subsquid: toApolloEndpoint(
-        process.env.SUBSQUID_ENDPOINT ||
-          'https://app.gc.subsquid.io/beta/rubick/006/graphql'
+        process.env.SUBSQUID_ENDPOINT || URLS.koda.subsquidv6
       ),
+      bsx: toApolloEndpoint(URLS.koda.snekk),
+      moonsama: toApolloEndpoint(URLS.koda.click),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
@@ -282,6 +286,7 @@ export default defineNuxtConfig({
       '@polkadot/ui-settings',
       '@polkadot/hw-ledger',
       '@polkadot/types-codec',
+      '@polkadot/wasm-bridge',
       '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
     ],
     extend(config) {

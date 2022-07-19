@@ -23,7 +23,7 @@ export default class TransactionMixin extends Vue {
     }
 
     if (status.isFinalized) {
-      this.status = omitFinalized ? '' : 'loading.finalized'
+      this.status = omitFinalized ? '' : 'loader.finalized'
       return
     }
 
@@ -33,5 +33,10 @@ export default class TransactionMixin extends Vue {
   public initTransactionLoader(): void {
     this.isLoading = true
     this.status = 'loader.sign'
+  }
+
+  public stopLoader(): void {
+    this.isLoading = false
+    this.status = ''
   }
 }

@@ -56,7 +56,11 @@
       <LazyHistoryBrowser
         class="custom-navbar-item navbar-link-background is-hidden-touch"
         id="NavHistoryBrowser" />
-      <b-navbar-dropdown arrowless collapsible id="NavCreate">
+      <b-navbar-dropdown
+        arrowless
+        collapsible
+        id="NavCreate"
+        v-show="isCreateVisible">
         <template #label>
           <span>{{ $t('create') }}</span>
         </template>
@@ -76,10 +80,24 @@
               {{ $t('simple') }}
             </b-navbar-item>
           </b-tooltip>
+          <b-tooltip
+            label="AI powered process to create your NFT"
+            position="is-right"
+            append-to-body>
+            <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/creative`">
+              {{ $t('creative') }}
+            </b-navbar-item>
+          </b-tooltip>
         </template>
       </b-navbar-dropdown>
       <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/explore`">
         <span>{{ $t('explore') }}</span>
+      </b-navbar-item>
+      <b-navbar-item
+        v-if="urlPrefix === 'bsx'"
+        tag="nuxt-link"
+        :to="`/${urlPrefix}/stats`">
+        <span>{{ $t('stats') }}</span>
       </b-navbar-item>
       <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
         <template #label>
@@ -93,6 +111,7 @@
             Series
           </b-navbar-item>
           <b-navbar-item tag="nuxt-link" to="/sales"> Sales </b-navbar-item>
+          <b-navbar-item tag="nuxt-link" to="/hot"> Hot </b-navbar-item>
         </template>
       </b-navbar-dropdown>
       <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
@@ -119,6 +138,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import Identity from '@/components/shared/format/Identity.vue'
 import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
+import { createVisible } from '@/utils/config/permision.config'
 
 import { identityStore } from '@/utils/idbStore'
 import { get } from 'idb-keyval'
@@ -156,6 +176,10 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
   get inUserProfilePage(): boolean {
     return this.$route.name === 'rmrk-u-id'
+  }
+
+  get isCreateVisible(): boolean {
+    return createVisible(this.urlPrefix)
   }
 
   get isTargetPage(): boolean {
@@ -264,29 +288,29 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 //   }
 // }
 
-@media only screen and (min-width: 1024px) and (max-width: 1100px) {
-  div#NavHistoryBrowser {
-    display: none;
-  }
-}
+//@media only screen and (min-width: 1024px) and (max-width: 1100px) {
+//  div#NavHistoryBrowser {
+//    display: none;
+//  }
+//}
 
-@media only screen and (min-width: 1024px) and (max-width: 1200px) {
-  a#NavCreate {
-    display: none;
-  }
-}
+//@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+//  a#NavCreate {
+//    display: none;
+//  }
+//}
 
-@media only screen and (min-width: 1024px) and (max-width: 1250px) {
-  div#NavChainSelect {
-    display: none;
-  }
-}
+//@media only screen and (min-width: 1024px) and (max-width: 1250px) {
+//  div#NavChainSelect {
+//    display: none;
+//  }
+//}
 
-@media only screen and (min-width: 1024px) and (max-width: 1340px) {
-  div#NavLocaleChanger {
-    display: none;
-  }
-}
+//@media only screen and (min-width: 1024px) and (max-width: 1340px) {
+//  div#NavLocaleChanger {
+//    display: none;
+//  }
+//}
 
 @include touch {
   .navbar {
@@ -381,7 +405,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   .search-navbar {
     background-color: transparent;
     box-shadow: none;
-    min-width: 350px;
+    width: min-content;
+    min-width: 140px;
     margin: 0 1rem;
     input {
       border: inherit;

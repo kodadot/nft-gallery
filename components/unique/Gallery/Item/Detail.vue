@@ -6,7 +6,9 @@
     <p class="subtitle is-size-6">
       <nuxt-link
         v-if="nft.collection"
-        :to="`/${urlPrefix}/collection/${nft.collectionId}`"
+        :to="`/${urlPrefix}/collection/${
+          nft.collectionId || nft.collection.id
+        }`"
         v-show="!isLoading">
         {{ nft.collection.name }}
       </nuxt-link>
@@ -55,7 +57,7 @@ const components = {
 }
 
 @Component({ components })
-export default class Name extends mixins(PrefixMixin) {
+export default class GalleryItemDetail extends mixins(PrefixMixin) {
   @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta
   @Prop() public isLoading!: boolean
 
