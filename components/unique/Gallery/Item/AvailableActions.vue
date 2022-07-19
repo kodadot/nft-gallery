@@ -30,15 +30,15 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
+import NFTUtils, { NFTAction } from '@/components/unique/NftUtils'
+import nftById from '@/queries/nftById.graphql'
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import shouldUpdate from '@/utils/shouldUpdate'
-import nftById from '@/queries/nftById.graphql'
-import NFTUtils, { NFTAction } from '@/components/unique/NftUtils'
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 
 const ownerActions: NFTAction[] = [
   NFTAction.SEND,
@@ -70,7 +70,10 @@ const components = {
 }
 
 @Component({ components })
-export default class AvailableActions extends mixins(RmrkVersionMixin) {
+export default class AvailableActions extends mixins(
+  RmrkVersionMixin,
+  UseApiMixin
+) {
   @Prop(String) public currentOwnerId!: string
   @Prop(String) public accountId!: string
   @Prop({ type: [String] }) public delegateId!: string
@@ -192,7 +195,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
   }
 
   protected async submit() {
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     this.isLoading = true
 
     try {
