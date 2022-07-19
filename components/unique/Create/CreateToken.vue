@@ -46,7 +46,6 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import {
   nsfwAttribute,
   offsetAttribute,
@@ -54,28 +53,28 @@ import {
 } from '@/components/rmrk/Create/mintUtils'
 import { Attribute } from '@/components/rmrk/types'
 import collectionForMint from '@/queries/unique/collectionForMint.graphql'
-import { unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import ChainMixin from '@/utils/mixins/chainMixin'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
-import { createMetadata } from '@kodadot1/minimark'
-import Connector, { onApiConnect } from '@kodadot1/sub-api'
+import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
+import { onApiConnect } from '@kodadot1/sub-api'
 import { getMany, update } from 'idb-keyval'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 
-import { BaseMintedCollection, BaseTokenType } from '~/components/base/types'
-import { fetchCollectionMetadata } from '~/components/rmrk/utils'
+import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
+import { fetchCollectionMetadata } from '@/components/rmrk/utils'
 import {
   DETAIL_TIMEOUT,
   IPFS_KODADOT_IMAGE_PLACEHOLDER,
-} from '~/utils/constants'
-import AuthMixin from '~/utils/mixins/authMixin'
-import MetaTransactionMixin from '~/utils/mixins/metaMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+} from '@/utils/constants'
+import AuthMixin from '@/utils/mixins/authMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { getInstanceDeposit, getMetadataDeposit } from '../apiConstants'
 import { createTokenId, tokenIdToRoute } from '../utils'
-import UseApiMixin from '~/utils/mixins/useApiMixin'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -217,7 +216,7 @@ export default class CreateToken extends mixins(
 
     this.isLoading = true
     this.status = 'loader.ipfs'
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     const { selectedCollection } = this.base
     const {
       alreadyMinted,
