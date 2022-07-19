@@ -579,7 +579,9 @@ export default class CollectionItem extends mixins(
 
   @Watch('searchQuery', { deep: true })
   protected onSearchQueryChange() {
-    this.resetPage()
+    if (!this.isLoading) {
+      this.resetPage()
+    }
   }
 
   @Watch('activeTab')
