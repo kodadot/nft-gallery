@@ -49,13 +49,21 @@
 </template>
 
 <script lang="ts">
+import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
 import collectionForMint from '@/queries/collectionForMint.graphql'
-import { unSanitizeIpfsUrl } from '@kodadot1/minimark'
+import {
+  DETAIL_TIMEOUT,
+  IPFS_KODADOT_IMAGE_PLACEHOLDER,
+} from '@/utils/constants'
+import { uploadDirect } from '@/utils/directUpload'
+import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, PinningKey, pinJson } from '@/utils/nftStorage'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
 import {
@@ -67,26 +75,18 @@ import {
   createMintInteaction,
   createMultipleNFT,
   Interaction,
+  unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import { formatBalance } from '@polkadot/util'
-import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { BaseMintedCollection, BaseTokenType } from '~/components/base/types'
-import {
-  DETAIL_TIMEOUT,
-  IPFS_KODADOT_IMAGE_PLACEHOLDER,
-} from '~/utils/constants'
-import AuthMixin from '~/utils/mixins/authMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { basicUpdateFunction } from '../service/NftUtils'
 import { toNFTId } from '../service/scheme'
+import { preheatFileFromIPFS } from '../utils'
 import {
   nsfwAttribute,
   offsetAttribute,
   secondaryFileVisible,
 } from './mintUtils'
-import { uploadDirect } from '~/utils/directUpload'
-import { preheatFileFromIPFS } from '../utils'
 
 type MintedCollection = BaseMintedCollection & {
   name: string
@@ -113,7 +113,8 @@ export default class CreateToken extends mixins(
   MetaTransactionMixin,
   ChainMixin,
   PrefixMixin,
-  AuthMixin
+  AuthMixin,
+  UseApiMixin
 ) {
   protected base: BaseTokenType<MintedCollection> = {
     name: '',
@@ -192,7 +193,7 @@ export default class CreateToken extends mixins(
 
     this.isLoading = true
     this.status = 'loader.ipfs'
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     const { name, edition, selectedCollection } = this.base
     const { alreadyMinted, id: collectionId } = selectedCollection
 
@@ -300,7 +301,7 @@ export default class CreateToken extends mixins(
 
   public async listForSale(remarks: CreatedNFT[], originalBlockNumber: string) {
     try {
-      const { api } = Connector.getInstance()
+      const api = await this.useApi()
 
       const { version, price } = this
       const balance = formatBalance(price, {
