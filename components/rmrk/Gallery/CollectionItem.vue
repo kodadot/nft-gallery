@@ -207,10 +207,7 @@ export default class CollectionItem extends mixins(
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
-    sortBy:
-      this.$route.query?.sort?.toString() ?? this.urlPrefix === 'rmrk'
-        ? 'BLOCK_NUMBER_DESC'
-        : 'blockNumber_DESC',
+    sortBy: this.$route.query?.sort?.toString() ?? '',
     listed: this.$route.query?.listed?.toString() === 'true',
     owned: false,
   }
@@ -348,7 +345,18 @@ export default class CollectionItem extends mixins(
     this.checkId()
     this.checkActiveTab()
     this.checkIfEmptyListed()
+    this.checkSortBy()
     this.fetchPageData(this.startPage)
+  }
+
+  private checkSortBy() {
+    const currentSortBy = this.searchQuery.sortBy
+    const newSortBy =
+      this.urlPrefix === 'rmrk' ? 'BLOCK_NUMBER_DESC' : 'blockNumber_DESC'
+
+    if (!currentSortBy && newSortBy !== currentSortBy) {
+      this.searchQuery.sortBy = newSortBy
+    }
   }
 
   public async fetchPageData(page: number, loadDirection = 'down') {
@@ -571,7 +579,9 @@ export default class CollectionItem extends mixins(
 
   @Watch('searchQuery', { deep: true })
   protected onSearchQueryChange() {
-    this.resetPage()
+    if (!this.isLoading) {
+      this.resetPage()
+    }
   }
 
   @Watch('activeTab')
