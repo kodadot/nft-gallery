@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
 import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'
@@ -46,7 +46,7 @@ const components = {
   components,
 })
 export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
-  @Prop({ required: false, type: Array, default: () => [] })
+  // @Prop({ required: false, type: Array, default: () => [] })
   // passionList?: string[]
   private nfts: any[] = []
   private events: any[] = []

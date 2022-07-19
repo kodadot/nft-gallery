@@ -1,6 +1,42 @@
 <template>
   <b-table :data="offers">
     <b-table-column
+      v-if="isBsxStats"
+      cell-class="is-vcentered is-narrow"
+      :label="$t('offer.collection')"
+      v-slot="props"
+      sortable>
+      <nuxt-link :to="`collection/${props.row.nft.collection.id}`">
+        <p
+          class="limit-width-text"
+          :title="
+            props.row.nft.collection.name
+              ? props.row.nft.collection.name
+              : props.row.nft.collection.id
+          ">
+          {{
+            props.row.nft.collection.name
+              ? props.row.nft.collection.name
+              : props.row.nft.collection.id
+          }}
+        </p>
+      </nuxt-link>
+    </b-table-column>
+    <b-table-column
+      v-if="isBsxStats"
+      cell-class="is-vcentered is-narrow"
+      :label="$t('offer.nftName')"
+      v-slot="props"
+      sortable>
+      <nuxt-link :to="`gallery/${props.row.nft.id}`">
+        <p
+          class="limit-width-text"
+          :title="props.row.nft.name ? props.row.nft.name : props.row.nft.id">
+          {{ props.row.nft.name ? props.row.nft.name : props.row.nft.id }}
+        </p>
+      </nuxt-link>
+    </b-table-column>
+    <b-table-column
       cell-class="is-vcentered is-narrow"
       field="caller"
       :label="$t('offer.caller')"
@@ -47,20 +83,6 @@
         outlined
         icon-left="money-bill"
         @click="tellFrens(props.row.caller)" />
-    </b-table-column>
-    <b-table-column
-      v-if="isBsxStats"
-      cell-class="is-vcentered is-narrow"
-      :label="$t('nft.offer.item')"
-      v-slot="props"
-      sortable>
-      <nuxt-link :to="`gallery/${props.row.nft.id}`">
-        <p
-          class="limit-width-text"
-          :title="props.row.nft.name ? props.row.nft.name : props.row.nft.id">
-          {{ props.row.nft.name ? props.row.nft.name : props.row.nft.id }}
-        </p>
-      </nuxt-link>
     </b-table-column>
     <b-table-column
       v-if="isBsxStats"
@@ -142,7 +164,7 @@ export default class OfferTable extends Vue {
 </script>
 <style scoped>
 .limit-width-text {
-  max-width: 50ch;
+  max-width: 20ch;
   overflow: hidden;
   text-overflow: ellipsis;
 }
