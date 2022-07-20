@@ -15,7 +15,7 @@
             </p>
           </div>
           <div class="column">
-            <Sharing onlyCopyLink />
+            <Sharing :enableDownload="isOwner" />
           </div>
         </div>
       </b-message>
@@ -32,6 +32,7 @@
             <VueMarkdown
               v-if="!isLoading"
               class="is-size-5"
+              :style="{ wordBreak: 'break-word' }"
               :source="meta.description.replaceAll('\n', '  \n')" />
             <b-skeleton
               :count="3"
@@ -72,6 +73,7 @@
                           <AvailableActions
                             ref="actions"
                             :account-id="accountId"
+                            :is-owner="isOwner"
                             :current-owner-id="nft.currentOwner"
                             :price="nft.price"
                             :nftId="id"
@@ -95,7 +97,7 @@
                       :nftId="id"
                       :collectionId="collectionId"
                       :attributes="nft.attributes" />
-                    <Sharing class="mb-4" />
+                    <Sharing :enableDownload="isOwner" class="mb-4" />
                   </div>
                 </div>
               </template>
@@ -118,6 +120,7 @@ import {
   resolveMedia,
   sanitizeIpfsUrl,
 } from '@/components/rmrk/utils'
+import { isOwner } from '~/utils/account'
 import { emptyObject } from '@/utils/empty'
 import { Component, mixins } from 'nuxt-property-decorator'
 
@@ -141,6 +144,7 @@ import { get, set } from 'idb-keyval'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import UseApiMixin from '~/utils/mixins/useApiMixin'
 import { createTokenId, tokenIdToRoute } from '../../utils'
+import AuthMixin from '~/utils/mixins/authMixin'
 
 @Component<GalleryItem>({
   components: {
@@ -164,6 +168,7 @@ import { createTokenId, tokenIdToRoute } from '../../utils'
 export default class GalleryItem extends mixins(
   SubscribeMixin,
   PrefixMixin,
+  AuthMixin,
   UseApiMixin
 ) {
   private id = ''
@@ -176,12 +181,12 @@ export default class GalleryItem extends mixins(
   public emotes: Emote[] = []
   public message = ''
 
-  get accountId() {
-    return this.$store.getters.getAuthAddress
-  }
-
   get emoteVisible() {
     return this.urlPrefix === 'rmrk'
+  }
+
+  get isOwner(): boolean {
+    return isOwner(this.nft.currentOwner, this.accountId)
   }
 
   public async created() {

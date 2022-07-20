@@ -67,7 +67,11 @@
           v-bind.sync="searchQuery"
           :showOwnerSwitch="!!accountId"
           :disableToggle="!totalListed"
-          :sortOption="collectionProfileSortOption">
+          :sortOption="
+            urlPrefix === 'rmrk'
+              ? collectionProfileSortOption
+              : squidCollectionProfileSortOption
+          ">
           <Layout class="mr-5" />
           <b-field>
             <Pagination
@@ -132,7 +136,6 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { NFT } from '@/components/rmrk/service/scheme'
 import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
 import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
-import collectionById from '@/queries/collectionById.graphql'
 import { getCloudflareImageLinks } from '@/utils/cachingStrategy'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import { emptyObject } from '@/utils/empty'
@@ -147,7 +150,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { sortedEventByDate } from '@/utils/sorting'
-import { correctPrefix, ifRMRK, unwrapSafe } from '@/utils/uniquery'
+import { correctPrefix, unwrapSafe } from '@/utils/uniquery'
 import { Component, mixins, Ref, Watch } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
@@ -204,27 +207,27 @@ export default class CollectionItem extends mixins(
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
-    sortBy: this.$route.query?.sort?.toString() ?? 'BLOCK_NUMBER_DESC',
+    sortBy: this.$route.query?.sort?.toString() ?? '',
     listed: this.$route.query?.listed?.toString() === 'true',
     owned: false,
   }
 
   public activeTab = 'items'
+  protected isLoading = true
   protected first = 16
   protected totalListed = 0
   protected stats: NFT[] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []
-  private queryLoading = 0
   public eventsOfNftCollection: Interaction[] | [] = []
   public ownerEventsOfNftCollection: Interaction[] | [] = []
   public selectedEvent = 'all'
   public priceChartData: [Date, number][][] = []
   private openHistory = true
   private openHolder = true
-  private isLoading = true
   private nfts: NFT[] = []
 
-  collectionProfileSortOption: string[] = [
+  // replacee with constant
+  protected collectionProfileSortOption: string[] = [
     'EMOTES_COUNT_DESC',
     'BLOCK_NUMBER_DESC',
     'BLOCK_NUMBER_ASC',
@@ -233,6 +236,17 @@ export default class CollectionItem extends mixins(
     'PRICE_DESC',
     'PRICE_ASC',
     'SN_ASC',
+  ]
+
+  // move to constant
+  protected squidCollectionProfileSortOption: string[] = [
+    'blockNumber_DESC',
+    'blockNumber_ASC',
+    'updatedAt_DESC',
+    'updatedAt_ASC',
+    'price_DESC',
+    'price_ASC',
+    'sn_ASC',
   ]
 
   get hasChartData(): boolean {
@@ -295,9 +309,13 @@ export default class CollectionItem extends mixins(
     const params: any[] = []
 
     if (this.searchQuery.search) {
-      params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` },
-      })
+      if (this.urlPrefix === 'rmrk') {
+        params.push({
+          name: { likeInsensitive: this.searchQuery.search },
+        })
+      } else {
+        params.push({ name_containsInsensitive: this.searchQuery.search })
+      }
     }
 
     if (this.searchQuery.listed || checkForEmpty) {
@@ -311,9 +329,13 @@ export default class CollectionItem extends mixins(
     }
 
     if (this.searchQuery.owned && this.accountId) {
-      params.push({
-        currentOwner: { equalTo: this.accountId },
-      })
+      if (this.urlPrefix === 'rmrk') {
+        params.push({
+          currentOwner: { equalTo: this.accountId },
+        })
+      } else {
+        params.push({ currentOwner_eq: this.accountId })
+      }
     }
 
     return params
@@ -323,7 +345,18 @@ export default class CollectionItem extends mixins(
     this.checkId()
     this.checkActiveTab()
     this.checkIfEmptyListed()
+    this.checkSortBy()
     this.fetchPageData(this.startPage)
+  }
+
+  private checkSortBy() {
+    const currentSortBy = this.searchQuery.sortBy
+    const newSortBy =
+      this.urlPrefix === 'rmrk' ? 'BLOCK_NUMBER_DESC' : 'blockNumber_DESC'
+
+    if (!currentSortBy && newSortBy !== currentSortBy) {
+      this.searchQuery.sortBy = newSortBy
+    }
   }
 
   public async fetchPageData(page: number, loadDirection = 'down') {
@@ -337,12 +370,7 @@ export default class CollectionItem extends mixins(
       client: this.urlPrefix,
       variables: {
         id: this.id,
-        // orderBy: 'blockNumber_DESC',
-        orderBy: ifRMRK(
-          this.urlPrefix,
-          this.searchQuery.sortBy,
-          'blockNumber_DESC'
-        ),
+        orderBy: this.searchQuery.sortBy,
         search: this.buildSearchParam(),
         first: this.first,
         offset: (page - 1) * this.first,
@@ -520,6 +548,7 @@ export default class CollectionItem extends mixins(
         image: this.image,
         description: this.description,
         numberOfItems: this.total || 0,
+        prefix: this.urlPrefix,
       })
     }
   }
@@ -550,7 +579,9 @@ export default class CollectionItem extends mixins(
 
   @Watch('searchQuery', { deep: true })
   protected onSearchQueryChange() {
-    this.resetPage()
+    if (!this.isLoading) {
+      this.resetPage()
+    }
   }
 
   @Watch('activeTab')

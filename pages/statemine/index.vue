@@ -16,7 +16,7 @@ export default class LandingPage extends Vue {
       this.$consola.log('Not statemine')
       store.dispatch('setUrlPrefix', 'statemine')
     }
-    redirect('/')
+    setTimeout(() => redirect('/'))
   }
 }
 </script>

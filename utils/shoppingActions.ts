@@ -1,10 +1,6 @@
 import { Interaction } from '@kodadot1/minimark'
 import { hasMarketplace } from './prefix'
 
-enum OffChainActions {
-  DOWNLOAD = 'DOWNLOAD',
-}
-
 enum UniqueActions {
   DELEGATE = 'DELEGATE',
   FREEZE = 'FREEZE',
@@ -17,11 +13,11 @@ enum BasiliskActions {
   SET_ROYALTY = 'SET_ROYALTY',
 }
 
-export type ShoppingActions = Interaction | OffChainActions | BasiliskActions
+export type ShoppingActions = Interaction | BasiliskActions
 export const ShoppingActions = {
   ...Interaction,
-  ...OffChainActions,
   ...BasiliskActions,
+  DOWNLOAD: 'DOWNLOAD',
 }
 
 export const KeyboardValueToActionMap = {
@@ -29,13 +25,11 @@ export const KeyboardValueToActionMap = {
   s: ShoppingActions.SEND,
   c: ShoppingActions.CONSUME,
   l: ShoppingActions.LIST,
-  d: ShoppingActions.DOWNLOAD,
 }
 
 export const ownerActions = [
   ShoppingActions.SEND,
   ShoppingActions.CONSUME,
-  ShoppingActions.DOWNLOAD,
   ShoppingActions.LIST,
 ]
 
@@ -113,7 +107,6 @@ export const iconResolver: Record<string, DescriptionTuple> = {
   [ShoppingActions.CONSUME]: ['is-danger'],
   [ShoppingActions.LIST]: ['is-light'],
   [ShoppingActions.BUY]: ['is-success is-dark'],
-  [ShoppingActions.DOWNLOAD]: ['is-warning'],
   [ShoppingActions.MAKE_OFFER]: ['is-orange'],
 }
 

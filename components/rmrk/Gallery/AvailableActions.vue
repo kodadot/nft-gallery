@@ -5,7 +5,7 @@
       <ShareNetwork
         v-if="identity && identity.twitter && this.isOwner"
         tag="button"
-        class="button is-info is-dark is-outlined is-fullwidth twitter-btn"
+        class="button is-info is-dark is-outlined is-fullwidth twitter-btn only-border-top"
         network="twitter"
         :hashtags="'KodaDot'"
         :url="realworldFullPath"
@@ -18,6 +18,7 @@
           v-for="action in actions"
           :key="action"
           :type="iconType(action)[0]"
+          class="only-border-top"
           outlined
           @click="handleAction(action)"
           expanded>
@@ -27,6 +28,7 @@
       <template v-else-if="isForSale">
         <b-tooltip :active="buyDisabled" :label="$t('tooltip.buyDisabled')">
           <b-button
+            class="only-border-top"
             :type="iconType(ShoppingActions.BUY)[0]"
             :disabled="buyDisabled || !isAvailableToBuy"
             style="border-width: 2px"
@@ -62,9 +64,14 @@
 
 <script lang="ts">
 import nftById from '@/queries/nftById.graphql'
-import { downloadImage } from '@/utils/download'
+import { emptyObject } from '@/utils/empty'
 import { identityStore } from '@/utils/idbStore'
+import AuthMixin from '@/utils/mixins/authMixin'
+import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
 import {
@@ -81,12 +88,6 @@ import { isAddress } from '@polkadot/util-crypto'
 import { get } from 'idb-keyval'
 import { Component, mixins, Prop, Ref, Watch } from 'nuxt-property-decorator'
 import { TranslateResult } from 'vue-i18n/types'
-import { emptyObject } from '@/utils/empty'
-import AuthMixin from '@/utils/mixins/authMixin'
-import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
-import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import UseApiMixin from '@/utils/mixins/useApiMixin'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
@@ -97,7 +98,6 @@ const iconResolver: Record<string, DescriptionTuple> = {
   [ShoppingActions.CONSUME]: ['is-danger'],
   [ShoppingActions.LIST]: ['is-light'],
   [ShoppingActions.BUY]: ['is-success is-dark'],
-  [ShoppingActions.DOWNLOAD]: ['is-warning'],
 }
 
 const components = {
@@ -119,6 +119,7 @@ export default class AvailableActions extends mixins(
   @Prop() public originialOwner!: string
   @Prop() public price!: string
   @Prop() public nftId!: string
+  @Prop(Boolean) public isOwner!: boolean
   @Prop({ default: () => [] }) public ipfsHashes!: string[]
   @Prop({ default: false }) public buyDisabled!: boolean
   private selectedAction: ShoppingActions | '' = ''
@@ -209,11 +210,6 @@ export default class AvailableActions extends mixins(
         case ShoppingActions.SEND:
           this.addressInput?.focusInput()
           break
-        case ShoppingActions.DOWNLOAD: {
-          const { image, name } = this.currentGalleryItemImage
-          image && downloadImage(image, name)
-          break
-        }
         default:
           break
       }
@@ -237,20 +233,6 @@ export default class AvailableActions extends mixins(
 
   get isActionEmpty() {
     return this.selectedAction === ''
-  }
-
-  get isOwner(): boolean {
-    this.$consola.log(
-      '{ currentOwnerId, accountId }',
-      this.currentOwnerId,
-      this.accountId
-    )
-
-    return Boolean(
-      this.currentOwnerId &&
-        this.accountId &&
-        this.currentOwnerId === this.accountId
-    )
   }
 
   get isAvailableToBuy(): boolean {
@@ -290,10 +272,6 @@ export default class AvailableActions extends mixins(
 
   get realworldFullPath() {
     return `${window.location.origin}${this.$route.fullPath}`
-  }
-
-  get currentGalleryItemImage(): { image: string; name: string } {
-    return this.$store.getters['history/getCurrentlyViewedItem'] || {}
   }
 
   @Watch('originialOwner', { immediate: true })
@@ -420,6 +398,7 @@ export default class AvailableActions extends mixins(
 }
 </script>
 <style scoped lang="scss">
+@import '@/styles/border';
 .joy {
   font-size: 16px;
   margin-top: 2px;
