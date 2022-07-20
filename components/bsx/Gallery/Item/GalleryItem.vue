@@ -281,7 +281,9 @@ export default class GalleryItem extends mixins(
         id: createTokenId(this.collectionId, this.id),
       },
     })
-    this.events = [...this.events, ...result.data.events]
+    if (result.data && result.data.events) {
+      this.events = [...result.data.events]
+    }
   }
 
   private async fetchNftData() {
