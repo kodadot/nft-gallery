@@ -488,7 +488,7 @@ export default class SearchBar extends mixins(
   @Debounce(50)
   updateListed(value: string | boolean): boolean {
     const v = String(value)
-    this.replaceUrl(v, undefined, 'listed')
+    this.replaceUrl({ listed: true })
     return v === 'true'
   }
 
@@ -509,7 +509,7 @@ export default class SearchBar extends mixins(
   @Emit('update:type')
   @Debounce(50)
   updateType(value: string): string {
-    this.replaceUrl(value, undefined, 'type')
+    this.replaceUrl({ type: value })
     return value
   }
 
@@ -522,7 +522,7 @@ export default class SearchBar extends mixins(
         NFT_SQUID_SORT_CONDITION_LIST.includes(condition)
     )
     if ($event?.length > final.length || !$event) {
-      this.replaceUrl(final, undefined, 'sort')
+      this.replaceUrl({ sort: final })
       return final
     }
     let newFinal: string[] = []
@@ -533,7 +533,7 @@ export default class SearchBar extends mixins(
       )
       newFinal.push(final[final.length - 1])
     }
-    this.replaceUrl(newFinal, undefined, 'sort')
+    this.replaceUrl({ sort: newFinal })
     return newFinal
   }
 
@@ -599,7 +599,7 @@ export default class SearchBar extends mixins(
   @Debounce(50)
   updateSearch(value: string): string {
     if (value !== this.searchQuery) {
-      this.replaceUrl(value)
+      this.replaceUrl({ search: value })
     }
     this.redirectToGalleryPageIfNeed()
     return value
@@ -735,7 +735,7 @@ export default class SearchBar extends mixins(
   }
 
   @Debounce(100)
-  replaceUrl(value?: string | string[], value2?, key = 'search', key2?): void {
+  replaceUrl(queryCondition: { [key: string]: any }): void {
     this.$router
       .replace({
         path: String(this.$route.path),
@@ -743,8 +743,7 @@ export default class SearchBar extends mixins(
           page: '1',
           ...this.$route.query,
           search: this.searchQuery || undefined,
-          [key]: value,
-          [key2]: value2,
+          ...queryCondition,
         },
       })
       .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
@@ -811,7 +810,11 @@ export default class SearchBar extends mixins(
     this.sliderChangeMax(max ? max * 10 ** this.decimals : undefined)
     const priceMin = min ? String(min) : undefined
     const priceMax = max ? String(max) : undefined
-    this.replaceUrl(priceMin, priceMax, 'min', 'max')
+    this.replaceUrl({
+      min: priceMin,
+      max: priceMax,
+      listed: true,
+    })
   }
 
   @Emit('update:priceMin')
