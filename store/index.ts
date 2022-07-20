@@ -1,61 +1,15 @@
-import type { ApiPromise } from '@polkadot/api'
-import Connector from '@kodadot1/sub-api'
-import correctFormat from '@/utils/ss58Format'
 import { GetterTree, MutationTree, Store } from 'vuex'
+import { ss58Of } from '@/utils/config/chain.config'
 
 type VuexAction = {
   type: string
   payload: string
 }
 
-const apiPlugin = (store: Store<any>): void => {
-  const { getInstance: Api } = Connector
-
-  Api().on('connect', async (api: ApiPromise) => {
-    store.commit('setApiConnected', true)
-    const { chainSS58, chainDecimals, chainTokens } = api.registry
-    const { genesisHash } = api
-    console.log('[API] Connect to <3', store.state.setting.apiUrl, {
-      chainSS58,
-      chainDecimals,
-      chainTokens,
-      genesisHash,
-    })
-
-    const ss58Format = correctFormat(chainSS58)
-    store.dispatch('chain/setChainProperties', {
-      ss58Format,
-      tokenDecimals: chainDecimals[0] || 12,
-      tokenSymbol: chainTokens[0] || 'Unit',
-      genesisHash: genesisHash || '',
-    })
-
-    store.dispatch('setCorrectAddressFormat', ss58Format)
-
-    const nodeInfo = store.getters.availableNodes
-      .filter((o: any) => o.value === store.state.setting.apiUrl)
-      .map((o: any) => {
-        return o.info
-      })[0]
-    store.dispatch('explorer/setExplorer', { chain: nodeInfo })
-  })
-  Api().on('error', async (error: Error) => {
-    store.commit('setError', error)
-    console.warn('[API] error', error)
-    // Api().disconnect()
-  })
-  Api().on('disconnected', () => {
-    store.commit('setApiConnected', false)
-    console.log('[API] disconnected')
-  })
-}
-const myPlugin = (store: Store<null>): void => {
-  const { getInstance: Api } = Connector
-
+const formatPlugin = (store: Store<null>): void => {
   store.subscribeAction(({ type, payload }: VuexAction) => {
-    if (type === 'setApiUrl' && payload) {
-      store.commit('setLoading', true)
-      Api().connect(payload)
+    if (type === 'setUrlPrefix' && payload) {
+      store.dispatch('setCorrectAddressFormat', ss58Of(payload))
     }
   })
 }
@@ -98,5 +52,5 @@ export const getters: GetterTree<IndexState, IndexState> = {
   },
 }
 
-export const plugins = []
+export const plugins = [formatPlugin]
 // export const plugins = [apiPlugin, myPlugin]
