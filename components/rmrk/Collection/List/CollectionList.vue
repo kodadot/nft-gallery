@@ -35,7 +35,7 @@
           <div class="card collection-card">
             <nuxt-link
               :to="`/${urlPrefix}/collection/${collection.id}`"
-              tag="div"
+              tag="a"
               class="collection-card__skeleton">
               <div class="card-image">
                 <BasicImage
