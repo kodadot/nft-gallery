@@ -388,24 +388,24 @@ export default class GalleryItem extends mixins(
     return !isShareMode
   }
 
-  @Watch('meta', { deep: true })
-  handleNFTPopulationFinished(newVal) {
-    if (newVal) {
-      // save visited detail page to history
-      this.$store.dispatch('history/addHistoryItem', {
-        id: this.id,
-        name: this.nft.name,
-        image: this.meta.image,
-        collection: (this.nft.collection as any).name,
-        date: new Date(),
-        description: this.meta.description,
-        author: this.nft.currentOwner,
-        price: this.nft.price,
-        mimeType: this.mimeType,
-        prefix: this.urlPrefix,
-      })
-    }
-  }
+  // @Watch('meta', { deep: true })
+  // handleNFTPopulationFinished(newVal) {
+  //   if (newVal) {
+  //     // save visited detail page to history
+  //     this.$store.dispatch('history/addHistoryItem', {
+  //       id: this.id,
+  //       name: this.nft.name,
+  //       image: this.meta.image,
+  //       collection: (this.nft.collection as any).name,
+  //       date: new Date(),
+  //       description: this.meta.description,
+  //       author: this.nft.currentOwner,
+  //       price: this.nft.price,
+  //       mimeType: this.mimeType,
+  //       prefix: this.urlPrefix,
+  //     })
+  //   }
+  // }
 
   protected handleAction(action: ShoppingActions) {
     const deleted = action === ShoppingActions.CONSUME
