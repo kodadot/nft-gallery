@@ -16,7 +16,7 @@ specifiers:
   '@google/model-viewer': ^1.12.0
   '@keeex/qrcodejs-kx': ^1.0.2
   '@kodadot1/minimark': ^0.0.1-rc.8
-  '@kodadot1/sub-api': file:../packages/sub-api/kodadot1-sub-api-0.1.0-rc.0.tgz
+  '@kodadot1/sub-api': file:../packages/sub-api/kodadot1-sub-api-0.1.0-alpha.1.tgz
   '@kodadot1/vuex-options': 0.0.1-rc.10
   '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27470397.9ebea90
   '@nuxt/test-utils': ^0.2.2
@@ -96,7 +96,7 @@ dependencies:
   '@google/model-viewer': 1.12.0
   '@keeex/qrcodejs-kx': 1.0.2
   '@kodadot1/minimark': 0.0.1-rc.8
-  '@kodadot1/sub-api': file:../packages/sub-api/kodadot1-sub-api-0.1.0-rc.0.tgz
+  '@kodadot1/sub-api': file:../packages/sub-api/kodadot1-sub-api-0.1.0-alpha.1.tgz
   '@kodadot1/vuex-options': 0.0.1-rc.10
   '@nuxtjs/apollo': 4.0.1-rc.5_hbbh2d3frtfmgj7tyc3bzoayem
   '@nuxtjs/i18n': 7.2.2
@@ -18604,10 +18604,10 @@ packages:
       readable-stream: 3.6.0
     dev: true
 
-  file:../packages/sub-api/kodadot1-sub-api-0.1.0-rc.0.tgz:
-    resolution: {integrity: sha512-Uy63denX6vcCcIyDN6oihJG538aWqlYlclnV2aoP3ZXGJL00IhRf0aa5mcuPrSviCIcaRY866dTjgcLNKutj9Q==, tarball: file:../packages/sub-api/kodadot1-sub-api-0.1.0-rc.0.tgz}
+  file:../packages/sub-api/kodadot1-sub-api-0.1.0-alpha.1.tgz:
+    resolution: {integrity: sha512-TXnl1dAZ62cAqHF6eG3jisHEH9i4nDpFU6GFqfiDNIG5P1YfwtLOKS6phibQKeD3ElbjwPaxEwncav1RQ2oWqw==, tarball: file:../packages/sub-api/kodadot1-sub-api-0.1.0-alpha.1.tgz}
     name: '@kodadot1/sub-api'
-    version: 0.1.0-rc.0
+    version: 0.1.0-alpha.1
     dependencies:
       '@polkadot/api': 8.13.1
       '@polkadot/types-codec': 8.13.1
