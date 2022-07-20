@@ -54,7 +54,7 @@
       :label="$t('nft.offer.item')"
       v-slot="props"
       sortable>
-      <nuxt-link :to="`gallery/${props.row.nft.id}`">
+      <nuxt-link :to="`/bsx/gallery/${props.row.nft.id}`">
         <p
           class="limit-width-text"
           :title="props.row.nft.name ? props.row.nft.name : props.row.nft.id">
