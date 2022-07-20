@@ -18,7 +18,8 @@
       cell-class="is-vcentered is-narrow"
       field="status"
       :label="$t('nft.offer.status')"
-      v-slot="props">
+      v-slot="props"
+      sortable>
       <p>{{ props.row.status || '-' }}</p>
     </b-table-column>
 
