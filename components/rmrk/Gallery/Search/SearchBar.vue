@@ -387,7 +387,9 @@ export default class SearchBar extends mixins(
     return this.listed
   }
 
-  set vListed(listed: boolean) {
+  set vListed(
+    listed: boolean | { listed: boolean; min?: string; max?: string }
+  ) {
     this.updateListed(listed)
   }
 
@@ -486,9 +488,22 @@ export default class SearchBar extends mixins(
 
   @Emit('update:listed')
   @Debounce(50)
-  updateListed(value: string | boolean): boolean {
-    const v = String(value)
-    this.replaceUrl({ listed: true })
+  updateListed(
+    value: string | boolean | { listed: boolean; min?: string; max?: string }
+  ): boolean {
+    let v = ''
+    if (typeof value === 'string' || typeof value === 'boolean') {
+      v = String(value)
+      this.replaceUrl({ listed: v })
+    } else {
+      const { listed, max, min } = value
+      v = String(listed)
+      this.replaceUrl({
+        listed,
+        max,
+        min,
+      })
+    }
     return v === 'true'
   }
 
@@ -810,11 +825,8 @@ export default class SearchBar extends mixins(
     this.sliderChangeMax(max ? max * 10 ** this.decimals : undefined)
     const priceMin = min ? String(min) : undefined
     const priceMax = max ? String(max) : undefined
-    this.replaceUrl({
-      min: priceMin,
-      max: priceMax,
-      listed: true,
-    })
+    this.query.listed = true
+    this.vListed = { listed: true, min: priceMin, max: priceMax }
   }
 
   @Emit('update:priceMin')
