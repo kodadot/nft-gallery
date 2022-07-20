@@ -499,6 +499,7 @@ export default class SearchBar extends mixins(
           type: 'Search',
           name: this.searchString,
         })
+        this.redirectToGalleryPageIfNeed()
       }
     }, 100) // it means no highlight and not highlight select
   }
@@ -553,9 +554,6 @@ export default class SearchBar extends mixins(
   updateSearch(value: string): string {
     if (value && value !== this.searchQuery) {
       this.replaceUrl(value)
-    }
-    if (value) {
-      this.redirectToGalleryPageIfNeed()
     }
     return value
   }
