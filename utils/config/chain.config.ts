@@ -27,3 +27,7 @@ export const chainPropListOf = (prefix: Prefix | string): ChainProperties => {
   console.log('prefix2: ', prefix, chainPropertyMap[prefix])
   return chainPropertyMap[prefix]
 }
+
+export const ss58Of = (prefix: Prefix | string): number => {
+  return chainPropListOf(prefix).ss58Format
+}
