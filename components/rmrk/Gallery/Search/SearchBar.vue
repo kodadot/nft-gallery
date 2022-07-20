@@ -613,10 +613,12 @@ export default class SearchBar extends mixins(
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
-    if (value !== this.searchQuery) {
+    if (value && value !== this.searchQuery) {
       this.replaceUrl({ search: value })
     }
-    this.redirectToGalleryPageIfNeed()
+    if (value) {
+      this.redirectToGalleryPageIfNeed()
+    }
     return value
   }
 
