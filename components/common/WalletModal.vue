@@ -109,9 +109,10 @@ import correctFormat from '@/utils/ss58Format'
 import { formatAddress } from '@/utils/account'
 import UseApiMixin from '~/utils/mixins/useApiMixin'
 import { onApiConnect } from '@kodadot1/sub-api'
+import ChainMixin from '~/utils/mixins/chainMixin'
 
 @Component({})
-export default class WalletModal extends mixins(UseApiMixin) {
+export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
   @Prop() public templateValue!: undefined
   protected selectedWalletProvider!: BaseDotsamaWallet
   protected hasSelectedWalletProvider = false
@@ -134,10 +135,6 @@ export default class WalletModal extends mixins(UseApiMixin) {
 
   get wallets() {
     return SupportedWallets
-  }
-
-  get chainProperties() {
-    return this.$store.getters['chain/getChainProperties']
   }
 
   get ss58Format(): number {
