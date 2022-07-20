@@ -24,7 +24,6 @@ const chainPropertyMap: Config<ChainProperties> = {
 }
 
 export const chainPropListOf = (prefix: Prefix | string): ChainProperties => {
-  console.log('prefix2: ', prefix, chainPropertyMap[prefix])
   return chainPropertyMap[prefix]
 }
 
