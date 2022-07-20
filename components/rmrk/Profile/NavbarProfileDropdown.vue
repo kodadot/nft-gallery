@@ -52,7 +52,7 @@
         </b-dropdown-item>
       </template>
       <b-dropdown-item v-if="isBsx" has-link aria-role="menuitem">
-        <nuxt-link to="/bsx/myoffers">{{ $t('myOffers') }}</nuxt-link>
+        <nuxt-link to="/bsx/incomingoffers">{{ $t('myOffers') }}</nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
