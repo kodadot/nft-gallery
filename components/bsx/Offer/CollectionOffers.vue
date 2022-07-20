@@ -64,7 +64,6 @@ export default class CollectionOffers extends mixins(AuthMixin, PrefixMixin) {
 
   protected setResponse(response: OfferResponse) {
     this.offers = response.offers
-    console.log(response.offers)
     this.showOffers = this.offers.concat()
   }
 
