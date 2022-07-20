@@ -126,33 +126,34 @@
           size="is-medium"
           labelColor="is-success" />
       </div>
-      <div v-if="!hideFilter" class="columns is-half">
-        <b-input
-          type="number"
-          min="0"
-          class="column is-2"
-          :placeholder="$t('query.priceRange.minPrice')"
-          v-model="rangeSlider[0]">
-        </b-input>
-        <b-input
-          min="0"
-          type="number"
-          class="column is-2"
-          :placeholder="$t('query.priceRange.maxPrice')"
-          v-model="rangeSlider[1]">
-        </b-input>
-        <div class="column is-1">
-          <b-tooltip
-            :label="$t('query.priceRange.priceValidation')"
-            :active="applyDisabled">
+      <div v-if="!hideFilter">
+        <b-field class="columns mb-0">
+          <b-input
+            type="number"
+            min="0"
+            class="column is-2"
+            :placeholder="$t('query.priceRange.minPrice')"
+            v-model="rangeSlider[0]">
+          </b-input>
+          <b-input
+            min="0"
+            type="number"
+            class="column is-2"
+            :placeholder="$t('query.priceRange.maxPrice')"
+            v-model="rangeSlider[1]">
+          </b-input>
+          <div class="column is-1">
             <b-button
               class="is-primary"
               @click="sliderChange(rangeSlider)"
               :disabled="applyDisabled">
               {{ $t('general.apply') }}
             </b-button>
-          </b-tooltip>
-        </div>
+          </div>
+        </b-field>
+        <p class="help is-danger" v-if="applyDisabled">
+          {{ $t('query.priceRange.priceValidation') }}
+        </p>
       </div>
       <div v-if="sliderDirty" class="is-size-7">
         <PriceRange :from="minPrice" :to="maxPrice" inline />
@@ -231,10 +232,10 @@ export default class SearchBar extends mixins(
   private searchString = ''
   private name = ''
   private searched: NFT[] = []
-  private rangeSlider: [number | undefined, number | undefined] = [
-    undefined,
-    undefined,
-  ]
+  private rangeSlider: [
+    number | string | undefined,
+    number | string | undefined
+  ] = [undefined, undefined]
   private sliderDirty = false
   private searchSuggestionEachTypeMaxNum = 3
   private bigNum = 1e10
@@ -243,11 +244,14 @@ export default class SearchBar extends mixins(
   private defaultCollectionSuggestions: CollectionWithMeta[] = []
 
   get applyDisabled(): boolean {
-    const [min, max] = this.rangeSlider
+    const [min, max] = this.rangeSlider as [
+      string | undefined,
+      string | undefined
+    ]
     if (!min || !max) {
       return false
     }
-    return min > max
+    return parseFloat(min) > parseFloat(max)
   }
 
   get minPrice(): number | undefined {

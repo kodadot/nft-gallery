@@ -407,7 +407,7 @@
     "priceRange": {
       "minPrice": "MIN PRICE",
       "maxPrice": "MAX PRICE",
-      "priceValidation": "min price has to smaller than max price!",
+      "priceValidation": "Min price has to be smaller than max price!",
       "range": "Price range"
     }
   },
