@@ -32,28 +32,26 @@
           :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`"
           v-for="collection in results"
           :key="collection.id">
-          <div class="card collection-card">
-            <nuxt-link
-              :to="`/${urlPrefix}/collection/${collection.id}`"
-              tag="a"
-              class="collection-card__skeleton">
-              <div class="card-image">
-                <BasicImage
-                  :src="collection.image"
-                  :alt="collection.name"
-                  customClass="collection__image-wrapper" />
-              </div>
+          <nuxt-link
+            :to="`/${urlPrefix}/collection/${collection.id}`"
+            tag="div"
+            class="card collection-card">
+            <div class="card-image">
+              <BasicImage
+                :src="collection.image"
+                :alt="collection.name"
+                customClass="collection__image-wrapper" />
+            </div>
 
-              <div class="card-content">
-                <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
-                  <CollectionDetail
-                    :nfts="collection.nfts"
-                    :name="collection.name" />
-                </nuxt-link>
-                <b-skeleton :active="isLoading"> </b-skeleton>
-              </div>
-            </nuxt-link>
-          </div>
+            <div class="card-content">
+              <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
+                <CollectionDetail
+                  :nfts="collection.nfts"
+                  :name="collection.name" />
+              </nuxt-link>
+              <b-skeleton :active="isLoading"> </b-skeleton>
+            </div>
+          </nuxt-link>
         </div>
       </div>
       <InfiniteLoading
