@@ -123,12 +123,18 @@
         :nftId="id"
         @offersUpdate="offersUpdate"
         :collectionId="collectionId" />
+      <History :events="events" :openOnDefault="false" />
     </template>
   </BaseGalleryItem>
 </template>
 
 <script lang="ts">
-import { Emote, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+import {
+  Emote,
+  NFT,
+  NFTMetadata,
+  Interaction,
+} from '@/components/rmrk/service/scheme'
 import {
   fetchNFTMetadata,
   getSanitizer,
@@ -150,6 +156,7 @@ import { processMedia } from '@/utils/gallery/media'
 import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import resolveQueryPath from '~/utils/queryPathResolver'
+import itemEvents from '@/queries/subsquid/bsx/itemEvents.graphql'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
 import { isEmpty } from '@kodadot1/minimark'
 import { royaltyOf } from '@/utils/royalty'
@@ -189,6 +196,7 @@ import { ShoppingActions } from '@/utils/shoppingActions'
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
+    History: () => import('@/components/rmrk/Gallery/History.vue'),
   },
   directives: {
     orientation: Orientation,
@@ -207,12 +215,14 @@ export default class GalleryItem extends mixins(
   public mimeType = ''
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
   public emotes: Emote[] = []
+  public events: Interaction[] = []
   public message = ''
   public isMakeOffersAllowed = true
 
   public async created() {
     this.checkId()
     await this.fetchNftData()
+    await this.fetchEvents()
     onApiConnect((api) => {
       if (hasAllPallets(api)) {
         this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
@@ -261,6 +271,17 @@ export default class GalleryItem extends mixins(
 
   protected observePrice(data: Option<u128>) {
     this.$set(this.nft, 'price', unwrapOrDefault(data).toString())
+  }
+
+  private async fetchEvents() {
+    const result = await this.$apollo.query({
+      query: itemEvents,
+      client: this.urlPrefix,
+      variables: {
+        id: createTokenId(this.collectionId, this.id),
+      },
+    })
+    this.events = [...this.events, ...result.data.events]
   }
 
   private async fetchNftData() {
