@@ -151,9 +151,7 @@
 import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
-import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
-import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { SearchQuery, SearchSuggestion } from './types'
 import { denyList } from '@/utils/constants'
@@ -161,7 +159,7 @@ import { NFT, NFTWithMeta, CollectionWithMeta } from '../../service/scheme'
 import { getSanitizer } from '../../utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import { mapNFTorCollectionMetadata } from '~/utils/mappers'
+import { logError, mapNFTorCollectionMetadata } from '~/utils/mappers'
 import {
   getCloudflareImageLinks,
   processMetadata,
@@ -173,7 +171,8 @@ import {
   NFT_SQUID_SORT_CONDITION_LIST,
 } from '@/utils/constants'
 import { LastEvent } from '~/utils/types/types'
-
+import resolveQueryPath from '@/utils/queryPathResolver'
+import { unwrapSafe } from '~/utils/uniquery'
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
 @Component({
@@ -409,10 +408,6 @@ export default class SearchBar extends mixins(
       })
     }
 
-    if (this.urlPrefix !== 'rmrk') {
-      return suggestions
-    }
-
     // whether show Collection Item
     if (this.collectionResult.length > 0) {
       suggestions.push({
@@ -589,7 +584,7 @@ export default class SearchBar extends mixins(
 
   // when user type some keyword, frontEnd will query related information
   @Debounce(50)
-  updateSuggestion(value: string) {
+  async updateSuggestion(value: string) {
     this.searchString = value
     //To handle empty string
     if (!value) {
@@ -601,10 +596,13 @@ export default class SearchBar extends mixins(
 
     this.query.search = value
     this.searchSuggestionEachTypeMaxNum = 3
-
-    this.$apollo
-      .query({
-        query: nftListWithSearch,
+    try {
+      const queryNft = await resolveQueryPath(
+        this.urlPrefix,
+        'nftListWithSearch'
+      )
+      const nfts = this.$apollo.query({
+        query: queryNft.default,
         client: this.urlPrefix,
         variables: {
           first: this.first,
@@ -614,84 +612,80 @@ export default class SearchBar extends mixins(
           search: this.buildSearchParam(),
         },
       })
-      .then((result) => {
-        const {
-          data: {
-            nFTEntities: { nodes: nfts },
-          },
-        } = result
-        const metadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
-        getCloudflareImageLinks(metadataList).then((imageLinks) => {
-          const nftResult: NFTWithMeta[] = []
-          processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
-            nftResult.push({
-              ...nfts[i],
-              ...meta,
-              image:
-                (nfts[i]?.metadata &&
-                  imageLinks[fastExtract(nfts[i].metadata)]) ||
-                getSanitizer(meta.image || '')(meta.image || ''),
-              animation_url: getSanitizer(meta.animation_url || '')(
-                meta.animation_url || ''
-              ),
-            })
-          }).then(() => {
-            this.nftResult = nftResult
+
+      const {
+        data: { nFTEntities },
+      } = await nfts
+      const nftList = unwrapSafe(nFTEntities)
+      const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
+      getCloudflareImageLinks(metadataList).then((imageLinks) => {
+        const nftResult: NFTWithMeta[] = []
+        processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
+          nftResult.push({
+            ...nftList[i],
+            ...meta,
+            image:
+              (nftList[i]?.metadata &&
+                imageLinks[fastExtract(nftList[i].metadata)]) ||
+              getSanitizer(meta.image || '')(meta.image || ''),
+            animation_url: getSanitizer(meta.animation_url || '')(
+              meta.animation_url || ''
+            ),
           })
+        }).then(() => {
+          this.nftResult = nftResult
         })
       })
-      .catch((e) => {
-        this.$consola.warn(
-          '[PREFETCH] Unable fo fetch nft items',
-          this.offset,
-          e.message
-        )
-      })
+    } catch (e) {
+      logError(e, (msg) =>
+        this.$consola.warn('[PREFETCH] Unable fo fetch', msg)
+      )
+    }
+    try {
+      const query = await resolveQueryPath(
+        this.urlPrefix,
+        'collectionListWithSearch'
+      )
 
-    this.$apollo
-      .query({
-        query: collectionListWithSearch,
+      const collectionResult = this.$apollo.query({
+        query: query.default,
         client: this.urlPrefix,
         variables: {
           first: this.first,
           offset: this.offset,
           denyList,
-          orderBy: this.query.sortByMultiple,
+          orderBy: this.query.sortByMultiple?.length
+            ? this.query.sortByMultiple
+            : undefined,
           search: this.buildSearchParam(),
         },
       })
-      .then((result) => {
-        const {
-          data: {
-            collectionEntities: { nodes: collections },
-          },
-        } = result
-        const metadataList: string[] = collections.map(
-          mapNFTorCollectionMetadata
-        )
-        getCloudflareImageLinks(metadataList).then((imageLinks) => {
-          const collectionResult: CollectionWithMeta[] = []
-          processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
-            collectionResult.push({
-              ...collections[i],
-              ...meta,
-              image:
-                (collections[i]?.metadata &&
-                  imageLinks[fastExtract(collections[i].metadata)]) ||
-                getSanitizer(meta.image || '')(meta.image || ''),
-            })
-          }).then(() => {
-            this.collectionResult = collectionResult
+
+      const {
+        data: { collectionEntities },
+      } = await collectionResult
+      const collections = unwrapSafe(collectionEntities)
+      const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
+      getCloudflareImageLinks(metadataList).then((imageLinks) => {
+        const collectionResult: CollectionWithMeta[] = []
+        processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
+          collectionResult.push({
+            ...collections[i],
+            ...meta,
+            image:
+              (collections[i]?.metadata &&
+                imageLinks[fastExtract(collections[i].metadata)]) ||
+              getSanitizer(meta.image || '')(meta.image || ''),
           })
+        }).then(() => {
+          this.collectionResult = collectionResult
         })
       })
-      .catch((e) => {
-        this.$consola.warn(
-          '[PREFETCH] Unable fo fetch collection items',
-          this.offset,
-          e.message
-        )
-      })
+    } catch (e) {
+      logError(e, (msg) =>
+        this.$consola.warn('[PREFETCH] Unable fo fetch', this.offset, msg)
+      )
+    }
   }
 
   @Debounce(100)
@@ -715,9 +709,13 @@ export default class SearchBar extends mixins(
     const params: any[] = []
 
     if (this.query.search) {
-      params.push({
-        name: { likeInsensitive: this.query.search },
-      })
+      if (this.urlPrefix === 'rmrk') {
+        params.push({
+          name: { likeInsensitive: this.query.search },
+        })
+      } else {
+        params.push({ name_containsInsensitive: this.query.search })
+      }
     }
 
     if (this.query.listed) {
