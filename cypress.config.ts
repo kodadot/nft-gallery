@@ -5,7 +5,6 @@ export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:9090',
     fixturesFolder: false,
-    supportFile: false,
     video: false,
   },
 })
