@@ -9,6 +9,7 @@
   "account": "Account",
   "accounts": "Accounts",
   "transfer": "Transfer",
+  "incomingOffers": "Incoming Offers",
   "transform": "Transform",
   "settings": "Settings",
   "first NFT market explorer on Kusama and Polkadot": "first NFT market explorer on Kusama and Polkadot",
@@ -403,6 +404,14 @@
     "listed": "Buy now",
     "own": "Own"
   },
+  "query": {
+    "priceRange": {
+      "minPrice": "MIN PRICE",
+      "maxPrice": "MAX PRICE",
+      "priceValidation": "Min price has to be smaller than max price!",
+      "range": "Price range"
+    }
+  },
   "mint": {
     "submit": "Click to create NFT(s)",
     "estimate": "Show me the transaction fees",
@@ -526,7 +535,9 @@
     "daySelectPlaceholder": "select day to expire",
     "days": "days",
     "collection": "Collection",
-    "nftName": "Name"
+    "nftName": "Name",
+    "accept": "NFT has new a owner",
+    "withdraw": "your offer has been withdrawn"
   },
   "statsOverview": {
     "buys": "Buys",
@@ -541,6 +552,14 @@
     "activeWallets": "Active wallets",
     "offers": "Offers",
     "bsxTitle":  "Basilisk Marketplace Statistics"
+  },
+  "myOffer": {
+    "bsxTitle": "Incoming Offers",
+    "price": "Amount",
+    "caller": "Offer Maker",
+    "date": "Time",
+    "needLogin": "Connect wallet to see your offers here.",
+    "empty": "There are currently no offers."
   },
   "loader": {
     "casting": "(1/3) Casting the tx to blockchain",
@@ -654,6 +673,7 @@
     "mint": "3. Minting"
   },
   "general": {
+    "apply": "Apply",
     "using": "using",
     "balance": "Balance",
     "connect": "Connect",
@@ -673,7 +693,9 @@
     "newestListDesc": "Discover the latest items on sale",
     "newestListHeading": "Newest List",
     "popularCollectionsHeading": "Popular Collections",
-    "popularCollectionsDesc": "Discover the most popular collections on rmrk"
+    "popularCollectionsDesc": "Discover the most popular collections on rmrk",
+    "from": "from",
+    "to": "to"
   },
   "helper": {
     "seeMore": "See More",

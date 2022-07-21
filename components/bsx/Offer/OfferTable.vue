@@ -122,11 +122,12 @@
 
 <script lang="ts">
 import { Attribute, emptyArray } from '@kodadot1/minimark'
-import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { Offer } from './types'
 import { formatDistanceToNow } from 'date-fns'
-import onApiConnect from '~/utils/api/general'
+import OfferMixin from '~/utils/mixins/offerMixin'
 import { formatSecondsToDuration } from '~/utils/format/time'
+import onApiConnect from '~/utils/api/general'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -135,15 +136,15 @@ const components = {
 }
 
 @Component({ components, filters: { formatDistanceToNow } })
-export default class OfferTable extends Vue {
+export default class OfferTable extends mixins(OfferMixin) {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public offers!: Offer[]
   @Prop(Boolean) public isOwner!: boolean
-  @Prop(String) public accountId!: string
   @Prop(Boolean) public isBsxStats!: boolean
   public currentBlock = 0
   public itemsPerPage = 20
   private currentPage = parseInt(this.$route.query?.page as string) || 1
+
   @Emit('select')
   tellFrens(caller: string) {
     return caller
