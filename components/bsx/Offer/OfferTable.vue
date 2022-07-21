@@ -5,6 +5,7 @@
       cell-class="is-vcentered is-narrow"
       :label="$t('offer.collection')"
       v-slot="props"
+      field="nft.collection.name"
       sortable>
       <nuxt-link :to="`collection/${props.row.nft.collection.id}`">
         <p
@@ -26,6 +27,7 @@
       v-if="isBsxStats"
       cell-class="is-vcentered is-narrow"
       :label="$t('offer.nftName')"
+      field="nft.name"
       v-slot="props"
       sortable>
       <nuxt-link :to="`gallery/${props.row.nft.id}`">
@@ -95,10 +97,11 @@
     >
     <b-table-column
       v-if="isBsxStats"
-      field="Date"
+      field="createdAt"
       cell-class="is-vcentered is-narrow"
       :label="$t('nft.offer.date')"
       v-slot="props"
+      sortable
       ><p>
         {{ new Date(props.row.createdAt) | formatDistanceToNow }}
       </p></b-table-column
