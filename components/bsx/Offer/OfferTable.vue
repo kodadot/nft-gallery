@@ -6,7 +6,7 @@
       :label="$t('offer.collection')"
       v-slot="props"
       sortable>
-      <nuxt-link :to="`collection/${props.row.nft.collection.id}`">
+      <nuxt-link :to="`/bsx/collection/${props.row.nft.collection.id}`">
         <p
           class="limit-width-text"
           :title="
@@ -28,7 +28,7 @@
       :label="$t('offer.nftName')"
       v-slot="props"
       sortable>
-      <nuxt-link :to="`gallery/${props.row.nft.id}`">
+      <nuxt-link :to="`/bsx/gallery/${props.row.nft.id}`">
         <p
           class="limit-width-text"
           :title="props.row.nft.name ? props.row.nft.name : props.row.nft.id">
@@ -113,11 +113,10 @@
 
 <script lang="ts">
 import { Attribute, emptyArray } from '@kodadot1/minimark'
-import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { Offer } from './types'
 import { formatDistanceToNow } from 'date-fns'
-import onApiConnect from '~/utils/api/general'
-import { formatSecondsToDuration } from '~/utils/format/time'
+import OfferMixin from '~/utils/mixins/offerMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -125,13 +124,11 @@ const components = {
 }
 
 @Component({ components, filters: { formatDistanceToNow } })
-export default class OfferTable extends Vue {
+export default class OfferTable extends mixins(OfferMixin) {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public offers!: Offer[]
   @Prop(Boolean) public isOwner!: boolean
-  @Prop(String) public accountId!: string
   @Prop(Boolean) public isBsxStats!: boolean
-  public currentBlock = 0
 
   @Emit('select')
   tellFrens(caller: string) {
@@ -139,26 +136,6 @@ export default class OfferTable extends Vue {
   }
   get urlPrefix() {
     return this.$store.getters.currentUrlPrefix
-  }
-
-  public created() {
-    onApiConnect(async (api) => {
-      const currentBlock = await api.query.system.number()
-      this.currentBlock = currentBlock.toNumber()
-    })
-  }
-
-  public calcExpirationTime(expirationBlock: number) {
-    if (this.currentBlock === 0) {
-      return 'computing'
-    }
-    if (this.currentBlock > expirationBlock) {
-      return 'expired'
-    }
-    const secondsForEachBlock = 12
-    const diffSeconds =
-      secondsForEachBlock * (expirationBlock - this.currentBlock)
-    return formatSecondsToDuration(diffSeconds)
   }
 }
 </script>
