@@ -11,6 +11,10 @@ query collectionForMint($account: String!) {
       symbol
       nfts {
         totalCount
+        nodes {
+          id
+          burned
+        }
       }
     }
   }

@@ -8,7 +8,7 @@
       expanded>
       <option disabled selected value="">--</option>
       <option v-for="option in collections" :value="option" :key="option.id">
-        {{ option.name || option.id }} ({{ option.alreadyMinted }})
+        {{ option.name || option.id }} ({{ option.totalCount }})
       </option>
     </b-select>
   </b-field>

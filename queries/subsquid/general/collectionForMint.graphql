@@ -8,6 +8,7 @@ query collectionForMint($account: String!) {
     metadata
     nfts(orderBy: sn_DESC) {
       index: sn
+      burned
     }
   }
 }
