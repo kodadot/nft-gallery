@@ -131,12 +131,14 @@
           <b-input
             type="number"
             min="0"
+            step="any"
             class="column is-2"
             :placeholder="$t('query.priceRange.minPrice')"
             v-model="rangeSlider[0]">
           </b-input>
           <b-input
             min="0"
+            step="any"
             type="number"
             class="column is-2"
             :placeholder="$t('query.priceRange.maxPrice')"
