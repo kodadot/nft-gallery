@@ -51,6 +51,11 @@
           <nuxt-link to="/transform">{{ $t('transform') }}</nuxt-link>
         </b-dropdown-item>
       </template>
+      <b-dropdown-item v-if="isBsx" has-link aria-role="menuitem">
+        <nuxt-link to="/bsx/incomingoffers">{{
+          $t('incomingOffers')
+        }}</nuxt-link>
+      </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
       </b-dropdown-item>
@@ -91,6 +96,7 @@ const components = {
 export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public value!: any
   @Prop() public isRmrk!: boolean
+  @Prop() public isBsx!: boolean
 
   protected disconnect() {
     this.$store.dispatch('setAuth', { address: '' }) // null not working

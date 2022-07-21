@@ -2,10 +2,10 @@
   <div :class="['money', { 'is-inline-block': inline }]">
     <span v-if="!hideUnit">
       {{
-        value
-          | checkInvalidBalance
-          | formatBalance(decimals, '')
-          | round(2, !isBsx)
+        value |
+          checkInvalidBalance |
+          formatBalance(decimals, '') |
+          round(2, !isBsx)
       }}
       {{ unit }}
     </span>
@@ -29,7 +29,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
       disableFilter: boolean
     ) {
       if (disableFilter) {
-        return value
+        return parseFloat(value)
       }
       const number = Number(value.replace(/,/g, ''))
       const hasDecimals = number % 1 !== 0
