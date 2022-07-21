@@ -1,10 +1,8 @@
 <template>
   <b-table :data="offers">
-    <template>
-      <div class="has-text-centered offer-title">
-        {{ $t('nft.offer.title') }}
-      </div>
-    </template>
+    <div class="has-text-centered offer-title">
+      {{ $t('nft.offer.title') }}
+    </div>
     <b-table-column
       v-if="isBsxStats"
       cell-class="is-vcentered is-narrow"
