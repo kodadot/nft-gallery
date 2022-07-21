@@ -123,12 +123,18 @@
         :nftId="id"
         @offersUpdate="offersUpdate"
         :collectionId="collectionId" />
+      <History :events="events" :openOnDefault="false" />
     </template>
   </BaseGalleryItem>
 </template>
 
 <script lang="ts">
-import { Emote, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+import {
+  Emote,
+  NFT,
+  NFTMetadata,
+  Interaction,
+} from '@/components/rmrk/service/scheme'
 import {
   fetchNFTMetadata,
   getSanitizer,
@@ -150,12 +156,14 @@ import { processMedia } from '@/utils/gallery/media'
 import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import resolveQueryPath from '~/utils/queryPathResolver'
+import itemEvents from '@/queries/subsquid/bsx/itemEvents.graphql'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
 import { isEmpty } from '@kodadot1/minimark'
 import { royaltyOf } from '@/utils/royalty'
 import { isOwner } from '~/utils/account'
 import { generateNftImage } from '~/utils/seoImageGenerator'
 import { formatBsxBalanceEmptyOnZero } from '~/utils/format/balance'
+import { ShoppingActions } from '@/utils/shoppingActions'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -188,6 +196,7 @@ import { formatBsxBalanceEmptyOnZero } from '~/utils/format/balance'
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
+    History: () => import('@/components/rmrk/Gallery/History.vue'),
   },
   directives: {
     orientation: Orientation,
@@ -206,12 +215,14 @@ export default class GalleryItem extends mixins(
   public mimeType = ''
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
   public emotes: Emote[] = []
+  public events: Interaction[] = []
   public message = ''
   public isMakeOffersAllowed = true
 
   public async created() {
     this.checkId()
     await this.fetchNftData()
+    await this.fetchEvents()
     onApiConnect((api) => {
       if (hasAllPallets(api)) {
         this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
@@ -260,6 +271,19 @@ export default class GalleryItem extends mixins(
 
   protected observePrice(data: Option<u128>) {
     this.$set(this.nft, 'price', unwrapOrDefault(data).toString())
+  }
+
+  private async fetchEvents() {
+    const result = await this.$apollo.query({
+      query: itemEvents,
+      client: this.urlPrefix,
+      variables: {
+        id: createTokenId(this.collectionId, this.id),
+      },
+    })
+    if (result.data && result.data.events) {
+      this.events = [...result.data.events]
+    }
   }
 
   private async fetchNftData() {
@@ -404,9 +428,13 @@ export default class GalleryItem extends mixins(
     }
   }
 
-  protected handleAction(deleted: boolean) {
+  protected handleAction(action: ShoppingActions) {
+    const deleted = action === ShoppingActions.CONSUME
     if (deleted) {
       showNotification('INSTANCE REMOVED', notificationTypes.warn)
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
     }
   }
 }

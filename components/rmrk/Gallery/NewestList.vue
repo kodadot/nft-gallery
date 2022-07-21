@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
@@ -44,7 +44,7 @@ const components = {
   components,
 })
 export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
-  @Prop({ type: Array, required: false, default: () => [] })
+  // @Prop({ type: Array, required: false, default: () => [] })
   // passionList: string[]
   private nfts: any[] = []
   private events: any[] = []
