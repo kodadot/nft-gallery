@@ -364,23 +364,29 @@ export default class Gallery extends mixins(
         if (this.searchQuery.priceMax) {
           params.push({
             price: {
+              greaterThan: '0',
               greaterThanOrEqualTo: minPrice,
               lessThanOrEqualTo: this.searchQuery.priceMax,
             },
           })
         } else {
           params.push({
-            price: { greaterThanOrEqualTo: minPrice },
+            price: {
+              greaterThan: '0',
+              greaterThanOrEqualTo: minPrice,
+            },
           })
         }
       } else {
         if (this.searchQuery.priceMax) {
           params.push({
+            price_gt: '0',
             price_gte: minPrice,
             price_lte: this.searchQuery.priceMax,
           })
         } else {
           params.push({
+            price_gt: '0',
             price_gte: minPrice,
           })
         }
