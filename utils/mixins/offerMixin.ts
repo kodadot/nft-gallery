@@ -59,7 +59,7 @@ export default class OfferMixin extends mixins(
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
         const msg = !isMe ? this.$t('offer.accept') : this.$t('offer.withdraw')
         showNotification(
-          `[OFFER] Since block ${blockNumber} ${msg}`,
+          `[OFFER] Since block ${blockNumber}, ${msg}`,
           notificationTypes.success
         )
         onSuccess && onSuccess()
