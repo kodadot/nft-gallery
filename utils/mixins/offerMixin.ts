@@ -57,7 +57,7 @@ export default class OfferMixin extends mixins(
       const args = [collectionId, nftId, maker]
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
-        const msg = !isMe ? 'nft is yours' : 'your offer has been withdrawn'
+        const msg = !isMe ? this.$t('offer.accept') : this.$t('offer.withdraw')
         showNotification(
           `[OFFER] Since block ${blockNumber} ${msg}`,
           notificationTypes.success
