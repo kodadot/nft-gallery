@@ -1,5 +1,10 @@
 <template>
   <b-table :data="offers">
+    <template>
+      <div class="has-text-centered offer-title">
+        {{ $t('nft.offer.title') }}
+      </div>
+    </template>
     <b-table-column
       v-if="isBsxStats"
       cell-class="is-vcentered is-narrow"
@@ -144,5 +149,10 @@ export default class OfferTable extends mixins(OfferMixin) {
   max-width: 20ch;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.offer-title {
+  line-height: 2rem;
+  font-size: 1.2rem;
+  border-bottom: 1px solid hsl(0deg, 0%, 86%);
 }
 </style>

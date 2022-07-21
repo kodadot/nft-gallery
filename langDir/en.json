@@ -515,7 +515,8 @@
       "empty": "There are currently no offers for this NFT.",
       "item": "Item",
       "status": "Offer status",
-      "date": "Date"
+      "date": "Date",
+      "title": "Global Marketplace Offers"
     }
   },
   "offer": {
