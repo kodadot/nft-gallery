@@ -32,3 +32,7 @@ export const formatBsxBalanceEmptyOnZero = (
     }) + ' BSX'
   )
 }
+
+export const formatBsxBalanceToNumber = (amount) => {
+  return parseFloat(formatBalance(amount, 12, false).replace(/,/g, ''))
+}
