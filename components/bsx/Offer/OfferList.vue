@@ -6,7 +6,7 @@
     </p>
     <OfferTable
       :offers="offers"
-      @select="submit"
+      @select="onOfferSelected"
       :accountId="accountId"
       :isOwner="isOwner" />
   </CollapseCardWrapper>
@@ -15,15 +15,12 @@
 <script lang="ts">
 import { Component, Emit, mixins, Prop } from 'nuxt-property-decorator'
 import { isSameAccount } from '~/utils/account'
-import AuthMixin from '~/utils/mixins/authMixin'
-import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import { Offer, OfferResponse } from './types'
-import Connector from '@kodadot1/sub-api'
-import { notificationTypes, showNotification } from '~/utils/notification'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { createTokenId } from '~/components/unique/utils'
 import offerListByNftId from '@/queries/subsquid/bsx/offerListByNftId.graphql'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
+import OfferMixin from '~/utils/mixins/offerMixin'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -34,10 +31,9 @@ const components = {
 
 @Component({ components })
 export default class OfferList extends mixins(
-  AuthMixin,
-  MetaTransactionMixin,
   PrefixMixin,
-  SubscribeMixin
+  SubscribeMixin,
+  OfferMixin
 ) {
   protected offers: Offer[] = []
   protected total = 0
@@ -92,30 +88,9 @@ export default class OfferList extends mixins(
     }
   }
 
-  protected async submit(maker: string) {
+  public onOfferSelected = async (maker: string) => {
     const { collectionId, nftId } = this
-    try {
-      const { api } = Connector.getInstance()
-      this.initTransactionLoader()
-      const isMe = isSameAccount(this.accountId, maker)
-      const cb = !isMe
-        ? api.tx.marketplace.acceptOffer
-        : api.tx.marketplace.withdrawOffer
-      const args = [collectionId, nftId, maker]
-
-      await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
-        const msg = !isMe ? 'nft is yours' : 'your offer has been withdrawn'
-        showNotification(
-          `[OFFER] Since block ${blockNumber} ${msg}`,
-          notificationTypes.success
-        )
-      })
-      this.fetchOffers()
-    } catch (e: any) {
-      showNotification(`[OFFER::ERR] ${e}`, notificationTypes.danger)
-      this.$consola.error(e)
-      this.isLoading = false
-    }
+    await this.submit(maker, nftId, collectionId, this.fetchOffers)
   }
 }
 </script>

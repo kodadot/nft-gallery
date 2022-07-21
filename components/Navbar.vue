@@ -93,10 +93,7 @@
       <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/explore`">
         <span>{{ $t('explore') }}</span>
       </b-navbar-item>
-      <b-navbar-item
-        v-if="urlPrefix === 'bsx'"
-        tag="nuxt-link"
-        :to="`/${urlPrefix}/stats`">
+      <b-navbar-item v-if="isBsx" tag="nuxt-link" :to="`/${urlPrefix}/stats`">
         <span>{{ $t('stats') }}</span>
       </b-navbar-item>
       <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
@@ -116,7 +113,7 @@
       </b-navbar-dropdown>
       <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
       <LazySwitchLocale class="custom-navbar-item" id="NavLocaleChanger" />
-      <NavbarProfileDropdown :isRmrk="isRmrk" id="NavProfile" />
+      <NavbarProfileDropdown :isRmrk="isRmrk" :isBsx="isBsx" id="NavProfile" />
     </template>
     <template #end v-else>
       <div class="image is-32x32 mr-2">
@@ -166,6 +163,10 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
+  }
+
+  get isBsx(): boolean {
+    return this.urlPrefix === 'bsx'
   }
 
   get inCollectionPage(): boolean {
