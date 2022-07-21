@@ -2,8 +2,7 @@
   <div class="mb-3">
     <div class="row" v-if="!isVisible && !hideSearchInput">
       <div v-if="sliderDirty && !hideFilter" class="is-size-7">
-        Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
-        {{ this.query.priceMax / 1000000000000 }}
+        <PriceRange :from="minPrice" :to="maxPrice" inline />
       </div>
     </div>
     <div class="columns mb-0">
@@ -92,8 +91,7 @@
         </b-autocomplete>
         <div v-if="!isVisible && hideSearchInput">
           <div v-if="sliderDirty" class="is-size-7">
-            Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
-            {{ this.query.priceMax / 1000000000000 }}
+            <PriceRange :from="minPrice" :to="maxPrice" inline />
           </div>
         </div>
       </b-field>
@@ -128,20 +126,39 @@
           size="is-medium"
           labelColor="is-success" />
       </div>
-      <b-slider
-        v-if="listed"
-        class="column is-half"
-        v-model="rangeSlider"
-        :custom-formatter="(val) => `${val} KSM`"
-        :max="30"
-        :min="0"
-        :step="1"
-        ticks
-        @change="sliderChange">
-      </b-slider>
+      <div v-if="!hideFilter">
+        <b-field class="columns mb-0">
+          <b-input
+            type="number"
+            min="0"
+            step="any"
+            class="column is-2"
+            :placeholder="$t('query.priceRange.minPrice')"
+            v-model="rangeSlider[0]">
+          </b-input>
+          <b-input
+            min="0"
+            step="any"
+            type="number"
+            class="column is-2"
+            :placeholder="$t('query.priceRange.maxPrice')"
+            v-model="rangeSlider[1]">
+          </b-input>
+          <div class="column is-1">
+            <b-button
+              class="is-primary"
+              @click="sliderChange(rangeSlider)"
+              :disabled="applyDisabled">
+              {{ $t('general.apply') }}
+            </b-button>
+          </div>
+        </b-field>
+        <p class="help is-danger" v-if="applyDisabled">
+          {{ $t('query.priceRange.priceValidation') }}
+        </p>
+      </div>
       <div v-if="sliderDirty" class="is-size-7">
-        Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
-        {{ this.query.priceMax / 1000000000000 }}
+        <PriceRange :from="minPrice" :to="maxPrice" inline />
       </div>
     </b-collapse>
   </div>
@@ -173,6 +190,8 @@ import {
 import { LastEvent } from '~/utils/types/types'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
+import ChainMixin from '~/utils/mixins/chainMixin'
+
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
 @Component({
@@ -182,12 +201,14 @@ const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+    PriceRange: () => import('@/components/shared/format/PriceRange.vue'),
     // PreviewMediaResolver: () => import('@/components/rmrk/Media/PreviewMediaResolver.vue'), // TODO: need to fix CSS for model-viewer
   },
 })
 export default class SearchBar extends mixins(
   PrefixMixin,
-  KeyboardEventsMixin
+  KeyboardEventsMixin,
+  ChainMixin
 ) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
@@ -213,13 +234,41 @@ export default class SearchBar extends mixins(
   private searchString = ''
   private name = ''
   private searched: NFT[] = []
-  private rangeSlider = [0, 5]
+  private rangeSlider: [
+    number | string | undefined,
+    number | string | undefined
+  ] = [undefined, undefined]
   private sliderDirty = false
   private searchSuggestionEachTypeMaxNum = 3
   private bigNum = 1e10
   private keyDownNativeEnterFlag = true
   private defaultNFTSuggestions: NFTWithMeta[] = []
   private defaultCollectionSuggestions: CollectionWithMeta[] = []
+
+  get applyDisabled(): boolean {
+    const [min, max] = this.rangeSlider as [
+      string | undefined,
+      string | undefined
+    ]
+    if (!min || !max) {
+      return false
+    }
+    return parseFloat(min) > parseFloat(max)
+  }
+
+  get minPrice(): number | undefined {
+    if (this.$route.query.min) {
+      return parseFloat(this.$route.query.min.toString()) * 10 ** this.decimals
+    }
+    return undefined
+  }
+
+  get maxPrice(): number | undefined {
+    if (this.$route.query.max) {
+      return parseFloat(this.$route.query.max.toString()) * 10 ** this.decimals
+    }
+    return undefined
+  }
 
   public async fetchSuggestionsOnce() {
     if (
@@ -344,7 +393,9 @@ export default class SearchBar extends mixins(
     return this.listed
   }
 
-  set vListed(listed: boolean) {
+  set vListed(
+    listed: boolean | { listed: boolean; min?: string; max?: string }
+  ) {
     this.updateListed(listed)
   }
 
@@ -439,9 +490,22 @@ export default class SearchBar extends mixins(
 
   @Emit('update:listed')
   @Debounce(50)
-  updateListed(value: string | boolean): boolean {
-    const v = String(value)
-    this.replaceUrl(v, undefined, 'listed')
+  updateListed(
+    value: string | boolean | { listed: boolean; min?: string; max?: string }
+  ): boolean {
+    let v = ''
+    if (typeof value === 'string' || typeof value === 'boolean') {
+      v = String(value)
+      this.replaceUrl({ listed: v })
+    } else {
+      const { listed, max, min } = value
+      v = String(listed)
+      this.replaceUrl({
+        listed,
+        max,
+        min,
+      })
+    }
     return v === 'true'
   }
 
@@ -462,7 +526,7 @@ export default class SearchBar extends mixins(
   @Emit('update:type')
   @Debounce(50)
   updateType(value: string): string {
-    this.replaceUrl(value, undefined, 'type')
+    this.replaceUrl({ type: value })
     return value
   }
 
@@ -475,7 +539,7 @@ export default class SearchBar extends mixins(
         NFT_SQUID_SORT_CONDITION_LIST.includes(condition)
     )
     if ($event?.length > final.length || !$event) {
-      this.replaceUrl(final, undefined, 'sort')
+      this.replaceUrl({ sort: final })
       return final
     }
     let newFinal: string[] = []
@@ -486,7 +550,7 @@ export default class SearchBar extends mixins(
       )
       newFinal.push(final[final.length - 1])
     }
-    this.replaceUrl(newFinal, undefined, 'sort')
+    this.replaceUrl({ sort: newFinal })
     return newFinal
   }
 
@@ -553,7 +617,7 @@ export default class SearchBar extends mixins(
   @Debounce(50)
   updateSearch(value: string): string {
     if (value && value !== this.searchQuery) {
-      this.replaceUrl(value)
+      this.replaceUrl({ search: value })
     }
     return value
   }
@@ -565,7 +629,7 @@ export default class SearchBar extends mixins(
         this.sliderDirty = true
       }
       this.rangeSlider = [min, this.rangeSlider[1]]
-      this.sliderChangeMin(min * 1000000000000)
+      this.sliderChangeMin(min * 10 ** this.decimals)
     }
   }
 
@@ -576,7 +640,7 @@ export default class SearchBar extends mixins(
         this.sliderDirty = true
       }
       this.rangeSlider = [this.rangeSlider[0], max]
-      this.sliderChangeMax(max * 1000000000000)
+      this.sliderChangeMax(max * 10 ** this.decimals)
     }
   }
 
@@ -687,7 +751,7 @@ export default class SearchBar extends mixins(
   }
 
   @Debounce(100)
-  replaceUrl(value: string | string[], value2?, key = 'search', key2?): void {
+  replaceUrl(queryCondition: { [key: string]: any }): void {
     this.$router
       .replace({
         path: String(this.$route.path),
@@ -695,8 +759,7 @@ export default class SearchBar extends mixins(
           page: '1',
           ...this.$route.query,
           search: this.searchQuery || undefined,
-          [key]: value,
-          [key2]: value2,
+          ...queryCondition,
         },
       })
       .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
@@ -756,27 +819,30 @@ export default class SearchBar extends mixins(
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
   }
 
-  @Debounce(50)
-  private sliderChange([min, max]: [number, number]): void {
+  private sliderChange([min, max]: [
+    number | undefined,
+    number | undefined
+  ]): void {
     if (!this.sliderDirty) {
       this.sliderDirty = true
     }
-    this.sliderChangeMin(min * 1000000000000)
-    this.sliderChangeMax(max * 1000000000000)
-    const priceMin = String(min)
-    const priceMax = String(max)
-    this.replaceUrl(priceMin, priceMax, 'min', 'max')
+    this.sliderChangeMin(min ? min * 10 ** this.decimals : undefined)
+    this.sliderChangeMax(max ? max * 10 ** this.decimals : undefined)
+    const priceMin = min ? String(min) : undefined
+    const priceMax = max ? String(max) : undefined
+    this.query.listed = true
+    this.vListed = { listed: true, min: priceMin, max: priceMax }
   }
 
   @Emit('update:priceMin')
   @Debounce(50)
-  private sliderChangeMin(min: number): void {
+  private sliderChangeMin(min?: number): void {
     this.query.priceMin = min
   }
 
   @Emit('update:priceMax')
   @Debounce(50)
-  private sliderChangeMax(max: number): void {
+  private sliderChangeMax(max?: number): void {
     this.query.priceMax = max
   }
 }
