@@ -404,6 +404,14 @@
     "listed": "Buy now",
     "own": "Own"
   },
+  "query": {
+    "priceRange": {
+      "minPrice": "MIN PRICE",
+      "maxPrice": "MAX PRICE",
+      "priceValidation": "Min price has to be smaller than max price!",
+      "range": "Price range"
+    }
+  },
   "mint": {
     "submit": "Click to create NFT(s)",
     "estimate": "Show me the transaction fees",
@@ -663,6 +671,7 @@
     "mint": "3. Minting"
   },
   "general": {
+    "apply": "Apply",
     "using": "using",
     "balance": "Balance",
     "connect": "Connect",
@@ -682,7 +691,9 @@
     "newestListDesc": "Discover the latest items on sale",
     "newestListHeading": "Newest List",
     "popularCollectionsHeading": "Popular Collections",
-    "popularCollectionsDesc": "Discover the most popular collections on rmrk"
+    "popularCollectionsDesc": "Discover the most popular collections on rmrk",
+    "from": "from",
+    "to": "to"
   },
   "helper": {
     "seeMore": "See More",
