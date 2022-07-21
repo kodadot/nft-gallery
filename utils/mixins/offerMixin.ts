@@ -28,7 +28,7 @@ export default class OfferMixin extends mixins(
     })
   }
 
-  public calcExpirationTime(expirationBlock: number) {
+  public calcExpirationTime(expirationBlock: number): string {
     if (this.currentBlock === 0) {
       return 'computing'
     }
