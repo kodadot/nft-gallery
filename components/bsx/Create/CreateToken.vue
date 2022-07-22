@@ -46,6 +46,9 @@
             {{ $t('mint.deposit') }}: <Money :value="deposit" inline />
           </p>
         </b-field>
+        <b-field key="balance">
+          <AccountBalance />
+        </b-field>
         <SubmitButton
           key="submit"
           label="mint.submit"
@@ -115,6 +118,7 @@ const components = {
   RoyaltyForm: () => import('@/components/bsx/Create/RoyaltyForm.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
+  AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
 }
 
 @Component({ components })
