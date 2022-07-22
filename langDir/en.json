@@ -536,7 +536,9 @@
     "daySelectPlaceholder": "select day to expire",
     "days": "days",
     "collection": "Collection",
-    "nftName": "Name"
+    "nftName": "Name",
+    "accept": "NFT has new a owner",
+    "withdraw": "your offer has been withdrawn"
   },
   "statsOverview": {
     "buys": "Buys",
