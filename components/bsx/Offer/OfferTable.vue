@@ -1,5 +1,5 @@
 <template>
-  <b-table :data="offers">
+  <b-table :data="displayOffers">
     <div class="has-text-centered offer-title">
       {{ $t('nft.offer.title') }}
     </div>
@@ -54,7 +54,7 @@
 
     <b-table-column
       cell-class="is-vcentered is-narrow"
-      field="price"
+      field="formatPrice"
       :label="$t('offer.price')"
       v-slot="props"
       sortable>
@@ -122,6 +122,7 @@ import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { Offer } from './types'
 import { formatDistanceToNow } from 'date-fns'
 import OfferMixin from '~/utils/mixins/offerMixin'
+import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -134,6 +135,13 @@ export default class OfferTable extends mixins(OfferMixin) {
   public offers!: Offer[]
   @Prop(Boolean) public isOwner!: boolean
   @Prop(Boolean) public isBsxStats!: boolean
+
+  get displayOffers() {
+    return this.offers.map((offer) => ({
+      ...offer,
+      formatPrice: formatBsxBalanceToNumber(offer.price),
+    }))
+  }
 
   @Emit('select')
   tellFrens(caller: string) {
