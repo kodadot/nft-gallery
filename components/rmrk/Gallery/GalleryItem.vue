@@ -100,10 +100,7 @@
                       </IndexerGuard>
                       <Auth />
                     </p>
-                    <p class="subtitle is-size-6" v-if="accountId">
-                      <span>{{ $t('general.balance') }}: </span>
-                      <Money :value="balance" inline />
-                    </p>
+                    <AccountBalance />
                   </div>
 
                   <Sharing :enableDownload="isOwner" class="mb-4" />
@@ -191,6 +188,7 @@ import { isOwner } from '~/utils/account'
     AvailableActions,
     Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
+    AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
