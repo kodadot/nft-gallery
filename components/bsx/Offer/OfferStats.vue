@@ -7,7 +7,11 @@
       <StatsOverview />
     </div>
     <Loader v-model="isLoading" :status="status" />
-    <OfferTable :offers="offers" :accountId="accountId" is-bsx-stats />
+    <OfferTable
+      :offers="offers"
+      :accountId="accountId"
+      is-bsx-stats
+      :headerText="$t('nft.offer.title')" />
   </div>
 </template>
 
