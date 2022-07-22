@@ -151,6 +151,7 @@ export default class OfferTable extends mixins(OfferMixin) {
 .offer-title {
   line-height: 2rem;
   font-size: 1.2rem;
-  border-bottom: 1px solid hsl(0deg, 0%, 86%);
+  border-bottom: 2px solid hsl(0deg, 0%, 86%);
+  background: black;
 }
 </style>
