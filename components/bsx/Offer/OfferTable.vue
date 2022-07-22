@@ -126,8 +126,6 @@ import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { Offer } from './types'
 import { formatDistanceToNow } from 'date-fns'
 import OfferMixin from '~/utils/mixins/offerMixin'
-import { formatSecondsToDuration } from '~/utils/format/time'
-import onApiConnect from '~/utils/api/general'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -160,26 +158,6 @@ export default class OfferTable extends mixins(OfferMixin) {
   get showList(): any[] {
     const endIndex = this.currentPage * this.itemsPerPage
     return this.offers.slice(endIndex - this.itemsPerPage, endIndex)
-  }
-
-  public created() {
-    onApiConnect(async (api) => {
-      const currentBlock = await api.query.system.number()
-      this.currentBlock = currentBlock.toNumber()
-    })
-  }
-
-  public calcExpirationTime(expirationBlock: number) {
-    if (this.currentBlock === 0) {
-      return 'computing'
-    }
-    if (this.currentBlock > expirationBlock) {
-      return 'expired'
-    }
-    const secondsForEachBlock = 12
-    const diffSeconds =
-      secondsForEachBlock * (expirationBlock - this.currentBlock)
-    return formatSecondsToDuration(diffSeconds)
   }
 }
 </script>
