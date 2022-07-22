@@ -538,6 +538,13 @@ export default class SearchBar extends mixins(
         NFT_SORT_CONDITION_LIST.includes(condition) ||
         NFT_SQUID_SORT_CONDITION_LIST.includes(condition)
     )
+    const listed = final.some(
+      (condition) => condition.toLowerCase().indexOf('price') > -1
+    )
+    if (listed && !this.vListed) {
+      this.vListed = true
+    }
+
     if ($event?.length > final.length || !$event) {
       this.replaceUrl({ sort: final })
       return final
