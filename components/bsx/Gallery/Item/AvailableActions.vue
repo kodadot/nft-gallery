@@ -45,9 +45,9 @@ import {
 import shouldUpdate from '@/utils/shouldUpdate'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import formatBalance from '@/utils/formatBalance'
 import onApiConnect from '@/utils/api/general'
 import BalanceInput from '@/components/shared/BalanceInput.vue'
+import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 
 const components = {
   ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
@@ -83,7 +83,7 @@ export default class AvailableActions extends mixins(
   public dayList = [1, 3, 7, 14, 30]
 
   get balance(): number {
-    return this.formatBalance(this.$store.getters.getAuthBalance)
+    return formatBsxBalanceToNumber(this.$store.getters.getAuthBalance)
   }
 
   get actions() {
@@ -114,13 +114,10 @@ export default class AvailableActions extends mixins(
     return actionComponent[this.selectedAction]
   }
 
-  formatBalance(balance: string) {
-    return parseFloat(formatBalance(balance, 12, false).replace(/,/g, ''))
-  }
   public async created(): Promise<void> {
     onApiConnect(() => {
       const { api } = Connector.getInstance()
-      this.minimumOfferAmount = this.formatBalance(
+      this.minimumOfferAmount = formatBsxBalanceToNumber(
         api?.consts?.marketplace?.minimumOfferAmount?.toString()
       )
       this.isMakeOffersDisabled =
