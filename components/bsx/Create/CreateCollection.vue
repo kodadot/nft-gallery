@@ -19,6 +19,9 @@
             <Money :value="collectionDeposit" inline />
           </p>
         </b-field>
+        <b-field>
+          <AccountBalance />
+        </b-field>
         <SubmitButton
           label="create collection"
           :disabled="disabled"
@@ -68,6 +71,7 @@ const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
+  AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
   // CustomAttributeInput: () =>
   //   import('@/components/rmrk/Create/CustomAttributeInput.vue'),
 }
