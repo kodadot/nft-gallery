@@ -8,6 +8,7 @@
       cell-class="is-vcentered is-narrow"
       :label="$t('offer.collection')"
       v-slot="props"
+      field="nft.collection.name"
       sortable>
       <nuxt-link :to="`/bsx/collection/${props.row.nft.collection.id}`">
         <p
@@ -30,6 +31,7 @@
       cell-class="is-vcentered is-narrow"
       :label="$t('offer.nftName')"
       v-slot="props"
+      field="nft.name"
       sortable>
       <nuxt-link :to="`/bsx/gallery/${props.row.nft.id}`">
         <p
