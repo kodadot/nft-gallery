@@ -41,7 +41,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 @Component
 export default class BalanceInput extends mixins(ChainMixin) {
   @Prop({ type: Number, default: 0 }) value?: number
-  @Prop({ default: 'balance' }) public label!: string
+  @Prop({ default: 'amount' }) public label!: string
   @Prop({ default: true }) public calculate!: boolean
   @Prop(Boolean) public expanded!: boolean
   @Prop({ default: 0.001 }) public step!: number
