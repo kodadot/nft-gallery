@@ -351,11 +351,15 @@ export default class Gallery extends mixins(
 
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
-
+    const searchText = this.searchQuery.search
     if (this.searchQuery.search) {
-      params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` },
-      })
+      if (this.isRmrk) {
+        params.push({
+          name: { likeInsensitive: `%${searchText}%` },
+        })
+      } else {
+        params.push({ name_containsInsensitive: searchText })
+      }
     }
 
     if (this.searchQuery.listed) {
