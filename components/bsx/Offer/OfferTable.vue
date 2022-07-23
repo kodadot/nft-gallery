@@ -32,7 +32,6 @@
       :label="$t('offer.nftName')"
       field="nft.name"
       v-slot="props"
-      field="nft.name"
       sortable>
       <nuxt-link :to="`/bsx/gallery/${props.row.nft.id}`">
         <p
@@ -138,7 +137,6 @@ export default class OfferTable extends mixins(OfferMixin) {
   @Prop(Boolean) public isOwner!: boolean
   @Prop(Boolean) public isBsxStats!: boolean
   @Prop(Boolean) public isCollection!: boolean
-
 
   get displayOffers() {
     return this.offers.map((offer) => ({

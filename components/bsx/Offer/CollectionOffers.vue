@@ -34,7 +34,6 @@ export default class CollectionOffers extends mixins(AuthMixin, PrefixMixin) {
   protected offers: Offer[] = []
   protected showOffers: Offer[] = []
   protected status: AllOfferStatusType = AllOfferStatusType.ALL
-  // protected uniqType = [{value: 'All', type: 'all'}, {value: 'Test', type: 'test'}]
 
   get uniqType(): { type: AllOfferStatusType; value: string }[] {
     const statusSet = new Set(this.offers.map((offer) => offer.status))
