@@ -391,18 +391,22 @@
     "BLOCK_NUMBER_ASC": "Oldest",
     "UPDATED_AT_DESC": "Recently Interacted",
     "UPDATED_AT_ASC": "Unpopular",
-    "blockNumber_DESC": "New first",
-    "blockNumber_ASC": "Old first",
-    "updatedAt_DESC": "Last interacted",
-    "updatedAt_ASC": "Least Interacted",
     "PRICE_DESC": "Price: High to Low",
     "PRICE_ASC": "Price: Low to High",
     "SN_ASC": "Serial Number Ascending",
+    "blockNumber_DESC": "Recently Created",
+    "blockNumber_ASC": "Oldest",
+    "updatedAt_DESC": "Recently Interacted",
+    "updatedAt_ASC": "Unpopular",
     "price_DESC": "Price: High to Low",
     "price_ASC": "Price: Low to High",
     "sn_ASC": "Serial Number Ascending",
     "listed": "Buy now",
-    "own": "Own"
+    "own": "Own",
+    "collection": {
+      "blockNumber_DESC": "New first",
+      "blockNumber_ASC": "Old first"
+    }
   },
   "query": {
     "priceRange": {

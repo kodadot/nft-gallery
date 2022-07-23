@@ -258,7 +258,7 @@ export default class CreateToken extends mixins(
 
   get validPriceValue(): boolean {
     const price = parseInt(this.price as string)
-    return price > 0 && price <= this.maxPrice
+    return !this.listed || (price > 0 && price <= this.maxPrice)
   }
 
   protected async submit(): Promise<void> {
