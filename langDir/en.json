@@ -402,7 +402,34 @@
     "price_ASC": "Price: Low to High",
     "sn_ASC": "Serial Number Ascending",
     "listed": "Buy now",
-    "own": "Own"
+    "own": "Own",
+    "collection": {
+      "blockNumber_DESC": "New first",
+      "blockNumber_ASC": "Old first",
+      "updatedAt_DESC": "Recently Interacted",
+      "updatedAt_ASC": "Unpopular",
+      "price_DESC": "Price: High to Low",
+      "price_ASC": "Price: Low to High",
+      "sn_ASC": "Serial Number Ascending",
+      "listed": "Buy now",
+
+      "EMOTES_COUNT_DESC": "Most reacted",
+      "BLOCK_NUMBER_DESC": "Recently Created",
+      "BLOCK_NUMBER_ASC": "Oldest",
+      "UPDATED_AT_DESC": "Recently Interacted",
+      "UPDATED_AT_ASC": "Unpopular",
+      "PRICE_DESC": "Price: High to Low",
+      "PRICE_ASC": "Price: Low to High",
+      "SN_ASC": "Serial Number Ascending"
+    }
+  },
+  "query": {
+    "priceRange": {
+      "minPrice": "MIN PRICE",
+      "maxPrice": "MAX PRICE",
+      "priceValidation": "Min price has to be smaller than max price!",
+      "range": "Price range"
+    }
   },
   "mint": {
     "submit": "Click to create NFT(s)",

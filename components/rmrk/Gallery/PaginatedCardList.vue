@@ -136,6 +136,9 @@ export default class PaginatedCardList extends mixins(
 
   created() {
     this.fetchPageData(this.startPage)
+    if (this.client === 'bsx') {
+      this.searchQuery.sortBy = this.remapSortBy
+    }
   }
 
   public async fetchPageData(page: number, loadDirection = 'down') {
