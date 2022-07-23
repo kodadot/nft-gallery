@@ -13,6 +13,9 @@
           label="Price"
           expanded
           key="price"
+          :step="1"
+          :max="maxPrice"
+          :min="0"
           @input="updatePrice"
           class="mb-3" />
         <div v-show="base.selectedCollection" key="attributes">
@@ -42,6 +45,9 @@
           <p class="has-text-weight-medium is-size-6 has-text-warning">
             {{ $t('mint.deposit') }}: <Money :value="deposit" inline />
           </p>
+        </b-field>
+        <b-field key="balance">
+          <AccountBalance />
         </b-field>
         <SubmitButton
           key="submit"
@@ -112,6 +118,7 @@ const components = {
   RoyaltyForm: () => import('@/components/bsx/Create/RoyaltyForm.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
+  AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
 }
 
 @Component({ components })
@@ -137,6 +144,7 @@ export default class CreateToken extends mixins(
   protected nsfw = false
   protected price: string | number = 0.1
   protected listed = true
+  protected maxPrice = Number.MAX_SAFE_INTEGER // actually 999999999999999999 but this would be unsafe at runtime
   protected royalty: Royalty = {
     amount: 0,
     address: '',
@@ -230,7 +238,10 @@ export default class CreateToken extends mixins(
   }
 
   get disabled() {
-    return !(this.base.name && this.base.file && this.base.selectedCollection)
+    return (
+      !(this.base.name && this.base.file && this.base.selectedCollection) ||
+      !this.validPriceValue
+    )
   }
 
   get hasSupport(): boolean {
@@ -243,6 +254,11 @@ export default class CreateToken extends mixins(
 
   get arweaveUpload(): boolean {
     return this.$store.state.preferences.arweaveUpload
+  }
+
+  get validPriceValue(): boolean {
+    const price = parseInt(this.price as string)
+    return price > 0 && price <= this.maxPrice
   }
 
   protected async submit(): Promise<void> {
