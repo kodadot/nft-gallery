@@ -49,12 +49,13 @@
         <b-field key="balance">
           <AccountBalance />
         </b-field>
-        <SubmitButton
-          key="submit"
-          label="mint.submit"
-          :disabled="disabled"
-          :loading="isLoading"
-          @click="submit" />
+        <b-field key="submit" type="is-danger" :message="disabledMessage">
+          <SubmitButton
+            label="mint.submit"
+            :disabled="disabled"
+            :loading="isLoading"
+            @click="submit" />
+        </b-field>
       </template>
     </BaseTokenForm>
   </div>
@@ -237,10 +238,35 @@ export default class CreateToken extends mixins(
     })
   }
 
+  get balanceEnough(): boolean {
+    return !this.deposit || parseFloat(this.balance) > parseFloat(this.deposit)
+  }
+
+  get disabledMessage() {
+    if (!this.disabled) {
+      return ''
+    }
+    if (!this.base.name) {
+      return this.$t('tooltip.needToEnterNFTName')
+    } else if (!this.base.file) {
+      return this.$t('tooltip.needToUploadNFTFile')
+    } else if (!this.base.selectedCollection) {
+      return this.$t('tooltip.needToSelectCollection')
+    } else if (!this.balanceEnough) {
+      return this.$t('tooltip.notEnoughBalance')
+    } else if (!this.validPriceValue) {
+      return this.$t('tooltip.needToSetValidPrice')
+    }
+    return ''
+  }
+
   get disabled() {
-    return (
-      !(this.base.name && this.base.file && this.base.selectedCollection) ||
-      !this.validPriceValue
+    return !(
+      this.base.name &&
+      this.base.file &&
+      this.base.selectedCollection &&
+      this.balanceEnough &&
+      this.validPriceValue
     )
   }
 

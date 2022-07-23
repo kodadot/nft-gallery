@@ -22,11 +22,13 @@
         <b-field>
           <AccountBalance />
         </b-field>
-        <SubmitButton
-          label="create collection"
-          :disabled="disabled"
-          :loading="isLoading"
-          @click="submit" />
+        <b-field type="is-danger" :message="disabledMessage">
+          <SubmitButton
+            label="create collection"
+            :disabled="disabled"
+            :loading="isLoading"
+            @click="submit" />
+        </b-field>
       </template>
     </BaseCollectionForm>
   </div>
@@ -88,7 +90,6 @@ export default class CreateCollection extends mixins(
     file: null,
     description: '',
   }
-  private hasSupport = true
   protected collectionDeposit = ''
   protected id = '0'
   protected attributes: Attribute[] = []
@@ -101,16 +102,37 @@ export default class CreateCollection extends mixins(
     })
   }
 
+  get disabledMessage() {
+    if (!this.disabled) {
+      return ''
+    }
+    const {
+      base: { name },
+      accountId,
+    } = this
+    if (!name) {
+      return this.$t('tooltip.needToEnterCollectionName')
+    } else if (!accountId) {
+      return this.$t('tooltip.needLogin')
+    } else if (!this.balanceEnough) {
+      return this.$t('tooltip.notEnoughBalance')
+    }
+    return ''
+  }
+
+  get balanceEnough(): boolean {
+    return (
+      !this.collectionDeposit ||
+      parseFloat(this.balance) > parseFloat(this.collectionDeposit)
+    )
+  }
+
   get disabled(): boolean {
     const {
       base: { name },
       accountId,
     } = this
-    return !(name && accountId)
-  }
-
-  get balance(): string {
-    return this.$store.getters.getAuthBalance
+    return !(name && accountId && this.balanceEnough)
   }
 
   public async constructMeta() {

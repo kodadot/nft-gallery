@@ -493,7 +493,14 @@
     "holdings": "Nfts owned by",
     "gains": "Gained by",
     "makeOfferDisabled": "You have already made an offer for this NFT",
-    "makeOfferNotEnoughBalance": "You do not have enough funds"
+    "makeOfferNotEnoughBalance": "You do not have enough funds",
+    "notEnoughBalance":  "You do not have enough funds",
+    "needLogin": "You need to connect wallet",
+    "needToEnterCollectionName":  "You need to enter collection name",
+    "needToEnterNFTName":  "You need to enter NFT name",
+    "needToUploadNFTFile":  "You need to upload NFT file",
+    "needToSelectCollection":  "You need to select a collection",
+    "needToSetValidPrice":  "You need to set a valid price"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
