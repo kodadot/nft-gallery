@@ -1,12 +1,12 @@
 <template>
   <div class="buttons">
     <b-tooltip
+      v-for="action in actions"
+      :key="action"
       class="w-100"
-      :active="!isMakeOffersAllowed"
+      :active="action === ShoppingActions.MAKE_OFFER && !isMakeOffersAllowed"
       :label="tooltipOfferLabel">
       <b-button
-        v-for="action in actions"
-        :key="action"
         :type="iconType(action)"
         :disabled="
           action === ShoppingActions.MAKE_OFFER && !isMakeOffersAllowed
@@ -27,7 +27,7 @@ import {
   getActionButtonColor,
   getActionButtonLabel,
   ShoppingActions,
-} from '@/utils/shoppingActions'
+} from '~/utils/shoppingActions'
 import { TranslateResult } from 'vue-i18n/types'
 
 @Component({})

@@ -50,12 +50,12 @@ import BalanceInput from '@/components/shared/BalanceInput.vue'
 import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 
 const components = {
-  ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
+  ActionList: () => import('@/components/bsx/Gallery/Item/ActionList.vue'),
   AddressInput: () => import('@/components/shared/AddressInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
-  DaySelect: () => import('~/components/bsx/Offer/DaySelect.vue'),
+  DaySelect: () => import('@/components/bsx/Offer/DaySelect.vue'),
 }
 
 @Component({ components })
