@@ -11,7 +11,8 @@
       :offers="offers"
       :accountId="accountId"
       is-bsx-stats
-      :headerText="$t('nft.offer.title')" />
+      :headerText="$t('nft.offer.title')"
+      display-collection />
   </div>
 </template>
 

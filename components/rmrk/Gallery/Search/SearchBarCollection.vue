@@ -4,6 +4,7 @@
       <Sort
         class="control"
         :value="sortBy"
+        :isCollection="true"
         @input="updateSortBy"
         :sortOption="sortOption" />
       <div
