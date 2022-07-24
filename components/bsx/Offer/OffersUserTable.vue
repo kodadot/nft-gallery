@@ -60,7 +60,7 @@
 import { Attribute, emptyArray } from '@kodadot1/minimark'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
-import { Offer } from '../Offer/types'
+import { Offer } from './types'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import Connector from '@kodadot1/sub-api'
 import AuthMixin from '~/utils/mixins/authMixin'
