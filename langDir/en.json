@@ -391,13 +391,13 @@
     "BLOCK_NUMBER_ASC": "Oldest",
     "UPDATED_AT_DESC": "Recently Interacted",
     "UPDATED_AT_ASC": "Unpopular",
-    "blockNumber_DESC": "New first",
-    "blockNumber_ASC": "Old first",
-    "updatedAt_DESC": "Last interacted",
-    "updatedAt_ASC": "Least Interacted",
     "PRICE_DESC": "Price: High to Low",
     "PRICE_ASC": "Price: Low to High",
     "SN_ASC": "Serial Number Ascending",
+    "blockNumber_DESC": "Recently Created",
+    "blockNumber_ASC": "Oldest",
+    "updatedAt_DESC": "Recently Interacted",
+    "updatedAt_ASC": "Unpopular",
     "price_DESC": "Price: High to Low",
     "price_ASC": "Price: Low to High",
     "sn_ASC": "Serial Number Ascending",
@@ -542,7 +542,8 @@
       "empty": "There are currently no offers for this NFT.",
       "item": "Item",
       "status": "Offer status",
-      "date": "Date"
+      "date": "Date",
+      "title": "Global Marketplace Offers"
     }
   },
   "offer": {
@@ -554,7 +555,9 @@
     "daySelectPlaceholder": "select day to expire",
     "days": "days",
     "collection": "Collection",
-    "nftName": "Name"
+    "nftName": "Name",
+    "accept": "NFT has new a owner",
+    "withdraw": "your offer has been withdrawn"
   },
   "statsOverview": {
     "buys": "Buys",
@@ -690,6 +693,7 @@
     "mint": "3. Minting"
   },
   "general": {
+    "apply": "Apply",
     "using": "using",
     "balance": "Balance",
     "connect": "Connect",
@@ -709,7 +713,9 @@
     "newestListDesc": "Discover the latest items on sale",
     "newestListHeading": "Newest List",
     "popularCollectionsHeading": "Popular Collections",
-    "popularCollectionsDesc": "Discover the most popular collections on rmrk"
+    "popularCollectionsDesc": "Discover the most popular collections on rmrk",
+    "from": "from",
+    "to": "to"
   },
   "helper": {
     "seeMore": "See More",
