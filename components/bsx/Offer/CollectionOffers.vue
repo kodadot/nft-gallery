@@ -8,11 +8,7 @@
         {{ option.value }}
       </option>
     </b-select>
-    <OfferTable
-      :offers="showOffers"
-      :accountId="accountId"
-      is-bsx-stats
-      is-collection />
+    <OfferTable :offers="showOffers" :accountId="accountId" is-bsx-stats />
   </div>
 </template>
 

@@ -12,7 +12,7 @@
         {{ $t('nft.offer.title') }}
       </div>
       <b-table-column
-        v-if="isBsxStats && !isCollection"
+        v-if="displayCollection"
         cell-class="is-vcentered is-narrow"
         :label="$t('offer.collection')"
         v-slot="props"
@@ -147,6 +147,7 @@ export default class OfferTable extends mixins(OfferMixin) {
   @Prop(Boolean) public isOwner!: boolean
   @Prop(Boolean) public isBsxStats!: boolean
   @Prop(Boolean) public isCollection!: boolean
+  @Prop({ type: Boolean, default: false }) public displayCollection!: boolean
   public currentBlock = 0
   public itemsPerPage = 20
   private currentPage = parseInt(this.$route.query?.page as string) || 1
