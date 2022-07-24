@@ -70,7 +70,7 @@
                       </div>
                       <div class="price-block__container">
                         <div class="price-block__original">
-                          <Money :value="nft.price" inline />
+                          <Money :value="calculatedPrice" inline />
                         </div>
                       </div>
                       <div v-if="nftRoyalties">
@@ -254,6 +254,11 @@ export default class GalleryItem extends mixins(
     )
   }
 
+  get calculatedPrice(): number {
+    // price value for bsx nft isn't fetched in right format
+    return Number(this.nft?.price || 0) * 100000000000
+  }
+
   public offersUpdate({ offers }) {
     this.isMakeOffersAllowed = !offers.find(({ caller }) => {
       return caller === this.accountId
@@ -393,8 +398,8 @@ export default class GalleryItem extends mixins(
   }
 
   get nftRoyalties(): string {
-    return this.nft.price && this.nft.royalty
-      ? royaltyOf(this.nft.price, this.nft.royalty)
+    return this.calculatedPrice && this.nft.royalty
+      ? royaltyOf(this.calculatedPrice, this.nft.royalty)
       : ''
   }
 
