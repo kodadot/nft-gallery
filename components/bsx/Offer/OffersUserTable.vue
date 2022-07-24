@@ -1,5 +1,5 @@
 <template>
-  <b-table :data="offers">
+  <b-table :data="displayOffers">
     <b-table-column
       cell-class="is-vcentered is-narrow"
       field="nft.name"
@@ -25,7 +25,7 @@
 
     <b-table-column
       cell-class="is-vcentered is-narrow"
-      field="price"
+      field="formatPrice"
       :label="$t('offer.price')"
       v-slot="props"
       sortable>
@@ -68,6 +68,7 @@ import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '~/utils/notification'
 import { tokenIdToRoute } from '~/components/unique/utils'
+import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -86,6 +87,13 @@ export default class OffersUserTable extends mixins(
 
   public timestampOffer(date) {
     return formatDistanceToNow(new Date(date), { addSuffix: true })
+  }
+
+  get displayOffers() {
+    return this.offers.map((offer) => ({
+      ...offer,
+      formatPrice: formatBsxBalanceToNumber(offer.price),
+    }))
   }
 
   async withdrawOffer(offer) {
