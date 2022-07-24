@@ -54,7 +54,7 @@
           label="mint.submit"
           :disabled="disabled"
           :loading="isLoading"
-          @click="() => submit()" />
+          @click="submit()" />
       </template>
     </BaseTokenForm>
   </div>
@@ -311,12 +311,15 @@ export default class CreateToken extends mixins(
       })
     } catch (e) {
       if (e instanceof Error) {
-        showNotification(e.toString(), notificationTypes.danger)
         this.stopLoader()
 
         if (retryCount < 3) {
-          showNotification('You will retry to mint NFT')
+          // retry
+          showNotification('Retrying to complete minting process.')
           this.submit(retryCount + 1)
+        } else {
+          // finally fail
+          showNotification(e.toString(), notificationTypes.danger)
         }
       }
     }
