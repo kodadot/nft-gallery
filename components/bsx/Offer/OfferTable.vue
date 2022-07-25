@@ -8,11 +8,11 @@
       enableListenKeyboardEvent
       preserveScroll />
     <b-table :data="showList">
-      <div class="has-text-centered offer-title">
-        {{ $t('nft.offer.title') }}
+      <div v-if="headerText" class="has-text-centered offer-title">
+        {{ headerText }}
       </div>
       <b-table-column
-        v-if="isBsxStats"
+        v-if="displayCollection"
         cell-class="is-vcentered is-narrow"
         :label="$t('offer.collection')"
         v-slot="props"
@@ -108,10 +108,11 @@
       >
       <b-table-column
         v-if="isBsxStats"
-        field="Date"
+        field="createdAt"
         cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.date')"
         v-slot="props"
+        sortable
         ><p>
           {{ new Date(props.row.createdAt) | formatDistanceToNow }}
         </p></b-table-column
@@ -145,6 +146,9 @@ export default class OfferTable extends mixins(OfferMixin) {
   public offers!: Offer[]
   @Prop(Boolean) public isOwner!: boolean
   @Prop(Boolean) public isBsxStats!: boolean
+  @Prop({ type: String, default: '' }) public headerText!: string
+  @Prop(Boolean) public isCollection!: boolean
+  @Prop({ type: Boolean, default: false }) public displayCollection!: boolean
   public currentBlock = 0
   public itemsPerPage = 20
   private currentPage = parseInt(this.$route.query?.page as string) || 1
