@@ -25,7 +25,7 @@
     <template v-slot:main>
       <div class="columns">
         <div class="column is-6">
-          <div class="nft-title">
+          <div class="mb-5">
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
 
@@ -100,10 +100,7 @@
                         <Auth class="mt-4" />
                       </p>
                     </div>
-                    <p class="subtitle is-size-6" v-if="accountId">
-                      <span>{{ $t('general.balance') }}: </span>
-                      <Money :value="balance" inline />
-                    </p>
+                    <AccountBalance />
                     <Sharing :enableDownload="isOwner" class="mb-4" />
                   </div>
                 </div>
@@ -195,6 +192,7 @@ import { ShoppingActions } from '@/utils/shoppingActions'
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
+    AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
     History: () => import('@/components/rmrk/Gallery/History.vue'),
   },

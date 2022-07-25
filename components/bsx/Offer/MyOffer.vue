@@ -6,7 +6,7 @@
       </h1>
     </div>
     <Loader v-model="isLoading" :status="status" />
-    <b-table :data="offers">
+    <b-table :data="displayOffers(offers)">
       <b-table-column
         cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.item')"
@@ -22,7 +22,7 @@
       </b-table-column>
       <b-table-column
         cell-class="is-vcentered is-narrow"
-        field="price"
+        field="formatPrice"
         :label="$t('myOffer.price')"
         v-slot="props"
         sortable>
@@ -66,10 +66,11 @@
           @click="onClick(props.row)" />
       </b-table-column>
       <b-table-column
-        field="Date"
+        field="createdAt"
         cell-class="is-vcentered is-narrow"
         :label="$t('myOffer.date')"
         v-slot="props"
+        sortable
         ><p>
           {{
             new Date(props.row.createdAt) |

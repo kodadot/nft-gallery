@@ -7,7 +7,8 @@ import Connector from '@kodadot1/sub-api'
 import { notificationTypes, showNotification } from '~/utils/notification'
 import onApiConnect from '~/utils/api/general'
 import { formatSecondsToDuration } from '~/utils/format/time'
-
+import { formatBsxBalanceToNumber } from '~/utils/format/balance'
+import { Offer } from '~/components/bsx/Offer/types'
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
  * import { Component, Mixins } from 'nuxt-property-decorator';
@@ -20,6 +21,13 @@ export default class OfferMixin extends mixins(
 ) {
   public isLoading = false
   public currentBlock = 0
+
+  displayOffers(offers: Offer[]) {
+    return offers.map((offer) => ({
+      ...offer,
+      formatPrice: formatBsxBalanceToNumber(offer.price),
+    }))
+  }
 
   created() {
     onApiConnect(async (api) => {
@@ -57,9 +65,9 @@ export default class OfferMixin extends mixins(
       const args = [collectionId, nftId, maker]
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
-        const msg = !isMe ? 'nft is yours' : 'your offer has been withdrawn'
+        const msg = !isMe ? this.$t('offer.accept') : this.$t('offer.withdraw')
         showNotification(
-          `[OFFER] Since block ${blockNumber} ${msg}`,
+          `[OFFER] Since block ${blockNumber}, ${msg}`,
           notificationTypes.success
         )
         onSuccess && onSuccess()

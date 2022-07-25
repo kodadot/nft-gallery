@@ -1,0 +1,20 @@
+query offerListByCollectionId($collectionId: ID!) {
+  offers(
+    orderBy: createdAt_DESC,
+    where: { nft: { burned_not_eq: true, collection: {id_eq: $collectionId } }}
+  ) {
+    caller
+    expiration
+    price
+    status
+    createdAt
+    nft {
+      id
+      name
+      collection {
+        id
+        name
+      }
+    }
+  }
+}
