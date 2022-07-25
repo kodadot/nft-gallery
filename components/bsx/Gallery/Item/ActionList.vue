@@ -4,11 +4,11 @@
       v-for="action in actions"
       :key="action"
       class="w-100"
-      :active="disableMakeOffer(action)"
-      :label="tooltipOfferLabel">
+      :active="disableButton(action)"
+      :label="disabledToolTips[action]">
       <b-button
         :type="iconType(action)"
-        :disabled="disableMakeOffer(action)"
+        :disabled="disableButton(action)"
         outlined
         expanded
         class="only-border-top"
@@ -25,6 +25,7 @@ import {
   getActionButtonColor,
   getActionButtonLabel,
   ShoppingActions,
+  ShoppingActionToolTips,
 } from '~/utils/shoppingActions'
 import { TranslateResult } from 'vue-i18n/types'
 
@@ -32,15 +33,18 @@ import { TranslateResult } from 'vue-i18n/types'
 export default class ActionList extends Vue {
   @Prop({ type: Array, required: false }) public actions!: ShoppingActions[]
   @Prop(Boolean) public isMakeOffersAllowed!: boolean
-  @Prop(String) public tooltipOfferLabel!: string
+
+  // keys in `disabledToolTips` are disabled actions. values are their tooltips.
+  @Prop({ type: Object, required: true })
+  public disabledToolTips!: ShoppingActionToolTips
 
   @Emit('click')
   protected handleActionSelect(action: ShoppingActions) {
     return action
   }
 
-  public disableMakeOffer(action: ShoppingActions): boolean {
-    return action === ShoppingActions.MAKE_OFFER && !this.isMakeOffersAllowed
+  public disableButton(action: ShoppingActions): boolean {
+    return Object.keys(this.disabledToolTips).includes(action)
   }
 
   protected iconType(value: ShoppingActions): string {

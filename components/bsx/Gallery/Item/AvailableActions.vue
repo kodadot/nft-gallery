@@ -4,8 +4,7 @@
     <ActionList
       v-if="accountId"
       :actions="actions"
-      :isMakeOffersAllowed="!isMakeOffersDisabled"
-      :tooltipOfferLabel="tooltipOfferLabel"
+      :disabledToolTips="toolTips"
       @click="handleAction" />
     <component
       ref="balanceInput"
@@ -41,6 +40,7 @@ import {
   getActionList,
   iconResolver,
   ShoppingActions,
+  ShoppingActionToolTips,
 } from '@/utils/shoppingActions'
 import shouldUpdate from '@/utils/shouldUpdate'
 import Connector from '@kodadot1/sub-api'
@@ -70,6 +70,7 @@ export default class AvailableActions extends mixins(
   @Prop(String) public nftId!: string
   @Prop(String) public collectionId!: string
   @Prop(Boolean) public isMakeOffersAllowed!: boolean
+  @Prop(Boolean) public isBuyAllowed!: boolean
   @Prop(Boolean) public isOwner!: boolean
   @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
@@ -78,9 +79,9 @@ export default class AvailableActions extends mixins(
   public minimumOfferAmount = 0
   public isMakeOffersDisabled = true
   public isBalanceInputValid = false
-  public tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
   public selectedDay = 14
   public dayList = [1, 3, 7, 14, 30]
+  public toolTips: ShoppingActionToolTips = {}
 
   get balance(): number {
     return formatBsxBalanceToNumber(this.$store.getters.getAuthBalance)
@@ -122,13 +123,25 @@ export default class AvailableActions extends mixins(
       )
       this.isMakeOffersDisabled =
         !this.isMakeOffersAllowed || this.minimumOfferAmount > this.balance
-
-      if (!this.isMakeOffersAllowed) {
-        this.tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
-      } else if (this.minimumOfferAmount > this.balance) {
-        this.tooltipOfferLabel = this.$t('tooltip.makeOfferNotEnoughBalance')
-      }
+      this.setToolTips()
     })
+  }
+
+  public setToolTips() {
+    if (!this.isMakeOffersAllowed) {
+      this.toolTips[ShoppingActions.MAKE_OFFER] = this.$t(
+        'tooltip.makeOfferDisabled'
+      ).toString()
+    } else if (this.minimumOfferAmount > this.balance) {
+      this.toolTips[ShoppingActions.MAKE_OFFER] = this.$t(
+        'tooltip.notEnoughBalance'
+      ).toString()
+    }
+    if (!this.isBuyAllowed) {
+      this.toolTips[ShoppingActions.BUY] = this.$t(
+        'tooltip.notEnoughBalance'
+      ).toString()
+    }
   }
 
   protected iconType(value: string) {
