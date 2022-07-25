@@ -8,8 +8,8 @@
       enableListenKeyboardEvent
       preserveScroll />
     <b-table :data="showList">
-      <div class="has-text-centered offer-title">
-        {{ $t('nft.offer.title') }}
+      <div v-if="headerText" class="has-text-centered offer-title">
+        {{ headerText }}
       </div>
       <b-table-column
         v-if="displayCollection"
@@ -146,6 +146,7 @@ export default class OfferTable extends mixins(OfferMixin) {
   public offers!: Offer[]
   @Prop(Boolean) public isOwner!: boolean
   @Prop(Boolean) public isBsxStats!: boolean
+  @Prop({ type: String, default: '' }) public headerText!: string
   @Prop(Boolean) public isCollection!: boolean
   @Prop({ type: Boolean, default: false }) public displayCollection!: boolean
   public currentBlock = 0
