@@ -4,13 +4,11 @@
       v-for="action in actions"
       :key="action"
       class="w-100"
-      :active="action === ShoppingActions.MAKE_OFFER && !isMakeOffersAllowed"
+      :active="disableMakeOffer(action)"
       :label="tooltipOfferLabel">
       <b-button
         :type="iconType(action)"
-        :disabled="
-          action === ShoppingActions.MAKE_OFFER && !isMakeOffersAllowed
-        "
+        :disabled="disableMakeOffer(action)"
         outlined
         expanded
         class="only-border-top"
@@ -36,11 +34,13 @@ export default class ActionList extends Vue {
   @Prop(Boolean) public isMakeOffersAllowed!: boolean
   @Prop(String) public tooltipOfferLabel!: string
 
-  private ShoppingActions = ShoppingActions
-
   @Emit('click')
   protected handleActionSelect(action: ShoppingActions) {
     return action
+  }
+
+  public disableMakeOffer(action: ShoppingActions): boolean {
+    return action === ShoppingActions.MAKE_OFFER && !this.isMakeOffersAllowed
   }
 
   protected iconType(value: ShoppingActions): string {
