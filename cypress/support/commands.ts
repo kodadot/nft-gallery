@@ -13,7 +13,7 @@ Cypress.Commands.add('exploreTabs', () => {
   cy.get('.tabs > ul > li:nth-child(2)').should('have.class', 'is-active')
   cy.get('.tabs > ul > li:nth-child(1)').should('not.have.class', 'is-active')
 })
-Cypress.Commands.add('exploreSortBy', () => {
+Cypress.Commands.add('gallerySortBy', () => {
   cy.get(
     '.gallery > .mb-3 > .collapse > #sortAndFilter > .columns > .mb-0 > .dropdown > .dropdown-trigger > .button'
   ).click()
@@ -24,12 +24,18 @@ Cypress.Commands.add('exploreSortBy', () => {
   cy.get(':nth-child(6)').contains('Price: High to Low')
   cy.get(':nth-child(7)').contains('Price: Low to High')
 })
+// collectionsSortBy
+Cypress.Commands.add('collectionsSortBy', () => {
+  cy.get('select').select('blockNumber_DESC')
+  cy.get('select').select('blockNumber_ASC')
+})
 
 declare global {
   namespace Cypress {
     interface Chainable {
       exploreTabs(): Chainable<Element>
-      exploreSortBy(): Chainable<Element>
+      gallerySortBy(): Chainable<Element>
+      collectionsSortBy(): Chainable<Element>
     }
   }
 }
