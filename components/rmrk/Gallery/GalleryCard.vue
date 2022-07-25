@@ -14,13 +14,13 @@
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
         <BasicImage
-          v-show="!animatedUrl"
+          v-if="!animatedUrl"
           :src="image"
           :alt="title"
           customClass="gallery__image-wrapper" />
 
         <PreviewMediaResolver
-          v-if="!image && animatedUrl"
+          v-else
           :src="animatedUrl"
           :metadata="metadata"
           :mimeType="type" />
