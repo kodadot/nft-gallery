@@ -162,6 +162,7 @@ export default class CreateToken extends mixins(
               ?.reverse()[0] || '0-0'
           ).id
         ) || 0,
+      totalCount: ce.nfts?.nodes.filter((nft) => !nft.burned)?.length,
     }))
 
     this.loadCollectionMeta()

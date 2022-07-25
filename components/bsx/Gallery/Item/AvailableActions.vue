@@ -27,6 +27,7 @@
 </template>
 
 <script lang="ts">
+import BalanceInput from '@/components/shared/BalanceInput.vue'
 import { NFTAction } from '@/components/unique/NftUtils'
 import { createTokenId } from '@/components/unique/utils'
 import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
@@ -34,6 +35,7 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
 import {
@@ -43,11 +45,9 @@ import {
   ShoppingActions,
 } from '@/utils/shoppingActions'
 import shouldUpdate from '@/utils/shouldUpdate'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import formatBalance from '@/utils/formatBalance'
 import { onApiConnect } from '@kodadot1/sub-api'
-import BalanceInput from '@/components/shared/BalanceInput.vue'
-import UseApiMixin from '@/utils/mixins/useApiMixin'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 
 const components = {
   ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
@@ -84,7 +84,7 @@ export default class AvailableActions extends mixins(
   public dayList = [1, 3, 7, 14, 30]
 
   get balance(): number {
-    return this.formatBalance(this.$store.getters.getAuthBalance)
+    return formatBsxBalanceToNumber(this.$store.getters.getAuthBalance)
   }
 
   get actions() {
@@ -115,12 +115,9 @@ export default class AvailableActions extends mixins(
     return actionComponent[this.selectedAction]
   }
 
-  formatBalance(balance: string) {
-    return parseFloat(formatBalance(balance, 12, false).replace(/,/g, ''))
-  }
   public async created(): Promise<void> {
     onApiConnect(this.apiUrl, (api) => {
-      this.minimumOfferAmount = this.formatBalance(
+      this.minimumOfferAmount = formatBsxBalanceToNumber(
         api?.consts?.marketplace?.minimumOfferAmount?.toString()
       )
       this.isMakeOffersDisabled =

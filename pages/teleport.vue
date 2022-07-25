@@ -20,10 +20,7 @@
         <Auth />
       </b-field>
 
-      <p class="subtitle is-size-6">
-        <span>{{ $t('general.balance') }}: </span>
-        <Money :value="balance" inline />
-      </p>
+      <AccountBalance />
 
       <p class="subtitle is-size-6">
         {{ routeMessage }}
@@ -132,6 +129,7 @@ import UseApiMixin from '~/utils/mixins/useApiMixin'
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
     BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+    AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     ReadOnlyBalanceInput: () =>
       import('@/components/shared/ReadOnlyBalanceInput.vue'),
     Identity: () => import('@/components/shared/format/Identity.vue'),

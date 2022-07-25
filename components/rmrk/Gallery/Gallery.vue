@@ -351,36 +351,48 @@ export default class Gallery extends mixins(
 
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
-
     if (this.searchQuery.search) {
-      params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` },
-      })
-    }
-
-    if (this.searchQuery.priceMin == undefined && this.searchQuery.listed) {
       if (this.isRmrk) {
         params.push({
-          price: { greaterThan: '0' },
+          name: { likeInsensitive: this.searchQuery.search },
         })
       } else {
-        params.push({ price_gt: '0' })
+        params.push({ name_containsInsensitive: this.searchQuery.search })
       }
     }
 
-    if (this.searchQuery.priceMin != undefined && this.searchQuery.listed) {
+    if (this.searchQuery.listed) {
+      const minPrice = this.searchQuery.priceMin ?? '0'
       if (this.isRmrk) {
-        params.push({
-          price: {
-            greaterThan: this.searchQuery.priceMin,
-            lessThanOrEqualTo: this.searchQuery.priceMax,
-          },
-        })
+        if (this.searchQuery.priceMax) {
+          params.push({
+            price: {
+              greaterThan: '0',
+              greaterThanOrEqualTo: minPrice,
+              lessThanOrEqualTo: this.searchQuery.priceMax,
+            },
+          })
+        } else {
+          params.push({
+            price: {
+              greaterThan: '0',
+              greaterThanOrEqualTo: minPrice,
+            },
+          })
+        }
       } else {
-        params.push({
-          price_gt: this.searchQuery.priceMin,
-          price_lte: this.searchQuery.priceMax,
-        })
+        if (this.searchQuery.priceMax) {
+          params.push({
+            price_gt: '0',
+            price_gte: minPrice,
+            price_lte: this.searchQuery.priceMax,
+          })
+        } else {
+          params.push({
+            price_gt: '0',
+            price_gte: minPrice,
+          })
+        }
       }
     }
 

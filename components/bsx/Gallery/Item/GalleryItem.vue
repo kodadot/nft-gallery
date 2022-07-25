@@ -25,7 +25,7 @@
     <template v-slot:main>
       <div class="columns">
         <div class="column is-6">
-          <div class="nft-title">
+          <div class="mb-5">
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
 
@@ -100,10 +100,7 @@
                         <Auth class="mt-4" />
                       </p>
                     </div>
-                    <p class="subtitle is-size-6" v-if="accountId">
-                      <span>{{ $t('general.balance') }}: </span>
-                      <Money :value="balance" inline />
-                    </p>
+                    <AccountBalance />
                     <Sharing :enableDownload="isOwner" class="mb-4" />
                   </div>
                 </div>
@@ -123,18 +120,25 @@
         :nftId="id"
         @offersUpdate="offersUpdate"
         :collectionId="collectionId" />
+      <History :events="events" :openOnDefault="false" />
     </template>
   </BaseGalleryItem>
 </template>
 
 <script lang="ts">
-import { Emote, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+import {
+  Emote,
+  Interaction,
+  NFT,
+  NFTMetadata,
+} from '@/components/rmrk/service/scheme'
 import {
   fetchNFTMetadata,
   getSanitizer,
   sanitizeIpfsUrl,
 } from '@/components/rmrk/utils'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
+import itemEvents from '@/queries/subsquid/bsx/itemEvents.graphql'
 import { isOwner } from '@/utils/account'
 import { toHuman, unwrapOrDefault, unwrapOrNull } from '@/utils/api/format'
 import Orientation from '@/utils/directives/DeviceOrientation'
@@ -156,7 +160,7 @@ import { onApiConnect } from '@kodadot1/sub-api'
 import { Option, u128 } from '@polkadot/types'
 import { InstanceDetails } from '@polkadot/types/interfaces'
 import { get, set } from 'idb-keyval'
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
 
 @Component<GalleryItem>({
@@ -189,7 +193,9 @@ import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
+    AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
+    History: () => import('@/components/rmrk/Gallery/History.vue'),
   },
   directives: {
     orientation: Orientation,
@@ -209,12 +215,14 @@ export default class GalleryItem extends mixins(
   public mimeType = ''
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
   public emotes: Emote[] = []
+  public events: Interaction[] = []
   public message = ''
   public isMakeOffersAllowed = true
 
   public async created() {
     this.checkId()
     await this.fetchNftData()
+    await this.fetchEvents()
     onApiConnect(this.apiUrl, (api) => {
       if (hasAllPallets(api)) {
         this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
@@ -263,6 +271,19 @@ export default class GalleryItem extends mixins(
 
   protected observePrice(data: Option<u128>) {
     this.$set(this.nft, 'price', unwrapOrDefault(data).toString())
+  }
+
+  private async fetchEvents() {
+    const result = await this.$apollo.query({
+      query: itemEvents,
+      client: this.urlPrefix,
+      variables: {
+        id: createTokenId(this.collectionId, this.id),
+      },
+    })
+    if (result.data && result.data.events) {
+      this.events = [...result.data.events]
+    }
   }
 
   private async fetchNftData() {
