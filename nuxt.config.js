@@ -299,6 +299,7 @@ export default defineNuxtConfig({
       config.module.rules.push({
         test: /node_modules\/@substrate\/smoldot-light\/dist\/mjs\/.+\.js$/,
         loader: require.resolve('babel-loader'),
+        query: { compact: true },
       })
 
       config.module.rules.push({
