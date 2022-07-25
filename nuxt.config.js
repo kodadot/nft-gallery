@@ -297,6 +297,11 @@ export default defineNuxtConfig({
       })
 
       config.module.rules.push({
+        test: /node_modules\/@substrate\/smoldot-light\/dist\/mjs\/.+\.js$/,
+        loader: require.resolve('babel-loader'),
+      })
+
+      config.module.rules.push({
         test: /\.js$/,
         loader: require.resolve('@open-wc/webpack-import-meta-loader'),
       })
