@@ -1,5 +1,5 @@
 <template>
-  <b-table :data="displayOffers">
+  <b-table :data="displayOffers(offers)">
     <b-table-column
       cell-class="is-vcentered is-narrow"
       field="nft.name"
@@ -62,13 +62,13 @@ import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 import { Offer } from './types'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import OfferMixin from '~/utils/mixins/offerMixin'
 import Connector from '@kodadot1/sub-api'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '~/utils/notification'
 import { tokenIdToRoute } from '~/components/unique/utils'
-import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -79,21 +79,14 @@ const components = {
 export default class OffersUserTable extends mixins(
   PrefixMixin,
   AuthMixin,
+  OfferMixin,
   MetaTransactionMixin,
   SubscribeMixin
 ) {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public offers!: Offer[]
-
   public timestampOffer(date) {
     return formatDistanceToNow(new Date(date), { addSuffix: true })
-  }
-
-  get displayOffers() {
-    return this.offers.map((offer) => ({
-      ...offer,
-      formatPrice: formatBsxBalanceToNumber(offer.price),
-    }))
   }
 
   async withdrawOffer(offer) {
