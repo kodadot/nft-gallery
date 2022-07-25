@@ -2,11 +2,6 @@ describe('landingRmrk', () => {
   //test
   it('loadLanding', () => {
     cy.clearCookies()
-    // inspect the caught error
-    cy.on('uncaught:exception', (e, runnable) => {
-      console.log('error', e)
-      return false
-    })
     cy.visit('/e2e-login')
     cy.visit('/rmrk')
   })
@@ -17,11 +12,6 @@ describe('landingRmrk', () => {
 describe('landingBsx', () => {
   it('loadLanding', () => {
     cy.clearCookies()
-    // inspect the caught error
-    cy.on('uncaught:exception', (e, runnable) => {
-      console.log('error', e)
-      return false
-    })
     cy.visit('/bsx')
   })
   it('checkNavbar', () => {
@@ -31,11 +21,6 @@ describe('landingBsx', () => {
 describe('exploreRmrkCollections', () => {
   it('loadExplore', () => {
     cy.clearCookies()
-    // inspect the caught error
-    cy.on('uncaught:exception', (e, runnable) => {
-      console.log('error', e)
-      return false
-    })
     cy.visit('/rmrk/explore?tab=COLLECTION&page=1')
   })
   it('checkTabs', () => {
@@ -57,11 +42,6 @@ describe('exploreRmrkCollections', () => {
 describe('exploreRmrkGallery', () => {
   it('loadExplore', () => {
     cy.clearCookies()
-    // inspect the caught error
-    cy.on('uncaught:exception', (e, runnable) => {
-      console.log('error', e)
-      return false
-    })
     cy.visit('/rmrk/explore?tab=GALLERY&page=1')
   })
   it('exploreTabs', () => {
@@ -87,11 +67,6 @@ describe('exploreRmrkGallery', () => {
 describe('exploreBsxCollections', () => {
   it('loadExplore', () => {
     cy.clearCookies()
-    // inspect the caught error
-    cy.on('uncaught:exception', (e, runnable) => {
-      console.log('error', e)
-      return false
-    })
     cy.visit('/bsx/explore')
   })
   it('checkGalleryTabs', () => {
@@ -113,10 +88,6 @@ describe('exploreBsxCollections', () => {
 describe('exploreBsxGallery', () => {
   it('loadExplore', () => {
     cy.clearCookies()
-    cy.on('uncaught:exception', (e, runnable) => {
-      console.log('error', e)
-      return false
-    })
     cy.visit('/bsx/explore')
   })
   it('checkTabs', () => {

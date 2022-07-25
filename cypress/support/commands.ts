@@ -1,5 +1,12 @@
 /// <reference types="cypress" />
 // ***********************************************
+
+// handle exceptions in console
+Cypress.on('uncaught:exception', (err, runnable) => {
+  console.log('error', err)
+  return false
+})
+
 export {}
 Cypress.Commands.add('exploreTabs', () => {
   cy.get('.tabs > ul').should('be.visible')
