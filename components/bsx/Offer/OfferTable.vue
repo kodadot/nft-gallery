@@ -132,7 +132,6 @@ import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { Offer } from './types'
 import { formatDistanceToNow } from 'date-fns'
 import OfferMixin from '~/utils/mixins/offerMixin'
-import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -153,13 +152,6 @@ export default class OfferTable extends mixins(OfferMixin) {
   public itemsPerPage = 20
   private currentPage = parseInt(this.$route.query?.page as string) || 1
 
-  get displayOffers() {
-    return this.offers.map((offer) => ({
-      ...offer,
-      formatPrice: formatBsxBalanceToNumber(offer.price),
-    }))
-  }
-
   @Emit('select')
   tellFrens(caller: string) {
     return caller
@@ -174,7 +166,10 @@ export default class OfferTable extends mixins(OfferMixin) {
 
   get showList(): any[] {
     const endIndex = this.currentPage * this.itemsPerPage
-    return this.displayOffers.slice(endIndex - this.itemsPerPage, endIndex)
+    return this.displayOffers(this.offers).slice(
+      endIndex - this.itemsPerPage,
+      endIndex
+    )
   }
 }
 </script>
