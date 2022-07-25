@@ -6,5 +6,6 @@ export default defineConfig({
     baseUrl: 'http://localhost:9090',
     fixturesFolder: false,
     video: false,
+    screenshotOnRunFailure: false,
   },
 })
