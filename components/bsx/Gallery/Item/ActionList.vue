@@ -5,6 +5,7 @@
       :key="action"
       class="w-100"
       :active="disableButton(action)"
+      position="is-left"
       :label="disabledToolTips[action]">
       <b-button
         :type="iconType(action)"
