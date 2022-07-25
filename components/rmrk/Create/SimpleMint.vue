@@ -634,18 +634,6 @@ export default class SimpleMint extends mixins(
     this.isLoading = false
   }
 
-  get chainProperties() {
-    return this.$store.getters['chain/getChainProperties']
-  }
-
-  get decimals(): number {
-    return this.chainProperties.tokenDecimals
-  }
-
-  get unit(): string {
-    return this.chainProperties.tokenSymbol
-  }
-
   public async listForSale(remarks: NFT[], originalBlockNumber: string) {
     try {
       const { price, version } = this
