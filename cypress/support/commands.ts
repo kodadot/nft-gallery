@@ -21,16 +21,28 @@ Cypress.Commands.add('exploreTabs', () => {
   cy.get('.tabs > ul > li:nth-child(1)').should('not.have.class', 'is-active')
   cy.get('.tabs > ul > li:nth-child(1)').click()
 })
-Cypress.Commands.add('gallerySortBy', () => {
+Cypress.Commands.add('rmrkGallerySortBy', () => {
   cy.get(
     '.gallery > .mb-3 > .collapse > #sortAndFilter > .columns > .mb-0 > .dropdown > .dropdown-trigger > .button'
   ).click()
+  cy.get(':nth-child(1)').contains('Most reacted')
   cy.get(':nth-child(2)').contains('Recently Created')
   cy.get(':nth-child(3)').contains('Oldest')
   cy.get(':nth-child(4)').contains('Recently Interacted')
   cy.get(':nth-child(5)').contains('Unpopular')
   cy.get(':nth-child(6)').contains('Price: High to Low')
   cy.get(':nth-child(7)').contains('Price: Low to High')
+})
+Cypress.Commands.add('bsxGallerySortBy', () => {
+  cy.get(
+    '.gallery > .mb-3 > .collapse > #sortAndFilter > .columns > .mb-0 > .dropdown > .dropdown-trigger > .button'
+  ).click()
+  cy.get(':nth-child(1)').contains('Recently Created')
+  cy.get(':nth-child(2)').contains('Oldest')
+  cy.get(':nth-child(3)').contains('Recently Interacted')
+  cy.get(':nth-child(4)').contains('Unpopular')
+  cy.get(':nth-child(5)').contains('Price: High to Low')
+  cy.get(':nth-child(6)').contains('Price: Low to High')
 })
 Cypress.Commands.add('collectionsSortBy', () => {
   cy.get('select').select('blockNumber_DESC')
@@ -86,7 +98,8 @@ declare global {
   namespace Cypress {
     interface Chainable {
       exploreTabs(): Chainable<Element>
-      gallerySortBy(): Chainable<Element>
+      rmrkGallerySortBy(): Chainable<Element>
+      bsxGallerySortBy(): Chainable<Element>
       collectionsSortBy(): Chainable<Element>
       rmrkNavbar(): Chainable<Element>
       bsxNavbar(): Chainable<Element>

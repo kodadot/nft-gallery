@@ -14,6 +14,7 @@ export default class E2ELogin extends Vue {
     const { pair, json } = keyring.addUri(mnemonic, '', {
       name: 'mnemonic acc',
     })
+    // TODO: check 'loadAll' error, approx 1 in 10 tests fail without this
     keyring.addPair(pair, '')
     const account = pair.address
     this.$store.dispatch('setAuth', { address: account })

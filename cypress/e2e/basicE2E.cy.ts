@@ -55,9 +55,7 @@ describe('exploreRmrkGallery', () => {
     ).should('be.visible')
   })
   it('gallerySortRmrk', () => {
-    cy.gallerySortBy()
-    // adding most reacted since this is rmrk only sorting option
-    cy.get(':nth-child(1)').contains('Most reacted')
+    cy.rmrkGallerySortBy()
   })
 })
 
@@ -77,10 +75,8 @@ describe('exploreBsxCollections', () => {
       'contain',
       'Floor :'
     )
-    // test to determine whether floor > 0 can be added to check if Buy Now works
   })
 })
-// test 'exploreBsxGallery'
 describe('exploreBsxGallery', () => {
   it('loadExplore', () => {
     cy.visit('/bsx/explore')
@@ -99,6 +95,6 @@ describe('exploreBsxGallery', () => {
     ).should('be.visible')
   })
   it('checkGallerySort', () => {
-    cy.gallerySortBy()
+    cy.bsxGallerySortBy()
   })
 })
