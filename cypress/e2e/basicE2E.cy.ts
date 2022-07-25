@@ -11,7 +11,6 @@ describe('landingRmrk', () => {
 })
 describe('landingBsx', () => {
   it('loadLanding', () => {
-    cy.clearCookies()
     cy.visit('/bsx')
   })
   it('checkNavbar', () => {
@@ -20,7 +19,6 @@ describe('landingBsx', () => {
 })
 describe('exploreRmrkCollections', () => {
   it('loadExplore', () => {
-    cy.clearCookies()
     cy.visit('/rmrk/explore?tab=COLLECTION&page=1')
   })
   it('checkTabs', () => {
@@ -41,7 +39,6 @@ describe('exploreRmrkCollections', () => {
 // rmrk gallery
 describe('exploreRmrkGallery', () => {
   it('loadExplore', () => {
-    cy.clearCookies()
     cy.visit('/rmrk/explore?tab=GALLERY&page=1')
   })
   it('exploreTabs', () => {
@@ -66,7 +63,6 @@ describe('exploreRmrkGallery', () => {
 
 describe('exploreBsxCollections', () => {
   it('loadExplore', () => {
-    cy.clearCookies()
     cy.visit('/bsx/explore')
   })
   it('checkGalleryTabs', () => {
@@ -87,7 +83,6 @@ describe('exploreBsxCollections', () => {
 // test 'exploreBsxGallery'
 describe('exploreBsxGallery', () => {
   it('loadExplore', () => {
-    cy.clearCookies()
     cy.visit('/bsx/explore')
   })
   it('checkTabs', () => {
