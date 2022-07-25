@@ -66,10 +66,11 @@
           @click="onClick(props.row)" />
       </b-table-column>
       <b-table-column
-        field="Date"
+        field="createdAt"
         cell-class="is-vcentered is-narrow"
         :label="$t('myOffer.date')"
         v-slot="props"
+        sortable
         ><p>
           {{
             new Date(props.row.createdAt) |
