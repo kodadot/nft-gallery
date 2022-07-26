@@ -81,7 +81,6 @@ export default class AvailableActions extends mixins(
   public isBalanceInputValid = false
   public selectedDay = 14
   public dayList = [1, 3, 7, 14, 30]
-  public toolTips: ShoppingActionToolTips = {}
 
   get balance(): number {
     return formatBsxBalanceToNumber(this.$store.getters.getAuthBalance)
@@ -123,25 +122,26 @@ export default class AvailableActions extends mixins(
       )
       this.isMakeOffersDisabled =
         !this.isMakeOffersAllowed || this.minimumOfferAmount > this.balance
-      this.setToolTips()
     })
   }
 
-  public setToolTips() {
+  get toolTips(): ShoppingActionToolTips {
+    const toolTips = {}
     if (!this.isMakeOffersAllowed) {
-      this.toolTips[ShoppingActions.MAKE_OFFER] = this.$t(
+      toolTips[ShoppingActions.MAKE_OFFER] = this.$t(
         'tooltip.makeOfferDisabled'
       ).toString()
     } else if (this.minimumOfferAmount > this.balance) {
-      this.toolTips[ShoppingActions.MAKE_OFFER] = this.$t(
+      toolTips[ShoppingActions.MAKE_OFFER] = this.$t(
         'tooltip.notEnoughBalance'
       ).toString()
     }
     if (!this.isBuyAllowed) {
-      this.toolTips[ShoppingActions.BUY] = this.$t(
+      toolTips[ShoppingActions.BUY] = this.$t(
         'tooltip.notEnoughBalance'
       ).toString()
     }
+    return toolTips
   }
 
   protected iconType(value: string) {
