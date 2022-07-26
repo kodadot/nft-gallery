@@ -30,6 +30,7 @@ specifiers:
   '@polkadot/ui-keyring': 0.89.4-1
   '@polkadot/vue-identicon': ^0.89.2
   '@ramp-network/ramp-instant-sdk': ^3.1.1
+  '@sgratzl/chartjs-chart-boxplot': ^3.8.0
   '@types/jest': ^27.5.2
   '@types/markdown-it': ^12.2.3
   '@typescript-eslint/eslint-plugin': ^5.30.7
@@ -105,6 +106,7 @@ dependencies:
   '@polkadot/ui-keyring': 0.89.4-1
   '@polkadot/vue-identicon': 0.89.3_vue@2.6.14
   '@ramp-network/ramp-instant-sdk': 3.1.1
+  '@sgratzl/chartjs-chart-boxplot': 3.8.0_chart.js@3.8.0
   apollo-boost: 0.4.9_graphql@16.5.0
   axios: 0.27.2
   buefy: 0.9.21_vue@2.6.14
@@ -4222,6 +4224,19 @@ packages:
 
   /@scure/base/1.0.0:
     resolution: {integrity: sha512-gIVaYhUsy+9s58m/ETjSJVKHhKTBMmcRb9cEV5/5dwvfDlfORjKrFsDeDHWRrm6RjcPvCLZFwGJjAjLj1gg4HA==}
+    dev: false
+
+  /@sgratzl/boxplots/1.3.0:
+    resolution: {integrity: sha512-2BRWv+WOH58pwzSgP50buoXgxQic+4auz3BF0wiIUXS8D3QGkdBNgsNdQO1754Tm/0uEwly0R3WaCiGnoYWcmA==}
+    dev: false
+
+  /@sgratzl/chartjs-chart-boxplot/3.8.0_chart.js@3.8.0:
+    resolution: {integrity: sha512-tH+WaakyzqNRYkKrjAGzRUSy57sDHe/aZISEQnCIYf7EUtm6BK5fNIxK3S01EKYhQJ3gogVdbCe6xbbqWXTiWw==}
+    peerDependencies:
+      chart.js: ^3.8.0
+    dependencies:
+      '@sgratzl/boxplots': 1.3.0
+      chart.js: 3.8.0
     dev: false
 
   /@sindresorhus/is/0.14.0:
