@@ -1,7 +1,9 @@
 /// <reference types="cypress" />
+import consola from 'consola'
 export {}
 
-Cypress.on('uncaught:exception', (err, runnable) => {
+Cypress.on('uncaught:exception', (err) => {
+  consola.error(err)
   return false
 })
 Cypress.Commands.add('exploreTabs', () => {
