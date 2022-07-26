@@ -193,7 +193,7 @@ export default class CreateCollection extends mixins(
         ? mintInteraction
         : [
             asSystemRemark(api, mintInteraction),
-            ...(await canSupport(this.hasSupport)),
+            ...(await canSupport(api, this.hasSupport)),
           ]
 
       await this.howAboutToExecute(
