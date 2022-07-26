@@ -194,11 +194,12 @@ export default class CreateToken extends mixins(
 
     this.isLoading = true
     this.status = 'loader.ipfs'
-    const api = await this.useApi()
     const { name, edition, selectedCollection } = this.base
     const { alreadyMinted, id: collectionId } = selectedCollection
 
     try {
+      const api = await this.useApi()
+      console.log(api)
       const metadata = await this.constructMeta()
 
       const mint = createMultipleNFT(
@@ -225,7 +226,7 @@ export default class CreateToken extends mixins(
         ? mintInteraction[0]
         : [
             ...mintInteraction.map((nft) => asSystemRemark(api, nft)),
-            ...(await canSupport(enabledFees, feeMultiplier)),
+            ...(await canSupport(api, enabledFees, feeMultiplier)),
           ]
 
       await this.howAboutToExecute(
