@@ -98,6 +98,31 @@ Cypress.Commands.add('expandGallerySearch', () => {
   cy.get('.tabs > ul > li:nth-child(2)').click()
   cy.get('.mb-0 > .field-body > .field > .button > .icon').click()
 })
+Cypress.Commands.add('expandCollectionSearch', () => {})
+Cypress.Commands.add('collectionsBuyNow', () => {
+  cy.get('.mb-5 > .switch > .check').click()
+  cy.buyNowValueOfNth1()
+})
+Cypress.Commands.add('galleryBuyNow', () => {
+  cy.get(
+    '.gallery > .mb-3 > .collapse > #sortAndFilter > .columns > .is-flex > .switch > .check'
+  )
+    .should('be.visible')
+    .click()
+  cy.buyNowValueOfNth1()
+})
+Cypress.Commands.add('buyNowValueOfNth1', () => {
+  cy.wait(2000)
+  cy.get('#infinite-scroll-container > :nth-child(1)')
+    .invoke('text')
+    .then((text) => {
+      let newText = text.split(`Floor : `)[1].replace(/\s/g, '')
+      console.log('parseFloat', parseFloat(newText))
+      if (!(parseFloat(newText) > 0)) {
+        throw '[ERROR] Collection BUY NOW is not working'
+      }
+    })
+})
 
 declare global {
   namespace Cypress {
@@ -109,6 +134,10 @@ declare global {
       rmrkNavbar(): Chainable<Element>
       bsxNavbar(): Chainable<Element>
       expandGallerySearch(): Chainable<Element>
+      expandCollectionSearch(): Chainable<Element>
+      collectionsBuyNow(): Chainable<Element>
+      galleryBuyNow(): Chainable<Element>
+      buyNowValueOfNth1(): Chainable<Element>
     }
   }
 }

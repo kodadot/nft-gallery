@@ -1,5 +1,4 @@
 describe('landingRmrk', () => {
-  //test
   it('loadLanding', () => {
     cy.clearCookies()
     cy.visit('/e2e-login')
@@ -29,11 +28,7 @@ describe('exploreRmrkCollections', () => {
     cy.collectionsSortBy()
   })
   it('checkCollectionsBuyNow', () => {
-    cy.get('.mb-5 > .switch > .check').click()
-    cy.get('#infinite-scroll-container > :nth-child(1)').should(
-      'contain',
-      'Floor :'
-    )
+    cy.collectionsBuyNow()
   })
 })
 // rmrk gallery
@@ -48,9 +43,7 @@ describe('exploreRmrkGallery', () => {
     cy.expandGallerySearch()
   })
   it('checkBuyNow', () => {
-    cy.get(
-      '.gallery > .mb-3 > .collapse > #sortAndFilter > .columns > .is-flex > .switch > .check'
-    ).should('be.visible')
+    cy.galleryBuyNow()
   })
   it('gallerySortRmrk', () => {
     cy.rmrkGallerySortBy()
@@ -68,11 +61,7 @@ describe('exploreBsxCollections', () => {
     cy.collectionsSortBy()
   })
   it('checkCollectionsBuyNow', () => {
-    cy.get('.mb-5 > .switch > .check').click()
-    cy.get('#infinite-scroll-container > :nth-child(1)').should(
-      'contain',
-      'Floor :'
-    )
+    cy.collectionsBuyNow()
   })
 })
 describe('exploreBsxGallery', () => {
@@ -86,9 +75,7 @@ describe('exploreBsxGallery', () => {
     cy.expandGallerySearch()
   })
   it('checkBuyNow', () => {
-    cy.get(
-      '.gallery > .mb-3 > .collapse > #sortAndFilter > .columns > .is-flex > .switch > .check'
-    ).should('be.visible')
+    cy.galleryBuyNow()
   })
   it('checkGallerySort', () => {
     cy.bsxGallerySortBy()
