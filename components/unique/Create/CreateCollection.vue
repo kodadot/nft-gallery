@@ -221,7 +221,7 @@ export default class CreateCollection extends mixins(
 
       const args = [
         await this.cretateArgs(randomId, metadata),
-        ...(await canSupport(this.hasSupport)),
+        ...(await canSupport(api, this.hasSupport)),
       ]
 
       if (this.base.file) {
