@@ -191,7 +191,8 @@
             :account="id"
             showSearchBar />
         </b-tab-item>
-        <!-- <b-tab-item
+        <b-tab-item
+          v-if="isMoonsama"
           value="holdings"
           :headerClass="{ 'is-hidden': !totalHoldings }">
           <template #header>
@@ -203,8 +204,11 @@
             </b-tooltip>
           </template>
           <Holding :account-id="id" />
-        </b-tab-item> -->
-        <!-- <b-tab-item value="gains" :headerClass="{ 'is-hidden': !totalGains }">
+        </b-tab-item>
+        <b-tab-item
+          value="gains"
+          v-if="isMoonsama"
+          :headerClass="{ 'is-hidden': !totalGains }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.gains')} ${labelDisplayName}`"
@@ -214,7 +218,13 @@
             </b-tooltip>
           </template>
           <UserGainHistory :account-id="id" />
-        </b-tab-item> -->
+        </b-tab-item>
+        <b-tab-item
+          v-if="isBsx"
+          :label="`Offers Made - ${userOfferList.length}`"
+          value="offers">
+          <OffersUserTable :offers="userOfferList" hideCollapse />
+        </b-tab-item>
       </b-tabs>
     </section>
   </section>
@@ -228,6 +238,7 @@ import {
   CollectionWithMeta,
   Pack,
   Interaction,
+  NftEvents,
 } from '@/components/rmrk/service/scheme'
 
 import isShareMode from '@/utils/isShareMode'
@@ -239,6 +250,7 @@ import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAcc
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import allEventsByProfile from '@/queries/rmrk/subsquid/allEventsByProfile.graphql'
+import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
 import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator.graphql'
 import { sortedEventByDate } from '~/utils/sorting'
 import ChainMixin from '~/utils/mixins/chainMixin'
@@ -252,7 +264,11 @@ import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'
 import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
 import resolveQueryPath from '~/utils/queryPathResolver'
+import allNftSaleEventsByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
+import allNftSaleEventsHistoryByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
 import { hasExplorer, getExplorer } from './utils'
+import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
+import { Offer, OfferResponse } from '~/components/bsx/Offer/types'
 
 const components = {
   GalleryCardList: () =>
@@ -273,6 +289,7 @@ const components = {
   UserGainHistory: () =>
     import('@/components/rmrk/Gallery/UserGainHistory.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
+  OffersUserTable: () => import('@/components/bsx/Offer/OffersUserTable.vue'),
   Sales: () => import('@/components/rmrk/Profile/Sales.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
@@ -291,6 +308,13 @@ const components = {
     }
     return {
       title,
+      link: [
+        {
+          hid: 'canonical',
+          rel: 'canonical',
+          href: this.$root.$config.baseUrl + this.$route.path,
+        },
+      ],
       meta: [...this.$seoMeta(metaData)],
     }
   },
@@ -310,6 +334,7 @@ export default class Profile extends mixins(
   protected isLoading = false
   protected collections: CollectionWithMeta[] = []
   public eventsOfNftCollection: Interaction[] | [] = []
+  public userOfferList: Offer[] = []
   public eventsOfSales: Interaction[] | [] = []
   public priceChartData: [Date, number][][] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []
@@ -439,24 +464,6 @@ export default class Profile extends mixins(
       })
 
     /*
-    set totalHoldings
-     */
-    // this.$apollo
-    //   .query<NftEvents>({
-    //     query: allNftSaleEventsByAccountId,
-    //     client: this.client,
-    //     variables: {
-    //       id: this.accountId,
-    //     },
-    //   })
-    //   .then((result) => {
-    //     const { data } = result
-    //     if (data && data.nftEntities && data.nftEntities.length) {
-    //       this.totalHoldings = data.nftEntities.length
-    //     }
-    //   })
-
-    /*
     set history
      */
     this.$apollo
@@ -497,23 +504,43 @@ export default class Profile extends mixins(
         }
       })
 
-    /*
+    if (this.isMoonsama) {
+      /*
+    set totalHoldings
+     */
+      this.$apollo
+        .query<NftEvents>({
+          query: allNftSaleEventsByAccountId,
+          client: this.client,
+          variables: {
+            id: this.accountId,
+          },
+        })
+        .then((result) => {
+          const { data } = result
+          if (data && data.nftEntities && data.nftEntities.length) {
+            this.totalHoldings = data.nftEntities.length
+          }
+        })
+
+      /*
     set totalGains
      */
-    // this.$apollo
-    //   .query<{ events: NftHolderEvent[] }>({
-    //     query: allNftSaleEventsHistoryByAccountId,
-    //     client: this.client,
-    //     variables: {
-    //       id: this.accountId,
-    //     },
-    //   })
-    //   .then((result) => {
-    //     const { data } = result
-    //     if (data && data.events && data.events.length) {
-    //       this.totalGains = data.events.length
-    //     }
-    //   })
+      this.$apollo
+        .query<{ events: NftHolderEvent[] }>({
+          query: allNftSaleEventsHistoryByAccountId,
+          client: this.client,
+          variables: {
+            id: this.accountId,
+          },
+        })
+        .then((result) => {
+          const { data } = result
+          if (data && data.events && data.events.length) {
+            this.totalGains = data.events.length
+          }
+        })
+    }
   }
 
   public async mounted() {
@@ -526,6 +553,14 @@ export default class Profile extends mixins(
       this.id = this.$route.params.id
       this.shortendId = shortAddress(this.id)
     }
+  }
+
+  get isMoonsama(): boolean {
+    return this.urlPrefix === 'moonsama'
+  }
+
+  get isBsx(): boolean {
+    return this.urlPrefix === 'bsx'
   }
 
   get activeTab(): string {
@@ -698,12 +733,7 @@ export default class Profile extends mixins(
         .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
     }
 
-    if (this.activeTab === 'history') {
-      this.fetchCollectionEvents()
-    }
-    if (this.activeTab === 'sales') {
-      this.fetchSalesEventByCreator()
-    }
+    this.fetchCurrentTabData()
   }
 
   protected handleIdentity(identityFields: Record<string, string>) {
@@ -773,6 +803,24 @@ export default class Profile extends mixins(
     }
   }
 
+  // Get offers for user
+  protected async fetchOfferEvents() {
+    try {
+      const { data } = await this.$apollo.query<OfferResponse>({
+        query: offerListUser,
+        client: this.client,
+        variables: {
+          id: this.id,
+        },
+      })
+      if (data?.offers?.length) {
+        this.userOfferList = data.offers
+      }
+    } catch (e) {
+      showNotification(`${e}`, notificationTypes.warn)
+    }
+  }
+
   @Watch('accountId')
   public async fetchMyNftByIssuer() {
     if (this.id && shouldUpdate(this.accountId, this.id)) {
@@ -798,22 +846,24 @@ export default class Profile extends mixins(
       this.resetPage()
       this.fetchProfile()
 
-      if (this.activeTab === 'history') {
-        this.fetchCollectionEvents()
-      }
-      if (this.activeTab === 'sales') {
-        this.fetchSalesEventByCreator()
-      }
+      this.fetchCurrentTabData()
     }
   }
 
   @Watch('activeTab')
   protected onTabChange(): void {
+    this.fetchCurrentTabData()
+  }
+
+  protected fetchCurrentTabData() {
     if (this.activeTab === 'history') {
       this.fetchCollectionEvents()
     }
     if (this.activeTab === 'sales') {
       this.fetchSalesEventByCreator()
+    }
+    if (this.activeTab === 'offers') {
+      this.fetchOfferEvents()
     }
   }
 }

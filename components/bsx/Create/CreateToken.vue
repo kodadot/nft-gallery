@@ -13,17 +13,19 @@
           label="Price"
           expanded
           key="price"
-          value="0.1"
+          :step="1"
+          :max="maxPrice"
+          :min="0"
           @input="updatePrice"
           class="mb-3" />
-        <CustomAttributeInput
-          key="attributes"
-          v-show="base.selectedCollection"
-          :max="10"
-          v-model="attributes"
-          class="mb-3"
-          visible="collapse.collection.attributes.show"
-          hidden="collapse.collection.attributes.hide" />
+        <div v-show="base.selectedCollection" key="attributes">
+          <CustomAttributeInput
+            :max="10"
+            v-model="attributes"
+            class="mb-3"
+            visible="collapse.collection.attributes.show"
+            hidden="collapse.collection.attributes.hide" />
+        </div>
         <RoyaltyForm key="royalty" v-bind.sync="royalty" />
       </template>
       <template v-slot:footer>
@@ -43,6 +45,9 @@
           <p class="has-text-weight-medium is-size-6 has-text-warning">
             {{ $t('mint.deposit') }}: <Money :value="deposit" inline />
           </p>
+        </b-field>
+        <b-field key="balance">
+          <AccountBalance />
         </b-field>
         <SubmitButton
           key="submit"
@@ -113,6 +118,7 @@ const components = {
   RoyaltyForm: () => import('@/components/bsx/Create/RoyaltyForm.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
+  AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
 }
 
 @Component({ components })
@@ -138,6 +144,7 @@ export default class CreateToken extends mixins(
   protected nsfw = false
   protected price: string | number = 0.1
   protected listed = true
+  protected maxPrice = Number.MAX_SAFE_INTEGER // actually 999999999999999999 but this would be unsafe at runtime
   protected royalty: Royalty = {
     amount: 0,
     address: '',
@@ -198,6 +205,7 @@ export default class CreateToken extends mixins(
       ...ce,
       alreadyMinted: ce.nfts?.length,
       lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
+      totalCount: ce.nfts?.filter((nft) => !nft.burned).length,
     }))
 
     this.loadCollectionMeta()
@@ -230,7 +238,10 @@ export default class CreateToken extends mixins(
   }
 
   get disabled() {
-    return !(this.base.name && this.base.file && this.base.selectedCollection)
+    return (
+      !(this.base.name && this.base.file && this.base.selectedCollection) ||
+      !this.validPriceValue
+    )
   }
 
   get hasSupport(): boolean {
@@ -243,6 +254,11 @@ export default class CreateToken extends mixins(
 
   get arweaveUpload(): boolean {
     return this.$store.state.preferences.arweaveUpload
+  }
+
+  get validPriceValue(): boolean {
+    const price = parseInt(this.price as string)
+    return !this.listed || (price > 0 && price <= this.maxPrice)
   }
 
   protected async submit(): Promise<void> {
@@ -263,7 +279,7 @@ export default class CreateToken extends mixins(
     try {
       const metadata = await this.constructMeta()
       const cb = api.tx.utility.batchAll
-      const nextId = Math.max(lastIndexUsed + 1, alreadyMinted)
+      const nextId = Math.max(lastIndexUsed + 1, alreadyMinted + 1)
       const create = api.tx.nft.mint(collectionId, nextId, metadata)
       const list = this.price
         ? [api.tx.marketplace.setPrice(collectionId, nextId, this.price)]

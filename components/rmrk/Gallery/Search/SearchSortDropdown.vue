@@ -18,25 +18,37 @@
       placeholder="Sort by"
       class="select-dropdown">
       <option v-for="action in actions" :key="action" :value="action">
-        {{ $t('sort.' + action) }}
+        {{
+          isCollection ? $t('sort.collection.' + action) : $t('sort.' + action)
+        }}
       </option>
     </b-select>
   </b-field>
 </template>
 
 <script lang="ts">
-import { Component, Vue, VModel, Prop } from 'nuxt-property-decorator'
-import { NFT_SORT_CONDITION_LIST } from '@/utils/constants'
+import { Component, mixins, VModel, Prop } from 'nuxt-property-decorator'
+import {
+  NFT_SORT_CONDITION_LIST,
+  NFT_SQUID_SORT_CONDITION_LIST,
+} from '@/utils/constants'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
 @Component
-export default class SearchSortDropdown extends Vue {
+export default class SearchSortDropdown extends mixins(PrefixMixin) {
   @VModel({ type: [Array, String] }) selectedAction!: string | string[]
   @Prop(Array) public sortOption?: string[]
   @Prop(Boolean) public multipleSelect!: boolean
-
-  private sort: string[] = NFT_SORT_CONDITION_LIST
+  @Prop({ type: Boolean, default: false }) public isCollection?: boolean
 
   get actions(): string[] {
     return this.sortOption || this.sort
+  }
+
+  get sort(): string[] {
+    return this.urlPrefix === 'rmrk'
+      ? NFT_SORT_CONDITION_LIST
+      : NFT_SQUID_SORT_CONDITION_LIST
   }
 }
 </script>

@@ -163,6 +163,7 @@ export default class CreateToken extends mixins(
       ?.map((ce: any) => ({
         ...ce,
         alreadyMinted: ce.nfts?.totalCount,
+        totalCount: ce.nfts?.nodes.filter((nft) => !nft.burned)?.length,
       }))
       .filter(
         (ce: MintedCollection) => (ce.max || Infinity) - ce.alreadyMinted > 0
