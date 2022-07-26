@@ -384,7 +384,10 @@ export default class SimpleMint extends mixins(
 
     const args = !this.hasSupport
       ? remarks.map(toRemark)
-      : [...remarks.map(toRemark), ...(await canSupport(this.hasSupport, 3))]
+      : [
+          ...remarks.map(toRemark),
+          ...(await canSupport(api, this.hasSupport, 3)),
+        ]
 
     this.estimated = await estimate(this.accountId, cb, [args])
   }
@@ -464,7 +467,10 @@ export default class SimpleMint extends mixins(
 
       const args = !this.hasSupport
         ? remarks.map(toRemark)
-        : [...remarks.map(toRemark), ...(await canSupport(this.hasSupport, 3))]
+        : [
+            ...remarks.map(toRemark),
+            ...(await canSupport(api, this.hasSupport, 3)),
+          ]
 
       const tx = await exec(
         this.accountId,
@@ -569,7 +575,7 @@ export default class SimpleMint extends mixins(
       )
 
       const estimatedFee = await estimate(this.accountId, cb, [args])
-      const support = feeTx(estimatedFee)
+      const support = feeTx(api, estimatedFee)
       args.push(support)
 
       const tx = await exec(
