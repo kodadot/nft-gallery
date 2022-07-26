@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="offer-table-container">
     <b-table
       :data="displayOffers(offers)"
       paginated
@@ -176,18 +176,18 @@ export default class OfferTable extends mixins(OfferMixin) {
 }
 </script>
 <style lang="scss">
-.limit-width-text {
-  max-width: 20ch;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.offer-title {
-  line-height: 2rem;
-  font-size: 1.2rem;
-}
-ul {
-  &.pagination-list {
-    margin: 0 !important;
+.offer-table-container {
+  .limit-width-text {
+    max-width: 20ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .offer-title {
+    line-height: 2rem;
+    font-size: 1.2rem;
+  }
+  .pagination-list {
+    margin: 0;
   }
 }
 </style>
