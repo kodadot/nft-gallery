@@ -213,7 +213,6 @@ Then we can use it like this:
   import { Component, mixins } from 'nuxt-property-decorator'
   import MetaTransactionMixin from '@/utils/mixins/metaMixin'
   import UseApiMixin from '@/utils/mixins/useApiMixin'
-  // import AuthMixin from '@/utils/mixins/authMixin' // get currently logged in account
 
   @Component({})
   export default class GalleryItem extends mixins(MetaTransactionMixin, UseApiMixin) {
