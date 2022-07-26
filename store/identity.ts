@@ -1,10 +1,9 @@
 import { emptyObject } from '@/utils/empty'
-import Connector from '@kodadot1/sub-api'
+import { ApiFactory, onApiConnect, identityOf } from '@kodadot1/sub-api'
 import { Registration } from '@polkadot/types/interfaces/identity/types'
 import consola from 'consola'
 import Vue from 'vue'
 import { formatAddress } from '@/utils/account'
-import onApiConnect from '@/utils/api/general'
 
 declare type Unsubscribe = () => void
 
@@ -73,12 +72,11 @@ export const actions = {
   setIdentity({ commit }: any, identityRequest: IdenityRequest): void {
     commit('addIdentity', identityRequest)
   },
-  async fetchIdentity({ dispatch }: any, address: string) {
-    const { api } = Connector.getInstance()
+  async fetchIdentity({ dispatch, rootState }: any, address: string) {
+    const endpoint = rootState.setting.apiUrl
     try {
-      const optionIdentity = await api?.isReady.then((a) =>
-        a?.query.identity?.identityOf(address)
-      )
+      const api = await ApiFactory.useApiInstance(endpoint)
+      const optionIdentity = await identityOf(api, address)
       const identity = optionIdentity?.unwrapOr(null)
       if (identity) {
         dispatch('setIdentity', { address, identity })
@@ -87,9 +85,9 @@ export const actions = {
       consola.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
-  async fetchBalance({ commit, dispatch }, address: string) {
-    // TODO: bit hard to fix now
-    onApiConnect(async (api) => {
+  async fetchBalance({ commit, dispatch, rootState }, address: string) {
+    const endpoint = rootState.setting.apiUrl
+    onApiConnect(endpoint, async (api) => {
       try {
         const balanceSub = await api.derive.balances.all(
           address,
