@@ -25,7 +25,7 @@
     <template v-slot:main>
       <div class="columns">
         <div class="column is-6">
-          <div class="nft-title">
+          <div class="mb-5">
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
 
