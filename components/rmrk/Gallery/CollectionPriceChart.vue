@@ -1,9 +1,7 @@
 <template>
   <div class="price-chart mt-4">
     <div class="is-flex is-align-items-center is-justify-content-space-between">
-      <p class="label">
-        {{ $t('Chart') }}
-      </p>
+      <p class="label">Line Chart</p>
       <b-button type="is-primary" @click="resetZoom">Reset zoom</b-button>
     </div>
     <div class="chart-container mt-5">

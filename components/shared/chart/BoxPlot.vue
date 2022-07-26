@@ -1,5 +1,13 @@
 <template>
-  <div>
+  <div class="mt-6">
+    <div class="is-flex is-align-items-center is-justify-content-space-between">
+      <p class="label">Box Plot Chart</p>
+      <b-select v-model="selectedRange" @input="selectRange($event)">
+        <option v-for="option in range" :value="option" :key="option">
+          {{ option }}
+        </option>
+      </b-select>
+    </div>
     <div class="chart-container">
       <canvas ref="chartBoxPlot" />
     </div>
@@ -7,13 +15,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
 import format from 'date-fns/format'
 import { Chart, LinearScale, CategoryScale } from 'chart.js'
 import {
   BoxPlotController,
   BoxAndWiskers,
 } from '@sgratzl/chartjs-chart-boxplot'
+import { filterOutliers } from '@/utils/chart'
 
 // types
 import { CollectionChartData as ChartData } from '@/utils/chart'
@@ -28,70 +37,100 @@ export default class BoxPlot extends Vue {
     ChartData[]
   ] // [listings, buys]
 
-  protected floorData = {}
-  protected soldData = {}
+  protected range = ['quarterly', 'monthly']
+  protected selectedRange = 'quarterly'
+  protected listData = {}
+  protected buyData = {}
+  protected chartBoxPlot!: Chart<'boxplot', unknown, unknown>
 
-  protected randomValues(count, min, max) {
-    const delta = max - min
-    return Array.from({ length: count }).map(() => Math.random() * delta + min)
+  protected selectRange(range: string): void {
+    this.selectedRange = range
+    this.generateChart()
   }
 
-  mounted() {
-    console.clear()
-    console.log(this.priceData)
-    const plotlyChart = []
+  protected groupData(data: ChartData[], type = 'listings') {
+    const groupedData = type === 'listings' ? this.listData : this.buyData
+    const formatType = {
+      quarterly: 'QQQ yy',
+      monthly: 'MMM yy',
+    }
 
-    if (this.priceData[0]?.length > 0) {
-      this.priceData[0].forEach((item) => {
-        const key = format(new Date(item.date), 'MMM yy')
+    data.forEach(({ date, value }) => {
+      const dateStr = format(new Date(date), formatType[this.selectedRange])
+      if (!groupedData[dateStr]) {
+        groupedData[dateStr] = []
+      }
+      groupedData[dateStr].push(value)
+    })
 
-        if (this.floorData[key] === undefined) {
-          this.floorData[key] = []
-        }
+    // remove some outliers
+    Object.keys(this.listData).forEach((item) => {
+      this.listData[item] = filterOutliers(this.listData[item])
+    })
+  }
 
-        this.floorData[key].push(item.value)
-      })
+  protected generateChart() {
+    this.listData = {}
+    this.buyData = {}
 
-      console.log(this.floorData)
-      console.log(Object.keys(this.floorData))
-      console.log(Object.values(this.floorData))
-      // Object.keys(this.floorData).forEach((item) => {
-      //   plotlyChart.push({
-      //     name: item,
-      //     y: this.floorData[item],
-      //     type: 'box',
-      //   })
-      // })
-      // console.log(plotlyChart)
+    if (this.priceData[0]?.length > 0 || this.priceData[1]?.length > 0) {
+      this.groupData(this.priceData[0], 'listings')
+      this.groupData(this.priceData[1], 'buys')
     }
 
     const ctx = (this.$refs.chartBoxPlot as HTMLCanvasElement).getContext('2d')
+    const labels = [
+      ...new Set([...Object.keys(this.listData), ...Object.keys(this.buyData)]),
+    ]
+    const defaultDataset = {
+      borderWidth: 1,
+      outlierColor: 'white',
+      padding: 10,
+      itemRadius: 0,
+    }
     const boxplotData = {
-      // define label tree
-      labels: Object.keys(this.floorData),
+      labels,
       datasets: [
         {
-          label: 'Floor Price',
+          label: 'List',
           backgroundColor: 'rgba(230, 0, 126, 0.3)',
           borderColor: '#e6007e',
-          borderWidth: 1,
-          outlierColor: 'white',
-          padding: 10,
-          itemRadius: 0,
-          data: Object.values(this.floorData),
+          data: Object.values(this.listData),
+          ...defaultDataset,
+        },
+        {
+          label: 'Buy',
+          backgroundColor: 'rgba(0, 187, 127, 0.3)',
+          borderColor: '#00BB7F',
+          data: Object.values(this.buyData),
+          defaultDataset,
         },
       ],
     }
 
     if (ctx) {
-      new Chart(ctx, {
-        type: 'boxplot',
-        data: boxplotData,
-        options: {
-          responsive: true,
-        },
-      })
+      if (this.chartBoxPlot) {
+        this.chartBoxPlot.data = boxplotData
+        this.chartBoxPlot.update()
+      } else {
+        this.chartBoxPlot = new Chart(ctx, {
+          type: 'boxplot',
+          data: boxplotData,
+          options: {
+            responsive: true,
+          },
+        })
+      }
     }
+  }
+
+  protected mounted() {
+    this.generateChart()
+  }
+
+  @Watch('priceData')
+  async watchData() {
+    this.generateChart()
   }
 }
 </script>
@@ -100,6 +139,5 @@ export default class BoxPlot extends Vue {
 .chart-container {
   width: 100%;
   height: 100%;
-  margin-top: 10rem;
 }
 </style>

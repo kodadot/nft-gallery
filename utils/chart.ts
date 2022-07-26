@@ -29,9 +29,13 @@ interface Quartiles {
   q2: number
   q3: number
 }
-interface HSpread extends Quartiles {
+interface HSpread {
   min: number
   max: number
+  iqr: number
+  q1: number
+  q3: number
+  sorted: number[]
 }
 
 const getMedianDetails = (dataset: number[]): MedianDetails => {
@@ -102,15 +106,6 @@ export const getMedianPoint = (data: ChartData = []): number => {
   return median
 }
 
-export const getHSpread = (data: ChartData = []): HSpread => {
-  const dataset = data.map((item) => item[1]).sort((a, b) => b - a)
-  const medianDetails = getMedianDetails(dataset)
-  const min = Math.min(...dataset)
-  const max = Math.max(...dataset)
-  const { q1, q2, q3 } = getQuartiles({ dataset, medianDetails })
-  return { min, max, q1, q2, q3 }
-}
-
 export const getMovingAverage = (data: RenderedChartData = []): number[] => {
   const dataset = data.map(({ y }) => y) as number[]
   const movingAverageArray: number[] = []
@@ -123,4 +118,43 @@ export const getMovingAverage = (data: RenderedChartData = []): number[] => {
   }
 
   return movingAverageArray
+}
+
+// source: https://stackoverflow.com/a/20811670
+// https://mathworld.wolfram.com/Outlier.html
+export const getHSpread = (data): HSpread => {
+  // Copy the values, rather than operating on references to existing values
+  const values = data.concat()
+
+  // Then sort
+  values.sort(function (a, b) {
+    return a - b
+  })
+
+  /* Then find a generous IQR. This is generous because if (values.length / 4)
+   * is not an int, then really you should average the two elements on either
+   * side to find q1.
+   */
+  const q1 = values[Math.floor(values.length / 4)]
+  // Likewise for q3.
+  const q3 = values[Math.ceil(values.length * (3 / 4))]
+  const iqr = q3 - q1
+
+  // Then find min and max values
+  const max = q3 + iqr * 1.5
+  const min = q1 - iqr * 1.5
+
+  return { min, max, q1, q3, iqr, sorted: values }
+}
+
+export const filterOutliers = (data) => {
+  const { min, max, sorted } = getHSpread(data)
+
+  // Then filter anything beyond or beneath these values.
+  const filteredValues = sorted.filter(function (x) {
+    return x <= max && x >= min
+  })
+
+  // Then return
+  return filteredValues
 }
