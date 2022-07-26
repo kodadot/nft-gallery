@@ -34,9 +34,12 @@ Chart.register(annotationPlugin)
 
 const defaultDataset = {
   borderWidth: 1,
-  outlierColor: 'white',
   padding: 10,
   itemRadius: 0,
+  outlierBackgroundColor: 'white',
+  outlierBorderColor: 'white',
+  outlierRadius: 2,
+  outlierBorderWidth: 2,
 }
 
 @Component({})
@@ -46,8 +49,8 @@ export default class BoxPlot extends Vue {
     ChartData[]
   ] // [listings, buys]
 
-  protected range = ['quarterly', 'monthly']
-  protected selectedRange = 'quarterly'
+  protected range = ['yearly', 'quarterly', 'monthly']
+  protected selectedRange = 'yearly'
   protected listData = {}
   protected buyData = {}
   protected iqrData = {
@@ -64,6 +67,7 @@ export default class BoxPlot extends Vue {
   protected groupData(data: ChartData[], type = 'listings') {
     const groupedData = type === 'listings' ? this.listData : this.buyData
     const formatType = {
+      yearly: 'yyyy',
       quarterly: 'QQQ yy',
       monthly: 'MMM yy',
     }
@@ -80,8 +84,11 @@ export default class BoxPlot extends Vue {
     })
 
     // remove some outliers
-    Object.keys(this.listData).forEach((item) => {
-      this.listData[item] = filterOutliers(this.listData[item])
+    Object.keys(groupedData).forEach((item) => {
+      if (type === 'listings') {
+        console.log(filterOutliers(groupedData[item]))
+      }
+      groupedData[item] = filterOutliers(groupedData[item])
     })
   }
 
@@ -113,7 +120,7 @@ export default class BoxPlot extends Vue {
           backgroundColor: 'rgba(0, 187, 127, 0.3)',
           borderColor: '#00BB7F',
           data: Object.values(this.buyData),
-          defaultDataset,
+          ...defaultDataset,
         },
       ],
     }
@@ -143,6 +150,32 @@ export default class BoxPlot extends Vue {
               },
             },
             plugins: {
+              tooltip: {
+                displayColors: false,
+                callbacks: {
+                  title: (ctx) => {
+                    return `${ctx[0].dataset.label} ${ctx[0].label}`
+                  },
+                  label: (ctx) => {
+                    const median = ctx.parsed.median.toFixed(2)
+                    const q1 = ctx.parsed.q1.toFixed(2)
+                    const q3 = ctx.parsed.q3.toFixed(2)
+                    const iqr = (parseFloat(q3) - parseFloat(q1)).toFixed(2)
+                    const min = ctx.parsed.min.toFixed(2)
+                    const max = ctx.parsed.max.toFixed(2)
+
+                    const boxplotValues = [
+                      `Median: ${median}`,
+                      `Q3: ${q3}`,
+                      `Q1: ${q1}`,
+                      `IQR: ${iqr}`,
+                      `Min: ${min}`,
+                      `Max: ${max}`,
+                    ]
+                    return boxplotValues
+                  },
+                },
+              },
               annotation: {
                 annotations: [
                   {
@@ -157,7 +190,7 @@ export default class BoxPlot extends Vue {
                     borderColor: '#e6007e',
                     borderWidth: 0,
                     label: {
-                      content: () => `IQR List: ${iqrList}`,
+                      content: () => `IQR List: ${iqrList.toFixed(2)}`,
                       position: 'start',
                       display: true,
                     },
@@ -169,7 +202,7 @@ export default class BoxPlot extends Vue {
                     borderColor: '#00BB7F',
                     borderWidth: 0,
                     label: {
-                      content: () => `IQR Buy: ${iqrBuy}`,
+                      content: () => `IQR Buy: ${iqrBuy.toFixed(2)}`,
                       position: 'end',
                       display: true,
                     },
