@@ -157,10 +157,11 @@ export default class AvailableActions extends mixins(
     return this.selectedAction === ShoppingActions.CONSUME
   }
 
-  protected updateMeta(value: string | number) {
+  protected updateMeta(value: string) {
     const balanceInputComponent = this.$refs.balanceInput as BalanceInput
     this.meta = value
-    if (this.meta === 0 || this.meta === '0') {
+    // ad-hoc fix for empty input value
+    if (this.meta === '0') {
       this.isBalanceInputValid = false
     } else {
       this.isBalanceInputValid = balanceInputComponent.checkValidity()
