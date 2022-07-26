@@ -337,7 +337,7 @@ export default class AvailableActions extends mixins(
         ? [
             api.tx.system.remark(rmrk),
             api.tx.balances.transfer(this.currentOwnerId, this.price),
-            somePercentFromTX(this.price),
+            somePercentFromTX(api, this.price),
           ]
         : rmrk
 
