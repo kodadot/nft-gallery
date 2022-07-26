@@ -93,6 +93,11 @@ Cypress.Commands.add('bsxNavbar', () => {
   cy.get('#NavLocaleChanger').click()
   cy.get('#NavProfile').should('be.visible')
 })
+Cypress.Commands.add('expandGallerySearch', () => {
+  // clicking on gallery tab
+  cy.get('.tabs > ul > li:nth-child(2)').click()
+  cy.get('.mb-0 > .field-body > .field > .button > .icon').click()
+})
 
 declare global {
   namespace Cypress {
@@ -103,6 +108,7 @@ declare global {
       collectionsSortBy(): Chainable<Element>
       rmrkNavbar(): Chainable<Element>
       bsxNavbar(): Chainable<Element>
+      expandGallerySearch(): Chainable<Element>
     }
   }
 }

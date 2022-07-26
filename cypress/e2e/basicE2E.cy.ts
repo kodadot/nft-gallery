@@ -45,9 +45,7 @@ describe('exploreRmrkGallery', () => {
     cy.exploreTabs()
   })
   it('expandGallerySearch', () => {
-    // since test suite follows testing gallery, switching to gallery here
-    cy.get('.tabs > ul > li:nth-child(2)').click()
-    cy.get('.mb-0 > .field-body > .field > .button > .icon').click()
+    cy.expandGallerySearch()
   })
   it('checkBuyNow', () => {
     cy.get(
@@ -85,9 +83,7 @@ describe('exploreBsxGallery', () => {
     cy.exploreTabs()
   })
   it('expandGallerySearch', () => {
-    // since test suite follows testing gallery, switching to gallery here
-    cy.get('.tabs > ul > li:nth-child(2)').click()
-    cy.get('.mb-0 > .field-body > .field > .button > .icon').click()
+    cy.expandGallerySearch()
   })
   it('checkBuyNow', () => {
     cy.get(
