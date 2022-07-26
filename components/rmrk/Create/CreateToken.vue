@@ -199,7 +199,6 @@ export default class CreateToken extends mixins(
 
     try {
       const api = await this.useApi()
-      console.log(api)
       const metadata = await this.constructMeta()
 
       const mint = createMultipleNFT(
