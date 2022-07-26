@@ -6,8 +6,8 @@
         v-model="inputValue"
         type="number"
         :step="step"
-        :min="min"
-        :max="max"
+        :min="minWithUnit"
+        :max="maxWithUnit"
         :expanded="expanded" />
       <p class="control balance">
         <b-select
@@ -50,6 +50,14 @@ export default class BalanceInput extends mixins(ChainMixin) {
   private selectedUnit = 1
   private internalValue = this.value || 0
 
+  get minWithUnit(): number {
+    return this.min / this.selectedUnit
+  }
+
+  get maxWithUnit(): number {
+    return this.max / this.selectedUnit
+  }
+
   @Watch('value') onValueChange(newValue) {
     this.internalValue = newValue
   }
@@ -71,7 +79,10 @@ export default class BalanceInput extends mixins(ChainMixin) {
   formatSelectedValue(value: number): string {
     return value
       ? String(
-          Math.min(this.max, value * 10 ** this.decimals * this.selectedUnit)
+          Math.min(
+            this.maxWithUnit,
+            value * 10 ** this.decimals * this.selectedUnit
+          )
         )
       : '0'
   }
