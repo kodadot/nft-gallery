@@ -2,7 +2,6 @@
 export {}
 
 Cypress.on('uncaught:exception', (err, runnable) => {
-  console.log('error', err)
   return false
 })
 Cypress.Commands.add('exploreTabs', () => {
@@ -103,15 +102,13 @@ Cypress.Commands.add('expandGallerySearch', () => {
   cy.get('.tabs > ul > li:nth-child(2)').click()
   cy.get('.mb-0 > .field-body > .field > .button > .icon').click()
 })
-Cypress.Commands.add('expandCollectionSearch', () => {})
 Cypress.Commands.add('collectionsBuyNow', () => {
   cy.get('.mb-5 > .switch > .check').click()
   cy.wait(2000)
   cy.get('#infinite-scroll-container > :nth-child(1)')
     .invoke('text')
     .then((text) => {
-      let newText = text.split(`Floor : `)[1].replace(/\s/g, '')
-      console.log('parseFloat', parseFloat(newText))
+      const newText = text.split('Floor : ')[1].replace(/\s/g, '')
       if (!(parseFloat(newText) > 0)) {
         throw '[ERROR] Collection BUY NOW is not working'
       }
@@ -121,7 +118,6 @@ Cypress.Commands.add('galleryBuyNow', (amount) => {
   cy.get('#infinite-scroll-container > :nth-child(1)')
     .invoke('text')
     .then((text) => {
-      console.log(parseFloat(text))
       if (!(parseFloat(text) >= amount)) {
         throw '[ERROR] Gallery BUY NOW is not working'
       }

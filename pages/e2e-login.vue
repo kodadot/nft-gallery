@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { mnemonicGenerate } from '@polkadot/util-crypto'
 import keyring from '@polkadot/ui-keyring'
 
@@ -11,7 +11,7 @@ import keyring from '@polkadot/ui-keyring'
 export default class E2ELogin extends Vue {
   created() {
     const mnemonic = mnemonicGenerate(12)
-    const { pair, json } = keyring.addUri(mnemonic, '', {
+    const { pair } = keyring.addUri(mnemonic, '', {
       name: 'mnemonic acc',
     })
     // TODO: check 'loadAll' error, approx 1 in 10 tests fail without this
