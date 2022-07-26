@@ -57,7 +57,6 @@ import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
 import { Component, mixins } from 'nuxt-property-decorator'
 import { dummyIpfsCid } from '@/utils/ipfs'
-import api from '~/utils/fetch'
 
 type BaseCollectionType = {
   name: string

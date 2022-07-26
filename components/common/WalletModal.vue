@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { web3Accounts } from '@polkadot/extension-dapp'
