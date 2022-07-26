@@ -56,7 +56,7 @@ export default class OfferMixin extends mixins(
     onSuccess?: () => void
   ) {
     try {
-      const { api } = Connector.getInstance()
+      const api = await this.useApi()
       this.initTransactionLoader()
       const isMe = isSameAccount(this.accountId, maker)
       const cb = !isMe
