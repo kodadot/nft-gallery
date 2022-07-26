@@ -8,6 +8,7 @@ describe('landingRmrk', () => {
     cy.rmrkNavbar()
   })
 })
+
 describe('landingBsx', () => {
   it('loadLanding', () => {
     cy.visit('/bsx')
@@ -16,6 +17,7 @@ describe('landingBsx', () => {
     cy.bsxNavbar()
   })
 })
+
 describe('exploreRmrkCollections', () => {
   it('loadExplore', () => {
     cy.visit('/rmrk/explore?tab=COLLECTION&page=1')
@@ -31,7 +33,7 @@ describe('exploreRmrkCollections', () => {
     cy.collectionsBuyNow()
   })
 })
-// rmrk gallery
+
 describe('exploreRmrkGallery', () => {
   it('loadExplore', () => {
     cy.visit('/rmrk/explore?tab=GALLERY&page=1')
@@ -42,11 +44,14 @@ describe('exploreRmrkGallery', () => {
   it('expandGallerySearch', () => {
     cy.expandGallerySearch()
   })
-  it('checkBuyNow', () => {
-    cy.galleryBuyNow()
+  it('galleryInputFields', () => {
+    cy.galleryInputFields(100)
   })
   it('gallerySortRmrk', () => {
     cy.rmrkGallerySortBy()
+  })
+  it('galleryBuyNow', () => {
+    cy.galleryBuyNow(100)
   })
 })
 
@@ -64,20 +69,24 @@ describe('exploreBsxCollections', () => {
     cy.collectionsBuyNow()
   })
 })
+
 describe('exploreBsxGallery', () => {
   it('loadExplore', () => {
     cy.visit('/bsx/explore')
   })
-  it('checkTabs', () => {
+  it('exploreTabs', () => {
     cy.exploreTabs()
   })
   it('expandGallerySearch', () => {
     cy.expandGallerySearch()
   })
-  it('checkBuyNow', () => {
-    cy.galleryBuyNow()
+  it('galleryInputFields', () => {
+    cy.galleryInputFields(100)
   })
   it('checkGallerySort', () => {
     cy.bsxGallerySortBy()
+  })
+  it('checkBuyNow', () => {
+    cy.galleryBuyNow(100)
   })
 })

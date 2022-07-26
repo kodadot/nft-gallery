@@ -1,13 +1,10 @@
 /// <reference types="cypress" />
-// ***********************************************
+export {}
 
-// handle exceptions in console
 Cypress.on('uncaught:exception', (err, runnable) => {
   console.log('error', err)
   return false
 })
-
-export {}
 Cypress.Commands.add('exploreTabs', () => {
   cy.get('.tabs > ul').should('be.visible')
   cy.get('.tabs > ul > li').should('have.length', 2)
@@ -32,6 +29,10 @@ Cypress.Commands.add('rmrkGallerySortBy', () => {
   cy.get(':nth-child(5)').contains('Unpopular')
   cy.get(':nth-child(6)').contains('Price: High to Low')
   cy.get(':nth-child(7)').contains('Price: Low to High')
+  cy.get(
+    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > :nth-child(7)'
+  ).click()
+  cy.wait(5000)
 })
 Cypress.Commands.add('bsxGallerySortBy', () => {
   cy.get(
@@ -43,6 +44,10 @@ Cypress.Commands.add('bsxGallerySortBy', () => {
   cy.get(':nth-child(4)').contains('Unpopular')
   cy.get(':nth-child(5)').contains('Price: High to Low')
   cy.get(':nth-child(6)').contains('Price: Low to High')
+  cy.get(
+    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > :nth-child(6)'
+  ).click()
+  cy.wait(5000)
 })
 Cypress.Commands.add('collectionsSortBy', () => {
   cy.get('select').select('blockNumber_DESC')
@@ -101,17 +106,6 @@ Cypress.Commands.add('expandGallerySearch', () => {
 Cypress.Commands.add('expandCollectionSearch', () => {})
 Cypress.Commands.add('collectionsBuyNow', () => {
   cy.get('.mb-5 > .switch > .check').click()
-  cy.buyNowValueOfNth1()
-})
-Cypress.Commands.add('galleryBuyNow', () => {
-  cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > .columns > .is-flex > .switch > .check'
-  )
-    .should('be.visible')
-    .click()
-  cy.buyNowValueOfNth1()
-})
-Cypress.Commands.add('buyNowValueOfNth1', () => {
   cy.wait(2000)
   cy.get('#infinite-scroll-container > :nth-child(1)')
     .invoke('text')
@@ -122,6 +116,26 @@ Cypress.Commands.add('buyNowValueOfNth1', () => {
         throw '[ERROR] Collection BUY NOW is not working'
       }
     })
+})
+Cypress.Commands.add('galleryBuyNow', (amount) => {
+  cy.get('#infinite-scroll-container > :nth-child(1)')
+    .invoke('text')
+    .then((text) => {
+      console.log(parseFloat(text))
+      if (!(parseFloat(text) >= amount)) {
+        throw '[ERROR] Gallery BUY NOW is not working'
+      }
+    })
+})
+Cypress.Commands.add('galleryInputFields', (amount) => {
+  cy.get('.field > :nth-child(1) > .input').type(String(amount))
+  cy.get('.is-1 > .button').click()
+  cy.wait(5000)
+})
+Cypress.Commands.add('toggleBuyNowGallery', () => {
+  cy.get(
+    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .is-flex > .switch > .check'
+  ).click()
 })
 
 declare global {
@@ -136,8 +150,9 @@ declare global {
       expandGallerySearch(): Chainable<Element>
       expandCollectionSearch(): Chainable<Element>
       collectionsBuyNow(): Chainable<Element>
-      galleryBuyNow(): Chainable<Element>
-      buyNowValueOfNth1(): Chainable<Element>
+      galleryBuyNow(amount: number): Chainable<Element>
+      galleryInputFields(amount: number): Chainable<Element>
+      toggleBuyNowGallery(): Chainable<Element>
     }
   }
 }
