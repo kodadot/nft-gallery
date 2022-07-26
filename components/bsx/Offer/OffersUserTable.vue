@@ -41,6 +41,14 @@
         <Money :value="props.row.price" inline />
       </b-table-column>
       <b-table-column
+        cell-class="is-vcentered is-narrow"
+        field="expirationBlock"
+        :label="$t('offer.expiration')"
+        v-slot="props"
+        sortable>
+        {{ calcExpirationTime(props.row.expiration) }}
+      </b-table-column>
+      <b-table-column
         field="createdAt"
         cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.date')"

@@ -26,6 +26,7 @@ export default class OfferMixin extends mixins(
     return offers.map((offer) => ({
       ...offer,
       formatPrice: formatBsxBalanceToNumber(offer.price),
+      expirationBlock: parseInt(offer.expiration),
     }))
   }
 

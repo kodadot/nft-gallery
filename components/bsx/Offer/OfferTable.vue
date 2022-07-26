@@ -69,9 +69,8 @@
         <Money :value="props.row.price" inline />
       </b-table-column>
       <b-table-column
-        v-if="!isBsxStats"
         cell-class="is-vcentered is-narrow"
-        field="expiration"
+        field="expirationBlock"
         :label="$t('offer.expiration')"
         v-slot="props"
         sortable>
