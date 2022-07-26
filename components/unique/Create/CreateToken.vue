@@ -248,7 +248,7 @@ export default class CreateToken extends mixins(
           )
         )
 
-      const support = await canSupport(this.hasSupport)
+      const support = await canSupport(api, this.hasSupport)
       //
       const args = [[create, meta, ...attributes, ...support]]
 
