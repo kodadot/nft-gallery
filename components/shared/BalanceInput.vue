@@ -99,9 +99,11 @@ export default class BalanceInput extends mixins(ChainMixin) {
   }
 
   handleUnitChange(unit) {
-    this.selectedUnit = unit
+    const valueInBSXUnit = this.internalValue * this.selectedUnit
     // never set value above max value
-    this.internalValue = Number(this.formatSelectedValue(this.internalValue))
+    // this.internalValue = Number(this.formatSelectedValue(this.internalValue))
+    this.internalValue = valueInBSXUnit ? valueInBSXUnit / unit : 0
+    this.selectedUnit = unit
   }
 
   public checkValidity() {
