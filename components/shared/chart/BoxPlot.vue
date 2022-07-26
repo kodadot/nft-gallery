@@ -22,13 +22,22 @@ import {
   BoxPlotController,
   BoxAndWiskers,
 } from '@sgratzl/chartjs-chart-boxplot'
-import { filterOutliers } from '@/utils/chart'
+import annotationPlugin from 'chartjs-plugin-annotation'
+import { filterOutliers, getHSpread } from '@/utils/chart'
 
 // types
 import { CollectionChartData as ChartData } from '@/utils/chart'
 
 // register chart plugins
 Chart.register(BoxPlotController, BoxAndWiskers, LinearScale, CategoryScale)
+Chart.register(annotationPlugin)
+
+const defaultDataset = {
+  borderWidth: 1,
+  outlierColor: 'white',
+  padding: 10,
+  itemRadius: 0,
+}
 
 @Component({})
 export default class BoxPlot extends Vue {
@@ -41,6 +50,10 @@ export default class BoxPlot extends Vue {
   protected selectedRange = 'quarterly'
   protected listData = {}
   protected buyData = {}
+  protected iqrData = {
+    listings: [],
+    buys: [],
+  }
   protected chartBoxPlot!: Chart<'boxplot', unknown, unknown>
 
   protected selectRange(range: string): void {
@@ -57,10 +70,13 @@ export default class BoxPlot extends Vue {
 
     data.forEach(({ date, value }) => {
       const dateStr = format(new Date(date), formatType[this.selectedRange])
+
       if (!groupedData[dateStr]) {
         groupedData[dateStr] = []
       }
+
       groupedData[dateStr].push(value)
+      this.iqrData[type].push(value)
     })
 
     // remove some outliers
@@ -82,12 +98,6 @@ export default class BoxPlot extends Vue {
     const labels = [
       ...new Set([...Object.keys(this.listData), ...Object.keys(this.buyData)]),
     ]
-    const defaultDataset = {
-      borderWidth: 1,
-      outlierColor: 'white',
-      padding: 10,
-      itemRadius: 0,
-    }
     const boxplotData = {
       labels,
       datasets: [
@@ -107,8 +117,10 @@ export default class BoxPlot extends Vue {
         },
       ],
     }
+    const { iqr: iqrList } = getHSpread(this.iqrData.listings)
+    const { iqr: iqrBuy } = getHSpread(this.iqrData.buys)
 
-    if (ctx) {
+    if (ctx && iqrList && iqrBuy) {
       if (this.chartBoxPlot) {
         this.chartBoxPlot.data = boxplotData
         this.chartBoxPlot.update()
@@ -118,6 +130,55 @@ export default class BoxPlot extends Vue {
           data: boxplotData,
           options: {
             responsive: true,
+            scales: {
+              y: {
+                ticks: {
+                  color: 'white',
+                  callback: (value) => {
+                    return `${value} ${this.$store.getters['chain/getChainProperties'].tokenSymbol}`
+                  },
+                  stepSize: 0.1,
+                  maxTicksLimit: 10,
+                },
+              },
+            },
+            plugins: {
+              annotation: {
+                annotations: [
+                  {
+                    type: 'label',
+                    borderColor: 'white',
+                    content: 'asdf',
+                    xValue: 9,
+                    yValue: 30,
+                  },
+                  {
+                    type: 'line',
+                    borderColor: '#e6007e',
+                    borderWidth: 0,
+                    label: {
+                      content: () => `IQR List: ${iqrList}`,
+                      position: 'start',
+                      display: true,
+                    },
+                    scaleID: 'y',
+                    value: () => iqrList,
+                  },
+                  {
+                    type: 'line',
+                    borderColor: '#00BB7F',
+                    borderWidth: 0,
+                    label: {
+                      content: () => `IQR Buy: ${iqrBuy}`,
+                      position: 'end',
+                      display: true,
+                    },
+                    scaleID: 'y',
+                    value: () => iqrList,
+                  },
+                ],
+              },
+            },
           },
         })
       }

@@ -41,7 +41,7 @@ specifiers:
   buefy: ^0.9.21
   chart.js: ^3.8.0
   chartjs-adapter-date-fns: ^2.0.0
-  chartjs-plugin-annotation: ^1.4.0
+  chartjs-plugin-annotation: ^2.0.0
   chartjs-plugin-zoom: ^1.2.1
   consola: ^2.15.3
   css-loader: 5.2.7
@@ -112,7 +112,7 @@ dependencies:
   buefy: 0.9.21_vue@2.6.14
   chart.js: 3.8.0
   chartjs-adapter-date-fns: 2.0.0_chart.js@3.8.0
-  chartjs-plugin-annotation: 1.4.0_chart.js@3.8.0
+  chartjs-plugin-annotation: 2.0.0_chart.js@3.8.0
   chartjs-plugin-zoom: 1.2.1_chart.js@3.8.0
   css-loader: 5.2.7
   date-fns: 2.29.1
@@ -7094,10 +7094,10 @@ packages:
       chart.js: 3.8.0
     dev: false
 
-  /chartjs-plugin-annotation/1.4.0_chart.js@3.8.0:
-    resolution: {integrity: sha512-OC0eGoVvdxTtGGi8mV3Dr+G1YmMhtYYQWqGMb2uWcgcnyiBslaRKPofKwAYWPbh7ABnmQNsNDQLIKPH+XiaZLA==}
+  /chartjs-plugin-annotation/2.0.0_chart.js@3.8.0:
+    resolution: {integrity: sha512-Gd8X+uaWuD63qHSf4R9SvFIdHbxmP1RBsKfdlQt7oFgsyDYjqP2y0WrbEs1UoE7OXJDm8lfZes2tQQNhEL/EZw==}
     peerDependencies:
-      chart.js: ^3.1.0
+      chart.js: ^3.7.0
     dependencies:
       chart.js: 3.8.0
     dev: false
