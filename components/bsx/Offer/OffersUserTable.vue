@@ -110,11 +110,6 @@ export default class OffersUserTable extends mixins(
 
   get updatedOffers() {
     if (!this.offersUpdated.length) {
-      this.offersUpdated = this.displayOffers(this.offers)
-    }
-    return this.offersUpdated
-  get updatedOffers() {
-    if (!this.offersUpdated.length) {
       this.offersUpdated = this.offers
     }
     return this.displayOffers(this.offersUpdated)
