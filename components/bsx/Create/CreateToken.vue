@@ -279,7 +279,7 @@ export default class CreateToken extends mixins(
     try {
       const metadata = await this.constructMeta()
       const cb = api.tx.utility.batchAll
-      const nextId = Math.max(lastIndexUsed + 1, alreadyMinted)
+      const nextId = Math.max(lastIndexUsed + 1, alreadyMinted + 1)
       const create = api.tx.nft.mint(collectionId, nextId, metadata)
       const list = this.price
         ? [api.tx.marketplace.setPrice(collectionId, nextId, this.price)]
