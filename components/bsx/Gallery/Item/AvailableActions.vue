@@ -159,9 +159,12 @@ export default class AvailableActions extends mixins(
 
   protected updateMeta(value: string | number) {
     const balanceInputComponent = this.$refs.balanceInput as BalanceInput
-    this.isBalanceInputValid = balanceInputComponent.checkValidity()
-    this.$consola.log(typeof value, value)
     this.meta = value
+    if (this.meta === 0 || this.meta === '0') {
+      this.isBalanceInputValid = false
+    } else {
+      this.isBalanceInputValid = balanceInputComponent.checkValidity()
+    }
   }
 
   protected async submit() {
