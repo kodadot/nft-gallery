@@ -200,7 +200,9 @@ export default class PaginatedCardList extends mixins(
 
   @Watch('searchQuery', { deep: true })
   protected onSearchQueryChange() {
-    this.resetPage()
+    if (!this.isLoading) {
+      this.resetPage()
+    }
   }
 }
 </script>
