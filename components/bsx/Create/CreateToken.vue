@@ -54,7 +54,7 @@
           label="mint.submit"
           :disabled="disabled"
           :loading="isLoading"
-          @click="submit" />
+          @click="submit()" />
       </template>
     </BaseTokenForm>
   </div>
@@ -261,7 +261,7 @@ export default class CreateToken extends mixins(
     return !this.listed || (price > 0 && price <= this.maxPrice)
   }
 
-  protected async submit(): Promise<void> {
+  protected async submit(retryCount = 0): Promise<void> {
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
     }
@@ -279,7 +279,7 @@ export default class CreateToken extends mixins(
     try {
       const metadata = await this.constructMeta()
       const cb = api.tx.utility.batchAll
-      const nextId = Math.max(lastIndexUsed + 1, alreadyMinted)
+      const nextId = Math.max(lastIndexUsed + 1, alreadyMinted + 1)
       const create = api.tx.nft.mint(collectionId, nextId, metadata)
       const list = this.price
         ? [api.tx.marketplace.setPrice(collectionId, nextId, this.price)]
@@ -311,8 +311,16 @@ export default class CreateToken extends mixins(
       })
     } catch (e) {
       if (e instanceof Error) {
-        showNotification(e.toString(), notificationTypes.danger)
         this.stopLoader()
+
+        if (retryCount < 3) {
+          // retry
+          showNotification('Retrying to complete minting process.')
+          this.submit(retryCount + 1)
+        } else {
+          // finally fail
+          showNotification(e.toString(), notificationTypes.danger)
+        }
       }
     }
   }
