@@ -9,6 +9,14 @@
       <div v-if="headerText" class="has-text-centered offer-title mb-2">
         {{ headerText }}
       </div>
+      <b-select v-model="selectedStatus">
+        <option
+          v-for="option in getUniqType(offers)"
+          :value="option.type"
+          :key="option.type">
+          {{ option.value }}
+        </option>
+      </b-select>
       <b-table-column
         v-if="displayCollection"
         cell-class="is-vcentered is-narrow"

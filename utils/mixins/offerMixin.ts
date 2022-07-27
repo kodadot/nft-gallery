@@ -9,6 +9,8 @@ import onApiConnect from '~/utils/api/general'
 import { formatSecondsToDuration } from '~/utils/format/time'
 import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 import { Offer } from '~/components/bsx/Offer/types'
+import { AllOfferStatusType } from '~/utils/offerStatus'
+
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
  * import { Component, Mixins } from 'nuxt-property-decorator';
@@ -21,20 +23,41 @@ export default class OfferMixin extends mixins(
 ) {
   public isLoading = false
   public currentBlock = 0
-
-  displayOffers(offers: Offer[]) {
-    return offers.map((offer) => ({
-      ...offer,
-      formatPrice: formatBsxBalanceToNumber(offer.price),
-      expirationBlock: parseInt(offer.expiration),
-    }))
-  }
+  public selectedStatus: AllOfferStatusType = AllOfferStatusType.ALL
 
   created() {
     onApiConnect(async (api) => {
       const currentBlock = await api.query.system.number()
       this.currentBlock = currentBlock.toNumber()
     })
+  }
+
+  public getUniqType(
+    offers: Offer[]
+  ): { type: AllOfferStatusType; value: string }[] {
+    const statusSet = new Set(offers.map((offer) => offer.status))
+    const singleEventList = Array.from(statusSet).map((type) => ({
+      type: type as AllOfferStatusType,
+      value: AllOfferStatusType[type],
+    }))
+    return [{ type: AllOfferStatusType.ALL, value: 'All' }, ...singleEventList]
+  }
+
+  public displayOffers(offers: Offer[]) {
+    let filterOffers
+    if (this.selectedStatus === AllOfferStatusType.ALL) {
+      filterOffers = offers.concat()
+    } else {
+      filterOffers = offers.filter(
+        (offer) => offer.status === this.selectedStatus
+      )
+    }
+
+    return filterOffers.map((offer) => ({
+      ...offer,
+      formatPrice: formatBsxBalanceToNumber(offer.price),
+      expirationBlock: parseInt(offer.expiration),
+    }))
   }
 
   public calcExpirationTime(expirationBlock: number): string {
