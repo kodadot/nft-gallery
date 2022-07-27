@@ -62,7 +62,7 @@
           <SubmitButton
             label="mint.submit"
             :loading="isLoading"
-            @click="submit" />
+            @click="submit()" />
         </b-field>
       </template>
     </BaseTokenForm>
@@ -84,8 +84,9 @@ import {
   createMetadata,
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
-import Connector from '@kodadot1/sub-api'
+
 import { Component, mixins, Ref, Watch } from 'nuxt-property-decorator'
+import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
 
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
 import {
@@ -93,7 +94,6 @@ import {
   getMetadataDeposit,
 } from '@/components/unique/apiConstants'
 import { createTokenId } from '@/components/unique/utils'
-import onApiConnect from '@/utils/api/general'
 import {
   DETAIL_TIMEOUT,
   IPFS_KODADOT_IMAGE_PLACEHOLDER,
@@ -109,6 +109,7 @@ import {
   preheatFileFromIPFS,
 } from '~/components/rmrk/utils'
 import { getMany, update } from 'idb-keyval'
+import ApiUrlMixin from '~/utils/mixins/apiUrlMixin'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -135,7 +136,8 @@ export default class CreateToken extends mixins(
   MetaTransactionMixin,
   ChainMixin,
   PrefixMixin,
-  AuthMixin
+  AuthMixin,
+  ApiUrlMixin
 ) {
   protected base: BaseTokenType<MintedCollection> = {
     name: '',
@@ -179,9 +181,9 @@ export default class CreateToken extends mixins(
   }
 
   public async created() {
-    onApiConnect(() => {
-      const instanceDeposit = getInstanceDeposit()
-      const metadataDeposit = getMetadataDeposit()
+    onApiConnect(this.apiUrl, (api) => {
+      const instanceDeposit = getInstanceDeposit(api)
+      const metadataDeposit = getMetadataDeposit(api)
       this.deposit = (instanceDeposit + metadataDeposit).toString()
     })
   }
@@ -274,7 +276,7 @@ export default class CreateToken extends mixins(
     return balanceInputValid && baseTokenFormValid
   }
 
-  protected async submit(): Promise<void> {
+  protected async submit(retryCount = 0): Promise<void> {
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
     }
@@ -290,7 +292,7 @@ export default class CreateToken extends mixins(
 
     this.isLoading = true
     this.status = 'loader.ipfs'
-    const { api } = Connector.getInstance()
+    const api = await ApiFactory.useApiInstance(this.apiUrl)
     const { selectedCollection } = this.base
     const {
       alreadyMinted,
@@ -301,7 +303,7 @@ export default class CreateToken extends mixins(
     try {
       const metadata = await this.constructMeta()
       const cb = api.tx.utility.batchAll
-      const nextId = Math.max(lastIndexUsed + 1, alreadyMinted)
+      const nextId = Math.max(lastIndexUsed + 1, alreadyMinted + 1)
       const create = api.tx.nft.mint(collectionId, nextId, metadata)
       const list = this.price
         ? [api.tx.marketplace.setPrice(collectionId, nextId, this.price)]
@@ -333,8 +335,16 @@ export default class CreateToken extends mixins(
       })
     } catch (e) {
       if (e instanceof Error) {
-        showNotification(e.toString(), notificationTypes.danger)
         this.stopLoader()
+
+        if (retryCount < 3) {
+          // retry
+          showNotification('Retrying to complete minting process.')
+          this.submit(retryCount + 1)
+        } else {
+          // finally fail
+          showNotification(e.toString(), notificationTypes.danger)
+        }
       }
     }
   }

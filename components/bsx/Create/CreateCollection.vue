@@ -40,7 +40,6 @@ import {
   getMetadataDeposit,
 } from '@/components/unique/apiConstants'
 import { getRandomValues, hasEnoughToken } from '@/components/unique/utils'
-import onApiConnect from '@/utils/api/general'
 import { uploadDirect } from '@/utils/directUpload'
 import formatBalance from '@/utils/formatBalance'
 import { mapToId } from '@/utils/mappers'
@@ -48,6 +47,7 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { pinJson, PinningKey } from '@/utils/nftStorage'
 import resolveQueryPath from '@/utils/queryPathResolver'
@@ -55,8 +55,8 @@ import { getImageTypeSafe, pinImageSafe } from '@/utils/safePin'
 import { estimate } from '@/utils/transactionExecutor'
 import { unwrapSafe } from '@/utils/uniquery'
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
-import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Ref } from 'nuxt-property-decorator'
+import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
 import { dummyIpfsCid } from '@/utils/ipfs'
 
 type BaseCollectionType = {
@@ -82,7 +82,8 @@ export default class CreateCollection extends mixins(
   MetaTransactionMixin,
   ChainMixin,
   AuthMixin,
-  PrefixMixin
+  PrefixMixin,
+  ApiUrlMixin
 ) {
   private base: BaseCollectionType = {
     name: '',
@@ -107,9 +108,9 @@ export default class CreateCollection extends mixins(
   }
 
   public async created() {
-    onApiConnect(() => {
-      const classDeposit = getclassDeposit()
-      const metadataDeposit = getMetadataDeposit()
+    onApiConnect(this.apiUrl, (api) => {
+      const classDeposit = getclassDeposit(api)
+      const metadataDeposit = getMetadataDeposit(api)
       this.collectionDeposit = (classDeposit + metadataDeposit).toString()
     })
   }
@@ -173,8 +174,8 @@ export default class CreateCollection extends mixins(
     return [randomId, { Marketplace: null }, metadata]
   }
 
-  protected tryToEstimateTx(): Promise<string> {
-    const { api } = Connector.getInstance()
+  protected async tryToEstimateTx(): Promise<string> {
+    const api = await ApiFactory.useApiInstance(this.apiUrl)
     const cb = api.tx.utility.batchAll
     const metadata = dummyIpfsCid()
     const randomId = 0
@@ -223,7 +224,7 @@ export default class CreateCollection extends mixins(
       this.status = 'loader.ipfs'
       const metadata = await this.constructMeta()
       // const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
-      const { api } = Connector.getInstance()
+      const api = await ApiFactory.useApiInstance(this.apiUrl)
       const cb = api.tx.nft.createClass
       const randomId = await this.generateNewCollectionId()
 
