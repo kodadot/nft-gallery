@@ -22,14 +22,14 @@ describe('exploreRmrkCollections', () => {
   it('loadExplore', () => {
     cy.visit('/rmrk/explore?tab=COLLECTION&page=1')
   })
-  it('checkTabs', () => {
+  it('exploreTabs', () => {
     cy.exploreTabs()
   })
   // check collection sort
-  it('checkCollectionSort', () => {
+  it('collectionsSort', () => {
     cy.collectionsSortBy()
   })
-  it('checkCollectionsBuyNow', () => {
+  it('collectionsBuyNow', () => {
     cy.collectionsBuyNow()
   })
 })
@@ -59,13 +59,13 @@ describe('exploreBsxCollections', () => {
   it('loadExplore', () => {
     cy.visit('/bsx/explore')
   })
-  it('checkGalleryTabs', () => {
+  it('exploreTabs', () => {
     cy.exploreTabs()
   })
-  it('checkCollectionsSort', () => {
+  it('collectionsSort', () => {
     cy.collectionsSortBy()
   })
-  it('checkCollectionsBuyNow', () => {
+  it('collectionsBuyNow', () => {
     cy.collectionsBuyNow()
   })
 })
@@ -83,10 +83,10 @@ describe('exploreBsxGallery', () => {
   it('galleryInputFields', () => {
     cy.galleryInputFields(100)
   })
-  it('checkGallerySort', () => {
+  it('gallerySortBsx', () => {
     cy.bsxGallerySortBy()
   })
-  it('checkBuyNow', () => {
+  it('galleryBuyNow', () => {
     cy.galleryBuyNow(100)
   })
 })
