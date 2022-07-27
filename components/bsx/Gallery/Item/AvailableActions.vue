@@ -4,8 +4,7 @@
     <ActionList
       v-if="accountId"
       :actions="actions"
-      :isMakeOffersAllowed="!isMakeOffersDisabled"
-      :tooltipOfferLabel="tooltipOfferLabel"
+      :disabledToolTips="toolTips"
       @click="handleAction" />
     <component
       ref="balanceInput"
@@ -41,6 +40,7 @@ import {
   getActionList,
   iconResolver,
   ShoppingActions,
+  ShoppingActionToolTips,
 } from '@/utils/shoppingActions'
 import shouldUpdate from '@/utils/shouldUpdate'
 import Connector from '@kodadot1/sub-api'
@@ -50,12 +50,12 @@ import BalanceInput from '@/components/shared/BalanceInput.vue'
 import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 
 const components = {
-  ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
+  ActionList: () => import('@/components/bsx/Gallery/Item/ActionList.vue'),
   AddressInput: () => import('@/components/shared/AddressInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
-  DaySelect: () => import('~/components/bsx/Offer/DaySelect.vue'),
+  DaySelect: () => import('@/components/bsx/Offer/DaySelect.vue'),
 }
 
 @Component({ components })
@@ -70,6 +70,7 @@ export default class AvailableActions extends mixins(
   @Prop(String) public nftId!: string
   @Prop(String) public collectionId!: string
   @Prop(Boolean) public isMakeOffersAllowed!: boolean
+  @Prop(Boolean) public isBuyAllowed!: boolean
   @Prop(Boolean) public isOwner!: boolean
   @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
@@ -78,7 +79,6 @@ export default class AvailableActions extends mixins(
   public minimumOfferAmount = 0
   public isMakeOffersDisabled = true
   public isBalanceInputValid = false
-  public tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
   public selectedDay = 14
   public dayList = [1, 3, 7, 14, 30]
 
@@ -122,13 +122,26 @@ export default class AvailableActions extends mixins(
       )
       this.isMakeOffersDisabled =
         !this.isMakeOffersAllowed || this.minimumOfferAmount > this.balance
-
-      if (!this.isMakeOffersAllowed) {
-        this.tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
-      } else if (this.minimumOfferAmount > this.balance) {
-        this.tooltipOfferLabel = this.$t('tooltip.makeOfferNotEnoughBalance')
-      }
     })
+  }
+
+  get toolTips(): ShoppingActionToolTips {
+    const toolTips = {}
+    if (!this.isMakeOffersAllowed) {
+      toolTips[ShoppingActions.MAKE_OFFER] = this.$t(
+        'tooltip.makeOfferDisabled'
+      ).toString()
+    } else if (this.minimumOfferAmount > this.balance) {
+      toolTips[ShoppingActions.MAKE_OFFER] = this.$t(
+        'tooltip.notEnoughBalance'
+      ).toString()
+    }
+    if (!this.isBuyAllowed) {
+      toolTips[ShoppingActions.BUY] = this.$t(
+        'tooltip.notEnoughBalance'
+      ).toString()
+    }
+    return toolTips
   }
 
   protected iconType(value: string) {
