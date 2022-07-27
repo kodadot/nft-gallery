@@ -19,20 +19,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import DisabledInput from '@/components/shared/DisabledInput.vue'
+import ChainMixin from '@/utils/mixins/chainMixin'
 
 @Component({
   components: {
     DisabledInput,
   },
 })
-export default class Summary extends Vue {
+export default class Summary extends mixins(ChainMixin) {
   public loading = false
-
-  get chainProperties() {
-    return this.$store.getters['chain/getChainProperties']
-  }
 
   @Watch('$store.state.loading')
   public mapLoading(): void {

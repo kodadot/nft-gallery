@@ -1,5 +1,6 @@
+import { Prefix } from './types'
+
 type AvailableClient = 'subquery' | 'subsquid'
-export type Prefix = 'rmrk' | 'bsx' | 'statemine' | 'westmint' | 'moonsama'
 
 type DefaultIndexer = Record<Prefix, AvailableClient>
 
