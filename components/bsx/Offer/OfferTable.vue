@@ -8,11 +8,11 @@
       enableListenKeyboardEvent
       preserveScroll />
     <b-table :data="showList">
-      <div class="has-text-centered offer-title">
-        {{ $t('nft.offer.title') }}
+      <div v-if="headerText" class="has-text-centered offer-title">
+        {{ headerText }}
       </div>
       <b-table-column
-        v-if="isBsxStats"
+        v-if="displayCollection"
         cell-class="is-vcentered is-narrow"
         :label="$t('offer.collection')"
         v-slot="props"
@@ -108,10 +108,11 @@
       >
       <b-table-column
         v-if="isBsxStats"
-        field="Date"
+        field="createdAt"
         cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.date')"
         v-slot="props"
+        sortable
         ><p>
           {{ new Date(props.row.createdAt) | formatDistanceToNow }}
         </p></b-table-column
@@ -131,7 +132,6 @@ import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { Offer } from './types'
 import { formatDistanceToNow } from 'date-fns'
 import OfferMixin from '~/utils/mixins/offerMixin'
-import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -145,16 +145,12 @@ export default class OfferTable extends mixins(OfferMixin) {
   public offers!: Offer[]
   @Prop(Boolean) public isOwner!: boolean
   @Prop(Boolean) public isBsxStats!: boolean
+  @Prop({ type: String, default: '' }) public headerText!: string
+  @Prop(Boolean) public isCollection!: boolean
+  @Prop({ type: Boolean, default: false }) public displayCollection!: boolean
   public currentBlock = 0
   public itemsPerPage = 20
   private currentPage = parseInt(this.$route.query?.page as string) || 1
-
-  get displayOffers() {
-    return this.offers.map((offer) => ({
-      ...offer,
-      formatPrice: formatBsxBalanceToNumber(offer.price),
-    }))
-  }
 
   @Emit('select')
   tellFrens(caller: string) {
@@ -170,7 +166,10 @@ export default class OfferTable extends mixins(OfferMixin) {
 
   get showList(): any[] {
     const endIndex = this.currentPage * this.itemsPerPage
-    return this.displayOffers.slice(endIndex - this.itemsPerPage, endIndex)
+    return this.displayOffers(this.offers).slice(
+      endIndex - this.itemsPerPage,
+      endIndex
+    )
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <b-table :data="offers">
+  <b-table :data="displayOffers(offers)">
     <b-table-column
       cell-class="is-vcentered is-narrow"
       field="nft.name"
@@ -25,7 +25,7 @@
 
     <b-table-column
       cell-class="is-vcentered is-narrow"
-      field="price"
+      field="formatPrice"
       :label="$t('offer.price')"
       v-slot="props"
       sortable>
@@ -60,8 +60,9 @@
 import { Attribute, emptyArray } from '@kodadot1/minimark'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
-import { Offer } from '../Offer/types'
+import { Offer } from './types'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import OfferMixin from '~/utils/mixins/offerMixin'
 import Connector from '@kodadot1/sub-api'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
@@ -78,12 +79,12 @@ const components = {
 export default class OffersUserTable extends mixins(
   PrefixMixin,
   AuthMixin,
+  OfferMixin,
   MetaTransactionMixin,
   SubscribeMixin
 ) {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public offers!: Offer[]
-
   public timestampOffer(date) {
     return formatDistanceToNow(new Date(date), { addSuffix: true })
   }
