@@ -3,7 +3,7 @@
     <b-field :label="$t(label)" class="balance">
       <b-input
         ref="balance"
-        v-model="inputValue"
+        v-model="internalValue"
         type="number"
         :step="step"
         :min="minWithUnit"
@@ -92,6 +92,7 @@ export default class BalanceInput extends mixins(ChainMixin) {
     // never set value above max value
     this.internalValue = valueInBSXUnit ? valueInBSXUnit / unit : 0
     this.selectedUnit = unit
+    this.balance.focus()
   }
 
   public checkValidity() {
