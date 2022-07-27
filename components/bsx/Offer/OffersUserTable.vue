@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-select v-model="selectedStatus">
+    <b-select v-model="selectedStatus" v-if="!offersListed">
       <option
         v-for="option in uniqType"
         :value="option.type"
@@ -8,6 +8,13 @@
         {{ option.value }}
       </option>
     </b-select>
+    <BasicSwitch
+      class="mt-4"
+      v-model="offersListed"
+      @input="updateList"
+      :label="$t('offer.burnedToggle')"
+      size="is-medium"
+      labelColor="is-success" />
     <b-table :data="updatedOffers">
       <b-table-column
         cell-class="is-vcentered is-narrow"
@@ -68,7 +75,7 @@
 
 <script lang="ts">
 import { Attribute, emptyArray } from '@kodadot1/minimark'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Emit, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 import { Offer } from './types'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
@@ -80,10 +87,12 @@ import SubscribeMixin from '~/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '~/utils/notification'
 import { tokenIdToRoute } from '~/components/unique/utils'
 import { AllOfferStatusType } from '~/utils/offerStatus'
+import shouldUpdate from '~/utils/shouldUpdate'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
+  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
 }
 
 @Component({ components, filters: { formatDistanceToNow } })
@@ -98,6 +107,7 @@ export default class OffersUserTable extends mixins(
   public offers!: Offer[]
   protected offerStatus: AllOfferStatusType = AllOfferStatusType.ALL
   protected offersUpdated: Offer[] = []
+  protected offersListed = false
 
   get uniqType(): { type: AllOfferStatusType; value: string }[] {
     const statusSet = new Set(this.offers.map((offer) => offer.status))
@@ -109,9 +119,6 @@ export default class OffersUserTable extends mixins(
   }
 
   get updatedOffers() {
-    if (!this.offersUpdated.length) {
-      this.offersUpdated = this.offers
-    }
     return this.displayOffers(this.offersUpdated)
   }
 
@@ -126,6 +133,19 @@ export default class OffersUserTable extends mixins(
       this.offersUpdated = this.offers.filter((offer) => offer.status === value)
     }
     this.status = value
+  }
+
+  @Watch('offers', { immediate: true })
+  hasOffers(value: string, oldVal: string) {
+    if (shouldUpdate(value, oldVal)) {
+      this.offersUpdated = this.offers
+    }
+  }
+
+  @Emit('offersListUpdate')
+  public updateList(data) {
+    this.offersUpdated = []
+    return data
   }
 
   public timestampOffer(date) {

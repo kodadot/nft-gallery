@@ -223,7 +223,10 @@
           v-if="isBsx"
           :label="`Offers Made - ${userOfferList.length}`"
           value="offers">
-          <OffersUserTable :offers="userOfferList" hideCollapse />
+          <OffersUserTable
+            :offers="userOfferList"
+            hideCollapse
+            @offersListUpdate="offersListUpdate" />
         </b-tab-item>
       </b-tabs>
     </section>
@@ -804,21 +807,28 @@ export default class Profile extends mixins(
   }
 
   // Get offers for user
-  protected async fetchOfferEvents() {
+  protected async fetchOfferEvents(isBurned = false) {
     try {
       const { data } = await this.$apollo.query<OfferResponse>({
         query: offerListUser,
         client: this.client,
         variables: {
           id: this.id,
+          burned: isBurned,
         },
       })
       if (data?.offers?.length) {
         this.userOfferList = data.offers
+      } else {
+        this.userOfferList = []
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
     }
+  }
+
+  public offersListUpdate(bool) {
+    this.fetchOfferEvents(bool)
   }
 
   @Watch('accountId')
