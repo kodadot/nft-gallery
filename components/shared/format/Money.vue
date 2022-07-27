@@ -18,7 +18,7 @@
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { checkInvalidBalanceFilter } from '@/utils/formatBalance'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import ChainMixin from '@/utils/mixins/chainMixin'
 
 @Component({
   filters: {
@@ -43,7 +43,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     },
   },
 })
-export default class Money extends mixins(PrefixMixin) {
+export default class Money extends mixins(ChainMixin) {
   @Prop({ default: 0 }) readonly value: number | string | undefined
   @Prop(Boolean) readonly inline!: boolean
   @Prop(Boolean) readonly hideUnit!: boolean
@@ -52,18 +52,6 @@ export default class Money extends mixins(PrefixMixin) {
 
   get isBsx() {
     return this.urlPrefix === 'bsx'
-  }
-
-  get chainProperties() {
-    return this.$store.getters['chain/getChainProperties']
-  }
-
-  get decimals(): number {
-    return this.chainProperties.tokenDecimals
-  }
-
-  get unit(): string {
-    return this.chainProperties.tokenSymbol
   }
 }
 </script>

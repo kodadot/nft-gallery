@@ -2,7 +2,7 @@ import type { ApiPromise } from '@polkadot/api'
 import BN from 'bn.js'
 import correctFormat from '../ss58Format'
 
-type ChainProperties = {
+export type ChainProperties = {
   ss58Format: number
   tokenDecimals: number
   tokenSymbol: string

@@ -20,12 +20,11 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
+import { emptyArray } from '@/utils/empty'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { showNotification } from '~/utils/notification'
 import { Attribute } from '../../types'
-import { emptyArray } from '@/utils/empty'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -57,7 +56,7 @@ export default class DangerModal extends mixins(MetaTransactionMixin) {
   }
 
   protected async submit(isMeta: boolean) {
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     this.initTransactionLoader()
     const cb = isMeta ? api.tx.uniques.clearMetadata : api.tx.utility.batchAll
     const args = isMeta

@@ -26,6 +26,7 @@
 </template>
 
 <script lang="ts">
+import BalanceInput from '@/components/shared/BalanceInput.vue'
 import { NFTAction } from '@/components/unique/NftUtils'
 import { createTokenId } from '@/components/unique/utils'
 import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
@@ -33,6 +34,7 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
 import {
@@ -43,10 +45,8 @@ import {
   ShoppingActionToolTips,
 } from '@/utils/shoppingActions'
 import shouldUpdate from '@/utils/shouldUpdate'
-import Connector from '@kodadot1/sub-api'
+import { onApiConnect } from '@kodadot1/sub-api'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import onApiConnect from '@/utils/api/general'
-import BalanceInput from '@/components/shared/BalanceInput.vue'
 import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 
 const components = {
@@ -63,7 +63,8 @@ export default class AvailableActions extends mixins(
   PrefixMixin,
   KeyboardEventsMixin,
   MetaTransactionMixin,
-  AuthMixin
+  AuthMixin,
+  UseApiMixin
 ) {
   @Prop(String) public currentOwnerId!: string
   @Prop() public price!: string
@@ -115,8 +116,7 @@ export default class AvailableActions extends mixins(
   }
 
   public async created(): Promise<void> {
-    onApiConnect(() => {
-      const { api } = Connector.getInstance()
+    onApiConnect(this.apiUrl, (api) => {
       this.minimumOfferAmount = formatBsxBalanceToNumber(
         api?.consts?.marketplace?.minimumOfferAmount?.toString()
       )
@@ -178,7 +178,7 @@ export default class AvailableActions extends mixins(
   }
 
   protected async submit() {
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     this.initTransactionLoader()
 
     try {

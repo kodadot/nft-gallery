@@ -1,7 +1,6 @@
 import { MassMintNFT } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
-import Connector from '@kodadot1/sub-api'
 import { Attribute } from '@kodadot1/minimark'
 import consola from 'consola'
 type Range = [number, number]
@@ -36,17 +35,6 @@ export function isFileWithoutType(
   mediaType: MediaType
 ): boolean {
   return Boolean(file && mediaType === MediaType.UNKNOWN)
-}
-
-export function toRemark(rmrk: string | string[]) {
-  const { api } = Connector.getInstance()
-  const remark = api.tx.system.remark
-
-  if (Array.isArray(rmrk)) {
-    return rmrk.map(remark)
-  }
-
-  return remark(rmrk)
 }
 
 export function massMintParser(text: string): Record<string, MassMintNFT> {
