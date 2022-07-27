@@ -1,10 +1,10 @@
 <template>
   <div class="mt-6">
     <div class="is-flex is-align-items-center is-justify-content-space-between">
-      <p class="label">Box Plot Chart</p>
+      <p class="label mb-0">Box Plot Chart</p>
       <b-select v-model="selectedRange" @input="selectRange($event)">
         <option v-for="option in range" :value="option" :key="option">
-          {{ option }}
+          {{ option.charAt(0).toUpperCase() + option.slice(1) }}
         </option>
       </b-select>
     </div>
@@ -89,6 +89,92 @@ export default class BoxPlot extends Vue {
     })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  protected getAnnotation({ data }): any[] {
+    const { iqr: iqrList } = getHSpread(this.iqrData.listings)
+    const { iqr: iqrBuy } = getHSpread(this.iqrData.buys)
+
+    return data.labels.length === 1
+      ? []
+      : [
+          {
+            type: 'line',
+            borderColor: '#e6007e',
+            borderWidth: 0,
+            label: {
+              content: () => `IQR List: ${iqrList.toFixed(2)}`,
+              position: 'start',
+              display: true,
+            },
+            scaleID: 'y',
+            value: () => iqrList,
+          },
+          {
+            type: 'line',
+            borderColor: '#00BB7F',
+            borderWidth: 0,
+            label: {
+              content: () => `IQR Buy: ${iqrBuy.toFixed(2)}`,
+              position: 'end',
+              display: true,
+            },
+            scaleID: 'y',
+            value: () => iqrList,
+          },
+        ]
+  }
+
+  protected chartOptions({ ctx, data }) {
+    return new Chart(ctx, {
+      type: 'boxplot',
+      data,
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            ticks: {
+              color: 'white',
+              callback: (value) => {
+                return `${value} ${this.$store.getters['chain/getChainProperties'].tokenSymbol}`
+              },
+            },
+          },
+        },
+        plugins: {
+          tooltip: {
+            displayColors: false,
+            callbacks: {
+              title: (ctx) => {
+                return `${ctx[0].dataset.label} ${ctx[0].label}`
+              },
+              label: (ctx) => {
+                const median = ctx.parsed.median.toFixed(2)
+                const q1 = ctx.parsed.q1.toFixed(2)
+                const q3 = ctx.parsed.q3.toFixed(2)
+                const iqr = (parseFloat(q3) - parseFloat(q1)).toFixed(2)
+                const min = ctx.parsed.min.toFixed(2)
+                const max = ctx.parsed.max.toFixed(2)
+
+                const boxplotValues = [
+                  `Median: ${median}`,
+                  `Q3: ${q3}`,
+                  `Q1: ${q1}`,
+                  `IQR: ${iqr}`,
+                  `Min: ${min}`,
+                  `Max: ${max}`,
+                ]
+                return boxplotValues
+              },
+            },
+          },
+          annotation: {
+            annotations: this.getAnnotation({ data }),
+          },
+        },
+      },
+    })
+  }
+
   protected generateChart() {
     this.listData = {}
     this.buyData = {}
@@ -121,95 +207,23 @@ export default class BoxPlot extends Vue {
         },
       ],
     }
-    const { iqr: iqrList } = getHSpread(this.iqrData.listings)
-    const { iqr: iqrBuy } = getHSpread(this.iqrData.buys)
 
-    if (ctx && iqrList && iqrBuy) {
+    if (ctx) {
       if (this.chartBoxPlot) {
         this.chartBoxPlot.data = boxplotData
+        this.chartBoxPlot.options.plugins = {
+          ...this.chartBoxPlot.options.plugins,
+          annotation: {
+            annotations: this.getAnnotation({
+              data: boxplotData,
+            }),
+          },
+        }
         this.chartBoxPlot.update()
       } else {
-        this.chartBoxPlot = new Chart(ctx, {
-          type: 'boxplot',
+        this.chartBoxPlot = this.chartOptions({
+          ctx,
           data: boxplotData,
-          options: {
-            responsive: true,
-            scales: {
-              y: {
-                ticks: {
-                  color: 'white',
-                  callback: (value) => {
-                    return `${value} ${this.$store.getters['chain/getChainProperties'].tokenSymbol}`
-                  },
-                  stepSize: 0.1,
-                  maxTicksLimit: 10,
-                },
-              },
-            },
-            plugins: {
-              tooltip: {
-                displayColors: false,
-                callbacks: {
-                  title: (ctx) => {
-                    return `${ctx[0].dataset.label} ${ctx[0].label}`
-                  },
-                  label: (ctx) => {
-                    const median = ctx.parsed.median.toFixed(2)
-                    const q1 = ctx.parsed.q1.toFixed(2)
-                    const q3 = ctx.parsed.q3.toFixed(2)
-                    const iqr = (parseFloat(q3) - parseFloat(q1)).toFixed(2)
-                    const min = ctx.parsed.min.toFixed(2)
-                    const max = ctx.parsed.max.toFixed(2)
-
-                    const boxplotValues = [
-                      `Median: ${median}`,
-                      `Q3: ${q3}`,
-                      `Q1: ${q1}`,
-                      `IQR: ${iqr}`,
-                      `Min: ${min}`,
-                      `Max: ${max}`,
-                    ]
-                    return boxplotValues
-                  },
-                },
-              },
-              annotation: {
-                annotations: [
-                  {
-                    type: 'label',
-                    borderColor: 'white',
-                    content: 'asdf',
-                    xValue: 9,
-                    yValue: 30,
-                  },
-                  {
-                    type: 'line',
-                    borderColor: '#e6007e',
-                    borderWidth: 0,
-                    label: {
-                      content: () => `IQR List: ${iqrList.toFixed(2)}`,
-                      position: 'start',
-                      display: true,
-                    },
-                    scaleID: 'y',
-                    value: () => iqrList,
-                  },
-                  {
-                    type: 'line',
-                    borderColor: '#00BB7F',
-                    borderWidth: 0,
-                    label: {
-                      content: () => `IQR Buy: ${iqrBuy.toFixed(2)}`,
-                      position: 'end',
-                      display: true,
-                    },
-                    scaleID: 'y',
-                    value: () => iqrList,
-                  },
-                ],
-              },
-            },
-          },
         })
       }
     }

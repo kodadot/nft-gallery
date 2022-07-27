@@ -39,7 +39,7 @@ specifiers:
   apollo-boost: ^0.4.9
   axios: ^0.27.2
   buefy: ^0.9.21
-  chart.js: ^3.8.0
+  chart.js: ^3.8.2
   chartjs-adapter-date-fns: ^2.0.0
   chartjs-plugin-annotation: ^2.0.0
   chartjs-plugin-zoom: ^1.2.1
@@ -106,14 +106,14 @@ dependencies:
   '@polkadot/ui-keyring': 0.89.4-1
   '@polkadot/vue-identicon': 0.89.3_vue@2.6.14
   '@ramp-network/ramp-instant-sdk': 3.1.1
-  '@sgratzl/chartjs-chart-boxplot': 3.8.0_chart.js@3.8.0
+  '@sgratzl/chartjs-chart-boxplot': 3.8.0_chart.js@3.8.2
   apollo-boost: 0.4.9_graphql@16.5.0
   axios: 0.27.2
   buefy: 0.9.21_vue@2.6.14
-  chart.js: 3.8.0
-  chartjs-adapter-date-fns: 2.0.0_chart.js@3.8.0
-  chartjs-plugin-annotation: 2.0.0_chart.js@3.8.0
-  chartjs-plugin-zoom: 1.2.1_chart.js@3.8.0
+  chart.js: 3.8.2
+  chartjs-adapter-date-fns: 2.0.0_chart.js@3.8.2
+  chartjs-plugin-annotation: 2.0.0_chart.js@3.8.2
+  chartjs-plugin-zoom: 1.2.1_chart.js@3.8.2
   css-loader: 5.2.7
   date-fns: 2.29.1
   emoji-unicode: 2.0.1
@@ -4230,13 +4230,13 @@ packages:
     resolution: {integrity: sha512-2BRWv+WOH58pwzSgP50buoXgxQic+4auz3BF0wiIUXS8D3QGkdBNgsNdQO1754Tm/0uEwly0R3WaCiGnoYWcmA==}
     dev: false
 
-  /@sgratzl/chartjs-chart-boxplot/3.8.0_chart.js@3.8.0:
+  /@sgratzl/chartjs-chart-boxplot/3.8.0_chart.js@3.8.2:
     resolution: {integrity: sha512-tH+WaakyzqNRYkKrjAGzRUSy57sDHe/aZISEQnCIYf7EUtm6BK5fNIxK3S01EKYhQJ3gogVdbCe6xbbqWXTiWw==}
     peerDependencies:
       chart.js: ^3.8.0
     dependencies:
       '@sgratzl/boxplots': 1.3.0
-      chart.js: 3.8.0
+      chart.js: 3.8.2
     dev: false
 
   /@sindresorhus/is/0.14.0:
@@ -7082,32 +7082,32 @@ packages:
   /chardet/0.7.0:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
 
-  /chart.js/3.8.0:
-    resolution: {integrity: sha512-cr8xhrXjLIXVLOBZPkBZVF6NDeiVIrPLHcMhnON7UufudL+CNeRrD+wpYanswlm8NpudMdrt3CHoLMQMxJhHRg==}
+  /chart.js/3.8.2:
+    resolution: {integrity: sha512-7rqSlHWMUKFyBDOJvmFGW2lxULtcwaPLegDjX/Nu5j6QybY+GCiQkEY+6cqHw62S5tcwXMD8Y+H5OBGoR7d+ZQ==}
     dev: false
 
-  /chartjs-adapter-date-fns/2.0.0_chart.js@3.8.0:
+  /chartjs-adapter-date-fns/2.0.0_chart.js@3.8.2:
     resolution: {integrity: sha512-rmZINGLe+9IiiEB0kb57vH3UugAtYw33anRiw5kS2Tu87agpetDDoouquycWc9pRsKtQo5j+vLsYHyr8etAvFw==}
     peerDependencies:
       chart.js: ^3.0.0
     dependencies:
-      chart.js: 3.8.0
+      chart.js: 3.8.2
     dev: false
 
-  /chartjs-plugin-annotation/2.0.0_chart.js@3.8.0:
+  /chartjs-plugin-annotation/2.0.0_chart.js@3.8.2:
     resolution: {integrity: sha512-Gd8X+uaWuD63qHSf4R9SvFIdHbxmP1RBsKfdlQt7oFgsyDYjqP2y0WrbEs1UoE7OXJDm8lfZes2tQQNhEL/EZw==}
     peerDependencies:
       chart.js: ^3.7.0
     dependencies:
-      chart.js: 3.8.0
+      chart.js: 3.8.2
     dev: false
 
-  /chartjs-plugin-zoom/1.2.1_chart.js@3.8.0:
+  /chartjs-plugin-zoom/1.2.1_chart.js@3.8.2:
     resolution: {integrity: sha512-2zbWvw2pljrtMLMXkKw1uxYzAne5PtjJiOZftcut4Lo3Ee8qUt95RpMKDWrZ+pBZxZKQKOD/etdU4pN2jxZUmg==}
     peerDependencies:
       chart.js: ^3.2.0
     dependencies:
-      chart.js: 3.8.0
+      chart.js: 3.8.2
       hammerjs: 2.0.8
     dev: false
 
