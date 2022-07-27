@@ -85,9 +85,6 @@ export default class BoxPlot extends Vue {
 
     // remove some outliers
     Object.keys(groupedData).forEach((item) => {
-      if (type === 'listings') {
-        console.log(filterOutliers(groupedData[item]))
-      }
       groupedData[item] = filterOutliers(groupedData[item])
     })
   }

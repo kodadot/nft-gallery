@@ -14,21 +14,12 @@ export const mapToAverage = (item: CollectionChartData) =>
 export const mapToCount = (item: CollectionChartData) => item.count
 export const getLabel = (item: CollectionChartData) => item.date
 
-type GetQuartilesArgs = {
-  dataset: number[]
-  medianDetails: MedianDetails
-}
 type MedianDetails = {
   median: number
   medianIndex: null | number
 }
 type RenderedChartData<T = bigint | number> = { x: Date; y: T }[]
 
-interface Quartiles {
-  q1: number
-  q2: number
-  q3: number
-}
 interface HSpread {
   min: number
   max: number
@@ -50,29 +41,6 @@ const getMedianDetails = (dataset: number[]): MedianDetails => {
     const median = dataset[Math.floor(length / 2)]
     return { median, medianIndex: Math.floor(length / 2) }
   }
-}
-
-const getQuartiles = ({
-  dataset,
-  medianDetails,
-}: GetQuartilesArgs): Quartiles => {
-  let q1 = 0
-  let q3 = 0
-
-  // If there is a median index, this means that the dataset length is an odd number
-  if (medianDetails.medianIndex) {
-    q1 = getMedianDetails(dataset.slice(0, medianDetails.medianIndex)).median
-    q3 = getMedianDetails(
-      dataset.slice(medianDetails.medianIndex + 1, dataset.length)
-    ).median
-  } else {
-    q1 = getMedianDetails(dataset.slice(0, dataset.length / 2)).median
-    q3 = getMedianDetails(
-      dataset.slice(dataset.length / 2, dataset.length)
-    ).median
-  }
-
-  return { q1, q2: medianDetails.median, q3 }
 }
 
 export const getChartData = (data: ChartData = []): RenderedChartData =>
@@ -120,27 +88,27 @@ export const getMovingAverage = (data: RenderedChartData = []): number[] => {
   return movingAverageArray
 }
 
-// source: https://stackoverflow.com/a/20811670
+// source: https://stackoverflow.com/a/64452666
 // https://mathworld.wolfram.com/Outlier.html
 export const getHSpread = (data): HSpread => {
-  // Copy the values, rather than operating on references to existing values
-  const values = data.concat()
+  const values = data.concat().sort((a, b) => a - b)
 
-  // Then sort
-  values.sort(function (a, b) {
-    return a - b
-  })
+  const quartile = (q) => {
+    const sorted = values
+    const pos = (sorted.length - 1) * q
+    const base = Math.floor(pos)
+    const rest = pos - base
 
-  /* Then find a generous IQR. This is generous because if (values.length / 4)
-   * is not an int, then really you should average the two elements on either
-   * side to find q1.
-   */
-  const q1 = values[Math.floor(values.length / 4)]
-  // Likewise for q3.
-  const q3 = values[Math.ceil(values.length * (3 / 4))]
+    if (sorted[base + 1] !== undefined) {
+      return sorted[base] + rest * (sorted[base + 1] - sorted[base])
+    } else {
+      return sorted[base]
+    }
+  }
+
+  const q1 = quartile(0.25)
+  const q3 = quartile(0.75)
   const iqr = q3 - q1
-
-  // Then find min and max values
   const max = q3 + iqr * 1.5
   const min = q1 - iqr * 1.5
 
