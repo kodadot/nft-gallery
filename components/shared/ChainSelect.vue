@@ -20,11 +20,20 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import { Option } from '@kodadot1/vuex-options/dist/types'
+import { chainTestList } from '~/utils/constants'
 
 @Component({})
 export default class ChainSelect extends Vue {
   get options() {
-    return this.$store.getters['availableUrlPrefixes']
+    const availableUrlPrefixes: Option[] =
+      this.$store.getters['availableUrlPrefixes']
+    if (!this.$config.dev) {
+      return availableUrlPrefixes.filter(
+        (urlPrefix) => !chainTestList.includes(urlPrefix.value as string)
+      )
+    }
+    return availableUrlPrefixes
   }
 
   get selected() {
