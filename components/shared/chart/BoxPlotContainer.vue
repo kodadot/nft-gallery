@@ -20,9 +20,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import format from 'date-fns/format'
 import { filterOutliers, getHSpread } from '@/utils/chart'
+import ChainMixin from '@/utils/mixins/chainMixin'
 
 // types
 import { CollectionChartData as ChartData } from '@/utils/chart'
@@ -32,7 +33,7 @@ import { CollectionChartData as ChartData } from '@/utils/chart'
     BoxPlot: () => import('~/components/shared/chart/BoxPlot.vue'),
   },
 })
-export default class BoxPlotContainer extends Vue {
+export default class BoxPlotContainer extends mixins(ChainMixin) {
   @Prop({ type: Array, required: true }) public priceData!: [
     ChartData[],
     ChartData[]
@@ -60,19 +61,6 @@ export default class BoxPlotContainer extends Vue {
     outlierBorderColor: 'white',
     outlierRadius: 2,
     outlierBorderWidth: 2,
-  }
-  protected defaultOptions = {
-    responsive: true,
-    scales: {
-      y: {
-        ticks: {
-          color: 'white',
-          callback: (value) => {
-            return `${value} ${this.$store.getters['chain/getChainProperties'].tokenSymbol}`
-          },
-        },
-      },
-    },
   }
   protected defaultTooltips = {
     displayColors: false,
@@ -112,7 +100,17 @@ export default class BoxPlotContainer extends Vue {
 
   get chartOptions() {
     return {
-      ...this.defaultOptions,
+      responsive: true,
+      scales: {
+        y: {
+          ticks: {
+            color: 'white',
+            callback: (value) => {
+              return `${value} ${this.unit}`
+            },
+          },
+        },
+      },
       plugins: {
         annotation: this.annotation,
         tooltip: this.defaultTooltips,
