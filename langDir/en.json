@@ -508,7 +508,7 @@
     "holdings": "Nfts owned by",
     "gains": "Gained by",
     "makeOfferDisabled": "You have already made an offer for this NFT",
-    "makeOfferNotEnoughBalance": "You do not have enough funds"
+    "notEnoughBalance": "Insufficient funds"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",

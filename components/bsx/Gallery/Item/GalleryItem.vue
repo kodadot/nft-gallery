@@ -91,6 +91,7 @@
                           :collectionId="collectionId"
                           :frozen="nft.isFrozen"
                           :isMakeOffersAllowed="isMakeOffersAllowed"
+                          :isBuyAllowed="isBuyAllowed"
                           :ipfs-hashes="[
                             nft.image,
                             nft.animation_url,
@@ -424,6 +425,13 @@ export default class GalleryItem extends mixins(
         prefix: this.urlPrefix,
       })
     }
+  }
+
+  get isBuyAllowed(): boolean {
+    if (!this.nft.price) {
+      return false
+    }
+    return parseFloat(this.balance) > parseFloat(this.nft.price)
   }
 
   protected handleAction(action: ShoppingActions) {
