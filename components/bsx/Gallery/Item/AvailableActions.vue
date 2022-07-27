@@ -126,7 +126,7 @@ export default class AvailableActions extends mixins(
       if (!this.isMakeOffersAllowed) {
         this.tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
       } else if (this.minimumOfferAmount > this.balance) {
-        this.tooltipOfferLabel = this.$t('tooltip.makeOfferNotEnoughBalance')
+        this.tooltipOfferLabel = this.$t('tooltip.notEnoughBalance')
       }
     })
   }

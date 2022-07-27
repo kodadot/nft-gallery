@@ -1,7 +1,11 @@
 <template>
   <div class="arguments-wrapper">
-    <b-field :label="$t(label)" class="balance">
+    <b-field
+      :label="$t(label)"
+      class="balance"
+      :type="checkFailed ? 'is-danger' : ''">
       <b-input
+        :required="required"
         ref="balance"
         v-model="inputValue"
         type="number"
@@ -19,6 +23,11 @@
           </option>
         </b-select>
       </p>
+      <template v-if="checkFailed" #message>
+        <transition name="fade">
+          <span>{{ $t('tooltip.needToSetValidPrice') }}</span>
+        </transition>
+      </template>
     </b-field>
   </div>
 </template>
@@ -46,6 +55,9 @@ export default class BalanceInput extends mixins(ChainMixin) {
   @Prop({ default: 0.001 }) public step!: number
   @Prop(Number) public min!: number
   @Prop({ type: Number, default: Number.MAX_SAFE_INTEGER }) public max!: number
+  @Prop({ type: Boolean, default: false }) public required!: boolean
+  @Prop({ type: Boolean, default: false }) public hasToLargerThanZero!: boolean
+  protected checkFailed = false
   protected units: Unit[] = defaultUnits
   private selectedUnit = 1
   private internalValue = this.value || 0
@@ -101,7 +113,10 @@ export default class BalanceInput extends mixins(ChainMixin) {
   }
 
   public checkValidity() {
-    return this.balance.checkHtml5Validity()
+    this.checkFailed =
+      this.hasToLargerThanZero && this.inputValue <= 0 ? true : false
+    const balanceInputValid = this.balance.checkHtml5Validity()
+    return balanceInputValid && !this.checkFailed
   }
 }
 </script>

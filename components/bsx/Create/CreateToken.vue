@@ -2,22 +2,28 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
+      ref="baseTokenForm"
       v-bind.sync="base"
       :collections="collections"
       :hasEdition="false">
       <template v-slot:main>
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <BasicSwitch key="listed" v-model="listed" label="mint.listForSale" />
-        <BalanceInput
-          v-if="listed"
-          label="Price"
-          expanded
-          key="price"
-          :step="1"
-          :max="maxPrice"
-          :min="0"
-          @input="updatePrice"
-          class="mb-3" />
+        <b-field key="balanceInput">
+          <BalanceInput
+            ref="balanceInput"
+            required
+            has-to-larger-than-zero
+            v-if="listed"
+            label="Price"
+            expanded
+            key="price"
+            :step="1"
+            :max="maxPrice"
+            :min="0"
+            @input="updatePrice"
+            class="mb-3" />
+        </b-field>
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
             :max="10"
@@ -49,10 +55,12 @@
         <b-field key="balance">
           <AccountBalance />
         </b-field>
-        <b-field key="submit" type="is-danger" :message="disabledMessage">
+        <b-field
+          key="submit"
+          type="is-danger"
+          :message="balanceNotEnoughMessage">
           <SubmitButton
             label="mint.submit"
-            :disabled="disabled"
             :loading="isLoading"
             @click="submit" />
         </b-field>
@@ -77,7 +85,7 @@ import {
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import Connector from '@kodadot1/sub-api'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Ref, Watch } from 'nuxt-property-decorator'
 
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
 import {
@@ -150,19 +158,24 @@ export default class CreateToken extends mixins(
     amount: 0,
     address: '',
   }
+  protected balanceNotEnough = false
+  @Ref('balanceInput') readonly balanceInput
+  @Ref('baseTokenForm') readonly baseTokenForm
 
   protected updatePrice(value: string) {
     this.price = value
-    if (parseFloat(value) === 0 && this.listed) {
-      showNotification(
-        'In order to list NFT, price has to be more than 0',
-        notificationTypes.info
-      )
-    }
+    this.balanceInput.checkValidity()
   }
 
   get hasPrice() {
     return Number(this.price)
+  }
+
+  get balanceNotEnoughMessage() {
+    if (this.balanceNotEnough) {
+      return this.$t('tooltip.notEnoughBalance')
+    }
+    return ''
   }
 
   public async created() {
@@ -238,38 +251,6 @@ export default class CreateToken extends mixins(
     })
   }
 
-  get balanceEnough(): boolean {
-    return !this.deposit || parseFloat(this.balance) > parseFloat(this.deposit)
-  }
-
-  get disabledMessage() {
-    if (!this.disabled) {
-      return ''
-    }
-    if (!this.base.name) {
-      return this.$t('tooltip.needToEnterNFTName')
-    } else if (!this.base.file) {
-      return this.$t('tooltip.needToUploadNFTFile')
-    } else if (!this.base.selectedCollection) {
-      return this.$t('tooltip.needToSelectCollection')
-    } else if (!this.balanceEnough) {
-      return this.$t('tooltip.notEnoughBalance')
-    } else if (!this.validPriceValue) {
-      return this.$t('tooltip.needToSetValidPrice')
-    }
-    return ''
-  }
-
-  get disabled() {
-    return !(
-      this.base.name &&
-      this.base.file &&
-      this.base.selectedCollection &&
-      this.balanceEnough &&
-      this.validPriceValue
-    )
-  }
-
   get hasSupport(): boolean {
     return this.$store.state.preferences.hasSupport
   }
@@ -287,9 +268,24 @@ export default class CreateToken extends mixins(
     return !this.listed || (price > 0 && price <= this.maxPrice)
   }
 
+  public checkValidity() {
+    const balanceInputValid = this.balanceInput.checkValidity()
+    const baseTokenFormValid = this.baseTokenForm.checkValidity()
+    return balanceInputValid && baseTokenFormValid
+  }
+
   protected async submit(): Promise<void> {
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
+    }
+    // check fields
+    if (!this.checkValidity()) {
+      return
+    }
+    // check balance
+    if (!!this.deposit && parseFloat(this.balance) < parseFloat(this.deposit)) {
+      this.balanceNotEnough = true
+      return
     }
 
     this.isLoading = true
