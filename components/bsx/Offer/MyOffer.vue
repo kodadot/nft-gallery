@@ -6,7 +6,7 @@
       </h1>
     </div>
     <Loader v-model="isLoading" :status="status" />
-    <b-table :data="displayOffers">
+    <b-table :data="displayOffers(offers)">
       <b-table-column
         cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.item')"
@@ -95,7 +95,6 @@ import acceptableOfferByCurrentOwner from '@/queries/subsquid/bsx/acceptableOffe
 import { formatDistanceToNow } from 'date-fns'
 import OfferMixin from '~/utils/mixins/offerMixin'
 import { tokenIdToRoute } from '@/components/unique/utils'
-import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -108,13 +107,6 @@ const components = {
 })
 export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
   protected offers: Offer[] = []
-
-  get displayOffers() {
-    return this.offers.map((offer) => ({
-      ...offer,
-      formatPrice: formatBsxBalanceToNumber(offer.price),
-    }))
-  }
 
   mounted() {
     if (this.accountId) {
