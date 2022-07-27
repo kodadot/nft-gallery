@@ -69,17 +69,6 @@ export default class BalanceInput extends mixins(ChainMixin) {
     this.balance?.focus()
   }
 
-  formatSelectedValue(value: number): string {
-    return value
-      ? String(
-          Math.min(
-            this.maxWithUnit,
-            value * 10 ** this.decimals * this.selectedUnit
-          )
-        )
-      : '0'
-  }
-
   protected mapper(unit: Unit) {
     if (unit.name === '-') {
       return { ...unit, name: this.unit }
@@ -101,7 +90,6 @@ export default class BalanceInput extends mixins(ChainMixin) {
   handleUnitChange(unit) {
     const valueInBSXUnit = this.internalValue * this.selectedUnit
     // never set value above max value
-    // this.internalValue = Number(this.formatSelectedValue(this.internalValue))
     this.internalValue = valueInBSXUnit ? valueInBSXUnit / unit : 0
     this.selectedUnit = unit
   }
