@@ -223,7 +223,7 @@
           v-if="isBsx"
           :label="`Offers Made - ${userOfferList.length}`"
           value="offers">
-          <OffersUserTable :offers="userOfferList" hideCollapse />
+          <OffersUserTable :offers="userOfferList" :ownerId="id" hideCollapse />
         </b-tab-item>
       </b-tabs>
     </section>
