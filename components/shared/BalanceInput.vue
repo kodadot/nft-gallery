@@ -3,7 +3,7 @@
     <b-field :label="$t(label)" class="balance">
       <b-input
         ref="balance"
-        v-model="internalValue"
+        v-model="inputValue"
         type="number"
         :step="step"
         :min="minWithUnit"
