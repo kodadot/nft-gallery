@@ -121,7 +121,7 @@ export default class PackSaver extends Vue {
   // }
 
   // private async submit(rmrk: string) {
-  //   const { api } = Connector.getInstance();
+  //   const api = await this.useApi();
   //   const rmrkService = getInstance();
 
   //   try {

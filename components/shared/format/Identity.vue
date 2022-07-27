@@ -58,18 +58,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, mixins, Emit } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
+import { emptyObject } from '@/utils/empty'
+import { identityStore } from '@/utils/idbStore'
 import InlineMixin from '@/utils/mixins/inlineMixin'
+import shortAddress from '@/utils/shortAddress'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { onApiConnect } from '@kodadot1/sub-api'
+import { Data } from '@polkadot/types'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { hexToString, isHex } from '@polkadot/util'
-import onApiConnect from '@/utils/api/general'
-import { emptyObject } from '@/utils/empty'
-import { Data } from '@polkadot/types'
-import shortAddress from '@/utils/shortAddress'
 import { get, update } from 'idb-keyval'
-import { identityStore } from '@/utils/idbStore'
-import shouldUpdate from '@/utils/shouldUpdate'
+import { Component, Emit, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
@@ -79,7 +79,7 @@ const components = {
 }
 
 @Component({ components })
-export default class Identity extends mixins(InlineMixin) {
+export default class Identity extends mixins(InlineMixin, UseApiMixin) {
   @Prop() public address!: Address
   @Prop(Boolean) public verticalAlign!: boolean
   @Prop(Boolean) public noOwerflow!: boolean
@@ -128,7 +128,7 @@ export default class Identity extends mixins(InlineMixin) {
    * https://vuejs.org/guide/essentials/lifecycle.html
    */
   mounted() {
-    onApiConnect(async () => {
+    onApiConnect(this.apiUrl, async () => {
       this.identity = await this.identityOf(this.resolveAddress(this.address))
     })
   }
@@ -172,7 +172,7 @@ export default class Identity extends mixins(InlineMixin) {
 
   protected async fetchIdentity(address: string): Promise<IdentityFields> {
     this.isFetchingIdentity = true
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
 
     const optionIdentity = await api?.query.identity?.identityOf(address)
     const identity = optionIdentity?.unwrapOrDefault()

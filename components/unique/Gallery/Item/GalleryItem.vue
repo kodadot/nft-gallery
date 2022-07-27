@@ -114,15 +114,15 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import { NFT, NFTMetadata, Emote } from '@/components/rmrk/service/scheme'
+import { Emote, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import {
-  sanitizeIpfsUrl,
-  resolveMedia,
   getSanitizer,
+  resolveMedia,
+  sanitizeIpfsUrl,
 } from '@/components/rmrk/utils'
 import { isOwner } from '~/utils/account'
 import { emptyObject } from '@/utils/empty'
+import { Component, mixins } from 'nuxt-property-decorator'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
 import {
@@ -131,19 +131,19 @@ import {
   InstanceMetadata,
 } from '@polkadot/types/interfaces'
 
-import isShareMode from '@/utils/isShareMode'
-import nftById from '@/queries/unique/nftById.graphql'
-import { fetchNFTMetadata } from '@/components/rmrk/utils'
-import { get, set } from 'idb-keyval'
 import { MediaType } from '@/components/rmrk/types'
-import axios from 'axios'
+import { fetchNFTMetadata } from '@/components/rmrk/utils'
+import nftById from '@/queries/unique/nftById.graphql'
 import Orientation from '@/utils/directives/DeviceOrientation'
+import isShareMode from '@/utils/isShareMode'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
-import Connector from '@kodadot1/sub-api'
+import { onApiConnect } from '@kodadot1/sub-api'
 import { Option } from '@polkadot/types'
-import { createTokenId, tokenIdToRoute } from '../../utils'
+import axios from 'axios'
+import { get, set } from 'idb-keyval'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import onApiConnect from '@/utils/api/general'
+import UseApiMixin from '~/utils/mixins/useApiMixin'
+import { createTokenId, tokenIdToRoute } from '../../utils'
 import AuthMixin from '~/utils/mixins/authMixin'
 
 @Component<GalleryItem>({
@@ -168,7 +168,8 @@ import AuthMixin from '~/utils/mixins/authMixin'
 export default class GalleryItem extends mixins(
   SubscribeMixin,
   PrefixMixin,
-  AuthMixin
+  AuthMixin,
+  UseApiMixin
 ) {
   private id = ''
   private collectionId = ''
@@ -191,7 +192,7 @@ export default class GalleryItem extends mixins(
   public async created() {
     this.checkId()
     this.fetchCollection()
-    onApiConnect((api) => {
+    onApiConnect(this.apiUrl, (api) => {
       this.loadMagic()
       if (api.query.uniques) {
         this.subscribe(
@@ -218,7 +219,7 @@ export default class GalleryItem extends mixins(
   }
 
   public async loadMagic() {
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     await api?.isReady
     try {
       this.$consola.log('loading magic', this.id)
