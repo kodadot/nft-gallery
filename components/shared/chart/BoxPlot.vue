@@ -1,15 +1,18 @@
 <template>
   <div class="mt-6">
-    <div class="is-flex is-align-items-center is-justify-content-space-between">
-      <p class="label mb-0">Box Plot Chart</p>
-      <b-select v-model="selectedRange" @input="selectRange($event)">
-        <option v-for="option in range" :value="option" :key="option">
-          {{ option.charAt(0).toUpperCase() + option.slice(1) }}
-        </option>
-      </b-select>
-    </div>
-    <div class="chart-container">
-      <canvas ref="chartBoxPlot" />
+    <div v-if="status === 'show'">
+      <div
+        class="is-flex is-align-items-center is-justify-content-space-between">
+        <p class="label mb-0">Box Plot Chart</p>
+        <b-select v-model="selectedRange" @input="selectRange($event)">
+          <option v-for="option in range" :value="option" :key="option">
+            {{ option.charAt(0).toUpperCase() + option.slice(1) }}
+          </option>
+        </b-select>
+      </div>
+      <div class="chart-container">
+        <canvas id="chartBoxPlot" />
+      </div>
     </div>
   </div>
 </template>
@@ -49,6 +52,7 @@ export default class BoxPlot extends Vue {
     ChartData[]
   ] // [listings, buys]
 
+  protected status: 'show' | 'hideChart' = 'show'
   protected range = ['yearly', 'quarterly', 'monthly']
   protected selectedRange = 'yearly'
   protected listData = {}
@@ -93,35 +97,37 @@ export default class BoxPlot extends Vue {
   protected getAnnotation({ data }): any[] {
     const { iqr: iqrList } = getHSpread(this.iqrData.listings)
     const { iqr: iqrBuy } = getHSpread(this.iqrData.buys)
+    const baseAttributes = {
+      type: 'line',
+      borderWidth: 0,
+      scaleID: 'y',
+    }
+    const dataIqrList = iqrList
+      ? {
+          ...baseAttributes,
+          borderColor: '#e6007e',
+          label: {
+            content: () => `IQR List: ${iqrList.toFixed(2)}`,
+            position: 'start',
+            display: true,
+          },
+          value: () => iqrList,
+        }
+      : baseAttributes
+    const dataIqrBuy = iqrBuy
+      ? {
+          ...baseAttributes,
+          borderColor: '#00BB7F',
+          label: {
+            content: () => `IQR Buy: ${iqrBuy.toFixed(2)}`,
+            position: 'end',
+            display: true,
+          },
+          value: () => iqrList,
+        }
+      : baseAttributes
 
-    return data.labels.length === 1
-      ? []
-      : [
-          {
-            type: 'line',
-            borderColor: '#e6007e',
-            borderWidth: 0,
-            label: {
-              content: () => `IQR List: ${iqrList.toFixed(2)}`,
-              position: 'start',
-              display: true,
-            },
-            scaleID: 'y',
-            value: () => iqrList,
-          },
-          {
-            type: 'line',
-            borderColor: '#00BB7F',
-            borderWidth: 0,
-            label: {
-              content: () => `IQR Buy: ${iqrBuy.toFixed(2)}`,
-              position: 'end',
-              display: true,
-            },
-            scaleID: 'y',
-            value: () => iqrList,
-          },
-        ]
+    return data.labels.length === 1 ? [] : [dataIqrList, dataIqrBuy]
   }
 
   protected chartOptions({ ctx, data }) {
@@ -179,12 +185,19 @@ export default class BoxPlot extends Vue {
     this.listData = {}
     this.buyData = {}
 
+    if (this.priceData[0]?.length < 4 && this.priceData[1]?.length < 4) {
+      this.status = 'hideChart'
+      return
+    }
+
     if (this.priceData[0]?.length > 0 || this.priceData[1]?.length > 0) {
       this.groupData(this.priceData[0], 'listings')
       this.groupData(this.priceData[1], 'buys')
     }
 
-    const ctx = (this.$refs.chartBoxPlot as HTMLCanvasElement).getContext('2d')
+    const ctx = (
+      document.querySelector('#chartBoxPlot') as HTMLCanvasElement
+    ).getContext('2d')
     const labels = [
       ...new Set([...Object.keys(this.listData), ...Object.keys(this.buyData)]),
     ]
@@ -207,6 +220,7 @@ export default class BoxPlot extends Vue {
         },
       ],
     }
+    // const chartStatus = Chart.getChart('chartBoxPlot')
 
     if (ctx) {
       if (this.chartBoxPlot) {
@@ -221,6 +235,7 @@ export default class BoxPlot extends Vue {
         }
         this.chartBoxPlot.update()
       } else {
+        // chartStatus?.destroy()
         this.chartBoxPlot = this.chartOptions({
           ctx,
           data: boxplotData,
@@ -232,6 +247,10 @@ export default class BoxPlot extends Vue {
   protected mounted() {
     this.generateChart()
   }
+
+  // protected unmounted() {
+  //   this.chartBoxPlot.destroy()
+  // }
 
   @Watch('priceData')
   async watchData() {
