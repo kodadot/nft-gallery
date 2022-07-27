@@ -108,9 +108,16 @@ export const actions = {
   setBalance({ commit }, balance: string): void {
     commit('addBalance', balance)
   },
-  setCorrectAddressFormat({ commit }, ss58Prefix: number): void {
+  setCorrectAddressFormat(
+    { commit, dispatch, state },
+    ss58Prefix: number
+  ): void {
     consola.log('[SET CORRECT ADDRESS FORMAT]', ss58Prefix)
     commit('changeAddressFormat', ss58Prefix)
+    if (state.auth.address) {
+      const address = formatAddress(state.auth.address, ss58Prefix)
+      dispatch('fetchBalance', address)
+    }
   },
 }
 
