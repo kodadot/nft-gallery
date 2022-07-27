@@ -90,3 +90,26 @@ describe('exploreBsxGallery', () => {
     cy.galleryBuyNow(100)
   })
 })
+
+describe('mintRmrk', () => {
+  it('loadExplore', () => {
+    // temporarily here
+    cy.visit('/e2e-login')
+    cy.visit('/bsx/create')
+  })
+})
+
+describe('newWallet', () => {
+  it('loadGalleryItem', () => {
+    cy.visit('/e2e-login')
+  })
+  it('galleryListedItemActions', () => {
+    cy.galleryListedItemActions('2600576003-1', 'bXkVgi...6Xuvih')
+  })
+  it('galleryUnlistedItemActions', () => {
+    cy.galleryUnlistedItemActions('2600576003-4', 'bXkVgi...6Xuvih')
+  })
+  it('collectionActions', () => {
+    cy.collectionActions('2600576003', 'nuclear explosion', 'bXkVgi...6Xuvih')
+  })
+})

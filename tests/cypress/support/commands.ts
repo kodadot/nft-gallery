@@ -135,6 +135,58 @@ Cypress.Commands.add('toggleBuyNowGallery', () => {
     '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .is-flex > .switch > .check'
   ).click()
 })
+Cypress.Commands.add('galleryListedItemActions', (nftId, creator) => {
+  cy.visit(`/bsx/gallery/${nftId}`)
+  cy.get('.price-block__original > .money > span').should('contain', 'BSX')
+  cy.get(':nth-child(1) > .tooltip-trigger > .button')
+    .should('be.disabled')
+    .should('contain', 'BUY')
+  cy.get(':nth-child(2) > .tooltip-trigger > .button')
+    .should('be.disabled')
+    .should('contain', 'MAKE OFFER')
+  cy.get('.is-size-6 > .money > span').should('contain', 'BSX')
+  cy.get('.field > div[data-v-4d7a8fa0=""] > .button').should('be.visible')
+  cy.get(
+    '.share > :nth-child(1) > .field-body > .field > :nth-child(2)'
+  ).should('be.visible')
+  cy.get('.share__tooltip > .tooltip-trigger > .button').should('be.visible')
+  cy.get(
+    ':nth-child(3) > .collapse > .collapse-trigger > .card-header > .card-header-title'
+  ).should('contain', 'Offers')
+  cy.get(
+    ':nth-child(3) > .collapse > .collapse-trigger > .card-header > .card-header-title'
+  ).click()
+  cy.get(
+    ':nth-child(4) > .collapse > .collapse-trigger > .card-header > .card-header-title'
+  ).should('contain', 'History')
+  cy.get(
+    ':nth-child(4) > .collapse > .collapse-trigger > .card-header > .card-header-title'
+  ).click()
+  cy.get('.is-flex > .control > .select > select').select('🖼 MINT')
+  cy.get('.type-table').should('contain', '🖼 MINT')
+  cy.get('[data-label="From"]').should('contain', `${creator}`)
+  cy.get('[data-label="Amount"]').should('contain', '-')
+})
+Cypress.Commands.add('galleryUnlistedItemActions', (nftId, creator) => {
+  cy.visit(`/bsx/gallery/${nftId}`)
+  cy.get(':nth-child(1) > .tooltip-trigger > .button')
+    .should('be.disabled')
+    .should('contain', 'MAKE OFFER')
+})
+Cypress.Commands.add('collectionActions', (collectionId, nftName, creator) => {
+  cy.visit(`/bsx/collection/${collectionId}`)
+  cy.get(
+    ':nth-child(1) > .card > .nft-card__skeleton > a > .card-image > .b-image-wrapper > .has-ratio'
+  ).should('be.visible')
+  cy.get('.is-grouped > :nth-child(1) > .control > .select > select').select(
+    'Old first'
+  )
+  cy.get('.is-flex > a > .is-flex-wrap-wrap > .tippy-container > div').should(
+    'contain',
+    creator
+  )
+  cy.get('.share > :nth-child(1) > .field-body > .field').should('be.visible')
+})
 
 declare global {
   namespace Cypress {
@@ -151,6 +203,19 @@ declare global {
       galleryBuyNow(amount: number): Chainable<Element>
       galleryInputFields(amount: number): Chainable<Element>
       toggleBuyNowGallery(): Chainable<Element>
+      galleryListedItemActions(
+        nftId: string,
+        creator: string
+      ): Chainable<Element>
+      galleryUnlistedItemActions(
+        nftId: string,
+        creator: string
+      ): Chainable<Element>
+      collectionActions(
+        collectionId: string,
+        nftName: string,
+        creator: string
+      ): Chainable<Element>
     }
   }
 }
