@@ -136,6 +136,9 @@ export default class PaginatedCardList extends mixins(
 
   created() {
     this.fetchPageData(this.startPage)
+    if (this.urlPrefix === 'bsx') {
+      this.searchQuery.sortBy = this.remapSortBy
+    }
   }
 
   public async fetchPageData(page: number, loadDirection = 'down') {
@@ -197,7 +200,9 @@ export default class PaginatedCardList extends mixins(
 
   @Watch('searchQuery', { deep: true })
   protected onSearchQueryChange() {
-    this.resetPage()
+    if (!this.isLoading) {
+      this.resetPage()
+    }
   }
 }
 </script>

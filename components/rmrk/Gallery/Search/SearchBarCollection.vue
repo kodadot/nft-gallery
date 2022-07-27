@@ -4,6 +4,7 @@
       <Sort
         class="control"
         :value="sortBy"
+        :isCollection="true"
         @input="updateSortBy"
         :sortOption="sortOption" />
       <div
@@ -165,6 +166,11 @@ export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
   @Emit('update:sortBy')
   @Debounce(400)
   updateSortBy(value: string): string {
+    const listed = Boolean(value?.toLowerCase().indexOf('price') > -1)
+    if (listed && !this.vListed) {
+      this.vListed = true
+    }
+
     this.replaceUrl(value, 'sort')
     return value
   }

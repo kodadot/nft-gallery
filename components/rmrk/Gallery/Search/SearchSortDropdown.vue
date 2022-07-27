@@ -18,7 +18,9 @@
       placeholder="Sort by"
       class="select-dropdown">
       <option v-for="action in actions" :key="action" :value="action">
-        {{ $t('sort.' + action) }}
+        {{
+          isCollection ? $t('sort.collection.' + action) : $t('sort.' + action)
+        }}
       </option>
     </b-select>
   </b-field>
@@ -37,6 +39,7 @@ export default class SearchSortDropdown extends mixins(PrefixMixin) {
   @VModel({ type: [Array, String] }) selectedAction!: string | string[]
   @Prop(Array) public sortOption?: string[]
   @Prop(Boolean) public multipleSelect!: boolean
+  @Prop({ type: Boolean, default: false }) public isCollection?: boolean
 
   get actions(): string[] {
     return this.sortOption || this.sort

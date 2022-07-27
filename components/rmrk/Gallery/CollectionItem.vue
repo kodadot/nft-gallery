@@ -127,6 +127,9 @@
           openOnDefault
           hideCollapse />
       </b-tab-item>
+      <b-tab-item label="Offers" value="offers" v-if="isBsx">
+        <CollectionOffers :collectionId="id" />
+      </b-tab-item>
     </b-tabs>
   </section>
 </template>
@@ -189,6 +192,7 @@ const components = {
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
   DestroyCollection: () =>
     import('@/components/bsx/specific/DestroyCollection.vue'),
+  CollectionOffers: () => import('@/components/bsx/Offer/CollectionOffers.vue'),
 }
 @Component<CollectionItem>({
   components,
@@ -248,6 +252,10 @@ export default class CollectionItem extends mixins(
     'price_ASC',
     'sn_ASC',
   ]
+
+  get isBsx(): boolean {
+    return this.urlPrefix === 'bsx'
+  }
 
   get hasChartData(): boolean {
     return this.priceData.length > 0
@@ -579,7 +587,9 @@ export default class CollectionItem extends mixins(
 
   @Watch('searchQuery', { deep: true })
   protected onSearchQueryChange() {
-    this.resetPage()
+    if (!this.isLoading) {
+      this.resetPage()
+    }
   }
 
   @Watch('activeTab')

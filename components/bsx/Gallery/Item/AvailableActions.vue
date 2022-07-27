@@ -4,8 +4,7 @@
     <ActionList
       v-if="accountId"
       :actions="actions"
-      :isMakeOffersAllowed="!isMakeOffersDisabled"
-      :tooltipOfferLabel="tooltipOfferLabel"
+      :disabledToolTips="toolTips"
       @click="handleAction" />
     <component
       ref="balanceInput"
@@ -27,6 +26,7 @@
 </template>
 
 <script lang="ts">
+import BalanceInput from '@/components/shared/BalanceInput.vue'
 import { NFTAction } from '@/components/unique/NftUtils'
 import { createTokenId } from '@/components/unique/utils'
 import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
@@ -34,6 +34,7 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
 import {
@@ -41,21 +42,20 @@ import {
   getActionList,
   iconResolver,
   ShoppingActions,
+  ShoppingActionToolTips,
 } from '@/utils/shoppingActions'
 import shouldUpdate from '@/utils/shouldUpdate'
-import Connector from '@kodadot1/sub-api'
+import { onApiConnect } from '@kodadot1/sub-api'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import formatBalance from '@/utils/formatBalance'
-import onApiConnect from '@/utils/api/general'
-import BalanceInput from '@/components/shared/BalanceInput.vue'
+import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 
 const components = {
-  ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
+  ActionList: () => import('@/components/bsx/Gallery/Item/ActionList.vue'),
   AddressInput: () => import('@/components/shared/AddressInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
-  DaySelect: () => import('~/components/bsx/Offer/DaySelect.vue'),
+  DaySelect: () => import('@/components/bsx/Offer/DaySelect.vue'),
 }
 
 @Component({ components })
@@ -63,13 +63,15 @@ export default class AvailableActions extends mixins(
   PrefixMixin,
   KeyboardEventsMixin,
   MetaTransactionMixin,
-  AuthMixin
+  AuthMixin,
+  UseApiMixin
 ) {
   @Prop(String) public currentOwnerId!: string
   @Prop() public price!: string
   @Prop(String) public nftId!: string
   @Prop(String) public collectionId!: string
   @Prop(Boolean) public isMakeOffersAllowed!: boolean
+  @Prop(Boolean) public isBuyAllowed!: boolean
   @Prop(Boolean) public isOwner!: boolean
   @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
@@ -78,12 +80,11 @@ export default class AvailableActions extends mixins(
   public minimumOfferAmount = 0
   public isMakeOffersDisabled = true
   public isBalanceInputValid = false
-  public tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
   public selectedDay = 14
   public dayList = [1, 3, 7, 14, 30]
 
   get balance(): number {
-    return this.formatBalance(this.$store.getters.getAuthBalance)
+    return formatBsxBalanceToNumber(this.$store.getters.getAuthBalance)
   }
 
   get actions() {
@@ -114,24 +115,33 @@ export default class AvailableActions extends mixins(
     return actionComponent[this.selectedAction]
   }
 
-  formatBalance(balance: string) {
-    return parseFloat(formatBalance(balance, 12, false).replace(/,/g, ''))
-  }
   public async created(): Promise<void> {
-    onApiConnect(() => {
-      const { api } = Connector.getInstance()
-      this.minimumOfferAmount = this.formatBalance(
+    onApiConnect(this.apiUrl, (api) => {
+      this.minimumOfferAmount = formatBsxBalanceToNumber(
         api?.consts?.marketplace?.minimumOfferAmount?.toString()
       )
       this.isMakeOffersDisabled =
         !this.isMakeOffersAllowed || this.minimumOfferAmount > this.balance
-
-      if (!this.isMakeOffersAllowed) {
-        this.tooltipOfferLabel = this.$t('tooltip.makeOfferDisabled')
-      } else if (this.minimumOfferAmount > this.balance) {
-        this.tooltipOfferLabel = this.$t('tooltip.makeOfferNotEnoughBalance')
-      }
     })
+  }
+
+  get toolTips(): ShoppingActionToolTips {
+    const toolTips = {}
+    if (!this.isMakeOffersAllowed) {
+      toolTips[ShoppingActions.MAKE_OFFER] = this.$t(
+        'tooltip.makeOfferDisabled'
+      ).toString()
+    } else if (this.minimumOfferAmount > this.balance) {
+      toolTips[ShoppingActions.MAKE_OFFER] = this.$t(
+        'tooltip.notEnoughBalance'
+      ).toString()
+    }
+    if (!this.isBuyAllowed) {
+      toolTips[ShoppingActions.BUY] = this.$t(
+        'tooltip.notEnoughBalance'
+      ).toString()
+    }
+    return toolTips
   }
 
   protected iconType(value: string) {
@@ -168,7 +178,7 @@ export default class AvailableActions extends mixins(
   }
 
   protected async submit() {
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     this.initTransactionLoader()
 
     try {
@@ -200,7 +210,7 @@ export default class AvailableActions extends mixins(
             `[${this.selectedAction}] ${this.nftId}`,
             notificationTypes.success
           )
-          this.$emit('change')
+          this.$emit('change', this.selectedAction)
           this.selectedAction = ''
         },
         () => {

@@ -101,20 +101,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { web3Accounts } from '@polkadot/extension-dapp'
 import { enableExtension, isMobileDevice } from '@/utils/extension'
 import shouldUpdate from '@/utils/shouldUpdate'
-import onApiConnect from '@/utils/api/general'
 import correctFormat from '@/utils/ss58Format'
 import { formatAddress } from '@/utils/account'
+import UseApiMixin from '~/utils/mixins/useApiMixin'
+import { onApiConnect } from '@kodadot1/sub-api'
+import ChainMixin from '~/utils/mixins/chainMixin'
 
-@Component({
-  components: {},
-})
-export default class WalletModal extends Vue {
+@Component({})
+export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
   @Prop() public templateValue!: undefined
   protected selectedWalletProvider!: BaseDotsamaWallet
   protected hasSelectedWalletProvider = false
@@ -137,10 +137,6 @@ export default class WalletModal extends Vue {
 
   get wallets() {
     return SupportedWallets
-  }
-
-  get chainProperties() {
-    return this.$store.getters['chain/getChainProperties']
   }
 
   get ss58Format(): number {
@@ -179,8 +175,9 @@ export default class WalletModal extends Vue {
     this.hasSelectedWalletProvider = true
     this.walletAccounts = []
 
+    // TODO: remove this once the extension is ready
     if (isMobileDevice) {
-      onApiConnect(async () => {
+      onApiConnect(this.apiUrl, async () => {
         await enableExtension()
         this.hasWalletProviderExtension = true
         this.walletAccounts = (await web3Accounts({
