@@ -52,6 +52,8 @@ export default class BoxPlot extends Vue {
     ChartData[]
   ] // [listings, buys]
 
+  // data
+  protected chartBoxPlot!: Chart<'boxplot', unknown, unknown>
   protected status: 'show' | 'hideChart' = 'show'
   protected range = ['yearly', 'quarterly', 'monthly']
   protected selectedRange = 'yearly'
@@ -61,8 +63,8 @@ export default class BoxPlot extends Vue {
     listings: [],
     buys: [],
   }
-  protected chartBoxPlot!: Chart<'boxplot', unknown, unknown>
 
+  // methods
   protected selectRange(range: string): void {
     this.selectedRange = range
     this.generateChart()
@@ -220,7 +222,7 @@ export default class BoxPlot extends Vue {
         },
       ],
     }
-    // const chartStatus = Chart.getChart('chartBoxPlot')
+    const chartStatus = Chart.getChart('chartBoxPlot')
 
     if (ctx) {
       if (this.chartBoxPlot) {
@@ -235,7 +237,7 @@ export default class BoxPlot extends Vue {
         }
         this.chartBoxPlot.update()
       } else {
-        // chartStatus?.destroy()
+        chartStatus?.destroy()
         this.chartBoxPlot = this.chartOptions({
           ctx,
           data: boxplotData,
@@ -247,10 +249,6 @@ export default class BoxPlot extends Vue {
   protected mounted() {
     this.generateChart()
   }
-
-  // protected unmounted() {
-  //   this.chartBoxPlot.destroy()
-  // }
 
   @Watch('priceData')
   async watchData() {

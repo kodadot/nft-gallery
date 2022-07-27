@@ -93,6 +93,9 @@ export default class PriceChart extends mixins(ChainMixin) {
       )?.getContext('2d')
 
       if (ctx) {
+        const chartStatus = Chart.getChart('collectionPriceChart')
+        chartStatus?.destroy()
+
         const median = getCollectionMedian(this.priceData[1])
         const chart = new Chart(ctx, {
           type: 'line',
