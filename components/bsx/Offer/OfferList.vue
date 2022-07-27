@@ -20,6 +20,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { createTokenId } from '~/components/unique/utils'
 import offerListByNftId from '@/queries/subsquid/bsx/offerListByNftId.graphql'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
+import UseApiMixin from '~/utils/mixins/useApiMixin'
 import OfferMixin from '~/utils/mixins/offerMixin'
 
 const components = {
@@ -33,6 +34,7 @@ const components = {
 export default class OfferList extends mixins(
   PrefixMixin,
   SubscribeMixin,
+  UseApiMixin,
   OfferMixin
 ) {
   protected offers: Offer[] = []

@@ -1,4 +1,4 @@
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Watch } from 'nuxt-property-decorator'
 import keyring from '@polkadot/ui-keyring'
 import { KeyringPair } from '@polkadot/keyring/types'
 import { u8aToHex } from '@polkadot/util'
@@ -8,11 +8,12 @@ import correctFormat from '@/utils/ss58Format'
 
 import { web3Accounts, isWeb3Injected } from '@polkadot/extension-dapp'
 import { getPrefixByStoreUrl } from '@/utils/chain'
+import ChainMixin from './mixins/chainMixin'
 
 export type KeyringAccount = KeyringPair | InjectedAccountWithMeta
 
 @Component
-export default class WithKeyring extends Vue {
+export default class WithKeyring extends ChainMixin {
   protected keyringAccounts: KeyringPair[] = []
   protected importedAccounts: InjectedAccountWithMeta[] = []
 
@@ -23,10 +24,6 @@ export default class WithKeyring extends Vue {
 
   public mapAccounts(): void {
     this.keyringAccounts = keyring.getPairs()
-  }
-
-  get chainProperties() {
-    return this.$store.getters['chain/getChainProperties']
   }
 
   get ss58Format(): number {

@@ -21,18 +21,18 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import groupBy from '@/utils/groupBy'
-import EmotionList from './EmotionList.vue'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import { VEmojiPicker } from 'v-emoji-picker'
-import emojiUnicode from 'emoji-unicode'
-import { Emoji, IEmoji } from 'v-emoji-picker/lib/models/Emoji'
-import { Emote } from '../service/scheme'
-import MetaTransactionMixin from '~/utils/mixins/metaMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
 import { createInteraction, Interaction } from '@kodadot1/minimark'
+import emojiUnicode from 'emoji-unicode'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { VEmojiPicker } from 'v-emoji-picker'
+import { Emoji, IEmoji } from 'v-emoji-picker/lib/models/Emoji'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
+import { Emote } from '../service/scheme'
+import EmotionList from './EmotionList.vue'
 
 @Component({
   components: {
@@ -44,7 +44,8 @@ import { createInteraction, Interaction } from '@kodadot1/minimark'
 })
 export default class Appreciation extends mixins(
   MetaTransactionMixin,
-  RmrkVersionMixin
+  RmrkVersionMixin,
+  UseApiMixin
 ) {
   @Prop({ type: Array }) public emotes!: Emote[]
   @Prop({ type: String }) public currentOwnerId!: string
@@ -99,7 +100,7 @@ export default class Appreciation extends mixins(
   }
 
   private async submit(rmrk: string) {
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
 
     try {
       const cb = api.tx.system.remark

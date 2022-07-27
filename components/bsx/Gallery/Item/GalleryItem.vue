@@ -91,6 +91,7 @@
                           :collectionId="collectionId"
                           :frozen="nft.isFrozen"
                           :isMakeOffersAllowed="isMakeOffersAllowed"
+                          :isBuyAllowed="isBuyAllowed"
                           :ipfs-hashes="[
                             nft.image,
                             nft.animation_url,
@@ -128,9 +129,9 @@
 <script lang="ts">
 import {
   Emote,
+  Interaction,
   NFT,
   NFTMetadata,
-  Interaction,
 } from '@/components/rmrk/service/scheme'
 import {
   fetchNFTMetadata,
@@ -138,29 +139,30 @@ import {
   sanitizeIpfsUrl,
 } from '@/components/rmrk/utils'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
+import itemEvents from '@/queries/subsquid/bsx/itemEvents.graphql'
+import { isOwner } from '@/utils/account'
 import { toHuman, unwrapOrDefault, unwrapOrNull } from '@/utils/api/format'
-import onApiConnect from '@/utils/api/general'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import { emptyObject } from '@/utils/empty'
+import { formatBsxBalanceEmptyOnZero } from '@/utils/format/balance'
+import { processMedia } from '@/utils/gallery/media'
 import isShareMode from '@/utils/isShareMode'
+import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import { royaltyOf } from '@/utils/royalty'
+import { generateNftImage } from '@/utils/seoImageGenerator'
+import { ShoppingActions } from '@/utils/shoppingActions'
+import { isEmpty } from '@kodadot1/minimark'
+import { onApiConnect } from '@kodadot1/sub-api'
 import { Option, u128 } from '@polkadot/types'
 import { InstanceDetails } from '@polkadot/types/interfaces'
 import { get, set } from 'idb-keyval'
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
-import { processMedia } from '@/utils/gallery/media'
-import AuthMixin from '~/utils/mixins/authMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import resolveQueryPath from '~/utils/queryPathResolver'
-import itemEvents from '@/queries/subsquid/bsx/itemEvents.graphql'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
-import { isEmpty } from '@kodadot1/minimark'
-import { royaltyOf } from '@/utils/royalty'
-import { isOwner } from '~/utils/account'
-import { generateNftImage } from '~/utils/seoImageGenerator'
-import { formatBsxBalanceEmptyOnZero } from '~/utils/format/balance'
-import { ShoppingActions } from '@/utils/shoppingActions'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -203,7 +205,8 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 export default class GalleryItem extends mixins(
   SubscribeMixin,
   PrefixMixin,
-  AuthMixin
+  AuthMixin,
+  ApiUrlMixin
 ) {
   private id = ''
   private collectionId = ''
@@ -221,7 +224,7 @@ export default class GalleryItem extends mixins(
     this.checkId()
     await this.fetchNftData()
     await this.fetchEvents()
-    onApiConnect((api) => {
+    onApiConnect(this.apiUrl, (api) => {
       if (hasAllPallets(api)) {
         this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
         this.subscribe(getPrice(api), this.tokenId, this.observePrice)
@@ -321,7 +324,7 @@ export default class GalleryItem extends mixins(
   }
 
   protected fetchRPCMetadata() {
-    onApiConnect(async (api) => {
+    onApiConnect(this.apiUrl, async (api) => {
       const metacall = getMetadata(api)
       const res = await metacall(this.collectionId, this.id).then((option) =>
         unwrapOrNull(option as Option<any>)
@@ -407,23 +410,30 @@ export default class GalleryItem extends mixins(
     return !isShareMode
   }
 
-  @Watch('meta', { deep: true })
-  handleNFTPopulationFinished(newVal) {
-    if (newVal) {
-      // save visited detail page to history
-      this.$store.dispatch('history/addHistoryItem', {
-        id: this.id,
-        name: this.nft.name,
-        image: this.meta.image,
-        collection: (this.nft.collection as any).name,
-        date: new Date(),
-        description: this.meta.description,
-        author: this.nft.currentOwner,
-        price: this.nft.price,
-        mimeType: this.mimeType,
-        prefix: this.urlPrefix,
-      })
+  // @Watch('meta', { deep: true })
+  // handleNFTPopulationFinished(newVal) {
+  //   if (newVal) {
+  //     // save visited detail page to history
+  //     this.$store.dispatch('history/addHistoryItem', {
+  //       id: this.id,
+  //       name: this.nft.name,
+  //       image: this.meta.image,
+  //       collection: (this.nft.collection as any).name,
+  //       date: new Date(),
+  //       description: this.meta.description,
+  //       author: this.nft.currentOwner,
+  //       price: this.nft.price,
+  //       mimeType: this.mimeType,
+  //       prefix: this.urlPrefix,
+  //     })
+  //   }
+  // }
+
+  get isBuyAllowed(): boolean {
+    if (!this.nft.price) {
+      return false
     }
+    return parseFloat(this.balance) > parseFloat(this.nft.price)
   }
 
   protected handleAction(action: ShoppingActions) {

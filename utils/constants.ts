@@ -64,3 +64,5 @@ export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [
   'price_ASC',
   'sn_ASC',
 ]
+
+export const chainTestList = ['westend', 'westmint']

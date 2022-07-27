@@ -165,16 +165,17 @@ Then we can use it like this:
 
 ```html
 <script lang="ts">
-  import { Component, Vue } from 'nuxt-property-decorator'
-  import Connector from '@kodadot1/sub-api'
+  import { Component, mixins } from 'nuxt-property-decorator'
+  import { ApiFactory } from '@kodadot1/sub-api'
+  import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 
   @Component({})
-  export default class GalleryItem extends Vue {
+  export default class GalleryItem extends mixins(ApiUrlMixin) {
     id = '0'
     collectionId = '0'
 
     async fetch() {
-      const { api } = Connector.getInstance()
+      const api = await ApiFactory.useApiInstance(this.apiUrl)
       const nft = await api.query.uniques.asset(this.collectionId, this.id)
       console.log('nft', nft)
     }
@@ -211,13 +212,12 @@ Then we can use it like this:
 <script lang="ts">
   import { Component, mixins } from 'nuxt-property-decorator'
   import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-  // import AuthMixin from '~/utils/mixins/authMixin' // get currently logged in account
-
-  import Connector from '@kodadot1/sub-api'
+  import UseApiMixin from '@/utils/mixins/useApiMixin'
 
   @Component({})
-  export default class GalleryItem extends mixins(MetaTransactionMixin) {
+  export default class GalleryItem extends mixins(MetaTransactionMixin, UseApiMixin) {
     async submit() {
+      const api = await this.useApi()
       const cb = api.tx.system.remark
       const args = 'Hello World'
 

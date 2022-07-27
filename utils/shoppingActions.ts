@@ -14,9 +14,11 @@ enum BasiliskActions {
 }
 
 export type ShoppingActions = Interaction | BasiliskActions
+export type ShoppingActionToolTips = Partial<Record<ShoppingActions, string>>
 export const ShoppingActions = {
   ...Interaction,
   ...BasiliskActions,
+  DOWNLOAD: 'DOWNLOAD',
 }
 
 export const KeyboardValueToActionMap = {
