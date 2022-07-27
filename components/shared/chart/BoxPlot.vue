@@ -4,7 +4,7 @@
       <div
         class="is-flex is-align-items-center is-justify-content-space-between">
         <p class="label mb-0">Box Plot Chart</p>
-        <b-select v-model="selectedRange" @input="selectRange($event)">
+        <b-select @input="selectRange($event)" :value="selectedRange">
           <option v-for="option in range" :value="option" :key="option">
             {{ option.charAt(0).toUpperCase() + option.slice(1) }}
           </option>
@@ -56,7 +56,6 @@ export default class BoxPlot extends Vue {
   protected chartBoxPlot!: Chart<'boxplot', unknown, unknown>
   protected status: 'show' | 'hideChart' = 'show'
   protected range = ['yearly', 'quarterly', 'monthly']
-  protected selectedRange = 'yearly'
   protected listData = {}
   protected buyData = {}
   protected iqrData = {
@@ -64,10 +63,24 @@ export default class BoxPlot extends Vue {
     buys: [],
   }
 
+  // computed
+  get selectedRange(): string {
+    if (typeof this.$route.query.boxPlot === 'string') {
+      return this.$route.query.boxPlot
+    }
+
+    return 'yearly'
+  }
+
   // methods
   protected selectRange(range: string): void {
-    this.selectedRange = range
-    this.generateChart()
+    this.$router.push({
+      path: this.$route.path,
+      query: {
+        ...this.$route.query,
+        boxPlot: range,
+      },
+    })
   }
 
   protected groupData(data: ChartData[], type = 'listings') {
@@ -248,6 +261,13 @@ export default class BoxPlot extends Vue {
 
   protected mounted() {
     this.generateChart()
+  }
+
+  @Watch('$route.query')
+  protected onQueryChange(newQuery, oldQuery) {
+    if (newQuery.boxPlot !== oldQuery.boxPlot) {
+      this.generateChart()
+    }
   }
 
   @Watch('priceData')
