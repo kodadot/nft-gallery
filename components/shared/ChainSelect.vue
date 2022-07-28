@@ -41,8 +41,12 @@ export default class ChainSelect extends Vue {
   }
 
   set selected(value) {
-    this.$store.dispatch('setUrlPrefix', value)
     this.$router.push({ path: `/${value}` })
+    this.$store.dispatch('setUrlPrefix', value)
+    const account = this.$store.getters['getAuthAddress']
+    if (account) {
+      this.$store.dispatch('fetchBalance', account)
+    }
   }
 }
 </script>
