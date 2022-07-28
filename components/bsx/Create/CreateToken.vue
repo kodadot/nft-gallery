@@ -143,7 +143,7 @@ export default class CreateToken extends mixins(
   protected depositPerByte = BigInt(0)
   protected attributes: Attribute[] = []
   protected nsfw = false
-  protected price: string | number = 0.1
+  protected price: string | number = 0
   protected listed = true
   protected maxPrice = Number.MAX_SAFE_INTEGER // actually 999999999999999999 but this would be unsafe at runtime
   protected royalty: Royalty = {
@@ -180,13 +180,6 @@ export default class CreateToken extends mixins(
     }
   }
 
-  @Watch('listed', { immediate: true })
-  onListedChange(value: boolean, oldVal: boolean) {
-    if (value === oldVal) {
-      return
-    }
-    this.price = value ? 0.1 : 0
-  }
   public async fetchCollections() {
     const query = await resolveQueryPath(this.urlPrefix, 'collectionForMint')
     const collections = await this.$apollo.query({
