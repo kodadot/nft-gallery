@@ -51,6 +51,7 @@
         </p></b-table-column
       >
       <b-table-column
+        v-if="accountId === ownerId"
         cell-class="is-vcentered is-narrow"
         :label="$t('offer.action')"
         v-slot="props"
@@ -95,6 +96,7 @@ export default class OffersUserTable extends mixins(
 ) {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public offers!: Offer[]
+  @Prop({ type: String, default: '' }) public ownerId!: string
   protected offerStatus: AllOfferStatusType = AllOfferStatusType.ALL
   protected offersUpdated: Offer[] = []
 
