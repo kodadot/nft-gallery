@@ -74,7 +74,6 @@ import { formatDistanceToNow } from 'date-fns'
 import { Offer } from './types'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import OfferMixin from '~/utils/mixins/offerMixin'
-import Connector from '@kodadot1/sub-api'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
@@ -137,7 +136,7 @@ export default class OffersUserTable extends mixins(
   async withdrawOffer(offer) {
     const { caller, nft } = offer
     try {
-      const { api } = Connector.getInstance()
+      const api = await this.useApi()
       this.initTransactionLoader()
       const cb = api.tx.marketplace.withdrawOffer
       const { id, item } = tokenIdToRoute(nft.id)

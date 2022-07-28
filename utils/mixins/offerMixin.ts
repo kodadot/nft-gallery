@@ -3,9 +3,8 @@ import { Component, mixins } from 'nuxt-property-decorator'
 import { isSameAccount } from '~/utils/account'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
-import Connector from '@kodadot1/sub-api'
 import { notificationTypes, showNotification } from '~/utils/notification'
-import onApiConnect from '~/utils/api/general'
+import { onApiConnect } from '@kodadot1/sub-api'
 import { formatSecondsToDuration } from '~/utils/format/time'
 import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 import { Offer } from '~/components/bsx/Offer/types'
@@ -30,7 +29,7 @@ export default class OfferMixin extends mixins(
   }
 
   created() {
-    onApiConnect(async (api) => {
+    onApiConnect(this.apiUrl, async (api) => {
       const currentBlock = await api.query.system.number()
       this.currentBlock = currentBlock.toNumber()
     })
@@ -56,7 +55,7 @@ export default class OfferMixin extends mixins(
     onSuccess?: () => void
   ) {
     try {
-      const { api } = Connector.getInstance()
+      const api = await this.useApi()
       this.initTransactionLoader()
       const isMe = isSameAccount(this.accountId, maker)
       const cb = !isMe

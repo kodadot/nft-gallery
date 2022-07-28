@@ -13,8 +13,7 @@
           label="Price"
           expanded
           key="price"
-          :step="1"
-          :max="maxPrice"
+          :step="0.01"
           :min="0"
           @input="updatePrice"
           class="mb-3" />
@@ -75,7 +74,7 @@ import {
   createMetadata,
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
-import Connector from '@kodadot1/sub-api'
+import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
@@ -84,7 +83,6 @@ import {
   getMetadataDeposit,
 } from '@/components/unique/apiConstants'
 import { createTokenId } from '@/components/unique/utils'
-import onApiConnect from '@/utils/api/general'
 import {
   DETAIL_TIMEOUT,
   IPFS_KODADOT_IMAGE_PLACEHOLDER,
@@ -100,6 +98,7 @@ import {
   preheatFileFromIPFS,
 } from '~/components/rmrk/utils'
 import { getMany, update } from 'idb-keyval'
+import ApiUrlMixin from '~/utils/mixins/apiUrlMixin'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -126,7 +125,8 @@ export default class CreateToken extends mixins(
   MetaTransactionMixin,
   ChainMixin,
   PrefixMixin,
-  AuthMixin
+  AuthMixin,
+  ApiUrlMixin
 ) {
   protected base: BaseTokenType<MintedCollection> = {
     name: '',
@@ -142,9 +142,8 @@ export default class CreateToken extends mixins(
   protected depositPerByte = BigInt(0)
   protected attributes: Attribute[] = []
   protected nsfw = false
-  protected price: string | number = 0.1
+  protected price: string | number = 0
   protected listed = true
-  protected maxPrice = Number.MAX_SAFE_INTEGER // actually 999999999999999999 but this would be unsafe at runtime
   protected royalty: Royalty = {
     amount: 0,
     address: '',
@@ -165,9 +164,9 @@ export default class CreateToken extends mixins(
   }
 
   public async created() {
-    onApiConnect(() => {
-      const instanceDeposit = getInstanceDeposit()
-      const metadataDeposit = getMetadataDeposit()
+    onApiConnect(this.apiUrl, (api) => {
+      const instanceDeposit = getInstanceDeposit(api)
+      const metadataDeposit = getMetadataDeposit(api)
       this.deposit = (instanceDeposit + metadataDeposit).toString()
     })
   }
@@ -179,13 +178,6 @@ export default class CreateToken extends mixins(
     }
   }
 
-  @Watch('listed', { immediate: true })
-  onListedChange(value: boolean, oldVal: boolean) {
-    if (value === oldVal) {
-      return
-    }
-    this.price = value ? 0.1 : 0
-  }
   public async fetchCollections() {
     const query = await resolveQueryPath(this.urlPrefix, 'collectionForMint')
     const collections = await this.$apollo.query({
@@ -258,7 +250,7 @@ export default class CreateToken extends mixins(
 
   get validPriceValue(): boolean {
     const price = parseInt(this.price as string)
-    return !this.listed || (price > 0 && price <= this.maxPrice)
+    return !this.listed || price > 0
   }
 
   protected async submit(retryCount = 0): Promise<void> {
@@ -268,7 +260,7 @@ export default class CreateToken extends mixins(
 
     this.isLoading = true
     this.status = 'loader.ipfs'
-    const { api } = Connector.getInstance()
+    const api = await ApiFactory.useApiInstance(this.apiUrl)
     const { selectedCollection } = this.base
     const {
       alreadyMinted,
