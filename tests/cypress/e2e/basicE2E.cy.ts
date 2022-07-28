@@ -1,8 +1,6 @@
 describe('landingRmrk', () => {
   it('loadLanding', () => {
-    cy.clearCookies()
-    cy.visit('/e2e-login')
-    cy.visit('/rmrk')
+    cy.loginWithKeyring()
   })
   it('checkNavbar', () => {
     cy.rmrkNavbar()
@@ -73,6 +71,7 @@ describe('exploreBsxCollections', () => {
 describe('exploreBsxGallery', () => {
   it('loadExplore', () => {
     cy.visit('/bsx/explore')
+    cy.wait(5000)
   })
   it('exploreTabs', () => {
     cy.exploreTabs()
@@ -91,25 +90,46 @@ describe('exploreBsxGallery', () => {
   })
 })
 
-describe('mintRmrk', () => {
-  it('loadExplore', () => {
-    // temporarily here
-    cy.visit('/e2e-login')
-    cy.visit('/bsx/create')
+describe('bsxCollectionItem', () => {
+  it('collectionActions', () => {
+    cy.bsxCollectionActions(
+      '2600576003',
+      'nuclear explosion',
+      'bXkVgi...6Xuvih'
+    )
   })
 })
 
-describe('newWallet', () => {
-  it('loadGalleryItem', () => {
-    cy.visit('/e2e-login')
-  })
+describe('bsxGalleryItem', () => {
   it('galleryListedItemActions', () => {
-    cy.galleryListedItemActions('2600576003-1', 'bXkVgi...6Xuvih')
+    cy.bsxGalleryListedItemActions('2600576003-1', 'bXkVgi...6Xuvih')
   })
   it('galleryUnlistedItemActions', () => {
-    cy.galleryUnlistedItemActions('2600576003-4', 'bXkVgi...6Xuvih')
+    cy.bsxGalleryUnlistedItemActions('2600576003-4', 'bXkVgi...6Xuvih')
   })
+})
+
+describe('rmrkCollectionItem', () => {
   it('collectionActions', () => {
-    cy.collectionActions('2600576003', 'nuclear explosion', 'bXkVgi...6Xuvih')
+    cy.rmrkCollectionActions(
+      '32b209ecbe2b33dd24-DINOXEGGS',
+      'Angel',
+      'DinoPQ...LPj2rd'
+    )
+  })
+})
+
+describe('rmrkGalleryItem', () => {
+  it('galleryListedItemActions', () => {
+    cy.rmrkGalleryListedItemActions(
+      '9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000080',
+      'DinoPQ...LPj2rd'
+    )
+  })
+  it('galleryUnlistedItemActions', () => {
+    cy.rmrkGalleryUnlistedItemActions(
+      '9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000061',
+      'DinoPQ...LPj2rd'
+    )
   })
 })

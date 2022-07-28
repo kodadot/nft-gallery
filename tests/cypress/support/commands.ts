@@ -6,6 +6,11 @@ Cypress.on('uncaught:exception', (err) => {
   consola.error(err)
   return false
 })
+Cypress.Commands.add('loginWithKeyring', () => {
+  cy.visit('/')
+  cy.wait(1000)
+  cy.visit('/e2e-login')
+})
 Cypress.Commands.add('exploreTabs', () => {
   cy.get('.tabs > ul').should('be.visible')
   cy.get('.tabs > ul > li').should('have.length', 2)
@@ -135,7 +140,7 @@ Cypress.Commands.add('toggleBuyNowGallery', () => {
     '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .is-flex > .switch > .check'
   ).click()
 })
-Cypress.Commands.add('galleryListedItemActions', (nftId, creator) => {
+Cypress.Commands.add('bsxGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/bsx/gallery/${nftId}`)
   cy.get('.price-block__original > .money > span').should('contain', 'BSX')
   cy.get(':nth-child(1) > .tooltip-trigger > .button')
@@ -167,30 +172,78 @@ Cypress.Commands.add('galleryListedItemActions', (nftId, creator) => {
   cy.get('[data-label="From"]').should('contain', `${creator}`)
   cy.get('[data-label="Amount"]').should('contain', '-')
 })
-Cypress.Commands.add('galleryUnlistedItemActions', (nftId, creator) => {
+Cypress.Commands.add('bsxGalleryUnlistedItemActions', (nftId, creator) => {
   cy.visit(`/bsx/gallery/${nftId}`)
   cy.get(':nth-child(1) > .tooltip-trigger > .button')
     .should('be.disabled')
     .should('contain', 'MAKE OFFER')
 })
-Cypress.Commands.add('collectionActions', (collectionId, nftName, creator) => {
-  cy.visit(`/bsx/collection/${collectionId}`)
+Cypress.Commands.add(
+  'bsxCollectionActions',
+  (collectionId, nftName, creator) => {
+    cy.visit(`/bsx/collection/${collectionId}`)
+    cy.get(
+      ':nth-child(1) > .card > .nft-card__skeleton > a > .card-image > .b-image-wrapper > .has-ratio'
+    ).should('be.visible')
+    cy.get('.is-grouped > :nth-child(1) > .control > .select > select').select(
+      'Old first'
+    )
+    cy.get('.is-flex > a > .is-flex-wrap-wrap > .tippy-container > div').should(
+      'contain',
+      creator
+    )
+    cy.get('.share > :nth-child(1) > .field-body > .field').should('be.visible')
+  }
+)
+Cypress.Commands.add(
+  'rmrkCollectionActions',
+  (collectionId, nftName, creator) => {
+    cy.visit(`/rmrk/collection/${collectionId}`)
+    cy.get(
+      ':nth-child(1) > .card > .nft-card__skeleton > a > .card-image > .b-image-wrapper > .has-ratio'
+    ).should('be.visible')
+    cy.get('.is-grouped > :nth-child(1) > .control > .select > select').select(
+      'Oldest'
+    )
+    cy.get('.is-flex > a > .is-flex-wrap-wrap > .tippy-container > div').should(
+      'contain',
+      creator
+    )
+    cy.get('.share > :nth-child(1) > .field-body > .field').should('be.visible')
+  }
+)
+Cypress.Commands.add('rmrkGalleryListedItemActions', (nftId, creator) => {
+  cy.visit(`/rmrk/gallery/${nftId}`)
+  cy.get('.price-block__original > .money > span').should('contain', 'KSM')
+  cy.get(':nth-child(1) > .tooltip-trigger > .button')
+    .should('be.disabled')
+    .should('contain', 'BUY')
+  cy.get('.is-size-6 > .money > span').should('contain', 'KSM')
+  cy.get('.field > div[data-v-4d7a8fa0=""] > .button').should('be.visible')
   cy.get(
-    ':nth-child(1) > .card > .nft-card__skeleton > a > .card-image > .b-image-wrapper > .has-ratio'
+    '.share > :nth-child(1) > .field-body > .field > :nth-child(2)'
   ).should('be.visible')
-  cy.get('.is-grouped > :nth-child(1) > .control > .select > select').select(
-    'Old first'
-  )
-  cy.get('.is-flex > a > .is-flex-wrap-wrap > .tippy-container > div').should(
-    'contain',
-    creator
-  )
-  cy.get('.share > :nth-child(1) > .field-body > .field').should('be.visible')
+  cy.get('.share__tooltip > .tooltip-trigger > .button').should('be.visible')
+  cy.get(
+    '.block > .collapse > .collapse-trigger > .card-header > .card-header-title'
+  ).should('contain', 'History')
+  cy.get(
+    '.block > .collapse > .collapse-trigger > .card-header > .card-header-title'
+  ).click()
+  cy.get('.is-flex > .control > .select > select').select('🖼 MINT')
+  cy.get('.type-table').should('contain', '🖼 MINT')
+  cy.get('[data-label="From"]').should('contain', `${creator}`)
+  cy.get('[data-label="Amount"]').should('contain', '-')
+})
+Cypress.Commands.add('rmrkGalleryUnlistedItemActions', (nftId, creator) => {
+  cy.visit(`/rmrk/gallery/${nftId}`)
+  cy.get('.price-block__original > .money > span').should('not.exist')
 })
 
 declare global {
   namespace Cypress {
     interface Chainable {
+      loginWithKeyring(): Chainable<Element>
       exploreTabs(): Chainable<Element>
       rmrkGallerySortBy(): Chainable<Element>
       bsxGallerySortBy(): Chainable<Element>
@@ -203,17 +256,30 @@ declare global {
       galleryBuyNow(amount: number): Chainable<Element>
       galleryInputFields(amount: number): Chainable<Element>
       toggleBuyNowGallery(): Chainable<Element>
-      galleryListedItemActions(
+      bsxGalleryListedItemActions(
         nftId: string,
         creator: string
       ): Chainable<Element>
-      galleryUnlistedItemActions(
+      bsxGalleryUnlistedItemActions(
         nftId: string,
         creator: string
       ): Chainable<Element>
-      collectionActions(
+      bsxCollectionActions(
         collectionId: string,
         nftName: string,
+        creator: string
+      ): Chainable<Element>
+      rmrkCollectionActions(
+        collectionId: string,
+        nftName: string,
+        creator: string
+      ): Chainable<Element>
+      rmrkGalleryListedItemActions(
+        nftId: string,
+        creator: string
+      ): Chainable<Element>
+      rmrkGalleryUnlistedItemActions(
+        nftId: string,
         creator: string
       ): Chainable<Element>
     }
