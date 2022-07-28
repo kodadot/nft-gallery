@@ -187,7 +187,7 @@ export default class AvailableActions extends mixins(
     this.isLoading = true
 
     try {
-      showNotification(`[${this.selectedAction}] ${this.nftId}`)
+      showNotification(`[${this.selectedAction}] NFT: ${this.nftId}`)
       const action = NFTUtils.apiCall(this.selectedAction)
 
       if (!action || !this.collectionId) {

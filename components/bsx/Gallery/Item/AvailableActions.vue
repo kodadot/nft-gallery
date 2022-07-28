@@ -187,7 +187,7 @@ export default class AvailableActions extends mixins(
         throw new EvalError('Action or Collection not found')
       }
 
-      showNotification(`[${this.selectedAction}] ${this.nftId}`)
+      showNotification(`[${this.selectedAction}] NFT: ${this.nftId}`)
       let cb = getApiCall(api, this.urlPrefix, this.selectedAction)
       let expiration: number | undefined = undefined
       if (this.selectedAction === ShoppingActions.MAKE_OFFER) {
