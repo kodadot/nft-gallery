@@ -172,7 +172,7 @@ Cypress.Commands.add('bsxGalleryListedItemActions', (nftId, creator) => {
   cy.get('[data-label="From"]').should('contain', `${creator}`)
   cy.get('[data-label="Amount"]').should('contain', '-')
 })
-Cypress.Commands.add('bsxGalleryUnlistedItemActions', (nftId, creator) => {
+Cypress.Commands.add('bsxGalleryUnlistedItemActions', (nftId) => {
   cy.visit(`/bsx/gallery/${nftId}`)
   cy.get(':nth-child(1) > .tooltip-trigger > .button')
     .should('be.disabled')
@@ -235,7 +235,7 @@ Cypress.Commands.add('rmrkGalleryListedItemActions', (nftId, creator) => {
   cy.get('[data-label="From"]').should('contain', `${creator}`)
   cy.get('[data-label="Amount"]').should('contain', '-')
 })
-Cypress.Commands.add('rmrkGalleryUnlistedItemActions', (nftId, creator) => {
+Cypress.Commands.add('rmrkGalleryUnlistedItemActions', (nftId) => {
   cy.visit(`/rmrk/gallery/${nftId}`)
   cy.get('.price-block__original > .money > span').should('not.exist')
 })
