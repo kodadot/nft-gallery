@@ -27,6 +27,7 @@
 
 <script lang="ts">
 import BalanceInput from '@/components/shared/BalanceInput.vue'
+import AddressInput from '@/components/shared/AddressInput.vue'
 import { NFTAction } from '@/components/unique/NftUtils'
 import { createTokenId } from '@/components/unique/utils'
 import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
@@ -171,8 +172,15 @@ export default class AvailableActions extends mixins(
   }
 
   protected updateMeta(value: string | number) {
-    const balanceInputComponent = this.$refs.balanceInput as BalanceInput
-    this.isBalanceInputValid = balanceInputComponent.checkValidity()
+    const balanceInputComponent = this.$refs.balanceInput as
+      | AddressInput
+      | BalanceInput
+    if (
+      balanceInputComponent &&
+      balanceInputComponent instanceof BalanceInput
+    ) {
+      this.isBalanceInputValid = balanceInputComponent.checkValidity()
+    }
     this.$consola.log(typeof value, value)
     this.meta = value
   }
