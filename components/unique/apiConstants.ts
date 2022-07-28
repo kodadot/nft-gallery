@@ -1,21 +1,17 @@
-import Connector from '@kodadot1/sub-api'
+import type { ApiPromise } from '@polkadot/api'
 
-export function getInstanceDeposit(): bigint {
-  const { api } = Connector.getInstance()
+export function getInstanceDeposit(api: ApiPromise): bigint {
   return api.consts?.uniques?.instanceDeposit?.toBigInt()
 }
 
-export function getMetadataDeposit(): bigint {
-  const { api } = Connector.getInstance()
+export function getMetadataDeposit(api: ApiPromise): bigint {
   return api.consts?.uniques?.metadataDepositBase?.toBigInt()
 }
 
-export function getDepositPerByte(): bigint {
-  const { api } = Connector.getInstance()
+export function getDepositPerByte(api: ApiPromise): bigint {
   return api.consts?.uniques?.depositPerByte?.toBigInt()
 }
 
-export function getclassDeposit(): bigint {
-  const { api } = Connector.getInstance()
+export function getclassDeposit(api: ApiPromise): bigint {
   return api.consts?.uniques?.classDeposit?.toBigInt()
 }

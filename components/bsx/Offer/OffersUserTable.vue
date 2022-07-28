@@ -59,6 +59,7 @@
         </p></b-table-column
       >
       <b-table-column
+        v-if="accountId === ownerId"
         cell-class="is-vcentered is-narrow"
         :label="$t('offer.action')"
         v-slot="props"
@@ -81,7 +82,6 @@ import { formatDistanceToNow } from 'date-fns'
 import { Offer } from './types'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import OfferMixin from '~/utils/mixins/offerMixin'
-import Connector from '@kodadot1/sub-api'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
@@ -103,6 +103,7 @@ export default class OffersUserTable extends mixins(
 ) {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public offers!: Offer[]
+  @Prop({ type: String, default: '' }) public ownerId!: string
 
   public timestampOffer(date) {
     return formatDistanceToNow(new Date(date), { addSuffix: true })
@@ -111,7 +112,7 @@ export default class OffersUserTable extends mixins(
   async withdrawOffer(offer) {
     const { caller, nft } = offer
     try {
-      const { api } = Connector.getInstance()
+      const api = await this.useApi()
       this.initTransactionLoader()
       const cb = api.tx.marketplace.withdrawOffer
       const { id, item } = tokenIdToRoute(nft.id)
