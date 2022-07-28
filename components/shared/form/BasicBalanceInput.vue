@@ -31,13 +31,13 @@ import { balanceFrom, simpleDivision } from '@/utils/balance'
 @Component
 export default class BasicBalanceInput extends Vue {
   // Dev: make vValue required
-  @VModel() vValue!: string
+  @VModel() vValue!: string | number
   @Prop({ type: String, default: '-' }) unit!: string
   @Prop({ type: Number, default: 12 }) public decimals!: number
 
   @Prop({ type: Number, default: 0 }) public min!: number
   @Prop({ type: Number, default: Number.MAX_SAFE_INTEGER }) public max!: number
-  @Prop({ default: 0.01 }) public step!: number
+  @Prop({ default: 0.001 }) public step!: number
 
   // MISC
   @Prop({ type: String, default: 'amount' }) label!: string
