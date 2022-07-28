@@ -13,8 +13,7 @@
           label="Price"
           expanded
           key="price"
-          :step="1"
-          :max="maxPrice"
+          :step="0.01"
           :min="0"
           @input="updatePrice"
           class="mb-3" />
@@ -145,7 +144,6 @@ export default class CreateToken extends mixins(
   protected nsfw = false
   protected price: string | number = 0
   protected listed = true
-  protected maxPrice = Number.MAX_SAFE_INTEGER // actually 999999999999999999 but this would be unsafe at runtime
   protected royalty: Royalty = {
     amount: 0,
     address: '',
@@ -252,7 +250,7 @@ export default class CreateToken extends mixins(
 
   get validPriceValue(): boolean {
     const price = parseInt(this.price as string)
-    return !this.listed || (price > 0 && price <= this.maxPrice)
+    return !this.listed || price > 0
   }
 
   protected async submit(retryCount = 0): Promise<void> {
