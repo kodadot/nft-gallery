@@ -88,9 +88,8 @@ export default class BalanceInput extends mixins(ChainMixin) {
   }
 
   handleUnitChange(unit) {
-    const valueInBSXUnit = this.internalValue * this.selectedUnit
-    // never set value above max value
-    this.internalValue = valueInBSXUnit ? valueInBSXUnit / unit : 0
+    const valueInBaseUnit = this.internalValue * this.selectedUnit
+    this.internalValue = valueInBaseUnit ? valueInBaseUnit / unit : 0
     this.selectedUnit = unit
     this.balance.focus()
   }
