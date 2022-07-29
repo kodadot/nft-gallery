@@ -14,7 +14,7 @@
         <b-select
           :value="selectedUnit"
           :disabled="!calculate"
-          @input="handleInput(internalValue)">
+          @input="handleUnitChange">
           <option v-for="u in units" :key="u.value" :value="u.value">
             {{ u.name }}
           </option>
