@@ -181,14 +181,12 @@ export default class AvailableActions extends mixins(
     ) {
       this.isBalanceInputValid = balanceInputComponent.checkValidity()
     }
+    // ad-hoc fix for empty input value
+    if (balanceInputComponent instanceof BalanceInput && this.meta === '0') {
+      this.isBalanceInputValid = false
+    }
     this.$consola.log(typeof value, value)
     this.meta = value
-    // ad-hoc fix for empty input value
-    if (this.meta === '0') {
-      this.isBalanceInputValid = false
-    } else {
-      this.isBalanceInputValid = balanceInputComponent.checkValidity()
-    }
   }
 
   protected async submit() {
