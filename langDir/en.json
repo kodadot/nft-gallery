@@ -246,7 +246,7 @@
   "funfacts": {
     "1": {
       "heading": "Did you know...",
-      "question": "that back in 2015 there was the first official NFT called Etheria on Etheruem?"
+      "question": "that back in 2015 there was the first official NFT called Etheria on Ethereum?"
     },
     "2": {
       "heading": "Did you know...",
@@ -258,7 +258,7 @@
     },
     "4": {
       "heading": "Did you know...",
-      "question": "that KodaDot is building an experimental NFT landscape?"
+      "question": "that KodaDot is building an experimental NFT landscape called MetaPrime?"
     },
     "5": {
       "heading": "Did you know...",
@@ -383,6 +383,122 @@
     "35": {
       "heading": "Did you know...",
       "question": "that you can get an overview of all available shortcuts by pressing '?'"
+    },
+    "36": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot has added support for Basilisk NFT marketplace recently?"
+    },
+    "37": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot has added support for Basilisk NFT marketplace recently?"
+    },
+    "38": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot Guild Rewards has distributed over $180k in bounties to contributors for their activity?"
+    },
+    "39": {
+      "heading:": "Did you know ...",
+      "question": "you can get paid for contributing to KodaDot?"
+    },
+    "40": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot has over 70+ contributors to the codebase? You can fact-check this on KodaDot Github."
+    },
+    "41": {
+      "heading:": "Did you know ...",
+      "question": "Kodadot Github repository has crossed 200 forks?"
+    },
+    "42": {
+      "heading:": "Did you know ...",
+      "question": "contributors to KodaDot already made more than 1500 pull requests? You can create one too!"
+    },
+    "43": {
+      "heading:": "Did you know ...",
+      "question": "you can be a member of the QA guild to help us with the quality of KodaDot releases and get paid?"
+    },
+    "44": {
+      "heading:": "Did you know ...",
+      "question": "you can be a member of KodaDot Ambassadors program and help us with various tasks?"
+    },
+    "45": {
+      "heading:": "Did you know ...",
+      "question": "you can be a member of the code review guild to help us with the code quality of KodaDot and get paid?"
+    },
+    "46": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot is doing a bi-weekly recap called Meta Hours on KodaDot progress?"
+    },
+    "47": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot team is working on supporting MoonRiver and MoonBeam ?"
+    },
+    "48": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot team is working on supporting Astar and Shiden?"
+    },
+    "49": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot was the first unofficial RMRK explorer? We hack fast. "
+    },
+    "50": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot team is creating their own NFT protocol called Reactive NFTs? You can find a recording of the presentation on Youtube."
+    },
+    "51": {
+      "heading:": "Have you ... ",
+      "question": "contributed to KodaDot discord discussions already?"
+    },
+    "52": {
+      "heading:": "Can you guess ...",
+      "question": "which parachain KodaDot will support next? "
+    },
+    "53": {
+      "heading:": "Can you guess ...",
+      "question": "how many guilds KodaDot has to keep the current pace of development?"
+    },
+    "54": {
+      "heading:": "Can you guess ...",
+      "question": "when KodaDot Github repository will cross 1k stars?"
+    },
+    "55": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot has produced most favourite open-source in Polkadot after Parity, MoonBeam, Acala and Astar?"
+    },
+    "56": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot is becoming ultimate public good of Polkadot?"
+    },
+    "57": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot team thought about making own parachain? wyt?"
+    },
+    "58": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot had all-time-high 270 pull-requests in February 2022?"
+    },
+    "59": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot had all-time-high 270 pull-requests in February 2022?"
+    },
+    "60": {
+      "heading:": "Did you know ...",
+      "question": "you can help KodaDot resolve few issues and get paid?"
+    },
+    "61": {
+      "heading:": "Did you know ...",
+      "question": "you can help KodaDot report bugs and get paid?"
+    },
+    "62": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot had all-time-high 20 contributors in one month? Will you help us to set a new record?"
+    },
+    "63": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot contributors are doing payout by themselves from KodaDot Guild Rewards?"
+    },
+    "64": {
+      "heading:": "Did you know ...",
+      "question": "KodaDot has amazing peer culture?"
     }
   },
   "sort": {
