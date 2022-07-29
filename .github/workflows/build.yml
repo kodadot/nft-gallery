@@ -41,6 +41,8 @@ jobs:
       - name: Run Build
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-12'
         run: pnpm generate
+
+      - name: Run Build on Windows
         if: matrix.os == 'windows-latest'
         run: pnpm generate || echo 'done'
 
