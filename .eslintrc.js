@@ -29,7 +29,7 @@ module.exports = {
     ],
     'no-useless-catch': 1,
     'no-var': 'error',
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': 0,
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'max-classes-per-file': ['error', 2],
