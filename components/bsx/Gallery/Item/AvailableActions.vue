@@ -4,6 +4,7 @@
     <ActionList
       v-if="accountId"
       :actions="actions"
+      :price="price"
       :disabledToolTips="toolTips"
       @click="handleAction" />
     <component

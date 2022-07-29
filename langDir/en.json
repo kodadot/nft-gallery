@@ -638,6 +638,7 @@
       "MINTNFT": "MINT",
       "LIST": "LIST",
       "UNLIST": "UNLIST",
+      "RELIST": "RELIST",
       "SEND": "GIFT",
       "CONSUME": "BURN",
       "BUY": "BUY",
