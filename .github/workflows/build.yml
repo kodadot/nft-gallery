@@ -39,7 +39,11 @@ jobs:
         run: pnpm lint:quiet
 
       - name: Run Build
-        run: pnpm generate
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-12'
+          run: pnpm generate
+        if: matrix.os == 'windows-latest'
+          if: ${{ always() }}
+          run: pnpm generate
 
       - name: Run Test
         run: pnpm test
