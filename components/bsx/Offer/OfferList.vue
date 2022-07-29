@@ -1,11 +1,11 @@
 <template>
-  <CollapseCardWrapper :label="$t('nft.offer.label', [total])">
+  <CollapseCardWrapper :label="$t('nft.offer.label', [displayedTotal])">
     <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-4 has-text-success" v-if="total">
+    <p class="title is-size-4 has-text-success" v-if="displayedTotal">
       {{ $t('nft.offer.count', [total]) }}
     </p>
     <OfferTable
-      :offers="offers"
+      :offers="displayedOffers"
       @select="onOfferSelected"
       :accountId="accountId"
       :isOwner="isOwner" />
@@ -68,6 +68,14 @@ export default class OfferList extends mixins(
       result: ({ data }) => this.setResponse(data),
       pollInterval: 15000,
     })
+  }
+
+  get displayedOffers() {
+    return this.offers.filter((offer) => offer.caller != this.currentOwnerId)
+  }
+
+  get displayedTotal() {
+    return this.displayedOffers.length
   }
 
   @Emit('offersUpdate')
