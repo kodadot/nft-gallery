@@ -13,13 +13,12 @@
           <BalanceInput
             ref="balanceInput"
             required
-            has-to-larger-than-zero
+            has-to-larger-then-zero
             v-if="listed"
             label="Price"
             expanded
             key="price"
-            :step="1"
-            :max="maxPrice"
+            :step="0.01"
             :min="0"
             @input="updatePrice"
             class="mb-3" />
@@ -153,9 +152,8 @@ export default class CreateToken extends mixins(
   protected depositPerByte = BigInt(0)
   protected attributes: Attribute[] = []
   protected nsfw = false
-  protected price: string | number = 0.1
+  protected price: string | number = 0
   protected listed = true
-  protected maxPrice = Number.MAX_SAFE_INTEGER // actually 999999999999999999 but this would be unsafe at runtime
   protected royalty: Royalty = {
     amount: 0,
     address: '',
@@ -195,13 +193,6 @@ export default class CreateToken extends mixins(
     }
   }
 
-  @Watch('listed', { immediate: true })
-  onListedChange(value: boolean, oldVal: boolean) {
-    if (value === oldVal) {
-      return
-    }
-    this.price = value ? 0.1 : 0
-  }
   public async fetchCollections() {
     const query = await resolveQueryPath(this.urlPrefix, 'collectionForMint')
     const collections = await this.$apollo.query({
@@ -267,7 +258,7 @@ export default class CreateToken extends mixins(
 
   get validPriceValue(): boolean {
     const price = parseInt(this.price as string)
-    return !this.listed || (price > 0 && price <= this.maxPrice)
+    return !this.listed || price > 0
   }
 
   public checkValidity() {

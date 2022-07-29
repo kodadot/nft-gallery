@@ -9,6 +9,14 @@
       <div v-if="headerText" class="has-text-centered offer-title mb-2">
         {{ headerText }}
       </div>
+      <b-select v-model="selectedStatus">
+        <option
+          v-for="option in getUniqType(offers)"
+          :value="option.type"
+          :key="option.type">
+          {{ option.value }}
+        </option>
+      </b-select>
       <b-table-column
         v-if="displayCollection"
         cell-class="is-vcentered is-narrow"
@@ -67,9 +75,8 @@
         <Money :value="props.row.price" inline />
       </b-table-column>
       <b-table-column
-        v-if="!isBsxStats"
         cell-class="is-vcentered is-narrow"
-        field="expiration"
+        field="expirationBlock"
         :label="$t('offer.expiration')"
         v-slot="props"
         sortable>

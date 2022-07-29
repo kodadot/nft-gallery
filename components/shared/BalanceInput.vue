@@ -12,12 +12,13 @@
         :step="step"
         :min="min"
         :max="max"
-        :expanded="expanded" />
+        :expanded="expanded"
+        @input="handleInput" />
       <p class="control balance">
         <b-select
-          :value="selectedUnit"
+          v-model="selectedUnit"
           :disabled="!calculate"
-          @input="handleUnitChange">
+          @input="handleInput(internalValue)">
           <option v-for="u in units" :key="u.value" :value="u.value">
             {{ u.name }}
           </option>
@@ -81,11 +82,7 @@ export default class BalanceInput extends mixins(ChainMixin) {
   }
 
   formatSelectedValue(value: number): string {
-    return value
-      ? String(
-          Math.min(this.max, value * 10 ** this.decimals * this.selectedUnit)
-        )
-      : '0'
+    return value ? String(value * 10 ** this.decimals * this.selectedUnit) : '0'
   }
 
   protected mapper(unit: Unit) {
@@ -103,13 +100,7 @@ export default class BalanceInput extends mixins(ChainMixin) {
   @Emit('input')
   public handleInput(value: number) {
     this.internalValue = value
-    return String(value)
-  }
-
-  handleUnitChange(unit) {
-    this.selectedUnit = unit
-    // never set value above max value
-    this.internalValue = Number(this.formatSelectedValue(this.internalValue))
+    return this.calculate ? this.formatSelectedValue(value) : value
   }
 
   public checkValidity() {
