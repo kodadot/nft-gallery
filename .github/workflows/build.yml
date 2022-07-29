@@ -42,6 +42,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-12'
         run: pnpm generate
 
+      # remove continue-on-error when https://github.com/paritytech/smoldot/issues/2564 resolved
       - name: Run Build on Windows
         if: matrix.os == 'windows-latest'
         continue-on-error: true
