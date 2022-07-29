@@ -329,7 +329,7 @@ export default class AvailableActions extends mixins(
       if (this.isActionEmpty) {
         throw new ReferenceError('No action selected')
       }
-      showNotification(rmrk)
+      showNotification(`[${this.selectedAction}] NFT: ${this.nftId}`)
       this.$consola.log('submit', rmrk)
       const isBuy = this.isBuy
       const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
