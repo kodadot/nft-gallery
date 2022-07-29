@@ -6,7 +6,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
 
@@ -36,7 +39,7 @@ jobs:
         run: pnpm lint:quiet
 
       - name: Run Build
-        run: pnpm build
+        run: pnpm generate
 
       - name: Run Test
         run: pnpm test
