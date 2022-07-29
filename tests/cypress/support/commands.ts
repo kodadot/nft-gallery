@@ -12,13 +12,13 @@ Cypress.Commands.add('loginWithKeyring', () => {
   cy.visit('/e2e-login')
   cy.visit('/rmrk')
 })
-// todo: data-cy for gallery/collection tabs
 Cypress.Commands.add('exploreTabs', () => {
-  cy.get('[data-cy="tabs"]').should('be.visible')
-  cy.contains('Collections').should('be.visible')
-  cy.contains('Gallery').should('be.visible')
-  cy.contains('Gallery').click()
-  cy.contains('Collections').click()
+  cy.get('[data-cy="tabs"]')
+    .should('be.visible')
+    .within(() => {
+      cy.contains('Collections').should('be.visible')
+      cy.contains('Gallery').should('be.visible')
+    })
 })
 Cypress.Commands.add('rmrkGallerySortBy', () => {
   cy.get(
@@ -36,6 +36,7 @@ Cypress.Commands.add('rmrkGallerySortBy', () => {
   ).click()
   cy.wait(5000)
 })
+// done
 Cypress.Commands.add('bsxGallerySortBy', () => {
   cy.get('[data-cy="gallery-sort-by"]').click()
   cy.get('[data-cy="Recently Created"]').should('be.visible')
@@ -48,8 +49,8 @@ Cypress.Commands.add('bsxGallerySortBy', () => {
   cy.get('[data-cy="Recently Created"]').click()
   cy.wait(5000)
 })
+// done
 Cypress.Commands.add('collectionsSortBy', () => {
-  // select 'Old first' and 'New first'
   cy.get('[data-cy="collection-sort-by"]').should('be.visible')
   cy.get('[data-cy="collection-sort-by"]').select('Old first')
   cy.get('[data-cy="collection-sort-by"]').select('New first')
@@ -103,16 +104,13 @@ Cypress.Commands.add('bsxNavbar', () => {
   cy.get('[data-cy="localChanger"]').click()
 })
 Cypress.Commands.add('expandGallerySearch', () => {
-  // clicking on gallery tab
-  cy.contains('Gallery').click()
-  cy.get('.mb-0 > .field-body > .field > .button > .icon').click()
+  cy.get('[data-cy="expand-search"]').click()
 })
 Cypress.Commands.add('collectionsBuyNow', () => {
   cy.get('[data-cy="buy-now"]').within(() => {
     return cy.get('[type="checkbox"]').check({ force: true })
   })
   cy.wait(2000)
-
   cy.get('[data-cy="0"]').within(() => {
     cy.get('[data-cy="collection-floor-price"]')
       .invoke('text')

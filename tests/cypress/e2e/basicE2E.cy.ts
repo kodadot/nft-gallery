@@ -16,44 +16,44 @@
 //   })
 // })
 
-describe('exploreRmrkCollections', () => {
-  it('loadExplore', () => {
-    cy.visit('/rmrk/explore')
-    cy.wait(3000)
-  })
-  it('exploreTabs', () => {
-    cy.exploreTabs()
-  })
-  // check collection sort
-  it('collectionsSort', () => {
-    cy.collectionsSortBy()
-  })
-  it('collectionsBuyNow', () => {
-    cy.collectionsBuyNow()
-  })
-})
-//
-// describe('exploreRmrkGallery', () => {
+// describe('exploreRmrkCollections', () => {
 //   it('loadExplore', () => {
-//     cy.visit('/rmrk/explore?tab=GALLERY&page=1')
+//     cy.visit('/rmrk/explore')
+//     cy.wait(3000)
 //   })
 //   it('exploreTabs', () => {
 //     cy.exploreTabs()
 //   })
-//   it('expandGallerySearch', () => {
-//     cy.expandGallerySearch()
+//   // check collection sort
+//   it('collectionsSort', () => {
+//     cy.collectionsSortBy()
 //   })
-//   it('galleryInputFields', () => {
-//     cy.galleryInputFields(100)
-//   })
-//   it('gallerySortRmrk', () => {
-//     cy.rmrkGallerySortBy()
-//   })
-//   it('galleryBuyNow', () => {
-//     cy.galleryBuyNow(100)
+//   it('collectionsBuyNow', () => {
+//     cy.collectionsBuyNow()
 //   })
 // })
 //
+describe('exploreRmrkGallery', () => {
+  it('loadExplore', () => {
+    cy.visit('/rmrk/explore?tab=GALLERY&page=1')
+  })
+  it('exploreTabs', () => {
+    cy.exploreTabs()
+  })
+  it('expandGallerySearch', () => {
+    cy.expandGallerySearch()
+  })
+  it('galleryInputFields', () => {
+    cy.galleryInputFields(100)
+  })
+  it('gallerySortRmrk', () => {
+    cy.rmrkGallerySortBy()
+  })
+  it('galleryBuyNow', () => {
+    cy.galleryBuyNow(100)
+  })
+})
+
 // describe('exploreBsxCollections', () => {
 //   it('loadExplore', () => {
 //     cy.visit('/bsx/explore')

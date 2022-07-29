@@ -13,7 +13,8 @@
           aria-controls="sortAndFilter"
           type="is-primary is-bordered-light"
           class="is-hidden-mobile mr-2"
-          @click="isVisible = !isVisible" />
+          @click="isVisible = !isVisible"
+          data-cy="expand-search" />
         <slot name="next-filter"></slot>
         <b-autocomplete
           v-if="!hideSearchInput"
