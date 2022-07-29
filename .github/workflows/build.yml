@@ -44,7 +44,8 @@ jobs:
 
       - name: Run Build on Windows
         if: matrix.os == 'windows-latest'
-        run: pnpm generate || echo 'done'
+        continue-on-error: true
+        run: pnpm generate
 
       - name: Run Test
         run: pnpm test
