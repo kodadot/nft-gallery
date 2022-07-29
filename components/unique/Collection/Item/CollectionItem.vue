@@ -79,28 +79,29 @@
 </template>
 
 <script lang="ts">
-import { emptyObject } from '@/utils/empty'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { Component } from 'vue-property-decorator'
 import {
   fetchCollectionMetadata,
   sanitizeIpfsUrl,
 } from '@/components/rmrk/utils'
+import { emptyObject } from '@/utils/empty'
 import isShareMode from '@/utils/isShareMode'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { Component, mixins } from 'nuxt-property-decorator'
 
-import Connector from '@kodadot1/sub-api'
-import { Option } from '@polkadot/types'
-import { NFTWithMeta } from '@/components/rmrk/service/scheme'
-import { ClassDetails, ClassMetadata } from '@polkadot/types/interfaces'
+import {
+  CollectionMetadata,
+  NFTWithMeta,
+} from '@/components/rmrk/service/scheme'
+import { Attribute, Collection } from '@/components/unique/types'
 import collectionById from '@/queries/unique/collectionById.graphql'
-import { CollectionMetadata } from '@/components/rmrk/service/scheme'
-import { tokenIdToRoute } from '../../utils'
-import { Collection, Attribute } from '@/components/unique/types'
 import AuthMixin from '@/utils/mixins/authMixin'
-import { mixins } from 'vue-class-component'
-import onApiConnect from '~/utils/api/general'
-import SubscribeMixin from '~/utils/mixins/subscribeMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { onApiConnect } from '@kodadot1/sub-api'
+import { Option } from '@polkadot/types'
+import { ClassDetails, ClassMetadata } from '@polkadot/types/interfaces'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import SubscribeMixin from '@/utils/mixins/subscribeMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
+import { tokenIdToRoute } from '../../utils'
 
 const components = {
   GalleryCardList: () =>
@@ -120,7 +121,8 @@ const components = {
 export default class CollectionItem extends mixins(
   AuthMixin,
   SubscribeMixin,
-  PrefixMixin
+  PrefixMixin,
+  UseApiMixin
 ) {
   private id = ''
   private collection: Collection & CollectionMetadata = emptyObject()
@@ -170,7 +172,7 @@ export default class CollectionItem extends mixins(
   public created() {
     this.checkId()
     this.fetchCollection()
-    onApiConnect((api) => {
+    onApiConnect(this.apiUrl, (api) => {
       this.loadMagic()
       this.subscribe(api.query.uniques.class, [this.id], this.observeOwner)
     })
@@ -220,8 +222,7 @@ export default class CollectionItem extends mixins(
   }
 
   public async loadMagic() {
-    const { api } = Connector.getInstance()
-    await api?.isReady
+    const api = await this.useApi()
 
     try {
       const collectionQ = await api.query.uniques

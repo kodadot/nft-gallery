@@ -1,4 +1,4 @@
-import { Prefix } from './indexer.config'
+import { Prefix, Config } from './types'
 
 type Config<T = boolean> = Record<Prefix, T>
 

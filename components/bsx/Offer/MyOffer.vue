@@ -40,7 +40,7 @@
       </b-table-column>
       <b-table-column
         cell-class="is-vcentered is-narrow"
-        field="expiration"
+        field="expirationBlock"
         :label="$t('offer.expiration')"
         v-slot="props"
         sortable>

@@ -14,9 +14,9 @@ import {
   SendType,
   shuffleFunction,
 } from '@/components/accounts/utils'
+import { Component, Emit, mixins, Watch } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import Connector from '@kodadot1/sub-api'
-import { Component, Emit, Vue, Watch } from 'nuxt-property-decorator'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
 
 const components = {
   AddressParser: () => import('@/components/accounts/AddressParser.vue'),
@@ -25,7 +25,7 @@ const components = {
 }
 
 @Component({ components })
-export default class SendHandler extends Vue {
+export default class SendHandler extends mixins(UseApiMixin) {
   protected parsedAddresses: string[] = []
   protected random = false
   protected distribution = 100
@@ -36,7 +36,7 @@ export default class SendHandler extends Vue {
   }
 
   public async fetchRandomSeed(): Promise<void> {
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     const random = await api.query.babe.randomness()
     this.seed = Array.from(random)
   }

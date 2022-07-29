@@ -133,20 +133,21 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import TransactionMixin from '@/utils/mixins/txMixin'
+import { calculateKsmFromUsd, calculateUsdFromKsm } from '@/utils/calculation'
+import { urlBuilderTransaction } from '@/utils/explorerGuide'
+import { calculateBalance } from '@/utils/formatBalance'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
-import prefixMixin from '@/utils/mixins/prefixMixin'
-import { DispatchError } from '@polkadot/types/interfaces'
-import { calculateBalance } from '@/utils/formatBalance'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import TransactionMixin from '@/utils/mixins/txMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
 import correctFormat from '@/utils/ss58Format'
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
+import Connector from '@kodadot1/sub-api'
+import { DispatchError } from '@polkadot/types/interfaces'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
-import { urlBuilderTransaction } from '@/utils/explorerGuide'
-import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { hasExplorer } from '~/components/rmrk/Profile/utils'
 
 @Component({
@@ -166,7 +167,8 @@ export default class Transfer extends mixins(
   TransactionMixin,
   AuthMixin,
   ChainMixin,
-  prefixMixin
+  PrefixMixin,
+  UseApiMixin
 ) {
   protected destinationAddress = ''
   protected transactionValue = ''
@@ -274,7 +276,7 @@ export default class Transfer extends mixins(
     this.initTransactionLoader()
 
     try {
-      const { api } = Connector.getInstance()
+      const api = await this.useApi()
       const cb = api.tx.balances.transfer
       const arg = [
         this.destinationAddress,
@@ -343,8 +345,8 @@ export default class Transfer extends mixins(
     }
   }
 
-  protected onTxError(dispatchError: DispatchError): void {
-    const { api } = Connector.getInstance()
+  protected async onTxError(dispatchError: DispatchError): Promise<void> {
+    const api = await this.useApi()
     if (dispatchError.isModule) {
       const decoded = api.registry.findMetaError(dispatchError.asModule)
       const { docs, name, section } = decoded

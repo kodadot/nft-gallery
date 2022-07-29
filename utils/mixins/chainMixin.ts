@@ -1,13 +1,16 @@
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component } from 'nuxt-property-decorator'
+import PrefixMixin from './prefixMixin'
+import { chainPropListOf } from '@/utils/config/chain.config'
+import { ChainProperties } from '../api/Query'
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
  * usage import Component, { mixins } from 'vue-class-component';
  * class ExtendedClass extends mixins(SubscribeMixin) {
  */
 @Component
-export default class ChainMixin extends Vue {
-  get chainProperties() {
-    return this.$store.getters['chain/getChainProperties']
+export default class ChainMixin extends PrefixMixin {
+  get chainProperties(): ChainProperties {
+    return chainPropListOf(this.urlPrefix)
   }
 
   get decimals(): number {

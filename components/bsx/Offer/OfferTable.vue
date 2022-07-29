@@ -1,16 +1,22 @@
 <template>
-  <div>
-    <Pagination
-      :total="total"
+  <div class="offer-table-container">
+    <b-table
+      :data="displayOffers(offers)"
+      paginated
       :perPage="itemsPerPage"
-      v-model="currentPage"
-      replace
-      enableListenKeyboardEvent
-      preserveScroll />
-    <b-table :data="showList">
-      <div v-if="headerText" class="has-text-centered offer-title">
+      :currentPage.sync="currentPage"
+      paginationPosition="top">
+      <div v-if="headerText" class="has-text-centered offer-title mb-2">
         {{ headerText }}
       </div>
+      <b-select v-model="selectedStatus">
+        <option
+          v-for="option in getUniqType(offers)"
+          :value="option.type"
+          :key="option.type">
+          {{ option.value }}
+        </option>
+      </b-select>
       <b-table-column
         v-if="displayCollection"
         cell-class="is-vcentered is-narrow"
@@ -69,9 +75,8 @@
         <Money :value="props.row.price" inline />
       </b-table-column>
       <b-table-column
-        v-if="!isBsxStats"
         cell-class="is-vcentered is-narrow"
-        field="expiration"
+        field="expirationBlock"
         :label="$t('offer.expiration')"
         v-slot="props"
         sortable>
@@ -128,7 +133,8 @@
 
 <script lang="ts">
 import { Attribute, emptyArray } from '@kodadot1/minimark'
-import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, mixins, Watch } from 'nuxt-property-decorator'
+import { Debounce } from 'vue-debounce-decorator'
 import { Offer } from './types'
 import { formatDistanceToNow } from 'date-fns'
 import OfferMixin from '~/utils/mixins/offerMixin'
@@ -160,29 +166,35 @@ export default class OfferTable extends mixins(OfferMixin) {
     return this.$store.getters.currentUrlPrefix
   }
 
-  get total(): number {
-    return this.offers.length
+  @Watch('currentPage')
+  watchPageValue(val) {
+    this.replaceUrl(String(val))
   }
 
-  get showList(): any[] {
-    const endIndex = this.currentPage * this.itemsPerPage
-    return this.displayOffers(this.offers).slice(
-      endIndex - this.itemsPerPage,
-      endIndex
-    )
+  @Debounce(100)
+  replaceUrl(value: string, key = 'page') {
+    this.$router
+      .replace({
+        path: String(this.$route.path),
+        query: { ...this.$route.query, [key]: value },
+      })
+      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
   }
 }
 </script>
-<style scoped>
-.limit-width-text {
-  max-width: 20ch;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.offer-title {
-  line-height: 2rem;
-  font-size: 1.2rem;
-  border-bottom: 2px solid hsl(0deg, 0%, 86%);
-  background: black;
+<style lang="scss">
+.offer-table-container {
+  .limit-width-text {
+    max-width: 20ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .offer-title {
+    line-height: 2rem;
+    font-size: 1.2rem;
+  }
+  .pagination-list {
+    margin: 0;
+  }
 }
 </style>

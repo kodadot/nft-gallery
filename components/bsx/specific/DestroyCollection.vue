@@ -11,13 +11,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, mixins } from 'nuxt-property-decorator'
-import AuthMixin from '~/utils/mixins/authMixin'
-import MetaTransactionMixin from '~/utils/mixins/metaMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 import offerListByNftId from '@/queries/subsquid/general/collectionBurnableStats.graphql'
-import Connector from '@kodadot1/sub-api'
-import { notificationTypes, showNotification } from '~/utils/notification'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import AuthMixin from '@/utils/mixins/authMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
 
 type BurnableStats = Record<'all' | 'burned', { count: number }>
 
@@ -29,7 +29,8 @@ const components = {
 export default class DonationButton extends mixins(
   AuthMixin,
   MetaTransactionMixin,
-  PrefixMixin
+  PrefixMixin,
+  UseApiMixin
 ) {
   @Prop(String) public id!: string
   protected disabled = true
@@ -56,7 +57,7 @@ export default class DonationButton extends mixins(
   protected async submit() {
     const { id: collectionId } = this
     try {
-      const { api } = Connector.getInstance()
+      const api = await this.useApi()
       this.initTransactionLoader()
       const cb = api.tx.nft.destroyClass
       const args = [collectionId]
