@@ -35,7 +35,8 @@
           <nuxt-link
             :to="`/${urlPrefix}/collection/${collection.id}`"
             tag="div"
-            class="card collection-card">
+            class="card collection-card"
+            :data-cy="results.indexOf(collection)">
             <div class="card-image">
               <BasicImage
                 :src="collection.image"

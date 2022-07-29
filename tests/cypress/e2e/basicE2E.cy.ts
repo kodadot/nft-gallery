@@ -1,36 +1,37 @@
-describe('landingRmrk', () => {
-  it('loadLanding', () => {
-    cy.loginWithKeyring()
-  })
-  it('checkNavbar', () => {
-    cy.rmrkNavbar()
-  })
-})
-
-describe('landingBsx', () => {
-  it('loadLanding', () => {
-    cy.visit('/bsx')
-  })
-  it('checkNavbar', () => {
-    cy.bsxNavbar()
-  })
-})
-//
-// describe('exploreRmrkCollections', () => {
-//   it('loadExplore', () => {
-//     cy.visit('/rmrk/explore?tab=COLLECTION&page=1')
+// describe('landingRmrk', () => {
+//   it('loadLanding', () => {
+//     cy.loginWithKeyring()
 //   })
-//   it('exploreTabs', () => {
-//     cy.exploreTabs()
-//   })
-//   // check collection sort
-//   it('collectionsSort', () => {
-//     cy.collectionsSortBy()
-//   })
-//   it('collectionsBuyNow', () => {
-//     cy.collectionsBuyNow()
+//   it('checkNavbar', () => {
+//     cy.rmrkNavbar()
 //   })
 // })
+//
+// describe('landingBsx', () => {
+//   it('loadLanding', () => {
+//     cy.visit('/bsx')
+//   })
+//   it('checkNavbar', () => {
+//     cy.bsxNavbar()
+//   })
+// })
+
+describe('exploreRmrkCollections', () => {
+  it('loadExplore', () => {
+    cy.visit('/rmrk/explore')
+    cy.wait(3000)
+  })
+  it('exploreTabs', () => {
+    cy.exploreTabs()
+  })
+  // check collection sort
+  it('collectionsSort', () => {
+    cy.collectionsSortBy()
+  })
+  it('collectionsBuyNow', () => {
+    cy.collectionsBuyNow()
+  })
+})
 //
 // describe('exploreRmrkGallery', () => {
 //   it('loadExplore', () => {

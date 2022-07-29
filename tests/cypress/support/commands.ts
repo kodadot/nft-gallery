@@ -12,18 +12,13 @@ Cypress.Commands.add('loginWithKeyring', () => {
   cy.visit('/e2e-login')
   cy.visit('/rmrk')
 })
+// todo: data-cy for gallery/collection tabs
 Cypress.Commands.add('exploreTabs', () => {
-  cy.get('.tabs > ul').should('be.visible')
-  cy.get('.tabs > ul > li').should('have.length', 2)
-  cy.get('.tabs > ul > li:nth-child(1)').should('have.text', 'Collections')
-  cy.get('.tabs > ul > li:nth-child(2)').should('have.text', 'Gallery')
-  cy.get('.tabs > ul > li:nth-child(1)').click()
-  cy.get('.tabs > ul > li:nth-child(1)').should('have.class', 'is-active')
-  cy.get('.tabs > ul > li:nth-child(2)').should('not.have.class', 'is-active')
-  cy.get('.tabs > ul > li:nth-child(2)').click()
-  cy.get('.tabs > ul > li:nth-child(2)').should('have.class', 'is-active')
-  cy.get('.tabs > ul > li:nth-child(1)').should('not.have.class', 'is-active')
-  cy.get('.tabs > ul > li:nth-child(1)').click()
+  cy.get('[data-cy="tabs"]').should('be.visible')
+  cy.contains('Collections').should('be.visible')
+  cy.contains('Gallery').should('be.visible')
+  cy.contains('Gallery').click()
+  cy.contains('Collections').click()
 })
 Cypress.Commands.add('rmrkGallerySortBy', () => {
   cy.get(
@@ -42,24 +37,24 @@ Cypress.Commands.add('rmrkGallerySortBy', () => {
   cy.wait(5000)
 })
 Cypress.Commands.add('bsxGallerySortBy', () => {
-  cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > .columns > .mb-0 > .dropdown > .dropdown-trigger > .button'
-  ).click()
-  cy.get(':nth-child(1)').contains('Recently Created')
-  cy.get(':nth-child(2)').contains('Oldest')
-  cy.get(':nth-child(3)').contains('Recently Interacted')
-  cy.get(':nth-child(4)').contains('Unpopular')
-  cy.get(':nth-child(5)').contains('Price: High to Low')
-  cy.get(':nth-child(6)').contains('Price: Low to High')
-  cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > :nth-child(6)'
-  ).click()
+  cy.get('[data-cy="gallery-sort-by"]').click()
+  cy.get('[data-cy="Recently Created"]').should('be.visible')
+  cy.get('[data-cy="Oldest"]').should('be.visible')
+  cy.get('[data-cy="Price: High to Low"]').should('be.visible')
+  cy.get('[data-cy="Price: Low to High"]').should('be.visible')
+  cy.get('[data-cy="Recently Interacted"]').should('be.visible')
+  cy.get('[data-cy="Unpopular"]').should('be.visible')
+  cy.get('[data-cy="Most reacted"]').should('be.visible')
+  cy.get('[data-cy="Recently Created"]').click()
   cy.wait(5000)
 })
 Cypress.Commands.add('collectionsSortBy', () => {
-  cy.get('select').select('blockNumber_DESC')
-  cy.get('select').select('blockNumber_ASC')
+  // select 'Old first' and 'New first'
+  cy.get('[data-cy="collection-sort-by"]').should('be.visible')
+  cy.get('[data-cy="collection-sort-by"]').select('Old first')
+  cy.get('[data-cy="collection-sort-by"]').select('New first')
 })
+// done
 Cypress.Commands.add('rmrkNavbar', () => {
   cy.get('[data-cy="create-dropdown"]').click()
   cy.get('[data-cy="classic"]')
@@ -90,6 +85,7 @@ Cypress.Commands.add('rmrkNavbar', () => {
   cy.get('[data-cy="profileDropdown"]').should('be.visible')
   cy.get('[data-cy="profileDropdown"]').click()
 })
+// done
 Cypress.Commands.add('bsxNavbar', () => {
   //create
   cy.get('[data-cy="create-dropdown"]').click()
@@ -108,20 +104,24 @@ Cypress.Commands.add('bsxNavbar', () => {
 })
 Cypress.Commands.add('expandGallerySearch', () => {
   // clicking on gallery tab
-  cy.get('.tabs > ul > li:nth-child(2)').click()
+  cy.contains('Gallery').click()
   cy.get('.mb-0 > .field-body > .field > .button > .icon').click()
 })
 Cypress.Commands.add('collectionsBuyNow', () => {
-  cy.get('.mb-5 > .switch > .check').click()
+  cy.get('[data-cy="buy-now"]').within(() => {
+    return cy.get('[type="checkbox"]').check({ force: true })
+  })
   cy.wait(2000)
-  cy.get('#infinite-scroll-container > :nth-child(1)')
-    .invoke('text')
-    .then((text) => {
-      const newText = text.split('Floor : ')[1].replace(/\s/g, '')
-      if (!(parseFloat(newText) > 0)) {
-        throw '[ERROR] Collection BUY NOW is not working'
-      }
-    })
+
+  cy.get('[data-cy="0"]').within(() => {
+    cy.get('[data-cy="collection-floor-price"]')
+      .invoke('text')
+      .then((text) => {
+        if (!(parseFloat(text) > 0)) {
+          throw '[ERROR] Collection BUY NOW is not working'
+        }
+      })
+  })
 })
 Cypress.Commands.add('galleryBuyNow', (amount) => {
   cy.get('#infinite-scroll-container > :nth-child(1)')
