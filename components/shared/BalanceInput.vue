@@ -28,11 +28,9 @@
           </p>
         </div>
       </div>
-      <template v-if="checkZeroFailed" #message>
-        <transition name="fade">
-          <span>{{ $t('tooltip.needToSetValidPrice') }}</span>
-        </transition>
-      </template>
+      <p class="help is-danger" v-if="checkZeroFailed">
+        {{ $t('tooltip.needToSetValidPrice') }}
+      </p>
     </b-field>
   </div>
 </template>
@@ -108,10 +106,9 @@ export default class BalanceInput extends mixins(ChainMixin) {
   }
 
   public checkValidity() {
+    const valueEqualZero = this.inputValue.toString() === '0'
     this.checkZeroFailed =
-      this.hasToLargerThanZero && this.inputValue.toString() === '0'
-        ? true
-        : false
+      this.hasToLargerThanZero && valueEqualZero ? true : false
     const balanceInputValid = this.balance.checkHtml5Validity()
     return balanceInputValid && !this.checkZeroFailed
   }
