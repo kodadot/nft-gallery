@@ -12,7 +12,7 @@
         @input="handleInput" />
       <p class="control balance">
         <b-select
-          v-model="selectedUnit"
+          :value="selectedUnit"
           :disabled="!calculate"
           @input="handleInput(internalValue)">
           <option v-for="u in units" :key="u.value" :value="u.value">
