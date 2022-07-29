@@ -169,7 +169,7 @@ export default class Gallery extends mixins(
   }
 
   get isRmrk(): boolean {
-    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
+    return false
   }
 
   set currentValue(page: number) {
@@ -194,6 +194,7 @@ export default class Gallery extends mixins(
   }
 
   async mounted() {
+    console.log('mounted')
     // only fetch passionFeed if logged in
     // if (this.isLogIn) {
     //   try {
@@ -224,14 +225,14 @@ export default class Gallery extends mixins(
       return false
     }
     this.isFetchingData = true
-    const query = await resolveQueryPath(this.urlPrefix, 'nftListWithSearch')
+    const query = await resolveQueryPath(this.client, 'nftListWithSearch')
 
     // if (this.hasPassionFeed) {
     //   await this.fetchPassionList()
     // }
     const result = await this.$apollo.query({
       query: query.default,
-      client: this.urlPrefix,
+      client: this.client,
       variables: {
         denyList: getDenyList(this.urlPrefix),
         orderBy: this.searchQuery.sortByMultiple,
@@ -317,10 +318,10 @@ export default class Gallery extends mixins(
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
-      const query = await resolveQueryPath(this.urlPrefix, 'nftListWithSearch')
+      const query = await resolveQueryPath(this.client, 'nftListWithSearch')
       const nfts = this.$apollo.query({
         query: query.default,
-        client: this.urlPrefix,
+        client: this.client,
         variables: {
           first: this.first,
           offset,
