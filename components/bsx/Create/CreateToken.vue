@@ -9,20 +9,18 @@
       <template v-slot:main>
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <BasicSwitch key="listed" v-model="listed" label="mint.listForSale" />
-        <b-field key="balanceInput">
-          <BalanceInput
-            ref="balanceInput"
-            required
-            has-to-larger-then-zero
-            v-if="listed"
-            label="Price"
-            expanded
-            key="price"
-            :step="0.01"
-            :min="0"
-            @input="updatePrice"
-            class="mb-3" />
-        </b-field>
+        <BalanceInput
+          ref="balanceInput"
+          required
+          hasToLargerThanZero
+          v-if="listed"
+          label="Price"
+          expanded
+          key="price"
+          :step="0.01"
+          :min="0"
+          @input="updatePrice"
+          class="mb-3" />
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
             :max="10"
@@ -280,7 +278,6 @@ export default class CreateToken extends mixins(
       this.balanceNotEnough = true
       return
     }
-
     this.isLoading = true
     this.status = 'loader.ipfs'
     const api = await ApiFactory.useApiInstance(this.apiUrl)
