@@ -19,7 +19,7 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "PORT=9090 nuxt dev",
+    "dev": "cross-env PORT=9090 nuxt dev",
     "dev-docker": "npx nuxi dev",
     "dev-experimental": "nuxi dev --hostname localhost --port 9090",
     "build": "nuxi build --modern",
@@ -125,6 +125,7 @@
     "@typescript-eslint/parser": "^5.30.7",
     "all-contributors-cli": "^6.20.0",
     "consola": "^2.15.3",
+    "cross-env": "^7.0.3",
     "eslint": "^8.20.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unicorn": "^42.0.0",

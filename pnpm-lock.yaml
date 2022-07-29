@@ -43,6 +43,7 @@ specifiers:
   chartjs-plugin-annotation: ^1.4.0
   chartjs-plugin-zoom: ^1.2.1
   consola: ^2.15.3
+  cross-env: ^7.0.3
   css-loader: 5.2.7
   date-fns: ^2.29.1
   emoji-unicode: ^2.0.1
@@ -159,6 +160,7 @@ devDependencies:
   '@typescript-eslint/parser': 5.30.7_he2ccbldppg44uulnyq4rwocfa
   all-contributors-cli: 6.20.0
   consola: 2.15.3
+  cross-env: 7.0.3
   eslint: 8.20.0
   eslint-plugin-prettier: 4.2.1_vvfpqh5kol6rhqy7beehv5uezq
   eslint-plugin-unicorn: 42.0.0_eslint@8.20.0
@@ -7737,7 +7739,7 @@ packages:
       lodash: ^4.17.20
       marko: ^3.14.4
       mote: ^0.2.0
-      mustache: ^4.0.1
+      mustache: ^3.0.0
       nunjucks: ^3.2.2
       plates: ~0.4.11
       pug: ^3.0.0
@@ -8197,6 +8199,14 @@ packages:
 
   /create-require/1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
+
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+    dev: true
 
   /cross-fetch/3.0.6:
     resolution: {integrity: sha512-KBPUbqgFjzWlVcURG+Svp9TlhA5uliYtiNx/0r8nv0pdypeQCRJ9IaSIc3q/x3q8t3F75cHuwxVql1HFGHCNJQ==}
