@@ -171,6 +171,12 @@ export default class AvailableActions extends mixins(
     return this.selectedAction === ShoppingActions.CONSUME
   }
 
+  unlistNft() {
+    this.selectedAction = ShoppingActions.LIST
+    this.meta = 0
+    this.submit()
+  }
+
   protected updateMeta(value: string | number) {
     const balanceInputComponent = this.$refs.balanceInput as
       | AddressInput
