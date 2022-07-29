@@ -2,15 +2,6 @@
   <div class="gallery container">
     <Loader :value="isLoading" />
     <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
-      <!-- <template v-slot:next-filter>
-        <b-switch
-          v-if="isLogIn"
-          class="gallery-switch"
-          v-model="hasPassionFeed"
-          :rounded="false">
-          Passion Feed
-        </b-switch>
-      </template> -->
       <Pagination
         hasMagicBtn
         simple
@@ -193,18 +184,6 @@ export default class Gallery extends mixins(
     this.onResize()
   }
 
-  async mounted() {
-    console.log('mounted')
-    // only fetch passionFeed if logged in
-    // if (this.isLogIn) {
-    //   try {
-    //     await this.fetchPassionList()
-    //   } catch (e) {
-    //     showNotification((e as Error).message, notificationTypes.danger)
-    //   }
-    // }
-  }
-
   @Debounce(500)
   private resetPage() {
     this.gotoPage(1)
@@ -247,24 +226,6 @@ export default class Gallery extends mixins(
     this.isFetchingData = false
     return true
   }
-
-  // public async fetchPassionList() {
-  //   const {
-  //     data: { passionFeed },
-  //   } = await this.$apollo.query({
-  //     query: passionQuery,
-  //     client: 'subsquid', // TODO: change to usable value
-  //     variables: {
-  //       account: this.accountId,
-  //     },
-  //   })
-  //   this.passionList = passionFeed?.map(mapToId) || []
-
-  //   // only show passion feed if it has some length
-  //   if (this.passionList.length > 5) {
-  //     this.hasPassionFeed = true
-  //   }
-  // }
 
   protected async handleResult(
     {
