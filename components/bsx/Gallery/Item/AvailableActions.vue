@@ -27,6 +27,7 @@
 
 <script lang="ts">
 import BalanceInput from '@/components/shared/BalanceInput.vue'
+import AddressInput from '@/components/shared/AddressInput.vue'
 import { NFTAction } from '@/components/unique/NftUtils'
 import { createTokenId } from '@/components/unique/utils'
 import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
@@ -170,8 +171,17 @@ export default class AvailableActions extends mixins(
     return this.selectedAction === ShoppingActions.CONSUME
   }
 
-  protected updateMeta(value: string) {
-    const balanceInputComponent = this.$refs.balanceInput as BalanceInput
+  protected updateMeta(value: string | number) {
+    const balanceInputComponent = this.$refs.balanceInput as
+      | AddressInput
+      | BalanceInput
+    if (
+      balanceInputComponent &&
+      balanceInputComponent instanceof BalanceInput
+    ) {
+      this.isBalanceInputValid = balanceInputComponent.checkValidity()
+    }
+    this.$consola.log(typeof value, value)
     this.meta = value
     // ad-hoc fix for empty input value
     if (this.meta === '0') {
@@ -191,7 +201,7 @@ export default class AvailableActions extends mixins(
         throw new EvalError('Action or Collection not found')
       }
 
-      showNotification(`[${this.selectedAction}] ${this.nftId}`)
+      showNotification(`[${this.selectedAction}] NFT: ${this.nftId}`)
       let cb = getApiCall(api, this.urlPrefix, this.selectedAction)
       let expiration: number | undefined = undefined
       if (this.selectedAction === ShoppingActions.MAKE_OFFER) {
