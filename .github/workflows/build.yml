@@ -40,10 +40,9 @@ jobs:
 
       - name: Run Build
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-12'
-          run: pnpm generate
+        run: pnpm generate
         if: matrix.os == 'windows-latest'
-          if: ${{ always() }}
-          run: pnpm generate
+        run: pnpm generate || echo 'done'
 
       - name: Run Test
         run: pnpm test
