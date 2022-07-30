@@ -1,5 +1,6 @@
 import formatBalance from '@/utils/formatBalance'
 import { Interaction } from '@kodadot1/minimark'
+import { Interaction as EventInteraction } from '@/components/rmrk/service/scheme'
 
 enum SpecialHistoryEventType {
   ALL = 'ALL',
@@ -48,4 +49,21 @@ export const parseAmount = (
   unit: string
 ): string => {
   return parseInt(amount) ? formatBalance(amount, decimals, unit) : '-'
+}
+
+export const filterHistoryEventsForBsx = (
+  events: EventInteraction[]
+): EventInteraction[] => {
+  const result: EventInteraction[] = []
+  for (let i = 0; i < events.length; i++) {
+    if (
+      events[i]['interaction'] === Interaction.SEND &&
+      events[i + 1] &&
+      events[i + 1]['interaction'] === Interaction.BUY
+    ) {
+      continue
+    }
+    result.push(events[i])
+  }
+  return result
 }

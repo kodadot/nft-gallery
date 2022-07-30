@@ -136,6 +136,7 @@ import {
   parseDate,
   parseAmount,
   InteractionBsxOnly,
+  filterHistoryEventsForBsx,
 } from '@/utils/historyEvent'
 import { Interaction } from '@kodadot1/minimark'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -289,6 +290,10 @@ export default class History extends mixins(
       list: [],
     }
     const previousPriceMap = {}
+
+    if (this.urlPrefix === 'bsx') {
+      this.events = filterHistoryEventsForBsx(this.events)
+    }
 
     for (const newEvent of this.events) {
       const event: any = {}
