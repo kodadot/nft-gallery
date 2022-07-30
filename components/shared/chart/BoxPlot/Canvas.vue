@@ -11,6 +11,9 @@ import {
 } from '@sgratzl/chartjs-chart-boxplot'
 import annotationPlugin from 'chartjs-plugin-annotation'
 
+// types
+import type { ChartDataset } from 'chart.js'
+
 // register chart plugins
 Chart.register(
   BoxPlotController,
@@ -24,11 +27,10 @@ Chart.register(annotationPlugin)
 @Component({})
 export default class BoxPlot extends Vue {
   @Prop() labels!: string[]
-  @Prop() datasets!: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
+  @Prop() datasets!: ChartDataset[]
   @Prop() options
 
-  protected chart!: Chart<'boxplot', unknown, unknown>
-
+  protected chart!: Chart
   protected renderChart() {
     const ctx = (
       document.querySelector('#chartBoxPlot') as HTMLCanvasElement

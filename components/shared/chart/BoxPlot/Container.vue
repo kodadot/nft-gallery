@@ -3,14 +3,14 @@
     <div v-if="status === 'show'">
       <div
         class="is-flex is-align-items-center is-justify-content-space-between">
-        <p class="label mb-0">Box Plot Chart</p>
+        <p class="label mb-0">Box Plot Canvas</p>
         <b-select @input="selectRange($event)" :value="selectedRange">
           <option v-for="option in range" :value="option" :key="option">
             {{ option.charAt(0).toUpperCase() + option.slice(1) }}
           </option>
         </b-select>
       </div>
-      <BoxPlot
+      <Canvas
         type="boxplot"
         :labels="labels"
         :datasets="datasets"
@@ -22,15 +22,17 @@
 <script lang="ts">
 import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import format from 'date-fns/format'
-import { filterOutliers, getHSpread } from '@/utils/chart'
+import { filterOutliers } from '@/utils/chart'
 import ChainMixin from '@/utils/mixins/chainMixin'
+import containerOptions from './containerOptions'
 
 // types
 import { CollectionChartData as ChartData } from '@/utils/chart'
+import type { ChartDataset } from 'chart.js'
 
 @Component({
   components: {
-    BoxPlot: () => import('~/components/shared/chart/BoxPlot.vue'),
+    Canvas: () => import('~/components/shared/chart/BoxPlot/Canvas.vue'),
   },
 })
 export default class BoxPlotContainer extends mixins(ChainMixin) {
@@ -49,8 +51,7 @@ export default class BoxPlotContainer extends mixins(ChainMixin) {
 
   // attribute for box plot
   protected labels: string[] = []
-  protected datasets: any[] = [] // eslint-disable-line @typescript-eslint/no-explicit-any
-  protected annotation = {}
+  protected datasets: ChartDataset[] = []
 
   // default attribute
   protected defaultDataset = {
@@ -61,32 +62,6 @@ export default class BoxPlotContainer extends mixins(ChainMixin) {
     outlierBorderColor: 'white',
     outlierRadius: 2,
     outlierBorderWidth: 2,
-  }
-  protected defaultTooltips = {
-    displayColors: false,
-    callbacks: {
-      title: (ctx) => {
-        return `${ctx[0].dataset.label} ${ctx[0].label}`
-      },
-      label: (ctx) => {
-        const median = ctx.parsed.median.toFixed(2)
-        const q1 = ctx.parsed.q1.toFixed(2)
-        const q3 = ctx.parsed.q3.toFixed(2)
-        const iqr = (parseFloat(q3) - parseFloat(q1)).toFixed(2)
-        const min = ctx.parsed.min.toFixed(2)
-        const max = ctx.parsed.max.toFixed(2)
-
-        const boxplotValues = [
-          `Median: ${median}`,
-          `Q3: ${q3}`,
-          `Q1: ${q1}`,
-          `IQR: ${iqr}`,
-          `Min: ${min}`,
-          `Max: ${max}`,
-        ]
-        return boxplotValues
-      },
-    },
   }
 
   // computed
@@ -99,23 +74,14 @@ export default class BoxPlotContainer extends mixins(ChainMixin) {
   }
 
   get chartOptions() {
-    return {
-      responsive: true,
-      scales: {
-        y: {
-          ticks: {
-            color: 'white',
-            callback: (value) => {
-              return `${value} ${this.unit}`
-            },
-          },
-        },
-      },
-      plugins: {
-        annotation: this.annotation,
-        tooltip: this.defaultTooltips,
-      },
-    }
+    const options = containerOptions({
+      labels: this.labels,
+      unit: this.unit,
+      valueList: this.listIqr,
+      valueBuy: this.buyIqr,
+    })
+
+    return options
   }
 
   // methods
@@ -154,45 +120,6 @@ export default class BoxPlotContainer extends mixins(ChainMixin) {
     })
   }
 
-  protected getAnnotation({ labels }) {
-    const { iqr: iqrList } = getHSpread(this.listIqr)
-    const { iqr: iqrBuy } = getHSpread(this.buyIqr)
-    const baseAttributes = {
-      type: 'line',
-      borderWidth: 0,
-      scaleID: 'y',
-    }
-    const dataIqrList = iqrList
-      ? {
-          ...baseAttributes,
-          borderColor: '#e6007e',
-          label: {
-            content: () => `IQR List: ${iqrList.toFixed(2)}`,
-            position: 'start',
-            display: true,
-          },
-          value: () => iqrList,
-        }
-      : baseAttributes
-    const dataIqrBuy = iqrBuy
-      ? {
-          ...baseAttributes,
-          borderColor: '#00BB7F',
-          label: {
-            content: () => `IQR Buy: ${iqrBuy.toFixed(2)}`,
-            position: 'end',
-            display: true,
-          },
-          value: () => iqrList,
-        }
-      : baseAttributes
-    const annotations = labels.length === 1 ? [] : [dataIqrList, dataIqrBuy]
-
-    return {
-      annotations,
-    }
-  }
-
   protected initData() {
     this.list = {}
     this.buy = {}
@@ -227,8 +154,6 @@ export default class BoxPlotContainer extends mixins(ChainMixin) {
         ...this.defaultDataset,
       },
     ]
-
-    this.annotation = this.getAnnotation({ labels: this.labels })
   }
 
   protected mounted() {

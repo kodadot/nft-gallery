@@ -183,7 +183,7 @@ const components = {
   CollectionPriceChart: () =>
     import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   ChartBoxPlotContainer: () =>
-    import('@/components/shared/chart/BoxPlotContainer.vue'),
+    import('@/components/shared/chart/BoxPlot/Container.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
