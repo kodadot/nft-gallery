@@ -3,7 +3,7 @@
     <div v-if="status === 'show'">
       <div
         class="is-flex is-align-items-center is-justify-content-space-between">
-        <p class="label mb-0">Box Plot Canvas</p>
+        <p class="label mb-0">Box Plot Chart</p>
         <b-select @input="selectRange($event)" :value="selectedRange">
           <option v-for="option in range" :value="option" :key="option">
             {{ option.charAt(0).toUpperCase() + option.slice(1) }}
