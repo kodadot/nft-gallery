@@ -185,10 +185,6 @@ export default class AvailableActions extends mixins(
         this.isBalanceInputValid = false
       }
     }
-    // ad-hoc fix for empty input value
-    if (balanceInputComponent instanceof BalanceInput && this.meta === '0') {
-      this.isBalanceInputValid = false
-    }
     this.$consola.log(typeof value, value)
     this.meta = value
   }
