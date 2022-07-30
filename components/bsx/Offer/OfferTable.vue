@@ -184,6 +184,9 @@ export default class OfferTable extends mixins(OfferMixin) {
 </script>
 <style lang="scss">
 .offer-table-container {
+  .table-wrapper {
+    overflow-x: scroll;
+  }
   .limit-width-text {
     max-width: 20ch;
     overflow: hidden;
