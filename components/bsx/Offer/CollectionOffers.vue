@@ -1,15 +1,5 @@
 <template>
-  <div>
-    <b-select v-model="selectedStatus">
-      <option
-        v-for="option in uniqType"
-        :value="option.type"
-        :key="option.type">
-        {{ option.value }}
-      </option>
-    </b-select>
-    <OfferTable :offers="showOffers" :accountId="accountId" is-bsx-stats />
-  </div>
+  <OfferTable :offers="showOffers" :accountId="accountId" is-bsx-stats />
 </template>
 
 <script lang="ts">
@@ -42,19 +32,6 @@ export default class CollectionOffers extends mixins(AuthMixin, PrefixMixin) {
 
   fetch() {
     this.fetchOffers()
-  }
-
-  get selectedStatus() {
-    return this.status
-  }
-
-  set selectedStatus(value: AllOfferStatusType) {
-    if (value === AllOfferStatusType.ALL) {
-      this.showOffers = this.offers.concat()
-    } else {
-      this.showOffers = this.offers.filter((offer) => offer.status === value)
-    }
-    this.status = value
   }
 
   protected setResponse(response: OfferResponse) {
