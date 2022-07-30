@@ -131,8 +131,8 @@ Cypress.Commands.add('galleryBuyNow', (amount) => {
     })
 })
 Cypress.Commands.add('galleryInputFields', (amount) => {
-  cy.get('.field > :nth-child(1) > .input').type(String(amount))
-  cy.get('.is-1 > .button').click()
+  cy.get('[data-cy="input-min"]').type(String(amount))
+  cy.get('[data-cy="apply"]').click()
   cy.wait(5000)
 })
 Cypress.Commands.add('toggleBuyNowGallery', () => {

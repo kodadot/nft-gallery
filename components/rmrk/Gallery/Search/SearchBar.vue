@@ -135,7 +135,8 @@
             step="any"
             class="column is-2"
             :placeholder="$t('query.priceRange.minPrice')"
-            v-model="rangeSlider[0]">
+            v-model="rangeSlider[0]"
+            data-cy="input-min">
           </b-input>
           <b-input
             min="0"
@@ -143,13 +144,15 @@
             type="number"
             class="column is-2"
             :placeholder="$t('query.priceRange.maxPrice')"
-            v-model="rangeSlider[1]">
+            v-model="rangeSlider[1]"
+            data-cy="input-max">
           </b-input>
           <div class="column is-1">
             <b-button
               class="is-primary"
               @click="sliderChange(rangeSlider)"
-              :disabled="applyDisabled">
+              :disabled="applyDisabled"
+              data-cy="apply">
               {{ $t('general.apply') }}
             </b-button>
           </div>
