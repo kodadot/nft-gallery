@@ -12,15 +12,15 @@
             v-model="inputValue"
             type="number"
             :step="step"
-            :min="min"
-            :max="max"
+            :min="minWithUnit"
+            :max="maxWithUnit"
             :expanded="expanded"
             @input="handleInput" />
           <p class="control balance">
             <b-select
               v-model="selectedUnit"
               :disabled="!calculate"
-              @input="handleInput(internalValue)">
+              @input="handleUnitChange">
               <option v-for="u in units" :key="u.value" :value="u.value">
                 {{ u.name }}
               </option>
@@ -36,14 +36,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Prop,
-  Emit,
-  Ref,
-  Watch,
-  mixins,
-} from 'nuxt-property-decorator'
+import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
@@ -64,6 +57,14 @@ export default class BalanceInput extends mixins(ChainMixin) {
   protected units: Unit[] = defaultUnits
   private selectedUnit = 1
   private internalValue = this.value || 0
+
+  get minWithUnit(): number {
+    return this.min / this.selectedUnit
+  }
+
+  get maxWithUnit(): number {
+    return this.max / this.selectedUnit
+  }
 
   @Watch('value') onValueChange(newValue) {
     this.internalValue = newValue
@@ -99,10 +100,17 @@ export default class BalanceInput extends mixins(ChainMixin) {
   }
 
   @Debounce(200)
-  @Emit('input')
   public handleInput(value: number) {
     this.internalValue = value
+    this.$emit('input', String(this.internalValue * this.selectedUnit))
     return this.calculate ? this.formatSelectedValue(value) : value
+  }
+
+  handleUnitChange(unit) {
+    const valueInBaseUnit = this.internalValue * this.selectedUnit
+    this.internalValue = valueInBaseUnit ? valueInBaseUnit / unit : 0
+    this.selectedUnit = unit
+    this.balance.focus()
   }
 
   public checkValidity() {
