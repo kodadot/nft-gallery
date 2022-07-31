@@ -81,7 +81,7 @@ export default class OfferList extends mixins(
 
   protected fetchOffers() {
     try {
-      this.$apollo.addSmartQuery<OfferResponse>('offers', {
+      this.$apollo.addSmartQuery<OfferResponse>('offersManualFetch', {
         client: this.urlPrefix,
         query: offerListByNftId,
         variables: () => ({
