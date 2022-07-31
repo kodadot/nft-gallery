@@ -29,7 +29,7 @@
   "contribute": "Trage bei",
   "qrCode": "QR",
   "documentation": "Dokumentation",
-  "grants": "Förderungen",
+  "grants": "Zuschuss",
   "theatre": "Bühne",
   "view": "Ansehen",
   "price": "Preis",
@@ -57,13 +57,13 @@
       "3": "Wie kann ich NFTs minten?",
       "4": "Was kann man alles auf Kodadot minten?",
       "5": "Was kostet mich das minten von NFTs?",
-      "6": "What's the flow when I'm NFT creator?",
+      "6": "Was habe ich zu tun wenn ich ein NFT erstelle?",
       "7": "Wie kann ich KSM verkaufen, die ich für meine Kunst erhalten habe?",
       "8": "Wie kann ich als Neuankömmling KSM beziehen?",
       "9": "Kann ich das in virtuellen Welten nutzen?",
       "10": "Wie kann ich KSM mit ETH, DAI, BTC kaufen?",
       "11": "Ich erhalte Fehlermeldungen, wie kann ich diese beheben?",
-      "12": "Was bedeutet SENDEN, AUFBRAUCHEN, LISTEN?",
+      "12": "Was bedeutet SENDEN, VERBRAUCHEN, LISTEN?",
       "13": "Ich habe ein NFT gemintet, aber ich sehe es nicht in der Gallerie. Wo ist es?",
       "14": "Gibt es noch andere Wege um an einen kleinen Betrag KSM zu kommen?",
       "15": "Wie kann ich mein NFT verkaufen?",
@@ -104,63 +104,63 @@
       },
       "4": {
         "m": "Du kannst praktisch alles minten, mögliche Optionen wären:<br/> @.md:faq.a.4.l1",
-        "l1": "![File formats](/minting-file-formats.png)"
+        "l1": "![Datei Formate](/minting-file-formats.png)"
       },
       "5": {
-        "m": "Zum Zeitpunkt des Schreibens, beträgt die Gebühr zum minten eines NFT 0.02 USD."
+        "m": "Zum jetzigen Zeitpunkt beträgt die Gebühr zum minten eines NFT 0.02 USD."
       },
       "6": {
         "m": "Zuerst musst Du die @.md:faq.a.6.l1 installieren, <b>sichere deine Seedphrase</b>. Dann kannst Du Guthaben auf deine Wallet laden @.md:faq.a.6.l2 oder über unser @.md:faq.a.6.l3 feature. Sobald Du Guthaben besitzt, wechsel zu @.md:faq.a.6.l4, wähle eine Sammlung aus. Warte bis die Sammlung gemintet ist, dann wechselst Du zu @.md:faq.a.6.l5 und mintest deinen ersten Token! Zeig uns auf @.md:faq.a.6.l6 was Du geschaffen hast.",
         "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)",
-        "l2": "[here](@.common:links.rmrk_credit.href)",
+        "l2": "[hier](@.common:links.rmrk_credit.href)",
         "l3": "[grant](@.common:links.artist_grant_program.href)",
-        "l4": "[Create](@.common:links.rmrk_create.href)",
-        "l5": "[Create Token](@.common:links.rmrk_create.href)",
-        "l6": "[Create Token.](@.common:links.kodadot_social.discord.href)"
+        "l4": "[Erstellen](@.common:links.rmrk_create.href)",
+        "l5": "[Token erstellen](@.common:links.rmrk_create.href)",
+        "l6": "[Token erstellen.](@.common:links.kodadot_social.discord.href)"
       },
       "7": {
-        "m": "Right now, there's plenty of @.md:faq.a.7.l1 which support KSM trading. The safest are probably @.md:faq.a.7.l2 and @.md:faq.a.7.l3 or try decentralized @.md:faq.a.7.l4",
-        "l1": "[exchanges](@.common:links.coingecko_ksm_markets.href)",
+        "m": "Es gibt inzwischen viele Börsen @.md:faq.a.7.l1 die den Handel mit KSM anbieten. Die wahrscheinlich sichersten sind @.md:faq.a.7.l2 und @.md:faq.a.7.l3 oder Du nutzt einen dezentralisierten Service wie @.md:faq.a.7.l4",
+        "l1": "[Börsen](@.common:links.coingecko_ksm_markets.href)",
         "l2": "[Binance](@.common:links.binance_exchange.href)",
         "l3": "[Bybit](@.common:links.bybit_exchange.href)",
         "l4": "[simpleswap.](@.common:links.simpleswap_exchange.href)"
       },
       "8": {
-        "m": "We recommend to obtain KSM through custodial exchanges like @.md:faq.a.8.l1 and @.md:faq.a.8.l2 or you can use our RAMP network integration - a fiat ramp @.md:faq.a.8.l3 If you are struggling with this, feel free to ask for a @.md:faq.a.8.l4 or let us know in @.md:faq.a.8.l5 channel on discord.",
+        "m": "Wir empfehlen KSM über eine zentralisierte Börse wie @.md:faq.a.8.l1 und @.md:faq.a.8.l2 zu beziehen. Oder Du nutzt unsere RAMP network integration - ein fiat Bezahldienstleister @.md:faq.a.8.l3 Wenn Du hierbei auf Probleme stößt, kannst Du gerne nach einem @.md:faq.a.8.l4 fragen oder frag uns direkt im @.md:faq.a.8.l5 Kanal auf Discord.",
         "l1": "[Binance](@.common:links.binance_exchange.href)",
         "l2": "[Bybit](@.common:links.bybit_exchange.href)",
-        "l3": "[here.](@.common:links.rmrk_credit.href)",
+        "l3": "[hier.](@.common:links.rmrk_credit.href)",
         "l4": "[grant](@.common:links.artist_grant_program.href)",
-        "l5": "[help](@.common:links.kodadot_social.discord_help.href)"
+        "l5": "[Hilfe](@.common:links.kodadot_social.discord_help.href)"
       },
       "9": {
-        "m": "We are exploring possibilities, we actually plan to actively research on this in our milestone 2."
+        "m": "Wir sehen uns die bestehenden Möglichkeiten an und haben das Thema eingeplant für den nächsten Meilenstein 2."
       },
       "10": {
-        "m": "For best rates, you can @.md:faq.a.10.l1 For best experience @.md:faq.a.10.l2 If you are @.md:faq.a.10.l3",
-        "l1": "[use custodial exchange from list.](@.common:links.coingecko_ksm_price.href)",
-        "l2": "[we recommend you to use Binance.](@.common:links.binance_exchange.href)",
-        "l3": "[looking for simple trade, try SimpleSwap.](@.common:links.simpleswap_exchange.href)"
+        "m": "Für die besten Kurse kannst Du @.md:faq.a.10.l1 wählen. Für den einfachsten Ablauf @.md:faq.a.10.l2 Wenn Du @.md:faq.a.10.l3",
+        "l1": "[eine Börse aus der Liste](@.common:links.coingecko_ksm_price.href)",
+        "l2": "[empfehlen wir Binance zu nutzen.](@.common:links.binance_exchange.href)",
+        "l3": "[einfach nur tauschen willst, versuch es mit SimpleSwap.](@.common:links.simpleswap_exchange.href)"
       },
       "11": {
-        "m": "We are trying to deliver incremental updates on daily basis & fixes ASAP. We may have published new version and your browser has cached old one. If you are on Windows, try hold down Ctrl and then press F5. Mac users, hold down CMD and Shift and then press R. If this did not help, DM us on Twitter or discord with screenshot where is developer console open."
+        "m": "Wir arbeiten daran tägliche Updates & fixes so schnell wie möglich zu liefern. Unter Umständen haben wir schon eine neue Version veröffentlicht, aber dein Browser hat noch eine alte Version geladen. Wenn Du Windows nutzt, drück die Strg und F5 Taste gleichzeitig. Nutzt Du einen Mac, drücke die command Taste und dann auf R. Wenn das nicht geholfen hat, kontaktiere uns direkt auf Twitter oder Discord mit einem Screenshot der geöffneten Entwicklerkonsole."
       },
       "12": {
-        "m": "SEND will send it to someone, CONSUME will burn it, LIST will list it for sale so someone can buy it from you."
+        "m": "SENDEN schickt es an jemanden, VERBRAUCHEN wird es vernichten, LISTEN wird es zum Verkauf anbieten, damit es jemand von Dir kaufen kann."
       },
       "13": {
-        "m": "Best way is to check through @.md:faq.a.13.l1 and lookup your address. @.md:faq.a.13.l2",
+        "m": "Am einfachsten findest Du es über den @.md:faq.a.13.l1 und gibst deine Adresse ein. @.md:faq.a.13.l2",
         "l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
-        "l2": "[You can find example how minted NFT looks through explorer, when you look on extrinsics.](@.common:links.kusama_scanner.extrinsic.href)"
+        "l2": "[Über den Explorer erhältst Du eine Vorstellung davon wie gemintete NFTs angezeigt werden, indem Du dir die Extrinsics ansiehst.](@.common:links.kusama_scanner.extrinsic.href)"
       },
       "14": {
-        "m": "Yes, if for example it's problematic for you to withdraw from an exchange or use fiat-onramp, you may visit our discord and ask for small amount of KSM in @.md:faq.a.14.l1 channel on our discord or ask for @.md:faq.a.14.l2 to cover minting costs.",
+        "m": "Ja, wenn es beispielsweise problematisch für Dich ist Beträge von einer Börse zu transferieren oder den fiat-onramp Service zu nutzen, kannst Du uns auf Discord besuchen und nach einer kleinen Summe KSM im @.md:faq.a.14.l1 Kanal fragen oder einen @.md:faq.a.14.l2 beantragen um die Mintgebühr zu decken.",
         "l1": "[help](@.common:links.kodadot_social.discord_help.href)",
-        "l2": "[grant](@.common:links.artist_grant_program.href)"
+        "l2": "[Zuschuss](@.common:links.artist_grant_program.href)"
       },
       "15": {
-        "m": "If you haven't set the price of your NFT at the beginning, navigate to your @.md:faq.a.15.l1, choose your NFT in Created and click on LIST, which will make you able to set the price.",
-        "l1": "[profile](@.common:links.rmrk_profile.href)"
+        "m": "Wenn Du am Anfang keinen Preis für dein NFT eingestellt hast, gehe auf dein @.md:faq.a.15.l1, wähle dein NFT im Erstellt-Bereich aus und klicke auf LISTEN. Nun kannst Du den Preis festlegen.",
+        "l1": "[Profil](@.common:links.rmrk_profile.href)"
       },
       "16": {
         "m": "We've been long working with @.md:faq.a.16.l1 to have features such as royalties, make an offer and accept an offer for creators. Therefore we are offering a preview of what would be possible on MetaPrime.network once the feature set is a part of Kusama.network. The current implementation on BSX is being tested in beta. If you're interested in testing with us, visit the qa-lobby channel in our @.md:faq.a.16.l2",
