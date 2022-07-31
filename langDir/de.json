@@ -163,16 +163,16 @@
         "l1": "[Profil](@.common:links.rmrk_profile.href)"
       },
       "16": {
-        "m": "We've been long working with @.md:faq.a.16.l1 to have features such as royalties, make an offer and accept an offer for creators. Therefore we are offering a preview of what would be possible on MetaPrime.network once the feature set is a part of Kusama.network. The current implementation on BSX is being tested in beta. If you're interested in testing with us, visit the qa-lobby channel in our @.md:faq.a.16.l2",
+        "m": "Wir haben lange mit dem @.md:faq.a.16.l1 daran gearbeitet, um Features für Künstler wie Gewinnanteile, Angebote machen und akzeptieren bereitzustellen. Das gibt schon eine Vorschau auf das, was auf MetaPrime.network möglich sein wird sobald das Feature auf Kusama.network verfügbar wird. Die derzeitige Implementierung mit BSX wird gerade in der Beta getestet. Wenn Du das Feature mit uns testen willst, besuch die qa-lobby auf unserem @.md:faq.a.16.l2",
         "l1": "[Basilisk team](@.common:links.basilisk_website.href)",
         "l2": "[Discord](@.common:links.kodadot_social.discord.href)"
       },
       "17": {
-        "m": "We believe that costs for actions at Ethereum may be high in future and its current PoW is not environmentally friendly. We believe in network effects of Kusama/Polkadot effects from other parachains. A more detailed answer can be found @.md:faq.a.17.l1",
-        "l1": "[here.](@.common:links.chain_decision.href)"
+        "m": "Wir denken dass die Kosten für Interaktionen auf Ethereum auch zukünftig zu hoch sein werden und das POW nicht umweltfreundlich ist. Wir sind überzeugt von der Leistung von Kusama/Polkadot und deren Parachains. Eine ausführlichere Antwort findest Du @.md:faq.a.17.l1",
+        "l1": "[hier.](@.common:links.chain_decision.href)"
       },
       "18": {
-        "m": "<b>CLASSIC</b> let's you create collection and add NFTs to it. <b>SIMPLE</b> mint will create NFT collectible and add it to your profile and <b>PERMAFROST</b> is NFT minting using Arweave protocol: The protocol matches people who have hard drive space to spare with those individuals and organizations that need to store data or host content permanently."
+        "m": "<b>KLASSISCH</b> lässt dich eine Sammlung erstellen und NFTs hinzufügen. <b>EINFACH</b> mint erstellt ein NFT und fügt es deinem Profil hinzu und <b>PERMAFROST</b> lässt dich deine NFT mit dem Arweaveprotokoll minten: Das Protokoll vernetzt Menschen mit verfügbarem Speicherplatz mit Individuen und Organisationen die ihre Daten permanent speichern und verfügbar machen wollen."
       },
       "19": {
         "m": "Right now, we have @.md:faq.a.19.l1 We are actively looking for funding options, eventually we would raise private funds. DMs us, if you are interested into private sale.",
