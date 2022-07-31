@@ -54,7 +54,15 @@ export default class MetaTransactionMixin extends Mixins(
       )
     } catch (e) {
       if (e instanceof Error) {
-        showNotification(e.toString(), notificationTypes.danger)
+        const isCancelled = e.message === 'Cancelled'
+        if (isCancelled) {
+          showNotification(
+            this.$t('Transaction was cancelled') as string,
+            notificationTypes.warn
+          )
+        } else {
+          showNotification(e.toString(), notificationTypes.danger)
+        }
         this.isLoading = false
       }
     }
