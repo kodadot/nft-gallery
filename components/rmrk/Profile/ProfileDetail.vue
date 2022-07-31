@@ -221,10 +221,13 @@
         </b-tab-item>
         <b-tab-item
           v-if="isBsx"
-          :label="`Offers Made - ${userOfferList.length}`"
+          :label="`Offers Made${
+            userOfferList.length ? ' - ' + userOfferList.length : ''
+          }`"
           value="offers">
           <OffersUserTable
             :offers="userOfferList"
+            :ownerId="id"
             hideCollapse
             @offersListUpdate="offersListUpdate" />
         </b-tab-item>

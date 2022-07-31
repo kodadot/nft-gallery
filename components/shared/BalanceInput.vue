@@ -6,9 +6,10 @@
         v-model="inputValue"
         type="number"
         :step="step"
-        :min="min"
-        :max="max"
-        :expanded="expanded" />
+        :min="minWithUnit"
+        :max="maxWithUnit"
+        :expanded="expanded"
+        @input="handleInput" />
       <p class="control balance">
         <b-select
           :value="selectedUnit"
@@ -24,14 +25,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Prop,
-  Emit,
-  Ref,
-  Watch,
-  mixins,
-} from 'nuxt-property-decorator'
+import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
@@ -49,6 +43,14 @@ export default class BalanceInput extends mixins(ChainMixin) {
   protected units: Unit[] = defaultUnits
   private selectedUnit = 1
   private internalValue = this.value || 0
+
+  get minWithUnit(): number {
+    return this.min / this.selectedUnit
+  }
+
+  get maxWithUnit(): number {
+    return this.max / this.selectedUnit
+  }
 
   @Watch('value') onValueChange(newValue) {
     this.internalValue = newValue
@@ -69,11 +71,7 @@ export default class BalanceInput extends mixins(ChainMixin) {
   }
 
   formatSelectedValue(value: number): string {
-    return value
-      ? String(
-          Math.min(this.max, value * 10 ** this.decimals * this.selectedUnit)
-        )
-      : '0'
+    return value ? String(value * 10 ** this.decimals * this.selectedUnit) : '0'
   }
 
   protected mapper(unit: Unit) {
@@ -88,16 +86,17 @@ export default class BalanceInput extends mixins(ChainMixin) {
   }
 
   @Debounce(200)
-  @Emit('input')
   public handleInput(value: number) {
     this.internalValue = value
-    return String(value)
+    this.$emit('input', String(this.internalValue * this.selectedUnit))
+    return this.calculate ? this.formatSelectedValue(value) : value
   }
 
   handleUnitChange(unit) {
+    const valueInBaseUnit = this.internalValue * this.selectedUnit
+    this.internalValue = valueInBaseUnit ? valueInBaseUnit / unit : 0
     this.selectedUnit = unit
-    // never set value above max value
-    this.internalValue = Number(this.formatSelectedValue(this.internalValue))
+    this.balance.focus()
   }
 
   public checkValidity() {

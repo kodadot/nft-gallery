@@ -6,6 +6,7 @@ query offerListUser($id: String!, $burned: Boolean) {
     blockNumber
     caller
     createdAt
+    expiration
     id
     price
     status
