@@ -2,7 +2,7 @@
   <div class="offer-table-container">
     <b-table
       :data="displayOffers(offers)"
-      paginated
+      :paginated="displayOffers(offers).length > itemsPerPage"
       :perPage="itemsPerPage"
       :class="{ scrollable: offers.length > 0 }"
       :currentPage.sync="currentPage"
