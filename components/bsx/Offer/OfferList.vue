@@ -79,20 +79,18 @@ export default class OfferList extends mixins(
     this.total = response.stats.total
   }
 
-  protected fetchOffers() {
+  protected async fetchOffers() {
     try {
-      this.$apollo.addSmartQuery<OfferResponse>('offers', {
+      const { data } = await this.$apollo.query<OfferResponse>({
         client: this.urlPrefix,
         query: offerListByNftId,
-        variables: () => ({
+        variables: {
           id: createTokenId(this.collectionId, this.nftId),
           account: this.currentOwnerId,
-        }),
-        manual: true,
-        result: ({ data }) => {
-          this.setResponse(data)
         },
       })
+
+      this.setResponse(data)
     } catch (e) {
       this.$consola.error(e)
     }
