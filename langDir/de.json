@@ -47,7 +47,7 @@
   "passion": "Lieblings-Feed",
   "faq": {
     "page": "FAQ",
-    "title": "Frequently Asked Questions",
+    "title": "Häufig gestellte Fragen",
     "box_heading1": "Keine Zeit zum lesen?",
     "box_heading2": "Kein Problem, sieh Dir",
     "box_heading_link": "unsere Tutorials an",
@@ -92,25 +92,25 @@
     },
     "a": {
       "1": {
-        "m": "NFTs or non-fungible tokens refer to unique assets, which are stored on blockchain and maintain unique ownership. @.md:faq.a.1.l1",
-        "l1": "[You can find more about Non-Fungible Token at Wikipedia](@.common:links.wikipedia.nft)"
+        "m": "NFTs oder non-fungible tokens beschreiben einzigartige Gegenstände, mit denen der Besitzer auf der Blockchain festgehalten wird. @.md:faq.a.1.l1",
+        "l1": "[Du kannst mehr über Non-Fungible Token auf Wikipedia finden](@.common:links.wikipedia.nft)"
       },
       "2": {
-        "m": "Minting is a process in which your cryptocurrency wallet and blockchain communicate together and make you able to create NFTs."
+        "m": "Minten ist ein Vorgang bei dem deine Kryptowallet und die Blockchain miteinander kommunizieren und es Dir ermöglichen NFTs zu erstellen."
       },
       "3": {
-        "m": "In the left upper corner, you click on @.md:faq.a.3.l1 and choose <b>Simple</b> or <b>Classic</b> mint.",
-        "l1": "[Create](@.common:links.rmrk_create.href)"
+        "m": "In der linken oberen Ecke klickst Du auf @.md:faq.a.3.l1 und wählst <b>Einfach</b> oder <b>Klassisch</b> minten.",
+        "l1": "[Erstellen](@.common:links.rmrk_create.href)"
       },
       "4": {
-        "m": "You can mint practically anything, actual possibilites:<br/> @.md:faq.a.4.l1",
+        "m": "Du kannst praktisch alles minten, mögliche Optionen wären:<br/> @.md:faq.a.4.l1",
         "l1": "![File formats](/minting-file-formats.png)"
       },
       "5": {
-        "m": "At the time of writing, the fee for minting a NFT are 0.02 USD."
+        "m": "Zum Zeitpunkt des Schreibens, beträgt die Gebühr zum minten eines NFT 0.02 USD."
       },
       "6": {
-        "m": "First of all, you need to install @.md:faq.a.6.l1, <b>backup your seed</b>. Then you can top up your wallet address @.md:faq.a.6.l2 or use our @.md:faq.a.6.l3 feature. Once you have funds, head to @.md:faq.a.6.l4, choose Collection. Wait till Collection is minted, then you go to @.md:faq.a.6.l5 and Mint your very first token! Feel free to share it with us on our @.md:faq.a.6.l6",
+        "m": "Zuerst musst Du die @.md:faq.a.6.l1 installieren, <b>sichere deine Seedphrase</b>. Dann kannst Du Guthaben auf deine Wallet laden @.md:faq.a.6.l2 oder über unser @.md:faq.a.6.l3 feature. Sobald Du Guthaben besitzt, wechsel zu @.md:faq.a.6.l4, wähle eine Sammlung aus. Warte bis die Sammlung gemintet ist, dann wechselst Du zu @.md:faq.a.6.l5 und mintest deinen ersten Token! Zeig uns auf @.md:faq.a.6.l6 was Du geschaffen hast.",
         "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)",
         "l2": "[here](@.common:links.rmrk_credit.href)",
         "l3": "[grant](@.common:links.artist_grant_program.href)",
