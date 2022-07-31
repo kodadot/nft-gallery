@@ -45,7 +45,6 @@
   "I am helping to cover costs": "I am helping to cover costs",
   "I do not want to support": "I do not want to support",
   "passion": "Passion Feed",
-  "Transaction was cancelled": "Transaction was cancelled",
   "faq": {
     "page": "FAQ",
     "title": "Frequently Asked Questions",
@@ -832,7 +831,10 @@
     "popularCollectionsHeading": "Popular Collections",
     "popularCollectionsDesc": "Discover the most popular collections on rmrk",
     "from": "from",
-    "to": "to"
+    "to": "to",
+    "tx": {
+      "cancelled": "Transaction was cancelled"
+    }
   },
   "helper": {
     "seeMore": "See More",
