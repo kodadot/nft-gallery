@@ -3,6 +3,7 @@ query offerListUser($id: String!) {
     blockNumber
     caller
     createdAt
+    expiration
     id
     price
     status

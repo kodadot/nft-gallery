@@ -10,8 +10,8 @@
       ref="balanceInput"
       class="mb-4"
       v-if="showMeta"
-      :min="minimumOfferAmount"
-      :max="balance"
+      :min="minimumLimit"
+      :max="maximumLimit"
       :is="showMeta"
       @input="updateMeta"
       emptyOnError />
@@ -27,6 +27,7 @@
 
 <script lang="ts">
 import BalanceInput from '@/components/shared/BalanceInput.vue'
+import AddressInput from '@/components/shared/AddressInput.vue'
 import { NFTAction } from '@/components/unique/NftUtils'
 import { createTokenId } from '@/components/unique/utils'
 import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
@@ -89,6 +90,20 @@ export default class AvailableActions extends mixins(
 
   get actions() {
     return getActionList('bsx', this.isOwner, this.isAvailableToBuy)
+  }
+
+  get minimumLimit(): number {
+    if (this.selectedAction === ShoppingActions.MAKE_OFFER) {
+      return this.minimumOfferAmount
+    }
+    return 0
+  }
+
+  get maximumLimit(): number | undefined {
+    if (this.selectedAction === ShoppingActions.LIST) {
+      return undefined
+    }
+    return this.balance
   }
 
   get disableSubmitButton() {
@@ -171,8 +186,19 @@ export default class AvailableActions extends mixins(
   }
 
   protected updateMeta(value: string | number) {
-    const balanceInputComponent = this.$refs.balanceInput as BalanceInput
-    this.isBalanceInputValid = balanceInputComponent.checkValidity()
+    const balanceInputComponent = this.$refs.balanceInput as
+      | AddressInput
+      | BalanceInput
+    if (
+      balanceInputComponent &&
+      balanceInputComponent instanceof BalanceInput
+    ) {
+      this.isBalanceInputValid = balanceInputComponent.checkValidity()
+      // ad-hoc fix for empty input value
+      if (this.meta === '0') {
+        this.isBalanceInputValid = false
+      }
+    }
     this.$consola.log(typeof value, value)
     this.meta = value
   }
@@ -187,7 +213,7 @@ export default class AvailableActions extends mixins(
         throw new EvalError('Action or Collection not found')
       }
 
-      showNotification(`[${this.selectedAction}] ${this.nftId}`)
+      showNotification(`[${this.selectedAction}] NFT: ${this.nftId}`)
       let cb = getApiCall(api, this.urlPrefix, this.selectedAction)
       let expiration: number | undefined = undefined
       if (this.selectedAction === ShoppingActions.MAKE_OFFER) {
