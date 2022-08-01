@@ -2,13 +2,22 @@
   <div class="offer-table-container">
     <b-table
       :data="displayOffers(offers)"
-      paginated
+      :paginated="displayOffers(offers).length > itemsPerPage"
       :perPage="itemsPerPage"
+      :class="{ scrollable: offers.length > 0 }"
       :currentPage.sync="currentPage"
       paginationPosition="top">
       <div v-if="headerText" class="has-text-centered offer-title mb-2">
         {{ headerText }}
       </div>
+      <b-select v-model="selectedStatus">
+        <option
+          v-for="option in getUniqType(offers)"
+          :value="option.type"
+          :key="option.type">
+          {{ option.value }}
+        </option>
+      </b-select>
       <b-table-column
         v-if="displayCollection"
         cell-class="is-vcentered is-narrow"
@@ -67,9 +76,8 @@
         <Money :value="props.row.price" inline />
       </b-table-column>
       <b-table-column
-        v-if="!isBsxStats"
         cell-class="is-vcentered is-narrow"
-        field="expiration"
+        field="expirationBlock"
         :label="$t('offer.expiration')"
         v-slot="props"
         sortable>
@@ -177,6 +185,9 @@ export default class OfferTable extends mixins(OfferMixin) {
 </script>
 <style lang="scss">
 .offer-table-container {
+  .scrollable.table-wrapper {
+    overflow-x: scroll;
+  }
   .limit-width-text {
     max-width: 20ch;
     overflow: hidden;
