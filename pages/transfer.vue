@@ -228,6 +228,7 @@ export default class Transfer extends mixins(
     this.checkQueryParams()
     onApiConnect(this.apiUrl, async (api) => {
       console.log({ isConnected: api.isConnected, apiUrl: this.apiUrl })
+      this.$store.commit('setApiConnected', api.isConnected)
     })
   }
 
