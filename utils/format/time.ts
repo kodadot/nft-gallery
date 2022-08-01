@@ -1,4 +1,9 @@
-import { intervalToDuration, formatDuration, addSeconds } from 'date-fns'
+import {
+  intervalToDuration,
+  formatDuration,
+  addSeconds,
+  formatISO9075,
+} from 'date-fns'
 
 export const formatSecondsToDuration = (seconds: number) => {
   const duration = intervalToDuration({
@@ -23,4 +28,8 @@ export const formatSecondsToDuration = (seconds: number) => {
   return formatDuration(duration, {
     format,
   })
+}
+
+export const endDate = (seconds: number): string => {
+  return formatISO9075(addSeconds(new Date(), seconds))
 }
