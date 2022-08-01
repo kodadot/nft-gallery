@@ -144,7 +144,7 @@ import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import correctFormat from '@/utils/ss58Format'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
-import Connector from '@kodadot1/sub-api'
+import Connector, { onApiConnect } from '@kodadot1/sub-api'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
@@ -226,6 +226,9 @@ export default class Transfer extends mixins(
   protected created() {
     this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
+    onApiConnect(this.apiUrl, async (api) => {
+      console.log({ isConnected: api.isConnected, apiUrl: this.apiUrl })
+    })
   }
 
   protected onAmountFieldChange() {
