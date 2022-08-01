@@ -66,20 +66,25 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import SubscribeMixin from '@/utils/mixins/subscribeMixin'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import { DispatchError } from '@polkadot/types/interfaces'
-import TransactionMixin from '@/utils/mixins/txMixin'
+import { AdminNFT, ProcessFunction } from '@/components/accounts/utils'
 import collectionByAccountWithTokens from '@/queries/collectionByAccountWithTokens.graphql'
-import shouldUpdate from '@/utils/shouldUpdate'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { AdminNFT, ProcessFunction } from '@/components/accounts/utils'
-import { Interaction, createInteraction } from '@kodadot1/minimark'
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
+import SubscribeMixin from '@/utils/mixins/subscribeMixin'
+import TransactionMixin from '@/utils/mixins/txMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import shouldUpdate from '@/utils/shouldUpdate'
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
+import {
+  createInteraction,
+  Interaction,
+  mapAsSystemRemark,
+} from '@kodadot1/minimark'
+import { DispatchError } from '@polkadot/types/interfaces'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import UseApiMixin from '~/utils/mixins/useApiMixin'
+
 type EmptyPromise = Promise<void>
 
 type MintedCollection = {
@@ -115,7 +120,8 @@ export default class AdminPanel extends mixins(
   RmrkVersionMixin,
   TransactionMixin,
   ChainMixin,
-  PrefixMixin
+  PrefixMixin,
+  UseApiMixin
 ) {
   protected commands = ''
   private password = ''
@@ -165,11 +171,6 @@ export default class AdminPanel extends mixins(
     return Boolean(this.showMeta && !this.isMetaValid)
   }
 
-  private toRemark(remark: string) {
-    const { api } = Connector.getInstance()
-    return api.tx.system.remark(remark)
-  }
-
   private skipListed(nft: AdminNFT) {
     return this.listed ? Number(nft.price) === 0 : true
   }
@@ -198,7 +199,8 @@ export default class AdminPanel extends mixins(
 
     try {
       this.status = 'loader.sign'
-      const { api } = Connector.getInstance()
+      const api = await this.useApi()
+      const toRemark = mapAsSystemRemark(api)
 
       const cb = api.tx.utility.batchAll
 
@@ -212,7 +214,7 @@ export default class AdminPanel extends mixins(
               createInteraction(this.action, this.version, nft.id, '')
             )
 
-      const args = final.map(this.toRemark)
+      const args = final.map(toRemark)
 
       const tx = await exec(
         this.accountId,
@@ -246,8 +248,8 @@ export default class AdminPanel extends mixins(
     }
   }
 
-  protected onTxError(dispatchError: DispatchError): void {
-    const { api } = Connector.getInstance()
+  protected async onTxError(dispatchError: DispatchError): EmptyPromise {
+    const api = await this.useApi()
     if (dispatchError.isModule) {
       const decoded = api.registry.findMetaError(dispatchError.asModule)
       const { docs, name, section } = decoded

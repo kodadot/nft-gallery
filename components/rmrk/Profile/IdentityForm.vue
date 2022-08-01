@@ -79,7 +79,7 @@
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import Connector from '@kodadot1/sub-api'
+import { onApiConnect } from '@kodadot1/sub-api'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import IdentityMixin from '@/utils/mixins/identityMixin'
@@ -115,12 +115,10 @@ export default class IdentityForm extends mixins(
   private deposit = '0'
 
   public async created(): Promise<void> {
-    setTimeout(() => {
-      const { api } = Connector.getInstance()
+    onApiConnect(this.apiUrl, async (api) => {
       this.deposit = api.consts.identity?.basicDeposit?.toString()
-    }, 3000)
-
-    this.identity = await this.fetchIdentity(this.accountId)
+      this.identity = await this.fetchIdentity(this.accountId)
+    })
   }
 
   public enhanceIdentityData(): Record<string, any> {
@@ -147,7 +145,7 @@ export default class IdentityForm extends mixins(
   }
 
   protected async fetchIdentity(address: string): Promise<IdentityFields> {
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     const optionIdentity = await api?.query.identity?.identityOf(address)
     const identity = optionIdentity?.unwrapOrDefault()
     const final = Array.from(identity.info)
@@ -161,7 +159,7 @@ export default class IdentityForm extends mixins(
   }
 
   protected async submit(): Promise<void> {
-    const { api } = Connector.getInstance()
+    const api = await this.useApi()
     this.initTransactionLoader()
     const cb = api.tx.identity.setIdentity
     const args = [this.enhanceIdentityData()]
