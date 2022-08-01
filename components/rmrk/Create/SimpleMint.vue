@@ -195,15 +195,9 @@ import { formatBalance } from '@polkadot/util'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import Vue from 'vue'
-import { unwrapSafe } from '~/utils/uniquery'
+import { unwrapSafe } from '@/utils/uniquery'
 import NFTUtils, { MintType } from '../service/NftUtils'
-import {
-  Collection,
-  getNftId,
-  NFT,
-  NFTMetadata,
-  SimpleNFT,
-} from '../service/scheme'
+import { getNftId, NFT, NFTMetadata, SimpleNFT } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
 
