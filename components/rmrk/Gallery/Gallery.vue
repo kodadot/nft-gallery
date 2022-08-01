@@ -159,10 +159,6 @@ export default class Gallery extends mixins(
     )
   }
 
-  get isRmrk(): boolean {
-    return false
-  }
-
   set currentValue(page: number) {
     this.gotoPage(page)
   }
@@ -314,47 +310,22 @@ export default class Gallery extends mixins(
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
     if (this.searchQuery.search) {
-      if (this.isRmrk) {
-        params.push({
-          name: { likeInsensitive: this.searchQuery.search },
-        })
-      } else {
-        params.push({ name_containsInsensitive: this.searchQuery.search })
-      }
+      params.push({ name_containsInsensitive: this.searchQuery.search })
     }
 
     if (this.searchQuery.listed) {
       const minPrice = this.searchQuery.priceMin ?? '0'
-      if (this.isRmrk) {
-        if (this.searchQuery.priceMax) {
-          params.push({
-            price: {
-              greaterThan: '0',
-              greaterThanOrEqualTo: minPrice,
-              lessThanOrEqualTo: this.searchQuery.priceMax,
-            },
-          })
-        } else {
-          params.push({
-            price: {
-              greaterThan: '0',
-              greaterThanOrEqualTo: minPrice,
-            },
-          })
-        }
+      if (this.searchQuery.priceMax) {
+        params.push({
+          price_gt: '0',
+          price_gte: minPrice,
+          price_lte: this.searchQuery.priceMax,
+        })
       } else {
-        if (this.searchQuery.priceMax) {
-          params.push({
-            price_gt: '0',
-            price_gte: minPrice,
-            price_lte: this.searchQuery.priceMax,
-          })
-        } else {
-          params.push({
-            price_gt: '0',
-            price_gte: minPrice,
-          })
-        }
+        params.push({
+          price_gt: '0',
+          price_gte: minPrice,
+        })
       }
     }
 
