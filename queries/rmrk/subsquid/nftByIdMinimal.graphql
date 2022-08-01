@@ -3,5 +3,6 @@ query nftByIdMinimal($id: ID!) {
     id
     currentOwner
     price
+    burned
   }
 }
