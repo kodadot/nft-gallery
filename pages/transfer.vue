@@ -183,14 +183,6 @@ export default class Transfer extends mixins(
     return this.$store.getters.getApiConnected
   }
   get disabled(): boolean {
-    console.log({
-      hasAddress: this.hasAddress,
-      price: this.price,
-      accountId: this.accountId,
-      isApiConnected: this.isApiConnected,
-      isOffline: this.$nuxt.isOffline,
-    })
-
     return (
       !this.hasAddress ||
       !this.price ||
@@ -227,7 +219,6 @@ export default class Transfer extends mixins(
     this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
     onApiConnect(this.apiUrl, async (api) => {
-      console.log({ isConnected: api.isConnected, apiUrl: this.apiUrl })
       this.$store.commit('setApiConnected', api.isConnected)
     })
   }
