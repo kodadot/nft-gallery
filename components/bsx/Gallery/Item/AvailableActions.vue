@@ -11,8 +11,8 @@
       ref="balanceInput"
       class="mb-4"
       v-if="showMeta"
-      :min="minimumOfferAmount"
-      :max="balance"
+      :min="minimumLimit"
+      :max="maximumLimit"
       :is="showMeta"
       @input="updateMeta"
       emptyOnError />
@@ -91,6 +91,20 @@ export default class AvailableActions extends mixins(
 
   get actions() {
     return getActionList('bsx', this.isOwner, this.isAvailableToBuy)
+  }
+
+  get minimumLimit(): number {
+    if (this.selectedAction === ShoppingActions.MAKE_OFFER) {
+      return this.minimumOfferAmount
+    }
+    return 0
+  }
+
+  get maximumLimit(): number | undefined {
+    if (this.selectedAction === ShoppingActions.LIST) {
+      return undefined
+    }
+    return this.balance
   }
 
   get disableSubmitButton() {
@@ -187,6 +201,10 @@ export default class AvailableActions extends mixins(
       balanceInputComponent instanceof BalanceInput
     ) {
       this.isBalanceInputValid = balanceInputComponent.checkValidity()
+      // ad-hoc fix for empty input value
+      if (this.meta === '0') {
+        this.isBalanceInputValid = false
+      }
     }
     this.$consola.log(typeof value, value)
     this.meta = value
