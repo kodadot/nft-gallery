@@ -79,8 +79,6 @@ export default class OfferMixin extends mixins(
   }
 
   public isExpired(expirationBlock): boolean {
-    console.log(this.currentBlock, this.currentBlock >= expirationBlock)
-
     return this.currentBlock >= expirationBlock
   }
 
