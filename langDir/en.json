@@ -832,7 +832,10 @@
     "popularCollectionsHeading": "Popular Collections",
     "popularCollectionsDesc": "Discover the most popular collections on rmrk",
     "from": "from",
-    "to": "to"
+    "to": "to",
+    "tx": {
+      "cancelled": "Transaction was cancelled"
+    }
   },
   "helper": {
     "seeMore": "See More",

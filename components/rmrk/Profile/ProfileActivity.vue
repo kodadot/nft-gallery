@@ -108,7 +108,7 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
       return
     }
 
-    const query = await resolveQueryPath(this.urlPrefix, 'profileStatsById')
+    const query = await resolveQueryPath(this.client, 'profileStatsById')
     const { data } = await this.$apollo.query({
       query: query.default,
       client: this.client,
@@ -188,7 +188,7 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
 
     this.totalSoldItems = data.sold.totalCount
     const allValuesList = soldEvents.map((e) => parseFloat(e.meta))
-    const maxPriceSold = Math.max(...allValuesList)
+    const maxPriceSold = Math.max(...allValuesList, 0)
     // Highest Buy and Total amount sell
     this.maxSoldPrice = maxPriceSold
     this.totalSell = getSum(allValuesList)

@@ -25,7 +25,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
+import {
+  Component,
+  Prop,
+  Ref,
+  Watch,
+  mixins,
+  Emit,
+} from 'nuxt-property-decorator'
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
@@ -86,10 +93,13 @@ export default class BalanceInput extends mixins(ChainMixin) {
   }
 
   @Debounce(200)
+  @Emit('input')
   public handleInput(value: number) {
     this.internalValue = value
-    this.$emit('input', String(this.internalValue * this.selectedUnit))
-    return this.calculate ? this.formatSelectedValue(value) : value
+    const valueInBaseUnit = this.internalValue * this.selectedUnit
+    return this.calculate
+      ? this.formatSelectedValue(valueInBaseUnit)
+      : valueInBaseUnit
   }
 
   handleUnitChange(unit) {

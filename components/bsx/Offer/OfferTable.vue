@@ -4,6 +4,7 @@
       :data="displayOffers(offers)"
       :paginated="displayOffers(offers).length > itemsPerPage"
       :perPage="itemsPerPage"
+      :class="{ scrollable: offers.length > 0 }"
       :currentPage.sync="currentPage"
       paginationPosition="top">
       <div v-if="headerText" class="has-text-centered offer-title mb-2">
@@ -184,7 +185,7 @@ export default class OfferTable extends mixins(OfferMixin) {
 </script>
 <style lang="scss">
 .offer-table-container {
-  .table-wrapper {
+  .scrollable.table-wrapper {
     overflow-x: scroll;
   }
   .limit-width-text {
