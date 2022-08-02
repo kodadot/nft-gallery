@@ -4,14 +4,10 @@
       v-if="multipleSelect"
       multiple
       v-model="selectedAction"
-      class="select-dropdown">
+      class="select-dropdown"
+      data-cy="gallery-sort-by">
       <template #trigger>
-        <b-button
-          type="is-primary"
-          icon-right="caret-down"
-          data-cy="gallery-sort-by">
-          Sort by
-        </b-button>
+        <b-button type="is-primary" icon-right="caret-down"> Sort by </b-button>
       </template>
       <b-dropdown-item
         v-for="action in actions"

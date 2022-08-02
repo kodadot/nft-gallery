@@ -8,7 +8,6 @@ Cypress.on('uncaught:exception', (err) => {
 })
 Cypress.Commands.add('loginWithKeyring', () => {
   cy.visit('/')
-  cy.wait(1000)
   cy.visit('/e2e-login')
   cy.visit('/rmrk')
 })
@@ -35,11 +34,11 @@ Cypress.Commands.add('rmrkGallerySortBy', () => {
   cy.get('[data-cy="Unpopular"]').should('be.visible')
   cy.get('[data-cy="Most reacted"]').should('be.visible')
   cy.get('[data-cy="Recently Created"]').click()
-  cy.wait(5000)
 })
 // done
 Cypress.Commands.add('bsxGallerySortBy', () => {
-  cy.get('[data-cy="gallery-sort-by"]').click()
+  /// needs solution
+  cy.get('[data-cy="gallery-sort-by"]').click({ force: true })
   cy.get('[data-cy="Recently Created"]').should('be.visible')
   cy.get('[data-cy="Oldest"]').should('be.visible')
   cy.get('[data-cy="Price: High to Low"]').should('be.visible')
@@ -48,7 +47,6 @@ Cypress.Commands.add('bsxGallerySortBy', () => {
   cy.get('[data-cy="Unpopular"]').should('be.visible')
   cy.get('[data-cy="Most reacted"]').should('be.visible')
   cy.get('[data-cy="Recently Created"]').click()
-  cy.wait(5000)
 })
 // done
 Cypress.Commands.add('collectionsSortBy', () => {
@@ -109,9 +107,9 @@ Cypress.Commands.add('expandGallerySearch', () => {
 })
 Cypress.Commands.add('collectionsBuyNow', () => {
   cy.get('[data-cy="buy-now"]').within(() => {
-    return cy.get('[type="checkbox"]').check({ force: true })
+    cy.get('[type="checkbox"]').check({ force: true })
+    cy.get('[type="checkbox"]').should('be.checked')
   })
-  cy.wait(2000)
   cy.get('[data-cy="0"]').within(() => {
     cy.get('[data-cy="collection-floor-price"]')
       .invoke('text')
@@ -135,11 +133,10 @@ Cypress.Commands.add('galleryBuyNow', (amount) => {
 Cypress.Commands.add('galleryInputFields', (amount) => {
   cy.get('[data-cy="input-min"]').type(String(amount))
   cy.get('[data-cy="apply"]').click()
-  cy.wait(5000)
 })
 Cypress.Commands.add('toggleBuyNowGallery', () => {
   cy.get('[data-cy="buy-now"]').within(() => {
-    return cy.get('[type="checkbox"]').check({ force: true })
+    return cy.get('[type="checkbox"]').check({ force: true, timeout: 5000 })
   })
 })
 Cypress.Commands.add('bsxGalleryListedItemActions', (nftId, creator) => {
