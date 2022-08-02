@@ -1,0 +1,7 @@
+#import "../../fragments/event.graphql"
+
+query eventListByNftId($id: ID!) {
+  events(where: {nft: {id_eq: $id}}) {
+    ...event
+  }
+}

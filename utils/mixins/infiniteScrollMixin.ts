@@ -114,7 +114,10 @@ export default class InfiniteScrollMixin extends Vue {
     this.checkScrollItemSize()
   }
 
-  protected async fetchPageData(page, loadDirection): Promise<boolean> {
+  protected async fetchPageData(
+    page,
+    loadDirection
+  ): Promise<boolean | undefined> {
     this.$consola.warn('fetchPageData need to be extended', page, loadDirection)
     return true
   }

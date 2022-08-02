@@ -1,0 +1,33 @@
+#import "../../fragments/nft.graphql"
+#import "../../fragments/nftDetails.graphql"
+
+query nftById($id: ID!) {
+  nftEntity: nftEntityById(id: $id) {
+    ...nft
+    ...nftDetails
+    collection {
+      id
+      name
+    }
+    emotes {
+      caller
+      value
+    }
+    events {
+      interaction
+      timestamp
+      meta
+    }
+    meta {
+      id
+      name
+      description
+      image
+      animation_url: animationUrl
+      attributes {
+        key: trait
+        value
+      }
+    }
+  }
+}

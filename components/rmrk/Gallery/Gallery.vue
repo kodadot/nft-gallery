@@ -2,15 +2,6 @@
   <div class="gallery container">
     <Loader :value="isLoading" />
     <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
-      <!-- <template v-slot:next-filter>
-        <b-switch
-          v-if="isLogIn"
-          class="gallery-switch"
-          v-model="hasPassionFeed"
-          :rounded="false">
-          Passion Feed
-        </b-switch>
-      </template> -->
       <Pagination
         hasMagicBtn
         simple
@@ -168,10 +159,6 @@ export default class Gallery extends mixins(
     )
   }
 
-  get isRmrk(): boolean {
-    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
-  }
-
   set currentValue(page: number) {
     this.gotoPage(page)
   }
@@ -191,17 +178,6 @@ export default class Gallery extends mixins(
       showNotification((e as Error).message, notificationTypes.danger)
     }
     this.onResize()
-  }
-
-  async mounted() {
-    // only fetch passionFeed if logged in
-    // if (this.isLogIn) {
-    //   try {
-    //     await this.fetchPassionList()
-    //   } catch (e) {
-    //     showNotification((e as Error).message, notificationTypes.danger)
-    //   }
-    // }
   }
 
   @Debounce(500)
@@ -224,14 +200,14 @@ export default class Gallery extends mixins(
       return false
     }
     this.isFetchingData = true
-    const query = await resolveQueryPath(this.urlPrefix, 'nftListWithSearch')
+    const query = await resolveQueryPath(this.client, 'nftListWithSearch')
 
     // if (this.hasPassionFeed) {
     //   await this.fetchPassionList()
     // }
     const result = await this.$apollo.query({
       query: query.default,
-      client: this.urlPrefix,
+      client: this.client,
       variables: {
         denyList: getDenyList(this.urlPrefix),
         orderBy: this.searchQuery.sortByMultiple,
@@ -246,24 +222,6 @@ export default class Gallery extends mixins(
     this.isFetchingData = false
     return true
   }
-
-  // public async fetchPassionList() {
-  //   const {
-  //     data: { passionFeed },
-  //   } = await this.$apollo.query({
-  //     query: passionQuery,
-  //     client: 'subsquid', // TODO: change to usable value
-  //     variables: {
-  //       account: this.accountId,
-  //     },
-  //   })
-  //   this.passionList = passionFeed?.map(mapToId) || []
-
-  //   // only show passion feed if it has some length
-  //   if (this.passionList.length > 5) {
-  //     this.hasPassionFeed = true
-  //   }
-  // }
 
   protected async handleResult(
     {
@@ -317,10 +275,10 @@ export default class Gallery extends mixins(
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
-      const query = await resolveQueryPath(this.urlPrefix, 'nftListWithSearch')
+      const query = await resolveQueryPath(this.client, 'nftListWithSearch')
       const nfts = this.$apollo.query({
         query: query.default,
-        client: this.urlPrefix,
+        client: this.client,
         variables: {
           first: this.first,
           offset,
@@ -352,47 +310,22 @@ export default class Gallery extends mixins(
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
     if (this.searchQuery.search) {
-      if (this.isRmrk) {
-        params.push({
-          name: { likeInsensitive: this.searchQuery.search },
-        })
-      } else {
-        params.push({ name_containsInsensitive: this.searchQuery.search })
-      }
+      params.push({ name_containsInsensitive: this.searchQuery.search })
     }
 
     if (this.searchQuery.listed) {
       const minPrice = this.searchQuery.priceMin ?? '0'
-      if (this.isRmrk) {
-        if (this.searchQuery.priceMax) {
-          params.push({
-            price: {
-              greaterThan: '0',
-              greaterThanOrEqualTo: minPrice,
-              lessThanOrEqualTo: this.searchQuery.priceMax,
-            },
-          })
-        } else {
-          params.push({
-            price: {
-              greaterThan: '0',
-              greaterThanOrEqualTo: minPrice,
-            },
-          })
-        }
+      if (this.searchQuery.priceMax) {
+        params.push({
+          price_gt: '0',
+          price_gte: minPrice,
+          price_lte: this.searchQuery.priceMax,
+        })
       } else {
-        if (this.searchQuery.priceMax) {
-          params.push({
-            price_gt: '0',
-            price_gte: minPrice,
-            price_lte: this.searchQuery.priceMax,
-          })
-        } else {
-          params.push({
-            price_gt: '0',
-            price_gte: minPrice,
-          })
-        }
+        params.push({
+          price_gt: '0',
+          price_gte: minPrice,
+        })
       }
     }
 
