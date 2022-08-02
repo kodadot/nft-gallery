@@ -1,4 +1,4 @@
-fragment event on EventType {
+fragment event on Event {
   id
   blockNumber
   timestamp

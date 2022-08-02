@@ -247,17 +247,17 @@ import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
+import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import allEventsByProfile from '@/queries/rmrk/subsquid/allEventsByProfile.graphql'
 import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
 import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator.graphql'
-import { sortedEventByDate } from '~/utils/sorting'
-import ChainMixin from '~/utils/mixins/chainMixin'
+import { sortedEventByDate } from '@/utils/sorting'
+import ChainMixin from '@/utils/mixins/chainMixin'
 import { exist } from '../Gallery/Search/exist'
-import AuthMixin from '~/utils/mixins/authMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
 
 const tabNameWithoutCollections = ['holdings', 'gains']
 
@@ -265,12 +265,12 @@ import firstNftByIssuer from '@/queries/subsquid/general/firstNftByIssuer.graphq
 import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'
 import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
-import resolveQueryPath from '~/utils/queryPathResolver'
-import allNftSaleEventsByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
-import allNftSaleEventsHistoryByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import allNftSaleEventsByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
+import allNftSaleEventsHistoryByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
 import { hasExplorer, getExplorer } from './utils'
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
-import { Offer, OfferResponse } from '~/components/bsx/Offer/types'
+import { Offer, OfferResponse } from '@/components/bsx/Offer/types'
 
 const components = {
   GalleryCardList: () =>
@@ -296,7 +296,7 @@ const components = {
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 
-@Component<Profile>({
+@Component<ProfileDetail>({
   name: 'Profile',
   head() {
     const title = 'NFT Artist Profile on KodaDot'
@@ -322,7 +322,7 @@ const components = {
   },
   components,
 })
-export default class Profile extends mixins(
+export default class ProfileDetail extends mixins(
   PrefixMixin,
   InfiniteScrollMixin,
   ChainMixin,
@@ -658,7 +658,7 @@ export default class Profile extends mixins(
     }
     const result = await this.$apollo.query({
       query: collectionListByAccount,
-      client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+      client: this.client,
       variables: {
         account: this.id,
         first: this.first,
