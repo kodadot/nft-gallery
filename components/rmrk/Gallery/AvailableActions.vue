@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import nftById from '@/queries/nftById.graphql'
+import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import { emptyObject } from '@/utils/empty'
 import { identityStore } from '@/utils/idbStore'
 import AuthMixin from '@/utils/mixins/authMixin'
@@ -296,7 +296,7 @@ export default class AvailableActions extends mixins(
 
   protected async checkBuyBeforeSubmit() {
     const nft = await this.$apollo.query({
-      query: nftById,
+      query: nftByIdMinimal,
       client: this.urlPrefix,
       variables: {
         id: this.nftId,
@@ -304,7 +304,7 @@ export default class AvailableActions extends mixins(
     })
 
     const {
-      data: { nFTEntity },
+      data: { nft: nFTEntity },
     } = nft
 
     if (

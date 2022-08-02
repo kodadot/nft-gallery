@@ -34,10 +34,6 @@ export default class ExploreLayout extends mixins(PrefixMixin) {
     return this.$store.state.preferences.exploreTabOrder
   }
 
-  get type() {
-    return this.urlPrefix
-  }
-
   get selectedTab(): string {
     let defaultTab = 'COLLECTION'
     if (this.tabOrder) {

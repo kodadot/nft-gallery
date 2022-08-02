@@ -159,7 +159,7 @@ import {
 } from '@/components/rmrk/Create/mintUtils'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import Support from '@/components/shared/Support.vue'
-import collectionList from '@/queries/collectionListByAccount.graphql'
+import collectionList from '@/queries/subsquid/rmrk/usedCollectionSymbolsByAccount.graphql'
 import {
   DETAIL_TIMEOUT,
   IPFS_KODADOT_IMAGE_PLACEHOLDER,
@@ -195,14 +195,9 @@ import { formatBalance } from '@polkadot/util'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import Vue from 'vue'
+import { unwrapSafe } from '@/utils/uniquery'
 import NFTUtils, { MintType } from '../service/NftUtils'
-import {
-  Collection,
-  getNftId,
-  NFT,
-  NFTMetadata,
-  SimpleNFT,
-} from '../service/scheme'
+import { getNftId, NFT, NFTMetadata, SimpleNFT } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
 
@@ -253,7 +248,7 @@ export default class SimpleMint extends mixins(
   protected random = false
   protected distribution = 100
   protected first = 100
-  protected collections: Collection[] = []
+  protected usedCollectionSymbols: string[] = []
 
   layout() {
     return 'centered-half-layout'
@@ -263,7 +258,7 @@ export default class SimpleMint extends mixins(
   public async created() {
     this.$apollo.addSmartQuery('collections', {
       query: collectionList,
-      client: this.urlPrefix,
+      client: this.client,
       manual: true,
       loadingKey: 'isLoading',
       result: this.handleResult,
@@ -281,7 +276,9 @@ export default class SimpleMint extends mixins(
   public handleResult(data: any) {
     const collectionEntities = data?.data?.collectionEntities
     if (collectionEntities) {
-      this.collections = collectionEntities.nodes
+      this.usedCollectionSymbols = unwrapSafe(collectionEntities).map(
+        ({ symbol }) => symbol
+      )
     }
   }
 
@@ -290,22 +287,17 @@ export default class SimpleMint extends mixins(
     if (!this.rmrkMint?.symbol && this.rmrkMint.name?.length) {
       const symbol = this.generateSymbolCore(
         this.rmrkMint.name,
-        this.collections
+        this.usedCollectionSymbols
       )
       Vue.set(this.rmrkMint, 'symbol', symbol)
     }
   }
 
   // core: to generate symbol
-  private generateSymbolCore(name: string, collections: Collection[]): string {
+  private generateSymbolCore(name: string, usedSymbols: string[]): string {
     let symbol = name.replaceAll(' ', '_')
-    const usedSymbols = collections.map((collection) => {
-      // collection.id is like xxxx-symbolName
-      const splitArray = collection.id.split('-')
-      return splitArray.length > 1 ? splitArray[1] : ''
-    })
     symbol = findUniqueSymbol(symbol, usedSymbols)
-    return symbol.slice(0, 10) // symbol's length have to smaller than 10
+    return symbol.slice(0, 10).toUpperCase() // symbol's length have to smaller than 10
   }
 
   protected updateMeta(value: number): void {
