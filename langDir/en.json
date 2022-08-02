@@ -688,7 +688,8 @@
     "createdCollections": "Created Collections",
     "activeWallets": "Active wallets",
     "offers": "Offers",
-    "bsxTitle": "Basilisk Marketplace Statistics"
+    "values": "VALUES",
+    "bsxTitle":  "Basilisk Marketplace Statistics"
   },
   "myOffer": {
     "bsxTitle": "Incoming Offers",
@@ -832,7 +833,10 @@
     "popularCollectionsHeading": "Popular Collections",
     "popularCollectionsDesc": "Discover the most popular collections on rmrk",
     "from": "from",
-    "to": "to"
+    "to": "to",
+    "tx": {
+      "cancelled": "Transaction was cancelled"
+    }
   },
   "helper": {
     "seeMore": "See More",

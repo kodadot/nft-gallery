@@ -21,10 +21,14 @@
         <div>
           <p class="title">
             {{ `${data.totalCount} /` }}
-            <Money :value="data.totalPrice" inline hideUnit />
+            <Money :value="data.totalPrice" inline />
           </p>
           <p class="heading text-bold mb-5">
-            {{ data.status + ' ' + $t('statsOverview.offers') }}
+            {{
+              `${data.status} ${$t('statsOverview.offers')} / ${$t(
+                'statsOverview.values'
+              )}`
+            }}
           </p>
         </div>
       </div>
