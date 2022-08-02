@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-2">
+    <div class="mb-2" v-if="showExplainerTest">
       <small>
         {{ $t('createNftExplainer') }}
       </small>
@@ -29,5 +29,6 @@ import { BaseMintedCollection as MintedCollection } from './types'
 export default class CollectionSelect extends Vue {
   @VModel({ default: null }) selectedCollection!: MintedCollection
   @Prop({ type: Array, default: () => [] }) collections!: MintedCollection[]
+  @Prop({ type: Boolean, default: true }) showExplainerTest!: boolean
 }
 </script>

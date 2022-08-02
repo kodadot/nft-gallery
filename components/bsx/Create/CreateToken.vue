@@ -2,6 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
+      :showExplainerTest="showExplainerTest"
       v-bind.sync="base"
       :collections="collections"
       :hasEdition="false">
@@ -75,7 +76,7 @@ import {
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
 import {
@@ -128,6 +129,8 @@ export default class CreateToken extends mixins(
   AuthMixin,
   ApiUrlMixin
 ) {
+  @Prop({ type: Boolean, default: true }) showExplainerTest!: boolean
+
   protected base: BaseTokenType<MintedCollection> = {
     name: '',
     file: null,
