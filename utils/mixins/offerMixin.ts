@@ -43,7 +43,7 @@ export default class OfferMixin extends mixins(
   }
 
   public displayOffers(offers: Offer[]) {
-    let filterOffers
+    let filterOffers: Offer[]
     if (this.selectedStatus === AllOfferStatusType.ALL) {
       filterOffers = offers.concat()
     } else {
