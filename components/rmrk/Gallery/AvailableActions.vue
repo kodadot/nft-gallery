@@ -34,7 +34,8 @@
             style="border-width: 2px"
             outlined
             @click="handleAction(ShoppingActions.BUY)"
-            expanded>
+            expanded
+            data-cy="BUY">
             {{ replaceBuyNowWithYolo ? 'YOLO' : actionLabel('BUY') }}
           </b-button>
         </b-tooltip>

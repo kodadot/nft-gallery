@@ -13,7 +13,8 @@
         outlined
         expanded
         class="only-border-top"
-        @click="handleActionSelect(action)">
+        @click="handleActionSelect(action)"
+        :data-cy="action">
         {{ actionLabel(action) }}
       </b-button>
     </b-tooltip>

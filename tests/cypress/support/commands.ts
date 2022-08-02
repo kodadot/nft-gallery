@@ -21,19 +21,20 @@ Cypress.Commands.add('exploreTabs', () => {
     })
 })
 Cypress.Commands.add('rmrkGallerySortBy', () => {
-  cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > .columns > .mb-0 > .dropdown > .dropdown-trigger > .button'
-  ).click()
-  cy.get(':nth-child(1)').contains('Most reacted')
-  cy.get(':nth-child(2)').contains('Recently Created')
-  cy.get(':nth-child(3)').contains('Oldest')
-  cy.get(':nth-child(4)').contains('Recently Interacted')
-  cy.get(':nth-child(5)').contains('Unpopular')
-  cy.get(':nth-child(6)').contains('Price: High to Low')
-  cy.get(':nth-child(7)').contains('Price: Low to High')
-  cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > :nth-child(7)'
-  ).click()
+  /// needs solution
+  cy.get('[data-cy="gallery-sort-by"]').within((yields) => {
+    console.log(yields)
+    // one last selector
+    cy.get('button is-primary').click()
+  })
+  cy.get('[data-cy="Recently Created"]').should('be.visible')
+  cy.get('[data-cy="Oldest"]').should('be.visible')
+  cy.get('[data-cy="Price: High to Low"]').should('be.visible')
+  cy.get('[data-cy="Price: Low to High"]').should('be.visible')
+  cy.get('[data-cy="Recently Interacted"]').should('be.visible')
+  cy.get('[data-cy="Unpopular"]').should('be.visible')
+  cy.get('[data-cy="Most reacted"]').should('be.visible')
+  cy.get('[data-cy="Recently Created"]').click()
   cy.wait(5000)
 })
 // done
@@ -122,7 +123,8 @@ Cypress.Commands.add('collectionsBuyNow', () => {
   })
 })
 Cypress.Commands.add('galleryBuyNow', (amount) => {
-  cy.get('#infinite-scroll-container > :nth-child(1)')
+  cy.toggleBuyNowGallery()
+  cy.get('[data-cy="0"]')
     .invoke('text')
     .then((text) => {
       if (!(parseFloat(text) >= amount)) {
@@ -136,108 +138,64 @@ Cypress.Commands.add('galleryInputFields', (amount) => {
   cy.wait(5000)
 })
 Cypress.Commands.add('toggleBuyNowGallery', () => {
-  cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .is-flex > .switch > .check'
-  ).click()
+  cy.get('[data-cy="buy-now"]').within(() => {
+    return cy.get('[type="checkbox"]').check({ force: true })
+  })
 })
 Cypress.Commands.add('bsxGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/bsx/gallery/${nftId}`)
-  cy.get('.price-block__original > .money > span').should('contain', 'BSX')
-  cy.get(':nth-child(1) > .tooltip-trigger > .button')
-    .should('be.disabled')
-    .should('contain', 'BUY')
-  cy.get(':nth-child(2) > .tooltip-trigger > .button')
-    .should('be.disabled')
-    .should('contain', 'MAKE OFFER')
-  cy.get('.is-size-6 > .money > span').should('contain', 'BSX')
-  cy.get('.field > div[data-v-4d7a8fa0=""] > .button').should('be.visible')
-  cy.get(
-    '.share > :nth-child(1) > .field-body > .field > :nth-child(2)'
-  ).should('be.visible')
-  cy.get('.share__tooltip > .tooltip-trigger > .button').should('be.visible')
-  cy.get(
-    ':nth-child(3) > .collapse > .collapse-trigger > .card-header > .card-header-title'
-  ).should('contain', 'Offers')
-  cy.get(
-    ':nth-child(3) > .collapse > .collapse-trigger > .card-header > .card-header-title'
-  ).click()
-  cy.get(
-    ':nth-child(4) > .collapse > .collapse-trigger > .card-header > .card-header-title'
-  ).should('contain', 'History')
-  cy.get(
-    ':nth-child(4) > .collapse > .collapse-trigger > .card-header > .card-header-title'
-  ).click()
-  cy.get('.is-flex > .control > .select > select').select('🖼 MINT')
-  cy.get('.type-table').should('contain', '🖼 MINT')
+  cy.get('[data-cy="money"]').should('contain', 'BSX')
+  cy.get('[data-cy="BUY"]').should('be.disabled')
+  cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
+  cy.get('[data-cy="offer-list"]').should('contain', 'Offers')
+  cy.get('[data-cy="offer-list"]').click()
+  cy.get('[data-cy="history"]').should('contain', 'History')
+  cy.get('[data-cy="history"]').click()
+  cy.get('[data-cy="select-event"]').select('🖼 MINT')
+  cy.get('[data-label="Type"]').should('contain', '🖼 MINT')
   cy.get('[data-label="From"]').should('contain', `${creator}`)
   cy.get('[data-label="Amount"]').should('contain', '-')
 })
 Cypress.Commands.add('bsxGalleryUnlistedItemActions', (nftId) => {
   cy.visit(`/bsx/gallery/${nftId}`)
-  cy.get(':nth-child(1) > .tooltip-trigger > .button')
-    .should('be.disabled')
-    .should('contain', 'MAKE OFFER')
+  cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
 })
 Cypress.Commands.add(
   'bsxCollectionActions',
   (collectionId, nftName, creator) => {
     cy.visit(`/bsx/collection/${collectionId}`)
-    cy.get(
-      ':nth-child(1) > .card > .nft-card__skeleton > a > .card-image > .b-image-wrapper > .has-ratio'
-    ).should('be.visible')
-    cy.get('.is-grouped > :nth-child(1) > .control > .select > select').select(
-      'Old first'
-    )
-    cy.get('.is-flex > a > .is-flex-wrap-wrap > .tippy-container > div').should(
-      'contain',
-      creator
-    )
-    cy.get('.share > :nth-child(1) > .field-body > .field').should('be.visible')
+    cy.get('[data-cy="0"]').should('be.visible')
+    cy.get('[data-cy="collection-sort-by"]').select('Old first')
+    cy.get('[data-cy="identity"]').should('contain', creator)
+    cy.get('[data-cy="share-button"]').should('be.visible')
+    cy.get('[data-cy="donation-button"]').should('be.visible')
   }
 )
 Cypress.Commands.add(
   'rmrkCollectionActions',
   (collectionId, nftName, creator) => {
     cy.visit(`/rmrk/collection/${collectionId}`)
-    cy.get(
-      ':nth-child(1) > .card > .nft-card__skeleton > a > .card-image > .b-image-wrapper > .has-ratio'
-    ).should('be.visible')
-    cy.get('.is-grouped > :nth-child(1) > .control > .select > select').select(
-      'Oldest'
-    )
-    cy.get('.is-flex > a > .is-flex-wrap-wrap > .tippy-container > div').should(
-      'contain',
-      creator
-    )
-    cy.get('.share > :nth-child(1) > .field-body > .field').should('be.visible')
+    cy.get('[data-cy="0"]').should('be.visible')
+    cy.get('[data-cy="collection-sort-by"]').select('Oldest')
+    cy.get('[data-cy="identity"]').should('contain', creator)
+    cy.get('[data-cy="share-button"]').should('be.visible')
+    cy.get('[data-cy="donation-button"]').should('be.visible')
   }
 )
 Cypress.Commands.add('rmrkGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/rmrk/gallery/${nftId}`)
-  cy.get('.price-block__original > .money > span').should('contain', 'KSM')
-  cy.get(':nth-child(1) > .tooltip-trigger > .button')
-    .should('be.disabled')
-    .should('contain', 'BUY')
-  cy.get('.is-size-6 > .money > span').should('contain', 'KSM')
-  cy.get('.field > div[data-v-4d7a8fa0=""] > .button').should('be.visible')
-  cy.get(
-    '.share > :nth-child(1) > .field-body > .field > :nth-child(2)'
-  ).should('be.visible')
-  cy.get('.share__tooltip > .tooltip-trigger > .button').should('be.visible')
-  cy.get(
-    '.block > .collapse > .collapse-trigger > .card-header > .card-header-title'
-  ).should('contain', 'History')
-  cy.get(
-    '.block > .collapse > .collapse-trigger > .card-header > .card-header-title'
-  ).click()
-  cy.get('.is-flex > .control > .select > select').select('🖼 MINT')
-  cy.get('.type-table').should('contain', '🖼 MINT')
+  cy.get('[data-cy="money"]').should('contain', 'KSM')
+  cy.get('[data-cy="BUY"]').should('be.disabled')
+  cy.get('[data-cy="history"]').should('contain', 'History')
+  cy.get('[data-cy="history"]').click()
+  cy.get('[data-cy="select-event"]').select('🖼 MINT')
+  cy.get('[data-label="Type"]').should('contain', '🖼 MINT')
   cy.get('[data-label="From"]').should('contain', `${creator}`)
   cy.get('[data-label="Amount"]').should('contain', '-')
 })
 Cypress.Commands.add('rmrkGalleryUnlistedItemActions', (nftId) => {
   cy.visit(`/rmrk/gallery/${nftId}`)
-  cy.get('.price-block__original > .money > span').should('not.exist')
+  cy.get('[data-cy="money"]').should('not.exist')
 })
 
 declare global {

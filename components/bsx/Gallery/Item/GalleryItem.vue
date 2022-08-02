@@ -70,7 +70,7 @@
                       </div>
                       <div class="price-block__container">
                         <div class="price-block__original">
-                          <Money :value="nft.price" inline />
+                          <Money :value="nft.price" inline data-cy="money" />
                         </div>
                       </div>
                       <div v-if="nftRoyalties">
@@ -120,8 +120,9 @@
         :current-owner-id="nft.currentOwner"
         :nftId="id"
         @offersUpdate="offersUpdate"
-        :collectionId="collectionId" />
-      <History :events="events" :openOnDefault="false" />
+        :collectionId="collectionId"
+        data-cy="offer-list" />
+      <History :events="events" :openOnDefault="false" data-cy="history" />
     </template>
   </BaseGalleryItem>
 </template>

@@ -33,26 +33,26 @@
 //   })
 // })
 //
-describe('exploreRmrkGallery', () => {
-  it('loadExplore', () => {
-    cy.visit('/rmrk/explore?tab=GALLERY&page=1')
-  })
-  it('exploreTabs', () => {
-    cy.exploreTabs()
-  })
-  it('expandGallerySearch', () => {
-    cy.expandGallerySearch()
-  })
-  it('galleryInputFields', () => {
-    cy.galleryInputFields(100)
-  })
-  it('gallerySortRmrk', () => {
-    cy.rmrkGallerySortBy()
-  })
-  it('galleryBuyNow', () => {
-    cy.galleryBuyNow(100)
-  })
-})
+// describe('exploreRmrkGallery', () => {
+//   it('loadExplore', () => {
+//     cy.visit('/rmrk/explore?tab=GALLERY&page=1')
+//   })
+//   it('exploreTabs', () => {
+//     cy.exploreTabs()
+//   })
+//   it('expandGallerySearch', () => {
+//     cy.expandGallerySearch()
+//   })
+//   it('galleryInputFields', () => {
+//     cy.galleryInputFields(100)
+//   })
+//   // it('gallerySortRmrk', () => {
+//   //   cy.rmrkGallerySortBy()
+//   // })
+//   it('galleryBuyNow', () => {
+//     cy.galleryBuyNow(100)
+//   })
+// })
 
 // describe('exploreBsxCollections', () => {
 //   it('loadExplore', () => {
@@ -78,6 +78,11 @@ describe('exploreRmrkGallery', () => {
 //     cy.exploreTabs()
 //   })
 //   it('expandGallerySearch', () => {
+//     cy.get('[data-cy="tabs"]')
+//       .should('be.visible')
+//       .within(() => {
+//         cy.contains('Gallery').click()
+//       })
 //     cy.expandGallerySearch()
 //   })
 //   it('galleryInputFields', () => {
@@ -90,8 +95,12 @@ describe('exploreRmrkGallery', () => {
 //     cy.galleryBuyNow(100)
 //   })
 // })
-//
-// describe('bsxCollectionItem', () => {
+
+describe('bsxCollectionItem', () => {
+  it('loginWithKeyring', () => {
+    cy.loginWithKeyring()
+  })
+})
 //   it('collectionActions', () => {
 //     cy.bsxCollectionActions(
 //       '2600576003',
@@ -100,7 +109,7 @@ describe('exploreRmrkGallery', () => {
 //     )
 //   })
 // })
-//
+
 // describe('bsxGalleryItem', () => {
 //   it('galleryListedItemActions', () => {
 //     cy.bsxGalleryListedItemActions('2600576003-1', 'bXkVgi...6Xuvih')
@@ -109,28 +118,28 @@ describe('exploreRmrkGallery', () => {
 //     cy.bsxGalleryUnlistedItemActions('2600576003-4', 'bXkVgi...6Xuvih')
 //   })
 // })
-//
-// describe('rmrkCollectionItem', () => {
-//   it('collectionActions', () => {
-//     cy.rmrkCollectionActions(
-//       '32b209ecbe2b33dd24-DINOXEGGS',
-//       'Angel',
-//       'DinoPQ...LPj2rd'
-//     )
-//   })
-// })
-//
-// describe('rmrkGalleryItem', () => {
-//   it('galleryListedItemActions', () => {
-//     cy.rmrkGalleryListedItemActions(
-//       '9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000080',
-//       'DinoPQ...LPj2rd'
-//     )
-//   })
-//   it('galleryUnlistedItemActions', () => {
-//     cy.rmrkGalleryUnlistedItemActions(
-//       '9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000061',
-//       'DinoPQ...LPj2rd'
-//     )
-//   })
-// })
+
+describe('rmrkCollectionItem', () => {
+  it('collectionActions', () => {
+    cy.rmrkCollectionActions(
+      '32b209ecbe2b33dd24-DINOXEGGS',
+      'Angel',
+      'DinoPQ...LPj2rd'
+    )
+  })
+})
+
+describe('rmrkGalleryItem', () => {
+  it('galleryListedItemActions', () => {
+    cy.rmrkGalleryListedItemActions(
+      '9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000080',
+      'DinoPQ...LPj2rd'
+    )
+  })
+  it('galleryUnlistedItemActions', () => {
+    cy.rmrkGalleryUnlistedItemActions(
+      '9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000061',
+      'DinoPQ...LPj2rd'
+    )
+  })
+})
