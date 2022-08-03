@@ -56,8 +56,6 @@ export default class ChartContainer extends mixins(PrefixMixin, ChainMixin) {
   }
 
   protected async fetchEvents() {
-    console.clear()
-
     const data = await Promise.all([
       this.queryAllCollectionSaleEvents({ interaction_eq: 'LIST' }),
       this.queryAllCollectionSaleEvents({ interaction_eq: 'BUY' }),
