@@ -18,6 +18,7 @@ const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(2, 12, 'KSM')
 const chainPropertyMap: Config<ChainProperties> = {
   rmrk: DEFAULT_CHAIN_PROPERTIES,
   bsx: toChainProperty(10041, 12, 'BSX'),
+  snek: toChainProperty(10041, 12, 'BSX'),
   statemine: DEFAULT_CHAIN_PROPERTIES,
   westmint: DEFAULT_CHAIN_PROPERTIES,
   moonsama: toChainProperty(1285, 12, 'MOVR'),

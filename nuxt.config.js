@@ -264,6 +264,7 @@ export default defineNuxtConfig({
       ),
       bsx: toApolloEndpoint(URLS.koda.snekk),
       moonsama: toApolloEndpoint(URLS.koda.click),
+      snek: toApolloEndpoint(URLS.koda.snekkv2),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
