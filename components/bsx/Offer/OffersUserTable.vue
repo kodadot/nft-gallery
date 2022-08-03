@@ -84,7 +84,7 @@
 
 <script lang="ts">
 import { Attribute, emptyArray } from '@kodadot1/minimark'
-import { Component, Emit, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, Emit, mixins, Prop } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 import { Offer } from './types'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
