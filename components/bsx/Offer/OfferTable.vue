@@ -81,7 +81,14 @@
         :label="$t('offer.expiration')"
         v-slot="props"
         sortable>
-        {{ calcExpirationTime(props.row.expiration) }}
+        <b-tooltip
+          v-if="!isExpired(props.row.expiration)"
+          :label="calcExpirationDate(props.row.expiration)">
+          {{ calcExpirationTime(props.row.expiration) }}
+        </b-tooltip>
+        <span v-else>
+          {{ calcExpirationTime(props.row.expiration) }}
+        </span>
       </b-table-column>
       <b-table-column
         v-if="!isBsxStats"
