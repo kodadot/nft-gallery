@@ -10,6 +10,7 @@
       ref="balanceInput"
       class="mb-4"
       v-if="showMeta"
+      :strict="false"
       :min="minimumLimit"
       :max="maximumLimit"
       :is="showMeta"
