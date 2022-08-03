@@ -175,20 +175,20 @@
         "m": "<b>KLASSISCH</b> lässt dich eine Sammlung erstellen und NFTs hinzufügen. <b>EINFACH</b> mint erstellt ein NFT und fügt es deinem Profil hinzu und <b>PERMAFROST</b> lässt dich deine NFT mit dem Arweaveprotokoll minten: Das Protokoll vernetzt Menschen mit verfügbarem Speicherplatz mit Individuen und Organisationen die ihre Daten permanent speichern und verfügbar machen wollen."
       },
       "19": {
-        "m": "Right now, we have @.md:faq.a.19.l1 We are actively looking for funding options, eventually we would raise private funds. DMs us, if you are interested into private sale.",
-        "l1": "[Kusama Treasury funding for Milestone 1.](@.common:links.kusama_polkassembly.kodadot_nft_explorer_post.href)"
+        "m": "Wir haben Mittel aus der @.md:faq.a.19.l1 erhalten. Wir suchen aktiv nach anderen Wegen der Finanzierung und würden auch Privatinvestitionen in Betracht ziehen. Schick uns eine DM, wenn Du an einer privaten Finanzierung interessiert bist.",
+        "l1": "[Kusama Treasury für den ersten Meilenstein](@.common:links.kusama_polkassembly.kodadot_nft_explorer_post.href)"
       },
       "20": {
-        "m": "We only have a private channel for NFT creators. Feel free to DM us if you are a NFT creator!"
+        "m": "Wir haben nur einen privaten Kanal für NFT Künstler. Melde dich gerne bei uns wenn Du ein Künstler bist!"
       },
       "21": {
-        "m": "Yes, that's part of our Milestone 2, stay tuned!"
+        "m": "Ja, das ist für den zweiten Meilenstein eingeplant. Wir halten dich auf dem Laufenden!"
       },
       "22": {
-        "m": "If you are on Mac, on Chrome hit <b>Option, CMD, J</b>, Firefox <b>Command + Option + K</b>."
+        "m": "Wenn Du einen Mac oder Chrome nutzt drücke <b>Strg + Shift + J</b>, unter Firefox <b>Strg + Shift + K</b>."
       },
       "23": {
-        "m": "Go to @.md:faq.a.23.l1 and click the button <b>Update metadata</b>, then refresh your window. It should be working with recent chain types.",
+        "m": "Gehe auf @.md:faq.a.23.l1 und klicke auf <b>Update metadata</b>, aktualisere danach dein Browserfenster. Das sollte mit den aktuellsten Chains funktionieren.",
         "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
       },
       "24": {
