@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 import consola from 'consola'
+
 export {}
 
 Cypress.on('uncaught:exception', (err) => {
@@ -9,7 +10,6 @@ Cypress.on('uncaught:exception', (err) => {
 Cypress.Commands.add('loginWithKeyring', () => {
   cy.visit('/')
   cy.visit('/e2e-login')
-  cy.visit('/rmrk')
 })
 Cypress.Commands.add('exploreTabs', () => {
   cy.get('[data-cy="tabs"]')
@@ -20,12 +20,10 @@ Cypress.Commands.add('exploreTabs', () => {
     })
 })
 Cypress.Commands.add('rmrkGallerySortBy', () => {
-  /// needs solution
-  cy.get('[data-cy="gallery-sort-by"]').within((yields) => {
-    console.log(yields)
-    // one last selector
-    cy.get('button is-primary').click()
-  })
+  // TODO: clean up selector -> too many elements for data-cy
+  cy.get(
+    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-trigger > [data-cy="gallery-sort-by"]'
+  ).click()
   cy.get('[data-cy="Recently Created"]').should('be.visible')
   cy.get('[data-cy="Oldest"]').should('be.visible')
   cy.get('[data-cy="Price: High to Low"]').should('be.visible')
@@ -33,20 +31,27 @@ Cypress.Commands.add('rmrkGallerySortBy', () => {
   cy.get('[data-cy="Recently Interacted"]').should('be.visible')
   cy.get('[data-cy="Unpopular"]').should('be.visible')
   cy.get('[data-cy="Most reacted"]').should('be.visible')
-  cy.get('[data-cy="Recently Created"]').click()
+  // TODO: clean up selector -> too many elements for data-cy
+  cy.get(
+    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > [data-cy="Price: Low to High"]'
+  ).click()
 })
 // done
 Cypress.Commands.add('bsxGallerySortBy', () => {
-  /// needs solution
-  cy.get('[data-cy="gallery-sort-by"]').click({ force: true })
+  // TODO: clean up selector -> too many elements for data-cy
+  cy.get(
+    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-trigger > [data-cy="gallery-sort-by"]'
+  ).click()
   cy.get('[data-cy="Recently Created"]').should('be.visible')
   cy.get('[data-cy="Oldest"]').should('be.visible')
   cy.get('[data-cy="Price: High to Low"]').should('be.visible')
   cy.get('[data-cy="Price: Low to High"]').should('be.visible')
   cy.get('[data-cy="Recently Interacted"]').should('be.visible')
   cy.get('[data-cy="Unpopular"]').should('be.visible')
-  cy.get('[data-cy="Most reacted"]').should('be.visible')
-  cy.get('[data-cy="Recently Created"]').click()
+  // TODO: clean up selector -> too many elements for data-cy
+  cy.get(
+    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > [data-cy="Price: Low to High"]'
+  ).click()
 })
 // done
 Cypress.Commands.add('collectionsSortBy', () => {
@@ -114,7 +119,7 @@ Cypress.Commands.add('collectionsBuyNow', () => {
     cy.get('[data-cy="collection-floor-price"]')
       .invoke('text')
       .then((text) => {
-        if (!(parseFloat(text) > 0)) {
+        if (!(parseFloat(text.replace(',', '')) >= 0)) {
           throw '[ERROR] Collection BUY NOW is not working'
         }
       })
@@ -125,7 +130,7 @@ Cypress.Commands.add('galleryBuyNow', (amount) => {
   cy.get('[data-cy="0"]')
     .invoke('text')
     .then((text) => {
-      if (!(parseFloat(text) >= amount)) {
+      if (!(parseFloat(text.replace(',', '')) >= amount)) {
         throw '[ERROR] Gallery BUY NOW is not working'
       }
     })
@@ -199,40 +204,58 @@ declare global {
   namespace Cypress {
     interface Chainable {
       loginWithKeyring(): Chainable<Element>
+
       exploreTabs(): Chainable<Element>
+
       rmrkGallerySortBy(): Chainable<Element>
+
       bsxGallerySortBy(): Chainable<Element>
+
       collectionsSortBy(): Chainable<Element>
+
       rmrkNavbar(): Chainable<Element>
+
       bsxNavbar(): Chainable<Element>
+
       expandGallerySearch(): Chainable<Element>
+
       expandCollectionSearch(): Chainable<Element>
+
       collectionsBuyNow(): Chainable<Element>
+
       galleryBuyNow(amount: number): Chainable<Element>
+
       galleryInputFields(amount: number): Chainable<Element>
+
       toggleBuyNowGallery(): Chainable<Element>
+
       bsxGalleryListedItemActions(
         nftId: string,
         creator: string
       ): Chainable<Element>
+
       bsxGalleryUnlistedItemActions(
         nftId: string,
         creator: string
       ): Chainable<Element>
+
       bsxCollectionActions(
         collectionId: string,
         nftName: string,
         creator: string
       ): Chainable<Element>
+
       rmrkCollectionActions(
         collectionId: string,
         nftName: string,
         creator: string
       ): Chainable<Element>
+
       rmrkGalleryListedItemActions(
         nftId: string,
         creator: string
       ): Chainable<Element>
+
       rmrkGalleryUnlistedItemActions(
         nftId: string,
         creator: string

@@ -1,6 +1,7 @@
 describe('landingRmrk', () => {
   it('loadLanding', () => {
     cy.loginWithKeyring()
+    cy.visit('/rmrk')
   })
   it('checkNavbar', () => {
     cy.rmrkNavbar()
@@ -19,7 +20,6 @@ describe('landingBsx', () => {
 describe('exploreRmrkCollections', () => {
   it('loadExplore', () => {
     cy.visit('/rmrk/explore')
-    cy.wait(3000)
   })
   it('exploreTabs', () => {
     cy.exploreTabs()
@@ -46,9 +46,9 @@ describe('exploreRmrkGallery', () => {
   it('galleryInputFields', () => {
     cy.galleryInputFields(100)
   })
-  // it('gallerySortRmrk', () => {
-  //   cy.rmrkGallerySortBy()
-  // })
+  it('gallerySortRmrk', () => {
+    cy.rmrkGallerySortBy()
+  })
   it('galleryBuyNow', () => {
     cy.galleryBuyNow(100)
   })
@@ -72,7 +72,6 @@ describe('exploreBsxCollections', () => {
 describe('exploreBsxGallery', () => {
   it('loadExplore', () => {
     cy.visit('/bsx/explore')
-    cy.wait(5000)
   })
   it('exploreTabs', () => {
     cy.exploreTabs()
