@@ -50,7 +50,8 @@
 
 <script lang="ts">
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
-import collectionForMint from '@/queries/collectionForMint.graphql'
+import collectionForMint from '@/queries/subsquid/rmrk/collectionForMint.graphql'
+
 import {
   DETAIL_TIMEOUT,
   IPFS_KODADOT_IMAGE_PLACEHOLDER,
@@ -79,6 +80,7 @@ import {
 } from '@kodadot1/minimark'
 import { formatBalance } from '@polkadot/util'
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { unwrapSafe } from '~/utils/uniquery'
 import { basicUpdateFunction } from '../service/NftUtils'
 import { toNFTId } from '../service/scheme'
 import { preheatFileFromIPFS } from '../utils'
@@ -149,7 +151,7 @@ export default class CreateToken extends mixins(
   public async fetchCollections() {
     const collections = await this.$apollo.query({
       query: collectionForMint,
-      client: this.urlPrefix,
+      client: this.client,
       variables: {
         account: this.accountId,
       },
@@ -160,11 +162,12 @@ export default class CreateToken extends mixins(
       data: { collectionEntities },
     } = collections
 
-    this.collections = collectionEntities.nodes
+    this.collections = unwrapSafe(collectionEntities)
       ?.map((ce: any) => ({
         ...ce,
-        alreadyMinted: ce.nfts?.totalCount,
-        totalCount: ce.nfts?.nodes.filter((nft) => !nft.burned)?.length,
+        alreadyMinted: ce.nfts?.length,
+        lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
+        totalCount: ce.nfts?.filter((nft) => !nft.burned).length,
       }))
       .filter(
         (ce: MintedCollection) => (ce.max || Infinity) - ce.alreadyMinted > 0
