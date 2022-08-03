@@ -4,7 +4,7 @@ export type CollectionChartData = {
   date: Date
   value: bigint | number
   average?: bigint | number
-  count?: number
+  count: number
 }
 
 export type MappingFunction<T> = (item: CollectionChartData) => T

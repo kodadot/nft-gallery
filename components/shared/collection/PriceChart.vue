@@ -64,14 +64,14 @@ export default class PriceChart extends mixins(ChainMixin) {
   }
 
   protected priceChart() {
-    if (this.priceData.length) {
+    if (this.priceData[0]?.length || this.priceData[1]?.length) {
       const median = getCollectionMedian(this.priceData[1])
 
       this.labels = this.priceData[1].map(getLabel)
       this.datasets = [
         {
           label: 'Floor Price',
-          data: getCollectionChartData(this.priceData[0]),
+          data: getCollectionChartData(this.priceData[0]) as any,
           borderColor: '#d32e79',
           ...baseLineOptions,
         },
@@ -81,15 +81,19 @@ export default class PriceChart extends mixins(ChainMixin) {
           borderColor: '#00BB7F',
           ...baseLineOptions,
         },
-        {
+      ]
+
+      if (this.priceData[1][0].average) {
+        this.datasets.push({
           label: 'Trailing Average',
           data: getMovingAverage(
             getCollectionChartData(this.priceData[1], mapToAverage)
-          ) as any,
+          ),
           borderColor: 'yellow',
           ...baseLineOptions,
-        },
-      ]
+        })
+      }
+
       this.options = {
         maintainAspectRatio: false,
         plugins: {
@@ -118,6 +122,9 @@ export default class PriceChart extends mixins(ChainMixin) {
               y: { min: 0 },
             },
             pan: {
+              enabled: true,
+            },
+            drag: {
               enabled: true,
             },
             zoom: {

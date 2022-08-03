@@ -1,55 +1,91 @@
 <template>
   <div>
-    <LineChart :datasets="datasets" :labels="labels" :options="options" />
+    <CollectionPriceChart :priceData="priceData" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
+import format from 'date-fns/format'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import formatBalance from '@/utils/formatBalance'
+
+// queries
+import allCollectionSaleEvents from '@/queries/subsquid/bsx/allCollectionSaleEvents.graphql'
+
+// types
+import type { CollectionChartData as ChartData } from '@/utils/chart'
 
 @Component({
   components: {
-    LineChart: () => import('@/components/shared/chart/LineChart.vue'),
+    CollectionPriceChart: () =>
+      import('@/components/shared/collection/PriceChart.vue'),
   },
 })
-export default class ChartContainer extends Vue {
-  protected labels = ['2022']
-  protected datasets = [
-    {
-      label: 'Dataset 1',
-      backgroundColor: 'rgba(255,0,0,0.5)',
-      borderColor: 'red',
-      borderWidth: 1,
-      outlierColor: '#999999',
-      padding: 10,
-      itemRadius: 0,
-      data: [
-        [
-          0.294, 0.294, 0.294, 0.294, 0.294, 0.294, 0.294, 0.441, 0.882, 0.98,
-          1.176, 1.47,
-        ],
-      ],
-    },
-    {
-      label: 'Dataset 2',
-      backgroundColor: 'rgba(0,0,255,0.5)',
-      borderColor: 'blue',
-      borderWidth: 1,
-      outlierColor: '#999999',
-      padding: 10,
-      itemRadius: 0,
-      data: [[0.882, 0.882, 1.029, 1.323, 1.323]],
-    },
-  ]
-  protected options = {
-    responsive: true,
-    legend: {
-      position: 'top',
-    },
-    title: {
-      display: true,
-      text: 'Chart.js Box Plot Chart',
-    },
+export default class ChartContainer extends mixins(PrefixMixin, ChainMixin) {
+  protected priceData: [ChartData[], ChartData[]] = [[], []]
+
+  get id() {
+    return this.$route.params.id
+  }
+
+  protected mounted() {
+    this.fetchEvents()
+  }
+
+  protected queryAllCollectionSaleEvents({ interaction_eq }) {
+    return this.$apollo.query({
+      query: allCollectionSaleEvents,
+      client: this.client,
+      variables: {
+        id: this.id,
+        and: {
+          interaction_eq,
+        },
+      },
+    })
+  }
+
+  protected formatValue(value) {
+    return parseFloat(
+      formatBalance(value, this.decimals, false)
+        .replace(/,/g, '')
+        .replace('.0000', '')
+    )
+  }
+
+  protected async fetchEvents() {
+    console.clear()
+
+    const data = await Promise.all([
+      this.queryAllCollectionSaleEvents({ interaction_eq: 'LIST' }),
+      this.queryAllCollectionSaleEvents({ interaction_eq: 'BUY' }),
+    ])
+
+    for (const [index, element] of data.entries()) {
+      const items = element.data.events
+      const average = {}
+
+      for (const item of items) {
+        const value = this.formatValue(item.meta)
+        const label = format(new Date(item.timestamp), 'dd MMM yy')
+
+        if (!average[label]) {
+          average[label] = {
+            count: 0,
+            value: 0,
+          }
+        }
+        average[label] = {
+          count: average[label].count + 1,
+          value: average[label].value + value / (average[label].count || 1),
+          date: new Date(item.timestamp),
+        }
+      }
+
+      this.priceData[index].push(...(Object.values(average) as ChartData[]))
+    }
   }
 }
 </script>
