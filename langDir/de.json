@@ -33,7 +33,7 @@
   "theatre": "Bühne",
   "view": "Ansehen",
   "price": "Preis",
-  "royalty": "Gewinnanteil",
+  "royalty": "Tantiemen",
   "Instance_tooltip": "Eine Instance ist der Identifikator eines NFTs, wie ein Ticker auf dem Markt. Es ist ein \"kurzer computer-freundlicher name\"",
   "Minting Settings": "Einstellungen fürs Minten",
   "user interface mode": "Benutzeroberflächenmodus",
@@ -67,7 +67,7 @@
       "13": "Ich habe ein NFT gemintet, aber ich sehe es nicht in der Gallerie. Wo ist es?",
       "14": "Gibt es noch andere Wege um an einen kleinen Betrag KSM zu kommen?",
       "15": "Wie kann ich mein NFT verkaufen?",
-      "16": "Einstellungen des Gewinnanteils?",
+      "16": "Einstellungen der Tantiemen?",
       "17": "Warum habt ihr euch entschieden auf Kusama/Polkadot zu bauen und nicht auf Ethereum?",
       "18": "Worin unterscheidet sich Klassisch, Einfach und Permafrost beim erstellen?",
       "19": "Seid ihr finanziert?",
@@ -84,7 +84,7 @@
       "30": "Was ist Kodadot und was ist Kusama?",
       "31": "Was bedeutet NSFW?",
       "32": "Was ist das existential deposit (ED)?",
-      "33": "Was sind Gewinnbeteiligungen bei NFTs?",
+      "33": "Was sind Tantiemen bei NFTs?",
       "34": "Was sind Gebühren und warum muss ich sie bezahlen?",
       "35": "Wie hoch sind die Transfergebühren auf Kusama?",
       "36": "Kann mein NFT doppelt gekauft werden?",
@@ -163,7 +163,7 @@
         "l1": "[Profil](@.common:links.rmrk_profile.href)"
       },
       "16": {
-        "m": "Wir haben lange mit dem @.md:faq.a.16.l1 daran gearbeitet, um Features für Künstler wie Gewinnanteile, Angebote machen und akzeptieren bereitzustellen. Das gibt schon eine Vorschau auf das, was auf MetaPrime.network möglich sein wird sobald das Feature auf Kusama.network verfügbar wird. Die derzeitige Implementierung mit BSX wird gerade in der Beta getestet. Wenn Du das Feature mit uns testen willst, besuch die qa-lobby auf unserem @.md:faq.a.16.l2",
+        "m": "Wir haben lange mit dem @.md:faq.a.16.l1 daran gearbeitet, um Features für Künstler wie Tantiemen, Angebote machen und akzeptieren bereitzustellen. Das gibt schon eine Vorschau auf das, was auf MetaPrime.network möglich sein wird sobald das Feature auf Kusama.network verfügbar wird. Die derzeitige Implementierung mit BSX wird gerade in der Beta getestet. Wenn Du das Feature mit uns testen willst, besuch die qa-lobby auf unserem @.md:faq.a.16.l2",
         "l1": "[Basilisk team](@.common:links.basilisk_website.href)",
         "l2": "[Discord](@.common:links.kodadot_social.discord.href)"
       },
@@ -192,41 +192,41 @@
         "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
       },
       "24": {
-        "m": "Check if you have <b>transferable</b> $KSM on your account, not staked. That's different. You can check it at @.md:faq.a.24.l1 and at balances unfold, where the <b>Transferable</b> amount will be displayed.",
-        "l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
+        "m": "Kontrolliere ob Du frei <b>transferierbare</b> $KSM auf deinem Konto hast, denn das ist etwas anderes als gestaketes. Das kannst Du auf @.md:faq.a.24.l1 kontrollieren, indem Du dein Guthaben aufklappst. Dadurch wird Dir der <b>transferierbare</b> Betrag angezeigt.",
+        "l1": "[Dotapps.io > Accounts](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
       },
       "25": {
-        "m": "You can learn more @.md:faq.a.25.l1",
-        "l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
+        "m": "Hier kannst Du mehr darüber erfahren, @.md:faq.a.25.l1",
+        "l1": "[wie Du deine Identität im Kusama Netzwerk erstellst](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
       },
       "26": {
-        "m": "No, there is no official token launched. Please follow official social media and be aware of scam and phissing attempts from unofficial sources. DYOR."
+        "m": "Nein, es gibt keinen offiziellen Token. Folge unseren offiziellen Social Mediakanälen und nimm dich vor Phishing und Betrügereien in Acht. DYOR."
       },
       "27": {
-        "m": "We are always welcoming contributions from our community. There are numerous @.md:faq.a.27.l1 for all skill levels - some will even be rewarded in $KSM. @.md:faq.a.27.l2",
-        "l1": "[open issues](@.common:links.kodadot_social.open_issues.href)",
-        "l2": "[Make your first contribution!](@.common:links.kodadot_social.contributing_guide.href)"
+        "m": "Wir freuen uns immer über Beiträge aus unserer Community. Es gibt zahlreiche @.md:faq.a.27.l1 für jedes Einstiegslevel - einige werden auch mit $KSM belohnt. @.md:faq.a.27.l2",
+        "l1": "[offene Vorgänge](@.common:links.kodadot_social.open_issues.href)",
+        "l2": "[Mach deinen ersten Beitrag!](@.common:links.kodadot_social.contributing_guide.href)"
       },
       "28": {
-        "m": "No, this possibility is not here at this moment. If you would like to propose a change, feel free to create an @.md:faq.a.28.l1 on our GitHub.",
-        "l1": "[issue](@.common:links.kodadot_social.open_issues.href)"
+        "m": "Nein, diese Möglichkeit ist zur Zeit nicht gegeben. Wenn Du die Sache vorantreiben willst, eröffne gerne einen @.md:faq.a.28.l1 auf unserem GitHub.",
+        "l1": "[Vorgang](@.common:links.kodadot_social.open_issues.href)"
       },
       "29": {
-        "m": "You can access latest KodaDot presskit @.md:faq.a.29.l1",
-        "l1": "[here.](@.common:links.kodadot_social.presskit.href)"
+        "m": "Die aktuelle KodaDot Pressemappe findest Du @.md:faq.a.29.l1",
+        "l1": "[hier.](@.common:links.kodadot_social.presskit.href)"
       },
       "30": {
-        "m": "Kodadot is an NFT Platform that is community-driven, running on a low carbon footprint blockchain. Kusama is a pre-production environment for the Polkadot network. $KSM is the coin used for interacting the Kusama network. Since it's a sandbox for early projects which like to move fast and break things on the Polkadot ecosystem, expect Chaos."
+        "m": "KodaDot ist eine NFT Platform die von der Community betrieben wird und auf einer Blockchain mit niderigem ökologischen Fussabdruck läuft. Kusama ist eine Vorproduktionsumgebung im Polkadotnetzwerk. $KSM ist der Coin der genutzt wird um mit dem Kusamanetzwerk zu interagieren. Da es sich um eine Testumgebung  für Projekte in den Anfängen ist, die es ihnen ermöglicht im Polkadot Ökosystem schnell zu bauen und zu zerstören, kannst Du mit Chaos rechnen."
       },
       "31": {
-        "m": "All minted files will observe the Code of Conduct and all NSFW (Not Safe For Work) files should be classified NSFW when minting."
+        "m": "Alle geminteten Dateien müssen sich an dem Verhaltenskodex orientieren und jeglicher NSFW-Inhalt (Not Safe For Work) soll beim minten als NSFW gekennzeichnet werden."
       },
       "32": {
-        "m": "On the Polkadot network, an address is only active when it holds a minimum amount, currently set at 1 DOT (and 0.0000333333 KSM on the Kusama network). This minimum amount is called the Existential Deposit (ED). @.md:faq.a.32.l1",
-        "l1": "[Read more in our docs.](@.common:links.kusama_network.docs.existential_deposit.href)"
+        "m": "Im Polkadotnetzwerk, wird eine Adresse nur aktiv gehalten wenn sie über einen Mindestbetrag verfügt, momentan liegt dieser bei 1 DOT (und 0.0000333333 KSM im Kusamanetzwerk). Dieser Mindestbetrag wird Existential Deposit (ED) genannt. @.md:faq.a.32.l1",
+        "l1": "[Lies mehr darüber in unserer Dokumentation.](@.common:links.kusama_network.docs.existential_deposit.href)"
       },
       "33": {
-        "m": "Royalties, or royalty payments, are financial payments that are made from one party to another for the ongoing use of their assets. The term is most commonly associated with the music industry, where musicians allow their records to be played on the radio, streamed online, or sampled by other musicians in exchange for a (royalty) fee. However, it isn't just musicians that are owed royalties when their work is used. Songwriters, composers, publishers, novelists, producers, and just about anybody involved in a creative process has the potential to claim royalties.<br/><br/>NFT royalties give artists a percentage of the sale price each time their artwork is resold. No matter how many secondary sales occur, the royalties will always be paid back to the original creator, and the best part is that the whole process is automated."
+        "m": "Tantiemen, oder Lizenzgebühren, sind Zahlungen zwischen einer Partei zur Anderen für die fortlaufende Nutzung einer Sache. Diese Negrifflichkeit verbindet man üblicherweise mit der Musikindustrie, bei der Musiker die Erlaubnis erteilen ihre Stücke im Radio, Onlinestreaming, oder Auszüge von anderen Musikern im Austausch für eine (Tantieme) Gebühr zu nutzen. Allerdings erhalten auch andere Künstler Tantiemen, wenn ihre Arbeit verwendet wird. Liedtexter, Komponisten, Verleger, Schriftsteller, Produzenten, und jede/r Involvierte in einem kreativen Schaffensprozess hat ein Anrecht auf Tantiemen.<br/><br/>NFT Tantiemen geben dem Künstler jedes Mal einen Anteil wenn sein Werk weiterverkauft wird. Unabhängig von der Anzahl der Wiederverkäufe, wird diese Gebühr immer an den ursprünglichen Künstler entrichtet. Und das Beste daran: all das passiert vollstöndig automatisiert."
       },
       "34": {
         "m": "Transaction fees prevent individual users from consuming too many resources. Polkadot uses a weight-based fee model as opposed to a gas-metering model. As such, fees are charged prior to transaction execution; once the fee is paid, nodes will execute the transaction."
