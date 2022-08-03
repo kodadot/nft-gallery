@@ -8,10 +8,12 @@ Cypress.on('uncaught:exception', (err) => {
   consola.error(err)
   return false
 })
+
 Cypress.Commands.add('loginWithKeyring', () => {
   cy.visit('/')
   cy.visit('/e2e-login')
 })
+
 Cypress.Commands.add('exploreTabs', () => {
   cy.get('[data-cy="tabs"]')
     .should('be.visible')
@@ -20,6 +22,7 @@ Cypress.Commands.add('exploreTabs', () => {
       cy.contains('Gallery').should('be.visible')
     })
 })
+
 Cypress.Commands.add('rmrkGallerySortBy', () => {
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
@@ -37,7 +40,7 @@ Cypress.Commands.add('rmrkGallerySortBy', () => {
     '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > [data-cy="Price: Low to High"]'
   ).click()
 })
-// done
+
 Cypress.Commands.add('bsxGallerySortBy', () => {
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
@@ -54,13 +57,13 @@ Cypress.Commands.add('bsxGallerySortBy', () => {
     '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > [data-cy="Price: Low to High"]'
   ).click()
 })
-// done
+
 Cypress.Commands.add('collectionsSortBy', () => {
   cy.get('[data-cy="collection-sort-by"]').should('be.visible')
   cy.get('[data-cy="collection-sort-by"]').select('Old first')
   cy.get('[data-cy="collection-sort-by"]').select('New first')
 })
-// done
+
 Cypress.Commands.add('rmrkNavbar', () => {
   cy.get('[data-cy="create-dropdown"]').click()
   cy.get('[data-cy="classic"]')
@@ -91,7 +94,7 @@ Cypress.Commands.add('rmrkNavbar', () => {
   cy.get('[data-cy="profileDropdown"]').should('be.visible')
   cy.get('[data-cy="profileDropdown"]').click()
 })
-// done
+
 Cypress.Commands.add('bsxNavbar', () => {
   //create
   cy.get('[data-cy="create-dropdown"]').click()
@@ -108,9 +111,11 @@ Cypress.Commands.add('bsxNavbar', () => {
   cy.get('[data-cy="localChanger"]').should('be.visible')
   cy.get('[data-cy="localChanger"]').click()
 })
+
 Cypress.Commands.add('expandGallerySearch', () => {
   cy.get('[data-cy="expand-search"]').click()
 })
+
 Cypress.Commands.add('collectionsBuyNow', () => {
   cy.get('[data-cy="buy-now"]').within(() => {
     cy.get('[type="checkbox"]').check({ force: true })
@@ -126,6 +131,7 @@ Cypress.Commands.add('collectionsBuyNow', () => {
       })
   })
 })
+
 Cypress.Commands.add('galleryBuyNow', (amount) => {
   cy.toggleBuyNowGallery()
   cy.get('[data-cy="0"]')
@@ -136,15 +142,18 @@ Cypress.Commands.add('galleryBuyNow', (amount) => {
       }
     })
 })
+
 Cypress.Commands.add('galleryInputFields', (amount) => {
   cy.get('[data-cy="input-min"]').type(String(amount))
   cy.get('[data-cy="apply"]').click()
 })
+
 Cypress.Commands.add('toggleBuyNowGallery', () => {
   cy.get('[data-cy="buy-now"]').within(() => {
     return cy.get('[type="checkbox"]').check({ force: true, timeout: 5000 })
   })
 })
+
 Cypress.Commands.add('bsxGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/bsx/gallery/${nftId}`)
   cy.get('[data-cy="money"]').should('contain', 'BSX')
@@ -159,10 +168,12 @@ Cypress.Commands.add('bsxGalleryListedItemActions', (nftId, creator) => {
   cy.get('[data-label="From"]').should('contain', `${creator}`)
   cy.get('[data-label="Amount"]').should('contain', '-')
 })
+
 Cypress.Commands.add('bsxGalleryUnlistedItemActions', (nftId) => {
   cy.visit(`/bsx/gallery/${nftId}`)
   cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
 })
+
 Cypress.Commands.add(
   'bsxCollectionActions',
   (collectionId, nftName, creator) => {
@@ -174,6 +185,7 @@ Cypress.Commands.add(
     cy.get('[data-cy="donation-button"]').should('be.visible')
   }
 )
+
 Cypress.Commands.add(
   'rmrkCollectionActions',
   (collectionId, nftName, creator) => {
@@ -185,6 +197,7 @@ Cypress.Commands.add(
     cy.get('[data-cy="donation-button"]').should('be.visible')
   }
 )
+
 Cypress.Commands.add('rmrkGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/rmrk/gallery/${nftId}`)
   cy.get('[data-cy="money"]').should('contain', 'KSM')
@@ -196,6 +209,7 @@ Cypress.Commands.add('rmrkGalleryListedItemActions', (nftId, creator) => {
   cy.get('[data-label="From"]').should('contain', `${creator}`)
   cy.get('[data-label="Amount"]').should('contain', '-')
 })
+
 Cypress.Commands.add('rmrkGalleryUnlistedItemActions', (nftId) => {
   cy.visit(`/rmrk/gallery/${nftId}`)
   cy.get('[data-cy="money"]').should('not.exist')

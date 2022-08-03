@@ -24,7 +24,6 @@ describe('exploreRmrkCollections', () => {
   it('exploreTabs', () => {
     cy.exploreTabs()
   })
-  // check collection sort
   it('collectionsSort', () => {
     cy.collectionsSortBy()
   })
