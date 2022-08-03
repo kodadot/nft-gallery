@@ -83,7 +83,7 @@ export default class PriceChart extends mixins(ChainMixin) {
         },
       ]
 
-      if (this.priceData[1][0].average) {
+      if (this.priceData[1][0]?.average) {
         this.datasets.push({
           label: 'Trailing Average',
           data: getMovingAverage(
@@ -124,10 +124,11 @@ export default class PriceChart extends mixins(ChainMixin) {
             pan: {
               enabled: true,
             },
-            drag: {
-              enabled: true,
-            },
             zoom: {
+              drag: {
+                enabled: true,
+                backgroundColor: '',
+              },
               wheel: {
                 enabled: true,
               },
