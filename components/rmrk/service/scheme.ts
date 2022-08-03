@@ -150,7 +150,7 @@ export interface NFT {
   name: string
   instance: string
   transferable: number
-  collection: string
+  collection: EntityWithId
   collectionId?: string
   sn: string
   _id: string
@@ -163,6 +163,10 @@ export interface NFT {
   emoteCount?: number
   emotes?: Emote[]
   royalty?: number
+}
+
+export type EntityWithId = {
+  id: string
 }
 
 export interface Interaction {
