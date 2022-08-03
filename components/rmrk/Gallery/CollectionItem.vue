@@ -101,8 +101,9 @@
           @infinite="reachBottomHandler"></InfiniteLoading>
         <ScrollTopButton />
       </b-tab-item>
-      <b-tab-item label="Chart" value="chart">
-        <CollectionPriceChart :priceData="priceData" />
+      <b-tab-item label="Chart" value="chart" v-if="hasChartData">
+        <BsxChart v-if="isBsx" />
+        <CollectionPriceChart v-else :priceData="priceData" />
       </b-tab-item>
       <b-tab-item label="History" value="history">
         <History
@@ -180,7 +181,7 @@ const components = {
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   CollectionPriceChart: () =>
-    import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
+    import('@/components/shared/collection/PriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
@@ -193,6 +194,7 @@ const components = {
   DestroyCollection: () =>
     import('@/components/bsx/specific/DestroyCollection.vue'),
   CollectionOffers: () => import('@/components/bsx/Offer/CollectionOffers.vue'),
+  BsxChart: () => import('@/components/bsx/Collection/ChartContainer.vue'),
 }
 @Component<CollectionItem>({
   components,
