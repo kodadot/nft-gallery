@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+/* eslint-disable @typescript-eslint/no-namespace */
 import consola from 'consola'
 
 export {}
