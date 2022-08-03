@@ -5,7 +5,8 @@
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { Chart, TimeScale } from 'chart.js'
+import Chart from 'chart.js/auto'
+import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import annotationPlugin from 'chartjs-plugin-annotation'
 
@@ -13,7 +14,6 @@ import annotationPlugin from 'chartjs-plugin-annotation'
 import ChartMixin from './chartMixin'
 
 // register chart plugins
-Chart.register(TimeScale)
 Chart.register(zoomPlugin)
 Chart.register(annotationPlugin)
 
