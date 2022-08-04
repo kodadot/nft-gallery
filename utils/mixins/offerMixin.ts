@@ -5,7 +5,7 @@ import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import { notificationTypes, showNotification } from '~/utils/notification'
 import { onApiConnect } from '@kodadot1/sub-api'
-import { formatSecondsToDuration } from '~/utils/format/time'
+import { formatSecondsToDuration, endDate } from '~/utils/format/time'
 import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 import { Offer } from '~/components/bsx/Offer/types'
 import { AllOfferStatusType } from '~/utils/offerStatus'
@@ -43,7 +43,7 @@ export default class OfferMixin extends mixins(
   }
 
   public displayOffers(offers: Offer[]) {
-    let filterOffers
+    let filterOffers: Offer[]
     if (this.selectedStatus === AllOfferStatusType.ALL) {
       filterOffers = offers.concat()
     } else {
@@ -59,6 +59,11 @@ export default class OfferMixin extends mixins(
     }))
   }
 
+  private calcSecondsToBlock(block: number): number {
+    const secondsForEachBlock = 12
+    return secondsForEachBlock * (block - this.currentBlock)
+  }
+
   public calcExpirationTime(expirationBlock: number): string {
     if (this.currentBlock === 0) {
       return 'computing'
@@ -66,10 +71,15 @@ export default class OfferMixin extends mixins(
     if (this.currentBlock > expirationBlock) {
       return 'expired'
     }
-    const secondsForEachBlock = 12
-    const diffSeconds =
-      secondsForEachBlock * (expirationBlock - this.currentBlock)
-    return formatSecondsToDuration(diffSeconds)
+    return formatSecondsToDuration(this.calcSecondsToBlock(expirationBlock))
+  }
+
+  public calcExpirationDate(expirationBlock: number): string {
+    return endDate(this.calcSecondsToBlock(expirationBlock))
+  }
+
+  public isExpired(expirationBlock): boolean {
+    return this.currentBlock >= expirationBlock
   }
 
   protected async submit(

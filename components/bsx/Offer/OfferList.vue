@@ -63,9 +63,12 @@ export default class OfferList extends mixins(
     this.$apollo.addSmartQuery<OfferResponse>('offers', {
       client: this.urlPrefix,
       query: offerListByNftId,
-      variables: { id: createTokenId(this.collectionId, this.nftId) },
-      manual: true,
+      variables: () => ({
+        id: createTokenId(this.collectionId, this.nftId),
+        account: this.currentOwnerId,
+      }),
       result: ({ data }) => this.setResponse(data),
+      manual: true,
       pollInterval: 15000,
     })
   }
@@ -76,15 +79,20 @@ export default class OfferList extends mixins(
     this.total = response.stats.total
   }
 
-  protected async fetchOffers() {
+  protected fetchOffers() {
     try {
-      const { data } = await this.$apollo.query<OfferResponse>({
+      this.$apollo.addSmartQuery<OfferResponse>('offersManualFetch', {
         client: this.urlPrefix,
         query: offerListByNftId,
-        variables: { id: createTokenId(this.collectionId, this.nftId) },
+        variables: () => ({
+          id: createTokenId(this.collectionId, this.nftId),
+          account: this.currentOwnerId,
+        }),
+        manual: true,
+        result: ({ data }) => {
+          this.setResponse(data)
+        },
       })
-
-      this.setResponse(data)
     } catch (e) {
       this.$consola.error(e)
     }
