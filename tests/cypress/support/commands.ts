@@ -96,7 +96,6 @@ Cypress.Commands.add('rmrkNavbar', () => {
 })
 
 Cypress.Commands.add('bsxNavbar', () => {
-  //create
   cy.get('[data-cy="create-dropdown"]').click()
   cy.get('[data-cy="classic"]')
     .should('have.attr', 'href')
@@ -218,58 +217,128 @@ Cypress.Commands.add('rmrkGalleryUnlistedItemActions', (nftId) => {
 declare global {
   namespace Cypress {
     interface Chainable {
+      /**
+       * @desc visits /e2e-login and gets logged in with newly generated random wallet (empty)
+       */
       loginWithKeyring(): Chainable<Element>
 
+      /**
+       * @desc checks tab in /explore section, checks whether the tab section contains two visible tabs
+       */
       exploreTabs(): Chainable<Element>
 
+      /**
+       * @desc clicks on sort button in gallery (rmrk), checks whether all of the sort options are visible, finally selects Low to High price options
+       */
       rmrkGallerySortBy(): Chainable<Element>
 
+      /**
+       * @desc clicks on sort button in gallery (bsx), checks whether all of the sort options are visible, finally selects Low to High price options
+       */
       bsxGallerySortBy(): Chainable<Element>
 
+      /**
+       * @desc check whether collection sorting is visible, then selects both of the options one by one
+       */
       collectionsSortBy(): Chainable<Element>
 
+      /**
+       * @desc checks whether the elements of RMRK navbar are visible, goes through some options and clicks them
+       */
       rmrkNavbar(): Chainable<Element>
 
+      /**
+       * @desc checks whether the elements of BSX navbar are visible, goes through some options and clicks them
+       */
       bsxNavbar(): Chainable<Element>
 
+      /**
+       * @desc click on expand gallery search
+       */
       expandGallerySearch(): Chainable<Element>
 
-      expandCollectionSearch(): Chainable<Element>
-
+      /**
+       * @desc makes sure Buy Now toggle is on, checks the first item fetched, makes sure the price of it is more than 0
+       */
       collectionsBuyNow(): Chainable<Element>
 
+      /**
+       * @desc tests buy now in gallery by checking the price of the first item
+       * @param amount - what kind of amount are you testing for (set for in tests)
+       *
+       */
       galleryBuyNow(amount: number): Chainable<Element>
 
+      /**
+       * @desc enters the amount to the input field "Min" and hits "Apply"
+       * @param amount selected to be but into input field
+       */
       galleryInputFields(amount: number): Chainable<Element>
 
+      /**
+       * @desc makes sure that 'Buy Now' toggle in gallery is off
+       */
       toggleBuyNowGallery(): Chainable<Element>
 
+      /**
+       * @desc checks all of the actions available when interacted with listed item on BSX
+       * @param nftId - ID of nft being tested (if this test fails, check whether this ID is correct)
+       * @param creator - creator of nft
+       */
       bsxGalleryListedItemActions(
         nftId: string,
         creator: string
       ): Chainable<Element>
 
+      /**
+       * @desc checks all of the actions available when interacted with unlisted item on BSX
+       * @param nftId - ID of nft being tested (if this test fails, check whether this ID is correct)
+       * @param creator - creator of nft
+       */
       bsxGalleryUnlistedItemActions(
         nftId: string,
         creator: string
       ): Chainable<Element>
 
+      /**
+       * @desc checks all of the actions available when interacted with collection on BSX
+       * @param collectionId
+       * @param nftName
+       * @param creator
+       */
       bsxCollectionActions(
         collectionId: string,
         nftName: string,
         creator: string
       ): Chainable<Element>
 
+      /**
+       * @desc checks all of the actions available when interacted with collection on RMRK
+       * @param collectionId
+       * @param nftName
+       * @param creator
+       */
       rmrkCollectionActions(
         collectionId: string,
         nftName: string,
         creator: string
       ): Chainable<Element>
 
+      /**
+       * @desc checks all of the actions available when interacted with listed item on RMRK
+       * @param nftId
+       * @param creator
+       */
       rmrkGalleryListedItemActions(
         nftId: string,
         creator: string
       ): Chainable<Element>
+
+      /**
+       * @desc checks all of the actions available when interacted with unlisted item on RMRK
+       * @param nftId
+       * @param creator
+       */
 
       rmrkGalleryUnlistedItemActions(
         nftId: string,
