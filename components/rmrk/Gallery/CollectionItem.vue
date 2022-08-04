@@ -67,11 +67,7 @@
           v-bind.sync="searchQuery"
           :showOwnerSwitch="!!accountId"
           :disableToggle="!totalListed"
-          :sortOption="
-            urlPrefix === 'rmrk'
-              ? collectionProfileSortOption
-              : squidCollectionProfileSortOption
-          ">
+          :sortOption="squidCollectionProfileSortOption">
           <Layout class="mr-5" />
           <b-field>
             <Pagination
@@ -233,19 +229,6 @@ export default class CollectionItem extends mixins(
   private openHolder = true
   private nfts: NFT[] = []
 
-  // replacee with constant
-  protected collectionProfileSortOption: string[] = [
-    'EMOTES_COUNT_DESC',
-    'BLOCK_NUMBER_DESC',
-    'BLOCK_NUMBER_ASC',
-    'UPDATED_AT_DESC',
-    'UPDATED_AT_ASC',
-    'PRICE_DESC',
-    'PRICE_ASC',
-    'SN_ASC',
-  ]
-
-  // move to constant
   protected squidCollectionProfileSortOption: string[] = [
     'blockNumber_DESC',
     'blockNumber_ASC',
@@ -320,33 +303,15 @@ export default class CollectionItem extends mixins(
     const params: any[] = []
 
     if (this.searchQuery.search) {
-      if (this.urlPrefix === 'rmrk') {
-        params.push({
-          name: { likeInsensitive: this.searchQuery.search },
-        })
-      } else {
-        params.push({ name_containsInsensitive: this.searchQuery.search })
-      }
+      params.push({ name_containsInsensitive: this.searchQuery.search })
     }
 
     if (this.searchQuery.listed || checkForEmpty) {
-      if (this.urlPrefix === 'rmrk') {
-        params.push({
-          price: { greaterThan: '0' },
-        })
-      } else {
-        params.push({ price_gt: '0' })
-      }
+      params.push({ price_gt: '0' })
     }
 
     if (this.searchQuery.owned && this.accountId) {
-      if (this.urlPrefix === 'rmrk') {
-        params.push({
-          currentOwner: { equalTo: this.accountId },
-        })
-      } else {
-        params.push({ currentOwner_eq: this.accountId })
-      }
+      params.push({ currentOwner_eq: this.accountId })
     }
 
     return params
@@ -362,8 +327,7 @@ export default class CollectionItem extends mixins(
 
   private checkSortBy() {
     const currentSortBy = this.searchQuery.sortBy
-    const newSortBy =
-      this.urlPrefix === 'rmrk' ? 'BLOCK_NUMBER_DESC' : 'blockNumber_DESC'
+    const newSortBy = 'blockNumber_DESC'
 
     if (!currentSortBy && newSortBy !== currentSortBy) {
       this.searchQuery.sortBy = newSortBy
@@ -375,10 +339,10 @@ export default class CollectionItem extends mixins(
       return false
     }
     this.isFetchingData = true
-    const query = await resolveQueryPath(this.urlPrefix, 'collectionById')
+    const query = await resolveQueryPath(this.client, 'collectionById')
     const result = await this.$apollo.query({
       query: query.default,
-      client: this.urlPrefix,
+      client: this.client,
       variables: {
         id: this.id,
         orderBy: this.searchQuery.sortBy,
