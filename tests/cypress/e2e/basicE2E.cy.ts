@@ -95,9 +95,6 @@ describe('exploreBsxGallery', () => {
 })
 
 describe('bsxCollectionItem', () => {
-  it('loginWithKeyring', () => {
-    cy.loginWithKeyring()
-  })
   it('collectionActions', () => {
     cy.bsxCollectionActions(
       '2600576003',

@@ -190,7 +190,7 @@ Cypress.Commands.add(
   (collectionId, nftName, creator) => {
     cy.visit(`/rmrk/collection/${collectionId}`)
     cy.get('[data-cy="0"]').should('be.visible')
-    cy.get('[data-cy="collection-sort-by"]').select('Oldest')
+    cy.get('[data-cy="collection-sort-by"]').select('Old first')
     cy.get('[data-cy="identity"]').should('contain', creator)
     cy.get('[data-cy="share-button"]').should('be.visible')
     cy.get('[data-cy="donation-button"]').should('be.visible')
@@ -228,12 +228,12 @@ declare global {
       exploreTabs(): Chainable<Element>
 
       /**
-       * @desc clicks on sort button in gallery (rmrk), checks whether all of the sort options are visible, finally selects Low to High price options
+       * @desc clicks on sort button in gallery (rmrk), checks whether all the sort options are visible, finally selects Low to High price options
        */
       rmrkGallerySortBy(): Chainable<Element>
 
       /**
-       * @desc clicks on sort button in gallery (bsx), checks whether all of the sort options are visible, finally selects Low to High price options
+       * @desc clicks on sort button in gallery (bsx), checks whether all the sort options are visible, finally selects Low to High price options
        */
       bsxGallerySortBy(): Chainable<Element>
 
