@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-select v-model="selectedStatus">
+    <b-select v-model="selectedStatus" v-if="!offersListed">
       <option
         v-for="option in getUniqType(offers)"
         :value="option.type"
@@ -8,6 +8,13 @@
         {{ option.value }}
       </option>
     </b-select>
+    <BasicSwitch
+      class="mt-4"
+      v-model="offersListed"
+      @input="updateList"
+      :label="$t('offer.burnedToggle')"
+      size="is-medium"
+      labelColor="is-success" />
     <b-table :data="displayOffers(offers)">
       <b-table-column
         cell-class="is-vcentered is-narrow"
@@ -77,7 +84,7 @@
 
 <script lang="ts">
 import { Attribute, emptyArray } from '@kodadot1/minimark'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Emit, mixins, Prop } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 import { Offer } from './types'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
@@ -91,6 +98,7 @@ import { tokenIdToRoute } from '~/components/unique/utils'
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
+  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
 }
 
 @Component({ components, filters: { formatDistanceToNow } })
@@ -103,7 +111,14 @@ export default class OffersUserTable extends mixins(
 ) {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public offers!: Offer[]
+  protected offersListed = false
+
   @Prop({ type: String, default: '' }) public ownerId!: string
+
+  @Emit('offersListUpdate')
+  public updateList(data) {
+    return data
+  }
 
   public timestampOffer(date) {
     return formatDistanceToNow(new Date(date), { addSuffix: true })
