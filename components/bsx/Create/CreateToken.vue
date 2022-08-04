@@ -2,7 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
-      :showExplainerTest="showExplainerTest"
+      :showExplainerText="showExplainerText"
       v-bind.sync="base"
       :collections="collections"
       :hasEdition="false">
@@ -129,7 +129,7 @@ export default class CreateToken extends mixins(
   AuthMixin,
   ApiUrlMixin
 ) {
-  @Prop({ type: Boolean, default: true }) showExplainerTest!: boolean
+  @Prop({ type: Boolean, default: true }) showExplainerText!: boolean
 
   protected base: BaseTokenType<MintedCollection> = {
     name: '',
