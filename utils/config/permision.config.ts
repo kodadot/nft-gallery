@@ -1,7 +1,5 @@
 import { Prefix, Config } from './types'
 
-type Config<T = boolean> = Record<Prefix, T>
-
 const hasCreate: Config<boolean> = {
   rmrk: true,
   bsx: true,
