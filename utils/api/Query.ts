@@ -6,6 +6,7 @@ export type ChainProperties = {
   ss58Format: number
   tokenDecimals: number
   tokenSymbol: string
+  blockExplorer?: string
 }
 
 class Query {
