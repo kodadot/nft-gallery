@@ -25,7 +25,7 @@
 import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
 import {
   getActionButtonColor,
-  getActionButtonLabel,
+  getActionButtonLabelKey,
   ShoppingActions,
   ShoppingActionToolTips,
 } from '~/utils/shoppingActions'
@@ -35,6 +35,7 @@ import { TranslateResult } from 'vue-i18n/types'
 export default class ActionList extends Vue {
   @Prop({ type: Array, required: false }) public actions!: ShoppingActions[]
   @Prop(Boolean) public isMakeOffersAllowed!: boolean
+  @Prop(String) public price!: string
 
   // keys in `disabledToolTips` are disabled actions. values are their tooltips.
   @Prop({ type: Object, required: true })
@@ -53,8 +54,8 @@ export default class ActionList extends Vue {
     return getActionButtonColor(value)
   }
 
-  protected actionLabel(value: ShoppingActions): TranslateResult {
-    return getActionButtonLabel(value, this)
+  protected actionLabel(action: ShoppingActions): TranslateResult {
+    return this.$t(getActionButtonLabelKey(action, this.price))
   }
 }
 </script>

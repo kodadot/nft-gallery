@@ -73,6 +73,7 @@
                       <b-button
                         v-if="nft.currentOwner === accountId"
                         type="is-warning"
+                        class="only-border-top"
                         outlined
                         @click="handleUnlist">
                         {{ $t('Unlist') }}
@@ -462,3 +463,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   }
 }
 </script>
+<style scoped lang="scss">
+@import '@/styles/border';
+</style>
