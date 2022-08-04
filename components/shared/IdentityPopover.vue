@@ -159,15 +159,12 @@ export default class IdentityPopover extends mixins(
         // if cache exist and within 12h
         await this.handleResult({ data, type: 'cache' })
       } else {
-        const query = await resolveQueryPath(
-          this.urlPrefix,
-          'userStatsByAccount'
-        )
+        const query = await resolveQueryPath(this.client, 'userStatsByAccount')
 
         this.$apollo.addSmartQuery('collections', {
           query: query.default,
           manual: true,
-          client: this.urlPrefix,
+          client: this.client,
           loadingKey: 'isLoading',
           result: this.handleResult,
           variables: {
@@ -201,9 +198,8 @@ export default class IdentityPopover extends mixins(
 
       if (data?.firstMint?.length > 0) {
         this.firstMintDate = data.firstMint[0].createdAt
-      } else if (data?.firstMint?.nodes?.length > 0) {
-        this.firstMintDate = data.firstMint.nodes[0].createdAt
       }
+
       const cacheData = {
         totalCreated: this.totalCreated,
         totalCollected: this.totalCollected,
