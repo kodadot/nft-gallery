@@ -4,6 +4,7 @@
     <ActionList
       v-if="accountId"
       :actions="actions"
+      :price="price"
       :disabledToolTips="toolTips"
       @click="handleAction" />
     <component
@@ -183,6 +184,12 @@ export default class AvailableActions extends mixins(
 
   get isConsume() {
     return this.selectedAction === ShoppingActions.CONSUME
+  }
+
+  unlistNft() {
+    this.selectedAction = ShoppingActions.LIST
+    this.meta = 0
+    this.submit()
   }
 
   protected updateMeta(value: string | number) {
