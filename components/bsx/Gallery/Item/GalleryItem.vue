@@ -72,6 +72,14 @@
                         <div class="price-block__original">
                           <Money :value="nft.price" inline data-cy="money" />
                         </div>
+                        <b-button
+                          v-if="nft.currentOwner === accountId"
+                          class="ml-2 only-border-top"
+                          type="is-warning"
+                          outlined
+                          @click="handleUnlist">
+                          {{ $t('Unlist') }}
+                        </b-button>
                       </div>
                       <div v-if="nftRoyalties">
                         ⊆ {{ $t('royalty') }}
@@ -164,6 +172,7 @@ import { InstanceDetails } from '@polkadot/types/interfaces'
 import { get, set } from 'idb-keyval'
 import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
+import AvailableActions from './AvailableActions.vue'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -286,6 +295,11 @@ export default class GalleryItem extends mixins(
     if (result.data && result.data.events) {
       this.events = [...result.data.events]
     }
+  }
+
+  protected handleUnlist() {
+    const availableActions = this.$refs.actions as AvailableActions
+    availableActions.unlistNft()
   }
 
   private async fetchNftData() {
@@ -448,3 +462,6 @@ export default class GalleryItem extends mixins(
   }
 }
 </script>
+<style scoped lang="scss">
+@import '@/styles/border';
+</style>

@@ -76,7 +76,7 @@ import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
 import {
-  getActionButtonLabel,
+  getActionButtonLabelKey,
   getActions,
   KeyboardValueToActionMap,
   ShoppingActions,
@@ -393,8 +393,8 @@ export default class AvailableActions extends mixins(
     this.submit()
   }
 
-  protected actionLabel(value: ShoppingActions): TranslateResult {
-    return getActionButtonLabel(value, this)
+  protected actionLabel(action: ShoppingActions): TranslateResult {
+    return this.$t(getActionButtonLabelKey(action, this.price))
   }
 }
 </script>
