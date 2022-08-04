@@ -1,5 +1,8 @@
 lockfileVersion: 5.4
 
+overrides:
+  '@substrate/smoldot-light': ^0.6.27
+
 specifiers:
   '@babel/core': ^7.18.9
   '@babel/helper-define-map': ^7.18.6
@@ -45,6 +48,7 @@ specifiers:
   chartjs-plugin-annotation: ^1.4.0
   chartjs-plugin-zoom: ^1.2.1
   consola: ^2.15.3
+  cross-env: ^7.0.3
   css-loader: 5.2.7
   date-fns: ^2.29.1
   emoji-unicode: ^2.0.1
@@ -164,6 +168,7 @@ devDependencies:
   all-contributors-cli: 6.20.0
   c8: 7.12.0
   consola: 2.15.3
+  cross-env: 7.0.3
   eslint: 8.20.0
   eslint-plugin-prettier: 4.2.1_vvfpqh5kol6rhqy7beehv5uezq
   eslint-plugin-unicorn: 42.0.0_eslint@8.20.0
@@ -4365,15 +4370,16 @@ packages:
     resolution: {integrity: sha512-E6bdBhzsfHNAKlmQSvbTW1jyb0WcIvgbrEBfJ4B6FZ3t1wpGjldL6GrYtegVtKr9/ySQ/pFNn0uVbugukpMDjQ==}
     dependencies:
       '@substrate/connect-extension-protocol': 1.0.1
-      '@substrate/smoldot-light': 0.6.25
+      '@substrate/smoldot-light': 0.6.27
       eventemitter3: 4.0.7
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@substrate/smoldot-light/0.6.25:
-    resolution: {integrity: sha512-OQ9/bnJJy90xSRg5Vp9MIvrgbrVt/r/FwXYSmyLeBBNbJt6o1gSeshVo8icD+2VWwd/TJ2oHl5CVQWe89MyByA==}
+  /@substrate/smoldot-light/0.6.27:
+    resolution: {integrity: sha512-Wy3fbyfZqR3HLynuxeBkUunZsrbqpsmFN+D0/8cVIHZbO7WDwJsmCUc32yO5r+v6s/T97L7FOJHEyMWmRfnKAQ==}
     dependencies:
+      pako: 2.0.4
       websocket: 1.0.34
     transitivePeerDependencies:
       - supports-color
@@ -8201,6 +8207,14 @@ packages:
 
   /create-require/1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
+
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+    dev: true
 
   /cross-fetch/3.0.6:
     resolution: {integrity: sha512-KBPUbqgFjzWlVcURG+Svp9TlhA5uliYtiNx/0r8nv0pdypeQCRJ9IaSIc3q/x3q8t3F75cHuwxVql1HFGHCNJQ==}
@@ -13602,6 +13616,10 @@ packages:
 
   /pako/1.0.11:
     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
+
+  /pako/2.0.4:
+    resolution: {integrity: sha512-v8tweI900AUkZN6heMU/4Uy4cXRc2AYNRggVmTR+dEncawDJgCdLMximOVA2p4qO57WMynangsfGRb5WD6L1Bg==}
+    dev: false
 
   /parallel-transform/1.2.0:
     resolution: {integrity: sha512-P2vSmIu38uIlvdcU7fDkyrxj33gTUy/ABO5ZUbGowxNCopBq/OoD42bP4UmMrJoPyk4Uqf0mu3mtWBhHCZD8yg==}
