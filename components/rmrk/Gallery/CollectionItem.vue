@@ -40,9 +40,10 @@
           v-if="sharingVisible"
           class="mb-2"
           :label="name"
-          :iframe="iframeSettings">
+          :iframe="iframeSettings"
+          data-cy="share-button">
           <DestroyCollection v-if="isOwner && urlPrefix === 'bsx'" :id="id" />
-          <DonationButton :address="issuer" />
+          <DonationButton :address="issuer" data-cy="donation-button" />
         </Sharing>
       </div>
     </div>

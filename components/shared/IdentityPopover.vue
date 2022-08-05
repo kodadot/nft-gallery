@@ -4,7 +4,8 @@
     interactive
     :animate-fill="false"
     placement="bottom"
-    :delay="[100, 800]">
+    :delay="[100, 800]"
+    data-cy="identity">
     <template v-slot:trigger>
       <slot name="trigger" />
     </template>
