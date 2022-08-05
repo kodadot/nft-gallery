@@ -9,13 +9,9 @@
             rounded
             customClass="collection__image" />
         </div>
-        <CollectionItemPopup :identity="collectionIdentity">
-          <template #trigger>
-            <h1 class="title is-2">
-              {{ name }}
-            </h1>
-          </template>
-        </CollectionItemPopup>
+        <h1 class="title is-2">
+          {{ name }}
+        </h1>
       </div>
     </div>
 
@@ -169,7 +165,6 @@ import {
 } from '../utils'
 import { SearchQuery } from './Search/types'
 import { isSameAccount } from '~/utils/account'
-import { parseAmount } from '@/utils/historyEvent'
 
 const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
 
@@ -187,8 +182,6 @@ const components = {
   CollectionPriceChart: () =>
     import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  CollectionItemPopup: () =>
-    import('@/components/shared/gallery/CollectionItemPopup.vue'),
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
@@ -318,31 +311,6 @@ export default class CollectionItem extends mixins(
       this.accountId &&
       isSameAccount(this.collection.issuer, this.accountId)
     )
-  }
-
-  private parsePrice(amount): string {
-    return parseAmount(amount, this.decimals, this.unit)
-  }
-
-  get collectionIdentity() {
-    const volume = this.nfts.reduce(
-      (sum, nft) => (sum += parseInt(nft.price || '0')),
-      0
-    )
-    const floor = Math.min(
-      ...this.nfts.map((nft) => parseInt(nft.price || '0'))
-    )
-    const collectionId = this.collection.id
-    const owned = this.nfts.filter(
-      (nft) => nft.currentOwner !== collectionId
-    ).length
-    const items = this.nfts.length
-    return {
-      volume: this.parsePrice(volume),
-      floor: this.parsePrice(floor),
-      owned,
-      items,
-    }
   }
 
   private buildSearchParam(checkForEmpty?): Record<string, unknown>[] {
