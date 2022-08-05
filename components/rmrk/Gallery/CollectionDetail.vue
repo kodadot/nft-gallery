@@ -37,7 +37,11 @@
       <div class="level-item column is-6 has-text-centered">
         <div>
           <p class="heading--inline heading">
-            {{ $t('Floor') }} : <Money :value="collectionFloorPrice" inline />
+            {{ $t('Floor') }} :
+            <Money
+              :value="collectionFloorPrice"
+              inline
+              data-cy="collection-floor-price" />
           </p>
         </div>
       </div>

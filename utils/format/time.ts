@@ -1,3 +1,4 @@
+import { parseDate } from '../datetime'
 import { intervalToDuration, formatDuration, addSeconds } from 'date-fns'
 
 export const formatSecondsToDuration = (seconds: number) => {
@@ -23,4 +24,8 @@ export const formatSecondsToDuration = (seconds: number) => {
   return formatDuration(duration, {
     format,
   })
+}
+
+export const endDate = (seconds: number): string => {
+  return parseDate(addSeconds(new Date(), seconds))
 }
