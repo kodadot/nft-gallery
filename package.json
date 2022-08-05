@@ -30,6 +30,7 @@
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:fix": "eslint --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "test": "vitest run --reporter verbose --allowOnly",
+    "test:e2e": "cypress run --project tests",
     "test:watch": "vitest --reporter verbose --allowOnly",
     "prepare": "husky install"
   },
@@ -79,6 +80,7 @@
     "chartjs-plugin-annotation": "^1.4.0",
     "chartjs-plugin-zoom": "^1.2.1",
     "css-loader": "5.2.7",
+    "cypress": "^10.3.0",
     "date-fns": "^2.29.1",
     "emoji-unicode": "^2.0.1",
     "graphql": "^16.5.0",
@@ -125,6 +127,7 @@
     "@typescript-eslint/parser": "^5.31.0",
     "all-contributors-cli": "^6.20.0",
     "consola": "^2.15.3",
+    "cypress": "^10.3.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.20.0",
     "eslint-plugin-prettier": "^4.2.1",
