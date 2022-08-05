@@ -49,6 +49,9 @@
         <b-field key="balance">
           <AccountBalance />
         </b-field>
+        <b-field key="token">
+          <MultiPaymentFeeButton :accountId="accountId" :prefix="urlPrefix" />
+        </b-field>
         <SubmitButton
           key="submit"
           label="mint.submit"
@@ -119,6 +122,8 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
+  MultiPaymentFeeButton: () =>
+    import('@/components/bsx/specific/MultiPaymentFeeButton.vue'),
 }
 
 @Component({ components })
