@@ -6,6 +6,7 @@ const hasCreate: Config<boolean> = {
   statemine: true,
   westmint: true,
   moonsama: false,
+  snek: true,
 }
 
 export const createVisible = (prefix: Prefix | string): boolean => {

@@ -23,6 +23,7 @@ export function getSupportedClient(prefix: string): 'subquery' | 'subsquid' {
     case 'rmrk':
       return 'subquery'
     case 'bsx':
+    case 'snek':
       return 'subsquid'
     default:
       return 'subsquid'
@@ -32,6 +33,7 @@ export function getSupportedClient(prefix: string): 'subquery' | 'subsquid' {
 export function prefixBuildOnText(prefix: string): string {
   switch (prefix) {
     case 'bsx':
+    case 'snek':
       return 'Basilisk NFT Pallet'
     case 'statemine':
     case 'westmint':
