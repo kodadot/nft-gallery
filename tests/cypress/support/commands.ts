@@ -55,7 +55,7 @@ Cypress.Commands.add('bsxGallerySortBy', () => {
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
     '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > [data-cy="Price: Low to High"]'
-  ).click()
+  ).click({ force: true })
 })
 
 Cypress.Commands.add('collectionsSortBy', () => {
@@ -112,7 +112,7 @@ Cypress.Commands.add('bsxNavbar', () => {
 })
 
 Cypress.Commands.add('expandGallerySearch', () => {
-  cy.get('[data-cy="expand-search"]').click()
+  cy.get('[data-cy="expand-search"]').click({ force: true })
 })
 
 Cypress.Commands.add('collectionsBuyNow', () => {
@@ -143,8 +143,8 @@ Cypress.Commands.add('galleryBuyNow', (amount) => {
 })
 
 Cypress.Commands.add('galleryInputFields', (amount) => {
-  cy.get('[data-cy="input-min"]').type(String(amount))
-  cy.get('[data-cy="apply"]').click()
+  cy.get('[data-cy="input-min"]').type(String(amount), { force: true })
+  cy.get('[data-cy="apply"]').click({ force: true })
 })
 
 Cypress.Commands.add('toggleBuyNowGallery', () => {
