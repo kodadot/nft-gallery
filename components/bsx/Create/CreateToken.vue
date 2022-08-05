@@ -129,7 +129,7 @@ export default class CreateToken extends mixins(
   AuthMixin,
   ApiUrlMixin
 ) {
-  @Prop({ type: Boolean, default: true }) showExplainerText!: boolean
+  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
 
   protected base: BaseTokenType<MintedCollection> = {
     name: '',

@@ -29,6 +29,6 @@ import { BaseMintedCollection as MintedCollection } from './types'
 export default class CollectionSelect extends Vue {
   @VModel({ default: null }) selectedCollection!: MintedCollection
   @Prop({ type: Array, default: () => [] }) collections!: MintedCollection[]
-  @Prop({ type: Boolean, default: true }) showExplainerText!: boolean
+  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
 }
 </script>
