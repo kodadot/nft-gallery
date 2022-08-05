@@ -6,7 +6,9 @@
     :mimeType="mimeType"
     :description="meta.description"
     :imageVisible="imageVisible"
-    :isLoading="isLoading">
+    :isLoading="isLoading"
+    @mouseEntered="showNavigation = true"
+    @mouseLeft="showNavigation = false">
     <template v-slot:top v-if="message">
       <b-message class="message-box" type="is-primary">
         <div class="columns">
@@ -21,6 +23,13 @@
           </div>
         </div>
       </b-message>
+    </template>
+    <template v-slot:image>
+      <Navigation
+        v-if="nftsFromSameCollection.length > 1"
+        :showNavigation="showNavigation"
+        :items="nftsFromSameCollection"
+        :currentId="nft.id" />
     </template>
     <template v-slot:main>
       <div class="columns">
@@ -72,6 +81,14 @@
                         <div class="price-block__original">
                           <Money :value="nft.price" inline />
                         </div>
+                        <b-button
+                          v-if="nft.currentOwner === accountId"
+                          class="ml-2 only-border-top"
+                          type="is-warning"
+                          outlined
+                          @click="handleUnlist">
+                          {{ $t('Unlist') }}
+                        </b-button>
                       </div>
                       <div v-if="nftRoyalties">
                         ⊆ {{ $t('royalty') }}
@@ -163,6 +180,10 @@ import { InstanceDetails } from '@polkadot/types/interfaces'
 import { get, set } from 'idb-keyval'
 import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
+import AvailableActions from './AvailableActions.vue'
+import nftListIdsByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
+import { unwrapSafe } from '@/utils/uniquery'
+import { mapToId } from '@/utils/mappers'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -197,6 +218,7 @@ import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
     AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
     History: () => import('@/components/rmrk/Gallery/History.vue'),
+    Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
   },
   directives: {
     orientation: Orientation,
@@ -219,11 +241,14 @@ export default class GalleryItem extends mixins(
   public events: Interaction[] = []
   public message = ''
   public isMakeOffersAllowed = true
+  public showNavigation = false
+  private nftsFromSameCollection: string[] = []
 
   public async created() {
     this.checkId()
     await this.fetchNftData()
     await this.fetchEvents()
+    this.fetchCollectionItems()
     onApiConnect(this.apiUrl, (api) => {
       if (hasAllPallets(api)) {
         this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
@@ -274,6 +299,40 @@ export default class GalleryItem extends mixins(
     this.$set(this.nft, 'price', unwrapOrDefault(data).toString())
   }
 
+  public async fetchCollectionItems() {
+    const collectionId = this.nft?.collection.id
+    if (collectionId) {
+      // cancel request and get ids from store in case we already fetched collection data before
+      if (this.$store.state.history?.currentCollection?.id === collectionId) {
+        this.nftsFromSameCollection =
+          this.$store.state.history.currentCollection?.nftIds || []
+        return
+      }
+      try {
+        const nfts = await this.$apollo.query({
+          query: nftListIdsByCollection,
+          client: this.client,
+          variables: {
+            id: collectionId,
+          },
+        })
+
+        const {
+          data: { nftEntities },
+        } = nfts
+
+        this.nftsFromSameCollection = unwrapSafe(nftEntities).map(mapToId) || []
+        this.$store.dispatch('history/setCurrentCollection', {
+          id: collectionId,
+          nftIds: this.nftsFromSameCollection,
+          prefix: this.urlPrefix,
+        })
+      } catch (e) {
+        showNotification(`${e}`, notificationTypes.warn)
+      }
+    }
+  }
+
   private async fetchEvents() {
     const result = await this.$apollo.query({
       query: itemEvents,
@@ -285,6 +344,11 @@ export default class GalleryItem extends mixins(
     if (result.data && result.data.events) {
       this.events = [...result.data.events]
     }
+  }
+
+  protected handleUnlist() {
+    const availableActions = this.$refs.actions as AvailableActions
+    availableActions.unlistNft()
   }
 
   private async fetchNftData() {
@@ -447,3 +511,6 @@ export default class GalleryItem extends mixins(
   }
 }
 </script>
+<style scoped lang="scss">
+@import '@/styles/border';
+</style>
