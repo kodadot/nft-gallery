@@ -226,34 +226,34 @@
         "l1": "[Lies mehr darüber in unserer Dokumentation.](@.common:links.kusama_network.docs.existential_deposit.href)"
       },
       "33": {
-        "m": "Tantiemen, oder Lizenzgebühren, sind Zahlungen zwischen einer Partei zur Anderen für die fortlaufende Nutzung einer Sache. Diese Negrifflichkeit verbindet man üblicherweise mit der Musikindustrie, bei der Musiker die Erlaubnis erteilen ihre Stücke im Radio, Onlinestreaming, oder Auszüge von anderen Musikern im Austausch für eine (Tantieme) Gebühr zu nutzen. Allerdings erhalten auch andere Künstler Tantiemen, wenn ihre Arbeit verwendet wird. Liedtexter, Komponisten, Verleger, Schriftsteller, Produzenten, und jede/r Involvierte in einem kreativen Schaffensprozess hat ein Anrecht auf Tantiemen.<br/><br/>NFT Tantiemen geben dem Künstler jedes Mal einen Anteil wenn sein Werk weiterverkauft wird. Unabhängig von der Anzahl der Wiederverkäufe, wird diese Gebühr immer an den ursprünglichen Künstler entrichtet. Und das Beste daran: all das passiert vollstöndig automatisiert."
+        "m": "Tantiemen oder Lizenzgebühren, sind Zahlungen zwischen einer Partei zur Anderen für die fortlaufende Nutzung einer Sache. Diese Negrifflichkeit verbindet man üblicherweise mit der Musikindustrie, bei der Musiker die Erlaubnis erteilen ihre Stücke im Radio, Onlinestreaming, oder Auszüge von anderen Musikern im Austausch für eine (Tantieme) Gebühr zu nutzen. Allerdings erhalten auch andere Künstler Tantiemen, wenn ihre Arbeit verwendet wird. Liedtexter, Komponisten, Verleger, Schriftsteller, Produzenten, und jede/r Involvierte in einem kreativen Schaffensprozess hat ein Anrecht auf Tantiemen.<br/><br/>NFT Tantiemen geben dem Künstler jedes Mal einen Anteil wenn sein Werk weiterverkauft wird. Unabhängig von der Anzahl der Wiederverkäufe, wird diese Gebühr immer an den ursprünglichen Künstler entrichtet. Und das Beste daran: all das passiert vollstöndig automatisiert."
       },
       "34": {
-        "m": "Transaction fees prevent individual users from consuming too many resources. Polkadot uses a weight-based fee model as opposed to a gas-metering model. As such, fees are charged prior to transaction execution; once the fee is paid, nodes will execute the transaction."
+        "m": "Transaktionsgebühren verhindern das übermäßige verwenden von Ressourcen durch Individuen. Polkadot wendet ein Gebührenmodel an, bei dem die Gebühren je nach Auslastung vor der Ausführung der Transaktion erhoben werden. Sobald die Gebühr gezahlt ist, wird die Transaktion von einer Node ausgeführt."
       },
       "35": {
-        "m": "Currently, the minimum cost of transferring KSM is 0.01 KSM (the base fee), although this can be changed via governance."
+        "m": "Zur Zeit beträgt die Mindestgebühr um KSM zu transferieren 0.01 KSM (die Grundgebühr), diese kann allerdings durch Governance verändert werden."
       },
       "36": {
-        "m": "RMRK is currently just an NFT baked into the blockchain and we don't have any chain logic. From the lesson of randomness, we know that there is the possibility that two or more people can make buy transactions in the same block and can lose money. Then it's just about the honesty of the artist to return the money or mint the same NFT as the token of appreciation."
+        "m": "RMRK ist momentan ein NFT eingebettet in die Blockchain und es existiert keine Logik der Kette. Nach dem Zufallsprinzip, wissen wir das zwei oder mehr Menschen eine Kauftransaktion im selben Block auslösen und auf diesem Wege Geld verlieren. Dann obliegt es der Ehrlichkeit des Künstlers, das Geld zu erstatten oder das selbe NFT als Zeichen der Annerkennung mintet."
       },
       "37": {
-        "m": "Yes, currently the KodaDot integration in Nova wallet is working fine. We've made @.md:faq.a.37.l1 on how to do this.",
-        "l1": "[video and written tutorial](@.common:links.kusama_network.docs.minting_tutorial.href)"
+        "m": "Ja, die Integration in die Novawallet läuft sehr gut. Wir haben ein @.md:faq.a.37.l1 um zu zeigen wie es geht.",
+        "l1": "[Video und Tutorial geschrieben](@.common:links.kusama_network.docs.minting_tutorial.href)"
       }
     }
   },
   "funfacts": {
     "1": {
-      "heading": "Did you know...",
-      "question": "that back in 2015 there was the first official NFT called Etheria on Ethereum?"
+      "heading": "Wusstest Du...",
+      "question": "das damals in 2015, das erste offizielle NFT Etheria auf Ethereum entstand?"
     },
     "2": {
-      "heading": "Did you know...",
-      "question": "that the first 'NFT-like' standard on Kusama is literally just byte strings?"
+      "heading": "Wusstest Du...",
+      "question": "das der erste 'NFT-artige' Standard auf Kusama nichts weiter als eine Byte-Zeichenfolge war?"
     },
     "3": {
-      "heading": "Did you know...",
+      "heading": "Wusstest Du...",
       "question": "that KodaDot has started as a rewrite of React-based DotApps dashboard into Vuejs?"
     },
     "4": {
