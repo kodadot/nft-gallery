@@ -837,7 +837,8 @@
     "from": "from",
     "to": "to",
     "tx": {
-      "cancelled": "Transaction was cancelled"
+      "cancelled": "Transaction was cancelled",
+      "feesPaidIn": "You are paying fees in {0}"
     }
   },
   "helper": {
