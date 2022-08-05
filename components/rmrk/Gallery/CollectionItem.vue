@@ -31,9 +31,9 @@
         </div>
       </div>
 
-      <!-- <div v-if="id" class="column is-6-tablet is-7-desktop is-8-widescreen">
+      <div v-if="id" class="column is-6-tablet is-7-desktop is-8-widescreen">
         <CollectionActivity :id="id" />
-      </div> -->
+      </div>
 
       <div class="column has-text-right">
         <Sharing
