@@ -66,8 +66,10 @@ export default class PriceChart extends mixins(ChainMixin) {
   protected priceChart() {
     if (this.priceData[0]?.length || this.priceData[1]?.length) {
       const median = getCollectionMedian(this.priceData[1])
+      const labelsListing = this.priceData[0].map(getLabel)
+      const labelsBuy = this.priceData[1].map(getLabel)
 
-      this.labels = this.priceData[1].map(getLabel)
+      this.labels = [...new Set([...labelsListing, ...labelsBuy])]
       this.datasets = [
         {
           label: 'Floor Price',
@@ -100,7 +102,7 @@ export default class PriceChart extends mixins(ChainMixin) {
           tooltip: {
             callbacks: {
               afterLabel: ({ dataIndex, dataset }) => {
-                return `Count: ${dataset.data[dataIndex].count || 0}`
+                return `Count: ${dataset.data[dataIndex]?.count || 0}`
               },
             },
           },
@@ -117,20 +119,13 @@ export default class PriceChart extends mixins(ChainMixin) {
             },
           },
           zoom: {
-            limits: {
-              x: { min: 0 },
-              y: { min: 0 },
-            },
             pan: {
-              enabled: true,
+              enabled: false,
             },
             zoom: {
               drag: {
                 enabled: true,
                 backgroundColor: '',
-              },
-              wheel: {
-                enabled: true,
               },
               pinch: {
                 enabled: true,
@@ -147,20 +142,8 @@ export default class PriceChart extends mixins(ChainMixin) {
             type: 'time',
             time: {
               unit: 'day',
-              stepSize: 7,
-            },
-            grid: {
-              drawOnChartArea: false,
-              drawTicks: false,
-              drawBorder: false,
             },
             ticks: {
-              callback: (value) => {
-                return value
-              },
-              major: {
-                enabled: true,
-              },
               maxRotation: 0,
               minRotation: 0,
               color: '#fff',
@@ -172,7 +155,6 @@ export default class PriceChart extends mixins(ChainMixin) {
                 return `${Number(value).toFixed(2)} ${this.unit}`
               },
               maxTicksLimit: 7,
-
               color: '#fff',
             },
             grid: {
