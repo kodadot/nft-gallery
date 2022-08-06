@@ -21,10 +21,7 @@
       </div>
     </div>
 
-    <CarouselCardList
-      :nfts="nfts"
-      :page="currentValue"
-      :url="`${urlPrefix}/collection`" />
+    <CarouselCardList :nfts="nfts" :page="currentValue" :url="`collection`" />
   </div>
 </template>
 

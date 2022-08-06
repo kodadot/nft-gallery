@@ -22,7 +22,10 @@
       </template>
       <div class="box">
         <div class="is-flex is-justify-content-space-between box-container">
-          <b-select placeholder="Select an event" v-model="selectedEvent">
+          <b-select
+            placeholder="Select an event"
+            v-model="selectedEvent"
+            data-cy="select-event">
             <option
               v-for="option in uniqType"
               :value="option.type"
