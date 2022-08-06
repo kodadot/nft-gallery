@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { mount, createLocalVue } from '@vue/test-utils'
 import Buefy from 'buefy'
 import { vi, expect, it } from 'vitest'
@@ -41,17 +40,17 @@ describe('BalanceInput.vue', async () => {
   })
 
   it('should focus on input element', async () => {
-    await (wrapper.vm as any).focusInput()
+    await wrapper.vm.focusInput()
     expect(input.element).toBe(document.activeElement)
   })
 
   it('should check input with html5validity', async () => {
     await input.setValue('0')
-    expect(await (wrapper.vm as any).checkValidity()).toBe(false)
+    expect(await wrapper.vm.checkValidity()).toBe(false)
     await input.setValue('50')
-    expect(await (wrapper.vm as any).checkValidity()).toBe(true)
+    expect(await wrapper.vm.checkValidity()).toBe(true)
     await input.setValue('900')
-    expect(await (wrapper.vm as any).checkValidity()).toBe(false)
+    expect(await wrapper.vm.checkValidity()).toBe(false)
   })
 
   it('should set proper value from props', async () => {
