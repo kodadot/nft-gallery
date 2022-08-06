@@ -52,7 +52,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
-import { getVolume, pairListBuyEvent } from '@/utils/math'
+import { getVolume } from '@/utils/math'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
@@ -64,10 +64,7 @@ export default class CollectionDetail extends Vue {
   @Prop() public name!: string
 
   get saleEvents(): Interaction[] {
-    return this.nfts
-      .map((nft) => nft.events)
-      .map(pairListBuyEvent)
-      .flat()
+    return this.nfts.map((nft) => nft.events).flat()
   }
 
   get collectionLength(): number {
