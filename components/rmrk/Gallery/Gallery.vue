@@ -47,7 +47,10 @@
                 <span
                   v-if="nft.price > 0 && showPriceValue"
                   class="card-image__price">
-                  <Money :value="nft.price" inline />
+                  <Money
+                    :value="nft.price"
+                    inline
+                    :data-cy="results.indexOf(nft)" />
                 </span>
               </div>
 

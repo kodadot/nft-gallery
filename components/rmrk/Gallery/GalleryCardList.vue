@@ -17,7 +17,8 @@
           :price="nft.price"
           :emoteCount="nft.emoteCount"
           :currentOwner="nft.currentOwner"
-          :listed="listed" />
+          :listed="listed"
+          :data-cy="items.indexOf(nft)" />
       </div>
     </div>
   </div>

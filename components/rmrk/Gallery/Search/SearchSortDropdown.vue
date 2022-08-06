@@ -6,9 +6,18 @@
       v-model="selectedAction"
       class="select-dropdown">
       <template #trigger>
-        <b-button type="is-primary" icon-right="caret-down"> Sort by </b-button>
+        <b-button
+          type="is-primary"
+          icon-right="caret-down"
+          data-cy="gallery-sort-by">
+          Sort by
+        </b-button>
       </template>
-      <b-dropdown-item v-for="action in actions" :key="action" :value="action">
+      <b-dropdown-item
+        v-for="action in actions"
+        :key="action"
+        :value="action"
+        :data-cy="$t('sort.' + action)">
         {{ $t('sort.' + action) }}
       </b-dropdown-item>
     </b-dropdown>
@@ -16,7 +25,8 @@
       v-else
       v-model="selectedAction"
       placeholder="Sort by"
-      class="select-dropdown">
+      class="select-dropdown"
+      data-cy="collection-sort-by">
       <option v-for="action in actions" :key="action" :value="action">
         {{
           isCollection ? $t('sort.collection.' + action) : $t('sort.' + action)
