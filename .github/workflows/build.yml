@@ -76,15 +76,15 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v4
+        with:
+          project: ./tests
+          build: pnpm generate
+          start: pnpm start
+          wait-on: 'http://localhost:9090'
+          # wait for 2 minutes for the server to respond
+          wait-on-timeout: 150
+          command: pnpm test:e2e
 
-      - name: Run Build
-        run: pnpm generate
-
-      - name: Run
-        run: pnpm start
-
-      - name: Cypress test
-        run: pnpm test:e2e
 
       - name: Upload Screenshots
         uses: actions/upload-artifact@v2
