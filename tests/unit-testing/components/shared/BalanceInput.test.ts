@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { mount, createLocalVue } from '@vue/test-utils'
 import Buefy from 'buefy'
-import { vi } from 'vitest'
+import { vi, expect, it } from 'vitest'
 
+import { units } from '@/params/constants'
 import BalanceInput from '@/components/shared/BalanceInput.vue'
 
 const localVue = createLocalVue()
@@ -104,4 +105,15 @@ describe('BalanceInput.vue', async () => {
     expect(wrapper.emitted().input).toBeTruthy()
     expect(wrapper.emitted().input?.at(-1)).toStrictEqual(['0', '0'])
   })
+
+  it.each(units)(
+    'unit "$name" should exists in select options',
+    async ({ name }) => {
+      const index = units.findIndex((unit) => unit.name === name)
+      const unitName = name === '-' ? 'KSM' : name
+
+      expect(options.length).toBe(14)
+      expect(options.at(index).element.textContent).toBe(` ${unitName} `)
+    }
+  )
 })

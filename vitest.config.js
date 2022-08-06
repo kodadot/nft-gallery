@@ -5,7 +5,7 @@ import { createVuePlugin } from 'vite-plugin-vue2'
 export default defineConfig({
   plugins: [createVuePlugin(/* options */)],
   test: {
-    include: ['(tests|components)/**/?(*.)+(spec|test).+(ts|tsx|js)'],
+    include: ['tests/**/?(*.)+(spec|test).+(ts|tsx|js)'],
     exclude: [
       '**/node_modules/**',
       '**/dist/**',
