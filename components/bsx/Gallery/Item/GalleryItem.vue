@@ -360,6 +360,7 @@ export default class GalleryItem extends mixins(
       variables: {
         id: createTokenId(this.collectionId, this.id),
       },
+      fetchPolicy: 'no-cache',
     })
     const {
       data: { nftEntity },
@@ -370,6 +371,7 @@ export default class GalleryItem extends mixins(
       this.fetchRPCMetadata()
 
       if (retryCount < 3) {
+        this.$consola.log(`Retrying fetching NFT data ${retryCount}`)
         this.fetchNftData(retryCount + 1)
       }
 
