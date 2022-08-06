@@ -1,10 +1,18 @@
 <template>
   <div>
-    <div class="column is-8 is-offset-2">
+    <div class="column is-8 is-offset-2" v-if="!hideHeading">
       <h1 class="title is-2 has-text-centered">
         {{ $t('myOffer.bsxTitle') }}
       </h1>
     </div>
+    <b-select v-model="selectedStatus">
+      <option
+        v-for="option in getUniqType(offers)"
+        :value="option.type"
+        :key="option.type">
+        {{ option.value }}
+      </option>
+    </b-select>
     <Loader v-model="isLoading" :status="status" />
     <b-table :data="displayOffers(offers)">
       <b-table-column
@@ -88,7 +96,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Emit, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { Offer, OfferResponse } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import acceptableOfferByCurrentOwner from '@/queries/subsquid/bsx/acceptableOfferByCurrentOwner.graphql'
@@ -107,13 +115,16 @@ const components = {
 })
 export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
   protected offers: Offer[] = []
+  public destinationAddress = ''
+  @Prop({ type: String, default: '' }) public address!: string
+  @Prop({ type: Boolean, default: false }) public hideHeading!: boolean
 
   mounted() {
     if (this.accountId) {
       this.$apollo.addSmartQuery<OfferResponse>('offers', {
         client: this.urlPrefix,
         query: acceptableOfferByCurrentOwner,
-        variables: { id: this.accountId },
+        variables: { id: this.destinationAddress || this.accountId },
         manual: true,
         result: ({ data }) => this.setResponse(data),
         pollInterval: 10000,
@@ -128,6 +139,7 @@ export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
     await this.submit(caller, item, collectionId, this.fetchMyOffers)
   }
 
+  @Emit('offersIncoming')
   protected setResponse(response: OfferResponse) {
     this.offers = response.offers
   }
@@ -138,7 +150,7 @@ export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
         client: this.urlPrefix,
         query: acceptableOfferByCurrentOwner,
         variables: {
-          id: this.accountId,
+          id: this.destinationAddress || this.accountId,
         },
       })
       this.setResponse(data)
@@ -149,6 +161,12 @@ export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
 
   @Watch('accountId', { immediate: true })
   onAccountChange() {
+    this.fetchMyOffers()
+  }
+
+  @Watch('address', { immediate: true })
+  onAddressChange(value) {
+    this.destinationAddress = value
     this.fetchMyOffers()
   }
 }

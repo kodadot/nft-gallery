@@ -9,6 +9,7 @@
       </option>
     </b-select>
     <BasicSwitch
+      v-if="!hideToggle"
       class="mt-4"
       v-model="offersListed"
       @input="updateList"
@@ -114,6 +115,7 @@ export default class OffersUserTable extends mixins(
   protected offersListed = false
 
   @Prop({ type: String, default: '' }) public ownerId!: string
+  @Prop({ type: Boolean, default: false }) public hideToggle!: boolean
 
   @Emit('offersListUpdate')
   public updateList(data) {
