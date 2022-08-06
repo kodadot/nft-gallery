@@ -1,6 +1,9 @@
 name: Lint, Build & Test workflow
 
 on:
+  workflow_dispatch:
+    push:
+      branches: [main]
   pull_request:
     branches: [main]
 
@@ -68,5 +71,21 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+
       - name: Run Build
         run: pnpm generate
+
+      - name: Run
+        run: pnpm start
+
+      - name: Cypress test
+        run: pnpm test:e2e
+
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-website-screenshots
+          path: /tests/cypress/screenshots/
