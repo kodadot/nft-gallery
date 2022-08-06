@@ -10,7 +10,7 @@ localVue.use(Buefy)
 
 let wrapper, input, options
 
-describe('BalanceInput.vue', async () => {
+describe('BalanceInput.vue', () => {
   vi.useFakeTimers()
 
   beforeAll(() => {
@@ -105,14 +105,11 @@ describe('BalanceInput.vue', async () => {
     expect(wrapper.emitted().input?.at(-1)).toStrictEqual(['0', '0'])
   })
 
-  it.each(units)(
-    'unit "$name" should exists in select options',
-    async ({ name }) => {
-      const index = units.findIndex((unit) => unit.name === name)
-      const unitName = name === '-' ? 'KSM' : name
+  it.each(units)('unit "$name" should exists in select options', ({ name }) => {
+    const index = units.findIndex((unit) => unit.name === name)
+    const unitName = name === '-' ? 'KSM' : name
 
-      expect(options.length).toBe(14)
-      expect(options.at(index).element.textContent).toBe(` ${unitName} `)
-    }
-  )
+    expect(options.length).toBe(14)
+    expect(options.at(index).element.textContent).toBe(` ${unitName} `)
+  })
 })
