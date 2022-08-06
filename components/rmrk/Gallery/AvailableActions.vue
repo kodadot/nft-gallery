@@ -34,7 +34,8 @@
             style="border-width: 2px"
             outlined
             @click="handleAction(ShoppingActions.BUY)"
-            expanded>
+            expanded
+            data-cy="BUY">
             {{ replaceBuyNowWithYolo ? 'YOLO' : actionLabel('BUY') }}
           </b-button>
         </b-tooltip>
@@ -63,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import nftById from '@/queries/nftById.graphql'
+import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import { emptyObject } from '@/utils/empty'
 import { identityStore } from '@/utils/idbStore'
 import AuthMixin from '@/utils/mixins/authMixin'
@@ -75,7 +76,7 @@ import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
 import {
-  getActionButtonLabel,
+  getActionButtonLabelKey,
   getActions,
   KeyboardValueToActionMap,
   ShoppingActions,
@@ -295,7 +296,7 @@ export default class AvailableActions extends mixins(
 
   protected async checkBuyBeforeSubmit() {
     const nft = await this.$apollo.query({
-      query: nftById,
+      query: nftByIdMinimal,
       client: this.urlPrefix,
       variables: {
         id: this.nftId,
@@ -303,7 +304,7 @@ export default class AvailableActions extends mixins(
     })
 
     const {
-      data: { nFTEntity },
+      data: { nft: nFTEntity },
     } = nft
 
     if (
@@ -392,8 +393,8 @@ export default class AvailableActions extends mixins(
     this.submit()
   }
 
-  protected actionLabel(value: ShoppingActions): TranslateResult {
-    return getActionButtonLabel(value, this)
+  protected actionLabel(action: ShoppingActions): TranslateResult {
+    return this.$t(getActionButtonLabelKey(action, this.price))
   }
 }
 </script>

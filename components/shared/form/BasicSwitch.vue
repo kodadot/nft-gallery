@@ -5,7 +5,8 @@
       :rounded="false"
       :size="size"
       :disabled="disabled"
-      :class="labelColor">
+      :class="labelColor"
+      data-cy="buy-now">
       <component :is="componentName" :label="message">
         {{ properLabel }}
       </component>

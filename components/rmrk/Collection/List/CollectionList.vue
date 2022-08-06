@@ -35,7 +35,8 @@
           <nuxt-link
             :to="`/${urlPrefix}/collection/${collection.id}`"
             tag="div"
-            class="card collection-card">
+            class="card collection-card"
+            :data-cy="results.indexOf(collection)">
             <div class="card-image">
               <BasicImage
                 :src="collection.image"
@@ -184,7 +185,7 @@ export default class CollectionList extends mixins(
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: collectionListWithSearch,
-      client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+      client: this.client,
       variables: {
         orderBy: this.searchQuery.sortBy,
         search: this.buildSearchParam(),

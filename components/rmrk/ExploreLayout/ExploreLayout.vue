@@ -4,7 +4,7 @@
       {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
-    <b-tabs v-model="selectedTab">
+    <b-tabs v-model="selectedTab" data-cy="tabs">
       <b-tab-item label="Collections" value="COLLECTION">
         <template v-if="selectedTab === 'COLLECTION'">
           <CollectionList />
@@ -32,10 +32,6 @@ const components = {
 export default class ExploreLayout extends mixins(PrefixMixin) {
   get tabOrder(): string {
     return this.$store.state.preferences.exploreTabOrder
-  }
-
-  get type() {
-    return this.urlPrefix
   }
 
   get selectedTab(): string {
