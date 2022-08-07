@@ -30,7 +30,6 @@ import {
   getProperImageLink,
 } from '~/utils/cachingStrategy'
 import { formatDistanceToNow } from 'date-fns'
-import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
@@ -67,11 +66,15 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
       // if (this.isLogIn && this.passionList.length > 9) {
       //   queryVariables.passionAccount = this.accountId
       // }
+      const query =
+        this.client === 'bsx'
+          ? await import('@/queries/subsquid/bsx/lastNftListByEvent.graphql')
+          : await import('@/queries/rmrk/subsquid/lastNftListByEvent.graphql')
       const result = await this.$apollo
         .query<{
           events: { meta; nft: { meta: { id; image } } }
         }>({
-          query: lastNftListByEvent,
+          query: query.default,
           client: this.client,
           variables: queryVariables,
         })

@@ -25,7 +25,6 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
 import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'
 import { LastEvent } from '~/utils/types/types'
@@ -74,11 +73,15 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
     // if (this.isLogIn) {
     //   queryVars.passionAccount = this.accountId
     // }
+    const query =
+      this.client === 'bsx'
+        ? await import('@/queries/subsquid/bsx/lastNftListByEvent.graphql')
+        : await import('@/queries/rmrk/subsquid/lastNftListByEvent.graphql')
     const result = await this.$apollo
       .query<{
         events: LastEvent[]
       }>({
-        query: lastNftListByEvent,
+        query: query.default,
         client: this.client,
         variables: queryVars,
       })
