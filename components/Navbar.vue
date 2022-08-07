@@ -117,7 +117,7 @@
         </template>
         <template>
           <b-navbar-item
-            v-if="isLoggedIn"
+            v-if="isLogIn"
             tag="nuxt-link"
             :to="`/${urlPrefix}/offers`"
             data-cy="global-offers">
@@ -193,6 +193,7 @@ import { createVisible } from '@/utils/config/permision.config'
 
 import { identityStore } from '@/utils/idbStore'
 import { get } from 'idb-keyval'
+import AuthMixin from '~/utils/mixins/authMixin'
 
 @Component({
   components: {
@@ -202,7 +203,7 @@ import { get } from 'idb-keyval'
     BasicImage,
   },
 })
-export default class NavbarMenu extends mixins(PrefixMixin) {
+export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
   private mobileGallery = false
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
   private showTopNavbar = true
