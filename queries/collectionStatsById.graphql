@@ -2,22 +2,22 @@ query collectionStatsById($id: String!) {
   stats: collectionEntity(id: $id) {
     id
     base: nfts {
-      count: totalCount
+      count: totalCount # collectionLength
       nfts: nodes {
         currentOwner
-        events
+        events #sales event where interaction == BUY
       }
       aggregates {
         distinctCount {
-          currentOwner
+          currentOwner # unique owner
         }
       }
     }
     listed: nfts(filter: { price: { greaterThan: "0" } }) {
-      count: totalCount
+      count: totalCount #Listed length
       aggregates {
         floor: min {
-          value: price
+          value: price # floor price
         }
       }
     }
