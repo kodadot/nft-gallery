@@ -106,13 +106,30 @@
         data-cy="explore">
         <span>{{ $t('explore') }}</span>
       </b-navbar-item>
-      <b-navbar-item
+      <b-navbar-dropdown
+        arrowless
+        collapsible
         v-if="isBsx"
-        tag="nuxt-link"
-        :to="`/${urlPrefix}/stats`"
+        id="NavStats"
         data-cy="stats">
-        <span>{{ $t('stats') }}</span>
-      </b-navbar-item>
+        <template #label>
+          <span>{{ $t('stats') }}</span>
+        </template>
+        <template>
+          <b-navbar-item
+            tag="nuxt-link"
+            :to="`/${urlPrefix}/offers`"
+            data-cy="global-offers">
+            {{ $t('navbar.globalOffers') }}
+          </b-navbar-item>
+          <b-navbar-item
+            tag="nuxt-link"
+            :to="`/${urlPrefix}/stats`"
+            data-cy="stats">
+            <span> {{ $t('navbar.offerStats') }}</span>
+          </b-navbar-item>
+        </template>
+      </b-navbar-dropdown>
       <b-navbar-dropdown
         arrowless
         collapsible

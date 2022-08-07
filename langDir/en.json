@@ -943,7 +943,9 @@
     "exploreTabOrder": "Default tab in explore"
   },
   "navbar": {
-    "teleport": "Teleport"
+    "teleport": "Teleport",
+    "globalOffers": "Global Offers",
+    "offerStats": "Offer Stats"
   },
   "walletConnect": {
     "walletHeading": "Connect Wallet",
