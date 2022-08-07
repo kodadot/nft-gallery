@@ -68,7 +68,7 @@
                     </div>
                     <div class="price-block__container">
                       <div class="price-block__original">
-                        <Money :value="nft.price" inline />
+                        <Money :value="nft.price" inline data-cy="money" />
                       </div>
                       <b-button
                         v-if="nft.currentOwner === accountId"
@@ -129,7 +129,8 @@
             v-if="!isLoading"
             :events="nft.events"
             :open-on-default="!compactGalleryItem"
-            @setPriceChartData="setPriceChartData" />
+            @setPriceChartData="setPriceChartData"
+            data-cy="history" />
         </div>
       </div>
     </template>
