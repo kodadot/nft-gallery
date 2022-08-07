@@ -117,6 +117,7 @@
         </template>
         <template>
           <b-navbar-item
+            v-if="isLoggedIn"
             tag="nuxt-link"
             :to="`/${urlPrefix}/offers`"
             data-cy="global-offers">
