@@ -109,7 +109,7 @@ export default class CarouselList extends mixins(AuthMixin, PrefixMixin) {
   }
 
   public urlOf(id: string): string {
-    return `${this.urlPrefix}/${this.url}/${id}`
+    return `/${this.urlPrefix}/${this.url}/${id}`
   }
 
   get options() {
