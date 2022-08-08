@@ -1,7 +1,10 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <BaseTokenForm v-bind.sync="base" :collections="collections">
+    <BaseTokenForm
+      v-bind.sync="base"
+      :collections="collections"
+      :showExplainerText="showExplainerText">
       <template v-slot:main>
         <AttributeTagInput
           v-model="tags"
@@ -79,7 +82,7 @@ import {
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import { formatBalance } from '@polkadot/util'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { unwrapSafe } from '~/utils/uniquery'
 import { basicUpdateFunction } from '../service/NftUtils'
 import { toNFTId } from '../service/scheme'
@@ -132,6 +135,7 @@ export default class CreateToken extends mixins(
   protected price: string | number = 0
   protected nsfw = false
   protected postfix = true
+  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
 
   protected updatePrice(value: string) {
     this.price = value

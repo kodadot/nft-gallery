@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-2" v-if="showExplainerText">
+    <div class="mb-2" v-if="showExplainerText && isLogIn">
       <small>
         {{ $t('createNftExplainer') }}
       </small>
@@ -22,13 +22,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, VModel, Prop } from 'nuxt-property-decorator'
+import { Component, VModel, Prop, mixins } from 'nuxt-property-decorator'
+import AuthMixin from '~/utils/mixins/authMixin'
 import { BaseMintedCollection as MintedCollection } from './types'
 
 @Component({})
-export default class CollectionSelect extends Vue {
+export default class CollectionSelect extends mixins(AuthMixin) {
   @VModel({ default: null }) selectedCollection!: MintedCollection
   @Prop({ type: Array, default: () => [] }) collections!: MintedCollection[]
-  @Prop({ type: Boolean, default: true }) showExplainerText!: boolean
+  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
 }
 </script>
