@@ -28,10 +28,11 @@ import ChainMixin from '@/utils/mixins/chainMixin'
       limit: number,
       disableFilter: boolean
     ) {
-      if (disableFilter) {
-        return parseFloat(value)
-      }
       const number = Number(value.replace(/,/g, ''))
+      if (disableFilter) {
+        return parseFloat(number.toString())
+      }
+
       const hasDecimals = number % 1 !== 0
       // `undefined` params in toLocaleString() means use host default language
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString#using_options
