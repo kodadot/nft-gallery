@@ -31,18 +31,21 @@
         </div>
       </div>
 
-      <!-- <div v-if="id" class="column is-6-tablet is-7-desktop is-8-widescreen">
+      <div
+        v-if="id && urlPrefix === 'rmrk'"
+        class="column is-6-tablet is-7-desktop is-8-widescreen">
         <CollectionActivity :id="id" />
-      </div> -->
+      </div>
 
       <div class="column has-text-right">
         <Sharing
           v-if="sharingVisible"
           class="mb-2"
           :label="name"
-          :iframe="iframeSettings">
+          :iframe="iframeSettings"
+          data-cy="share-button">
           <DestroyCollection v-if="isOwner && urlPrefix === 'bsx'" :id="id" />
-          <DonationButton :address="issuer" />
+          <DonationButton :address="issuer" data-cy="donation-button" />
         </Sharing>
       </div>
     </div>

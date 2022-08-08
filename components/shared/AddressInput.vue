@@ -10,10 +10,12 @@
 import correctFormat from '@/utils/ss58Format'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import { Debounce } from 'vue-debounce-decorator'
-import { Component, Emit, Prop, Ref, Vue } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Ref, mixins } from 'nuxt-property-decorator'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { ss58Of } from '@/utils/config/chain.config'
 
 @Component({})
-export default class AddressInput extends Vue {
+export default class AddressInput extends mixins(PrefixMixin) {
   @Prop(String) public value!: string
   private err: string | null = ''
   @Prop({ type: String, default: 'insert address' }) public label!: string
@@ -52,7 +54,7 @@ export default class AddressInput extends Vue {
   }
 
   get ss58Format(): number {
-    return this.$store.getters['chain/getChainProperties58Format']
+    return ss58Of(this.urlPrefix)
   }
 }
 </script>
