@@ -49,7 +49,7 @@ jobs:
         with:
           project: ./tests
           build: pnpm generate
-          start: pnpm start
+          start: pnpm start:static
           wait-on: 'http://localhost:9090'
           # wait for 2 minutes for the server to respond
           wait-on-timeout: 150
