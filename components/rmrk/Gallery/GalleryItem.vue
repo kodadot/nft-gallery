@@ -68,11 +68,12 @@
                     </div>
                     <div class="price-block__container">
                       <div class="price-block__original">
-                        <Money :value="nft.price" inline />
+                        <Money :value="nft.price" inline data-cy="money" />
                       </div>
                       <b-button
                         v-if="nft.currentOwner === accountId"
                         type="is-warning"
+                        class="only-border-top"
                         outlined
                         @click="handleUnlist">
                         {{ $t('Unlist') }}
@@ -128,7 +129,8 @@
             v-if="!isLoading"
             :events="nft.events"
             :open-on-default="!compactGalleryItem"
-            @setPriceChartData="setPriceChartData" />
+            @setPriceChartData="setPriceChartData"
+            data-cy="history" />
         </div>
       </div>
     </template>
@@ -461,3 +463,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   }
 }
 </script>
+<style scoped lang="scss">
+@import '@/styles/border';
+</style>

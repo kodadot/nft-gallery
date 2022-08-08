@@ -11,7 +11,7 @@
     <template #item="list">
       <div class="card mx-4">
         <div class="card-image">
-          <nuxt-link :to="`/${urlPrefix}/gallery/${list.id}`">
+          <nuxt-link :to="urlOf(list.id)">
             <PreviewMediaResolver
               v-if="list.animationUrl"
               :src="list.animationUrl"
@@ -28,7 +28,7 @@
           <div class="media">
             <div class="media-content">
               <div class="title is-5 is-ellipsis">
-                <nuxt-link :to="`/${url}/${list.id}`">
+                <nuxt-link :to="urlOf(list.id)">
                   {{ list.name }}
                 </nuxt-link>
               </div>
@@ -99,13 +99,17 @@ const components = {
 export default class CarouselList extends mixins(AuthMixin, PrefixMixin) {
   @Prop({ type: Array, required: true }) nfts!: CarouselNFT[]
   @Prop({ type: Number, default: 1 }) page!: number
-  @Prop({ type: String, default: 'rmrk/gallery' }) url!: string
+  @Prop({ type: String, default: 'gallery' }) url!: string
   get current() {
     return this.page - 1 // 0-indexed
   }
 
   get profileUrl() {
     return `${this.urlPrefix}-u-id`
+  }
+
+  public urlOf(id: string): string {
+    return `/${this.urlPrefix}/${this.url}/${id}`
   }
 
   get options() {

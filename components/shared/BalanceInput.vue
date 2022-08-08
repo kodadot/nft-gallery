@@ -30,8 +30,8 @@
       </div>
       <p class="help is-danger" v-if="checkZeroFailed">
         {{ $t('tooltip.needToSetValidPrice') }}
-      </p>
-    </b-field>
+      </p></b-field
+    >
   </div>
 </template>
 

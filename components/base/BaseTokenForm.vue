@@ -8,7 +8,8 @@
 
     <CollectionSelect
       v-model="vSelectedCollection"
-      :collections="collections" />
+      :collections="collections"
+      :showExplainerText="showExplainerText" />
 
     <transition-group name="fade">
       <template v-if="vSelectedCollection">
@@ -93,6 +94,7 @@ export default class BaseTokenForm extends Vue {
   @Prop({ type: String, default: 'context' }) label!: string
   @Prop({ type: Array, default: () => [] }) collections!: MintedCollection[]
   @Prop({ type: Boolean, default: true }) hasEdition!: boolean
+  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
 
   @PropSync('name', { type: String }) vName!: string
   @PropSync('description', { type: String }) vDescription!: string

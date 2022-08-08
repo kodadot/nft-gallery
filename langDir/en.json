@@ -44,6 +44,7 @@
   "Collections Per Page": "Collections Per Page",
   "I am helping to cover costs": "I am helping to cover costs",
   "I do not want to support": "I do not want to support",
+  "createNftExplainer": "If your collection was minted recently and it doesn't show up here, please wait, it will show up in the selector below shortly",
   "passion": "Passion Feed",
   "faq": {
     "page": "FAQ",
@@ -640,6 +641,7 @@
       "MINTNFT": "MINT",
       "LIST": "LIST",
       "UNLIST": "UNLIST",
+      "RELIST": "RELIST",
       "SEND": "GIFT",
       "CONSUME": "BURN",
       "BUY": "BUY",
@@ -675,7 +677,8 @@
     "collection": "Collection",
     "nftName": "Name",
     "accept": "NFT has new a owner",
-    "withdraw": "your offer has been withdrawn"
+    "withdraw": "your offer has been withdrawn",
+    "burnedToggle": "Show Burned Nfts"
   },
   "statsOverview": {
     "buys": "Buys",
