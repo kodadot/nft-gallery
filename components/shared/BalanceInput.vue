@@ -15,12 +15,14 @@
             :min="minWithUnit"
             :max="maxWithUnit"
             :expanded="expanded"
-            @input="handleInput" />
+            @input="handleInput"
+            data-testid="balance-input" />
           <p class="control balance">
             <b-select
-              v-model="selectedUnit"
+              :value="selectedUnit"
               :disabled="!calculate"
-              @input="handleUnitChange">
+              @input="handleUnitChange"
+              data-testid="balance-input-select">
               <option v-for="u in units" :key="u.value" :value="u.value">
                 {{ u.name }}
               </option>
