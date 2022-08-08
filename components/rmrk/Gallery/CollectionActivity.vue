@@ -115,7 +115,7 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
     const { data } = await this.$apollo
       .query({
         query: collectionStatsById,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
         },
