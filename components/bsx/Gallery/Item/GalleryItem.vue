@@ -335,16 +335,20 @@ export default class GalleryItem extends mixins(
   }
 
   private async fetchEvents() {
-    const result = await this.$apollo.query({
-      query: itemEvents,
+    this.$apollo.addSmartQuery('eventsManualFetch', {
       client: this.urlPrefix,
-      variables: {
+      query: itemEvents,
+      variables: () => ({
         id: createTokenId(this.collectionId, this.id),
+      }),
+      manual: true,
+      fetchPolicy: 'network-only',
+      result: ({ data }) => {
+        if (data && data.events) {
+          this.events = [...data.events]
+        }
       },
     })
-    if (result.data && result.data.events) {
-      this.events = [...result.data.events]
-    }
   }
 
   protected handleUnlist() {
@@ -508,6 +512,11 @@ export default class GalleryItem extends mixins(
       setTimeout(() => {
         window.location.reload()
       }, 2000)
+    } else {
+      setTimeout(() => {
+        // wait for events updating
+        this.fetchEvents()
+      }, 5000)
     }
   }
 }
