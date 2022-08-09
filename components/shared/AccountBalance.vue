@@ -14,9 +14,5 @@ const components = {
 }
 
 @Component({ components })
-export default class AccountBalance extends mixins(AuthMixin) {
-  get balance(): string {
-    return this.$store.getters.getAuthBalance
-  }
-}
+export default class AccountBalance extends mixins(AuthMixin) {}
 </script>
