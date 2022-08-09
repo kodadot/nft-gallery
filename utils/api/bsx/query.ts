@@ -3,6 +3,7 @@ import type { Option, u32 } from '@polkadot/types'
 import type { Codec } from '@polkadot/types/types'
 import { chainPropListOf } from '~/utils/config/chain.config'
 import { unwrapOrDefault } from '../format'
+import Query from '../Query'
 import { AssetRegistryMetadata } from './types'
 
 export function getAssetIdOf(api: ApiPromise, symbol: string): Promise<string> {
@@ -40,4 +41,19 @@ export function getAssetMetadataByAccount(
   return getAssetIdByAccount(api, account).then((id) =>
     getAssetMetadataById(api, id)
   )
+}
+
+export function getAsssetBalance(
+  api: ApiPromise,
+  account: string,
+  id: string
+): Promise<string> {
+  if (id === '0') {
+    return Query.getTokenBalance(api, account)
+  }
+
+  return api.query.tokens
+    .accounts(account, id)
+    .then((val) => (val as any).free)
+    .then((val) => val.toString())
 }
