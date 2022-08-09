@@ -1,28 +1,39 @@
 <template>
   <div class="arguments-wrapper">
-    <b-field :label="$t(label)" class="balance">
-      <b-input
-        ref="balance"
-        v-model="inputValue"
-        type="number"
-        :step="step"
-        :min="minWithUnit"
-        :max="maxWithUnit"
-        :expanded="expanded"
-        @input="handleInput"
-        data-testid="balance-input" />
-      <p class="control balance">
-        <b-select
-          :value="selectedUnit"
-          :disabled="!calculate"
-          @input="handleUnitChange"
-          data-testid="balance-input-select">
-          <option v-for="u in units" :key="u.value" :value="u.value">
-            {{ u.name }}
-          </option>
-        </b-select>
-      </p>
-    </b-field>
+    <b-field
+      :label="$t(label)"
+      class="balance"
+      :type="checkZeroFailed ? 'is-danger' : ''">
+      <div class="field-body">
+        <div class="field has-addons">
+          <b-input
+            :required="required"
+            ref="balance"
+            v-model="inputValue"
+            type="number"
+            :step="step"
+            :min="minWithUnit"
+            :max="maxWithUnit"
+            :expanded="expanded"
+            @input="handleInput"
+            data-testid="balance-input" />
+          <p class="control balance">
+            <b-select
+              :value="selectedUnit"
+              :disabled="!calculate"
+              @input="handleUnitChange"
+              data-testid="balance-input-select">
+              <option v-for="u in units" :key="u.value" :value="u.value">
+                {{ u.name }}
+              </option>
+            </b-select>
+          </p>
+        </div>
+      </div>
+      <p class="help is-danger" v-if="checkZeroFailed">
+        {{ $t('tooltip.needToSetValidPrice') }}
+      </p></b-field
+    >
   </div>
 </template>
 
@@ -49,6 +60,9 @@ export default class BalanceInput extends mixins(ChainMixin) {
   @Prop({ default: 0.001 }) public step!: number
   @Prop(Number) public min!: number
   @Prop({ type: Number, default: Number.MAX_SAFE_INTEGER }) public max!: number
+  @Prop({ type: Boolean, default: false }) public required!: boolean
+  @Prop({ type: Boolean, default: false }) public hasToLargerThanZero!: boolean
+  protected checkZeroFailed = false
   protected units: Unit[] = defaultUnits
   private selectedUnit = 1
   private internalValue = this.value || 0
@@ -112,7 +126,11 @@ export default class BalanceInput extends mixins(ChainMixin) {
   }
 
   public checkValidity() {
-    return this.balance.checkHtml5Validity()
+    const valueEqualZero = this.inputValue.toString() === '0'
+    this.checkZeroFailed =
+      this.hasToLargerThanZero && valueEqualZero ? true : false
+    const balanceInputValid = this.balance.checkHtml5Validity()
+    return balanceInputValid && !this.checkZeroFailed
   }
 }
 </script>
