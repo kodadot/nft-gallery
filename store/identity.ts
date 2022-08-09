@@ -4,23 +4,26 @@ import { Registration } from '@polkadot/types/interfaces/identity/types'
 import consola from 'consola'
 import Vue from 'vue'
 import { formatAddress } from '@/utils/account'
+import type { ApiPromise } from '@polkadot/api'
 
 declare type Unsubscribe = () => void
+type UnsubscribePromise = Promise<Unsubscribe>
 
 export interface IdentityMap {
   [address: string]: Registration
 }
 
+type BalanceMap = Record<string, string>
+
 export interface Auth {
   address: string
   source: 'keyring' | 'extension' | 'ledger'
-  balance: string
+  balance: BalanceMap
 }
 
 export interface IdentityStruct {
   identities: IdentityMap
   auth: Auth
-  balanceSub: Unsubscribe
 }
 
 export interface IdenityRequest {
@@ -29,9 +32,20 @@ export interface IdenityRequest {
 }
 
 const defaultState: IdentityStruct = {
-  identities: {},
-  auth: emptyObject<Auth>(),
-  balanceSub: () => void 0,
+  identities: emptyObject<IdentityMap>(),
+  auth: { ...emptyObject<Auth>(), balance: emptyObject<BalanceMap>() },
+}
+
+let balanceSub: Unsubscribe = () => void 0
+
+function subscribeBalance(
+  api: ApiPromise,
+  address: string,
+  cb: (value: string) => void
+): UnsubscribePromise {
+  return api.derive.balances.all(address, ({ availableBalance }) => {
+    cb(availableBalance.toString())
+  })
 }
 
 // Disabling namespace to match with the original repo
@@ -47,17 +61,13 @@ export const mutations = {
     }
   },
   addAuth(state: IdentityStruct, authRequest: Auth): void {
-    state.auth = { ...authRequest }
+    state.auth = { ...authRequest, balance: emptyObject<BalanceMap>() }
   },
-  addBalance(state: IdentityStruct, balance: string): void {
-    Vue.set(state.auth, 'balance', balance)
-  },
-  addBalanceSub(state: IdentityStruct, sub: Unsubscribe): void {
-    // Unsubscribe previous subscription
-    state.balanceSub()
-
-    // Set new subscription
-    Vue.set(state, 'balanceSub', sub)
+  addBalance(
+    state: IdentityStruct,
+    { balance, prefix }: { balance: string; prefix: string }
+  ): void {
+    Vue.set(state.auth.balance, prefix, balance)
   },
   changeAddressFormat(state: IdentityStruct, ss58Prefix: number): void {
     if (state.auth.address) {
@@ -85,17 +95,23 @@ export const actions = {
       consola.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
-  async fetchBalance({ commit, dispatch, rootState }, address: string) {
+  async fetchBalance({ dispatch, rootState }, address: string) {
     const endpoint = rootState.setting.apiUrl
+    const prefix = rootState.setting.urlPrefix
+    if (!address) {
+      balanceSub()
+      return
+    }
     onApiConnect(endpoint, async (api) => {
       try {
-        const balanceSub = await api.derive.balances.all(
-          address,
-          ({ availableBalance }) => {
-            dispatch('setBalance', availableBalance.toString())
-          }
-        )
-        commit('addBalanceSub', balanceSub)
+        if (balanceSub) {
+          balanceSub()
+        }
+
+        balanceSub = await subscribeBalance(api, address, (balance) => {
+          consola.log('[SET_BALANCE]', address, balance, endpoint, prefix)
+          dispatch('setBalance', balance)
+        })
       } catch (e) {
         consola.error('[ERR: BALANCE]', e)
       }
@@ -105,8 +121,10 @@ export const actions = {
     commit('addAuth', authRequest)
     dispatch('fetchBalance', authRequest.address)
   },
-  setBalance({ commit }, balance: string): void {
-    commit('addBalance', balance)
+  setBalance({ commit, rootState }, balance: string): void {
+    const prefix = rootState.setting.urlPrefix
+    consola.log('[ADD_BALANCE]', prefix, balance)
+    commit('addBalance', { prefix, balance })
   },
   setCorrectAddressFormat(
     { commit, dispatch, state },
@@ -136,7 +154,13 @@ export const getters = {
   getAuthAddress(state: IdentityStruct): string {
     return state.auth.address
   },
-  getAuthBalance(state: IdentityStruct): string {
-    return state.auth.balance
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getAuthBalance(
+    state: IdentityStruct,
+    _: any,
+    { setting: { urlPrefix } }: any
+  ): string {
+    consola.log('[getAuthBalance]', urlPrefix, state.auth.balance)
+    return state.auth.balance[urlPrefix] || '0'
   },
 }
