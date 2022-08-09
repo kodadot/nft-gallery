@@ -301,7 +301,7 @@ export default class GalleryItem extends mixins(
   }
 
   public async fetchCollectionItems() {
-    const collectionId = this.nft?.collection.id
+    const collectionId = this.nft?.collection?.id
     if (collectionId) {
       // cancel request and get ids from store in case we already fetched collection data before
       if (this.$store.state.history?.currentCollection?.id === collectionId) {
@@ -356,7 +356,7 @@ export default class GalleryItem extends mixins(
     availableActions.unlistNft()
   }
 
-  private async fetchNftData() {
+  private async fetchNftData(retryCount = 0) {
     const query = await resolveQueryPath(this.urlPrefix, 'nftById')
     const nft = await this.$apollo.query({
       query: query.default,
@@ -364,6 +364,7 @@ export default class GalleryItem extends mixins(
       variables: {
         id: createTokenId(this.collectionId, this.id),
       },
+      fetchPolicy: 'no-cache',
     })
     const {
       data: { nftEntity },
@@ -372,7 +373,12 @@ export default class GalleryItem extends mixins(
     if (!nftEntity) {
       this.$consola.warn(`No NFT with ID ${this.id} fallback to RPC Node`)
       this.fetchRPCMetadata()
-      // showNotification(`No NFT with ID ${this.id}`, notificationTypes.warn)
+
+      if (retryCount < 3) {
+        this.$consola.log(`Retrying fetching NFT data ${retryCount}`)
+        this.fetchNftData(retryCount + 1)
+      }
+
       return
     }
 
