@@ -5,7 +5,8 @@
       <b-tab-item v-for="x in components" :key="x" :label="x">
         <component
           :is="x"
-          @navigateToCreateNftTab="switchToCreateNFT"
+          :showExplainerText="showExplainerText"
+          @navigateToCreateNftTab="switchToNft"
           v-if="components[activeTab] === x" />
       </b-tab-item>
     </b-tabs>
@@ -25,6 +26,13 @@ const components = { Collection, NFT }
 export default class RmrkCreatePage extends mixins(CreateMixin) {
   layout() {
     return 'centered-half-layout'
+  }
+
+  public showExplainerText = false
+
+  protected switchToNft() {
+    this.switchToCreateNFT()
+    this.showExplainerText = true
   }
 }
 </script>
