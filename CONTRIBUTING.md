@@ -173,9 +173,22 @@ Since we're using [Cypress](https://www.cypress.io/) as our primary E2E tool for
 One of the main reasons tests will fail (except when bugs get introduced) is that we're using custom HTML tags to [select elements](https://docs.cypress.io/guides/references/best-practices#Selecting-Elements) within the testing suite. If your contribution touches components with these custom tags and you get failed tests, these selectors must be checked and usually adjusted.
 
 You can identify these kinds of problems by seeing similar-looking test reports:  
-`Expected to find element: [data-cy="Most reacted"], but never found it.`
+`Expected to find element: [data-cy="submit"], but never found it.`
 
-TL;DR: If you're touching components which include HTML tags such as `data-cy="Most reacted"`, and the tests fail, make sure the tests still use the correct selector.
+TL;DR: If you're touching components which include HTML tags such as `data-cy="submit"`, and the tests fail, make sure the tests still use the correct selector.
+
+**Example:**
+```html
+<button
+  id="main"
+  class="btn btn-large"
+  name="submission"
+  role="button"
+  data-cy="submit"
+>
+  Submit
+</button>
+```
 
 ### Update strategy: always use `merge`
 
