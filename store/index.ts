@@ -11,6 +11,9 @@ const formatPlugin = (store: Store<null>): void => {
     if (type === 'setUrlPrefix' && payload) {
       store.dispatch('setCorrectAddressFormat', ss58Of(payload))
     }
+    if (type === 'setApiUrl' && payload) {
+      store.dispatch('setCorrectAddressBalance', payload)
+    }
   })
 }
 export const state = () => ({
