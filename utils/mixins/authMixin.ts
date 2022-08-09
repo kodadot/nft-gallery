@@ -14,4 +14,8 @@ export default class AuthMixin extends Vue {
   get isLogIn() {
     return Boolean(this.$store.getters.getAuthAddress)
   }
+
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
+  }
 }

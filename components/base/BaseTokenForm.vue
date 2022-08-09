@@ -14,6 +14,8 @@
     <transition-group name="fade">
       <template v-if="vSelectedCollection">
         <MetadataUpload
+          ref="upload"
+          :required="true"
           v-model="vFile"
           key="file"
           label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
@@ -21,6 +23,8 @@
           preview />
 
         <BasicInput
+          ref="nftName"
+          required
           v-model="vName"
           key="name"
           :label="$t('mint.nft.name.label')"
@@ -71,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, PropSync, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, PropSync, Ref, Vue } from 'nuxt-property-decorator'
 import { MediaType } from '../rmrk/types'
 import { resolveMedia } from '../rmrk/utils'
 import { BaseMintedCollection as MintedCollection } from './types'
@@ -98,6 +102,14 @@ export default class BaseTokenForm extends Vue {
   @PropSync('selectedCollection') vSelectedCollection!: MintedCollection | null
   @PropSync('edition', { type: Number }) vEdition!: number
   @PropSync('secondFile', { type: Blob }) vSecondFile!: Blob | null
+  @Ref('nftName') readonly nftName
+  @Ref('upload') readonly upload
+
+  public checkValidity() {
+    const nftNameValid = this.nftName.checkValidity()
+    const uploadValid = this.upload.checkValidity()
+    return nftNameValid && uploadValid
+  }
 
   get clickableMax() {
     return Infinity
