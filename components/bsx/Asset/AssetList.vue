@@ -25,7 +25,8 @@ import { AssetItem, AssetListQueryResponse } from './types'
 import shouldUpdate from '~/utils/shouldUpdate'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import { setDefaultFeeToken } from '@/utils/api/bsx/extrinsics'
-import { getAssetIdByAccount } from '~/utils/api/bsx/query'
+import { getAssetIdByAccount, getAsssetBalance } from '~/utils/api/bsx/query'
+import { mapToId } from '~/utils/mappers'
 
 @Component({
   components: {
@@ -50,9 +51,27 @@ export default class AssetList extends mixins(
       )
       console.log(assetList)
       this.assetList = assetList
+      this.fetchAccountBalance()
     } catch (e) {
       console.warn(e)
       showNotification('Unable to load assets')
+    }
+  }
+
+  private async fetchAccountBalance() {
+    const api = await this.useApi()
+    const mapper = (id: string) => getAsssetBalance(api, this.accountId, id)
+    this.assetList.map(mapToId).map(mapper).forEach(this.updatedBalanceFor)
+  }
+
+  private async updatedBalanceFor(balance: Promise<string>, index: number) {
+    try {
+      this.$set(this.assetList, index, {
+        ...this.assetList[index],
+        balance: await balance,
+      })
+    } catch (e) {
+      console.warn('Unable to fetch balance', e)
     }
   }
 
