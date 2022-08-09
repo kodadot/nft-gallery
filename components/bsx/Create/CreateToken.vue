@@ -2,6 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
+      ref="baseTokenForm"
       :showExplainerText="showExplainerText"
       v-bind.sync="base"
       :collections="collections"
@@ -10,6 +11,9 @@
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <BasicSwitch key="listed" v-model="listed" label="mint.listForSale" />
         <BalanceInput
+          ref="balanceInput"
+          required
+          hasToLargerThanZero
           v-if="listed"
           label="Price"
           expanded
@@ -49,12 +53,15 @@
         <b-field key="balance">
           <AccountBalance />
         </b-field>
-        <SubmitButton
+        <b-field
           key="submit"
-          label="mint.submit"
-          :disabled="disabled"
-          :loading="isLoading"
-          @click="submit()" />
+          type="is-danger"
+          :message="balanceNotEnoughMessage">
+          <SubmitButton
+            label="mint.submit"
+            :loading="isLoading"
+            @click="submit()" />
+        </b-field>
       </template>
     </BaseTokenForm>
   </div>
@@ -75,9 +82,9 @@ import {
   createMetadata,
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
-import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 
+import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
+import { Component, mixins, Prop, Ref, Watch } from 'nuxt-property-decorator'
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
 import {
   getInstanceDeposit,
@@ -129,7 +136,7 @@ export default class CreateToken extends mixins(
   AuthMixin,
   ApiUrlMixin
 ) {
-  @Prop({ type: Boolean, default: true }) showExplainerText!: boolean
+  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
 
   protected base: BaseTokenType<MintedCollection> = {
     name: '',
@@ -151,19 +158,24 @@ export default class CreateToken extends mixins(
     amount: 0,
     address: '',
   }
+  protected balanceNotEnough = false
+  @Ref('balanceInput') readonly balanceInput
+  @Ref('baseTokenForm') readonly baseTokenForm
 
   protected updatePrice(value: string) {
     this.price = value
-    if (parseFloat(value) === 0 && this.listed) {
-      showNotification(
-        'In order to list NFT, price has to be more than 0',
-        notificationTypes.info
-      )
-    }
+    this.balanceInput.checkValidity()
   }
 
   get hasPrice() {
     return Number(this.price)
+  }
+
+  get balanceNotEnoughMessage() {
+    if (this.balanceNotEnough) {
+      return this.$t('tooltip.notEnoughBalance')
+    }
+    return ''
   }
 
   public async created() {
@@ -232,13 +244,6 @@ export default class CreateToken extends mixins(
     })
   }
 
-  get disabled() {
-    return (
-      !(this.base.name && this.base.file && this.base.selectedCollection) ||
-      !this.validPriceValue
-    )
-  }
-
   get hasSupport(): boolean {
     return this.$store.state.preferences.hasSupport
   }
@@ -256,11 +261,25 @@ export default class CreateToken extends mixins(
     return !this.listed || price > 0
   }
 
+  public checkValidity() {
+    const balanceInputValid = this.balanceInput.checkValidity()
+    const baseTokenFormValid = this.baseTokenForm.checkValidity()
+    return balanceInputValid && baseTokenFormValid
+  }
+
   protected async submit(retryCount = 0): Promise<void> {
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
     }
-
+    // check fields
+    if (!this.checkValidity()) {
+      return
+    }
+    // check balance
+    if (!!this.deposit && parseFloat(this.balance) < parseFloat(this.deposit)) {
+      this.balanceNotEnough = true
+      return
+    }
     this.isLoading = true
     this.status = 'loader.ipfs'
     const api = await ApiFactory.useApiInstance(this.apiUrl)
