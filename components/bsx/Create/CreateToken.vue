@@ -151,6 +151,7 @@ export default class CreateToken extends mixins(
     amount: 0,
     address: '',
   }
+  protected metadata = ''
 
   protected updatePrice(value: string) {
     this.price = value
@@ -272,7 +273,9 @@ export default class CreateToken extends mixins(
     } = selectedCollection
 
     try {
-      const metadata = await this.constructMeta()
+      const metadata =
+        retryCount && this.metadata ? this.metadata : await this.constructMeta()
+
       const cb = api.tx.utility.batchAll
       const nextId = Math.max(lastIndexUsed + 1, alreadyMinted + 1)
       const create = api.tx.nft.mint(collectionId, nextId, metadata)
@@ -291,8 +294,6 @@ export default class CreateToken extends mixins(
           ]
         : []
 
-      // const support = await canSupport(this.hasSupport)
-      //
       const args = [[create, ...list, ...addRoyalty]]
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
@@ -365,7 +366,10 @@ export default class CreateToken extends mixins(
     preheatFileFromIPFS(fileHash)
     // uploadDirect(file, this.accountId).catch(this.$consola.warn)
     const metaHash = await pinJson(meta, imageHash)
-    return unSanitizeIpfsUrl(metaHash)
+    const metadata = unSanitizeIpfsUrl(metaHash)
+    this.metadata = metadata
+
+    return metadata
   }
 
   protected navigateToDetail(collection: string, id: string): void {
