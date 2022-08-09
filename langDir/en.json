@@ -949,5 +949,15 @@
     "understand": "I understand",
     "learnText": "Learn how to Connect",
     "downloadExtension": "Download extension"
+  },
+  "asset": {
+    "action": {
+      "default": "Set Token as default",
+      "alreadyDefault": "default token"
+    },
+    "table": {
+      "balance": "Balance",
+      "empty":"There are currently no assets for this user."
+    }
   }
 }
