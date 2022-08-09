@@ -14,6 +14,14 @@ export interface IdentityMap {
 }
 
 type BalanceMap = Record<string, string>
+type AddBalanceRequest = {
+  balance: string
+  prefix: string
+}
+type ChangeAddressRequest = {
+  address: string
+  apiUrl: string
+}
 
 export interface Auth {
   address: string
@@ -65,7 +73,7 @@ export const mutations = {
   },
   addBalance(
     state: IdentityStruct,
-    { balance, prefix }: { balance: string; prefix: string }
+    { balance, prefix }: AddBalanceRequest
   ): void {
     Vue.set(state.auth.balance, prefix, balance)
   },
@@ -95,8 +103,11 @@ export const actions = {
       consola.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
-  async fetchBalance({ dispatch, rootState }, address: string) {
-    const endpoint = rootState.setting.apiUrl
+  async fetchBalance(
+    { dispatch, rootState },
+    { address, apiUrl }: ChangeAddressRequest
+  ) {
+    const endpoint = apiUrl || rootState.setting.apiUrl
     const prefix = rootState.setting.urlPrefix
     if (!address) {
       balanceSub()
@@ -119,22 +130,20 @@ export const actions = {
   },
   setAuth({ commit, dispatch }, authRequest: Auth): void {
     commit('addAuth', authRequest)
-    dispatch('fetchBalance', authRequest.address)
+    dispatch('fetchBalance', { address: authRequest.address })
   },
   setBalance({ commit, rootState }, balance: string): void {
     const prefix = rootState.setting.urlPrefix
     consola.log('[ADD_BALANCE]', prefix, balance)
     commit('addBalance', { prefix, balance })
   },
-  setCorrectAddressFormat(
-    { commit, dispatch, state },
-    ss58Prefix: number
-  ): void {
-    consola.log('[SET CORRECT ADDRESS FORMAT]', ss58Prefix)
+  setCorrectAddressFormat({ commit }, ss58Prefix: number): void {
     commit('changeAddressFormat', ss58Prefix)
+  },
+  setCorrectAddressBalance({ dispatch, state }, apiUrl: string): void {
     if (state.auth.address) {
-      const address = formatAddress(state.auth.address, ss58Prefix)
-      dispatch('fetchBalance', address)
+      const address = state.auth.address
+      dispatch('fetchBalance', { address, apiUrl })
     }
   },
 }
@@ -160,7 +169,6 @@ export const getters = {
     _: any,
     { setting: { urlPrefix } }: any
   ): string {
-    consola.log('[getAuthBalance]', urlPrefix, state.auth.balance)
     return state.auth.balance[urlPrefix] || '0'
   },
 }
