@@ -9,9 +9,12 @@
       :max="max"
       :disabled="disabled"
       :expanded="expanded"
-      :placeholder="placeholder" />
+      :placeholder="placeholder"
+      data-testid="balance-input" />
     <p class="control">
-      <span class="button is-static">{{ unit }}</span>
+      <span data-testid="balance-input-label" class="button is-static">{{
+        unit
+      }}</span>
     </p>
   </b-field>
 </template>
