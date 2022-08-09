@@ -34,7 +34,7 @@ Cypress.Commands.add('rmrkGallerySortBy', () => {
   cy.get('[data-cy="Price: Low to High"]').should('be.visible')
   cy.get('[data-cy="Recently Interacted"]').should('be.visible')
   cy.get('[data-cy="Unpopular"]').should('be.visible')
-  cy.get('[data-cy="Most reacted"]').should('be.visible')
+  // cy.get('[data-cy="Most reacted"]').should('be.visible')
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
     '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > [data-cy="Price: Low to High"]'
