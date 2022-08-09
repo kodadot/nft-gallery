@@ -106,6 +106,7 @@ describe('bsxCollectionItem', () => {
 
 describe('bsxGalleryItem', () => {
   it('galleryListedItemActions', () => {
+    cy.loginWithKeyring()
     cy.bsxGalleryListedItemActions('2600576003-1', 'bXkVgi...6Xuvih')
   })
   it('galleryUnlistedItemActions', () => {
@@ -125,6 +126,7 @@ describe('rmrkCollectionItem', () => {
 
 describe('rmrkGalleryItem', () => {
   it('galleryListedItemActions', () => {
+    cy.loginWithKeyring()
     cy.rmrkGalleryListedItemActions(
       '9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000080',
       'DinoPQ...LPj2rd'

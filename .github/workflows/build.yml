@@ -1,6 +1,9 @@
 name: Lint, Build & Test workflow
 
 on:
+  workflow_dispatch:
+    push:
+      branches: [main]
   pull_request:
     branches: [main]
 
@@ -37,6 +40,28 @@ jobs:
 
       - name: Run Test
         run: pnpm test
+
+      - name: Install cypress binary
+        run: npx cypress install
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+        with:
+          project: ./tests
+          build: pnpm generate
+          start: pnpm start:static
+          wait-on: 'http://localhost:9090'
+          # wait for 2 minutes for the server to respond
+          wait-on-timeout: 150
+          command: pnpm test:e2e
+
+
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-website-screenshots
+          path: /tests/cypress/screenshots/
 
   build:
     strategy:
