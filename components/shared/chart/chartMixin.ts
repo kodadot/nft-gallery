@@ -19,7 +19,7 @@ export default class ChartMixin extends Vue {
   protected type: keyof ChartTypeRegistry = 'line'
 
   protected renderChart() {
-    const ctx = (this.$refs.canvas as HTMLCanvasElement).getContext('2d')
+    const ctx = (this.$refs.canvas as HTMLCanvasElement)?.getContext('2d')
 
     // first render
     if (ctx && !this.chart) {

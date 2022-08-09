@@ -25,7 +25,7 @@ import type { CollectionChartData as ChartData } from '@/utils/chart'
 export default class ChartContainer extends mixins(PrefixMixin, ChainMixin) {
   protected priceData: [ChartData[], ChartData[]] = [[], []]
 
-  get id() {
+  get id(): string {
     return this.$route.params.id
   }
 
@@ -46,7 +46,7 @@ export default class ChartContainer extends mixins(PrefixMixin, ChainMixin) {
     })
   }
 
-  protected formatValue(value) {
+  protected formatValue(value: string): number {
     return parseFloat(
       formatBalance(value, this.decimals, false)
         .replace(/,/g, '')
