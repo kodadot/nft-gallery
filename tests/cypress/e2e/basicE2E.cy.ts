@@ -105,12 +105,10 @@ describe('bsxCollectionItem', () => {
 })
 
 describe('bsxGalleryItem', () => {
-  // TODO fix in followup
-  it.skip('galleryListedItemActions', () => {
+  it('galleryListedItemActions', () => {
     cy.bsxGalleryListedItemActions('2600576003-1', 'bXkVgi...6Xuvih')
   })
-  // TODO fix in followup
-  it.skip('galleryUnlistedItemActions', () => {
+  it('galleryUnlistedItemActions', () => {
     cy.bsxGalleryUnlistedItemActions('2600576003-4', 'bXkVgi...6Xuvih')
   })
 })
@@ -126,15 +124,13 @@ describe('rmrkCollectionItem', () => {
 })
 
 describe('rmrkGalleryItem', () => {
-  // TODO fix in followup
-  it.skip('galleryListedItemActions', () => {
+  it('galleryListedItemActions', () => {
     cy.rmrkGalleryListedItemActions(
       '9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000080',
       'DinoPQ...LPj2rd'
     )
   })
-  // TODO fix in followup
-  it.skip('galleryUnlistedItemActions', () => {
+  it('galleryUnlistedItemActions', () => {
     cy.rmrkGalleryUnlistedItemActions(
       '9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000061',
       'DinoPQ...LPj2rd'
