@@ -952,8 +952,8 @@
   },
   "asset": {
     "action": {
-      "default": "Set Token as default",
-      "alreadyDefault": "default token"
+      "default": "Set as fee asset",
+      "alreadyDefault": "Current fee asset"
     },
     "table": {
       "balance": "Balance",
