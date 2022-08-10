@@ -88,3 +88,6 @@ typings/
 
 ### its generated, this time is different
 ## service-worker.js
+
+# cypress
+/tests/cypress/screenshots/
