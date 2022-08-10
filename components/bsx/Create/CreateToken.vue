@@ -164,7 +164,7 @@ export default class CreateToken extends mixins(
 
   protected updatePrice(value: string) {
     this.price = value
-    this.balanceInput.checkValidity()
+    this.balanceInput?.checkValidity()
   }
 
   get hasPrice() {
