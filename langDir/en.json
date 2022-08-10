@@ -627,7 +627,8 @@
     "makeOfferDisabled": "You have already made an offer for this NFT",
     "needToUploadNFTFile":  "You need to upload NFT file",
     "needToSetValidPrice":  "In order to list NFT, price has to be more than 0",
-    "notEnoughBalance": "Insufficient funds"
+    "notEnoughBalance": "Insufficient funds",
+    "haveNoToS": "Have no permission to use the asset"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",

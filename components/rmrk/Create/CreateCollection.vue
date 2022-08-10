@@ -1,7 +1,10 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <BaseCollectionForm v-bind.sync="base" protectiveMargin>
+    <BaseCollectionForm
+      v-bind.sync="base"
+      protectiveMargin
+      ref="collectionForm">
       <template v-slot:header>
         <b-field>
           <div>
@@ -28,17 +31,18 @@
           class="mb-5"
           @keydown.native.space.prevent
           maxlength="10"
+          ref="symbolInput"
+          required
           expanded />
       </template>
 
       <template v-slot:footer>
-        <b-tooltip :active="isMintDisabled" :label="$t('tooltip.buyDisabled')">
+        <b-field type="is-danger" :message="balanceNotEnoughMessage">
           <SubmitButton
             label="create collection"
-            :disabled="disabled"
             :loading="isLoading"
             @click="submit" />
-        </b-tooltip>
+        </b-field>
       </template>
     </BaseCollectionForm>
   </div>
@@ -65,7 +69,7 @@ import {
   Interaction,
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, mixins, Ref } from 'nuxt-property-decorator'
 
 type BaseCollectionType = {
   name: string
@@ -97,8 +101,22 @@ export default class CreateCollection extends mixins(
   private max = 1
   protected unlimited = true
   protected hasSupport = true
+  protected balanceNotEnough = false
+  @Ref('collectionForm') readonly collectionForm
+  @Ref('symbolInput') readonly symbolInput
+
+  public checkValidity() {
+    return (
+      this.collectionForm.checkValidity() && this.symbolInput.checkValidity()
+    )
+  }
+
   get rmrkId(): string {
     return generateId(this.accountId, this.symbol)
+  }
+
+  get balanceNotEnoughMessage() {
+    return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
   }
 
   get accountIdToPubKey(): string {
@@ -111,20 +129,6 @@ export default class CreateCollection extends mixins(
 
   get isMintDisabled(): boolean {
     return Number(this.balance) <= 2
-  }
-
-  get disabled(): boolean {
-    const {
-      base: { name },
-      symbol,
-      max,
-      accountId,
-      unlimited,
-    } = this
-    return (
-      !(name && symbol && (unlimited || max) && accountId) ||
-      this.isMintDisabled
-    )
   }
 
   public constructRmrkMint(metadata: string): CreatedCollection {
@@ -168,6 +172,15 @@ export default class CreateCollection extends mixins(
   }
 
   protected async submit() {
+    if (!this.checkValidity()) {
+      return
+    }
+
+    if (this.isMintDisabled) {
+      this.balanceNotEnough = true
+      return
+    }
+
     this.isLoading = true
     this.status = 'loader.ipfs'
 
