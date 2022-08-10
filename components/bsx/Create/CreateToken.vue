@@ -10,17 +10,13 @@
       <template v-slot:main>
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <BasicSwitch key="listed" v-model="listed" label="mint.listForSale" />
-        <BalanceInput
-          ref="balanceInput"
-          required
-          hasToLargerThanZero
+        <TokenBalanceInput
           v-if="listed"
-          label="Price"
-          expanded
-          key="price"
-          :step="0.01"
-          :min="0"
-          @input="updatePrice"
+          ref="balanceInput"
+          v-model="price"
+          key="token-price"
+          tokenId="5"
+          :prefix="urlPrefix"
           class="mb-3" />
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
@@ -131,6 +127,8 @@ const components = {
   AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
   MultiPaymentFeeButton: () =>
     import('@/components/bsx/specific/MultiPaymentFeeButton.vue'),
+  TokenBalanceInput: () =>
+    import('@/components/bsx/input/TokenBalanceInput.vue'),
 }
 
 @Component({ components })
@@ -157,7 +155,7 @@ export default class CreateToken extends mixins(
   protected depositPerByte = BigInt(0)
   protected attributes: Attribute[] = []
   protected nsfw = false
-  protected price: string | number = 0
+  protected price = '0'
   protected listed = true
   protected royalty: Royalty = {
     amount: 0,
@@ -167,8 +165,8 @@ export default class CreateToken extends mixins(
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
 
+  @Watch('price')
   protected updatePrice(value: string) {
-    this.price = value
     this.balanceInput.checkValidity()
   }
 
