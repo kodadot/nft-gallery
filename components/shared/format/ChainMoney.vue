@@ -1,5 +1,6 @@
 <template>
   <BasicMoney
+    :value="value"
     :unit="unit"
     :decimals="decimals"
     :inline="inline"
