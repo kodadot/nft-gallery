@@ -35,7 +35,7 @@
     "test:e2e-gui": "cypress open --project tests",
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
-    "prepare": "husky install"
+    "prepare": "nuxi prepare && husky install"
   },
   "husky": {
     "hooks": {
@@ -68,7 +68,7 @@
     "@kodadot1/minimark": "^0.0.1-rc.10",
     "@kodadot1/sub-api": "0.1.0-alpha.3",
     "@kodadot1/vuex-options": "0.0.1-rc.10",
-    "@nuxt/bridge": "npm:@nuxt/bridge-edge@3.0.0-27666083.80ccd51",
+    "@nuxt/bridge": "npm:@nuxt/bridge-edge@3.0.0-27470397.9ebea90",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.2.3",
     "@polkadot/extension-dapp": "^0.44.2",
