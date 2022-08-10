@@ -13,7 +13,7 @@
           inverted
           outlined
           icon-right="chevron-right"
-          :to="`/${urlPrefix}/explore?search=&sort=UPDATED_AT_DESC&tab=GALLERY`">
+          :to="`/${urlPrefix}/explore?search=&sort=updatedAt_DESC&tab=GALLERY`">
           {{ $t('helper.seeMore') }}
         </b-button>
       </div>

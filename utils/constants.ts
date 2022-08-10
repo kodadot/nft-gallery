@@ -45,17 +45,6 @@ export const URLS = {
   },
 }
 
-export const NFT_SORT_CONDITION_LIST: string[] = [
-  'EMOTES_COUNT_DESC',
-  'BLOCK_NUMBER_DESC',
-  'BLOCK_NUMBER_ASC',
-  'UPDATED_AT_DESC',
-  'UPDATED_AT_ASC',
-  'PRICE_DESC',
-  'PRICE_ASC',
-  'SN_ASC',
-]
-
 export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [
   'blockNumber_DESC',
   'blockNumber_ASC',
