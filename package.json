@@ -142,7 +142,6 @@
     "jsdom": "^19.0.0",
     "lint-staged": "^12.5.0",
     "netlify-lambda": "^2.0.15",
-    "nuxt-webpack-optimisations": "^2.2.4",
     "prettier": "^2.7.1",
     "raw-loader": "^4.0.2",
     "sass": "^1.54.3",
