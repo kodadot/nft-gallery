@@ -1,18 +1,19 @@
 <template>
   <div :class="['money', { 'is-inline-block': inline }]">
     <div>
-      {{ value | checkInvalidBalance | formatBalance(decimals) }}{{ realUnit }}
+      {{ value | checkInvalidBalance | formatBalance(decimals, '')
+      }}{{ realUnit }}
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { checkInvalidBalanceFilter } from '@/utils/formatBalance'
+import { checkInvalidBalanceFilter as checkInvalidBalance } from '@/utils/formatBalance'
 
 @Component({
   filters: {
-    checkInvalidBalanceFilter,
+    checkInvalidBalance,
   },
 })
 export default class BasicMoney extends Vue {
