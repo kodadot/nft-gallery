@@ -179,7 +179,15 @@ export default defineNuxtConfig({
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxtjs/pwa'],
+  buildModules: ['@nuxtjs/pwa', 'nuxt-webpack-optimisations'],
+
+  webpackOptimisations: {
+    features: {
+      // enable risky optimisations in dev only
+      hardSourcePlugin: process.env.NODE_ENV === 'development',
+      parallelPlugin: process.env.NODE_ENV === 'development',
+    },
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [

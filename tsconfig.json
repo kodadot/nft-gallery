@@ -24,7 +24,8 @@
       "@nuxtjs/i18n",
       "@types/node",
       "vue-apollo",
-      "vitest/globals"
+      "vitest/globals",
+      "nuxt-webpack-optimisations"
     ]
   },
   "exclude": ["node_modules", ".nuxt", "dist", "**/*.spec.ts"]
