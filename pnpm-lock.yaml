@@ -51,6 +51,7 @@ specifiers:
   cross-env: ^7.0.3
   css-loader: 5.2.7
   cypress: ^10.4.0
+  cypress-file-upload: ^5.0.8
   date-fns: ^2.29.1
   emoji-unicode: ^2.0.1
   eslint: ^8.21.0
@@ -171,6 +172,7 @@ devDependencies:
   consola: 2.15.3
   cross-env: 7.0.3
   cypress: 10.4.0
+  cypress-file-upload: 5.0.8_cypress@10.4.0
   eslint: 8.21.0
   eslint-plugin-prettier: 4.2.1_po3yoeeutu52wwqsoi2mwzccke
   eslint-plugin-unicorn: 42.0.0_eslint@8.21.0
@@ -2934,7 +2936,7 @@ packages:
       '@netlify/functions': 1.0.0
       '@nuxt/devalue': 2.0.0
       '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27470397.9ebea90_foq3mxridjfpif7eqyoheesv6q
-      '@nuxt/ui-templates': /@nuxt/ui-templates-edge/0.3.0-27640124.0eed7f7
+      '@nuxt/ui-templates': /@nuxt/ui-templates-edge/0.3.0-27668006.f19b73c
       '@rollup/plugin-alias': 3.1.9_rollup@2.77.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
       '@rollup/plugin-inject': 4.0.4_rollup@2.77.2
@@ -3159,8 +3161,8 @@ packages:
       - webpack
     dev: true
 
-  /@nuxt/ui-templates-edge/0.3.0-27640124.0eed7f7:
-    resolution: {integrity: sha512-/J9j4U/xdagIXzSnxrmQnljioSWS4S31+RqVDklsgG6BY9H8H8j7sKu6lS+Etk/pvCEFDpTt+27aSdN97CFdVQ==}
+  /@nuxt/ui-templates-edge/0.3.0-27668006.f19b73c:
+    resolution: {integrity: sha512-hF/UFBF7YjdLbaO/10z9/u7KISmeZcQ1t3sj1RiFfokOHyLvF2FUp/HT9Ax4uIM0NPglcKVg6EYHQypaW9pO5Q==}
     dev: true
 
   /@nuxt/utils-edge/2.16.0-27358576.777a4b7f:
@@ -8569,6 +8571,15 @@ packages:
 
   /cyclist/1.0.1:
     resolution: {integrity: sha512-NJGVKPS81XejHcLhaLJS7plab0fK3slPh11mESeeDq2W4ZI5kUKK/LRRdVDvjJseojbPB7ZwjnyOybg3Igea/A==}
+
+  /cypress-file-upload/5.0.8_cypress@10.4.0:
+    resolution: {integrity: sha512-+8VzNabRk3zG6x8f8BWArF/xA/W0VK4IZNx3MV0jFWrJS/qKn8eHfa5nU73P9fOQAgwHFJx7zjg4lwOnljMO8g==}
+    engines: {node: '>=8.2.1'}
+    peerDependencies:
+      cypress: '>3.0.0'
+    dependencies:
+      cypress: 10.4.0
+    dev: true
 
   /cypress/10.4.0:
     resolution: {integrity: sha512-OM7F8MRE01SHQRVVzunid1ZK1m90XTxYnl+7uZfIrB4CYqUDCrZEeSyCXzIbsS6qcaijVCAhqDL60SxG8N6hew==}

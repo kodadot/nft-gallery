@@ -53,7 +53,8 @@
                 :to="{
                   name: profileUrl,
                   params: { id: list.currentOwner },
-                }">
+                }"
+                data-cy="current-owner">
                 <div class="is-size-7 icon-text">
                   <b-icon icon="money-bill-alt" />
                   <Identity

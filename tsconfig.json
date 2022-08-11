@@ -4,7 +4,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "lib": ["ESNext", "ESNext.AsyncIterable", "DOM"],
-    "jsx": "react",
+    "jsx": "preserve",
     "esModuleInterop": true,
     "allowJs": true,
     "sourceMap": true,
@@ -23,7 +23,9 @@
       "@nuxtjs/i18n",
       "@types/node",
       "vue-apollo",
-      "vitest/globals"
+      "vitest/globals",
+      "cypress",
+      "cypress-file-upload"
     ]
   },
   "exclude": ["node_modules", ".nuxt", "dist", "**/*.spec.ts"]

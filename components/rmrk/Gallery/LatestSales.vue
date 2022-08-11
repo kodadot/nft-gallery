@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-cy="latest-sales">
     <Loader v-model="isLoading" />
 
     <div class="columns is-vcentered">

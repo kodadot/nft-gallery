@@ -4,7 +4,7 @@ export default defineConfig({
   chromeWebSecurity: false,
   e2e: {
     baseUrl: 'http://localhost:9090',
-    fixturesFolder: false,
+    fixturesFolder: 'cypress/fixtures',
     video: false,
     screenshotOnRunFailure: false,
     retries: {
