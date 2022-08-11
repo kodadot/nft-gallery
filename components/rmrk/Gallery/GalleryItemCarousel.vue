@@ -63,9 +63,11 @@ export default class GalleryItemCarousel extends Vue {
       const filteredNftsNullMeta: { id: string }[] = data?.nftEntities.filter(
         (nft) => nft.meta !== null
       )
-      const sortedNftList = sortItemListByIds(filteredNftsNullMeta, ids, 10)
 
-      this.nfts = await formatNFT(sortedNftList)
+      if (filteredNftsNullMeta) {
+        const sortedNftList = sortItemListByIds(filteredNftsNullMeta, ids, 10)
+        this.nfts = await formatNFT(sortedNftList)
+      }
     }
   }
 
