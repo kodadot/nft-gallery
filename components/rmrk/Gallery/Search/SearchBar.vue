@@ -187,10 +187,7 @@ import {
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
 import { convertLastEventToNft } from '@/utils/carousel'
-import {
-  NFT_SORT_CONDITION_LIST,
-  NFT_SQUID_SORT_CONDITION_LIST,
-} from '@/utils/constants'
+import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import { LastEvent } from '~/utils/types/types'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
@@ -537,10 +534,8 @@ export default class SearchBar extends mixins(
   @Emit('update:sortByMultiple')
   @Debounce(400)
   updateSortBy(value: string[] | string, $event?): string[] {
-    const final = (Array.isArray(value) ? value : [value]).filter(
-      (condition) =>
-        NFT_SORT_CONDITION_LIST.includes(condition) ||
-        NFT_SQUID_SORT_CONDITION_LIST.includes(condition)
+    const final = (Array.isArray(value) ? value : [value]).filter((condition) =>
+      NFT_SQUID_SORT_CONDITION_LIST.includes(condition)
     )
     const listed = final.some(
       (condition) => condition.toLowerCase().indexOf('price') > -1

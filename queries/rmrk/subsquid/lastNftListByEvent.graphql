@@ -1,9 +1,8 @@
-query lastNftListByEvent($limit: Float!, $event: String!, $passionAccount: String) {
+query lastNftListByEvent($limit: Float!, $event: String!) {
   events: lastEvent(
     limit: $limit
     offset: 0
     interaction: $event
-    passionAccount: $passionAccount
   ) {
     meta: value
     timestamp
