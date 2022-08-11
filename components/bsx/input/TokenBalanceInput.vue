@@ -24,7 +24,9 @@ export default class TokenBalanceInput extends Vue {
   @Prop({ type: String, required: false, default: '5' }) tokenId!:
     | string
     | number
-  @Prop({ type: String, required: false, default: 'bsx' }) prefix!: string
+  @Prop({ type: String, default: 'bsx' }) prefix!: string
+  // @Prop({ type: Number, default: '0' }) min!: number
+  // @Prop({ type: Number, default: undefined }) max!: number
 
   protected unit = 'BSX'
   protected decimals = 12
