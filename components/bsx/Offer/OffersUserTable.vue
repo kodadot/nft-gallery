@@ -1,14 +1,21 @@
 <template>
   <div>
-    <b-select v-model="selectedStatus">
+    <b-select v-model="selectedStatus" v-if="!offersListed">
       <option
-        v-for="option in uniqType"
+        v-for="option in getUniqType(offers)"
         :value="option.type"
         :key="option.type">
         {{ option.value }}
       </option>
     </b-select>
-    <b-table :data="updatedOffers">
+    <BasicSwitch
+      class="mt-4"
+      v-model="offersListed"
+      @input="updateList"
+      :label="$t('offer.burnedToggle')"
+      size="is-medium"
+      labelColor="is-success" />
+    <b-table :data="displayOffers(offers)">
       <b-table-column
         cell-class="is-vcentered is-narrow"
         field="nft.name"
@@ -41,6 +48,14 @@
         <Money :value="props.row.price" inline />
       </b-table-column>
       <b-table-column
+        cell-class="is-vcentered is-narrow"
+        field="expirationBlock"
+        :label="$t('offer.expiration')"
+        v-slot="props"
+        sortable>
+        {{ calcExpirationTime(props.row.expiration) }}
+      </b-table-column>
+      <b-table-column
         field="createdAt"
         cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.date')"
@@ -51,6 +66,7 @@
         </p></b-table-column
       >
       <b-table-column
+        v-if="accountId === ownerId"
         cell-class="is-vcentered is-narrow"
         :label="$t('offer.action')"
         v-slot="props"
@@ -68,7 +84,7 @@
 
 <script lang="ts">
 import { Attribute, emptyArray } from '@kodadot1/minimark'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Emit, mixins, Prop } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 import { Offer } from './types'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
@@ -78,11 +94,11 @@ import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '~/utils/notification'
 import { tokenIdToRoute } from '~/components/unique/utils'
-import { AllOfferStatusType } from '~/utils/offerStatus'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
+  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
 }
 
 @Component({ components, filters: { formatDistanceToNow } })
@@ -95,36 +111,13 @@ export default class OffersUserTable extends mixins(
 ) {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public offers!: Offer[]
-  protected offerStatus: AllOfferStatusType = AllOfferStatusType.ALL
-  protected offersUpdated: Offer[] = []
+  protected offersListed = false
 
-  get uniqType(): { type: AllOfferStatusType; value: string }[] {
-    const statusSet = new Set(this.offers.map((offer) => offer.status))
-    const singleEventList = Array.from(statusSet).map((type) => ({
-      type: type as AllOfferStatusType,
-      value: AllOfferStatusType[type],
-    }))
-    return [{ type: AllOfferStatusType.ALL, value: 'All' }, ...singleEventList]
-  }
+  @Prop({ type: String, default: '' }) public ownerId!: string
 
-  get updatedOffers() {
-    if (!this.offersUpdated.length) {
-      this.offersUpdated = this.offers
-    }
-    return this.displayOffers(this.offersUpdated)
-  }
-
-  get selectedStatus() {
-    return this.offerStatus
-  }
-
-  set selectedStatus(value: AllOfferStatusType) {
-    if (value === AllOfferStatusType.ALL) {
-      this.offersUpdated = this.offers.concat()
-    } else {
-      this.offersUpdated = this.offers.filter((offer) => offer.status === value)
-    }
-    this.status = value
+  @Emit('offersListUpdate')
+  public updateList(data) {
+    return data
   }
 
   public timestampOffer(date) {

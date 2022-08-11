@@ -13,7 +13,8 @@
           aria-controls="sortAndFilter"
           type="is-primary is-bordered-light"
           class="is-hidden-mobile mr-2"
-          @click="isVisible = !isVisible" />
+          @click="isVisible = !isVisible"
+          data-cy="expand-search" />
         <slot name="next-filter"></slot>
         <b-autocomplete
           v-if="!hideSearchInput"
@@ -134,7 +135,8 @@
             step="any"
             class="column is-2"
             :placeholder="$t('query.priceRange.minPrice')"
-            v-model="rangeSlider[0]">
+            v-model="rangeSlider[0]"
+            data-cy="input-min">
           </b-input>
           <b-input
             min="0"
@@ -142,13 +144,15 @@
             type="number"
             class="column is-2"
             :placeholder="$t('query.priceRange.maxPrice')"
-            v-model="rangeSlider[1]">
+            v-model="rangeSlider[1]"
+            data-cy="input-max">
           </b-input>
           <div class="column is-1">
             <b-button
               class="is-primary"
               @click="sliderChange(rangeSlider)"
-              :disabled="applyDisabled">
+              :disabled="applyDisabled"
+              data-cy="apply">
               {{ $t('general.apply') }}
             </b-button>
           </div>
@@ -183,10 +187,7 @@ import {
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
 import { convertLastEventToNft } from '@/utils/carousel'
-import {
-  NFT_SORT_CONDITION_LIST,
-  NFT_SQUID_SORT_CONDITION_LIST,
-} from '@/utils/constants'
+import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import { LastEvent } from '~/utils/types/types'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
@@ -533,10 +534,8 @@ export default class SearchBar extends mixins(
   @Emit('update:sortByMultiple')
   @Debounce(400)
   updateSortBy(value: string[] | string, $event?): string[] {
-    const final = (Array.isArray(value) ? value : [value]).filter(
-      (condition) =>
-        NFT_SORT_CONDITION_LIST.includes(condition) ||
-        NFT_SQUID_SORT_CONDITION_LIST.includes(condition)
+    const final = (Array.isArray(value) ? value : [value]).filter((condition) =>
+      NFT_SQUID_SORT_CONDITION_LIST.includes(condition)
     )
     const listed = final.some(
       (condition) => condition.toLowerCase().indexOf('price') > -1

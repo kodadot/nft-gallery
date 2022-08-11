@@ -57,14 +57,18 @@
         arrowless
         collapsible
         id="NavCreate"
-        v-show="isCreateVisible">
+        v-show="isCreateVisible"
+        data-cy="create-dropdown">
         <template #label>
           <span>{{ $t('create') }}</span>
         </template>
         <b-tooltip
           label="Start by creating your collection and add NFTs to it"
           position="is-right">
-          <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/create`">
+          <b-navbar-item
+            tag="nuxt-link"
+            :to="`/${urlPrefix}/create`"
+            data-cy="classic">
             {{ $t('classic') }}
           </b-navbar-item>
         </b-tooltip>
@@ -73,7 +77,10 @@
             label="Simplified process to create your NFT in a single step"
             position="is-right"
             style="display: block">
-            <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/mint`">
+            <b-navbar-item
+              tag="nuxt-link"
+              :to="`/${urlPrefix}/mint`"
+              data-cy="simple">
               {{ $t('simple') }}
             </b-navbar-item>
           </b-tooltip>
@@ -81,39 +88,66 @@
             label="AI powered process to create your NFT"
             position="is-right"
             append-to-body>
-            <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/creative`">
+            <b-navbar-item
+              tag="nuxt-link"
+              :to="`/${urlPrefix}/creative`"
+              data-cy="creative">
               {{ $t('creative') }}
             </b-navbar-item>
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/explore`">
+      <b-navbar-item
+        tag="nuxt-link"
+        :to="`/${urlPrefix}/explore`"
+        data-cy="explore">
         <span>{{ $t('explore') }}</span>
       </b-navbar-item>
-      <b-navbar-item v-if="isBsx" tag="nuxt-link" :to="`/${urlPrefix}/stats`">
+      <b-navbar-item
+        v-if="isBsx"
+        tag="nuxt-link"
+        :to="`/${urlPrefix}/stats`"
+        data-cy="stats">
         <span>{{ $t('stats') }}</span>
       </b-navbar-item>
-      <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
+      <b-navbar-dropdown
+        arrowless
+        collapsible
+        v-if="isRmrk"
+        id="NavStats"
+        data-cy="stats">
         <template #label>
           <span>{{ $t('stats') }}</span>
         </template>
         <template>
-          <b-navbar-item tag="nuxt-link" to="/spotlight">
+          <b-navbar-item tag="nuxt-link" to="/spotlight" data-cy="spotlight">
             {{ $t('spotlight.page') }}
           </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/series-insight">
+          <b-navbar-item
+            tag="nuxt-link"
+            to="/series-insight"
+            data-cy="series-insight">
             Series
           </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/sales"> Sales </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/hot"> Hot </b-navbar-item>
+          <b-navbar-item tag="nuxt-link" to="/sales" data-cy="sales">
+            Sales
+          </b-navbar-item>
+          <b-navbar-item tag="nuxt-link" to="/hot" data-cy="hot">
+            Hot
+          </b-navbar-item>
         </template>
       </b-navbar-dropdown>
       <LazyChainSelect class="navbar-item has-dropdown" id="NavChainSelect" />
       <LazySwitchLocale
         class="navbar-item has-dropdown"
-        id="NavLocaleChanger" />
+        id="NavLocaleChanger"
+        data-cy="localChanger" />
       <ColorModeButton />
-      <NavbarProfileDropdown :isRmrk="isRmrk" :isBsx="isBsx" id="NavProfile" />
+      <NavbarProfileDropdown
+        :isRmrk="isRmrk"
+        :isBsx="isBsx"
+        id="NavProfile"
+        data-cy="profileDropdown" />
     </template>
     <template #end v-else>
       <div class="image is-32x32 mr-2">
