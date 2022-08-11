@@ -93,11 +93,16 @@ describe('simple mint in rmrk', () => {
     cy.get('[data-cy="input-advance-settings"]').click()
 
     // batch address
-    cy.get('[data-cy="input-batch-address"]')
-      .type(
-        `- ${this.user1}{enter}- ${this.user2}{enter}- ${this.user3}{enter}- 123INVALID{enter}`
-      )
-      .blur()
+    cy.get('@user1').then((hash) => {
+      cy.get('[data-cy="input-batch-address"]').type(`- ${hash}{enter}`)
+    })
+    cy.get('@user2').then((hash) => {
+      cy.get('[data-cy="input-batch-address"]').type(`- ${hash}{enter}`)
+    })
+    cy.get('@user3').then((hash) => {
+      cy.get('[data-cy="input-batch-address"]').type(`- ${hash}{enter}`)
+    })
+    cy.get('[data-cy="input-batch-address"]').type('- 123INVALID{enter}').blur()
     cy.get('[data-cy="input-valid-address"]').should(
       'contain.text',
       'Currently matched 3 adresses'
