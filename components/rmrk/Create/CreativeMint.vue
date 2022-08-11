@@ -16,6 +16,8 @@
       <AuthField />
 
       <MetadataUpload
+        required
+        ref="uploadFileRef"
         v-model="file"
         label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
         expanded
@@ -36,6 +38,7 @@
         v-model="rmrkMint.max"
         key="edition"
         class="mt-5"
+        :min="1"
         :label="$t('mint.nft.edition.label')"
         :message="$t('mint.nft.edition.message')"
         :placeholder="$t('mint.nft.edition.placeholder')"
@@ -47,12 +50,13 @@
           Hint: Setting the price now requires making an additional transaction.
         </p>
       </div> -->
-
-      <SubmitButton
-        label="mint.submit"
-        :disabled="disabled"
-        :loading="isLoading"
-        @click="sub" />
+      <b-field
+        key="submit"
+        type="is-danger"
+        v-if="isLogIn"
+        :message="balanceNotEnoughMessage">
+        <SubmitButton label="mint.submit" :loading="isLoading" @click="sub" />
+      </b-field>
     </div>
   </section>
 </template>
@@ -82,7 +86,7 @@ import {
   toCollectionId,
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Watch, Ref } from 'nuxt-property-decorator'
 import { getNftId, NFT, NFTMetadata, SimpleNFT } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia, sanitizeIpfsUrl } from '../utils'
@@ -118,6 +122,8 @@ export default class CreativeMint extends mixins(
   private price = 0
   private fileHash = ''
   private isGptLoading = false
+  protected balanceNotEnough = false
+  @Ref('uploadFileRef') readonly uploadFileRef
 
   layout() {
     return 'centered-half-layout'
@@ -137,17 +143,28 @@ export default class CreativeMint extends mixins(
       : ''
   }
 
+  get balanceNotEnoughMessage() {
+    return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
+  }
+
   get canCalculateTransactionFees(): boolean {
     const { name, symbol, max } = this.rmrkMint
     return !!(this.price && name && symbol && max)
   }
 
-  get disabled(): boolean {
-    const { name, symbol, max } = this.rmrkMint
-    return !(name && symbol && max && this.accountId && this.file)
-  }
-
   protected async sub(): Promise<void> {
+    const { name, symbol, max } = this.rmrkMint
+    if (!this.checkValidity()) {
+      return
+    }
+    if (!(name && symbol && max) || this.isGptLoading) {
+      return
+    }
+    if (parseFloat(this.balance) === 0) {
+      this.balanceNotEnough = true
+      return
+    }
+
     this.isLoading = true
     this.status = 'loader.ipfs'
     const api = await this.useApi()
@@ -206,6 +223,10 @@ export default class CreativeMint extends mixins(
         this.isLoading = false
       }
     }
+  }
+
+  public checkValidity() {
+    return this.uploadFileRef.checkValidity()
   }
 
   public async constructMeta(): Promise<string | undefined> {
@@ -269,9 +290,9 @@ export default class CreativeMint extends mixins(
       this.accountId
     )
     try {
+      this.isGptLoading = true
       this.fileHash = await pinFileToIPFS(file, token)
       const url = sanitizeIpfsUrl(unSanitizeIpfsUrl(this.fileHash))
-      this.isGptLoading = true
       const { title, description } = await askGpt(url)
       this.$set(this.rmrkMint, 'name', title)
       this.$set(this.rmrkMint, 'description', description)

@@ -37,7 +37,10 @@
       </template>
 
       <template v-slot:footer>
-        <b-field type="is-danger" :message="balanceNotEnoughMessage">
+        <b-field
+          type="is-danger"
+          :message="balanceNotEnoughMessage"
+          v-if="isLogIn">
           <SubmitButton
             label="create collection"
             :loading="isLoading"

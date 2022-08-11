@@ -47,6 +47,7 @@
         <b-field
           key="submit"
           type="is-danger"
+          v-if="isLogIn"
           :message="balanceNotEnoughMessage">
           <SubmitButton
             label="mint.submit"
@@ -216,6 +217,11 @@ export default class CreateToken extends mixins(
     }
 
     if (!this.checkValidity()) {
+      return
+    }
+
+    if (parseFloat(this.balance) === 0) {
+      this.balanceNotEnough = true
       return
     }
 

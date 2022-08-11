@@ -127,7 +127,10 @@
           {{ $t('termOfService.accept') }}
         </b-switch>
       </b-field>
-      <b-field type="is-danger" :message="balanceNotEnoughMessage">
+      <b-field
+        type="is-danger"
+        :message="balanceNotEnoughMessage"
+        v-if="isLogIn">
         <b-button
           type="is-primary"
           icon-left="paper-plane"
@@ -203,6 +206,7 @@ import NFTUtils, { MintType } from '../service/NftUtils'
 import { getNftId, NFT, NFTMetadata, SimpleNFT } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
+import AuthMixin from '~/utils/mixins/authMixin'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -230,14 +234,14 @@ export default class SimpleMint extends mixins(
   TransactionMixin,
   ChainMixin,
   PrefixMixin,
-  UseApiMixin
+  UseApiMixin,
+  AuthMixin
 ) {
   private rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
     max: 1,
   }
   private meta: NFTMetadata = emptyObject<NFTMetadata>()
-  // private accountId: string = '';
   private uploadMode = true
   private file: File | null = null
   private secondFile: File | null = null
@@ -333,10 +337,6 @@ export default class SimpleMint extends mixins(
     return (
       isFileWithoutType(this.file, fileType) || isSecondFileVisible(fileType)
     )
-  }
-
-  get accountId(): string {
-    return this.$store.getters.getAuthAddress
   }
 
   get rmrkId(): string {
