@@ -79,7 +79,11 @@
                       </div>
                       <div class="price-block__container">
                         <div class="price-block__original">
-                          <Money :value="nft.price" inline data-cy="money" />
+                          <Money
+                            :value="nft.price"
+                            inline
+                            data-cy="money"
+                            :prefix="urlPrefix" />
                         </div>
                         <b-button
                           v-if="nft.currentOwner === accountId"
@@ -92,7 +96,10 @@
                       </div>
                       <div v-if="nftRoyalties">
                         ⊆ {{ $t('royalty') }}
-                        <Money :value="nftRoyalties" inline />
+                        <Money
+                          :value="nftRoyalties"
+                          inline
+                          :prefix="urlPrefix" />
                       </div>
                     </template>
                     <div class="content pt-4">
@@ -215,7 +222,7 @@ import { mapToId } from '@/utils/mappers'
     Properties: () => import('@/components/unique/Gallery/Item/Properties.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
-    Money: () => import('@/components/shared/format/Money.vue'),
+    Money: () => import('@/components/bsx/format/TokenMoney.vue'),
     AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
     History: () => import('@/components/rmrk/Gallery/History.vue'),
