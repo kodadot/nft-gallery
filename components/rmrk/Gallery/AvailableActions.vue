@@ -297,7 +297,7 @@ export default class AvailableActions extends mixins(
   protected async checkBuyBeforeSubmit() {
     const nft = await this.$apollo.query({
       query: nftByIdMinimal,
-      client: this.urlPrefix,
+      client: this.client,
       variables: {
         id: this.nftId,
       },
