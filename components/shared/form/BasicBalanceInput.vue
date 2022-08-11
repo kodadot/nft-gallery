@@ -10,6 +10,8 @@
       :disabled="disabled"
       :expanded="expanded"
       :placeholder="placeholder"
+      @blur="onBlur"
+      pattern="^(\d+)\,(\d+)$"
       data-testid="balance-input" />
     <p class="control">
       <span data-testid="balance-input-label" class="button is-static">{{
@@ -61,14 +63,23 @@ export default class BasicBalanceInput extends Vue {
   @Debounce(200)
   @Emit('input')
   public handleInput(value: number | string): string {
-    return balanceFrom(value, this.decimals)
+    this.checkValidity()
+    try {
+      return balanceFrom(value, this.decimals)
+    } catch (e) {
+      this.$consola.log((e as Error).message)
+      return '0'
+    }
+  }
+
+  public onBlur() {
+    this.checkValidity()
   }
 
   public focusInput(): void {
     this.balance?.focus()
   }
 
-  // You vs the girl they told you not to worry about
   public checkValidity() {
     return this.balance.checkHtml5Validity()
   }
