@@ -1,3 +1,4 @@
+import { defineNuxtPlugin } from '#app'
 import consola from 'consola'
 
 declare module 'vue/types/vue' {
@@ -7,6 +8,12 @@ declare module 'vue/types/vue' {
   }
 }
 
-export default (ctx, inject): void => {
-  inject('consola', consola)
+declare module '#app' {
+  interface NuxtAppCompat {
+    $consola: typeof consola
+  }
 }
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.provide('consola', consola)
+})

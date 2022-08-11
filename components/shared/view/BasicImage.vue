@@ -1,6 +1,29 @@
+<script lang="ts" setup>
+import { useNuxtApp } from '#app'
+
+interface Props {
+  src?: string
+  alt?: string
+  customClass?: string
+  rounded?: boolean
+}
+const {
+  src = '/placeholder.webp',
+  alt = 'KodaDot NFT minted multimedia',
+  customClass,
+  rounded,
+} = defineProps<Props>()
+
+const { $consola } = useNuxtApp()
+
+function onImageError(_: Event, src: string) {
+  $consola.log('[BasicImage] to load:', src)
+}
+</script>
+
 <template>
   <b-image
-    :src="src || '/placeholder.webp'"
+    :src="src"
     src-fallback="/placeholder.webp"
     :alt="alt"
     ratio="1by1"
@@ -15,23 +38,6 @@
     </template>
   </b-image>
 </template>
-
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-
-@Component
-export default class BasicImage extends Vue {
-  @Prop({ type: String }) public src!: string
-  @Prop(String) public customClass!: string
-  @Prop({ type: String, default: 'KodaDot NFT minted multimedia' })
-  public alt!: string
-  @Prop(Boolean) public rounded!: boolean
-
-  public onImageError(_: unknown, src: string): void {
-    this.$consola.log('[BasicImage] to load:', !!this.src, src)
-  }
-}
-</script>
 
 <style scoped>
 .b-skeleton {
