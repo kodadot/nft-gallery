@@ -11,8 +11,7 @@
       ref="balanceInput"
       class="mb-4"
       v-if="showMeta"
-      :min="minimumLimit"
-      :max="maximumLimit"
+      v-bind="dynamicProps"
       :is="showMeta"
       @input="updateMeta"
       emptyOnError />
@@ -54,7 +53,7 @@ import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 const components = {
   ActionList: () => import('@/components/bsx/Gallery/Item/ActionList.vue'),
   AddressInput: () => import('@/components/shared/AddressInput.vue'),
-  BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+  BalanceInput: () => import('@/components/bsx/input/TokenBalanceInput.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   DaySelect: () => import('@/components/bsx/Offer/DaySelect.vue'),
@@ -91,6 +90,25 @@ export default class AvailableActions extends mixins(
 
   get actions() {
     return getActionList('bsx', this.isOwner, this.isAvailableToBuy)
+  }
+
+  get dynamicProps(): object {
+    switch (this.selectedAction) {
+      case ShoppingActions.LIST:
+      case ShoppingActions.MAKE_OFFER:
+        return {
+          tokenId: '5',
+          prefix: this.urlPrefix,
+          min: this.minimumLimit,
+          max: this.maximumLimit,
+        }
+      case ShoppingActions.SEND:
+        return {
+          emptyOnError: true,
+        }
+      default:
+        return {}
+    }
   }
 
   get minimumLimit(): number {
@@ -206,7 +224,6 @@ export default class AvailableActions extends mixins(
         this.isBalanceInputValid = false
       }
     }
-    this.$consola.log(typeof value, value)
     this.meta = value
   }
 
