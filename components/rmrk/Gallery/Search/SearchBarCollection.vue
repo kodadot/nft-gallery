@@ -27,7 +27,7 @@
           v-model="vListed"
           :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
           size="is-medium"
-          labelColor="is-success"
+          labelColor="has-text-success"
           :disabled="disableToggle"
           :message="$t('tooltip.buy')" />
         <BasicSwitch
@@ -36,7 +36,7 @@
           v-model="vOwned"
           :label="'sort.own'"
           size="is-medium"
-          labelColor="is-success"
+          labelColor="has-text-success"
           :message="$t('tooltip.own')" />
         <slot />
       </div>

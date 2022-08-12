@@ -39,30 +39,18 @@ body {
     background-color: $scheme-main;
   }
 
-  .notices .toast.is-dark {
-    background: $primary;
-  }
-
   .label {
     color: $primary;
     text-transform: uppercase;
     font-size: calc(1rem * 0.75);
   }
 
-  .switch {
-    &.is-success {
-      color: $success;
-    }
-  }
-
-  .text {
-    &__stroked {
-      color: $primary;
-      -webkit-text-fill-color: $black;
-      -webkit-text-stroke-width: 2px;
-      -webkit-text-stroke-color: $primary;
-      padding: 0 8px 0 0;
-    }
+  .text__stroked {
+    color: $primary;
+    -webkit-text-fill-color: $black;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: $primary;
+    padding: 0 8px 0 0;
   }
 
   .heading {
@@ -108,9 +96,6 @@ body {
     }
   }
 
-  .icon.is-primary {
-    color: $primary !important;
-  }
   .navbar-start .nuxt-link-active {
     color: $primary;
     background-color: #121212;
@@ -129,10 +114,6 @@ body {
     box-shadow: none !important;
   }
 
-  .is-color-pink {
-    color: $primary-light;
-  }
-
   .message.is-primary .message-body,
   .message.is-primary .icon {
     color: $white !important;
@@ -147,17 +128,6 @@ body {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>💸</text></svg>"),
       auto;
   }
-}
-
-// global CSS for page transitions
-.page-enter-active,
-.page-leave-active {
-  transition: opacity 250ms;
-}
-
-.page-enter,
-.page-leave-active {
-  opacity: 0;
 }
 
 .button {
@@ -281,6 +251,33 @@ button.button.navbar-link-background {
   color: #000;
   background-color: $primary;
 }
-.w-100 {
-  width: 100%;
+
+.short-identity__table {
+  max-width: 50em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.type-table {
+  white-space: nowrap;
+}
+
+.collapseHidden {
+  .collapse-trigger {
+    display: none;
+  }
+}
+
+.box {
+  .box-container {
+    @media screen and (max-width: 768px) {
+      flex-direction: column-reverse;
+    }
+  }
+
+  @include tablet {
+    .short-name-column {
+      width: 20%;
+    }
+  }
 }

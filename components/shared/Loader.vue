@@ -4,7 +4,9 @@
       <div
         v-if="randomFunFactHeading && randomFunFactQuestion"
         class="funfact-text">
-        <div class="text-bold funcfact-heading">{{ randomFunFactHeading }}</div>
+        <div class="has-text-weight-bold funcfact-heading">
+          {{ randomFunFactHeading }}
+        </div>
         <br />
         <div class="pl-4 pr-4">
           <b-icon size="is-large" icon="lightbulb" class="funfact-icon" />

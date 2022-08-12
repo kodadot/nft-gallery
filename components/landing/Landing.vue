@@ -4,13 +4,16 @@
       <div class="columns is-vcentered">
         <div class="column">
           <h3
-            class="title is-1 is-size-3-mobile is-flex is-flex-direction-column uppercase homepage__heading">
+            class="title is-1 is-size-3-mobile is-flex is-flex-direction-column is-uppercase homepage__heading">
             <span class="text__stroked my-5">
               {{ $t('general.ksmDiscoverText') }}
             </span>
-            <span class="title is-6 homepage__subtitle uppercase text-semibold">
+            <span
+              class="title is-6 homepage__subtitle is-uppercase has-text-weight-semibold">
               {{ $t('helper.builtOn') }}
-              <span class="text-bold text-primary"> {{ buildOn }} </span>
+              <span class="has-text-weight-bold has-text-primary">
+                {{ buildOn }}
+              </span>
             </span>
           </h3>
           <a

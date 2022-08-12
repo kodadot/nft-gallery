@@ -126,7 +126,7 @@
           v-model="vListed"
           :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
           size="is-medium"
-          labelColor="is-success" />
+          labelColor="has-text-success" />
       </div>
       <div v-if="!hideFilter">
         <b-field class="columns mb-0">

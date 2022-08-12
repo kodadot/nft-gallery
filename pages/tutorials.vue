@@ -1,7 +1,7 @@
 <template>
   <section>
     <h1
-      class="text-bold text__stroked heading heading-is-6 is-size-1-mobile mb-6">
+      class="has-text-weight-bold text__stroked heading heading-is-6 is-size-1-mobile mb-6">
       Tutorials
     </h1>
     <div class="is-flex is-flex-direction-column">

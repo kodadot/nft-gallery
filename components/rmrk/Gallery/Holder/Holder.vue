@@ -548,29 +548,3 @@ export default class CommonHolderTable extends mixins(
   }
 }
 </script>
-<style lang="scss">
-@import '@/styles/variables.scss';
-
-.collapseHidden {
-  .collapse-trigger {
-    display: none;
-  }
-}
-
-.box {
-  .table-nav {
-    display: flex;
-    justify-content: space-between;
-  }
-  .box-container {
-    @media screen and (max-width: 768px) {
-      flex-direction: column-reverse;
-    }
-  }
-  @include tablet {
-    .short-name-column {
-      width: 20%;
-    }
-  }
-}
-</style>
