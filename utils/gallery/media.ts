@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { MediaType } from '~/components/rmrk/types'
 
 const mediaWithoutImage = [
