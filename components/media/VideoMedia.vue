@@ -2,10 +2,10 @@
 import { computed, defineProps } from '#app'
 
 const props = defineProps<{
-  src: string
+  src?: string
   poster?: string
-  mimeType: string
-  preview: boolean
+  mimeType?: string
+  preview?: boolean
 }>()
 const controls = computed(() => !props.preview)
 </script>

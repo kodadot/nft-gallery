@@ -2,8 +2,8 @@
 import { defineProps } from '#app'
 
 defineProps<{
-  src: string
-  mimeType: string
+  src?: string
+  mimeType?: string
 }>()
 </script>
 

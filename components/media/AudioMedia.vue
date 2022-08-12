@@ -1,3 +1,12 @@
+<script lang="ts" setup>
+import { defineProps } from '#app'
+
+defineProps<{
+  src?: string
+  mimeType?: string
+}>()
+</script>
+
 <template>
   <div>
     <av-waveform
@@ -8,21 +17,8 @@
       played-line-color="rgba(0,0,0,0.74)"
       noplayed-line-color="#d32e79"
       playtime-font-color="rgba(0,0,0,0.74)" />
-    <!-- <audio controls class="media-audio__player">
-      <source :src="src" :type="mimeType" />
-      Unable to show audio
-    </audio> -->
   </div>
 </template>
-
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-@Component({})
-export default class AppAudio extends Vue {
-  @Prop() public src!: string
-  @Prop() public mimeType!: string
-}
-</script>
 
 <style>
 div.media-audio__player div > canvas.media-audio__canvas,

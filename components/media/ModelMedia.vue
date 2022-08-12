@@ -1,3 +1,25 @@
+<script lang="ts" setup>
+import '@google/model-viewer'
+import { computed, defineProps } from '#app'
+
+interface Props {
+  src?: string
+  poster?: string
+  description?: string
+  availableAnimations?: string[]
+  preview?: boolean
+}
+const {
+  src = '',
+  poster = '',
+  description = '',
+  availableAnimations,
+  preview,
+} = defineProps<Props>()
+
+const isDetail = computed(() => !preview)
+</script>
+
 <template>
   <div class="view-model__wrapper">
     <div class="view-model__overflow"></div>
@@ -17,24 +39,6 @@
     </model-viewer>
   </div>
 </template>
-
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import '@google/model-viewer'
-
-@Component({})
-export default class ViewModel extends Vue {
-  @Prop({ type: String, default: '' }) public readonly src!: string
-  @Prop({ type: String, default: '' }) public readonly poster?: string
-  @Prop({ type: String, default: '' }) public readonly description?: string
-  @Prop({ type: Array }) public readonly availableAnimations?: string[]
-  @Prop(Boolean) public preview!: boolean
-
-  get isDetail(): boolean {
-    return !this.preview
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 .view-model {

@@ -125,7 +125,7 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
-    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
+    import('@/components/media/PreviewMediaResolver.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }

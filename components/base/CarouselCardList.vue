@@ -90,7 +90,7 @@ const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
   PreviewMediaResolver: () =>
-    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
+    import('@/components/media/PreviewMediaResolver.vue'),
 }
 
 @Component<CarouselList>({

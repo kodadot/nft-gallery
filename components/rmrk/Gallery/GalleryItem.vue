@@ -197,7 +197,7 @@ import { mapToId } from '@/utils/mappers'
     Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
     Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
-    MediaResolver: () => import('@/components/rmrk/Media/MediaResolver.vue'),
+    MediaResolver: () => import('@/components/media/MediaResolver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     DescriptionWrapper: () =>
       import('@/components/shared/collapse/DescriptionWrapper.vue'),
