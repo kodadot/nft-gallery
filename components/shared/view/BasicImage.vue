@@ -11,7 +11,7 @@ defineProps({
 const { $consola } = useNuxtApp()
 
 function onImageError(ev: Event, src: string) {
-  $consola.log('[BasicImage] to load:', src)
+  $consola.log('[BasicImage] to load:', src, ev)
 }
 </script>
 
