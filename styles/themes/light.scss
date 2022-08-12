@@ -56,7 +56,7 @@ html.light-mode {
 		}
 
 		.navbar-dropdown,
-		.navbar-menu {
+		.navbar-menu.is-active {
 			color: $text-light-theme;
 			background-color: #fff;
 			box-shadow: rgba(229, 229, 229, 0.55)  !important;
@@ -66,10 +66,9 @@ html.light-mode {
 			color: $text-light-theme;
 		}
 
-		.search-navbar {
-			input {
-				background-color: rgba(229, 229, 229, 0.55);
-			}
+		.search-navbar input,
+		.search-navbar-container-mobile input {
+			background-color: rgba(229, 229, 229, 0.55);
 		}
 	}
 
