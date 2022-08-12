@@ -112,7 +112,8 @@ html.light-mode {
 	}
 
 	.button:not(.is-primary),
-	.input {
+	.input,
+	.textarea {
 		color: $text-light-theme;
 		background-color: #fff;
 	}
