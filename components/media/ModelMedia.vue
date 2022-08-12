@@ -6,7 +6,7 @@ const props = defineProps({
   src: { type: String, default: '' },
   poster: { type: String, default: '' },
   description: { type: String, default: '' },
-  availableAnimations: Array,
+  availableAnimations: { type: Array, default: () => [] },
   preview: Boolean,
 })
 

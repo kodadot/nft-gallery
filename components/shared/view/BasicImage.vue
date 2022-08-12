@@ -2,9 +2,9 @@
 import { useNuxtApp } from '#app'
 
 defineProps({
-  src: String,
+  src: { type: String, default: '' },
   alt: { type: String, default: 'KodaDot NFT minted multimedia' },
-  customClass: String,
+  customClass: { type: String, default: '' },
   rounded: Boolean,
 })
 

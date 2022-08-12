@@ -18,8 +18,8 @@ const MediaResolver = defineAsyncComponent(
 const props = defineProps({
   src: { type: String, default: '' },
   metadata: { type: String, default: '' },
-  mimeType: String,
-  poster: String,
+  mimeType: { type: String, default: '' },
+  poster: { type: String, default: '' },
 })
 
 const type = ref('')

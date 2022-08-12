@@ -76,11 +76,12 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+
 import AuthMixin from '@/utils/mixins/authMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import type { CarouselNFT } from './types'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   // Identicon,
