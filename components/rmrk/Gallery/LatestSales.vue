@@ -6,7 +6,7 @@
       <div class="column is-four-fifths">
         <h1 class="title is-2">{{ $t('general.latestSales') }}</h1>
         <p class="subtitle is-size-5">
-          {{ $t('general.latestSalesheading') }}
+          {{ $t('general.latestSalesheading') }} {{ urlPrefix }}
         </p>
       </div>
       <div class="column has-text-right">
