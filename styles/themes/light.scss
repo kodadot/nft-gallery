@@ -55,7 +55,8 @@ html.light-mode {
 			background-color: rgba(12, 12, 12, 0.7) !important;
 		}
 
-		.navbar-dropdown {
+		.navbar-dropdown,
+		.navbar-menu {
 			color: $text-light-theme;
 			background-color: #fff;
 			box-shadow: rgba(229, 229, 229, 0.55)  !important;
@@ -113,7 +114,8 @@ html.light-mode {
 
 	.button:not(.is-primary),
 	.input,
-	.textarea {
+	.textarea,
+	.taginput .taginput-container.is-focusable {
 		color: $text-light-theme;
 		background-color: #fff;
 	}
