@@ -8,7 +8,7 @@ interface Props {
   rounded?: boolean
 }
 const {
-  src = '/placeholder.webp',
+  src,
   alt = 'KodaDot NFT minted multimedia',
   customClass,
   rounded,
@@ -23,7 +23,7 @@ function onImageError(_: Event, src: string) {
 
 <template>
   <b-image
-    :src="src"
+    :src="src || '/placeholder.webp'"
     src-fallback="/placeholder.webp"
     :alt="alt"
     ratio="1by1"
