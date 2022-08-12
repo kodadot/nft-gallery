@@ -17,6 +17,7 @@
           data-cy="expand-search" />
         <slot name="next-filter"></slot>
         <b-autocomplete
+          ref="searchRef"
           v-if="!hideSearchInput"
           class="gallery-search"
           v-model="name"
@@ -169,7 +170,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, Emit, mixins, Ref } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
@@ -219,6 +220,7 @@ export default class SearchBar extends mixins(
   @Prop(Boolean) public hideFilter!: boolean
   @Prop(Boolean) public hideSearchInput!: boolean
   @Prop(Boolean) public showDefaultSuggestions!: boolean
+  @Ref('searchRef') readonly searchRef
 
   protected isVisible = false
   private query: SearchQuery = {
@@ -366,7 +368,15 @@ export default class SearchBar extends mixins(
   public created() {
     this.initKeyboardEventHandler({
       f: this.bindFilterEvents,
+      k: this.bindSearchEvents,
     })
+  }
+
+  private bindSearchEvents(event) {
+    event.preventDefault()
+    if (event.key === 'k') {
+      this.focusInput()
+    }
   }
 
   private bindFilterEvents(event) {
@@ -387,6 +397,10 @@ export default class SearchBar extends mixins(
         this.updateSortBy(['PRICE_ASC'])
         break
     }
+  }
+
+  public focusInput(): void {
+    this.searchRef?.focus()
   }
 
   get vListed(): boolean {
