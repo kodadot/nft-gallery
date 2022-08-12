@@ -177,13 +177,6 @@ import { mapToId } from '@/utils/mappers'
     }
     return {
       title: this.pageTitle,
-      link: [
-        {
-          hid: 'canonical',
-          rel: 'canonical',
-          href: this.$root.$config.baseUrl + this.$route.path,
-        },
-      ],
       meta: [...this.$seoMeta(metaData)],
     }
   },
