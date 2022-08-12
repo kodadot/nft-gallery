@@ -1,12 +1,3 @@
-<script lang="ts" setup>
-import { defineProps } from '#app'
-
-defineProps<{
-  src?: string
-  mimeType?: string
-}>()
-</script>
-
 <template>
   <iframe
     title="html-embed"
@@ -16,6 +7,13 @@ defineProps<{
     sandbox="allow-scripts allow-same-origin"
     allow="accelerometer; camera; gyroscope; microphone; xr-spatial-tracking;" />
 </template>
+
+<script lang="ts" setup>
+defineProps<{
+  src?: string
+  mimeType?: string
+}>()
+</script>
 
 <style scoped>
 .iframe-model__wrapper {

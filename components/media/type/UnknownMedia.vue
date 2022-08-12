@@ -1,11 +1,3 @@
-<script lang="ts" setup>
-import { defineProps } from '#app'
-
-defineProps<{
-  src?: string
-}>()
-</script>
-
 <template>
   <div>
     <a :href="src" target="_blank" rel="noopener noreferrer"
@@ -13,3 +5,9 @@ defineProps<{
     >
   </div>
 </template>
+
+<script lang="ts" setup>
+defineProps<{
+  src?: string
+}>()
+</script>

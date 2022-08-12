@@ -1,20 +1,3 @@
-<script lang="ts" setup>
-import { useNuxtApp } from '#app'
-
-defineProps({
-  src: { type: String, default: '' },
-  alt: { type: String, default: 'KodaDot NFT minted multimedia' },
-  customClass: { type: String, default: '' },
-  rounded: Boolean,
-})
-
-const { $consola } = useNuxtApp()
-
-function onImageError(ev: Event, src: string) {
-  $consola.log('[BasicImage] to load:', src, ev)
-}
-</script>
-
 <template>
   <b-image
     :src="src || '/placeholder.webp'"
@@ -32,6 +15,23 @@ function onImageError(ev: Event, src: string) {
     </template>
   </b-image>
 </template>
+
+<script lang="ts" setup>
+import { useNuxtApp } from '#app'
+
+defineProps({
+  src: { type: String, default: '' },
+  alt: { type: String, default: 'KodaDot NFT minted multimedia' },
+  customClass: { type: String, default: '' },
+  rounded: Boolean,
+})
+
+const { $consola } = useNuxtApp()
+
+function onImageError(ev: Event, src: string) {
+  $consola.log('[BasicImage] to load:', src, ev)
+}
+</script>
 
 <style scoped>
 .b-skeleton {

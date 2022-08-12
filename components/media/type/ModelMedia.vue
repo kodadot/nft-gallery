@@ -1,18 +1,3 @@
-<script lang="ts" setup>
-import '@google/model-viewer'
-import { computed, defineProps } from '#app'
-
-const props = defineProps({
-  src: { type: String, default: '' },
-  poster: { type: String, default: '' },
-  description: { type: String, default: '' },
-  availableAnimations: { type: Array, default: () => [] },
-  preview: Boolean,
-})
-
-const isDetail = computed(() => !props.preview)
-</script>
-
 <template>
   <div class="view-model__wrapper">
     <div class="view-model__overflow"></div>
@@ -32,6 +17,21 @@ const isDetail = computed(() => !props.preview)
     </model-viewer>
   </div>
 </template>
+
+<script lang="ts" setup>
+import '@google/model-viewer'
+import { computed } from '#app'
+
+const props = defineProps({
+  src: { type: String, default: '' },
+  poster: { type: String, default: '' },
+  description: { type: String, default: '' },
+  availableAnimations: { type: Array, default: () => [] },
+  preview: Boolean,
+})
+
+const isDetail = computed(() => !props.preview)
+</script>
 
 <style lang="scss" scoped>
 .view-model {

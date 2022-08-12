@@ -1,15 +1,3 @@
-<script lang="ts" setup>
-import { computed, defineProps } from '#app'
-
-const props = defineProps<{
-  src?: string
-  poster?: string
-  mimeType?: string
-  preview?: boolean
-}>()
-const controls = computed(() => !props.preview)
-</script>
-
 <template>
   <div class="video__wrapper">
     <div class="video__overflow"></div>
@@ -26,6 +14,18 @@ const controls = computed(() => !props.preview)
       controlslist="nodownload" />
   </div>
 </template>
+
+<script lang="ts" setup>
+import { computed } from '#app'
+
+const props = defineProps<{
+  src?: string
+  poster?: string
+  mimeType?: string
+  preview?: boolean
+}>()
+const controls = computed(() => !props.preview)
+</script>
 
 <style lang="scss" scoped>
 .video {

@@ -1,11 +1,3 @@
-<script lang="ts" setup>
-import { defineProps } from '#app'
-
-defineProps<{
-  src?: string
-}>()
-</script>
-
 <template>
   <div>
     <av-waveform
@@ -18,6 +10,12 @@ defineProps<{
       playtime-font-color="rgba(0,0,0,0.74)" />
   </div>
 </template>
+
+<script lang="ts" setup>
+defineProps<{
+  src?: string
+}>()
+</script>
 
 <style>
 div.media-audio__player div > canvas.media-audio__canvas,

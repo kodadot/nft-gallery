@@ -1,3 +1,14 @@
+<template>
+  <component
+    :is="resolveComponent"
+    v-if="src"
+    :src="src"
+    :poster="poster || '/placeholder.webp'"
+    :description="description"
+    :preview="preview"
+    :availableAnimations="availableAnimations" />
+</template>
+
 <script lang="ts" setup>
 import { computed, defineAsyncComponent, defineProps } from '#app'
 import { resolveMedia } from '@/utils/gallery/media'
@@ -13,28 +24,17 @@ const props = defineProps<{
 
 const SUFFIX = 'Media'
 const components = {
-  VideoMedia: defineAsyncComponent(() => import('./VideoMedia.vue')),
-  ImageMedia: defineAsyncComponent(() => import('./ImageMedia.vue')),
-  AudioMedia: defineAsyncComponent(() => import('./AudioMedia.vue')),
-  JsonMedia: defineAsyncComponent(() => import('./JsonMedia.vue')),
-  ModelMedia: defineAsyncComponent(() => import('./ModelMedia.vue')),
-  IFrameMedia: defineAsyncComponent(() => import('./IFrameMedia.vue')),
-  ObjectMedia: defineAsyncComponent(() => import('./ObjectMedia.vue')),
-  Media: defineAsyncComponent(() => import('./UnknownMedia.vue')),
+  VideoMedia: defineAsyncComponent(() => import('./type/VideoMedia.vue')),
+  ImageMedia: defineAsyncComponent(() => import('./type/ImageMedia.vue')),
+  AudioMedia: defineAsyncComponent(() => import('./type/AudioMedia.vue')),
+  JsonMedia: defineAsyncComponent(() => import('./type/JsonMedia.vue')),
+  ModelMedia: defineAsyncComponent(() => import('./type/ModelMedia.vue')),
+  IFrameMedia: defineAsyncComponent(() => import('./type/IFrameMedia.vue')),
+  ObjectMedia: defineAsyncComponent(() => import('./type/ObjectMedia.vue')),
+  Media: defineAsyncComponent(() => import('./type/UnknownMedia.vue')),
 }
 
 const resolveComponent = computed(() => {
   return components[resolveMedia(props.mimeType) + SUFFIX]
 })
 </script>
-
-<template>
-  <component
-    :is="resolveComponent"
-    v-if="src"
-    :src="src"
-    :poster="poster || '/placeholder.webp'"
-    :description="description"
-    :preview="preview"
-    :availableAnimations="availableAnimations" />
-</template>

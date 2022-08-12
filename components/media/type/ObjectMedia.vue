@@ -1,15 +1,13 @@
-<script lang="ts" setup>
-import { defineProps } from '#app'
+<template>
+  <object class="iframe-model__wrapper" :type="mimeType" :data="src" />
+</template>
 
+<script lang="ts" setup>
 defineProps<{
   src?: string
   mimeType?: string
 }>()
 </script>
-
-<template>
-  <object class="iframe-model__wrapper" :type="mimeType" :data="src" />
-</template>
 
 <style scoped>
 .iframe-model__wrapper {

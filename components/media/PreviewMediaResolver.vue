@@ -1,11 +1,13 @@
+<template>
+  <MediaResolver
+    :src="properSrc"
+    :mimeType="properType"
+    :poster="poster"
+    preview />
+</template>
+
 <script lang="ts" setup>
-import {
-  computed,
-  defineAsyncComponent,
-  defineProps,
-  onMounted,
-  ref,
-} from '#app'
+import { computed, defineAsyncComponent, onMounted, ref } from '#app'
 import { get, update } from 'idb-keyval'
 import axios from 'axios'
 
@@ -46,11 +48,3 @@ const fetchMimeType = async () => {
 
 onMounted(fetchMimeType)
 </script>
-
-<template>
-  <MediaResolver
-    :src="properSrc"
-    :mimeType="properType"
-    :poster="poster"
-    preview />
-</template>

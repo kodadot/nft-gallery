@@ -1,5 +1,16 @@
+<template>
+  <div>
+    <div v-for="item in data" :key="item.key">
+      <div>
+        <b>{{ item.key }}</b
+        >: {{ item.value }}
+      </div>
+    </div>
+  </div>
+</template>
+
 <script lang="ts" setup>
-import { defineProps, onMounted, ref, useNuxtApp } from '#app'
+import { onMounted, ref, useNuxtApp } from '#app'
 import api from '@/utils/fetch'
 
 const { $consola } = useNuxtApp()
@@ -21,14 +32,3 @@ onMounted(async () => {
   }
 })
 </script>
-
-<template>
-  <div>
-    <div v-for="item in data" :key="item.key">
-      <div>
-        <b>{{ item.key }}</b
-        >: {{ item.value }}
-      </div>
-    </div>
-  </div>
-</template>
