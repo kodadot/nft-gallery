@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, defineProps } from '#app'
+import { computed, defineAsyncComponent } from '#app'
 import { resolveMedia } from '@/utils/gallery/media'
 
 const props = defineProps<{
