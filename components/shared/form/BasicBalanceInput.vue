@@ -11,8 +11,8 @@
       :expanded="expanded"
       :placeholder="placeholder"
       @blur="onBlur"
-      pattern="^(\d+)\,(\d+)$"
-      data-testid="balance-input" />
+      data-testid="balance-input"
+      :useHtml5Validation="true" />
     <p class="control">
       <span data-testid="balance-input-label" class="button is-static">{{
         unit
@@ -30,7 +30,7 @@ import {
   VModel,
   Vue,
 } from 'nuxt-property-decorator'
-import { Debounce } from 'vue-debounce-decorator'
+
 import { balanceFrom, simpleDivision } from '@/utils/balance'
 
 @Component
@@ -60,14 +60,13 @@ export default class BasicBalanceInput extends Vue {
     this.handleInput(value)
   }
 
-  @Debounce(200)
   @Emit('input')
   public handleInput(value: number | string): string {
     this.checkValidity()
     try {
       return balanceFrom(value, this.decimals)
     } catch (e) {
-      this.$consola.log((e as Error).message)
+      this.$consola.warn((e as Error).message)
       return '0'
     }
   }
