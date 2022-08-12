@@ -14,7 +14,7 @@ import { Vue, Component } from 'nuxt-property-decorator'
       title,
       type: 'profile',
       description: 'Featuring the hot NFTs on RMRK.',
-      url: './hot.vue',
+      url: '/hot.vue',
       image: `${this.$config.baseUrl}/k_card_series.png`,
     }
     return {
