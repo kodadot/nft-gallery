@@ -16,8 +16,8 @@ const {
 
 const { $consola } = useNuxtApp()
 
-function onImageError(_: Event, src: string) {
-  $consola.log('[BasicImage] to load:', src)
+function onImageError(ev: Event, src: string) {
+  $consola.log('[BasicImage] to load:', src, ev)
 }
 </script>
 
