@@ -26,7 +26,6 @@ export default class MultiPaymentFeeButton extends mixins(UseApiMixin) {
 
   async fetchCurrency() {
     try {
-      console.log('kokoooooot')
       const api = await this.useApi()
       const { symbol } = await getAssetMetadataByAccount(api, this.accountId)
       this.symbol = symbol
