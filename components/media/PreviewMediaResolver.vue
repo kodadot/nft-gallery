@@ -15,34 +15,29 @@ const MediaResolver = defineAsyncComponent(
   () => import('@/components/media/MediaResolver.vue')
 )
 
-const {
-  src = '',
-  metadata = '',
-  mimeType,
-  poster,
-} = defineProps<{
-  src?: string
-  metadata?: string
-  mimeType?: string
-  poster?: string
-}>()
+const props = defineProps({
+  src: { type: String, default: '' },
+  metadata: { type: String, default: '' },
+  mimeType: String,
+  poster: String,
+})
 
 const type = ref('')
 
-const properType = computed(() => mimeType || type.value || 'image/webp')
-const properSrc = computed(() => src || '/placeholder.webp')
+const properType = computed(() => props.mimeType || type.value || 'image/webp')
+const properSrc = computed(() => props.src || '/placeholder.webp')
 
 const fetchMimeType = async () => {
-  if (mimeType) {
+  if (props.mimeType) {
     return
   }
 
-  const m = await get<NFTMetadata>(metadata)
-  type.value = m?.type || ''
+  const nftMetadata = await get<NFTMetadata>(props.metadata)
+  type.value = nftMetadata?.type || ''
   if (!type.value) {
-    const { headers } = await axios.head(src)
+    const { headers } = await axios.head(props.src)
     type.value = headers['content-type']
-    update(metadata, (cached) => ({
+    update(props.metadata, (cached) => ({
       ...(cached || {}),
       type: type.value,
     }))

@@ -1,5 +1,5 @@
-import { defineNuxtPlugin } from '#app'
 import consola from 'consola'
+import { defineNuxtPlugin } from '#app'
 
 declare module 'vue/types/vue' {
   // this.$consola inside Vue components

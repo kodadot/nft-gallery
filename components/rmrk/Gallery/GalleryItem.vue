@@ -138,31 +138,33 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { NFT, NFTMetadata, Emote } from '../service/scheme'
-import { sanitizeIpfsUrl, getSanitizer } from '../utils'
-import { processMedia } from '@/utils/gallery/media'
-import { emptyObject } from '@/utils/empty'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { generateNftImage } from '@/utils/seoImageGenerator'
-import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
-
-import isShareMode from '@/utils/isShareMode'
-import nftById from '@/queries/subsquid/rmrk/nftById.graphql'
-import nftListIdsByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
-import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
-import eventListByNftId from '@/queries/subsquid/general/eventListByNftId.graphql'
-
-import { fetchNFTMetadata } from '../utils'
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { get, set } from 'idb-keyval'
+import { Debounce } from 'vue-debounce-decorator'
+
+import { Emote, NFT, NFTMetadata } from '../service/scheme'
+import { getSanitizer, sanitizeIpfsUrl } from '../utils'
 import { exist } from './Search/exist'
+import { fetchNFTMetadata } from '../utils'
+
+import { notificationTypes, showNotification } from '@/utils/notification'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { Debounce } from 'vue-debounce-decorator'
-import AvailableActions from './AvailableActions.vue'
+import { emptyObject } from '@/utils/empty'
+import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
+import { generateNftImage } from '@/utils/seoImageGenerator'
 import { isOwner } from '@/utils/account'
-import { unwrapSafe } from '@/utils/uniquery'
+import isShareMode from '@/utils/isShareMode'
 import { mapToId } from '@/utils/mappers'
+import { processMedia } from '@/utils/gallery/media'
+import { unwrapSafe } from '@/utils/uniquery'
+
+import eventListByNftId from '@/queries/subsquid/general/eventListByNftId.graphql'
+import nftById from '@/queries/subsquid/rmrk/nftById.graphql'
+import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
+import nftListIdsByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
+
+import AvailableActions from './AvailableActions.vue'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',

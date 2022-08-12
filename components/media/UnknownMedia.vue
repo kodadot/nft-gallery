@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { defineProps } from '#app'
 
-const { src } = defineProps<{
+defineProps<{
   src?: string
 }>()
 </script>

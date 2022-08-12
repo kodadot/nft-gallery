@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { defineProps } from '#app'
 
-const { src, mimeType } = defineProps<{
+defineProps<{
   src?: string
   mimeType?: string
 }>()

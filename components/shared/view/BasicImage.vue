@@ -1,23 +1,17 @@
 <script lang="ts" setup>
 import { useNuxtApp } from '#app'
 
-interface Props {
-  src?: string
-  alt?: string
-  customClass?: string
-  rounded?: boolean
-}
-const {
-  src,
-  alt = 'KodaDot NFT minted multimedia',
-  customClass,
-  rounded,
-} = defineProps<Props>()
+defineProps({
+  src: String,
+  alt: { type: String, default: 'KodaDot NFT minted multimedia' },
+  customClass: String,
+  rounded: Boolean,
+})
 
 const { $consola } = useNuxtApp()
 
 function onImageError(ev: Event, src: string) {
-  $consola.log('[BasicImage] to load:', src, ev)
+  $consola.log('[BasicImage] to load:', src)
 }
 </script>
 

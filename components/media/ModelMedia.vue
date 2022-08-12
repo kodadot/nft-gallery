@@ -2,22 +2,15 @@
 import '@google/model-viewer'
 import { computed, defineProps } from '#app'
 
-interface Props {
-  src?: string
-  poster?: string
-  description?: string
-  availableAnimations?: string[]
-  preview?: boolean
-}
-const {
-  src = '',
-  poster = '',
-  description = '',
-  availableAnimations,
-  preview,
-} = defineProps<Props>()
+const props = defineProps({
+  src: { type: String, default: '' },
+  poster: { type: String, default: '' },
+  description: { type: String, default: '' },
+  availableAnimations: Array,
+  preview: Boolean,
+})
 
-const isDetail = computed(() => !preview)
+const isDetail = computed(() => !props.preview)
 </script>
 
 <template>
