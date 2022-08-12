@@ -5,7 +5,6 @@ import api from '@/utils/fetch'
 const { $consola } = useNuxtApp()
 const props = defineProps<{
   src?: string
-  mimeType?: string
 }>()
 const data = ref<{ key: string; value: string }[]>([])
 

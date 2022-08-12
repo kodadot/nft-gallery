@@ -33,7 +33,7 @@ const properType = computed(() => mimeType || type.value || 'image/webp')
 const properSrc = computed(() => src || '/placeholder.webp')
 
 const fetchMimeType = async () => {
-  if (mimeType || metadata || src) {
+  if (mimeType) {
     return
   }
 
@@ -49,10 +49,7 @@ const fetchMimeType = async () => {
   }
 }
 
-onMounted(() => {
-  fetchMimeType()
-  console.log({ src, metadata, mimeType, poster })
-})
+onMounted(fetchMimeType)
 </script>
 
 <template>
