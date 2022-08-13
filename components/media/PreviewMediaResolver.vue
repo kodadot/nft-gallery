@@ -7,15 +7,9 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  defineAsyncComponent,
-  onMounted,
-  ref,
-  useLazyFetch,
-  watch,
-} from '#app'
+import { computed, defineAsyncComponent, onMounted, ref } from '#app'
 import { get, update } from 'idb-keyval'
+import { $fetch } from 'ohmyfetch'
 
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 
@@ -31,9 +25,6 @@ const props = defineProps({
 })
 
 const type = ref('')
-const { data: item } = useLazyFetch(props.src, {
-  method: 'HEAD',
-})
 
 const properType = computed(() => props.mimeType || type.value || 'image/webp')
 const properSrc = computed(() => props.src || '/placeholder.webp')
@@ -46,8 +37,9 @@ const fetchMimeType = async () => {
   const nftMetadata = await get<NFTMetadata>(props.metadata)
   type.value = nftMetadata?.type || ''
 
-  if (!type.value && item.value) {
-    type.value = (item.value as Blob)?.type || ''
+  if (!type.value) {
+    const response = await $fetch(props.src, { method: 'HEAD' })
+    type.value = response.type
 
     update(props.metadata, (cached) => ({
       ...(cached || {}),
@@ -57,10 +49,6 @@ const fetchMimeType = async () => {
 }
 
 onMounted(() => {
-  fetchMimeType()
-})
-
-watch(item, () => {
   fetchMimeType()
 })
 </script>
