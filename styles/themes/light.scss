@@ -159,4 +159,29 @@ html.light-mode {
 			color: $primary;
 		}
 	}
+
+	.table {
+		color: $text-light-theme;
+		background-color: #fff;
+
+		&.is-hoverable tbody tr:not(.is-selected):hover {
+			background-color: hsl(0deg, 0%, 92%);
+		}
+
+		th {
+			color: hsl(0deg, 0%, 8%);
+		}
+	}
+
+	.b-table .table-wrapper.has-sticky-header tr:first-child th {
+		background-color: #fff;
+	}
+
+	.loading-container {
+		background: rgba(243, 243, 243, 0.88);
+
+		.funfact-text {
+			color: $text-light-theme;
+		}
+	}
 }
