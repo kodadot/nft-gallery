@@ -54,6 +54,7 @@ specifiers:
   date-fns: ^2.29.1
   emoji-unicode: ^2.0.1
   eslint: ^8.21.0
+  eslint-config-prettier: ^8.5.0
   eslint-plugin-prettier: ^4.2.1
   eslint-plugin-unicorn: ^42.0.0
   eslint-plugin-vue: ^8.7.1
@@ -173,7 +174,8 @@ devDependencies:
   cross-env: 7.0.3
   cypress: 10.4.0
   eslint: 8.21.0
-  eslint-plugin-prettier: 4.2.1_po3yoeeutu52wwqsoi2mwzccke
+  eslint-config-prettier: 8.5.0_eslint@8.21.0
+  eslint-plugin-prettier: 4.2.1_h62lvancfh4b7r6zn2dgodrh5e
   eslint-plugin-unicorn: 42.0.0_eslint@8.21.0
   eslint-plugin-vue: 8.7.1_eslint@8.21.0
   graphql-tag: 2.12.6_graphql@16.5.0
@@ -9407,7 +9409,16 @@ packages:
       source-map: 0.6.1
     dev: true
 
-  /eslint-plugin-prettier/4.2.1_po3yoeeutu52wwqsoi2mwzccke:
+  /eslint-config-prettier/8.5.0_eslint@8.21.0:
+    resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dependencies:
+      eslint: 8.21.0
+    dev: true
+
+  /eslint-plugin-prettier/4.2.1_h62lvancfh4b7r6zn2dgodrh5e:
     resolution: {integrity: sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
@@ -9419,6 +9430,7 @@ packages:
         optional: true
     dependencies:
       eslint: 8.21.0
+      eslint-config-prettier: 8.5.0_eslint@8.21.0
       prettier: 2.7.1
       prettier-linter-helpers: 1.0.0
     dev: true

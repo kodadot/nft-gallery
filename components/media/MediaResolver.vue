@@ -6,11 +6,10 @@
     :poster="poster || '/placeholder.webp'"
     :description="description"
     :preview="preview"
-    :availableAnimations="availableAnimations" />
+    :available-animations="availableAnimations" />
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent } from '#app'
 import { resolveMedia } from '@/utils/gallery/media'
 
 const props = defineProps<{

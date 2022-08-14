@@ -6,7 +6,7 @@
       :src="src"
       :poster="poster"
       :alt="description"
-      :availableAnimations="availableAnimations"
+      :available-animations="availableAnimations"
       auto-rotate
       :camera-controls="isDetail"
       :ar="isDetail"
@@ -20,7 +20,6 @@
 
 <script lang="ts" setup>
 import '@google/model-viewer'
-import { computed } from '#app'
 
 const props = defineProps({
   src: { type: String, default: '' },

@@ -1,13 +1,12 @@
 <template>
   <MediaResolver
     :src="properSrc"
-    :mimeType="properType"
+    :mime-type="properType"
     :poster="poster"
     preview />
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, onMounted, ref } from '#app'
 import { get, update } from 'idb-keyval'
 import { $fetch } from 'ohmyfetch'
 

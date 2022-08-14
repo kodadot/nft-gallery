@@ -16,8 +16,6 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from '#app'
-
 const props = defineProps<{
   src?: string
   poster?: string

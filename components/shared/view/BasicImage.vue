@@ -17,8 +17,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useNuxtApp } from '#app'
-
 defineProps({
   src: { type: String, default: '' },
   alt: { type: String, default: 'KodaDot NFT minted multimedia' },

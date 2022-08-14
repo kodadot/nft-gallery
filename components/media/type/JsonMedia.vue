@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, useNuxtApp } from '#app'
 import api from '@/utils/fetch'
 
 const { $consola } = useNuxtApp()
