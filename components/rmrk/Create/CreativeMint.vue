@@ -44,7 +44,6 @@
       expanded />
 
     <!-- <BalanceInput :step="0.1" @input="updateMeta" label="Price" expanded />
->>>>>>> main
       <div class="content mt-3">
         <p>
           Hint: Setting the price now requires making an additional transaction.
