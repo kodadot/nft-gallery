@@ -3,9 +3,7 @@
     <template #trigger>
       <span v-if="account" class="is-mobile is-vcentered navbar__avatar">
         <!-- <Avatar class="navbar__avatar-icon" :value="account" :size="34" /> -->
-        <b-button
-          type="is-primary navbar-link-background is-bordered-light"
-          class="navbar__button">
+        <b-button type="is-primary" icon-left="user">
           <Identity
             :address="account"
             class="navbar__address"
@@ -15,7 +13,7 @@
       </span>
 
       <template v-else>
-        <ConnectWalletButton class="navbar__button" />
+        <ConnectWalletButton />
       </template>
     </template>
 

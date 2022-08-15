@@ -8,7 +8,9 @@
           icon-left="chevron-left"
           @click="hasSelectedWalletProvider = !hasSelectedWalletProvider"
           v-show="hasSelectedWalletProvider" />
-        <p class="modal-card-title">{{ $t('walletConnect.walletHeading') }}</p>
+        <p class="modal-card-title has-text-weight-bold">
+          {{ $t('walletConnect.walletHeading') }}
+        </p>
         <button type="button" class="delete" @click="$emit('close')" />
       </header>
       <section class="modal-card-body py-6" v-if="!hasUserWalletAuth">
@@ -226,16 +228,18 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
 @import '@/styles/variables';
 .wallet {
   max-width: 400px;
-  border: 2px solid $primary;
+  border: 3px solid $primary;
+  border-radius: 4px;
 
   &.modal-card {
-    background: $frosted-glass-background;
+    background: #1f1f1f;
     backdrop-filter: $frosted-glass-light-backdrop-filter;
   }
 
   .modal-card-body,
   .modal-card-head {
     background: unset;
+    border-bottom: 0;
   }
 
   .modal-card-body {
@@ -243,8 +247,11 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
   }
 
   .buttons button {
-    border-radius: 0;
+    border: 0;
+    border-radius: 4px;
     justify-content: space-between;
+    background-color: #464646;
+    font-weight: 600;
   }
 }
 </style>

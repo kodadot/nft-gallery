@@ -2,62 +2,61 @@
   <section>
     <br />
     <Loader v-model="isLoading" :status="status" />
-    <div class="box">
-      <p class="title is-size-3">
-        <!-- {{ $t('mint.context') }} -->
-        Creative Minting
-      </p>
-      <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
-      <b-field>
-        <div>
-          {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
-        </div>
-      </b-field>
-      <AuthField />
+    <p class="title is-size-3">
+      <!-- {{ $t('mint.context') }} -->
+      Creative Minting
+    </p>
+    <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
+    <b-field>
+      <div>
+        {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
+      </div>
+    </b-field>
+    <AuthField />
 
-      <MetadataUpload
-        required
-        ref="uploadFileRef"
-        v-model="file"
-        label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
-        expanded
-        preview />
+    <MetadataUpload
+      required
+      ref="uploadFileRef"
+      v-model="file"
+      label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
+      expanded
+      preview />
 
-      <LabeledText
-        label="mint.nft.name.label"
-        class="mb-2"
-        :isLoading="isGptLoading">
-        {{ rmrkMint.name }}
-      </LabeledText>
+    <LabeledText
+      label="mint.nft.name.label"
+      class="mb-2"
+      :isLoading="isGptLoading">
+      {{ rmrkMint.name }}
+    </LabeledText>
 
-      <LabeledText label="mint.nft.description.label" :isLoading="isGptLoading">
-        {{ rmrkMint.description }}
-      </LabeledText>
+    <LabeledText label="mint.nft.description.label" :isLoading="isGptLoading">
+      {{ rmrkMint.description }}
+    </LabeledText>
 
-      <BasicNumberInput
-        v-model="rmrkMint.max"
-        key="edition"
-        class="mt-5"
-        :min="1"
-        :label="$t('mint.nft.edition.label')"
-        :message="$t('mint.nft.edition.message')"
-        :placeholder="$t('mint.nft.edition.placeholder')"
-        expanded />
+    <BasicNumberInput
+      v-model="rmrkMint.max"
+      key="edition"
+      class="mt-5"
+      :min="1"
+      :label="$t('mint.nft.edition.label')"
+      :message="$t('mint.nft.edition.message')"
+      :placeholder="$t('mint.nft.edition.placeholder')"
+      expanded />
 
-      <!-- <BalanceInput :step="0.1" @input="updateMeta" label="Price" expanded />
+    <!-- <BalanceInput :step="0.1" @input="updateMeta" label="Price" expanded />
+>>>>>>> main
       <div class="content mt-3">
         <p>
           Hint: Setting the price now requires making an additional transaction.
         </p>
       </div> -->
-      <b-field
-        key="submit"
-        type="is-danger"
-        v-if="isLogIn"
-        :message="balanceNotEnoughMessage">
-        <SubmitButton label="mint.submit" :loading="isLoading" @click="sub" />
-      </b-field>
-    </div>
+    <b-field
+      key="submit"
+      type="is-danger"
+      v-if="isLogIn"
+      :message="balanceNotEnoughMessage">
+      <SubmitButton label="mint.submit" :loading="isLoading" @click="sub" />
+    </b-field>
   </section>
 </template>
 

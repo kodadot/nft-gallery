@@ -38,13 +38,6 @@ const components = { Collection, NFT }
     }
     return {
       title,
-      link: [
-        {
-          hid: 'canonical',
-          rel: 'canonical',
-          href: this.$root.$config.baseUrl + this.$route.path,
-        },
-      ],
       meta: [...this.$seoMeta(metaData)],
     }
   },

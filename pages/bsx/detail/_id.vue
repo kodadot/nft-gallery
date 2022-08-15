@@ -12,17 +12,6 @@ import GalleryItem from '@/components/bsx/Gallery/Item/GalleryItem.vue'
   components: {
     GalleryItem,
   },
-  head() {
-    return {
-      link: [
-        {
-          hid: 'canonical',
-          rel: 'canonical',
-          href: this.$root.$config.baseUrl + this.$route.path,
-        },
-      ],
-    }
-  },
 })
 export default class GalleryItemPage extends Vue {}
 </script>

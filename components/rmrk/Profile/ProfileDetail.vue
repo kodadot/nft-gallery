@@ -52,7 +52,7 @@
       <div class="column has-text-right">
         <div class="is-flex is-justify-content-right" v-if="hasBlockExplorer">
           <div class="control" v-for="network in networks" :key="network.alt">
-            <b-button class="share-button" type="is-primary is-bordered-light">
+            <b-button class="share-button" type="is-bordered-light">
               <a
                 :href="`${network.url}${id}`"
                 target="_blank"
@@ -314,13 +314,6 @@ const components = {
     }
     return {
       title,
-      link: [
-        {
-          hid: 'canonical',
-          rel: 'canonical',
-          href: this.$root.$config.baseUrl + this.$route.path,
-        },
-      ],
       meta: [...this.$seoMeta(metaData)],
     }
   },
