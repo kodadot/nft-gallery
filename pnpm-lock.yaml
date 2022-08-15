@@ -180,6 +180,7 @@ devDependencies:
   eslint-plugin-prettier: 4.2.1_2xd4q2tc5cqa5as7uugqhp6oue
   eslint-plugin-unicorn: 42.0.0_eslint@8.22.0
   eslint-plugin-vue: 8.7.1_eslint@8.22.0
+  fake-indexeddb: 4.0.0
   graphql-tag: 2.12.6_graphql@16.5.0
   husky: 7.0.4
   jsdom: 19.0.0
