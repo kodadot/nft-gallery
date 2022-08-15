@@ -120,7 +120,7 @@
       <GalleryItemCarousel
         v-if="showRelatedCarousel"
         type="related"
-        :collectionId="nft.collectionId" />
+        :collectionId="nft.collection.id" />
       <GalleryItemCarousel type="visited" />
 
       <div class="columns">
@@ -415,7 +415,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   get showRelatedCarousel(): boolean {
     return (
-      Boolean(this.nft.collectionId) && this.nftsFromSameCollection.length > 0
+      Boolean(this.nft.collection?.id) && this.nftsFromSameCollection.length > 0
     )
   }
 
