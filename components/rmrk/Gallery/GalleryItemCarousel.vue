@@ -48,7 +48,7 @@ export default class GalleryItemCarousel extends mixins(PrefixMixin) {
         },
       })
 
-      this.nfts = await formatNFT(data?.collectionEntityById?.nfts)
+      this.nfts = await formatNFT(data?.collection.nfts)
     }
 
     if (this.type === 'visited' && visitedNFT().length >= MIN_CAROUSEL_NFT) {
@@ -61,9 +61,14 @@ export default class GalleryItemCarousel extends mixins(PrefixMixin) {
           ids,
         },
       })
+      const filteredNftsNullMeta: { id: string }[] = data?.nftEntities.filter(
+        (nft) => nft.meta !== null
+      )
 
-      const sortedNftList = sortItemListByIds(data?.nftEntities, ids, 10)
-      this.nfts = await formatNFT(sortedNftList)
+      if (filteredNftsNullMeta) {
+        const sortedNftList = sortItemListByIds(filteredNftsNullMeta, ids, 10)
+        this.nfts = await formatNFT(sortedNftList)
+      }
     }
   }
 

@@ -89,7 +89,8 @@ $button-color: $light-text;
 
 // dropdown
 $dropdown-item-hover-background-color: $primary;
-$navbar-dropdown-item-hover-background-color: $primary;
+$dropdown-item-active-background-color: $primary;
+// $navbar-dropdown-item-hover-background-color: $primary;
 $dropdown-content-shadow: 13px 14px $primary-dark-transparent;
 $dropdown-content-padding-bottom: 0;
 
@@ -103,10 +104,10 @@ $input-placeholder-color: bulmaRgba($scheme-invert, 0.3);
 $box-shadow: none;
 
 // tabs
-$tabs-link-hover-color: $primary;
+// $tabs-link-hover-color: $primary;
 $tabs-boxed-link-focus-border-bottom-color: $primary;
 $tabs-boxed-link-focus-background-color: lightpink;
-// $tabs-boxed-link-focus-active-background-color: $primary;
+$tabs-boxed-link-focus-active-background-color: $primary;
 
 //  these somehow doesn't work for profile, idk why, maybe fix whenever you spot this
 // $tabs-items-focused-outline: lime;
@@ -119,6 +120,11 @@ $tabs-boxed-link-focus-background-color: lightpink;
 // $tabs-boxed-link-focus-border-color: lime;
 // $tabs-boxed-link-focus-active-border-bottom-color: lime;
 // $tabs-items-focused-outline: lime;
+$tabs-border-bottom-color: #7D7A7A;
+$tabs-link-active-border-bottom-color: $primary;
+$tabs-link-active-color: $primary;
+$tabs-link-hover-color: lightpink;
+$tabs-link-hover-border-bottom-color: lightpink;
 
 // layout
 $container-offset: (2 * $gap);
@@ -146,6 +152,10 @@ $image-placeholder-blur-enabled: false;
 $lightpink: lightpink;
 
 $blacklight: #0909098c;
+$input-color: #E5E5E5;
+$placeholder-color: #1f1f1f;
+$search-navbar-background-color: #29292f;
+$select-border-color: #7d7d7d;
 
 $frosted-glass-background: rgba(12, 12, 12, 0.7);
 $frosted-glass-backdrop-filter: blur(20px);

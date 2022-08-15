@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <div v-for="job in jobPostings" :key="job.headline" class="mb-5">
-      <h2 class="heading heading-is-5 is-size-2-mobile text-bold">
+      <h2 class="heading heading-is-5 is-size-2-mobile has-text-weight-bold">
         {{ job.headline }}
         <span class="text__stroked heading heading-is-7 is-size-1-mobile">{{
           job.subheadline
         }}</span>
       </h2>
-      <p class="max-w-600">{{ job.description }}</p>
+      <p>{{ job.description }}</p>
       <b-button
         tag="a"
         :href="job.url"

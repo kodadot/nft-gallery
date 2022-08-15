@@ -8,7 +8,7 @@
       <b-button
         @click="toast('URL copied to clipboard')"
         v-clipboard:copy="realworldFullPathShare"
-        type="is-primary is-bordered-light share-button">
+        type="is-bordered-light share-button">
         <b-icon size="is-small" pack="fas" icon="link" />
       </b-button>
 
@@ -78,7 +78,7 @@
             <b-icon size="is-large" pack="fas" icon="envelope" />
           </ShareNetwork>
         </template>
-        <b-button type="is-primary is-bordered-light share-button">
+        <b-button type="is-bordered-light share-button">
           <b-icon size="is-small" pack="fas" icon="share" />
         </b-button>
       </b-tooltip>

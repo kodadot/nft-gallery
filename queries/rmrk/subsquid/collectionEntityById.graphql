@@ -3,7 +3,7 @@
 #import "../../fragments/baseMeta.graphql"
 
 query collectionEntityById($id: ID!, $nftId: ID!) {
-  collectionEntityById(id: $id) {
+  collection: collectionEntityById(id: $id) {
     id
     name
     nfts(
@@ -13,6 +13,10 @@ query collectionEntityById($id: ID!, $nftId: ID!) {
     ) {
       ...nftSubsquid
       ...nftDetails
+      collection {
+        id
+        name
+      }
       meta {
         ...baseMeta
       }
