@@ -194,4 +194,14 @@ html.light-mode {
 			color: $text-light-theme;
 		}
 	}
+
+	.wallet .buttons button {
+		background-color: rgba(243, 243, 243, 0.90);
+	}
+
+	.gallery .has-text-overflow-ellipsis,
+	.collections .columns .card .card-content .collection-title,
+	.collections .columns .card .card-content .heading--inline {
+		color: $text-light-theme;
+	}
 }
