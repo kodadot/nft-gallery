@@ -1,5 +1,5 @@
 import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
-import { PinningKey, getKey as getPinningKey } from '@/utils/nftStorage'
+import { PinningKey, getKey as getPinningKey } from '@/services/nftStorage'
 import { emptyObject, isEmpty } from '@/utils/empty'
 
 type PinningState = {

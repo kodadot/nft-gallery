@@ -54,7 +54,7 @@ import {
 import { Attribute } from '@/components/rmrk/types'
 import collectionForMint from '@/queries/unique/collectionForMint.graphql'
 import ChainMixin from '@/utils/mixins/chainMixin'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { pinFileToIPFS, pinJson, PinningKey } from '~/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'

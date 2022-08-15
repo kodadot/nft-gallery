@@ -75,7 +75,7 @@ import {
 } from '@/components/rmrk/Create/mintUtils'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { pinFileToIPFS, pinJson, PinningKey } from '~/services/nftStorage'
 import shouldUpdate from '@/utils/shouldUpdate'
 import {
   Attribute,

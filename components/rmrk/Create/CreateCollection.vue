@@ -52,7 +52,7 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { pinFileToIPFS, pinJson, PinningKey } from '~/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { canSupport } from '@/utils/support'
 import {
