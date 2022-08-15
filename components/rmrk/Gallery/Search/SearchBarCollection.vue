@@ -27,7 +27,7 @@
           v-model="vListed"
           :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
           size="is-medium"
-          labelColor="is-success"
+          labelColor="has-text-success"
           :disabled="disableToggle"
           :message="$t('tooltip.buy')" />
         <BasicSwitch
@@ -36,7 +36,7 @@
           v-model="vOwned"
           :label="'sort.own'"
           size="is-medium"
-          labelColor="is-success"
+          labelColor="has-text-success"
           :message="$t('tooltip.own')" />
         <slot />
       </div>
@@ -217,6 +217,7 @@ export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
 </style>
 
 <style lang="scss">
+/* cry in scss (global) */
 @import '@/styles/variables';
 
 .field-group-container {
@@ -235,7 +236,7 @@ export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
   }
   .input-search {
     input {
-      border: 1px solid $primary !important;
+      border: 1px solid #7d7d7d !important;
     }
   }
 }
