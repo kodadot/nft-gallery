@@ -6,6 +6,10 @@ query nftEntitiesByIDs($ids: [ID!]!) {
   nftEntities(where: { id_in: $ids }) {
     ...nftSubsquid
     ...nftDetails
+    collection {
+      id
+      name
+    }
     meta {
       ...baseMeta
     }

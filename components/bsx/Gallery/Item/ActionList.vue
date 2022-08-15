@@ -3,7 +3,7 @@
     <b-tooltip
       v-for="action in actions"
       :key="action"
-      class="w-100"
+      append-to-body
       :active="disableButton(action)"
       position="is-left"
       :label="disabledToolTips[action]">

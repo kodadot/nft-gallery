@@ -12,11 +12,12 @@ import { LastEvent } from '~/utils/types/types'
  * Get cloudflare images
  * Update timestamp
  */
-export const formatNFT = async (data): Promise<CarouselNFT[]> => {
-  if (!data) {
+export const formatNFT = async (nfts): Promise<CarouselNFT[]> => {
+  if (!nfts) {
     return []
   }
 
+  const data = nfts.filter((nft) => Boolean(nft.meta))
   const images = await getCloudflareImageLinks(data.map((nft) => nft.meta.id))
   const imageOf = getProperImageLink(images)
 

@@ -409,32 +409,3 @@ export default class History extends mixins(
   }
 }
 </script>
-<style lang="scss">
-.short-identity__table {
-  max-width: 50em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.type-table {
-  white-space: nowrap;
-}
-
-.collapseHidden {
-  .collapse-trigger {
-    display: none;
-  }
-}
-
-.box {
-  .table-nav {
-    display: flex;
-    justify-content: space-between;
-  }
-  .box-container {
-    @media screen and (max-width: 768px) {
-      flex-direction: column-reverse;
-    }
-  }
-}
-</style>

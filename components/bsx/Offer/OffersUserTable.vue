@@ -14,7 +14,7 @@
       @input="updateList"
       :label="$t('offer.burnedToggle')"
       size="is-medium"
-      labelColor="is-success" />
+      labelColor="has-text-success" />
     <b-table :data="displayOffers(offers)">
       <b-table-column
         cell-class="is-vcentered is-narrow"
