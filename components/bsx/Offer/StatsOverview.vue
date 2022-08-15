@@ -23,7 +23,7 @@
             {{ `${data.totalCount} /` }}
             <Money :value="data.totalPrice" inline />
           </p>
-          <p class="heading text-bold mb-5">
+          <p class="heading has-text-weight-bold mb-5">
             {{
               `${data.status} ${$t('statsOverview.offers')} / ${$t(
                 'statsOverview.values'

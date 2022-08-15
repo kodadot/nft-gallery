@@ -1,0 +1,16 @@
+html.dark-mode {
+	body,
+	div#__nuxt,
+	div#__layout,
+	main {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		background-color: $background-dark;
+	}
+
+	.title,
+	.card-header-title {
+		color: $text;
+	}
+}

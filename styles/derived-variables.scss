@@ -1,7 +1,7 @@
 @import "initial-variables";
 
-$primary: #e6007e;
-// $primary: #ff149366;
+// $primary: #e6007e;
+$primary: #FF47AC;
 $primary-light: #d32e79;
 $primary-dark-transparent: rgba(90, 15, 60, 0.7);
 
@@ -19,8 +19,7 @@ $success: $green;
 // $light: $white-ter;
 $dark: $black;
 
-// // Invert colors
-
+// Invert colors
 // $orange-invert: findColorInvert($orange);
 // $yellow-invert: findColorInvert($yellow);
 // $green-invert: findColorInvert($green);
@@ -48,39 +47,40 @@ $dark: $black;
 // $light-invert: findColorInvert($light);
 // $dark-invert: findColorInvert($dark);
 
-// // General colors
-$scheme-main: $black;
+// General colors
+$scheme-main: #181717;
 $scheme-main-bis: $black-bis;
 $scheme-main-ter: $black-ter;
 $scheme-invert: $white;
 $scheme-invert-bis: $white-bis;
 $scheme-invert-ter: $white-ter;
 
-// $background: $white-ter;
+$background-dark: #181717;
+$background-light: #f8f7f7;
+$text-light-theme: #1f1f1f;
+// $text-light: #333;
 
 // $border: $grey-lighter;
 // $border-hover: $grey-light;
 // $border-light: $grey-lightest;
 // $border-light-hover: $grey-light;
 
-// // Text colors
-
+// Text colors
 $text: #f8f4f6;
 // $text-invert: findColorInvert($text);
 // $text-light: $grey;
 // $text-strong: $grey-darker;
 
-// // Code colors
-
+// Code colors
 // $code: darken($red, 15%);
 // $code-background: $background;
 
 // $pre: $text;
 // $pre-background: $background;
 
-// // Link colors
-
-$link: $primary;
+// Link colors
+$link: #fff;
+// $link: $primary;
 // $link-invert: findColorInvert($link);
 // $link-light: findLightColor($link);
 // $link-dark: findDarkColor($link);
@@ -95,8 +95,7 @@ $link-hover: $primary;
 // $link-active: $grey-darker;
 // $link-active-border: $grey-dark;
 
-// // Typography
-
+// Typography
 $family-primary: $family-monospace;
 // $family-secondary: $family-sans-serif;
 // $family-code: $family-monospace;
@@ -106,7 +105,7 @@ $family-primary: $family-monospace;
 // $size-medium: $size-5;
 // $size-large: $size-4;
 
-// // Lists and maps
+// Lists and maps
 // $custom-colors: null;
 // $custom-shades: null;
 

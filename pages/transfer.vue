@@ -4,130 +4,128 @@
     <nuxt-link
       v-if="$route.query.target"
       :to="`/${this.urlPrefix}/u/${correctAddress}`"
-      class="linkartist">
-      <b-icon icon="chevron-left" size="is-small" class="linkartist--icon" />
+      class="pl-4 is-flex is-align-items-center">
+      <b-icon icon="chevron-left" size="is-small" class="mr-2" />
       Go to artist's profile
     </nuxt-link>
-    <div class="box">
-      <p class="title is-size-3">
-        Transfer {{ unit }}
-        <span v-if="isKSM" class="has-text-primary"
-          >${{ $store.getters['fiat/getCurrentKSMValue'] }}</span
-        >
-      </p>
+    <p class="title is-size-3">
+      Transfer {{ unit }}
+      <span v-if="isKSM" class="has-text-primary"
+        >${{ $store.getters['fiat/getCurrentKSMValue'] }}</span
+      >
+    </p>
+
+    <b-field>
+      <Auth />
+    </b-field>
+
+    <div v-if="$route.query.target && this.hasBlockExplorer" class="mb-3">
+      Your donation will be sent to:
+      <a
+        :href="`https://kusama.subscan.io/account/${$route.query.target}`"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="has-text-weight-bold">
+        <Identity
+          ref="identity"
+          :address="$route.query.target"
+          inline
+          show-onchain-identity />
+      </a>
+    </div>
+
+    <div class="is-flex is-align-items-center">
       <b-field>
-        <Auth />
+        {{ $t('general.balance') }}
+        <Money :value="balance" inline />
       </b-field>
-      <div
-        v-if="$route.query.target && this.hasBlockExplorer"
-        class="box--target-info">
-        Your donation will be sent to:
-        <a
-          :href="`https://kusama.subscan.io/account/${$route.query.target}`"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="box--target-info--url">
-          <Identity
-            ref="identity"
-            :address="$route.query.target"
-            inline
-            show-onchain-identity />
-        </a>
-      </div>
+    </div>
 
-      <div class="is-flex is-align-items-center">
-        <b-field>
-          {{ $t('general.balance') }}
-          <Money :value="balance" inline />
-        </b-field>
-      </div>
-
+    <b-field>
+      <AddressInput v-model="destinationAddress" :strict="false" />
+    </b-field>
+    <DisabledInput
+      v-show="correctAddress && correctAddress !== destinationAddress"
+      :label="$t('general.correctAddress')"
+      :value="correctAddress" />
+    <div class="container mb-3">
       <b-field>
-        <AddressInput v-model="destinationAddress" :strict="false" />
+        <BalanceInput
+          v-model="price"
+          label="Amount"
+          :calculate="false"
+          @input="onAmountFieldChange" />
       </b-field>
-      <DisabledInput
-        v-show="correctAddress && correctAddress !== destinationAddress"
-        :label="$t('general.correctAddress')"
-        :value="correctAddress" />
-      <div class="box--container mb-3">
-        <b-field>
-          <BalanceInput
-            v-model="price"
-            label="Amount"
-            :calculate="false"
-            @input="onAmountFieldChange" />
-        </b-field>
-        <b-field v-if="isKSM">
-          <ReadOnlyBalanceInput
-            v-model="usdValue"
-            label-input="USD Value (approx)"
-            label="USD"
-            @input="onUSDFieldChange" />
-        </b-field>
-      </div>
+      <b-field v-if="isKSM">
+        <ReadOnlyBalanceInput
+          v-model="usdValue"
+          label-input="USD Value (approx)"
+          label="USD"
+          @input="onUSDFieldChange" />
+      </b-field>
+    </div>
 
-      <div class="buttons">
-        <b-button
-          type="is-primary"
-          icon-left="paper-plane"
-          :loading="isLoading"
-          :disabled="disabled"
-          outlined
-          @click="submit">
-          {{ $t('general.submit') }}
-        </b-button>
-        <b-button
-          v-if="transactionValue && this.hasBlockExplorer"
-          type="is-success"
-          class="tx"
-          icon-left="external-link-alt"
-          outlined
-          @click="getExplorerUrl">
-          {{ $t('View Transaction') }} {{ transactionValue.substring(0, 6)
-          }}{{ '...' }}
-        </b-button>
-        <b-button
-          v-if="transactionValue && this.hasBlockExplorer"
-          @click="toast('URL copied to clipboard')"
-          v-clipboard:copy="getUrl()"
-          type="is-primary">
-          <b-icon size="is-small" pack="fas" icon="link" />
-        </b-button>
-        <b-button
-          v-if="destinationAddress"
-          type="is-success"
-          icon-left="money-bill"
-          :loading="isLoading"
-          @click="toast('Payment link copied to clipboard')"
-          v-clipboard:copy="generatePaymentLink()"
-          outlined>
-          {{ $t('Copy Payment link') }}
-        </b-button>
-        <b-button
-          v-if="accountId"
-          type="is-info"
-          icon-left="wallet"
-          :loading="isLoading"
-          @click="toast($t('general.copyRewardTooltip'))"
-          v-clipboard:copy="generatePaymentLink(accountId)"
-          outlined>
-          {{ $t('general.copyRewardLink') }}
-        </b-button>
+    <div class="buttons">
+      <b-button
+        type="is-primary"
+        icon-left="paper-plane"
+        :loading="isLoading"
+        :disabled="disabled"
+        outlined
+        @click="submit">
+        {{ $t('general.submit') }}
+      </b-button>
+      <b-button
+        v-if="transactionValue && this.hasBlockExplorer"
+        type="is-success"
+        class="ml-4"
+        icon-left="external-link-alt"
+        outlined
+        @click="getExplorerUrl">
+        {{ $t('View Transaction') }} {{ transactionValue.substring(0, 6)
+        }}{{ '...' }}
+      </b-button>
+      <b-button
+        v-if="transactionValue && this.hasBlockExplorer"
+        @click="toast('URL copied to clipboard')"
+        v-clipboard:copy="getUrl()"
+        type="is-primary">
+        <b-icon size="is-small" pack="fas" icon="link" />
+      </b-button>
+      <b-button
+        v-if="destinationAddress"
+        type="is-success"
+        icon-left="money-bill"
+        :loading="isLoading"
+        @click="toast('Payment link copied to clipboard')"
+        v-clipboard:copy="generatePaymentLink()"
+        outlined>
+        {{ $t('Copy Payment link') }}
+      </b-button>
+      <b-button
+        v-if="accountId"
+        type="is-info"
+        icon-left="wallet"
+        :loading="isLoading"
+        @click="toast($t('general.copyRewardTooltip'))"
+        v-clipboard:copy="generatePaymentLink(accountId)"
+        outlined>
+        {{ $t('general.copyRewardLink') }}
+      </b-button>
+    </div>
+    <div v-if="transactionValue && this.$route.query.donation">
+      <div class="is-size-5">
+        🎉 Congratulations for supporting
+        <Identity ref="identity" :address="this.$route.query.target" inline />
       </div>
-      <div v-if="transactionValue && this.$route.query.donation">
-        <div class="is-size-5">
-          🎉 Congratulations for supporting
-          <Identity ref="identity" :address="this.$route.query.target" inline />
-        </div>
-        <b-button
-          type="is-info"
-          class="tweetBtn"
-          icon-left="share-square"
-          outlined
-          @click="shareInTweet">
-          {{ $t('Tweet about your awesome donation') }}
-        </b-button>
-      </div>
+      <b-button
+        type="is-info"
+        class="mt-2"
+        icon-left="share-square"
+        outlined
+        @click="shareInTweet">
+        {{ $t('Tweet about your awesome donation') }}
+      </b-button>
     </div>
   </section>
 </template>
@@ -412,36 +410,3 @@ export default class Transfer extends mixins(
   }
 }
 </script>
-
-<style scoped lang="scss">
-@import '@/styles/variables';
-.tx {
-  margin-left: 1rem;
-}
-.tweetBtn {
-  margin-top: 0.5rem;
-}
-.box {
-  &--container {
-    display: flex;
-    justify-content: space-between;
-    @media screen and (max-width: 1023px) {
-      flex-direction: column;
-    }
-  }
-  &--target-info {
-    margin-bottom: 0.8rem;
-    &--url {
-      font-weight: bold;
-    }
-  }
-}
-.linkartist {
-  padding-left: 1.25rem;
-  display: flex;
-  align-items: center;
-  &--icon {
-    margin-right: 0.5rem;
-  }
-}
-</style>
