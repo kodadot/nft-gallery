@@ -14,7 +14,7 @@ import { Vue, Component } from 'nuxt-property-decorator'
       title,
       type: 'profile',
       description: 'Featuring the hot NFTs on RMRK.',
-      url: './hot.vue',
+      url: '/hot.vue',
       image: `${this.$config.baseUrl}/k_card_series.png`,
     }
     return {
@@ -25,9 +25,3 @@ import { Vue, Component } from 'nuxt-property-decorator'
 })
 export default class HotDashboard extends Vue {}
 </script>
-
-<style scoped lang="scss">
-.rmrk-logo {
-  aspect-ratio: 127 / 42;
-}
-</style>

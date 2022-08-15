@@ -1,6 +1,6 @@
 <template>
   <b-button
-    type="is-primary is-bordered-light share-button"
+    type="is-bordered-light share-button"
     icon-left="gift"
     @click="goToTransfer">
   </b-button>

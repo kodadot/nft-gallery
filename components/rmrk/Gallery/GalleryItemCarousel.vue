@@ -8,10 +8,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import { formatNFT } from '~/utils/carousel'
 import { visitedNFT } from '~/utils/localStorage'
 import { MIN_CAROUSEL_NFT } from '~/utils/constants'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import collectionEntityById from '@/queries/rmrk/subsquid/collectionEntityById.graphql'
 import nftEntitiesByIDs from '@/queries/rmrk/subsquid/nftEntitiesByIDs.graphql'
@@ -26,7 +27,7 @@ import { CarouselNFT } from '@/components/base/types'
 /**
  * class name
  */
-export default class GalleryItemCarousel extends Vue {
+export default class GalleryItemCarousel extends mixins(PrefixMixin) {
   @Prop({ type: String, required: true }) type!: 'related' | 'visited'
   @Prop({ default: '' }) readonly collectionId!: string
 
@@ -40,14 +41,14 @@ export default class GalleryItemCarousel extends Vue {
     if (this.type === 'related' && this.collectionId) {
       const { data } = await this.$apollo.query({
         query: collectionEntityById,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.collectionId,
           nftId: this.$route.params.id,
         },
       })
 
-      this.nfts = await formatNFT(data?.collectionEntityById?.nfts)
+      this.nfts = await formatNFT(data?.collection.nfts)
     }
 
     if (this.type === 'visited' && visitedNFT().length >= MIN_CAROUSEL_NFT) {
@@ -55,14 +56,19 @@ export default class GalleryItemCarousel extends Vue {
 
       const { data } = await this.$apollo.query({
         query: nftEntitiesByIDs,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           ids,
         },
       })
+      const filteredNftsNullMeta: { id: string }[] = data?.nftEntities.filter(
+        (nft) => nft.meta !== null
+      )
 
-      const sortedNftList = sortItemListByIds(data?.nftEntities, ids, 10)
-      this.nfts = await formatNFT(sortedNftList)
+      if (filteredNftsNullMeta) {
+        const sortedNftList = sortItemListByIds(filteredNftsNullMeta, ids, 10)
+        this.nfts = await formatNFT(sortedNftList)
+      }
     }
   }
 
