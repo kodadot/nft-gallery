@@ -29,7 +29,7 @@
           </a>
         </div>
         <div class="column">
-          <LazyCuratedList />
+          <!-- <LazyCuratedList /> -->
         </div>
       </div>
       <div class="mt-6">
@@ -69,7 +69,7 @@
         </div>
       </div>
       <div v-if="prefix === 'rmrk' || prefix === 'bsx'">
-        <LazyGalleryLatestSales class="my-5" />
+        <!-- <LazyGalleryLatestSales class="my-5" /> -->
         <span v-if="prefix === 'rmrk'">
           <LazyGalleryPopularCollections class="my-5" />
         </span>
