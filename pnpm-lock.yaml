@@ -25,6 +25,7 @@ specifiers:
   '@nuxt/test-utils': ^0.2.2
   '@nuxt/types': ^2.15.8
   '@nuxtjs/apollo': ^4.0.1-rc.5
+  '@nuxtjs/color-mode': ^2.1.1
   '@nuxtjs/i18n': ^7.2.3
   '@nuxtjs/pwa': ^3.3.5
   '@open-wc/webpack-import-meta-loader': ^0.4.7
@@ -161,6 +162,7 @@ devDependencies:
   '@nuxt/bridge': /@nuxt/bridge-edge/3.0.0-27672061.a645f7f_a7ihfyiv3lh4p66zawksb2xiiu
   '@nuxt/test-utils': 0.2.2_@babel+core@7.18.10
   '@nuxt/types': 2.15.8_sass@1.54.4
+  '@nuxtjs/color-mode': 2.1.1
   '@nuxtjs/pwa': 3.3.5
   '@open-wc/webpack-import-meta-loader': 0.4.7
   '@types/jest': 27.5.2
@@ -3183,6 +3185,13 @@ packages:
       - zen-observable
       - zenObservable
     dev: false
+
+  /@nuxtjs/color-mode/2.1.1:
+    resolution: {integrity: sha512-kGB/FoICF4RwZkfNBhL/yGrHfaUFpviYq6HGvSkZEm2dCpjRXIv9VsWoP0uzwxnoaRAQQOkkWjaGv/nSk0gUSQ==}
+    dependencies:
+      defu: 5.0.1
+      lodash.template: 4.5.0
+    dev: true
 
   /@nuxtjs/i18n/7.2.3:
     resolution: {integrity: sha512-Zi/1df2ISXtsPs5+IhdHbh3ebWLq4V+tU71SkAuB2F9Es2qANF5EIq2dT9rCDW/1bbfO48MQU/eUWectDX6D7g==}
@@ -8776,7 +8785,7 @@ packages:
     dev: true
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
+    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
 
   /ejs/3.1.8:
     resolution: {integrity: sha512-/sXZeMlhS0ArkfX2Aw780gJzXSMPnKjtspYZv+f3NiKLlubezAHDU5+9xz6gd3/NhG3txQCo6xlglmTS+oTGEQ==}
@@ -17451,7 +17460,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
+    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
     engines: {node: '>= 0.4.0'}
 
   /uuid/3.4.0:

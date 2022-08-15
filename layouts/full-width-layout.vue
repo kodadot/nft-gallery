@@ -12,3 +12,23 @@
     <LazyFooter />
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+
+@Component<FullWidthLayout>({
+  name: 'FullWidthLayout',
+  head() {
+    return {
+      link: [
+        {
+          hid: 'canonical',
+          rel: 'canonical',
+          href: this.$root.$config.baseUrl + this.$route.path,
+        },
+      ],
+    }
+  },
+})
+export default class FullWidthLayout extends Vue {}
+</script>

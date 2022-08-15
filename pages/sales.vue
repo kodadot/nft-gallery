@@ -40,9 +40,3 @@ import { Component, Vue } from 'nuxt-property-decorator'
 })
 export default class Sales extends Vue {}
 </script>
-
-<style scoped lang="scss">
-.rmrk-logo {
-  aspect-ratio: 127 / 42;
-}
-</style>
