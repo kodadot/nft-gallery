@@ -21,7 +21,8 @@
           class="only-border-top"
           outlined
           @click="handleAction(action)"
-          expanded>
+          expanded
+          :data-testid="`available-actions-${action}`">
           {{ actionLabel(action) }}
         </b-button>
       </template>
@@ -35,6 +36,7 @@
             outlined
             @click="handleAction(ShoppingActions.BUY)"
             expanded
+            data-testid="available-actions-BUY"
             data-cy="BUY">
             {{ replaceBuyNowWithYolo ? 'YOLO' : actionLabel('BUY') }}
           </b-button>
