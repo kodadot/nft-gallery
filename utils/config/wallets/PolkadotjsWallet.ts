@@ -1,8 +1,9 @@
 import { SupportWalletExtension } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
+import logo from '@/assets/partners/logo-polkadot-js.png'
 
 export class PolkadotjsWallet extends BaseDotsamaWallet {
-  img = require('@/assets/partners/logo-polkadot-js.png')
+  img = logo
   extensionName = 'polkadot-js'
   name = 'Polkadot.js'
   source = SupportWalletExtension.PolkadotJs

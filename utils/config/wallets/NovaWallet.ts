@@ -1,8 +1,9 @@
 import { SupportWalletExtension } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
+import logo from '@/assets/partners/logo-nova.png'
 
 export class NovaWallet extends BaseDotsamaWallet {
-  img = require('@/assets/partners/logo-nova.png')
+  img = logo
   extensionName = 'nova'
   name = 'Nova'
   source = SupportWalletExtension.Nova

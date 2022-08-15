@@ -1,8 +1,9 @@
 import { SupportWalletExtension } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
+import logo from '@/assets/partners/logo-clover.png'
 
 export class CloverWallet extends BaseDotsamaWallet {
-  img = require('@/assets/partners/logo-clover.png')
+  img = logo
   extensionName = 'clover'
   name = 'Clover'
   source = SupportWalletExtension.Clover

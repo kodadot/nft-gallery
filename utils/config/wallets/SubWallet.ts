@@ -1,8 +1,9 @@
 import { SupportWalletExtension } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
+import logo from '@/assets/partners/logo-subwallet.svg'
 
 export class SubWallet extends BaseDotsamaWallet {
-  img = require('@/assets/partners/logo-subwallet.svg')
+  img = logo
   extensionName = 'subwallet-js'
   name = 'SubWallet'
   source = SupportWalletExtension.SubWallet
