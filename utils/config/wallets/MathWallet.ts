@@ -1,9 +1,9 @@
 import { SupportWalletExtension } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
-import logo from '@/assets/partners/logo-mathwallet.png'
+import logoMathWallet from '@/assets/partners/logo-mathwallet.png'
 
 export class MathWallet extends BaseDotsamaWallet {
-  img = logo
+  img = logoMathWallet
   extensionName = 'mathwallet'
   name = 'Math Wallet'
   source = SupportWalletExtension.Math
