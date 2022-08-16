@@ -127,6 +127,10 @@ export default class Landing extends mixins(AuthMixin) {
   .homepage.section {
     padding-top: 0;
   }
+
+  .box {
+    flex-direction: column;
+  }
 }
 
 .homepage {
