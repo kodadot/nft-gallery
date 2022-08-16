@@ -18,11 +18,15 @@
 
     <MetadataUpload
       v-model="file"
+      ref="nftUpload"
+      required
       label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
       expanded
       preview />
 
     <BasicInput
+      ref="nftNameInput"
+      required
       v-model="rmrkMint.name"
       :label="$t('mint.nft.name.label')"
       :message="$t('mint.nft.name.message')"
@@ -32,6 +36,8 @@
       spellcheck="true" />
 
     <BasicInput
+      ref="nftSymbolInput"
+      required
       v-model="rmrkMint.symbol"
       :label="$t('mint.collection.symbol.label')"
       :message="$t('mint.collection.symbol.message')"
@@ -113,23 +119,20 @@
       </CollapseWrapper>
     </b-field>
     <BasicSwitch v-model="nsfw" label="mint.nfsw" />
-    <b-field>
+    <b-field type="is-danger" :message="haveNoToSMessage">
       <b-switch v-model="hasToS" :rounded="false">
         {{ $t('termOfService.accept') }}
       </b-switch>
     </b-field>
-    <b-field>
-      <b-tooltip :active="isMintDisabled" :label="$t('tooltip.buyDisabled')">
-        <b-button
-          type="is-primary"
-          icon-left="paper-plane"
-          @click="sub"
-          :disabled="disabled"
-          :loading="isLoading"
-          outlined>
-          {{ $t('mint.submit') }}
-        </b-button>
-      </b-tooltip>
+    <b-field type="is-danger" :message="balanceNotEnoughMessage" v-if="isLogIn">
+      <b-button
+        type="is-primary"
+        icon-left="paper-plane"
+        @click="sub"
+        :loading="isLoading"
+        outlined>
+        {{ $t('mint.submit') }}
+      </b-button>
     </b-field>
     <b-field>
       <b-icon icon="calculator" />
@@ -189,13 +192,14 @@ import {
 import { DispatchError } from '@polkadot/types/interfaces'
 import { formatBalance } from '@polkadot/util'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Watch, Ref } from 'nuxt-property-decorator'
 import Vue from 'vue'
 import { unwrapSafe } from '@/utils/uniquery'
 import NFTUtils, { MintType } from '../service/NftUtils'
 import { getNftId, NFT, NFTMetadata, SimpleNFT } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
+import AuthMixin from '~/utils/mixins/authMixin'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -223,14 +227,14 @@ export default class SimpleMint extends mixins(
   TransactionMixin,
   ChainMixin,
   PrefixMixin,
-  UseApiMixin
+  UseApiMixin,
+  AuthMixin
 ) {
   private rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
     max: 1,
   }
   private meta: NFTMetadata = emptyObject<NFTMetadata>()
-  // private accountId: string = '';
   private uploadMode = true
   private file: File | null = null
   private secondFile: File | null = null
@@ -245,9 +249,22 @@ export default class SimpleMint extends mixins(
   protected distribution = 100
   protected first = 100
   protected usedCollectionSymbols: string[] = []
+  protected balanceNotEnough = false
+  protected haveNoToS = false
+  @Ref('nftUpload') readonly nftUpload
+  @Ref('nftNameInput') readonly nftNameInput
+  @Ref('nftSymbolInput') readonly nftSymbolInput
 
   layout() {
     return 'centered-half-layout'
+  }
+
+  get balanceNotEnoughMessage() {
+    return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
+  }
+
+  get haveNoToSMessage() {
+    return this.haveNoToS ? this.$t('tooltip.haveNoToS') : ''
   }
 
   // query for nfts information by accountId
@@ -315,10 +332,6 @@ export default class SimpleMint extends mixins(
     )
   }
 
-  get accountId(): string {
-    return this.$store.getters.getAuthAddress
-  }
-
   get rmrkId(): string {
     return generateId(this.accountId, this.rmrkMint?.symbol || '')
   }
@@ -353,6 +366,14 @@ export default class SimpleMint extends mixins(
 
   get arweaveUpload(): boolean {
     return this.$store.state.preferences.arweaveUpload
+  }
+
+  public checkValidity() {
+    return (
+      this.nftUpload.checkValidity() &&
+      this.nftNameInput.checkValidity() &&
+      this.nftSymbolInput.checkValidity()
+    )
   }
 
   protected async estimateTx() {
@@ -425,6 +446,17 @@ export default class SimpleMint extends mixins(
   }
 
   protected async sub(): Promise<void> {
+    if (!this.checkValidity()) {
+      return
+    }
+    if (!this.hasToS) {
+      this.haveNoToS = true
+      return
+    }
+    if (this.isMintDisabled) {
+      this.balanceNotEnough = true
+      return
+    }
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { accountId, version } = this

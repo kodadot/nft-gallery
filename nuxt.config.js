@@ -191,6 +191,7 @@ export default defineNuxtConfig({
         defaultIconPack: 'fas',
         defaultIconComponent: 'vue-fontawesome',
         defaultFieldLabelPosition: 'inside',
+        materialDesignIcons: false,
       },
     ],
     '@nuxtjs/apollo',

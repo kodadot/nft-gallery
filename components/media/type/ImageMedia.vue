@@ -4,13 +4,11 @@
   </figure>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-@Component({})
-export default class ImageMedia extends Vue {
-  @Prop() public src!: string
-  @Prop() public mimeType!: string
-}
+<script lang="ts" setup>
+defineProps<{
+  src?: string
+  mimeType?: string
+}>()
 </script>
 
 <style scoped>
