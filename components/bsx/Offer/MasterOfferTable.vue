@@ -16,7 +16,34 @@
     </div>
     <Loader v-model="isLoading" :status="status" />
     <section>
-      <b-tabs class="tabs-container-mobile" v-model="activeTab" expanded>
+      <b-select
+        v-model="selectedOfferType"
+        class="mb-2"
+        :disabled="isOfferDropdownDisabled">
+        <option
+          v-for="option in getOfferTypeOptions()"
+          :value="option.type"
+          :key="option.type">
+          {{ option.label }}
+        </option>
+      </b-select>
+      <template v-if="selectedOfferType === SelectedOfferType.CREATED">
+        <OffersUserTable :offers="offers" :ownerId="''" hideToggle />
+      </template>
+      <template v-if="selectedOfferType === SelectedOfferType.INCOMING">
+        <MyOffer
+          :address="accountIdChanged"
+          hideHeading
+          @offersIncoming="offersIncomingUpdate" />
+      </template>
+      <template v-if="selectedOfferType === SelectedOfferType.ALL">
+        <OfferTable
+          :offers="[...this.offers, ...this.incomingOffers]"
+          :accountId="accountId"
+          is-bsx-stats
+          display-collection />
+      </template>
+      <!-- <b-tabs class="tabs-container-mobile" v-model="activeTab" expanded>
         <b-tab-item
           :label="`${$t('offer.offersCreated')} ${
             offers.length ? ' - ' + offers.length : ''
@@ -34,7 +61,7 @@
             hideHeading
             @offersIncoming="offersIncomingUpdate" />
         </b-tab-item>
-      </b-tabs>
+      </b-tabs> -->
     </section>
   </div>
 </template>
@@ -51,16 +78,18 @@ import { notificationTypes, showNotification } from '~/utils/notification'
 import correctFormat from '@/utils/ss58Format'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '~/utils/mixins/chainMixin'
+import { SelectedOfferType } from '~/utils/offerStatus'
+import offerList from '@/queries/subsquid/bsx/offerList.graphql'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   CollapseCardWrapper: () =>
     import('@/components/shared/collapse/CollapseCardWrapper.vue'),
-  OfferTable: () => import('@/components/bsx/Offer/OfferTable.vue'),
   StatsOverview: () => import('~/components/bsx/Offer/StatsOverview.vue'),
   AddressInput: () => import('@/components/shared/AddressInput.vue'),
   OffersUserTable: () => import('@/components/bsx/Offer/OffersUserTable.vue'),
   MyOffer: () => import('@/components/bsx/Offer/MyOffer.vue'),
+  OfferTable: () => import('@/components/bsx/Offer/OfferTable.vue'),
 }
 
 @Component({ components })
@@ -72,17 +101,25 @@ export default class MasterOfferTable extends mixins(
   ChainMixin
 ) {
   protected offers: Offer[] = []
+  protected allOffers: Offer[] = []
   protected total = 0
   protected destinationAddress = ''
   protected accountIdChanged = ''
-  protected incomingOffersCount = 0
+  protected incomingOffers: Offer[] = []
+  protected SelectedOfferType = SelectedOfferType
+  public selectedOfferType: SelectedOfferType = SelectedOfferType.ALL
 
   public async created() {
     this.checkQueryParams()
   }
 
   fetch() {
-    this.fetchOffers()
+    this.fetchCreatedOffers()
+    // this.fetchAllOffers()
+  }
+
+  get isOfferDropdownDisabled(): boolean {
+    return !this.correctAddress
   }
 
   get ss58Format(): number {
@@ -107,7 +144,27 @@ export default class MasterOfferTable extends mixins(
   }
 
   public offersIncomingUpdate(data) {
-    this.incomingOffersCount = data.offers.length
+    this.incomingOffers = data.offers
+    this.fetchAllOffers()
+
+    console.log('offers', this.allOffers)
+  }
+
+  public getOfferTypeOptions() {
+    return [
+      {
+        type: SelectedOfferType.ALL,
+        label: 'All Offers',
+      },
+      {
+        type: SelectedOfferType.CREATED,
+        label: 'Offers Created',
+      },
+      {
+        type: SelectedOfferType.INCOMING,
+        label: 'Offers Incoming',
+      },
+    ]
   }
 
   protected checkQueryParams() {
@@ -126,7 +183,7 @@ export default class MasterOfferTable extends mixins(
   }
 
   public checkOfferForAddress() {
-    this.fetchOffers()
+    this.fetchCreatedOffers()
     this.accountIdChanged = this.destinationAddress
   }
 
@@ -134,7 +191,7 @@ export default class MasterOfferTable extends mixins(
     this.offers = response.offers
   }
 
-  protected async fetchOffers() {
+  protected async fetchCreatedOffers() {
     try {
       const { data } = await this.$apollo.query<OfferResponse>({
         query: offerListUser,
@@ -151,6 +208,23 @@ export default class MasterOfferTable extends mixins(
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
+    }
+  }
+
+  protected async fetchAllOffers() {
+    try {
+      const { data } = await this.$apollo.query<OfferResponse>({
+        client: this.urlPrefix,
+        query: offerListUser,
+        variables: {
+          id: this.destinationAddress || this.accountId,
+          burned: false,
+        },
+      })
+      console.log('this.incomingOffers', this.incomingOffers)
+      this.allOffers = data.offers
+    } catch (e) {
+      this.$consola.error(e)
     }
   }
 

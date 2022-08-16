@@ -14,6 +14,10 @@ query offerListUser($id: String!, $burned: Boolean) {
     nft {
       name
       id
+      collection {
+        id
+        name
+      }
     }
   }
 }
