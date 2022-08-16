@@ -120,7 +120,7 @@ export default class Landing extends mixins(AuthMixin) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/variables';
 
 @include mobile {
