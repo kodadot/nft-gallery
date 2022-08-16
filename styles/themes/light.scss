@@ -182,8 +182,8 @@ html.light-mode {
     }
   }
 
-  .b-table .table-wrapper.has-sticky-header tr:first-child th {
-    background-color: $white;
+  .b-table .table-wrapper.has-sticky-header tr:first-child th, .has-mobile-cards tr {
+    background-color: $white!important;
   }
 
   .loading-container {
