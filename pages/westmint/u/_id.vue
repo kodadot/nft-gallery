@@ -28,7 +28,11 @@
             {{ $t('profile.user') }}
           </div>
           <div class="subtitle is-size-6">
-            <ProfileLink :address="id" :inline="true" showTwitter showDiscord />
+            <ProfileLink
+              :address="id"
+              :inline="true"
+              show-twitter
+              show-discord />
             <a
               :href="`https://sub.id/#/${id}`"
               target="_blank"
@@ -43,8 +47,8 @@
         </div>
         <div class="column has-text-right">
           <Sharing
-            class="mb-2"
             v-if="!sharingVisible"
+            class="mb-2"
             :label="$t('sharing.profile')"
             :iframe="iframeSettings">
             <DonationButton :address="id" />
@@ -53,66 +57,66 @@
       </div>
 
       <b-tabs
-        :class="{ 'invisible-tab': sharingVisible }"
         v-model="activeTab"
+        :class="{ 'invisible-tab': sharingVisible }"
         destroy-on-hide
         expanded
         size="is-medium">
         <b-tab-item value="nft">
           <template #header>
             {{ $t('profile.created') }}
-            <span class="tab-counter" v-if="totalCreated">{{
+            <span v-if="totalCreated" class="tab-counter">{{
               totalCreated
             }}</span>
           </template>
           <PaginatedCardList
             :id="id"
             :query="nftListByIssuer"
-            @change="totalCreated = $event"
             :account="id"
-            :showSearchBar="true"
-            route="gallery" />
+            :show-search-bar="true"
+            route="gallery"
+            @change="totalCreated = $event" />
         </b-tab-item>
         <b-tab-item
           :label="`Collections - ${totalCollections}`"
           value="collection">
           <Pagination
-            hasMagicBtn
+            v-model="currentCollectionPage"
+            has-magic-btn
             replace
-            :total="totalCollections"
-            v-model="currentCollectionPage" />
+            :total="totalCollections" />
           <GalleryCardList :items="collections" route="collection" />
           <Pagination
+            v-model="currentCollectionPage"
             replace
             class="pt-5 pb-5"
-            :total="totalCollections"
-            v-model="currentCollectionPage" />
+            :total="totalCollections" />
         </b-tab-item>
         <b-tab-item value="sold">
           <template #header>
             {{ $t('profile.sold') }}
-            <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
+            <span v-if="totalSold" class="tab-counter">{{ totalSold }}</span>
           </template>
           <PaginatedCardList
             :id="id"
             :query="nftListSold"
-            @change="totalSold = $event"
             :account="id"
-            route="gallery" />
+            route="gallery"
+            @change="totalSold = $event" />
         </b-tab-item>
         <b-tab-item value="collected">
           <template #header>
             {{ $t('profile.collected') }}
-            <span class="tab-counter" v-if="totalCollected">{{
+            <span v-if="totalCollected" class="tab-counter">{{
               totalCollected
             }}</span>
           </template>
           <PaginatedCardList
             :id="id"
             :query="nftListCollected"
-            @change="totalCollected = $event"
             :account="id"
-            route="gallery" />
+            route="gallery"
+            @change="totalCollected = $event" />
         </b-tab-item>
 
         <!-- <b-tab-item label="Packs" value="pack">
@@ -125,16 +129,18 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
-import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
-import isShareMode from '@/utils/isShareMode'
-import shouldUpdate from '@/utils/shouldUpdate'
-import shortAddress from '@/utils/shortAddress'
-import collectionList from '@/queries/unique/collectionListByAccount.graphql'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
 
+import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
+import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+
+import { notificationTypes, showNotification } from '@/utils/notification'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import isShareMode from '@/utils/isShareMode'
+import shortAddress from '@/utils/shortAddress'
+import shouldUpdate from '@/utils/shouldUpdate'
+
+import collectionList from '@/queries/unique/collectionListByAccount.graphql'
 import firstNftByIssuer from '@/queries/subsquid/general/firstNftByIssuer.graphql'
 import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'

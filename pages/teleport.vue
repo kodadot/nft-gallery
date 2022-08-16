@@ -3,7 +3,7 @@
     <Loader v-model="isLoading" :status="status" />
     <nuxt-link
       v-if="$route.query.target"
-      :to="`/${this.urlPrefix}/u/${destinationAddress}`"
+      :to="`/${urlPrefix}/u/${destinationAddress}`"
       class="pl-4 is-flex is-align-items-center">
       <b-icon icon="chevron-left" size="is-small" class="mr-2" />
       Go to artist's profile
@@ -73,26 +73,26 @@
       </b-button>
       <b-button
         v-if="transactionValue"
-        @click="toast('URL copied to clipboard')"
         v-clipboard:copy="getUrl()"
-        type="is-primary">
+        type="is-primary"
+        @click="toast('URL copied to clipboard')">
         <b-icon size="is-small" pack="fas" icon="link" />
       </b-button>
       <b-button
         v-if="destinationAddress"
+        v-clipboard:copy="generatePaymentLink()"
         type="is-success"
         icon-left="money-bill"
         :loading="isLoading"
-        @click="toast('Payment link copied to clipboard')"
-        v-clipboard:copy="generatePaymentLink()"
-        outlined>
+        outlined
+        @click="toast('Payment link copied to clipboard')">
         {{ $t('Copy Payment link') }}
       </b-button>
     </div>
-    <div v-if="transactionValue && this.$route.query.donation">
+    <div v-if="transactionValue && $route.query.donation">
       <div class="is-size-5">
         🎉 Congratulations for supporting
-        <Identity ref="identity" :address="this.$route.query.target" inline />
+        <Identity ref="identity" :address="$route.query.target" inline />
       </div>
       <b-button
         type="is-info"
@@ -107,22 +107,25 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
+import { encodeAddress, isAddress } from '@polkadot/util-crypto'
+import { DispatchError } from '@polkadot/types/interfaces'
 import { onApiConnect } from '@kodadot1/sub-api'
+
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import TransactionMixin from '@/utils/mixins/txMixin'
-import AuthMixin from '@/utils/mixins/authMixin'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import { DispatchError } from '@polkadot/types/interfaces'
+
+import { calculateKsmFromUsd, calculateUsdFromKsm } from '@/utils/calculation'
+import { findCall, getApiParams } from '@/utils/teleport'
 import { calculateBalance } from '@/utils/formatBalance'
 import correctFormat from '@/utils/ss58Format'
-import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
-import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
-import { findCall, getApiParams } from '@/utils/teleport'
-import UseApiMixin from '~/utils/mixins/useApiMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+
+import AuthMixin from '@/utils/mixins/authMixin'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import TransactionMixin from '@/utils/mixins/txMixin'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
 
 @Component({
   components: {

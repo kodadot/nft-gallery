@@ -3,7 +3,7 @@
     <Loader v-model="isLoading" :status="status" />
     <nuxt-link
       v-if="$route.query.target"
-      :to="`/${this.urlPrefix}/u/${correctAddress}`"
+      :to="`/${urlPrefix}/u/${correctAddress}`"
       class="pl-4 is-flex is-align-items-center">
       <b-icon icon="chevron-left" size="is-small" class="mr-2" />
       Go to artist's profile
@@ -19,7 +19,7 @@
       <Auth />
     </b-field>
 
-    <div v-if="$route.query.target && this.hasBlockExplorer" class="mb-3">
+    <div v-if="$route.query.target && hasBlockExplorer" class="mb-3">
       Your donation will be sent to:
       <a
         :href="`https://kusama.subscan.io/account/${$route.query.target}`"
@@ -76,7 +76,7 @@
         {{ $t('general.submit') }}
       </b-button>
       <b-button
-        v-if="transactionValue && this.hasBlockExplorer"
+        v-if="transactionValue && hasBlockExplorer"
         type="is-success"
         class="ml-4"
         icon-left="external-link-alt"
@@ -86,37 +86,37 @@
         }}{{ '...' }}
       </b-button>
       <b-button
-        v-if="transactionValue && this.hasBlockExplorer"
-        @click="toast('URL copied to clipboard')"
+        v-if="transactionValue && hasBlockExplorer"
         v-clipboard:copy="getUrl()"
-        type="is-primary">
+        type="is-primary"
+        @click="toast('URL copied to clipboard')">
         <b-icon size="is-small" pack="fas" icon="link" />
       </b-button>
       <b-button
         v-if="destinationAddress"
+        v-clipboard:copy="generatePaymentLink()"
         type="is-success"
         icon-left="money-bill"
         :loading="isLoading"
-        @click="toast('Payment link copied to clipboard')"
-        v-clipboard:copy="generatePaymentLink()"
-        outlined>
+        outlined
+        @click="toast('Payment link copied to clipboard')">
         {{ $t('Copy Payment link') }}
       </b-button>
       <b-button
         v-if="accountId"
+        v-clipboard:copy="generatePaymentLink(accountId)"
         type="is-info"
         icon-left="wallet"
         :loading="isLoading"
-        @click="toast($t('general.copyRewardTooltip'))"
-        v-clipboard:copy="generatePaymentLink(accountId)"
-        outlined>
+        outlined
+        @click="toast($t('general.copyRewardTooltip'))">
         {{ $t('general.copyRewardLink') }}
       </b-button>
     </div>
-    <div v-if="transactionValue && this.$route.query.donation">
+    <div v-if="transactionValue && $route.query.donation">
       <div class="is-size-5">
         🎉 Congratulations for supporting
-        <Identity ref="identity" :address="this.$route.query.target" inline />
+        <Identity ref="identity" :address="$route.query.target" inline />
       </div>
       <b-button
         type="is-info"
@@ -131,22 +131,25 @@
 </template>
 
 <script lang="ts">
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
+import Connector, { onApiConnect } from '@kodadot1/sub-api'
+import { encodeAddress, isAddress } from '@polkadot/util-crypto'
+import { DispatchError } from '@polkadot/types/interfaces'
+
 import { calculateKsmFromUsd, calculateUsdFromKsm } from '@/utils/calculation'
-import { urlBuilderTransaction } from '@/utils/explorerGuide'
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
+import { notificationTypes, showNotification } from '@/utils/notification'
 import { calculateBalance } from '@/utils/formatBalance'
+import correctFormat from '@/utils/ss58Format'
+import { urlBuilderTransaction } from '@/utils/explorerGuide'
+
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import correctFormat from '@/utils/ss58Format'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
-import Connector, { onApiConnect } from '@kodadot1/sub-api'
-import { DispatchError } from '@polkadot/types/interfaces'
-import { encodeAddress, isAddress } from '@polkadot/util-crypto'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { hasExplorer } from '~/components/rmrk/Profile/utils'
+
+import { hasExplorer } from '@/components/rmrk/Profile/utils'
 
 @Component({
   components: {
