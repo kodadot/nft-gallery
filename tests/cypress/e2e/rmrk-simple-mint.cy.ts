@@ -2,6 +2,7 @@ describe('simple mint in rmrk', () => {
   beforeEach(() => {
     cy.loginWithKeyring()
     cy.visit('/rmrk')
+    cy.waitForNetworkIdle('POST', '*', 1000)
 
     // get 3 users from latest sales, for use in distribution later
     cy.get(
@@ -28,7 +29,7 @@ describe('simple mint in rmrk', () => {
     // mint page
     cy.get('[data-cy="create-dropdown"]').click()
     cy.get('[data-cy="simple"]').click()
-    cy.wait(500)
+    cy.waitForNetworkIdle('POST', '*', 1000)
 
     // fee should zero at first
     cy.get('[data-cy="fee"] span').should('have.text', '\n    0\n    KSM\n  ')
@@ -90,7 +91,7 @@ describe('simple mint in rmrk', () => {
     })
 
     // advance settings
-    cy.get('[data-cy="input-advance-settings"]').click()
+    cy.get('[data-cy="input-advance-settings"]').find('a').click()
 
     // batch address
     cy.get('@user1').then((hash) => {
