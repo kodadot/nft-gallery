@@ -59,7 +59,7 @@ import Identicon from '@polkadot/vue-identicon'
     Identicon,
   },
 })
-export default class IdentityPopoverFooter extends Vue {
+export default class IdentityPopoverHeader extends Vue {
   @Prop({ required: true, default: {} }) readonly identity
   @Prop({ required: true, default: '' }) readonly address
   @Prop({ required: true, default: '' }) readonly startedMinting
