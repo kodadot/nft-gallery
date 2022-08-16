@@ -8,9 +8,9 @@
 
 <script lang="ts" setup>
 import { get, update } from 'idb-keyval'
-import { $fetch } from 'ohmyfetch'
 
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
+import { getMimeType } from '@/utils/gallery/media'
 
 const MediaResolver = defineAsyncComponent(
   () => import('@/components/media/MediaResolver.vue')
@@ -37,8 +37,7 @@ const fetchMimeType = async () => {
   type.value = nftMetadata?.type || ''
 
   if (!type.value) {
-    const response = await $fetch(props.src, { method: 'HEAD' })
-    type.value = response.type
+    type.value = await getMimeType(props.src)
 
     update(props.metadata, (cached) => ({
       ...(cached || {}),
