@@ -262,7 +262,7 @@ export default class CreateToken extends mixins(
   }
 
   public checkValidity() {
-    const balanceInputValid = this.balanceInput?.checkValidity()
+    const balanceInputValid = !this.listed || this.balanceInput?.checkValidity()
     const baseTokenFormValid = this.baseTokenForm?.checkValidity()
     return balanceInputValid && baseTokenFormValid
   }
@@ -271,10 +271,10 @@ export default class CreateToken extends mixins(
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
     }
-    // check fields // FIX: DOES NOT WORK
-    // if (!this.checkValidity()) {
-    //   return
-    // }
+    // check fields
+    if (!this.checkValidity()) {
+      return
+    }
     // check balance
     if (!!this.deposit && parseFloat(this.balance) < parseFloat(this.deposit)) {
       this.balanceNotEnough = true
