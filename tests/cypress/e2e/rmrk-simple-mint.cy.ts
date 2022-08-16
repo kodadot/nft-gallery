@@ -8,19 +8,19 @@ describe('simple mint in rmrk', () => {
       '[data-cy="latest-sales"] .carousel-slide:nth-child(1) [data-cy="current-owner"]'
     )
       .invoke('attr', 'href')
-      .then((href) => href?.replace('/rmrk/u/', ''))
+      .then((href) => href && href.replace('/rmrk/u/', ''))
       .as('user1')
     cy.get(
       '[data-cy="latest-sales"] .carousel-slide:nth-child(2) [data-cy="current-owner"]'
     )
       .invoke('attr', 'href')
-      .then((href) => href?.replace('/rmrk/u/', ''))
+      .then((href) => href && href.replace('/rmrk/u/', ''))
       .as('user2')
     cy.get(
       '[data-cy="latest-sales"] .carousel-slide:nth-child(3) [data-cy="current-owner"]'
     )
       .invoke('attr', 'href')
-      .then((href) => href?.replace('/rmrk/u/', ''))
+      .then((href) => href && href.replace('/rmrk/u/', ''))
       .as('user3')
   })
 
