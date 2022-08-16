@@ -3,19 +3,19 @@
     <b-field position="is-right">
       <slot />
 
-      <ShowQRModal :address="realworldFullPath" :title="label" />
+      <ShowQRModal
+        :address="realworldFullPath"
+        :title="label"
+        :type="btnType" />
 
       <b-button
         @click="toast('URL copied to clipboard')"
         v-clipboard:copy="realworldFullPathShare"
-        type="is-bordered-light share-button">
+        :type="btnType">
         <b-icon size="is-small" pack="fas" icon="link" />
       </b-button>
 
-      <b-button
-        v-if="enableDownload"
-        @click="downloadImage()"
-        type="is-primary is-bordered-light share-button">
+      <b-button v-if="enableDownload" @click="downloadImage()" :type="btnType">
         <b-icon size="is-small" pack="fas" icon="download" />
       </b-button>
 
@@ -78,7 +78,7 @@
             <b-icon size="is-large" pack="fas" icon="envelope" />
           </ShareNetwork>
         </template>
-        <b-button type="is-bordered-light share-button">
+        <b-button :type="btnType">
           <b-icon size="is-small" pack="fas" icon="share" />
         </b-button>
       </b-tooltip>
@@ -101,10 +101,19 @@ export default class Sharing extends Vue {
   @Prop({ default: 'Check out this cool NFT on KodaDot' }) label!: string
   @Prop({ default: () => emptyIframe }) iframe!: IFrame
   @Prop(Boolean) enableDownload!: boolean
+  @Prop({ default: false }) isPrimary?: boolean
 
   private active = false
 
   private hashtags = 'KusamaNetwork,KodaDot'
+
+  get btnType(): string {
+    let result = 'is-bordered-light share-button'
+    if (this.isPrimary) {
+      result += ' is-primary'
+    }
+    return result
+  }
 
   get helloText(): string {
     return this.label
