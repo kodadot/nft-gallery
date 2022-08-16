@@ -7,7 +7,7 @@
           <Identity
             :address="account"
             class="navbar__address"
-            hideIdentityPopover
+            hide-identity-popover
             inline />
         </b-button>
       </span>
@@ -78,10 +78,11 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import Avatar from '@/components/shared/Avatar.vue'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
+
+import Avatar from '@/components/shared/Avatar.vue'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 const components = {
   Avatar,
