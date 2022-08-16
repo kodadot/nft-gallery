@@ -19,14 +19,14 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env PORT=9090 nuxt dev",
+    "dev": "cross-env PORT=9090 nuxi dev",
     "dev-docker": "npx nuxi dev",
     "dev-experimental": "nuxi dev --hostname localhost --port 9090",
     "build": "nuxi build --modern",
     "start": "nuxi preview",
     "start:static": "npx --yes serve -l 9090 -s dist",
     "generate:pnpm": "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm generate",
-    "generate": "nuxi generate --modern",
+    "generate": "nuxt generate",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:fix": "eslint --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
@@ -35,7 +35,7 @@
     "test:e2e-gui": "cypress open --project tests",
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
-    "prepare": "husky install"
+    "prepare": "nuxi prepare && husky install"
   },
   "husky": {
     "hooks": {
@@ -92,7 +92,7 @@
     "lodash": "^4.17.21",
     "mingo": "^5.1.0",
     "nuxt-buefy": "^0.4.23",
-    "nuxt-edge": "2.16.0-27358576.777a4b7f",
+    "nuxt-edge": "2.16.0-27616340.013f051b",
     "nuxt-property-decorator": "^2.9.1",
     "setimmediate": "^1.0.5",
     "slugify": "^1.6.5",
@@ -118,7 +118,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.18.6",
     "@babel/plugin-transform-runtime": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
-    "@nuxt/bridge": "npm:@nuxt/bridge-edge@3.0.0-27470397.9ebea90",
+    "@nuxt/bridge": "npm:@nuxt/bridge-edge@3.0.0-27672061.a645f7f",
     "@nuxt/test-utils": "^0.2.2",
     "@nuxt/types": "^2.15.8",
     "@nuxtjs/color-mode": "^2.1.1",
@@ -127,15 +127,16 @@
     "@rollup/plugin-graphql": "^1.1.0",
     "@types/jest": "^27.5.2",
     "@types/markdown-it": "^12.2.3",
-    "@typescript-eslint/eslint-plugin": "^5.33.0",
-    "@typescript-eslint/parser": "^5.33.0",
+    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "@typescript-eslint/parser": "^5.33.1",
     "@vue/test-utils": "^1.3.0",
     "all-contributors-cli": "^6.20.0",
     "c8": "^7.12.0",
     "consola": "^2.15.3",
     "cross-env": "^7.0.3",
-    "cypress": "^10.4.0",
+    "cypress": "^10.5.0",
     "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unicorn": "^42.0.0",
     "eslint-plugin-vue": "^8.7.1",
@@ -151,8 +152,9 @@
     "sass-loader": "^10.3",
     "typescript": "^4.7.4",
     "vite-plugin-vue2": "^2.0.2",
-    "vitest": "^0.21.1",
-    "vue-debounce-decorator": "^1.0.1"
+    "vitest": "^0.22.0",
+    "vue-debounce-decorator": "^1.0.1",
+    "vue-eslint-parser": "^9.0.3"
   },
   "pnpm": {
     "overrides": {
