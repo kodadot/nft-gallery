@@ -18,11 +18,11 @@
       <div
         v-if="showMobileSearchBar"
         class="search-navbar-container-mobile is-hidden-desktop is-flex is-align-items-center">
-        <b-button @click="toggleSearchBarDisplay" icon-left="times" />
+        <b-button icon-left="times" @click="toggleSearchBarDisplay" />
         <Search
           v-if="showMobileSearchBar"
-          showDefaultSuggestions
-          hideFilter
+          show-default-suggestions
+          hide-filter
           class="is-flex-grow-1 pr-1 is-hidden-desktop mt-5" />
       </div>
 
@@ -34,30 +34,30 @@
           <HistoryBrowser />
 
           <b-button
-            @click="toggleSearchBarDisplay"
             type="is-primary is-bordered-light"
             class="navbar-link-background"
-            icon-right="search" />
+            icon-right="search"
+            @click="toggleSearchBarDisplay" />
         </div>
       </div>
     </template>
     <template #start>
       <Search
         v-if="!mobileGallery"
-        hideFilter
-        showDefaultSuggestions
+        hide-filter
+        show-default-suggestions
         class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
-        searchColumnClass="is-flex-grow-1" />
+        search-column-class="is-flex-grow-1" />
     </template>
-    <template #end v-if="showTopNavbar || isBurgerMenuOpened">
+    <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
       <LazyHistoryBrowser
-        class="custom-navbar-item navbar-link-background is-hidden-touch"
-        id="NavHistoryBrowser" />
+        id="NavHistoryBrowser"
+        class="custom-navbar-item navbar-link-background is-hidden-touch" />
       <b-navbar-dropdown
+        v-show="isCreateVisible"
+        id="NavCreate"
         arrowless
         collapsible
-        id="NavCreate"
-        v-show="isCreateVisible"
         data-cy="create-dropdown">
         <template #label>
           <span>{{ $t('create') }}</span>
@@ -111,10 +111,10 @@
         <span>{{ $t('stats') }}</span>
       </b-navbar-item>
       <b-navbar-dropdown
-        arrowless
-        collapsible
         v-if="isRmrk"
         id="NavStats"
+        arrowless
+        collapsible
         data-cy="stats">
         <template #label>
           <span>{{ $t('stats') }}</span>
@@ -137,19 +137,19 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <LazyChainSelect class="navbar-item has-dropdown" id="NavChainSelect" />
+      <LazyChainSelect id="NavChainSelect" class="navbar-item has-dropdown" />
       <LazySwitchLocale
-        class="navbar-item has-dropdown"
         id="NavLocaleChanger"
+        class="navbar-item has-dropdown"
         data-cy="localChanger" />
       <ColorModeButton />
       <NavbarProfileDropdown
-        :isRmrk="isRmrk"
-        :isBsx="isBsx"
         id="NavProfile"
+        :is-rmrk="isRmrk"
+        :is-bsx="isBsx"
         data-cy="profileDropdown" />
     </template>
-    <template #end v-else>
+    <template v-else #end>
       <div class="image is-32x32 mr-2">
         <BasicImage
           v-show="inCollectionPage && currentCollection.image"
@@ -164,16 +164,18 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import Identity from '@/components/shared/identity/Identity.vue'
-import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
+import { get } from 'idb-keyval'
+
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import ColorModeButton from '@/components/common/ColorModeButton.vue'
-import { createVisible } from '@/utils/config/permision.config'
+import Identity from '@/components/shared/identity/Identity.vue'
+import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
+import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
 
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
+import { createVisible } from '@/utils/config/permision.config'
 import { identityStore } from '@/utils/idbStore'
-import { get } from 'idb-keyval'
 
 @Component({
   components: {
