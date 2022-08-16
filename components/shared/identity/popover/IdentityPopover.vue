@@ -153,7 +153,7 @@ export default class IdentityPopover extends mixins(
       this.totalCollected = data.collected.totalCount
       this.totalSold = data.sold.totalCount
 
-      if (data?.firstMint?.length > 0) {
+      if (data.firstMint?.length > 0) {
         this.firstMintDate = data.firstMint[0].createdAt
       }
 

@@ -34,13 +34,13 @@
     </div>
 
     <div class="columns is-align-items-center">
-      <div class="column" v-if="hasBlockExplorer">
+      <div v-if="hasBlockExplorer" class="column">
         <div class="label">
           {{ $t('profile.user') }}
         </div>
         <div class="subtitle is-size-6">
-          <ProfileLink :address="id" :inline="true" showTwitter showDiscord />
-          <div class="ml-1 mt-2" v-if="myNftCount > 0">
+          <ProfileLink :address="id" :inline="true" show-twitter show-discord />
+          <div v-if="myNftCount > 0" class="ml-1 mt-2">
             {{ $t('profile.collectedFromCreator', [myNftCount]) }}
           </div>
         </div>
@@ -50,8 +50,8 @@
         <ProfileActivity :id="id" />
       </div>
       <div class="column has-text-right">
-        <div class="is-flex is-justify-content-right" v-if="hasBlockExplorer">
-          <div class="control" v-for="network in networks" :key="network.alt">
+        <div v-if="hasBlockExplorer" class="is-flex is-justify-content-right">
+          <div v-for="network in networks" :key="network.alt" class="control">
             <b-button class="share-button" type="is-bordered-light">
               <a
                 :href="`${network.url}${id}`"
@@ -65,8 +65,8 @@
           </div>
         </div>
         <Sharing
-          class="mb-2"
           v-if="!sharingVisible"
+          class="mb-2"
           :label="$t('sharing.profile')"
           :iframe="iframeSettings">
           <DonationButton :address="id" />
@@ -76,12 +76,12 @@
 
     <section>
       <b-tabs
+        v-model="activeTab"
         :class="{ 'invisible-tab': sharingVisible }"
         class="tabs-container-mobile"
-        v-model="activeTab"
         destroy-on-hide
         expanded>
-        <b-tab-item value="nft" :headerClass="{ 'is-hidden': !totalCreated }">
+        <b-tab-item value="nft" :header-class="{ 'is-hidden': !totalCreated }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.created')} ${labelDisplayName}`"
@@ -93,14 +93,14 @@
           <PaginatedCardList
             :id="id"
             :query="nftListByIssuer"
-            @change="totalCreated = $event"
             :account="id"
-            :showSearchBar="true" />
+            :show-search-bar="true"
+            @change="totalCreated = $event" />
         </b-tab-item>
         <b-tab-item
           :label="`Collections - ${totalCollections}`"
           value="collection"
-          :headerClass="{ 'is-hidden': !totalCollections }">
+          :header-class="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.collections')} ${labelDisplayName}`"
@@ -112,10 +112,10 @@
           <div class="is-flex is-justify-content-flex-end">
             <Layout class="mr-5" @change="onResize" />
             <Pagination
-              hasMagicBtn
+              v-model="currentValue"
+              has-magic-btn
               replace
-              :total="totalCollections"
-              v-model="currentValue" />
+              :total="totalCollections" />
           </div>
           <InfiniteLoading
             v-if="startPage > 1 && !isLoading && totalCollections > 0"
@@ -127,7 +127,7 @@
             type="collectionDetail"
             :route="`/${urlPrefix}/collection`"
             :link="`${urlPrefix}/collection`"
-            horizontalLayout />
+            horizontal-layout />
           <InfiniteLoading
             v-if="canLoadNextPage && !isLoading && totalCollections > 0"
             @infinite="reachBottomHandler">
@@ -137,27 +137,27 @@
         <b-tab-item
           :label="`History - ${totalHistory}`"
           value="history"
-          :headerClass="{ 'is-hidden': !totalHistory }">
+          :header-class="{ 'is-hidden': !totalHistory }">
           <History
             v-if="!isLoading && activeTab === 'history'"
             :events="eventsOfNftCollection"
-            :openOnDefault="isHistoryOpen"
-            displayItem
-            hideCollapse />
+            :open-on-default="isHistoryOpen"
+            display-item
+            hide-collapse />
         </b-tab-item>
         <b-tab-item
           :label="`Sales - ${totalSales}`"
           value="sales"
-          :headerClass="{ 'is-hidden': !totalSales }">
+          :header-class="{ 'is-hidden': !totalSales }">
           <Sales
             v-if="!isLoading && activeTab === 'sales'"
             :issuer="id"
             :query="recentSalesForCreator"
             :events="eventsOfSales"
-            :openOnDefault="isHistoryOpen"
-            hideCollapse />
+            :open-on-default="isHistoryOpen"
+            hide-collapse />
         </b-tab-item>
-        <b-tab-item value="sold" :headerClass="{ 'is-hidden': !totalSold }">
+        <b-tab-item value="sold" :header-class="{ 'is-hidden': !totalSold }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.sold')} ${labelDisplayName}`"
@@ -169,13 +169,13 @@
           <PaginatedCardList
             :id="id"
             :query="nftListSold"
-            @change="totalSold = $event"
             :account="id"
-            showSearchBar />
+            show-search-bar
+            @change="totalSold = $event" />
         </b-tab-item>
         <b-tab-item
           value="collected"
-          :headerClass="{ 'is-hidden': !totalCollected }">
+          :header-class="{ 'is-hidden': !totalCollected }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.collected')} ${labelDisplayName}`"
@@ -187,14 +187,14 @@
           <PaginatedCardList
             :id="id"
             :query="nftListCollected"
-            @change="totalCollected = $event"
             :account="id"
-            showSearchBar />
+            show-search-bar
+            @change="totalCollected = $event" />
         </b-tab-item>
         <b-tab-item
           v-if="isMoonsama"
           value="holdings"
-          :headerClass="{ 'is-hidden': !totalHoldings }">
+          :header-class="{ 'is-hidden': !totalHoldings }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.holdings')} ${labelDisplayName}`"
@@ -206,9 +206,9 @@
           <Holding :account-id="id" />
         </b-tab-item>
         <b-tab-item
-          value="gains"
           v-if="isMoonsama"
-          :headerClass="{ 'is-hidden': !totalGains }">
+          value="gains"
+          :header-class="{ 'is-hidden': !totalGains }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.gains')} ${labelDisplayName}`"
@@ -227,8 +227,8 @@
           value="offers">
           <OffersUserTable
             :offers="userOfferList"
-            :ownerId="id"
-            hideCollapse
+            :owner-id="id"
+            hide-collapse
             @offersListUpdate="offersListUpdate" />
         </b-tab-item>
       </b-tabs>
@@ -237,44 +237,47 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Ref, Watch } from 'nuxt-property-decorator'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
+import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
+import { Debounce } from 'vue-debounce-decorator'
+
 import {
   CollectionWithMeta,
-  Pack,
   Interaction,
   NftEvents,
+  Pack,
 } from '@/components/rmrk/service/scheme'
+import { Offer, OfferResponse } from '@/components/bsx/Offer/types'
+import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
 
-import isShareMode from '@/utils/isShareMode'
-import shouldUpdate from '@/utils/shouldUpdate'
-import shortAddress from '@/utils/shortAddress'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
-import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
-import { Debounce } from 'vue-debounce-decorator'
-import { CollectionChartData as ChartData } from '@/utils/chart'
-import allEventsByProfile from '@/queries/rmrk/subsquid/allEventsByProfile.graphql'
-import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
-import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator.graphql'
-import { sortedEventByDate } from '@/utils/sorting'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import { exist } from '../Gallery/Search/exist'
 import AuthMixin from '@/utils/mixins/authMixin'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
-const tabNameWithoutCollections = ['holdings', 'gains']
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { CollectionChartData as ChartData } from '@/utils/chart'
+import isShareMode from '@/utils/isShareMode'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import shortAddress from '@/utils/shortAddress'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { sortedEventByDate } from '@/utils/sorting'
 
+import allEventsByProfile from '@/queries/rmrk/subsquid/allEventsByProfile.graphql'
+import allNftSaleEventsByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
+import allNftSaleEventsHistoryByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
+import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
 import firstNftByIssuer from '@/queries/subsquid/general/firstNftByIssuer.graphql'
 import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'
 import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
-import resolveQueryPath from '@/utils/queryPathResolver'
-import allNftSaleEventsByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
-import allNftSaleEventsHistoryByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
-import { hasExplorer, getExplorer } from './utils'
+import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
+import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator.graphql'
+
+import { getExplorer, hasExplorer } from './utils'
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
-import { Offer, OfferResponse } from '@/components/bsx/Offer/types'
+import { exist } from '../Gallery/Search/exist'
+
+const tabNameWithoutCollections = ['holdings', 'gains']
 
 const components = {
   GalleryCardList: () =>

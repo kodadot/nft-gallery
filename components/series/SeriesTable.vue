@@ -106,7 +106,7 @@
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
-          <Money :value="props.row.volume" inline hideUnit />
+          <Money :value="props.row.volume" inline hide-unit />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -200,7 +200,7 @@
         cell-class="is-vcentered"
         sortable>
         <template v-if="!isLoading">
-          <Money :value="props.row.floorPrice" inline hideUnit />
+          <Money :value="props.row.floorPrice" inline hide-unit />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -212,7 +212,7 @@
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
-          <Money :value="props.row.averagePrice" inline hideUnit />
+          <Money :value="props.row.averagePrice" inline hide-unit />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -225,15 +225,15 @@
         cell-class="is-vcentered"
         sortable>
         <template v-if="!isLoading">
-          <Money :value="props.row.highestSale" inline hideUnit />
+          <Money :value="props.row.highestSale" inline hide-unit />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="buys"
         :label="$t('series.buys')"
-        v-slot="props"
         numeric
         cell-class="is-vcentered"
         sortable>
@@ -341,24 +341,28 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { RowSeries, SortType, BuyHistory } from './types'
-import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
-import collectionsEvents from '@/queries/rmrk/subsquid/collectionsEvents.graphql'
-import { NFTMetadata, Collection } from '../rmrk/service/scheme'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
+
+import { Collection, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
-import { emptyObject } from '@/utils/empty'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+
 import AuthMixin from '@/utils/mixins/authMixin'
-// import PassionListAuthMixin from '@/utils/mixins/passionListMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
+import { emptyObject } from '@/utils/empty'
+
+import collectionsEvents from '@/queries/rmrk/subsquid/collectionsEvents.graphql'
+import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
+
+import { BuyHistory, RowSeries, SortType } from './types'
 import {
-  toSort,
-  lastmonthDate,
-  today,
-  getDateArray,
-  onlyDate,
   calculateAvgPrice,
+  getDateArray,
+  lastmonthDate,
+  onlyDate,
+  toSort,
+  today,
 } from './utils'
 
 const components = {

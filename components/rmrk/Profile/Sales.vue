@@ -9,18 +9,18 @@
       <div class="box">
         <div>
           <Pagination
-            :total="total"
-            :perPage="itemsPerPage"
             v-model="currentPage"
+            :total="total"
+            :per-page="itemsPerPage"
             replace
-            enableListenKeyboardEvent
-            preserveScroll />
+            enable-listen-keyboard-event
+            preserve-scroll />
         </div>
         <b-table :data="showList" class="mb-4" hoverable custom-row-key="ID">
           <b-table-column
+            v-slot="props"
             field="Collection"
             label="Collection"
-            v-slot="props"
             cell-class="type-table">
             <nuxt-link
               :to="{
@@ -31,9 +31,9 @@
             </nuxt-link>
           </b-table-column>
           <b-table-column
+            v-slot="props"
             field="Nft"
             label="Nft"
-            v-slot="props"
             cell-class="type-table">
             <nuxt-link
               :to="{
@@ -44,37 +44,37 @@
             </nuxt-link>
           </b-table-column>
           <b-table-column
+            v-slot="props"
             cell-class="short-identity__table"
             field="Buyer"
-            label="Buyer"
-            v-slot="props">
+            label="Buyer">
             <nuxt-link
               :to="{
                 name: `${urlPrefix}-u-id`,
                 params: { id: props.row.Buyer },
               }">
-              <Identity :address="props.row.Buyer" inline noOverflow />
+              <Identity :address="props.row.Buyer" inline no-overflow />
             </nuxt-link>
           </b-table-column>
           <b-table-column
+            v-slot="props"
             cell-class="short-identity__table"
             field="Amount"
-            label="Amount"
-            v-slot="props">
+            label="Amount">
             {{ props.row.Amount }}
           </b-table-column>
           <b-table-column
+            v-slot="props"
             cell-class="short-identity__table"
             field="Date"
-            label="Date"
-            v-slot="props">
+            label="Date">
             <b-tooltip
               :label="props.row.Date"
               position="is-right"
               append-to-body>
               <BlockExplorerLink
                 :text="props.row.Time"
-                :blockId="props.row.Block" />
+                :block-id="props.row.Block" />
             </b-tooltip>
           </b-table-column>
         </b-table>
@@ -84,17 +84,21 @@
 </template>
 
 <script lang="ts">
-import { DocumentNode } from 'graphql'
-import formatBalance from '@/utils/formatBalance'
-import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import shortAddress from '@/utils/shortAddress'
-import { formatDistanceToNow } from 'date-fns'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
+import { DocumentNode } from 'graphql'
+import { formatDistanceToNow } from 'date-fns'
+
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
+
+import ChainMixin from '@/utils/mixins/chainMixin'
+import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
+import formatBalance from '@/utils/formatBalance'
+import shortAddress from '@/utils/shortAddress'
+
 import { Event } from '../service/types'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Identity: () => import('@/components/shared/identity/Identity.vue'),

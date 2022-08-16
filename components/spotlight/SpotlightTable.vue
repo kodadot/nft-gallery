@@ -6,7 +6,6 @@
       :current-page="currentPage"
       :default-sort="[sortBy.field, sortBy.value]"
       default-sort-direction="desc"
-      @page-change="this.onPageChange"
       hoverable
       detailed
       paginated
@@ -14,8 +13,9 @@
       backend-sorting
       show-detail-icon
       class="spotlight-sticky-header"
+      @page-change="onPageChange"
       @sort="onSort">
-      <template v-slot:top-left>
+      <template #top-left>
         <b-field class="mb-0">
           <div class="control is-flex">
             <b-switch v-model="onlyWithIdentity" :rounded="false">
@@ -39,25 +39,25 @@
         </b-button>
       </template>
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered"
         field="id"
-        :label="$t('spotlight.id')"
-        v-slot="props">
+        :label="$t('spotlight.id')">
         <template v-if="!isLoading">
           <nuxt-link
-            :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }"
-            v-if="!isLoading">
-            <Identity :address="props.row.id" inline noOverflow />
+            v-if="!isLoading"
+            :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }">
+            <Identity :address="props.row.id" inline no-overflow />
           </nuxt-link>
         </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered"
         field="sold"
         :label="$t('spotlight.sold')"
-        v-slot="props"
         sortable>
         <template v-if="!isLoading">{{ props.row.sold }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
@@ -68,12 +68,12 @@
         field="unique"
         :label="$t('spotlight.unique')"
         sortable>
-        <template v-slot:header="{ column }">
+        <template #header="{ column }">
           <b-tooltip label="unique items" dashed>
             {{ column.label }}
           </b-tooltip>
         </template>
-        <template v-slot="props" v-if="!isLoading">{{
+        <template v-if="!isLoading" #default="props">{{
           props.row.unique
         }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
@@ -84,57 +84,57 @@
         field="uniqueCollectors"
         :label="$t('spotlight.uniqueCollectors')"
         sortable>
-        <template v-slot:header="{ column }">
+        <template #header="{ column }">
           <b-tooltip label="unique collectors" dashed>
             {{ column.label }}
           </b-tooltip>
         </template>
-        <template v-slot="props" v-if="!isLoading">{{
+        <template v-if="!isLoading" #default="props">{{
           props.row.uniqueCollectors
         }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered"
         field="total"
         :label="$t('spotlight.total')"
-        v-slot="props"
         sortable>
         <template v-if="!isLoading">{{ props.row.total }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered"
         field="average"
         :label="$t('spotlight.averagePrice')"
-        v-slot="props"
         sortable>
         <template v-if="!isLoading">
-          <Money :value="props.row.averagePrice" inline hideUnit />
+          <Money :value="props.row.averagePrice" inline hide-unit />
         </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered"
         field="collections"
         :label="$t('spotlight.count')"
-        v-slot="props"
         sortable>
         <template v-if="!isLoading">{{ props.row.count }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered"
         field="volume"
         label="Volume"
-        v-slot="props"
         sortable>
         <template v-if="!isLoading"
-          ><Money :value="props.row.volume" inline hideUnit
+          ><Money :value="props.row.volume" inline hide-unit
         /></template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
@@ -144,12 +144,12 @@
         field="rank"
         :label="$t('spotlight.score')"
         numeric>
-        <template v-slot:header="{ column }">
+        <template #header="{ column }">
           <b-tooltip label="sold * (unique / total)" dashed>
             {{ column.label }}
           </b-tooltip>
         </template>
-        <template v-slot="props" v-if="!isLoading">{{
+        <template v-if="!isLoading" #default="props">{{
           Math.ceil(props.row.rank * 100) / 100
         }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
@@ -184,31 +184,34 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { Row } from './types'
-import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
-import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.graphql'
-
-import TransactionMixin from '@/utils/mixins/txMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { get } from 'idb-keyval'
-import { identityStore } from '@/utils/idbStore'
-import { getRandomIntInRange } from '../rmrk/utils'
-// import PassionListMixin from '~/utils/mixins/passionListMixin'
-import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import { PER_PAGE } from '~/utils/constants'
+
 import {
-  toSort,
-  today,
-  lastmonthDate,
   axisLize,
   defaultEvents,
+  lastmonthDate,
   onlyDate,
-} from '../series/utils'
-import { SortType } from '../series/types'
+  toSort,
+  today,
+} from '@/components/series/utils'
+import { SortType } from '@/components/series/types'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { getRandomIntInRange } from '@/components/rmrk/utils'
+
+import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import TransactionMixin from '@/utils/mixins/txMixin'
+
+import { PER_PAGE } from '@/utils/constants'
+import { identityStore } from '@/utils/idbStore'
+
+import { Row } from './types'
+
+import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
+import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.graphql'
 
 type Address = string | GenericAccountId | undefined
 
