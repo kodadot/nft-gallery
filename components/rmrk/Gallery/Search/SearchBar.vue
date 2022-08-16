@@ -790,23 +790,11 @@ export default class SearchBar extends mixins(
     const params: any[] = []
 
     if (this.query.search) {
-      if (this.urlPrefix === 'rmrk') {
-        params.push({
-          name: { likeInsensitive: this.query.search },
-        })
-      } else {
-        params.push({ name_containsInsensitive: this.query.search })
-      }
+      params.push({ name_containsInsensitive: this.query.search })
     }
 
     if (this.query.listed) {
-      if (this.urlPrefix === 'rmrk') {
-        params.push({
-          price: { greaterThan: '0' },
-        })
-      } else {
-        params.push({ price_gt: '0' })
-      }
+      params.push({ price_gt: '0' })
     }
 
     return params
