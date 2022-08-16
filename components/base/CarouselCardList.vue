@@ -83,11 +83,12 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+
 import AuthMixin from '@/utils/mixins/authMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import type { CarouselNFT } from './types'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -96,7 +97,7 @@ const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
   PreviewMediaResolver: () =>
-    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
+    import('@/components/media/PreviewMediaResolver.vue'),
 }
 
 @Component<CarouselList>({
