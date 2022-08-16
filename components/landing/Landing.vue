@@ -120,12 +120,16 @@ export default class Landing extends mixins(AuthMixin) {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/styles/variables';
 
 @include mobile {
   .homepage.section {
     padding-top: 0;
+  }
+
+  .box {
+    flex-direction: column;
   }
 }
 
