@@ -18,10 +18,8 @@ We [reward](REWARDS.md) our contributors in $KSM for their time and effort with 
 <img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
 
 # Features Roadmap
-Here you'll find our goals for each section of KodaDot!
-- [Beta](https://github.com/orgs/kodadot/projects/1)
-- [XR - KodaVerse](https://github.com/orgs/kodadot/projects/2/views/1)
-- [Meta Mobile](https://github.com/orgs/kodadot/projects/3/views/1)
+You'll find our goals for KodaDot upcoming future!
+- [Beta Roadmap](https://github.com/orgs/kodadot/projects/4/views/1)
 
 Test out KodaDot's [Beta](https://beta.kodadot.xyz/)
 
