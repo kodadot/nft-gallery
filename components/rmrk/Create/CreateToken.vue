@@ -3,6 +3,7 @@
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
       v-bind.sync="base"
+      ref="baseTokenForm"
       :collections="collections"
       :showExplainerText="showExplainerText">
       <template v-slot:main>
@@ -14,6 +15,9 @@
         <BalanceInput
           label="Price"
           expanded
+          ref="balanceInput"
+          required
+          hasToLargerThanZero
           key="price"
           :step="0.1"
           @input="updatePrice"
@@ -40,12 +44,16 @@
               label="mint.expert.postfix" />
           </CollapseWrapper>
         </b-field>
-        <SubmitButton
+        <b-field
           key="submit"
-          label="mint.submit"
-          :disabled="disabled"
-          :loading="isLoading"
-          @click="submit" />
+          type="is-danger"
+          v-if="isLogIn"
+          :message="balanceNotEnoughMessage">
+          <SubmitButton
+            label="mint.submit"
+            :loading="isLoading"
+            @click="submit()" />
+        </b-field>
       </template>
     </BaseTokenForm>
   </div>
@@ -82,7 +90,7 @@ import {
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import { formatBalance } from '@polkadot/util'
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch, Ref } from 'nuxt-property-decorator'
 import { unwrapSafe } from '~/utils/uniquery'
 import { basicUpdateFunction } from '../service/NftUtils'
 import { toNFTId } from '../service/scheme'
@@ -135,6 +143,9 @@ export default class CreateToken extends mixins(
   protected price: string | number = 0
   protected nsfw = false
   protected postfix = true
+  protected balanceNotEnough = false
+  @Ref('balanceInput') readonly balanceInput
+  @Ref('baseTokenForm') readonly baseTokenForm
   @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
 
   protected updatePrice(value: string) {
@@ -143,6 +154,10 @@ export default class CreateToken extends mixins(
 
   get hasPrice() {
     return Number(this.price)
+  }
+
+  get balanceNotEnoughMessage() {
+    return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
   }
 
   @Watch('accountId', { immediate: true })
@@ -178,8 +193,10 @@ export default class CreateToken extends mixins(
       )
   }
 
-  get disabled() {
-    return !(this.base.name && this.base.file && this.base.selectedCollection)
+  public checkValidity() {
+    const balanceInputValid = this.balanceInput.checkValidity()
+    const baseTokenFormValid = this.baseTokenForm.checkValidity()
+    return balanceInputValid && baseTokenFormValid
   }
 
   get hasSupport(): boolean {
@@ -197,6 +214,15 @@ export default class CreateToken extends mixins(
   protected async submit() {
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
+    }
+
+    if (!this.checkValidity()) {
+      return
+    }
+
+    if (parseFloat(this.balance) === 0) {
+      this.balanceNotEnough = true
+      return
     }
 
     this.isLoading = true
