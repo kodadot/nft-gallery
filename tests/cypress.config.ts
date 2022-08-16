@@ -8,9 +8,10 @@ export default defineConfig({
     video: false,
     screenshotOnRunFailure: false,
     retries: {
-      runMode: 2,
-      openMode: 2,
+      runMode: 3,
+      openMode: 3,
     },
+    defaultCommandTimeout: 10000,
   },
   viewportWidth: 1366,
   viewportHeight: 768,
