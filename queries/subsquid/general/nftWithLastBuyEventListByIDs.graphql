@@ -1,0 +1,8 @@
+query nftWithLastBuyEventListByIDs($ids: [ID!]!) {
+  nftEntities(where: { id_in: $ids }) {
+    id
+    events(where: {interaction_eq: BUY}, orderBy: timestamp_DESC, limit: 1) {
+      meta
+    }
+  }
+}

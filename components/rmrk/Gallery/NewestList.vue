@@ -34,10 +34,19 @@ import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graph
 import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
+import { LastEvent } from '~/utils/types/types'
+import nftWithLastBuyEventListByIDs from '~/queries/subsquid/general/nftWithLastBuyEventListByIDs.graphql'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+}
+
+interface NftEntitiesWithLastBuyEvent {
+  id: string
+  events: {
+    meta: string
+  }[]
 }
 
 @Component<NewestList>({
@@ -69,7 +78,7 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
       // }
       const result = await this.$apollo
         .query<{
-          events: { meta; nft: { meta: { id; image } } }
+          events: LastEvent[]
         }>({
           query: lastNftListByEvent,
           client: this.client,
@@ -86,7 +95,9 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
     }, 500)
   }
 
-  protected async handleResult({ data }: any) {
+  protected async handleResult({ data }: { data: { events: LastEvent[] } }) {
+    const ids = data.events.map((e) => e.id)
+    const buyPrices = await this.getLatestBuyPrice(ids)
     this.events = [...data.events].map(convertLastEventToNft)
 
     await fallbackMetaByNftEvent(this.events)
@@ -95,13 +106,37 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
     )
     const imageOf = getProperImageLink(images)
     this.nfts = this.events.map((e: any) => ({
-      price: e.meta,
+      price: buyPrices[e.nft.id] ?? e.meta,
       ...e.nft,
       timestamp: formatDistanceToNow(new Date(e.timestamp), {
         addSuffix: true,
       }),
       image: imageOf(e.nft.meta.id, e.nft.meta.image),
     }))
+  }
+  protected async getLatestBuyPrice(ids: string[]) {
+    const result = await this.$apollo
+      .query<{
+        nftEntities: NftEntitiesWithLastBuyEvent[]
+      }>({
+        query: nftWithLastBuyEventListByIDs,
+        client: this.client,
+        variables: { ids },
+      })
+      .catch((e) => {
+        this.$consola.error(e)
+        return { data: null }
+      })
+    const prices: { [id: string]: string } = {}
+    if (!result || !result.data) {
+      return prices
+    }
+    result.data.nftEntities.forEach((n) => {
+      if (n.events.length > 0) {
+        prices[n.id] = n.events[0].meta
+      }
+    })
+    return prices
   }
 }
 </script>
