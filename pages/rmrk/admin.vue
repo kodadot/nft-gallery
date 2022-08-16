@@ -25,5 +25,9 @@ import AdminPanel from '@/components/rmrk/Create/Admin/AdminPanel.vue'
     }
   },
 })
-export default class TransferPage extends Vue {}
+export default class RmrkAdminPage extends Vue {
+  layout() {
+    return 'centered-half-layout'
+  }
+}
 </script>

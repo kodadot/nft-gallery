@@ -133,6 +133,11 @@
       </div>
     </template>
     <template v-slot:footer>
+      <GalleryItemCarousel
+        v-if="showRelatedCarousel"
+        type="related"
+        :collectionId="nft.collection.id" />
+      <GalleryItemCarousel type="visited" />
       <OfferList
         :current-owner-id="nft.currentOwner"
         :nftId="id"
@@ -280,6 +285,12 @@ export default class GalleryItem extends mixins(
       formatBsxBalanceEmptyOnZero(this.nft.price as string),
       this.meta.image as string,
       this.mimeType
+    )
+  }
+
+  get showRelatedCarousel(): boolean {
+    return (
+      Boolean(this.nft.collection?.id) && this.nftsFromSameCollection.length > 0
     )
   }
 

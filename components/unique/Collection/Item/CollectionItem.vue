@@ -60,7 +60,7 @@
             visible="collapse.collection.attributes.show"
             hidden="collapse.collection.attributes.hide">
             <div v-for="(attr, index) in attributes" :key="index">
-              <span class="text-bold">{{ attr.key }}: </span
+              <span class="has-text-weight-bold">{{ attr.key }}: </span
               ><span>{{ attr.value }}</span>
             </div>
           </CollapseWrapper>

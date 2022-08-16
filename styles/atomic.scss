@@ -2,18 +2,6 @@
   min-height: 100%;
 }
 
-.uppercase {
-  text-transform: uppercase;
-}
-
-.text-bold {
-  font-weight: bold;
-}
-
-.text-semibold {
-  font-weight: 600;
-}
-
 .text-primary {
   color: $primary;
 }
@@ -53,8 +41,4 @@
     font-size: 7rem;
     line-height: 8rem;
   }
-}
-
-.max-w-600 {
-  max-width: 600px;
 }

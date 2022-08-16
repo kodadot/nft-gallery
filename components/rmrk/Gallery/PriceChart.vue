@@ -159,7 +159,7 @@ export default class PriceChart extends mixins(
                   },
                   maxRotation: 0,
                   minRotation: 0,
-                  color: '#fff',
+                  color: '#FF47AC',
                 },
               },
               y: {
@@ -168,7 +168,7 @@ export default class PriceChart extends mixins(
                     return `${Number(value).toFixed(2)} ${this.unit}`
                   },
                   maxTicksLimit: 7,
-                  color: '#fff',
+                  color: '#FF47AC',
                 },
                 grid: {
                   color: '#3a3a3a',
