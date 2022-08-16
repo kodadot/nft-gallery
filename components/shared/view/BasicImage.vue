@@ -16,20 +16,18 @@
   </b-image>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+defineProps({
+  src: { type: String, default: '' },
+  alt: { type: String, default: 'KodaDot NFT minted multimedia' },
+  customClass: { type: String, default: '' },
+  rounded: Boolean,
+})
 
-@Component
-export default class BasicImage extends Vue {
-  @Prop({ type: String }) public src!: string
-  @Prop(String) public customClass!: string
-  @Prop({ type: String, default: 'KodaDot NFT minted multimedia' })
-  public alt!: string
-  @Prop(Boolean) public rounded!: boolean
+const { $consola } = useNuxtApp()
 
-  public onImageError(_: unknown, src: string): void {
-    this.$consola.log('[BasicImage] to load:', !!this.src, src)
-  }
+function onImageError(ev: Event, src: string) {
+  $consola.log('[BasicImage] to load:', src, ev)
 }
 </script>
 

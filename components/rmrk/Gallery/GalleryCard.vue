@@ -19,11 +19,7 @@
           :alt="title"
           customClass="gallery__image-wrapper" />
 
-        <PreviewMediaResolver
-          v-else
-          :src="animatedUrl"
-          :metadata="metadata"
-          :mimeType="type" />
+        <PreviewMediaResolver v-else :src="animatedUrl" :metadata="metadata" />
         <span v-if="price > 0 && showPriceValue" class="card-image__price">
           <Money :value="price" inline />
         </span>
@@ -44,22 +40,23 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import AuthMixin from '@/utils/mixins/authMixin'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+
 import {
   getSingleCloudflareImage,
   processSingleMetadata,
 } from '@/utils/cachingStrategy'
+import AuthMixin from '@/utils/mixins/authMixin'
 
-import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { getSanitizer, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { NFTMetadata } from '@/components/rmrk/service/scheme'
 
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
-    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
+    import('@/components/media/PreviewMediaResolver.vue'),
 }
 
 @Component({ components })
