@@ -10,11 +10,11 @@
     class="is-flex-wrap-wrap is-flex-grow-1">
     <template v-if="(showTwitter && twitter) || (showDiscord && discord)">
       <a
+        v-if="showTwitter && twitter"
         :href="`https://twitter.com/${twitter}`"
         class="twitter-link"
         target="_blank"
-        rel="noopener noreferrer"
-        v-if="showTwitter && twitter">
+        rel="noopener noreferrer">
         <b-icon pack="fab" icon="twitter" />
         <span class="aligned">
           {{ twitter | toString }}

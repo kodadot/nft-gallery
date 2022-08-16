@@ -131,7 +131,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     ReadOnlyBalanceInput: () =>
       import('@/components/shared/ReadOnlyBalanceInput.vue'),
-    Identity: () => import('@/components/shared/format/Identity.vue'),
+    Identity: () => import('@/components/shared/identity/Identity.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),

@@ -166,7 +166,7 @@
 import { Component, mixins } from 'nuxt-property-decorator'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import Identity from '@/components/shared/format/Identity.vue'
+import Identity from '@/components/shared/identity/Identity.vue'
 import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import ColorModeButton from '@/components/common/ColorModeButton.vue'

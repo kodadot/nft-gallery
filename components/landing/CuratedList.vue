@@ -64,7 +64,7 @@ import { Collection } from '~/components/unique/types'
 
 const components = {
   // Identicon: () => import('@polkadot/vue-identicon'),
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/Identity.vue'),
 }
 
 const curatedCollection = [

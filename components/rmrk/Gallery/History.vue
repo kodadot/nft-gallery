@@ -144,7 +144,7 @@ import { Interaction } from '@kodadot1/minimark'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }

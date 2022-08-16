@@ -17,7 +17,7 @@ const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
   ConnectWalletButton: () =>
     import('@/components/shared/ConnectWalletButton.vue'),
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
 }
 

@@ -92,7 +92,7 @@ import type { CarouselNFT } from './types'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/Identity.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
     import('@/components/media/PreviewMediaResolver.vue'),
