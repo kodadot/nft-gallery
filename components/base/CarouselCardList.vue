@@ -66,14 +66,16 @@
             </div>
           </div>
         </div>
-        <div class="card-footer is-flex p-2">
-          <time class="is-size-7 icon-text" v-if="list.timestamp">
-            <b-icon icon="clock" />
-            <span>{{ list.timestamp }}</span>
-          </time>
-          <p class="control ml-auto" v-if="list.price">
-            <Money :value="list.price" inline />
-          </p>
+        <div class="card-footer" v-show="list.timestamp || list.price">
+          <div class="is-flex p-2">
+            <time class="is-size-7 icon-text" v-if="list.timestamp">
+              <b-icon icon="clock" />
+              <span>{{ list.timestamp }}</span>
+            </time>
+            <div class="ml-auto" v-if="list.price">
+              <Money :value="list.price" inline />
+            </div>
+          </div>
         </div>
       </div>
     </template>
@@ -137,7 +139,7 @@ export default class CarouselList extends mixins(AuthMixin, PrefixMixin) {
           itemsToShow: 3,
         },
         1400: {
-          itemsToShow: 3.5,
+          itemsToShow: 4,
         },
         1800: {
           itemsToShow: 5,
@@ -178,6 +180,9 @@ export default class CarouselList extends mixins(AuthMixin, PrefixMixin) {
   }
   .card-footer {
     border-top-color: hsla(0, 0%, 60%, 1);
+    .is-flex {
+      flex: auto;
+    }
   }
 }
 </style>
