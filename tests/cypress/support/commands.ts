@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 /* eslint-disable @typescript-eslint/no-namespace */
+import 'cypress-network-idle'
 import consola from 'consola'
 
 export {}

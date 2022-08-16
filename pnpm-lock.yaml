@@ -52,6 +52,7 @@ specifiers:
   cross-env: ^7.0.3
   css-loader: 5.2.7
   cypress: ^10.5.0
+  cypress-network-idle: ^1.10.0
   date-fns: ^2.29.1
   emoji-unicode: ^2.0.1
   eslint: ^8.22.0
@@ -175,6 +176,7 @@ devDependencies:
   consola: 2.15.3
   cross-env: 7.0.3
   cypress: 10.5.0
+  cypress-network-idle: 1.10.0
   eslint: 8.22.0
   eslint-config-prettier: 8.5.0_eslint@8.22.0
   eslint-plugin-prettier: 4.2.1_i2cojdczqdiurzgttlwdgf764e
@@ -8288,6 +8290,10 @@ packages:
 
   /cyclist/1.0.1:
     resolution: {integrity: sha512-NJGVKPS81XejHcLhaLJS7plab0fK3slPh11mESeeDq2W4ZI5kUKK/LRRdVDvjJseojbPB7ZwjnyOybg3Igea/A==}
+
+  /cypress-network-idle/1.10.0:
+    resolution: {integrity: sha512-TNtf9zquBCPMI79wMUCuVdA5jZEWJ1VN4VQ4nHngYOIKUtPKF+0LbcIxWxalyzGbPY6sTLyq4hprOxx+7mnAqA==}
+    dev: true
 
   /cypress/10.5.0:
     resolution: {integrity: sha512-m1oP/2Au+81moyHGg6Mxro8wo5F5rXjtea9SPXn7ezUT3qNHk43bif3K/6Wz7nuaNUiN9/UM+B4c03kCp8vniw==}

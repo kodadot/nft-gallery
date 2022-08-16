@@ -134,6 +134,7 @@
     "consola": "^2.15.3",
     "cross-env": "^7.0.3",
     "cypress": "^10.5.0",
+    "cypress-network-idle": "^1.10.0",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
