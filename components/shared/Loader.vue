@@ -1,5 +1,5 @@
 <template>
-  <b-loading v-model="isLoading" is-full-page :can-cancel="true">
+  <b-loading v-model="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container">
       <div
         v-if="randomFunFactHeading && randomFunFactQuestion"
@@ -37,6 +37,7 @@ import { randomIntegerBetween } from '@/utils/calculation'
 export default class Loader extends Vue {
   @Prop(String) public status!: string
   @Prop(Boolean) public value!: boolean
+  @Prop({ type: Boolean, default: true }) public canCancel
 
   // seed new funfact each time loader is used
   @Watch('value')
