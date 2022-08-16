@@ -18,10 +18,8 @@ We [reward](REWARDS.md) our contributors in $KSM for their time and effort with 
 <img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
 
 # Features Roadmap
-Here you'll find our goals for each section of KodaDot!
-- [Beta](https://github.com/orgs/kodadot/projects/1)
-- [XR - KodaVerse](https://github.com/orgs/kodadot/projects/2/views/1)
-- [Meta Mobile](https://github.com/orgs/kodadot/projects/3/views/1)
+You'll find our goals for KodaDot upcoming future!
+- [Beta Roadmap](https://github.com/orgs/kodadot/projects/4/views/1)
 
 Test out KodaDot's [Beta](https://beta.kodadot.xyz/)
 
@@ -35,14 +33,8 @@ Test out KodaDot's [Beta](https://beta.kodadot.xyz/)
 
 
 # Support KodaDot
-#### Please **star** and **share** this repository! This exposes us to other builders and creators in the space.
-#### Feel free to donate to our notable members by sending them $KSM, the currency we use to reward bounty hunters.
-- [RoiLeo](https://kodadot.xyz/transfer/?target=DVYy1qnocE8t6ZvUfPx3rEjG829khNRXx3YrCGVHHj19Lcb)
-- [Yangwao](https://kodadot.xyz/transfer/?target=CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd)
-- [Vikiival](https://kodadot.xyz/transfer/?target=Fksmad33PFxhrQXNYPPJozgWrv82zuFLvXK7Rh8m1xQhe98)
-- [Prachi00](https://kodadot.xyz/transfer/?target=EzGc4s9PgCPx1YnF3fqzhLzVHpHMTL4LWPScwpDrR8JKgSU)
-- [kkukelka](https://kodadot.xyz/transfer/?target=EqdyzrzVmeHwMdMwvPeCMnNdbuQDbD3YrjY93xq9Ln3jUGW)
-
+#### Please ⭐️ **star** and **share** this repository! This exposes us to other builders and creators in the space.
+#### Feel free to donate to our [KodaDot_Guild_Rewards](https://beta.kodadot.xyz/transfer?target=G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar&usdamount=1000&donation=true) which already funded over $100k (~1000 $KSM) to notable contributing members
 
 # Stay Tuned for Updates!
 - Follow us on [Twitter](https://twitter.com/KodaDot), [Instagram](https://instagram.com/kodadot.xyz), [Youtube](https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA), and [Medium](https://medium.com/kodadot)
