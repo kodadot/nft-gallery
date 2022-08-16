@@ -4,7 +4,6 @@ describe('landingRmrk', () => {
     cy.visit('/rmrk')
   })
   it('checkNavbar', () => {
-    // cy.waitForNetworkIdle('POST', '*', 1000)
     cy.rmrkNavbar()
   })
 })
