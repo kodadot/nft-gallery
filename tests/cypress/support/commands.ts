@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 /* eslint-disable @typescript-eslint/no-namespace */
+import 'cypress-file-upload'
 import consola from 'consola'
 
 export {}
