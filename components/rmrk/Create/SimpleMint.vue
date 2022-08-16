@@ -2,168 +2,166 @@
   <section>
     <br />
     <Loader v-model="isLoading" :status="status" />
-    <div class="box">
-      <p class="title is-size-3">
-        <!-- {{ $t('mint.context') }} -->
-        Create NFT Collectibles
-      </p>
-      <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
-      <b-field>
-        <div>
-          {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
-        </div>
-      </b-field>
-      <b-field>
-        <Auth />
-      </b-field>
-
-      <MetadataUpload
-        v-model="file"
-        label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
-        expanded
-        preview
-        data-cy="input-upload" />
-
-      <BasicInput
-        v-model="rmrkMint.name"
-        :label="$t('mint.nft.name.label')"
-        :message="$t('mint.nft.name.message')"
-        :placeholder="$t('mint.nft.name.placeholder')"
-        @blur.native.capture="generateSymbol"
-        expanded
-        spellcheck="true"
-        data-cy="input-name" />
-
-      <BasicInput
-        v-model="rmrkMint.symbol"
-        :label="$t('mint.collection.symbol.label')"
-        :message="$t('mint.collection.symbol.message')"
-        :placeholder="$t('mint.collection.symbol.placeholder')"
-        @keydown.native.space.prevent
-        maxlength="10"
-        expanded
-        data-cy="input-symbol" />
-
-      <BasicInput
-        v-model="meta.description"
-        maxlength="500"
-        type="textarea"
-        spellcheck="true"
-        class="mb-0 mt-5"
-        :label="$t('mint.nft.description.label')"
-        :message="$t('mint.nft.description.message')"
-        :placeholder="$t('mint.nft.description.placeholder')"
-        data-cy="input-description" />
-
-      <b-field :label="$t('Edition')" class="mt-5" data-cy="input-edition">
-        <b-numberinput
-          v-model="rmrkMint.max"
-          placeholder="1 is minumum"
-          expanded
-          :min="1"></b-numberinput>
-      </b-field>
-
-      <MetadataUpload
-        v-if="secondaryFileVisible"
-        label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
-        v-model="secondFile"
-        icon="file-image"
-        accept="image/png, image/jpeg, image/gif"
-        expanded
-        preview />
-
-      <AttributeTagInput
-        v-model="rmrkMint.tags"
-        placeholder="Get discovered easier through tags"
-        data-cy="input-tags" />
-
-      <BalanceInput
-        :step="0.1"
-        @input="updateMeta"
-        label="Price"
-        expanded
-        data-cy="input-price" />
-      <div class="content mt-3">
-        <p>
-          Hint: Setting the price now requires making an additional transaction.
-        </p>
+    <p class="title is-size-3">
+      <!-- {{ $t('mint.context') }} -->
+      Create NFT Collectibles
+    </p>
+    <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
+    <b-field>
+      <div>
+        {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
       </div>
+    </b-field>
+    <b-field>
+      <Auth />
+    </b-field>
 
-      <b-field>
-        <PasswordInput
-          v-model="password"
-          :account="accountId"
-          data-cy="input-password" />
-      </b-field>
-      <b-field>
-        <CollapseWrapper
-          v-if="rmrkMint.max > 1"
-          visible="mint.expert.show"
-          hidden="mint.expert.hide"
-          data-cy="input-advance-settings">
-          <p class="title is-6" data-cy="input-valid-address">
-            {{ $t('mint.expert.count', [parseAddresses.length]) }}
-          </p>
-          <p class="sub-title is-6 has-text-warning" v-show="syncVisible">
-            {{ $t('mint.expert.countGlitch', [parseAddresses.length]) }}
-          </p>
-          <b-field :label="$t('mint.expert.batchSend')">
-            <b-input
-              v-model="batchAdresses"
-              type="textarea"
-              :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
-              spellcheck="true"
-              data-cy="input-batch-address"></b-input>
-          </b-field>
-          <BasicSlider
-            v-model="distribution"
-            label="action.distributionCount"
-            data-cy="input-distribution" />
-          <b-field v-show="syncVisible">
-            <b-button
-              outlined
-              @click="syncEdition"
-              icon-left="sync"
-              type="is-warning"
-              >{{ $t('mint.expert.sync', [actualDistribution]) }}</b-button
-            >
-          </b-field>
-          <BasicSwitch
-            v-model="random"
-            label="action.random"
-            data-cy="input-random" />
-          <BasicSwitch
-            v-model="postfix"
-            label="mint.expert.postfix"
-            data-cy="input-hashtag" />
-        </CollapseWrapper>
-      </b-field>
-      <BasicSwitch v-model="nsfw" label="mint.nfsw" data-cy="input-nsfw" />
-      <b-field>
-        <b-switch v-model="hasToS" :rounded="false" data-cy="input-tos">
-          {{ $t('termOfService.accept') }}
-        </b-switch>
-      </b-field>
-      <b-field>
-        <b-tooltip :active="isMintDisabled" :label="$t('tooltip.buyDisabled')">
-          <b-button
-            type="is-primary"
-            icon-left="paper-plane"
-            @click="sub"
-            :disabled="disabled"
-            :loading="isLoading"
-            outlined>
-            {{ $t('mint.submit') }}
-          </b-button>
-        </b-tooltip>
-      </b-field>
-      <b-field>
-        <b-icon icon="calculator" />
-        <span class="pr-2">{{ $t('mint.estimated') }}</span>
-        <Money :value="estimated" inline data-cy="fee" />
-        <span class="pl-2"> ({{ getUsdFromKsm().toFixed(2) }} USD) </span>
-      </b-field>
+    <MetadataUpload
+      v-model="file"
+      label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
+      expanded
+      preview
+      data-cy="input-upload" />
+
+    <BasicInput
+      v-model="rmrkMint.name"
+      :label="$t('mint.nft.name.label')"
+      :message="$t('mint.nft.name.message')"
+      :placeholder="$t('mint.nft.name.placeholder')"
+      @blur.native.capture="generateSymbol"
+      expanded
+      spellcheck="true"
+      data-cy="input-name" />
+
+    <BasicInput
+      v-model="rmrkMint.symbol"
+      :label="$t('mint.collection.symbol.label')"
+      :message="$t('mint.collection.symbol.message')"
+      :placeholder="$t('mint.collection.symbol.placeholder')"
+      @keydown.native.space.prevent
+      maxlength="10"
+      expanded
+      data-cy="input-symbol" />
+
+    <BasicInput
+      v-model="meta.description"
+      maxlength="500"
+      type="textarea"
+      spellcheck="true"
+      class="mb-0 mt-5"
+      :label="$t('mint.nft.description.label')"
+      :message="$t('mint.nft.description.message')"
+      :placeholder="$t('mint.nft.description.placeholder')"
+      data-cy="input-description" />
+
+    <b-field :label="$t('Edition')" class="mt-5" data-cy="input-edition">
+      <b-numberinput
+        v-model="rmrkMint.max"
+        placeholder="1 is minumum"
+        expanded
+        :min="1"></b-numberinput>
+    </b-field>
+
+    <MetadataUpload
+      v-if="secondaryFileVisible"
+      label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
+      v-model="secondFile"
+      icon="file-image"
+      accept="image/png, image/jpeg, image/gif"
+      expanded
+      preview />
+
+    <AttributeTagInput
+      v-model="rmrkMint.tags"
+      placeholder="Get discovered easier through tags"
+      data-cy="input-tags" />
+
+    <BalanceInput
+      :step="0.1"
+      @input="updateMeta"
+      label="Price"
+      expanded
+      data-cy="input-price" />
+    <div class="content mt-3">
+      <p>
+        Hint: Setting the price now requires making an additional transaction.
+      </p>
     </div>
+
+    <b-field>
+      <PasswordInput
+        v-model="password"
+        :account="accountId"
+        data-cy="input-password" />
+    </b-field>
+    <b-field>
+      <CollapseWrapper
+        v-if="rmrkMint.max > 1"
+        visible="mint.expert.show"
+        hidden="mint.expert.hide"
+        data-cy="input-advance-settings">
+        <p class="title is-6" data-cy="input-valid-address">
+          {{ $t('mint.expert.count', [parseAddresses.length]) }}
+        </p>
+        <p class="sub-title is-6 has-text-warning" v-show="syncVisible">
+          {{ $t('mint.expert.countGlitch', [parseAddresses.length]) }}
+        </p>
+        <b-field :label="$t('mint.expert.batchSend')">
+          <b-input
+            v-model="batchAdresses"
+            type="textarea"
+            :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
+            spellcheck="true"
+            data-cy="input-batch-address"></b-input>
+        </b-field>
+        <BasicSlider
+          v-model="distribution"
+          label="action.distributionCount"
+          data-cy="input-distribution" />
+        <b-field v-show="syncVisible">
+          <b-button
+            outlined
+            @click="syncEdition"
+            icon-left="sync"
+            type="is-warning"
+            >{{ $t('mint.expert.sync', [actualDistribution]) }}</b-button
+          >
+        </b-field>
+        <BasicSwitch
+          v-model="random"
+          label="action.random"
+          data-cy="input-random" />
+        <BasicSwitch
+          v-model="postfix"
+          label="mint.expert.postfix"
+          data-cy="input-hashtag" />
+      </CollapseWrapper>
+    </b-field>
+    <BasicSwitch v-model="nsfw" label="mint.nfsw" data-cy="input-nsfw" />
+    <b-field>
+      <b-switch v-model="hasToS" :rounded="false" data-cy="input-tos">
+        {{ $t('termOfService.accept') }}
+      </b-switch>
+    </b-field>
+    <b-field>
+      <b-tooltip :active="isMintDisabled" :label="$t('tooltip.buyDisabled')">
+        <b-button
+          type="is-primary"
+          icon-left="paper-plane"
+          @click="sub"
+          :disabled="disabled"
+          :loading="isLoading"
+          outlined>
+          {{ $t('mint.submit') }}
+        </b-button>
+      </b-tooltip>
+    </b-field>
+    <b-field>
+      <b-icon icon="calculator" />
+      <span class="pr-2">{{ $t('mint.estimated') }}</span>
+      <Money :value="estimated" inline data-cy="fee" />
+      <span class="pl-2"> ({{ getUsdFromKsm().toFixed(2) }} USD) </span>
+    </b-field>
   </section>
 </template>
 

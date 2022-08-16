@@ -24,7 +24,7 @@
           :data="searchSuggestion"
           group-field="type"
           group-options="item"
-          placeholder="Search..."
+          placeholder="Search Artwork, Collection..."
           icon="search"
           open-on-focus
           clearable
@@ -126,7 +126,7 @@
           v-model="vListed"
           :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
           size="is-medium"
-          labelColor="is-success" />
+          labelColor="has-text-success" />
       </div>
       <div v-if="!hideFilter">
         <b-field class="columns mb-0">
