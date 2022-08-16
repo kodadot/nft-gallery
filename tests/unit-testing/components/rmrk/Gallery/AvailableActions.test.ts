@@ -1,7 +1,7 @@
-import { mount, createLocalVue } from '@vue/test-utils'
-import Buefy from 'buefy'
-import { expect, it } from 'vitest'
 import 'fake-indexeddb/auto'
+import { createLocalVue, mount } from '@vue/test-utils'
+import { expect, it } from 'vitest'
+import Buefy from 'buefy'
 
 import AvailableActions from '@/components/rmrk/Gallery/AvailableActions.vue'
 

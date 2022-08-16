@@ -1,5 +1,5 @@
-import { SupportWalletExtension } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
+import { SupportWalletExtension } from '@/utils/config/wallets'
 import logoTalisman from '@/assets/partners/logo-talisman.svg'
 
 export class TalismanWallet extends BaseDotsamaWallet {

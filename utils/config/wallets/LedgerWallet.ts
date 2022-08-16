@@ -1,5 +1,5 @@
-import { SupportWalletExtension } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
+import { SupportWalletExtension } from '@/utils/config/wallets'
 import logoLedger from '@/assets/partners/logo-ledger.svg'
 
 export class LedgerWallet extends BaseDotsamaWallet {
