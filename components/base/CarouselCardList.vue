@@ -32,7 +32,7 @@
                   {{ list.name }}
                 </nuxt-link>
               </div>
-              <div class="subtitle is-6 is-ellipsis" v-if="list.collection">
+              <div v-if="list.collection" class="subtitle is-6 is-ellipsis">
                 <nuxt-link :to="`/rmrk/collection/${list.collection.id}`">
                   {{ list.collection.name }}
                 </nuxt-link>
@@ -44,7 +44,7 @@
                   <Identity
                     :address="list.issuer"
                     inline
-                    noOwerlow
+                    no-owerlow
                     class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
@@ -59,20 +59,20 @@
                   <Identity
                     :address="list.currentOwner"
                     inline
-                    noOverflow
+                    no-overflow
                     class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
             </div>
           </div>
         </div>
-        <div class="card-footer" v-show="list.timestamp || list.price">
+        <div v-show="list.timestamp || list.price" class="card-footer">
           <div class="is-flex p-2">
-            <time class="is-size-7 icon-text" v-if="list.timestamp">
+            <time v-if="list.timestamp" class="is-size-7 icon-text">
               <b-icon icon="clock" />
               <span>{{ list.timestamp }}</span>
             </time>
-            <div class="ml-auto" v-if="list.price">
+            <div v-if="list.price" class="ml-auto">
               <Money :value="list.price" inline />
             </div>
           </div>
@@ -91,11 +91,9 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import type { CarouselNFT } from './types'
 
 const components = {
-  Loader: () => import('@/components/shared/Loader.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
   PreviewMediaResolver: () =>
     import('@/components/media/PreviewMediaResolver.vue'),
 }

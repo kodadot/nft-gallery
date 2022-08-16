@@ -58,24 +58,27 @@
 </template>
 
 <script lang="ts">
-import { emptyObject } from '@/utils/empty'
-import { identityStore } from '@/utils/idbStore'
-import InlineMixin from '@/utils/mixins/inlineMixin'
-import shortAddress from '@/utils/shortAddress'
-import shouldUpdate from '@/utils/shouldUpdate'
-import { onApiConnect } from '@kodadot1/sub-api'
+import { Component, Emit, Prop, Watch, mixins } from 'nuxt-property-decorator'
+import { get, update } from 'idb-keyval'
+import { hexToString, isHex } from '@polkadot/util'
 import { Data } from '@polkadot/types'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { hexToString, isHex } from '@polkadot/util'
-import { get, update } from 'idb-keyval'
-import { Component, Emit, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { onApiConnect } from '@kodadot1/sub-api'
+
+import InlineMixin from '@/utils/mixins/inlineMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
+
+import { emptyObject } from '@/utils/empty'
+import { identityStore } from '@/utils/idbStore'
+import shortAddress from '@/utils/shortAddress'
+import shouldUpdate from '@/utils/shouldUpdate'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
 
 const components = {
-  IdentityPopover: () => import('@/components/shared/IdentityPopover.vue'),
+  IdentityPopover: () =>
+    import('@/components/shared/identity/popover/IdentityPopover.vue'),
 }
 
 @Component({ components })
