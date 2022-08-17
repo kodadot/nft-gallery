@@ -26,7 +26,7 @@ export default class IdentityPopoverFooter extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
 .popover-stats-container {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

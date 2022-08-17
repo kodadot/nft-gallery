@@ -83,9 +83,10 @@ export default class IdentityPopover extends mixins(
     return formatToNow(this.lastBoughtDate)
   }
 
-  public async mounted() {
+  public mounted() {
     if (this.address) {
       this.fetchLastBought()
+      this.fetchNFTStats()
     }
   }
 
