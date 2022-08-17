@@ -86,31 +86,35 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import 'lazysizes'
+import { Component, Vue, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
-import {
-  getCloudflareImageLinks,
-  processMetadata,
-} from '@/utils/cachingStrategy'
-import { getDenyList } from '@/utils/prefix'
-import { fastExtract } from '@/utils/ipfs'
-import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
+
 import {
   NFTEntitiesWithCount,
   NFTWithCollectionMeta,
   WithData,
 } from 'components/unique/graphqlResponseTypes'
-import 'lazysizes'
-import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import AuthMixin from '@/utils/mixins/authMixin'
-import { NFTMetadata } from '../service/scheme'
-import { getSanitizer } from '../utils'
-import { SearchQuery } from './Search/types'
-import resolveQueryPath from '~/utils/queryPathResolver'
-import { unwrapSafe } from '~/utils/uniquery'
+import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
+
+import {
+  getCloudflareImageLinks,
+  processMetadata,
+} from '@/utils/cachingStrategy'
+import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import { fastExtract } from '@/utils/ipfs'
+import { getDenyList } from '@/utils/prefix'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import { unwrapSafe } from '@/utils/uniquery'
+
+import AuthMixin from '@/utils/mixins/authMixin'
+import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
+import { NFTMetadata } from '../service/scheme'
+import { SearchQuery } from './Search/types'
+import { getSanitizer } from '../utils'
 
 // import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
@@ -125,7 +129,7 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
-    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
+    import('@/components/media/PreviewMediaResolver.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
