@@ -1,7 +1,3 @@
-import type { Signer as InjectedSigner } from '@polkadot/api/types'
-import { SubscriptionFn, Wallet } from '@/utils/config/wallets'
-import { logError } from '@/utils/mappers'
-import { formatAccount } from '@/utils/account'
 import {
   InjectedAccount,
   InjectedExtension,
@@ -9,6 +5,10 @@ import {
   InjectedProvider,
   InjectedWindow,
 } from '@polkadot/extension-inject/types'
+import { SubscriptionFn, Wallet } from '@/utils/config/wallets'
+import type { Signer as InjectedSigner } from '@polkadot/api/types'
+import { formatAccount } from '@/utils/account'
+import { logError } from '@/utils/mappers'
 
 const DAPP_NAME = 'Kodadot'
 
