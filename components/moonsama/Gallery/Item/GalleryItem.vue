@@ -8,19 +8,10 @@
     :image-visible="imageVisible"
     :is-loading="isLoading">
     <template v-if="message" #top>
-      <b-message class="message-box" type="is-primary">
-        <div class="columns">
-          <div class="column is-four-fifths">
-            <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-            <p class="subtitle is-size-5 subtitle-text">
-              {{ $t('mint.shareWithFriends', [nft.name]) }} △
-            </p>
-          </div>
-          <div class="column">
-            <Sharing :enable-download="isOwner" is-primary="{true}" />
-          </div>
-        </div>
-      </b-message>
+      <MessageNotify
+        :enable-download="isOwner"
+        :title="$t('mint.success') + ' 🎉'"
+        :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
     </template>
     <template #main>
       <div class="columns">
