@@ -21,7 +21,8 @@
           class="only-border-top"
           outlined
           @click="handleAction(action)"
-          expanded>
+          expanded
+          :data-testid="`available-actions-${action}`">
           {{ actionLabel(action) }}
         </b-button>
       </template>
@@ -35,6 +36,7 @@
             outlined
             @click="handleAction(ShoppingActions.BUY)"
             expanded
+            data-testid="available-actions-BUY"
             data-cy="BUY">
             {{ replaceBuyNowWithYolo ? 'YOLO' : actionLabel('BUY') }}
           </b-button>
@@ -64,31 +66,33 @@
 </template>
 
 <script lang="ts">
-import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
+import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
+import { JustInteraction, createInteraction } from '@kodadot1/minimark'
+import {
+  KeyboardValueToActionMap,
+  ShoppingActions,
+  getActionButtonLabelKey,
+  getActions,
+} from '@/utils/shoppingActions'
+import { notificationTypes, showNotification } from '@/utils/notification'
+
+import { GenericAccountId } from '@polkadot/types/generic/AccountId'
+import { TranslateResult } from 'vue-i18n/types'
 import { emptyObject } from '@/utils/empty'
+import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
+import { isAddress } from '@polkadot/util-crypto'
+import { somePercentFromTX } from '@/utils/support'
+import { unpin } from '@/utils/proxy'
+
 import AuthMixin from '@/utils/mixins/authMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { unpin } from '@/utils/proxy'
-import {
-  getActionButtonLabelKey,
-  getActions,
-  KeyboardValueToActionMap,
-  ShoppingActions,
-} from '@/utils/shoppingActions'
+import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import shouldUpdate from '@/utils/shouldUpdate'
-import { somePercentFromTX } from '@/utils/support'
-import { createInteraction, JustInteraction } from '@kodadot1/minimark'
-import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { isAddress } from '@polkadot/util-crypto'
-import { get } from 'idb-keyval'
-import { Component, mixins, Prop, Ref, Watch } from 'nuxt-property-decorator'
-import { TranslateResult } from 'vue-i18n/types'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
