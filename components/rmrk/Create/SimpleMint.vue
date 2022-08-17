@@ -22,7 +22,8 @@
       required
       label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
       expanded
-      preview />
+      preview
+      data-cy="input-upload" />
 
     <BasicInput
       ref="nftNameInput"
@@ -33,7 +34,8 @@
       :placeholder="$t('mint.nft.name.placeholder')"
       @blur.native.capture="generateSymbol"
       expanded
-      spellcheck="true" />
+      spellcheck="true"
+      data-cy="input-name" />
 
     <BasicInput
       ref="nftSymbolInput"
@@ -44,7 +46,8 @@
       :placeholder="$t('mint.collection.symbol.placeholder')"
       @keydown.native.space.prevent
       maxlength="10"
-      expanded />
+      expanded
+      data-cy="input-symbol" />
 
     <BasicInput
       v-model="meta.description"
@@ -54,9 +57,10 @@
       class="mb-0 mt-5"
       :label="$t('mint.nft.description.label')"
       :message="$t('mint.nft.description.message')"
-      :placeholder="$t('mint.nft.description.placeholder')" />
+      :placeholder="$t('mint.nft.description.placeholder')"
+      data-cy="input-description" />
 
-    <b-field :label="$t('Edition')" class="mt-5">
+    <b-field :label="$t('Edition')" class="mt-5" data-cy="input-edition">
       <b-numberinput
         v-model="rmrkMint.max"
         placeholder="1 is minumum"
@@ -72,11 +76,18 @@
       accept="image/png, image/jpeg, image/gif"
       expanded
       preview />
+
     <AttributeTagInput
       v-model="rmrkMint.tags"
-      placeholder="Get discovered easier through tags" />
+      placeholder="Get discovered easier through tags"
+      data-cy="input-tags" />
 
-    <BalanceInput :step="0.1" @input="updateMeta" label="Price" expanded />
+    <BalanceInput
+      :step="0.1"
+      @input="updateMeta"
+      label="Price"
+      expanded
+      data-cy="input-price" />
     <div class="content mt-3">
       <p>
         Hint: Setting the price now requires making an additional transaction.
@@ -84,14 +95,18 @@
     </div>
 
     <b-field>
-      <PasswordInput v-model="password" :account="accountId" />
+      <PasswordInput
+        v-model="password"
+        :account="accountId"
+        data-cy="input-password" />
     </b-field>
     <b-field>
       <CollapseWrapper
         v-if="rmrkMint.max > 1"
         visible="mint.expert.show"
-        hidden="mint.expert.hide">
-        <p class="title is-6">
+        hidden="mint.expert.hide"
+        data-cy="input-advance-settings">
+        <p class="title is-6" data-cy="input-valid-address">
           {{ $t('mint.expert.count', [parseAddresses.length]) }}
         </p>
         <p class="sub-title is-6 has-text-warning" v-show="syncVisible">
@@ -102,9 +117,13 @@
             v-model="batchAdresses"
             type="textarea"
             :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
-            spellcheck="true"></b-input>
+            spellcheck="true"
+            data-cy="input-batch-address"></b-input>
         </b-field>
-        <BasicSlider v-model="distribution" label="action.distributionCount" />
+        <BasicSlider
+          v-model="distribution"
+          label="action.distributionCount"
+          data-cy="input-distribution" />
         <b-field v-show="syncVisible">
           <b-button
             outlined
@@ -114,13 +133,19 @@
             >{{ $t('mint.expert.sync', [actualDistribution]) }}</b-button
           >
         </b-field>
-        <BasicSwitch v-model="random" label="action.random" />
-        <BasicSwitch v-model="postfix" label="mint.expert.postfix" />
+        <BasicSwitch
+          v-model="random"
+          label="action.random"
+          data-cy="input-random" />
+        <BasicSwitch
+          v-model="postfix"
+          label="mint.expert.postfix"
+          data-cy="input-hashtag" />
       </CollapseWrapper>
     </b-field>
-    <BasicSwitch v-model="nsfw" label="mint.nfsw" />
+    <BasicSwitch v-model="nsfw" label="mint.nfsw" data-cy="input-nsfw" />
     <b-field type="is-danger" :message="haveNoToSMessage">
-      <b-switch v-model="hasToS" :rounded="false">
+      <b-switch v-model="hasToS" :rounded="false" data-cy="input-tos">
         {{ $t('termOfService.accept') }}
       </b-switch>
     </b-field>
@@ -137,7 +162,7 @@
     <b-field>
       <b-icon icon="calculator" />
       <span class="pr-2">{{ $t('mint.estimated') }}</span>
-      <Money :value="estimated" inline />
+      <Money :value="estimated" inline data-cy="fee" />
       <span class="pl-2"> ({{ getUsdFromKsm().toFixed(2) }} USD) </span>
     </b-field>
   </section>
