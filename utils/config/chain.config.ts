@@ -24,7 +24,7 @@ const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
 
 const chainPropertyMap: Config<ChainProperties> = {
   rmrk: DEFAULT_CHAIN_PROPERTIES,
-  bsx: toChainProperty(10041, 12, 'BSX'),
+  bsx: toChainProperty(10041, 12, 'BSX', 'https://basilisk.subscan.io/'),
   statemine: DEFAULT_CHAIN_PROPERTIES,
   westmint: DEFAULT_CHAIN_PROPERTIES,
   moonsama: toChainProperty(1285, 12, 'MOVR', 'https://moonriver.subscan.io/'),

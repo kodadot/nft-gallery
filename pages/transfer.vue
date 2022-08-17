@@ -366,11 +366,7 @@ export default class Transfer extends mixins(
   }
 
   protected getUrl(): string {
-    return urlBuilderTransaction(
-      this.transactionValue,
-      this.$store.getters['explorer/getCurrentChain'],
-      'subscan'
-    )
+    return urlBuilderTransaction(this.transactionValue, this.blockExplorer)
   }
 
   protected getExplorerUrl(): void {
