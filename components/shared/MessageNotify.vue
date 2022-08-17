@@ -26,7 +26,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component<MessageNotify>({
   components: {
-    Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+    Sharing: () => import('@/components/shared/Sharing.vue'),
   },
 })
 export default class MessageNotify extends Vue {

@@ -181,7 +181,7 @@ import AvailableActions from './AvailableActions.vue'
     AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
-    Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+    Sharing: () => import('@/components/shared/Sharing.vue'),
     Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
     MediaResolver: () => import('@/components/media/MediaResolver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),

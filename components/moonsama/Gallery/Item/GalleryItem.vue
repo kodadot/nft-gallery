@@ -2,12 +2,12 @@
   <BaseGalleryItem
     v-if="nft"
     :image="meta.image"
-    :animationUrl="meta.animation_url"
-    :mimeType="mimeType"
+    :animation-url="meta.animation_url"
+    :mime-type="mimeType"
     :description="meta.description"
-    :imageVisible="imageVisible"
-    :isLoading="isLoading">
-    <template v-slot:top v-if="message">
+    :image-visible="imageVisible"
+    :is-loading="isLoading">
+    <template v-if="message" #top>
       <b-message class="message-box" type="is-primary">
         <div class="columns">
           <div class="column is-four-fifths">
@@ -17,16 +17,16 @@
             </p>
           </div>
           <div class="column">
-            <Sharing :enableDownload="isOwner" isPrimary="{true}" />
+            <Sharing :enable-download="isOwner" is-primary="{true}" />
           </div>
         </div>
       </b-message>
     </template>
-    <template v-slot:main>
+    <template #main>
       <div class="columns">
         <div class="column is-6">
           <div class="nft-title">
-            <Name :nft="nft" :isLoading="isLoading" />
+            <Name :nft="nft" :is-loading="isLoading" />
           </div>
 
           <div v-if="meta.description" class="block">
@@ -42,12 +42,12 @@
               :active="isLoading"></b-skeleton>
           </div>
 
-          <div class="block" v-if="meta.attributes && meta.attributes.length">
-            <Properties :attributes="meta.attributes" fieldKey="trait_type" />
+          <div v-if="meta.attributes && meta.attributes.length" class="block">
+            <Properties :attributes="meta.attributes" field-key="trait_type" />
           </div>
         </div>
 
-        <div class="column is-6" v-if="detailVisible">
+        <div v-if="detailVisible" class="column is-6">
           <b-skeleton
             :count="2"
             size="is-large"
@@ -56,7 +56,7 @@
           <div class="columns">
             <div class="column">
               <div class="nft-title">
-                <Detail :nft="nft" :isLoading="isLoading" />
+                <Detail :nft="nft" :is-loading="isLoading" />
               </div>
             </div>
             <div
@@ -79,7 +79,7 @@
                         <Auth class="mt-4" evm />
                       </p>
                     </div>
-                    <Sharing :enableDownload="isOwner" class="mb-4" />
+                    <Sharing :enable-download="isOwner" class="mb-4" />
                   </div>
                 </div>
               </template>
@@ -114,7 +114,7 @@ import isShareMode from '@/utils/isShareMode'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { get, set } from 'idb-keyval'
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Vue, Watch, mixins } from 'nuxt-property-decorator'
 import { processMedia } from '@/utils/gallery/media'
 import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -127,7 +127,7 @@ import { isOwner } from '~/utils/account'
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
-    Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+    Sharing: () => import('@/components/shared/Sharing.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
