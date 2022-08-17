@@ -172,7 +172,7 @@ export default class IdentityPopover extends mixins(
   }
 
   @Watch('address', { immediate: true })
-  protected async onAddressChanged() {
+  protected onAddressChanged() {
     if (this.address) {
       this.fetchLastBought()
       this.fetchNFTStats()

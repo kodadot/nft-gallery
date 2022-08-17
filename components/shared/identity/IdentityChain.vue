@@ -46,9 +46,15 @@ export default class IdentityChain extends Vue {
   @Prop() readonly showOnchainIdentity!: boolean
   @Prop() readonly hideIdentityPopover!: boolean
   @Prop() readonly isFetchingIdentity!: boolean
-  @Prop() readonly identity = emptyObject<IdentityFields>()
+  @Prop({ default: emptyObject<IdentityFields>() }) readonly identity
   @Prop() readonly address!: Address
   @Prop() readonly shortenedAddress!: Address
   @Prop() readonly name!: Address
 }
 </script>
+
+<style scoped>
+.infinity-loader {
+  height: 20px;
+}
+</style>

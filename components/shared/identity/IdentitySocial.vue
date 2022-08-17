@@ -3,7 +3,6 @@
     <a
       v-if="showTwitter && twitter"
       :href="`https://twitter.com/${twitter}`"
-      class="twitter-link"
       target="_blank"
       rel="noopener noreferrer">
       <b-icon pack="fab" icon="twitter" />

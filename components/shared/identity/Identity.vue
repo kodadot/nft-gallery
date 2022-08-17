@@ -6,7 +6,6 @@
       ((showTwitter && twitter) || !showTwitter) &&
       ((showDiscord && discord) || !showDiscord)
     "
-    :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }"
     class="is-flex-wrap-wrap is-flex-grow-1">
     <IdentitySocial
       v-if="(showTwitter && twitter) || (showDiscord && discord)"
@@ -174,27 +173,3 @@ export default class Identity extends mixins(InlineMixin, UseApiMixin) {
   }
 }
 </script>
-
-<style scoped>
-.aligned {
-  vertical-align: middle;
-  display: inline-block;
-}
-
-.twitter-link {
-  line-height: 20px;
-}
-
-.twitter-link .icon {
-  vertical-align: middle;
-  margin: auto 0 auto 0;
-}
-
-.overflowWrap {
-  overflow-wrap: break-word;
-}
-
-.infinity-loader {
-  height: 20px;
-}
-</style>

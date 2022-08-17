@@ -28,11 +28,7 @@
             {{ $t('profile.user') }}
           </div>
           <div class="subtitle is-size-6">
-            <ProfileLink
-              :address="id"
-              :inline="true"
-              show-twitter
-              show-discord />
+            <ProfileLink :address="id" inline show-twitter show-discord />
             <a
               :href="`https://sub.id/#/${id}`"
               target="_blank"
