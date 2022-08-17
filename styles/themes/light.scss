@@ -1,229 +1,244 @@
 html.light-mode {
-  background-color: $background-light;
+	background-color: $background-light;
 
-  a {
-    color: $primary;
-  }
+	a {
+		color: $primary;
+	}
 
-  a:hover {
-    color: $primary-light;
-  }
+	a:hover {
+		color: $primary-light;
+	}
 
-  body,
-  div#__nuxt,
-  div#__layout,
-  main {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $background-light;
-    color: $text-light-theme;
-  }
+	body,
+	div#__nuxt,
+	div#__layout,
+	main {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		background-color: $background-light;
+		color: $text-light-theme;
+	}
 
-  .footer {
-    background-color: $white;
-  }
+	.footer {
+		background-color: $white;
+	}
 
-  .box,
-  .card {
-    background-color: $background-light;
-  }
+	.box,
+	.card {
+		background-color: $background-light;
+	}
 
-  .subtitle {
-    color: $text-light-theme;
-  }
+	.subtitle {
+		color: $text-light-theme;
+	}
 
-  .text {
-    &__stroked {
-      -webkit-text-fill-color: $white;
-    }
-  }
+	.text {
+		&__stroked {
+			-webkit-text-fill-color: $white;
+		}
+	}
 
-  .navbar {
-    .navbar-item,
-    .navbar-link,
-    .button.is-text {
-      color: $text-light-theme;
-    }
+	.navbar {
 
-    button.button.navbar-link-background {
-      color: $text-light-theme;
-      background-color: rgba(229, 229, 229, 0.55);
-    }
-    .navbar-item:hover,
-    .navbar-link:hover,
-    .navbar-item:focus,
-    .navbar-link:focus {
-      background-color: inherit;
-    }
+		.navbar-item,
+		.navbar-link,
+		.button.is-text {
+			color: $text-light-theme;
+		}
 
-    .navbar-item.has-dropdown:focus .navbar-link,
-    .navbar-item.has-dropdown:hover .navbar-link,
-    .navbar-item.has-dropdown.is-active .navbar-link {
-      background-color: transparent !important;
-    }
+		button.button.navbar-link-background {
+			color: $text-light-theme;
+			background-color: rgba(229, 229, 229, 0.55);
+		}
 
-    &.navbar-shrink {
-      background-color: rgba(12, 12, 12, 0.7) !important;
-    }
+		.navbar-item:hover,
+		.navbar-link:hover,
+		.navbar-item:focus,
+		.navbar-link:focus {
+			background-color: inherit;
+		}
 
-    .navbar-dropdown,
-    .navbar-menu.is-active {
-      color: $text-light-theme;
-      background-color: $white;
-      box-shadow: rgba(229, 229, 229, 0.55) !important;
-    }
+		.navbar-item.has-dropdown:focus .navbar-link,
+		.navbar-item.has-dropdown:hover .navbar-link,
+		.navbar-item.has-dropdown.is-active .navbar-link {
+			background-color: transparent !important;
+		}
 
-    .dropdown .dropdown-menu .has-link a {
-      color: $text-light-theme;
-    }
+		&.navbar-shrink {
+			background-color: rgba(12, 12, 12, 0.7) !important;
+		}
 
-    .search-navbar input,
-    .search-navbar-container-mobile input {
-      background-color: rgba(229, 229, 229, 0.55);
-    }
-  }
+		.navbar-dropdown,
+		.navbar-menu.is-active {
+			color: $text-light-theme;
+			background-color: $white;
+			box-shadow: rgba(229, 229, 229, 0.55) !important;
+		}
 
-  .dropdown-content {
-    color: $text-light-theme;
-    background-color: $white;
-    .dropdown-item:not(.is-active) {
-      color: $text-light-theme;
-    }
-  }
+		.dropdown .dropdown-menu .has-link a {
+			color: $text-light-theme;
+		}
 
-  .homepage .tile .box {
-    border-color: #f3f3f3;
-    box-shadow: -8px 4px 8px #f3f3f3;
-    background-color: $white;
-  }
+		.search-navbar input,
+		.search-navbar-container-mobile input {
+			background-color: rgba(229, 229, 229, 0.55);
+		}
+	}
 
-  .select select {
-    color: $text-light-theme;
-    background-color: #b0b0b0;
-  }
+	.dropdown-content {
+		color: $text-light-theme;
+		background-color: $white;
 
-  .tabs li:not(.is-active) a,
-  .pagination-previous,
-  .pagination-next,
-  .pagination-link,
-  body .title:not(h2),
-  .auth-avatar .subtitle {
-    color: $text-light-theme;
-  }
+		.dropdown-item:not(.is-active) {
+			color: $text-light-theme;
+		}
+	}
 
-  .level .title,
-  .homepage .title:not(h2),
-  body .card-header-title,
-  .card-header-icon {
-    color: $text-light-theme !important;
-  }
+	.homepage .tile .box {
+		border-color: #f3f3f3;
+		box-shadow: -8px 4px 8px #f3f3f3;
+		background-color: $white;
+	}
 
-  .button:not(.is-primary),
-  .input,
-  .textarea,
-  .taginput .taginput-container.is-focusable {
-    color: $text-light-theme;
-    background-color: $white;
-  }
+	.select select {
+		color: $text-light-theme;
+		background-color: #f3f3f3;
+	}
 
-  .list-header,
-  .collapse.card {
-    background: inherit;
-  }
+	.select {
+		::after {
+			border-color: $black;
+		}
+	}
 
-  .select select::placeholder,
-  .taginput .taginput-container.is-focusable::placeholder,
-  .textarea::placeholder,
-  .input::placeholder {
-    color: inherit;
-  }
+	.tabs li:not(.is-active) a,
+	.pagination-previous,
+	.pagination-next,
+	.pagination-link,
+	body .title:not(h2),
+	.auth-avatar .subtitle {
+		color: $text-light-theme;
+	}
 
-  .scroll-top-button,
-  .tippy-popper .tippy-tooltip {
-    color: $text-light-theme;
-    background-color: $white;
-  }
+	.level .title,
+	.homepage .title:not(h2),
+	body .card-header-title,
+	.card-header-icon {
+		color: $text-light-theme  !important;
+	}
 
-  .carousel-card-list .card {
-    box-shadow: -8px 4px 8px #f3f3f3;
-    border-color: #f3f3f3;
-    background-color: $white;
+	.button:not(.is-primary),
+	.input,
+	.textarea,
+	.taginput .taginput-container.is-focusable {
+		color: $text-light-theme;
+		background-color: $white;
+	}
 
-    .card-footer {
-      color: $text-light-theme;
-    }
-  }
+	.list-header,
+	.collapse.card {
+		background: inherit;
+	}
 
-  .modal-card {
-    background: $white !important;
-    color: $text-light-theme;
-    &-title {
-      color: $text-light-theme !important;
-    }
+	.select select::placeholder,
+	.taginput .taginput-container.is-focusable::placeholder,
+	.textarea::placeholder,
+	.input::placeholder {
+		color: inherit;
+	}
 
-    .button.is-primary.is-inverted.is-outlined {
-      background-color: transparent;
-      border-color: $primary;
-      color: $primary;
-    }
-  }
+	.scroll-top-button,
+	.tippy-popper .tippy-tooltip {
+		color: $text-light-theme;
+		background-color: $white;
+	}
 
-  .table {
-    color: $text-light-theme;
-    background-color: $white;
+	.carousel-card-list .card {
+		box-shadow: -8px 4px 8px #f3f3f3;
+		border-color: #f3f3f3;
+		background-color: $white;
 
-    &.is-hoverable tbody tr:not(.is-selected):hover {
-      background-color: hsl(0deg, 0%, 92%);
-    }
+		.card-footer {
+			color: $text-light-theme;
+		}
+	}
 
-    th {
-      color: hsl(0deg, 0%, 8%);
-    }
-  }
+	.modal-card {
+		background: $white  !important;
+		color: $text-light-theme;
 
-  .b-table .table-wrapper.has-sticky-header tr:first-child th, .has-mobile-cards tr {
-    background-color: $white!important;
-  }
+		&-title {
+			color: $text-light-theme  !important;
+		}
 
-  .loading-container {
-    background: rgba(243, 243, 243, 0.88);
+		.button.is-primary.is-inverted.is-outlined {
+			background-color: transparent;
+			border-color: $primary;
+			color: $primary;
+		}
+	}
 
-    .funfact-text {
-      color: $text-light-theme;
-    }
-  }
+	.table {
+		color: $text-light-theme;
+		background-color: $white;
 
-  .wallet .buttons button {
-    background-color: rgba(243, 243, 243, 0.9);
-  }
+		&.is-hoverable tbody tr:not(.is-selected):hover {
+			background-color: hsl(0deg, 0%, 92%);
+		}
 
-  .gallery .has-text-overflow-ellipsis,
-  .collections .columns .card .card-content .collection-title,
-  .collections .columns .card .card-content .heading--inline, .control-label {
-    color: $text-light-theme;
-  }
+		th {
+			color: hsl(0deg, 0%, 8%);
+		}
+	}
 
-  .collection-card .card-content {
-    background-color: $frosted-glass-background-dark !important;
-  }
+	.b-table .table-wrapper.has-sticky-header tr:first-child th,
+	.has-mobile-cards tr {
+		background-color: $white  !important;
+	}
 
-  .price-block__original {
-    .money {
-      color: $text-light-theme;
-    }
-  }
+	.loading-container {
+		background: rgba(243, 243, 243, 0.88);
 
-  .share__tooltip {
-    .tooltip-content {
-      background-color: $white !important;
-    }
-  }
+		.funfact-text {
+			color: $text-light-theme;
+		}
+	}
 
-  .carousel-items {
-    .title {
-      color: $text-light-theme;
-    }
-  }
+	.wallet .buttons button {
+		background-color: rgba(243, 243, 243, 0.9);
+	}
 
+	.gallery .has-text-overflow-ellipsis,
+	.collections .columns .card .card-content .collection-title,
+	.collections .columns .card .card-content .heading--inline,
+	.control-label {
+		color: $text-light-theme;
+	}
+
+	.collection-card .card-content {
+		background-color: $frosted-glass-background-dark  !important;
+	}
+
+	.price-block__original {
+		.money {
+			color: $text-light-theme;
+		}
+	}
+
+	.share__tooltip {
+		.tooltip-content {
+			background-color: $white  !important;
+		}
+	}
+
+	.carousel-items {
+		.title {
+			color: $text-light-theme;
+		}
+	}
+
+	.series-sticky-header th {
+		background: $white;
+	}
 }
