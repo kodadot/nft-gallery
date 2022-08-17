@@ -216,4 +216,7 @@ export const getters = {
   ): string {
     return state.auth.balance[urlPrefix] || '0'
   },
+  getTokenBalanceOf(state: IdentityStruct): (tokenId: string) => string {
+    return (tokenId: string) => state.auth.tokens[tokenId] || '0'
+  },
 }
