@@ -133,7 +133,7 @@ export const actions = {
     }
   },
   async fetchBalance(
-    { dispatch, rootState },
+    { commit, dispatch, rootState },
     { address, apiUrl }: ChangeAddressRequest
   ) {
     const endpoint = apiUrl || rootState.setting.apiUrl
@@ -166,7 +166,7 @@ export const actions = {
             endpoint,
             prefix
           )
-          dispatch('setTokenListBalance', balance)
+          commit('setTokenListBalance', balance)
         })
       } catch (e) {
         consola.error('[ERR: BALANCE]', e)
