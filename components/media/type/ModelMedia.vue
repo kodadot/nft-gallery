@@ -6,7 +6,7 @@
       :src="src"
       :poster="poster"
       :alt="description"
-      :availableAnimations="availableAnimations"
+      :available-animations="availableAnimations"
       auto-rotate
       :camera-controls="isDetail"
       :ar="isDetail"
@@ -18,22 +18,18 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import '@google/model-viewer'
 
-@Component({})
-export default class ViewModel extends Vue {
-  @Prop({ type: String, default: '' }) public readonly src!: string
-  @Prop({ type: String, default: '' }) public readonly poster?: string
-  @Prop({ type: String, default: '' }) public readonly description?: string
-  @Prop({ type: Array }) public readonly availableAnimations?: string[]
-  @Prop(Boolean) public preview!: boolean
+const props = defineProps({
+  src: { type: String, default: '' },
+  poster: { type: String, default: '' },
+  description: { type: String, default: '' },
+  availableAnimations: { type: Array, default: () => [] },
+  preview: Boolean,
+})
 
-  get isDetail(): boolean {
-    return !this.preview
-  }
-}
+const isDetail = computed(() => !props.preview)
 </script>
 
 <style lang="scss" scoped>
