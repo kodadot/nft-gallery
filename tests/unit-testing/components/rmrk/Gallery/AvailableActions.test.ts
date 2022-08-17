@@ -42,7 +42,7 @@ describe('AvailableActions.vue', () => {
     expect(buyButton.element.getAttribute('disabled')).toBe('disabled')
   })
 
-  it('should not render BUY button if set price to \'0\' through props', async () => {
+  it('should not render BUY button if set price to 0 through props', async () => {
     await wrapper.setProps({ price: '0' })
     const buyButton = wrapper.find('[data-testid="available-actions-BUY"]')
     expect(buyButton.element).toBeUndefined()
