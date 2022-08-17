@@ -1,3 +1,5 @@
+import { NFTWithMeta, CollectionWithMeta } from '../../service/scheme'
+
 export type QueryType = Record<string, unknown>
 
 export type SortType = {
@@ -18,7 +20,7 @@ export type SearchQuery = {
   sortByMultiple?: string[]
 }
 
-export type SearchSuggestion = {
-  type: string
-  item: any
-}
+export type SearchSuggestion = Record<
+  string,
+  (NFTWithMeta | CollectionWithMeta)[]
+>

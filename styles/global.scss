@@ -215,10 +215,24 @@ button.button.navbar-link-background {
 
       > .dropdown-content {
         max-height: 500px !important;
+        width: 550px !important;
       }
     }
   }
 }
+@media screen and (min-width: 481px){
+  .gallery-search {
+
+
+    > .dropdown-menu {
+      > .dropdown-content {
+        max-height: 500px !important;
+        width: 550px;
+      }
+    }
+  }
+}
+
 
 @include mobile {
   .column-padding {
