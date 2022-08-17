@@ -77,8 +77,6 @@ export default class GalleryCard extends mixins(AuthMixin) {
   protected title = ''
   protected animatedUrl = ''
 
-  protected placeholder = '/placeholder.webp'
-
   async fetch() {
     if (this.metadata) {
       const image = await getSingleCloudflareImage(this.metadata)

@@ -3,7 +3,7 @@
     :is="resolveComponent"
     v-if="src"
     :src="src"
-    :poster="poster || '/placeholder.webp'"
+    :poster="poster || placeholder"
     :description="description"
     :preview="preview"
     :available-animations="availableAnimations" />
@@ -33,7 +33,15 @@ const components = {
   Media: defineAsyncComponent(() => import('./type/UnknownMedia.vue')),
 }
 
+const { $colorMode } = useNuxtApp()
+
 const resolveComponent = computed(() => {
   return components[resolveMedia(props.mimeType) + SUFFIX]
+})
+
+const placeholder = computed(() => {
+  return $colorMode.preference === 'dark'
+    ? '/placeholder.webp'
+    : '/placeholder-white.webp'
 })
 </script>
