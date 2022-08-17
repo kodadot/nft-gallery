@@ -152,7 +152,7 @@ import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
-  Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+  Sharing: () => import('@/components/shared/Sharing.vue'),
   Identity: () => import('@/components/shared/identity/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   PaginatedCardList: () =>
