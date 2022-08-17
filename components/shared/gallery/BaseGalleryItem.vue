@@ -28,12 +28,12 @@
             }">
             <img
               v-if="isFullScreenView"
-              :src="image"
+              :src="itemImage"
               :alt="description"
               @contextmenu.prevent />
             <BasicImage
               v-else-if="imageVisible"
-              :src="image"
+              :src="itemImage"
               :alt="description"
               @contextmenu.native.prevent />
             <div
@@ -41,7 +41,7 @@
               class="media-container is-flex is-justify-content-center">
               <MediaResolver
                 :src="animationUrl"
-                :poster="image"
+                :poster="itemImage"
                 :description="description"
                 :availableAnimations="[animationUrl]"
                 :mimeType="mimeType"
@@ -50,7 +50,7 @@
             <div
               id="tile-placeholder"
               v-show="isTileView"
-              :style="{ 'background-image': 'url(' + image + ')' }"
+              :style="{ 'background-image': 'url(' + itemImage + ')' }"
               :alt="description"
               @click="exitTileView"
               @contextmenu.prevent />
@@ -103,7 +103,7 @@ const directives = {
 
 @Component({ components, directives })
 export default class BaseGalleryItem extends Vue {
-  @Prop({ type: String, default: '/placeholder.svg' }) public image!: string
+  @Prop({ type: String, default: '' }) public image!: string
   @Prop(String) public animationUrl!: string
   @Prop({ type: String, default: 'KodaDot NFT minted multimedia' })
   public description!: string
@@ -122,6 +122,15 @@ export default class BaseGalleryItem extends Vue {
       return true
     }
     return this.$store.getters['preferences/getEnableGyroEffect']
+  }
+
+  get itemImage(): string {
+    return (
+      this.image ||
+      (this.$colorMode.preference === 'dark'
+        ? '/placeholder.webp'
+        : '/placeholder-white.webp')
+    )
   }
 
   public toggleView(): void {
