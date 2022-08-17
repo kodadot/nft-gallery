@@ -11,7 +11,10 @@
           </p>
         </div>
         <div class="column">
-          <Sharing :enable-download="enableDownload" is-primary="{true}" />
+          <Sharing
+            btn-type="is-primary"
+            :enable-download="enableDownload"
+            is-primary="{true}" />
         </div>
       </div>
     </b-message>

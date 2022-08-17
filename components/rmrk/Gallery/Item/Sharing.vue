@@ -3,21 +3,31 @@
     <b-field position="is-right">
       <slot />
 
-      <ShowQRModal
-        :address="realworldFullPath"
-        :title="label"
-        :type="btnType" />
+      <p class="control">
+        <ShowQRModal
+          :address="realworldFullPath"
+          :title="label"
+          :type="btnType" />
+      </p>
 
-      <b-button
-        @click="toast('URL copied to clipboard')"
-        v-clipboard:copy="realworldFullPathShare"
-        :type="btnType">
-        <b-icon size="is-small" pack="fas" icon="link" />
-      </b-button>
+      <p class="control">
+        <b-button
+          class="is-bordered-light"
+          @click="toast('URL copied to clipboard')"
+          v-clipboard:copy="realworldFullPathShare"
+          :type="btnType">
+          <b-icon size="is-small" pack="fas" icon="link" />
+        </b-button>
+      </p>
 
-      <b-button v-if="enableDownload" @click="downloadImage()" :type="btnType">
-        <b-icon size="is-small" pack="fas" icon="download" />
-      </b-button>
+      <p class="control">
+        <b-button
+          v-if="enableDownload"
+          @click="downloadImage()"
+          :type="btnType">
+          <b-icon size="is-small" pack="fas" icon="download" />
+        </b-button>
+      </p>
 
       <b-tooltip
         position="is-left"
@@ -78,9 +88,11 @@
             <b-icon size="is-large" pack="fas" icon="envelope" />
           </ShareNetwork>
         </template>
-        <b-button :type="btnType">
-          <b-icon size="is-small" pack="fas" icon="share" />
-        </b-button>
+        <p class="control">
+          <b-button :type="btnType">
+            <b-icon size="is-small" pack="fas" icon="share" />
+          </b-button>
+        </p>
       </b-tooltip>
     </b-field>
   </div>
@@ -102,18 +114,11 @@ export default class Sharing extends Vue {
   @Prop({ default: () => emptyIframe }) iframe!: IFrame
   @Prop(Boolean) enableDownload!: boolean
   @Prop({ default: false }) isPrimary?: boolean
+  @Prop({ default: 'is-bordered-light' }) btnType?: string
 
   private active = false
 
   private hashtags = 'KusamaNetwork,KodaDot'
-
-  get btnType(): string {
-    let result = 'is-bordered-light share-button'
-    if (this.isPrimary) {
-      result += ' is-primary'
-    }
-    return result
-  }
 
   get helloText(): string {
     return this.label
