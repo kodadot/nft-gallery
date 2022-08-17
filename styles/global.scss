@@ -285,3 +285,9 @@ button.button.navbar-link-background {
 .rmrk-logo {
   aspect-ratio: 127 / 42;
 }
+
+@media screen and (max-width: 768px) {
+  .b-table .table-wrapper.has-mobile-cards tr {
+    background: none !important;
+  }
+}

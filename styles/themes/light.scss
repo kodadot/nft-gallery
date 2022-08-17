@@ -183,6 +183,10 @@ html.light-mode {
 		}
 	}
 
+	.b-table .table-wrapper.has-mobile-cards .table {
+		background-color: #fff;
+	}
+
 	.b-table .table-wrapper.has-sticky-header tr:first-child th {
 		background-color: #fff;
 	}
