@@ -12,10 +12,10 @@
 
       <p class="control">
         <b-button
-          class="is-bordered-light"
-          @click="toast('URL copied to clipboard')"
           v-clipboard:copy="realworldFullPathShare"
-          :type="btnType">
+          class="is-bordered-light"
+          :type="btnType"
+          @click="toast('URL copied to clipboard')">
           <b-icon size="is-small" pack="fas" icon="link" />
         </b-button>
       </p>
@@ -23,8 +23,8 @@
       <p class="control">
         <b-button
           v-if="enableDownload"
-          @click="downloadImage()"
-          :type="btnType">
+          :type="btnType"
+          @click="downloadImage()">
           <b-icon size="is-small" pack="fas" icon="download" />
         </b-button>
       </p>
@@ -35,7 +35,7 @@
         :triggers="['click']"
         :auto-close="['outside', 'escape']"
         multilined>
-        <template v-slot:content>
+        <template #content>
           <ShareNetwork
             tag="button"
             class="button share__button is-medium"
@@ -100,7 +100,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { IFrame, emptyIframe } from '../../types'
+import { IFrame, emptyIframe } from '../../components/rmrk/types'
 import { downloadImage } from '~/utils/download'
 
 const components = {
