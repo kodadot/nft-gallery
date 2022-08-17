@@ -27,6 +27,7 @@ export interface Auth {
   address: string
   source: 'keyring' | 'extension' | 'ledger'
   balance: BalanceMap
+  tokens: BalanceMap // <id, amount>
 }
 
 export interface IdentityStruct {
@@ -41,10 +42,15 @@ export interface IdenityRequest {
 
 const defaultState: IdentityStruct = {
   identities: emptyObject<IdentityMap>(),
-  auth: { ...emptyObject<Auth>(), balance: emptyObject<BalanceMap>() },
+  auth: {
+    ...emptyObject<Auth>(),
+    balance: emptyObject<BalanceMap>(),
+    tokens: emptyObject<BalanceMap>(),
+  },
 }
 
 let balanceSub: Unsubscribe = () => void 0
+let tokenSub: Unsubscribe = () => void 0
 
 function subscribeBalance(
   api: ApiPromise,
@@ -54,6 +60,23 @@ function subscribeBalance(
   return api.derive.balances.all(address, ({ availableBalance }) => {
     cb(availableBalance.toString())
   })
+}
+
+function free({ free }: any) {
+  return free.toString()
+}
+
+function subscribeTokens(
+  api: ApiPromise,
+  address: string,
+  cb: (value: BalanceMap) => void
+): UnsubscribePromise {
+  return api.query.tokens.accounts.multi([[address, '5']], ([ksm]: any[]) =>
+    cb({
+      '5': free(ksm),
+    })
+  )
+  //
 }
 
 // Disabling namespace to match with the original repo
@@ -84,6 +107,9 @@ export const mutations = {
       localStorage.setItem('kodaauth', address)
     }
   },
+  setTokenListBalance(state: IdentityStruct, request: BalanceMap): void {
+    Vue.set(state.auth, 'tokens', request)
+  },
 }
 
 export const actions = {
@@ -111,6 +137,7 @@ export const actions = {
     const prefix = rootState.setting.urlPrefix
     if (!address) {
       balanceSub()
+      tokenSub()
       return
     }
     onApiConnect(endpoint, async (api) => {
@@ -119,9 +146,24 @@ export const actions = {
           balanceSub()
         }
 
+        if (tokenSub) {
+          tokenSub()
+        }
+
         balanceSub = await subscribeBalance(api, address, (balance) => {
           consola.log('[SET_BALANCE]', address, balance, endpoint, prefix)
           dispatch('setBalance', balance)
+        })
+
+        tokenSub = await subscribeTokens(api, address, (balance) => {
+          consola.log(
+            '[SET_TOKENS_BALANCE]',
+            address,
+            balance,
+            endpoint,
+            prefix
+          )
+          dispatch('setTokenListBalance', balance)
         })
       } catch (e) {
         consola.error('[ERR: BALANCE]', e)
