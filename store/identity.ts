@@ -71,12 +71,15 @@ function subscribeTokens(
   address: string,
   cb: (value: BalanceMap) => void
 ): UnsubscribePromise {
-  return api.query.tokens.accounts.multi([[address, '5']], ([ksm]: any[]) =>
-    cb({
-      '5': free(ksm),
-    })
-  )
-  //
+  if (api.query.tokens) {
+    return api.query.tokens.accounts.multi([[address, '5']], ([ksm]: any[]) =>
+      cb({
+        '5': free(ksm),
+      })
+    )
+  }
+
+  return Promise.resolve(() => void 0)
 }
 
 // Disabling namespace to match with the original repo
