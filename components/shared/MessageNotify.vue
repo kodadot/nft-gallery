@@ -6,7 +6,7 @@
           <p class="title is-3 has-text-white">
             {{ title }}
           </p>
-          <p class="subtitle is-size-5 subtitle-text">
+          <p class="subtitle is-size-5 subtitle-text has-text-white">
             {{ subtitle }}
           </p>
         </div>
