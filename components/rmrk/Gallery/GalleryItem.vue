@@ -1,46 +1,37 @@
 <template>
   <BaseGalleryItem
     :image="meta.image"
-    :animationUrl="meta.animation_url"
+    :animation-url="meta.animation_url"
     :description="meta.description"
-    :imageVisible="imageVisible"
-    :isLoading="isLoading"
-    :mimeType="mimeType"
+    :image-visible="imageVisible"
+    :is-loading="isLoading"
+    :mime-type="mimeType"
     @mouseEntered="showNavigation = true"
     @mouseLeft="showNavigation = false">
-    <template v-slot:top v-if="message">
-      <b-message class="message-box" type="is-primary">
-        <div class="columns">
-          <div class="column is-four-fifths">
-            <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-            <p class="subtitle is-size-5 subtitle-text">
-              {{ $t('mint.shareWithFriends', [nft.name]) }} △
-            </p>
-          </div>
-          <div class="column">
-            <Sharing :enableDownload="true" :isPrimary="true" />
-          </div>
-        </div>
-      </b-message>
+    <template v-if="message" #top>
+      <MessageNotify
+        :enable-download="isOwner"
+        :title="$t('mint.success') + ' 🎉'"
+        :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
     </template>
-    <template v-slot:image>
+    <template #image>
       <Navigation
         v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1"
-        :showNavigation="showNavigation"
+        :show-navigation="showNavigation"
         :items="nftsFromSameCollection"
-        :currentId="nft.id" />
+        :current-id="nft.id" />
     </template>
-    <template v-slot:main>
+    <template #main>
       <div class="columns">
         <div class="column is-6">
           <Appreciation
             :emotes="nft.emotes"
-            :accountId="accountId"
-            :currentOwnerId="nft.currentOwner"
-            :nftId="nft.id"
+            :account-id="accountId"
+            :current-owner-id="nft.currentOwner"
+            :nft-id="nft.id"
             :burned="nft.burned" />
 
-          <Name :nft="nft" :isLoading="isLoading" class="mb-5" />
+          <Name :nft="nft" :is-loading="isLoading" class="mb-5" />
 
           <b-skeleton :active="isLoading" :count="3"></b-skeleton>
           <div v-if="meta.description" class="block">
@@ -51,11 +42,11 @@
           </div>
         </div>
 
-        <div class="column is-6" v-if="detailVisible">
+        <div v-if="detailVisible" class="column is-6">
           <div class="columns">
             <div class="column">
               <div class="nft-title">
-                <Detail :nft="nft" :isLoading="isLoading" />
+                <Detail :nft="nft" :is-loading="isLoading" />
               </div>
             </div>
             <div
@@ -89,14 +80,14 @@
                           :current-owner-id="nft.currentOwner"
                           :is-owner="isOwner"
                           :price="nft.price"
-                          :originialOwner="nft.issuer"
+                          :originial-owner="nft.issuer"
                           :nft-id="nft.id"
                           :ipfs-hashes="[
                             nft.image,
                             nft.animation_url,
                             nft.metadata,
                           ]"
-                          :buyDisabled="hasBuyDisabled"
+                          :buy-disabled="hasBuyDisabled"
                           @change="handleAction" />
                       </IndexerGuard>
                       <Auth />
@@ -104,23 +95,23 @@
                     <AccountBalance />
                   </div>
 
-                  <Sharing :enableDownload="isOwner" class="mb-4" />
+                  <Sharing :enable-download="isOwner" class="mb-4" />
                 </div>
               </div>
             </div>
           </div>
           <LazyGalleryPriceChart
             class="mt-4"
-            :priceChartData="priceChartData"
-            :openOnDefault="!compactGalleryItem" />
+            :price-chart-data="priceChartData"
+            :open-on-default="!compactGalleryItem" />
         </div>
       </div>
     </template>
-    <template v-slot:footer>
+    <template #footer>
       <GalleryItemCarousel
         v-if="showRelatedCarousel"
         type="related"
-        :collectionId="nft.collection.id" />
+        :collection-id="nft.collection.id" />
       <GalleryItemCarousel type="visited" />
 
       <div class="columns">
@@ -129,8 +120,8 @@
             v-if="!isLoading"
             :events="nft.events"
             :open-on-default="!compactGalleryItem"
-            @setPriceChartData="setPriceChartData"
-            data-cy="history" />
+            data-cy="history"
+            @setPriceChartData="setPriceChartData" />
         </div>
       </div>
     </template>
