@@ -2,40 +2,31 @@
   <BaseGalleryItem
     v-if="nft"
     :image="meta.image"
-    :animationUrl="meta.animation_url"
-    :mimeType="mimeType"
+    :animation-url="meta.animation_url"
+    :mime-type="mimeType"
     :description="meta.description"
-    :imageVisible="imageVisible"
-    :isLoading="isLoading"
+    :image-visible="imageVisible"
+    :is-loading="isLoading"
     @mouseEntered="showNavigation = true"
     @mouseLeft="showNavigation = false">
-    <template v-slot:top v-if="message">
-      <b-message class="message-box" type="is-primary">
-        <div class="columns">
-          <div class="column is-four-fifths">
-            <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-            <p class="subtitle is-size-5 subtitle-text">
-              {{ $t('mint.shareWithFriends', [nft.name]) }} △
-            </p>
-          </div>
-          <div class="column">
-            <Sharing :enableDownload="isOwner" />
-          </div>
-        </div>
-      </b-message>
+    <template v-if="message" #top>
+      <MessageNotify
+        :enable-download="isOwner"
+        :title="$t('mint.success') + ' 🎉'"
+        :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
     </template>
-    <template v-slot:image>
+    <template #image>
       <Navigation
         v-if="nftsFromSameCollection.length > 1"
-        :showNavigation="showNavigation"
+        :show-navigation="showNavigation"
         :items="nftsFromSameCollection"
-        :currentId="nft.id" />
+        :current-id="nft.id" />
     </template>
-    <template v-slot:main>
+    <template #main>
       <div class="columns">
         <div class="column is-6">
           <div class="mb-5">
-            <Name :nft="nft" :isLoading="isLoading" />
+            <Name :nft="nft" :is-loading="isLoading" />
           </div>
 
           <div v-if="meta.description" class="block">
@@ -51,12 +42,12 @@
               :active="isLoading"></b-skeleton>
           </div>
 
-          <div class="block" v-if="meta.attributes && meta.attributes.length">
-            <Properties :attributes="meta.attributes" fieldKey="trait_type" />
+          <div v-if="meta.attributes && meta.attributes.length" class="block">
+            <Properties :attributes="meta.attributes" field-key="trait_type" />
           </div>
         </div>
 
-        <div class="column is-6" v-if="detailVisible">
+        <div v-if="detailVisible" class="column is-6">
           <b-skeleton
             :count="2"
             size="is-large"
@@ -65,7 +56,7 @@
           <div class="columns">
             <div class="column">
               <div class="nft-title">
-                <Detail :nft="nft" :isLoading="isLoading" />
+                <Detail :nft="nft" :is-loading="isLoading" />
               </div>
             </div>
             <div
@@ -103,12 +94,12 @@
                           :is-owner="isOwner"
                           :current-owner-id="nft.currentOwner"
                           :price="nft.price"
-                          :nftId="id"
-                          :delegateId="nft.delegate"
-                          :collectionId="collectionId"
+                          :nft-id="id"
+                          :delegate-id="nft.delegate"
+                          :collection-id="collectionId"
                           :frozen="nft.isFrozen"
-                          :isMakeOffersAllowed="isMakeOffersAllowed"
-                          :isBuyAllowed="isBuyAllowed"
+                          :is-make-offers-allowed="isMakeOffersAllowed"
+                          :is-buy-allowed="isBuyAllowed"
                           :ipfs-hashes="[
                             nft.image,
                             nft.animation_url,
@@ -119,7 +110,7 @@
                       </p>
                     </div>
                     <AccountBalance />
-                    <Sharing :enableDownload="isOwner" class="mb-4" />
+                    <Sharing :enable-download="isOwner" class="mb-4" />
                   </div>
                 </div>
               </template>
@@ -132,19 +123,19 @@
         </div>
       </div>
     </template>
-    <template v-slot:footer>
+    <template #footer>
       <GalleryItemCarousel
         v-if="showRelatedCarousel"
         type="related"
-        :collectionId="nft.collection.id" />
+        :collection-id="nft.collection.id" />
       <GalleryItemCarousel type="visited" />
       <OfferList
         :current-owner-id="nft.currentOwner"
-        :nftId="id"
-        @offersUpdate="offersUpdate"
-        :collectionId="collectionId"
-        data-cy="offer-list" />
-      <History :events="events" :openOnDefault="false" data-cy="history" />
+        :nft-id="id"
+        :collection-id="collectionId"
+        data-cy="offer-list"
+        @offersUpdate="offersUpdate" />
+      <History :events="events" :open-on-default="false" data-cy="history" />
     </template>
   </BaseGalleryItem>
 </template>
@@ -184,7 +175,7 @@ import { onApiConnect } from '@kodadot1/sub-api'
 import { Option, u128 } from '@polkadot/types'
 import { InstanceDetails } from '@polkadot/types/interfaces'
 import { get, set } from 'idb-keyval'
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, mixins } from 'nuxt-property-decorator'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
 import AvailableActions from './AvailableActions.vue'
 import nftListIdsByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
@@ -211,7 +202,7 @@ import { mapToId } from '@/utils/mappers'
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions: () => import('./AvailableActions.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
-    Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+    Sharing: () => import('@/components/shared/Sharing.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
