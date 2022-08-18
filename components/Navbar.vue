@@ -114,9 +114,12 @@
         </template>
         <template>
           <b-navbar-item
-            v-if="isLogIn"
             tag="nuxt-link"
-            :to="`/${urlPrefix}/offers`"
+            :to="`${
+              accountId
+                ? `/${urlPrefix}/offers?target=${accountId}`
+                : `/${urlPrefix}/offers`
+            }`"
             data-cy="global-offers">
             {{ $t('navbar.globalOffers') }}
           </b-navbar-item>
