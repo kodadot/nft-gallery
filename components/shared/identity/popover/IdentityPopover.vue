@@ -132,7 +132,7 @@ const handleNFTStats = async ({ data, type }) => {
   if (type === 'cache') {
     firstMintDate.value = data.firstMintDate
   } else if (data) {
-    if (data?.firstMint?.length > 0) {
+    if (data.firstMint?.length > 0) {
       firstMintDate.value = data.firstMint[0].createdAt
     }
     const cacheData = {
