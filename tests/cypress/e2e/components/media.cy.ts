@@ -56,7 +56,7 @@ describe('render Media.vue component', () => {
       describe(`should render ${type}`, () => {
         beforeEach(() => {
           cy.visit(url)
-          cy.waitForNetworkIdle('+(GET|HEAD)', '*', 1000)
+          cy.waitForNetworkIdle('+(GET|HEAD)', '*', 2000)
         })
 
         it('should render item title', () => {
