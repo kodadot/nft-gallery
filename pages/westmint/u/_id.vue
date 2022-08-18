@@ -130,15 +130,17 @@
 
 <script lang="ts">
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
-import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
-import isShareMode from '@/utils/isShareMode'
-import shouldUpdate from '@/utils/shouldUpdate'
-import shortAddress from '@/utils/shortAddress'
-import collectionList from '@/queries/unique/collectionListByAccount.graphql'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
 
+import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
+import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+
+import { notificationTypes, showNotification } from '@/utils/notification'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import isShareMode from '@/utils/isShareMode'
+import shortAddress from '@/utils/shortAddress'
+import shouldUpdate from '@/utils/shouldUpdate'
+
+import collectionList from '@/queries/unique/collectionListByAccount.graphql'
 import firstNftByIssuer from '@/queries/subsquid/general/firstNftByIssuer.graphql'
 import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'
@@ -148,7 +150,7 @@ const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/shared/Sharing.vue'),
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   PaginatedCardList: () =>
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),

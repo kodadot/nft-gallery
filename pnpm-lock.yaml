@@ -114,7 +114,7 @@ dependencies:
   '@kodadot1/sub-api': 0.1.0-alpha.3
   '@kodadot1/vuex-options': 0.0.1-rc.10
   '@nuxtjs/apollo': 4.0.1-rc.5_hbbh2d3frtfmgj7tyc3bzoayem
-  '@nuxtjs/i18n': 7.2.3
+  '@nuxtjs/i18n': 7.2.3_vue@2.7.8
   '@polkadot/extension-dapp': 0.44.4
   '@polkadot/extension-inject': 0.44.4
   '@polkadot/ui-keyring': 2.9.2
@@ -3035,7 +3035,7 @@ packages:
       vue-client-only: 2.1.0
       vue-meta: 2.4.0
       vue-no-ssr: 1.1.1
-      vue-router: 3.5.4
+      vue-router: 3.5.4_vue@2.7.8
       vue-template-compiler: 2.7.8
       vuex: 3.6.2_vue@2.7.8
     dev: false
@@ -3201,7 +3201,7 @@ packages:
       lodash.template: 4.5.0
     dev: true
 
-  /@nuxtjs/i18n/7.2.3:
+  /@nuxtjs/i18n/7.2.3_vue@2.7.8:
     resolution: {integrity: sha512-Zi/1df2ISXtsPs5+IhdHbh3ebWLq4V+tU71SkAuB2F9Es2qANF5EIq2dT9rCDW/1bbfO48MQU/eUWectDX6D7g==}
     engines: {node: '>=14.16'}
     dependencies:
@@ -3216,9 +3216,10 @@ packages:
       klona: 2.0.5
       lodash.merge: 4.6.2
       ufo: 0.8.5
-      vue-i18n: 8.27.2
+      vue-i18n: 8.27.2_vue@2.7.8
     transitivePeerDependencies:
       - supports-color
+      - vue
     dev: false
 
   /@nuxtjs/pwa/3.3.5:
@@ -8322,11 +8323,10 @@ packages:
       cypress: 10.6.0
     dev: true
 
-
   /cypress-network-idle/1.10.0:
     resolution: {integrity: sha512-TNtf9zquBCPMI79wMUCuVdA5jZEWJ1VN4VQ4nHngYOIKUtPKF+0LbcIxWxalyzGbPY6sTLyq4hprOxx+7mnAqA==}
     dev: true
-    
+
   /cypress/10.6.0:
     resolution: {integrity: sha512-6sOpHjostp8gcLO34p6r/Ci342lBs8S5z9/eb3ZCQ22w2cIhMWGUoGKkosabPBfKcvRS9BE4UxybBtlIs8gTQA==}
     engines: {node: '>=12.0.0'}
@@ -17984,8 +17984,12 @@ packages:
     resolution: {integrity: sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==}
     dev: false
 
-  /vue-i18n/8.27.2:
+  /vue-i18n/8.27.2_vue@2.7.8:
     resolution: {integrity: sha512-QVzn7u2WVH8F7eSKIM00lujC7x1mnuGPaTnDTmB01Hd709jDtB9kYtBqM+MWmp5AJRx3gnqAdZbee9MelqwFBg==}
+    peerDependencies:
+      vue: ^2
+    dependencies:
+      vue: 2.7.8
     dev: false
 
   /vue-infinite-loading/2.4.5_vue@2.7.8:
@@ -18104,8 +18108,12 @@ packages:
       vue-class-component: 7.2.6_vue@2.7.8
     dev: false
 
-  /vue-router/3.5.4:
+  /vue-router/3.5.4_vue@2.7.8:
     resolution: {integrity: sha512-x+/DLAJZv2mcQ7glH2oV9ze8uPwcI+H+GgTgTmb5I55bCgY3+vXWIsqbYUzbBSZnwFHEJku4eoaH/x98veyymQ==}
+    peerDependencies:
+      vue: ^2
+    dependencies:
+      vue: 2.7.8
     dev: false
 
   /vue-server-renderer/2.7.8:

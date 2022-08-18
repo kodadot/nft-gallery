@@ -15,9 +15,9 @@
     <AuthField />
 
     <MetadataUpload
-      required
       ref="uploadFileRef"
       v-model="file"
+      required
       label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
       expanded
       preview />
@@ -25,17 +25,17 @@
     <LabeledText
       label="mint.nft.name.label"
       class="mb-2"
-      :isLoading="isGptLoading">
+      :is-loading="isGptLoading">
       {{ rmrkMint.name }}
     </LabeledText>
 
-    <LabeledText label="mint.nft.description.label" :isLoading="isGptLoading">
+    <LabeledText label="mint.nft.description.label" :is-loading="isGptLoading">
       {{ rmrkMint.description }}
     </LabeledText>
 
     <BasicNumberInput
-      v-model="rmrkMint.max"
       key="edition"
+      v-model="rmrkMint.max"
       class="mt-5"
       :min="1"
       :label="$t('mint.nft.edition.label')"
@@ -50,9 +50,9 @@
         </p>
       </div> -->
     <b-field
+      v-if="isLogIn"
       key="submit"
       type="is-danger"
-      v-if="isLogIn"
       :message="balanceNotEnoughMessage">
       <SubmitButton label="mint.submit" :loading="isLoading" @click="sub" />
     </b-field>
@@ -69,23 +69,23 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import {
+  Interaction,
   basicUpdateNameFunction,
   createCollection,
   createMetadata,
   createMintInteaction,
   createMultipleNFT,
-  Interaction,
   makeSymbol,
   mapAsSystemRemark,
   toCollectionId,
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
-import { Component, mixins, Watch, Ref } from 'nuxt-property-decorator'
-import { getNftId, NFT, NFTMetadata, SimpleNFT } from '../service/scheme'
+import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
+import { NFT, NFTMetadata, SimpleNFT, getNftId } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia, sanitizeIpfsUrl } from '../utils'
 
