@@ -11,7 +11,11 @@ describe('render Media.vue component', () => {
       .should('contain.text', 'Mutagen is mined in a Laboratory')
     cy.getCy('item-collection').should('contain.text', 'Kusama Ape Game')
     cy.getCy('item-creator').should('contain.text', 'Kusama Ape Club')
-    cy.getCy('item-owner').should('exist')
+    cy.get('body').then(($body) => {
+      if ($body.find('[data-cy="item-owner"]').length) {
+        cy.getCy('item-owner').find('[data-cy="identity"]').should('exist')
+      }
+    })
     cy.getCy('item-media').find('img').should('exist')
 
     cy.getCy('item-collection').click()
@@ -31,7 +35,11 @@ describe('render Media.vue component', () => {
       .should('contain.text', 'Class: "Zaphkiel" Cruiser')
     cy.getCy('item-collection').should('contain.text', 'Budget Spaceships')
     cy.getCy('item-creator').should('contain.text', 'cwh')
-    cy.getCy('item-owner').should('exist')
+    cy.get('body').then(($body) => {
+      if ($body.find('[data-cy="item-owner"]').length) {
+        cy.getCy('item-owner').find('[data-cy="identity"]').should('exist')
+      }
+    })
     cy.getCy('item-media').find('model-viewer').should('exist')
     cy.getCy('carousel-related').find('model-viewer').should('exist')
 
@@ -53,7 +61,11 @@ describe('render Media.vue component', () => {
       'glaciers mood'
     )
     cy.getCy('item-creator').should('contain.text', 'fr.om')
-    cy.getCy('item-owner').should('exist')
+    cy.get('body').then(($body) => {
+      if ($body.find('[data-cy="item-owner"]').length) {
+        cy.getCy('item-owner').find('[data-cy="identity"]').should('exist')
+      }
+    })
     cy.getCy('item-media').find('audio').should('exist')
     cy.getCy('carousel-related').find('img').should('exist')
 
@@ -71,7 +83,11 @@ describe('render Media.vue component', () => {
     cy.getCy('item-title').should('contain.text', 'Yoroi gift card #15')
     cy.getCy('item-collection').should('contain.text', '[ polkawear ]')
     cy.getCy('item-creator').should('contain.text', 'mad4ox')
-    cy.getCy('item-owner').should('exist')
+    cy.get('body').then(($body) => {
+      if ($body.find('[data-cy="item-owner"]').length) {
+        cy.getCy('item-owner').find('[data-cy="identity"]').should('exist')
+      }
+    })
     cy.getCy('item-media').find('video').should('exist')
     cy.getCy('carousel-related').find('video').should('exist')
 
