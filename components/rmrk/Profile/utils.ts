@@ -1,6 +1,6 @@
 export const supportedExplorers: Record<string, string> = {
   rmrk: 'https://kusama.subscan.io/account/',
-  statemine: 'https://statemine.statescan.io/account/'
+  statemine: 'https://statemine.statescan.io/account/',
 }
 
 export const hasExplorer = (prefix: string): boolean => {
