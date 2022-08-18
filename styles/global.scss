@@ -287,7 +287,7 @@ button.button.navbar-link-background {
 }
 
 @media screen and (max-width: 768px) {
-  .b-table .table-wrapper.has-mobile-cards tr {
+  .b-table .table-wrapper.has-mobile-cards tr:not([class*="is-"]) {
     background: none !important;
   }
 }
