@@ -54,7 +54,7 @@
                     <div class="media-content">
                       <div
                         class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
-                        <span class="name">{{ item.name }}</span>
+                        <span class="main-title name">{{ item.name }}</span>
                         <span>{{ urlPrefix.toUpperCase() }}</span>
                       </div>
                       <!-- <div class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
@@ -91,12 +91,12 @@
                     <div class="media-content">
                       <div
                         class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
-                        <span class="name">{{ item.name }}</span>
+                        <span class="main-title name">{{ item.name }}</span>
                         <span>{{ urlPrefix.toUpperCase() }}</span>
                       </div>
                       <div
                         class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
-                        <span>{{ item.collection?.name }}</span>
+                        <span class="name">{{ item.collection?.name }}</span>
                         <span>
                           Price:
                           <Money
@@ -139,7 +139,7 @@
                     </div>
                     <div class="media-content">
                       <div class="pt-2 pr-2">
-                        <span class="name">{{ item.name }}</span>
+                        <span class="main-title name">{{ item.name }}</span>
                       </div>
                       <div
                         class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
@@ -751,7 +751,7 @@ export default class SearchBar extends mixins(
 
       const collectionResult = this.$apollo.query({
         query: query.default,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           first: this.first,
           offset: this.offset,
@@ -871,6 +871,11 @@ export default class SearchBar extends mixins(
 .media-content {
   color: gray;
   .name {
+    max-width: 34ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .main-title {
     color: black;
   }
 }
