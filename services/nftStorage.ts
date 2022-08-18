@@ -1,6 +1,7 @@
 import { $fetch, FetchError } from 'ohmyfetch'
 import { URLS } from '../utils/constants'
 import consola from 'consola'
+import { Metadata } from '@kodadot1/minimark'
 
 const BASE_URL = URLS.koda.nftStorage
 
@@ -23,7 +24,7 @@ type StorageApiResponse = {
   }
 }
 
-export const pinJson = async (object: Record<string, any>, name: string) => {
+export const pinJson = async (object: Metadata, name: string) => {
   const { value } = await nftStorageApi<StorageApiResponse>(`pinJson/${name}`, {
     method: 'POST',
     body: object,

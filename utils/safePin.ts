@@ -11,7 +11,7 @@ export async function pinImageSafe(
     return IPFS_KODADOT_IMAGE_PLACEHOLDER
   }
 
-  return pinFileToIPFS(file, token)
+  return await pinFileToIPFS(file, token)
 }
 
 export function getImageTypeSafe(file: MaybeFile) {
