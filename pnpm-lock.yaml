@@ -20,7 +20,7 @@ specifiers:
   '@keeex/qrcodejs-kx': ^1.0.2
   '@kodadot1/minimark': ^0.0.1-rc.10
   '@kodadot1/sub-api': 0.1.0-alpha.3
-  '@kodadot1/vuex-options': 0.0.1-rc.10
+  '@kodadot1/vuex-options': 0.0.1-rc.11
   '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27470397.9ebea90
   '@nuxt/test-utils': ^0.2.2
   '@nuxt/types': ^2.15.8
@@ -105,7 +105,7 @@ dependencies:
   '@keeex/qrcodejs-kx': 1.0.2
   '@kodadot1/minimark': 0.0.1-rc.10
   '@kodadot1/sub-api': 0.1.0-alpha.3
-  '@kodadot1/vuex-options': 0.0.1-rc.10
+  '@kodadot1/vuex-options': 0.0.1-rc.11
   '@nuxtjs/apollo': 4.0.1-rc.5_hbbh2d3frtfmgj7tyc3bzoayem
   '@nuxtjs/i18n': 7.2.3
   '@polkadot/extension-dapp': 0.44.4
@@ -2439,8 +2439,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@kodadot1/vuex-options/0.0.1-rc.10:
-    resolution: {integrity: sha512-FxXyLrYJAKu9DtQYLSK5pveH2nlH+n+ANU9ablNM+GCvL/y42Y/nImNGg1bQZ2+e1NUz9nRfp7bwcwOG5/OrlQ==}
+  /@kodadot1/vuex-options/0.0.1-rc.11:
+    resolution: {integrity: sha512-D+9P6A6lkNYON+JieBBcL97cuKghvOq6zRUJ1giA3d1MxkxXvYSU3F3yNjygfFHO8OGTstpQV4wS2p5bHmpnrg==}
     dependencies:
       '@polkadot/networks': 7.9.2
     dev: false
@@ -2934,7 +2934,7 @@ packages:
       '@netlify/functions': 1.0.0
       '@nuxt/devalue': 2.0.0
       '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27470397.9ebea90_foq3mxridjfpif7eqyoheesv6q
-      '@nuxt/ui-templates': /@nuxt/ui-templates-edge/0.3.0-27640124.0eed7f7
+      '@nuxt/ui-templates': /@nuxt/ui-templates-edge/0.3.1-27672317.7f8e554
       '@rollup/plugin-alias': 3.1.9_rollup@2.77.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
       '@rollup/plugin-inject': 4.0.4_rollup@2.77.2
@@ -3159,8 +3159,8 @@ packages:
       - webpack
     dev: true
 
-  /@nuxt/ui-templates-edge/0.3.0-27640124.0eed7f7:
-    resolution: {integrity: sha512-/J9j4U/xdagIXzSnxrmQnljioSWS4S31+RqVDklsgG6BY9H8H8j7sKu6lS+Etk/pvCEFDpTt+27aSdN97CFdVQ==}
+  /@nuxt/ui-templates-edge/0.3.1-27672317.7f8e554:
+    resolution: {integrity: sha512-bN+D2bXRp+9qshIEkgWWIZf6SVEBOKH8T8E47ftIB9nuQfGlhDzeVVoiyIrssLX6zQD7hyrbYxgHxaD6ib884A==}
     dev: true
 
   /@nuxt/utils-edge/2.16.0-27358576.777a4b7f:
@@ -7765,7 +7765,7 @@ packages:
       lodash: ^4.17.20
       marko: ^3.14.4
       mote: ^0.2.0
-      mustache: ^3.0.0
+      mustache: ^4.0.1
       nunjucks: ^3.2.2
       plates: ~0.4.11
       pug: ^3.0.0
