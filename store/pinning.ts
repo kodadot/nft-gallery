@@ -1,9 +1,22 @@
-import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
-import { PinningKey, getKey as getPinningKey } from '@/utils/nftStorage'
+import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
+import { PinningKey, getKey as getPinningKey } from '@/services/nftStorage'
 import { emptyObject, isEmpty } from '@/utils/empty'
 
 type PinningState = {
   pinningKey: PinningKey
+}
+
+const isExpired = (pinningKey: PinningKey) => {
+  if (pinningKey.expiry) {
+    const expiry = new Date(pinningKey.expiry)
+    return expiry.getTime() < Date.now()
+  }
+
+  return false
+}
+
+const isFromEstuary = (pinningKey: PinningKey) => {
+  return pinningKey.token.startsWith('EST')
 }
 
 export const state = (): PinningState => ({
@@ -40,17 +53,4 @@ export const actions: ActionTree<PinningState, PinningState> = {
 
     return state.pinningKey
   },
-}
-
-const isExpired = (pinningKey: PinningKey) => {
-  if (pinningKey.expiry) {
-    const expiry = new Date(pinningKey.expiry)
-    return expiry.getTime() < Date.now()
-  }
-
-  return false
-}
-
-const isFromEstuary = (pinningKey: PinningKey) => {
-  return pinningKey.token.startsWith('EST')
 }
