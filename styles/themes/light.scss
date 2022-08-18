@@ -107,7 +107,7 @@ html.light-mode {
 	}
 
 	.select {
-		::after {
+		&:not(.is-multiple):not(.is-loading)::after {
 			border-color: $black;
 		}
 	}
@@ -193,7 +193,8 @@ html.light-mode {
 	}
 
 	.b-table .table-wrapper.has-sticky-header tr:first-child th,
-	.has-mobile-cards tr {
+	tr,
+	.snackbar {
 		background-color: $white  !important;
 	}
 
@@ -212,7 +213,8 @@ html.light-mode {
 	.gallery .has-text-overflow-ellipsis,
 	.collections .columns .card .card-content .collection-title,
 	.collections .columns .card .card-content .heading--inline,
-	.control-label {
+	.control-label,
+	.snackbar {
 		color: $text-light-theme;
 	}
 
@@ -238,4 +240,14 @@ html.light-mode {
 		}
 	}
 
+	.snackbar {
+		.button {
+			background-color: rgba(243, 243, 243, 0.9) !important;
+			color: $text-light-theme  !important;
+		}
+	}
+
+	.b-table .table .chevron-cell>a {
+		color: $primary !important;
+	}
 }
