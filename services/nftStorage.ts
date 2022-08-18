@@ -52,7 +52,7 @@ export const pinFileToIPFS = async (file: Blob, _: string): Promise<string> => {
     method: 'POST',
     body: file,
     headers: {
-      'Content-Type': file.type ? `${file.type}` : '*/*',
+      'Content-Type': file.type || '*/*',
     },
   }).catch((error: FetchError) => {
     throw new Error(
