@@ -33,7 +33,13 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'max-classes-per-file': ['error', 2],
-    'sort-imports': ['warn', { allowSeparatedGroups: true }],
+    'sort-imports': [
+      'warn',
+      {
+        ignoreDeclarationSort: true,
+        allowSeparatedGroups: true,
+      },
+    ],
   },
   ignorePatterns: ['*.md'],
   overrides: [
