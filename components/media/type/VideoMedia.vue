@@ -15,20 +15,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-
-@Component({})
-export default class VideoMedia extends Vue {
-  @Prop(String) public src!: string
-  @Prop(String) public poster?: string
-  @Prop(String) public mimeType!: string
-  @Prop(Boolean) public preview!: boolean
-
-  get controls(): boolean {
-    return !this.preview
-  }
-}
+<script lang="ts" setup>
+const props = defineProps<{
+  src?: string
+  poster?: string
+  mimeType?: string
+  preview?: boolean
+}>()
+const controls = computed(() => !props.preview)
 </script>
 
 <style lang="scss" scoped>
