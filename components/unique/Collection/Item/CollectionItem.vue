@@ -25,11 +25,11 @@
           <ProfileLink
             :address="issuer"
             :inline="true"
-            showTwitter
-            showDiscord />
+            show-twitter
+            show-discord />
         </div>
       </div>
-      <div class="column" v-if="owner">
+      <div v-if="owner" class="column">
         <div class="label">
           {{ $t('owner') }}
         </div>
@@ -44,9 +44,9 @@
           :iframe="iframeSettings">
           <TransferCollection
             v-if="accountIsCurrentOwner"
-            :collectionId="id"
-            :currentOwnerId="currentOwner"
-            :accountId="accountId" />
+            :collection-id="id"
+            :current-owner-id="currentOwner"
+            :account-id="accountId" />
         </Sharing>
       </div>
     </div>
@@ -73,7 +73,7 @@
       :link="`${urlPrefix}/gallery`"
       :route="`/${urlPrefix}/gallery`"
       :collection="id"
-      :formatId="formater"
+      :format-id="formater"
       class="mb-2" />
   </div>
 </template>
@@ -106,7 +106,7 @@ import { tokenIdToRoute } from '../../utils'
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
-  Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+  Sharing: () => import('@/components/shared/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   VueMarkdown: () => import('vue-markdown-render'),
   CollapseWrapper: () =>

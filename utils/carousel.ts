@@ -61,7 +61,7 @@ export const convertLastEventToNft = (e: LastEvent) => {
     meta: e.meta,
     timestamp: e.timestamp,
     nft: {
-      id: e.id,
+      id: e.nftId,
       name: e.name,
       issuer: e.issuer,
       currentOwner: e.currentOwner,

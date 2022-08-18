@@ -3,21 +3,31 @@
     <b-field position="is-right">
       <slot />
 
-      <ShowQRModal :address="realworldFullPath" :title="label" />
+      <p class="control">
+        <ShowQRModal
+          :address="realworldFullPath"
+          :title="label"
+          :type="btnType" />
+      </p>
 
-      <b-button
-        @click="toast('URL copied to clipboard')"
-        v-clipboard:copy="realworldFullPathShare"
-        type="is-bordered-light share-button">
-        <b-icon size="is-small" pack="fas" icon="link" />
-      </b-button>
+      <p class="control">
+        <b-button
+          v-clipboard:copy="realworldFullPathShare"
+          class="is-bordered-light"
+          :type="btnType"
+          @click="toast('URL copied to clipboard')">
+          <b-icon size="is-small" pack="fas" icon="link" />
+        </b-button>
+      </p>
 
-      <b-button
-        v-if="enableDownload"
-        @click="downloadImage()"
-        type="is-primary is-bordered-light share-button">
-        <b-icon size="is-small" pack="fas" icon="download" />
-      </b-button>
+      <p class="control">
+        <b-button
+          v-if="enableDownload"
+          :type="btnType"
+          @click="downloadImage()">
+          <b-icon size="is-small" pack="fas" icon="download" />
+        </b-button>
+      </p>
 
       <b-tooltip
         position="is-left"
@@ -25,7 +35,7 @@
         :triggers="['click']"
         :auto-close="['outside', 'escape']"
         multilined>
-        <template v-slot:content>
+        <template #content>
           <ShareNetwork
             tag="button"
             class="button share__button is-medium"
@@ -78,9 +88,11 @@
             <b-icon size="is-large" pack="fas" icon="envelope" />
           </ShareNetwork>
         </template>
-        <b-button type="is-bordered-light share-button">
-          <b-icon size="is-small" pack="fas" icon="share" />
-        </b-button>
+        <p class="control">
+          <b-button :type="btnType">
+            <b-icon size="is-small" pack="fas" icon="share" />
+          </b-button>
+        </p>
       </b-tooltip>
     </b-field>
   </div>
@@ -88,7 +100,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { IFrame, emptyIframe } from '../../types'
+import { IFrame, emptyIframe } from '../../components/rmrk/types'
 import { downloadImage } from '~/utils/download'
 
 const components = {
@@ -101,6 +113,8 @@ export default class Sharing extends Vue {
   @Prop({ default: 'Check out this cool NFT on KodaDot' }) label!: string
   @Prop({ default: () => emptyIframe }) iframe!: IFrame
   @Prop(Boolean) enableDownload!: boolean
+  @Prop({ default: false }) isPrimary?: boolean
+  @Prop({ default: 'is-bordered-light' }) btnType?: string
 
   private active = false
 

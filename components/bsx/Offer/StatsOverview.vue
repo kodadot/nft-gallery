@@ -3,8 +3,8 @@
     <div class="level my-4 collection is-align-items-center mb-5">
       <div
         v-for="key in keysObject"
-        class="level-item has-text-centered"
-        v-bind:key="key">
+        :key="key"
+        class="level-item has-text-centered">
         <div>
           <p class="title">{{ returnTotalCounts(key, statsResponse) }}</p>
           <p class="heading">
@@ -15,9 +15,9 @@
     </div>
     <div class="level my-4 collection is-align-items-center mb-5">
       <div
-        class="level-item has-text-centered"
         v-for="data in offerStats"
-        v-bind:key="data.status">
+        :key="data.status"
+        class="level-item has-text-centered">
         <div>
           <p class="title">
             {{ `${data.totalCount} /` }}
@@ -44,7 +44,7 @@ import { countOf } from '~/utils/countOf'
 import statsForBsx from '~/queries/subsquid/bsx/statsForBsx.graphql'
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
 }
 
