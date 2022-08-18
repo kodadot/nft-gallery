@@ -50,26 +50,22 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+<script lang="ts" setup>
 import Identicon from '@polkadot/vue-identicon'
 
-@Component({
-  components: {
-    Identicon,
-  },
-})
-export default class IdentityPopoverHeader extends Vue {
-  @Prop({ required: true, default: {} }) readonly identity
-  @Prop({ required: true, default: '' }) readonly address
-  @Prop({ required: true, default: '' }) readonly startedMinting
-  @Prop({ required: true, default: '' }) readonly lastBought
-  @Prop(Number) readonly totalCreated
-  @Prop(Number) readonly totalCollected
+defineProps<{
+  address: string
+  identity: { address: string; display: string; twitter: string }
+  lastBought: string
+  startedMinting: string
+  totalCollected?: number
+  totalCreated?: number
+}>()
 
-  public toast(message: string): void {
-    this.$buefy.toast.open(message)
-  }
+const { $buefy } = useNuxtApp()
+
+const toast = (message: string) => {
+  $buefy.toast.open(message)
 }
 </script>
 

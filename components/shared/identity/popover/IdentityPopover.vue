@@ -26,12 +26,8 @@
   </v-tippy>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { isAfter, subHours } from 'date-fns'
-import Identicon from '@polkadot/vue-identicon'
-
-import { MintInfo } from '@/store/identityMint'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { formatToNow } from '@/utils/format/time'
@@ -40,146 +36,129 @@ import shortAddress from '@/utils/shortAddress'
 
 import { Interaction } from '@/components/rmrk/service/scheme'
 
-import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
+import usePrefix from '@/composables/usePrefix'
 
-type Address = string | undefined
-type IdentityFields = Record<string, string>
+type IdentityFields = { [key: string]: string }
 
-@Component({
-  components: {
-    Identicon,
-    IdentityPopoverHeader: () =>
-      import('@/components/shared/identity/popover/IdentityPopoverHeader.vue'),
-    IdentityPopoverFooter: () =>
-      import('@/components/shared/identity/popover/IdentityPopoverFooter.vue'),
-  },
+const IdentityPopoverHeader = defineAsyncComponent(
+  () => import('@/components/shared/identity/popover/IdentityPopoverHeader.vue')
+)
+const IdentityPopoverFooter = defineAsyncComponent(
+  () => import('@/components/shared/identity/popover/IdentityPopoverFooter.vue')
+)
+
+const props = defineProps<{
+  identity?: IdentityFields
+}>()
+
+const { $apollo, $consola, $store } = useNuxtApp()
+const { client } = usePrefix()
+
+const totalCreated = ref(0)
+const totalCollected = ref(0)
+const totalSold = ref(0)
+const firstMintDate = ref(new Date())
+const lastBoughtDate = ref(new Date())
+
+const address = computed(() => props.identity?.address || '')
+const shortenedAddress = computed(() => shortAddress(address.value))
+const startedMinting = computed(() => formatToNow(firstMintDate.value))
+const lastBought = computed(() => formatToNow(lastBoughtDate.value))
+
+onMounted(() => {
+  fetchLastBought()
+  fetchNFTStats()
 })
-export default class IdentityPopover extends mixins(
-  PrefixMixin,
-  CreatedAtMixin
-) {
-  @Prop() public identity!: IdentityFields
 
-  public totalCreated = 0
-  public totalCollected = 0
-  public totalSold = 0
-  public firstMintDate = new Date()
-  public lastBoughtDate = new Date()
-
-  get address(): string {
-    return this.identity.address
+const fetchLastBought = async () => {
+  if (!address) {
+    return
   }
 
-  get shortenedAddress(): Address {
-    return shortAddress(this.identity.address || '')
-  }
-
-  get startedMinting(): string {
-    return formatToNow(this.firstMintDate)
-  }
-
-  get lastBought(): string {
-    return formatToNow(this.lastBoughtDate)
-  }
-
-  public mounted() {
-    if (this.address) {
-      this.fetchLastBought()
-      this.fetchNFTStats()
-    }
-  }
-
-  private async fetchLastBought() {
-    const query = await resolveQueryPath(this.client, 'buyEventByProfile')
-    const { data } = await this.$apollo.query<{ events: Interaction[] }>({
+  try {
+    const query = await resolveQueryPath(client.value, 'buyEventByProfile')
+    const { data } = await $apollo.query<{ events: Interaction[] }>({
       query: query.default,
-      client: this.client,
+      client: client.value,
       variables: {
-        id: this.identity.address,
+        id: address.value,
       },
     })
 
     if (data.events.length) {
-      this.lastBoughtDate = new Date(data.events[0].timestamp)
+      lastBoughtDate.value = new Date(data.events[0].timestamp)
     }
-  }
-
-  protected async fetchNFTStats() {
-    try {
-      const data = this.$store.getters['identityMint/getIdentityMintFor'](
-        this.identity.address
-      )
-      if (
-        data?.updatedAt &&
-        isAfter(data.updatedAt, subHours(Date.now(), 12))
-      ) {
-        // if cache exist and within 12h
-        await this.handleNFTStats({ data, type: 'cache' })
-      } else {
-        const query = await resolveQueryPath(this.client, 'userStatsByAccount')
-
-        this.$apollo.addSmartQuery('collections', {
-          query: query.default,
-          manual: true,
-          client: this.client,
-          loadingKey: 'isLoading',
-          result: this.handleNFTStats,
-          variables: {
-            account: this.identity.address || '',
-          },
-          fetchPolicy: 'cache-and-network',
-        })
-      }
-    } catch (e) {
-      showNotification(`${e}`, notificationTypes.danger)
-      this.$consola.warn(e)
-    }
-  }
-
-  protected async handleNFTStats({
-    data,
-    type,
-  }: {
-    data: MintInfo | any
-    type?: 'cache'
-  }) {
-    if (type === 'cache') {
-      this.totalCreated = data.totalCreated
-      this.totalCollected = data.totalCollected
-      this.totalSold = data.totalSold
-      this.firstMintDate = data.firstMintDate
-    } else if (data) {
-      this.totalCreated = data.created.totalCount
-      this.totalCollected = data.collected.totalCount
-      this.totalSold = data.sold.totalCount
-
-      if (data.firstMint?.length > 0) {
-        this.firstMintDate = data.firstMint[0].createdAt
-      }
-
-      const cacheData = {
-        totalCreated: this.totalCreated,
-        totalCollected: this.totalCollected,
-        totalSold: this.totalSold,
-        firstMintDate: this.firstMintDate,
-        updatedAt: Date.now(),
-      }
-      await this.$store.dispatch('identityMint/setIdentity', {
-        address: this.identity.address,
-        cacheData,
-      })
-    }
-  }
-
-  @Watch('address', { immediate: true })
-  protected onAddressChanged() {
-    if (this.address) {
-      this.fetchLastBought()
-      this.fetchNFTStats()
-    }
+  } catch (error) {
+    showNotification(`${error}`, notificationTypes.danger)
+    $consola.error(error)
   }
 }
+
+const fetchNFTStats = async () => {
+  if (!address) {
+    return
+  }
+
+  try {
+    const data = $store.getters['identityMint/getIdentityMintFor'](
+      address.value
+    )
+
+    // if cache exist and within 12h
+    if (data?.updatedAt && isAfter(data.updatedAt, subHours(Date.now(), 12))) {
+      handleNFTStats({ data, type: 'cache' })
+    } else {
+      const query = await resolveQueryPath(client.value, 'userStatsByAccount')
+      const { data: account } = await $apollo.query({
+        query: query.default,
+        client: client.value,
+        variables: {
+          account: address.value,
+        },
+      })
+      handleNFTStats({ data: account, type: 'fresh' })
+    }
+  } catch (error) {
+    showNotification(`${error}`, notificationTypes.danger)
+    $consola.error(error)
+  }
+}
+
+const handleNFTStats = async ({ data, type }) => {
+  totalCreated.value = data.created.totalCount
+  totalCollected.value = data.collected.totalCount
+  totalSold.value = data.sold.totalCount
+
+  if (type === 'cache') {
+    firstMintDate.value = data.firstMintDate
+  } else if (data) {
+    if (data?.firstMint?.length > 0) {
+      firstMintDate.value = data.firstMint[0].createdAt
+    }
+    const cacheData = {
+      created: {
+        totalCount: totalCreated.value,
+      },
+      collected: {
+        totalCount: totalCollected.value,
+      },
+      sold: {
+        totalCount: totalSold.value,
+      },
+      firstMintDate: firstMintDate.value,
+      updatedAt: Date.now(),
+    }
+    await $store.dispatch('identityMint/setIdentity', {
+      address: address.value,
+      cacheData,
+    })
+  }
+}
+
+watch(address, () => {
+  fetchLastBought()
+  fetchNFTStats()
+})
 </script>
 
 <style lang="scss" scoped>

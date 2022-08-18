@@ -15,15 +15,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-
-@Component
-export default class IdentityPopoverFooter extends Vue {
-  @Prop({ required: true, default: 0 }) readonly totalCollected
-  @Prop({ required: true, default: 0 }) readonly totalCreated
-  @Prop({ required: true, default: 0 }) readonly totalSold
-}
+<script lang="ts" setup>
+defineProps<{
+  totalCollected: number
+  totalCreated: number
+  totalSold: number
+}>()
 </script>
 
 <style>
