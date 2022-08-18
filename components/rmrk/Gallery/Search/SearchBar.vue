@@ -1,6 +1,6 @@
 <template>
   <div class="mb-3">
-    <div class="row" v-if="!isVisible && !hideSearchInput">
+    <div v-if="!isVisible && !hideSearchInput" class="row">
       <div v-if="sliderDirty && !hideFilter" class="is-size-7">
         <PriceRange :from="minPrice" :to="maxPrice" inline />
       </div>
@@ -13,14 +13,14 @@
           aria-controls="sortAndFilter"
           type="is-primary is-bordered-light"
           class="is-hidden-mobile mr-2"
-          @click="isVisible = !isVisible"
-          data-cy="expand-search" />
+          data-cy="expand-search"
+          @click="isVisible = !isVisible" />
         <slot name="next-filter"></slot>
         <b-autocomplete
-          ref="searchRef"
           v-if="!hideSearchInput"
-          class="gallery-search"
+          ref="searchRef"
           v-model="name"
+          class="gallery-search"
           placeholder="Search Artwork, Collection..."
           icon="search"
           open-on-focus
@@ -34,21 +34,21 @@
           <template #header>
             <b-tabs
               v-show="name"
-              class="tabs-container-mobile"
               v-model="activeSearchTab"
+              class="tabs-container-mobile"
               destroy-on-hide
               expanded>
               <b-tab-item label="Collections" value="Collections">
                 <div
                   v-for="item in collectionSuggestion"
-                  :value="item"
                   :key="item.id"
+                  :value="item"
                   class="mb-2 link-item"
                   @click="gotoCollectionItem(item)">
                   <div class="media">
                     <div class="media-left">
                       <BasicImage
-                        customClass="is-64x64 round-image"
+                        custom-class="is-64x64 round-image"
                         :src="item.image || '/placeholder.webp'" />
                     </div>
                     <div class="media-content">
@@ -78,14 +78,14 @@
               <b-tab-item label="NFTs" value="NFTs">
                 <div
                   v-for="item in nftSuggestion"
-                  :value="item"
                   :key="item.id"
+                  :value="item"
                   class="mb-2 link-item"
                   @click="gotoGalleryItem(item)">
                   <div class="media">
                     <div class="media-left">
                       <BasicImage
-                        customClass="is-64x64 round-image"
+                        custom-class="is-64x64 round-image"
                         :src="item.image || '/placeholder.webp'" />
                     </div>
                     <div class="media-content">
@@ -134,7 +134,7 @@
                   <div class="media">
                     <div class="media-left">
                       <BasicImage
-                        customClass="is-64x64 round-image"
+                        custom-class="is-64x64 round-image"
                         :src="item.image || '/placeholder.webp'" />
                     </div>
                     <div class="media-content">
@@ -164,10 +164,10 @@
         </div>
       </b-field>
       <b-field
+        v-if="!hideFilter"
         expanded
         position="is-right"
-        class="column is-6"
-        v-if="!hideFilter">
+        class="column is-6">
         <b-button
           icon-left="filter"
           aria-controls="sortAndFilter"
@@ -178,53 +178,53 @@
       </b-field>
     </div>
     <b-collapse
+      v-model="isVisible"
       aria-id="sortAndFilter"
-      animation="opacitySlide"
-      v-model="isVisible">
+      animation="opacitySlide">
       <div class="columns mb-0">
         <Sort
-          multipleSelect
+          multiple-select
           class="column is-4 mb-0"
           :value="sortByMultiple"
           @input="updateSortBy($event, sortByMultiple)" />
         <BasicSwitch
-          class="is-flex column is-4"
           v-model="vListed"
+          class="is-flex column is-4"
           :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
           size="is-medium"
-          labelColor="has-text-success" />
+          label-color="has-text-success" />
       </div>
       <div v-if="!hideFilter">
         <b-field class="columns mb-0">
           <b-input
+            v-model="rangeSlider[0]"
             type="number"
             min="0"
             step="any"
             class="column is-2"
             :placeholder="$t('query.priceRange.minPrice')"
-            v-model="rangeSlider[0]"
             data-cy="input-min">
           </b-input>
           <b-input
+            v-model="rangeSlider[1]"
             min="0"
             step="any"
             type="number"
             class="column is-2"
             :placeholder="$t('query.priceRange.maxPrice')"
-            v-model="rangeSlider[1]"
             data-cy="input-max">
           </b-input>
           <div class="column is-1">
             <b-button
               class="is-primary"
-              @click="sliderChange(rangeSlider)"
               :disabled="applyDisabled"
-              data-cy="apply">
+              data-cy="apply"
+              @click="sliderChange(rangeSlider)">
               {{ $t('general.apply') }}
             </b-button>
           </div>
         </b-field>
-        <p class="help is-danger" v-if="applyDisabled">
+        <p v-if="applyDisabled" class="help is-danger">
           {{ $t('query.priceRange.priceValidation') }}
         </p>
       </div>
@@ -236,14 +236,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, mixins, Ref } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Ref, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
-import { SearchQuery, SearchSuggestion } from './types'
+import { SearchQuery } from './types'
 import { denyList } from '@/utils/constants'
-import { NFT, NFTWithMeta, CollectionWithMeta } from '../../service/scheme'
+import { CollectionWithMeta, NFT, NFTWithMeta } from '../../service/scheme'
 import { getSanitizer } from '../../utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
