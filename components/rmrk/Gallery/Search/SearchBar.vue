@@ -30,10 +30,10 @@
           expanded
           @blur="onBlur"
           @typing="updateSuggestion"
-          @keydown.native.enter="nativeSearch"
-          @focus="fetchSuggestionsOnce">
+          @keydown.native.enter="nativeSearch">
           <template #header>
             <b-tabs
+              v-show="name"
               class="tabs-container-mobile"
               v-model="activeSearchTab"
               destroy-on-hide
@@ -43,21 +43,36 @@
                   v-for="item in collectionSuggestion"
                   :value="item"
                   :key="item.id"
+                  class="mb-2 link-item"
                   @click="gotoCollectionItem(item)">
                   <div class="media">
                     <div class="media-left">
                       <BasicImage
-                        customClass="is-32x32"
+                        customClass="is-64x64 round-image"
                         :src="item.image || '/placeholder.webp'" />
                     </div>
                     <div class="media-content">
-                      {{ item.name }}
+                      <div
+                        class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
+                        <span class="name">{{ item.name }}</span>
+                        <span>{{ urlPrefix.toUpperCase() }}</span>
+                      </div>
+                      <!-- <div class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
+                        <span>
+                          Floor: <Money v-if="item.floorPrice && parseInt(item.floorPrice)" :value="item.floorPrice" inline/><span v-else>None</span>
+                        </span>
+                        <span>Units: {{  }}</span>
+
+                      </div> -->
                     </div>
                   </div>
                 </div>
                 <nuxt-link
-                  :to="{ name: routeOf('explore'), query: $route.query }">
-                  <div class="navbar-item">See All --></div>
+                  :to="{
+                    name: routeOf('explore'),
+                    query: { ...$route.query, tab: 'COLLECTION' },
+                  }">
+                  <div>See All --></div>
                 </nuxt-link>
               </b-tab-item>
               <b-tab-item label="NFTs" value="NFTs">
@@ -65,25 +80,80 @@
                   v-for="item in nftSuggestion"
                   :value="item"
                   :key="item.id"
-                  class="is-"
+                  class="mb-2 link-item"
                   @click="gotoGalleryItem(item)">
                   <div class="media">
                     <div class="media-left">
                       <BasicImage
-                        customClass="is-32x32"
+                        customClass="is-64x64 round-image"
                         :src="item.image || '/placeholder.webp'" />
                     </div>
                     <div class="media-content">
-                      {{ item.name }}
+                      <div
+                        class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
+                        <span class="name">{{ item.name }}</span>
+                        <span>{{ urlPrefix.toUpperCase() }}</span>
+                      </div>
+                      <div
+                        class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
+                        <span>{{ item.collection?.name }}</span>
+                        <span>
+                          Price:
+                          <Money
+                            v-if="item.price && parseInt(item.price)"
+                            :value="item.price"
+                            inline /><span v-else>None</span>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
                 <nuxt-link
-                  :to="{ name: routeOf('explore'), query: $route.query }">
-                  <div class="navbar-item">See All --></div>
+                  :to="{
+                    name: routeOf('explore'),
+                    query: { ...$route.query, tab: 'GALLERY' },
+                  }">
+                  <div>See All --></div>
                 </nuxt-link>
               </b-tab-item>
               <b-tab-item disabled label="User" value="User"> </b-tab-item>
+            </b-tabs>
+            <b-tabs
+              v-show="!name"
+              v-model="activeTrendingTab"
+              class=""
+              destroy-on-hide
+              expanded>
+              <b-tab-item label="Trending" value="Trending">
+                <div
+                  v-for="item in defaultCollectionSuggestions"
+                  :key="item.id"
+                  :value="item"
+                  class="mb-2 link-item"
+                  @click="gotoCollectionItem(item)">
+                  <div class="media">
+                    <div class="media-left">
+                      <BasicImage
+                        customClass="is-64x64 round-image"
+                        :src="item.image || '/placeholder.webp'" />
+                    </div>
+                    <div class="media-content">
+                      <div class="pt-2 pr-2">
+                        <span class="name">{{ item.name }}</span>
+                      </div>
+                      <div
+                        class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
+                        <span>Units: {{ item.total }}</span>
+                        <span>Owners: {{ item.uniqueCollectors }}</span>
+                        <span>{{ urlPrefix.toUpperCase() }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <nuxt-link :to="{ name: 'series-insight' }">
+                  <div>Rankings --></div>
+                </nuxt-link>
+              </b-tab-item>
             </b-tabs>
           </template>
         </b-autocomplete>
@@ -200,6 +270,7 @@ const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
     PriceRange: () => import('@/components/shared/format/PriceRange.vue'),
+    Money: () => import('@/components/shared/format/Money.vue'),
     // PreviewMediaResolver: () => import('@/components/rmrk/Media/PreviewMediaResolver.vue'), // TODO: need to fix CSS for model-viewer
   },
 })
@@ -218,7 +289,7 @@ export default class SearchBar extends mixins(
   @Prop(Boolean) public showDefaultSuggestions!: boolean
   @Ref('searchRef') readonly searchRef
 
-  protected isVisible = false
+  public isVisible = false
   private query: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
@@ -242,8 +313,13 @@ export default class SearchBar extends mixins(
   private bigNum = 1e10
   private keyDownNativeEnterFlag = true
   private defaultNFTSuggestions: NFTWithMeta[] = []
-  private defaultCollectionSuggestions: CollectionWithMeta[] = []
+  public defaultCollectionSuggestions: CollectionWithMeta[] = []
   public activeSearchTab = 'Collections'
+  public activeTrendingTab = 'Trending'
+
+  fetch() {
+    this.fetchSuggestions()
+  }
 
   get applyDisabled(): boolean {
     const [min, max] = this.rangeSlider as [
@@ -270,11 +346,8 @@ export default class SearchBar extends mixins(
     return undefined
   }
 
-  public async fetchSuggestionsOnce() {
-    if (
-      this.showDefaultSuggestions &&
-      this.defaultCollectionSuggestions.length === 0
-    ) {
+  public async fetchSuggestions() {
+    if (this.showDefaultSuggestions) {
       try {
         const { data } = await this.$apollo.query<{
           events: LastEvent[]
@@ -342,6 +415,7 @@ export default class SearchBar extends mixins(
               })
             }
           ).then(() => {
+            console.log('jarsen defaultCollectionSuggestions', collectionResult)
             this.defaultCollectionSuggestions = collectionResult
           })
         })
@@ -431,16 +505,10 @@ export default class SearchBar extends mixins(
   }
 
   get collectionSuggestion() {
-    if (!this.searchString) {
-      return this.defaultCollectionSuggestions
-    }
     return this.collectionResult.slice(0, this.searchSuggestionEachTypeMaxNum)
   }
 
   get nftSuggestion() {
-    if (!this.searchString) {
-      return this.defaultNFTSuggestions
-    }
     return this.nftResult.slice(0, this.searchSuggestionEachTypeMaxNum)
   }
 
@@ -572,12 +640,16 @@ export default class SearchBar extends mixins(
     if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
       this.$router.replace({
         name: this.routeOf('explore'),
-        query: this.$route.query,
+        query: {
+          ...this.$route.query,
+          tab:
+            this.activeSearchTab === 'Collections' ? 'COLLECTION' : 'GALLERY',
+        },
       })
     }
   }
 
-  protected routeOf(url: string): string {
+  public routeOf(url: string): string {
     return `${this.urlPrefix}-${url}`
   }
 
@@ -629,7 +701,6 @@ export default class SearchBar extends mixins(
     }
 
     this.query.search = value
-    this.searchSuggestionEachTypeMaxNum = 3
     try {
       const queryNft = await resolveQueryPath('subsquid', 'nftListWithSearch')
       const nfts = this.$apollo.query({
@@ -756,27 +827,7 @@ export default class SearchBar extends mixins(
     }
   }
 
-  private get filterSearch(): NFT[] {
-    // filter the history search which is not similar to searchString
-    if (!this.searched.length) {
-      return []
-    }
-    return this.searched.filter((option) => {
-      return (
-        option.name
-          .toString()
-          .toLowerCase()
-          .indexOf((this.searchString || '').toLowerCase()) >= 0
-      )
-    })
-  }
-
-  private removeSearchHistory(value: string): void {
-    this.searched = this.searched.filter((r) => r.name !== value)
-    localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
-  }
-
-  private sliderChange([min, max]: [
+  public sliderChange([min, max]: [
     number | undefined,
     number | undefined
   ]): void {
@@ -808,25 +859,19 @@ export default class SearchBar extends mixins(
 <style scoped lang="scss">
 @import '@/styles/variables';
 
-.b-skeleton {
-  height: 32px !important;
-  width: 32px !important;
-  position: absolute;
-  top: 0;
-  left: 0;
+.round-image {
+  border-radius: 64px;
+  overflow: hidden;
+  border: 1px solid black;
+}
+.link-item {
+  cursor: pointer;
 }
 
-.media {
-  align-items: center;
-}
-.is-32x32 {
-  font-size: 0;
-}
-.is-text {
-  &:hover,
-  &:focus {
-    background-color: $primary !important;
-    transition: all 3s !important;
+.media-content {
+  color: gray;
+  .name {
+    color: black;
   }
 }
 </style>
