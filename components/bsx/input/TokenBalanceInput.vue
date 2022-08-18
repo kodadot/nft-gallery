@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, VModel, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, VModel } from 'nuxt-property-decorator'
 import BasicBalanceInput from '@/components/shared/form/BasicBalanceInput.vue'
 import { useApollo } from '~/utils/config/useApollo'
 import assetById from '@/queries/subsquid/bsx/assetById.graphql'
