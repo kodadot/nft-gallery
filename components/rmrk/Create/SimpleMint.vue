@@ -17,8 +17,8 @@
     </b-field>
 
     <MetadataUpload
-      v-model="file"
       ref="nftUpload"
+      v-model="file"
       required
       label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
       expanded
@@ -27,27 +27,27 @@
 
     <BasicInput
       ref="nftNameInput"
-      required
       v-model="rmrkMint.name"
+      required
       :label="$t('mint.nft.name.label')"
       :message="$t('mint.nft.name.message')"
       :placeholder="$t('mint.nft.name.placeholder')"
-      @blur.native.capture="generateSymbol"
       expanded
       spellcheck="true"
-      data-cy="input-name" />
+      data-cy="input-name"
+      @blur.native.capture="generateSymbol" />
 
     <BasicInput
       ref="nftSymbolInput"
-      required
       v-model="rmrkMint.symbol"
+      required
       :label="$t('mint.collection.symbol.label')"
       :message="$t('mint.collection.symbol.message')"
       :placeholder="$t('mint.collection.symbol.placeholder')"
-      @keydown.native.space.prevent
       maxlength="10"
       expanded
-      data-cy="input-symbol" />
+      data-cy="input-symbol"
+      @keydown.native.space.prevent />
 
     <BasicInput
       v-model="meta.description"
@@ -70,8 +70,8 @@
 
     <MetadataUpload
       v-if="secondaryFileVisible"
-      label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
       v-model="secondFile"
+      label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
       icon="file-image"
       accept="image/png, image/jpeg, image/gif"
       expanded
@@ -84,10 +84,10 @@
 
     <BalanceInput
       :step="0.1"
-      @input="updateMeta"
       label="Price"
       expanded
-      data-cy="input-price" />
+      data-cy="input-price"
+      @input="updateMeta" />
     <div class="content mt-3">
       <p>
         Hint: Setting the price now requires making an additional transaction.
@@ -109,7 +109,7 @@
         <p class="title is-6" data-cy="input-valid-address">
           {{ $t('mint.expert.count', [parseAddresses.length]) }}
         </p>
-        <p class="sub-title is-6 has-text-warning" v-show="syncVisible">
+        <p v-show="syncVisible" class="sub-title is-6 has-text-warning">
           {{ $t('mint.expert.countGlitch', [parseAddresses.length]) }}
         </p>
         <b-field :label="$t('mint.expert.batchSend')">
@@ -127,9 +127,9 @@
         <b-field v-show="syncVisible">
           <b-button
             outlined
-            @click="syncEdition"
             icon-left="sync"
             type="is-warning"
+            @click="syncEdition"
             >{{ $t('mint.expert.sync', [actualDistribution]) }}</b-button
           >
         </b-field>
@@ -149,13 +149,13 @@
         {{ $t('termOfService.accept') }}
       </b-switch>
     </b-field>
-    <b-field type="is-danger" :message="balanceNotEnoughMessage" v-if="isLogIn">
+    <b-field v-if="isLogIn" type="is-danger" :message="balanceNotEnoughMessage">
       <b-button
         type="is-primary"
         icon-left="paper-plane"
-        @click="sub"
         :loading="isLoading"
-        outlined>
+        outlined
+        @click="sub">
         {{ $t('mint.submit') }}
       </b-button>
     </b-field>
@@ -196,7 +196,7 @@ import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import correctFormat from '@/utils/ss58Format'
 import { canSupport, feeTx } from '@/utils/support'
@@ -207,21 +207,21 @@ import exec, {
 } from '@/utils/transactionExecutor'
 import {
   Attribute,
+  Interaction,
   createInteraction,
   createMetadata,
   findUniqueSymbol,
-  Interaction,
   mapAsSystemRemark,
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { formatBalance } from '@polkadot/util'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
-import { Component, mixins, Watch, Ref } from 'nuxt-property-decorator'
+import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import Vue from 'vue'
 import { unwrapSafe } from '@/utils/uniquery'
 import NFTUtils, { MintType } from '../service/NftUtils'
-import { getNftId, NFT, NFTMetadata, SimpleNFT } from '../service/scheme'
+import { NFT, NFTMetadata, SimpleNFT, getNftId } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
 import AuthMixin from '~/utils/mixins/authMixin'

@@ -1,81 +1,52 @@
 <template>
-  <!-- <div> -->
   <component
     :is="is"
     v-if="
       ((showTwitter && twitter) || !showTwitter) &&
       ((showDiscord && discord) || !showDiscord)
     "
-    :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }"
     class="is-flex-wrap-wrap is-flex-grow-1">
-    <template v-if="(showTwitter && twitter) || (showDiscord && discord)">
-      <a
-        :href="`https://twitter.com/${twitter}`"
-        class="twitter-link"
-        target="_blank"
-        rel="noopener noreferrer"
-        v-if="showTwitter && twitter">
-        <b-icon pack="fab" icon="twitter" />
-        <span class="aligned">
-          {{ twitter | toString }}
-        </span>
-      </a>
-
-      <div v-if="showDiscord && discord" class="is-flex is-align-items-center">
-        <b-icon pack="fab" icon="discord" />
-        <span class="aligned ml-2">
-          {{ discord | toString }}
-        </span>
-      </div>
-    </template>
-    <template v-else>
-      <span
-        v-if="showOnchainIdentity"
-        class="is-inline-flex is-align-items-center">
-        {{ shortenedAddress | toString }}
-        <img
-          v-if="isFetchingIdentity"
-          src="/infinity.svg"
-          class="ml-1 infinity-loader" />
-        <template v-else>
-          <span v-if="identity.display" class="ml-1"
-            >({{ identity.display }})</span
-          >
-        </template>
-      </span>
-      <template v-else-if="!hideIdentityPopover">
-        <IdentityPopover :identity="{ ...identity, address }">
-          <template #trigger>
-            {{ name | toString }}
-          </template>
-        </IdentityPopover>
-      </template>
-      <span v-else>
-        {{ name | toString }}
-      </span>
-    </template>
+    <IdentitySocial
+      v-if="(showTwitter && twitter) || (showDiscord && discord)"
+      :twitter="twitter"
+      :show-twitter="showTwitter"
+      :discord="discord"
+      :show-discord="showDiscord" />
+    <IdentityChain
+      v-else
+      :show-onchain-identity="showOnchainIdentity"
+      :hide-identity-popover="hideIdentityPopover"
+      :is-fetching-identity="isFetchingIdentity"
+      :identity="identity"
+      :address="address"
+      :shortened-address="shortenedAddress"
+      :name="name" />
   </component>
 </template>
 
 <script lang="ts">
-import { emptyObject } from '@/utils/empty'
-import { identityStore } from '@/utils/idbStore'
-import InlineMixin from '@/utils/mixins/inlineMixin'
-import shortAddress from '@/utils/shortAddress'
-import shouldUpdate from '@/utils/shouldUpdate'
-import { onApiConnect } from '@kodadot1/sub-api'
+import { Component, Emit, Prop, Watch, mixins } from 'nuxt-property-decorator'
+import { get, update } from 'idb-keyval'
+import { hexToString, isHex } from '@polkadot/util'
 import { Data } from '@polkadot/types'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { hexToString, isHex } from '@polkadot/util'
-import { get, update } from 'idb-keyval'
-import { Component, Emit, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { onApiConnect } from '@kodadot1/sub-api'
+
+import InlineMixin from '@/utils/mixins/inlineMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
+
+import { emptyObject } from '@/utils/empty'
+import { identityStore } from '@/utils/idbStore'
+import shortAddress from '@/utils/shortAddress'
+import shouldUpdate from '@/utils/shouldUpdate'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
 
 const components = {
-  IdentityPopover: () => import('@/components/shared/IdentityPopover.vue'),
+  IdentitySocial: () =>
+    import('@/components/shared/identity/IdentitySocial.vue'),
+  IdentityChain: () => import('@/components/shared/identity/IdentityChain.vue'),
 }
 
 @Component({ components })
@@ -89,8 +60,8 @@ export default class Identity extends mixins(InlineMixin, UseApiMixin) {
   @Prop(Boolean) public showOnchainIdentity!: boolean
   @Prop(Boolean) public hideIdentityPopover!: boolean
   @Prop(String) public customNameOption!: string
-  private identity: IdentityFields = emptyObject<IdentityFields>()
-  private isFetchingIdentity = false
+  public identity: IdentityFields = emptyObject<IdentityFields>()
+  public isFetchingIdentity = false
 
   get shortenedAddress(): Address {
     return shortAddress(this.resolveAddress(this.address))
@@ -123,11 +94,7 @@ export default class Identity extends mixins(InlineMixin, UseApiMixin) {
     }
   }
 
-  /**
-   * Vue Lifecycle Hooks
-   * https://vuejs.org/guide/essentials/lifecycle.html
-   */
-  mounted() {
+  protected mounted() {
     onApiConnect(this.apiUrl, async () => {
       this.identity = await this.identityOf(this.resolveAddress(this.address))
     })
@@ -205,27 +172,3 @@ export default class Identity extends mixins(InlineMixin, UseApiMixin) {
   }
 }
 </script>
-
-<style scoped>
-.aligned {
-  vertical-align: middle;
-  display: inline-block;
-}
-
-.twitter-link {
-  line-height: 20px;
-}
-
-.twitter-link .icon {
-  vertical-align: middle;
-  margin: auto 0 auto 0;
-}
-
-.overflowWrap {
-  overflow-wrap: break-word;
-}
-
-.infinity-loader {
-  height: 20px;
-}
-</style>

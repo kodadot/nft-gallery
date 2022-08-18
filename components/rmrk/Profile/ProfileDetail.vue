@@ -238,49 +238,52 @@
 
 <script lang="ts">
 import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { Debounce } from 'vue-debounce-decorator'
+
 import {
   CollectionWithMeta,
   Interaction,
   NftEvents,
   Pack,
 } from '@/components/rmrk/service/scheme'
+import { Offer, OfferResponse } from '@/components/bsx/Offer/types'
+import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
 
-import isShareMode from '@/utils/isShareMode'
-import shouldUpdate from '@/utils/shouldUpdate'
-import shortAddress from '@/utils/shortAddress'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
-import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
-import { Debounce } from 'vue-debounce-decorator'
-import { CollectionChartData as ChartData } from '@/utils/chart'
-import allEventsByProfile from '@/queries/rmrk/subsquid/allEventsByProfile.graphql'
-import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
-import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator.graphql'
-import { sortedEventByDate } from '@/utils/sorting'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import { exist } from '../Gallery/Search/exist'
 import AuthMixin from '@/utils/mixins/authMixin'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
-const tabNameWithoutCollections = ['holdings', 'gains']
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { CollectionChartData as ChartData } from '@/utils/chart'
+import isShareMode from '@/utils/isShareMode'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import shortAddress from '@/utils/shortAddress'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { sortedEventByDate } from '@/utils/sorting'
 
+import allEventsByProfile from '@/queries/rmrk/subsquid/allEventsByProfile.graphql'
+import allNftSaleEventsByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
+import allNftSaleEventsHistoryByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
+import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
 import firstNftByIssuer from '@/queries/subsquid/general/firstNftByIssuer.graphql'
 import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'
 import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
-import resolveQueryPath from '@/utils/queryPathResolver'
-import allNftSaleEventsByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
-import allNftSaleEventsHistoryByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
+import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
+import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator.graphql'
+
 import { getExplorer, hasExplorer } from './utils'
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
-import { Offer, OfferResponse } from '@/components/bsx/Offer/types'
+import { exist } from '../Gallery/Search/exist'
+
+const tabNameWithoutCollections = ['holdings', 'gains']
 
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/shared/Sharing.vue'),
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   PaginatedCardList: () =>
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
