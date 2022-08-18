@@ -37,7 +37,6 @@ module.exports = {
       'warn',
       {
         ignoreDeclarationSort: true,
-        ignoreMemberSort: true,
         allowSeparatedGroups: true,
       },
     ],
