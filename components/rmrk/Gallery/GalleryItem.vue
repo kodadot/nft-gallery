@@ -115,7 +115,8 @@
       <GalleryItemCarousel
         v-if="showRelatedCarousel"
         type="related"
-        :collection-id="nft.collection.id" />
+        :collection-id="nft.collection.id"
+        data-cy="carousel-related" />
       <GalleryItemCarousel type="visited" />
 
       <div class="columns">
