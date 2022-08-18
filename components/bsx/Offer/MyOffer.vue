@@ -8,9 +8,9 @@
     <Loader v-model="isLoading" :status="status" />
     <b-table :data="displayOffers(offers)">
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.item')"
-        v-slot="props"
         sortable>
         <nuxt-link :to="`/bsx/gallery/${props.row.nft.id}`">
           <p
@@ -21,35 +21,35 @@
         </nuxt-link>
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         field="formatPrice"
         :label="$t('myOffer.price')"
-        v-slot="props"
         sortable>
         <Money :value="props.row.price" inline />
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         field="caller"
         :label="$t('myOffer.caller')"
-        v-slot="props"
         sortable>
         <nuxt-link :to="{ name: 'bsx-u-id', params: { id: props.row.caller } }">
-          <Identity :address="props.row.caller" inline noOverflow />
+          <Identity :address="props.row.caller" inline no-overflow />
         </nuxt-link>
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         field="expirationBlock"
         :label="$t('offer.expiration')"
-        v-slot="props"
         sortable>
         {{ calcExpirationTime(props.row.expiration) }}
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         :label="$t('offer.action')"
-        v-slot="props"
         width="120"
         sortable>
         <b-button
@@ -66,10 +66,10 @@
           @click="onClick(props.row)" />
       </b-table-column>
       <b-table-column
+        v-slot="props"
         field="createdAt"
         cell-class="is-vcentered is-narrow"
         :label="$t('myOffer.date')"
-        v-slot="props"
         sortable
         ><p>
           {{
@@ -88,16 +88,20 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { Offer, OfferResponse } from './types'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import acceptableOfferByCurrentOwner from '@/queries/subsquid/bsx/acceptableOfferByCurrentOwner.graphql'
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
-import OfferMixin from '~/utils/mixins/offerMixin'
+
 import { tokenIdToRoute } from '@/components/unique/utils'
 
+import OfferMixin from '@/utils/mixins/offerMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
+import acceptableOfferByCurrentOwner from '@/queries/subsquid/bsx/acceptableOfferByCurrentOwner.graphql'
+
+import { Offer, OfferResponse } from './types'
+
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
 }
 

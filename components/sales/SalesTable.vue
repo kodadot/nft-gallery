@@ -59,7 +59,7 @@
         field="buyer"
         label="Buyer">
         <nuxt-link :to="`/rmrk/u/${props.row.buyer}`">
-          <Identity :address="props.row.buyer" inline noOverflow />
+          <Identity :address="props.row.buyer" inline no-overflow />
         </nuxt-link>
       </b-table-column>
 
@@ -72,7 +72,7 @@
           <b-tooltip :label="props.row.date">
             <BlockExplorerLink
               :text="props.row.relDate"
-              :blockId="props.row.blockNumber" />
+              :block-id="props.row.blockNumber" />
           </b-tooltip>
         </div>
       </b-table-column>
@@ -97,15 +97,17 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import { RowSales } from './types'
-import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+
+import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
+
+import { RowSales } from './types'
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
