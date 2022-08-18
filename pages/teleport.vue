@@ -134,7 +134,7 @@ import UseApiMixin from '@/utils/mixins/useApiMixin'
     AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     ReadOnlyBalanceInput: () =>
       import('@/components/shared/ReadOnlyBalanceInput.vue'),
-    Identity: () => import('@/components/shared/identity/Identity.vue'),
+    Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),

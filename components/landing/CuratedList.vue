@@ -68,7 +68,7 @@ import { CollectionMetadata } from '../rmrk/types'
 
 const components = {
   // Identicon: () => import('@polkadot/vue-identicon'),
-  Identity: () => import('@/components/shared/identity/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
 }
 
 const curatedCollection = [

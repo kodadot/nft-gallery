@@ -107,7 +107,7 @@ import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
 import { RowSales } from './types'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),

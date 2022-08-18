@@ -101,7 +101,7 @@ import acceptableOfferByCurrentOwner from '@/queries/subsquid/bsx/acceptableOffe
 import { Offer, OfferResponse } from './types'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
 }
 

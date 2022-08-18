@@ -283,7 +283,7 @@ const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/shared/Sharing.vue'),
-  Identity: () => import('@/components/shared/identity/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   PaginatedCardList: () =>
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),

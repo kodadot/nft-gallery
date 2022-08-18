@@ -157,7 +157,7 @@ import { hasExplorer } from '@/components/rmrk/Profile/utils'
     BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
     ReadOnlyBalanceInput: () =>
       import('@/components/shared/ReadOnlyBalanceInput.vue'),
-    Identity: () => import('@/components/shared/identity/Identity.vue'),
+    Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),

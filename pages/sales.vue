@@ -21,7 +21,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Sales>({
   components: {
-    Identity: () => import('@/components/shared/identity/Identity.vue'),
+    Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   },
   head() {
     const title = 'Latest KUSAMA Sales'
