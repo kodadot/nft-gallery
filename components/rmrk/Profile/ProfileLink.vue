@@ -39,7 +39,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import shortAddress from '@/utils/shortAddress'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
 }
 

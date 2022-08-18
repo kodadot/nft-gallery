@@ -149,7 +149,7 @@ import { Offer } from './types'
 import OfferMixin from '~/utils/mixins/offerMixin'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
 }

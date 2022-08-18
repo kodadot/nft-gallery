@@ -1,5 +1,4 @@
 <template>
-  <!-- <div> -->
   <component
     :is="is"
     v-if="
