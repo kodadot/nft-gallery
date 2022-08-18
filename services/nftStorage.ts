@@ -64,4 +64,3 @@ export const pinFileToIPFS = async (file: Blob, _: string): Promise<string> => {
 }
 
 export default nftStorageApi
-// QmYt2FydonvVMsEqe2q3hvm38WDq21xM8Z5ZSHZw19PwjF;
