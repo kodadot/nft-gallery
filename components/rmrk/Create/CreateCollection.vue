@@ -3,16 +3,16 @@
     <Loader v-model="isLoading" :status="status" />
     <BaseCollectionForm
       v-bind.sync="base"
-      protectiveMargin
-      ref="collectionForm">
-      <template v-slot:header>
+      ref="collectionForm"
+      protective-margin>
+      <template #header>
         <b-field>
           <div>
             {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
           </div>
         </b-field>
       </template>
-      <template v-slot:main>
+      <template #main>
         <BasicSwitch v-model="unlimited" label="mint.unlimited" />
         <b-field
           v-if="!unlimited"
@@ -24,23 +24,23 @@
             :min="1"></b-numberinput>
         </b-field>
         <BasicInput
+          ref="symbolInput"
           v-model="symbol"
           :label="$t('mint.collection.symbol.label')"
           :message="$t('mint.collection.symbol.message')"
           :placeholder="$t('mint.collection.symbol.placeholder')"
           class="mb-5"
-          @keydown.native.space.prevent
           maxlength="10"
-          ref="symbolInput"
           required
-          expanded />
+          expanded
+          @keydown.native.space.prevent />
       </template>
 
-      <template v-slot:footer>
+      <template #footer>
         <b-field
+          v-if="isLogIn"
           type="is-danger"
-          :message="balanceNotEnoughMessage"
-          v-if="isLogIn">
+          :message="balanceNotEnoughMessage">
           <SubmitButton
             label="create collection"
             :loading="isLoading"
@@ -59,20 +59,20 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { canSupport } from '@/utils/support'
 import {
+  CreatedCollection,
+  Interaction,
   addressToHex,
   asSystemRemark,
   createCollection,
-  CreatedCollection,
   createMetadata,
   createMintInteaction,
-  Interaction,
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
-import { Component, mixins, Ref } from 'nuxt-property-decorator'
+import { Component, Ref, mixins } from 'nuxt-property-decorator'
 
 type BaseCollectionType = {
   name: string

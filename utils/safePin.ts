@@ -1,5 +1,5 @@
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from './constants'
-import { pinFileToIPFS } from './nftStorage'
+import { pinFileToIPFS } from '@/services/nftStorage'
 
 type MaybeFile = File | null | undefined
 
@@ -11,7 +11,7 @@ export async function pinImageSafe(
     return IPFS_KODADOT_IMAGE_PLACEHOLDER
   }
 
-  return pinFileToIPFS(file, token)
+  return await pinFileToIPFS(file, token)
 }
 
 export function getImageTypeSafe(file: MaybeFile) {

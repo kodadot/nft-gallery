@@ -28,11 +28,7 @@
             {{ $t('profile.user') }}
           </div>
           <div class="subtitle is-size-6">
-            <ProfileLink
-              :address="id"
-              :inline="true"
-              show-twitter
-              show-discord />
+            <ProfileLink :address="id" inline show-twitter show-discord />
             <a
               :href="`https://sub.id/#/${id}`"
               target="_blank"
@@ -136,15 +132,18 @@
 
 <script lang="ts">
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+
 import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
-import isShareMode from '@/utils/isShareMode'
-import shouldUpdate from '@/utils/shouldUpdate'
-import shortAddress from '@/utils/shortAddress'
-import collectionList from '@/queries/unique/collectionListByAccount.graphql'
+import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
+import { notificationTypes, showNotification } from '@/utils/notification'
+import isShareMode from '@/utils/isShareMode'
+import shortAddress from '@/utils/shortAddress'
+import shouldUpdate from '@/utils/shouldUpdate'
+
+import collectionList from '@/queries/unique/collectionListByAccount.graphql'
 import firstNftByIssuer from '@/queries/subsquid/general/firstNftByIssuer.graphql'
 import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'
@@ -154,7 +153,7 @@ const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/shared/Sharing.vue'),
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   PaginatedCardList: () =>
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
