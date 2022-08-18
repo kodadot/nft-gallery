@@ -8,20 +8,13 @@
       played-line-color="rgba(0,0,0,0.74)"
       noplayed-line-color="#d32e79"
       playtime-font-color="rgba(0,0,0,0.74)" />
-    <!-- <audio controls class="media-audio__player">
-      <source :src="src" :type="mimeType" />
-      Unable to show audio
-    </audio> -->
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-@Component({})
-export default class AppAudio extends Vue {
-  @Prop() public src!: string
-  @Prop() public mimeType!: string
-}
+<script lang="ts" setup>
+defineProps<{
+  src?: string
+}>()
 </script>
 
 <style>

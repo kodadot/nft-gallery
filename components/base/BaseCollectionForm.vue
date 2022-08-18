@@ -9,6 +9,8 @@
     </b-field>
 
     <MetadataUpload
+      required
+      ref="collectionImage"
       v-model="vFile"
       label="Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
       expanded
@@ -59,8 +61,12 @@ export default class BaseCollectionForm extends Vue {
   @PropSync('file', { type: Blob }) vFile!: Blob | null
 
   @Ref('collectionName') readonly collectionName
+  @Ref('collectionImage') readonly collectionImage
   public checkValidity() {
-    return this.collectionName.checkValidity()
+    return (
+      this.collectionImage.checkValidity() &&
+      this.collectionName.checkValidity()
+    )
   }
 }
 </script>
