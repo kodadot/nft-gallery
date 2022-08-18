@@ -11,6 +11,10 @@ Cypress.on('uncaught:exception', (err) => {
   return false
 })
 
+Cypress.Commands.add('getCy', (selector, ...args) => {
+  return cy.get(`[data-cy=${selector}]`, ...args)
+})
+
 Cypress.Commands.add('loginWithKeyring', () => {
   cy.visit('/')
   cy.visit('/e2e-login')
@@ -227,6 +231,14 @@ Cypress.Commands.add('rmrkGalleryUnlistedItemActions', (nftId) => {
 declare global {
   namespace Cypress {
     interface Chainable {
+      /**
+       * @desc get selector by data-cy="selector" attribute
+       */
+      getCy(
+        dataTestAttribute: string,
+        args?: any
+      ): Chainable<JQuery<HTMLElement>>
+
       /**
        * @desc visits /e2e-login and gets logged in with newly generated random wallet (empty)
        */
