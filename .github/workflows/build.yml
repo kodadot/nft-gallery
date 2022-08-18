@@ -10,6 +10,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    container: cypress/browsers:node16.14.0-chrome99-ff97
     steps:
       - uses: actions/checkout@v3
 
@@ -54,7 +55,7 @@ jobs:
           # wait for 2 minutes for the server to respond
           wait-on-timeout: 150
           command: pnpm test:e2e
-
+          browser: chrome
 
       - name: Upload Screenshots
         uses: actions/upload-artifact@v2
