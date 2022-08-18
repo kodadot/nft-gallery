@@ -5,7 +5,7 @@ import { useApollo } from '@/utils/config/useApollo'
 import assetListByIdList from '@/queries/subsquid/bsx/assetListByIdList.graphql'
 import { AssetListQueryResponse } from '@/components/bsx/Asset/types'
 
-type TokenProperty = {
+export type TokenProperty = {
   id: string
   decimals: number
   symbol: string
