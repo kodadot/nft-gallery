@@ -10,7 +10,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: cypress/browsers:node16.14.0-chrome99-ff97
     steps:
       - uses: actions/checkout@v3
 
