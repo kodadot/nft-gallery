@@ -381,6 +381,14 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
   .navbar-brand {
     align-items: center;
+    .navbar-burger {
+      height: 2.5em;
+      width: 2.5em;
+      margin-left: 0.5em;
+      &:hover {
+        border-top: 1px solid #ff47ac !important;
+      }
+    }
   }
 
   .navbar-start {
@@ -415,8 +423,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     }
   }
   .search-navbar-container-mobile {
-    position: fixed;
-    left: 0;
     width: 100%;
 
     input {
