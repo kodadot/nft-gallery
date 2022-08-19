@@ -112,24 +112,22 @@
         <template #label>
           <span>{{ $t('stats') }}</span>
         </template>
-        <template>
-          <b-navbar-item
-            tag="nuxt-link"
-            :to="`${
-              accountId
-                ? `/${urlPrefix}/offers?target=${accountId}`
-                : `/${urlPrefix}/offers`
-            }`"
-            data-cy="global-offers">
-            {{ $t('navbar.globalOffers') }}
-          </b-navbar-item>
-          <b-navbar-item
-            tag="nuxt-link"
-            :to="`/${urlPrefix}/stats`"
-            data-cy="stats">
-            <span> {{ $t('navbar.offerStats') }}</span>
-          </b-navbar-item>
-        </template>
+        <b-navbar-item
+          tag="nuxt-link"
+          :to="`${
+            accountId
+              ? `/${urlPrefix}/offers?target=${accountId}`
+              : `/${urlPrefix}/offers`
+          }`"
+          data-cy="global-offers">
+          {{ $t('navbar.globalOffers') }}
+        </b-navbar-item>
+        <b-navbar-item
+          tag="nuxt-link"
+          :to="`/${urlPrefix}/stats`"
+          data-cy="stats">
+          <span> {{ $t('navbar.offerStats') }}</span>
+        </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-dropdown
         arrowless

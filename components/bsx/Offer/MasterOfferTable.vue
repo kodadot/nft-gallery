@@ -188,7 +188,6 @@ export default class MasterOfferTable extends mixins(
       this.$router.replace({ query: { target, tab } }).catch(() => null) // null to further not throw navigation errors
     } else {
       this.selectedOfferType = SelectedOfferType.ALL
-      console.log('called')
       this.checkOfferForAddress(true)
       this.$router.replace({ query: { tab } }).catch(() => null) // null to further not throw navigation errors
     }
