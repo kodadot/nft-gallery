@@ -208,7 +208,7 @@ import { mapToId } from '@/utils/mappers'
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
     DangerModal: () =>
       import('@/components/unique/Gallery/Item/DangerModal.vue'),
-    Properties: () => import('@/components/unique/Gallery/Item/Properties.vue'),
+    Properties: () => import('@/components/shared/gallery/Properties.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),

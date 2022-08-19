@@ -1,13 +1,25 @@
 <template>
   <CollapseCardWrapper :label="$t('nft.properties.label')">
-    <b-table :data="displayAttributes" :columns="columns" />
+    <div class="columns is-multiline">
+      <div
+        v-for="attribute in attributes"
+        :key="attribute.trait_type"
+        class="column is-4">
+        <div class="notification is-primary is-light">
+          <div class="is-size-7 has-text-grey-lighter is-uppercase">
+            {{ attribute.trait_type }}
+          </div>
+          <div class="is-size-5 has-text-white">{{ attribute.value }}</div>
+        </div>
+      </div>
+    </div>
   </CollapseCardWrapper>
 </template>
 
 <script lang="ts">
+import { Attribute } from '@kodadot1/minimark'
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { emptyArray } from '~/utils/empty'
-import { Attribute } from '../../types'
 
 const components = {
   CollapseCardWrapper: () =>
@@ -19,22 +31,5 @@ export default class Properties extends Vue {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public attributes!: Attribute[]
   @Prop({ type: String, default: 'key' }) private fieldKey!: string
-
-  get displayAttributes() {
-    return this.attributes.filter((attribute) => attribute[this.fieldKey])
-  }
-
-  get columns() {
-    return [
-      {
-        field: this.fieldKey,
-        label: 'Key',
-      },
-      {
-        field: 'value',
-        label: 'Value',
-      },
-    ]
-  }
 }
 </script>
