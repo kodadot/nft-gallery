@@ -5,23 +5,23 @@
       v-bind.sync="base"
       ref="baseTokenForm"
       :collections="collections"
-      :showExplainerText="showExplainerText">
-      <template v-slot:main>
+      :show-explainer-text="showExplainerText">
+      <template #main>
         <AttributeTagInput
-          v-model="tags"
           key="tags"
+          v-model="tags"
           placeholder="Get discovered easier through tags" />
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <BalanceInput
+          ref="balanceInput"
+          key="price"
           label="Price"
           expanded
-          ref="balanceInput"
           required
-          hasToLargerThanZero
-          key="price"
+          has-to-larger-than-zero
           :step="0.1"
-          @input="updatePrice"
-          class="mb-3" />
+          class="mb-3"
+          @input="updatePrice" />
         <b-message
           v-if="hasPrice"
           key="message"
@@ -31,7 +31,7 @@
           {{ $t('warning.newTransactionWhilePriceSet') }}
         </b-message>
       </template>
-      <template v-slot:footer>
+      <template #footer>
         <b-field key="advanced">
           <CollapseWrapper
             v-if="base.edition > 1"
@@ -39,15 +39,15 @@
             hidden="mint.expert.hide"
             class="mt-3">
             <BasicSwitch
-              class="mt-3"
               v-model="postfix"
+              class="mt-3"
               label="mint.expert.postfix" />
           </CollapseWrapper>
         </b-field>
         <b-field
+          v-if="isLogIn"
           key="submit"
           type="is-danger"
-          v-if="isLogIn"
           :message="balanceNotEnoughMessage">
           <SubmitButton
             label="mint.submit"
@@ -74,23 +74,23 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
 import {
-  asSystemRemark,
   Attribute,
   CreatedNFT,
+  Interaction,
+  asSystemRemark,
   createInteraction,
   createMetadata,
   createMintInteaction,
   createMultipleNFT,
-  Interaction,
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import { formatBalance } from '@polkadot/util'
-import { Component, mixins, Prop, Watch, Ref } from 'nuxt-property-decorator'
+import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { unwrapSafe } from '~/utils/uniquery'
 import { basicUpdateFunction } from '../service/NftUtils'
 import { toNFTId } from '../service/scheme'
