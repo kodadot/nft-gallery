@@ -93,6 +93,10 @@ html.light-mode {
 		.dropdown-item:not(.is-active) {
 			color: $text-light-theme;
 		}
+
+		.icon {
+			color: $text-light-theme!important;
+		}
 	}
 
 	.homepage .tile .box {
@@ -134,6 +138,10 @@ html.light-mode {
 	.taginput .taginput-container.is-focusable {
 		color: $text-light-theme;
 		background-color: $white;
+	}
+
+	.input::placeholder {
+		color: #b2b2b2 !important;
 	}
 
 	.list-header,
@@ -248,6 +256,6 @@ html.light-mode {
 	}
 
 	.b-table .table .chevron-cell>a {
-		color: $primary !important;
+		color: $primary  !important;
 	}
 }
