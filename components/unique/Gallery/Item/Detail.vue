@@ -6,10 +6,11 @@
     <p class="subtitle is-size-6">
       <nuxt-link
         v-if="nft.collection"
+        v-show="!isLoading"
         :to="`/${urlPrefix}/collection/${
           nft.collectionId || nft.collection.id
         }`"
-        v-show="!isLoading">
+        data-cy="item-collection">
         {{ nft.collection.name }}
       </nuxt-link>
       <b-skeleton :active="isLoading"></b-skeleton>
@@ -17,16 +18,24 @@
     <p class="label">
       {{ $t('creator') }}
     </p>
-    <p class="subtitle is-size-6" v-show="!isLoading">
-      <ProfileLink :address="nft.issuer" showTwitter showDiscord />
+    <p v-show="!isLoading" class="subtitle is-size-6">
+      <ProfileLink
+        data-cy="item-creator"
+        :address="nft.issuer"
+        show-twitter
+        show-discord />
     </p>
     <b-skeleton :active="isLoading"></b-skeleton>
     <template v-if="nft.issuer !== nft.currentOwner">
       <p class="label">
         {{ $t('owner') }}
       </p>
-      <p class="subtitle is-size-6" v-show="!isLoading">
-        <ProfileLink :address="nft.currentOwner" showTwitter showDiscord />
+      <p v-show="!isLoading" class="subtitle is-size-6">
+        <ProfileLink
+          data-cy="item-owner"
+          :address="nft.currentOwner"
+          show-twitter
+          show-discord />
       </p>
       <b-skeleton :active="isLoading"></b-skeleton>
     </template>
@@ -38,7 +47,10 @@
         </span>
       </p>
       <p class="subtitle is-size-6">
-        <ProfileLink :address="nft.delegate" showTwitter />
+        <ProfileLink
+          data-cy="item-delegate"
+          :address="nft.delegate"
+          show-twitter />
         <b-skeleton :active="isLoading"></b-skeleton>
       </p>
     </template>
@@ -46,11 +58,13 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import isShareMode from '@/utils/isShareMode'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+
 import { NFTWithMeta } from '@/components/rmrk/service/scheme'
+
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { emptyObject } from '@/utils/empty'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import isShareMode from '@/utils/isShareMode'
 
 const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
