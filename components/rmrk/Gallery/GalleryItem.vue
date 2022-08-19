@@ -372,8 +372,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         ),
       }
 
-      console.log('jarsen this', this.meta)
-
       if (this.meta.animation_url && !this.mimeType) {
         const { mimeType, imageVisible } = await processMedia(
           this.meta.animation_url
