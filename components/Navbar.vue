@@ -125,7 +125,7 @@
         <b-navbar-item
           tag="nuxt-link"
           :to="`/${urlPrefix}/stats`"
-          data-cy="stats">
+          data-cy="offers-stats">
           <span> {{ $t('navbar.offerStats') }}</span>
         </b-navbar-item>
       </b-navbar-dropdown>
