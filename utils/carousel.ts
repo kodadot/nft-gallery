@@ -7,6 +7,7 @@ import {
 import { CarouselNFT } from '@/components/base/types'
 import { processSingleMetadata } from '~/utils/cachingStrategy'
 import { LastEvent } from '~/utils/types/types'
+import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 /**
  * Format the data to fit with CarouselNFT[]
  * Get cloudflare images
@@ -66,6 +67,7 @@ export const convertLastEventToNft = (e: LastEvent) => {
       issuer: e.issuer,
       currentOwner: e.currentOwner,
       metadata: e.metadata,
+      animationUrl: sanitizeIpfsUrl(e.animationUrl),
       meta: {
         id: e.metadata,
         image: e.image,
