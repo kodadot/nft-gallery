@@ -1,6 +1,5 @@
 <template>
-  <component
-    :is="is"
+  <div
     v-if="
       ((showTwitter && twitter) || !showTwitter) &&
       ((showDiscord && discord) || !showDiscord)
@@ -21,19 +20,17 @@
       :address="address"
       :shortened-address="shortenedAddress"
       :name="name" />
-  </component>
+  </div>
 </template>
 
-<script lang="ts">
-import { Component, Emit, Prop, Watch, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { get, update } from 'idb-keyval'
 import { hexToString, isHex } from '@polkadot/util'
 import { Data } from '@polkadot/types'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { onApiConnect } from '@kodadot1/sub-api'
 
-import InlineMixin from '@/utils/mixins/inlineMixin'
-import UseApiMixin from '@/utils/mixins/useApiMixin'
+import useAPI from '@/composables/useApi'
 
 import { emptyObject } from '@/utils/empty'
 import { identityStore } from '@/utils/idbStore'
@@ -43,132 +40,138 @@ import shouldUpdate from '@/utils/shouldUpdate'
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
 
-const components = {
-  IdentitySocial: () =>
-    import('@/components/shared/identity/IdentitySocial.vue'),
-  IdentityChain: () => import('@/components/shared/identity/IdentityChain.vue'),
+const IdentitySocial = defineAsyncComponent(
+  () => import('@/components/shared/identity/IdentitySocial.vue')
+)
+const IdentityChain = defineAsyncComponent(
+  () => import('@/components/shared/identity/IdentityChain.vue')
+)
+
+const props = defineProps<{
+  address?: Address
+  emit?: boolean
+  showTwitter?: boolean
+  showDiscord?: boolean
+  showOnchainIdentity?: boolean
+  hideIdentityPopover?: boolean
+  customNameOption?: string
+  inline?: boolean
+}>()
+
+const { apiInstance, apiUrl } = useAPI()
+
+const identity = ref<IdentityFields>({})
+const isFetchingIdentity = ref(false)
+const totalCreated = ref(0)
+const totalCollected = ref(0)
+const firstMintDate = ref(new Date())
+const lastBoughtDate = ref(new Date())
+
+const resolveAddress = (account: Address): string => {
+  return account instanceof GenericAccountId
+    ? account.toString()
+    : account || ''
+}
+const address = computed(() => resolveAddress(props.address))
+const shortenedAddress = computed(() => shortAddress(address.value))
+const name = computed(() => {
+  if (props.customNameOption) {
+    return props.customNameOption
+  }
+
+  const display = identity.value.display
+  if (display?.length > 20) {
+    return shortAddress(display)
+  }
+
+  return (display as string) || shortenedAddress.value
+})
+const twitter = computed(() => identity.value.twitter || '')
+const discord = computed(() => identity.value.discord || '')
+const display = computed(() => identity.value.display || '')
+
+provide('address', address.value)
+provide('shortenedAddress', shortenedAddress.value)
+provide('firstMintDate', firstMintDate)
+provide('lastBoughtDate', lastBoughtDate)
+provide('totalCreated', totalCreated)
+provide('totalCollected', totalCollected)
+provide(
+  'identity',
+  computed(() => ({
+    address: address.value,
+    display: display.value,
+    twitter: twitter.value,
+  }))
+)
+
+onMounted(() => {
+  get(resolveAddress(props.address), identityStore).then((identityCached) => {
+    if (identityCached) {
+      identity.value = identityCached
+    } else {
+      onApiConnect(apiUrl.value, async () => {
+        identity.value = await identityOf(resolveAddress(props.address))
+      })
+    }
+  })
+})
+
+const identityOf = async (account): Promise<IdentityFields> => {
+  if (!account) {
+    return Promise.resolve(emptyObject<IdentityFields>())
+  }
+
+  const identityCached = await get(address.value, identityStore)
+  if (!identityCached) {
+    return await fetchIdentity(address.value)
+  }
+
+  return identityCached
 }
 
-@Component({ components })
-export default class Identity extends mixins(InlineMixin, UseApiMixin) {
-  @Prop() public address!: Address
-  @Prop(Boolean) public verticalAlign!: boolean
-  @Prop(Boolean) public noOwerflow!: boolean
-  @Prop(Boolean) public emit!: boolean
-  @Prop(Boolean) public showTwitter!: boolean
-  @Prop(Boolean) public showDiscord!: boolean
-  @Prop(Boolean) public showOnchainIdentity!: boolean
-  @Prop(Boolean) public hideIdentityPopover!: boolean
-  @Prop(String) public customNameOption!: string
-  public identity: IdentityFields = emptyObject<IdentityFields>()
-  public isFetchingIdentity = false
+const fetchIdentity = async (address: string) => {
+  isFetchingIdentity.value = true
 
-  get shortenedAddress(): Address {
-    return shortAddress(this.resolveAddress(this.address))
+  const api = await apiInstance.value
+  const optionIdentity = await api?.query.identity?.identityOf(address)
+  const identityFresh = optionIdentity?.unwrapOrDefault()
+
+  if (!identityFresh?.size) {
+    isFetchingIdentity.value = false
+
+    return emptyObject<IdentityFields>()
   }
 
-  get name(): Address {
-    if (this.customNameOption) {
-      return this.customNameOption
-    }
-    const name = this.identity.display
-    if (name?.length > 20) {
-      return shortAddress(name)
-    }
-    return (name as string) || this.shortenedAddress
-  }
+  const final = Array.from(identityFresh.info)
+    .filter(([, value]) => !Array.isArray(value) && !value.isEmpty)
+    .reduce((acc, [key, value]) => {
+      acc[key] = handleRaw(value as unknown as Data)
+      return acc
+    }, {} as IdentityFields)
 
-  get twitter(): Address {
-    const twitter = this.identity.twitter
-    return (twitter as string) || ''
-  }
+  update(address, () => final, identityStore)
 
-  get discord(): Address {
-    return this.identity?.discord
-  }
+  isFetchingIdentity.value = false
 
-  @Watch('address', { immediate: true })
-  async watchAddress(newAddress: Address, oldAddress: Address) {
-    if (shouldUpdate(newAddress, oldAddress)) {
-      this.identityOf(newAddress).then((id) => (this.identity = id))
-    }
-  }
-
-  protected mounted() {
-    onApiConnect(this.apiUrl, async () => {
-      this.identity = await this.identityOf(this.resolveAddress(this.address))
-    })
-  }
-
-  public async identityOf(account: Address): Promise<IdentityFields> {
-    if (!account) {
-      return Promise.resolve(emptyObject<IdentityFields>())
-    }
-
-    const address: string = this.resolveAddress(account)
-    const identity = await get(address, identityStore)
-
-    if (!identity) {
-      return await this.fetchIdentity(address)
-    }
-
-    if (this.emit) {
-      this.emitIdentityChange(identity)
-    }
-
-    return identity
-  }
-
-  private handleRaw(display: Data): string {
-    if (display?.isRaw) {
-      return display.asRaw.toHuman() as string
-    }
-
-    if (isHex((display as any)?.Raw)) {
-      return hexToString((display as any)?.Raw)
-    }
-
-    return display?.toString()
-  }
-
-  private resolveAddress(account: Address): string {
-    return account instanceof GenericAccountId
-      ? account.toString()
-      : account || ''
-  }
-
-  protected async fetchIdentity(address: string): Promise<IdentityFields> {
-    this.isFetchingIdentity = true
-    const api = await this.useApi()
-
-    const optionIdentity = await api?.query.identity?.identityOf(address)
-    const identity = optionIdentity?.unwrapOrDefault()
-
-    if (!identity?.size) {
-      this.isFetchingIdentity = false
-      return emptyObject<IdentityFields>()
-    }
-
-    const final = Array.from(identity.info)
-      .filter(([, value]) => !Array.isArray(value) && !value.isEmpty)
-      .reduce((acc, [key, value]) => {
-        acc[key] = this.handleRaw(value as unknown as Data)
-        return acc
-      }, {} as IdentityFields)
-
-    update(address, () => final, identityStore)
-    this.isFetchingIdentity = false
-
-    if (this.emit) {
-      this.emitIdentityChange(final)
-    }
-
-    return final
-  }
-
-  @Emit('change')
-  emitIdentityChange(final: IdentityFields) {
-    return final
-  }
+  return final
 }
+
+const handleRaw = (display: Data): string => {
+  if (display?.isRaw) {
+    return display.asRaw.toHuman() as string
+  }
+
+  if (isHex((display as any)?.Raw)) {
+    return hexToString((display as any)?.Raw)
+  }
+
+  return display?.toString()
+}
+
+watch(address, (newAddress, oldAddress) => {
+  if (shouldUpdate(newAddress, oldAddress)) {
+    identityOf(newAddress).then((id) => (identity.value = id))
+  }
+})
 </script>
