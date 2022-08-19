@@ -1,6 +1,10 @@
 <template>
   <figure class="image is-square nft-image">
-    <img class="image-media__image" :src="src" :alt="mimeType" />
+    <img
+      class="image-media__image"
+      :src="src"
+      :alt="mimeType"
+      data-cy="type-image" />
   </figure>
 </template>
 
