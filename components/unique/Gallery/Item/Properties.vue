@@ -21,7 +21,14 @@ export default class Properties extends Vue {
   @Prop({ type: String, default: 'key' }) private fieldKey!: string
 
   get displayAttributes() {
-    return this.attributes.filter((attribute) => attribute[this.fieldKey])
+    return this.attributes
+      .map((attr) => {
+        return {
+          [this.fieldKey]: '',
+          ...attr,
+        }
+      })
+      .filter((attribute) => attribute[this.fieldKey] || attribute.value)
   }
 
   get columns() {
