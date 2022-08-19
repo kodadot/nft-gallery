@@ -1,6 +1,5 @@
 <template>
-  <component
-    :is="is"
+  <div
     v-if="
       ((showTwitter && twitter) || !showTwitter) &&
       ((showDiscord && discord) || !showDiscord)
@@ -21,7 +20,7 @@
       :address="address"
       :shortened-address="shortenedAddress"
       :name="name" />
-  </component>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -63,6 +62,10 @@ const { apiInstance, apiUrl } = useAPI()
 
 const identity = ref<IdentityFields>({})
 const isFetchingIdentity = ref(false)
+const totalCreated = ref(0)
+const totalCollected = ref(0)
+const firstMintDate = ref(new Date())
+const lastBoughtDate = ref(new Date())
 
 const resolveAddress = (account: Address): string => {
   return account instanceof GenericAccountId
@@ -85,11 +88,32 @@ const name = computed(() => {
 })
 const twitter = computed(() => identity.value.twitter || '')
 const discord = computed(() => identity.value.discord || '')
-const is = computed(() => (props.inline ? 'span' : 'div'))
+const display = computed(() => identity.value.display || '')
+
+provide('address', address.value)
+provide('shortenedAddress', shortenedAddress.value)
+provide('firstMintDate', firstMintDate)
+provide('lastBoughtDate', lastBoughtDate)
+provide('totalCreated', totalCreated)
+provide('totalCollected', totalCollected)
+provide(
+  'identity',
+  computed(() => ({
+    address: address.value,
+    display: display.value,
+    twitter: twitter.value,
+  }))
+)
 
 onMounted(() => {
-  onApiConnect(apiUrl.value, async () => {
-    identity.value = await identityOf(resolveAddress(props.address))
+  get(resolveAddress(props.address), identityStore).then((identityCached) => {
+    if (identityCached) {
+      identity.value = identityCached
+    } else {
+      onApiConnect(apiUrl.value, async () => {
+        identity.value = await identityOf(resolveAddress(props.address))
+      })
+    }
   })
 })
 

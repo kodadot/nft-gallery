@@ -2,10 +2,10 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseCollectionForm ref="collectionForm" v-bind.sync="base">
-      <template v-slot:main>
+      <template #main>
         <b-field class="mb-5" />
       </template>
-      <template v-slot:footer>
+      <template #footer>
         <!-- Hidden as of 11.July.2022 due to lack of convenience #3407 -->
         <!-- <CustomAttributeInput
           :max="10"
@@ -36,8 +36,8 @@
 <script lang="ts">
 import { Attribute } from '@/components/rmrk/types'
 import {
-  getclassDeposit,
   getMetadataDeposit,
+  getclassDeposit,
 } from '@/components/unique/apiConstants'
 import { getRandomValues, hasEnoughToken } from '@/components/unique/utils'
 import { uploadDirect } from '@/utils/directUpload'
@@ -49,13 +49,13 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinJson, PinningKey } from '@/utils/nftStorage'
+import { PinningKey, pinJson } from '@/services/nftStorage'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getImageTypeSafe, pinImageSafe } from '@/utils/safePin'
 import { estimate } from '@/utils/transactionExecutor'
 import { unwrapSafe } from '@/utils/uniquery'
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
-import { Component, mixins, Ref } from 'nuxt-property-decorator'
+import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
 import { dummyIpfsCid } from '@/utils/ipfs'
 
