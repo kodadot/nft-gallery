@@ -6,6 +6,7 @@
     ratio="1by1"
     :class="customClass"
     :rounded="rounded"
+    data-cy="type-image"
     @error="onImageError">
     <template #placeholder>
       <b-skeleton

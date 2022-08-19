@@ -11,7 +11,8 @@
       :src="src"
       :poster="poster"
       :type="mimeType"
-      controlslist="nodownload" />
+      controlslist="nodownload"
+      data-cy="type-video" />
   </div>
 </template>
 

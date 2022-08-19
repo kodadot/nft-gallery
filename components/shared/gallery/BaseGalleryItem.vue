@@ -35,6 +35,7 @@
               v-else-if="imageVisible"
               :src="itemImage"
               :alt="description"
+              data-cy="item-media"
               @contextmenu.native.prevent />
             <div
               v-else
@@ -43,13 +44,14 @@
                 :src="animationUrl"
                 :poster="itemImage"
                 :description="description"
-                :availableAnimations="[animationUrl]"
-                :mimeType="mimeType"
-                class="media-item" />
+                :available-animations="[animationUrl]"
+                :mime-type="mimeType"
+                class="media-item"
+                data-cy="item-media" />
             </div>
             <div
-              id="tile-placeholder"
               v-show="isTileView"
+              id="tile-placeholder"
               :style="{ 'background-image': 'url(' + itemImage + ')' }"
               :alt="description"
               @click="exitTileView"
@@ -58,25 +60,25 @@
           <slot name="image"></slot>
         </div>
         <button
+          v-if="!isLoading && imageVisible"
           id="theatre-view"
-          @click="toggleView"
-          v-if="!isLoading && imageVisible">
+          @click="toggleView">
           <b-icon :icon="viewMode === 'default' ? 'image' : 'cube'"> </b-icon>
         </button>
         <button
-          id="fullscreen-view"
-          @keyup.esc="minimize"
-          @click="toggleFullScreen"
           v-if="!isLoading && imageVisible"
-          :class="{ fullscreen: isFullScreenView }">
+          id="fullscreen-view"
+          :class="{ fullscreen: isFullScreenView }"
+          @keyup.esc="minimize"
+          @click="toggleFullScreen">
           <b-icon :icon="isFullScreenView ? 'compress' : 'expand'"> </b-icon>
         </button>
         <button
-          id="tile-view"
-          @click="toggleTileView"
-          @keyup.esc="exitTileView"
           v-if="!isLoading && imageVisible"
-          :class="{ tile: isTileView }">
+          id="tile-view"
+          :class="{ tile: isTileView }"
+          @click="toggleTileView"
+          @keyup.esc="exitTileView">
           <b-icon :icon="isTileView ? 'compress' : 'table'"> </b-icon>
         </button>
       </div>
