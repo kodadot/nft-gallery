@@ -1,6 +1,5 @@
 import { get, update } from 'idb-keyval'
 import { hexToString, isHex } from '@polkadot/util'
-import { Data } from '@polkadot/types'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { onApiConnect } from '@kodadot1/sub-api'
 
@@ -18,19 +17,23 @@ const resolveAddress = (account: Address): string => {
     : account || ''
 }
 
-const handleRaw = (display: Data): string => {
+const handleRaw = (display): string => {
   if (display?.isRaw) {
     return display.asRaw.toHuman() as string
   }
 
-  if (isHex((display as any)?.Raw)) {
-    return hexToString((display as any)?.Raw)
+  if (isHex(display?.Raw)) {
+    return hexToString(display?.Raw)
   }
 
   return display?.toString()
 }
 
-const fetchIdentity = async (address: string) => {
+const fetchIdentity = async (address: string): Promise<IdentityFields> => {
+  if (!address) {
+    return emptyObject<IdentityFields>()
+  }
+
   const { apiInstance } = useAPI()
   const api = await apiInstance.value
   const optionIdentity = await api?.query.identity?.identityOf(address)
@@ -43,7 +46,7 @@ const fetchIdentity = async (address: string) => {
   const final = Array.from(identityFresh.info)
     .filter(([, value]) => !Array.isArray(value) && !value.isEmpty)
     .reduce((acc, [key, value]) => {
-      acc[key] = handleRaw(value as unknown as Data)
+      acc[key] = handleRaw(value)
       return acc
     }, {} as IdentityFields)
 
@@ -52,7 +55,11 @@ const fetchIdentity = async (address: string) => {
   return final
 }
 
-const displayName = ({ customNameOption, identity, shortenedAddress }) => {
+const displayName = ({
+  customNameOption,
+  identity,
+  shortenedAddress,
+}): string => {
   if (customNameOption) {
     return customNameOption
   }
@@ -95,7 +102,6 @@ export default function useIdentity({ address, customNameOption }) {
   }
 
   onMounted(whichIdentity)
-  watch(address, whichIdentity)
 
   return {
     identity,

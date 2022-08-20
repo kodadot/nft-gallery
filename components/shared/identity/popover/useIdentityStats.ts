@@ -34,7 +34,17 @@ const useLastBought = ({ address }) => {
   }
 }
 
-export default function useNFTStats({ address }) {
+const whichData = ({ data, type }) => {
+  const totalCount = {
+    created: data?.created?.totalCount || data?.totalCreated,
+    collected: data?.collected?.totalCount || data?.totalCollected,
+    sold: data?.sold?.totalCount || data?.totalSold,
+  }
+
+  return totalCount[type] || 0
+}
+
+export default function useIdentityStats({ address }) {
   const { $store } = useNuxtApp()
 
   const totalCollected = ref(0)
@@ -54,37 +64,33 @@ export default function useNFTStats({ address }) {
   const lastBought = computed(() => formatToNow(lastBoughtDate.value))
 
   const handleNFTStats = async ({ data, type }) => {
-    totalCreated.value = data?.created?.totalCount || data?.totalCreated || 0
-    totalCollected.value =
-      data?.collected?.totalCount || data?.totalCollected || 0
-    totalSold.value = data?.sold?.totalCount || data?.totalSold || 0
+    totalCreated.value = whichData({ data, type: 'created' })
+    totalCollected.value = whichData({ data, type: 'collected' })
+    totalSold.value = whichData({ data, type: 'sold' })
 
     if (type === 'cache') {
       firstMintDate.value = data.firstMintDate
-    } else {
-      if (data?.firstMint?.length > 0) {
-        firstMintDate.value = data.firstMint[0].createdAt
-      }
-
-      const cacheData = {
-        created: {
-          totalCount: totalCreated.value,
-        },
-        collected: {
-          totalCount: totalCollected.value,
-        },
-        sold: {
-          totalCount: totalSold.value,
-        },
-        firstMintDate: firstMintDate.value,
-        updatedAt: Date.now(),
-      }
-
-      await $store.dispatch('identityMint/setIdentity', {
-        address: address,
-        cacheData,
-      })
+      return
     }
+
+    const cacheData = {
+      created: {
+        totalCount: totalCreated.value,
+      },
+      collected: {
+        totalCount: totalCollected.value,
+      },
+      sold: {
+        totalCount: totalSold.value,
+      },
+      firstMintDate: data?.firstMint[0]?.createdAt,
+      updatedAt: Date.now(),
+    }
+
+    await $store.dispatch('identityMint/setIdentity', {
+      address: address,
+      cacheData,
+    })
   }
 
   const fetchNFTStats = () => {
@@ -92,14 +98,13 @@ export default function useNFTStats({ address }) {
       return
     }
 
-    const data = $store.getters['identityMint/getIdentityMintFor'](address)
-
     // if cache exist and within 12h
+    const data = $store.getters['identityMint/getIdentityMintFor'](address)
     if (data?.updatedAt && isAfter(data.updatedAt, subHours(Date.now(), 12))) {
-      handleNFTStats({ data, type: 'cache' })
-    } else {
-      handleNFTStats({ data: stats.value, type: 'fresh' })
+      return handleNFTStats({ data, type: 'cache' })
     }
+
+    return handleNFTStats({ data: stats.value, type: 'fresh' })
   }
 
   watch(stats, fetchNFTStats)

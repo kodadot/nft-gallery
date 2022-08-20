@@ -15,7 +15,7 @@
       </template>
     </span>
     <template v-else-if="!hideIdentityPopover">
-      <IdentityPopover :identity="{ ...identity, address }">
+      <IdentityPopover>
         <template #trigger>
           {{ name }}
         </template>
