@@ -14,8 +14,8 @@
         </span>
       </template>
     </span>
-    <template v-else-if="!hideIdentityPopover">
-      <IdentityPopover>
+    <template v-else-if="!hideIdentityPopover && !isMobileDevice">
+      <IdentityPopover v-if="address">
         <template #trigger>
           {{ name }}
         </template>
@@ -29,6 +29,7 @@
 
 <script lang="ts" setup>
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
+import { isMobileDevice } from '@/utils/extension'
 
 type IdentityFields = Record<string, string>
 type Address = string | GenericAccountId | undefined

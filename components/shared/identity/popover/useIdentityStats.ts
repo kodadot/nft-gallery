@@ -56,7 +56,7 @@ export default function useIdentityStats({ address }) {
   const { data: stats } = useGraphql({
     queryname: 'userStatsByAccount',
     variables: {
-      account: address || '',
+      account: address,
     },
   })
 
@@ -94,7 +94,7 @@ export default function useIdentityStats({ address }) {
   }
 
   const fetchNFTStats = () => {
-    if (!address || !stats.value) {
+    if (!stats.value) {
       return
     }
 
