@@ -31,10 +31,14 @@
             :nft-id="nft.id"
             :burned="nft.burned" />
 
-          <Name :nft="nft" :is-loading="isLoading" class="mb-5" />
+          <Name
+            :nft="nft"
+            :is-loading="isLoading"
+            class="mb-5"
+            data-cy="item-title" />
 
           <b-skeleton :active="isLoading" :count="3"></b-skeleton>
-          <div v-if="meta.description" class="block">
+          <div v-if="meta.description" class="block" data-cy="item-description">
             <p class="label">{{ $t('legend') }}</p>
             <DescriptionWrapper
               v-if="!isLoading"
@@ -111,7 +115,8 @@
       <GalleryItemCarousel
         v-if="showRelatedCarousel"
         type="related"
-        :collection-id="nft.collection.id" />
+        :collection-id="nft.collection.id"
+        data-cy="carousel-related" />
       <GalleryItemCarousel type="visited" />
 
       <div class="columns">

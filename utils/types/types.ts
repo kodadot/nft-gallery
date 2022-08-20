@@ -18,4 +18,5 @@ export type LastEvent = {
   currentOwner: string
   metadata: string
   image: string
+  animationUrl: string
 }
