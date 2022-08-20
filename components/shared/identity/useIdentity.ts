@@ -52,26 +52,30 @@ const fetchIdentity = async (address: string) => {
   return final
 }
 
+const displayName = ({ customNameOption, identity, shortenedAddress }) => {
+  if (customNameOption) {
+    return customNameOption
+  }
+
+  const display = identity.value.display
+  if (display?.length > 20) {
+    return shortAddress(display)
+  }
+
+  return display || shortenedAddress.value
+}
+
 export default function useIdentity({ address, customNameOption }) {
   const { apiUrl } = useAPI()
   const identity = ref<IdentityFields>({})
   const isFetchingIdentity = ref(false)
-  const twitter = computed(() => identity.value.twitter || '')
-  const discord = computed(() => identity.value.discord || '')
-  const display = computed(() => identity.value.display || '')
+  const twitter = computed(() => identity?.value?.twitter)
+  const discord = computed(() => identity?.value?.discord)
+  const display = computed(() => identity?.value?.display)
   const shortenedAddress = computed(() => shortAddress(address))
-  const name = computed(() => {
-    if (customNameOption) {
-      return customNameOption
-    }
-
-    const display = identity.value.display
-    if (display?.length > 20) {
-      return shortAddress(display)
-    }
-
-    return display || shortenedAddress.value
-  })
+  const name = computed(() =>
+    displayName({ customNameOption, identity, shortenedAddress })
+  )
 
   const whichIdentity = async () => {
     const identityCached = await get(resolveAddress(address), identityStore)
