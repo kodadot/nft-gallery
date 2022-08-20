@@ -12,7 +12,8 @@
       :ar="isDetail"
       ar-modes="webxr scene-viewer quick-look"
       shadow-intensity="1"
-      autoplay>
+      autoplay
+      data-cy="type-3d">
       <button id="ar-button" slot="ar-button">Activate AR</button>
     </model-viewer>
   </div>
