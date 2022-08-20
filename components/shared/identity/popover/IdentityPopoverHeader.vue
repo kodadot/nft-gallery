@@ -4,7 +4,7 @@
       <Identicon
         :size="60"
         :theme="'polkadot'"
-        :value="identity?.address"
+        :value="address"
         class="popover-image avatar mr-5" />
     </div>
     <div class="column is-three-quarters">
@@ -52,58 +52,20 @@
 
 <script lang="ts" setup>
 import Identicon from '@polkadot/vue-identicon'
-
-import { formatToNow } from '@/utils/format/time'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import resolveQueryPath from '@/utils/queryPathResolver'
-import usePrefix from '@/composables/usePrefix'
-
-import { Interaction } from '@/components/rmrk/service/scheme'
-
-const { $apollo, $buefy, $consola } = useNuxtApp()
-const { client } = usePrefix()
+import useIdentityStats from './useIdentityStats'
 
 const address = inject('address')
 const shortenedAddress = inject('shortenedAddress')
 const identity = inject<{ [x: string]: string }>('identity')
-const firstMintDate = inject('firstMintDate', ref(new Date()))
-const lastBoughtDate = ref(new Date())
-const totalCreated = inject('totalCreated', ref(0))
-const totalCollected = inject('totalCollected', ref(0))
 
-const startedMinting = computed(() => formatToNow(firstMintDate.value))
-const lastBought = computed(() => formatToNow(lastBoughtDate.value))
+const { totalCollected, totalCreated, startedMinting, lastBought } =
+  useIdentityStats({
+    address,
+  })
+const { $buefy } = useNuxtApp()
 
 const toast = (message: string) => {
   $buefy.toast.open(message)
-}
-
-onMounted(() => {
-  fetchLastBought()
-})
-
-const fetchLastBought = async () => {
-  if (!address) {
-    return
-  }
-
-  try {
-    const query = await resolveQueryPath(client.value, 'buyEventByProfile')
-    const { data } = await $apollo.query<{ events: Interaction[] }>({
-      query: query.default,
-      client: client.value,
-      variables: {
-        id: address,
-      },
-    })
-
-    if (data.events.length) {
-      lastBoughtDate.value = new Date(data.events[0].timestamp)
-    }
-  } catch (error) {
-    showNotification(`${error}`, notificationTypes.danger)
-    $consola.error(error)
-  }
 }
 </script>
 

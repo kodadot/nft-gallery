@@ -5,13 +5,18 @@
       :route="`/${urlPrefix}/u`"
       :param="address"
       link="u">
-      <Identity :address="address" :inline="true" :vertical-align="true" />
+      <Identity
+        v-if="address"
+        :address="address"
+        :inline="true"
+        :vertical-align="true" />
       <template #extra>
         <Avatar :size="24" :value="address" class="mr-2" />
       </template>
     </LinkResolver>
     <template v-if="showTwitter">
       <Identity
+        v-if="address"
         :address="address"
         :show-twitter="showTwitter"
         :show-discord="showDiscord"
