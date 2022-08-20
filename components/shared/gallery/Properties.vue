@@ -3,11 +3,11 @@
     <div class="columns is-multiline">
       <div
         v-for="attribute in attributes"
-        :key="attribute.trait_type"
+        :key="attribute[fieldKey]"
         class="column is-4">
         <div class="notification is-primary is-light">
           <div class="is-size-7 has-text-grey-lighter is-uppercase">
-            {{ attribute.trait_type }}
+            {{ attribute[fieldKey] }}
           </div>
           <div class="is-size-5 has-text-white">{{ attribute.value }}</div>
         </div>
@@ -30,6 +30,6 @@ const components = {
 export default class Properties extends Vue {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public attributes!: Attribute[]
-  @Prop({ type: String, default: 'key' }) private fieldKey!: string
+  @Prop({ type: String, default: 'trait_type' }) public fieldKey!: string
 }
 </script>
