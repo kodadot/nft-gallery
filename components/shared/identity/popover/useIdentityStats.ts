@@ -15,7 +15,7 @@ const useLastBought = ({ address }) => {
     },
   })
 
-  const fetchLastBought = async () => {
+  const fetchLastBought = () => {
     const dataLastBought = data.value as unknown as { events: Interaction[] }
 
     if (!address && !data.value) {
@@ -53,21 +53,6 @@ export default function useNFTStats({ address }) {
   const startedMinting = computed(() => formatToNow(firstMintDate.value))
   const lastBought = computed(() => formatToNow(lastBoughtDate.value))
 
-  const fetchNFTStats = async () => {
-    if (!address || !stats.value) {
-      return
-    }
-
-    const data = $store.getters['identityMint/getIdentityMintFor'](address)
-
-    // if cache exist and within 12h
-    if (data?.updatedAt && isAfter(data.updatedAt, subHours(Date.now(), 12))) {
-      handleNFTStats({ data, type: 'cache' })
-    } else {
-      handleNFTStats({ data: stats.value, type: 'fresh' })
-    }
-  }
-
   const handleNFTStats = async ({ data, type }) => {
     totalCreated.value = data?.created?.totalCount || data?.totalCreated || 0
     totalCollected.value =
@@ -99,6 +84,21 @@ export default function useNFTStats({ address }) {
         address: address,
         cacheData,
       })
+    }
+  }
+
+  const fetchNFTStats = () => {
+    if (!address || !stats.value) {
+      return
+    }
+
+    const data = $store.getters['identityMint/getIdentityMintFor'](address)
+
+    // if cache exist and within 12h
+    if (data?.updatedAt && isAfter(data.updatedAt, subHours(Date.now(), 12))) {
+      handleNFTStats({ data, type: 'cache' })
+    } else {
+      handleNFTStats({ data: stats.value, type: 'fresh' })
     }
   }
 

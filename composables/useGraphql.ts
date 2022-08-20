@@ -24,7 +24,7 @@ export default function ({ queryname, variables = {}, options = {} }) {
       data.value = response.data
     } catch (err) {
       ;(error.value as unknown) = err
-      showNotification(`${err}`, notificationTypes.danger)
+      showNotification(`${err as string}`, notificationTypes.danger)
       $consola.error(err)
     } finally {
       loading.value = false
