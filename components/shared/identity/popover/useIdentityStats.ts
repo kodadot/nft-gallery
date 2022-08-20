@@ -87,6 +87,8 @@ export default function useIdentityStats({ address }) {
       updatedAt: Date.now(),
     }
 
+    firstMintDate.value = cacheData.firstMintDate
+
     await $store.dispatch('identityMint/setIdentity', {
       address: address,
       cacheData,
@@ -94,10 +96,6 @@ export default function useIdentityStats({ address }) {
   }
 
   const fetchNFTStats = () => {
-    if (!stats.value) {
-      return
-    }
-
     // if cache exist and within 12h
     const data = $store.getters['identityMint/getIdentityMintFor'](address)
     if (data?.updatedAt && isAfter(data.updatedAt, subHours(Date.now(), 12))) {
