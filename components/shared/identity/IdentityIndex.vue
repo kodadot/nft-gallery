@@ -25,6 +25,8 @@
 
 <script lang="ts" setup>
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
+import { defineEmits } from '#app'
+
 import useIdentity from './useIdentity'
 
 type Address = string | GenericAccountId | undefined
@@ -65,4 +67,12 @@ provide(
   'identity',
   computed(() => identity.value)
 )
+
+const emit = defineEmits(['change'])
+
+watch(identity, () => {
+  if (props.emit) {
+    emit('change', identity.value)
+  }
+})
 </script>
