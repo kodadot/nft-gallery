@@ -10,6 +10,7 @@ export default defineConfig({
     retries: 3,
     defaultCommandTimeout: 10000,
   },
+  numTestsKeptInMemory: 1,
   viewportWidth: 1366,
   viewportHeight: 768,
 })
