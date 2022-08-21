@@ -9,10 +9,10 @@ const mediaType = [
     type: 'image',
   },
   {
-    url: '/rmrk/gallery/11078330-7cf9daa38281a57331-BSS-LB_SPACESHIP_356-0000000000000356',
-    title: 'lb Spaceship #356',
-    description: 'Class: "Zaphkiel" Cruiser',
-    collection: 'Budget Spaceships',
+    url: '/rmrk/gallery/14024372-7CF9DAA38281A57331-APO-12-0000000000000012',
+    title: '#12',
+    description: '',
+    collection: 'Reinvent apocalypse',
     creator: 'cwh',
     tagRelated: 'model-viewer',
     type: '3d',
@@ -90,7 +90,7 @@ describe('Media component', () => {
           const totalItems = doc.querySelectorAll(
             `#infinite-scroll-container ${tagRelated}`
           ).length
-          expect(totalItems).to.be.greaterThan(4)
+          expect(totalItems).to.be.greaterThan(1)
         })
       })
     }
