@@ -5,7 +5,7 @@
   "gallery": "Gallerie",
   "collection": "Sammlung",
   "collections": "Sammlungen",
-  "classic": "Klassisch",
+  "classic": "Classic",
   "account": "Konto",
   "accounts": "Konten",
   "transfer": "Transfer",
@@ -21,7 +21,7 @@
   "Select collection where do you want mint your token": "Wähle die Sammlung, in die deine Token gemintet werden sollen",
   "Maximum NFTs in collection": "Maximale Anzahl an NFTs in der Sammlung",
   "name": "Name",
-  "simple": "Einfach",
+  "simple": "Simple",
   "about": "Über",
   "ambassador program": "Ambassador Programm",
   "press kit": "Pressemappe",
@@ -69,7 +69,7 @@
       "15": "Wie kann ich mein NFT verkaufen?",
       "16": "Einstellungen der Tantiemen?",
       "17": "Warum habt ihr euch entschieden auf Kusama/Polkadot zu bauen und nicht auf Ethereum?",
-      "18": "Worin unterscheidet sich Klassisch, Einfach und Permafrost beim erstellen?",
+      "18": "Worin unterscheidet sich Classic, Simple und Permafrost beim erstellen?",
       "19": "Seid ihr finanziert?",
       "20": "Habt ihr einen Telegramkanal?",
       "21": "Werdet ihr AR/VR oder eine Einbindung anbieten?",
@@ -99,7 +99,7 @@
         "m": "Minten ist ein Vorgang bei dem deine Kryptowallet und die Blockchain miteinander kommunizieren und es Dir ermöglichen NFTs zu erstellen."
       },
       "3": {
-        "m": "In der linken oberen Ecke klickst Du auf @.md:faq.a.3.l1 und wählst <b>Einfach</b> oder <b>Klassisch</b> minten.",
+        "m": "In der linken oberen Ecke klickst Du auf @.md:faq.a.3.l1 und wählst <b>Simple</b> oder <b>Classic</b> minten.",
         "l1": "[Erstellen](@.common:links.rmrk_create.href)"
       },
       "4": {
@@ -172,7 +172,7 @@
         "l1": "[hier.](@.common:links.chain_decision.href)"
       },
       "18": {
-        "m": "<b>KLASSISCH</b> lässt dich eine Sammlung erstellen und NFTs hinzufügen. <b>EINFACH</b> mint erstellt ein NFT und fügt es deinem Profil hinzu und <b>PERMAFROST</b> lässt dich deine NFT mit dem Arweaveprotokoll minten: Das Protokoll vernetzt Menschen mit verfügbarem Speicherplatz mit Individuen und Organisationen die ihre Daten permanent speichern und verfügbar machen wollen."
+        "m": "<b>CLASSIC</b> lässt dich eine Sammlung erstellen und NFTs hinzufügen. <b>SIMPLE</b> mint erstellt ein NFT und fügt es deinem Profil hinzu und <b>PERMAFROST</b> lässt dich deine NFT mit dem Arweaveprotokoll minten: Das Protokoll vernetzt Menschen mit verfügbarem Speicherplatz mit Individuen und Organisationen die ihre Daten permanent speichern und verfügbar machen wollen."
       },
       "19": {
         "m": "Wir haben Mittel aus der @.md:faq.a.19.l1 erhalten. Wir suchen aktiv nach anderen Wegen der Finanzierung und würden auch Privatinvestitionen in Betracht ziehen. Schick uns eine DM, wenn Du an einer privaten Finanzierung interessiert bist.",
@@ -306,111 +306,111 @@
     },
     "16": {
       "heading": "Wusstest Du...",
-      "question": "das KodaDots Community Übersetzungsprogrsmm der beste Wachstumshack zur Beteiligung der Community war?"
+      "question": "das KodaDots Community Übersetzungsprogramm der beste Wachstumshack zur Beteiligung der Community war?"
     },
     "17": {
-      "heading": "Did you know...",
-      "question": "that KodaDot had 420 Discord members on their investors pitch deck? What a coincidence."
+      "heading": "Wusstest Du...",
+      "question": "das KodaDot 420 Discordmitglieder auf seinem Investoren Pitch Deck hat? Was für ein Zufall."
     },
     "18": {
-      "heading": "Did you know...",
-      "question": "that KodaDot's founders encourage forking it's codebase and welcome more KodaDot instances in the wild?"
+      "heading": "Wusstest Du...",
+      "question": "das Kodadots Gründer das forken ihrer Codebase unterstützen und es begrüßen mehr KodaDot Instanzen in der Wildnis zu sehen?"
     },
     "19": {
-      "heading": "Did you know...",
-      "question": "that one of KodaDot's founders was running an infrastructure for eSports back in 2006?"
+      "heading": "Wusstest Du...",
+      "question": "das einer der Gründer von KodaDot eine Plattform für eSports im Jahr 2006 betrieben hat?"
     },
     "20": {
-      "heading": "Did you know...",
-      "question": "that these facts don't even matter? We just love to spend time with you till your action is finalized into Blockchain."
+      "heading": "Wusstest Du...",
+      "question": "dass diese Fakten überhaupt nicht wichtig sind? Wir verbringen einfach gerne Zeit mit dir, bis deine Aktion auf der Blockchain ausgeführt wird."
     },
     "21": {
-      "heading": "Don't forget to...",
-      "question": "drink enough water to stay hydrated!"
+      "heading": "Vergiss nicht...",
+      "question": "genug Wasser zu tringen und hydriert zu bleiben!"
     },
     "22": {
-      "heading": "Did you know...",
-      "question": "that we've more than 500 opened issues in our backlog on GitHub?"
+      "heading": "Wusstest Du...",
+      "question": "das wir mehr als 500 eröffnete Vorgänge im Backlog von GitHub haben?"
     },
     "23": {
-      "heading": "Did you know...",
-      "question": "that KodaDot promotes an inclusive culture to be welcoming for a wide spectrum of artists that contribute to its growth?"
+      "heading": "Wusstest Du...",
+      "question": "das KodaDot eine inklusive Kultur unterstützt um eine angenehme Atmosphäre für eine breites Spektrum an Künstlern zu ermöglichen und KodaDots Wachstum zu fördern?"
     },
     "24": {
-      "heading": "Did you know...",
-      "question": "that if you make a pull request on KodaDot's repository, your fun fact can be shown here?"
+      "heading": "Wusstest Du...",
+      "question": "das Du durch das eröffnen eines pull request in KodaDots Repositorium, deinen Fun Fact hier stehen haben kannst?"
     },
     "25": {
-      "heading": "Did you check...",
-      "question": "your JPEG sales today?"
+      "heading": "Hast Du heute schon...",
+      "question": "deine JPEG Verkäufe kontrolliert?"
     },
     "26": {
-      "heading": "Have you...",
-      "question": "minted something beautiful today?"
+      "heading": "Hast Du...",
+      "question": "heute etwas schönes gemintet?"
     },
     "27": {
-      "heading": "Did you know...",
-      "question": "that the first version of KodaDot looked worse than Craiglist in 1999?"
+      "heading": "Wusstest Du...",
+      "question": "das die erste Version von KodaDot schlimmer aussah als Craiglist im Jahr 1999?"
     },
     "28": {
-      "heading": "Did you know...",
-      "question": "that KodaDot's founders won a few Ethereum and Polkadot hackathons in the past?"
+      "heading": "Wusstest Du...",
+      "question": "das KodaDots Gründer in der Vergangenheit einige Ethereum und Polkadot hackathons gewonnen haben?"
     },
     "29": {
-      "heading": "Did you know...",
-      "question": "that KodaDot had to lay off few dozens investors interested in backing us?"
+      "heading": "Wusstest Du...",
+      "question": "das KodaDot dutzende Investoren abgelehnt hat, die sie unterstützen wollten?"
     },
     "30": {
-      "heading": "Did you know...",
-      "question": "that KodaDot cares about Climate change by planting trees in Portugal, called KodaForest?"
+      "heading": "Wusstest Du...",
+      "question": "das sich KodaDot um den Klimawandel sorgt und deshalb in Portugal Böume pflanzt, genannt KodaForest?"
     },
     "31": {
-      "heading": "Did you know...",
-      "question": "that the founders of KodaDot believe in simulated reality?"
+      "heading": "Wusstest Du...",
+      "question": "das die Gründer von KodaDot an simulierte Realitäten glauben?"
     },
     "32": {
-      "heading": "Did you know...",
-      "question": "that you look beautiful today?"
+      "heading": "Wusstest Du...",
+      "question": "das Du heute zum anbeißen aussiehst?"
     },
     "33": {
-      "heading": "Did you know...",
-      "question": "that people from all over the world contribute to our codebase?"
+      "heading": "Wusstest Du...",
+      "question": "das an unserer Codebase Menschen aus aller Welt mitarbeiten?"
     },
     "34": {
-      "heading": "Did you know...",
-      "question": "KodaDot has offset 10,000 kilograms of CO2, which is equivalent to 2,500 cheeseburgers."
+      "heading": "Wusstest Du...",
+      "question": "das KodaDot schon 10000 Kilogramm CO2 ausgeglichen hat, was in etwa 2,500 Cheeseburgern entspricht."
     },
     "35": {
-      "heading": "Did you know...",
-      "question": "that you can get an overview of all available shortcuts by pressing '?'"
+      "heading": "Wusstest Du...",
+      "question": "das Du eine Übersicht aller Tastaturkürzel mit einem Klick auf '?' erhältst?"
     },
     "36": {
-      "heading:": "Did you know ...",
-      "question": "KodaDot has added support for Basilisk NFT marketplace recently?"
+      "heading:": "Wusstest Du...",
+      "question": "das KodaDot küzlich die Unterstützung für den Basilisk NFT Marktplatz hinzugefügt hat?"
     },
     "37": {
-      "heading:": "Did you know ...",
-      "question": "KodaDot will be adding auctions for Basilisk NFT marketplace?"
+      "heading:": "Wusstest Du...",
+      "question": "das KodaDot bald Auktionen für den Basilisk NFT Marktplatz einführen wird?"
     },
     "38": {
-      "heading:": "Did you know ...",
-      "question": "KodaDot Guild Rewards has distributed over $180k in bounties to contributors for their activity?"
+      "heading:": "Wusstest Du...",
+      "question": "das KodaDot Guild Rewards über $180T an Teilnehmer für ihre Mitarbeit ausgezahlt hat?"
     },
     "39": {
-      "heading:": "Did you know ...",
-      "question": "you can get paid for contributing to KodaDot?"
+      "heading:": "Wusstest Du...",
+      "question": "das Du für die Mitarbeit bei KodaDot bezahlt werden kannst?"
     },
     "40": {
-      "heading:": "Did you know ...",
-      "question": "KodaDot has over 70+ contributors to the codebase? You can fact-check this on KodaDot Github."
+      "heading:": "Wusstest Du...",
+      "question": "das KodaDot mehr als 70+ Beitragende zur Codebase hat? Du kannst das Faktenchecken auf KodaDots Github."
     },
     "41": {
-      "heading:": "Did you know ...",
-      "question": "Kodadot Github repository has crossed 200 forks?"
+      "heading:": "Wusstest Du...",
+      "question": "das Kodadots Github Repositorium mehr als 200 forks erreicht hat?"
     },
     "42": {
-      "heading:": "Did you know ...",
-      "question": "contributors to KodaDot already made more than 1500 pull requests? You can create one too!"
+      "heading:": "Wusstest Du...",
+      "question": "das Beitragende zu KodaDot schon mehr als 1500 pull requests gemacht haben? Du kannst auch einen machen!"
     },
     "43": {
       "heading:": "Did you know ...",
