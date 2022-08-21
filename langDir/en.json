@@ -947,7 +947,7 @@
   "navbar": {
     "teleport": "Teleport",
     "globalOffers": "Global Offers",
-    "offerStats": "Offer Stats"
+    "offerStats": "Offers Stats"
   },
   "walletConnect": {
     "walletHeading": "Connect Wallet",
