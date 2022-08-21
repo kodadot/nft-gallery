@@ -82,4 +82,26 @@ describe('Media component', () => {
       })
     }
   )
+
+  it.only('should load 3d items in collection page', () => {
+    cy.visit(
+      '/rmrk/gallery/14024372-7CF9DAA38281A57331-APO-12-0000000000000012'
+    )
+    cy.getCy('carousel-related')
+      .find('model-viewer')
+      .first()
+      .should('exist')
+      .scrollIntoView()
+    cy.getCy('item-collection').scrollIntoView().click()
+    cy.location('pathname').should(
+      'include',
+      '/collection/7CF9DAA38281A57331-APO'
+    )
+    cy.getCy('small-display').click().scrollIntoView()
+    cy.waitForNetworkIdle('*', '*', 1000)
+    cy.document().then((doc) => {
+      const totalItems = doc.querySelectorAll('model-viewer').length
+      expect(totalItems).to.be.greaterThan(9)
+    })
+  })
 })
