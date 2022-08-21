@@ -376,7 +376,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         this.imageVisible = imageVisible
       }
 
-      if (!m) {
+      if (!m && !this.mimeType.includes('audio')) {
         set(this.nft.metadata, meta)
       }
     }

@@ -72,36 +72,27 @@ describe('Media component', () => {
 
             // same item in related carousel
             cy.getCy('carousel-related').find(tagRelated).should('exist')
-
-            // item in collection list
-            cy.getCy('item-collection').should('exist').click()
-            cy.location('pathname').should('include', '/collection/')
-            cy.waitForNetworkIdle('+(GET|HEAD)', '*', 1000)
-            cy.getCy(`type-${type}`).should('exist')
           })
+      })
+
+      it(`should load ${type} in collection page`, () => {
+        cy.visit(url)
+        cy.getCy('carousel-related')
+          .find(tagRelated)
+          .first()
+          .should('exist')
+          .scrollIntoView()
+        cy.getCy('item-collection').scrollIntoView().click()
+        cy.location('pathname').should('include', '/collection/')
+        cy.getCy('small-display').click().scrollIntoView()
+        cy.waitForNetworkIdle('*', '*', 1000)
+        cy.document().then((doc) => {
+          const totalItems = doc.querySelectorAll(
+            `#infinite-scroll-container ${tagRelated}`
+          ).length
+          expect(totalItems).to.be.greaterThan(4)
+        })
       })
     }
   )
-
-  it.only('should load 3d items in collection page', () => {
-    cy.visit(
-      '/rmrk/gallery/14024372-7CF9DAA38281A57331-APO-12-0000000000000012'
-    )
-    cy.getCy('carousel-related')
-      .find('model-viewer')
-      .first()
-      .should('exist')
-      .scrollIntoView()
-    cy.getCy('item-collection').scrollIntoView().click()
-    cy.location('pathname').should(
-      'include',
-      '/collection/7CF9DAA38281A57331-APO'
-    )
-    cy.getCy('small-display').click().scrollIntoView()
-    cy.waitForNetworkIdle('*', '*', 1000)
-    cy.document().then((doc) => {
-      const totalItems = doc.querySelectorAll('model-viewer').length
-      expect(totalItems).to.be.greaterThan(9)
-    })
-  })
 })

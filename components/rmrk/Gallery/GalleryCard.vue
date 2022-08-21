@@ -14,11 +14,10 @@
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
         <BasicImage
-          v-if="!animatedUrl"
+          v-if="!animatedUrl || image"
           :src="image"
           :alt="title"
-          customClass="gallery__image-wrapper" />
-
+          custom-class="gallery__image-wrapper" />
         <PreviewMediaResolver v-else :src="animatedUrl" :metadata="metadata" />
         <span v-if="price > 0 && showPriceValue" class="card-image__price">
           <Money :value="price" inline />
