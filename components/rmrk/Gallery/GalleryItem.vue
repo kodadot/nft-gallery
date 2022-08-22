@@ -193,7 +193,7 @@ import AvailableActions from './AvailableActions.vue'
     Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
     MediaResolver: () => import('@/components/media/MediaResolver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
-    Properties: () => import('@/components/unique/Gallery/Item/Properties.vue'),
+    Properties: () => import('@/components/shared/gallery/Properties.vue'),
     DescriptionWrapper: () =>
       import('@/components/shared/collapse/DescriptionWrapper.vue'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),

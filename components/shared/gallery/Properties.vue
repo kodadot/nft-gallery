@@ -6,7 +6,9 @@
         :key="attribute[fieldKey]"
         class="column is-4">
         <div class="notification is-primary is-light">
-          <div class="is-size-7 has-text-grey-lighter is-uppercase">
+          <div
+            v-if="attribute[fieldKey] && attribute[fieldKey] !== 'undefined'"
+            class="is-size-7 has-text-grey-lighter is-uppercase">
             {{ attribute[fieldKey] }}
           </div>
           <div class="is-size-5 has-text-white">{{ attribute.value }}</div>
