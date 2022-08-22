@@ -61,6 +61,12 @@
       <hr class="dropdown-divider" aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
+        <AccountBalance class="is-size-7" />
+      </b-dropdown-item>
+
+      <hr class="dropdown-divider" aria-role="menuitem" />
+
+      <b-dropdown-item custom aria-role="menuitem">
         <b-field>
           <p class="control">
             <ConnectWalletButton label="general.change_account" />
@@ -89,6 +95,7 @@ const components = {
   ConnectWalletButton: () =>
     import('@/components/shared/ConnectWalletButton.vue'),
   Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
 }
 
 @Component({ components })
