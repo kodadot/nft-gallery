@@ -1,7 +1,5 @@
 import { isAfter, subHours } from 'date-fns'
 
-import useGraphql from '@/composables/useGraphql'
-
 import { formatToNow } from '@/utils/format/time'
 import { Interaction } from '@/components/rmrk/service/scheme'
 

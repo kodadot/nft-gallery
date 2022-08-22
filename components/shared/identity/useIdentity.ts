@@ -3,7 +3,6 @@ import { hexToString, isHex } from '@polkadot/util'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { onApiConnect } from '@kodadot1/sub-api'
 
-import useAPI from '@/composables/useApi'
 import { emptyObject } from '@/utils/empty'
 import { identityStore } from '@/utils/idbStore'
 import shortAddress from '@/utils/shortAddress'
@@ -34,7 +33,7 @@ const fetchIdentity = async (address: string): Promise<IdentityFields> => {
     return emptyObject<IdentityFields>()
   }
 
-  const { apiInstance } = useAPI()
+  const { apiInstance } = useApi()
   const api = await apiInstance.value
   const optionIdentity = await api?.query.identity?.identityOf(address)
   const identityFresh = optionIdentity?.unwrapOrDefault()
@@ -73,7 +72,7 @@ const displayName = ({
 }
 
 export default function useIdentity({ address, customNameOption }) {
-  const { apiUrl } = useAPI()
+  const { apiUrl } = useApi()
   const identity = ref<IdentityFields>({})
   const isFetchingIdentity = ref(false)
   const twitter = computed(() => identity?.value?.twitter)
