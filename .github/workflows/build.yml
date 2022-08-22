@@ -10,6 +10,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    container:
+      image: cypress/included:10.6.0
+      options: --user 1001
+    env:
+      CYPRESS_CACHE_FOLDER: '${GITHUB_WORKSPACE}/.cypress-cache'
     steps:
       - uses: actions/checkout@v3
 
@@ -41,9 +46,6 @@ jobs:
       - name: Run Test
         run: pnpm test
 
-      - name: Install cypress binary
-        run: npx cypress install
-
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
@@ -53,8 +55,7 @@ jobs:
           wait-on: 'http://localhost:9090'
           # wait for 2 minutes for the server to respond
           wait-on-timeout: 150
-          command: pnpm test:e2e
-
+          command: pnpm test:e2e --browser chrome
 
       - name: Upload Screenshots
         uses: actions/upload-artifact@v2
