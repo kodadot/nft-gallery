@@ -7,9 +7,8 @@
         class="column is-4">
         <div class="notification is-primary is-light">
           <div
-            v-if="attribute[fieldKey] && attribute[fieldKey] !== 'undefined'"
-            class="is-size-7 has-text-grey-lighter is-uppercase">
-            {{ attribute[fieldKey] }}
+            class="is-size-7 has-text-grey-lighter is-uppercase attribute-key">
+            {{ attribute[fieldKey] === 'undefined' ? '' : attribute[fieldKey] }}
           </div>
           <div class="is-size-5 has-text-white">{{ attribute.value }}</div>
         </div>
@@ -35,3 +34,9 @@ export default class Properties extends Vue {
   @Prop({ type: String, default: 'trait_type' }) public fieldKey!: string
 }
 </script>
+<style scoped>
+.attribute-key {
+  min-height: 18px;
+}
+</style>
+>
