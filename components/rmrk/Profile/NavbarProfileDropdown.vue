@@ -104,11 +104,6 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public isRmrk!: boolean
   @Prop() public isBsx!: boolean
 
-  protected disconnect() {
-    this.$store.dispatch('setAuth', { address: '' }) // null not working
-    localStorage.removeItem('kodaauth')
-  }
-
   set account(account: string) {
     this.$store.dispatch('setAuth', { address: account })
   }
@@ -117,7 +112,12 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
     return this.$store.getters.getAuthAddress
   }
 
-  protected showRampSDK(): void {
+  public disconnect() {
+    this.$store.dispatch('setAuth', { address: '' }) // null not working
+    localStorage.removeItem('kodaauth')
+  }
+
+  public showRampSDK(): void {
     new RampInstantSDK({
       defaultAsset: 'KSM', // todo: prefix
       userAddress: this.account,
