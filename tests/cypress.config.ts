@@ -6,8 +6,11 @@ export default defineConfig({
     baseUrl: 'http://localhost:9090',
     fixturesFolder: 'cypress/fixtures',
     video: false,
-    screenshotOnRunFailure: false,
-    retries: 3,
+    screenshotOnRunFailure: true,
+    retries: {
+      runMode: 3,
+      openMode: 0,
+    },
     defaultCommandTimeout: 10000,
   },
   numTestsKeptInMemory: 1,
