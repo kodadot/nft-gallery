@@ -116,7 +116,7 @@
                         <Auth class="mt-4" />
                       </p>
                     </div>
-                    <AccountBalance />
+                    <AccountBalance token-id="5" />
                     <Sharing :enable-download="isOwner" class="mb-4" />
                   </div>
                 </div>
