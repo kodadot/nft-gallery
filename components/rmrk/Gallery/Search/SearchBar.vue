@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="columns mb-0">
-      <b-field class="column is-6 mb-0" :class="searchColumnClass">
+      <b-field class="column is-8 mb-0 mr-2" :class="searchColumnClass">
         <b-button
           v-if="!hideFilter"
           icon-left="filter"
