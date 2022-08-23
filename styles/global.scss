@@ -5,7 +5,10 @@ body {
   .select select,
   .select select option,
   .taginput .taginput-container.is-focusable,
-  .textarea,
+  .textarea {
+    color: $select-color;
+  }
+
   .input {
     color: $input-color;
   }
@@ -217,16 +220,16 @@ button.button.navbar-link-background {
 
 @include mobile {
   .column-padding {
-    padding-left: 0!important;
-    padding-right: 0!important;
-    margin: 0 -12px!important
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin: 0 -12px !important;
   }
 }
 
 // global css for pagination
 .pagination-link {
-  border: none!important;
-  border-top: 1px solid $primary!important;
+  border: none !important;
+  border-top: 1px solid $primary !important;
 }
 
 /* move to global */
