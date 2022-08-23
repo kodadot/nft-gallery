@@ -140,7 +140,7 @@ html.light-mode {
 		background-color: $white;
 	}
 
-	.input::placeholder {
+	.input::placeholder, .textarea::placeholder {
 		color: #b2b2b2 !important;
 	}
 
