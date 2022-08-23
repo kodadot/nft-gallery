@@ -169,7 +169,7 @@ export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
   }
 
   @Watch('address', { immediate: true })
-  onAddressChange(value) {
+  onAddressChange(value: string) {
     this.destinationAddress = value
     this.fetchMyOffers()
   }
