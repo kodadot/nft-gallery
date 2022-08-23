@@ -399,7 +399,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     width: min-content;
     min-width: 140px;
     margin: 0 1rem;
-    .icon {
+    .gallery-search .control .icon {
       color: $placeholder-color !important;
     }
     input {
