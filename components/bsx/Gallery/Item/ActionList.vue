@@ -3,7 +3,7 @@
     <b-tooltip
       v-for="action in actions"
       :key="action"
-      class="w-100"
+      append-to-body
       :active="disableButton(action)"
       position="is-left"
       :label="disabledToolTips[action]">
@@ -13,8 +13,8 @@
         outlined
         expanded
         class="only-border-top"
-        @click="handleActionSelect(action)"
-        :data-cy="action">
+        :data-cy="action"
+        @click="handleActionSelect(action)">
         {{ actionLabel(action) }}
       </b-button>
     </b-tooltip>
@@ -24,10 +24,10 @@
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
 import {
+  ShoppingActionToolTips,
+  ShoppingActions,
   getActionButtonColor,
   getActionButtonLabelKey,
-  ShoppingActions,
-  ShoppingActionToolTips,
 } from '~/utils/shoppingActions'
 import { TranslateResult } from 'vue-i18n/types'
 

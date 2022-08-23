@@ -2,8 +2,8 @@
   <b-field>
     <b-dropdown
       v-if="multipleSelect"
-      multiple
       v-model="selectedAction"
+      multiple
       class="select-dropdown">
       <template #trigger>
         <b-button
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, VModel, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, VModel, mixins } from 'nuxt-property-decorator'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
@@ -59,11 +59,12 @@ export default class SearchSortDropdown extends mixins(PrefixMixin) {
 </script>
 
 <style lang="scss">
+/* cry in scss (global) */
 @import '@/styles/variables';
 
 .select-dropdown {
   select {
-    border: 1px solid $primary !important;
+    border: 1px solid #7d7d7d !important;
   }
   @media screen and (max-width: 1216px) and (min-width: 768px) {
     width: 200px;

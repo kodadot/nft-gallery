@@ -4,39 +4,39 @@
       <Sort
         class="control"
         :value="sortBy"
-        :isCollection="true"
-        @input="updateSortBy"
-        :sortOption="sortOption" />
+        :is-collection="true"
+        :sort-option="sortOption"
+        @input="updateSortBy" />
       <div
         class="is-flex layout-search"
         :class="{
           'is-flex-grow-1 ': !hideSearch,
         }">
-        <b-field expanded class="control" v-if="!hideSearch">
+        <b-field v-if="!hideSearch" expanded class="control">
           <b-input
+            v-model="searchQuery"
             placeholder="Search..."
             type="search"
-            v-model="searchQuery"
             icon="search"
             expanded
             class="input-search">
           </b-input>
         </b-field>
         <BasicSwitch
-          class="is-flex control mb-5"
           v-model="vListed"
+          class="is-flex control mb-5"
           :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
           size="is-medium"
-          labelColor="is-success"
+          label-color="has-text-success"
           :disabled="disableToggle"
           :message="$t('tooltip.buy')" />
         <BasicSwitch
           v-if="showOwnerSwitch"
-          class="is-flex control mb-5"
           v-model="vOwned"
+          class="is-flex control mb-5"
           :label="'sort.own'"
           size="is-medium"
-          labelColor="is-success"
+          label-color="has-text-success"
           :message="$t('tooltip.own')" />
         <slot />
       </div>
@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist } from './exist'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
@@ -217,6 +217,7 @@ export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
 </style>
 
 <style lang="scss">
+/* cry in scss (global) */
 @import '@/styles/variables';
 
 .field-group-container {
@@ -235,7 +236,7 @@ export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
   }
   .input-search {
     input {
-      border: 1px solid $primary !important;
+      border: 1px solid #7d7d7d !important;
     }
   }
 }

@@ -1,13 +1,18 @@
 <template>
-  <b-loading v-model="isLoading" is-full-page :can-cancel="true">
+  <b-loading v-model="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container">
       <div
         v-if="randomFunFactHeading && randomFunFactQuestion"
         class="funfact-text">
-        <div class="text-bold funcfact-heading">{{ randomFunFactHeading }}</div>
+        <div class="has-text-weight-bold funcfact-heading">
+          {{ randomFunFactHeading }}
+        </div>
         <br />
         <div class="pl-4 pr-4">
-          <b-icon size="is-large" icon="lightbulb" class="funfact-icon" />
+          <b-icon
+            size="is-large"
+            icon="lightbulb"
+            class="has-text-primary-light" />
           <div class="question">{{ randomFunFactQuestion }}</div>
         </div>
       </div>
@@ -32,6 +37,7 @@ import { randomIntegerBetween } from '@/utils/calculation'
 export default class Loader extends Vue {
   @Prop(String) public status!: string
   @Prop(Boolean) public value!: boolean
+  @Prop({ type: Boolean, default: true }) public canCancel
 
   // seed new funfact each time loader is used
   @Watch('value')
@@ -103,9 +109,6 @@ export default class Loader extends Vue {
   line-height: 2.5rem;
   border-bottom: 1px solid #fff;
   padding: 0.5rem 1rem;
-}
-.funfact-icon {
-  color: $primary-light;
 }
 .question {
   min-height: 70px;

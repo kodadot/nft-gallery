@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 /* eslint-disable @typescript-eslint/no-namespace */
+import 'cypress-file-upload'
+import 'cypress-network-idle'
 import consola from 'consola'
 
 export {}
@@ -9,9 +11,14 @@ Cypress.on('uncaught:exception', (err) => {
   return false
 })
 
+Cypress.Commands.add('getCy', (selector, ...args) => {
+  return cy.get(`[data-cy=${selector}]`, ...args)
+})
+
 Cypress.Commands.add('loginWithKeyring', () => {
   cy.visit('/')
   cy.visit('/e2e-login')
+  cy.waitForNetworkIdle('POST', '*', 1000)
 })
 
 Cypress.Commands.add('exploreTabs', () => {
@@ -24,6 +31,7 @@ Cypress.Commands.add('exploreTabs', () => {
 })
 
 Cypress.Commands.add('rmrkGallerySortBy', () => {
+  cy.waitForNetworkIdle('POST', '*', 1000)
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
     '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-trigger > [data-cy="gallery-sort-by"]'
@@ -155,6 +163,7 @@ Cypress.Commands.add('toggleBuyNowGallery', () => {
 
 Cypress.Commands.add('bsxGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/bsx/gallery/${nftId}`)
+  cy.waitForNetworkIdle('POST', '*', 1000)
   cy.get('[data-cy="money"]').should('contain', 'BSX')
   cy.get('[data-cy="BUY"]').should('be.disabled')
   cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
@@ -170,6 +179,7 @@ Cypress.Commands.add('bsxGalleryListedItemActions', (nftId, creator) => {
 
 Cypress.Commands.add('bsxGalleryUnlistedItemActions', (nftId) => {
   cy.visit(`/bsx/gallery/${nftId}`)
+  cy.waitForNetworkIdle('POST', '*', 1000)
   cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
 })
 
@@ -177,6 +187,7 @@ Cypress.Commands.add(
   'bsxCollectionActions',
   (collectionId, nftName, creator) => {
     cy.visit(`/bsx/collection/${collectionId}`)
+    cy.waitForNetworkIdle('POST', '*', 1000)
     cy.get('[data-cy="0"]').should('be.visible')
     cy.get('[data-cy="collection-sort-by"]').select('Old first')
     cy.get('[data-cy="identity"]').should('contain', creator)
@@ -189,6 +200,7 @@ Cypress.Commands.add(
   'rmrkCollectionActions',
   (collectionId, nftName, creator) => {
     cy.visit(`/rmrk/collection/${collectionId}`)
+    cy.waitForNetworkIdle('POST', '*', 1000)
     cy.get('[data-cy="0"]').should('be.visible')
     cy.get('[data-cy="collection-sort-by"]').select('Old first')
     cy.get('[data-cy="identity"]').should('contain', creator)
@@ -199,6 +211,7 @@ Cypress.Commands.add(
 
 Cypress.Commands.add('rmrkGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/rmrk/gallery/${nftId}`)
+  cy.waitForNetworkIdle('+(HEAD|GET)', '*', 1000)
   cy.get('[data-cy="money"]').should('contain', 'KSM')
   cy.get('[data-cy="BUY"]').should('be.disabled')
   cy.get('[data-cy="history"]').should('contain', 'History')
@@ -211,12 +224,22 @@ Cypress.Commands.add('rmrkGalleryListedItemActions', (nftId, creator) => {
 
 Cypress.Commands.add('rmrkGalleryUnlistedItemActions', (nftId) => {
   cy.visit(`/rmrk/gallery/${nftId}`)
+  cy.waitForNetworkIdle('POST', '*', 1000)
   cy.get('[data-cy="money"]').should('not.exist')
 })
 
 declare global {
   namespace Cypress {
     interface Chainable {
+      /**
+       * @desc get selector by data-cy="selector" attribute
+       */
+      getCy(
+        dataTestAttribute: string,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        args?: any
+      ): Chainable<JQuery<HTMLElement>>
+
       /**
        * @desc visits /e2e-login and gets logged in with newly generated random wallet (empty)
        */

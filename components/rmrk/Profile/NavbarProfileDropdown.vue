@@ -3,19 +3,17 @@
     <template #trigger>
       <span v-if="account" class="is-mobile is-vcentered navbar__avatar">
         <!-- <Avatar class="navbar__avatar-icon" :value="account" :size="34" /> -->
-        <b-button
-          type="is-primary navbar-link-background is-bordered-light"
-          class="navbar__button">
+        <b-button type="is-primary" icon-left="user">
           <Identity
             :address="account"
             class="navbar__address"
-            hideIdentityPopover
+            hide-identity-popover
             inline />
         </b-button>
       </span>
 
       <template v-else>
-        <ConnectWalletButton class="navbar__button" />
+        <ConnectWalletButton />
       </template>
     </template>
 
@@ -80,16 +78,17 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import Avatar from '@/components/shared/Avatar.vue'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
+
+import Avatar from '@/components/shared/Avatar.vue'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 const components = {
   Avatar,
   ConnectWalletButton: () =>
     import('@/components/shared/ConnectWalletButton.vue'),
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
 }
 
 @Component({ components })

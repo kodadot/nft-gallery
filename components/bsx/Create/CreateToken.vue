@@ -1,34 +1,34 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" />
+    <Loader v-model="isLoading" :status="status" :can-cancel="false" />
     <BaseTokenForm
       ref="baseTokenForm"
-      :showExplainerText="showExplainerText"
+      :show-explainer-text="showExplainerText"
       v-bind.sync="base"
       :collections="collections"
-      :hasEdition="false">
-      <template v-slot:main>
+      :has-edition="false">
+      <template #main>
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <BasicSwitch key="listed" v-model="listed" label="mint.listForSale" />
         <TokenBalanceInput
           v-if="listed"
           ref="balanceInput"
-          v-model="price"
           key="token-price"
-          tokenId="5"
+          v-model="price"
+          token-id="5"
           :prefix="urlPrefix"
           class="mb-3" />
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
-            :max="10"
             v-model="attributes"
+            :max="10"
             class="mb-3"
             visible="collapse.collection.attributes.show"
             hidden="collapse.collection.attributes.hide" />
         </div>
         <RoyaltyForm key="royalty" v-bind.sync="royalty" />
       </template>
-      <template v-slot:footer>
+      <template #footer>
         <b-field key="advanced">
           <CollapseWrapper
             v-if="base.edition > 1"
@@ -36,8 +36,8 @@
             hidden="mint.expert.hide"
             class="mt-3">
             <BasicSwitch
-              class="mt-3"
               v-model="postfix"
+              class="mt-3"
               label="mint.expert.postfix" />
           </CollapseWrapper>
         </b-field>
@@ -50,7 +50,7 @@
           <AccountBalance />
         </b-field>
         <b-field key="token">
-          <MultiPaymentFeeButton :accountId="accountId" :prefix="urlPrefix" />
+          <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
         </b-field>
         <b-field
           key="submit"
@@ -74,7 +74,7 @@ import {
 } from '@/components/rmrk/Create/mintUtils'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import shouldUpdate from '@/utils/shouldUpdate'
 import {
   Attribute,
@@ -83,7 +83,7 @@ import {
 } from '@kodadot1/minimark'
 
 import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
-import { Component, mixins, Prop, Ref, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
 import {
   getInstanceDeposit,
@@ -99,7 +99,7 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
-import { isRoyaltyValid, Royalty } from '@/utils/royalty'
+import { Royalty, isRoyaltyValid } from '@/utils/royalty'
 import {
   fetchCollectionMetadata,
   preheatFileFromIPFS,
@@ -161,12 +161,14 @@ export default class CreateToken extends mixins(
     amount: 0,
     address: '',
   }
+  protected metadata = ''
   protected balanceNotEnough = false
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
 
   @Watch('price')
   protected updatePrice(value: string) {
+    this.price = value
     this.balanceInput.checkValidity()
   }
 
@@ -265,8 +267,8 @@ export default class CreateToken extends mixins(
   }
 
   public checkValidity() {
-    const balanceInputValid = this.balanceInput.checkValidity()
-    const baseTokenFormValid = this.baseTokenForm.checkValidity()
+    const balanceInputValid = !this.listed || this.balanceInput?.checkValidity()
+    const baseTokenFormValid = this.baseTokenForm?.checkValidity()
     return balanceInputValid && baseTokenFormValid
   }
 
@@ -294,7 +296,9 @@ export default class CreateToken extends mixins(
     } = selectedCollection
 
     try {
-      const metadata = await this.constructMeta()
+      const metadata =
+        retryCount && this.metadata ? this.metadata : await this.constructMeta()
+
       const cb = api.tx.utility.batchAll
       const nextId = Math.max(lastIndexUsed + 1, alreadyMinted + 1)
       const create = api.tx.nft.mint(collectionId, nextId, metadata)
@@ -313,8 +317,6 @@ export default class CreateToken extends mixins(
           ]
         : []
 
-      // const support = await canSupport(this.hasSupport)
-      //
       const args = [[create, ...list, ...addRoyalty]]
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
@@ -387,7 +389,10 @@ export default class CreateToken extends mixins(
     preheatFileFromIPFS(fileHash)
     // uploadDirect(file, this.accountId).catch(this.$consola.warn)
     const metaHash = await pinJson(meta, imageHash)
-    return unSanitizeIpfsUrl(metaHash)
+    const metadata = unSanitizeIpfsUrl(metaHash)
+    this.metadata = metadata
+
+    return metadata
   }
 
   protected navigateToDetail(collection: string, id: string): void {

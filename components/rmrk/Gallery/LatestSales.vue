@@ -1,21 +1,21 @@
 <template>
-  <div>
+  <div data-cy="latest-sales">
     <Loader v-model="isLoading" />
 
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
         <h1 class="title is-2">{{ $t('general.latestSales') }}</h1>
         <p class="subtitle is-size-5">
-          {{ $t('general.latestSalesheading') }}
+          {{ $t('general.latestSalesheading') }} {{ urlPrefix }}
         </p>
       </div>
       <div class="column has-text-right">
         <Pagination
-          simple
-          preserveScroll
           v-model="currentValue"
+          simple
+          preserve-scroll
           :total="total"
-          :perPage="1" />
+          :per-page="1" />
       </div>
     </div>
 
@@ -25,16 +25,19 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
-import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'
+
 import { LastEvent } from '~/utils/types/types'
+
+import { convertLastEventToNft, fallbackMetaByNftEvent } from '@/utils/carousel'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
 } from '~/utils/cachingStrategy'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
+
 import AuthMixin from '@/utils/mixins/authMixin'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),

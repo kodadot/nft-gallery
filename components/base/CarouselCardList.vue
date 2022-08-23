@@ -9,8 +9,8 @@
     :breakpoints="options.breakpoints"
     class="carousel-card-list">
     <template #item="list">
-      <div class="card mx-4">
-        <div class="card-image">
+      <div class="card mx-2">
+        <div class="card-image p-4">
           <nuxt-link :to="urlOf(list.id)">
             <PreviewMediaResolver
               v-if="list.animationUrl"
@@ -24,19 +24,19 @@
               custom-class="carousel__image-wrapper" />
           </nuxt-link>
         </div>
-        <div class="card-content">
+        <div class="card-content px-4">
           <div class="media">
             <div class="media-content">
-              <div class="title is-5 is-ellipsis">
+              <div class="title is-5 is-ellipsis has-text-weight-bold">
                 <nuxt-link :to="urlOf(list.id)">
                   {{ list.name }}
                 </nuxt-link>
               </div>
-              <b-field grouped>
-                <p class="control ml-auto" v-if="list.price">
-                  <Money :value="list.price" inline />
-                </p>
-              </b-field>
+              <div v-if="list.collection" class="subtitle is-6 is-ellipsis">
+                <nuxt-link :to="`/rmrk/collection/${list.collection.id}`">
+                  {{ list.collection.name }}
+                </nuxt-link>
+              </div>
               <nuxt-link
                 :to="{ name: profileUrl, params: { id: list.issuer } }">
                 <div class="is-size-7 icon-text">
@@ -44,7 +44,7 @@
                   <Identity
                     :address="list.issuer"
                     inline
-                    noOwerlow
+                    no-owerlow
                     class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
@@ -53,20 +53,28 @@
                 :to="{
                   name: profileUrl,
                   params: { id: list.currentOwner },
-                }">
+                }"
+                data-cy="current-owner">
                 <div class="is-size-7 icon-text">
                   <b-icon icon="money-bill-alt" />
                   <Identity
                     :address="list.currentOwner"
                     inline
-                    noOverflow
+                    no-overflow
                     class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
-              <time class="is-size-7 icon-text" v-if="list.timestamp">
-                <b-icon icon="clock" />
-                <span>{{ list.timestamp }}</span>
-              </time>
+            </div>
+          </div>
+        </div>
+        <div v-show="list.timestamp || list.price" class="card-footer">
+          <div class="is-flex p-2">
+            <time v-if="list.timestamp" class="is-size-7 icon-text">
+              <b-icon icon="clock" />
+              <span>{{ list.timestamp }}</span>
+            </time>
+            <div v-if="list.price" class="ml-auto">
+              <Money :value="list.price" inline />
             </div>
           </div>
         </div>
@@ -76,21 +84,19 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+
 import AuthMixin from '@/utils/mixins/authMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import type { CarouselNFT } from './types'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
-  // Identicon,
-  Loader: () => import('@/components/shared/Loader.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
   PreviewMediaResolver: () =>
-    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
+    import('@/components/media/PreviewMediaResolver.vue'),
 }
 
 @Component<CarouselList>({
@@ -120,22 +126,19 @@ export default class CarouselList extends mixins(AuthMixin, PrefixMixin) {
           itemsToShow: 1,
         },
         600: {
-          itemsToShow: 2,
+          itemsToShow: 1.5,
         },
         800: {
-          itemsToShow: 2.5,
+          itemsToShow: 2,
         },
         900: {
-          itemsToShow: 3,
+          itemsToShow: 2.5,
         },
         1000: {
-          itemsToShow: 3.5,
-        },
-        1200: {
-          itemsToShow: 4,
+          itemsToShow: 3,
         },
         1400: {
-          itemsToShow: 4.5,
+          itemsToShow: 4,
         },
         1800: {
           itemsToShow: 5,
@@ -161,36 +164,24 @@ export default class CarouselList extends mixins(AuthMixin, PrefixMixin) {
 }
 
 .card {
+  background-color: #0e0e10;
   .media-content {
     width: 100%;
   }
-}
-
-/* move to global */
-.is-ellipsis {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.force-clip {
-  max-width: 85%;
-  max-height: 24px;
-}
-
-.card-image {
-  overflow: hidden;
-}
-</style>
-
-<style lang="scss">
-.card {
-  &:hover .carousel__image-wrapper img {
-    transform: scale(1.1);
-    transition: transform 0.3s linear;
+  .card-image {
+    overflow: hidden;
+    figure {
+      transition: transform 0.2s;
+    }
+    figure:hover {
+      transform: scale(1.1);
+    }
   }
-  .carousel__image-wrapper img {
-    transition: all 0.3s;
+  .card-footer {
+    border-top-color: hsla(0, 0%, 60%, 1);
+    .is-flex {
+      flex: auto;
+    }
   }
 }
 </style>

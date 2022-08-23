@@ -4,14 +4,12 @@ export default defineConfig({
   chromeWebSecurity: false,
   e2e: {
     baseUrl: 'http://localhost:9090',
-    fixturesFolder: false,
+    fixturesFolder: 'cypress/fixtures',
     video: false,
     screenshotOnRunFailure: false,
-    retries: {
-      runMode: 2,
-      openMode: 2,
-    },
+    retries: 3,
+    defaultCommandTimeout: 10000,
   },
-  viewportWidth: 1024,
+  viewportWidth: 1366,
   viewportHeight: 768,
 })

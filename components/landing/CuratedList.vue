@@ -36,7 +36,7 @@
                 <Identity
                   :address="collection.issuer"
                   inline
-                  noOwerlow
+                  no-owerlow
                   class="force-clip is-ellipsis" />
               </div>
             </nuxt-link>
@@ -48,23 +48,27 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, mixins } from 'nuxt-property-decorator'
+
+import { Collection } from '@/components/unique/types'
+
 import AuthMixin from '@/utils/mixins/authMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
 import {
   getCloudflareImageLinks,
   processMetadata,
-} from '~/utils/cachingStrategy'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import resolveQueryPath from '~/utils/queryPathResolver'
-import { mapOnlyMetadata } from '~/utils/mappers'
+} from '@/utils/cachingStrategy'
+import { fastExtract } from '@/utils/ipfs'
+import { mapOnlyMetadata } from '@/utils/mappers'
+import resolveQueryPath from '@/utils/queryPathResolver'
+
+import { SomethingWithMeta, getSanitizer } from '../rmrk/utils'
 import { CollectionMetadata } from '../rmrk/types'
-import { fastExtract } from '~/utils/ipfs'
-import { getSanitizer, SomethingWithMeta } from '../rmrk/utils'
-import { Collection } from '~/components/unique/types'
 
 const components = {
   // Identicon: () => import('@polkadot/vue-identicon'),
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
 }
 
 const curatedCollection = [

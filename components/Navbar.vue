@@ -18,11 +18,11 @@
       <div
         v-if="showMobileSearchBar"
         class="search-navbar-container-mobile is-hidden-desktop is-flex is-align-items-center">
-        <b-button @click="toggleSearchBarDisplay" icon-left="times" />
+        <b-button icon-left="times" @click="toggleSearchBarDisplay" />
         <Search
           v-if="showMobileSearchBar"
-          showDefaultSuggestions
-          hideFilter
+          show-default-suggestions
+          hide-filter
           class="is-flex-grow-1 pr-1 is-hidden-desktop mt-5" />
       </div>
 
@@ -34,33 +34,30 @@
           <HistoryBrowser />
 
           <b-button
-            @click="toggleSearchBarDisplay"
             type="is-primary is-bordered-light"
             class="navbar-link-background"
-            icon-right="search" />
+            icon-right="search"
+            @click="toggleSearchBarDisplay" />
         </div>
       </div>
     </template>
     <template #start>
       <Search
         v-if="!mobileGallery"
-        :class="{
-          'nav-search-shrink': !showTopNavbar,
-        }"
-        hideFilter
-        showDefaultSuggestions
-        class="search-navbar is-flex-grow-1 is-hidden-touch"
-        searchColumnClass="is-flex-grow-1" />
+        hide-filter
+        show-default-suggestions
+        class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
+        search-column-class="is-flex-grow-1" />
     </template>
-    <template #end v-if="showTopNavbar">
+    <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
       <LazyHistoryBrowser
-        class="custom-navbar-item navbar-link-background is-hidden-touch"
-        id="NavHistoryBrowser" />
+        id="NavHistoryBrowser"
+        class="custom-navbar-item navbar-link-background is-hidden-touch" />
       <b-navbar-dropdown
+        v-show="isCreateVisible"
+        id="NavCreate"
         arrowless
         collapsible
-        id="NavCreate"
-        v-show="isCreateVisible"
         data-cy="create-dropdown">
         <template #label>
           <span>{{ $t('create') }}</span>
@@ -114,10 +111,10 @@
         <span>{{ $t('stats') }}</span>
       </b-navbar-item>
       <b-navbar-dropdown
-        arrowless
-        collapsible
         v-if="isRmrk"
         id="NavStats"
+        arrowless
+        collapsible
         data-cy="stats">
         <template #label>
           <span>{{ $t('stats') }}</span>
@@ -140,18 +137,19 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
+      <LazyChainSelect id="NavChainSelect" class="navbar-item has-dropdown" />
       <LazySwitchLocale
-        class="custom-navbar-item"
         id="NavLocaleChanger"
+        class="navbar-item has-dropdown"
         data-cy="localChanger" />
+      <ColorModeButton />
       <NavbarProfileDropdown
-        :isRmrk="isRmrk"
-        :isBsx="isBsx"
         id="NavProfile"
+        :is-rmrk="isRmrk"
+        :is-bsx="isBsx"
         data-cy="profileDropdown" />
     </template>
-    <template #end v-else>
+    <template v-else #end>
       <div class="image is-32x32 mr-2">
         <BasicImage
           v-show="inCollectionPage && currentCollection.image"
@@ -166,15 +164,18 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import Identity from '@/components/shared/format/Identity.vue'
-import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
-import BasicImage from '@/components/shared/view/BasicImage.vue'
-import { createVisible } from '@/utils/config/permision.config'
-
-import { identityStore } from '@/utils/idbStore'
 import { get } from 'idb-keyval'
+
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+import ColorModeButton from '@/components/common/ColorModeButton.vue'
+import Identity from '@/components/shared/identity/IdentityIndex.vue'
+import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
+import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
+
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
+import { createVisible } from '@/utils/config/permision.config'
+import { identityStore } from '@/utils/idbStore'
 
 @Component({
   components: {
@@ -182,12 +183,14 @@ import { get } from 'idb-keyval'
     Search,
     Identity,
     BasicImage,
+    ColorModeButton,
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
-  private mobileGallery = false
+  protected mobileGallery = false
+  protected showTopNavbar = true
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
-  private showTopNavbar = true
+  private fixedTitleNavAppearDistance = 200
   private lastScrollPosition = 0
   private artistName = ''
   private showMobileSearchBar = false
@@ -220,6 +223,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
 
   get isTargetPage(): boolean {
+    // why?
     return (
       this.inCollectionPage ||
       this.inGalleryDetailPage ||
@@ -265,9 +269,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) {
       return
     }
-    const fixedTitleNavAppearDistance = 200
     this.showTopNavbar =
-      currentScrollPosition < fixedTitleNavAppearDistance || !this.isTargetPage
+      currentScrollPosition < this.fixedTitleNavAppearDistance
     this.lastScrollPosition = currentScrollPosition
   }
 
@@ -299,37 +302,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 <style lang="scss">
 @import '@/styles/variables';
 
-@include tablet {
-  .navbar-shrink {
-    box-shadow: none;
-    max-height: 70px;
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
-  }
-  .nav-search-shrink {
-    padding-bottom: 0 !important;
-  }
-}
-
 // Reserved for future adjustments
-
-// @media only screen and (min-width: 1215px) and (max-width: 1140px) {
-//   a#NavProfile {
-//     display: none;
-//   }
-// }
-
-// @media only screen and (min-width: 1215px) and (max-width: 1160px) {
-//   a#NavStats {
-//     display: none;
-//   }
-// }
-
-//@media only screen and (min-width: 1024px) and (max-width: 1100px) {
-//  div#NavHistoryBrowser {
-//    display: none;
-//  }
-//}
 
 //@media only screen and (min-width: 1024px) and (max-width: 1200px) {
 //  a#NavCreate {
@@ -351,7 +324,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
 @include touch {
   .navbar {
-    .navbar-item,
     .custom-navbar-item {
       margin-left: 0 !important;
     }
@@ -373,7 +345,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 }
 
 .navbar {
-  background: rgba(12, 12, 12, 0.7);
+  background-color: inherit;
   backdrop-filter: blur(20px);
   transform: translateZ(0px);
   transition: 0.3s ease;
@@ -389,36 +361,22 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     }
   }
 
-  .navbar-link {
-    &:hover {
-      background-color: $primary !important;
-      color: $text !important;
-    }
+  &.navbar-shrink {
+    box-shadow: none;
+    max-height: 70px;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    background-color: rgba(12, 12, 12, 0.7) !important;
   }
 
   .navbar-item {
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-weight: 500;
-    border-top: 1px solid $primary;
-    margin-left: 0.5em;
-    transition: 0.3s;
-    background: rgba(9, 9, 9, 0.55);
-    &:hover {
-      background-color: $primary;
-      color: $text;
-    }
+    margin: 0.5em;
   }
 
   .custom-navbar-item {
     margin-left: 0.5em;
-  }
-
-  .logo {
-    border: none !important;
-    background: transparent;
-    @include tablet {
-      margin-left: 0;
-    }
   }
 
   .navbar-brand {
@@ -433,10 +391,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   .navbar-dropdown {
     border: 2px solid $primary-light !important;
     box-shadow: $dropdown-content-shadow !important;
-    .navbar-item {
-      border: none !important;
-      margin-left: 0 !important;
-    }
   }
 
   .search-navbar {
@@ -445,11 +399,14 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     width: min-content;
     min-width: 140px;
     margin: 0 1rem;
+    .icon {
+      color: $placeholder-color !important;
+    }
     input {
       border: inherit;
-      background-color: rgba(41, 41, 47, 0.5);
+      background-color: #e5e5e5;
       &::placeholder {
-        color: #898991 !important;
+        color: $placeholder-color !important;
       }
       &:focus {
         box-shadow: none !important;
@@ -463,13 +420,13 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     width: 100%;
 
     input {
-      background-color: rgba(41, 41, 47);
+      background-color: $search-navbar-background-color;
       padding: 0;
       z-index: 1;
       &:focus {
         box-shadow: none !important;
         border-top: 2px solid $primary;
-        background: rgba(41, 41, 47);
+        background: $search-navbar-background-color;
       }
     }
   }

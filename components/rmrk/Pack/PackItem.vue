@@ -32,7 +32,7 @@ import isShareMode from '@/utils/isShareMode'
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
-  Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+  Sharing: () => import('@/components/shared/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
 }
 

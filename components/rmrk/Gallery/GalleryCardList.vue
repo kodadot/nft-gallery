@@ -5,9 +5,9 @@
     </template>
     <div :id="scrollContainerId" class="columns is-multiline">
       <div
-        :class="`column ${classLayout} column-padding ${scrollItemClassName}`"
         v-for="nft in items"
-        :key="nft.id">
+        :key="nft.id"
+        :class="`column ${classLayout} column-padding ${scrollItemClassName}`">
         <GalleryCard
           :id="nft.id"
           :name="nft.name"
@@ -15,8 +15,8 @@
           :link="link"
           :metadata="metadataOf(nft)"
           :price="nft.price"
-          :emoteCount="nft.emoteCount"
-          :currentOwner="nft.currentOwner"
+          :emote-count="nft.emoteCount"
+          :current-owner="nft.currentOwner"
           :listed="listed"
           :data-cy="items.indexOf(nft)" />
       </div>
@@ -56,9 +56,3 @@ export default class GalleryCardList extends Vue {
   }
 }
 </script>
-<style>
-/* TODO: move to global */
-.b-radio.radio.button.is-selected {
-  background-color: #db2980;
-}
-</style>
