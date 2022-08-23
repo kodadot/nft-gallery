@@ -3,19 +3,19 @@
     <Loader :value="isLoading" />
     <Search
       v-bind.sync="searchQuery"
-      @resetPage="resetPage"
-      hideSearch
-      :sortOption="collectionSortOption">
+      hide-search
+      :sort-option="collectionSortOption"
+      @resetPage="resetPage">
       <b-field class="is-flex">
         <Layout class="mr-5" @change="onResize" />
         <Pagination
-          hasMagicBtn
+          v-model="currentValue"
+          has-magic-btn
           simple
           replace
-          preserveScroll
+          preserve-scroll
           :total="total"
-          v-model="currentValue"
-          :perPage="first" />
+          :per-page="first" />
       </b-field>
     </Search>
 
@@ -29,9 +29,9 @@
         class="columns is-multiline"
         @scroll="onScroll">
         <div
-          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`"
           v-for="collection in results"
-          :key="collection.id">
+          :key="collection.id"
+          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`">
           <nuxt-link
             :to="`/${urlPrefix}/collection/${collection.id}`"
             tag="div"
@@ -41,7 +41,7 @@
               <BasicImage
                 :src="collection.image"
                 :alt="collection.name"
-                customClass="collection__image-wrapper" />
+                custom-class="collection__image-wrapper" />
             </div>
 
             <div class="card-content">
@@ -64,11 +64,11 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Vue, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import {
-  CollectionWithMeta,
   Collection,
+  CollectionWithMeta,
   Metadata,
   NFTMetadata,
 } from '@/components/rmrk/service/scheme'
@@ -233,7 +233,7 @@ export default class CollectionList extends mixins(
     try {
       const collections = this.$apollo.query({
         query: collectionListWithSearch,
-        client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+        client: this.client,
         variables: {
           first: this.first,
           offset,
