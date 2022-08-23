@@ -81,7 +81,6 @@ export default class GalleryCard extends mixins(AuthMixin) {
   public title = ''
   public animatedUrl = ''
   public mimeType = ''
-  public placeholder = '/placeholder.webp'
 
   async fetch() {
     if (this.metadata) {
@@ -120,7 +119,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .nft-card {
   position: relative;

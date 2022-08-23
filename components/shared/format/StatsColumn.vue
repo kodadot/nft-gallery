@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { checkInvalidBalanceFilter as checkInvalidBalance } from '@/utils/formatBalance'
 import ChainMixin from '~/utils/mixins/chainMixin'
 @Component({
@@ -35,8 +35,6 @@ export default class StatsColumn extends mixins(ChainMixin) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
-
 .collection {
   display: grid;
   grid-gap: 0.7rem;
