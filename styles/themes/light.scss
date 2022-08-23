@@ -250,4 +250,11 @@ html.light-mode {
 	.b-table .table .chevron-cell>a {
 		color: $primary !important;
 	}
+
+	.main-title {
+		color: $text-light-theme;
+	}
+	.media-content {
+		color: gray;
+	}
 }

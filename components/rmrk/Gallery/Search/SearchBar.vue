@@ -871,7 +871,6 @@ export default class SearchBar extends mixins(
 
 .gallery-search {
   .selected-item {
-    background: white;
     border: 1px solid $primary;
   }
 }
@@ -886,14 +885,10 @@ export default class SearchBar extends mixins(
 }
 
 .media-content {
-  color: gray;
   .name {
     max-width: 34ch;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  .main-title {
-    color: black;
   }
 }
 </style>
