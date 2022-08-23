@@ -56,13 +56,14 @@
 <script lang="ts">
 import { Component, Vue, mixins } from 'nuxt-property-decorator'
 
+import resolveQueryPath from '@/utils/queryPathResolver'
+import { unwrapSafe } from '@/utils/uniquery'
 import { getMany, update } from 'idb-keyval'
 import 'lazysizes'
-import { MetaFragment } from '~/components/unique/graphqlResponseTypes'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { MetaFragment } from '@/components/unique/graphqlResponseTypes'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { Collection, CollectionWithMeta } from '../service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
-import resolveQueryPath from '@/utils/queryPathResolver'
 
 const components = {
   Pagination: () => import('./Pagination.vue'),
@@ -72,6 +73,7 @@ const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 
+// TODO: Is this used anywhere?
 @Component<Collections>({
   components,
 })
@@ -95,14 +97,14 @@ export default class Collections extends mixins(PrefixMixin) {
 
   public async created() {
     const query = await resolveQueryPath(
-      this.urlPrefix,
+      this.client,
       'collectionListWithSearch'
     )
     this.$apollo.addSmartQuery('collection', {
       query: query.default,
       manual: true,
       loadingKey: 'loadingState',
-      client: this.urlPrefix,
+      client: this.client,
       result: this.handleResult,
       variables: () => {
         return {
@@ -112,7 +114,7 @@ export default class Collections extends mixins(PrefixMixin) {
       },
       update: ({ collectionEntity }) => ({
         ...collectionEntity,
-        nfts: collectionEntity.nfts.nodes,
+        nfts: unwrapSafe(collectionEntity.nfts),
       }),
     })
   }

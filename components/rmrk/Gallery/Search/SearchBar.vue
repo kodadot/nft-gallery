@@ -679,13 +679,10 @@ export default class SearchBar extends mixins(
     this.query.search = value
     this.searchSuggestionEachTypeMaxNum = 3
     try {
-      const queryNft = await resolveQueryPath(
-        this.urlPrefix,
-        'nftListWithSearch'
-      )
+      const queryNft = await resolveQueryPath(this.client, 'nftListWithSearch')
       const nfts = this.$apollo.query({
         query: queryNft.default,
-        client: this.urlPrefix,
+        client: this.client,
         variables: {
           first: this.first,
           offset: this.offset,
@@ -725,13 +722,13 @@ export default class SearchBar extends mixins(
     }
     try {
       const query = await resolveQueryPath(
-        this.urlPrefix,
+        this.client,
         'collectionListWithSearch'
       )
 
       const collectionResult = this.$apollo.query({
         query: query.default,
-        client: this.urlPrefix,
+        client: this.client,
         variables: {
           first: this.first,
           offset: this.offset,
@@ -790,23 +787,11 @@ export default class SearchBar extends mixins(
     const params: any[] = []
 
     if (this.query.search) {
-      if (this.urlPrefix === 'rmrk') {
-        params.push({
-          name: { likeInsensitive: this.query.search },
-        })
-      } else {
-        params.push({ name_containsInsensitive: this.query.search })
-      }
+      params.push({ name_containsInsensitive: this.query.search })
     }
 
     if (this.query.listed) {
-      if (this.urlPrefix === 'rmrk') {
-        params.push({
-          price: { greaterThan: '0' },
-        })
-      } else {
-        params.push({ price_gt: '0' })
-      }
+      params.push({ price_gt: '0' })
     }
 
     return params
