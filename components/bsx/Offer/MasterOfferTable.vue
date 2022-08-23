@@ -147,7 +147,7 @@ export default class MasterOfferTable extends mixins(
     }
   }
 
-  public checkOfferForAddress(skipAddress?) {
+  public checkOfferForAddress(skipAddress = false) {
     this.skipUserOffer = skipAddress
     this.fetchCreatedOffers()
     this.accountIdChanged = this.destinationAddress
