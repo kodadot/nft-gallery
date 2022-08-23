@@ -14,7 +14,7 @@
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
         <BasicImage
-          v-if="!animatedUrl"
+          v-if="isBasicImage"
           :src="image"
           :alt="title"
           custom-class="gallery__image-wrapper" />
@@ -95,8 +95,12 @@ export default class GalleryCard extends mixins(AuthMixin) {
         meta.animation_url || meta.mediaUri || '',
         'pinata'
       )
-      this.mimeType = await getMimeType(this.animatedUrl || this.image || '')
+      this.mimeType = (await getMimeType(this.animatedUrl || this.image)) || ''
     }
+  }
+
+  get isBasicImage() {
+    return !this.animatedUrl || (this.image && this.mimeType.includes('audio'))
   }
 
   get showPriceValue(): boolean {

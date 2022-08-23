@@ -145,7 +145,7 @@ describe('Media component', () => {
           const totalItems = doc.querySelectorAll(
             `#infinite-scroll-container ${tagRelated}`
           ).length
-          expect(totalItems).to.be.greaterThan(0)
+          expect(totalItems).to.be.greaterThan(1)
         })
       })
     }

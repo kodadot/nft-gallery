@@ -375,6 +375,10 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         this.mimeType = mimeType
         this.imageVisible = imageVisible
       }
+
+      if (!m) {
+        set(this.nft.metadata, meta)
+      }
     }
   }
 
