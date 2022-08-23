@@ -14,7 +14,6 @@
             <Identity
               ref="identity"
               :address="id"
-              inline
               emit
               @change="handleIdentity" />
           </a>
@@ -22,7 +21,6 @@
             v-else
             ref="identity"
             :address="id"
-            inline
             emit
             @change="handleIdentity" />
         </h1>

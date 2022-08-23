@@ -14,7 +14,6 @@
               <Identity
                 ref="identity"
                 :address="id"
-                inline
                 emit
                 @change="handleIdentity" />
             </a>

@@ -35,8 +35,6 @@
                 <b-icon icon="palette" />
                 <Identity
                   :address="collection.issuer"
-                  inline
-                  no-owerlow
                   class="force-clip is-ellipsis" />
               </div>
             </nuxt-link>

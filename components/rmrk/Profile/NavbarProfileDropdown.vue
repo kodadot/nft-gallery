@@ -7,8 +7,7 @@
           <Identity
             :address="account"
             class="navbar__address"
-            hide-identity-popover
-            inline />
+            hide-identity-popover />
         </b-button>
       </span>
 

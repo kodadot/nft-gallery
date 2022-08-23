@@ -29,7 +29,6 @@
         <Identity
           ref="identity"
           :address="$route.query.target"
-          inline
           show-onchain-identity />
       </a>
     </div>
@@ -116,7 +115,7 @@
     <div v-if="transactionValue && $route.query.donation">
       <div class="is-size-5">
         🎉 Congratulations for supporting
-        <Identity ref="identity" :address="$route.query.target" inline />
+        <Identity ref="identity" :address="$route.query.target" />
       </div>
       <b-button
         type="is-info"

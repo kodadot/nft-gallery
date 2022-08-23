@@ -53,7 +53,7 @@
                 name: `${urlPrefix}-u-id`,
                 params: { id: props.row.Buyer },
               }">
-              <Identity :address="props.row.Buyer" inline no-overflow />
+              <Identity :address="props.row.Buyer" />
             </nuxt-link>
           </b-table-column>
           <b-table-column

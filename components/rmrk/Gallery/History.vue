@@ -73,7 +73,7 @@
                 name: `${urlPrefix}-u-id`,
                 params: { id: props.row.From },
               }">
-              <Identity :address="props.row.From" inline no-overflow />
+              <Identity :address="props.row.From" />
             </nuxt-link>
           </b-table-column>
           <b-table-column
@@ -84,7 +84,7 @@
             label="To">
             <nuxt-link
               :to="{ name: `${urlPrefix}-u-id`, params: { id: props.row.To } }">
-              <Identity :address="props.row.To" inline no-overflow />
+              <Identity :address="props.row.To" />
             </nuxt-link>
           </b-table-column>
           <b-table-column

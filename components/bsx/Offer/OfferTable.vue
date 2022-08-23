@@ -63,7 +63,7 @@
         :label="$t('offer.caller')"
         sortable>
         <nuxt-link :to="{ name: 'bsx-u-id', params: { id: props.row.caller } }">
-          <Identity :address="props.row.caller" inline no-overflow />
+          <Identity :address="props.row.caller" />
         </nuxt-link>
       </b-table-column>
 

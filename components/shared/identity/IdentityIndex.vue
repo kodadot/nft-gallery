@@ -46,7 +46,6 @@ const props = defineProps<{
   showOnchainIdentity?: boolean
   hideIdentityPopover?: boolean
   customNameOption?: string
-  inline?: boolean
 }>()
 
 const {

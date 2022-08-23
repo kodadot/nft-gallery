@@ -11,7 +11,7 @@
         <span class="ml-1">{{ emoji.count }}</span>
         <template #content>
           <div v-for="issuer in emoji.issuers" :key="issuer">
-            <Identity :address="issuer" inline no-overflow />
+            <Identity :address="issuer" />
           </div>
         </template>
       </b-tooltip>

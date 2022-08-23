@@ -43,8 +43,6 @@
                   <b-icon icon="palette" />
                   <Identity
                     :address="list.issuer"
-                    inline
-                    no-owerlow
                     class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
@@ -59,8 +57,6 @@
                   <b-icon icon="money-bill-alt" />
                   <Identity
                     :address="list.currentOwner"
-                    inline
-                    no-overflow
                     class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>

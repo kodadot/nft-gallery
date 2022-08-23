@@ -59,7 +59,7 @@
         field="buyer"
         label="Buyer">
         <nuxt-link :to="`/rmrk/u/${props.row.buyer}`">
-          <Identity :address="props.row.buyer" inline no-overflow />
+          <Identity :address="props.row.buyer" />
         </nuxt-link>
       </b-table-column>
 

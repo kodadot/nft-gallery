@@ -2,9 +2,9 @@
   <div v-if="account">
     <div class="auth-avatar">
       <Avatar :value="account" :size="size" />
-      <span class="subtitle has-text-weight-bold auth-avatar-title"
-        ><Identity :address="account" :inline="true" hide-identity-popover
-      /></span>
+      <span class="subtitle has-text-weight-bold auth-avatar-title">
+        <Identity :address="account" hide-identity-popover />
+      </span>
     </div>
   </div>
   <ConnectWalletButton v-else label="general.connect_wallet" />
