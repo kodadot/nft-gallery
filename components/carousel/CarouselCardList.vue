@@ -141,6 +141,9 @@ export default class CarouselList extends mixins(AuthMixin, PrefixMixin) {
           itemsToShow: 4,
         },
         1800: {
+          itemsToShow: 4.5,
+        },
+        2800: {
           itemsToShow: 5,
         },
       },
