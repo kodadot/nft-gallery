@@ -23,7 +23,9 @@
           :src="animatedUrl"
           :metadata="metadata"
           :mime-type="mimeType" />
-        <span v-if="price > 0 && showPriceValue" class="card-image__price">
+        <span
+          v-if="parseInt(price) > 0 && showPriceValue"
+          class="card-image__price">
           <Money :value="price" inline />
         </span>
       </div>

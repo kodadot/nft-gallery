@@ -66,6 +66,15 @@ const mediaType = [
     type: '3d',
   },
   {
+    url: '/bsx/gallery/2444376227-3',
+    title: '3D Ball',
+    description: 'Smash zone adverse',
+    collection: 'Ping Pong Ball',
+    creator: 'bXhWeV...2sDcbW',
+    tagRelated: 'model-viewer',
+    type: '3d',
+  },
+  {
     url: '/rmrk/gallery/9684463-c8205518d881699b3e-%E2%9D%84%EF%B8%8F-01_FROM_SINGULARITY-0000000000000005',
     title: '01 fr.om - singularity',
     description: '',
