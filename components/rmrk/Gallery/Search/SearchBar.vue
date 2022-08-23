@@ -101,7 +101,7 @@
         v-if="!hideFilter"
         expanded
         position="is-right"
-        class="column is-6">
+        class="column is-4">
         <b-button
           icon-left="filter"
           aria-controls="sortAndFilter"
