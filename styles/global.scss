@@ -133,6 +133,11 @@ body {
   background-color: $primary;
 }
 
+.collection-radio-btn .b-radio.radio.button {
+  border: none !important;
+  border-top: 1px solid $primary  !important;
+}
+
 .short-identity__table {
   max-width: 50em;
   overflow: hidden;
