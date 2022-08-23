@@ -11,11 +11,17 @@ const formatPlugin = (store: Store<null>): void => {
     if (type === 'setUrlPrefix' && payload) {
       store.dispatch('setCorrectAddressFormat', ss58Of(payload))
     }
+  })
+}
+
+const balancePlugin = (store: Store<null>): void => {
+  store.subscribeAction(({ type, payload }: VuexAction) => {
     if (type === 'setApiUrl' && payload) {
       store.dispatch('setCorrectAddressBalance', payload)
     }
   })
 }
+
 export const state = () => ({
   loading: false,
   keyringLoaded: false,
@@ -55,5 +61,4 @@ export const getters: GetterTree<IndexState, IndexState> = {
   },
 }
 
-export const plugins = [formatPlugin]
-// export const plugins = [apiPlugin, myPlugin]
+export const plugins = [formatPlugin, balancePlugin]
