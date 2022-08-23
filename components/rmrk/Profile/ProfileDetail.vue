@@ -834,12 +834,12 @@ export default class ProfileDetail extends mixins(
   public async fetchMyNftByIssuer() {
     if (this.id && shouldUpdate(this.accountId, this.id)) {
       const query = await resolveQueryPath(
-        this.urlPrefix,
+        this.client,
         'nftListByIssuerAndOwner'
       )
       const { data } = await this.$apollo.query({
         query: query.default,
-        client: this.urlPrefix,
+        client: this.client,
         variables: {
           account: this.id,
           currentOwner: this.accountId,
