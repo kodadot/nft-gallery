@@ -25,11 +25,13 @@
           icon="search"
           open-on-focus
           clearable
-          max-height="550px"
+          max-height="500"
           dropdown-position="bottom"
           expanded
           @blur="onBlur"
           @typing="updateSuggestion"
+          @keydown.native.down="onKeydownSelected(+1)"
+          @keydown.native.up="onKeydownSelected(-1)"
           @keydown.native.enter="nativeSearch">
           <template #header>
             <b-tabs
@@ -40,10 +42,12 @@
               expanded>
               <b-tab-item label="Collections" value="Collections">
                 <div
-                  v-for="item in collectionSuggestion"
+                  v-for="(item, idx) in collectionSuggestion"
                   :key="item.id"
                   :value="item"
-                  class="mb-2 link-item"
+                  :class="`mb-2 link-item ${
+                    idx === selectedIndex ? 'selected-item' : ''
+                  }`"
                   @click="gotoCollectionItem(item)">
                   <div class="media">
                     <div class="media-left">
@@ -77,10 +81,12 @@
               </b-tab-item>
               <b-tab-item label="NFTs" value="NFTs">
                 <div
-                  v-for="item in nftSuggestion"
+                  v-for="(item, idx) in nftSuggestion"
                   :key="item.id"
                   :value="item"
-                  class="mb-2 link-item"
+                  :class="`mb-2 link-item ${
+                    idx === selectedIndex ? 'selected-item' : ''
+                  }`"
                   @click="gotoGalleryItem(item)">
                   <div class="media">
                     <div class="media-left">
@@ -126,10 +132,12 @@
               expanded>
               <b-tab-item label="Trending" value="Trending">
                 <div
-                  v-for="item in defaultCollectionSuggestions"
+                  v-for="(item, idx) in defaultCollectionSuggestions"
                   :key="item.id"
                   :value="item"
-                  class="mb-2 link-item"
+                  :class="`mb-2 link-item ${
+                    idx === selectedIndex ? 'selected-item' : ''
+                  }`"
                   @click="gotoCollectionItem(item)">
                   <div class="media">
                     <div class="media-left">
@@ -236,7 +244,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Ref, mixins } from 'nuxt-property-decorator'
+import {
+  Component,
+  Emit,
+  Prop,
+  Ref,
+  Watch,
+  mixins,
+} from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
@@ -316,6 +331,7 @@ export default class SearchBar extends mixins(
   public defaultCollectionSuggestions: CollectionWithMeta[] = []
   public activeSearchTab = 'Collections'
   public activeTrendingTab = 'Trending'
+  public selectedIndex = -1
 
   fetch() {
     this.fetchSuggestions()
@@ -415,7 +431,6 @@ export default class SearchBar extends mixins(
               })
             }
           ).then(() => {
-            console.log('jarsen defaultCollectionSuggestions', collectionResult)
             this.defaultCollectionSuggestions = collectionResult
           })
         })
@@ -596,44 +611,39 @@ export default class SearchBar extends mixins(
 
   // not highlight search, just input keyword and enter
   nativeSearch() {
-    this.keyDownNativeEnterFlag = true
-    setTimeout(() => {
-      if (this.keyDownNativeEnterFlag) {
-        this.updateSelected({
-          type: 'Search',
-          name: this.searchString,
-        })
-        this.redirectToGalleryPageIfNeed()
-      }
-    }, 100) // it means no highlight and not highlight select
-  }
-
-  @Debounce(50)
-  updateSelected(value: any) {
-    //To handle clearing event
-    this.keyDownNativeEnterFlag = false
-    if (!value) {
+    if (this.selectedIndex === -1) {
+      this.redirectToGalleryPageIfNeed()
       return
     }
-    if (value.type == 'History') {
-      this.updateSearch(value.name)
-    } else if (value.type == 'Search') {
-      this.insertNewHistory()
-      this.updateSearch(value.name)
-    } else if (value.__typename === 'NFTEntity') {
-      this.$router.push({
-        name: this.routeOf('detail-id'),
-        params: { id: value.id },
-      })
-    } else if (
-      value.__typename === 'CollectionEntity' ||
-      value.__typename === 'Series'
-    ) {
-      this.$router.push({
-        name: this.routeOf('collection-id'),
-        params: { id: value.id },
-      })
+    if (this.activeSearchTab === 'NFTs') {
+      this.gotoGalleryItem(this.nftSuggestion[this.selectedIndex])
+    } else {
+      this.gotoCollectionItem(
+        this.defaultCollectionSuggestions[this.selectedIndex]
+      )
     }
+
+    // this.searchRef?.blur()
+  }
+
+  onKeydownSelected(step: 1 | -1) {
+    this.selectedIndex =
+      (this.searchSuggestionEachTypeMaxNum + this.selectedIndex + step) %
+      this.searchSuggestionEachTypeMaxNum
+  }
+
+  @Watch('activeSearchTab')
+  watchActiveSearchTab() {
+    this.resetSelectedIndex()
+  }
+
+  @Watch('name')
+  watchSearchKey() {
+    this.resetSelectedIndex()
+  }
+
+  resetSelectedIndex() {
+    this.selectedIndex = -1
   }
 
   redirectToGalleryPageIfNeed() {
@@ -858,6 +868,13 @@ export default class SearchBar extends mixins(
 
 <style scoped lang="scss">
 @import '@/styles/variables';
+
+.gallery-search {
+  .selected-item {
+    background: white;
+    border: 1px solid $primary;
+  }
+}
 
 .round-image {
   border-radius: 64px;
