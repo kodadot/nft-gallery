@@ -529,6 +529,3 @@ export default class GalleryItem extends mixins(
   }
 }
 </script>
-<style scoped lang="scss">
-@import '@/styles/border';
-</style>

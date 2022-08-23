@@ -169,7 +169,7 @@ export default class BaseGalleryItem extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .gallery-item {
   .fixed-height {
