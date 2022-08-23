@@ -132,7 +132,7 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
 
 <style lang="scss">
 @import 'bulma/sass/utilities/mixins.sass';
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .navbar {
   &__identity {

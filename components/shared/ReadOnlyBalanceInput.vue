@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
@@ -61,7 +61,6 @@ export default class ReadOnlyBalanceInput extends mixins(ChainMixin) {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables';
 .option {
   border: 1px solid #fff;
   display: flex;

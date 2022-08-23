@@ -565,7 +565,7 @@ export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
 }
 </script>
 <style lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .history {
   width: 200px;

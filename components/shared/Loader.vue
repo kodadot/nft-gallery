@@ -87,7 +87,7 @@ export default class Loader extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .loading-container {
   text-align: center;

@@ -283,7 +283,8 @@ export default class CollectionList extends mixins(
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+// move to scss component
+@import '@/styles/abstracts/variables';
 .card-image__burned {
   filter: blur(7px);
 }

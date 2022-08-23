@@ -869,7 +869,7 @@ export default class SearchBar extends mixins(
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .b-skeleton {
   height: 32px !important;

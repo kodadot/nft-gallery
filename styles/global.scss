@@ -48,73 +48,12 @@ body {
     font-size: calc(1rem * 0.75);
   }
 
-  .text__stroked {
-    color: $primary;
-    -webkit-text-fill-color: $black;
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: $primary;
-    padding: 0 8px 0 0;
-  }
-
-  .heading {
-    display: flex;
-    flex-direction: column;
-  }
-
   .loading-overlay .loading-background {
     background-color: rgba(0, 0, 0, 0.5);
   }
 
-  .animation-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .modal.is-active {
-    z-index: 99999;
-  }
-
-  .modal-background {
-    background-color: rgba(0, 0, 0, 0.86);
-  }
-
-  .modal-content {
-    border: 2px solid $primary-light;
-    box-shadow: 13px 14px rgba(90, 15, 60, 0.7);
-  }
-
-  a {
-    color: $lightpink;
-  }
-
-  .button.is-text {
-    &:hover {
-      background-color: $grey-darker;
-    }
-
-    &:focus {
-      background-color: $grey-darker;
-      border: none;
-    }
-  }
-
-  .navbar-start .nuxt-link-active {
-    color: $primary;
-    background-color: #121212;
-  }
-
   .orientation {
     perspective: 30em;
-  }
-
-  pre {
-    background-color: $black;
-    color: $primary;
-  }
-
-  .card-header {
-    box-shadow: none !important;
   }
 
   .b-tabs .tab-content {
@@ -125,59 +64,6 @@ body {
   .money-cursor .button {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>💸</text></svg>"),
       auto;
-  }
-}
-
-.button {
-  text-transform: uppercase;
-  font-weight: 500;
-  transition: all 0.3s;
-  color: $scheme-invert;
-}
-
-.button.is-text {
-  &:hover {
-    border: none;
-    background-color: $grey-darker;
-  }
-
-  &:focus {
-    background-color: $grey-darker;
-    border: none;
-  }
-}
-
-button.button.is-bordered {
-  border-top: 2px solid $primary !important;
-}
-
-button.button.is-bordered-light {
-  border-color: transparent;
-  border-top: 1px solid $primary !important;
-}
-
-button.button.navbar-link-background {
-  background-color: $blacklight;
-}
-
-.share-button {
-  width: 40px;
-}
-
-.card.bordered {
-  border-radius: 4px;
-  box-shadow: none;
-  border-top: $sleek-primary-border;
-
-  &-content {
-    padding-left: 1rem;
-    padding-top: 1rem;
-  }
-
-  &-footer {
-    &-item {
-      padding: 0.75rem !important;
-    }
   }
 }
 
@@ -248,6 +134,11 @@ button.button.navbar-link-background {
 .b-radio.is-selected {
   color: #000;
   background-color: $primary;
+}
+
+.collection-radio-btn .b-radio.radio.button {
+  border: none !important;
+  border-top: 1px solid $primary  !important;
 }
 
 .short-identity__table {
