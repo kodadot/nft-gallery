@@ -28,12 +28,12 @@
             }">
             <img
               v-if="isFullScreenView"
-              :src="image"
+              :src="itemImage"
               :alt="description"
               @contextmenu.prevent />
             <BasicImage
               v-else-if="imageVisible"
-              :src="image"
+              :src="itemImage"
               :alt="description"
               data-cy="item-media"
               @contextmenu.native.prevent />
@@ -42,7 +42,7 @@
               class="media-container is-flex is-justify-content-center">
               <MediaResolver
                 :src="animationUrl"
-                :poster="image"
+                :poster="itemImage"
                 :description="description"
                 :available-animations="[animationUrl]"
                 :mime-type="mimeType"
@@ -52,7 +52,7 @@
             <div
               v-show="isTileView"
               id="tile-placeholder"
-              :style="{ 'background-image': 'url(' + image + ')' }"
+              :style="{ 'background-image': 'url(' + itemImage + ')' }"
               :alt="description"
               @click="exitTileView"
               @contextmenu.prevent />
@@ -105,7 +105,7 @@ const directives = {
 
 @Component({ components, directives })
 export default class BaseGalleryItem extends Vue {
-  @Prop({ type: String, default: '/placeholder.svg' }) public image!: string
+  @Prop({ type: String, default: '' }) public image!: string
   @Prop(String) public animationUrl!: string
   @Prop({ type: String, default: 'KodaDot NFT minted multimedia' })
   public description!: string
@@ -124,6 +124,15 @@ export default class BaseGalleryItem extends Vue {
       return true
     }
     return this.$store.getters['preferences/getEnableGyroEffect']
+  }
+
+  get itemImage(): string {
+    return (
+      this.image ||
+      (this.$colorMode.preference === 'dark'
+        ? '/placeholder.webp'
+        : '/placeholder-white.webp')
+    )
   }
 
   public toggleView(): void {
@@ -160,7 +169,7 @@ export default class BaseGalleryItem extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .gallery-item {
   .fixed-height {

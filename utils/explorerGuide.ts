@@ -1,43 +1,7 @@
-const urlBuilderBlockNumber = (
+export const urlBuilderTransaction = (
   value: string,
-  chain: string,
-  provider: string
-): any => {
-  if (provider === 'subscan') {
-    return `https://${chain}.${provider}.io/block/${value}`
-  }
-
-  if (provider === 'polkascan') {
-    return `https://${provider}.io/pre/${chain}/block/${value}`
-  }
+  blockExplorer: string
+): string => {
+  // e.g https://kusama.subscan.io/extrinsic/0xbad28463be97b63443de249dada01683a5ee7b48a509c1c0b0e51ae93ab707a1
+  return `${blockExplorer}extrinsic/${value}`
 }
-
-const urlBuilderAccount = (
-  value: string,
-  chain: string,
-  provider: string
-): any => {
-  if (provider === 'subscan') {
-    return `https://${chain}.${provider}.io/account/${value}`
-  }
-
-  if (provider === 'polkascan') {
-    return `https://${provider}.io/pre/${chain}/account/${value}`
-  }
-}
-
-const urlBuilderTransaction = (
-  value: string,
-  chain: string,
-  provider: string
-): any => {
-  if (provider === 'subscan') {
-    return `https://${chain}.${provider}.io/extrinsic/${value}`
-  }
-
-  if (provider === 'polkascan') {
-    return `https://${provider}.io/pre/${chain}/transaction/${value}`
-  }
-}
-
-export { urlBuilderAccount, urlBuilderBlockNumber, urlBuilderTransaction }

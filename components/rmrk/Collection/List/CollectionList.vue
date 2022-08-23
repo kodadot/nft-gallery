@@ -116,7 +116,10 @@ export default class CollectionList extends mixins(
 ) {
   private collections: Collection[] = []
   private meta: Metadata[] = []
-  private placeholder = '/placeholder.webp'
+  private placeholder =
+    this.$colorMode.preference === 'dark'
+      ? '/placeholder.webp'
+      : '/placeholder-white.webp'
   private isLoading = true
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
@@ -280,7 +283,8 @@ export default class CollectionList extends mixins(
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+// move to scss component
+@import '@/styles/abstracts/variables';
 .card-image__burned {
   filter: blur(7px);
 }

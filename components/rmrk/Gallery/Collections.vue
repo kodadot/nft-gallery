@@ -213,7 +213,8 @@ export default class Collections extends mixins(PrefixMixin) {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+// move to component scss
+@import '@/styles/abstracts/variables';
 
 .card-image__burned {
   filter: blur(7px);

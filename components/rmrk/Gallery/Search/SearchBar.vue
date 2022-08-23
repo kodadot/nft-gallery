@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="columns mb-0">
-      <b-field class="column is-6 mb-0" :class="searchColumnClass">
+      <b-field class="column is-8 mb-0 mr-2" :class="searchColumnClass">
         <b-button
           v-if="!hideFilter"
           icon-left="filter"
@@ -101,7 +101,7 @@
         v-if="!hideFilter"
         expanded
         position="is-right"
-        class="column is-6">
+        class="column is-4">
         <b-button
           icon-left="filter"
           aria-controls="sortAndFilter"
@@ -854,7 +854,7 @@ export default class SearchBar extends mixins(
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .b-skeleton {
   height: 32px !important;

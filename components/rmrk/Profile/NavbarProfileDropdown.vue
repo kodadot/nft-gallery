@@ -58,6 +58,12 @@
       <hr class="dropdown-divider" aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
+        <AccountBalance class="is-size-7" />
+      </b-dropdown-item>
+
+      <hr class="dropdown-divider" aria-role="menuitem" />
+
+      <b-dropdown-item custom aria-role="menuitem">
         <b-field>
           <p class="control">
             <ConnectWalletButton label="general.change_account" />
@@ -86,6 +92,7 @@ const components = {
   ConnectWalletButton: () =>
     import('@/components/shared/ConnectWalletButton.vue'),
   Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
 }
 
 @Component({ components })
@@ -93,11 +100,6 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public value!: any
   @Prop() public isRmrk!: boolean
   @Prop() public isBsx!: boolean
-
-  protected disconnect() {
-    this.$store.dispatch('setAuth', { address: '' }) // null not working
-    localStorage.removeItem('kodaauth')
-  }
 
   set account(account: string) {
     this.$store.dispatch('setAuth', { address: account })
@@ -107,7 +109,12 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
     return this.$store.getters.getAuthAddress
   }
 
-  protected showRampSDK(): void {
+  public disconnect() {
+    this.$store.dispatch('setAuth', { address: '' }) // null not working
+    localStorage.removeItem('kodaauth')
+  }
+
+  public showRampSDK(): void {
     new RampInstantSDK({
       defaultAsset: 'KSM', // todo: prefix
       userAddress: this.account,
@@ -122,7 +129,7 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
 
 <style lang="scss">
 @import 'bulma/sass/utilities/mixins.sass';
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .navbar {
   &__identity {

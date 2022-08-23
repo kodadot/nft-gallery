@@ -7,9 +7,9 @@
 
     <div class="modal-card-body">
       <div
-        class="emotes"
         v-for="emote in emotes.slice(0, DISPLAYED_EMOJI)"
-        :key="emote.key">
+        :key="emote.key"
+        class="emotes">
         <div class="emotes-icon">{{ emote.parsed }}</div>
         <div>
           <p>{{ emote.count }} person reacted to this NFT:</p>
@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Provide } from 'nuxt-property-decorator'
+import { Component, Prop, Provide, Vue } from 'nuxt-property-decorator'
 
 @Component({
   components: {
@@ -52,7 +52,7 @@ export default class EmotionModal extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .emotion {
   max-width: 400px;
