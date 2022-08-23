@@ -203,25 +203,19 @@ button.button.navbar-link-background {
     }
 
     > .dropdown-menu {
-      position: fixed;
-      top: auto;
-      padding-top: 0;
-      width: 97%;
-
-      > .dropdown-content {
-        max-height: 500px !important;
-        width: 550px !important;
-      }
+      display: none;
     }
   }
 }
 @media screen and (min-width: 481px){
   .gallery-search {
-
+    .b-tabs .tab-content {
+      padding: 10px;
+    }
 
     > .dropdown-menu {
       > .dropdown-content {
-        max-height: 470px !important;
+        // max-height: 470px !important;
         width: 550px;
       }
     }
