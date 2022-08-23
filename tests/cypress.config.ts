@@ -7,9 +7,13 @@ export default defineConfig({
     fixturesFolder: 'cypress/fixtures',
     video: false,
     screenshotOnRunFailure: false,
-    retries: 3,
+    retries: {
+      runMode: 3,
+      openMode: 0,
+    },
     defaultCommandTimeout: 10000,
   },
+  numTestsKeptInMemory: 1,
   viewportWidth: 1366,
   viewportHeight: 768,
 })
