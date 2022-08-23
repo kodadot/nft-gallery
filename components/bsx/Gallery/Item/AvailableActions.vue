@@ -5,21 +5,21 @@
       v-if="accountId"
       :actions="actions"
       :price="price"
-      :disabledToolTips="toolTips"
+      :disabled-tool-tips="toolTips"
       @click="handleAction" />
     <component
-      ref="balanceInput"
-      class="mb-4"
-      v-if="showMeta"
       v-bind="dynamicProps"
       :is="showMeta"
-      @input="updateMeta"
-      emptyOnError />
+      v-if="showMeta"
+      ref="balanceInput"
+      class="mb-4"
+      empty-on-error
+      @input="updateMeta" />
     <DaySelect v-if="showDaySelect" v-model="selectedDay" :days="dayList" />
     <SubmitButton
       v-if="showSubmit"
-      @click="submit"
-      :disabled="disableSubmitButton">
+      :disabled="disableSubmitButton"
+      @click="submit">
       {{ $t('nft.action.submit', [$t(`nft.event.${selectedAction}`)]) }}
     </SubmitButton>
   </div>
@@ -39,16 +39,16 @@ import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
 import {
+  ShoppingActionToolTips,
+  ShoppingActions,
   actionComponent,
   getActionList,
   iconResolver,
-  ShoppingActions,
-  ShoppingActionToolTips,
 } from '@/utils/shoppingActions'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { onApiConnect } from '@kodadot1/sub-api'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import { formatBsxBalanceToNumber } from '~/utils/format/balance'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import { formatBsxBalanceToNumber } from '@/utils/format/balance'
 
 const components = {
   ActionList: () => import('@/components/bsx/Gallery/Item/ActionList.vue'),
