@@ -9,24 +9,24 @@
     <CollectionSelect
       v-model="vSelectedCollection"
       :collections="collections"
-      :showExplainerText="showExplainerText" />
+      :show-explainer-text="showExplainerText" />
 
     <transition-group name="fade">
       <template v-if="vSelectedCollection">
         <MetadataUpload
           ref="upload"
-          :required="true"
-          v-model="vFile"
           key="file"
+          v-model="vFile"
+          :required="true"
           label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
           expanded
           preview />
 
         <BasicInput
           ref="nftName"
-          required
-          v-model="vName"
           key="name"
+          v-model="vName"
+          required
           :label="$t('mint.nft.name.label')"
           :message="$t('mint.nft.name.message')"
           :placeholder="$t('mint.nft.name.placeholder')"
@@ -35,8 +35,8 @@
           maxlength="60" />
 
         <BasicInput
-          v-model="vDescription"
           key="description"
+          v-model="vDescription"
           maxlength="500"
           class="my-5"
           type="textarea"
@@ -47,8 +47,8 @@
 
         <BasicNumberInput
           v-if="hasEdition"
-          v-model="vEdition"
           key="edition"
+          v-model="vEdition"
           :label="$t('mint.nft.edition.label')"
           :message="$t('mint.nft.edition.message')"
           :placeholder="$t('mint.nft.edition.placeholder')"
@@ -126,15 +126,3 @@ export default class BaseTokenForm extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

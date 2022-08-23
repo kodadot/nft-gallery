@@ -27,7 +27,7 @@ const IdentityPopoverFooter = defineAsyncComponent(
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .tippy-container {
   display: inline-block;

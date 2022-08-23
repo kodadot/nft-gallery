@@ -1,6 +1,6 @@
-@import "./initial-variables.scss";
+@import "initial-variables";
 @import "~bulma/sass/utilities/_all";
-@import "./derived-variables.scss";
+@import "derived-variables";
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: mergeColorMaps(
@@ -152,7 +152,8 @@ $image-placeholder-blur-enabled: false;
 $lightpink: lightpink;
 
 $blacklight: #0909098c;
-$input-color: #E5E5E5;
+$input-color: #181818;
+$select-color: #E5E5E5;
 $placeholder-color: #1f1f1f;
 $search-navbar-background-color: #29292f;
 $select-border-color: #7d7d7d;

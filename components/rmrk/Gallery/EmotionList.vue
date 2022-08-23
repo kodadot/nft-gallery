@@ -96,7 +96,7 @@ export default class EmotionList extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .emoji-box {
   padding: 0 0.75rem;

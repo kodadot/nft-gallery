@@ -336,8 +336,6 @@ export default class Profile extends mixins(PrefixMixin) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
-
 .invisible-tab > nav.tabs {
   display: none;
 }

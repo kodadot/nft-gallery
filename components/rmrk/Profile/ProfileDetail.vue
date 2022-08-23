@@ -877,8 +877,6 @@ export default class ProfileDetail extends mixins(
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
-
 .invisible-tab > nav.tabs {
   display: none;
 }

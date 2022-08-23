@@ -127,7 +127,8 @@ export default class CuratedList extends mixins(AuthMixin, PrefixMixin) {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+// move to scss component
+@import '@/styles/abstracts/variables';
 
 .curated-list {
   .carousel,

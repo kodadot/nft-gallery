@@ -3,17 +3,17 @@
     <div class="modal-card wallet">
       <header class="modal-card-head">
         <b-button
+          v-show="hasSelectedWalletProvider"
           type="is-text"
           class="mr-2"
           icon-left="chevron-left"
-          @click="hasSelectedWalletProvider = !hasSelectedWalletProvider"
-          v-show="hasSelectedWalletProvider" />
+          @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
         <p class="modal-card-title has-text-weight-bold">
           {{ $t('walletConnect.walletHeading') }}
         </p>
         <button type="button" class="delete" @click="$emit('close')" />
       </header>
-      <section class="modal-card-body py-6" v-if="!hasUserWalletAuth">
+      <section v-if="!hasUserWalletAuth" class="modal-card-body py-6">
         <div class="mb-5">
           {{ $t('walletConnect.authText') }}
         </div>
@@ -23,7 +23,7 @@
           </b-checkbox>
         </b-field>
       </section>
-      <section class="modal-card-body" v-if="hasUserWalletAuth">
+      <section v-if="hasUserWalletAuth" class="modal-card-body">
         <div class="has-text-centered">
           <img
             src="~/assets/Koda_Beta.svg"
@@ -31,14 +31,14 @@
             height="32" />
         </div>
 
-        <div class="buttons my-5" v-show="!hasSelectedWalletProvider">
+        <div v-show="!hasSelectedWalletProvider" class="buttons my-5">
           <b-button
             v-for="(wallet, index) in wallets"
-            @click="setWallet(wallet)"
             :key="index"
             size="is-medium"
             icon-right="chevron-right"
-            expanded>
+            expanded
+            @click="setWallet(wallet)">
             <b-image
               :src="wallet.img"
               class="is-24x24"
@@ -48,8 +48,8 @@
         </div>
 
         <div
-          class="buttons my-5"
-          v-show="hasSelectedWalletProvider && !hasWalletProviderExtension">
+          v-show="hasSelectedWalletProvider && !hasWalletProviderExtension"
+          class="buttons my-5">
           <b-button
             tag="a"
             :href="guideUrl"
@@ -82,7 +82,7 @@
             <b>{{ selectedWalletProvider.extensionName }}</b> account
           </div>
 
-          <b-field :label="$t('account')" v-if="walletAccounts.length">
+          <b-field v-if="walletAccounts.length" :label="$t('account')">
             <b-select v-model="account" placeholder="Select account" expanded>
               <option disabled selected value="">--</option>
               <option
@@ -101,7 +101,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { web3Accounts } from '@polkadot/extension-dapp'
@@ -225,7 +225,7 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 .wallet {
   max-width: 400px;
   border: 3px solid $primary;
