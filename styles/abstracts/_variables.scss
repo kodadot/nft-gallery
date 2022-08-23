@@ -1,6 +1,6 @@
-@import "./initial-variables.scss";
-@import "~bulma/sass/utilities/_all";
-@import "./derived-variables.scss";
+@import "initial-variables";
+// @import "~bulma/sass/utilities/_all";
+@import "derived-variables";
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: mergeColorMaps(

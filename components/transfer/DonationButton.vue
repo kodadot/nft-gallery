@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 @Component({})
 export default class DonationButton extends Vue {
   @Prop() public address!: string
@@ -20,7 +20,3 @@ export default class DonationButton extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/variables';
-</style>

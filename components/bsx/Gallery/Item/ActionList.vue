@@ -13,8 +13,8 @@
         outlined
         expanded
         class="only-border-top"
-        @click="handleActionSelect(action)"
-        :data-cy="action">
+        :data-cy="action"
+        @click="handleActionSelect(action)">
         {{ actionLabel(action) }}
       </b-button>
     </b-tooltip>
@@ -24,10 +24,10 @@
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
 import {
+  ShoppingActionToolTips,
+  ShoppingActions,
   getActionButtonColor,
   getActionButtonLabelKey,
-  ShoppingActions,
-  ShoppingActionToolTips,
 } from '~/utils/shoppingActions'
 import { TranslateResult } from 'vue-i18n/types'
 
@@ -59,7 +59,3 @@ export default class ActionList extends Vue {
   }
 }
 </script>
-
-<style scoped lang="scss">
-@import '@/styles/border';
-</style>
