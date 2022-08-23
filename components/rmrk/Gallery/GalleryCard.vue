@@ -17,7 +17,7 @@
           v-if="!animatedUrl"
           :src="image"
           :alt="title"
-          customClass="gallery__image-wrapper" />
+          custom-class="gallery__image-wrapper" />
 
         <PreviewMediaResolver v-else :src="animatedUrl" :metadata="metadata" />
         <span v-if="price > 0 && showPriceValue" class="card-image__price">
@@ -77,8 +77,6 @@ export default class GalleryCard extends mixins(AuthMixin) {
   protected title = ''
   protected animatedUrl = ''
 
-  protected placeholder = '/placeholder.webp'
-
   async fetch() {
     if (this.metadata) {
       const image = await getSingleCloudflareImage(this.metadata)
@@ -115,7 +113,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .nft-card {
   position: relative;

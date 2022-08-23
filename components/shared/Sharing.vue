@@ -195,7 +195,7 @@ export default class Sharing extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .share {
   &__button {

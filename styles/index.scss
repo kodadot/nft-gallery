@@ -1,10 +1,27 @@
-@import "./variables.scss";
-@import "./global.scss";
-@import "./atomic.scss";
+// ABSTRACTS
+@import "abstracts/variables";
+@import "abstracts/animations";
+
+// FRAMEWORK (note: don't move this on top)
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
-@import "./tippy";
-@import "./animations.scss";
+
+// GLOBAL
+@import "./global.scss";
+
+// BASE STYLES
+@import "base/reset";
+@import "base/typography";
+
+// COMPONENTS
+@import "components/button";
+@import "components/card";
+@import "components/modal";
+@import "components/tippy";
+
+// LAYOUTS
+@import "layouts/footer";
+@import "layouts/main-navigation";
 
 // THEMES
 @import "themes/dark";

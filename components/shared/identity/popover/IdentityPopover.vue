@@ -183,7 +183,7 @@ export default class IdentityPopover extends mixins(
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .tippy-container {
   display: inline-block;

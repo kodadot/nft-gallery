@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { HistoryItem } from '~/store/history'
 
 @Component({
@@ -58,7 +58,7 @@ export default class BrowserItem extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .item {
   width: 100%;

@@ -20,25 +20,6 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
-@import '@/styles/variables';
-
-.snackbar {
-  border: 2px solid $primary;
-  background-color: #202225;
-  box-shadow: $dropdown-content-shadow;
-}
-
-.slide-enter-active,
-.slide-leave-active {
-  transition: opacity 0.5s;
-}
-.slide-enter,
-.slide-leave-to {
-  opacity: 0;
-}
-</style>
-
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
@@ -62,3 +43,13 @@ export default class CookieBanner extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
+.snackbar {
+  border: 2px solid $primary;
+  background-color: #202225;
+  box-shadow: $dropdown-content-shadow;
+}
+</style>

@@ -239,7 +239,7 @@ export default defineNuxtConfig({
       alwaysRedirect: true,
     },
     loadLanguagesAsync: true,
-    langDir: 'langDir',
+    langDir: 'locales',
     locales: [
       { code: 'en', iso: 'en-US', file: 'en.json' },
       { code: 'cn', iso: 'cn', file: 'cn.json' },

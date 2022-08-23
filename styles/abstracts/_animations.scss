@@ -27,3 +27,29 @@
 .page-leave-active {
   opacity: 0;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.animation-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: opacity 0.5s;
+}
+
+.slide-enter,
+.slide-leave-to {
+  opacity: 0;
+}
