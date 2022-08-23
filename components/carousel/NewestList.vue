@@ -44,8 +44,11 @@ const components = {
   components,
 })
 export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
+  // @Prop({ type: Array, required: false, default: () => [] })
+  // passionList: string[]
   private nfts: any[] = []
   private events: any[] = []
+  private total = 0
 
   get isLoading(): boolean {
     return false
@@ -61,7 +64,9 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
         limit: 10,
         event: 'LIST',
       }
-
+      // if (this.isLogIn && this.passionList.length > 9) {
+      //   queryVariables.passionAccount = this.accountId
+      // }
       const result = await this.$apollo
         .query<{
           events: { meta; nft: { meta: { id; image } } }

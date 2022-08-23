@@ -49,6 +49,8 @@ const components = {
   components,
 })
 export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
+  // @Prop({ required: false, type: Array, default: () => [] })
+  // passionList?: string[]
   private nfts: any[] = []
   private events: any[] = []
   private currentValue = 1
@@ -58,16 +60,23 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
     return false
   }
 
-  fetch() {
+  async fetch() {
     this.fetchData()
   }
+
+  // @Watch('passionList')
+  // private onPassionList() {
+  //   this.fetchData()
+  // }
 
   async fetchData() {
     const queryVars: { limit: number; event: string } = {
       limit: 10,
       event: 'BUY',
     }
-
+    // if (this.isLogIn) {
+    //   queryVars.passionAccount = this.accountId
+    // }
     const result = await this.$apollo
       .query<{
         events: LastEvent[]
