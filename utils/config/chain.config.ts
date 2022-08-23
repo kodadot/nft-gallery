@@ -1,3 +1,4 @@
+import { AssetItem } from '~~/components/bsx/Asset/types'
 import { ChainProperties } from '../api/Query'
 import { Config, Prefix } from './types'
 
@@ -43,4 +44,15 @@ export const blockExplorerOf = (
   prefix: Prefix | string
 ): string | undefined => {
   return chainPropListOf(prefix).blockExplorer
+}
+
+export const chainAssetOf = (prefix: Prefix | string): AssetItem => {
+  const { tokenDecimals: decimals, tokenSymbol: symbol } =
+    chainPropListOf(prefix)
+  return {
+    id: '0',
+    name: symbol,
+    symbol,
+    decimals,
+  }
 }
