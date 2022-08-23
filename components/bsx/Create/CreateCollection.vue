@@ -14,13 +14,13 @@
           visible="collapse.collection.attributes.show"
           hidden="collapse.collection.attributes.hide" /> -->
         <b-field>
-          <p class="has-text-weight-medium is-size-6 has-text-warning">
+          <p class="has-text-weight-medium is-size-6 has-text-info">
             {{ $t('mint.deposit') }}:
             <Money :value="collectionDeposit" inline />
           </p>
         </b-field>
         <b-field>
-          <AccountBalance />
+          <AccountBalance token-id="5" />
         </b-field>
         <b-field type="is-danger" :message="balanceNotEnoughMessage">
           <SubmitButton
@@ -71,7 +71,7 @@ const components = {
   BaseCollectionForm: () => import('@/components/base/BaseCollectionForm.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
+  Money: () => import('@/components/bsx/format/TokenMoney.vue'),
   AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
   // CustomAttributeInput: () =>
   //   import('@/components/rmrk/Create/CustomAttributeInput.vue'),

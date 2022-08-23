@@ -42,12 +42,12 @@
           </CollapseWrapper>
         </b-field>
         <b-field key="deposit">
-          <p class="has-text-weight-medium is-size-6 has-text-warning">
+          <p class="has-text-weight-medium is-size-6 has-text-info">
             {{ $t('mint.deposit') }}: <Money :value="deposit" inline />
           </p>
         </b-field>
         <b-field key="balance">
-          <AccountBalance />
+          <AccountBalance token-id="5" />
         </b-field>
         <b-field key="token">
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
@@ -122,7 +122,7 @@ const components = {
   BaseTokenForm: () => import('@/components/base/BaseTokenForm.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   RoyaltyForm: () => import('@/components/bsx/Create/RoyaltyForm.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
+  Money: () => import('@/components/bsx/format/TokenMoney.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
   MultiPaymentFeeButton: () =>
