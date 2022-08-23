@@ -50,7 +50,7 @@ export default class PopularCollections extends mixins(PrefixMixin) {
     return false
   }
 
-  async created() {
+  created() {
     this.handleResult()
   }
 

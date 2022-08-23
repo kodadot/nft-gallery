@@ -58,7 +58,7 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
     return false
   }
 
-  async fetch() {
+  fetch() {
     this.fetchData()
   }
 
