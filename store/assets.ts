@@ -1,9 +1,10 @@
 import { emptyObject, isEmpty } from '@kodadot1/minimark'
 import consola from 'consola'
-import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
+import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
 import { useApollo } from '@/utils/config/useApollo'
 import assetListByIdList from '@/queries/subsquid/bsx/assetListByIdList.graphql'
 import { AssetListQueryResponse } from '@/components/bsx/Asset/types'
+import { chainAssetOf } from '~~/utils/config/chain.config'
 
 export type TokenProperty = {
   id: string
@@ -36,17 +37,15 @@ export const actions: ActionTree<TokenState, TokenState> = {
       return state.tokenMap
     }
 
-    if (!this.app.apolloProvider?.clients || prefix !== 'snek') {
-      consola.warn('No compatible apollo client found')
-      return
-    }
-
     const client = this.app.apolloProvider.clients[prefix]
     const { assetList } = await useApollo<any, AssetListQueryResponse>(
       client,
       prefix,
       assetListByIdList
-    )
+    ).catch(() => ({
+      assetList: [chainAssetOf(prefix)],
+    }))
+
     const tokenMap = Object.fromEntries(
       assetList.map(({ id, decimals, symbol }) => [
         id,
