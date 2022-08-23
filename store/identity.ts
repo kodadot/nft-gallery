@@ -1,5 +1,5 @@
 import { emptyObject } from '@/utils/empty'
-import { ApiFactory, onApiConnect, identityOf } from '@kodadot1/sub-api'
+import { ApiFactory, identityOf, onApiConnect } from '@kodadot1/sub-api'
 import { Registration } from '@polkadot/types/interfaces/identity/types'
 import consola from 'consola'
 import Vue from 'vue'
@@ -217,6 +217,7 @@ export const getters = {
     return state.auth.balance[urlPrefix] || '0'
   },
   getTokenBalanceOf(state: IdentityStruct): (tokenId: string) => string {
-    return (tokenId: string) => state.auth.tokens[tokenId] || '0'
+    return (tokenId: string) =>
+      state.auth.tokens ? state.auth.tokens[tokenId] || '0' : '0'
   },
 }
