@@ -27,20 +27,20 @@
 import { Component, mixins } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 
-import { LastEvent } from '~/utils/types/types'
+import { LastEvent } from '@/utils/types/types'
 
 import { convertLastEventToNft, fallbackMetaByNftEvent } from '@/utils/carousel'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
-} from '~/utils/cachingStrategy'
+} from '@/utils/cachingStrategy'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 
 import AuthMixin from '@/utils/mixins/authMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 const components = {
-  CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
+  CarouselCardList: () => import('@/components/carousel/CarouselCardList.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
 }
@@ -49,8 +49,6 @@ const components = {
   components,
 })
 export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
-  // @Prop({ required: false, type: Array, default: () => [] })
-  // passionList?: string[]
   private nfts: any[] = []
   private events: any[] = []
   private currentValue = 1
@@ -64,19 +62,12 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
     this.fetchData()
   }
 
-  // @Watch('passionList')
-  // private onPassionList() {
-  //   this.fetchData()
-  // }
-
   async fetchData() {
     const queryVars: { limit: number; event: string } = {
       limit: 10,
       event: 'BUY',
     }
-    // if (this.isLogIn) {
-    //   queryVars.passionAccount = this.accountId
-    // }
+
     const result = await this.$apollo
       .query<{
         events: LastEvent[]

@@ -28,15 +28,15 @@ import { Component, mixins } from 'nuxt-property-decorator'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
-} from '~/utils/cachingStrategy'
+} from '@/utils/cachingStrategy'
 import { formatDistanceToNow } from 'date-fns'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
-import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { convertLastEventToNft, fallbackMetaByNftEvent } from '@/utils/carousel'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 
 const components = {
-  CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
+  CarouselCardList: () => import('@/components/carousel/CarouselCardList.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
 }
 
@@ -44,11 +44,8 @@ const components = {
   components,
 })
 export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
-  // @Prop({ type: Array, required: false, default: () => [] })
-  // passionList: string[]
   private nfts: any[] = []
   private events: any[] = []
-  private total = 0
 
   get isLoading(): boolean {
     return false
@@ -64,9 +61,7 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
         limit: 10,
         event: 'LIST',
       }
-      // if (this.isLogIn && this.passionList.length > 9) {
-      //   queryVariables.passionAccount = this.accountId
-      // }
+
       const result = await this.$apollo
         .query<{
           events: { meta; nft: { meta: { id; image } } }

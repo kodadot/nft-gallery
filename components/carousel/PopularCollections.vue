@@ -13,11 +13,11 @@
       </div>
       <div class="column has-text-right">
         <Pagination
-          simple
-          preserveScroll
           v-model="currentValue"
+          simple
+          preserve-scroll
           :total="total"
-          :perPage="1" />
+          :per-page="1" />
       </div>
     </div>
 
@@ -27,13 +27,13 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import popularCollectionList from '@/queries/rmrk/subsquid/popularCollectionList.graphql'
-import { RowSeries } from '~/components/series/types'
-import { sanitizeIpfsUrl } from '../utils'
+import { RowSeries } from '@/components/series/types'
+import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 
 const components = {
-  CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
+  CarouselCardList: () => import('@/components/carousel/CarouselCardList.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
 }

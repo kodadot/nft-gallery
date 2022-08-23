@@ -69,11 +69,11 @@
         </div>
       </div>
       <div v-if="prefix === 'rmrk' || prefix === 'bsx'">
-        <LazyGalleryLatestSales class="my-5" />
+        <LazyCarouselLatestSales class="my-5" />
         <span v-if="prefix === 'rmrk'">
-          <LazyGalleryPopularCollections class="my-5" />
+          <LazyCarouselPopularCollections class="my-5" />
         </span>
-        <LazyGalleryNewestList class="my-5" />
+        <LazyCarouselNewestList class="my-5" />
       </div>
     </div>
   </section>
@@ -81,7 +81,6 @@
 
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
-// import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 import AuthMixin from '@/utils/mixins/authMixin'
 
 @Component<Landing>({
@@ -93,30 +92,6 @@ import AuthMixin from '@/utils/mixins/authMixin'
 export default class Landing extends mixins(AuthMixin) {
   @Prop({ type: String, required: true, default: 'rmrk' }) prefix!: string
   @Prop({ type: String, default: 'RMRK Protocol' }) buildOn!: string
-
-  // private passionList: string[] = ['']
-
-  // async created() {
-  //   if (this.isLogIn) {
-  //     const result = await this.fetchPassionList()
-  //     if (result.length) {
-  //       this.passionList = this.passionList.concat(result)
-  //     }
-  //   }
-  // }
-
-  //   public async fetchPassionList() {
-  //     const {
-  //       data: { passionFeed },
-  //     } = await this.$apollo.query({
-  //       query: passionQuery,
-  //       client: 'subsquid',
-  //       variables: {
-  //         account: this.accountId,
-  //       },
-  //     })
-  //     return passionFeed?.map((item) => item.id) || []
-  //   }
 }
 </script>
 

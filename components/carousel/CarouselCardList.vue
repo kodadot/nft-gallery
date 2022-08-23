@@ -89,7 +89,7 @@ import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import AuthMixin from '@/utils/mixins/authMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
-import type { CarouselNFT } from './types'
+import type { CarouselNFT } from '@/components/base/types'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
