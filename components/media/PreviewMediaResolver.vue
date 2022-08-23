@@ -34,9 +34,7 @@ const fetchMimeType = async () => {
     return
   }
 
-  const nftMetadata = (await processSingleMetadata(
-    props.metadata
-  )) as NFTMetadata
+  const nftMetadata = await processSingleMetadata<NFTMetadata>(props.metadata)
   type.value = nftMetadata?.type || ''
 
   if (!type.value) {
