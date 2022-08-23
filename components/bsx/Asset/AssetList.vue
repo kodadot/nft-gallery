@@ -7,26 +7,26 @@
     </div>
     <Loader v-model="isLoading" :status="status" />
     <AssetTable
-      :assetList="assetList"
-      :accountId="accountId"
-      @select="handleTokenSelect"
-      :currentAsset="currentAsset" />
+      :asset-list="assetList"
+      :account-id="accountId"
+      :current-asset="currentAsset"
+      @select="handleTokenSelect" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import { useApollo } from '~/utils/config/useApollo'
-import AuthMixin from '~/utils/mixins/authMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 import assetListByIdList from '@/queries/subsquid/bsx/assetListByIdList.graphql'
-import { notificationTypes, showNotification } from '~/utils/notification'
-import { AssetItem, AssetListQueryResponse } from './types'
-import shouldUpdate from '~/utils/shouldUpdate'
-import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import { setDefaultFeeToken } from '@/utils/api/bsx/extrinsics'
-import { getAssetIdByAccount, getAsssetBalance } from '~/utils/api/bsx/query'
-import { mapToId } from '~/utils/mappers'
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
+import { getAssetIdByAccount, getAsssetBalance } from '@/utils/api/bsx/query'
+import { useApollo } from '@/utils/config/useApollo'
+import { mapToId } from '@/utils/mappers'
+import AuthMixin from '@/utils/mixins/authMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { AssetItem, AssetListQueryResponse } from './types'
 
 @Component({
   components: {

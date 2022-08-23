@@ -9,14 +9,14 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, VModel, Vue } from 'nuxt-property-decorator'
 import BasicBalanceInput from '@/components/shared/form/BasicBalanceInput.vue'
-import { useApollo } from '~/utils/config/useApollo'
 import assetById from '@/queries/subsquid/bsx/assetById.graphql'
-import { AssetItem } from '../Asset/types'
 import { onApiConnect } from '@kodadot1/sub-api'
-import ApiUrlMixin from '~/utils/mixins/apiUrlMixin'
-import { formatBsxBalanceToNumber } from '~/utils/format/balance'
+import { Component, Prop, VModel, mixins } from 'nuxt-property-decorator'
+import { useApollo } from '@/utils/config/useApollo'
+import { formatBsxBalanceToNumber } from '@/utils/format/balance'
+import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
+import { AssetItem } from '../Asset/types'
 
 @Component({
   components: {

@@ -239,7 +239,7 @@ export default class CollectionItem extends mixins(
 
       const collectionData = collectionQ.toHuman()
 
-      if (!collectionData.data) {
+      if (!collectionData?.data) {
         showNotification(
           `No Metadata with ID ${this.id}`,
           notificationTypes.info
