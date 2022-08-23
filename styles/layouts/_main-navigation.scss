@@ -44,11 +44,6 @@
 	}
 }
 
-.navbar-start .nuxt-link-active {
-	color: $primary;
-	background-color: #121212;
-}
-
 .navbar {
 	background-color: inherit;
 	backdrop-filter: blur(20px);
@@ -107,7 +102,7 @@
 		min-width: 140px;
 		margin: 0 1rem;
 
-		.icon {
+		.gallery-search .control .icon {
 			color: $placeholder-color  !important;
 		}
 
