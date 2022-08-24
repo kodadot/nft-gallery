@@ -236,7 +236,7 @@ export default class CollectionList extends mixins(
     try {
       const collections = this.$apollo.query({
         query: collectionListWithSearch,
-        client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+        client: this.client,
         variables: {
           first: this.first,
           offset,

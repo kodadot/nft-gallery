@@ -26,7 +26,7 @@
       <div class="columns">
         <div class="column is-6">
           <div class="mb-5">
-            <Name :nft="nft" :is-loading="isLoading" />
+            <Name data-cy="item-title" :nft="nft" :is-loading="isLoading" />
           </div>
 
           <div v-if="meta.description" class="block">
@@ -127,7 +127,8 @@
       <GalleryItemCarousel
         v-if="showRelatedCarousel"
         type="related"
-        :collection-id="nft.collection.id" />
+        :collection-id="nft.collection.id"
+        data-cy="carousel-related" />
       <GalleryItemCarousel type="visited" />
       <OfferList
         :current-owner-id="nft.currentOwner"

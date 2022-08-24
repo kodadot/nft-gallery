@@ -8,6 +8,7 @@
           class="collection-radio-btn"
           native-value="is-half-desktop is-half-tablet"
           :disabled="disabled"
+          data-cy="large-display"
           @input="onInputChange">
           <span>
             <b-icon icon="th-large"></b-icon>
@@ -21,6 +22,7 @@
           class="collection-radio-btn"
           native-value="is-one-quarter-desktop is-one-third-tablet"
           :disabled="disabled"
+          data-cy="small-display"
           @input="onInputChange">
           <span>
             <b-icon icon="th"></b-icon>

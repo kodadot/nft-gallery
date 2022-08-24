@@ -28,9 +28,6 @@
 
       <hr class="dropdown-divider" aria-role="menuitem" />
       <template v-if="isRmrk">
-        <b-dropdown-item v-if="isRmrk" has-link aria-role="menuitem">
-          <nuxt-link to="/rmrk/admin">{{ $t('Admin') }}</nuxt-link>
-        </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
           <a @click="showRampSDK">
             {{ $t('credit') }}
