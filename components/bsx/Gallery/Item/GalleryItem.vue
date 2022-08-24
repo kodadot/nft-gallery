@@ -117,6 +117,11 @@
                       </p>
                     </div>
                     <AccountBalance token-id="5" />
+                    <b-field key="token">
+                      <MultiPaymentFeeButton
+                        :account-id="accountId"
+                        :prefix="urlPrefix" />
+                    </b-field>
                     <Sharing :enable-download="isOwner" class="mb-4" />
                   </div>
                 </div>
@@ -223,6 +228,8 @@ import { mapToId } from '@/utils/mappers'
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
     History: () => import('@/components/rmrk/Gallery/History.vue'),
     Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
+    MultiPaymentFeeButton: () =>
+      import('@/components/bsx/specific/MultiPaymentFeeButton.vue'),
   },
   directives: {
     orientation: Orientation,
