@@ -1,25 +1,11 @@
 <template>
-  <Landing :prefix="urlPrefix" :buildOn="buildOnText" />
+  <Landing :prefix="urlPrefix" :build-on="buildOnText" />
 </template>
 
-<script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
+<script lang="ts" setup>
+import Landing from '@/components/landing/LandingPage.vue'
 import { prefixBuildOnText } from '@/utils/prefix'
 
-@Component({
-  name: 'LandingPage',
-  components: {
-    Landing: () => import('@/components/landing/Landing.vue'),
-  },
-})
-export default class LandingPage extends mixins(PrefixMixin) {
-  get buildOnText() {
-    return prefixBuildOnText(this.urlPrefix)
-  }
-
-  layout() {
-    return 'full-width-layout'
-  }
-}
+const { urlPrefix } = usePrefix()
+const buildOnText = computed(() => prefixBuildOnText(urlPrefix.value))
 </script>

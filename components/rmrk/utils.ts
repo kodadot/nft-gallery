@@ -1,13 +1,13 @@
 import { emptyObject } from '@/utils/empty'
-import { RMRK, CollectionMetadata, MediaType } from './types'
+import { CollectionMetadata, MediaType, RMRK } from './types'
 import api from '@/utils/fetch'
 import {
-  RmrkWithMetaType,
   Interaction as EventInteraction,
+  RmrkWithMetaType,
 } from './service/scheme'
-import { NFTMetadata, Collection, NFT, NFTWithMeta } from './service/scheme'
+import { Collection, NFT, NFTMetadata, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
-import { justHash, Interaction } from '@kodadot1/minimark'
+import { Interaction, justHash } from '@kodadot1/minimark'
 import { logError } from '@/utils/mappers'
 import consola from 'consola'
 import { fastExtract } from '~/utils/ipfs'
