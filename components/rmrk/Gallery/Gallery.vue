@@ -370,7 +370,7 @@ export default class Gallery extends mixins(
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .card-image__burned {
   filter: blur(7px);

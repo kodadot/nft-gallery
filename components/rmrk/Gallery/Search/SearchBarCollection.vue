@@ -199,7 +199,7 @@ export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .card {
   box-shadow: 0px 0px 5px 0.5px $primary;
@@ -218,8 +218,6 @@ export default class CollectionSearchBar extends mixins(KeyboardEventsMixin) {
 
 <style lang="scss">
 /* cry in scss (global) */
-@import '@/styles/variables';
-
 .field-group-container {
   .is-grouped-multiline {
     flex-wrap: initial !important;

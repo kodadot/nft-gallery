@@ -403,7 +403,6 @@ export default class AvailableActions extends mixins(
 }
 </script>
 <style scoped lang="scss">
-@import '@/styles/border';
 .joy {
   font-size: 16px;
   margin-top: 2px;

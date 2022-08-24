@@ -59,7 +59,3 @@ export default class ActionList extends Vue {
   }
 }
 </script>
-
-<style scoped lang="scss">
-@import '@/styles/border';
-</style>

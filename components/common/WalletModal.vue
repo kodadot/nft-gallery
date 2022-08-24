@@ -225,7 +225,7 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 .wallet {
   max-width: 400px;
   border: 3px solid $primary;

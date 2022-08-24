@@ -53,5 +53,5 @@ Check out KodaDot's [monthly statistics](https://github.com/kodadot/nft-gallery/
 ### New Issues and pull requests 
 https://www.repotrends.com/kodadot/nft-gallery
 
-![image](https://user-images.githubusercontent.com/5887929/168427475-8fba329f-b022-4411-961e-9887fd5691aa.png)
+![image](https://user-images.githubusercontent.com/5887929/186192408-cf04dd5d-a809-4d0f-9e57-b1f371a5c2d4.png)
 

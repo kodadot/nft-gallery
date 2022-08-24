@@ -132,7 +132,12 @@ export default class CollectionItem extends mixins(
   private formater = tokenIdToRoute
 
   get image() {
-    return sanitizeIpfsUrl(this.collection.image || '') || '/placeholder.webp'
+    return (
+      sanitizeIpfsUrl(this.collection.image || '') ||
+      (this.$colorMode.preference === 'dark'
+        ? '/placeholder.webp'
+        : '/placeholder-white.webp')
+    )
   }
 
   get description() {

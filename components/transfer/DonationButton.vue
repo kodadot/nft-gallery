@@ -20,7 +20,3 @@ export default class DonationButton extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/variables';
-</style>

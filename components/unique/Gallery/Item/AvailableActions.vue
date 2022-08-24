@@ -15,11 +15,11 @@
       </b-button>
     </div>
     <component
-      class="mb-4"
-      v-if="showMeta"
       :is="showMeta"
-      @input="updateMeta"
-      emptyOnError />
+      v-if="showMeta"
+      class="mb-4"
+      empty-on-error
+      @input="updateMeta" />
     <b-button
       v-if="showSubmit"
       type="is-primary"
@@ -39,7 +39,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
 import shouldUpdate from '@/utils/shouldUpdate'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 
 const ownerActions: NFTAction[] = [
   NFTAction.SEND,
@@ -302,7 +302,3 @@ export default class AvailableActions extends mixins(
   }
 }
 </script>
-
-<style scoped lang="scss">
-@import '@/styles/border';
-</style>

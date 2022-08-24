@@ -60,8 +60,6 @@ export default class SearchSortDropdown extends mixins(PrefixMixin) {
 
 <style lang="scss">
 /* cry in scss (global) */
-@import '@/styles/variables';
-
 .select-dropdown {
   select {
     border: 1px solid #7d7d7d !important;
