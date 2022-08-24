@@ -13,8 +13,8 @@
       indicator-style="is-lines"
       data-cy="curated-list">
       <b-carousel-item
-        v-for="(collection, i) in collectionList"
-        :key="`${rerender}-${i}`">
+        v-for="(collection, i) in collections"
+        :key="`${collection.image}-${i}`">
         <BasicImage :src="collection.image" :alt="collection.name" />
         <div class="box">
           <div class="content has-text-left">
@@ -53,7 +53,6 @@ import {
 } from '@/utils/cachingStrategy'
 import { fastExtract } from '@/utils/ipfs'
 import { mapOnlyMetadata } from '@/utils/mappers'
-import resolveQueryPath from '@/utils/queryPathResolver'
 
 import { SomethingWithMeta, getSanitizer } from '@/components/rmrk/utils'
 import { CollectionMetadata } from '@/components/rmrk/types'
@@ -71,62 +70,40 @@ const curatedCollection = [
   '900D19DC7D3C444E4C-KSMBOT', // KusamaBot (deepologics)
 ]
 
-const { $apollo, $consola } = useNuxtApp()
-const { client, urlPrefix } = usePrefix()
+const { urlPrefix } = usePrefix()
+const { data } = useGraphql({
+  queryname: 'collectionCuratedList',
+  queryPath: urlPrefix.value,
+  variables:
+    urlPrefix.value === 'rmrk' ? { list: curatedCollection } : undefined,
+})
 
 type Collections = Collection & SomethingWithMeta
-const rerender = ref(0)
 const collections = ref<Collections[]>([])
-const collectionList = computed(() => collections.value)
 
-const handleResult = async ({ data }) => {
+const updateCollections = async ({ data }) => {
   if (!data?.collectionEntities.length) {
     return
   }
 
-  const entities = data.collectionEntities.map((e) => ({
+  collections.value = data.collectionEntities.map((e) => ({
     ...e,
     metadata: e.meta?.id || e.metadata,
+    image: '',
   })) as Collections[]
-  const metadataList: string[] = entities.map(mapOnlyMetadata)
+  const metadataList: string[] = collections.value.map(mapOnlyMetadata)
   const imageLinks = await getCloudflareImageLinks(metadataList)
 
-  await processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
-    entities[i] = {
-      ...entities[i],
-      image:
-        imageLinks[fastExtract(entities[i]?.metadata)] ||
-        getSanitizer(meta.image || '')(meta.image || ''),
-    }
-
-    // trigger rerender after image resolved on :key="`${rerender}-${i}`"
-    rerender.value++
+  processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
+    collections.value[i].image =
+      imageLinks[fastExtract(collections.value[i]?.metadata)] ||
+      getSanitizer(meta.image || '')(meta.image || '')
   })
-
-  collections.value = entities
 }
 
-const fetch = async () => {
-  // TODO: replace with useGraphql
-  const query = await resolveQueryPath(urlPrefix.value, 'collectionCuratedList')
-  const result = await $apollo
-    .query({
-      query: query.default,
-      client: client.value,
-      variables:
-        urlPrefix.value === 'rmrk' ? { list: curatedCollection } : undefined,
-    })
-    .catch((e) => {
-      $consola.error(e)
-      return { data: null }
-    })
-
-  if (result.data) {
-    handleResult(result)
-  }
-}
-
-onBeforeMount(fetch)
+watch(data, () => {
+  updateCollections({ data: data.value })
+})
 </script>
 
 <style lang="scss">
