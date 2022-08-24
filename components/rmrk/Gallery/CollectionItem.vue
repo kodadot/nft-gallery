@@ -7,7 +7,7 @@
             :src="image"
             :alt="name"
             rounded
-            customClass="collection__image" />
+            custom-class="collection__image" />
         </div>
         <h1 class="title is-2">
           {{ name }}
@@ -22,7 +22,7 @@
             {{ $t('creator') }}
           </div>
           <div v-if="issuer" class="subtitle is-size-6">
-            <ProfileLink :address="issuer" inline showTwitter showDiscord />
+            <ProfileLink :address="issuer" inline show-twitter show-discord />
             <p v-if="showMintTime" class="is-flex is-align-items-center py-3">
               <b-icon icon="clock" size="is-medium" />
               <span class="ml-2">Started minting {{ formattedTimeToNow }}</span>
@@ -31,18 +31,21 @@
         </div>
       </div>
 
-      <!-- <div v-if="id" class="column is-6-tablet is-7-desktop is-8-widescreen">
+      <div
+        v-if="id && urlPrefix === 'rmrk'"
+        class="column is-6-tablet is-7-desktop is-8-widescreen">
         <CollectionActivity :id="id" />
-      </div> -->
+      </div>
 
       <div class="column has-text-right">
         <Sharing
           v-if="sharingVisible"
           class="mb-2"
           :label="name"
-          :iframe="iframeSettings">
+          :iframe="iframeSettings"
+          data-cy="share-button">
           <DestroyCollection v-if="isOwner && urlPrefix === 'bsx'" :id="id" />
-          <DonationButton :address="issuer" />
+          <DonationButton :address="issuer" data-cy="donation-button" />
         </Sharing>
       </div>
     </div>
@@ -51,33 +54,33 @@
       <div class="column is-8 has-text-centered">
         <DescriptionWrapper
           v-if="!isLoading"
-          :rowHeight="50"
+          :row-height="50"
           :text="description.replaceAll('\n', '  \n')" />
       </div>
     </div>
 
     <b-tabs
-      position="is-centered"
-      v-model="activeTab"
       ref="tabsContainer"
+      v-model="activeTab"
+      position="is-centered"
       :style="{ minHeight: '800px' }"
       class="tabs-container-mobile">
       <b-tab-item label="Items" value="items">
         <Search
           v-bind.sync="searchQuery"
-          :showOwnerSwitch="!!accountId"
-          :disableToggle="!totalListed"
-          :sortOption="squidCollectionProfileSortOption">
+          :show-owner-switch="!!accountId"
+          :disable-toggle="!totalListed"
+          :sort-option="squidCollectionProfileSortOption">
           <Layout class="mr-5" />
           <b-field>
             <Pagination
-              hasMagicBtn
+              v-if="activeTab === 'items'"
+              v-model="currentValue"
+              has-magic-btn
               simple
               replace
-              preserveScroll
+              preserve-scroll
               :total="total"
-              v-model="currentValue"
-              v-if="activeTab === 'items'"
               :per-page="first" />
           </b-field>
         </Search>
@@ -91,40 +94,41 @@
           :listed="!!(searchQuery && searchQuery.listed)"
           :link="`${urlPrefix}/gallery`"
           :route="`/${urlPrefix}/gallery`"
-          horizontalLayout />
+          horizontal-layout />
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
           @infinite="reachBottomHandler"></InfiniteLoading>
         <ScrollTopButton />
       </b-tab-item>
       <b-tab-item label="Chart" value="chart">
-        <CollectionPriceChart :priceData="priceData" />
+        <BsxCollectionPriceChart v-if="isBsx" />
+        <CollectionPriceChart v-else :price-data="priceData" />
       </b-tab-item>
       <b-tab-item label="History" value="history">
         <History
           v-if="!isLoading && activeTab === 'history'"
           :events="eventsOfNftCollection"
-          :openOnDefault="isHistoryOpen"
-          hideCollapse
-          displayItem
+          :open-on-default="isHistoryOpen"
+          hide-collapse
+          display-item
           @setPriceChartData="setPriceChartData" />
       </b-tab-item>
       <b-tab-item label="Holders" value="holders">
         <CommonHolderTable
           v-if="!isLoading && activeTab === 'holders'"
           :events="ownerEventsOfNftCollection"
-          :openOnDefault="isHolderOpen"
-          hideCollapse />
+          :open-on-default="isHolderOpen"
+          hide-collapse />
       </b-tab-item>
       <b-tab-item label="Flippers" value="flippers">
         <Flipper
           v-if="!isLoading && activeTab === 'flippers'"
           :events="ownerEventsOfNftCollection"
-          openOnDefault
-          hideCollapse />
+          open-on-default
+          hide-collapse />
       </b-tab-item>
-      <b-tab-item label="Offers" value="offers" v-if="isBsx">
-        <CollectionOffers :collectionId="id" />
+      <b-tab-item v-if="isBsx" label="Offers" value="offers">
+        <CollectionOffers :collection-id="id" />
       </b-tab-item>
     </b-tabs>
   </section>
@@ -150,7 +154,7 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { sortedEventByDate } from '@/utils/sorting'
 import { correctPrefix, unwrapSafe } from '@/utils/uniquery'
-import { Component, mixins, Ref, Watch } from 'nuxt-property-decorator'
+import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
 import { CollectionMetadata } from '../types'
@@ -169,14 +173,14 @@ const components = {
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   CollectionActivity: () =>
     import('@/components/rmrk/Gallery/CollectionActivity.vue'),
-  Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+  Sharing: () => import('@/components/shared/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   Search: () => import('./Search/SearchBarCollection.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   CollectionPriceChart: () =>
-    import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
+    import('@/components/shared/collection/PriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
@@ -189,6 +193,8 @@ const components = {
   DestroyCollection: () =>
     import('@/components/bsx/specific/DestroyCollection.vue'),
   CollectionOffers: () => import('@/components/bsx/Offer/CollectionOffers.vue'),
+  BsxCollectionPriceChart: () =>
+    import('@/components/bsx/Collection/ChartContainer.vue'),
 }
 @Component<CollectionItem>({
   components,

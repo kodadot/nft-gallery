@@ -22,36 +22,39 @@
       </template>
       <div class="box">
         <div class="is-flex is-justify-content-space-between box-container">
-          <b-select placeholder="Select an event" v-model="selectedEvent">
+          <b-select
+            v-model="selectedEvent"
+            placeholder="Select an event"
+            data-cy="select-event">
             <option
               v-for="option in uniqType"
-              :value="option.type"
-              :key="option.type">
+              :key="option.type"
+              :value="option.type">
               {{ option.value }}
             </option>
           </b-select>
           <Pagination
-            :total="total"
-            :perPage="itemsPerPage"
             v-model="currentPage"
+            :total="total"
+            :per-page="itemsPerPage"
             replace
-            enableListenKeyboardEvent
-            preserveScroll />
+            enable-listen-keyboard-event
+            preserve-scroll />
         </div>
         <b-table :data="showList" class="mb-4" hoverable custom-row-key="ID">
           <b-table-column
+            v-slot="props"
             field="Type"
             label="Type"
-            v-slot="props"
             cell-class="type-table">
             {{ getEventDisplayName(props.row.Type) }}
           </b-table-column>
           <b-table-column
             v-if="displayItem"
+            v-slot="props"
             cell-class="short-identity__table"
             field="Item"
-            label="Item"
-            v-slot="props">
+            label="Item">
             <nuxt-link
               :to="{
                 name: `${urlPrefix}-gallery-id`,
@@ -61,57 +64,57 @@
             </nuxt-link>
           </b-table-column>
           <b-table-column
+            v-slot="props"
             cell-class="short-identity__table"
             field="From"
-            label="From"
-            v-slot="props">
+            label="From">
             <nuxt-link
               :to="{
                 name: `${urlPrefix}-u-id`,
                 params: { id: props.row.From },
               }">
-              <Identity :address="props.row.From" inline noOverflow />
+              <Identity :address="props.row.From" inline no-overflow />
             </nuxt-link>
           </b-table-column>
           <b-table-column
+            v-slot="props"
             :visible="isToColumnVisible"
             cell-class="short-identity__table"
             field="To"
-            label="To"
-            v-slot="props">
+            label="To">
             <nuxt-link
               :to="{ name: `${urlPrefix}-u-id`, params: { id: props.row.To } }">
-              <Identity :address="props.row.To" inline noOverflow />
+              <Identity :address="props.row.To" inline no-overflow />
             </nuxt-link>
           </b-table-column>
           <b-table-column
+            v-slot="props"
             cell-class="short-identity__table"
             field="Amount"
-            label="Amount"
-            v-slot="props">
+            label="Amount">
             {{ props.row.Amount }}
           </b-table-column>
           <b-table-column
+            v-slot="props"
             cell-class="short-identity__table"
             :visible="isPercentageColumnVisible"
             field="Percentage"
-            label="Percentage"
-            v-slot="props">
+            label="Percentage">
             <span :class="percentageTextClassName(props.row.Percentage)">
               {{ props.row.Percentage | toPercent('-') }}
             </span>
           </b-table-column>
           <b-table-column
+            v-slot="props"
             cell-class="short-identity__table"
             field="Date"
-            label="Date"
-            v-slot="props">
+            label="Date">
             <b-tooltip
               :label="props.row.Date"
               position="is-right"
               append-to-body>
               <BlockExplorerLink
-                :blockId="props.row.Block"
+                :block-id="props.row.Block"
                 :text="props.row.Time" />
             </b-tooltip>
           </b-table-column>
@@ -122,26 +125,30 @@
 </template>
 
 <script lang="ts">
-import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { Interaction as EventInteraction } from '../service/scheme'
-import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import shortAddress from '@/utils/shortAddress'
-import { formatDistanceToNow } from 'date-fns'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
+import { Interaction } from '@kodadot1/minimark'
+import { formatDistanceToNow } from 'date-fns'
+
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
+
+import ChainMixin from '@/utils/mixins/chainMixin'
+import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
 import {
   HistoryEventType,
-  wrapEventNameWithIcon,
-  parseDate,
-  parseAmount,
   InteractionBsxOnly,
+  parseAmount,
+  parseDate,
+  wrapEventNameWithIcon,
 } from '@/utils/historyEvent'
-import { Interaction } from '@kodadot1/minimark'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import shortAddress from '@/utils/shortAddress'
+
+import { Interaction as EventInteraction } from '../service/scheme'
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }
@@ -406,32 +413,3 @@ export default class History extends mixins(
   }
 }
 </script>
-<style lang="scss">
-.short-identity__table {
-  max-width: 50em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.type-table {
-  white-space: nowrap;
-}
-
-.collapseHidden {
-  .collapse-trigger {
-    display: none;
-  }
-}
-
-.box {
-  .table-nav {
-    display: flex;
-    justify-content: space-between;
-  }
-  .box-container {
-    @media screen and (max-width: 768px) {
-      flex-direction: column-reverse;
-    }
-  }
-}
-</style>

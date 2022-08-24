@@ -1,15 +1,18 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <BaseCollectionForm v-bind.sync="base" protectiveMargin>
-      <template v-slot:header>
+    <BaseCollectionForm
+      v-bind.sync="base"
+      ref="collectionForm"
+      protective-margin>
+      <template #header>
         <b-field>
           <div>
             {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
           </div>
         </b-field>
       </template>
-      <template v-slot:main>
+      <template #main>
         <BasicSwitch v-model="unlimited" label="mint.unlimited" />
         <b-field
           v-if="!unlimited"
@@ -21,24 +24,28 @@
             :min="1"></b-numberinput>
         </b-field>
         <BasicInput
+          ref="symbolInput"
           v-model="symbol"
           :label="$t('mint.collection.symbol.label')"
           :message="$t('mint.collection.symbol.message')"
           :placeholder="$t('mint.collection.symbol.placeholder')"
           class="mb-5"
-          @keydown.native.space.prevent
           maxlength="10"
-          expanded />
+          required
+          expanded
+          @keydown.native.space.prevent />
       </template>
 
-      <template v-slot:footer>
-        <b-tooltip :active="isMintDisabled" :label="$t('tooltip.buyDisabled')">
+      <template #footer>
+        <b-field
+          v-if="isLogIn"
+          type="is-danger"
+          :message="balanceNotEnoughMessage">
           <SubmitButton
             label="create collection"
-            :disabled="disabled"
             :loading="isLoading"
             @click="submit" />
-        </b-tooltip>
+        </b-field>
       </template>
     </BaseCollectionForm>
   </div>
@@ -52,20 +59,20 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { canSupport } from '@/utils/support'
 import {
+  CreatedCollection,
+  Interaction,
   addressToHex,
   asSystemRemark,
   createCollection,
-  CreatedCollection,
   createMetadata,
   createMintInteaction,
-  Interaction,
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, Ref, mixins } from 'nuxt-property-decorator'
 
 type BaseCollectionType = {
   name: string
@@ -97,8 +104,22 @@ export default class CreateCollection extends mixins(
   private max = 1
   protected unlimited = true
   protected hasSupport = true
+  protected balanceNotEnough = false
+  @Ref('collectionForm') readonly collectionForm
+  @Ref('symbolInput') readonly symbolInput
+
+  public checkValidity() {
+    return (
+      this.collectionForm.checkValidity() && this.symbolInput.checkValidity()
+    )
+  }
+
   get rmrkId(): string {
     return generateId(this.accountId, this.symbol)
+  }
+
+  get balanceNotEnoughMessage() {
+    return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
   }
 
   get accountIdToPubKey(): string {
@@ -111,20 +132,6 @@ export default class CreateCollection extends mixins(
 
   get isMintDisabled(): boolean {
     return Number(this.balance) <= 2
-  }
-
-  get disabled(): boolean {
-    const {
-      base: { name },
-      symbol,
-      max,
-      accountId,
-      unlimited,
-    } = this
-    return (
-      !(name && symbol && (unlimited || max) && accountId) ||
-      this.isMintDisabled
-    )
   }
 
   public constructRmrkMint(metadata: string): CreatedCollection {
@@ -168,6 +175,15 @@ export default class CreateCollection extends mixins(
   }
 
   protected async submit() {
+    if (!this.checkValidity()) {
+      return
+    }
+
+    if (this.isMintDisabled) {
+      this.balanceNotEnough = true
+      return
+    }
+
     this.isLoading = true
     this.status = 'loader.ipfs'
 

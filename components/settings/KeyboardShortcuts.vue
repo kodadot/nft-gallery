@@ -1,10 +1,10 @@
 <template>
   <div class="keyboard-shortcuts">
     <b-collapse
-      class="card bordered"
-      animation="slide"
       v-for="(collapse, index) of collapses"
       :key="index"
+      class="card bordered"
+      animation="slide"
       :open="isOpen == index"
       @open="isOpen = index">
       <template #trigger="props">
@@ -20,7 +20,7 @@
       <div class="card-content">
         <div class="content">
           <b-table :data="data[collapse.key]">
-            <b-table-column field="shortcut" label="Shortcut" v-slot="props">
+            <b-table-column v-slot="props" field="shortcut" label="Shortcut">
               <div>
                 <span
                   v-for="(shortcut, idx) in props.row.shortcut.split('+')"
@@ -34,7 +34,7 @@
                 </span>
               </div>
             </b-table-column>
-            <b-table-column field="action" label="Action" v-slot="props">
+            <b-table-column v-slot="props" field="action" label="Action">
               {{ props.row.action }}
             </b-table-column>
           </b-table>
@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import '@/styles/keyboard-shortcut.scss'
+import '@/styles/components/_keyboard-shortcut.scss'
 @Component({})
 export default class keyboardShortcuts extends Vue {
   public isOpen = 0
@@ -166,11 +166,3 @@ export default class keyboardShortcuts extends Vue {
   }
 }
 </script>
-
-<style lang="scss">
-.keyboard-shortcuts {
-  .card.bordered:not(:last-of-type) {
-    border-bottom: none;
-  }
-}
-</style>

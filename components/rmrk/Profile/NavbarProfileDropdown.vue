@@ -3,19 +3,17 @@
     <template #trigger>
       <span v-if="account" class="is-mobile is-vcentered navbar__avatar">
         <!-- <Avatar class="navbar__avatar-icon" :value="account" :size="34" /> -->
-        <b-button
-          type="is-primary navbar-link-background is-bordered-light"
-          class="navbar__button">
+        <b-button type="is-primary" icon-left="user">
           <Identity
             :address="account"
             class="navbar__address"
-            hideIdentityPopover
+            hide-identity-popover
             inline />
         </b-button>
       </span>
 
       <template v-else>
-        <ConnectWalletButton class="navbar__button" />
+        <ConnectWalletButton />
       </template>
     </template>
 
@@ -31,9 +29,6 @@
 
       <hr class="dropdown-divider" aria-role="menuitem" />
       <template v-if="isRmrk">
-        <b-dropdown-item v-if="isRmrk" has-link aria-role="menuitem">
-          <nuxt-link to="/rmrk/admin">{{ $t('Admin') }}</nuxt-link>
-        </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
           <a @click="showRampSDK">
             {{ $t('credit') }}
@@ -63,6 +58,12 @@
       <hr class="dropdown-divider" aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
+        <AccountBalance class="is-size-7" />
+      </b-dropdown-item>
+
+      <hr class="dropdown-divider" aria-role="menuitem" />
+
+      <b-dropdown-item custom aria-role="menuitem">
         <b-field>
           <p class="control">
             <ConnectWalletButton label="general.change_account" />
@@ -80,16 +81,18 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import Avatar from '@/components/shared/Avatar.vue'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
+
+import Avatar from '@/components/shared/Avatar.vue'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 const components = {
   Avatar,
   ConnectWalletButton: () =>
     import('@/components/shared/ConnectWalletButton.vue'),
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
 }
 
 @Component({ components })
@@ -97,11 +100,6 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public value!: any
   @Prop() public isRmrk!: boolean
   @Prop() public isBsx!: boolean
-
-  protected disconnect() {
-    this.$store.dispatch('setAuth', { address: '' }) // null not working
-    localStorage.removeItem('kodaauth')
-  }
 
   set account(account: string) {
     this.$store.dispatch('setAuth', { address: account })
@@ -111,7 +109,12 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
     return this.$store.getters.getAuthAddress
   }
 
-  protected showRampSDK(): void {
+  public disconnect() {
+    this.$store.dispatch('setAuth', { address: '' }) // null not working
+    localStorage.removeItem('kodaauth')
+  }
+
+  public showRampSDK(): void {
     new RampInstantSDK({
       defaultAsset: 'KSM', // todo: prefix
       userAddress: this.account,
@@ -126,7 +129,7 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
 
 <style lang="scss">
 @import 'bulma/sass/utilities/mixins.sass';
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .navbar {
   &__identity {

@@ -12,10 +12,11 @@ export interface KeyringAccount {
 export type LastEvent = {
   meta: string
   timestamp: string
-  id: string
+  nftId: string
   name: string
   issuer: string
   currentOwner: string
   metadata: string
   image: string
+  animationUrl: string
 }

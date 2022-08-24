@@ -21,7 +21,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Series>({
   components: {
-    Identity: () => import('@/components/shared/format/Identity.vue'),
+    Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
     SeriesTable: () => import('@/components/series/SeriesTable.vue'),
   },
   head() {
@@ -41,9 +41,3 @@ import { Component, Vue } from 'nuxt-property-decorator'
 })
 export default class Series extends Vue {}
 </script>
-
-<style scoped lang="scss">
-.rmrk-logo {
-  aspect-ratio: 127 / 42;
-}
-</style>

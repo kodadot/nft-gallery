@@ -9,9 +9,9 @@
       <b-tooltip append-to-body>
         {{ emoji.parsed }}
         <span class="ml-1">{{ emoji.count }}</span>
-        <template v-slot:content>
+        <template #content>
           <div v-for="issuer in emoji.issuers" :key="issuer">
-            <Identity :address="issuer" inline noOverflow />
+            <Identity :address="issuer" inline no-overflow />
           </div>
         </template>
       </b-tooltip>
@@ -27,10 +27,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Provide } from 'nuxt-property-decorator'
+import { Component, Prop, Provide, Vue } from 'nuxt-property-decorator'
 import orderBy from 'lodash/orderBy'
-import EmotionModal from './EmotionModal.vue'
+
 import { Emotion } from '../service/scheme'
+import EmotionModal from './EmotionModal.vue'
 
 const issuerId = (emotion: Emotion) => emotion.caller
 
@@ -47,7 +48,7 @@ interface Emoji {
 
 @Component({
   components: {
-    Identity: () => import('@/components/shared/format/Identity.vue'),
+    Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
   },
 })
 export default class EmotionList extends Vue {
@@ -95,7 +96,7 @@ export default class EmotionList extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .emoji-box {
   padding: 0 0.75rem;

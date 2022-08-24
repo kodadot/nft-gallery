@@ -2,31 +2,31 @@
   <BaseGalleryItem
     v-if="nft"
     :image="meta.image"
-    :animationUrl="meta.animation_url"
-    :mimeType="mimeType"
+    :animation-url="meta.animation_url"
+    :mime-type="mimeType"
     :description="meta.description"
-    :imageVisible="imageVisible"
-    :isLoading="isLoading">
-    <template v-slot:top v-if="message">
-      <b-message class="message-box" type="is-primary">
-        <div class="columns">
-          <div class="column is-four-fifths">
-            <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-            <p class="subtitle is-size-5 subtitle-text">
-              {{ $t('mint.shareWithFriends', [nft.name]) }} △
-            </p>
-          </div>
-          <div class="column">
-            <Sharing :enableDownload="isOwner" />
-          </div>
-        </div>
-      </b-message>
+    :image-visible="imageVisible"
+    :is-loading="isLoading"
+    @mouseEntered="showNavigation = true"
+    @mouseLeft="showNavigation = false">
+    <template v-if="message" #top>
+      <MessageNotify
+        :enable-download="isOwner"
+        :title="$t('mint.success') + ' 🎉'"
+        :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
     </template>
-    <template v-slot:main>
+    <template #image>
+      <Navigation
+        v-if="nftsFromSameCollection.length > 1"
+        :show-navigation="showNavigation"
+        :items="nftsFromSameCollection"
+        :current-id="nft.id" />
+    </template>
+    <template #main>
       <div class="columns">
         <div class="column is-6">
           <div class="mb-5">
-            <Name :nft="nft" :isLoading="isLoading" />
+            <Name data-cy="item-title" :nft="nft" :is-loading="isLoading" />
           </div>
 
           <div v-if="meta.description" class="block">
@@ -42,12 +42,12 @@
               :active="isLoading"></b-skeleton>
           </div>
 
-          <div class="block" v-if="meta.attributes && meta.attributes.length">
-            <Properties :attributes="meta.attributes" fieldKey="trait_type" />
+          <div v-if="meta.attributes && meta.attributes.length" class="block">
+            <Properties :attributes="meta.attributes" />
           </div>
         </div>
 
-        <div class="column is-6" v-if="detailVisible">
+        <div v-if="detailVisible" class="column is-6">
           <b-skeleton
             :count="2"
             size="is-large"
@@ -56,7 +56,7 @@
           <div class="columns">
             <div class="column">
               <div class="nft-title">
-                <Detail :nft="nft" :isLoading="isLoading" />
+                <Detail :nft="nft" :is-loading="isLoading" />
               </div>
             </div>
             <div
@@ -70,8 +70,16 @@
                       </div>
                       <div class="price-block__container">
                         <div class="price-block__original">
-                          <Money :value="nft.price" inline />
+                          <Money :value="nft.price" inline data-cy="money" />
                         </div>
+                        <b-button
+                          v-if="nft.currentOwner === accountId"
+                          class="ml-2 only-border-top"
+                          type="is-warning"
+                          outlined
+                          @click="handleUnlist">
+                          {{ $t('Unlist') }}
+                        </b-button>
                       </div>
                       <div v-if="nftRoyalties">
                         ⊆ {{ $t('royalty') }}
@@ -86,12 +94,12 @@
                           :is-owner="isOwner"
                           :current-owner-id="nft.currentOwner"
                           :price="nft.price"
-                          :nftId="id"
-                          :delegateId="nft.delegate"
-                          :collectionId="collectionId"
+                          :nft-id="id"
+                          :delegate-id="nft.delegate"
+                          :collection-id="collectionId"
                           :frozen="nft.isFrozen"
-                          :isMakeOffersAllowed="isMakeOffersAllowed"
-                          :isBuyAllowed="isBuyAllowed"
+                          :is-make-offers-allowed="isMakeOffersAllowed"
+                          :is-buy-allowed="isBuyAllowed"
                           :ipfs-hashes="[
                             nft.image,
                             nft.animation_url,
@@ -102,7 +110,7 @@
                       </p>
                     </div>
                     <AccountBalance />
-                    <Sharing :enableDownload="isOwner" class="mb-4" />
+                    <Sharing :enable-download="isOwner" class="mb-4" />
                   </div>
                 </div>
               </template>
@@ -115,13 +123,20 @@
         </div>
       </div>
     </template>
-    <template v-slot:footer>
+    <template #footer>
+      <GalleryItemCarousel
+        v-if="showRelatedCarousel"
+        type="related"
+        :collection-id="nft.collection.id"
+        data-cy="carousel-related" />
+      <GalleryItemCarousel type="visited" />
       <OfferList
         :current-owner-id="nft.currentOwner"
-        :nftId="id"
-        @offersUpdate="offersUpdate"
-        :collectionId="collectionId" />
-      <History :events="events" :openOnDefault="false" />
+        :nft-id="id"
+        :collection-id="collectionId"
+        data-cy="offer-list"
+        @offersUpdate="offersUpdate" />
+      <History :events="events" :open-on-default="false" data-cy="history" />
     </template>
   </BaseGalleryItem>
 </template>
@@ -161,8 +176,12 @@ import { onApiConnect } from '@kodadot1/sub-api'
 import { Option, u128 } from '@polkadot/types'
 import { InstanceDetails } from '@polkadot/types/interfaces'
 import { get, set } from 'idb-keyval'
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, mixins } from 'nuxt-property-decorator'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
+import AvailableActions from './AvailableActions.vue'
+import nftListIdsByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
+import { unwrapSafe } from '@/utils/uniquery'
+import { mapToId } from '@/utils/mappers'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -184,19 +203,20 @@ import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions: () => import('./AvailableActions.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
-    Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+    Sharing: () => import('@/components/shared/Sharing.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
     DangerModal: () =>
       import('@/components/unique/Gallery/Item/DangerModal.vue'),
-    Properties: () => import('@/components/unique/Gallery/Item/Properties.vue'),
+    Properties: () => import('@/components/shared/gallery/Properties.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
     History: () => import('@/components/rmrk/Gallery/History.vue'),
+    Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
   },
   directives: {
     orientation: Orientation,
@@ -219,11 +239,14 @@ export default class GalleryItem extends mixins(
   public events: Interaction[] = []
   public message = ''
   public isMakeOffersAllowed = true
+  public showNavigation = false
+  private nftsFromSameCollection: string[] = []
 
   public async created() {
     this.checkId()
     await this.fetchNftData()
     await this.fetchEvents()
+    this.fetchCollectionItems()
     onApiConnect(this.apiUrl, (api) => {
       if (hasAllPallets(api)) {
         this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
@@ -257,6 +280,12 @@ export default class GalleryItem extends mixins(
     )
   }
 
+  get showRelatedCarousel(): boolean {
+    return (
+      Boolean(this.nft.collection?.id) && this.nftsFromSameCollection.length > 0
+    )
+  }
+
   public offersUpdate({ offers }) {
     this.isMakeOffersAllowed = !offers.find(({ caller }) => {
       return caller === this.accountId
@@ -274,20 +303,63 @@ export default class GalleryItem extends mixins(
     this.$set(this.nft, 'price', unwrapOrDefault(data).toString())
   }
 
-  private async fetchEvents() {
-    const result = await this.$apollo.query({
-      query: itemEvents,
-      client: this.urlPrefix,
-      variables: {
-        id: createTokenId(this.collectionId, this.id),
-      },
-    })
-    if (result.data && result.data.events) {
-      this.events = [...result.data.events]
+  public async fetchCollectionItems() {
+    const collectionId = this.nft?.collection?.id
+    if (collectionId) {
+      // cancel request and get ids from store in case we already fetched collection data before
+      if (this.$store.state.history?.currentCollection?.id === collectionId) {
+        this.nftsFromSameCollection =
+          this.$store.state.history.currentCollection?.nftIds || []
+        return
+      }
+      try {
+        const nfts = await this.$apollo.query({
+          query: nftListIdsByCollection,
+          client: this.client,
+          variables: {
+            id: collectionId,
+          },
+        })
+
+        const {
+          data: { nftEntities },
+        } = nfts
+
+        this.nftsFromSameCollection = unwrapSafe(nftEntities).map(mapToId) || []
+        this.$store.dispatch('history/setCurrentCollection', {
+          id: collectionId,
+          nftIds: this.nftsFromSameCollection,
+          prefix: this.urlPrefix,
+        })
+      } catch (e) {
+        showNotification(`${e}`, notificationTypes.warn)
+      }
     }
   }
 
-  private async fetchNftData() {
+  private async fetchEvents() {
+    this.$apollo.addSmartQuery('eventsManualFetch', {
+      client: this.urlPrefix,
+      query: itemEvents,
+      variables: () => ({
+        id: createTokenId(this.collectionId, this.id),
+      }),
+      manual: true,
+      fetchPolicy: 'network-only',
+      result: ({ data }) => {
+        if (data && data.events) {
+          this.events = [...data.events]
+        }
+      },
+    })
+  }
+
+  protected handleUnlist() {
+    const availableActions = this.$refs.actions as AvailableActions
+    availableActions.unlistNft()
+  }
+
+  private async fetchNftData(retryCount = 0) {
     const query = await resolveQueryPath(this.urlPrefix, 'nftById')
     const nft = await this.$apollo.query({
       query: query.default,
@@ -295,6 +367,7 @@ export default class GalleryItem extends mixins(
       variables: {
         id: createTokenId(this.collectionId, this.id),
       },
+      fetchPolicy: 'no-cache',
     })
     const {
       data: { nftEntity },
@@ -303,7 +376,12 @@ export default class GalleryItem extends mixins(
     if (!nftEntity) {
       this.$consola.warn(`No NFT with ID ${this.id} fallback to RPC Node`)
       this.fetchRPCMetadata()
-      // showNotification(`No NFT with ID ${this.id}`, notificationTypes.warn)
+
+      if (retryCount < 3) {
+        this.$consola.log(`Retrying fetching NFT data ${retryCount}`)
+        this.fetchNftData(retryCount + 1)
+      }
+
       return
     }
 
@@ -443,6 +521,11 @@ export default class GalleryItem extends mixins(
       setTimeout(() => {
         window.location.reload()
       }, 2000)
+    } else {
+      setTimeout(() => {
+        // wait for events updating
+        this.fetchEvents()
+      }, 5000)
     }
   }
 }

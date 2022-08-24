@@ -9,6 +9,8 @@
     </b-field>
 
     <MetadataUpload
+      required
+      ref="collectionImage"
       v-model="vFile"
       label="Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
       expanded
@@ -16,11 +18,13 @@
       accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg" />
 
     <BasicInput
+      ref="collectionName"
       v-model="vName"
       :label="$t('mint.collection.name.label')"
       :message="$t('mint.collection.name.message')"
       :placeholder="$t('mint.collection.name.placeholder')"
       expanded
+      required
       spellcheck="true"
       maxlength="60" />
 
@@ -40,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, PropSync, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, PropSync, Ref, Vue } from 'nuxt-property-decorator'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -55,5 +59,14 @@ export default class BaseCollectionForm extends Vue {
   @PropSync('name', { type: String }) vName!: string
   @PropSync('description', { type: String }) vDescription!: string
   @PropSync('file', { type: Blob }) vFile!: Blob | null
+
+  @Ref('collectionName') readonly collectionName
+  @Ref('collectionImage') readonly collectionImage
+  public checkValidity() {
+    return (
+      this.collectionImage.checkValidity() &&
+      this.collectionName.checkValidity()
+    )
+  }
 }
 </script>

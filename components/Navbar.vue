@@ -18,11 +18,11 @@
       <div
         v-if="showMobileSearchBar"
         class="search-navbar-container-mobile is-hidden-desktop is-flex is-align-items-center">
-        <b-button @click="toggleSearchBarDisplay" icon-left="times" />
+        <b-button icon-left="times" @click="toggleSearchBarDisplay" />
         <Search
           v-if="showMobileSearchBar"
-          showDefaultSuggestions
-          hideFilter
+          show-default-suggestions
+          hide-filter
           class="is-flex-grow-1 pr-1 is-hidden-desktop mt-5" />
       </div>
 
@@ -34,40 +34,41 @@
           <HistoryBrowser />
 
           <b-button
-            @click="toggleSearchBarDisplay"
             type="is-primary is-bordered-light"
             class="navbar-link-background"
-            icon-right="search" />
+            icon-right="search"
+            @click="toggleSearchBarDisplay" />
         </div>
       </div>
     </template>
     <template #start>
       <Search
         v-if="!mobileGallery"
-        :class="{
-          'nav-search-shrink': !showTopNavbar,
-        }"
-        hideFilter
-        showDefaultSuggestions
-        class="search-navbar is-flex-grow-1 is-hidden-touch"
-        searchColumnClass="is-flex-grow-1" />
+        hide-filter
+        show-default-suggestions
+        class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
+        search-column-class="is-flex-grow-1" />
     </template>
-    <template #end v-if="showTopNavbar">
+    <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
       <LazyHistoryBrowser
-        class="custom-navbar-item navbar-link-background is-hidden-touch"
-        id="NavHistoryBrowser" />
+        id="NavHistoryBrowser"
+        class="custom-navbar-item navbar-link-background is-hidden-touch" />
       <b-navbar-dropdown
+        v-show="isCreateVisible"
+        id="NavCreate"
         arrowless
         collapsible
-        id="NavCreate"
-        v-show="isCreateVisible">
+        data-cy="create-dropdown">
         <template #label>
           <span>{{ $t('create') }}</span>
         </template>
         <b-tooltip
           label="Start by creating your collection and add NFTs to it"
           position="is-right">
-          <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/create`">
+          <b-navbar-item
+            tag="nuxt-link"
+            :to="`/${urlPrefix}/create`"
+            data-cy="classic">
             {{ $t('classic') }}
           </b-navbar-item>
         </b-tooltip>
@@ -76,7 +77,10 @@
             label="Simplified process to create your NFT in a single step"
             position="is-right"
             style="display: block">
-            <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/mint`">
+            <b-navbar-item
+              tag="nuxt-link"
+              :to="`/${urlPrefix}/mint`"
+              data-cy="simple">
               {{ $t('simple') }}
             </b-navbar-item>
           </b-tooltip>
@@ -84,38 +88,68 @@
             label="AI powered process to create your NFT"
             position="is-right"
             append-to-body>
-            <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/creative`">
+            <b-navbar-item
+              tag="nuxt-link"
+              :to="`/${urlPrefix}/creative`"
+              data-cy="creative">
               {{ $t('creative') }}
             </b-navbar-item>
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/explore`">
+      <b-navbar-item
+        tag="nuxt-link"
+        :to="`/${urlPrefix}/explore`"
+        data-cy="explore">
         <span>{{ $t('explore') }}</span>
       </b-navbar-item>
-      <b-navbar-item v-if="isBsx" tag="nuxt-link" :to="`/${urlPrefix}/stats`">
+      <b-navbar-item
+        v-if="isBsx"
+        tag="nuxt-link"
+        :to="`/${urlPrefix}/stats`"
+        data-cy="stats">
         <span>{{ $t('stats') }}</span>
       </b-navbar-item>
-      <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
+      <b-navbar-dropdown
+        v-if="isRmrk"
+        id="NavStats"
+        arrowless
+        collapsible
+        data-cy="stats">
         <template #label>
           <span>{{ $t('stats') }}</span>
         </template>
         <template>
-          <b-navbar-item tag="nuxt-link" to="/spotlight">
+          <b-navbar-item tag="nuxt-link" to="/spotlight" data-cy="spotlight">
             {{ $t('spotlight.page') }}
           </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/series-insight">
+          <b-navbar-item
+            tag="nuxt-link"
+            to="/series-insight"
+            data-cy="series-insight">
             Series
           </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/sales"> Sales </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/hot"> Hot </b-navbar-item>
+          <b-navbar-item tag="nuxt-link" to="/sales" data-cy="sales">
+            Sales
+          </b-navbar-item>
+          <b-navbar-item tag="nuxt-link" to="/hot" data-cy="hot">
+            Hot
+          </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
-      <LazySwitchLocale class="custom-navbar-item" id="NavLocaleChanger" />
-      <NavbarProfileDropdown :isRmrk="isRmrk" :isBsx="isBsx" id="NavProfile" />
+      <LazyChainSelect id="NavChainSelect" class="navbar-item has-dropdown" />
+      <LazySwitchLocale
+        id="NavLocaleChanger"
+        class="navbar-item has-dropdown"
+        data-cy="localChanger" />
+      <ColorModeButton />
+      <NavbarProfileDropdown
+        id="NavProfile"
+        :is-rmrk="isRmrk"
+        :is-bsx="isBsx"
+        data-cy="profileDropdown" />
     </template>
-    <template #end v-else>
+    <template v-else #end>
       <div class="image is-32x32 mr-2">
         <BasicImage
           v-show="inCollectionPage && currentCollection.image"
@@ -130,15 +164,18 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import Identity from '@/components/shared/format/Identity.vue'
-import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
-import BasicImage from '@/components/shared/view/BasicImage.vue'
-import { createVisible } from '@/utils/config/permision.config'
-
-import { identityStore } from '@/utils/idbStore'
 import { get } from 'idb-keyval'
+
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+import ColorModeButton from '@/components/common/ColorModeButton.vue'
+import Identity from '@/components/shared/identity/IdentityIndex.vue'
+import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
+import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
+
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
+import { createVisible } from '@/utils/config/permision.config'
+import { identityStore } from '@/utils/idbStore'
 
 @Component({
   components: {
@@ -146,12 +183,14 @@ import { get } from 'idb-keyval'
     Search,
     Identity,
     BasicImage,
+    ColorModeButton,
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
-  private mobileGallery = false
+  protected mobileGallery = false
+  protected showTopNavbar = true
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
-  private showTopNavbar = true
+  private fixedTitleNavAppearDistance = 200
   private lastScrollPosition = 0
   private artistName = ''
   private showMobileSearchBar = false
@@ -184,6 +223,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
 
   get isTargetPage(): boolean {
+    // why?
     return (
       this.inCollectionPage ||
       this.inGalleryDetailPage ||
@@ -229,9 +269,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) {
       return
     }
-    const fixedTitleNavAppearDistance = 200
     this.showTopNavbar =
-      currentScrollPosition < fixedTitleNavAppearDistance || !this.isTargetPage
+      currentScrollPosition < this.fixedTitleNavAppearDistance
     this.lastScrollPosition = currentScrollPosition
   }
 
@@ -259,183 +298,3 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
 }
 </script>
-
-<style lang="scss">
-@import '@/styles/variables';
-
-@include tablet {
-  .navbar-shrink {
-    box-shadow: none;
-    max-height: 70px;
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
-  }
-  .nav-search-shrink {
-    padding-bottom: 0 !important;
-  }
-}
-
-// Reserved for future adjustments
-
-// @media only screen and (min-width: 1215px) and (max-width: 1140px) {
-//   a#NavProfile {
-//     display: none;
-//   }
-// }
-
-// @media only screen and (min-width: 1215px) and (max-width: 1160px) {
-//   a#NavStats {
-//     display: none;
-//   }
-// }
-
-//@media only screen and (min-width: 1024px) and (max-width: 1100px) {
-//  div#NavHistoryBrowser {
-//    display: none;
-//  }
-//}
-
-//@media only screen and (min-width: 1024px) and (max-width: 1200px) {
-//  a#NavCreate {
-//    display: none;
-//  }
-//}
-
-//@media only screen and (min-width: 1024px) and (max-width: 1250px) {
-//  div#NavChainSelect {
-//    display: none;
-//  }
-//}
-
-//@media only screen and (min-width: 1024px) and (max-width: 1340px) {
-//  div#NavLocaleChanger {
-//    display: none;
-//  }
-//}
-
-@include touch {
-  .navbar {
-    .navbar-item,
-    .custom-navbar-item {
-      margin-left: 0 !important;
-    }
-    .navbar-dropdown .b-tooltip {
-      width: 100%;
-    }
-    #NavProfile {
-      margin-left: 0;
-      .dropdown-trigger .button {
-        width: 100vw;
-        background: $primary;
-      }
-    }
-    .dropdown.is-mobile-modal > .dropdown-menu {
-      -webkit-transform: translate3d(-50%, 10%, 0);
-      transform: translate3d(-50%, 10%, 0);
-    }
-  }
-}
-
-.navbar {
-  background: rgba(12, 12, 12, 0.7);
-  backdrop-filter: blur(20px);
-  transform: translateZ(0px);
-  transition: 0.3s ease;
-  -webkit-transition: 0.3s ease;
-  &.is-spaced {
-    & > .container {
-      .navbar-menu {
-        margin-right: 0;
-        .button {
-          height: 40px;
-        }
-      }
-    }
-  }
-
-  .navbar-link {
-    &:hover {
-      background-color: $primary !important;
-      color: $text !important;
-    }
-  }
-
-  .navbar-item {
-    text-transform: uppercase;
-    font-weight: 500;
-    border-top: 1px solid $primary;
-    margin-left: 0.5em;
-    transition: 0.3s;
-    background: rgba(9, 9, 9, 0.55);
-    &:hover {
-      background-color: $primary;
-      color: $text;
-    }
-  }
-
-  .custom-navbar-item {
-    margin-left: 0.5em;
-  }
-
-  .logo {
-    border: none !important;
-    background: transparent;
-    @include tablet {
-      margin-left: 0;
-    }
-  }
-
-  .navbar-brand {
-    align-items: center;
-  }
-
-  .navbar-start {
-    flex: 1;
-    margin-top: 24px;
-  }
-
-  .navbar-dropdown {
-    border: 2px solid $primary-light !important;
-    box-shadow: $dropdown-content-shadow !important;
-    .navbar-item {
-      border: none !important;
-      margin-left: 0 !important;
-    }
-  }
-
-  .search-navbar {
-    background-color: transparent;
-    box-shadow: none;
-    width: min-content;
-    min-width: 140px;
-    margin: 0 1rem;
-    input {
-      border: inherit;
-      background-color: rgba(41, 41, 47, 0.5);
-      &::placeholder {
-        color: #898991 !important;
-      }
-      &:focus {
-        box-shadow: none !important;
-        border-top: $sleek-primary-border;
-      }
-    }
-  }
-  .search-navbar-container-mobile {
-    position: fixed;
-    left: 0;
-    width: 100%;
-
-    input {
-      background-color: rgba(41, 41, 47);
-      padding: 0;
-      z-index: 1;
-      &:focus {
-        box-shadow: none !important;
-        border-top: 2px solid $primary;
-        background: rgba(41, 41, 47);
-      }
-    }
-  }
-}
-</style>

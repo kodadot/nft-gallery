@@ -3,7 +3,7 @@
     <b-tooltip
       v-for="action in actions"
       :key="action"
-      class="w-100"
+      append-to-body
       :active="disableButton(action)"
       position="is-left"
       :label="disabledToolTips[action]">
@@ -13,6 +13,7 @@
         outlined
         expanded
         class="only-border-top"
+        :data-cy="action"
         @click="handleActionSelect(action)">
         {{ actionLabel(action) }}
       </b-button>
@@ -23,10 +24,10 @@
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
 import {
-  getActionButtonColor,
-  getActionButtonLabel,
-  ShoppingActions,
   ShoppingActionToolTips,
+  ShoppingActions,
+  getActionButtonColor,
+  getActionButtonLabelKey,
 } from '~/utils/shoppingActions'
 import { TranslateResult } from 'vue-i18n/types'
 
@@ -34,6 +35,7 @@ import { TranslateResult } from 'vue-i18n/types'
 export default class ActionList extends Vue {
   @Prop({ type: Array, required: false }) public actions!: ShoppingActions[]
   @Prop(Boolean) public isMakeOffersAllowed!: boolean
+  @Prop(String) public price!: string
 
   // keys in `disabledToolTips` are disabled actions. values are their tooltips.
   @Prop({ type: Object, required: true })
@@ -52,12 +54,8 @@ export default class ActionList extends Vue {
     return getActionButtonColor(value)
   }
 
-  protected actionLabel(value: ShoppingActions): TranslateResult {
-    return getActionButtonLabel(value, this)
+  protected actionLabel(action: ShoppingActions): TranslateResult {
+    return this.$t(getActionButtonLabelKey(action, this.price))
   }
 }
 </script>
-
-<style scoped lang="scss">
-@import '@/styles/border';
-</style>

@@ -1,11 +1,11 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <BaseCollectionForm v-bind.sync="base">
-      <template v-slot:main>
+    <BaseCollectionForm ref="collectionForm" v-bind.sync="base">
+      <template #main>
         <b-field class="mb-5" />
       </template>
-      <template v-slot:footer>
+      <template #footer>
         <!-- Hidden as of 11.July.2022 due to lack of convenience #3407 -->
         <!-- <CustomAttributeInput
           :max="10"
@@ -22,11 +22,12 @@
         <b-field>
           <AccountBalance />
         </b-field>
-        <SubmitButton
-          label="create collection"
-          :disabled="disabled"
-          :loading="isLoading"
-          @click="submit" />
+        <b-field type="is-danger" :message="balanceNotEnoughMessage">
+          <SubmitButton
+            label="create collection"
+            :loading="isLoading"
+            @click="submit" />
+        </b-field>
       </template>
     </BaseCollectionForm>
   </div>
@@ -35,8 +36,8 @@
 <script lang="ts">
 import { Attribute } from '@/components/rmrk/types'
 import {
-  getclassDeposit,
   getMetadataDeposit,
+  getclassDeposit,
 } from '@/components/unique/apiConstants'
 import { getRandomValues, hasEnoughToken } from '@/components/unique/utils'
 import { uploadDirect } from '@/utils/directUpload'
@@ -48,14 +49,14 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinJson, PinningKey } from '@/utils/nftStorage'
+import { PinningKey, pinJson } from '@/services/nftStorage'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getImageTypeSafe, pinImageSafe } from '@/utils/safePin'
 import { estimate } from '@/utils/transactionExecutor'
 import { unwrapSafe } from '@/utils/uniquery'
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
+import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
-import { Component, mixins } from 'nuxt-property-decorator'
 import { dummyIpfsCid } from '@/utils/ipfs'
 
 type BaseCollectionType = {
@@ -89,10 +90,22 @@ export default class CreateCollection extends mixins(
     file: null,
     description: '',
   }
-  private hasSupport = true
   protected collectionDeposit = ''
   protected id = '0'
   protected attributes: Attribute[] = []
+  protected balanceNotEnough = false
+  @Ref('collectionForm') readonly collectionForm
+
+  public checkValidity() {
+    return this.collectionForm.checkValidity()
+  }
+
+  get balanceNotEnoughMessage() {
+    if (this.balanceNotEnough) {
+      return this.$t('tooltip.notEnoughBalance')
+    }
+    return ''
+  }
 
   public async created() {
     onApiConnect(this.apiUrl, (api) => {
@@ -100,18 +113,6 @@ export default class CreateCollection extends mixins(
       const metadataDeposit = getMetadataDeposit(api)
       this.collectionDeposit = (classDeposit + metadataDeposit).toString()
     })
-  }
-
-  get disabled(): boolean {
-    const {
-      base: { name },
-      accountId,
-    } = this
-    return !(name && accountId)
-  }
-
-  get balance(): string {
-    return this.$store.getters.getAuthBalance
   }
 
   public async constructMeta() {
@@ -199,6 +200,18 @@ export default class CreateCollection extends mixins(
   }
 
   protected async submit(): Promise<void> {
+    // check fields
+    if (!this.checkValidity()) {
+      return
+    }
+    // check balance
+    if (
+      !!this.collectionDeposit &&
+      parseFloat(this.balance) < parseFloat(this.collectionDeposit)
+    ) {
+      this.balanceNotEnough = true
+      return
+    }
     this.isLoading = true
     this.status = 'loader.checkBalance'
 

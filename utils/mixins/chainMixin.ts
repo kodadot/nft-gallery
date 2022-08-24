@@ -20,4 +20,8 @@ export default class ChainMixin extends PrefixMixin {
   get unit(): string {
     return this.chainProperties.tokenSymbol
   }
+
+  get blockExplorer(): string {
+    return this.chainProperties.blockExplorer ?? 'https://kusama.subscan.io/'
+  }
 }

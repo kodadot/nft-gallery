@@ -3,7 +3,7 @@
     <Loader v-model="isLoading" :status="status" />
     <div v-if="accountId" class="buttons">
       <ShareNetwork
-        v-if="identity && identity.twitter && this.isOwner"
+        v-if="identity && identity.twitter && isOwner"
         tag="button"
         class="button is-info is-dark is-outlined is-fullwidth twitter-btn only-border-top"
         network="twitter"
@@ -20,8 +20,9 @@
           :type="iconType(action)[0]"
           class="only-border-top"
           outlined
-          @click="handleAction(action)"
-          expanded>
+          expanded
+          :data-testid="`available-actions-${action}`"
+          @click="handleAction(action)">
           {{ actionLabel(action) }}
         </b-button>
       </template>
@@ -33,8 +34,10 @@
             :disabled="buyDisabled || !isAvailableToBuy"
             style="border-width: 2px"
             outlined
-            @click="handleAction(ShoppingActions.BUY)"
-            expanded>
+            expanded
+            data-testid="available-actions-BUY"
+            data-cy="BUY"
+            @click="handleAction(ShoppingActions.BUY)">
             {{ replaceBuyNowWithYolo ? 'YOLO' : actionLabel('BUY') }}
           </b-button>
         </b-tooltip>
@@ -63,31 +66,33 @@
 </template>
 
 <script lang="ts">
-import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
+import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
+import { JustInteraction, createInteraction } from '@kodadot1/minimark'
+import {
+  KeyboardValueToActionMap,
+  ShoppingActions,
+  getActionButtonLabelKey,
+  getActions,
+} from '@/utils/shoppingActions'
+import { notificationTypes, showNotification } from '@/utils/notification'
+
+import { GenericAccountId } from '@polkadot/types/generic/AccountId'
+import { TranslateResult } from 'vue-i18n/types'
 import { emptyObject } from '@/utils/empty'
+import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
+import { isAddress } from '@polkadot/util-crypto'
+import { somePercentFromTX } from '@/utils/support'
+import { unpin } from '@/utils/proxy'
+
 import AuthMixin from '@/utils/mixins/authMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { unpin } from '@/utils/proxy'
-import {
-  getActionButtonLabel,
-  getActions,
-  KeyboardValueToActionMap,
-  ShoppingActions,
-} from '@/utils/shoppingActions'
+import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import shouldUpdate from '@/utils/shouldUpdate'
-import { somePercentFromTX } from '@/utils/support'
-import { createInteraction, JustInteraction } from '@kodadot1/minimark'
-import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { isAddress } from '@polkadot/util-crypto'
-import { get } from 'idb-keyval'
-import { Component, mixins, Prop, Ref, Watch } from 'nuxt-property-decorator'
-import { TranslateResult } from 'vue-i18n/types'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
@@ -296,7 +301,7 @@ export default class AvailableActions extends mixins(
   protected async checkBuyBeforeSubmit() {
     const nft = await this.$apollo.query({
       query: nftByIdMinimal,
-      client: this.urlPrefix,
+      client: this.client,
       variables: {
         id: this.nftId,
       },
@@ -392,13 +397,12 @@ export default class AvailableActions extends mixins(
     this.submit()
   }
 
-  protected actionLabel(value: ShoppingActions): TranslateResult {
-    return getActionButtonLabel(value, this)
+  protected actionLabel(action: ShoppingActions): TranslateResult {
+    return this.$t(getActionButtonLabelKey(action, this.price))
   }
 }
 </script>
 <style scoped lang="scss">
-@import '@/styles/border';
 .joy {
   font-size: 16px;
   margin-top: 2px;

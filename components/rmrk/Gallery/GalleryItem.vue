@@ -1,49 +1,44 @@
 <template>
   <BaseGalleryItem
     :image="meta.image"
-    :animationUrl="meta.animation_url"
+    :animation-url="meta.animation_url"
     :description="meta.description"
-    :imageVisible="imageVisible"
-    :isLoading="isLoading"
-    :mimeType="mimeType"
+    :image-visible="imageVisible"
+    :is-loading="isLoading"
+    :mime-type="mimeType"
     @mouseEntered="showNavigation = true"
     @mouseLeft="showNavigation = false">
-    <template v-slot:top v-if="message">
-      <b-message class="message-box" type="is-primary">
-        <div class="columns">
-          <div class="column is-four-fifths">
-            <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-            <p class="subtitle is-size-5 subtitle-text">
-              {{ $t('mint.shareWithFriends', [nft.name]) }} △
-            </p>
-          </div>
-          <div class="column">
-            <Sharing :enableDownload="isOwner" />
-          </div>
-        </div>
-      </b-message>
+    <template v-if="message" #top>
+      <MessageNotify
+        :enable-download="isOwner"
+        :title="$t('mint.success') + ' 🎉'"
+        :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
     </template>
-    <template v-slot:image>
+    <template #image>
       <Navigation
         v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1"
-        :showNavigation="showNavigation"
+        :show-navigation="showNavigation"
         :items="nftsFromSameCollection"
-        :currentId="nft.id" />
+        :current-id="nft.id" />
     </template>
-    <template v-slot:main>
+    <template #main>
       <div class="columns">
         <div class="column is-6">
           <Appreciation
             :emotes="nft.emotes"
-            :accountId="accountId"
-            :currentOwnerId="nft.currentOwner"
-            :nftId="nft.id"
+            :account-id="accountId"
+            :current-owner-id="nft.currentOwner"
+            :nft-id="nft.id"
             :burned="nft.burned" />
 
-          <Name :nft="nft" :isLoading="isLoading" class="mb-5" />
+          <Name
+            :nft="nft"
+            :is-loading="isLoading"
+            class="mb-5"
+            data-cy="item-title" />
 
           <b-skeleton :active="isLoading" :count="3"></b-skeleton>
-          <div v-if="meta.description" class="block">
+          <div v-if="meta.description" class="block" data-cy="item-description">
             <p class="label">{{ $t('legend') }}</p>
             <DescriptionWrapper
               v-if="!isLoading"
@@ -51,11 +46,11 @@
           </div>
         </div>
 
-        <div class="column is-6" v-if="detailVisible">
+        <div v-if="detailVisible" class="column is-6">
           <div class="columns">
             <div class="column">
               <div class="nft-title">
-                <Detail :nft="nft" :isLoading="isLoading" />
+                <Detail :nft="nft" :is-loading="isLoading" />
               </div>
             </div>
             <div
@@ -68,11 +63,12 @@
                     </div>
                     <div class="price-block__container">
                       <div class="price-block__original">
-                        <Money :value="nft.price" inline />
+                        <Money :value="nft.price" inline data-cy="money" />
                       </div>
                       <b-button
                         v-if="nft.currentOwner === accountId"
                         type="is-warning"
+                        class="only-border-top"
                         outlined
                         @click="handleUnlist">
                         {{ $t('Unlist') }}
@@ -88,14 +84,14 @@
                           :current-owner-id="nft.currentOwner"
                           :is-owner="isOwner"
                           :price="nft.price"
-                          :originialOwner="nft.issuer"
+                          :originial-owner="nft.issuer"
                           :nft-id="nft.id"
                           :ipfs-hashes="[
                             nft.image,
                             nft.animation_url,
                             nft.metadata,
                           ]"
-                          :buyDisabled="hasBuyDisabled"
+                          :buy-disabled="hasBuyDisabled"
                           @change="handleAction" />
                       </IndexerGuard>
                       <Auth />
@@ -103,23 +99,24 @@
                     <AccountBalance />
                   </div>
 
-                  <Sharing :enableDownload="isOwner" class="mb-4" />
+                  <Sharing :enable-download="isOwner" class="mb-4" />
                 </div>
               </div>
             </div>
           </div>
           <LazyGalleryPriceChart
             class="mt-4"
-            :priceChartData="priceChartData"
-            :openOnDefault="!compactGalleryItem" />
+            :price-chart-data="priceChartData"
+            :open-on-default="!compactGalleryItem" />
         </div>
       </div>
     </template>
-    <template v-slot:footer>
+    <template #footer>
       <GalleryItemCarousel
         v-if="showRelatedCarousel"
         type="related"
-        :collectionId="nft.collectionId" />
+        :collection-id="nft.collection.id"
+        data-cy="carousel-related" />
       <GalleryItemCarousel type="visited" />
 
       <div class="columns">
@@ -128,6 +125,7 @@
             v-if="!isLoading"
             :events="nft.events"
             :open-on-default="!compactGalleryItem"
+            data-cy="history"
             @setPriceChartData="setPriceChartData" />
         </div>
       </div>
@@ -136,31 +134,33 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { NFT, NFTMetadata, Emote } from '../service/scheme'
-import { sanitizeIpfsUrl, getSanitizer } from '../utils'
-import { processMedia } from '@/utils/gallery/media'
-import { emptyObject } from '@/utils/empty'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { generateNftImage } from '@/utils/seoImageGenerator'
-import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
-
-import isShareMode from '@/utils/isShareMode'
-import nftById from '@/queries/subsquid/rmrk/nftById.graphql'
-import nftListIdsByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
-import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
-import eventListByNftId from '@/queries/subsquid/general/eventListByNftId.graphql'
-
-import { fetchNFTMetadata } from '../utils'
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { get, set } from 'idb-keyval'
+import { Debounce } from 'vue-debounce-decorator'
+
+import { Emote, NFT, NFTMetadata } from '../service/scheme'
+import { getSanitizer, sanitizeIpfsUrl } from '../utils'
 import { exist } from './Search/exist'
+import { fetchNFTMetadata } from '../utils'
+
+import { notificationTypes, showNotification } from '@/utils/notification'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { Debounce } from 'vue-debounce-decorator'
-import AvailableActions from './AvailableActions.vue'
+import { emptyObject } from '@/utils/empty'
+import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
+import { generateNftImage } from '@/utils/seoImageGenerator'
 import { isOwner } from '@/utils/account'
-import { unwrapSafe } from '@/utils/uniquery'
+import isShareMode from '@/utils/isShareMode'
 import { mapToId } from '@/utils/mappers'
+import { processMedia } from '@/utils/gallery/media'
+import { unwrapSafe } from '@/utils/uniquery'
+
+import eventListByNftId from '@/queries/subsquid/general/eventListByNftId.graphql'
+import nftById from '@/queries/subsquid/rmrk/nftById.graphql'
+import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
+import nftListIdsByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
+
+import AvailableActions from './AvailableActions.vue'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -175,13 +175,6 @@ import { mapToId } from '@/utils/mappers'
     }
     return {
       title: this.pageTitle,
-      link: [
-        {
-          hid: 'canonical',
-          rel: 'canonical',
-          href: this.$root.$config.baseUrl + this.$route.path,
-        },
-      ],
       meta: [...this.$seoMeta(metaData)],
     }
   },
@@ -193,9 +186,9 @@ import { mapToId } from '@/utils/mappers'
     AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
-    Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+    Sharing: () => import('@/components/shared/Sharing.vue'),
     Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
-    MediaResolver: () => import('@/components/rmrk/Media/MediaResolver.vue'),
+    MediaResolver: () => import('@/components/media/MediaResolver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     DescriptionWrapper: () =>
       import('@/components/shared/collapse/DescriptionWrapper.vue'),
@@ -420,7 +413,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   get showRelatedCarousel(): boolean {
     return (
-      Boolean(this.nft.collectionId) && this.nftsFromSameCollection.length > 0
+      Boolean(this.nft.collection?.id) && this.nftsFromSameCollection.length > 0
     )
   }
 

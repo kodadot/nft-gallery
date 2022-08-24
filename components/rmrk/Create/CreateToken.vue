@@ -1,20 +1,27 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <BaseTokenForm v-bind.sync="base" :collections="collections">
-      <template v-slot:main>
+    <BaseTokenForm
+      v-bind.sync="base"
+      ref="baseTokenForm"
+      :collections="collections"
+      :show-explainer-text="showExplainerText">
+      <template #main>
         <AttributeTagInput
-          v-model="tags"
           key="tags"
+          v-model="tags"
           placeholder="Get discovered easier through tags" />
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <BalanceInput
+          ref="balanceInput"
+          key="price"
           label="Price"
           expanded
-          key="price"
+          required
+          has-to-larger-than-zero
           :step="0.1"
-          @input="updatePrice"
-          class="mb-3" />
+          class="mb-3"
+          @input="updatePrice" />
         <b-message
           v-if="hasPrice"
           key="message"
@@ -24,7 +31,7 @@
           {{ $t('warning.newTransactionWhilePriceSet') }}
         </b-message>
       </template>
-      <template v-slot:footer>
+      <template #footer>
         <b-field key="advanced">
           <CollapseWrapper
             v-if="base.edition > 1"
@@ -32,17 +39,21 @@
             hidden="mint.expert.hide"
             class="mt-3">
             <BasicSwitch
-              class="mt-3"
               v-model="postfix"
+              class="mt-3"
               label="mint.expert.postfix" />
           </CollapseWrapper>
         </b-field>
-        <SubmitButton
+        <b-field
+          v-if="isLogIn"
           key="submit"
-          label="mint.submit"
-          :disabled="disabled"
-          :loading="isLoading"
-          @click="submit" />
+          type="is-danger"
+          :message="balanceNotEnoughMessage">
+          <SubmitButton
+            label="mint.submit"
+            :loading="isLoading"
+            @click="submit()" />
+        </b-field>
       </template>
     </BaseTokenForm>
   </div>
@@ -63,23 +74,23 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
 import {
-  asSystemRemark,
   Attribute,
   CreatedNFT,
+  Interaction,
+  asSystemRemark,
   createInteraction,
   createMetadata,
   createMintInteaction,
   createMultipleNFT,
-  Interaction,
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import { formatBalance } from '@polkadot/util'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { unwrapSafe } from '~/utils/uniquery'
 import { basicUpdateFunction } from '../service/NftUtils'
 import { toNFTId } from '../service/scheme'
@@ -132,6 +143,10 @@ export default class CreateToken extends mixins(
   protected price: string | number = 0
   protected nsfw = false
   protected postfix = true
+  protected balanceNotEnough = false
+  @Ref('balanceInput') readonly balanceInput
+  @Ref('baseTokenForm') readonly baseTokenForm
+  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
 
   protected updatePrice(value: string) {
     this.price = value
@@ -139,6 +154,10 @@ export default class CreateToken extends mixins(
 
   get hasPrice() {
     return Number(this.price)
+  }
+
+  get balanceNotEnoughMessage() {
+    return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
   }
 
   @Watch('accountId', { immediate: true })
@@ -174,8 +193,10 @@ export default class CreateToken extends mixins(
       )
   }
 
-  get disabled() {
-    return !(this.base.name && this.base.file && this.base.selectedCollection)
+  public checkValidity() {
+    const balanceInputValid = this.balanceInput.checkValidity()
+    const baseTokenFormValid = this.baseTokenForm.checkValidity()
+    return balanceInputValid && baseTokenFormValid
   }
 
   get hasSupport(): boolean {
@@ -193,6 +214,15 @@ export default class CreateToken extends mixins(
   protected async submit() {
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
+    }
+
+    if (!this.checkValidity()) {
+      return
+    }
+
+    if (parseFloat(this.balance) === 0) {
+      this.balanceNotEnough = true
+      return
     }
 
     this.isLoading = true

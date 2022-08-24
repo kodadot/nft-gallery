@@ -2,13 +2,22 @@
   <b-field>
     <b-dropdown
       v-if="multipleSelect"
-      multiple
       v-model="selectedAction"
+      multiple
       class="select-dropdown">
       <template #trigger>
-        <b-button type="is-primary" icon-right="caret-down"> Sort by </b-button>
+        <b-button
+          type="is-primary"
+          icon-right="caret-down"
+          data-cy="gallery-sort-by">
+          Sort by
+        </b-button>
       </template>
-      <b-dropdown-item v-for="action in actions" :key="action" :value="action">
+      <b-dropdown-item
+        v-for="action in actions"
+        :key="action"
+        :value="action"
+        :data-cy="$t('sort.' + action)">
         {{ $t('sort.' + action) }}
       </b-dropdown-item>
     </b-dropdown>
@@ -16,7 +25,8 @@
       v-else
       v-model="selectedAction"
       placeholder="Sort by"
-      class="select-dropdown">
+      class="select-dropdown"
+      data-cy="collection-sort-by">
       <option v-for="action in actions" :key="action" :value="action">
         {{
           isCollection ? $t('sort.collection.' + action) : $t('sort.' + action)
@@ -27,11 +37,8 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, VModel, Prop } from 'nuxt-property-decorator'
-import {
-  NFT_SORT_CONDITION_LIST,
-  NFT_SQUID_SORT_CONDITION_LIST,
-} from '@/utils/constants'
+import { Component, Prop, VModel, mixins } from 'nuxt-property-decorator'
+import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 @Component
@@ -46,19 +53,16 @@ export default class SearchSortDropdown extends mixins(PrefixMixin) {
   }
 
   get sort(): string[] {
-    return this.urlPrefix === 'rmrk'
-      ? NFT_SORT_CONDITION_LIST
-      : NFT_SQUID_SORT_CONDITION_LIST
+    return NFT_SQUID_SORT_CONDITION_LIST
   }
 }
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
-
+/* cry in scss (global) */
 .select-dropdown {
   select {
-    border: 1px solid $primary !important;
+    border: 1px solid #7d7d7d !important;
   }
   @media screen and (max-width: 1216px) and (min-width: 768px) {
     width: 200px;

@@ -9,20 +9,24 @@
     <CollectionSelect
       v-model="vSelectedCollection"
       :collections="collections"
-      :showExplainerText="showExplainerText" />
+      :show-explainer-text="showExplainerText" />
 
     <transition-group name="fade">
       <template v-if="vSelectedCollection">
         <MetadataUpload
-          v-model="vFile"
+          ref="upload"
           key="file"
+          v-model="vFile"
+          :required="true"
           label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
           expanded
           preview />
 
         <BasicInput
-          v-model="vName"
+          ref="nftName"
           key="name"
+          v-model="vName"
+          required
           :label="$t('mint.nft.name.label')"
           :message="$t('mint.nft.name.message')"
           :placeholder="$t('mint.nft.name.placeholder')"
@@ -31,8 +35,8 @@
           maxlength="60" />
 
         <BasicInput
-          v-model="vDescription"
           key="description"
+          v-model="vDescription"
           maxlength="500"
           class="my-5"
           type="textarea"
@@ -43,8 +47,8 @@
 
         <BasicNumberInput
           v-if="hasEdition"
-          v-model="vEdition"
           key="edition"
+          v-model="vEdition"
           :label="$t('mint.nft.edition.label')"
           :message="$t('mint.nft.edition.message')"
           :placeholder="$t('mint.nft.edition.placeholder')"
@@ -71,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, PropSync, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, PropSync, Ref, Vue } from 'nuxt-property-decorator'
 import { MediaType } from '../rmrk/types'
 import { resolveMedia } from '../rmrk/utils'
 import { BaseMintedCollection as MintedCollection } from './types'
@@ -90,7 +94,7 @@ export default class BaseTokenForm extends Vue {
   @Prop({ type: String, default: 'context' }) label!: string
   @Prop({ type: Array, default: () => [] }) collections!: MintedCollection[]
   @Prop({ type: Boolean, default: true }) hasEdition!: boolean
-  @Prop({ type: Boolean, default: true }) showExplainerText!: boolean
+  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
 
   @PropSync('name', { type: String }) vName!: string
   @PropSync('description', { type: String }) vDescription!: string
@@ -98,6 +102,14 @@ export default class BaseTokenForm extends Vue {
   @PropSync('selectedCollection') vSelectedCollection!: MintedCollection | null
   @PropSync('edition', { type: Number }) vEdition!: number
   @PropSync('secondFile', { type: Blob }) vSecondFile!: Blob | null
+  @Ref('nftName') readonly nftName
+  @Ref('upload') readonly upload
+
+  public checkValidity() {
+    const nftNameValid = this.nftName.checkValidity()
+    const uploadValid = this.upload.checkValidity()
+    return nftNameValid && uploadValid
+  }
 
   get clickableMax() {
     return Infinity
@@ -114,15 +126,3 @@ export default class BaseTokenForm extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

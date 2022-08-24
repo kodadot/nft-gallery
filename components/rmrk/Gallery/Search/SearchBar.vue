@@ -1,28 +1,30 @@
 <template>
   <div class="mb-3">
-    <div class="row" v-if="!isVisible && !hideSearchInput">
+    <div v-if="!isVisible && !hideSearchInput" class="row">
       <div v-if="sliderDirty && !hideFilter" class="is-size-7">
         <PriceRange :from="minPrice" :to="maxPrice" inline />
       </div>
     </div>
     <div class="columns mb-0">
-      <b-field class="column is-6 mb-0" :class="searchColumnClass">
+      <b-field class="column is-8 mb-0 mr-2" :class="searchColumnClass">
         <b-button
           v-if="!hideFilter"
           icon-left="filter"
           aria-controls="sortAndFilter"
           type="is-primary is-bordered-light"
           class="is-hidden-mobile mr-2"
+          data-cy="expand-search"
           @click="isVisible = !isVisible" />
         <slot name="next-filter"></slot>
         <b-autocomplete
           v-if="!hideSearchInput"
-          class="gallery-search"
+          ref="searchRef"
           v-model="name"
+          class="gallery-search"
           :data="searchSuggestion"
           group-field="type"
           group-options="item"
-          placeholder="Search..."
+          placeholder="Search Artwork, Collection..."
           icon="search"
           open-on-focus
           clearable
@@ -62,7 +64,7 @@
               <div class="media">
                 <div class="media-left">
                   <BasicImage
-                    customClass="is-32x32"
+                    custom-class="is-32x32"
                     :src="props.option.image || '/placeholder.webp'" />
                   <!-- <div class="preview-media-wrapper">
                   <PreviewMediaResolver
@@ -82,9 +84,9 @@
           <template #footer>
             <a
               v-if="autocompleteFooterShow"
-              @click.stop.prevent="searchSuggestionEachTypeMaxNum = bigNum"
               class="navbar-item"
-              style="justify-content: center; margin-right: 0.8em">
+              style="justify-content: center; margin-right: 0.8em"
+              @click.stop.prevent="searchSuggestionEachTypeMaxNum = bigNum">
               All results
             </a>
           </template>
@@ -96,10 +98,10 @@
         </div>
       </b-field>
       <b-field
+        v-if="!hideFilter"
         expanded
         position="is-right"
-        class="column is-6"
-        v-if="!hideFilter">
+        class="column is-4">
         <b-button
           icon-left="filter"
           aria-controls="sortAndFilter"
@@ -110,50 +112,53 @@
       </b-field>
     </div>
     <b-collapse
+      v-model="isVisible"
       aria-id="sortAndFilter"
-      animation="opacitySlide"
-      v-model="isVisible">
+      animation="opacitySlide">
       <div class="columns mb-0">
         <Sort
-          multipleSelect
+          multiple-select
           class="column is-4 mb-0"
           :value="sortByMultiple"
           @input="updateSortBy($event, sortByMultiple)" />
         <BasicSwitch
-          class="is-flex column is-4"
           v-model="vListed"
+          class="is-flex column is-4"
           :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
           size="is-medium"
-          labelColor="is-success" />
+          label-color="has-text-success" />
       </div>
       <div v-if="!hideFilter">
         <b-field class="columns mb-0">
           <b-input
+            v-model="rangeSlider[0]"
             type="number"
             min="0"
             step="any"
             class="column is-2"
             :placeholder="$t('query.priceRange.minPrice')"
-            v-model="rangeSlider[0]">
+            data-cy="input-min">
           </b-input>
           <b-input
+            v-model="rangeSlider[1]"
             min="0"
             step="any"
             type="number"
             class="column is-2"
             :placeholder="$t('query.priceRange.maxPrice')"
-            v-model="rangeSlider[1]">
+            data-cy="input-max">
           </b-input>
           <div class="column is-1">
             <b-button
               class="is-primary"
-              @click="sliderChange(rangeSlider)"
-              :disabled="applyDisabled">
+              :disabled="applyDisabled"
+              data-cy="apply"
+              @click="sliderChange(rangeSlider)">
               {{ $t('general.apply') }}
             </b-button>
           </div>
         </b-field>
-        <p class="help is-danger" v-if="applyDisabled">
+        <p v-if="applyDisabled" class="help is-danger">
           {{ $t('query.priceRange.priceValidation') }}
         </p>
       </div>
@@ -165,14 +170,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Ref, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { SearchQuery, SearchSuggestion } from './types'
 import { denyList } from '@/utils/constants'
-import { NFT, NFTWithMeta, CollectionWithMeta } from '../../service/scheme'
+import { CollectionWithMeta, NFT, NFTWithMeta } from '../../service/scheme'
 import { getSanitizer } from '../../utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
@@ -183,10 +188,7 @@ import {
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
 import { convertLastEventToNft } from '@/utils/carousel'
-import {
-  NFT_SORT_CONDITION_LIST,
-  NFT_SQUID_SORT_CONDITION_LIST,
-} from '@/utils/constants'
+import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import { LastEvent } from '~/utils/types/types'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
@@ -218,6 +220,7 @@ export default class SearchBar extends mixins(
   @Prop(Boolean) public hideFilter!: boolean
   @Prop(Boolean) public hideSearchInput!: boolean
   @Prop(Boolean) public showDefaultSuggestions!: boolean
+  @Ref('searchRef') readonly searchRef
 
   protected isVisible = false
   private query: SearchQuery = {
@@ -242,7 +245,7 @@ export default class SearchBar extends mixins(
   private searchSuggestionEachTypeMaxNum = 3
   private bigNum = 1e10
   private keyDownNativeEnterFlag = true
-  private defaultNFTSuggestions: NFTWithMeta[] = []
+  private defaultNFTSuggestions: (NFTWithMeta & { itemType: 'NFT' })[] = []
   private defaultCollectionSuggestions: CollectionWithMeta[] = []
 
   get applyDisabled(): boolean {
@@ -294,11 +297,12 @@ export default class SearchBar extends mixins(
           mapNFTorCollectionMetadata
         )
         getCloudflareImageLinks(nFTMetadataList).then((imageLinks) => {
-          const nftResult: NFTWithMeta[] = []
+          const nftResult: (NFTWithMeta & { itemType: 'NFT' })[] = []
           processMetadata<NFTWithMeta>(nFTMetadataList, (meta, i) => {
             nftResult.push({
               ...nfts[i],
               ...meta,
+              itemType: 'NFT',
               image:
                 (nfts[i]?.metadata &&
                   imageLinks[fastExtract(nfts[i].metadata)]) ||
@@ -365,7 +369,15 @@ export default class SearchBar extends mixins(
   public created() {
     this.initKeyboardEventHandler({
       f: this.bindFilterEvents,
+      k: this.bindSearchEvents,
     })
+  }
+
+  private bindSearchEvents(event) {
+    event.preventDefault()
+    if (event.key === 'k') {
+      this.focusInput()
+    }
   }
 
   private bindFilterEvents(event) {
@@ -386,6 +398,10 @@ export default class SearchBar extends mixins(
         this.updateSortBy(['PRICE_ASC'])
         break
     }
+  }
+
+  public focusInput(): void {
+    this.searchRef?.focus()
   }
 
   get vListed(): boolean {
@@ -533,10 +549,8 @@ export default class SearchBar extends mixins(
   @Emit('update:sortByMultiple')
   @Debounce(400)
   updateSortBy(value: string[] | string, $event?): string[] {
-    const final = (Array.isArray(value) ? value : [value]).filter(
-      (condition) =>
-        NFT_SORT_CONDITION_LIST.includes(condition) ||
-        NFT_SQUID_SORT_CONDITION_LIST.includes(condition)
+    const final = (Array.isArray(value) ? value : [value]).filter((condition) =>
+      NFT_SQUID_SORT_CONDITION_LIST.includes(condition)
     )
     const listed = final.some(
       (condition) => condition.toLowerCase().indexOf('price') > -1
@@ -584,10 +598,11 @@ export default class SearchBar extends mixins(
     }
     if (value.type == 'History') {
       this.updateSearch(value.name)
+      this.redirectToGalleryPageIfNeed()
     } else if (value.type == 'Search') {
       this.insertNewHistory()
       this.updateSearch(value.name)
-    } else if (value.__typename === 'NFTEntity') {
+    } else if (value.itemType === 'NFT' || value.__typename === 'NFTEntity') {
       this.$router.push({
         name: this.routeOf('detail-id'),
         params: { id: value.id },
@@ -666,13 +681,10 @@ export default class SearchBar extends mixins(
     this.query.search = value
     this.searchSuggestionEachTypeMaxNum = 3
     try {
-      const queryNft = await resolveQueryPath(
-        this.urlPrefix,
-        'nftListWithSearch'
-      )
+      const queryNft = await resolveQueryPath(this.client, 'nftListWithSearch')
       const nfts = this.$apollo.query({
         query: queryNft.default,
-        client: this.urlPrefix,
+        client: this.client,
         variables: {
           first: this.first,
           offset: this.offset,
@@ -712,13 +724,13 @@ export default class SearchBar extends mixins(
     }
     try {
       const query = await resolveQueryPath(
-        this.urlPrefix,
+        this.client,
         'collectionListWithSearch'
       )
 
       const collectionResult = this.$apollo.query({
         query: query.default,
-        client: this.urlPrefix,
+        client: this.client,
         variables: {
           first: this.first,
           offset: this.offset,
@@ -777,23 +789,11 @@ export default class SearchBar extends mixins(
     const params: any[] = []
 
     if (this.query.search) {
-      if (this.urlPrefix === 'rmrk') {
-        params.push({
-          name: { likeInsensitive: this.query.search },
-        })
-      } else {
-        params.push({ name_containsInsensitive: this.query.search })
-      }
+      params.push({ name_containsInsensitive: this.query.search })
     }
 
     if (this.query.listed) {
-      if (this.urlPrefix === 'rmrk') {
-        params.push({
-          price: { greaterThan: '0' },
-        })
-      } else {
-        params.push({ price_gt: '0' })
-      }
+      params.push({ price_gt: '0' })
     }
 
     return params
@@ -856,7 +856,7 @@ export default class SearchBar extends mixins(
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .b-skeleton {
   height: 32px !important;
