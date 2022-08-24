@@ -6,9 +6,10 @@
 
 <script lang="ts">
 import { getAssetIdByAccount } from '@/utils/api/bsx/query'
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import AssetMixin from '@/utils/mixins/assetMixin'
+import shouldUpdate from '@/utils/shouldUpdate'
 
 @Component({})
 export default class MultiPaymentFeeButton extends mixins(
@@ -42,6 +43,13 @@ export default class MultiPaymentFeeButton extends mixins(
       this.tokenId = await getAssetIdByAccount(api, this.accountId)
     } catch (e) {
       console.log(e)
+    }
+  }
+
+  @Watch('accountId')
+  async onAccountIdChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.fetchCurrency()
     }
   }
 }
