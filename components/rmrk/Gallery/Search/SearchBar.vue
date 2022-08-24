@@ -245,7 +245,7 @@ export default class SearchBar extends mixins(
   private searchSuggestionEachTypeMaxNum = 3
   private bigNum = 1e10
   private keyDownNativeEnterFlag = true
-  private defaultNFTSuggestions: NFTWithMeta[] = []
+  private defaultNFTSuggestions: (NFTWithMeta & { itemType: 'NFT' })[] = []
   private defaultCollectionSuggestions: CollectionWithMeta[] = []
 
   get applyDisabled(): boolean {
@@ -297,11 +297,12 @@ export default class SearchBar extends mixins(
           mapNFTorCollectionMetadata
         )
         getCloudflareImageLinks(nFTMetadataList).then((imageLinks) => {
-          const nftResult: NFTWithMeta[] = []
+          const nftResult: (NFTWithMeta & { itemType: 'NFT' })[] = []
           processMetadata<NFTWithMeta>(nFTMetadataList, (meta, i) => {
             nftResult.push({
               ...nfts[i],
               ...meta,
+              itemType: 'NFT',
               image:
                 (nfts[i]?.metadata &&
                   imageLinks[fastExtract(nfts[i].metadata)]) ||
@@ -597,10 +598,11 @@ export default class SearchBar extends mixins(
     }
     if (value.type == 'History') {
       this.updateSearch(value.name)
+      this.redirectToGalleryPageIfNeed()
     } else if (value.type == 'Search') {
       this.insertNewHistory()
       this.updateSearch(value.name)
-    } else if (value.__typename === 'NFTEntity') {
+    } else if (value.itemType === 'NFT' || value.__typename === 'NFTEntity') {
       this.$router.push({
         name: this.routeOf('detail-id'),
         params: { id: value.id },
