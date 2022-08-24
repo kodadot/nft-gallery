@@ -23,7 +23,7 @@
           class="gallery-search"
           placeholder="Search Artwork, Collection..."
           icon="search"
-          open-on-focus
+          :open-on-focus="showDefaultSuggestions"
           clearable
           max-height="500"
           dropdown-position="bottom"
@@ -301,7 +301,6 @@ export default class SearchBar extends mixins(
   @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
   @Prop(Boolean) public hideSearchInput!: boolean
-  @Prop(Boolean) public showDefaultSuggestions!: boolean
   @Ref('searchRef') readonly searchRef
 
   public isVisible = false
@@ -317,7 +316,7 @@ export default class SearchBar extends mixins(
   private nftResult: NFTWithMeta[] = []
   private collectionResult: CollectionWithMeta[] = []
   private searchString = ''
-  private name = ''
+  public name = ''
   private searched: NFT[] = []
   private rangeSlider: [
     number | string | undefined,
@@ -327,7 +326,6 @@ export default class SearchBar extends mixins(
   private searchSuggestionEachTypeMaxNum = 5
   private bigNum = 1e10
   private keyDownNativeEnterFlag = true
-  private defaultNFTSuggestions: NFTWithMeta[] = []
   public defaultCollectionSuggestions: CollectionWithMeta[] = []
   public activeSearchTab = 'Collections'
   public activeTrendingTab = 'Trending'
@@ -362,45 +360,13 @@ export default class SearchBar extends mixins(
     return undefined
   }
 
+  get showDefaultSuggestions() {
+    return this.urlPrefix === 'rmrk'
+  }
+
   public async fetchSuggestions() {
     if (this.showDefaultSuggestions) {
       try {
-        const { data } = await this.$apollo.query<{
-          events: LastEvent[]
-        }>({
-          query: lastNftListByEvent,
-          client: this.client,
-          variables: {
-            limit: this.searchSuggestionEachTypeMaxNum,
-            event: 'LIST',
-          },
-        })
-
-        const nfts = [...data.events].map((e) => convertLastEventToNft(e).nft)
-
-        const nFTMetadataList: string[] = (nfts as any).map(
-          mapNFTorCollectionMetadata
-        )
-        getCloudflareImageLinks(nFTMetadataList).then((imageLinks) => {
-          const nftResult: (NFTWithMeta & { itemType: 'NFT' })[] = []
-          processMetadata<NFTWithMeta>(nFTMetadataList, (meta, i) => {
-            nftResult.push({
-              ...nfts[i],
-              ...meta,
-              itemType: 'NFT',
-              image:
-                (nfts[i]?.metadata &&
-                  imageLinks[fastExtract(nfts[i].metadata)]) ||
-                getSanitizer(meta.image || '')(meta.image || ''),
-              animation_url: getSanitizer(meta.animation_url || '')(
-                meta.animation_url || ''
-              ),
-            })
-          }).then(() => {
-            this.defaultNFTSuggestions = nftResult
-          })
-        })
-
         const result = await this.$apollo.query({
           query: seriesInsightList,
           client: this.client,
