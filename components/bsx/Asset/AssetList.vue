@@ -84,12 +84,14 @@ export default class AssetList extends mixins(
   protected async handleTokenSelect(id: string) {
     const api = await this.useApi()
     const { call, args } = setDefaultFeeToken(api, id)
+    this.initTransactionLoader()
     this.howAboutToExecute(this.accountId, call, args, (blockNumber) => {
       showNotification(
         `[ASSET] Since block ${blockNumber}, you pay in different token`,
         notificationTypes.success
       )
       this.fetchCurrentToken()
+      this.fetchAccountBalance()
     })
   }
 
