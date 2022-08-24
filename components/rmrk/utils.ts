@@ -103,7 +103,7 @@ export const fetchMetadata = async <T>(
   return emptyObject<T>()
 }
 
-export const preheatFileFromIPFS = async (ipfsUrl: string) => {
+export const preheatFileFromIPFS = (ipfsUrl: string) => {
   const url = sanitizeIpfsUrl(ipfsUrl, 'pinata')
   const hash = fastExtract(url)
   api
