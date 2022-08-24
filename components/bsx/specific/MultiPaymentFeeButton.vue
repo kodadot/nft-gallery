@@ -1,23 +1,35 @@
 <template>
   <nuxt-link :to="url">
-    {{ $t('general.tx.feesPaidIn', [symbol]) }}
+    {{ $t('general.tx.feesPaidIn', [unit]) }}
   </nuxt-link>
 </template>
 
 <script lang="ts">
-import { getAssetMetadataByAccount } from '@/utils/api/bsx/query'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { getAssetIdByAccount } from '@/utils/api/bsx/query'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
+import AssetMixin from '@/utils/mixins/assetMixin'
 
 @Component({})
-export default class MultiPaymentFeeButton extends mixins(UseApiMixin) {
+export default class MultiPaymentFeeButton extends mixins(
+  AssetMixin,
+  UseApiMixin
+) {
   @Prop({ type: String, required: false }) public accountId!: string
   @Prop({ type: String, default: 'bsx', required: false })
   public prefix!: string
-  protected symbol = 'XXX'
+  protected tokenId = '0'
 
   mounted() {
     this.fetchCurrency()
+  }
+
+  get asset() {
+    return this.assetIdOf(this.tokenId)
+  }
+
+  get unit() {
+    return this.asset.symbol
   }
 
   get url(): string {
@@ -27,8 +39,7 @@ export default class MultiPaymentFeeButton extends mixins(UseApiMixin) {
   async fetchCurrency() {
     try {
       const api = await this.useApi()
-      const { symbol } = await getAssetMetadataByAccount(api, this.accountId)
-      this.symbol = symbol
+      this.tokenId = await getAssetIdByAccount(api, this.accountId)
     } catch (e) {
       console.log(e)
     }
