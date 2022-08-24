@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="columns mb-0">
-      <b-field class="column is-6 mb-0" :class="searchColumnClass">
+      <b-field class="column is-8 mb-0 mr-2" :class="searchColumnClass">
         <b-button
           v-if="!hideFilter"
           icon-left="filter"
@@ -175,7 +175,7 @@
         v-if="!hideFilter"
         expanded
         position="is-right"
-        class="column is-6">
+        class="column is-4">
         <b-button
           icon-left="filter"
           aria-controls="sortAndFilter"
@@ -382,11 +382,12 @@ export default class SearchBar extends mixins(
           mapNFTorCollectionMetadata
         )
         getCloudflareImageLinks(nFTMetadataList).then((imageLinks) => {
-          const nftResult: NFTWithMeta[] = []
+          const nftResult: (NFTWithMeta & { itemType: 'NFT' })[] = []
           processMetadata<NFTWithMeta>(nFTMetadataList, (meta, i) => {
             nftResult.push({
               ...nfts[i],
               ...meta,
+              itemType: 'NFT',
               image:
                 (nfts[i]?.metadata &&
                   imageLinks[fastExtract(nfts[i].metadata)]) ||
@@ -712,7 +713,7 @@ export default class SearchBar extends mixins(
 
     this.query.search = value
     try {
-      const queryNft = await resolveQueryPath('subsquid', 'nftListWithSearch')
+      const queryNft = await resolveQueryPath(this.client, 'nftListWithSearch')
       const nfts = this.$apollo.query({
         query: queryNft.default,
         client: this.client,
@@ -755,7 +756,7 @@ export default class SearchBar extends mixins(
     }
     try {
       const query = await resolveQueryPath(
-        'subsquid',
+        this.client,
         'collectionListWithSearch'
       )
 
@@ -867,7 +868,7 @@ export default class SearchBar extends mixins(
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .gallery-search {
   .selected-item {

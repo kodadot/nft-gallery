@@ -111,7 +111,7 @@ export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .hot-sticky-header th {
   top: 120px;

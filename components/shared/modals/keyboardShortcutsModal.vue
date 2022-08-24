@@ -1,16 +1,16 @@
 <template>
   <ModalWrapper
+    :id="'keyboardShortcutsModal'"
     icon=""
     :title="title"
-    :id="'keyboardShortcutsModal'"
-    :isButtonHidden="true">
-    <template v-slot:default>
+    :is-button-hidden="true">
+    <template #default>
       <div class="is-flex is-justify-content-space-between">
-        <b-table :data="updateData[type]" v-for="type in types" :key="type">
-          <b-table-column field="text" :label="labels[type]" v-slot="props">
+        <b-table v-for="type in types" :key="type" :data="updateData[type]">
+          <b-table-column v-slot="props" field="text" :label="labels[type]">
             {{ props.row.text }}
           </b-table-column>
-          <b-table-column field="shortcut" v-slot="props">
+          <b-table-column v-slot="props" field="shortcut">
             <div>
               <span
                 v-for="(shortcut, index) in props.row.shortcut.split('+')"
@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import '@/styles/keyboard-shortcut.scss'
+import '@/styles/components/_keyboard-shortcut.scss'
 
 interface DifferentTypeShortCuts {
   navigation: { text: string; shortcut: string }[]

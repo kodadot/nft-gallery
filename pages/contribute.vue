@@ -8,7 +8,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import highlight from '~/utils/highlight'
 
-import '@/styles/content-markdown.scss'
+import '@/styles/components/_content-markdown.scss'
 
 import Contributing from '../CONTRIBUTING.md'
 

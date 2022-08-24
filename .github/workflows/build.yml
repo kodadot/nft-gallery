@@ -62,7 +62,7 @@ jobs:
         if: failure()
         with:
           name: cypress-website-screenshots
-          path: /tests/cypress/screenshots/
+          path: ./tests/cypress/screenshots/
 
   build:
     strategy:

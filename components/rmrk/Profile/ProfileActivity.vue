@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="level my-4 collection is-align-items-center" v-if="stats">
+    <div v-if="stats" class="level my-4 collection is-align-items-center">
       <div class="level-item has-text-centered">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ totalSoldItems }}</p>
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { getSum, getSumOfObjectField } from '@/utils/math'
 import { subDays } from 'date-fns'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -197,8 +197,6 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
-
 .collection {
   display: grid;
   grid-gap: 0.7rem;

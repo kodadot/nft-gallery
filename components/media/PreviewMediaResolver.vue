@@ -7,10 +7,11 @@
 </template>
 
 <script lang="ts" setup>
-import { get, update } from 'idb-keyval'
+import { update } from 'idb-keyval'
 
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { getMimeType } from '@/utils/gallery/media'
+import { processSingleMetadata } from '@/utils/cachingStrategy'
 
 const MediaResolver = defineAsyncComponent(
   () => import('@/components/media/MediaResolver.vue')
@@ -33,7 +34,7 @@ const fetchMimeType = async () => {
     return
   }
 
-  const nftMetadata = await get<NFTMetadata>(props.metadata)
+  const nftMetadata = await processSingleMetadata<NFTMetadata>(props.metadata)
   type.value = nftMetadata?.type || ''
 
   if (!type.value) {
