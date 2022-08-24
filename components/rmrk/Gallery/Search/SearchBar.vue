@@ -61,13 +61,6 @@
                         <span class="main-title name">{{ item.name }}</span>
                         <span>{{ urlPrefix.toUpperCase() }}</span>
                       </div>
-                      <!-- <div class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
-                        <span>
-                          Floor: <Money v-if="item.floorPrice && parseInt(item.floorPrice)" :value="item.floorPrice" inline/><span v-else>None</span>
-                        </span>
-                        <span>Units: {{  }}</span>
-
-                      </div> -->
                     </div>
                   </div>
                 </div>
