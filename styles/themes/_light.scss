@@ -80,9 +80,12 @@ html.light-mode {
 			color: $text-light-theme;
 		}
 
-		.search-navbar input,
-		.search-navbar-container-mobile input {
+		.search-navbar input {
 			background-color: rgba(229, 229, 229, 0.55);
+		}
+
+		.search-navbar-container-mobile input {
+			background-color: $white;
 		}
 	}
 
