@@ -255,7 +255,6 @@ import {
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
-import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { SearchQuery } from './types'
 import { denyList } from '@/utils/constants'
 import { CollectionWithMeta, NFT, NFTWithMeta } from '../../service/scheme'
@@ -268,9 +267,7 @@ import {
   processMetadata,
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
-import { convertLastEventToNft } from '@/utils/carousel'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
-import { LastEvent } from '~/utils/types/types'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
 import ChainMixin from '~/utils/mixins/chainMixin'
