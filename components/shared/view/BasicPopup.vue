@@ -5,7 +5,7 @@
     :animate-fill="false"
     :placement="placement"
     :delay="delay">
-    <template v-slot:trigger>
+    <template #trigger>
       <slot name="trigger" />
     </template>
     <div class="popover-content-container p-4 ms-dos-shadow">
@@ -25,7 +25,7 @@ export default class BasicPopup extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .tippy-container {
   width: 100%;

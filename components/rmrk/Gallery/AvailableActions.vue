@@ -3,7 +3,7 @@
     <Loader v-model="isLoading" :status="status" />
     <div v-if="accountId" class="buttons">
       <ShareNetwork
-        v-if="identity && identity.twitter && this.isOwner"
+        v-if="identity && identity.twitter && isOwner"
         tag="button"
         class="button is-info is-dark is-outlined is-fullwidth twitter-btn only-border-top"
         network="twitter"
@@ -20,9 +20,9 @@
           :type="iconType(action)[0]"
           class="only-border-top"
           outlined
-          @click="handleAction(action)"
           expanded
-          :data-testid="`available-actions-${action}`">
+          :data-testid="`available-actions-${action}`"
+          @click="handleAction(action)">
           {{ actionLabel(action) }}
         </b-button>
       </template>
@@ -34,10 +34,10 @@
             :disabled="buyDisabled || !isAvailableToBuy"
             style="border-width: 2px"
             outlined
-            @click="handleAction(ShoppingActions.BUY)"
             expanded
             data-testid="available-actions-BUY"
-            data-cy="BUY">
+            data-cy="BUY"
+            @click="handleAction(ShoppingActions.BUY)">
             {{ replaceBuyNowWithYolo ? 'YOLO' : actionLabel('BUY') }}
           </b-button>
         </b-tooltip>
@@ -403,7 +403,6 @@ export default class AvailableActions extends mixins(
 }
 </script>
 <style scoped lang="scss">
-@import '@/styles/border';
 .joy {
   font-size: 16px;
   margin-top: 2px;

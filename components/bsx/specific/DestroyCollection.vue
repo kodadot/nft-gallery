@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import offerListByNftId from '@/queries/subsquid/general/collectionBurnableStats.graphql'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
@@ -76,7 +76,3 @@ export default class DonationButton extends mixins(
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/variables';
-</style>

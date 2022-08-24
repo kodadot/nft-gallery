@@ -10,3 +10,9 @@
   padding: 2px 4px;
   white-space: nowrap;
 }
+
+.keyboard-shortcuts {
+  .card.bordered:not(:last-of-type) {
+    border-bottom: none;
+  }
+}
