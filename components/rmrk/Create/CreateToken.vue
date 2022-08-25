@@ -315,7 +315,7 @@ export default class CreateToken extends mixins(
       ...(this.tags || []),
       ...nsfwAttribute(this.nsfw),
       ...offsetAttribute(this.hasCarbonOffset),
-    ].filter((item) => item.trait_type || item.display_type)
+    ]
 
     const meta = createMetadata(
       name,
