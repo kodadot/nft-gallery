@@ -14,13 +14,18 @@
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
         <BasicImage
-          v-if="!animatedUrl"
+          v-if="isBasicImage"
           :src="image"
           :alt="title"
           custom-class="gallery__image-wrapper" />
-
-        <PreviewMediaResolver v-else :src="animatedUrl" :metadata="metadata" />
-        <span v-if="price > 0 && showPriceValue" class="card-image__price">
+        <PreviewMediaResolver
+          v-else
+          :src="animatedUrl"
+          :metadata="metadata"
+          :mime-type="mimeType" />
+        <span
+          v-if="parseInt(price) > 0 && showPriceValue"
+          class="card-image__price">
           <Money :value="price" inline />
         </span>
       </div>
@@ -48,6 +53,7 @@ import {
 } from '@/utils/cachingStrategy'
 import AuthMixin from '@/utils/mixins/authMixin'
 
+import { getMimeType } from '@/utils/gallery/media'
 import { getSanitizer, sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 
@@ -73,9 +79,10 @@ export default class GalleryCard extends mixins(AuthMixin) {
   @Prop(String) public metadata!: string
   @Prop(String) public currentOwner!: string
   @Prop(Boolean) public listed!: boolean
-  protected image = ''
-  protected title = ''
-  protected animatedUrl = ''
+  public image = ''
+  public title = ''
+  public animatedUrl = ''
+  public mimeType = ''
 
   async fetch() {
     if (this.metadata) {
@@ -88,7 +95,12 @@ export default class GalleryCard extends mixins(AuthMixin) {
         meta.animation_url || meta.mediaUri || '',
         'pinata'
       )
+      this.mimeType = (await getMimeType(this.animatedUrl || this.image)) || ''
     }
+  }
+
+  get isBasicImage() {
+    return !this.animatedUrl || (this.image && this.mimeType.includes('audio'))
   }
 
   get showPriceValue(): boolean {
