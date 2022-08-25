@@ -130,7 +130,7 @@ import { Debounce } from 'vue-debounce-decorator'
 import { Interaction } from '@kodadot1/minimark'
 import { formatDistanceToNow } from 'date-fns'
 
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { exist } from '@/components/search/exist'
 
 import ChainMixin from '@/utils/mixins/chainMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'

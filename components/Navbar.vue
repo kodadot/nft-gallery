@@ -170,7 +170,7 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import ColorModeButton from '@/components/common/ColorModeButton.vue'
 import Identity from '@/components/shared/identity/IdentityIndex.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
-import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
+import Search from '@/components/search/SearchBar.vue'
 
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 

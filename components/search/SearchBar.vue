@@ -250,8 +250,12 @@ import { exist, existArray } from './exist'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import { SearchQuery } from './types'
 import { denyList } from '@/utils/constants'
-import { CollectionWithMeta, NFT, NFTWithMeta } from '../../service/scheme'
-import { getSanitizer } from '../../utils'
+import {
+  CollectionWithMeta,
+  NFT,
+  NFTWithMeta,
+} from '@/components/rmrk/service/scheme'
+import { getSanitizer } from '@/components/rmrk/utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { logError, mapNFTorCollectionMetadata } from '~/utils/mappers'
