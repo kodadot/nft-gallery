@@ -9,6 +9,7 @@
   "enabledManagers": ["npm"],
   "rangeStrategy": "bump",
   "updatePinnedDependencies": false,
+  "schedule": ["before 3am on Monday"],
   "packageRules": [
     {
       "matchSourceUrlPrefixes": [
