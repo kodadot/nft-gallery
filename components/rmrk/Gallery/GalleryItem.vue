@@ -44,6 +44,9 @@
               v-if="!isLoading"
               :text="meta.description.replaceAll('\n', '  \n')" />
           </div>
+          <div v-if="meta.attributes && meta.attributes.length" class="block">
+            <Properties :attributes="meta.attributes" field-key="trait_type" />
+          </div>
         </div>
 
         <div v-if="detailVisible" class="column is-6">
@@ -190,6 +193,7 @@ import AvailableActions from './AvailableActions.vue'
     Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
     MediaResolver: () => import('@/components/media/MediaResolver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
+    Properties: () => import('@/components/shared/gallery/Properties.vue'),
     DescriptionWrapper: () =>
       import('@/components/shared/collapse/DescriptionWrapper.vue'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
