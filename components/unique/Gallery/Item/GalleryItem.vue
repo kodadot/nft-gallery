@@ -385,12 +385,3 @@ export default class GalleryItem extends mixins(
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/variables';
-
-hr.comment-divider {
-  border-top: 1px solid $lightpink;
-  border-bottom: 1px solid $lightpink;
-}
-</style>

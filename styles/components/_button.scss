@@ -1,0 +1,41 @@
+.button {
+	text-transform: uppercase;
+	font-weight: 500;
+	transition: all 0.3s;
+	color: $scheme-invert;
+}
+
+.button.is-text {
+	&:hover {
+		border: none;
+		background-color: $grey-darker;
+	}
+
+	&:focus {
+		background-color: $grey-darker;
+		border: none;
+	}
+}
+
+button.button.is-bordered {
+	border-top: 2px solid $primary  !important;
+}
+
+button.button.is-bordered-light {
+	border-color: transparent;
+	border-top: 1px solid $primary  !important;
+}
+
+button.button.navbar-link-background {
+	background-color: $blacklight;
+}
+
+.share-button {
+	width: 40px;
+}
+
+.only-border-top {
+	border-bottom: none;
+	border-left: none;
+	border-right: none;
+}

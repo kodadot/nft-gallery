@@ -1,13 +1,13 @@
 <template>
   <div class="gallery container">
     <Loader :value="isLoading" />
-    <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
+    <Search v-bind.sync="searchQuery" hide-search-input @resetPage="resetPage">
       <Pagination
-        hasMagicBtn
+        v-model="currentValue"
+        has-magic-btn
         simple
         :total="total"
-        v-model="currentValue"
-        :perPage="first"
+        :per-page="first"
         replace
         class="remove-margin" />
     </Search>
@@ -17,11 +17,11 @@
         v-if="startPage > 1 && !isLoading && total > 0"
         direction="top"
         @infinite="reachTopHandler"></InfiniteLoading>
-      <div class="columns is-multiline" :id="scrollContainerId">
+      <div :id="scrollContainerId" class="columns is-multiline">
         <div
-          :class="`column is-4 column-padding ${scrollItemClassName}`"
           v-for="nft in results"
-          :key="nft.id">
+          :key="nft.id"
+          :class="`column is-4 column-padding ${scrollItemClassName}`">
           <div class="card nft-card">
             <nuxt-link
               :to="`/${urlPrefix}/gallery/${nft.id}`"
@@ -37,13 +37,13 @@
                   v-show="nft.image"
                   :src="nft.image"
                   :alt="nft.name"
-                  customClass="gallery__image-wrapper" />
+                  custom-class="gallery__image-wrapper" />
 
                 <PreviewMediaResolver
                   v-if="!nft.image && nft.animation_url"
                   :src="nft.animation_url"
                   :metadata="nft.metadata"
-                  :mimeType="nft.type" />
+                  :mime-type="nft.type" />
                 <span
                   v-if="nft.price > 0 && showPriceValue"
                   class="card-image__price">
@@ -370,7 +370,7 @@ export default class Gallery extends mixins(
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .card-image__burned {
   filter: blur(7px);
