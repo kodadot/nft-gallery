@@ -98,7 +98,7 @@ html.light-mode {
 		}
 
 		.icon {
-			color: $text-light-theme!important;
+			color: $text-light-theme !important;
 		}
 	}
 
@@ -124,7 +124,8 @@ html.light-mode {
 	.pagination-next,
 	.pagination-link,
 	body .title:not(h2),
-	.auth-avatar .subtitle, .royalty {
+	.auth-avatar .subtitle,
+	.royalty {
 		color: $text-light-theme;
 	}
 
@@ -143,7 +144,8 @@ html.light-mode {
 		background-color: $white;
 	}
 
-	.input::placeholder, .textarea::placeholder {
+	.input::placeholder,
+	.textarea::placeholder {
 		color: #b2b2b2 !important;
 	}
 
@@ -259,6 +261,6 @@ html.light-mode {
 	}
 
 	.b-table .table .chevron-cell>a {
-		color: $primary !important;
+		color: $primary  !important;
 	}
 }
