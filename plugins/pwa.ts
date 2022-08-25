@@ -37,11 +37,11 @@ export default async () => {
           hasIcon: true,
         })
 
-        notif.$on('close', () => {
+        notif.$on('close', async () => {
           try {
             window.sessionStorage.clear()
             window.localStorage.clear()
-            flushIndexedDb()
+            await flushIndexedDb()
           } catch (error) {
             console.error(error)
           } finally {
