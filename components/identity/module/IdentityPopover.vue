@@ -19,10 +19,10 @@
 
 <script lang="ts" setup>
 const IdentityPopoverHeader = defineAsyncComponent(
-  () => import('@/components/shared/identity/popover/IdentityPopoverHeader.vue')
+  () => import('./IdentityPopoverHeader.vue')
 )
 const IdentityPopoverFooter = defineAsyncComponent(
-  () => import('@/components/shared/identity/popover/IdentityPopoverFooter.vue')
+  () => import('./IdentityPopoverFooter.vue')
 )
 </script>
 

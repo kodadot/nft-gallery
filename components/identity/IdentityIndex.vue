@@ -27,15 +27,15 @@
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { defineEmits } from '#app'
 
-import useIdentity from './useIdentity'
+import useIdentity from './utils/useIdentity'
 
 type Address = string | GenericAccountId | undefined
 
 const IdentitySocial = defineAsyncComponent(
-  () => import('@/components/shared/identity/IdentitySocial.vue')
+  () => import('./module/IdentitySocial.vue')
 )
 const IdentityChain = defineAsyncComponent(
-  () => import('@/components/shared/identity/IdentityChain.vue')
+  () => import('./module/IdentityChain.vue')
 )
 
 const props = defineProps<{

@@ -35,7 +35,7 @@ type IdentityFields = Record<string, string>
 type Address = string | GenericAccountId | undefined
 
 const IdentityPopover = defineAsyncComponent(
-  () => import('@/components/shared/identity/popover/IdentityPopover.vue')
+  () => import('./IdentityPopover.vue')
 )
 
 defineProps<{

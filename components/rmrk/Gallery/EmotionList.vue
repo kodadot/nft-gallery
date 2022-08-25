@@ -48,7 +48,7 @@ interface Emoji {
 
 @Component({
   components: {
-    Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+    Identity: () => import('@/components/identity/IdentityIndex.vue'),
   },
 })
 export default class EmotionList extends Vue {

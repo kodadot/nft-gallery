@@ -52,7 +52,7 @@
 
 <script lang="ts" setup>
 import Identicon from '@polkadot/vue-identicon'
-import useIdentityStats from './useIdentityStats'
+import useIdentityStats from '../utils/useIdentityStats'
 
 const address = inject('address')
 const shortenedAddress = inject('shortenedAddress')

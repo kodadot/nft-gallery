@@ -148,7 +148,7 @@ import shortAddress from '@/utils/shortAddress'
 import { Interaction as EventInteraction } from '../service/scheme'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }

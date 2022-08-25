@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import useIdentityStats from './useIdentityStats'
+import useIdentityStats from '../utils/useIdentityStats'
 
 const address = inject('address')
 const { totalCollected, totalCreated, totalSold } = useIdentityStats({

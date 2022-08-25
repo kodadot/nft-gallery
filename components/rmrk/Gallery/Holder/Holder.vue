@@ -191,7 +191,7 @@ import { parseDate, parsePriceForItem } from './helper'
 import { Interaction as EventInteraction } from '../../service/scheme'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }
 
