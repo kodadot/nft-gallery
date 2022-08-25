@@ -103,13 +103,13 @@ describe('Media component', () => {
         const isRmrk = url.startsWith('/rmrk')
 
         if (isRmrk) {
-          cy.intercept('POST', '**/rubick/007/graphql', (req) => {
+          cy.intercept('POST', '**/rubick/*/graphql', (req) => {
             // Queries
             aliasQuery(req, 'nftById')
             aliasQuery(req, 'collectionById')
           })
         } else {
-          cy.intercept('POST', '**/snekk/003/graphql', (req) => {
+          cy.intercept('POST', '**/snekk/*/graphql', (req) => {
             // Queries
             aliasQuery(req, 'nftById')
             aliasQuery(req, 'collectionById')
@@ -167,13 +167,13 @@ describe('Media component', () => {
         const isRmrk = url.startsWith('/rmrk')
 
         if (isRmrk) {
-          cy.intercept('POST', '**/rubick/007/graphql', (req) => {
+          cy.intercept('POST', '**/rubick/*/graphql', (req) => {
             // Queries
             aliasQuery(req, 'nftById')
             aliasQuery(req, 'collectionById')
           })
         } else {
-          cy.intercept('POST', '**/snekk/003/graphql', (req) => {
+          cy.intercept('POST', '**/snekk/*/graphql', (req) => {
             // Queries
             aliasQuery(req, 'nftById')
             aliasQuery(req, 'collectionById')
