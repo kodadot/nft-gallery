@@ -5,12 +5,12 @@
     <b-button
       tag="nuxt-link"
       icon-left="chevron-left"
-      :to="properUrl(this.prevIndex)"
+      :to="properUrl(prevIndex)"
       outlined />
     <b-button
       tag="nuxt-link"
       icon-left="chevron-right"
-      :to="properUrl(this.nextIndex)"
+      :to="properUrl(nextIndex)"
       outlined />
   </div>
 </template>
@@ -110,7 +110,7 @@ export default class Navigation extends mixins(
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .navigation-container {
   pointer-events: none;

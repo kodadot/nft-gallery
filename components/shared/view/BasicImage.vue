@@ -1,7 +1,7 @@
 <template>
   <b-image
-    :src="src || '/placeholder.webp'"
-    src-fallback="/placeholder.webp"
+    :src="src || placeholder"
+    :src-fallback="placeholder"
     :alt="alt"
     ratio="1by1"
     :class="customClass"
@@ -18,6 +18,8 @@
 </template>
 
 <script lang="ts" setup>
+const { $consola, $colorMode } = useNuxtApp()
+
 defineProps({
   src: { type: String, default: '' },
   alt: { type: String, default: 'KodaDot NFT minted multimedia' },
@@ -25,7 +27,11 @@ defineProps({
   rounded: Boolean,
 })
 
-const { $consola } = useNuxtApp()
+const placeholder = computed(() => {
+  return $colorMode.preference === 'dark'
+    ? '/placeholder.webp'
+    : '/placeholder-white.webp'
+})
 
 function onImageError(ev: Event, src: string) {
   $consola.log('[BasicImage] to load:', src, ev)

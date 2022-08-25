@@ -4,11 +4,11 @@
     <!-- TODO: Make it work with graphql -->
     <b-field class="column">
       <Pagination
-        hasMagicBtn
+        v-model="currentValue"
+        has-magic-btn
         simple
         :total="total"
-        v-model="currentValue"
-        :perPage="first"
+        :per-page="first"
         replace
         class="is-right" />
     </b-field>
@@ -16,9 +16,9 @@
     <div>
       <div class="columns is-multiline">
         <div
-          class="column is-4 column-padding"
           v-for="collection in results"
-          :key="collection.id">
+          :key="collection.id"
+          class="column is-4 column-padding">
           <div class="card collection-card">
             <nuxt-link
               :to="`/statemine/collection/${collection.id}`"
@@ -28,7 +28,7 @@
                 <BasicImage
                   :src="collection.image"
                   :alt="collection.name"
-                  customClass="collection__image-wrapper" />
+                  custom-class="collection__image-wrapper" />
               </div>
 
               <div class="card-content">
@@ -45,24 +45,25 @@
       </div>
     </div>
     <Pagination
+      v-model="currentValue"
       class="pt-5 pb-5"
       :total="total"
-      :perPage="first"
-      v-model="currentValue"
+      :per-page="first"
       replace />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, mixins } from 'nuxt-property-decorator'
 
+import resolveQueryPath from '@/utils/queryPathResolver'
+import { unwrapSafe } from '@/utils/uniquery'
 import { getMany, update } from 'idb-keyval'
 import 'lazysizes'
-import { MetaFragment } from '~/components/unique/graphqlResponseTypes'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { MetaFragment } from '@/components/unique/graphqlResponseTypes'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { Collection, CollectionWithMeta } from '../service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
-import resolveQueryPath from '@/utils/queryPathResolver'
 
 const components = {
   Pagination: () => import('./Pagination.vue'),
@@ -72,6 +73,7 @@ const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 
+// TODO: Is this used anywhere?
 @Component<Collections>({
   components,
 })
@@ -95,14 +97,14 @@ export default class Collections extends mixins(PrefixMixin) {
 
   public async created() {
     const query = await resolveQueryPath(
-      this.urlPrefix,
+      this.client,
       'collectionListWithSearch'
     )
     this.$apollo.addSmartQuery('collection', {
       query: query.default,
       manual: true,
       loadingKey: 'loadingState',
-      client: this.urlPrefix,
+      client: this.client,
       result: this.handleResult,
       variables: () => {
         return {
@@ -112,7 +114,7 @@ export default class Collections extends mixins(PrefixMixin) {
       },
       update: ({ collectionEntity }) => ({
         ...collectionEntity,
-        nfts: collectionEntity.nfts.nodes,
+        nfts: unwrapSafe(collectionEntity.nfts),
       }),
     })
   }
@@ -211,7 +213,8 @@ export default class Collections extends mixins(PrefixMixin) {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+// move to component scss
+@import '@/styles/abstracts/variables';
 
 .card-image__burned {
   filter: blur(7px);

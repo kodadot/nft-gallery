@@ -112,7 +112,7 @@ export default class Browser extends mixins(PrefixMixin) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .wrapper {
   border: 2px solid $primary;

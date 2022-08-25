@@ -80,8 +80,6 @@ export default class BsxStats extends mixins(PrefixMixin) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
-
 .collection {
   display: grid;
   grid-gap: 0.7rem;

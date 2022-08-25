@@ -3,11 +3,12 @@
     <b-field :position="position">
       <b-tooltip label="Large display">
         <b-radio-button
+          v-model="layout"
           type="is-primary"
           class="collection-radio-btn"
-          v-model="layout"
           native-value="is-half-desktop is-half-tablet"
           :disabled="disabled"
+          data-cy="large-display"
           @input="onInputChange">
           <span>
             <b-icon icon="th-large"></b-icon>
@@ -16,11 +17,12 @@
       </b-tooltip>
       <b-tooltip label="Small display">
         <b-radio-button
+          v-model="layout"
           type="is-primary"
           class="collection-radio-btn"
-          v-model="layout"
           native-value="is-one-quarter-desktop is-one-third-tablet"
           :disabled="disabled"
+          data-cy="small-display"
           @input="onInputChange">
           <span>
             <b-icon icon="th"></b-icon>
@@ -52,14 +54,3 @@ export default class Layout extends Vue {
   }
 }
 </script>
-<style lang="scss">
-@import '@/styles/variables';
-
-.b-radio.radio.button.is-selected {
-  background-color: #db2980;
-}
-.collection-radio-btn .b-radio.radio.button {
-  border: none !important;
-  border-top: 1px solid $primary !important;
-}
-</style>

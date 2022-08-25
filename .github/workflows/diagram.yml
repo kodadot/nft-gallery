@@ -17,7 +17,7 @@ jobs:
       - name: Generate diagram
         uses: githubocto/repo-visualizer@main
         with:
-          excluded_paths: ".github,.vscode,assets,langDir,static"
+          excluded_paths: ".github,.vscode,assets,locales,static"
           excluded_globs: "**/*.{editorconfig,gitignore,lock,json,md,png,toml,svg,yml}"
           output_file: ".github/diagram.svg"
           should_push: false

@@ -141,6 +141,9 @@ export default class CarouselList extends mixins(AuthMixin, PrefixMixin) {
           itemsToShow: 4,
         },
         1800: {
+          itemsToShow: 4.5,
+        },
+        2800: {
           itemsToShow: 5,
         },
       },
@@ -150,8 +153,7 @@ export default class CarouselList extends mixins(AuthMixin, PrefixMixin) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
-
+// move to scss component
 .carousel-card-list {
   overflow-x: auto;
   mask: linear-gradient(90deg, rgb(255, 255, 255) 75%, transparent);

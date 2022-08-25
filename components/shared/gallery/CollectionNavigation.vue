@@ -1,24 +1,25 @@
 <template>
   <Navigation
     v-if="isVisible"
-    :showNavigation="showNavigation"
+    :show-navigation="showNavigation"
     :items="nftIdList"
-    :currentId="nftId" />
+    :current-id="nftId" />
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
-import { mapToId } from '~/utils/mappers'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { notificationTypes, showNotification } from '~/utils/notification'
-import resolveQueryPath from '~/utils/queryPathResolver'
-import shouldUpdate from '~/utils/shouldUpdate'
-import { unwrapSafe } from '~/utils/uniquery'
+import { mapToId } from '@/utils/mappers'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { unwrapSafe } from '@/utils/uniquery'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 
 const components = {
   Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
 }
 
+// TODO: Is this used anywhere?
 @Component({ components })
 export default class CollectionNavigation extends mixins(PrefixMixin) {
   @Prop(String) public collectionId!: string
@@ -39,13 +40,10 @@ export default class CollectionNavigation extends mixins(PrefixMixin) {
 
   protected async fetchNftIdList() {
     try {
-      const query = await resolveQueryPath(
-        this.urlPrefix,
-        'nftIdListByCollection'
-      )
+      const query = await resolveQueryPath(this.client, 'nftIdListByCollection')
       const nfts = await this.$apollo.query({
         query: query.default,
-        client: this.urlPrefix,
+        client: this.client,
         variables: {
           id: this.collectionId,
         },
