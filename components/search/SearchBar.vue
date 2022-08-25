@@ -52,7 +52,8 @@
                   <div class="media">
                     <div class="media-left">
                       <BasicImage
-                        custom-class="is-64x64 round-image"
+                        rounded
+                        custom-class="is-64x64"
                         :src="item.image || '/placeholder.webp'" />
                     </div>
                     <div class="media-content">
@@ -69,7 +70,7 @@
                     name: routeOf('explore'),
                     query: { ...$route.query, tab: 'COLLECTION' },
                   }">
-                  <div>See All --></div>
+                  <div>{{ $t('search.seeAll') }} --></div>
                 </nuxt-link>
               </b-tab-item>
               <b-tab-item label="NFTs" value="NFTs">
@@ -84,7 +85,8 @@
                   <div class="media">
                     <div class="media-left">
                       <BasicImage
-                        custom-class="is-64x64 round-image"
+                        rounded
+                        custom-class="is-64x64"
                         :src="item.image || '/placeholder.webp'" />
                     </div>
                     <div class="media-content">
@@ -96,12 +98,9 @@
                       <div
                         class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
                         <span class="name">{{ item.collection?.name }}</span>
-                        <span>
+                        <span v-if="item.price && parseFloat(item.price) > 0">
                           Price:
-                          <Money
-                            v-if="item.price && parseInt(item.price)"
-                            :value="item.price"
-                            inline /><span v-else>None</span>
+                          <Money :value="item.price" inline />
                         </span>
                       </div>
                     </div>
@@ -112,7 +111,7 @@
                     name: routeOf('explore'),
                     query: { ...$route.query, tab: 'GALLERY' },
                   }">
-                  <div>See All --></div>
+                  <div>{{ $t('search.seeAll') }} --></div>
                 </nuxt-link>
               </b-tab-item>
               <b-tab-item disabled label="User" value="User"> </b-tab-item>
@@ -135,7 +134,8 @@
                   <div class="media">
                     <div class="media-left">
                       <BasicImage
-                        custom-class="is-64x64 round-image"
+                        rounded
+                        custom-class="is-64x64"
                         :src="item.image || '/placeholder.webp'" />
                     </div>
                     <div class="media-content">
@@ -152,7 +152,7 @@
                   </div>
                 </div>
                 <nuxt-link :to="{ name: 'series-insight' }">
-                  <div>Rankings --></div>
+                  <div>{{ $t('search.rankings') }} --></div>
                 </nuxt-link>
               </b-tab-item>
             </b-tabs>
@@ -836,11 +836,6 @@ export default class SearchBar extends mixins(
   }
 }
 
-.round-image {
-  border-radius: 64px;
-  overflow: hidden;
-  border: 1px solid black;
-}
 .link-item {
   cursor: pointer;
 }

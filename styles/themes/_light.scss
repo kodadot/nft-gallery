@@ -262,7 +262,9 @@ html.light-mode {
 	.main-title {
 		color: $text-light-theme;
 	}
-	.media-content {
-		color: gray;
+	.search-gallery {
+		.media-content {
+			color: gray;
+		}
 	}
 }
