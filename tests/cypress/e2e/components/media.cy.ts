@@ -76,15 +76,15 @@ const mediaType = [
     tagRelated: 'model-viewer',
     type: '3d',
   },
-  {
-    url: '/rmrk/gallery/9684463-c8205518d881699b3e-%E2%9D%84%EF%B8%8F-01_FROM_SINGULARITY-0000000000000005',
-    title: '01 fr.om - singularity',
-    description: '',
-    collection: 'glaciers mood',
-    creator: 'fr.om',
-    tagRelated: 'img',
-    type: 'audio',
-  },
+  // {
+  //   url: '/rmrk/gallery/9684463-c8205518d881699b3e-%E2%9D%84%EF%B8%8F-01_FROM_SINGULARITY-0000000000000005',
+  //   title: '01 fr.om - singularity',
+  //   description: '',
+  //   collection: 'glaciers mood',
+  //   creator: 'fr.om',
+  //   tagRelated: 'img',
+  //   type: 'audio',
+  // },
   {
     url: '/rmrk/gallery/11711019-ce25731cee6b347a26-9D46T-VIDEO-0000000000000026',
     title: 'Video',
@@ -116,11 +116,11 @@ describe('Media component', () => {
           })
         }
 
-        cy.visit(url)
+        cy.intercept('GET', '**/kodadot.mypinata.cloud/ipfs/**', {
+          times: 5,
+        }).as('fetchMedia')
 
-        cy.intercept('GET', '**/kodadot.mypinata.cloud/ipfs/**').as(
-          'fetchMedia'
-        )
+        cy.visit(url)
 
         // wait for graphql request to be fetched
         cy.wait('@nftByIdQuery', { responseTimeout: 15000 })
@@ -128,7 +128,7 @@ describe('Media component', () => {
           .should('match', /^(200|206)/)
 
         // wait for asset to be loaded from pinata
-        cy.wait('@fetchMedia', { responseTimeout: 20000 })
+        cy.wait('@fetchMedia', { responseTimeout: 30000 })
           .its('response.statusCode')
           .should('match', /^(200|206)/)
 
@@ -180,11 +180,11 @@ describe('Media component', () => {
           })
         }
 
-        cy.visit(url)
+        cy.intercept('GET', '**/kodadot.mypinata.cloud/ipfs/**', {
+          times: 5,
+        }).as('fetchMedia')
 
-        cy.intercept('GET', '**/kodadot.mypinata.cloud/ipfs/**').as(
-          'fetchMedia'
-        )
+        cy.visit(url)
 
         // wait for graphql request to be fetched
         cy.wait('@nftByIdQuery', { responseTimeout: 15000 })
@@ -209,14 +209,6 @@ describe('Media component', () => {
           .should('match', /^(200|206)/)
 
         cy.location('pathname').should('include', '/collection/')
-        // cy.getCy('large-display').click().scrollIntoView()
-        // cy.waitForNetworkIdle('*', '*', 1000)
-        // cy.document().then((doc) => {
-        //   const totalItems = doc.querySelectorAll(
-        //     `#infinite-scroll-container ${tagRelated}`
-        //   ).length
-        //   expect(totalItems).to.be.greaterThan(1)
-        // })
       })
     }
   )
