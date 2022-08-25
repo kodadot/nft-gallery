@@ -12,8 +12,9 @@ export default async () => {
   const flushIndexedDb = async () => {
     if (window.indexedDB && typeof window.indexedDB.databases !== 'undefined') {
       const databases = await window.indexedDB.databases()
+
       for (const db of databases) {
-        await window.indexedDB.deleteDatabase(db.name || '')
+        window.indexedDB.deleteDatabase(db.name || '')
       }
     }
   }
@@ -36,11 +37,11 @@ export default async () => {
           hasIcon: true,
         })
 
-        notif.$on('close', async () => {
+        notif.$on('close', () => {
           try {
             window.sessionStorage.clear()
             window.localStorage.clear()
-            await flushIndexedDb()
+            flushIndexedDb()
           } catch (error) {
             console.error(error)
           } finally {
