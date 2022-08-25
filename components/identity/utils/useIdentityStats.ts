@@ -7,7 +7,7 @@ const useLastBought = ({ address }) => {
   const lastBoughtDate = ref(new Date())
 
   const { data } = useGraphql({
-    queryname: 'buyEventByProfile',
+    queryName: 'buyEventByProfile',
     variables: {
       id: address,
     },
@@ -52,7 +52,7 @@ export default function useIdentityStats({ address }) {
 
   const { lastBoughtDate } = useLastBought({ address })
   const { data: stats } = useGraphql({
-    queryname: 'userStatsByAccount',
+    queryName: 'userStatsByAccount',
     variables: {
       account: address,
     },
