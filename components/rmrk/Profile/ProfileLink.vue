@@ -5,17 +5,17 @@
       :route="`/${urlPrefix}/u`"
       :param="address"
       link="u">
-      <Identity :address="address" :inline="true" :vertical-align="true" />
+      <Identity v-if="address" :address="address" />
       <template #extra>
         <Avatar :size="24" :value="address" class="mr-2" />
       </template>
     </LinkResolver>
     <template v-if="showTwitter">
       <Identity
+        v-if="address"
         :address="address"
         :show-twitter="showTwitter"
         :show-discord="showDiscord"
-        :vertical-align="true"
         class="pt-2" />
     </template>
     <a
@@ -34,17 +34,16 @@
 
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import InlineMixin from '@/utils/mixins/inlineMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import shortAddress from '@/utils/shortAddress'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
 }
 
 @Component({ components })
-export default class ProfileLink extends mixins(InlineMixin, PrefixMixin) {
+export default class ProfileLink extends mixins(PrefixMixin) {
   @Prop() public address!: string
   @Prop(Boolean) public showTwitter!: boolean
   @Prop(Boolean) public showDiscord!: boolean
