@@ -115,12 +115,11 @@ export default class CreateCollection extends mixins(
       ? IPFS_KODADOT_IMAGE_PLACEHOLDER
       : await pinFileToIPFS(file, pinningKey.token)
     const type = !file ? 'image/png' : file.type
-    const attributes = this.attributes
-      .map((val) => ({
-        ...val,
-        display_type: null,
-      }))
-      .filter((item) => item.trait_type || item.display_type)
+    const attributes = this.attributes.map((val) => ({
+      ...val,
+      display_type: null,
+    }))
+
     const meta = createMetadata(
       name,
       description,
@@ -162,16 +161,9 @@ export default class CreateCollection extends mixins(
     const create = api.tx.uniques.create(randomId, this.accountId)
     // Option to freeze metadata
     const meta = api.tx.uniques.setClassMetadata(randomId, metadata, false)
-    const attributes = this.attributes
-      .filter((item) => item.trait_type || item.display_type)
-      .map((a) =>
-        api.tx.uniques.setAttribute(
-          randomId,
-          null,
-          a.trait_type,
-          String(a.value)
-        )
-      )
+    const attributes = this.attributes.map((a) =>
+      api.tx.uniques.setAttribute(randomId, null, a.trait_type, String(a.value))
+    )
 
     return [create, meta, ...attributes]
   }
