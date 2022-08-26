@@ -15,15 +15,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+<script lang="ts" setup>
+import useIdentityStats from '../utils/useIdentityStats'
 
-@Component
-export default class IdentityPopoverFooter extends Vue {
-  @Prop({ required: true, default: 0 }) readonly totalCollected
-  @Prop({ required: true, default: 0 }) readonly totalCreated
-  @Prop({ required: true, default: 0 }) readonly totalSold
-}
+const address = inject('address')
+const { totalCollected, totalCreated, totalSold } = useIdentityStats({
+  address,
+})
 </script>
 
 <style>

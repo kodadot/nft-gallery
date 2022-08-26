@@ -35,8 +35,6 @@
                 <b-icon icon="palette" />
                 <Identity
                   :address="collection.issuer"
-                  inline
-                  no-owerlow
                   class="force-clip is-ellipsis" />
               </div>
             </nuxt-link>
@@ -68,7 +66,7 @@ import { CollectionMetadata } from '../rmrk/types'
 
 const components = {
   // Identicon: () => import('@polkadot/vue-identicon'),
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
 }
 
 const curatedCollection = [
