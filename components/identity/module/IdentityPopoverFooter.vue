@@ -1,29 +1,33 @@
 <template>
   <div class="popover-stats-container pt-3">
     <div class="has-text-centered">
-      <p class="has-text-weight-bold is-size-6">{{ totalCollected }}</p>
+      <p class="has-text-weight-bold is-size-6" data-cy="identity-collected">
+        {{ totalCollected }}
+      </p>
       <span class="is-size-7 is-uppercase">{{ $t('profile.collected') }}</span>
     </div>
     <div class="has-text-centered">
-      <p class="has-text-weight-bold is-size-6">{{ totalCreated }}</p>
+      <p class="has-text-weight-bold is-size-6" data-cy="identity-created">
+        {{ totalCreated }}
+      </p>
       <span class="is-size-7 is-uppercase">{{ $t('profile.created') }}</span>
     </div>
     <div class="has-text-centered">
-      <p class="has-text-weight-bold is-size-6">{{ totalSold }}</p>
+      <p class="has-text-weight-bold is-size-6" data-cy="identity-sold">
+        {{ totalSold }}
+      </p>
       <span class="is-size-7 is-uppercase">{{ $t('profile.sold') }}</span>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+<script lang="ts" setup>
+import useIdentityStats from '../utils/useIdentityStats'
 
-@Component
-export default class IdentityPopoverFooter extends Vue {
-  @Prop({ required: true, default: 0 }) readonly totalCollected
-  @Prop({ required: true, default: 0 }) readonly totalCreated
-  @Prop({ required: true, default: 0 }) readonly totalSold
-}
+const address = inject('address')
+const { totalCollected, totalCreated, totalSold } = useIdentityStats({
+  address,
+})
 </script>
 
 <style>
