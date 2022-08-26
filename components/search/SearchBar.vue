@@ -70,7 +70,9 @@
                     name: routeOf('explore'),
                     query: { ...$route.query, tab: 'COLLECTION' },
                   }">
-                  <div>{{ $t('search.seeAll') }} --></div>
+                  <div :class="loadMoreItemClassName">
+                    {{ $t('search.seeAll') }} -->
+                  </div>
                 </nuxt-link>
               </b-tab-item>
               <b-tab-item label="NFTs" value="NFTs">
@@ -99,7 +101,7 @@
                         class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
                         <span class="name">{{ item.collection?.name }}</span>
                         <span v-if="item.price && parseFloat(item.price) > 0">
-                          Price:
+                          {{ $t('offer.price') }}:
                           <Money :value="item.price" inline />
                         </span>
                       </div>
@@ -111,7 +113,9 @@
                     name: routeOf('explore'),
                     query: { ...$route.query, tab: 'GALLERY' },
                   }">
-                  <div>{{ $t('search.seeAll') }} --></div>
+                  <div :class="loadMoreItemClassName">
+                    {{ $t('search.seeAll') }} -->
+                  </div>
                 </nuxt-link>
               </b-tab-item>
               <b-tab-item disabled label="User" value="User"> </b-tab-item>
@@ -152,7 +156,9 @@
                   </div>
                 </div>
                 <nuxt-link :to="{ name: 'series-insight' }">
-                  <div>{{ $t('search.rankings') }} --></div>
+                  <div :class="loadMoreItemClassName">
+                    {{ $t('search.rankings') }} -->
+                  </div>
                 </nuxt-link>
               </b-tab-item>
             </b-tabs>
@@ -268,13 +274,13 @@ import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
 import ChainMixin from '~/utils/mixins/chainMixin'
+import { RowSeries } from '~/components/series/types'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
 @Component({
   components: {
     Sort: () => import('./SearchSortDropdown.vue'),
-    TypeTagInput: () => import('./TypeTagInput.vue'),
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
@@ -312,21 +318,34 @@ export default class SearchBar extends mixins(
   private searchString = ''
   public name = ''
   private searched: NFT[] = []
-  private rangeSlider: [
+  public rangeSlider: [
     number | string | undefined,
     number | string | undefined
   ] = [undefined, undefined]
-  private sliderDirty = false
-  private searchSuggestionEachTypeMaxNum = 5
+  public sliderDirty = false
+  public searchSuggestionEachTypeMaxNum = 5
   private bigNum = 1e10
-  private keyDownNativeEnterFlag = true
-  public defaultCollectionSuggestions: CollectionWithMeta[] = []
+  public defaultCollectionSuggestions: (CollectionWithMeta & RowSeries)[] = []
   public activeSearchTab = 'Collections'
   public activeTrendingTab = 'Trending'
   public selectedIndex = -1
 
   fetch() {
     this.fetchSuggestions()
+  }
+
+  get loadMoreItemClassName() {
+    return this.selectedIndex === this.searchSuggestionEachTypeMaxNum
+      ? 'selected-item'
+      : 'link-item'
+  }
+
+  get selectedItemListMap() {
+    return {
+      Trending: this.defaultCollectionSuggestions,
+      Collections: this.collectionSuggestion,
+      NFTs: this.nftSuggestion,
+    }
   }
 
   get applyDisabled(): boolean {
@@ -374,11 +393,11 @@ export default class SearchBar extends mixins(
           data: { collectionEntities: collections },
         } = result
 
-        const collectionMetadataList = collections.map(
-          mapNFTorCollectionMetadata
-        )
+        const collectionMetadataList = collections
+          .slice(0, this.searchSuggestionEachTypeMaxNum)
+          .map(mapNFTorCollectionMetadata)
         getCloudflareImageLinks(collectionMetadataList).then((imageLinks) => {
-          const collectionResult: CollectionWithMeta[] = []
+          const collectionResult: (CollectionWithMeta & RowSeries)[] = []
           processMetadata<CollectionWithMeta>(
             collectionMetadataList,
             (meta, i) => {
@@ -570,27 +589,46 @@ export default class SearchBar extends mixins(
     return newFinal
   }
 
-  // not highlight search, just input keyword and enter
   nativeSearch() {
+    // not selected
     if (this.selectedIndex === -1) {
       this.redirectToGalleryPageIfNeed()
       return
     }
-    if (this.activeSearchTab === 'NFTs') {
-      this.gotoGalleryItem(this.nftSuggestion[this.selectedIndex])
-    } else {
-      this.gotoCollectionItem(
-        this.defaultCollectionSuggestions[this.selectedIndex]
-      )
+
+    const isSeeMore = this.selectedIndex >= this.searchSuggestionEachTypeMaxNum
+
+    // trending collection
+    if (!this.name) {
+      if (isSeeMore) {
+        this.$router.push({ name: 'series-insight' })
+      } else {
+        this.gotoCollectionItem(
+          this.selectedItemListMap['Trending'][this.selectedIndex]
+        )
+      }
+      return
     }
 
-    // this.searchRef?.blur()
+    // search result
+    if (isSeeMore) {
+      this.redirectToGalleryPageIfNeed()
+    } else {
+      if (this.activeSearchTab === 'NFTs') {
+        this.gotoGalleryItem(
+          this.selectedItemListMap['NFTs'][this.selectedIndex]
+        )
+      } else {
+        this.gotoCollectionItem(
+          this.selectedItemListMap['Collections'][this.selectedIndex]
+        )
+      }
+    }
   }
 
   onKeydownSelected(step: 1 | -1) {
-    this.selectedIndex =
-      (this.searchSuggestionEachTypeMaxNum + this.selectedIndex + step) %
-      this.searchSuggestionEachTypeMaxNum
+    const total = this.searchSuggestionEachTypeMaxNum + 1
+    this.selectedIndex = (total + this.selectedIndex + step) % total
   }
 
   @Watch('activeSearchTab')
@@ -689,7 +727,9 @@ export default class SearchBar extends mixins(
       const {
         data: { nFTEntities },
       } = await nfts
-      const nftList = unwrapSafe(nFTEntities)
+      const nftList = unwrapSafe(
+        nFTEntities.slice(0, this.searchSuggestionEachTypeMaxNum)
+      )
       const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
       getCloudflareImageLinks(metadataList).then((imageLinks) => {
         const nftResult: NFTWithMeta[] = []
@@ -737,7 +777,9 @@ export default class SearchBar extends mixins(
       const {
         data: { collectionEntities },
       } = await collectionResult
-      const collections = unwrapSafe(collectionEntities)
+      const collections = unwrapSafe(
+        collectionEntities.slice(0, this.searchSuggestionEachTypeMaxNum)
+      )
       const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
       getCloudflareImageLinks(metadataList).then((imageLinks) => {
         const collectionResult: CollectionWithMeta[] = []
@@ -832,19 +874,21 @@ export default class SearchBar extends mixins(
 
 .gallery-search {
   .selected-item {
-    border: 1px solid $primary;
+    box-sizing: border-box;
+    border: 1px solid $primary !important;
   }
-}
 
-.link-item {
-  cursor: pointer;
-}
+  .link-item {
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
 
-.media-content {
-  .name {
-    max-width: 34ch;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .media-content {
+    .name {
+      max-width: 34ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }
 </style>
