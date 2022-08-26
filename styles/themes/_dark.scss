@@ -22,4 +22,8 @@ html.dark-mode {
 			color: $black;
 		}
 	}
+
+	.homepage .tile .box {
+		box-shadow: 8px 6px 8px #3f3f3f;
+	}
 }

@@ -149,7 +149,6 @@ export default class Landing extends mixins(AuthMixin) {
     border: 1px solid #3f3f3f;
     border-radius: 12px;
     box-sizing: border-box;
-    box-shadow: 8px 6px 8px #3f3f3f;
 
     .title {
       color: $primary !important;
