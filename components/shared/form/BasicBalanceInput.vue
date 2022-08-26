@@ -10,9 +10,9 @@
       :disabled="disabled"
       :expanded="expanded"
       :placeholder="placeholder"
-      @blur="onBlur"
       data-testid="balance-input"
-      :useHtml5Validation="true" />
+      :use-html5-validation="true"
+      @blur="onBlur" />
     <p class="control">
       <span data-testid="balance-input-label" class="button is-static">{{
         unit
