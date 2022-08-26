@@ -26,8 +26,7 @@ describe('Identity.vue component', () => {
     it(`should get Identity stats for ${name}`, () => {
       cy.visit(`/rmrk/u/${address}`)
 
-      cy.getCy('user-identity').should('contain.text', name)
-      cy.getCy('user-identity').find('a').realHover()
+      cy.getCy('identity').realHover()
       cy.get('.tippy-popper')
         .should('exist')
         .then(() => {
@@ -42,9 +41,15 @@ describe('Identity.vue component', () => {
             startedMinting
           )
           cy.getCy('identity-last-bought').should('exist')
-          cy.getCy('identity-collected').should('not.contain.text', 0)
-          cy.getCy('identity-created').should('not.contain.text', 0)
-          cy.getCy('identity-sold').should('not.contain.text', 0)
+          cy.getCy('identity-collected').should(
+            'not.have.text',
+            '\n      0\n    '
+          )
+          cy.getCy('identity-created').should(
+            'not.have.text',
+            '\n      0\n    '
+          )
+          cy.getCy('identity-sold').should('not.have.text', '\n      0\n    ')
         })
     })
   })
