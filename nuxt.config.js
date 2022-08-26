@@ -127,6 +127,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/icons', mode: 'client' },
     { src: '~/plugins/InfiniteScroll', mode: 'client' },
     { src: '~/plugins/consola', mode: 'client' },
+    { src: '~/plugins/assets', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
