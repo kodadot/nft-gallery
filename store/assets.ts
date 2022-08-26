@@ -2,7 +2,7 @@ import { AssetListQueryResponse } from '@/components/bsx/Asset/types'
 import assetListByIdList from '@/queries/subsquid/bsx/assetListByIdList.graphql'
 import { chainAssetOf } from '@/utils/config/chain.config'
 import { useApollo } from '@/utils/config/useApollo'
-import { emptyObject, isEmpty } from '@kodadot1/minimark'
+import { emptyObject } from '@kodadot1/minimark'
 import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
 
 export type TokenProperty = {

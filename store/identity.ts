@@ -154,18 +154,10 @@ export const actions = {
         }
 
         balanceSub = await subscribeBalance(api, address, (balance) => {
-          consola.log('[SET_BALANCE]', address, balance, endpoint, prefix)
           dispatch('setBalance', balance)
         })
 
         tokenSub = await subscribeTokens(api, address, (balance) => {
-          consola.log(
-            '[SET_TOKENS_BALANCE]',
-            address,
-            balance,
-            endpoint,
-            prefix
-          )
           commit('setTokenListBalance', balance)
         })
       } catch (e) {
@@ -179,7 +171,6 @@ export const actions = {
   },
   setBalance({ commit, rootState }, balance: string): void {
     const prefix = rootState.setting.urlPrefix
-    consola.log('[ADD_BALANCE]', prefix, balance)
     commit('addBalance', { prefix, balance })
   },
   setCorrectAddressFormat({ commit }, ss58Prefix: number): void {
