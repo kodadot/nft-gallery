@@ -119,6 +119,7 @@
                     <AccountBalance token-id="5" />
                     <b-field key="token">
                       <MultiPaymentFeeButton
+                        v-if="accountId"
                         :account-id="accountId"
                         :prefix="urlPrefix" />
                     </b-field>
