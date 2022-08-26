@@ -7,12 +7,6 @@ import { Component, Vue } from 'nuxt-property-decorator'
  */
 @Component
 export default class PrefixMixin extends Vue {
-  private prefix = this.$config?.prefix
-
-  get envUrlPrefix() {
-    return this.prefix || 'rmrk'
-  }
-
   get urlPrefix() {
     return this.$store.getters.currentUrlPrefix
   }

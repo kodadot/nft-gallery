@@ -10,8 +10,16 @@ html.dark-mode {
 	}
 
 	.title,
-	.card-header-title {
+	.card-header-title,
+	.input {
 		color: $text;
+	}
+
+	.navbar {
+		.search-navbar input,
+		.search-navbar-container-mobile input {
+			color: $black;
+		}
 	}
 	.gallery-search input {
 		color: $scheme-main;
