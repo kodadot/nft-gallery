@@ -60,7 +60,7 @@
                   class="title mb-0 is-4 has-text-centered"
                   :title="nft.name">
                   <nuxt-link :to="`/${urlPrefix}/gallery/${nft.id}`">
-                    <div class="has-text-overflow-ellipsis">
+                    <div class="has-text-overflow-ellipsis has-text-white">
                       {{ nft.name }}
                     </div>
                   </nuxt-link>
@@ -483,9 +483,6 @@ export default class Gallery extends mixins(
           background: $frosted-glass-background;
           backdrop-filter: $frosted-glass-backdrop-filter;
           border-radius: 0;
-          .has-text-overflow-ellipsis {
-            color: $white;
-          }
         }
 
         &:hover .gallery__image-wrapper img {
