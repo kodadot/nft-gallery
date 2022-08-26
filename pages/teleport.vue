@@ -92,7 +92,7 @@
     <div v-if="transactionValue && $route.query.donation">
       <div class="is-size-5">
         🎉 Congratulations for supporting
-        <Identity ref="identity" :address="$route.query.target" inline />
+        <Identity ref="identity" :address="$route.query.target" />
       </div>
       <b-button
         type="is-info"
@@ -134,7 +134,7 @@ import UseApiMixin from '@/utils/mixins/useApiMixin'
     AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     ReadOnlyBalanceInput: () =>
       import('@/components/shared/ReadOnlyBalanceInput.vue'),
-    Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+    Identity: () => import('@/components/identity/IdentityIndex.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),

@@ -55,6 +55,7 @@ specifiers:
   cypress: ^10.6.0
   cypress-file-upload: ^5.0.8
   cypress-network-idle: ^1.10.0
+  cypress-real-events: ^1.7.1
   date-fns: ^2.29.1
   emoji-unicode: ^2.0.1
   eslint: ^8.22.0
@@ -182,6 +183,7 @@ devDependencies:
   cypress: 10.6.0
   cypress-file-upload: 5.0.8_cypress@10.6.0
   cypress-network-idle: 1.10.0
+  cypress-real-events: 1.7.1_cypress@10.6.0
   eslint: 8.22.0
   eslint-config-prettier: 8.5.0_eslint@8.22.0
   eslint-plugin-prettier: 4.2.1_i2cojdczqdiurzgttlwdgf764e
@@ -8366,6 +8368,14 @@ packages:
 
   /cypress-network-idle/1.10.0:
     resolution: {integrity: sha512-TNtf9zquBCPMI79wMUCuVdA5jZEWJ1VN4VQ4nHngYOIKUtPKF+0LbcIxWxalyzGbPY6sTLyq4hprOxx+7mnAqA==}
+    dev: true
+
+  /cypress-real-events/1.7.1_cypress@10.6.0:
+    resolution: {integrity: sha512-/Bg15RgJ0SYsuXc6lPqH08x19z6j2vmhWN4wXfJqm3z8BTAFiK2MvipZPzxT8Z0jJP0q7kuniWrLIvz/i/8lCQ==}
+    peerDependencies:
+      cypress: ^4.x || ^5.x || ^6.x || ^7.x || ^8.x || ^9.x || ^10.x
+    dependencies:
+      cypress: 10.6.0
     dev: true
 
   /cypress/10.6.0:

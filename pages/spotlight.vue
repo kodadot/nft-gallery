@@ -21,7 +21,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Spotlight>({
   components: {
-    Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+    Identity: () => import('@/components/identity/IdentityIndex.vue'),
     SpotlightTable: () => import('@/components/spotlight/SpotlightTable.vue'),
   },
   head() {
