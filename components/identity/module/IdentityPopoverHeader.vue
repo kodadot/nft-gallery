@@ -29,7 +29,7 @@
         </span>
       </a>
       <p class="is-size-7 mb-1" data-cy="identity-address">
-        {{ address }}
+        {{ shortenedAddress }}
         <b-icon
           v-clipboard:copy="identity?.address"
           icon="copy"
