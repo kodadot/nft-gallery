@@ -21,10 +21,6 @@ export default class MultiPaymentFeeButton extends mixins(
   public prefix!: string
   protected tokenId = '0'
 
-  mounted() {
-    this.fetchCurrency()
-  }
-
   get asset() {
     return this.assetIdOf(this.tokenId)
   }
@@ -46,7 +42,7 @@ export default class MultiPaymentFeeButton extends mixins(
     }
   }
 
-  @Watch('accountId')
+  @Watch('accountId', { immediate: true })
   async onAccountIdChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
       this.fetchCurrency()
