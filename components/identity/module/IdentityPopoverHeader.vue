@@ -8,7 +8,9 @@
         class="popover-image avatar mr-5" />
     </div>
     <div class="column is-three-quarters">
-      <p class="has-text-weight-bold is-size-5 mb-1 break-word">
+      <p
+        class="has-text-weight-bold is-size-5 mb-1 break-word"
+        data-cy="identity-display">
         {{ identity?.display }}
       </p>
       <a
@@ -16,7 +18,8 @@
         :href="`https://twitter.com/${identity?.twitter}`"
         class="is-flex is-align-items-center mb-2"
         target="_blank"
-        rel="noopener noreferrer">
+        rel="noopener noreferrer"
+        data-cy="identity-twitter">
         <b-icon
           pack="fab"
           icon="twitter"
@@ -25,7 +28,7 @@
           {{ identity?.twitter }}
         </span>
       </a>
-      <p class="is-size-7 mb-1">
+      <p class="is-size-7 mb-1" data-cy="identity-address">
         {{ shortenedAddress }}
         <b-icon
           v-clipboard:copy="identity?.address"
@@ -36,13 +39,15 @@
       </p>
       <p
         v-if="totalCreated"
-        class="is-size-7 is-flex is-align-items-center py-3">
+        class="is-size-7 is-flex is-align-items-center py-3"
+        data-cy="identity-started-minting">
         <b-icon icon="clock" size="is-small" />
         <span class="ml-2">Started minting {{ startedMinting }}</span>
       </p>
       <p
         v-if="totalCollected && lastBought"
-        class="is-size-7 is-flex is-align-items-center py-3">
+        class="is-size-7 is-flex is-align-items-center py-3"
+        data-cy="identity-last-bought">
         <b-icon icon="clock" size="is-small" />
         <span class="ml-2">Last bought {{ lastBought }}</span>
       </p>

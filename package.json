@@ -138,6 +138,7 @@
     "cypress": "^10.6.0",
     "cypress-file-upload": "^5.0.8",
     "cypress-network-idle": "^1.10.0",
+    "cypress-real-events": "^1.7.1",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
