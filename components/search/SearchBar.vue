@@ -312,7 +312,7 @@ export default class SearchBar extends mixins(
     listed: this.$route.query?.listed?.toString() === 'true',
   }
 
-  private first = 30
+  private first = 5
   private currentValue = 1
   private nftResult: NFTWithMeta[] = []
   private collectionResult: CollectionWithMeta[] = []
@@ -325,7 +325,6 @@ export default class SearchBar extends mixins(
   ] = [undefined, undefined]
   public sliderDirty = false
   public searchSuggestionEachTypeMaxNum = 5
-  private bigNum = 1e10
   public defaultCollectionSuggestions: (CollectionWithMeta & RowSeries)[] = []
   public activeSearchTab = 'Collections'
   public activeTrendingTab = 'Trending'
@@ -335,8 +334,17 @@ export default class SearchBar extends mixins(
     this.fetchSuggestions()
   }
 
+  get totalItemsAtCurrentTab() {
+    if (!this.name) {
+      return this.defaultCollectionSuggestions.length
+    }
+    return this.activeSearchTab === 'NFTs'
+      ? this.nftSuggestion.length
+      : this.collectionSuggestion.length
+  }
+
   get loadMoreItemClassName() {
-    return this.selectedIndex === this.searchSuggestionEachTypeMaxNum
+    return this.selectedIndex === this.totalItemsAtCurrentTab
       ? 'selected-item'
       : 'link-item'
   }
@@ -492,14 +500,6 @@ export default class SearchBar extends mixins(
     return this.currentValue * this.first - this.first
   }
 
-  get autocompleteFooterShow() {
-    const searchResultExist =
-      this.nftResult.length > 0 || this.collectionResult.length > 0
-    return (
-      searchResultExist && this.searchSuggestionEachTypeMaxNum !== this.bigNum
-    )
-  }
-
   get collectionSuggestion() {
     return this.collectionResult.slice(0, this.searchSuggestionEachTypeMaxNum)
   }
@@ -603,7 +603,7 @@ export default class SearchBar extends mixins(
       return
     }
 
-    const isSeeMore = this.selectedIndex >= this.searchSuggestionEachTypeMaxNum
+    const isSeeMore = this.selectedIndex >= this.totalItemsAtCurrentTab
 
     // trending collection
     if (!this.name) {
@@ -634,7 +634,7 @@ export default class SearchBar extends mixins(
   }
 
   onKeydownSelected(step: 1 | -1) {
-    const total = this.searchSuggestionEachTypeMaxNum + 1
+    const total = this.totalItemsAtCurrentTab + 1
     this.selectedIndex = (total + this.selectedIndex + step) % total
   }
 
@@ -653,6 +653,7 @@ export default class SearchBar extends mixins(
   }
 
   redirectToGalleryPageIfNeed() {
+    this.updateSearch(this.name)
     if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
       this.$router.replace({
         name: this.routeOf('explore'),
