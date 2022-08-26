@@ -32,10 +32,6 @@ export const actions: ActionTree<TokenState, TokenState> = {
     { commit, state }: { commit: Commit; state: TokenState },
     prefix: string
   ) {
-    if (!isEmpty(state.tokenMap)) {
-      return state.tokenMap
-    }
-
     const client = this.app.apolloProvider.clients[prefix]
     const { assetList } = await useApollo<any, AssetListQueryResponse>(
       client,
