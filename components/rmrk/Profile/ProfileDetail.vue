@@ -14,7 +14,6 @@
             <Identity
               ref="identity"
               :address="id"
-              inline
               emit
               @change="handleIdentity" />
           </a>
@@ -22,7 +21,6 @@
             v-else
             ref="identity"
             :address="id"
-            inline
             emit
             @change="handleIdentity" />
         </h1>
@@ -283,7 +281,7 @@ const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/shared/Sharing.vue'),
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   PaginatedCardList: () =>
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),

@@ -11,7 +11,7 @@
         <span class="ml-1">{{ emoji.count }}</span>
         <template #content>
           <div v-for="issuer in emoji.issuers" :key="issuer">
-            <Identity :address="issuer" inline no-overflow />
+            <Identity :address="issuer" />
           </div>
         </template>
       </b-tooltip>
@@ -48,7 +48,7 @@ interface Emoji {
 
 @Component({
   components: {
-    Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+    Identity: () => import('@/components/identity/IdentityIndex.vue'),
   },
 })
 export default class EmotionList extends Vue {

@@ -59,7 +59,7 @@
         field="buyer"
         label="Buyer">
         <nuxt-link :to="`/rmrk/u/${props.row.buyer}`">
-          <Identity :address="props.row.buyer" inline no-overflow />
+          <Identity :address="props.row.buyer" />
         </nuxt-link>
       </b-table-column>
 
@@ -107,7 +107,7 @@ import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
 import { RowSales } from './types'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),

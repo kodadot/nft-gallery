@@ -66,7 +66,7 @@
                 params: { id: props.row[groupKey] },
                 query: { tab: groupKey === 'Holder' ? 'holdings' : 'gains' },
               }">
-              <Identity :address="props.row[groupKey]" inline no-overflow />
+              <Identity :address="props.row[groupKey]" />
             </nuxt-link>
             <nuxt-link
               v-else-if="groupKey === 'CollectionId'"
@@ -76,7 +76,6 @@
               }">
               <Identity
                 :address="props.row.Item.collection.issuer"
-                inline
                 :custom-name-option="props.row.Item.collection.name" />
             </nuxt-link>
           </b-table-column>
@@ -192,7 +191,7 @@ import { parseDate, parsePriceForItem } from './helper'
 import { Interaction as EventInteraction } from '../../service/scheme'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }
 
