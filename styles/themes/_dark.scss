@@ -12,5 +12,12 @@ html.dark-mode {
 	.title,
 	.card-header-title {
 		color: $text;
+
+	}
+
+	.navbar {
+		button.button.navbar-link-background {
+			box-shadow: -8px 4px 8px #3f3f3f;
+		}
 	}
 }

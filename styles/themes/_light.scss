@@ -50,6 +50,7 @@ html.light-mode {
 		button.button.navbar-link-background {
 			color: $text-light-theme;
 			background-color: rgba(229, 229, 229, 0.55);
+			box-shadow: -8px 4px 8px #f3f3f3;
 		}
 
 		.navbar-item:hover,
