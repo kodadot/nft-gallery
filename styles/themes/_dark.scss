@@ -10,7 +10,8 @@ html.dark-mode {
 	}
 
 	.title,
-	.card-header-title {
+	.card-header-title,
+	.input {
 		color: $text;
 
 	}
@@ -18,6 +19,13 @@ html.dark-mode {
 	.navbar {
 		button.button.navbar-link-background {
 			box-shadow: -8px 4px 8px #3f3f3f;
+		}
+	}
+
+	.navbar {
+		.search-navbar input,
+		.search-navbar-container-mobile input {
+			color: $black;
 		}
 	}
 }
