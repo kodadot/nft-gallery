@@ -483,6 +483,9 @@ export default class Gallery extends mixins(
           background: $frosted-glass-background;
           backdrop-filter: $frosted-glass-backdrop-filter;
           border-radius: 0;
+          .has-text-overflow-ellipsis {
+            color: $white;
+          }
         }
 
         &:hover .gallery__image-wrapper img {
