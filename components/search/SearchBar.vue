@@ -28,6 +28,7 @@
           max-height="500"
           dropdown-position="bottom"
           expanded
+          @click.native="resetSelectedIndex"
           @blur="onBlur"
           @typing="updateSuggestion"
           @keydown.native.down="onKeydownSelected(+1)"
@@ -518,6 +519,10 @@ export default class SearchBar extends mixins(
     this.$router.push(`/${this.urlPrefix}/collection/${item.id}`)
   }
 
+  private closeDropDown() {
+    this.searchRef.isActive = false
+  }
+
   @Emit('update:listed')
   @Debounce(50)
   updateListed(
@@ -590,6 +595,8 @@ export default class SearchBar extends mixins(
   }
 
   nativeSearch() {
+    this.closeDropDown()
+
     // not selected
     if (this.selectedIndex === -1) {
       this.redirectToGalleryPageIfNeed()
