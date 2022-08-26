@@ -218,7 +218,6 @@ export default class AvailableActions extends mixins(
       balanceInputComponent &&
       balanceInputComponent instanceof BalanceInputType
     ) {
-      const kkd = balanceInputComponent.checkValidity()
       this.isBalanceInputValid = balanceInputComponent.checkValidity()
       // ad-hoc fix for empty input value
       if (value === '0') {

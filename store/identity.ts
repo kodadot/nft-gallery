@@ -137,7 +137,6 @@ export const actions = {
     { address, apiUrl }: ChangeAddressRequest
   ) {
     const endpoint = apiUrl || rootState.setting.apiUrl
-    const prefix = rootState.setting.urlPrefix
     if (!address) {
       balanceSub()
       tokenSub()
