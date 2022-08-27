@@ -199,7 +199,8 @@ import AvailableActions from './AvailableActions.vue'
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
-    GalleryItemCarousel: () => import('./GalleryItemCarousel.vue'),
+    GalleryItemCarousel: () =>
+      import('@/components/carousel/GalleryItemCarousel.vue'),
   },
   directives: {
     orientation: Orientation,
