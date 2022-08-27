@@ -101,7 +101,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { Offer } from './types'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
 }
