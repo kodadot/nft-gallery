@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="my-5" v-if="showCarousel">
+    <div v-if="showCarousel" class="my-5">
       <p class="subtitle is-size-4">{{ $t(`nft.${type}`) }}</p>
       <CarouselCardList :nfts="nfts" />
     </div>
@@ -8,10 +8,10 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import { formatNFT } from '~/utils/carousel'
-import { visitedNFT } from '~/utils/localStorage'
-import { MIN_CAROUSEL_NFT } from '~/utils/constants'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import { formatNFT } from '@/utils/carousel'
+import { visitedNFT } from '@/utils/localStorage'
+import { MIN_CAROUSEL_NFT } from '@/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import collectionEntityById from '@/queries/rmrk/subsquid/collectionEntityById.graphql'
@@ -21,7 +21,8 @@ import { CarouselNFT } from '@/components/base/types'
 
 @Component({
   components: {
-    CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
+    CarouselCardList: () =>
+      import('@/components/carousel/CarouselCardList.vue'),
   },
 })
 /**
