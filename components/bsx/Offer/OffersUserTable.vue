@@ -9,6 +9,7 @@
       </option>
     </b-select>
     <BasicSwitch
+      v-if="!hideToggle"
       v-model="offersListed"
       class="mt-4"
       :label="$t('offer.burnedToggle')"
@@ -118,6 +119,7 @@ export default class OffersUserTable extends mixins(
   protected offersListed = false
 
   @Prop({ type: String, default: '' }) public ownerId!: string
+  @Prop({ type: Boolean, default: false }) public hideToggle!: boolean
 
   @Emit('offersListUpdate')
   public updateList(data) {

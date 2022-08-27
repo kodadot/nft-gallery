@@ -13,3 +13,9 @@ export const AllOfferStatusType = {
   ...OfferStatusType,
   ...SpecialOfferStatusType,
 }
+
+export enum SelectedOfferType {
+  ALL = 'ALL',
+  CREATED = 'CREATED',
+  INCOMING = 'INCOMING',
+}
