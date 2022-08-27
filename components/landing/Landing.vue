@@ -69,11 +69,11 @@
         </div>
       </div>
       <div v-if="prefix === 'rmrk' || prefix === 'bsx'">
-        <LazyGalleryLatestSales class="my-5" />
+        <LazyCarouselLatestSales class="my-5" />
         <span v-if="prefix === 'rmrk'">
-          <LazyGalleryPopularCollections class="my-5" />
+          <LazyCarouselPopularCollections class="my-5" />
         </span>
-        <LazyGalleryNewestList class="my-5" />
+        <LazyCarouselNewestList class="my-5" />
       </div>
     </div>
   </section>
@@ -149,7 +149,7 @@ export default class Landing extends mixins(AuthMixin) {
     border: 1px solid #3f3f3f;
     border-radius: 12px;
     box-sizing: border-box;
-    box-shadow: -8px 4px 8px #3f3f3f;
+    box-shadow: $dropdown-content-shadow;
 
     .title {
       color: $primary !important;
