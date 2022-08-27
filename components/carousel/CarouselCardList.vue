@@ -43,8 +43,6 @@
                   <b-icon icon="palette" />
                   <Identity
                     :address="list.issuer"
-                    inline
-                    no-owerlow
                     class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
@@ -59,8 +57,6 @@
                   <b-icon icon="money-bill-alt" />
                   <Identity
                     :address="list.currentOwner"
-                    inline
-                    no-overflow
                     class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
@@ -89,11 +85,11 @@ import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import AuthMixin from '@/utils/mixins/authMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
-import type { CarouselNFT } from './types'
+import type { CarouselNFT } from '@/components/base/types'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
     import('@/components/media/PreviewMediaResolver.vue'),

@@ -21,7 +21,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Series>({
   components: {
-    Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+    Identity: () => import('@/components/identity/IdentityIndex.vue'),
     SeriesTable: () => import('@/components/series/SeriesTable.vue'),
   },
   head() {

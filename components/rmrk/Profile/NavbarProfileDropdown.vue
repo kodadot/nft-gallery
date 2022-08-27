@@ -7,8 +7,7 @@
           <Identity
             :address="account"
             class="navbar__address"
-            hide-identity-popover
-            inline />
+            hide-identity-popover />
         </b-button>
       </span>
 
@@ -91,7 +90,7 @@ const components = {
   Avatar,
   ConnectWalletButton: () =>
     import('@/components/shared/ConnectWalletButton.vue'),
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
 }
 

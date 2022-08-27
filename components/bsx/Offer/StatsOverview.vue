@@ -44,7 +44,7 @@ import { countOf } from '~/utils/countOf'
 import statsForBsx from '~/queries/subsquid/bsx/statsForBsx.graphql'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
 }
 

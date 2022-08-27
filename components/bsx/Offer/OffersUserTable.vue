@@ -9,6 +9,7 @@
       </option>
     </b-select>
     <BasicSwitch
+      v-if="!hideToggle"
       v-model="offersListed"
       class="mt-4"
       :label="$t('offer.burnedToggle')"
@@ -100,7 +101,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { Offer } from './types'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
 }
@@ -118,6 +119,7 @@ export default class OffersUserTable extends mixins(
   protected offersListed = false
 
   @Prop({ type: String, default: '' }) public ownerId!: string
+  @Prop({ type: Boolean, default: false }) public hideToggle!: boolean
 
   @Emit('offersListUpdate')
   public updateList(data) {

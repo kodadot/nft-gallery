@@ -29,7 +29,6 @@
         <Identity
           ref="identity"
           :address="$route.query.target"
-          inline
           show-onchain-identity />
       </a>
     </div>
@@ -116,7 +115,7 @@
     <div v-if="transactionValue && $route.query.donation">
       <div class="is-size-5">
         🎉 Congratulations for supporting
-        <Identity ref="identity" :address="$route.query.target" inline />
+        <Identity ref="identity" :address="$route.query.target" />
       </div>
       <b-button
         type="is-info"
@@ -157,7 +156,7 @@ import { hasExplorer } from '@/components/rmrk/Profile/utils'
     BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
     ReadOnlyBalanceInput: () =>
       import('@/components/shared/ReadOnlyBalanceInput.vue'),
-    Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+    Identity: () => import('@/components/identity/IdentityIndex.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
