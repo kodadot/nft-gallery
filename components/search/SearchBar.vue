@@ -42,28 +42,30 @@
               destroy-on-hide
               expanded>
               <b-tab-item label="Collections" value="Collections">
-                <div
-                  v-for="(item, idx) in collectionSuggestion"
-                  :key="item.id"
-                  :value="item"
-                  :class="`mb-2 link-item ${
-                    idx === selectedIndex ? 'selected-item' : ''
-                  }`"
-                  @click="gotoCollectionItem(item)">
-                  <div class="media">
-                    <div class="media-left">
-                      <BasicImage
-                        rounded
-                        custom-class="is-64x64"
-                        :src="item.image || '/placeholder.webp'" />
-                    </div>
-                    <div class="media-content">
-                      <div
-                        class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
-                        <span class="main-title name">{{ item.name }}</span>
-                        <span>{{ urlPrefix.toUpperCase() }}</span>
-                      </div>
-                    </div>
+                <div v-if="isCollectionResultLoading">
+                  <SearchResultItem
+                    v-for="item in searchSuggestionEachTypeMaxNum"
+                    :key="item"
+                    is-loading />
+                </div>
+                <div v-else>
+                  <div
+                    v-for="(item, idx) in collectionSuggestion"
+                    :key="item.id"
+                    :value="item"
+                    :class="`link-item ${
+                      idx === selectedIndex ? 'selected-item' : ''
+                    }`"
+                    @click="gotoCollectionItem(item)">
+                    <SearchResultItem :image="item.image">
+                      <template #content>
+                        <div
+                          class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
+                          <span class="main-title name">{{ item.name }}</span>
+                          <span>{{ urlPrefix.toUpperCase() }}</span>
+                        </div>
+                      </template>
+                    </SearchResultItem>
                   </div>
                 </div>
                 <nuxt-link
@@ -77,36 +79,38 @@
                 </nuxt-link>
               </b-tab-item>
               <b-tab-item label="NFTs" value="NFTs">
-                <div
-                  v-for="(item, idx) in nftSuggestion"
-                  :key="item.id"
-                  :value="item"
-                  :class="`mb-2 link-item ${
-                    idx === selectedIndex ? 'selected-item' : ''
-                  }`"
-                  @click="gotoGalleryItem(item)">
-                  <div class="media">
-                    <div class="media-left">
-                      <BasicImage
-                        rounded
-                        custom-class="is-64x64"
-                        :src="item.image || '/placeholder.webp'" />
-                    </div>
-                    <div class="media-content">
-                      <div
-                        class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
-                        <span class="main-title name">{{ item.name }}</span>
-                        <span>{{ urlPrefix.toUpperCase() }}</span>
-                      </div>
-                      <div
-                        class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
-                        <span class="name">{{ item.collection?.name }}</span>
-                        <span v-if="item.price && parseFloat(item.price) > 0">
-                          {{ $t('offer.price') }}:
-                          <Money :value="item.price" inline />
-                        </span>
-                      </div>
-                    </div>
+                <div v-if="isNFTResultLoading">
+                  <SearchResultItem
+                    v-for="item in searchSuggestionEachTypeMaxNum"
+                    :key="item"
+                    is-loading />
+                </div>
+                <div v-else>
+                  <div
+                    v-for="(item, idx) in nftSuggestion"
+                    :key="item.id"
+                    :value="item"
+                    :class="`link-item ${
+                      idx === selectedIndex ? 'selected-item' : ''
+                    }`"
+                    @click="gotoGalleryItem(item)">
+                    <SearchResultItem :image="item.image">
+                      <template #content>
+                        <div
+                          class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
+                          <span class="main-title name">{{ item.name }}</span>
+                          <span>{{ urlPrefix.toUpperCase() }}</span>
+                        </div>
+                        <div
+                          class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
+                          <span class="name">{{ item.collection?.name }}</span>
+                          <span v-if="item.price && parseFloat(item.price) > 0">
+                            {{ $t('offer.price') }}:
+                            <Money :value="item.price" inline />
+                          </span>
+                        </div>
+                      </template>
+                    </SearchResultItem>
                   </div>
                 </div>
                 <nuxt-link
@@ -132,18 +136,12 @@
                   v-for="(item, idx) in defaultCollectionSuggestions"
                   :key="item.id"
                   :value="item"
-                  :class="`mb-2 link-item ${
+                  :class="`link-item ${
                     idx === selectedIndex ? 'selected-item' : ''
                   }`"
                   @click="gotoCollectionItem(item)">
-                  <div class="media">
-                    <div class="media-left">
-                      <BasicImage
-                        rounded
-                        custom-class="is-64x64"
-                        :src="item.image || '/placeholder.webp'" />
-                    </div>
-                    <div class="media-content">
+                  <SearchResultItem :image="item.image">
+                    <template #content>
                       <div class="pt-2 pr-2">
                         <span class="main-title name">{{ item.name }}</span>
                       </div>
@@ -153,8 +151,8 @@
                         <span>Owners: {{ item.uniqueCollectors }}</span>
                         <span>{{ urlPrefix.toUpperCase() }}</span>
                       </div>
-                    </div>
-                  </div>
+                    </template>
+                  </SearchResultItem>
                 </div>
                 <nuxt-link :to="{ name: 'series-insight' }">
                   <div :class="loadMoreItemClassName">
@@ -282,6 +280,7 @@ const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 @Component({
   components: {
     Sort: () => import('./SearchSortDropdown.vue'),
+    SearchResultItem: () => import('./SearchResultItem.vue'),
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
@@ -329,6 +328,8 @@ export default class SearchBar extends mixins(
   public activeSearchTab = 'Collections'
   public activeTrendingTab = 'Trending'
   public selectedIndex = -1
+  public isCollectionResultLoading = false
+  public isNFTResultLoading = false
 
   fetch() {
     this.fetchSuggestions()
@@ -717,6 +718,8 @@ export default class SearchBar extends mixins(
       return
     }
 
+    this.isCollectionResultLoading = true
+    this.isNFTResultLoading = true
     this.query.search = value
     try {
       const queryNft = await resolveQueryPath(this.client, 'nftListWithSearch')
@@ -755,12 +758,14 @@ export default class SearchBar extends mixins(
           })
         }).then(() => {
           this.nftResult = nftResult
+          this.isNFTResultLoading = false
         })
       })
     } catch (e) {
       logError(e, (msg) =>
         this.$consola.warn('[PREFETCH] Unable fo fetch', msg)
       )
+      this.isNFTResultLoading = false
     }
     try {
       const query = await resolveQueryPath(
@@ -802,12 +807,14 @@ export default class SearchBar extends mixins(
           })
         }).then(() => {
           this.collectionResult = collectionResult
+          this.isCollectionResultLoading = false
         })
       })
     } catch (e) {
       logError(e, (msg) =>
         this.$consola.warn('[PREFETCH] Unable fo fetch', this.offset, msg)
       )
+      this.isCollectionResultLoading = false
     }
   }
 
