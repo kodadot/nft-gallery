@@ -3,6 +3,11 @@ lockfileVersion: 5.4
 overrides:
   '@substrate/smoldot-light': ^0.6.27
 
+patchedDependencies:
+  vuex@3.6.2:
+    hash: qqzk7obvwc5jewi4v4e35d3zci
+    path: patches/vuex@3.6.2.patch
+
 specifiers:
   '@babel/core': ^7.18.10
   '@babel/helper-define-map': ^7.18.6
@@ -100,7 +105,7 @@ specifiers:
   vue-markdown-render: ^1.1.3
   vue-social-sharing: ^3.0.9
   vue-tippy: ^4.16.0
-  vuex: ^3.6.2
+  vuex: 3.6.2
   vuex-persist: ^3.1.3
 
 dependencies:
@@ -153,7 +158,7 @@ dependencies:
   vue-markdown-render: 1.1.3
   vue-social-sharing: 3.0.9_vue@2.7.8
   vue-tippy: 4.16.0_vue@2.7.8
-  vuex: 3.6.2_vue@2.7.8
+  vuex: 3.6.2_qqzk7obvwc5jewi4v4e35d3zci_vue@2.7.8
   vuex-persist: 3.1.3_vuex@3.6.2
 
 devDependencies:
@@ -3039,7 +3044,7 @@ packages:
       vue-no-ssr: 1.1.1
       vue-router: 3.5.4_vue@2.7.8
       vue-template-compiler: 2.7.8
-      vuex: 3.6.2_vue@2.7.8
+      vuex: 3.6.2_qqzk7obvwc5jewi4v4e35d3zci_vue@2.7.8
     dev: false
 
   /@nuxt/vue-renderer-edge/2.16.0-27616340.013f051b:
@@ -18211,7 +18216,7 @@ packages:
     dependencies:
       vue: 2.7.8
       vue-class-component: 7.2.6_vue@2.7.8
-      vuex: 3.6.2_vue@2.7.8
+      vuex: 3.6.2_qqzk7obvwc5jewi4v4e35d3zci_vue@2.7.8
     dev: false
 
   /vuex-module-decorators/1.2.0_vue@2.7.8+vuex@3.6.2:
@@ -18223,7 +18228,7 @@ packages:
       vuex: '>=3'
     dependencies:
       vue: 2.7.8
-      vuex: 3.6.2_vue@2.7.8
+      vuex: 3.6.2_qqzk7obvwc5jewi4v4e35d3zci_vue@2.7.8
     dev: false
 
   /vuex-persist/3.1.3_vuex@3.6.2:
@@ -18233,16 +18238,17 @@ packages:
     dependencies:
       deepmerge: 4.2.2
       flatted: 3.2.6
-      vuex: 3.6.2_vue@2.7.8
+      vuex: 3.6.2_qqzk7obvwc5jewi4v4e35d3zci_vue@2.7.8
     dev: false
 
-  /vuex/3.6.2_vue@2.7.8:
+  /vuex/3.6.2_qqzk7obvwc5jewi4v4e35d3zci_vue@2.7.8:
     resolution: {integrity: sha512-ETW44IqCgBpVomy520DT5jf8n0zoCac+sxWnn+hMe/CzaSejb/eVw2YToiXYX+Ex/AuHHia28vWTq4goAexFbw==}
     peerDependencies:
       vue: ^2.0.0
     dependencies:
       vue: 2.7.8
     dev: false
+    patched: true
 
   /w3c-hr-time/1.0.2:
     resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}
