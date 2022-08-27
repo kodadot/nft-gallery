@@ -63,7 +63,7 @@
         :label="$t('offer.caller')"
         sortable>
         <nuxt-link :to="{ name: 'bsx-u-id', params: { id: props.row.caller } }">
-          <Identity :address="props.row.caller" inline no-overflow />
+          <Identity :address="props.row.caller" />
         </nuxt-link>
       </b-table-column>
 
@@ -149,7 +149,7 @@ import { Offer } from './types'
 import OfferMixin from '~/utils/mixins/offerMixin'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
 }

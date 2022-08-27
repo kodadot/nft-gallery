@@ -35,7 +35,7 @@
         :label="$t('myOffer.caller')"
         sortable>
         <nuxt-link :to="{ name: 'bsx-u-id', params: { id: props.row.caller } }">
-          <Identity :address="props.row.caller" inline no-overflow />
+          <Identity :address="props.row.caller" />
         </nuxt-link>
       </b-table-column>
       <b-table-column
@@ -101,7 +101,7 @@ import acceptableOfferByCurrentOwner from '@/queries/subsquid/bsx/acceptableOffe
 import { Offer, OfferResponse } from './types'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
 }
 
