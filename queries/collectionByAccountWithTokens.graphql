@@ -1,26 +1,16 @@
 query collectionByAccountWithTokens($account: String!) {
   collectionEntities(
-    filter: { currentOwner: { equalTo: $account } }
-    orderBy: BLOCK_NUMBER_DESC
+    orderBy: blockNumber_DESC
+    where: { issuer_eq: $account }
   ) {
-    nodes {
+    id
+    name
+    max
+    metadata
+    symbol
+    nfts(where: { burned_eq: false, currentOwner_eq: $account }) {
       id
-      name
-      max
-      metadata
-      symbol
-      nfts(
-        filter: {
-          currentOwner: { equalTo: $account }
-          burned: { distinctFrom: true }
-        }
-      ) {
-        totalCount
-        nodes {
-          id
-          price
-        }
-      }
+      burned
     }
   }
 }

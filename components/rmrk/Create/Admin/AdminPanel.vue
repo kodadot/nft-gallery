@@ -9,16 +9,16 @@
       <Auth />
     </b-field>
 
-    <template v-if="accountId">
+    <template v-if="accountId && collections.length">
       <b-field :label="$t('collection')">
         <b-select
-          placeholder="Select a collection"
           v-model="selectedCollection"
+          placeholder="Select a collection"
           expanded>
           <option
             v-for="option in collections"
-            :value="option"
-            :key="option.id">
+            :key="option.id"
+            :value="option">
             {{ option.name }} {{ option.id }} ({{ option.available }})
           </option>
         </b-select>
@@ -34,9 +34,9 @@
     <template v-if="selectedCollection">
       <ActionSelector v-model="action" />
       <component
-        class="mb-4"
-        v-if="showMeta"
         :is="showMeta"
+        v-if="showMeta"
+        class="mb-4"
         @input="updateMeta" />
 
       <BasicSwitch v-model="listed" label="action.omitListed" />
@@ -48,10 +48,10 @@
         <b-button
           type="is-primary"
           icon-left="paper-plane"
-          @click="sub"
           :disabled="disabled"
           :loading="isLoading"
-          outlined>
+          outlined
+          @click="sub">
           {{ $t('action.click', [action]) }}
         </b-button>
       </b-field>
@@ -61,7 +61,6 @@
 
 <script lang="ts">
 import { AdminNFT, ProcessFunction } from '@/components/accounts/utils'
-import collectionByAccountWithTokens from '@/queries/collectionByAccountWithTokens.graphql'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
@@ -71,13 +70,14 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import {
-  createInteraction,
   Interaction,
+  createInteraction,
   mapAsSystemRemark,
 } from '@kodadot1/minimark'
 import { DispatchError } from '@polkadot/types/interfaces'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import UseApiMixin from '~/utils/mixins/useApiMixin'
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
+import UseApiMixin from '@/utils/mixins/useApiMixin'
+import resolveQueryPath from '@/utils/queryPathResolver'
 
 type EmptyPromise = Promise<void>
 
@@ -128,9 +128,13 @@ export default class AdminPanel extends mixins(
   protected metaFunction: ProcessFunction | undefined = undefined
 
   public async fetchCollections(): EmptyPromise {
+    const query = await resolveQueryPath(
+      this.urlPrefix,
+      'collectionByAccountWithTokens'
+    )
     const collections = await this.$apollo.query({
-      query: collectionByAccountWithTokens,
-      client: this.urlPrefix,
+      query: query.default,
+      client: this.client,
       variables: {
         account: this.accountId,
       },
@@ -141,11 +145,10 @@ export default class AdminPanel extends mixins(
       data: { collectionEntities },
     } = collections
 
-    this.collections = collectionEntities.nodes
-      ?.map((ce: any) => ({
+    this.collections = collectionEntities
+      ?.map((ce) => ({
         ...ce,
-        available: ce.nfts?.totalCount,
-        nfts: ce.nfts?.nodes?.map((n: AdminNFT) => n),
+        available: ce.nfts?.length,
       }))
       .filter((ce: MintedCollection) => ce.available > 0)
   }
