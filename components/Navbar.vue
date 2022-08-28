@@ -4,7 +4,7 @@
     spaced
     wrapper-class="container"
     close-on-click
-    :mobile-burger="!showMobileSearchBar"
+    mobile-burger
     :active.sync="isBurgerMenuOpened"
     :class="{ 'navbar-shrink': !showTopNavbar }">
     <template #brand>
@@ -16,29 +16,20 @@
           height="35" />
       </b-navbar-item>
       <div
-        v-if="showMobileSearchBar"
-        class="search-navbar-container-mobile is-hidden-desktop is-flex is-align-items-center">
-        <b-button icon-left="times" @click="toggleSearchBarDisplay" />
-        <Search
-          v-if="showMobileSearchBar"
-          show-default-suggestions
-          hide-filter
-          class="is-flex-grow-1 pr-1 is-hidden-desktop mt-5" />
-      </div>
-
-      <div
-        v-else
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
-        <div>
-          <HistoryBrowser />
+        <HistoryBrowser />
 
-          <b-button
-            type="is-primary is-bordered-light"
-            class="navbar-link-background"
-            icon-right="search"
-            @click="toggleSearchBarDisplay" />
-        </div>
+        <b-button
+          type="is-primary is-bordered-light"
+          class="navbar-link-background"
+          icon-right="search"
+          @click="showMobileSearchBar" />
+        <Search
+          ref="mobilSearchRef"
+          show-default-suggestions
+          hide-filter
+          class="is-hidden-desktop mt-5 search-navbar-container-mobile" />
       </div>
     </template>
     <template #start>
@@ -182,7 +173,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { get } from 'idb-keyval'
 
 import BasicImage from '@/components/shared/view/BasicImage.vue'
@@ -213,8 +204,8 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
   private fixedTitleNavAppearDistance = 200
   private lastScrollPosition = 0
   private artistName = ''
-  private showMobileSearchBar = false
   private isBurgerMenuOpened = false
+  @Ref('mobilSearchRef') readonly mobilSearchRef
 
   private onResize() {
     return (this.mobileGallery = window.innerWidth <= 1023)
@@ -294,8 +285,8 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
     this.lastScrollPosition = currentScrollPosition
   }
 
-  toggleSearchBarDisplay() {
-    this.showMobileSearchBar = !this.showMobileSearchBar
+  showMobileSearchBar() {
+    this.mobilSearchRef.focusInput()
   }
 
   closeBurgerMenu() {
