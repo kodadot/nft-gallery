@@ -9,9 +9,9 @@
 
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import { formatNFT } from '~/utils/carousel'
-import { visitedNFT } from '~/utils/localStorage'
-import { MIN_CAROUSEL_NFT } from '~/utils/constants'
+import { formatNFT } from '@/utils/carousel'
+import { visitedNFT } from '@/utils/localStorage'
+import { MIN_CAROUSEL_NFT } from '@/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import collectionEntityById from '@/queries/rmrk/subsquid/collectionEntityById.graphql'
@@ -21,7 +21,8 @@ import { CarouselNFT } from '@/components/base/types'
 
 @Component({
   components: {
-    CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
+    CarouselCardList: () =>
+      import('@/components/carousel/CarouselCardList.vue'),
   },
 })
 /**
