@@ -103,13 +103,32 @@
         data-cy="explore">
         <span>{{ $t('explore') }}</span>
       </b-navbar-item>
-      <b-navbar-item
+      <b-navbar-dropdown
         v-if="isBsx"
-        tag="nuxt-link"
-        :to="`/${urlPrefix}/stats`"
+        id="NavStats"
+        arrowless
+        collapsible
         data-cy="stats">
-        <span>{{ $t('stats') }}</span>
-      </b-navbar-item>
+        <template #label>
+          <span>{{ $t('stats') }}</span>
+        </template>
+        <b-navbar-item
+          tag="nuxt-link"
+          :to="`${
+            accountId
+              ? `/${urlPrefix}/offers?target=${accountId}`
+              : `/${urlPrefix}/offers`
+          }`"
+          data-cy="global-offers">
+          {{ $t('navbar.globalOffers') }}
+        </b-navbar-item>
+        <b-navbar-item
+          tag="nuxt-link"
+          :to="`/${urlPrefix}/stats`"
+          data-cy="offers-stats">
+          <span> {{ $t('navbar.offerStats') }}</span>
+        </b-navbar-item>
+      </b-navbar-dropdown>
       <b-navbar-dropdown
         v-if="isRmrk"
         id="NavStats"
@@ -176,6 +195,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { createVisible } from '@/utils/config/permision.config'
 import { identityStore } from '@/utils/idbStore'
+import AuthMixin from '~~/utils/mixins/authMixin'
 
 @Component({
   components: {
@@ -186,7 +206,7 @@ import { identityStore } from '@/utils/idbStore'
     ColorModeButton,
   },
 })
-export default class NavbarMenu extends mixins(PrefixMixin) {
+export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
   protected mobileGallery = false
   protected showTopNavbar = true
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')

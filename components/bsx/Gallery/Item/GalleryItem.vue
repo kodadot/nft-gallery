@@ -81,7 +81,7 @@
                           {{ $t('Unlist') }}
                         </b-button>
                       </div>
-                      <div v-if="nftRoyalties">
+                      <div v-if="nftRoyalties" class="royalty">
                         ⊆ {{ $t('royalty') }}
                         <Money :value="nftRoyalties" inline />
                       </div>
