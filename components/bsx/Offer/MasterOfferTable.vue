@@ -1,11 +1,19 @@
 <template>
   <div>
-    <div class="is-flex is-align-items-center is-justify-content-center mb-5">
+    <div class="is-flex is-align-items-start is-justify-content-center mb-5">
       <AddressInput
-        class="address-input mr-3"
         v-model="destinationAddress"
-        @input="handleAddressUpdate"
-        :strict="false" />
+        class="address-input mr-3"
+        :strict="false"
+        @input="handleAddressUpdate" />
+      <b-button
+        type="is-primary"
+        icon-left="paper-plane"
+        class="fill-button"
+        outlined
+        @click="fillUpAddress">
+        Fill My Address
+      </b-button>
     </div>
     <Loader v-model="isLoading" :status="status" />
     <section>
@@ -15,28 +23,28 @@
         :disabled="isOfferDropdownDisabled">
         <option
           v-for="option in getOfferTypeOptions()"
-          :value="option.type"
-          :key="option.type">
+          :key="option.type"
+          :value="option.type">
           {{ option.label }}
         </option>
       </b-select>
       <template v-if="selectedOfferType === SelectedOfferType.CREATED">
-        <OffersUserTable :offers="createdOffers" :ownerId="''" hideToggle />
+        <OffersUserTable :offers="createdOffers" :owner-id="''" hide-toggle />
       </template>
       <div v-show="selectedOfferType === SelectedOfferType.INCOMING">
         <MyOffer
           :address="accountIdChanged"
-          hideHeading
+          hide-heading
           @offersIncoming="offersIncomingUpdate" />
       </div>
       <template v-if="selectedOfferType === SelectedOfferType.ALL">
         <OfferTable
           :offers="
-            this.skipUserOffer
-              ? this.createdOffers
-              : [...this.createdOffers, ...this.incomingOffers]
+            skipUserOffer
+              ? createdOffers
+              : [...createdOffers, ...incomingOffers]
           "
-          :accountId="accountId"
+          :account-id="accountId"
           is-bsx-stats
           display-collection />
       </template>
@@ -192,10 +200,19 @@ export default class MasterOfferTable extends mixins(
       this.$router.replace({ query: { tab } }).catch(() => null) // null to further not throw navigation errors
     }
   }
+
+  private fillUpAddress() {
+    this.destinationAddress = 'HgpGWWmqrw8t6viwSy6LPcTVr2SuVPKWW5ArdNp2xCJY2U4'
+    this.handleAddressUpdate('HgpGWWmqrw8t6viwSy6LPcTVr2SuVPKWW5ArdNp2xCJY2U4')
+  }
 }
 </script>
 <style scoped>
 .address-input {
   width: 500px;
+}
+
+.fill-button {
+  height: 3.25em;
 }
 </style>
