@@ -168,7 +168,7 @@ Cypress.Commands.add('toggleBuyNowGallery', () => {
 Cypress.Commands.add('bsxGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/bsx/gallery/${nftId}`)
   cy.waitForNetworkIdle('POST', '*', 1000)
-  cy.get('[data-cy="money"]').should('contain', 'KSM')
+  // cy.get('[data-cy="money"]').should('contain', 'KSM')
   cy.get('[data-cy="BUY"]').should('be.disabled')
   cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
   cy.get('[data-cy="offer-list"]').should('contain', 'Offers')
