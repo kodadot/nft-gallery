@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
 import CarouselIndex from './CarouselIndex.vue'
-import { popularCollections } from './utils/useCarouselData'
+import { useCarouselPopularCollections } from './utils/useCarousel'
 
-const { nfts } = popularCollections()
+const { nfts } = useCarouselPopularCollections()
 </script>

@@ -55,7 +55,7 @@ interface Events {
  */
 export const fallbackMetaByNftEvent = async (events: Events[]) => {
   for (const event of events) {
-    if (event.nft && !event.nft.meta) {
+    if (!event.nft.meta) {
       event.nft.meta = {
         id: event.nft.metadata,
         image: '',
@@ -92,7 +92,7 @@ export const convertLastEventToNft = (e: LastEvent) => {
       issuer: e.issuer,
       currentOwner: e.currentOwner,
       metadata: e.metadata,
-      animationUrl: sanitizeIpfsUrl(e.animationUrl || ''),
+      animationUrl: sanitizeIpfsUrl(e.animationUrl),
       meta: {
         id: e.metadata,
         image: e.image,

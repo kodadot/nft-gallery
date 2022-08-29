@@ -20,9 +20,9 @@ import type { CarouselNFT } from '@/components/base/types'
 import PreviewMediaResolver from '@/components/media/PreviewMediaResolver.vue'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 
-import useCarousel from '../utils/useCarousel'
+import { useCarouselUrl } from '../utils/useCarousel'
 
-const { urlOf } = useCarousel()
+const { urlOf } = useCarouselUrl()
 
 defineProps<{
   list: CarouselNFT

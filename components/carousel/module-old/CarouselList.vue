@@ -21,6 +21,7 @@
 <script lang="ts" setup>
 import { PropType } from 'vue'
 import type { CarouselNFT } from '@/components/base/types'
+import type { RowSeries } from '@/components/series/types'
 
 import CarouselCardMedia from './CarouselCardMedia.vue'
 import CarouselCardInfo from './CarouselCardInfo.vue'
@@ -28,7 +29,7 @@ import CarouselCardFooter from './CarouselCardFooter.vue'
 
 const props = defineProps({
   nfts: {
-    type: Array as PropType<CarouselNFT[]>,
+    type: Array as PropType<CarouselNFT[] | RowSeries[]>,
     required: true,
   },
   page: {

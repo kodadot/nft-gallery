@@ -37,10 +37,13 @@
 import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
 import CarouselList from './module-old/CarouselList.vue'
 
+import type { CarouselNFT } from '@/components/base/types'
+import type { RowSeries } from '@/components/series/types'
+
 const props = defineProps<{
   title?: string
   subtitle?: string
-  nfts: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
+  nfts: CarouselNFT[] | RowSeries[]
   loading?: boolean
   actionType?: 'pagination' | 'link'
   linkUrl?: string

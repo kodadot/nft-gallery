@@ -41,9 +41,9 @@
 import type { CarouselNFT } from '@/components/base/types'
 import Identity from '@/components/identity/IdentityIndex.vue'
 
-import useCarousel from '../utils/useCarousel'
+import { useCarouselUrl } from '../utils/useCarousel'
 
-const { urlOf, profileUrl } = useCarousel()
+const { urlOf, profileUrl } = useCarouselUrl()
 
 defineProps<{
   list: CarouselNFT

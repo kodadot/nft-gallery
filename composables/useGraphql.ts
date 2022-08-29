@@ -17,12 +17,9 @@ export default function ({
     loading.value = true
     data.value = null
     error.value = null
+    const query = await resolveQueryPath(queryPrefix || client.value, queryName)
 
     try {
-      const query = await resolveQueryPath(
-        queryPrefix || client.value,
-        queryName
-      )
       const response = await $apollo.query({
         query: query.default,
         client: client.value,

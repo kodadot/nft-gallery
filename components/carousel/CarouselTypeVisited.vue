@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
 import CarouselIndex from './CarouselIndex.vue'
-import { visitedNft } from './utils/useCarouselData'
+import { useCarouselVisited } from './utils/useCarousel'
 
-const { nfts } = visitedNft()
+const { nfts } = useCarouselVisited()
 </script>

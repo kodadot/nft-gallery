@@ -4,11 +4,11 @@
 
 <script lang="ts" setup>
 import CarouselIndex from './CarouselIndex.vue'
-import { relatedNft } from './utils/useCarouselData'
+import { useCarouselRelated } from './utils/useCarousel'
 
 const props = defineProps<{
   collectionId: string
 }>()
 
-const { nfts } = relatedNft({ collectionId: props.collectionId })
+const { nfts } = useCarouselRelated({ collectionId: props.collectionId })
 </script>
