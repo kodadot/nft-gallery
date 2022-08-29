@@ -150,7 +150,7 @@ import OfferMixin from '~/utils/mixins/offerMixin'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
+  Money: () => import('@/components/bsx/format/TokenMoney.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
 }
 

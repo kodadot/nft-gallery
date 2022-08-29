@@ -70,7 +70,11 @@
                       </div>
                       <div class="price-block__container">
                         <div class="price-block__original">
-                          <Money :value="nft.price" inline data-cy="money" />
+                          <Money
+                            :value="nft.price"
+                            inline
+                            data-cy="money"
+                            :prefix="urlPrefix" />
                         </div>
                         <b-button
                           v-if="nft.currentOwner === accountId"
@@ -109,7 +113,13 @@
                         <Auth class="mt-4" />
                       </p>
                     </div>
-                    <AccountBalance />
+                    <AccountBalance token-id="5" />
+                    <b-field key="token">
+                      <MultiPaymentFeeButton
+                        v-if="accountId"
+                        :account-id="accountId"
+                        :prefix="urlPrefix" />
+                    </b-field>
                     <Sharing :enable-download="isOwner" class="mb-4" />
                   </div>
                 </div>
@@ -212,7 +222,7 @@ import { mapToId } from '@/utils/mappers'
     Properties: () => import('@/components/shared/gallery/Properties.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
-    Money: () => import('@/components/shared/format/Money.vue'),
+    Money: () => import('@/components/bsx/format/TokenMoney.vue'),
     AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
     History: () => import('@/components/rmrk/Gallery/History.vue'),
@@ -221,6 +231,8 @@ import { mapToId } from '@/utils/mappers'
       import('@/components/carousel/CarouselTypeRelated.vue'),
     CarouselTypeVisited: () =>
       import('@/components/carousel/CarouselTypeVisited.vue'),
+    MultiPaymentFeeButton: () =>
+      import('@/components/bsx/specific/MultiPaymentFeeButton.vue'),
   },
   directives: {
     orientation: Orientation,
