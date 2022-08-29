@@ -132,7 +132,7 @@ export const actions = {
       consola.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
-  async fetchBalance(
+  fetchBalance(
     { commit, dispatch, rootState },
     { address, apiUrl }: ChangeAddressRequest
   ) {
