@@ -1,4 +1,4 @@
-query offerListUser($id: String!, $burned: Boolean) {
+query offerListUser($id: String, $burned: Boolean) {
   offers(
     orderBy: createdAt_DESC
     where: { caller_eq: $id, nft: { burned_eq: $burned } }
@@ -14,6 +14,10 @@ query offerListUser($id: String!, $burned: Boolean) {
     nft {
       name
       id
+      collection {
+        id
+        name
+      }
     }
   }
 }

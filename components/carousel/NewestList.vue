@@ -28,15 +28,15 @@ import { Component, mixins } from 'nuxt-property-decorator'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
-} from '~/utils/cachingStrategy'
+} from '@/utils/cachingStrategy'
 import { formatDistanceToNow } from 'date-fns'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
-import { fallbackMetaByNftEvent, convertLastEventToNft } from '@/utils/carousel'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { convertLastEventToNft, fallbackMetaByNftEvent } from '@/utils/carousel'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 
 const components = {
-  CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
+  CarouselCardList: () => import('@/components/carousel/CarouselCardList.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
 }
 

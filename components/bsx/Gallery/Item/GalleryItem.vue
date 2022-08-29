@@ -81,7 +81,7 @@
                           {{ $t('Unlist') }}
                         </b-button>
                       </div>
-                      <div v-if="nftRoyalties">
+                      <div v-if="nftRoyalties" class="royalty">
                         ⊆ {{ $t('royalty') }}
                         <Money :value="nftRoyalties" inline />
                       </div>
@@ -217,6 +217,8 @@ import { mapToId } from '@/utils/mappers'
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
     History: () => import('@/components/rmrk/Gallery/History.vue'),
     Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
+    GalleryItemCarousel: () =>
+      import('@/components/carousel/GalleryItemCarousel.vue'),
   },
   directives: {
     orientation: Orientation,

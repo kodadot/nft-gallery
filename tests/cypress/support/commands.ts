@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import 'cypress-file-upload'
 import 'cypress-network-idle'
+import 'cypress-real-events/support'
 import consola from 'consola'
 
 export {}
@@ -111,8 +112,11 @@ Cypress.Commands.add('bsxNavbar', () => {
   cy.get('[data-cy="explore"]')
     .should('have.attr', 'href')
     .and('include', '/bsx/explore')
-  cy.get('[data-cy="stats"]')
-    .should('be.visible')
+  cy.get('[data-cy="stats"]').should('be.visible').click()
+  cy.get('[data-cy="global-offers"]')
+    .should('have.attr', 'href')
+    .and('include', '/bsx/offers')
+  cy.get('[data-cy="offers-stats"]')
     .should('have.attr', 'href')
     .and('include', '/bsx/stats')
   cy.get('[data-cy="localChanger"]').should('be.visible')

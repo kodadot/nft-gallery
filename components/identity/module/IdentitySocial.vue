@@ -20,14 +20,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-
-@Component
-export default class IdentitySocial extends Vue {
-  @Prop({ required: true, default: false }) readonly twitter
-  @Prop({ required: true, default: false }) readonly showTwitter
-  @Prop({ required: true, default: false }) readonly discord
-  @Prop({ required: true, default: false }) readonly showDiscord
-}
+<script lang="ts" setup>
+defineProps<{
+  twitter: string
+  showTwitter: boolean
+  discord: string
+  showDiscord: boolean
+}>()
 </script>
