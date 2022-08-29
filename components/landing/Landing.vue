@@ -29,7 +29,7 @@
           </a>
         </div>
         <div class="column">
-          <LazyCuratedList />
+          <!-- <LazyCuratedList /> -->
         </div>
       </div>
       <div class="mt-6">
@@ -68,11 +68,13 @@
           </div>
         </div>
       </div>
+
       <div v-if="prefix === 'rmrk' || prefix === 'bsx'">
-        <LazyGalleryLatestSales class="my-5" />
-        <span v-if="prefix === 'rmrk'">
+        <div v-if="prefix === 'rmrk'">
+          <TopCollections class="my-5" />
           <LazyGalleryPopularCollections class="my-5" />
-        </span>
+        </div>
+        <LazyGalleryLatestSales class="my-5" />
         <LazyGalleryNewestList class="my-5" />
       </div>
     </div>
@@ -88,6 +90,7 @@ import AuthMixin from '@/utils/mixins/authMixin'
   components: {
     KodadotSocialLinks: () =>
       import('~/components/shared/KodadotSocialLinks.vue'),
+    TopCollections: () => import('@/components/landing/TopCollections.vue'),
   },
 })
 export default class Landing extends mixins(AuthMixin) {
