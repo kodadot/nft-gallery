@@ -273,7 +273,7 @@ import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator
 
 import { getExplorer, hasExplorer } from './utils'
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
-import { exist } from '../Gallery/Search/exist'
+import { exist } from '@/components/search/exist'
 
 const tabNameWithoutCollections = ['holdings', 'gains']
 
