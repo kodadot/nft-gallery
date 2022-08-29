@@ -846,7 +846,8 @@
     "from": "from",
     "to": "to",
     "tx": {
-      "cancelled": "Transaction was cancelled"
+      "cancelled": "Transaction was cancelled",
+      "feesPaidIn": "You are paying fees in {0}"
     }
   },
   "helper": {
@@ -959,5 +960,15 @@
     "understand": "I understand",
     "learnText": "Learn how to Connect",
     "downloadExtension": "Download extension"
+  },
+  "asset": {
+    "action": {
+      "default": "Set as fee asset",
+      "alreadyDefault": "Current fee asset"
+    },
+    "table": {
+      "balance": "Balance",
+      "empty":"There are currently no assets for this user."
+    }
   }
 }
