@@ -43,7 +43,7 @@ export default class MultiPaymentFeeButton extends mixins(
   }
 
   @Watch('accountId', { immediate: true })
-  async onAccountIdChange(val: string, oldVal: string) {
+  onAccountIdChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
       this.fetchCurrency()
     }
