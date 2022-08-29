@@ -7,7 +7,7 @@ import BasicBalanceInput from '@/components/shared/form/BasicBalanceInput.vue'
 const localVue = createLocalVue()
 localVue.use(Buefy)
 
-let wrapper, input, option
+let wrapper, input
 
 describe('BalanceInput.vue', () => {
   vi.useFakeTimers()
@@ -34,7 +34,6 @@ describe('BalanceInput.vue', () => {
       localVue,
     })
     input = wrapper.find('[data-testid="balance-input"]')
-    option = wrapper.find('[data-testid="balance-input-label"]')
   })
 
   it('should focus on input element', async () => {
