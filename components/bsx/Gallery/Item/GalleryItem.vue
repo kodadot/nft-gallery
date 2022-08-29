@@ -124,12 +124,12 @@
       </div>
     </template>
     <template #footer>
-      <GalleryItemCarousel
+      <CarouselTypeRelated
         v-if="showRelatedCarousel"
-        type="related"
         :collection-id="nft.collection.id"
         data-cy="carousel-related" />
-      <GalleryItemCarousel type="visited" />
+      <CarouselTypeVisited />
+
       <OfferList
         :current-owner-id="nft.currentOwner"
         :nft-id="id"
@@ -217,8 +217,10 @@ import { mapToId } from '@/utils/mappers'
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
     History: () => import('@/components/rmrk/Gallery/History.vue'),
     Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
-    GalleryItemCarousel: () =>
-      import('@/components/carousel/GalleryItemCarousel.vue'),
+    CarouselTypeRelated: () =>
+      import('@/components/carousel/CarouselTypeRelated.vue'),
+    CarouselTypeVisited: () =>
+      import('@/components/carousel/CarouselTypeVisited.vue'),
   },
   directives: {
     orientation: Orientation,

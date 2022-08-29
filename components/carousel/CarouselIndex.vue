@@ -1,5 +1,5 @@
 <template>
-  <div class="my-5">
+  <div v-if="nfts.length" class="my-5">
     <Loader v-model="isLoading" />
 
     <div class="columns is-vcentered">
