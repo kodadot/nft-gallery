@@ -38,7 +38,7 @@
           }}
         </div>
         <div class="has-text-grey is-size-7">
-          <Money :value="collection.averagePrice" inline />
+          avg. <Money :value="collection.averagePrice" inline />
         </div>
       </div>
     </div>
