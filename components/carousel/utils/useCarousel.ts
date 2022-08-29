@@ -43,12 +43,12 @@ export const useCarouselNftEvents = ({ type }: Types) => {
     queryName: 'lastNftListByEvent',
     variables: variables[type],
   })
+  const nfts = ref<CarouselNFT[]>([])
 
   const handleResult = async ({ data }: { data: { events: LastEvent[] } }) => {
     const events = data.events.map(convertLastEventFlatNft)
     nfts.value = await formatNFT(events)
   }
-  const nfts = ref<CarouselNFT[]>([])
 
   watch(data, () => {
     if (data.value) {
