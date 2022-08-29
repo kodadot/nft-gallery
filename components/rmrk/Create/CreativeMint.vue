@@ -18,7 +18,7 @@
       ref="uploadFileRef"
       v-model="file"
       required
-      label="Drop your NFT here, click to upload or paste the image from the clipboard. AI module limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels."
+      label="Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results."
       expanded
       preview />
 
