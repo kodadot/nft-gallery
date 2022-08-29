@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 
 import Chart from 'chart.js/auto'
 import 'chartjs-adapter-date-fns'
