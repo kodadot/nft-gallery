@@ -25,7 +25,7 @@ export default class BasicMoney extends Vue {
   @Prop(Boolean) readonly inline!: boolean
   @Prop(Boolean) readonly hideUnit!: boolean
 
-  // TODO Decimals not properly implemented
+  // TODO: Format not properly implemented: ref #3868
 
   get realUnit(): undefined | string {
     return this.hideUnit ? '' : ' ' + this.unit
