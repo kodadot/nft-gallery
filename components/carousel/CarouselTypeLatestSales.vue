@@ -3,7 +3,8 @@
     data-cy="latest-sales"
     :title="`${$t('general.latestSales')}`"
     :subtitle="`${$t('general.latestSalesheading')} ${urlPrefix}`"
-    :nfts="nfts" />
+    :nfts="nfts"
+    action-type="pagination" />
 </template>
 
 <script lang="ts" setup>

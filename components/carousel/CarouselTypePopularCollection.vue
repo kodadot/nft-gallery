@@ -1,9 +1,9 @@
 <template>
   <CarouselIndex
-    data-cy="latest-sales"
     :title="`${$t('general.popularCollectionsHeading')}`"
     :subtitle="`${$t('general.popularCollectionsDesc')}`"
-    :nfts="nfts" />
+    :nfts="nfts"
+    action-type="pagination" />
 </template>
 
 <script lang="ts" setup>

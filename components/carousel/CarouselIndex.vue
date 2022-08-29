@@ -1,6 +1,6 @@
 <template>
-  <div data-cy="latest-sales">
-    <!-- <Loader v-model="isLoading" /> -->
+  <div>
+    <Loader v-model="isLoading" />
 
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
@@ -9,13 +9,24 @@
       </div>
 
       <div class="column has-text-right">
-        <!-- <Pagination
+        <Pagination
+          v-if="actionType === 'pagination'"
           v-model="page"
           simple
           preserve-scroll
           :total="total"
-          :per-page="1" /> -->
+          :per-page="1" />
       </div>
+      <b-button
+        v-if="actionType === 'link' && linkUrl && linkText"
+        tag="nuxt-link"
+        type="is-primary"
+        inverted
+        outlined
+        icon-right="chevron-right"
+        :to="linkUrl">
+        {{ linkText }}
+      </b-button>
     </div>
 
     <CarouselList :nfts="nfts" :page="page" />
@@ -23,12 +34,20 @@
 </template>
 
 <script lang="ts" setup>
+import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
 import CarouselList from './module-old/CarouselList.vue'
 
-defineProps<{
+const props = defineProps<{
   title?: string
   subtitle?: string
   nfts: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
-  page?: number
+  loading?: boolean
+  actionType?: 'pagination' | 'link'
+  linkUrl?: string
+  linkText?: string
 }>()
+
+const page = ref(0)
+const isLoading = computed(() => props.loading)
+const total = computed(() => props.nfts.length)
 </script>
