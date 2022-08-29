@@ -22,14 +22,14 @@ export const state = () => defaultState
 export type TokenState = ReturnType<typeof state>
 
 export const mutations: MutationTree<TokenState> = {
-  SET_ASSET_LIST(state: TokenState, data: any) {
+  SET_ASSET_LIST(state: TokenState, data: TokenMap) {
     state.tokenMap = Object.assign({}, data)
   },
 }
 
 export const actions: ActionTree<TokenState, TokenState> = {
   async fetchAssetList(
-    { commit, state }: { commit: Commit; state: TokenState },
+    { commit }: { commit: Commit; state: TokenState },
     prefix: string
   ) {
     const client = this.app.apolloProvider.clients[prefix]
@@ -41,7 +41,7 @@ export const actions: ActionTree<TokenState, TokenState> = {
       assetList: [chainAssetOf(prefix)],
     }))
 
-    const tokenMap = Object.fromEntries(
+    const tokenMap: TokenMap = Object.fromEntries(
       assetList.map(({ id, decimals, symbol }) => [
         id,
         { id, decimals, symbol },
