@@ -5,7 +5,6 @@ import type { RowSeries } from '@/components/series/types'
 import { convertLastEventFlatNft } from '@/utils/carousel'
 import { formatNFT } from '@/utils/carousel'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
-import { visitedNFT } from '@/utils/localStorage'
 import { sortItemListByIds } from '@/utils/sorting'
 
 export const useCarouselUrl = () => {
@@ -130,8 +129,15 @@ interface VisitedNFTs {
   nftEntities: CarouselNFT[]
 }
 
-export const useCarouselVisited = () => {
-  const ids = visitedNFT().map((nft) => nft.id)
+export const useCarouselVisited = ({ ids }) => {
+  const nfts = ref<CarouselNFT[]>([])
+
+  if (!ids.length) {
+    return {
+      nfts,
+    }
+  }
+
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: 'nftEntitiesByIDs',
@@ -139,7 +145,6 @@ export const useCarouselVisited = () => {
       ids,
     },
   })
-  const nfts = ref<CarouselNFT[]>([])
 
   watch(data, async () => {
     if (data.value) {
