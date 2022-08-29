@@ -115,12 +115,11 @@
       </div>
     </template>
     <template #footer>
-      <GalleryItemCarousel
+      <CarouselTypeRelated
         v-if="showRelatedCarousel"
-        type="related"
         :collection-id="nft.collection.id"
         data-cy="carousel-related" />
-      <GalleryItemCarousel type="visited" />
+      <CarouselTypeVisited />
 
       <div class="columns">
         <div class="column">
@@ -199,8 +198,10 @@ import AvailableActions from './AvailableActions.vue'
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
-    GalleryItemCarousel: () =>
-      import('@/components/carousel/GalleryItemCarousel.vue'),
+    CarouselTypeRelated: () =>
+      import('@/components/carousel/CarouselTypeRelated.vue'),
+    CarouselTypeVisited: () =>
+      import('@/components/carousel/CarouselTypeVisited.vue'),
   },
   directives: {
     orientation: Orientation,

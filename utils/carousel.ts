@@ -18,28 +18,22 @@ export const formatNFT = async (nfts): Promise<CarouselNFT[]> => {
     return []
   }
 
-  await fallbackMetaByNftEvent(nfts)
   const data = nfts.filter((nft) => Boolean(nft.meta))
-  const images = await getCloudflareImageLinks(
-    data.map((nft) => {
-      return nft.meta.id || nft.nft.meta.id
-    })
-  )
+  const images = await getCloudflareImageLinks(data.map((nft) => nft.meta.id))
   const imageOf = getProperImageLink(images)
 
   return data.map((nft) => {
     const timestamp = nft.updatedAt || nft.timestamp
-    const metaId = nft.meta.id || nft.nft.meta.id
-    const metaImage = nft.meta.image || nft.nft.meta.image
-    const metaAnimationUrl = nft.meta.animationUrl || nft.nft.meta.animationUrl
-    const nfts = nft.nft.id ? nft.nft : nft
+    const metaId = nft.meta.id
+    const metaImage = nft.meta.image
+    const metaAnimationUrl = nft.meta.animationUrl
 
     return {
-      ...nfts,
+      ...nft,
       timestamp: formatDistanceToNow(new Date(timestamp), {
         addSuffix: true,
       }),
-      price: nft.meta || 0,
+      price: nft.price || 0,
       image: imageOf(metaId, metaImage),
       animationUrl: imageOf(metaId, metaAnimationUrl) || '',
     }
@@ -61,13 +55,30 @@ interface Events {
  */
 export const fallbackMetaByNftEvent = async (events: Events[]) => {
   for (const event of events) {
-    if (!event.nft.meta) {
+    if (event.nft && !event.nft.meta) {
       event.nft.meta = {
         id: event.nft.metadata,
         image: '',
       }
       await processSingleMetadata(event.nft.metadata)
     }
+  }
+}
+
+export const convertLastEventFlatNft = (e: LastEvent) => {
+  return {
+    id: e.nftId,
+    metadata: e.metadata,
+    issuer: e.issuer,
+    currentOwner: e.currentOwner,
+    timestamp: e.timestamp,
+    name: e.name,
+    price: e.meta,
+    meta: {
+      id: e.metadata,
+      image: e.image,
+      animationUrl: e.animationUrl ? sanitizeIpfsUrl(e.animationUrl) : null,
+    },
   }
 }
 

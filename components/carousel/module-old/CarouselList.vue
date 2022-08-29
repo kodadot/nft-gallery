@@ -73,7 +73,7 @@ const options = {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 // move to scss component
 .carousel-card-list {
   overflow-x: auto;

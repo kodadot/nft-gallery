@@ -2,9 +2,11 @@ import type { CarouselNFT } from '@/components/base/types'
 import type { LastEvent } from '@/utils/types/types'
 import type { RowSeries } from '@/components/series/types'
 
-import { convertLastEventToNft } from '@/utils/carousel'
+import { convertLastEventFlatNft } from '@/utils/carousel'
 import { formatNFT } from '@/utils/carousel'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { visitedNFT } from '@/utils/localStorage'
+import { sortItemListByIds } from '@/utils/sorting'
 
 interface Types {
   type: 'latestSales' | 'newestList'
@@ -28,7 +30,7 @@ export const lastNftByEvent = ({ type }: Types) => {
   })
 
   const handleResult = async ({ data }: { data: { events: LastEvent[] } }) => {
-    const events = data.events.map(convertLastEventToNft)
+    const events = data.events.map(convertLastEventFlatNft)
     nfts.value = await formatNFT(events)
   }
   const nfts = ref<CarouselNFT[]>([])
@@ -40,7 +42,7 @@ export const lastNftByEvent = ({ type }: Types) => {
   })
 
   return {
-    nfts: computed(() => nfts.value),
+    nfts,
   }
 }
 
@@ -73,6 +75,71 @@ export const popularCollections = () => {
   })
 
   return {
-    nfts: computed(() => nfts.value),
+    nfts,
+  }
+}
+
+interface Collections {
+  collection: {
+    id: string
+    name: string
+    nfts: CarouselNFT[]
+  }
+}
+
+export const relatedNft = ({ collectionId }) => {
+  const { $route } = useNuxtApp()
+  const { data } = useGraphql({
+    queryPrefix: 'subsquid',
+    queryName: 'collectionEntityById',
+    variables: {
+      id: collectionId,
+      nftId: $route.params.id,
+    },
+  })
+  const nfts = ref<CarouselNFT[]>([])
+
+  watch(data, async () => {
+    if (data.value) {
+      nfts.value = await formatNFT((data.value as Collections).collection?.nfts)
+    }
+  })
+
+  return {
+    nfts,
+  }
+}
+
+interface VisitedNFTs {
+  nftEntities: CarouselNFT[]
+}
+
+export const visitedNft = () => {
+  const ids = visitedNFT().map((nft) => nft.id)
+  const { data } = useGraphql({
+    queryPrefix: 'subsquid',
+    queryName: 'nftEntitiesByIDs',
+    variables: {
+      ids,
+    },
+  })
+  const nfts = ref<CarouselNFT[]>([])
+
+  watch(data, async () => {
+    if (data.value) {
+      const dataNfts = data.value as VisitedNFTs
+      const filteredNftsNullMeta = dataNfts.nftEntities.filter(
+        (nft) => nft.meta !== null
+      )
+
+      if (filteredNftsNullMeta) {
+        const sortedNftList = sortItemListByIds(filteredNftsNullMeta, ids, 10)
+        nfts.value = await formatNFT(sortedNftList)
+      }
+    }
+  })
+
+  return {
+    nfts,
   }
 }

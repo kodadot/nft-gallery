@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="my-5">
     <Loader v-model="isLoading" />
 
     <div class="columns is-vcentered">
