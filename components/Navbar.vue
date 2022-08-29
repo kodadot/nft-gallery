@@ -21,7 +21,7 @@
         <HistoryBrowser />
 
         <b-button
-          type="is-primary is-bordered-light"
+          type="is-primary is-bordered-light ml-2"
           class="navbar-link-background"
           icon-right="search"
           @click="showMobileSearchBar" />
