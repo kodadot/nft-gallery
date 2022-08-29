@@ -38,7 +38,7 @@ export default class MultiPaymentFeeButton extends mixins(
       const api = await this.useApi()
       this.tokenId = await getAssetIdByAccount(api, this.accountId)
     } catch (e) {
-      console.log(e)
+      this.$consola.log(e)
     }
   }
 
