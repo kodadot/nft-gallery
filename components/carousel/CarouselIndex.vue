@@ -50,7 +50,7 @@ const props = defineProps<{
   linkText?: string
 }>()
 
-const page = ref(0)
+const page = ref(1)
 const isLoading = computed(() => props.loading)
 const total = computed(() => props.nfts.length)
 </script>
