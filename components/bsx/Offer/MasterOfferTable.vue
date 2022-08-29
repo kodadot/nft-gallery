@@ -3,10 +3,12 @@
     <div class="is-flex is-align-items-start is-justify-content-center mb-5">
       <AddressInput
         v-model="destinationAddress"
+        :empty-on-error="false"
         class="address-input mr-3"
         :strict="false"
         @input="handleAddressUpdate" />
       <b-button
+        v-if="isLogIn"
         type="is-primary"
         icon-left="paper-plane"
         class="fill-button"
@@ -202,8 +204,8 @@ export default class MasterOfferTable extends mixins(
   }
 
   private fillUpAddress() {
-    this.destinationAddress = 'HgpGWWmqrw8t6viwSy6LPcTVr2SuVPKWW5ArdNp2xCJY2U4'
-    this.handleAddressUpdate('HgpGWWmqrw8t6viwSy6LPcTVr2SuVPKWW5ArdNp2xCJY2U4')
+    this.destinationAddress = this.accountId
+    this.handleAddressUpdate(this.accountId)
   }
 }
 </script>
