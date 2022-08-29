@@ -87,10 +87,7 @@
                       </div>
                       <div v-if="nftRoyalties" class="royalty">
                         ⊆ {{ $t('royalty') }}
-                        <Money
-                          :value="nftRoyalties"
-                          inline
-                          :prefix="urlPrefix" />
+                        <Money :value="nftRoyalties" inline />
                       </div>
                     </template>
                     <div class="content pt-4">
