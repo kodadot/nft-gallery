@@ -22,7 +22,7 @@ import { CarouselNFT } from '@/components/base/types'
 @Component({
   components: {
     CarouselCardList: () =>
-      import('@/components/carousel/CarouselCardList.vue'),
+      import('@/components/carousel/module-old/CarouselList.vue'),
   },
 })
 /**

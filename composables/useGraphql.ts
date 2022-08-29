@@ -1,7 +1,12 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
 
-export default function ({ queryName, variables = {}, options = {} }) {
+export default function ({
+  queryPrefix = '',
+  queryName,
+  variables = {},
+  options = {},
+}) {
   const { $apollo, $consola } = useNuxtApp()
   const { client } = usePrefix()
   const data = ref(null)
@@ -14,7 +19,10 @@ export default function ({ queryName, variables = {}, options = {} }) {
     error.value = null
 
     try {
-      const query = await resolveQueryPath(client.value, queryName)
+      const query = await resolveQueryPath(
+        queryPrefix || client.value,
+        queryName
+      )
       const response = await $apollo.query({
         query: query.default,
         client: client.value,
