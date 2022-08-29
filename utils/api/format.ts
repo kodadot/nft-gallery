@@ -1,5 +1,5 @@
 import type { Option } from '@polkadot/types'
-import { Codec } from '@polkadot/types/types'
+import type { Codec } from '@polkadot/types/types'
 
 export function unwrapOrEmpty<T extends Codec>(value: Option<T>): T {
   return value.unwrapOr({} as T)
