@@ -679,7 +679,9 @@
     "nftName": "Name",
     "accept": "NFT has new a owner",
     "withdraw": "your offer has been withdrawn",
-    "burnedToggle": "Show Burned Nfts"
+    "burnedToggle": "Show Burned Nfts",
+    "offersCreated": "Offers Created",
+    "incomingOffers": "Incoming Offers"
   },
   "statsOverview": {
     "buys": "Buys",
@@ -944,7 +946,9 @@
     "exploreTabOrder": "Default tab in explore"
   },
   "navbar": {
-    "teleport": "Teleport"
+    "teleport": "Teleport",
+    "globalOffers": "Global Offers",
+    "offerStats": "Offers Stats"
   },
   "walletConnect": {
     "walletHeading": "Connect Wallet",
