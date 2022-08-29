@@ -47,7 +47,11 @@ export default class AddressInput extends mixins(PrefixMixin) {
       const [, err] = checkAddress(value, correctFormat(this.ss58Format))
       this.err = value ? err : ''
     } else {
-      this.err = isAddress(value) ? '' : 'Invalid address'
+      if (!this.emptyOnError && !value) {
+        this.err = ''
+      } else {
+        this.err = isAddress(value) ? '' : 'Invalid address'
+      }
     }
 
     return this.emptyOnError && this.err ? '' : value
