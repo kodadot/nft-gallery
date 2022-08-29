@@ -60,7 +60,7 @@
                   class="title mb-0 is-4 has-text-centered"
                   :title="nft.name">
                   <nuxt-link :to="`/${urlPrefix}/gallery/${nft.id}`">
-                    <div class="has-text-overflow-ellipsis has-text-white">
+                    <div class="has-text-overflow-ellipsis">
                       {{ nft.name }}
                     </div>
                   </nuxt-link>
