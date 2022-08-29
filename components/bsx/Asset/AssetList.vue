@@ -49,11 +49,10 @@ export default class AssetList extends mixins(
         this.client,
         assetListByIdList
       )
-      console.log(assetList)
       this.assetList = assetList
       this.fetchAccountBalance()
     } catch (e) {
-      console.warn(e)
+      this.$consola.warn(e)
       showNotification('Unable to load assets')
     }
   }
