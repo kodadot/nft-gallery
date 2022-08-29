@@ -53,6 +53,7 @@ function getActionsByPrefix(prefix: string): CallDictionary {
     case 'statemine':
       return uniqueActionResolver
     case 'bsx':
+    case 'snek':
       return bsxActionResolver
     default:
       throw new Error('Prefix not found')

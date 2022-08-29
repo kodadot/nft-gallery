@@ -9,9 +9,9 @@
     </b-field>
 
     <MetadataUpload
-      required
       ref="collectionImage"
       v-model="vFile"
+      required
       label="Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
       expanded
       preview

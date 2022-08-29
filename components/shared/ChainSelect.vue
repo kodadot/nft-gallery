@@ -7,11 +7,11 @@
         :icon-right="active ? 'caret-up' : 'caret-down'" />
     </template>
     <b-dropdown-item
-      aria-role="listitem"
       v-for="option in options"
       :key="option.value"
+      aria-role="listitem"
       :value="option.value"
-      :disabled="option.value === 'moonriver'"
+      :disabled="option.value === 'moonriver' || option.value === 'bsx'"
       :class="{ 'is-active': selected === option.value }">
       {{ option.text }}
     </b-dropdown-item>

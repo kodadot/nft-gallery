@@ -1,26 +1,38 @@
 import { emptyObject } from '@/utils/empty'
-import { ApiFactory, onApiConnect, identityOf } from '@kodadot1/sub-api'
+import { ApiFactory, identityOf, onApiConnect } from '@kodadot1/sub-api'
 import { Registration } from '@polkadot/types/interfaces/identity/types'
 import consola from 'consola'
 import Vue from 'vue'
 import { formatAddress } from '@/utils/account'
+import type { ApiPromise } from '@polkadot/api'
 
 declare type Unsubscribe = () => void
+type UnsubscribePromise = Promise<Unsubscribe>
 
 export interface IdentityMap {
   [address: string]: Registration
 }
 
+type BalanceMap = Record<string, string>
+type AddBalanceRequest = {
+  balance: string
+  prefix: string
+}
+type ChangeAddressRequest = {
+  address: string
+  apiUrl: string
+}
+
 export interface Auth {
   address: string
   source: 'keyring' | 'extension' | 'ledger'
-  balance: string
+  balance: BalanceMap
+  tokens: BalanceMap // <id, amount>
 }
 
 export interface IdentityStruct {
   identities: IdentityMap
   auth: Auth
-  balanceSub: Unsubscribe
 }
 
 export interface IdenityRequest {
@@ -29,9 +41,45 @@ export interface IdenityRequest {
 }
 
 const defaultState: IdentityStruct = {
-  identities: {},
-  auth: emptyObject<Auth>(),
-  balanceSub: () => void 0,
+  identities: emptyObject<IdentityMap>(),
+  auth: {
+    ...emptyObject<Auth>(),
+    balance: emptyObject<BalanceMap>(),
+    tokens: emptyObject<BalanceMap>(),
+  },
+}
+
+let balanceSub: Unsubscribe = () => void 0
+let tokenSub: Unsubscribe = () => void 0
+
+function subscribeBalance(
+  api: ApiPromise,
+  address: string,
+  cb: (value: string) => void
+): UnsubscribePromise {
+  return api.derive.balances.all(address, ({ availableBalance }) => {
+    cb(availableBalance.toString())
+  })
+}
+
+function free({ free }: any) {
+  return free.toString()
+}
+
+function subscribeTokens(
+  api: ApiPromise,
+  address: string,
+  cb: (value: BalanceMap) => void
+): UnsubscribePromise {
+  if (api.query.tokens) {
+    return api.query.tokens.accounts.multi([[address, '5']], ([ksm]: any[]) =>
+      cb({
+        '5': free(ksm),
+      })
+    )
+  }
+
+  return Promise.resolve(() => void 0)
 }
 
 // Disabling namespace to match with the original repo
@@ -47,17 +95,13 @@ export const mutations = {
     }
   },
   addAuth(state: IdentityStruct, authRequest: Auth): void {
-    state.auth = { ...authRequest }
+    state.auth = { ...authRequest, balance: emptyObject<BalanceMap>() }
   },
-  addBalance(state: IdentityStruct, balance: string): void {
-    Vue.set(state.auth, 'balance', balance)
-  },
-  addBalanceSub(state: IdentityStruct, sub: Unsubscribe): void {
-    // Unsubscribe previous subscription
-    state.balanceSub()
-
-    // Set new subscription
-    Vue.set(state, 'balanceSub', sub)
+  addBalance(
+    state: IdentityStruct,
+    { balance, prefix }: AddBalanceRequest
+  ): void {
+    Vue.set(state.auth.balance, prefix, balance)
   },
   changeAddressFormat(state: IdentityStruct, ss58Prefix: number): void {
     if (state.auth.address) {
@@ -65,6 +109,9 @@ export const mutations = {
       Vue.set(state.auth, 'address', address)
       localStorage.setItem('kodaauth', address)
     }
+  },
+  setTokenListBalance(state: IdentityStruct, request: BalanceMap): void {
+    Vue.set(state.auth, 'tokens', request)
   },
 }
 
@@ -85,17 +132,33 @@ export const actions = {
       consola.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
-  async fetchBalance({ commit, dispatch, rootState }, address: string) {
-    const endpoint = rootState.setting.apiUrl
+  fetchBalance(
+    { commit, dispatch, rootState },
+    { address, apiUrl }: ChangeAddressRequest
+  ) {
+    const endpoint = apiUrl || rootState.setting.apiUrl
+    if (!address) {
+      balanceSub()
+      tokenSub()
+      return
+    }
     onApiConnect(endpoint, async (api) => {
       try {
-        const balanceSub = await api.derive.balances.all(
-          address,
-          ({ availableBalance }) => {
-            dispatch('setBalance', availableBalance.toString())
-          }
-        )
-        commit('addBalanceSub', balanceSub)
+        if (balanceSub) {
+          balanceSub()
+        }
+
+        if (tokenSub) {
+          tokenSub()
+        }
+
+        balanceSub = await subscribeBalance(api, address, (balance) => {
+          dispatch('setBalance', balance)
+        })
+
+        tokenSub = await subscribeTokens(api, address, (balance) => {
+          commit('setTokenListBalance', balance)
+        })
       } catch (e) {
         consola.error('[ERR: BALANCE]', e)
       }
@@ -103,20 +166,19 @@ export const actions = {
   },
   setAuth({ commit, dispatch }, authRequest: Auth): void {
     commit('addAuth', authRequest)
-    dispatch('fetchBalance', authRequest.address)
+    dispatch('fetchBalance', { address: authRequest.address })
   },
-  setBalance({ commit }, balance: string): void {
-    commit('addBalance', balance)
+  setBalance({ commit, rootState }, balance: string): void {
+    const prefix = rootState.setting.urlPrefix
+    commit('addBalance', { prefix, balance })
   },
-  setCorrectAddressFormat(
-    { commit, dispatch, state },
-    ss58Prefix: number
-  ): void {
-    consola.log('[SET CORRECT ADDRESS FORMAT]', ss58Prefix)
+  setCorrectAddressFormat({ commit }, ss58Prefix: number): void {
     commit('changeAddressFormat', ss58Prefix)
+  },
+  setCorrectAddressBalance({ dispatch, state }, apiUrl: string): void {
     if (state.auth.address) {
-      const address = formatAddress(state.auth.address, ss58Prefix)
-      dispatch('fetchBalance', address)
+      const address = state.auth.address
+      dispatch('fetchBalance', { address, apiUrl })
     }
   },
 }
@@ -136,7 +198,16 @@ export const getters = {
   getAuthAddress(state: IdentityStruct): string {
     return state.auth.address
   },
-  getAuthBalance(state: IdentityStruct): string {
-    return state.auth.balance
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getAuthBalance(
+    state: IdentityStruct,
+    _: any,
+    { setting: { urlPrefix } }: any
+  ): string {
+    return state.auth.balance[urlPrefix] || '0'
+  },
+  getTokenBalanceOf(state: IdentityStruct): (tokenId: string) => string {
+    return (tokenId: string) =>
+      state.auth.tokens ? state.auth.tokens[tokenId] || '0' : '0'
   },
 }
