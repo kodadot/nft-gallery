@@ -93,7 +93,6 @@ const updateTotal = () => {
     if (parseInt(breakpoint) <= width) {
       const items = options.breakpoints[breakpoint].itemsToShow
       total.value = Math.round(props.nfts.length - items + 1)
-      console.log('total', total.value)
       break
     }
   }
