@@ -271,7 +271,7 @@ export default defineNuxtConfig({
     clientConfigs: {
       ...defineApolloConfig(),
       subsquid: toApolloEndpoint(
-        process.env.SUBSQUID_ENDPOINT || URLS.koda.subsquidv6
+        process.env.SUBSQUID_ENDPOINT || URLS.koda.rubick
       ),
       bsx: toApolloEndpoint(URLS.koda.snekk),
       moonsama: toApolloEndpoint(URLS.koda.click),
