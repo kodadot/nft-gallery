@@ -58,7 +58,7 @@ import { SomethingWithMeta, getSanitizer } from '@/components/rmrk/utils'
 import { CollectionMetadata } from '@/components/rmrk/types'
 import { Collection } from '@/components/unique/types'
 
-import Identity from '@/components/shared/identity/IdentityIndex.vue'
+import Identity from '@/components/identity/IdentityIndex.vue'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 const curatedCollection = [

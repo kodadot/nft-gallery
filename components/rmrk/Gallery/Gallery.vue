@@ -113,7 +113,7 @@ import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { NFTMetadata } from '../service/scheme'
-import { SearchQuery } from './Search/types'
+import { SearchQuery } from './search/types'
 import { getSanitizer } from '../utils'
 
 // import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
@@ -123,7 +123,7 @@ type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 type SearchedNftsWithMeta = NFTWithCollectionMeta & NFTMetadata
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
-  Search: () => import('./Search/SearchBar.vue'),
+  Search: () => import('@/components/search/SearchBar.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),

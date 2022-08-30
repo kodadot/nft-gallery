@@ -344,7 +344,7 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 
 import { Collection, NFTMetadata } from '@/components/rmrk/service/scheme'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { exist } from '@/components/search/exist'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 
 import AuthMixin from '@/utils/mixins/authMixin'
@@ -366,7 +366,7 @@ import {
 } from './utils'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
 }

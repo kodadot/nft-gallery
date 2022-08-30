@@ -4,7 +4,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 export default function ({
   clientName = '',
   queryPath = '',
-  queryname = '',
+  queryName = '',
   variables = {},
   options = {},
 }) {
@@ -20,7 +20,7 @@ export default function ({
     error.value = null
 
     try {
-      const query = await resolveQueryPath(queryPath || client.value, queryname)
+      const query = await resolveQueryPath(queryPath || client.value, queryName)
       const response = await $apollo.query({
         query: query.default,
         client: clientName || client.value,

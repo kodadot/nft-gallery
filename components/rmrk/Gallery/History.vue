@@ -130,7 +130,7 @@ import { Debounce } from 'vue-debounce-decorator'
 import { Interaction } from '@kodadot1/minimark'
 import { formatDistanceToNow } from 'date-fns'
 
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { exist } from '@/components/search/exist'
 
 import ChainMixin from '@/utils/mixins/chainMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
@@ -148,7 +148,7 @@ import shortAddress from '@/utils/shortAddress'
 import { Interaction as EventInteraction } from '../service/scheme'
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }

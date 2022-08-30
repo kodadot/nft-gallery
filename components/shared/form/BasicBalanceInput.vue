@@ -9,9 +9,14 @@
       :max="max"
       :disabled="disabled"
       :expanded="expanded"
-      :placeholder="placeholder" />
+      :placeholder="placeholder"
+      data-testid="balance-input"
+      :use-html5-validation="true"
+      @blur="onBlur" />
     <p class="control">
-      <span class="button is-static">{{ unit }}</span>
+      <span data-testid="balance-input-label" class="button is-static">{{
+        unit
+      }}</span>
     </p>
   </b-field>
 </template>
@@ -25,7 +30,7 @@ import {
   VModel,
   Vue,
 } from 'nuxt-property-decorator'
-import { Debounce } from 'vue-debounce-decorator'
+
 import { balanceFrom, simpleDivision } from '@/utils/balance'
 
 @Component
@@ -55,17 +60,25 @@ export default class BasicBalanceInput extends Vue {
     this.handleInput(value)
   }
 
-  @Debounce(200)
   @Emit('input')
   public handleInput(value: number | string): string {
-    return balanceFrom(value, this.decimals)
+    this.checkValidity()
+    try {
+      return balanceFrom(value, this.decimals)
+    } catch (e) {
+      this.$consola.warn((e as Error).message)
+      return '0'
+    }
+  }
+
+  public onBlur() {
+    this.checkValidity()
   }
 
   public focusInput(): void {
     this.balance?.focus()
   }
 
-  // You vs the girl they told you not to worry about
   public checkValidity() {
     return this.balance.checkHtml5Validity()
   }

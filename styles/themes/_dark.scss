@@ -10,7 +10,18 @@ html.dark-mode {
 	}
 
 	.title,
-	.card-header-title {
+	.card-header-title,
+	.input {
 		color: $text;
+	}
+
+	.navbar {
+		.search-navbar input {
+			color: $black;
+		}
+
+		.navbar-dropdown a.navbar-item:hover {
+			background-color: $primary;
+		}
 	}
 }

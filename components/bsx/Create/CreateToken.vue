@@ -10,18 +10,14 @@
       <template #main>
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <BasicSwitch key="listed" v-model="listed" label="mint.listForSale" />
-        <BalanceInput
+        <TokenBalanceInput
           v-if="listed"
           ref="balanceInput"
-          key="price"
-          required
-          has-to-larger-than-zero
-          label="Price"
-          expanded
-          :step="0.01"
-          :min="0"
-          class="mb-3"
-          @input="updatePrice" />
+          key="token-price"
+          v-model="price"
+          token-id="5"
+          :prefix="urlPrefix"
+          class="mb-3" />
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
             v-model="attributes"
@@ -46,12 +42,15 @@
           </CollapseWrapper>
         </b-field>
         <b-field key="deposit">
-          <p class="has-text-weight-medium is-size-6 has-text-warning">
+          <p class="has-text-weight-medium is-size-6 has-text-info">
             {{ $t('mint.deposit') }}: <Money :value="deposit" inline />
           </p>
         </b-field>
         <b-field key="balance">
-          <AccountBalance />
+          <AccountBalance token-id="5" />
+        </b-field>
+        <b-field key="token">
+          <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
         </b-field>
         <b-field
           key="submit"
@@ -123,9 +122,13 @@ const components = {
   BaseTokenForm: () => import('@/components/base/BaseTokenForm.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   RoyaltyForm: () => import('@/components/bsx/Create/RoyaltyForm.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
+  Money: () => import('@/components/bsx/format/TokenMoney.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
+  MultiPaymentFeeButton: () =>
+    import('@/components/bsx/specific/MultiPaymentFeeButton.vue'),
+  TokenBalanceInput: () =>
+    import('@/components/bsx/input/TokenBalanceInput.vue'),
 }
 
 @Component({ components })
@@ -152,7 +155,7 @@ export default class CreateToken extends mixins(
   protected depositPerByte = BigInt(0)
   protected attributes: Attribute[] = []
   protected nsfw = false
-  protected price: string | number = 0
+  protected price = '0'
   protected listed = true
   protected royalty: Royalty = {
     amount: 0,
@@ -163,9 +166,10 @@ export default class CreateToken extends mixins(
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
 
+  @Watch('price')
   protected updatePrice(value: string) {
     this.price = value
-    this.balanceInput?.checkValidity()
+    this.balanceInput.checkValidity()
   }
 
   get hasPrice() {
@@ -370,7 +374,7 @@ export default class CreateToken extends mixins(
       ...(this.attributes || []),
       ...nsfwAttribute(this.nsfw),
       ...offsetAttribute(this.hasCarbonOffset),
-    ].filter((attribute) => attribute.display_type || attribute.trait_type)
+    ]
 
     const meta = createMetadata(
       name,

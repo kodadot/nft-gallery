@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import 'cypress-file-upload'
 import 'cypress-network-idle'
+import 'cypress-real-events/support'
 import consola from 'consola'
 
 export {}
@@ -111,8 +112,11 @@ Cypress.Commands.add('bsxNavbar', () => {
   cy.get('[data-cy="explore"]')
     .should('have.attr', 'href')
     .and('include', '/bsx/explore')
-  cy.get('[data-cy="stats"]')
-    .should('be.visible')
+  cy.get('[data-cy="stats"]').should('be.visible').click()
+  cy.get('[data-cy="global-offers"]')
+    .should('have.attr', 'href')
+    .and('include', '/bsx/offers')
+  cy.get('[data-cy="offers-stats"]')
     .should('have.attr', 'href')
     .and('include', '/bsx/stats')
   cy.get('[data-cy="localChanger"]').should('be.visible')
@@ -164,7 +168,7 @@ Cypress.Commands.add('toggleBuyNowGallery', () => {
 Cypress.Commands.add('bsxGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/bsx/gallery/${nftId}`)
   cy.waitForNetworkIdle('POST', '*', 1000)
-  cy.get('[data-cy="money"]').should('contain', 'BSX')
+  // cy.get('[data-cy="money"]').should('contain', 'KSM')
   cy.get('[data-cy="BUY"]').should('be.disabled')
   cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
   cy.get('[data-cy="offer-list"]').should('contain', 'Offers')

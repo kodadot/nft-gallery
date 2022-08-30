@@ -4,7 +4,7 @@
     spaced
     wrapper-class="container"
     close-on-click
-    :mobile-burger="!showMobileSearchBar"
+    mobile-burger
     :active.sync="isBurgerMenuOpened"
     :class="{ 'navbar-shrink': !showTopNavbar }">
     <template #brand>
@@ -16,29 +16,20 @@
           height="35" />
       </b-navbar-item>
       <div
-        v-if="showMobileSearchBar"
-        class="search-navbar-container-mobile is-hidden-desktop is-flex is-align-items-center">
-        <b-button icon-left="times" @click="toggleSearchBarDisplay" />
-        <Search
-          v-if="showMobileSearchBar"
-          show-default-suggestions
-          hide-filter
-          class="is-flex-grow-1 pr-1 is-hidden-desktop mt-5" />
-      </div>
-
-      <div
-        v-else
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
-        <div>
-          <HistoryBrowser />
+        <HistoryBrowser />
 
-          <b-button
-            type="is-primary is-bordered-light"
-            class="navbar-link-background"
-            icon-right="search"
-            @click="toggleSearchBarDisplay" />
-        </div>
+        <b-button
+          type="is-primary is-bordered-light ml-2"
+          class="navbar-link-background"
+          icon-right="search"
+          @click="showMobileSearchBar" />
+        <Search
+          ref="mobilSearchRef"
+          show-default-suggestions
+          hide-filter
+          class="is-hidden-desktop mt-5 search-navbar-container-mobile" />
       </div>
     </template>
     <template #start>
@@ -103,13 +94,32 @@
         data-cy="explore">
         <span>{{ $t('explore') }}</span>
       </b-navbar-item>
-      <b-navbar-item
+      <b-navbar-dropdown
         v-if="isBsx"
-        tag="nuxt-link"
-        :to="`/${urlPrefix}/stats`"
+        id="NavStats"
+        arrowless
+        collapsible
         data-cy="stats">
-        <span>{{ $t('stats') }}</span>
-      </b-navbar-item>
+        <template #label>
+          <span>{{ $t('stats') }}</span>
+        </template>
+        <b-navbar-item
+          tag="nuxt-link"
+          :to="`${
+            accountId
+              ? `/${urlPrefix}/offers?target=${accountId}`
+              : `/${urlPrefix}/offers`
+          }`"
+          data-cy="global-offers">
+          {{ $t('navbar.globalOffers') }}
+        </b-navbar-item>
+        <b-navbar-item
+          tag="nuxt-link"
+          :to="`/${urlPrefix}/stats`"
+          data-cy="offers-stats">
+          <span> {{ $t('navbar.offerStats') }}</span>
+        </b-navbar-item>
+      </b-navbar-dropdown>
       <b-navbar-dropdown
         v-if="isRmrk"
         id="NavStats"
@@ -166,19 +176,20 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { get } from 'idb-keyval'
 
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import ColorModeButton from '@/components/common/ColorModeButton.vue'
-import Identity from '@/components/shared/identity/IdentityIndex.vue'
+import Identity from '@/components/identity/IdentityIndex.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
-import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
+import Search from '@/components/search/SearchBar.vue'
 
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { createVisible } from '@/utils/config/permision.config'
 import { identityStore } from '@/utils/idbStore'
+import AuthMixin from '~~/utils/mixins/authMixin'
 
 @Component({
   components: {
@@ -189,15 +200,15 @@ import { identityStore } from '@/utils/idbStore'
     ColorModeButton,
   },
 })
-export default class NavbarMenu extends mixins(PrefixMixin) {
+export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
   protected mobileGallery = false
   protected showTopNavbar = true
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
   private fixedTitleNavAppearDistance = 200
   private lastScrollPosition = 0
   private artistName = ''
-  private showMobileSearchBar = false
   private isBurgerMenuOpened = false
+  @Ref('mobilSearchRef') readonly mobilSearchRef
 
   private onResize() {
     return (this.mobileGallery = window.innerWidth <= 1023)
@@ -277,8 +288,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     this.lastScrollPosition = currentScrollPosition
   }
 
-  toggleSearchBarDisplay() {
-    this.showMobileSearchBar = !this.showMobileSearchBar
+  showMobileSearchBar() {
+    this.mobilSearchRef.focusInput()
   }
 
   closeBurgerMenu() {

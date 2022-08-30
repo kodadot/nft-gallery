@@ -235,10 +235,6 @@ export const resolveMedia = (mimeType?: string): MediaType => {
     return MediaType.MODEL
   }
 
-  if (/^application\/octet-stream/.test(mimeType)) {
-    return MediaType.MODEL
-  }
-
   if (/^text\/html/.test(mimeType)) {
     return MediaType.IFRAME
   }
