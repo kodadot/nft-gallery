@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
 
 import { checkInvalidBalanceFilter } from '@/utils/formatBalance'
-import format from '@/utils/formatBalance'
+// import format from '@/utils/formatBalance'
+import { format, formatBalanceEmptyOnZero } from '@/utils/format/balance'
 
 describe('FORMAT BALANCE TEST', (): void => {
   it('TEST checkInvalidBalanceFilter', () => {
@@ -28,5 +29,20 @@ describe('FORMAT BALANCE TEST', (): void => {
     expect(formatBalance(1567020000000000)).toBe('1,567.0200')
     expect(formatBalance(1089218822222222.2)).toBe('1,089.2188')
     expect(formatBalance(1060330916129032.2)).toBe('1,060.3309')
+  })
+
+  it('should formatBalanceEmptyOnZero', () => {
+    expect(format('', { emptyOnZero: true })).toBe('')
+    expect(format('0', { emptyOnZero: true })).toBe('')
+    expect(format()).toBe('')
+
+    const input = '1000000000000'
+    expect(formatBalanceEmptyOnZero(input)).toBe(
+      format(input, {
+        symbol: 'KSM',
+        emptyOnZero: true,
+        trimAll: true,
+      })
+    )
   })
 })
