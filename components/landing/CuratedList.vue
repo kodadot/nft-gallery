@@ -72,8 +72,8 @@ const curatedCollection = [
 
 const { urlPrefix } = usePrefix()
 const { data } = useGraphql({
-  queryname: 'collectionCuratedList',
-  queryPath: urlPrefix.value,
+  queryName: 'collectionCuratedList',
+  queryPrefix: urlPrefix.value,
   variables:
     urlPrefix.value === 'rmrk' ? { list: curatedCollection } : undefined,
 })

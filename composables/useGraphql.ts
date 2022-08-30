@@ -2,9 +2,8 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
 
 export default function ({
-  clientName = '',
-  queryPath = '',
-  queryName = '',
+  queryPrefix = '',
+  queryName,
   variables = {},
   options = {},
 }) {
@@ -18,12 +17,12 @@ export default function ({
     loading.value = true
     data.value = null
     error.value = null
+    const query = await resolveQueryPath(queryPrefix || client.value, queryName)
 
     try {
-      const query = await resolveQueryPath(queryPath || client.value, queryName)
       const response = await $apollo.query({
         query: query.default,
-        client: clientName || client.value,
+        client: client.value,
         variables,
         ...options,
       })
