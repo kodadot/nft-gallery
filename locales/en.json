@@ -590,7 +590,8 @@
         "placeholder": "3-5 character long name",
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
-      "create": "Create collection"
+      "create": "Create collection",
+      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
     },
     "nft": {
       "name": {
@@ -607,7 +608,12 @@
         "label": "Edition",
         "placeholder": "Minimum is 1",
         "message": "Number of NFTs to be minted"
-      }
+      },
+      "creative": {
+        "heading": "Creative Minting"
+      },
+      "drop": "Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)",
+      "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
     }
   },
   "tooltip": {
@@ -625,8 +631,8 @@
     "holdings": "Nfts owned by",
     "gains": "Gained by",
     "makeOfferDisabled": "You have already made an offer for this NFT",
-    "needToUploadNFTFile":  "You need to upload NFT file",
-    "needToSetValidPrice":  "In order to list NFT, price has to be more than 0",
+    "needToUploadNFTFile": "You need to upload NFT file",
+    "needToSetValidPrice": "In order to list NFT, price has to be more than 0",
     "notEnoughBalance": "Insufficient funds",
     "haveNoToS": "Have no permission to use the asset"
   },
@@ -696,7 +702,7 @@
     "activeWallets": "Active wallets",
     "offers": "Offers",
     "values": "VALUES",
-    "bsxTitle":  "Basilisk Marketplace Statistics"
+    "bsxTitle": "Basilisk Marketplace Statistics"
   },
   "myOffer": {
     "bsxTitle": "Incoming Offers",
@@ -843,7 +849,10 @@
     "to": "to",
     "tx": {
       "cancelled": "Transaction was cancelled"
-    }
+    },
+    "searchPlaceholder": "Search Artwork, Collection...",
+    "tagsAdd": "Type and press enter to add your own",
+    "chooseWallet": "Choose your"
   },
   "helper": {
     "seeMore": "See More",
@@ -955,5 +964,25 @@
     "understand": "I understand",
     "learnText": "Learn how to Connect",
     "downloadExtension": "Download extension"
+  },
+  "landing": {
+    "newNftHeading": "New to NFTs?",
+    "ksmArtistHeading": "KSM for artists",
+    "socials": "Got any questions or would like to stay in touch? Drop us a line via socials.",
+    "newNft": {
+      "click": "Click {0} for a step by step guide!",
+      "here": "here"
+    },
+    "artists": {
+      "hook": "Get in {0} and we will hook you up with free mints.",
+      "touch": "touch"
+    }
+  },
+  "history": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "last7Days": "Last 7 Days",
+    "thisMonth": "This Month",
+    "earlier": "Earlier"
   }
 }

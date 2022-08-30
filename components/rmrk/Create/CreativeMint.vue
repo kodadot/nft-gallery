@@ -4,7 +4,7 @@
     <Loader v-model="isLoading" :status="status" />
     <p class="title is-size-3">
       <!-- {{ $t('mint.context') }} -->
-      Creative Minting
+      {{ $t('mint.nft.creative.heading') }}
     </p>
     <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
     <b-field>
@@ -18,7 +18,7 @@
       ref="uploadFileRef"
       v-model="file"
       required
-      label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
+      :label="$t('mint.nft.drop')"
       expanded
       preview />
 

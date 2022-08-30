@@ -24,7 +24,7 @@
           :data="searchSuggestion"
           group-field="type"
           group-options="item"
-          placeholder="Search Artwork, Collection..."
+          :placeholder="$t('general.searchPlaceholder')"
           icon="search"
           open-on-focus
           clearable
