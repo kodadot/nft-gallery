@@ -20,8 +20,11 @@ html.dark-mode {
 			color: $black;
 		}
 
-		.navbar-dropdown a.navbar-item:hover {
-			background-color: $primary;
+		.navbar-dropdown a.navbar-item {
+			&:hover, &:focus {
+				background-color: $primary;
+			}
 		}
+
 	}
 }
