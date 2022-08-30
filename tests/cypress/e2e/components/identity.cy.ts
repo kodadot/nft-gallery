@@ -24,12 +24,27 @@ const users = [
 describe('Identity.vue component', () => {
   users.forEach(({ address, name, twitter, startedMinting }) => {
     it(`should get Identity stats for ${name}`, () => {
+      // https://github.com/cypress-io/cypress-example-recipes/blob/master/examples/testing-dom__clipboard
+      cy.wrap(
+        Cypress.automation('remote:debugger:protocol', {
+          command: 'Browser.grantPermissions',
+          params: {
+            permissions: ['clipboardReadWrite', 'clipboardSanitizedWrite'],
+            origin: window.location.origin,
+          },
+        })
+      )
       cy.visit(`/rmrk/u/${address}`)
+        .its('navigator.permissions')
+        .invoke('query', { name: 'clipboard-read' })
+        .its('state')
+        .should('equal', 'granted')
 
       cy.getCy('identity').realHover()
       cy.get('.tippy-popper')
         .should('exist')
         .then(() => {
+          cy.getCy('identity-clipboard').realClick()
           cy.getCy('identity-display').should('contain.text', name)
           cy.getCy('identity-twitter').should('contain.text', twitter)
           cy.getCy('identity-address').should(
@@ -51,14 +66,10 @@ describe('Identity.vue component', () => {
           )
           cy.getCy('identity-sold').should('not.have.text', '\n      0\n    ')
 
-          cy.getCy('identity-clipboard')
-            .click()
-            .then(() => {
-              cy.window()
-                .its('navigator.clipboard')
-                .invoke('readText')
-                .should('equal', address)
-            })
+          cy.window()
+            .its('navigator.clipboard')
+            .invoke('readText')
+            .should('equal', address)
         })
     })
   })
