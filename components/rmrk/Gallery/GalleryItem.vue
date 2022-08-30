@@ -147,7 +147,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { emptyObject } from '@/utils/empty'
-import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
+import { format } from '@/utils/format/balance'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { isOwner } from '@/utils/account'
 import isShareMode from '@/utils/isShareMode'
@@ -159,6 +159,7 @@ import eventListByNftId from '@/queries/subsquid/general/eventListByNftId.graphq
 import nftById from '@/queries/subsquid/rmrk/nftById.graphql'
 import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import nftListIdsByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
+import { trimAll } from '@kodadot1/minimark'
 
 import AvailableActions from './AvailableActions.vue'
 
@@ -228,7 +229,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   get image(): string {
     return generateNftImage(
       this.nft.name,
-      formatBalanceEmptyOnZero(this.nft.price as string),
+      trimAll(format(this.nft.price, { symbol: 'KSM', emptyOnZero: true })),
       this.meta.image as string,
       this.mimeType
     )
