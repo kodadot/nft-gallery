@@ -1,4 +1,4 @@
-import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { Chart } from 'chart.js'
 
 // types
