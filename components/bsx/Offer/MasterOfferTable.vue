@@ -5,6 +5,7 @@
         v-model="destinationAddress"
         :empty-on-error="false"
         class="address-input mr-3"
+        icon="close-circle"
         :strict="false"
         @input="handleAddressUpdate" />
       <b-button
