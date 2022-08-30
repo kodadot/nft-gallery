@@ -12,13 +12,13 @@
     <template v-if="accountId">
       <b-field :label="$t('collection')">
         <b-select
-          placeholder="Select a collection"
           v-model="selectedCollection"
+          placeholder="Select a collection"
           expanded>
           <option
             v-for="option in collections"
-            :value="option"
-            :key="option.id">
+            :key="option.id"
+            :value="option">
             {{ option.name }} {{ option.id }} ({{ option.available }})
           </option>
         </b-select>
@@ -34,9 +34,9 @@
     <template v-if="selectedCollection">
       <ActionSelector v-model="action" />
       <component
-        class="mb-4"
-        v-if="showMeta"
         :is="showMeta"
+        v-if="showMeta"
+        class="mb-4"
         @input="updateMeta" />
 
       <BasicSwitch v-model="listed" label="action.omitListed" />
@@ -48,10 +48,10 @@
         <b-button
           type="is-primary"
           icon-left="paper-plane"
-          @click="sub"
           :disabled="disabled"
           :loading="isLoading"
-          outlined>
+          outlined
+          @click="sub">
           {{ $t('action.click', [action]) }}
         </b-button>
       </b-field>
@@ -71,12 +71,12 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import {
-  createInteraction,
   Interaction,
+  createInteraction,
   mapAsSystemRemark,
 } from '@kodadot1/minimark'
 import { DispatchError } from '@polkadot/types/interfaces'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import UseApiMixin from '~/utils/mixins/useApiMixin'
 
 type EmptyPromise = Promise<void>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CollectionPriceChart :priceData="priceData" />
+    <CollectionPriceChart :price-data="priceData" />
   </div>
 </template>
 

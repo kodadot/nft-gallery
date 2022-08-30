@@ -5,29 +5,28 @@
       v-if="accountId"
       :actions="actions"
       :price="price"
-      :disabledToolTips="toolTips"
+      :disabled-tool-tips="toolTips"
       @click="handleAction" />
     <component
+      v-bind="dynamicProps"
+      :is="showMeta"
+      v-if="showMeta"
       ref="balanceInput"
       class="mb-4"
-      v-if="showMeta"
-      :min="minimumLimit"
-      :max="maximumLimit"
-      :is="showMeta"
-      @input="updateMeta"
-      emptyOnError />
+      empty-on-error
+      @input="updateMeta" />
     <DaySelect v-if="showDaySelect" v-model="selectedDay" :days="dayList" />
     <SubmitButton
       v-if="showSubmit"
-      @click="submit"
-      :disabled="disableSubmitButton">
+      :disabled="disableSubmitButton"
+      @click="submit">
       {{ $t('nft.action.submit', [$t(`nft.event.${selectedAction}`)]) }}
     </SubmitButton>
   </div>
 </template>
 
 <script lang="ts">
-import BalanceInput from '@/components/shared/BalanceInput.vue'
+import BalanceInputType from '@/components/bsx/input/TokenBalanceInput.vue'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import { NFTAction } from '@/components/unique/NftUtils'
 import { createTokenId } from '@/components/unique/utils'
@@ -40,21 +39,21 @@ import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
 import {
+  ShoppingActionToolTips,
+  ShoppingActions,
   actionComponent,
   getActionList,
   iconResolver,
-  ShoppingActions,
-  ShoppingActionToolTips,
 } from '@/utils/shoppingActions'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { onApiConnect } from '@kodadot1/sub-api'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import { formatBsxBalanceToNumber } from '~/utils/format/balance'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import { formatBsxBalanceToNumber } from '@/utils/format/balance'
 
 const components = {
   ActionList: () => import('@/components/bsx/Gallery/Item/ActionList.vue'),
   AddressInput: () => import('@/components/shared/AddressInput.vue'),
-  BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+  BalanceInput: () => import('@/components/bsx/input/TokenBalanceInput.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   DaySelect: () => import('@/components/bsx/Offer/DaySelect.vue'),
@@ -91,6 +90,25 @@ export default class AvailableActions extends mixins(
 
   get actions() {
     return getActionList('bsx', this.isOwner, this.isAvailableToBuy)
+  }
+
+  get dynamicProps(): object {
+    switch (this.selectedAction) {
+      case ShoppingActions.LIST:
+      case ShoppingActions.MAKE_OFFER:
+        return {
+          tokenId: '5',
+          prefix: this.urlPrefix,
+          min: this.minimumLimit,
+          max: this.maximumLimit,
+        }
+      case ShoppingActions.SEND:
+        return {
+          emptyOnError: true,
+        }
+      default:
+        return {}
+    }
   }
 
   get minimumLimit(): number {
@@ -195,18 +213,17 @@ export default class AvailableActions extends mixins(
   protected updateMeta(value: string | number) {
     const balanceInputComponent = this.$refs.balanceInput as
       | AddressInput
-      | BalanceInput
+      | BalanceInputType
     if (
       balanceInputComponent &&
-      balanceInputComponent instanceof BalanceInput
+      balanceInputComponent instanceof BalanceInputType
     ) {
       this.isBalanceInputValid = balanceInputComponent.checkValidity()
       // ad-hoc fix for empty input value
-      if (this.meta === '0') {
+      if (value === '0') {
         this.isBalanceInputValid = false
       }
     }
-    this.$consola.log(typeof value, value)
     this.meta = value
   }
 

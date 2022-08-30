@@ -4,10 +4,10 @@
     <b-tabs v-model="activeTab" destroy-on-hide expanded>
       <b-tab-item v-for="x in components" :key="x" :label="x">
         <component
-          :showExplainerText="showExplainerText"
           :is="x"
-          @navigateToCreateNftTab="switchToNft"
-          v-if="components[activeTab] === x" />
+          v-if="components[activeTab] === x"
+          :show-explainer-text="showExplainerText"
+          @navigateToCreateNftTab="switchToNft" />
       </b-tab-item>
     </b-tabs>
   </section>

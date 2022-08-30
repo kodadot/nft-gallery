@@ -3,6 +3,7 @@
     <BasicSlider
       v-model="vRoyalty"
       label="mint.royalty.rate"
+      :max="99"
       :customFormatter="(v) => `${v}%`" />
     <BasicSwitch v-model="isMine" label="mint.royalty.mine" />
     <AddressInput

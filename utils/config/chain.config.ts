@@ -1,3 +1,4 @@
+import { AssetItem } from '~~/components/bsx/Asset/types'
 import { ChainProperties } from '../api/Query'
 import { Config, Prefix } from './types'
 
@@ -25,6 +26,7 @@ const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
 const chainPropertyMap: Config<ChainProperties> = {
   rmrk: DEFAULT_CHAIN_PROPERTIES,
   bsx: toChainProperty(10041, 12, 'BSX'),
+  snek: toChainProperty(10041, 12, 'BSX'),
   statemine: DEFAULT_CHAIN_PROPERTIES,
   westmint: DEFAULT_CHAIN_PROPERTIES,
   moonsama: toChainProperty(1285, 12, 'MOVR', 'https://moonriver.subscan.io/'),
@@ -42,4 +44,15 @@ export const blockExplorerOf = (
   prefix: Prefix | string
 ): string | undefined => {
   return chainPropListOf(prefix).blockExplorer
+}
+
+export const chainAssetOf = (prefix: Prefix | string): AssetItem => {
+  const { tokenDecimals: decimals, tokenSymbol: symbol } =
+    chainPropListOf(prefix)
+  return {
+    id: '0',
+    name: symbol,
+    symbol,
+    decimals,
+  }
 }

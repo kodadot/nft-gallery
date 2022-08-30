@@ -21,74 +21,146 @@
           ref="searchRef"
           v-model="name"
           class="gallery-search"
-          :data="searchSuggestion"
-          group-field="type"
-          group-options="item"
           placeholder="Search Artwork, Collection..."
           icon="search"
-          open-on-focus
+          :open-on-focus="showDefaultSuggestions"
           clearable
-          max-height="550px"
-          dropdown-position="is-bottom-left"
+          max-height="500"
+          dropdown-position="bottom"
           expanded
+          @click.native="resetSelectedIndex"
           @blur="onBlur"
           @typing="updateSuggestion"
-          @keydown.native.enter="nativeSearch"
-          @focus="fetchSuggestionsOnce"
-          @select="updateSelected">
-          <template slot-scope="props">
-            <div v-if="props.option.type === 'Search'">
-              <div class="media">
-                <div class="media-left">
-                  <b-icon icon="search" size="is-medium" />
+          @keydown.native.down="onKeydownSelected(+1)"
+          @keydown.native.up="onKeydownSelected(-1)"
+          @keydown.native.enter="nativeSearch">
+          <template #header>
+            <b-tabs
+              v-show="name"
+              v-model="activeSearchTab"
+              class="tabs-container-mobile"
+              destroy-on-hide
+              expanded>
+              <b-tab-item label="Collections" value="Collections">
+                <div v-if="isCollectionResultLoading">
+                  <SearchResultItem
+                    v-for="item in searchSuggestionEachTypeMaxNum"
+                    :key="item"
+                    is-loading />
                 </div>
-                <div class="media-content">{{ props.option.name }}</div>
-              </div>
-            </div>
-
-            <div v-else-if="props.option.type === 'History'">
-              <div class="media">
-                <div class="media-left">
-                  <b-icon icon="history" size="is-medium" />
+                <div v-else>
+                  <div
+                    v-for="(item, idx) in collectionSuggestion"
+                    :key="item.id"
+                    :value="item"
+                    :class="`link-item ${
+                      idx === selectedIndex ? 'selected-item' : ''
+                    }`"
+                    @click="gotoCollectionItem(item)">
+                    <SearchResultItem :image="item.image">
+                      <template #content>
+                        <div
+                          class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
+                          <span class="main-title name">{{ item.name }}</span>
+                          <span>{{ urlPrefix.toUpperCase() }}</span>
+                        </div>
+                      </template>
+                    </SearchResultItem>
+                  </div>
                 </div>
-                <div class="media-content">{{ props.option.name }}</div>
+                <nuxt-link
+                  :to="{
+                    name: routeOf('explore'),
+                    query: { ...$route.query, tab: 'COLLECTION' },
+                  }">
+                  <div :class="loadMoreItemClassName">
+                    {{ $t('search.seeAll') }} -->
+                  </div>
+                </nuxt-link>
+              </b-tab-item>
+              <b-tab-item label="NFTs" value="NFTs">
+                <div v-if="isNFTResultLoading">
+                  <SearchResultItem
+                    v-for="item in searchSuggestionEachTypeMaxNum"
+                    :key="item"
+                    is-loading />
+                </div>
+                <div v-else>
+                  <div
+                    v-for="(item, idx) in nftSuggestion"
+                    :key="item.id"
+                    :value="item"
+                    :class="`link-item ${
+                      idx === selectedIndex ? 'selected-item' : ''
+                    }`"
+                    @click="gotoGalleryItem(item)">
+                    <SearchResultItem :image="item.image">
+                      <template #content>
+                        <div
+                          class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
+                          <span class="main-title name">{{ item.name }}</span>
+                          <span>{{ urlPrefix.toUpperCase() }}</span>
+                        </div>
+                        <div
+                          class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
+                          <span class="name">{{ item.collection?.name }}</span>
+                          <span v-if="item.price && parseFloat(item.price) > 0">
+                            {{ $t('offer.price') }}:
+                            <Money :value="item.price" inline />
+                          </span>
+                        </div>
+                      </template>
+                    </SearchResultItem>
+                  </div>
+                </div>
+                <nuxt-link
+                  :to="{
+                    name: routeOf('explore'),
+                    query: { ...$route.query, tab: 'GALLERY' },
+                  }">
+                  <div :class="loadMoreItemClassName">
+                    {{ $t('search.seeAll') }} -->
+                  </div>
+                </nuxt-link>
+              </b-tab-item>
+              <b-tab-item disabled label="User" value="User"> </b-tab-item>
+            </b-tabs>
+            <b-tabs
+              v-show="!name"
+              v-model="activeTrendingTab"
+              class=""
+              destroy-on-hide
+              expanded>
+              <b-tab-item label="Trending" value="Trending">
                 <div
-                  class="media-right"
-                  @click.stop.prevent="removeSearchHistory(props.option.name)">
-                  <b-button type="is-text" icon-left="times" />
+                  v-for="(item, idx) in defaultCollectionSuggestions"
+                  :key="item.id"
+                  :value="item"
+                  :class="`link-item ${
+                    idx === selectedIndex ? 'selected-item' : ''
+                  }`"
+                  @click="gotoCollectionItem(item)">
+                  <SearchResultItem :image="item.image">
+                    <template #content>
+                      <div class="pt-2 pr-2">
+                        <span class="main-title name">{{ item.name }}</span>
+                      </div>
+                      <div
+                        class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
+                        <span>Units: {{ item.total }}</span>
+                        <span>Owners: {{ item.uniqueCollectors }}</span>
+                        <span>{{ urlPrefix.toUpperCase() }}</span>
+                      </div>
+                    </template>
+                  </SearchResultItem>
                 </div>
-              </div>
-            </div>
-
-            <div v-else>
-              <div class="media">
-                <div class="media-left">
-                  <BasicImage
-                    custom-class="is-32x32"
-                    :src="props.option.image || '/placeholder.webp'" />
-                  <!-- <div class="preview-media-wrapper">
-                  <PreviewMediaResolver
-                    v-if="!props.option.image && props.option.animation_url"
-                    :src="props.option.animation_url"
-                    :metadata="props.option.metadata"
-                    :mimeType="props.option.type"
-                  />
-                  </div> -->
-                </div>
-                <div class="media-content">
-                  {{ props.option.name }}
-                </div>
-              </div>
-            </div>
-          </template>
-          <template #footer>
-            <a
-              v-if="autocompleteFooterShow"
-              class="navbar-item"
-              style="justify-content: center; margin-right: 0.8em"
-              @click.stop.prevent="searchSuggestionEachTypeMaxNum = bigNum">
-              All results
-            </a>
+                <nuxt-link :to="{ name: 'series-insight' }">
+                  <div :class="loadMoreItemClassName">
+                    {{ $t('search.rankings') }} -->
+                  </div>
+                </nuxt-link>
+              </b-tab-item>
+            </b-tabs>
           </template>
         </b-autocomplete>
         <div v-if="!isVisible && hideSearchInput">
@@ -170,15 +242,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Ref, mixins } from 'nuxt-property-decorator'
+import {
+  Component,
+  Emit,
+  Prop,
+  Ref,
+  Watch,
+  mixins,
+} from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
-import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
-import { SearchQuery, SearchSuggestion } from './types'
+import { SearchQuery } from './types'
 import { denyList } from '@/utils/constants'
-import { CollectionWithMeta, NFT, NFTWithMeta } from '../../service/scheme'
-import { getSanitizer } from '../../utils'
+import {
+  CollectionWithMeta,
+  NFT,
+  NFTWithMeta,
+} from '@/components/rmrk/service/scheme'
+import { getSanitizer } from '@/components/rmrk/utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { logError, mapNFTorCollectionMetadata } from '~/utils/mappers'
@@ -187,23 +269,23 @@ import {
   processMetadata,
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
-import { convertLastEventToNft } from '@/utils/carousel'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
-import { LastEvent } from '~/utils/types/types'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
 import ChainMixin from '~/utils/mixins/chainMixin'
+import { RowSeries } from '~/components/series/types'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
 @Component({
   components: {
     Sort: () => import('./SearchSortDropdown.vue'),
-    TypeTagInput: () => import('./TypeTagInput.vue'),
+    SearchResultItem: () => import('./SearchResultItem.vue'),
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
     PriceRange: () => import('@/components/shared/format/PriceRange.vue'),
+    Money: () => import('@/components/shared/format/Money.vue'),
     // PreviewMediaResolver: () => import('@/components/rmrk/Media/PreviewMediaResolver.vue'), // TODO: need to fix CSS for model-viewer
   },
 })
@@ -219,10 +301,9 @@ export default class SearchBar extends mixins(
   @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
   @Prop(Boolean) public hideSearchInput!: boolean
-  @Prop(Boolean) public showDefaultSuggestions!: boolean
   @Ref('searchRef') readonly searchRef
 
-  protected isVisible = false
+  public isVisible = false
   private query: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
@@ -230,23 +311,52 @@ export default class SearchBar extends mixins(
     listed: this.$route.query?.listed?.toString() === 'true',
   }
 
-  private first = 30
+  private first = 5
   private currentValue = 1
   private nftResult: NFTWithMeta[] = []
   private collectionResult: CollectionWithMeta[] = []
   private searchString = ''
-  private name = ''
+  public name = ''
   private searched: NFT[] = []
-  private rangeSlider: [
+  public rangeSlider: [
     number | string | undefined,
     number | string | undefined
   ] = [undefined, undefined]
-  private sliderDirty = false
-  private searchSuggestionEachTypeMaxNum = 3
-  private bigNum = 1e10
-  private keyDownNativeEnterFlag = true
-  private defaultNFTSuggestions: (NFTWithMeta & { itemType: 'NFT' })[] = []
-  private defaultCollectionSuggestions: CollectionWithMeta[] = []
+  public sliderDirty = false
+  public searchSuggestionEachTypeMaxNum = 5
+  public defaultCollectionSuggestions: (CollectionWithMeta & RowSeries)[] = []
+  public activeSearchTab = 'Collections'
+  public activeTrendingTab = 'Trending'
+  public selectedIndex = -1
+  public isCollectionResultLoading = false
+  public isNFTResultLoading = false
+
+  fetch() {
+    this.fetchSuggestions()
+  }
+
+  get totalItemsAtCurrentTab() {
+    if (!this.name) {
+      return this.defaultCollectionSuggestions.length
+    }
+    return this.activeSearchTab === 'NFTs'
+      ? this.nftSuggestion.length
+      : this.collectionSuggestion.length
+  }
+
+  get loadMoreItemClassName() {
+    return this.selectedIndex === this.totalItemsAtCurrentTab
+      ? 'selected-item'
+      : 'link-item'
+  }
+
+  get selectedItemListMap() {
+    return {
+      Trending: this.defaultCollectionSuggestions,
+      Collections: this.collectionSuggestion,
+      NFTs: this.nftSuggestion,
+    }
+  }
 
   get applyDisabled(): boolean {
     const [min, max] = this.rangeSlider as [
@@ -273,49 +383,13 @@ export default class SearchBar extends mixins(
     return undefined
   }
 
-  public async fetchSuggestionsOnce() {
-    if (
-      this.showDefaultSuggestions &&
-      this.urlPrefix === 'rmrk' &&
-      this.defaultCollectionSuggestions.length === 0
-    ) {
+  get showDefaultSuggestions() {
+    return this.urlPrefix === 'rmrk'
+  }
+
+  public async fetchSuggestions() {
+    if (this.showDefaultSuggestions) {
       try {
-        const { data } = await this.$apollo.query<{
-          events: LastEvent[]
-        }>({
-          query: lastNftListByEvent,
-          client: this.client,
-          variables: {
-            limit: this.searchSuggestionEachTypeMaxNum,
-            event: 'LIST',
-          },
-        })
-
-        const nfts = [...data.events].map((e) => convertLastEventToNft(e).nft)
-
-        const nFTMetadataList: string[] = (nfts as any).map(
-          mapNFTorCollectionMetadata
-        )
-        getCloudflareImageLinks(nFTMetadataList).then((imageLinks) => {
-          const nftResult: (NFTWithMeta & { itemType: 'NFT' })[] = []
-          processMetadata<NFTWithMeta>(nFTMetadataList, (meta, i) => {
-            nftResult.push({
-              ...nfts[i],
-              ...meta,
-              itemType: 'NFT',
-              image:
-                (nfts[i]?.metadata &&
-                  imageLinks[fastExtract(nfts[i].metadata)]) ||
-                getSanitizer(meta.image || '')(meta.image || ''),
-              animation_url: getSanitizer(meta.animation_url || '')(
-                meta.animation_url || ''
-              ),
-            })
-          }).then(() => {
-            this.defaultNFTSuggestions = nftResult
-          })
-        })
-
         const result = await this.$apollo.query({
           query: seriesInsightList,
           client: this.client,
@@ -329,11 +403,11 @@ export default class SearchBar extends mixins(
           data: { collectionEntities: collections },
         } = result
 
-        const collectionMetadataList = collections.map(
-          mapNFTorCollectionMetadata
-        )
+        const collectionMetadataList = collections
+          .slice(0, this.searchSuggestionEachTypeMaxNum)
+          .map(mapNFTorCollectionMetadata)
         getCloudflareImageLinks(collectionMetadataList).then((imageLinks) => {
-          const collectionResult: CollectionWithMeta[] = []
+          const collectionResult: (CollectionWithMeta & RowSeries)[] = []
           processMetadata<CollectionWithMeta>(
             collectionMetadataList,
             (meta, i) => {
@@ -427,81 +501,27 @@ export default class SearchBar extends mixins(
     return this.currentValue * this.first - this.first
   }
 
-  get autocompleteFooterShow() {
-    const searchResultExist =
-      this.nftResult.length > 0 || this.collectionResult.length > 0
-    return (
-      searchResultExist && this.searchSuggestionEachTypeMaxNum !== this.bigNum
-    )
+  get collectionSuggestion() {
+    return this.collectionResult.slice(0, this.searchSuggestionEachTypeMaxNum)
   }
 
-  get searchSuggestion() {
-    const suggestions: SearchSuggestion[] = []
-    const eachTypeMaxNum = this.searchSuggestionEachTypeMaxNum
-
-    // whether show Search
-    // const currentSearchNameInHistorySearch = this.oldSearchResult(this.name)
-    // if (!currentSearchNameInHistorySearch && this.name) {
-    //   suggestions.push({
-    //     type: 'Search',
-    //     item: [{ type: 'Search', name: this.name }],
-    //   })
-    // }
-
-    // show default suggestions when no search has been done yet (e.g. on focus)
-    if (!this.searchString) {
-      if (this.defaultNFTSuggestions.length > 0) {
-        suggestions.push({
-          type: 'Newest Listings',
-          item: this.defaultNFTSuggestions,
-        })
-      }
-      if (this.defaultCollectionSuggestions.length > 0) {
-        suggestions.push({
-          type: 'Popular Collections',
-          item: this.defaultCollectionSuggestions,
-        })
-      }
-    }
-
-    // whether show History
-    if (this.filterSearch.length > 0) {
-      suggestions.push({
-        type: 'History',
-        item:
-          this.filterSearch.length > eachTypeMaxNum
-            ? this.filterSearch.slice(0, eachTypeMaxNum)
-            : this.filterSearch,
-      })
-    }
-
-    // whether show Collection Item
-    if (this.collectionResult.length > 0) {
-      suggestions.push({
-        type: 'Collections',
-        item:
-          this.collectionResult.length > eachTypeMaxNum
-            ? this.collectionResult.slice(0, eachTypeMaxNum)
-            : this.collectionResult,
-      })
-    }
-
-    // whether show NFT Item
-    if (this.nftResult.length > 0) {
-      suggestions.push({
-        type: 'Items',
-        item:
-          this.nftResult.length > eachTypeMaxNum
-            ? this.nftResult.slice(0, eachTypeMaxNum)
-            : this.nftResult,
-      })
-    }
-
-    return suggestions
+  get nftSuggestion() {
+    return this.nftResult.slice(0, this.searchSuggestionEachTypeMaxNum)
   }
 
   get replaceBuyNowWithYolo(): boolean {
     return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
+  }
+
+  public gotoGalleryItem(item: NFTWithMeta) {
+    this.$router.push(`/${this.urlPrefix}/gallery/${item.id}`)
+  }
+  public gotoCollectionItem(item: CollectionWithMeta) {
+    this.$router.push(`/${this.urlPrefix}/collection/${item.id}`)
+  }
+
+  private closeDropDown() {
+    this.searchRef.isActive = false
   }
 
   @Emit('update:listed')
@@ -575,59 +595,79 @@ export default class SearchBar extends mixins(
     return newFinal
   }
 
-  // not highlight search, just input keyword and enter
   nativeSearch() {
-    this.keyDownNativeEnterFlag = true
-    setTimeout(() => {
-      if (this.keyDownNativeEnterFlag) {
-        this.updateSelected({
-          type: 'Search',
-          name: this.searchString,
-        })
-        this.redirectToGalleryPageIfNeed()
-      }
-    }, 100) // it means no highlight and not highlight select
-  }
+    this.closeDropDown()
 
-  @Debounce(50)
-  updateSelected(value: any) {
-    //To handle clearing event
-    this.keyDownNativeEnterFlag = false
-    if (!value) {
+    // not selected
+    if (this.selectedIndex === -1) {
+      this.redirectToGalleryPageIfNeed()
       return
     }
-    if (value.type == 'History') {
-      this.updateSearch(value.name)
-      this.redirectToGalleryPageIfNeed()
-    } else if (value.type == 'Search') {
-      this.insertNewHistory()
-      this.updateSearch(value.name)
-    } else if (value.itemType === 'NFT' || value.__typename === 'NFTEntity') {
-      this.$router.push({
-        name: this.routeOf('detail-id'),
-        params: { id: value.id },
-      })
-    } else if (
-      value.__typename === 'CollectionEntity' ||
-      value.__typename === 'Series'
-    ) {
-      this.$router.push({
-        name: this.routeOf('collection-id'),
-        params: { id: value.id },
-      })
+
+    const isSeeMore = this.selectedIndex >= this.totalItemsAtCurrentTab
+
+    // trending collection
+    if (!this.name) {
+      if (isSeeMore) {
+        this.$router.push({ name: 'series-insight' })
+      } else {
+        this.gotoCollectionItem(
+          this.selectedItemListMap['Trending'][this.selectedIndex]
+        )
+      }
+      return
     }
+
+    // search result
+    if (isSeeMore) {
+      this.redirectToGalleryPageIfNeed()
+    } else {
+      if (this.activeSearchTab === 'NFTs') {
+        this.gotoGalleryItem(
+          this.selectedItemListMap['NFTs'][this.selectedIndex]
+        )
+      } else {
+        this.gotoCollectionItem(
+          this.selectedItemListMap['Collections'][this.selectedIndex]
+        )
+      }
+    }
+  }
+
+  onKeydownSelected(step: 1 | -1) {
+    const total = this.totalItemsAtCurrentTab + 1
+    this.selectedIndex = (total + this.selectedIndex + step) % total
+  }
+
+  @Watch('activeSearchTab')
+  watchActiveSearchTab() {
+    this.resetSelectedIndex()
+  }
+
+  @Watch('name')
+  watchSearchKey() {
+    this.resetSelectedIndex()
+  }
+
+  resetSelectedIndex() {
+    this.selectedIndex = -1
   }
 
   redirectToGalleryPageIfNeed() {
+    this.updateSearch(this.name)
     if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
       this.$router.replace({
         name: this.routeOf('explore'),
-        query: this.$route.query,
+        query: {
+          ...this.$route.query,
+          tab:
+            this.activeSearchTab === 'Collections' ? 'COLLECTION' : 'GALLERY',
+        },
       })
     }
   }
 
-  protected routeOf(url: string): string {
+  public routeOf(url: string): string {
     return `${this.urlPrefix}-${url}`
   }
 
@@ -638,8 +678,8 @@ export default class SearchBar extends mixins(
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
-    if (value && value !== this.searchQuery) {
-      this.replaceUrl({ search: value })
+    if (value !== this.searchQuery) {
+      this.replaceUrl({ search: value ?? undefined })
     }
     return value
   }
@@ -678,8 +718,9 @@ export default class SearchBar extends mixins(
       return
     }
 
+    this.isCollectionResultLoading = true
+    this.isNFTResultLoading = true
     this.query.search = value
-    this.searchSuggestionEachTypeMaxNum = 3
     try {
       const queryNft = await resolveQueryPath(this.client, 'nftListWithSearch')
       const nfts = this.$apollo.query({
@@ -697,7 +738,9 @@ export default class SearchBar extends mixins(
       const {
         data: { nFTEntities },
       } = await nfts
-      const nftList = unwrapSafe(nFTEntities)
+      const nftList = unwrapSafe(
+        nFTEntities.slice(0, this.searchSuggestionEachTypeMaxNum)
+      )
       const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
       getCloudflareImageLinks(metadataList).then((imageLinks) => {
         const nftResult: NFTWithMeta[] = []
@@ -715,12 +758,14 @@ export default class SearchBar extends mixins(
           })
         }).then(() => {
           this.nftResult = nftResult
+          this.isNFTResultLoading = false
         })
       })
     } catch (e) {
       logError(e, (msg) =>
         this.$consola.warn('[PREFETCH] Unable fo fetch', msg)
       )
+      this.isNFTResultLoading = false
     }
     try {
       const query = await resolveQueryPath(
@@ -745,7 +790,9 @@ export default class SearchBar extends mixins(
       const {
         data: { collectionEntities },
       } = await collectionResult
-      const collections = unwrapSafe(collectionEntities)
+      const collections = unwrapSafe(
+        collectionEntities.slice(0, this.searchSuggestionEachTypeMaxNum)
+      )
       const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
       getCloudflareImageLinks(metadataList).then((imageLinks) => {
         const collectionResult: CollectionWithMeta[] = []
@@ -760,12 +807,14 @@ export default class SearchBar extends mixins(
           })
         }).then(() => {
           this.collectionResult = collectionResult
+          this.isCollectionResultLoading = false
         })
       })
     } catch (e) {
       logError(e, (msg) =>
         this.$consola.warn('[PREFETCH] Unable fo fetch', this.offset, msg)
       )
+      this.isCollectionResultLoading = false
     }
   }
 
@@ -806,27 +855,7 @@ export default class SearchBar extends mixins(
     }
   }
 
-  private get filterSearch(): NFT[] {
-    // filter the history search which is not similar to searchString
-    if (!this.searched.length) {
-      return []
-    }
-    return this.searched.filter((option) => {
-      return (
-        option.name
-          .toString()
-          .toLowerCase()
-          .indexOf((this.searchString || '').toLowerCase()) >= 0
-      )
-    })
-  }
-
-  private removeSearchHistory(value: string): void {
-    this.searched = this.searched.filter((r) => r.name !== value)
-    localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
-  }
-
-  private sliderChange([min, max]: [
+  public sliderChange([min, max]: [
     number | undefined,
     number | undefined
   ]): void {
@@ -858,25 +887,23 @@ export default class SearchBar extends mixins(
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
 
-.b-skeleton {
-  height: 32px !important;
-  width: 32px !important;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+.gallery-search {
+  .selected-item {
+    box-sizing: border-box;
+    border: 1px solid $primary !important;
+  }
 
-.media {
-  align-items: center;
-}
-.is-32x32 {
-  font-size: 0;
-}
-.is-text {
-  &:hover,
-  &:focus {
-    background-color: $primary !important;
-    transition: all 3s !important;
+  .link-item {
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+
+  .media-content {
+    .name {
+      max-width: 34ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }
 </style>
