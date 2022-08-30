@@ -25,7 +25,7 @@ describe('Identity.vue component', () => {
   users.forEach(({ address, name, twitter, startedMinting }) => {
     it(
       `should get Identity stats for ${name}`,
-      { scrollBehavior: false },
+      { scrollBehavior: false, browser: 'chrome' },
       () => {
         // https://github.com/cypress-io/cypress-example-recipes/blob/master/examples/testing-dom__clipboard
         cy.wrap(
