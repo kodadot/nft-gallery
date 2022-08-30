@@ -40,38 +40,13 @@ const props = defineProps({
     type: String,
     default: 'gallery',
   },
+  options: {
+    type: Object,
+    default: () => ({}),
+  },
 })
 
 const current = computed(() => props.page - 1) // 0-indexed
-const options = {
-  itemsToShow: 2,
-  breakpoints: {
-    300: {
-      itemsToShow: 1,
-    },
-    600: {
-      itemsToShow: 1.5,
-    },
-    800: {
-      itemsToShow: 2,
-    },
-    900: {
-      itemsToShow: 2.5,
-    },
-    1000: {
-      itemsToShow: 3,
-    },
-    1400: {
-      itemsToShow: 4,
-    },
-    1800: {
-      itemsToShow: 4.5,
-    },
-    2800: {
-      itemsToShow: 5,
-    },
-  },
-}
 </script>
 
 <style lang="scss">

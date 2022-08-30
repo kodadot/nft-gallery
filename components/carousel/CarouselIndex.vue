@@ -14,7 +14,7 @@
           v-model="page"
           simple
           preserve-scroll
-          :total="total"
+          :total="totalItems"
           :per-page="1" />
       </div>
       <b-button
@@ -29,7 +29,7 @@
       </b-button>
     </div>
 
-    <CarouselList :nfts="nfts" :page="page" />
+    <CarouselList :nfts="nfts" :page="page" :options="options" />
   </div>
 </template>
 
@@ -52,5 +52,59 @@ const props = defineProps<{
 
 const page = ref(1)
 const isLoading = computed(() => props.loading)
-const total = computed(() => props.nfts.length)
+const total = ref(props.nfts.length)
+const totalItems = computed(() => total.value)
+const options = {
+  itemsToShow: 2,
+  breakpoints: {
+    300: {
+      itemsToShow: 1,
+    },
+    600: {
+      itemsToShow: 1.5,
+    },
+    800: {
+      itemsToShow: 2,
+    },
+    900: {
+      itemsToShow: 2.5,
+    },
+    1000: {
+      itemsToShow: 3,
+    },
+    1400: {
+      itemsToShow: 4,
+    },
+    1800: {
+      itemsToShow: 4.5,
+    },
+    2800: {
+      itemsToShow: 5,
+    },
+  },
+}
+const breakpoints = Object.keys(options.breakpoints).reverse()
+
+// adjust total based on breakpoints
+const updateTotal = () => {
+  const width = window.innerWidth
+
+  for (const breakpoint of breakpoints) {
+    if (parseInt(breakpoint) <= width) {
+      const items = options.breakpoints[breakpoint].itemsToShow
+      total.value = Math.round(props.nfts.length - items + 1)
+      console.log('total', total.value)
+      break
+    }
+  }
+}
+
+watch(
+  () => props.nfts,
+  () => {
+    if (props.nfts.length && props.actionType === 'pagination') {
+      updateTotal()
+    }
+  }
+)
 </script>
