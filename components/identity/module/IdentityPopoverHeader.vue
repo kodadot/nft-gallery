@@ -35,6 +35,7 @@
           icon="copy"
           size="is-small"
           class="copy-icon"
+          data-cy="identity-clipboard"
           @click.native="toast('Copied to clipboard')"></b-icon>
       </p>
       <p
