@@ -23,10 +23,10 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { useCarouselUrl } from '../utils/useCarousel'
 
 const { urlOf } = useCarouselUrl()
+const url = inject('itemUrl') as string
 
 defineProps<{
   list: CarouselNFT
-  url: string
 }>()
 </script>
 

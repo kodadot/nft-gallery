@@ -48,7 +48,11 @@ const props = defineProps<{
   actionType?: 'pagination' | 'link'
   linkUrl?: string
   linkText?: string
+  itemUrl?: string
 }>()
+
+const itemUrl = computed(() => props.itemUrl || 'gallery')
+provide('itemUrl', itemUrl.value)
 
 const page = ref(1)
 const isLoading = computed(() => props.loading)

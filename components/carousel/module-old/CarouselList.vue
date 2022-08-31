@@ -10,8 +10,8 @@
     class="carousel-card-list">
     <template #item="list">
       <div class="card mx-2">
-        <CarouselCardMedia :list="list" :url="url" />
-        <CarouselCardInfo :list="list" :url="url" />
+        <CarouselCardMedia :list="list" />
+        <CarouselCardInfo :list="list" />
         <CarouselCardFooter :list="list" />
       </div>
     </template>
@@ -35,10 +35,6 @@ const props = defineProps({
   page: {
     type: Number,
     default: 1,
-  },
-  url: {
-    type: String,
-    default: 'gallery',
   },
   options: {
     type: Object,
