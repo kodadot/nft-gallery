@@ -423,30 +423,6 @@
     "handleRequired": "Votre identifiant est requis",
     "deposit": "Dépôt"
   },
-  "massMint": {
-    "tutorial": {
-      "basic": {
-        "title": "Basic mass mint",
-        "description": "Il s'agit de la Monnaie de masse de base, elle créera des ENF avec le même symbole et le même nom, mais avec des montants différents. Elle créera également des quantités différentes de NFT avec le même symbole et le même nom, mais des quantités différentes."
-      },
-      "range": {
-        "title": "Mass mint range",
-        "description": "Vous pouvez spécifier l'intervalle de la frappe en masse, il créera des ENF avec le même symbole et le même nom, mais avec un montant différent. Elle créera également des quantités différentes de NFT avec le même symbole et le même nom, mais des quantités différentes."
-      },
-      "all": {
-        "title": "Mass mint all",
-        "description": "Vous pouvez spécifier l'intervalle de la frappe en masse, il créera des ENF avec le même symbole et le même nom, mais avec un montant différent. Elle créera également des quantités différentes de NFT avec le même symbole et le même nom, mais des quantités différentes."
-      }
-    },
-    "syntax": {
-      "file": "Nom du fichier (e.g awesome_1.jpg)",
-      "name": "Nom du NFT (e.g Awesome Token)",
-      "amount": "Prix du token (e.g 0.01)",
-      "description": "Description mutliligne (e.g This is an awesome token)",
-      "range": "Gamme des jetons (e.g 1-5)",
-      "all": "Appliquer à tous les jetons (utiliser trois points: ...)"
-    }
-  },
   "collapse": {
     "collection": {
       "description": {
