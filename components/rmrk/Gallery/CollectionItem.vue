@@ -135,7 +135,7 @@
 </template>
 
 <script lang="ts">
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { exist } from '@/components/search/exist'
 import { NFT } from '@/components/rmrk/service/scheme'
 import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
 import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
@@ -163,7 +163,7 @@ import {
   onlyPriceEvents,
   sanitizeIpfsUrl,
 } from '../utils'
-import { SearchQuery } from './Search/types'
+import { SearchQuery } from './search/types'
 import { isSameAccount } from '~/utils/account'
 
 const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
@@ -175,7 +175,7 @@ const components = {
     import('@/components/rmrk/Gallery/CollectionActivity.vue'),
   Sharing: () => import('@/components/shared/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-  Search: () => import('./Search/SearchBarCollection.vue'),
+  Search: () => import('@/components/search/SearchBarCollection.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),

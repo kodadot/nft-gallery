@@ -21,6 +21,9 @@ query nftListWithSearch(
   ) {
     ...nft
     ...nftDetails
+    collection {
+      name
+    }
   }
   nftEntitiesConnection(
     where: {

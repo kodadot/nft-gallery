@@ -59,6 +59,12 @@ html.light-mode {
 			background-color: inherit;
 		}
 
+		.navbar-dropdown a.navbar-item {
+			&:hover, &:focus {
+				background-color: $primary;
+			}
+		}
+
 		.navbar-item.has-dropdown:focus .navbar-link,
 		.navbar-item.has-dropdown:hover .navbar-link,
 		.navbar-item.has-dropdown.is-active .navbar-link {
@@ -267,5 +273,14 @@ html.light-mode {
 
 	.b-table .table .chevron-cell>a {
 		color: $primary  !important;
+	}
+
+	.main-title {
+		color: $text-light-theme;
+	}
+	.gallery-search {
+		.media-content {
+			color: gray;
+		}
 	}
 }

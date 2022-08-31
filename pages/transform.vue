@@ -10,20 +10,20 @@
       @keydown.native.space.prevent />
     <DisabledInput v-show="!disabled" label="KodaDot URL" :value="fullUrl" />
     <b-button
+      v-clipboard:copy="fullUrl"
       type="is-primary"
       icon-left="copy"
-      v-clipboard:copy="fullUrl"
       outlined
-      @click="toast"
-      :disabled="disabled">
+      :disabled="disabled"
+      @click="toast">
       {{ $t('general.copyUrl') }}
     </b-button>
     <b-button
       type="is-primary"
       icon-left="external-link-alt"
       outlined
-      @click="openUrl"
-      :disabled="disabled">
+      :disabled="disabled"
+      @click="openUrl">
       {{ $t('general.openUrl') }}
     </b-button>
   </section>
@@ -32,7 +32,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import transform from '@/utils/urlTransformer'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { exist } from '@/components/search/exist'
 
 @Component({
   components: {

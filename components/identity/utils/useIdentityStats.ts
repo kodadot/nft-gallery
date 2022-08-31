@@ -42,6 +42,24 @@ const whichData = ({ data, type }) => {
   return totalCount[type] || 0
 }
 
+const cacheTotalCount = ({ data, totalCreated, totalCollected, totalSold }) => {
+  const cacheData = {
+    created: {
+      totalCount: totalCreated,
+    },
+    collected: {
+      totalCount: totalCollected,
+    },
+    sold: {
+      totalCount: totalSold,
+    },
+    firstMintDate: data?.firstMint[0]?.createdAt || new Date(),
+    updatedAt: Date.now(),
+  }
+
+  return cacheData
+}
+
 export default function useIdentityStats({ address }) {
   const { $store } = useNuxtApp()
 
@@ -71,19 +89,12 @@ export default function useIdentityStats({ address }) {
       return
     }
 
-    const cacheData = {
-      created: {
-        totalCount: totalCreated.value,
-      },
-      collected: {
-        totalCount: totalCollected.value,
-      },
-      sold: {
-        totalCount: totalSold.value,
-      },
-      firstMintDate: data?.firstMint[0]?.createdAt,
-      updatedAt: Date.now(),
-    }
+    const cacheData = cacheTotalCount({
+      data,
+      totalCreated: totalCreated.value,
+      totalCollected: totalCollected.value,
+      totalSold: totalSold.value,
+    })
 
     firstMintDate.value = cacheData.firstMintDate
 
