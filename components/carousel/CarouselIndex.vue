@@ -6,6 +6,8 @@
           <h1 class="title is-2">{{ title }}</h1>
         </div>
       </div>
+
+      <CarouselList v-if="showCarousel" :nfts="nfts" />
     </div>
 
     <div v-if="!redesign && nfts.length" class="my-5">
@@ -38,17 +40,23 @@
         </b-button>
       </div>
 
-      <CarouselList :nfts="nfts" :page="page" :options="options" />
+      <CarouselListOld :nfts="nfts" :page="page" :options="options" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
-import CarouselList from './module-old/CarouselList.vue'
 
 import type { CarouselNFT } from '@/components/base/types'
 import type { RowSeries } from '@/components/series/types'
+
+const CarouselList = defineAsyncComponent(
+  () => import('./module/CarouselList.vue')
+)
+const CarouselListOld = defineAsyncComponent(
+  () => import('./module-old/CarouselList.vue')
+)
 
 const { redesign } = useExperiments()
 
@@ -70,6 +78,7 @@ const page = ref(1)
 const isLoading = computed(() => props.loading)
 const total = ref(props.nfts.length)
 const totalItems = computed(() => total.value)
+const showCarousel = computed(() => props.nfts.length)
 const options = {
   itemsToShow: 2,
   breakpoints: {

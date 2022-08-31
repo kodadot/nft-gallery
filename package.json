@@ -89,6 +89,7 @@
     "graphql": "^16.6.0",
     "highlight.js": "^11.6.0",
     "idb-keyval": "^6.2.0",
+    "keen-slider": "^6.7.0",
     "lazysizes": "^5.3.2",
     "lodash": "^4.17.21",
     "mingo": "^5.1.0",
