@@ -46,7 +46,7 @@
         </b-dropdown-item>
       </template>
       <b-dropdown-item v-if="isBsx || isSnek" has-link aria-role="menuitem">
-        <nuxt-link to="/bsx/incomingoffers">{{
+        <nuxt-link :to="`/${urlPrefix}/incomingoffers`">{{
           $t('incomingOffers')
         }}</nuxt-link>
       </b-dropdown-item>
