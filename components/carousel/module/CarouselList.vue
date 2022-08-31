@@ -21,40 +21,28 @@
             </nuxt-link>
 
             <div class="carousel-info">
-              <p>{{ item.name }}</p>
-              <p>{collection.name}</p>
+              <nuxt-link
+                :to="urlOf({ id: item.id, url })"
+                class="has-text-weight-bold carousel-info-name">
+                {{ item.name }}
+              </nuxt-link>
+
+              <!-- TODO: collection name -->
+              <!-- <p>{collection.name}</p> -->
 
               <div v-if="item.price" class="carousel-meta">
-                <Money :value="item.price" />
-                <div>{{ urlPrefix }}</div>
+                <Money :value="item.price" class="has-text-weight-bold" />
+                <p class="is-size-7">{{ urlPrefix }}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <svg
+      <div
         v-if="current !== 0"
-        :class="{
-          arrow: true,
-          'arrow--left': true,
-        }"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        @click="slider.prev()">
-        <path
-          d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"></path>
-      </svg>
-      <svg
-        v-if="slider"
-        :class="{
-          arrow: true,
-          'arrow--right': true,
-        }"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        @click="slider.next()">
-        <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"></path>
-      </svg>
+        class="arrow arrow-left"
+        @click="slider.prev()"></div>
+      <div class="arrow arrow-right" @click="slider.next()"></div>
     </div>
     <div v-if="slider" class="dots">
       <button
@@ -103,13 +91,13 @@ onMounted(() => {
       initial: current.value,
       breakpoints: {
         '(min-width: 400px)': {
-          slides: { perView: 2, spacing: 5 },
+          slides: { perView: 2.5, spacing: 32 },
         },
         '(min-width: 1000px)': {
-          slides: { perView: 4, spacing: 10 },
+          slides: { perView: 4.5, spacing: 32 },
         },
       },
-      slides: { perView: 1 },
+      slides: { perView: 1, spacing: 32 },
       slideChanged: (s) => {
         current.value = s.track.details.rel
       },
@@ -127,7 +115,19 @@ onMounted(() => {
   }
 
   .carousel-info {
+    border-top: 1px solid black;
     padding: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &-name {
+      color: black;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .carousel-meta {
@@ -167,8 +167,8 @@ onMounted(() => {
 }
 
 .arrow {
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -176,13 +176,73 @@ onMounted(() => {
   fill: #fff;
   cursor: pointer;
 
-  &--left {
-    left: 5px;
+  &-left {
+    left: -30px;
+
+    border-bottom: solid 40px transparent;
+    border-top: solid 40px transparent;
+    border-right: solid 60px black;
+
+    &::after {
+      content: '';
+      width: 0;
+      height: 0;
+
+      position: absolute;
+      border-bottom: solid 36px transparent;
+      border-top: solid 36px transparent;
+      border-right: solid 55px white;
+      top: -36px;
+      right: -58px;
+    }
+
+    &::before {
+      content: '';
+      width: 0;
+      height: 0;
+
+      position: absolute;
+      border-bottom: solid 40px transparent;
+      border-top: solid 40px transparent;
+      border-right: solid 60px black;
+      top: -34px;
+      right: -56px;
+    }
   }
 
-  &--right {
+  &-right {
     left: auto;
-    right: 5px;
+    right: -30px;
+
+    border-bottom: solid 40px transparent;
+    border-top: solid 40px transparent;
+    border-left: solid 60px black;
+
+    &::after {
+      content: '';
+      width: 0;
+      height: 0;
+
+      position: absolute;
+      border-bottom: solid 36px transparent;
+      border-top: solid 36px transparent;
+      border-left: solid 55px white;
+      top: -36px;
+      left: -58px;
+    }
+
+    &::before {
+      content: '';
+      width: 0;
+      height: 0;
+
+      position: absolute;
+      border-bottom: solid 40px transparent;
+      border-top: solid 40px transparent;
+      border-left: solid 60px black;
+      top: -34px;
+      left: -56px;
+    }
   }
 }
 </style>
