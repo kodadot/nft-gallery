@@ -45,7 +45,7 @@
           <nuxt-link to="/transform">{{ $t('transform') }}</nuxt-link>
         </b-dropdown-item>
       </template>
-      <b-dropdown-item v-if="isBsx" has-link aria-role="menuitem">
+      <b-dropdown-item v-if="isBsx || isSnek" has-link aria-role="menuitem">
         <nuxt-link to="/bsx/incomingoffers">{{
           $t('incomingOffers')
         }}</nuxt-link>
@@ -99,6 +99,7 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public value!: any
   @Prop() public isRmrk!: boolean
   @Prop() public isBsx!: boolean
+  @Prop() public isSnek!: boolean
 
   set account(account: string) {
     this.$store.dispatch('setAuth', { address: account })
