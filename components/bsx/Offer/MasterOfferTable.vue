@@ -1,11 +1,22 @@
 <template>
   <div>
-    <div class="is-flex is-align-items-center is-justify-content-center mb-5">
+    <div class="is-flex is-align-items-start is-justify-content-center mb-5">
       <AddressInput
         v-model="destinationAddress"
+        :empty-on-error="false"
         class="address-input mr-3"
+        icon="close-circle"
         :strict="false"
         @input="handleAddressUpdate" />
+      <b-button
+        v-if="isLogIn"
+        type="is-primary"
+        icon-left="paper-plane"
+        class="fill-button"
+        outlined
+        @click="fillUpAddress">
+        Fill My Address
+      </b-button>
     </div>
     <Loader v-model="isLoading" :status="status" />
     <section>
@@ -192,10 +203,19 @@ export default class MasterOfferTable extends mixins(
       this.$router.replace({ query: { tab } }).catch(() => null) // null to further not throw navigation errors
     }
   }
+
+  private fillUpAddress() {
+    this.destinationAddress = this.accountId
+    this.handleAddressUpdate(this.accountId)
+  }
 }
 </script>
 <style scoped>
 .address-input {
   width: 500px;
+}
+
+.fill-button {
+  height: 3.25em;
 }
 </style>
