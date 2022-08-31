@@ -16,9 +16,15 @@ html.dark-mode {
 	}
 
 	.navbar {
-		.search-navbar input,
-		.search-navbar-container-mobile input {
+		.search-navbar input {
 			color: $black;
 		}
+
+		.navbar-dropdown a.navbar-item {
+			&:hover, &:focus {
+				background-color: $primary;
+			}
+		}
+
 	}
 }

@@ -31,7 +31,7 @@
       <p class="is-size-7 mb-1" data-cy="identity-address">
         {{ shortenedAddress }}
         <b-icon
-          v-clipboard:copy="identity?.address"
+          v-clipboard:copy="address"
           icon="copy"
           size="is-small"
           class="copy-icon"

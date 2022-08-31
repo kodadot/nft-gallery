@@ -1,7 +1,7 @@
 <template>
   <ModalWrapper icon="qrcode" :title="title" :type="type">
-    <template v-slot:default>
-      <QRCode :text="qrCodePath" color="#db2980" bgColor="#000" />
+    <template #default>
+      <QRCode :text="qrCodePath" color="#db2980" bg-color="#000" />
     </template>
   </ModalWrapper>
 </template>

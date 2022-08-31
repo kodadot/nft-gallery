@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import ChainMixin from '@/utils/mixins/chainMixin'
 
 const baseLineOptions = {
@@ -29,12 +29,12 @@ const baseLineOptions = {
 }
 
 import {
-  getCollectionChartData,
-  getLabel,
   CollectionChartData as ChartData,
-  mapToAverage,
+  getCollectionChartData,
   getCollectionMedian,
+  getLabel,
   getMovingAverage,
+  mapToAverage,
 } from '@/utils/chart'
 
 // types

@@ -3,15 +3,16 @@
     <BasicSlider
       v-model="vRoyalty"
       label="mint.royalty.rate"
-      :customFormatter="(v) => `${v}%`" />
+      :max="99"
+      :custom-formatter="(v) => `${v}%`" />
     <BasicSwitch v-model="isMine" label="mint.royalty.mine" />
     <AddressInput
       v-show="!isMine"
-      label="mint.royalty.receiver"
       v-model="destinationAddress"
-      @input="handleAddressUpdate"
+      label="mint.royalty.receiver"
       :strict="false"
-      emptyOnError />
+      empty-on-error
+      @input="handleAddressUpdate" />
   </div>
 </template>
 
@@ -19,9 +20,9 @@
 import {
   Component,
   Emit,
-  mixins,
   PropSync,
   Watch,
+  mixins,
 } from 'nuxt-property-decorator'
 import AuthMixin from '~/utils/mixins/authMixin'
 

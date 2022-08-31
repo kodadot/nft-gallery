@@ -73,7 +73,7 @@ import {
   NFTMetadata,
 } from '@/components/rmrk/service/scheme'
 import { getSanitizer } from '@/components/rmrk/utils'
-import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
+import { SearchQuery } from '@/components/rmrk/Gallery/search/types'
 import 'lazysizes'
 
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
@@ -95,8 +95,7 @@ const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
-  Search: () =>
-    import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
+  Search: () => import('@/components/search/SearchBarCollection.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   CollectionDetail: () =>

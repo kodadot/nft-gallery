@@ -59,6 +59,12 @@ html.light-mode {
 			background-color: inherit;
 		}
 
+		.navbar-dropdown a.navbar-item {
+			&:hover, &:focus {
+				background-color: $primary;
+			}
+		}
+
 		.navbar-item.has-dropdown:focus .navbar-link,
 		.navbar-item.has-dropdown:hover .navbar-link,
 		.navbar-item.has-dropdown.is-active .navbar-link {
@@ -80,9 +86,18 @@ html.light-mode {
 			color: $text-light-theme;
 		}
 
-		.search-navbar input,
-		.search-navbar-container-mobile input {
+		.search-navbar input {
 			background-color: rgba(229, 229, 229, 0.55);
+		}
+
+		.search-navbar-container-mobile {
+			.gallery-search .control .icon {
+				color: $placeholder-color  !important;
+			}
+
+			input {
+				background-color: $white;
+			}
 		}
 	}
 
@@ -95,7 +110,7 @@ html.light-mode {
 		}
 
 		.icon {
-			color: $text-light-theme!important;
+			color: $text-light-theme  !important;
 		}
 	}
 
@@ -120,7 +135,8 @@ html.light-mode {
 	.pagination-next,
 	.pagination-link,
 	body .title:not(h2),
-	.auth-avatar .subtitle {
+	.auth-avatar .subtitle,
+	.royalty {
 		color: $text-light-theme;
 	}
 
@@ -139,7 +155,8 @@ html.light-mode {
 		background-color: $white;
 	}
 
-	.input::placeholder, .textarea::placeholder {
+	.input::placeholder,
+	.textarea::placeholder {
 		color: #b2b2b2 !important;
 	}
 
@@ -255,6 +272,15 @@ html.light-mode {
 	}
 
 	.b-table .table .chevron-cell>a {
-		color: $primary !important;
+		color: $primary  !important;
+	}
+
+	.main-title {
+		color: $text-light-theme;
+	}
+	.gallery-search {
+		.media-content {
+			color: gray;
+		}
 	}
 }
