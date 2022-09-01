@@ -56,12 +56,13 @@ const current = computed(() => props.page - 1) // 0-indexed
   }
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-}
 
-.card {
-  background-color: #0e0e10;
-  .media-content {
-    width: 100%;
+  .card {
+    background-color: #0e0e10;
+
+    .media-content {
+      width: 100%;
+    }
   }
 }
 </style>
