@@ -10,10 +10,10 @@ describe('landingRmrk', () => {
 
 describe('landingBsx', () => {
   it('loadLanding', () => {
-    cy.visit('/bsx')
+    cy.visit('/snek')
   })
   it('checkNavbar', () => {
-    cy.bsxNavbar()
+    cy.snekNavbar()
   })
 })
 
@@ -53,9 +53,9 @@ describe('exploreRmrkGallery', () => {
   })
 })
 
-describe('exploreBsxCollections', () => {
+describe('exploreSnekCollections', () => {
   it('loadExplore', () => {
-    cy.visit('/bsx/explore')
+    cy.visit('/snek/explore')
   })
   it('exploreTabs', () => {
     cy.exploreTabs()
@@ -68,9 +68,9 @@ describe('exploreBsxCollections', () => {
   })
 })
 
-describe('exploreBsxGallery', () => {
+describe('exploreSnekGallery', () => {
   it('loadExplore', () => {
-    cy.visit('/bsx/explore')
+    cy.visit('/snek/explore')
   })
   it('exploreTabs', () => {
     cy.exploreTabs()
@@ -86,31 +86,27 @@ describe('exploreBsxGallery', () => {
   it('galleryInputFields', () => {
     cy.galleryInputFields(100)
   })
-  it('gallerySortBsx', () => {
-    cy.bsxGallerySortBy()
+  it('gallerySortSnek', () => {
+    cy.snekGallerySortBy()
   })
   it('galleryBuyNow', () => {
     cy.galleryBuyNow(100)
   })
 })
 
-describe('bsxCollectionItem', () => {
+describe('snekCollectionItem', () => {
   it('collectionActions', () => {
-    cy.bsxCollectionActions(
-      '2600576003',
-      'nuclear explosion',
-      'bXkVgi...6Xuvih'
-    )
+    cy.snekCollectionActions('3132385849', 'Morski pes', 'bXkmyH...J5CSGP')
   })
 })
 
-describe('bsxGalleryItem', () => {
+describe('snekGalleryItem', () => {
   it('galleryListedItemActions', () => {
     cy.loginWithKeyring()
-    cy.bsxGalleryListedItemActions('2600576003-1', 'bXkVgi...6Xuvih')
+    cy.snekGalleryListedItemActions('2773267381-1', 'bXkQe5...qDNyCN')
   })
   it('galleryUnlistedItemActions', () => {
-    cy.bsxGalleryUnlistedItemActions('2600576003-4', 'bXkVgi...6Xuvih')
+    cy.snekGalleryUnlistedItemActions('2773267381-3', 'bXkQe5...qDNyCN')
   })
 })
 
