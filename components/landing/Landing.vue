@@ -68,7 +68,9 @@
           </div>
         </div>
       </div>
-      <div v-if="prefix === 'rmrk' || prefix === 'bsx'" class="py-5">
+      <div
+        v-if="prefix === 'rmrk' || prefix === 'bsx' || prefix === 'snek'"
+        class="py-5">
         <LazyCarouselTypeLatestSales class="my-5" />
         <LazyCarouselTypePopularCollection
           v-if="prefix === 'rmrk'"

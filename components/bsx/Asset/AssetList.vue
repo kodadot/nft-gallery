@@ -4,6 +4,11 @@
       <h1 class="title is-2 has-text-centered">
         {{ $t('Assets') }}
       </h1>
+      <p class="subtitle is-size-6 has-text-centered mt-1 mb-1">
+        {{
+          "Select which asset you'd like to use for paying fees for transactions"
+        }}
+      </p>
     </div>
     <Loader v-model="isLoading" :status="status" />
     <AssetTable
