@@ -41,15 +41,18 @@
       <div
         v-if="current !== 0"
         class="arrow arrow-left"
-        @click="slider.prev()"></div>
-      <div class="arrow arrow-right" @click="slider.next()"></div>
+        @click="slider?.prev()"></div>
+      <div
+        v-if="current !== dotHelper.length - 1"
+        class="arrow arrow-right"
+        @click="slider?.next()"></div>
     </div>
     <div v-if="slider" class="dots">
       <button
         v-for="(_slide, idx) in dotHelper"
         :key="idx"
         :class="{ dot: true, active: current === idx }"
-        @click="slider.moveToIdx(idx)"></button>
+        @click="slider?.moveToIdx(idx)"></button>
     </div>
   </div>
 </template>
@@ -62,47 +65,42 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import Money from '@/components/shared/format/Money.vue'
 
 import 'keen-slider/keen-slider.min.css'
-import KeenSlider from 'keen-slider'
-
+import { useKeenSlider } from 'keen-slider/vue.es'
 import { useCarouselUrl } from '../utils/useCarousel'
 
 const props = defineProps<{
   nfts: CarouselNFT[]
 }>()
 
+const url = inject('itemUrl') as string
+const current = ref(0)
+
 const { urlOf } = useCarouselUrl()
 const { urlPrefix } = usePrefix()
-
-const url = inject('itemUrl') as string
-const wrapper = ref<HTMLElement>()
-const slider = ref()
-const current = ref(0)
+const [wrapper, slider] = useKeenSlider({
+  initial: current.value,
+  slideChanged: (s) => {
+    current.value = s.track.details.rel
+  },
+  breakpoints: {
+    '(min-width: 400px)': {
+      slides: { perView: 2.5, spacing: 32 },
+    },
+    '(min-width: 1000px)': {
+      slides: { perView: 4.5, spacing: 32 },
+    },
+  },
+  slides: { perView: 1, spacing: 32 },
+})
 
 const dotHelper = computed(() =>
   slider.value
-    ? [...Array(slider.value.track.details.slides.length).keys()]
+    ? [...Array(slider.value.track.details.slides.length - 3).keys()] // TODO: dynamic breakpoints
     : []
 )
 
 onMounted(() => {
   console.log(props.nfts)
-  if (wrapper.value && props.nfts.length) {
-    slider.value = new KeenSlider(wrapper.value, {
-      initial: current.value,
-      breakpoints: {
-        '(min-width: 400px)': {
-          slides: { perView: 2.5, spacing: 32 },
-        },
-        '(min-width: 1000px)': {
-          slides: { perView: 4.5, spacing: 32 },
-        },
-      },
-      slides: { perView: 1, spacing: 32 },
-      slideChanged: (s) => {
-        current.value = s.track.details.rel
-      },
-    })
-  }
 })
 </script>
 
