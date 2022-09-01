@@ -77,40 +77,10 @@
           size="is-medium"
           label-color="has-text-success" />
       </div>
-      <div v-if="!hideFilter">
-        <b-field class="columns mb-0">
-          <b-input
-            v-model="rangeSlider[0]"
-            type="number"
-            min="0"
-            step="any"
-            class="column is-2"
-            :placeholder="$t('query.priceRange.minPrice')"
-            data-cy="input-min">
-          </b-input>
-          <b-input
-            v-model="rangeSlider[1]"
-            min="0"
-            step="any"
-            type="number"
-            class="column is-2"
-            :placeholder="$t('query.priceRange.maxPrice')"
-            data-cy="input-max">
-          </b-input>
-          <div class="column is-1">
-            <b-button
-              class="is-primary"
-              :disabled="applyDisabled"
-              data-cy="apply"
-              @click="sliderChange(rangeSlider)">
-              {{ $t('general.apply') }}
-            </b-button>
-          </div>
-        </b-field>
-        <p v-if="applyDisabled" class="help is-danger">
-          {{ $t('query.priceRange.priceValidation') }}
-        </p>
-      </div>
+      <SearchRangeSlider
+        v-if="!hideFilter"
+        :range-slider="rangeSlider"
+        @input="sliderChange"></SearchRangeSlider>
       <div v-if="sliderDirty" class="is-size-7">
         <PriceRange :from="minPrice" :to="maxPrice" inline />
       </div>
@@ -132,8 +102,8 @@ import ChainMixin from '~/utils/mixins/chainMixin'
 @Component({
   components: {
     Sort: () => import('./SearchSortDropdown.vue'),
-    SearchResultItem: () => import('./SearchResultItem.vue'),
     SearchSuggestion: () => import('./SearchSuggestion.vue'),
+    SearchRangeSlider: () => import('./SearchRangeSlider.vue'),
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
@@ -142,7 +112,7 @@ import ChainMixin from '~/utils/mixins/chainMixin'
     // PreviewMediaResolver: () => import('@/components/rmrk/Media/PreviewMediaResolver.vue'), // TODO: need to fix CSS for model-viewer
   },
 })
-export default class SearchBar extends mixins(
+export default class extends mixins(
   PrefixMixin,
   KeyboardEventsMixin,
   ChainMixin
@@ -164,9 +134,6 @@ export default class SearchBar extends mixins(
     listed: this.$route.query?.listed?.toString() === 'true',
   }
 
-  private first = 5
-  private currentValue = 1
-
   private searchString = ''
   public name = ''
   private searched: NFT[] = []
@@ -175,17 +142,6 @@ export default class SearchBar extends mixins(
     number | string | undefined
   ] = [undefined, undefined]
   public sliderDirty = false
-
-  get applyDisabled(): boolean {
-    const [min, max] = this.rangeSlider as [
-      string | undefined,
-      string | undefined
-    ]
-    if (!min || !max) {
-      return false
-    }
-    return parseFloat(min) > parseFloat(max)
-  }
 
   get minPrice(): number | undefined {
     if (this.$route.query.min) {
@@ -206,7 +162,6 @@ export default class SearchBar extends mixins(
     exist(this.$route.query.search, this.updateSearch)
     exist(this.$route.query.min, this.updatePriceMin)
     exist(this.$route.query.max, this.updatePriceMax)
-    exist(this.$route.query.type, this.updateType)
     existArray(this.$route.query.sort as string[], this.updateSortBy)
     exist(this.$route.query.listed, this.updateListed)
   }
@@ -268,10 +223,6 @@ export default class SearchBar extends mixins(
     this.updateSearch(value)
   }
 
-  get offset() {
-    return this.currentValue * this.first - this.first
-  }
-
   get showDefaultSuggestions() {
     return this.urlPrefix === 'rmrk'
   }
@@ -313,13 +264,6 @@ export default class SearchBar extends mixins(
     } as unknown as NFT
     this.searched.push(newResult)
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
-  }
-
-  @Emit('update:type')
-  @Debounce(50)
-  updateType(value: string): string {
-    this.replaceUrl({ type: value })
-    return value
   }
 
   @Emit('update:sortByMultiple')
@@ -375,7 +319,7 @@ export default class SearchBar extends mixins(
         this.sliderDirty = true
       }
       this.rangeSlider = [min, this.rangeSlider[1]]
-      this.sliderChangeMin(min * 10 ** this.decimals)
+      this.sliderChangeMin(min)
     }
   }
 
@@ -386,7 +330,7 @@ export default class SearchBar extends mixins(
         this.sliderDirty = true
       }
       this.rangeSlider = [this.rangeSlider[0], max]
-      this.sliderChangeMax(max * 10 ** this.decimals)
+      this.sliderChangeMax(max)
     }
   }
 
@@ -436,8 +380,8 @@ export default class SearchBar extends mixins(
     if (!this.sliderDirty) {
       this.sliderDirty = true
     }
-    this.sliderChangeMin(min ? min * 10 ** this.decimals : undefined)
-    this.sliderChangeMax(max ? max * 10 ** this.decimals : undefined)
+    this.sliderChangeMin(min)
+    this.sliderChangeMax(max)
     const priceMin = min ? String(min) : undefined
     const priceMax = max ? String(max) : undefined
     this.query.listed = true
@@ -451,13 +395,13 @@ export default class SearchBar extends mixins(
   @Emit('update:priceMin')
   @Debounce(50)
   private sliderChangeMin(min?: number): void {
-    this.query.priceMin = min
+    this.query.priceMin = min ? min * 10 ** this.decimals : undefined
   }
 
   @Emit('update:priceMax')
   @Debounce(50)
   private sliderChangeMax(max?: number): void {
-    this.query.priceMax = max
+    this.query.priceMax = max ? max * 10 ** this.decimals : undefined
   }
 }
 </script>
