@@ -106,6 +106,7 @@ describe('snekGalleryItem', () => {
     cy.snekGalleryListedItemActions('2773267381-1', 'bXkQe5...qDNyCN')
   })
   it('galleryUnlistedItemActions', () => {
+    cy.loginWithKeyring()
     cy.snekGalleryUnlistedItemActions('2773267381-3', 'bXkQe5...qDNyCN')
   })
 })
