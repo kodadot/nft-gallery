@@ -157,7 +157,7 @@
         id="NavProfile"
         :is-rmrk="isRmrk"
         :is-bsx="isBsx"
-        :is-snek="isSnek"
+        :show-incomming-offers="isBsx || isSnek"
         data-cy="profileDropdown" />
     </template>
     <template v-else #end>
