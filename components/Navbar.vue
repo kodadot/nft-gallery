@@ -160,6 +160,7 @@
         id="NavProfile"
         :is-rmrk="isRmrk"
         :is-bsx="isBsx"
+        :is-snek="isSnek"
         data-cy="profileDropdown" />
     </template>
     <template v-else #end>
@@ -220,6 +221,10 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
 
   get isBsx(): boolean {
     return this.urlPrefix === 'bsx'
+  }
+
+  get isSnek(): boolean {
+    return this.urlPrefix === 'snek'
   }
 
   get inCollectionPage(): boolean {

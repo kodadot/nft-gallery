@@ -22,7 +22,7 @@
     <div v-if="$route.query.target && hasBlockExplorer" class="mb-3">
       Your donation will be sent to:
       <a
-        :href="`https://kusama.subscan.io/account/${$route.query.target}`"
+        :href="blockExplorer"
         target="_blank"
         rel="noopener noreferrer"
         class="has-text-weight-bold">
@@ -148,7 +148,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 
-import { hasExplorer } from '@/components/rmrk/Profile/utils'
+import { getExplorer, hasExplorer } from '@/components/rmrk/Profile/utils'
 
 @Component({
   components: {
@@ -209,6 +209,10 @@ export default class Transfer extends mixins(
 
   get hasBlockExplorer(): boolean {
     return hasExplorer(this.urlPrefix)
+  }
+
+  get blockExplorer(): string {
+    return getExplorer(this.urlPrefix, this.$route?.query?.target) || '#'
   }
 
   get balance(): string {
