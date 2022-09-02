@@ -5,24 +5,21 @@ const users = [
     address: 'FqCJeGcPidYSsvvmT17fHVaYdE2nXMYgPsBn3CP9gugvZR5',
     name: 'deepologic',
     twitter: '@deepologic',
-    startedMinting: 'Started minting over 1 year ago',
   },
   {
     address: 'FUEGFWoPPtX4XkRzEnZnMgwGKENscHXAiEZy6kcgaDz1BY6',
     name: 'Yumi Arts',
     twitter: '@YumiArtsNFT',
-    startedMinting: 'Started minting 12 months ago',
   },
   {
     address: 'D5DfsRWMpcBm39Leh539efFnDF1n337YWcYVHNi94pjv1SJ',
     name: 'nftxtiff',
     twitter: '@nftxtiff',
-    startedMinting: 'Started minting 12 months ago',
   },
 ]
 
 describe('Identity.vue component', () => {
-  users.forEach(({ address, name, twitter, startedMinting }) => {
+  users.forEach(({ address, name, twitter }) => {
     it(
       `should get Identity stats for ${name}`,
       { scrollBehavior: false, browser: 'chrome' },
@@ -56,7 +53,7 @@ describe('Identity.vue component', () => {
             )
             cy.getCy('identity-started-minting').should(
               'contain.text',
-              startedMinting
+              'Started minting'
             )
             cy.getCy('identity-last-bought').should('exist')
             cy.getCy('identity-collected').should(
