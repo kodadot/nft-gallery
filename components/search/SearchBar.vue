@@ -16,30 +16,12 @@
           data-cy="expand-search"
           @click="isVisible = !isVisible" />
         <slot name="next-filter"></slot>
-        <b-autocomplete
+        <SearchBarInput
           v-if="!hideSearchInput"
-          ref="searchRef"
-          v-model="name"
-          class="gallery-search"
-          placeholder="Search Artwork, Collection..."
-          icon="search"
-          :open-on-focus="showDefaultSuggestions"
-          clearable
-          max-height="500"
-          dropdown-position="bottom"
-          expanded
-          @blur="onBlur"
-          @typing="updateSuggestion"
-          @keydown.native.enter="nativeSearch">
-          <template #header>
-            <SearchSuggestion
-              :name="name"
-              :show-default-suggestions="showDefaultSuggestions"
-              :query="query"
-              @close="closeDropDown">
-            </SearchSuggestion>
-          </template>
-        </b-autocomplete>
+          v-model="vName"
+          :query="query"
+          @enter="nativeSearch"
+          @blur="onBlur"></SearchBarInput>
         <div v-if="!isVisible && hideSearchInput">
           <div v-if="sliderDirty" class="is-size-7">
             <PriceRange :from="minPrice" :to="maxPrice" inline />
@@ -89,7 +71,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Ref, mixins } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
 import { SearchQuery } from './types'
@@ -102,14 +84,13 @@ import ChainMixin from '~/utils/mixins/chainMixin'
 @Component({
   components: {
     Sort: () => import('./SearchSortDropdown.vue'),
-    SearchSuggestion: () => import('./SearchSuggestion.vue'),
+    SearchBarInput: () => import('./SearchBarInput.vue'),
     SearchRangeSlider: () => import('./SearchRangeSlider.vue'),
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
     PriceRange: () => import('@/components/shared/format/PriceRange.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
-    // PreviewMediaResolver: () => import('@/components/rmrk/Media/PreviewMediaResolver.vue'), // TODO: need to fix CSS for model-viewer
   },
 })
 export default class extends mixins(
@@ -124,8 +105,6 @@ export default class extends mixins(
   @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
   @Prop(Boolean) public hideSearchInput!: boolean
-  @Ref('searchRef') readonly searchRef
-
   public isVisible = false
   public query: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
@@ -142,6 +121,14 @@ export default class extends mixins(
     number | string | undefined
   ] = [undefined, undefined]
   public sliderDirty = false
+
+  get vName() {
+    return this.name
+  }
+
+  set vName(value: string) {
+    this.name = value
+  }
 
   get minPrice(): number | undefined {
     if (this.$route.query.min) {
@@ -189,19 +176,7 @@ export default class extends mixins(
   public created() {
     this.initKeyboardEventHandler({
       f: this.bindFilterEvents,
-      k: this.bindSearchEvents,
     })
-  }
-
-  public focusInput(): void {
-    this.searchRef?.focus()
-  }
-
-  private bindSearchEvents(event) {
-    event.preventDefault()
-    if (event.key === 'k') {
-      this.focusInput()
-    }
   }
 
   get vListed(): boolean {
@@ -221,10 +196,6 @@ export default class extends mixins(
 
   set searchQuery(value: string) {
     this.updateSearch(value)
-  }
-
-  get showDefaultSuggestions() {
-    return this.urlPrefix === 'rmrk'
   }
 
   get replaceBuyNowWithYolo(): boolean {
@@ -335,17 +306,7 @@ export default class extends mixins(
   }
 
   nativeSearch() {
-    this.closeDropDown()
-
     this.updateSearch(this.name)
-  }
-
-  // when user type some keyword, frontEnd will query related information
-  @Debounce(50)
-  async updateSuggestion(value: string) {
-    this.searchString = value
-    //To handle empty string
-    this.query.search = value
   }
 
   @Debounce(100)
@@ -386,10 +347,6 @@ export default class extends mixins(
     const priceMax = max ? String(max) : undefined
     this.query.listed = true
     this.vListed = { listed: true, min: priceMin, max: priceMax }
-  }
-
-  public closeDropDown() {
-    this.searchRef.isActive = false
   }
 
   @Emit('update:priceMin')

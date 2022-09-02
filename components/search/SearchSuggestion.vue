@@ -30,7 +30,8 @@
           :to="{
             name: routeOf('explore'),
             query: { ...$route.query, tab: 'COLLECTION' },
-          }">
+          }"
+          @click.native="$emit('close')">
           <div :class="loadMoreItemClassName">
             {{ $t('search.seeAll') }} -->
           </div>
@@ -73,7 +74,8 @@
           :to="{
             name: routeOf('explore'),
             query: { ...$route.query, tab: 'GALLERY' },
-          }">
+          }"
+          @click.native="$emit('close')">
           <div :class="loadMoreItemClassName">
             {{ $t('search.seeAll') }} -->
           </div>
@@ -108,7 +110,9 @@
             </template>
           </SearchResultItem>
         </div>
-        <nuxt-link :to="{ name: 'series-insight' }">
+        <nuxt-link
+          :to="{ name: 'series-insight' }"
+          @click.native="$emit('close')">
           <div :class="loadMoreItemClassName">
             {{ $t('search.rankings') }} -->
           </div>

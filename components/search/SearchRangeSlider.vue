@@ -40,10 +40,11 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class extends Vue {
-  @Prop({ type: Object, required: false }) public rangeSlider: [
+  @Prop({ type: Array, required: false, default: () => [undefined, undefined] })
+  public rangeSlider!: [
     number | string | undefined,
     number | string | undefined
-  ] = [undefined, undefined]
+  ]
 
   get applyDisabled(): boolean {
     const [min, max] = this.rangeSlider as [
