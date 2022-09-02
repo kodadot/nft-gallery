@@ -30,7 +30,7 @@ export const URLS = {
     nftStorage: 'https://nft-storage.kodadot.workers.dev/',
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
-    rubick: 'https://squid.subsquid.io/rubick/v/006/graphql',
+    rubick: 'https://squid.subsquid.io/rubick/v/007/graphql',
     snekk: 'https://squid.subsquid.io/snekk/v/003/graphql',
     snekkv2: 'https://squid.subsquid.io/snekk/v/004/graphql',
     click: 'https://squid.subsquid.io/click/v/001/graphql',

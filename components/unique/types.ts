@@ -16,6 +16,8 @@ export interface Collection {
   frozen: boolean
   attributes: Attribute[]
   metadataFrozen?: boolean
+  image?: string
+  name?: string
 }
 
 export interface Instance {

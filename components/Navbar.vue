@@ -147,7 +147,10 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <LazyChainSelect id="NavChainSelect" class="navbar-item has-dropdown" />
+      <LazyChainSelect
+        id="NavChainSelect"
+        class="navbar-item has-dropdown"
+        data-cy="chain-select" />
       <LazySwitchLocale
         id="NavLocaleChanger"
         class="navbar-item has-dropdown"
@@ -157,6 +160,7 @@
         id="NavProfile"
         :is-rmrk="isRmrk"
         :is-bsx="isBsx"
+        :is-snek="isSnek"
         data-cy="profileDropdown" />
     </template>
     <template v-else #end>
@@ -217,6 +221,10 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
 
   get isBsx(): boolean {
     return this.urlPrefix === 'bsx'
+  }
+
+  get isSnek(): boolean {
+    return this.urlPrefix === 'snek'
   }
 
   get inCollectionPage(): boolean {

@@ -4,7 +4,7 @@
   "extensions": {
     "endpoints": {
       "Default GraphQL Endpoint": {
-        "url": "https://app.gc.subsquid.io/beta/rubick/006/graphql",
+        "url": "https://squid.subsquid.io/rubick/v/007/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },
