@@ -82,7 +82,7 @@ type Collections = Collection & SomethingWithMeta
 const collections = ref<Collections[]>([])
 
 const updateCollections = async ({ data }) => {
-  if (!data?.collectionEntities.length) {
+  if (!data?.collectionEntities?.length) {
     return
   }
 
