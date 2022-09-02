@@ -4,7 +4,7 @@
     :unit="unit"
     :decimals="decimals"
     :inline="inline"
-    :hideUnit="hideUnit" />
+    :hide-unit="hideUnit" />
 </template>
 
 <script lang="ts">
