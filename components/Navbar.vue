@@ -147,7 +147,10 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <LazyChainSelect id="NavChainSelect" class="navbar-item has-dropdown" />
+      <LazyChainSelect
+        id="NavChainSelect"
+        class="navbar-item has-dropdown"
+        data-cy="chain-select" />
       <LazySwitchLocale
         id="NavLocaleChanger"
         class="navbar-item has-dropdown"
