@@ -44,7 +44,7 @@ module.exports = {
   ignorePatterns: ['*.md'],
   overrides: [
     {
-      files: ['layouts/**/*.{js,ts,vue}'],
+      files: ['layouts/**/*.{js,ts,vue}', 'pages/**/*.vue'],
       rules: {
         'vue/multi-word-component-names': 'off',
       },
