@@ -2,7 +2,7 @@
   <div>
     <b-field class="columns mb-0">
       <b-input
-        v-model="rangeSlider[0]"
+        v-model="range[0]"
         type="number"
         min="0"
         step="any"
@@ -11,7 +11,7 @@
         data-cy="input-min">
       </b-input>
       <b-input
-        v-model="rangeSlider[1]"
+        v-model="range[1]"
         min="0"
         step="any"
         type="number"
@@ -24,7 +24,7 @@
           class="is-primary"
           :disabled="applyDisabled"
           data-cy="apply"
-          @click="sliderChange">
+          @click="rangeChange">
           {{ $t('general.apply') }}
         </b-button>
       </div>
@@ -41,24 +41,18 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 @Component({})
 export default class extends Vue {
   @Prop({ type: Array, required: false, default: () => [undefined, undefined] })
-  public rangeSlider!: [
-    number | string | undefined,
-    number | string | undefined
-  ]
+  public range!: [number | string | undefined, number | string | undefined]
 
   get applyDisabled(): boolean {
-    const [min, max] = this.rangeSlider as [
-      string | undefined,
-      string | undefined
-    ]
+    const [min, max] = this.range as [string | undefined, string | undefined]
     if (!min || !max) {
       return false
     }
     return parseFloat(min) > parseFloat(max)
   }
 
-  public sliderChange(): void {
-    this.$emit('input', this.rangeSlider)
+  public rangeChange(): void {
+    this.$emit('input', this.range)
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="mb-3">
     <div v-if="!isVisible && !hideSearchInput" class="row">
-      <div v-if="sliderDirty && !hideFilter" class="is-size-7">
+      <div v-if="priceRangeDirty && !hideFilter" class="is-size-7">
         <PriceRange :from="minPrice" :to="maxPrice" inline />
       </div>
     </div>
@@ -23,7 +23,7 @@
           @enter="nativeSearch"
           @blur="onBlur"></SearchBarInput>
         <div v-if="!isVisible && hideSearchInput">
-          <div v-if="sliderDirty" class="is-size-7">
+          <div v-if="priceRangeDirty" class="is-size-7">
             <PriceRange :from="minPrice" :to="maxPrice" inline />
           </div>
         </div>
@@ -59,11 +59,11 @@
           size="is-medium"
           label-color="has-text-success" />
       </div>
-      <SearchRangeSlider
+      <SearchPriceRange
         v-if="!hideFilter"
-        :range-slider="rangeSlider"
-        @input="sliderChange"></SearchRangeSlider>
-      <div v-if="sliderDirty" class="is-size-7">
+        :range="priceRange"
+        @input="priceRangeChange"></SearchPriceRange>
+      <div v-if="priceRangeDirty" class="is-size-7">
         <PriceRange :from="minPrice" :to="maxPrice" inline />
       </div>
     </b-collapse>
@@ -85,7 +85,7 @@ import ChainMixin from '~/utils/mixins/chainMixin'
   components: {
     Sort: () => import('./SearchSortDropdown.vue'),
     SearchBarInput: () => import('./SearchBarInput.vue'),
-    SearchRangeSlider: () => import('./SearchRangeSlider.vue'),
+    SearchPriceRange: () => import('./SearchPriceRange.vue'),
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
@@ -116,11 +116,11 @@ export default class extends mixins(
   private searchString = ''
   public name = ''
   private searched: NFT[] = []
-  public rangeSlider: [
+  public priceRange: [
     number | string | undefined,
     number | string | undefined
   ] = [undefined, undefined]
-  public sliderDirty = false
+  public priceRangeDirty = false
 
   get vName() {
     return this.name
@@ -286,22 +286,22 @@ export default class extends mixins(
   updatePriceMin(value: string) {
     const min = Number(value)
     if (!Number.isNaN(min)) {
-      if (!this.sliderDirty) {
-        this.sliderDirty = true
+      if (!this.priceRangeDirty) {
+        this.priceRangeDirty = true
       }
-      this.rangeSlider = [min, this.rangeSlider[1]]
-      this.sliderChangeMin(min)
+      this.priceRange = [min, this.priceRange[1]]
+      this.priceRangeChangeMin(min)
     }
   }
 
   updatePriceMax(value: string) {
     const max = Number(value)
     if (!Number.isNaN(max)) {
-      if (!this.sliderDirty) {
-        this.sliderDirty = true
+      if (!this.priceRangeDirty) {
+        this.priceRangeDirty = true
       }
-      this.rangeSlider = [this.rangeSlider[0], max]
-      this.sliderChangeMax(max)
+      this.priceRange = [this.priceRange[0], max]
+      this.priceRangeChangeMax(max)
     }
   }
 
@@ -334,15 +334,15 @@ export default class extends mixins(
     }
   }
 
-  public sliderChange([min, max]: [
+  public priceRangeChange([min, max]: [
     number | undefined,
     number | undefined
   ]): void {
-    if (!this.sliderDirty) {
-      this.sliderDirty = true
+    if (!this.priceRangeDirty) {
+      this.priceRangeDirty = true
     }
-    this.sliderChangeMin(min)
-    this.sliderChangeMax(max)
+    this.priceRangeChangeMin(min)
+    this.priceRangeChangeMax(max)
     const priceMin = min ? String(min) : undefined
     const priceMax = max ? String(max) : undefined
     this.query.listed = true
@@ -351,13 +351,13 @@ export default class extends mixins(
 
   @Emit('update:priceMin')
   @Debounce(50)
-  private sliderChangeMin(min?: number): void {
+  private priceRangeChangeMin(min?: number): void {
     this.query.priceMin = min ? min * 10 ** this.decimals : undefined
   }
 
   @Emit('update:priceMax')
   @Debounce(50)
-  private sliderChangeMax(max?: number): void {
+  private priceRangeChangeMax(max?: number): void {
     this.query.priceMax = max ? max * 10 ** this.decimals : undefined
   }
 }
