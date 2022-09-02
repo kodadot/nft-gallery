@@ -25,7 +25,7 @@ specifiers:
   '@keeex/qrcodejs-kx': ^1.0.2
   '@kodadot1/minimark': ^0.0.1-rc.10
   '@kodadot1/sub-api': 0.1.0-alpha.3
-  '@kodadot1/vuex-options': 0.0.2
+  '@kodadot1/vuex-options': 0.0.3-rc.1
   '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27672061.a645f7f
   '@nuxt/test-utils': ^0.2.2
   '@nuxt/types': ^2.15.8
@@ -118,7 +118,7 @@ dependencies:
   '@keeex/qrcodejs-kx': 1.0.2
   '@kodadot1/minimark': 0.0.1-rc.10
   '@kodadot1/sub-api': 0.1.0-alpha.3
-  '@kodadot1/vuex-options': 0.0.2
+  '@kodadot1/vuex-options': 0.0.3-rc.1
   '@nuxtjs/apollo': 4.0.1-rc.5_drxuu7n6hi6myfh2fxgpgcd2iy
   '@nuxtjs/i18n': 7.3.0_vue@2.7.8
   '@polkadot/extension-dapp': 0.44.4
@@ -2501,8 +2501,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@kodadot1/vuex-options/0.0.2:
-    resolution: {integrity: sha512-hTEwjOcc98bMwCdePZauVEzD+l4BOy8xEYCWHhq60dW0HB/IispH0DItuNmFpK4VlezY/c/mJChGhiZXtffBVQ==}
+  /@kodadot1/vuex-options/0.0.3-rc.1:
+    resolution: {integrity: sha512-3yGr5o1/dQmC9anzPnpN4cItt5u0b8ywXlTSgXGn7pXoWqgRi38vdjpoehKViv8mfr9YI3L4FHVBPL+UCfEiKg==}
     dependencies:
       '@polkadot/networks': 10.1.7
     dev: false
