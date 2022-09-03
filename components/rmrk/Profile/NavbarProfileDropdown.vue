@@ -50,6 +50,9 @@
           $t('incomingOffers')
         }}</nuxt-link>
       </b-dropdown-item>
+      <b-dropdown-item v-if="isSnek" has-link aria-role="menuitem">
+        <nuxt-link to="/snek/assets">{{ $t('assets') }}</nuxt-link>
+      </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
       </b-dropdown-item>

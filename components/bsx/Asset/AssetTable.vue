@@ -3,29 +3,29 @@
     <b-table
       :data="assetList"
       :class="{ scrollable: assetList.length > 0 }"
-      paginationPosition="top">
+      pagination-position="top">
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         field="formatPrice"
         width="120"
         :label="$t('mint.collection.symbol.label')"
-        v-slot="props"
         sortable>
         {{ props.row.symbol }}
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         field="formatPrice"
         :label="$t('asset.table.balance')"
-        v-slot="props"
         sortable>
-        <Money :value="props.row.balance" inline hideUnit />
+        <Money :value="props.row.balance" inline hide-unit />
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
-        :label="$t('offer.action')"
-        v-slot="props">
+        :label="$t('offer.action')">
         <span v-if="props.row.id === currentAsset">
           {{ $t('asset.action.alreadyDefault') }}
         </span>
