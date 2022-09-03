@@ -1,5 +1,5 @@
 <template>
-  <Landing :prefix="urlPrefix" :buildOn="buildOnText" />
+  <Landing :prefix="urlPrefix" :build-on="buildOnText" />
 </template>
 
 <script lang="ts">
@@ -10,7 +10,7 @@ import { prefixBuildOnText } from '@/utils/prefix'
 @Component({
   name: 'LandingPage',
   components: {
-    Landing: () => import('@/components/landing/Landing.vue'),
+    Landing: () => import('@/components/landing/LandingPage.vue'),
   },
 })
 export default class LandingPage extends mixins(PrefixMixin) {

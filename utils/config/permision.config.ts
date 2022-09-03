@@ -1,4 +1,4 @@
-import { Prefix, Config } from './types'
+import { Config, Prefix } from './types'
 
 const hasCreate: Config<boolean> = {
   rmrk: true,
