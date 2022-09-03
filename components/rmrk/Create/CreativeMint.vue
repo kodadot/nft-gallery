@@ -299,7 +299,7 @@ export default class CreativeMint extends mixins(
       this.$set(
         this.rmrkMint,
         'description',
-        'Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.'
+        this.$t('mint.nft.rmrkDescription')
       )
     }
   }

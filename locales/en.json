@@ -8,6 +8,7 @@
   "classic": "Classic",
   "account": "Account",
   "accounts": "Accounts",
+  "ammount": "Amount",
   "transfer": "Transfer",
   "assets": "Assets",
   "incomingOffers": "Incoming Offers",
@@ -618,7 +619,9 @@
         "heading": "Creative Minting"
       },
       "drop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",
-      "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
+      "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)",
+      "rmrkDescription": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
+      "simpleDrop": "Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
     }
   },
   "tooltip": {
@@ -760,7 +763,10 @@
   "sales": {
     "page": "Sales",
     "title": "Latest KUSAMA Sales",
-    "subtitle": "Featuring the most recently sold NFTs on RMRK."
+    "subtitle": "Featuring the most recently sold NFTs on RMRK.",
+    "buyer": "Buyer",
+    "tableDate": "Relative Date",
+    "price": "Price of sale"
   },
   "hot": {
     "title": "Recently KUSAMA Sales In One Week",
@@ -781,7 +787,10 @@
     "score": "Score",
     "empty": "Empty",
     "uniqueCollectors": "∃! collectors",
-    "soldHistory": "Last 30 Days Sold"
+    "soldHistory": "Last 30 Days Sold",
+    "uniqueItemsTooltip": "unique items",
+    "uniqueCollectorsTooltip": "unique collectors",
+    "scoreCalc": "sold * (unique / total)"
   },
   "series": {
     "title": "Top Collection",
@@ -796,7 +805,8 @@
     "volume": "Volume",
     "score": "Score",
     "emoteCount": "Emotes",
-    "buyHistory": "Last 30 Days Buy"
+    "buyHistory": "Last 30 Days Buy",
+    "history": "History"
   },
   "activity": {
     "listed": "Listed",
@@ -893,7 +903,10 @@
     "set": "Create on-chain identity",
     "click": "Click to create identity",
     "handleRequired": "Your handle is required",
-    "deposit": "Deposit"
+    "deposit": "Deposit",
+    "fundsReserve": "0.0333 KSM will be reserved. These funds are returned when the identity is cleared.",
+    "onChainPlaceholder": "My On-Chain Name",
+    "namePlaceholder": "Full Legal Name"
   },
   "collapse": {
     "collection": {
@@ -918,7 +931,13 @@
   },
   "teleport": {
     "page": "Teleport",
-    "route": "Teleporting {0} from {1} to {2}"
+    "route": "Teleporting {0} from {1} to {2}",
+    "artistProfile": "Go to artist's profile",
+    "usdInput": "USD Value (approx)",
+    "btnCopyPayment": "Copy Payment link",
+    "congratsSupport": "Congratulations for supporting",
+    "tweetDonation": "Tweet about your awesome donation",
+    "donationSentTo": "Your donation will be sent to:"
   },
   "preferences": {
     "basic": "basic user interface",
@@ -976,5 +995,15 @@
       "balance": "Balance",
       "empty": "There are currently no assets for this user."
     }
+  },
+  "ramp": {
+    "selectAccount": "Select your account and click on buy.",
+    "redirect": "You will be redirected to hosted mode of Ramp.network to top-up your address.",
+    "kyc": "KYC might requried, but you can verify with your Revolut card.",
+    "buyKsm": "Buy Kusama"
+  },
+  "toast": {
+    "urlCopy": "URL copied to clipboard",
+    "paymentLinkCopy": "Payment link copied to clipboard"
   }
 }
