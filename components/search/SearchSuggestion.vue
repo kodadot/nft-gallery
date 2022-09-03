@@ -1,6 +1,11 @@
 <template>
   <div class="search-suggestion-container" @click="resetSelectedIndex">
-    <b-tabs v-show="name" v-model="activeSearchTab" destroy-on-hide expanded>
+    <b-tabs
+      v-show="name"
+      v-model="activeSearchTab"
+      destroy-on-hide
+      expanded
+      @input="resetSelectedIndex">
       <b-tab-item label="Collections" value="Collections">
         <div v-if="isCollectionResultLoading">
           <SearchResultItem
@@ -83,12 +88,7 @@
       </b-tab-item>
       <b-tab-item disabled label="User" value="User"> </b-tab-item>
     </b-tabs>
-    <b-tabs
-      v-show="!name"
-      v-model="activeTrendingTab"
-      class=""
-      destroy-on-hide
-      expanded>
+    <b-tabs v-show="!name" v-model="activeTrendingTab" destroy-on-hide expanded>
       <b-tab-item label="Trending" value="Trending">
         <div
           v-for="(item, idx) in defaultCollectionSuggestions"
@@ -103,8 +103,10 @@
               </div>
               <div
                 class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
-                <span>Units: {{ item.total }}</span>
-                <span>Owners: {{ item.uniqueCollectors }}</span>
+                <span>{{ $t('search.units') }}: {{ item.total }}</span>
+                <span
+                  >{{ $t('search.owners') }}: {{ item.uniqueCollectors }}</span
+                >
                 <span>{{ urlPrefix.toUpperCase() }}</span>
               </div>
             </template>
@@ -142,13 +144,12 @@ import {
 import { fastExtract } from '~/utils/ipfs'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
-import ChainMixin from '~/utils/mixins/chainMixin'
 import { RowSeries } from '~/components/series/types'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
 @Component({})
-export default class extends mixins(PrefixMixin, ChainMixin) {
+export default class extends mixins(PrefixMixin) {
   @Prop(String) public name!: string
   @Prop(Boolean) public showDefaultSuggestions!: boolean
   @Prop({ type: Object, required: false }) public query!: SearchQuery
@@ -211,6 +212,18 @@ export default class extends mixins(PrefixMixin, ChainMixin) {
     return this.selectedIndex === this.totalItemsAtCurrentTab
       ? 'selected-item'
       : 'link-item'
+  }
+
+  get queryVariables() {
+    return {
+      first: this.searchSuggestionEachTypeMaxNum,
+      offset: 0,
+      denyList,
+      orderBy: this.query.sortByMultiple?.length
+        ? this.query.sortByMultiple
+        : undefined,
+      search: this.buildSearchParam(),
+    }
   }
 
   get selectedItemListMap() {
@@ -368,13 +381,7 @@ export default class extends mixins(PrefixMixin, ChainMixin) {
       const nfts = this.$apollo.query({
         query: queryNft.default,
         client: this.client,
-        variables: {
-          first: this.searchSuggestionEachTypeMaxNum,
-          offset: 0,
-          denyList,
-          orderBy: this.query.sortByMultiple,
-          search: this.buildSearchParam(),
-        },
+        variables: this.queryVariables,
       })
 
       const {
@@ -418,15 +425,7 @@ export default class extends mixins(PrefixMixin, ChainMixin) {
       const collectionResult = this.$apollo.query({
         query: query.default,
         client: this.client,
-        variables: {
-          first: this.searchSuggestionEachTypeMaxNum,
-          offset: 0,
-          denyList,
-          orderBy: this.query.sortByMultiple?.length
-            ? this.query.sortByMultiple
-            : undefined,
-          search: this.buildSearchParam(),
-        },
+        variables: this.queryVariables,
       })
 
       const {
@@ -460,11 +459,6 @@ export default class extends mixins(PrefixMixin, ChainMixin) {
     }
   }
 
-  @Watch('activeSearchTab')
-  watchActiveSearchTab() {
-    this.resetSelectedIndex()
-  }
-
   @Watch('name')
   onValueChange(value) {
     this.updateSuggestion(value)
@@ -487,12 +481,10 @@ export default class extends mixins(PrefixMixin, ChainMixin) {
     cursor: pointer;
   }
 
-  .media-content {
-    .name {
-      max-width: 34ch;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  .name {
+    max-width: 34ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 </style>
