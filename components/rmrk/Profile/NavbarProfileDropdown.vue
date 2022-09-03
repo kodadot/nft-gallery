@@ -102,6 +102,7 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public value!: any
   @Prop() public isRmrk!: boolean
   @Prop() public showIncommingOffers!: boolean
+  @Prop() public isSnek!: boolean
 
   set account(account: string) {
     this.$store.dispatch('setAuth', { address: account })
