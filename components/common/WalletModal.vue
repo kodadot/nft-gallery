@@ -74,7 +74,7 @@
 
         <div v-if="hasSelectedWalletProvider && hasWalletProviderExtension">
           <div class="subtitle is-size-6 has-text-centered">
-            Choose your
+            {{ $t('general.chooseWallet') }}
             <b-image
               :src="selectedWalletProvider.img"
               class="is-16x16"

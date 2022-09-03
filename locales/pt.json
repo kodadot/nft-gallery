@@ -574,30 +574,6 @@
     "handleRequired": "Seu nome de usuário (handle) é requisitado",
     "deposit": "Depositar"
   },
-  "massMint": {
-    "tutorial": {
-      "basic": {
-        "title": "Cunhagem em massa básica",
-        "description": "Esse é a cunhagem básica, isso irá criar NFTs com o mesmo símbolo e nome, mas diferentes quantidades. Isso também irá criar valores diferentes de NFTs com o mesmo símbolo e nome, mas diferente quantia."
-      },
-      "range": {
-        "title": "Alcance da cunhagem em massa",
-        "description": "Você pode especificar o alcance da cunhagem em massa, isso irá criar NFTs com o mesmo símbolo e nome, mas quantia diferente. Isso também irá criar valores diferentes de NFTs com o mesmo símbolo e nome, mas diferente quantia."
-      },
-      "all": {
-        "title": "Cunhagem em massa de todos",
-        "description": "Você pode especificar o alcance da cunhagem em massa, isso irá criar NFTs com o mesmo simbolo e nome, mas diferente quantia. Isso também irá criar valores diferentes de NFTs com o mesmo símbolo e nome, mas diferente quantia."
-      }
-    },
-    "syntax": {
-      "file": "Nome do arquivo (e.g impressionante_1.jpg)",
-      "name": "Nome do NFT (e.g Token Impressionante)",
-      "amount": "Preço do token (e.g 0.01)",
-      "description": "Descrição multilinha do token (e.g Este é um token impressionante)",
-      "range": "Alcance dos tokens (e.g 1-5)",
-      "all": "Aplicar para todos os tokens (use três pontos: ...)"
-    }
-  },
   "collapse": {
     "collection": {
       "description": {

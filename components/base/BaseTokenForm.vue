@@ -18,7 +18,7 @@
           key="file"
           v-model="vFile"
           :required="true"
-          label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
+          :label="$t('mint.nft.drop')"
           expanded
           preview />
 
@@ -60,7 +60,7 @@
           v-if="secondaryFileVisible"
           key="secondaryFile"
           v-model="vSecondFile"
-          label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
+          :label="$t('mint.nft.cover')"
           icon="file-image"
           preview
           accept="image/png, image/jpeg, image/gif"

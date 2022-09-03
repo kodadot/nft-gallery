@@ -21,7 +21,10 @@
           ref="searchRef"
           v-model="name"
           class="gallery-search"
-          placeholder="Search Artwork, Collection..."
+          :data="searchSuggestion"
+          group-field="type"
+          group-options="item"
+          :placeholder="$t('general.searchPlaceholder')"
           icon="search"
           :open-on-focus="showDefaultSuggestions"
           clearable
