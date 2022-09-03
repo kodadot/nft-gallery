@@ -50,7 +50,7 @@ Cypress.Commands.add('rmrkGallerySortBy', () => {
   ).click()
 })
 
-Cypress.Commands.add('bsxGallerySortBy', () => {
+Cypress.Commands.add('snekGallerySortBy', () => {
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
     '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-trigger > [data-cy="gallery-sort-by"]'
@@ -104,23 +104,24 @@ Cypress.Commands.add('rmrkNavbar', () => {
   cy.get('[data-cy="profileDropdown"]').click()
 })
 
-Cypress.Commands.add('bsxNavbar', () => {
+Cypress.Commands.add('snekNavbar', () => {
   cy.get('[data-cy="create-dropdown"]').click()
   cy.get('[data-cy="classic"]')
     .should('have.attr', 'href')
-    .and('include', '/bsx/create')
+    .and('include', '/snek/create')
   cy.get('[data-cy="explore"]')
     .should('have.attr', 'href')
-    .and('include', '/bsx/explore')
-  cy.get('[data-cy="stats"]').should('be.visible').click()
-  cy.get('[data-cy="global-offers"]')
-    .should('have.attr', 'href')
-    .and('include', '/bsx/offers')
-  cy.get('[data-cy="offers-stats"]')
-    .should('have.attr', 'href')
-    .and('include', '/bsx/stats')
-  cy.get('[data-cy="localChanger"]').should('be.visible')
-  cy.get('[data-cy="localChanger"]').click()
+    .and('include', '/snek/explore')
+  // TODO: wait for reintroduction of stats -> #3893
+  // cy.get('[data-cy="stats"]').should('be.visible').click()
+  // cy.get('[data-cy="global-offers"]')
+  //   .should('have.attr', 'href')
+  //   .and('include', '/snek/offers')
+  // cy.get('[data-cy="offers-stats"]')
+  //   .should('have.attr', 'href')
+  //   .and('include', '/snek/stats')
+  // cy.get('[data-cy="localChanger"]').should('be.visible')
+  // cy.get('[data-cy="localChanger"]').click()
 })
 
 Cypress.Commands.add('expandGallerySearch', () => {
@@ -165,12 +166,13 @@ Cypress.Commands.add('toggleBuyNowGallery', () => {
   })
 })
 
-Cypress.Commands.add('bsxGalleryListedItemActions', (nftId, creator) => {
-  cy.visit(`/bsx/gallery/${nftId}`)
+Cypress.Commands.add('snekGalleryListedItemActions', (nftId, creator) => {
+  cy.visit(`/snek/gallery/${nftId}`)
   cy.waitForNetworkIdle('POST', '*', 1000)
+  // TODO: e2e-login doesn't work with /snek -> looks like different wallet
   // cy.get('[data-cy="money"]').should('contain', 'KSM')
-  cy.get('[data-cy="BUY"]').should('be.disabled')
-  cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
+  // cy.get('[data-cy="BUY"]').should('be.disabled')
+  // cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
   cy.get('[data-cy="offer-list"]').should('contain', 'Offers')
   cy.get('[data-cy="offer-list"]').click()
   cy.get('[data-cy="history"]').should('contain', 'History')
@@ -181,16 +183,16 @@ Cypress.Commands.add('bsxGalleryListedItemActions', (nftId, creator) => {
   cy.get('[data-label="Amount"]').should('contain', '-')
 })
 
-Cypress.Commands.add('bsxGalleryUnlistedItemActions', (nftId) => {
-  cy.visit(`/bsx/gallery/${nftId}`)
+Cypress.Commands.add('snekGalleryUnlistedItemActions', (nftId) => {
+  cy.visit(`/snek/gallery/${nftId}`)
   cy.waitForNetworkIdle('POST', '*', 1000)
   cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
 })
 
 Cypress.Commands.add(
-  'bsxCollectionActions',
+  'snekCollectionActions',
   (collectionId, nftName, creator) => {
-    cy.visit(`/bsx/collection/${collectionId}`)
+    cy.visit(`/snek/collection/${collectionId}`)
     cy.waitForNetworkIdle('POST', '*', 1000)
     cy.get('[data-cy="0"]').should('be.visible')
     cy.get('[data-cy="collection-sort-by"]').select('Old first')
@@ -260,9 +262,9 @@ declare global {
       rmrkGallerySortBy(): Chainable<Element>
 
       /**
-       * @desc clicks on sort button in gallery (bsx), checks whether all the sort options are visible, finally selects Low to High price options
+       * @desc clicks on sort button in gallery (snek), checks whether all the sort options are visible, finally selects Low to High price options
        */
-      bsxGallerySortBy(): Chainable<Element>
+      snekGallerySortBy(): Chainable<Element>
 
       /**
        * @desc check whether collection sorting is visible, then selects both of the options one by one
@@ -275,9 +277,9 @@ declare global {
       rmrkNavbar(): Chainable<Element>
 
       /**
-       * @desc checks whether the elements of BSX navbar are visible, goes through some options and clicks them
+       * @desc checks whether the elements of snek navbar are visible, goes through some options and clicks them
        */
-      bsxNavbar(): Chainable<Element>
+      snekNavbar(): Chainable<Element>
 
       /**
        * @desc click on expand gallery search
@@ -308,32 +310,32 @@ declare global {
       toggleBuyNowGallery(): Chainable<Element>
 
       /**
-       * @desc checks all of the actions available when interacted with listed item on BSX
+       * @desc checks all of the actions available when interacted with listed item on snek
        * @param nftId - ID of nft being tested (if this test fails, check whether this ID is correct)
        * @param creator - creator of nft
        */
-      bsxGalleryListedItemActions(
+      snekGalleryListedItemActions(
         nftId: string,
         creator: string
       ): Chainable<Element>
 
       /**
-       * @desc checks all of the actions available when interacted with unlisted item on BSX
+       * @desc checks all of the actions available when interacted with unlisted item on snek
        * @param nftId - ID of nft being tested (if this test fails, check whether this ID is correct)
        * @param creator - creator of nft
        */
-      bsxGalleryUnlistedItemActions(
+      snekGalleryUnlistedItemActions(
         nftId: string,
         creator: string
       ): Chainable<Element>
 
       /**
-       * @desc checks all of the actions available when interacted with collection on BSX
+       * @desc checks all of the actions available when interacted with collection on snek
        * @param collectionId
        * @param nftName
        * @param creator
        */
-      bsxCollectionActions(
+      snekCollectionActions(
         collectionId: string,
         nftName: string,
         creator: string

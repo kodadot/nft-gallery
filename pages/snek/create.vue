@@ -2,12 +2,15 @@
   <section>
     <br />
     <b-tabs v-model="activeTab" destroy-on-hide expanded>
-      <b-tab-item v-for="x in components" :key="x" :label="x">
+      <b-tab-item
+        v-for="component in components"
+        :key="component"
+        :label="component">
         <component
-          :showExplainerText="showExplainerText"
-          :is="x"
-          @navigateToCreateNftTab="switchToNft"
-          v-if="components[activeTab] === x" />
+          :is="component"
+          v-if="components[activeTab] === component"
+          :show-explainer-text="showExplainerText"
+          @navigateToCreateNftTab="switchToNft" />
       </b-tab-item>
     </b-tabs>
   </section>
