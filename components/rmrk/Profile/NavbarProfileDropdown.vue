@@ -61,11 +61,16 @@
 
       <b-dropdown-item custom aria-role="menuitem">
         <div v-if="isSnek">
-          <span>{{ $t('general.balance') }}: </span>
+          <div class="has-text-left has-text-grey is-size-7">
+            {{ $t('general.balance') }}
+          </div>
           <!-- BSX Token Amount -->
-          <TokenMoney :value="tokenAmount" token-id="0" unit="BSX" />
+          <TokenMoney
+            v-for="token in tokens"
+            :key="token.id"
+            :value="token.balance"
+            :token-id="token.id" />
           <!-- KSM Token Amount -->
-          <TokenMoney :value="realBalance" token-id="5" unit="KSM" />
         </div>
         <AccountBalance v-else class="is-size-7" />
       </b-dropdown-item>
@@ -96,6 +101,8 @@ import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
+import useApiMixin from '@/utils/mixins/useApiMixin'
+import { getAsssetBalance } from '@/utils/api/bsx/query'
 
 const components = {
   Avatar,
@@ -109,19 +116,44 @@ const components = {
 @Component({ components })
 export default class NavbarProfileDropdown extends mixins(
   PrefixMixin,
-  AuthMixin
+  AuthMixin,
+  useApiMixin
 ) {
   @Prop() public value!: any
   @Prop() public isRmrk!: boolean
   @Prop() public showIncommingOffers!: boolean
   @Prop() public isSnek!: boolean
 
+  private tokens = [
+    { id: '0', balance: 0 },
+    { id: '5', balance: 0 },
+  ]
+
+  get account() {
+    return this.$store.getters.getAuthAddress
+  }
+
   set account(account: string) {
     this.$store.dispatch('setAuth', { address: account })
   }
 
-  get account() {
-    return this.$store.getters.getAuthAddress
+  created() {
+    this.updateAssetsBalance()
+  }
+
+  private async updateAssetsBalance() {
+    const api = await this.useApi()
+    const result = await Promise.all(
+      this.tokens.map(
+        async (token) => await getAsssetBalance(api, this.accountId, token.id)
+      )
+    )
+    result.forEach((balance, idx) => {
+      this.$set(this.tokens, idx, {
+        ...this.tokens[idx],
+        balance: balance,
+      })
+    })
   }
 
   get realBalance() {
