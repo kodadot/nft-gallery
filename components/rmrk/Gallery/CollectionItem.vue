@@ -175,7 +175,7 @@ const components = {
     import('@/components/rmrk/Gallery/CollectionActivity.vue'),
   Sharing: () => import('@/components/shared/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-  Search: () => import('@/components/search/SearchBarCollection.vue'),
+  Search: () => import('@/components/search/SearchCollection.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),

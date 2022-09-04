@@ -95,7 +95,7 @@ const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
-  Search: () => import('@/components/search/SearchBarCollection.vue'),
+  Search: () => import('@/components/search/SearchCollection.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   CollectionDetail: () =>

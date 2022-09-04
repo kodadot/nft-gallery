@@ -46,7 +46,7 @@ import shouldUpdate from '~/utils/shouldUpdate'
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  Search: () => import('@/components/search/SearchBarCollection.vue'),
+  Search: () => import('@/components/search/SearchCollection.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
