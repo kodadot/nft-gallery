@@ -61,11 +61,11 @@
 
       <b-dropdown-item custom aria-role="menuitem">
         <div v-if="isSnek">
-          <span>{{ $t('general.balance') }}: </span>
+          <div class="has-text-centered">{{ $t('general.balance') }}</div>
           <!-- BSX Token Amount -->
-          <TokenMoney :value="tokenAmount" token-id="0" unit="BSX" />
+          <TokenMoney :value="tokenAmount" token-id="0" />
           <!-- KSM Token Amount -->
-          <TokenMoney :value="realBalance" token-id="5" unit="KSM" />
+          <TokenMoney :value="realBalance" token-id="5" />
         </div>
         <AccountBalance v-else class="is-size-7" />
       </b-dropdown-item>
