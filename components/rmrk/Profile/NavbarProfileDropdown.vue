@@ -60,7 +60,14 @@
       <hr class="dropdown-divider" aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
-        <AccountBalance class="is-size-7" />
+        <div v-if="isSnek">
+          <span>{{ $t('general.balance') }}: </span>
+          <!-- BSX Token Amount -->
+          <TokenMoney :value="tokenAmount" token-id="0" unit="BSX" />
+          <!-- KSM Token Amount -->
+          <TokenMoney :value="realBalance" token-id="5" unit="KSM" />
+        </div>
+        <AccountBalance v-else class="is-size-7" />
       </b-dropdown-item>
 
       <hr class="dropdown-divider" aria-role="menuitem" />
@@ -88,6 +95,7 @@ import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
 import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
 
 const components = {
   Avatar,
@@ -95,10 +103,14 @@ const components = {
     import('@/components/shared/ConnectWalletButton.vue'),
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
+  TokenMoney: () => import('@/components/bsx/format/TokenMoney.vue'),
 }
 
 @Component({ components })
-export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
+export default class NavbarProfileDropdown extends mixins(
+  PrefixMixin,
+  AuthMixin
+) {
   @Prop() public value!: any
   @Prop() public isRmrk!: boolean
   @Prop() public showIncommingOffers!: boolean
@@ -110,6 +122,14 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
 
   get account() {
     return this.$store.getters.getAuthAddress
+  }
+
+  get realBalance() {
+    return this.$store.getters.getAuthBalance
+  }
+
+  get tokenAmount() {
+    return this.$store.getters.getTokenBalanceOf('0')
   }
 
   public disconnect() {
