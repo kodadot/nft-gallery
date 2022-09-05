@@ -64,13 +64,11 @@
           <div class="has-text-left has-text-grey is-size-7">
             {{ $t('general.balance') }}
           </div>
-          <!-- BSX Token Amount -->
           <TokenMoney
             v-for="token in tokens"
             :key="token.id"
             :value="token.balance"
             :token-id="token.id" />
-          <!-- KSM Token Amount -->
         </div>
         <AccountBalance v-else class="is-size-7" />
       </b-dropdown-item>
