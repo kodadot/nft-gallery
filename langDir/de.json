@@ -63,7 +63,7 @@
       "9": "Kann ich das in virtuellen Welten nutzen?",
       "10": "Wie kann ich KSM mit ETH, DAI, BTC kaufen?",
       "11": "Ich erhalte Fehlermeldungen, wie kann ich diese beheben?",
-      "12": "Was bedeutet SENDEN, VERBRAUCHEN, LISTEN?",
+      "12": "Was bedeutet SENDEN, VERBRENNEN, LISTEN?",
       "13": "Ich habe ein NFT gemintet, aber ich sehe es nicht in der Gallerie. Wo ist es?",
       "14": "Gibt es noch andere Wege um an einen kleinen Betrag KSM zu kommen?",
       "15": "Wie kann ich mein NFT verkaufen?",
@@ -502,394 +502,394 @@
     }
   },
   "sort": {
-    "EMOTES_COUNT_DESC": "Most reacted",
-    "BLOCK_NUMBER_DESC": "Recently Created",
-    "BLOCK_NUMBER_ASC": "Oldest",
-    "UPDATED_AT_DESC": "Recently Interacted",
-    "UPDATED_AT_ASC": "Unpopular",
-    "PRICE_DESC": "Price: High to Low",
-    "PRICE_ASC": "Price: Low to High",
-    "SN_ASC": "Serial Number Ascending",
-    "blockNumber_DESC": "Recently Created",
-    "blockNumber_ASC": "Oldest",
-    "updatedAt_DESC": "Recently Interacted",
-    "updatedAt_ASC": "Unpopular",
-    "price_DESC": "Price: High to Low",
-    "price_ASC": "Price: Low to High",
-    "sn_ASC": "Serial Number Ascending",
-    "listed": "Buy now",
-    "own": "Own",
+    "EMOTES_COUNT_DESC": "Meiste Reaktionen",
+    "BLOCK_NUMBER_DESC": "Kürzlich erstellt",
+    "BLOCK_NUMBER_ASC": "Älteste",
+    "UPDATED_AT_DESC": "Küzlich interagiert",
+    "UPDATED_AT_ASC": "Unpopulär",
+    "PRICE_DESC": "Preis: Hoch zu Niedrig",
+    "PRICE_ASC": "Presi: Niedrig zu Hoch",
+    "SN_ASC": "Aufsteigende Seriennummer",
+    "blockNumber_DESC": "Kürzlich erstellt",
+    "blockNumber_ASC": "Älteste",
+    "updatedAt_DESC": "Kürzlich interagiert",
+    "updatedAt_ASC": "Unpopulär",
+    "price_DESC": "Preis: Hoch zu Niedrig",
+    "price_ASC": "Preis: Niedrig zu Hoch",
+    "sn_ASC": "Aufsteigende Seriennummer",
+    "listed": "Jetzt kaufen",
+    "own": "Eigene",
     "collection": {
-      "blockNumber_DESC": "New first",
-      "blockNumber_ASC": "Old first",
-      "updatedAt_DESC": "Recently Interacted",
-      "updatedAt_ASC": "Unpopular",
-      "price_DESC": "Price: High to Low",
-      "price_ASC": "Price: Low to High",
-      "sn_ASC": "Serial Number Ascending",
-      "listed": "Buy now",
+      "blockNumber_DESC": "Neue zuerst",
+      "blockNumber_ASC": "Ältere zuerst",
+      "updatedAt_DESC": "Kürzlich interagiert",
+      "updatedAt_ASC": "Unpopulär",
+      "price_DESC": "Preis: Hoch zu Niedrig",
+      "price_ASC": "Preis: Niedrig zu Hoch",
+      "sn_ASC": "Aufsteigende Seriennummer",
+      "listed": "Jetzt kaufen",
 
-      "EMOTES_COUNT_DESC": "Most reacted",
-      "BLOCK_NUMBER_DESC": "Recently Created",
-      "BLOCK_NUMBER_ASC": "Oldest",
-      "UPDATED_AT_DESC": "Recently Interacted",
-      "UPDATED_AT_ASC": "Unpopular",
-      "PRICE_DESC": "Price: High to Low",
-      "PRICE_ASC": "Price: Low to High",
-      "SN_ASC": "Serial Number Ascending"
+      "EMOTES_COUNT_DESC": "Meiste Reaktionen",
+      "BLOCK_NUMBER_DESC": "Kürzlich erstellt",
+      "BLOCK_NUMBER_ASC": "Älteste",
+      "UPDATED_AT_DESC": "Kürzlich interagiert",
+      "UPDATED_AT_ASC": "Unpopulär",
+      "PRICE_DESC": "Preis: Hoch zu Niedrig",
+      "PRICE_ASC": "Preis: Niedrig zu Hoch",
+      "SN_ASC": "Aufsteigende Seriennummer"
     }
   },
   "query": {
     "priceRange": {
-      "minPrice": "MIN PRICE",
-      "maxPrice": "MAX PRICE",
-      "priceValidation": "Min price has to be smaller than max price!",
-      "range": "Price range"
+      "minPrice": "MIN PREIS",
+      "maxPrice": "MAX PREIS",
+      "priceValidation": "Der Mindestpreis muss kleiner als der Maximalpreis sein!",
+      "range": "Preisspanne"
     }
   },
   "mint": {
-    "submit": "Click to create NFT(s)",
-    "estimate": "Show me the transaction fees",
-    "estimated": "Transaction fees will cost about",
-    "success": "Congrats to your new NFT(s)",
-    "shareWithFriends": "Share {0} with your friends",
-    "unlimited": "Unlimited items in in your collection",
-    "nfsw": "Explicit content (NSFW)",
-    "listForSale": "List NFT for sale",
-    "mass": "NFT mass minter",
-    "command": "List of commands for mass mint",
-    "transform": "Transform commands in NFT",
-    "deposit": "Current deposit",
+    "submit": "Klicken um NFT(s) zu erstellen",
+    "estimate": "Zeig mir die Transaktionsgebühr",
+    "estimated": "Transaktionsgebühr beträgt schätzungsweise",
+    "success": "Gratulation zum neuen NFT",
+    "shareWithFriends": "Teile {0} mit deinen Freunden",
+    "unlimited": "Unbegrenzt viele Gegenstände in deiner Sammlung",
+    "nfsw": "Expliziter Inhalt (NSFW)",
+    "listForSale": "NFT zum Verkauf einstellen",
+    "mass": "NFT Massenmint",
+    "command": "Liste der Kommandos für Massenmint",
+    "transform": "Transformiere Komanndos in NFT um",
+    "deposit": "Derzeitiger Kontostand",
     "expert": {
-      "show": "Show advanced settings",
-      "hide": "Hide advanced settings",
-      "count": "Currently matched {0} adresses",
-      "countGlitch": "You have more adresses than available editions. This can cause a problem. Consider to set EDITION field to at least to {0}",
-      "postfix": "Add hashtag and index after the name (e.g #1)",
-      "sync": "Sync editions to {0}"
+      "show": "Zeige erweiterte Einstellungen",
+      "hide": "Verberge erweiterete Einstellungen",
+      "count": "Zur Zeit hast Du {0} übereinstimmende Adressen",
+      "countGlitch": "Du hast mehr Adressen, als zur Verfügung stehende Editionen. Das kann zu Problemen führen. Du solltest das EDITION Feld auf {0} setzen",
+      "postfix": "Füge einen hashtag und Index hinter den Namen (z.B. #1)",
+      "sync": "Synchronisiere Editionen mit {0}"
     },
     "royalty": {
       "rate": "Royalty Rate",
-      "mine": "Pay royalties to the creator account",
-      "receiver": "Destination account for royalty"
+      "mine": "Zahle royalties an das Konto des Erstellers",
+      "receiver": "Zielkonto für die royalties"
     },
     "collection": {
       "name": {
-        "label": "Collection name",
-        "placeholder": "Enter collection name",
-        "message": "Name of your collection. It will be visible in the gallery"
+        "label": "Name der Sammlung",
+        "placeholder": "Trage den Namen der Sammlung ein",
+        "message": "Name deiner Sammlung. So wird es in der Gallerie angezeigt"
       },
       "description": {
-        "label": "Collection description",
-        "placeholder": "Enter collection description",
-        "message": "Description of your collection. Markdown is supported"
+        "label": "Beschreibung der Sammlung",
+        "placeholder": "Trage die Beschreibung der Sammlung ein",
+        "message": "Beschreibung deiner Sammlung. Markdown wird unterstützt"
       },
       "symbol": {
-        "label": "Symbol (short name)",
-        "placeholder": "3-5 character long name",
-        "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
+        "label": "Symbol (Kurzname)",
+        "placeholder": "3-5 Buchstaben langer Name",
+        "message": "Das Symbol das dem NFT anhängt: zum Beispiel wird Kusama mit KSM geführt"
       },
-      "create": "Create collection"
+      "create": "Sammlung erstellen"
     },
     "nft": {
       "name": {
-        "label": "name",
-        "placeholder": "Enter NFT name",
-        "message": "Name of your NFT. It will be visible in the gallery"
+        "label": "Name",
+        "placeholder": "Namen des NFT",
+        "message": "Name des NFT. So wird es in der Gallerie angezeigt"
       },
       "description": {
-        "label": "NFT description",
-        "placeholder": "Enter NFT description",
-        "message": "Description of your NFT. Markdown is supported"
+        "label": "Beschreibung des NFT",
+        "placeholder": "Trage die Beschreibung des NFT ein",
+        "message": "Beschreibung deines NFT. Markdown wird unterstützt"
       },
       "edition": {
         "label": "Edition",
-        "placeholder": "Minimum is 1",
-        "message": "Number of NFTs to be minted"
+        "placeholder": "Minimum ist 1",
+        "message": "Anzahl der zu mintenden NFTs"
       }
     }
   },
   "tooltip": {
-    "symbol": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM",
-    "name": "NFT will be visible under this name in gallery",
-    "edition": "Number of copies",
-    "created": "Created by",
-    "collections": "Collections created by",
-    "sold": "Nfts sold by",
-    "collected": "Nfts collected by",
-    "buy": "Show only nfts available for purchase",
-    "own": "Show only nfts you own",
-    "random": "Go to random page",
-    "buyDisabled": "Not enough balance",
-    "holdings": "Nfts owned by",
-    "gains": "Gained by",
-    "makeOfferDisabled": "You have already made an offer for this NFT",
-    "notEnoughBalance": "Insufficient funds"
+    "symbol": "Das Symbol das dem NFT anhängt: zum Beispiel wird Kusama mit KSM geführt",
+    "name": "NFT wird unter diesem Namen in der Gallerie angezeigt",
+    "edition": "Anzahl der Kopien",
+    "created": "Erstellt von",
+    "collections": "Sammlungen erstellt von",
+    "sold": "NFTs verkauft von",
+    "collected": "NFTs gesammelt von",
+    "buy": "Nur zum Verkauf eingestellte NFTs anzeigen",
+    "own": "Nur NFTs anzeigen, die Du besitzt",
+    "random": "Spring zu irgendeiner Seite",
+    "buyDisabled": "Nicht genug Guthaben",
+    "holdings": "NFTs im Besitz von",
+    "gains": "Erlangt durch",
+    "makeOfferDisabled": "Du hast schon ein Angebot für dieses NFT gemacht",
+    "notEnoughBalance": "Unzureichendes Guthaben"
   },
   "nft": {
-    "carbonless": "This NFT is carbonless",
-    "burned": "NFT is burned",
-    "description": "NFT description",
-    "name": "Name your NFT",
-    "frozen": "NFT is frozen",
-    "related": "More From This Collection",
-    "visited": "Visited NFTs",
+    "carbonless": "Dieses NFT ist CO2 befreit",
+    "burned": "NFT wurde verbrannt",
+    "description": "NFT Beschreibung",
+    "name": "Benenne dein NFT",
+    "frozen": "NFT ist eingefroren",
+    "related": "Mehr aus dieser Sammlung",
+    "visited": "Betrachtete NFTs",
     "event": {
-      "MINTNFT": "MINT",
-      "LIST": "LIST",
-      "UNLIST": "UNLIST",
-      "SEND": "GIFT",
-      "CONSUME": "BURN",
-      "BUY": "BUY",
-      "MAKE_OFFER": "MAKE OFFER",
-      "DOWNLOAD": "DOWNLOAD",
+      "MINTNFT": "MINTEN",
+      "LIST": "LISTEN",
+      "UNLIST": "ENTLISTEN",
+      "SEND": "VERSCHENKEN",
+      "CONSUME": "VERBRENNEN",
+      "BUY": "KAUFEN",
+      "MAKE_OFFER": "ANGEBOT MACHEN",
+      "DOWNLOAD": "DOWNLOADEN",
       "ROYALTY": "ROYALTY",
-      "PAY_ROYALTY": "PAY ROYALTY"
+      "PAY_ROYALTY": "ROYALTY ZAHLEN"
     },
     "action": {
-      "submit": "Submit {0}"
+      "submit": "Absenden {0}"
     },
     "properties": {
-      "label": "Traits"
+      "label": "Merkmale"
     },
     "offer": {
-      "label": "Offers ({0})",
-      "count": "Number of offers {0}",
-      "empty": "There are currently no offers for this NFT.",
-      "item": "Item",
-      "status": "Offer status",
-      "date": "Date",
-      "title": "Global Marketplace Offers"
+      "label": "Angebote ({0})",
+      "count": "Anzahl an Angeboten {0}",
+      "empty": "Zur Zeit gibt es keine Angebote für dieses NFT.",
+      "item": "Gegenstand",
+      "status": "Angebotsstatus",
+      "date": "Datum",
+      "title": "Gebote auf dem Marktplatz"
     }
   },
   "offer": {
     "caller": "Maker",
-    "price": "Price",
-    "expiration": "Expiration",
-    "action": "Action",
-    "daySelectLabel": "offer expires in",
-    "daySelectPlaceholder": "select day to expire",
-    "days": "days",
-    "collection": "Collection",
+    "price": "Preis",
+    "expiration": "Ablaufend",
+    "action": "Aktion",
+    "daySelectLabel": "Angebot läuft aus in",
+    "daySelectPlaceholder": "Wähle Datum zum Ablaufen",
+    "days": "Tage",
+    "collection": "Sammlung",
     "nftName": "Name",
-    "accept": "NFT has new a owner",
-    "withdraw": "your offer has been withdrawn"
+    "accept": "NFT hat einen neuen Besitzer",
+    "withdraw": "Dein Angebot wurde zurückgenommen"
   },
   "statsOverview": {
-    "buys": "Buys",
+    "buys": "Käufe",
     "offerStats": {
       "status": "Status",
-      "totalCount": "Total Count",
-      "totalPrice": "Total price"
+      "totalCount": "Insgesamte Anzahl",
+      "totalPrice": "Insgesamter Preis"
     },
-    "listed": "Listed",
-    "minted": "Minted",
-    "createdCollections": "Created Collections",
-    "activeWallets": "Active wallets",
-    "offers": "Offers",
-    "bsxTitle":  "Basilisk Marketplace Statistics"
+    "listed": "Gelistet",
+    "minted": "Gemintet",
+    "createdCollections": "Erstellte Sammlungen",
+    "activeWallets": "Aktive Konten",
+    "offers": "Angebote",
+    "bsxTitle":  "Basilisk Marktplatz Statistiken"
   },
   "myOffer": {
-    "bsxTitle": "Incoming Offers",
-    "price": "Amount",
-    "caller": "Offer Maker",
-    "date": "Time",
-    "needLogin": "Connect wallet to see your offers here.",
-    "empty": "There are currently no offers."
+    "bsxTitle": "Eingehende Angebote",
+    "price": "Menge",
+    "caller": "Angebotsmacher",
+    "date": "Zeit",
+    "needLogin": "Verbinde deine Wallet um deine Angebote zu sehen.",
+    "empty": "Zur Zeit gibt es keine Angebote."
   },
   "loader": {
-    "casting": "(1/3) Casting the tx to blockchain",
-    "finalized": "(3/3) Finalized",
-    "block": "(2/3) Transaction in block",
-    "pinImage": "Pinning Image",
-    "pinMeta": "Pinning Metadata",
-    "constructTx": "Constructing transaction",
-    "sign": "Waiting for response from signer",
-    "ipfs": "Uploading data to IPFS",
-    "arweave": "Storing data via PermaFrost",
-    "uploading": "({0}/{1}) Uploading data to IPFS",
-    "checkBalance": "Checking if you have enough balance"
+    "casting": "(1/3) Bereite die tx zur Blockcahin vor",
+    "finalized": "(3/3) Beendet",
+    "block": "(2/3) Transaktion im Block",
+    "pinImage": "Bild anheften",
+    "pinMeta": "Metadaten anpinnen",
+    "constructTx": "Transaktion wird erstellt",
+    "sign": "Auf Antwort des Unterzeichners warten",
+    "ipfs": "Lade Daten zu IPFS hoch",
+    "arweave": "Daten via PermaFrost speichern",
+    "uploading": "({0}/{1}) Uploade Daten zu IPFS",
+    "checkBalance": "Prüfe ob Du genug Guthaben hast"
   },
   "arweave": {
-    "uploadYes": "Upload NFT image to Arweave",
-    "uploadNo": "Do not use Arweave",
-    "tooltip": "Using Arweave means that you are storing your multimedia forever on Arweave, good for small assets like JPEG."
+    "uploadYes": "Lade NFT Bild zu Arweave hoch",
+    "uploadNo": "Arweave nicht benutzen",
+    "tooltip": "Arweave nutzen, bedeutet das Du deine Multimedia Datei für immer auf Arweave speicherst, eignet sich gut für kleine Anlagen wie JPEG."
   },
   "carbonOffset": {
-    "carbonOffsetYes": "I'm making carbonless NFT",
-    "carbonOffsetNo": "I don't want to have carbonless NFT",
-    "tooltip": "Carbonless NFT means that you are helping cover costs for carbon credits and planting trees"
+    "carbonOffsetYes": "Ich mache ein CO2 befreites NFT",
+    "carbonOffsetNo": "Ich möchte kein CO2 befreites NFT",
+    "tooltip": "CO2 befreites NFT bedeutet, dass Du hilfst die Kosten für CO2 Zertifikate und Bäumepflanzen mitträgst"
   },
   "support": {
-    "tooltip": "Cover costs mean that users help to support initial costs for KodaDot which stores your JPEG on your behalf."
+    "tooltip": "Kosten decken, bedeutet das Nutzer mithelfen die entstehenden Kosten für KodaDot mitzutragen, welche dein JPEG in deinem Namen speichert."
   },
   "termOfService": {
-    "accept": "I confirm that I hold full copyright ownership of the submitted digital asset (or have sufficient permission by the owner to use the asset)"
+    "accept": "Hiermit bestätige ich, das ich über die gesamten Urheberrechte  of the submitted digital asset (or have sufficient permission by the owner to use the asset)"
   },
   "profile": {
-    "page": "Profile",
-    "user": "User",
-    "created": "Created",
-    "collected": "Collected",
-    "sold": "Sold",
-    "holdings": "Holdings",
-    "gains": "Gains",
-    "showQr": "Show QR",
-    "collectedFromCreator": "Collected {0} NFT(s) from this creator"
+    "page": "Profil",
+    "user": "Nutzer",
+    "created": "Erstellt",
+    "collected": "Gesammelt",
+    "sold": "Verkauft",
+    "holdings": "Im Besitz",
+    "gains": "Gewinne",
+    "showQr": "QR anzeigen",
+    "collectedFromCreator": "{0} NFT(s) von diesem Künstler gesammelt"
   },
   "sales": {
-    "page": "Sales",
-    "title": "Latest KUSAMA Sales",
-    "subtitle": "Featuring the most recently sold NFTs on RMRK."
+    "page": "Verkäufe",
+    "title": "Neueste Verkäufe auf KUSAMA",
+    "subtitle": "Und den kürzlich verkauften NFTs auf RMRK."
   },
   "hot": {
-    "title": "Recently KUSAMA Sales In One Week",
-    "subtitle": "Featuring the recently sold NFTs on RMRK"
+    "title": "Neueste Verkäufe auf KUSAMA in der letzten Woche",
+    "subtitle": "Und den kürzlich verkauften NFTs auf RMRK."
   },
   "spotlight": {
     "page": "Spotlight",
-    "title": "User Spotlight",
-    "subtitle": "Featuring the most active collectors and artits on RMRK.",
-    "filter_accounts": "Accounts With Identity",
-    "id": "Creator",
-    "sold": "Sold",
+    "title": "Nutzer im Spotlight",
+    "subtitle": "Mit den aktivsten Sammlern und Künstlern auf RMRK.",
+    "filter_accounts": "Accounts mit Identität",
+    "id": "Ersteller",
+    "sold": "Verkauft",
     "unique": "∃!",
-    "total": "Total",
-    "averagePrice": "Ø price",
-    "count": "Σ collection",
-    "collectors": "Collectors",
+    "total": "Insgesamt",
+    "averagePrice": "Ø Preis",
+    "count": "Σ Sammlung",
+    "collectors": "Sammler",
     "score": "Score",
-    "empty": "Empty",
-    "uniqueCollectors": "∃! collectors",
-    "soldHistory": "Last 30 Days Sold"
+    "empty": "Leer",
+    "uniqueCollectors": "∃! Sammler",
+    "soldHistory": "Verkauft in den letzten 30 Tagen"
   },
   "series": {
-    "title": "Top Collection",
-    "subtitle": "The top NFTs on RMRK, ranked by volume, floor price and other statistics.",
+    "title": "Top Sammlung",
+    "subtitle": "Die Top NFTs auf Kusama und RMRK, gelistet nach Volumen, Floorpreis und anderen Statisiken.",
     "assets": "Assets",
-    "buys": "Buys",
-    "collected": "Collected",
-    "floorprice": "Floor price",
-    "averagePrice": "Average price",
-    "highestSale": "Highest Sale",
-    "owners": "Owners",
-    "volume": "Volume",
+    "buys": "Käufe",
+    "collected": "Gesammelt",
+    "floorprice": "Floorpreis",
+    "averagePrice": "Durchschnittspreis",
+    "highestSale": "Höchster Verkauf",
+    "owners": "Besitzer",
+    "volume": "Volumen",
     "score": "Score",
     "emoteCount": "Emotes",
-    "buyHistory": "Last 30 Days Buy"
+    "buyHistory": "Käufe der letzten 30 Tage"
   },
   "activity": {
-    "listed": "Listed",
-    "totalItems": "Σ Items",
-    "todayTraded": "24H",
-    "totalTraded": "Σ VOLUME TRADED",
-    "highestSale": "HIGHEST SALE",
-    "totalBuys": "Σ BUYS",
-    "unique": "UNIQUE",
-    "owners": "OWNERS",
-    "distribution": "DISTRIBUTION",
-    "floorPrice": "FLOOR PRICE"
+    "listed": "Gelistet",
+    "totalItems": "Σ Artikel",
+    "todayTraded": "24St",
+    "totalTraded": "Σ Handelsvolumen",
+    "highestSale": "HÖCHSTER VERKAUF",
+    "totalBuys": "Σ KÄUFE",
+    "unique": "EINZIGARTIG",
+    "owners": "BESITZER",
+    "distribution": "VERTEILUNG",
+    "floorPrice": "FLOORPREIS"
   },
   "profileStats": {
-    "listed": "Listed",
-    "totalItems": "Σ Items",
-    "highestSale": "HIGHEST SALE",
-    "totalBuys": "Σ BUYS",
-    "highestBuy": "Highest buy",
-    "totalAmountSpend": "Σ amount spend",
-    "holdingsNfts": "Holdings values",
-    "maxSoldPrice": "Max sold price",
-    "totalSellValues": "Σ sell values",
-    "totalSoldItems": "Σ sold items",
-    "totalHoldingsBoughtValues": "KSM spend for holdings nfts"
+    "listed": "Gelistet",
+    "totalItems": "Σ Artikel",
+    "highestSale": "HÖCHSTER VERKAUF",
+    "totalBuys": "Σ KÄUFE",
+    "highestBuy": "Höchster Kauf",
+    "totalAmountSpend": "Σ Summe ausgegeben",
+    "holdingsNfts": "Wert des Kontos",
+    "maxSoldPrice": "Höchster Verkaufspreis",
+    "totalSellValues": "Σ Wert der Verkäufe",
+    "totalSoldItems": "Σ verkaufter Artikel",
+    "totalHoldingsBoughtValues": "Ausgegebene KSM für die NFTs im Konto"
   },
   "tutorial": {
-    "create": "1. Create polkadot js account",
-    "ksm": "2. Get KSM",
-    "mint": "3. Minting"
+    "create": "1. Erstelle einen polkadot.js Konto",
+    "ksm": "2. Besorge KSM",
+    "mint": "3. Minten"
   },
   "general": {
-    "apply": "Apply",
-    "using": "using",
-    "balance": "Balance",
-    "connect": "Connect",
-    "connect_wallet": "Connect your wallet",
-    "change_account": "Change account",
-    "submit": "Submit",
-    "remove": "Remove",
-    "correctAddress": "Correct address format",
-    "copyUrl": "Copy URL",
-    "openUrl": "Open URL",
-    "copyRewardTooltip": "Your reward link copied to clipboard",
-    "copyRewardLink": "Copy Reward Me link",
-    "latestSales": "Latest sales",
-    "searchResultsText": "Showing results for",
-    "ksmDiscoverText": "Discover, collect and sell Kusama NFTs",
-    "latestSalesheading": "Discover the most recent sales on rmrk",
-    "newestListDesc": "Discover the latest items on sale",
-    "newestListHeading": "Newest List",
-    "popularCollectionsHeading": "Popular Collections",
-    "popularCollectionsDesc": "Discover the most popular collections on rmrk",
-    "from": "from",
-    "to": "to"
+    "apply": "Anwenden",
+    "using": "benutzen",
+    "balance": "Kontostand",
+    "connect": "Verbinden",
+    "connect_wallet": "Verbinde deine Wallet",
+    "change_account": "Konto wechseln",
+    "submit": "Absenden",
+    "remove": "Entfernen",
+    "correctAddress": "Addressformat korrigieren",
+    "copyUrl": "URL kopieren",
+    "openUrl": "URL öffnen",
+    "copyRewardTooltip": "Deinen Prämienlink in die Zwischenablage kopieren",
+    "copyRewardLink": "Kopiere den Prämienlink",
+    "latestSales": "Letzte Verkäufe",
+    "searchResultsText": "Ergebnisse anzeigen für",
+    "ksmDiscoverText": "Entdecke, sammle und verkaufe Kusama NFTs",
+    "latestSalesheading": "Entdecke die letzten Verkäufe auf RMRK",
+    "newestListDesc": "Entdecke die neuesten Artikel zum Kauf",
+    "newestListHeading": "Neu Gelistet",
+    "popularCollectionsHeading": "Beliebte Sammlungen",
+    "popularCollectionsDesc": "Entdecke die belibtesten Sammlungen auf RMRK",
+    "from": "Von",
+    "to": "Zu"
   },
   "helper": {
-    "seeMore": "See More",
-    "learnMore": "Learn More",
-    "noCollections": "You have no collections",
-    "noInfinityCollections": "You have no collections with unlimited NFTs",
-    "indexerReadOnly": "App is in read only mode, try reload app or visit Discord",
-    "clickToCreate": "Click here to create collection",
+    "seeMore": "Mehr anzeigen",
+    "learnMore": "Lerne mehr",
+    "noCollections": "Du hast keine Sammlungen",
+    "noInfinityCollections": "Du verfügst über keine Sammlung mit unbegrenzt vielen NFTs",
+    "indexerReadOnly": "Die App ist im Lesemodus, versuch die App neu zu laden oder besuch unseren Discord",
+    "clickToCreate": "Klick hier um eine Sammlung zu erstellen",
     "urlToTransform": {
       "label": "URL to transform",
       "placeholder": "singular.rmrk.app/collectibles/",
-      "copy": "Kodadot link successfuly copied"
+      "copy": "Kodadot Link erfolgreich kopiert"
     },
-    "builtOn": "Built on",
-    "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction."
+    "builtOn": "Gebaut auf",
+    "signStuckText": "Hängts? Schau nach Popups und SIGNIERE die Transaktion."
   },
   "cookies": {
-    "notice": "We use third-party 🍪 in order to personalize your site experience",
-    "accept": "Accept",
-    "decline": "Decline"
+    "notice": "Wir nutzen Drittanwender- 🍪 um dein Erlebnis auf dieser Seite zu personalisieren",
+    "accept": "Akzeptieren",
+    "decline": "Ablehnen"
   },
   "action": {
-    "admin": "Admin panel",
-    "click": "Click to {0} NFT(s)",
-    "omitListed": "Skip listed NFT(s)",
-    "random": "Use random",
-    "distributionCount": "Percent which will be distributed",
-    "sendToMyself": "Send to myself"
+    "admin": "Adminansicht",
+    "click": "Klicke für {0} NFT(s)",
+    "omitListed": "Überspringe gelistete NFT(s)",
+    "random": "Zufällig",
+    "distributionCount": "Prozent die verteilt werden",
+    "sendToMyself": "An mich selbst senden"
   },
   "identity": {
-    "page": "Identity",
-    "set": "Create on-chain identity",
-    "click": "Click to create identity",
-    "handleRequired": "Your handle is required",
-    "deposit": "Deposit"
+    "page": "Identität",
+    "set": "Erstelle on-chain Identiät",
+    "click": "Klicke um Identität zu erstellen",
+    "handleRequired": "Dein Nutzername wird benötigt",
+    "deposit": "Einzahlen"
   },
   "massMint": {
     "tutorial": {
       "basic": {
-        "title": "Basic mass mint",
-        "description": "This is the basic mass mint, it will create NFTs with the same symbol and name, but different amount. It will also create different amount of NFTs with the same symbol and name, but different amount."
+        "title": "Einfacher Massenmint",
+        "description": "Das ist der einfach Massenmint, es werden NFTs mit dem selben Symbol und Namen erstellt aber in unterschiedlicher Anzahl. Es kann auch unterschidliche Mengen von NFTs mit dem selben Symbol und Namen in verschiedenen Mengen erstellen."
       },
       "range": {
-        "title": "Mass mint range",
-        "description": "You can specify the range of the mass mint, it will create NFTs with the same symbol and name, but different amount. It will also create different amount of NFTs with the same symbol and name, but different amount."
+        "title": "Umfang des Massenmints festlegen",
+        "description": "Du kannst den Umfang des Massenmints festlegen, es werden NFTs mit dem selben Symbol und Namen erstellt aber in unterschiedlicher Anzahl. Es kann auch unterschidliche Mengen von NFTs mit dem selben Symbol und Namen in verschiedenen Mengen erstellen."
       },
       "all": {
-        "title": "Mass mint all",
-        "description": "You can specify the range of the mass mint, it will create NFTs with the same symbol and name, but different amount. It will also create different amount of NFTs with the same symbol and name, but different amount."
+        "title": "Massenmint von allem",
+        "description": "Du kannst den Umfang des Massenmints festlegen, es werden NFTs mit dem selben Symbol und Namen erstellt aber in unterschiedlicher Anzahl. Es kann auch unterschidliche Mengen von NFTs mit dem selben Symbol und Namen in verschiedenen Mengen erstellen."
       }
     },
     "syntax": {
-      "file": "File name (e.g awesome_1.jpg)",
-      "name": "Name of the NFT (e.g Awesome Token)",
-      "amount": "Price of the token (e.g 0.01)",
-      "description": "Mutliline description of the token (e.g This is an awesome token)",
-      "range": "Range of the tokens (e.g 1-5)",
-      "all": "Apply to all tokens (use three dots: ...)"
+      "file": "Dateiname (z.B. saugut_1.jpg)",
+      "name": "Name vom NFT (z.B. Sauguter Token)",
+      "amount": "Preis des Token (z.B. 0.01)",
+      "description": "Mehrzeilige Beschreibung des Token (z.B. Das ist ein sauguter Token!)",
+      "range": "Anzahl der Token (z.B. 1-5)",
+      "all": "Auf alle Token anwenden (nutze drei Punkte: ...)"
     }
   },
   "collapse": {
