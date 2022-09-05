@@ -280,7 +280,6 @@ export default class extends mixins(PrefixMixin) {
   nativeSearch() {
     // not selected
     if (this.selectedIndex === -1) {
-      this.redirectToGalleryPageIfNeed()
       return
     }
 
