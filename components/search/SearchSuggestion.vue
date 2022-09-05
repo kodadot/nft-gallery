@@ -146,8 +146,6 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
 import { RowSeries } from '~/components/series/types'
 
-const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
-
 @Component({})
 export default class extends mixins(PrefixMixin) {
   @Prop(String) public name!: string
@@ -298,7 +296,9 @@ export default class extends mixins(PrefixMixin) {
 
     // search result
     if (isSeeMore) {
-      this.redirectToGalleryPageIfNeed()
+      this.$emit('gotoGallery', {
+        tab: this.activeSearchTab === 'Collections' ? 'COLLECTION' : 'GALLERY',
+      })
     } else {
       if (this.activeSearchTab === 'NFTs') {
         this.gotoGalleryItem(
@@ -309,19 +309,6 @@ export default class extends mixins(PrefixMixin) {
           this.selectedItemListMap['Collections'][this.selectedIndex]
         )
       }
-    }
-  }
-
-  redirectToGalleryPageIfNeed() {
-    if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
-      this.$router.replace({
-        name: this.routeOf('explore'),
-        query: {
-          ...this.$route.query,
-          tab:
-            this.activeSearchTab === 'Collections' ? 'COLLECTION' : 'GALLERY',
-        },
-      })
     }
   }
 

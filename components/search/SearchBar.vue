@@ -17,6 +17,7 @@
         :name="name"
         :show-default-suggestions="showDefaultSuggestions"
         :query="query"
+        @gotoGallery="redirectToGalleryPageIfNeed"
         @close="closeDropDown">
       </SearchSuggestion>
     </template>
@@ -36,6 +37,8 @@ import { SearchQuery } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
+const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
+
 @Component({
   components: {
     SearchSuggestion: () => import('./SearchSuggestion.vue'),
@@ -54,6 +57,7 @@ export default class extends mixins(PrefixMixin, KeyboardEventsMixin) {
 
   @Emit('enter')
   onEnter() {
+    this.redirectToGalleryPageIfNeed()
     this.closeDropDown()
   }
 
@@ -74,6 +78,18 @@ export default class extends mixins(PrefixMixin, KeyboardEventsMixin) {
 
   get showDefaultSuggestions() {
     return this.urlPrefix === 'rmrk'
+  }
+
+  redirectToGalleryPageIfNeed(params?: Record<string, string>) {
+    if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
+      this.$router.replace({
+        name: `${this.urlPrefix}-explore`,
+        query: {
+          ...this.$route.query,
+          ...params,
+        },
+      })
+    }
   }
 }
 </script>
