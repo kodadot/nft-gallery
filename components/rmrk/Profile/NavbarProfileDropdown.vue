@@ -60,7 +60,17 @@
       <hr class="dropdown-divider" aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
-        <AccountBalance class="is-size-7" />
+        <div v-if="isSnek">
+          <div class="has-text-left has-text-grey is-size-7">
+            {{ $t('general.balance') }}
+          </div>
+          <TokenMoney
+            v-for="token in tokens"
+            :key="token.id"
+            :value="token.balance"
+            :token-id="token.id" />
+        </div>
+        <AccountBalance v-else class="is-size-7" />
       </b-dropdown-item>
 
       <hr class="dropdown-divider" aria-role="menuitem" />
@@ -88,6 +98,9 @@ import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
 import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
+import useApiMixin from '@/utils/mixins/useApiMixin'
+import { getAsssetBalance } from '@/utils/api/bsx/query'
 
 const components = {
   Avatar,
@@ -95,21 +108,58 @@ const components = {
     import('@/components/shared/ConnectWalletButton.vue'),
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
+  TokenMoney: () => import('@/components/bsx/format/TokenMoney.vue'),
 }
 
 @Component({ components })
-export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
+export default class NavbarProfileDropdown extends mixins(
+  PrefixMixin,
+  AuthMixin,
+  useApiMixin
+) {
   @Prop() public value!: any
   @Prop() public isRmrk!: boolean
   @Prop() public showIncommingOffers!: boolean
   @Prop() public isSnek!: boolean
 
+  private tokens = [
+    { id: '0', balance: 0 },
+    { id: '5', balance: 0 },
+  ]
+
+  get account() {
+    return this.$store.getters.getAuthAddress
+  }
+
   set account(account: string) {
     this.$store.dispatch('setAuth', { address: account })
   }
 
-  get account() {
-    return this.$store.getters.getAuthAddress
+  created() {
+    this.updateAssetsBalance()
+  }
+
+  private async updateAssetsBalance() {
+    const api = await this.useApi()
+    const result = await Promise.all(
+      this.tokens.map(
+        async (token) => await getAsssetBalance(api, this.accountId, token.id)
+      )
+    )
+    result.forEach((balance, idx) => {
+      this.$set(this.tokens, idx, {
+        ...this.tokens[idx],
+        balance: balance,
+      })
+    })
+  }
+
+  get realBalance() {
+    return this.$store.getters.getAuthBalance
+  }
+
+  get tokenAmount() {
+    return this.$store.getters.getTokenBalanceOf('0')
   }
 
   public disconnect() {
