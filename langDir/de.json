@@ -895,51 +895,51 @@
   "collapse": {
     "collection": {
       "description": {
-        "show": "Show me the description",
-        "hide": "Hide the description"
+        "show": "Beschreibung anzeigen",
+        "hide": "Beschreibung verbergen"
       },
       "attributes": {
-        "show": "Show on-chain attributes",
-        "hide": "Hide on-chain attributes"
+        "show": "Zeige on-chain Attribute",
+        "hide": "Verberge on-chain Attribute"
       }
     }
   },
   "sharing": {
-    "collection": "Check out this awesome Collection on KodaDot",
-    "nft": "Check out this awesome NFT on KodaDot",
-    "pack": "Check out this awesome Pack on KodaDot",
-    "profile": "Check out this awesome Profile on KodaDot"
+    "collection": "Sie dir diese großartige Sammlung auf KodaDot an",
+    "nft": "Sieh dir dieses großartige NFT auf KodaDot an",
+    "pack": "Sieh dir dieses großartige Paket auf KodaDot an",
+    "profile": "Sieh dir dieses großartige Profil auf KodaDot an"
   },
   "warning": {
-    "newTransactionWhilePriceSet": "Setting the price now requires making an additional transaction."
+    "newTransactionWhilePriceSet": "Um den Preis festzulegen, ist jetzt eine weitere Transaktion notwendig."
   },
   "teleport": {
-    "page": "Teleport",
-    "route": "Teleporting {0} from {1} to {2}"
+    "page": "Teleportieren",
+    "route": "Teleportiere {0} von {1} zu {2}"
   },
   "preferences": {
-    "basic": "basic user interface",
-    "advanced": "advanced user interface",
-    "theater": "Enable Theatre View on default",
+    "basic": "Standard Benutzeroberfläche",
+    "advanced": "Erweiterte Benutzeroberfläche",
+    "theater": "Bühnenansicht als Standard einstellen",
     "fold": {
-      "history": "Fold history and price chart in NFT view on default",
-      "description": "Fold description in collection view on default"
+      "history": "Geschichte und Preistabelle in der NFT-Ansicht standardmäßig einklappen",
+      "description": "Beschreibung in Sammlungsansicht standardmäßig einklappen"
     },
-    "yolo": "Replace BUY NOW with YOLO",
-    "priceVisible": "Always show price in gallery and collection view by default",
-    "mintTimeVisible": "Always show mint time in collection view by default",
-    "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)",
+    "yolo": "Ersetze JETZT KAUFEN mit YOLO",
+    "priceVisible": "Den Preis in der Gallerie und Sammlung standardmäßig anzeigen",
+    "mintTimeVisible": "DenZeitpunkt des Mintens in der Sammlung standardmäßig anzeigen",
+    "loadAllArtworks": "Sämtliche Kunstwerke standardmäßig laden (videos, etc.)",
     "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs",
-    "exploreTabOrder": "Default tab in explore"
+    "exploreTabOrder": "Standard Tab im Explorer"
   },
   "navbar": {
-    "teleport": "Teleport"
+    "teleport": "Teleportieren"
   },
   "walletConnect": {
-    "walletHeading": "Connect Wallet",
-    "authText": "KodaDot will never ask you to provide your mnemonic phrase or private key.",
-    "understand": "I understand",
-    "learnText": "Learn how to Connect",
-    "downloadExtension": "Download extension"
+    "walletHeading": "Wallet verbinden",
+    "authText": "KodaDot wird niemals nach deinem mnemonischen or privaten Key fragen.",
+    "understand": "Ich verstehe",
+    "learnText": "Lerne wie man sich verbindet",
+    "downloadExtension": "Downloade die Extension"
   }
 }
