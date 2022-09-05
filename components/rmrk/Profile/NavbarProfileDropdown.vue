@@ -45,8 +45,8 @@
           <nuxt-link to="/transform">{{ $t('transform') }}</nuxt-link>
         </b-dropdown-item>
       </template>
-      <b-dropdown-item v-if="isBsx" has-link aria-role="menuitem">
-        <nuxt-link to="/bsx/incomingoffers">{{
+      <b-dropdown-item v-if="showIncommingOffers" has-link aria-role="menuitem">
+        <nuxt-link :to="`/${urlPrefix}/incomingoffers`">{{
           $t('incomingOffers')
         }}</nuxt-link>
       </b-dropdown-item>
@@ -101,7 +101,7 @@ const components = {
 export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public value!: any
   @Prop() public isRmrk!: boolean
-  @Prop() public isBsx!: boolean
+  @Prop() public showIncommingOffers!: boolean
   @Prop() public isSnek!: boolean
 
   set account(account: string) {

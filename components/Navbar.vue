@@ -95,7 +95,7 @@
         <span>{{ $t('explore') }}</span>
       </b-navbar-item>
       <b-navbar-dropdown
-        v-if="isBsx"
+        v-if="isBsx || isSnek"
         id="NavStats"
         arrowless
         collapsible
@@ -159,7 +159,7 @@
       <NavbarProfileDropdown
         id="NavProfile"
         :is-rmrk="isRmrk"
-        :is-bsx="isBsx"
+        :show-incomming-offers="isBsx || isSnek"
         :is-snek="isSnek"
         data-cy="profileDropdown" />
     </template>
