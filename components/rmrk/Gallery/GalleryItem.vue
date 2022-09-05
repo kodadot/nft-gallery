@@ -143,7 +143,7 @@ import { Debounce } from 'vue-debounce-decorator'
 
 import { Emote, NFT, NFTMetadata } from '../service/scheme'
 import { getSanitizer, sanitizeIpfsUrl } from '../utils'
-import { exist } from './Search/exist'
+import { exist } from '@/components/search/exist'
 import { fetchNFTMetadata } from '../utils'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -199,7 +199,8 @@ import AvailableActions from './AvailableActions.vue'
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
-    GalleryItemCarousel: () => import('./GalleryItemCarousel.vue'),
+    GalleryItemCarousel: () =>
+      import('@/components/carousel/GalleryItemCarousel.vue'),
   },
   directives: {
     orientation: Orientation,

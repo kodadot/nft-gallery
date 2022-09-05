@@ -67,15 +67,15 @@ const mediaType = [
     tagRelated: 'model-viewer',
     type: '3d',
   },
-  {
-    url: '/bsx/gallery/2444376227-3',
-    title: '3D Ball',
-    description: 'Smash zone adverse',
-    collection: 'Ping Pong Ball',
-    creator: 'bXhWeV...2sDcbW',
-    tagRelated: 'model-viewer',
-    type: '3d',
-  },
+  // {
+  //   url: '/bsx/gallery/2444376227-3',
+  //   title: '3D Ball',
+  //   description: 'Smash zone adverse',
+  //   collection: 'Ping Pong Ball',
+  //   creator: 'bXhWeV...2sDcbW',
+  //   tagRelated: 'model-viewer',
+  //   type: '3d',
+  // },
   // {
   //   url: '/rmrk/gallery/9684463-c8205518d881699b3e-%E2%9D%84%EF%B8%8F-01_FROM_SINGULARITY-0000000000000005',
   //   title: '01 fr.om - singularity',
@@ -96,120 +96,130 @@ const mediaType = [
   },
 ]
 
-describe('Media component', () => {
-  mediaType.forEach(
-    ({ url, title, description, collection, creator, tagRelated, type }) => {
-      it(`should render ${type} in Media component`, () => {
-        const isRmrk = url.startsWith('/rmrk')
+describe(
+  'Media component',
+  {
+    defaultCommandTimeout: 60000,
+    requestTimeout: 60000,
+  },
+  () => {
+    mediaType.forEach(
+      ({ url, title, description, collection, creator, tagRelated, type }) => {
+        it(`should render ${type} in Media component`, () => {
+          const isRmrk = url.startsWith('/rmrk')
 
-        if (isRmrk) {
-          cy.intercept('POST', '**/rubick/*/graphql', (req) => {
-            // Queries
-            aliasQuery(req, 'nftById')
-            aliasQuery(req, 'collectionById')
-          })
-        } else {
-          cy.intercept('POST', '**/snekk/*/graphql', (req) => {
-            // Queries
-            aliasQuery(req, 'nftById')
-            aliasQuery(req, 'collectionById')
-          })
-        }
-
-        cy.intercept('GET', '**/kodadot.mypinata.cloud/ipfs/**', {
-          times: 5,
-        }).as('fetchMedia')
-
-        cy.visit(url)
-
-        // wait for graphql request to be fetched
-        cy.wait('@nftByIdQuery', { responseTimeout: 15000 })
-          .its('response.statusCode')
-          .should('match', /^(200|206)/)
-
-        // wait for asset to be loaded from pinata
-        cy.wait('@fetchMedia', { responseTimeout: 30000 })
-          .its('response.statusCode')
-          .should('match', /^(200|206)/)
-
-        cy.getCy(`type-${type}`)
-          .should('exist')
-          .then(() => {
-            // title
-            cy.getCy('item-title').should('contain.text', title)
-
-            // collection name
-            cy.getCy('item-collection').should('contain.text', collection)
-
-            // creator name
-            cy.getCy('item-creator').should('contain.text', creator)
-
-            cy.get('body').then(($body) => {
-              // owner
-              if ($body.find('[data-cy="item-owner"]').length) {
-                cy.getCy('item-owner')
-                  .find('[data-cy="identity"]')
-                  .should('exist')
-              }
-
-              // description
-              if ($body.find('[data-cy="item-description"]').length) {
-                cy.getCy('item-description').should('contain.text', description)
-              }
+          if (isRmrk) {
+            cy.intercept('POST', '**/rubick/**/graphql', (req) => {
+              // Queries
+              aliasQuery(req, 'nftById')
+              aliasQuery(req, 'collectionById')
             })
+          } else {
+            cy.intercept('POST', '**/snekk/**/graphql', (req) => {
+              // Queries
+              aliasQuery(req, 'nftById')
+              aliasQuery(req, 'collectionById')
+            })
+          }
 
-            // same item in related carousel
-            cy.getCy('carousel-related').find(tagRelated).should('exist')
-          })
-      })
+          cy.intercept('GET', '**/kodadot.mypinata.cloud/ipfs/**', {
+            times: 5,
+          }).as('fetchMedia')
 
-      it(`should load ${type} in collection page`, () => {
-        const isRmrk = url.startsWith('/rmrk')
+          cy.visit(url)
 
-        if (isRmrk) {
-          cy.intercept('POST', '**/rubick/*/graphql', (req) => {
-            // Queries
-            aliasQuery(req, 'nftById')
-            aliasQuery(req, 'collectionById')
-          })
-        } else {
-          cy.intercept('POST', '**/snekk/*/graphql', (req) => {
-            // Queries
-            aliasQuery(req, 'nftById')
-            aliasQuery(req, 'collectionById')
-          })
-        }
+          // wait for graphql request to be fetched
+          cy.wait('@nftByIdQuery', { responseTimeout: 15000 })
+            .its('response.statusCode')
+            .should('match', /^(200|206)/)
 
-        cy.intercept('GET', '**/kodadot.mypinata.cloud/ipfs/**', {
-          times: 5,
-        }).as('fetchMedia')
+          // wait for asset to be loaded from pinata
+          cy.wait('@fetchMedia', { responseTimeout: 30000 })
+            .its('response.statusCode')
+            .should('match', /^(200|206)/)
 
-        cy.visit(url)
+          cy.getCy(`type-${type}`)
+            .should('exist')
+            .then(() => {
+              // title
+              cy.getCy('item-title').should('contain.text', title)
 
-        // wait for graphql request to be fetched
-        cy.wait('@nftByIdQuery', { responseTimeout: 15000 })
-          .its('response.statusCode')
-          .should('match', /^(200|206)/)
+              // collection name
+              cy.getCy('item-collection').should('contain.text', collection)
 
-        // wait for asset to be loaded from pinata
-        cy.wait('@fetchMedia', { responseTimeout: 30000 })
-          .its('response.statusCode')
-          .should('match', /^(200|206)/)
+              // creator name
+              cy.getCy('item-creator').should('contain.text', creator)
 
-        cy.getCy('carousel-related')
-          .find(tagRelated)
-          .first()
-          .should('exist')
-          .scrollIntoView()
-        cy.getCy('item-collection').scrollIntoView().click()
+              cy.get('body').then(($body) => {
+                // owner
+                if ($body.find('[data-cy="item-owner"]').length) {
+                  cy.getCy('item-owner')
+                    .find('[data-cy="identity"]')
+                    .should('exist')
+                }
 
-        // wait for graphql request to be fetched
-        cy.wait('@collectionByIdQuery', { responseTimeout: 15000 })
-          .its('response.statusCode')
-          .should('match', /^(200|206)/)
+                // description
+                if ($body.find('[data-cy="item-description"]').length) {
+                  cy.getCy('item-description').should(
+                    'contain.text',
+                    description
+                  )
+                }
+              })
 
-        cy.location('pathname').should('include', '/collection/')
-      })
-    }
-  )
-})
+              // same item in related carousel
+              cy.getCy('carousel-related').find(tagRelated).should('exist')
+            })
+        })
+
+        it(`should load ${type} in collection page`, () => {
+          const isRmrk = url.startsWith('/rmrk')
+
+          if (isRmrk) {
+            cy.intercept('POST', '**/rubick/**/graphql', (req) => {
+              // Queries
+              aliasQuery(req, 'nftById')
+              aliasQuery(req, 'collectionById')
+            })
+          } else {
+            cy.intercept('POST', '**/snekk/**/graphql', (req) => {
+              // Queries
+              aliasQuery(req, 'nftById')
+              aliasQuery(req, 'collectionById')
+            })
+          }
+
+          cy.intercept('GET', '**/kodadot.mypinata.cloud/ipfs/**', {
+            times: 5,
+          }).as('fetchMedia')
+
+          cy.visit(url)
+
+          // wait for graphql request to be fetched
+          cy.wait('@nftByIdQuery', { responseTimeout: 15000 })
+            .its('response.statusCode')
+            .should('match', /^(200|206)/)
+
+          // wait for asset to be loaded from pinata
+          cy.wait('@fetchMedia', { responseTimeout: 30000 })
+            .its('response.statusCode')
+            .should('match', /^(200|206)/)
+
+          cy.getCy('carousel-related')
+            .find(tagRelated)
+            .first()
+            .should('exist')
+            .scrollIntoView()
+          cy.getCy('item-collection').scrollIntoView().click()
+
+          // wait for graphql request to be fetched
+          cy.wait('@collectionByIdQuery', { responseTimeout: 15000 })
+            .its('response.statusCode')
+            .should('match', /^(200|206)/)
+
+          cy.location('pathname').should('include', '/collection/')
+        })
+      }
+    )
+  }
+)

@@ -1,7 +1,7 @@
 <template>
   <div
-    class="is-align-self-flex-end is-flex is-justify-content-flex-end"
-    v-if="total > perPage">
+    v-if="total > perPage"
+    class="is-align-self-flex-end is-flex is-justify-content-flex-end">
     <b-pagination
       :total="total"
       :current.sync="current"
@@ -18,9 +18,9 @@
     </b-pagination>
     <b-tooltip :label="$t('tooltip.random') + ' (g+r)'">
       <b-button
+        v-if="hasMagicBtn"
         class="ml-2 magicBtn is-bordered-light share-button"
         title="Go to random page"
-        v-if="hasMagicBtn"
         type="is-primary"
         icon-left="dice"
         @click="goToRandomPage">
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { getRandomIntInRange } from '../utils'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'

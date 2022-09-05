@@ -1,0 +1,8 @@
+query assetListByIdList($ids: [ID!] = ["0", "5"]) {
+  assetList: assetEntities(where: { id_in: $ids }) {
+    id
+    name
+    symbol
+    decimals
+  }
+}

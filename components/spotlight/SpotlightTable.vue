@@ -47,7 +47,7 @@
           <nuxt-link
             v-if="!isLoading"
             :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }">
-            <Identity :address="props.row.id" inline no-overflow />
+            <Identity :address="props.row.id" />
           </nuxt-link>
         </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
@@ -198,7 +198,7 @@ import {
   today,
 } from '@/components/series/utils'
 import { SortType } from '@/components/series/types'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { exist } from '@/components/search/exist'
 import { getRandomIntInRange } from '@/components/rmrk/utils'
 
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
@@ -216,7 +216,7 @@ import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.g
 type Address = string | GenericAccountId | undefined
 
 const components = {
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   SpotlightDetail: () => import('./SpotlightDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),

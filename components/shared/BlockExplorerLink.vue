@@ -6,8 +6,11 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import { blockExplorerOf } from '@/utils/config/chain.config'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import {
+  BLOCK_EXPLORER_WITH_QUERY,
+  blockExplorerOf,
+} from '@/utils/config/chain.config'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 const components = {}
@@ -19,9 +22,13 @@ export default class BlockExplorerLink extends mixins(PrefixMixin) {
   @Prop({ type: String, required: true }) public text!: string
 
   get blockUrl(): string {
-    return this.hasBlockUrl && this.blockId
-      ? this.blockExplorer + 'block/' + this.blockId
-      : '#'
+    if (!this.hasBlockUrl || !this.blockId) {
+      return '#'
+    }
+    if (BLOCK_EXPLORER_WITH_QUERY.includes(this.urlPrefix)) {
+      return this.blockExplorer + this.blockId
+    }
+    return this.blockExplorer + 'block/' + this.blockId
   }
 
   get blockExplorer(): string | undefined {

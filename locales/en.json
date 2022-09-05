@@ -9,6 +9,7 @@
   "account": "Account",
   "accounts": "Accounts",
   "transfer": "Transfer",
+  "assets": "Assets",
   "incomingOffers": "Incoming Offers",
   "transform": "Transform",
   "settings": "Settings",
@@ -46,6 +47,10 @@
   "I do not want to support": "I do not want to support",
   "createNftExplainer": "If your collection was minted recently and it doesn't show up here, please wait, it will show up in the selector below shortly",
   "passion": "Passion Feed",
+  "search": {
+    "seeAll": "See All",
+    "rankings": "Rankings"
+  },
   "faq": {
     "page": "FAQ",
     "title": "Frequently Asked Questions",
@@ -679,7 +684,9 @@
     "nftName": "Name",
     "accept": "NFT has new a owner",
     "withdraw": "your offer has been withdrawn",
-    "burnedToggle": "Show Burned Nfts"
+    "burnedToggle": "Show Burned Nfts",
+    "offersCreated": "Offers Created",
+    "incomingOffers": "Incoming Offers"
   },
   "statsOverview": {
     "buys": "Buys",
@@ -840,7 +847,8 @@
     "from": "from",
     "to": "to",
     "tx": {
-      "cancelled": "Transaction was cancelled"
+      "cancelled": "Transaction was cancelled",
+      "feesPaidIn": "You are paying fees in {0}"
     }
   },
   "helper": {
@@ -943,7 +951,9 @@
     "exploreTabOrder": "Default tab in explore"
   },
   "navbar": {
-    "teleport": "Teleport"
+    "teleport": "Teleport",
+    "globalOffers": "Global Offers",
+    "offerStats": "Offers Stats"
   },
   "walletConnect": {
     "walletHeading": "Connect Wallet",
@@ -951,5 +961,15 @@
     "understand": "I understand",
     "learnText": "Learn how to Connect",
     "downloadExtension": "Download extension"
+  },
+  "asset": {
+    "action": {
+      "default": "Set as fee asset",
+      "alreadyDefault": "Current fee asset"
+    },
+    "table": {
+      "balance": "Balance",
+      "empty":"There are currently no assets for this user."
+    }
   }
 }

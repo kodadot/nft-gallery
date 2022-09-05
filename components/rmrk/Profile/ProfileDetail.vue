@@ -5,7 +5,7 @@
         <div class="container image is-64x64 mb-2">
           <Avatar :value="id" />
         </div>
-        <h1 class="title is-2">
+        <h1 class="title is-2" data-cy="user-identity">
           <a
             v-if="hasBlockExplorer"
             :href="explorer"
@@ -14,7 +14,6 @@
             <Identity
               ref="identity"
               :address="id"
-              inline
               emit
               @change="handleIdentity" />
           </a>
@@ -22,7 +21,6 @@
             v-else
             ref="identity"
             :address="id"
-            inline
             emit
             @change="handleIdentity" />
         </h1>
@@ -220,7 +218,7 @@
           <UserGainHistory :account-id="id" />
         </b-tab-item>
         <b-tab-item
-          v-if="isBsx"
+          v-if="isBsx || isSnek"
           :label="`Offers Made${
             userOfferList.length ? ' - ' + userOfferList.length : ''
           }`"
@@ -275,7 +273,7 @@ import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator
 
 import { getExplorer, hasExplorer } from './utils'
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
-import { exist } from '../Gallery/Search/exist'
+import { exist } from '@/components/search/exist'
 
 const tabNameWithoutCollections = ['holdings', 'gains']
 
@@ -283,7 +281,7 @@ const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/shared/Sharing.vue'),
-  Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   PaginatedCardList: () =>
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
@@ -563,6 +561,10 @@ export default class ProfileDetail extends mixins(
 
   get isBsx(): boolean {
     return this.urlPrefix === 'bsx'
+  }
+
+  get isSnek(): boolean {
+    return this.urlPrefix === 'snek'
   }
 
   get activeTab(): string {

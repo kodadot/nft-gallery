@@ -22,14 +22,13 @@
     <div v-if="$route.query.target && hasBlockExplorer" class="mb-3">
       Your donation will be sent to:
       <a
-        :href="`https://kusama.subscan.io/account/${$route.query.target}`"
+        :href="blockExplorer"
         target="_blank"
         rel="noopener noreferrer"
         class="has-text-weight-bold">
         <Identity
           ref="identity"
           :address="$route.query.target"
-          inline
           show-onchain-identity />
       </a>
     </div>
@@ -116,7 +115,7 @@
     <div v-if="transactionValue && $route.query.donation">
       <div class="is-size-5">
         🎉 Congratulations for supporting
-        <Identity ref="identity" :address="$route.query.target" inline />
+        <Identity ref="identity" :address="$route.query.target" />
       </div>
       <b-button
         type="is-info"
@@ -149,7 +148,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 
-import { hasExplorer } from '@/components/rmrk/Profile/utils'
+import { getExplorer, hasExplorer } from '@/components/rmrk/Profile/utils'
 
 @Component({
   components: {
@@ -157,7 +156,7 @@ import { hasExplorer } from '@/components/rmrk/Profile/utils'
     BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
     ReadOnlyBalanceInput: () =>
       import('@/components/shared/ReadOnlyBalanceInput.vue'),
-    Identity: () => import('@/components/shared/identity/IdentityIndex.vue'),
+    Identity: () => import('@/components/identity/IdentityIndex.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
@@ -210,6 +209,10 @@ export default class Transfer extends mixins(
 
   get hasBlockExplorer(): boolean {
     return hasExplorer(this.urlPrefix)
+  }
+
+  get blockExplorer(): string {
+    return getExplorer(this.urlPrefix, this.$route?.query?.target) || '#'
   }
 
   get balance(): string {
