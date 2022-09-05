@@ -290,7 +290,7 @@ export default class extends mixins(
         this.priceRangeDirty = true
       }
       this.priceRange = [min, this.priceRange[1]]
-      this.priceRangeChangeMin(min)
+      this.priceRangeChangeMin(min * 10 ** this.decimals)
     }
   }
 
@@ -301,7 +301,7 @@ export default class extends mixins(
         this.priceRangeDirty = true
       }
       this.priceRange = [this.priceRange[0], max]
-      this.priceRangeChangeMax(max)
+      this.priceRangeChangeMax(max * 10 ** this.decimals)
     }
   }
 
@@ -342,8 +342,8 @@ export default class extends mixins(
     if (!this.priceRangeDirty) {
       this.priceRangeDirty = true
     }
-    this.priceRangeChangeMin(min)
-    this.priceRangeChangeMax(max)
+    this.priceRangeChangeMin(min ? min * 10 ** this.decimals : undefined)
+    this.priceRangeChangeMax(max ? max * 10 ** this.decimals : undefined)
     const priceMin = min ? String(min) : undefined
     const priceMax = max ? String(max) : undefined
     this.query.listed = true
@@ -353,13 +353,13 @@ export default class extends mixins(
   @Emit('update:priceMin')
   @Debounce(50)
   private priceRangeChangeMin(min?: number): void {
-    this.query.priceMin = min ? min * 10 ** this.decimals : undefined
+    this.query.priceMin = min
   }
 
   @Emit('update:priceMax')
   @Debounce(50)
   private priceRangeChangeMax(max?: number): void {
-    this.query.priceMax = max ? max * 10 ** this.decimals : undefined
+    this.query.priceMax = max
   }
 }
 </script>
