@@ -110,7 +110,7 @@ const components = {
   components,
 })
 export default class Sharing extends Vue {
-  @Prop({ default: 'Check out this cool NFT on KodaDot' }) label!: string
+  @Prop({ default: 'sharing.nft' }) label!: string
   @Prop({ default: () => emptyIframe }) iframe!: IFrame
   @Prop(Boolean) enableDownload!: boolean
   @Prop({ default: false }) isPrimary?: boolean
