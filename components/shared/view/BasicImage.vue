@@ -28,7 +28,7 @@ defineProps({
 })
 
 const placeholder = computed(() => {
-  return $colorMode.preference === 'dark'
+  return $colorMode.preference === 'dark' || $colorMode.preference === 'system'
     ? '/placeholder.webp'
     : '/placeholder-white.webp'
 })
