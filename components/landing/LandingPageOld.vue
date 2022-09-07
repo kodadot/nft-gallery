@@ -68,56 +68,58 @@
           </div>
         </div>
       </div>
-      <div v-if="prefix === 'rmrk' || prefix === 'bsx' || prefix === 'snek'">
-        <LazyCarouselLatestSales class="my-5" />
-        <span v-if="prefix === 'rmrk'">
-          <LazyCarouselPopularCollections class="my-5" />
-        </span>
-        <LazyCarouselNewestList class="my-5" />
+      <div
+        v-if="prefix === 'rmrk' || prefix === 'bsx' || prefix === 'snek'"
+        class="py-5">
+        <LazyCarouselTypeLatestSales class="my-5" />
+        <LazyCarouselTypePopularCollection
+          v-if="prefix === 'rmrk'"
+          class="my-5" />
+        <LazyCarouselTypeNewestList class="my-5" />
       </div>
     </div>
   </section>
 </template>
 
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+import KodadotSocialLinks from '@/components/shared/KodadotSocialLinks.vue'
 // import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
-import AuthMixin from '@/utils/mixins/authMixin'
 
-@Component<Landing>({
-  components: {
-    KodadotSocialLinks: () =>
-      import('~/components/shared/KodadotSocialLinks.vue'),
+defineProps({
+  prefix: {
+    type: String,
+    default: 'rmrk',
+    required: true,
+  },
+  buildOn: {
+    type: String,
+    default: 'RMRK Protocol',
   },
 })
-export default class Landing extends mixins(AuthMixin) {
-  @Prop({ type: String, required: true, default: 'rmrk' }) prefix!: string
-  @Prop({ type: String, default: 'RMRK Protocol' }) buildOn!: string
 
-  // private passionList: string[] = ['']
+// private passionList: string[] = ['']
 
-  // async created() {
-  //   if (this.isLogIn) {
-  //     const result = await this.fetchPassionList()
-  //     if (result.length) {
-  //       this.passionList = this.passionList.concat(result)
-  //     }
-  //   }
-  // }
+// async created() {
+//   if (this.isLogIn) {
+//     const result = await this.fetchPassionList()
+//     if (result.length) {
+//       this.passionList = this.passionList.concat(result)
+//     }
+//   }
+// }
 
-  //   public async fetchPassionList() {
-  //     const {
-  //       data: { passionFeed },
-  //     } = await this.$apollo.query({
-  //       query: passionQuery,
-  //       client: 'subsquid',
-  //       variables: {
-  //         account: this.accountId,
-  //       },
-  //     })
-  //     return passionFeed?.map((item) => item.id) || []
-  //   }
-}
+//   public async fetchPassionList() {
+//     const {
+//       data: { passionFeed },
+//     } = await this.$apollo.query({
+//       query: passionQuery,
+//       client: 'subsquid',
+//       variables: {
+//         account: this.accountId,
+//       },
+//     })
+//     return passionFeed?.map((item) => item.id) || []
+//   }
 </script>
 
 <style lang="scss" scoped>
