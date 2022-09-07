@@ -10,13 +10,12 @@
       :indicator-background="false"
       indicator-mode="click"
       indicator-position="is-bottom"
-      indicator-style="is-lines">
-      <b-carousel-item v-for="(collection, i) in collections" :key="i">
-        <b-image
-          ratio="1by1"
-          class="image"
-          :src="collection.image"
-          :alt="collection.name"></b-image>
+      indicator-style="is-lines"
+      data-cy="curated-list">
+      <b-carousel-item
+        v-for="(collection, i) in collections"
+        :key="`${collection.image}-${i}`">
+        <BasicImage :src="collection.image" :alt="collection.name" />
         <div class="box">
           <div class="content has-text-left">
             <nuxt-link
@@ -24,7 +23,9 @@
                 name: `${urlPrefix}-collection-id`,
                 params: { id: collection.id },
               }">
-              <h2 class="title is-5">{{ collection.name }}</h2>
+              <h2 class="title is-5" data-cy="curated-name">
+                {{ collection.name }}
+              </h2>
             </nuxt-link>
             <nuxt-link
               :to="{
@@ -45,29 +46,20 @@
   </section>
 </template>
 
-<script lang="ts">
-import { Component, Vue, mixins } from 'nuxt-property-decorator'
-
-import { Collection } from '@/components/unique/types'
-
-import AuthMixin from '@/utils/mixins/authMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-
+<script lang="ts" setup>
 import {
   getCloudflareImageLinks,
   processMetadata,
 } from '@/utils/cachingStrategy'
 import { fastExtract } from '@/utils/ipfs'
 import { mapOnlyMetadata } from '@/utils/mappers'
-import resolveQueryPath from '@/utils/queryPathResolver'
 
-import { SomethingWithMeta, getSanitizer } from '../rmrk/utils'
-import { CollectionMetadata } from '../rmrk/types'
+import { SomethingWithMeta, getSanitizer } from '@/components/rmrk/utils'
+import { CollectionMetadata } from '@/components/rmrk/types'
+import { Collection } from '@/components/unique/types'
 
-const components = {
-  // Identicon: () => import('@polkadot/vue-identicon'),
-  Identity: () => import('@/components/identity/IdentityIndex.vue'),
-}
+import Identity from '@/components/identity/IdentityIndex.vue'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 const curatedCollection = [
   '800f8a914281765a7d-KITTY', // Kitty
@@ -78,52 +70,40 @@ const curatedCollection = [
   '900D19DC7D3C444E4C-KSMBOT', // KusamaBot (deepologics)
 ]
 
-@Component<CuratedList>({
-  components,
+const { urlPrefix } = usePrefix()
+const { data } = useGraphql({
+  queryName: 'collectionCuratedList',
+  queryPrefix: urlPrefix.value,
+  variables:
+    urlPrefix.value === 'rmrk' ? { list: curatedCollection } : undefined,
 })
-export default class CuratedList extends mixins(AuthMixin, PrefixMixin) {
-  protected collections: Collection[] | SomethingWithMeta[] = []
 
-  async fetch() {
-    const query = await resolveQueryPath(
-      this.urlPrefix,
-      'collectionCuratedList'
-    )
-    const result = await this.$apollo
-      .query<any>({
-        query: query.default,
-        client: this.client,
-        variables:
-          this.urlPrefix === 'rmrk' ? { list: curatedCollection } : undefined,
-      })
-      .catch((e) => {
-        this.$consola.error(e)
-        return { data: null }
-      })
-    if (result.data) {
-      await this.handleResult(result)
-    }
+type Collections = Collection & SomethingWithMeta
+const collections = ref<Collections[]>([])
+
+const updateCollections = async ({ data }) => {
+  if (!data?.collectionEntities?.length) {
+    return
   }
 
-  protected async handleResult({ data }: any) {
-    this.collections = data.collectionEntities.map((e: any) => ({
-      ...e,
-      metadata: e.meta?.id || e.metadata,
-    })) as SomethingWithMeta[]
-    const metadataList: string[] = this.collections.map(mapOnlyMetadata)
-    const imageLinks = await getCloudflareImageLinks(metadataList)
+  collections.value = data.collectionEntities.map((e) => ({
+    ...e,
+    metadata: e.meta?.id || e.metadata,
+    image: '',
+  })) as Collections[]
+  const metadataList: string[] = collections.value.map(mapOnlyMetadata)
+  const imageLinks = await getCloudflareImageLinks(metadataList)
 
-    processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
-      Vue.set(this.collections, i, {
-        ...this.collections[i],
-        ...meta,
-        image:
-          imageLinks[fastExtract(this.collections[i]?.metadata)] ||
-          getSanitizer(meta.image || '')(meta.image || ''),
-      })
-    })
-  }
+  processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
+    collections.value[i].image =
+      imageLinks[fastExtract(collections.value[i]?.metadata)] ||
+      getSanitizer(meta.image || '')(meta.image || '')
+  })
 }
+
+watch(data, () => {
+  updateCollections({ data: data.value })
+})
 </script>
 
 <style lang="scss">

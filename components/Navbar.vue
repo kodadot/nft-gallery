@@ -4,7 +4,7 @@
     spaced
     wrapper-class="container"
     close-on-click
-    :mobile-burger="!showMobileSearchBar"
+    mobile-burger
     :active.sync="isBurgerMenuOpened"
     :class="{ 'navbar-shrink': !showTopNavbar }">
     <template #brand>
@@ -16,29 +16,20 @@
           height="35" />
       </b-navbar-item>
       <div
-        v-if="showMobileSearchBar"
-        class="search-navbar-container-mobile is-hidden-desktop is-flex is-align-items-center">
-        <b-button icon-left="times" @click="toggleSearchBarDisplay" />
-        <Search
-          v-if="showMobileSearchBar"
-          show-default-suggestions
-          hide-filter
-          class="is-flex-grow-1 pr-1 is-hidden-desktop mt-5" />
-      </div>
-
-      <div
-        v-else
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
-        <div>
-          <HistoryBrowser />
+        <HistoryBrowser />
 
-          <b-button
-            type="is-primary is-bordered-light"
-            class="navbar-link-background"
-            icon-right="search"
-            @click="toggleSearchBarDisplay" />
-        </div>
+        <b-button
+          type="is-primary is-bordered-light ml-2"
+          class="navbar-link-background"
+          icon-right="search"
+          @click="showMobileSearchBar" />
+        <Search
+          ref="mobilSearchRef"
+          show-default-suggestions
+          hide-filter
+          class="is-hidden-desktop mt-5 search-navbar-container-mobile" />
       </div>
     </template>
     <template #start>
@@ -104,7 +95,7 @@
         <span>{{ $t('explore') }}</span>
       </b-navbar-item>
       <b-navbar-dropdown
-        v-if="isBsx"
+        v-if="isBsx || isSnek"
         id="NavStats"
         arrowless
         collapsible
@@ -156,7 +147,10 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <LazyChainSelect id="NavChainSelect" class="navbar-item has-dropdown" />
+      <LazyChainSelect
+        id="NavChainSelect"
+        class="navbar-item has-dropdown"
+        data-cy="chain-select" />
       <LazySwitchLocale
         id="NavLocaleChanger"
         class="navbar-item has-dropdown"
@@ -165,7 +159,8 @@
       <NavbarProfileDropdown
         id="NavProfile"
         :is-rmrk="isRmrk"
-        :is-bsx="isBsx"
+        :show-incomming-offers="isBsx || isSnek"
+        :is-snek="isSnek"
         data-cy="profileDropdown" />
     </template>
     <template v-else #end>
@@ -182,14 +177,14 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { get } from 'idb-keyval'
 
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import ColorModeButton from '@/components/common/ColorModeButton.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
-import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
+import Search from '@/components/search/SearchBar.vue'
 
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
@@ -213,8 +208,8 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
   private fixedTitleNavAppearDistance = 200
   private lastScrollPosition = 0
   private artistName = ''
-  private showMobileSearchBar = false
   private isBurgerMenuOpened = false
+  @Ref('mobilSearchRef') readonly mobilSearchRef
 
   private onResize() {
     return (this.mobileGallery = window.innerWidth <= 1023)
@@ -226,6 +221,10 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
 
   get isBsx(): boolean {
     return this.urlPrefix === 'bsx'
+  }
+
+  get isSnek(): boolean {
+    return this.urlPrefix === 'snek'
   }
 
   get inCollectionPage(): boolean {
@@ -294,8 +293,8 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
     this.lastScrollPosition = currentScrollPosition
   }
 
-  toggleSearchBarDisplay() {
-    this.showMobileSearchBar = !this.showMobileSearchBar
+  showMobileSearchBar() {
+    this.mobilSearchRef.focusInput()
   }
 
   closeBurgerMenu() {

@@ -142,7 +142,7 @@ import { Debounce } from 'vue-debounce-decorator'
 
 import { Emote, NFT, NFTMetadata } from '../service/scheme'
 import { getSanitizer, sanitizeIpfsUrl } from '../utils'
-import { exist } from './Search/exist'
+import { exist } from '@/components/search/exist'
 import { fetchNFTMetadata } from '../utils'
 
 import { notificationTypes, showNotification } from '@/utils/notification'

@@ -1,4 +1,4 @@
-import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
+import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
 
 export const state = () => ({
   lang: {},
@@ -95,11 +95,11 @@ export const state = () => ({
       //   flag: '🇩🇪',
       //   label: 'Deutsch'
       // },
-      // {
-      //   value: 'ua',
-      //   flag: '🇺🇦',
-      //   label: 'Українська'
-      // },
+      {
+        value: 'ua',
+        flag: '🇺🇦',
+        label: 'Українська',
+      },
       // {
       //   value: 'it',
       //   flag: '🇮🇹',

@@ -218,7 +218,7 @@
           <UserGainHistory :account-id="id" />
         </b-tab-item>
         <b-tab-item
-          v-if="isBsx"
+          v-if="isBsx || isSnek"
           :label="`Offers Made${
             userOfferList.length ? ' - ' + userOfferList.length : ''
           }`"
@@ -273,7 +273,7 @@ import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator
 
 import { getExplorer, hasExplorer } from './utils'
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
-import { exist } from '../Gallery/Search/exist'
+import { exist } from '@/components/search/exist'
 
 const tabNameWithoutCollections = ['holdings', 'gains']
 
@@ -561,6 +561,10 @@ export default class ProfileDetail extends mixins(
 
   get isBsx(): boolean {
     return this.urlPrefix === 'bsx'
+  }
+
+  get isSnek(): boolean {
+    return this.urlPrefix === 'snek'
   }
 
   get activeTab(): string {
