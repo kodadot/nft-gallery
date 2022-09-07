@@ -7,30 +7,36 @@
           :key="`${item.id}-${index}`"
           class="keen-slider__slide carousel-item">
           <div>
-            <nuxt-link :to="urlOf({ id: item.id, url })">
-              <PreviewMediaResolver
-                v-if="item.animationUrl"
-                :src="item.animationUrl"
-                :poster="item.image || ''"
-                :metadata="item.metadata" />
-              <BasicImage
-                v-else
-                :src="item.image"
-                :alt="item.name"
-                custom-class="carousel__image-wrapper" />
-            </nuxt-link>
+            <div
+              class="carousel-media"
+              :class="{ 'carousel-media-collection': isCollection }">
+              <nuxt-link :to="urlOf({ id: item.id, url })">
+                <PreviewMediaResolver
+                  v-if="item.animationUrl"
+                  :src="item.animationUrl"
+                  :poster="item.image || ''"
+                  :metadata="item.metadata" />
+                <BasicImage
+                  v-else
+                  :src="item.image"
+                  :alt="item.name"
+                  custom-class="carousel__image-wrapper" />
+              </nuxt-link>
+            </div>
 
             <div class="carousel-info">
               <nuxt-link
                 :to="urlOf({ id: item.id, url })"
-                class="has-text-weight-bold carousel-info-name">
-                {{ item.name }}
+                class="has-text-weight-bold carousel-info-name"
+                :class="{ 'carousel-info-name-collection': isCollection }">
+                <span>{{ item.name }}</span>
+                <span v-if="isCollection">----></span>
               </nuxt-link>
 
               <!-- TODO: collection name -->
               <!-- <p>{collection.name}</p> -->
 
-              <div v-if="item.price" class="carousel-meta">
+              <div v-if="item.price && !isCollection" class="carousel-meta">
                 <Money :value="item.price" class="has-text-weight-bold" />
                 <p class="is-size-7">{{ urlPrefix }}</p>
               </div>
@@ -68,11 +74,12 @@ import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue.es'
 import { useCarouselUrl } from '../utils/useCarousel'
 
-const props = defineProps<{
+defineProps<{
   nfts: CarouselNFT[]
 }>()
 
 const url = inject('itemUrl') as string
+const isCollection = computed(() => url.includes('collection'))
 const current = ref(0)
 
 const { urlOf } = useCarouselUrl()
@@ -98,10 +105,6 @@ const dotHelper = computed(() =>
     ? [...Array(slider.value.track.details.slides.length - 3).keys()] // TODO: dynamic breakpoints
     : []
 )
-
-onMounted(() => {
-  console.log(props.nfts)
-})
 </script>
 
 <style lang="scss">
@@ -112,8 +115,16 @@ onMounted(() => {
     border: 1px solid black;
   }
 
+  .carousel-media {
+    border-bottom: 1px solid black;
+
+    &-collection {
+      border-bottom: none;
+      padding: 1rem 1rem 0 1rem;
+    }
+  }
+
   .carousel-info {
-    border-top: 1px solid black;
     padding: 1rem;
     white-space: nowrap;
     overflow: hidden;
@@ -125,6 +136,12 @@ onMounted(() => {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
+      &-collection {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
     }
   }
 
@@ -134,112 +151,112 @@ onMounted(() => {
     align-items: center;
     margin-top: 1rem;
   }
-}
 
-.navigation-wrapper {
-  position: relative;
-}
-
-.dots {
-  display: flex;
-  padding: 2rem 0;
-  justify-content: center;
-}
-
-.dot {
-  border: none;
-  width: 10px;
-  height: 10px;
-  background: #c5c5c5;
-  margin: 0 5px;
-  padding: 5px;
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
+  .navigation-wrapper {
+    position: relative;
   }
 
-  &.active {
-    background: #000;
+  .dots {
+    display: flex;
+    padding: 2rem 0;
+    justify-content: center;
   }
-}
 
-.arrow {
-  width: 60px;
-  height: 60px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
-  fill: #fff;
-  cursor: pointer;
+  .dot {
+    border: none;
+    width: 10px;
+    height: 10px;
+    background: #c5c5c5;
+    margin: 0 5px;
+    padding: 5px;
+    cursor: pointer;
 
-  &-left {
-    left: -30px;
-
-    border-bottom: solid 40px transparent;
-    border-top: solid 40px transparent;
-    border-right: solid 60px black;
-
-    &::after {
-      content: '';
-      width: 0;
-      height: 0;
-
-      position: absolute;
-      border-bottom: solid 36px transparent;
-      border-top: solid 36px transparent;
-      border-right: solid 55px white;
-      top: -36px;
-      right: -58px;
+    &:focus {
+      outline: none;
     }
 
-    &::before {
-      content: '';
-      width: 0;
-      height: 0;
+    &.active {
+      background: #000;
+    }
+  }
 
-      position: absolute;
+  .arrow {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    fill: #fff;
+    cursor: pointer;
+
+    &-left {
+      left: -30px;
+
       border-bottom: solid 40px transparent;
       border-top: solid 40px transparent;
       border-right: solid 60px black;
-      top: -34px;
-      right: -56px;
+
+      &::after {
+        content: '';
+        width: 0;
+        height: 0;
+
+        position: absolute;
+        border-bottom: solid 36px transparent;
+        border-top: solid 36px transparent;
+        border-right: solid 55px white;
+        top: -36px;
+        right: -58px;
+      }
+
+      &::before {
+        content: '';
+        width: 0;
+        height: 0;
+
+        position: absolute;
+        border-bottom: solid 40px transparent;
+        border-top: solid 40px transparent;
+        border-right: solid 60px black;
+        top: -34px;
+        right: -56px;
+      }
     }
-  }
 
-  &-right {
-    left: auto;
-    right: -30px;
+    &-right {
+      left: auto;
+      right: -30px;
 
-    border-bottom: solid 40px transparent;
-    border-top: solid 40px transparent;
-    border-left: solid 60px black;
-
-    &::after {
-      content: '';
-      width: 0;
-      height: 0;
-
-      position: absolute;
-      border-bottom: solid 36px transparent;
-      border-top: solid 36px transparent;
-      border-left: solid 55px white;
-      top: -36px;
-      left: -58px;
-    }
-
-    &::before {
-      content: '';
-      width: 0;
-      height: 0;
-
-      position: absolute;
       border-bottom: solid 40px transparent;
       border-top: solid 40px transparent;
       border-left: solid 60px black;
-      top: -34px;
-      left: -56px;
+
+      &::after {
+        content: '';
+        width: 0;
+        height: 0;
+
+        position: absolute;
+        border-bottom: solid 36px transparent;
+        border-top: solid 36px transparent;
+        border-left: solid 55px white;
+        top: -36px;
+        left: -58px;
+      }
+
+      &::before {
+        content: '';
+        width: 0;
+        height: 0;
+
+        position: absolute;
+        border-bottom: solid 40px transparent;
+        border-top: solid 40px transparent;
+        border-left: solid 60px black;
+        top: -34px;
+        left: -56px;
+      }
     }
   }
 }
