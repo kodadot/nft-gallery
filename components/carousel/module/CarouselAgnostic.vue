@@ -7,40 +7,8 @@
           :key="`${item.id}-${index}`"
           class="keen-slider__slide carousel-item">
           <div>
-            <div
-              class="carousel-media"
-              :class="{ 'carousel-media-collection': isCollection }">
-              <nuxt-link :to="urlOf({ id: item.id, url })">
-                <PreviewMediaResolver
-                  v-if="item.animationUrl"
-                  :src="item.animationUrl"
-                  :poster="item.image || ''"
-                  :metadata="item.metadata" />
-                <BasicImage
-                  v-else
-                  :src="item.image"
-                  :alt="item.name"
-                  custom-class="carousel__image-wrapper" />
-              </nuxt-link>
-            </div>
-
-            <div class="carousel-info">
-              <nuxt-link
-                :to="urlOf({ id: item.id, url })"
-                class="has-text-weight-bold carousel-info-name"
-                :class="{ 'carousel-info-name-collection': isCollection }">
-                <span>{{ item.name }}</span>
-                <span v-if="isCollection">----></span>
-              </nuxt-link>
-
-              <!-- TODO: collection name -->
-              <!-- <p>{collection.name}</p> -->
-
-              <div v-if="item.price && !isCollection" class="carousel-meta">
-                <Money :value="item.price" class="has-text-weight-bold" />
-                <p class="is-size-7">{{ urlPrefix }}</p>
-              </div>
-            </div>
+            <CarouselMedia :item="item" />
+            <CarouselInfo :item="item" />
           </div>
         </div>
       </div>
@@ -66,44 +34,58 @@
 <script lang="ts" setup>
 import type { CarouselNFT } from '@/components/base/types'
 
-import PreviewMediaResolver from '@/components/media/PreviewMediaResolver.vue'
-import BasicImage from '@/components/shared/view/BasicImage.vue'
-import Money from '@/components/shared/format/Money.vue'
+import CarouselMedia from './CarouselMedia.vue'
+import CarouselInfo from './CarouselInfo.vue'
 
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue.es'
-import { useCarouselUrl } from '../utils/useCarousel'
 
-defineProps<{
+const props = defineProps<{
   nfts: CarouselNFT[]
 }>()
 
 const url = inject('itemUrl') as string
 const isCollection = computed(() => url.includes('collection'))
-const current = ref(0)
+provide('isCollection', isCollection.value)
 
-const { urlOf } = useCarouselUrl()
-const { urlPrefix } = usePrefix()
+const current = ref(0)
+const minWidths = [1536, 1280, 1024, 768, 640]
 const [wrapper, slider] = useKeenSlider({
   initial: current.value,
   slideChanged: (s) => {
     current.value = s.track.details.rel
   },
   breakpoints: {
-    '(min-width: 400px)': {
+    '(min-width: 640px)': {
+      slides: { perView: 1.5, spacing: 32 },
+    },
+    '(min-width: 768px)': {
       slides: { perView: 2.5, spacing: 32 },
     },
-    '(min-width: 1000px)': {
+    '(min-width: 1024px)': {
+      slides: { perView: 3.5, spacing: 32 },
+    },
+    '(min-width: 1280px)': {
       slides: { perView: 4.5, spacing: 32 },
+    },
+    '(min-width: 1536px)': {
+      slides: { perView: 5.5, spacing: 32 },
     },
   },
   slides: { perView: 1, spacing: 32 },
 })
+const totalDots = computed(() => {
+  const width = window.innerWidth
 
+  for (const [index, breakpoint] of minWidths.entries()) {
+    if (breakpoint <= width) {
+      const perView = 5.5 - (index + 1)
+      return Math.round(props.nfts.length - perView)
+    }
+  }
+})
 const dotHelper = computed(() =>
-  slider.value
-    ? [...Array(slider.value.track.details.slides.length - 3).keys()] // TODO: dynamic breakpoints
-    : []
+  slider.value ? [...Array(totalDots.value).keys()] : []
 )
 </script>
 

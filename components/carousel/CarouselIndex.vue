@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="redesign">
+    <div v-if="redesign && nfts.length">
       <div class="columns is-vcentered">
         <div class="column is-four-fifths">
           <h1 class="title is-2">{{ title }}</h1>
@@ -52,7 +52,7 @@ import type { CarouselNFT } from '@/components/base/types'
 import type { RowSeries } from '@/components/series/types'
 
 const CarouselList = defineAsyncComponent(
-  () => import('./module/CarouselList.vue')
+  () => import('./module/CarouselAgnostic.vue')
 )
 const CarouselListOld = defineAsyncComponent(
   () => import('./module-old/CarouselList.vue')
