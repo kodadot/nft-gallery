@@ -49,7 +49,7 @@ const isCollection = computed(() => url.includes('collection'))
 provide('isCollection', isCollection.value)
 
 const current = ref(0)
-const minWidths = [1536, 1280, 1024, 768, 640]
+const minWidths = [1280, 1024, 768, 640]
 const [wrapper, slider] = useKeenSlider({
   initial: current.value,
   slideChanged: (s) => {
@@ -68,9 +68,6 @@ const [wrapper, slider] = useKeenSlider({
     '(min-width: 1280px)': {
       slides: { perView: 4.5, spacing: 32 },
     },
-    '(min-width: 1536px)': {
-      slides: { perView: 5.5, spacing: 32 },
-    },
   },
   slides: { perView: 1, spacing: 32 },
 })
@@ -79,7 +76,7 @@ const totalDots = computed(() => {
 
   for (const [index, breakpoint] of minWidths.entries()) {
     if (breakpoint <= width) {
-      const perView = 5.5 - (index + 1)
+      const perView = 4.5 - (index + 1)
       return Math.round(props.nfts.length - perView)
     }
   }
