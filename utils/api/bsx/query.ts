@@ -52,8 +52,12 @@ export function getAsssetBalance(
     return Query.getTokenBalance(api, account)
   }
 
-  return api.query.tokens
-    .accounts(account, id)
-    .then((val) => (val as any).free)
-    .then((val) => val.toString())
+  if (api.query.tokens) {
+    return api.query.tokens
+      .accounts(account, id)
+      .then((val) => (val as any).free)
+      .then((val) => val.toString())
+  }
+
+  return Promise.resolve('')
 }
