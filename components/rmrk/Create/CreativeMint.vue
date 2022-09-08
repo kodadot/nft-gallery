@@ -4,7 +4,7 @@
     <Loader v-model="isLoading" :status="status" />
     <p class="title is-size-3">
       <!-- {{ $t('mint.context') }} -->
-      Creative Minting
+      {{ $t('mint.nft.creative.heading') }}
     </p>
     <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
     <b-field>
@@ -18,7 +18,7 @@
       ref="uploadFileRef"
       v-model="file"
       required
-      label="Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results."
+      :label="$t('mint.nft.drop')"
       expanded
       preview />
 
@@ -299,7 +299,7 @@ export default class CreativeMint extends mixins(
       this.$set(
         this.rmrkMint,
         'description',
-        'Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.'
+        this.$t('mint.nft.rmrkDescription')
       )
     }
   }

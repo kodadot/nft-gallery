@@ -4,14 +4,12 @@
     <div class="box">
       <p class="title is-size-3">
         {{ $t('identity.set') }}
-        <b-tooltip
-          label="0.0333 KSM will be reserved. These funds are returned when the identity is cleared."
-          position="is-bottom">
+        <b-tooltip :label="$t('identity.fundsReserve')" position="is-bottom">
           <b-icon icon="info-circle" />
         </b-tooltip>
       </p>
 
-      <p class="subtitle is-size-6" v-if="accountId">
+      <p v-if="accountId" class="subtitle is-size-6">
         <Auth />
         <span>{{ $t('general.balance') }}: </span>
         <Money :value="balance" inline />
@@ -19,8 +17,8 @@
 
       <b-field label="Handle">
         <b-input
-          placeholder="My On-Chain Name"
           v-model="identity.display"
+          :placeholder="$t('identity.onChainPlaceholder')"
           required
           :validation-message="$t('identity.handleRequired')">
         </b-input>
@@ -28,14 +26,14 @@
 
       <BasicInput
         v-model="identity.legal"
-        label="Name"
-        placeholder="Full Legal Name"
+        :label="$t('name')"
+        :placeholder="$t('identity.namePlaceholder')"
         expanded />
 
       <BasicInput
-        type="email"
         v-model="identity.email"
-        label="Email"
+        type="email"
+        :label="$t('email')"
         placeholder="somebody@example.com"
         expanded />
 
