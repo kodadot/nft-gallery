@@ -6,10 +6,10 @@
       :to="`/${urlPrefix}/u/${destinationAddress}`"
       class="pl-4 is-flex is-align-items-center">
       <b-icon icon="chevron-left" size="is-small" class="mr-2" />
-      Go to artist's profile
+      {{ $t('teleport.artistProfile') }}
     </nuxt-link>
     <p class="title is-size-3">
-      Teleport {{ unit }}
+      {{ $t('teleport.page') }} {{ unit }}
       <span v-if="isKSM" class="has-text-primary"
         >${{ $store.getters['fiat/getCurrentKSMValue'] }}</span
       >
@@ -38,14 +38,14 @@
       <b-field>
         <BalanceInput
           v-model="price"
-          label="Amount"
+          :label="$t('amount')"
           :calculate="false"
           @input="onAmountFieldChange" />
       </b-field>
       <b-field v-if="isKSM">
         <ReadOnlyBalanceInput
           v-model="usdValue"
-          label-input="USD Value (approx)"
+          :label-input="$t('teleport.usdInput')"
           label="USD"
           @input="onUSDFieldChange" />
       </b-field>
@@ -75,7 +75,7 @@
         v-if="transactionValue"
         v-clipboard:copy="getUrl()"
         type="is-primary"
-        @click="toast('URL copied to clipboard')">
+        @click="toast($t('toast.urlCopy'))">
         <b-icon size="is-small" pack="fas" icon="link" />
       </b-button>
       <b-button
@@ -85,13 +85,13 @@
         icon-left="money-bill"
         :loading="isLoading"
         outlined
-        @click="toast('Payment link copied to clipboard')">
-        {{ $t('Copy Payment link') }}
+        @click="toast($t('toast.paymentLinkCopy'))">
+        {{ $t('teleport.btnCopyPayment') }}
       </b-button>
     </div>
     <div v-if="transactionValue && $route.query.donation">
       <div class="is-size-5">
-        🎉 Congratulations for supporting
+        🎉 {{ $t('teleport.congratsSupport') }}
         <Identity ref="identity" :address="$route.query.target" />
       </div>
       <b-button
@@ -100,7 +100,7 @@
         icon-left="share-square"
         outlined
         @click="shareInTweet">
-        {{ $t('Tweet about your awesome donation') }}
+        {{ $t('teleport.tweetDonation') }}
       </b-button>
     </div>
   </section>

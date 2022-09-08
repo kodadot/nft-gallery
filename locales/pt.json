@@ -878,30 +878,6 @@
     "handleRequired": "Seu identificador é necessário",
     "deposit": "Depósito"
   },
-  "massMint": {
-    "tutorial": {
-      "basic": {
-        "title": "Massa de mint básica",
-        "description": "Esta é massa de mint básica, ela criará NFTs com o mesmo símbolo e nome, mas quantidade diferente. Ele também criará uma quantidade diferente de NFTs com o mesmo símbolo e nome, mas com uma quantidade diferente."
-      },
-      "range": {
-        "title": "Alcance da Massa de mint",
-        "description": "Você pode especificar o alcance da massa de mint, ele criará NFTs com o mesmo símbolo e nome, mas quantidade diferente. Ele também criará uma quantidade diferente de NFTs com o mesmo símbolo e nome, mas com uma quantidade diferente."
-      },
-      "all": {
-        "title": "Toda Massa de mint ",
-        "description": "Você pode especificar o alcance da massa de mint, ele criará NFTs com o mesmo símbolo e nome, mas quantidade diferente. Ele também criará uma quantidade diferente de NFTs com o mesmo símbolo e nome, mas com uma quantidade diferente."
-      }
-    },
-    "syntax": {
-      "file": "Nome do arquivo (e.g awesome_1.jpg)",
-      "name": "Nome do NFT (e.g Awesome Token)",
-      "amount": "Preço do token (e.g 0.01)",
-      "description": "Descrição de várias linhas do token (e.g This is an awesome token)",
-      "range": "Alcance dos tokens (e.g 1-5)",
-      "all": "Aplicar a todos os tokens (USE TRÊS dots: ...)"
-    }
-  },
   "collapse": {
     "collection": {
       "description": {

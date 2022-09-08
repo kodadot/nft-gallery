@@ -39,7 +39,7 @@
         v-slot="props"
         cell-class="is-vcentered"
         field="name"
-        label="Name">
+        :label="$t('name')">
         <nuxt-link :to="`/rmrk/gallery/${props.row.id}`">
           {{ props.row.name }}
         </nuxt-link>
@@ -57,7 +57,7 @@
         v-slot="props"
         cell-class="is-vcentered"
         field="buyer"
-        label="Buyer">
+        :label="$t('sales.buyer')">
         <nuxt-link :to="`/rmrk/u/${props.row.buyer}`">
           <Identity :address="props.row.buyer" />
         </nuxt-link>
@@ -67,7 +67,7 @@
         v-slot="props"
         cell-class="is-vcentered"
         field="timestamp"
-        label="Relative Date">
+        :label="$t('sales.tableDate')">
         <div>
           <b-tooltip :label="props.row.date">
             <BlockExplorerLink
@@ -81,7 +81,7 @@
         v-slot="props"
         cell-class="is-vcentered"
         field="salePrice"
-        label="Price of sale">
+        :label="$t('sales.price')">
         <Money :value="props.row.salePrice" inline />
       </b-table-column>
 
