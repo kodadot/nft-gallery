@@ -41,7 +41,7 @@ const chainPropertyMap: Config<ChainProperties> = {
   ),
   statemine: DEFAULT_CHAIN_PROPERTIES,
   westmint: DEFAULT_CHAIN_PROPERTIES,
-  moonsama: toChainProperty(1285, 12, 'MOVR', 'https://moonriver.subscan.io/'),
+  movr: toChainProperty(1285, 12, 'MOVR', 'https://moonriver.subscan.io/'),
 }
 
 export const chainPropListOf = (prefix: Prefix | string): ChainProperties => {
