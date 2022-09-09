@@ -15,7 +15,7 @@
           v-clipboard:copy="realworldFullPathShare"
           class="is-bordered-light"
           :type="btnType"
-          @click="toast('URL copied to clipboard')">
+          @click="toast($t('toast.urlCopy'))">
           <b-icon size="is-small" pack="fas" icon="link" />
         </b-button>
       </p>
@@ -110,7 +110,7 @@ const components = {
   components,
 })
 export default class Sharing extends Vue {
-  @Prop({ default: 'Check out this cool NFT on KodaDot' }) label!: string
+  @Prop({ default: 'sharing.nft' }) label!: string
   @Prop({ default: () => emptyIframe }) iframe!: IFrame
   @Prop(Boolean) enableDownload!: boolean
   @Prop({ default: false }) isPrimary?: boolean
