@@ -33,7 +33,7 @@ export const URLS = {
     rubick: 'https://squid.subsquid.io/rubick/v/007/graphql',
     snekk: 'https://squid.subsquid.io/snekk/v/003/graphql',
     snekkv2: 'https://squid.subsquid.io/snekk/v/004/graphql',
-    click: 'https://squid.subsquid.io/click/v/001/graphql',
+    click: 'https://squid.subsquid.io/click/v/002-rc0/graphql',
   },
   providers: {
     coingecko: 'https://api.coingecko.com/api/v3',
