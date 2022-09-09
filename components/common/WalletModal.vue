@@ -72,10 +72,7 @@
           </b-button>
         </div>
 
-        <div
-          v-if="
-            (hasSelectedWalletProvider && hasWalletProviderExtension) || true
-          ">
+        <div v-if="hasSelectedWalletProvider && hasWalletProviderExtension">
           <div class="subtitle is-size-6 has-text-centered">
             {{ $t('general.chooseWallet') }}
             <b-image
