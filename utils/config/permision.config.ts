@@ -1,6 +1,4 @@
-import { Prefix, Config } from './types'
-
-type Config<T = boolean> = Record<Prefix, T>
+import { Config, Prefix } from './types'
 
 const hasCreate: Config<boolean> = {
   rmrk: true,
@@ -8,6 +6,7 @@ const hasCreate: Config<boolean> = {
   statemine: true,
   westmint: true,
   moonsama: false,
+  snek: true,
 }
 
 export const createVisible = (prefix: Prefix | string): boolean => {

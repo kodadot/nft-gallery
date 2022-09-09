@@ -14,17 +14,18 @@
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
         <BasicImage
-          v-if="!animatedUrl"
+          v-if="isBasicImage"
           :src="image"
           :alt="title"
-          customClass="gallery__image-wrapper" />
-
+          custom-class="gallery__image-wrapper" />
         <PreviewMediaResolver
           v-else
           :src="animatedUrl"
           :metadata="metadata"
-          :mimeType="type" />
-        <span v-if="price > 0 && showPriceValue" class="card-image__price">
+          :mime-type="mimeType" />
+        <span
+          v-if="parseInt(price) > 0 && showPriceValue"
+          class="card-image__price">
           <Money :value="price" inline />
         </span>
       </div>
@@ -44,22 +45,24 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import AuthMixin from '@/utils/mixins/authMixin'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+
 import {
   getSingleCloudflareImage,
   processSingleMetadata,
 } from '@/utils/cachingStrategy'
+import AuthMixin from '@/utils/mixins/authMixin'
 
-import { NFTMetadata } from '@/components/rmrk/service/scheme'
+import { getMimeType } from '@/utils/gallery/media'
 import { getSanitizer, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { NFTMetadata } from '@/components/rmrk/service/scheme'
 
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
-    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
+    import('@/components/media/PreviewMediaResolver.vue'),
 }
 
 @Component({ components })
@@ -76,11 +79,10 @@ export default class GalleryCard extends mixins(AuthMixin) {
   @Prop(String) public metadata!: string
   @Prop(String) public currentOwner!: string
   @Prop(Boolean) public listed!: boolean
-  protected image = ''
-  protected title = ''
-  protected animatedUrl = ''
-
-  protected placeholder = '/placeholder.webp'
+  public image = ''
+  public title = ''
+  public animatedUrl = ''
+  public mimeType = ''
 
   async fetch() {
     if (this.metadata) {
@@ -93,7 +95,12 @@ export default class GalleryCard extends mixins(AuthMixin) {
         meta.animation_url || meta.mediaUri || '',
         'pinata'
       )
+      this.mimeType = (await getMimeType(this.animatedUrl || this.image)) || ''
     }
+  }
+
+  get isBasicImage() {
+    return !this.animatedUrl || (this.image && this.mimeType.includes('audio'))
   }
 
   get showPriceValue(): boolean {
@@ -118,7 +125,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .nft-card {
   position: relative;

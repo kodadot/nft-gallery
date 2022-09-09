@@ -16,7 +16,7 @@ import AdminPanel from '@/components/rmrk/Create/Admin/AdminPanel.vue'
       title,
       type: 'profile',
       description: 'Create carbonless NFTs with low on-chain fees',
-      url: '/rmrk/admin',
+      url: '/westend/admin',
       image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {
@@ -25,5 +25,9 @@ import AdminPanel from '@/components/rmrk/Create/Admin/AdminPanel.vue'
     }
   },
 })
-export default class TransferPage extends Vue {}
+export default class WestendAdminPage extends Vue {
+  layout() {
+    return 'centered-half-layout'
+  }
+}
 </script>

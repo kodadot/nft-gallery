@@ -54,11 +54,11 @@
           :current-page.sync="currentPage"
           :default-sort="[defaultSortOption, 'desc']">
           <b-table-column
+            v-slot="props"
             :visible="columnsVisible['Name'].display"
             :field="groupKey"
             cell-class="short-name-column"
-            :label="nameHeaderLabel"
-            v-slot="props">
+            :label="nameHeaderLabel">
             <nuxt-link
               v-if="groupKey === 'Holder' || groupKey === 'Flipper'"
               :to="{
@@ -66,7 +66,7 @@
                 params: { id: props.row[groupKey] },
                 query: { tab: groupKey === 'Holder' ? 'holdings' : 'gains' },
               }">
-              <Identity :address="props.row[groupKey]" inline noOverflow />
+              <Identity :address="props.row[groupKey]" />
             </nuxt-link>
             <nuxt-link
               v-else-if="groupKey === 'CollectionId'"
@@ -76,67 +76,66 @@
               }">
               <Identity
                 :address="props.row.Item.collection.issuer"
-                inline
-                :customNameOption="props.row.Item.collection.name" />
+                :custom-name-option="props.row.Item.collection.name" />
             </nuxt-link>
           </b-table-column>
           <b-table-column
+            v-slot="props"
             :visible="columnsVisible['Amount'].display"
             numeric
             field="Amount"
             label="Amount"
-            sortable
-            v-slot="props">
+            sortable>
             {{ props.row.Amount }}
           </b-table-column>
           <b-table-column
+            v-slot="props"
             :visible="columnsVisible['Bought'].display"
             field="Bought"
             label="Bought"
-            sortable
-            v-slot="props">
+            sortable>
             {{ props.row.BoughtFormatted }}
           </b-table-column>
           <b-table-column
+            v-slot="props"
             :visible="columnsVisible['Sale'].display"
             field="Sale"
             :label="saleHeaderLabel"
-            sortable
-            v-slot="props">
+            sortable>
             {{ props.row.SaleFormatted }}
           </b-table-column>
           <b-table-column
             v-if="displayPercentage"
+            v-slot="props"
             :visible="columnsVisible['Percentage'].display"
             field="Percentage"
             label="Percentage"
-            sortable
-            v-slot="props">
+            sortable>
             <span :class="percentageTextClassName(props.row.Percentage)">
               {{ props.row.Percentage | toPercent('-') }}
             </span>
           </b-table-column>
           <b-table-column
+            v-slot="props"
             :visible="columnsVisible['Date'].display"
             field="Timestamp"
             :label="dateHeaderLabel"
-            sortable
-            v-slot="props">
+            sortable>
             <b-tooltip
               :label="props.row.Date"
               position="is-right"
               append-to-body>
               <BlockExplorerLink
                 :text="props.row.Time"
-                :blockId="props.row.Block" />
+                :block-id="props.row.Block" />
             </b-tooltip>
           </b-table-column>
           <template slot="detail" slot-scope="props">
             <tr v-for="item in props.row.Items" :key="item.Item.id">
               <td v-if="showDetailIcon"></td>
               <td
-                class="short-name-column"
-                v-show="columnsVisible['Name'].display">
+                v-show="columnsVisible['Name'].display"
+                class="short-name-column">
                 <nuxt-link
                   :to="{
                     name: `${urlPrefix}-gallery-id`,
@@ -158,8 +157,8 @@
               </td>
               <td
                 v-if="displayPercentage"
-                :class="percentageTextClassName(item.Percentage)"
-                v-show="columnsVisible['Percentage'].display">
+                v-show="columnsVisible['Percentage'].display"
+                :class="percentageTextClassName(item.Percentage)">
                 {{ item.Percentage | toPercent('-') }}
               </td>
               <td v-show="columnsVisible['Date'].display">
@@ -167,7 +166,7 @@
                   :label="item.Date"
                   position="is-right"
                   append-to-body>
-                  <BlockExplorerLink :text="item.Time" :blockId="item.Block" />
+                  <BlockExplorerLink :text="item.Time" :block-id="item.Block" />
                 </b-tooltip>
               </td>
             </tr>
@@ -179,18 +178,20 @@
 </template>
 
 <script lang="ts">
-import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { Interaction as EventInteraction } from '../../service/scheme'
-import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import { formatDistanceToNow } from 'date-fns'
-import { parsePriceForItem, parseDate } from './helper'
 import { Debounce } from 'vue-debounce-decorator'
 import { Interaction } from '@kodadot1/minimark'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { formatDistanceToNow } from 'date-fns'
+
+import ChainMixin from '@/utils/mixins/chainMixin'
+import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
+import { parseDate, parsePriceForItem } from './helper'
+import { Interaction as EventInteraction } from '../../service/scheme'
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
 }
 
@@ -548,29 +549,3 @@ export default class CommonHolderTable extends mixins(
   }
 }
 </script>
-<style lang="scss">
-@import '@/styles/variables.scss';
-
-.collapseHidden {
-  .collapse-trigger {
-    display: none;
-  }
-}
-
-.box {
-  .table-nav {
-    display: flex;
-    justify-content: space-between;
-  }
-  .box-container {
-    @media screen and (max-width: 768px) {
-      flex-direction: column-reverse;
-    }
-  }
-  @include tablet {
-    .short-name-column {
-      width: 20%;
-    }
-  }
-}
-</style>

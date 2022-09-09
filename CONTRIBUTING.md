@@ -20,6 +20,7 @@ Before you being:
 - [Learn how to set up your environment for the first time](FIRST_TIME.md)
 - Get familiar with our [coding conventions & recommendations](STYLE_GUIDE.md)
 - Read up on our [tech stack](https://medium.com/kodadot/the-tech-stack-at-kodadot-8a83880f8624) to get a better picture of the infrastructure we rely on
+- Familiarise yourself with our [contributor culture](https://medium.com/kodadot/contributor-culture-at-kodadot-665243d3d6a6) to better understand the dynamics by which we operate
 
 ### Which issue should you pick?
 
@@ -165,6 +166,30 @@ For content changes, make sure that you:
 - Check new or updated Liquid statements to confirm that versioning is correct.
 - Check that all of your changes render correctly in staging. Remember that lists and tables can be tricky.
 - If there are any failing checks in your PR, troubleshoot them until they're all passing.
+
+### Keeping tests relevant🔬
+
+Since we're using [Cypress](https://www.cypress.io/) as our primary E2E tool for testing, we need to ensure that newly added features are not breaking tests we previously implemented. Tests run automatically as [GitHub action](https://github.com/features/actions) to catch bugs introduced by development. Still, it's essential to check whether the failing test broke something or whether the subject of the test changed.
+
+One of the main reasons tests will fail (except when bugs get introduced) is that we're using custom HTML tags to [select elements](https://docs.cypress.io/guides/references/best-practices#Selecting-Elements) within the testing suite. If your contribution touches components with these custom tags and you get failed tests, these selectors must be checked and usually adjusted.
+
+You can identify these kinds of problems by seeing similar-looking test reports:  
+`Expected to find element: [data-cy="submit"], but never found it.`
+
+TL;DR: If you're touching components which include HTML tags such as `data-cy="submit"`, and the tests fail, make sure the tests still use the correct selector.
+
+**Example:**
+```html
+<button
+  id="main"
+  class="btn btn-large"
+  name="submission"
+  role="button"
+  data-cy="submit"
+>
+  Submit
+</button>
+```
 
 ### Update strategy: always use `merge`
 

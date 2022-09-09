@@ -3,25 +3,26 @@
     <b-table
       :data="displayOffers(offers)"
       :paginated="displayOffers(offers).length > itemsPerPage"
-      :perPage="itemsPerPage"
-      :currentPage.sync="currentPage"
-      paginationPosition="top">
+      :per-page="itemsPerPage"
+      :class="{ scrollable: offers.length > 0 }"
+      :current-page.sync="currentPage"
+      pagination-position="top">
       <div v-if="headerText" class="has-text-centered offer-title mb-2">
         {{ headerText }}
       </div>
       <b-select v-model="selectedStatus">
         <option
           v-for="option in getUniqType(offers)"
-          :value="option.type"
-          :key="option.type">
+          :key="option.type"
+          :value="option.type">
           {{ option.value }}
         </option>
       </b-select>
       <b-table-column
         v-if="displayCollection"
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         :label="$t('offer.collection')"
-        v-slot="props"
         field="nft.collection.name"
         sortable>
         <nuxt-link :to="`/bsx/collection/${props.row.nft.collection.id}`">
@@ -42,9 +43,9 @@
       </b-table-column>
       <b-table-column
         v-if="isBsxStats"
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         :label="$t('offer.nftName')"
-        v-slot="props"
         field="nft.name"
         sortable>
         <nuxt-link :to="`/bsx/gallery/${props.row.nft.id}`">
@@ -56,37 +57,44 @@
         </nuxt-link>
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         field="caller"
         :label="$t('offer.caller')"
-        v-slot="props"
         sortable>
         <nuxt-link :to="{ name: 'bsx-u-id', params: { id: props.row.caller } }">
-          <Identity :address="props.row.caller" inline noOverflow />
+          <Identity :address="props.row.caller" />
         </nuxt-link>
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         field="formatPrice"
         :label="$t('offer.price')"
-        v-slot="props"
         sortable>
         <Money :value="props.row.price" inline />
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         field="expirationBlock"
         :label="$t('offer.expiration')"
-        v-slot="props"
         sortable>
-        {{ calcExpirationTime(props.row.expiration) }}
+        <b-tooltip
+          v-if="!isExpired(props.row.expiration)"
+          :label="calcExpirationDate(props.row.expiration)">
+          {{ calcExpirationTime(props.row.expiration) }}
+        </b-tooltip>
+        <span v-else>
+          {{ calcExpirationTime(props.row.expiration) }}
+        </span>
       </b-table-column>
       <b-table-column
         v-if="!isBsxStats"
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         :label="$t('offer.action')"
-        v-slot="props"
         width="120"
         sortable>
         <b-button
@@ -104,19 +112,19 @@
       </b-table-column>
       <b-table-column
         v-if="isBsxStats"
+        v-slot="props"
         field="status"
         cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.status')"
-        v-slot="props"
         sortable>
         <p>{{ props.row.status }}</p></b-table-column
       >
       <b-table-column
         v-if="isBsxStats"
+        v-slot="props"
         field="createdAt"
         cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.date')"
-        v-slot="props"
         sortable
         ><p>
           {{ new Date(props.row.createdAt) | formatDistanceToNow }}
@@ -133,15 +141,16 @@
 
 <script lang="ts">
 import { Attribute, emptyArray } from '@kodadot1/minimark'
-import { Component, Emit, Prop, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { Offer } from './types'
 import { formatDistanceToNow } from 'date-fns'
+
+import { Offer } from './types'
 import OfferMixin from '~/utils/mixins/offerMixin'
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
+  Money: () => import('@/components/bsx/format/TokenMoney.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
 }
 
@@ -184,6 +193,9 @@ export default class OfferTable extends mixins(OfferMixin) {
 </script>
 <style lang="scss">
 .offer-table-container {
+  .scrollable.table-wrapper {
+    overflow-x: scroll;
+  }
   .limit-width-text {
     max-width: 20ch;
     overflow: hidden;

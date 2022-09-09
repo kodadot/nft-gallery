@@ -1,10 +1,11 @@
 {
+  "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "target": "ES2018",
+    "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
     "lib": ["ESNext", "ESNext.AsyncIterable", "DOM"],
-    "jsx": "react",
+    "jsx": "preserve",
     "esModuleInterop": true,
     "allowJs": true,
     "sourceMap": true,
@@ -13,18 +14,17 @@
     "experimentalDecorators": true,
     "noImplicitAny": false,
     "resolveJsonModule": true,
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./*"],
-      "@/*": ["./*"]
-    },
     "types": [
       "@nuxt/types",
       "@nuxtjs/i18n",
+      "@nuxtjs/color-mode",
       "@types/node",
       "vue-apollo",
-      "vitest/globals"
+      "vitest/globals",
+      "cypress",
+      "cypress-file-upload",
+      "cypress-real-events"
     ]
   },
-  "exclude": ["node_modules", ".nuxt", "dist", "**/*.spec.ts"]
+  "exclude": ["node_modules", "dist", "**/*.spec.ts"]
 }

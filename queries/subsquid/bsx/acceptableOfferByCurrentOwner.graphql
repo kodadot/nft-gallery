@@ -1,16 +1,27 @@
 query acceptableOfferByCurrentOwner($id: String!) {
   offers(
-    orderBy: createdAt_DESC,
-    where: { nft: { currentOwner_eq: $id, burned_eq: false }, status_eq: ACTIVE, caller_not_eq: $id }
+    orderBy: createdAt_DESC
+    where: {
+      nft: { currentOwner_eq: $id, burned_eq: false }
+      status_eq: ACTIVE
+      caller_not_eq: $id
+    }
   ) {
+    blockNumber
     caller
+    createdAt
     expiration
+    id
     price
     status
-    createdAt
+    updatedAt
     nft {
-      id
       name
+      id
+      collection {
+        id
+        name
+      }
     }
   }
 }

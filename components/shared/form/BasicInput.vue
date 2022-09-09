@@ -1,25 +1,25 @@
 <template>
   <b-field :label="$t(label)">
     <b-input
-      :placeholder="placeholder"
+      ref="input"
       v-model="vValue"
+      :placeholder="placeholder"
       :expanded="expanded"
-      @blur="hasFocus = false"
-      @focus="hasFocus = true"
       :maxlength="maxlength"
-      :type="type" />
-    <template #message>
+      :required="required"
+      :type="type"
+      @blur="hasFocus = false"
+      @focus="hasFocus = true" />
+    <template v-if="hasFocus && message" #message>
       <transition name="fade">
-        <span v-show="hasFocus && message" class="has-text-primary is-italic">{{
-          message
-        }}</span>
+        <span class="has-text-primary is-italic">{{ message }}</span>
       </transition>
     </template>
   </b-field>
 </template>
 
 <script lang="ts">
-import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Ref, VModel, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class BasicInput extends Vue {
@@ -31,8 +31,12 @@ export default class BasicInput extends Vue {
   @Prop({ type: String }) message!: string
   @Prop({ type: String, required: false }) maxlength!: string
   @Prop({ type: String, required: false }) type!: string
-
+  @Prop({ type: Boolean, default: false }) required!: boolean
+  @Ref('input') readonly input
   protected hasFocus = false
+  public checkValidity() {
+    return this.input.checkHtml5Validity()
+  }
 }
 </script>
 

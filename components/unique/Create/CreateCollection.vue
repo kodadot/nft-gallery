@@ -2,7 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseCollectionForm v-bind.sync="base">
-      <template v-slot:footer>
+      <template #footer>
         <!-- Hidden as of 11.July.2022 due to lack of convenience #3407 -->
         <!-- <CustomAttributeInput
           :max="10"
@@ -34,15 +34,15 @@ import { unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { canSupport } from '@/utils/support'
-import { estimate, Extrinsic } from '@/utils/transactionExecutor'
+import { Extrinsic, estimate } from '@/utils/transactionExecutor'
 import { createMetadata } from '@kodadot1/minimark'
 import { Component, mixins } from 'nuxt-property-decorator'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { getclassDeposit, getMetadataDeposit } from '../apiConstants'
+import { getMetadataDeposit, getclassDeposit } from '../apiConstants'
 import { getRandomValues, hasEnoughToken } from '../utils'
 import { uploadDirect } from '@/utils/directUpload'
 import UseApiMixin from '~/utils/mixins/useApiMixin'
@@ -115,12 +115,11 @@ export default class CreateCollection extends mixins(
       ? IPFS_KODADOT_IMAGE_PLACEHOLDER
       : await pinFileToIPFS(file, pinningKey.token)
     const type = !file ? 'image/png' : file.type
-    const attributes = this.attributes
-      .map((val) => ({
-        ...val,
-        display_type: null,
-      }))
-      .filter((item) => item.trait_type || item.display_type)
+    const attributes = this.attributes.map((val) => ({
+      ...val,
+      display_type: null,
+    }))
+
     const meta = createMetadata(
       name,
       description,
@@ -162,16 +161,9 @@ export default class CreateCollection extends mixins(
     const create = api.tx.uniques.create(randomId, this.accountId)
     // Option to freeze metadata
     const meta = api.tx.uniques.setClassMetadata(randomId, metadata, false)
-    const attributes = this.attributes
-      .filter((item) => item.trait_type || item.display_type)
-      .map((a) =>
-        api.tx.uniques.setAttribute(
-          randomId,
-          null,
-          a.trait_type,
-          String(a.value)
-        )
-      )
+    const attributes = this.attributes.map((a) =>
+      api.tx.uniques.setAttribute(randomId, null, a.trait_type, String(a.value))
+    )
 
     return [create, meta, ...attributes]
   }

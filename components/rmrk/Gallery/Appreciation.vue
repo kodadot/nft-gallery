@@ -6,7 +6,7 @@
         v-if="accountId"
         class="nft-appreciation__button"
         icon-left="heart"
-        @click="handleClick" />
+        @click="toggleEmojiDialog" />
       <VEmojiPicker
         v-show="showDialog"
         label-search="Search your emote"
@@ -24,9 +24,9 @@
 import groupBy from '@/utils/groupBy'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { createInteraction, Interaction } from '@kodadot1/minimark'
+import { Interaction, createInteraction } from '@kodadot1/minimark'
 import emojiUnicode from 'emoji-unicode'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { VEmojiPicker } from 'v-emoji-picker'
 import { Emoji, IEmoji } from 'v-emoji-picker/lib/models/Emoji'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
@@ -56,7 +56,22 @@ export default class Appreciation extends mixins(
 
   protected showDialog = false
 
-  protected handleClick() {
+  mounted() {
+    window.addEventListener('click', this.handleMouseClick)
+  }
+
+  beforeDestroy() {
+    window.removeEventListener('click', this.handleMouseClick)
+  }
+
+  handleMouseClick(e: MouseEvent) {
+    if (e.target && !this.$el.contains(e.target as HTMLElement)) {
+      this.showDialog = false
+    }
+    return false
+  }
+
+  protected toggleEmojiDialog() {
     if (this.simple) {
       showNotification('[EMOTE] Sending ♥️')
       return this.submit('2764') // heart emoji
@@ -121,7 +136,7 @@ export default class Appreciation extends mixins(
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .emote-picker {
   position: absolute;

@@ -1,30 +1,23 @@
 <template>
   <BaseGalleryItem
     :image="meta.image"
-    :animationUrl="meta.animation_url"
+    :animation-url="meta.animation_url"
     :description="meta.description"
-    :imageVisible="imageVisible"
-    :isLoading="isLoading">
-    <template v-slot:top v-if="message">
+    :image-visible="imageVisible"
+    :is-loading="isLoading">
+    <template v-if="message" #top>
       <b-message class="message-box" type="is-primary">
-        <div class="columns">
-          <div class="column is-four-fifths">
-            <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-            <p class="subtitle is-size-5 subtitle-text">
-              {{ $t('mint.shareWithFriends', [nft.name]) }} △
-            </p>
-          </div>
-          <div class="column">
-            <Sharing :enableDownload="isOwner" />
-          </div>
-        </div>
+        <MessageNotify
+          :enable-download="isOwner"
+          :title="$t('mint.success') + ' 🎉'"
+          :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
       </b-message>
     </template>
-    <template v-slot:main>
+    <template #main>
       <div class="columns">
         <div class="column is-6">
           <div class="nft-title">
-            <Name :nft="nft" :isLoading="isLoading" />
+            <Name :nft="nft" :is-loading="isLoading" />
           </div>
 
           <div v-if="meta.description" class="block">
@@ -40,12 +33,12 @@
               :active="isLoading"></b-skeleton>
           </div>
 
-          <div class="block" v-if="nft.attributes && nft.attributes.length">
+          <div v-if="nft.attributes && nft.attributes.length" class="block">
             <Properties :attributes="nft.attributes" />
           </div>
         </div>
 
-        <div class="column is-6" v-if="detailVisible">
+        <div v-if="detailVisible" class="column is-6">
           <b-skeleton
             :count="2"
             size="is-large"
@@ -54,7 +47,7 @@
           <div class="columns">
             <div class="column">
               <div class="nft-title">
-                <Detail :nft="nft" :isLoading="isLoading" />
+                <Detail :nft="nft" :is-loading="isLoading" />
               </div>
             </div>
             <div
@@ -76,9 +69,9 @@
                             :is-owner="isOwner"
                             :current-owner-id="nft.currentOwner"
                             :price="nft.price"
-                            :nftId="id"
-                            :delegateId="nft.delegate"
-                            :collectionId="collectionId"
+                            :nft-id="id"
+                            :delegate-id="nft.delegate"
+                            :collection-id="collectionId"
                             :frozen="nft.isFrozen"
                             :ipfs-hashes="[
                               nft.image,
@@ -93,11 +86,11 @@
                     <DangerModal
                       v-if="accountId === nft.currentOwner"
                       title="Danger Zone"
-                      :accountId="accountId"
-                      :nftId="id"
-                      :collectionId="collectionId"
+                      :account-id="accountId"
+                      :nft-id="id"
+                      :collection-id="collectionId"
                       :attributes="nft.attributes" />
-                    <Sharing :enableDownload="isOwner" class="mb-4" />
+                    <Sharing :enable-download="isOwner" class="mb-4" />
                   </div>
                 </div>
               </template>
@@ -151,13 +144,13 @@ import AuthMixin from '~/utils/mixins/authMixin'
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions: () => import('./AvailableActions.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
-    Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+    Sharing: () => import('@/components/shared/Sharing.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
     DangerModal: () =>
       import('@/components/unique/Gallery/Item/DangerModal.vue'),
-    Properties: () => import('@/components/unique/Gallery/Item/Properties.vue'),
+    Properties: () => import('@/components/shared/gallery/Properties.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
   },
@@ -392,12 +385,3 @@ export default class GalleryItem extends mixins(
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/variables';
-
-hr.comment-divider {
-  border-top: 1px solid $lightpink;
-  border-bottom: 1px solid $lightpink;
-}
-</style>

@@ -1,5 +1,5 @@
 import { Component, Mixins } from 'vue-property-decorator'
-import exec, { execResultValue, Extrinsic, txCb } from '../transactionExecutor'
+import exec, { Extrinsic, execResultValue, txCb } from '../transactionExecutor'
 import TransactionMixin from './txMixin'
 import { notificationTypes, showNotification } from '../notification'
 import { DispatchError } from '@polkadot/types/interfaces'
@@ -54,7 +54,15 @@ export default class MetaTransactionMixin extends Mixins(
       )
     } catch (e) {
       if (e instanceof Error) {
-        showNotification(e.toString(), notificationTypes.danger)
+        const isCancelled = e.message === 'Cancelled'
+        if (isCancelled) {
+          showNotification(
+            this.$t('general.tx.cancelled') as string,
+            notificationTypes.warn
+          )
+        } else {
+          showNotification(e.toString(), notificationTypes.danger)
+        }
         this.isLoading = false
       }
     }

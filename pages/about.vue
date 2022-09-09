@@ -1,11 +1,11 @@
 <template>
   <section>
     <div class="mb-5">
-      <h2 class="heading heading-is-4 text-bold uppercase">
+      <h2 class="heading heading-is-4 has-text-weight-bold is-uppercase">
         Carbonless NFT
         <span class="text__stroked heading heading-is-6"> Movement </span>
       </h2>
-      <p class="max-w-600">
+      <p>
         We are trying to set a movement where artists can offset their mints.
         Simple as that
       </p>
@@ -21,11 +21,11 @@
       </b-button>
     </div>
     <div class="mb-5">
-      <h2 class="heading heading-is-4 text-bold uppercase">
+      <h2 class="heading heading-is-4 has-text-weight-bold is-uppercase">
         Sustainability
         <span class="text__stroked heading heading-is-6"> is priority </span>
       </h2>
-      <p class="max-w-600">
+      <p>
         As part of our micro-dao-bedrock-boostrap experiment, we would like to
         keep our efforts sustainable in the long-run and create trust from
         creators culture and economy for KodaDot that we will won’t dissapear
@@ -48,11 +48,11 @@
       </b-button>
     </div>
     <div class="mb-5">
-      <h2 class="heading heading-is-4 text-bold uppercase">
+      <h2 class="heading heading-is-4 has-text-weight-bold is-uppercase">
         What we
         <span class="text__stroked heading heading-is-6"> Accomplished </span>
       </h2>
-      <p class="max-w-600">
+      <p>
         We made NFT Gallery on the top of Kusama using RMRK standard. This was
         our Milestone 1, the first step towards our Meta dreams of NFT Gallery
         and sort of our dreamy Metaverse.
@@ -66,11 +66,11 @@
       </b-button>
     </div>
     <div class="mb-5">
-      <h2 class="heading heading-is-4 text-bold uppercase">
+      <h2 class="heading heading-is-4 has-text-weight-bold is-uppercase">
         CLIENT 1ST NFT GALLERY
         <span class="text__stroked heading heading-is-6"> TECHNICAL EXAM </span>
       </h2>
-      <p class="max-w-600">
+      <p>
         Client-first, Onchain-first, Serverless-first, these words can sound
         like magic to you, but they exactly represent the actual technical state
         of KodaDot the NFT gallery.

@@ -1,33 +1,43 @@
 <template>
-  <b-field class="file is-primary">
-    <b-upload
-      v-model="file"
-      class="file-label"
-      drag-drop
-      :expanded="expanded"
-      :accept="accept">
-      <section class="section">
-        <div class="content has-text-centered">
-          <p>
-            <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
-            <img v-if="url && !hasError" :src="url" @error="hasError = true" />
-            <b-icon v-if="hasError" icon="eye-slash" size="is-large" />
-          </p>
-          <p v-if="!file">
-            {{ label }}
-          </p>
-          <p v-else>
-            Awesome your file is <b>{{ file.name }}</b
-            >. Click or drop to change
-          </p>
-        </div>
-      </section>
-    </b-upload>
-  </b-field>
+  <div class="field">
+    <b-field class="file is-primary">
+      <b-upload
+        ref="upload"
+        v-model="file"
+        :required="required"
+        class="file-label"
+        drag-drop
+        :expanded="expanded"
+        :accept="accept">
+        <section class="section">
+          <div class="content has-text-centered">
+            <p>
+              <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
+              <img
+                v-if="url && !hasError"
+                :src="url"
+                @error="hasError = true" />
+              <b-icon v-if="hasError" icon="eye-slash" size="is-large" />
+            </p>
+            <p v-if="!file">
+              {{ label }}
+            </p>
+            <p v-else>
+              Awesome your file is <b>{{ file.name }}</b
+              >. Click or drop to change
+            </p>
+          </div>
+        </section>
+      </b-upload>
+    </b-field>
+    <transition v-if="checkFailed" name="fade">
+      <div class="help is-danger">{{ $t('tooltip.needToUploadNFTFile') }}</div>
+    </transition>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Ref, Vue, Watch } from 'nuxt-property-decorator'
 import Tooltip from '@/components/shared/Tooltip.vue'
 
 @Component({
@@ -42,12 +52,20 @@ export default class DropUpload extends Vue {
   })
   public label!: string
   @Prop({ default: 'upload' }) public icon!: string
+  @Prop({ type: Boolean, default: false }) public required!: boolean
   @Prop(Boolean) public expanded!: boolean
   @Prop(Boolean) public preview!: boolean
   @Prop(String) public accept!: string
   private file: Blob | null = null
   protected url = ''
   protected hasError = false
+  protected checkFailed = false
+  @Ref('upload') readonly upload
+
+  public checkValidity() {
+    this.checkFailed = !this.file
+    return !this.checkFailed
+  }
 
   public created() {
     document.addEventListener('paste', this.onPasteImage)
@@ -69,6 +87,7 @@ export default class DropUpload extends Vue {
 
   @Watch('file')
   public createInput(file: Blob): void {
+    this.checkFailed = false
     const reader = new FileReader()
     reader.onload = () => {
       // this.handleSelection(reader.result)

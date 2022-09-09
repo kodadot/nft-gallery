@@ -5,7 +5,9 @@
       :rounded="false"
       :size="size"
       :disabled="disabled"
-      :class="labelColor">
+      :class="labelColor"
+      :type="type"
+      data-cy="buy-now">
       <component :is="componentName" :label="message">
         {{ properLabel }}
       </component>
@@ -23,6 +25,7 @@ export default class BasicSwitch extends Vue {
   @Prop({ type: String, required: true }) label!: string
   @Prop({ type: String }) offLabel!: string
   @Prop({ type: String }) size!: string
+  @Prop({ type: String }) type!: string
   @Prop({ type: String }) labelColor!: string
   @Prop({ type: String }) message!: string
   @Prop(Boolean) public disabled!: boolean

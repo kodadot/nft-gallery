@@ -5,14 +5,14 @@ module.exports = {
     node: true,
   },
   extends: [
-    'eslint:recommended',
-    'plugin:vue/essential',
+    'plugin:vue/recommended',
     'plugin:@typescript-eslint/recommended',
+    'prettier',
   ],
   parser: 'vue-eslint-parser',
   parserOptions: {
-    ecmaVersion: 11,
     parser: '@typescript-eslint/parser',
+    ecmaVersion: 2020,
     sourceType: 'module',
   },
   plugins: ['vue', 'prettier', '@typescript-eslint', 'unicorn'],
@@ -29,15 +29,22 @@ module.exports = {
     ],
     'no-useless-catch': 1,
     'no-var': 'error',
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': 0,
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'max-classes-per-file': ['error', 2],
+    'sort-imports': [
+      'warn',
+      {
+        ignoreDeclarationSort: true,
+        allowSeparatedGroups: true,
+      },
+    ],
   },
   ignorePatterns: ['*.md'],
   overrides: [
     {
-      files: ['layouts/**/*.{js,ts,vue}'],
+      files: ['layouts/**/*.{js,ts,vue}', 'pages/**/*.vue'],
       rules: {
         'vue/multi-word-component-names': 'off',
       },

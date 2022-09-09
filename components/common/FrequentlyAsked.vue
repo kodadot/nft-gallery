@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <h1
-      class="text-bold text__stroked heading heading-is-6 is-size-1-mobile mb-6">
+      class="has-text-weight-bold text__stroked heading heading-is-6 is-size-1-mobile mb-6">
       {{ $t('faq.title') }}
     </h1>
 
     <p
-      class="faq__box heading is-size-4-mobile is-size-3-tablet text-bold is-flex-inline mb-6">
+      class="faq__box heading is-size-4-mobile is-size-3-tablet has-text-weight-bold mb-6">
       {{ $t('faq.box_heading1') }} <br />
       {{ $t('faq.box_heading2') }} <br />
       <nuxt-link :to="{ name: 'tutorials' }">
@@ -14,8 +14,8 @@
       </nuxt-link>
     </p>
 
-    <div v-for="qa in faqQuestionsAnswers" v-bind:key="qa[0]" class="mb-5">
-      <b-collapse :open="false" :id="qa[0].replace(/ /g, '-')">
+    <div v-for="qa in faqQuestionsAnswers" :key="qa[0]" class="mb-5">
+      <b-collapse :id="qa[0].replace(/ /g, '-')" :open="false">
         <template #trigger="props">
           <div class="is-flex is-align-items-center">
             <a class="has-text-primary" :href="'#' + qa[0].replace(/ /g, '-')">
@@ -25,7 +25,7 @@
               </b-icon>
             </a>
             <h3
-              class="heading is-size-5-mobile is-size-4-tablet max-w-600 has-text-weight-semibold">
+              class="heading is-size-5-mobile is-size-4-tablet has-text-weight-semibold">
               {{ qa[0] }}
             </h3>
           </div>
