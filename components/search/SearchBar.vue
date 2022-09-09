@@ -3,7 +3,7 @@
     ref="searchRef"
     v-model="name"
     class="gallery-search"
-    placeholder="Search Artwork, Collection..."
+    :placeholder="$t('general.searchPlaceholder')"
     icon="search"
     :open-on-focus="showDefaultSuggestions"
     clearable

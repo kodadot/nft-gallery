@@ -37,20 +37,30 @@
           <div class="tile is-horizontal">
             <div class="tile is-parent is-6">
               <div class="tile is-child box">
-                <p class="title">New to NFTs?</p>
-                <p class="subtitle">
-                  Click <a href="https://docs.kodadot.xyz">here</a> for a step
-                  by step guide!
-                </p>
+                <p class="title">{{ $t('landing.newNftHeading') }}</p>
+                <i18n
+                  path="landing.newNft.click"
+                  tag="p"
+                  for="landing.newNft.here"
+                  class="subtitle">
+                  <a href="https://docs.kodadot.xyz">{{
+                    $t('landing.newNft.here')
+                  }}</a>
+                </i18n>
               </div>
             </div>
             <div class="tile is-parent">
               <div class="tile is-child box">
-                <p class="title">KSM for artists</p>
-                <p class="subtitle">
-                  Get in <a href="https://discord.gg/35hzy2dXXh">touch</a> and
-                  we will hook you up with free mints.
-                </p>
+                <p class="title">{{ $t('landing.ksmArtistHeading') }}</p>
+                <i18n
+                  path="landing.artists.hook"
+                  tag="p"
+                  for="landing.artists.touch"
+                  class="subtitle">
+                  <a href="https://discord.gg/35hzy2dXXh">{{
+                    $t('landing.artists.touch')
+                  }}</a>
+                </i18n>
               </div>
             </div>
           </div>
@@ -60,20 +70,21 @@
             class="box is-flex is-align-items-center is-justify-content-space-between">
             <div class="tile is-parent is-6">
               <p class="subtitle">
-                Got any questions or would like to stay in touch? Drop us a line
-                via socials.
+                {{ $t('landing.socials') }}
               </p>
             </div>
             <KodadotSocialLinks />
           </div>
         </div>
       </div>
-      <div v-if="prefix === 'rmrk' || prefix === 'bsx' || prefix === 'snek'">
-        <LazyCarouselLatestSales class="my-5" />
-        <span v-if="prefix === 'rmrk'">
-          <LazyCarouselPopularCollections class="my-5" />
-        </span>
-        <LazyCarouselNewestList class="my-5" />
+      <div
+        v-if="prefix === 'rmrk' || prefix === 'bsx' || prefix === 'snek'"
+        class="py-5">
+        <LazyCarouselTypeLatestSales class="my-5" />
+        <LazyCarouselTypePopularCollection
+          v-if="prefix === 'rmrk'"
+          class="my-5" />
+        <LazyCarouselTypeNewestList class="my-5" />
       </div>
     </div>
   </section>

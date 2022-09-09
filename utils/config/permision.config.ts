@@ -5,7 +5,7 @@ const hasCreate: Config<boolean> = {
   bsx: true,
   statemine: true,
   westmint: true,
-  moonsama: false,
+  movr: false,
   snek: true,
 }
 

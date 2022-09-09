@@ -573,30 +573,6 @@
     "handleRequired": "Pegangan Anda diperlukan",
     "deposit": "Deposit"
   },
-  "massMint": {
-    "tutorial": {
-      "basic": {
-        "title": "Mint massal dasar ",
-        "description": "Ini adalah mint massal dasar, itu akan membuat NFT dengan simbol dan nama yang sama, tetapi jumlah yang berbeda. Ini juga akan membuat jumlah NFT yang berbeda dengan simbol dan nama yang sama, tetapi jumlah yang berbeda."
-      },
-      "range": {
-        "title": "Kisaran Mint massal",
-        "description": "Anda dapat menentukan kisaran mint massal, itu akan membuat NFT dengan simbol dan nama yang sama, tetapi jumlah yang berbeda. Ini juga akan membuat jumlah NFT yang berbeda dengan simbol dan nama yang sama, tetapi jumlah yang berbeda."
-      },
-      "all": {
-        "title": "Mint massal semua",
-        "description": "Anda dapat menentukan kisaran mint massal, itu akan membuat NFT dengan simbol dan nama yang sama, tetapi jumlah yang berbeda. Ini juga akan membuat jumlah NFT yang berbeda dengan simbol dan nama yang sama, tetapi jumlah yang berbeda."
-      }
-    },
-    "syntax": {
-      "file": "Nama file (misalnya. semarang_1.jpg)",
-      "name": "Nama NFT (misalnya. semarang_1.jpg)",
-      "amount": "Harga token (misalnya. 0.01)",
-      "description": "Deskripsi multiline dari token (misalnya. semarang kota atlas)",
-      "range": "Rentang token (misalnya. 1-5)",
-      "all": "Berlaku untuk semua token (gunakan tiga titik: ...)"
-    }
-  },
   "collapse": {
     "collection": {
       "description": {
