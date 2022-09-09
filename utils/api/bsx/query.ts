@@ -51,9 +51,8 @@ export function getAsssetBalance(
   if (id === '0') {
     return Query.getTokenBalance(api, account)
   }
-
   return api.query.tokens
-    .accounts(account, id)
+    ?.accounts(account, id)
     .then((val) => (val as any).free)
     .then((val) => val.toString())
 }
