@@ -36,7 +36,7 @@ const chainPropertyMap: Config<ChainProperties> = {
   snek: toChainProperty(
     10041,
     12,
-    'BSX',
+    'KSM',
     'https://calamar.play.hydration.cloud/rococo%20basilisk/search?query='
   ),
   statemine: DEFAULT_CHAIN_PROPERTIES,

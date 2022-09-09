@@ -218,7 +218,7 @@
           <UserGainHistory :account-id="id" />
         </b-tab-item>
         <b-tab-item
-          v-if="isBsx"
+          v-if="isBsx || isSnek"
           :label="`Offers Made${
             userOfferList.length ? ' - ' + userOfferList.length : ''
           }`"
@@ -561,6 +561,10 @@ export default class ProfileDetail extends mixins(
 
   get isBsx(): boolean {
     return this.urlPrefix === 'bsx'
+  }
+
+  get isSnek(): boolean {
+    return this.urlPrefix === 'snek'
   }
 
   get activeTab(): string {
