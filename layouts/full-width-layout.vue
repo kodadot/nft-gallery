@@ -9,12 +9,14 @@
         error-subtitle="Please check your network connections" />
       <Nuxt v-else />
     </main>
-    <LazyFooter />
+    <LazyTheFooter v-if="redesign" />
+    <LazyTheFooterOld v-else />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
+import ExperimentMixin from '@/utils/mixins/experimentMixin'
 
 @Component<FullWidthLayout>({
   name: 'FullWidthLayout',
@@ -30,5 +32,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
     }
   },
 })
-export default class FullWidthLayout extends Vue {}
+export default class FullWidthLayout extends mixins(ExperimentMixin) {}
 </script>
