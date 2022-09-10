@@ -74,12 +74,13 @@
 
         <div v-if="hasSelectedWalletProvider && hasWalletProviderExtension">
           <div class="subtitle is-size-6 has-text-centered">
-            Choose your
+            {{ $t('general.chooseWallet') }}
             <b-image
               :src="selectedWalletProvider.img"
               class="is-16x16"
               style="display: inline-block; vertical-align: middle" />
-            <b>{{ selectedWalletProvider.extensionName }}</b> account
+            <b>{{ selectedWalletProvider.extensionName }}</b
+            >{{ $t('account') }}
           </div>
 
           <b-field v-if="walletAccounts.length" :label="$t('account')">
