@@ -21,7 +21,7 @@
         class="arrow arrow-right"
         @click="slider?.next()"></div>
     </div>
-    <div v-if="slider" class="dots">
+    <div v-if="slider && !isCollection" class="dots">
       <button
         v-for="(_slide, idx) in dotHelper"
         :key="idx"
