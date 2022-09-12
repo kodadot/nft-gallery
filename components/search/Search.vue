@@ -2,7 +2,7 @@
   <div class="mb-3">
     <div v-if="!isVisible && !hideSearchInput" class="row">
       <div v-if="priceRangeDirty && !hideFilter" class="is-size-7">
-        <PriceRange :from="minPrice" :to="maxPrice" inline />
+        <PriceRange inline />
       </div>
     </div>
     <div class="columns mb-0">
@@ -18,13 +18,13 @@
         <slot name="next-filter"></slot>
         <SearchBarInput
           v-if="!hideSearchInput"
-          v-model="vName"
+          v-model="name"
           :query="query"
           @enter="nativeSearch"
           @blur="onBlur"></SearchBarInput>
         <div v-if="!isVisible && hideSearchInput">
           <div v-if="priceRangeDirty" class="is-size-7">
-            <PriceRange :from="minPrice" :to="maxPrice" inline />
+            <PriceRange inline />
           </div>
         </div>
       </b-field>
@@ -64,7 +64,7 @@
         :range="priceRange"
         @input="priceRangeChange"></SearchPriceRange>
       <div v-if="priceRangeDirty" class="is-size-7">
-        <PriceRange :from="minPrice" :to="maxPrice" inline />
+        <PriceRange inline />
       </div>
     </b-collapse>
   </div>
@@ -75,7 +75,6 @@ import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
 import { SearchQuery } from './types'
-import { NFT } from '@/components/rmrk/service/scheme'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
@@ -93,7 +92,7 @@ import ChainMixin from '~/utils/mixins/chainMixin'
     Money: () => import('@/components/shared/format/Money.vue'),
   },
 })
-export default class extends mixins(
+export default class Search extends mixins(
   PrefixMixin,
   KeyboardEventsMixin,
   ChainMixin
@@ -112,43 +111,25 @@ export default class extends mixins(
     sortByMultiple: this.sortByMultiple ?? [],
     listed: this.$route.query?.listed?.toString() === 'true',
   }
-
-  private searchString = ''
   public name = ''
-  private searched: NFT[] = []
   public priceRange: [
     number | string | undefined,
     number | string | undefined
   ] = [undefined, undefined]
   public priceRangeDirty = false
 
-  get vName() {
-    return this.name
-  }
-
-  set vName(value: string) {
-    this.name = value
-  }
-
-  get minPrice(): number | undefined {
-    if (this.$route.query.min) {
-      return parseFloat(this.$route.query.min.toString()) * 10 ** this.decimals
-    }
-    return undefined
-  }
-
-  get maxPrice(): number | undefined {
-    if (this.$route.query.max) {
-      return parseFloat(this.$route.query.max.toString()) * 10 ** this.decimals
-    }
-    return undefined
+  public created() {
+    this.initKeyboardEventHandler({
+      f: this.bindFilterEvents,
+    })
   }
 
   public mounted(): void {
-    this.getSearchHistory()
     exist(this.$route.query.search, this.updateSearch)
-    exist(this.$route.query.min, this.updatePriceMin)
-    exist(this.$route.query.max, this.updatePriceMax)
+    exist(this.$route.query.min, (v) => this.updatePriceRangeByQuery(v))
+    exist(this.$route.query.max, (v) =>
+      this.updatePriceRangeByQuery(undefined, v)
+    )
     existArray(this.$route.query.sort as string[], this.updateSortBy)
     exist(this.$route.query.listed, this.updateListed)
   }
@@ -171,12 +152,6 @@ export default class extends mixins(
         this.updateSortBy(['PRICE_ASC'])
         break
     }
-  }
-
-  public created() {
-    this.initKeyboardEventHandler({
-      f: this.bindFilterEvents,
-    })
   }
 
   get vListed(): boolean {
@@ -223,20 +198,6 @@ export default class extends mixins(
     return v === 'true'
   }
 
-  insertNewHistory() {
-    for (const s of this.searched) {
-      if (s.name === this.searchString) {
-        return
-      }
-    }
-    const newResult = {
-      type: 'History',
-      name: this.searchString,
-    } as unknown as NFT
-    this.searched.push(newResult)
-    localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
-  }
-
   @Emit('update:sortByMultiple')
   @Debounce(400)
   updateSortBy(value: string[] | string, $event?): string[] {
@@ -266,10 +227,6 @@ export default class extends mixins(
     return newFinal
   }
 
-  public routeOf(url: string): string {
-    return `${this.urlPrefix}-${url}`
-  }
-
   onBlur() {
     this.updateSearch(this.name)
   }
@@ -283,23 +240,17 @@ export default class extends mixins(
     return value
   }
 
-  updatePriceMin(value: string) {
-    const min = Number(value)
-    if (!Number.isNaN(min)) {
-      if (!this.priceRangeDirty) {
-        this.priceRangeDirty = true
-      }
+  updatePriceRangeByQuery(minValue?: string, maxValue?: string) {
+    const min = Number(minValue)
+    const max = Number(maxValue)
+    if (Number.isNaN(min) && Number.isNaN(max)) {
+      return
+    }
+    this.priceRangeDirty = true
+    if (minValue) {
       this.priceRange = [min, this.priceRange[1]]
       this.priceRangeChangeMin(min * 10 ** this.decimals)
-    }
-  }
-
-  updatePriceMax(value: string) {
-    const max = Number(value)
-    if (!Number.isNaN(max)) {
-      if (!this.priceRangeDirty) {
-        this.priceRangeDirty = true
-      }
+    } else {
       this.priceRange = [this.priceRange[0], max]
       this.priceRangeChangeMax(max * 10 ** this.decimals)
     }
@@ -327,21 +278,11 @@ export default class extends mixins(
     this.$emit('resetPage')
   }
 
-  private getSearchHistory() {
-    // localStorage.kodaDotSearchResult = ''
-    const cacheResult = localStorage.kodaDotSearchResult
-    if (cacheResult) {
-      this.searched = JSON.parse(cacheResult)
-    }
-  }
-
   public priceRangeChange([min, max]: [
     number | undefined,
     number | undefined
   ]): void {
-    if (!this.priceRangeDirty) {
-      this.priceRangeDirty = true
-    }
+    this.priceRangeDirty = true
     this.priceRangeChangeMin(min ? min * 10 ** this.decimals : undefined)
     this.priceRangeChangeMax(max ? max * 10 ** this.decimals : undefined)
     const priceMin = min ? String(min) : undefined
@@ -351,13 +292,11 @@ export default class extends mixins(
   }
 
   @Emit('update:priceMin')
-  @Debounce(50)
   private priceRangeChangeMin(min?: number): void {
     this.query.priceMin = min
   }
 
   @Emit('update:priceMax')
-  @Debounce(50)
   private priceRangeChangeMax(max?: number): void {
     this.query.priceMax = max
   }

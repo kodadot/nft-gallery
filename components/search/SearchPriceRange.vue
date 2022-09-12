@@ -39,7 +39,7 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
-export default class extends Vue {
+export default class SearchPriceRange extends Vue {
   @Prop({ type: Array, required: false, default: () => [undefined, undefined] })
   public range!: [number | string | undefined, number | string | undefined]
 

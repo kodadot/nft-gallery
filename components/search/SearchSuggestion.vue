@@ -147,7 +147,7 @@ import { unwrapSafe } from '~/utils/uniquery'
 import { RowSeries } from '~/components/series/types'
 
 @Component({})
-export default class extends mixins(PrefixMixin) {
+export default class SearchSuggestion extends mixins(PrefixMixin) {
   @Prop(String) public name!: string
   @Prop(Boolean) public showDefaultSuggestions!: boolean
   @Prop({ type: Object, required: false }) public query!: SearchQuery

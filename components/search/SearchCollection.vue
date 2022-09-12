@@ -58,7 +58,7 @@ import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   },
 })
-export default class extends mixins(KeyboardEventsMixin) {
+export default class SearchBar extends mixins(KeyboardEventsMixin) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
   @Prop({ type: String, default: 'blockNumber_DESC' }) public sortBy!: string
