@@ -17,7 +17,7 @@
         </div>
       </section>
     </main>
-    <LazyFooter />
+    <LazyTheFooterOld />
   </div>
 </template>
 

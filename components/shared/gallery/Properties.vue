@@ -1,16 +1,16 @@
 <template>
   <CollapseCardWrapper :label="$t('nft.properties.label')">
-    <div class="columns is-multiline">
+    <div class="columns is-mobile is-multiline">
       <div
         v-for="attribute in attributes"
         :key="attribute[fieldKey]"
-        class="column is-4">
+        class="column is-half-mobile is-half-tablet is-one-third-desktop is-one-quarter-fullhd">
         <div class="notification is-primary is-light">
           <div
             class="is-size-7 has-text-grey-lighter is-uppercase properties-attribute-key">
             {{ attribute[fieldKey] === 'undefined' ? '' : attribute[fieldKey] }}
           </div>
-          <div class="is-size-5 has-text-white">{{ attribute.value }}</div>
+          <div class="is-size-7 has-text-white">{{ attribute.value }}</div>
         </div>
       </div>
     </div>
