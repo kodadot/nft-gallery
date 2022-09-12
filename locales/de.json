@@ -8,9 +8,11 @@
   "classic": "Classic",
   "account": "Konto",
   "accounts": "Konten",
+  "ammount": "Menge",
   "transfer": "Transfer",
+  "assets": "Assets",
   "incomingOffers": "Eingehende Angebote",
-  "transform": "Transformieren",
+  "transform": "Umwandeln",
   "settings": "Einstellungen",
   "first NFT market explorer on Kusama and Polkadot": "erster NFT marktexplorer auf Kusama und Polkadot",
   "legend": "Legende",
@@ -22,12 +24,12 @@
   "Maximum NFTs in collection": "Maximale Anzahl an NFTs in der Sammlung",
   "name": "Name",
   "simple": "Simple",
-  "about": "Über",
+  "about": "Über uns",
   "ambassador program": "Ambassador Programm",
   "press kit": "Pressemappe",
   "careers": "Karriere",
-  "contribute": "Trage bei",
-  "qrCode": "QR",
+  "contribute": "Mach mit",
+  "qrCode": "QR Code",
   "documentation": "Dokumentation",
   "grants": "Zuschuss",
   "theatre": "Bühne",
@@ -44,7 +46,12 @@
   "Collections Per Page": "Sammlungen pro Seite",
   "I am helping to cover costs": "Ich helfe die Kosten zu decken",
   "I do not want to support": "Ich will nicht unterstützen",
+  "createNftExplainer": "Wenn deine Sammlung erst kürzlich geminted wurde und hier nicht auftaucht, einfach kurz warten und es wird bald angezeigt",
   "passion": "Lieblings-Feed",
+  "search": {
+    "seeAll": "Alle anzeigen",
+    "rankings": "Rangliste"
+  },
   "faq": {
     "page": "FAQ",
     "title": "Häufig gestellte Fragen",
@@ -110,31 +117,31 @@
         "m": "Zum jetzigen Zeitpunkt beträgt die Gebühr zum minten eines NFT 0.02 USD."
       },
       "6": {
-        "m": "Zuerst musst Du die @.md:faq.a.6.l1 installieren, <b>sichere deine Seedphrase</b>. Dann kannst Du Guthaben auf deine Wallet laden @.md:faq.a.6.l2 oder über unser @.md:faq.a.6.l3 feature. Sobald Du Guthaben besitzt, wechsel zu @.md:faq.a.6.l4, wähle eine Sammlung aus. Warte bis die Sammlung gemintet ist, dann wechselst Du zu @.md:faq.a.6.l5 und mintest deinen ersten Token! Zeig uns auf @.md:faq.a.6.l6 was Du geschaffen hast.",
+        "m": "Zuerst musst Du die @.md:faq.a.6.l1 installieren und <b>sicherst deine Seedphrase</b>. Dann kannst Du Guthaben auf deine Wallet laden @.md:faq.a.6.l2 oder über unser @.md:faq.a.6.l3 feature. Sobald Du Guthaben besitzt, wechsel zu @.md:faq.a.6.l4, wähle eine Sammlung aus. Warte bis die Sammlung gemintet ist, dann wechselst Du zu @.md:faq.a.6.l5 und mintest deinen ersten Token! Zeig uns auf @.md:faq.a.6.l6 was Du geschaffen hast.",
         "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)",
         "l2": "[hier](@.common:links.rmrk_credit.href)",
-        "l3": "[grant](@.common:links.artist_grant_program.href)",
+        "l3": "[Zuschuss](@.common:links.artist_grant_program.href)",
         "l4": "[Erstellen](@.common:links.rmrk_create.href)",
         "l5": "[Token erstellen](@.common:links.rmrk_create.href)",
         "l6": "[Token erstellen.](@.common:links.kodadot_social.discord.href)"
       },
       "7": {
-        "m": "Es gibt inzwischen viele Börsen @.md:faq.a.7.l1 die den Handel mit KSM anbieten. Die wahrscheinlich sichersten sind @.md:faq.a.7.l2 und @.md:faq.a.7.l3 oder Du nutzt einen dezentralisierten Service wie @.md:faq.a.7.l4",
+        "m": "Es gibt inzwischen viele @.md:faq.a.7.l1 die den Handel mit KSM anbieten. Die wahrscheinlich sichersten sind @.md:faq.a.7.l2 und @.md:faq.a.7.l3 oder Du nutzt einen dezentralisierten Service wie @.md:faq.a.7.l4",
         "l1": "[Börsen](@.common:links.coingecko_ksm_markets.href)",
         "l2": "[Binance](@.common:links.binance_exchange.href)",
         "l3": "[Bybit](@.common:links.bybit_exchange.href)",
         "l4": "[simpleswap.](@.common:links.simpleswap_exchange.href)"
       },
       "8": {
-        "m": "Wir empfehlen KSM über eine zentralisierte Börse wie @.md:faq.a.8.l1 und @.md:faq.a.8.l2 zu beziehen. Oder Du nutzt unsere RAMP network integration - ein fiat Bezahldienstleister @.md:faq.a.8.l3 Wenn Du hierbei auf Probleme stößt, kannst Du gerne nach einem @.md:faq.a.8.l4 fragen oder frag uns direkt im @.md:faq.a.8.l5 Kanal auf Discord.",
+        "m": "Wir empfehlen KSM über eine zentralisierte Börse wie @.md:faq.a.8.l1 und @.md:faq.a.8.l2 zu beziehen. Oder Du nutzt unsere RAMP network integration - ein fiat Bezahldienstleister @.md:faq.a.8.l3 Wenn Du hierbei auf Probleme stößt, kannst Du gerne nach einem @.md:faq.a.8.l4 fragen oder besuche uns direkt im @.md:faq.a.8.l5 Kanal auf Discord.",
         "l1": "[Binance](@.common:links.binance_exchange.href)",
         "l2": "[Bybit](@.common:links.bybit_exchange.href)",
         "l3": "[hier.](@.common:links.rmrk_credit.href)",
-        "l4": "[grant](@.common:links.artist_grant_program.href)",
+        "l4": "[Zuschus](@.common:links.artist_grant_program.href)",
         "l5": "[Hilfe](@.common:links.kodadot_social.discord_help.href)"
       },
       "9": {
-        "m": "Wir sehen uns die bestehenden Möglichkeiten an und haben das Thema eingeplant für den nächsten Meilenstein 2."
+        "m": "Wir sehen uns die bestehenden Möglichkeiten an und haben das Thema eingeplant für den zweiten Meilenstein."
       },
       "10": {
         "m": "Für die besten Kurse kannst Du @.md:faq.a.10.l1 wählen. Für den einfachsten Ablauf @.md:faq.a.10.l2 Wenn Du @.md:faq.a.10.l3",
@@ -146,7 +153,7 @@
         "m": "Wir arbeiten daran tägliche Updates & fixes so schnell wie möglich zu liefern. Unter Umständen haben wir schon eine neue Version veröffentlicht, aber dein Browser hat noch eine alte Version geladen. Wenn Du Windows nutzt, drück die Strg und F5 Taste gleichzeitig. Nutzt Du einen Mac, drücke die command Taste und dann auf R. Wenn das nicht geholfen hat, kontaktiere uns direkt auf Twitter oder Discord mit einem Screenshot der geöffneten Entwicklerkonsole."
       },
       "12": {
-        "m": "SENDEN schickt es an jemanden, VERBRAUCHEN wird es vernichten, LISTEN wird es zum Verkauf anbieten, damit es jemand von Dir kaufen kann."
+        "m": "SENDEN schickt es an jemanden, VERBRENNEN wird es vernichten, LISTEN wird es zum Verkauf anbieten, damit es jemand von Dir kaufen kann."
       },
       "13": {
         "m": "Am einfachsten findest Du es über den @.md:faq.a.13.l1 und gibst deine Adresse ein. @.md:faq.a.13.l2",
@@ -154,7 +161,7 @@
         "l2": "[Über den Explorer erhältst Du eine Vorstellung davon wie gemintete NFTs angezeigt werden, indem Du dir die Extrinsics ansiehst.](@.common:links.kusama_scanner.extrinsic.href)"
       },
       "14": {
-        "m": "Ja, wenn es beispielsweise problematisch für Dich ist Beträge von einer Börse zu transferieren oder den fiat-onramp Service zu nutzen, kannst Du uns auf Discord besuchen und nach einer kleinen Summe KSM im @.md:faq.a.14.l1 Kanal fragen oder einen @.md:faq.a.14.l2 beantragen um die Mintgebühr zu decken.",
+        "m": "Ja, wenn es nicht funktioniert Guthaben von einer Börse zu transferieren oder den fiat-onramp Service zu nutzen, kannst Du uns auf Discord besuchen und nach einer kleinen Summe KSM im @.md:faq.a.14.l1 Kanal fragen oder einen @.md:faq.a.14.l2 erfragen um die Mintgebühr zu decken.",
         "l1": "[help](@.common:links.kodadot_social.discord_help.href)",
         "l2": "[Zuschuss](@.common:links.artist_grant_program.href)"
       },
@@ -163,8 +170,8 @@
         "l1": "[Profil](@.common:links.rmrk_profile.href)"
       },
       "16": {
-        "m": "Wir haben lange mit dem @.md:faq.a.16.l1 daran gearbeitet, um Features für Künstler wie Tantiemen, Angebote machen und akzeptieren bereitzustellen. Das gibt schon eine Vorschau auf das, was auf MetaPrime.network möglich sein wird sobald das Feature auf Kusama.network verfügbar wird. Die derzeitige Implementierung mit BSX wird gerade in der Beta getestet. Wenn Du das Feature mit uns testen willst, besuch die qa-lobby auf unserem @.md:faq.a.16.l2",
-        "l1": "[Basilisk team](@.common:links.basilisk_website.href)",
+        "m": "Wir haben lange mit dem @.md:faq.a.16.l1 daran gearbeitet, um Features für Künstler wie Tantiemen oder Angebote machen und akzeptieren zu ermöglichen. Das gibt schon eine Vorschau auf das, was auf MetaPrime.network möglich sein wird, sobald das Feature auf Kusama.network verfügbar wird. Die derzeitige Implementierung mit BSX wird gerade in der Beta getestet. Wenn Du das Feature mit uns testen willst, besuch die qa-lobby auf unserem @.md:faq.a.16.l2",
+        "l1": "[Team von Basilisk](@.common:links.basilisk_website.href)",
         "l2": "[Discord](@.common:links.kodadot_social.discord.href)"
       },
       "17": {
@@ -175,7 +182,7 @@
         "m": "<b>CLASSIC</b> lässt dich eine Sammlung erstellen und NFTs hinzufügen. <b>SIMPLE</b> mint erstellt ein NFT und fügt es deinem Profil hinzu und <b>PERMAFROST</b> lässt dich deine NFT mit dem Arweaveprotokoll minten: Das Protokoll vernetzt Menschen mit verfügbarem Speicherplatz mit Individuen und Organisationen die ihre Daten permanent speichern und verfügbar machen wollen."
       },
       "19": {
-        "m": "Wir haben Mittel aus der @.md:faq.a.19.l1 erhalten. Wir suchen aktiv nach anderen Wegen der Finanzierung und würden auch Privatinvestitionen in Betracht ziehen. Schick uns eine DM, wenn Du an einer privaten Finanzierung interessiert bist.",
+        "m": "Wir haben Mittel aus der @.md:faq.a.19.l1 erhalten. Wir suchen aktiv nach anderen Wegen der Finanzierung und würden auch Privatinvestitionen in Betracht ziehen. Schick uns eine DM, wenn Du uns mit einer privaten Finanzierung unterstützen willst.",
         "l1": "[Kusama Treasury für den ersten Meilenstein](@.common:links.kusama_polkassembly.kodadot_nft_explorer_post.href)"
       },
       "20": {
@@ -192,7 +199,7 @@
         "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
       },
       "24": {
-        "m": "Kontrolliere ob Du frei <b>transferierbare</b> $KSM auf deinem Konto hast, denn das ist etwas anderes als gestaketes. Das kannst Du auf @.md:faq.a.24.l1 kontrollieren, indem Du dein Guthaben aufklappst. Dadurch wird Dir der <b>transferierbare</b> Betrag angezeigt.",
+        "m": "Kontrolliere ob Du frei <b>transferierbare</b> $KSM auf deinem Konto hast, denn das ist etwas anderes als gestaketes. Das kannst Du auf @.md:faq.a.24.l1 kontrollieren, indem Du dein Konto aufklappst. Dadurch wird Dir der <b>transferierbare</b> Betrag angezeigt.",
         "l1": "[Dotapps.io > Accounts](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
       },
       "25": {
@@ -204,19 +211,19 @@
       },
       "27": {
         "m": "Wir freuen uns immer über Beiträge aus unserer Community. Es gibt zahlreiche @.md:faq.a.27.l1 für jedes Einstiegslevel - einige werden auch mit $KSM belohnt. @.md:faq.a.27.l2",
-        "l1": "[offene Vorgänge](@.common:links.kodadot_social.open_issues.href)",
+        "l1": "[Issues](@.common:links.kodadot_social.open_issues.href)",
         "l2": "[Mach deinen ersten Beitrag!](@.common:links.kodadot_social.contributing_guide.href)"
       },
       "28": {
         "m": "Nein, diese Möglichkeit ist zur Zeit nicht gegeben. Wenn Du die Sache vorantreiben willst, eröffne gerne einen @.md:faq.a.28.l1 auf unserem GitHub.",
-        "l1": "[Vorgang](@.common:links.kodadot_social.open_issues.href)"
+        "l1": "[Issue](@.common:links.kodadot_social.open_issues.href)"
       },
       "29": {
         "m": "Die aktuelle KodaDot Pressemappe findest Du @.md:faq.a.29.l1",
         "l1": "[hier.](@.common:links.kodadot_social.presskit.href)"
       },
       "30": {
-        "m": "KodaDot ist eine NFT Platform die von der Community betrieben wird und auf einer Blockchain mit niderigem ökologischen Fussabdruck läuft. Kusama ist eine Vorproduktionsumgebung im Polkadotnetzwerk. $KSM ist der Coin der genutzt wird um mit dem Kusamanetzwerk zu interagieren. Da es sich um eine Testumgebung  für Projekte in den Anfängen ist, die es ihnen ermöglicht im Polkadot Ökosystem schnell zu bauen und zu zerstören, kannst Du mit Chaos rechnen."
+        "m": "KodaDot ist eine NFT Platform die von der Community gebaut wird und auf einer Blockchain mit einem niderigem ökologischen Fussabdruck läuft. Kusama ist eine Vorproduktionsumgebung im Netzwerk von Polkadot. $KSM ist der Coin der genutzt wird um mit dem Kusamanetzwerk zu interagieren. Da es sich um eine Testumgebung für Projekte handelt, die es ihnen ermöglicht schnell zu bauen, zu versuchen und zu zerstören, kannst Du mit Chaos rechnen."
       },
       "31": {
         "m": "Alle geminteten Dateien müssen sich an dem Verhaltenskodex orientieren und jeglicher NSFW-Inhalt (Not Safe For Work) soll beim minten als NSFW gekennzeichnet werden."
@@ -229,7 +236,7 @@
         "m": "Tantiemen oder Lizenzgebühren, sind Zahlungen zwischen einer Partei zur Anderen für die fortlaufende Nutzung einer Sache. Diese Negrifflichkeit verbindet man üblicherweise mit der Musikindustrie, bei der Musiker die Erlaubnis erteilen ihre Stücke im Radio, Onlinestreaming, oder Auszüge von anderen Musikern im Austausch für eine (Tantieme) Gebühr zu nutzen. Allerdings erhalten auch andere Künstler Tantiemen, wenn ihre Arbeit verwendet wird. Liedtexter, Komponisten, Verleger, Schriftsteller, Produzenten, und jede/r Involvierte in einem kreativen Schaffensprozess hat ein Anrecht auf Tantiemen.<br/><br/>NFT Tantiemen geben dem Künstler jedes Mal einen Anteil wenn sein Werk weiterverkauft wird. Unabhängig von der Anzahl der Wiederverkäufe, wird diese Gebühr immer an den ursprünglichen Künstler entrichtet. Und das Beste daran: all das passiert vollstöndig automatisiert."
       },
       "34": {
-        "m": "Transaktionsgebühren verhindern das übermäßige verwenden von Ressourcen durch Individuen. Polkadot wendet ein Gebührenmodel an, bei dem die Gebühren je nach Auslastung vor der Ausführung der Transaktion erhoben werden. Sobald die Gebühr gezahlt ist, wird die Transaktion von einer Node ausgeführt."
+        "m": "Transaktionsgebühren verhindern das übermäßige verwenden von Ressourcen durch Einzelne. Polkadot wendet ein Gebührenmodel an, bei dem die Gebühren je nach Auslastung vor der Ausführung der Transaktion erhoben werden. Sobald die Gebühr gezahlt ist, wird die Transaktion von einer Node ausgeführt."
       },
       "35": {
         "m": "Zur Zeit beträgt die Mindestgebühr um KSM zu transferieren 0.01 KSM (die Grundgebühr), diese kann allerdings durch Governance verändert werden."
@@ -330,7 +337,7 @@
     },
     "22": {
       "heading": "Wusstest Du...",
-      "question": "das wir mehr als 500 eröffnete Vorgänge im Backlog von GitHub haben?"
+      "question": "das wir mehr als 500 eröffnete Issues im Backlog von GitHub haben?"
     },
     "23": {
       "heading": "Wusstest Du...",
@@ -569,9 +576,9 @@
       "sync": "Synchronisiere Editionen mit {0}"
     },
     "royalty": {
-      "rate": "Royalty Rate",
-      "mine": "Zahle royalties an das Konto des Erstellers",
-      "receiver": "Zielkonto für die royalties"
+      "rate": "Tantiemen Rate",
+      "mine": "Zahle Tantiemen an das Konto des Erstellers",
+      "receiver": "Zielkonto für die Tantiemen"
     },
     "collection": {
       "name": {
@@ -590,6 +597,7 @@
         "message": "Das Symbol das dem NFT anhängt: zum Beispiel wird Kusama mit KSM geführt"
       },
       "create": "Sammlung erstellen"
+      "drop": "Lege hier das Bild für die Sammlung fest, klicke auf Upload oder füge es einfach aus der Zwischenablage ein. Wir unterstützen die verschiedensten Dateitypen (PNG, JPEG, GIF, SVG)"
     },
     "nft": {
       "name": {
@@ -606,7 +614,14 @@
         "label": "Edition",
         "placeholder": "Minimum ist 1",
         "message": "Anzahl der zu mintenden NFTs"
-      }
+  },
+      "creative": {
+        "heading": "Creative Minting"
+      },
+      "drop": "Lege dein NFT hier ab, klicke auf Upload oder füge es aus der Zwischenablage ein. AI Modelle schränken die Unterstützung für Creative Minting auf JPEG, PNG, GIF oder BMP Bilddateien ein. Die Datei muss kleiner als 4 MB sein, und größer als 50x50 Pixel sein. Realistische Fotografien erzielen die besten Ergebnisse.",
+      "cover": "Dein NFT benötigt ein Coverum in der Gallerie gesehen zu werden. Bitte lade ein Bild hoch (jpg/ png/ gif)",
+      "rmrkDescription": "Erstellung von Titel und Beschreibung ist fehlgeschlagen. Kontrolliere ob die hochgeladene Datei den Anforderungen des Creative Minting genügt: JPEG, PNG, GIF oder BMP mit weniger als 4MB und Maßen von mehr als 50x50 Pixeln.",
+      "simpleDrop": "Lege dein NFT hier ab, klicke auf Upload oder füge es aus der Zwischenablage ein. Wir unterstützen die verschiedensten Dateiformate (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
     }
   },
   "tooltip": {
@@ -622,9 +637,12 @@
     "random": "Spring zu irgendeiner Seite",
     "buyDisabled": "Nicht genug Guthaben",
     "holdings": "NFTs im Besitz von",
-    "gains": "Erlangt durch",
+    "gains": "Gewinne",
     "makeOfferDisabled": "Du hast schon ein Angebot für dieses NFT gemacht",
+    "needToUploadNFTFile": "Du musst ein NFT hochladen",
+    "needToSetValidPrice": "Der Preis muss höher als 0 sein, um dein NFT zu listen",
     "notEnoughBalance": "Unzureichendes Guthaben"
+    "haveNoToS": "Du hast keine Berechtigung dieses Asset zu verwenden"
   },
   "nft": {
     "carbonless": "Dieses NFT ist CO2 befreit",
@@ -638,13 +656,14 @@
       "MINTNFT": "MINTEN",
       "LIST": "LISTEN",
       "UNLIST": "ENTLISTEN",
+      "RELIST": "ERNEUT LISTEN",
       "SEND": "VERSCHENKEN",
       "CONSUME": "VERBRENNEN",
       "BUY": "KAUFEN",
       "MAKE_OFFER": "ANGEBOT MACHEN",
       "DOWNLOAD": "DOWNLOADEN",
-      "ROYALTY": "ROYALTY",
-      "PAY_ROYALTY": "ROYALTY ZAHLEN"
+      "ROYALTY": "TANTIEMEN",
+      "PAY_ROYALTY": "TANTIEMEN ZAHLEN"
     },
     "action": {
       "submit": "Absenden {0}"
@@ -667,13 +686,16 @@
     "price": "Preis",
     "expiration": "Ablaufend",
     "action": "Aktion",
-    "daySelectLabel": "Angebot läuft aus in",
+    "daySelectLabel": "Angebot läuft ab in",
     "daySelectPlaceholder": "Wähle Datum zum Ablaufen",
     "days": "Tage",
     "collection": "Sammlung",
     "nftName": "Name",
     "accept": "NFT hat einen neuen Besitzer",
     "withdraw": "Dein Angebot wurde zurückgenommen"
+    "burnedToggle": "Zeige verbrannte NFTs",
+    "offersCreated": "Gebote eingereicht",
+    "incomingOffers": "Eingehende Angebote"
   },
   "statsOverview": {
     "buys": "Käufe",
@@ -687,6 +709,7 @@
     "createdCollections": "Erstellte Sammlungen",
     "activeWallets": "Aktive Konten",
     "offers": "Angebote",
+    "values": "VALUES",
     "bsxTitle":  "Basilisk Marktplatz Statistiken"
   },
   "myOffer": {
@@ -701,7 +724,7 @@
     "casting": "(1/3) Bereite die tx zur Blockcahin vor",
     "finalized": "(3/3) Beendet",
     "block": "(2/3) Transaktion im Block",
-    "pinImage": "Bild anheften",
+    "pinImage": "Bild anpinnen",
     "pinMeta": "Metadaten anpinnen",
     "constructTx": "Transaktion wird erstellt",
     "sign": "Auf Antwort des Unterzeichners warten",
@@ -711,12 +734,12 @@
     "checkBalance": "Prüfe ob Du genug Guthaben hast"
   },
   "arweave": {
-    "uploadYes": "Lade NFT Bild zu Arweave hoch",
+    "uploadYes": "Lade NFT Bilddatei zu Arweave hoch",
     "uploadNo": "Arweave nicht benutzen",
     "tooltip": "Arweave nutzen, bedeutet das Du deine Multimedia Datei für immer auf Arweave speicherst, eignet sich gut für kleine Anlagen wie JPEG."
   },
   "carbonOffset": {
-    "carbonOffsetYes": "Ich mache ein CO2 befreites NFT",
+    "carbonOffsetYes": "Ich erstelle ein CO2 befreites NFT",
     "carbonOffsetNo": "Ich möchte kein CO2 befreites NFT",
     "tooltip": "CO2 befreites NFT bedeutet, dass Du hilfst die Kosten für CO2 Zertifikate und Bäumepflanzen mitträgst"
   },
@@ -741,6 +764,9 @@
     "page": "Verkäufe",
     "title": "Neueste Verkäufe auf KUSAMA",
     "subtitle": "Und den kürzlich verkauften NFTs auf RMRK."
+     "buyer": "Käufer",
+    "tableDate": "Relatives Datum",
+    "price": "Verkaufspreis"
   },
   "hot": {
     "title": "Neueste Verkäufe auf KUSAMA in der letzten Woche",
@@ -762,6 +788,9 @@
     "empty": "Leer",
     "uniqueCollectors": "∃! Sammler",
     "soldHistory": "Verkauft in den letzten 30 Tagen"
+    "uniqueItemsTooltip": "Einzigartige Artikel",
+    "uniqueCollectorsTooltip": "Einzelne Sammler",
+    "scoreCalc": "verkauf * (einigartig / insgesamt)"
   },
   "series": {
     "title": "Top Sammlung",
@@ -777,6 +806,7 @@
     "score": "Score",
     "emoteCount": "Emotes",
     "buyHistory": "Käufe der letzten 30 Tage"
+    "history": "Verlauf"
   },
   "activity": {
     "listed": "Gelistet",
@@ -804,7 +834,7 @@
     "totalHoldingsBoughtValues": "Ausgegebene KSM für die NFTs im Konto"
   },
   "tutorial": {
-    "create": "1. Erstelle einen polkadot.js Konto",
+    "create": "1. Erstelle ein polkadot.js Konto",
     "ksm": "2. Besorge KSM",
     "mint": "3. Minten"
   },
@@ -832,6 +862,13 @@
     "popularCollectionsDesc": "Entdecke die belibtesten Sammlungen auf RMRK",
     "from": "Von",
     "to": "Zu"
+    "tx": {
+      "cancelled": "Transaktion wurde abgebrochen",
+      "feesPaidIn": "Du bezahlst die Gebphren in {0}"
+  },
+   "searchPlaceholder": "Suche nach Kunstwerk, Sammlung...",
+    "tagsAdd": "Schreib und drück Enter um deine eigenen hinzuzufügen",
+    "chooseWallet": "Wähle deine"
   },
   "helper": {
     "seeMore": "Mehr anzeigen",
@@ -841,7 +878,7 @@
     "indexerReadOnly": "Die App ist im Lesemodus, versuch die App neu zu laden oder besuch unseren Discord",
     "clickToCreate": "Klick hier um eine Sammlung zu erstellen",
     "urlToTransform": {
-      "label": "URL to transform",
+      "label": "URL zum Umwandeln",
       "placeholder": "singular.rmrk.app/collectibles/",
       "copy": "Kodadot Link erfolgreich kopiert"
     },
@@ -867,31 +904,10 @@
     "click": "Klicke um Identität zu erstellen",
     "handleRequired": "Dein Nutzername wird benötigt",
     "deposit": "Einzahlen"
-  },
-  "massMint": {
-    "tutorial": {
-      "basic": {
-        "title": "Einfacher Massenmint",
-        "description": "Das ist der einfach Massenmint, es werden NFTs mit dem selben Symbol und Namen erstellt aber in unterschiedlicher Anzahl. Es kann auch unterschidliche Mengen von NFTs mit dem selben Symbol und Namen in verschiedenen Mengen erstellen."
-      },
-      "range": {
-        "title": "Umfang des Massenmints festlegen",
-        "description": "Du kannst den Umfang des Massenmints festlegen, es werden NFTs mit dem selben Symbol und Namen erstellt aber in unterschiedlicher Anzahl. Es kann auch unterschidliche Mengen von NFTs mit dem selben Symbol und Namen in verschiedenen Mengen erstellen."
-      },
-      "all": {
-        "title": "Massenmint von allem",
-        "description": "Du kannst den Umfang des Massenmints festlegen, es werden NFTs mit dem selben Symbol und Namen erstellt aber in unterschiedlicher Anzahl. Es kann auch unterschidliche Mengen von NFTs mit dem selben Symbol und Namen in verschiedenen Mengen erstellen."
-      }
-    },
-    "syntax": {
-      "file": "Dateiname (z.B. saugut_1.jpg)",
-      "name": "Name vom NFT (z.B. Sauguter Token)",
-      "amount": "Preis des Token (z.B. 0.01)",
-      "description": "Mehrzeilige Beschreibung des Token (z.B. Das ist ein sauguter Token!)",
-      "range": "Anzahl der Token (z.B. 1-5)",
-      "all": "Auf alle Token anwenden (nutze drei Punkte: ...)"
-    }
-  },
+     "fundsReserve": "0.0333 KSM werden festgesetzt. Der Betrag wird zurückerstattet wenn die Identität aufgelöst wird.",
+    "onChainPlaceholder": "Mein On-Chain Name",
+     "namePlaceholder": "Vollständiger Klarname"
+ },
   "collapse": {
     "collection": {
       "description": {
@@ -916,6 +932,12 @@
   "teleport": {
     "page": "Teleportieren",
     "route": "Teleportiere {0} von {1} zu {2}"
+    "artistProfile": "Besuche das Profil des Künstlers",
+    "usdInput": "USD Wert (schätzungsw.)",
+    "btnCopyPayment": "Bezahllink kopieren",
+    "congratsSupport": "Vielen dank für die Unterstützung",
+    "tweetDonation": "Tweete über deine großzügige Spende",
+    "donationSentTo": "Deine Spende wird gesendet an:"
   },
   "preferences": {
     "basic": "Standard Benutzeroberfläche",
@@ -934,12 +956,54 @@
   },
   "navbar": {
     "teleport": "Teleportieren"
+    "globalOffers": "Alle Angebote",
+    "offerStats": "Angebotsstatistik"
   },
   "walletConnect": {
     "walletHeading": "Wallet verbinden",
     "authText": "KodaDot wird niemals nach deinem mnemonischen or privaten Key fragen.",
     "understand": "Ich verstehe",
     "learnText": "Lerne wie man sich verbindet",
-    "downloadExtension": "Downloade die Extension"
+    "downloadExtension": "Lade die Extension herunter"
+  }
+ "landing": {
+    "newNftHeading": "NFTs sind neu für Dich?",
+    "ksmArtistHeading": "KSM für Künstler",
+    "socials": "Hast Du Fragen oder möchtest auf dem Laufenden bleiben? Schreib uns ein paar Zeilen auf unseren Socials.",
+    "newNft": {
+      "click": "Klicke {0} eine Schritt-für-Schritt Anleitung!",
+      "here": "hier"
+    },
+    "artists": {
+      "hook": "Du kannst dich bei uns {0} und wir machen Dir ein paar freie Mints klar.",
+      "touch": "melden"
+    }
+  },
+  "history": {
+    "today": "Heute",
+    "yesterday": "Gestern",
+    "last7Days": "Letzte 7 Tage",
+    "thisMonth": "Diesen Monat",
+    "earlier": "Ältere"
+  },
+  "asset": {
+    "action": {
+      "default": "Währung für die Gebühr setzen",
+      "alreadyDefault": "Derzeitige Währung für die Gebühr"
+    },
+    "table": {
+      "balance": "Guthaben",
+      "empty": "Zur Zeit gibt es keine assets für diesen Nutzer."
+    }
+  },
+  "ramp": {
+    "selectAccount": "Wähle dein Konto und klicke auf Kaufen.",
+    "redirect": "Du wirst zur Website von Ramp.network weitergeleitet um dein Konto aufzuladen.",
+    "kyc": "KYC ist erforderlich, aber Du kannst dich mit deiner Revolut Karte verifizieren.",
+    "buyKsm": "Kaufe Kusama"
+  },
+  "toast": {
+    "urlCopy": "URL in die Zwischenablage kopiert",
+    "paymentLinkCopy": "Bezahllink in die Zwischenablage kopiert"
   }
 }
