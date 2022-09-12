@@ -62,24 +62,22 @@
                     </template>
                     <div class="content pt-4">
                       <p class="subtitle">
-                        <IndexerGuard show-message class="pb-4">
-                          <AvailableActions
-                            ref="actions"
-                            :account-id="accountId"
-                            :is-owner="isOwner"
-                            :current-owner-id="nft.currentOwner"
-                            :price="nft.price"
-                            :nft-id="id"
-                            :delegate-id="nft.delegate"
-                            :collection-id="collectionId"
-                            :frozen="nft.isFrozen"
-                            :ipfs-hashes="[
-                              nft.image,
-                              nft.animation_url,
-                              nft.metadata,
-                            ]"
-                            @change="handleAction" />
-                        </IndexerGuard>
+                        <AvailableActions
+                          ref="actions"
+                          :account-id="accountId"
+                          :is-owner="isOwner"
+                          :current-owner-id="nft.currentOwner"
+                          :price="nft.price"
+                          :nft-id="id"
+                          :delegate-id="nft.delegate"
+                          :collection-id="collectionId"
+                          :frozen="nft.isFrozen"
+                          :ipfs-hashes="[
+                            nft.image,
+                            nft.animation_url,
+                            nft.metadata,
+                          ]"
+                          @change="handleAction" />
                         <Auth />
                       </p>
                     </div>
@@ -145,7 +143,6 @@ import AuthMixin from '~/utils/mixins/authMixin'
     AvailableActions: () => import('./AvailableActions.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Sharing: () => import('@/components/shared/Sharing.vue'),
-    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
     DangerModal: () =>
