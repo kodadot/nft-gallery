@@ -123,12 +123,16 @@ export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
   @Prop({ type: String, default: '' }) public address!: string
   @Prop({ type: Boolean, default: false }) public hideHeading!: boolean
 
+  get targetAddress() {
+    return this.destinationAddress || this.accountId
+  }
+
   mounted() {
-    if (this.accountId) {
+    if (this.targetAddress) {
       this.$apollo.addSmartQuery<OfferResponse>('offers', {
         client: this.urlPrefix,
         query: acceptableOfferByCurrentOwner,
-        variables: { id: this.destinationAddress || this.accountId },
+        variables: { id: this.targetAddress },
         manual: true,
         result: ({ data }) => this.setResponse(data),
         pollInterval: 10000,
@@ -149,12 +153,16 @@ export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
   }
 
   protected async fetchMyOffers() {
+    if (!this.targetAddress) {
+      return
+    }
+
     try {
       const { data } = await this.$apollo.query<OfferResponse>({
         client: this.urlPrefix,
         query: acceptableOfferByCurrentOwner,
         variables: {
-          id: this.destinationAddress || this.accountId,
+          id: this.targetAddress,
         },
       })
       this.setResponse(data)
