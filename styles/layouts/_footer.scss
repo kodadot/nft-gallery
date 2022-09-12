@@ -1,10 +1,4 @@
 .footer {
-	opacity: 0.3;
-
-	&:hover {
-		opacity: 1;
-	}
-
 	&__wrapper {
 		display: flex;
 		justify-content: space-between;
@@ -15,6 +9,11 @@
 
 		@include desktop {
 			flex-direction: row;
+
+			opacity: 0.3;
+			&:hover {
+				opacity: 1;
+			}
 		}
 	}
 
@@ -42,6 +41,16 @@
 				background: #fff;
 			}
 		}
+	}
+
+	.snackbar {
+		border: 2px solid $primary;
+		background-color: #202225;
+		box-shadow: $dropdown-content-shadow;
+	}
+
+	#keyboardShortcutsModal {
+		height: 0;
 	}
 }
 
