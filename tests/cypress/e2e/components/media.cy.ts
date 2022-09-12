@@ -105,7 +105,7 @@ describe(
   () => {
     mediaType.forEach(
       ({ url, title, description, collection, creator, tagRelated, type }) => {
-        it(`should render ${type} in Media component`, () => {
+        it.skip(`should render ${type} in Media component`, () => {
           const isRmrk = url.startsWith('/rmrk')
 
           if (isRmrk) {
@@ -172,7 +172,7 @@ describe(
             })
         })
 
-        it(`should load ${type} in collection page`, () => {
+        it.skip(`should load ${type} in collection page`, () => {
           const isRmrk = url.startsWith('/rmrk')
 
           if (isRmrk) {
