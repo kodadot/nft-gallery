@@ -682,7 +682,7 @@
     }
   },
   "offer": {
-    "caller": "Maker",
+    "caller": "Aussteller",
     "price": "Preis",
     "expiration": "Ablaufend",
     "action": "Aktion",
@@ -773,10 +773,10 @@
     "subtitle": "Und den kürzlich verkauften NFTs auf RMRK."
   },
   "spotlight": {
-    "page": "Spotlight",
-    "title": "Nutzer im Spotlight",
+    "page": "Rampenlicht",
+    "title": "Nutzer im Rampenlicht",
     "subtitle": "Mit den aktivsten Sammlern und Künstlern auf RMRK.",
-    "filter_accounts": "Accounts mit Identität",
+    "filter_accounts": "Konten mit Identität",
     "id": "Ersteller",
     "sold": "Verkauft",
     "unique": "∃!",
@@ -790,7 +790,7 @@
     "soldHistory": "Verkauft in den letzten 30 Tagen",
     "uniqueItemsTooltip": "Einzigartige Artikel",
     "uniqueCollectorsTooltip": "Einzelne Sammler",
-    "scoreCalc": "verkauf * (einigartig / insgesamt)"
+    "scoreCalc": "verkauf * (einzigartig / insgesamt)"
   },
   "series": {
     "title": "Top Sammlung",
@@ -864,11 +864,11 @@
     "to": "Zu",
     "tx": {
       "cancelled": "Transaktion wurde abgebrochen",
-      "feesPaidIn": "Du bezahlst die Gebphren in {0}"
+      "feesPaidIn": "Du bezahlst die Gebühren in {0}"
   },
    "searchPlaceholder": "Suche nach Kunstwerk, Sammlung...",
     "tagsAdd": "Schreib und drück Enter um deine eigenen hinzuzufügen",
-    "chooseWallet": "Wähle deine"
+    "chooseWallet": "Wähle deine Wallet"
   },
   "helper": {
     "seeMore": "Mehr anzeigen",
