@@ -88,10 +88,20 @@ const dotHelper = computed(() =>
 
 <style lang="scss">
 .carousel-agnostic {
+  .keen-slider {
+    padding-bottom: 1rem;
+  }
+
   .carousel-item {
     background-color: white;
     color: black;
     border: 1px solid black;
+    box-shadow: 0.25rem 0.25rem 0 0 rgba(255, 255, 255, 0);
+    transition-duration: 0.4s;
+
+    &:hover {
+      box-shadow: 0.25rem 0.25rem 0 0 rgba(0, 0, 0, 1);
+    }
   }
 
   .carousel-media {
@@ -170,7 +180,6 @@ const dotHelper = computed(() =>
     top: 50%;
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
-    fill: #fff;
     cursor: pointer;
 
     &-left {
@@ -191,6 +200,7 @@ const dotHelper = computed(() =>
         border-right: solid 55px white;
         top: -36px;
         right: -58px;
+        transition-duration: 0.2s;
       }
 
       &::before {
@@ -226,6 +236,7 @@ const dotHelper = computed(() =>
         border-left: solid 55px white;
         top: -36px;
         left: -58px;
+        transition-duration: 0.2s;
       }
 
       &::before {
@@ -239,6 +250,16 @@ const dotHelper = computed(() =>
         border-left: solid 60px black;
         top: -34px;
         left: -56px;
+      }
+    }
+
+    &:hover {
+      &.arrow-left::after {
+        border-right: solid 55px #ffe5f3;
+      }
+
+      &.arrow-right::after {
+        border-left: solid 55px #ffe5f3;
       }
     }
 
