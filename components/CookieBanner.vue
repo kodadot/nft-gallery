@@ -27,7 +27,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
   components: {}, // do not remove!
 })
 export default class CookieBanner extends Vue {
-  protected hasDisplayedCookieBanner: boolean =
+  public hasDisplayedCookieBanner: boolean =
     localStorage.getItem('cookies_enabled') !== null || false
 
   public acceptCookies() {
@@ -43,13 +43,3 @@ export default class CookieBanner extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
-.snackbar {
-  border: 2px solid $primary;
-  background-color: #202225;
-  box-shadow: $dropdown-content-shadow;
-}
-</style>
