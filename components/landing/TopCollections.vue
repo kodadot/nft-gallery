@@ -25,8 +25,8 @@
         </b-radio-button>
       </b-field>
     </b-field>
-    <div class="columns is-multiline">
-      <div v-for="(collection, index) in data" :key="index" class="column is-6">
+    <div class="top-collections-grid">
+      <div v-for="(collection, index) in data" :key="index">
         <TopCollectionsItem :collection="collection" :index="index + 1" />
       </div>
     </div>
@@ -94,3 +94,20 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
   }
 }
 </script>
+
+<style lang="scss">
+.top-collections-grid {
+  display: grid;
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  column-gap: 4rem;
+  row-gap: 2rem;
+
+  @media (min-width: 640px) {
+    grid-auto-flow: column;
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
+}
+</style>
