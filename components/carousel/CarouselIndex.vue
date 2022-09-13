@@ -1,11 +1,7 @@
 <template>
   <div>
     <div v-if="redesign && nfts.length">
-      <div class="columns is-vcentered">
-        <div class="column is-four-fifths">
-          <h1 class="title is-2">{{ title }}</h1>
-        </div>
-      </div>
+      <h1 class="title is-2">{{ title }}</h1>
 
       <CarouselList v-if="showCarousel" :nfts="nfts" />
     </div>

@@ -69,7 +69,7 @@ const [wrapper, slider] = useKeenSlider({
       slides: { perView: 4.5, spacing: 32 },
     },
   },
-  slides: { perView: 1, spacing: 32 },
+  slides: { perView: 1.5, spacing: 32 },
 })
 const totalDots = computed(() => {
   const width = window.innerWidth
@@ -139,6 +139,10 @@ const dotHelper = computed(() =>
     display: flex;
     padding: 2rem 0;
     justify-content: center;
+
+    @media screen and (max-width: 640px) {
+      display: none;
+    }
   }
 
   .dot {
@@ -236,6 +240,10 @@ const dotHelper = computed(() =>
         top: -34px;
         left: -56px;
       }
+    }
+
+    @media screen and (max-width: 640px) {
+      display: none;
     }
   }
 }

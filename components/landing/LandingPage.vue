@@ -21,7 +21,7 @@
         <LazyCarouselTypeNewestList />
 
         <!-- latest sales -->
-        <LazyCarouselTypeLatestSales />
+        <LazyCarouselTypeLatestSales class="mt-6" />
       </div>
     </div>
 
@@ -34,6 +34,11 @@
 <script lang="ts" setup></script>
 
 <style lang="scss" scoped>
+.container {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
 .instance {
   border-top: 1px solid black;
   padding: 5rem 0;
