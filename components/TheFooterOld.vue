@@ -53,7 +53,7 @@
         </ul>
       </div>
       <ul class="footer__list">
-        <li v-for="item in menu" :key="item.name" class="footer__list-item">
+        <li v-for="item in menu" :key="item.url" class="footer__list-item">
           <a
             v-if="item.external"
             :href="item.url"

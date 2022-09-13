@@ -36,12 +36,12 @@ const chainPropertyMap: Config<ChainProperties> = {
   snek: toChainProperty(
     10041,
     12,
-    'BSX',
+    'KSM',
     'https://calamar.play.hydration.cloud/rococo%20basilisk/search?query='
   ),
   statemine: DEFAULT_CHAIN_PROPERTIES,
   westmint: DEFAULT_CHAIN_PROPERTIES,
-  moonsama: toChainProperty(1285, 12, 'MOVR', 'https://moonriver.subscan.io/'),
+  movr: toChainProperty(1285, 12, 'MOVR', 'https://moonriver.subscan.io/'),
 }
 
 export const chainPropListOf = (prefix: Prefix | string): ChainProperties => {

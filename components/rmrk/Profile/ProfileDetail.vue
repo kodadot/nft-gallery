@@ -190,7 +190,7 @@
             @change="totalCollected = $event" />
         </b-tab-item>
         <b-tab-item
-          v-if="isMoonsama"
+          v-if="isMoonriver"
           value="holdings"
           :header-class="{ 'is-hidden': !totalHoldings }">
           <template #header>
@@ -204,7 +204,7 @@
           <Holding :account-id="id" />
         </b-tab-item>
         <b-tab-item
-          v-if="isMoonsama"
+          v-if="isMoonriver"
           value="gains"
           :header-class="{ 'is-hidden': !totalGains }">
           <template #header>
@@ -218,7 +218,7 @@
           <UserGainHistory :account-id="id" />
         </b-tab-item>
         <b-tab-item
-          v-if="isBsx"
+          v-if="isBsx || isSnek"
           :label="`Offers Made${
             userOfferList.length ? ' - ' + userOfferList.length : ''
           }`"
@@ -504,7 +504,7 @@ export default class ProfileDetail extends mixins(
         }
       })
 
-    if (this.isMoonsama) {
+    if (this.isMoonriver) {
       /*
     set totalHoldings
      */
@@ -555,12 +555,16 @@ export default class ProfileDetail extends mixins(
     }
   }
 
-  get isMoonsama(): boolean {
-    return this.urlPrefix === 'moonsama'
+  get isMoonriver(): boolean {
+    return this.urlPrefix === 'movr'
   }
 
   get isBsx(): boolean {
     return this.urlPrefix === 'bsx'
+  }
+
+  get isSnek(): boolean {
+    return this.urlPrefix === 'snek'
   }
 
   get activeTab(): string {

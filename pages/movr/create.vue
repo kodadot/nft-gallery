@@ -5,8 +5,8 @@
       <b-tab-item v-for="x in components" :key="x" :label="x">
         <component
           :is="x"
-          @navigateToCreateNftTab="switchToCreateNFT"
-          v-if="components[activeTab] === x" />
+          v-if="components[activeTab] === x"
+          @navigateToCreateNftTab="switchToCreateNFT" />
       </b-tab-item>
     </b-tabs>
   </section>

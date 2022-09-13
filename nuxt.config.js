@@ -271,10 +271,10 @@ export default defineNuxtConfig({
     clientConfigs: {
       ...defineApolloConfig(),
       subsquid: toApolloEndpoint(
-        process.env.SUBSQUID_ENDPOINT || URLS.koda.subsquidv6
+        process.env.SUBSQUID_ENDPOINT || URLS.koda.rubick
       ),
       bsx: toApolloEndpoint(URLS.koda.snekk),
-      moonsama: toApolloEndpoint(URLS.koda.click),
+      movr: toApolloEndpoint(URLS.koda.click),
       snek: toApolloEndpoint(URLS.koda.snekkv2),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
