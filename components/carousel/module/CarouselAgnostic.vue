@@ -160,7 +160,7 @@ const dotHelper = computed(() =>
     width: 10px;
     height: 10px;
     background: #c5c5c5;
-    margin: 0 5px;
+    margin: 0 0.75rem;
     padding: 5px;
     cursor: pointer;
 
@@ -265,6 +265,28 @@ const dotHelper = computed(() =>
 
     @media screen and (max-width: 640px) {
       display: none;
+    }
+  }
+}
+
+.dark-mode {
+  .carousel-agnostic {
+    .carousel-item {
+      background-color: #1a1718;
+      border: 1px solid white;
+
+      &:hover {
+        box-shadow: 0.25rem 0.25rem 0 0 rgba(255, 255, 255, 1);
+      }
+    }
+
+    .carousel-info-name,
+    .carousel-meta {
+      color: white;
+    }
+
+    .dot.active {
+      background-color: white;
     }
   }
 }

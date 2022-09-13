@@ -54,6 +54,15 @@
   }
 }
 
+.dark-mode {
+  .instance {
+    &-accent,
+    &-blue {
+      background-color: #1a1718;
+    }
+  }
+}
+
 // sample
 .replace-me {
   display: flex;
