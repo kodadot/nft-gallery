@@ -81,22 +81,20 @@
 
                   <div class="content pt-4">
                     <p class="subtitle">
-                      <IndexerGuard show-message class="pb-4">
-                        <AvailableActions
-                          ref="actions"
-                          :current-owner-id="nft.currentOwner"
-                          :is-owner="isOwner"
-                          :price="nft.price"
-                          :originial-owner="nft.issuer"
-                          :nft-id="nft.id"
-                          :ipfs-hashes="[
-                            nft.image,
-                            nft.animation_url,
-                            nft.metadata,
-                          ]"
-                          :buy-disabled="hasBuyDisabled"
-                          @change="handleAction" />
-                      </IndexerGuard>
+                      <AvailableActions
+                        ref="actions"
+                        :current-owner-id="nft.currentOwner"
+                        :is-owner="isOwner"
+                        :price="nft.price"
+                        :originial-owner="nft.issuer"
+                        :nft-id="nft.id"
+                        :ipfs-hashes="[
+                          nft.image,
+                          nft.animation_url,
+                          nft.metadata,
+                        ]"
+                        :buy-disabled="hasBuyDisabled"
+                        @change="handleAction" />
                       <Auth />
                     </p>
                     <AccountBalance />
@@ -191,7 +189,6 @@ import AvailableActions from './AvailableActions.vue'
     Sharing: () => import('@/components/shared/Sharing.vue'),
     Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
     MediaResolver: () => import('@/components/media/MediaResolver.vue'),
-    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     Properties: () => import('@/components/shared/gallery/Properties.vue'),
     DescriptionWrapper: () =>
       import('@/components/shared/collapse/DescriptionWrapper.vue'),

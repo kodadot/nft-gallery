@@ -50,7 +50,9 @@
   "passion": "Passion Feed",
   "search": {
     "seeAll": "See All",
-    "rankings": "Rankings"
+    "rankings": "Rankings",
+    "units": "Units",
+    "owners": "Owners"
   },
   "faq": {
     "page": "FAQ",
