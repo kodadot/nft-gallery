@@ -1,21 +1,65 @@
 <template>
   <div>
-    <div class="container">search</div>
-    <div class="container">spotlight</div>
-    <div class="container">top collections</div>
-    <div class="container">new listrings</div>
-    <div class="container">latest sales</div>
-    <div class="container">featured articles</div>
+    <div class="instance">
+      <div class="container replace-me">search</div>
+    </div>
+
+    <!-- spotlight -->
+    <div class="instance instance-blue">
+      <div class="container">
+        <!-- open another PR -->
+        <!-- TODO: change popular collection with spotlight -->
+        <CarouselTypePopularCollection />
+      </div>
+    </div>
+
+    <div class="instance instance-accent">
+      <div class="container replace-me">top collections</div>
+    </div>
+
+    <div class="instance">
+      <div class="container">
+        <!-- new listings -->
+        <CarouselTypeNewestList />
+
+        <!-- latest sales -->
+        <CarouselTypeLatestSales />
+      </div>
+    </div>
+
+    <div class="instance instance-accent">
+      <div class="container replace-me">featured articles</div>
+    </div>
   </div>
 </template>
 
+<script lang="ts" setup>
+import CarouselTypeLatestSales from '@/components/carousel/CarouselTypeLatestSales.vue'
+import CarouselTypeNewestList from '@/components/carousel/CarouselTypeNewestList.vue'
+import CarouselTypePopularCollection from '@/components/carousel/CarouselTypePopularCollection.vue'
+</script>
+
 <style lang="scss" scoped>
+.instance {
+  border-top: 1px solid black;
+  padding: 5rem 0;
+
+  // open another PR
+  // TODO: add colors to global variable
+  &-accent {
+    background-color: #ff7ac3;
+  }
+
+  &-blue {
+    background-color: #6188e7;
+  }
+}
+
 // sample
-.container {
+.replace-me {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 500px;
-  border-top: 1px solid black;
 }
 </style>
