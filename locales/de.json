@@ -8,7 +8,7 @@
   "classic": "Classic",
   "account": "Konto",
   "accounts": "Konten",
-  "ammount": "Menge",
+  "amount": "Menge",
   "transfer": "Transfer",
   "assets": "Assets",
   "incomingOffers": "Eingehende Angebote",
@@ -596,7 +596,7 @@
         "placeholder": "3-5 Buchstaben langer Name",
         "message": "Das Symbol das dem NFT anhängt: zum Beispiel wird Kusama mit KSM geführt"
       },
-      "create": "Sammlung erstellen"
+      "create": "Sammlung erstellen",
       "drop": "Lege hier das Bild für die Sammlung fest, klicke auf Upload oder füge es einfach aus der Zwischenablage ein. Wir unterstützen die verschiedensten Dateitypen (PNG, JPEG, GIF, SVG)"
     },
     "nft": {
@@ -641,7 +641,7 @@
     "makeOfferDisabled": "Du hast schon ein Angebot für dieses NFT gemacht",
     "needToUploadNFTFile": "Du musst ein NFT hochladen",
     "needToSetValidPrice": "Der Preis muss höher als 0 sein, um dein NFT zu listen",
-    "notEnoughBalance": "Unzureichendes Guthaben"
+    "notEnoughBalance": "Unzureichendes Guthaben",
     "haveNoToS": "Du hast keine Berechtigung dieses Asset zu verwenden"
   },
   "nft": {
@@ -692,7 +692,7 @@
     "collection": "Sammlung",
     "nftName": "Name",
     "accept": "NFT hat einen neuen Besitzer",
-    "withdraw": "Dein Angebot wurde zurückgenommen"
+    "withdraw": "Dein Angebot wurde zurückgenommen",
     "burnedToggle": "Zeige verbrannte NFTs",
     "offersCreated": "Gebote eingereicht",
     "incomingOffers": "Eingehende Angebote"
@@ -763,7 +763,7 @@
   "sales": {
     "page": "Verkäufe",
     "title": "Neueste Verkäufe auf KUSAMA",
-    "subtitle": "Und den kürzlich verkauften NFTs auf RMRK."
+    "subtitle": "Und den kürzlich verkauften NFTs auf RMRK.",
      "buyer": "Käufer",
     "tableDate": "Relatives Datum",
     "price": "Verkaufspreis"
@@ -787,7 +787,7 @@
     "score": "Score",
     "empty": "Leer",
     "uniqueCollectors": "∃! Sammler",
-    "soldHistory": "Verkauft in den letzten 30 Tagen"
+    "soldHistory": "Verkauft in den letzten 30 Tagen",
     "uniqueItemsTooltip": "Einzigartige Artikel",
     "uniqueCollectorsTooltip": "Einzelne Sammler",
     "scoreCalc": "verkauf * (einigartig / insgesamt)"
@@ -805,7 +805,7 @@
     "volume": "Volumen",
     "score": "Score",
     "emoteCount": "Emotes",
-    "buyHistory": "Käufe der letzten 30 Tage"
+    "buyHistory": "Käufe der letzten 30 Tage",
     "history": "Verlauf"
   },
   "activity": {
@@ -861,7 +861,7 @@
     "popularCollectionsHeading": "Beliebte Sammlungen",
     "popularCollectionsDesc": "Entdecke die belibtesten Sammlungen auf RMRK",
     "from": "Von",
-    "to": "Zu"
+    "to": "Zu",
     "tx": {
       "cancelled": "Transaktion wurde abgebrochen",
       "feesPaidIn": "Du bezahlst die Gebphren in {0}"
@@ -903,7 +903,7 @@
     "set": "Erstelle on-chain Identiät",
     "click": "Klicke um Identität zu erstellen",
     "handleRequired": "Dein Nutzername wird benötigt",
-    "deposit": "Einzahlen"
+    "deposit": "Einzahlen",
      "fundsReserve": "0.0333 KSM werden festgesetzt. Der Betrag wird zurückerstattet wenn die Identität aufgelöst wird.",
     "onChainPlaceholder": "Mein On-Chain Name",
      "namePlaceholder": "Vollständiger Klarname"
@@ -931,7 +931,7 @@
   },
   "teleport": {
     "page": "Teleportieren",
-    "route": "Teleportiere {0} von {1} zu {2}"
+    "route": "Teleportiere {0} von {1} zu {2}",
     "artistProfile": "Besuche das Profil des Künstlers",
     "usdInput": "USD Wert (schätzungsw.)",
     "btnCopyPayment": "Bezahllink kopieren",
@@ -955,7 +955,7 @@
     "exploreTabOrder": "Standard Tab im Explorer"
   },
   "navbar": {
-    "teleport": "Teleportieren"
+    "teleport": "Teleportieren",
     "globalOffers": "Alle Angebote",
     "offerStats": "Angebotsstatistik"
   },
@@ -965,7 +965,7 @@
     "understand": "Ich verstehe",
     "learnText": "Lerne wie man sich verbindet",
     "downloadExtension": "Lade die Extension herunter"
-  }
+  },
  "landing": {
     "newNftHeading": "NFTs sind neu für Dich?",
     "ksmArtistHeading": "KSM für Künstler",
