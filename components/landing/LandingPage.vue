@@ -7,9 +7,7 @@
     <!-- spotlight -->
     <div class="instance instance-blue">
       <div class="container">
-        <!-- open another PR -->
-        <!-- TODO: change popular collection with spotlight -->
-        <CarouselTypePopularCollection />
+        <LazyCarouselTypeSpotlight />
       </div>
     </div>
 
@@ -20,10 +18,10 @@
     <div class="instance">
       <div class="container">
         <!-- new listings -->
-        <CarouselTypeNewestList />
+        <LazyCarouselTypeNewestList />
 
         <!-- latest sales -->
-        <CarouselTypeLatestSales />
+        <LazyCarouselTypeLatestSales />
       </div>
     </div>
 
@@ -33,11 +31,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import CarouselTypeLatestSales from '@/components/carousel/CarouselTypeLatestSales.vue'
-import CarouselTypeNewestList from '@/components/carousel/CarouselTypeNewestList.vue'
-import CarouselTypePopularCollection from '@/components/carousel/CarouselTypePopularCollection.vue'
-</script>
+<script lang="ts" setup></script>
 
 <style lang="scss" scoped>
 .instance {

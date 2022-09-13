@@ -47,63 +47,11 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  getCloudflareImageLinks,
-  processMetadata,
-} from '@/utils/cachingStrategy'
-import { fastExtract } from '@/utils/ipfs'
-import { mapOnlyMetadata } from '@/utils/mappers'
-
-import { SomethingWithMeta, getSanitizer } from '@/components/rmrk/utils'
-import { CollectionMetadata } from '@/components/rmrk/types'
-import { Collection } from '@/components/unique/types'
-
 import Identity from '@/components/identity/IdentityIndex.vue'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 
-const curatedCollection = [
-  '800f8a914281765a7d-KITTY', // Kitty
-  '2075be44ea4b9e422d-🐺', // WolfAngryClub
-  '160a6f4320f11acb25-LCKWV', // PixelBabe
-  '0a24c7876a892acb79-RADTOADZ', // RadToadz (ZestLifeLab)
-  '7cf9daa38281a57331-BSS', // Spaceships (ClownWorldHouse)
-  '900D19DC7D3C444E4C-KSMBOT', // KusamaBot (deepologics)
-]
-
+const { collections } = useSpotlight()
 const { urlPrefix } = usePrefix()
-const { data } = useGraphql({
-  queryName: 'collectionCuratedList',
-  queryPrefix: urlPrefix.value,
-  variables:
-    urlPrefix.value === 'rmrk' ? { list: curatedCollection } : undefined,
-})
-
-type Collections = Collection & SomethingWithMeta
-const collections = ref<Collections[]>([])
-
-const updateCollections = async ({ data }) => {
-  if (!data?.collectionEntities?.length) {
-    return
-  }
-
-  collections.value = data.collectionEntities.map((e) => ({
-    ...e,
-    metadata: e.meta?.id || e.metadata,
-    image: '',
-  })) as Collections[]
-  const metadataList: string[] = collections.value.map(mapOnlyMetadata)
-  const imageLinks = await getCloudflareImageLinks(metadataList)
-
-  processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
-    collections.value[i].image =
-      imageLinks[fastExtract(collections.value[i]?.metadata)] ||
-      getSanitizer(meta.image || '')(meta.image || '')
-  })
-}
-
-watch(data, () => {
-  updateCollections({ data: data.value })
-})
 </script>
 
 <style lang="scss">
