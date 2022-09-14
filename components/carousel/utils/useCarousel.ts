@@ -165,54 +165,42 @@ export const useCarouselVisited = ({ ids }) => {
   }
 }
 
+// scroll wheel carousel events
 // https://codesandbox.io/s/github/rcbyr/keen-slider-sandboxes/tree/v6/navigation-controls/scroll-wheel-controls/vue3?file=/src/App.vue
+let touchTimeout
+let position
+let wheelActive
+
+function dispatch(event, name, slider) {
+  position.x -= event.deltaX
+  position.y -= event.deltaY
+  slider.container.dispatchEvent(
+    new CustomEvent(name, {
+      detail: {
+        x: position.x,
+        y: position.y,
+      },
+    })
+  )
+}
+
 export const wheelControls = (slider) => {
-  let touchTimeout
-  let position
-  let wheelActive
-
-  function dispatch(event, name) {
-    position.x -= event.deltaX
-    position.y -= event.deltaY
-    slider.container.dispatchEvent(
-      new CustomEvent(name, {
-        detail: {
-          x: position.x,
-          y: position.y,
-        },
-      })
-    )
-  }
-
-  function wheelStart(event) {
-    position = {
-      x: event.pageX,
-      y: event.pageY,
-    }
-    dispatch(event, 'ksDragStart')
-  }
-
-  function wheel(event) {
-    dispatch(event, 'ksDrag')
-  }
-
-  function wheelEnd(event) {
-    dispatch(event, 'ksDragEnd')
-  }
-
   function eventWheel(event) {
-    // horizontal scroll only
     if (event.deltaX !== 0) {
-      event.preventDefault()
+      event.preventDefault() // horizontal scroll only
       if (!wheelActive) {
-        wheelStart(event)
+        position = {
+          x: event.pageX,
+          y: event.pageY,
+        }
+        dispatch(event, 'ksDragStart', slider) // wheel start
         wheelActive = true
       }
-      wheel(event)
+      dispatch(event, 'ksDrag', slider) // wheel
       clearTimeout(touchTimeout)
       touchTimeout = setTimeout(() => {
         wheelActive = false
-        wheelEnd(event)
+        dispatch(event, 'ksDragEnd', slider) // wheel end
       }, 50)
     }
   }
