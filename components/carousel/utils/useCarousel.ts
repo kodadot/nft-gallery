@@ -201,17 +201,20 @@ export const wheelControls = (slider) => {
   }
 
   function eventWheel(event) {
-    event.preventDefault()
-    if (!wheelActive) {
-      wheelStart(event)
-      wheelActive = true
+    // horizontal scroll only
+    if (event.deltaX !== 0) {
+      event.preventDefault()
+      if (!wheelActive) {
+        wheelStart(event)
+        wheelActive = true
+      }
+      wheel(event)
+      clearTimeout(touchTimeout)
+      touchTimeout = setTimeout(() => {
+        wheelActive = false
+        wheelEnd(event)
+      }, 50)
     }
-    wheel(event)
-    clearTimeout(touchTimeout)
-    touchTimeout = setTimeout(() => {
-      wheelActive = false
-      wheelEnd(event)
-    }, 50)
   }
 
   slider.on('created', () => {
