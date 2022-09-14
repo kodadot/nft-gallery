@@ -98,6 +98,7 @@ const dotHelper = computed(() =>
     border: 1px solid black;
     box-shadow: 0.25rem 0.25rem 0 0 rgba(255, 255, 255, 0);
     transition-duration: 0.4s;
+    transition-property: box-shadow;
 
     &:hover {
       box-shadow: 0.25rem 0.25rem 0 0 rgba(0, 0, 0, 1);
