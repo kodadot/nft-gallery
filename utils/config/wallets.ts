@@ -26,14 +26,15 @@ export const SubstrateWallets = [
   SupportWalletExtension.Talisman,
 ]
 
-export const SupportedWallets = isMobileDevice
-  ? [new MathWallet(), new NovaWallet()]
-  : [new TalismanWallet(), new PolkadotjsWallet(), new SubWallet()]
+export const SupportedWallets = () =>
+  isMobileDevice
+    ? [new MathWallet(), new NovaWallet()]
+    : [new TalismanWallet(), new PolkadotjsWallet(), new SubWallet()]
 
 export function getWalletBySource(
   source: string | unknown
 ): Wallet | undefined {
-  return SupportedWallets.find((wallet) => {
+  return SupportedWallets().find((wallet) => {
     return wallet.extensionName === source
   })
 }
