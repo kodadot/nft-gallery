@@ -144,7 +144,9 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
   }
 
   get wallets() {
-    return SupportedWallets
+    return SupportedWallets.find((wallet) => {
+      return wallet.isMobileApp === isMobileDevice
+    })
   }
 
   get ss58Format(): number {
