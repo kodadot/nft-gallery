@@ -164,3 +164,59 @@ export const useCarouselVisited = ({ ids }) => {
     nfts,
   }
 }
+
+// https://codesandbox.io/s/github/rcbyr/keen-slider-sandboxes/tree/v6/navigation-controls/scroll-wheel-controls/vue3?file=/src/App.vue
+export const wheelControls = (slider) => {
+  let touchTimeout
+  let position
+  let wheelActive
+
+  function dispatch(event, name) {
+    position.x -= event.deltaX
+    position.y -= event.deltaY
+    slider.container.dispatchEvent(
+      new CustomEvent(name, {
+        detail: {
+          x: position.x,
+          y: position.y,
+        },
+      })
+    )
+  }
+
+  function wheelStart(event) {
+    position = {
+      x: event.pageX,
+      y: event.pageY,
+    }
+    dispatch(event, 'ksDragStart')
+  }
+
+  function wheel(event) {
+    dispatch(event, 'ksDrag')
+  }
+
+  function wheelEnd(event) {
+    dispatch(event, 'ksDragEnd')
+  }
+
+  function eventWheel(event) {
+    event.preventDefault()
+    if (!wheelActive) {
+      wheelStart(event)
+      wheelActive = true
+    }
+    wheel(event)
+    clearTimeout(touchTimeout)
+    touchTimeout = setTimeout(() => {
+      wheelActive = false
+      wheelEnd(event)
+    }, 50)
+  }
+
+  slider.on('created', () => {
+    slider.container.addEventListener('wheel', eventWheel, {
+      passive: false,
+    })
+  })
+}
