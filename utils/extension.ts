@@ -39,4 +39,5 @@ export const getSelectedAccount = (accounts: WalletAccount[]) => {
   }
 }
 
-export const isMobileDevice = true
+export const isMobileDevice =
+  'ontouchstart' in document.documentElement && /Mobi/.test(navigator.userAgent)

@@ -17,7 +17,6 @@
         <div class="mb-5">
           {{ $t('walletConnect.authText') }}
         </div>
-        <div class="mb-5">{{ navigator }} / {{ isMobileDevice }}</div>
         <b-field>
           <b-checkbox v-model="hasUserAuthorized" @input="setUserAuthValue">
             {{ $t('walletConnect.understand') }}
@@ -137,16 +136,8 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
     return this.$store.getters.getAuthAddress
   }
 
-  get navigator() {
-    return navigator.userAgent
-  }
-
-  get isMobileDevice() {
-    return isMobileDevice
-  }
-
   get wallets() {
-    return SupportedWallets.find((wallet) => {
+    return SupportedWallets.filter((wallet) => {
       return wallet.isMobileApp === isMobileDevice
     })
   }

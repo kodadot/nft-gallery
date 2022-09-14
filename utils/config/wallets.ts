@@ -3,7 +3,6 @@ import { MathWallet } from '~/utils/config/wallets/MathWallet'
 import { NovaWallet } from '~/utils/config/wallets/NovaWallet'
 import { SubWallet } from '~/utils/config/wallets/SubWallet'
 import { TalismanWallet } from '~/utils/config/wallets/TalismanWallet'
-import { isMobileDevice } from '~/utils/extension'
 
 // source as 'polkadot-js' in mobile app
 export enum SupportWalletExtension {
