@@ -23,8 +23,32 @@ const curatedCollection = {
 
 type Collections = CarouselNFT & SomethingWithMeta
 
+const useSpotlightNft = () => useState<Collections[]>('nfts', () => [])
+
+async function updateCollections(data) {
+  const collections = useSpotlightNft()
+
+  if (!data?.collectionEntities?.length) {
+    return
+  }
+
+  collections.value = data.collectionEntities.map((e) => ({
+    ...e,
+    metadata: e.meta?.id || e.metadata,
+    image: '',
+  })) as Collections[]
+  const metadataList: string[] = collections.value.map(mapOnlyMetadata)
+  const imageLinks = await getCloudflareImageLinks(metadataList)
+
+  processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
+    collections.value[i].image =
+      imageLinks[fastExtract(collections.value[i]?.metadata)] ||
+      getSanitizer(meta.image || '')(meta.image || '')
+  })
+}
+
 export default function useSpotlight() {
-  const collections = ref<Collections[]>([])
+  const collections = useSpotlightNft()
   const { urlPrefix } = usePrefix()
   const variables = curatedCollection[urlPrefix.value]?.length
     ? { list: curatedCollection[urlPrefix.value] }
@@ -35,32 +59,12 @@ export default function useSpotlight() {
     variables,
   })
 
-  const updateCollections = async ({ data }) => {
-    if (!data?.collectionEntities?.length) {
-      return
-    }
-
-    collections.value = data.collectionEntities.map((e) => ({
-      ...e,
-      metadata: e.meta?.id || e.metadata,
-      image: '',
-    })) as Collections[]
-    const metadataList: string[] = collections.value.map(mapOnlyMetadata)
-    const imageLinks = await getCloudflareImageLinks(metadataList)
-
-    processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
-      collections.value[i].image =
-        imageLinks[fastExtract(collections.value[i]?.metadata)] ||
-        getSanitizer(meta.image || '')(meta.image || '')
-    })
-  }
-
-  watch(data, async () => {
-    updateCollections({ data: data.value })
+  watch(data, () => {
+    updateCollections(data.value)
   })
 
   return {
-    collections,
+    collections: computed(() => collections.value),
     data,
   }
 }
