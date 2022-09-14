@@ -53,6 +53,7 @@ interface Emoji {
 })
 export default class EmotionList extends Vue {
   @Prop() public emotions!: GroupedEmotion
+  @Prop(Boolean) public isParty!: boolean
   @Provide() DISPLAYED_EMOJI = 5
 
   /**
