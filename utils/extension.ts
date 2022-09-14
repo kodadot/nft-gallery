@@ -39,4 +39,4 @@ export const getSelectedAccount = (accounts: WalletAccount[]) => {
   }
 }
 
-export const isMobileDevice = !/Mobi/.test(navigator.userAgent)
+export const isMobileDevice = true
