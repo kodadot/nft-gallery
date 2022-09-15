@@ -83,7 +83,7 @@ export default class Appreciation extends mixins(
   get partyNft() {
     return (
       this.nftId ===
-      '14445658-8cc1b91e899d9be40e-2CENTS-MULTICOLORS-0000000000000007'
+      '14463286-8CC1B91E899D9BE40E-HYPER-HYPER_REACTIVE_SPIRALS-0000000000000001'
     ) // preset some value
   }
 
