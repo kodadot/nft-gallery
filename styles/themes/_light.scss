@@ -87,18 +87,11 @@ html.light-mode {
 			color: $text-light-theme;
 		}
 
-		.search-navbar input {
-			background-color: rgba(229, 229, 229, 0.55);
-		}
-
 		.search-navbar-container-mobile {
 			.gallery-search .control .icon {
 				color: $placeholder-color  !important;
 			}
 
-			input {
-				background-color: $white;
-			}
 		}
 	}
 

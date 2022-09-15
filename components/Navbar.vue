@@ -34,10 +34,10 @@
     </template>
     <template #start>
       <Search
-        v-if="!mobileGallery"
+        v-if="!mobileGallery && !isLandingPage"
         hide-filter
         show-default-suggestions
-        class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
+        class="search-navbar is-flex-grow-1 pb-0"
         search-column-class="is-flex-grow-1" />
     </template>
     <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
@@ -254,6 +254,10 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
   }
   get currentGalleryItemName() {
     return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
+  }
+
+  get isLandingPage() {
+    return this.$route.name === 'index'
   }
 
   get navBarTitle(): string {

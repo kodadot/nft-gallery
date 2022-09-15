@@ -1,27 +1,34 @@
 <template>
-  <b-autocomplete
-    ref="searchRef"
-    v-model="name"
-    class="gallery-search"
-    :placeholder="$t('general.searchPlaceholder')"
-    icon="search"
-    :open-on-focus="showDefaultSuggestions"
-    clearable
-    max-height="500"
-    dropdown-position="bottom"
-    expanded
-    @blur="$emit('blur')"
-    @keydown.native.enter="onEnter">
-    <template #header>
-      <SearchSuggestion
-        :name="name"
-        :show-default-suggestions="showDefaultSuggestions"
-        :query="query"
-        @gotoGallery="redirectToGalleryPageIfNeed"
-        @close="closeDropDown">
-      </SearchSuggestion>
-    </template>
-  </b-autocomplete>
+  <div class="search-bar-container">
+    <b-autocomplete
+      ref="searchRef"
+      v-model="name"
+      class="gallery-search"
+      :placeholder="$t('general.searchPlaceholder')"
+      icon="search"
+      :open-on-focus="showDefaultSuggestions"
+      clearable
+      max-height="500"
+      dropdown-position="bottom"
+      expanded
+      @blur="$emit('blur')"
+      @keydown.native.enter="onEnter">
+      <template #header>
+        <SearchSuggestion
+          :name="name"
+          :show-default-suggestions="showDefaultSuggestions"
+          :query="query"
+          @gotoGallery="redirectToGalleryPageIfNeed"
+          @close="closeDropDown">
+        </SearchSuggestion>
+      </template>
+    </b-autocomplete>
+    <div class="search-bar-bg"></div>
+    <img
+      v-if="!name"
+      class="search-bar-keyboard-icon"
+      src="/search-k-keyboard.svg" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -93,3 +100,52 @@ export default class extends mixins(PrefixMixin, KeyboardEventsMixin) {
   }
 }
 </script>
+
+<style lang="scss">
+@import '@/styles/abstracts/variables';
+.search-bar-container {
+  position: relative;
+  .search-bar-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    top: 4px;
+    left: 4px;
+    z-index: 0;
+  }
+  .search-bar-keyboard-icon {
+    z-index: 2;
+    position: absolute;
+    right: 18px;
+    top: 9px;
+    background: #fff;
+    pointer-events: none;
+  }
+}
+.gallery-search {
+  z-index: 1;
+  .control .icon {
+    color: $placeholder-color !important;
+  }
+
+  input {
+    border: 1px solid #000;
+    background-color: #fff;
+    border-radius: 0;
+    padding-left: 50px !important;
+
+    &::placeholder {
+      color: $placeholder-color !important;
+      margin-left: 10px;
+      font-weight: 400;
+    }
+    &:hover {
+      border: 1px solid #000;
+    }
+    &:focus {
+      border: 1px solid #000;
+    }
+  }
+}
+</style>

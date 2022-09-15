@@ -106,29 +106,10 @@
 	}
 
 	.search-navbar {
-		background-color: transparent;
 		box-shadow: none;
 		width: min-content;
 		min-width: 140px;
 		margin: 0 1rem;
-
-		.gallery-search .control .icon {
-			color: $placeholder-color  !important;
-		}
-
-		input {
-			border: inherit;
-			background-color: #e5e5e5;
-
-			&::placeholder {
-				color: $placeholder-color  !important;
-			}
-
-			&:focus {
-				box-shadow: none !important;
-				border-top: $sleek-primary-border;
-			}
-		}
 	}
 
 	.search-navbar-container-mobile {
