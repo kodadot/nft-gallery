@@ -137,7 +137,7 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
   }
 
   get wallets() {
-    return SupportedWallets
+    return SupportedWallets()
   }
 
   get ss58Format(): number {

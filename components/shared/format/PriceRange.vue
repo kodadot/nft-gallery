@@ -10,16 +10,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import ChainMixin from '~/utils/mixins/chainMixin'
 
 @Component({
   components: {
     Money: () => import('@/components/shared/format/Money.vue'),
   },
 })
-export default class PriceRange extends Vue {
-  @Prop({ default: 0 }) readonly from: number | string | undefined
-  @Prop({ default: undefined }) readonly to: number | string | undefined
+export default class PriceRange extends mixins(ChainMixin) {
   @Prop(Boolean) readonly inline!: boolean
+
+  get from(): number | undefined {
+    if (this.$route.query.min) {
+      return parseFloat(this.$route.query.min.toString()) * 10 ** this.decimals
+    }
+    return undefined
+  }
+
+  get to(): number | undefined {
+    if (this.$route.query.max) {
+      return parseFloat(this.$route.query.max.toString()) * 10 ** this.decimals
+    }
+    return undefined
+  }
 }
 </script>

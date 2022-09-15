@@ -75,6 +75,7 @@ specifiers:
   husky: ^7.0.4
   idb-keyval: ^6.2.0
   jsdom: ^19.0.0
+  keen-slider: ^6.7.0
   lazysizes: ^5.3.2
   lint-staged: ^12.5.0
   lodash: ^4.17.21
@@ -139,6 +140,7 @@ dependencies:
   graphql: 16.6.0
   highlight.js: 11.6.0
   idb-keyval: 6.2.0
+  keen-slider: 6.7.0
   lazysizes: 5.3.2
   lodash: 4.17.21
   mingo: 5.1.0
@@ -12266,6 +12268,10 @@ packages:
   /jwt-decode/3.1.2:
     resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
     dev: true
+
+  /keen-slider/6.7.0:
+    resolution: {integrity: sha512-tsxUE2PXCRQZcZsLmFY5S4UK0yStQd9Dw/qnH57RyXDTUr3XMDhoAOkPbOQT68lGNSpghBcEftPfcgggYoHFTA==}
+    dev: false
 
   /keyv/4.3.3:
     resolution: {integrity: sha512-AcysI17RvakTh8ir03+a3zJr5r0ovnAH/XTXei/4HIv3bL2K/jzvgivLK9UuI/JbU1aJjM3NSAnVvVVd3n+4DQ==}
