@@ -19,5 +19,12 @@ html.dark-mode {
 		.search-navbar input {
 			color: $black;
 		}
+
+		.navbar-dropdown a.navbar-item {
+			&:hover, &:focus {
+				background-color: $primary;
+			}
+		}
+
 	}
 }

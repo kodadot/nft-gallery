@@ -32,7 +32,7 @@
         </b-field>
         <b-button
           class="ml-2 magicBtn is-bordered-light"
-          title="Go to random page"
+          :title="$t('tooltip.random')"
           type="is-primary"
           icon-left="dice"
           @click="goToRandomPage">
@@ -69,7 +69,7 @@
         :label="$t('spotlight.unique')"
         sortable>
         <template #header="{ column }">
-          <b-tooltip label="unique items" dashed>
+          <b-tooltip :label="$t('spotlight.uniqueItemsTooltip')" dashed>
             {{ column.label }}
           </b-tooltip>
         </template>
@@ -85,7 +85,7 @@
         :label="$t('spotlight.uniqueCollectors')"
         sortable>
         <template #header="{ column }">
-          <b-tooltip label="unique collectors" dashed>
+          <b-tooltip :label="$t('spotlight.uniqueCollectorsTooltip')" dashed>
             {{ column.label }}
           </b-tooltip>
         </template>
@@ -145,7 +145,7 @@
         :label="$t('spotlight.score')"
         numeric>
         <template #header="{ column }">
-          <b-tooltip label="sold * (unique / total)" dashed>
+          <b-tooltip :label="$t('spotlight.scoreCalc')" dashed>
             {{ column.label }}
           </b-tooltip>
         </template>
@@ -198,7 +198,7 @@ import {
   today,
 } from '@/components/series/utils'
 import { SortType } from '@/components/series/types'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { exist } from '@/components/search/exist'
 import { getRandomIntInRange } from '@/components/rmrk/utils'
 
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'

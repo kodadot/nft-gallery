@@ -7,12 +7,13 @@
         :icon-right="active ? 'caret-up' : 'caret-down'" />
     </template>
     <b-dropdown-item
-      aria-role="listitem"
       v-for="option in options"
       :key="option.value"
+      aria-role="listitem"
       :value="option.value"
-      :disabled="option.value === 'moonriver'"
-      :class="{ 'is-active': selected === option.value }">
+      :disabled="option.value === 'bsx'"
+      :class="{ 'is-active': selected === option.value }"
+      :data-cy="`chain-dropdown-${option.value}`">
       {{ option.text }}
     </b-dropdown-item>
   </b-dropdown>

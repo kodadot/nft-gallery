@@ -33,7 +33,7 @@ describe('PREFIX TEST', (): void => {
     expect(result).toBe('')
   })
 
-  it('can correctly match /statemine/create', () => {
+  it.skip('can correctly match /statemine/create', () => {
     const routeName = 'statemine-create'
     const result = prefixMatcher(routeName)
     expect(result).toBe('statemine')

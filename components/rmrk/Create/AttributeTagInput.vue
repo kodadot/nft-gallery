@@ -15,14 +15,14 @@
       allow-new
       @input="handleInput">
       <template #header>
-        <b>Type and press enter to add your own</b>
+        <b>{{ $t('general.tagsAdd') }}</b>
       </template>
     </b-taginput>
   </b-field>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
 import { Attribute } from '@kodadot1/minimark'
 
 const valueOf = ({ value }: Attribute) => String(value)

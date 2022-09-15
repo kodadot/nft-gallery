@@ -309,7 +309,7 @@
         v-slot="props"
         cell-class="is-vcentered has-text-centered"
         field="history"
-        label="History">
+        :label="$t('series.history')">
         <nuxt-link
           v-if="!isLoading"
           :to="`/rmrk/collection/${props.row.id}?tab=history&locate=true`"
@@ -344,7 +344,7 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 
 import { Collection, NFTMetadata } from '@/components/rmrk/service/scheme'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { exist } from '@/components/search/exist'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 
 import AuthMixin from '@/utils/mixins/authMixin'

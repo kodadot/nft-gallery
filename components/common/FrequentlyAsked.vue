@@ -14,8 +14,8 @@
       </nuxt-link>
     </p>
 
-    <div v-for="qa in faqQuestionsAnswers" v-bind:key="qa[0]" class="mb-5">
-      <b-collapse :open="false" :id="qa[0].replace(/ /g, '-')">
+    <div v-for="qa in faqQuestionsAnswers" :key="qa[0]" class="mb-5">
+      <b-collapse :id="qa[0].replace(/ /g, '-')" :open="false">
         <template #trigger="props">
           <div class="is-flex is-align-items-center">
             <a class="has-text-primary" :href="'#' + qa[0].replace(/ /g, '-')">

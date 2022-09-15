@@ -8,7 +8,9 @@
   "classic": "Classic",
   "account": "Account",
   "accounts": "Accounts",
+  "ammount": "Amount",
   "transfer": "Transfer",
+  "assets": "Assets",
   "incomingOffers": "Incoming Offers",
   "transform": "Transform",
   "settings": "Settings",
@@ -46,6 +48,12 @@
   "I do not want to support": "I do not want to support",
   "createNftExplainer": "If your collection was minted recently and it doesn't show up here, please wait, it will show up in the selector below shortly",
   "passion": "Passion Feed",
+  "search": {
+    "seeAll": "See All",
+    "rankings": "Rankings",
+    "units": "Units",
+    "owners": "Owners"
+  },
   "faq": {
     "page": "FAQ",
     "title": "Frequently Asked Questions",
@@ -590,7 +598,8 @@
         "placeholder": "3-5 character long name",
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
-      "create": "Create collection"
+      "create": "Create collection",
+      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
     },
     "nft": {
       "name": {
@@ -607,7 +616,14 @@
         "label": "Edition",
         "placeholder": "Minimum is 1",
         "message": "Number of NFTs to be minted"
-      }
+      },
+      "creative": {
+        "heading": "Creative Minting"
+      },
+      "drop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",
+      "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)",
+      "rmrkDescription": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
+      "simpleDrop": "Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
     }
   },
   "tooltip": {
@@ -625,8 +641,8 @@
     "holdings": "Nfts owned by",
     "gains": "Gained by",
     "makeOfferDisabled": "You have already made an offer for this NFT",
-    "needToUploadNFTFile":  "You need to upload NFT file",
-    "needToSetValidPrice":  "In order to list NFT, price has to be more than 0",
+    "needToUploadNFTFile": "You need to upload NFT file",
+    "needToSetValidPrice": "In order to list NFT, price has to be more than 0",
     "notEnoughBalance": "Insufficient funds",
     "haveNoToS": "Have no permission to use the asset"
   },
@@ -696,7 +712,7 @@
     "activeWallets": "Active wallets",
     "offers": "Offers",
     "values": "VALUES",
-    "bsxTitle":  "Basilisk Marketplace Statistics"
+    "bsxTitle": "Basilisk Marketplace Statistics"
   },
   "myOffer": {
     "bsxTitle": "Incoming Offers",
@@ -749,7 +765,10 @@
   "sales": {
     "page": "Sales",
     "title": "Latest KUSAMA Sales",
-    "subtitle": "Featuring the most recently sold NFTs on RMRK."
+    "subtitle": "Featuring the most recently sold NFTs on RMRK.",
+    "buyer": "Buyer",
+    "tableDate": "Relative Date",
+    "price": "Price of sale"
   },
   "hot": {
     "title": "Recently KUSAMA Sales In One Week",
@@ -770,7 +789,10 @@
     "score": "Score",
     "empty": "Empty",
     "uniqueCollectors": "∃! collectors",
-    "soldHistory": "Last 30 Days Sold"
+    "soldHistory": "Last 30 Days Sold",
+    "uniqueItemsTooltip": "unique items",
+    "uniqueCollectorsTooltip": "unique collectors",
+    "scoreCalc": "sold * (unique / total)"
   },
   "series": {
     "title": "Top Collection",
@@ -785,7 +807,8 @@
     "volume": "Volume",
     "score": "Score",
     "emoteCount": "Emotes",
-    "buyHistory": "Last 30 Days Buy"
+    "buyHistory": "Last 30 Days Buy",
+    "history": "History"
   },
   "activity": {
     "listed": "Listed",
@@ -842,8 +865,12 @@
     "from": "from",
     "to": "to",
     "tx": {
-      "cancelled": "Transaction was cancelled"
-    }
+      "cancelled": "Transaction was cancelled",
+      "feesPaidIn": "You are paying fees in {0}"
+    },
+    "searchPlaceholder": "Search Artwork, Collection...",
+    "tagsAdd": "Type and press enter to add your own",
+    "chooseWallet": "Choose your"
   },
   "helper": {
     "seeMore": "See More",
@@ -878,31 +905,10 @@
     "set": "Create on-chain identity",
     "click": "Click to create identity",
     "handleRequired": "Your handle is required",
-    "deposit": "Deposit"
-  },
-  "massMint": {
-    "tutorial": {
-      "basic": {
-        "title": "Basic mass mint",
-        "description": "This is the basic mass mint, it will create NFTs with the same symbol and name, but different amount. It will also create different amount of NFTs with the same symbol and name, but different amount."
-      },
-      "range": {
-        "title": "Mass mint range",
-        "description": "You can specify the range of the mass mint, it will create NFTs with the same symbol and name, but different amount. It will also create different amount of NFTs with the same symbol and name, but different amount."
-      },
-      "all": {
-        "title": "Mass mint all",
-        "description": "You can specify the range of the mass mint, it will create NFTs with the same symbol and name, but different amount. It will also create different amount of NFTs with the same symbol and name, but different amount."
-      }
-    },
-    "syntax": {
-      "file": "File name (e.g awesome_1.jpg)",
-      "name": "Name of the NFT (e.g Awesome Token)",
-      "amount": "Price of the token (e.g 0.01)",
-      "description": "Mutliline description of the token (e.g This is an awesome token)",
-      "range": "Range of the tokens (e.g 1-5)",
-      "all": "Apply to all tokens (use three dots: ...)"
-    }
+    "deposit": "Deposit",
+    "fundsReserve": "0.0333 KSM will be reserved. These funds are returned when the identity is cleared.",
+    "onChainPlaceholder": "My On-Chain Name",
+    "namePlaceholder": "Full Legal Name"
   },
   "collapse": {
     "collection": {
@@ -927,7 +933,13 @@
   },
   "teleport": {
     "page": "Teleport",
-    "route": "Teleporting {0} from {1} to {2}"
+    "route": "Teleporting {0} from {1} to {2}",
+    "artistProfile": "Go to artist's profile",
+    "usdInput": "USD Value (approx)",
+    "btnCopyPayment": "Copy Payment link",
+    "congratsSupport": "Congratulations for supporting",
+    "tweetDonation": "Tweet about your awesome donation",
+    "donationSentTo": "Your donation will be sent to:"
   },
   "preferences": {
     "basic": "basic user interface",
@@ -955,5 +967,45 @@
     "understand": "I understand",
     "learnText": "Learn how to Connect",
     "downloadExtension": "Download extension"
+  },
+  "landing": {
+    "newNftHeading": "New to NFTs?",
+    "ksmArtistHeading": "KSM for artists",
+    "socials": "Got any questions or would like to stay in touch? Drop us a line via socials.",
+    "newNft": {
+      "click": "Click {0} for a step by step guide!",
+      "here": "here"
+    },
+    "artists": {
+      "hook": "Get in {0} and we will hook you up with free mints.",
+      "touch": "touch"
+    }
+  },
+  "history": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "last7Days": "Last 7 Days",
+    "thisMonth": "This Month",
+    "earlier": "Earlier"
+  },
+  "asset": {
+    "action": {
+      "default": "Set as fee asset",
+      "alreadyDefault": "Current fee asset"
+    },
+    "table": {
+      "balance": "Balance",
+      "empty": "There are currently no assets for this user."
+    }
+  },
+  "ramp": {
+    "selectAccount": "Select your account and click on buy.",
+    "redirect": "You will be redirected to hosted mode of Ramp.network to top-up your address.",
+    "kyc": "KYC might requried, but you can verify with your Revolut card.",
+    "buyKsm": "Buy Kusama"
+  },
+  "toast": {
+    "urlCopy": "URL copied to clipboard",
+    "paymentLinkCopy": "Payment link copied to clipboard"
   }
 }

@@ -1,7 +1,4 @@
-import { emptyObject } from '@kodadot1/minimark'
-
 type AvailableClients = 'subquery' | 'subsquid'
-type Prefix = 'rmrk' | 'bsx' | 'statemine' | 'westmint'
 
 type PathOptions = {
   client?: AvailableClients
@@ -27,7 +24,8 @@ function getPath(prefix: string) {
     case 'rmrk':
       return ''
     case 'bsx':
-    case 'moonsama':
+    case 'movr':
+    case 'snek':
       return 'subsquid/general/'
     case 'statemine':
     case 'westmint':

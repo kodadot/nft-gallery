@@ -5,10 +5,9 @@
         title="Top-up your Kusama address (experimental integration)"
         type="is-info"
         has-icon>
-        Select your account and click on buy. <br />
-        You will be redirected to hosted mode of Ramp.network to top-up your
-        address. <br />
-        KYC might requried, but you can verify with your Revolut card.
+        {{ $t('ramp.selectAccount') }} <br />
+        {{ $t('ramp.redirect') }} <br />
+        {{ $t('ramp.kyc') }}
       </b-message>
       <AccountSelect v-model="accountId" label="Account" />
       <b-button
@@ -17,7 +16,7 @@
         :href="getLink(accountId)"
         target="_blank"
         rel="noopener noreferrer">
-        Buy Kusama
+        {{ $t('ramp.buyKsm') }}
       </b-button>
     </div>
     <!-- Manual query parameters for Ramp

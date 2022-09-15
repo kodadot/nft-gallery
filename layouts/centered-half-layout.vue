@@ -8,16 +8,16 @@
             <div class="column is-half">
               <Error
                 v-if="$nuxt.isOffline"
-                :hasImg="false"
-                errorTitle="Offline Detected"
-                errorSubtitle="Please check your network connections" />
+                :has-img="false"
+                error-title="Offline Detected"
+                error-subtitle="Please check your network connections" />
               <Nuxt v-else />
             </div>
           </div>
         </div>
       </section>
     </main>
-    <LazyFooter />
+    <LazyTheFooterOld />
   </div>
 </template>
 

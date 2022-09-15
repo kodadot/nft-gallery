@@ -9,10 +9,10 @@
     </b-field>
 
     <MetadataUpload
-      required
       ref="collectionImage"
       v-model="vFile"
-      label="Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
+      required
+      :label="$t('mint.collection.drop')"
       expanded
       preview
       accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg" />

@@ -1,8 +1,9 @@
 import { DocumentNode } from 'graphql'
-import { DollarApollo } from 'vue-apollo/types/vue-apollo'
+import type { DollarApollo } from 'vue-apollo/types/vue-apollo'
+import type { ApolloClient } from 'apollo-client'
 
 export function useApollo<A, T = any>(
-  $apollo: DollarApollo<A>,
+  $apollo: DollarApollo<A> | ApolloClient<A>,
   client: string,
   query: DocumentNode,
   variables?: any

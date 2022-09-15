@@ -1,18 +1,16 @@
 <template>
   <div class="nft-appreciation__main is-flex">
     <Loader v-model="isLoading" :status="status" />
-    <IndexerGuard>
-      <b-button
-        v-if="accountId"
-        class="nft-appreciation__button"
-        icon-left="heart"
-        @click="handleClick" />
-      <VEmojiPicker
-        v-show="showDialog"
-        label-search="Search your emote"
-        class="emote-picker"
-        @select="onSelectEmoji" />
-    </IndexerGuard>
+    <b-button
+      v-if="accountId"
+      class="nft-appreciation__button"
+      icon-left="heart"
+      @click="toggleEmojiDialog" />
+    <VEmojiPicker
+      v-show="showDialog"
+      label-search="Search your emote"
+      class="emote-picker"
+      @select="onSelectEmoji" />
     <EmotionList
       class="emote-list"
       :emotions="emotions"
@@ -39,7 +37,6 @@ import EmotionList from './EmotionList.vue'
     EmotionList,
     VEmojiPicker,
     Loader: () => import('@/components/shared/Loader.vue'),
-    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
   },
 })
 export default class Appreciation extends mixins(
@@ -56,7 +53,22 @@ export default class Appreciation extends mixins(
 
   protected showDialog = false
 
-  protected handleClick() {
+  mounted() {
+    window.addEventListener('click', this.handleMouseClick)
+  }
+
+  beforeDestroy() {
+    window.removeEventListener('click', this.handleMouseClick)
+  }
+
+  handleMouseClick(e: MouseEvent) {
+    if (e.target && !this.$el.contains(e.target as HTMLElement)) {
+      this.showDialog = false
+    }
+    return false
+  }
+
+  protected toggleEmojiDialog() {
     if (this.simple) {
       showNotification('[EMOTE] Sending ♥️')
       return this.submit('2764') // heart emoji

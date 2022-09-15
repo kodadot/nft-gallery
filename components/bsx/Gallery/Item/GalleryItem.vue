@@ -70,7 +70,11 @@
                       </div>
                       <div class="price-block__container">
                         <div class="price-block__original">
-                          <Money :value="nft.price" inline data-cy="money" />
+                          <Money
+                            :value="nft.price"
+                            inline
+                            data-cy="money"
+                            :prefix="urlPrefix" />
                         </div>
                         <b-button
                           v-if="nft.currentOwner === accountId"
@@ -109,7 +113,13 @@
                         <Auth class="mt-4" />
                       </p>
                     </div>
-                    <AccountBalance />
+                    <AccountBalance token-id="5" />
+                    <b-field key="token">
+                      <MultiPaymentFeeButton
+                        v-if="accountId"
+                        :account-id="accountId"
+                        :prefix="urlPrefix" />
+                    </b-field>
                     <Sharing :enable-download="isOwner" class="mb-4" />
                   </div>
                 </div>
@@ -124,12 +134,12 @@
       </div>
     </template>
     <template #footer>
-      <GalleryItemCarousel
+      <CarouselTypeRelated
         v-if="showRelatedCarousel"
-        type="related"
         :collection-id="nft.collection.id"
         data-cy="carousel-related" />
-      <GalleryItemCarousel type="visited" />
+      <CarouselTypeVisited />
+
       <OfferList
         :current-owner-id="nft.currentOwner"
         :nft-id="id"
@@ -204,7 +214,6 @@ import { mapToId } from '@/utils/mappers'
     AvailableActions: () => import('./AvailableActions.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Sharing: () => import('@/components/shared/Sharing.vue'),
-    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
     DangerModal: () =>
@@ -212,13 +221,17 @@ import { mapToId } from '@/utils/mappers'
     Properties: () => import('@/components/shared/gallery/Properties.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
-    Money: () => import('@/components/shared/format/Money.vue'),
+    Money: () => import('@/components/bsx/format/TokenMoney.vue'),
     AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
     OfferList: () => import('@/components/bsx/Offer/OfferList.vue'),
     History: () => import('@/components/rmrk/Gallery/History.vue'),
     Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
-    GalleryItemCarousel: () =>
-      import('@/components/carousel/GalleryItemCarousel.vue'),
+    CarouselTypeRelated: () =>
+      import('@/components/carousel/CarouselTypeRelated.vue'),
+    CarouselTypeVisited: () =>
+      import('@/components/carousel/CarouselTypeVisited.vue'),
+    MultiPaymentFeeButton: () =>
+      import('@/components/bsx/specific/MultiPaymentFeeButton.vue'),
   },
   directives: {
     orientation: Orientation,

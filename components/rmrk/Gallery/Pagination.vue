@@ -20,7 +20,7 @@
       <b-button
         v-if="hasMagicBtn"
         class="ml-2 magicBtn is-bordered-light share-button"
-        title="Go to random page"
+        :title="$t('tooltip.random')"
         type="is-primary"
         icon-left="dice"
         @click="goToRandomPage">

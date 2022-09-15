@@ -19,4 +19,5 @@ export type LastEvent = {
   metadata: string
   image: string
   animationUrl: string
+  collection?: string
 }

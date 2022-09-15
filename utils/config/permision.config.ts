@@ -1,11 +1,12 @@
-import { Prefix, Config } from './types'
+import { Config, Prefix } from './types'
 
 const hasCreate: Config<boolean> = {
   rmrk: true,
   bsx: true,
   statemine: true,
   westmint: true,
-  moonsama: false,
+  movr: false,
+  snek: true,
 }
 
 export const createVisible = (prefix: Prefix | string): boolean => {

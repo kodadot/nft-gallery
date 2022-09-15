@@ -81,22 +81,20 @@
 
                   <div class="content pt-4">
                     <p class="subtitle">
-                      <IndexerGuard show-message class="pb-4">
-                        <AvailableActions
-                          ref="actions"
-                          :current-owner-id="nft.currentOwner"
-                          :is-owner="isOwner"
-                          :price="nft.price"
-                          :originial-owner="nft.issuer"
-                          :nft-id="nft.id"
-                          :ipfs-hashes="[
-                            nft.image,
-                            nft.animation_url,
-                            nft.metadata,
-                          ]"
-                          :buy-disabled="hasBuyDisabled"
-                          @change="handleAction" />
-                      </IndexerGuard>
+                      <AvailableActions
+                        ref="actions"
+                        :current-owner-id="nft.currentOwner"
+                        :is-owner="isOwner"
+                        :price="nft.price"
+                        :originial-owner="nft.issuer"
+                        :nft-id="nft.id"
+                        :ipfs-hashes="[
+                          nft.image,
+                          nft.animation_url,
+                          nft.metadata,
+                        ]"
+                        :buy-disabled="hasBuyDisabled"
+                        @change="handleAction" />
                       <Auth />
                     </p>
                     <AccountBalance />
@@ -115,12 +113,11 @@
       </div>
     </template>
     <template #footer>
-      <GalleryItemCarousel
+      <CarouselTypeRelated
         v-if="showRelatedCarousel"
-        type="related"
         :collection-id="nft.collection.id"
         data-cy="carousel-related" />
-      <GalleryItemCarousel type="visited" />
+      <CarouselTypeVisited />
 
       <div class="columns">
         <div class="column">
@@ -143,7 +140,7 @@ import { Debounce } from 'vue-debounce-decorator'
 
 import { Emote, NFT, NFTMetadata } from '../service/scheme'
 import { getSanitizer, sanitizeIpfsUrl } from '../utils'
-import { exist } from './Search/exist'
+import { exist } from '@/components/search/exist'
 import { fetchNFTMetadata } from '../utils'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -192,15 +189,16 @@ import AvailableActions from './AvailableActions.vue'
     Sharing: () => import('@/components/shared/Sharing.vue'),
     Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
     MediaResolver: () => import('@/components/media/MediaResolver.vue'),
-    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     Properties: () => import('@/components/shared/gallery/Properties.vue'),
     DescriptionWrapper: () =>
       import('@/components/shared/collapse/DescriptionWrapper.vue'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
-    GalleryItemCarousel: () =>
-      import('@/components/carousel/GalleryItemCarousel.vue'),
+    CarouselTypeRelated: () =>
+      import('@/components/carousel/CarouselTypeRelated.vue'),
+    CarouselTypeVisited: () =>
+      import('@/components/carousel/CarouselTypeVisited.vue'),
   },
   directives: {
     orientation: Orientation,

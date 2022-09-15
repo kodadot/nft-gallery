@@ -4,7 +4,7 @@
     <Loader v-model="isLoading" :status="status" />
     <p class="title is-size-3">
       <!-- {{ $t('mint.context') }} -->
-      Creative Minting
+      {{ $t('mint.nft.creative.heading') }}
     </p>
     <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
     <b-field>
@@ -18,7 +18,7 @@
       ref="uploadFileRef"
       v-model="file"
       required
-      label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
+      :label="$t('mint.nft.drop')"
       expanded
       preview />
 
@@ -85,7 +85,7 @@ import {
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
-import { NFT, NFTMetadata, SimpleNFT, getNftId } from '../service/scheme'
+import { NFT, SimpleNFT, getNftId } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia, sanitizeIpfsUrl } from '../utils'
 
@@ -115,7 +115,6 @@ export default class CreativeMint extends mixins(
     name: '~',
     description: '~',
   }
-  private meta: NFTMetadata = emptyObject<NFTMetadata>()
   private file: File | null = null
   private price = 0
   private fileHash = ''
@@ -238,9 +237,7 @@ export default class CreativeMint extends mixins(
       this.accountId
     )
 
-    const fileHash = await pinFileToIPFS(file, token)
-
-    let imageHash: string | undefined = fileHash
+    let imageHash: string | undefined = await pinFileToIPFS(file, token)
     let animationUrl: string | undefined = undefined
 
     const attributes = []
@@ -298,6 +295,12 @@ export default class CreativeMint extends mixins(
     } catch (e) {
       this.$consola.error(e)
       this.isGptLoading = false
+      this.$set(this.rmrkMint, 'name', 'Something went wrong.')
+      this.$set(
+        this.rmrkMint,
+        'description',
+        this.$t('mint.nft.rmrkDescription')
+      )
     }
   }
 }
