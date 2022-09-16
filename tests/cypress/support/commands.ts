@@ -112,7 +112,6 @@ Cypress.Commands.add('snekNavbar', () => {
   cy.get('[data-cy="explore"]')
     .should('have.attr', 'href')
     .and('include', '/snek/explore')
-  // TODO: wait for reintroduction of stats -> #3893
   cy.get('[data-cy="stats"]').should('be.visible').click()
   cy.get('[data-cy="global-offers"]')
     .should('have.attr', 'href')
@@ -169,10 +168,9 @@ Cypress.Commands.add('toggleBuyNowGallery', () => {
 Cypress.Commands.add('snekGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/snek/gallery/${nftId}`)
   cy.waitForNetworkIdle('POST', '*', 1000)
-  // TODO: e2e-login doesn't work with /snek -> looks like different wallet
-  // cy.get('[data-cy="money"]').should('contain', 'KSM')
-  // cy.get('[data-cy="BUY"]').should('be.disabled')
-  // cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
+  cy.get('[data-cy="money"]').should('contain', 'KSM')
+  cy.get('[data-cy="BUY"]').should('be.disabled')
+  cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
   cy.get('[data-cy="offer-list"]').should('contain', 'Offers')
   cy.get('[data-cy="offer-list"]').click()
   cy.get('[data-cy="history"]').should('contain', 'History')
