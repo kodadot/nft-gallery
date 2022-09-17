@@ -15,7 +15,7 @@
         v-for="chain in chainList"
         :key="chain.value"
         :class="{
-          'mr-4': true,
+          'mr-2': true,
           'chain-option': true,
           active: urlPrefix === chain.value,
         }">
