@@ -34,7 +34,6 @@
 </template>
 
 <script lang="ts" setup>
-import Search from '@/components/search/Search.vue'
 import CarouselTypeLatestSales from '@/components/carousel/CarouselTypeLatestSales.vue'
 import CarouselTypeNewestList from '@/components/carousel/CarouselTypeNewestList.vue'
 import CarouselTypePopularCollection from '@/components/carousel/CarouselTypePopularCollection.vue'
