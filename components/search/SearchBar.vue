@@ -109,7 +109,7 @@ export default class extends mixins(PrefixMixin, KeyboardEventsMixin) {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #000;
+    background: #fff;
     top: 4px;
     left: 4px;
     z-index: 0;
@@ -125,14 +125,15 @@ export default class extends mixins(PrefixMixin, KeyboardEventsMixin) {
 .gallery-search {
   z-index: 1;
   .control .icon {
-    color: $placeholder-color !important;
+    color: $white;
   }
 
   input {
-    border: 1px solid #000;
-    background-color: #fff;
+    border: 1px solid $white;
+    background-color: $dark;
     border-radius: 0;
     padding: 0 50px !important;
+    background-color: $search-background-color;
 
     &::placeholder {
       color: $placeholder-color !important;
@@ -140,10 +141,10 @@ export default class extends mixins(PrefixMixin, KeyboardEventsMixin) {
       font-weight: 400;
     }
     &:hover {
-      border: 1px solid #000;
+      border: 1px solid $white;
     }
     &:focus {
-      border: 1px solid #000;
+      border: 1px solid $white;
     }
   }
 }

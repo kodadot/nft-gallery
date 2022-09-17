@@ -4,7 +4,7 @@
     <div class="title">
       <span>Discover,</span> Collect <span> And Sell</span>
     </div>
-    <img class="sub-title" src="/kusama-nfts.png" />
+    <img class="sub-title" :src="landingImage[2]" />
     <LazySearch
       hide-filter
       show-default-suggestions
@@ -22,12 +22,8 @@
         {{ chain.text }}
       </span>
     </div>
-    <img
-      class="landing-search-left is-hidden-touch"
-      src="/landing-search-left.svg" />
-    <img
-      class="landing-search-right is-hidden-touch"
-      src="/landing-search-right.svg" />
+    <img class="landing-search-left is-hidden-touch" :src="landingImage[0]" />
+    <img class="landing-search-right is-hidden-touch" :src="landingImage[1]" />
   </section>
 </template>
 
@@ -37,7 +33,24 @@ import { Option } from '@kodadot1/vuex-options/dist/types'
 import { chainTestList } from '~/utils/constants'
 
 const { urlPrefix } = usePrefix()
-const { $store } = useNuxtApp()
+const { $store, $colorMode } = useNuxtApp()
+const isDarkMode = computed(() => $colorMode.preference === 'dark')
+
+const landingImage = computed(() => {
+  if (isDarkMode.value) {
+    return [
+      '/landing-search-left-dark.svg',
+      '/landing-search-right-dark.svg',
+      '/kusama-nfts-dark.png',
+    ]
+  } else {
+    return [
+      '/landing-search-left.svg',
+      '/landing-search-right.svg',
+      '/kusama-nfts.png',
+    ]
+  }
+})
 
 const chainList = computed(() => {
   const availableUrlPrefixes: Option[] = $store.getters['availableUrlPrefixes']
@@ -97,7 +110,7 @@ const chainList = computed(() => {
     width: max-content;
     &.active {
       font-weight: 700;
-      color: $dark;
+      color: $white;
     }
   }
 

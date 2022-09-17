@@ -124,7 +124,6 @@
 		overflow: hidden;
 
 		input {
-			background-color: $search-navbar-background-color;
 			color: $white;
 			padding: 0;
 			z-index: 1;
@@ -132,7 +131,6 @@
 			&:focus {
 				box-shadow: none !important;
 				border-top: 2px solid $primary;
-				background: $search-navbar-background-color;
 			}
 		}
 	}
