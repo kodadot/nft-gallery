@@ -110,6 +110,12 @@
 		width: min-content;
 		min-width: 140px;
 		margin: 0 1rem;
+
+		.dropdown-menu {
+			> .dropdown-content {
+				width: 550px;
+			}
+		}
 	}
 
 	.search-navbar-container-mobile {

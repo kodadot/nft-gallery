@@ -96,20 +96,7 @@ body {
     }
   }
 }
-@media screen and (min-width: 481px){
-  .gallery-search {
-    .b-tabs .tab-content {
-      padding: 10px;
-    }
 
-    > .dropdown-menu {
-      > .dropdown-content {
-        // max-height: 470px !important;
-        width: 550px;
-      }
-    }
-  }
-}
 
 
 @include mobile {

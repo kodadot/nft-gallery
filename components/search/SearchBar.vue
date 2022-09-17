@@ -119,7 +119,6 @@ export default class extends mixins(PrefixMixin, KeyboardEventsMixin) {
     position: absolute;
     right: 18px;
     top: 9px;
-    background: #fff;
     pointer-events: none;
   }
 }
@@ -133,7 +132,7 @@ export default class extends mixins(PrefixMixin, KeyboardEventsMixin) {
     border: 1px solid #000;
     background-color: #fff;
     border-radius: 0;
-    padding-left: 50px !important;
+    padding: 0 50px !important;
 
     &::placeholder {
       color: $placeholder-color !important;

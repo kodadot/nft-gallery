@@ -21,6 +21,7 @@
         <HistoryBrowser />
 
         <b-button
+          v-if="!isLandingPage"
           type="is-primary is-bordered-light ml-2"
           class="navbar-link-background"
           icon-right="search"
