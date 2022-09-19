@@ -12,7 +12,6 @@
     word-break: keep-all;
     margin-top: 60px;
     text-align: center;
-    font-family: 'Work Sans';
   }
   .sub-title {
     width: 320px;
@@ -43,7 +42,6 @@
     line-height: 23px;
     color: $grey;
     width: max-content;
-    font-family: 'Work Sans';
     &.active {
       font-weight: 700;
       color: $white;
