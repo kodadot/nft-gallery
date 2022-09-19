@@ -294,7 +294,7 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
   }
 
   showMobileSearchBar() {
-    this.mobilSearchRef.focusInput()
+    this.mobilSearchRef?.focusInput()
   }
 
   closeBurgerMenu() {
