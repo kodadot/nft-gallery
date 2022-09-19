@@ -52,7 +52,10 @@
     "seeAll": "See All",
     "rankings": "Rankings",
     "units": "Units",
-    "owners": "Owners"
+    "owners": "Owners",
+    "landingTitle1": "Discover,",
+    "landingTitle2": "Collect",
+    "landingTitle3": "And Sell"
   },
   "faq": {
     "page": "FAQ",

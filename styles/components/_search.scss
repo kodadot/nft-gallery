@@ -1,0 +1,112 @@
+@import '@/styles/abstracts/variables';
+
+.landing-search {
+  height: 334px;
+  width: 100vw;
+  padding: 0 300px;
+
+  .title {
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 3.5rem;
+    word-break: keep-all;
+    margin-top: 60px;
+    text-align: center;
+    font-family: 'Work Sans';
+  }
+  .sub-title {
+    width: 320px;
+    height: 46px;
+    margin-bottom: 38px;
+  }
+
+  .landing-search-bar {
+    width: 602px;
+  }
+
+  .landing-search-left {
+    position: absolute;
+    left: 0;
+    top: 100px;
+    height: 334px;
+  }
+  .landing-search-right {
+    position: absolute;
+    right: 0;
+    top: 100px;
+    height: 334px;
+  }
+
+  .chain-option {
+    font-weight: 400;
+    font-size: 1.3rem;
+    line-height: 23px;
+    color: $grey;
+    width: max-content;
+    font-family: 'Work Sans';
+    &.active {
+      font-weight: 700;
+      color: $white;
+    }
+  }
+
+  @include touch {
+    padding: 0;
+
+    .landing-search-bar {
+      width: 70%;
+    }
+  }
+  @include mobile {
+    .title {
+      width: 250px;
+    }
+    .landing-search-bar {
+      width: 90%;
+    }
+  }
+}
+
+
+.search-bar-container {
+  position: relative;
+  .search-bar-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    top: 4px;
+    left: 4px;
+    z-index: 0;
+  }
+  .search-bar-keyboard-icon {
+    z-index: 2;
+    position: absolute;
+    right: 18px;
+    top: 9px;
+    pointer-events: none;
+  }
+}
+.gallery-search {
+  z-index: 1;
+  .control .icon {
+    color: $white;
+  }
+
+  input {
+    border: 1px solid $white;
+    border-radius: 0;
+    padding: 0 40px !important;
+    background-color: $search-background-color;
+
+    &::placeholder {
+      color: $placeholder-color !important;
+      margin-left: 10px;
+      font-weight: 400;
+    }
+    &:hover, &:focus {
+      border: 1px solid $white;
+      box-shadow: none;
+    }
+  }
+}

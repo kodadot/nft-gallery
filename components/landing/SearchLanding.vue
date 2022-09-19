@@ -2,7 +2,9 @@
   <section
     class="landing-search is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
     <div class="title">
-      <span>Discover,</span> Collect <span> And Sell</span>
+      <span>{{ $t('search.landingTitle1') }}</span>
+      {{ $t('search.landingTitle2') }}
+      <span> {{ $t('search.landingTitle3') }}</span>
     </div>
     <img class="sub-title" :src="landingImage[2]" />
     <LazySearch
@@ -14,11 +16,11 @@
       <span
         v-for="chain in chainList"
         :key="chain.value"
-        :class="{
-          'mr-2': true,
-          'chain-option': true,
-          active: urlPrefix === chain.value,
-        }">
+        :class="[
+          'mr-2',
+          'chain-option',
+          { active: urlPrefix === chain.value },
+        ]">
         {{ chain.text }}
       </span>
     </div>
@@ -63,71 +65,5 @@ const chainList = computed(() => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
-
-.landing-search {
-  // position: relative;
-  height: 334px;
-  width: 100vw;
-  padding: 0 300px;
-
-  .title {
-    font-weight: 700;
-    font-size: 48px;
-    line-height: 56px;
-    word-break: keep-all;
-    margin-top: 60px;
-    text-align: center;
-  }
-  .sub-title {
-    width: 320px;
-    height: 46px;
-    margin-bottom: 38px;
-  }
-
-  .landing-search-bar {
-    width: 602px;
-  }
-
-  .landing-search-left {
-    position: absolute;
-    left: 0;
-    top: 100px;
-    height: 334px;
-  }
-  .landing-search-right {
-    position: absolute;
-    right: 0;
-    top: 100px;
-    height: 334px;
-  }
-
-  .chain-option {
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 23px;
-    color: $grey;
-    width: max-content;
-    &.active {
-      font-weight: 700;
-      color: $white;
-    }
-  }
-
-  @include touch {
-    padding: 0;
-
-    .landing-search-bar {
-      width: 70%;
-    }
-  }
-  @include mobile {
-    .title {
-      width: 250px;
-    }
-    .landing-search-bar {
-      width: 90%;
-    }
-  }
-}
+@import '@/styles/components/_search';
 </style>

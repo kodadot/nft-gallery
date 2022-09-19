@@ -102,50 +102,5 @@ export default class extends mixins(PrefixMixin, KeyboardEventsMixin) {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
-.search-bar-container {
-  position: relative;
-  .search-bar-bg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #fff;
-    top: 4px;
-    left: 4px;
-    z-index: 0;
-  }
-  .search-bar-keyboard-icon {
-    z-index: 2;
-    position: absolute;
-    right: 18px;
-    top: 9px;
-    pointer-events: none;
-  }
-}
-.gallery-search {
-  z-index: 1;
-  .control .icon {
-    color: $white;
-  }
-
-  input {
-    border: 1px solid $white;
-    background-color: $dark;
-    border-radius: 0;
-    padding: 0 50px !important;
-    background-color: $search-background-color;
-
-    &::placeholder {
-      color: $placeholder-color !important;
-      margin-left: 10px;
-      font-weight: 400;
-    }
-    &:hover {
-      border: 1px solid $white;
-    }
-    &:focus {
-      border: 1px solid $white;
-    }
-  }
-}
+@import '@/styles/components/_search';
 </style>
