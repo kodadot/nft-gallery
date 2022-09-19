@@ -6,7 +6,7 @@
       {{ $t('search.landingTitle2') }}
       <span> {{ $t('search.landingTitle3') }}</span>
     </div>
-    <img class="sub-title" :src="landingImage[2]" />
+    <span class="sub-title"> {{ $t('search.landingSubtitle') }}</span>
     <LazySearch
       hide-filter
       show-default-suggestions
@@ -40,17 +40,9 @@ const isDarkMode = computed(() => $colorMode.preference === 'dark')
 
 const landingImage = computed(() => {
   if (isDarkMode.value) {
-    return [
-      '/landing-search-left-dark.svg',
-      '/landing-search-right-dark.svg',
-      '/kusama-nfts-dark.png',
-    ]
+    return ['/landing-search-left-dark.svg', '/landing-search-right-dark.svg']
   } else {
-    return [
-      '/landing-search-left.svg',
-      '/landing-search-right.svg',
-      '/kusama-nfts.png',
-    ]
+    return ['/landing-search-left.svg', '/landing-search-right.svg']
   }
 })
 

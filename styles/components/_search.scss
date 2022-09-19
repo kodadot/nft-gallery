@@ -17,6 +17,16 @@
     width: 320px;
     height: 46px;
     margin-bottom: 38px;
+
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 56px;
+    text-align: center;
+    letter-spacing: -0.02em;
+    text-transform: capitalize;
+    color: $white;
+    text-shadow: 4px 4px 0px $dark;
   }
 
   .landing-search-bar {
