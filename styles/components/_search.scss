@@ -1,6 +1,7 @@
 @import '@/styles/abstracts/variables';
 
 .landing-search {
+  font-family: 'Work Sans';
   height: 334px;
   width: 100vw;
   padding: 0 300px;
@@ -20,13 +21,14 @@
 
     font-style: normal;
     font-weight: 700;
-    font-size: 48px;
-    line-height: 56px;
+    font-size: 3rem;
+    line-height: 3.5rem;
     text-align: center;
     letter-spacing: -0.02em;
     text-transform: capitalize;
     color: $white;
-    text-shadow: 4px 4px 0px $dark;
+    text-shadow: 4px 4px 0px #000;
+    -webkit-text-stroke: 1px #000;
   }
 
   .landing-search-bar {

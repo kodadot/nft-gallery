@@ -28,7 +28,8 @@ html.dark-mode {
 	.landing-search {
 		.sub-title {
 			color: $search-background-color;
-			text-shadow: 4px 4px 0px $white;
+			text-shadow: 4px 4px 0px #fff;
+			-webkit-text-stroke: 1px #fff;
 		}
 	}
 }
