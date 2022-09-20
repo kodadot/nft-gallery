@@ -1,4 +1,4 @@
-query nftByIdMinimal($id: ID!) {
+query nftByIdMinimal($id: String!) {
   nft: nftEntityById(id: $id) {
     id
     currentOwner
