@@ -1,3 +1,5 @@
+@import '@/styles/abstracts/variables';
+
 .carousel-agnostic {
   .keen-slider {
     padding-bottom: 16px;
@@ -167,11 +169,11 @@
 
     &:hover {
       &.arrow-left::after {
-        border-right: solid 55px #ffe5f3;
+        border-right: solid 55px $k-accentlight;
       }
 
       &.arrow-right::after {
-        border-left: solid 55px #ffe5f3;
+        border-left: solid 55px $k-accentlight;
       }
     }
 
