@@ -2,8 +2,10 @@
   <div class="carousel-info">
     <nuxt-link
       :to="urlOf({ id: item.id, url })"
-      class="has-text-weight-bold"
-      :class="{ 'carousel-info-collection': isCollection }">
+      :class="[
+        'has-text-weight-bold',
+        { 'carousel-info-collection': isCollection },
+      ]">
       <span class="carousel-info-name">{{ item.name }}</span>
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>

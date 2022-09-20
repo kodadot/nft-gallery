@@ -84,7 +84,3 @@ const dotHelper = computed(() =>
   slider.value ? [...Array(totalDots.value).keys()] : []
 )
 </script>
-
-<style lang="scss">
-@import '@/styles/components/carousel';
-</style>
