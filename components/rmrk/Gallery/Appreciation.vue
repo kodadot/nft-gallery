@@ -1,18 +1,16 @@
 <template>
   <div class="nft-appreciation__main is-flex">
     <Loader v-model="isLoading" :status="status" />
-    <template v-if="!partyNft">
-      <b-button
-        v-if="accountId"
-        class="nft-appreciation__button"
-        icon-left="heart"
-        @click="toggleEmojiDialog" />
-      <VEmojiPicker
-        v-show="showDialog"
-        label-search="Search your emote"
-        class="emote-picker"
-        @select="onSelectEmoji" />
-    </template>
+    <b-button
+      v-if="accountId"
+      class="nft-appreciation__button"
+      icon-left="heart"
+      @click="toggleEmojiDialog" />
+    <VEmojiPicker
+      v-show="showDialog"
+      label-search="Search your emote"
+      class="emote-picker"
+      @select="onSelectEmoji" />
     <EmotionList
       class="emote-list"
       :emotions="emotions"
@@ -33,7 +31,6 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { Emote } from '../service/scheme'
 import EmotionList from './EmotionList.vue'
-import { defaultEmoteSet } from '@/components/rmrk/Gallery/emoteParty'
 
 @Component({
   components: {
@@ -80,13 +77,6 @@ export default class Appreciation extends mixins(
     }
   }
 
-  get partyNft() {
-    return (
-      this.nftId ===
-      '14463286-8CC1B91E899D9BE40E-HYPER-HYPER_REACTIVE_SPIRALS-0000000000000001'
-    ) // preset some value
-  }
-
   protected async onSelectEmoji(emoji: IEmoji) {
     const { version, nftId } = this
     if (!this.accountId) {
@@ -118,10 +108,7 @@ export default class Appreciation extends mixins(
     this.emotes?.map(
       (e, index) => (this.emotes[index].value = e.value.toUpperCase())
     )
-
-    const emotes = groupBy(this.emotes || [], 'value')
-    const defaultSet = this.partyNft ? defaultEmoteSet : {}
-    return { ...defaultSet, ...emotes }
+    return groupBy(this.emotes || [], 'value')
   }
 
   private async submit(rmrk: string) {
