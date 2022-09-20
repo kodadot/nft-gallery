@@ -12,14 +12,8 @@
           </div>
         </div>
       </div>
-      <div
-        v-if="current !== 0"
-        class="arrow arrow-left"
-        @click="slider?.prev()"></div>
-      <div
-        v-if="current !== dotHelper.length - 1"
-        class="arrow arrow-right"
-        @click="slider?.next()"></div>
+      <div class="arrow arrow-left" @click="slider?.prev()"></div>
+      <div class="arrow arrow-right" @click="slider?.next()"></div>
     </div>
     <div v-if="slider && !isCollection" class="dots">
       <button
