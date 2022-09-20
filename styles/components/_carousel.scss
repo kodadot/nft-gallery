@@ -39,12 +39,16 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
 
-      &-collection {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
+    &-collection {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-arrow {
+      color: black;
     }
   }
 
@@ -195,7 +199,8 @@
     }
 
     .carousel-info-name,
-    .carousel-meta {
+    .carousel-meta,
+    .carousel-info-arrow {
       color: white;
     }
 
