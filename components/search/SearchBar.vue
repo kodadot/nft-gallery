@@ -100,7 +100,3 @@ export default class extends mixins(PrefixMixin, KeyboardEventsMixin) {
   }
 }
 </script>
-
-<style lang="scss">
-@import '@/styles/components/_search';
-</style>
