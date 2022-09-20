@@ -32,7 +32,7 @@ import { Option } from '@kodadot1/vuex-options/dist/types'
 import { chainTestList } from '~/utils/constants'
 
 const { urlPrefix } = usePrefix()
-const { $store, $colorMode, $router } = useNuxtApp()
+const { $store, $colorMode } = useNuxtApp()
 const isDarkMode = computed(() => $colorMode.preference === 'dark')
 
 const landingImage = computed(() => {
