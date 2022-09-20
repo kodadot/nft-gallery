@@ -1,4 +1,4 @@
-query assetListByIdList($ids: [ID!] = ["0", "5"]) {
+query assetListByIdList($ids: [String!] = ["0", "5"]) {
   assetList: assetEntities(where: { id_in: $ids }) {
     id
     name
