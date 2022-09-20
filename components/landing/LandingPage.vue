@@ -6,7 +6,7 @@
 
     <!-- spotlight -->
     <div class="instance instance-blue">
-      <div class="container">
+      <div class="container px-5">
         <LazyCarouselTypeSpotlight />
       </div>
     </div>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="instance">
-      <div class="container">
+      <div class="container px-5">
         <!-- new listings -->
         <LazyCarouselTypeNewestList />
 
@@ -34,35 +34,6 @@
 <script lang="ts" setup></script>
 
 <style lang="scss" scoped>
-.container {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-.instance {
-  border-top: 1px solid black;
-  padding: 5rem 0;
-
-  // open another PR
-  // TODO: add colors to global variable
-  &-accent {
-    background-color: #ff7ac3;
-  }
-
-  &-blue {
-    background-color: #6188e7;
-  }
-}
-
-.dark-mode {
-  .instance {
-    &-accent,
-    &-blue {
-      background-color: #1a1718;
-    }
-  }
-}
-
 // sample
 .replace-me {
   display: flex;

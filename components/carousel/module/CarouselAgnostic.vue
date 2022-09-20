@@ -92,5 +92,5 @@ const dotHelper = computed(() =>
 </script>
 
 <style lang="scss">
-@import './CarouselAgnostic.scss';
+@import '@/styles/components/carousel';
 </style>

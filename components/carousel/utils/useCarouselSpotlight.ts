@@ -47,7 +47,7 @@ async function updateCollections(data) {
   })
 }
 
-export default function useSpotlight() {
+export default function useCarouselSpotlight() {
   const collections = useSpotlightNft()
   const { urlPrefix } = usePrefix()
   const variables = curatedCollection[urlPrefix.value]?.length

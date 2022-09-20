@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="redesign && nfts.length">
-      <h1 class="title is-2">{{ title }}</h1>
+      <h2 class="title is-2 has-text-dark">{{ title }}</h2>
 
       <CarouselList v-if="showCarousel" :nfts="nfts" />
     </div>

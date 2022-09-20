@@ -1,30 +1,37 @@
 html.dark-mode {
-	body,
-	div#__nuxt,
-	div#__layout,
-	main {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-		background-color: $background-dark;
-	}
+  body,
+  div#__nuxt,
+  div#__layout,
+  main {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $background-dark;
+  }
 
-	.title,
-	.card-header-title,
-	.input {
-		color: $text;
-	}
+  .title,
+  .card-header-title,
+  .input {
+    color: $text;
+  }
 
-	.navbar {
-		.search-navbar input {
-			color: $black;
-		}
+  .navbar {
+    .search-navbar input {
+      color: $black;
+    }
 
-		.navbar-dropdown a.navbar-item {
-			&:hover, &:focus {
-				background-color: $primary;
-			}
-		}
+    .navbar-dropdown a.navbar-item {
+      &:hover,
+      &:focus {
+        background-color: $primary;
+      }
+    }
+  }
 
-	}
+  .instance {
+    &-accent,
+    &-blue {
+      background-color: #1a1718;
+    }
+  }
 }

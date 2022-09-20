@@ -50,7 +50,9 @@
 import Identity from '@/components/identity/IdentityIndex.vue'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 
-const { collections } = useSpotlight()
+import useCarouselSpotlight from '@/components/carousel/utils/useCarouselSpotlight'
+
+const { collections } = useCarouselSpotlight()
 const { urlPrefix } = usePrefix()
 </script>
 

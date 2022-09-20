@@ -100,7 +100,7 @@ body {
     }
   }
 }
-@media screen and (min-width: 481px){
+@media screen and (min-width: 481px) {
   .gallery-search {
     .b-tabs .tab-content {
       padding: 10px;
@@ -114,7 +114,6 @@ body {
     }
   }
 }
-
 
 @include mobile {
   .column-padding {
@@ -150,7 +149,7 @@ body {
 
 .collection-radio-btn .b-radio.radio.button {
   border: none !important;
-  border-top: 1px solid $primary  !important;
+  border-top: 1px solid $primary !important;
 }
 
 .short-identity__table {
@@ -185,4 +184,17 @@ body {
 
 .rmrk-logo {
   aspect-ratio: 127 / 42;
+}
+
+.instance {
+  border-top: 1px solid black;
+  padding: 5rem 0;
+
+  &-accent {
+    background-color: $k-accent;
+  }
+
+  &-blue {
+    background-color: $k-blue;
+  }
 }

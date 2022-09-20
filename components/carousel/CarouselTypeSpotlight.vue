@@ -1,6 +1,6 @@
 <template>
   <CarouselIndex
-    :title="`${$t('general.spotlight')}`"
+    :title="`${$t('spotlight.page')}`"
     :nfts="spotlight"
     action-type="pagination"
     item-url="collection" />
@@ -8,6 +8,7 @@
 
 <script lang="ts" setup>
 import CarouselIndex from './CarouselIndex.vue'
+import useCarouselSpotlight from './utils/useCarouselSpotlight'
 
-const { collections: spotlight } = useSpotlight()
+const { collections: spotlight } = useCarouselSpotlight()
 </script>
