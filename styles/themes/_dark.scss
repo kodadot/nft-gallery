@@ -12,7 +12,7 @@ html.dark-mode {
   .title,
   .card-header-title,
   .input {
-    color: $text;
+    color: $text !important;
   }
 
   .navbar {
