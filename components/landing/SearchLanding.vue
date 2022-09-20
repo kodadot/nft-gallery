@@ -13,16 +13,13 @@
       class="landing-search-bar is-flex-grow-1 pb-0 mb-2"
       search-column-class="is-flex-grow-1" />
     <div class="if-flex is-flex-grow-1 mb-4">
-      <span
+      <a
         v-for="chain in chainList"
         :key="chain.value"
-        :class="[
-          'mr-2',
-          'chain-option',
-          { active: urlPrefix === chain.value },
-        ]">
+        :class="['mr-2', 'chain-option', { active: urlPrefix === chain.value }]"
+        @click="switchChain(chain.value)">
         {{ chain.text }}
-      </span>
+      </a>
     </div>
     <img class="landing-search-left is-hidden-touch" :src="landingImage[0]" />
     <img class="landing-search-right is-hidden-touch" :src="landingImage[1]" />
@@ -35,7 +32,7 @@ import { Option } from '@kodadot1/vuex-options/dist/types'
 import { chainTestList } from '~/utils/constants'
 
 const { urlPrefix } = usePrefix()
-const { $store, $colorMode } = useNuxtApp()
+const { $store, $colorMode, $router } = useNuxtApp()
 const isDarkMode = computed(() => $colorMode.preference === 'dark')
 
 const landingImage = computed(() => {
@@ -54,6 +51,14 @@ const chainList = computed(() => {
       urlPrefix.value !== 'bsx'
   )
 })
+
+const switchChain = (value) => {
+  if (value === urlPrefix.value) {
+    return
+  }
+  $store.dispatch('setUrlPrefix', value)
+  $router.push({ path: `/${value}` })
+}
 </script>
 
 <style lang="scss">
