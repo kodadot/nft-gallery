@@ -20,7 +20,7 @@
         cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.item')"
         sortable>
-        <nuxt-link :to="`/bsx/gallery/${props.row.nft.id}`">
+        <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.nft.id}`">
           <p
             class="limit-width-text"
             :title="props.row.nft.name ? props.row.nft.name : props.row.nft.id">
@@ -42,7 +42,8 @@
         field="caller"
         :label="$t('myOffer.caller')"
         sortable>
-        <nuxt-link :to="{ name: 'bsx-u-id', params: { id: props.row.caller } }">
+        <nuxt-link
+          :to="{ name: `${urlPrefix}-u-id`, params: { id: props.row.caller } }">
           <Identity :address="props.row.caller" />
         </nuxt-link>
       </b-table-column>
