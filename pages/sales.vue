@@ -21,7 +21,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Sales>({
   components: {
-    Identity: () => import('@/components/shared/format/Identity.vue'),
+    Identity: () => import('@/components/identity/IdentityIndex.vue'),
   },
   head() {
     const title = 'Latest KUSAMA Sales'
@@ -40,9 +40,3 @@ import { Component, Vue } from 'nuxt-property-decorator'
 })
 export default class Sales extends Vue {}
 </script>
-
-<style scoped lang="scss">
-.rmrk-logo {
-  aspect-ratio: 127 / 42;
-}
-</style>

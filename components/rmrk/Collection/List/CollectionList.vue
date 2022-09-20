@@ -3,19 +3,19 @@
     <Loader :value="isLoading" />
     <Search
       v-bind.sync="searchQuery"
-      @resetPage="resetPage"
-      hideSearch
-      :sortOption="collectionSortOption">
+      hide-search
+      :sort-option="collectionSortOption"
+      @resetPage="resetPage">
       <b-field class="is-flex">
         <Layout class="mr-5" @change="onResize" />
         <Pagination
-          hasMagicBtn
+          v-model="currentValue"
+          has-magic-btn
           simple
           replace
-          preserveScroll
+          preserve-scroll
           :total="total"
-          v-model="currentValue"
-          :perPage="first" />
+          :per-page="first" />
       </b-field>
     </Search>
 
@@ -29,18 +29,19 @@
         class="columns is-multiline"
         @scroll="onScroll">
         <div
-          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`"
           v-for="collection in results"
-          :key="collection.id">
+          :key="collection.id"
+          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`">
           <nuxt-link
             :to="`/${urlPrefix}/collection/${collection.id}`"
             tag="div"
-            class="card collection-card">
+            class="card collection-card"
+            :data-cy="results.indexOf(collection)">
             <div class="card-image">
               <BasicImage
                 :src="collection.image"
                 :alt="collection.name"
-                customClass="collection__image-wrapper" />
+                custom-class="collection__image-wrapper" />
             </div>
 
             <div class="card-content">
@@ -63,16 +64,16 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Vue, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import {
-  CollectionWithMeta,
   Collection,
+  CollectionWithMeta,
   Metadata,
   NFTMetadata,
 } from '@/components/rmrk/service/scheme'
 import { getSanitizer } from '@/components/rmrk/utils'
-import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
+import { SearchQuery } from '@/components/rmrk/Gallery/search/types'
 import 'lazysizes'
 
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
@@ -94,8 +95,7 @@ const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
-  Search: () =>
-    import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
+  Search: () => import('@/components/search/SearchCollection.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   CollectionDetail: () =>
@@ -115,7 +115,10 @@ export default class CollectionList extends mixins(
 ) {
   private collections: Collection[] = []
   private meta: Metadata[] = []
-  private placeholder = '/placeholder.webp'
+  private placeholder =
+    this.$colorMode.preference === 'dark'
+      ? '/placeholder.webp'
+      : '/placeholder-white.webp'
   private isLoading = true
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
@@ -184,7 +187,7 @@ export default class CollectionList extends mixins(
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: collectionListWithSearch,
-      client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+      client: this.client,
       variables: {
         orderBy: this.searchQuery.sortBy,
         search: this.buildSearchParam(),
@@ -232,7 +235,7 @@ export default class CollectionList extends mixins(
     try {
       const collections = this.$apollo.query({
         query: collectionListWithSearch,
-        client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+        client: this.client,
         variables: {
           first: this.first,
           offset,
@@ -279,7 +282,8 @@ export default class CollectionList extends mixins(
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+// move to scss component
+@import '@/styles/abstracts/variables';
 .card-image__burned {
   filter: blur(7px);
 }

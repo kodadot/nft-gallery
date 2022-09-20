@@ -2,58 +2,60 @@
   <section>
     <br />
     <Loader v-model="isLoading" :status="status" />
-    <div class="box">
-      <p class="title is-size-3">
-        <!-- {{ $t('mint.context') }} -->
-        Creative Minting
-      </p>
-      <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
-      <b-field>
-        <div>
-          {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
-        </div>
-      </b-field>
-      <AuthField />
+    <p class="title is-size-3">
+      <!-- {{ $t('mint.context') }} -->
+      {{ $t('mint.nft.creative.heading') }}
+    </p>
+    <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
+    <b-field>
+      <div>
+        {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
+      </div>
+    </b-field>
+    <AuthField />
 
-      <MetadataUpload
-        v-model="file"
-        label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
-        expanded
-        preview />
+    <MetadataUpload
+      ref="uploadFileRef"
+      v-model="file"
+      required
+      :label="$t('mint.nft.drop')"
+      expanded
+      preview />
 
-      <LabeledText
-        label="mint.nft.name.label"
-        class="mb-2"
-        :isLoading="isGptLoading">
-        {{ rmrkMint.name }}
-      </LabeledText>
+    <LabeledText
+      label="mint.nft.name.label"
+      class="mb-2"
+      :is-loading="isGptLoading">
+      {{ rmrkMint.name }}
+    </LabeledText>
 
-      <LabeledText label="mint.nft.description.label" :isLoading="isGptLoading">
-        {{ rmrkMint.description }}
-      </LabeledText>
+    <LabeledText label="mint.nft.description.label" :is-loading="isGptLoading">
+      {{ rmrkMint.description }}
+    </LabeledText>
 
-      <BasicNumberInput
-        v-model="rmrkMint.max"
-        key="edition"
-        class="mt-5"
-        :label="$t('mint.nft.edition.label')"
-        :message="$t('mint.nft.edition.message')"
-        :placeholder="$t('mint.nft.edition.placeholder')"
-        expanded />
+    <BasicNumberInput
+      key="edition"
+      v-model="rmrkMint.max"
+      class="mt-5"
+      :min="1"
+      :label="$t('mint.nft.edition.label')"
+      :message="$t('mint.nft.edition.message')"
+      :placeholder="$t('mint.nft.edition.placeholder')"
+      expanded />
 
-      <!-- <BalanceInput :step="0.1" @input="updateMeta" label="Price" expanded />
+    <!-- <BalanceInput :step="0.1" @input="updateMeta" label="Price" expanded />
       <div class="content mt-3">
         <p>
           Hint: Setting the price now requires making an additional transaction.
         </p>
       </div> -->
-
-      <SubmitButton
-        label="mint.submit"
-        :disabled="disabled"
-        :loading="isLoading"
-        @click="sub" />
-    </div>
+    <b-field
+      v-if="isLogIn"
+      key="submit"
+      type="is-danger"
+      :message="balanceNotEnoughMessage">
+      <SubmitButton label="mint.submit" :loading="isLoading" @click="sub" />
+    </b-field>
   </section>
 </template>
 
@@ -67,23 +69,23 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/nftStorage'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import {
+  Interaction,
   basicUpdateNameFunction,
   createCollection,
   createMetadata,
   createMintInteaction,
   createMultipleNFT,
-  Interaction,
   makeSymbol,
   mapAsSystemRemark,
   toCollectionId,
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { getNftId, NFT, NFTMetadata, SimpleNFT } from '../service/scheme'
+import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
+import { NFT, SimpleNFT, getNftId } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia, sanitizeIpfsUrl } from '../utils'
 
@@ -113,11 +115,12 @@ export default class CreativeMint extends mixins(
     name: '~',
     description: '~',
   }
-  private meta: NFTMetadata = emptyObject<NFTMetadata>()
   private file: File | null = null
   private price = 0
   private fileHash = ''
   private isGptLoading = false
+  protected balanceNotEnough = false
+  @Ref('uploadFileRef') readonly uploadFileRef
 
   layout() {
     return 'centered-half-layout'
@@ -137,17 +140,28 @@ export default class CreativeMint extends mixins(
       : ''
   }
 
+  get balanceNotEnoughMessage() {
+    return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
+  }
+
   get canCalculateTransactionFees(): boolean {
     const { name, symbol, max } = this.rmrkMint
     return !!(this.price && name && symbol && max)
   }
 
-  get disabled(): boolean {
-    const { name, symbol, max } = this.rmrkMint
-    return !(name && symbol && max && this.accountId && this.file)
-  }
-
   protected async sub(): Promise<void> {
+    const { name, symbol, max } = this.rmrkMint
+    if (!this.checkValidity()) {
+      return
+    }
+    if (!(name && symbol && max) || this.isGptLoading) {
+      return
+    }
+    if (parseFloat(this.balance) === 0) {
+      this.balanceNotEnough = true
+      return
+    }
+
     this.isLoading = true
     this.status = 'loader.ipfs'
     const api = await this.useApi()
@@ -208,6 +222,10 @@ export default class CreativeMint extends mixins(
     }
   }
 
+  public checkValidity() {
+    return this.uploadFileRef.checkValidity()
+  }
+
   public async constructMeta(): Promise<string | undefined> {
     const { file, rmrkMint } = this
     if (!file) {
@@ -219,9 +237,7 @@ export default class CreativeMint extends mixins(
       this.accountId
     )
 
-    const fileHash = await pinFileToIPFS(file, token)
-
-    let imageHash: string | undefined = fileHash
+    let imageHash: string | undefined = await pinFileToIPFS(file, token)
     let animationUrl: string | undefined = undefined
 
     const attributes = []
@@ -269,9 +285,9 @@ export default class CreativeMint extends mixins(
       this.accountId
     )
     try {
+      this.isGptLoading = true
       this.fileHash = await pinFileToIPFS(file, token)
       const url = sanitizeIpfsUrl(unSanitizeIpfsUrl(this.fileHash))
-      this.isGptLoading = true
       const { title, description } = await askGpt(url)
       this.$set(this.rmrkMint, 'name', title)
       this.$set(this.rmrkMint, 'description', description)
@@ -279,6 +295,12 @@ export default class CreativeMint extends mixins(
     } catch (e) {
       this.$consola.error(e)
       this.isGptLoading = false
+      this.$set(this.rmrkMint, 'name', 'Something went wrong.')
+      this.$set(
+        this.rmrkMint,
+        'description',
+        this.$t('mint.nft.rmrkDescription')
+      )
     }
   }
 }

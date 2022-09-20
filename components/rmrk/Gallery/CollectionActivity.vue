@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="level my-4 collection is-align-items-center" v-if="stats">
+    <div v-if="stats" class="level my-4 collection is-align-items-center">
       <div class="level-item has-text-centered">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ collectionLength }}</p>
@@ -64,15 +64,15 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import {
-  Interaction,
   CollectionEventsStats,
+  Interaction,
 } from '@/components/rmrk/service/scheme'
-import { after, getVolume, pairListBuyEvent } from '@/utils/math'
+import { after, getVolume } from '@/utils/math'
 import { subDays } from 'date-fns'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import collectionStatsById from '@/queries/collectionStatsById.graphql'
+import collectionStatsById from '@/queries/subsquid/rmrk/collectionStatsById.graphql'
 import collectionBuyEventStatsById from '@/queries/rmrk/subsquid/collectionBuyEventStatsById.graphql'
 import { notificationTypes, showNotification } from '@/utils/notification'
 
@@ -104,11 +104,9 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
   totalPurchases = 0
   highestBuyPrice = 0
 
-  public created(): void {
-    // this.fetchBuyEvents()
-  }
-
   async fetch() {
+    this.fetchBuyEvents()
+
     if (!this.id) {
       this.$consola.warn('CollectionActivity: id is not defined')
       return
@@ -117,7 +115,7 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
     const { data } = await this.$apollo
       .query({
         query: collectionStatsById,
-        client: this.urlPrefix,
+        client: this.client,
         variables: {
           id: this.id,
         },
@@ -131,18 +129,20 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
       this.$consola.log('stats is null')
       return
     }
+    const {
+      stats: { listed, base, sales },
+    } = data
 
     this.stats = {
-      listedCount: data.stats.listed.count,
-      collectionLength: data.stats.base.count,
-      collectionFloorPrice: data.stats.listed.aggregates.floor.value,
-      uniqueOwnerCount: data.stats.base.aggregates.distinctCount.currentOwner,
-      differentOwnerCount: data.stats.base.nfts.filter(this.differentOwner)
+      listedCount: data.stats.listed.length,
+      collectionLength: data.stats.base.length,
+      collectionFloorPrice: Math.min(
+        ...listed.map((item) => parseInt(item.price))
+      ),
+      uniqueOwnerCount: [...new Set(base.map((item) => item.currentOwner))]
         .length,
-      saleEvents: data.stats.base.nfts
-        .map((nft) => nft.events)
-        .map(pairListBuyEvent)
-        .flat(),
+      differentOwnerCount: base.filter(this.differentOwner).length,
+      saleEvents: sales.map((nft) => nft.events).flat(),
     }
   }
 
@@ -188,7 +188,7 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
         stats: CollectionEventsStats[]
       }>({
         query: collectionBuyEventStatsById,
-        client: 'subsquid',
+        client: this.client,
         variables: {
           id: this.id,
         },
@@ -213,8 +213,6 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
-
 .collection {
   display: grid;
   grid-gap: 0.7rem;

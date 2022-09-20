@@ -1,68 +1,62 @@
 <template>
-  <div class="columns mb-6">
-    <div class="column is-6 is-offset-3">
-      <section>
-        <br />
-        <Loader v-model="isLoading" :status="status" />
-        <div class="box">
-          <p class="title is-size-3">
-            {{ $t('action.admin') }}
-          </p>
-          <b-field>
-            <Auth />
-          </b-field>
+  <section>
+    <br />
+    <Loader v-model="isLoading" :status="status" />
+    <p class="title is-size-3">
+      {{ $t('action.admin') }}
+    </p>
+    <b-field>
+      <Auth />
+    </b-field>
 
-          <template v-if="accountId">
-            <b-field :label="$t('collection')">
-              <b-select
-                placeholder="Select a collection"
-                v-model="selectedCollection"
-                expanded>
-                <option
-                  v-for="option in collections"
-                  :value="option"
-                  :key="option.id">
-                  {{ option.name }} {{ option.id }} ({{ option.available }})
-                </option>
-              </b-select>
-            </b-field>
-          </template>
-          <h6 v-if="selectedCollection" class="subtitle is-6">
-            NFTs to process ({{ selectedCollection.available }} pieces)
-          </h6>
-          <b-field v-if="!selectedCollection && !collections.length">
-            <NoCollection label="helper.noCollections" />
-          </b-field>
+    <template v-if="accountId">
+      <b-field :label="$t('collection')">
+        <b-select
+          v-model="selectedCollection"
+          placeholder="Select a collection"
+          expanded>
+          <option
+            v-for="option in collections"
+            :key="option.id"
+            :value="option">
+            {{ option.name }} {{ option.id }} ({{ option.available }})
+          </option>
+        </b-select>
+      </b-field>
+    </template>
+    <h6 v-if="selectedCollection" class="subtitle is-6">
+      NFTs to process ({{ selectedCollection.available }} pieces)
+    </h6>
+    <b-field v-if="!selectedCollection && !collections.length">
+      <NoCollection label="helper.noCollections" />
+    </b-field>
 
-          <template v-if="selectedCollection">
-            <ActionSelector v-model="action" />
-            <component
-              class="mb-4"
-              v-if="showMeta"
-              :is="showMeta"
-              @input="updateMeta" />
+    <template v-if="selectedCollection">
+      <ActionSelector v-model="action" />
+      <component
+        :is="showMeta"
+        v-if="showMeta"
+        class="mb-4"
+        @input="updateMeta" />
 
-            <BasicSwitch v-model="listed" label="action.omitListed" />
+      <BasicSwitch v-model="listed" label="action.omitListed" />
 
-            <b-field>
-              <PasswordInput v-model="password" :account="accountId" />
-            </b-field>
-            <b-field>
-              <b-button
-                type="is-primary"
-                icon-left="paper-plane"
-                @click="sub"
-                :disabled="disabled"
-                :loading="isLoading"
-                outlined>
-                {{ $t('action.click', [action]) }}
-              </b-button>
-            </b-field>
-          </template>
-        </div>
-      </section>
-    </div>
-  </div>
+      <b-field>
+        <PasswordInput v-model="password" :account="accountId" />
+      </b-field>
+      <b-field>
+        <b-button
+          type="is-primary"
+          icon-left="paper-plane"
+          :disabled="disabled"
+          :loading="isLoading"
+          outlined
+          @click="sub">
+          {{ $t('action.click', [action]) }}
+        </b-button>
+      </b-field>
+    </template>
+  </section>
 </template>
 
 <script lang="ts">
@@ -77,12 +71,12 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import {
-  createInteraction,
   Interaction,
+  createInteraction,
   mapAsSystemRemark,
 } from '@kodadot1/minimark'
 import { DispatchError } from '@polkadot/types/interfaces'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import UseApiMixin from '~/utils/mixins/useApiMixin'
 
 type EmptyPromise = Promise<void>

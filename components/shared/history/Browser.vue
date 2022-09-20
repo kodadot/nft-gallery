@@ -8,35 +8,35 @@
     </template>
     <div class="wrapper">
       <div v-if="visitedToday && visitedToday.length">
-        <div class="list-header">Today</div>
+        <div class="list-header">{{ $t('history.today') }}</div>
         <HistoryBrowserItem
           v-for="item in visitedToday"
           :key="item.id"
           :item="item" />
       </div>
       <div v-if="visitedYesterday && visitedYesterday.length">
-        <div class="list-header">Yesterday</div>
+        <div class="list-header">{{ $t('history.yesterday') }}</div>
         <HistoryBrowserItem
           v-for="item in visitedYesterday"
           :key="item.id"
           :item="item" />
       </div>
       <div v-if="visitedPastWeek && visitedPastWeek.length">
-        <div class="list-header">Last 7 Days</div>
+        <div class="list-header">{{ $t('history.last7Days') }}</div>
         <HistoryBrowserItem
           v-for="item in visitedPastWeek"
           :key="item.id"
           :item="item" />
       </div>
       <div v-if="visitedPastMonth && visitedPastMonth.length">
-        <div class="list-header">This Month</div>
+        <div class="list-header">{{ $t('history.thisMonth') }}</div>
         <HistoryBrowserItem
           v-for="item in visitedPastMonth"
           :key="item.id"
           :item="item" />
       </div>
       <div v-if="visitedEarlier && visitedEarlier.length">
-        <div class="list-header">Earlier</div>
+        <div class="list-header">{{ $t('history.earlier') }}</div>
         <HistoryBrowserItem
           v-for="item in visitedEarlier"
           :key="item.id"
@@ -112,7 +112,7 @@ export default class Browser extends mixins(PrefixMixin) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .wrapper {
   border: 2px solid $primary;

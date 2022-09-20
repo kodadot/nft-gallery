@@ -1,18 +1,17 @@
 <template>
-  <span v-if="hasDisabledBlockUrl"> {{ text }}</span>
-  <a
-    v-else
-    target="_blank"
-    rel="noopener noreferrer"
-    :href="getBlockUrl(blockId)">
+  <span v-if="!hasBlockUrl"> {{ text }}</span>
+  <a v-else target="_blank" rel="noopener noreferrer" :href="blockUrl">
     {{ text }}
   </a>
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import {
+  BLOCK_EXPLORER_WITH_QUERY,
+  blockExplorerOf,
+} from '@/utils/config/chain.config'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 const components = {}
 
@@ -22,17 +21,22 @@ export default class BlockExplorerLink extends mixins(PrefixMixin) {
   @Prop({ type: String, required: true }) public blockId!: string
   @Prop({ type: String, required: true }) public text!: string
 
-  public getBlockUrl(block: string): string {
-    return urlBuilderBlockNumber(
-      block,
-      this.$store.getters['explorer/getCurrentChain'],
-      this.provider
-    )
+  get blockUrl(): string {
+    if (!this.hasBlockUrl || !this.blockId) {
+      return '#'
+    }
+    if (BLOCK_EXPLORER_WITH_QUERY.includes(this.urlPrefix)) {
+      return this.blockExplorer + this.blockId
+    }
+    return this.blockExplorer + 'block/' + this.blockId
   }
 
-  get hasDisabledBlockUrl(): boolean {
-    const disableBlockUrlPrefix = ['bsx']
-    return disableBlockUrlPrefix.includes(this.urlPrefix)
+  get blockExplorer(): string | undefined {
+    return blockExplorerOf(this.urlPrefix)
+  }
+
+  get hasBlockUrl(): boolean {
+    return Boolean(this.blockExplorer)
   }
 }
 </script>

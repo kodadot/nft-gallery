@@ -39,7 +39,7 @@
         v-slot="props"
         cell-class="is-vcentered"
         field="name"
-        label="Name">
+        :label="$t('name')">
         <nuxt-link :to="`/rmrk/gallery/${props.row.id}`">
           {{ props.row.name }}
         </nuxt-link>
@@ -57,9 +57,9 @@
         v-slot="props"
         cell-class="is-vcentered"
         field="buyer"
-        label="Buyer">
+        :label="$t('sales.buyer')">
         <nuxt-link :to="`/rmrk/u/${props.row.buyer}`">
-          <Identity :address="props.row.buyer" inline noOverflow />
+          <Identity :address="props.row.buyer" />
         </nuxt-link>
       </b-table-column>
 
@@ -67,12 +67,12 @@
         v-slot="props"
         cell-class="is-vcentered"
         field="timestamp"
-        label="Relative Date">
+        :label="$t('sales.tableDate')">
         <div>
           <b-tooltip :label="props.row.date">
             <BlockExplorerLink
               :text="props.row.relDate"
-              :blockId="props.row.blockNumber" />
+              :block-id="props.row.blockNumber" />
           </b-tooltip>
         </div>
       </b-table-column>
@@ -81,7 +81,7 @@
         v-slot="props"
         cell-class="is-vcentered"
         field="salePrice"
-        label="Price of sale">
+        :label="$t('sales.price')">
         <Money :value="props.row.salePrice" inline />
       </b-table-column>
 
@@ -97,15 +97,17 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import { RowSales } from './types'
-import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+
+import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
+
+import { RowSales } from './types'
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
@@ -151,7 +153,7 @@ export default class SalesTable extends mixins(PrefixMixin) {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .b-radio.is-selected {
   color: #000;

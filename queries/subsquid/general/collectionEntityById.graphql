@@ -1,0 +1,25 @@
+#import "../../fragments/nftSubsquid.graphql"
+#import "../../fragments/nftDetails.graphql"
+#import "../../fragments/baseMeta.graphql"
+
+query collectionEntityById($id: ID!, $nftId: ID!) {
+  collection: collectionEntityById(id: $id) {
+    id
+    name
+    nfts(
+      limit: 20
+      orderBy: [updatedAt_DESC]
+      where: { burned_eq: false, id_not_eq: $nftId }
+    ) {
+      ...nftSubsquid
+      ...nftDetails
+      collection {
+        id
+        name
+      }
+      meta {
+        ...baseMeta
+      }
+    }
+  }
+}

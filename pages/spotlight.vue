@@ -21,7 +21,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Spotlight>({
   components: {
-    Identity: () => import('@/components/shared/format/Identity.vue'),
+    Identity: () => import('@/components/identity/IdentityIndex.vue'),
     SpotlightTable: () => import('@/components/spotlight/SpotlightTable.vue'),
   },
   head() {
@@ -41,9 +41,3 @@ import { Component, Vue } from 'nuxt-property-decorator'
 })
 export default class Spotlight extends Vue {}
 </script>
-
-<style scoped lang="scss">
-.rmrk-logo {
-  aspect-ratio: 127 / 42;
-}
-</style>

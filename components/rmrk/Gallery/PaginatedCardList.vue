@@ -1,17 +1,17 @@
 <template>
   <div>
     <Search
-      v-bind.sync="searchQuery"
       v-if="showSearchBar"
+      v-bind.sync="searchQuery"
       @resetPage="resetPage">
       <Layout class="mr-5" @change="onResize" />
       <b-field>
         <Pagination
-          hasMagicBtn
+          v-model="currentValue"
+          has-magic-btn
           simple
           replace
-          :total="total"
-          v-model="currentValue" />
+          :total="total" />
       </b-field>
     </Search>
     <InfiniteLoading
@@ -20,7 +20,7 @@
       @infinite="reachTopHandler"></InfiniteLoading>
     <GalleryCardList
       :items="items"
-      horizontalLayout
+      horizontal-layout
       :route="prefixedRoute"
       :link="link"
       :listed="searchQuery.listed" />
@@ -32,10 +32,10 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { DocumentNode } from 'graphql'
 import { NFTWithMeta } from '../service/scheme'
-import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
+import { SearchQuery } from '@/components/rmrk/Gallery/search/types'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
@@ -46,8 +46,7 @@ import shouldUpdate from '~/utils/shouldUpdate'
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  Search: () =>
-    import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
+  Search: () => import('@/components/search/SearchCollection.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),

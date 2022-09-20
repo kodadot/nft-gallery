@@ -1,4 +1,5 @@
-import axios from 'axios'
+import { $fetch } from 'ohmyfetch'
+
 import { MediaType } from '~/components/rmrk/types'
 
 const mediaWithoutImage = [
@@ -14,8 +15,8 @@ export function isImageVisible(type: MediaType) {
 }
 
 export async function getMimeType(mediaUrl: string) {
-  const { headers } = await axios.head(mediaUrl)
-  return headers['content-type']
+  const { type } = await $fetch(mediaUrl, { method: 'HEAD' })
+  return type
 }
 
 export async function processMedia(mediaUrl: string) {
@@ -34,10 +35,6 @@ export function resolveMedia(mimeType?: string): MediaType {
   }
 
   if (/^application\/json/.test(mimeType)) {
-    return MediaType.MODEL
-  }
-
-  if (/^application\/octet-stream/.test(mimeType)) {
     return MediaType.MODEL
   }
 

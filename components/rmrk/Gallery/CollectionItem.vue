@@ -7,7 +7,7 @@
             :src="image"
             :alt="name"
             rounded
-            customClass="collection__image" />
+            custom-class="collection__image" />
         </div>
         <h1 class="title is-2">
           {{ name }}
@@ -22,7 +22,7 @@
             {{ $t('creator') }}
           </div>
           <div v-if="issuer" class="subtitle is-size-6">
-            <ProfileLink :address="issuer" inline showTwitter showDiscord />
+            <ProfileLink :address="issuer" inline show-twitter show-discord />
             <p v-if="showMintTime" class="is-flex is-align-items-center py-3">
               <b-icon icon="clock" size="is-medium" />
               <span class="ml-2">Started minting {{ formattedTimeToNow }}</span>
@@ -31,18 +31,21 @@
         </div>
       </div>
 
-      <!-- <div v-if="id" class="column is-6-tablet is-7-desktop is-8-widescreen">
+      <div
+        v-if="id && urlPrefix === 'rmrk'"
+        class="column is-6-tablet is-7-desktop is-8-widescreen">
         <CollectionActivity :id="id" />
-      </div> -->
+      </div>
 
       <div class="column has-text-right">
         <Sharing
           v-if="sharingVisible"
           class="mb-2"
           :label="name"
-          :iframe="iframeSettings">
+          :iframe="iframeSettings"
+          data-cy="share-button">
           <DestroyCollection v-if="isOwner && urlPrefix === 'bsx'" :id="id" />
-          <DonationButton :address="issuer" />
+          <DonationButton :address="issuer" data-cy="donation-button" />
         </Sharing>
       </div>
     </div>
@@ -51,37 +54,33 @@
       <div class="column is-8 has-text-centered">
         <DescriptionWrapper
           v-if="!isLoading"
-          :rowHeight="50"
+          :row-height="50"
           :text="description.replaceAll('\n', '  \n')" />
       </div>
     </div>
 
     <b-tabs
-      position="is-centered"
-      v-model="activeTab"
       ref="tabsContainer"
+      v-model="activeTab"
+      position="is-centered"
       :style="{ minHeight: '800px' }"
       class="tabs-container-mobile">
       <b-tab-item label="Items" value="items">
         <Search
           v-bind.sync="searchQuery"
-          :showOwnerSwitch="!!accountId"
-          :disableToggle="!totalListed"
-          :sortOption="
-            urlPrefix === 'rmrk'
-              ? collectionProfileSortOption
-              : squidCollectionProfileSortOption
-          ">
+          :show-owner-switch="!!accountId"
+          :disable-toggle="!totalListed"
+          :sort-option="squidCollectionProfileSortOption">
           <Layout class="mr-5" />
           <b-field>
             <Pagination
-              hasMagicBtn
+              v-if="activeTab === 'items'"
+              v-model="currentValue"
+              has-magic-btn
               simple
               replace
-              preserveScroll
+              preserve-scroll
               :total="total"
-              v-model="currentValue"
-              v-if="activeTab === 'items'"
               :per-page="first" />
           </b-field>
         </Search>
@@ -95,48 +94,48 @@
           :listed="!!(searchQuery && searchQuery.listed)"
           :link="`${urlPrefix}/gallery`"
           :route="`/${urlPrefix}/gallery`"
-          horizontalLayout />
+          horizontal-layout />
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
           @infinite="reachBottomHandler"></InfiniteLoading>
         <ScrollTopButton />
       </b-tab-item>
       <b-tab-item label="Chart" value="chart">
-        <CollectionPriceChart :priceData="priceData" />
-        <ChartBoxPlotContainer :priceData="priceData" />
+        <BsxCollectionPriceChart v-if="isBsx" />
+        <CollectionPriceChart v-else :price-data="priceData" />
       </b-tab-item>
       <b-tab-item label="History" value="history">
         <History
           v-if="!isLoading && activeTab === 'history'"
           :events="eventsOfNftCollection"
-          :openOnDefault="isHistoryOpen"
-          hideCollapse
-          displayItem
+          :open-on-default="isHistoryOpen"
+          hide-collapse
+          display-item
           @setPriceChartData="setPriceChartData" />
       </b-tab-item>
       <b-tab-item label="Holders" value="holders">
         <CommonHolderTable
           v-if="!isLoading && activeTab === 'holders'"
           :events="ownerEventsOfNftCollection"
-          :openOnDefault="isHolderOpen"
-          hideCollapse />
+          :open-on-default="isHolderOpen"
+          hide-collapse />
       </b-tab-item>
       <b-tab-item label="Flippers" value="flippers">
         <Flipper
           v-if="!isLoading && activeTab === 'flippers'"
           :events="ownerEventsOfNftCollection"
-          openOnDefault
-          hideCollapse />
+          open-on-default
+          hide-collapse />
       </b-tab-item>
-      <b-tab-item label="Offers" value="offers" v-if="isBsx">
-        <CollectionOffers :collectionId="id" />
+      <b-tab-item v-if="isBsx" label="Offers" value="offers">
+        <CollectionOffers :collection-id="id" />
       </b-tab-item>
     </b-tabs>
   </section>
 </template>
 
 <script lang="ts">
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { exist } from '@/components/search/exist'
 import { NFT } from '@/components/rmrk/service/scheme'
 import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
 import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
@@ -155,7 +154,7 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { sortedEventByDate } from '@/utils/sorting'
 import { correctPrefix, unwrapSafe } from '@/utils/uniquery'
-import { Component, mixins, Ref, Watch } from 'nuxt-property-decorator'
+import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
 import { CollectionMetadata } from '../types'
@@ -164,7 +163,7 @@ import {
   onlyPriceEvents,
   sanitizeIpfsUrl,
 } from '../utils'
-import { SearchQuery } from './Search/types'
+import { SearchQuery } from './search/types'
 import { isSameAccount } from '~/utils/account'
 
 const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
@@ -174,16 +173,14 @@ const components = {
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   CollectionActivity: () =>
     import('@/components/rmrk/Gallery/CollectionActivity.vue'),
-  Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+  Sharing: () => import('@/components/shared/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-  Search: () => import('./Search/SearchBarCollection.vue'),
+  Search: () => import('@/components/search/SearchCollection.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   CollectionPriceChart: () =>
-    import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
-  ChartBoxPlotContainer: () =>
-    import('@/components/shared/chart/BoxPlot/Container.vue'),
+    import('@/components/shared/collection/PriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
@@ -196,6 +193,8 @@ const components = {
   DestroyCollection: () =>
     import('@/components/bsx/specific/DestroyCollection.vue'),
   CollectionOffers: () => import('@/components/bsx/Offer/CollectionOffers.vue'),
+  BsxCollectionPriceChart: () =>
+    import('@/components/bsx/Collection/ChartContainer.vue'),
 }
 @Component<CollectionItem>({
   components,
@@ -233,19 +232,6 @@ export default class CollectionItem extends mixins(
   private openHolder = true
   private nfts: NFT[] = []
 
-  // replacee with constant
-  protected collectionProfileSortOption: string[] = [
-    'EMOTES_COUNT_DESC',
-    'BLOCK_NUMBER_DESC',
-    'BLOCK_NUMBER_ASC',
-    'UPDATED_AT_DESC',
-    'UPDATED_AT_ASC',
-    'PRICE_DESC',
-    'PRICE_ASC',
-    'SN_ASC',
-  ]
-
-  // move to constant
   protected squidCollectionProfileSortOption: string[] = [
     'blockNumber_DESC',
     'blockNumber_ASC',
@@ -320,33 +306,15 @@ export default class CollectionItem extends mixins(
     const params: any[] = []
 
     if (this.searchQuery.search) {
-      if (this.urlPrefix === 'rmrk') {
-        params.push({
-          name: { likeInsensitive: this.searchQuery.search },
-        })
-      } else {
-        params.push({ name_containsInsensitive: this.searchQuery.search })
-      }
+      params.push({ name_containsInsensitive: this.searchQuery.search })
     }
 
     if (this.searchQuery.listed || checkForEmpty) {
-      if (this.urlPrefix === 'rmrk') {
-        params.push({
-          price: { greaterThan: '0' },
-        })
-      } else {
-        params.push({ price_gt: '0' })
-      }
+      params.push({ price_gt: '0' })
     }
 
     if (this.searchQuery.owned && this.accountId) {
-      if (this.urlPrefix === 'rmrk') {
-        params.push({
-          currentOwner: { equalTo: this.accountId },
-        })
-      } else {
-        params.push({ currentOwner_eq: this.accountId })
-      }
+      params.push({ currentOwner_eq: this.accountId })
     }
 
     return params
@@ -362,8 +330,7 @@ export default class CollectionItem extends mixins(
 
   private checkSortBy() {
     const currentSortBy = this.searchQuery.sortBy
-    const newSortBy =
-      this.urlPrefix === 'rmrk' ? 'BLOCK_NUMBER_DESC' : 'blockNumber_DESC'
+    const newSortBy = 'blockNumber_DESC'
 
     if (!currentSortBy && newSortBy !== currentSortBy) {
       this.searchQuery.sortBy = newSortBy
@@ -375,10 +342,10 @@ export default class CollectionItem extends mixins(
       return false
     }
     this.isFetchingData = true
-    const query = await resolveQueryPath(this.urlPrefix, 'collectionById')
+    const query = await resolveQueryPath(this.client, 'collectionById')
     const result = await this.$apollo.query({
       query: query.default,
-      client: this.urlPrefix,
+      client: this.client,
       variables: {
         id: this.id,
         orderBy: this.searchQuery.sortBy,

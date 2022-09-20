@@ -1,19 +1,27 @@
 <template>
   <div>
-    <b-select v-model="selectedStatus">
+    <b-select v-if="!offersListed" v-model="selectedStatus">
       <option
         v-for="option in getUniqType(offers)"
-        :value="option.type"
-        :key="option.type">
+        :key="option.type"
+        :value="option.type">
         {{ option.value }}
       </option>
     </b-select>
+    <BasicSwitch
+      v-if="!hideToggle"
+      v-model="offersListed"
+      class="mt-4"
+      :label="$t('offer.burnedToggle')"
+      size="is-medium"
+      label-color="has-text-success"
+      @input="updateList" />
     <b-table :data="displayOffers(offers)">
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         field="nft.name"
         :label="$t('nft.offer.item')"
-        v-slot="props"
         sortable>
         <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.nft.id}`">
           <p
@@ -24,35 +32,35 @@
         </nuxt-link>
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         field="status"
         :label="$t('nft.offer.status')"
-        v-slot="props"
         sortable>
         <p>{{ props.row.status || '-' }}</p>
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         field="formatPrice"
         :label="$t('offer.price')"
-        v-slot="props"
         sortable>
         <Money :value="props.row.price" inline />
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         field="expirationBlock"
         :label="$t('offer.expiration')"
-        v-slot="props"
         sortable>
         {{ calcExpirationTime(props.row.expiration) }}
       </b-table-column>
       <b-table-column
+        v-slot="props"
         field="createdAt"
         cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.date')"
-        v-slot="props"
         sortable
         ><p>
           {{ timestampOffer(props.row.createdAt) }}
@@ -60,9 +68,9 @@
       >
       <b-table-column
         v-if="accountId === ownerId"
+        v-slot="props"
         cell-class="is-vcentered is-narrow"
         :label="$t('offer.action')"
-        v-slot="props"
         width="120">
         <b-button
           v-if="props.row.status === 'ACTIVE'"
@@ -77,20 +85,25 @@
 
 <script lang="ts">
 import { Attribute, emptyArray } from '@kodadot1/minimark'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
-import { Offer } from './types'
+
+import { tokenIdToRoute } from '@/components/unique/utils'
+
+import AuthMixin from '@/utils/mixins/authMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import OfferMixin from '@/utils/mixins/offerMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import OfferMixin from '~/utils/mixins/offerMixin'
-import AuthMixin from '~/utils/mixins/authMixin'
-import MetaTransactionMixin from '~/utils/mixins/metaMixin'
-import SubscribeMixin from '~/utils/mixins/subscribeMixin'
-import { notificationTypes, showNotification } from '~/utils/notification'
-import { tokenIdToRoute } from '~/components/unique/utils'
+import SubscribeMixin from '@/utils/mixins/subscribeMixin'
+
+import { notificationTypes, showNotification } from '@/utils/notification'
+
+import { Offer } from './types'
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
+  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
 }
 
 @Component({ components, filters: { formatDistanceToNow } })
@@ -103,7 +116,15 @@ export default class OffersUserTable extends mixins(
 ) {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public offers!: Offer[]
+  protected offersListed = false
+
   @Prop({ type: String, default: '' }) public ownerId!: string
+  @Prop({ type: Boolean, default: false }) public hideToggle!: boolean
+
+  @Emit('offersListUpdate')
+  public updateList(data) {
+    return data
+  }
 
   public timestampOffer(date) {
     return formatDistanceToNow(new Date(date), { addSuffix: true })

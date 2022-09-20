@@ -1,4 +1,4 @@
-import { CreatedNFT, Attribute } from '@kodadot1/minimark'
+import { Attribute, CreatedNFT } from '@kodadot1/minimark'
 import { sanitizeIpfsUrl } from '../utils'
 
 export interface CompletePack extends BasePack {
@@ -150,7 +150,7 @@ export interface NFT {
   name: string
   instance: string
   transferable: number
-  collection: string
+  collection: EntityWithId
   collectionId?: string
   sn: string
   _id: string
@@ -163,6 +163,11 @@ export interface NFT {
   emoteCount?: number
   emotes?: Emote[]
   royalty?: number
+}
+
+export type EntityWithId = {
+  id: string
+  name: string
 }
 
 export interface Interaction {

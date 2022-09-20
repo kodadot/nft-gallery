@@ -6,7 +6,7 @@ query nftListWithSearch(
   $offset: Int
   $denyList: [String!]
   $search: [NFTEntityWhereInput!]
-  $orderBy: [NFTEntityOrderByInput] = [blockNumber_DESC]
+  $orderBy: [NFTEntityOrderByInput!] = [blockNumber_DESC]
 ) {
   nFTEntities: nftEntities(
     orderBy: $orderBy
@@ -21,6 +21,9 @@ query nftListWithSearch(
   ) {
     ...nft
     ...nftDetails
+    collection {
+      name
+    }
   }
   nftEntitiesConnection(
     where: {

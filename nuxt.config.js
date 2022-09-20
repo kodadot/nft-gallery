@@ -90,7 +90,16 @@ export default defineNuxtConfig({
       },
     ],
     link: [
+      { rel: 'icon', href: '/favicon.svg' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'apple-touch-icon',
+        sizes: '180x180',
+        href: '/apple-touch-icon.png',
+      },
+      { rel: 'icon', sizes: '32x32', href: '/favicon-32x32.png' },
+      { rel: 'icon', sizes: '16x16', href: '/favicon-16x16.png' },
+      { rel: 'manifest', href: '/site.webmanifest' },
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@600;700&display=swap',
@@ -118,6 +127,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/icons', mode: 'client' },
     { src: '~/plugins/InfiniteScroll', mode: 'client' },
     { src: '~/plugins/consola', mode: 'client' },
+    { src: '~/plugins/assets', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
@@ -179,7 +189,7 @@ export default defineNuxtConfig({
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxtjs/pwa'],
+  buildModules: ['@nuxtjs/pwa', '@nuxtjs/color-mode'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -191,6 +201,7 @@ export default defineNuxtConfig({
         defaultIconPack: 'fas',
         defaultIconComponent: 'vue-fontawesome',
         defaultFieldLabelPosition: 'inside',
+        materialDesignIcons: false,
       },
     ],
     '@nuxtjs/apollo',
@@ -201,8 +212,8 @@ export default defineNuxtConfig({
     manifest: {
       name: 'KodaDot - Polkadot / Kusama NFT explorer',
       short_name: 'KodaDot',
-      background_color: '#000000',
-      theme_color: '#000000',
+      background_color: '#181717',
+      theme_color: '#181717',
     },
     workbox: {
       // importScripts: [
@@ -229,7 +240,7 @@ export default defineNuxtConfig({
       alwaysRedirect: true,
     },
     loadLanguagesAsync: true,
-    langDir: 'langDir',
+    langDir: 'locales',
     locales: [
       { code: 'en', iso: 'en-US', file: 'en.json' },
       { code: 'cn', iso: 'cn', file: 'cn.json' },
@@ -260,10 +271,11 @@ export default defineNuxtConfig({
     clientConfigs: {
       ...defineApolloConfig(),
       subsquid: toApolloEndpoint(
-        process.env.SUBSQUID_ENDPOINT || URLS.koda.subsquidv6
+        process.env.SUBSQUID_ENDPOINT || URLS.koda.rubick
       ),
       bsx: toApolloEndpoint(URLS.koda.snekk),
-      moonsama: toApolloEndpoint(URLS.koda.click),
+      movr: toApolloEndpoint(URLS.koda.click),
+      snek: toApolloEndpoint(URLS.koda.snekkv2),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 

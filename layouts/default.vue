@@ -6,13 +6,33 @@
         <div class="container">
           <Error
             v-if="$nuxt.isOffline"
-            :hasImg="false"
-            errorTitle="Offline Detected"
-            errorSubtitle="Please check your network connections" />
+            :has-img="false"
+            error-title="Offline Detected"
+            error-subtitle="Please check your network connections" />
           <Nuxt v-else />
         </div>
       </section>
     </main>
-    <LazyFooter />
+    <LazyTheFooterOld />
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+
+@Component<DefaultLayout>({
+  name: 'DefaultLayout',
+  head() {
+    return {
+      link: [
+        {
+          hid: 'canonical',
+          rel: 'canonical',
+          href: this.$root.$config.baseUrl + this.$route.path,
+        },
+      ],
+    }
+  },
+})
+export default class DefaultLayout extends Vue {}
+</script>

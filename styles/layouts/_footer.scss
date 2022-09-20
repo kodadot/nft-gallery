@@ -1,0 +1,61 @@
+.footer {
+	&__wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-direction: column;
+		padding: 16px;
+		height: 135px;
+
+		@include desktop {
+			flex-direction: row;
+
+			opacity: 0.3;
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
+
+	&__list {
+		display: flex;
+		align-items: center;
+		list-style: none;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	&__list-item {
+		position: relative;
+		padding: 0 8px;
+
+		&:not(:last-child) {
+			&:after {
+				content: '';
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				right: 0;
+				width: 1px;
+				height: 12px;
+				background: #fff;
+			}
+		}
+	}
+
+	.snackbar {
+		border: 2px solid $primary;
+		background-color: #202225;
+		box-shadow: $dropdown-content-shadow;
+	}
+
+	#keyboardShortcutsModal {
+		height: 0;
+	}
+}
+
+.icons {
+	&__list-item {
+		padding: 0 2px;
+	}
+}

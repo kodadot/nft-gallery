@@ -1,4 +1,10 @@
-import { intervalToDuration, formatDuration, addSeconds } from 'date-fns'
+import {
+  addSeconds,
+  formatDistanceToNow,
+  formatDuration,
+  intervalToDuration,
+} from 'date-fns'
+import { parseDate } from '../datetime'
 
 export const formatSecondsToDuration = (seconds: number) => {
   const duration = intervalToDuration({
@@ -23,4 +29,12 @@ export const formatSecondsToDuration = (seconds: number) => {
   return formatDuration(duration, {
     format,
   })
+}
+
+export const endDate = (seconds: number): string => {
+  return parseDate(addSeconds(new Date(), seconds))
+}
+
+export const formatToNow = (date: Date): string => {
+  return formatDistanceToNow(new Date(date), { addSuffix: true })
 }

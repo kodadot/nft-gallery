@@ -20,25 +20,6 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
-@import '@/styles/variables';
-
-.snackbar {
-  border: 2px solid $primary;
-  background-color: #202225;
-  box-shadow: $dropdown-content-shadow;
-}
-
-.slide-enter-active,
-.slide-leave-active {
-  transition: opacity 0.5s;
-}
-.slide-enter,
-.slide-leave-to {
-  opacity: 0;
-}
-</style>
-
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
@@ -46,7 +27,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
   components: {}, // do not remove!
 })
 export default class CookieBanner extends Vue {
-  protected hasDisplayedCookieBanner: boolean =
+  public hasDisplayedCookieBanner: boolean =
     localStorage.getItem('cookies_enabled') !== null || false
 
   public acceptCookies() {

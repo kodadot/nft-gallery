@@ -2,22 +2,22 @@
   <div v-if="account">
     <div class="auth-avatar">
       <Avatar :value="account" :size="size" />
-      <span class="subtitle has-text-weight-bold auth-avatar-title"
-        ><Identity :address="account" :inline="true" hideIdentityPopover
-      /></span>
+      <span class="subtitle has-text-weight-bold auth-avatar-title">
+        <Identity :address="account" hide-identity-popover />
+      </span>
     </div>
   </div>
   <ConnectWalletButton v-else label="general.connect_wallet" />
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
   ConnectWalletButton: () =>
     import('@/components/shared/ConnectWalletButton.vue'),
-  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
 }
 

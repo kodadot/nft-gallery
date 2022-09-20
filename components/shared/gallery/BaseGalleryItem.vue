@@ -28,29 +28,31 @@
             }">
             <img
               v-if="isFullScreenView"
-              :src="image"
+              :src="itemImage"
               :alt="description"
               @contextmenu.prevent />
             <BasicImage
               v-else-if="imageVisible"
-              :src="image"
+              :src="itemImage"
               :alt="description"
+              data-cy="item-media"
               @contextmenu.native.prevent />
             <div
               v-else
               class="media-container is-flex is-justify-content-center">
               <MediaResolver
                 :src="animationUrl"
-                :poster="image"
+                :poster="itemImage"
                 :description="description"
-                :availableAnimations="[animationUrl]"
-                :mimeType="mimeType"
-                class="media-item" />
+                :available-animations="[animationUrl]"
+                :mime-type="mimeType"
+                class="media-item"
+                data-cy="item-media" />
             </div>
             <div
-              id="tile-placeholder"
               v-show="isTileView"
-              :style="{ 'background-image': 'url(' + image + ')' }"
+              id="tile-placeholder"
+              :style="{ 'background-image': 'url(' + itemImage + ')' }"
               :alt="description"
               @click="exitTileView"
               @contextmenu.prevent />
@@ -58,25 +60,25 @@
           <slot name="image"></slot>
         </div>
         <button
+          v-if="!isLoading && imageVisible"
           id="theatre-view"
-          @click="toggleView"
-          v-if="!isLoading && imageVisible">
+          @click="toggleView">
           <b-icon :icon="viewMode === 'default' ? 'image' : 'cube'"> </b-icon>
         </button>
         <button
-          id="fullscreen-view"
-          @keyup.esc="minimize"
-          @click="toggleFullScreen"
           v-if="!isLoading && imageVisible"
-          :class="{ fullscreen: isFullScreenView }">
+          id="fullscreen-view"
+          :class="{ fullscreen: isFullScreenView }"
+          @keyup.esc="minimize"
+          @click="toggleFullScreen">
           <b-icon :icon="isFullScreenView ? 'compress' : 'expand'"> </b-icon>
         </button>
         <button
-          id="tile-view"
-          @click="toggleTileView"
-          @keyup.esc="exitTileView"
           v-if="!isLoading && imageVisible"
-          :class="{ tile: isTileView }">
+          id="tile-view"
+          :class="{ tile: isTileView }"
+          @click="toggleTileView"
+          @keyup.esc="exitTileView">
           <b-icon :icon="isTileView ? 'compress' : 'table'"> </b-icon>
         </button>
       </div>
@@ -103,7 +105,7 @@ const directives = {
 
 @Component({ components, directives })
 export default class BaseGalleryItem extends Vue {
-  @Prop({ type: String, default: '/placeholder.svg' }) public image!: string
+  @Prop({ type: String, default: '' }) public image!: string
   @Prop(String) public animationUrl!: string
   @Prop({ type: String, default: 'KodaDot NFT minted multimedia' })
   public description!: string
@@ -122,6 +124,15 @@ export default class BaseGalleryItem extends Vue {
       return true
     }
     return this.$store.getters['preferences/getEnableGyroEffect']
+  }
+
+  get itemImage(): string {
+    return (
+      this.image ||
+      (this.$colorMode.preference === 'dark'
+        ? '/placeholder.webp'
+        : '/placeholder-white.webp')
+    )
   }
 
   public toggleView(): void {
@@ -158,7 +169,7 @@ export default class BaseGalleryItem extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .gallery-item {
   .fixed-height {

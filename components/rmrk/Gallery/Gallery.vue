@@ -1,22 +1,13 @@
 <template>
   <div class="gallery container">
     <Loader :value="isLoading" />
-    <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
-      <!-- <template v-slot:next-filter>
-        <b-switch
-          v-if="isLogIn"
-          class="gallery-switch"
-          v-model="hasPassionFeed"
-          :rounded="false">
-          Passion Feed
-        </b-switch>
-      </template> -->
+    <Search v-bind.sync="searchQuery" hide-search-input @resetPage="resetPage">
       <Pagination
-        hasMagicBtn
+        v-model="currentValue"
+        has-magic-btn
         simple
         :total="total"
-        v-model="currentValue"
-        :perPage="first"
+        :per-page="first"
         replace
         class="remove-margin" />
     </Search>
@@ -26,11 +17,11 @@
         v-if="startPage > 1 && !isLoading && total > 0"
         direction="top"
         @infinite="reachTopHandler"></InfiniteLoading>
-      <div class="columns is-multiline" :id="scrollContainerId">
+      <div :id="scrollContainerId" class="columns is-multiline">
         <div
-          :class="`column is-4 column-padding ${scrollItemClassName}`"
           v-for="nft in results"
-          :key="nft.id">
+          :key="nft.id"
+          :class="`column is-4 column-padding ${scrollItemClassName}`">
           <div class="card nft-card">
             <nuxt-link
               :to="`/${urlPrefix}/gallery/${nft.id}`"
@@ -46,17 +37,20 @@
                   v-show="nft.image"
                   :src="nft.image"
                   :alt="nft.name"
-                  customClass="gallery__image-wrapper" />
+                  custom-class="gallery__image-wrapper" />
 
                 <PreviewMediaResolver
                   v-if="!nft.image && nft.animation_url"
                   :src="nft.animation_url"
                   :metadata="nft.metadata"
-                  :mimeType="nft.type" />
+                  :mime-type="nft.type" />
                 <span
                   v-if="nft.price > 0 && showPriceValue"
                   class="card-image__price">
-                  <Money :value="nft.price" inline />
+                  <Money
+                    :value="nft.price"
+                    inline
+                    :data-cy="results.indexOf(nft)" />
                 </span>
               </div>
 
@@ -92,31 +86,35 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import 'lazysizes'
+import { Component, Vue, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
-import {
-  getCloudflareImageLinks,
-  processMetadata,
-} from '@/utils/cachingStrategy'
-import { getDenyList } from '@/utils/prefix'
-import { fastExtract } from '@/utils/ipfs'
-import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
+
 import {
   NFTEntitiesWithCount,
   NFTWithCollectionMeta,
   WithData,
 } from 'components/unique/graphqlResponseTypes'
-import 'lazysizes'
-import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import AuthMixin from '@/utils/mixins/authMixin'
-import { NFTMetadata } from '../service/scheme'
-import { getSanitizer } from '../utils'
-import { SearchQuery } from './Search/types'
-import resolveQueryPath from '~/utils/queryPathResolver'
-import { unwrapSafe } from '~/utils/uniquery'
+import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
+
+import {
+  getCloudflareImageLinks,
+  processMetadata,
+} from '@/utils/cachingStrategy'
+import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import { fastExtract } from '@/utils/ipfs'
+import { getDenyList } from '@/utils/prefix'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import { unwrapSafe } from '@/utils/uniquery'
+
+import AuthMixin from '@/utils/mixins/authMixin'
+import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
+import { NFTMetadata } from '../service/scheme'
+import { SearchQuery } from './search/types'
+import { getSanitizer } from '../utils'
 
 // import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
@@ -125,13 +123,13 @@ type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 type SearchedNftsWithMeta = NFTWithCollectionMeta & NFTMetadata
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
-  Search: () => import('./Search/SearchBar.vue'),
+  Search: () => import('@/components/search/Search.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
-    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
+    import('@/components/media/PreviewMediaResolver.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
@@ -168,10 +166,6 @@ export default class Gallery extends mixins(
     )
   }
 
-  get isRmrk(): boolean {
-    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
-  }
-
   set currentValue(page: number) {
     this.gotoPage(page)
   }
@@ -191,17 +185,6 @@ export default class Gallery extends mixins(
       showNotification((e as Error).message, notificationTypes.danger)
     }
     this.onResize()
-  }
-
-  async mounted() {
-    // only fetch passionFeed if logged in
-    // if (this.isLogIn) {
-    //   try {
-    //     await this.fetchPassionList()
-    //   } catch (e) {
-    //     showNotification((e as Error).message, notificationTypes.danger)
-    //   }
-    // }
   }
 
   @Debounce(500)
@@ -224,14 +207,14 @@ export default class Gallery extends mixins(
       return false
     }
     this.isFetchingData = true
-    const query = await resolveQueryPath(this.urlPrefix, 'nftListWithSearch')
+    const query = await resolveQueryPath(this.client, 'nftListWithSearch')
 
     // if (this.hasPassionFeed) {
     //   await this.fetchPassionList()
     // }
     const result = await this.$apollo.query({
       query: query.default,
-      client: this.urlPrefix,
+      client: this.client,
       variables: {
         denyList: getDenyList(this.urlPrefix),
         orderBy: this.searchQuery.sortByMultiple,
@@ -246,24 +229,6 @@ export default class Gallery extends mixins(
     this.isFetchingData = false
     return true
   }
-
-  // public async fetchPassionList() {
-  //   const {
-  //     data: { passionFeed },
-  //   } = await this.$apollo.query({
-  //     query: passionQuery,
-  //     client: 'subsquid', // TODO: change to usable value
-  //     variables: {
-  //       account: this.accountId,
-  //     },
-  //   })
-  //   this.passionList = passionFeed?.map(mapToId) || []
-
-  //   // only show passion feed if it has some length
-  //   if (this.passionList.length > 5) {
-  //     this.hasPassionFeed = true
-  //   }
-  // }
 
   protected async handleResult(
     {
@@ -317,10 +282,10 @@ export default class Gallery extends mixins(
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
-      const query = await resolveQueryPath(this.urlPrefix, 'nftListWithSearch')
+      const query = await resolveQueryPath(this.client, 'nftListWithSearch')
       const nfts = this.$apollo.query({
         query: query.default,
-        client: this.urlPrefix,
+        client: this.client,
         variables: {
           first: this.first,
           offset,
@@ -352,47 +317,22 @@ export default class Gallery extends mixins(
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
     if (this.searchQuery.search) {
-      if (this.isRmrk) {
-        params.push({
-          name: { likeInsensitive: this.searchQuery.search },
-        })
-      } else {
-        params.push({ name_containsInsensitive: this.searchQuery.search })
-      }
+      params.push({ name_containsInsensitive: this.searchQuery.search })
     }
 
     if (this.searchQuery.listed) {
       const minPrice = this.searchQuery.priceMin ?? '0'
-      if (this.isRmrk) {
-        if (this.searchQuery.priceMax) {
-          params.push({
-            price: {
-              greaterThan: '0',
-              greaterThanOrEqualTo: minPrice,
-              lessThanOrEqualTo: this.searchQuery.priceMax,
-            },
-          })
-        } else {
-          params.push({
-            price: {
-              greaterThan: '0',
-              greaterThanOrEqualTo: minPrice,
-            },
-          })
-        }
+      if (this.searchQuery.priceMax) {
+        params.push({
+          price_gt: '0',
+          price_gte: minPrice,
+          price_lte: this.searchQuery.priceMax,
+        })
       } else {
-        if (this.searchQuery.priceMax) {
-          params.push({
-            price_gt: '0',
-            price_gte: minPrice,
-            price_lte: this.searchQuery.priceMax,
-          })
-        } else {
-          params.push({
-            price_gt: '0',
-            price_gte: minPrice,
-          })
-        }
+        params.push({
+          price_gt: '0',
+          price_gte: minPrice,
+        })
       }
     }
 
@@ -430,7 +370,7 @@ export default class Gallery extends mixins(
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
+@import '@/styles/abstracts/variables';
 
 .card-image__burned {
   filter: blur(7px);

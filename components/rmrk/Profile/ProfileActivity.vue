@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="level my-4 collection is-align-items-center" v-if="stats">
+    <div v-if="stats" class="level my-4 collection is-align-items-center">
       <div class="level-item has-text-centered">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ totalSoldItems }}</p>
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { getSum, getSumOfObjectField } from '@/utils/math'
 import { subDays } from 'date-fns'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -108,7 +108,7 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
       return
     }
 
-    const query = await resolveQueryPath(this.urlPrefix, 'profileStatsById')
+    const query = await resolveQueryPath(this.client, 'profileStatsById')
     const { data } = await this.$apollo.query({
       query: query.default,
       client: this.client,
@@ -188,7 +188,7 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
 
     this.totalSoldItems = data.sold.totalCount
     const allValuesList = soldEvents.map((e) => parseFloat(e.meta))
-    const maxPriceSold = Math.max(...allValuesList)
+    const maxPriceSold = Math.max(...allValuesList, 0)
     // Highest Buy and Total amount sell
     this.maxSoldPrice = maxPriceSold
     this.totalSell = getSum(allValuesList)
@@ -197,8 +197,6 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
-
 .collection {
   display: grid;
   grid-gap: 0.7rem;

@@ -1,9 +1,12 @@
 import { defineConfig } from 'vitest/config'
 import { resolve } from 'path'
+import { createVuePlugin } from 'vite-plugin-vue2'
+import graphql from '@rollup/plugin-graphql'
 
 export default defineConfig({
+  plugins: [createVuePlugin(/* options */), graphql()],
   test: {
-    include: ['**/?(*.)+(spec).+(ts|tsx|js)'],
+    include: ['tests/**/?(*.)+(spec|test).+(ts|tsx|js)'],
     exclude: [
       '**/node_modules/**',
       '**/dist/**',
@@ -12,6 +15,10 @@ export default defineConfig({
     ],
     globals: true,
     environment: 'jsdom',
+    alias: [{ find: /^vue$/, replacement: 'vue/dist/vue.runtime.common.js' }],
+    coverage: {
+      reporter: ['text', 'json', 'html'],
+    },
   },
   resolve: {
     alias: {

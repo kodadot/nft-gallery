@@ -22,6 +22,9 @@ query collectionListWithSearch(
       price
       burned
       currentOwner
+      events(where: { interaction_eq: BUY }) {
+        meta
+      }
     }
   }
   stats: collectionEntitiesConnection(
