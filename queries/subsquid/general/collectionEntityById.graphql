@@ -2,7 +2,7 @@
 #import "../../fragments/nftDetails.graphql"
 #import "../../fragments/baseMeta.graphql"
 
-query collectionEntityById($id: ID!, $nftId: ID!) {
+query collectionEntityById($id: String!, $nftId: String!) {
   collection: collectionEntityById(id: $id) {
     id
     name
