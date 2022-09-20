@@ -18,6 +18,7 @@
         <slot name="next-filter"></slot>
         <SearchBarInput
           v-if="!hideSearchInput"
+          ref="searchRef"
           v-model="name"
           :query="query"
           @enter="nativeSearch"
@@ -71,7 +72,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Ref, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
 import { SearchQuery } from './types'
@@ -104,6 +105,7 @@ export default class Search extends mixins(
   @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
   @Prop(Boolean) public hideSearchInput!: boolean
+  @Ref('searchRef') readonly searchRef
   public isVisible = false
   public query: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
@@ -259,6 +261,10 @@ export default class Search extends mixins(
   nativeSearch() {
     this.searchQuery = this.name
     this.updateSearch(this.name)
+  }
+
+  public focusInput(): void {
+    this.searchRef?.focusInput()
   }
 
   @Debounce(100)
