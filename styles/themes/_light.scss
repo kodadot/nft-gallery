@@ -40,6 +40,10 @@ html.light-mode {
 		}
 	}
 
+	.select select option {
+		color: $text-light-theme;
+	}
+
 	.navbar {
 
 		.navbar-item,
@@ -230,6 +234,7 @@ html.light-mode {
 		color: $text-light-theme;
 	}
 
+	.nft-card .card-content,
 	.collection-card .card-content {
 		background-color: $frosted-glass-background-dark  !important;
 	}
