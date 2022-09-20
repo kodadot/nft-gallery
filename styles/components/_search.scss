@@ -1,12 +1,12 @@
 @import '@/styles/abstracts/variables';
 
 .landing-search {
-  font-family: 'Work Sans';
   height: 334px;
   width: 100vw;
   padding: 0 300px;
 
   .title {
+    font-family: 'Work Sans';
     font-weight: 700;
     font-size: 3rem;
     line-height: 3.5rem;
@@ -15,6 +15,7 @@
     text-align: center;
   }
   .sub-title {
+    font-family: 'Work Sans';
     width: 320px;
     height: 46px;
     margin-bottom: 38px;
@@ -49,6 +50,7 @@
   }
 
   .chain-option {
+    font-family: 'Work Sans';
     font-weight: 400;
     font-size: 1.3rem;
     line-height: 23px;
