@@ -1,0 +1,55 @@
+name: Cypress Tests
+
+on:
+  workflow_dispatch:
+    push:
+      branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  cypress-install:
+    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        job: [ 0, 1, 2, 3]
+    container:
+      image: cypress/included:10.6.0
+      options: --user 1001
+    env:
+      CYPRESS_CACHE_FOLDER: '${GITHUB_WORKSPACE}/.cypress-cache'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.1
+        with:
+          version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
+
+      - name: Cypress install
+        uses: cypress-io/github-action@v4
+        with:
+          runTests: false
+          run: pnpm generate
+
+      - name: Save build folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          if-no-files-found: error
+          path: build
+
