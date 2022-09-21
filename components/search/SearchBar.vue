@@ -1,27 +1,34 @@
 <template>
-  <b-autocomplete
-    ref="searchRef"
-    v-model="name"
-    class="gallery-search"
-    :placeholder="$t('general.searchPlaceholder')"
-    icon="search"
-    :open-on-focus="showDefaultSuggestions"
-    clearable
-    max-height="500"
-    dropdown-position="bottom"
-    expanded
-    @blur="$emit('blur')"
-    @keydown.native.enter="onEnter">
-    <template #header>
-      <SearchSuggestion
-        :name="name"
-        :show-default-suggestions="showDefaultSuggestions"
-        :query="query"
-        @gotoGallery="redirectToGalleryPageIfNeed"
-        @close="closeDropDown">
-      </SearchSuggestion>
-    </template>
-  </b-autocomplete>
+  <div class="search-bar-container">
+    <b-autocomplete
+      ref="searchRef"
+      v-model="name"
+      class="gallery-search"
+      :placeholder="$t('general.searchPlaceholder')"
+      icon="search"
+      :open-on-focus="showDefaultSuggestions"
+      clearable
+      max-height="500"
+      dropdown-position="bottom"
+      expanded
+      @blur="$emit('blur')"
+      @keydown.native.enter="onEnter">
+      <template #header>
+        <SearchSuggestion
+          :name="name"
+          :show-default-suggestions="showDefaultSuggestions"
+          :query="query"
+          @gotoGallery="redirectToGalleryPageIfNeed"
+          @close="closeDropDown">
+        </SearchSuggestion>
+      </template>
+    </b-autocomplete>
+    <div class="search-bar-bg"></div>
+    <img
+      v-if="!name"
+      class="search-bar-keyboard-icon"
+      src="/search-k-keyboard.svg" />
+  </div>
 </template>
 
 <script lang="ts">
