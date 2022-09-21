@@ -1,4 +1,4 @@
-query offerListByCollectionId($collectionId: ID!) {
+query offerListByCollectionId($collectionId: String!) {
   offers(
     orderBy: createdAt_DESC,
     where: { nft: { burned_not_eq: true, collection: {id_eq: $collectionId } }}
