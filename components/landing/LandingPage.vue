@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="instance">
-      <div class="container replace-me">search</div>
+      <LazySearchLanding />
     </div>
 
     <!-- spotlight -->

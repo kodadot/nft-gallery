@@ -106,27 +106,14 @@
 	}
 
 	.search-navbar {
-		background-color: transparent;
 		box-shadow: none;
 		width: min-content;
 		min-width: 140px;
 		margin: 0 1rem;
 
-		.gallery-search .control .icon {
-			color: $placeholder-color  !important;
-		}
-
-		input {
-			border: inherit;
-			background-color: #e5e5e5;
-
-			&::placeholder {
-				color: $placeholder-color  !important;
-			}
-
-			&:focus {
-				box-shadow: none !important;
-				border-top: $sleek-primary-border;
+		.dropdown-menu {
+			> .dropdown-content {
+				width: 550px;
 			}
 		}
 	}
@@ -137,7 +124,6 @@
 		overflow: hidden;
 
 		input {
-			background-color: $search-navbar-background-color;
 			color: $white;
 			padding: 0;
 			z-index: 1;
@@ -145,7 +131,6 @@
 			&:focus {
 				box-shadow: none !important;
 				border-top: 2px solid $primary;
-				background: $search-navbar-background-color;
 			}
 		}
 	}
