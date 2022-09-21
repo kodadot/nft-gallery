@@ -4,8 +4,8 @@
       <div
         class="is-flex is-align-items-center is-justify-content-space-between">
         <p class="label mb-0">Box Plot Chart</p>
-        <b-select @input="selectRange($event)" :value="selectedRange">
-          <option v-for="option in range" :value="option" :key="option">
+        <b-select :value="selectedRange" @input="selectRange($event)">
+          <option v-for="option in range" :key="option" :value="option">
             {{ option.charAt(0).toUpperCase() + option.slice(1) }}
           </option>
         </b-select>
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import format from 'date-fns/format'
 import { filterOutliers } from '@/utils/chart'
 import ChainMixin from '@/utils/mixins/chainMixin'

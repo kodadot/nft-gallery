@@ -3,11 +3,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
-import { Chart, LinearScale, CategoryScale, Tooltip } from 'chart.js'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { CategoryScale, Chart, LinearScale, Tooltip } from 'chart.js'
 import {
-  BoxPlotController,
   BoxAndWiskers,
+  BoxPlotController,
 } from '@sgratzl/chartjs-chart-boxplot'
 import annotationPlugin from 'chartjs-plugin-annotation'
 
