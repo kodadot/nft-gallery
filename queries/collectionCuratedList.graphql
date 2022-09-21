@@ -1,4 +1,4 @@
-query collectionCuratedList($list: [ID!]) {
+query collectionCuratedList($list: [String!]) {
   collectionEntities(where: { id_in: $list }) {
     id
     issuer
