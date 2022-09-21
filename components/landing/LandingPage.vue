@@ -5,7 +5,7 @@
     </div>
 
     <!-- spotlight -->
-    <div class="instance instance-blue">
+    <div v-if="showCarousel" class="instance instance-blue">
       <div class="container px-5">
         <LazyCarouselTypeSpotlight />
       </div>
@@ -15,7 +15,7 @@
       <div class="container replace-me">top collections</div>
     </div>
 
-    <div class="instance">
+    <div v-if="showCarousel" class="instance">
       <div class="container px-5">
         <!-- new listings -->
         <LazyCarouselTypeNewestList />
@@ -31,7 +31,14 @@
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const { urlPrefix } = usePrefix()
+
+// currently only supported on rmrk and snek
+const showCarousel = computed(() => {
+  return urlPrefix.value === 'rmrk' || urlPrefix.value === 'snek'
+})
+</script>
 
 <style lang="scss" scoped>
 // sample
