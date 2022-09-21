@@ -1,7 +1,7 @@
 query spotlightLitst(
   $limit: Int
   $offset: Int
-  $orderBy: SpotlightOrderByInput
+  $orderBy: SpotlightOrderByInput!
   $where: SpotlightWhereInput
 ) {
   collectionEntities: spotlights(

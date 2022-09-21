@@ -1,6 +1,6 @@
 query seriesInsightList(
   $limit: Int
-  $orderBy: SeriesOrderByInput
+  $orderBy: SeriesOrderByInput!
   $where: SeriesWhereInput
 ) {
   collectionEntities: series(
