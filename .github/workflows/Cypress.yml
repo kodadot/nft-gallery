@@ -8,7 +8,7 @@ on:
     branches: [main]
 
 jobs:
-  cypress-install:
+  install:
     runs-on: ubuntu-latest
 #    strategy:
 #      matrix:
@@ -40,7 +40,7 @@ jobs:
           node-version: 16
           cache: 'pnpm'
 
-      - name: Cypress install
+      - name: cypress install
         uses: cypress-io/github-action@v4
         with:
           runTests: false
@@ -52,4 +52,33 @@ jobs:
           name: build
           if-no-files-found: error
           path: ~/.pnpm-store
+  ui-chrome-tests:
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/included:10.6.0
+      options: --user 1001
+    needs: install
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2, 3, 4]
 
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download the build folders
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: build
+
+      - name: "E2E tests - chrome"
+        uses: cypress-io/github-action@v4
+        with:
+          project: ./tests
+          start: pnpm start:static
+          wait-on: 'http://localhost:9090'
+          wait-on-timeout: 150
+          parallel: true
+          command: pnpm test:e2e --browser chrome
