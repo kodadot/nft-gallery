@@ -2,7 +2,7 @@
 #import "../../fragments/collectionDetails.graphql"
 
 query collectionById(
-  $id: ID!
+  $id: String!
   $search: [NFTEntityWhereInput!]
   $orderBy: NFTEntityOrderByInput = blockNumber_DESC
   $first: Int!
@@ -31,7 +31,7 @@ query collectionById(
     orderBy: id_ASC
     where: {
       burned_eq: false
-      collection: { id_eq: $id } 
+      collection: { id_eq: $id }
       AND: $search
     }
   ) {

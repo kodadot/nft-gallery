@@ -1,4 +1,4 @@
-query nftListedCountByCollection($id: ID!) {
+query nftListedCountByCollection($id: String!) {
   nodes: nftEntitiesConnection(orderBy: price_DESC, where: {collection: {id_eq: $id}, price_gt: "0"}) {
     totalCount
   }
