@@ -148,7 +148,7 @@ import { RowSeries } from '~/components/series/types'
 
 @Component({
   components: {
-    Money: () => import('@/components/bsx/format/TokenMoney.vue'),
+    Money: () => import('@/components/shared/format/Money.vue'),
   },
 })
 export default class SearchSuggestion extends mixins(PrefixMixin) {
