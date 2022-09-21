@@ -1,5 +1,3 @@
-@import '@/styles/abstracts/variables';
-
 .landing-search {
   height: 334px;
   width: 100vw;
@@ -14,6 +12,7 @@
     margin-top: 60px;
     text-align: center;
   }
+
   .sub-title {
     font-family: 'Work Sans';
     width: 320px;
@@ -28,24 +27,27 @@
     letter-spacing: -0.02em;
     text-transform: capitalize;
     color: $white;
-    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 0px -1px 0 #000, 4px 4px #000;  
+    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 0px -1px 0 #000, 4px 4px #000;
   }
 
   .landing-search-bar {
     width: 602px;
   }
 
-  .landing-search-left {
+  %landing-search-image-position {
     position: absolute;
-    left: 0;
-    top: 100px;
     height: 334px;
+    top: 100px;
   }
+
+  .landing-search-left {
+    @extend %landing-search-image-position;
+    left: 0;
+  }
+
   .landing-search-right {
-    position: absolute;
+    @extend %landing-search-image-position;
     right: 0;
-    top: 100px;
-    height: 334px;
   }
 
   .chain-option {
@@ -55,6 +57,7 @@
     line-height: 23px;
     color: $grey;
     width: max-content;
+
     &.active {
       font-weight: 700;
       color: $white;
@@ -68,6 +71,7 @@
       width: 70%;
     }
   }
+
   @include mobile {
     .title {
       width: 250px;
@@ -81,6 +85,7 @@
 
 .search-bar-container {
   position: relative;
+
   .search-bar-bg {
     position: absolute;
     width: 100%;
@@ -90,6 +95,7 @@
     left: 4px;
     z-index: 0;
   }
+
   .search-bar-keyboard-icon {
     z-index: 2;
     position: absolute;
@@ -98,8 +104,10 @@
     pointer-events: none;
   }
 }
+
 .gallery-search {
   z-index: 1;
+
   .control .icon {
     color: $white;
   }
@@ -115,6 +123,7 @@
       margin-left: 10px;
       font-weight: 400;
     }
+
     &:hover, &:focus {
       border: 1px solid $white;
       box-shadow: none;
