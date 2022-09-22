@@ -10,7 +10,7 @@
   "accounts": "Konten",
   "amount": "Menge",
   "transfer": "Transfer",
-  "assets": "Assets",
+  "assets": "Posten",
   "incomingOffers": "Eingehende Angebote",
   "transform": "Umwandeln",
   "settings": "Einstellungen",
@@ -803,7 +803,7 @@
     "highestSale": "Höchster Verkauf",
     "owners": "Besitzer",
     "volume": "Volumen",
-    "score": "Score",
+    "score": "Bewertung",
     "emoteCount": "Emotes",
     "buyHistory": "Käufe der letzten 30 Tage",
     "history": "Verlauf"
@@ -993,7 +993,7 @@
     },
     "table": {
       "balance": "Guthaben",
-      "empty": "Zur Zeit gibt es keine assets für diesen Nutzer."
+      "empty": "Zur Zeit gibt es keine Posten von diesen Nutzer."
     }
   },
   "ramp": {
