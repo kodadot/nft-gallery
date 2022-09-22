@@ -1,4 +1,7 @@
-query hotNfts($orderBy: [EventOrderByInput] = timestamp_DESC, $gte: DateTime!) {
+query hotNfts(
+  $orderBy: [EventOrderByInput!] = timestamp_DESC
+  $gte: DateTime!
+) {
   result: events(
     where: { interaction_eq: BUY, timestamp_gte: $gte }
     orderBy: $orderBy

@@ -1,4 +1,4 @@
-query collectionBurnableStats($id: ID!) {
+query collectionBurnableStats($id: String!) {
   all: nftEntitiesConnection(
     orderBy: id_ASC
     where: { collection: { id_eq: $id } }

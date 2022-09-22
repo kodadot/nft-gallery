@@ -1,4 +1,4 @@
-query offerListByNftId($id: ID!, $account: String) {
+query offerListByNftId($id: String!, $account: String) {
   offers(where: {nft: {id_eq: $id}, status_eq: ACTIVE, caller_not_eq: $account}) {
     id
     caller
