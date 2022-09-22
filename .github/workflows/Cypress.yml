@@ -79,6 +79,16 @@ jobs:
         with:
           name: build
           path: ~/.pnpm-store
+
+      - name: E2E test
+        uses: cypress-io/github-action@v4
+        with:
+          project: ./tests/e2e/*
+          build: pnpm generate
+          start: pnpm start:static
+          wait-on: http://localhost:9090
+          wait-on-timeout: 150
+          command: run --browser chrome --headless --spec "cypress/integration/ui/**/*"
 #  ui-chrome-tests:
 #    timeout-minutes: 20
 #    runs-on: ubuntu-latest
