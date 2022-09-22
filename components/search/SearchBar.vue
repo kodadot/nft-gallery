@@ -51,7 +51,10 @@ const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
     SearchSuggestion: () => import('./SearchSuggestion.vue'),
   },
 })
-export default class extends mixins(PrefixMixin, KeyboardEventsMixin) {
+export default class SearchBar extends mixins(
+  PrefixMixin,
+  KeyboardEventsMixin
+) {
   @Prop({ type: Object, required: false }) public query!: SearchQuery
   @VModel({ type: String }) name!: string
   @Ref('searchRef') readonly searchRef
