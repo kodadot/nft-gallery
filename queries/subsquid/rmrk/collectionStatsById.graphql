@@ -1,4 +1,4 @@
-query collectionStatsById($id: ID!) {
+query collectionStatsById($id: String!) {
   stats: collectionEntityById(id: $id) {
     id
     base: nfts(where: { burned_eq: false }) {
