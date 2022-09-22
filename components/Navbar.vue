@@ -21,6 +21,7 @@
         <HistoryBrowser />
 
         <b-button
+          v-if="!isRedesignedLandingPage"
           type="is-primary is-bordered-light ml-2"
           class="navbar-link-background"
           icon-right="search"
@@ -34,10 +35,10 @@
     </template>
     <template #start>
       <Search
-        v-if="!mobileGallery"
+        v-if="!mobileGallery && !isRedesignedLandingPage"
         hide-filter
         show-default-suggestions
-        class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
+        class="search-navbar is-flex-grow-1 pb-0"
         search-column-class="is-flex-grow-1" />
     </template>
     <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
@@ -184,13 +185,14 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import ColorModeButton from '@/components/common/ColorModeButton.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
-import Search from '@/components/search/SearchBar.vue'
+import Search from '@/components/search/Search.vue'
 
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { createVisible } from '@/utils/config/permision.config'
 import { identityStore } from '@/utils/idbStore'
 import AuthMixin from '~~/utils/mixins/authMixin'
+import ExperimentMixin from '~~/utils/mixins/experimentMixin'
 
 @Component({
   components: {
@@ -201,7 +203,11 @@ import AuthMixin from '~~/utils/mixins/authMixin'
     ColorModeButton,
   },
 })
-export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
+export default class NavbarMenu extends mixins(
+  PrefixMixin,
+  AuthMixin,
+  ExperimentMixin
+) {
   protected mobileGallery = false
   protected showTopNavbar = true
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
@@ -256,6 +262,10 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
     return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
   }
 
+  get isRedesignedLandingPage() {
+    return this.$route.name === 'index' && this.redesign
+  }
+
   get navBarTitle(): string {
     let title = ''
     if (this.inCollectionPage) {
@@ -294,7 +304,7 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
   }
 
   showMobileSearchBar() {
-    this.mobilSearchRef.focusInput()
+    this.mobilSearchRef?.focusInput()
   }
 
   closeBurgerMenu() {

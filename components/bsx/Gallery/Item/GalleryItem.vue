@@ -214,7 +214,6 @@ import { mapToId } from '@/utils/mappers'
     AvailableActions: () => import('./AvailableActions.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Sharing: () => import('@/components/shared/Sharing.vue'),
-    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
     DangerModal: () =>

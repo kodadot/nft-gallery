@@ -2,7 +2,7 @@
 #import "../../fragments/nftDetails.graphql"
 #import "../../fragments/baseMeta.graphql"
 
-query nftEntitiesByIDs($ids: [ID!]!) {
+query nftEntitiesByStrings($ids: [String!]!) {
   nftEntities(where: { id_in: $ids }) {
     ...nftSubsquid
     ...nftDetails
