@@ -11,8 +11,8 @@ jobs:
   cache-and-install:
     runs-on: ubuntu-latest
     container:
-          image: cypress/included:10.6.0
-          options: --user 1001
+      image: cypress/included:10.6.0
+      options: --user 1001
     env:
       CYPRESS_CACHE_FOLDER: '${GITHUB_WORKSPACE}/.cypress-cache'
     steps:
@@ -57,6 +57,28 @@ jobs:
           if-no-files-found: error
           path: ~/.pnpm-store
 
+  ui-chrome-tests:
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/included:10.6.0
+      options: --user 1001
+    env:
+      CYPRESS_CACHE_FOLDER: '${GITHUB_WORKSPACE}/.cypress-cache'
+    needs: cache-and-install
+    strategy:
+      fail-fast: false
+      matrix:
+        # run copies of the current job in parallel
+        containers: [ 1, 2, 3, 4, 5 ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download the build folders
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: ~/.pnpm-store
 #  ui-chrome-tests:
 #    timeout-minutes: 20
 #    runs-on: ubuntu-latest
