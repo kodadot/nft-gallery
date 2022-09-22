@@ -10,6 +10,9 @@ on:
 jobs:
   cache-and-install:
     runs-on: ubuntu-latest
+    container:
+          image: cypress/included:10.6.0
+          options: --user 1001
 
     steps:
       - name: Checkout
