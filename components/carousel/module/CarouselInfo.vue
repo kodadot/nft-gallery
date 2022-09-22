@@ -2,10 +2,12 @@
   <div class="carousel-info">
     <nuxt-link
       :to="urlOf({ id: item.id, url })"
-      class="has-text-weight-bold carousel-info-name"
-      :class="{ 'carousel-info-name-collection': isCollection }">
-      <span>{{ item.name }}</span>
-      <span v-if="isCollection">----></span>
+      :class="[
+        'has-text-weight-bold',
+        { 'carousel-info-collection': isCollection },
+      ]">
+      <span class="carousel-info-name">{{ item.name }}</span>
+      <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>
 
     <!-- TODO: collection name. currently `lastNftListByEvent` not provide collection name -->
