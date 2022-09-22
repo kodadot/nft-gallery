@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="instance">
-      <div class="container replace-me">search</div>
+      <LazySearchLanding />
     </div>
 
     <!-- spotlight -->
@@ -43,6 +43,7 @@ import CarouselTypePopularCollection from '@/components/carousel/CarouselTypePop
 .instance {
   border-top: 1px solid black;
   padding: 5rem 0;
+  position: relative;
 
   // open another PR
   // TODO: add colors to global variable
