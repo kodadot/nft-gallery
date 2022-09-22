@@ -12,14 +12,8 @@
           </div>
         </div>
       </div>
-      <div
-        v-if="current !== 0"
-        class="arrow arrow-left"
-        @click="slider?.prev()"></div>
-      <div
-        v-if="current !== dotHelper.length - 1"
-        class="arrow arrow-right"
-        @click="slider?.next()"></div>
+      <div class="arrow arrow-left" @click="slider?.prev()"></div>
+      <div class="arrow arrow-right" @click="slider?.next()"></div>
     </div>
     <div v-if="slider && !isCollection" class="dots">
       <button
@@ -39,6 +33,7 @@ import CarouselInfo from './CarouselInfo.vue'
 
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue.es'
+import { wheelControls } from '../utils/useCarousel'
 
 const props = defineProps<{
   nfts: CarouselNFT[]
@@ -50,27 +45,31 @@ provide('isCollection', isCollection.value)
 
 const current = ref(0)
 const minWidths = [1280, 1024, 768, 640]
-const [wrapper, slider] = useKeenSlider({
-  initial: current.value,
-  slideChanged: (s) => {
-    current.value = s.track.details.rel
+const [wrapper, slider] = useKeenSlider(
+  {
+    initial: current.value,
+    rubberband: false,
+    slideChanged: (s) => {
+      current.value = s.track.details.rel
+    },
+    breakpoints: {
+      '(min-width: 640px)': {
+        slides: { perView: 1.5, spacing: 32 },
+      },
+      '(min-width: 768px)': {
+        slides: { perView: 2.5, spacing: 32 },
+      },
+      '(min-width: 1024px)': {
+        slides: { perView: 3.5, spacing: 32 },
+      },
+      '(min-width: 1280px)': {
+        slides: { perView: 4.5, spacing: 32 },
+      },
+    },
+    slides: { perView: 1.5, spacing: 32 },
   },
-  breakpoints: {
-    '(min-width: 640px)': {
-      slides: { perView: 1.5, spacing: 32 },
-    },
-    '(min-width: 768px)': {
-      slides: { perView: 2.5, spacing: 32 },
-    },
-    '(min-width: 1024px)': {
-      slides: { perView: 3.5, spacing: 32 },
-    },
-    '(min-width: 1280px)': {
-      slides: { perView: 4.5, spacing: 32 },
-    },
-  },
-  slides: { perView: 1, spacing: 32 },
-})
+  [wheelControls]
+)
 const totalDots = computed(() => {
   const width = window.innerWidth
 
@@ -85,158 +84,3 @@ const dotHelper = computed(() =>
   slider.value ? [...Array(totalDots.value).keys()] : []
 )
 </script>
-
-<style lang="scss">
-.carousel-agnostic {
-  .carousel-item {
-    background-color: white;
-    color: black;
-    border: 1px solid black;
-  }
-
-  .carousel-media {
-    border-bottom: 1px solid black;
-
-    &-collection {
-      border-bottom: none;
-      padding: 1rem 1rem 0 1rem;
-    }
-  }
-
-  .carousel-info {
-    padding: 1rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    &-name {
-      color: black;
-      width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
-      &-collection {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-    }
-  }
-
-  .carousel-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-  }
-
-  .navigation-wrapper {
-    position: relative;
-  }
-
-  .dots {
-    display: flex;
-    padding: 2rem 0;
-    justify-content: center;
-  }
-
-  .dot {
-    border: none;
-    width: 10px;
-    height: 10px;
-    background: #c5c5c5;
-    margin: 0 5px;
-    padding: 5px;
-    cursor: pointer;
-
-    &:focus {
-      outline: none;
-    }
-
-    &.active {
-      background: #000;
-    }
-  }
-
-  .arrow {
-    width: 60px;
-    height: 60px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    fill: #fff;
-    cursor: pointer;
-
-    &-left {
-      left: -30px;
-
-      border-bottom: solid 40px transparent;
-      border-top: solid 40px transparent;
-      border-right: solid 60px black;
-
-      &::after {
-        content: '';
-        width: 0;
-        height: 0;
-
-        position: absolute;
-        border-bottom: solid 36px transparent;
-        border-top: solid 36px transparent;
-        border-right: solid 55px white;
-        top: -36px;
-        right: -58px;
-      }
-
-      &::before {
-        content: '';
-        width: 0;
-        height: 0;
-
-        position: absolute;
-        border-bottom: solid 40px transparent;
-        border-top: solid 40px transparent;
-        border-right: solid 60px black;
-        top: -34px;
-        right: -56px;
-      }
-    }
-
-    &-right {
-      left: auto;
-      right: -30px;
-
-      border-bottom: solid 40px transparent;
-      border-top: solid 40px transparent;
-      border-left: solid 60px black;
-
-      &::after {
-        content: '';
-        width: 0;
-        height: 0;
-
-        position: absolute;
-        border-bottom: solid 36px transparent;
-        border-top: solid 36px transparent;
-        border-left: solid 55px white;
-        top: -36px;
-        left: -58px;
-      }
-
-      &::before {
-        content: '';
-        width: 0;
-        height: 0;
-
-        position: absolute;
-        border-bottom: solid 40px transparent;
-        border-top: solid 40px transparent;
-        border-left: solid 60px black;
-        top: -34px;
-        left: -56px;
-      }
-    }
-  }
-}
-</style>
