@@ -146,7 +146,11 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
 import { RowSeries } from '~/components/series/types'
 
-@Component({})
+@Component({
+  components: {
+    Money: () => import('@/components/shared/format/Money.vue'),
+  },
+})
 export default class SearchSuggestion extends mixins(PrefixMixin) {
   @Prop(String) public name!: string
   @Prop(Boolean) public showDefaultSuggestions!: boolean
@@ -452,25 +456,3 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
   }
 }
 </script>
-
-<style lang="scss">
-@import '@/styles/abstracts/variables';
-
-.search-suggestion-container {
-  .selected-item {
-    box-sizing: border-box;
-    border: 1px solid $primary !important;
-  }
-
-  .link-item {
-    border: 1px solid transparent;
-    cursor: pointer;
-  }
-
-  .name {
-    max-width: 34ch;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-</style>

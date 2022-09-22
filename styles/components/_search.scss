@@ -130,3 +130,30 @@
     }
   }
 }
+
+.search-suggestion-container {
+  .selected-item {
+    box-sizing: border-box;
+    border: 1px solid $primary !important;
+  }
+
+  .link-item {
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+
+  .name {
+    max-width: 34ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .b-tabs:not(:last-child) {
+    margin-bottom: 0;
+  }
+  .tabs:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+  .b-tabs .tab-content {
+    padding:  0 0.5rem;
+  }
+}
