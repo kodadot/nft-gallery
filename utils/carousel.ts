@@ -79,6 +79,8 @@ export const convertLastEventFlatNft = (e: LastEvent) => {
       image: e.image,
       animationUrl: e.animationUrl ? sanitizeIpfsUrl(e.animationUrl) : null,
     },
+    collectionId: e.collectionId,
+    collectionName: e.collectionName,
   }
 }
 

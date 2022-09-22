@@ -32,4 +32,6 @@ export type CarouselNFT = {
     id: string
     name: string
   }
+  collectionId?: string
+  collectionName?: string
 }

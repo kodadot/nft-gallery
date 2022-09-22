@@ -20,4 +20,6 @@ export type LastEvent = {
   image: string
   animationUrl: string
   collection?: string
+  collectionId?: string
+  collectionName?: string
 }

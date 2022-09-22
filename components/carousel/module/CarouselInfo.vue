@@ -10,8 +10,12 @@
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>
 
-    <!-- TODO: collection name. currently `lastNftListByEvent` not provide collection name -->
-    <!-- <p v-if="!isCollection" class="is-size-7">{collection.name}</p> -->
+    <nuxt-link
+      v-if="!isCollection && item.collectionName && item.collectionId"
+      :to="urlOf({ id: item.collectionId, url: 'collection' })"
+      class="is-size-7 carousel-info-name">
+      <p>{{ item.collectionName }}</p>
+    </nuxt-link>
 
     <div v-if="item.price && !isCollection" class="carousel-meta">
       <Money :value="item.price" class="has-text-weight-bold" />
