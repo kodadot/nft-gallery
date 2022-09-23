@@ -88,9 +88,9 @@ export default class OfferMixin extends mixins(
     collectionId: string,
     onSuccess?: () => void
   ) {
-    this.initTransactionLoader()
     try {
       const api = await this.useApi()
+      this.initTransactionLoader()
       const isMe = isSameAccount(this.accountId, maker)
       const cb = !isMe
         ? api.tx.marketplace.acceptOffer
