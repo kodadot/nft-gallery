@@ -1,7 +1,7 @@
 <template>
   <div class="carousel-info">
     <nuxt-link
-      :to="urlOf({ id: item.id, url })"
+      :to="urlOf({ id: item.id, url, chain: item.chain })"
       :class="[
         'has-text-weight-bold',
         { 'carousel-info-collection': isCollection },
@@ -12,14 +12,16 @@
 
     <nuxt-link
       v-if="!isCollection && item.collectionName && item.collectionId"
-      :to="urlOf({ id: item.collectionId, url: 'collection' })"
+      :to="
+        urlOf({ id: item.collectionId, url: 'collection', chain: item.chain })
+      "
       class="is-size-7 carousel-info-name">
       <p>{{ item.collectionName }}</p>
     </nuxt-link>
 
     <div v-if="item.price && !isCollection" class="carousel-meta">
       <Money :value="item.price" class="has-text-weight-bold" />
-      <p class="is-size-7">{{ urlPrefix }}</p>
+      <p class="is-size-7">{{ item.chain }}</p>
     </div>
   </div>
 </template>
@@ -34,7 +36,6 @@ defineProps<{
   item: CarouselNFT
 }>()
 
-const { urlPrefix } = usePrefix()
 const { urlOf } = useCarouselUrl()
 const url = inject('itemUrl') as string
 const isCollection = inject('isCollection')

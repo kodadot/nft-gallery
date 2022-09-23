@@ -27,6 +27,7 @@ export type CarouselNFT = {
   name: string
   price: string
   timestamp: string
+  unixTime: number
   metadata?: string
   collection?: {
     id: string
@@ -34,4 +35,5 @@ export type CarouselNFT = {
   }
   collectionId?: string
   collectionName?: string
+  chain?: string
 }

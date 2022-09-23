@@ -12,8 +12,8 @@ export const useCarouselUrl = () => {
 
   const profileUrl = computed(() => `${urlPrefix.value}-u-id`)
 
-  const urlOf = ({ id, url }: { id: string; url: string }): string => {
-    return `/${urlPrefix.value}/${url}/${id}`
+  const urlOf = ({ id = '', url = '', chain = '' }): string => {
+    return `/${chain || urlPrefix.value}/${url}/${id}`
   }
 
   return {
@@ -29,29 +29,46 @@ interface Types {
 export const useCarouselNftEvents = ({ type }: Types) => {
   const variables = {
     latestSales: {
-      limit: 10,
+      limit: 5,
       event: 'BUY',
     },
     newestList: {
-      limit: 10,
+      limit: 5,
       event: 'LIST',
     },
   }
-  const { data } = useGraphql({
+  const { data: dataRmrk } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: 'lastNftListByEvent',
     variables: variables[type],
+    clientName: 'subsquid',
+  })
+  const { data: dataSnek } = useGraphql({
+    queryPrefix: 'subsquid',
+    queryName: 'lastNftListByEvent',
+    variables: variables[type],
+    clientName: 'snek',
   })
   const nfts = ref<CarouselNFT[]>([])
 
-  const handleResult = async ({ data }: { data: { events: LastEvent[] } }) => {
-    const events = data.events.map(convertLastEventFlatNft)
-    nfts.value = await formatNFT(events)
+  const flattenNFT = async (data: LastEvent[], chain) => {
+    const events = data.map(convertLastEventFlatNft)
+    return await formatNFT(events, chain)
   }
 
-  watch(data, () => {
-    if (data.value) {
-      handleResult({ data: data.value })
+  // currently only support rmrk and snek
+  // moonriver: https://github.com/kodadot/nft-gallery/issues/3891
+  watch([dataRmrk, dataSnek], async () => {
+    if (dataRmrk.value && dataSnek.value) {
+      const rmrk = dataRmrk.value as { events: LastEvent[] }
+      const rmrkNfts = await flattenNFT(rmrk.events, 'rmrk')
+
+      const snek = dataSnek.value as { events: LastEvent[] }
+      const snekNfts = await flattenNFT(snek.events, 'snek')
+
+      const data = [...rmrkNfts, ...snekNfts]
+
+      nfts.value = data.sort((a, b) => b.unixTime - a.unixTime)
     }
   })
 

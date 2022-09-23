@@ -13,7 +13,10 @@ import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
  * Get cloudflare images
  * Update timestamp
  */
-export const formatNFT = async (nfts): Promise<CarouselNFT[]> => {
+export const formatNFT = async (
+  nfts,
+  chain = 'rmrk'
+): Promise<CarouselNFT[]> => {
   if (!nfts) {
     return []
   }
@@ -33,9 +36,11 @@ export const formatNFT = async (nfts): Promise<CarouselNFT[]> => {
       timestamp: formatDistanceToNow(new Date(timestamp), {
         addSuffix: true,
       }),
+      unixTime: new Date(timestamp).getTime(),
       price: nft.price || 0,
       image: imageOf(metaId, metaImage),
       animationUrl: imageOf(metaId, metaAnimationUrl) || '',
+      chain,
     }
   })
 }
