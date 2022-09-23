@@ -582,7 +582,7 @@
       "sync": "Sync editions to {0}"
     },
     "royalty": {
-      "rate": "Royalty Rate",
+      "rate": "Royalty Rate (%)",
       "mine": "Pay royalties to the creator account",
       "receiver": "Destination account for royalty"
     },
