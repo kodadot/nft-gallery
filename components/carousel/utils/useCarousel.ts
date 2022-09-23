@@ -26,27 +26,52 @@ interface Types {
   type: 'latestSales' | 'newestList'
 }
 
-export const useCarouselNftEvents = ({ type }: Types) => {
-  const variables = {
-    latestSales: {
-      limit: 5,
-      event: 'BUY',
-    },
-    newestList: {
-      limit: 5,
-      event: 'LIST',
-    },
+const nftEventVariables = {
+  latestSales: {
+    limit: 10,
+    event: 'BUY',
+  },
+  newestList: {
+    limit: 10,
+    event: 'LIST',
+  },
+}
+
+export const useCarouselNftEventsOld = ({ type }: Types) => {
+  const { data } = useGraphql({
+    queryPrefix: 'subsquid',
+    queryName: 'lastNftListByEvent',
+    variables: nftEventVariables[type],
+  })
+  const nfts = ref<CarouselNFT[]>([])
+
+  const handleResult = async ({ data }: { data: { events: LastEvent[] } }) => {
+    const events = data.events.map(convertLastEventFlatNft)
+    nfts.value = await formatNFT(events)
   }
+
+  watch(data, () => {
+    if (data.value) {
+      handleResult({ data: data.value })
+    }
+  })
+
+  return {
+    nfts,
+  }
+}
+
+export const useCarouselNftEvents = ({ type }: Types) => {
   const { data: dataRmrk } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: 'lastNftListByEvent',
-    variables: variables[type],
+    variables: nftEventVariables[type],
     clientName: 'subsquid',
   })
   const { data: dataSnek } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: 'lastNftListByEvent',
-    variables: variables[type],
+    variables: nftEventVariables[type],
     clientName: 'snek',
   })
   const nfts = ref<CarouselNFT[]>([])
@@ -68,7 +93,7 @@ export const useCarouselNftEvents = ({ type }: Types) => {
 
       const data = [...rmrkNfts, ...snekNfts]
 
-      nfts.value = data.sort((a, b) => b.unixTime - a.unixTime)
+      nfts.value = data.sort((a, b) => b.unixTime - a.unixTime).slice(0, 10)
     }
   })
 
