@@ -1,15 +1,13 @@
 <template>
   <div>
     <div class="instance">
-      <div class="container replace-me">search</div>
+      <LazySearchLanding />
     </div>
 
     <!-- spotlight -->
-    <div class="instance instance-blue">
-      <div class="container">
-        <!-- open another PR -->
-        <!-- TODO: change popular collection with spotlight -->
-        <CarouselTypePopularCollection />
+    <div v-if="showCarousel" class="instance instance-blue">
+      <div class="container px-5">
+        <LazyCarouselTypeSpotlight />
       </div>
     </div>
 
@@ -17,13 +15,13 @@
       <div class="container replace-me">top collections</div>
     </div>
 
-    <div class="instance">
-      <div class="container">
+    <div v-if="showCarousel" class="instance">
+      <div class="container px-5">
         <!-- new listings -->
-        <CarouselTypeNewestList />
+        <LazyCarouselTypeNewestList />
 
         <!-- latest sales -->
-        <CarouselTypeLatestSales />
+        <LazyCarouselTypeLatestSales class="mt-6" />
       </div>
     </div>
 
@@ -34,27 +32,15 @@
 </template>
 
 <script lang="ts" setup>
-import CarouselTypeLatestSales from '@/components/carousel/CarouselTypeLatestSales.vue'
-import CarouselTypeNewestList from '@/components/carousel/CarouselTypeNewestList.vue'
-import CarouselTypePopularCollection from '@/components/carousel/CarouselTypePopularCollection.vue'
+const { urlPrefix } = usePrefix()
+
+// currently only supported on rmrk and snek
+const showCarousel = computed(() => {
+  return urlPrefix.value === 'rmrk' || urlPrefix.value === 'snek'
+})
 </script>
 
 <style lang="scss" scoped>
-.instance {
-  border-top: 1px solid black;
-  padding: 5rem 0;
-
-  // open another PR
-  // TODO: add colors to global variable
-  &-accent {
-    background-color: #ff7ac3;
-  }
-
-  &-blue {
-    background-color: #6188e7;
-  }
-}
-
 // sample
 .replace-me {
   display: flex;

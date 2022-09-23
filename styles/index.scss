@@ -8,6 +8,7 @@
 
 // GLOBAL
 @import "./global.scss";
+@import "./fonts.scss";
 
 // BASE STYLES
 @import "base/reset";
@@ -16,8 +17,10 @@
 // COMPONENTS
 @import "components/button";
 @import "components/card";
+@import "components/carousel";
 @import "components/modal";
 @import "components/tippy";
+@import "components/search";
 
 // LAYOUTS
 @import "layouts/footer";

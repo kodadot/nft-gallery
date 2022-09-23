@@ -1,27 +1,34 @@
 <template>
-  <b-autocomplete
-    ref="searchRef"
-    v-model="name"
-    class="gallery-search"
-    :placeholder="$t('general.searchPlaceholder')"
-    icon="search"
-    :open-on-focus="showDefaultSuggestions"
-    clearable
-    max-height="500"
-    dropdown-position="bottom"
-    expanded
-    @blur="$emit('blur')"
-    @keydown.native.enter="onEnter">
-    <template #header>
-      <SearchSuggestion
-        :name="name"
-        :show-default-suggestions="showDefaultSuggestions"
-        :query="query"
-        @gotoGallery="redirectToGalleryPageIfNeed"
-        @close="closeDropDown">
-      </SearchSuggestion>
-    </template>
-  </b-autocomplete>
+  <div class="search-bar-container">
+    <b-autocomplete
+      ref="searchRef"
+      v-model="name"
+      class="gallery-search"
+      :placeholder="$t('general.searchPlaceholder')"
+      icon="search"
+      :open-on-focus="showDefaultSuggestions"
+      clearable
+      max-height="500"
+      dropdown-position="bottom"
+      expanded
+      @blur="$emit('blur')"
+      @keydown.native.enter="onEnter">
+      <template #header>
+        <SearchSuggestion
+          :name="name"
+          :show-default-suggestions="showDefaultSuggestions"
+          :query="query"
+          @gotoGallery="redirectToGalleryPageIfNeed"
+          @close="closeDropDown">
+        </SearchSuggestion>
+      </template>
+    </b-autocomplete>
+    <div class="search-bar-bg"></div>
+    <img
+      v-if="!name"
+      class="search-bar-keyboard-icon"
+      src="/search-k-keyboard.svg" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -44,7 +51,10 @@ const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
     SearchSuggestion: () => import('./SearchSuggestion.vue'),
   },
 })
-export default class extends mixins(PrefixMixin, KeyboardEventsMixin) {
+export default class SearchBar extends mixins(
+  PrefixMixin,
+  KeyboardEventsMixin
+) {
   @Prop({ type: Object, required: false }) public query!: SearchQuery
   @VModel({ type: String }) name!: string
   @Ref('searchRef') readonly searchRef

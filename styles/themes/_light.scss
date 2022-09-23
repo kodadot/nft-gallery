@@ -40,6 +40,10 @@ html.light-mode {
 		}
 	}
 
+	.select select option {
+		color: $text-light-theme;
+	}
+
 	.navbar {
 
 		.navbar-item,
@@ -87,19 +91,6 @@ html.light-mode {
 			color: $text-light-theme;
 		}
 
-		.search-navbar input {
-			background-color: rgba(229, 229, 229, 0.55);
-		}
-
-		.search-navbar-container-mobile {
-			.gallery-search .control .icon {
-				color: $placeholder-color  !important;
-			}
-
-			input {
-				background-color: $white;
-			}
-		}
 	}
 
 	.dropdown-content {
@@ -243,6 +234,7 @@ html.light-mode {
 		color: $text-light-theme;
 	}
 
+	.nft-card .card-content,
 	.collection-card .card-content {
 		background-color: $frosted-glass-background-dark  !important;
 	}
@@ -279,9 +271,28 @@ html.light-mode {
 	.main-title {
 		color: $text-light-theme;
 	}
-	.gallery-search {
-		.media-content {
-			color: gray;
+
+	.landing-search {
+		.active {
+			color: $dark;
+		}
+	}
+	.search-bar-container {
+		.gallery-search {
+			.control .icon {
+				color: $dark;
+			}
+			.media-content {
+				color: gray;
+			}
+			input {
+				border: 1px solid #000;
+				background-color: #fff;
+			}
+	
+		}
+		.search-bar-bg {
+			background-color: #000;
 		}
 	}
 }
