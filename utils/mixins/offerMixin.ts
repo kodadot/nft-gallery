@@ -5,7 +5,7 @@ import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import { notificationTypes, showNotification } from '~/utils/notification'
 import { onApiConnect } from '@kodadot1/sub-api'
-import { formatSecondsToDuration, endDate } from '~/utils/format/time'
+import { endDate, formatSecondsToDuration } from '~/utils/format/time'
 import { formatBsxBalanceToNumber } from '~/utils/format/balance'
 import { Offer } from '~/components/bsx/Offer/types'
 import { AllOfferStatusType } from '~/utils/offerStatus'
@@ -88,9 +88,9 @@ export default class OfferMixin extends mixins(
     collectionId: string,
     onSuccess?: () => void
   ) {
+    this.initTransactionLoader()
     try {
       const api = await this.useApi()
-      this.initTransactionLoader()
       const isMe = isSameAccount(this.accountId, maker)
       const cb = !isMe
         ? api.tx.marketplace.acceptOffer
