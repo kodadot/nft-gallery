@@ -1011,5 +1011,9 @@
   "toast": {
     "urlCopy": "URL copied to clipboard",
     "paymentLinkCopy": "Payment link copied to clipboard"
+  },
+  "footer": {
+    "subscribe": "Get The Latest KodaDot Updates",
+    "join": "Join Our Community"
   }
 }
