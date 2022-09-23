@@ -3,11 +3,19 @@
     class="footer-container is-flex is-align-items-center is-justify-content-space-around">
     <div class="footer-container-subs">
       <span class="footer-container-heading">{{ $t('footer.subscribe') }}</span>
-      <b-input
-        v-model="subscriptionEmail"
-        class="pack-saver-input__input"
-        placeholder="Your Email Address"
-        expanded />
+      <div class="is-flex is-align-items-center footer-container-subs-items">
+        <b-input
+          v-model="subscriptionEmail"
+          class="footer-container-subs-input"
+          placeholder="Your Email Address"
+          expanded />
+        <b-button
+          type="is-primary"
+          class="footer-container-subs-btn"
+          @click="$emit('click')">
+          <slot> {{ $t('footer.subscribeLabel') }} </slot>
+        </b-button>
+      </div>
     </div>
     <div class="footer-container-info is-flex is-flex-direction-column">
       <span class="footer-container-heading">KodaDot</span>

@@ -43,12 +43,31 @@ html.dark-mode {
   .footer-container {
     background-color: $dark-accent;
     border-top: 1px solid $white;
+
     &-socials {
       &-list {
         &-item {
           background: $black;
           border: 1px solid $white;
           box-shadow: $primary-shadow-dark;
+        }
+      }
+    }
+
+    &-subs {
+      &-btn {
+        color: $black!important;
+        background-color: $k-accent !important;
+        border-radius: 0px;
+        border: 1px solid $white;
+        border-color: $white !important;
+        box-shadow: $primary-shadow-dark !important;
+      }
+      &-input {
+        box-shadow: $primary-shadow-dark;
+
+        .input {
+          border: 1px solid $white;
         }
       }
     }
