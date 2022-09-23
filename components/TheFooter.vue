@@ -4,7 +4,7 @@
     <div class="footer-container-subs">
       <span class="footer-container-heading">{{ $t('footer.subscribe') }}</span>
       <div class="is-flex is-align-items-center footer-container-subs-items">
-        <b-input
+        <!-- <b-input
           v-model="subscriptionEmail"
           class="footer-container-subs-input"
           placeholder="Your Email Address"
@@ -14,7 +14,12 @@
           class="footer-container-subs-btn"
           @click="$emit('click')">
           <slot> {{ $t('footer.subscribeLabel') }} </slot>
-        </b-button>
+        </b-button> -->
+        <iframe
+          height="94"
+          src="https://kodadot.substack.com/embed"
+          frameborder="0"
+          scrolling="no"></iframe>
       </div>
     </div>
     <div class="footer-container-info is-flex is-flex-direction-column">
