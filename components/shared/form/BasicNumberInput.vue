@@ -5,6 +5,7 @@
       :placeholder="placeholder"
       :expanded="expanded"
       :step="step"
+      :min-step="minStep"
       :min="min"
       :max="max"
       @blur="hasFocus = false"
@@ -33,6 +34,7 @@ export default class BasicNumberInput extends Vue {
   @Prop({ type: Number, required: false }) max!: number
   @Prop({ type: Number, required: false, default: 1 }) min!: number
   @Prop({ type: Number, required: false, default: 1 }) step!: number
+  @Prop({ type: Number, required: false }) minStep!: number
 
   public hasFocus = false
 }

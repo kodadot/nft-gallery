@@ -4,7 +4,8 @@
       v-model="vRoyalty"
       :label="$t('mint.royalty.rate')"
       expanded
-      :step="0.01"
+      :step="0.1"
+      :min-step="0.01"
       :min="0.01"
       :max="99.99" />
 
