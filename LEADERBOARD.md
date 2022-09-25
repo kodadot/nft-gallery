@@ -1,10 +1,10 @@
 | devName | total amount received |  amount per merged PR | total open PRs | merged PRs | closed PRs | lines added to lines removed| commits merged | total # comments | comments per PR | resolved issues to # of open PR | last transaction  |
 |-----------------|-----------------------|----------------------|----------------|------------|------------|------------------------------|----------------|------------------|-----------------|---------------------------------|-----------------|  
-| prachi00 | $15150.35/110.67KSM | $100.33 | 162 | 151 | 11 | 4758/4233 | 560 | 984 | 6.07 | 146/162 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0xf5f1a482cb9cafc67cf061a4413a2c406e12c048437470db74451d55ba05fc57) |
-| Jarsen136 | $14797.31/178.474KSM | $86.03 | 179 | 172 | 7 | 8635/5464 | 680 | 1330 | 7.43 | 182/179 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0xd3c42832c1ca83014101948aeb017d49d60853ec60b8d6d01c9559b38c5d04e4) |
+| prachi00 | $15180.36/111.417KSM | $99.87 | 163 | 152 | 11 | 4766/4238 | 564 | 992 | 6.09 | 147/163 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0x1d11407c7a80d4394b4a325491be22ab1d3cd8d3d706cbce19e83bd749d396bb) |
+| Jarsen136 | $15067.73/184.833KSM | $85.61 | 183 | 176 | 7 | 9054/5614 | 709 | 1378 | 7.53 | 185/183 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0x3689695b33e0972604ea0c3353b1a28913550466a3fa87486e0d93f524a8d811) |
 | kkukelka | $11700.6/78.145KSM | $124.47 | 99 | 94 | 5 | 9914/6272 | 412 | 506 | 5.11 | 97/99 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0xb03d1405159fe345104e9ebd78279d910a7b0d3644f08aeba87e3d975ec59288) |
-| KngZhi | $3825.58/52.98KSM | $112.52 | 38 | 34 | 4 | 2457/637 | 339 | 392 | 10.32 | 41/38 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0x4d03bb4e51e266a36d8e4de9ef2a28746cc5cc0a8fae95ecb83a34d54f7e0d75) |
-| preschian | $3613.42/35.649KSM | $73.74 | 52 | 49 | 3 | 23694/23075 | 453 | 402 | 7.73 | 44/52 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0xe650ae71e40ec8ecb570601c62483b0b15235a1cd13c087e015c03478042056c) |
+| preschian | $3863.07/41.624KSM | $72.89 | 56 | 53 | 3 | 24158/23383 | 480 | 430 | 7.68 | 47/56 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0x691ab5f2d5a2806480a0c8204b5f078525d8ed46e2437120b08df189f229aeb6) |
+| KngZhi | $3825.58/52.98KSM | $112.52 | 39 | 34 | 5 | 2457/637 | 339 | 396 | 10.15 | 42/39 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0x4d03bb4e51e266a36d8e4de9ef2a28746cc5cc0a8fae95ecb83a34d54f7e0d75) |
 | zhengow | $3450.85/50.901KSM | $82.16 | 42 | 42 | 0 | 1805/759 | 211 | 348 | 8.29 | 46/42 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0x7dc5bf5ab3055ea883eb4e4d9dcf34420e47c1454206e57d31ca8cc6c677783c) |
 | chandradot99 | $1204.46/5.955KSM | $133.83 | 9 | 9 | 0 | 900/146 | 43 | 75 | 8.33 | 8/9 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0xa60c8eda47807651d47079645ac2a23241e38ec6f5f434b229eebbcdd1fa4c10) |
 | pandasamanvaya | $1098.43/4.32KSM | $64.61 | 18 | 17 | 1 | 1560/455 | 66 | 35 | 1.94 | 7/18 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0xa2b431d8f528ad863174d5378f89fd90016c872a227f06b4d1714c652c3a18d9) |
@@ -31,6 +31,7 @@
 | fairywellos | $52.95/0.12KSM | $52.95 | 2 | 1 | 1 | 40/9 | 9 | 11 | 5.5 | 2/2 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0x9b8c61de44f59da4d0ba0ffda3b732470435bc9042604fe3c2f04a3df2585542) |
 | Spatlani | $50.72/0.97KSM | $50.72 | 1 | 1 | 0 | 1/0 | 1 | 5 | 5 | 1/1 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0x5e61ec9cdc3065480bffb98a3bbcecabbf74102f230e1382610b1a0e06bfd9dd) |
 | cazarov | $50.02/0.916KSM | $50.02 | 1 | 1 | 0 | 187/36 | 11 | 11 | 11 | 1/1 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0x98c0ce2462fd18efa627dc8440e87f6d3d2d1760477580a072e376395f81d5d4) |
+| alohaw0 | $30/0.752KSM | $30 | 1 | 1 | 0 | 6/1 | 3 | 9 | 9 | 1/1 |[Link to last transaction](https://kusama.subscan.io/extrinsic/0x2a6b5bd3878d33cc35faaf1491c8c8f4991615c8a8658549e1aa6a3d6817edbe) |
 
  
- **LEADERBOARD TABLE GENERATED AT Sep 18th 2022 FROM 1636 MERGED AND 191 CLOSED PULL REQUESTS MADE BY CONTRIBUTIONS TO KODADOT**
+ **LEADERBOARD TABLE GENERATED AT Sep 25th 2022 FROM 1657 MERGED AND 192 CLOSED PULL REQUESTS MADE BY CONTRIBUTIONS TO KODADOT**
