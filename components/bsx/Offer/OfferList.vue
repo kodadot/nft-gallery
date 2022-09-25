@@ -1,19 +1,19 @@
 <template>
   <CollapseCardWrapper :label="$t('nft.offer.label', [total])">
     <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-4 has-text-success" v-if="total">
+    <p v-if="total" class="title is-size-4 has-text-success">
       {{ $t('nft.offer.count', [total]) }}
     </p>
     <OfferTable
       :offers="offers"
-      @select="onOfferSelected"
-      :accountId="accountId"
-      :isOwner="isOwner" />
+      :account-id="accountId"
+      :is-owner="isOwner"
+      @select="onOfferSelected" />
   </CollapseCardWrapper>
 </template>
 
 <script lang="ts">
-import { Component, Emit, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { isSameAccount } from '~/utils/account'
 import { Offer, OfferResponse } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'

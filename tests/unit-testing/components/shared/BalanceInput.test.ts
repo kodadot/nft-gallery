@@ -1,6 +1,6 @@
-import { mount, createLocalVue } from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import Buefy from 'buefy'
-import { vi, expect, it } from 'vitest'
+import { expect, it, vi } from 'vitest'
 
 import { units } from '@/params/constants'
 import BalanceInput from '@/components/shared/BalanceInput.vue'
