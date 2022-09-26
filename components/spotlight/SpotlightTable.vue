@@ -46,6 +46,7 @@
         <template v-if="!isLoading">
           <nuxt-link
             v-if="!isLoading"
+            :data-cy="`spotlight-id-${props.index}`"
             :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }">
             <Identity :address="props.row.id" />
           </nuxt-link>
@@ -59,8 +60,12 @@
         field="sold"
         :label="$t('spotlight.sold')"
         sortable>
-        <template v-if="!isLoading">{{ props.row.sold }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <template v-if="!isLoading"
+          ><p :data-cy="`spotlight-sold-${props.index}`">
+            {{ props.row.sold }}
+          </p></template
+        >
+        <b-skeleton :active="isLoading"></b-skeleton>
       </b-table-column>
 
       <b-table-column
@@ -73,9 +78,11 @@
             {{ column.label }}
           </b-tooltip>
         </template>
-        <template v-if="!isLoading" #default="props">{{
-          props.row.unique
-        }}</template>
+        <template v-if="!isLoading" #default="props"
+          ><p :data-cy="`spotlight-unique-${props.index}`">
+            {{ props.row.unique }}
+          </p></template
+        >
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -89,9 +96,11 @@
             {{ column.label }}
           </b-tooltip>
         </template>
-        <template v-if="!isLoading" #default="props">{{
-          props.row.uniqueCollectors
-        }}</template>
+        <template v-if="!isLoading" #default="props"
+          ><p :data-cy="`spotlight-uniqueCollectors-${props.index}`">
+            {{ props.row.uniqueCollectors }}
+          </p></template
+        >
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -101,7 +110,11 @@
         field="total"
         :label="$t('spotlight.total')"
         sortable>
-        <template v-if="!isLoading">{{ props.row.total }}</template>
+        <template v-if="!isLoading"
+          ><p :data-cy="`spotlight-total-${props.index}`">
+            {{ props.row.total }}
+          </p></template
+        >
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -112,7 +125,11 @@
         :label="$t('spotlight.averagePrice')"
         sortable>
         <template v-if="!isLoading">
-          <Money :value="props.row.averagePrice" inline hide-unit />
+          <Money
+            :value="props.row.averagePrice"
+            :data-cy="`spotlight-averagePrice-${props.index}`"
+            inline
+            hide-unit />
         </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
@@ -123,7 +140,11 @@
         field="collections"
         :label="$t('spotlight.count')"
         sortable>
-        <template v-if="!isLoading">{{ props.row.count }}</template>
+        <template v-if="!isLoading"
+          ><p :data-cy="`spotlight-count-${props.index}`">
+            {{ props.row.count }}
+          </p></template
+        >
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -133,10 +154,14 @@
         field="volume"
         label="Volume"
         sortable>
-        <template v-if="!isLoading"
-          ><Money :value="props.row.volume" inline hide-unit
-        /></template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <template v-if="!isLoading">
+          <Money
+            :value="props.row.volume"
+            inline
+            hide-unit
+            :data-cy="`spotlight-volume-${props.index}`" />
+        </template>
+        <b-skeleton :active="isLoading"></b-skeleton>
       </b-table-column>
 
       <b-table-column
@@ -149,9 +174,11 @@
             {{ column.label }}
           </b-tooltip>
         </template>
-        <template v-if="!isLoading" #default="props">{{
-          Math.ceil(props.row.rank * 100) / 100
-        }}</template>
+        <template v-if="!isLoading" #default="props"
+          ><p :data-cy="`spotlight-scoreCalc-${props.index}`">
+            {{ Math.ceil(props.row.rank * 100) / 100 }}
+          </p></template
+        >
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
