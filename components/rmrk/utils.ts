@@ -150,11 +150,7 @@ export const getSanitizer = (
   ipfsProvider?: ProviderKeyType,
   arProvider?: ArweaveProviders
 ): SanitizerFunc => {
-  if (url && url.includes('https://gateway.pinata.cloud')) {
-    return (link) => sanitizeIpfsUrl(link, ipfsProvider)
-  }
-
-  if (isIpfsUrl(url)) {
+  if (url && (isIpfsUrl(url) || url.includes('https://gateway.pinata.cloud'))) {
     return (link) => sanitizeIpfsUrl(link, ipfsProvider)
   }
 
