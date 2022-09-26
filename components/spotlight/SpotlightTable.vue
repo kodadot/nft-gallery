@@ -59,7 +59,8 @@
         cell-class="is-vcentered"
         field="sold"
         :label="$t('spotlight.sold')"
-        sortable>
+        sortable
+        data-cy="spotlight-column-sold">
         <template v-if="!isLoading"
           ><p :data-cy="`spotlight-sold-${props.index}`">
             {{ props.row.sold }}
