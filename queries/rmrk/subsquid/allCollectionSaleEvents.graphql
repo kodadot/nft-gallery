@@ -1,6 +1,6 @@
 #import "../../fragments/event.graphql"
 
-query allCollectionSaleEvents($id: ID!, $and: [EventWhereInput!]) {
+query allCollectionSaleEvents($id: String!, $and: [EventWhereInput!]) {
   events(
     where: { nft: { collection: { id_eq: $id } }, AND: $and }) {
     ...event

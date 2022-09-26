@@ -8,7 +8,7 @@
   "classic": "Classic",
   "account": "Account",
   "accounts": "Accounts",
-  "ammount": "Amount",
+  "amount": "Amount",
   "transfer": "Transfer",
   "assets": "Assets",
   "incomingOffers": "Incoming Offers",
@@ -52,7 +52,11 @@
     "seeAll": "See All",
     "rankings": "Rankings",
     "units": "Units",
-    "owners": "Owners"
+    "owners": "Owners",
+    "landingTitle1": "Discover,",
+    "landingTitle2": "Collect",
+    "landingTitle3": "And Sell",
+    "landingSubtitle": "Kusama NFTS"
   },
   "faq": {
     "page": "FAQ",
@@ -868,7 +872,7 @@
       "cancelled": "Transaction was cancelled",
       "feesPaidIn": "You are paying fees in {0}"
     },
-    "searchPlaceholder": "Search Artwork, Collection...",
+    "searchPlaceholder": "Search By Collection Or NFT",
     "tagsAdd": "Type and press enter to add your own",
     "chooseWallet": "Choose your"
   },

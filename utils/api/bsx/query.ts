@@ -1,6 +1,7 @@
 import type { ApiPromise } from '@polkadot/api'
 import type { Option, u32 } from '@polkadot/types'
 import type { Codec } from '@polkadot/types/types'
+import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 import { chainPropListOf } from '~/utils/config/chain.config'
 import { unwrapOrDefault } from '../format'
 import Query from '../Query'
@@ -48,6 +49,10 @@ export function getAsssetBalance(
   account: string,
   id: string
 ): Promise<string> {
+  if (!account) {
+    return Promise.resolve('')
+  }
+
   if (id === '0') {
     return Query.getTokenBalance(api, account)
   }
@@ -55,8 +60,7 @@ export function getAsssetBalance(
   if (api.query.tokens) {
     return api.query.tokens
       .accounts(account, id)
-      .then((val: { free: string }) => val.free)
-      .then((val: string) => val.toString())
+      .then((val) => (val as PalletBalancesAccountData).free.toString())
   }
 
   return Promise.resolve('')

@@ -1,4 +1,4 @@
-query assetById($id: ID!) {
+query assetById($id: String!) {
   asset: assetEntityById(id: $id) {
     id
     symbol

@@ -71,50 +71,6 @@ body {
   }
 }
 
-@media (max-width: 480px) {
-  .gallery-search:focus-within {
-    box-sizing: border-box;
-    position: fixed;
-    width: 100%;
-    height: 50px;
-    top: 0;
-    left: 0;
-    z-index: 989;
-    border-radius: 0;
-    overflow: auto;
-
-    > .control {
-      margin-right: auto !important;
-
-      > .input {
-        height: 50px;
-      }
-
-      > .icon {
-        top: 10%;
-      }
-    }
-
-    > .dropdown-menu {
-      display: none;
-    }
-  }
-}
-@media screen and (min-width: 481px){
-  .gallery-search {
-    .b-tabs .tab-content {
-      padding: 10px;
-    }
-
-    > .dropdown-menu {
-      > .dropdown-content {
-        // max-height: 470px !important;
-        width: 550px;
-      }
-    }
-  }
-}
-
 
 @include mobile {
   .column-padding {
@@ -150,7 +106,7 @@ body {
 
 .collection-radio-btn .b-radio.radio.button {
   border: none !important;
-  border-top: 1px solid $primary  !important;
+  border-top: 1px solid $primary !important;
 }
 
 .short-identity__table {
@@ -185,4 +141,17 @@ body {
 
 .rmrk-logo {
   aspect-ratio: 127 / 42;
+}
+
+.instance {
+  border-top: 1px solid black;
+  padding: 5rem 0;
+
+  &-accent {
+    background-color: $k-accent;
+  }
+
+  &-blue {
+    background-color: $k-blue;
+  }
 }

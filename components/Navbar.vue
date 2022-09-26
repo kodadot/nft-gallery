@@ -19,24 +19,22 @@
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
         <HistoryBrowser />
-
         <b-button
+          v-if="!isRedesignedLandingPage"
           type="is-primary is-bordered-light ml-2"
           class="navbar-link-background"
           icon-right="search"
           @click="showMobileSearchBar" />
         <Search
           ref="mobilSearchRef"
-          show-default-suggestions
           hide-filter
-          class="is-hidden-desktop mt-5 search-navbar-container-mobile" />
+          class="mt-5 search-navbar-container-mobile" />
       </div>
     </template>
     <template #start>
       <Search
-        v-if="!mobileGallery"
+        v-if="!isRedesignedLandingPage"
         hide-filter
-        show-default-suggestions
         class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
         search-column-class="is-flex-grow-1" />
     </template>
@@ -191,6 +189,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { createVisible } from '@/utils/config/permision.config'
 import { identityStore } from '@/utils/idbStore'
 import AuthMixin from '~~/utils/mixins/authMixin'
+import ExperimentMixin from '~~/utils/mixins/experimentMixin'
 
 @Component({
   components: {
@@ -201,8 +200,11 @@ import AuthMixin from '~~/utils/mixins/authMixin'
     ColorModeButton,
   },
 })
-export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
-  protected mobileGallery = false
+export default class NavbarMenu extends mixins(
+  PrefixMixin,
+  AuthMixin,
+  ExperimentMixin
+) {
   protected showTopNavbar = true
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
   private fixedTitleNavAppearDistance = 200
@@ -210,10 +212,6 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
   private artistName = ''
   private isBurgerMenuOpened = false
   @Ref('mobilSearchRef') readonly mobilSearchRef
-
-  private onResize() {
-    return (this.mobileGallery = window.innerWidth <= 1023)
-  }
 
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
@@ -254,6 +252,10 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
   }
   get currentGalleryItemName() {
     return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
+  }
+
+  get isRedesignedLandingPage() {
+    return this.$route.name === 'index' && this.redesign
   }
 
   get navBarTitle(): string {
@@ -305,15 +307,10 @@ export default class NavbarMenu extends mixins(PrefixMixin, AuthMixin) {
 
   mounted() {
     window.addEventListener('scroll', this.onScroll)
-    if (this.isGallery) {
-      window.addEventListener('resize', this.onResize)
-      return (this.mobileGallery = window.innerWidth <= 1023)
-    }
   }
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.onScroll)
-    window.removeEventListener('resize', this.onResize)
   }
 }
 </script>
