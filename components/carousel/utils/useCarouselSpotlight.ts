@@ -6,7 +6,7 @@ import { getSanitizer } from '@/components/rmrk/utils'
 import { mapOnlyMetadata } from '@/utils/mappers'
 import {
   getCloudflareImageLinks,
-  processMetadata,
+  processSingleMetadata,
 } from '@/utils/cachingStrategy'
 import { fastExtract } from '@/utils/ipfs'
 
@@ -40,9 +40,11 @@ async function updateCollections(data) {
   const metadataList: string[] = collections.value.map(mapOnlyMetadata)
   const imageLinks = await getCloudflareImageLinks(metadataList)
 
-  processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
-    collections.value[i].image =
-      imageLinks[fastExtract(collections.value[i]?.metadata)] ||
+  metadataList.forEach(async (metadata, index) => {
+    const meta = (await processSingleMetadata(metadata)) as CollectionMetadata
+
+    collections.value[index].image =
+      imageLinks[fastExtract(collections.value[index]?.metadata)] ||
       getSanitizer(meta.image || '')(meta.image || '')
   })
 }
