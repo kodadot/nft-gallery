@@ -61,19 +61,23 @@ export const useCarouselNftEventsOld = ({ type }: Types) => {
   }
 }
 
+const useChainEvents = (chain, type) => {
+  const { data, loading } = useGraphql({
+    queryPrefix: 'subsquid',
+    queryName: 'lastNftListByEvent',
+    variables: nftEventVariables[type],
+    clientName: chain === 'rmrk' ? 'subsquid' : chain,
+  })
+
+  return {
+    data,
+    loading,
+  }
+}
+
 export const useCarouselNftEvents = ({ type }: Types) => {
-  const { data: dataRmrk, loading: loadingRmrk } = useGraphql({
-    queryPrefix: 'subsquid',
-    queryName: 'lastNftListByEvent',
-    variables: nftEventVariables[type],
-    clientName: 'subsquid',
-  })
-  const { data: dataSnek, loading: loadingSnek } = useGraphql({
-    queryPrefix: 'subsquid',
-    queryName: 'lastNftListByEvent',
-    variables: nftEventVariables[type],
-    clientName: 'snek',
-  })
+  const { data: dataRmrk, loading: loadingRmrk } = useChainEvents('rmrk', type)
+  const { data: dataSnek, loading: loadingSnek } = useChainEvents('snek', type)
   const nfts = ref<CarouselNFT[]>([])
 
   const flattenNFT = async (data, chain) => {
