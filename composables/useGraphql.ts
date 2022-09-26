@@ -21,10 +21,9 @@ export default function ({
   const { prefix, client } = useQueryParams({ queryPrefix, clientName })
   const data = ref(null)
   const error = ref(null)
-  const loading = ref(false)
+  const loading = ref(true)
 
   async function doFetch() {
-    loading.value = true
     data.value = null
     error.value = null
     const query = await resolveQueryPath(prefix, queryName)

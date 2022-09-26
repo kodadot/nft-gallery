@@ -62,13 +62,13 @@ export const useCarouselNftEventsOld = ({ type }: Types) => {
 }
 
 export const useCarouselNftEvents = ({ type }: Types) => {
-  const { data: dataRmrk } = useGraphql({
+  const { data: dataRmrk, loading: loadingRmrk } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: 'lastNftListByEvent',
     variables: nftEventVariables[type],
     clientName: 'subsquid',
   })
-  const { data: dataSnek } = useGraphql({
+  const { data: dataSnek, loading: loadingSnek } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: 'lastNftListByEvent',
     variables: nftEventVariables[type],
@@ -76,20 +76,21 @@ export const useCarouselNftEvents = ({ type }: Types) => {
   })
   const nfts = ref<CarouselNFT[]>([])
 
-  const flattenNFT = async (data: LastEvent[], chain) => {
-    const events = data.map(convertLastEventFlatNft)
+  const flattenNFT = async (data, chain) => {
+    if (!data?.events.length) {
+      return []
+    }
+
+    const events = data.events.map(convertLastEventFlatNft)
     return await formatNFT(events, chain)
   }
 
   // currently only support rmrk and snek
   // moonriver: https://github.com/kodadot/nft-gallery/issues/3891
-  watch([dataRmrk, dataSnek], async () => {
-    if (dataRmrk.value && dataSnek.value) {
-      const rmrk = dataRmrk.value as { events: LastEvent[] }
-      const rmrkNfts = await flattenNFT(rmrk.events, 'rmrk')
-
-      const snek = dataSnek.value as { events: LastEvent[] }
-      const snekNfts = await flattenNFT(snek.events, 'snek')
+  watch([loadingRmrk, loadingSnek], async () => {
+    if (!loadingRmrk.value && !loadingSnek.value) {
+      const rmrkNfts = await flattenNFT(dataRmrk.value, 'rmrk')
+      const snekNfts = await flattenNFT(dataSnek.value, 'snek')
 
       const data = [...rmrkNfts, ...snekNfts]
 

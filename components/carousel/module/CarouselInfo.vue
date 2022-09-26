@@ -21,7 +21,7 @@
 
     <div v-if="item.price && !isCollection" class="carousel-meta">
       <Money :value="item.price" class="has-text-weight-bold" />
-      <p class="is-size-7">{{ item.chain }}</p>
+      <p class="is-size-7">{{ chainName }}</p>
     </div>
   </div>
 </template>
@@ -32,11 +32,19 @@ import type { CarouselNFT } from '@/components/base/types'
 
 import { useCarouselUrl } from '../utils/useCarousel'
 
-defineProps<{
+const props = defineProps<{
   item: CarouselNFT
 }>()
 
 const { urlOf } = useCarouselUrl()
 const url = inject('itemUrl') as string
 const isCollection = inject('isCollection')
+const chainName = computed(() => {
+  const name = {
+    rmrk: 'RMRK',
+    snek: 'Basilisk',
+  }
+
+  return name[props.item.chain || 'rmrk']
+})
 </script>
