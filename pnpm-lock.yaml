@@ -25,7 +25,7 @@ specifiers:
   '@keeex/qrcodejs-kx': ^1.0.2
   '@kodadot1/minimark': ^0.0.1-rc.10
   '@kodadot1/sub-api': 0.1.0-alpha.3
-  '@kodadot1/vuex-options': 0.0.3-rc.4
+  '@kodadot1/vuex-options': 0.0.3-rc.5
   '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27672061.a645f7f
   '@nuxt/test-utils': ^0.2.2
   '@nuxt/types': ^2.15.8
@@ -119,7 +119,7 @@ dependencies:
   '@keeex/qrcodejs-kx': 1.0.2
   '@kodadot1/minimark': 0.0.1-rc.10
   '@kodadot1/sub-api': 0.1.0-alpha.3
-  '@kodadot1/vuex-options': 0.0.3-rc.4
+  '@kodadot1/vuex-options': 0.0.3-rc.5
   '@nuxtjs/apollo': 4.0.1-rc.5_32sgk3cj5ln5e5b7utndqdoug4
   '@nuxtjs/i18n': 7.3.0_vue@2.7.8
   '@polkadot/extension-dapp': 0.44.4
@@ -2542,8 +2542,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@kodadot1/vuex-options/0.0.3-rc.4:
-    resolution: {integrity: sha512-f7AhkJId+575gWTm7sqf2ZNk0Gvq5KyZLfy1s9R4HsLrdFGrX1y0nSrMxtt//V20qtUH84WOhP3WYVNjQ6icwg==}
+  /@kodadot1/vuex-options/0.0.3-rc.5:
+    resolution: {integrity: sha512-hzrIgTkIEgo+w2fhw7POveFcz++Mn7lzlSpvngRKwxy1fdBe6pbXTzHvYakYsMbsd6/H+YCjuXpONm6P4GmD3A==}
     dependencies:
       '@polkadot/networks': 10.1.7
     dev: false
@@ -3548,7 +3548,7 @@ packages:
       '@polkadot/types': 8.14.1
       '@polkadot/types-augment': 8.14.1
       '@polkadot/types-codec': 8.14.1
-      '@polkadot/util': 10.1.3
+      '@polkadot/util': 10.1.7
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -3562,7 +3562,7 @@ packages:
       '@babel/runtime': 7.18.9
       '@polkadot/rpc-core': 8.14.1
       '@polkadot/types': 8.14.1
-      '@polkadot/util': 10.1.3
+      '@polkadot/util': 10.1.7
       rxjs: 7.5.6
     transitivePeerDependencies:
       - bufferutil
@@ -3581,7 +3581,7 @@ packages:
       '@polkadot/rpc-core': 8.14.1
       '@polkadot/types': 8.14.1
       '@polkadot/types-codec': 8.14.1
-      '@polkadot/util': 10.1.3
+      '@polkadot/util': 10.1.7
       '@polkadot/util-crypto': 10.1.3
       rxjs: 7.5.6
     transitivePeerDependencies:
@@ -3684,7 +3684,7 @@ packages:
       '@polkadot/rpc-core': 8.14.1
       '@polkadot/types': 8.14.1
       '@polkadot/types-codec': 8.14.1
-      '@polkadot/util': 10.1.3
+      '@polkadot/util': 10.1.7
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -3699,7 +3699,7 @@ packages:
       '@polkadot/rpc-augment': 8.14.1
       '@polkadot/rpc-provider': 8.14.1
       '@polkadot/types': 8.14.1
-      '@polkadot/util': 10.1.3
+      '@polkadot/util': 10.1.7
       rxjs: 7.5.6
     transitivePeerDependencies:
       - bufferutil
@@ -3715,10 +3715,10 @@ packages:
       '@polkadot/keyring': 10.1.3
       '@polkadot/types': 8.14.1
       '@polkadot/types-support': 8.14.1
-      '@polkadot/util': 10.1.3
+      '@polkadot/util': 10.1.7
       '@polkadot/util-crypto': 10.1.3
       '@polkadot/x-fetch': 10.1.3
-      '@polkadot/x-global': 10.1.3
+      '@polkadot/x-global': 10.1.7
       '@polkadot/x-ws': 10.1.3
       '@substrate/connect': 0.7.9
       eventemitter3: 4.0.7
@@ -3760,7 +3760,7 @@ packages:
       '@babel/runtime': 7.18.9
       '@polkadot/types': 8.14.1
       '@polkadot/types-codec': 8.14.1
-      '@polkadot/util': 10.1.3
+      '@polkadot/util': 10.1.7
     dev: false
 
   /@polkadot/types-augment/9.1.1:
@@ -3797,7 +3797,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.18.9
       '@polkadot/types-codec': 8.14.1
-      '@polkadot/util': 10.1.3
+      '@polkadot/util': 10.1.7
     dev: false
 
   /@polkadot/types-create/9.1.1:
@@ -3818,7 +3818,7 @@ packages:
       '@polkadot/types': 8.14.1
       '@polkadot/types-codec': 8.14.1
       '@polkadot/types-create': 8.14.1
-      '@polkadot/util': 10.1.3
+      '@polkadot/util': 10.1.7
     dev: false
 
   /@polkadot/types-support/8.14.1:
@@ -3846,7 +3846,7 @@ packages:
       '@polkadot/types-augment': 8.14.1
       '@polkadot/types-codec': 8.14.1
       '@polkadot/types-create': 8.14.1
-      '@polkadot/util': 10.1.3
+      '@polkadot/util': 10.1.7
       '@polkadot/util-crypto': 10.1.3
       rxjs: 7.5.6
     dev: false
@@ -3882,7 +3882,7 @@ packages:
     resolution: {integrity: sha512-c18ah/Wkl3nf5HnQqfgruo/Pz/Xc1wonrgHQRlbKWnPJI2lhRHAospKQFpv431xNix3GrkZdJ9rpf39xDJ3f1w==}
     dependencies:
       '@babel/runtime': 7.18.9
-      '@polkadot/networks': 10.1.3
+      '@polkadot/networks': 10.1.7
       '@polkadot/util': 10.1.3
       eventemitter3: 4.0.7
       store: 2.0.12
