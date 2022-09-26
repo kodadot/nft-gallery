@@ -53,4 +53,14 @@ export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [
   'sn_ASC',
 ]
 
-export const chainTestList = ['westend', 'westmint']
+export const disableChainListOnProductionEnv = [
+  'westend',
+  'westmint',
+  'movr',
+  'glmr',
+]
+
+export const chainTestList =
+  window.location.hostname === 'kodadot.xyz'
+    ? disableChainListOnProductionEnv
+    : ['westend', 'westmint']
