@@ -6,6 +6,7 @@ import { convertLastEventFlatNft } from '@/utils/carousel'
 import { formatNFT } from '@/utils/carousel'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { sortItemListByIds } from '@/utils/sorting'
+import { correctPrefix } from '@/utils/uniquery'
 
 export const useCarouselUrl = () => {
   const { urlPrefix } = usePrefix()
@@ -66,7 +67,7 @@ const useChainEvents = (chain, type) => {
     queryPrefix: 'subsquid',
     queryName: 'lastNftListByEvent',
     variables: nftEventVariables[type],
-    clientName: chain === 'rmrk' ? 'subsquid' : chain,
+    clientName: correctPrefix(chain),
   })
 
   return {
