@@ -145,6 +145,34 @@ export const isArweaveUrl = (url: string): boolean => {
   return ar.test(url)
 }
 
+export const sanitizeIpfsUrl = (
+  ipfsUrl: string,
+  provider?: ProviderKeyType
+): string => {
+  if (ipfsUrl.includes('https://gateway.pinata.cloud')) {
+    return ipfsUrl.replace(
+      'https://gateway.pinata.cloud/',
+      resolveProvider(provider)
+    )
+  }
+
+  if (isIpfsCid(ipfsUrl)) {
+    return sanitizeIpfsCid(ipfsUrl, provider)
+  }
+
+  const rr = /^ipfs:\/\/ipfs/
+  if (rr.test(ipfsUrl)) {
+    return ipfsUrl.replace('ipfs://', resolveProvider(provider))
+  }
+
+  const r = /^ipfs:\/\//
+  if (r.test(ipfsUrl)) {
+    return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`)
+  }
+
+  return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders)
+}
+
 export const getSanitizer = (
   url: string,
   ipfsProvider?: ProviderKeyType,
@@ -174,34 +202,6 @@ export const sanitizeIpfsCid = (
   provider?: ProviderKeyType
 ): string => {
   return `${resolveProvider(provider)}ipfs/${url}`
-}
-
-export const sanitizeIpfsUrl = (
-  ipfsUrl: string,
-  provider?: ProviderKeyType
-): string => {
-  if (ipfsUrl.includes('https://gateway.pinata.cloud')) {
-    return ipfsUrl.replace(
-      'https://gateway.pinata.cloud/',
-      resolveProvider(provider)
-    )
-  }
-
-  if (isIpfsCid(ipfsUrl)) {
-    return sanitizeIpfsCid(ipfsUrl, provider)
-  }
-
-  const rr = /^ipfs:\/\/ipfs/
-  if (rr.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', resolveProvider(provider))
-  }
-
-  const r = /^ipfs:\/\//
-  if (r.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`)
-  }
-
-  return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders)
 }
 
 export function sanitizeImage<T extends RmrkWithMetaType>(

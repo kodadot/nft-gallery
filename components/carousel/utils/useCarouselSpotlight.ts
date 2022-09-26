@@ -41,11 +41,12 @@ async function updateCollections(data) {
   const imageLinks = await getCloudflareImageLinks(metadataList)
 
   metadataList.forEach(async (metadata, index) => {
-    const meta = (await processSingleMetadata(metadata)) as CollectionMetadata
+    const meta = await processSingleMetadata(metadata)
+    const image = (meta as CollectionMetadata).image || ''
 
     collections.value[index].image =
       imageLinks[fastExtract(collections.value[index]?.metadata)] ||
-      getSanitizer(meta.image || '')(meta.image || '')
+      getSanitizer(image)(image)
   })
 }
 
