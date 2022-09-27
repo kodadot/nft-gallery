@@ -1,5 +1,5 @@
 import { Component, Mixins } from 'vue-property-decorator'
-import exec, { execResultValue, Extrinsic, txCb } from '../transactionExecutor'
+import exec, { Extrinsic, execResultValue, txCb } from '../transactionExecutor'
 import TransactionMixin from './txMixin'
 import { notificationTypes, showNotification } from '../notification'
 import { DispatchError } from '@polkadot/types/interfaces'

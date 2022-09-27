@@ -9,7 +9,6 @@
     <span class="sub-title"> {{ $t('search.landingSubtitle') }}</span>
     <LazySearch
       hide-filter
-      show-default-suggestions
       class="landing-search-bar is-flex-grow-1 pb-0 mb-2"
       search-column-class="is-flex-grow-1" />
     <div class="if-flex is-flex-grow-1 mb-4">

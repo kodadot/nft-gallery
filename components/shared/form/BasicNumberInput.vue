@@ -1,13 +1,15 @@
 <template>
   <b-field :label="$t(label)">
     <b-numberinput
-      :placeholder="placeholder"
       v-model="vValue"
+      :placeholder="placeholder"
       :expanded="expanded"
+      :step="step"
+      :min-step="minStep"
+      :min="min"
+      :max="max"
       @blur="hasFocus = false"
-      @focus="hasFocus = true"
-      :min="1"
-      :max="max" />
+      @focus="hasFocus = true" />
     <template #message>
       <transition name="fade">
         <span v-show="hasFocus && message" class="has-text-primary is-italic">{{
@@ -26,12 +28,15 @@ export default class BasicNumberInput extends Vue {
   // Dev: make vValue required
   @VModel({ type: Number }) vValue!: number
   @Prop({ type: String, required: true }) label!: string
-  @Prop({ type: String, required: true }) placeholder!: string
+  @Prop({ type: String, required: false }) placeholder!: string
   @Prop({ type: Boolean, default: false }) expanded!: boolean
   @Prop({ type: String }) message!: string
   @Prop({ type: Number, required: false }) max!: number
+  @Prop({ type: Number, required: false, default: 1 }) min!: number
+  @Prop({ type: Number, required: false, default: 1 }) step!: number
+  @Prop({ type: Number, required: false }) minStep!: number
 
-  protected hasFocus = false
+  public hasFocus = false
 }
 </script>
 
