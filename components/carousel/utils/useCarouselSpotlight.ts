@@ -44,9 +44,9 @@ async function updateCollections(data) {
     const meta = await processSingleMetadata(metadata)
     const image = (meta as CollectionMetadata).image || ''
 
-    collections.value[index].image =
+    return (collections.value[index].image =
       imageLinks[fastExtract(collections.value[index]?.metadata)] ||
-      getSanitizer(image)(image)
+      getSanitizer(image)(image))
   })
 }
 
