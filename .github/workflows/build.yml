@@ -16,6 +16,7 @@ jobs:
     env:
       CYPRESS_CACHE_FOLDER: '${GITHUB_WORKSPACE}/.cypress-cache'
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
 
