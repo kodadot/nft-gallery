@@ -1,30 +1,7 @@
 <template>
   <div>
-    <b-field grouped>
-      <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
-      <b-field position="is-right" expanded>
-        <b-radio-button
-          v-model="nbDays"
-          native-value="24 HOUR"
-          type="is-outlined">
-          24h
-        </b-radio-button>
+    <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
 
-        <b-radio-button
-          v-model="nbDays"
-          native-value="7 DAY"
-          type="is-outlined">
-          7d
-        </b-radio-button>
-
-        <b-radio-button
-          v-model="nbDays"
-          native-value="30 DAY"
-          type="is-outlined">
-          30d
-        </b-radio-button>
-      </b-field>
-    </b-field>
     <div class="top-collections-grid">
       <div v-for="(collection, index) in data" :key="index">
         <TopCollectionsItem :collection="collection" :index="index + 1" />
@@ -34,14 +11,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, mixins } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 
 import AuthMixin from '@/utils/mixins/authMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
-import topCollectionList from '@/queries/rmrk/subsquid/topCollectionList.graphql'
+import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 
 import { RowSeries } from '@/components/series/types'
 import { calculateAvgPrice } from '@/components/series/utils'
@@ -57,34 +34,29 @@ const components = {
 })
 export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
   public data: RowSeries[] = []
-  public nbDays = '7 DAY'
 
   async fetch() {
     await this.fetchCollectionsSeries()
   }
 
-  @Watch('nbDays')
-  public onTopDaysChange() {
-    this.$fetch()
-  }
-
-  public async fetchCollectionsSeries(limit = 12, sort = 'volume') {
+  public async fetchCollectionsSeries(limit = 12, sort = 'volume_DESC') {
     const collections = await this.$apollo.query({
-      query: topCollectionList,
+      query: seriesInsightList,
       client: 'subsquid',
       variables: {
-        orderDirection: 'DESC',
-        dateRange: this.nbDays,
         orderBy: sort,
         limit,
+        where: {
+          floorPrice_isNull: false,
+        },
       },
     })
 
     const {
-      data: { seriesInsightTable },
+      data: { collectionEntities },
     } = collections
 
-    this.data = seriesInsightTable.map(
+    this.data = collectionEntities.map(
       (e: RowSeries): RowSeries => ({
         ...e,
         image: sanitizeIpfsUrl(e.image),
