@@ -16,6 +16,11 @@ export const state = () => ({
         label: 'বাংলা',
       },
       {
+        value: 'de',
+        flag: '🇩🇪',
+        label: 'Deutsch',
+      },
+      {
         value: 'cn',
         flag: '🇨🇳',
         label: '中文',
@@ -90,11 +95,6 @@ export const state = () => ({
         flag: '🇷🇺',
         label: 'Русский',
       },
-      // {
-      //   value: 'de',
-      //   flag: '🇩🇪',
-      //   label: 'Deutsch'
-      // },
       {
         value: 'ua',
         flag: '🇺🇦',
