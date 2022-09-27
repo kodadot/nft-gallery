@@ -1,6 +1,6 @@
 query collectionForMint($account: String!) {
   collectionEntities(
-    where: { issuer_eq: $account, currentOwner_eq: $account }
+    where: { issuer_eq: $account, currentOwner_eq: $account, burned_eq: false }
     orderBy: blockNumber_DESC
   ) {
     id
