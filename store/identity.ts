@@ -5,6 +5,8 @@ import consola from 'consola'
 import Vue from 'vue'
 import { formatAddress } from '@/utils/account'
 import type { ApiPromise } from '@polkadot/api'
+import { unwrapOrNull } from '@/utils/api/format'
+import type { Option, u32 } from '@polkadot/types'
 
 declare type Unsubscribe = () => void
 type UnsubscribePromise = Promise<Unsubscribe>
@@ -66,16 +68,22 @@ function free({ free }: any) {
   return free.toString()
 }
 
-function subscribeTokens(
+async function subscribeTokens(
   api: ApiPromise,
   address: string,
   cb: (value: BalanceMap) => void
 ): UnsubscribePromise {
   if (api.query.tokens) {
-    return api.query.tokens.accounts.multi([[address, '5']], ([ksm]: any[]) =>
-      cb({
-        '5': free(ksm),
-      })
+    const kusamaTokenId = await api.query.assetRegistry
+      .assetIds('KSM')
+      .then((value) => unwrapOrNull(value as Option<u32>))
+    const realKusamaTokenId = kusamaTokenId ? '5' : '1'
+    return api.query.tokens.accounts.multi(
+      [[address, realKusamaTokenId]],
+      ([ksm]: any[]) =>
+        cb({
+          [realKusamaTokenId]: free(ksm),
+        })
     )
   }
 
