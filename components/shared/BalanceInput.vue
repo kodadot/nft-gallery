@@ -7,22 +7,22 @@
       <div class="field-body">
         <div class="field has-addons">
           <b-input
-            :required="required"
             ref="balance"
             v-model="inputValue"
+            :required="required"
             type="number"
             :step="step"
             :min="minWithUnit"
             :max="maxWithUnit"
             :expanded="expanded"
-            @input="handleInput"
-            data-testid="balance-input" />
+            data-testid="balance-input"
+            @input="handleInput" />
           <p class="control balance">
             <b-select
               :value="selectedUnit"
               :disabled="!calculate"
-              @input="handleUnitChange"
-              data-testid="balance-input-select">
+              data-testid="balance-input-select"
+              @input="handleUnitChange">
               <option v-for="u in units" :key="u.value" :value="u.value">
                 {{ u.name }}
               </option>
@@ -30,7 +30,7 @@
           </p>
         </div>
       </div>
-      <p class="help is-danger" v-if="checkZeroFailed">
+      <p v-if="checkZeroFailed" class="help is-danger">
         {{ $t('tooltip.needToSetValidPrice') }}
       </p></b-field
     >
@@ -40,11 +40,11 @@
 <script lang="ts">
 import {
   Component,
+  Emit,
   Prop,
   Ref,
   Watch,
   mixins,
-  Emit,
 } from 'nuxt-property-decorator'
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
