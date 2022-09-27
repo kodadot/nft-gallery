@@ -18,7 +18,7 @@
       ref="uploadFileRef"
       v-model="file"
       required
-      :label="$t('mint.nft.drop')"
+      :label="$t('mint.nft.creativeDrop')"
       expanded
       preview />
 
@@ -299,7 +299,7 @@ export default class CreativeMint extends mixins(
       this.$set(
         this.rmrkMint,
         'description',
-        this.$t('mint.nft.rmrkDescription')
+        this.$t('mint.nft.creativeFailDesc')
       )
     }
   }
