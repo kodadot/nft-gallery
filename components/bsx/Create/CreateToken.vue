@@ -15,7 +15,7 @@
           ref="balanceInput"
           key="token-price"
           v-model="price"
-          token-id="5"
+          :token-id="tokenId"
           :prefix="urlPrefix"
           class="mb-3" />
         <div v-show="base.selectedCollection" key="attributes">
@@ -47,7 +47,7 @@
           </p>
         </b-field>
         <b-field key="balance">
-          <AccountBalance token-id="5" />
+          <AccountBalance :token-id="tokenId" />
         </b-field>
         <b-field key="token">
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
@@ -106,6 +106,7 @@ import {
 } from '~/components/rmrk/utils'
 import { getMany, update } from 'idb-keyval'
 import ApiUrlMixin from '~/utils/mixins/apiUrlMixin'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -264,6 +265,10 @@ export default class CreateToken extends mixins(
   get validPriceValue(): boolean {
     const price = parseInt(this.price as string)
     return !this.listed || price > 0
+  }
+
+  get tokenId() {
+    return getKusamaAssetId(this.urlPrefix)
   }
 
   public checkValidity() {

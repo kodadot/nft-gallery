@@ -20,7 +20,7 @@
           </p>
         </b-field>
         <b-field>
-          <AccountBalance token-id="5" />
+          <AccountBalance :token-id="tokenId" />
         </b-field>
         <b-field type="is-danger" :message="balanceNotEnoughMessage">
           <SubmitButton
@@ -58,6 +58,7 @@ import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
 import { dummyIpfsCid } from '@/utils/ipfs'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 type BaseCollectionType = {
   name: string
@@ -142,6 +143,10 @@ export default class CreateCollection extends mixins(
     const metaHash = await pinJson(meta, imageHash)
 
     return unSanitizeIpfsUrl(metaHash)
+  }
+
+  get tokenId() {
+    return getKusamaAssetId(this.urlPrefix)
   }
 
   protected async generateNewCollectionId(): Promise<number> {
