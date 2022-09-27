@@ -158,7 +158,7 @@ export default class CreateToken extends mixins(
   protected price = '0'
   protected listed = true
   protected royalty: Royalty = {
-    amount: 0,
+    amount: 0.15,
     address: '',
   }
   protected metadata = ''
@@ -312,7 +312,7 @@ export default class CreateToken extends mixins(
               collectionId,
               nextId,
               this.royalty.address,
-              this.royalty.amount
+              this.royalty.amount * 100
             ),
           ]
         : []
