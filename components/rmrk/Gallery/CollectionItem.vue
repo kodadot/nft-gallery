@@ -44,7 +44,9 @@
           :label="name"
           :iframe="iframeSettings"
           data-cy="share-button">
-          <DestroyCollection v-if="isOwner && urlPrefix === 'bsx'" :id="id" />
+          <DestroyCollection
+            v-if="isOwner && (urlPrefix === 'bsx' || urlPrefix === 'snek')"
+            :id="id" />
           <DonationButton :address="issuer" data-cy="donation-button" />
         </Sharing>
       </div>
