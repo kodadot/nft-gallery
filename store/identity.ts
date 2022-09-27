@@ -5,6 +5,7 @@ import consola from 'consola'
 import Vue from 'vue'
 import { formatAddress } from '@/utils/account'
 import type { ApiPromise } from '@polkadot/api'
+import { getChainEndpointByPrefix } from '@/utils/chain'
 
 declare type Unsubscribe = () => void
 type UnsubscribePromise = Promise<Unsubscribe>
@@ -136,7 +137,8 @@ export const actions = {
     { commit, dispatch, rootState },
     { address, apiUrl }: ChangeAddressRequest
   ) {
-    const endpoint = apiUrl || rootState.setting.apiUrl
+    const directEndpoint = getChainEndpointByPrefix(rootState.setting.urlPrefix)
+    const endpoint = apiUrl || directEndpoint || rootState.setting.apiUrl
     if (!address) {
       balanceSub()
       tokenSub()
