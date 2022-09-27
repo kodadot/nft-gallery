@@ -57,7 +57,7 @@ jobs:
           wait-on: 'http://localhost:9090'
           # wait for 2 minutes for the server to respond
           wait-on-timeout: 150
-          command: pnpm test:e2e --browser chrome
+          command: pnpm test:e2e --record --key ${{ secrets.CYPRESS_RECORD_KEY }} --parallel
 
       - name: Upload Screenshots
         uses: actions/upload-artifact@v2
