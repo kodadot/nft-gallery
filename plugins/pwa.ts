@@ -1,4 +1,5 @@
 import { NotificationProgrammatic as Notification } from 'buefy'
+import { clearSession } from '@/utils/cachingStrategy'
 
 declare global {
   interface Window {
@@ -8,16 +9,6 @@ declare global {
 
 export default async () => {
   const workbox = await window.$workbox
-
-  const flushIndexedDb = async () => {
-    if (window.indexedDB && typeof window.indexedDB.databases !== 'undefined') {
-      const databases = await window.indexedDB.databases()
-
-      for (const db of databases) {
-        window.indexedDB.deleteDatabase(db.name || '')
-      }
-    }
-  }
 
   if (workbox) {
     workbox.addEventListener('installed', (event) => {
@@ -37,16 +28,8 @@ export default async () => {
           hasIcon: true,
         })
 
-        notif.$on('close', async () => {
-          try {
-            window.sessionStorage.clear()
-            window.localStorage.clear()
-            await flushIndexedDb()
-          } catch (error) {
-            console.error(error)
-          } finally {
-            window.location.reload()
-          }
+        notif.$on('close', () => {
+          clearSession()
         })
       }
     })
