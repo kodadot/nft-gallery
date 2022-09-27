@@ -90,7 +90,7 @@ jobs:
           start: pnpm start:static
           wait-on: http://localhost:9090
           wait-on-timeout: 150
-          command: run --browser chrome --headless --spec "cypress/integration/ui/**/*"
+          command: pnpm test:e2e --browser chrome
 #  ui-chrome-tests:
 #    timeout-minutes: 20
 #    runs-on: ubuntu-latest
