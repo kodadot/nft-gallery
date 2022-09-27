@@ -58,10 +58,10 @@
                 <span
                   v-if="!isLoading"
                   class="title mb-0 is-4 has-text-centered"
-                  :title="nft.name">
+                  :title="getDisplayNameOfNft(nft)">
                   <nuxt-link :to="`/${urlPrefix}/gallery/${nft.id}`">
                     <div class="has-text-overflow-ellipsis">
-                      {{ nft.name }}
+                      {{ getDisplayNameOfNft(nft) }}
                     </div>
                   </nuxt-link>
                   <p
@@ -112,9 +112,9 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
-import { NFTMetadata } from '../service/scheme'
+import { NFT, NFTMetadata } from '../service/scheme'
 import { SearchQuery } from './search/types'
-import { getSanitizer } from '../utils'
+import { getNameOfNft, getSanitizer } from '../utils'
 
 // import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
@@ -343,6 +343,10 @@ export default class Gallery extends mixins(
     // }
 
     return params
+  }
+
+  public getDisplayNameOfNft(nft: NFT) {
+    return getNameOfNft(nft)
   }
 
   @Watch('$route.query.search')
