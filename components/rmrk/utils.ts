@@ -150,7 +150,7 @@ export const getSanitizer = (
   ipfsProvider?: ProviderKeyType,
   arProvider?: ArweaveProviders
 ): SanitizerFunc => {
-  if (isIpfsUrl(url)) {
+  if (url && (isIpfsUrl(url) || url.includes('https://gateway.pinata.cloud'))) {
     return (link) => sanitizeIpfsUrl(link, ipfsProvider)
   }
 
@@ -176,6 +176,13 @@ export const sanitizeIpfsUrl = (
   ipfsUrl: string,
   provider?: ProviderKeyType
 ): string => {
+  if (ipfsUrl.includes('https://gateway.pinata.cloud')) {
+    return ipfsUrl.replace(
+      'https://gateway.pinata.cloud/',
+      resolveProvider(provider)
+    )
+  }
+
   if (isIpfsCid(ipfsUrl)) {
     return sanitizeIpfsCid(ipfsUrl, provider)
   }
@@ -348,4 +355,8 @@ export const getRandomIntInRange = (min: number, max: number): number => {
   min = Math.ceil(min)
   max = Math.floor(max)
   return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+export const getNameOfNft = (nft: NFT): string => {
+  return nft.name || `${nft.collection.name} - #${nft.sn}`
 }
