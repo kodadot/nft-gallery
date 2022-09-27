@@ -113,7 +113,7 @@
                         <Auth class="mt-4" />
                       </p>
                     </div>
-                    <AccountBalance token-id="5" />
+                    <AccountBalance :token-id="assetId" />
                     <b-field key="token">
                       <MultiPaymentFeeButton
                         v-if="accountId"
@@ -192,6 +192,7 @@ import AvailableActions from './AvailableActions.vue'
 import nftListIdsByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
 import { unwrapSafe } from '@/utils/uniquery'
 import { mapToId } from '@/utils/mappers'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -284,6 +285,10 @@ export default class GalleryItem extends mixins(
 
   get pageTitle(): string {
     return this.nft?.name || ''
+  }
+
+  get assetId() {
+    return getKusamaAssetId(this.urlPrefix)
   }
 
   get image(): string {

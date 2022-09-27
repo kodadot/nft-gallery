@@ -222,7 +222,7 @@ export default class NavbarMenu extends mixins(
   }
 
   get isSnek(): boolean {
-    return this.urlPrefix === 'snek'
+    return this.urlPrefix === 'snek' || this.urlPrefix === 'bsx'
   }
 
   get inCollectionPage(): boolean {
