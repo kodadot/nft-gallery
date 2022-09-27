@@ -66,3 +66,11 @@ export const getChainPrefixByUrl = (url: string): string | undefined => {
 
   return prefixes[option.info] ? String(prefixes[option.info]) : undefined
 }
+
+export const getChainEndpointByPrefix = (prefix: string) => {
+  const endpoint = ENDPOINTS.find((node) => {
+    return node.info === prefix
+  })
+
+  return endpoint?.value
+}
