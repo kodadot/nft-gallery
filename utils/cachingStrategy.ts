@@ -49,7 +49,7 @@ export const cacheOrFetchMetadata = async <T>(
 
   try {
     const meta = await fetchMetadata<T>({ metadata })
-    update(metadata, () => meta) // DEV: think how does it behave in
+    metadata && update(metadata, () => meta) // DEV: think how does it behave in
     return meta
   } catch (e) {
     console.warn('[ERR] unable to get metadata', e)
@@ -64,7 +64,7 @@ export const getSingleCloudflareImage = async (
 }
 
 export const processSingleMetadata = async <T>(metadata: string): P<T> => {
-  const meta = await get(metadata)
+  const meta = metadata ? await get(metadata) : undefined
   return cacheOrFetchMetadata(meta, metadata)
 }
 
@@ -72,9 +72,10 @@ export const processMetadata = async <T>(
   metadataList: string[],
   cb?: (meta: T, index: number) => void
 ): P<void> => {
-  const storedMetadata = await getMany<T>(metadataList)
+  const metadata = metadataList.map((meta) => meta || '')
+  const storedMetadata = await getMany<T>(metadata)
   storedMetadata.forEach(async (m, i) => {
-    const meta = await cacheOrFetchMetadata(m, metadataList[i])
+    const meta = await cacheOrFetchMetadata(m, metadata[i])
     if (cb) {
       cb(meta, i)
     }
