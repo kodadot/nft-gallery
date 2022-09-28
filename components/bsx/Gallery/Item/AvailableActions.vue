@@ -14,6 +14,7 @@
       ref="balanceInput"
       class="mb-4"
       empty-on-error
+      :token-id="assetId"
       @input="updateMeta" />
     <DaySelect v-if="showDaySelect" v-model="selectedDay" :days="dayList" />
     <SubmitButton
@@ -49,6 +50,7 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import { onApiConnect } from '@kodadot1/sub-api'
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { formatBsxBalanceToNumber } from '@/utils/format/balance'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 const components = {
   ActionList: () => import('@/components/bsx/Gallery/Item/ActionList.vue'),
@@ -147,6 +149,10 @@ export default class AvailableActions extends mixins(
 
   get showMeta() {
     return actionComponent[this.selectedAction]
+  }
+
+  get assetId() {
+    return getKusamaAssetId(this.urlPrefix)
   }
 
   public async created(): Promise<void> {
