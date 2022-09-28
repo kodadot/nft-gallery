@@ -96,7 +96,9 @@
         field="id"
         label="Collection">
         <nuxt-link v-if="!isLoading" :to="`/rmrk/collection/${props.row.id}`">
-          {{ props.row.name }}
+          <p :data-cy="`series-name-${data.indexOf(props.row) + 1}`">
+            {{ props.row.name }}
+          </p>
         </nuxt-link>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -109,7 +111,11 @@
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
-          <Money :value="props.row.volume" inline hide-unit />
+          <Money
+            :data-cy="`series-volume-${data.indexOf(props.row)}`"
+            :value="props.row.volume"
+            inline
+            hide-unit />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -203,7 +209,11 @@
         cell-class="is-vcentered"
         sortable>
         <template v-if="!isLoading">
-          <Money :value="props.row.floorPrice" inline hide-unit />
+          <Money
+            :data-cy="`series-floorPrice-${data.indexOf(props.row)}`"
+            :value="props.row.floorPrice"
+            inline
+            hide-unit />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -215,7 +225,11 @@
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
-          <Money :value="props.row.averagePrice" inline hide-unit />
+          <Money
+            :data-cy="`series-averagePrice-${data.indexOf(props.row)}`"
+            :value="props.row.averagePrice"
+            inline
+            hide-unit />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -228,7 +242,11 @@
         cell-class="is-vcentered"
         sortable>
         <template v-if="!isLoading">
-          <Money :value="props.row.highestSale" inline hide-unit />
+          <Money
+            :data-cy="`series-highestSale-${data.indexOf(props.row)}`"
+            :value="props.row.highestSale"
+            inline
+            hide-unit />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -240,7 +258,11 @@
         numeric
         cell-class="is-vcentered"
         sortable>
-        <template v-if="!isLoading">{{ props.row.buys }}</template>
+        <template v-if="!isLoading"
+          ><p :data-cy="`series-buys-${data.indexOf(props.row)}`">
+            {{ props.row.buys }}
+          </p></template
+        >
         <b-skeleton :active="isLoading" />
       </b-table-column>
 
@@ -252,7 +274,9 @@
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
-          {{ props.row.sold }}
+          <p :data-cy="`series-sold-${data.indexOf(props.row)}`">
+            {{ props.row.sold }}
+          </p>
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -265,7 +289,9 @@
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
-          {{ props.row.total }}
+          <p :data-cy="`series-total-${data.indexOf(props.row)}`">
+            {{ props.row.total }}
+          </p>
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -277,7 +303,9 @@
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
-          {{ Math.ceil(props.row.rank) }}
+          <p :data-cy="`series-rank-${data.indexOf(props.row)}`">
+            {{ Math.ceil(props.row.rank) }}
+          </p>
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -289,7 +317,9 @@
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
-          {{ Math.ceil(props.row.emoteCount) }}
+          <p :data-cy="`series-emoteCount-${data.indexOf(props.row)}`">
+            {{ Math.ceil(props.row.emoteCount) }}
+          </p>
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
