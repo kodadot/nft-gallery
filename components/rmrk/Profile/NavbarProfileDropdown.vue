@@ -123,10 +123,7 @@ export default class NavbarProfileDropdown extends mixins(
   @Prop() public showIncommingOffers!: boolean
   @Prop() public isSnek!: boolean
 
-  // private tokens = [
-  //   { id: '0', balance: 0 },
-  //   { id: '5', balance: 0 },
-  // ]
+  private tokens = [{ id: '0', balance: 0 }]
 
   get account() {
     return this.$store.getters.getAuthAddress
@@ -142,8 +139,11 @@ export default class NavbarProfileDropdown extends mixins(
 
   private async updateAssetsBalance() {
     const api = await this.useApi()
+    const additionalTokenList = [
+      { id: getKusamaAssetId(this.urlPrefix), balance: 0 },
+    ]
     const result = await Promise.all(
-      this.tokens.map(
+      [...this.tokens, ...additionalTokenList].map(
         async (token) => await getAsssetBalance(api, this.accountId, token.id)
       )
     )
@@ -161,13 +161,6 @@ export default class NavbarProfileDropdown extends mixins(
 
   get tokenAmount() {
     return this.$store.getters.getTokenBalanceOf('0')
-  }
-
-  get tokens() {
-    return [
-      { id: '0', balance: 0 },
-      { id: getKusamaAssetId(this.urlPrefix), balance: 0 },
-    ]
   }
 
   public disconnect() {
