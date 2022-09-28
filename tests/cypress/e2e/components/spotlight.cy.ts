@@ -14,6 +14,7 @@ function spotlightSort(arg1, arg2) {
 
 describe('Spotlight.vue component', () => {
   it('identity component in spotlight', () => {
+    cy.visit('/rmrk')
     cy.visit('/spotlight')
     cy.getCy('spotlight-id-0').should('contain.html', 'data-cy="identity"')
   })
