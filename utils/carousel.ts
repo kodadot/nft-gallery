@@ -2,11 +2,11 @@ import { formatDistanceToNow } from 'date-fns'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
-} from '~/utils/cachingStrategy'
+  processSingleMetadata,
+} from '@/utils/cachingStrategy'
+import { LastEvent } from '@/utils/types/types'
 
 import { CarouselNFT } from '@/components/base/types'
-import { processSingleMetadata } from '~/utils/cachingStrategy'
-import { LastEvent } from '~/utils/types/types'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 /**
  * Format the data to fit with CarouselNFT[]
