@@ -74,7 +74,8 @@
                             :value="nft.price"
                             inline
                             data-cy="money"
-                            :prefix="urlPrefix" />
+                            :prefix="urlPrefix"
+                            :token-id="assetId" />
                         </div>
                         <b-button
                           v-if="nft.currentOwner === accountId"
@@ -87,7 +88,10 @@
                       </div>
                       <div v-if="nftRoyalties" class="royalty">
                         ⊆ {{ $t('royalty') }}
-                        <Money :value="nftRoyalties" inline />
+                        <Money
+                          :value="nftRoyalties"
+                          :token-id="assetId"
+                          inline />
                       </div>
                     </template>
                     <div class="content pt-4">
