@@ -3,8 +3,8 @@
     <b-field class="file is-primary">
       <b-upload
         ref="upload"
-        :required="required"
         v-model="file"
+        :required="required"
         class="file-label"
         drag-drop
         :expanded="expanded"
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit, Ref } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Ref, Vue, Watch } from 'nuxt-property-decorator'
 import Tooltip from '@/components/shared/Tooltip.vue'
 
 @Component({

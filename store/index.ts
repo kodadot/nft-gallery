@@ -10,7 +10,7 @@ const formatPlugin = (store: Store<null>): void => {
   store.subscribeAction(({ type, payload }: VuexAction) => {
     if (type === 'setUrlPrefix' && payload) {
       store.dispatch('setCorrectAddressFormat', ss58Of(payload))
-      if (payload === 'snek') {
+      if (['snek', 'bsx'].includes(payload)) {
         store.dispatch('assets/fetchAssetList', payload)
       }
     }

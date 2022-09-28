@@ -33,7 +33,7 @@ const components = { Collection, NFT }
       title,
       type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
-      url: '/statemine/create',
+      url: '/bsx/create',
       image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {

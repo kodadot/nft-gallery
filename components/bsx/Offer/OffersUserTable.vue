@@ -16,6 +16,7 @@
       size="is-medium"
       label-color="has-text-success"
       @input="updateList" />
+    <Loader v-model="isLoading" :status="status" />
     <b-table :data="displayOffers(offers)">
       <b-table-column
         v-slot="props"

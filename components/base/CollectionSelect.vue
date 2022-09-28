@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-2" v-if="showExplainerText && isLogIn">
+    <div v-if="showExplainerText && isLogIn" class="mb-2">
       <small>
         {{ $t('createNftExplainer') }}
       </small>
@@ -9,11 +9,11 @@
       :label="$t('collection')"
       :message="$t('Select collection where do you want mint your token')">
       <b-select
-        placeholder="Select a collection"
         v-model="selectedCollection"
+        placeholder="Select a collection"
         expanded>
         <option disabled selected value="">--</option>
-        <option v-for="option in collections" :value="option" :key="option.id">
+        <option v-for="option in collections" :key="option.id" :value="option">
           {{ option.name || option.id }} ({{ option.totalCount }})
         </option>
       </b-select>
@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Component, VModel, Prop, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, VModel, mixins } from 'nuxt-property-decorator'
 import AuthMixin from '~/utils/mixins/authMixin'
 import { BaseMintedCollection as MintedCollection } from './types'
 

@@ -19,7 +19,6 @@
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
         <HistoryBrowser />
-
         <b-button
           v-if="!isRedesignedLandingPage"
           type="is-primary is-bordered-light ml-2"
@@ -28,17 +27,15 @@
           @click="showMobileSearchBar" />
         <Search
           ref="mobilSearchRef"
-          show-default-suggestions
           hide-filter
-          class="is-hidden-desktop mt-5 search-navbar-container-mobile" />
+          class="mt-5 search-navbar-container-mobile" />
       </div>
     </template>
     <template #start>
       <Search
-        v-if="!mobileGallery && !isRedesignedLandingPage"
+        v-if="!isRedesignedLandingPage"
         hide-filter
-        show-default-suggestions
-        class="search-navbar is-flex-grow-1 pb-0"
+        class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
         search-column-class="is-flex-grow-1" />
     </template>
     <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
@@ -208,7 +205,6 @@ export default class NavbarMenu extends mixins(
   AuthMixin,
   ExperimentMixin
 ) {
-  protected mobileGallery = false
   protected showTopNavbar = true
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
   private fixedTitleNavAppearDistance = 200
@@ -216,10 +212,6 @@ export default class NavbarMenu extends mixins(
   private artistName = ''
   private isBurgerMenuOpened = false
   @Ref('mobilSearchRef') readonly mobilSearchRef
-
-  private onResize() {
-    return (this.mobileGallery = window.innerWidth <= 1023)
-  }
 
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
@@ -230,7 +222,7 @@ export default class NavbarMenu extends mixins(
   }
 
   get isSnek(): boolean {
-    return this.urlPrefix === 'snek'
+    return this.urlPrefix === 'snek' || this.urlPrefix === 'bsx'
   }
 
   get inCollectionPage(): boolean {
@@ -315,15 +307,10 @@ export default class NavbarMenu extends mixins(
 
   mounted() {
     window.addEventListener('scroll', this.onScroll)
-    if (this.isGallery) {
-      window.addEventListener('resize', this.onResize)
-      return (this.mobileGallery = window.innerWidth <= 1023)
-    }
   }
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.onScroll)
-    window.removeEventListener('resize', this.onResize)
   }
 }
 </script>

@@ -2,14 +2,14 @@
   <b-field :label="$t(label)">
     <b-input
       ref="input"
-      :placeholder="placeholder"
       v-model="vValue"
+      :placeholder="placeholder"
       :expanded="expanded"
-      @blur="hasFocus = false"
-      @focus="hasFocus = true"
       :maxlength="maxlength"
       :required="required"
-      :type="type" />
+      :type="type"
+      @blur="hasFocus = false"
+      @focus="hasFocus = true" />
     <template v-if="hasFocus && message" #message>
       <transition name="fade">
         <span class="has-text-primary is-italic">{{ message }}</span>

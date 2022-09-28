@@ -31,8 +31,8 @@ export const URLS = {
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
     rubick: 'https://squid.subsquid.io/rubick/v/007/graphql',
-    snekk: 'https://squid.subsquid.io/snekk/v/003/graphql',
-    snekkv2: 'https://squid.subsquid.io/snekk/v/004/graphql',
+    snek: 'https://squid.subsquid.io/snekk/v/005/graphql',
+    snekRococo: 'https://squid.subsquid.io/snekk/v/004/graphql',
     click: 'https://squid.subsquid.io/click/v/002-rc0/graphql',
   },
   providers: {
@@ -51,6 +51,13 @@ export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [
   'price_DESC',
   'price_ASC',
   'sn_ASC',
+]
+
+export const disableChainListOnProductionEnv = [
+  'westend',
+  'westmint',
+  'movr',
+  'glmr',
 ]
 
 export const chainTestList = ['westend', 'westmint']

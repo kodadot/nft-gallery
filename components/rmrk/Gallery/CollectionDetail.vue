@@ -7,7 +7,7 @@
         </div>
       </div>
     </div>
-    <div class="level m-1" v-if="nfts">
+    <div v-if="nfts" class="level m-1">
       <div class="level-item column is-6 has-text-centered">
         <div>
           <p class="heading--inline heading">
@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <div class="level m-1" v-if="nfts">
+    <div v-if="nfts" class="level m-1">
       <div class="level-item column is-6 has-text-centered">
         <div>
           <p class="heading--inline heading">
