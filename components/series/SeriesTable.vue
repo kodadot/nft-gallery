@@ -44,7 +44,7 @@
       </b-field> -->
 
       <b-field class="has-text-right" expanded>
-        <b-select v-model="nbRows">
+        <b-select v-model="nbRows" data-cy="nb-rows">
           <option value="10">10</option>
           <option value="20">20</option>
           <option value="50">50</option>
@@ -67,7 +67,9 @@
         cell-class="is-vcentered"
         field="id"
         label="N°">
-        {{ data.indexOf(props.row) + 1 }}
+        <p :data-cy="`series-index-${data.indexOf(props.row) + 1}`">
+          {{ data.indexOf(props.row) + 1 }}
+        </p>
       </b-table-column>
 
       <b-table-column
@@ -81,6 +83,7 @@
             v-if="!isLoading"
             :src="props.row.image"
             :alt="props.row.name"
+            :data-cy="`series-image-${data.indexOf(props.row) + 1}`"
             ratio="1by1"
             rounded />
           <b-skeleton :active="isLoading" circle width="48px" height="48px" />
