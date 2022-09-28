@@ -51,7 +51,7 @@
         }}</nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item v-if="isSnek" has-link aria-role="menuitem">
-        <nuxt-link to="/snek/assets">{{ $t('assets') }}</nuxt-link>
+        <nuxt-link :to="`/${urlPrefix}/assets`">{{ $t('assets') }}</nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
@@ -100,7 +100,7 @@ import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
-import { getAsssetBalance } from '@/utils/api/bsx/query'
+import { getAsssetBalance, getKusamaAssetId } from '@/utils/api/bsx/query'
 import { clearSession } from '@/utils/cachingStrategy'
 
 const components = {
@@ -123,10 +123,7 @@ export default class NavbarProfileDropdown extends mixins(
   @Prop() public showIncommingOffers!: boolean
   @Prop() public isSnek!: boolean
 
-  private tokens = [
-    { id: '0', balance: 0 },
-    { id: '5', balance: 0 },
-  ]
+  private tokens = [{ id: '0', balance: 0 }]
 
   get account() {
     return this.$store.getters.getAuthAddress
@@ -142,8 +139,11 @@ export default class NavbarProfileDropdown extends mixins(
 
   private async updateAssetsBalance() {
     const api = await this.useApi()
+    const additionalTokenList = [
+      { id: getKusamaAssetId(this.urlPrefix), balance: 0 },
+    ]
     const result = await Promise.all(
-      this.tokens.map(
+      [...this.tokens, ...additionalTokenList].map(
         async (token) => await getAsssetBalance(api, this.accountId, token.id)
       )
     )
