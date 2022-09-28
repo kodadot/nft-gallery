@@ -27,6 +27,7 @@
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
             v-model="attributes"
+            :prefix-attributes="carbonLessAttribute"
             :max="10"
             class="mb-3"
             visible="collapse.collection.attributes.show"
@@ -267,6 +268,10 @@ export default class CreateToken extends mixins(
   get validPriceValue(): boolean {
     const price = parseInt(this.price as string)
     return !this.listed || price > 0
+  }
+
+  get carbonLessAttribute(): Attribute[] {
+    return offsetAttribute(this.hasCarbonOffset)
   }
 
   public checkValidity() {
