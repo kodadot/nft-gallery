@@ -1,26 +1,24 @@
-query topCollectionList(
-  $limit: Float
-  $orderBy: String
-  $dateRange: String
-  $orderDirection: String
+query seriesInsightList(
+  $limit: Int
+  $orderBy: SeriesOrderByInput!
+  $where: SeriesWhereInput
 ) {
-  seriesInsightTable(
+  collectionEntities: series(
     limit: $limit
-    orderBy: $orderBy
-    orderDirection: $orderDirection
-    dateRange: $dateRange
+    orderBy: [$orderBy]
+    where: $where
   ) {
     id
+    floorPrice
+    averagePrice
     image
     metadata
     sold
     name
-    issuer
     total
     buys
+    unique
+    uniqueCollectors
     volume
-    floorPrice
-    highestSale
-    averagePrice
   }
 }

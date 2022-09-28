@@ -18,7 +18,7 @@ import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import AuthMixin from '@/utils/mixins/authMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
-import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
+import topCollectionList from '@/queries/rmrk/subsquid/topCollectionList.graphql'
 
 import { RowSeries } from '@/components/series/types'
 import { calculateAvgPrice } from '@/components/series/utils'
@@ -41,8 +41,8 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
 
   public async fetchCollectionsSeries(limit = 12, sort = 'volume_DESC') {
     const collections = await this.$apollo.query({
-      query: seriesInsightList,
-      client: 'subsquid',
+      query: topCollectionList,
+      client: this.client,
       variables: {
         orderBy: sort,
         limit,
