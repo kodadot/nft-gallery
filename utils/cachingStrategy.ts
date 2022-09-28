@@ -87,3 +87,23 @@ export const getProperImageLink =
   (metadata: string, image: string): string => {
     return imageLinks[fastExtract(metadata)] || getSanitizer(image)(image)
   }
+
+export const flushIndexedDb = () => {
+  if (window.indexedDB) {
+    window.indexedDB.deleteDatabase('identity')
+    window.indexedDB.deleteDatabase('image')
+    window.indexedDB.deleteDatabase('keyval-store')
+  }
+}
+
+export const clearSession = () => {
+  try {
+    window.sessionStorage.clear()
+    window.localStorage.clear()
+    flushIndexedDb()
+  } catch (error) {
+    console.error(error)
+  } finally {
+    window.location.reload()
+  }
+}

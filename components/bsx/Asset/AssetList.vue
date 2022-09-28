@@ -23,7 +23,11 @@
 import assetListByIdList from '@/queries/subsquid/bsx/assetListByIdList.graphql'
 import { setDefaultFeeToken } from '@/utils/api/bsx/extrinsics'
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
-import { getAssetIdByAccount, getAsssetBalance } from '@/utils/api/bsx/query'
+import {
+  getAssetIdByAccount,
+  getAsssetBalance,
+  getKusamaAssetId,
+} from '@/utils/api/bsx/query'
 import { useApollo } from '@/utils/config/useApollo'
 import { mapToId } from '@/utils/mappers'
 import AuthMixin from '@/utils/mixins/authMixin'
@@ -52,7 +56,10 @@ export default class AssetList extends mixins(
       const { assetList } = await useApollo<this, AssetListQueryResponse>(
         this.$apollo,
         this.client,
-        assetListByIdList
+        assetListByIdList,
+        {
+          ids: ['0', getKusamaAssetId(this.client)],
+        }
       )
       this.assetList = assetList
       this.fetchAccountBalance()

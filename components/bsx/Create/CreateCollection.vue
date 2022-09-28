@@ -16,11 +16,14 @@
         <b-field>
           <p class="has-text-weight-medium is-size-6 has-text-info">
             {{ $t('mint.deposit') }}:
-            <Money :value="collectionDeposit" inline />
+            <Money :value="collectionDeposit" :token-id="tokenId" inline />
           </p>
         </b-field>
         <b-field>
-          <AccountBalance token-id="5" />
+          <AccountBalance :token-id="tokenId" />
+        </b-field>
+        <b-field>
+          <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
         </b-field>
         <b-field type="is-danger" :message="balanceNotEnoughMessage">
           <SubmitButton
@@ -58,6 +61,7 @@ import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
 import { dummyIpfsCid } from '@/utils/ipfs'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 type BaseCollectionType = {
   name: string
@@ -73,8 +77,8 @@ const components = {
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Money: () => import('@/components/bsx/format/TokenMoney.vue'),
   AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
-  // CustomAttributeInput: () =>
-  //   import('@/components/rmrk/Create/CustomAttributeInput.vue'),
+  MultiPaymentFeeButton: () =>
+    import('@/components/bsx/specific/MultiPaymentFeeButton.vue'),
 }
 
 @Component({ components })
@@ -142,6 +146,10 @@ export default class CreateCollection extends mixins(
     const metaHash = await pinJson(meta, imageHash)
 
     return unSanitizeIpfsUrl(metaHash)
+  }
+
+  get tokenId() {
+    return getKusamaAssetId(this.urlPrefix)
   }
 
   protected async generateNewCollectionId(): Promise<number> {
