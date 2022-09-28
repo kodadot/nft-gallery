@@ -22,6 +22,9 @@
         <b-field>
           <AccountBalance :token-id="tokenId" />
         </b-field>
+        <b-field>
+          <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
+        </b-field>
         <b-field type="is-danger" :message="balanceNotEnoughMessage">
           <SubmitButton
             label="create collection"
@@ -74,8 +77,8 @@ const components = {
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Money: () => import('@/components/bsx/format/TokenMoney.vue'),
   AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
-  // CustomAttributeInput: () =>
-  //   import('@/components/rmrk/Create/CustomAttributeInput.vue'),
+  MultiPaymentFeeButton: () =>
+    import('@/components/bsx/specific/MultiPaymentFeeButton.vue'),
 }
 
 @Component({ components })
