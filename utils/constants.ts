@@ -53,4 +53,11 @@ export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [
   'sn_ASC',
 ]
 
+export const disableChainListOnProductionEnv = [
+  'westend',
+  'westmint',
+  'movr',
+  'glmr',
+]
+
 export const chainTestList = ['westend', 'westmint']

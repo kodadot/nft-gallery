@@ -101,6 +101,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
 import { getAsssetBalance, getKusamaAssetId } from '@/utils/api/bsx/query'
+import { clearSession } from '@/utils/cachingStrategy'
 
 const components = {
   Avatar,
@@ -171,7 +172,7 @@ export default class NavbarProfileDropdown extends mixins(
 
   public disconnect() {
     this.$store.dispatch('setAuth', { address: '' }) // null not working
-    localStorage.removeItem('kodaauth')
+    clearSession()
   }
 
   public showRampSDK(): void {

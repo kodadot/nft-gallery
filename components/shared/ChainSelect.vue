@@ -21,16 +21,24 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Option } from '@kodadot1/vuex-options/dist/types'
-import { chainTestList } from '~/utils/constants'
+import {
+  chainTestList,
+  disableChainListOnProductionEnv,
+} from '~/utils/constants'
 
 @Component({})
 export default class ChainSelect extends Vue {
   get options() {
     const availableUrlPrefixes: Option[] =
       this.$store.getters['availableUrlPrefixes']
+
+    const hiddenChainList =
+      window.location.hostname === 'kodadot.xyz'
+        ? disableChainListOnProductionEnv
+        : chainTestList
     if (!this.$config.dev) {
       return availableUrlPrefixes.filter(
-        (urlPrefix) => !chainTestList.includes(urlPrefix.value as string)
+        (urlPrefix) => !hiddenChainList.includes(urlPrefix.value as string)
       )
     }
     return availableUrlPrefixes
