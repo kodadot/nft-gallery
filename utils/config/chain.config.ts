@@ -30,7 +30,7 @@ const chainPropertyMap: Config<ChainProperties> = {
   bsx: toChainProperty(
     10041,
     12,
-    'BSX',
+    'KSM',
     'https://calamar.play.hydration.cloud/basilisk/search?query='
   ),
   snek: toChainProperty(
