@@ -1,178 +1,955 @@
 {
-  "translation": "english",
-  "create": "crear",
-  "Create": "Crear",
-  "credit": "crédito",
-  "Credit": "Crédito",
-  "gallery": "galería",
-  "Gallery": "Galería",
-  "accounts": "cuentas",
-  "Accounts": "Cuentas",
-  "transfer": "transferir",
-  "Transfer": "Transferir",
-  "settings": "ajustes",
-  "Settings": "Ajustes",
-  "first NFT market explorer on Kusama and Polkadot": "Primer explorador del mercado de NFT en Kusama y Polkadot",
-  "legend": "leyenda",
-  "collection": "colección",
-  "Collection": "Colección",
-  "owner": "Propietario",
-  "actions": "Acciones",
-  "facts": "Datos",
-  "instance": "ejemplo",
-  "Instance": "Ejemplo",
-  "context": "Context",
-  "using": "usando",
-  "computed id": "ID aleatorio",
-  "content": "Contenido",
+  "translation": "spanish",
+  "create": "Crear",
+  "credit": "Crédito",
+  "gallery": "Galería",
+  "collection": "Colección",
+  "collections": "Colecciones",
+  "classic": "Clásico",
+  "account": "Cuenta",
+  "accounts": "Cuentas",
+  "transfer": "Transferencia",
+  "incomingOffers": "Ofertas Recibidas",
+  "transform": "Transformar",
+  "settings": "Ajustes",
+  "first NFT market explorer on Kusama and Polkadot": "Primer explorador de mercado NFT en Kusama y Polkadot",
+  "legend": "Leyenda",
+  "owner": "Dueño",
+  "facts": "Hechos",
+  "computed id": "Id computado",
   "create collection": "Crear Colección",
-  "Owner address of minted art": "Dirección del propietario de la obra",
-  "Name you want to show in gallery view": "Nombre que desea mostrar en la vista de la galería",
-  "Symbol you want to trade it under": "Symbol you want to trade it under",
-  "Describe your collection, it will show under collection view": "Describe tu collección, se mostrará debajo de la vista de la colección",
-  "Add collection cover which will show up at collection view": "Añadir portada de la colección que se mostrará encima de la vista de la colección",
-  "Select collection where do you want mint your token": "Seleccione la colección donde desea añadir su token",
+  "Select collection where do you want mint your token": "Selecciona la colección donde quieres hacer el mint de tu token",
   "Maximum NFTs in collection": "Máximo de NFTs en la colección",
-  "Account": "Cuenta",
-  "Name": "Nombre",
-  "Symbol": "Símbolo",
-  "Description": "Descripción",
-  "Multimedia data": "Datos Multimedia",
-  "Metadata IPFS Hash": "Metadata IPFS Hash",
-  "Add Token": "Añadir Token",
-  "Mint": "Añadir",
-  "Transferable is by default": "Transferible por defecto",
-  "Serial Number": "Número de serie",
-  "Name of your token": "Nombre del token",
-  "Instance_tooltip": "Nombre abreviado",
-  "Upload will upload your image of the NFT": "Subir imagen del NFT",
-  "Click to add image": "Click para añadir imagen",
-  "Add Animated File": "Añadir archivo animado",
-  "Image data": "Datos de la imagen",
-  "Explorer": "Explorador",
-  "Gallery of NFT Tokens and Collectibles": "Gallería de Tokens NFT y Coleccionables",
-  "Create your NFT Token & Collectibles": "Crea tus propios Token NFT & Coleccionables",
-  "New here? We have F.A.Q.": "¿Eres nuevo? Consulta nuestras Preguntas Frecuentes",
-  "Feedback? We\\'d be happy to discuss it.": "¿Tienes algún comentario? Lo discutiremos contigo encantados.",
-  "Read our story, how we started.": "Lee nuestra historia, nuestros inicios.",
+  "name": "Nombre",
+  "simple": "Simple",
+  "about": "Sobre",
+  "ambassador program": "Programa de Embajadores",
+  "press kit": "Kit de prensa",
+  "careers": "Carreras",
+  "contribute": "Contribuya",
+  "qrCode": "Qrcode",
+  "documentation": "Documentación",
+  "grants": "Subsidios",
+  "theatre": "Sala",
+  "view": "visión",
+  "price": "precio",
+  "royalty": "derechos de autor (royalty)",
+  "Instance_tooltip": "La instancia es como el identificador de un NFT, como un ticker de mercado. Es un \"nombre corto compatible con computadora\"",
+  "Minting Settings": "Ajustes de mint",
+  "user interface mode": "Modo de interfaz de usuario",
+  "advanced user interface": "Interfaz de usuario avanzada",
+  "basic user interface": "Interfaz de usuario básica",
+  "Layout Options": "Opciones de layout",
+  "Gallery Items Per Page": "Elementos de la galería por página",
+  "Collections Per Page": "Colecciones por página",
+  "I am helping to cover costs": "Estoy ayudando a cubrir los costos",
+  "I do not want to support": "No quiero apoyar",
+  "createNftExplainer": "Si tu colección tuvo mint y no ha aparecido recientemente aquí, espere, aparecerá en el selector a continuación pronto",
+  "passion": "Feed Apasionado",
   "faq": {
+    "page": "FAQ",
     "title": "Preguntas Frecuentes",
+    "box_heading1": "¿No tienes tiempo para leer?",
+    "box_heading2": "No hay problema, échale un vistazo",
+    "box_heading_link": "Nuestros Tutoriales",
     "q": {
-      "1": "¿Qué moneda se utiliza para los NFTs?",
-      "2": "¿Qué billetera necesito para añadir, comprar y coleccionar?",
-      "3": "¿Cómo añado mis trabajos?",
-      "4": "¿Cómo puedo cambiar KSM por mi obra de arte?",
-      "5": "Soy un recién llegado, ¿cómo puedo comprar KSM?",
-      "6": "¿Cómo puedo comprar KSM con ETH, DAI, BTC..?",
-      "7": "¿Cuál es el procedimiento cuando soy creador de NFT?",
-      "8": "¿Puedo usar esto en mundos virtuales?",
-      "9": "Tengo errores, ¿cómo puedo resolverlos?",
-      "10": "¿Qué significa SEND, CONSUME, LIST?",
-      "11": "Añadí un NFT, pero no lo veo en la galería, ¿dónde está?",
-      "12": "¿Qué países pueden usar el servicio on-ramp?",
-      "13": "¿Cómo puedo vender mi token?",
-      "14": "¿Configuración de los royalties?",
-      "15": "¿Cómo puedo crear mi propia tienda?",
-      "16": "¿Cómo funcionan los agradecimientos?",
-      "17": "¿Estamos financiados?",
-      "18": "¿Tenemos un canal de Telegram?",
-      "19": "¿Habrá modo AR/VR o alguna implementación?",
-      "20": "¿Cómo se abre la consola de desarrollador?",
-      "21": "¿Cómo se actualizan los metadatos de la extensión?",
-      "22": "Me aparece \"Low balance error\"",
-      "23": "How do I set identity?"
+      "1": "¿Qué son los NFTs?",
+      "2": "¿Qué es Minting?",
+      "3": "¿Cómo hago un mint de NFTs?",
+      "4": "Lo que puedes hacer mint (mintear) en la plataforma Kodadot?",
+      "5": "¿Cuánto me costará hacer un mint de un NFT?",
+      "6": "¿Cuál es el flujo cuando soy un creador de NFT?",
+      "7": "¿Cómo puedo vender los KSM que gané por mi arte?",
+      "8": "¿Cómo puedo obtener KSM como recién llegado?",
+      "9": "¿Puedo usar esto en mundos virtuales?",
+      "10": "¿Cómo puedo comprar KSM con ETH, DAI, BTC?",
+      "11": "Estoy recibiendo errores. ¿Cómo puedo resolverlos?",
+      "12": "¿Qué significa SEND, CONSUME, LIST?",
+      "13": "Hice el mint del NFT pero no lo veo en la galería, ¿dónde está?",
+      "14": "¿Hay alguna otra forma de obtener una pequeña cantidad de KSM?",
+      "15": "¿Cómo puedo vender mi NFT?",
+      "16": "Royalties streams settings?",
+      "17": "¿Por qué elegistéis construir en Kusama/Polkadot y no en Ethereum?",
+      "18": "¿Cuál es la diferencia entre la elaboración en modo Clásico, Simple y Permafrost?",
+      "19": "¿Tenéis financiación o estáis financiados?",
+      "20": "¿Tenéis un canal de telegram?",
+      "21": "¿Tendrá el modo AR/VR o una implementación relacionada?",
+      "22": "¿Cómo abrir la consola de desarrollador?",
+      "23": "¿Cómo actualizo los metadatos de la extensión?",
+      "24": "Recibí \"Error de saldo insuficiente\"",
+      "25": "¿Cómo configuro una identidad?",
+      "26": "¿Hay un token de Kodadot oficialmente?",
+      "27": "¿Cómo puedo contribuir al proyecto?",
+      "28": "¿Es posible mover NFTs de una colección a otra?",
+      "29": "¿Dónde puedo acceder al último kit de medios de Kodadot?",
+      "30": "¿Qué es Kodadot y qué es Kusama?",
+      "31": "¿Qué es NSFW?",
+      "32": "¿Qué es un depósito existencial (ED)?",
+      "33": "¿Qué son los royalties de NFT?",
+      "34": "¿Qué son las tasas y por qué tengo que pagarlas?",
+      "35": "¿Qué son las tasas de transferencia en Kusama?",
+      "36": "¿Puede alguien comprar el doble de mi arte?",
+      "37": "¿Puedo comprar NFT desde mi teléfono?"
     },
     "a": {
       "1": {
-        "m": "@.md:faq.a.1.l1 Puede conseguirlo a través de @.md:faq.a.1.l2 feature or @.md:faq.a.1.l3",
-        "l1": "[Kusama, $KSM.](@.common:links.kusama_network.href)",
-        "l2": "[Credit](@.common:links.rmrk_credit.href)",
-        "l3": "[nuestro exchange](@.common:links.binance_exchange.href)."
+        "m": "Los NFTs o tokens no fungibles se refieren a activos únicos, que se almacenan en la blockchain y conservan la propiedad única. @.md:faq.a.1.l1",
+        "l1": "[Puedes encontrar más información sobre tokens no fungibles en Wikipedia](@.common:links.wikipedia.nft)"
       },
       "2": {
-        "m": "Por ahora recomendamos el uso de @.md:faq.a.2.l1 Más adelante tenemos previsto añadir la experiencia mobile-first. En todo caso, <b>guarda tus palabras secretas, son solo tuyas y donde guardas todo el valor.</b>",
-        "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)"
+        "m": "es un proceso en el que tu cartera de criptomonedas y blockchain se comunican entre sí para que puedas crear NFTs."
       },
       "3": {
-        "m": "Tienes que ir a @.md:faq.a.3.l1 Tienes que añadir primero la Colección y luego el Token. Si quieres un vídeo, ¡contacta con nosotros!",
-        "l1": "[Crear](@.common:links.rmrk_create.href)."
+        "m": "En la esquina superior izquierda, haga clic en @.md:faq.a.3.l1 e elije mint de forma <b>Simple</b> o <b>Clasica</b>.",
+        "l1": "[Create](@.common:links.rmrk_create.href)"
       },
       "4": {
-        "m": "KSM está en la mayoría de exchanges populares. La liquidez diaria en los exchanges es de aproximadamente $200M a la hora de escribir este artículo y 1 $KSM está valorado en ~ $100. @.md:faq.a.4.l1",
-        "l1": "[Check for recent price at Coingecko](@.common:links.coingecko_ksm_price.href)"
+        "m": "Puedes hacer el mint de casi cualquier cosa, posibilidades actuales: <br/> @.md:faq.a.4.l1",
+        "l1": "![File formats](/minting-file-formats.png)"
       },
       "5": {
-        "m": "Tenemos integración con @.md:faq.a.5.l1, clica en @.md:faq.a.1.l2 en la barra de navegación. Puedes usar Revolut, transferecia bancaria, Tarjeta de Débito y Apple Pay para recargar tu dirección de KSM. También puedes @.md:faq.a.5.l2",
-        "l1": "[Ramp.network](@.common:links.ramp_network.href)",
-        "l2": "[comprar $KSM en Binance](@.common:links.binance_exchange.href)"
+        "m": "En el momento de escribir este artículo, la tasa para hacer el mint de un NFT es de 0,02 USD."
       },
       "6": {
-        "m": "Para obtener las mejores tarifas, puedes @.md:faq.a.6.l1 Para una mejor experiencia @.md:faq.a.6.l2 Si solo quieres hacer @.md:faq.a.6.l3",
-        "l1": "[usar la lista de exchanges](@.common:links.coingecko_ksm_price.href).",
-        "l2": "[recomendamos el uso de Binance](@.common:links.binance_exchange.href).",
-        "l3": "[un simple intercambio, usa SimpleSwap](@.common:links.simpleswap_exchange.href)."
+        "m": "Primero, necesitas instalar @.md:faq.a.4.l1, <b> haga el backup de tu seed</b>. Luego puedes depositar en la dirección de tu cartera @.md:faq.a.4.l2 o utilizar nuestro @.md:faq.a.4.l3 recurso. Una vez que hayas obtenido los fondos, dirígete a la @.md:faq.a.4.l4, elige Colección. Espere hasta que se haga el mint de la Colección, luego puedes ir a @.md:faq.a.4.l5 y hacer el mint de tu primer token! Siéntase libre de compartirlo con nosotros en nuestro @.md:faq.a.4.l6",
+        "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)",
+        "l2": "[here](@.common:links.rmrk_credit.href)",
+        "l3": "[grant](@.common:links.artist_grant_program.href)",
+        "l4": "[Create](@.common:links.rmrk_create.href)",
+        "l5": "[Create Token](@.common:links.rmrk_create.href)",
+        "l6": "[Create Token.](@.common:links.kodadot_social.discord.href)"
       },
       "7": {
-        "m": "En primer lugar, hay que instalar @.md:faq.a.2.l1, <b>guarda tus palabras secretas</b>. A continuación, recargue la dirección de su billetera a través de nuestra opción @.md:faq.a.1.l2 feature. Cuando tengas fondos, vete a @.md:faq.a.3.l1, crear Colección. Espera a que la Colección esté añadida, entonces vete a @.md:faq.a.7.l1 y ¡añade tu primer token! Si has tenido problemas, estamos trabajando en nuestro flujo UX. KodaDot tiene un código de alrededor de un mes de antigüedad y todavía se puede mejorar, tengan paciencia con nosotros, sólo somos un equipo de dos personas. Feliz Uso 😌",
-        "l1": "[Crear Token](@.common:links.rmrk_create.href)"
+        "m": "Ahora bien, hay una variedad de @.md:faq.a.5.l1 que admite la negociación de KSM. Lo más seguro es probablemente @.md:faq.a.5.l2 y @.md:faq.a.5.l3 o prueba descentralizado @.md:faq.a.5.l4",
+        "l1": "[exchanges](@.common:links.coingecko_ksm_markets.href)",
+        "l2": "[Binance](@.common:links.binance_exchange.href)",
+        "l3": "[Bybit](@.common:links.bybit_exchange.href)",
+        "l4": "[simpleswap.](@.common:links.simpleswap_exchange.href)"
       },
       "8": {
-        "m": "Estamos explorando posibilidades, de hecho planeamos investigar activamente sobre esto en nuestro segundo objetivo"
+        "m": "Recomendamos obtener KSM a través de exchanges de custodia como @.md:faq.a.6.l1 y @.md:faq.a.6.l2 o puedes usar nuestra integración con la red RAMP, un método de compra que usa moneda fiduciaria @.md:faq.a.6.l3 Si te estás esforzando demasiado con esto, no dudes en pedir una @.md:faq.a.6.l4 o háganos saber en @.md:faq.a.6.l5 nuestro canal de Discord.",
+        "l1": "[Binance](@.common:links.binance_exchange.href)",
+        "l2": "[Bybit](@.common:links.bybit_exchange.href)",
+        "l3": "[here.](@.common:links.rmrk_credit.href)",
+        "l4": "[grant](@.common:links.artist_grant_program.href)",
+        "l5": "[help](@.common:links.kodadot_social.discord_help.href)"
       },
       "9": {
-        "m": "Estamos tratando de entregar actualizaciones diariamente y correcciones lo antes posible. Es posible que hayamos publicado una nueva versión y que su navegador haya almacenado la antigua. Si estás en <b>Windows</b>, mantén pulsado <b>Ctrl y después F5</b>. <b>Para usuarios de Mac</b>, presiona <b>CMD y Mayus y después R</b>. Siesto no funciona, mándanos un Mensaje Directo en Twitter con captura de pantalla donde se abre la consola de desarrollador."
+        "m": "Estamos explorando posibilidades, actualmente planeamos investigar esto activamente como nuestra meta #2."
       },
       "10": {
-        "m": "SEND se lo enviará a alguien, CONSUME lo quemará, LIST lo pondrá a la venta para que alguien pueda comprárselo."
+        "m": "Para obtener mejores cotizaciones, puedes @.md:faq.a.8.l1 Para una mejor experiencia @.md:faq.a.8.l2 Si tu estás @.md:faq.a.8.l3",
+        "l1": "[use custodial exchange from list.](@.common:links.coingecko_ksm_price.href)",
+        "l2": "[we recommend you to use Binance.](@.common:links.binance_exchange.href)",
+        "l3": "[looking for simple trade, try SimpleSwap.](@.common:links.simpleswap_exchange.href)"
       },
       "11": {
-        "m": "La mejor manera es comprobarlo a través de @.md:faq.a.11.l1 y consultar tu dirección. @.md:faq.a.11.l2",
-        "l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
-        "l2": "[Puedes encontrar un ejemplo de cómo se ve la NFT añadida a través del explorador, cuando miras en los intrínsecos.](@.common:links.kusama_scanner.extrinsic.href)"
+        "m": "Estamos tratando de ofrecer actualizaciones y correcciones incrementales diarias lo antes posible. Es posible que publiquemos nuevas versiones y que tu navegador tenga versiones anteriores almacenadas en caché. Si estás en Windows, intentes mantener presionada la tecla Ctrl y luego presiones F5. Usuarios de Mac, mantengáis presionadas las teclas CMD y Shift y luego presionáis R. Si eso no ayuda, envíenos un mensaje privado en Twitter o Discord con una captura de pantalla donde la consola del desarrollador está abierta."
       },
       "12": {
-        "m": "En este momento, desde EEUU no puede usarse. Consulta la @.md:faq.a.12.l1 Ahora mismo no depende de nosotros.",
-        "l1": "[lista completa de países autorizados](@.common:links.ramp_network.supported_countries.href)."
+        "m": "SEND se enviará a alguien, CONSUME se quemará o consumirá, LIST se incluirá en la lista de venta para que alguien pueda comprar de ti."
       },
       "13": {
-        "m": "En este momento, puedes usar LIST en Acciones."
+        "m": "La mejor manera es revisar a través de @.md:faq.a.11.l1 y busca su dirección. @.md:faq.a.11.l2",
+        "l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
+        "l2": "[You can find example how minted NFT looks through explorer, when you look on extrinsics.](@.common:links.kusama_scanner.extrinsic.href)"
       },
       "14": {
-        "m": "En este momento no tenemos, pero planeamos implementar algo grande pronto. @.md:faq.a.14.l1",
-        "l1": "[Estate atento síguenos en @KodaDot!](@.common:links.kodadot_social.twitter.href)"
+        "m": "Sí, si el problema para ti, por ejemplo, es sacar de un exchange o usar un fiat-on ramp, puedes visitar nuestro discord y solicitar una pequeña cantidad de KSM en el canal @.md:faq.a.12.l1 en nuestro discord o pide @.md:faq.a.12.l2 para cubrir los costos de hacer el mint.",
+        "l1": "[help](@.common:links.kodadot_social.discord_help.href)",
+        "l2": "[grant](@.common:links.artist_grant_program.href)"
       },
       "15": {
-        "m": "Estamos implementando la vista de colección, conjuntos de vista de colección. @.md:faq.a.14.l1"
+        "m": "Si no fijaste el precio de tu NFT al principio, vayas a tu @.md:faq.a.13.l1, elige tu NFT en Creado y haz clic en LIST, podrás establecer el precio.",
+        "l1": "[profile](@.common:links.rmrk_profile.href)"
       },
       "16": {
-        "m": "Es ese corazón 🖤 debajo del Token NFT. We are @.md:faq.a.16.l1 which works like appreciations. It's function is price discovery for your work.",
-        "l1": "[origin authors of EMOTE in RMRK standard](@.common:links.rmrk_spec_emote_issue.href)"
+        "m": "Hace mucho hemos estado trabajando con @.md:faq.a.16.l1 tener recursos como royalties, hacer una oferta y aceptar una oferta para los creadores. Por lo tanto, ofrecemos una vista previa de lo que sería posible en MetaPrime.network cuando el conjunto de recursos se convierta en parte de Kusama.network. La implementación actual en BSX se está probando en versión beta. Si estás interesado en probar con nosotros, visite el canal qa-lobby en nuestro @.md:faq.a.16.l2",
+        "l1": "[Basilisk team](@.common:links.basilisk_website.href)",
+        "l2": "[Discord](@.common:links.kodadot_social.discord.href)"
       },
       "17": {
-        "m": "En este momento, tenemos la financiación de @.md:faq.a.17.l1 Estamos buscando activamente opciones de financiación, eventualmente recaudaríamos fondos privados. Contacta con nosotros si estás interesado en una venta privada.",
-        "l1": "[Kusama Treasury para el objetivo 1](@.common:links.kusama_polkassembly.href)."
+        "m": "Creemos que los costos de las acciones en Ethereum pueden ser altos en el futuro y actualmente está utilizando el protocolo de consenso PoW y esto no es amigable con el ambiente. Creemos en los efectos de red de Kusama/Polkadot con otras parachains. Se puede encontrar una respuesta más detallada @.md:faq.a.15.l1",
+        "l1": "[here.](@.common:links.chain_decision.href)"
       },
       "18": {
-        "m": "Sólo tenemos un canal privado para creadores de NFT, ¡contacta con nosotros si eres un creador de NFT!"
+        "m": "<b>CLASICO/b> Nos permite crear la colección y agregarle NFTs. <b>SIMPLE</b> El mint creará NFTs coleccionables y los agregará a tu perfil y <b>PERMAFROST</b> Es un mint de NFT que utiliza el protocolo Arweave: el protocolo combina personas que tienen espacio en el disco duro para compartir espacio con aquellas personas y organizaciones que necesitan almacenar datos y alojar contenido de forma permanente"
       },
       "19": {
-        "m": "Sí, es parte de nuestro objetivo 2, ¡estén atentos!"
+        "m": "Por el momento tenemos @.md:faq.a.19.l1 Estamos buscando activamente opciones de financiamiento, eventualmente recaudaremos fondos privados. Envíanos un mensaje directo si estás interesado en la venta privada.",
+        "l1": "[Kusama Treasury funding for Milestone 1.](@.common:links.kusama_polkassembly.kodadot_nft_explorer_post.href)"
       },
       "20": {
-        "m": "Si tienes Mac, en Chrome pulsa <b>Option, CMD, J</b>, Firefox <b>Command + Option + K</b>."
+        "m": "Solo tenemos un canal privado para creadores de NFT. ¡No dudes en enviarnos un mensaje directo (dm) si eres un creador de NFTs!"
       },
       "21": {
-        "m": "Vete a @.md:faq.a.21.l1 y verás el botón <b>Acualizar metadata</b>, luego recarga la página, debe trabajar con tipos de cadenas recientes",
-        "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
+        "m": "Sí, esto es parte de nuestra meta número 2, estén atentos!"
       },
       "22": {
-        "m": "Asegúrate de que tienes suficiente <b>transferable</b> $KSM en tu cuenta, sin hacer staking. Es diferente. Puedes comprobarlo en @.md:faq.a.22.l1 y en los saldos desplegados, se puede ver la cantidad <b>Transferible</b>.",
-        "l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
+        "m": "Si estás en Mac, en Chrome presiona <b> Option, CMD, J</b>, Firefox <b>Command + Option + K</b>."
       },
       "23": {
-        "m": "You can learn more @.md:faq.a.23.l1",
+        "m": "Vaya a @.md:faq.a.21.l1 y haga clic en el botón <b>Update metadata</b>, luego actualices tu ventana. Esto puede estar funcionando con diferentes tipos de cadenas.",
+        "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
+      },
+      "24": {
+        "m": "Comprueba si tienes $KSM <b>transferable</b> en tu cuenta que no está en staking. Eso es diferente. Puedes comprobar esto en @.md:faq.a.22.l1 y en saldos en paneles específicos, donde el valor <b>transferable</b> se mostrará.",
+        "l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
+      },
+      "25": {
+        "m": "Puedes aprender más @.md:faq.a.25.l1",
         "l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
+      },
+      "26": {
+        "m": "No, no se ha lanzado ningún token oficial. Siga nuestras redes sociales oficiales y tenga cuidado con las estafas y los intentos de phishing de fuentes no oficiales. Haga tu propia investigación."
+      },
+      "27": {
+        "m": "Siempre estamos recibiendo contribuciones de nuestra comunidad. Hay numerosos @.md:faq.a.25.l1 para todos los niveles de habilidad - algunos incluso serán recompensados ​​en $KSM @.md:faq.a.25.l2",
+        "l1": "[open issues](@.common:links.kodadot_social.open_issues.href)",
+        "l2": "[Make your first contribution!](@.common:links.kodadot_social.contributing_guide.href)"
+      },
+      "28": {
+        "m": "No, esta opción no está disponible actualmente. Si desea proponer un cambio, siéntase libre de crear un @.md:faq.a.26.l1 en nuestro GitHub.",
+        "l1": "[issue](@.common:links.kodadot_social.open_issues.href)"
+      },
+      "29": {
+        "m": "Puedes acceder al último kit de medios @.md:faq.a.27.l1",
+        "l1": "[here.](@.common:links.kodadot_social.presskit.href)"
+      },
+      "30": {
+        "m": "Kodadot es una plataforma NFT orientada a la comunidad, que se ejecuta en una blockchain de baja huella de carbono. Kusama es un entorno de preproducción para la red Polkadot. $KSM es la moneda utilizada para interactuar con la red Kusama. Es como una sandbox para los primeros proyectos a los que les gusta moverse rápido y cambiar las cosas en el ecosistema de Polkadot, espere Chaos."
+      },
+      "31": {
+        "m": "Todos los expedientes que tuvieran su mint tendrán como nota el Código de Conducta y todos los expedientes NSFW (Not Safe For Work) deberán ser clasificados como NSFW al realizar sus mints."
+      },
+      "32": {
+        "m": "En la red Polkadot, una dirección solo está activa cuando tiene un valor mínimo, actualmente establecido en 1 DOT (y 0.0000333333 KSM en la red Kusama). Este valor mínimo se denomina Depósito Existencial (ED). @.md:faq.a.32.l1",
+        "l1": "[Read more in our docs.](@.common:links.kusama_network.docs.existential_deposit.href)"
+      },
+      "33": {
+        "m": "Los royalties, o pagos de royalties, son pagos financieros realizados de una parte a otra por el uso continuo de sus activos creados. El término se asocia más comúnmente con la industria de la música, donde los músicos permiten que sus discos se reproduzcan en la radio, se transmitan en línea o puedan hacer un sample por otros músicos a cambio de una tarifa (royalty). Sin embargo, no son solo los músicos quienes reciben royalties cuando se usa su trabajo. Los compositores, editores, novelistas, productores y prácticamente cualquier persona involucrada en un proceso creativo tiene el potencial de reclamar royalties.<br/><br/>Los royalties de NFTs dan a los artistas un porcentaje del precio de venta cada vez que se revenden sus obras de arte. No importa cuántas ventas secundarias ocurran, los royalties siempre se pagarán al creador original, y la mejor parte es que todo el proceso está automatizado."
+      },
+      "34": {
+        "m": "Las tarifas de transacción evitan que los usuarios individuales consuman demasiados recursos. Polkadot utiliza un modelo de tarifa basado en el peso en lugar de un modelo de medición de gas. Como tal, las tarifas se cobran antes de que se ejecute la transacción; una vez que se paga la tarifa, los nodos ejecutarán la transacción."
+      },
+      "35": {
+        "m": "Actualmente, el costo de transferencia mínimo de KSM es 0.01 KSM (tarifa base), aunque esto se puede cambiar a través de la gobernanza."
+      },
+      "36": {
+        "m": "Actualmente, RMRK es solo un NFT integrado en la blockchain y no tenemos ninguna lógica de cadena. De la lección de aleatoriedad, sabemos que existe la posibilidad de que dos o más personas realicen transacciones de compra en el mismo bloque y pierdan dinero. Por lo tanto, solo se trata de la honestidad del artista para devolver el dinero o hacer el mint del mismo NFT como muestra de agradecimiento."
+      },
+      "37": {
+        "m": "Sí, actualmente la integración de KodaDot en Nova Wallet funciona bien. Hicimos @.md:faq.a.37.l1 sobre cómo hacer esto.",
+        "l1": "[video and written tutorial](@.common:links.kusama_network.docs.minting_tutorial.href)"
       }
     }
+  },
+  "funfacts": {
+    "1": {
+      "heading": "Lo sabías...",
+      "question": "que en 2015 hubo el primer NFT oficial llamado Etheria en Ethereum?"
+    },
+    "2": {
+      "heading": "Lo sabías...",
+      "question": "que el primer patrón 'NFT-like' en Kusama es literalmente solo strings de bytes?"
+    },
+    "3": {
+      "heading": "Lo sabías...",
+      "question": "que KodaDot comenzó como una reescritura del panel DotApps basado en React para Vuejs?"
+    },
+    "4": {
+      "heading": "Lo sabías...",
+      "question": "que KodaDot está construyendo un escenario NFT experimental llamado MetaPrime?"
+    },
+    "5": {
+      "heading": "Lo sabías...",
+      "question": "que hay tanto arte NFT psicodélico y alucinante? Nosotros tampoco lo sabemos."
+    },
+    "6": {
+      "heading": "Puedes adivinar...",
+      "question": "cuántas parachains admite KodaDot? ¡Obtén la respuesta exacta en nuestro Discord!"
+    },
+    "7": {
+      "heading": "Puedes adivinar...",
+      "question": "cuántos forks de GitHub tiene el repositorio de KodaDot?"
+    },
+    "8": {
+      "heading": "Puedes adivinar...",
+      "question": "cuántas estrellas GitHub tiene el repositorio KodaDot?"
+    },
+    "9": {
+      "heading": "Piensas qué ...",
+      "question": "KodaDot debería lanzar su propio token $koda?"
+    },
+    "10": {
+      "heading": "Puedes adivinar...",
+      "question": "cuántos NFTs indexa KodaDot de todas las parachains?"
+    },
+    "11": {
+      "heading": "Lo sabías...",
+      "question": "que KodaDot tiene una aplicación móvil?"
+    },
+    "12": {
+      "heading": "Lo sabías...",
+      "question": "que KodaDot estuvo entre las primeras galerías NFT que admiten realidad aumentada para objetos 3D, a principios de enero de 2021?"
+    },
+    "13": {
+      "heading": "Lo sabías...",
+      "question": "que KodaDot tuvo fallas durante sus primeros días? Sí, todas las startups pasan por fracasos para aprender de los errores. Así es como supimos que nuestro producto está mejorando cada vez más."
+    },
+    "14": {
+      "heading": "Lo sabías...",
+      "question": "que KodaDot tiene sus valores y principios centrales distribuidos, descentralizados y de propiedad comunitaria? ¡Intenta participar en nuestra comunidad en constante crecimiento!"
+    },
+    "15": {
+      "heading": "Lo sabías...",
+      "question": "que KodaDot reemplazó tres de sus logos en un mes?"
+    },
+    "16": {
+      "heading": "Lo sabías...",
+      "question": "que las traducciones de la comunidad de KodaDot fueron el mayor truco de crecimiento para la creación de comunidades para participar?"
+    },
+    "17": {
+      "heading": "Lo sabías...",
+      "question": "que KodaDot tenía 420 miembros de Discord en su pitch deck de inversores? Que coincidencia."
+    },
+    "18": {
+      "heading": "Lo sabías...",
+      "question": "que los fundadores de KodaDot animan a bifurcar su base de código y dan la bienvenida a más instancias de KodaDot de forma natural?"
+    },
+    "19": {
+      "heading": "Lo sabías...",
+      "question": "que uno de los fundadores de KodaDot estaba ejecutando una infraestructura de eSports en 2006?"
+    },
+    "20": {
+      "heading": "Lo sabías...",
+      "question": "que estos hechos no importan? Nos encanta pasar tiempo contigo hasta que finalices tu acción en Blockchain."
+    },
+    "21": {
+      "heading": "No te olvides de...",
+      "question": "beber mucho agua para mantenerte hidratado!"
+    },
+    "22": {
+      "heading": "Lo sabías...",
+      "question": "que tenemos más de 500 problemas abiertos en GitHub?"
+    },
+    "23": {
+      "heading": "Lo sabías...",
+      "question": "que KodaDot promueve una cultura inclusiva para acoger a un amplio espectro de artistas que contribuyen a su crecimiento?"
+    },
+    "24": {
+      "heading": "Lo sabías...",
+      "question": "que si realizas un pull request en el repositorio de KodaDot, puedes mostrar su curiosidad aquí?"
+    },
+    "25": {
+      "heading": "Has comprobado...",
+      "question": "tus ventas JPEG hoy?"
+    },
+    "26": {
+      "heading": "Tu ya...",
+      "question": "hiciste el mint de algo hermoso hoy?"
+    },
+    "27": {
+      "heading": "Lo sabías...",
+      "question": "que la primera versión de KodaDot se veía peor que Craigslist en 1999?"
+    },
+    "28": {
+      "heading": "Lo sabías...",
+      "question": "que los fundadores de KodaDot ganaron algunos hackatons de Ethereum y Polkadot en el pasado?"
+    },
+    "29": {
+      "heading": "Lo sabías...",
+      "question": "que KodaDot tuvo que despedir a unas pocas docenas de inversores interesados ​​en apoyarnos?"
+    },
+    "30": {
+      "heading": "Lo sabías...",
+      "question": "que KodaDot se preocupa por el cambio climático plantando árboles en Portugal, llamados KodaForest?"
+    },
+    "31": {
+      "heading": "Lo sabías...",
+      "question": "que los fundadores de KodaDot creen en la realidad simulada?"
+    },
+    "32": {
+      "heading": "Lo sabías...",
+      "question": "que te ves hermosa(o) hoy?"
+    },
+    "33": {
+      "heading": "Lo sabías...",
+      "question": "que personas de todo el mundo contribuyen a nuestro código base?"
+    },
+    "34": {
+      "heading": "Lo sabías...",
+      "question": " que KodaDot compensó 10.000 kg de CO2, lo que equivale a 2.500 hamburguesas con queso."
+    },
+    "35": {
+      "heading": "Lo sabías...",
+      "question": "que puede obtener una visión general de todos los accesos directos disponibles presionando '?'"
+    },
+    "36": {
+      "heading:": "Lo sabías...",
+      "question": "que KodaDot agregó soporte para el mercado Basilisk NFT recientemente?"
+    },
+    "37": {
+      "heading:": "Lo sabías...",
+      "question": "que KodaDot agregará subastas al mercado Basilisk NFT?"
+    },
+    "38": {
+      "heading:": "Lo sabías...",
+      "question": "que KodaDot Guild Rewards ha distribuido más de $180K en recompensas a los contribuyentes por sus actividades?"
+    },
+    "39": {
+      "heading:": "Lo sabías...",
+      "question": "que te pueden pagar por contribuir a KodaDot?"
+    },
+    "40": {
+      "heading:": "Lo sabías...",
+      "question": "que KodaDot tiene más de 70 colaboradores en la base de código? Puedes verificar esto en KodaDot Github."
+    },
+    "41": {
+      "heading:": "Lo sabías...",
+      "question": "que el repositorio de Kodadot Github superó los 200 forks?"
+    },
+    "42": {
+      "heading:": "Lo sabías...",
+      "question": "que los colaboradores de KodaDot han realizado más de 1500 pull requests? Tú también puedes crear uno!"
+    },
+    "43": {
+      "heading:": "Lo sabías...",
+      "question": "que puedes ser miembro del gremio de control de calidad para ayudarnos con la calidad de los lanzamientos de KodaDot y recibir pagos?"
+    },
+    "44": {
+      "heading:": "Lo sabías...",
+      "question": "que puedes ser miembro del programa de Embajadores de KodaDot (KodaDot Ambassadors) y ayudarnos con varias tareas?"
+    },
+    "45": {
+      "heading:": "Lo sabías...",
+      "question": "que puedes ser miembro del gremio de revisión de código para ayudarnos con la calidad del código KodaDot y recibir un pago?"
+    },
+    "46": {
+      "heading:": "Lo sabías...",
+      "question": "que KodaDot está haciendo un resumen quincenal llamado Meta Hours sobre el progreso de KodaDot?"
+    },
+    "47": {
+      "heading:": "Lo sabías...",
+      "question": "que el equipo de KodaDot está trabajando para apoyar a MoonRiver y MoonBeam?"
+    },
+    "48": {
+      "heading:": "Lo sabías...",
+      "question": "que el equipo de KodaDot está trabajando para apoyar a Astar y Shiden?"
+    },
+    "49": {
+      "heading:": "Lo sabías...",
+      "question": "que KodaDot fue el primer explorador no oficial de la RMRK? Fuimos muy rápido."
+    },
+    "50": {
+      "heading:": "Lo sabías...",
+      "question": "que el equipo de KodaDot está creando su propio protocolo NFT llamado Reactive NFTs? Puedes encontrar una grabación de esta actuación en Youtube."
+    },
+    "51": {
+      "heading:": "Tú ya...",
+      "question": "has contribuido a las discusiones y conversaciones en discord de KodaDot?"
+    },
+    "52": {
+      "heading:": "Puedes adivinar...",
+      "question": "qué parachain admitirá KodaDot a continuación?"
+    },
+    "53": {
+      "heading:": "Puedes adivinar...",
+      "question": "cuántos gremios tiene KodaDot para mantener el ritmo actual de desarrollo?"
+    },
+    "54": {
+      "heading:": "Puedes adivinar...",
+      "question": "cuándo cruzará el repositorio KodaDot Github 1k estrellas?"
+    },
+    "55": {
+      "heading:": "Lo sabías...",
+      "question": "que KodaDot produjo el código abierto favorito en Polkadot después de Parity, MoonBeam, Acala y Astar?"
+    },
+    "56": {
+      "heading:": "Lo sabías...",
+      "question": "que KodaDot se está convirtiendo en el bien público supremo de Polkadot?"
+    },
+    "57": {
+      "heading:": "Lo sabías...",
+      "question": "que el equipo de KodaDot pensó en hacer su propia parachain? ¿por qué?"
+    },
+    "58": {
+      "heading:": "Lo sabías...",
+      "question": "que KodaDot tuvo 270 pull requests en febrero de 2022?"
+    },
+    "59": {
+      "heading:": "Lo sabías...",
+      "question": "que KodaDot tiene su sede en Eslovenia, Europa?"
+    },
+    "60": {
+      "heading:": "Lo sabías...",
+      "question": "que puedes ayudar a KodaDot a resolver algunos problemas y que te paguen por eso?"
+    },
+    "61": {
+      "heading:": "Lo sabías...",
+      "question": "que puedes ayudar a KodaDot a informar errores y recibir pagos?"
+    },
+    "62": {
+      "heading:": "Lo sabías...",
+      "question": "que KodaDot tuvo su ath de 20 colaboradores en un mes? Nos ayudarás a establecer un nuevo récord?"
+    },
+    "63": {
+      "heading:": "Lo sabías...",
+      "question": "que los colaboradores de KodaDot pagan ellos mismos las recompensas del KodaDot Guild Rewards?"
+    },
+    "64": {
+      "heading:": "Lo sabías...",
+      "question": "que KodaDot tiene una increíble cultura de peers?"
+    }
+  },
+  "sort": {
+    "EMOTES_COUNT_DESC": "El mas reaccionado",
+    "BLOCK_NUMBER_DESC": "Recién creado",
+    "BLOCK_NUMBER_ASC": "El más antiguo",
+    "UPDATED_AT_DESC": "Interactuado recientemente",
+    "UPDATED_AT_ASC": "Impopular",
+    "PRICE_DESC": "Precio: de mayor a menor",
+    "PRICE_ASC": "Precio: de menor a mayor",
+    "SN_ASC": "Numero de Serie Creciente",
+    "blockNumber_DESC": "Recién creado",
+    "blockNumber_ASC": "El más antiguo",
+    "updatedAt_DESC": "Interactuado recientemente",
+    "updatedAt_ASC": "Impopular",
+    "price_DESC": "Precio: de mayor a menor",
+    "price_ASC": "Precio: de menor a mayor",
+    "sn_ASC": "Numero de Serie Creciente",
+    "listed": "Compre ahora",
+    "own": "En posesión",
+    "collection": {
+      "blockNumber_DESC": "Nuevo primero",
+      "blockNumber_ASC": "Antiguo primero",
+      "updatedAt_DESC": "Interactuado recientemente",
+      "updatedAt_ASC": "Impopular",
+      "price_DESC": "Precio: de mayor a menor",
+      "price_ASC": "Precio: de menor a mayor",
+      "sn_ASC": "Numero de Serie Creciente",
+      "listed": "Compre ahora",
+
+      "EMOTES_COUNT_DESC": "El mas reaccionado",
+      "BLOCK_NUMBER_DESC": "Recién creado",
+      "BLOCK_NUMBER_ASC": "El más antiguo",
+      "UPDATED_AT_DESC": "Interactuado recientemente",
+      "UPDATED_AT_ASC": "Impopular",
+      "PRICE_DESC": "Precio: de mayor a menor",
+      "PRICE_ASC": "Precio: de menor a mayor",
+      "SN_ASC": "Numero de Serie Creciente"
+    }
+  },
+  "query": {
+    "priceRange": {
+      "minPrice": "Precio mínimo",
+      "maxPrice": "Precio máximo",
+      "priceValidation": "¡El precio mínimo debe ser inferior al precio máximo!",
+      "range": "Gama de precios"
+    }
+  },
+  "mint": {
+    "submit": "Haga clic para crear NFT(s)",
+    "estimate": "Mostrarme tarifas de transacción",
+    "estimated": "Las tarifas de transacción costarán aprox.",
+    "success": "Felicitaciones a tus nuevo(s) NFT(s)",
+    "shareWithFriends": "Comparte {0} con tus amigos",
+    "unlimited": "Artículos ilimitados en tu colección",
+    "nfsw": "Contenido explícito (NSFW)",
+    "listForSale": "Lista NFT a la venta",
+    "mass": "Masa de NFT minter",
+    "command": "Lista de comandos para la masa de mint",
+    "transform": "Comandos de transformación en NFT",
+    "deposit": "Deposito actual",
+    "expert": {
+      "show": "Mostrar configuraciones avanzadas",
+      "hide": "Ocultar configuraciones avanzadas",
+      "count": "Direcciones correspondientes de {0} actualmente",
+      "countGlitch": "Tienes más direcciones que ediciones disponibles. Esto podría causar un problema. Considere establecer el campo EDITION en al menos {0}",
+      "postfix": "Agregue hashtag e índice después del nombre (por ejemplo, #1)",
+      "sync": "Sincronice ediciones con {0}"
+    },
+    "royalty": {
+      "rate": "Tasa de royalties",
+      "mine": "Pagar royalties a la cuenta del creador",
+      "receiver": "Cuenta de destino para royalties"
+    },
+    "collection": {
+      "name": {
+        "label": "Nombre de la colección",
+        "placeholder": "Introduce el nombre de la colección",
+        "message": "Nombre de tu colección. Será visible en la galería"
+      },
+      "description": {
+        "label": "Descripción de la colección",
+        "placeholder": "Introduce la descripción de la colección",
+        "message": "Descripción de tu colección. Se admite Markdown"
+      },
+      "symbol": {
+        "label": "Símbolo (nombre corto)",
+        "placeholder": "Nombre largo de 3 a 5 caracteres",
+        "message": "El símbolo que se asigna al NFT: por ejemplo, Kusama está etiquetado como KSM"
+      },
+      "create": "Crear colección"
+    },
+    "nft": {
+      "name": {
+        "label": "nombre",
+        "placeholder": "Introduzca el nombre NFT",
+        "message": "Nombre de tu NFT. Será visible en la galería."
+      },
+      "description": {
+        "label": "Descripción NFT",
+        "placeholder": "Introduzca la descripción de NFT",
+        "message": "Descripción de tu NFT. Se admite Markdown"
+      },
+      "edition": {
+        "label": "Edición",
+        "placeholder": "Mínimo es 1",
+        "message": "Número de NFT a ser minted"
+      }
+    }
+  },
+  "tooltip": {
+    "symbol": "El símbolo que se asigna al NFT: por ejemplo, Kusama está etiquetado como KSM",
+    "name": "NFT será visible con este nombre en la galería",
+    "edition": "número de copias",
+    "created": "Creado por",
+    "collections": "Colecciones creadas por",
+    "sold": "NFTs vendidos por",
+    "collected": "NFTs recaudados por",
+    "buy": "Mostrar solo NFTs disponibles para comprar",
+    "own": "Mostrar solo los NFTs que posees",
+    "random": "Ir a página aleatoria",
+    "buyDisabled": "No hay suficiente saldo",
+    "holdings": "NFTs propiedad de",
+    "gains": "Ganado por",
+    "makeOfferDisabled": "Ya has hecho una oferta por este NFT",
+    "needToUploadNFTFile":  "Necesitas subir el archivo NFT",
+    "needToSetValidPrice":  "Para enumerar NFT, el precio debe ser mayor que 0",
+    "notEnoughBalance": "Fondos insuficientes",
+    "haveNoToS": "No tienes permiso para usar el activo"
+  },
+  "nft": {
+    "carbonless": "Este NFT no contiene carbono",
+    "burned": "NFT fue quemado",
+    "description": "Descripción de NFT",
+    "name": "Dale un nombre a tu NFT",
+    "frozen": "NFT está congelado",
+    "related": "Más de esta colección",
+    "visited": "NFT visitados",
+    "event": {
+      "MINTNFT": "MINT NFT",
+      "LIST": "LISTAR",
+      "UNLIST": "DESLISTAR",
+      "RELIST": "RELISTAR",
+      "SEND": "REGALO",
+      "CONSUME": "QUEMA",
+      "BUY": "COMPRA",
+      "MAKE_OFFER": "HACER UNA OFERTA",
+      "DOWNLOAD": "DESCARGAR",
+      "ROYALTY": "ROYALTY",
+      "PAY_ROYALTY": "PAGAR ROYALTY"
+    },
+    "action": {
+      "submit": "Submiter {0}"
+    },
+    "properties": {
+      "label": "Características"
+    },
+    "offer": {
+      "label": "Ofertas ({0})",
+      "count": "Número de ofertas {0}",
+      "empty": "Actualmente no hay ofertas para este NFT.",
+      "item": "Artículo",
+      "status": "Estado de las ofertas",
+      "date": "Fecha",
+      "title": "Ofertas del mercado global"
+    }
+  },
+  "offer": {
+    "caller": "Creador",
+    "price": "Precio",
+    "expiration": "Caducidad",
+    "action": "Acción",
+    "daySelectLabel": "oferta caduca en",
+    "daySelectPlaceholder": "seleccione el día para caducar",
+    "days": "días",
+    "collection": "Colección",
+    "nftName": "Nombre",
+    "accept": "NFT tiene un nuevo dueño",
+    "withdraw": "tu oferta ha sido retirada",
+    "burnedToggle": "Mostrar NFTs grabados"
+  },
+  "statsOverview": {
+    "buys": "Compras",
+    "offerStats": {
+      "status": "Estado",
+      "totalCount": "Cuenta total",
+      "totalPrice": "Precio total"
+    },
+    "listed": "Listado",
+    "minted": "Minted",
+    "createdCollections": "Colecciones creadas",
+    "activeWallets": "Carteras activas",
+    "offers": "Ofertas",
+    "values": "VALORES",
+    "bsxTitle":  "Estadísticas del Marketplace Basilisk"
+  },
+  "myOffer": {
+    "bsxTitle": "Ofertas recibidas",
+    "price": "Monto",
+    "caller": "Creador de Ofertas",
+    "date": "Fecha",
+    "needLogin": "Conecta la cartera para ver tus ofertas aquí.",
+    "empty": "Actualmente no hay ofertas."
+  },
+  "loader": {
+    "casting": "(1/3) Transmitiendo el tx a la blockchain",
+    "finalized": "(3/3) Finalizada",
+    "block": "(2/3) Bloque en transacción",
+    "pinImage": "Fijando imagen",
+    "pinMeta": "Fijando metadatos",
+    "constructTx": "Construyendo transacción",
+    "sign": "Aguardando respuesta al signatario",
+    "ipfs": "Cargando datos a IPFS",
+    "arweave": "Armazenando dados a través de PermaFrost",
+    "uploading": "({0}/{1}) Cargando datos a IPFS",
+    "checkBalance": "Comprobando si tienes saldo suficiente"
+  },
+  "arweave": {
+    "uploadYes": "Cargar imagen NFT a Arweave",
+    "uploadNo": "No uses Arweave",
+    "tooltip": "El uso de Arweave significa que estás almacenando tu multimedia para siempre en Arweave, lo que es bueno para activos pequeños como JPEG."
+  },
+  "carbonOffset": {
+    "carbonOffsetYes": "Estoy haciendo NFT sin carbono",
+    "carbonOffsetNo": "No quiero tener NFT sin carbono",
+    "tooltip": "NFT libre de carbono significa que estás ayudando a cubrir los costos de los créditos de carbono y la plantación de árboles"
+  },
+  "support": {
+    "tooltip": "Los costos de cobertura significan que los usuarios ayudan a cubrir los costos iniciales de KodaDot, que almacena su JPEG en su nombre."
+  },
+  "termOfService": {
+    "accept": "Confirmo que tengo la propiedad total de los derechos de autor del activo digital cargado (o tengo suficiente permiso del propietario para usar el activo)"
+  },
+  "profile": {
+    "page": "Perfil",
+    "user": "Usuario",
+    "created": "Creado",
+    "collected": "Recogido",
+    "sold": "Vendido",
+    "holdings": "Valores en cartera",
+    "gains": "Ganancias",
+    "showQr": "Mostrar el QR",
+    "collectedFromCreator": "Recolectó {0} NFT(s) de este creador"
+  },
+  "sales": {
+    "page": "Ventas",
+    "title": "Ventas más recientes de KUSAMA",
+    "subtitle": "Presentamos los NFT vendidos más recientemente en RMRK."
+  },
+  "hot": {
+    "title": "Recientemente, las ventas de KUSAMA en una semana",
+    "subtitle": "Presentamos los NFT vendidos recientemente en RMRK"
+  },
+  "spotlight": {
+    "page": "Spotlight",
+    "title": "Usuario en Spotlight",
+    "subtitle": "Presentamos los coleccionistas y artistas más activos de RMRK.",
+    "filter_accounts": "Cuentas con identidad",
+    "id": "Creador",
+    "sold": "Vendido",
+    "unique": "∃! UNIQUE",
+    "total": "Total",
+    "averagePrice": "Ø precio",
+    "count": "Σ colección",
+    "collectors": "Coleccionistas",
+    "score": "Score",
+    "empty": "Vacío",
+    "uniqueCollectors": "∃! Coleccionistas",
+    "soldHistory": "Últimos 30 días vendidos"
+  },
+  "series": {
+    "title": "Colección principal",
+    "subtitle": "Principales NFTs en RMRK, ordenados por volumen, precio mínimo y otras estadísticas.",
+    "assets": "Activos",
+    "buys": "Compras",
+    "collected": "Recogida",
+    "floorprice": "Precio mínimo",
+    "averagePrice": "Precio medio",
+    "highestSale": "Mayor venta",
+    "owners": "Los propietarios",
+    "volume": "Volumen",
+    "score": "Score",
+    "emoteCount": "Emotes",
+    "buyHistory": "Últimos 30 días de compra"
+  },
+  "activity": {
+    "listed": "Listados",
+    "totalItems": "Σ Artículos",
+    "todayTraded": "24H",
+    "totalTraded": "Σ VOLUMEN NEGOCIADO",
+    "highestSale": "MAYOR VENTA",
+    "totalBuys": "Σ COMPRAS",
+    "unique": "UNIQUE",
+    "owners": "LOS PROPIETARIOS",
+    "distribution": "DISTRIBUCIÓN",
+    "floorPrice": "PRECIO MÍNIMO"
+  },
+  "profileStats": {
+    "listed": "Listados",
+    "totalItems": "Σ Artículos",
+    "highestSale": "MAYOR VENTA",
+    "totalBuys": "Σ COMPRAS",
+    "highestBuy": "Compra más alta",
+    "totalAmountSpend": "Σ monto gastado",
+    "holdingsNfts": "Valores en cartera",
+    "maxSoldPrice": "Precio máximo de venta",
+    "totalSellValues": "Σ vender valores",
+    "totalSoldItems": "Σ artículos vendidos",
+    "totalHoldingsBoughtValues": "Valores Totales de KSM para NFTs de acciones"
+  },
+  "tutorial": {
+    "create": "1. Crear cuenta de polkadot js",
+    "ksm": "2. Obtener KSM",
+    "mint": "3. Minting"
+  },
+  "general": {
+    "apply": "Aplicar",
+    "using": "usando",
+    "balance": "Saldo",
+    "connect": "Conectar",
+    "connect_wallet": "Conectar tu cartera",
+    "change_account": "Cambiar cuenta",
+    "submit": "Submiter",
+    "remove": "Eliminar",
+    "correctAddress": "Formato de dirección correcto",
+    "copyUrl": "Copiar URL",
+    "openUrl": "Abrir URL",
+    "copyRewardTooltip": "Tu enlace de recompensa copiado al portapapeles",
+    "copyRewardLink": "Copiar enlace Recompénsame",
+    "latestSales": "Ventas más recientes",
+    "searchResultsText": "Mostrando los resultados a",
+    "ksmDiscoverText": "Descubra, recopile y venda NFTs de Kusama",
+    "latestSalesheading": "Descubre las últimas ventas en",
+    "newestListDesc": "Descubre los últimos artículos a la venta",
+    "newestListHeading": "Lista más reciente",
+    "popularCollectionsHeading": "Colecciones populares",
+    "popularCollectionsDesc": "Descubre las colecciones más populares en RMRK",
+    "from": "de",
+    "to": "para",
+    "tx": {
+      "cancelled": "La transacción fue cancelada"
+    }
+  },
+  "helper": {
+    "seeMore": "Ver mas",
+    "learnMore": "Aprender mas",
+    "noCollections": "No tienes colecciones",
+    "noInfinityCollections": "No tienes colecciones con NFTs ilimitados",
+    "indexerReadOnly": "La aplicación está en modo de solo lectura, intente volver a cargar la aplicación o visite Discord",
+    "clickToCreate": "Haga clic aquí para crear la colección",
+    "urlToTransform": {
+      "label": "URL para transformar",
+      "placeholder": "singular.rmrk.app/collectibles/",
+      "copy": "El enlace de Kodadot se copió con éxito"
+    },
+    "builtOn": "Construido sobre",
+    "signStuckText": "¿Atascado? Asegúrete de verificar si hay pop-up y FIRME la transacción."
+  },
+  "cookies": {
+    "notice": "Usamos terceros 🍪 para personalizar tu experiencia en el sitio web",
+    "accept": "Aceptar",
+    "decline": "Rechazar"
+  },
+  "action": {
+    "admin": "Panel de administrador",
+    "click": "Clic para {0} NFT(s)",
+    "omitListed": "Omitir NFT(s) enumerado(s)",
+    "random": "Usar aleatorio",
+    "distributionCount": "Porcentaje a distribuir",
+    "sendToMyself": "Enviar a mí mismo"
+  },
+  "identity": {
+    "page": "Identidad",
+    "set": "Crear identidad de cadena",
+    "click": "Haga clic para crear identidad",
+    "handleRequired": "Tu identificador es requerido",
+    "deposit": "Depósito"
+  },
+  "massMint": {
+    "tutorial": {
+      "basic": {
+        "title": "Masa básica de mint",
+        "description": "Esta es una masa básica de mint, creará NFTs con el mismo símbolo y nombre pero con una cantidad diferente. También creará una cantidad diferente de NFTs con el mismo símbolo y nombre pero una cantidad diferente."
+      },
+      "range": {
+        "title": "Rango de masa de mint",
+        "description": "Puedes especificar el rango de masa de mint, que creará NFTs con el mismo símbolo y nombre pero con una cantidad diferente. También creará una cantidad diferente de NFTs con el mismo símbolo y nombre pero una cantidad diferente."
+      },
+      "all": {
+        "title": "Masa de mint entera",
+        "description": "Puedes especificar el rango de masa de mint, que creará NFTs con el mismo símbolo y nombre pero con una cantidad diferente. También creará una cantidad diferente de NFTs con el mismo símbolo y nombre pero una cantidad diferente."
+      }
+    },
+    "syntax": {
+      "file": "Nombre de archivo (e.g awesome_1.jpg)",
+      "name": "Nombre del NFT (e.g Awesome Token)",
+      "amount": "Precio del token (e.g 0.01)",
+      "description": "Descripción de varias líneas del token (e.g This is an awesome token)",
+      "range": "Rango de los tokens (e.g 1-5)",
+      "all": "Aplicar a todos los tokens (USE TRES puntos: ...)"
+    }
+  },
+  "collapse": {
+    "collection": {
+      "description": {
+        "show": "Mostrarme la descripción",
+        "hide": "Ocultar descripción"
+      },
+      "attributes": {
+        "show": "Mostrar atributos en cadena",
+        "hide": "Ocultar atributos en la cadena"
+      }
+    }
+  },
+  "sharing": {
+    "collection": "Echa un vistazo a esta increíble colección en KodaDot",
+    "nft": "Echa un vistazo a este increíble NFT en KodaDot",
+    "pack": "Echa un vistazo a este increíble paquete en KodaDot",
+    "profile": "Echa un vistazo a este increíble perfil en KodaDot"
+  },
+  "warning": {
+    "newTransactionWhilePriceSet": "Establecer el precio ahora requiere realizar una transacción adicional."
+  },
+  "teleport": {
+    "page": "Teletransportar",
+    "route": "Teletransportando {0} de {1} a {2}"
+  },
+  "preferences": {
+    "basic": "Interfaz de usuario básica",
+    "advanced": "Interfaz de usuario avanzada",
+    "theater": "Habilitar vista de auditorio para estándar",
+    "fold": {
+      "history": "Historial de curvas y gráfico de precios en vista NFT para estándar",
+      "description": "Descripción de la curva en la vista de colección para estándar"
+    },
+    "yolo": "Reemplace COMPRAR AHORA con YOLO",
+    "priceVisible": "Mostrar siempre el precio en la galería y la vista de colección en modo estándar",
+    "mintTimeVisible": "Mostrar siempre el tiempo de mint en la vista de colección en modo estándar",
+    "loadAllArtworks": "Cargue todas las obras de arte en la galería en modo estándar (videos, etc.)",
+    "enableGyroEffect": "Habilite el efecto giroscópico en la galería para NFTs 3d",
+    "exploreTabOrder": "Pestaña estándar en el explore"
+  },
+  "navbar": {
+    "teleport": "Teletransportar"
+  },
+  "walletConnect": {
+    "walletHeading": "Conectar Cartera",
+    "authText": "KodaDot nunca te pedirá que proporciones tu frase minemonic o clave privada.",
+    "understand": "Yo entiendo",
+    "learnText": "Aprenda a conectarse",
+    "downloadExtension": "Descarga extensión"
   }
 }
