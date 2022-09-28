@@ -51,7 +51,7 @@
         }}</nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item v-if="isSnek" has-link aria-role="menuitem">
-        <nuxt-link to="/snek/assets">{{ $t('assets') }}</nuxt-link>
+        <nuxt-link :to="`/${urlPrefix}/assets`">{{ $t('assets') }}</nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
@@ -100,7 +100,8 @@ import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
-import { getAsssetBalance } from '@/utils/api/bsx/query'
+import { getAsssetBalance, getKusamaAssetId } from '@/utils/api/bsx/query'
+import { clearSession } from '@/utils/cachingStrategy'
 
 const components = {
   Avatar,
@@ -122,10 +123,10 @@ export default class NavbarProfileDropdown extends mixins(
   @Prop() public showIncommingOffers!: boolean
   @Prop() public isSnek!: boolean
 
-  private tokens = [
-    { id: '0', balance: 0 },
-    { id: '5', balance: 0 },
-  ]
+  // private tokens = [
+  //   { id: '0', balance: 0 },
+  //   { id: '5', balance: 0 },
+  // ]
 
   get account() {
     return this.$store.getters.getAuthAddress
@@ -162,9 +163,16 @@ export default class NavbarProfileDropdown extends mixins(
     return this.$store.getters.getTokenBalanceOf('0')
   }
 
+  get tokens() {
+    return [
+      { id: '0', balance: 0 },
+      { id: getKusamaAssetId(this.urlPrefix), balance: 0 },
+    ]
+  }
+
   public disconnect() {
     this.$store.dispatch('setAuth', { address: '' }) // null not working
-    localStorage.removeItem('kodaauth')
+    clearSession()
   }
 
   public showRampSDK(): void {
