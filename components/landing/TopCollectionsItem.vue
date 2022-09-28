@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="`/rmrk/collection/${collection.id}`">
+  <nuxt-link :to="urlOf({ id: collection.id, url })">
     <div
       class="py-2 is-flex is-align-items-center is-justify-content-space-between is-clickable">
       <div class="is-flex is-align-items-center">
@@ -47,6 +47,7 @@
 
 <script lang="ts" setup>
 import { RowSeries } from '@/components/series/types'
+import { useCarouselUrl } from '../carousel/utils/useCarousel'
 
 const BasicImage = defineAsyncComponent(
   () => import('@/components/shared/view/BasicImage.vue')
@@ -55,6 +56,9 @@ const BasicImage = defineAsyncComponent(
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
+
+const { urlOf } = useCarouselUrl()
+const url = inject('itemUrl') as string
 
 function displayVolumePercent(
   priceNow: number,
