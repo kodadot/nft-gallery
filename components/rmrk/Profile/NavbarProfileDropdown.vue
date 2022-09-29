@@ -64,11 +64,10 @@
           <div class="has-text-left has-text-grey is-size-7">
             {{ $t('general.balance') }}
           </div>
-          <TokenMoney
+          <SimpleAccountBalance
             v-for="token in tokens"
-            :key="token.id"
-            :value="token.balance"
-            :token-id="token.id" />
+            :key="token"
+            :token-id="token" />
         </div>
         <AccountBalance v-else class="is-size-7" />
       </b-dropdown-item>
@@ -100,7 +99,7 @@ import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
-import { getAsssetBalance, getKusamaAssetId } from '@/utils/api/bsx/query'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { clearSession } from '@/utils/cachingStrategy'
 
 const components = {
@@ -109,7 +108,8 @@ const components = {
     import('@/components/shared/ConnectWalletButton.vue'),
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
-  TokenMoney: () => import('@/components/bsx/format/TokenMoney.vue'),
+  SimpleAccountBalance: () =>
+    import('@/components/shared/SimpleAccountBalance.vue'),
 }
 
 @Component({ components })
@@ -123,7 +123,9 @@ export default class NavbarProfileDropdown extends mixins(
   @Prop() public showIncommingOffers!: boolean
   @Prop() public isSnek!: boolean
 
-  private tokens = [{ id: '0', balance: 0 }]
+  get tokens() {
+    return ['', getKusamaAssetId(this.urlPrefix)]
+  }
 
   get account() {
     return this.$store.getters.getAuthAddress
@@ -131,36 +133,6 @@ export default class NavbarProfileDropdown extends mixins(
 
   set account(account: string) {
     this.$store.dispatch('setAuth', { address: account })
-  }
-
-  created() {
-    this.updateAssetsBalance()
-  }
-
-  private async updateAssetsBalance() {
-    const api = await this.useApi()
-    const additionalTokenList = [
-      { id: getKusamaAssetId(this.urlPrefix), balance: 0 },
-    ]
-    const result = await Promise.all(
-      [...this.tokens, ...additionalTokenList].map(
-        async (token) => await getAsssetBalance(api, this.accountId, token.id)
-      )
-    )
-    result.forEach((balance, idx) => {
-      this.$set(this.tokens, idx, {
-        ...this.tokens[idx],
-        balance: balance,
-      })
-    })
-  }
-
-  get realBalance() {
-    return this.$store.getters.getAuthBalance
-  }
-
-  get tokenAmount() {
-    return this.$store.getters.getTokenBalanceOf('0')
   }
 
   public disconnect() {

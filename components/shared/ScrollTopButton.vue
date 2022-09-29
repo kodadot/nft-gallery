@@ -45,6 +45,6 @@ export default class ScrollTopButton extends Vue {
   bottom: 100px;
   width: 56px;
   height: 56px;
-  z-index: 999999999;
+  z-index: 998;
 }
 </style>
