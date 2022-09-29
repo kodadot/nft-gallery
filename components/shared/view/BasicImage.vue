@@ -34,7 +34,7 @@ const placeholder = computed(() => {
 })
 
 function onImageError(ev: Event, src: string) {
-  $consola.log('[BasicImage] to load:', src, ev)
+  $consola.error('[BasicImage] to load:', src, ev)
 }
 </script>
 

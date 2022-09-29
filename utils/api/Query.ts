@@ -7,6 +7,7 @@ export type ChainProperties = {
   tokenDecimals: number
   tokenSymbol: string
   blockExplorer?: string
+  genesisHash?: string
 }
 
 class Query {
