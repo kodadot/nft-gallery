@@ -1,67 +1,67 @@
-@import 'initial-variables';
-@import '~bulma/sass/utilities/_all';
-@import 'derived-variables';
+@import "initial-variables";
+@import "~bulma/sass/utilities/_all";
+@import "derived-variables";
 
-// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+// Setup $colors to use as bulma classes (e.g. "is-twitter")
 $colors: mergeColorMaps(
   (
-    'white': (
+    "white": (
       $white,
       $black,
     ),
-    'black': (
+    "black": (
       $black,
       $white,
     ),
-    'light': (
+    "light": (
       $light,
       $light-invert,
     ),
-    'dark': (
+    "dark": (
       $dark,
       $dark-invert,
     ),
-    'primary': (
+    "primary": (
       $primary,
       $primary-invert,
       $primary-light,
       $primary-dark,
     ),
-    'link': (
+    "link": (
       $link,
       $link-invert,
       $link-light,
       $link-dark,
     ),
-    'info': (
+    "info": (
       $info,
       $info-invert,
       $info-light,
       $info-dark,
     ),
-    'success': (
+    "success": (
       $success,
       $success-invert,
       $success-light,
       $success-dark,
     ),
-    'warning': (
+    "warning": (
       $warning,
       $warning-invert,
       $warning-light,
       $warning-dark,
     ),
-    'danger': (
+    "danger": (
       $danger,
       $danger-invert,
       $danger-light,
       $danger-dark,
     ),
-    'grey': (
+    "grey": (
       $grey-darker,
       $white,
     ),
-    'orange': (
+    "orange": (
       $orange,
       $orange-invert,
       $orange-light,

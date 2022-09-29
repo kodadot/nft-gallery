@@ -59,12 +59,21 @@
   color: $white;
   padding: 3rem 1rem;
 
+  @include mobile {
+    flex-direction: column;
+    gap: 50px;
+    align-items: center !important;
+  }
+
   &-heading {
     font-size: 20px;
     font-weight: 700;
   }
 
   &-subs {
+    @include mobile {
+      align-items: center !important;
+    }
     &-items {
       margin-top: 8px;
     }
@@ -94,11 +103,17 @@
 
   &-info {
     gap: 18px;
+    @include mobile {
+      align-items: center !important;
+    }
 
     &-list {
+      display: grid;
+      grid-template-columns: repeat(2, 125.25px);
+      grid-gap: 10px;
+
       &-item {
         position: relative;
-        padding: 0 12px;
 
         a {
           color: $white !important;
@@ -109,19 +124,6 @@
 
         &:first-child {
           padding-left: 0px;
-        }
-
-        &:not(:last-child) {
-          &:after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: -5px;
-            width: 6px;
-            height: 6px;
-            background: #fff;
-          }
         }
       }
     }

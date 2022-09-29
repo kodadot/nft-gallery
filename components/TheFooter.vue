@@ -1,7 +1,7 @@
 <template>
   <footer
-    class="footer-container is-flex is-align-items-center is-justify-content-space-around">
-    <div class="footer-container-subs">
+    class="footer-container is-flex is-align-items-start is-justify-content-space-around">
+    <div class="footer-container-subs is-flex is-flex-direction-column">
       <span class="footer-container-heading">{{ $t('footer.subscribe') }}</span>
       <div class="is-flex is-align-items-center footer-container-subs-items">
         <!-- <b-input
@@ -25,7 +25,7 @@
     <div class="footer-container-info is-flex is-flex-direction-column">
       <span class="footer-container-heading">KodaDot</span>
       <div>
-        <ul class="footer-container-info-list is-flex">
+        <ul class="footer-container-info-list">
           <li
             v-for="item in menu"
             :key="item.url"
