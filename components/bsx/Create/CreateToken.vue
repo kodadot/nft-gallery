@@ -19,6 +19,11 @@
           :prefix="urlPrefix"
           class="mb-3" />
 
+        <BasicSwitch
+          key="hasCarbonOffset"
+          v-model="hasCarbonOffset"
+          label="carbonOffset.carbonOffsetSwitch" />
+
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
             v-model="attributes"
@@ -167,6 +172,7 @@ export default class CreateToken extends mixins(
   }
   protected metadata = ''
   protected balanceNotEnough = false
+  public hasCarbonOffset = this.$store.state.preferences.hasCarbonOffset
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
 
@@ -255,10 +261,6 @@ export default class CreateToken extends mixins(
 
   get hasSupport(): boolean {
     return this.$store.state.preferences.hasSupport
-  }
-
-  get hasCarbonOffset(): boolean {
-    return this.$store.state.preferences.hasCarbonOffset
   }
 
   get arweaveUpload(): boolean {
