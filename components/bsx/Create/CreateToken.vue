@@ -19,11 +19,6 @@
           :prefix="urlPrefix"
           class="mb-3" />
 
-        <BasicSwitch
-          key="hasCarbonOffset"
-          v-model="hasCarbonOffset"
-          label="carbonOffset.carbonOffsetSwitch" />
-
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
             v-model="attributes"
@@ -50,7 +45,8 @@
         </b-field>
         <b-field key="deposit">
           <p class="has-text-weight-medium is-size-6 has-text-info">
-            {{ $t('mint.deposit') }}: <Money :value="deposit" inline />
+            {{ $t('mint.deposit') }}:
+            <Money :value="deposit" inline />
           </p>
         </b-field>
         <b-field key="balance">
@@ -170,7 +166,6 @@ export default class CreateToken extends mixins(
   }
   protected metadata = ''
   protected balanceNotEnough = false
-  public hasCarbonOffset = this.$store.state.preferences.hasCarbonOffset
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
 
@@ -259,6 +254,10 @@ export default class CreateToken extends mixins(
 
   get hasSupport(): boolean {
     return this.$store.state.preferences.hasSupport
+  }
+
+  get hasCarbonOffset(): boolean {
+    return this.$store.state.preferences.hasCarbonOffset
   }
 
   get arweaveUpload(): boolean {
