@@ -46,7 +46,7 @@
         <b-field key="deposit">
           <p class="has-text-weight-medium is-size-6 has-text-info">
             {{ $t('mint.deposit') }}:
-            <Money :value="deposit" inline />
+            <Money :value="deposit" :token-id="tokenId" inline />
           </p>
         </b-field>
         <b-field key="balance">
