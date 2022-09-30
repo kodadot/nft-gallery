@@ -12,11 +12,10 @@ function seriesSort(arg1, arg2) {
     })
 }
 
-describe('Spotlight.vue component', () => {
+describe('Series.vue component', () => {
   it('identity component in spotlight', () => {
     cy.visit('/rmrk')
     cy.visit('/series-insight')
-    // should be visible
     cy.getCy('series-index-1').should('be.visible')
     cy.getCy('series-image-1').should('be.visible')
     cy.getCy('series-name-1').should('be.visible')
@@ -29,6 +28,8 @@ describe('Spotlight.vue component', () => {
     cy.getCy('series-total-1').should('be.visible')
     cy.getCy('series-rank-1').should('be.visible')
     cy.getCy('series-emoteCount-1').should('be.visible')
-    // cy.getCy('series-insight').click({ force: true })
+  })
+  it('default sort by sold', () => {
+    seriesSort('series-sold-1', 'series-sold-2')
   })
 })
