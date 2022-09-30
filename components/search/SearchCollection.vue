@@ -23,6 +23,7 @@
           </b-input>
         </b-field>
         <BasicSwitch
+          v-if="!isMoonRiver"
           v-model="vListed"
           class="is-flex control mb-5"
           :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
@@ -66,6 +67,7 @@ export default class SearchCollection extends mixins(KeyboardEventsMixin) {
   @Prop({ type: Boolean, default: false }) public owned!: boolean
   @Prop(Boolean) public disableToggle!: boolean
   @Prop(Boolean) public hideSearch!: boolean
+  @Prop(Boolean) public isMoonRiver!: boolean
   @Prop(Boolean) public showOwnerSwitch!: boolean
   @Prop(Array) public sortOption?: string[]
   protected isVisible = false

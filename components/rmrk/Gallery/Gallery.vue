@@ -1,7 +1,11 @@
 <template>
   <div class="gallery container">
     <Loader :value="isLoading" />
-    <Search v-bind.sync="searchQuery" hide-search-input @resetPage="resetPage">
+    <Search
+      v-bind.sync="searchQuery"
+      hide-search-input
+      :is-moon-river="urlPrefix === 'movr'"
+      @resetPage="resetPage">
       <Pagination
         v-model="currentValue"
         has-magic-btn

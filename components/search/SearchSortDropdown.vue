@@ -38,7 +38,10 @@
 
 <script lang="ts">
 import { Component, Prop, VModel, mixins } from 'nuxt-property-decorator'
-import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
+import {
+  NFT_SQUID_SORT_CONDITION_LIST,
+  NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER,
+} from '@/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 @Component
@@ -53,6 +56,9 @@ export default class SearchSortDropdown extends mixins(PrefixMixin) {
   }
 
   get sort(): string[] {
+    if (this.urlPrefix === 'movr') {
+      return NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER
+    }
     return NFT_SQUID_SORT_CONDITION_LIST
   }
 }
