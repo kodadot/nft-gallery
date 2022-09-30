@@ -1,6 +1,15 @@
 <template>
   <CollapseWrapper :visible="visible" :hidden="hidden">
     <div
+      v-for="(attribute, index) in prefixAttributes"
+      :key="attribute['trait_type']"
+      class="custom-attribute-input mt-4 mb-4">
+      <AttributeInput
+        disabled
+        v-bind.sync="prefixAttributes[index]"
+        :index="index" />
+    </div>
+    <div
       v-for="(attribute, index) in attributes"
       :key="index"
       class="custom-attribute-input mt-4 mb-4">
@@ -14,15 +23,15 @@
       outlined
       class="mt-2"
       :disabled="disabled"
-      @click="addAttribute"
       icon-left="plus"
+      @click="addAttribute"
       >Add Attribute</b-button
     >
   </CollapseWrapper>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { Attribute } from '../service/scheme'
 
 const components = {
@@ -38,7 +47,9 @@ export default class CustomAttributeInput extends Vue {
   visible!: string
   @Prop({ type: String, default: 'collapse.collection.attributes.hide' })
   hidden!: string
-  protected attributes: Attribute[] = []
+  public attributes: Attribute[] = []
+  @Prop({ type: Array, default: () => [] })
+  public prefixAttributes!: Attribute[]
 
   addAttribute(): void {
     if (!this.max || (this.max && this.attributes.length < this.max)) {

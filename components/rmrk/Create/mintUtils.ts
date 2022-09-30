@@ -18,7 +18,7 @@ export function offsetAttribute(hasCarbonOffset: boolean): Attribute[] {
     return []
   }
 
-  return [{ trait_type: 'carbonless', value: Number(hasCarbonOffset) }]
+  return [{ trait_type: 'KodaForest', value: 'Carbonless' }]
 }
 
 export function secondaryFileVisible(file?: Blob): boolean {
