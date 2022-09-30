@@ -2,11 +2,15 @@
   <div>
     <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
 
-    <div class="re-top-collections-grid">
+    <div class="re-top-collections-grid mb-5">
       <div v-for="(collection, index) in data" :key="index">
         <ReTopCollectionsItem :collection="collection" :index="index + 1" />
       </div>
     </div>
+
+    <nuxt-link :to="`/${urlPrefix}/series`" class="link">
+      {{ $t('helper.seeMore') }} >
+    </nuxt-link>
   </div>
 </template>
 
