@@ -32,4 +32,17 @@ describe('Series.vue component', () => {
   it('default sort by sold', () => {
     seriesSort('series-sold-1', 'series-sold-2')
   })
+  it('sort by volume', () => {
+    cy.get('th').contains('Volume').click()
+    seriesSort('series-volume-1', 'series-volume-2')
+  })
+  it('sort by floor price', () => {
+    cy.get('th').contains('Floor price').click()
+    seriesSort('series-floorPrice-1', 'series-floorPrice-2')
+  })
+  // avg price is unsortable rn
+  it('sort by highest sale', () => {
+    cy.get('th').contains('Highest Sale').click()
+    seriesSort('series-highestSale-1', 'series-highestSale-2')
+  })
 })
