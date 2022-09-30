@@ -51,39 +51,3 @@ defineProps<{
   index: number
 }>()
 </script>
-
-<style lang="scss">
-.re-top-collections-item {
-  background-color: white;
-  color: black;
-  border: 1px solid black;
-  -webkit-box-shadow: 4px 4px 0 0 rgba(255, 255, 255, 0);
-  box-shadow: 4px 4px 0 0 rgba(255, 255, 255, 0);
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
-  -webkit-transition-property: -webkit-box-shadow;
-  transition-property: -webkit-box-shadow;
-  transition-property: box-shadow;
-  transition-property: box-shadow, -webkit-box-shadow;
-
-  &:hover {
-    -webkit-box-shadow: 4px 4px 0 0 rgb(0, 0, 0);
-    box-shadow: 4px 4px 0 0 rgb(0, 0, 0);
-  }
-}
-
-.dark-mode {
-  .re-top-collections-item {
-    background-color: #1a1718;
-    color: white;
-    border: 1px solid white;
-    -webkit-box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0);
-    box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0);
-
-    &:hover {
-      -webkit-box-shadow: 4px 4px 0 0 #fff;
-      box-shadow: 4px 4px 0 0 #fff;
-    }
-  }
-}
-</style>

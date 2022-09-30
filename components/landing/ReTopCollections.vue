@@ -66,20 +66,3 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
   }
 }
 </script>
-
-<style lang="scss">
-.re-top-collections-grid {
-  display: grid;
-  grid-template-rows: repeat(6, minmax(0, 1fr));
-  column-gap: 1rem;
-  row-gap: 1rem;
-
-  @media (min-width: 640px) {
-    grid-auto-flow: column;
-  }
-
-  @media (min-width: 1280px) {
-    grid-template-rows: repeat(4, minmax(0, 1fr));
-  }
-}
-</style>
