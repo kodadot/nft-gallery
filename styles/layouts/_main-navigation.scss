@@ -50,7 +50,7 @@
 	transform: translateZ(0px);
 	transition: 0.3s ease;
 	-webkit-transition: 0.3s ease;
-	z-index: 100000 !important;
+	z-index: 999 !important;
 
 	&.is-spaced {
 		&>.container {

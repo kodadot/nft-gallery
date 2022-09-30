@@ -1,7 +1,7 @@
 export const supportedExplorers: Record<string, string> = {
   rmrk: 'https://kusama.subscan.io/account/',
   statemine: 'https://statemine.statescan.io/account/',
-  bsx: 'https://calamar.play.hydration.cloud/basilisk/search?query=',
+  bsx: 'https://basilisk.subscan.io/account/',
   snek: 'https://calamar.play.hydration.cloud/rococo%20basilisk/search?query=',
 }
 
