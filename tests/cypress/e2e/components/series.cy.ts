@@ -40,9 +40,29 @@ describe('Series.vue component', () => {
     cy.get('th').contains('Floor price').click()
     seriesSort('series-floorPrice-1', 'series-floorPrice-2')
   })
-  // avg price is unsortable rn
   it('sort by highest sale', () => {
     cy.get('th').contains('Highest Sale').click()
     seriesSort('series-highestSale-1', 'series-highestSale-2')
+  })
+  it('sort by buys', () => {
+    cy.get('th').contains('Buys').click()
+    seriesSort('series-buys-1', 'series-buys-2')
+  })
+  // sort by owners
+  it('sort by owners', () => {
+    cy.get('th').contains('Owners').click()
+    seriesSort('series-sold-1', 'series-sold-2')
+  })
+  // sort by assets
+  it('sort by assets', () => {
+    cy.get('th').contains('Assets').click()
+    seriesSort('series-total-1', 'series-total-2')
+  })
+  // select filter
+  it('select filter', () => {
+    cy.getCy('nb-rows').select('10').should('have.value', '10')
+    // make sure the number of rows is 10
+    cy.getCy('series-index-10').should('exist')
+    cy.getCy('series-index-11').should('not.exist')
   })
 })
