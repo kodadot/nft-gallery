@@ -1,5 +1,5 @@
 import { AssetListQueryResponse } from '@/components/bsx/Asset/types'
-import assetListByIdList from '@/queries/subsquid/bsx/assetListByIdList.graphql'
+import assetListQuery from '@/queries/subsquid/bsx/assetList.graphql'
 import { chainAssetOf } from '@/utils/config/chain.config'
 import { useApollo } from '@/utils/config/useApollo'
 import { emptyObject } from '@kodadot1/minimark'
@@ -36,7 +36,7 @@ export const actions: ActionTree<TokenState, TokenState> = {
     const { assetList } = await useApollo<any, AssetListQueryResponse>(
       client,
       prefix,
-      assetListByIdList
+      assetListQuery
     ).catch(() => ({
       assetList: [chainAssetOf(prefix)],
     }))

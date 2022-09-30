@@ -75,7 +75,7 @@
         field="formatPrice"
         :label="$t('offer.price')"
         sortable>
-        <Money :value="props.row.price" inline />
+        <Money :value="props.row.price" :token-id="assetId" inline />
       </b-table-column>
       <b-table-column
         v-slot="props"
@@ -148,7 +148,8 @@ import { Debounce } from 'vue-debounce-decorator'
 import { formatDistanceToNow } from 'date-fns'
 
 import { Offer } from './types'
-import OfferMixin from '~/utils/mixins/offerMixin'
+import OfferMixin from '@/utils/mixins/offerMixin'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
@@ -175,6 +176,10 @@ export default class OfferTable extends mixins(OfferMixin) {
   }
   get urlPrefix() {
     return this.$store.getters.currentUrlPrefix
+  }
+
+  get assetId() {
+    return getKusamaAssetId(this.urlPrefix)
   }
 
   @Watch('currentPage')

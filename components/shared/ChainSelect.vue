@@ -11,7 +11,6 @@
       :key="option.value"
       aria-role="listitem"
       :value="option.value"
-      :disabled="option.value === 'bsx'"
       :class="{ 'is-active': selected === option.value }"
       :data-cy="`chain-dropdown-${option.value}`">
       {{ option.text }}

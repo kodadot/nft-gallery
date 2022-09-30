@@ -6,7 +6,7 @@
       expanded
       :step="0.1"
       :min-step="0.01"
-      :min="0.01"
+      :min="0"
       :max="99.99" />
 
     <BasicSwitch v-model="isMine" label="mint.royalty.mine" />
