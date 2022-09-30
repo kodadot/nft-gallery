@@ -88,9 +88,9 @@
       border-left: 0 !important;
       box-shadow: $primary-shadow !important;
     }
+  
     &-input {
       box-shadow: $primary-shadow;
-
       .input {
         border-radius: 0px;
         border: 1px solid $black;
@@ -109,11 +109,10 @@
 
     &-list {
       display: grid;
-      grid-template-columns: repeat(2, 125.25px);
+      grid-template-columns: repeat(2, auto);
       grid-gap: 10px;
 
       &-item {
-        position: relative;
 
         a {
           color: $white !important;

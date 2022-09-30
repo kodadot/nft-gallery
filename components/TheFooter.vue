@@ -4,22 +4,21 @@
     <div class="footer-container-subs is-flex is-flex-direction-column">
       <span class="footer-container-heading">{{ $t('footer.subscribe') }}</span>
       <div class="is-flex is-align-items-center footer-container-subs-items">
-        <!-- <b-input
-          v-model="subscriptionEmail"
-          class="footer-container-subs-input"
-          placeholder="Your Email Address"
-          expanded />
-        <b-button
-          type="is-primary"
-          class="footer-container-subs-btn"
-          @click="$emit('click')">
-          <slot> {{ $t('footer.subscribeLabel') }} </slot>
-        </b-button> -->
-        <iframe
-          height="94"
-          src="https://kodadot.substack.com/embed"
-          frameborder="0"
-          scrolling="no"></iframe>
+        <div id="custom-substack-embed"></div>
+
+        <script>
+          window.CustomSubstackWidget = {
+            substackUrl: 'kodadot.substack.com',
+            theme: 'custom',
+            colors: {
+              primary: '#FF7AC3',
+              input: '#000000',
+              email: '#FFFFFF',
+              text: '#000000',
+            },
+          }
+        </script>
+        <script src="https://substackapi.com/widget.js" async></script>
       </div>
     </div>
     <div class="footer-container-info is-flex is-flex-direction-column">
@@ -30,13 +29,13 @@
             v-for="item in menu"
             :key="item.url"
             class="footer-container-info-list-item">
-            <a
-              v-if="item.external"
-              :href="item.url"
-              target="_blank"
-              rel="noopener noreferrer">
-              {{ item.name }}
-            </a>
+            <div v-if="item.external" class="is-flex is-align-items-center">
+              <a :href="item.url" target="_blank" rel="noopener noreferrer">
+                {{ item.name }}
+              </a>
+              <b-icon icon="external-link-alt" class="ml-1" size="is-small">
+              </b-icon>
+            </div>
             <nuxt-link v-else :to="item.url">
               {{ item.name }}
             </nuxt-link>
@@ -81,7 +80,6 @@ interface Menu {
 }
 @Component({})
 export default class Footer extends Vue {
-  private subscriptionEmail = ''
   public menu: Menu[] = [
     {
       name: this.$t('about'),
