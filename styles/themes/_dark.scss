@@ -15,6 +15,14 @@ html.dark-mode {
     color: $text !important;
   }
 
+  .link {
+    color: #fff !important;
+
+    &:hover {
+      color: $k-accentlight !important;
+    }
+  }
+
   .navbar {
     .navbar-dropdown a.navbar-item {
       &:hover,
