@@ -133,6 +133,11 @@
 
     &-list {
       &-item {
+
+        &:hover {
+          background: $k-accentlight!important;
+        }
+  
         height: 33px;
         width: 33px;
         background: $white;
