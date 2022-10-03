@@ -874,7 +874,7 @@
       "cancelled": "Transaction was cancelled",
       "feesPaidIn": "You are paying fees in {0}"
     },
-    "searchPlaceholder": "Search By Collection Or NFT",
+    "searchPlaceholder": "Search",
     "tagsAdd": "Type and press enter to add your own",
     "chooseWallet": "Choose your"
   },
