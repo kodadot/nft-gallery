@@ -12,7 +12,9 @@
     </section>
 
     <!-- top collections -->
-    <section v-if="showCarousel" class="section instance instance-accent">
+    <section
+      v-if="urlPrefix.value === 'rmrk' || urlPrefix.value === 'snek'"
+      class="section instance instance-accent">
       <div class="container">
         <LazyReTopCollections class="my-5" />
       </div>
@@ -39,7 +41,11 @@ const { urlPrefix } = usePrefix()
 
 // currently only supported on rmrk and snek
 const showCarousel = computed(() => {
-  return urlPrefix.value === 'rmrk' || urlPrefix.value === 'snek'
+  return (
+    urlPrefix.value === 'rmrk' ||
+    urlPrefix.value === 'snek' ||
+    urlPrefix.value === 'bsx'
+  )
 })
 </script>
 
