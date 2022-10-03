@@ -40,6 +40,12 @@ html.dark-mode {
 		.navbar-burger {
 			color: $white;
     }
+
+    #NavProfile {
+      .button.is-primary {
+        border: 1px solid $white !important;
+      }
+    }
   }
 
   .instance {
