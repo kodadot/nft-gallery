@@ -1,6 +1,7 @@
 // ABSTRACTS
 @import "abstracts/variables";
 @import "abstracts/animations";
+@import "abstracts/fonts";
 
 // FRAMEWORK (note: don't move this on top)
 @import "~bulma";
@@ -8,7 +9,6 @@
 
 // GLOBAL
 @import "./global.scss";
-@import "./fonts.scss";
 
 // BASE STYLES
 @import "base/reset";
