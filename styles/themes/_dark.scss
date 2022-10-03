@@ -30,6 +30,16 @@ html.dark-mode {
         background-color: $primary;
       }
     }
+
+    .mobile-nav-search-btn {
+      background: $black;
+      border: 1px solid $white;
+      box-shadow: 4px 4px 0px $white;
+    }
+
+		.navbar-burger {
+			color: $white;
+    }
   }
 
   .instance {

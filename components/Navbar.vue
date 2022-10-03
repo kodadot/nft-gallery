@@ -10,10 +10,10 @@
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
         <img
-          src="~/assets/Koda_Beta.svg"
+          :src="logoSrc"
           alt="First NFT market explorer on Kusama and Polkadot"
-          width="130"
-          height="35" />
+          width="166"
+          height="34" />
       </b-navbar-item>
       <div
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
@@ -21,10 +21,10 @@
         <HistoryBrowser />
         <b-button
           v-if="!isRedesignedLandingPage"
-          type="is-primary is-bordered-light ml-2"
-          class="navbar-link-background"
-          icon-right="search"
-          @click="showMobileSearchBar" />
+          icon-left="search"
+          class="mr-2 mobile-nav-search-btn is-flex"
+          @click="showMobileSearchBar">
+        </b-button>
         <Search
           ref="mobilSearchRef"
           hide-filter
@@ -183,6 +183,8 @@ import ColorModeButton from '@/components/common/ColorModeButton.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
+import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
+import KodaBeta from '@/assets/Koda_Beta.svg'
 
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
@@ -256,6 +258,10 @@ export default class NavbarMenu extends mixins(
 
   get isRedesignedLandingPage() {
     return this.$route.name === 'index' && this.redesign
+  }
+
+  get logoSrc() {
+    return this.$colorMode.preference === 'dark' ? KodaBetaDark : KodaBeta
   }
 
   get navBarTitle(): string {
