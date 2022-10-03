@@ -45,9 +45,7 @@ const landingImage = computed(() => {
 const chainList = computed(() => {
   const availableUrlPrefixes: Option[] = $store.getters['availableUrlPrefixes']
   return availableUrlPrefixes.filter(
-    (urlPrefix) =>
-      !chainTestList.includes(urlPrefix.value as string) &&
-      urlPrefix.value !== 'bsx'
+    (urlPrefix) => !chainTestList.includes(urlPrefix.value as string)
   )
 })
 
