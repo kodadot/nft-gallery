@@ -67,14 +67,14 @@
     "@google/model-viewer": "^1.12.1",
     "@keeex/qrcodejs-kx": "^1.0.2",
     "@kodadot1/minimark": "^0.0.1-rc.10",
-    "@kodadot1/sub-api": "0.1.0-alpha.3",
+    "@kodadot1/sub-api": "0.1.1-alpha.3",
     "@kodadot1/vuex-options": "0.0.3-rc.9",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.3.0",
-    "@polkadot/extension-dapp": "^0.44.2",
-    "@polkadot/extension-inject": "^0.44.2",
-    "@polkadot/ui-keyring": "2.9.2",
-    "@polkadot/vue-identicon": "^2.9.2",
+    "@polkadot/extension-dapp": "^0.44.6",
+    "@polkadot/extension-inject": "^0.44.6",
+    "@polkadot/ui-keyring": "2.9.10",
+    "@polkadot/vue-identicon": "^2.9.10",
     "@ramp-network/ramp-instant-sdk": "^3.2.3",
     "apollo-boost": "^0.4.9",
     "axios": "^0.27.2",
@@ -163,7 +163,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@substrate/smoldot-light": "^0.6.27"
+      "@substrate/smoldot-light": "^0.6.27",
+      "@polkadot/util": "^10.1.9"
     },
     "patchedDependencies": {
       "vuex@3.6.2": "patches/vuex@3.6.2.patch"
