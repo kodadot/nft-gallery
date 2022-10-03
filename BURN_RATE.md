@@ -2,8 +2,10 @@
  
  | date | # of <br /> paid <br /> PRs | total :moneybag: | # of <br /> :construction_worker: | :moneybag: / PR |
 |:-----------------:|:-----------------------:|:----------------------:|:----------------:|:------------:| 
-| :date: ***September 2022*** | ***25*** | ***$1520*** | ***12*** | ***$61*** |
- | Week 38/22 | 10 | $580 | 9 | $58 |
+| :date: ***October 2022*** | ***0*** | ***$0*** | ***1*** | ***$0*** |
+ | Week 39/22 | 7 | $450 | 7 | $64 |
+| :date: ***September 2022*** | ***33*** | ***$2001*** | ***14*** | ***$61*** |
+ | Week 38/22 | 11 | $610 | 10 | $55 |
 | Week 37/22 | 5 | $300 | 7 | $60 |
 | Week 36/22 | 5 | $370 | 6 | $74 |
 | Week 35/22 | 8 | $440 | 7 | $55 |
@@ -62,6 +64,6 @@
 | Week 44/21 | 2 | $354 | 6 | $177 |
 
  
- **BURN RATE TABLE GENERATED BASED ON 594 PAID PULL REQUESTS AND CONTRIBUTIONS OF 44 PEOPLE** 
+ **BURN RATE TABLE GENERATED BASED ON 602 PAID PULL REQUESTS AND CONTRIBUTIONS OF 44 PEOPLE** 
  
  </div>
