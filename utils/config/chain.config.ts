@@ -23,16 +23,11 @@ const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
   'https://kusama.subscan.io/'
 )
 
-export const BLOCK_EXPLORER_WITH_QUERY = ['bsx', 'snek']
+export const BLOCK_EXPLORER_WITH_QUERY = ['snek']
 
 const chainPropertyMap: Config<ChainProperties> = {
   rmrk: DEFAULT_CHAIN_PROPERTIES,
-  bsx: toChainProperty(
-    10041,
-    12,
-    'BSX',
-    'https://calamar.play.hydration.cloud/basilisk/search?query='
-  ),
+  bsx: toChainProperty(10041, 12, 'KSM', 'https://basilisk.subscan.io/'),
   snek: toChainProperty(
     10041,
     12,
@@ -41,7 +36,8 @@ const chainPropertyMap: Config<ChainProperties> = {
   ),
   statemine: DEFAULT_CHAIN_PROPERTIES,
   westmint: DEFAULT_CHAIN_PROPERTIES,
-  movr: toChainProperty(1285, 12, 'MOVR', 'https://moonriver.subscan.io/'),
+  movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
+  glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
 }
 
 export const chainPropListOf = (prefix: Prefix | string): ChainProperties => {

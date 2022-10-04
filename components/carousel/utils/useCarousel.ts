@@ -2,18 +2,18 @@ import type { CarouselNFT } from '@/components/base/types'
 import type { LastEvent } from '@/utils/types/types'
 import type { RowSeries } from '@/components/series/types'
 
-import { convertLastEventFlatNft } from '@/utils/carousel'
-import { formatNFT } from '@/utils/carousel'
+import { convertLastEventFlatNft, formatNFT } from '@/utils/carousel'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { sortItemListByIds } from '@/utils/sorting'
+import { correctPrefix } from '@/utils/uniquery'
 
 export const useCarouselUrl = () => {
   const { urlPrefix } = usePrefix()
 
   const profileUrl = computed(() => `${urlPrefix.value}-u-id`)
 
-  const urlOf = ({ id, url }: { id: string; url: string }): string => {
-    return `/${urlPrefix.value}/${url}/${id}`
+  const urlOf = ({ id = '', url = '', chain = '' }): string => {
+    return `/${chain || urlPrefix.value}/${url}/${id}`
   }
 
   return {
@@ -26,21 +26,22 @@ interface Types {
   type: 'latestSales' | 'newestList'
 }
 
-export const useCarouselNftEvents = ({ type }: Types) => {
-  const variables = {
-    latestSales: {
-      limit: 10,
-      event: 'BUY',
-    },
-    newestList: {
-      limit: 10,
-      event: 'LIST',
-    },
-  }
+const nftEventVariables = {
+  latestSales: {
+    limit: 10,
+    event: 'BUY',
+  },
+  newestList: {
+    limit: 10,
+    event: 'LIST',
+  },
+}
+
+export const useCarouselNftEventsOld = ({ type }: Types) => {
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: 'lastNftListByEvent',
-    variables: variables[type],
+    variables: nftEventVariables[type],
   })
   const nfts = ref<CarouselNFT[]>([])
 
@@ -52,6 +53,54 @@ export const useCarouselNftEvents = ({ type }: Types) => {
   watch(data, () => {
     if (data.value) {
       handleResult({ data: data.value })
+    }
+  })
+
+  return {
+    nfts,
+  }
+}
+
+const useChainEvents = (chain, type) => {
+  const { data, loading } = useGraphql({
+    queryPrefix: 'subsquid',
+    queryName: 'lastNftListByEvent',
+    variables: nftEventVariables[type],
+    clientName: correctPrefix(chain),
+  })
+
+  return {
+    data,
+    loading,
+  }
+}
+
+export const useCarouselNftEvents = ({ type }: Types) => {
+  const { data: dataRmrk, loading: loadingRmrk } = useChainEvents('rmrk', type)
+  const { data: dataSnek, loading: loadingSnek } = useChainEvents('snek', type)
+  const { data: dataBsx, loading: loadingBsx } = useChainEvents('bsx', type)
+  const nfts = ref<CarouselNFT[]>([])
+
+  const flattenNFT = async (data, chain) => {
+    if (!data?.events.length) {
+      return []
+    }
+
+    const events = data.events.map(convertLastEventFlatNft)
+    return await formatNFT(events, chain)
+  }
+
+  // currently only support rmrk and snek
+  // moonriver: https://github.com/kodadot/nft-gallery/issues/3891
+  watch([loadingRmrk, loadingSnek, loadingBsx], async () => {
+    if (!loadingRmrk.value && !loadingSnek.value && !loadingBsx.value) {
+      const rmrkNfts = await flattenNFT(dataRmrk.value, 'rmrk')
+      const snekNfts = await flattenNFT(dataSnek.value, 'snek')
+      const bsxNfts = await flattenNFT(dataBsx.value, 'bsx')
+
+      const data = [...rmrkNfts, ...snekNfts, ...bsxNfts]
+
+      nfts.value = data.sort((a, b) => b.unixTime - a.unixTime).slice(0, 10)
     }
   })
 
