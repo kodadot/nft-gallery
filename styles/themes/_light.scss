@@ -3,10 +3,18 @@ html.light-mode {
 
 	a {
 		color: $primary;
+
+		&:hover {
+			color: $primary-light;
+		}
 	}
 
-	a:hover {
-		color: $primary-light;
+	a.link {
+		color: #000 !important;
+
+		&:hover {
+			color: $k-accentlight !important;
+		}
 	}
 
 	body,
@@ -289,7 +297,7 @@ html.light-mode {
 				border: 1px solid #000;
 				background-color: #fff;
 			}
-	
+
 		}
 		.search-bar-bg {
 			background-color: #000;

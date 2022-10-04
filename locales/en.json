@@ -582,7 +582,7 @@
       "sync": "Sync editions to {0}"
     },
     "royalty": {
-      "rate": "Royalty Rate",
+      "rate": "Royalty Rate (%)",
       "mine": "Pay royalties to the creator account",
       "receiver": "Destination account for royalty"
     },
@@ -624,10 +624,10 @@
       "creative": {
         "heading": "Creative Minting"
       },
-      "drop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",
+      "creativeDrop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",
       "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)",
-      "rmrkDescription": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
-      "simpleDrop": "Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
+      "creativeFailDesc": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
+      "drop": "Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
     }
   },
   "tooltip": {
@@ -675,7 +675,7 @@
       "submit": "Submit {0}"
     },
     "properties": {
-      "label": "Traits"
+      "label": "Attributes"
     },
     "offer": {
       "label": "Offers ({0})",
@@ -745,6 +745,7 @@
     "tooltip": "Using Arweave means that you are storing your multimedia forever on Arweave, good for small assets like JPEG."
   },
   "carbonOffset": {
+    "carbonOffsetSwitch": "Add KodaForest attribute to NFT",
     "carbonOffsetYes": "I'm making carbonless NFT",
     "carbonOffsetNo": "I don't want to have carbonless NFT",
     "tooltip": "Carbonless NFT means that you are helping cover costs for carbon credits and planting trees"
@@ -864,6 +865,7 @@
     "latestSalesheading": "Discover the most recent sales on",
     "newestListDesc": "Discover the latest items on sale",
     "newestListHeading": "Newest List",
+    "topCollectionsHeading": "Top Collections",
     "popularCollectionsHeading": "Popular Collections",
     "popularCollectionsDesc": "Discover the most popular collections on rmrk",
     "from": "from",

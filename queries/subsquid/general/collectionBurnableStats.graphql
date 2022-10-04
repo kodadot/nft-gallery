@@ -7,7 +7,7 @@ query collectionBurnableStats($id: String!) {
   }
   burned: nftEntitiesConnection(
     orderBy: id_ASC
-    where: { collection: { id_eq: $id, burned_eq: true } }
+    where: { collection: { id_eq: $id }, burned_eq: true }
   ) {
     count: totalCount
   }

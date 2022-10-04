@@ -15,12 +15,19 @@
           ref="balanceInput"
           key="token-price"
           v-model="price"
-          token-id="5"
+          :token-id="tokenId"
           :prefix="urlPrefix"
           class="mb-3" />
+
+        <BasicSwitch
+          key="hasCarbonOffset"
+          v-model="hasCarbonOffset"
+          label="carbonOffset.carbonOffsetSwitch" />
+
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
             v-model="attributes"
+            :prefix-attributes="carbonLessAttribute"
             :max="10"
             class="mb-3"
             visible="collapse.collection.attributes.show"
@@ -43,11 +50,12 @@
         </b-field>
         <b-field key="deposit">
           <p class="has-text-weight-medium is-size-6 has-text-info">
-            {{ $t('mint.deposit') }}: <Money :value="deposit" inline />
+            {{ $t('mint.deposit') }}:
+            <Money :value="deposit" :token-id="tokenId" inline />
           </p>
         </b-field>
         <b-field key="balance">
-          <AccountBalance token-id="5" />
+          <AccountBalance :token-id="tokenId" />
         </b-field>
         <b-field key="token">
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
@@ -106,6 +114,7 @@ import {
 } from '~/components/rmrk/utils'
 import { getMany, update } from 'idb-keyval'
 import ApiUrlMixin from '~/utils/mixins/apiUrlMixin'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -158,11 +167,12 @@ export default class CreateToken extends mixins(
   protected price = '0'
   protected listed = true
   protected royalty: Royalty = {
-    amount: 0,
+    amount: 0.15,
     address: '',
   }
   protected metadata = ''
   protected balanceNotEnough = false
+  public hasCarbonOffset = this.$store.state.preferences.hasCarbonOffset
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
 
@@ -253,10 +263,6 @@ export default class CreateToken extends mixins(
     return this.$store.state.preferences.hasSupport
   }
 
-  get hasCarbonOffset(): boolean {
-    return this.$store.state.preferences.hasCarbonOffset
-  }
-
   get arweaveUpload(): boolean {
     return this.$store.state.preferences.arweaveUpload
   }
@@ -264,6 +270,14 @@ export default class CreateToken extends mixins(
   get validPriceValue(): boolean {
     const price = parseInt(this.price as string)
     return !this.listed || price > 0
+  }
+
+  get tokenId() {
+    return getKusamaAssetId(this.urlPrefix)
+  }
+
+  get carbonLessAttribute(): Attribute[] {
+    return offsetAttribute(this.hasCarbonOffset)
   }
 
   public checkValidity() {
@@ -312,7 +326,7 @@ export default class CreateToken extends mixins(
               collectionId,
               nextId,
               this.royalty.address,
-              this.royalty.amount
+              this.royalty.amount * 100
             ),
           ]
         : []

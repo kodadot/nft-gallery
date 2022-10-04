@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import offerListByNftId from '@/queries/subsquid/general/collectionBurnableStats.graphql'
+import collectionBurnableStats from '@/queries/subsquid/general/collectionBurnableStats.graphql'
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
@@ -33,7 +33,7 @@ export default class DonationButton extends mixins(
   UseApiMixin
 ) {
   @Prop(String) public id!: string
-  protected disabled = true
+  public disabled = true
 
   fetch() {
     this.fetchStats()
@@ -43,12 +43,11 @@ export default class DonationButton extends mixins(
     try {
       const { data } = await this.$apollo.query<BurnableStats>({
         client: this.client,
-        query: offerListByNftId,
+        query: collectionBurnableStats,
         variables: { id: this.id },
       })
 
       this.disabled = data.all.count - data.burned.count > 0
-      // this.disabled = false
     } catch (e) {
       this.$consola.error(e)
     }

@@ -1,10 +1,14 @@
 <template>
   <div>
-    <BasicSlider
+    <BasicNumberInput
       v-model="vRoyalty"
-      label="mint.royalty.rate"
-      :max="99"
-      :custom-formatter="(v) => `${v}%`" />
+      :label="$t('mint.royalty.rate')"
+      expanded
+      :step="0.1"
+      :min-step="0.01"
+      :min="0"
+      :max="99.99" />
+
     <BasicSwitch v-model="isMine" label="mint.royalty.mine" />
     <AddressInput
       v-show="!isMine"
@@ -29,6 +33,8 @@ import AuthMixin from '~/utils/mixins/authMixin'
 const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   BasicSlider: () => import('@/components/shared/form/BasicSlider.vue'),
+  BasicNumberInput: () =>
+    import('@/components/shared/form/BasicNumberInput.vue'),
 }
 
 @Component({ components })

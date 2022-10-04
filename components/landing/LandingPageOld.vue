@@ -77,13 +77,12 @@
           </div>
         </div>
       </div>
-      <div
-        v-if="prefix === 'rmrk' || prefix === 'bsx' || prefix === 'snek'"
-        class="py-5">
-        <LazyCarouselTypeLatestSales class="my-5" />
-        <LazyCarouselTypePopularCollection
+      <div v-if="prefix === 'rmrk' || prefix === 'bsx' || prefix === 'snek'">
+        <LazyTopCollections v-if="prefix !== 'bsx'" class="my-5" />
+        <LazyCarouselTypePopularCollections
           v-if="prefix === 'rmrk'"
           class="my-5" />
+        <LazyCarouselTypeLatestSales class="my-5" />
         <LazyCarouselTypeNewestList class="my-5" />
       </div>
     </div>
@@ -92,7 +91,6 @@
 
 <script lang="ts" setup>
 import KodadotSocialLinks from '@/components/shared/KodadotSocialLinks.vue'
-// import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
 defineProps({
   prefix: {
@@ -105,30 +103,6 @@ defineProps({
     default: 'RMRK Protocol',
   },
 })
-
-// private passionList: string[] = ['']
-
-// async created() {
-//   if (this.isLogIn) {
-//     const result = await this.fetchPassionList()
-//     if (result.length) {
-//       this.passionList = this.passionList.concat(result)
-//     }
-//   }
-// }
-
-//   public async fetchPassionList() {
-//     const {
-//       data: { passionFeed },
-//     } = await this.$apollo.query({
-//       query: passionQuery,
-//       client: 'subsquid',
-//       variables: {
-//         account: this.accountId,
-//       },
-//     })
-//     return passionFeed?.map((item) => item.id) || []
-//   }
 </script>
 
 <style lang="scss" scoped>

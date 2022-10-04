@@ -205,7 +205,7 @@ export default class BaseGalleryItem extends Vue {
         height: 100%;
         top: 0;
         left: 0;
-        z-index: 999998;
+        z-index: 997;
         background: #000;
         display: flex;
         justify-content: center;
@@ -217,7 +217,7 @@ export default class BaseGalleryItem extends Vue {
         height: 100%;
         top: 0;
         left: 0;
-        z-index: 999998;
+        z-index: 997;
         background: #000;
         div#tile-placeholder {
           background-repeat: repeat;
@@ -268,7 +268,7 @@ export default class BaseGalleryItem extends Vue {
     opacity: 0.6;
     &.fullscreen {
       position: fixed;
-      z-index: 999998;
+      z-index: 997;
       bottom: 0;
       right: 0;
     }
@@ -284,7 +284,7 @@ export default class BaseGalleryItem extends Vue {
     opacity: 0.6;
     &.tile {
       position: fixed;
-      z-index: 999998;
+      z-index: 997;
       bottom: 0;
       right: 0;
     }

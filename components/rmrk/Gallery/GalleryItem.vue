@@ -161,6 +161,7 @@ import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import nftListIdsByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
 
 import AvailableActions from './AvailableActions.vue'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -226,6 +227,10 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   get pageTitle(): string {
     return `${this.nft.name || ''}`
+  }
+
+  get tokenId() {
+    return getKusamaAssetId(this.urlPrefix)
   }
 
   get image(): string {
