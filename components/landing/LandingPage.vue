@@ -13,7 +13,7 @@
 
     <!-- top collections -->
     <section
-      v-if="urlPrefix.value === 'rmrk' || urlPrefix.value === 'snek'"
+      v-if="urlPrefix === 'rmrk' || urlPrefix === 'snek'"
       class="section instance instance-accent">
       <div class="container">
         <LazyReTopCollections class="my-5" />
