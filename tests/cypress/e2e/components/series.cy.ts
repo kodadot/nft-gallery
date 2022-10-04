@@ -1,5 +1,5 @@
 describe('Series.vue component', () => {
-  it('identity component in spotlight', () => {
+  it('identity component in series', () => {
     cy.visit('/rmrk')
     cy.visit('/series-insight')
     cy.getCy('series-index-1').should('be.visible')
