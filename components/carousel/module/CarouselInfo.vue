@@ -42,7 +42,8 @@ const isCollection = inject('isCollection')
 const chainName = computed(() => {
   const name = {
     rmrk: 'RMRK',
-    snek: 'Basilisk',
+    snek: 'Snek (Rococo)',
+    bsx: 'Basilisk',
   }
 
   return name[props.item.chain || 'rmrk']

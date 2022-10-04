@@ -6,6 +6,7 @@ const hasCreate: Config<boolean> = {
   statemine: true,
   westmint: true,
   movr: false,
+  glmr: false,
   snek: true,
 }
 
