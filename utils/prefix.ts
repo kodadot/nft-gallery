@@ -39,6 +39,7 @@ export function prefixBuildOnText(prefix: string): string {
     case 'westmint':
       return 'Statemine Unique Pallet'
     case 'movr':
+    case 'glmr':
       return 'EVM Smart Contracts'
     default:
       return 'RMRK Protocol'

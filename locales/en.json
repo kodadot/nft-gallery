@@ -675,7 +675,7 @@
       "submit": "Submit {0}"
     },
     "properties": {
-      "label": "Traits"
+      "label": "Attributes"
     },
     "offer": {
       "label": "Offers ({0})",
@@ -745,6 +745,7 @@
     "tooltip": "Using Arweave means that you are storing your multimedia forever on Arweave, good for small assets like JPEG."
   },
   "carbonOffset": {
+    "carbonOffsetSwitch": "Add KodaForest attribute to NFT",
     "carbonOffsetYes": "I'm making carbonless NFT",
     "carbonOffsetNo": "I don't want to have carbonless NFT",
     "tooltip": "Carbonless NFT means that you are helping cover costs for carbon credits and planting trees"
@@ -864,6 +865,7 @@
     "latestSalesheading": "Discover the most recent sales on",
     "newestListDesc": "Discover the latest items on sale",
     "newestListHeading": "Newest List",
+    "topCollectionsHeading": "Top Collections",
     "popularCollectionsHeading": "Popular Collections",
     "popularCollectionsDesc": "Discover the most popular collections on rmrk",
     "from": "from",

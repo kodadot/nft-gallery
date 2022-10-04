@@ -18,9 +18,16 @@
           :token-id="tokenId"
           :prefix="urlPrefix"
           class="mb-3" />
+
+        <BasicSwitch
+          key="hasCarbonOffset"
+          v-model="hasCarbonOffset"
+          label="carbonOffset.carbonOffsetSwitch" />
+
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
             v-model="attributes"
+            :prefix-attributes="carbonLessAttribute"
             :max="10"
             class="mb-3"
             visible="collapse.collection.attributes.show"
@@ -165,6 +172,7 @@ export default class CreateToken extends mixins(
   }
   protected metadata = ''
   protected balanceNotEnough = false
+  public hasCarbonOffset = this.$store.state.preferences.hasCarbonOffset
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
 
@@ -255,10 +263,6 @@ export default class CreateToken extends mixins(
     return this.$store.state.preferences.hasSupport
   }
 
-  get hasCarbonOffset(): boolean {
-    return this.$store.state.preferences.hasCarbonOffset
-  }
-
   get arweaveUpload(): boolean {
     return this.$store.state.preferences.arweaveUpload
   }
@@ -270,6 +274,10 @@ export default class CreateToken extends mixins(
 
   get tokenId() {
     return getKusamaAssetId(this.urlPrefix)
+  }
+
+  get carbonLessAttribute(): Attribute[] {
+    return offsetAttribute(this.hasCarbonOffset)
   }
 
   public checkValidity() {

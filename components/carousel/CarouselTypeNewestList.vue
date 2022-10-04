@@ -10,8 +10,14 @@
 
 <script lang="ts" setup>
 import CarouselIndex from './CarouselIndex.vue'
-import { useCarouselNftEvents } from './utils/useCarousel'
+import {
+  useCarouselNftEvents,
+  useCarouselNftEventsOld,
+} from './utils/useCarousel'
 
+const { redesign } = useExperiments()
 const { urlPrefix } = usePrefix()
-const { nfts } = useCarouselNftEvents({ type: 'newestList' })
+const { nfts } = redesign.value
+  ? useCarouselNftEvents({ type: 'newestList' })
+  : useCarouselNftEventsOld({ type: 'newestList' })
 </script>

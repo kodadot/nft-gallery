@@ -2,18 +2,21 @@ import { formatDistanceToNow } from 'date-fns'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
-} from '~/utils/cachingStrategy'
+  processSingleMetadata,
+} from '@/utils/cachingStrategy'
+import { LastEvent } from '@/utils/types/types'
 
 import { CarouselNFT } from '@/components/base/types'
-import { processSingleMetadata } from '~/utils/cachingStrategy'
-import { LastEvent } from '~/utils/types/types'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 /**
  * Format the data to fit with CarouselNFT[]
  * Get cloudflare images
  * Update timestamp
  */
-export const formatNFT = async (nfts): Promise<CarouselNFT[]> => {
+export const formatNFT = async (
+  nfts,
+  chain = 'rmrk'
+): Promise<CarouselNFT[]> => {
   if (!nfts) {
     return []
   }
@@ -33,9 +36,11 @@ export const formatNFT = async (nfts): Promise<CarouselNFT[]> => {
       timestamp: formatDistanceToNow(new Date(timestamp), {
         addSuffix: true,
       }),
+      unixTime: new Date(timestamp).getTime(),
       price: nft.price || 0,
       image: imageOf(metaId, metaImage),
       animationUrl: imageOf(metaId, metaAnimationUrl) || '',
+      chain,
     }
   })
 }
@@ -79,6 +84,8 @@ export const convertLastEventFlatNft = (e: LastEvent) => {
       image: e.image,
       animationUrl: e.animationUrl ? sanitizeIpfsUrl(e.animationUrl) : null,
     },
+    collectionId: e.collectionId,
+    collectionName: e.collectionName,
   }
 }
 

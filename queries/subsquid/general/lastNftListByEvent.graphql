@@ -10,5 +10,7 @@ query lastNftListByEvent($limit: Float!, $event: String!) {
     animationUrl
     image
     collection: name
+    collectionId
+    collectionName
   }
 }
