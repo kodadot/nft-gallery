@@ -10,6 +10,10 @@ export const statemineDenyList = [
   'Eipd9P7j9XC7voYxYgAoyE6wwt8BmpLDNC89RAU2cf6Qtrk', // No metadata
 ]
 
+export const bsxDenyList = [
+  'bXjMVEdCzhjYbPc5rJk7NvPSDRiiNuCT3GdqohFp3wdpzJL6Z', // Beeple, copycat
+]
+
 export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
   'bafkreifahjdjerrz65puqznmsu2acoktrxjbo3vvp2f2j4eb7h5tc345fi'
 

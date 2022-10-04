@@ -1,9 +1,12 @@
-import { denyList, statemineDenyList } from '@/utils/constants'
+import { bsxDenyList, denyList, statemineDenyList } from '@/utils/constants'
 
 export function getDenyList(prefix: string): string[] | undefined {
   switch (prefix) {
     case 'rmrk':
       return denyList
+    case 'bsx':
+    case 'snek':
+      return bsxDenyList
     case 'statemine':
     case 'westmint':
       return statemineDenyList
@@ -39,6 +42,7 @@ export function prefixBuildOnText(prefix: string): string {
     case 'westmint':
       return 'Statemine Unique Pallet'
     case 'movr':
+    case 'glmr':
       return 'EVM Smart Contracts'
     default:
       return 'RMRK Protocol'

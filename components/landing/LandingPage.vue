@@ -1,33 +1,38 @@
 <template>
   <div>
-    <div class="instance">
+    <section class="section instance">
       <LazySearchLanding />
-    </div>
+    </section>
 
     <!-- spotlight -->
-    <div v-if="showCarousel" class="instance instance-blue">
-      <div class="container px-5">
+    <section v-if="showCarousel" class="section instance instance-blue">
+      <div class="container">
         <LazyCarouselTypeSpotlight />
       </div>
-    </div>
+    </section>
 
-    <div class="instance instance-accent">
-      <div class="container replace-me">top collections</div>
-    </div>
+    <!-- top collections -->
+    <section
+      v-if="urlPrefix === 'rmrk' || urlPrefix === 'snek'"
+      class="section instance instance-accent">
+      <div class="container">
+        <LazyReTopCollections class="my-5" />
+      </div>
+    </section>
 
-    <div v-if="showCarousel" class="instance">
-      <div class="container px-5">
+    <section v-if="showCarousel" class="section instance">
+      <div class="container">
         <!-- new listings -->
         <LazyCarouselTypeNewestList />
 
         <!-- latest sales -->
         <LazyCarouselTypeLatestSales class="mt-6" />
       </div>
-    </div>
+    </section>
 
-    <div class="instance instance-accent">
+    <section class="section instance instance-accent">
       <div class="container replace-me">featured articles</div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -36,7 +41,11 @@ const { urlPrefix } = usePrefix()
 
 // currently only supported on rmrk and snek
 const showCarousel = computed(() => {
-  return urlPrefix.value === 'rmrk' || urlPrefix.value === 'snek'
+  return (
+    urlPrefix.value === 'rmrk' ||
+    urlPrefix.value === 'snek' ||
+    urlPrefix.value === 'bsx'
+  )
 })
 </script>
 
