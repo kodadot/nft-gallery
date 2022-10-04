@@ -57,12 +57,12 @@
 .footer-container {
   background-color: $k-blue;
   color: $white;
-  padding: 3rem 1rem;
-
-  @include mobile {
-    flex-direction: column;
-    gap: 50px;
-    align-items: center !important;
+  .container {
+    @include mobile {
+      flex-direction: column;
+      gap: 50px;
+      align-items: center !important;
+    }
   }
 
   &-heading {
@@ -88,7 +88,7 @@
       border-left: 0 !important;
       box-shadow: $primary-shadow !important;
     }
-  
+
     &-input {
       box-shadow: $primary-shadow;
       .input {
@@ -113,6 +113,9 @@
       grid-gap: 10px;
 
       &-item {
+        &:hover {
+          color: $k-accentlight !important;
+        }
 
         a {
           color: $white !important;
@@ -132,12 +135,12 @@
     gap: 10px;
 
     &-list {
+      cursor: pointer;
       &-item {
-
         &:hover {
-          background: $k-accentlight!important;
+          background: $k-accentlight !important;
         }
-  
+
         height: 33px;
         width: 33px;
         background: $white;

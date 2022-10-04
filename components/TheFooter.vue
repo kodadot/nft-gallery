@@ -1,70 +1,70 @@
 <template>
-  <footer
-    class="footer-container is-flex is-align-items-start is-justify-content-space-around">
-    <div class="footer-container-subs is-flex is-flex-direction-column">
-      <span class="footer-container-heading">{{ $t('footer.subscribe') }}</span>
-      <div class="is-flex is-align-items-center footer-container-subs-items">
-        <div id="custom-substack-embed"></div>
+  <footer class="footer-container section">
+    <div
+      class="container is-flex is-align-items-start is-justify-content-space-between">
+      <div class="footer-container-subs is-flex is-flex-direction-column">
+        <span class="footer-container-heading">{{
+          $t('footer.subscribe')
+        }}</span>
+        <div class="is-flex is-align-items-center footer-container-subs-items">
+          <div id="custom-substack-embed"></div>
 
-        <script>
-          window.CustomSubstackWidget = {
-            substackUrl: 'kodadot.substack.com',
-            theme: 'custom',
-            colors: {
-              primary: '#FF7AC3',
-              input: '#000000',
-              email: '#FFFFFF',
-              text: '#000000',
-            },
-          }
-        </script>
-        <script src="https://substackapi.com/widget.js" async></script>
+          <script>
+            window.CustomSubstackWidget = {
+              substackUrl: 'kodadot.substack.com',
+              theme: 'custom',
+              colors: {
+                primary: '#FF7AC3',
+                input: '#000000',
+                email: '#FFFFFF',
+                text: '#000000',
+              },
+            }
+          </script>
+          <script src="https://substackapi.com/widget.js" async></script>
+        </div>
       </div>
-    </div>
-    <div class="footer-container-info is-flex is-flex-direction-column">
-      <span class="footer-container-heading">KodaDot</span>
-      <div>
-        <ul class="footer-container-info-list">
-          <li
-            v-for="item in menu"
-            :key="item.url"
-            class="footer-container-info-list-item">
-            <div v-if="item.external" class="is-flex is-align-items-center">
-              <a :href="item.url" target="_blank" rel="noopener noreferrer">
+      <div class="footer-container-info is-flex is-flex-direction-column">
+        <span class="footer-container-heading">KodaDot</span>
+        <div>
+          <ul class="footer-container-info-list">
+            <li
+              v-for="item in menu"
+              :key="item.url"
+              class="footer-container-info-list-item">
+              <div v-if="item.external" class="is-flex is-align-items-center">
+                <a :href="item.url" target="_blank" rel="noopener noreferrer">
+                  {{ item.name }}
+                </a>
+                <b-icon icon="external-link-alt" class="ml-1" size="is-small">
+                </b-icon>
+              </div>
+              <nuxt-link v-else :to="item.url">
                 {{ item.name }}
-              </a>
-              <b-icon icon="external-link-alt" class="ml-1" size="is-small">
-              </b-icon>
-            </div>
-            <nuxt-link v-else :to="item.url">
-              {{ item.name }}
-            </nuxt-link>
+              </nuxt-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-container-socials is-flex is-flex-direction-column">
+        <span class="footer-container-heading">{{ $t('footer.join') }}</span>
+
+        <ul class="footer-container-socials-list is-flex">
+          <li
+            v-for="item in socials"
+            :key="item.url"
+            class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center mr-2"
+            @click="goToSocials(item.url)">
+            <a class="is-flex" rel="noopener noreferrer" aria-label="Discord">
+              <b-icon
+                pack="fab"
+                :icon="item.icon"
+                size="is-small"
+                :type="$colorMode.value === 'dark' ? 'is-white' : 'is-black'" />
+            </a>
           </li>
         </ul>
       </div>
-    </div>
-    <div class="footer-container-socials is-flex is-flex-direction-column">
-      <span class="footer-container-heading">{{ $t('footer.join') }}</span>
-
-      <ul class="footer-container-socials-list is-flex">
-        <li
-          v-for="item in socials"
-          :key="item.url"
-          class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center mr-2">
-          <a
-            :href="item.url"
-            target="_blank"
-            class="is-flex"
-            rel="noopener noreferrer"
-            aria-label="Discord">
-            <b-icon
-              pack="fab"
-              :icon="item.icon"
-              size="is-small"
-              :type="$colorMode.value === 'dark' ? 'is-white' : 'is-black'" />
-          </a>
-        </li>
-      </ul>
     </div>
   </footer>
 </template>
@@ -146,5 +146,9 @@ export default class Footer extends Vue {
       icon: 'medium',
     },
   ]
+
+  public goToSocials(url): void {
+    window.open(url, '_blank')
+  }
 }
 </script>
