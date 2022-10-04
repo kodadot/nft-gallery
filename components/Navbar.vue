@@ -146,6 +146,7 @@
         </template>
       </b-navbar-dropdown>
       <LazyChainSelect
+        v-if="!redesign"
         id="NavChainSelect"
         class="navbar-item has-dropdown"
         data-cy="chain-select" />

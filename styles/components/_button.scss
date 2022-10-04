@@ -24,6 +24,7 @@ button.button.is-bordered {
 button.button.is-bordered-light {
 	border-color: transparent;
 	border-top: 1px solid $primary  !important;
+	border-radius: 0;
 }
 
 button.button.navbar-link-background {

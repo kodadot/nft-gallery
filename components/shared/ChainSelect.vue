@@ -1,10 +1,9 @@
 <template>
   <b-dropdown v-model="selected" aria-role="list">
-    <template #trigger="{ active }">
+    <template #trigger>
       <b-button
         type="is-primary is-bordered navbar-link-background is-bordered-light"
-        :label="selected"
-        :icon-right="active ? 'caret-up' : 'caret-down'" />
+        :label="selected" />
     </template>
     <b-dropdown-item
       v-for="option in options"

@@ -1,15 +1,14 @@
 <template>
   <b-dropdown aria-role="list">
-    <template #trigger="{ active }">
+    <template #trigger>
       <b-button
         type="is-primary is-bordered-light navbar-link-background"
-        :label="userFlag"
-        :icon-right="active ? 'caret-up' : 'caret-down'" />
+        :label="userFlag" />
     </template>
     <b-dropdown-item
-      aria-role="listitem"
       v-for="lang in langsFlags"
       :key="lang.value"
+      aria-role="listitem"
       :value="userLang"
       :class="{ 'is-active': userLang === lang.value }"
       @click="setUserLang(lang.value)">
