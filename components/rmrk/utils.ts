@@ -30,7 +30,7 @@ export const ipfsProviders: Record<IPFSProviders, string> = {
   cloudflare: 'https://cloudflare-ipfs.com/',
   ipfs: DEFAULT_IPFS_PROVIDER,
   dweb: 'https://dweb.link/',
-  kodadot: 'https://kodadot.mypinata.cloud/',
+  kodadot: 'https://k-ipfs-assets.preschian-cdn.workers.dev/',
 }
 
 export const arweaveProviders: Record<ArweaveProviders, string> = {
