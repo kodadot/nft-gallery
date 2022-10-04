@@ -4,11 +4,11 @@
   column-gap: 1rem;
   row-gap: 1rem;
 
-  @media (min-width: 640px) {
+  @media (min-width: 849px) {
     grid-auto-flow: column;
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1410px) {
     grid-template-rows: repeat(4, minmax(0, 1fr));
   }
 
