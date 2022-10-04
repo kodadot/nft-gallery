@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <nuxt-link :to="`/${urlPrefix}/series`" class="link">
+    <nuxt-link to="/series-insight" class="link">
       {{ $t('helper.seeMore') }} >
     </nuxt-link>
   </div>
