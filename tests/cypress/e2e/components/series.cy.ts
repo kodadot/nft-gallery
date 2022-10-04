@@ -1,17 +1,3 @@
-function seriesSort(arg1, arg2) {
-  cy.getCy(`${arg1}`)
-    .invoke('text')
-    .then((text) => {
-      const first = parseInt(text)
-      cy.getCy(`${arg2}`)
-        .invoke('text')
-        .then((text) => {
-          const second = parseInt(text)
-          expect(first).to.be.greaterThan(second)
-        })
-    })
-}
-
 describe('Series.vue component', () => {
   it('identity component in spotlight', () => {
     cy.visit('/rmrk')
@@ -30,33 +16,33 @@ describe('Series.vue component', () => {
     cy.getCy('series-emoteCount-1').should('be.visible')
   })
   it('default sort by sold', () => {
-    seriesSort('series-sold-1', 'series-sold-2')
+    cy.tableSort('series-sold-1', 'series-sold-2')
   })
   it('sort by volume', () => {
     cy.get('th').contains('Volume').click()
-    seriesSort('series-volume-1', 'series-volume-2')
+    cy.tableSort('series-volume-1', 'series-volume-2')
   })
   it('sort by floor price', () => {
     cy.get('th').contains('Floor price').click()
-    seriesSort('series-floorPrice-1', 'series-floorPrice-2')
+    cy.tableSort('series-floorPrice-1', 'series-floorPrice-2')
   })
   it('sort by highest sale', () => {
     cy.get('th').contains('Highest Sale').click()
-    seriesSort('series-highestSale-1', 'series-highestSale-2')
+    cy.tableSort('series-highestSale-1', 'series-highestSale-2')
   })
   it('sort by buys', () => {
     cy.get('th').contains('Buys').click()
-    seriesSort('series-buys-1', 'series-buys-2')
+    cy.tableSort('series-buys-1', 'series-buys-2')
   })
   // sort by owners
   it('sort by owners', () => {
     cy.get('th').contains('Owners').click()
-    seriesSort('series-sold-1', 'series-sold-2')
+    cy.tableSort('series-sold-1', 'series-sold-2')
   })
   // sort by assets
   it('sort by assets', () => {
     cy.get('th').contains('Assets').click()
-    seriesSort('series-total-1', 'series-total-2')
+    cy.tableSort('series-total-1', 'series-total-2')
   })
   // select filter
   it('select filter', () => {

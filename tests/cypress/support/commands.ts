@@ -232,6 +232,20 @@ Cypress.Commands.add('rmrkGalleryUnlistedItemActions', (nftId) => {
   cy.get('[data-cy="money"]').should('not.exist')
 })
 
+Cypress.Commands.add('tableSort', (arg1, arg2) => {
+  cy.getCy(`${arg1}`)
+    .invoke('text')
+    .then((text) => {
+      const first = parseInt(text)
+      cy.getCy(`${arg2}`)
+        .invoke('text')
+        .then((text) => {
+          const second = parseInt(text)
+          expect(first).to.be.greaterThan(second)
+        })
+    })
+})
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -371,6 +385,13 @@ declare global {
         nftId: string,
         creator: string
       ): Chainable<Element>
+
+      /**
+       * @desc checks whether the table is sorted correctly
+       * @param arg1
+       * @param arg2
+       */
+      tableSort(arg1: string, arg2: string): Chainable<Element>
     }
   }
 }
