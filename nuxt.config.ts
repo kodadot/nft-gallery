@@ -16,7 +16,6 @@ export default defineNuxtConfig({
   vue: {
     config: {
       productionTip: false,
-      runtimeCompiler: true,
     },
   },
 
@@ -27,7 +26,16 @@ export default defineNuxtConfig({
 
   // currently we can only use nitro in development https://github.com/nuxt/framework/issues/886
   bridge: {
-    nitro: process.env.NODE_ENV !== 'production',
+    nitro: true,
+    vite: true,
+  },
+
+  vite: {
+    build: {
+      rollupOptions: {
+        external: ['@nuxtjs/i18n'],
+      },
+    },
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -231,7 +239,6 @@ export default defineNuxtConfig({
 
   i18n: {
     skipSettingLocaleOnNavigate: true,
-    vueI18nLoader: true,
     defaultLocale: 'en',
     detectBrowserLanguage: {
       useCookie: true,
@@ -239,7 +246,6 @@ export default defineNuxtConfig({
       fallbackLocale: 'en',
       alwaysRedirect: true,
     },
-    loadLanguagesAsync: true,
     langDir: 'locales',
     locales: [
       { code: 'en', iso: 'en-US', file: 'en.json' },
@@ -282,10 +288,6 @@ export default defineNuxtConfig({
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    babel: {
-      // silence babel warning regarding exceeding file sizes (>500kb)
-      compact: true,
-    },
     transpile: [
       '@kodadot1/sub-api',
       '@polkadot/api',
@@ -302,29 +304,6 @@ export default defineNuxtConfig({
       '@polkadot/wasm-bridge',
       '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
     ],
-    extend(config) {
-      // add markdown loader
-      config.module.rules.push({
-        test: /\.md$/,
-        use: 'raw-loader',
-      })
-
-      config.module.rules.push({
-        test: /node_modules\/@substrate\/smoldot-light\/dist\/mjs\/.+\.js$/,
-        loader: require.resolve('babel-loader'),
-        query: { compact: true },
-      })
-
-      config.module.rules.push({
-        test: /\.js$/,
-        loader: require.resolve('@open-wc/webpack-import-meta-loader'),
-      })
-      config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js'
-      config.node = {
-        fs: 'empty',
-      }
-    },
-    postcss: null,
   },
 
   // env: {
