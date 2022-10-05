@@ -10,6 +10,10 @@ export const statemineDenyList = [
   'Eipd9P7j9XC7voYxYgAoyE6wwt8BmpLDNC89RAU2cf6Qtrk', // No metadata
 ]
 
+export const bsxDenyList = [
+  'bXjMVEdCzhjYbPc5rJk7NvPSDRiiNuCT3GdqohFp3wdpzJL6Z', // Beeple, copycat
+]
+
 export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
   'bafkreifahjdjerrz65puqznmsu2acoktrxjbo3vvp2f2j4eb7h5tc345fi'
 
@@ -34,6 +38,7 @@ export const URLS = {
     snek: 'https://squid.subsquid.io/snekk/v/005/graphql',
     snekRococo: 'https://squid.subsquid.io/snekk/v/004/graphql',
     click: 'https://squid.subsquid.io/click/v/002-rc0/graphql',
+    antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
   },
   providers: {
     coingecko: 'https://api.coingecko.com/api/v3',
