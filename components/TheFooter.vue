@@ -3,9 +3,9 @@
     <div
       class="container is-flex is-align-items-start is-justify-content-space-between">
       <div class="footer-container-subs is-flex is-flex-direction-column">
-        <span class="footer-container-heading">{{
-          $t('footer.subscribe')
-        }}</span>
+        <h4 class="has-text-white subtitle is-5">
+          {{ $t('footer.subscribe') }}
+        </h4>
         <div class="is-flex is-align-items-center footer-container-subs-items">
           <div id="custom-substack-embed"></div>
 
@@ -25,20 +25,23 @@
         </div>
       </div>
       <div class="footer-container-info is-flex is-flex-direction-column">
-        <span class="footer-container-heading">KodaDot</span>
+        <h4 class="has-text-white subtitle is-5">KodaDot</h4>
         <div>
           <ul class="footer-container-info-list">
             <li
               v-for="item in menu"
               :key="item.url"
               class="footer-container-info-list-item">
-              <div v-if="item.external" class="is-flex is-align-items-center">
-                <a :href="item.url" target="_blank" rel="noopener noreferrer">
-                  {{ item.name }}
-                </a>
+              <a
+                v-if="item.external"
+                :href="item.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="is-flex is-align-items-center">
+                {{ item.name }}
                 <b-icon icon="external-link-alt" class="ml-1" size="is-small">
                 </b-icon>
-              </div>
+              </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
               </nuxt-link>
@@ -47,8 +50,9 @@
         </div>
       </div>
       <div class="footer-container-socials is-flex is-flex-direction-column">
-        <span class="footer-container-heading">{{ $t('footer.join') }}</span>
-
+        <h4 class="has-text-white subtitle is-5">
+          {{ $t('footer.join') }}
+        </h4>
         <ul class="footer-container-socials-list is-flex">
           <li
             v-for="item in socials"

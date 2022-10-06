@@ -65,17 +65,9 @@
     }
   }
 
-  &-heading {
-    font-size: 20px;
-    font-weight: 700;
-  }
-
   &-subs {
     @include mobile {
       align-items: center !important;
-    }
-    &-items {
-      margin-top: 8px;
     }
 
     &-btn {
@@ -102,7 +94,6 @@
   }
 
   &-info {
-    gap: 18px;
     @include mobile {
       align-items: center !important;
     }
@@ -113,10 +104,6 @@
       grid-gap: 10px;
 
       &-item {
-        &:hover {
-          color: $k-accentlight !important;
-        }
-
         a {
           color: $white !important;
           &:hover {
@@ -132,7 +119,6 @@
   }
 
   &-socials {
-    gap: 10px;
 
     &-list {
       cursor: pointer;
