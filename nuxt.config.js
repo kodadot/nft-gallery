@@ -276,6 +276,7 @@ export default defineNuxtConfig({
       bsx: toApolloEndpoint(URLS.koda.snek),
       movr: toApolloEndpoint(URLS.koda.click),
       snek: toApolloEndpoint(URLS.koda.snekRococo),
+      glmr: toApolloEndpoint(URLS.koda.antick),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 

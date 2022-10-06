@@ -86,6 +86,7 @@ import {
 } from '~/utils/cachingStrategy'
 import { CollectionMetadata } from '~/components/rmrk/types'
 import { fastExtract } from '~/utils/ipfs'
+import { getDenyList } from '~/utils/prefix'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -189,6 +190,7 @@ export default class CollectionList extends mixins(
       query: collectionListWithSearch,
       client: this.client,
       variables: {
+        denyList: getDenyList(this.urlPrefix),
         orderBy: this.searchQuery.sortBy,
         search: this.buildSearchParam(),
         listed: this.searchQuery.listed
