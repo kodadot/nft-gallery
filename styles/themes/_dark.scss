@@ -58,13 +58,16 @@ html.dark-mode {
           background: $black;
           border: 1px solid $white;
           box-shadow: $primary-shadow-dark;
+          &:hover {
+            background: $k-accent !important;
+          }
         }
       }
     }
 
     &-subs {
       &-btn {
-        color: $black!important;
+        color: $black !important;
         background-color: $k-accent !important;
         border-radius: 0px;
         border: 1px solid $white;
