@@ -105,12 +105,17 @@
           outlined
           icon-left="times"
           @click="tellFrens(props.row.caller)" />
-        <b-button
+        <b-tooltip
           v-else-if="isOwner"
-          type="is-success"
-          outlined
-          icon-left="money-bill"
-          @click="tellFrens(props.row.caller)" />
+          :label="$t('offer.expired')"
+          :active="calcExpirationTime(props.row.expiration) === 'expired'">
+          <b-button
+            type="is-success"
+            outlined
+            icon-left="money-bill"
+            :disabled="calcExpirationTime(props.row.expiration) === 'expired'"
+            @click="tellFrens(props.row.caller)" />
+        </b-tooltip>
       </b-table-column>
       <b-table-column
         v-if="isBsxStats"
