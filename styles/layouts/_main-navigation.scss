@@ -26,6 +26,8 @@
 			position: absolute;
 			border: 1px solid $black;
 			right: 0px;
+			height: calc(100vh - 74px);
+
 			.navbar-end {
 				display: flex;
 				flex-direction: column;
@@ -44,6 +46,8 @@
 			margin-left: 0;
 			align-self: center;
 			margin-bottom: 1rem;
+			position: absolute;
+			bottom: 0;
 
 			.dropdown-trigger .button {
 				width: 40vw;
