@@ -51,7 +51,7 @@ html.dark-mode {
   .instance {
     &-accent,
     &-blue {
-      background-color: #1a1718;
+      background-color: $dark-accent;
     }
   }
 
@@ -61,6 +61,42 @@ html.dark-mode {
       text-shadow: 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
         -1px -1px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, -1px 0px 0 #fff,
         0px -1px 0 #fff, 4px 4px #fff;
+    }
+  }
+
+  .footer-container {
+    background-color: $dark-accent;
+    border-top: 1px solid $white;
+
+    &-socials {
+      &-list {
+        &-item {
+          background: $black;
+          border: 1px solid $white;
+          box-shadow: $primary-shadow-dark;
+          &:hover {
+            background: $k-accent !important;
+          }
+        }
+      }
+    }
+
+    &-subs {
+      &-btn {
+        color: $black !important;
+        background-color: $k-accent !important;
+        border-radius: 0px;
+        border: 1px solid $white;
+        border-color: $white !important;
+        box-shadow: $primary-shadow-dark !important;
+      }
+      &-input {
+        box-shadow: $primary-shadow-dark;
+
+        .input {
+          border: 1px solid $white;
+        }
+      }
     }
   }
 }

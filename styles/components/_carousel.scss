@@ -189,7 +189,7 @@
 .dark-mode {
   .carousel-agnostic {
     .carousel-item {
-      background-color: #1a1718;
+      background-color: $dark-accent;
       border: 1px solid white;
 
       &:hover {

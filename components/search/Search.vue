@@ -54,6 +54,7 @@
           :value="sortByMultiple"
           @input="updateSortBy($event, sortByMultiple)" />
         <BasicSwitch
+          v-if="!isMoonRiver"
           v-model="vListed"
           class="is-flex column is-4"
           :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
@@ -61,7 +62,7 @@
           label-color="has-text-success" />
       </div>
       <SearchPriceRange
-        v-if="!hideFilter"
+        v-if="!hideFilter && !isMoonRiver"
         :range="priceRange"
         @input="priceRangeChange"></SearchPriceRange>
       <div v-if="priceRangeDirty" class="is-size-7">
@@ -104,6 +105,7 @@ export default class Search extends mixins(
   @Prop(String) public searchColumnClass!: string
   @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
+  @Prop(Boolean) public isMoonRiver!: boolean
   @Prop(Boolean) public hideSearchInput!: boolean
   @Ref('searchRef') readonly searchRef
   public isVisible = false
