@@ -20,6 +20,18 @@
 
 @include touch {
 	.navbar {
+
+		.navbar-menu {
+			width: 60vw;
+			position: absolute;
+			border: 1px solid $black;
+			right: 0px;
+			.navbar-end {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-end;
+			}
+		}
 		.custom-navbar-item {
 			margin-left: 0 !important;
 		}
@@ -30,8 +42,11 @@
 
 		#NavProfile {
 			margin-left: 0;
+			align-self: center;
+			margin-bottom: 1rem;
+
 			.dropdown-trigger .button {
-				width: 100vw;
+				width: 40vw;
 			}
 		}
 
@@ -55,6 +70,7 @@
 	z-index: 999 !important;
 	font-family: 'Work Sans';
 	min-height: 72px;
+	width: 100vw;
 	&.is-spaced {
 		padding: 0;
 		&>.container {
@@ -157,6 +173,10 @@
 		box-shadow: 4px 4px 0px $black;
 		width: 33px;
 		height: 30px;
+		border-radius: 0;
+	}
+
+	button.button.is-bordered-light {
 		border-radius: 0;
 	}
 }

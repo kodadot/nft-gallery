@@ -20,7 +20,7 @@
         @click="closeBurgerMenu">
         <HistoryBrowser />
         <b-button
-          v-if="!isRedesignedLandingPage"
+          v-if="showSearchOnNavbar"
           icon-left="search"
           class="mr-2 mobile-nav-search-btn is-flex"
           @click="showMobileSearchBar">
@@ -33,7 +33,7 @@
     </template>
     <template #start>
       <Search
-        v-if="!isRedesignedLandingPage"
+        v-if="showSearchOnNavbar"
         hide-filter
         class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
         search-column-class="is-flex-grow-1" />
@@ -263,6 +263,10 @@ export default class NavbarMenu extends mixins(
 
   get logoSrc() {
     return this.$colorMode.preference === 'dark' ? KodaBetaDark : KodaBeta
+  }
+
+  get showSearchOnNavbar(): boolean {
+    return !this.isRedesignedLandingPage || !this.showTopNavbar
   }
 
   get navBarTitle(): string {

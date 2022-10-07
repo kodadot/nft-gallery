@@ -24,7 +24,6 @@ button.button.is-bordered {
 button.button.is-bordered-light {
 	border-color: transparent;
 	border-top: 1px solid $primary  !important;
-	border-radius: 0;
 }
 
 button.button.navbar-link-background {
@@ -41,6 +40,3 @@ button.button.navbar-link-background {
 	border-right: none;
 }
 
-.connect-wallet-button {
-	padding: 0.5rem 1rem;
-}

@@ -37,8 +37,12 @@ html.dark-mode {
       box-shadow: 4px 4px 0px $white;
     }
 
-		.navbar-burger {
+    .navbar-burger {
 			color: $white;
+    }
+
+    .navbar-menu {
+      border-color: $white !important;
     }
 
     #NavProfile {
