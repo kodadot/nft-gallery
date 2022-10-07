@@ -56,7 +56,7 @@ export default class SearchSortDropdown extends mixins(PrefixMixin) {
   }
 
   get sort(): string[] {
-    if (this.urlPrefix === 'movr') {
+    if (this.isMoonriver) {
       return NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER
     }
     return NFT_SQUID_SORT_CONDITION_LIST

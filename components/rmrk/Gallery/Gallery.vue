@@ -4,7 +4,7 @@
     <Search
       v-bind.sync="searchQuery"
       hide-search-input
-      :is-moon-river="urlPrefix === 'movr'"
+      :is-moon-river="isMoonriver"
       @resetPage="resetPage">
       <Pagination
         v-model="currentValue"
