@@ -123,11 +123,9 @@ describe('simple mint in rmrk', () => {
     cy.get('[data-cy="input-tos"] [type="checkbox"]').check({ force: true })
     cy.get('[data-cy="input-tos"] [type="checkbox"]').should('be.checked')
 
-    //TODO: enable once #3966 is fixed
-
-    // cy.get('[data-cy="fee"] span').should(
-    //   'not.have.text',
-    //   '\n    0\n    KSM\n  '
-    // )
+    cy.get('[data-cy="fee"] span').should(
+      'not.have.text',
+      '\n    0\n    KSM\n  '
+    )
   })
 })

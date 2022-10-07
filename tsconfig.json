@@ -23,7 +23,8 @@
       "vitest/globals",
       "cypress",
       "cypress-file-upload",
-      "cypress-real-events"
+      "cypress-real-events",
+      "@nuxtjs/sentry"
     ]
   },
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]
