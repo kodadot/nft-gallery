@@ -691,6 +691,7 @@
     "caller": "Maker",
     "price": "Price",
     "expiration": "Expiration",
+    "expired": "offer has expired",
     "action": "Action",
     "daySelectLabel": "offer expires in",
     "daySelectPlaceholder": "select day to expire",

@@ -14,4 +14,8 @@ export default class PrefixMixin extends Vue {
   get client(): string {
     return this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix
   }
+
+  get isMoonriver(): boolean {
+    return this.urlPrefix === 'movr'
+  }
 }

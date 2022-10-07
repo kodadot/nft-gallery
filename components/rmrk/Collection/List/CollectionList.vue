@@ -4,6 +4,7 @@
     <Search
       v-bind.sync="searchQuery"
       hide-search
+      :is-moon-river="isMoonriver"
       :sort-option="collectionSortOption"
       @resetPage="resetPage">
       <b-field class="is-flex">
