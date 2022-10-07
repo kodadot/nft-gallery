@@ -1,0 +1,38 @@
+.article {
+  background-color: white;
+  border: 1px solid black;
+  display: block;
+  height: 100%;
+
+  p {
+    color: black;
+  }
+
+  &-image {
+    background-size: cover;
+    background-position: center;
+    border-bottom: 1px solid black;
+    height: 14rem;
+  }
+
+  &-info {
+    padding: 1rem;
+  }
+
+  &-title {
+    font-weight: 700;
+  }
+}
+
+.dark-mode .article {
+  background-color: black;
+  border: 1px solid white;
+
+  p {
+    color: white;
+  }
+
+  &-image {
+    border-bottom: 1px solid white;
+  }
+}
