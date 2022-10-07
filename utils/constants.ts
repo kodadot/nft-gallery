@@ -37,7 +37,7 @@ export const URLS = {
     rubick: 'https://squid.subsquid.io/rubick/v/007/graphql',
     snek: 'https://squid.subsquid.io/snekk/v/005/graphql',
     snekRococo: 'https://squid.subsquid.io/snekk/v/004/graphql',
-    click: 'https://squid.subsquid.io/click/v/002-rc0/graphql',
+    click: 'https://squid.subsquid.io/click/v/002/graphql',
     antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
   },
   providers: {
