@@ -4,7 +4,11 @@
 
     <div class="columns">
       <div v-for="article in articles" :key="article.title" class="column">
-        <a class="article" :href="article.link" target="_blank">
+        <a
+          class="article"
+          :href="article.link"
+          target="_blank"
+          rel="noopener noreferrer">
           <div
             class="article-image"
             :style="{ 'background-image': `url(${article.image})` }"></div>
