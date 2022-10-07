@@ -210,6 +210,7 @@ export default defineNuxtConfig({
   ],
 
   sentry: {
+    disabled: process.env.NODE_ENV === 'development',
     dsn: 'https://6fc80708bf024dc8b43c3058f8260dd6@o4503930691256320.ingest.sentry.io/4503930702331904', // Enter your project's DSN here
     // Additional Module Options go here
     // https://sentry.nuxtjs.org/sentry/options
