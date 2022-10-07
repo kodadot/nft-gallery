@@ -24,7 +24,11 @@
       </div>
     </div>
 
-    <a href="https://kodadot.substack.com/" class="link" target="_blank">
+    <a
+      href="https://kodadot.substack.com/"
+      class="link"
+      target="_blank"
+      rel="noopener noreferrer">
       {{ $t('helper.seeMore') }} >
     </a>
   </div>
