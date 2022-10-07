@@ -206,7 +206,19 @@ export default defineNuxtConfig({
     ],
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
+    '@nuxtjs/sentry',
   ],
+
+  sentry: {
+    dsn: 'https://6fc80708bf024dc8b43c3058f8260dd6@o4503930691256320.ingest.sentry.io/4503930702331904', // Enter your project's DSN here
+    // Additional Module Options go here
+    // https://sentry.nuxtjs.org/sentry/options
+    config: {
+      // Add native Sentry config here
+      // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/
+      sampleRate: 0.25,
+    },
+  },
 
   pwa: {
     manifest: {
