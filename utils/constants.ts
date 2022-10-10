@@ -77,7 +77,8 @@ export const disableChainListOnProductionEnv = [
 export const chainTestList = ['westend', 'westmint']
 
 export const getChainTestList = () => {
-  return window.location.hostname === 'kodadot.xyz'
+  const hostname = window.location.hostname
+  return hostname === 'kodadot.xyz' || /deploy-preview*/.test(hostname)
     ? disableChainListOnProductionEnv
     : chainTestList
 }
