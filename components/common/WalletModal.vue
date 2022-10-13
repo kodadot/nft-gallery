@@ -56,7 +56,6 @@
             <b style="color: #ffffff">{{
               selectedWalletProvider.extensionName
             }}</b>
-            <b-icon style="color: white" icon="chevron-down"></b-icon>
           </div>
           <b-button
             tag="a"
