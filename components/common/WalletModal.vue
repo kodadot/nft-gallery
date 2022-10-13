@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="modal-card-container">
     <div class="modal-card wallet">
       <header class="modal-card-head">
         <b-button
@@ -8,7 +8,8 @@
           class="mr-2"
           icon-left="chevron-left"
           @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
-        <p class="modal-card-title has-text-weight-bold">
+        <p
+          class="modal-card-title has-text-weight-bold has-text-centered is-size-6">
           {{ $t('walletConnect.walletHeading') }}
         </p>
         <button type="button" class="delete" @click="$emit('close')" />
@@ -24,14 +25,7 @@
         </b-field>
       </section>
       <section v-if="hasUserWalletAuth" class="modal-card-body">
-        <div class="has-text-centered">
-          <img
-            src="~/assets/Koda_Beta.svg"
-            alt="First NFT market explorer on Kusama and Polkadot"
-            height="32" />
-        </div>
-
-        <div v-show="!hasSelectedWalletProvider" class="buttons my-5">
+        <div v-show="!hasSelectedWalletProvider" class="buttons">
           <b-button
             v-for="(wallet, index) in wallets"
             :key="index"
@@ -39,17 +33,31 @@
             icon-right="chevron-right"
             expanded
             @click="setWallet(wallet)">
-            <b-image
-              :src="wallet.img"
-              class="is-24x24"
-              style="display: inline-block; vertical-align: middle"></b-image>
-            {{ wallet.name }}
+            <span class="pl-4">
+              <b-image
+                :src="wallet.img"
+                class="is-32x32"
+                style="display: inline-block; vertical-align: middle"></b-image>
+              <span class="is-size-6">{{ wallet.name }}</span>
+            </span>
           </b-button>
         </div>
 
         <div
-          v-show="hasSelectedWalletProvider && !hasWalletProviderExtension"
-          class="buttons my-5">
+          v-if="hasSelectedWalletProvider && !hasWalletProviderExtension"
+          class="buttons">
+          <div
+            class="subtitle is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4"
+            style="width: 100%">
+            <b-image
+              :src="selectedWalletProvider.img"
+              class="is-32x32"
+              style="display: inline-block; vertical-align: middle" />
+            <b style="color: #ffffff">{{
+              selectedWalletProvider.extensionName
+            }}</b>
+            <b-icon style="color: white" icon="chevron-down"></b-icon>
+          </div>
           <b-button
             tag="a"
             :href="guideUrl"
@@ -59,45 +67,51 @@
             type="is-info"
             expanded>
             {{ $t('walletConnect.learnText') }}
+            <b-icon class="ml-1" icon="book-open"></b-icon>
           </b-button>
           <b-button
             tag="a"
             :href="extensionUrl"
-            type="is-primary"
-            inverted
-            outlined
+            type="is-info"
             size="is-medium"
             expanded>
             {{ $t('walletConnect.downloadExtension') }}
+            <b-icon class="ml-1" icon="download"></b-icon>
           </b-button>
         </div>
 
         <div v-if="hasSelectedWalletProvider && hasWalletProviderExtension">
-          <div class="subtitle is-size-6 has-text-centered is-lowercase">
-            {{ $t('general.chooseWallet') }}
-            <b-image
-              :src="selectedWalletProvider.img"
-              class="is-16x16"
-              style="display: inline-block; vertical-align: middle" />
-            <b>{{ selectedWalletProvider.extensionName }}</b>
-            {{ $t('account') }}
-          </div>
-
-          <b-field v-if="walletAccounts.length" :label="$t('account')">
-            <b-select v-model="account" placeholder="Select account" expanded>
-              <option disabled selected value="">--</option>
-              <option
+          <b-field v-if="walletAccounts.length">
+            <b-dropdown v-model="account" class="wallet-chooser">
+              <template #trigger>
+                <div
+                  class="subtitle is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
+                  <b-image
+                    :src="selectedWalletProvider.img"
+                    class="is-32x32"
+                    style="display: inline-block; vertical-align: middle" />
+                  <b style="color: #ffffff">{{
+                    selectedWalletProvider.extensionName
+                  }}</b>
+                  <b-icon style="color: white" icon="chevron-down"></b-icon>
+                </div>
+              </template>
+              <b-dropdown-item disabled selected value=""
+                >&#45;&#45;</b-dropdown-item
+              >
+              <b-dropdown-item
                 v-for="option in walletAccounts"
                 :key="option.address"
                 :value="option.address">
                 <b v-if="option.name">{{ option.name }} :</b>
                 {{ option.address | shortAddress(10, -10) }}
-              </option>
-            </b-select>
+              </b-dropdown-item>
+            </b-dropdown>
           </b-field>
         </div>
       </section>
     </div>
+    <div class="modal-card-bg" />
   </div>
 </template>
 
@@ -148,6 +162,10 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
     return (
       localStorage.getItem('user_auth_wallet_add') || this.hasUserAuthorized
     )
+  }
+
+  setModalBodyHeight() {
+    console.log('test')
   }
 
   @Watch('walletAccounts', { immediate: true })
@@ -227,32 +245,86 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-.wallet {
-  max-width: 400px;
-  border: 3px solid $primary;
-  border-radius: 4px;
+.modal-card-container {
+  font-family: 'Work Sans';
+  font-style: normal;
+  position: relative;
+  .wallet {
+    //max-width: 320px;
+    .wallet-chooser {
+      display: block;
 
-  &.modal-card {
-    background: #1f1f1f;
-    backdrop-filter: $frosted-glass-light-backdrop-filter;
+      ::v-deep .dropdown-menu {
+        position: relative;
+      }
+    }
+
+    .subtitle {
+      background-color: #000000;
+    }
+    &.modal-card {
+      background: #1f1f1f;
+      backdrop-filter: $frosted-glass-light-backdrop-filter;
+      //position: relative;
+      z-index: 1;
+    }
+
+    .modal-card-body {
+      padding: 0;
+      background-color: unset;
+    }
+
+    .modal-card-head {
+      background: unset;
+      border-bottom: 1px solid #000000;
+      //font-size: 1rem;
+
+      .delete {
+        height: 40px;
+        width: 40px;
+        max-height: 40px;
+        max-width: 40px;
+      }
+    }
+
+    .modal-card-title {
+      font-family: 'Work Sans';
+      font-style: normal;
+    }
+
+    .modal-card-body {
+      display: block;
+    }
+
+    .buttons {
+      margin-bottom: 0;
+
+      button {
+        border: 0;
+        border-radius: 0;
+        justify-content: space-between;
+        background-color: #ffffff;
+        font-weight: 600;
+        border-bottom: 1px solid #000000;
+        margin-bottom: 0;
+        height: 60px;
+      }
+
+      a {
+        border-bottom: 1px solid #000000;
+        margin-bottom: 0;
+      }
+    }
   }
 
-  .modal-card-body,
-  .modal-card-head {
-    background: unset;
-    border-bottom: 0;
-  }
-
-  .modal-card-body {
-    display: block;
-  }
-
-  .buttons button {
-    border: 0;
-    border-radius: 4px;
-    justify-content: space-between;
-    background-color: #464646;
-    font-weight: 600;
+  .modal-card-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    top: 4px;
+    left: 4px;
+    z-index: 0;
   }
 }
 </style>
