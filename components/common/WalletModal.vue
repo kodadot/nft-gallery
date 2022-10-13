@@ -163,10 +163,6 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
     )
   }
 
-  setModalBodyHeight() {
-    console.log('test')
-  }
-
   @Watch('walletAccounts', { immediate: true })
   handleAccounts(value: WalletAccount[], oldVal: WalletAccount[]): void {
     if (shouldUpdate(value, oldVal)) {
