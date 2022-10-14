@@ -10,21 +10,21 @@
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
         <img
-          :src="logoSrc"
+          src="~/assets/Koda_Beta_old.svg"
           alt="First NFT market explorer on Kusama and Polkadot"
-          width="166"
-          height="34" />
+          width="130"
+          height="35" />
       </b-navbar-item>
       <div
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
         <HistoryBrowser />
         <b-button
-          v-if="showSearchOnNavbar"
-          icon-left="search"
-          class="mr-2 mobile-nav-search-btn is-flex"
-          @click="showMobileSearchBar">
-        </b-button>
+          v-if="!isRedesignedLandingPage"
+          type="is-primary is-bordered-light ml-2"
+          class="navbar-link-background"
+          icon-right="search"
+          @click="showMobileSearchBar" />
         <Search
           ref="mobilSearchRef"
           hide-filter
@@ -33,7 +33,7 @@
     </template>
     <template #start>
       <Search
-        v-if="showSearchOnNavbar"
+        v-if="!isRedesignedLandingPage"
         hide-filter
         class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
         search-column-class="is-flex-grow-1" />
@@ -146,7 +146,6 @@
         </template>
       </b-navbar-dropdown>
       <LazyChainSelect
-        v-if="!redesign"
         id="NavChainSelect"
         class="navbar-item has-dropdown"
         data-cy="chain-select" />
@@ -184,8 +183,6 @@ import ColorModeButton from '@/components/common/ColorModeButton.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
-import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
-import KodaBeta from '@/assets/Koda_Beta.svg'
 
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
@@ -261,14 +258,6 @@ export default class NavbarMenu extends mixins(
     return this.$route.name === 'index' && this.redesign
   }
 
-  get logoSrc() {
-    return this.$colorMode.preference === 'dark' ? KodaBetaDark : KodaBeta
-  }
-
-  get showSearchOnNavbar(): boolean {
-    return !this.isRedesignedLandingPage || !this.showTopNavbar
-  }
-
   get navBarTitle(): string {
     let title = ''
     if (this.inCollectionPage) {
@@ -328,5 +317,5 @@ export default class NavbarMenu extends mixins(
 <style lang="scss">
 @import '@/styles/abstracts/variables';
 
-@import '@/styles/layouts/_main-navigation.scss';
+@import '@/styles/layouts/_main-navigation-old.scss';
 </style>

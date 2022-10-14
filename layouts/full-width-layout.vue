@@ -1,6 +1,7 @@
 <template>
   <div class="min-h-full is-flex is-flex-direction-column">
-    <Navbar />
+    <Navbar v-if="redesign" />
+    <NavbarOld v-else />
     <main class="is-flex-grow-1">
       <Error
         v-if="$nuxt.isOffline"

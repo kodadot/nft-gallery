@@ -1,6 +1,7 @@
 <template>
   <div class="min-h-full is-flex is-flex-direction-column">
-    <Navbar />
+    <Navbar v-if="redesign" />
+    <NavbarOld v-else />
     <main class="is-flex-grow-1">
       <section class="section">
         <div class="container">
@@ -22,7 +23,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, mixins } from 'nuxt-property-decorator'
+import ExperimentMixin from '@/utils/mixins/experimentMixin'
 
 @Component<CenterHalfLayout>({
   name: 'CenterHalfLayout',
@@ -38,5 +40,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
     }
   },
 })
-export default class CenterHalfLayout extends Vue {}
+export default class CenterHalfLayout extends mixins(ExperimentMixin) {}
 </script>

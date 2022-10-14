@@ -1,9 +1,10 @@
 <template>
   <b-dropdown aria-role="list">
-    <template #trigger>
+    <template #trigger="{ active }">
       <b-button
         type="is-primary is-bordered-light navbar-link-background"
-        :label="userFlag" />
+        :label="userFlag"
+        :icon-right="active ? 'caret-up' : 'caret-down'" />
     </template>
     <b-dropdown-item
       v-for="lang in langsFlags"
