@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 import { Option } from '@kodadot1/vuex-options/dist/types'
 
-import { chainTestList } from '~/utils/constants'
+import { getChainTestList } from '~/utils/constants'
 
 const { urlPrefix } = usePrefix()
 const { $store, $colorMode } = useNuxtApp()
@@ -45,7 +45,7 @@ const landingImage = computed(() => {
 const chainList = computed(() => {
   const availableUrlPrefixes: Option[] = $store.getters['availableUrlPrefixes']
   return availableUrlPrefixes.filter(
-    (urlPrefix) => !chainTestList.includes(urlPrefix.value as string)
+    (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
   )
 })
 
