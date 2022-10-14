@@ -36,8 +36,8 @@
             <span class="pl-4">
               <b-image
                 :src="wallet.img"
-                class="is-32x32"
-                style="display: inline-block; vertical-align: middle"></b-image>
+                class="is-32x32 is-inline-block"
+                style="vertical-align: middle"></b-image>
               <span class="is-size-6">{{ wallet.name }}</span>
             </span>
           </b-button>
@@ -47,15 +47,12 @@
           v-if="hasSelectedWalletProvider && !hasWalletProviderExtension"
           class="buttons">
           <div
-            class="subtitle is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4"
-            style="width: 100%">
+            class="is-fullwidth subtitle is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
             <b-image
               :src="selectedWalletProvider.img"
-              class="is-32x32"
-              style="display: inline-block; vertical-align: middle" />
-            <b style="color: #ffffff">{{
-              selectedWalletProvider.extensionName
-            }}</b>
+              class="is-32x32 is-inline-block"
+              style="vertical-align: middle" />
+            <b class="is-white">{{ selectedWalletProvider.extensionName }}</b>
           </div>
           <b-button
             tag="a"
@@ -87,8 +84,8 @@
                   class="subtitle is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
                   <b-image
                     :src="selectedWalletProvider.img"
-                    class="is-32x32"
-                    style="display: inline-block; vertical-align: middle" />
+                    class="is-32x32 is-inline-block"
+                    style="vertical-align: middle" />
                   <b style="color: #ffffff">{{
                     selectedWalletProvider.extensionName
                   }}</b>
