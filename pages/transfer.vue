@@ -22,7 +22,7 @@
     <div v-if="$route.query.target && hasBlockExplorer" class="mb-3">
       {{ $t('teleport.donationSentTo') }}
       <a
-        :href="blockExplorer"
+        :href="addressExplorerUrl"
         target="_blank"
         rel="noopener noreferrer"
         class="has-text-weight-bold">
@@ -211,7 +211,7 @@ export default class Transfer extends mixins(
     return hasExplorer(this.urlPrefix)
   }
 
-  get blockExplorer(): string {
+  get addressExplorerUrl(): string {
     return getExplorer(this.urlPrefix, this.$route?.query?.target) || '#'
   }
 
