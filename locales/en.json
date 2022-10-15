@@ -5,6 +5,8 @@
   "gallery": "Gallery",
   "collection": "Collection",
   "collections": "Collections",
+  "users": "Users",
+  "soon": "Soon",
   "classic": "Classic",
   "account": "Account",
   "accounts": "Accounts",
@@ -1014,6 +1016,12 @@
   "toast": {
     "urlCopy": "URL copied to clipboard",
     "paymentLinkCopy": "Payment link copied to clipboard"
+  },
+  "profileMenu": {
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "language": "Language",
+    "disconnect": "Disconnect"
   },
   "footer": {
     "subscribe": "Get The Latest KodaDot Updates",

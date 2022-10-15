@@ -42,9 +42,51 @@
       <LazyHistoryBrowser
         id="NavHistoryBrowser"
         class="custom-navbar-item navbar-link-background is-hidden-touch" />
+
+      <b-dropdown class="ml-2">
+        <template #trigger>
+          <div class="nav-item">
+            {{ $t('explore') }}
+            <b-icon icon="chevron-down" />
+          </div>
+        </template>
+        <b-dropdown-item custom aria-role="menuitem">
+          <nuxt-link
+            :to="`/${urlPrefix}/explore?tab=GALLERY`"
+            class="menu-item mr-2">
+            {{ $t('gallery') }}
+          </nuxt-link>
+          <nuxt-link
+            :to="`/${urlPrefix}/explore?tab=COLLECTIONS`"
+            class="menu-item mr-2">
+            {{ $t('collections') }}
+          </nuxt-link>
+          <span class="menu-item is-disabled">
+            {{ $t('users') }}
+            <span class="small-size-text">
+              {{ $t('soon') }}
+            </span>
+          </span>
+          <hr class="dropdown-divider" aria-role="menuitem" />
+          <span
+            v-for="option in options.slice(0, 3)"
+            :key="option.value"
+            :value="option.value"
+            :class="[
+              'menu-item',
+              'mr-2',
+              { 'is-active': selectedChain === option.value },
+            ]"
+            @click="setSelectedChain(option.value)">
+            {{ option.text }}
+          </span>
+        </b-dropdown-item>
+      </b-dropdown>
+
       <b-navbar-dropdown
         v-show="isCreateVisible"
         id="NavCreate"
+        hoverable
         arrowless
         collapsible
         data-cy="create-dropdown">
@@ -86,12 +128,7 @@
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-item
-        tag="nuxt-link"
-        :to="`/${urlPrefix}/explore`"
-        data-cy="explore">
-        <span>{{ $t('explore') }}</span>
-      </b-navbar-item>
+
       <b-navbar-dropdown
         v-if="isBsx || isSnek"
         id="NavStats"
@@ -145,18 +182,9 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <LazyChainSelect
-        v-if="!redesign"
-        id="NavChainSelect"
-        class="navbar-item has-dropdown"
-        data-cy="chain-select" />
-      <LazySwitchLocale
-        id="NavLocaleChanger"
-        class="navbar-item has-dropdown"
-        data-cy="localChanger" />
-      <ColorModeButton />
       <NavbarProfileDropdown
         id="NavProfile"
+        class="ml-2"
         :is-rmrk="isRmrk"
         :show-incomming-offers="isBsx || isSnek"
         :is-snek="isSnek"
@@ -180,13 +208,15 @@ import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { get } from 'idb-keyval'
 
 import BasicImage from '@/components/shared/view/BasicImage.vue'
-import ColorModeButton from '@/components/common/ColorModeButton.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
 import KodaBeta from '@/assets/Koda_Beta.svg'
-
+import {
+  chainTestList,
+  disableChainListOnProductionEnv,
+} from '~/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { createVisible } from '@/utils/config/permision.config'
@@ -200,7 +230,6 @@ import ExperimentMixin from '~~/utils/mixins/experimentMixin'
     Search,
     Identity,
     BasicImage,
-    ColorModeButton,
   },
 })
 export default class NavbarMenu extends mixins(
@@ -304,6 +333,30 @@ export default class NavbarMenu extends mixins(
     this.showTopNavbar =
       currentScrollPosition < this.fixedTitleNavAppearDistance
     this.lastScrollPosition = currentScrollPosition
+  }
+
+  get options() {
+    const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']
+
+    const hiddenChainList =
+      window.location.hostname === 'kodadot.xyz'
+        ? disableChainListOnProductionEnv
+        : chainTestList
+    if (!this.$config.dev) {
+      return availableUrlPrefixes.filter(
+        (urlPrefix) => !hiddenChainList.includes(urlPrefix.value as string)
+      )
+    }
+    return availableUrlPrefixes
+  }
+
+  get selectedChain() {
+    return this.$store.getters.getSettings['urlPrefix']
+  }
+
+  setSelectedChain(value) {
+    this.$store.dispatch('setUrlPrefix', value)
+    this.$router.push({ path: `/${value}` })
   }
 
   showMobileSearchBar() {

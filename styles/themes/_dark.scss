@@ -24,6 +24,11 @@ html.dark-mode {
   }
 
   .navbar {
+
+    .dropdown-content .dropdown-item .menu-item {
+      color: $white !important;
+
+    }
     .navbar-dropdown a.navbar-item {
       &:hover,
       &:focus {
