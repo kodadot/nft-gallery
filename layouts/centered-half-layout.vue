@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, mixins } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import ExperimentMixin from '@/utils/mixins/experimentMixin'
 
 @Component<CenterHalfLayout>({

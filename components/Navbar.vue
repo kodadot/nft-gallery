@@ -43,45 +43,7 @@
         id="NavHistoryBrowser"
         class="custom-navbar-item navbar-link-background is-hidden-touch" />
 
-      <b-dropdown class="ml-2">
-        <template #trigger>
-          <div class="nav-item">
-            {{ $t('explore') }}
-            <b-icon icon="chevron-down" />
-          </div>
-        </template>
-        <b-dropdown-item custom aria-role="menuitem">
-          <nuxt-link
-            :to="`/${urlPrefix}/explore?tab=GALLERY`"
-            class="menu-item mr-2">
-            {{ $t('gallery') }}
-          </nuxt-link>
-          <nuxt-link
-            :to="`/${urlPrefix}/explore?tab=COLLECTIONS`"
-            class="menu-item mr-2">
-            {{ $t('collections') }}
-          </nuxt-link>
-          <span class="menu-item is-disabled">
-            {{ $t('users') }}
-            <span class="small-size-text">
-              {{ $t('soon') }}
-            </span>
-          </span>
-          <hr class="dropdown-divider" aria-role="menuitem" />
-          <span
-            v-for="option in options.slice(0, 3)"
-            :key="option.value"
-            :value="option.value"
-            :class="[
-              'menu-item',
-              'mr-2',
-              { 'is-active': selectedChain === option.value },
-            ]"
-            @click="setSelectedChain(option.value)">
-            {{ option.text }}
-          </span>
-        </b-dropdown-item>
-      </b-dropdown>
+      <NavbarExplore />
 
       <b-navbar-dropdown
         v-show="isCreateVisible"
@@ -211,9 +173,9 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
+import NavbarExplore from '@/components/navbar/NavbarExplore.vue'
 import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
 import KodaBeta from '@/assets/Koda_Beta.svg'
-import { getChainTestList } from '~/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { createVisible } from '@/utils/config/permision.config'
@@ -227,6 +189,7 @@ import ExperimentMixin from '~~/utils/mixins/experimentMixin'
     Search,
     Identity,
     BasicImage,
+    NavbarExplore,
   },
 })
 export default class NavbarMenu extends mixins(
@@ -330,26 +293,6 @@ export default class NavbarMenu extends mixins(
     this.showTopNavbar =
       currentScrollPosition < this.fixedTitleNavAppearDistance
     this.lastScrollPosition = currentScrollPosition
-  }
-
-  get options() {
-    const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']
-
-    if (!this.$config.dev) {
-      return availableUrlPrefixes.filter(
-        (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
-      )
-    }
-    return availableUrlPrefixes
-  }
-
-  get selectedChain() {
-    return this.$store.getters.getSettings['urlPrefix']
-  }
-
-  setSelectedChain(value) {
-    this.$store.dispatch('setUrlPrefix', value)
-    this.$router.push({ path: `/${value}` })
   }
 
   showMobileSearchBar() {
