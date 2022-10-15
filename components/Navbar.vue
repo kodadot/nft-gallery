@@ -213,10 +213,7 @@ import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdo
 import Search from '@/components/search/Search.vue'
 import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
 import KodaBeta from '@/assets/Koda_Beta.svg'
-import {
-  chainTestList,
-  disableChainListOnProductionEnv,
-} from '~/utils/constants'
+import { getChainTestList } from '~/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { createVisible } from '@/utils/config/permision.config'
@@ -338,13 +335,9 @@ export default class NavbarMenu extends mixins(
   get options() {
     const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']
 
-    const hiddenChainList =
-      window.location.hostname === 'kodadot.xyz'
-        ? disableChainListOnProductionEnv
-        : chainTestList
     if (!this.$config.dev) {
       return availableUrlPrefixes.filter(
-        (urlPrefix) => !hiddenChainList.includes(urlPrefix.value as string)
+        (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
       )
     }
     return availableUrlPrefixes
