@@ -55,7 +55,6 @@
     <div class="columns is-centered">
       <div class="column is-8 has-text-centered">
         <DescriptionWrapper
-          v-if="!isLoading"
           :row-height="50"
           :text="description.replaceAll('\n', '  \n')" />
       </div>
@@ -87,10 +86,6 @@
           </b-field>
         </Search>
 
-        <InfiniteLoading
-          v-if="startPage > 1 && !isLoading && total > 0"
-          direction="top"
-          @infinite="reachTopHandler"></InfiniteLoading>
         <GalleryCardList
           :items="nfts"
           :listed="!!(searchQuery && searchQuery.listed)"
@@ -99,7 +94,8 @@
           horizontal-layout />
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
-          @infinite="reachBottomHandler"></InfiniteLoading>
+          @infinite="reachBottomHandler">
+        </InfiniteLoading>
         <ScrollTopButton />
       </b-tab-item>
       <b-tab-item label="Chart" value="chart">

@@ -94,6 +94,14 @@ export default class Footer extends Vue {
       url: '/rmrk/faq',
     },
     {
+      name: this.$t('careers'),
+      url: '/jobs',
+    },
+    {
+      name: this.$t('contribute'),
+      url: '/contribute',
+    },
+    {
       name: this.$t('grants'),
       url: 'https://form.kodadot.xyz/grant',
       external: true,
@@ -104,21 +112,13 @@ export default class Footer extends Vue {
       external: true,
     },
     {
-      name: this.$t('contribute'),
-      url: '/contribute',
-    },
-    {
-      name: this.$t('careers'),
-      url: '/jobs',
+      name: this.$t('press kit'),
+      url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
+      external: true,
     },
     {
       name: this.$t('ambassador program'),
       url: 'https://docs.kodadot.xyz/ambassador-program/ambassador-intro.html#the-opportunity',
-      external: true,
-    },
-    {
-      name: this.$t('press kit'),
-      url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
       external: true,
     },
   ]
