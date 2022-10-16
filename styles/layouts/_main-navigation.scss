@@ -183,6 +183,9 @@
 		border-radius: 0;
 	}
 
+	.dropdown-menu {
+		width: max-content;
+	}
 	.dropdown-content {
 		border: 1px solid $black;
 		box-shadow: 4px 4px 0px $black;
@@ -190,9 +193,13 @@
 		user-select: none;
 		padding: 0;
 
-		.dropdown-item {
-			width: max-content;
+		.has-link:hover, .is-active {
+			background-color: $black !important;
+			color: $white !important;
+		}
 
+		.dropdown-item {
+			width: auto;
 
 			.menu-item {
 				cursor: pointer;
@@ -220,11 +227,13 @@
 		&:first-child {
 			border-top: none;
 		}
-		a:hover {
+
+		a:hover, &.is-active {
 			background-color: $black !important;
 			color: $white !important;
 		}
 	}
+
 	.small-size-text {
 		font-size: 0.5rem;
 		vertical-align: text-bottom;
