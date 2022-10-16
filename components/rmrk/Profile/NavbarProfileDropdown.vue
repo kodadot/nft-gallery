@@ -341,8 +341,10 @@
         :value="userLang"
         :class="{ 'is-active': userLang === lang.value }"
         @click="setUserLang(lang.value)">
-        {{ lang.flag }}
-        {{ lang.label }}
+        <a
+          >{{ lang.flag }}
+          {{ lang.label }}
+        </a>
       </b-dropdown-item>
     </b-dropdown>
   </div>

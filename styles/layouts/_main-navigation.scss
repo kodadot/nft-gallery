@@ -193,7 +193,7 @@
 		user-select: none;
 		padding: 0;
 
-		.has-link:hover, .is-active {
+		.has-link:hover, .is-active, .is-active>a {
 			background-color: $black !important;
 			color: $white !important;
 		}
@@ -237,5 +237,9 @@
 	.small-size-text {
 		font-size: 0.5rem;
 		vertical-align: text-bottom;
+	}
+	.color-mode-icon {
+		width: 12px;
+		height: 12px;
 	}
 }
