@@ -79,8 +79,10 @@ const totalDots = computed(() => {
       return Math.round(props.nfts.length - perView)
     }
   }
+
+  return 0
 })
 const dotHelper = computed(() =>
-  slider.value ? [...Array(totalDots.value).keys()] : []
+  slider.value && totalDots.value > 0 ? [...Array(totalDots.value).keys()] : []
 )
 </script>
