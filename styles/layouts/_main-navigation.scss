@@ -2,16 +2,14 @@
 	.navbar {
 
 		.navbar-menu {
-			width: 60vw;
-			position: absolute;
-			border: 1px solid $black;
-			right: 0px;
-			height: calc(100vh - 74px);
+			border-top: 1px solid $black;
+			width: 100vw;
+
+			height: 100vh;
 
 			.navbar-end {
 				display: flex;
 				flex-direction: column;
-				align-items: flex-end;
 			}
 		}
 		.custom-navbar-item {
@@ -79,7 +77,7 @@
 	.navbar-item {
 		text-transform: capitalize;
 		font-weight: 500;
-		margin: 0.5em;
+		cursor: pointer;
 		border-radius: 0 !important;
 	}
 
@@ -200,25 +198,7 @@
 
 		.dropdown-item {
 			width: auto;
-
-			.menu-item {
-				cursor: pointer;
-				color: $black;
-				&:hover, &.is-active {
-					background-color: $black !important;
-					color: $white;
-				}
-				&.is-disabled {
-					cursor: not-allowed;
-					color: $shade;
-				}
-			}
 		}
-	}
-
-	.nav-item {
-		cursor: pointer;
-		display: flex;
 	}
 
 	.dropdown .dropdown-menu .has-link {
@@ -241,5 +221,20 @@
 	.color-mode-icon {
 		width: 12px;
 		height: 12px;
+	}
+	.navbar-explore {
+		.menu-item {
+			cursor: pointer;
+			color: $black;
+			&:hover, &.is-active {
+				font-weight: bold;
+				background-color: transparent !important;
+				color: $black !important;
+ 			}
+			&.is-disabled {
+				cursor: not-allowed;
+				color: $shade;
+			}
+		}
 	}
 }

@@ -55,6 +55,12 @@ html.dark-mode {
         border: 1px solid $white !important;
       }
     }
+
+    .navbar-explore .menu-item {
+      &:hover, &.is-active {
+        color: $white !important;
+      }
+    }
   }
 
   .instance {

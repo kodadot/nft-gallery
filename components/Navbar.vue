@@ -314,8 +314,3 @@ export default class NavbarMenu extends mixins(
   }
 }
 </script>
-<style lang="scss">
-@import '@/styles/abstracts/variables';
-
-@import '@/styles/layouts/_main-navigation.scss';
-</style>

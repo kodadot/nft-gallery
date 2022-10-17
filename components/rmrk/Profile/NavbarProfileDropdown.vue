@@ -1,6 +1,6 @@
 <template>
   <div class="is-flex is-align-items-center">
-    <b-dropdown position="is-bottom-left" aria-role="menu" class="ml-2">
+    <b-dropdown position="is-bottom-left" aria-role="menu" class="ml-2 mr-4">
       <template #trigger>
         <span class="is-mobile is-vcentered navbar__avatar">
           <Avatar
@@ -287,14 +287,16 @@
 
         <hr class="dropdown-divider" aria-role="menuitem" />
 
-        <b-dropdown-item custom aria-role="menuitem" paddingless class="ml-5">
-          <p class="control">
-            <b-button
-              class="navbar__sign-out-button menu-item mb-2"
-              @click="disconnect()">
-              {{ $t('profileMenu.disconnect') }}
-            </b-button>
-          </p>
+        <b-dropdown-item
+          custom
+          aria-role="menuitem"
+          paddingless
+          class="is-flex is-justify-content-center">
+          <b-button
+            class="navbar__sign-out-button menu-item mb-2"
+            @click="disconnect()">
+            {{ $t('profileMenu.disconnect') }}
+          </b-button>
         </b-dropdown-item>
       </template>
     </b-dropdown>
@@ -461,9 +463,6 @@ export default class NavbarProfileDropdown extends mixins(
   &__avatar-icon {
     border: 1.5px solid $black;
     border-radius: 24.5px;
-    @include until($desktop) {
-      padding-right: 0.75rem;
-    }
   }
 
   &__address {
