@@ -83,4 +83,31 @@ html.dark-mode {
       }
     }
   }
+
+  .modal-card-container {
+    border: 1px solid white;
+    .wallet .buttons {
+      button {
+        background: $background-dark;
+        border: 1px solid #ffffff;
+      }
+      .button {
+        background: $background-dark;
+        border: 1px solid #ffffff;
+        border-radius: unset;
+      }
+    }
+    .modal-card-bg {
+      background: #ffffff;
+    }
+    .modal-card-head {
+      background: $background-dark;
+    }
+    .wallet-name {
+      background: #ffffff !important;
+      .is-white {
+        color: $background-dark !important;
+      }
+    }
+  }
 }

@@ -47,7 +47,7 @@
           v-if="hasSelectedWalletProvider && !hasWalletProviderExtension"
           class="buttons">
           <div
-            class="subtitle is-fullwidth is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
+            class="wallet-name subtitle is-fullwidth is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
             <b-image
               :src="selectedWalletProvider.img"
               class="is-32x32 is-inline-block"
@@ -86,7 +86,7 @@
               class="wallet-chooser">
               <template #trigger>
                 <div
-                  class="subtitle is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
+                  class="wallet-name subtitle is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
                   <b-image
                     :src="selectedWalletProvider.img"
                     class="is-32x32 is-inline-block"
