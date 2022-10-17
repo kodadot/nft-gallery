@@ -20,7 +20,7 @@ With a few exceptions, code and comments should be written in **English** only.
 
 ## SFC Conventions
 ### Skeleton
-99% of the time your SCSS should be **scoped**, so it won't bleed outside of your component and pollute the global namespace!
+99% of the time your SCSS should be **scoped**, which makes sure your CSS won't bleed outside of your component and pollute the global namespace!
 ```vue
 <template>
     <div>
@@ -28,26 +28,68 @@ With a few exceptions, code and comments should be written in **English** only.
     </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import { ComponentOne } from '@/components/ComponentOne.vue'
-
-interface InterfaceName {
-  property: type
-}
-
-@Component({
-  components: {
-    ComponentOne
-  },
-})
-export default class ComponentName extends Vue {}
+<script setup>
+  ...
 </script>
 
 <style scoped lang="scss"></style>
 ```
 
-### Property Decorators
+### Composition API
+Since we want to upgrade to Nuxt 3 in the near future, we should pre-emptively work towards a compatible codebase, such that the transition will be as smooth as possible. Therefore, every new feature is required to be written in the new **Composition API** and should follow the following recommendations: 
+
+```vue
+<script setup>
+import { computed, reactive, ref, onMounted, watch } from 'vue'
+import type { CarouselNFT } from '@/components/base/types'
+
+// declaring props
+const props = defineProps<{
+  nfts: CarouselNFT[]
+}>()
+
+// reactive state
+const count = ref(0)
+
+// functions that mutate state and trigger updates
+function increment() {
+  count.value++
+}
+
+
+const author = reactive({
+  name: 'John Doe',
+  books: [
+    'Vue 2 - Advanced Guide',
+    'Vue 3 - Basic Guide',
+    'Vue 4 - The Mystery'
+  ]
+})
+
+// a computed ref
+const publishedBooksMessage = computed(() => {
+  return author.books.length > 0 ? 'Yes' : 'No'
+})
+
+watch(count, (newCount) => {
+  console.log(`count is ${newCount}`)
+})
+
+// lifecycle hooks
+onMounted(() => {
+  console.log(`The initial count is ${count.value}.`)
+})
+</script>
+
+<template>
+  <button @click="increment">Count is: {{ count }}</button>
+</template>
+
+```
+For more details make sure to checkout [Vue's official documentation](https://vuejs.org/guide/introduction.html).
+
+
+### Property Decorators DEPRECATED! (only use this syntax for maintenance reasons)
 We rely on the package 'nuxt-property-decorator', hence, we urge you to comply with the [Nuxt Class Component Syntax](https://github.com/nuxt-community/nuxt-property-decorator/)
 ```typescript
 import {
@@ -90,6 +132,21 @@ Use shorthands for vue attributes
 
 ### Fetching Data
 Though we haven't yet transitioned most of our data fetching logic to Nuxt lifecycles, the following syntax should be considered best practice:
+#### Composition API
+```typescript
+// useGraphql is a composable function that is auto-imported without having to use an explicit import statement
+// you can then call a specific GraphQL query like this in any of your SFCs
+const { data } = useGraphql({
+  queryName: 'buyEventByProfile',
+  variables: {
+    id: address,
+  },
+})
+```
+For reference you can take a look at `useCarousel.ts` and its usage throughout the app. It will show you how to best abstract such calls into its own [composables](https://vuejs.org/guide/reusability/composables.html), which is one of the core concepts behind the Composition API.
+
+
+#### Class API (DEPRECATED)
 ```typescript
 // pages
 import { Component } from 'nuxt-property-decorator'
