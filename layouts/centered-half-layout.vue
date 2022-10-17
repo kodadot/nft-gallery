@@ -22,8 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import ExperimentMixin from '@/utils/mixins/experimentMixin'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<CenterHalfLayout>({
   name: 'CenterHalfLayout',
@@ -39,5 +38,5 @@ import ExperimentMixin from '@/utils/mixins/experimentMixin'
     }
   },
 })
-export default class CenterHalfLayout extends mixins(ExperimentMixin) {}
+export default class CenterHalfLayout extends Vue {}
 </script>

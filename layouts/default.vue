@@ -18,8 +18,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import ExperimentMixin from '@/utils/mixins/experimentMixin'
+import { Component, Vue } from 'nuxt-property-decorator'
 @Component<DefaultLayout>({
   name: 'DefaultLayout',
   head() {
@@ -34,5 +33,5 @@ import ExperimentMixin from '@/utils/mixins/experimentMixin'
     }
   },
 })
-export default class DefaultLayout extends mixins(ExperimentMixin) {}
+export default class DefaultLayout extends Vue {}
 </script>
