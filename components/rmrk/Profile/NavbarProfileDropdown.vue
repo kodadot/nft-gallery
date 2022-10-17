@@ -194,9 +194,13 @@
       </b-dropdown-item>
     </b-dropdown>
 
-    <b-dropdown position="is-bottom-left" aria-role="menu" class="ml-4">
+    <b-dropdown
+      v-if="account"
+      position="is-bottom-left"
+      aria-role="menu"
+      class="ml-4">
       <template #trigger>
-        <span v-if="account" class="is-mobile is-vcentered navbar__avatar">
+        <span class="is-mobile is-vcentered navbar__avatar">
           <svg
             width="28"
             height="23"
@@ -255,51 +259,49 @@
             </defs>
           </svg>
         </span>
-
-        <template v-else>
-          <ConnectWalletButton />
-        </template>
       </template>
 
-      <template v-if="account">
-        <b-dropdown-item custom aria-role="menuitem">
-          <div class="has-text-grey is-size-7 mt-2">Wallet</div>
-          <Identity
-            :address="account"
-            class="navbar__address"
-            hide-identity-popover />
-        </b-dropdown-item>
+      <b-dropdown-item custom aria-role="menuitem">
+        <div class="has-text-grey is-size-7 mt-2">
+          {{ $t('profileMenu.wallet') }}
+        </div>
+        <Identity
+          :address="account"
+          class="navbar__address"
+          hide-identity-popover />
+      </b-dropdown-item>
 
-        <hr class="dropdown-divider" aria-role="menuitem" />
+      <hr class="dropdown-divider" aria-role="menuitem" />
 
-        <b-dropdown-item custom aria-role="menuitem">
-          <div v-if="isSnek">
-            <div class="has-text-left has-text-grey is-size-7">
-              {{ $t('general.balance') }}
-            </div>
-            <SimpleAccountBalance
-              v-for="token in tokens"
-              :key="token"
-              :token-id="token" />
+      <b-dropdown-item custom aria-role="menuitem">
+        <div v-if="isSnek">
+          <div class="has-text-left has-text-grey is-size-7">
+            {{ $t('general.balance') }}
           </div>
-          <AccountBalance v-else class="is-size-7" />
-        </b-dropdown-item>
+          <SimpleAccountBalance
+            v-for="token in tokens"
+            :key="token"
+            :token-id="token" />
+        </div>
+        <AccountBalance v-else class="is-size-7" />
+      </b-dropdown-item>
 
-        <hr class="dropdown-divider" aria-role="menuitem" />
+      <hr class="dropdown-divider" aria-role="menuitem" />
 
-        <b-dropdown-item
-          custom
-          aria-role="menuitem"
-          paddingless
-          class="is-flex is-justify-content-center">
-          <b-button
-            class="navbar__sign-out-button menu-item mb-2"
-            @click="disconnect()">
-            {{ $t('profileMenu.disconnect') }}
-          </b-button>
-        </b-dropdown-item>
-      </template>
+      <b-dropdown-item
+        custom
+        aria-role="menuitem"
+        paddingless
+        class="is-flex is-justify-content-center">
+        <b-button
+          class="navbar__sign-out-button menu-item mb-2"
+          @click="disconnect()">
+          {{ $t('profileMenu.disconnect') }}
+        </b-button>
+      </b-dropdown-item>
     </b-dropdown>
+
+    <ConnectWalletButton v-else />
 
     <b-dropdown
       ref="languageDropdown"

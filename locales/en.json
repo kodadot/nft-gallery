@@ -1022,7 +1022,8 @@
     "darkMode": "Dark Mode",
     "lightMode": "Light Mode",
     "language": "Language",
-    "disconnect": "Disconnect"
+    "disconnect": "Disconnect",
+    "wallet": "Wallet"
   },
   "footer": {
     "subscribe": "Get The Latest KodaDot Updates",
