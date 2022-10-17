@@ -27,7 +27,10 @@ html.dark-mode {
 
     .dropdown-content .dropdown-item .menu-item {
       color: $white !important;
-
+    }
+    .navbar-dropdown, .dropdown-content {
+      box-shadow: 4px 4px 0px $white !important;
+      border-color: $white !important;
     }
     .navbar-dropdown a.navbar-item {
       &:hover,
