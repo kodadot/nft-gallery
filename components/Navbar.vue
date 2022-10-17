@@ -19,12 +19,12 @@
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
         <HistoryBrowser />
-        <!-- <b-button
-          v-if="!isRedesignedLandingPage"
+        <b-button
+          v-if="!isLandingPage"
           type="is-primary is-bordered-light ml-2"
           class="navbar-link-background"
           icon-right="search"
-          @click="showMobileSearchBar" /> -->
+          @click="showMobileSearchBar" />
         <Search
           ref="mobilSearchRef"
           hide-filter
@@ -32,11 +32,11 @@
       </div>
     </template>
     <template #start>
-      <!-- <Search
-        v-if="!isRedesignedLandingPage"
+      <Search
+        v-if="!isLandingPage"
         hide-filter
         class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
-        search-column-class="is-flex-grow-1" /> -->
+        search-column-class="is-flex-grow-1" />
     </template>
     <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
       <LazyHistoryBrowser
@@ -252,6 +252,10 @@ export default class NavbarMenu extends mixins(
   }
   get currentGalleryItemName() {
     return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
+  }
+
+  get isLandingPage() {
+    return this.$route.name === 'index'
   }
 
   get navBarTitle(): string {
