@@ -5,7 +5,7 @@
         <b-button
           v-show="hasSelectedWalletProvider"
           type="is-text"
-          class="mr-2"
+          class="mr-2 is-no-border"
           icon-left="chevron-left"
           @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
         <p
@@ -47,7 +47,7 @@
           v-if="hasSelectedWalletProvider && !hasWalletProviderExtension"
           class="buttons">
           <div
-            class="is-fullwidth subtitle is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
+            class="subtitle is-fullwidth is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
             <b-image
               :src="selectedWalletProvider.img"
               class="is-32x32 is-inline-block"
@@ -55,6 +55,7 @@
             <b class="is-white">{{ selectedWalletProvider.extensionName }}</b>
           </div>
           <b-button
+            class="is-size-6 is-height-60"
             tag="a"
             :href="guideUrl"
             target="_blank"
@@ -66,6 +67,7 @@
             <b-icon class="ml-1" icon="book-open"></b-icon>
           </b-button>
           <b-button
+            class="is-size-6 is-height-60"
             tag="a"
             :href="extensionUrl"
             type="is-info"
@@ -76,9 +78,12 @@
           </b-button>
         </div>
 
-        <div v-if="hasSelectedWalletProvider && hasWalletProviderExtension">
-          <b-field v-if="walletAccounts.length">
-            <b-dropdown v-model="account" class="wallet-chooser">
+        <div v-show="hasSelectedWalletProvider && hasWalletProviderExtension">
+          <b-field v-if="walletAccounts.length" style="height: 180px">
+            <b-dropdown
+              ref="address-chooser"
+              v-model="account"
+              class="wallet-chooser">
               <template #trigger>
                 <div
                   class="subtitle is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
@@ -86,21 +91,22 @@
                     :src="selectedWalletProvider.img"
                     class="is-32x32 is-inline-block"
                     style="vertical-align: middle" />
-                  <b style="color: #ffffff">{{
+                  <b class="is-white">{{
                     selectedWalletProvider.extensionName
                   }}</b>
-                  <b-icon style="color: white" icon="chevron-down"></b-icon>
+                  <!--                  <b-icon style="color: white" icon="chevron-down"></b-icon>-->
                 </div>
               </template>
-              <b-dropdown-item disabled selected value=""
-                >&#45;&#45;</b-dropdown-item
-              >
               <b-dropdown-item
                 v-for="option in walletAccounts"
                 :key="option.address"
                 :value="option.address">
-                <b v-if="option.name">{{ option.name }} :</b>
-                {{ option.address | shortAddress(10, -10) }}
+                <span v-if="option.name"
+                  >{{ option.name }}
+                  <span class="is-pulled-right">{{
+                    option.address | shortAddress(6, -3)
+                  }}</span>
+                </span>
               </b-dropdown-item>
             </b-dropdown>
           </b-field>
@@ -242,12 +248,22 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
   font-style: normal;
   position: relative;
   .wallet {
-    //max-width: 320px;
+    max-width: 280px;
     .wallet-chooser {
       display: block;
 
       ::v-deep .dropdown-menu {
-        position: relative;
+        width: 100%;
+        padding-top: 0px;
+        display: block !important;
+        .dropdown-content {
+          box-shadow: none;
+          padding-top: 0px;
+          a {
+            padding: 0.375rem 1rem;
+            height: 29px;
+          }
+        }
       }
     }
 
@@ -317,6 +333,20 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
     top: 4px;
     left: 4px;
     z-index: 0;
+  }
+
+  .is-fullwidth {
+    width: 100%;
+  }
+
+  .is-white {
+    color: #ffffff;
+  }
+  .is-height-60 {
+    height: 60px;
+  }
+  .is-no-border {
+    border: none;
   }
 }
 </style>
