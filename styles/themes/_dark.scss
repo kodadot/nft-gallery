@@ -89,22 +89,31 @@ html.dark-mode {
     .wallet .buttons {
       button {
         background: $background-dark;
-        border: 1px solid #ffffff;
+        border: 1px solid $white;
       }
       .button {
         background: $background-dark;
-        border: 1px solid #ffffff;
+        border: 1px solid $white;
         border-radius: unset;
       }
     }
     .modal-card-bg {
-      background: #ffffff;
+      background: $white;
     }
     .modal-card-head {
       background: $background-dark;
+      .delete {
+        background: none;
+        &::before {
+          background-color: $white
+        }
+        &::after {
+          background-color: $white
+        }
+      }
     }
     .wallet-name {
-      background: #ffffff !important;
+      background: $white !important;
       .is-white {
         color: $background-dark !important;
       }

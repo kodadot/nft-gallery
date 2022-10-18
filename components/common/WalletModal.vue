@@ -280,6 +280,9 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
     .modal-card-body {
       padding: 0;
       background-color: unset;
+      &.py-6 {
+        padding-left: 1rem;
+      }
     }
 
     .modal-card-head {
