@@ -32,10 +32,27 @@ html.dark-mode {
       box-shadow: 4px 4px 0px $white !important;
       border-color: $white !important;
     }
+    .dropdown .dropdown-menu .has-link a,
     .navbar-dropdown a.navbar-item {
       &:hover,
       &:focus {
-        background-color: $primary;
+        background-color: $primary !important;
+        color: $black;
+      }
+    }
+    .dropdown-content {
+      .dropdown-item.is-active, .is-active>a {
+        background-color: $white !important;
+        color: $black !important;
+      }
+
+    }
+
+    .navbar__sign-out-button {
+      border-color: $white;
+      box-shadow: 4px 4px 0px $white !important;
+      &:hover {
+        background-color: $primary !important;
       }
     }
 
@@ -51,6 +68,10 @@ html.dark-mode {
 
     .navbar-menu {
       border-color: $white !important;
+
+      .button:hover {
+        background-color: $primary;
+      }
     }
 
     #NavProfile {

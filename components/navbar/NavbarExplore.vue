@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown class="navbar-explore">
+  <b-dropdown class="navbar-explore" :triggers="['click', 'hover']">
     <template #trigger>
       <div class="navbar-item" data-cy="explore">
         {{ $t('explore') }}
@@ -17,7 +17,7 @@
         </svg>
       </div>
     </template>
-    <b-dropdown-item custom aria-role="menuitem">
+    <b-dropdown-item custom aria-role="menuitem" class="is-size-6">
       <nuxt-link
         :to="`/${urlPrefix}/explore?tab=GALLERY`"
         class="menu-item mr-2">
@@ -34,7 +34,7 @@
           {{ $t('soon') }}
         </span>
       </span>
-      <hr class="dropdown-divider" aria-role="menuitem" />
+      <hr class="dropdown-divider my-4" aria-role="menuitem" />
       <span
         v-for="option in options.slice(0, 3)"
         :key="option.value"

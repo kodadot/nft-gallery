@@ -1,6 +1,10 @@
 <template>
   <div class="is-flex is-align-items-center">
-    <b-dropdown position="is-bottom-left" aria-role="menu" class="ml-2 mr-4">
+    <b-dropdown
+      position="is-bottom-left"
+      aria-role="menu"
+      class="ml-2 mr-4"
+      :triggers="['click', 'hover']">
       <template #trigger>
         <span class="is-mobile is-vcentered navbar__avatar">
           <Avatar
@@ -198,6 +202,7 @@
       v-if="account"
       position="is-bottom-left"
       aria-role="menu"
+      :triggers="['click', 'hover']"
       class="ml-4">
       <template #trigger>
         <span class="is-mobile is-vcentered navbar__avatar">
@@ -267,11 +272,11 @@
         </div>
         <Identity
           :address="account"
-          class="navbar__address"
+          class="navbar__address is-size-6"
           hide-identity-popover />
       </b-dropdown-item>
 
-      <hr class="dropdown-divider" aria-role="menuitem" />
+      <hr class="dropdown-divider mx-4" aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
         <div v-if="isSnek">
@@ -281,12 +286,13 @@
           <SimpleAccountBalance
             v-for="token in tokens"
             :key="token"
+            class="is-size-6"
             :token-id="token" />
         </div>
         <AccountBalance v-else class="is-size-7" />
       </b-dropdown-item>
 
-      <hr class="dropdown-divider" aria-role="menuitem" />
+      <hr class="dropdown-divider mx-4" aria-role="menuitem" />
 
       <b-dropdown-item
         custom
@@ -294,7 +300,7 @@
         paddingless
         class="is-flex is-justify-content-center">
         <b-button
-          class="navbar__sign-out-button menu-item mb-2"
+          class="navbar__sign-out-button menu-item mb-4 is-size-7"
           @click="disconnect()">
           {{ $t('profileMenu.disconnect') }}
         </b-button>
@@ -474,6 +480,7 @@ export default class NavbarProfileDropdown extends mixins(
   &__sign-out-button {
     border: 1px solid $black;
     box-shadow: 4px 4px 0px $black;
+    padding: 8px 16px;
     border-radius: 0;
     &:hover {
       border: 1px solid $black;
