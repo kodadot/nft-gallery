@@ -143,4 +143,40 @@ html.dark-mode {
       }
     }
   }
+
+  .modal-card-container {
+    border: 1px solid white;
+    .wallet .buttons {
+      button {
+        background: $background-dark;
+        border: 1px solid $white;
+      }
+      .button {
+        background: $background-dark;
+        border: 1px solid $white;
+        border-radius: unset;
+      }
+    }
+    .modal-card-bg {
+      background: $white;
+    }
+    .modal-card-head {
+      background: $background-dark;
+      .delete {
+        background: none;
+        &::before {
+          background-color: $white
+        }
+        &::after {
+          background-color: $white
+        }
+      }
+    }
+    .wallet-name {
+      background: $white !important;
+      .is-white {
+        color: $background-dark !important;
+      }
+    }
+  }
 }
