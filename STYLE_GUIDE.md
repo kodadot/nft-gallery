@@ -28,7 +28,7 @@ With a few exceptions, code and comments should be written in **English** only.
     </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
   ...
 </script>
 
@@ -39,7 +39,7 @@ With a few exceptions, code and comments should be written in **English** only.
 Since we want to upgrade to Nuxt 3 in the near future, we should pre-emptively work towards a compatible codebase, such that the transition will be as smooth as possible. Therefore, every new feature is required to be written in the new **Composition API** and should follow the following recommendations: 
 
 ```vue
-<script setup>
+<script lang="ts" setup>
 import { computed, reactive, ref, onMounted, watch } from 'vue'
 import type { CarouselNFT } from '@/components/base/types'
 
@@ -146,34 +146,6 @@ const { data } = useGraphql({
 For reference you can take a look at `useCarousel.ts` and its usage throughout the app. It will show you how to best abstract such calls into its own [composables](https://vuejs.org/guide/reusability/composables.html), which is one of the core concepts behind the Composition API.
 
 
-#### Class API (DEPRECATED)
-```typescript
-// pages
-import { Component } from 'nuxt-property-decorator'
-
-@Component({
-  async asyncData({ app, $config, params }) {
-    const res = await app?.apolloProvider?.clients[$config.prefix].query({
-      query: queryGql,
-      variables: {
-        id: params.id
-      },
-    })
-
-    return {
-      data: res.data,
-      total: res.total,
-    }
-  }
-})
-export default class ClassName extends Vue {
-  data?: Type
-  total?: Type
-
-  [...]
-}
-```
-
 ### Reusability Through Abstraction
 If your component will be used on several occasions in many different contexts, you should think about how you pass data to your components and how events are handled.
 Regarding event handling, you should always aim to emit events happening in your component, while the handling should be done in the parent or page itself. Thereby, the click of a button can trigger all kinds of functionality without being aware of its context.
@@ -192,27 +164,17 @@ Regarding event handling, you should always aim to emit events happening in your
 
 Make reusable components as generic as possible. Therefore, the naming should only imply the functionality of the component itself and not what it does in the given context.
 ```vue
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { ListItem } from '@/components/ListItem.vue'
+<script lang="ts" setup>
+// List.vue
+import { computed } from 'vue'
+import ListItem from './ListItem.vue'
+import type { IListItem } from '@/components/base/types'
 
-interface IListItem {
-    name: string,
-    text?: string,
-}
+const props = defineProps<{
+  items: IListItem[]
+}>()
 
-@Component({
-    components: {
-        ListItem
-    },
-})
-export default class List extends Vue {
-    @Prop({ type: Array, default: () => [] }) items!: IListItem[]
-
-    get getItemsWithText(): IListItem[] {
-        return this.items.filter(item => item.text) || []
-    }
-}
+const getItemsWithText = computed(() => props.items.filter(item => item.text) || [])
 </script>
 ```
 
