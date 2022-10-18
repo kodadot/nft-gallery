@@ -75,5 +75,5 @@ export function getKusamaAssetId(prefix: string): string {
     return '1'
   }
 
-  throw new Error('invalid prefix')
+  return ''
 }
