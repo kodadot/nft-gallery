@@ -48,6 +48,11 @@ html.dark-mode {
     }
   }
 
+  .dropdown-content {
+    box-shadow: $primary-shadow-dark;
+    border-radius: 0;
+  }
+
   .footer-container {
     background-color: $dark-accent;
     border-top: 1px solid $white;
