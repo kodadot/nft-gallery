@@ -1,0 +1,33 @@
+#import "./fragments/collection.graphql"
+#import "./fragments/collectionDetails.graphql"
+#import "./fragments/nft.graphql"
+#import "./fragments/nftDetails.graphql"
+
+query collectionById(
+  $id: String!
+  $search: [NFTEntityFilter!]
+  $orderBy: NftEntitiesOrderBy = BLOCK_NUMBER_DESC
+  $first: Int!
+  $offset: Int
+) {
+  collectionEntity(id: $id) {
+    ...collection
+    ...collectionDetails
+    createdAt
+    nfts(
+      orderBy: [$orderBy, BLOCK_NUMBER_DESC]
+      first: $first
+      offset: $offset
+      filter: { burned: { distinctFrom: true }, and: $search }
+    ) {
+      totalCount
+      nodes {
+        ...nft
+        ...nftDetails
+        emotes {
+          totalCount
+        }
+      }
+    }
+  }
+}
