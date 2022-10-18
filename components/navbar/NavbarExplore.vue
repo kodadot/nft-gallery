@@ -24,7 +24,7 @@
         {{ $t('gallery') }}
       </nuxt-link>
       <nuxt-link
-        :to="`/${urlPrefix}/explore?tab=COLLECTIONS`"
+        :to="`/${urlPrefix}/explore?tab=COLLECTION`"
         class="menu-item mr-2">
         {{ $t('collections') }}
       </nuxt-link>
