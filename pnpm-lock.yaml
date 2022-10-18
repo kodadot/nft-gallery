@@ -2,6 +2,9 @@ lockfileVersion: 5.4
 
 importers:
 
+  .:
+    specifiers: {}
+
   apps/marketplace:
     specifiers:
       '@babel/core': ^7.19.3
