@@ -24,10 +24,65 @@ html.dark-mode {
   }
 
   .navbar {
+
+    .dropdown-content .dropdown-item .menu-item {
+      color: $white !important;
+    }
+    .navbar-dropdown, .dropdown-content {
+      box-shadow: 4px 4px 0px $white !important;
+      border-color: $white !important;
+    }
+    .dropdown .dropdown-menu .has-link a,
     .navbar-dropdown a.navbar-item {
       &:hover,
       &:focus {
+        background-color: $primary !important;
+        color: $black;
+      }
+    }
+    .dropdown-content {
+      .dropdown-item.is-active, .is-active>a {
+        background-color: $white !important;
+        color: $black !important;
+      }
+
+    }
+
+    .navbar__sign-out-button {
+      border-color: $white;
+      box-shadow: 4px 4px 0px $white !important;
+      &:hover {
+        background-color: $primary !important;
+      }
+    }
+
+    .mobile-nav-search-btn {
+      background: $black;
+      border: 1px solid $white;
+      box-shadow: 4px 4px 0px $white;
+    }
+
+    .navbar-burger {
+			color: $white;
+    }
+
+    .navbar-menu {
+      border-color: $white !important;
+
+      .button:hover {
         background-color: $primary;
+      }
+    }
+
+    #NavProfile {
+      .button.is-primary {
+        border: 1px solid $white !important;
+      }
+    }
+
+    .navbar-explore .menu-item {
+      &:hover, &.is-active {
+        color: $white !important;
       }
     }
   }
@@ -46,6 +101,11 @@ html.dark-mode {
         -1px -1px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, -1px 0px 0 #fff,
         0px -1px 0 #fff, 4px 4px #fff;
     }
+  }
+
+  .dropdown-content {
+    box-shadow: $primary-shadow-dark;
+    border-radius: 0;
   }
 
   .footer-container {
@@ -80,6 +140,42 @@ html.dark-mode {
         .input {
           border: 1px solid $white;
         }
+      }
+    }
+  }
+
+  .modal-card-container {
+    border: 1px solid white;
+    .wallet .buttons {
+      button {
+        background: $background-dark;
+        border: 1px solid $white;
+      }
+      .button {
+        background: $background-dark;
+        border: 1px solid $white;
+        border-radius: unset;
+      }
+    }
+    .modal-card-bg {
+      background: $white;
+    }
+    .modal-card-head {
+      background: $background-dark;
+      .delete {
+        background: none;
+        &::before {
+          background-color: $white
+        }
+        &::after {
+          background-color: $white
+        }
+      }
+    }
+    .wallet-name {
+      background: $white !important;
+      .is-white {
+        color: $background-dark !important;
       }
     }
   }
