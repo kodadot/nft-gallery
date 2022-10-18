@@ -79,7 +79,7 @@
       </div>
       <div v-if="prefix === 'rmrk' || prefix === 'bsx' || prefix === 'snek'">
         <LazyTopCollections v-if="prefix !== 'bsx'" class="my-5" />
-        <LazyCarouselTypePopularCollections
+        <LazyCarouselTypePopularCollection
           v-if="prefix === 'rmrk'"
           class="my-5" />
         <LazyCarouselTypeLatestSales class="my-5" />
