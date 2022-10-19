@@ -106,6 +106,7 @@ html.light-mode {
 		background-color: $white;
 		box-shadow: $primary-shadow;
 		border-radius: 0;
+		border: 1px solid $black;
 		
 		.dropdown-item:not(.is-active) {
 			color: $text-light-theme;

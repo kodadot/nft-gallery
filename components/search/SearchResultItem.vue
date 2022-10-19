@@ -1,5 +1,5 @@
 <template>
-  <div class="search-result-item mb-2">
+  <div class="search-result-item">
     <div class="media">
       <div class="media-left">
         <b-skeleton

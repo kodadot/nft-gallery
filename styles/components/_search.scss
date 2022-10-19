@@ -80,6 +80,14 @@
       width: 90%;
     }
   }
+
+  .dropdown-menu {
+    padding-top: 13px;
+
+    .dropdown-item {
+      padding: 0px;
+    }
+  }
 }
 
 
@@ -140,6 +148,10 @@
   .link-item {
     border: 1px solid transparent;
     cursor: pointer;
+    padding: 10px 16px;
+    &:hover:not(:last-child) {
+      background-color: $k-accentlight;
+    }
   }
 
   .name {
@@ -152,9 +164,6 @@
   }
   .tabs:not(:last-child) {
     margin-bottom: 0.5rem;
-  }
-  .b-tabs .tab-content {
-    padding:  0 0.5rem;
   }
 }
 

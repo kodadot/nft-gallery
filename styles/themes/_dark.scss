@@ -101,11 +101,19 @@ html.dark-mode {
         -1px -1px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, -1px 0px 0 #fff,
         0px -1px 0 #fff, 4px 4px #fff;
     }
+
+    .link-item {
+      &:hover:not(:last-child) {
+        background-color: $k-accent;
+      }
+    }
+  
   }
 
   .dropdown-content {
     box-shadow: $primary-shadow-dark;
     border-radius: 0;
+    border: 1px solid $white;
   }
 
   .footer-container {
