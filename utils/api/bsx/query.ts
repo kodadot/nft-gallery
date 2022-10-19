@@ -74,6 +74,5 @@ export function getKusamaAssetId(prefix: string): string {
   if (prefix === 'bsx') {
     return '1'
   }
-
   return ''
 }

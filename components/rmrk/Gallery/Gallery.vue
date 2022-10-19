@@ -51,17 +51,10 @@
                 <span
                   v-if="nft.price > 0 && showPriceValue"
                   class="card-image__price">
-                  <TokenMoney
-                    v-if="tokenId"
+                  <CommonTokenMoney
                     :value="nft.price"
-                    :token-id="tokenId"
-                    :prefix="urlPrefix"
+                    :data-cy="results.indexOf(nft)"
                     inline />
-                  <Money
-                    v-else
-                    :value="nft.price"
-                    inline
-                    :data-cy="results.indexOf(nft)" />
                 </span>
               </div>
 
@@ -136,7 +129,6 @@ const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Search: () => import('@/components/search/Search.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  TokenMoney: () => import('@/components/bsx/format/TokenMoney.vue'),
   Pagination: () => import('./Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
@@ -144,6 +136,7 @@ const components = {
     import('@/components/media/PreviewMediaResolver.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
+  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
 }
 
 @Component<Gallery>({

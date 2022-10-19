@@ -30,14 +30,7 @@
         <div>
           <p class="heading--inline heading">
             {{ $t('Volume') }} :
-
-            <TokenMoney
-              v-if="tokenId"
-              :value="collectionTradedVolumeNumber"
-              :token-id="tokenId"
-              :prefix="urlPrefix"
-              inline />
-            <Money v-else :value="collectionTradedVolumeNumber" inline />
+            <CommonTokenMoney :value="collectionTradedVolumeNumber" />
           </p>
         </div>
       </div>
@@ -45,16 +38,8 @@
         <div>
           <p class="heading--inline heading">
             {{ $t('Floor') }} :
-            <TokenMoney
-              v-if="tokenId"
+            <CommonTokenMoney
               :value="collectionFloorPrice"
-              :token-id="tokenId"
-              :prefix="urlPrefix"
-              inline />
-            <Money
-              v-else
-              :value="collectionFloorPrice"
-              inline
               data-cy="collection-floor-price" />
           </p>
         </div>
@@ -64,18 +49,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
 import { getVolume } from '@/utils/math'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 const components = {
-  Money: () => import('@/components/shared/format/Money.vue'),
-  TokenMoney: () => import('@/components/bsx/format/TokenMoney.vue'),
+  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
 }
 
 @Component({ components })
-export default class CollectionDetail extends mixins(PrefixMixin) {
+export default class CollectionDetail extends Vue {
   @Prop() public nfts!: NFT[]
   @Prop() public name!: string
 
