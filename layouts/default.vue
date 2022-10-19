@@ -19,7 +19,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-
 @Component<DefaultLayout>({
   name: 'DefaultLayout',
   head() {

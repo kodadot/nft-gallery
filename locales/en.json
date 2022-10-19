@@ -5,6 +5,8 @@
   "gallery": "Gallery",
   "collection": "Collection",
   "collections": "Collections",
+  "users": "Users",
+  "soon": "Soon",
   "classic": "Classic",
   "account": "Account",
   "accounts": "Accounts",
@@ -876,7 +878,7 @@
       "cancelled": "Transaction was cancelled",
       "feesPaidIn": "You are paying fees in {0}"
     },
-    "searchPlaceholder": "Search By Collection Or NFT",
+    "searchPlaceholder": "Search by Collection or NFT",
     "tagsAdd": "Type and press enter to add your own",
     "chooseWallet": "Choose your"
   },
@@ -1015,6 +1017,13 @@
   "toast": {
     "urlCopy": "URL copied to clipboard",
     "paymentLinkCopy": "Payment link copied to clipboard"
+  },
+  "profileMenu": {
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "language": "Language",
+    "disconnect": "Disconnect",
+    "wallet": "Wallet"
   },
   "footer": {
     "subscribe": "Get The Latest KodaDot Updates",
