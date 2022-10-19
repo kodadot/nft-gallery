@@ -3,26 +3,6 @@ describe('simple mint in rmrk', () => {
     cy.loginWithKeyring()
     cy.visit('/rmrk')
     cy.waitForNetworkIdle('POST', '*', 1000)
-
-    // get 3 users from latest sales, for use in distribution later
-    cy.get(
-      '[data-cy="latest-sales"] .carousel-slide:nth-child(1) [data-cy="current-owner"]'
-    )
-      .invoke('attr', 'href')
-      .then((href) => href && href.replace('/rmrk/u/', ''))
-      .as('user1')
-    cy.get(
-      '[data-cy="latest-sales"] .carousel-slide:nth-child(2) [data-cy="current-owner"]'
-    )
-      .invoke('attr', 'href')
-      .then((href) => href && href.replace('/rmrk/u/', ''))
-      .as('user2')
-    cy.get(
-      '[data-cy="latest-sales"] .carousel-slide:nth-child(3) [data-cy="current-owner"]'
-    )
-      .invoke('attr', 'href')
-      .then((href) => href && href.replace('/rmrk/u/', ''))
-      .as('user3')
   })
 
   it('should able to simple mint', function () {
@@ -94,15 +74,15 @@ describe('simple mint in rmrk', () => {
     cy.get('[data-cy="input-advance-settings"]').find('a').click()
 
     // batch address
-    cy.get('@user1').then((hash) => {
-      cy.get('[data-cy="input-batch-address"]').type(`- ${hash}{enter}`)
-    })
-    cy.get('@user2').then((hash) => {
-      cy.get('[data-cy="input-batch-address"]').type(`- ${hash}{enter}`)
-    })
-    cy.get('@user3').then((hash) => {
-      cy.get('[data-cy="input-batch-address"]').type(`- ${hash}{enter}`)
-    })
+    cy.get('[data-cy="input-batch-address"]').type(
+      '- FQBgFrkzevAZCvFZB485rQa6h7gsZQz3UXRuYwxAzG7zQ4w{enter}'
+    )
+    cy.get('[data-cy="input-batch-address"]').type(
+      '- CocvTCrHM2bcLGNFTVGd71AuvVPFVPbJknDiLJAmNEAfLzi{enter}'
+    )
+    cy.get('[data-cy="input-batch-address"]').type(
+      '- FqCJeGcPidYSsvvmT17fHVaYdE2nXMYgPsBn3CP9gugvZR5{enter}'
+    )
     cy.get('[data-cy="input-batch-address"]').type('- 123INVALID{enter}').blur()
     cy.get('[data-cy="input-valid-address"]').should(
       'contain.text',
