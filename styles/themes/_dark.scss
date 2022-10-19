@@ -24,11 +24,11 @@ html.dark-mode {
   }
 
   .navbar {
-
     .dropdown-content .dropdown-item .menu-item {
       color: $white !important;
     }
-    .navbar-dropdown, .dropdown-content {
+    .navbar-dropdown,
+    .dropdown-content {
       box-shadow: 4px 4px 0px $white !important;
       border-color: $white !important;
     }
@@ -41,11 +41,11 @@ html.dark-mode {
       }
     }
     .dropdown-content {
-      .dropdown-item.is-active, .is-active>a {
+      .dropdown-item.is-active,
+      .is-active > a {
         background-color: $white !important;
         color: $black !important;
       }
-
     }
 
     .navbar__sign-out-button {
@@ -63,7 +63,7 @@ html.dark-mode {
     }
 
     .navbar-burger {
-			color: $white;
+      color: $white;
     }
 
     .navbar-menu {
@@ -81,7 +81,8 @@ html.dark-mode {
     }
 
     .navbar-explore .menu-item {
-      &:hover, &.is-active {
+      &:hover,
+      &.is-active {
         color: $white !important;
       }
     }
@@ -120,6 +121,14 @@ html.dark-mode {
           box-shadow: $primary-shadow-dark;
           &:hover {
             background: $k-accent !important;
+
+            .has-text-white {
+              svg {
+                path {
+                  color: $black !important;
+                }
+              }
+            }
           }
         }
       }
@@ -165,10 +174,10 @@ html.dark-mode {
       .delete {
         background: none;
         &::before {
-          background-color: $white
+          background-color: $white;
         }
         &::after {
-          background-color: $white
+          background-color: $white;
         }
       }
     }

@@ -55,8 +55,14 @@
 }
 
 .footer-container {
+  font-family: 'Work Sans';
   background-color: $k-blue;
   color: $white;
+
+  .subtitle {
+    font-weight: 700;
+  }
+
   .container {
     @include mobile {
       flex-direction: column;
@@ -108,6 +114,7 @@
           color: $white !important;
           &:hover {
             color: $k-accentlight !important;
+            font-weight: 700;
           }
         }
 
