@@ -255,7 +255,7 @@ export default class NavbarMenu extends mixins(
   }
 
   get showSearchOnNavbar(): boolean {
-    return !this.showTopNavbar
+    return !this.isLandingPage || !this.showTopNavbar
   }
 
   get navBarTitle(): string {
