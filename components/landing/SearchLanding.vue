@@ -11,7 +11,8 @@
       hide-filter
       class="landing-search-bar is-flex-grow-1 pb-0 mb-2"
       search-column-class="is-flex-grow-1" />
-    <div class="if-flex is-flex-grow-1 mb-4">
+    <div
+      class="is-flex is-flex-grow-1 is-justify-content-center is-flex-wrap-wrap">
       <a
         v-for="chain in chainList"
         :key="chain.value"
