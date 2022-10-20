@@ -12,6 +12,7 @@
           <script>
             window.CustomSubstackWidget = {
               substackUrl: 'kodadot.substack.com',
+              placeholder: 'jane.doe@kodadot.xyz',
               theme: 'custom',
               colors: {
                 primary: '#FF7AC3',

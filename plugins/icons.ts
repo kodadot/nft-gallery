@@ -10,6 +10,7 @@ import {
   faAngleRight,
   faArrowUp,
   faArrowsAlt,
+  faBookOpen,
   faBookmark,
   faCalculator,
   faCalendar,
@@ -115,6 +116,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
+  faBookOpen,
   faPaperPlane,
   faFileImage,
   faPlus,
