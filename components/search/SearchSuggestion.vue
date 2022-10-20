@@ -88,7 +88,14 @@
           </div>
         </nuxt-link>
       </b-tab-item>
-      <b-tab-item disabled label="User" value="User"> </b-tab-item>
+      <b-tab-item disabled value="User">
+        <template #header>
+          {{ $t('user') }}
+          <span class="small-soon-text">
+            {{ $t('soon') }}
+          </span>
+        </template>
+      </b-tab-item>
     </b-tabs>
     <b-tabs v-show="!name" v-model="activeTrendingTab" destroy-on-hide expanded>
       <b-tab-item label="Trending" value="Trending">

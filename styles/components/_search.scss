@@ -161,15 +161,26 @@
     border: 1px solid transparent;
     cursor: pointer;
     padding: 10px 16px;
+    font-size: 16px;
     &:hover {
       background-color: $k-accentlight;
     }
+  }
+
+  .main-title {
+    font-weight: 700;
   }
 
   .name {
     max-width: 34ch;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .small-soon-text {
+   font-size: 12px;
+   margin-bottom: 6px;
+   margin-left: 4px;
   }
 
   .tabs li a {
