@@ -32,6 +32,7 @@
           </div>
         </div>
         <nuxt-link
+          class="search-footer-link"
           :to="{
             name: routeOf('explore'),
             query: { ...$route.query, tab: 'COLLECTION' },
@@ -76,6 +77,7 @@
           </div>
         </div>
         <nuxt-link
+          class="search-footer-link"
           :to="{
             name: routeOf('explore'),
             query: { ...$route.query, tab: 'GALLERY' },
@@ -113,6 +115,7 @@
           </SearchResultItem>
         </div>
         <nuxt-link
+          class="search-footer-link"
           :to="{ name: 'series-insight' }"
           @click.native="$emit('close')">
           <div :class="loadMoreItemClassName">

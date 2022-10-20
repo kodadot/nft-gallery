@@ -27,7 +27,9 @@
     letter-spacing: -0.02em;
     text-transform: capitalize;
     color: $white;
-    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 0px -1px 0 #000, 4px 4px #000;
+    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+      -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000,
+      0px -1px 0 #000, 4px 4px #000;
   }
 
   .landing-search-bar {
@@ -90,7 +92,6 @@
   }
 }
 
-
 .search-bar-container {
   position: relative;
 
@@ -123,7 +124,7 @@
   input {
     border: 1px solid $white;
     border-radius: 0;
-    padding: 0 50px 0 42px!important;
+    padding: 0 50px 0 42px !important;
     background-color: $search-background-color;
 
     &::placeholder {
@@ -132,7 +133,8 @@
       font-weight: 400;
     }
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       border: 1px solid $white;
       box-shadow: none;
     }
@@ -145,11 +147,22 @@
     border: 1px solid $primary !important;
   }
 
+  .search-footer-link {
+    color: $white !important;
+    .link-item {
+      &:hover {
+        color: $k-accent !important;
+        font-weight: 700;
+        background: transparent !important;
+      }
+    }
+  }
+
   .link-item {
     border: 1px solid transparent;
     cursor: pointer;
     padding: 10px 16px;
-    &:hover:not(:last-child) {
+    &:hover {
       background-color: $k-accentlight;
     }
   }
@@ -159,6 +172,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .tabs li a {
+    border-bottom-color: $shade;
+  }
+
+  .tabs li.is-active a {
+    color: $black;
+    border-bottom-color: $shade;
+    font-weight: 700;
+  }
+
   .b-tabs:not(:last-child) {
     margin-bottom: 0;
   }

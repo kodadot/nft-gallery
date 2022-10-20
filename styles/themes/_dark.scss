@@ -103,7 +103,7 @@ html.dark-mode {
     }
 
     .link-item {
-      &:hover:not(:last-child) {
+      &:hover {
         background-color: $k-accent;
       }
     }
