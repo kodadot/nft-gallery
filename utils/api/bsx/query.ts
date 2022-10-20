@@ -74,7 +74,7 @@ export function getKusamaAssetId(prefix: string): string {
       return '1'
     case 'rmrk':
       return ''
+    default:
+      return '0'
   }
-
-  return '0'
 }
