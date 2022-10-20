@@ -246,8 +246,8 @@ export default class NavbarMenu extends mixins(
     return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
   }
 
-  get isRedesignedLandingPage() {
-    return this.$route.name === 'index' && this.redesign
+  get isLandingPage() {
+    return this.$route.name === 'index'
   }
 
   get logoSrc() {
@@ -255,7 +255,7 @@ export default class NavbarMenu extends mixins(
   }
 
   get showSearchOnNavbar(): boolean {
-    return !this.isRedesignedLandingPage || !this.showTopNavbar
+    return !this.isLandingPage || !this.showTopNavbar
   }
 
   get navBarTitle(): string {

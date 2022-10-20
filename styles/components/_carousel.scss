@@ -22,6 +22,11 @@
     &-collection {
       border-bottom: none;
       padding: 16px 16px 0 16px;
+
+      a {
+        border: 1px solid black;
+        display: block;
+      }
     }
   }
 
@@ -47,7 +52,7 @@
 
     &-arrow {
       color: black;
-      font-family: "Fira Code", monospace;
+      font-family: 'Fira Code', monospace;
     }
   }
 
@@ -201,6 +206,10 @@
     .carousel-meta,
     .carousel-info-arrow {
       color: white;
+    }
+
+    .carousel-media-collection a {
+      border: 1px solid white;
     }
 
     .dot.active {

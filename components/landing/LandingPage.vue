@@ -16,7 +16,7 @@
       v-if="urlPrefix === 'rmrk' || urlPrefix === 'snek'"
       class="section instance instance-accent">
       <div class="container">
-        <LazyReTopCollections class="my-5" />
+        <LazyTopCollections class="my-5" />
       </div>
     </section>
 
