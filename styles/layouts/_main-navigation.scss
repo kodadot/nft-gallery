@@ -53,6 +53,8 @@
 	font-family: 'Work Sans';
 	min-height: 72px;
 	width: 100vw;
+  border-bottom: 1px solid black;
+
 	&.is-spaced {
 		padding: 0;
 		&>.container {
