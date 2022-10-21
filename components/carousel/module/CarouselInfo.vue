@@ -1,5 +1,5 @@
 <template>
-  <div class="carousel-info">
+  <div class="carousel-info is-flex is-flex-direction-column">
     <nuxt-link
       :to="urlOf({ id: item.id, url, chain: item.chain })"
       :class="[
@@ -16,7 +16,7 @@
         urlOf({ id: item.collectionId, url: 'collection', chain: item.chain })
       "
       class="is-size-7 carousel-info-name">
-      <p>{{ item.collectionName }}</p>
+      {{ item.collectionName }}
     </nuxt-link>
 
     <div v-if="item.price && !isCollection" class="carousel-meta">
