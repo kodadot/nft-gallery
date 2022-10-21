@@ -11,7 +11,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: cypress/included:10.6.0
+      image: cypress/included:10.10.0
       options: --user 1001
     env:
       CYPRESS_CACHE_FOLDER: '${GITHUB_WORKSPACE}/.cypress-cache'
