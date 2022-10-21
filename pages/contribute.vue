@@ -10,7 +10,7 @@ import highlight from '~/utils/highlight'
 
 import '@/styles/components/_content-markdown.scss'
 
-import Contributing from '../../../CONTRIBUTING.md'
+import Contributing from '../CONTRIBUTING.md'
 
 @Component({
   components: {
