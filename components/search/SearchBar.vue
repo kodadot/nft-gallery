@@ -8,7 +8,7 @@
       icon="search"
       :open-on-focus="showDefaultSuggestions"
       clearable
-      max-height="500"
+      max-height="550"
       dropdown-position="bottom"
       expanded
       @blur="$emit('blur')"

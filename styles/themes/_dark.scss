@@ -105,9 +105,19 @@ html.dark-mode {
 
     .link-item {
       &:hover {
-        background-color: $k-accent;
+        background-color: $k-accentlight2dark;
       }
     }
+
+
+  .tabs li.is-active a {
+    color: $white;
+  }
+
+  .tabs li:not(.is-active) a {
+    color: $white
+  }
+
   
   }
 

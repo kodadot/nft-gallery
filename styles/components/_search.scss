@@ -89,6 +89,10 @@
       padding: 0px;
     }
   }
+
+  .info-arrow {
+    font-family: "Fira Code", monospace;
+  }
 }
 
 .search-bar-container {
@@ -150,7 +154,6 @@
     color: $white !important;
     .link-item {
       &:hover {
-        color: $k-accent !important;
         font-weight: 700;
         background: transparent !important;
       }
@@ -160,7 +163,7 @@
   .link-item {
     border: 1px solid transparent;
     cursor: pointer;
-    padding: 10px 16px;
+    padding: 10px 32px;
     font-size: 16px;
     &:hover {
       background-color: $k-accentlight;
@@ -183,8 +186,15 @@
    margin-left: 4px;
   }
 
+  .tab-content {
+    padding-top: 0!important;
+  }
+
   .tabs li a {
     border-bottom-color: $shade;
+    display: flex;
+    padding: 10px 0;
+    justify-content: flex-start;
   }
 
   .tabs li.is-active a {
@@ -198,6 +208,12 @@
   }
   .tabs:not(:last-child) {
     margin-bottom: 0.5rem;
+    padding: 0px 32px;
+  }
+
+  .image-outline {
+    border: 1px solid $black;
+    border-radius: 50%;
   }
 }
 

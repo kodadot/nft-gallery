@@ -39,7 +39,7 @@
           }"
           @click.native="$emit('close')">
           <div :class="loadMoreItemClassName">
-            {{ $t('search.seeAll') }} -->
+            {{ $t('search.seeAll') }} <span class="info-arrow">--></span>
           </div>
         </nuxt-link>
       </b-tab-item>
@@ -65,7 +65,7 @@
                   <span>{{ urlPrefix.toUpperCase() }}</span>
                 </div>
                 <div
-                  class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
+                  class="is-flex is-flex-direction-row is-justify-content-space-between pr-2">
                   <span class="name">{{ item.collection?.name }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('offer.price') }}:
@@ -84,7 +84,7 @@
           }"
           @click.native="$emit('close')">
           <div :class="loadMoreItemClassName">
-            {{ $t('search.seeAll') }} -->
+            {{ $t('search.seeAll') }} <span class="info-arrow">--></span>
           </div>
         </nuxt-link>
       </b-tab-item>
@@ -107,11 +107,11 @@
           @click="gotoCollectionItem(item)">
           <SearchResultItem :image="item.image">
             <template #content>
-              <div class="pt-2 pr-2">
+              <div class="pr-2">
                 <span class="main-title name">{{ item.name }}</span>
               </div>
               <div
-                class="is-flex is-flex-direction-row is-justify-content-space-between pt-1 pr-2">
+                class="is-flex is-flex-direction-row is-justify-content-space-between pr-2">
                 <span>{{ $t('search.units') }}: {{ item.total }}</span>
                 <span
                   >{{ $t('search.owners') }}: {{ item.uniqueCollectors }}</span
@@ -126,7 +126,7 @@
           :to="{ name: 'series-insight' }"
           @click.native="$emit('close')">
           <div :class="loadMoreItemClassName">
-            {{ $t('search.rankings') }} -->
+            {{ $t('search.rankings') }} <span class="info-arrow">--></span>
           </div>
         </nuxt-link>
       </b-tab-item>

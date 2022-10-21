@@ -1,13 +1,17 @@
 <template>
-  <div class="search-result-item">
+  <div class="search-result-item" :class="{ 'ml-4': isLoading }">
     <div class="media">
       <div class="media-left">
         <b-skeleton
           v-if="isLoading"
           circle
-          width="64px"
-          height="64px"></b-skeleton>
-        <BasicImage v-else rounded custom-class="is-64x64" :src="image" />
+          width="48px"
+          height="48px"></b-skeleton>
+        <BasicImage
+          v-else
+          rounded
+          custom-class="is-48x48 image-outline"
+          :src="image" />
       </div>
       <div
         v-if="isLoading"
