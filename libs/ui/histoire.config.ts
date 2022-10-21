@@ -3,10 +3,9 @@ import { HstVue } from '@histoire/plugin-vue2'
 import vue from '@vitejs/plugin-vue2'
 
 export default defineConfig({
-  plugins: [
-    HstVue(),
-  ],
+  setupFile: '/src/histoire.setup.ts',
+  plugins: [HstVue()],
   vite: {
-    plugins: [vue()]
-  }
+    plugins: [vue()],
+  },
 })
