@@ -21,6 +21,11 @@ const components = {
 @Component({ components })
 export default class CommonTokenMoney extends mixins(PrefixMixin) {
   @Prop({ default: '0' }) readonly value!: number | string | undefined
+  @Prop({ default: '' }) readonly customTokenId!: string | undefined
   @Prop({ type: String, default: '' }) readonly dataCy!: string
+
+  get currentTokenId() {
+    return this.customTokenId || this.tokenId
+  }
 }
 </script>
