@@ -13,7 +13,10 @@ import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
  * Get cloudflare images
  * Update timestamp
  */
-export const formatNFT = async (nfts, chain): Promise<CarouselNFT[]> => {
+export const formatNFT = async (
+  nfts,
+  chain?: string
+): Promise<CarouselNFT[]> => {
   if (!nfts) {
     return []
   }
