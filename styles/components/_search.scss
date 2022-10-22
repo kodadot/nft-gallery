@@ -115,6 +115,10 @@
     top: 9px;
     pointer-events: none;
   }
+
+  input {
+    font-family: 'Work Sans';
+  }
 }
 
 .gallery-search {
@@ -170,6 +174,10 @@
     }
   }
 
+  .loading-item {
+    padding: 10px 32px;
+  }
+
   .main-title {
     font-weight: 700;
   }
@@ -178,6 +186,12 @@
     max-width: 34ch;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .secondary-info {
+    @include mobile {
+      flex-direction: column!important;
+    }
   }
 
   .small-soon-text {

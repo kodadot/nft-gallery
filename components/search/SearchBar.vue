@@ -7,11 +7,11 @@
       :placeholder="$t('general.searchPlaceholder')"
       icon="search"
       :open-on-focus="showDefaultSuggestions"
-      clearable
       max-height="550"
       dropdown-position="bottom"
       expanded
-      @blur="$emit('blur')"
+      @blur="onInputBlur"
+      @focus="onInputFocus"
       @keydown.native.enter="onEnter">
       <template #header>
         <SearchSuggestion
@@ -25,9 +25,13 @@
     </b-autocomplete>
     <div class="search-bar-bg"></div>
     <img
-      v-if="!name"
+      v-if="!name && !inputFocused"
       class="search-bar-keyboard-icon"
       src="/search-k-keyboard.svg" />
+    <img
+      v-if="name || inputFocused"
+      class="search-bar-keyboard-icon"
+      src="/k-search-enter.svg" />
   </div>
 </template>
 
@@ -59,6 +63,8 @@ export default class SearchBar extends mixins(
   @VModel({ type: String }) name!: string
   @Ref('searchRef') readonly searchRef
 
+  public inputFocused = false
+
   public created() {
     this.initKeyboardEventHandler({
       k: this.bindSearchEvents,
@@ -73,6 +79,15 @@ export default class SearchBar extends mixins(
 
   public focusInput(): void {
     this.searchRef?.focus()
+  }
+
+  public onInputFocus(): void {
+    this.inputFocused = true
+  }
+
+  public onInputBlur(): void {
+    this.$emit('blur')
+    this.inputFocused = false
   }
 
   private bindSearchEvents(event) {

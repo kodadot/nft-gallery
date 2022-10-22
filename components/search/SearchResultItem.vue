@@ -1,5 +1,5 @@
 <template>
-  <div class="search-result-item" :class="{ 'ml-4': isLoading }">
+  <div class="search-result-item" :class="{ 'loading-item': isLoading }">
     <div class="media">
       <div class="media-left">
         <b-skeleton

@@ -111,7 +111,7 @@
                 <span class="main-title name">{{ item.name }}</span>
               </div>
               <div
-                class="is-flex is-flex-direction-row is-justify-content-space-between pr-2">
+                class="is-flex is-flex-direction-row is-justify-content-space-between pr-2 secondary-info">
                 <span>{{ $t('search.units') }}: {{ item.total }}</span>
                 <span
                   >{{ $t('search.owners') }}: {{ item.uniqueCollectors }}</span
