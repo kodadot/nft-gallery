@@ -231,7 +231,7 @@ export const wheelControls = (slider) => {
 
   slider.on('created', () => {
     slider.container.addEventListener('wheel', eventWheel, {
-      passive: false,
+      passive: true,
     })
   })
 }
