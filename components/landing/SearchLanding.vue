@@ -15,12 +15,15 @@
       hide-filter
       class="landing-search-bar"
       search-column-class="is-flex-grow-1" />
-    <div
-      class="is-flex is-flex-grow-1 is-justify-content-center is-flex-wrap-wrap">
+    <div class="is-flex is-justify-content-center is-flex-wrap-wrap">
       <a
         v-for="chain in chainList"
         :key="chain.value"
-        :class="['mr-2', 'chain-option', { active: urlPrefix === chain.value }]"
+        :class="[
+          'mr-2 mb-2',
+          'chain-option',
+          { active: urlPrefix === chain.value },
+        ]"
         @click="switchChain(chain.value)">
         {{ chain.text }}
       </a>
