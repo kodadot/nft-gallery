@@ -32,11 +32,12 @@
       </div>
     </template>
     <template #start>
-      <Search
-        v-if="showSearchOnNavbar"
-        hide-filter
-        class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
-        search-column-class="is-flex-grow-1" />
+      <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
+        <Search
+          hide-filter
+          class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
+          search-column-class="is-flex-grow-1" />
+      </div>
     </template>
     <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
       <LazyHistoryBrowser

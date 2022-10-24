@@ -111,6 +111,11 @@
 		}
 	}
 
+	.navbar-start {
+		flex: 1;
+		margin-top: 24px;
+	}
+
 	.navbar-dropdown {
 		padding: 0 !important;
 		border: 1px solid $black !important;
