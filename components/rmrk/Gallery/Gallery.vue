@@ -51,10 +51,10 @@
                 <span
                   v-if="nft.price > 0 && showPriceValue"
                   class="card-image__price">
-                  <Money
+                  <CommonTokenMoney
                     :value="nft.price"
-                    inline
-                    :data-cy="results.indexOf(nft)" />
+                    :data-cy="results.indexOf(nft)"
+                    inline />
                 </span>
               </div>
 
@@ -136,6 +136,7 @@ const components = {
     import('@/components/media/PreviewMediaResolver.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
+  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
 }
 
 @Component<Gallery>({
