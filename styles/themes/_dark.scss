@@ -96,8 +96,8 @@ html.dark-mode {
   }
 
   .landing-search {
-    .sub-title {
-      color: $search-background-color;
+    .subtitle {
+      color: $search-background-color !important;
       text-shadow: 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
         -1px -1px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, -1px 0px 0 #fff,
         0px -1px 0 #fff, 4px 4px #fff;

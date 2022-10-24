@@ -16,7 +16,7 @@
           height="34" />
       </b-navbar-item>
       <div
-        class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
+        class="navbar-item is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
         <HistoryBrowser />
         <b-button
