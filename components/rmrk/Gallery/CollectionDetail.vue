@@ -30,7 +30,7 @@
         <div>
           <p class="heading--inline heading">
             {{ $t('Volume') }} :
-            <Money :value="collectionTradedVolumeNumber" inline />
+            <CommonTokenMoney :value="collectionTradedVolumeNumber" />
           </p>
         </div>
       </div>
@@ -38,9 +38,8 @@
         <div>
           <p class="heading--inline heading">
             {{ $t('Floor') }} :
-            <Money
+            <CommonTokenMoney
               :value="collectionFloorPrice"
-              inline
               data-cy="collection-floor-price" />
           </p>
         </div>
@@ -55,7 +54,7 @@ import { Interaction, NFT } from '@/components/rmrk/service/scheme'
 import { getVolume } from '@/utils/math'
 
 const components = {
-  Money: () => import('@/components/shared/format/Money.vue'),
+  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
 }
 
 @Component({ components })

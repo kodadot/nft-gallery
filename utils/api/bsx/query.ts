@@ -67,13 +67,14 @@ export function getAsssetBalance(
 }
 
 export function getKusamaAssetId(prefix: string): string {
-  if (prefix === 'snek') {
-    return '5'
+  switch (prefix) {
+    case 'snek':
+      return '5'
+    case 'bsx':
+      return '1'
+    case 'rmrk':
+      return ''
+    default:
+      return '0'
   }
-
-  if (prefix === 'bsx') {
-    return '1'
-  }
-
-  throw new Error('invalid prefix')
 }

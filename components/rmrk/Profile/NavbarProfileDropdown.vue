@@ -307,7 +307,7 @@
       </b-dropdown-item>
     </b-dropdown>
 
-    <ConnectWalletButton v-else />
+    <ConnectWalletButton v-else @closeBurgerMenu="closeBurgerMenu" />
 
     <b-dropdown
       ref="languageDropdown"
@@ -442,6 +442,10 @@ export default class NavbarProfileDropdown extends mixins(
       hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
       variant: 'desktop',
     }).show()
+  }
+
+  protected closeBurgerMenu(): void {
+    this.$emit('closeBurgerMenu')
   }
 }
 </script>

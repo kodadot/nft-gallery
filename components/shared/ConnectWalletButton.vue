@@ -19,6 +19,8 @@ export default class ConnectWalletButton extends Vue {
       hasModalCard: true,
       trapFocus: true,
     })
+
+    this.$emit('closeBurgerMenu')
   }
 }
 </script>

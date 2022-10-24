@@ -175,11 +175,11 @@ html.dark-mode {
     border: 1px solid white;
     .wallet .buttons {
       button {
-        background: $background-dark;
+        background: $k-dark!important;
         border: 1px solid $white;
       }
       .button {
-        background: $background-dark;
+        background: $k-dark!important;
         border: 1px solid $white;
         border-radius: unset;
       }
@@ -188,7 +188,7 @@ html.dark-mode {
       background: $white;
     }
     .modal-card-head {
-      background: $background-dark;
+      background: $k-dark!important;
       .delete {
         background: none;
         &::before {
