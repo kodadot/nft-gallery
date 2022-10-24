@@ -15,7 +15,7 @@ import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
  */
 export const formatNFT = async (
   nfts,
-  chain = 'rmrk'
+  chain?: string
 ): Promise<CarouselNFT[]> => {
   if (!nfts) {
     return []
