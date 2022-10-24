@@ -38,7 +38,9 @@ jobs:
       - name: Cache pnpm modules
         uses: actions/cache@v3
         with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          path: |
+            ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+            '${GITHUB_WORKSPACE}/.cypress-cache'
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
