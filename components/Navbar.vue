@@ -16,9 +16,9 @@
           height="34" />
       </b-navbar-item>
       <div
-        class="navbar-item is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
+        class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
-        <HistoryBrowser />
+        <HistoryBrowser class="navbar-item" />
         <b-button
           v-if="showSearchOnNavbar"
           icon-left="search"
