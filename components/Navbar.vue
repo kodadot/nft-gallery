@@ -150,7 +150,8 @@
         :is-rmrk="isRmrk"
         :show-incomming-offers="isBsx || isSnek"
         :is-snek="isSnek"
-        data-cy="profileDropdown" />
+        data-cy="profileDropdown"
+        @closeBurgerMenu="closeBurgerMenu" />
     </template>
     <template v-else #end>
       <div class="image is-32x32 mr-2">
