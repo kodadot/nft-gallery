@@ -13,7 +13,7 @@
     </span>
     <LazySearch
       hide-filter
-      class="landing-search-bar is-flex-grow-1 pb-0 mb-2"
+      class="landing-search-bar"
       search-column-class="is-flex-grow-1" />
     <div
       class="is-flex is-flex-grow-1 is-justify-content-center is-flex-wrap-wrap">
