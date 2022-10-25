@@ -12,7 +12,7 @@
           role="button"
           aria-controls="contentIdForHistory">
           <p class="card-header-title">
-            {{ collapseTitleOption || $t('Holders') }}
+            {{ collapseTitleOption || $t('holders') }}
           </p>
           <a class="card-header-icon">
             <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
