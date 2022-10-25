@@ -5,12 +5,12 @@
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
     <b-tabs v-model="selectedTab" data-cy="tabs">
-      <b-tab-item label="Collections" value="COLLECTION">
+      <b-tab-item :label="$t('collections')" value="COLLECTION">
         <template v-if="selectedTab === 'COLLECTION'">
           <CollectionList />
         </template>
       </b-tab-item>
-      <b-tab-item label="Gallery" value="GALLERY"
+      <b-tab-item :label="$t('gallery')" value="GALLERY"
         ><Gallery v-if="selectedTab === 'GALLERY'"
       /></b-tab-item>
     </b-tabs>
