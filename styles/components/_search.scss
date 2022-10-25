@@ -1,34 +1,16 @@
 .landing-search {
+  font-family: 'Work Sans';
   min-height: 334px;
   width: 100%;
 
   .title {
-    font-family: 'Work Sans';
-    font-weight: 700;
-    font-size: 3rem;
-    line-height: 3.5rem;
     word-break: keep-all;
-    margin-top: 60px;
-    text-align: center;
   }
 
-  .sub-title {
-    font-family: 'Work Sans';
-    width: 320px;
-    height: 46px;
-    margin-bottom: 38px;
-
-    font-style: normal;
-    font-weight: 700;
-    font-size: 3rem;
-    line-height: 3.5rem;
-    text-align: center;
+  .subtitle {
     letter-spacing: -0.02em;
-    text-transform: capitalize;
-    color: $white;
-    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-      -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000,
-      0px -1px 0 #000, 4px 4px #000;
+    color: $white !important;
+    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 0px -1px 0 #000, 4px 4px #000;
   }
 
   .landing-search-bar {
@@ -38,7 +20,6 @@
   %landing-search-image-position {
     position: absolute;
     height: 334px;
-    top: 100px;
   }
 
   .landing-search-left {
@@ -52,7 +33,6 @@
   }
 
   .chain-option {
-    font-family: 'Work Sans';
     font-weight: 400;
     font-size: 1.3rem;
     line-height: 23px;
@@ -74,9 +54,6 @@
   }
 
   @include mobile {
-    .title {
-      width: 250px;
-    }
     .landing-search-bar {
       width: 90%;
     }
