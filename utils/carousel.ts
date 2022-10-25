@@ -20,7 +20,7 @@ export const formatNFT = async (
   if (!nfts) {
     return []
   }
-
+  const { urlPrefix } = usePrefix()
   const data = nfts.filter((nft) => Boolean(nft.meta))
   const images = await getCloudflareImageLinks(data.map((nft) => nft.meta.id))
   const imageOf = getProperImageLink(images)
@@ -40,7 +40,7 @@ export const formatNFT = async (
       price: nft.price || 0,
       image: imageOf(metaId, metaImage),
       animationUrl: imageOf(metaId, metaAnimationUrl) || '',
-      chain,
+      chain: chain || urlPrefix.value,
     }
   })
 }

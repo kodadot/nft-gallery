@@ -39,7 +39,7 @@ import { useCarouselUrl } from '../utils/useCarousel'
 const props = defineProps<{
   item: CarouselNFT
 }>()
-
+const { urlPrefix } = usePrefix()
 const { urlOf } = useCarouselUrl()
 const url = inject('itemUrl') as string
 const isCollection = inject('isCollection')
@@ -50,7 +50,7 @@ const chainName = computed(() => {
     bsx: 'Basilisk',
   }
 
-  return name[props.item.chain || 'rmrk']
+  return name[props.item.chain || urlPrefix.value]
 })
 const getTokenId = (chain?: string) => {
   return chain && getKusamaAssetId(chain)

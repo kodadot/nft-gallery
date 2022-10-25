@@ -1,7 +1,7 @@
 <template>
   <div class="content is-hidden-mobile">
     <b-field :position="position">
-      <b-tooltip label="Large display">
+      <b-tooltip :label="$t('tooltip.largeDisplay')">
         <b-radio-button
           v-model="layout"
           type="is-primary"
@@ -15,7 +15,7 @@
           </span>
         </b-radio-button>
       </b-tooltip>
-      <b-tooltip label="Small display">
+      <b-tooltip :label="$t('tooltip.smallDisplay')">
         <b-radio-button
           v-model="layout"
           type="is-primary"
