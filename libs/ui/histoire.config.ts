@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue2'
 import { resolve } from 'path'
 
 export default defineConfig({
+  sandboxDarkClass: 'dark-mode',
   setupFile: '/src/histoire.setup.ts',
   plugins: [HstVue()],
   vite: {
