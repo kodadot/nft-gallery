@@ -1,6 +1,6 @@
 # shared packages for nft-gallery
 
-## @kodadot/ui
+## @kodadot1/brick
 
 Reusable components based on neobrutalism style. This package is using [histoire](https://histoire.dev/) to manage the components. Some keys how to manage our component with histoire:
 
@@ -28,5 +28,5 @@ export { default as TheComponent } from './components/TheComponent/TheComponent.
 Usage
 
 ```ts
-import { TheComponent } from '@kodadot/ui'
+import { TheComponent } from '@kodadot1/brick'
 ```

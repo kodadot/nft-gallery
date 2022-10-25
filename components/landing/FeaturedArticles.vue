@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CardArticle } from '@kodadot/ui'
+import { CardArticle } from '@kodadot1/brick'
 
 interface Articles {
   title: string
