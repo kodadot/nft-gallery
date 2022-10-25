@@ -26,7 +26,9 @@
     letter-spacing: -0.02em;
     text-transform: capitalize;
     color: $white;
-    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 0px -1px 0 #000, 4px 4px #000;
+    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+      -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000,
+      0px -1px 0 #000, 4px 4px #000;
   }
 
   .landing-search-bar {
@@ -79,8 +81,19 @@
       width: 90%;
     }
   }
-}
 
+  .dropdown-menu {
+    padding-top: 13px;
+
+    .dropdown-item {
+      padding: 0px;
+    }
+  }
+
+  .info-arrow {
+    font-family: "Fira Code", monospace;
+  }
+}
 
 .search-bar-container {
   position: relative;
@@ -102,6 +115,10 @@
     top: 9px;
     pointer-events: none;
   }
+
+  input {
+    font-family: 'Work Sans';
+  }
 }
 
 .gallery-search {
@@ -114,7 +131,7 @@
   input {
     border: 1px solid $white;
     border-radius: 0;
-    padding: 0 50px 0 42px!important;
+    padding: 0 50px 0 42px !important;
     background-color: $search-background-color;
 
     &::placeholder {
@@ -123,7 +140,8 @@
       font-weight: 400;
     }
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       border: 1px solid $white;
       box-shadow: none;
     }
@@ -136,9 +154,32 @@
     border: 1px solid $primary !important;
   }
 
+  .search-footer-link {
+    color: $white !important;
+    .link-item {
+      &:hover {
+        font-weight: 700;
+        background: transparent !important;
+      }
+    }
+  }
+
   .link-item {
     border: 1px solid transparent;
     cursor: pointer;
+    padding: 10px 32px;
+    font-size: 16px;
+    &:hover {
+      background-color: $k-accentlight;
+    }
+  }
+
+  .loading-item {
+    padding: 10px 32px;
+  }
+
+  .main-title {
+    font-weight: 700;
   }
 
   .name {
@@ -146,14 +187,47 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .secondary-info {
+    @include mobile {
+      flex-direction: column!important;
+    }
+  }
+
+  .small-soon-text {
+   font-size: 12px;
+   margin-bottom: 6px;
+   margin-left: 4px;
+  }
+
+  .tab-content {
+    padding-top: 0!important;
+  }
+
+  .tabs li a {
+    border-bottom-color: $shade;
+    display: flex;
+    padding: 10px 0;
+    justify-content: flex-start;
+  }
+
+  .tabs li.is-active a {
+    color: $black;
+    border-bottom-color: $shade;
+    font-weight: 700;
+  }
+
   .b-tabs:not(:last-child) {
     margin-bottom: 0;
   }
   .tabs:not(:last-child) {
     margin-bottom: 0.5rem;
+    padding: 0px 32px;
   }
-  .b-tabs .tab-content {
-    padding:  0 0.5rem;
+
+  .image-outline {
+    border: 1px solid $black;
+    border-radius: 50%;
   }
 }
 
