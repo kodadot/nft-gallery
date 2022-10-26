@@ -211,7 +211,6 @@ function dispatch(event, name, slider) {
 export const wheelControls = (slider) => {
   function eventWheel(event) {
     if (event.deltaX !== 0) {
-      event.preventDefault() // horizontal scroll only
       if (!wheelActive) {
         position = {
           x: event.pageX,
