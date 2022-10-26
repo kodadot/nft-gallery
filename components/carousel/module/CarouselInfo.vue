@@ -1,22 +1,24 @@
 <template>
-  <div class="carousel-info">
+  <div class="carousel-info is-flex is-flex-direction-column">
     <nuxt-link
       :to="urlOf({ id: item.id, url, chain: item.chain })"
+      :title="item.name"
       :class="[
-        'has-text-weight-bold',
+        'has-text-weight-bold carousel-info-name',
         { 'carousel-info-collection': isCollection },
       ]">
-      <span class="carousel-info-name">{{ item.name }}</span>
+      <span>{{ item.name }}</span>
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>
 
     <nuxt-link
       v-if="!isCollection && item.collectionName && item.collectionId"
+      :title="item.collectionName"
       :to="
         urlOf({ id: item.collectionId, url: 'collection', chain: item.chain })
       "
       class="is-size-7 carousel-info-name">
-      <p>{{ item.collectionName }}</p>
+      {{ item.collectionName }}
     </nuxt-link>
 
     <div v-if="item.price && !isCollection" class="carousel-meta">
