@@ -61,7 +61,7 @@ export class BaseDotsamaWallet implements Wallet {
     const injectedWindow = window as Window & InjectedWindow
     const injectedExtension = injectedWindow?.injectedWeb3?.[this.source]
 
-    return !!injectedExtension
+    return Boolean(injectedExtension)
   }
 
   get rawExtension() {

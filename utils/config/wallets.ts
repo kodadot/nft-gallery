@@ -47,88 +47,91 @@ export interface WalletConfig {
 }
 type IWalletConfigMap = Partial<Record<SupportWalletExtension, WalletConfig>>
 
+const buildWalletConfig = (
+  walletExtension,
+  img,
+  name,
+  walletUrl,
+  guideUrl,
+  isBrowserExtension = false,
+  isMobileApp = false
+): WalletConfig => ({
+  img,
+  name,
+  extensionName: walletExtension,
+  source: WalletExtensionProxyMap[walletExtension],
+  walletUrl,
+  guideUrl,
+  isBrowserExtension,
+  isMobileApp,
+})
+
 export const WalletConfigMap: IWalletConfigMap = {
-  [SupportWalletExtension.PolkadotJs]: {
-    img: logoPolkadotjs,
-    name: 'Polkadot.js',
-    extensionName: SupportWalletExtension.PolkadotJs,
-    source: WalletExtensionProxyMap[SupportWalletExtension.PolkadotJs],
-    walletUrl: 'https://polkadot.js.org/extension/',
-    guideUrl: 'https://www.youtube.com/watch?v=r-fAy7Ta_vY',
-    isBrowserExtension: true,
-    isMobileApp: false,
-  },
-  [SupportWalletExtension.Clover]: {
-    img: logoClover,
-    name: 'Clover',
-    extensionName: SupportWalletExtension.Clover,
-    source: WalletExtensionProxyMap[SupportWalletExtension.Clover],
-    walletUrl: 'https://clover.finance/',
-    guideUrl: 'https://docs.clover.finance/quick-start/about-clover',
-    isBrowserExtension: true,
-    isMobileApp: false,
-  },
-  [SupportWalletExtension.Ledger]: {
-    img: logoLedger,
-    name: 'Ledger',
-    extensionName: SupportWalletExtension.Ledger,
-    source: WalletExtensionProxyMap[SupportWalletExtension.Ledger],
-    walletUrl: 'https://www.ledger.com/ledger-live',
-    guideUrl: 'https://www.ledger.com/ledger-live',
-    isBrowserExtension: false,
-    isMobileApp: false,
-  },
-  [SupportWalletExtension.Math]: {
-    img: logoMathWallet,
-    name: 'Math Wallet',
-    extensionName: SupportWalletExtension.Math,
-    source: WalletExtensionProxyMap[SupportWalletExtension.Math],
-    walletUrl: 'https://mathwallet.org/en-us/',
-    guideUrl: 'https://blog.mathwallet.org/?p=540',
-    isBrowserExtension: false,
-    isMobileApp: true,
-  },
-  [SupportWalletExtension.Nova]: {
-    img: logoNova,
-    name: 'Nova',
-    extensionName: SupportWalletExtension.Nova,
-    source: WalletExtensionProxyMap[SupportWalletExtension.Nova],
-    walletUrl: 'https://novawallet.io/',
-    guideUrl: 'https://novawallet.io/',
-    isBrowserExtension: false,
-    isMobileApp: true,
-  },
-  [SupportWalletExtension.SubWallet]: {
-    img: logoSubWallet,
-    name: 'SubWallet',
-    extensionName: SupportWalletExtension.SubWallet,
-    source: WalletExtensionProxyMap[SupportWalletExtension.SubWallet],
-    walletUrl:
-      'https://chrome.google.com/webstore/detail/subwallet/onhogfjeacnfoofkfgppdlbmlmnplgbn?hl=en&authuser=0',
-    guideUrl: 'https://connect.subwallet.app/#/welcome',
-    isBrowserExtension: true,
-    isMobileApp: false,
-  },
-  [SupportWalletExtension.Talisman]: {
-    img: logoTalisman,
-    name: 'Talisman',
-    extensionName: SupportWalletExtension.Talisman,
-    source: WalletExtensionProxyMap[SupportWalletExtension.Talisman],
-    walletUrl: 'https://app.talisman.xyz/spiritkeys',
-    guideUrl: 'https://app.talisman.xyz/',
-    isBrowserExtension: true,
-    isMobileApp: false,
-  },
-  [SupportWalletExtension.Enkrypt]: {
-    img: logoEnkrypt,
-    name: 'Enkrypt',
-    extensionName: SupportWalletExtension.Enkrypt,
-    source: WalletExtensionProxyMap[SupportWalletExtension.Enkrypt],
-    walletUrl: 'https://www.enkrypt.com/#downloads',
-    guideUrl: 'https://www.enkrypt.com/',
-    isBrowserExtension: true,
-    isMobileApp: false,
-  },
+  [SupportWalletExtension.PolkadotJs]: buildWalletConfig(
+    SupportWalletExtension.PolkadotJs,
+    logoPolkadotjs,
+    'Polkadot.js',
+    'https://polkadot.js.org/extension/',
+    'https://www.youtube.com/watch?v=r-fAy7Ta_vY',
+    true
+  ),
+  [SupportWalletExtension.Clover]: buildWalletConfig(
+    SupportWalletExtension.Clover,
+    logoClover,
+    'Clover',
+    'https://clover.finance/',
+    'https://docs.clover.finance/quick-start/about-clover',
+    true
+  ),
+  [SupportWalletExtension.Ledger]: buildWalletConfig(
+    SupportWalletExtension.Ledger,
+    logoLedger,
+    'Ledger',
+    'https://www.ledger.com/ledger-live',
+    'https://www.ledger.com/ledger-live'
+  ),
+  [SupportWalletExtension.Math]: buildWalletConfig(
+    SupportWalletExtension.Math,
+    logoMathWallet,
+    'Math Wallet',
+    'https://mathwallet.org/en-us/',
+    'https://blog.mathwallet.org/?p=540',
+    false,
+    true
+  ),
+  [SupportWalletExtension.Nova]: buildWalletConfig(
+    SupportWalletExtension.Nova,
+    logoNova,
+    'Nova',
+    'https://novawallet.io/',
+    'https://novawallet.io/',
+    false,
+    true
+  ),
+  [SupportWalletExtension.SubWallet]: buildWalletConfig(
+    SupportWalletExtension.SubWallet,
+    logoSubWallet,
+    'SubWallet',
+    'https://chrome.google.com/webstore/detail/subwallet/onhogfjeacnfoofkfgppdlbmlmnplgbn?hl=en&authuser=0',
+    'https://connect.subwallet.app/#/welcome',
+    true
+  ),
+  [SupportWalletExtension.Talisman]: buildWalletConfig(
+    SupportWalletExtension.Talisman,
+    logoTalisman,
+    'Talisman',
+    'https://app.talisman.xyz/spiritkeys',
+    'https://app.talisman.xyz/',
+    true
+  ),
+  [SupportWalletExtension.Enkrypt]: buildWalletConfig(
+    SupportWalletExtension.Enkrypt,
+    logoEnkrypt,
+    'Enkrypt',
+    'https://www.enkrypt.com/#downloads',
+    'https://www.enkrypt.com/',
+    true
+  ),
 }
 
 export const SubstrateWallets = [
