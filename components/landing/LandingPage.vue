@@ -13,10 +13,10 @@
 
     <!-- top collections -->
     <section
-      v-if="urlPrefix.value === 'rmrk' || urlPrefix.value === 'snek'"
+      v-if="urlPrefix === 'rmrk' || urlPrefix === 'snek'"
       class="section instance instance-accent">
       <div class="container">
-        <LazyReTopCollections class="my-5" />
+        <LazyTopCollections class="my-5" />
       </div>
     </section>
 
@@ -31,7 +31,7 @@
     </section>
 
     <section class="section instance instance-accent">
-      <div class="container replace-me">featured articles</div>
+      <div class="container"><LazyFeaturedArticles /></div>
     </section>
   </div>
 </template>
@@ -48,13 +48,3 @@ const showCarousel = computed(() => {
   )
 })
 </script>
-
-<style lang="scss" scoped>
-// sample
-.replace-me {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 500px;
-}
-</style>

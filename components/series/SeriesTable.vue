@@ -295,7 +295,7 @@
         v-slot="props"
         cell-class="is-vcentered has-text-centered"
         field="chart"
-        label="Chart">
+        :label="$t('series.chart')">
         <nuxt-link
           v-if="!isLoading"
           :to="`/rmrk/collection/${props.row.id}?tab=chart&locate=true`"

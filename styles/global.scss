@@ -1,7 +1,4 @@
 body {
-  .autocomplete .dropdown-item {
-    padding-right: 1px;
-  }
   .select select,
   .select select option,
   .taginput .taginput-container.is-focusable,
@@ -145,7 +142,7 @@ body {
 }
 
 .instance {
-  border-top: 1px solid black;
+  border-bottom: 1px solid black;
   font-family: 'Work Sans';
 
   &-accent {
