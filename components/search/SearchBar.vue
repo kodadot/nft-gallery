@@ -15,6 +15,7 @@
       @keydown.native.enter="onEnter">
       <template #header>
         <SearchSuggestion
+          ref="searchSuggestionRef"
           :name="name"
           :show-default-suggestions="showDefaultSuggestions"
           :query="query"
@@ -62,6 +63,7 @@ export default class SearchBar extends mixins(
   @Prop({ type: Object, required: false }) public query!: SearchQuery
   @VModel({ type: String }) name!: string
   @Ref('searchRef') readonly searchRef
+  @Ref('searchSuggestionRef') readonly searchSuggestionRef
 
   public inputFocused = false
 
@@ -75,6 +77,9 @@ export default class SearchBar extends mixins(
   onEnter() {
     this.redirectToGalleryPageIfNeed()
     this.closeDropDown()
+
+    // insert search term in history
+    this.searchSuggestionRef?.insertNewHistory()
   }
 
   public focusInput(): void {

@@ -189,9 +189,10 @@
   }
 
   .tabs li.is-active a {
-    color: $black;
+    color: $black!important;
     border-bottom-color: $shade;
     font-weight: 700;
+    background-color: $white!important;
   }
 
   .b-tabs:not(:last-child) {
@@ -205,6 +206,17 @@
   .image-outline {
     border: 1px solid $black;
     border-radius: 50%;
+  }
+
+  .search-history {
+    padding: 0 32px;
+    margin-top: 20px;
+    color: $k-grey;
+    cursor: pointer;
+
+    .history-label {
+      font-size: 16px;
+    }
   }
 }
 
