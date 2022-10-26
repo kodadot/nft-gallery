@@ -1,22 +1,134 @@
-import { PolkadotjsWallet } from '~/utils/config/wallets/PolkadotjsWallet'
-import { MathWallet } from '~/utils/config/wallets/MathWallet'
-import { NovaWallet } from '~/utils/config/wallets/NovaWallet'
-import { SubWallet } from '~/utils/config/wallets/SubWallet'
-import { TalismanWallet } from '~/utils/config/wallets/TalismanWallet'
-import { EnkryptWallet } from '~/utils/config/wallets/EnkryptWallet'
 import { isMobileDevice } from '~/utils/extension'
 
-// source as 'polkadot-js' in mobile app
+// wallet logo
+import logoPolkadotjs from '@/assets/partners/logo-polkadot-js.png'
+import logoClover from '@/assets/partners/logo-clover.png'
+import logoLedger from '@/assets/partners/logo-ledger.svg'
+import logoMathWallet from '@/assets/partners/logo-mathwallet.png'
+import logoNova from '@/assets/partners/logo-nova.png'
+import logoSubWallet from '@/assets/partners/logo-subwallet.svg'
+import logoTalisman from '@/assets/partners/logo-talisman.svg'
+import logoEnkrypt from '@/assets/partners/logo-enkrypt.png'
+import { BaseDotsamaWallet } from './wallets/BaseDotsamaWallet'
+
 export enum SupportWalletExtension {
   PolkadotJs = 'polkadot-js',
   MetaMask = 'metamask',
   Clover = 'clover',
   Ledger = 'ledger',
-  Math = 'polkadot-js', // mathwallet
-  Nova = 'polkadot-js', // nova
+  Math = 'mathwallet',
+  Nova = 'nova',
   SubWallet = 'subwallet-js',
   Talisman = 'talisman',
   Enkrypt = 'enkrypt',
+}
+
+// source as 'polkadot-js' in mobile app
+export const WalletExtensionProxyMap = {
+  [SupportWalletExtension.PolkadotJs]: SupportWalletExtension.PolkadotJs,
+  [SupportWalletExtension.MetaMask]: SupportWalletExtension.MetaMask,
+  [SupportWalletExtension.Clover]: SupportWalletExtension.Clover,
+  [SupportWalletExtension.Ledger]: SupportWalletExtension.Ledger,
+  [SupportWalletExtension.Math]: SupportWalletExtension.PolkadotJs, // mathwallet
+  [SupportWalletExtension.Nova]: SupportWalletExtension.PolkadotJs, // nova
+  [SupportWalletExtension.Talisman]: SupportWalletExtension.Talisman,
+  [SupportWalletExtension.Enkrypt]: SupportWalletExtension.Enkrypt,
+}
+
+export interface WalletConfig {
+  img: string
+  extensionName: string
+  name: string
+  source: SupportWalletExtension
+  walletUrl: string
+  guideUrl: string
+  isBrowserExtension: boolean
+  isMobileApp: boolean
+}
+type IWalletConfigMap = Partial<Record<SupportWalletExtension, WalletConfig>>
+
+export const WalletConfigMap: IWalletConfigMap = {
+  [SupportWalletExtension.PolkadotJs]: {
+    img: logoPolkadotjs,
+    extensionName: 'polkadot-js',
+    name: 'Polkadot.js',
+    source: SupportWalletExtension.PolkadotJs,
+    walletUrl: 'https://polkadot.js.org/extension/',
+    guideUrl: 'https://www.youtube.com/watch?v=r-fAy7Ta_vY',
+    isBrowserExtension: true,
+    isMobileApp: false,
+  },
+  [SupportWalletExtension.Clover]: {
+    img: logoClover,
+    extensionName: 'clover',
+    name: 'Clover',
+    source: SupportWalletExtension.Clover,
+    walletUrl: 'https://clover.finance/',
+    guideUrl: 'https://docs.clover.finance/quick-start/about-clover',
+    isBrowserExtension: true,
+    isMobileApp: false,
+  },
+  [SupportWalletExtension.Ledger]: {
+    img: logoLedger,
+    extensionName: 'ledger',
+    name: 'Ledger',
+    source: SupportWalletExtension.Ledger,
+    walletUrl: 'https://www.ledger.com/ledger-live',
+    guideUrl: 'https://www.ledger.com/ledger-live',
+    isBrowserExtension: false,
+    isMobileApp: false,
+  },
+  [SupportWalletExtension.Math]: {
+    img: logoMathWallet,
+    extensionName: 'mathwallet',
+    name: 'Math Wallet',
+    source: SupportWalletExtension.Math,
+    walletUrl: 'https://mathwallet.org/en-us/',
+    guideUrl: 'https://blog.mathwallet.org/?p=540',
+    isBrowserExtension: false,
+    isMobileApp: true,
+  },
+  [SupportWalletExtension.Nova]: {
+    img: logoNova,
+    extensionName: 'nova',
+    name: 'Nova',
+    source: SupportWalletExtension.Nova,
+    walletUrl: 'https://novawallet.io/',
+    guideUrl: 'https://novawallet.io/',
+    isBrowserExtension: false,
+    isMobileApp: true,
+  },
+  [SupportWalletExtension.SubWallet]: {
+    img: logoSubWallet,
+    extensionName: 'subwallet-js',
+    name: 'SubWallet',
+    source: SupportWalletExtension.SubWallet,
+    walletUrl:
+      'https://chrome.google.com/webstore/detail/subwallet/onhogfjeacnfoofkfgppdlbmlmnplgbn?hl=en&authuser=0',
+    guideUrl: 'https://connect.subwallet.app/#/welcome',
+    isBrowserExtension: true,
+    isMobileApp: false,
+  },
+  [SupportWalletExtension.Talisman]: {
+    img: logoTalisman,
+    extensionName: 'talisman',
+    name: 'Talisman',
+    source: SupportWalletExtension.Talisman,
+    walletUrl: 'https://app.talisman.xyz/spiritkeys',
+    guideUrl: 'https://app.talisman.xyz/',
+    isBrowserExtension: true,
+    isMobileApp: false,
+  },
+  [SupportWalletExtension.Enkrypt]: {
+    img: logoEnkrypt,
+    extensionName: 'enkrypt',
+    name: 'Enkrypt',
+    source: SupportWalletExtension.Enkrypt,
+    walletUrl: 'https://www.enkrypt.com/#downloads',
+    guideUrl: 'https://www.enkrypt.com/',
+    isBrowserExtension: true,
+    isMobileApp: false,
+  },
 }
 
 export const SubstrateWallets = [
@@ -29,16 +141,38 @@ export const SubstrateWallets = [
   SupportWalletExtension.Enkrypt,
 ]
 
+const MobileWalletExtensionList = [
+  SupportWalletExtension.Math,
+  SupportWalletExtension.Nova,
+]
+const PCWalletExtensionList = [
+  SupportWalletExtension.Enkrypt,
+  SupportWalletExtension.Talisman,
+  SupportWalletExtension.PolkadotJs,
+  SupportWalletExtension.SubWallet,
+]
+
+const createWalletInstance = (
+  walletExtensionProxy: SupportWalletExtension
+): BaseDotsamaWallet => {
+  const realExtension = WalletExtensionProxyMap[walletExtensionProxy]
+  const config = WalletConfigMap[realExtension]
+  return new BaseDotsamaWallet(config)
+}
+
+const createWalletInstanceList = (
+  walletList: SupportWalletExtension[]
+): BaseDotsamaWallet[] => {
+  return walletList.map((walletExtension) =>
+    createWalletInstance(walletExtension)
+  )
+}
+
 export const SupportedWallets = () => {
   if (isMobileDevice) {
-    return [new MathWallet(), new NovaWallet()]
+    return createWalletInstanceList(MobileWalletExtensionList)
   }
-  const allWallets = [
-    new EnkryptWallet(),
-    new TalismanWallet(),
-    new PolkadotjsWallet(),
-    new SubWallet(),
-  ]
+  const allWallets = createWalletInstanceList(PCWalletExtensionList)
   const wallets = allWallets.filter((wallet) => wallet.installed)
   return wallets.length > 0 ? wallets : allWallets
 }
