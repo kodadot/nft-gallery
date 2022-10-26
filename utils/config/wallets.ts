@@ -37,9 +37,9 @@ export const WalletExtensionProxyMap = {
 
 export interface WalletConfig {
   img: string
-  extensionName: string
-  name: string
+  extensionName: SupportWalletExtension
   source: SupportWalletExtension
+  name: string
   walletUrl: string
   guideUrl: string
   isBrowserExtension: boolean
@@ -50,9 +50,9 @@ type IWalletConfigMap = Partial<Record<SupportWalletExtension, WalletConfig>>
 export const WalletConfigMap: IWalletConfigMap = {
   [SupportWalletExtension.PolkadotJs]: {
     img: logoPolkadotjs,
-    extensionName: 'polkadot-js',
     name: 'Polkadot.js',
-    source: SupportWalletExtension.PolkadotJs,
+    extensionName: SupportWalletExtension.PolkadotJs,
+    source: WalletExtensionProxyMap[SupportWalletExtension.PolkadotJs],
     walletUrl: 'https://polkadot.js.org/extension/',
     guideUrl: 'https://www.youtube.com/watch?v=r-fAy7Ta_vY',
     isBrowserExtension: true,
@@ -60,9 +60,9 @@ export const WalletConfigMap: IWalletConfigMap = {
   },
   [SupportWalletExtension.Clover]: {
     img: logoClover,
-    extensionName: 'clover',
     name: 'Clover',
-    source: SupportWalletExtension.Clover,
+    extensionName: SupportWalletExtension.Clover,
+    source: WalletExtensionProxyMap[SupportWalletExtension.Clover],
     walletUrl: 'https://clover.finance/',
     guideUrl: 'https://docs.clover.finance/quick-start/about-clover',
     isBrowserExtension: true,
@@ -70,9 +70,9 @@ export const WalletConfigMap: IWalletConfigMap = {
   },
   [SupportWalletExtension.Ledger]: {
     img: logoLedger,
-    extensionName: 'ledger',
     name: 'Ledger',
-    source: SupportWalletExtension.Ledger,
+    extensionName: SupportWalletExtension.Ledger,
+    source: WalletExtensionProxyMap[SupportWalletExtension.Ledger],
     walletUrl: 'https://www.ledger.com/ledger-live',
     guideUrl: 'https://www.ledger.com/ledger-live',
     isBrowserExtension: false,
@@ -80,9 +80,9 @@ export const WalletConfigMap: IWalletConfigMap = {
   },
   [SupportWalletExtension.Math]: {
     img: logoMathWallet,
-    extensionName: 'mathwallet',
     name: 'Math Wallet',
-    source: SupportWalletExtension.Math,
+    extensionName: SupportWalletExtension.Math,
+    source: WalletExtensionProxyMap[SupportWalletExtension.Math],
     walletUrl: 'https://mathwallet.org/en-us/',
     guideUrl: 'https://blog.mathwallet.org/?p=540',
     isBrowserExtension: false,
@@ -90,9 +90,9 @@ export const WalletConfigMap: IWalletConfigMap = {
   },
   [SupportWalletExtension.Nova]: {
     img: logoNova,
-    extensionName: 'nova',
     name: 'Nova',
-    source: SupportWalletExtension.Nova,
+    extensionName: SupportWalletExtension.Nova,
+    source: WalletExtensionProxyMap[SupportWalletExtension.Nova],
     walletUrl: 'https://novawallet.io/',
     guideUrl: 'https://novawallet.io/',
     isBrowserExtension: false,
@@ -100,9 +100,9 @@ export const WalletConfigMap: IWalletConfigMap = {
   },
   [SupportWalletExtension.SubWallet]: {
     img: logoSubWallet,
-    extensionName: 'subwallet-js',
     name: 'SubWallet',
-    source: SupportWalletExtension.SubWallet,
+    extensionName: SupportWalletExtension.SubWallet,
+    source: WalletExtensionProxyMap[SupportWalletExtension.SubWallet],
     walletUrl:
       'https://chrome.google.com/webstore/detail/subwallet/onhogfjeacnfoofkfgppdlbmlmnplgbn?hl=en&authuser=0',
     guideUrl: 'https://connect.subwallet.app/#/welcome',
@@ -111,9 +111,9 @@ export const WalletConfigMap: IWalletConfigMap = {
   },
   [SupportWalletExtension.Talisman]: {
     img: logoTalisman,
-    extensionName: 'talisman',
     name: 'Talisman',
-    source: SupportWalletExtension.Talisman,
+    extensionName: SupportWalletExtension.Talisman,
+    source: WalletExtensionProxyMap[SupportWalletExtension.Talisman],
     walletUrl: 'https://app.talisman.xyz/spiritkeys',
     guideUrl: 'https://app.talisman.xyz/',
     isBrowserExtension: true,
@@ -121,9 +121,9 @@ export const WalletConfigMap: IWalletConfigMap = {
   },
   [SupportWalletExtension.Enkrypt]: {
     img: logoEnkrypt,
-    extensionName: 'enkrypt',
     name: 'Enkrypt',
-    source: SupportWalletExtension.Enkrypt,
+    extensionName: SupportWalletExtension.Enkrypt,
+    source: WalletExtensionProxyMap[SupportWalletExtension.Enkrypt],
     walletUrl: 'https://www.enkrypt.com/#downloads',
     guideUrl: 'https://www.enkrypt.com/',
     isBrowserExtension: true,
