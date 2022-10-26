@@ -221,9 +221,11 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
   }
 
   get loadMoreItemClassName() {
-    return this.selectedIndex === this.totalItemsAtCurrentTab
-      ? 'selected-item'
-      : 'link-item'
+    let result = 'link-item'
+    if (this.selectedIndex === this.totalItemsAtCurrentTab) {
+      result += ' selected-item'
+    }
+    return result
   }
 
   get queryVariables() {
