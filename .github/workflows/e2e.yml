@@ -53,7 +53,7 @@ jobs:
           name: ubuntu-latest-artifact
 
       - name: Build App
-        if: steps.artifact.conclusion != 'success'
+        if: steps.artifact.outcome == 'failure'
         run: pnpm generate
 
       - name: Cypress run
