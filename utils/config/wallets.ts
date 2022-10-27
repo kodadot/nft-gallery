@@ -11,6 +11,18 @@ import logoTalisman from '@/assets/partners/logo-talisman.svg'
 import logoEnkrypt from '@/assets/partners/logo-enkrypt.png'
 import { BaseDotsamaWallet } from './wallets/BaseDotsamaWallet'
 
+export interface WalletConfig {
+  img: string
+  extensionName: SupportWalletExtension
+  source: SupportWalletExtension
+  name: string
+  walletUrl: string
+  guideUrl: string
+  isBrowserExtension: boolean
+  isMobileApp: boolean
+}
+type IWalletConfigMap = Partial<Record<SupportWalletExtension, WalletConfig>>
+
 export enum SupportWalletExtension {
   PolkadotJs = 'polkadot-js',
   MetaMask = 'metamask',
@@ -25,27 +37,15 @@ export enum SupportWalletExtension {
 
 // source as 'polkadot-js' in mobile app
 export const WalletExtensionProxyMap = {
-  [SupportWalletExtension.PolkadotJs]: SupportWalletExtension.PolkadotJs,
-  [SupportWalletExtension.MetaMask]: SupportWalletExtension.MetaMask,
-  [SupportWalletExtension.Clover]: SupportWalletExtension.Clover,
-  [SupportWalletExtension.Ledger]: SupportWalletExtension.Ledger,
   [SupportWalletExtension.Math]: SupportWalletExtension.PolkadotJs, // mathwallet
   [SupportWalletExtension.Nova]: SupportWalletExtension.PolkadotJs, // nova
-  [SupportWalletExtension.Talisman]: SupportWalletExtension.Talisman,
-  [SupportWalletExtension.Enkrypt]: SupportWalletExtension.Enkrypt,
 }
 
-export interface WalletConfig {
-  img: string
-  extensionName: SupportWalletExtension
-  source: SupportWalletExtension
-  name: string
-  walletUrl: string
-  guideUrl: string
-  isBrowserExtension: boolean
-  isMobileApp: boolean
+const getWalletExtensionSource = (
+  walletExtension: SupportWalletExtension
+): SupportWalletExtension => {
+  return WalletExtensionProxyMap[walletExtension] || walletExtension
 }
-type IWalletConfigMap = Partial<Record<SupportWalletExtension, WalletConfig>>
 
 const buildWalletConfig = (
   walletExtension,
@@ -59,7 +59,7 @@ const buildWalletConfig = (
   img,
   name,
   extensionName: walletExtension,
-  source: WalletExtensionProxyMap[walletExtension],
+  source: getWalletExtensionSource(walletExtension),
   walletUrl,
   guideUrl,
   isBrowserExtension,
@@ -156,10 +156,9 @@ const PCWalletExtensionList = [
 ]
 
 const createWalletInstance = (
-  walletExtensionProxy: SupportWalletExtension
+  walletExtension: SupportWalletExtension
 ): BaseDotsamaWallet => {
-  const realExtension = WalletExtensionProxyMap[walletExtensionProxy]
-  const config = WalletConfigMap[realExtension]
+  const config = WalletConfigMap[walletExtension]
   return new BaseDotsamaWallet(config)
 }
 
