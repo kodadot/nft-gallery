@@ -48,13 +48,12 @@ jobs:
         continue-on-error: true
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: build
-          workflow_conclusion: success
+          workflow: build.yml
           pr: ${{ github.event.pull_request.number }}
           name: ubuntu-latest-artifact
 
       - name: Build App
-        if: steps.artifact.outcome != 'success'
+        if: steps.artifact.conclusion != 'success'
         run: pnpm generate
 
       - name: Cypress run
