@@ -7,7 +7,7 @@
       :placeholder="$t('general.searchPlaceholder')"
       icon="search"
       :open-on-focus="showDefaultSuggestions"
-      max-height="550"
+      max-height="600"
       dropdown-position="bottom"
       expanded
       @blur="onInputBlur"

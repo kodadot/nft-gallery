@@ -97,19 +97,18 @@
         </template>
       </b-tab-item>
     </b-tabs>
-    <div class="search-history">
+    <div v-if="!name" class="search-history">
       <div
         v-for="item in filterSearch"
         :key="item.id"
-        class="is-flex is-align-items-center is-justify-content-space-between mb-2"
+        class="is-flex is-align-items-center is-justify-content-space-between mb-1 search-hisotry-item"
         @click="goToExploreResults(item)">
         <div class="is-flex is-align-items-center">
           <b-icon icon="history" size="is-small" />
           <div class="ml-3 history-label">{{ item.name }}</div>
         </div>
         <div class="" @click.stop.prevent="removeSearchHistory(item.name)">
-          <!-- <b-button type="is-text" icon-left="times" /> -->
-          <b-icon icon="times" size="is-small" />
+          <b-icon icon="times" size="is-small" class="times-icon" />
         </div>
       </div>
     </div>
