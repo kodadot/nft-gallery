@@ -69,7 +69,7 @@ describe('Identity.vue component', () => {
             cy.window()
               .its('navigator.clipboard')
               .invoke('readText')
-              .should('equal', address + 'error')
+              .should('equal', address)
           })
       }
     )
