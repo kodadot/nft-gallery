@@ -43,7 +43,7 @@ jobs:
         with:
           name: nft-gallery-artifact
           path: dist
-          retention-days: 1
+          retention-days: 7
 
   e2e:
     runs-on: ubuntu-latest
