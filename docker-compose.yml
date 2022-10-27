@@ -8,6 +8,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/app
+      - /app/node_modules
     command: pnpm dev
     ports:
       - "9090:9090"
