@@ -17,7 +17,7 @@ jobs:
       CYPRESS_CACHE_FOLDER: '${GITHUB_WORKSPACE}/.cypress-cache'
     strategy:
       matrix:
-        index: [1, 2, 3, 4]
+        index: [1, 2, 3, 4] # [1, ..., n] where n === parallelSize in e2e-run-tests.js
     steps:
       - uses: actions/checkout@v3
 
@@ -48,3 +48,9 @@ jobs:
 
       - name: Cypress run
         run: pnpm start:static & MATRIX=${{ matrix.index }} node tests/cypress/e2e-run-tests.js
+
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          path: ./cypress/screenshots/
