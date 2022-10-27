@@ -118,7 +118,7 @@ html.dark-mode {
     color: $white
   }
 
-  
+
   }
 
   .dropdown-content {
@@ -204,6 +204,25 @@ html.dark-mode {
       .is-white {
         color: $background-dark !important;
       }
+    }
+  }
+
+  .image-outline {
+    border-color: $white;
+  }
+
+  .csw-substack-gradient-custom {
+    border-color: $white !important;
+    box-shadow: 4px 4px 0px $white;
+    input {
+      color: $white !important;
+      background-color: $black !important;
+      &::placeholder {
+        color: $placeholder-color !important;
+      }
+    }
+    button {
+      color: $white !important;
     }
   }
 }
