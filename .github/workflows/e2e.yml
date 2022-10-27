@@ -47,11 +47,10 @@ jobs:
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: build.yml
+          workflow: build
           workflow_conclusion: success
           pr: ${{ github.event.pull_request.number }}
           name: ubuntu-latest-artifact
-          if_no_artifact_found: ignore
 
       - name: Build App
         if: failure()

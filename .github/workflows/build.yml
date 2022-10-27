@@ -1,4 +1,5 @@
 name: Lint, Build & Test workflow
+id: build
 
 on:
   workflow_dispatch:
