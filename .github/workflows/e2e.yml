@@ -49,7 +49,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           workflow: build.yml
-          pr: ${{ github.event.pull_request.number }}
+          # pr: ${{ github.event.pull_request.number }}
           name: ubuntu-latest-artifact
 
       - name: Build App
