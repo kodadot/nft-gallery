@@ -30,7 +30,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.1
+        uses: pnpm/action-setup@v2
         with:
           version: latest
 
@@ -43,5 +43,8 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
+      - name: Build App
+        run: pnpm generate
+
       - name: Cypress run
-        run: MATRIX=${{ matrix.index }} node tests/cypress/e2e-run-tests.js
+        run: pnpm start:static & MATRIX=${{ matrix.index }} node tests/cypress/e2e-run-tests.js
