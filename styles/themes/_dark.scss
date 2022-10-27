@@ -24,6 +24,7 @@ html.dark-mode {
   }
 
   .navbar {
+    border-color: $white;
     .dropdown-content .dropdown-item .menu-item {
       color: $white !important;
     }
@@ -89,6 +90,7 @@ html.dark-mode {
   }
 
   .instance {
+    border-color: $white;
     &-accent,
     &-blue {
       background-color: $dark-accent;
@@ -129,7 +131,7 @@ html.dark-mode {
 
   .footer-container {
     background-color: $dark-accent;
-    border-top: 1px solid $white;
+    // border-top: 1px solid $white;
 
     &-socials {
       &-list {
