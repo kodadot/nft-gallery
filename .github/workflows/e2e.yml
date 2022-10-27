@@ -47,10 +47,10 @@ jobs:
         run: pnpm generate
 
       - name: Cypress run
-        run: pnpm start:static & MATRIX=${{ matrix.index }} node tests/cypress/e2e-run-tests.js
+        run: pnpm start:static & wait-on http://localhost:9090 && MATRIX=${{ matrix.index }} node tests/cypress/e2e-run-tests.js
 
       - name: Upload Screenshots
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: failure()
         with:
           path: ./cypress/screenshots/

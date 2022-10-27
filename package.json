@@ -161,7 +161,8 @@
     "vite-plugin-vue2": "^2.0.2",
     "vitest": "^0.24.3",
     "vue-debounce-decorator": "^1.0.1",
-    "vue-eslint-parser": "^9.1.0"
+    "vue-eslint-parser": "^9.1.0",
+    "wait-on": "^6.0.1"
   },
   "pnpm": {
     "overrides": {
