@@ -218,13 +218,19 @@ html.dark-mode {
     box-shadow: 4px 4px 0px $white;
     input {
       color: $white !important;
-      background-color: $black !important;
+      background-color: $k-dark !important;
       &::placeholder {
         color: $placeholder-color !important;
       }
     }
     button {
-      color: $white !important;
+      color: $dark-accent !important;
+      border-left: 1px solid $white !important;
+      background: $k-accent !important;
+      &:hover {
+        background: $k-dark !important;
+        color: $white !important;
+      }
     }
   }
 }
