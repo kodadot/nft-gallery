@@ -16,8 +16,8 @@
               theme: 'custom',
               colors: {
                 primary: '#FF7AC3',
-                input: '#000000',
-                email: '#FFFFFF',
+                input: '#FFFFFF',
+                email: '#000000',
                 text: '#000000',
               },
             }

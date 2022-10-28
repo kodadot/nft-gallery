@@ -8,7 +8,7 @@
         </div>
         <div>
           <BasicImage
-            custom-class="is-48x48"
+            custom-class="is-48x48 image-outline"
             rounded
             :src="collection.image || '/placeholder.webp'" />
         </div>

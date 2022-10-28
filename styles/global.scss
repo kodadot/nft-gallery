@@ -123,6 +123,11 @@ body {
   }
 }
 
+.image-outline {
+  border: 1px solid $black;
+  border-radius: 50%;
+}
+
 .box {
   .box-container {
     @media screen and (max-width: 768px) {
