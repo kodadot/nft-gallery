@@ -147,6 +147,7 @@
     "eslint-plugin-unicorn": "^42.0.0",
     "eslint-plugin-vue": "^8.7.1",
     "fake-indexeddb": "^4.0.0",
+    "glob": "^8.0.3",
     "graphql-tag": "^2.12.6",
     "husky": "^7.0.4",
     "jsdom": "^19.0.0",
@@ -160,7 +161,8 @@
     "vite-plugin-vue2": "^2.0.2",
     "vitest": "^0.24.3",
     "vue-debounce-decorator": "^1.0.1",
-    "vue-eslint-parser": "^9.1.0"
+    "vue-eslint-parser": "^9.1.0",
+    "wait-on": "^6.0.1"
   },
   "pnpm": {
     "overrides": {
