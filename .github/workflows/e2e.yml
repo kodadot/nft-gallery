@@ -43,17 +43,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install && pnpm cypress install
 
-      - name: Download artifact
-        id: artifact
-        continue-on-error: true
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          workflow: build.yml
-          # pr: ${{ github.event.pull_request.number }}
-          name: ubuntu-latest-artifact
-
       - name: Build App
-        if: steps.artifact.outcome == 'failure'
         run: pnpm generate
 
       - name: Cypress run
