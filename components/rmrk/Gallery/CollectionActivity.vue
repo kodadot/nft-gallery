@@ -193,7 +193,6 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
           id: this.id,
         },
       })
-      console.log(data)
       if (data && data.stats && data.stats[0]) {
         const { max, count } = data.stats[0]
         this.totalPurchases = count
