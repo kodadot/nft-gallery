@@ -104,23 +104,37 @@ html.dark-mode {
         -1px -1px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, -1px 0px 0 #fff,
         0px -1px 0 #fff, 4px 4px #fff;
     }
+  }
 
+  .search-bar-container {
     .link-item {
       &:hover {
         background-color: $k-accentlight2dark;
       }
     }
 
+    .tabs li.is-active a {
+      color: $white !important;
+      background-color: $k-dark !important;
+    }
 
-  .tabs li.is-active a {
-    color: $white;
-  }
+    .tabs li:not(.is-active) a {
+      color: $white;
+    }
 
-  .tabs li:not(.is-active) a {
-    color: $white
-  }
+    .search-history {
+      .times-icon {
+        &:hover {
+          color: $white;
+        }
+      }
 
-
+      .search-hisotry-item {
+        &:hover {
+          background-color: $k-accentlight2dark;
+        }
+      }
+    }
   }
 
   .dropdown-content {
@@ -177,11 +191,11 @@ html.dark-mode {
     border: 1px solid white;
     .wallet .buttons {
       button {
-        background: $k-dark!important;
+        background: $k-dark !important;
         border: 1px solid $white;
       }
       .button {
-        background: $k-dark!important;
+        background: $k-dark !important;
         border: 1px solid $white;
         border-radius: unset;
       }
@@ -190,7 +204,7 @@ html.dark-mode {
       background: $white;
     }
     .modal-card-head {
-      background: $k-dark!important;
+      background: $k-dark !important;
       .delete {
         background: none;
         &::before {
