@@ -73,10 +73,3 @@ jobs:
 
       - name: Run Build
         run: pnpm generate
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.os }}-artifact
-          path: dist
-          retention-days: 7
