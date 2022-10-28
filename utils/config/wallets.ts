@@ -3,6 +3,7 @@ import { MathWallet } from '~/utils/config/wallets/MathWallet'
 import { NovaWallet } from '~/utils/config/wallets/NovaWallet'
 import { SubWallet } from '~/utils/config/wallets/SubWallet'
 import { TalismanWallet } from '~/utils/config/wallets/TalismanWallet'
+import { EnkryptWallet } from '~/utils/config/wallets/EnkryptWallet'
 import { isMobileDevice } from '~/utils/extension'
 
 // source as 'polkadot-js' in mobile app
@@ -15,6 +16,7 @@ export enum SupportWalletExtension {
   Nova = 'polkadot-js', // nova
   SubWallet = 'subwallet-js',
   Talisman = 'talisman',
+  Enkrypt = 'enkrypt',
 }
 
 export const SubstrateWallets = [
@@ -24,6 +26,7 @@ export const SubstrateWallets = [
   SupportWalletExtension.Nova,
   SupportWalletExtension.SubWallet,
   SupportWalletExtension.Talisman,
+  SupportWalletExtension.Enkrypt,
 ]
 
 export const SupportedWallets = () => {
@@ -31,6 +34,7 @@ export const SupportedWallets = () => {
     return [new MathWallet(), new NovaWallet()]
   }
   const allWallets = [
+    new EnkryptWallet(),
     new TalismanWallet(),
     new PolkadotjsWallet(),
     new SubWallet(),
