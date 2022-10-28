@@ -24,27 +24,227 @@ html.dark-mode {
   }
 
   .navbar {
+    border-color: $white;
+    .dropdown-content .dropdown-item .menu-item {
+      color: $white !important;
+    }
+    .navbar-dropdown,
+    .dropdown-content {
+      box-shadow: 4px 4px 0px $white !important;
+      border-color: $white !important;
+    }
+    .dropdown .dropdown-menu .has-link a,
     .navbar-dropdown a.navbar-item {
       &:hover,
       &:focus {
+        background-color: $primary !important;
+        color: $black;
+      }
+    }
+    .dropdown-content {
+      .dropdown-item.is-active,
+      .is-active > a {
+        background-color: $white !important;
+        color: $black !important;
+      }
+    }
+
+    .navbar__sign-out-button {
+      border-color: $white;
+      box-shadow: 4px 4px 0px $white !important;
+      &:hover {
+        background-color: $primary !important;
+      }
+    }
+
+    .mobile-nav-search-btn {
+      background: $black;
+      border: 1px solid $white;
+      box-shadow: 4px 4px 0px $white;
+    }
+
+    .navbar-burger {
+      color: $white;
+    }
+
+    .navbar-menu {
+      border-color: $white !important;
+
+      .button:hover {
         background-color: $primary;
+      }
+    }
+
+    #NavProfile {
+      .button.is-primary {
+        border: 1px solid $white !important;
+      }
+    }
+
+    .navbar-explore .menu-item {
+      &:hover,
+      &.is-active {
+        color: $white !important;
       }
     }
   }
 
   .instance {
+    border-color: $white;
     &-accent,
     &-blue {
-      background-color: #1a1718;
+      background-color: $dark-accent;
     }
   }
 
   .landing-search {
-    .sub-title {
-      color: $search-background-color;
+    .subtitle {
+      color: $search-background-color !important;
       text-shadow: 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
         -1px -1px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, -1px 0px 0 #fff,
         0px -1px 0 #fff, 4px 4px #fff;
+    }
+  }
+
+  .search-bar-container {
+    .link-item {
+      &:hover {
+        background-color: $k-accentlight2dark;
+      }
+    }
+
+    .tabs li.is-active a {
+      color: $white !important;
+      background-color: $k-dark !important;
+    }
+
+    .tabs li:not(.is-active) a {
+      color: $white;
+    }
+
+    .search-history {
+      .times-icon {
+        &:hover {
+          color: $white;
+        }
+      }
+
+      .search-hisotry-item {
+        &:hover {
+          background-color: $k-accentlight2dark;
+        }
+      }
+    }
+  }
+
+  .dropdown-content {
+    box-shadow: $primary-shadow-dark;
+    border-radius: 0;
+    border: 1px solid $white;
+  }
+
+  .footer-container {
+    background-color: $dark-accent;
+    // border-top: 1px solid $white;
+
+    &-socials {
+      &-list {
+        &-item {
+          background: $black;
+          border: 1px solid $white;
+          box-shadow: $primary-shadow-dark;
+          &:hover {
+            background: $k-accent !important;
+
+            .has-text-white {
+              svg {
+                path {
+                  color: $black !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &-subs {
+      &-btn {
+        color: $black !important;
+        background-color: $k-accent !important;
+        border-radius: 0px;
+        border: 1px solid $white;
+        border-color: $white !important;
+        box-shadow: $primary-shadow-dark !important;
+      }
+      &-input {
+        box-shadow: $primary-shadow-dark;
+
+        .input {
+          border: 1px solid $white;
+        }
+      }
+    }
+  }
+
+  .modal-card-container {
+    border: 1px solid white;
+    .wallet .buttons {
+      button {
+        background: $k-dark !important;
+        border: 1px solid $white;
+      }
+      .button {
+        background: $k-dark !important;
+        border: 1px solid $white;
+        border-radius: unset;
+      }
+    }
+    .modal-card-bg {
+      background: $white;
+    }
+    .modal-card-head {
+      background: $k-dark !important;
+      .delete {
+        background: none;
+        &::before {
+          background-color: $white;
+        }
+        &::after {
+          background-color: $white;
+        }
+      }
+    }
+    .wallet-name {
+      background: $white !important;
+      .is-white {
+        color: $background-dark !important;
+      }
+    }
+  }
+
+  .image-outline {
+    border-color: $white;
+  }
+
+  .csw-substack-gradient-custom {
+    border-color: $white !important;
+    box-shadow: 4px 4px 0px $white;
+    input {
+      color: $white !important;
+      background-color: $k-dark !important;
+      &::placeholder {
+        color: $placeholder-color !important;
+      }
+    }
+    button {
+      color: $dark-accent !important;
+      border-left: 1px solid $white !important;
+      background: $k-accent !important;
+      &:hover {
+        background: $k-dark !important;
+        color: $white !important;
+      }
     }
   }
 }

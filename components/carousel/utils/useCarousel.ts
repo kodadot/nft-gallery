@@ -1,5 +1,4 @@
 import type { CarouselNFT } from '@/components/base/types'
-import type { LastEvent } from '@/utils/types/types'
 import type { RowSeries } from '@/components/series/types'
 
 import { convertLastEventFlatNft, formatNFT } from '@/utils/carousel'
@@ -35,30 +34,6 @@ const nftEventVariables = {
     limit: 10,
     event: 'LIST',
   },
-}
-
-export const useCarouselNftEventsOld = ({ type }: Types) => {
-  const { data } = useGraphql({
-    queryPrefix: 'subsquid',
-    queryName: 'lastNftListByEvent',
-    variables: nftEventVariables[type],
-  })
-  const nfts = ref<CarouselNFT[]>([])
-
-  const handleResult = async ({ data }: { data: { events: LastEvent[] } }) => {
-    const events = data.events.map(convertLastEventFlatNft)
-    nfts.value = await formatNFT(events)
-  }
-
-  watch(data, () => {
-    if (data.value) {
-      handleResult({ data: data.value })
-    }
-  })
-
-  return {
-    nfts,
-  }
 }
 
 const useChainEvents = (chain, type) => {
@@ -236,7 +211,6 @@ function dispatch(event, name, slider) {
 export const wheelControls = (slider) => {
   function eventWheel(event) {
     if (event.deltaX !== 0) {
-      event.preventDefault() // horizontal scroll only
       if (!wheelActive) {
         position = {
           x: event.pageX,
@@ -256,7 +230,7 @@ export const wheelControls = (slider) => {
 
   slider.on('created', () => {
     slider.container.addEventListener('wheel', eventWheel, {
-      passive: false,
+      passive: true,
     })
   })
 }

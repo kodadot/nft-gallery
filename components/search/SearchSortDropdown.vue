@@ -10,7 +10,7 @@
           type="is-primary"
           icon-right="caret-down"
           data-cy="gallery-sort-by">
-          Sort by
+          {{ $t('sort.collection.sortBy') }}
         </b-button>
       </template>
       <b-dropdown-item
@@ -24,7 +24,7 @@
     <b-select
       v-else
       v-model="selectedAction"
-      placeholder="Sort by"
+      :placeholder="$t('sort.collection.sortBy')"
       class="select-dropdown"
       data-cy="collection-sort-by">
       <option v-for="action in actions" :key="action" :value="action">
@@ -38,7 +38,10 @@
 
 <script lang="ts">
 import { Component, Prop, VModel, mixins } from 'nuxt-property-decorator'
-import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
+import {
+  NFT_SQUID_SORT_CONDITION_LIST,
+  NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER,
+} from '@/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 @Component
@@ -53,6 +56,9 @@ export default class SearchSortDropdown extends mixins(PrefixMixin) {
   }
 
   get sort(): string[] {
+    if (this.isMoonriver) {
+      return NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER
+    }
     return NFT_SQUID_SORT_CONDITION_LIST
   }
 }

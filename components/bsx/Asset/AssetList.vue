@@ -58,7 +58,7 @@ export default class AssetList extends mixins(
         this.client,
         assetListByIdList,
         {
-          ids: ['0', getKusamaAssetId(this.client)],
+          ids: ['0', getKusamaAssetId(this.client), '6'],
         }
       )
       this.assetList = assetList

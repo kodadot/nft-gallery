@@ -1,21 +1,29 @@
 <template>
   <section
     class="landing-search is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
-    <div class="title">
+    <h1
+      class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered">
       <span>{{ $t('search.landingTitle1') }}</span>
       {{ $t('search.landingTitle2') }}
       <span> {{ $t('search.landingTitle3') }}</span>
-    </div>
-    <span class="sub-title"> {{ $t('search.landingSubtitle') }}</span>
+    </h1>
+    <span
+      class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered is-capitalized">
+      {{ $t('search.landingSubtitle') }}
+    </span>
     <LazySearch
       hide-filter
-      class="landing-search-bar is-flex-grow-1 pb-0 mb-2"
+      class="landing-search-bar"
       search-column-class="is-flex-grow-1" />
-    <div class="if-flex is-flex-grow-1 mb-4">
+    <div class="is-flex is-justify-content-center is-flex-wrap-wrap">
       <a
         v-for="chain in chainList"
         :key="chain.value"
-        :class="['mr-2', 'chain-option', { active: urlPrefix === chain.value }]"
+        :class="[
+          'mr-2 mb-2',
+          'chain-option',
+          { active: urlPrefix === chain.value },
+        ]"
         @click="switchChain(chain.value)">
         {{ chain.text }}
       </a>
@@ -28,10 +36,10 @@
 <script lang="ts" setup>
 import { Option } from '@kodadot1/vuex-options/dist/types'
 
-import { chainTestList } from '~/utils/constants'
+import { getChainTestList } from '~/utils/constants'
 
 const { urlPrefix } = usePrefix()
-const { $store, $colorMode } = useNuxtApp()
+const { $store, $colorMode, $router } = useNuxtApp()
 const isDarkMode = computed(() => $colorMode.preference === 'dark')
 
 const landingImage = computed(() => {
@@ -45,7 +53,7 @@ const landingImage = computed(() => {
 const chainList = computed(() => {
   const availableUrlPrefixes: Option[] = $store.getters['availableUrlPrefixes']
   return availableUrlPrefixes.filter(
-    (urlPrefix) => !chainTestList.includes(urlPrefix.value as string)
+    (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
   )
 })
 
@@ -54,6 +62,6 @@ const switchChain = (value) => {
     return
   }
   $store.dispatch('setUrlPrefix', value)
-  window.location.reload()
+  $router.push({ path: `/${value}/explore` })
 }
 </script>

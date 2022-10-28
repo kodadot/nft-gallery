@@ -1,33 +1,18 @@
 .landing-search {
-  height: 334px;
-  width: 100vw;
-  padding: 0 300px;
+  font-family: 'Work Sans';
+  min-height: 334px;
+  width: 100%;
 
   .title {
-    font-family: 'Work Sans';
-    font-weight: 700;
-    font-size: 3rem;
-    line-height: 3.5rem;
     word-break: keep-all;
-    margin-top: 60px;
-    text-align: center;
   }
 
-  .sub-title {
-    font-family: 'Work Sans';
-    width: 320px;
-    height: 46px;
-    margin-bottom: 38px;
-
-    font-style: normal;
-    font-weight: 700;
-    font-size: 3rem;
-    line-height: 3.5rem;
-    text-align: center;
+  .subtitle {
     letter-spacing: -0.02em;
-    text-transform: capitalize;
-    color: $white;
-    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 0px -1px 0 #000, 4px 4px #000;
+    color: $white !important;
+    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+      -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000,
+      0px -1px 0 #000, 4px 4px #000;
   }
 
   .landing-search-bar {
@@ -37,7 +22,6 @@
   %landing-search-image-position {
     position: absolute;
     height: 334px;
-    top: 100px;
   }
 
   .landing-search-left {
@@ -51,12 +35,12 @@
   }
 
   .chain-option {
-    font-family: 'Work Sans';
     font-weight: 400;
     font-size: 1.3rem;
     line-height: 23px;
     color: $grey;
     width: max-content;
+    z-index: 1;
 
     &.active {
       font-weight: 700;
@@ -73,15 +57,15 @@
   }
 
   @include mobile {
-    .title {
-      width: 250px;
-    }
     .landing-search-bar {
       width: 90%;
     }
   }
-}
 
+  .info-arrow {
+    font-family: 'Fira Code', monospace;
+  }
+}
 
 .search-bar-container {
   position: relative;
@@ -103,6 +87,18 @@
     top: 9px;
     pointer-events: none;
   }
+
+  input {
+    font-family: 'Work Sans';
+  }
+
+  .dropdown-menu {
+    padding-top: 13px;
+
+    .dropdown-item {
+      padding: 0px;
+    }
+  }
 }
 
 .gallery-search {
@@ -115,7 +111,7 @@
   input {
     border: 1px solid $white;
     border-radius: 0;
-    padding: 0 40px !important;
+    padding: 0 50px 0 42px !important;
     background-color: $search-background-color;
 
     &::placeholder {
@@ -124,7 +120,8 @@
       font-weight: 400;
     }
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       border: 1px solid $white;
       box-shadow: none;
     }
@@ -137,9 +134,32 @@
     border: 1px solid $primary !important;
   }
 
+  .search-footer-link {
+    color: $white !important;
+    .link-item {
+      &:hover {
+        font-weight: 700;
+        background: transparent !important;
+      }
+    }
+  }
+
   .link-item {
     border: 1px solid transparent;
     cursor: pointer;
+    padding: 10px 32px;
+    font-size: 16px;
+    &:hover {
+      background-color: $k-accentlight;
+    }
+  }
+
+  .loading-item {
+    padding: 10px 32px;
+  }
+
+  .main-title {
+    font-weight: 700;
   }
 
   .name {
@@ -147,14 +167,71 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .secondary-info {
+    @include mobile {
+      flex-direction: column !important;
+    }
+  }
+
+  .small-soon-text {
+    font-size: 12px;
+    margin-bottom: 6px;
+    margin-left: 4px;
+  }
+
+  .tab-content {
+    padding-top: 0 !important;
+  }
+
+  .tabs li a {
+    border-bottom-color: $shade;
+    display: flex;
+    padding: 10px 0;
+    justify-content: flex-start;
+  }
+
+  .tabs li.is-active a {
+    color: $black !important;
+    border-bottom-color: $shade;
+    font-weight: 700;
+    background-color: $white !important;
+  }
+
   .b-tabs:not(:last-child) {
     margin-bottom: 0;
   }
   .tabs:not(:last-child) {
     margin-bottom: 0.5rem;
+    padding: 0px 32px;
   }
-  .b-tabs .tab-content {
-    padding:  0 0.5rem;
+
+  .image-outline {
+    border: 1px solid $black;
+    border-radius: 50%;
+  }
+
+  .search-history {
+    margin-top: 20px;
+    color: $k-grey;
+    cursor: pointer;
+
+    .history-label {
+      font-size: 16px;
+    }
+
+    .times-icon {
+      &:hover {
+        color: $black;
+      }
+    }
+
+    .search-hisotry-item {
+      padding: 0 32px;
+      &:hover {
+        background-color: $k-accentlight;
+      }
+    }
   }
 }
 

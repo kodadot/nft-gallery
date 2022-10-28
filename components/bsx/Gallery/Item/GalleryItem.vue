@@ -280,7 +280,7 @@ export default class GalleryItem extends mixins(
   }
 
   get balance(): string {
-    return this.$store.getters.getAuthBalance
+    return this.$store.getters.getTokenBalanceOf(this.assetId)
   }
 
   get tokenId(): [string, string] {
