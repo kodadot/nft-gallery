@@ -10,21 +10,21 @@
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
         <img
-          src="~/assets/Koda_Beta.svg"
+          :src="logoSrc"
           alt="First NFT market explorer on Kusama and Polkadot"
-          width="130"
-          height="35" />
+          width="166"
+          height="34" />
       </b-navbar-item>
       <div
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
-        <HistoryBrowser />
+        <HistoryBrowser class="navbar-item" />
         <b-button
-          v-if="!isRedesignedLandingPage"
-          type="is-primary is-bordered-light ml-2"
-          class="navbar-link-background"
-          icon-right="search"
-          @click="showMobileSearchBar" />
+          v-if="showSearchOnNavbar"
+          icon-left="search"
+          class="mr-2 mobile-nav-search-btn is-flex"
+          @click="showMobileSearchBar">
+        </b-button>
         <Search
           ref="mobilSearchRef"
           hide-filter
@@ -32,19 +32,24 @@
       </div>
     </template>
     <template #start>
-      <Search
-        v-if="!isRedesignedLandingPage"
-        hide-filter
-        class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
-        search-column-class="is-flex-grow-1" />
+      <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
+        <Search
+          hide-filter
+          class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
+          search-column-class="is-flex-grow-1" />
+      </div>
     </template>
     <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
       <LazyHistoryBrowser
         id="NavHistoryBrowser"
         class="custom-navbar-item navbar-link-background is-hidden-touch" />
+
+      <NavbarExplore />
+
       <b-navbar-dropdown
         v-show="isCreateVisible"
         id="NavCreate"
+        hoverable
         arrowless
         collapsible
         data-cy="create-dropdown">
@@ -86,12 +91,7 @@
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-item
-        tag="nuxt-link"
-        :to="`/${urlPrefix}/explore`"
-        data-cy="explore">
-        <span>{{ $t('explore') }}</span>
-      </b-navbar-item>
+
       <b-navbar-dropdown
         v-if="isBsx || isSnek"
         id="NavStats"
@@ -145,21 +145,14 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <LazyChainSelect
-        id="NavChainSelect"
-        class="navbar-item has-dropdown"
-        data-cy="chain-select" />
-      <LazySwitchLocale
-        id="NavLocaleChanger"
-        class="navbar-item has-dropdown"
-        data-cy="localChanger" />
-      <ColorModeButton />
       <NavbarProfileDropdown
         id="NavProfile"
+        class="ml-2"
         :is-rmrk="isRmrk"
         :show-incomming-offers="isBsx || isSnek"
         :is-snek="isSnek"
-        data-cy="profileDropdown" />
+        data-cy="profileDropdown"
+        @closeBurgerMenu="closeBurgerMenu" />
     </template>
     <template v-else #end>
       <div class="image is-32x32 mr-2">
@@ -179,11 +172,12 @@ import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { get } from 'idb-keyval'
 
 import BasicImage from '@/components/shared/view/BasicImage.vue'
-import ColorModeButton from '@/components/common/ColorModeButton.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
-
+import NavbarExplore from '@/components/navbar/NavbarExplore.vue'
+import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
+import KodaBeta from '@/assets/Koda_Beta.svg'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { createVisible } from '@/utils/config/permision.config'
@@ -197,7 +191,7 @@ import ExperimentMixin from '~~/utils/mixins/experimentMixin'
     Search,
     Identity,
     BasicImage,
-    ColorModeButton,
+    NavbarExplore,
   },
 })
 export default class NavbarMenu extends mixins(
@@ -254,8 +248,16 @@ export default class NavbarMenu extends mixins(
     return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
   }
 
-  get isRedesignedLandingPage() {
-    return this.$route.name === 'index' && this.redesign
+  get isLandingPage() {
+    return this.$route.name === 'index'
+  }
+
+  get logoSrc() {
+    return this.$colorMode.preference === 'dark' ? KodaBetaDark : KodaBeta
+  }
+
+  get showSearchOnNavbar(): boolean {
+    return !this.isLandingPage || !this.showTopNavbar
   }
 
   get navBarTitle(): string {

@@ -1,14 +1,15 @@
 <template>
-  <div>
+  <div class="modal-card-container">
     <div class="modal-card wallet">
       <header class="modal-card-head">
         <b-button
           v-show="hasSelectedWalletProvider"
           type="is-text"
-          class="mr-2"
+          class="mr-2 is-no-border"
           icon-left="chevron-left"
           @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
-        <p class="modal-card-title has-text-weight-bold">
+        <p
+          class="modal-card-title has-text-weight-bold has-text-centered is-size-6">
           {{ $t('walletConnect.walletHeading') }}
         </p>
         <button type="button" class="delete" @click="$emit('close')" />
@@ -24,14 +25,7 @@
         </b-field>
       </section>
       <section v-if="hasUserWalletAuth" class="modal-card-body">
-        <div class="has-text-centered">
-          <img
-            src="~/assets/Koda_Beta.svg"
-            alt="First NFT market explorer on Kusama and Polkadot"
-            height="32" />
-        </div>
-
-        <div v-show="!hasSelectedWalletProvider" class="buttons my-5">
+        <div v-show="!hasSelectedWalletProvider" class="buttons">
           <b-button
             v-for="(wallet, index) in wallets"
             :key="index"
@@ -39,18 +33,29 @@
             icon-right="chevron-right"
             expanded
             @click="setWallet(wallet)">
-            <b-image
-              :src="wallet.img"
-              class="is-24x24"
-              style="display: inline-block; vertical-align: middle"></b-image>
-            {{ wallet.name }}
+            <span class="pl-4">
+              <b-image
+                :src="wallet.img"
+                class="is-32x32 is-inline-block"
+                style="vertical-align: middle"></b-image>
+              <span class="is-size-6">{{ wallet.name }}</span>
+            </span>
           </b-button>
         </div>
 
         <div
-          v-show="hasSelectedWalletProvider && !hasWalletProviderExtension"
-          class="buttons my-5">
+          v-if="hasSelectedWalletProvider && !hasWalletProviderExtension"
+          class="buttons">
+          <div
+            class="wallet-name subtitle is-fullwidth is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
+            <b-image
+              :src="selectedWalletProvider.img"
+              class="is-32x32 is-inline-block"
+              style="vertical-align: middle" />
+            <b class="is-white">{{ selectedWalletProvider.extensionName }}</b>
+          </div>
           <b-button
+            class="is-size-6 is-height-60"
             tag="a"
             :href="guideUrl"
             target="_blank"
@@ -59,45 +64,56 @@
             type="is-info"
             expanded>
             {{ $t('walletConnect.learnText') }}
+            <b-icon class="ml-1" icon="book-open"></b-icon>
           </b-button>
           <b-button
+            class="is-size-6 is-height-60"
             tag="a"
             :href="extensionUrl"
-            type="is-primary"
-            inverted
-            outlined
+            type="is-info"
             size="is-medium"
             expanded>
             {{ $t('walletConnect.downloadExtension') }}
+            <b-icon class="ml-1" icon="download"></b-icon>
           </b-button>
         </div>
 
-        <div v-if="hasSelectedWalletProvider && hasWalletProviderExtension">
-          <div class="subtitle is-size-6 has-text-centered is-lowercase">
-            {{ $t('general.chooseWallet') }}
-            <b-image
-              :src="selectedWalletProvider.img"
-              class="is-16x16"
-              style="display: inline-block; vertical-align: middle" />
-            <b>{{ selectedWalletProvider.extensionName }}</b>
-            {{ $t('account') }}
-          </div>
-
-          <b-field v-if="walletAccounts.length" :label="$t('account')">
-            <b-select v-model="account" placeholder="Select account" expanded>
-              <option disabled selected value="">--</option>
-              <option
+        <div v-show="hasSelectedWalletProvider && hasWalletProviderExtension">
+          <b-field v-if="walletAccounts.length" style="height: 180px">
+            <b-dropdown
+              ref="address-chooser"
+              v-model="account"
+              class="wallet-chooser">
+              <template #trigger>
+                <div
+                  class="wallet-name subtitle is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
+                  <b-image
+                    :src="selectedWalletProvider.img"
+                    class="is-32x32 is-inline-block"
+                    style="vertical-align: middle" />
+                  <b class="is-white">{{
+                    selectedWalletProvider.extensionName
+                  }}</b>
+                  <!--                  <b-icon style="color: white" icon="chevron-down"></b-icon>-->
+                </div>
+              </template>
+              <b-dropdown-item
                 v-for="option in walletAccounts"
                 :key="option.address"
                 :value="option.address">
-                <b v-if="option.name">{{ option.name }} :</b>
-                {{ option.address | shortAddress(10, -10) }}
-              </option>
-            </b-select>
+                <span v-if="option.name"
+                  >{{ option.name }}
+                  <span class="is-pulled-right">{{
+                    option.address | shortAddress(6, -3)
+                  }}</span>
+                </span>
+              </b-dropdown-item>
+            </b-dropdown>
           </b-field>
         </div>
       </section>
     </div>
+    <div class="modal-card-bg" />
   </div>
 </template>
 
@@ -227,32 +243,113 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-.wallet {
-  max-width: 400px;
-  border: 3px solid $primary;
-  border-radius: 4px;
+.modal-card-container {
+  font-family: 'Work Sans';
+  font-style: normal;
+  position: relative;
+  .wallet {
+    max-width: 280px;
+    .wallet-chooser {
+      display: block;
 
-  &.modal-card {
-    background: #1f1f1f;
-    backdrop-filter: $frosted-glass-light-backdrop-filter;
+      ::v-deep .dropdown-menu {
+        width: 100%;
+        padding-top: 0px;
+        display: block !important;
+        .dropdown-content {
+          box-shadow: none;
+          padding-top: 0px;
+          a {
+            padding: 0.375rem 1rem;
+            height: 29px;
+          }
+        }
+      }
+    }
+
+    .subtitle {
+      background-color: #000000;
+    }
+    &.modal-card {
+      background: #1f1f1f;
+      backdrop-filter: $frosted-glass-light-backdrop-filter;
+      //position: relative;
+      z-index: 1;
+    }
+
+    .modal-card-body {
+      padding: 0;
+      background-color: unset;
+      &.py-6 {
+        padding-left: 1rem;
+      }
+    }
+
+    .modal-card-head {
+      background: unset;
+      border-bottom: 1px solid #000000;
+      //font-size: 1rem;
+
+      .delete {
+        height: 40px;
+        width: 40px;
+        max-height: 40px;
+        max-width: 40px;
+      }
+    }
+
+    .modal-card-title {
+      font-family: 'Work Sans';
+      font-style: normal;
+    }
+
+    .modal-card-body {
+      display: block;
+    }
+
+    .buttons {
+      margin-bottom: 0;
+
+      button {
+        border: 0;
+        border-radius: 0;
+        justify-content: space-between;
+        background-color: #ffffff;
+        font-weight: 600;
+        border-bottom: 1px solid #000000;
+        margin-bottom: 0;
+        height: 60px;
+      }
+
+      a {
+        border-bottom: 1px solid #000000;
+        margin-bottom: 0;
+      }
+    }
   }
 
-  .modal-card-body,
-  .modal-card-head {
-    background: unset;
-    border-bottom: 0;
+  .modal-card-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    top: 4px;
+    left: 4px;
+    z-index: 0;
   }
 
-  .modal-card-body {
-    display: block;
+  .is-fullwidth {
+    width: 100%;
   }
 
-  .buttons button {
-    border: 0;
-    border-radius: 4px;
-    justify-content: space-between;
-    background-color: #464646;
-    font-weight: 600;
+  .is-white {
+    color: #ffffff;
+  }
+  .is-height-60 {
+    height: 60px;
+  }
+  .is-no-border {
+    border: none;
   }
 }
 </style>

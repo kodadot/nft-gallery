@@ -1,15 +1,22 @@
 {
   "translation": "english",
   "create": "Create",
+  "explore": "Explore",
   "credit": "Credit",
   "gallery": "Gallery",
   "collection": "Collection",
+  "creator": "Creator",
   "collections": "Collections",
+  "users": "Users",
+  "user": "User",
+  "soon": "Soon",
   "classic": "Classic",
   "account": "Account",
   "accounts": "Accounts",
   "amount": "Amount",
   "transfer": "Transfer",
+  "chart": "Chart",
+  "holders": "Holders",
   "assets": "Assets",
   "incomingOffers": "Incoming Offers",
   "transform": "Transform",
@@ -541,6 +548,7 @@
       "price_ASC": "Price: Low to High",
       "sn_ASC": "Serial Number Ascending",
       "listed": "Buy now",
+      "sortBy": "Sort By",
 
       "EMOTES_COUNT_DESC": "Most reacted",
       "BLOCK_NUMBER_DESC": "Recently Created",
@@ -648,7 +656,9 @@
     "needToUploadNFTFile": "You need to upload NFT file",
     "needToSetValidPrice": "In order to list NFT, price has to be more than 0",
     "notEnoughBalance": "Insufficient funds",
-    "haveNoToS": "Have no permission to use the asset"
+    "haveNoToS": "Have no permission to use the asset",
+    "smallDisplay": "Small Display",
+    "largeDisplay": "Large Display"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
@@ -814,7 +824,8 @@
     "score": "Score",
     "emoteCount": "Emotes",
     "buyHistory": "Last 30 Days Buy",
-    "history": "History"
+    "history": "History",
+    "chart": "Chart"
   },
   "activity": {
     "listed": "Listed",
@@ -869,13 +880,14 @@
     "topCollectionsHeading": "Top Collections",
     "popularCollectionsHeading": "Popular Collections",
     "popularCollectionsDesc": "Discover the most popular collections on rmrk",
+    "featuredArticlesHeading": "Featured Articles",
     "from": "from",
     "to": "to",
     "tx": {
       "cancelled": "Transaction was cancelled",
       "feesPaidIn": "You are paying fees in {0}"
     },
-    "searchPlaceholder": "Search By Collection Or NFT",
+    "searchPlaceholder": "Search by Collection or NFT",
     "tagsAdd": "Type and press enter to add your own",
     "chooseWallet": "Choose your"
   },
@@ -989,6 +1001,7 @@
     }
   },
   "history": {
+    "label": "History",
     "today": "Today",
     "yesterday": "Yesterday",
     "last7Days": "Last 7 Days",
@@ -1014,6 +1027,13 @@
   "toast": {
     "urlCopy": "URL copied to clipboard",
     "paymentLinkCopy": "Payment link copied to clipboard"
+  },
+  "profileMenu": {
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "language": "Language",
+    "disconnect": "Disconnect",
+    "wallet": "Wallet"
   },
   "footer": {
     "subscribe": "Get The Latest KodaDot Updates",

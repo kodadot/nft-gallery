@@ -27,11 +27,11 @@ export const BLOCK_EXPLORER_WITH_QUERY = ['snek']
 
 const chainPropertyMap: Config<ChainProperties> = {
   rmrk: DEFAULT_CHAIN_PROPERTIES,
-  bsx: toChainProperty(10041, 12, 'KSM', 'https://basilisk.subscan.io/'),
+  bsx: toChainProperty(10041, 12, 'BSX', 'https://basilisk.subscan.io/'),
   snek: toChainProperty(
     10041,
     12,
-    'KSM',
+    'BSX',
     'https://calamar.play.hydration.cloud/rococo%20basilisk/search?query='
   ),
   statemine: DEFAULT_CHAIN_PROPERTIES,

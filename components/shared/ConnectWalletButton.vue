@@ -1,5 +1,5 @@
 <template>
-  <b-button type="is-primary" @click="openWalletConnectModal()">
+  <b-button type="is-primary" class="py-2 px-4" @click="openWalletConnectModal">
     {{ $t(label) }}
   </b-button>
 </template>
@@ -19,6 +19,8 @@ export default class ConnectWalletButton extends Vue {
       hasModalCard: true,
       trapFocus: true,
     })
+
+    this.$emit('closeBurgerMenu')
   }
 }
 </script>

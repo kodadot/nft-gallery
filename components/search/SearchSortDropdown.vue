@@ -10,7 +10,7 @@
           type="is-primary"
           icon-right="caret-down"
           data-cy="gallery-sort-by">
-          Sort by
+          {{ $t('sort.collection.sortBy') }}
         </b-button>
       </template>
       <b-dropdown-item
@@ -24,7 +24,7 @@
     <b-select
       v-else
       v-model="selectedAction"
-      placeholder="Sort by"
+      :placeholder="$t('sort.collection.sortBy')"
       class="select-dropdown"
       data-cy="collection-sort-by">
       <option v-for="action in actions" :key="action" :value="action">

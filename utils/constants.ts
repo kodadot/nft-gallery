@@ -71,6 +71,13 @@ export const disableChainListOnProductionEnv = [
   'westmint',
   'movr',
   'glmr',
+  'snek',
 ]
 
 export const chainTestList = ['westend', 'westmint']
+
+export const getChainTestList = () => {
+  return window.location.hostname === 'kodadot.xyz'
+    ? disableChainListOnProductionEnv
+    : chainTestList
+}

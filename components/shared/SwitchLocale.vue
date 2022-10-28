@@ -7,9 +7,9 @@
         :icon-right="active ? 'caret-up' : 'caret-down'" />
     </template>
     <b-dropdown-item
-      aria-role="listitem"
       v-for="lang in langsFlags"
       :key="lang.value"
+      aria-role="listitem"
       :value="userLang"
       :class="{ 'is-active': userLang === lang.value }"
       @click="setUserLang(lang.value)">

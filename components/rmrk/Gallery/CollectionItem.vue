@@ -53,7 +53,6 @@
     <div class="columns is-centered">
       <div class="column is-8 has-text-centered">
         <DescriptionWrapper
-          v-if="!isLoading"
           :row-height="50"
           :text="description.replaceAll('\n', '  \n')" />
       </div>
