@@ -22,45 +22,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.1
-        with:
-          version: latest
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Run Code Lint
-        run: pnpm lint:quiet
-
-      - name: Run Test
-        run: pnpm test
-
-  test-e2e:
-    runs-on: ubuntu-latest
-    container:
-      image: cypress/included:10.6.0
-      options: --user 1001
-    env:
-      CYPRESS_CACHE_FOLDER: '${GITHUB_WORKSPACE}/.cypress-cache'
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.1
+        uses: pnpm/action-setup@v2
         with:
           version: latest
 
@@ -75,24 +37,6 @@ jobs:
 
       - name: Install Cypress
         run: pnpm cypress install
-
-      - name: Cypress run
-        uses: cypress-io/github-action@v4
-        with:
-          project: ./tests
-          build: pnpm generate
-          start: pnpm start:static
-          wait-on: 'http://localhost:9090'
-          # wait for 2 minutes for the server to respond
-          wait-on-timeout: 150
-          command: pnpm test:e2e --browser chrome
-
-      - name: Upload Screenshots
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: cypress-website-screenshots
-          path: ./tests/cypress/screenshots/
 
   build:
     strategy:
@@ -111,7 +55,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.1
+        uses: pnpm/action-setup@v2
         with:
           version: latest
 

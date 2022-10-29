@@ -24,6 +24,7 @@ html.dark-mode {
   }
 
   .navbar {
+    border-color: $white;
     .dropdown-content .dropdown-item .menu-item {
       color: $white !important;
     }
@@ -89,6 +90,7 @@ html.dark-mode {
   }
 
   .instance {
+    border-color: $white;
     &-accent,
     &-blue {
       background-color: $dark-accent;
@@ -96,29 +98,43 @@ html.dark-mode {
   }
 
   .landing-search {
-    .sub-title {
-      color: $search-background-color;
+    .subtitle {
+      color: $search-background-color !important;
       text-shadow: 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
         -1px -1px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, -1px 0px 0 #fff,
         0px -1px 0 #fff, 4px 4px #fff;
     }
+  }
 
+  .search-bar-container {
     .link-item {
       &:hover {
         background-color: $k-accentlight2dark;
       }
     }
 
+    .tabs li.is-active a {
+      color: $white !important;
+      background-color: $k-dark !important;
+    }
 
-  .tabs li.is-active a {
-    color: $white;
-  }
+    .tabs li:not(.is-active) a {
+      color: $white;
+    }
 
-  .tabs li:not(.is-active) a {
-    color: $white
-  }
+    .search-history {
+      .times-icon {
+        &:hover {
+          color: $white;
+        }
+      }
 
-  
+      .search-hisotry-item {
+        &:hover {
+          background-color: $k-accentlight2dark;
+        }
+      }
+    }
   }
 
   .dropdown-content {
@@ -129,7 +145,7 @@ html.dark-mode {
 
   .footer-container {
     background-color: $dark-accent;
-    border-top: 1px solid $white;
+    // border-top: 1px solid $white;
 
     &-socials {
       &-list {
@@ -175,11 +191,11 @@ html.dark-mode {
     border: 1px solid white;
     .wallet .buttons {
       button {
-        background: $k-dark!important;
+        background: $k-dark !important;
         border: 1px solid $white;
       }
       .button {
-        background: $k-dark!important;
+        background: $k-dark !important;
         border: 1px solid $white;
         border-radius: unset;
       }
@@ -188,7 +204,7 @@ html.dark-mode {
       background: $white;
     }
     .modal-card-head {
-      background: $k-dark!important;
+      background: $k-dark !important;
       .delete {
         background: none;
         &::before {
@@ -203,6 +219,31 @@ html.dark-mode {
       background: $white !important;
       .is-white {
         color: $background-dark !important;
+      }
+    }
+  }
+
+  .image-outline {
+    border-color: $white;
+  }
+
+  .csw-substack-gradient-custom {
+    border-color: $white !important;
+    box-shadow: 4px 4px 0px $white;
+    input {
+      color: $white !important;
+      background-color: $k-dark !important;
+      &::placeholder {
+        color: $placeholder-color !important;
+      }
+    }
+    button {
+      color: $dark-accent !important;
+      border-left: 1px solid $white !important;
+      background: $k-accent !important;
+      &:hover {
+        background: $k-dark !important;
+        color: $white !important;
       }
     }
   }

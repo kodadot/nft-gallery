@@ -12,7 +12,7 @@ Development:
 
 ```sh
 # run this command from root folder
-pnpm -F ui story:dev
+pnpm -F brick story:dev
 
 # or, run this command from libs/ui folder
 pnpm story:dev
