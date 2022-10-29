@@ -35,11 +35,8 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: Run Code Lint
-        run: pnpm lint:quiet
-
-      - name: Run Test
-        run: pnpm test
+      - name: Install Cypress
+        run: pnpm cypress install
 
   build:
     strategy:
