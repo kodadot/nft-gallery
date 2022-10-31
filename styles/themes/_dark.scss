@@ -252,7 +252,7 @@ html.dark-mode {
     border-color: $white !important;
     box-shadow: 4px 4px 0px $white;
     &:hover {
-      background: $k-accent;
+      background: $k-accent !important;
       path {
         color: $black;
       }
