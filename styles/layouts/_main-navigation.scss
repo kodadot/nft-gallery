@@ -1,16 +1,109 @@
 @include touch {
+  html.dark-mode {
+    .navbar {
+      .container {
+        .navbar-menu {
+          border-color: black !important;
+        }
+      }
+
+      &-item {
+        .navbar-link {
+          color: white !important;
+        }
+
+        &--fullpage {
+          background-color: $background-dark !important;
+        }
+      }
+    }
+  }
+
   .navbar {
     .navbar-menu {
       border-top: 1px solid $black;
       width: 100vw;
-
       height: 100vh;
+
+      @include mobile {
+        padding: 0;
+      }
 
       .navbar-end {
         display: flex;
         flex-direction: column;
+
+        .navbar-item {
+          padding: 24px 20px;
+          border-bottom: 1px solid black;
+
+          &.is-active {
+            border-top: 1px solid white;
+
+            a {
+              color: white;
+            }
+          }
+
+          a {
+            color: black;
+          }
+
+          &--noBorder {
+            border-bottom: none;
+          }
+
+          &-body {
+            overflow-y: auto;
+            height: calc(100% - 118px);
+            position: relative;
+          }
+
+          span {
+            vertical-align: middle;
+          }
+
+          .icon {
+            margin: 0;
+
+            &--right {
+              @include set-position(center, right);
+            }
+          }
+
+          &--fullpage {
+            position: fixed;
+            top: 52px;
+            background-color: $background-light;
+            height: 100%;
+            width: 100%;
+            z-index: 100;
+          }
+
+          &--reverse {
+            background-color: black;
+            color: white;
+          }
+
+          .navbar-link {
+            padding: 0;
+          }
+        }
+
+        #NavProfile {
+          .button-connect-wallet {
+            box-shadow: 4px 4px 0px black !important;
+            width: 80%;
+            height: 67px;
+            border-radius: 0;
+            display: block;
+            margin: 0 auto 20px;
+            text-transform: capitalize;
+          }
+        }
       }
     }
+
     .custom-navbar-item {
       margin-left: 0 !important;
     }
@@ -26,6 +119,16 @@
       position: absolute;
       bottom: 0;
 
+      @include mobile {
+        align-self: auto;
+        width: 100%;
+        padding: 24px 20px 0;
+
+        div {
+          flex-grow: 1;
+        }
+      }
+
       .dropdown-trigger .button {
         width: 40vw;
       }
@@ -36,6 +139,7 @@
       transform: translate3d(-50%, 10%, 0);
     }
   }
+}
 }
 
 .navbar {
