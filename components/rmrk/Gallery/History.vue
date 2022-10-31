@@ -92,7 +92,10 @@
             cell-class="short-identity__table"
             field="Amount"
             label="Amount">
-            {{ props.row.Amount }}
+            <div v-if="parseInt(props.row.Amount)">
+              <CommonTokenMoney :value="props.row.Amount" />
+            </div>
+            <div v-else>-</div>
           </b-table-column>
           <b-table-column
             v-slot="props"
@@ -139,7 +142,6 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import {
   HistoryEventType,
   InteractionBsxOnly,
-  parseAmount,
   parseDate,
   wrapEventNameWithIcon,
 } from '@/utils/historyEvent'
@@ -151,6 +153,7 @@ const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
+  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
 }
 
 type TableRowItem = {
@@ -314,7 +317,7 @@ export default class History extends mixins(
             : Interaction.UNLIST
           event['From'] = newEvent['caller']
           event['To'] = ''
-          event['Amount'] = this.parsePrice(newEvent['meta'])
+          event['Amount'] = newEvent['meta']
           break
         case Interaction.SEND:
           event['From'] = newEvent['caller']
@@ -327,7 +330,7 @@ export default class History extends mixins(
         case Interaction.BUY:
           event['From'] = newEvent['currentOwner']
           event['To'] = newEvent['caller']
-          event['Amount'] = this.parsePrice(newEvent['meta'])
+          event['Amount'] = newEvent['meta']
           if (previousPriceMap[nftId]) {
             event['Percentage'] =
               ((parseInt(newEvent['meta']) - previousPriceMap[nftId]) /
@@ -344,9 +347,10 @@ export default class History extends mixins(
           event['Percentage'] = parseInt(newEvent['meta'])
           break
         case InteractionBsxOnly.PAY_ROYALTY:
+          console.log(newEvent)
           event['From'] = newEvent['caller']
           event['To'] = ''
-          event['Amount'] = this.parsePrice(newEvent['meta'])
+          event['Amount'] = newEvent['meta']
           break
         default:
           // unsupported event
@@ -392,10 +396,6 @@ export default class History extends mixins(
     }
 
     this.$emit('setPriceChartData', [chartData.buy, chartData.list])
-  }
-
-  private parsePrice(amount): string {
-    return parseAmount(amount, this.decimals, this.unit)
   }
 
   @Watch('events', { immediate: true })
