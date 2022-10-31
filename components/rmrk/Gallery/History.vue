@@ -347,7 +347,6 @@ export default class History extends mixins(
           event['Percentage'] = parseInt(newEvent['meta'])
           break
         case InteractionBsxOnly.PAY_ROYALTY:
-          console.log(newEvent)
           event['From'] = newEvent['caller']
           event['To'] = ''
           event['Amount'] = newEvent['meta']
