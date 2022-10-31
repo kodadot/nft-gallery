@@ -22,10 +22,19 @@ Before you being:
 - Read up on our [tech stack](https://medium.com/kodadot/the-tech-stack-at-kodadot-8a83880f8624) to get a better picture of the infrastructure we rely on
 - Familiarise yourself with our [contributor culture](https://medium.com/kodadot/contributor-culture-at-kodadot-665243d3d6a6) to better understand the dynamics by which we operate
 
+Recommended VSCode Extensions:
+
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [Vue Language Features (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- [Vue VSCode Snippets](https://marketplace.visualstudio.com/items?itemName=sdras.vue-vscode-snippets)
+- [Monorepo Workspace](https://marketplace.visualstudio.com/items?itemName=folke.vscode-monorepo-workspace)
+
 ### Which issue should you pick?
 
 We are working primarily on two metrics.
 Issues have
+
 - priorities by labels [p1-p5](https://github.com/kodadot/nft-gallery/labels), **p1 means urgent**, **p5 in research mode**.
 - bounty labels for issues in the range of **$ - $$$$$**. Check [Rewards](REWARDS.md)
 
@@ -45,7 +54,6 @@ If there is no such issue, our **best advice is to choose issues reflecting your
 - Getting unassigned, dropping out of the queue, or passing on the option to pick the issue forbids you from further participation in this particular issue.
 - **ignoring issue**: sometimes, you might work on an issue that doesn't need supervision / assigning from a bot or help from the team. As an example, consider a small issue, quick fix, something without a bounty label, etc. In this case, you can comment `ignore` to the issue to prevent KodaBot from reacting to this issue. This feature is available only to collaborators on nft-gallery.
 
-
 ### Opening Pull Requests
 
 Whenever you open PR against our repository, our best recommendation is to finish it quickly, i.e., **being merged under 72h since opening/last discussion**, if it's not a complex issue requiring more profound attention of more members. Otherwise, you will be raising the chance to face many merge conflicts.
@@ -55,7 +63,6 @@ Whenever you open PR against our repository, our best recommendation is to finis
 - Once you submit your PR, others from the developers community will review it with you. The first thing you'll want to do is a [self-review](#self-review).
 - After that, we may have questions; check back on your PR to keep up with the conversation.
 - Did you have an issue, like a merge conflict? Check out our [git tutorial](https://lab.github.com/githubtraining/managing-merge-conflicts) on **how to resolve merge conflicts and other issues.**
-
 
 ### Your PR is merged!
 
@@ -179,14 +186,14 @@ You can identify these kinds of problems by seeing similar-looking test reports:
 TL;DR: If you're touching components which include HTML tags such as `data-cy="submit"`, and the tests fail, make sure the tests still use the correct selector.
 
 **Example:**
+
 ```html
 <button
   id="main"
   class="btn btn-large"
   name="submission"
   role="button"
-  data-cy="submit"
->
+  data-cy="submit">
   Submit
 </button>
 ```

@@ -66,6 +66,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.8",
     "@google/model-viewer": "^1.12.1",
     "@keeex/qrcodejs-kx": "^1.0.2",
+    "@kodadot1/brick": "workspace:*",
     "@kodadot1/minimark": "^0.0.1-rc.10",
     "@kodadot1/sub-api": "0.1.1-alpha.3",
     "@kodadot1/vuex-options": "0.0.3-rc.10",
@@ -147,6 +148,7 @@
     "eslint-plugin-unicorn": "^42.0.0",
     "eslint-plugin-vue": "^8.7.1",
     "fake-indexeddb": "^4.0.0",
+    "glob": "^8.0.3",
     "graphql-tag": "^2.12.6",
     "husky": "^7.0.4",
     "jsdom": "^19.0.0",
@@ -160,7 +162,8 @@
     "vite-plugin-vue2": "^2.0.2",
     "vitest": "^0.24.3",
     "vue-debounce-decorator": "^1.0.1",
-    "vue-eslint-parser": "^9.1.0"
+    "vue-eslint-parser": "^9.1.0",
+    "wait-on": "^6.0.1"
   },
   "pnpm": {
     "overrides": {

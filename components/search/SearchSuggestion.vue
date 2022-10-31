@@ -97,6 +97,21 @@
         </template>
       </b-tab-item>
     </b-tabs>
+    <div v-if="!name" class="search-history">
+      <div
+        v-for="item in filterSearch"
+        :key="item.id"
+        class="is-flex is-align-items-center is-justify-content-space-between mb-1 search-history-item"
+        @click="goToExploreResults(item)">
+        <div class="is-flex is-align-items-center">
+          <b-icon icon="history" size="is-small" />
+          <div class="ml-3 history-label">{{ item.name }}</div>
+        </div>
+        <div class="" @click.stop.prevent="removeSearchHistory(item.name)">
+          <b-icon icon="times" size="is-small" class="times-icon" />
+        </div>
+      </div>
+    </div>
     <b-tabs v-show="!name" v-model="activeTrendingTab" destroy-on-hide expanded>
       <b-tab-item label="Trending" value="Trending">
         <div
@@ -174,6 +189,12 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
   public isNFTResultLoading = false
   private nftResult: NFTWithMeta[] = []
   private collectionResult: CollectionWithMeta[] = []
+  private searched: NFTWithMeta[] = []
+  private searchString = ''
+
+  public mounted(): void {
+    this.getSearchHistory()
+  }
 
   fetch() {
     this.fetchSuggestions()
@@ -221,9 +242,11 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
   }
 
   get loadMoreItemClassName() {
-    return this.selectedIndex === this.totalItemsAtCurrentTab
-      ? 'selected-item'
-      : 'link-item'
+    let result = 'link-item'
+    if (this.selectedIndex === this.totalItemsAtCurrentTab) {
+      result += ' selected-item'
+    }
+    return result
   }
 
   get queryVariables() {
@@ -342,6 +365,10 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
 
   @Emit('close')
   public gotoCollectionItem(item: CollectionWithMeta) {
+    // if item is clicked when search term is there, insert to history
+    if (this.searchString) {
+      this.insertNewHistory()
+    }
     this.$router.push(`/${this.urlPrefix}/collection/${item.id}`)
   }
 
@@ -363,6 +390,61 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     return `${this.urlPrefix}-${url}`
   }
 
+  insertNewHistory() {
+    for (const s of this.searched) {
+      if (s.name === this.searchString) {
+        return
+      }
+    }
+
+    const newResult = {
+      type: 'History',
+      name: this.searchString,
+    } as unknown as NFTWithMeta
+
+    this.searched.push(newResult)
+
+    if (this.searched.length > 3) {
+      this.searched = this.searched.slice(-3)
+    }
+
+    localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+  }
+
+  private getSearchHistory() {
+    const cacheResult = localStorage.kodaDotSearchResult
+    if (cacheResult) {
+      this.searched = JSON.parse(cacheResult)
+    }
+  }
+
+  public removeSearchHistory(value: string): void {
+    this.searched = this.searched.filter((r) => r.name !== value)
+    localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+  }
+
+  public get filterSearch(): NFTWithMeta[] {
+    // filter the history search which is not similar to searchString
+    if (!this.searched.length) {
+      return []
+    }
+
+    return this.searched.filter((option) => {
+      return (
+        option.name
+          .toString()
+          .toLowerCase()
+          .indexOf((this.searchString || '').toLowerCase()) >= 0
+      )
+    })
+  }
+
+  public goToExploreResults(item) {
+    this.$emit('gotoGallery', {
+      search: item.name,
+    })
+  }
+
   @Debounce(50)
   async updateSuggestion(value: string) {
     //To handle empty string
@@ -376,6 +458,8 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     this.isCollectionResultLoading = true
     this.isNFTResultLoading = true
     this.query.search = value
+    this.searchString = value
+
     try {
       const queryNft = await resolveQueryPath(this.client, 'nftListWithSearch')
       const nfts = this.$apollo.query({

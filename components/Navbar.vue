@@ -18,7 +18,7 @@
       <div
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
-        <HistoryBrowser class="navbar-item" />
+        <!-- <HistoryBrowser class="navbar-item" /> -->
         <b-button
           v-if="showSearchOnNavbar"
           class="mr-2 mobile-nav-search-btn is-flex"
@@ -40,9 +40,9 @@
       </div>
     </template>
     <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
-      <LazyHistoryBrowser
+      <!-- <LazyHistoryBrowser
         id="NavHistoryBrowser"
-        class="custom-navbar-item navbar-link-background is-hidden-touch" />
+        class="custom-navbar-item navbar-link-background is-hidden-touch" /> -->
 
       <NavbarExplore v-if="!isMobile" />
       <MobileExpandableSection v-else :title="$t('explore')">

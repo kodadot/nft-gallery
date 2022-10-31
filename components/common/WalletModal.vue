@@ -252,7 +252,7 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
     .wallet-chooser {
       display: block;
 
-      ::v-deep .dropdown-menu {
+      :deep(.dropdown-menu) {
         width: 100%;
         padding-top: 0px;
         display: block !important;

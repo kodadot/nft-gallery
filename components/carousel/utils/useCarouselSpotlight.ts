@@ -12,6 +12,7 @@ import { fastExtract } from '@/utils/ipfs'
 
 const curatedCollection = {
   rmrk: [
+    '8adee5c0c132c32e6a-🎵QMB🎵', // 🎵Quakz Music Box🎵
     '800f8a914281765a7d-KITTY', // Kitty
     '2075be44ea4b9e422d-🐺', // WolfAngryClub
     '160a6f4320f11acb25-LCKWV', // PixelBabe

@@ -39,7 +39,7 @@ import { Option } from '@kodadot1/vuex-options/dist/types'
 import { getChainTestList } from '~/utils/constants'
 
 const { urlPrefix } = usePrefix()
-const { $store, $colorMode } = useNuxtApp()
+const { $store, $colorMode, $router } = useNuxtApp()
 const isDarkMode = computed(() => $colorMode.preference === 'dark')
 
 const landingImage = computed(() => {
@@ -62,6 +62,6 @@ const switchChain = (value) => {
     return
   }
   $store.dispatch('setUrlPrefix', value)
-  window.location.reload()
+  $router.push({ path: `/${value}/explore` })
 }
 </script>
