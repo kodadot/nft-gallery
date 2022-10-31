@@ -1,14 +1,15 @@
 <template>
   <div class="min-h-full is-flex is-flex-direction-column">
     <Navbar />
+    <!--    <MobileNavbar v-else />-->
     <main class="is-flex-grow-1">
       <section class="section">
         <div class="container">
           <Error
             v-if="$nuxt.isOffline"
             :has-img="false"
-            error-title="Offline Detected"
-            error-subtitle="Please check your network connections" />
+            error-subtitle="Please check your network connections"
+            error-title="Offline Detected" />
           <Nuxt v-else />
         </div>
       </section>
@@ -18,7 +19,9 @@
 </template>
 
 <script lang="ts">
+import { isMobileDevice } from '@/utils/extension'
 import { Component, Vue } from 'nuxt-property-decorator'
+
 @Component<DefaultLayout>({
   name: 'DefaultLayout',
   head() {
@@ -33,5 +36,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
     }
   },
 })
-export default class DefaultLayout extends Vue {}
+export default class DefaultLayout extends Vue {
+  private isMobile = isMobileDevice
+}
 </script>
