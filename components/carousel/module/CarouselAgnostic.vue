@@ -12,8 +12,6 @@
           </div>
         </div>
       </div>
-      <div class="arrow arrow-left" @click="slider?.prev()"></div>
-      <div class="arrow arrow-right" @click="slider?.next()"></div>
       <div
         v-if="showPrev"
         class="arrow arrow-left"
