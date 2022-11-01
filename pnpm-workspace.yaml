@@ -1,0 +1,3 @@
+packages:
+  - 'libs/*'
+  - '!**/test/**'

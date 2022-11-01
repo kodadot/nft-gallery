@@ -129,7 +129,7 @@ html.dark-mode {
         }
       }
 
-      .search-hisotry-item {
+      .search-history-item {
         &:hover {
           background-color: $k-accentlight2dark;
         }
@@ -244,6 +244,17 @@ html.dark-mode {
       &:hover {
         background: $k-dark !important;
         color: $white !important;
+      }
+    }
+  }
+
+  .scroll-top-button {
+    border-color: $white !important;
+    box-shadow: 4px 4px 0px $white;
+    &:hover {
+      background: $k-accent !important;
+      path {
+        color: $black;
       }
     }
   }

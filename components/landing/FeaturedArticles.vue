@@ -4,23 +4,11 @@
 
     <div class="columns">
       <div v-for="article in articles" :key="article.title" class="column">
-        <a
-          class="article"
+        <CardArticle
           :href="article.link"
-          target="_blank"
-          rel="noopener noreferrer">
-          <div
-            class="article-image"
-            :style="{ 'background-image': `url(${article.image})` }"></div>
-          <div class="article-info">
-            <p class="article-title">
-              {{ article.title }}
-            </p>
-            <p class="is-size-7">
-              {{ article.description }}
-            </p>
-          </div>
-        </a>
+          :description="article.description"
+          :image="article.image"
+          :title="article.title" />
       </div>
     </div>
 
@@ -35,6 +23,8 @@
 </template>
 
 <script lang="ts" setup>
+import { CardArticle } from '@kodadot1/brick'
+
 interface Articles {
   title: string
   description: string
