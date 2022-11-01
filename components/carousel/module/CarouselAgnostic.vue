@@ -52,6 +52,15 @@ const [wrapper, slider] = useKeenSlider(
     slideChanged: (s) => {
       current.value = s.track.details.rel
     },
+    detailsChanged: (s) => {
+      s.slides.forEach((slide, index) => {
+        if (s.track.details.slides[index].portion > 0) {
+          slide.style.opacity = '1'
+        } else {
+          slide.style.opacity = '.5'
+        }
+      })
+    },
     breakpoints: {
       '(min-width: 640px)': {
         slides: { perView: 1.5, spacing: 32 },
@@ -60,10 +69,10 @@ const [wrapper, slider] = useKeenSlider(
         slides: { perView: 2.5, spacing: 32 },
       },
       '(min-width: 1024px)': {
-        slides: { perView: 3.5, spacing: 32 },
+        slides: { perView: 3, spacing: 32 },
       },
       '(min-width: 1280px)': {
-        slides: { perView: 4.5, spacing: 32 },
+        slides: { perView: 4, spacing: 32 },
       },
     },
     slides: { perView: 1.5, spacing: 32 },
