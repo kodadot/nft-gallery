@@ -14,6 +14,14 @@
       </div>
       <div class="arrow arrow-left" @click="slider?.prev()"></div>
       <div class="arrow arrow-right" @click="slider?.next()"></div>
+      <div
+        v-if="showPrev"
+        class="arrow arrow-left"
+        @click="slider?.prev()"></div>
+      <div
+        v-if="showNext"
+        class="arrow arrow-right"
+        @click="slider?.next()"></div>
     </div>
     <div v-if="slider && !isCollection" class="dots">
       <button
@@ -45,12 +53,25 @@ provide('isCollection', isCollection.value)
 
 const current = ref(0)
 const minWidths = [1280, 1024, 768, 640]
+const showPrev = ref(false)
+const showNext = ref(true)
+
 const [wrapper, slider] = useKeenSlider(
   {
     initial: current.value,
     rubberband: false,
     slideChanged: (s) => {
       current.value = s.track.details.rel
+      if (s.track.details.rel === s.track.details.minIdx) {
+        showPrev.value = false
+        showNext.value = true
+      } else if (s.track.details.rel === s.track.details.maxIdx) {
+        showPrev.value = true
+        showNext.value = false
+      } else {
+        showPrev.value = true
+        showNext.value = true
+      }
     },
     detailsChanged: (s) => {
       s.slides.forEach((slide, index) => {
