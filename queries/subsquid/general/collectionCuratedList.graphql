@@ -5,7 +5,11 @@ query collectionCuratedList {
   collectionEntities(
     orderBy: blockNumber_DESC
     limit: 5
-    where: { nfts_some: { burned_eq: false }, name_isNull: false }
+    where: {
+      nfts_some: { burned_eq: false }
+      name_isNull: false
+      name_not_eq: ""
+    }
   ) {
     ...collection
     ...collectionDetails
