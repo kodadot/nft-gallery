@@ -1,9 +1,9 @@
 <template>
-  <a
-    v-if="showBtn"
-    class="scroll-top-button button is-rounded"
-    @click="scrollToTop">
-    <b-icon icon="chevron-up" />
+  <a v-if="showBtn" class="scroll-top-button button" @click="scrollToTop">
+    <b-icon
+      icon="chevron-up"
+      size="is-small"
+      :type="$colorMode.value === 'dark' ? 'is-white' : 'is-black'" />
   </a>
 </template>
 
@@ -14,7 +14,7 @@ import { SHOW_SCROLL_TOP_BUTTON_HEIGHT } from '@/utils/constants'
 
 @Component({})
 export default class ScrollTopButton extends Vue {
-  private showBtn = false
+  public showBtn = false
 
   protected mounted() {
     window.addEventListener('scroll', this.onScroll)
@@ -30,7 +30,7 @@ export default class ScrollTopButton extends Vue {
       document.documentElement.scrollTop > SHOW_SCROLL_TOP_BUTTON_HEIGHT
   }
 
-  private scrollToTop = () => {
+  public scrollToTop = () => {
     window.scroll({
       top: 0,
       behavior: 'smooth',
@@ -38,13 +38,3 @@ export default class ScrollTopButton extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped>
-.scroll-top-button {
-  position: fixed;
-  right: 20px;
-  bottom: 100px;
-  width: 56px;
-  height: 56px;
-  z-index: 998;
-}
-</style>

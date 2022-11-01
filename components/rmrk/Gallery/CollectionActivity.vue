@@ -12,8 +12,11 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money :value="collectionDailyTradedVolumeNumber" inline /> ⊆
-            <Money :value="collectionTradedVolumeNumber" inline />
+            <CommonTokenMoney
+              :value="collectionDailyTradedVolumeNumber"
+              inline />
+            ⊆
+            <CommonTokenMoney :value="collectionTradedVolumeNumber" inline />
           </p>
           <p class="heading">
             {{ $t('activity.todayTraded') }} / {{ $t('activity.totalTraded') }}
@@ -23,7 +26,7 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money :value="highestBuyPrice" inline /> ⊆
+            <CommonTokenMoney :value="highestBuyPrice" inline /> ⊆
             {{ totalPurchases }}
           </p>
           <p class="heading">
@@ -54,7 +57,7 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money :value="collectionFloorPrice" inline />
+            <CommonTokenMoney :value="collectionFloorPrice" inline />
           </p>
           <p class="heading">{{ $t('activity.floorPrice') }}</p>
         </div>
@@ -77,7 +80,7 @@ import collectionBuyEventStatsById from '@/queries/rmrk/subsquid/collectionBuyEv
 import { notificationTypes, showNotification } from '@/utils/notification'
 
 const components = {
-  Money: () => import('@/components/shared/format/Money.vue'),
+  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
 }
 type Stats = {
   listedCount: number
@@ -92,8 +95,7 @@ type Stats = {
 export default class CollectionActivity extends mixins(PrefixMixin) {
   @Prop({ type: String, required: true }) public id!: string
   public yesterdayDate: Date = subDays(Date.now(), 1)
-
-  protected stats: Stats = {
+  public stats: Stats = {
     listedCount: 0,
     collectionLength: 0,
     collectionFloorPrice: 0,

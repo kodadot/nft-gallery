@@ -247,4 +247,15 @@ html.dark-mode {
       }
     }
   }
+
+  .scroll-top-button {
+    border-color: $white !important;
+    box-shadow: 4px 4px 0px $white;
+    &:hover {
+      background: $k-accent !important;
+      path {
+        color: $black;
+      }
+    }
+  }
 }
