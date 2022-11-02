@@ -33,12 +33,12 @@
             icon-right="chevron-right"
             expanded
             @click="setWallet(wallet)">
-            <span class="pl-4">
+            <span>
               <b-image
                 :src="wallet.img"
                 class="is-32x32 is-inline-block"
                 style="vertical-align: middle"></b-image>
-              <span class="is-size-6">{{ wallet.name }}</span>
+              <span class="is-size-6 ml-2">{{ wallet.name }}</span>
             </span>
           </b-button>
         </div>
@@ -46,8 +46,7 @@
         <div
           v-if="hasSelectedWalletProvider && !hasWalletProviderExtension"
           class="buttons">
-          <div
-            class="wallet-name subtitle is-fullwidth is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
+          <div class="wallet-name subtitle is-fullwidth is-size-6 is-lowercase">
             <b-image
               :src="selectedWalletProvider.img"
               class="is-32x32 is-inline-block"
@@ -83,10 +82,10 @@
             <b-dropdown
               ref="address-chooser"
               v-model="account"
+              :mobile-modal="false"
               class="wallet-chooser">
               <template #trigger>
-                <div
-                  class="wallet-name subtitle is-size-6 has-text-centered is-lowercase mb-0 pt-4 pb-4">
+                <div class="wallet-name subtitle is-size-6 is-lowercase">
                   <b-image
                     :src="selectedWalletProvider.img"
                     class="is-32x32 is-inline-block"
@@ -247,6 +246,8 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
   font-family: 'Work Sans';
   font-style: normal;
   position: relative;
+  border: 1px solid $k-dark;
+
   .wallet {
     max-width: 280px;
     .wallet-chooser {
@@ -259,9 +260,12 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
         .dropdown-content {
           box-shadow: none;
           padding-top: 0px;
+          border: none;
           a {
-            padding: 0.375rem 1rem;
-            height: 29px;
+            padding: 5px 32px;
+            &:hover {
+              background-color: $k-accentlight2;
+            }
           }
         }
       }
@@ -271,7 +275,7 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
       background-color: #000000;
     }
     &.modal-card {
-      background: #1f1f1f;
+      background: $k-dark;
       backdrop-filter: $frosted-glass-light-backdrop-filter;
       //position: relative;
       z-index: 1;
@@ -288,7 +292,7 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
     .modal-card-head {
       background: unset;
       border-bottom: 1px solid #000000;
-      //font-size: 1rem;
+      padding: 8px 32px;
 
       .delete {
         height: 40px;
@@ -314,17 +318,26 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
         border: 0;
         border-radius: 0;
         justify-content: space-between;
-        background-color: #ffffff;
-        font-weight: 600;
-        border-bottom: 1px solid #000000;
+        background-color: $white;
+        border-bottom: 1px solid $k-dark;
         margin-bottom: 0;
         height: 60px;
+        padding: 8px 32px;
+
+        &:hover {
+          background-color: $k-accentlight2;
+        }
       }
 
       a {
         border-bottom: 1px solid #000000;
         margin-bottom: 0;
       }
+    }
+
+    .wallet-name {
+      padding: 10px 32px;
+      margin-bottom: 0;
     }
   }
 
