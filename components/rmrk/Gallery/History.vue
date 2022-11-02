@@ -142,6 +142,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import {
   HistoryEventType,
   InteractionBsxOnly,
+  parseChartAmount,
   parseDate,
   wrapEventNameWithIcon,
 } from '@/utils/historyEvent'
@@ -380,9 +381,9 @@ export default class History extends mixins(
 
       // Push to chart data
       if (newEvent['interaction'] === Interaction.LIST) {
-        chartData.list.push([date, parseFloat(event['Amount'].substring(0, 6))])
+        this.pushChartData(chartData.list, date, event['Amount'])
       } else if (newEvent['interaction'] === Interaction.BUY) {
-        chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])
+        this.pushChartData(chartData.buy, date, event['Amount'])
       }
 
       this.copyTableData.push(event)
@@ -395,6 +396,10 @@ export default class History extends mixins(
     }
 
     this.$emit('setPriceChartData', [chartData.buy, chartData.list])
+  }
+
+  private pushChartData(array, date, amount) {
+    array.push([date, parseChartAmount(amount, this.decimals)])
   }
 
   @Watch('events', { immediate: true })
