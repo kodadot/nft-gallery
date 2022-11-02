@@ -26,7 +26,7 @@
         <span
           v-if="parseInt(price) > 0 && showPriceValue"
           class="card-image__price">
-          <Money :value="price" inline />
+          <CommonTokenMoney :value="price" inline />
         </span>
       </div>
 
@@ -59,7 +59,7 @@ import { NFTMetadata } from '@/components/rmrk/service/scheme'
 
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
+  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
     import('@/components/media/PreviewMediaResolver.vue'),

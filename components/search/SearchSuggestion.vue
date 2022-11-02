@@ -101,7 +101,7 @@
       <div
         v-for="item in filterSearch"
         :key="item.id"
-        class="is-flex is-align-items-center is-justify-content-space-between mb-1 search-hisotry-item"
+        class="is-flex is-align-items-center is-justify-content-space-between mb-1 search-history-item"
         @click="goToExploreResults(item)">
         <div class="is-flex is-align-items-center">
           <b-icon icon="history" size="is-small" />
