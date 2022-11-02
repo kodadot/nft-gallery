@@ -145,6 +145,10 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
+        <LazyChainSelect
+        id="NavChainSelect"
+        class="navbar-item has-dropdown"
+        data-cy="chain-select" />
       <NavbarProfileDropdown
         id="NavProfile"
         class="ml-2"
