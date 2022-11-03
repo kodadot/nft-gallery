@@ -87,6 +87,16 @@ html.dark-mode {
         color: $white !important;
       }
     }
+
+
+  .navbar-chain {
+    .dropdown-item {
+	  border-bottom: 1px solid $white;
+	  &:hover {
+		background-color: $k-accentlight2dark;
+	  }
+    }
+  }
   }
 
   .instance {

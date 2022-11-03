@@ -1,9 +1,25 @@
 <template>
-  <b-dropdown v-model="selected" aria-role="list">
+  <b-dropdown
+    v-model="selected"
+    class="navbar-chain"
+    aria-role="list"
+    :triggers="['click', 'hover']">
     <template #trigger>
-      <b-button
-        type="is-primary is-bordered navbar-link-background is-bordered-light"
-        :label="selected" />
+      <div class="navbar-item" data-cy="explore">
+        {{ selected }}
+        <svg
+          class="ml-1"
+          width="14"
+          height="7"
+          viewBox="0 0 14 7"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M13.0002 1L7.00024 6L1.00025 0.999999"
+            stroke="currentColor"
+            stroke-width="1.26984" />
+        </svg>
+      </div>
     </template>
     <b-dropdown-item
       v-for="option in options"
