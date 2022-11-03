@@ -5,7 +5,7 @@
     aria-role="list"
     :triggers="['click', 'hover']">
     <template #trigger>
-      <div class="navbar-item" data-cy="explore">
+      <div class="navbar-item" data-cy="chain">
         {{ selected }}
         <svg
           class="ml-1"
