@@ -2,6 +2,7 @@
   <CarouselIndex
     :title="`${$t('spotlight.page')}`"
     :nfts="spotlight"
+    text-color="light"
     action-type="pagination"
     item-url="collection" />
 </template>
