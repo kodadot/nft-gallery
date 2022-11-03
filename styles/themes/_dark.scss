@@ -41,6 +41,14 @@ html.dark-mode {
         color: $black;
       }
     }
+
+    .navbar-link {
+      &:hover {
+        background-color: transparent;
+        color: $white!important;
+      }
+    }
+
     .dropdown-content {
       .dropdown-item.is-active,
       .is-active > a {
