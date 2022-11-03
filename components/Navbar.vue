@@ -5,8 +5,7 @@
     wrapper-class="container"
     close-on-click
     mobile-burger
-    :active.sync="isBurgerMenuOpened"
-    :class="{ 'navbar-shrink': !showTopNavbar }">
+    :active.sync="isBurgerMenuOpened">
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
         <img
@@ -31,15 +30,7 @@
           class="mt-5 search-navbar-container-mobile" />
       </div>
     </template>
-    <template #start>
-      <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
-        <Search
-          hide-filter
-          class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
-          search-column-class="is-flex-grow-1" />
-      </div>
-    </template>
-    <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
+    <template #end>
       <!-- <LazyHistoryBrowser
         id="NavHistoryBrowser"
         class="custom-navbar-item navbar-link-background is-hidden-touch" /> -->
@@ -153,16 +144,6 @@
         :is-snek="isSnek"
         data-cy="profileDropdown"
         @closeBurgerMenu="closeBurgerMenu" />
-    </template>
-    <template v-else #end>
-      <div class="image is-32x32 mr-2">
-        <BasicImage
-          v-show="inCollectionPage && currentCollection.image"
-          :src="currentCollection.image"
-          :alt="navBarTitle"
-          rounded />
-      </div>
-      <div class="title is-4">{{ navBarTitle }}</div>
     </template>
   </b-navbar>
 </template>
@@ -283,20 +264,6 @@ export default class NavbarMenu extends mixins(
     }
   }
 
-  onScroll() {
-    const currentScrollPosition = document.documentElement.scrollTop
-    if (currentScrollPosition <= 0) {
-      this.showTopNavbar = true
-      return
-    }
-    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) {
-      return
-    }
-    this.showTopNavbar =
-      currentScrollPosition < this.fixedTitleNavAppearDistance
-    this.lastScrollPosition = currentScrollPosition
-  }
-
   showMobileSearchBar() {
     this.mobilSearchRef?.focusInput()
   }
@@ -305,14 +272,6 @@ export default class NavbarMenu extends mixins(
     if (this.isBurgerMenuOpened) {
       this.isBurgerMenuOpened = false
     }
-  }
-
-  mounted() {
-    window.addEventListener('scroll', this.onScroll)
-  }
-
-  beforeDestroy() {
-    window.removeEventListener('scroll', this.onScroll)
   }
 }
 </script>
