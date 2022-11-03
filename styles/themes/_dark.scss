@@ -25,6 +25,7 @@ html.dark-mode {
 
   .navbar {
     border-color: $white;
+    background-color: $background-dark!important;
     .dropdown-content .dropdown-item .menu-item {
       color: $white !important;
     }

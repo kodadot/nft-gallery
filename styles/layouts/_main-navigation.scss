@@ -41,7 +41,7 @@
 
 .navbar {
 	background-color: inherit;
-	backdrop-filter: blur(20px);
+	// backdrop-filter: blur(20px);
 	transform: translateZ(0px);
 	transition: 0.3s ease;
 	-webkit-transition: 0.3s ease;
@@ -49,6 +49,7 @@
 	font-family: 'Work Sans';
 	min-height: 72px;
 	width: 100vw;
+  background: $white;
   	border-bottom: 1px solid black;
 
 	@include mobile {
@@ -83,7 +84,7 @@
 		max-height: 70px;
 		padding-top: 6px !important;
 		padding-bottom: 6px !important;
-		background-color: rgba(12, 12, 12, 0.7) !important;
+		background-color: $white !important;
 	}
 
 	.navbar-item {
