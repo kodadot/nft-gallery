@@ -37,7 +37,7 @@ html.dark-mode {
     .navbar-dropdown a.navbar-item {
       &:hover,
       &:focus {
-        background-color: $primary !important;
+        background-color: $k-accent !important;
         color: $black;
       }
     }
@@ -93,7 +93,7 @@ html.dark-mode {
     .dropdown-item {
 	  border-bottom: 1px solid $white;
 	  &:hover {
-		background-color: $k-accentlight2dark;
+		background-color: $k-accent;
 	  }
     }
   }
