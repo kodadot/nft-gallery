@@ -1,17 +1,19 @@
 <template>
-  <GalleryItem />
+  <GalleryItem v-if="redesign" />
+  <OldGalleryItem v-else />
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import GalleryItem from '@/components/gallery/GalleryItem.vue'
+import OldGalleryItem from '@/components/bsx/Gallery/Item/GalleryItem.vue'
 
-import GalleryItem from '@/components/bsx/Gallery/Item/GalleryItem.vue'
+const { redesign } = useExperiments()
 
-@Component<GalleryItemPage>({
+export default {
   name: 'GalleryItemPage',
-  components: {
-    GalleryItem,
+  components: { GalleryItem, OldGalleryItem },
+  setup() {
+    return { redesign }
   },
-})
-export default class GalleryItemPage extends Vue {}
+}
 </script>

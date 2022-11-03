@@ -1,0 +1,14 @@
+.scroll-top-button {
+  position: fixed;
+  right: 24px;
+  bottom: 100px;
+  width: 35px;
+  height: 35px;
+  z-index: 998;
+  border-radius: 0;
+  border: 1px solid $black !important;
+  box-shadow: 4px 4px 0px $black;
+  &:hover {
+    background: $k-accentlight !important;
+  }
+}
