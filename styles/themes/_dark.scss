@@ -19,6 +19,7 @@ html.dark-mode {
     color: #fff !important;
 
     &:hover {
+      font-weight: 700;
       color: $k-accentlight !important;
     }
   }
