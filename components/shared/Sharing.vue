@@ -6,7 +6,7 @@
       <p class="control">
         <ShowQRModal
           :address="realworldFullPath"
-          :title="label"
+          :title="$t(label)"
           :type="btnType" />
       </p>
 
@@ -42,7 +42,7 @@
             network="twitter"
             :hashtags="hashtags"
             :url="realworldFullPath"
-            :title="label"
+            :title="$t(label)"
             twitter-user="KodaDot">
             <b-icon size="is-large" pack="fab" icon="twitter" />
           </ShareNetwork>
@@ -51,7 +51,7 @@
             class="button share__button is-medium"
             network="telegram"
             :url="realworldFullPath"
-            :title="label">
+            :title="$t(label)">
             <b-icon size="is-large" pack="fab" icon="telegram" />
           </ShareNetwork>
           <ShareNetwork
@@ -60,7 +60,7 @@
             network="facebook"
             :hashtags="hashtags"
             :url="realworldFullPath"
-            :title="label">
+            :title="$t(label)">
             <b-icon size="is-large" pack="fab" icon="facebook" />
           </ShareNetwork>
           <ShareNetwork
@@ -68,7 +68,7 @@
             class="button share__button is-medium"
             network="messenger"
             :url="realworldFullPath"
-            :title="label">
+            :title="$t(label)">
             <b-icon size="is-large" pack="fab" icon="facebook-messenger" />
           </ShareNetwork>
           <ShareNetwork
@@ -76,7 +76,7 @@
             class="button share__button is-medium"
             network="whatsapp"
             :url="realworldFullPath"
-            :title="label">
+            :title="$t(label)">
             <b-icon size="is-large" pack="fab" icon="whatsapp" />
           </ShareNetwork>
           <ShareNetwork
@@ -84,7 +84,7 @@
             class="button share__button is-medium"
             network="email"
             :url="realworldFullPath"
-            :title="label">
+            :title="$t(label)">
             <b-icon size="is-large" pack="fas" icon="envelope" />
           </ShareNetwork>
         </template>
