@@ -1,7 +1,7 @@
 <template>
   <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
     <div
-      class="re-top-collections-item py-2 is-flex is-align-items-center is-justify-content-space-between is-clickable">
+      class="top-collections-item py-2 is-flex is-align-items-center is-justify-content-space-between is-clickable">
       <div class="is-flex is-align-items-center">
         <div class="p-4 has-text-weight-bold">
           {{ index }}
@@ -17,16 +17,19 @@
             {{ collection.name | truncateStr(12) }}
           </div>
           <div class="has-text-grey is-size-7">
-            Floor: <Money :value="collection.floorPrice" inline />
+            <div v-if="collection.floorPrice">
+              Floor: <CommonTokenMoney :value="collection.floorPrice" inline />
+            </div>
+            <div v-else>---</div>
           </div>
         </div>
       </div>
       <div class="is-pulled-right has-text-right px-4">
         <div>
-          <Money :value="collection.volume" inline />
+          <CommonTokenMoney :value="collection.volume" inline />
         </div>
         <div class="has-text-grey is-size-7">
-          avg. <Money :value="collection.averagePrice" inline />
+          avg. <CommonTokenMoney :value="collection.averagePrice" inline />
         </div>
       </div>
     </div>
@@ -40,8 +43,8 @@ const BasicImage = defineAsyncComponent(
   () => import('@/components/shared/view/BasicImage.vue')
 )
 
-const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue')
+const CommonTokenMoney = defineAsyncComponent(
+  () => import('@/components/shared/CommonTokenMoney.vue')
 )
 
 const { urlPrefix } = usePrefix()
