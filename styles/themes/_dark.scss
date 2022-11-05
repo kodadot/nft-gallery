@@ -43,6 +43,14 @@ html.dark-mode {
         color: $black;
       }
     }
+
+    .navbar-link {
+      &:hover {
+        background-color: transparent;
+        color: $white!important;
+      }
+    }
+
     .dropdown-content {
       .dropdown-item.is-active,
       .is-active > a {
@@ -96,6 +104,7 @@ html.dark-mode {
 	  border-bottom: 1px solid $white;
 	  &:hover {
 		background-color: $k-accent;
+    color: $black;
 	  }
     }
   }
