@@ -2,7 +2,7 @@
   <section
     class="landing-search is-flex is-justify-content-space-between is-align-items-center">
     <img class="landing-search-left is-hidden-touch" :src="landingImage[0]" />
-    <div>
+    <div class="is-flex is-flex-direction-column is-align-items-center">
       <h1
         class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered">
         <span>{{ $t('search.landingTitle1') }}</span>
