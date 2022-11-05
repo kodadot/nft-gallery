@@ -98,6 +98,8 @@ Cypress.Commands.add('rmrkNavbar', () => {
   cy.get('[data-cy="hot"]').should('have.attr', 'href').and('include', '/hot')
   cy.get('[data-cy="profileDropdown"]').should('be.visible')
   cy.get('[data-cy="profileDropdown"]').click()
+  cy.get('[data-cy="chain-select"]').should('be.visible')
+  cy.get('[data-cy="chain-select"]').click()
 })
 
 Cypress.Commands.add('snekNavbar', () => {
@@ -107,6 +109,7 @@ Cypress.Commands.add('snekNavbar', () => {
     .and('include', '/snek/create')
   cy.get('[data-cy="explore"]').should('be.visible')
   cy.get('[data-cy="explore"]').click()
+  cy.get('[data-cy="chain"]').should('be.visible')
   cy.get('[data-cy="stats"]').should('be.visible').click()
   cy.get('[data-cy="global-offers"]')
     .should('have.attr', 'href')
@@ -114,6 +117,8 @@ Cypress.Commands.add('snekNavbar', () => {
   cy.get('[data-cy="offers-stats"]')
     .should('have.attr', 'href')
     .and('include', '/snek/stats')
+  cy.get('[data-cy="chain-select"]').should('be.visible')
+  cy.get('[data-cy="chain-select"]').click()
 })
 
 Cypress.Commands.add('expandGallerySearch', () => {
