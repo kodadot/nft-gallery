@@ -13,6 +13,7 @@ html.light-mode {
     color: #000 !important;
 
     &:hover {
+      font-weight: 700;
       color: $k-accentlight !important;
     }
   }
