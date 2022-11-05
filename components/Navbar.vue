@@ -39,7 +39,7 @@
           search-column-class="is-flex-grow-1" />
       </div>
     </template>
-    <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
+    <template #end>
       <!-- <LazyHistoryBrowser
         id="NavHistoryBrowser"
         class="custom-navbar-item navbar-link-background is-hidden-touch" /> -->
@@ -145,7 +145,7 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-        <LazyChainSelect
+      <LazyChainSelect
         id="NavChainSelect"
         class="navbar-item has-dropdown"
         data-cy="chain-select" />
@@ -157,16 +157,6 @@
         :is-snek="isSnek"
         data-cy="profileDropdown"
         @closeBurgerMenu="closeBurgerMenu" />
-    </template>
-    <template v-else #end>
-      <div class="image is-32x32 mr-2">
-        <BasicImage
-          v-show="inCollectionPage && currentCollection.image"
-          :src="currentCollection.image"
-          :alt="navBarTitle"
-          rounded />
-      </div>
-      <div class="title is-4">{{ navBarTitle }}</div>
     </template>
   </b-navbar>
 </template>
