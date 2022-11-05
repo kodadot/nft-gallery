@@ -2,13 +2,13 @@
   <div>
     <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
 
-    <div class="re-top-collections-grid mb-5">
+    <div class="top-collections-grid mb-5">
       <div v-for="(collection, index) in data" :key="index">
         <TopCollectionsItem :collection="collection" :index="index + 1" />
       </div>
     </div>
 
-    <nuxt-link to="/series-insight" class="link">
+    <nuxt-link v-show="urlPrefix === 'rmrk'" to="/series-insight" class="link">
       {{ $t('helper.seeMore') }} >
     </nuxt-link>
   </div>
@@ -50,9 +50,6 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
       variables: {
         orderBy: sort,
         limit,
-        where: {
-          floorPrice_isNull: false,
-        },
       },
     })
 
