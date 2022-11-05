@@ -5,7 +5,8 @@
     wrapper-class="container"
     close-on-click
     mobile-burger
-    :active.sync="isBurgerMenuOpened">
+    :active.sync="isBurgerMenuOpened"
+    :class="{ 'navbar-shrink': !showTopNavbar }">
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
         <img
@@ -28,6 +29,14 @@
           ref="mobilSearchRef"
           hide-filter
           class="mt-5 search-navbar-container-mobile" />
+      </div>
+    </template>
+    <template #start>
+      <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
+        <Search
+          hide-filter
+          class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
+          search-column-class="is-flex-grow-1" />
       </div>
     </template>
     <template #end>
@@ -268,6 +277,20 @@ export default class NavbarMenu extends mixins(
     }
   }
 
+  onScroll() {
+    const currentScrollPosition = document.documentElement.scrollTop
+    if (currentScrollPosition <= 0) {
+      this.showTopNavbar = true
+      return
+    }
+    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) {
+      return
+    }
+    this.showTopNavbar =
+      currentScrollPosition < this.fixedTitleNavAppearDistance
+    this.lastScrollPosition = currentScrollPosition
+  }
+
   showMobileSearchBar() {
     this.mobilSearchRef?.focusInput()
   }
@@ -276,6 +299,14 @@ export default class NavbarMenu extends mixins(
     if (this.isBurgerMenuOpened) {
       this.isBurgerMenuOpened = false
     }
+  }
+
+  mounted() {
+    window.addEventListener('scroll', this.onScroll)
+  }
+
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.onScroll)
   }
 }
 </script>
