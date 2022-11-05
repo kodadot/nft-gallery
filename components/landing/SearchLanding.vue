@@ -40,7 +40,11 @@ import { getChainTestList } from '~/utils/constants'
 
 const { urlPrefix } = usePrefix()
 const { $store, $colorMode, $router } = useNuxtApp()
-const isDarkMode = computed(() => $colorMode.preference === 'dark')
+const isDarkMode = computed(
+  () =>
+    $colorMode.preference === 'dark' ||
+    document.documentElement.className.includes('dark-mode')
+)
 
 const landingImage = computed(() => {
   if (isDarkMode.value) {
