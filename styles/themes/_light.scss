@@ -109,6 +109,14 @@ html.light-mode {
     }
   }
 
+  .navbar__sign-out-button {
+    color: $black;
+    background-color: $white!important;
+    &:hover {
+      background-color: $k-accentlight !important;
+    }
+  }
+
   .homepage .tile .box {
     border-color: #f3f3f3;
     background-color: $white;

@@ -299,6 +299,15 @@
         aria-role="menuitem"
         paddingless
         class="is-flex is-justify-content-center">
+        <ConnectWalletButton
+          label="general.change_account"
+          class="navbar__sign-out-button menu-item mb-4 is-size-7" />
+      </b-dropdown-item>
+      <b-dropdown-item
+        custom
+        aria-role="menuitem"
+        paddingless
+        class="is-flex is-justify-content-center">
         <b-button
           class="navbar__sign-out-button menu-item mb-4 is-size-7"
           @click="disconnect()">
@@ -483,7 +492,7 @@ export default class NavbarProfileDropdown extends mixins(
   }
   &__sign-out-button {
     border: 1px solid $black;
-    box-shadow: 4px 4px 0px $black;
+    box-shadow: 4px 4px 0px $black !important;
     padding: 8px 16px;
     border-radius: 0;
     &:hover {
