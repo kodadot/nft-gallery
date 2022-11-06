@@ -246,8 +246,15 @@ export default class NavbarMenu extends mixins(
     return this.$route.name === 'index'
   }
 
+  get isDarkMode() {
+    return (
+      this.$colorMode.preference === 'dark' ||
+      document.documentElement.className.includes('dark-mode')
+    )
+  }
+
   get logoSrc() {
-    return this.$colorMode.preference === 'dark' ? KodaBetaDark : KodaBeta
+    return this.isDarkMode ? KodaBetaDark : KodaBeta
   }
 
   get showSearchOnNavbar(): boolean {
