@@ -13,6 +13,7 @@ html.light-mode {
     color: #000 !important;
 
     &:hover {
+      font-weight: 700;
       color: $k-accentlight !important;
     }
   }
@@ -82,10 +83,6 @@ html.light-mode {
     .navbar-item.has-dropdown:hover .navbar-link,
     .navbar-item.has-dropdown.is-active .navbar-link {
       background-color: transparent !important;
-    }
-
-    &.navbar-shrink {
-      background-color: rgba(12, 12, 12, 0.7) !important;
     }
 
     .navbar-dropdown,

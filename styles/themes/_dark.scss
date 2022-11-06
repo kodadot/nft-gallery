@@ -19,12 +19,14 @@ html.dark-mode {
     color: #fff !important;
 
     &:hover {
+      font-weight: 700;
       color: $k-accentlight !important;
     }
   }
 
   .navbar {
     border-color: $white;
+    background-color: $background-dark!important;
     .dropdown-content .dropdown-item .menu-item {
       color: $white !important;
     }
@@ -37,10 +39,18 @@ html.dark-mode {
     .navbar-dropdown a.navbar-item {
       &:hover,
       &:focus {
-        background-color: $primary !important;
+        background-color: $k-accent !important;
         color: $black;
       }
     }
+
+    .navbar-link {
+      &:hover {
+        background-color: transparent;
+        color: $white!important;
+      }
+    }
+
     .dropdown-content {
       .dropdown-item.is-active,
       .is-active > a {
@@ -87,6 +97,17 @@ html.dark-mode {
         color: $white !important;
       }
     }
+
+
+  .navbar-chain {
+    .dropdown-item {
+	  border-bottom: 1px solid $white;
+	  &:hover {
+		background-color: $k-accent;
+    color: $black;
+	  }
+    }
+  }
   }
 
   .instance {

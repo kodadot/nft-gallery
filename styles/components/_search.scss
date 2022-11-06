@@ -2,6 +2,7 @@
   font-family: 'Work Sans';
   min-height: 334px;
   width: 100%;
+  gap: 50px;
 
   .title {
     word-break: keep-all;
@@ -20,19 +21,16 @@
   }
 
   %landing-search-image-position {
-    position: absolute;
     height: 334px;
     pointer-events: none;
   }
 
   .landing-search-left {
-    @extend %landing-search-image-position;
-    left: 0;
+    overflow: auto;
   }
 
   .landing-search-right {
-    @extend %landing-search-image-position;
-    right: 0;
+    overflow: auto;
   }
 
   .chain-option {
@@ -113,6 +111,9 @@
     border-radius: 0;
     padding: 0 50px 0 42px !important;
     background-color: $search-background-color;
+    &:focus::placeholder {
+      color: transparent!important;
+    }
 
     &::placeholder {
       color: $placeholder-color !important;
@@ -266,4 +267,8 @@
       }
     }
   }
+}
+
+.section-search {
+  padding: 3rem 0rem!important;
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="section instance">
+    <section class="section instance section-search">
       <LazySearchLanding />
     </section>
 
@@ -13,7 +13,7 @@
 
     <!-- top collections -->
     <section
-      v-if="urlPrefix === 'rmrk' || urlPrefix === 'snek'"
+      v-if="urlPrefix === 'rmrk' || urlPrefix === 'snek' || urlPrefix === 'bsx'"
       class="section instance instance-accent">
       <div class="container">
         <LazyTopCollections class="my-5" />
