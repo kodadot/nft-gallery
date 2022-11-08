@@ -55,10 +55,10 @@ export class Viewer {
     )
     this.scene.add(this.camera)
 
-    this.renderer = new WebGLRenderer({ antialias: true })
+    this.renderer = new WebGLRenderer({ antialias: true, alpha: true })
+    this.renderer.setClearColor(0x000000, 0)
     this.renderer.physicallyCorrectLights = true
     this.renderer.outputEncoding = sRGBEncoding
-    this.renderer.setClearColor(0xcccccc)
     this.renderer.setPixelRatio(window.devicePixelRatio)
     this.renderer.setSize(el.clientWidth, el.clientHeight)
 
@@ -86,7 +86,7 @@ export class Viewer {
   }
 
   resize() {
-    const { clientHeight, clientWidth } = this.el.parentElement as HTMLElement
+    const { clientHeight, clientWidth } = this.el as HTMLElement
 
     this.camera.aspect = clientWidth / clientHeight
     this.camera.updateProjectionMatrix()
@@ -94,11 +94,7 @@ export class Viewer {
   }
 
   load(url) {
-    // const baseURL = LoaderUtils.extractUrlBase(url);
     const loader = new GLTFLoader().setCrossOrigin('anonymous')
-    // .setDRACOLoader(DRACO_LOADER)
-    // .setKTX2Loader(KTX2_LOADER.detectSupport(this.renderer))
-    // .setMeshoptDecoder(MeshoptDecoder);
 
     loader.load(url, (gltf) => {
       const scene = gltf.scene || gltf.scenes[0]
@@ -138,7 +134,7 @@ export class Viewer {
 
     this.camera.position.copy(center)
     this.camera.position.x += size / 2.0
-    this.camera.position.y += size / 5.0
+    this.camera.position.y += size / 2.0
     this.camera.position.z += size / 2.0
     this.camera.lookAt(center)
 
