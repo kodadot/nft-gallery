@@ -26,7 +26,7 @@ html.dark-mode {
 
   .navbar {
     border-color: $white;
-    background-color: $background-dark!important;
+    background-color: $background-dark !important;
     .dropdown-content .dropdown-item .menu-item {
       color: $white !important;
     }
@@ -47,7 +47,7 @@ html.dark-mode {
     .navbar-link {
       &:hover {
         background-color: transparent;
-        color: $white!important;
+        color: $white !important;
       }
     }
 
@@ -98,16 +98,15 @@ html.dark-mode {
       }
     }
 
-
-  .navbar-chain {
-    .dropdown-item {
-	  border-bottom: 1px solid $white;
-	  &:hover {
-		background-color: $k-accent;
-    color: $black;
-	  }
+    .navbar-chain {
+      .dropdown-item {
+        border-bottom: 1px solid $white;
+        &:hover {
+          background-color: $k-accent;
+          color: $black;
+        }
+      }
     }
-  }
   }
 
   .instance {
@@ -280,6 +279,11 @@ html.dark-mode {
     }
   }
 
+  .gallery-item-media {
+    border: 1px solid #fff;
+    box-shadow: 4px 4px 0px #fff;
+  }
+
   .loading-container {
     background: $k-dark;
     box-shadow: $primary-shadow-dark;
@@ -292,6 +296,5 @@ html.dark-mode {
     .funfact-heading {
       color: $white;
     }
-    
   }
 }
