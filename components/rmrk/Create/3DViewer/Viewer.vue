@@ -8,7 +8,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { Viewer } from './viewer'
 
 @Component
-export default class Viewport extends Vue {
+export default class Viewer extends Vue {
   private viewer
 
   @Prop(String) public url!: string
