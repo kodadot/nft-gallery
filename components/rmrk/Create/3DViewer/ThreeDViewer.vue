@@ -8,14 +8,16 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { Viewer } from './viewer'
 
 @Component
-export default class Viewer extends Vue {
+export default class ThreeDViewer extends Vue {
   private viewer
 
   @Prop(String) public url!: string
 
   mounted() {
     console.log('ViewPort mounted')
-    this.viewer = new Viewer(document.getElementById('container'))
+    this.viewer = new Viewer(
+      document.getElementById('container') as HTMLElement
+    )
     this.viewer.load(this.url)
   }
 }

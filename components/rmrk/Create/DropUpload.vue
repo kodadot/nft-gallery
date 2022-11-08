@@ -13,7 +13,7 @@
           <div class="content has-text-centered">
             <p>
               <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
-              <Viewer
+              <ThreeDViewer
                 v-if="url && !hasError && file.type == 'model/gltf-binary'"
                 :url="url" />
 
@@ -43,12 +43,13 @@
 <script lang="ts">
 import { Component, Emit, Prop, Ref, Vue, Watch } from 'nuxt-property-decorator'
 import Tooltip from '@/components/shared/Tooltip.vue'
-import Viewer from '~~/components/rmrk/Create/3DViewer/Viewer.vue'
+import ThreeDViewer from '~~/components/rmrk/Create/3DViewer/ThreeDViewer.vue'
 
 @Component({
   components: {
     Tooltip,
-    Viewer: () => import('~~/components/rmrk/Create/3DViewer/Viewer.vue'),
+    ThreeDViewer: () =>
+      import('~~/components/rmrk/Create/3DViewer/ThreeDViewer.vue'),
   },
 })
 export default class DropUpload extends Vue {
