@@ -13,8 +13,12 @@
           <div class="content has-text-centered">
             <p>
               <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
+              <Viewport
+                v-if="url && !hasError && file.type == 'model/gltf-binary'"
+                :url="url" />
+
               <img
-                v-if="url && !hasError"
+                v-else-if="url && !hasError"
                 :src="url"
                 @error="hasError = true" />
               <b-icon v-if="hasError" icon="eye-slash" size="is-large" />
@@ -39,10 +43,12 @@
 <script lang="ts">
 import { Component, Emit, Prop, Ref, Vue, Watch } from 'nuxt-property-decorator'
 import Tooltip from '@/components/shared/Tooltip.vue'
+import Viewport from '@/components/rmrk/Viewport.vue'
 
 @Component({
   components: {
     Tooltip,
+    Viewport: () => import('@/components/rmrk/Viewport.vue'),
   },
 })
 export default class DropUpload extends Vue {

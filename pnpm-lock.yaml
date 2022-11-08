@@ -97,6 +97,7 @@ importers:
       sass-loader: ^10.3
       setimmediate: ^1.0.5
       slugify: ^1.6.5
+      three: ^0.146.0
       typescript: ^4.8.4
       v-emoji-picker: ^2.3.3
       vite-plugin-vue2: ^2.0.2
@@ -158,6 +159,7 @@ importers:
       nuxt-property-decorator: 2.9.1_vue@2.7.8+vuex@3.6.2
       setimmediate: 1.0.5
       slugify: 1.6.5
+      three: 0.146.0
       v-emoji-picker: 2.3.3_vue@2.7.8
       vue: 2.7.8
       vue-apollo: 3.1.0_graphql-tag@2.12.6
@@ -17514,6 +17516,10 @@ packages:
 
   /three/0.139.2:
     resolution: {integrity: sha512-gV7q7QY8rogu7HLFZR9cWnOQAUedUhu2WXAnpr2kdXZP9YDKsG/0ychwQvWkZN5PlNw9mv5MoCTin6zNTXoONg==}
+    dev: false
+
+  /three/0.146.0:
+    resolution: {integrity: sha512-1lvNfLezN6OJ9NaFAhfX4sm5e9YCzHtaRgZ1+B4C+Hv6TibRMsuBAM5/wVKzxjpYIlMymvgsHEFrrigEfXnb2A==}
     dev: false
 
   /throttle-debounce/2.3.0:
