@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 
 import { Viewer } from './viewer'
 
@@ -20,12 +20,22 @@ export default class ThreeDViewer extends Vue {
     )
     this.viewer.load(this.url)
   }
+
+  @Watch('url')
+  private onUrlChange() {
+    this.viewer.load(this.url)
+  }
 }
 </script>
 
 <style scoped>
 .container {
-  width: 250px;
-  height: 250px;
+  width: 100%;
+  min-height: 250px;
+  height: auto;
+  background: #ffffff;
+  background: -webkit-radial-gradient(center, #ffffff, #353535);
+  background: -moz-radial-gradient(center, #ffffff, #353535);
+  background: radial-gradient(ellipse at center, #ffffff, #353535);
 }
 </style>
