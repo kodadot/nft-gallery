@@ -38,7 +38,7 @@ export class Viewer {
   renderer
   controls
 
-  constructor(el) {
+  constructor(el: HTMLElement) {
     this.el = el
 
     this.lights = []
