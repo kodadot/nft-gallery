@@ -14,9 +14,13 @@
             <p>
               <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
               <ThreeDViewer
-                v-if="url && !hasError && file.type == 'model/gltf-binary'"
+                v-if="
+                  is3dAllowed &&
+                  url &&
+                  !hasError &&
+                  file.type == 'model/gltf-binary'
+                "
                 :url="url" />
-
               <img
                 v-else-if="url && !hasError"
                 :src="url"
@@ -72,6 +76,10 @@ export default class DropUpload extends Vue {
   public checkValidity() {
     this.checkFailed = !this.file
     return !this.checkFailed
+  }
+
+  get is3dAllowed() {
+    return Boolean(this?.accept?.includes('model/gltf-binary'))
   }
 
   public created() {
