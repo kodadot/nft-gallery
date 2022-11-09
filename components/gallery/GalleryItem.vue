@@ -37,8 +37,9 @@ const nftMetadata = ref<NFT['meta']>()
 const { params } = useRoute()
 // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
 
+const { urlPrefix } = usePrefix()
 const { data } = useGraphql({
-  queryName: 'nftById',
+  queryName: urlPrefix.value === 'rmrk' ? 'nftByIdWithoutRoyalty' : 'nftById',
   variables: {
     id: params.id,
   },
