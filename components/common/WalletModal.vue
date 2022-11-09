@@ -1,7 +1,7 @@
 <template>
   <div class="modal-card-container">
     <div class="modal-card wallet">
-      <header class="modal-card-head">
+      <header class="modal-card-head pl-2">
         <b-button
           v-show="hasSelectedWalletProvider"
           type="is-text"
@@ -46,12 +46,14 @@
         <div
           v-if="hasSelectedWalletProvider && !hasWalletProviderExtension"
           class="buttons">
-          <div class="wallet-name subtitle is-fullwidth is-size-6 is-lowercase">
+          <div class="wallet-name is-fullwidth is-size-6 is-lowercase pl-5 p-2">
             <b-image
               :src="selectedWalletProvider.img"
               class="is-32x32 is-inline-block"
               style="vertical-align: middle" />
-            <b class="is-white">{{ selectedWalletProvider.extensionName }}</b>
+            <b class="is-white ml-2">{{
+              selectedWalletProvider.extensionName
+            }}</b>
           </div>
           <b-button
             class="is-size-6 is-height-60"
@@ -85,12 +87,12 @@
               :mobile-modal="false"
               class="wallet-chooser">
               <template #trigger>
-                <div class="wallet-name subtitle is-size-6 is-lowercase">
+                <div class="wallet-name is-size-6 is-lowercase pl-5 p-2">
                   <b-image
                     :src="selectedWalletProvider.img"
                     class="is-32x32 is-inline-block"
                     style="vertical-align: middle" />
-                  <b class="is-white">{{
+                  <b class="is-white ml-2">{{
                     selectedWalletProvider.extensionName
                   }}</b>
                   <!--                  <b-icon style="color: white" icon="chevron-down"></b-icon>-->
@@ -99,6 +101,7 @@
               <b-dropdown-item
                 v-for="option in walletAccounts"
                 :key="option.address"
+                class="p-2 pl-5 pr-5"
                 :value="option.address">
                 <span v-if="option.name"
                   >{{ option.name }}
@@ -262,7 +265,6 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
           padding-top: 0px;
           border: none;
           a {
-            padding: 5px 32px;
             &:hover {
               background-color: $k-accentlight2;
             }
@@ -271,9 +273,6 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
       }
     }
 
-    .subtitle {
-      background-color: #000000;
-    }
     &.modal-card {
       background: $k-dark;
       backdrop-filter: $frosted-glass-light-backdrop-filter;
@@ -336,8 +335,7 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
     }
 
     .wallet-name {
-      padding: 10px 32px;
-      margin-bottom: 0;
+      background: $k-dark;
     }
   }
 
