@@ -62,10 +62,11 @@ export default class DropUpload extends Vue {
   @Prop(Boolean) public expanded!: boolean
   @Prop(Boolean) public preview!: boolean
   @Prop(String) public accept!: string
-  private file: Blob | null = null
+  private file: File | null = null
   protected url = ''
   protected hasError = false
   protected checkFailed = false
+  protected supportedModelMediaFileExtensions = ['glb']
   @Ref('upload') readonly upload
 
   public checkValidity() {
@@ -78,11 +79,16 @@ export default class DropUpload extends Vue {
     if (this.accept === undefined) {
       return true
     }
-
-    return Boolean(this?.accept?.includes('model'))
+    return Boolean(this.accept.includes('model'))
   }
   get fileIsModelMedia() {
-    return this.file?.type.includes('model')
+    if (!!this.file?.type && this.file?.type.includes('model')) {
+      return true
+    }
+    // in chrome the file.type of glb file is undefined,
+    // so check the file extension instead
+    const fileExtension = this.file?.name.split('.').pop() || ''
+    return this.supportedModelMediaFileExtensions.includes(fileExtension)
   }
 
   public created() {
