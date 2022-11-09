@@ -4,7 +4,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
-
 import { Viewer } from './viewer'
 
 @Component
@@ -14,7 +13,6 @@ export default class ThreeDViewer extends Vue {
   @Prop(String) public url!: string
 
   mounted() {
-    console.log('ViewPort mounted')
     this.viewer = new Viewer(
       document.getElementById('container') as HTMLElement
     )
