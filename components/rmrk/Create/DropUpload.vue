@@ -44,7 +44,6 @@
 <script lang="ts">
 import { Component, Emit, Prop, Ref, Vue, Watch } from 'nuxt-property-decorator'
 import Tooltip from '@/components/shared/Tooltip.vue'
-import ModelMedia from '~~/components/media/type/ModelMedia.vue'
 
 @Component({
   components: {
@@ -75,6 +74,11 @@ export default class DropUpload extends Vue {
   }
 
   get acceptModelMedia() {
+    // accept all file types
+    if (this.accept === undefined) {
+      return true
+    }
+
     return Boolean(this?.accept?.includes('model'))
   }
   get fileIsModelMedia() {
