@@ -224,6 +224,7 @@ importers:
 
   libs/ui:
     specifiers:
+      '@google/model-viewer': ^1.12.1
       '@histoire/plugin-vue2': ^0.11.6
       '@vitejs/plugin-vue2': ^2.0.0
       bulma: 0.9.4
@@ -232,8 +233,11 @@ importers:
       histoire: ^0.11.6
       vite: ^3.2.2
       vue: ^2.7.13
+      vue-audio-visual: ^2.5.0
     dependencies:
+      '@google/model-viewer': 1.12.1
       bulma: 0.9.4
+      vue-audio-visual: 2.5.0
     devDependencies:
       '@histoire/plugin-vue2': 0.11.6_zqubz5u6iozehyuwquupul7tom
       '@vitejs/plugin-vue2': 2.0.0_vite@3.2.2+vue@2.7.13
