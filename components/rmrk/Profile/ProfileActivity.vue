@@ -23,7 +23,9 @@
 
       <div class="level-item has-text-centered">
         <div>
-          <p class="title"><Money :value="highestBuyPrice" inline /> ⊆</p>
+          <p class="title">
+            <CommonTokenMoney :value="highestBuyPrice" inline /> ⊆
+          </p>
           <p class="title">
             <CommonTokenMoney :value="totalAmountSpend" inline />
           </p>
