@@ -7,6 +7,7 @@
       playsinline
       loop
       autoplay
+      muted
       :src="animationSrc"
       controlslist="nodownload"
       data-cy="type-video"

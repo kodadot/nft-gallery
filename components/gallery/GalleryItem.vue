@@ -3,14 +3,16 @@
     <div class="columns">
       <div class="column is-one-third">
         <MediaObject
-          :key="nftImage"
           :src="nftImage"
           :animation-src="nftAnimation"
-          :mime-type="nftMetadata?.type" />
+          :mime-type="nftMimeType"
+          :title="nft?.name"
+          :original="true" />
       </div>
       <div class="column">
         <p>{{ nftImage }}</p>
         <p>{{ nftAnimation }}</p>
+        <p>{{ nftMimeType }}</p>
       </div>
     </div>
   </div>
@@ -27,8 +29,9 @@ import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 
 const { $consola } = useNuxtApp()
 const nft = ref<NFT>()
-const nftImage = ref('')
-const nftAnimation = ref('')
+const nftImage = ref()
+const nftAnimation = ref()
+const nftMimeType = ref()
 const nftMetadata = ref<NFT['meta']>()
 
 const { params } = useRoute()
@@ -50,6 +53,7 @@ const fetchNFTMeta = async (nftMeta) => {
   const data: NFTMetadata = await $fetch(nftMetaID)
 
   nftMetadata.value = data
+  nftMimeType.value = data?.type
 
   if (data.animation_url) {
     nftAnimation.value = sanitizeIpfsUrl(data.animation_url)

@@ -1,31 +1,45 @@
 <template>
   <div class="media-object">
     <component
-      :is="resolveComponent"
-      :src="defaultSrc"
+      :is="resolveComponent()"
+      :src="src"
       :animation-src="animationSrc"
-      :alt="defaultTitle" />
+      :alt="title"
+      :original="original" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent } from 'vue'
+import { defineAsyncComponent } from 'vue'
 
 import { resolveMedia } from '@/utils/gallery/media'
 import placeholder from '@/static/placeholder.webp'
 
-const props = defineProps<{
-  src?: string // for mimeType image please use this props
-  animationSrc?: string // other than image please use this props instead
-  mimeType?: string
-  title?: string
-}>()
-
-const defaultTitle = computed(() => props.title || 'KodaDot')
-const defaultSrc = computed(() => {
-  return props.src || placeholder
+const props = defineProps({
+  src: {
+    // for mimeType image please use this props
+    type: String,
+    default: placeholder,
+  },
+  animationSrc: {
+    // other than image please use this props instead
+    type: String,
+    default: '',
+  },
+  mimeType: {
+    type: String,
+    default: 'image',
+  },
+  title: {
+    type: String,
+    default: 'KodaDot NFT',
+  },
+  original: {
+    // original size of the image
+    type: Boolean,
+    default: false,
+  },
 })
-const defaultMimeType = computed(() => props.mimeType || 'image')
 
 const SUFFIX = 'Media'
 const components = {
@@ -39,12 +53,12 @@ const components = {
   //   Media: defineAsyncComponent(() => import('./type/UnknownMedia.vue')),
 }
 
-const resolveComponent = computed(() => {
+const resolveComponent = () => {
   // TODO: fetch mime type
   // if (props.animationSrc && !props.mimeType) {}
 
-  return components[resolveMedia(defaultMimeType.value) + SUFFIX]
-})
+  return components[resolveMedia(props.mimeType) + SUFFIX]
+}
 </script>
 
 <style scoped>
