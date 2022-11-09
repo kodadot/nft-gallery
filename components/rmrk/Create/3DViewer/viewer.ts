@@ -13,8 +13,6 @@ import {
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-const IS_IOS = isIOS()
-
 Cache.enabled = true
 
 export class Viewer {
@@ -30,21 +28,15 @@ export class Viewer {
     ambientColor: 0xffffff,
     directIntensity: 0.8 * Math.PI, // TODO(#116)
     directColor: 0xffffff,
-    // bgColor1: '#ffffff',
-    // bgColor2: '#353535'
   }
   scene
-
   renderer
   controls
 
   constructor(el: HTMLElement) {
     this.el = el
-
     this.lights = []
-
     this.scene = new Scene()
-
     const fov = (1 * 180) / Math.PI
 
     this.camera = new PerspectiveCamera(
@@ -77,7 +69,6 @@ export class Viewer {
 
   animate() {
     requestAnimationFrame(this.animate)
-
     this.render()
   }
 
@@ -226,20 +217,4 @@ function traverseMaterials(object, callback) {
       : [node.material]
     materials.forEach(callback)
   })
-}
-
-// https://stackoverflow.com/a/9039885/1314762
-function isIOS() {
-  return (
-    [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod',
-    ].includes(navigator.platform) ||
-    // iPad on iOS 13 detection
-    (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
-  )
 }
