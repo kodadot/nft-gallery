@@ -38,13 +38,13 @@
                   }}</span>
                 </span>
                 <BasicImage
-                  v-show="nft.image"
+                  v-if="nft.image"
                   :src="nft.image"
                   :alt="nft.name"
                   custom-class="gallery__image-wrapper" />
 
                 <PreviewMediaResolver
-                  v-if="!nft.image && nft.animation_url"
+                  v-else-if="nft.animation_url"
                   :src="nft.animation_url"
                   :metadata="nft.metadata"
                   :mime-type="nft.type" />
@@ -195,6 +195,12 @@ export default class Gallery extends mixins(
   @Debounce(500)
   private resetPage() {
     this.gotoPage(1)
+  }
+
+  @Watch('nfts', { immediate: true })
+  nftsWatcher(val: any, old: any) {
+    console.log('new val', val)
+    console.log('old val', old)
   }
 
   protected gotoPage(page: number) {
