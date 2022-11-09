@@ -289,4 +289,19 @@ html.dark-mode {
       }
     }
   }
+
+  .loading-container {
+    background: $k-dark;
+    box-shadow: $primary-shadow-dark;
+    border: 1px solid $white;
+
+    .loading-icon {
+      border-bottom: 1px solid $k-grey;
+    }
+
+    .funfact-heading {
+      color: $white;
+    }
+    
+  }
 }

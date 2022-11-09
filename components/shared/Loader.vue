@@ -1,21 +1,6 @@
 <template>
   <b-loading v-model="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container">
-      <div
-        v-if="randomFunFactHeading && randomFunFactQuestion"
-        class="funfact-text">
-        <div class="has-text-weight-bold funcfact-heading">
-          {{ randomFunFactHeading }}
-        </div>
-        <br />
-        <div class="pl-4 pr-4">
-          <b-icon
-            size="is-large"
-            icon="lightbulb"
-            class="has-text-primary-light" />
-          <div class="question">{{ randomFunFactQuestion }}</div>
-        </div>
-      </div>
       <figure>
         <img class="loading-icon" :src="placeholder" />
         <figcaption v-if="status" class="loading-text">
@@ -25,6 +10,16 @@
           {{ $t('helper.signStuckText') }}
         </div>
       </figure>
+      <div
+        v-if="randomFunFactHeading && randomFunFactQuestion"
+        class="funfact-text">
+        <div class="funfact-heading">
+          {{ randomFunFactHeading }}
+        </div>
+        <div>
+          <div class="question">{{ randomFunFactQuestion }}</div>
+        </div>
+      </div>
     </div>
   </b-loading>
 </template>
@@ -90,33 +85,35 @@ export default class Loader extends Vue {
 @import '@/styles/abstracts/variables';
 
 .loading-container {
-  text-align: center;
-  background: $frosted-glass-background;
+  font-family: 'Work Sans';
+  padding: 24px 16px;
+  background: $white;
   backdrop-filter: $frosted-glass-backdrop-filter;
   margin: 0rem 1rem;
-  width: 450px;
-  border: 2px solid $primary-light;
-  box-shadow: $dropdown-content-shadow;
+  width: 300px;
+  height: 350px;
+  border: 1px solid $black;
+  box-shadow: $primary-shadow;
 }
-.funfact-text {
-  position: relative;
-  color: white;
-  max-width: 450px;
-}
-.funcfact-heading {
-  color: $primary-light;
-  font-size: 1.2rem;
+
+.funfact-heading {
+  color: $black;
+  font-size: 20px;
   line-height: 2.5rem;
-  border-bottom: 1px solid #fff;
-  padding: 0.5rem 1rem;
 }
 .question {
   min-height: 70px;
+  font-size: 16px;
 }
+
 .loading-text {
   position: relative;
   max-width: 200px;
   text-align: center;
   margin: 0 auto;
+}
+
+.loading-icon {
+  border-bottom: 1px solid $shade;
 }
 </style>
