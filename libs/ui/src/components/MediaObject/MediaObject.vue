@@ -51,10 +51,14 @@ export default {
         VideoMedia: defineAsyncComponent(() => import('./type/VideoMedia.vue')),
         AudioMedia: defineAsyncComponent(() => import('./type/AudioMedia.vue')),
         ModelMedia: defineAsyncComponent(() => import('./type/ModelMedia.vue')),
-        //   JsonMedia: defineAsyncComponent(() => import('./type/JsonMedia.vue')),
-        //   IFrameMedia: defineAsyncComponent(() => import('./type/IFrameMedia.vue')),
-        //   ObjectMedia: defineAsyncComponent(() => import('./type/ObjectMedia.vue')),
-        //   Media: defineAsyncComponent(() => import('./type/UnknownMedia.vue')),
+        JsonMedia: defineAsyncComponent(() => import('./type/JsonMedia.vue')),
+        IFrameMedia: defineAsyncComponent(
+          () => import('./type/IFrameMedia.vue')
+        ),
+        ObjectMedia: defineAsyncComponent(
+          () => import('./type/ObjectMedia.vue')
+        ),
+        Media: defineAsyncComponent(() => import('./type/UnknownMedia.vue')),
       },
     }
   },
@@ -68,6 +72,9 @@ export default {
     animationSrc() {
       this.updateComponent()
     },
+  },
+  mounted() {
+    this.updateComponent()
   },
   methods: {
     async updateComponent() {
