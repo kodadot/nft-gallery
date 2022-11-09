@@ -21,7 +21,7 @@
         <div>
           <p class="title">
             {{ `${data.totalCount} /` }}
-            <Money :value="data.totalPrice" inline />
+            <CommonTokenMoney :value="data.totalPrice" inline />
           </p>
           <p class="heading has-text-weight-bold mb-5">
             {{
@@ -45,7 +45,7 @@ import statsForBsx from '~/queries/subsquid/bsx/statsForBsx.graphql'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
+  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
 }
 
 @Component({ components })
