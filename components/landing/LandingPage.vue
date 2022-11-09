@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden">
+  <div>
     <section class="section instance section-search">
       <LazySearchLanding />
     </section>
