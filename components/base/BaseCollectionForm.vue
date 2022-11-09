@@ -15,7 +15,7 @@
       :label="$t('mint.collection.drop')"
       expanded
       preview
-      accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg, model/gltf-binary" />
+      accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg" />
 
     <BasicInput
       ref="collectionName"
