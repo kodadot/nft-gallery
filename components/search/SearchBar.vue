@@ -107,7 +107,7 @@ export default class SearchBar extends mixins(
   }
 
   get showDefaultSuggestions() {
-    return this.urlPrefix === 'rmrk'
+    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'bsx'
   }
 
   redirectToGalleryPageIfNeed(params?: Record<string, string>) {
