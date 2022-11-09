@@ -8,7 +8,7 @@
 - [ ] Feature
 - [ ] Refactoring
 
-## PR Context?
+## Context
 
 - [ ] Closes #<issue_number>
 - [ ] Requires deployment <>

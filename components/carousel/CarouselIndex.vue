@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <div v-if="nfts.length">
-      <h2
-        class="title is-2"
-        :class="textColor === 'light' ? 'has-text-light' : 'has-text-dark'">
-        {{ title }}
-      </h2>
+  <div v-if="nfts.length">
+    <h2
+      class="title is-2"
+      :class="textColor === 'light' ? 'has-text-light' : 'has-text-dark'">
+      {{ title }}
+    </h2>
 
-      <CarouselList v-if="showCarousel" :nfts="nfts" />
-    </div>
+    <CarouselList v-if="showCarousel" :nfts="nfts" />
   </div>
 </template>
 
