@@ -2,7 +2,7 @@
   <div>
     <div class="columns">
       <div class="column is-one-third">
-        <MediaObject
+        <MediaItem
           :src="nftImage"
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { $fetch } from 'ohmyfetch'
-import { MediaObject } from '@kodadot1/brick'
+import { MediaItem } from '@kodadot1/brick'
 
 // import { tokenIdToRoute } from '@/components/unique/utils'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
