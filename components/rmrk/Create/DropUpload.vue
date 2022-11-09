@@ -13,7 +13,7 @@
           <div class="content has-text-centered">
             <p>
               <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
-              <ModelMediaVue
+              <ModelMedia
                 v-if="acceptModelMedia && fileIsModelMedia && url && !hasError"
                 :src="url"
                 :with-a-r-button="false" />
@@ -44,13 +44,12 @@
 <script lang="ts">
 import { Component, Emit, Prop, Ref, Vue, Watch } from 'nuxt-property-decorator'
 import Tooltip from '@/components/shared/Tooltip.vue'
-import ModelMediaVue from '~~/components/media/type/ModelMedia.vue'
-import '@google/model-viewer'
+import ModelMedia from '~~/components/media/type/ModelMedia.vue'
 
 @Component({
   components: {
     Tooltip,
-    ModelMediaVue: () => import('~~/components/media/type/ModelMedia.vue'),
+    ModelMedia: () => import('~~/components/media/type/ModelMedia.vue'),
   },
 })
 export default class DropUpload extends Vue {
