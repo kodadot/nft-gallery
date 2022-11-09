@@ -13,14 +13,11 @@
           <div class="content has-text-centered">
             <p>
               <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
-              <ThreeDViewer
-                v-if="
-                  is3dAllowed &&
-                  url &&
-                  !hasError &&
-                  file.type == 'model/gltf-binary'
-                "
-                :url="url" />
+              <ModelMediaVue
+                v-if="acceptModelMedia && fileIsModelMedia && url && !hasError"
+                :src="url"
+                :with-a-r-button="false" />
+
               <img
                 v-else-if="url && !hasError"
                 :src="url"
@@ -47,13 +44,13 @@
 <script lang="ts">
 import { Component, Emit, Prop, Ref, Vue, Watch } from 'nuxt-property-decorator'
 import Tooltip from '@/components/shared/Tooltip.vue'
-import ThreeDViewer from '~~/components/rmrk/Create/3DViewer/ThreeDViewer.vue'
+import ModelMediaVue from '~~/components/media/type/ModelMedia.vue'
+import '@google/model-viewer'
 
 @Component({
   components: {
     Tooltip,
-    ThreeDViewer: () =>
-      import('~~/components/rmrk/Create/3DViewer/ThreeDViewer.vue'),
+    ModelMediaVue: () => import('~~/components/media/type/ModelMedia.vue'),
   },
 })
 export default class DropUpload extends Vue {
@@ -78,8 +75,11 @@ export default class DropUpload extends Vue {
     return !this.checkFailed
   }
 
-  get is3dAllowed() {
-    return Boolean(this?.accept?.includes('model/gltf-binary'))
+  get acceptModelMedia() {
+    return Boolean(this?.accept?.includes('model'))
+  }
+  get fileIsModelMedia() {
+    return this.file?.type.includes('model')
   }
 
   public created() {
