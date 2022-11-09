@@ -22,7 +22,7 @@
 import { $fetch } from 'ohmyfetch'
 import { MediaObject } from '@kodadot1/brick'
 
-import { tokenIdToRoute } from '@/components/unique/utils'
+// import { tokenIdToRoute } from '@/components/unique/utils'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
@@ -35,7 +35,7 @@ const nftMimeType = ref()
 const nftMetadata = ref<NFT['meta']>()
 
 const { params } = useRoute()
-const { id: collectionID, item: id } = tokenIdToRoute(params.id)
+// const { id: collectionID, item: id } = tokenIdToRoute(params.id)
 
 const { data } = useGraphql({
   queryName: 'nftById',
@@ -48,18 +48,18 @@ interface NFTData {
   nftEntity?: NFT
 }
 
-const fetchNFTMeta = async (nftMeta) => {
+const fetchNFTMetadata = async (nftMeta) => {
   const nftMetaID = sanitizeIpfsUrl(nftMeta?.id)
   const data: NFTMetadata = await $fetch(nftMetaID)
 
   nftMetadata.value = data
   nftMimeType.value = data?.type
 
-  if (data.animation_url) {
+  if (data?.animation_url) {
     nftAnimation.value = sanitizeIpfsUrl(data.animation_url)
   }
 
-  if (data.image) {
+  if (data?.image) {
     nftImage.value = sanitizeIpfsUrl(data.image)
   }
 }
@@ -75,13 +75,8 @@ watch(data as unknown as NFTData, async (newData) => {
   }
 
   if (nftMeta?.id) {
-    await fetchNFTMeta(nftMeta)
+    await fetchNFTMetadata(nftMeta)
   }
-
-  // console.clear()
-  console.log({ collectionID, id }, params.id)
-  console.log(nft.value)
-  console.log(nftMetadata.value)
 })
 </script>
 
