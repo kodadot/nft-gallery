@@ -301,7 +301,8 @@
           class="is-flex is-justify-content-center">
           <ConnectWalletButton
             label="general.change_account"
-            class="navbar__sign-out-button menu-item mb-4 is-size-7" />
+            class="navbar__sign-out-button menu-item mb-4 is-size-7"
+            @closeBurgerMenu="closeBurgerMenu" />
         </b-dropdown-item>
         <b-dropdown-item
           custom
