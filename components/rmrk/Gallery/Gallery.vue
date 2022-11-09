@@ -197,12 +197,6 @@ export default class Gallery extends mixins(
     this.gotoPage(1)
   }
 
-  @Watch('nfts', { immediate: true })
-  nftsWatcher(val: any, old: any) {
-    console.log('new val', val)
-    console.log('old val', old)
-  }
-
   protected gotoPage(page: number) {
     this.currentPage = page
     this.startPage = page
