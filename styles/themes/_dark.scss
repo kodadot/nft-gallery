@@ -220,6 +220,10 @@ html.dark-mode {
         background: $k-dark !important;
         border: 1px solid $white;
         border-radius: unset;
+
+        &:hover {
+          background-color: $k-accentlight2dark!important;
+        }
       }
     }
     .modal-card-bg {
@@ -243,6 +247,12 @@ html.dark-mode {
         color: $background-dark !important;
       }
     }
+    .dropdown-content .dropdown-item {
+      &:hover {
+      background-color: $k-accentlight2dark!important;
+     }
+    }
+    
   }
 
   .image-outline {
