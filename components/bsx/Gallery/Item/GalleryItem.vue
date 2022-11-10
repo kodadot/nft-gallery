@@ -96,7 +96,7 @@
                     </template>
                     <div class="content pt-4">
                       <p class="subtitle">
-                        <AvailableActions
+                        <!-- <AvailableActions
                           ref="actions"
                           :account-id="accountId"
                           :is-owner="isOwner"
@@ -113,7 +113,7 @@
                             nft.animation_url,
                             nft.metadata,
                           ]"
-                          @change="handleAction" />
+                          @change="handleAction" /> -->
                         <Auth class="mt-4" />
                       </p>
                     </div>
