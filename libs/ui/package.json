@@ -19,6 +19,8 @@
     "vue": "^2.7.13"
   },
   "dependencies": {
-    "bulma": "0.9.4"
+    "@google/model-viewer": "^1.12.1",
+    "bulma": "0.9.4",
+    "vue-audio-visual": "^2.5.0"
   }
 }

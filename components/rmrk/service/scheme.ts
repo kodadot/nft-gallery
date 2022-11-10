@@ -46,11 +46,13 @@ export interface State {
 }
 
 export interface Metadata {
+  id?: string
   description?: string
   attributes: Attribute[]
   external_url?: string
   image?: string
   image_data?: string
+  type?: string
 }
 
 export interface NFTMetadata extends Metadata {
@@ -163,6 +165,7 @@ export interface NFT {
   emoteCount?: number
   emotes?: Emote[]
   royalty?: number
+  meta?: Metadata
 }
 
 export type EntityWithId = {
