@@ -19,7 +19,7 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxi prepare && cross-env PORT=9090 nuxi dev",
+    "dev": "nuxi prepare && cross-env PORT=3001 nuxi dev",
     "dev-docker": "npx nuxi dev",
     "dev-experimental": "nuxi dev --hostname localhost --port 9090",
     "build": "nuxi build --modern",
@@ -73,6 +73,7 @@
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.3.0",
     "@nuxtjs/sentry": "^6.0.1",
+    "@paraspell/sdk": "0.0.11",
     "@polkadot/extension-dapp": "^0.44.6",
     "@polkadot/extension-inject": "^0.44.6",
     "@polkadot/ui-keyring": "2.9.10",
