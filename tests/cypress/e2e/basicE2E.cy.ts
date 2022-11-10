@@ -3,7 +3,8 @@ describe('landingRmrk', () => {
     cy.loginWithKeyring()
     cy.visit('/rmrk')
   })
-  it('checkNavbar', () => {
+  // it('checkNavbar', () => {
+  it.skip('checkNavbar', () => {
     cy.rmrkNavbar()
   })
 })
@@ -12,7 +13,8 @@ describe('landingBsx', () => {
   it('loadLanding', () => {
     cy.visit('/snek')
   })
-  it('checkNavbar', () => {
+  // it('checkNavbar', () => {
+  it.skip('checkNavbar', () => {
     cy.snekNavbar()
   })
 })
@@ -101,11 +103,13 @@ describe('snekCollectionItem', () => {
 })
 
 describe('snekGalleryItem', () => {
-  it('galleryListedItemActions', () => {
+  // it('galleryListedItemActions', () => {
+  it.skip('galleryListedItemActions', () => {
     cy.loginWithKeyring()
     cy.snekGalleryListedItemActions('2773267381-1', 'bXkQe5...qDNyCN')
   })
-  it('galleryUnlistedItemActions', () => {
+  // it('galleryUnlistedItemActions', () => {
+  it.skip('galleryUnlistedItemActions', () => {
     cy.loginWithKeyring()
     cy.snekGalleryUnlistedItemActions('2773267381-3', 'bXkQe5...qDNyCN')
   })

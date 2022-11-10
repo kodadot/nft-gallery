@@ -96,6 +96,10 @@
                     </template>
                     <div class="content pt-4">
                       <p class="subtitle">
+                        <!--
+                          After uncomment, turn on test
+                          /tests/cypress/e2e/basicE2E.cy.ts 106 galleryListedItemActions
+                         -->
                         <!-- <AvailableActions
                           ref="actions"
                           :account-id="accountId"

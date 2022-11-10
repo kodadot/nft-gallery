@@ -47,7 +47,7 @@
       <NavbarExplore />
 
       <b-navbar-dropdown
-        v-if="isCreateVisible"
+        v-show="isCreateVisible"
         id="NavCreate"
         hoverable
         arrowless
