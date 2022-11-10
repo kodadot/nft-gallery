@@ -33,7 +33,6 @@ export type CollectionEntity = {
 }
 
 export type NftEntity = {
-  image(image: any): unknown
   __typename: 'NFTEntity'
   name: Optional<Scalars['String']>
   instance: Optional<Scalars['String']>

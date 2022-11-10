@@ -47,7 +47,7 @@
         field="formatPrice"
         :label="$t('offer.price')"
         sortable>
-        <Money :value="props.row.price" inline />
+        <CommonTokenMoney :value="props.row.price" inline />
       </b-table-column>
       <b-table-column
         v-slot="props"
@@ -103,7 +103,7 @@ import { Offer } from './types'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
+  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
 }
 

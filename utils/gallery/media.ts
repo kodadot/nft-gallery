@@ -35,7 +35,7 @@ export function resolveMedia(mimeType?: string): MediaType {
   }
 
   if (/^application\/json/.test(mimeType)) {
-    return MediaType.MODEL
+    return MediaType.JSON
   }
 
   if (/^model\/gltf-binary/.test(mimeType)) {

@@ -1,60 +1,43 @@
 <template>
-  <section v-if="nft" class="py-5">
+  <section class="py-5">
     <div class="columns">
-      <div class="column is-two-fifths">
-        <BasicImage
+      <div class="column is-two-fiths">
+        <MediaItem
           class="gallery-item-media"
-          :src="nft.image || '/placeholder.webp'" />
+          :src="nftImage"
+          :animation-src="nftAnimation"
+          :mime-type="nftMimeType"
+          :title="nft?.name"
+          original />
       </div>
       <div class="column">
-        <h1 class="title">{{ nft.name }}</h1>
+        <h1 class="title">{{ nft?.name }}</h1>
         <h2 class="subtitle">
-          <nuxt-link :to="`/${urlPrefix}/collection/${nft.collection.id}`">
-            {{ nft.collection.name }}
+          <nuxt-link :to="`/${urlPrefix}/collection/${nft?.collection.id}`">
+            {{ nft?.collection.name }}
           </nuxt-link>
         </h2>
 
         <div class="is-flex is-flex-direction-row py-4">
-          <div class="is-flex is-align-items-center mr-6">
-            <Avatar :size="48" :value="nft.issuer" class="mr-2" />
-            <div class="px-3">
-              <div class="has-text-grey is-size-7">
-                {{ $t('creator') }}
-              </div>
-              <div class="has-text-weight-bold">
-                <nuxt-link
-                  :to="{
-                    name: `${urlPrefix}-u-id`,
-                    params: { id: nft.issuer },
-                  }">
-                  <Identity :address="nft.issuer" />
-                </nuxt-link>
-              </div>
-            </div>
-          </div>
-          <div v-if="nft.currentOwner" class="is-flex is-align-items-center">
-            <Avatar :size="48" :value="nft.currentOwner" class="mr-2" />
-            <div class="px-3">
-              <div class="has-text-grey is-size-7">
-                {{ $t('owner') }}
-              </div>
-              <div class="has-text-weight-bold">
-                <nuxt-link
-                  :to="{
-                    name: `${urlPrefix}-u-id`,
-                    params: { id: nft.currentOwner },
-                  }">
-                  <Identity :address="nft.currentOwner" />
-                </nuxt-link>
-              </div>
-            </div>
-          </div>
+          <IdentityItem
+            v-if="nft?.issuer"
+            label="Creator"
+            :prefix="urlPrefix"
+            :account="nft?.issuer" />
+          <IdentityItem
+            v-if="nft?.currentOwner"
+            label="Owner"
+            :prefix="urlPrefix"
+            :account="nft?.currentOwner" />
         </div>
 
         <!-- LINE DIVIDER -->
         <hr />
 
         {{ nft }}
+        <p>{{ nftImage }}</p>
+        <p>{{ nftAnimation }}</p>
+        <p>{{ nftMimeType }}</p>
       </div>
     </div>
   </section>
@@ -62,14 +45,8 @@
 
 <script setup lang="ts">
 import { useGalleryItem } from './useGalleryItem'
-
-const BasicImage = defineAsyncComponent(
-  () => import('@/components/shared/view/BasicImage.vue')
-)
-const Identity = defineAsyncComponent(
-  () => import('@/components/identity/IdentityIndex.vue')
-)
+import { IdentityItem, MediaItem } from '@kodadot1/brick'
 
 const { urlPrefix } = usePrefix()
-const { nft } = useGalleryItem()
+const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
 </script>
