@@ -48,6 +48,7 @@
 
   @include touch {
     padding: 0;
+    justify-content: space-evenly!important;
 
     .landing-search-bar {
       width: 70%;
@@ -60,9 +61,6 @@
     }
   }
 
-  .info-arrow {
-    font-family: 'Fira Code', monospace;
-  }
 }
 
 .search-bar-container {
