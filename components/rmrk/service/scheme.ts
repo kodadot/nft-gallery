@@ -159,6 +159,7 @@ export interface NFT {
   id: string
   metadata: string
   currentOwner: string
+  issuer: string
   price?: string
   burned?: boolean
   blockNumber?: number

@@ -1,0 +1,30 @@
+<template>
+  <div class="is-flex is-align-items-center mr-6">
+    <Avatar :size="48" :value="account" class="mr-2" />
+    <div class="px-3">
+      <div class="has-text-grey is-size-7">
+        {{ label }}
+      </div>
+      <div class="has-text-weight-bold">
+        <nuxt-link
+          :to="{
+            name: `${prefix}-u-id`,
+            params: { id: account },
+          }">
+          <Identity :address="account" />
+        </nuxt-link>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+const Identity = defineAsyncComponent(
+  () => import('@/components/identity/IdentityIndex.vue')
+)
+defineProps<{
+  label: string
+  account: string
+  prefix: string
+}>()
+</script>
