@@ -1,14 +1,13 @@
 <template>
-  <section class="py-5">
+  <section class="py-5 gallery-item">
     <div class="columns">
-      <div class="column is-two-fiths">
+      <div class="column is-two-fifths">
         <MediaItem
           class="gallery-item-media"
           :src="nftImage"
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
-          :title="nft?.name"
-          original />
+          :title="nft?.name" />
       </div>
       <div class="column">
         <h1 class="title">{{ nft?.name }}</h1>
@@ -34,19 +33,35 @@
         <!-- LINE DIVIDER -->
         <hr />
 
-        {{ nft }}
+        <!-- <p>{{ nft }}</p> -->
         <p>{{ nftImage }}</p>
         <p>{{ nftAnimation }}</p>
         <p>{{ nftMimeType }}</p>
+        <p>{{ nftMetadata?.attributes }}</p>
       </div>
     </div>
 
-    <div class="columns">
-      <div class="column is-one-third">
+    <div class="columns mt-6">
+      <div class="column is-two-fifths">
         <o-tabs v-model="activeTab" expanded>
-          <!-- <o-tab-item value="0" label="Properties">
-            Lorem ipsum dolor sit amet.
-          </o-tab-item> -->
+          <o-tab-item value="0" label="Properties" class="py-4">
+            <table class="simple-table">
+              <thead>
+                <tr>
+                  <td>Trait</td>
+                  <td>Section</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="attribute in nftMetadata?.attributes"
+                  :key="attribute.value">
+                  <td>{{ attribute.value }}</td>
+                  <td>{{ attribute.trait_type }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </o-tab-item>
 
           <o-tab-item value="1" label="Description" class="p-5">
             <div class="mb-3 is-flex">
@@ -122,6 +137,15 @@
         </o-tabs>
       </div>
     </div>
+
+    <!-- TODO: show if item in collection is > 0 -->
+    <CarouselTypeRelated
+      v-if="nft?.collection.id"
+      class="mt-6"
+      :collection-id="nft?.collection.id"
+      data-cy="carousel-related" />
+
+    <CarouselTypeVisited class="mt-6" />
   </section>
 </template>
 
@@ -136,6 +160,20 @@ const { urlPrefix } = usePrefix()
 const { nft, nftImage, nftAnimation, nftMimeType, nftMetadata } =
   useGalleryItem()
 
-const activeTab = ref('1') // sample
+const activeTab = ref('0') // sample
 const activeTab2 = ref('0') // sample
+
+const CarouselTypeRelated = defineAsyncComponent(
+  () => import('@/components/carousel/CarouselTypeRelated.vue')
+)
+const CarouselTypeVisited = defineAsyncComponent(
+  () => import('@/components/carousel/CarouselTypeVisited.vue')
+)
 </script>
+
+<style scoped>
+/* TODO: remove this class once redesign is done */
+.gallery-item {
+  font-family: 'Work Sans';
+}
+</style>

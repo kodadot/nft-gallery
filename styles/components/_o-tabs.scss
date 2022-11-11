@@ -15,6 +15,10 @@
           background-color: black;
           color: white;
         }
+
+        &:hover:not(.o-tabs__nav-item-default--active) {
+          background-color: $k-accentlight2;
+        }
       }
 
       &-wrapper:last-child {

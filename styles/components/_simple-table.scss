@@ -1,0 +1,18 @@
+.simple-table {
+  width: 100%;
+
+  td {
+    padding: 0.25rem 1.5rem;
+  }
+
+  thead td {
+    color: $k-grey;
+    font-size: 12px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  tbody tr:hover td {
+    background-color: $k-accentlight2;
+  }
+}

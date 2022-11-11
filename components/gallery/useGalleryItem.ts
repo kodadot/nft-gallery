@@ -37,6 +37,8 @@ export const useGalleryItem = () => {
       nftMimeType.value = data?.type
     } else if (data?.animation_url) {
       nftMimeType.value = await getMimeType(sanitizeIpfsUrl(data.animation_url))
+    } else if (data?.image) {
+      nftMimeType.value = await getMimeType(sanitizeIpfsUrl(data.image))
     }
 
     if (data?.animation_url) {
