@@ -1,6 +1,7 @@
 import { $fetch } from 'ohmyfetch'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+import { getMimeType } from '@/utils/gallery/media'
 
 export const useGalleryItem = () => {
   const { $consola } = useNuxtApp()
@@ -28,9 +29,15 @@ export const useGalleryItem = () => {
   const fetchNFTMetadata = async (nftMeta) => {
     const nftMetaID = sanitizeIpfsUrl(nftMeta?.id)
     const data: NFTMetadata = await $fetch(nftMetaID)
+    console.log('metadata', data)
 
     nftMetadata.value = data
-    nftMimeType.value = data?.type
+
+    if (data?.type) {
+      nftMimeType.value = data?.type
+    } else if (data?.animation_url) {
+      nftMimeType.value = await getMimeType(sanitizeIpfsUrl(data.animation_url))
+    }
 
     if (data?.animation_url) {
       nftAnimation.value = sanitizeIpfsUrl(data.animation_url)
@@ -51,8 +58,16 @@ export const useGalleryItem = () => {
       $consola.log(`NFT with id ${params.id} not found. Fallback to RPC Node`)
     }
 
+    console.log(nftEntity)
+
     if (nftMeta?.id) {
       await fetchNFTMetadata(nftMeta)
+    } else if (nftMeta === null && nftEntity?.metadata) {
+      const meta = await $fetch(sanitizeIpfsUrl(nftEntity?.metadata))
+      await fetchNFTMetadata({
+        ...meta,
+        id: nftEntity?.metadata,
+      })
     }
   })
 
