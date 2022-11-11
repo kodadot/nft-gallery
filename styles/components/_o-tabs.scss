@@ -1,0 +1,31 @@
+.o-tabs {
+  box-shadow: 4px 4px 0px #000;
+
+  &__nav {
+    overflow-x: initial;
+
+    &-item {
+      &-default {
+        border: 1px solid black;
+        border-right: 0;
+        color: black;
+        padding: 8px;
+
+        &--active {
+          background-color: black;
+          color: white;
+        }
+      }
+
+      &-wrapper:last-child {
+        button {
+          border-right: 1px solid black;
+        }
+      }
+    }
+  }
+
+  &__content {
+    border: 1px solid black;
+  }
+}
