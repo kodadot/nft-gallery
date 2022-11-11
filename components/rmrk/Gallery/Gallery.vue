@@ -38,13 +38,13 @@
                   }}</span>
                 </span>
                 <BasicImage
-                  v-show="nft.image"
+                  v-if="nft.image"
                   :src="nft.image"
                   :alt="nft.name"
                   custom-class="gallery__image-wrapper" />
 
                 <PreviewMediaResolver
-                  v-if="!nft.image && nft.animation_url"
+                  v-else-if="nft.animation_url"
                   :src="nft.animation_url"
                   :metadata="nft.metadata"
                   :mime-type="nft.type" />
