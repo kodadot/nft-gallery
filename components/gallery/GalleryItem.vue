@@ -1,15 +1,40 @@
 <template>
-  <div>
+  <section class="py-5">
     <div class="columns">
-      <div class="column is-one-third">
+      <div class="column is-two-fiths">
         <MediaItem
+          class="gallery-item-media"
           :src="nftImage"
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
           :title="nft?.name"
-          :original="true" />
+          original />
       </div>
       <div class="column">
+        <h1 class="title">{{ nft?.name }}</h1>
+        <h2 class="subtitle">
+          <nuxt-link :to="`/${urlPrefix}/collection/${nft?.collection.id}`">
+            {{ nft?.collection.name }}
+          </nuxt-link>
+        </h2>
+
+        <div class="is-flex is-flex-direction-row py-4">
+          <IdentityItem
+            v-if="nft?.issuer"
+            label="Creator"
+            :prefix="urlPrefix"
+            :account="nft?.issuer" />
+          <IdentityItem
+            v-if="nft?.currentOwner"
+            label="Owner"
+            :prefix="urlPrefix"
+            :account="nft?.currentOwner" />
+        </div>
+
+        <!-- LINE DIVIDER -->
+        <hr />
+
+        {{ nft }}
         <p>{{ nftImage }}</p>
         <p>{{ nftAnimation }}</p>
         <p>{{ nftMimeType }}</p>
@@ -97,89 +122,20 @@
         </o-tabs>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
-import { $fetch } from 'ohmyfetch'
+import { IdentityItem, MediaItem } from '@kodadot1/brick'
 import { OTabItem, OTabs } from '@oruga-ui/oruga'
-import { MediaItem } from '@kodadot1/brick'
-
 import Identity from '@/components/identity/IdentityIndex.vue'
-// import { tokenIdToRoute } from '@/components/unique/utils'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
-import { getMimeType } from '@/utils/gallery/media'
 
-import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
-
-const { $consola } = useNuxtApp()
-const activeTab = ref('1') // sample
-const activeTab2 = ref('0') // sample
-const nft = ref<NFT>()
-const nftImage = ref()
-const nftAnimation = ref()
-const nftMimeType = ref()
-const nftMetadata = ref<NFT['meta']>()
-
-const { params } = useRoute()
-// const { id: collectionID, item: id } = tokenIdToRoute(params.id)
+import { useGalleryItem } from './useGalleryItem'
 
 const { urlPrefix } = usePrefix()
-const { data } = useGraphql({
-  queryName: urlPrefix.value === 'rmrk' ? 'nftByIdWithoutRoyalty' : 'nftById',
-  variables: {
-    id: params.id,
-  },
-})
+const { nft, nftImage, nftAnimation, nftMimeType, nftMetadata } =
+  useGalleryItem()
 
-interface NFTData {
-  nftEntity?: NFT
-}
-
-const fetchNFTMetadata = async (nftMeta) => {
-  const nftMetaID = sanitizeIpfsUrl(nftMeta?.id)
-  const data: NFTMetadata = await $fetch(nftMetaID)
-  console.log('metadata', data)
-
-  nftMetadata.value = data
-
-  if (data?.type) {
-    nftMimeType.value = data?.type
-  } else if (data?.animation_url) {
-    nftMimeType.value = await getMimeType(sanitizeIpfsUrl(data.animation_url))
-  }
-
-  if (data?.animation_url) {
-    nftAnimation.value = sanitizeIpfsUrl(data.animation_url)
-  }
-
-  if (data?.image) {
-    nftImage.value = sanitizeIpfsUrl(data.image)
-  }
-}
-
-watch(data as unknown as NFTData, async (newData) => {
-  const nftEntity = newData?.nftEntity
-  const nftMeta = nftEntity?.meta
-
-  if (nftEntity) {
-    nft.value = nftEntity
-  } else {
-    $consola.log(`NFT with id ${params.id} not found. Fallback to RPC Node`)
-  }
-
-  console.log(nftEntity)
-
-  if (nftMeta?.id) {
-    await fetchNFTMetadata(nftMeta)
-  } else if (nftMeta === null && nftEntity?.metadata) {
-    const meta = await $fetch(sanitizeIpfsUrl(nftEntity?.metadata))
-    await fetchNFTMetadata({
-      ...meta,
-      id: nftEntity?.metadata,
-    })
-  }
-})
+const activeTab = ref('1') // sample
+const activeTab2 = ref('0') // sample
 </script>
-
-<style scoped></style>

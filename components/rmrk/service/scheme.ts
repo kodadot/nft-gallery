@@ -160,6 +160,7 @@ export interface NFT {
   metadata: string
   issuer: string
   currentOwner: string
+  issuer: string
   price?: string
   burned?: boolean
   blockNumber?: number
