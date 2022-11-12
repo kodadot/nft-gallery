@@ -1,5 +1,6 @@
 <template>
   <div class="search-suggestion-container" @click="resetSelectedIndex">
+    {{ searched }}
     <b-tabs
       v-show="name"
       v-model="activeSearchTab"
@@ -452,7 +453,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     }
 
     return this.searched.filter((option) => {
-      if (!option.name || option.name === '') {
+      if (!option.name || option.name.trim() === '') {
         return false
       }
       return (
