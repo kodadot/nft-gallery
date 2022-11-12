@@ -1,54 +1,62 @@
 <template>
-  <div class="field">
-    <b-field class="file is-primary">
-      <b-upload
-        ref="upload"
-        v-model="file"
-        :required="required"
-        class="file-label"
-        drag-drop
-        :expanded="expanded"
-        :accept="accept">
-        <section class="section">
-          <div class="content has-text-centered">
-            <p>
+  <div class="my-3">
+    <div v-if="isModelMedia" class="p-2 mx-auto">
+      <MediaResolver
+        v-if="url"
+        :src="url"
+        :mime-type="mimeType"
+        :preview="false"
+        @error="hasError = true" />
+    </div>
+    <div class="field">
+      <b-field class="file is-primary">
+        <b-upload
+          ref="upload"
+          v-model="file"
+          :required="required"
+          drag-drop
+          :expanded="expanded"
+          :accept="accept">
+          <section class="section">
+            <div class="content has-text-centered">
               <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
-              <ModelMedia
-                v-if="acceptModelMedia && fileIsModelMedia && url && !hasError"
+              <MediaResolver
+                v-if="url && !isModelMedia"
                 :src="url"
-                :with-a-r-button="false" />
-
-              <img
-                v-else-if="url && !hasError"
-                :src="url"
+                :mime-type="mimeType"
+                :preview="false"
                 @error="hasError = true" />
+
               <b-icon v-if="hasError" icon="eye-slash" size="is-large" />
-            </p>
-            <p v-if="!file">
-              {{ label }}
-            </p>
-            <p v-else>
-              Awesome your file is <b>{{ file.name }}</b
-              >. Click or drop to change
-            </p>
-          </div>
-        </section>
-      </b-upload>
-    </b-field>
-    <transition v-if="checkFailed" name="fade">
-      <div class="help is-danger">{{ $t('tooltip.needToUploadNFTFile') }}</div>
-    </transition>
+              <p v-if="!file">
+                {{ label }}
+              </p>
+              <p v-else class="mt-2">
+                Awesome your file is <b>{{ file.name }}</b
+                >. Click or drop to change
+              </p>
+            </div>
+          </section>
+        </b-upload>
+      </b-field>
+      <transition v-if="checkFailed" name="fade">
+        <div class="help is-danger">
+          {{ $t('tooltip.needToUploadNFTFile') }}
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Emit, Prop, Ref, Vue, Watch } from 'nuxt-property-decorator'
 import Tooltip from '@/components/shared/Tooltip.vue'
+import MediaResolver from '@/components/media/MediaResolver.vue'
 
 @Component({
   components: {
     Tooltip,
-    ModelMedia: () => import('~~/components/media/type/ModelMedia.vue'),
+    MediaResolver,
   },
 })
 export default class DropUpload extends Vue {
@@ -74,21 +82,23 @@ export default class DropUpload extends Vue {
     return !this.checkFailed
   }
 
-  get acceptModelMedia() {
-    // accept all file types
-    if (this.accept === undefined) {
-      return true
+  get mimeType() {
+    if (this.file?.type) {
+      return this.file?.type
     }
-    return Boolean(this.accept.includes('model'))
-  }
-  get fileIsModelMedia() {
-    if (!!this.file?.type && this.file?.type.includes('model')) {
-      return true
-    }
-    // in chrome the file.type of glb file is undefined,
-    // so check the file extension instead
+    //workaround for model media in chrome
     const fileExtension = this.file?.name.split('.').pop() || ''
-    return this.supportedModelMediaFileExtensions.includes(fileExtension)
+    const extensionToMimeType = {
+      glb: 'model/gltf-binary',
+    }
+    if (fileExtension in extensionToMimeType) {
+      return extensionToMimeType[fileExtension]
+    }
+    return ''
+  }
+
+  get isModelMedia() {
+    return this.mimeType.startsWith('model')
   }
 
   public created() {
