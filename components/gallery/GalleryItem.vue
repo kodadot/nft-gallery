@@ -70,7 +70,7 @@
                 v-if="nft?.issuer"
                 :href="`/${urlPrefix}/u/${nft?.issuer}`"
                 target="_blank"
-                rel="noodivener noreferrer"
+                rel="noopener noreferrer"
                 class="has-text-weight-bold">
                 <Identity ref="identity" :address="nft?.issuer" />
               </a>
@@ -89,7 +89,7 @@
                 v-if="nft?.issuer"
                 :href="`/${urlPrefix}/u/${nft?.issuer}`"
                 target="_blank"
-                rel="noodivener noreferrer"
+                rel="noopener noreferrer"
                 class="has-text-weight-bold">
                 <Identity ref="identity" :address="nft?.issuer" />
               </a>
