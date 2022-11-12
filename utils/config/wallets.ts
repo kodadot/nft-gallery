@@ -176,7 +176,12 @@ export const SupportedWallets = () => {
   }
   const allWallets = createWalletInstanceList(PCWalletExtensionList)
   const wallets = allWallets.filter((wallet) => wallet.installed)
-  return wallets.length > 0 ? wallets : allWallets
+  const sourceIds = new Set(wallets.map((d) => d.source))
+  const allWalletsUpdates = [
+    ...wallets,
+    ...allWallets.filter((d) => !sourceIds.has(d.source)),
+  ]
+  return allWalletsUpdates
 }
 
 export function getWalletBySource(
