@@ -430,6 +430,9 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     }
 
     return this.searched.filter((option) => {
+      if (!option.name) {
+        return false
+      }
       return (
         option.name
           .toString()
