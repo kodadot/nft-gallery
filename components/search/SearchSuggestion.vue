@@ -1,6 +1,5 @@
 <template>
   <div class="search-suggestion-container" @click="resetSelectedIndex">
-    {{ searched }}
     <b-tabs
       v-show="name"
       v-model="activeSearchTab"
