@@ -1,8 +1,7 @@
 <template>
   <div class="my-3">
-    <div v-if="isModelMedia" class="p-2 mx-auto">
+    <div v-if="url && isModelMedia" class="p-2 mx-auto">
       <MediaResolver
-        v-if="url"
         :src="url"
         :mime-type="mimeType"
         :preview="false"
