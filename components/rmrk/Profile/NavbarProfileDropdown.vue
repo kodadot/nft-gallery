@@ -3,7 +3,6 @@
     <b-dropdown
       position="is-bottom-left"
       aria-role="menu"
-      class="ml-2 mr-4"
       :triggers="['click', 'hover']">
       <template #trigger>
         <span class="is-mobile is-vcentered navbar__avatar">

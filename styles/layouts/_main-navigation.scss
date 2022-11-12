@@ -179,6 +179,13 @@
   }
 
 	#NavProfile {
+    .dropdown-trigger {
+      height: 40px;
+      width: 40px;
+      cursor: pointer;
+      display: flex;
+    }
+
 		.button.is-primary {
 			background: $k-accent;
 			border: 1px solid $black !important;
