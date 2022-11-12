@@ -131,6 +131,11 @@ export default class Footer extends Vue {
       icon: 'discord',
     },
     {
+      name: 'Reddit',
+      url: 'https://www.reddit.com/r/KodaDot',
+      icon: 'reddit-alien',
+    },
+    {
       name: 'Twitter',
       url: 'https://twitter.com/KodaDot',
       icon: 'twitter',

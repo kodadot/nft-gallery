@@ -1,5 +1,8 @@
 <template>
-  <b-button type="is-primary" class="py-2 px-4" @click="openWalletConnectModal">
+  <b-button
+    type="is-primary"
+    class="py-2 px-4"
+    @click="toggleWalletConnectModal">
     {{ $t(label) }}
   </b-button>
 </template>
@@ -11,9 +14,15 @@ import WalletModal from '~/components/common/WalletModal.vue'
 @Component({})
 export default class ConnectWalletButton extends Vue {
   @Prop({ default: 'general.connect' }) public label!: string // i18
+  private modal: { close: () => void; isActive?: boolean } | null = null
 
-  protected openWalletConnectModal(): void {
-    this.$buefy.modal.open({
+  public toggleWalletConnectModal(): void {
+    if (this.modal?.isActive) {
+      this.modal.close()
+      this.modal = null
+      return
+    }
+    this.modal = this.$buefy.modal.open({
       parent: this,
       component: WalletModal,
       hasModalCard: true,

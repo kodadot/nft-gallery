@@ -293,17 +293,18 @@
       </b-dropdown-item>
 
       <hr class="dropdown-divider mx-4" aria-role="menuitem" />
-
-      <b-dropdown-item
-        custom
-        aria-role="menuitem"
-        paddingless
-        class="is-flex is-justify-content-center">
-        <b-button
-          class="navbar__sign-out-button menu-item mb-4 is-size-7"
-          @click="disconnect()">
-          {{ $t('profileMenu.disconnect') }}
-        </b-button>
+      <b-dropdown-item custom aria-role="menuitem">
+        <div class="buttons is-justify-content-space-between my-2">
+          <ConnectWalletButton
+            label="general.change_account"
+            class="navbar__sign-out-button menu-item is-size-7"
+            @closeBurgerMenu="closeBurgerMenu" />
+          <b-button
+            class="navbar__sign-out-button menu-item is-size-7"
+            @click="disconnect()">
+            {{ $t('profileMenu.disconnect') }}
+          </b-button>
+        </div>
       </b-dropdown-item>
     </b-dropdown>
 
@@ -483,9 +484,11 @@ export default class NavbarProfileDropdown extends mixins(
   }
   &__sign-out-button {
     border: 1px solid $black;
-    box-shadow: 4px 4px 0px $black;
+    box-shadow: 4px 4px 0px $black !important;
     padding: 8px 16px;
     border-radius: 0;
+    text-transform: capitalize;
+    width: 120px;
     &:hover {
       border: 1px solid $black;
     }

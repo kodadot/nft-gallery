@@ -13,8 +13,13 @@
           <div class="content has-text-centered">
             <p>
               <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
+              <ModelMedia
+                v-if="acceptModelMedia && fileIsModelMedia && url && !hasError"
+                :src="url"
+                :with-a-r-button="false" />
+
               <img
-                v-if="url && !hasError"
+                v-else-if="url && !hasError"
                 :src="url"
                 @error="hasError = true" />
               <b-icon v-if="hasError" icon="eye-slash" size="is-large" />
@@ -43,6 +48,7 @@ import Tooltip from '@/components/shared/Tooltip.vue'
 @Component({
   components: {
     Tooltip,
+    ModelMedia: () => import('~~/components/media/type/ModelMedia.vue'),
   },
 })
 export default class DropUpload extends Vue {
@@ -56,15 +62,33 @@ export default class DropUpload extends Vue {
   @Prop(Boolean) public expanded!: boolean
   @Prop(Boolean) public preview!: boolean
   @Prop(String) public accept!: string
-  private file: Blob | null = null
+  private file: File | null = null
   protected url = ''
   protected hasError = false
   protected checkFailed = false
+  protected supportedModelMediaFileExtensions = ['glb']
   @Ref('upload') readonly upload
 
   public checkValidity() {
     this.checkFailed = !this.file
     return !this.checkFailed
+  }
+
+  get acceptModelMedia() {
+    // accept all file types
+    if (this.accept === undefined) {
+      return true
+    }
+    return Boolean(this.accept.includes('model'))
+  }
+  get fileIsModelMedia() {
+    if (!!this.file?.type && this.file?.type.includes('model')) {
+      return true
+    }
+    // in chrome the file.type of glb file is undefined,
+    // so check the file extension instead
+    const fileExtension = this.file?.name.split('.').pop() || ''
+    return this.supportedModelMediaFileExtensions.includes(fileExtension)
   }
 
   public created() {

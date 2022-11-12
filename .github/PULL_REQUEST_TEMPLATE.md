@@ -1,19 +1,19 @@
 **Thank you for your contribution** to the [KodaDot NFT gallery](https://kodadot.xyz).
+
 👇 \_ Let's make a quick check before the contribution.
 
-### PR type
+## PR Type
 
 - [ ] Bugfix
 - [ ] Feature
 - [ ] Refactoring
 
-### What's new?
+## Context
 
-- [ ] PR closes #<issue_number>
-- [ ] Requires deployment <rubick/magick_issue>
-- [ ] <brief_description_of_what_I've_added>
+- [ ] Closes #<issue_number>
+- [ ] Requires deployment <>
 
-### Before submitting Pull Request, please make sure:
+#### Before submitting pull request, please make sure:
 
 - [ ] My contribution builds **clean without any errors or warnings**
 - [ ] I've merged recent default branch -- **main** and I've no conflicts
@@ -21,21 +21,21 @@
 - [ ] I've didn't break any original functionality
 - [ ] I've posted a screenshot of demonstrated change in this PR
 
-### Optional
+#### Optional
 
-- [ ] I've tested it at </rmrk/collection/26902bc2f7c20c546a-1FVG7>
-- [ ] I've tested PR on mobile and everything seems works
-- [ ] I found edge cases
-- [ ] I've written some unit tests 🧪
+- [ ] I've tested it at </bsx/collection>
+- [ ] I've tested PR on mobile
+- [ ] I've written unit tests 🧪
+- [ ] I've found edge cases
 
-### Had issue bounty label?
+#### Had issue bounty label?
 
 - [ ] Fill up your KSM address: [Payout](https://beta.kodadot.xyz/transfer/?target=<My_Kusama_Address_check_https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#creating-your-ksm-address>)
 
-### Community participation
+#### Community participation
 
 - [ ] [Are you at KodaDot Discord?](https://discord.gg/35hzy2dXXh)
 
-### Screenshot
+## Screenshot 📸
 
 - [ ] My fix has changed **something** on UI; a screenshot is best to understand changes for others.

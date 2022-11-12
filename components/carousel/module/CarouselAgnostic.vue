@@ -45,12 +45,22 @@ provide('isCollection', isCollection.value)
 
 const current = ref(0)
 const minWidths = [1280, 1024, 768, 640]
+
 const [wrapper, slider] = useKeenSlider(
   {
     initial: current.value,
     rubberband: false,
     slideChanged: (s) => {
       current.value = s.track.details.rel
+    },
+    detailsChanged: (s) => {
+      s.slides.forEach((slide, index) => {
+        if (s.track.details.slides[index].portion > 0) {
+          slide.style.opacity = '1'
+        } else {
+          slide.style.opacity = '.5'
+        }
+      })
     },
     breakpoints: {
       '(min-width: 640px)': {
@@ -60,10 +70,10 @@ const [wrapper, slider] = useKeenSlider(
         slides: { perView: 2.5, spacing: 32 },
       },
       '(min-width: 1024px)': {
-        slides: { perView: 3.5, spacing: 32 },
+        slides: { perView: 3, spacing: 32 },
       },
       '(min-width: 1280px)': {
-        slides: { perView: 4.5, spacing: 32 },
+        slides: { perView: 4, spacing: 32 },
       },
     },
     slides: { perView: 1.5, spacing: 32 },
@@ -86,3 +96,16 @@ const dotHelper = computed(() =>
   slider.value && totalDots.value > 0 ? [...Array(totalDots.value).keys()] : []
 )
 </script>
+
+<style lang="scss">
+// avoid fouc on navigating
+@media screen and (min-width: 768px) {
+  @for $i from 0 through 3 {
+    .keen-slider__slide:nth-child(#{$i + 1}) {
+      min-width: 312px;
+      max-width: 312px;
+      transform: translate3d(#{$i * 32px}, 0px, 0px);
+    }
+  }
+}
+</style>

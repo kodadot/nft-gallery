@@ -96,7 +96,7 @@
                     </template>
                     <div class="content pt-4">
                       <p class="subtitle">
-                        <AvailableActions
+                        <!-- <AvailableActions
                           ref="actions"
                           :account-id="accountId"
                           :is-owner="isOwner"
@@ -113,7 +113,7 @@
                             nft.animation_url,
                             nft.metadata,
                           ]"
-                          @change="handleAction" />
+                          @change="handleAction" /> -->
                         <Auth class="mt-4" />
                       </p>
                     </div>
@@ -197,6 +197,7 @@ import nftListIdsByCollection from '@/queries/subsquid/general/nftIdListByCollec
 import { unwrapSafe } from '@/utils/uniquery'
 import { mapToId } from '@/utils/mappers'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
+import { exist } from '@/components/search/exist'
 
 @Component<GalleryItem>({
   name: 'GalleryItem',
@@ -272,6 +273,12 @@ export default class GalleryItem extends mixins(
         this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
         this.subscribe(getPrice(api), this.tokenId, this.observePrice)
       }
+    })
+
+    exist(this.$route.query.message, (val) => {
+      this.$buefy.toast.open(val)
+      this.message = val === 'congrats' ? val : ''
+      this.$router.replace({ query: null } as any)
     })
   }
 
