@@ -3,8 +3,7 @@
     <h6 class="popover-user-heading">{{ $t('user') }}</h6>
     <nuxt-link
       class="is-size-6 mb-1 break-word"
-      :to="`/${urlPrefix}/u/${address}`"
-      data-cy="identity-display">
+      :to="`/${urlPrefix}/u/${address}`">
       {{ identity?.display || shortenedAddress }}
     </nuxt-link>
   </div>
