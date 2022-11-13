@@ -19,13 +19,13 @@
           <section class="section">
             <div class="content has-text-centered">
               <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
-              <MediaResolver
-                v-if="url && !isModelMedia"
-                :src="url"
-                :mime-type="mimeType"
-                :preview="false"
-                @error="hasError = true" />
-
+              <div v-if="url && !isModelMedia" @click.prevent>
+                <MediaResolver
+                  :src="url"
+                  :mime-type="mimeType"
+                  :preview="false"
+                  @error="hasError = true" />
+              </div>
               <b-icon v-if="hasError" icon="eye-slash" size="is-large" />
               <p v-if="!file">
                 {{ label }}
