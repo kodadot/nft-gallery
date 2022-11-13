@@ -35,10 +35,10 @@
         <hr />
 
         <!-- <p>{{ nft }}</p> -->
-        <p>{{ nftImage }}</p>
-        <!-- <p>{{ nftAnimation }}</p> -->
-        <!-- <p>{{ nftMimeType }}</p> -->
-        <!-- <p>{{ nftMetadata?.attributes }}</p> -->
+        <p>nftImage: {{ nftImage }}</p>
+        <p>nftAnimation: {{ nftAnimation }}</p>
+        <p>nftMimeType: {{ nftMimeType }}</p>
+        <!-- <p>{{ nftMetadata }}</p> -->
       </div>
     </div>
 
