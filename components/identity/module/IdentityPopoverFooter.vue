@@ -78,6 +78,5 @@ const props = defineProps<{
 .popover-user-heading {
   font-size: 12px;
   color: $k-grey;
-  text-transform: capitalize;
 }
 </style>
