@@ -4,22 +4,19 @@ const users = [
   {
     address: 'FqCJeGcPidYSsvvmT17fHVaYdE2nXMYgPsBn3CP9gugvZR5',
     name: 'deepologic',
-    twitter: '@deepologic',
   },
   {
     address: 'FUEGFWoPPtX4XkRzEnZnMgwGKENscHXAiEZy6kcgaDz1BY6',
     name: 'Yumi Arts',
-    twitter: '@YumiArtsNFT',
   },
   {
     address: 'D5DfsRWMpcBm39Leh539efFnDF1n337YWcYVHNi94pjv1SJ',
     name: 'nftxtiff',
-    twitter: '@nftxtiff',
   },
 ]
 
 describe('Identity.vue component', () => {
-  users.forEach(({ address, name, twitter }) => {
+  users.forEach(({ address, name }) => {
     it(
       `should get Identity stats for ${name}`,
       { scrollBehavior: false, browser: 'chrome' },
