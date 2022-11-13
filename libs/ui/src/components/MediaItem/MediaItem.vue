@@ -2,7 +2,7 @@
   <div class="media-object">
     <component
       :is="resolveComponent"
-      :src="src"
+      :src="properSrc"
       :animation-src="animationSrc"
       :alt="title"
       :original="original" />
@@ -66,6 +66,9 @@ export default {
     resolveComponent() {
       const type = this.mimeType || this.defaultMimeType
       return this.components[resolveMedia(type) + SUFFIX]
+    },
+    properSrc() {
+      return this.src || placeholder
     },
   },
   watch: {
