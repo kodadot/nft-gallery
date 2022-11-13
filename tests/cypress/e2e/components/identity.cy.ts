@@ -44,18 +44,7 @@ describe('Identity.vue component', () => {
         cy.get('.tippy-popper')
           .should('exist')
           .then(() => {
-            cy.getCy('identity-clipboard').realClick()
             cy.getCy('identity-display').should('contain.text', name)
-            cy.getCy('identity-twitter').should('contain.text', twitter)
-            cy.getCy('identity-address').should(
-              'contain.text',
-              shortAddress(address)
-            )
-            cy.getCy('identity-started-minting').should(
-              'contain.text',
-              'Started minting'
-            )
-            cy.getCy('identity-last-bought').should('exist')
             cy.getCy('identity-collected').should(
               'not.have.text',
               '\n      0\n    '
