@@ -452,7 +452,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     }
 
     return this.searched.filter((option) => {
-      if (option.name.trim().length === 0) {
+      if (!option.name.trim()) {
         return false
       }
       return (
