@@ -4,7 +4,9 @@
     <nuxt-link
       class="is-size-6 mb-1 break-word"
       :to="`/${urlPrefix}/u/${address}`">
-      {{ identity?.display || shortenedAddress }}
+      <span data-cy="identity-display">
+        {{ identity?.display || shortenedAddress }}</span
+      >
     </nuxt-link>
   </div>
 </template>

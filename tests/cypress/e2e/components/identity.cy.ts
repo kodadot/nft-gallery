@@ -41,6 +41,7 @@ describe('Identity.vue component', () => {
         cy.get('.tippy-popper')
           .should('exist')
           .then(() => {
+            cy.getCy('identity-display').should('contain.text', name)
             cy.getCy('identity-collected').should(
               'not.have.text',
               '\n      0\n    '
