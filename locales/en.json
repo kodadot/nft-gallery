@@ -776,7 +776,8 @@
     "holdings": "Holdings",
     "gains": "Gains",
     "showQr": "Show QR",
-    "collectedFromCreator": "Collected {0} NFT(s) from this creator"
+    "collectedFromCreator": "Collected {0} NFT(s) from this creator",
+    "highestSales": "highest sales"
   },
   "sales": {
     "page": "Sales",
