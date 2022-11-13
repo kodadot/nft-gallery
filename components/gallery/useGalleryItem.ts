@@ -29,7 +29,6 @@ export const useGalleryItem = () => {
   const fetchNFTMetadata = async (nftMeta) => {
     const nftMetaID = sanitizeIpfsUrl(nftMeta?.id)
     const data: NFTMetadata = await $fetch(nftMetaID)
-    console.log('metadata', data)
 
     nftMetadata.value = data
 
@@ -59,8 +58,6 @@ export const useGalleryItem = () => {
     } else {
       $consola.log(`NFT with id ${params.id} not found. Fallback to RPC Node`)
     }
-
-    console.log(nftEntity)
 
     if (nftMeta?.id) {
       await fetchNFTMetadata(nftMeta)
