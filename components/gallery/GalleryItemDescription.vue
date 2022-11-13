@@ -31,6 +31,8 @@
           <Identity ref="identity" :address="nft?.issuer" />
         </a>
       </div>
+
+      <!-- TODO: render with markdown component -->
       <div>{{ nftMetadata?.description }}</div>
     </o-tab-item>
 
