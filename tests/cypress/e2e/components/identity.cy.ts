@@ -51,11 +51,6 @@ describe('Identity.vue component', () => {
               '\n      0\n    '
             )
             cy.getCy('identity-sold').should('not.have.text', '\n      0\n    ')
-
-            cy.window()
-              .its('navigator.clipboard')
-              .invoke('readText')
-              .should('equal', address)
           })
       }
     )
