@@ -16,11 +16,11 @@
     "eslint-plugin-vue": "^8.7.1",
     "histoire": "^0.11.6",
     "vite": "^3.2.2",
-    "vue": "^2.7.13"
+    "vue": "2.7.14"
   },
   "dependencies": {
     "@google/model-viewer": "^1.12.1",
     "bulma": "0.9.4",
-    "vue-audio-visual": "^2.5.0"
+    "vue-audio-visual": "2.5.0"
   }
 }
