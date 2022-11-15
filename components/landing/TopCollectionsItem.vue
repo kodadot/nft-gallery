@@ -101,13 +101,19 @@ export default class TopCollectionsItem extends mixins(PrefixMixin) {
     }
   }
   get diffPercent(): { value: number; str: string } {
-    const value = (this.volume / this.previousVolume - 1) * 100 || 0
+    if (this.volume === 0 || this.previousVolume === 0) {
+      return { value: NaN, str: '---' }
+    }
+    const value = (this.volume / this.previousVolume - 1) * 100
     const sign = value < 0 ? '-' : '+'
-    return { value, str: `${sign} ${Math.abs(value).toFixed(2)}%` }
+    return { value, str: `${sign}${Math.abs(value).toFixed(2)}%` }
   }
 
   get color() {
-    return this.diffPercent.value < 0 ? 'red' : 'green'
+    if (this.diffPercent.value) {
+      return this.diffPercent.value < 0 ? 'red' : 'green'
+    }
+    return undefined
   }
 
   get usdValue() {
