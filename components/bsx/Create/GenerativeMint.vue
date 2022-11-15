@@ -31,11 +31,10 @@
       :loading="isLoading"
       @click="submit" />
     <div v-else>
-      <div class="columns is-multiline">
-        <div v-for="out of predicion.output" :key="out" class="column is-half">
-          <img :src="out" width="512" height="512" />
-        </div>
-      </div>
+      <ImageGrid
+        :images="predicion.output"
+        :disabled="selectedImage"
+        @update="handleSelectImage" />
     </div>
   </section>
 </template>
@@ -54,13 +53,21 @@ const SubmitButton = defineAsyncComponent(
   () => import('@/components/base/SubmitButton.vue')
 )
 
+const ImageGrid = defineAsyncComponent(
+  () => import('@/components/shared/view/ImageGrid.vue')
+)
+
 const name = ref('')
-const description = ref('')
 const isLoading = ref(false)
 const status = ref('')
 const predictionId = ref('')
 const submitPressed = ref(false)
 const predicion = ref<PredictionStatus>(emptyObject<PredictionStatus>())
+const selectedImage = ref('')
+
+const handleSelectImage = (image: string) => {
+  selectedImage.value = image
+}
 
 const submit = async () => {
   isLoading.value = true
