@@ -5,7 +5,7 @@ html.light-mode {
     color: $primary;
 
     &:hover {
-      color: $primary-light;
+      color: $primary-light !important;
     }
   }
 
@@ -133,7 +133,7 @@ html.light-mode {
     }
   }
 
-  .tabs li:not(.is-active) a,
+   .tabs li:not(.is-active) a,
   .pagination-previous,
   .pagination-next,
   .pagination-link,
@@ -142,6 +142,7 @@ html.light-mode {
   .royalty {
     color: $text-light-theme;
   }
+
 
   .level .title,
   .homepage .title:not(h2),
