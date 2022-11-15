@@ -24,6 +24,11 @@ export type PredictionRequestStatus = {
   version: string
 }
 
+export type PredictionRequest = {
+  version: string
+  input: Input
+}
+
 export type PredictionStatus = {
   completed_at: string
   created_at: string
@@ -39,7 +44,7 @@ export type PredictionStatus = {
 }
 
 export type Input = {
-  prompt: string
+  positive_prompt: string
   width: Option<string>
   height: Option<string>
   num_outputs: Option<string>
@@ -47,10 +52,21 @@ export type Input = {
   num_inference_steps: Option<string>
 }
 
-export const predict = async (object: Input) => {
+export const predict = async (object: string) => {
+  const input: PredictionRequest = {
+    version: 'd908d47fa301ffe59dce52588e0603add72bfcbc4bb3f78b4516cac541ba7b2b',
+    input: {
+      positive_prompt: object,
+      width: '512',
+      height: '512',
+      num_outputs: '1',
+      guidance_scale: '7',
+      num_inference_steps: '50',
+    },
+  }
   const value = await api<PredictionRequestStatus>('predict', {
     method: 'POST',
-    body: object,
+    body: input,
   }).catch((error: FetchError) => {
     throw new Error(
       `[REPLICATE::PREDICT] Unable to PREDICT for reasons ${error.data}`
