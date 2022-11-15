@@ -1,6 +1,12 @@
 <template>
   <o-tabs v-model="activeTab" expanded>
-    <o-tab-item value="0" label="Offers" class="p-5"> Offers </o-tab-item>
+    <o-tab-item
+      v-if="urlPrefix !== 'rmrk'"
+      value="0"
+      label="Offers"
+      class="p-5">
+      Offers
+    </o-tab-item>
 
     <o-tab-item value="1" label="Activity" class="p-5"> Activity </o-tab-item>
 
@@ -13,5 +19,12 @@
 <script setup lang="ts">
 import { OTabItem, OTabs } from '@oruga-ui/oruga'
 
+const { urlPrefix } = usePrefix()
 const activeTab = ref('0')
+
+onMounted(() => {
+  if (urlPrefix.value === 'rmrk') {
+    activeTab.value = '1'
+  }
+})
 </script>
