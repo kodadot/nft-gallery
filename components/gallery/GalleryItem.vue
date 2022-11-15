@@ -11,12 +11,22 @@
           original />
       </div>
       <div class="column">
-        <h1 class="title">{{ nft?.name }}</h1>
-        <h2 class="subtitle">
-          <nuxt-link :to="`/${urlPrefix}/collection/${nft?.collection.id}`">
-            {{ nft?.collection.name }}
-          </nuxt-link>
-        </h2>
+        <div class="is-flex is-justify-content-space-between">
+          <div>
+            <h1 class="title">{{ nft?.name }}</h1>
+            <h2 class="subtitle">
+              <nuxt-link
+                :to="`/${urlPrefix}/collection/${nft?.collection.id}`"
+                class="has-text-link">
+                {{ nft?.collection.name }}
+              </nuxt-link>
+            </h2>
+          </div>
+          <div class="buttons is-align-content-start">
+            <b-button icon-right="ellipsis-v" class="is-neo" />
+            <Sharing :label="$t('sharing.profile')" enable-download />
+          </div>
+        </div>
 
         <div class="is-flex is-flex-direction-row py-4">
           <IdentityItem
@@ -50,3 +60,17 @@ import { IdentityItem, MediaItem } from '@kodadot1/brick'
 const { urlPrefix } = usePrefix()
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
 </script>
+
+<style lang="scss">
+.is-neo {
+  border-radius: 0;
+  background: hsl(0deg, 0%, 100%);
+  border: 1px solid hsl(0deg, 0%, 4%);
+  -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+  box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+
+  &:hover {
+    background: #ffe5f3 !important;
+  }
+}
+</style>
