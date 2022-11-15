@@ -16,7 +16,7 @@
           <div class="has-text-weight-bold">
             {{ collection.name | truncateStr(12) }}
           </div>
-          <div class="is-flex is-justify-content-space-between">
+          <div class="is-flex is-justify-content-space-between nowrap">
             <div>
               <div v-if="collection.floorPrice">
                 Floor:
@@ -24,7 +24,7 @@
               </div>
               <div v-else>---</div>
             </div>
-            <div class="is-uppercase has-text-grey">
+            <div class="is-uppercase has-text-grey pl-2">
               {{ urlPrefix }}
             </div>
           </div>
@@ -131,5 +131,8 @@ export default class TopCollectionsItem extends mixins(PrefixMixin) {
 
 .red {
   color: red;
+}
+.nowrap {
+  white-space: nowrap;
 }
 </style>
