@@ -1,24 +1,21 @@
 <template>
   <o-tabs v-model="activeTab" expanded>
+    <!-- properties tab -->
     <o-tab-item value="0" label="Properties" class="py-4">
-      <table class="simple-table">
-        <thead>
-          <tr>
-            <td>Trait</td>
-            <td>Section</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="attribute in nftMetadata?.attributes"
-            :key="attribute.value">
-            <td>{{ attribute.value }}</td>
-            <td>{{ attribute.trait_type }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <o-table
+        v-if="nftMetadata?.attributes.length"
+        :data="nftMetadata?.attributes"
+        hoverable>
+        <o-table-column v-slot="props" field="value" label="Trait">
+          {{ props.row.value }}
+        </o-table-column>
+        <o-table-column v-slot="props" field="trait_type" label="Section">
+          {{ props.row.trait_type }}
+        </o-table-column>
+      </o-table>
     </o-tab-item>
 
+    <!-- description tab -->
     <o-tab-item value="1" label="Description" class="p-5">
       <div class="mb-3 is-flex">
         <span class="mr-2">Made By:</span>
@@ -36,6 +33,7 @@
       <div>{{ nftMetadata?.description }}</div>
     </o-tab-item>
 
+    <!-- details tab -->
     <o-tab-item value="2" label="Details" class="p-5">
       <!-- <div class="is-flex is-justify-content-space-between">
         <p>Contract Address</p>
@@ -85,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { OTabItem, OTabs } from '@oruga-ui/oruga'
+import { OTabItem, OTable, OTableColumn, OTabs } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 
