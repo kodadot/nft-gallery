@@ -44,7 +44,12 @@
     </b-field>
 
     <b-field class="" label-position="inside" label="Input currency amount">
-      <b-input v-model="amount" expanded type="number" :min="0.0001"></b-input>
+      <b-input
+        v-model="amount"
+        expanded
+        type="number"
+        :min="0.0001"
+        :step="0.0001"></b-input>
     </b-field>
 
     <b-button
