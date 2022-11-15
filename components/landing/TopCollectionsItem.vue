@@ -112,7 +112,7 @@ export default class TopCollectionsItem extends mixins(PrefixMixin) {
 
   get usdValue() {
     return calculateUsdFromKsm(
-      Number(this.volume),
+      this.volume,
       this.$store.getters['fiat/getCurrentKSMValue']
     )
   }
