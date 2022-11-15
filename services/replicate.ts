@@ -52,14 +52,16 @@ export type Input = {
   num_inference_steps: Option<string>
 }
 
-export const predict = async (object: string) => {
+export const predict = async (
+  object: string
+): Promise<PredictionRequestStatus> => {
   const input: PredictionRequest = {
-    version: 'd908d47fa301ffe59dce52588e0603add72bfcbc4bb3f78b4516cac541ba7b2b',
+    version: '25d2f75ecda0c0bed34c806b7b70319a53a1bccad3ade1a7496524f013f48983',
     input: {
       positive_prompt: object,
       width: '512',
       height: '512',
-      num_outputs: '1',
+      num_outputs: '4',
       guidance_scale: '7',
       num_inference_steps: '50',
     },
