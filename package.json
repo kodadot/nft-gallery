@@ -101,9 +101,9 @@
     "setimmediate": "^1.0.5",
     "slugify": "^1.6.5",
     "v-emoji-picker": "^2.3.3",
-    "vue": "2.7.8",
+    "vue": "2.7.14",
     "vue-apollo": "^3.1.0",
-    "vue-audio-visual": "^2.5.0",
+    "vue-audio-visual": "2.5.0",
     "vue-class-component": "^7.2.6",
     "vue-clipboard2": "^0.3.3",
     "vue-gtag": "^1.16.1",
@@ -168,7 +168,9 @@
   "pnpm": {
     "overrides": {
       "@substrate/smoldot-light": "^0.6.27",
-      "@polkadot/util": "^10.1.9"
+      "@polkadot/util": "^10.1.9",
+      "vue-server-renderer": "2.7.14",
+      "vue-template-compiler": "2.7.14"
     },
     "patchedDependencies": {
       "vuex@3.6.2": "patches/vuex@3.6.2.patch"
