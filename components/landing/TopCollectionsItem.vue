@@ -74,14 +74,12 @@ import PrefixMixin from '~~/utils/mixins/prefixMixin'
 export default class TopCollectionsItem extends mixins(PrefixMixin) {
   @Prop() collection!: RowSeries
   @Prop() index!: number
-  @Prop({ default: 'Month' }) timeRange!: 'Month' | 'Week' | 'Day'
-
-  protected mounted() {
-    this.$store.dispatch('fiat/fetchFiatPrice')
-  }
+  @Prop({ default: 'All' }) timeRange!: 'All' | 'Month' | 'Week' | 'Day'
 
   get volume() {
     switch (this.timeRange) {
+      case 'All':
+        return Number(this.collection.volume)
       case 'Month':
         return Number(this.collection.monthlyVolume)
       case 'Week':
@@ -92,6 +90,8 @@ export default class TopCollectionsItem extends mixins(PrefixMixin) {
   }
   get previousVolume() {
     switch (this.timeRange) {
+      case 'All':
+        return 0
       case 'Month':
         return Number(this.collection.monthlyrangeVolume)
       case 'Week':
@@ -106,14 +106,7 @@ export default class TopCollectionsItem extends mixins(PrefixMixin) {
     }
     const value = (this.volume / this.previousVolume - 1) * 100
     const sign = value < 0 ? '-' : '+'
-    return { value, str: `${sign}${Math.abs(value).toFixed(2)}%` }
-  }
-
-  get color() {
-    if (this.diffPercent.value) {
-      return this.diffPercent.value < 0 ? 'red' : 'green'
-    }
-    return undefined
+    return { value, str: `${sign} ${Math.abs(Math.round(value))}%` }
   }
 
   get usdValue() {
@@ -121,6 +114,13 @@ export default class TopCollectionsItem extends mixins(PrefixMixin) {
       this.volume,
       this.$store.getters['fiat/getCurrentKSMValue']
     )
+  }
+
+  get color() {
+    if (this.diffPercent.value) {
+      return this.diffPercent.value < 0 ? 'red' : 'green'
+    }
+    return undefined
   }
 }
 </script>

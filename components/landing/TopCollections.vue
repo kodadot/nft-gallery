@@ -89,6 +89,7 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
 
   async fetch() {
     await this.fetchCollectionsSeries()
+    this.$store.dispatch('fiat/fetchFiatPrice')
   }
 
   public async fetchCollectionsSeries(sort = 'volume_DESC') {
