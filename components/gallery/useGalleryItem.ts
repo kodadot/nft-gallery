@@ -54,12 +54,6 @@ export const useGalleryItem = () => {
     }
 
     nft.value = nftEntity
-
-    if (!nftEntity.metadata) {
-      $consola.log(`NFT with id ${params.id} has no metadata`)
-      return
-    }
-
     nftMetadata.value = await $fetch(sanitizeIpfsUrl(nftEntity.metadata))
     nftMimeType.value = await whichMimeType(nftMetadata.value)
 
