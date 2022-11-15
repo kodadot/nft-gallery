@@ -23,9 +23,11 @@
 
       <div class="level-item has-text-centered">
         <div>
-          <p class="title"><Money :value="highestBuyPrice" inline /> ⊆</p>
           <p class="title">
-            <Money :value="totalAmountSpend" inline />
+            <CommonTokenMoney :value="highestBuyPrice" inline /> ⊆
+          </p>
+          <p class="title">
+            <CommonTokenMoney :value="totalAmountSpend" inline />
           </p>
           <p class="heading">
             {{ $t('profileStats.highestBuy') }} /
@@ -37,7 +39,7 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money :value="totalHoldingsBoughtValues" inline /> ⊆
+            <CommonTokenMoney :value="totalHoldingsBoughtValues" inline /> ⊆
           </p>
           <p class="heading">
             {{ $t('profileStats.totalHoldingsBoughtValues') }}
@@ -48,8 +50,8 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money :value="maxSoldPrice" inline /> ⊆
-            <Money :value="totalSell" inline />
+            <CommonTokenMoney :value="maxSoldPrice" inline /> ⊆
+            <CommonTokenMoney :value="totalSell" inline />
           </p>
           <p class="heading">
             {{ $t('profileStats.maxSoldPrice') }} /
@@ -70,7 +72,7 @@ import { Event } from '../service/types'
 import resolveQueryPath from '~/utils/queryPathResolver'
 
 const components = {
-  Money: () => import('@/components/shared/format/Money.vue'),
+  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   StatsColumn: () => import('@/components/shared/format/StatsColumn.vue'),
 }
 type Stats = {
