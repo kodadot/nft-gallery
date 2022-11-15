@@ -109,9 +109,6 @@
     border-radius: 0;
     padding: 0 50px 0 42px !important;
     background-color: $search-background-color;
-    &:focus::placeholder {
-      color: transparent!important;
-    }
 
     &::placeholder {
       color: $placeholder-color !important;
