@@ -4,13 +4,13 @@
   column-gap: 1rem;
   row-gap: 1rem;
 
-  @media (min-width: 849px) {
+  @media (min-width: 1015px) {
     grid-auto-flow: column;
   }
 
-  @media (min-width: 1410px) {
-    grid-template-rows: repeat(4, minmax(0, 1fr));
-  }
+  // @media (min-width: 1610px) {
+  //   grid-template-rows: repeat(4, minmax(0, 1fr));
+  // }
 
   .top-collections-item {
     background-color: white;

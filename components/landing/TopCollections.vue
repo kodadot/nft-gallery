@@ -58,9 +58,21 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import topCollectionList from '@/queries/rmrk/subsquid/topCollectionList.graphql'
+import collectionsEvents from '@/queries/rmrk/subsquid/collectionsEvents.graphql'
 
 import { RowSeries } from '@/components/series/types'
-import { calculateAvgPrice } from '@/components/series/utils'
+import {
+  beginningOfTime,
+  calculateAvgPrice,
+  dailyVolume,
+  dailyrangeVolume,
+  monthlyVolume,
+  monthlyrangeVolume,
+  today,
+  volume,
+  weeklyVolume,
+  weeklyrangeVolume,
+} from '@/components/series/utils'
 
 const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
@@ -80,7 +92,7 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
   }
 
   public async fetchCollectionsSeries(sort = 'volume_DESC') {
-    const collections = await this.$apollo.query({
+    const collectionArray = await this.$apollo.query({
       query: topCollectionList,
       client: this.client,
       variables: {
@@ -91,15 +103,70 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
 
     const {
       data: { collectionEntities },
-    } = collections
+    } = collectionArray
 
-    this.data = collectionEntities.map(
-      (e: RowSeries): RowSeries => ({
+    // turn it into dictionary {[collection.id] : collection}
+    let collections = collectionEntities.reduce(
+      (acc, collection) => ({ ...acc, [collection.id]: collection }),
+      {}
+    )
+
+    // fetch collections events
+    const ids = Object.keys(collections)
+    const events = await this.fetchCollectionEvents(ids)
+
+    // push the events into their repspective collection
+    events.forEach((event) => {
+      const collectionId = event.nft.collection.id
+      if (collections[collectionId].events === undefined) {
+        collections[collectionId].events = [event]
+        return
+      }
+      collections[collectionId].events.push(event)
+    })
+
+    // back to array
+    collections = Object.values(collections)
+
+    this.data = collections.map(
+      (e): RowSeries => ({
         ...e,
         image: sanitizeIpfsUrl(e.image),
         averagePrice: calculateAvgPrice(e.volume as string, e.buys),
+        volume: volume(e.events),
+        dailyVolume: dailyVolume(e.events),
+        weeklyVolume: weeklyVolume(e.events),
+        monthlyVolume: monthlyVolume(e.events),
+        dailyrangeVolume: dailyrangeVolume(e.events),
+        weeklyrangeVolume: weeklyrangeVolume(e.events),
+        monthlyrangeVolume: monthlyrangeVolume(e.events),
       })
     )
+  }
+
+  protected async fetchCollectionEvents(ids: string[]) {
+    if (ids.length === 0) {
+      return []
+    }
+    try {
+      // const today = new Date()
+      const { data } = await this.$apollo.query<{ events }>({
+        query: collectionsEvents,
+        client: this.client,
+        variables: {
+          ids: ids,
+          and: {
+            interaction_eq: 'BUY',
+          },
+          lte: today,
+          gte: beginningOfTime,
+        },
+      })
+      return data.events
+    } catch (e) {
+      this.$consola.error(e)
+      return []
+    }
   }
 }
 </script>
