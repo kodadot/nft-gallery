@@ -2,10 +2,7 @@
   <section>
     <br />
     <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-3">
-      <!-- {{ $t('mint.context') }} -->
-      Mint your sub0 POAP
-    </p>
+    <p class="title is-size-3">Mint your sub0 POAP</p>
 
     <BasicInput
       v-model="name"
@@ -17,7 +14,7 @@
       spellcheck="true"
       data-cy="input-name" />
 
-    <BasicInput
+    <!-- <BasicInput
       v-model="description"
       maxlength="500"
       type="textarea"
@@ -26,13 +23,27 @@
       :label="$t('mint.nft.description.label')"
       :message="$t('mint.nft.description.message')"
       :placeholder="$t('mint.nft.description.placeholder')"
-      data-cy="input-description" />
+      data-cy="input-description" /> -->
 
-    <SubmitButton label="generate" :loading="isLoading" @click="submit" />
+    <SubmitButton
+      v-if="!submitPressed"
+      label="generate"
+      :loading="isLoading"
+      @click="submit" />
+    <div v-else>
+      <div class="columns is-multiline">
+        <div v-for="out of predicion.output" :key="out" class="column is-half">
+          <img :src="out" width="512" height="512" />
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { PredictionStatus, getPrediction, predict } from '@/services/replicate'
+import { emptyObject } from '~~/utils/empty'
+
 const Loader = defineAsyncComponent(
   () => import('@/components/shared/Loader.vue')
 )
@@ -47,12 +58,29 @@ const name = ref('')
 const description = ref('')
 const isLoading = ref(false)
 const status = ref('')
+const predictionId = ref('')
+const submitPressed = ref(false)
+const predicion = ref<PredictionStatus>(emptyObject<PredictionStatus>())
 
 const submit = async () => {
   isLoading.value = true
-  status.value = 'Creating collection'
+  status.value = 'predicting'
 
-  isLoading.value = false
-  status.value = ''
+  const predictRequest = await predict(name.value)
+
+  const timeout = setInterval(async () => {
+    const generation = await getPrediction(predictRequest.id)
+    console.log('status', status)
+    predicion.value = generation
+    status.value = generation.status
+    if (generation.status === 'failed' || generation.status === 'succeeded') {
+      submitPressed.value = true
+      isLoading.value = false
+      status.value = ''
+      clearInterval(timeout)
+    }
+  }, 2000)
+
+  predictionId.value = predictRequest.id
 }
 </script>
