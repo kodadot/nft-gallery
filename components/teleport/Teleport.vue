@@ -24,8 +24,11 @@
       </b-select>
     </b-field>
 
-    <b-field class="" label-position="inside" label="Input recipient address">
-      <b-input v-model="toAddress" expanded></b-input>
+    <b-field
+      class=""
+      label-position="inside"
+      :label="`Input recipient address (${toChain})`">
+      <b-input v-model="toAddress" expanded required></b-input>
     </b-field>
 
     <b-field class="" label-position="inside" label="Select currency">
@@ -41,7 +44,7 @@
     </b-field>
 
     <b-field class="" label-position="inside" label="Input currency amount">
-      <b-input v-model="amount" expanded></b-input>
+      <b-input v-model="amount" expanded type="number" :min="0.0001"></b-input>
     </b-field>
 
     <b-button
@@ -109,111 +112,59 @@ export default class Teleport extends mixins(AuthMixin) {
   async sendXCM(address: string) {
     await web3Enable('Kodadot')
 
-    if (!this.fromChain || !this.toChain || this.fromChain == this.toChain) {
-      this.$notify({
-        title: 'Error',
-        text: 'You probably did not asign parachains correctly.',
-        type: 'error',
-        duration: 3000,
-        speed: 100,
-      })
-    } else {
-      if (this.toAddress == '') {
-        this.$notify({
-          title: 'Error',
-          text: 'You need to input recipient first.',
-          type: 'error',
-          duration: 3000,
-          speed: 100,
-        })
-      } else {
-        if (this.amount < 0.0001) {
-          this.$notify({
-            title: 'Error',
-            text: 'Specified amount is less than required 0.0001.',
-            type: 'error',
-            duration: 3000,
-            speed: 100,
-          })
-        } else {
-          let counter = 0
+    let isFirstStatus = true
 
-          //If injected wallet is logged in
-
-          const injector = await web3FromAddress(address)
-
-          if (this.fromChain == 'Kusama') {
-            const wsProvider = new WsProvider(
-              'wss://public-rpc.pinknode.io/kusama'
-            )
-            const api = await ApiPromise.create({ provider: wsProvider })
-
-            //API call for XCM transfer from Acala to destination Parachain /w injected wallet
-            let promise = xTokens.xTokens.transferRelayToPara(
-              api,
-              ChainIdMap[Chain.BASILISK],
-              this.amount * 1e12,
-              this.toAddress
-            )
-            promise.signAndSend(
-              address,
-              { signer: injector.signer },
-              ({ status, txHash }) => {
-                if (counter == 0) {
-                  this.$notify({
-                    text: `Transaction hash is ${txHash.toHex()}`,
-                    duration: 10000,
-                    speed: 100,
-                  })
-                  counter++
-                }
-                if (status.isFinalized) {
-                  this.$notify({
-                    text: `Transaction finalized at blockHash ${status.asFinalized}`,
-                    type: 'success',
-                    duration: 10000,
-                    speed: 100,
-                  })
-                }
-              }
-            )
-          } else if (this.fromChain == 'Basilisk') {
-            const wsProvider = new WsProvider('wss://rpc.basilisk.cloud')
-            const api = await ApiPromise.create({ provider: wsProvider })
-            //API call for XCM transfer from Pichiu to destination Parachain /w injected wallet
-            let promise = xTokens.xTokens.transferParaToPara(
-              api,
-              Chain.BASILISK,
-              ChainIdMap[Chain.KUSAMA],
-              this.currency,
-              this.amount * 1e12,
-              this.toAddress
-            )
-            promise.signAndSend(
-              address,
-              { signer: injector.signer },
-              ({ status, txHash }) => {
-                if (counter == 0) {
-                  this.$notify({
-                    text: `Transaction hash is ${txHash.toHex()}`,
-                    duration: 10000,
-                    speed: 100,
-                  })
-                  counter++
-                }
-                if (status.isFinalized) {
-                  this.$notify({
-                    text: `Transaction finalized at blockHash ${status.asFinalized}`,
-                    type: 'success',
-                    duration: 10000,
-                    speed: 100,
-                  })
-                }
-              }
-            )
-          }
-        }
+    const transactionHandler = ({ status, txHash }) => {
+      if (isFirstStatus) {
+        showNotification(
+          `Transaction hash is ${txHash.toHex()}`,
+          notificationTypes.info
+        )
+        isFirstStatus = false
       }
+      if (status.isFinalized) {
+        showNotification(
+          `Transaction finalized at blockHash ${status.asFinalized}`,
+          notificationTypes.success
+        )
+      }
+    }
+
+    const injector = await web3FromAddress(address)
+
+    if (this.fromChain === Chain.KUSAMA) {
+      const wsProvider = new WsProvider('wss://public-rpc.pinknode.io/kusama')
+      const api = await ApiPromise.create({ provider: wsProvider })
+
+      //API call for XCM transfer from Acala to destination Parachain /w injected wallet
+      let promise = xTokens.xTokens.transferRelayToPara(
+        api,
+        ChainIdMap[Chain.BASILISK],
+        this.amount * 1e12,
+        this.toAddress
+      )
+      promise.signAndSend(
+        address,
+        { signer: injector.signer },
+        transactionHandler
+      )
+    } else if (this.fromChain === Chain.BASILISK) {
+      const wsProvider = new WsProvider('wss://rpc.basilisk.cloud')
+      const api = await ApiPromise.create({ provider: wsProvider })
+      //API call for XCM transfer from Pichiu to destination Parachain /w injected wallet
+      let promise = xTokens.xTokens.transferParaToPara(
+        api,
+        Chain.BASILISK,
+        ChainIdMap[Chain.KUSAMA],
+        this.currency,
+        this.amount * 1e12,
+        this.toAddress
+      )
+      promise.signAndSend(
+        address,
+        { signer: injector.signer },
+        transactionHandler
+      )
     }
   }
 }
