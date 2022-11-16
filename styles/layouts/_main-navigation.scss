@@ -167,14 +167,35 @@
     }
   }
 
-  #NavProfile {
-    .button.is-primary {
-      background: $k-accent;
-      border: 1px solid $black !important;
-      color: $black;
-      border-radius: 0;
-      z-index: 3;
-      box-shadow: none;
+  &__identity {
+    @include from($desktop) {
+      display: none;
+    }
+  }
+
+  &__button {
+    border: 0;
+    border-top: 2px solid $primary !important;
+  }
+
+  &__avatar-icon {
+    border: 1.5px solid $black;
+    border-radius: 24.5px;
+  }
+
+  &__address {
+    text-transform: none;
+    color: $k-blue;
+  }
+  &__sign-out-button {
+    border: 1px solid $black;
+    box-shadow: 4px 4px 0px $black !important;
+    padding: 8px 16px;
+    border-radius: 0;
+    text-transform: capitalize;
+    width: 120px;
+    &:hover {
+      border: 1px solid $black;
     }
   }
 
