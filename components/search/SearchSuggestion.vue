@@ -452,6 +452,9 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     }
 
     return this.searched.filter((option) => {
+      if (!option.name.trim()) {
+        return false
+      }
       return (
         option.name
           .toString()
@@ -487,6 +490,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       const nfts = this.$apollo.query({
         query: queryNft.default,
         client: this.client,
+
         variables: this.queryVariables,
       })
 

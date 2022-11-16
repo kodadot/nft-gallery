@@ -96,11 +96,7 @@
                     </template>
                     <div class="content pt-4">
                       <p class="subtitle">
-                        <!--
-                          After uncomment, turn on test
-                          /tests/cypress/e2e/basicE2E.cy.ts 106 galleryListedItemActions
-                         -->
-                        <!-- <AvailableActions
+                        <AvailableActions
                           ref="actions"
                           :account-id="accountId"
                           :is-owner="isOwner"
@@ -117,7 +113,7 @@
                             nft.animation_url,
                             nft.metadata,
                           ]"
-                          @change="handleAction" /> -->
+                          @change="handleAction" />
                         <Auth class="mt-4" />
                       </p>
                     </div>
