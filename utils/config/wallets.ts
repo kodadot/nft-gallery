@@ -78,9 +78,9 @@ export const WalletConfigMap: IWalletConfigMap = {
   [SupportWalletExtension.Clover]: buildWalletConfig(
     SupportWalletExtension.Clover,
     logoClover,
-    'Clover',
-    'https://clover.finance/',
-    'https://docs.clover.finance/quick-start/about-clover',
+    'CLV Wallet',
+    'https://chrome.google.com/webstore/detail/clv-wallet/nhnkbkgjikgcigadomkphalanndcapjk',
+    'https://docs.clv.org/use-clv-wallet/clv-extension-wallet',
     true
   ),
   [SupportWalletExtension.Ledger]: buildWalletConfig(
@@ -153,6 +153,7 @@ const PCWalletExtensionList = [
   SupportWalletExtension.Talisman,
   SupportWalletExtension.PolkadotJs,
   SupportWalletExtension.SubWallet,
+  SupportWalletExtension.Clover,
 ]
 
 const createWalletInstance = (
