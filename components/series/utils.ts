@@ -5,6 +5,14 @@ import { after, between, getVolume, pairListBuyEvent } from '@/utils/math'
 import { eachDayOfInterval, formatISO, subDays } from 'date-fns'
 import { Interaction } from '../rmrk/service/scheme'
 
+export const today = new Date()
+export const yesterdayDate: Date = subDays(today, 1)
+export const lastweekDate: Date = subDays(today, 7)
+export const lastmonthDate: Date = subDays(today, 30)
+export const sub2dayDate: Date = subDays(today, 2)
+export const last2weekDate: Date = subDays(today, 14)
+export const last2monthDate: Date = subDays(today, 60)
+
 export const volume = (buyEvents: Interaction[]) => Number(getVolume(buyEvents))
 export const dailyVolume = (buyEvents: Interaction[]) =>
   Number(getVolume(buyEvents.filter(after(yesterdayDate))))
@@ -82,14 +90,6 @@ export const onlyDate = (datetime: Date) =>
 
 export const toSort = (sortBy: SortType): string =>
   `${sortBy.field}_${sortBy.value}`
-
-export const today = new Date()
-const yesterdayDate: Date = subDays(today, 1)
-export const lastweekDate: Date = subDays(today, 7)
-export const lastmonthDate: Date = subDays(today, 30)
-const sub2dayDate: Date = subDays(today, 2)
-const last2weekDate: Date = subDays(today, 14)
-const last2monthDate: Date = subDays(today, 60)
 
 // -> ["202-11-30", ...]
 export function getDateArray(start: Date, end: Date): string[] {
