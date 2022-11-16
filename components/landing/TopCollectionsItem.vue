@@ -112,12 +112,19 @@ const diffPercent = computed(() => {
   }
   return (volume.value / previousVolume.value - 1) * 100
 })
+
+const sign = computed(() => {
+  const intSign = Math.sign(diffPercent.value)
+  if (isNaN(diffPercent.value) || intSign == 0) {
+    return ''
+  }
+  return intSign == -1 ? '-' : '+'
+})
 const diffPercentString = computed(() => {
   if (isNaN(diffPercent.value)) {
     return ''
   }
-  const sign = diffPercent.value < 0 ? '-' : '+'
-  return `${sign} ${Math.abs(Math.round(diffPercent.value))}%`
+  return `${sign.value} ${Math.abs(Math.round(diffPercent.value))}%`
 })
 
 const usdValue = computed(() =>
