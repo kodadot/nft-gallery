@@ -93,6 +93,7 @@ import {
   weeklyVolume,
   weeklyrangeVolume,
 } from '@/components/series/utils'
+import { TimeRange } from '@/components/series/types'
 import { Collection } from '../rmrk/service/scheme'
 
 const components = {
@@ -108,7 +109,7 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
   public data: RowSeries[] = []
   public limit = 12
   public state = reactive({ timeRange: 'Month' })
-  public setTimeRange = (timeRange: string) => {
+  public setTimeRange = (timeRange: TimeRange) => {
     this.state.timeRange = timeRange
   }
 

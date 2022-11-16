@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts" setup>
-import { RowSeries } from '@/components/series/types'
+import { RowSeries, TimeRange } from '@/components/series/types'
 import { calculateUsdFromKsm } from '~~/utils/calculation'
 
 const BasicImage = defineAsyncComponent(
@@ -67,8 +67,6 @@ const CommonTokenMoney = defineAsyncComponent(
 const BasicMoney = defineAsyncComponent(
   () => import('@/components/shared/format/BasicMoney.vue')
 )
-
-type TimeRange = 'All' | 'Month' | 'Week' | 'Day'
 
 const { urlPrefix } = usePrefix()
 const { $store } = useNuxtApp()
