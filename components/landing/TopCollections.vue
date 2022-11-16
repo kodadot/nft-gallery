@@ -1,10 +1,36 @@
 <template>
   <div>
-    <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
+    <div class="is-flex is-justify-content-space-between">
+      <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
+      <div class="is-flex timeFilters">
+        <b-button
+          :class="{ active: state.timeRange == 'Day' }"
+          type="is-primary"
+          @click="setTimeRange('Day')">
+          24 Hours
+        </b-button>
+        <b-button
+          :class="{ active: state.timeRange == 'Week' }"
+          type="is-primary"
+          @click="setTimeRange('Week')">
+          7 Days
+        </b-button>
+        <b-button
+          :class="{ active: state.timeRange == 'Month' }"
+          type="is-primary"
+          @click="setTimeRange('Month')">
+          30 Days
+        </b-button>
+      </div>
+      <div></div>
+    </div>
 
     <div class="top-collections-grid mb-5">
       <div v-for="(collection, index) in data" :key="index">
-        <TopCollectionsItem :collection="collection" :index="index + 1" />
+        <TopCollectionsItem
+          :collection="collection"
+          :index="index + 1"
+          :time-range="state.timeRange" />
       </div>
     </div>
 
@@ -81,6 +107,10 @@ const components = {
 export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
   public data: RowSeries[] = []
   public limit = 12
+  public state = reactive({ timeRange: 'Month' })
+  public setTimeRange = (timeRange: string) => {
+    this.state.timeRange = timeRange
+  }
 
   async fetch() {
     if (!this.$store.getters['getCurrentKSMValue']) {
