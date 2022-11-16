@@ -9,21 +9,28 @@
     <template #trigger>
       <slot name="trigger" />
     </template>
-    <div class="popover-content-container p-4 ms-dos-shadow">
+    <div class="popover-content-container p-5 ms-dos-shadow">
       <IdentityPopoverHeader />
-      <hr style="height: 1px" class="m-0" />
-      <IdentityPopoverFooter />
+      <IdentityPopoverFooter :sold-items="nftEntities" />
     </div>
   </v-tippy>
 </template>
 
 <script lang="ts" setup>
+import { useIdentitySoldData } from '../utils/useIdentity'
+
 const IdentityPopoverHeader = defineAsyncComponent(
   () => import('./IdentityPopoverHeader.vue')
 )
 const IdentityPopoverFooter = defineAsyncComponent(
   () => import('./IdentityPopoverFooter.vue')
 )
+
+const address = inject('address')
+
+const { nftEntities } = useIdentitySoldData({
+  address,
+})
 </script>
 
 <style lang="scss" scoped>
@@ -34,11 +41,12 @@ const IdentityPopoverFooter = defineAsyncComponent(
 }
 
 .popover-content-container {
-  border: 2px solid $primary;
-  max-width: 350px;
+  font-family: 'Work Sans';
+  border: 1px solid $black;
+  width: 300px;
 }
 
 .ms-dos-shadow {
-  box-shadow: $dropdown-content-shadow;
+  box-shadow: $primary-shadow;
 }
 </style>
