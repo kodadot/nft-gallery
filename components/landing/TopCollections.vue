@@ -108,7 +108,7 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
     const { collectionsSales } = await this.fetchCollectionsSales(ids)
 
     this.data = collectionEntities.map((e): RowSeries => {
-      const saleEvent = collectionsSales
+      const saleEvents = collectionsSales
         .find(({ id }) => id === e.id)
         .sales.map((nft) => nft.events)
         .flat()
@@ -117,13 +117,13 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
         ...e,
         image: sanitizeIpfsUrl(e.image),
         averagePrice: calculateAvgPrice(e.volume as string, e.buys),
-        volume: volume(saleEvent),
-        dailyVolume: dailyVolume(saleEvent),
-        weeklyVolume: weeklyVolume(saleEvent),
-        monthlyVolume: monthlyVolume(saleEvent),
-        dailyrangeVolume: dailyrangeVolume(saleEvent),
-        weeklyrangeVolume: weeklyrangeVolume(saleEvent),
-        monthlyrangeVolume: monthlyrangeVolume(saleEvent),
+        volume: volume(saleEvents),
+        dailyVolume: dailyVolume(saleEvents),
+        weeklyVolume: weeklyVolume(saleEvents),
+        monthlyVolume: monthlyVolume(saleEvents),
+        dailyrangeVolume: dailyrangeVolume(saleEvents),
+        weeklyrangeVolume: weeklyrangeVolume(saleEvents),
+        monthlyrangeVolume: monthlyrangeVolume(saleEvents),
       }
     })
   }
