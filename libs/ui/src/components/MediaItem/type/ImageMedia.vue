@@ -1,5 +1,5 @@
 <template>
-  <figure :class="{ 'is-square': !original }">
+  <figure :class="[!original ? 'is-square image' : '']">
     <img
       class="is-block image-media__image"
       :src="src"
