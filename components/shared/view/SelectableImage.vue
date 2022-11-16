@@ -2,7 +2,7 @@
   <b-image
     ratio="1by1"
     class="image selectable-image"
-    :class="{ 'is-selected': selected }"
+    :class="{ 'is-selected': selected, 'selectable-image': !disabled }"
     :src="src"
     alt="Some Image"
     @click.native="handleClick"></b-image>
@@ -12,6 +12,7 @@
 const props = defineProps<{
   src: string
   index: number
+  disabled: boolean
 }>()
 
 const selected = ref(false)

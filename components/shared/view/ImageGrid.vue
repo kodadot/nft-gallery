@@ -4,7 +4,11 @@
       v-for="(src, index) in props.images"
       :key="index"
       class="column is-half">
-      <SelectableImage :index="index" :src="src" @click="handleClick" />
+      <SelectableImage
+        :disabled="disabled"
+        :index="index"
+        :src="src"
+        @click="handleClick" />
     </div>
   </div>
 </template>
