@@ -90,7 +90,6 @@ export const lastmonthDate: Date = subDays(today, 30)
 const sub2dayDate: Date = subDays(today, 2)
 const last2weekDate: Date = subDays(today, 14)
 const last2monthDate: Date = subDays(today, 60)
-export const beginningOfTime: Date = subDays(today, 365 * 30)
 
 // -> ["202-11-30", ...]
 export function getDateArray(start: Date, end: Date): string[] {
