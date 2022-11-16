@@ -1,93 +1,80 @@
 <template>
-  <section>
-    <br />
-    <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-3">Mint your sub0 POAP</p>
+  <b-steps v-model="currentStep" :rounded="false" mobile-mode="minimalist">
+    <b-step-item step="1" label="Mint" :clickable="isStepsClickable">
+      <GenerativeMint @select="handlePrediction" />
+    </b-step-item>
 
-    <BasicInput
-      v-model="name"
-      required
-      :label="$t('mint.nft.name.label')"
-      :message="$t('mint.nft.name.message')"
-      :placeholder="$t('mint.nft.name.placeholder')"
-      expanded
-      spellcheck="true"
-      data-cy="input-name" />
+    <b-step-item step="2" label="Select" :clickable="isStepsClickable">
+      <ImageSelectGrid :predicion="predicion" @select="handleImageSelect" />
+    </b-step-item>
 
-    <!-- <BasicInput
-      v-model="description"
-      maxlength="500"
-      type="textarea"
-      spellcheck="true"
-      class="mb-0 mt-5"
-      :label="$t('mint.nft.description.label')"
-      :message="$t('mint.nft.description.message')"
-      :placeholder="$t('mint.nft.description.placeholder')"
-      data-cy="input-description" /> -->
+    <b-step-item step="3" label="Contact" :clickable="isStepsClickable">
+      <ContactForm @select="handleMailSubmit" />
+    </b-step-item>
 
-    <SubmitButton
-      v-if="!submitPressed"
-      label="generate"
-      :loading="isLoading"
-      @click="submit" />
-    <div v-else>
-      <ImageGrid
-        :images="predicion.output"
-        :disabled="selectedImage"
-        @update="handleSelectImage" />
-    </div>
-  </section>
+    <b-step-item
+      step="4"
+      label="Finish"
+      :clickable="isStepsClickable"
+      :type="{ 'is-success': true }">
+      <CongratsView @select="clearAll" />
+    </b-step-item>
+  </b-steps>
 </template>
 
 <script setup lang="ts">
-import { PredictionStatus, getPrediction, predict } from '@/services/replicate'
-import { emptyObject } from '~~/utils/empty'
+import { PredictionStatus } from '@/services/replicate'
+import { emptyObject } from '@/utils/empty'
 
-const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
-)
-const BasicInput = defineAsyncComponent(
-  () => import('@/components/shared/form/BasicInput.vue')
-)
-const SubmitButton = defineAsyncComponent(
-  () => import('@/components/base/SubmitButton.vue')
+const GenerativeMint = defineAsyncComponent(
+  () => import('@/components/generative/GenerativeMintForm.vue')
 )
 
-const ImageGrid = defineAsyncComponent(
-  () => import('@/components/shared/view/ImageGrid.vue')
+const ImageSelectGrid = defineAsyncComponent(
+  () => import('@/components/generative/ImageSelectGrid.vue')
 )
 
-const name = ref('')
-const isLoading = ref(false)
-const status = ref('')
-const predictionId = ref('')
-const submitPressed = ref(false)
+const ContactForm = defineAsyncComponent(
+  () => import('@/components/generative/ContactForm.vue')
+)
+
+const CongratsView = defineAsyncComponent(
+  () => import('@/components/generative/CongratsView.vue')
+)
+
+const isStepsClickable = ref(true)
+const currentStep = ref<number>(1)
 const predicion = ref<PredictionStatus>(emptyObject<PredictionStatus>())
-const selectedImage = ref('')
+const image = ref<string>('')
+const email = ref('')
 
-const handleSelectImage = (image: string) => {
-  selectedImage.value = image
+const handlePrediction = (generation: PredictionStatus) => {
+  predicion.value = generation
+  goToStep(2)
 }
 
-const submit = async () => {
-  isLoading.value = true
-  status.value = 'predicting'
+const handleImageSelect = (imageURI: string) => {
+  image.value = imageURI
+  goToStep(3)
+}
 
-  const predictRequest = await predict(name.value)
+const handleMailSubmit = (mail: string) => {
+  email.value = mail
+  goToStep(4)
+}
 
-  const timeout = setInterval(async () => {
-    const generation = await getPrediction(predictRequest.id)
-    console.log('status', status)
-    predicion.value = generation
-    status.value = generation.status
-    if (generation.status === 'failed' || generation.status === 'succeeded') {
-      submitPressed.value = true
-      isLoading.value = false
-      status.value = ''
-      clearInterval(timeout)
-    }
-  }, 2000)
+const submitAll = () => {
+  console.log('submitAll', predicion.value, image.value, email.value)
+}
 
-  predictionId.value = predictRequest.id
+const clearAll = () => {
+  predicion.value = emptyObject<PredictionStatus>()
+  image.value = ''
+  email.value = ''
+  goToStep(1)
+}
+
+const goToStep = (step: number) => {
+  currentStep.value = step
 }
 </script>
