@@ -1,14 +1,14 @@
 <template>
-  <section class="py-5">
+  <section class="py-5 gallery-item">
     <div class="columns">
-      <div class="column is-two-fiths">
+      <div class="column is-two-fifths">
         <MediaItem
+          :key="nftImage"
           class="gallery-item-media"
           :src="nftImage"
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
-          :title="nft?.name"
-          original />
+          :title="nft?.name" />
       </div>
       <div class="column">
         <div class="is-flex is-justify-content-space-between">
@@ -23,8 +23,29 @@
             </h2>
           </div>
           <div class="buttons is-align-content-start">
-            <b-button icon-right="ellipsis-v" class="is-neo" />
-            <Sharing :label="$t('sharing.profile')" enable-download />
+            <b-dropdown aria-role="list" position="is-bottom-left">
+              <template #trigger>
+                <NeoButton label="Share" icon="share-square" />
+              </template>
+
+              <b-dropdown-item aria-role="listitem">Copy Link</b-dropdown-item>
+              <b-dropdown-item aria-role="listitem">QR Code</b-dropdown-item>
+              <b-dropdown-item aria-role="listitem"
+                >Share On Twitter</b-dropdown-item
+              >
+            </b-dropdown>
+
+            <b-dropdown aria-role="list" class="ml-4" position="is-bottom-left">
+              <template #trigger>
+                <NeoButton label="⋮" />
+              </template>
+
+              <b-dropdown-item aria-role="listitem">Download</b-dropdown-item>
+              <b-dropdown-item aria-role="listitem" disabled
+                >Report</b-dropdown-item
+              >
+            </b-dropdown>
+            <!-- <Sharing :label="$t('sharing.profile')" enable-download /> -->
           </div>
         </div>
 
@@ -44,33 +65,54 @@
         <!-- LINE DIVIDER -->
         <hr />
 
-        {{ nft }}
-        <p>{{ nftImage }}</p>
-        <p>{{ nftAnimation }}</p>
-        <p>{{ nftMimeType }}</p>
+        <!-- <p>{{ nft }}</p> -->
+        <p>nftImage: {{ nftImage }}</p>
+        <p>nftAnimation: {{ nftAnimation }}</p>
+        <p>nftMimeType: {{ nftMimeType }}</p>
+        <!-- <p>{{ nftMetadata }}</p> -->
       </div>
     </div>
+
+    <div class="columns mt-6">
+      <div class="column is-two-fifths">
+        <GalleryItemDescription />
+      </div>
+
+      <div class="column">
+        <GalleryItemActivity />
+      </div>
+    </div>
+
+    <CarouselTypeRelated
+      v-if="nft?.collection.id"
+      class="mt-6"
+      :collection-id="nft?.collection.id"
+      data-cy="carousel-related" />
+
+    <CarouselTypeVisited class="mt-6" />
   </section>
 </template>
 
 <script setup lang="ts">
+import { IdentityItem, MediaItem, NeoButton } from '@kodadot1/brick'
+
 import { useGalleryItem } from './useGalleryItem'
-import { IdentityItem, MediaItem } from '@kodadot1/brick'
+import GalleryItemDescription from './GalleryItemDescription.vue'
+import GalleryItemActivity from './GalleryItemActivity.vue'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
+
+const CarouselTypeRelated = defineAsyncComponent(
+  () => import('@/components/carousel/CarouselTypeRelated.vue')
+)
+const CarouselTypeVisited = defineAsyncComponent(
+  () => import('@/components/carousel/CarouselTypeVisited.vue')
+)
 </script>
 
-<style lang="scss">
-.is-neo {
-  border-radius: 0;
-  background: hsl(0deg, 0%, 100%);
-  border: 1px solid hsl(0deg, 0%, 4%);
-  -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
-  box-shadow: 4px 4px hsl(0deg, 0%, 4%);
-
-  &:hover {
-    background: #ffe5f3 !important;
-  }
+<style lang="scss" scoped>
+.gallery-item {
+  font-family: 'Work Sans';
 }
 </style>

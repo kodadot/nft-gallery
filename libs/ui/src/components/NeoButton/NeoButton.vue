@@ -1,5 +1,5 @@
 <template>
-  <o-button class="is-neo" :size="size" :icon-right="icon">
+  <o-button class="is-neo" :size="size" :icon-right="icon" icon-pack="fas">
     {{ label }}
   </o-button>
 </template>
@@ -29,6 +29,18 @@ defineProps<{
 
   &:hover {
     background: #ffe5f3 !important;
+  }
+}
+
+.dark-mode .is-neo {
+  color: hsl(0deg, 0%, 100%);
+  background: hsl(0deg, 0%, 4%);
+  border: 1px solid hsl(0deg, 0%, 100%);
+  -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+  box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+
+  &:hover {
+    background: #ff47ac !important;
   }
 }
 </style>
