@@ -3,7 +3,10 @@
     <br />
     <p class="title is-size-3">Waii you made it! ✨</p>
     <p class="title is-size-4">Our interns will process it soon!</p>
-    <img src="https://pbs.twimg.com/media/FhZZxxwXwAAkvKI?format=jpg" />
+    <b-image
+      ratio="1by1"
+      src="https://pbs.twimg.com/media/FhZZxxwXwAAkvKI?format=jpg" />
+    <br />
 
     <SubmitButton label="Start over" @click="submit" />
   </section>
