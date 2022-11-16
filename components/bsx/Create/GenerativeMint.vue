@@ -43,7 +43,7 @@ const CongratsView = defineAsyncComponent(
 )
 
 const isStepsClickable = ref(true)
-const currentStep = ref<number>(1)
+const currentStep = ref<number>(0)
 const predicion = ref<PredictionStatus>(emptyObject<PredictionStatus>())
 const image = ref<string>('')
 const email = ref('')
