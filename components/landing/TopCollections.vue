@@ -21,6 +21,12 @@
           @click="setTimeRange('Month')">
           30 Days
         </b-button>
+        <b-button
+          :class="{ active: state.timeRange == 'All' }"
+          type="is-primary"
+          @click="setTimeRange('All')">
+          All
+        </b-button>
       </div>
       <div></div>
     </div>
