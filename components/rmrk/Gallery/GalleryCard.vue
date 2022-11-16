@@ -30,7 +30,7 @@
         </span>
       </div>
 
-      <div class="card-content">
+      <div v-if="!hideName" class="card-content">
         <span
           class="has-text-centered has-text-primary"
           :class="{ 'title is-4': largeDisplay }"
@@ -79,6 +79,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
   @Prop(String) public metadata!: string
   @Prop(String) public currentOwner!: string
   @Prop(Boolean) public listed!: boolean
+  @Prop(Boolean) public hideName!: boolean
   public image = ''
   public title = ''
   public animatedUrl = ''

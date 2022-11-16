@@ -151,7 +151,6 @@
         data-cy="chain-select" />
       <NavbarProfileDropdown
         id="NavProfile"
-        class="ml-2"
         :is-rmrk="isRmrk"
         :show-incomming-offers="isBsx || isSnek"
         :is-snek="isSnek"
