@@ -9,6 +9,5 @@ query collectionsEvents($ids: [String!], $and: [EventWhereInput!], $gte: DateTim
       }
     }
     timestamp
-    meta
   }
 }
