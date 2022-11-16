@@ -1,14 +1,34 @@
 import { $fetch } from 'ohmyfetch'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { getMimeType } from '@/utils/gallery/media'
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+
+const whichMimeType = async (data) => {
+  if (data?.type) {
+    return data?.type
+  } else if (data?.animation_url) {
+    return await getMimeType(sanitizeIpfsUrl(data.animation_url))
+  } else if (data?.image) {
+    return await getMimeType(sanitizeIpfsUrl(data.image))
+  }
+
+  return ''
+}
+
+const whichAsset = (data) => {
+  return {
+    animation_url: sanitizeIpfsUrl(data.animation_url || ''),
+    image: sanitizeIpfsUrl(data.image || ''),
+  }
+}
 
 export const useGalleryItem = () => {
   const { $consola } = useNuxtApp()
   const nft = ref<NFT>()
-  const nftImage = ref()
-  const nftAnimation = ref()
-  const nftMimeType = ref()
-  const nftMetadata = ref<NFT['meta']>()
+  const nftImage = ref('')
+  const nftAnimation = ref('')
+  const nftMimeType = ref('')
+  const nftMetadata = ref<NFTMetadata>()
 
   const { params } = useRoute()
   // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
@@ -25,35 +45,21 @@ export const useGalleryItem = () => {
     nftEntity?: NFT
   }
 
-  const fetchNFTMetadata = async (nftMeta) => {
-    const nftMetaID = sanitizeIpfsUrl(nftMeta?.id)
-    const data: NFTMetadata = await $fetch(nftMetaID)
-
-    nftMetadata.value = data
-    nftMimeType.value = data?.type
-
-    if (data?.animation_url) {
-      nftAnimation.value = sanitizeIpfsUrl(data.animation_url)
-    }
-
-    if (data?.image) {
-      nftImage.value = sanitizeIpfsUrl(data.image)
-    }
-  }
-
   watch(data as unknown as NFTData, async (newData) => {
     const nftEntity = newData?.nftEntity
-    const nftMeta = nftEntity?.meta
 
-    if (nftEntity) {
-      nft.value = nftEntity
-    } else {
+    if (!nftEntity) {
       $consola.log(`NFT with id ${params.id} not found. Fallback to RPC Node`)
+      return
     }
 
-    if (nftMeta?.id) {
-      await fetchNFTMetadata(nftMeta)
-    }
+    nft.value = nftEntity
+    nftMetadata.value = await $fetch(sanitizeIpfsUrl(nftEntity.metadata))
+    nftMimeType.value = await whichMimeType(nftMetadata.value)
+
+    const asset = whichAsset(nftMetadata.value)
+    nftImage.value = asset.image
+    nftAnimation.value = asset.animation_url
   })
 
   return {
