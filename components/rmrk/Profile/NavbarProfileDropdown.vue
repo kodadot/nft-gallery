@@ -2,6 +2,7 @@
   <div class="is-flex is-align-items-center">
     <b-dropdown
       position="is-bottom-left"
+      class="navbar-link is-arrowless"
       aria-role="menu"
       :triggers="['click', 'hover']">
       <template #trigger>
@@ -202,7 +203,7 @@
       position="is-bottom-left"
       aria-role="menu"
       :triggers="['click', 'hover']"
-      class="ml-4">
+      class="navbar-link is-arrowless">
       <template #trigger>
         <span class="is-mobile is-vcentered navbar__avatar">
           <svg

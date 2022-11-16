@@ -1,7 +1,7 @@
 <template>
   <b-button
     type="is-primary"
-    class="py-2 px-4"
+    class="py-2 px-4 ml-3"
     @click="toggleWalletConnectModal">
     {{ $t(label) }}
   </b-button>
