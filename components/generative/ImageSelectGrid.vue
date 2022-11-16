@@ -4,8 +4,8 @@
     <ImageGrid
       v-if="predicion && predicion.output"
       :images="predicion.output"
-      :disabled="selectedImage"
-      @update="handleSelectImage" />
+      :disabled="selected !== ''"
+      @select="handleSelectImage" />
   </div>
 </template>
 
@@ -24,5 +24,6 @@ const handleSelectImage = (image: string) => {
 
 const props = defineProps<{
   predicion: PredictionStatus
+  selected: string
 }>()
 </script>
