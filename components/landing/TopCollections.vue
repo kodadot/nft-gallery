@@ -81,7 +81,7 @@ import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import AuthMixin from '@/utils/mixins/authMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import topCollectionList from '@/queries/rmrk/subsquid/topCollectionList.graphql'
-import collectionsSales from '@/queries/rmrk/subsquid/collectionsSales.graphql'
+import collectionsSales from '@/queries/collectionsSales.graphql'
 import { RowSeries } from '@/components/series/types'
 import {
   calculateAvgPrice,
