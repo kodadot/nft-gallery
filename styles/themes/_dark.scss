@@ -27,6 +27,11 @@ html.dark-mode {
   .navbar {
     border-color: $white;
     background-color: $background-dark !important;
+
+    .navbar-item:hover {
+      background-color: inherit;
+    }
+
     .dropdown-content .dropdown-item .menu-item {
       color: $white !important;
     }
@@ -252,7 +257,7 @@ html.dark-mode {
       background-color: $k-accentlight2dark!important;
      }
     }
-    
+
   }
 
   .image-outline {
