@@ -33,17 +33,17 @@
       <div class="is-pulled-right has-text-right px-2">
         <div class="is-flex">
           <div>
-            <div>
+            <div class="nowrap">
               <CommonTokenMoney :value="volume" inline />
             </div>
-            <div>
+            <div class="nowrap">
               <BasicMoney :value="usdValue" inline :unit="'USD'" />
             </div>
           </div>
           <div
             class="is-flex is-justify-content-center is-align-items-center pl-2 is-size-5">
             <p :class="color">
-              {{ diffPercent.str }}
+              {{ diffPercentString }}
             </p>
           </div>
         </div>
@@ -52,86 +52,86 @@
   </nuxt-link>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { RowSeries } from '@/components/series/types'
-import { mixins } from 'nuxt-property-decorator'
-import { Component, Prop } from 'vue-property-decorator'
 import { calculateUsdFromKsm } from '~~/utils/calculation'
-import PrefixMixin from '~~/utils/mixins/prefixMixin'
-@Component({
-  components: {
-    BasicImage: defineAsyncComponent(
-      () => import('@/components/shared/view/BasicImage.vue')
-    ),
-    CommonTokenMoney: defineAsyncComponent(
-      () => import('@/components/shared/CommonTokenMoney.vue')
-    ),
-    BasicMoney: defineAsyncComponent(
-      () => import('@/components/shared/format/BasicMoney.vue')
-    ),
-  },
+
+const BasicImage = defineAsyncComponent(
+  () => import('@/components/shared/view/BasicImage.vue')
+)
+
+const CommonTokenMoney = defineAsyncComponent(
+  () => import('@/components/shared/CommonTokenMoney.vue')
+)
+
+const BasicMoney = defineAsyncComponent(
+  () => import('@/components/shared/format/BasicMoney.vue')
+)
+
+type TimeRange = 'All' | 'Month' | 'Week' | 'Day'
+
+const { urlPrefix } = usePrefix()
+const { $store } = useNuxtApp()
+const props = defineProps<{
+  collection: RowSeries
+  index: number
+  timeRange?: TimeRange
+}>()
+
+const timeRange = computed(() => props.timeRange || 'Month')
+
+const volume = computed(() => {
+  switch (timeRange.value) {
+    case 'All':
+      return Number(props.collection.volume)
+    case 'Month':
+      return Number(props.collection.monthlyVolume)
+    case 'Week':
+      return Number(props.collection.weeklyVolume)
+    case 'Day':
+      return Number(props.collection.dailyVolume)
+  }
 })
-export default class TopCollectionsItem extends mixins(PrefixMixin) {
-  @Prop() collection!: RowSeries
-  @Prop() index!: number
-  @Prop({ default: 'All' }) timeRange!: 'All' | 'Month' | 'Week' | 'Day'
 
-  get volume() {
-    switch (this.timeRange) {
-      case 'All':
-        return Number(this.collection.volume)
-      case 'Month':
-        return Number(this.collection.monthlyVolume)
-      case 'Week':
-        return Number(this.collection.weeklyVolume)
-      case 'Day':
-        return Number(this.collection.dailyVolume)
-    }
+const previousVolume = computed(() => {
+  switch (timeRange.value) {
+    case 'All':
+      return 0
+    case 'Month':
+      return Number(props.collection.monthlyrangeVolume)
+    case 'Week':
+      return Number(props.collection.weeklyrangeVolume)
+    case 'Day':
+      return Number(props.collection.dailyrangeVolume)
   }
-  get previousVolume() {
-    switch (this.timeRange) {
-      case 'All':
-        return 0
-      case 'Month':
-        return Number(this.collection.monthlyrangeVolume)
-      case 'Week':
-        return Number(this.collection.weeklyrangeVolume)
-      case 'Day':
-        return Number(this.collection.dailyrangeVolume)
-    }
-  }
-  get diffPercent(): { value: number; str: string } {
-    if (this.volume === 0 || this.previousVolume === 0) {
-      return { value: NaN, str: '---' }
-    }
-    const value = (this.volume / this.previousVolume - 1) * 100
-    const sign = value < 0 ? '-' : '+'
-    return { value, str: `${sign} ${Math.abs(Math.round(value))}%` }
-  }
+})
 
-  get usdValue() {
-    return calculateUsdFromKsm(
-      this.volume,
-      this.$store.getters['fiat/getCurrentKSMValue']
-    )
+const diffPercent = computed(() => {
+  if (volume.value === 0 || previousVolume.value === 0) {
+    return NaN
   }
+  return (volume.value / previousVolume.value - 1) * 100
+})
+const diffPercentString = computed(() => {
+  if (isNaN(diffPercent.value)) {
+    return ''
+  }
+  const sign = diffPercent.value < 0 ? '-' : '+'
+  return `${sign} ${Math.abs(Math.round(diffPercent.value))}%`
+})
 
-  get color() {
-    if (this.diffPercent.value) {
-      return this.diffPercent.value < 0 ? 'red' : 'green'
-    }
-    return undefined
+const usdValue = computed(() =>
+  calculateUsdFromKsm(volume.value, $store.getters['fiat/getCurrentKSMValue'])
+)
+
+const color = computed(() => {
+  if (diffPercent.value) {
+    return diffPercent.value < 0 ? 'has-text-danger' : 'has-text-success'
   }
-}
+  return undefined
+})
 </script>
 <style scoped>
-.green {
-  color: rgb(0, 188, 0);
-}
-
-.red {
-  color: red;
-}
 .nowrap {
   white-space: nowrap;
 }
