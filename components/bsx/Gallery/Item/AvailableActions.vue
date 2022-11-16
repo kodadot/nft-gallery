@@ -81,7 +81,6 @@ export default class AvailableActions extends mixins(
   private selectedAction: ShoppingActions | '' = ''
   private meta: string | number = ''
   public minimumOfferAmount = 0
-  public isMakeOffersDisabled = true
   public isBalanceInputValid = false
   public selectedDay = 14
   public dayList = [1, 3, 7, 14, 30]
@@ -92,6 +91,10 @@ export default class AvailableActions extends mixins(
 
   get actions() {
     return getActionList('bsx', this.isOwner, this.isAvailableToBuy)
+  }
+
+  get isMakeOffersDisabled(): boolean {
+    return !this.isMakeOffersAllowed || this.minimumOfferAmount > this.balance
   }
 
   get dynamicProps(): object {
@@ -153,16 +156,6 @@ export default class AvailableActions extends mixins(
 
   get assetId() {
     return getKusamaAssetId(this.urlPrefix)
-  }
-
-  public async created(): Promise<void> {
-    onApiConnect(this.apiUrl, (api) => {
-      this.minimumOfferAmount = formatBsxBalanceToNumber(
-        api?.consts?.marketplace?.minimumOfferAmount?.toString()
-      )
-      this.isMakeOffersDisabled =
-        !this.isMakeOffersAllowed || this.minimumOfferAmount > this.balance
-    })
   }
 
   get toolTips(): ShoppingActionToolTips {
