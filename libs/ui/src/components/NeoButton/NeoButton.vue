@@ -34,7 +34,7 @@ defineProps<{
 
 .dark-mode .is-neo {
   color: hsl(0deg, 0%, 100%);
-  background: hsl(0deg, 0%, 4%);
+  background: hsl(330, 4%, 9%);
   border: 1px solid hsl(0deg, 0%, 100%);
   -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
   box-shadow: 4px 4px hsl(0deg, 0%, 100%);

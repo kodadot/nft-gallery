@@ -23,29 +23,8 @@
             </h2>
           </div>
           <div class="buttons is-align-content-start">
-            <b-dropdown aria-role="list" position="is-bottom-left">
-              <template #trigger>
-                <NeoButton label="Share" icon="share-square" />
-              </template>
-
-              <b-dropdown-item aria-role="listitem">Copy Link</b-dropdown-item>
-              <b-dropdown-item aria-role="listitem">QR Code</b-dropdown-item>
-              <b-dropdown-item aria-role="listitem"
-                >Share On Twitter</b-dropdown-item
-              >
-            </b-dropdown>
-
-            <b-dropdown aria-role="list" class="ml-4" position="is-bottom-left">
-              <template #trigger>
-                <NeoButton label="⋮" />
-              </template>
-
-              <b-dropdown-item aria-role="listitem">Download</b-dropdown-item>
-              <b-dropdown-item aria-role="listitem" disabled
-                >Report</b-dropdown-item
-              >
-            </b-dropdown>
-            <!-- <Sharing :label="$t('sharing.profile')" enable-download /> -->
+            <GalleryItemShareBtn />
+            <GalleryItemMoreActionBtn class="ml-4" />
           </div>
         </div>
 
@@ -56,10 +35,10 @@
             :prefix="urlPrefix"
             :account="nft?.issuer" />
           <IdentityItem
-            v-if="nft?.currentOwner"
+            v-if="nft?.currentOwner !== nft?.issuer"
             label="Owner"
             :prefix="urlPrefix"
-            :account="nft?.currentOwner" />
+            :account="nft?.currentOwner || ''" />
         </div>
 
         <!-- LINE DIVIDER -->
@@ -94,9 +73,11 @@
 </template>
 
 <script setup lang="ts">
-import { IdentityItem, MediaItem, NeoButton } from '@kodadot1/brick'
+import { IdentityItem, MediaItem } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
+import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
+import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemActivity from './GalleryItemActivity.vue'
 

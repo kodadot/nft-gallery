@@ -23,7 +23,7 @@ const whichAsset = (data) => {
 }
 
 export const useGalleryItem = () => {
-  const { $consola } = useNuxtApp()
+  const { $consola, $store } = useNuxtApp()
   const nft = ref<NFT>()
   const nftImage = ref('')
   const nftAnimation = ref('')
@@ -60,6 +60,19 @@ export const useGalleryItem = () => {
     const asset = whichAsset(nftMetadata.value)
     nftImage.value = asset.image
     nftAnimation.value = asset.animation_url
+
+    $store.dispatch('history/addHistoryItem', {
+      id: nft.value.id,
+      name: nft.value.name,
+      image: nftImage.value,
+      collection: (nft.value.collection as any).name,
+      date: new Date(),
+      description: nftMetadata.value?.description,
+      author: nft.value.currentOwner,
+      price: nft.value.price,
+      mimeType: nftMimeType.value,
+      prefix: urlPrefix,
+    })
   })
 
   return {
