@@ -5,7 +5,6 @@
 </template>
 
 <script lang="ts" setup>
-// import { Button } from 'buefy'
 import { OButton } from '@oruga-ui/oruga'
 
 defineProps<{
@@ -16,7 +15,6 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-// @import "@oruga-ui/oruga/src/scss/oruga";
 @import '@oruga-ui/oruga/dist/oruga.min.css';
 @import '@oruga-ui/oruga/dist/oruga-full-vars.min.css';
 .is-neo {
