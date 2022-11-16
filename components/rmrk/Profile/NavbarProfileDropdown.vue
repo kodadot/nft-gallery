@@ -3,10 +3,9 @@
     <b-dropdown
       position="is-bottom-left"
       aria-role="menu"
-      class="ml-2 mr-4"
       :triggers="['click', 'hover']">
       <template #trigger>
-        <span class="is-mobile is-vcentered navbar__avatar">
+        <a class="navbar-item" role="button">
           <Avatar
             v-if="account"
             :value="account"
@@ -121,7 +120,7 @@
               </clipPath>
             </defs>
           </svg>
-        </span>
+        </a>
       </template>
 
       <template v-if="account">
@@ -202,10 +201,9 @@
       v-if="account"
       position="is-bottom-left"
       aria-role="menu"
-      :triggers="['click', 'hover']"
-      class="ml-4">
+      :triggers="['click', 'hover']">
       <template #trigger>
-        <span class="is-mobile is-vcentered navbar__avatar">
+        <a class="navbar-item" role="button">
           <svg
             width="28"
             height="23"
@@ -263,7 +261,7 @@
               </filter>
             </defs>
           </svg>
-        </span>
+        </a>
       </template>
 
       <b-dropdown-item custom aria-role="menuitem">
@@ -308,13 +306,14 @@
       </b-dropdown-item>
     </b-dropdown>
 
-    <ConnectWalletButton v-else @closeBurgerMenu="closeBurgerMenu" />
+    <b-navbar-item v-else>
+      <ConnectWalletButton @closeBurgerMenu="closeBurgerMenu" />
+    </b-navbar-item>
 
     <b-dropdown
       ref="languageDropdown"
       position="is-bottom-left"
       aria-role="menu"
-      class="ml-4 mt-5"
       :toggle="toggleLanguageMenu">
       <b-dropdown-item
         aria-role="listitem"
@@ -450,48 +449,3 @@ export default class NavbarProfileDropdown extends mixins(
   }
 }
 </script>
-
-<style lang="scss">
-@import 'bulma/sass/utilities/mixins.sass';
-@import '@/styles/abstracts/variables';
-
-.navbar {
-  &__identity {
-    @include from($desktop) {
-      display: none;
-    }
-  }
-
-  &__button {
-    border: 0;
-    border-top: 2px solid $primary !important;
-  }
-
-  &__avatar {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-
-  &__avatar-icon {
-    border: 1.5px solid $black;
-    border-radius: 24.5px;
-  }
-
-  &__address {
-    text-transform: none;
-    color: $k-blue;
-  }
-  &__sign-out-button {
-    border: 1px solid $black;
-    box-shadow: 4px 4px 0px $black !important;
-    padding: 8px 16px;
-    border-radius: 0;
-    text-transform: capitalize;
-    width: 120px;
-    &:hover {
-      border: 1px solid $black;
-    }
-  }
-}
-</style>
