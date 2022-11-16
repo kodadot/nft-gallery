@@ -14,9 +14,7 @@
       shadow-intensity="1"
       autoplay
       data-cy="type-3d">
-      <button v-if="withARButton" id="ar-button" slot="ar-button">
-        Activate AR
-      </button>
+      <button id="ar-button" slot="ar-button">Activate AR</button>
     </model-viewer>
   </div>
 </template>
@@ -30,7 +28,6 @@ const props = defineProps({
   description: { type: String, default: '' },
   availableAnimations: { type: Array, default: () => [] },
   preview: Boolean,
-  withARButton: { type: Boolean, default: true },
 })
 
 const isDetail = computed(() => !props.preview)

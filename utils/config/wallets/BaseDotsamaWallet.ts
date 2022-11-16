@@ -107,7 +107,9 @@ export class BaseDotsamaWallet implements Wallet {
       callback(undefined)
       return null
     }
-
+    if (!this._extension.accounts.subscribe) {
+      return null
+    }
     const unsubscribe = this._extension.accounts.subscribe(
       (accounts: InjectedAccount[]) => {
         const accountsWithWallet = accounts.map((account) => {
@@ -123,7 +125,6 @@ export class BaseDotsamaWallet implements Wallet {
         callback(accountsWithWallet)
       }
     )
-
     return unsubscribe
   }
 
