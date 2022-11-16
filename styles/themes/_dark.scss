@@ -309,4 +309,12 @@ html.dark-mode {
       color: $white;
     }
   }
+
+  .popover-content-container {
+    border: 1px solid $white;
+  }
+
+  .ms-dos-shadow {
+    box-shadow: $primary-shadow-dark;
+  }
 }
