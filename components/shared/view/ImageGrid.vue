@@ -8,7 +8,7 @@
         :disabled="disabled"
         :index="index"
         :src="src"
-        @click="handleClick" />
+        @click="handleClick(index)" />
     </div>
   </div>
 </template>
