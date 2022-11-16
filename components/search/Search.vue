@@ -239,7 +239,7 @@ export default class Search extends mixins(
   @Debounce(50)
   updateSearch(value: string): string {
     if (value !== this.searchQuery) {
-      this.replaceUrl({ search: value ?? undefined })
+      this.replaceUrl({ search: value ?? undefined }, this.$route.path)
     }
     return value
   }
@@ -270,7 +270,10 @@ export default class Search extends mixins(
   }
 
   @Debounce(100)
-  replaceUrl(queryCondition: { [key: string]: any }): void {
+  replaceUrl(queryCondition: { [key: string]: any }, route?: string): void {
+    if (route && route !== this.$route.path) {
+      return
+    }
     this.$router
       .replace({
         path: String(this.$route.path),
