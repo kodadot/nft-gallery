@@ -42,6 +42,7 @@ importers:
       '@nuxtjs/pwa': ^3.3.5
       '@nuxtjs/sentry': ^6.0.1
       '@open-wc/webpack-import-meta-loader': ^0.4.7
+      '@oruga-ui/oruga': ^0.5.8
       '@polkadot/extension-dapp': ^0.44.6
       '@polkadot/extension-inject': ^0.44.6
       '@polkadot/ui-keyring': 2.9.10
@@ -133,6 +134,7 @@ importers:
       '@nuxtjs/apollo': 4.0.1-rc.5_7h2r2g2glqajyxpaymv6imo7wa
       '@nuxtjs/i18n': 7.3.0_vue@2.7.14
       '@nuxtjs/sentry': 6.0.1
+      '@oruga-ui/oruga': 0.5.8_vue@2.7.14
       '@polkadot/extension-dapp': 0.44.6
       '@polkadot/extension-inject': 0.44.6
       '@polkadot/ui-keyring': 2.9.10
@@ -3792,6 +3794,14 @@ packages:
   /@open-wc/webpack-import-meta-loader/0.4.7:
     resolution: {integrity: sha512-F3d1EHRckk2+ZpgEEAgVITp8BU9DYLBhKOhNMREeQ1BwILRIhrt+V1bebpnd0Mz595jzd7Yh1wSibLsXibkCpg==}
     dev: true
+
+  /@oruga-ui/oruga/0.5.8_vue@2.7.14:
+    resolution: {integrity: sha512-FvJ1LxWqC95xNfaCfvrn1SwTBjVuNYkf95tMeHxKDs0jBepUxaoqjhhxUzLqLyHKu7ddN/+jntB1M/EXOKG1lg==}
+    peerDependencies:
+      vue: ^2.6.11
+    dependencies:
+      vue: 2.7.14
+    dev: false
 
   /@polka/url/1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}

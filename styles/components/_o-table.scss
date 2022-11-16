@@ -1,0 +1,26 @@
+.o-table {
+  &__th {
+    color: $k-grey;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 0.5rem 1.5rem;
+  }
+
+  &__td {
+    padding: 0.25rem 1.5rem;
+  }
+
+  &--hoverable {
+    tbody tr:hover td {
+      background-color: $k-accentlight2;
+    }
+  }
+}
+
+.dark-mode .o-table {
+  &--hoverable {
+    tbody tr:hover td {
+      background-color: $k-accentlight2dark;
+    }
+  }
+}
