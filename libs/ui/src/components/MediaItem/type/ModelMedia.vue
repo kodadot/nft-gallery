@@ -1,36 +1,24 @@
 <template>
   <div class="view-model__wrapper">
-    <div class="view-model__overflow"></div>
+    <div class="view-model__overflow" />
     <model-viewer
       class="view-model__component"
-      :src="src"
-      :poster="poster"
-      :alt="description"
-      :available-animations="availableAnimations"
+      :src="animationSrc"
       auto-rotate
-      :camera-controls="isDetail"
-      :ar="isDetail"
       ar-modes="webxr scene-viewer quick-look"
       shadow-intensity="1"
       autoplay
-      data-cy="type-3d">
-      <button id="ar-button" slot="ar-button">Activate AR</button>
-    </model-viewer>
+      camera-controls
+      data-cy="type-3d" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import '@google/model-viewer'
 
-const props = defineProps({
-  src: { type: String, default: '' },
-  poster: { type: String, default: '' },
-  description: { type: String, default: '' },
-  availableAnimations: { type: Array, default: () => [] },
-  preview: Boolean,
-})
-
-const isDetail = computed(() => !props.preview)
+defineProps<{
+  animationSrc: string
+}>()
 </script>
 
 <style lang="scss" scoped>

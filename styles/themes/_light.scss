@@ -5,7 +5,7 @@ html.light-mode {
     color: $primary;
 
     &:hover {
-      color: $primary-light;
+      color: $primary-light !important;
     }
   }
 
@@ -25,7 +25,7 @@ html.light-mode {
     margin: 0;
     width: 100%;
     height: 100%;
-    background-color: $white;;
+    background-color: $white;
     color: $text-light-theme;
   }
 
@@ -109,6 +109,14 @@ html.light-mode {
     }
   }
 
+  .navbar__sign-out-button {
+    color: $black;
+    background-color: $white!important;
+    &:hover {
+      background-color: $k-accentlight !important;
+    }
+  }
+
   .homepage .tile .box {
     border-color: #f3f3f3;
     background-color: $white;
@@ -125,7 +133,7 @@ html.light-mode {
     }
   }
 
-  .tabs li:not(.is-active) a,
+   .tabs li:not(.is-active) a,
   .pagination-previous,
   .pagination-next,
   .pagination-link,
@@ -134,6 +142,7 @@ html.light-mode {
   .royalty {
     color: $text-light-theme;
   }
+
 
   .level .title,
   .homepage .title:not(h2),
@@ -281,6 +290,11 @@ html.light-mode {
     .search-footer-link {
       color: $black !important;
     }
+  }
+
+  .gallery-item-media {
+    border: 1px solid #000;
+    box-shadow: 4px 4px 0px #000;
   }
 
   .search-bar-container {

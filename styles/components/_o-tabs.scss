@@ -1,0 +1,67 @@
+.o-tabs {
+  box-shadow: 4px 4px 0px #000;
+
+  &__nav {
+    overflow-x: initial;
+
+    &-item {
+      &-default {
+        border: 1px solid black;
+        border-right: 0;
+        color: black;
+        padding: 8px;
+
+        &--active {
+          background-color: black;
+          color: white;
+        }
+
+        &:hover:not(.o-tabs__nav-item-default--active) {
+          background-color: $k-accentlight2;
+        }
+      }
+
+      &-wrapper:last-child {
+        button {
+          border-right: 1px solid black;
+        }
+      }
+    }
+  }
+
+  &__content {
+    border: 1px solid black;
+  }
+}
+
+.dark-mode .o-tabs {
+  box-shadow: 4px 4px 0px white;
+
+  &__nav {
+    &-item {
+      &-default {
+        border: 1px solid white;
+        color: white;
+
+        &--active {
+          background-color: white;
+          color: black;
+        }
+
+        &:hover:not(.o-tabs__nav-item-default--active) {
+          background-color: $k-accentlight2dark;
+        }
+      }
+
+      &-wrapper:last-child {
+        button {
+          border-right: 1px solid white;
+        }
+      }
+    }
+  }
+
+  &__content {
+    border: 1px solid white;
+  }
+}
