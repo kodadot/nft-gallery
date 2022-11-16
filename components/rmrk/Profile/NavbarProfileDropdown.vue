@@ -2,7 +2,6 @@
   <div class="is-flex is-align-items-center">
     <b-dropdown
       position="is-bottom-left"
-      class="navbar-link is-arrowless"
       aria-role="menu"
       :triggers="['click', 'hover']">
       <template #trigger>
@@ -202,8 +201,7 @@
       v-if="account"
       position="is-bottom-left"
       aria-role="menu"
-      :triggers="['click', 'hover']"
-      class="navbar-link is-arrowless">
+      :triggers="['click', 'hover']">
       <template #trigger>
         <span class="is-mobile is-vcentered navbar__avatar">
           <svg
