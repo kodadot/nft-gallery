@@ -1,5 +1,6 @@
 <template>
   <section>
+    <Loader v-model="isLoading" />
     <b-field class="" label-position="inside" label="Select origin parachain">
       <b-select
         v-model="fromChain"
@@ -65,10 +66,12 @@
 
 <script lang="ts">
 import { ApiPromise, WsProvider } from '@polkadot/api'
-import { web3Enable, web3FromAddress } from '@polkadot/extension-dapp'
+import { web3Enable } from '@polkadot/extension-dapp'
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import '@polkadot/api-augment'
 import * as xTokens from '@paraspell/sdk'
+import { toDefaultAddress } from '@/utils/account'
+import { getAddress } from '@/utils/extension'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
 
@@ -94,9 +97,11 @@ export default class Teleport extends mixins(AuthMixin) {
   amount = 0 //Required amount to be transfered is stored here
   currency = 'KSM' //Selected currency is stored here
   currencies: string[] = ['KSM'] //Currently available currencies
+  isLoading = false
 
   resetStatus = () => {
     this.amount = 0
+    this.isLoading = false
   }
 
   $notify(config: any) {
@@ -116,9 +121,8 @@ export default class Teleport extends mixins(AuthMixin) {
   //Used to create XCM transfer
   async sendXCM(address: string) {
     await web3Enable('Kodadot')
-
     let isFirstStatus = true
-
+    this.isLoading = true
     const transactionHandler = ({ status, txHash }) => {
       if (isFirstStatus) {
         showNotification(
@@ -132,15 +136,15 @@ export default class Teleport extends mixins(AuthMixin) {
           `Transaction finalized at blockHash ${status.asFinalized}`,
           notificationTypes.success
         )
+        this.resetStatus()
       }
     }
 
-    const injector = await web3FromAddress(address)
+    const injector = await getAddress(toDefaultAddress(address))
 
     if (this.fromChain === Chain.KUSAMA) {
       const wsProvider = new WsProvider('wss://public-rpc.pinknode.io/kusama')
       const api = await ApiPromise.create({ provider: wsProvider })
-
       //API call for XCM transfer from Acala to destination Parachain /w injected wallet
       let promise = xTokens.xTokens.transferRelayToPara(
         api,
@@ -157,10 +161,9 @@ export default class Teleport extends mixins(AuthMixin) {
       const wsProvider = new WsProvider('wss://rpc.basilisk.cloud')
       const api = await ApiPromise.create({ provider: wsProvider })
       //API call for XCM transfer from Pichiu to destination Parachain /w injected wallet
-      let promise = xTokens.xTokens.transferParaToPara(
+      let promise = xTokens.xTokens.transferParaToRelay(
         api,
         Chain.BASILISK,
-        ChainIdMap[Chain.KUSAMA],
         this.currency,
         this.amount * 1e12,
         this.toAddress
