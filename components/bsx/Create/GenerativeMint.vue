@@ -5,7 +5,10 @@
     </b-step-item>
 
     <b-step-item step="2" label="Select" :clickable="isStepsClickable">
-      <ImageSelectGrid :predicion="predicion" @select="handleImageSelect" />
+      <ImageSelectGrid
+        :predicion="predicion"
+        :selected="image"
+        @select="handleImageSelect" />
     </b-step-item>
 
     <b-step-item step="3" label="Contact" :clickable="isStepsClickable">
@@ -50,17 +53,18 @@ const email = ref('')
 
 const handlePrediction = (generation: PredictionStatus) => {
   predicion.value = generation
-  goToStep(2)
+  goToStep(1)
 }
 
 const handleImageSelect = (imageURI: string) => {
   image.value = imageURI
-  goToStep(3)
+  goToStep(2)
 }
 
 const handleMailSubmit = (mail: string) => {
   email.value = mail
-  goToStep(4)
+  submitAll()
+  goToStep(3)
 }
 
 const submitAll = () => {
