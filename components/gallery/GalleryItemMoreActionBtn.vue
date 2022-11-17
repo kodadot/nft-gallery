@@ -4,7 +4,10 @@
       <NeoButton label="⋮" />
     </template>
 
-    <b-dropdown-item aria-role="listitem" @click="downloadMedia"
+    <b-dropdown-item
+      v-if="currentGalleryItemImage.value.mimeType.includes('image')"
+      aria-role="listitem"
+      @click="downloadMedia"
       >Download</b-dropdown-item
     >
     <b-dropdown-item aria-role="listitem" disabled> Report </b-dropdown-item>
