@@ -15,7 +15,9 @@
         QR Code
       </b-dropdown-item>
       <b-dropdown-item aria-role="listitem" has-link>
-        <a :href="twitterUri" target="_blank"> Share On Twitter </a>
+        <a :href="twitterUri" target="_blank" rel="noopener noreferrer">
+          Share On Twitter
+        </a>
       </b-dropdown-item>
     </b-dropdown>
 

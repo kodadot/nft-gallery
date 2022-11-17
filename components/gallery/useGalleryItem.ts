@@ -65,7 +65,7 @@ export const useGalleryItem = () => {
       id: nft.value.id,
       name: nft.value.name,
       image: nftImage.value,
-      collection: (nft.value.collection as any).name,
+      collection: nft.value.collection.name,
       date: new Date(),
       description: nftMetadata.value?.description,
       author: nft.value.currentOwner,
