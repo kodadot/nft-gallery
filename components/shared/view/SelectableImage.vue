@@ -1,8 +1,11 @@
 <template>
   <b-image
     ratio="1by1"
-    class="image selectable-image"
-    :class="{ 'is-selected': selected, 'selectable-image': !disabled }"
+    class="image"
+    :class="[
+      disabled ? 'selectable-image-disabled' : 'selectable-image',
+      { 'is-selected': selected },
+    ]"
     :src="src"
     alt="Some Image"
     @click.native="handleClick"></b-image>
@@ -32,5 +35,10 @@ const handleClick = () => {
 .selectable-image:hover {
   border: 2px $lightpink solid;
   cursor: pointer;
+}
+
+.selectable-image-disabled:hover {
+  pointer-events: none;
+  cursor: not-allowed;
 }
 </style>

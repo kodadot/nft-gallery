@@ -58,7 +58,7 @@ const submit = async () => {
         emit('select', generation)
       }
     }
-  }, 2000)
+  }, 2500)
 
   predictionId.value = predictRequest.id
 }
