@@ -11,12 +11,22 @@
           :title="nft?.name" />
       </div>
       <div class="column">
-        <h1 class="title">{{ nft?.name }}</h1>
-        <h2 class="subtitle">
-          <nuxt-link :to="`/${urlPrefix}/collection/${nft?.collection.id}`">
-            {{ nft?.collection.name }}
-          </nuxt-link>
-        </h2>
+        <div class="is-flex is-justify-content-space-between">
+          <div>
+            <h1 class="title">{{ nft?.name }}</h1>
+            <h2 class="subtitle">
+              <nuxt-link
+                :to="`/${urlPrefix}/collection/${nft?.collection.id}`"
+                class="has-text-link">
+                {{ nft?.collection.name }}
+              </nuxt-link>
+            </h2>
+          </div>
+          <div class="buttons is-align-content-start">
+            <GalleryItemShareBtn />
+            <GalleryItemMoreActionBtn class="ml-4" />
+          </div>
+        </div>
 
         <div class="is-flex is-flex-direction-row py-4">
           <IdentityItem
@@ -25,10 +35,10 @@
             :prefix="urlPrefix"
             :account="nft?.issuer" />
           <IdentityItem
-            v-if="nft?.currentOwner"
+            v-if="nft?.currentOwner !== nft?.issuer"
             label="Owner"
             :prefix="urlPrefix"
-            :account="nft?.currentOwner" />
+            :account="nft?.currentOwner || ''" />
         </div>
 
         <!-- LINE DIVIDER -->
@@ -66,6 +76,8 @@
 import { IdentityItem, MediaItem } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
+import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
+import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemActivity from './GalleryItemActivity.vue'
 
@@ -80,8 +92,7 @@ const CarouselTypeVisited = defineAsyncComponent(
 )
 </script>
 
-<style scoped>
-/* TODO: remove this class once redesign is done */
+<style lang="scss" scoped>
 .gallery-item {
   font-family: 'Work Sans';
 }
