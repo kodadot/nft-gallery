@@ -1,7 +1,7 @@
-@import '@/styles/abstracts/variables';
+@import '../../scss/variable.scss';
 
 .article {
-  background-color: $white;
+  background-color: white;
   border: 1px solid $dark-accent;
   display: block;
   height: 100%;
@@ -36,7 +36,7 @@
 
 .dark-mode .article {
   background-color: $dark-accent;
-  border: 1px solid $white;
+  border: 1px solid white;
 
   &:hover {
     box-shadow: 4px 4px 0 0 rgba(255, 255, 255, 1);
@@ -47,6 +47,6 @@
   }
 
   &-image {
-    border-bottom: 1px solid $white;
+    border-bottom: 1px solid white;
   }
 }
