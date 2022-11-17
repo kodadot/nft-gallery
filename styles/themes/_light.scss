@@ -93,7 +93,7 @@ html.light-mode {
     }
 
     .dropdown .dropdown-menu .has-link a {
-      color: $text-light-theme;
+      color: $text-light-theme !important;
     }
   }
 
