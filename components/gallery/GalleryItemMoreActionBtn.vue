@@ -5,7 +5,7 @@
     </template>
 
     <b-dropdown-item
-      v-if="currentGalleryItemImage.value.mimeType.includes('image')"
+      v-if="currentGalleryItemImage.mimeType.includes('image')"
       aria-role="listitem"
       @click="downloadMedia"
       >Download</b-dropdown-item
@@ -19,8 +19,7 @@ import { NeoButton } from '@kodadot1/brick'
 import { downloadImage } from '~/utils/download'
 
 const { $store } = useNuxtApp()
-const currentGalleryItemImage =
-  $store.getters['history/getCurrentlyViewedItem'] || {}
+const currentGalleryItemImage = $store.getters['history/getCurrentlyViewedItem']
 
 const downloadMedia = () => {
   const { image, name } = currentGalleryItemImage

@@ -1,5 +1,5 @@
-import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
-import { isToday, isYesterday, isThisWeek, isThisMonth } from 'date-fns'
+import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
+import { isThisMonth, isThisWeek, isToday, isYesterday } from 'date-fns'
 
 export interface HistoryItem {
   id: string
@@ -79,7 +79,7 @@ export const getters: GetterTree<HistoryState, HistoryState> = {
         !isToday(new Date(nft.date)) &&
         !isYesterday(new Date(nft.date))
     ),
-  getCurrentlyViewedItem: ({ currentlyViewedItem }) => currentlyViewedItem,
+  getCurrentlyViewedItem: (state) => state.currentlyViewedItem,
   getCurrentlyViewedCollection: ({ currentlyViewedCollection }) =>
     currentlyViewedCollection,
 }
@@ -103,6 +103,7 @@ export const mutations: MutationTree<HistoryState> = {
     }
   },
   UPDATE_CURRENTLY_VIEWED_ITEM(state: any, data: GalleryItem) {
+    console.log(data)
     state.currentlyViewedItem = data
   },
   UPDATE_CURRENTLY_VIEWED_COLLECTION(state: any, data: Collectionitem) {
@@ -118,6 +119,7 @@ export const mutations: MutationTree<HistoryState> = {
 
 export const actions: ActionTree<HistoryState, HistoryState> = {
   addHistoryItem({ commit }: { commit: Commit }, data: HistoryItem) {
+    console.log(data)
     commit('UPDATE_CURRENTLY_VIEWED_ITEM', data)
     const { id, title, image, collection, date, prefix } = data
     const historyItem = { id, title, image, collection, date, prefix }

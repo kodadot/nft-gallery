@@ -53,6 +53,9 @@ const twitterUri = ref(
   `https://twitter.com/intent/tweet?text=${sharingTxt.value}&via=KodaDot&url=${realworldFullPathShare.value}`
 )
 const toast = (message: string): void => {
-  $buefy.toast.open(message)
+  $buefy.toast.open({
+    message,
+    type: 'is-neo',
+  })
 }
 </script>
