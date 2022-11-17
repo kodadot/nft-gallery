@@ -14,7 +14,11 @@
       spellcheck="true"
       data-cy="input-name" />
 
-    <SubmitButton label="generate" :loading="isLoading" @click="submit" />
+    <SubmitButton
+      icon="plus"
+      label="generate"
+      :loading="isLoading"
+      @click="submit" />
   </section>
 </template>
 

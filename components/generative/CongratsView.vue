@@ -8,7 +8,11 @@
       src="https://pbs.twimg.com/media/FhZZxxwXwAAkvKI?format=jpg" />
     <br />
 
-    <SubmitButton label="Start over" @click="submit" />
+    <SubmitButton
+      icon="sync"
+      type="is-success"
+      label="Start over"
+      @click="submit" />
   </section>
 </template>
 

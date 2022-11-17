@@ -14,7 +14,11 @@
       spellcheck="true"
       data-cy="input-name" />
 
-    <SubmitButton label="generate" @click="submit" />
+    <SubmitButton
+      label="submit"
+      type="is-info"
+      icon="envelope"
+      @click="submit" />
   </section>
 </template>
 
