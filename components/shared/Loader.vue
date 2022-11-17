@@ -91,7 +91,7 @@ export default class Loader extends Vue {
   backdrop-filter: $frosted-glass-backdrop-filter;
   margin: 0rem 1rem;
   width: 300px;
-  height: 350px;
+  min-height: 350px;
   border: 1px solid $black;
   box-shadow: $primary-shadow;
 }
