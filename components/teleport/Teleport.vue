@@ -72,18 +72,10 @@ import '@polkadot/api-augment'
 import * as xTokens from '@paraspell/sdk'
 import { toDefaultAddress } from '@/utils/account'
 import { getAddress } from '@/utils/extension'
-
+import { Chain, ChainIdMap } from '@/utils/teleport'
 import { notificationTypes, showNotification } from '@/utils/notification'
 
 import AuthMixin from '@/utils/mixins/authMixin'
-enum Chain {
-  KUSAMA = 'Kusama',
-  BASILISK = 'Basilisk',
-}
-const ChainIdMap = {
-  [Chain.KUSAMA]: 2000,
-  [Chain.BASILISK]: 2090,
-}
 @Component({
   components: {
     Loader: () => import('@/components/shared/Loader.vue'),
