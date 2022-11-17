@@ -44,7 +44,7 @@ export type PredictionStatus = {
 }
 
 export type Input = {
-  positive_prompt: string
+  prompt: string
   width: Option<string>
   height: Option<string>
   num_outputs: Option<string>
@@ -58,7 +58,7 @@ export const predict = async (
   const input: PredictionRequest = {
     version: '25d2f75ecda0c0bed34c806b7b70319a53a1bccad3ade1a7496524f013f48983',
     input: {
-      positive_prompt: object,
+      prompt: object,
       width: '512',
       height: '512',
       num_outputs: '4',
