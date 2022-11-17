@@ -64,108 +64,95 @@
   </section>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { web3Enable } from '@polkadot/extension-dapp'
-import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import '@polkadot/api-augment'
 import * as xTokens from '@paraspell/sdk'
 import { toDefaultAddress } from '@/utils/account'
 import { getAddress } from '@/utils/extension'
 import { Chain, ChainIdMap } from '@/utils/teleport'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import useAuth from '@/composables/useAuth'
+import Loader from '@/components/shared/Loader.vue'
 
-import AuthMixin from '@/utils/mixins/authMixin'
-@Component({
-  components: {
-    Loader: () => import('@/components/shared/Loader.vue'),
-  },
+const { accountId } = useAuth()
+
+const chains = ref([Chain.KUSAMA, Chain.BASILISK])
+const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
+const toChain = ref(Chain.BASILISK) //Selected destination parachain
+const toAddress = ref('') //Recipient address is stored here
+const amount = ref(0) //Required amount to be transfered is stored here
+const currency = ref('KSM') //Selected currency is stored here
+const currencies = ref(['KSM']) //Currently available currencies
+const isLoading = ref(false)
+
+const resetStatus = () => {
+  amount.value = 0
+  isLoading.value = false
+}
+
+watch([fromChain], async () => {
+  const idx = chains.value.indexOf(toChain.value)
+  toChain.value = chains.value[(idx + 1) % chains.value.length]
 })
-export default class Teleport extends mixins(AuthMixin) {
-  chains: Chain[] = [Chain.KUSAMA, Chain.BASILISK] //Stores Parachains connected to Relay chain
-  fromChain = Chain.KUSAMA //Selected origin parachain
-  toChain = Chain.BASILISK //Selected destination parachain
-  toAddress = '' //Recipient address is stored here
-  amount = 0 //Required amount to be transfered is stored here
-  currency = 'KSM' //Selected currency is stored here
-  currencies: string[] = ['KSM'] //Currently available currencies
-  isLoading = false
 
-  resetStatus = () => {
-    this.amount = 0
-    this.isLoading = false
+//Used to create XCM transfer
+const sendXCM = async (address: string) => {
+  await web3Enable('Kodadot')
+  let isFirstStatus = true
+  isLoading.value = true
+  const transactionHandler = ({ status, txHash }) => {
+    if (isFirstStatus) {
+      showNotification(
+        `Transaction hash is ${txHash.toHex()}`,
+        notificationTypes.info
+      )
+      isFirstStatus = false
+    }
+    if (status.isFinalized) {
+      showNotification(
+        `Transaction finalized at blockHash ${status.asFinalized}`,
+        notificationTypes.success
+      )
+      resetStatus()
+    }
   }
 
-  $notify(config: any) {
-    const isError = config.type === 'error'
-    showNotification(
-      config.text,
-      isError ? notificationTypes.danger : notificationTypes.success
+  const injector = await getAddress(toDefaultAddress(address))
+
+  if (fromChain.value === Chain.KUSAMA) {
+    const wsProvider = new WsProvider('wss://public-rpc.pinknode.io/kusama')
+    const api = await ApiPromise.create({ provider: wsProvider })
+    //API call for XCM transfer from Acala to destination Parachain /w injected wallet
+    let promise = xTokens.xTokens.transferRelayToPara(
+      api,
+      ChainIdMap[Chain.BASILISK],
+      amount.value * 1e12,
+      toAddress.value
     )
-  }
+    promise.signAndSend(
+      address,
+      { signer: injector.signer },
+      transactionHandler
+    )
+  } else if (fromChain.value === Chain.BASILISK) {
+    const wsProvider = new WsProvider('wss://rpc.basilisk.cloud')
+    const api = await ApiPromise.create({ provider: wsProvider })
+    //API call for XCM transfer from Pichiu to destination Parachain /w injected wallet
+    let promise = xTokens.xTokens.transferParaToRelay(
+      api,
+      Chain.BASILISK,
+      currency.value,
+      amount.value * 1e12,
+      toAddress.value
+    )
 
-  @Watch('fromChain')
-  onFromChainChange() {
-    const idx = this.chains.indexOf(this.toChain)
-    this.toChain = this.chains[(idx + 1) % this.chains.length]
-  }
-
-  //Used to create XCM transfer
-  async sendXCM(address: string) {
-    await web3Enable('Kodadot')
-    let isFirstStatus = true
-    this.isLoading = true
-    const transactionHandler = ({ status, txHash }) => {
-      if (isFirstStatus) {
-        showNotification(
-          `Transaction hash is ${txHash.toHex()}`,
-          notificationTypes.info
-        )
-        isFirstStatus = false
-      }
-      if (status.isFinalized) {
-        showNotification(
-          `Transaction finalized at blockHash ${status.asFinalized}`,
-          notificationTypes.success
-        )
-        this.resetStatus()
-      }
-    }
-
-    const injector = await getAddress(toDefaultAddress(address))
-
-    if (this.fromChain === Chain.KUSAMA) {
-      const wsProvider = new WsProvider('wss://public-rpc.pinknode.io/kusama')
-      const api = await ApiPromise.create({ provider: wsProvider })
-      //API call for XCM transfer from Acala to destination Parachain /w injected wallet
-      let promise = xTokens.xTokens.transferRelayToPara(
-        api,
-        ChainIdMap[Chain.BASILISK],
-        this.amount * 1e12,
-        this.toAddress
-      )
-      promise.signAndSend(
-        address,
-        { signer: injector.signer },
-        transactionHandler
-      )
-    } else if (this.fromChain === Chain.BASILISK) {
-      const wsProvider = new WsProvider('wss://rpc.basilisk.cloud')
-      const api = await ApiPromise.create({ provider: wsProvider })
-      //API call for XCM transfer from Pichiu to destination Parachain /w injected wallet
-      let promise = xTokens.xTokens.transferParaToRelay(
-        api,
-        Chain.BASILISK,
-        this.currency,
-        this.amount * 1e12,
-        this.toAddress
-      )
-      promise.signAndSend(
-        address,
-        { signer: injector.signer },
-        transactionHandler
-      )
-    }
+    promise.signAndSend(
+      address,
+      { signer: injector.signer },
+      transactionHandler
+    )
   }
 }
 </script>
