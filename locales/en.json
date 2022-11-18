@@ -1026,7 +1026,7 @@
     "buyKsm": "Buy Kusama"
   },
   "toast": {
-    "urlCopy": "URL copied to clipboard",
+    "urlCopy": "URL copied to clipboard ✓",
     "paymentLinkCopy": "Payment link copied to clipboard"
   },
   "profileMenu": {
