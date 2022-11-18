@@ -1,5 +1,9 @@
 <template>
-  <b-steps v-model="currentStep" :rounded="false" mobile-mode="minimalist">
+  <b-steps
+    v-model="currentStep"
+    :rounded="false"
+    mobile-mode="minimalist"
+    :has-navigation="false">
     <b-step-item step="1" label="Mint" :clickable="isStepsClickable">
       <GenerativeMint @select="handlePrediction" />
     </b-step-item>
