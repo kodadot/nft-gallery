@@ -4,7 +4,7 @@
     <div class="is-flex is-align-items-center is-justify-content-space-between">
       <div class="is-flex is-align-items-center">
         <nuxt-link
-          class="is-size-6 break-word mr-2"
+          class="is-size-6 break-word mr-2 has-text-link"
           :to="`/${urlPrefix}/u/${address}`">
           <span data-cy="identity-display">
             {{ identity?.display || shortenedAddress }}</span
@@ -14,9 +14,9 @@
           v-clipboard:copy="address"
           icon="copy"
           size="is-small"
-          class="copy-icon"
+          type="is-link is-clickable"
           data-cy="identity-clipboard"
-          @click.native="toast('Copied to clipboard')"></b-icon>
+          @click.native="toast('Copied to clipboard')" />
       </div>
       <a
         v-if="identity?.twitter"
@@ -24,7 +24,7 @@
         target="_blank"
         rel="noopener noreferrer"
         data-cy="identity-twitter">
-        <b-icon pack="fab" icon="twitter" />
+        <b-icon pack="fab" icon="twitter" type="is-link" />
       </a>
     </div>
   </div>
@@ -41,17 +41,15 @@ const { urlPrefix } = usePrefix()
 const { $buefy } = useNuxtApp()
 
 const toast = (message: string) => {
-  $buefy.toast.open(message)
+  $buefy.toast.open({
+    message,
+    type: 'is-neo',
+  })
 }
 </script>
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-
-.copy-icon {
-  cursor: pointer;
-  color: $k-blue;
-}
 
 .popover-image {
   min-width: 60px;
@@ -66,13 +64,6 @@ const toast = (message: string) => {
   .popover-user-heading {
     font-size: 12px;
     color: $k-grey;
-  }
-
-  a {
-    color: $k-blue !important;
-    &:hover {
-      color: $k-blue !important;
-    }
   }
 }
 </style>
