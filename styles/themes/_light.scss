@@ -103,12 +103,11 @@ html.light-mode {
     }
 
     .dropdown {
-      .dropdown-content {
+      .dropdown-menu, .dropdown-content{
         background-color: $white;
-      }
-
-      .dropdown-menu a {
-        color: $text-light-theme
+          .dropdown-item:not(.is-active) {
+          color: $text-light-theme
+        }
       }
 
     }
