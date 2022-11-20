@@ -79,7 +79,7 @@ const clearAll = () => {
   predicion.value = emptyObject<PredictionStatus>()
   image.value = ''
   email.value = ''
-  goToStep(1)
+  goToStep(0)
 }
 
 const goToStep = (step: number) => {
