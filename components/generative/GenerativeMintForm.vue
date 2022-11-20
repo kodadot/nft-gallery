@@ -118,23 +118,23 @@ const submit = async () => {
   status.value = 'predicting'
   const prompt = buildPrompt(form)
   console.log('prompt', prompt)
-  // const predictRequest = await predict(prompt)
+  const predictRequest = await predict(prompt)
 
-  // const timeout = setInterval(async () => {
-  //   const generation = await getPrediction(predictRequest.id)
-  //   console.log('status', status)
-  //   predicion.value = generation
-  //   status.value = generation.status
-  //   if (generation.status === 'failed' || generation.status === 'succeeded') {
-  //     isLoading.value = false
-  //     status.value = ''
-  //     clearInterval(timeout)
-  //     if (generation.status === 'succeeded') {
-  //       emit('select', generation)
-  //     }
-  //   }
-  // }, 2500)
+  const timeout = setInterval(async () => {
+    const generation = await getPrediction(predictRequest.id)
+    console.log('status', status)
+    predicion.value = generation
+    status.value = generation.status
+    if (generation.status === 'failed' || generation.status === 'succeeded') {
+      isLoading.value = false
+      status.value = ''
+      clearInterval(timeout)
+      if (generation.status === 'succeeded') {
+        emit('select', generation)
+      }
+    }
+  }, 2500)
 
-  // predictionId.value = predictRequest.id
+  predictionId.value = predictRequest.id
 }
 </script>
