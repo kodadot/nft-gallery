@@ -11,7 +11,11 @@
     <RadioSelect v-model="form.art" :options="art" />
 
     <p class="title is-size-5">using</p>
-    <RadioSelect v-model="form.art" :options="art" />
+    <RadioSelect
+      v-model="form.style"
+      :options="isPhoto ? filmTypes : styles"
+      separated
+      show-empty />
 
     <p class="title is-size-5">displaying</p>
     <RadioSelect
@@ -63,10 +67,12 @@ import {
   accessories,
   art,
   clothes,
+  filmTypes,
   framing,
   gender,
   inspirations,
   lights,
+  styles,
 } from './options'
 import { Options, buildPrompt } from './promptBuilder'
 
@@ -90,7 +96,7 @@ const form = reactive<Options>({
   vibe: '',
   framing: 'close-up',
   filmType: '',
-  style: 'photo',
+  style: '',
   inspiredBy: '',
   having: '',
   wearing: '',
@@ -102,6 +108,10 @@ const status = ref('')
 const predictionId = ref('')
 const predicion = ref<PredictionStatus>(emptyObject<PredictionStatus>())
 const emit = defineEmits(['select'])
+const isPhoto = computed(() => form.art === 'photo')
+
+// change form.style when form.art changes
+watch(isPhoto, () => (form.style = ''))
 
 const submit = async () => {
   isLoading.value = true
