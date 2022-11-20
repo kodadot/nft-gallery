@@ -24,13 +24,14 @@ export const buildPrompt = (options: Options): string => {
     art,
     OF,
     gender,
-    having ? `having ${having} ${COMMA}` : '',
-    wearing ? `wearing ${wearing} ${COMMA}` : '',
-    lighting ? `${lighting} lighting ${COMMA}` : '',
+    having ? `having ${having}${COMMA}` : '',
+    wearing ? `wearing ${wearing}${COMMA}` : '',
+    lighting ? `${lighting} lighting${COMMA}` : '',
     inspiredBy ? `${BY} ${inspiredBy}` : '',
   ]
     .filter((x) => x !== '')
     .join(' ')
+    .replace(/,\s*$/, '')
   return prompt
   // const { gender, framing, art, style } = options
   // return `${framing} ${style || ''} ${art} of ${gender} ${having} ${wearing}`
