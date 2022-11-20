@@ -34,7 +34,7 @@ const props = defineProps<{
   value: string
   options: string[]
   showEmpty?: boolean
-  separated: boolean
+  separated?: boolean
 }>()
 
 const handleInput = (value: string) => {
