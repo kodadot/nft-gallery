@@ -109,8 +109,6 @@ watch(
         }
       })
     }
-
-    console.log(collectionData)
   }
 )
 </script>
