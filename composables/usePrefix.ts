@@ -1,3 +1,5 @@
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
+
 export default function () {
   const { $store } = useNuxtApp()
 
@@ -9,8 +11,11 @@ export default function () {
     return urlPrefix.value === 'rmrk' ? 'subsquid' : urlPrefix.value
   })
 
+  const tokenId = computed(() => getKusamaAssetId(urlPrefix.value))
+
   return {
     urlPrefix,
     client,
+    tokenId,
   }
 }

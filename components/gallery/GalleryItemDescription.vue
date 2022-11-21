@@ -1,7 +1,7 @@
 <template>
   <o-tabs v-model="activeTab" expanded>
     <!-- properties tab -->
-    <o-tab-item value="0" label="Properties" class="py-4">
+    <o-tab-item value="0" label="Properties" class="py-5">
       <o-table
         v-if="nftMetadata?.attributes.length"
         :data="nftMetadata?.attributes"
