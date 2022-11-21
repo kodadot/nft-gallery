@@ -1,0 +1,8 @@
+.toast {
+	&.is-neo {
+		border-radius: 0;
+		border: 1px solid hsl(0deg, 0%, 4%);
+		box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+		-webkit-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+	}
+}

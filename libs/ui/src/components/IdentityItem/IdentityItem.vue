@@ -5,15 +5,14 @@
       <div class="has-text-grey is-size-7">
         {{ label }}
       </div>
-      <div class="has-text-weight-bold">
-        <nuxt-link
-          :to="{
-            name: `${prefix}-u-id`,
-            params: { id: account },
-          }">
-          <Identity :address="account" />
-        </nuxt-link>
-      </div>
+      <nuxt-link
+        class="has-text-weight-bold"
+        :to="{
+          name: `${prefix}-u-id`,
+          params: { id: account },
+        }">
+        <Identity :address="account" />
+      </nuxt-link>
     </div>
   </div>
 </template>
