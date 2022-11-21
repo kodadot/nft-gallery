@@ -1,0 +1,16 @@
+query collectionsSales($ids: [String!]) {
+  collectionsSales: collectionEntities(where: {id_in: $ids}) {
+    id
+    sales: nfts(where: { events_some: { interaction_eq: BUY }, collection: { id_in: $ids } }) {
+      
+      events(where: { interaction_eq: BUY }) {
+        id,
+        meta
+        caller
+        timestamp
+        blockNumber
+        interaction
+      }
+    }
+  }
+}
