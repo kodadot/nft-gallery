@@ -139,13 +139,24 @@ const sendXCM = async (address: string) => {
   } else if (fromChain.value === Chain.BASILISK) {
     const wsProvider = new WsProvider('wss://rpc.basilisk.cloud')
     const api = await ApiPromise.create({ provider: wsProvider })
-    //API call for XCM transfer from Pichiu to destination Parachain /w injected wallet
-    let promise = xTokens.xTokens.transferParaToRelay(
-      api,
-      Chain.BASILISK,
-      currency.value,
+
+    let promise = api.tx.xTokens.transfer(
+      1,
       amount.value * 1e12,
-      toAddress.value
+      {
+        V1: {
+          parents: 1,
+          interior: {
+            X1: {
+              AccountId32: {
+                id: api.createType('AccountId32', toAddress.value).toHex(),
+                network: 'Any',
+              },
+            },
+          },
+        },
+      },
+      5000000000
     )
 
     promise.signAndSend(
