@@ -68,7 +68,6 @@
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { web3Enable } from '@polkadot/extension-dapp'
 import '@polkadot/api-augment'
-import * as xTokens from '@paraspell/sdk'
 import { toDefaultAddress } from '@/utils/account'
 import { getAddress } from '@/utils/extension'
 import { Chain, ChainIdMap } from '@/utils/teleport'
@@ -124,13 +123,49 @@ const sendXCM = async (address: string) => {
   if (fromChain.value === Chain.KUSAMA) {
     const wsProvider = new WsProvider('wss://public-rpc.pinknode.io/kusama')
     const api = await ApiPromise.create({ provider: wsProvider })
-    //API call for XCM transfer from Acala to destination Parachain /w injected wallet
-    let promise = xTokens.xTokens.transferRelayToPara(
-      api,
-      ChainIdMap[Chain.BASILISK],
-      amount.value * 1e12,
-      toAddress.value
+
+    const promise = api.tx.xcmPallet.reserveTransferAssets(
+      {
+        V1: {
+          parents: 0,
+          interior: {
+            X1: {
+              Parachain: ChainIdMap[Chain.BASILISK],
+            },
+          },
+        },
+      },
+      {
+        V1: {
+          parents: 0,
+          interior: {
+            X1: {
+              AccountId32: {
+                network: 'Any',
+                id: api.createType('AccountId32', toAddress.value).toHex(),
+              },
+            },
+          },
+        },
+      },
+      {
+        V1: [
+          {
+            id: {
+              Concrete: {
+                parents: 0,
+                interior: 'Here',
+              },
+            },
+            fun: {
+              Fungible: amount.value * 1e12,
+            },
+          },
+        ],
+      },
+      0
     )
+
     promise.signAndSend(
       address,
       { signer: injector.signer },
