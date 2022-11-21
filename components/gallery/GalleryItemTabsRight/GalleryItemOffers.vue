@@ -39,8 +39,8 @@ import type { Offer, OfferResponse } from '@/components/bsx/Offer/types'
 import type { CollectionEvents } from '@/components/rmrk/service/scheme'
 
 const { apiUrl } = useApi()
-const { urlPrefix } = usePrefix()
-const { decimals, unit } = useChain()
+const { urlPrefix, tokenId, assets } = usePrefix()
+const { decimals } = useChain()
 
 const dprops = defineProps<{
   collectionId: string
@@ -119,9 +119,9 @@ watch(
 
       offersData.offers.map((offer) => {
         const price = formatPrice(offer.price)
-        // TODO: how to get proper unit on bsx?
-        // on bsx unit.value should be 'KSM' || 'BSX'
-        const token = `${price} ${unit.value}`
+        const { symbol } = assets(tokenId.value)
+
+        const token = `${price} ${symbol}`
         const usd = `$${Math.round(Number(price) * ksmPrice)}`
         const floorDifference = `${getPercentage(price, floorPrice)}%`
 

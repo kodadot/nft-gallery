@@ -13,9 +13,14 @@ export default function () {
 
   const tokenId = computed(() => getKusamaAssetId(urlPrefix.value))
 
+  const assets = (id: string | number) => {
+    return $store.getters['assets/getAssetById'](id)
+  }
+
   return {
     urlPrefix,
     client,
     tokenId,
+    assets,
   }
 }
