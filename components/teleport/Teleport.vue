@@ -74,6 +74,7 @@ import { Chain, ChainIdMap } from '@/utils/teleport'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import useAuth from '@/composables/useAuth'
 import Loader from '@/components/shared/Loader.vue'
+import * as paraspell from '@paraspell/sdk'
 
 const { accountId } = useAuth()
 
@@ -118,87 +119,43 @@ const sendXCM = async (address: string) => {
     }
   }
 
+  const errorHandler = () => {
+    showNotification('Cancelled', notificationTypes.warn)
+    isLoading.value = false
+  }
+
   const injector = await getAddress(toDefaultAddress(address))
 
   if (fromChain.value === Chain.KUSAMA) {
     const wsProvider = new WsProvider('wss://public-rpc.pinknode.io/kusama')
-    const api = await ApiPromise.create({ provider: wsProvider })
+    const apiKusama = await ApiPromise.create({ provider: wsProvider })
 
-    const promise = api.tx.xcmPallet.reserveTransferAssets(
-      {
-        V1: {
-          parents: 0,
-          interior: {
-            X1: {
-              Parachain: ChainIdMap[Chain.BASILISK],
-            },
-          },
-        },
-      },
-      {
-        V1: {
-          parents: 0,
-          interior: {
-            X1: {
-              AccountId32: {
-                network: 'Any',
-                id: api.createType('AccountId32', toAddress.value).toHex(),
-              },
-            },
-          },
-        },
-      },
-      {
-        V1: [
-          {
-            id: {
-              Concrete: {
-                parents: 0,
-                interior: 'Here',
-              },
-            },
-            fun: {
-              Fungible: amount.value * 1e12,
-            },
-          },
-        ],
-      },
-      0
+    const promise = paraspell.xTokens.transferRelayToPara(
+      apiKusama,
+      ChainIdMap[Chain.BASILISK],
+      amount.value * 1e12,
+      toAddress.value
     )
 
-    promise.signAndSend(
-      address,
-      { signer: injector.signer },
-      transactionHandler
-    )
+    promise
+      .signAndSend(address, { signer: injector.signer }, transactionHandler)
+      .catch(errorHandler)
   } else if (fromChain.value === Chain.BASILISK) {
     const wsProvider = new WsProvider('wss://rpc.basilisk.cloud')
-    const api = await ApiPromise.create({ provider: wsProvider })
+    const apiBasilisk = await ApiPromise.create({ provider: wsProvider })
 
-    let promise = api.tx.xTokens.transfer(
+    const promise = paraspell.xTokens.transferParaToRelay(
+      apiBasilisk,
+      Chain.BASILISK,
+      currency.value,
       1,
       amount.value * 1e12,
-      {
-        V1: {
-          parents: 1,
-          interior: {
-            X1: {
-              AccountId32: {
-                id: api.createType('AccountId32', toAddress.value).toHex(),
-                network: 'Any',
-              },
-            },
-          },
-        },
-      },
-      5000000000
+      toAddress.value
     )
 
-    promise.signAndSend(
-      address,
-      { signer: injector.signer },
-      transactionHandler
-    )
+    promise
+      .signAndSend(address, { signer: injector.signer }, transactionHandler)
+      .catch(errorHandler)
   }
 }
 </script>
