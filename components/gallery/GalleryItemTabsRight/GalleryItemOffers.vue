@@ -10,7 +10,9 @@
       <o-table-column v-slot="props" field="id" label="Floor Difference">
         {{ getOffersDetails(props.row.id).floorDifference }}
       </o-table-column>
-      <o-table-column label="Expiration"> 3 Hours </o-table-column>
+      <o-table-column v-slot="props" field="expiration" label="Expiration">
+        {{ expirationTime(props.row.expiration) }}
+      </o-table-column>
       <o-table-column v-slot="props" field="caller" label="From">
         <a
           :href="`/${urlPrefix}/u/${props.row.caller}`"
@@ -20,6 +22,7 @@
         </a>
       </o-table-column>
     </o-table>
+    <div v-else class="has-text-centered">No offers yet</div>
   </div>
 </template>
 
@@ -27,12 +30,15 @@
 import { OTable, OTableColumn } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 
+import { onApiConnect } from '@kodadot1/sub-api'
 import { getKSMUSD } from '@/utils/coingecko'
 import formatBalance from '@/utils/formatBalance'
+import { formatSecondsToDuration } from '@/utils/format/time'
 
 import type { Offer, OfferResponse } from '@/components/bsx/Offer/types'
 import type { CollectionEvents } from '@/components/rmrk/service/scheme'
 
+const { apiUrl } = useApi()
 const { urlPrefix } = usePrefix()
 const { decimals, unit } = useChain()
 
@@ -63,6 +69,7 @@ const { data: dataCollection } = useGraphql({
 
 const offers = ref<Offer[]>()
 const offersAdditionals = ref({})
+const currentBlock = ref(0)
 
 const getOffersDetails = (id) => {
   return offersAdditionals.value[id]
@@ -75,6 +82,23 @@ const formatPrice = (price) => {
 const getPercentage = (numA, numB) => {
   return Math.round(((numA - numB) / numB) * 100)
 }
+
+const expirationTime = (block) => {
+  if (currentBlock.value > block) {
+    return 'Expired'
+  }
+
+  const secondsToBlock = 12 * (block - currentBlock.value)
+
+  return formatSecondsToDuration(secondsToBlock)
+}
+
+onMounted(() => {
+  onApiConnect(apiUrl.value, async (api) => {
+    const block = await api.rpc.chain.getHeader()
+    currentBlock.value = block.number.toNumber()
+  })
+})
 
 watch(
   [
@@ -105,7 +129,6 @@ watch(
           token,
           usd,
           floorDifference,
-          expiration: '3 Hours',
         }
       })
     }
