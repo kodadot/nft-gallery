@@ -3,8 +3,7 @@
     :class="{ 'is-neo': true, active: active }"
     :size="size"
     :icon-right="icon"
-    icon-pack="fas"
-    @click="$emit('click')">
+    icon-pack="fas">
     {{ label }}
   </o-button>
 </template>
