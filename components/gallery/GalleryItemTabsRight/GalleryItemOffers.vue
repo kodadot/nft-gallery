@@ -1,19 +1,34 @@
 <template>
   <div class="py-5">
     <o-table v-if="offers?.length" :data="offers" hoverable>
-      <o-table-column v-slot="props" field="id" label="Price">
+      <!-- token price -->
+      <o-table-column v-slot="props" field="id" :label="$t('offer.price')">
         {{ getOffersDetails(props.row.id).token }}
       </o-table-column>
-      <o-table-column v-slot="props" field="id" label="(USD)">
+
+      <!-- usd price -->
+      <o-table-column v-slot="props" field="id" :label="$t('offer.usdPrice')">
         {{ getOffersDetails(props.row.id).usd }}
       </o-table-column>
-      <o-table-column v-slot="props" field="id" label="Floor Difference">
+
+      <!-- floor difference -->
+      <o-table-column
+        v-slot="props"
+        field="id"
+        :label="$t('offer.floorDifferences')">
         {{ getOffersDetails(props.row.id).floorDifference }}
       </o-table-column>
-      <o-table-column v-slot="props" field="expiration" label="Expiration">
+
+      <!-- expiration -->
+      <o-table-column
+        v-slot="props"
+        field="expiration"
+        :label="$t('offer.expiration')">
         {{ expirationTime(props.row.expiration) }}
       </o-table-column>
-      <o-table-column v-slot="props" field="caller" label="From">
+
+      <!-- caller -->
+      <o-table-column v-slot="props" field="caller" :label="$t('offer.caller')">
         <a
           :href="`/${urlPrefix}/u/${props.row.caller}`"
           target="_blank"
@@ -22,7 +37,7 @@
         </a>
       </o-table-column>
     </o-table>
-    <div v-else class="has-text-centered">No offers yet</div>
+    <div v-else class="has-text-centered">{{ $t('nft.offer.empty') }}</div>
   </div>
 </template>
 

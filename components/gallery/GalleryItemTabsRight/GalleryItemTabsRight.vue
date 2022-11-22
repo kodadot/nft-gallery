@@ -1,6 +1,10 @@
 <template>
   <o-tabs v-model="activeTab" expanded>
-    <o-tab-item v-if="urlPrefix !== 'rmrk'" value="0" label="Offers">
+    <!-- offers -->
+    <o-tab-item
+      v-if="urlPrefix !== 'rmrk'"
+      value="0"
+      :label="$t('tabs.offers')">
       <GalleryItemOffers
         v-if="nft?.collection.id && nft?.id && nft.currentOwner"
         :collection-id="nft?.collection.id"
@@ -8,9 +12,15 @@
         :account="nft?.currentOwner" />
     </o-tab-item>
 
-    <o-tab-item value="1" label="Activity" class="p-5"> Activity </o-tab-item>
+    <!-- activity -->
+    <o-tab-item value="1" :label="$t('tabs.activity')" class="p-5">
+      Activity
+    </o-tab-item>
 
-    <o-tab-item value="2" label="Chart" class="p-5"> Chart </o-tab-item>
+    <!-- chart -->
+    <o-tab-item value="2" :label="$t('tabs.chart')" class="p-5">
+      Chart
+    </o-tab-item>
   </o-tabs>
 </template>
 
