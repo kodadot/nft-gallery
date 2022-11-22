@@ -9,23 +9,36 @@ export const today = new Date()
 export const yesterdayDate: Date = subDays(today, 1)
 export const lastweekDate: Date = subDays(today, 7)
 export const lastmonthDate: Date = subDays(today, 30)
+export const last3monthDate: Date = subDays(today, 90)
 export const sub2dayDate: Date = subDays(today, 2)
 export const last2weekDate: Date = subDays(today, 14)
 export const last2monthDate: Date = subDays(today, 60)
-
+export const last6monthDate: Date = subDays(today, 60)
 export const volume = (buyEvents: Interaction[]) => Number(getVolume(buyEvents))
+
 export const dailyVolume = (buyEvents: Interaction[]) =>
   Number(getVolume(buyEvents.filter(after(yesterdayDate))))
+
 export const weeklyVolume = (buyEvents: Interaction[]) =>
   Number(getVolume(buyEvents.filter(after(lastweekDate))))
+
 export const monthlyVolume = (buyEvents: Interaction[]) =>
   Number(getVolume(buyEvents.filter(after(lastmonthDate))))
+
+export const threeMonthlyVolume = (buyEvents: Interaction[]) =>
+  Number(getVolume(buyEvents.filter(after(last3monthDate))))
+
 export const dailyrangeVolume = (buyEvents: Interaction[]) =>
   Number(getVolume(buyEvents.filter(between(sub2dayDate, yesterdayDate))))
+
 export const weeklyrangeVolume = (buyEvents: Interaction[]) =>
   Number(getVolume(buyEvents.filter(between(last2weekDate, lastweekDate))))
+
 export const monthlyrangeVolume = (buyEvents: Interaction[]) =>
   Number(getVolume(buyEvents.filter(between(last2monthDate, lastmonthDate))))
+
+export const threeMonthRangeVolume = (buyEvents: Interaction[]) =>
+  Number(getVolume(buyEvents.filter(between(last6monthDate, last3monthDate))))
 
 export const nftFn = (a: any): RowSeries => {
   // const metaImage = fetchMetadataImage(a); DO NOT!
