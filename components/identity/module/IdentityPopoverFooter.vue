@@ -45,6 +45,9 @@
 
 <script lang="ts" setup>
 import useIdentityStats from '../utils/useIdentityStats'
+
+import type { NFT } from '@/components/rmrk/service/scheme'
+
 const GalleryCard = defineAsyncComponent(
   () => import('../../rmrk/Gallery/GalleryCard.vue')
 )
@@ -54,8 +57,8 @@ const { totalCollected, totalCreated, totalSold } = useIdentityStats({
   address,
 })
 
-const props = defineProps<{
-  soldItems: any
+defineProps<{
+  soldItems: NFT[]
 }>()
 </script>
 
