@@ -1,11 +1,12 @@
 <template>
   <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
     <!-- properties tab -->
-    <o-tab-item value="0" :label="$t('tabs.properties')" class="py-5">
-      <o-table
-        v-if="nftMetadata?.attributes.length"
-        :data="nftMetadata?.attributes"
-        hoverable>
+    <o-tab-item
+      v-if="nftMetadata?.attributes.length"
+      value="0"
+      :label="$t('tabs.properties')"
+      class="py-5">
+      <o-table :data="nftMetadata?.attributes" hoverable>
         <o-table-column
           v-slot="props"
           field="value"
@@ -101,7 +102,7 @@ const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
 
-const activeTab = ref('0')
+const activeTab = ref('1')
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
 
@@ -115,6 +116,12 @@ watchEffect(async () => {
     metadataMimeType.value =
       response.headers.get('content-type') || 'application/json'
     metadataURL.value = sanitizeMetadata
+  }
+})
+
+watch(nftMetadata, (metadata) => {
+  if (metadata?.attributes.length) {
+    activeTab.value = '0'
   }
 })
 </script>
