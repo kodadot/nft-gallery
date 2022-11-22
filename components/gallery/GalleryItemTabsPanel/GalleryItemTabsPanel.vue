@@ -1,5 +1,5 @@
 <template>
-  <o-tabs v-model="activeTab" expanded>
+  <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
     <!-- offers -->
     <o-tab-item
       v-if="urlPrefix !== 'rmrk'"

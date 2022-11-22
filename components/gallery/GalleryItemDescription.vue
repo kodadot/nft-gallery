@@ -1,5 +1,5 @@
 <template>
-  <o-tabs v-model="activeTab" expanded>
+  <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
     <!-- properties tab -->
     <o-tab-item value="0" :label="$t('tabs.properties')" class="py-5">
       <o-table
@@ -35,8 +35,7 @@
         </a>
       </div>
 
-      <!-- TODO: render with markdown component -->
-      <div>{{ nftMetadata?.description }}</div>
+      <vue-markdown :source="nftMetadata?.description || ''" />
     </o-tab-item>
 
     <!-- details tab -->
@@ -92,6 +91,7 @@
 import { OTabItem, OTable, OTableColumn, OTabs } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import VueMarkdown from 'vue-markdown-render'
 
 import { useGalleryItem } from './useGalleryItem'
 

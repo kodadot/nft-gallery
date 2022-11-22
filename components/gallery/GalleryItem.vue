@@ -58,7 +58,7 @@
       </div>
 
       <div class="column">
-        <GalleryItemTabsRight />
+        <GalleryItemTabsPanel />
       </div>
     </div>
 
@@ -79,7 +79,7 @@ import { useGalleryItem } from './useGalleryItem'
 import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
 import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
-import GalleryItemTabsRight from './GalleryItemTabsRight/GalleryItemTabsRight.vue'
+import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
@@ -95,12 +95,5 @@ const CarouselTypeVisited = defineAsyncComponent(
 <style lang="scss" scoped>
 .gallery-item {
   font-family: 'Work Sans';
-}
-</style>
-
-<style>
-.o-tabs__content {
-  height: 16rem;
-  overflow-y: auto;
 }
 </style>
