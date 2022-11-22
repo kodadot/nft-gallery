@@ -7,6 +7,8 @@ import { emptyObject } from '@/utils/empty'
 import { identityStore } from '@/utils/idbStore'
 import shortAddress from '@/utils/shortAddress'
 
+import type { NFT } from '@/components/rmrk/service/scheme'
+
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
 
@@ -113,10 +115,17 @@ export default function useIdentity({ address, customNameOption }) {
   }
 }
 
-export function useIdentitySoldData({ address }) {
-  const nftEntities = ref({})
+interface NFTListSold {
+  nftEntities?: NFT[]
+  nftEntitiesConnection: {
+    totalCount: number
+  }
+}
 
-  const { data }: any = useGraphql({
+export function useIdentitySoldData({ address }) {
+  const nftEntities = ref<NFT[]>([])
+
+  const { data } = useGraphql({
     queryName: 'nftListSold',
     variables: {
       account: address,
@@ -125,10 +134,11 @@ export function useIdentitySoldData({ address }) {
     },
   })
 
-  const fetchLastBought = () => {
-    nftEntities.value = data.value.nftEntities
-  }
+  watch(data as unknown as NFTListSold, (list) => {
+    if (list.nftEntities?.length) {
+      nftEntities.value = list.nftEntities
+    }
+  })
 
-  watch(data, fetchLastBought)
   return { nftEntities }
 }
