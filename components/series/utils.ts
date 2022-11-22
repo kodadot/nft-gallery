@@ -1,8 +1,31 @@
 import { RowSeries, SimpleSeriesNFT, SortType } from './types'
 // import formatBalance from '@/utils/formatBalance'
 // import * as store from '~/store'
-import { getVolume, pairListBuyEvent, after, between } from '@/utils/math'
-import { subDays, eachDayOfInterval, formatISO } from 'date-fns'
+import { after, between, getVolume, pairListBuyEvent } from '@/utils/math'
+import { eachDayOfInterval, formatISO, subDays } from 'date-fns'
+import { Interaction } from '../rmrk/service/scheme'
+
+export const today = new Date()
+export const yesterdayDate: Date = subDays(today, 1)
+export const lastweekDate: Date = subDays(today, 7)
+export const lastmonthDate: Date = subDays(today, 30)
+export const sub2dayDate: Date = subDays(today, 2)
+export const last2weekDate: Date = subDays(today, 14)
+export const last2monthDate: Date = subDays(today, 60)
+
+export const volume = (buyEvents: Interaction[]) => Number(getVolume(buyEvents))
+export const dailyVolume = (buyEvents: Interaction[]) =>
+  Number(getVolume(buyEvents.filter(after(yesterdayDate))))
+export const weeklyVolume = (buyEvents: Interaction[]) =>
+  Number(getVolume(buyEvents.filter(after(lastweekDate))))
+export const monthlyVolume = (buyEvents: Interaction[]) =>
+  Number(getVolume(buyEvents.filter(after(lastmonthDate))))
+export const dailyrangeVolume = (buyEvents: Interaction[]) =>
+  Number(getVolume(buyEvents.filter(between(sub2dayDate, yesterdayDate))))
+export const weeklyrangeVolume = (buyEvents: Interaction[]) =>
+  Number(getVolume(buyEvents.filter(between(last2weekDate, lastweekDate))))
+export const monthlyrangeVolume = (buyEvents: Interaction[]) =>
+  Number(getVolume(buyEvents.filter(between(last2monthDate, lastmonthDate))))
 
 export const nftFn = (a: any): RowSeries => {
   // const metaImage = fetchMetadataImage(a); DO NOT!
@@ -23,40 +46,25 @@ export const nftFn = (a: any): RowSeries => {
 
   const buyEvents = collectionNfts.map(onlyEvents).map(pairListBuyEvent).flat()
   const buys = buyEvents.length
-  const volume = Number(getVolume(buyEvents))
-  const dailyVolume = Number(getVolume(buyEvents.filter(after(yesterdayDate))))
-  const weeklyVolume = Number(getVolume(buyEvents.filter(after(lastweekDate))))
-  const monthlyVolume = Number(
-    getVolume(buyEvents.filter(after(lastmonthDate)))
-  )
-  const dailyrangeVolume = Number(
-    getVolume(buyEvents.filter(between(sub2dayDate, yesterdayDate)))
-  )
-  const weeklyrangeVolume = Number(
-    getVolume(buyEvents.filter(between(last2weekDate, lastweekDate)))
-  )
-  const monthlyrangeVolume = Number(
-    getVolume(buyEvents.filter(between(last2monthDate, lastmonthDate)))
-  )
 
   return {
     id: a.id,
     name: a.name,
     image: '', // NOPE
     metadata: a.metadata,
-    volume,
+    volume: volume(buyEvents),
     total,
     sold,
     unique,
     buys,
     uniqueCollectors,
     floorPrice,
-    dailyVolume,
-    weeklyVolume,
-    monthlyVolume,
-    dailyrangeVolume,
-    weeklyrangeVolume,
-    monthlyrangeVolume,
+    dailyVolume: dailyVolume(buyEvents),
+    weeklyVolume: weeklyVolume(buyEvents),
+    monthlyVolume: monthlyVolume(buyEvents),
+    dailyrangeVolume: dailyrangeVolume(buyEvents),
+    weeklyrangeVolume: weeklyrangeVolume(buyEvents),
+    monthlyrangeVolume: monthlyrangeVolume(buyEvents),
     rank: sold * (unique / total),
   }
 }
@@ -82,14 +90,6 @@ export const onlyDate = (datetime: Date) =>
 
 export const toSort = (sortBy: SortType): string =>
   `${sortBy.field}_${sortBy.value}`
-
-export const today = new Date()
-const yesterdayDate: Date = subDays(today, 1)
-export const lastweekDate: Date = subDays(today, 7)
-export const lastmonthDate: Date = subDays(today, 30)
-const sub2dayDate: Date = subDays(today, 2)
-const last2weekDate: Date = subDays(today, 14)
-const last2monthDate: Date = subDays(today, 60)
 
 // -> ["202-11-30", ...]
 export function getDateArray(start: Date, end: Date): string[] {

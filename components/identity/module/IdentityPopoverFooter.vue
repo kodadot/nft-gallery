@@ -36,6 +36,7 @@
             :id="nft.id"
             hide-name
             :metadata="nft.metadata"
+            :current-owner="nft.currentOwner"
             :data-cy="soldItems.indexOf(nft)" />
         </div>
       </div>

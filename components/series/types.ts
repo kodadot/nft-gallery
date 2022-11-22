@@ -1,6 +1,8 @@
 import { TranslateResult } from 'vue-i18n'
 import { Interaction } from '../rmrk/service/scheme'
 
+export type TimeRange = 'All' | 'Month' | 'Week' | 'Day'
+
 export type Column = {
   field: keyof RowSeries
   label: string | TranslateResult
