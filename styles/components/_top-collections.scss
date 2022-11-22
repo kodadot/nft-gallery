@@ -41,3 +41,13 @@
 
 }
 
+.has-fixed-width {
+  min-width: 95px;
+}
+
+@include touch {
+  .mobile {
+    flex-direction: column;
+    
+  }
+}
