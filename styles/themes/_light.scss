@@ -2,10 +2,10 @@ html.light-mode {
   background-color: $background-light;
 
   a {
-    color: $primary;
+    color: $text-light-theme;
 
     &:hover {
-      color: $primary-light !important;
+      color: $primary-light;
     }
   }
 
@@ -58,12 +58,16 @@ html.light-mode {
     .navbar-link,
     .button.is-text {
       color: $text-light-theme;
+      &:hover {
+        color: $primary-light;
+
+      }
     }
 
-    button.button.navbar-link-background {
-      color: $text-light-theme;
-      background-color: rgba(229, 229, 229, 0.55);
-    }
+    // button.button.navbar-link-background {
+    //   color: $text-light-theme;
+    //   background-color: rgba(229, 229, 229, 0.55);
+    // }
 
     .navbar-item:hover,
     .navbar-link:hover,
@@ -72,12 +76,15 @@ html.light-mode {
       background-color: inherit;
     }
 
-    .navbar-dropdown a.navbar-item {
-      &:hover,
-      &:focus {
-        background-color: $primary;
-      }
-    }
+    // .navbar-dropdown a.navbar-item {
+
+    //   &:hover,
+    //   &:focus {
+    //     background-color: $primary;
+    //   }
+    // }
+
+
 
     .navbar-item.has-dropdown:focus .navbar-link,
     .navbar-item.has-dropdown:hover .navbar-link,
@@ -91,9 +98,18 @@ html.light-mode {
       background-color: $white;
       box-shadow: rgba(229, 229, 229, 0.55) !important;
     }
+    .navbar-dropdown a.navbar-item,
+    .dropdown-item:not(.is-active)  {
+      color: $text-light-theme
+    }
 
-    .dropdown .dropdown-menu .has-link a {
-      color: $text-light-theme;
+    &__sign-out-button {
+      color: $black;
+      background-color: $white !important;
+
+      &:hover {
+        background-color: $k-accentlight !important;
+      }
     }
   }
 
@@ -109,13 +125,7 @@ html.light-mode {
     }
   }
 
-  .navbar__sign-out-button {
-    color: $black;
-    background-color: $white!important;
-    &:hover {
-      background-color: $k-accentlight !important;
-    }
-  }
+
 
   .homepage .tile .box {
     border-color: #f3f3f3;
@@ -133,10 +143,10 @@ html.light-mode {
     }
   }
 
-   .tabs li:not(.is-active) a,
-  .pagination-previous,
-  .pagination-next,
-  .pagination-link,
+  //  .tabs li:not(.is-active) a,
+  // .pagination-previous,
+  // .pagination-next,
+  // .pagination-link,
   body .title:not(h2),
   .auth-avatar .subtitle,
   .royalty {
@@ -274,7 +284,7 @@ html.light-mode {
     }
   }
 
-  .b-table .table .chevron-cell > a {
+  .b-table .table .chevron-cell>a {
     color: $primary !important;
   }
 
@@ -302,14 +312,17 @@ html.light-mode {
       .control .icon {
         color: $dark;
       }
+
       .media-content {
         color: $k-grey;
       }
+
       input {
         border: 1px solid #000;
         background-color: #fff;
       }
     }
+
     .search-bar-bg {
       background-color: #000;
     }
