@@ -20222,3 +20222,8 @@ packages:
       compress-commons: 4.1.1
       readable-stream: 3.6.0
     dev: true
+
+patchedDependencies:
+  vuex@3.6.2:
+    hash: qqzk7obvwc5jewi4v4e35d3zci
+    path: patches/vuex@3.6.2.patch
