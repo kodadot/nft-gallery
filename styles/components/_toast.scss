@@ -1,8 +1,22 @@
+.notices.is-top {
+  top: 4.2rem;
+}
+
 .toast {
-	&.is-neo {
-		border-radius: 0;
-		border: 1px solid hsl(0deg, 0%, 4%);
-		box-shadow: 4px 4px hsl(0deg, 0%, 4%);
-		-webkit-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
-	}
+  &.is-neo {
+    opacity: 1;
+    font-size: 12px;
+    border-radius: 0;
+    border: 1px solid hsl(0deg, 0%, 4%);
+    box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+    -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+  }
+}
+
+.dark-mode .toast.is-neo {
+  color: hsl(0deg, 0%, 100%);
+  background: #181717;
+  border: 1px solid hsl(0deg, 0%, 100%);
+  -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+  box-shadow: 4px 4px hsl(0deg, 0%, 100%);
 }
