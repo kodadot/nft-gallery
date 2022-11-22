@@ -13,4 +13,5 @@ import CarouselIndex from './CarouselIndex.vue'
 import useCarouselSpotlight from './utils/useCarouselSpotlight'
 
 const { collections: spotlight } = useCarouselSpotlight()
+console.log(spotlight)
 </script>
