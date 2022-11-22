@@ -8,25 +8,25 @@
             <NeoButton
               :active="state.timeRange == 'Week'"
               label="7 Days"
-              @click="setTimeRange('Week')" />
+              @click.native="setTimeRange('Week')" />
           </p>
           <p class="control fixedWidth">
             <NeoButton
               :active="state.timeRange == 'Month'"
               label="30 Days"
-              @click="setTimeRange('Month')" />
+              @click.native="setTimeRange('Month')" />
           </p>
           <p class="control fixedWidth">
             <NeoButton
               :active="state.timeRange == '3Month'"
               label="90 Days"
-              @click="setTimeRange('3Month')" />
+              @click.native="setTimeRange('3Month')" />
           </p>
           <p class="control fixedWidth">
             <NeoButton
               :active="state.timeRange == 'All'"
               label="All"
-              @click="setTimeRange('All')" />
+              @click.native="setTimeRange('All')" />
           </p>
         </b-field>
       </div>
