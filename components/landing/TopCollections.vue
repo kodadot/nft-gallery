@@ -191,6 +191,6 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
 
 <style lang="scss" scoped>
 .fixedWidth > .is-neo {
-  min-width: 105px;
+  width: 108px;
 }
 </style>
