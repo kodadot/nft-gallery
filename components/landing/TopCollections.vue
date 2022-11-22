@@ -1,33 +1,35 @@
 <template>
   <div>
-    <div class="is-flex is-justify-content-space-between">
+    <div class="is-flex is-justify-content-space-between mobile">
       <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
-      <b-field>
-        <p class="control fixedWidth">
-          <NeoButton
-            :active="state.timeRange == 'Week'"
-            label="7 Days"
-            @click="setTimeRange('Week')" />
-        </p>
-        <p class="control fixedWidth">
-          <NeoButton
-            :active="state.timeRange == 'Month'"
-            label="30 Days"
-            @click="setTimeRange('Month')" />
-        </p>
-        <p class="control fixedWidth">
-          <NeoButton
-            :active="state.timeRange == '3Month'"
-            label="90 Days"
-            @click="setTimeRange('3Month')" />
-        </p>
-        <p class="control fixedWidth">
-          <NeoButton
-            :active="state.timeRange == 'All'"
-            label="All"
-            @click="setTimeRange('All')" />
-        </p>
-      </b-field>
+      <div class="is-flex">
+        <b-field>
+          <p class="control fixedWidth">
+            <NeoButton
+              :active="state.timeRange == 'Week'"
+              label="7 Days"
+              @click="setTimeRange('Week')" />
+          </p>
+          <p class="control fixedWidth">
+            <NeoButton
+              :active="state.timeRange == 'Month'"
+              label="30 Days"
+              @click="setTimeRange('Month')" />
+          </p>
+          <p class="control fixedWidth">
+            <NeoButton
+              :active="state.timeRange == '3Month'"
+              label="90 Days"
+              @click="setTimeRange('3Month')" />
+          </p>
+          <p class="control fixedWidth">
+            <NeoButton
+              :active="state.timeRange == 'All'"
+              label="All"
+              @click="setTimeRange('All')" />
+          </p>
+        </b-field>
+      </div>
       <div></div>
     </div>
 
@@ -116,7 +118,7 @@ const components = {
 export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
   public data: RowSeries[] = []
   public limit = 12
-  public state = reactive({ timeRange: 'Month' })
+  public state = reactive({ timeRange: 'All' })
   public setTimeRange = (timeRange: TimeRange) => {
     this.state.timeRange = timeRange
   }
@@ -191,6 +193,13 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
 
 <style lang="scss" scoped>
 .fixedWidth > .is-neo {
-  width: 108px;
+  min-width: 95px;
+}
+
+@media (max-width: 848px) {
+  .mobile {
+    flex-direction: column;
+    margin-bottom: 32px;
+  }
 }
 </style>
