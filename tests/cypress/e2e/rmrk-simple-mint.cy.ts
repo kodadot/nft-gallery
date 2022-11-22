@@ -7,7 +7,7 @@ describe('simple mint in rmrk', () => {
     cy.waitForNetworkIdle('POST', '*', 1000)
   })
 
-  it('should able to simple mint', function () {
+  it('should able to simple mint', () => {
     // mint page
     cy.get('[data-cy="create-dropdown"]').click()
     cy.get('[data-cy="simple"]').click()
