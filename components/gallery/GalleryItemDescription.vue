@@ -35,7 +35,9 @@
         </a>
       </div>
 
-      <vue-markdown :source="nftMetadata?.description || ''" />
+      <vue-markdown
+        :source="nftMetadata?.description?.replaceAll('\n', '  \n') || ''"
+        :style="{ wordBreak: 'break-word' }" />
     </o-tab-item>
 
     <!-- details tab -->
