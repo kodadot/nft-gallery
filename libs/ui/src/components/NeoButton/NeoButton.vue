@@ -1,5 +1,10 @@
 <template>
-  <o-button class="is-neo" :size="size" :icon-right="icon" icon-pack="fas">
+  <o-button
+    class="is-neo"
+    :size="size"
+    :icon-right="icon"
+    icon-pack="fas"
+    @click="$emit('click')">
     {{ label }}
   </o-button>
 </template>
