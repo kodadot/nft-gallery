@@ -76,8 +76,8 @@
     "@oruga-ui/oruga": "^0.5.9",
     "@polkadot/extension-dapp": "^0.44.6",
     "@polkadot/extension-inject": "^0.44.6",
-    "@polkadot/ui-keyring": "2.9.13",
-    "@polkadot/vue-identicon": "^2.9.13",
+    "@polkadot/ui-keyring": "2.9.10",
+    "@polkadot/vue-identicon": "^2.9.10",
     "@ramp-network/ramp-instant-sdk": "^3.2.3",
     "apollo-boost": "^0.4.9",
     "axios": "^0.27.2",
@@ -168,8 +168,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@polkadot/api": "^9.9.1",
-      "@polkadot/util": "^10.1.13",
+      "@polkadot/util": "^10.1.9",
       "vue-server-renderer": "2.7.14",
       "vue-template-compiler": "2.7.14"
     },
