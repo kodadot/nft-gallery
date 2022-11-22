@@ -33,7 +33,7 @@ const { nft } = useGalleryItem()
 
 const { urlPrefix } = usePrefix()
 const activeTab = ref('0')
-const priceChartData = ref<[Date, number][][]>()
+const priceChartData = ref<[Date, number][][]>([])
 onMounted(() => {
   if (urlPrefix.value === 'rmrk') {
     activeTab.value = '1'
