@@ -98,28 +98,33 @@ html.light-mode {
       background-color: $white;
       box-shadow: rgba(229, 229, 229, 0.55) !important;
     }
-    .navbar-dropdown a.navbar-item {
+    .navbar-dropdown a.navbar-item,
+    .dropdown-item:not(.is-active)  {
       color: $text-light-theme
-    }
-
-    .dropdown {
-      .dropdown-menu, .dropdown-content{
-        background-color: $white;
-          .dropdown-item:not(.is-active) {
-          color: $text-light-theme
-        }
-      }
-
     }
 
     &__sign-out-button {
       color: $black;
       background-color: $white !important;
+
       &:hover {
         background-color: $k-accentlight !important;
       }
     }
   }
+
+  .dropdown-content {
+    color: $text-light-theme;
+    background-color: $white;
+    box-shadow: $primary-shadow;
+    border-radius: 0;
+    border: 1px solid $black;
+
+    .dropdown-item:not(.is-active) {
+      color: $text-light-theme;
+    }
+  }
+
 
 
   .homepage .tile .box {
@@ -142,11 +147,11 @@ html.light-mode {
   // .pagination-previous,
   // .pagination-next,
   // .pagination-link,
-  // body .title:not(h2),
-  //  .auth-avatar .subtitle,
-  // .royalty {
-  //   color: $text-light-theme;
-  // }
+  body .title:not(h2),
+  .auth-avatar .subtitle,
+  .royalty {
+    color: $text-light-theme;
+  }
 
 
   .level .title,
