@@ -25,11 +25,12 @@
       </b-select>
     </b-field>
 
-    <b-field
-      class=""
-      label-position="inside"
-      :label="`Input recipient address (${toChain})`">
-      <b-input v-model="toAddress" expanded required></b-input>
+    <b-field class="" label-position="inside">
+      <AddressInput
+        v-model="toAddress"
+        :strict="false"
+        :label="`Input recipient address (${toChain})`"
+        required />
     </b-field>
 
     <b-field class="" label-position="inside" label="Select currency">
@@ -44,22 +45,17 @@
       </b-select>
     </b-field>
 
-    <b-field class="" label-position="inside" label="Input currency amount">
-      <b-input
+    <b-field class="" label-position="inside" label="">
+      <TokenBalanceInput
+        key="token-price"
         v-model="amount"
-        expanded
-        type="number"
-        :min="0.0001"
-        :step="0.0001"></b-input>
+        token-id="1"
+        class="mb-3" />
     </b-field>
 
-    <b-button
-      class="button"
-      expanded
-      type="is-primary"
+    <SubmitButton
       label="Send transaction"
-      pack="fas"
-      icon-right="file-import"
+      :loading="isLoading"
       @click="sendXCM(accountId)" />
   </section>
 </template>
@@ -75,6 +71,10 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import useAuth from '@/composables/useAuth'
 import Loader from '@/components/shared/Loader.vue'
 import * as paraspell from '@paraspell/sdk'
+import AddressInput from '@/components/shared/AddressInput.vue'
+import TokenBalanceInput from '@/components/bsx/input/TokenBalanceInput.vue'
+import SubmitButton from '@/components/base/SubmitButton.vue'
+import { txCb } from '@/utils/transactionExecutor'
 
 const { accountId } = useAuth()
 
@@ -102,22 +102,29 @@ const sendXCM = async (address: string) => {
   await web3Enable('Kodadot')
   let isFirstStatus = true
   isLoading.value = true
-  const transactionHandler = ({ status, txHash }) => {
-    if (isFirstStatus) {
+
+  const transactionHandler = txCb(
+    (blockHash) => {
       showNotification(
-        `Transaction hash is ${txHash.toHex()}`,
-        notificationTypes.info
-      )
-      isFirstStatus = false
-    }
-    if (status.isFinalized) {
-      showNotification(
-        `Transaction finalized at blockHash ${status.asFinalized}`,
+        `Transaction finalized at blockHash ${blockHash}`,
         notificationTypes.success
       )
       resetStatus()
+    },
+    (dispatchError) => {
+      showNotification(dispatchError.toString(), notificationTypes.danger)
+      isLoading.value = false
+    },
+    ({ txHash }) => {
+      if (isFirstStatus) {
+        showNotification(
+          `Transaction hash is ${txHash.toHex()}`,
+          notificationTypes.info
+        )
+        isFirstStatus = false
+      }
     }
-  }
+  )
 
   const errorHandler = () => {
     showNotification('Cancelled', notificationTypes.warn)
@@ -133,7 +140,7 @@ const sendXCM = async (address: string) => {
     const promise = paraspell.xTokens.transferRelayToPara(
       apiKusama,
       ChainIdMap[Chain.BASILISK],
-      amount.value * 1e12,
+      amount.value,
       toAddress.value
     )
 
@@ -149,7 +156,7 @@ const sendXCM = async (address: string) => {
       Chain.BASILISK,
       currency.value,
       1,
-      amount.value * 1e12,
+      amount.value,
       toAddress.value
     )
 
