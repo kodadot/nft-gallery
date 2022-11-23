@@ -31,7 +31,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
       type: 'profile',
       description: 'Discover new artists based on ranking',
       url: '/series-insight',
-      image: `${this.$config.baseUrl}/k_card_series.png`,
+      image: `${this.$config.baseUrl}/k_card.png`,
     }
     return {
       title,
