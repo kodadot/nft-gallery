@@ -127,6 +127,11 @@ export default class Search extends mixins(
     this.initKeyboardEventHandler({
       f: this.bindFilterEvents,
     })
+    if (!this.name && this.$route.query.search) {
+      this.name = Array.isArray(this.$route.query.search)
+        ? ''
+        : this.$route.query.search
+    }
   }
 
   public mounted(): void {
