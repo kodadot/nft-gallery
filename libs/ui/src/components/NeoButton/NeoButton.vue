@@ -51,7 +51,7 @@ defineProps<{
   box-shadow: 4px 4px hsl(0deg, 0%, 100%);
 
   &:hover {
-    background: #ff47ac;
+    background: #ff7ac3;
     color: hsl(0deg, 0%, 4%);
   }
   &.active {
