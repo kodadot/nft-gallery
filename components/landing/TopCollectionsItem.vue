@@ -37,7 +37,7 @@
               <CommonTokenMoney :value="volume" inline />
             </div>
             <div class="nowrap">
-              <CommonTokenMoney :value="usdValue" inline :unit="'USD'" />
+              <BasicMoney :value="usdValue" inline :unit="'USD'" />
             </div>
           </div>
           <div
