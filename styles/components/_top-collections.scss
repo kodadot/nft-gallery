@@ -45,9 +45,15 @@
   min-width: 98px;
 }
 
-@include touch {
+@include mobile {
   .mobile {
     flex-direction: column;
     
+  }
+  .has-fixed-width {
+    width: 100%;
+    min-width: 70px;
+
+
   }
 }

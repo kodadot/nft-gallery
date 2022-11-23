@@ -2,37 +2,36 @@
   <div>
     <div class="is-flex is-justify-content-space-between mobile">
       <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
-      <div class="is-flex buttons">
-        <b-field>
-          <p class="control">
-            <NeoButton
-              class="has-fixed-width"
-              :active="state.timeRange == 'Week'"
-              label="7 Days"
-              @click.native="setTimeRange('Week')" />
-          </p>
-          <p class="control">
-            <NeoButton
-              class="has-fixed-width"
-              :active="state.timeRange == 'Month'"
-              label="30 Days"
-              @click.native="setTimeRange('Month')" />
-          </p>
-          <p class="control">
-            <NeoButton
-              class="has-fixed-width"
-              :active="state.timeRange == '3Month'"
-              label="90 Days"
-              @click.native="setTimeRange('3Month')" />
-          </p>
-          <p class="control">
-            <NeoButton
-              class="has-fixed-width"
-              :active="state.timeRange == 'All'"
-              label="All"
-              @click.native="setTimeRange('All')" />
-          </p>
-        </b-field>
+      <div
+        class="is-flex buttons is-flex-wrap-nowrap is-align-items-flex-start pt-2">
+        <div class="control column p-0">
+          <NeoButton
+            class="has-fixed-width"
+            :active="state.timeRange == 'Week'"
+            label="7 Days"
+            @click.native="setTimeRange('Week')" />
+        </div>
+        <div class="control column p-0">
+          <NeoButton
+            class="has-fixed-width"
+            :active="state.timeRange == 'Month'"
+            label="30 Days"
+            @click.native="setTimeRange('Month')" />
+        </div>
+        <div class="control column p-0">
+          <NeoButton
+            class="has-fixed-width"
+            :active="state.timeRange == '3Month'"
+            label="90 Days"
+            @click.native="setTimeRange('3Month')" />
+        </div>
+        <div class="control column p-0">
+          <NeoButton
+            class="has-fixed-width"
+            :active="state.timeRange == 'All'"
+            label="All"
+            @click.native="setTimeRange('All')" />
+        </div>
       </div>
       <div></div>
     </div>
