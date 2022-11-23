@@ -42,7 +42,8 @@
           </div>
           <div
             v-if="diffPercentString"
-            class="is-flex is-justify-content-center is-align-items-center pl-2 is-size-6" :class="color">
+            class="is-flex is-justify-content-center is-align-items-center pl-2 is-size-6"
+            :class="color">
             {{ diffPercentString }}
           </div>
         </div>
