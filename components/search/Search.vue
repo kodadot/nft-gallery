@@ -81,6 +81,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import ChainMixin from '~/utils/mixins/chainMixin'
+import { isEmpty } from 'cypress/types/lodash'
 
 @Component({
   components: {
@@ -238,7 +239,7 @@ export default class Search extends mixins(
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
-    if (value !== this.searchQuery) {
+    if (!value != !this.$route.query.search && value !== this.searchQuery) {
       this.replaceUrl({ search: value ?? undefined }, this.$route.path)
     }
     return value
@@ -284,7 +285,7 @@ export default class Search extends mixins(
           ...queryCondition,
         },
       })
-      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
+      .catch(this.$consola.warn)
     // if searchbar request or filter is set, pagination should always revert to page 1
     this.$emit('resetPage')
   }
