@@ -36,4 +36,27 @@
       box-shadow: 4px 4px 0 0 $white;
     }
   }
+
+
+
+}
+
+.has-fixed-width {
+  min-width: 98px;
+}
+
+
+
+
+@include mobile {
+  .mobile {
+    flex-direction: column;
+    
+  }
+  .has-fixed-width {
+    width: 100%;
+    min-width: 70px;
+
+
+  }
 }

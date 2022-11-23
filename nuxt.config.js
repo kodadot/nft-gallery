@@ -70,7 +70,7 @@ export default defineNuxtConfig({
       {
         hid: 'og:image',
         property: 'og:image',
-        content: `${baseUrl}/kodadot_card_root.png`,
+        content: `${baseUrl}/k_card.png`,
       },
       { hid: 'twitter:url', name: 'twitter:url', content: baseUrl },
       {
@@ -86,7 +86,7 @@ export default defineNuxtConfig({
       {
         hid: 'twitter:image',
         name: 'twitter:image',
-        content: `${baseUrl}/kodadot_card_root.png`,
+        content: `${baseUrl}/k_card.png`,
       },
     ],
     link: [

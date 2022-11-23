@@ -1,5 +1,5 @@
-import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
-import { isToday, isYesterday, isThisWeek, isThisMonth } from 'date-fns'
+import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
+import { isThisMonth, isThisWeek, isToday, isYesterday } from 'date-fns'
 
 export interface HistoryItem {
   id: string
