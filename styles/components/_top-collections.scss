@@ -37,51 +37,26 @@
     }
   }
 
-  .timeFilters {
-    button {
-      color: $white !important;
-      background-color: $black !important;
-      border: 1px solid $white;
-      border-color: $white !important;
 
-      &:hover {
-        background-color: $k-accent !important;
-      }
-
-      &.active {
-        color: $black !important;
-        background-color: $white !important;
-
-      }
-    }
-  }
 
 }
 
-.timeFilters {
-  button {
-    text-transform: capitalize;
-    color: $black !important;
-    background-color: $white !important;
-    border-radius: 0px;
-    border: 1px solid $black;
-    border-color: $black !important;
-    box-shadow: $primary-shadow !important;
-
-    &:not(:first-of-type) {
-      border-left: 0;
-    }
+.has-fixed-width {
+  min-width: 98px;
+}
 
 
 
-    &:hover {
-      background-color: $k-accentlight !important;
-    }
 
-    &.active {
-      color: $white !important;
-      background-color: $black !important;
+@include mobile {
+  .mobile {
+    flex-direction: column;
+    
+  }
+  .has-fixed-width {
+    width: 100%;
+    min-width: 70px;
 
-    }
+
   }
 }

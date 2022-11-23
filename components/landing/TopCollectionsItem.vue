@@ -82,12 +82,12 @@ const volume = computed(() => {
   switch (timeRange.value) {
     case 'All':
       return Number(props.collection.volume)
+    case '3Month':
+      return Number(props.collection.threeMonthVolume)
     case 'Month':
       return Number(props.collection.monthlyVolume)
     case 'Week':
       return Number(props.collection.weeklyVolume)
-    case 'Day':
-      return Number(props.collection.dailyVolume)
   }
 })
 
@@ -95,12 +95,12 @@ const previousVolume = computed(() => {
   switch (timeRange.value) {
     case 'All':
       return 0
+    case '3Month':
+      return Number(props.collection.threeMonthlyrangeVolume)
     case 'Month':
       return Number(props.collection.monthlyrangeVolume)
     case 'Week':
       return Number(props.collection.weeklyrangeVolume)
-    case 'Day':
-      return Number(props.collection.dailyrangeVolume)
   }
 })
 
