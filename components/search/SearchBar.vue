@@ -32,6 +32,8 @@
     <img
       v-if="name || inputFocused"
       class="search-bar-keyboard-icon"
+      width="35"
+      height="23"
       src="/k-search-enter.svg" />
   </div>
 </template>
