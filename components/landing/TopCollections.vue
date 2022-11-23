@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <div v-if="$fetchState.pending" class="top-collections-grid">
+    <div v-if="loading" class="top-collections-grid">
       <div
         v-for="index in limit"
         :key="index"
@@ -81,108 +81,140 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
-import AuthMixin from '@/utils/mixins/authMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import topCollectionList from '@/queries/rmrk/subsquid/topCollectionList.graphql'
-import collectionsSales from '@/queries/collectionsSales.graphql'
-import { RowSeries } from '@/components/series/types'
 import {
   calculateAvgPrice,
-  dailyVolume,
-  dailyrangeVolume,
   monthlyVolume,
   monthlyrangeVolume,
+  // threeMonthRangeVolume,
+  // threeMonthlyVolume,
   volume,
   weeklyVolume,
   weeklyrangeVolume,
 } from '@/components/series/utils'
 import { TimeRange } from '@/components/series/types'
-import { Collection } from '../rmrk/service/scheme'
+import { Collection, Interaction } from '../rmrk/service/scheme'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+import { Ref, ref } from 'vue'
+import { CollectionEntity } from '@/components/landing/types'
+import { CollectionEntityWithVolumes } from '@/components/landing/types'
 
-const components = {
-  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  TopCollectionsItem: () =>
-    import('@/components/landing/TopCollectionsItem.vue'),
+const { urlPrefix } = usePrefix()
+const { $store, $consola } = useNuxtApp()
+
+type FetchCollectionsSeriesResult = {
+  collectionEntities: CollectionEntity[]
+}
+type CollectionSales = {
+  id: string
+  sales: {
+    events: Interaction[]
+  }[]
 }
 
-@Component<TopCollections>({
-  components,
+type FetchCollectionsSalesResult = {
+  collectionsSales: CollectionSales[]
+}
+
+let data: Ref<CollectionEntityWithVolumes[]> = ref([])
+let loading = ref(true)
+const limit = 12
+const state = reactive({ timeRange: 'All' })
+let fetchCollectionsSeriesResult: Ref<FetchCollectionsSeriesResult | null> =
+  ref(null)
+let fetchCollectionsSalesResult: Ref<FetchCollectionsSalesResult | null> =
+  ref(null)
+
+const setTimeRange = (timeRange: TimeRange) => {
+  state.timeRange = timeRange
+}
+
+onMounted(() => {
+  if ($store.getters['getCurrentKSMValue']) {
+    $store.dispatch('fiat/fetchFiatPrice')
+  }
+  fetchCollectionsSeries()
 })
-export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
-  public data: RowSeries[] = []
-  public limit = 12
-  public state = reactive({ timeRange: 'Month' })
-  public setTimeRange = (timeRange: TimeRange) => {
-    this.state.timeRange = timeRange
+
+function fetchCollectionsSeries(sort = 'volume_DESC') {
+  const { data, error } = useGraphql({
+    queryPrefix: 'subsquid',
+    queryName: 'topCollectionList',
+    variables: {
+      orderBy: sort,
+      limit: limit,
+    },
+  })
+  if (error.value) {
+    loading.value = false
+    return
+  }
+  fetchCollectionsSeriesResult.value =
+    data as unknown as FetchCollectionsSeriesResult
+}
+function fetchCollectionsSales(ids: string[]) {
+  if (ids.length === 0) {
+    loading.value = false
+    return
   }
 
-  async fetch() {
-    if (!this.$store.getters['getCurrentKSMValue']) {
-      this.$store.dispatch('fiat/fetchFiatPrice')
+  const { data, error } = useGraphql({
+    queryPrefix: 'rmrk',
+    queryName: 'collectionsSales',
+    variables: {
+      ids: ids,
+    },
+  })
+  if (error.value) {
+    loading.value = false
+    return
+  }
+  fetchCollectionsSalesResult.value =
+    data as unknown as FetchCollectionsSalesResult
+}
+
+watch(fetchCollectionsSeriesResult, () => {
+  if (fetchCollectionsSeriesResult.value) {
+    const collectionEntities =
+      fetchCollectionsSeriesResult.value.collectionEntities
+    const collectionIds = collectionEntities.map((c) => c.id)
+    fetchCollectionsSales(collectionIds)
+  }
+})
+
+watch(fetchCollectionsSalesResult, () => {
+  if (fetchCollectionsSalesResult.value && fetchCollectionsSeriesResult.value) {
+    const collectionsSales = fetchCollectionsSalesResult.value.collectionsSales
+    const collectionEntities =
+      fetchCollectionsSeriesResult.value.collectionEntities
+    proccessData(collectionEntities, collectionsSales)
+  }
+})
+
+function proccessData(
+  collectionEntities: CollectionEntity[],
+  collectionsSales: CollectionSales[]
+) {
+  data.value = collectionEntities.map((e): CollectionEntityWithVolumes => {
+    const thisCollectionSales = collectionsSales.find(
+      ({ id }) => id === e.id
+    ) as CollectionSales
+    const saleEvents = thisCollectionSales.sales.map((nft) => nft.events).flat()
+
+    return {
+      ...e,
+      image: sanitizeIpfsUrl(e.image),
+      averagePrice: calculateAvgPrice(e.volume as string, e.buys),
+      volume: volume(saleEvents),
+      weeklyVolume: weeklyVolume(saleEvents),
+      monthlyVolume: monthlyVolume(saleEvents),
+      // threeMonthVolume: threeMonthlyVolume(saleEvents),
+      weeklyrangeVolume: weeklyrangeVolume(saleEvents),
+      monthlyrangeVolume: monthlyrangeVolume(saleEvents),
+      // threeMonthlyrangeVolume: threeMonthRangeVolume(saleEvents),
     }
-    await this.fetchCollectionsSeries()
-  }
-
-  public async fetchCollectionsSeries(sort = 'volume_DESC') {
-    const collections = await this.$apollo.query({
-      query: topCollectionList,
-      client: this.client,
-      variables: {
-        orderBy: sort,
-        limit: this.limit,
-      },
-    })
-
-    const {
-      data: { collectionEntities },
-    } = collections
-
-    // fetch collections sales
-    const ids = collectionEntities.map((c: Collection) => c.id)
-    const { collectionsSales } = await this.fetchCollectionsSales(ids)
-
-    this.data = collectionEntities.map((e): RowSeries => {
-      const saleEvents = collectionsSales
-        .find(({ id }) => id === e.id)
-        .sales.map((nft) => nft.events)
-        .flat()
-
-      return {
-        ...e,
-        image: sanitizeIpfsUrl(e.image),
-        averagePrice: calculateAvgPrice(e.volume as string, e.buys),
-        volume: volume(saleEvents),
-        dailyVolume: dailyVolume(saleEvents),
-        weeklyVolume: weeklyVolume(saleEvents),
-        monthlyVolume: monthlyVolume(saleEvents),
-        dailyrangeVolume: dailyrangeVolume(saleEvents),
-        weeklyrangeVolume: weeklyrangeVolume(saleEvents),
-        monthlyrangeVolume: monthlyrangeVolume(saleEvents),
-      }
-    })
-  }
-
-  protected async fetchCollectionsSales(ids: string[]) {
-    if (ids.length === 0) {
-      return []
-    }
-    try {
-      // const today = new Date()
-      const { data } = await this.$apollo.query({
-        query: collectionsSales,
-        client: this.client,
-        variables: {
-          ids: ids,
-        },
-      })
-      return data
-    } catch (e) {
-      this.$consola.error(e)
-      return []
-    }
-  }
+  })
+  loading.value = false
 }
 </script>
