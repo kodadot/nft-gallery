@@ -29,6 +29,9 @@ defineProps<{
   border: 1px solid hsl(0deg, 0%, 4%);
   -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
   box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+  font-family: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
 
   &:hover {
     background: #ffe5f3;
