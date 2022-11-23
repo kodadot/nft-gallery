@@ -178,13 +178,15 @@ const getPriceChartData = () => {
     }
   }
 }
-
 watch(
   () => props.priceChartData,
   () => {
     getPriceChartData()
   }
 )
+watch([isDarkMode], () => {
+  getPriceChartData()
+})
 
 const onWindowResize = () => {
   Chart?.resize()
