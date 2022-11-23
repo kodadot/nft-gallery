@@ -24,13 +24,15 @@
           :href="`/${urlPrefix}/u/${nft?.issuer}`"
           target="_blank"
           rel="noopener noreferrer"
-          class="has-text-weight-bold">
+          class="has-text-weight-bold has-text-link">
           <Identity ref="identity" :address="nft?.issuer" />
         </a>
       </div>
 
-      <!-- TODO: render with markdown component -->
-      <div>{{ nftMetadata?.description }}</div>
+      <div v-if="nftMetadata?.description">
+        <VueMarkdown
+          :source="nftMetadata?.description.replaceAll('\n', '  \n')" />
+      </div>
     </o-tab-item>
 
     <!-- details tab -->
@@ -40,13 +42,13 @@
         <p>--</p>
       </div> -->
       <div class="is-flex is-justify-content-space-between">
-        <p>Creator</p>
+        <p>{{ $t('creator') }}</p>
         <a
           v-if="nft?.issuer"
           :href="`/${urlPrefix}/u/${nft?.issuer}`"
           target="_blank"
           rel="noopener noreferrer"
-          class="has-text-weight-bold">
+          class="has-text-weight-bold has-text-link">
           <Identity ref="identity" :address="nft?.issuer" />
         </a>
       </div>
@@ -67,6 +69,7 @@
         <p>Media</p>
         <a
           :href="nftAnimation || nftImage"
+          class="has-text-link"
           target="_blank"
           rel="noopener noreferrer"
           >{{ nftMimeType }}</a
@@ -74,9 +77,13 @@
       </div>
       <div class="is-flex is-justify-content-space-between">
         <p>Metadata</p>
-        <a :href="metadataURL" target="_blank" rel="noopener noreferrer">{{
-          metadataMimeType
-        }}</a>
+        <a
+          :href="metadataURL"
+          class="has-text-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          >{{ metadataMimeType }}</a
+        >
       </div>
     </o-tab-item>
   </o-tabs>
@@ -88,6 +95,7 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 
 import { useGalleryItem } from './useGalleryItem'
+import VueMarkdown from 'vue-markdown-render'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
