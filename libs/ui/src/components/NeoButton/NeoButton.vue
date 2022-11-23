@@ -52,6 +52,7 @@ defineProps<{
 
   &:hover {
     background: #ff47ac;
+    color: hsl(0deg, 0%, 4%);
   }
   &.active {
     color: hsl(0deg, 0%, 4%);
