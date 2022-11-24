@@ -216,10 +216,10 @@ function proccessData(
       volume: volume(saleEvents),
       weeklyVolume: weeklyVolume(saleEvents),
       monthlyVolume: monthlyVolume(saleEvents),
-      // threeMonthVolume: threeMonthlyVolume(saleEvents),
+      threeMonthVolume: threeMonthlyVolume(saleEvents),
       weeklyrangeVolume: weeklyrangeVolume(saleEvents),
       monthlyrangeVolume: monthlyrangeVolume(saleEvents),
-      // threeMonthlyrangeVolume: threeMonthRangeVolume(saleEvents),
+      threeMonthlyrangeVolume: threeMonthRangeVolume(saleEvents),
     }
   })
   loading.value = false
