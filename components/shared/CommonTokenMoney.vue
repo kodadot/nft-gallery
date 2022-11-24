@@ -5,6 +5,7 @@
     :token-id="tokenId"
     :prefix="urlPrefix"
     :data-cy="dataCy"
+    :round="round"
     inline />
   <Money v-else :value="value" :data-cy="dataCy" inline :round="round" />
 </template>
