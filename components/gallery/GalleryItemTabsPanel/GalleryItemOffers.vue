@@ -29,12 +29,11 @@
 
       <!-- caller -->
       <o-table-column v-slot="props" field="caller" :label="$t('offer.caller')">
-        <a
-          :href="`/${urlPrefix}/u/${props.row.caller}`"
-          target="_blank"
-          rel="noopener noreferrer">
+        <nuxt-link
+          :to="`/${urlPrefix}/u/${props.row.caller}`"
+          class="has-text-link">
           <Identity :address="props.row.caller" />
-        </a>
+        </nuxt-link>
       </o-table-column>
     </o-table>
     <div v-else class="has-text-centered">{{ $t('nft.offer.empty') }}</div>

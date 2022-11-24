@@ -26,14 +26,12 @@
     <o-tab-item value="1" :label="$t('tabs.description')" class="p-5">
       <div class="mb-3 is-flex">
         <span class="mr-2">{{ $t('tabs.tabDescription.made') }}:</span>
-        <a
+        <nuxt-link
           v-if="nft?.issuer"
-          :href="`/${urlPrefix}/u/${nft?.issuer}`"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="has-text-weight-bold">
+          :to="`/${urlPrefix}/u/${nft?.issuer}`"
+          class="has-text-link">
           <Identity ref="identity" :address="nft?.issuer" />
-        </a>
+        </nuxt-link>
       </div>
 
       <vue-markdown
@@ -49,14 +47,12 @@
       </div> -->
       <div class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.creator') }}</p>
-        <a
+        <nuxt-link
           v-if="nft?.issuer"
-          :href="`/${urlPrefix}/u/${nft?.issuer}`"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="has-text-weight-bold">
+          :to="`/${urlPrefix}/u/${nft?.issuer}`"
+          class="has-text-link">
           <Identity ref="identity" :address="nft?.issuer" />
-        </a>
+        </nuxt-link>
       </div>
       <div class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.blockchain') }}</p>
@@ -77,14 +73,19 @@
           :href="nftAnimation || nftImage"
           target="_blank"
           rel="noopener noreferrer"
+          class="has-text-link"
           >{{ nftMimeType }}</a
         >
       </div>
       <div class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.metadata') }}</p>
-        <a :href="metadataURL" target="_blank" rel="noopener noreferrer">{{
-          metadataMimeType
-        }}</a>
+        <a
+          class="has-text-link"
+          :href="metadataURL"
+          target="_blank"
+          rel="noopener noreferrer"
+          >{{ metadataMimeType }}</a
+        >
       </div>
     </o-tab-item>
   </o-tabs>
