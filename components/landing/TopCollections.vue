@@ -100,7 +100,7 @@ import {
   weeklyrangeVolume,
 } from '@/components/series/utils'
 import { TimeRange } from '@/components/series/types'
-import { Collection, Interaction } from '../rmrk/service/scheme'
+import { Interaction } from '../rmrk/service/scheme'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { Ref, ref } from 'vue'
 import { CollectionEntity } from '@/components/landing/types'
@@ -108,7 +108,7 @@ import { CollectionEntityWithVolumes } from '@/components/landing/types'
 import { NeoButton } from '@kodadot1/brick'
 
 const { urlPrefix } = usePrefix()
-const { $store, $consola } = useNuxtApp()
+const { $store } = useNuxtApp()
 
 type FetchCollectionsSeriesResult = {
   collectionEntities: CollectionEntity[]
