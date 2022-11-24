@@ -252,9 +252,6 @@ watch(
 watch([isDarkMode, selectedTimeRange], () => {
   getPriceChartData()
 })
-// watch([selectedTimeRange], () => {
-//   getPriceChartData()
-// })
 
 const onWindowResize = () => {
   Chart?.resize()
