@@ -5,6 +5,7 @@
       :icon-left="icon"
       :disabled="disabled"
       :loading="loading"
+      :expanded="expanded"
       outlined
       @click="$emit('click')">
       <slot>
@@ -16,10 +17,11 @@
 
 <script setup lang="ts">
 export interface Props {
+  disabled?: boolean
+  expanded?: boolean
+  icon?: string
   label: string
   loading?: boolean
-  disabled?: boolean
-  icon?: string
   type?: string
 }
 
