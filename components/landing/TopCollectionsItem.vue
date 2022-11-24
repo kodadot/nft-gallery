@@ -2,8 +2,8 @@
   <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
     <div
       class="top-collections-item py-2 is-flex is-align-items-center is-justify-content-space-between is-clickable">
-      <div class="is-flex is-align-items-center is-flex-grow-1">
-        <div class="p-4 has-text-weight-bold">
+      <div class="is-flex is-align-items-center">
+        <div class="p-4 has-text-weight-bold mobile-padding">
           {{ index }}
         </div>
         <div>
@@ -12,11 +12,11 @@
             rounded
             :src="collection.image || '/placeholder.webp'" />
         </div>
-        <div class="px-2 is-flex is-flex-grow-1 is-flex-direction-column">
-          <div class="has-text-weight-bold">
-            {{ collection.name | truncateStr(12) }}
+        <div class="px-2 is-flex is-flex-direction-column">
+          <div class="has-text-weight-bold no-wrap">
+            {{ collection.name | truncateStr(maxNameLength) }}
           </div>
-          <div class="is-flex is-justify-content-space-between nowrap">
+          <div class="is-flex is-justify-content-start">
             <div>
               <div v-if="collection.floorPrice">
                 Floor:
@@ -24,28 +24,40 @@
               </div>
               <div v-else>---</div>
             </div>
-            <div class="is-uppercase has-text-grey pl-2">
+            <div class="is-uppercase has-text-grey pl-4">
               {{ urlPrefix }}
             </div>
           </div>
         </div>
       </div>
-      <div class="is-pulled-right has-text-right px-2">
-        <div class="is-flex">
-          <div>
-            <div class="nowrap">
-              <CommonTokenMoney :value="volume" inline />
-            </div>
-            <div class="nowrap">
-              <BasicMoney :value="usdValue" inline :unit="'USD'" />
-            </div>
+      <div class="is-justify-content-end px-2 is-flex w-50">
+        <div class="has-text-right is-flex-direction-column is-flex">
+          <div class="no-wrap">
+            <CommonTokenMoney :value="volume" inline />
           </div>
+          <div class="no-wrap">
+            <BasicMoney :value="usdValue" inline :unit="'USD'" />
+          </div>
+
+          <div class="display-below-small is-justify-content-end">
+            <div
+              v-if="diffPercentString"
+              class="is-size-6 no-wrap"
+              :class="color">
+              {{ diffPercentString }}
+            </div>
+            <div v-else class="is-size-6" :class="color">--</div>
+          </div>
+        </div>
+        <div
+          class="display-above-small is-justify-content-center is-align-items-center pl-2">
           <div
             v-if="diffPercentString"
-            class="is-flex is-justify-content-center is-align-items-center pl-2 is-size-6"
+            class="is-size-6 no-wrap"
             :class="color">
             {{ diffPercentString }}
           </div>
+          <div v-else class="is-size-6" :class="color">--</div>
         </div>
       </div>
     </div>
@@ -77,6 +89,20 @@ const props = defineProps<{
 }>()
 
 const timeRange = computed(() => props.timeRange || 'Month')
+
+const maxNameLength = ref(12)
+const setMaxNameLength = () => {
+  maxNameLength.value = window.innerWidth <= 450 ? 10 : 12
+}
+
+onMounted(() => {
+  setMaxNameLength()
+  window.addEventListener('resize', setMaxNameLength)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', setMaxNameLength)
+})
 
 const volume = computed(() => {
   switch (timeRange.value) {
@@ -136,8 +162,3 @@ const color = computed(() => {
   return undefined
 })
 </script>
-<style scoped>
-.nowrap {
-  white-space: nowrap;
-}
-</style>
