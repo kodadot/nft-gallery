@@ -3,7 +3,7 @@
     <div
       class="top-collections-item py-2 is-flex is-align-items-center is-justify-content-space-between is-clickable">
       <div class="is-flex is-align-items-center">
-        <div class="p-4 has-text-weight-bold mobile-padding">
+        <div class="p-4 has-text-weight-bold">
           {{ index }}
         </div>
         <div>
@@ -12,12 +12,12 @@
             rounded
             :src="collection.image || '/placeholder.webp'" />
         </div>
-        <div class="pl-2 is-flex is-flex-direction-column">
+        <div class="px-2 is-flex is-flex-direction-column">
           <div class="has-text-weight-bold no-wrap">
             {{ collection.name | truncateStr(12) }}
           </div>
           <div class="is-flex is-justify-content-start">
-            <div>
+            <div class="is-hidden-mobile">
               <div v-if="collection.floorPrice" class="no-wrap">
                 Floor:
                 <CommonTokenMoney
@@ -27,36 +27,35 @@
               </div>
               <div v-else>---</div>
             </div>
-            <div class="is-uppercase has-text-grey px-3 display-above-small">
+            <div class="is-uppercase has-text-grey px-3 is-hidden-mobile">
               {{ urlPrefix }}
             </div>
           </div>
-          <div class="is-uppercase has-text-grey display-below-small">
+          <div
+            class="is-uppercase has-text-grey is-hidden-tablet is-size-7-mobile">
             {{ urlPrefix }}
           </div>
         </div>
       </div>
-      <div class="is-justify-content-end pr-2 is-flex">
-        <div class="has-text-right is-flex-direction-column is-flex">
+      <div class="is-justify-content-end px-2 is-flex w-160">
+        <div
+          class="has-text-right is-flex-direction-column is-align-items-center is-flex is-size-7-mobile">
           <div class="no-wrap">
             <CommonTokenMoney :value="volume" inline :round="2" />
           </div>
-          <div class="no-wrap">
+          <div class="no-wrap is-hidden-mobile">
             <BasicMoney :value="usdValue" inline :unit="'USD'" :round="0" />
           </div>
 
-          <div class="display-below-small is-justify-content-end">
-            <div
-              v-if="diffPercentString"
-              class="is-size-6 no-wrap"
-              :class="color">
+          <div class="is-hidden-tablet is-size-7 no-wrap">
+            <div v-if="diffPercentString" :class="color">
               {{ diffPercentString }}
             </div>
-            <div v-else class="is-size-6" :class="color">--</div>
+            <div v-else :class="color">--</div>
           </div>
         </div>
         <div
-          class="display-above-small is-justify-content-center is-align-items-center pl-2">
+          class="is-hidden-mobile is-justify-content-center is-align-items-center is-flex px-2">
           <div
             v-if="diffPercentString"
             class="is-size-6 no-wrap"
