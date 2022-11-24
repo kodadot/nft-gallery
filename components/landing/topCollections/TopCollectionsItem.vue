@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts" setup>
-import { RowSeries, TimeRange } from '@/components/series/types'
+import { TimeRange } from '@/components/series/types'
 import { calculateUsdFromKsm } from '~~/utils/calculation'
 import { CollectionEntityWithVolumes } from './useTopCollections'
 
