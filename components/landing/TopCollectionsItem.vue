@@ -12,25 +12,28 @@
             rounded
             :src="collection.image || '/placeholder.webp'" />
         </div>
-        <div class="px-2 is-flex is-flex-direction-column">
+        <div class="pl-2 is-flex is-flex-direction-column">
           <div class="has-text-weight-bold no-wrap">
             {{ collection.name | truncateStr(maxNameLength) }}
           </div>
           <div class="is-flex is-justify-content-start">
             <div>
-              <div v-if="collection.floorPrice">
+              <div v-if="collection.floorPrice" class="no-wrap">
                 Floor:
                 <CommonTokenMoney :value="collection.floorPrice" inline />
               </div>
               <div v-else>---</div>
             </div>
-            <div class="is-uppercase has-text-grey pl-4">
+            <div class="is-uppercase has-text-grey pl-4 display-above-small">
               {{ urlPrefix }}
             </div>
           </div>
+          <div class="is-uppercase has-text-grey display-below-small">
+            {{ urlPrefix }}
+          </div>
         </div>
       </div>
-      <div class="is-justify-content-end px-2 is-flex w-50">
+      <div class="is-justify-content-end pr-2 is-flex">
         <div class="has-text-right is-flex-direction-column is-flex">
           <div class="no-wrap">
             <CommonTokenMoney :value="volume" inline />
