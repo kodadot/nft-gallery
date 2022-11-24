@@ -101,9 +101,9 @@ export const getHSpread = (data): HSpread => {
 
     if (sorted[base + 1] !== undefined) {
       return sorted[base] + rest * (sorted[base + 1] - sorted[base])
-    } else {
-      return sorted[base]
     }
+
+    return sorted[base]
   }
 
   const q1 = quartile(0.25)
@@ -119,7 +119,7 @@ export const filterOutliers = (data) => {
   const { min, max, sorted } = getHSpread(data)
 
   // Then filter anything beyond or beneath these values.
-  const filteredValues = sorted.filter(function (x) {
+  const filteredValues = sorted.filter((x) => {
     return x <= max && x >= min
   })
 
