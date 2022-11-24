@@ -34,6 +34,7 @@ import {
   faDice,
   faDownload,
   faEllipsisH,
+  faEllipsisV,
   faEnvelope,
   faExclamationCircle,
   faExclamationTriangle,
@@ -96,6 +97,7 @@ import {
   faCommentDots,
   faThumbsDown,
   faThumbsUp,
+  faUserCircle,
 } from '@fortawesome/free-regular-svg-icons'
 
 import {
@@ -130,6 +132,7 @@ library.add(
   faExternalLinkAlt,
   faUpload,
   faUsers,
+  faEllipsisV,
   faQuestionCircle,
   faMinus,
   faSearch,
@@ -214,6 +217,7 @@ library.add(
   faAngleRight,
   faReply,
   faThumbsUp,
+  faUserCircle,
   faThumbsDown,
   faExternalLinkSquareAlt,
   faYoutube,

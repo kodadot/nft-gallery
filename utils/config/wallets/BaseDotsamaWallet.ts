@@ -5,7 +5,7 @@ import {
   InjectedProvider,
   InjectedWindow,
 } from '@polkadot/extension-inject/types'
-import { SubscriptionFn, Wallet } from '@/utils/config/wallets'
+import { SubscriptionFn, Wallet, WalletConfig } from '@/utils/config/wallets'
 import type { Signer as InjectedSigner } from '@polkadot/api/types'
 import { formatAccount } from '@/utils/account'
 import { logError } from '@/utils/mappers'
@@ -22,11 +22,23 @@ export class BaseDotsamaWallet implements Wallet {
   isMobileApp = false
   isBrowserExtension = false
 
+  constructor(config?: WalletConfig) {
+    if (config) {
+      this.img = config.img
+      this.name = config.name
+      this.extensionName = config.extensionName
+      this.source = config.source
+      this.walletUrl = config.walletUrl
+      this.guideUrl = config.guideUrl
+      this.isMobileApp = config.isMobileApp
+      this.isBrowserExtension = config.isBrowserExtension
+    }
+  }
+
   _extension: InjectedExtension | undefined
   _signer: InjectedSigner | undefined
   _metadata: InjectedMetadata | undefined
   _provider: InjectedProvider | undefined
-
   // API docs: https://polkadot.js.org/docs/extension/
   get extension() {
     return this._extension
@@ -49,7 +61,7 @@ export class BaseDotsamaWallet implements Wallet {
     const injectedWindow = window as Window & InjectedWindow
     const injectedExtension = injectedWindow?.injectedWeb3?.[this.source]
 
-    return !!injectedExtension
+    return Boolean(injectedExtension)
   }
 
   get rawExtension() {
@@ -95,7 +107,9 @@ export class BaseDotsamaWallet implements Wallet {
       callback(undefined)
       return null
     }
-
+    if (!this._extension.accounts.subscribe) {
+      return null
+    }
     const unsubscribe = this._extension.accounts.subscribe(
       (accounts: InjectedAccount[]) => {
         const accountsWithWallet = accounts.map((account) => {
@@ -111,7 +125,6 @@ export class BaseDotsamaWallet implements Wallet {
         callback(accountsWithWallet)
       }
     )
-
     return unsubscribe
   }
 

@@ -4,23 +4,11 @@
 
     <div class="columns">
       <div v-for="article in articles" :key="article.title" class="column">
-        <a
-          class="article"
+        <CardArticle
           :href="article.link"
-          target="_blank"
-          rel="noopener noreferrer">
-          <div
-            class="article-image"
-            :style="{ 'background-image': `url(${article.image})` }"></div>
-          <div class="article-info">
-            <p class="article-title">
-              {{ article.title }}
-            </p>
-            <p class="is-size-7">
-              {{ article.description }}
-            </p>
-          </div>
-        </a>
+          :description="article.description"
+          :image="article.image"
+          :title="article.title" />
       </div>
     </div>
 
@@ -35,6 +23,8 @@
 </template>
 
 <script lang="ts" setup>
+import { CardArticle } from '@kodadot1/brick'
+
 interface Articles {
   title: string
   description: string
@@ -44,31 +34,32 @@ interface Articles {
 
 const articles: Articles[] = [
   {
-    title: 'The story behind our t-shirt waifu design',
+    title: 'A few words about DOTBrno and ETHBrno',
+    // prettier-ignore
     description:
-      'We want to tell you the whole story about how the idea for this design was born, how the entire process went, and finally, how the t-shirts got to you.',
+      'This year has come together in Brno (Czech Republic) two big events from two significant ecosystems just for one November week. And since it\'s my birth town, let me introduce you to both events.',
     image:
-      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F17ba0b12-64b6-4fe0-a0a9-38d722e51755_2848x3340.jpeg',
-    link: 'https://kodadot.substack.com/p/the-story-behind-our-t-shirt-waifu',
+      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F35112f48-b33c-4b59-a96c-0feb41fdbdb7_1200x675.png',
+    link: 'https://kodadot.substack.com/p/a-few-words-about-dotbrno-and-ethbrno',
   },
   {
-    title: 'RIDE ON ART #1 - ZLUCHKAYAAA',
+    title: 'RIDE ON ART #4 Keith',
     description:
       // prettier-ignore
-      'Hello everyone, my name is Claire, and I\'m working in KodaDot as marketing and social media manager. I\'ll introduce you some of the most talented artists we have worked with.',
+      'Hello, my name is Luuu and I’m glad that I can introduce you to another talented artist we did an interview with. Sit back, relax and learn more about Keith\'s life and art.',
     image:
-      'https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F52d9f1cf-457b-4855-ba14-e662c607400c_1200x675.png',
-    link: 'https://kodadot.substack.com/p/ride-on-art-1-zluchkayaaa',
+      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F1170d884-3ed4-4915-ba45-0e237872b34c_2400x1350.png',
+    link: 'https://kodadot.substack.com/p/ride-on-art-4-keith',
   },
   {
     // prettier-ignore
-    title: 'THE ARTIST\'S INSIGHT #1 - Clown World House',
+    title: 'RIDE ON ART #2 - HookerNFT',
     description:
       // prettier-ignore
-      'Are you thinking about minting your completely first NFT collection? But you don\'t know how to start? I\'ll try to bring you some advice from people who do this for a living and have enough experience.',
+      'My name is Luuu and I’m bringing you another interview with the talented artist. In KodaDot, we love good art, especially with interesting stories. Find out more about our newest cooperation.',
     image:
-      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F6fe1fa7e-013f-4770-9b93-1bc84775ded2_1200x675.png',
-    link: 'https://kodadot.substack.com/p/the-artists-inside-1-clown-world',
+      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fb2442781-e7d6-4ed2-b444-e55036a989ef_1200x675.png',
+    link: 'https://kodadot.substack.com/p/ride-on-art-2-hookernft',
   },
 ]
 </script>

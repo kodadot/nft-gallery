@@ -4,10 +4,10 @@
       ref="searchRef"
       v-model="name"
       class="gallery-search"
-      :placeholder="$t('general.searchPlaceholder')"
+      :placeholder="placeholderContent"
       icon="search"
       :open-on-focus="showDefaultSuggestions"
-      max-height="550"
+      max-height="600"
       dropdown-position="bottom"
       expanded
       @blur="onInputBlur"
@@ -15,6 +15,7 @@
       @keydown.native.enter="onEnter">
       <template #header>
         <SearchSuggestion
+          ref="searchSuggestionRef"
           :name="name"
           :show-default-suggestions="showDefaultSuggestions"
           :query="query"
@@ -62,6 +63,7 @@ export default class SearchBar extends mixins(
   @Prop({ type: Object, required: false }) public query!: SearchQuery
   @VModel({ type: String }) name!: string
   @Ref('searchRef') readonly searchRef
+  @Ref('searchSuggestionRef') readonly searchSuggestionRef
 
   public inputFocused = false
 
@@ -71,10 +73,17 @@ export default class SearchBar extends mixins(
     })
   }
 
+  get placeholderContent() {
+    return this.inputFocused ? '' : this.$t('general.searchPlaceholder')
+  }
+
   @Emit('enter')
   onEnter() {
     this.redirectToGalleryPageIfNeed()
     this.closeDropDown()
+
+    // insert search term in history
+    this.searchSuggestionRef?.insertNewHistory()
   }
 
   public focusInput(): void {
@@ -102,12 +111,12 @@ export default class SearchBar extends mixins(
   }
 
   get showDefaultSuggestions() {
-    return this.urlPrefix === 'rmrk'
+    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'bsx'
   }
 
   redirectToGalleryPageIfNeed(params?: Record<string, string>) {
     if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
-      this.$router.replace({
+      this.$router.push({
         name: `${this.urlPrefix}-explore`,
         query: {
           ...this.$route.query,

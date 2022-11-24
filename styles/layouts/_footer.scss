@@ -69,6 +69,7 @@
       gap: 50px;
       align-items: center !important;
     }
+    gap: 30px;
   }
 
   &-subs {
@@ -150,6 +151,35 @@
           }
         }
       }
+    }
+  }
+
+  .csw-substack-gradient-custom {
+    border: 1px solid $black !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0px $black;
+    height: 35px !important;
+
+    input {
+      font-weight: 400;
+      border-radius: 0 !important;
+      font-size: 16px !important;
+      font-family: 'Work Sans';
+      padding-left: 24px !important;
+      &::placeholder {
+        color: $placeholder-color !important;
+      }
+    }
+    button {
+      font-size: 16px !important;
+      font-family: 'Work Sans';
+      font-weight: 400 !important;
+      padding: 0 28px !important;
+      border-left: 1px solid $black !important;
+      &:hover {
+        background: $white !important;
+      }
+
     }
   }
 }

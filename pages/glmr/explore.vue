@@ -19,7 +19,7 @@ const components = {
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
       url: '/glmr/explore',
-      image: `${this.$config.baseUrl}/k_card_collections.png`,
+      image: `${this.$config.baseUrl}/k_card.png`,
     }
     return {
       title,

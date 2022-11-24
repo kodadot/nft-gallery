@@ -33,7 +33,7 @@ const components = { Collection, NFT }
       type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
       url: '/glmr/create',
-      image: `${this.$config.baseUrl}/k_card_mint.png`,
+      image: `${this.$config.baseUrl}/k_card.png`,
     }
     return {
       title,

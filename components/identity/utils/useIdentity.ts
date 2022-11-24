@@ -112,3 +112,23 @@ export default function useIdentity({ address, customNameOption }) {
     name,
   }
 }
+
+export function useIdentitySoldData({ address }) {
+  const nftEntities = ref({})
+
+  const { data }: any = useGraphql({
+    queryName: 'nftListSold',
+    variables: {
+      account: address,
+      limit: 3,
+      orderBy: 'price_DESC',
+    },
+  })
+
+  const fetchLastBought = () => {
+    nftEntities.value = data.value.nftEntities
+  }
+
+  watch(data, fetchLastBought)
+  return { nftEntities }
+}

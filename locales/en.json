@@ -776,7 +776,8 @@
     "holdings": "Holdings",
     "gains": "Gains",
     "showQr": "Show QR",
-    "collectedFromCreator": "Collected {0} NFT(s) from this creator"
+    "collectedFromCreator": "Collected {0} NFT(s) from this creator",
+    "highestSales": "Highest Sales"
   },
   "sales": {
     "page": "Sales",
@@ -977,6 +978,7 @@
   },
   "navbar": {
     "teleport": "Teleport",
+    "teleportBridge": "Teleport Bridge",
     "globalOffers": "Global Offers",
     "offerStats": "Offers Stats"
   },
@@ -1025,7 +1027,7 @@
     "buyKsm": "Buy Kusama"
   },
   "toast": {
-    "urlCopy": "URL copied to clipboard",
+    "urlCopy": "URL copied to clipboard ✓",
     "paymentLinkCopy": "Payment link copied to clipboard"
   },
   "profileMenu": {

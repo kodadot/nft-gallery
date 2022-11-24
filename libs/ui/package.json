@@ -1,0 +1,26 @@
+{
+  "name": "@kodadot1/brick",
+  "version": "1.0.0",
+  "description": "design system for neobrutalism style",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "scripts": {
+    "story:build": "histoire build",
+    "story:dev": "histoire dev",
+    "story:preview": "histoire preview"
+  },
+  "devDependencies": {
+    "@histoire/plugin-vue2": "^0.11.7",
+    "@vitejs/plugin-vue2": "^2.0.1",
+    "eslint": "^8.28.0",
+    "eslint-plugin-vue": "^8.7.1",
+    "histoire": "^0.11.7",
+    "vite": "^3.2.4",
+    "vue": "2.7.14"
+  },
+  "dependencies": {
+    "@google/model-viewer": "^1.12.1",
+    "bulma": "0.9.4",
+    "vue-audio-visual": "2.5.0"
+  }
+}

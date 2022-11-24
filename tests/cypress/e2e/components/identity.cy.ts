@@ -46,16 +46,9 @@ describe('Identity.vue component', () => {
           .then(() => {
             cy.getCy('identity-clipboard').realClick()
             cy.getCy('identity-display').should('contain.text', name)
-            cy.getCy('identity-twitter').should('contain.text', twitter)
-            cy.getCy('identity-address').should(
-              'contain.text',
-              shortAddress(address)
-            )
-            cy.getCy('identity-started-minting').should(
-              'contain.text',
-              'Started minting'
-            )
-            cy.getCy('identity-last-bought').should('exist')
+            cy.get('[data-cy="identity-twitter"]')
+              .should('have.attr', 'href')
+              .and('include', `https://twitter.com/${twitter}`)
             cy.getCy('identity-collected').should(
               'not.have.text',
               '\n      0\n    '
@@ -65,7 +58,6 @@ describe('Identity.vue component', () => {
               '\n      0\n    '
             )
             cy.getCy('identity-sold').should('not.have.text', '\n      0\n    ')
-
             cy.window()
               .its('navigator.clipboard')
               .invoke('readText')

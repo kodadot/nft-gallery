@@ -21,7 +21,7 @@
       {{ item.collectionName }}
     </nuxt-link>
 
-    <div v-if="item.price && !isCollection" class="carousel-meta">
+    <div v-if="showPrice" class="carousel-meta">
       <CommonTokenMoney
         :custom-token-id="getTokenId(item.chain)"
         :value="item.price"
@@ -44,7 +44,7 @@ const props = defineProps<{
 const { urlPrefix } = usePrefix()
 const { urlOf } = useCarouselUrl()
 const url = inject('itemUrl') as string
-const isCollection = inject('isCollection')
+const isCollection = inject<boolean>('isCollection')
 const chainName = computed(() => {
   const name = {
     rmrk: 'RMRK',
@@ -53,6 +53,10 @@ const chainName = computed(() => {
   }
 
   return name[props.item.chain || urlPrefix.value]
+})
+
+const showPrice = computed((): boolean => {
+  return Number(props.item.price) > 0 && !isCollection
 })
 const getTokenId = (chain?: string) => {
   return chain && getKusamaAssetId(chain)

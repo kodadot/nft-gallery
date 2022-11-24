@@ -1,9 +1,12 @@
+@import '../../scss/variable.scss';
+
 .article {
   background-color: white;
-  border: 1px solid black;
+  border: 1px solid $dark-accent;
   display: block;
   height: 100%;
   box-shadow: 4px 4px 0 0 rgba(255, 255, 255, 0);
+  text-decoration: none;
   transition-duration: 0.4s;
   transition-property: box-shadow;
 
@@ -18,7 +21,7 @@
   &-image {
     background-size: cover;
     background-position: center;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid $dark-accent;
     height: 14rem;
   }
 
@@ -32,7 +35,7 @@
 }
 
 .dark-mode .article {
-  background-color: black;
+  background-color: $dark-accent;
   border: 1px solid white;
 
   &:hover {

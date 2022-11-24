@@ -2,6 +2,7 @@
   font-family: 'Work Sans';
   min-height: 334px;
   width: 100%;
+  gap: 50px;
 
   .title {
     word-break: keep-all;
@@ -10,7 +11,9 @@
   .subtitle {
     letter-spacing: -0.02em;
     color: $white !important;
-    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 0px -1px 0 #000, 4px 4px #000;
+    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+      -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000,
+      0px -1px 0 #000, 4px 4px #000;
   }
 
   .landing-search-bar {
@@ -18,18 +21,16 @@
   }
 
   %landing-search-image-position {
-    position: absolute;
     height: 334px;
+    pointer-events: none;
   }
 
   .landing-search-left {
-    @extend %landing-search-image-position;
-    left: 0;
+    overflow: auto;
   }
 
   .landing-search-right {
-    @extend %landing-search-image-position;
-    right: 0;
+    overflow: auto;
   }
 
   .chain-option {
@@ -47,6 +48,7 @@
 
   @include touch {
     padding: 0;
+    justify-content: space-evenly!important;
 
     .landing-search-bar {
       width: 70%;
@@ -59,17 +61,6 @@
     }
   }
 
-  .dropdown-menu {
-    padding-top: 13px;
-
-    .dropdown-item {
-      padding: 0px;
-    }
-  }
-
-  .info-arrow {
-    font-family: "Fira Code", monospace;
-  }
 }
 
 .search-bar-container {
@@ -95,6 +86,14 @@
 
   input {
     font-family: 'Work Sans';
+  }
+
+  .dropdown-menu {
+    padding-top: 13px;
+
+    .dropdown-item {
+      padding: 0px;
+    }
   }
 }
 
@@ -167,18 +166,18 @@
 
   .secondary-info {
     @include mobile {
-      flex-direction: column!important;
+      flex-direction: column !important;
     }
   }
 
   .small-soon-text {
-   font-size: 12px;
-   margin-bottom: 6px;
-   margin-left: 4px;
+    font-size: 12px;
+    margin-bottom: 6px;
+    margin-left: 4px;
   }
 
   .tab-content {
-    padding-top: 0!important;
+    padding-top: 0 !important;
   }
 
   .tabs li a {
@@ -189,9 +188,10 @@
   }
 
   .tabs li.is-active a {
-    color: $black;
+    color: $black !important;
     border-bottom-color: $shade;
     font-weight: 700;
+    background-color: $white !important;
   }
 
   .b-tabs:not(:last-child) {
@@ -205,6 +205,29 @@
   .image-outline {
     border: 1px solid $black;
     border-radius: 50%;
+  }
+
+  .search-history {
+    margin-top: 20px;
+    color: $k-grey;
+    cursor: pointer;
+
+    .history-label {
+      font-size: 16px;
+    }
+
+    .times-icon {
+      &:hover {
+        color: $black;
+      }
+    }
+
+    .search-history-item {
+      padding: 0 32px;
+      &:hover {
+        background-color: $k-accentlight;
+      }
+    }
   }
 }
 
@@ -239,4 +262,8 @@
       }
     }
   }
+}
+
+.section-search {
+  padding: 3rem 0rem!important;
 }

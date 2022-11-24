@@ -16,8 +16,8 @@
               theme: 'custom',
               colors: {
                 primary: '#FF7AC3',
-                input: '#000000',
-                email: '#FFFFFF',
+                input: '#FFFFFF',
+                email: '#000000',
                 text: '#000000',
               },
             }
@@ -129,6 +129,11 @@ export default class Footer extends Vue {
       name: 'Discord',
       url: 'https://discord.gg/u6ymnbz4PR',
       icon: 'discord',
+    },
+    {
+      name: 'Reddit',
+      url: 'https://www.reddit.com/r/KodaDot',
+      icon: 'reddit-alien',
     },
     {
       name: 'Twitter',

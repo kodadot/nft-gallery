@@ -18,7 +18,7 @@
       <div
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
-        <HistoryBrowser class="navbar-item" />
+        <!-- <HistoryBrowser class="navbar-item" /> -->
         <b-button
           v-if="showSearchOnNavbar"
           icon-left="search"
@@ -39,10 +39,10 @@
           search-column-class="is-flex-grow-1" />
       </div>
     </template>
-    <template v-if="showTopNavbar || isBurgerMenuOpened" #end>
-      <LazyHistoryBrowser
+    <template #end>
+      <!-- <LazyHistoryBrowser
         id="NavHistoryBrowser"
-        class="custom-navbar-item navbar-link-background is-hidden-touch" />
+        class="custom-navbar-item navbar-link-background is-hidden-touch" /> -->
 
       <NavbarExplore />
 
@@ -145,24 +145,17 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
+      <LazyChainSelect
+        id="NavChainSelect"
+        class="navbar-item has-dropdown"
+        data-cy="chain-select" />
       <NavbarProfileDropdown
         id="NavProfile"
-        class="ml-2"
         :is-rmrk="isRmrk"
         :show-incomming-offers="isBsx || isSnek"
         :is-snek="isSnek"
         data-cy="profileDropdown"
         @closeBurgerMenu="closeBurgerMenu" />
-    </template>
-    <template v-else #end>
-      <div class="image is-32x32 mr-2">
-        <BasicImage
-          v-show="inCollectionPage && currentCollection.image"
-          :src="currentCollection.image"
-          :alt="navBarTitle"
-          rounded />
-      </div>
-      <div class="title is-4">{{ navBarTitle }}</div>
     </template>
   </b-navbar>
 </template>
@@ -252,8 +245,15 @@ export default class NavbarMenu extends mixins(
     return this.$route.name === 'index'
   }
 
+  get isDarkMode() {
+    return (
+      this.$colorMode.preference === 'dark' ||
+      document.documentElement.className.includes('dark-mode')
+    )
+  }
+
   get logoSrc() {
-    return this.$colorMode.preference === 'dark' ? KodaBetaDark : KodaBeta
+    return this.isDarkMode ? KodaBetaDark : KodaBeta
   }
 
   get showSearchOnNavbar(): boolean {
