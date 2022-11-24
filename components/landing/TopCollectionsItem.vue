@@ -14,7 +14,7 @@
         </div>
         <div class="pl-2 is-flex is-flex-direction-column">
           <div class="has-text-weight-bold no-wrap">
-            {{ collection.name | truncateStr(maxNameLength) }}
+            {{ collection.name | truncateStr(12) }}
           </div>
           <div class="is-flex is-justify-content-start">
             <div>
@@ -95,20 +95,6 @@ const props = defineProps<{
 }>()
 
 const timeRange = computed(() => props.timeRange || 'Month')
-
-const maxNameLength = ref(12)
-const setMaxNameLength = () => {
-  maxNameLength.value = window.innerWidth <= 450 ? 10 : 12
-}
-
-onMounted(() => {
-  setMaxNameLength()
-  window.addEventListener('resize', setMaxNameLength)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', setMaxNameLength)
-})
 
 const volume = computed(() => {
   switch (timeRange.value) {
