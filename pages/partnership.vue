@@ -19,7 +19,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
       title,
       type: 'article',
       url: `${this.$config.baseUrl}/partnership`,
-      image: `${this.$config.baseUrl}/k_card_mint.png`,
+      image: `${this.$config.baseUrl}/k_card.png`,
     }
     return {
       title,

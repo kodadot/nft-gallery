@@ -29,6 +29,7 @@ html.dark-mode {
     background-color: $background-dark !important;
 
     .navbar-item:hover {
+      color: inherit;
       background-color: inherit;
     }
 

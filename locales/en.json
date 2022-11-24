@@ -980,6 +980,7 @@
   },
   "navbar": {
     "teleport": "Teleport",
+    "teleportBridge": "Teleport Bridge",
     "globalOffers": "Global Offers",
     "offerStats": "Offers Stats"
   },

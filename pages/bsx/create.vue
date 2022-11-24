@@ -34,7 +34,7 @@ const components = { Collection, NFT }
       type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
       url: '/bsx/create',
-      image: `${this.$config.baseUrl}/k_card_mint.png`,
+      image: `${this.$config.baseUrl}/k_card.png`,
     }
     return {
       title,
@@ -45,7 +45,7 @@ const components = { Collection, NFT }
 export default class BsxCreatePage extends mixins(CreateMixin) {
   public showExplainerText = false
 
-  protected switchToNft() {
+  public switchToNft() {
     this.switchToCreateNFT()
     this.showExplainerText = true
   }
