@@ -24,7 +24,7 @@
               </div>
               <div v-else>---</div>
             </div>
-            <div class="is-uppercase has-text-grey pl-4 display-above-small">
+            <div class="is-uppercase has-text-grey px-3 display-above-small">
               {{ urlPrefix }}
             </div>
           </div>
