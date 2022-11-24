@@ -18,6 +18,7 @@
       label="submit"
       type="is-info"
       icon="envelope"
+      expanded
       @click="submit" />
   </section>
 </template>

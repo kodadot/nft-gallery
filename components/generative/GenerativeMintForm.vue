@@ -56,6 +56,7 @@
       icon="plus"
       label="generate"
       :loading="isLoading"
+      expanded
       @click="submit" />
   </section>
 </template>

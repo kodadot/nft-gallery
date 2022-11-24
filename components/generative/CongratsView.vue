@@ -12,6 +12,7 @@
       icon="sync"
       type="is-success"
       label="Start over"
+      expanded
       @click="submit" />
   </section>
 </template>

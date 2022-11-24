@@ -36,3 +36,7 @@ export const buildPrompt = (options: Options): string => {
   // const { gender, framing, art, style } = options
   // return `${framing} ${style || ''} ${art} of ${gender} ${having} ${wearing}`
 }
+
+export const buildDescription = (prompt: string): string => {
+  return prompt
+}
