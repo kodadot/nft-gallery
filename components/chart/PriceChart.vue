@@ -1,5 +1,23 @@
 <template>
-  <div class="price-chart">
+  <div class="common-price-chart">
+    <b-dropdown aria-role="list" class="time-range-dropdown py-0">
+      <template #trigger>
+        <div class="time-range-button is-flex is-justify-content-center">
+          {{ selectedTimeRange.label }}
+        </div>
+      </template>
+      <b-dropdown-item
+        v-for="range in timeRangeList"
+        :key="range.value"
+        class="is-flex is-justify-content-center px-0"
+        aria-role="listitem"
+        :value="selectedTimeRange"
+        :class="{ 'is-active': selectedTimeRange.value === range.value }"
+        @click="setTimeRange(range)">
+        {{ range.label }}
+      </b-dropdown-item>
+    </b-dropdown>
+
     <div class="content">
       <canvas id="priceChart" />
     </div>
@@ -16,6 +34,30 @@ import useChain from '@/composables/useChain'
 ChartJS.register(zoomPlugin)
 const { $colorMode } = useNuxtApp()
 
+const timeRangeList = [
+  {
+    value: 0,
+    label: 'All',
+  },
+  {
+    value: 14,
+    label: '14 days',
+  },
+  {
+    value: 30,
+    label: '30 days',
+  },
+  {
+    value: 90,
+    label: '90 days',
+  },
+]
+
+const selectedTimeRange = ref(timeRangeList[0])
+
+const setTimeRange = (value: { value: number; label: string }) => {
+  selectedTimeRange.value = value
+}
 const isDarkMode = computed(
   () =>
     $colorMode.preference === 'dark' ||
@@ -44,10 +86,38 @@ const lineColor = computed(() => {
     return '#181717'
   }
 })
+const displayChartData = computed(() => {
+  if (props.priceChartData) {
+    const timeRangeValue = selectedTimeRange.value.value
+    return [
+      getChartDataByTimeRange(props.priceChartData[0], timeRangeValue),
+      getChartDataByTimeRange(props.priceChartData[1], timeRangeValue),
+    ]
+  } else {
+    return []
+  }
+})
+
+const getChartDataByTimeRange = (data: [Date, number][], timeRange: number) => {
+  if (!data) {
+    return
+  }
+  if (timeRange === 0) {
+    return data
+  } else {
+    const now = new Date()
+    const startDate = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() - selectedTimeRange.value.value
+    )
+    return data.filter((item) => item[0] >= startDate)
+  }
+}
 
 const getPriceChartData = () => {
   Chart?.destroy()
-  const { priceChartData } = props
+  const priceChartData = displayChartData.value
 
   if (priceChartData?.length) {
     const ctx = (
@@ -152,7 +222,7 @@ const getPriceChartData = () => {
               },
               title: {
                 display: true,
-                text: unit.value,
+                text: `Price (${unit.value})`,
                 color: lineColor.value,
                 align: 'end',
               },
@@ -184,9 +254,12 @@ watch(
     getPriceChartData()
   }
 )
-watch([isDarkMode], () => {
+watch([isDarkMode, selectedTimeRange], () => {
   getPriceChartData()
 })
+// watch([selectedTimeRange], () => {
+//   getPriceChartData()
+// })
 
 const onWindowResize = () => {
   Chart?.resize()

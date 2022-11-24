@@ -1,0 +1,83 @@
+.common-price-chart {
+  position: relative;
+  .time-range-dropdown {
+    position: absolute;
+    right: 10px;
+    top: -6px;
+    .dropdown-content {
+      width: 89px;
+      padding: 0;
+
+    }
+    .dropdown-item {
+      height: 30px;
+      border-bottom: 1px solid black;
+      &:last-child {
+        border-bottom: none;
+      }
+      &:hover {
+        background: $k-accentlight;
+      }
+      &.is-active {
+        background: black;
+        color: white;
+      }
+    }
+    .time-range-button {
+      cursor: pointer;
+      height: 30px;
+      min-width: 89px;
+      background: white;
+      border: 1px solid black;
+      box-shadow: 4px 4px 0px black;
+      &:hover {
+        background: $k-accentlight;
+      }
+    }
+  }
+}
+
+.dark-mode {
+  .common-price-chart {
+    .time-range-button {
+      background: black;
+      color: white;
+      border-color: white;
+      box-shadow: 4px 4px 0px white;
+      &:hover {
+        background: $k-accent;
+      }
+    }
+
+    .dropdown-item {
+      color: white;
+      background: black;
+
+      border-color: white;
+      // border-bottom: 1px solid black;
+      // &:last-child {
+      //   border-bottom: none;
+      // }
+      &:hover {
+        background: $k-accentlight;
+        color: black;
+
+      }
+      &.is-active {
+        background: white;
+        color: black;
+
+
+      }
+    }
+
+    .dropdown-item {
+      height: 30px;
+
+      &:hover {
+        background: $k-accent;
+      }
+    }
+  }
+
+}
