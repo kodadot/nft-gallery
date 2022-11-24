@@ -3,125 +3,17 @@
     <b-dropdown
       position="is-bottom-left"
       aria-role="menu"
-      class="ml-2 mr-4"
       :triggers="['click', 'hover']">
       <template #trigger>
-        <span class="is-mobile is-vcentered navbar__avatar">
+        <a class="navbar-item" role="button">
           <Avatar
             v-if="account"
             :value="account"
             class="navbar__avatar-icon"
             :size="27" />
 
-          <svg
-            v-else
-            width="27"
-            height="27"
-            viewBox="0 0 27 27"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_2684_707)">
-              <rect width="27" height="27" rx="13.5" fill="white" />
-              <g filter="url(#filter0_d_2684_707)">
-                <rect
-                  x="3.375"
-                  y="18.7681"
-                  width="20.4146"
-                  height="16.4634"
-                  rx="8.23171"
-                  fill="white" />
-                <rect
-                  x="4.125"
-                  y="19.5181"
-                  width="18.9146"
-                  height="14.9634"
-                  rx="7.48171"
-                  stroke="black"
-                  stroke-width="1.5" />
-              </g>
-              <g filter="url(#filter1_d_2684_707)">
-                <circle cx="13.6643" cy="11.3599" r="5.7622" fill="white" />
-                <circle
-                  cx="13.6643"
-                  cy="11.3599"
-                  r="5.0122"
-                  stroke="black"
-                  stroke-width="1.5" />
-              </g>
-            </g>
-            <rect
-              x="0.75"
-              y="0.75"
-              width="25.5"
-              height="25.5"
-              rx="12.75"
-              stroke="black"
-              stroke-width="1.5" />
-            <defs>
-              <filter
-                id="filter0_d_2684_707"
-                x="3.375"
-                y="18.7681"
-                width="21.2583"
-                height="17.3071"
-                filterUnits="userSpaceOnUse"
-                color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                <feColorMatrix
-                  in="SourceAlpha"
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                  result="hardAlpha" />
-                <feOffset dx="0.84375" dy="0.84375" />
-                <feComposite in2="hardAlpha" operator="out" />
-                <feColorMatrix
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" />
-                <feBlend
-                  mode="normal"
-                  in2="BackgroundImageFix"
-                  result="effect1_dropShadow_2684_707" />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="effect1_dropShadow_2684_707"
-                  result="shape" />
-              </filter>
-              <filter
-                id="filter1_d_2684_707"
-                x="7.9021"
-                y="5.59766"
-                width="12.3682"
-                height="12.3682"
-                filterUnits="userSpaceOnUse"
-                color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                <feColorMatrix
-                  in="SourceAlpha"
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                  result="hardAlpha" />
-                <feOffset dx="0.84375" dy="0.84375" />
-                <feComposite in2="hardAlpha" operator="out" />
-                <feColorMatrix
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" />
-                <feBlend
-                  mode="normal"
-                  in2="BackgroundImageFix"
-                  result="effect1_dropShadow_2684_707" />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="effect1_dropShadow_2684_707"
-                  result="shape" />
-              </filter>
-              <clipPath id="clip0_2684_707">
-                <rect width="27" height="27" rx="13.5" fill="white" />
-              </clipPath>
-            </defs>
-          </svg>
-        </span>
+          <b-icon v-else pack="far" icon="user-circle" size="is-medium" />
+        </a>
       </template>
 
       <template v-if="account">
@@ -165,6 +57,11 @@
         <b-dropdown-item has-link aria-role="menuitem">
           <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
         </b-dropdown-item>
+        <b-dropdown-item has-link aria-role="menuitem">
+          <nuxt-link to="/teleport-bridge">{{
+            $t('navbar.teleportBridge')
+          }}</nuxt-link>
+        </b-dropdown-item>
       </template>
 
       <b-dropdown-item has-link aria-role="menuitem">
@@ -202,10 +99,9 @@
       v-if="account"
       position="is-bottom-left"
       aria-role="menu"
-      :triggers="['click', 'hover']"
-      class="ml-4">
+      :triggers="['click', 'hover']">
       <template #trigger>
-        <span class="is-mobile is-vcentered navbar__avatar">
+        <a class="navbar-item" role="button">
           <svg
             width="28"
             height="23"
@@ -217,20 +113,31 @@
               y="1.25"
               width="23.5"
               height="20.5"
-              fill="white"
-              stroke="black"
+              fill="none"
+              :stroke="isDarkMode ? 'white' : 'black'"
               stroke-width="1.5" />
             <g filter="url(#filter0_d_2684_755)">
-              <rect x="15" y="7.5" width="12" height="9" fill="white" />
+              <rect
+                x="15"
+                y="7.5"
+                width="12"
+                height="9"
+                :fill="isDarkMode ? 'black' : 'white'" />
               <rect
                 x="15.75"
                 y="8.25"
                 width="10.5"
                 height="7.5"
-                stroke="black"
+                :stroke="isDarkMode ? 'white' : 'black'"
                 stroke-width="1.5" />
             </g>
-            <rect x="19" y="10.5" width="3" height="3" rx="1.5" fill="black" />
+            <rect
+              x="19"
+              y="10.5"
+              width="3"
+              height="3"
+              rx="1.5"
+              :fill="isDarkMode ? 'white' : 'black'" />
             <defs>
               <filter
                 id="filter0_d_2684_755"
@@ -263,7 +170,7 @@
               </filter>
             </defs>
           </svg>
-        </span>
+        </a>
       </template>
 
       <b-dropdown-item custom aria-role="menuitem">
@@ -293,27 +200,29 @@
       </b-dropdown-item>
 
       <hr class="dropdown-divider mx-4" aria-role="menuitem" />
-
-      <b-dropdown-item
-        custom
-        aria-role="menuitem"
-        paddingless
-        class="is-flex is-justify-content-center">
-        <b-button
-          class="navbar__sign-out-button menu-item mb-4 is-size-7"
-          @click="disconnect()">
-          {{ $t('profileMenu.disconnect') }}
-        </b-button>
+      <b-dropdown-item custom aria-role="menuitem">
+        <div class="buttons is-justify-content-space-between my-2">
+          <ConnectWalletButton
+            label="general.change_account"
+            class="navbar__sign-out-button menu-item is-size-7"
+            @closeBurgerMenu="closeBurgerMenu" />
+          <b-button
+            class="navbar__sign-out-button menu-item is-size-7"
+            @click="disconnect()">
+            {{ $t('profileMenu.disconnect') }}
+          </b-button>
+        </div>
       </b-dropdown-item>
     </b-dropdown>
 
-    <ConnectWalletButton v-else @closeBurgerMenu="closeBurgerMenu" />
+    <b-navbar-item v-else>
+      <ConnectWalletButton @closeBurgerMenu="closeBurgerMenu" />
+    </b-navbar-item>
 
     <b-dropdown
       ref="languageDropdown"
       position="is-bottom-left"
       aria-role="menu"
-      class="ml-4 mt-5"
       :toggle="toggleLanguageMenu">
       <b-dropdown-item
         aria-role="listitem"
@@ -394,6 +303,13 @@ export default class NavbarProfileDropdown extends mixins(
   @Prop() public isSnek!: boolean
   @Ref('languageDropdown') readonly languageDropdown
 
+  get isDarkMode() {
+    return (
+      this.$colorMode.preference === 'dark' ||
+      document.documentElement.className.includes('dark-mode')
+    )
+  }
+
   get langsFlags(): { value: string; flag: string; label: string }[] {
     return this.$store.getters['lang/getLangsFlags']
   }
@@ -449,46 +365,3 @@ export default class NavbarProfileDropdown extends mixins(
   }
 }
 </script>
-
-<style lang="scss">
-@import 'bulma/sass/utilities/mixins.sass';
-@import '@/styles/abstracts/variables';
-
-.navbar {
-  &__identity {
-    @include from($desktop) {
-      display: none;
-    }
-  }
-
-  &__button {
-    border: 0;
-    border-top: 2px solid $primary !important;
-  }
-
-  &__avatar {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-
-  &__avatar-icon {
-    border: 1.5px solid $black;
-    border-radius: 24.5px;
-  }
-
-  &__address {
-    text-transform: none;
-    color: $k-blue;
-  }
-  &__sign-out-button {
-    border: 1px solid $black;
-    box-shadow: 4px 4px 0px $black;
-    padding: 8px 16px;
-    border-radius: 0;
-    &:hover {
-      border: 1px solid $black;
-    }
-  }
-}
-</style>

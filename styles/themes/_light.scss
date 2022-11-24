@@ -2,7 +2,7 @@ html.light-mode {
   background-color: $background-light;
 
   a {
-    color: $primary;
+    color: $text-light-theme;
 
     &:hover {
       color: $primary-light;
@@ -13,6 +13,7 @@ html.light-mode {
     color: #000 !important;
 
     &:hover {
+      font-weight: 700;
       color: $k-accentlight !important;
     }
   }
@@ -24,7 +25,7 @@ html.light-mode {
     margin: 0;
     width: 100%;
     height: 100%;
-    background-color: $white;;
+    background-color: $white;
     color: $text-light-theme;
   }
 
@@ -57,25 +58,17 @@ html.light-mode {
     .navbar-link,
     .button.is-text {
       color: $text-light-theme;
-    }
-
-    button.button.navbar-link-background {
-      color: $text-light-theme;
-      background-color: rgba(229, 229, 229, 0.55);
+      &:hover {
+        color: $primary-light;
+      }
     }
 
     .navbar-item:hover,
     .navbar-link:hover,
     .navbar-item:focus,
     .navbar-link:focus {
+      color: inherit;
       background-color: inherit;
-    }
-
-    .navbar-dropdown a.navbar-item {
-      &:hover,
-      &:focus {
-        background-color: $primary;
-      }
     }
 
     .navbar-item.has-dropdown:focus .navbar-link,
@@ -84,19 +77,24 @@ html.light-mode {
       background-color: transparent !important;
     }
 
-    &.navbar-shrink {
-      background-color: rgba(12, 12, 12, 0.7) !important;
-    }
-
     .navbar-dropdown,
     .navbar-menu.is-active {
       color: $text-light-theme;
       background-color: $white;
       box-shadow: rgba(229, 229, 229, 0.55) !important;
     }
+    .navbar-dropdown a.navbar-item,
+    .dropdown-item:not(.is-active)  {
+      color: $text-light-theme
+    }
 
-    .dropdown .dropdown-menu .has-link a {
-      color: $text-light-theme;
+    &__sign-out-button {
+      color: $black;
+      background-color: $white !important;
+
+      &:hover {
+        background-color: $k-accentlight !important;
+      }
     }
   }
 
@@ -111,6 +109,8 @@ html.light-mode {
       color: $text-light-theme;
     }
   }
+
+
 
   .homepage .tile .box {
     border-color: #f3f3f3;
@@ -128,15 +128,16 @@ html.light-mode {
     }
   }
 
-  .tabs li:not(.is-active) a,
-  .pagination-previous,
-  .pagination-next,
-  .pagination-link,
+  //  .tabs li:not(.is-active) a,
+  // .pagination-previous,
+  // .pagination-next,
+  // .pagination-link,
   body .title:not(h2),
   .auth-avatar .subtitle,
   .royalty {
     color: $text-light-theme;
   }
+
 
   .level .title,
   .homepage .title:not(h2),
@@ -221,8 +222,6 @@ html.light-mode {
   }
 
   .loading-container {
-    background: rgba(243, 243, 243, 0.88);
-
     .funfact-text {
       color: $text-light-theme;
     }
@@ -270,7 +269,7 @@ html.light-mode {
     }
   }
 
-  .b-table .table .chevron-cell > a {
+  .b-table .table .chevron-cell>a {
     color: $primary !important;
   }
 
@@ -288,19 +287,27 @@ html.light-mode {
     }
   }
 
+  .gallery-item-media {
+    border: 1px solid #000;
+    box-shadow: 4px 4px 0px #000;
+  }
+
   .search-bar-container {
     .gallery-search {
       .control .icon {
         color: $dark;
       }
+
       .media-content {
         color: $k-grey;
       }
+
       input {
         border: 1px solid #000;
         background-color: #fff;
       }
     }
+
     .search-bar-bg {
       background-color: #000;
     }

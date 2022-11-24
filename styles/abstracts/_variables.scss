@@ -67,6 +67,10 @@ $colors: mergeColorMaps(
       $orange-light,
       $orange-dark,
     ),
+    "neo": (
+      $white,
+      $black,
+    )
   ),
   $custom-colors
 );

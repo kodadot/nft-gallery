@@ -126,6 +126,11 @@ export default class Search extends mixins(
     this.initKeyboardEventHandler({
       f: this.bindFilterEvents,
     })
+    if (!this.name && this.$route.query.search) {
+      this.name = Array.isArray(this.$route.query.search)
+        ? ''
+        : this.$route.query.search
+    }
   }
 
   public mounted(): void {
@@ -238,8 +243,8 @@ export default class Search extends mixins(
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
-    if (value !== this.searchQuery) {
-      this.replaceUrl({ search: value ?? undefined })
+    if (!value != !this.$route.query.search && value !== this.searchQuery) {
+      this.replaceUrl({ search: value ?? undefined }, this.$route.path)
     }
     return value
   }
@@ -270,7 +275,10 @@ export default class Search extends mixins(
   }
 
   @Debounce(100)
-  replaceUrl(queryCondition: { [key: string]: any }): void {
+  replaceUrl(queryCondition: { [key: string]: any }, pathName?: string): void {
+    if (pathName && pathName !== this.$route.path) {
+      return
+    }
     this.$router
       .replace({
         path: String(this.$route.path),
@@ -281,7 +289,7 @@ export default class Search extends mixins(
           ...queryCondition,
         },
       })
-      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
+      .catch(this.$consola.warn)
     // if searchbar request or filter is set, pagination should always revert to page 1
     this.$emit('resetPage')
   }

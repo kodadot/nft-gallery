@@ -4,7 +4,7 @@
       ref="searchRef"
       v-model="name"
       class="gallery-search"
-      :placeholder="$t('general.searchPlaceholder')"
+      :placeholder="placeholderContent"
       icon="search"
       :open-on-focus="showDefaultSuggestions"
       max-height="600"
@@ -73,6 +73,10 @@ export default class SearchBar extends mixins(
     })
   }
 
+  get placeholderContent() {
+    return this.inputFocused ? '' : this.$t('general.searchPlaceholder')
+  }
+
   @Emit('enter')
   onEnter() {
     this.redirectToGalleryPageIfNeed()
@@ -107,7 +111,7 @@ export default class SearchBar extends mixins(
   }
 
   get showDefaultSuggestions() {
-    return this.urlPrefix === 'rmrk'
+    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'bsx'
   }
 
   redirectToGalleryPageIfNeed(params?: Record<string, string>) {
