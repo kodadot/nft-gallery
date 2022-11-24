@@ -232,7 +232,7 @@ export default class CreateCollection extends mixins(
       const metadata = await this.constructMeta()
       // const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
       const api = await ApiFactory.useApiInstance(this.apiUrl)
-      const cb = api.tx.nft.createClass
+      const cb = api.tx.nft.createCollection
       const randomId = await this.generateNewCollectionId()
 
       const args = this.cretateArgs(randomId, metadata)
