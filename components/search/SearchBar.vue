@@ -26,16 +26,12 @@
     </b-autocomplete>
     <div class="search-bar-bg"></div>
     <img
-      width="23"
-      height="23"
       class="search-bar-keyboard-icon"
-      :style="{ visibility: !name && !inputFocused ? 'visible' : 'hidden' }"
+      :class="{ 'is-invisible': name || inputFocused }"
       src="/search-k-keyboard.svg" />
     <img
       class="search-bar-keyboard-icon"
-      :style="{ visibility: name || inputFocused ? 'visible' : 'hidden' }"
-      width="35"
-      height="23"
+      :class="{ 'is-invisible': !name && !inputFocused }"
       src="/k-search-enter.svg" />
   </div>
 </template>
