@@ -21,11 +21,11 @@
       {{ item.collectionName }}
     </nuxt-link>
 
-    <div class="carousel-meta">
+    <div v-if="showPrice" class="carousel-meta">
       <CommonTokenMoney
         :custom-token-id="getTokenId(item.chain)"
         :value="item.price"
-        :class="['has-text-weight-bold', { 'is-invisible': !showPrice }]" />
+        class="has-text-weight-bold" />
       <p class="is-size-7">{{ chainName }}</p>
     </div>
   </div>

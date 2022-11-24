@@ -60,31 +60,16 @@ html.light-mode {
       color: $text-light-theme;
       &:hover {
         color: $primary-light;
-
       }
     }
-
-    // button.button.navbar-link-background {
-    //   color: $text-light-theme;
-    //   background-color: rgba(229, 229, 229, 0.55);
-    // }
 
     .navbar-item:hover,
     .navbar-link:hover,
     .navbar-item:focus,
     .navbar-link:focus {
+      color: inherit;
       background-color: inherit;
     }
-
-    // .navbar-dropdown a.navbar-item {
-
-    //   &:hover,
-    //   &:focus {
-    //     background-color: $primary;
-    //   }
-    // }
-
-
 
     .navbar-item.has-dropdown:focus .navbar-link,
     .navbar-item.has-dropdown:hover .navbar-link,

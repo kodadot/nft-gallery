@@ -1,5 +1,9 @@
 <template>
-  <o-button class="is-neo" :size="size" :icon-right="icon" icon-pack="fas">
+  <o-button
+    :class="{ 'is-neo': true, active: active }"
+    :size="size"
+    :icon-right="icon"
+    icon-pack="fas">
     {{ label }}
   </o-button>
 </template>
@@ -11,6 +15,7 @@ defineProps<{
   size?: string
   icon?: string
   label?: string
+  active?: boolean
 }>()
 </script>
 
@@ -24,9 +29,17 @@ defineProps<{
   border: 1px solid hsl(0deg, 0%, 4%);
   -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
   box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+  font-family: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
 
   &:hover {
-    background: #ffe5f3 !important;
+    background: #ffe5f3;
+  }
+
+  &.active {
+    color: hsl(0deg, 0%, 100%);
+    background-color: hsl(0deg, 0%, 4%);
   }
 }
 
@@ -38,7 +51,12 @@ defineProps<{
   box-shadow: 4px 4px hsl(0deg, 0%, 100%);
 
   &:hover {
-    background: #ff47ac !important;
+    background: #ff7ac3;
+    color: hsl(0deg, 0%, 4%);
+  }
+  &.active {
+    color: hsl(0deg, 0%, 4%);
+    background-color: hsl(0deg, 0%, 100%);
   }
 }
 </style>

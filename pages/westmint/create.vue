@@ -5,8 +5,8 @@
       <b-tab-item v-for="x in components" :key="x" :label="x">
         <component
           :is="x"
-          @navigateToCreateNftTab="switchToCreateNFT"
-          v-if="components[activeTab] === x" />
+          v-if="components[activeTab] === x"
+          @navigateToCreateNftTab="switchToCreateNFT" />
       </b-tab-item>
     </b-tabs>
   </section>
@@ -33,7 +33,7 @@ const components = { Collection, NFT }
       type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
       url: '/westmint/create',
-      image: `${this.$config.baseUrl}/k_card_mint.png`,
+      image: `${this.$config.baseUrl}/k_card.png`,
     }
     return {
       title,

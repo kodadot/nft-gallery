@@ -17,7 +17,7 @@ import AdminPanel from '@/components/rmrk/Create/Admin/AdminPanel.vue'
       type: 'profile',
       description: 'Create carbonless NFTs with low on-chain fees',
       url: '/westend/admin',
-      image: `${this.$config.baseUrl}/k_card_mint.png`,
+      image: `${this.$config.baseUrl}/k_card.png`,
     }
     return {
       title,
