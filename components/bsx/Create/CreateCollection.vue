@@ -113,9 +113,9 @@ export default class CreateCollection extends mixins(
 
   public async created() {
     onApiConnect(this.apiUrl, (api) => {
-      // const classDeposit = getclassDeposit(api)
-      // const metadataDeposit = getMetadataDeposit(api)
-      // this.collectionDeposit = (classDeposit + metadataDeposit).toString()
+      const classDeposit = getclassDeposit(api)
+      const metadataDeposit = getMetadataDeposit(api)
+      this.collectionDeposit = (classDeposit + metadataDeposit).toString()
     })
   }
 
