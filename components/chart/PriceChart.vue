@@ -1,5 +1,6 @@
 <template>
   <div class="common-price-chart">
+    <span class="chart-y-description is-size-7">Price ({{ unit }})</span>
     <b-dropdown aria-role="list" class="time-range-dropdown py-0">
       <template #trigger>
         <div class="time-range-button is-flex is-justify-content-center">
@@ -219,12 +220,6 @@ const getPriceChartData = () => {
               },
               grid: {
                 color: lineColor.value,
-              },
-              title: {
-                display: true,
-                text: `Price (${unit.value})`,
-                color: lineColor.value,
-                align: 'end',
               },
             },
           },

@@ -1,5 +1,11 @@
 .common-price-chart {
   position: relative;
+
+  .chart-y-description {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
   .time-range-dropdown {
     position: absolute;
     right: 10px;
@@ -54,10 +60,7 @@
       background: black;
 
       border-color: white;
-      // border-bottom: 1px solid black;
-      // &:last-child {
-      //   border-bottom: none;
-      // }
+
       &:hover {
         background: $k-accentlight;
         color: black;
