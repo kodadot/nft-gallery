@@ -97,6 +97,7 @@ import {
   faCommentDots,
   faThumbsDown,
   faThumbsUp,
+  faUserCircle,
 } from '@fortawesome/free-regular-svg-icons'
 
 import {
@@ -216,6 +217,7 @@ library.add(
   faAngleRight,
   faReply,
   faThumbsUp,
+  faUserCircle,
   faThumbsDown,
   faExternalLinkSquareAlt,
   faYoutube,

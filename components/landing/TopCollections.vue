@@ -1,32 +1,38 @@
 <template>
   <div>
-    <div class="is-flex is-justify-content-space-between">
+    <div class="is-flex is-justify-content-space-between mobile">
       <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
-      <div class="is-flex timeFilters">
-        <b-button
-          :class="{ active: state.timeRange == 'Day' }"
-          type="is-primary"
-          @click="setTimeRange('Day')">
-          24 Hours
-        </b-button>
-        <b-button
-          :class="{ active: state.timeRange == 'Week' }"
-          type="is-primary"
-          @click="setTimeRange('Week')">
-          7 Days
-        </b-button>
-        <b-button
-          :class="{ active: state.timeRange == 'Month' }"
-          type="is-primary"
-          @click="setTimeRange('Month')">
-          30 Days
-        </b-button>
-        <b-button
-          :class="{ active: state.timeRange == 'All' }"
-          type="is-primary"
-          @click="setTimeRange('All')">
-          All
-        </b-button>
+      <div
+        class="is-flex buttons is-flex-wrap-nowrap is-align-items-flex-start pt-2">
+        <div class="control column p-0">
+          <NeoButton
+            class="has-fixed-width px-4"
+            :active="state.timeRange == 'Week'"
+            label="7 Days"
+            @click.native="setTimeRange('Week')" />
+        </div>
+        <div class="control column p-0">
+          <NeoButton
+            class="has-fixed-width px-4"
+            :active="state.timeRange == 'Month'"
+            label="30 Days"
+            @click.native="setTimeRange('Month')" />
+        </div>
+        <div class="control column p-0">
+          <NeoButton
+            class="has-fixed-width px-4"
+            :active="state.timeRange == '3Month'"
+            label="90 Days"
+            @click.native="setTimeRange('3Month')" />
+        </div>
+        <div class="control column p-0">
+          <NeoButton
+            class="has-fixed-width"
+            px-4
+            :active="state.timeRange == 'All'"
+            label="All"
+            @click.native="setTimeRange('All')" />
+        </div>
       </div>
       <div></div>
     </div>
@@ -87,8 +93,8 @@ import {
   calculateAvgPrice,
   monthlyVolume,
   monthlyrangeVolume,
-  // threeMonthRangeVolume,
-  // threeMonthlyVolume,
+  threeMonthRangeVolume,
+  threeMonthlyVolume,
   volume,
   weeklyVolume,
   weeklyrangeVolume,
@@ -99,6 +105,7 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { Ref, ref } from 'vue'
 import { CollectionEntity } from '@/components/landing/types'
 import { CollectionEntityWithVolumes } from '@/components/landing/types'
+import { NeoButton } from '@kodadot1/brick'
 
 const { urlPrefix } = usePrefix()
 const { $store, $consola } = useNuxtApp()
