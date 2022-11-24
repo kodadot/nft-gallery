@@ -12,7 +12,7 @@
             class="navbar__avatar-icon"
             :size="27" />
 
-          <b-icon v-else pack="far" icon="user-circle" size="is-medium" />
+          <img v-else :src="profileIcon" />
         </a>
       </template>
 
@@ -308,6 +308,10 @@ export default class NavbarProfileDropdown extends mixins(
       this.$colorMode.preference === 'dark' ||
       document.documentElement.className.includes('dark-mode')
     )
+  }
+
+  get profileIcon() {
+    return this.isDarkMode ? '/profile-dark.svg' : '/profile.svg'
   }
 
   get langsFlags(): { value: string; flag: string; label: string }[] {
