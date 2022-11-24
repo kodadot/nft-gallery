@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import { checkInvalidBalanceFilter, roundTo } from '@/utils/formatBalance'
+import { checkInvalidBalanceFilter, roundTo } from '@/utils/format/balance'
 import ChainMixin from '@/utils/mixins/chainMixin'
 
 @Component({

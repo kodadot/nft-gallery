@@ -8,7 +8,7 @@
 import { Component, mixins } from 'nuxt-property-decorator'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
-import formatBalance from '@/utils/formatBalance'
+import formatBalance from '@/utils/format/balance'
 
 // queries
 import allCollectionSaleEvents from '@/queries/subsquid/bsx/allCollectionSaleEvents.graphql'

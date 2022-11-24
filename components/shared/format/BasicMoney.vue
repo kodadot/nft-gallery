@@ -16,7 +16,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import {
   checkInvalidBalanceFilter as checkInvalidBalance,
   roundTo,
-} from '@/utils/formatBalance'
+} from '@/utils/format/balance'
 
 @Component({
   filters: {
