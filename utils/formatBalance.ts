@@ -33,4 +33,16 @@ export function checkInvalidBalanceFilter(value) {
   return value
 }
 
+export function roundTo(value: number | string, limit: number) {
+  const number = Number(value.toLocaleString().replace(/,/g, ''))
+  const hasDecimals = number % 1 !== 0
+  // `undefined` params in toLocaleString() means use host default language
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString#using_options
+  const fractionDigits = hasDecimals ? limit : 0
+  return number.toLocaleString(undefined, {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  })
+}
+
 export default format

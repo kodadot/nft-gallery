@@ -20,7 +20,10 @@
             <div>
               <div v-if="collection.floorPrice" class="no-wrap">
                 Floor:
-                <CommonTokenMoney :value="collection.floorPrice" inline />
+                <CommonTokenMoney
+                  :value="collection.floorPrice"
+                  inline
+                  :round="2" />
               </div>
               <div v-else>---</div>
             </div>
@@ -36,10 +39,10 @@
       <div class="is-justify-content-end pr-2 is-flex">
         <div class="has-text-right is-flex-direction-column is-flex">
           <div class="no-wrap">
-            <CommonTokenMoney :value="volume" inline />
+            <CommonTokenMoney :value="volume" inline :round="2" />
           </div>
           <div class="no-wrap">
-            <BasicMoney :value="usdValue" inline :unit="'USD'" />
+            <BasicMoney :value="usdValue" inline :unit="'USD'" :round="0" />
           </div>
 
           <div class="display-below-small is-justify-content-end">

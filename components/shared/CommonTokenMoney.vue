@@ -6,7 +6,7 @@
     :prefix="urlPrefix"
     :data-cy="dataCy"
     inline />
-  <Money v-else :value="value" :data-cy="dataCy" inline />
+  <Money v-else :value="value" :data-cy="dataCy" inline :round="round" />
 </template>
 
 <script lang="ts">
@@ -23,6 +23,7 @@ export default class CommonTokenMoney extends mixins(PrefixMixin) {
   @Prop({ default: '0' }) readonly value!: number | string | undefined
   @Prop({ default: '' }) readonly customTokenId!: string | undefined
   @Prop({ type: String, default: '' }) readonly dataCy!: string
+  @Prop({ type: Number, default: 4 }) readonly round!: number
 
   get currentTokenId() {
     return this.customTokenId || this.tokenId
