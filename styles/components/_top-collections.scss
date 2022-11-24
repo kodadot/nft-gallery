@@ -44,9 +44,7 @@
 .has-fixed-width {
   min-width: 98px;
 }
-.w-50 {
-  width: 50%;
-}
+
 .no-wrap {
   white-space: nowrap;
 }
@@ -59,7 +57,7 @@
   display: none;
 }
 
-@include until(450px) {
+@include until(540px) {
   .display-above-small {
     display: none;
   }
