@@ -100,7 +100,7 @@ describe('snekCollectionItem', () => {
   })
 })
 
-describe('snekGalleryItem', () => {
+describe.skip('snekGalleryItem', () => {
   it('galleryListedItemActions', () => {
     cy.loginWithKeyring()
     cy.snekGalleryListedItemActions('2773267381-1', 'bXkQe5...qDNyCN')
