@@ -21,42 +21,6 @@ const topCollectionWithVolumeList = ref<CollectionEntityWithVolumes[]>([])
 const fetchError = ref(null)
 const isLoading = ref(true)
 
-export const useTopCollections = (limit: number) => {
-  const { data, error } = useTopCollectionList(limit)
-  watch([data, error], ([collectionEntities, errorValue]) => {
-    if (errorValue) {
-      fetchError.value = errorValue
-      isLoading.value = false
-      return
-    }
-    if (collectionEntities) {
-      const { data: collectionSales, error } = useCollectionsSales(
-        collectionEntities.map((c) => c.id)
-      )
-
-      watch([collectionSales, error], ([collectionSalesValue, errorValue]) => {
-        if (errorValue) {
-          fetchError.value = errorValue
-          isLoading.value = false
-          return
-        }
-        if (collectionSalesValue) {
-          topCollectionWithVolumeList.value = proccessData(
-            collectionEntities,
-            collectionSalesValue
-          )
-          isLoading.value = false
-        }
-      })
-    }
-  })
-  return {
-    data: topCollectionWithVolumeList,
-    error: fetchError,
-    loading: isLoading,
-  }
-}
-
 const proccessData = (
   collectionEntities: CollectionEntity[],
   collectionsSales: CollectionSales[]
@@ -80,4 +44,46 @@ const proccessData = (
       threeMonthlyrangeVolume: threeMonthRangeVolume(saleEvents),
     }
   })
+}
+
+export const useTopCollections = (limit: number) => {
+  const { data: topCollections, error: fetchTopCollectionsError } =
+    useTopCollectionList(limit)
+  watch(
+    [topCollections, fetchTopCollectionsError],
+    ([collectionEntities, errorValue]) => {
+      if (errorValue) {
+        fetchError.value = errorValue
+        isLoading.value = false
+        return
+      }
+      if (collectionEntities) {
+        const { data: collectionSales, error: fetchCollectionsSalesError } =
+          useCollectionsSales(collectionEntities.map((c) => c.id))
+
+        watch(
+          [collectionSales, fetchCollectionsSalesError],
+          ([collectionSalesValue, errorValue]) => {
+            if (errorValue) {
+              fetchError.value = errorValue
+              isLoading.value = false
+              return
+            }
+            if (collectionSalesValue) {
+              topCollectionWithVolumeList.value = proccessData(
+                collectionEntities,
+                collectionSalesValue
+              )
+              isLoading.value = false
+            }
+          }
+        )
+      }
+    }
+  )
+  return {
+    data: topCollectionWithVolumeList,
+    error: fetchError,
+    loading: isLoading,
+  }
 }
