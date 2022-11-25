@@ -51,9 +51,9 @@ export const useTopCollections = (limit: number) => {
     useTopCollectionList(limit)
   watch(
     [topCollections, fetchTopCollectionsError],
-    ([collectionEntities, errorValue]) => {
-      if (errorValue) {
-        fetchError.value = errorValue
+    ([collectionEntities, fetchTopCollectionsErrorValue]) => {
+      if (fetchTopCollectionsErrorValue) {
+        fetchError.value = fetchTopCollectionsErrorValue
         isLoading.value = false
         return
       }
@@ -63,9 +63,9 @@ export const useTopCollections = (limit: number) => {
 
         watch(
           [collectionSales, fetchCollectionsSalesError],
-          ([collectionSalesValue, errorValue]) => {
-            if (errorValue) {
-              fetchError.value = errorValue
+          ([collectionSalesValue, fetchCollectionsSalesErrorValue]) => {
+            if (fetchCollectionsSalesErrorValue) {
+              fetchError.value = fetchCollectionsSalesErrorValue
               isLoading.value = false
               return
             }
