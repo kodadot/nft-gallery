@@ -175,12 +175,13 @@ export type EntityWithId = {
 }
 
 export interface Interaction {
-  meta: string
+  blockNumber: string | number
   caller: string
-  timestamp: string
-  blockNumber: number | string
-  interaction: string
+  currentOwner: string
   id: string
+  interaction: string
+  meta: string
+  timestamp: string
 }
 
 export interface BasePack {
