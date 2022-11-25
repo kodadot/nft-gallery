@@ -1,7 +1,7 @@
 import type { ApiPromise } from '@polkadot/api'
 
 export function getInstanceDeposit(api: ApiPromise): bigint {
-  return api.consts?.uniques?.instanceDeposit?.toBigInt()
+  return api.consts?.uniques?.itemDeposit?.toBigInt()
 }
 
 export function getMetadataDeposit(api: ApiPromise): bigint {
@@ -13,5 +13,5 @@ export function getDepositPerByte(api: ApiPromise): bigint {
 }
 
 export function getclassDeposit(api: ApiPromise): bigint {
-  return api.consts?.uniques?.classDeposit?.toBigInt()
+  return api.consts?.uniques?.collectionDeposit?.toBigInt()
 }
