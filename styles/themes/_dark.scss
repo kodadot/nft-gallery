@@ -98,6 +98,9 @@ html.dark-mode {
       .button.is-primary {
         border: 1px solid $white !important;
       }
+      .dropdown .dropdown-menu .has-link {
+        border-top: 1px solid $white;
+      }
     }
 
     .navbar-explore .menu-item {
