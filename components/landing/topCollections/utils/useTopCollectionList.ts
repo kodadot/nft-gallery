@@ -15,10 +15,9 @@ export const useTopCollectionList = (limit: number, sort = 'volume_DESC') => {
       limit: limit,
     },
   })
-  watch(data, () => {
-    if (data.value) {
-      const { collectionEntities } =
-        data.value as unknown as FetchTopCollectionListResult
+  watch(data, (data) => {
+    if (data) {
+      const { collectionEntities } = data as FetchTopCollectionListResult
       result.value = collectionEntities
     }
   })

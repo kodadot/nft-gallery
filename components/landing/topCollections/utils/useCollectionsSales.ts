@@ -15,10 +15,9 @@ export const useCollectionsSales = (ids: string[]) => {
     },
   })
 
-  watch(data, () => {
-    if (data.value) {
-      const { collectionsSales } =
-        data.value as unknown as FetchCollectionsSalesResult
+  watch(data, (data) => {
+    if (data) {
+      const { collectionsSales } = data as FetchCollectionsSalesResult
       result.value = collectionsSales
     }
   })
