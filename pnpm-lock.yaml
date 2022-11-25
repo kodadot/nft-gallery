@@ -1,7 +1,6 @@
 lockfileVersion: 5.4
 
 overrides:
-  '@substrate/smoldot-light': ^0.6.27
   '@polkadot/util': ^10.1.9
   vue-server-renderer: 2.7.14
   vue-template-compiler: 2.7.14
@@ -4149,9 +4148,7 @@ packages:
       '@polkadot/types-codec': 8.14.1
       '@polkadot/util': 10.1.9
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/api-augment/9.4.2:
@@ -4181,9 +4178,7 @@ packages:
       '@polkadot/util': 10.1.9
       rxjs: 7.5.6
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/api-base/9.4.2:
@@ -4216,9 +4211,7 @@ packages:
       '@polkadot/util-crypto': 10.1.9
       rxjs: 7.5.6
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/api-derive/9.4.2:
@@ -4263,9 +4256,7 @@ packages:
       eventemitter3: 4.0.7
       rxjs: 7.5.6
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/api/9.4.2:
@@ -4364,9 +4355,7 @@ packages:
       '@polkadot/types-codec': 8.14.1
       '@polkadot/util': 10.1.9
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/rpc-augment/9.4.2:
@@ -4395,9 +4384,7 @@ packages:
       '@polkadot/util': 10.1.9
       rxjs: 7.5.6
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/rpc-core/9.4.2:
@@ -4434,9 +4421,7 @@ packages:
       mock-socket: 9.1.5
       nock: 13.2.9
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/rpc-provider/9.4.2:
@@ -5119,11 +5104,18 @@ packages:
     resolution: {integrity: sha512-E6bdBhzsfHNAKlmQSvbTW1jyb0WcIvgbrEBfJ4B6FZ3t1wpGjldL6GrYtegVtKr9/ySQ/pFNn0uVbugukpMDjQ==}
     dependencies:
       '@substrate/connect-extension-protocol': 1.0.1
-      '@substrate/smoldot-light': 0.6.34
+      '@substrate/smoldot-light': 0.6.25
       eventemitter3: 4.0.7
     transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
+      - supports-color
+    dev: false
+
+  /@substrate/smoldot-light/0.6.25:
+    resolution: {integrity: sha512-OQ9/bnJJy90xSRg5Vp9MIvrgbrVt/r/FwXYSmyLeBBNbJt6o1gSeshVo8icD+2VWwd/TJ2oHl5CVQWe89MyByA==}
+    dependencies:
+      websocket: 1.0.34
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@substrate/smoldot-light/0.6.34:
