@@ -227,8 +227,17 @@ html.light-mode {
     }
   }
 
-  .wallet .buttons button {
-    background-color: rgba(243, 243, 243, 0.9);
+  .wallet {
+    .buttons button {
+      background-color: rgba(243, 243, 243, 0.9);
+      &:hover {
+        background-color: $k-accentlight2;
+      }
+    }
+
+    .modal-card-head button:hover, .dropdown-content a:hover{
+      background-color: $k-accentlight2;
+    }
   }
 
   .gallery .has-text-overflow-ellipsis,

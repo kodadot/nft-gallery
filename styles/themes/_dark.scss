@@ -221,6 +221,7 @@ html.dark-mode {
     .wallet .buttons {
       button {
         background: $k-dark !important;
+        color: $white !important;
         border: 1px solid $white;
       }
       .button {
@@ -246,6 +247,9 @@ html.dark-mode {
         }
         &::after {
           background-color: $white;
+        }
+        &:hover{
+          background-color: $grey-darker;
         }
       }
     }

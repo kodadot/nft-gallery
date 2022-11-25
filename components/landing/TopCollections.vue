@@ -147,6 +147,8 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
     const {
       data: { collectionEntities },
     } = collections
+    console.log('collectionEntities')
+    console.log(collectionEntities)
 
     // fetch collections sales
     const ids = collectionEntities.map((c: Collection) => c.id)
@@ -157,6 +159,11 @@ export default class TopCollections extends mixins(AuthMixin, PrefixMixin) {
         .find(({ id }) => id === e.id)
         .sales.map((nft) => nft.events)
         .flat()
+
+      setTimeout(() => {
+        console.log(this.data)
+        console.log(e)
+      }, 1000)
 
       return {
         ...e,

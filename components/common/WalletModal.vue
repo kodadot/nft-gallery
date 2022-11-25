@@ -1,18 +1,21 @@
 <template>
   <div class="modal-card-container">
     <div class="modal-card wallet">
-      <header class="modal-card-head pl-2">
+      <header class="modal-card-head">
         <b-button
           v-show="hasSelectedWalletProvider"
           type="is-text"
-          class="mr-2 is-no-border"
+          class="is-no-border header-btn"
           icon-left="chevron-left"
           @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
         <p
           class="modal-card-title has-text-weight-bold has-text-centered is-size-6">
           {{ $t('walletConnect.walletHeading') }}
         </p>
-        <button type="button" class="delete" @click="$emit('close')" />
+        <button
+          type="button"
+          class="delete button header-btn"
+          @click="$emit('close')" />
       </header>
       <section v-if="!hasUserWalletAuth" class="modal-card-body py-6">
         <div class="mb-5">
@@ -103,9 +106,9 @@
                 :key="option.address"
                 class="p-2 pl-5 pr-5"
                 :value="option.address">
-                <span v-if="option.name"
-                  >{{ option.name }}
-                  <span class="is-pulled-right">{{
+                <span v-if="option.name" class="option">
+                  <span class="user-wallet-name">{{ option.name }}</span>
+                  <span class="is-pulled-right has-text-weight-bold">{{
                     option.address | shortAddress(6, -3)
                   }}</span>
                 </span>
@@ -264,12 +267,18 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
           box-shadow: none;
           padding-top: 0px;
           border: none;
-          a {
-            &:hover {
-              background-color: $k-accentlight2;
-            }
-          }
         }
+      }
+      .option {
+        span {
+          display: inline-block;
+        }
+      }
+      .user-wallet-name {
+        white-space: nowrap;
+        overflow: hidden;
+        width: 130px;
+        text-overflow: ellipsis;
       }
     }
 
@@ -291,8 +300,21 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
     .modal-card-head {
       background: unset;
       border-bottom: 1px solid #000000;
-      padding: 8px 32px;
+      padding: 20px 0px;
+      display: flex;
 
+      .header-btn {
+        padding: 10px !important;
+        border-radius: 4px;
+        position: absolute;
+      }
+      .delete {
+        right: 14px;
+      }
+      .header-btn:nth-child(1) {
+        left: 14px;
+        width: 40px;
+      }
       .delete {
         height: 40px;
         width: 40px;
@@ -322,10 +344,6 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
         margin-bottom: 0;
         height: 60px;
         padding: 8px 32px;
-
-        &:hover {
-          background-color: $k-accentlight2;
-        }
       }
 
       a {
