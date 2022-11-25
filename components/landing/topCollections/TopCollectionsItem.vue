@@ -55,7 +55,7 @@
 <script lang="ts" setup>
 import { TimeRange } from '@/components/series/types'
 import { calculateUsdFromKsm } from '~~/utils/calculation'
-import { CollectionEntityWithVolumes } from './useTopCollections'
+import { CollectionEntityWithVolumes } from './utils/types'
 
 const BasicImage = defineAsyncComponent(
   () => import('@/components/shared/view/BasicImage.vue')

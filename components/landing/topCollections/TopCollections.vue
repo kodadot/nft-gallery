@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ loading }}
     <div class="is-flex is-justify-content-space-between mobile">
       <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
       <div
@@ -93,7 +94,7 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 import { NeoButton } from '@kodadot1/brick'
 import TopCollectionsItem from './TopCollectionsItem.vue'
-import { useTopCollections } from './useTopCollections'
+import { useTopCollections } from './utils/useTopCollections'
 const { urlPrefix } = usePrefix()
 const { $store } = useNuxtApp()
 
