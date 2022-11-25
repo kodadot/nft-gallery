@@ -1,4 +1,6 @@
 import { formatDistanceToNow } from 'date-fns'
+import { get } from 'idb-keyval'
+import { isEmpty } from '@kodadot1/minimark'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
@@ -7,7 +9,11 @@ import {
 import { LastEvent } from '@/utils/types/types'
 
 import { CarouselNFT } from '@/components/base/types'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import {
+  fetchNFTMetadata,
+  getSanitizer,
+  sanitizeIpfsUrl,
+} from '@/components/rmrk/utils'
 /**
  * Format the data to fit with CarouselNFT[]
  * Get cloudflare images
@@ -25,24 +31,49 @@ export const formatNFT = async (
   const images = await getCloudflareImageLinks(data.map((nft) => nft.meta.id))
   const imageOf = getProperImageLink(images)
 
-  return data.map((nft) => {
-    const timestamp = nft.updatedAt || nft.timestamp
-    const metaId = nft.meta.id
-    const metaImage = nft.meta.image
-    const metaAnimationUrl = nft.meta.animationUrl
+  return await Promise.all(
+    data.map(async (nft) => {
+      const timestamp = nft.updatedAt || nft.timestamp
+      const metaId = nft.meta.id
+      const metaImage = nft.meta.image
+      const metaAnimationUrl = nft.meta.animationUrl
 
-    return {
-      ...nft,
-      timestamp: formatDistanceToNow(new Date(timestamp), {
-        addSuffix: true,
-      }),
-      unixTime: new Date(timestamp).getTime(),
-      price: nft.price || 0,
-      image: imageOf(metaId, metaImage),
-      animationUrl: imageOf(metaId, metaAnimationUrl) || '',
-      chain: chain || urlPrefix.value,
-    }
-  })
+      const result = {
+        ...nft,
+        timestamp: formatDistanceToNow(new Date(timestamp), {
+          addSuffix: true,
+        }),
+        unixTime: new Date(timestamp).getTime(),
+        price: nft.price || 0,
+        image: imageOf(metaId, metaImage),
+        animationUrl: imageOf(metaId, metaAnimationUrl) || '',
+        chain: chain || urlPrefix.value,
+      }
+
+      if (metaImage === null) {
+        const cachedMeta = await get(nft.metadata)
+        const meta = !isEmpty(cachedMeta)
+          ? cachedMeta
+          : await fetchNFTMetadata(
+              nft,
+              getSanitizer(nft.metadata, 'pinata', 'permafrost')
+            )
+        const imageSanitizer = getSanitizer(meta.image, 'pinata')
+
+        return {
+          ...result,
+          name: meta.name,
+          image: imageSanitizer(meta.image),
+          animation_url: sanitizeIpfsUrl(
+            meta.animation_url || meta.image,
+            'pinata'
+          ),
+        }
+      }
+
+      return result
+    })
+  )
 }
 
 interface Events {
