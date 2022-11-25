@@ -2,7 +2,7 @@ import { $fetch, FetchError } from 'ohmyfetch'
 import { URLS } from '../utils/constants'
 // import consola from 'consola'
 
-const BASE_URL = 'http://localhost:54321/functions/v1/'
+const BASE_URL = 'https://mtwfjfuiknglhfozmotu.functions.supabase.co/'
 
 type Option<T> = T | null
 
@@ -15,11 +15,12 @@ type ClaimResponse = any
 
 // URL should be sanitized ipfs://ipfs/Qm...
 export const sendWaifu = async (
-  mail: string,
-  url: string
+  email: string,
+  url: string,
+  note: string
 ): Promise<MintResponse> => {
   const body = {
-    mail,
+    email,
     url,
   }
   const value = await api<MintResponse>('mint-me', {
@@ -38,13 +39,15 @@ export const claimWaifu = async (
   const body = {
     claimId,
     address,
-    mail: '',
+    email: '',
   }
   const value = await api<MintResponse>('claim-me', {
     method: 'POST',
     body,
   }).catch((error: FetchError) => {
-    throw new Error(`[SUPABASE::MINT] Unable to MINT for reasons ${error.data}`)
+    throw new Error(
+      `[SUPABASE::CLAIM] Unable to CLAIM for reasons ${error.data}`
+    )
   })
 
   return value
