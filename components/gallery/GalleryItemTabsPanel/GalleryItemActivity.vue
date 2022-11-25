@@ -1,104 +1,83 @@
 <template>
   <div>
-    <o-table v-if="events.length" :data="events" hoverable class="py-5">
-      <!-- event name -->
-      <o-table-column v-slot="props" field="interaction" label="Event">
-        {{ props.row.interaction }}
-      </o-table-column>
-
-      <!-- price -->
-      <o-table-column v-slot="props" field="meta" label="Price">
-        <p v-if="props.row.interaction === 'ROYALTY'">{{ props.row.meta }}%</p>
-        <p v-else-if="Number(props.row.meta)">
-          {{ formatPrice(props.row.meta) }}
-        </p>
-      </o-table-column>
-
-      <!-- from -->
-      <o-table-column v-slot="props" field="caller" label="From">
-        <nuxt-link
-          v-if="props.row.interaction === 'BUY'"
-          :to="`/${urlPrefix}/u/${props.row.currentOwner}`"
-          class="has-text-link">
-          <Identity :address="props.row.currentOwner" />
-        </nuxt-link>
-        <nuxt-link
-          v-else
-          :to="`/${urlPrefix}/u/${props.row.caller}`"
-          class="has-text-link">
-          <Identity :address="props.row.caller" />
-        </nuxt-link>
-      </o-table-column>
-
-      <!-- to -->
-      <o-table-column v-slot="props" field="currentOwner" label="To">
-        <div v-if="props.row.caller !== props.row.currentOwner">
-          <nuxt-link
-            v-if="props.row.interaction === 'BUY'"
-            :to="`/${urlPrefix}/u/${props.row.caller}`"
-            class="has-text-link">
-            <Identity :address="props.row.caller" />
-          </nuxt-link>
-          <nuxt-link
-            v-else
-            :to="`/${urlPrefix}/u/${props.row.currentOwner}`"
-            class="has-text-link">
-            <Identity :address="props.row.currentOwner" />
-          </nuxt-link>
+    <div class="events p-5">
+      <div class="events-filter is-flex">
+        <div class="events-checkbox" @click="checkAll">
+          {{ $t('tabs.tabActivity.all') }}
         </div>
-      </o-table-column>
+        <div
+          v-for="(value, name) in filters"
+          :key="name"
+          class="events-checkbox">
+          <input
+            :id="name"
+            v-model="interactions"
+            type="checkbox"
+            :value="value"
+            class="is-hidden" />
+          <label :for="name" :class="cssActive(value)">
+            {{ $t(`tabs.tabActivity.${value}`) }}
+          </label>
+        </div>
+      </div>
+    </div>
 
-      <!-- date -->
-      <o-table-column v-slot="props" field="timestamp" label="Date">
-        {{ formatToNow(props.row.timestamp) }}
-      </o-table-column>
-    </o-table>
+    <GalleryItemActivityTable
+      :key="interactions.join('')"
+      :nft-id="nftId"
+      :interactions="interactions" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { OTable, OTableColumn } from '@oruga-ui/oruga'
-import Identity from '@/components/identity/IdentityIndex.vue'
+import GalleryItemActivityTable from './GalleryItemActivityTable.vue'
 
-import { formatToNow } from '@/utils/format/time'
-import formatBalance from '@/utils/formatBalance'
-
-import type { Interaction } from '@/components/rmrk/service/scheme'
-
-const dprops = defineProps<{
+defineProps<{
   nftId: string
 }>()
 
-const { decimals, unit } = useChain()
-const { urlPrefix, tokenId, assets } = usePrefix()
-const { data } = useGraphql({
-  queryName: 'itemEvents',
-  clientName: urlPrefix.value,
-  variables: {
-    id: dprops.nftId,
-  },
-})
-
-interface ItemEvents {
-  events?: Interaction[]
+const defaultInteractions = ['MINTNFT', 'BUY', 'LIST', 'SEND']
+const interactions = ref(['BUY']) // default to sales
+const filters = {
+  mints: 'MINTNFT',
+  sales: 'BUY',
+  listings: 'LIST',
+  transfers: 'SEND',
 }
 
-const events = ref<Interaction[]>([])
+const checkAll = () => {
+  interactions.value = defaultInteractions
+}
 
-watchEffect(() => {
-  const itemEvents = data.value as unknown as ItemEvents
-
-  if (itemEvents?.events?.length) {
-    events.value = itemEvents.events
+const cssActive = (value) => {
+  return {
+    'events-checkbox-active': interactions.value.find(
+      (interaction) => interaction === value
+    ),
   }
-})
-
-const formatPrice = (price) => {
-  const { symbol } = assets(tokenId.value)
-  const tokenSymbol = urlPrefix.value === 'rmrk' ? unit.value : symbol
-
-  return formatBalance(price, decimals.value, tokenSymbol)
 }
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.events {
+  border-bottom: 1px solid black;
+
+  &-filter {
+    gap: 2rem;
+  }
+
+  &-checkbox {
+    cursor: pointer;
+    text-transform: capitalize;
+
+    label {
+      cursor: pointer;
+    }
+
+    &:hover,
+    &-active {
+      text-shadow: 0 0 0.5px black;
+    }
+  }
+}
+</style>
