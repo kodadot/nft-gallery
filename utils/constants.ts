@@ -25,6 +25,8 @@ export const SHOW_SCROLL_TOP_BUTTON_HEIGHT = 350
 
 export const DETAIL_TIMEOUT = 3000
 
+export const MAX_UPLOADED_FILE_SIZE = 30
+
 export const URLS = {
   koda: {
     cloudflare: 'https://durable-jpeg.kodadot.workers.dev/',

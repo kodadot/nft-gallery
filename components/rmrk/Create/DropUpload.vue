@@ -15,7 +15,8 @@
           :required="required"
           drag-drop
           :expanded="expanded"
-          :accept="accept">
+          :accept="accept"
+          @input="createInput">
           <section class="section">
             <div class="content has-text-centered">
               <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
@@ -38,6 +39,11 @@
           </section>
         </b-upload>
       </b-field>
+      <transition v-if="fileSizeFailed" name="fade">
+        <div class="help is-danger">
+          {{ $t('tooltip.failedMaxSize') }}
+        </div>
+      </transition>
       <transition v-if="checkFailed" name="fade">
         <div class="help is-danger">
           {{ $t('tooltip.needToUploadNFTFile') }}
@@ -48,9 +54,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Ref, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Ref, Vue } from 'nuxt-property-decorator'
 import Tooltip from '@/components/shared/Tooltip.vue'
 import MediaResolver from '@/components/media/MediaResolver.vue'
+import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
 
 @Component({
   components: {
@@ -69,11 +76,13 @@ export default class DropUpload extends Vue {
   @Prop(Boolean) public expanded!: boolean
   @Prop(Boolean) public preview!: boolean
   @Prop(String) public accept!: string
-  private file: File | null = null
-  protected url = ''
-  protected hasError = false
-  protected checkFailed = false
-  protected supportedModelMediaFileExtensions = ['glb']
+  public file: File | null = null
+  public fileSizeLimit = MAX_UPLOADED_FILE_SIZE
+  public url = ''
+  public hasError = false
+  public checkFailed = false
+  public fileSizeFailed = false
+  public supportedModelMediaFileExtensions = ['glb']
   @Ref('upload') readonly upload
 
   public checkValidity() {
@@ -118,8 +127,14 @@ export default class DropUpload extends Vue {
     }
   }
 
-  @Watch('file')
-  public createInput(file: Blob): void {
+  public createInput(file: Blob): void | boolean {
+    const fileSize = file.size / Math.pow(1024, 2)
+    if (fileSize > this.fileSizeLimit) {
+      this.fileSizeFailed = true
+      this.file = null
+      return false
+    }
+    this.fileSizeFailed = false
     this.checkFailed = false
     const reader = new FileReader()
     reader.onload = () => {

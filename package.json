@@ -170,7 +170,6 @@
   },
   "pnpm": {
     "overrides": {
-      "@substrate/smoldot-light": "^0.6.27",
       "@polkadot/util": "^10.1.9",
       "vue-server-renderer": "2.7.14",
       "vue-template-compiler": "2.7.14"

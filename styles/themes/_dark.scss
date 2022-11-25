@@ -89,7 +89,8 @@ html.dark-mode {
       border-color: $white !important;
 
       .button:hover {
-        background-color: $primary;
+        background-color: $k-accent !important;
+        color: $black !important;
       }
     }
 
@@ -229,6 +230,7 @@ html.dark-mode {
 
         &:hover {
           background-color: $k-accentlight2dark!important;
+          color: $white;
         }
       }
     }
