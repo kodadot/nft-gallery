@@ -115,6 +115,10 @@ html.dark-mode {
         }
       }
     }
+
+    &__avatar-icon {
+      border: 1.5px solid $white;
+    }
   }
 
   .instance {

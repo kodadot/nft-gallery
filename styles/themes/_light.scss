@@ -96,6 +96,10 @@ html.light-mode {
         background-color: $k-accentlight !important;
       }
     }
+
+    &__avatar-icon {
+      border: 1.5px solid $black;
+    }
   }
 
   .dropdown-content {
