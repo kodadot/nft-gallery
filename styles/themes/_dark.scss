@@ -89,7 +89,8 @@ html.dark-mode {
       border-color: $white !important;
 
       .button:hover {
-        background-color: $primary;
+        background-color: $k-accent !important;
+        color: $black !important;
       }
     }
 
