@@ -12,8 +12,8 @@
         <img
           :src="logoSrc"
           alt="First NFT market explorer on Kusama and Polkadot"
-          width="166"
-          height="34" />
+          width="143"
+          height="42" />
       </b-navbar-item>
       <div
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
