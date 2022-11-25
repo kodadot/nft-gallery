@@ -18,11 +18,44 @@ import { useTopCollectionList } from './useTopCollectionList'
 import { useCollectionsSales } from './useCollectionsSales'
 
 const topCollectionWithVolumeList = ref<CollectionEntityWithVolumes[]>([])
-const topCollectionList = ref<CollectionEntity[] | null>(null)
-const collectionSalesList = ref<CollectionSales[] | null>(null)
-
 const fetchError = ref(null)
 const isLoading = ref(true)
+
+export const useTopCollections = (limit: number) => {
+  const { data, error } = useTopCollectionList(limit)
+  watch([data, error], ([collectionEntities, errorValue]) => {
+    if (errorValue) {
+      fetchError.value = errorValue
+      isLoading.value = false
+      return
+    }
+    if (collectionEntities) {
+      const { data: collectionSales, error } = useCollectionsSales(
+        collectionEntities.map((c) => c.id)
+      )
+
+      watch([collectionSales, error], ([collectionSalesValue, errorValue]) => {
+        if (errorValue) {
+          fetchError.value = errorValue
+          isLoading.value = false
+          return
+        }
+        if (collectionSalesValue) {
+          topCollectionWithVolumeList.value = proccessData(
+            collectionEntities,
+            collectionSalesValue
+          )
+          isLoading.value = false
+        }
+      })
+    }
+  })
+  return {
+    data: topCollectionWithVolumeList,
+    error: fetchError,
+    loading: isLoading,
+  }
+}
 
 const proccessData = (
   collectionEntities: CollectionEntity[],
@@ -47,62 +80,4 @@ const proccessData = (
       threeMonthlyrangeVolume: threeMonthRangeVolume(saleEvents),
     }
   })
-}
-
-// when topCollectionList is ready, fetch collections Sales
-watch(topCollectionList, (collectionEntities) => {
-  if (collectionEntities) {
-    const collectionIds = (
-      collectionEntities as unknown as CollectionEntity[]
-    ).map((c) => c.id)
-    const { data: collectionSales, error } = useCollectionsSales(collectionIds)
-
-    watch([collectionSales, error], ([collectionSalesValue, errorValue]) => {
-      if (errorValue) {
-        fetchError.value = errorValue
-        isLoading.value = false
-        return
-      }
-
-      // trigger the next watcher, that will proccess
-      // topCollectionList and collectionSalesList
-      collectionSalesList.value = collectionSalesValue
-    })
-  }
-})
-
-// when both topCollectionList and collectionSalesList are ready
-// merge them together based on collection id
-// and set the value of topCollectionWithVolumeList
-watch(
-  [topCollectionList, collectionSalesList],
-  ([collectionEntities, collectionsSales]) => {
-    if (collectionEntities && collectionsSales) {
-      topCollectionWithVolumeList.value = proccessData(
-        collectionEntities,
-        collectionsSales
-      )
-      isLoading.value = false
-    }
-  }
-)
-
-export const useTopCollections = (limit: number) => {
-  //start
-  const { data, error } = useTopCollectionList(limit)
-  watch([data, error], ([collectionEntities, errorValue]) => {
-    if (errorValue) {
-      fetchError.value = errorValue
-      isLoading.value = false
-      return
-    }
-    // trigger watcher, that will continue to next fetch (collection sales)
-    topCollectionList.value = collectionEntities
-  })
-
-  return {
-    data: topCollectionWithVolumeList,
-    error: fetchError,
-    loading: isLoading,
-  }
 }
