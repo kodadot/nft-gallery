@@ -3,7 +3,9 @@
     <div class="columns">
       <div class="column is-four-fifths">
         <h1 class="title is-2">{{ $t('series.title') }}</h1>
-        <p class="subtitle is-size-5">{{ $t('series.subtitle') }}</p>
+        <p class="subtitle is-size-5">
+          {{ $t('series.subtitle', { chain: urlPrefix }) }}
+        </p>
       </div>
       <div class="column">
         <img
