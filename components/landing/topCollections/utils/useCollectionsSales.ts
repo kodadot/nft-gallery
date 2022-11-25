@@ -1,6 +1,6 @@
 import { CollectionSales } from './types'
 
-type FetchCollectionsSalesResult = {
+type CollectionsSalesResult = {
   collectionsSales: CollectionSales[]
 }
 
@@ -11,13 +11,14 @@ export const useCollectionsSales = (ids: string[]) => {
     queryPrefix: 'rmrk',
     queryName: 'collectionsSales',
     variables: {
-      ids: ids,
+      ids,
     },
   })
 
-  watch(data, (data) => {
-    if (data) {
-      const { collectionsSales } = data as FetchCollectionsSalesResult
+  watch(data, (collectionsSalesResult) => {
+    if (collectionsSalesResult) {
+      const { collectionsSales } =
+        collectionsSalesResult as CollectionsSalesResult
       result.value = collectionsSales
     }
   })

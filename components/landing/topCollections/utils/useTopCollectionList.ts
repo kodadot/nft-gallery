@@ -1,6 +1,6 @@
 import { CollectionEntity } from './types'
 
-type FetchTopCollectionListResult = {
+type TopCollectionListResult = {
   collectionEntities: CollectionEntity[]
 }
 
@@ -12,12 +12,13 @@ export const useTopCollectionList = (limit: number, sort = 'volume_DESC') => {
     queryName: 'topCollectionList',
     variables: {
       orderBy: sort,
-      limit: limit,
+      limit,
     },
   })
-  watch(data, (data) => {
-    if (data) {
-      const { collectionEntities } = data as FetchTopCollectionListResult
+  watch(data, (topCollectionListResult) => {
+    if (topCollectionListResult) {
+      const { collectionEntities } =
+        topCollectionListResult as TopCollectionListResult
       result.value = collectionEntities
     }
   })

@@ -50,23 +50,23 @@ const proccessData = (
 }
 
 // when topCollectionList is ready, fetch collections Sales
-watch(topCollectionList, (topCollectionList) => {
-  if (topCollectionList) {
+watch(topCollectionList, (collectionEntities) => {
+  if (collectionEntities) {
     const collectionIds = (
-      topCollectionList as unknown as CollectionEntity[]
+      collectionEntities as unknown as CollectionEntity[]
     ).map((c) => c.id)
     const { data: collectionSales, error } = useCollectionsSales(collectionIds)
 
-    watch([collectionSales, error], ([collectionSales, error]) => {
-      if (error) {
-        fetchError.value = error
+    watch([collectionSales, error], ([collectionSalesValue, errorValue]) => {
+      if (errorValue) {
+        fetchError.value = errorValue
         isLoading.value = false
         return
       }
 
       // trigger the next watcher, that will proccess
       // topCollectionList and collectionSalesList
-      collectionSalesList.value = collectionSales
+      collectionSalesList.value = collectionSalesValue
     })
   }
 })
@@ -76,11 +76,11 @@ watch(topCollectionList, (topCollectionList) => {
 // and set the value of topCollectionWithVolumeList
 watch(
   [topCollectionList, collectionSalesList],
-  ([topCollectionList, collectionSalesList]) => {
-    if (topCollectionList && collectionSalesList) {
+  ([collectionEntities, collectionsSales]) => {
+    if (collectionEntities && collectionsSales) {
       topCollectionWithVolumeList.value = proccessData(
-        topCollectionList,
-        collectionSalesList
+        collectionEntities,
+        collectionsSales
       )
       isLoading.value = false
     }
@@ -89,15 +89,15 @@ watch(
 
 export const useTopCollections = (limit: number) => {
   //start
-  const { data, error: error1 } = useTopCollectionList(limit)
-  watch([data, error1], ([data, error]) => {
-    if (error) {
-      fetchError.value = error
+  const { data, error } = useTopCollectionList(limit)
+  watch([data, error], ([collectionEntities, errorValue]) => {
+    if (errorValue) {
+      fetchError.value = errorValue
       isLoading.value = false
       return
     }
     // trigger watcher, that will continue to next fetch (collection sales)
-    topCollectionList.value = data
+    topCollectionList.value = collectionEntities
   })
 
   return {
