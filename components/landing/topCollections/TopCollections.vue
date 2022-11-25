@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ loading }}
     <div class="is-flex is-justify-content-space-between mobile">
       <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
       <div
