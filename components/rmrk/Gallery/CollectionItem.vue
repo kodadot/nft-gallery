@@ -99,6 +99,7 @@
       <b-tab-item label="Chart" value="chart">
         <BsxCollectionPriceChart v-if="isBsx" />
         <CollectionPriceChart v-else :price-data="priceData" />
+        <ChartBoxPlotContainer :price-data="priceData" />
       </b-tab-item>
       <b-tab-item label="History" value="history">
         <History
@@ -177,6 +178,8 @@ const components = {
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   CollectionPriceChart: () =>
     import('@/components/shared/collection/PriceChart.vue'),
+  ChartBoxPlotContainer: () =>
+    import('@/components/shared/chart/BoxPlot/Container.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
