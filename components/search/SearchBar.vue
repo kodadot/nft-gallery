@@ -26,12 +26,12 @@
     </b-autocomplete>
     <div class="search-bar-bg"></div>
     <img
-      v-if="!name && !inputFocused"
       class="search-bar-keyboard-icon"
+      :class="{ 'is-invisible': name || inputFocused }"
       src="/search-k-keyboard.svg" />
     <img
-      v-if="name || inputFocused"
       class="search-bar-keyboard-icon"
+      :class="{ 'is-invisible': !name && !inputFocused }"
       src="/k-search-enter.svg" />
   </div>
 </template>
