@@ -4,9 +4,11 @@ type CollectionsSalesResult = {
   collectionsSales: CollectionSales[]
 }
 
-const result = ref<CollectionSales[] | null>(null)
-
 export const useCollectionsSales = (ids: string[]) => {
+  const CollectionSalesList = useState<CollectionSales[] | null>(
+    'CollectionSalesList'
+  )
+
   const { data, error, loading } = useGraphql({
     queryPrefix: 'rmrk',
     queryName: 'collectionsSales',
@@ -19,9 +21,9 @@ export const useCollectionsSales = (ids: string[]) => {
     if (collectionsSalesResult) {
       const { collectionsSales } =
         collectionsSalesResult as CollectionsSalesResult
-      result.value = collectionsSales
+      CollectionSalesList.value = collectionsSales
     }
   })
 
-  return { data: result, error, loading }
+  return { data: CollectionSalesList, error, loading }
 }

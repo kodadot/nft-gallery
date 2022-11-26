@@ -4,9 +4,10 @@ type TopCollectionListResult = {
   collectionEntities: CollectionEntity[]
 }
 
-const result = ref<CollectionEntity[] | null>(null)
-
 export const useTopCollectionList = (limit: number, sort = 'volume_DESC') => {
+  const topCollectionList = useState<CollectionEntity[] | null>(
+    'topCollectionList'
+  )
   const { data, error, loading } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: 'topCollectionList',
@@ -19,9 +20,9 @@ export const useTopCollectionList = (limit: number, sort = 'volume_DESC') => {
     if (topCollectionListResult) {
       const { collectionEntities } =
         topCollectionListResult as TopCollectionListResult
-      result.value = collectionEntities
+      topCollectionList.value = collectionEntities
     }
   })
 
-  return { data: result, error, loading }
+  return { data: topCollectionList, error, loading }
 }

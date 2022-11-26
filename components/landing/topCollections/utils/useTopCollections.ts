@@ -17,10 +17,6 @@ import {
 import { useTopCollectionList } from './useTopCollectionList'
 import { useCollectionsSales } from './useCollectionsSales'
 
-const topCollectionWithVolumeList = ref<CollectionEntityWithVolumes[]>([])
-const fetchError = ref(null)
-const isLoading = ref(true)
-
 const proccessData = (
   collectionEntities: CollectionEntity[],
   collectionsSales: CollectionSales[]
@@ -47,6 +43,12 @@ const proccessData = (
 }
 
 export const useTopCollections = (limit: number) => {
+  const topCollectionWithVolumeList = useState<CollectionEntityWithVolumes[]>(
+    'topCollectionWithVolumeList',
+    () => []
+  )
+  const fetchError = ref(null)
+  const isLoading = ref(true)
   const { data: topCollections, error: fetchTopCollectionsError } =
     useTopCollectionList(limit)
   watch(
