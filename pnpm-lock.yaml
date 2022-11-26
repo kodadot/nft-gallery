@@ -1,10 +1,14 @@
 lockfileVersion: 5.4
 
 overrides:
-  '@substrate/smoldot-light': ^0.6.27
   '@polkadot/util': ^10.1.9
   vue-server-renderer: 2.7.14
   vue-template-compiler: 2.7.14
+
+patchedDependencies:
+  vuex@3.6.2:
+    hash: qqzk7obvwc5jewi4v4e35d3zci
+    path: patches/vuex@3.6.2.patch
 
 importers:
 
@@ -45,6 +49,7 @@ importers:
       '@polkadot/vue-identicon': ^2.9.10
       '@ramp-network/ramp-instant-sdk': ^3.2.3
       '@rollup/plugin-graphql': ^1.1.0
+      '@sgratzl/chartjs-chart-boxplot': ^3.9.1
       '@types/jest': ^27.5.2
       '@types/markdown-it': ^12.2.3
       '@typescript-eslint/eslint-plugin': ^5.44.0
@@ -57,7 +62,7 @@ importers:
       c8: ^7.12.0
       chart.js: ^3.9.1
       chartjs-adapter-date-fns: ^2.0.1
-      chartjs-plugin-annotation: ^1.4.0
+      chartjs-plugin-annotation: ^2.0.0
       chartjs-plugin-zoom: ^1.2.1
       consola: ^2.15.3
       cross-env: ^7.0.3
@@ -128,7 +133,7 @@ importers:
       '@kodadot1/sub-api': 0.1.1-alpha.3
       '@kodadot1/vuex-options': 0.0.3-rc.10
       '@nuxtjs/apollo': 4.0.1-rc.5_q3iaixrqfipbtl4tylhwvetvkq
-      '@nuxtjs/i18n': 7.3.0
+      '@nuxtjs/i18n': 7.3.0_vue@2.7.14
       '@nuxtjs/sentry': 6.0.1
       '@oruga-ui/oruga': 0.5.9_vue@2.7.14
       '@paraspell/sdk': 0.0.11-alpha.0
@@ -137,12 +142,13 @@ importers:
       '@polkadot/ui-keyring': 2.9.10
       '@polkadot/vue-identicon': 2.9.10_vue@2.7.14
       '@ramp-network/ramp-instant-sdk': 3.2.3
+      '@sgratzl/chartjs-chart-boxplot': 3.10.0_chart.js@3.9.1
       apollo-boost: 0.4.9_graphql@16.6.0
       axios: 0.27.2
       buefy: 0.9.22_vue@2.7.14
       chart.js: 3.9.1
       chartjs-adapter-date-fns: 2.0.1_chart.js@3.9.1
-      chartjs-plugin-annotation: 1.4.0_chart.js@3.9.1
+      chartjs-plugin-annotation: 2.1.0_chart.js@3.9.1
       chartjs-plugin-zoom: 1.2.1_chart.js@3.9.1
       css-loader: 5.2.7
       date-fns: 2.29.3
@@ -170,7 +176,7 @@ importers:
       vue-markdown-render: 1.1.3
       vue-social-sharing: 3.0.9_vue@2.7.14
       vue-tippy: 4.16.0_vue@2.7.14
-      vuex: 3.6.2_vue@2.7.14
+      vuex: 3.6.2_qqzk7obvwc5jewi4v4e35d3zci_vue@2.7.14
       vuex-persist: 3.1.3_vuex@3.6.2
     devDependencies:
       '@babel/core': 7.20.2
@@ -3678,9 +3684,9 @@ packages:
       vue-client-only: 2.1.0
       vue-meta: 2.4.0
       vue-no-ssr: 1.1.1
-      vue-router: 3.5.4
+      vue-router: 3.5.4_vue@2.7.14
       vue-template-compiler: 2.7.14
-      vuex: 3.6.2_vue@2.7.14
+      vuex: 3.6.2_qqzk7obvwc5jewi4v4e35d3zci_vue@2.7.14
     dev: false
 
   /@nuxt/vue-renderer-edge/2.16.0-27616340.013f051b:
@@ -3844,7 +3850,7 @@ packages:
       lodash.template: 4.5.0
     dev: true
 
-  /@nuxtjs/i18n/7.3.0:
+  /@nuxtjs/i18n/7.3.0_vue@2.7.14:
     resolution: {integrity: sha512-KBmFzgHjaJ/b+I/nISWUkAxcigjc5FiR1ScRzq/eC8Ahxi5zIulfF8vRROmYbW1gP6B2yYBblOuWemW/T/YM0A==}
     engines: {node: '>=14.16'}
     dependencies:
@@ -3859,9 +3865,10 @@ packages:
       klona: 2.0.5
       lodash.merge: 4.6.2
       ufo: 0.8.5
-      vue-i18n: 8.27.2
+      vue-i18n: 8.27.2_vue@2.7.14
     transitivePeerDependencies:
       - supports-color
+      - vue
     dev: false
 
   /@nuxtjs/pwa/3.3.5:
@@ -4141,9 +4148,7 @@ packages:
       '@polkadot/types-codec': 8.14.1
       '@polkadot/util': 10.1.9
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/api-augment/9.4.2:
@@ -4173,9 +4178,7 @@ packages:
       '@polkadot/util': 10.1.9
       rxjs: 7.5.6
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/api-base/9.4.2:
@@ -4208,9 +4211,7 @@ packages:
       '@polkadot/util-crypto': 10.1.9
       rxjs: 7.5.6
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/api-derive/9.4.2:
@@ -4255,9 +4256,7 @@ packages:
       eventemitter3: 4.0.7
       rxjs: 7.5.6
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/api/9.4.2:
@@ -4356,9 +4355,7 @@ packages:
       '@polkadot/types-codec': 8.14.1
       '@polkadot/util': 10.1.9
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/rpc-augment/9.4.2:
@@ -4387,9 +4384,7 @@ packages:
       '@polkadot/util': 10.1.9
       rxjs: 7.5.6
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/rpc-core/9.4.2:
@@ -4426,9 +4421,7 @@ packages:
       mock-socket: 9.1.5
       nock: 13.2.9
     transitivePeerDependencies:
-      - bufferutil
       - supports-color
-      - utf-8-validate
     dev: false
 
   /@polkadot/rpc-provider/9.4.2:
@@ -5060,6 +5053,19 @@ packages:
       tslib: 1.14.1
     dev: false
 
+  /@sgratzl/boxplots/1.3.0:
+    resolution: {integrity: sha512-2BRWv+WOH58pwzSgP50buoXgxQic+4auz3BF0wiIUXS8D3QGkdBNgsNdQO1754Tm/0uEwly0R3WaCiGnoYWcmA==}
+    dev: false
+
+  /@sgratzl/chartjs-chart-boxplot/3.10.0_chart.js@3.9.1:
+    resolution: {integrity: sha512-+XzmRr9unHzTAMrNVjQ1U6qKid2fEYpV6byC7WIKyU/nT3zB1g98RDuF+z8cFwBjZm/NdVw0uaQYdjHWwHiPbA==}
+    peerDependencies:
+      chart.js: ^3.9.1
+    dependencies:
+      '@sgratzl/boxplots': 1.3.0
+      chart.js: 3.9.1
+    dev: false
+
   /@sideway/address/4.1.4:
     resolution: {integrity: sha512-7vwq+rOHVWjyXxVlR76Agnvhy8I9rpzjosTESvmhNeXOXdZZB15Fl+TI9x1SiHZH5Jv2wTGduSxFDIaq0m3DUw==}
     dependencies:
@@ -5087,7 +5093,7 @@ packages:
     resolution: {integrity: sha512-uW5uBmihpivshmmmw+rsg7qOV0KqVSep4rWOXFMP8aFQinvmqw4JqxP21og4H/7JZxttYUBFQVsdtXHGKJ0aVQ==}
     dependencies:
       '@substrate/connect-extension-protocol': 1.0.1
-      '@substrate/smoldot-light': 0.6.28
+      '@substrate/smoldot-light': 0.6.34
       eventemitter3: 4.0.7
     transitivePeerDependencies:
       - bufferutil
@@ -5098,15 +5104,22 @@ packages:
     resolution: {integrity: sha512-E6bdBhzsfHNAKlmQSvbTW1jyb0WcIvgbrEBfJ4B6FZ3t1wpGjldL6GrYtegVtKr9/ySQ/pFNn0uVbugukpMDjQ==}
     dependencies:
       '@substrate/connect-extension-protocol': 1.0.1
-      '@substrate/smoldot-light': 0.6.28
+      '@substrate/smoldot-light': 0.6.25
       eventemitter3: 4.0.7
     transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
+      - supports-color
     dev: false
 
-  /@substrate/smoldot-light/0.6.28:
-    resolution: {integrity: sha512-NpcjWt2BGE11ZF304UVYgpJ3745io5Fos7o7lU6S9B3tjvtDNsYG8W/gjeeqgoXgOBCHXnzNWdmLvbpPEWIMWQ==}
+  /@substrate/smoldot-light/0.6.25:
+    resolution: {integrity: sha512-OQ9/bnJJy90xSRg5Vp9MIvrgbrVt/r/FwXYSmyLeBBNbJt6o1gSeshVo8icD+2VWwd/TJ2oHl5CVQWe89MyByA==}
+    dependencies:
+      websocket: 1.0.34
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@substrate/smoldot-light/0.6.34:
+    resolution: {integrity: sha512-+HK9MaJ0HelJmpf4YYR+salJ7dhVBltmhGlyz5l8OXS9DW18fe0Z2wxEo8P5kX9CUxlCXEb8J9JBRQAYBPHbwQ==}
     dependencies:
       pako: 2.0.4
       ws: 8.8.1
@@ -8014,10 +8027,10 @@ packages:
       chart.js: 3.9.1
     dev: false
 
-  /chartjs-plugin-annotation/1.4.0_chart.js@3.9.1:
-    resolution: {integrity: sha512-OC0eGoVvdxTtGGi8mV3Dr+G1YmMhtYYQWqGMb2uWcgcnyiBslaRKPofKwAYWPbh7ABnmQNsNDQLIKPH+XiaZLA==}
+  /chartjs-plugin-annotation/2.1.0_chart.js@3.9.1:
+    resolution: {integrity: sha512-wHxP6mBWrgdldAEbHM5nMaMJ3PuunXgiotVh8natosuZsEqpjU0ZeyvMTBwIkKXLSDncb3faLunl4BI89Vmj/g==}
     peerDependencies:
-      chart.js: ^3.1.0
+      chart.js: '>=3.7.0'
     dependencies:
       chart.js: 3.9.1
     dev: false
@@ -8494,7 +8507,7 @@ packages:
       lodash: ^4.17.20
       marko: ^3.14.4
       mote: ^0.2.0
-      mustache: ^4.0.1
+      mustache: ^3.0.0
       nunjucks: ^3.2.2
       plates: ~0.4.11
       pug: ^3.0.0
@@ -11867,7 +11880,6 @@ packages:
   /graphql/16.6.0:
     resolution: {integrity: sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
-    dev: false
 
   /gray-matter/4.0.3:
     resolution: {integrity: sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q==}
@@ -18453,7 +18465,6 @@ packages:
     resolution: {integrity: sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /typeson-registry/1.0.0-alpha.39:
     resolution: {integrity: sha512-NeGDEquhw+yfwNhguLPcZ9Oj0fzbADiX4R0WxvoY8nGhy98IbzQy1sezjoEFWOywOboj/DWehI+/aUlRVrJnnw==}
@@ -19407,8 +19418,12 @@ packages:
     resolution: {integrity: sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==}
     dev: false
 
-  /vue-i18n/8.27.2:
+  /vue-i18n/8.27.2_vue@2.7.14:
     resolution: {integrity: sha512-QVzn7u2WVH8F7eSKIM00lujC7x1mnuGPaTnDTmB01Hd709jDtB9kYtBqM+MWmp5AJRx3gnqAdZbee9MelqwFBg==}
+    peerDependencies:
+      vue: ^2
+    dependencies:
+      vue: 2.7.14
     dev: false
 
   /vue-infinite-loading/2.4.5_vue@2.7.14:
@@ -19527,8 +19542,12 @@ packages:
       vue-class-component: 7.2.6_vue@2.7.14
     dev: false
 
-  /vue-router/3.5.4:
+  /vue-router/3.5.4_vue@2.7.14:
     resolution: {integrity: sha512-x+/DLAJZv2mcQ7glH2oV9ze8uPwcI+H+GgTgTmb5I55bCgY3+vXWIsqbYUzbBSZnwFHEJku4eoaH/x98veyymQ==}
+    peerDependencies:
+      vue: ^2
+    dependencies:
+      vue: 2.7.14
     dev: false
 
   /vue-server-renderer/2.7.14:
@@ -19616,7 +19635,7 @@ packages:
     dependencies:
       vue: 2.7.14
       vue-class-component: 7.2.6_vue@2.7.14
-      vuex: 3.6.2_vue@2.7.14
+      vuex: 3.6.2_qqzk7obvwc5jewi4v4e35d3zci_vue@2.7.14
     dev: false
 
   /vuex-module-decorators/1.2.0_vue@2.7.14+vuex@3.6.2:
@@ -19628,7 +19647,7 @@ packages:
       vuex: '>=3'
     dependencies:
       vue: 2.7.14
-      vuex: 3.6.2_vue@2.7.14
+      vuex: 3.6.2_qqzk7obvwc5jewi4v4e35d3zci_vue@2.7.14
     dev: false
 
   /vuex-persist/3.1.3_vuex@3.6.2:
@@ -19638,16 +19657,17 @@ packages:
     dependencies:
       deepmerge: 4.2.2
       flatted: 3.2.6
-      vuex: 3.6.2_vue@2.7.14
+      vuex: 3.6.2_qqzk7obvwc5jewi4v4e35d3zci_vue@2.7.14
     dev: false
 
-  /vuex/3.6.2_vue@2.7.14:
+  /vuex/3.6.2_qqzk7obvwc5jewi4v4e35d3zci_vue@2.7.14:
     resolution: {integrity: sha512-ETW44IqCgBpVomy520DT5jf8n0zoCac+sxWnn+hMe/CzaSejb/eVw2YToiXYX+Ex/AuHHia28vWTq4goAexFbw==}
     peerDependencies:
       vue: ^2.0.0
     dependencies:
       vue: 2.7.14
     dev: false
+    patched: true
 
   /w3c-hr-time/1.0.2:
     resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}
@@ -20222,8 +20242,3 @@ packages:
       compress-commons: 4.1.1
       readable-stream: 3.6.0
     dev: true
-
-patchedDependencies:
-  vuex@3.6.2:
-    hash: qqzk7obvwc5jewi4v4e35d3zci
-    path: patches/vuex@3.6.2.patch

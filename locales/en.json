@@ -654,6 +654,7 @@
     "gains": "Gained by",
     "makeOfferDisabled": "You have already made an offer for this NFT",
     "needToUploadNFTFile": "You need to upload NFT file",
+    "failedMaxSize": "Your File is too large",
     "needToSetValidPrice": "In order to list NFT, price has to be more than 0",
     "notEnoughBalance": "Insufficient funds",
     "haveNoToS": "Have no permission to use the asset",
