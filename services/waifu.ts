@@ -17,11 +17,12 @@ type ClaimResponse = any
 export const sendWaifu = async (
   email: string,
   url: string,
-  note: string
+  image: string
 ): Promise<MintResponse> => {
   const body = {
     email,
     url,
+    image,
   }
   const value = await api<null>('mint-background', {
     method: 'POST',
