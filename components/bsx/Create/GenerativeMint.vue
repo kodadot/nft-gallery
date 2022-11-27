@@ -7,7 +7,7 @@
       mobile-mode="minimalist"
       :has-navigation="false">
       <b-step-item step="1" label="Mint" :clickable="isStepsClickable">
-        <GenerativeMint @select="handlePrediction" @click="handleBuilder" />
+        <GenerativeMint @select="handlePrediction" @submit="handleBuilder" />
       </b-step-item>
 
       <b-step-item step="2" label="Select" :clickable="isStepsClickable">
