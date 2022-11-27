@@ -10,44 +10,48 @@ const api = $fetch.create({
   baseURL: BASE_URL,
 })
 
-type MintResponse = any
-type ClaimResponse = any
-
-// URL should be sanitized ipfs://ipfs/Qm...
-export const sendWaifu = async (
-  email: string,
-  url: string,
-  note: string
-): Promise<MintResponse> => {
-  const body = {
-    email,
-    url,
-  }
-  const value = await api<MintResponse>('mint-me', {
-    method: 'POST',
-    body,
-  }).catch((error: FetchError) => {
-    throw new Error(`[SUPABASE::MINT] Unable to MINT for reasons ${error.data}`)
-  })
-  return value
+type WaifuResponse = {
+  url: string
+  sn: string
 }
 
-export const claimWaifu = async (
-  claimId: string,
-  address: string
-): Promise<ClaimResponse> => {
+type PromptLogResponse = {
+  data: {
+    id: string
+    created_at: string
+    replicate_id: string
+    prompt: Option<string>
+  }[]
+}
+
+// URL should be sanitized ipfs://ipfs/Qm...
+export const logPrediction = async (
+  replicateId: string,
+  prompt: string
+): Promise<PromptLogResponse> => {
   const body = {
-    claimId,
-    address,
-    email: '',
+    replicateId,
+    prompt,
   }
-  const value = await api<MintResponse>('claim-me', {
+  const value = await api<PromptLogResponse>('prompt-me', {
     method: 'POST',
     body,
   }).catch((error: FetchError) => {
     throw new Error(
-      `[SUPABASE::CLAIM] Unable to CLAIM for reasons ${error.data}`
+      `[SUPABASE::PROMPT] Unable to MINT for reasons ${error.data}`
     )
+  })
+  return value
+}
+
+export const getWaifuByMail = async (email: string) => {
+  const value = await api<WaifuResponse>('get-me', {
+    method: 'GET',
+    params: {
+      email,
+    },
+  }).catch((error: FetchError) => {
+    throw new Error(`[WAIFU::GET] Unable to GET for reasons ${error.data}`)
   })
 
   return value
