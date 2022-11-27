@@ -63,7 +63,8 @@
 
 <script setup lang="ts">
 import { PredictionStatus, getPrediction, predict } from '@/services/replicate'
-import { emptyObject } from '~~/utils/empty'
+import { logPrediction } from '@/services/supabase'
+import { emptyObject } from '@/utils/empty'
 import {
   accessories,
   art,
@@ -132,6 +133,7 @@ const submit = async () => {
       clearInterval(timeout)
       if (generation.status === 'succeeded') {
         emit('select', generation)
+        logPrediction(predictRequest.id, prompt).catch(console.error)
       }
     }
   }, 2500)
