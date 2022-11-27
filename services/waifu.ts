@@ -2,12 +2,17 @@ import { $fetch, FetchError } from 'ohmyfetch'
 import { URLS } from '../utils/constants'
 // import consola from 'consola'
 
-const BASE_URL = 'http://localhost:8888/.netlify/functions/'
+const BASE_URL = 'https://mtwfjfuiknglhfozmotu.functions.supabase.co/'
+const ANON_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10d2ZqZnVpa25nbGhmb3ptb3R1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgyMDIwMTcsImV4cCI6MTk4Mzc3ODAxN30.XCLXzu-TCPLo5nHgOWMHzb5quWE8npMolw9IgESsliQ'
 
 type Option<T> = T | null
 
 const api = $fetch.create({
   baseURL: BASE_URL,
+  headers: {
+    Authorization: 'Bearer ' + ANON_KEY,
+  },
 })
 
 type MintResponse = any
@@ -24,7 +29,7 @@ export const sendWaifu = async (
     url,
     image,
   }
-  const value = await api<null>('mint-background', {
+  const value = await api<null>('mint-me', {
     method: 'POST',
     body,
   }).catch((error: FetchError) => {
@@ -42,7 +47,7 @@ export const claimWaifu = async (
     address,
     email: '',
   }
-  const value = await api<null>('claim-background', {
+  const value = await api<null>('claim-me', {
     method: 'POST',
     body,
   }).catch((error: FetchError) => {
