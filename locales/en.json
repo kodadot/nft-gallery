@@ -754,8 +754,12 @@
     "arweave": "Storing data via PermaFrost",
     "uploading": "({0}/{1}) Uploading data to IPFS",
     "checkBalance": "Checking if you have enough balance",
-    "starting": "Warming up the AI model",
-    "processing": "Predicting (wait around ~20s)"
+    "generative": {
+      "starting": "Warming up the AI model",
+      "processing": "Predicting (wait around ~20s)",
+      "send": "Sending links to your email"
+    }
+
   },
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
