@@ -91,7 +91,7 @@ export const buildMetadata = async (
   url: string,
   options: Options,
   { input: replicate }: PredictionStatus
-): string => {
+): Promise<string> => {
   const blob = await $fetch<Blob>(url, { responseType: 'blob' })
   const file = new File([blob], 'image.png', { type: 'image/png' })
   const imageHash = await pinImageSafe(file, 'token')

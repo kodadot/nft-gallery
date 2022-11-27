@@ -109,7 +109,7 @@ const isLoading = ref(false)
 const status = ref('')
 const predictionId = ref('')
 const predicion = ref<PredictionStatus>(emptyObject<PredictionStatus>())
-const emit = defineEmits(['select'])
+const emit = defineEmits(['select', 'submit'])
 const isPhoto = computed(() => form.art === 'photo')
 
 // change form.style when form.art changes
@@ -121,12 +121,13 @@ const submit = async () => {
   const prompt = buildPrompt(form)
   console.log('prompt', prompt)
   const predictRequest = await predict(prompt)
+  emit('submit', form)
 
   const timeout = setInterval(async () => {
     const generation = await getPrediction(predictRequest.id)
     console.log('status', status)
     predicion.value = generation
-    status.value = generation.status
+    status.value = 'loader.generative.' + generation.status
     if (generation.status === 'failed' || generation.status === 'succeeded') {
       isLoading.value = false
       status.value = ''
