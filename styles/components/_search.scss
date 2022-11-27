@@ -35,10 +35,15 @@
 
   .chain-option {
     font-weight: 400;
-    font-size: 1.3rem;
+    font-size: 20px;
     line-height: 23px;
     color: $grey;
     width: max-content;
+
+    &:hover {
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 1px;
+    }
 
     &.active {
       font-weight: 700;

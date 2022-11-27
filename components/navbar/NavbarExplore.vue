@@ -77,7 +77,7 @@ export default class NavbarExplore extends mixins(PrefixMixin, AuthMixin) {
 
   setSelectedChain(value) {
     this.$store.dispatch('setUrlPrefix', value)
-    this.$router.push({ path: `/${value}` })
+    this.$router.push({ path: `/${value}/explore?tab=COLLECTION` })
   }
 }
 </script>
