@@ -6,9 +6,9 @@
     <BasicInput
       v-model="email"
       required
-      :label="$t('mint.nft.name.label')"
-      :message="$t('mint.nft.name.message')"
-      :placeholder="$t('mint.nft.name.placeholder')"
+      :label="$t('mint.nft.email.label')"
+      :message="$t('mint.nft.email.message')"
+      :placeholder="$t('mint.nft.email.placeholder')"
       expanded
       type="email"
       spellcheck="true"
