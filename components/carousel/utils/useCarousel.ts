@@ -1,7 +1,11 @@
 import type { CarouselNFT } from '@/components/base/types'
 import type { RowSeries } from '@/components/series/types'
 
-import { convertLastEventFlatNft, formatNFT } from '@/utils/carousel'
+import {
+  convertLastEventFlatNft,
+  formatNFT,
+  setNftMetaFromCache,
+} from '@/utils/carousel'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { sortItemListByIds } from '@/utils/sorting'
 import { correctPrefix } from '@/utils/uniquery'
@@ -140,7 +144,10 @@ export const useCarouselRelated = ({ collectionId }) => {
 
   watch(data, async () => {
     if (data.value) {
-      nfts.value = await formatNFT((data.value as Collections).collection?.nfts)
+      const collection = await formatNFT(
+        (data.value as Collections).collection?.nfts
+      )
+      nfts.value = await setNftMetaFromCache(collection)
     }
   })
 

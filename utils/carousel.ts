@@ -31,47 +31,50 @@ export const formatNFT = async (
   const images = await getCloudflareImageLinks(data.map((nft) => nft.meta.id))
   const imageOf = getProperImageLink(images)
 
+  return data.map((nft) => {
+    const timestamp = nft.updatedAt || nft.timestamp
+    const metaId = nft.meta.id
+    const metaImage = nft.meta.image
+    const metaAnimationUrl = nft.meta.animationUrl
+
+    return {
+      ...nft,
+      timestamp: formatDistanceToNow(new Date(timestamp), {
+        addSuffix: true,
+      }),
+      unixTime: new Date(timestamp).getTime(),
+      price: nft.price || 0,
+      image: imageOf(metaId, metaImage),
+      animationUrl: imageOf(metaId, metaAnimationUrl) || '',
+      chain: chain || urlPrefix.value,
+    }
+  })
+}
+
+export const setNftMetaFromCache = async (nfts): Promise<CarouselNFT[]> => {
   return await Promise.all(
-    data.map(async (nft) => {
-      const timestamp = nft.updatedAt || nft.timestamp
-      const metaId = nft.meta.id
-      const metaImage = nft.meta.image
-      const metaAnimationUrl = nft.meta.animationUrl
+    nfts.map(async (nft) => {
+      if (nft.image) {
+        return nft
+      }
 
-      const result = {
+      const cachedMeta = await get(nft.metadata)
+      const meta = !isEmpty(cachedMeta)
+        ? cachedMeta
+        : await fetchNFTMetadata(
+            nft,
+            getSanitizer(nft.metadata, 'pinata', 'permafrost')
+          )
+      const imageSanitizer = getSanitizer(meta.image, 'pinata')
+      return {
         ...nft,
-        timestamp: formatDistanceToNow(new Date(timestamp), {
-          addSuffix: true,
-        }),
-        unixTime: new Date(timestamp).getTime(),
-        price: nft.price || 0,
-        image: imageOf(metaId, metaImage),
-        animationUrl: imageOf(metaId, metaAnimationUrl) || '',
-        chain: chain || urlPrefix.value,
+        name: meta.name,
+        image: imageSanitizer(meta.image),
+        animation_url: sanitizeIpfsUrl(
+          meta.animation_url || meta.image,
+          'pinata'
+        ),
       }
-
-      if (metaImage === null) {
-        const cachedMeta = await get(nft.metadata)
-        const meta = !isEmpty(cachedMeta)
-          ? cachedMeta
-          : await fetchNFTMetadata(
-              nft,
-              getSanitizer(nft.metadata, 'pinata', 'permafrost')
-            )
-        const imageSanitizer = getSanitizer(meta.image, 'pinata')
-
-        return {
-          ...result,
-          name: meta.name,
-          image: imageSanitizer(meta.image),
-          animation_url: sanitizeIpfsUrl(
-            meta.animation_url || meta.image,
-            'pinata'
-          ),
-        }
-      }
-
-      return result
     })
   )
 }
