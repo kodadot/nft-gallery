@@ -10,7 +10,7 @@ export const useCollectionsSales = (ids: string[]) => {
   )
 
   const { data, error, loading } = useGraphql({
-    queryPrefix: 'rmrk',
+    queryPrefix: 'subsquid',
     queryName: 'collectionsSales',
     variables: {
       ids,
