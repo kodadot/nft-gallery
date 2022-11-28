@@ -26,10 +26,10 @@ export const sendWaifu = async (
 ): Promise<MintResponse> => {
   const body = {
     email,
-    url,
+    metadata: url,
     image,
   }
-  const value = await api<null>('mint-me', {
+  const value = await api<typeof body>('mint-me', {
     method: 'POST',
     body,
   }).catch((error: FetchError) => {
@@ -38,16 +38,13 @@ export const sendWaifu = async (
   return value
 }
 
-export const claimWaifu = async (
-  claimId: string,
-  address: string
-): Promise<null> => {
+export const claimWaifu = async (claimId: string, address: string) => {
   const body = {
     claimId,
     address,
     email: '',
   }
-  const value = await api<null>('claim-me', {
+  const value = await api<typeof body>('claim-me', {
     method: 'POST',
     body,
   }).catch((error: FetchError) => {
