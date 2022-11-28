@@ -1,5 +1,5 @@
 import { formatDistanceToNow } from 'date-fns'
-import { get } from 'idb-keyval'
+import { get, set } from 'idb-keyval'
 import { isEmpty } from '@kodadot1/minimark'
 import {
   getCloudflareImageLinks,
@@ -58,13 +58,15 @@ export const setNftMetaFromCache = async (nfts): Promise<CarouselNFT[]> => {
         return nft
       }
 
-      const cachedMeta = await get(nft.metadata)
-      const meta = !isEmpty(cachedMeta)
-        ? cachedMeta
-        : await fetchNFTMetadata(
-            nft,
-            getSanitizer(nft.metadata, 'pinata', 'permafrost')
-          )
+      let meta = await get(nft.metadata)
+
+      if (isEmpty(meta)) {
+        meta = await fetchNFTMetadata(
+          nft,
+          getSanitizer(nft.metadata, 'pinata', 'permafrost')
+        )
+        set(nft.metadata, meta)
+      }
       const imageSanitizer = getSanitizer(meta.image, 'pinata')
       return {
         ...nft,
