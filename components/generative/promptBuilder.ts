@@ -90,7 +90,7 @@ export const buildAttributes = (options: Options): Attribute[] => {
 export const buildMetadata = async (
   url: string,
   options: Options,
-  { input, version }: PredictionStatus
+  { input, version, logs }: PredictionStatus
 ): Promise<string> => {
   const blob = await $fetch<Blob>(url, { responseType: 'blob' })
   const file = new File([blob], 'image.png', { type: 'image/png' })
@@ -112,7 +112,10 @@ export const buildMetadata = async (
   const replicableMeta = {
     ...meta,
     replicate: {
-      input,
+      input: {
+        ...input,
+        seed: logs.match(/Using seed: (\d+)/)?.at(1),
+      },
       version,
     },
   }
