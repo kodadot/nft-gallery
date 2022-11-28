@@ -41,8 +41,7 @@
     width: max-content;
 
     &:hover {
-      -webkit-text-fill-color: transparent;
-      -webkit-text-stroke: 1px;
+      color: $k-grey!important;
     }
 
     &.active {

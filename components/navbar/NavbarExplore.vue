@@ -39,11 +39,7 @@
         v-for="option in options.slice(0, 3)"
         :key="option.value"
         :value="option.value"
-        :class="[
-          'menu-item',
-          'mr-2',
-          { 'is-active': selectedChain === option.value },
-        ]"
+        :class="['menu-item', 'mr-2']"
         @click="setSelectedChain(option.value)">
         {{ option.text }}
       </span>
