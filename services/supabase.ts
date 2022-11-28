@@ -1,5 +1,4 @@
 import { $fetch, FetchError } from 'ohmyfetch'
-import { URLS } from '../utils/constants'
 // import consola from 'consola'
 
 const BASE_URL = 'https://mtwfjfuiknglhfozmotu.functions.supabase.co/'

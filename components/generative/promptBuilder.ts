@@ -1,3 +1,4 @@
+import { $fetch } from 'ohmyfetch'
 import { PredictionStatus } from '@/services/replicate'
 import { pinImageSafe } from '@/utils/safePin'
 import {
