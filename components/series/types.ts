@@ -1,6 +1,8 @@
 import { TranslateResult } from 'vue-i18n'
 import { Interaction } from '../rmrk/service/scheme'
 
+export type TimeRange = 'All' | '3Month' | 'Month' | 'Week'
+
 export type Column = {
   field: keyof RowSeries
   label: string | TranslateResult
@@ -33,9 +35,11 @@ export type RowSeries = {
   dailyVolume: VolumeType
   weeklyVolume: VolumeType
   monthlyVolume: VolumeType
+  threeMonthVolume: VolumeType
   dailyrangeVolume: VolumeType
   weeklyrangeVolume: VolumeType
   monthlyrangeVolume: VolumeType
+  threeMonthlyrangeVolume: VolumeType
   averagePrice: string
   floorPrice: number
   highestPrice: number

@@ -4,7 +4,7 @@
       ref="searchRef"
       v-model="name"
       class="gallery-search"
-      :placeholder="$t('general.searchPlaceholder')"
+      :placeholder="placeholderContent"
       icon="search"
       :open-on-focus="showDefaultSuggestions"
       max-height="600"
@@ -26,12 +26,12 @@
     </b-autocomplete>
     <div class="search-bar-bg"></div>
     <img
-      v-if="!name && !inputFocused"
       class="search-bar-keyboard-icon"
+      :class="{ 'is-invisible': name || inputFocused }"
       src="/search-k-keyboard.svg" />
     <img
-      v-if="name || inputFocused"
       class="search-bar-keyboard-icon"
+      :class="{ 'is-invisible': !name && !inputFocused }"
       src="/k-search-enter.svg" />
   </div>
 </template>
@@ -71,6 +71,10 @@ export default class SearchBar extends mixins(
     this.initKeyboardEventHandler({
       k: this.bindSearchEvents,
     })
+  }
+
+  get placeholderContent() {
+    return this.inputFocused ? '' : this.$t('general.searchPlaceholder')
   }
 
   @Emit('enter')

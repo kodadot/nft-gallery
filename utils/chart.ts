@@ -14,24 +14,19 @@ export const mapToAverage = (item: CollectionChartData) =>
 export const mapToCount = (item: CollectionChartData) => item.count
 export const getLabel = (item: CollectionChartData) => item.date
 
-type GetQuartilesArgs = {
-  dataset: number[]
-  medianDetails: MedianDetails
-}
 type MedianDetails = {
   median: number
   medianIndex: null | number
 }
 type RenderedChartData<T = bigint | number> = { x: Date; y: T }[]
 
-interface Quartiles {
-  q1: number
-  q2: number
-  q3: number
-}
-interface HSpread extends Quartiles {
+interface HSpread {
   min: number
   max: number
+  iqr: number
+  q1: number
+  q3: number
+  sorted: number[]
 }
 
 const getMedianDetails = (dataset: number[]): MedianDetails => {
@@ -46,29 +41,6 @@ const getMedianDetails = (dataset: number[]): MedianDetails => {
     const median = dataset[Math.floor(length / 2)]
     return { median, medianIndex: Math.floor(length / 2) }
   }
-}
-
-const getQuartiles = ({
-  dataset,
-  medianDetails,
-}: GetQuartilesArgs): Quartiles => {
-  let q1 = 0
-  let q3 = 0
-
-  // If there is a median index, this means that the dataset length is an odd number
-  if (medianDetails.medianIndex) {
-    q1 = getMedianDetails(dataset.slice(0, medianDetails.medianIndex)).median
-    q3 = getMedianDetails(
-      dataset.slice(medianDetails.medianIndex + 1, dataset.length)
-    ).median
-  } else {
-    q1 = getMedianDetails(dataset.slice(0, dataset.length / 2)).median
-    q3 = getMedianDetails(
-      dataset.slice(dataset.length / 2, dataset.length)
-    ).median
-  }
-
-  return { q1, q2: medianDetails.median, q3 }
 }
 
 export const getChartData = (data: ChartData = []): RenderedChartData =>
@@ -102,15 +74,6 @@ export const getMedianPoint = (data: ChartData = []): number => {
   return median
 }
 
-export const getHSpread = (data: ChartData = []): HSpread => {
-  const dataset = data.map((item) => item[1]).sort((a, b) => b - a)
-  const medianDetails = getMedianDetails(dataset)
-  const min = Math.min(...dataset)
-  const max = Math.max(...dataset)
-  const { q1, q2, q3 } = getQuartiles({ dataset, medianDetails })
-  return { min, max, q1, q2, q3 }
-}
-
 export const getMovingAverage = (data: RenderedChartData = []): number[] => {
   const dataset = data.map(({ y }) => y) as number[]
   const movingAverageArray: number[] = []
@@ -123,4 +86,43 @@ export const getMovingAverage = (data: RenderedChartData = []): number[] => {
   }
 
   return movingAverageArray
+}
+
+// source: https://stackoverflow.com/a/64452666
+// https://mathworld.wolfram.com/Outlier.html
+export const getHSpread = (data): HSpread => {
+  const values = data.concat().sort((a, b) => a - b)
+
+  const quartile = (q) => {
+    const sorted = values
+    const pos = (sorted.length - 1) * q
+    const base = Math.floor(pos)
+    const rest = pos - base
+
+    if (sorted[base + 1] !== undefined) {
+      return sorted[base] + rest * (sorted[base + 1] - sorted[base])
+    }
+
+    return sorted[base]
+  }
+
+  const q1 = quartile(0.25)
+  const q3 = quartile(0.75)
+  const iqr = q3 - q1
+  const max = q3 + iqr * 1.5
+  const min = q1 - iqr * 1.5
+
+  return { min, max, q1, q3, iqr, sorted: values }
+}
+
+export const filterOutliers = (data) => {
+  const { min, max, sorted } = getHSpread(data)
+
+  // Then filter anything beyond or beneath these values.
+  const filteredValues = sorted.filter((x) => {
+    return x <= max && x >= min
+  })
+
+  // Then return
+  return filteredValues
 }
