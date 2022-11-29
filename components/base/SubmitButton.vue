@@ -1,12 +1,13 @@
 <template>
   <b-field>
     <b-button
-      type="is-primary"
-      icon-left="paper-plane"
-      @click="$emit('click')"
+      :type="type"
+      :icon-left="icon"
       :disabled="disabled"
       :loading="loading"
-      outlined>
+      :expanded="expanded"
+      outlined
+      @click="$emit('click')">
       <slot>
         {{ $t(label) }}
       </slot>
@@ -14,13 +15,20 @@
   </b-field>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-
-@Component({})
-export default class SubmitButton extends Vue {
-  @Prop(Boolean) public disabled!: boolean
-  @Prop(Boolean) public loading!: boolean
-  @Prop(String) public label!: string
+<script setup lang="ts">
+export interface Props {
+  disabled?: boolean
+  expanded?: boolean
+  icon?: string
+  label: string
+  loading?: boolean
+  type?: string
 }
+
+const props = withDefaults(defineProps<Props>(), {
+  loading: false,
+  disabled: false,
+  type: 'is-primary',
+  icon: 'paper-plane',
+})
 </script>
