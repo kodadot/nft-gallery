@@ -173,14 +173,26 @@
         </a>
       </template>
 
-      <b-dropdown-item custom aria-role="menuitem">
-        <div class="has-text-grey is-size-7 mt-2">
-          {{ $t('profileMenu.wallet') }}
+      <b-dropdown-item
+        custom
+        aria-role="menuitem"
+        class="is-flex flex-direction-column is-justify-content-space-between">
+        <div>
+          <span class="has-text-grey is-size-7 mt-2">
+            {{ $t('profileMenu.wallet') }}
+          </span>
+          <Identity
+            :address="account"
+            class="navbar__address is-size-6 mt-1"
+            hide-identity-popover />
         </div>
-        <Identity
-          :address="account"
-          class="navbar__address is-size-6"
-          hide-identity-popover />
+        <div v-if="userWallet">
+          <span class="has-text-grey is-size-7 mt-2">{{
+            userWallet.name
+          }}</span>
+          <br />
+          <b-image :src="userWallet.img" class="is-24x24 mt-1 mx-auto" />
+        </div>
       </b-dropdown-item>
 
       <hr class="dropdown-divider mx-4" aria-role="menuitem" />
@@ -272,6 +284,7 @@
 <script lang="ts">
 import { Component, Prop, Ref, mixins } from 'nuxt-property-decorator'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
+import { SupportedWallets } from '@/utils/config/wallets'
 
 import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
@@ -329,6 +342,12 @@ export default class NavbarProfileDropdown extends mixins(
 
   get tokens() {
     return ['', getKusamaAssetId(this.urlPrefix)]
+  }
+
+  get userWallet() {
+    return SupportedWallets().find(
+      (w) => w.extensionName === localStorage.getItem('wallet')
+    )
   }
 
   get account() {
