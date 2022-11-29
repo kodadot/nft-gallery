@@ -15,12 +15,12 @@
         :disabled="hasToken"
         expanded
         required />
-      <SubmitButton
+      <!-- <SubmitButton
         icon="plus"
         label="claim"
         :loading="isLoading"
         expanded
-        @click="submit" />
+        @click="submit" /> -->
     </template>
   </div>
 </template>
@@ -36,9 +36,9 @@ const BasicInput = defineAsyncComponent(
   () => import('@/components/shared/form/BasicInput.vue')
 )
 
-const SubmitButton = defineAsyncComponent(
-  () => import('@/components/base/SubmitButton.vue')
-)
+// const SubmitButton = defineAsyncComponent(
+//   () => import('@/components/base/SubmitButton.vue')
+// )
 
 const token = ref('')
 const hasToken = ref(false)
