@@ -49,6 +49,9 @@ html.dark-mode {
         color: $black;
       }
     }
+    .navbar-dropdown a.navbar-item {
+      border-bottom: 1px solid $white;
+    }
 
     .navbar-link {
       &:hover {
