@@ -1,6 +1,8 @@
 <template>
   <div>
-    <p class="title is-size-3">Claim your sub0 POAP</p>
+    <p class="title is-size-3">
+      Claiming does not work yet another mail will come
+    </p>
     <b-field>
       <Auth />
     </b-field>
