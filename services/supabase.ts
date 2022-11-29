@@ -48,11 +48,11 @@ export const logPrediction = async (
   return value
 }
 
-export const getWaifuByMail = async (email: string) => {
+export const getWaifuById = async (id: string) => {
   const value = await api<WaifuResponse>('get-me', {
     method: 'GET',
     params: {
-      email,
+      id,
     },
   }).catch((error: FetchError) => {
     throw new Error(`[WAIFU::GET] Unable to GET for reasons ${error.data}`)

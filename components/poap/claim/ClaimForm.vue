@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { getWaifuByMail } from '@/services/supabase'
+import { getWaifuById } from '@/services/supabase'
 import { claimWaifu } from '@/services/waifu'
 import { notificationTypes, showNotification } from '@/utils/notification'
 
@@ -44,8 +44,8 @@ const { query } = useRoute()
 const waifu = ref<any>(null)
 const { accountId, isLogIn } = useAuth()
 
-const fetchWaifu = async (email: string) => {
-  const waifuResponse = await getWaifuByMail(email)
+const fetchWaifu = async (id: string) => {
+  const waifuResponse = await getWaifuById(id)
   if (waifuResponse) {
     waifu.value = waifuResponse
   }
@@ -54,13 +54,9 @@ const fetchWaifu = async (email: string) => {
 if (query.token) {
   token.value = query.token as string
   hasToken.value = true
-}
-
-if (query.email) {
-  const email = query.email as string
-  fetchWaifu(email).catch((e) => {
-    console.error(e)
-  })
+  // fetchWaifu(token.value).catch((e) => {
+  //   console.error(e)
+  // })
 }
 
 const isLoading = ref(false)
