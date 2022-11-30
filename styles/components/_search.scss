@@ -41,7 +41,8 @@
     width: max-content;
 
     &:hover {
-      color: $k-grey!important;
+      color: hsl(0deg, 0%, 100%) !important;
+      text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 0px -1px 0 #000;
     }
 
     &.active {
