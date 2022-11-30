@@ -21,11 +21,7 @@
         <a
           v-for="chain in chainList"
           :key="chain.value"
-          :class="[
-            'mr-4 mb-2',
-            'chain-option active',
-            { active: urlPrefix === chain.value },
-          ]"
+          :class="['m-2', 'chain-option active']"
           @click="switchChain(chain.value)">
           {{ chain.text }}
         </a>
