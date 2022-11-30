@@ -95,7 +95,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
-import formatBalance from '@/utils/formatBalance'
+import formatBalance from '@/utils/format/balance'
 import shortAddress from '@/utils/shortAddress'
 
 import { Event } from '../service/types'
