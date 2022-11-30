@@ -81,7 +81,10 @@
       </div>
     </div>
 
-    <nuxt-link v-show="urlPrefix === 'rmrk'" to="/series-insight" class="link">
+    <nuxt-link
+      v-show="urlPrefix === 'rmrk' || urlPrefix === 'bsx'"
+      to="/series-insight"
+      class="link">
       {{ $t('helper.seeMore') }} >
     </nuxt-link>
   </div>
