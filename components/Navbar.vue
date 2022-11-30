@@ -6,7 +6,8 @@
     close-on-click
     mobile-burger
     :active.sync="isBurgerMenuOpened"
-    :class="{ 'navbar-shrink': !showTopNavbar }">
+    :class="{ 'navbar-shrink': !showTopNavbar }"
+    @click="disableScroll">
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
         <img
@@ -20,7 +21,7 @@
         @click="closeBurgerMenu">
         <!-- <HistoryBrowser class="navbar-item" /> -->
         <b-button
-          v-if="showSearchOnNavbar"
+          v-if="isBurgerMenuOpened"
           icon-left="search"
           class="mr-2 mobile-nav-search-btn is-flex"
           @click="showMobileSearchBar">
@@ -194,7 +195,7 @@ export default class NavbarMenu extends mixins(
 ) {
   protected showTopNavbar = true
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
-  private fixedTitleNavAppearDistance = 200
+  private fixedTitleNavAppearDistance = 85
   private lastScrollPosition = 0
   private artistName = ''
   private isBurgerMenuOpened = false
@@ -260,6 +261,14 @@ export default class NavbarMenu extends mixins(
     return !this.isLandingPage || !this.showTopNavbar
   }
 
+  get disableScroll() {
+    if (this.isBurgerMenuOpened) {
+      return (document.body.style.overflowY = 'hidden')
+    } else {
+      return (document.body.style.overflowY = 'initial')
+    }
+  }
+
   get navBarTitle(): string {
     let title = ''
     if (this.inCollectionPage) {
@@ -285,6 +294,9 @@ export default class NavbarMenu extends mixins(
 
   onScroll() {
     const currentScrollPosition = document.documentElement.scrollTop
+    const searchBarPosition = document
+      .getElementById('networkList')!
+      .getBoundingClientRect().top
     if (currentScrollPosition <= 0) {
       this.showTopNavbar = true
       return
@@ -292,8 +304,7 @@ export default class NavbarMenu extends mixins(
     if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) {
       return
     }
-    this.showTopNavbar =
-      currentScrollPosition < this.fixedTitleNavAppearDistance
+    this.showTopNavbar = searchBarPosition > this.fixedTitleNavAppearDistance
     this.lastScrollPosition = currentScrollPosition
   }
 
