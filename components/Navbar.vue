@@ -117,6 +117,12 @@
           data-cy="offers-stats">
           <span> {{ $t('navbar.offerStats') }}</span>
         </b-navbar-item>
+        <b-navbar-item
+          tag="nuxt-link"
+          to="/series-insight"
+          data-cy="series-insight">
+          Series
+        </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-dropdown
         v-if="isRmrk"
@@ -192,12 +198,12 @@ export default class NavbarMenu extends mixins(
   AuthMixin,
   ExperimentMixin
 ) {
-  protected showTopNavbar = true
+  public showTopNavbar = true
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
   private fixedTitleNavAppearDistance = 200
   private lastScrollPosition = 0
   private artistName = ''
-  private isBurgerMenuOpened = false
+  public isBurgerMenuOpened = false
   @Ref('mobilSearchRef') readonly mobilSearchRef
 
   get isRmrk(): boolean {
