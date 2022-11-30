@@ -20,8 +20,6 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-@import '@oruga-ui/oruga/dist/oruga.min.css';
-@import '@oruga-ui/oruga/dist/oruga-full-vars.min.css';
 .is-neo {
   border-radius: 0;
   color: hsl(0deg, 0%, 4%);

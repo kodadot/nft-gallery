@@ -1,7 +1,28 @@
 // @import '@/styles/index.scss'; TODO: how to import this file?
 @import 'bulma/bulma.sass';
+@import '@oruga-ui/oruga/dist/oruga.min.css';
+@import '@oruga-ui/oruga/dist/oruga-full-vars.min.css';
 
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+  /** Select **/
+  --oruga-select-placeholder-opacity: 1;
+  --oruga-select-border-radius: 0;
+  --oruga-select-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+  --oruga-select-arrow-size: .75rem;
+  --oruga-select-padding: 8px 8px;
+  --oruga-select-line-height: 1;
+
+  /** Dropdown **/
+  --oruga-dropdown-menu-padding: 0;
+  --oruga-dropdown-menu-margin: 1rem 0;
+  --oruga-dropdown-menu-border-radius: 0;
+  --oruga-dropdown-menu-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+  --oruga-dropdown-item-hover-color: #1f1f1f;
+  --oruga-dropdown-item-hover-background-color: #ffe5f3;
+}
+
 
 html,
 body {
