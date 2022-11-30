@@ -51,6 +51,12 @@
     }
   }
 
+  .beta-text {
+    font-size: 12px;
+    vertical-align: super;
+    color: $shade;
+  }
+
   @include touch {
     padding: 0;
     justify-content: space-evenly!important;

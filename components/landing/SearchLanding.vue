@@ -17,13 +17,17 @@
         hide-filter
         class="landing-search-bar"
         search-column-class="is-flex-grow-1" />
-      <div class="is-flex is-justify-content-center is-flex-wrap-wrap">
+      <div
+        class="is-flex is-justify-content-center is-flex-wrap-wrap is-align-items-baseline">
         <a
           v-for="chain in chainList"
           :key="chain.value"
           :class="['m-2', 'chain-option active']"
           @click="switchChain(chain.value)">
-          {{ chain.text }}
+          {{ chainText(chain.text) }}
+          <span v-if="chain.text.includes('[Beta]')" class="beta-text">
+            {{ $t('beta') }}</span
+          >
         </a>
       </div>
     </div>
@@ -44,6 +48,13 @@ const isDarkMode = computed(
     document.documentElement.className.includes('dark-mode')
 )
 
+const chainText = (chain) => {
+  if (chain.includes('[Beta]')) {
+    return chain.split(' ')[0]
+  } else {
+    return chain
+  }
+}
 const landingImage = computed(() => {
   if (isDarkMode.value) {
     return ['/landing-search-left-dark.svg', '/landing-search-right-dark.svg']
