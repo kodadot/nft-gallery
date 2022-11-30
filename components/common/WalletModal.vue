@@ -308,9 +308,6 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
         border-radius: 4px;
         position: absolute;
       }
-      .delete {
-        right: 14px;
-      }
       .header-btn:nth-child(1) {
         left: 14px;
         width: 40px;
@@ -320,6 +317,7 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
         width: 40px;
         max-height: 40px;
         max-width: 40px;
+        right: 14px;
       }
     }
 
