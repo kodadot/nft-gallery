@@ -21,7 +21,7 @@
         @click="closeBurgerMenu">
         <!-- <HistoryBrowser class="navbar-item" /> -->
         <b-button
-          v-if="isBurgerMenuOpened"
+          v-if="showSearchOnNavbar"
           icon-left="search"
           class="mr-2 mobile-nav-search-btn is-flex"
           @click="showMobileSearchBar">
@@ -258,7 +258,7 @@ export default class NavbarMenu extends mixins(
   }
 
   get showSearchOnNavbar(): boolean {
-    return !this.isLandingPage || !this.showTopNavbar
+    return !this.isLandingPage || !this.showTopNavbar || this.isBurgerMenuOpened
   }
 
   get disableScroll() {
