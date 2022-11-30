@@ -7,6 +7,7 @@
       :expanded="expanded"
       :maxlength="maxlength"
       :required="required"
+      :disabled="disabled"
       :type="type"
       @blur="hasFocus = false"
       @focus="hasFocus = true" />
@@ -32,6 +33,7 @@ export default class BasicInput extends Vue {
   @Prop({ type: String, required: false }) maxlength!: string
   @Prop({ type: String, required: false }) type!: string
   @Prop({ type: Boolean, default: false }) required!: boolean
+  @Prop({ type: Boolean, default: false }) disabled!: boolean
   @Ref('input') readonly input
   protected hasFocus = false
   public checkValidity() {

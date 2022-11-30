@@ -41,6 +41,7 @@ export const URLS = {
     snekRococo: 'https://squid.subsquid.io/snekk/v/004/graphql',
     click: 'https://squid.subsquid.io/click/v/002/graphql',
     antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
+    replicate: 'https://replicate.kodadot.workers.dev/',
   },
   providers: {
     coingecko: 'https://api.coingecko.com/api/v3',
