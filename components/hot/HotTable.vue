@@ -59,7 +59,7 @@ import { RowHot, SubsquidHotNft } from './types'
 
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
-import formatBalance from '@/utils/formatBalance'
+import formatBalance from '@/utils/format/balance'
 import { getVolume } from '@/utils/math'
 import { lastweekDate } from '@/components/series/utils'
 
