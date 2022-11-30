@@ -1,4 +1,6 @@
 import { formatDistanceToNow } from 'date-fns'
+import { get, set } from 'idb-keyval'
+import { isEmpty } from '@kodadot1/minimark'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
@@ -7,7 +9,11 @@ import {
 import { LastEvent } from '@/utils/types/types'
 
 import { CarouselNFT } from '@/components/base/types'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import {
+  fetchNFTMetadata,
+  getSanitizer,
+  sanitizeIpfsUrl,
+} from '@/components/rmrk/utils'
 /**
  * Format the data to fit with CarouselNFT[]
  * Get cloudflare images
@@ -43,6 +49,36 @@ export const formatNFT = async (
       chain: chain || urlPrefix.value,
     }
   })
+}
+
+export const setNftMetaFromCache = async (nfts): Promise<CarouselNFT[]> => {
+  return await Promise.all(
+    nfts.map(async (nft) => {
+      if (nft.image) {
+        return nft
+      }
+
+      let meta = await get(nft.metadata)
+
+      if (isEmpty(meta)) {
+        meta = await fetchNFTMetadata(
+          nft,
+          getSanitizer(nft.metadata, 'pinata', 'permafrost')
+        )
+        set(nft.metadata, meta)
+      }
+      const imageSanitizer = getSanitizer(meta.image, 'pinata')
+      return {
+        ...nft,
+        name: meta.name,
+        image: imageSanitizer(meta.image),
+        animation_url: sanitizeIpfsUrl(
+          meta.animation_url || meta.image,
+          'pinata'
+        ),
+      }
+    })
+  )
 }
 
 interface Events {

@@ -138,7 +138,7 @@ import { DispatchError } from '@polkadot/types/interfaces'
 import { calculateKsmFromUsd, calculateUsdFromKsm } from '@/utils/calculation'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { calculateBalance } from '@/utils/formatBalance'
+import { calculateBalance } from '@/utils/format/balance'
 import correctFormat from '@/utils/ss58Format'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 
