@@ -323,6 +323,7 @@ export default class NavbarMenu extends mixins(
 
   mounted() {
     window.addEventListener('scroll', this.onScroll)
+    document.body.style.overflowY = 'initial'
   }
 
   beforeDestroy() {
