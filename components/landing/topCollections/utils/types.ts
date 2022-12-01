@@ -35,3 +35,11 @@ export type CollectionSales = {
     events: Interaction[]
   }[]
 }
+
+export type TopCollectionListResult = {
+  collectionEntities: CollectionEntity[]
+}
+
+export type CollectionsSalesResult = {
+  collectionsSales: CollectionSales[]
+}

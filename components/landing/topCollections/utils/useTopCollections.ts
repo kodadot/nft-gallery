@@ -13,15 +13,15 @@ import {
   CollectionEntity,
   CollectionEntityWithVolumes,
   CollectionSales,
+  CollectionsSalesResult,
+  TopCollectionListResult,
 } from './types'
-import { useTopCollectionList } from './useTopCollectionList'
-import { useCollectionsSales } from './useCollectionsSales'
 
 const proccessData = (
-  collectionEntities: CollectionEntity[],
+  collectionsList: CollectionEntity[],
   collectionsSales: CollectionSales[]
 ) => {
-  return collectionEntities.map((e): CollectionEntityWithVolumes => {
+  return collectionsList.map((e): CollectionEntityWithVolumes => {
     const thisCollectionSales = collectionsSales.find(
       ({ id }) => id === e.id
     ) as CollectionSales
@@ -47,45 +47,56 @@ export const useTopCollections = (limit: number) => {
     'topCollectionWithVolumeList',
     () => []
   )
-  const fetchError = ref(null)
-  const isLoading = ref(true)
-  const { data: topCollections, error: fetchTopCollectionsError } =
-    useTopCollectionList(limit)
-  watch(
-    [topCollections, fetchTopCollectionsError],
-    ([collectionEntities, fetchTopCollectionsErrorValue]) => {
-      if (fetchTopCollectionsErrorValue) {
-        fetchError.value = fetchTopCollectionsErrorValue
-        isLoading.value = false
-        return
-      }
-      if (collectionEntities) {
-        const { data: collectionSales, error: fetchCollectionsSalesError } =
-          useCollectionsSales(collectionEntities.map((c) => c.id))
+  const error = ref(null)
+  const loading = ref(true)
+  const collectionsSales = ref<CollectionsSalesResult>()
 
-        watch(
-          [collectionSales, fetchCollectionsSalesError],
-          ([collectionSalesValue, fetchCollectionsSalesErrorValue]) => {
-            if (fetchCollectionsSalesErrorValue) {
-              fetchError.value = fetchCollectionsSalesErrorValue
-              isLoading.value = false
-              return
-            }
-            if (collectionSalesValue) {
-              topCollectionWithVolumeList.value = proccessData(
-                collectionEntities,
-                collectionSalesValue
-              )
-              isLoading.value = false
-            }
-          }
-        )
-      }
+  const { data: topCollections } = useGraphql({
+    queryPrefix: 'subsquid',
+    queryName: 'topCollectionList',
+    variables: {
+      orderBy: 'volume_DESC',
+      limit,
+    },
+    error,
+  })
+
+  watch([topCollections, error], () => {
+    if (error.value) {
+      loading.value = false
+      return
     }
-  )
+    if (topCollections.value) {
+      const ids = (
+        topCollections.value as TopCollectionListResult
+      ).collectionEntities.map((c) => c.id)
+
+      useGraphql({
+        queryPrefix: 'subsquid',
+        queryName: 'collectionsSales',
+        variables: {
+          ids,
+        },
+        data: collectionsSales,
+        error: error,
+        loading,
+      })
+    }
+  })
+
+  watch(collectionsSales, () => {
+    if (collectionsSales.value) {
+      const collectionsList = (topCollections.value as TopCollectionListResult)
+        .collectionEntities
+      topCollectionWithVolumeList.value = proccessData(
+        collectionsList,
+        collectionsSales.value.collectionsSales
+      )
+    }
+  })
   return {
     data: topCollectionWithVolumeList,
-    error: fetchError,
-    loading: isLoading,
+    error,
+    loading,
   }
 }
