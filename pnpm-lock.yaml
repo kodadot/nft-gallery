@@ -49,7 +49,7 @@ importers:
       '@polkadot/vue-identicon': ^2.9.10
       '@ramp-network/ramp-instant-sdk': ^3.2.3
       '@rollup/plugin-graphql': ^1.1.0
-      '@sgratzl/chartjs-chart-boxplot': ^3.9.1
+      '@sgratzl/chartjs-chart-boxplot': ^3.10.0
       '@types/jest': ^27.5.2
       '@types/markdown-it': ^12.2.3
       '@typescript-eslint/eslint-plugin': ^5.44.0
@@ -62,7 +62,7 @@ importers:
       c8: ^7.12.0
       chart.js: ^3.9.1
       chartjs-adapter-date-fns: ^2.0.1
-      chartjs-plugin-annotation: ^2.0.0
+      chartjs-plugin-annotation: ^2.1.0
       chartjs-plugin-zoom: ^1.2.1
       consola: ^2.15.3
       cross-env: ^7.0.3
@@ -82,11 +82,11 @@ importers:
       glob: ^8.0.3
       graphql: ^16.6.0
       graphql-tag: ^2.12.6
-      highlight.js: ^11.6.0
+      highlight.js: ^11.7.0
       husky: ^7.0.4
       idb-keyval: ^6.2.0
       jsdom: ^19.0.0
-      keen-slider: ^6.8.3
+      keen-slider: ^6.8.5
       lazysizes: ^5.3.2
       lint-staged: ^12.5.0
       lodash: ^4.17.21
@@ -95,7 +95,7 @@ importers:
       nuxt-buefy: ^0.4.24
       nuxt-edge: 2.16.0-27616340.013f051b
       nuxt-property-decorator: ^2.9.1
-      prettier: ^2.7.1
+      prettier: ^2.8.0
       raw-loader: ^4.0.2
       sass: ^1.56.1
       sass-loader: ^10.4
@@ -104,7 +104,7 @@ importers:
       typescript: ^4.9.3
       v-emoji-picker: ^2.3.3
       vite-plugin-vue2: ^2.0.2
-      vitest: ^0.25.2
+      vitest: ^0.25.3
       vue: 2.7.14
       vue-apollo: ^3.1.0
       vue-audio-visual: 2.5.0
@@ -154,9 +154,9 @@ importers:
       date-fns: 2.29.3
       emoji-unicode: 2.0.1
       graphql: 16.6.0
-      highlight.js: 11.6.0
+      highlight.js: 11.7.0
       idb-keyval: 6.2.0
-      keen-slider: 6.8.3
+      keen-slider: 6.8.5
       lazysizes: 5.3.2
       lodash: 4.17.21
       mingo: 5.1.0
@@ -208,7 +208,7 @@ importers:
       cypress-real-events: 1.7.4_cypress@10.11.0
       eslint: 8.28.0
       eslint-config-prettier: 8.5.0_eslint@8.28.0
-      eslint-plugin-prettier: 4.2.1_pgxuib4rd7wiymfktharf5ydt4
+      eslint-plugin-prettier: 4.2.1_cwlo2dingkvfydnaculr42urve
       eslint-plugin-unicorn: 42.0.0_eslint@8.28.0
       eslint-plugin-vue: 8.7.1_eslint@8.28.0
       fake-indexeddb: 4.0.0
@@ -218,13 +218,13 @@ importers:
       jsdom: 19.0.0
       lint-staged: 12.5.0
       netlify-lambda: 2.0.15
-      prettier: 2.7.1
+      prettier: 2.8.0
       raw-loader: 4.0.2
       sass: 1.56.1
       sass-loader: 10.4.1_sass@1.56.1
       typescript: 4.9.3
       vite-plugin-vue2: 2.0.2_lodash@4.17.21+vue@2.7.14
-      vitest: 0.25.2_jsdom@19.0.0+sass@1.56.1
+      vitest: 0.25.3_jsdom@19.0.0+sass@1.56.1
       vue-debounce-decorator: 1.0.1
       vue-eslint-parser: 9.1.0_eslint@8.28.0
       wait-on: 6.0.1
@@ -5957,7 +5957,7 @@ packages:
       source-map: 0.6.1
       vue-template-es2015-compiler: 1.9.1
     optionalDependencies:
-      prettier: 2.7.1
+      prettier: 2.8.0
     transitivePeerDependencies:
       - arc-templates
       - atpl
@@ -10491,7 +10491,7 @@ packages:
       eslint: 8.28.0
     dev: true
 
-  /eslint-plugin-prettier/4.2.1_pgxuib4rd7wiymfktharf5ydt4:
+  /eslint-plugin-prettier/4.2.1_cwlo2dingkvfydnaculr42urve:
     resolution: {integrity: sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
@@ -10504,7 +10504,7 @@ packages:
     dependencies:
       eslint: 8.28.0
       eslint-config-prettier: 8.5.0_eslint@8.28.0
-      prettier: 2.7.1
+      prettier: 2.8.0
       prettier-linter-helpers: 1.0.0
     dev: true
 
@@ -12074,8 +12074,8 @@ packages:
     resolution: {integrity: sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==}
     dev: false
 
-  /highlight.js/11.6.0:
-    resolution: {integrity: sha512-ig1eqDzJaB0pqEvlPVIpSSyMaO92bH1N2rJpLMN/nX396wTpDA4Eq0uK+7I/2XG17pFaaKE0kjV/XPeGt7Evjw==}
+  /highlight.js/11.7.0:
+    resolution: {integrity: sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==}
     engines: {node: '>=12.0.0'}
     dev: false
 
@@ -13238,8 +13238,8 @@ packages:
     resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
     dev: true
 
-  /keen-slider/6.8.3:
-    resolution: {integrity: sha512-tJFokyUiHAtbGGQHnNMm3MLCpOm+z1JZsaOOMVnzTYAfAqLDT/zI/cE1mf82Bxmp1uHSIeUUkH+EZGzRQrSO/w==}
+  /keen-slider/6.8.5:
+    resolution: {integrity: sha512-9yoosfffgTCrkmbX8kCUMWsn9KDgPSkxBof5/0yXde001D1xao7i9ppfxQCCK0MLnoCa+Rdssby0jFbTTUM4rw==}
     dev: false
 
   /keyv/4.3.3:
@@ -16266,8 +16266,8 @@ packages:
       fast-diff: 1.2.0
     dev: true
 
-  /prettier/2.7.1:
-    resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
+  /prettier/2.8.0:
+    resolution: {integrity: sha512-9Lmg8hTFZKG0Asr/kW9Bp8tJjRVluO8EJQVfY2T7FMw9T5jy4I/Uvx0Rca/XWf50QQ1/SS48+6IJWnrb+2yemA==}
     engines: {node: '>=10.13.0'}
     hasBin: true
 
@@ -19021,7 +19021,7 @@ packages:
       fs-extra: 10.1.0
       hash-sum: 2.0.0
       magic-string: 0.26.2
-      prettier: 2.7.1
+      prettier: 2.8.0
       querystring: 0.2.1
       rollup: 2.77.2
       slash: 3.0.0
@@ -19110,41 +19110,6 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vite/3.2.3_ncmyqeofpuenlr2vdl6tueyq2u:
-    resolution: {integrity: sha512-h8jl1TZ76eGs3o2dIBSsvXDLb1m/Ec1iej8ZMdz+PsaFUsftZeWe2CZOI3qogEsMNaywc17gu0q6cQDzh/weCQ==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': '>= 14'
-      less: '*'
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      '@types/node': 18.11.4
-      esbuild: 0.15.12
-      postcss: 8.4.18
-      resolve: 1.22.1
-      rollup: 2.79.1
-      sass: 1.56.1
-    optionalDependencies:
-      fsevents: 2.3.2
-    dev: true
-
   /vite/3.2.4:
     resolution: {integrity: sha512-Z2X6SRAffOUYTa+sLy3NQ7nlHFU100xwanq1WDwqaiFiCe+25zdxP1TfCS5ojPV2oDDcXudHIoPnI1Z/66B7Yw==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -19178,8 +19143,43 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.25.2_jsdom@19.0.0+sass@1.56.1:
-    resolution: {integrity: sha512-qqkzfzglEFbQY7IGkgSJkdOhoqHjwAao/OrphnHboeYHC5JzsVFoLCaB2lnAy8krhj7sbrFTVRApzpkTOeuDWQ==}
+  /vite/3.2.4_ncmyqeofpuenlr2vdl6tueyq2u:
+    resolution: {integrity: sha512-Z2X6SRAffOUYTa+sLy3NQ7nlHFU100xwanq1WDwqaiFiCe+25zdxP1TfCS5ojPV2oDDcXudHIoPnI1Z/66B7Yw==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      '@types/node': 18.11.4
+      esbuild: 0.15.12
+      postcss: 8.4.18
+      resolve: 1.22.1
+      rollup: 2.79.1
+      sass: 1.56.1
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
+  /vitest/0.25.3_jsdom@19.0.0+sass@1.56.1:
+    resolution: {integrity: sha512-/UzHfXIKsELZhL7OaM2xFlRF8HRZgAHtPctacvNK8H4vOcbJJAMEgbWNGSAK7Y9b1NBe5SeM7VTuz2RsTHFJJA==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
@@ -19214,7 +19214,7 @@ packages:
       tinybench: 2.3.1
       tinypool: 0.3.0
       tinyspy: 1.0.2
-      vite: 3.2.3_ncmyqeofpuenlr2vdl6tueyq2u
+      vite: 3.2.4_ncmyqeofpuenlr2vdl6tueyq2u
     transitivePeerDependencies:
       - less
       - sass

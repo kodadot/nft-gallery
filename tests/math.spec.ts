@@ -1,5 +1,5 @@
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
-import formatBalance from '@/utils/formatBalance'
+import formatBalance from '@/utils/format/balance'
 
 import { fullCollection } from './sample2'
 
