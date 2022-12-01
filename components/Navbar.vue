@@ -6,8 +6,7 @@
     close-on-click
     mobile-burger
     :active.sync="isBurgerMenuOpened"
-    :class="{ 'navbar-shrink': !showTopNavbar }"
-    @click="disableScroll">
+    :class="{ 'navbar-shrink': !showTopNavbar }">
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
         <img
@@ -162,7 +161,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Ref, mixins } from 'nuxt-property-decorator'
+import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { get } from 'idb-keyval'
 
 import BasicImage from '@/components/shared/view/BasicImage.vue'
@@ -200,6 +199,13 @@ export default class NavbarMenu extends mixins(
   private artistName = ''
   private isBurgerMenuOpened = false
   @Ref('mobilSearchRef') readonly mobilSearchRef
+  @Watch('isBurgerMenuOpened') onDisableScroll() {
+    if (this.isBurgerMenuOpened) {
+      return (document.body.style.overflowY = 'hidden')
+    } else {
+      return (document.body.style.overflowY = 'initial')
+    }
+  }
 
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
@@ -261,14 +267,6 @@ export default class NavbarMenu extends mixins(
     return !this.isLandingPage || !this.showTopNavbar || this.isBurgerMenuOpened
   }
 
-  get disableScroll() {
-    if (this.isBurgerMenuOpened) {
-      return (document.body.style.overflowY = 'hidden')
-    } else {
-      return (document.body.style.overflowY = 'initial')
-    }
-  }
-
   get navBarTitle(): string {
     let title = ''
     if (this.inCollectionPage) {
@@ -304,7 +302,12 @@ export default class NavbarMenu extends mixins(
     if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) {
       return
     }
-    this.showTopNavbar = searchBarPosition > this.fixedTitleNavAppearDistance
+    if (this.isLandingPage && searchBarPosition) {
+      this.showTopNavbar = searchBarPosition > this.fixedTitleNavAppearDistance
+    } else {
+      this.showTopNavbar =
+        currentScrollPosition < this.fixedTitleNavAppearDistance
+    }
     this.lastScrollPosition = currentScrollPosition
   }
 
