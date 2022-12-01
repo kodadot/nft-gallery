@@ -39,21 +39,16 @@
     line-height: 23px;
     color: $grey;
     width: max-content;
+    font-weight: 700;
+    color: $white;
 
     &:hover {
-      color: hsl(0deg, 0%, 100%) !important;
-      text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 0px -1px 0 #000;
-    }
-
-    &.active {
-      font-weight: 700;
-      color: $white;
+      color: $k-hovergrey !important;
+     
     }
   }
 
   .beta-text {
-    font-size: 12px;
-    vertical-align: super;
     color: $shade;
   }
 

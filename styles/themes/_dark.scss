@@ -135,15 +135,6 @@ html.dark-mode {
     }
   }
 
-  .chain-option {
-    &:hover {
-      color: $search-background-color !important;
-      text-shadow: 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
-        -1px -1px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, -1px 0px 0 #fff,
-        0px -1px 0 #fff;
-    }
-  }
-
   .search-bar-container {
     .link-item {
       &:hover {

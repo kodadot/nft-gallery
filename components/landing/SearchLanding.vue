@@ -25,8 +25,8 @@
           :class="['m-2', 'chain-option active']"
           @click="switchChain(chain.value)">
           {{ chainText(chain.text) }}
-          <span v-if="chain.text.includes('[Beta]')" class="beta-text">
-            {{ $t('beta') }}</span
+          <sup v-if="chain.text.includes('[Beta]')" class="beta-text is-size-7">
+            {{ $t('beta') }}</sup
           >
         </a>
       </div>
@@ -48,7 +48,7 @@ const isDarkMode = computed(
     document.documentElement.className.includes('dark-mode')
 )
 
-const chainText = (chain) => {
+const chainText = (chain: string) => {
   if (chain.includes('[Beta]')) {
     return chain.split(' ')[0]
   } else {
