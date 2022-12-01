@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="card nft-card"
-    :class="{ 'is-current-owner': accountIsCurrentOwner }">
+  <div class="card nft-card">
     <LinkResolver
       class="nft-card__skeleton"
       :route="route"
@@ -112,10 +110,6 @@ export default class GalleryCard extends mixins(AuthMixin) {
     return this.name || this.title
   }
 
-  get accountIsCurrentOwner(): boolean {
-    return this.accountId === this.currentOwner
-  }
-
   get largeDisplay(): boolean {
     return (
       this.$store.getters['preferences/getLayoutClass'] ===
@@ -132,10 +126,6 @@ export default class GalleryCard extends mixins(AuthMixin) {
   position: relative;
   overflow: hidden;
   border-radius: 0px !important;
-
-  &.is-current-owner {
-    box-shadow: 0px 2px 5px 0.5px #41b883;
-  }
 
   .has-text-overflow-ellipsis {
     overflow: hidden;

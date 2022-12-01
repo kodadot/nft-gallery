@@ -117,7 +117,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 
 import { calculateKsmFromUsd, calculateUsdFromKsm } from '@/utils/calculation'
 import { findCall, getApiParams } from '@/utils/teleport'
-import { calculateBalance } from '@/utils/formatBalance'
+import { calculateBalance } from '@/utils/format/balance'
 import correctFormat from '@/utils/ss58Format'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 
