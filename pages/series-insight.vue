@@ -12,12 +12,12 @@
           v-if="urlPrefix === 'rmrk'"
           src="~/assets/rmrk-logo-pink-faded.png"
           alt="RMRK"
-          class="rmrk-logo is-hidden-mobile" />
+          class="chain-logo is-hidden-mobile" />
         <img
-          v-else
+          v-else-if="urlPrefix === 'bsx'"
           src="~/assets/bsx-logo.png"
           alt="BSX"
-          class="rmrk-logo is-hidden-mobile" />
+          class="chain-logo is-hidden-mobile" />
       </div>
     </div>
 
