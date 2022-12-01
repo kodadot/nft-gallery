@@ -78,7 +78,7 @@ export const useTopCollections = (limit: number) => {
           ids,
         },
         data: collectionsSales,
-        error: error,
+        error,
         loading,
       })
     }
