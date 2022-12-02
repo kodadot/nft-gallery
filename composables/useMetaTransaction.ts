@@ -1,18 +1,19 @@
 import exec, {
+  ExecResult,
   Extrinsic,
   execResultValue,
   txCb,
 } from '@/utils/transactionExecutor'
-import useTransaction from './useTransaction'
+import useTransactionStatus from './useTransactionStatus'
 import useAPI from './useApi'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { DispatchError } from '@polkadot/types/interfaces'
 
 export default function () {
   const { $i18n } = useNuxtApp()
-
-  const { isLoading, resolveStatus } = useTransaction()
+  const { isLoading, resolveStatus } = useTransactionStatus()
   const { apiInstance } = useAPI()
+  const tx = ref<ExecResult>()
   const howAboutToExecute = async (
     account: string,
     cb: (...params: any[]) => Extrinsic,
@@ -20,53 +21,60 @@ export default function () {
     onSuccess?: (blockNumber: string) => void,
     onError?: () => void
   ): Promise<void> => {
-    const api = await apiInstance.value
-
     try {
-      const tx = await exec(
+      tx.value = await exec(
         account,
         '',
         cb,
         args,
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
-
-            if (onSuccess) {
-              onSuccess(blockNumber)
-            }
-
-            isLoading.value = false
-          },
-          (dispatchError) => {
-            execResultValue(tx)
-            onTxError(dispatchError)
-            isLoading.value = false
-            if (onError) {
-              onError()
-            }
-          },
-          (res) => resolveStatus(res.status)
-        )
+        txCb(successCb(onSuccess), errorCb(onError), onResult)
       )
     } catch (e) {
-      if (e instanceof Error) {
-        const isCancelled = e.message === 'Cancelled'
-        if (isCancelled) {
-          showNotification(
-            $i18n.t('general.tx.cancelled'),
-            notificationTypes.warn
-          )
-        } else {
-          showNotification(e.toString(), notificationTypes.danger)
-        }
-        isLoading.value = false
-      }
+      onCatchError(e)
     }
   }
 
+  const successCb = (onSuccess) => async (blockHash) => {
+    const api = await apiInstance.value
+
+    tx.value && execResultValue(tx.value)
+    const header = await api.rpc.chain.getHeader(blockHash)
+    const blockNumber = header.number.toString()
+
+    if (onSuccess) {
+      onSuccess(blockNumber)
+    }
+
+    isLoading.value = false
+    tx.value = undefined
+  }
+
+  const errorCb = (onError) => (dispatchError) => {
+    tx.value && execResultValue(tx.value)
+    onTxError(dispatchError)
+    isLoading.value = false
+    if (onError) {
+      onError()
+    }
+  }
+
+  const onResult = (res) => resolveStatus(res.status)
+
+  const onCatchError = (e) => {
+    if (e instanceof Error) {
+      const isCancelled = e.message === 'Cancelled'
+      if (isCancelled) {
+        showNotification(
+          $i18n.t('general.tx.cancelled'),
+          notificationTypes.warn
+        )
+      } else {
+        showNotification(e.toString(), notificationTypes.danger)
+      }
+      isLoading.value = false
+      tx.value = undefined
+    }
+  }
   const onTxError = async (dispatchError: DispatchError): Promise<void> => {
     const api = await apiInstance.value
 
@@ -85,6 +93,7 @@ export default function () {
     }
 
     isLoading.value = false
+    tx.value = undefined
   }
   return {
     howAboutToExecute,
