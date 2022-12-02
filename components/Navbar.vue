@@ -293,8 +293,8 @@ export default class NavbarMenu extends mixins(
   onScroll() {
     const currentScrollPosition = document.documentElement.scrollTop
     const searchBarPosition = document
-      .getElementById('networkList')!
-      .getBoundingClientRect().top
+      .getElementById('networkList')
+      ?.getBoundingClientRect()?.top
     if (currentScrollPosition <= 0) {
       this.showTopNavbar = true
       return
