@@ -9,7 +9,7 @@ import useAPI from './useApi'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { DispatchError } from '@polkadot/types/interfaces'
 
-export default function () {
+function useMetaTransaction() {
   const { $i18n } = useNuxtApp()
   const { isLoading, resolveStatus } = useTransactionStatus()
   const { apiInstance } = useAPI()
@@ -100,3 +100,5 @@ export default function () {
     onTxError,
   }
 }
+
+export default useMetaTransaction

@@ -1,6 +1,6 @@
 import { ExtrinsicStatus } from '@polkadot/types/interfaces'
 
-export default function () {
+function useTransactionStatus() {
   const status = ref('')
   const isLoading = ref(false)
 
@@ -43,3 +43,5 @@ export default function () {
     stopLoader,
   }
 }
+
+export default useTransactionStatus
