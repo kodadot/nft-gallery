@@ -11,7 +11,13 @@ import { DispatchError } from '@polkadot/types/interfaces'
 
 function useMetaTransaction() {
   const { $i18n } = useNuxtApp()
-  const { isLoading, resolveStatus } = useTransactionStatus()
+  const {
+    isLoading,
+    resolveStatus,
+    initTransactionLoader,
+    status,
+    stopLoader,
+  } = useTransactionStatus()
   const { apiInstance } = useAPI()
   const tx = ref<ExecResult>()
   const howAboutToExecute = async (
@@ -98,6 +104,10 @@ function useMetaTransaction() {
   return {
     howAboutToExecute,
     onTxError,
+    initTransactionLoader,
+    status,
+    isLoading,
+    stopLoader,
   }
 }
 
