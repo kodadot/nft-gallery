@@ -27,6 +27,7 @@ html.light-mode {
     height: 100%;
     background-color: $white;
     color: $text-light-theme;
+    z-index: 1;
   }
 
   .footer {
@@ -132,7 +133,7 @@ html.light-mode {
   // .pagination-previous,
   // .pagination-next,
   // .pagination-link,
-  body .title:not(h2),
+  body .title,
   .auth-avatar .subtitle,
   .royalty {
     color: $text-light-theme;

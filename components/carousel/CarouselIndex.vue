@@ -1,8 +1,6 @@
 <template>
   <div v-if="nfts.length">
-    <h2
-      class="title is-2"
-      :class="textColor === 'light' ? 'has-text-light' : 'has-text-dark'">
+    <h2 class="title is-2">
       {{ title }}
     </h2>
 
@@ -23,7 +21,6 @@ const props = defineProps<{
   subtitle?: string
   nfts: CarouselNFT[] | RowSeries[]
   loading?: boolean
-  textColor?: 'dark' | 'light'
   actionType?: 'pagination' | 'link'
   linkUrl?: string
   linkText?: string
@@ -32,6 +29,12 @@ const props = defineProps<{
 
 const itemUrl = computed(() => props.itemUrl || 'gallery')
 provide('itemUrl', itemUrl.value)
+const { $colorMode } = useNuxtApp()
 
+const isDarkMode = computed(
+  () =>
+    $colorMode.preference === 'dark' ||
+    document.documentElement.className.includes('dark-mode')
+)
 const showCarousel = computed(() => props.nfts.length)
 </script>

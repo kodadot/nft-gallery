@@ -4,6 +4,10 @@
   width: 100%;
   gap: 50px;
 
+  .search-info {
+    z-index: 1;
+  }
+
   .title {
     word-break: keep-all;
   }
@@ -26,11 +30,15 @@
   }
 
   .landing-search-left {
-    overflow: auto;
+    position: absolute;
+    left: 0rem;
+    top: -6rem;
   }
 
   .landing-search-right {
-    overflow: auto;
+    position: absolute;
+    right: 0rem;
+    top: -6rem;
   }
 
   .chain-option {

@@ -5,7 +5,7 @@
     </section>
 
     <!-- spotlight -->
-    <section v-if="showCarousel" class="section instance instance-blue">
+    <section v-if="showCarousel" class="section instance">
       <div class="container">
         <LazyCarouselTypeSpotlight />
       </div>
@@ -14,7 +14,7 @@
     <!-- top collections -->
     <section
       v-if="urlPrefix === 'rmrk' || urlPrefix === 'snek' || urlPrefix === 'bsx'"
-      class="section instance instance-accent">
+      class="section instance">
       <div class="container">
         <LazyTopCollections class="my-5" />
       </div>
