@@ -18,7 +18,9 @@
         hide-filter
         class="landing-search-bar"
         search-column-class="is-flex-grow-1" />
-      <div class="is-flex is-justify-content-center is-flex-wrap-wrap">
+      <div
+        id="networkList"
+        class="is-flex is-justify-content-center is-flex-wrap-wrap">
         <a
           v-for="chain in chainList"
           :key="chain.value"

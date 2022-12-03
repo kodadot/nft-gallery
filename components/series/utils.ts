@@ -1,5 +1,5 @@
 import { RowSeries, SimpleSeriesNFT, SortType } from './types'
-// import formatBalance from '@/utils/formatBalance'
+// import formatBalance from '@/utils/format/balance'
 // import * as store from '~/store'
 import { after, between, getVolume, pairListBuyEvent } from '@/utils/math'
 import { eachDayOfInterval, formatISO, subDays } from 'date-fns'

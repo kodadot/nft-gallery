@@ -44,7 +44,7 @@ import {
 } from '@/components/unique/apiConstants'
 import { getRandomValues, hasEnoughToken } from '@/components/unique/utils'
 import { uploadDirect } from '@/utils/directUpload'
-import formatBalance from '@/utils/formatBalance'
+import formatBalance from '@/utils/format/balance'
 import { mapToId } from '@/utils/mappers'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'

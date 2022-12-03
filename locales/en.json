@@ -65,6 +65,14 @@
     "landingTitle3": "And Sell",
     "landingSubtitle": "Kusama NFTS"
   },
+  "topCollections": {
+    "timeFrames": {
+      "7 Days": "7 Days",
+      "30 Days": "30 Days",
+      "90 Days": "90 Days",
+      "all": "All"
+    }
+  },
   "faq": {
     "page": "FAQ",
     "title": "Frequently Asked Questions",
@@ -632,6 +640,11 @@
       "creative": {
         "heading": "Creative Minting"
       },
+      "email": {
+        "label": "email",
+        "placeholder": "Enter your email",
+        "message": "Enter your email to receive a notification when your request is done"
+      },
       "creativeDrop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",
       "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)",
       "creativeFailDesc": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
@@ -749,7 +762,13 @@
     "ipfs": "Uploading data to IPFS",
     "arweave": "Storing data via PermaFrost",
     "uploading": "({0}/{1}) Uploading data to IPFS",
-    "checkBalance": "Checking if you have enough balance"
+    "checkBalance": "Checking if you have enough balance",
+    "generative": {
+      "starting": "Warming up the AI model",
+      "processing": "Predicting (wait around ~20s)",
+      "send": "Sending links to your email"
+    }
+
   },
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
@@ -880,6 +899,7 @@
     "newestListDesc": "Discover the latest items on sale",
     "newestListHeading": "Newest List",
     "topCollectionsHeading": "Top Collections",
+    "floor": "floor",
     "popularCollectionsHeading": "Popular Collections",
     "popularCollectionsDesc": "Discover the most popular collections on rmrk",
     "featuredArticlesHeading": "Featured Articles",

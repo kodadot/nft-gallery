@@ -1,5 +1,5 @@
 import { Row, SimpleSpotlightNFT } from './types'
-import formatBalance from '@/utils/formatBalance'
+import formatBalance from '@/utils/format/balance'
 import * as store from '~/store'
 import { getVolume, pairListBuyEvent } from '@/utils/math'
 

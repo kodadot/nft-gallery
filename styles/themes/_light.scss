@@ -86,6 +86,10 @@ html.light-mode {
     }
     .navbar-dropdown a.navbar-item,
     .dropdown-item:not(.is-active)  {
+
+      &:last-child {
+        border-bottom: none;
+      }
       color: $text-light-theme
     }
 

@@ -70,6 +70,10 @@ body {
   .message.is-primary .message-body {
     color: $light-text;
   }
+
+  .b-steps .steps .step-items .step-item .step-details .step-title {
+    color: $primary;
+  }
 }
 
 
