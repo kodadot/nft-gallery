@@ -18,6 +18,7 @@
         class="landing-search-bar"
         search-column-class="is-flex-grow-1" />
       <div
+        id="networkList"
         class="is-flex is-justify-content-center is-flex-wrap-wrap is-align-items-baseline">
         <a
           v-for="chain in chainList"

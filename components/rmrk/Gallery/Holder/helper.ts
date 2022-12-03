@@ -1,4 +1,4 @@
-import formatBalance from '@/utils/formatBalance'
+import formatBalance from '@/utils/format/balance'
 
 export const parsePriceForItem = (item, decimals, unit) => {
   item['BoughtFormatted'] = parseInt(item['Bought'])

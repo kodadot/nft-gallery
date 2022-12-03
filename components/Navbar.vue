@@ -161,7 +161,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Ref, mixins } from 'nuxt-property-decorator'
+import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { get } from 'idb-keyval'
 
 import BasicImage from '@/components/shared/view/BasicImage.vue'
@@ -194,11 +194,18 @@ export default class NavbarMenu extends mixins(
 ) {
   protected showTopNavbar = true
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
-  private fixedTitleNavAppearDistance = 200
+  private fixedTitleNavAppearDistance = 85
   private lastScrollPosition = 0
   private artistName = ''
   private isBurgerMenuOpened = false
   @Ref('mobilSearchRef') readonly mobilSearchRef
+  @Watch('isBurgerMenuOpened') onDisableScroll() {
+    if (this.isBurgerMenuOpened) {
+      return (document.body.style.overflowY = 'hidden')
+    } else {
+      return (document.body.style.overflowY = 'initial')
+    }
+  }
 
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
@@ -257,7 +264,7 @@ export default class NavbarMenu extends mixins(
   }
 
   get showSearchOnNavbar(): boolean {
-    return !this.isLandingPage || !this.showTopNavbar
+    return !this.isLandingPage || !this.showTopNavbar || this.isBurgerMenuOpened
   }
 
   get navBarTitle(): string {
@@ -285,6 +292,9 @@ export default class NavbarMenu extends mixins(
 
   onScroll() {
     const currentScrollPosition = document.documentElement.scrollTop
+    const searchBarPosition = document
+      .getElementById('networkList')
+      ?.getBoundingClientRect()?.top
     if (currentScrollPosition <= 0) {
       this.showTopNavbar = true
       return
@@ -292,8 +302,12 @@ export default class NavbarMenu extends mixins(
     if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) {
       return
     }
-    this.showTopNavbar =
-      currentScrollPosition < this.fixedTitleNavAppearDistance
+    if (this.isLandingPage && searchBarPosition) {
+      this.showTopNavbar = searchBarPosition > this.fixedTitleNavAppearDistance
+    } else {
+      this.showTopNavbar =
+        currentScrollPosition < this.fixedTitleNavAppearDistance
+    }
     this.lastScrollPosition = currentScrollPosition
   }
 
@@ -309,6 +323,7 @@ export default class NavbarMenu extends mixins(
 
   mounted() {
     window.addEventListener('scroll', this.onScroll)
+    document.body.style.overflowY = 'initial'
   }
 
   beforeDestroy() {
