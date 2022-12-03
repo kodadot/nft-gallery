@@ -30,27 +30,29 @@ import ChartJS from 'chart.js/auto'
 import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { getChartData } from '@/utils/chart'
-import useChain from '@/composables/useChain'
 
 ChartJS.register(zoomPlugin)
-const { $colorMode } = useNuxtApp()
+const { $i18n, $colorMode } = useNuxtApp()
+const { unit } = useChain()
+
+const daysTranslation = (day: number) => $i18n.t('priceChart.days', [day])
 
 const timeRangeList = [
   {
     value: 0,
-    label: 'All',
+    label: $i18n.t('priceChart.all'),
   },
   {
     value: 14,
-    label: '14 days',
+    label: daysTranslation(14),
   },
   {
     value: 30,
-    label: '30 days',
+    label: daysTranslation(30),
   },
   {
     value: 90,
-    label: '90 days',
+    label: daysTranslation(90),
   },
 ]
 
@@ -69,7 +71,6 @@ const props = defineProps<{
   priceChartData?: [Date, number][][]
 }>()
 let Chart: ChartJS<'line', any, unknown>
-const { unit } = useChain()
 
 onMounted(() => {
   window.addEventListener('resize', onWindowResize)
