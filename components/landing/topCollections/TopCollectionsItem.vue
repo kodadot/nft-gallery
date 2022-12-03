@@ -19,7 +19,7 @@
           <div class="is-flex is-justify-content-start">
             <div class="is-hidden-mobile">
               <div v-if="collection.floorPrice" class="no-wrap">
-                Floor:
+                {{ $t('general.floor') }}:
                 <CommonTokenMoney
                   :value="collection.floorPrice"
                   inline
@@ -70,8 +70,9 @@
 </template>
 
 <script lang="ts" setup>
-import { RowSeries, TimeRange } from '@/components/series/types'
+import { TimeRange } from '@/components/series/types'
 import { calculateUsdFromKsm } from '~~/utils/calculation'
+import { CollectionEntityWithVolumes } from './utils/types'
 
 const BasicImage = defineAsyncComponent(
   () => import('@/components/shared/view/BasicImage.vue')
@@ -88,7 +89,7 @@ const BasicMoney = defineAsyncComponent(
 const { urlPrefix } = usePrefix()
 const { $store } = useNuxtApp()
 const props = defineProps<{
-  collection: RowSeries
+  collection: CollectionEntityWithVolumes
   index: number
   timeRange?: TimeRange
 }>()

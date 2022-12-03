@@ -52,6 +52,14 @@
     "seeAll": "Alle anzeigen",
     "rankings": "Rangliste"
   },
+  "topCollections": {
+    "timeFrames": {
+      "7 Days": "7 Tage",
+      "30 Days": "30 Tage",
+      "90 Days": "90 Tage",
+      "all": "Alle"
+    }
+  },
   "faq": {
     "page": "FAQ",
     "title": "Häufig gestellte Fragen",
@@ -858,6 +866,8 @@
     "latestSalesheading": "Entdecke die letzten Verkäufe auf RMRK",
     "newestListDesc": "Entdecke die neuesten Artikel zum Kauf",
     "newestListHeading": "Neu Gelistet",
+    "topCollectionsHeading": "Top Sammlungen",
+    "floor": "floor",
     "popularCollectionsHeading": "Beliebte Sammlungen",
     "popularCollectionsDesc": "Entdecke die belibtesten Sammlungen auf RMRK",
     "from": "Von",
