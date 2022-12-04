@@ -11,7 +11,6 @@
             :value="account"
             class="navbar__avatar-icon"
             :size="27" />
-
           <img v-else :src="profileIcon" />
         </a>
       </template>
@@ -44,7 +43,7 @@
           </b-dropdown-item>
         </template>
         <b-dropdown-item
-          v-if="showIncommingOffers"
+          v-if="showIncomingOffers"
           has-link
           aria-role="menuitem">
           <nuxt-link :to="`/${urlPrefix}/incomingoffers`">{{
@@ -299,7 +298,7 @@ export default class NavbarProfileDropdown extends mixins(
 ) {
   @Prop() public value!: any
   @Prop() public isRmrk!: boolean
-  @Prop() public showIncommingOffers!: boolean
+  @Prop() public showIncomingOffers!: boolean
   @Prop() public isSnek!: boolean
   @Ref('languageDropdown') readonly languageDropdown
 

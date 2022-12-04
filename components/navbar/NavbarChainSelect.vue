@@ -1,7 +1,6 @@
 <template>
   <b-dropdown
     v-model="selected"
-    class="navbar-chain"
     aria-role="list"
     :triggers="['click', 'hover']">
     <template #trigger>

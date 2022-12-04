@@ -1,8 +1,5 @@
 <template>
-  <b-dropdown
-    class="navbar-chain"
-    aria-role="list"
-    :triggers="['click', 'hover']">
+  <b-dropdown aria-role="list" :triggers="['click', 'hover']">
     <template #trigger>
       <div class="navbar-item" data-cy="create">
         {{ $t('create') }}
@@ -10,8 +7,7 @@
     </template>
     <b-tooltip
       label="Start by creating your collection and add NFTs to it"
-      position="is-right"
-      style="display: block">
+      class="navbar-item-tooltip">
       <b-dropdown-item has-link data-cy="classic">
         <nuxt-link :to="`/${urlPrefix}/create`">
           {{ $t('classic') }}
@@ -21,8 +17,7 @@
     <template v-if="isRmrk">
       <b-tooltip
         label="Simplified process to create your NFT in a single step"
-        position="is-right"
-        style="display: block">
+        class="navbar-item-tooltip">
         <b-dropdown-item has-link data-cy="simple">
           <nuxt-link :to="`/${urlPrefix}/create/simple`">
             {{ $t('simple') }}
@@ -31,8 +26,7 @@
       </b-tooltip>
       <b-tooltip
         label="AI powered process to create your NFT"
-        position="is-right"
-        style="display: block">
+        class="navbar-item-tooltip">
         <b-dropdown-item has-link data-cy="creative">
           <nuxt-link :to="`/${urlPrefix}/create/creative`">
             {{ $t('creative') }}

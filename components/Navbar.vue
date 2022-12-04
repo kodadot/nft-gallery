@@ -41,11 +41,11 @@
     </template>
     <template #end>
       <NavbarExplore />
-      <NavbarCreate />
-      <NavbarStats />
+      <NavbarCreate id="NavCreate" data-cy="create" />
+      <NavbarStats id="NavStats" data-cy="stats" />
       <NavbarChainSelect
         id="NavChainSelect"
-        class="navbar-item has-dropdown"
+        class="navbar-chain"
         data-cy="chain-select" />
       <NavbarProfileDropdown
         id="NavProfile"
@@ -103,6 +103,7 @@ export default class NavbarMenu extends mixins(
   private artistName = ''
   private isBurgerMenuOpened = false
   @Ref('mobilSearchRef') readonly mobilSearchRef
+
   @Watch('isBurgerMenuOpened') onDisableScroll() {
     if (this.isBurgerMenuOpened) {
       return (document.body.style.overflowY = 'hidden')
@@ -126,9 +127,11 @@ export default class NavbarMenu extends mixins(
   get inCollectionPage(): boolean {
     return this.$route.name === 'rmrk-collection-id'
   }
+
   get inGalleryDetailPage(): boolean {
     return this.$route.name === 'rmrk-gallery-id'
   }
+
   get inUserProfilePage(): boolean {
     return this.$route.name === 'rmrk-u-id'
   }
@@ -145,9 +148,11 @@ export default class NavbarMenu extends mixins(
       this.inUserProfilePage
     )
   }
+
   get currentCollection() {
     return this.$store.getters['history/getCurrentlyViewedCollection'] || {}
   }
+
   get currentGalleryItemName() {
     return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
   }
