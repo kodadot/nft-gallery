@@ -40,10 +40,6 @@
       </div>
     </template>
     <template #end>
-      <!-- <LazyHistoryBrowser
-        id="NavHistoryBrowser"
-        class="custom-navbar-item navbar-link-background is-hidden-touch" /> -->
-
       <NavbarExplore />
       <NavbarCreate />
       <b-navbar-dropdown
@@ -99,7 +95,7 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <LazyChainSelect
+      <NavbarChainSelect
         id="NavChainSelect"
         class="navbar-item has-dropdown"
         data-cy="chain-select" />
@@ -120,7 +116,7 @@ import { get } from 'idb-keyval'
 
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
+import NavbarProfileDropdown from '~/components/navbar/NavbarProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import NavbarExplore from '@/components/navbar/NavbarExplore.vue'
 import NavbarCreate from '@/components/navbar/NavbarCreate.vue'
@@ -132,9 +128,11 @@ import { createVisible } from '@/utils/config/permision.config'
 import { identityStore } from '@/utils/idbStore'
 import AuthMixin from '~~/utils/mixins/authMixin'
 import ExperimentMixin from '~~/utils/mixins/experimentMixin'
+import NavbarChainSelect from '~/components/navbar/NavbarChainSelect.vue'
 
 @Component({
   components: {
+    NavbarChainSelect,
     NavbarProfileDropdown,
     Search,
     Identity,
