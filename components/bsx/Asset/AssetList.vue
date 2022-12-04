@@ -19,10 +19,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import assetListByIdList from '@/queries/subsquid/bsx/assetListByIdList.graphql'
 import { setDefaultFeeToken } from '@/utils/api/bsx/extrinsics'
-import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import {
   getAssetIdByAccount,
   getAsssetBalance,
@@ -30,89 +29,83 @@ import {
 } from '@/utils/api/bsx/query'
 import { useApollo } from '@/utils/config/useApollo'
 import { mapToId } from '@/utils/mappers'
-import AuthMixin from '@/utils/mixins/authMixin'
-import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import shouldUpdate from '@/utils/shouldUpdate'
 import { AssetItem, AssetListQueryResponse } from './types'
+import Loader from '@/components/shared/Loader.vue'
+import AssetTable from '@/components/bsx/Asset/AssetTable.vue'
 
-@Component({
-  components: {
-    Loader: () => import('@/components/shared/Loader.vue'),
-    AssetTable: () => import('@/components/bsx/Asset/AssetTable.vue'),
-  },
-})
-export default class AssetList extends mixins(
-  AuthMixin,
-  PrefixMixin,
-  MetaTransactionMixin
-) {
-  protected assetList: AssetItem[] = []
-  protected currentAsset = '0'
+const { accountId } = useAuth()
 
-  private async loadAssets() {
-    try {
-      const { assetList } = await useApollo<this, AssetListQueryResponse>(
-        this.$apollo,
-        this.client,
-        assetListByIdList,
-        {
-          ids: ['0', getKusamaAssetId(this.client), '6'],
-        }
-      )
-      this.assetList = assetList
-      this.fetchAccountBalance()
-    } catch (e) {
-      this.$consola.warn(e)
-      showNotification('Unable to load assets')
-    }
-  }
+const { urlPrefix, client } = usePrefix()
+const { $apollo, $consola, $set } = useNuxtApp()
 
-  private async fetchAccountBalance() {
-    const api = await this.useApi()
-    const mapper = (id: string) => getAsssetBalance(api, this.accountId, id)
-    this.assetList.map(mapToId).map(mapper).forEach(this.updatedBalanceFor)
-  }
+const { howAboutToExecute, initTransactionLoader, isLoading, status } =
+  useMetaTransaction()
+const assetList = ref<AssetItem[]>([])
+const currentAsset = ref<string>('0')
 
-  private async updatedBalanceFor(balance: Promise<string>, index: number) {
-    try {
-      this.$set(this.assetList, index, {
-        ...this.assetList[index],
-        balance: await balance,
-      })
-    } catch (e) {
-      console.warn('Unable to fetch balance', e)
-    }
-  }
-
-  private async fetchCurrentToken(): Promise<void> {
-    const api = await this.useApi()
-    const currentToken = await getAssetIdByAccount(api, this.accountId)
-    this.currentAsset = currentToken
-  }
-
-  protected async handleTokenSelect(id: string) {
-    const api = await this.useApi()
-    const { call, args } = setDefaultFeeToken(api, id)
-    this.initTransactionLoader()
-    this.howAboutToExecute(this.accountId, call, args, (blockNumber) => {
-      showNotification(
-        `[ASSET] Since block ${blockNumber}, you pay in different token`,
-        notificationTypes.success
-      )
-      this.fetchCurrentToken()
-      this.fetchAccountBalance()
+const loadAssets = async () => {
+  try {
+    const { assetList: newAssetList } = await useApollo<
+      any,
+      AssetListQueryResponse
+    >($apollo as any, urlPrefix.value, assetListByIdList, {
+      ids: ['0', getKusamaAssetId(client.value), '6'],
     })
-  }
-
-  @Watch('accountId', { immediate: true })
-  public onAccountIdChange(value: string, oldValue: string) {
-    console.log('onAccountIdChange', value, oldValue)
-    if (shouldUpdate(value, oldValue)) {
-      this.loadAssets()
-      this.fetchCurrentToken()
-    }
+    assetList.value = newAssetList
+    fetchAccountBalance()
+  } catch (e) {
+    $consola.warn(e)
+    showNotification('Unable to load assets')
   }
 }
+
+const fetchAccountBalance = async () => {
+  const { apiInstance } = useApi()
+  const api = await apiInstance.value
+  const mapper = (id: string) => getAsssetBalance(api, accountId.value, id)
+  assetList.value.map(mapToId).map(mapper).forEach(updatedBalanceFor)
+}
+
+const updatedBalanceFor = async (balance: Promise<string>, index: number) => {
+  try {
+    $set(assetList.value, index, {
+      ...assetList.value[index],
+      balance: await balance,
+    })
+  } catch (e) {
+    console.warn('Unable to fetch balance', e)
+  }
+}
+
+const fetchCurrentToken = async (): Promise<void> => {
+  const { apiInstance } = useApi()
+  const api = await apiInstance.value
+  const currentToken = await getAssetIdByAccount(api, accountId.value)
+  currentAsset.value = currentToken
+}
+
+const handleTokenSelect = async (id: string) => {
+  const { apiInstance } = useApi()
+  const api = await apiInstance.value
+  const { call, args } = setDefaultFeeToken(api, id)
+  initTransactionLoader()
+  howAboutToExecute(accountId.value, call, args, (blockNumber) => {
+    showNotification(
+      `[ASSET] Since block ${blockNumber}, you pay in different token`,
+      notificationTypes.success
+    )
+    fetchCurrentToken()
+    fetchAccountBalance()
+  })
+}
+
+watch(
+  () => accountId.value,
+  async () => {
+    await loadAssets()
+    await fetchCurrentToken()
+  },
+  { immediate: true }
+)
 </script>
