@@ -11,21 +11,20 @@
           {{ $t('stats') }}
         </div>
       </template>
-      <b-dropdown-item
-        tag="nuxt-link"
-        :to="`${
-          accountId
-            ? `/${urlPrefix}/offers?target=${accountId}`
-            : `/${urlPrefix}/offers`
-        }`"
-        data-cy="global-offers">
-        {{ $t('navbar.globalOffers') }}
+      <b-dropdown-item has-link data-cy="global-offers">
+        <nuxt-link
+          :to="`${
+            accountId
+              ? `/${urlPrefix}/offers?target=${accountId}`
+              : `/${urlPrefix}/offers`
+          }`">
+          {{ $t('navbar.globalOffers') }}
+        </nuxt-link>
       </b-dropdown-item>
-      <b-dropdown-item
-        tag="nuxt-link"
-        :to="`/${urlPrefix}/stats`"
-        data-cy="offers-stats">
-        {{ $t('navbar.offerStats') }}
+      <b-dropdown-item has-link data-cy="offers-stats">
+        <nuxt-link :to="`/${urlPrefix}/stats`">
+          {{ $t('navbar.offerStats') }}
+        </nuxt-link>
       </b-dropdown-item>
     </b-dropdown>
     <b-dropdown
