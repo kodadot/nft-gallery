@@ -11,6 +11,7 @@
         flex-direction: column;
       }
     }
+
     .custom-navbar-item {
       margin-left: 0 !important;
     }
@@ -39,14 +40,14 @@
 }
 
 .navbar {
-	background-color: inherit;
-	transform: translateZ(0px);
-	transition: 0.3s ease;
-	-webkit-transition: 0.3s ease;
-	z-index: 999 !important;
-	font-family: 'Work Sans';
-	min-height: 72px;
-	width: 100vw;
+  background-color: inherit;
+  transform: translateZ(0px);
+  transition: 0.3s ease;
+  -webkit-transition: 0.3s ease;
+  z-index: 999 !important;
+  font-family: 'Work Sans';
+  min-height: 72px;
+  width: 100vw;
   background: $white;
   border-bottom: 1px solid black;
 
@@ -56,12 +57,14 @@
 
   &.is-spaced {
     padding: 0;
+
     & > .container {
       .navbar-menu {
         margin-right: 0;
 
         .button {
           height: 40px;
+
           &:hover {
             background-color: $k-accentlight;
           }
@@ -123,13 +126,16 @@
     .b-tooltip {
       width: 100%;
     }
+
     a.navbar-item {
       margin: 0;
       border-top: 1px solid $black;
       width: 100%;
+
       &:first-child {
         border-top: none;
       }
+
       &:hover,
       &:focus {
         background-color: $k-accentlight !important;
@@ -187,6 +193,7 @@
     text-transform: none;
     color: $k-blue;
   }
+
   &__sign-out-button {
     border: 1px solid $black;
     box-shadow: 4px 4px 0px $black !important;
@@ -194,22 +201,24 @@
     border-radius: 0;
     text-transform: capitalize;
     width: 120px;
+
     &:hover {
       border: 1px solid $black;
     }
   }
 
-	#NavProfile {
-		.button.is-primary {
-			background: $k-accent;
-			border: 1px solid $black !important;
-			color: $black;
-			border-radius: 0;
-			z-index: 3;
-			box-shadow: none;
-			text-transform: capitalize;
-		}
-	}
+  #NavProfile {
+    .button.is-primary {
+      background: $k-accent;
+      border: 1px solid $black !important;
+      color: $black;
+      border-radius: 0;
+      z-index: 3;
+      box-shadow: none;
+      text-transform: capitalize;
+    }
+  }
+
   .mobile-nav-search-btn {
     background: $white;
     border: 1px solid $black;
@@ -226,6 +235,7 @@
   .dropdown-menu {
     width: max-content;
   }
+
   .dropdown-content {
     border: 1px solid $black;
     box-shadow: 4px 4px 0px $black;
@@ -237,6 +247,7 @@
     .has-link:hover {
       background-color: $k-accentlight !important;
     }
+
     .is-active,
     .is-active > a {
       background-color: $black !important;
@@ -251,6 +262,7 @@
   .dropdown .dropdown-menu .has-link {
     border-top: 1px solid $black;
     border-radius: 0;
+
     &:first-child {
       border-top: none;
     }
@@ -258,6 +270,7 @@
     a:hover {
       background-color: $k-accentlight !important;
     }
+
     &.is-active {
       background-color: $black !important;
       color: $white !important;
@@ -268,23 +281,28 @@
     font-size: 0.5rem;
     vertical-align: text-bottom;
   }
+
   .color-mode-icon {
     width: 12px;
     height: 12px;
   }
+
   .navbar-explore {
     .dropdown-item {
       padding: 23px 32px;
     }
+
     .menu-item {
       cursor: pointer;
       color: $black;
+
       &:hover,
       &.is-active {
         font-weight: bold;
         background-color: transparent !important;
         color: $black !important;
       }
+
       &.is-disabled {
         cursor: not-allowed;
         color: $shade;
@@ -299,19 +317,9 @@
       padding: 7px 0px;
       border-bottom: 1px solid $black;
       font-size: 16px;
+
       &:hover {
         background-color: $k-accentlight;
-      }
-      .has-link {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0;
-        border: none;
-        &:hover {
-          background-color: transparent;
-        }
       }
     }
   }

@@ -12,11 +12,10 @@
       label="Start by creating your collection and add NFTs to it"
       position="is-right"
       style="display: block">
-      <b-dropdown-item
-        tag="nuxt-link"
-        :to="`/${urlPrefix}/create`"
-        data-cy="classic">
-        {{ $t('classic') }}
+      <b-dropdown-item has-link data-cy="classic">
+        <nuxt-link :to="`/${urlPrefix}/create`">
+          {{ $t('classic') }}
+        </nuxt-link>
       </b-dropdown-item>
     </b-tooltip>
     <template v-if="isRmrk">
@@ -24,22 +23,20 @@
         label="Simplified process to create your NFT in a single step"
         position="is-right"
         style="display: block">
-        <b-dropdown-item
-          tag="nuxt-link"
-          :to="`/${urlPrefix}/mint`"
-          data-cy="simple">
-          {{ $t('simple') }}
+        <b-dropdown-item has-link data-cy="simple">
+          <nuxt-link :to="`/${urlPrefix}/create/simple`">
+            {{ $t('simple') }}
+          </nuxt-link>
         </b-dropdown-item>
       </b-tooltip>
       <b-tooltip
         label="AI powered process to create your NFT"
         position="is-right"
         style="display: block">
-        <b-dropdown-item
-          tag="nuxt-link"
-          :to="`/${urlPrefix}/creative`"
-          data-cy="creative">
-          {{ $t('creative') }}
+        <b-dropdown-item has-link data-cy="creative">
+          <nuxt-link :to="`/${urlPrefix}/create/creative`">
+            {{ $t('creative') }}
+          </nuxt-link>
         </b-dropdown-item>
       </b-tooltip>
     </template>
