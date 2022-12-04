@@ -3,12 +3,13 @@
   grid-template-rows: repeat(6, minmax(0, 1fr));
   column-gap: 1rem;
   row-gap: 1rem;
+  grid-auto-columns: minmax(0, 1fr);
 
-  @media (min-width: 849px) {
+  @media (min-width: 978px) {
     grid-auto-flow: column;
   }
 
-  @media (min-width: 1410px) {
+  @media (min-width: 1540px) {
     grid-template-rows: repeat(4, minmax(0, 1fr));
   }
 
@@ -45,7 +46,15 @@
   min-width: 98px;
 }
 
+.no-wrap {
+  white-space: nowrap;
+}
 
+@include tablet {
+  .w-160 {
+    width :160px
+  }
+}
 
 
 @include mobile {

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
 
-import { checkInvalidBalanceFilter } from '@/utils/formatBalance'
-import format from '@/utils/formatBalance'
+import { checkInvalidBalanceFilter } from '@/utils/format/balance'
+import format from '@/utils/format/balance'
 
 describe('FORMAT BALANCE TEST', (): void => {
   it('TEST checkInvalidBalanceFilter', () => {

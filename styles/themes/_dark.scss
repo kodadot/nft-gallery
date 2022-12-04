@@ -49,6 +49,9 @@ html.dark-mode {
         color: $black;
       }
     }
+    .navbar-dropdown a.navbar-item {
+      border-bottom: 1px solid $white;
+    }
 
     .navbar-link {
       &:hover {
@@ -89,13 +92,17 @@ html.dark-mode {
       border-color: $white !important;
 
       .button:hover {
-        background-color: $primary;
+        background-color: $k-accent !important;
+        color: $black !important;
       }
     }
 
     #NavProfile {
       .button.is-primary {
         border: 1px solid $white !important;
+      }
+      .dropdown .dropdown-menu .has-link {
+        border-top: 1px solid $white;
       }
     }
 
@@ -229,6 +236,7 @@ html.dark-mode {
 
         &:hover {
           background-color: $k-accentlight2dark!important;
+          color: $white;
         }
       }
     }
