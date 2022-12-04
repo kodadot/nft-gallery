@@ -1,15 +1,17 @@
 <template>
   <div>
-    <b-navbar-dropdown
+    <b-dropdown
       v-if="isBsx || isSnek"
       id="NavStats"
-      arrowless
-      collapsible
-      data-cy="stats">
-      <template #label>
-        <span>{{ $t('stats') }}</span>
+      class="navbar-chain"
+      data-cy="stats"
+      :triggers="['click', 'hover']">
+      <template #trigger>
+        <div class="navbar-item" data-cy="stats">
+          {{ $t('stats') }}
+        </div>
       </template>
-      <b-navbar-item
+      <b-dropdown-item
         tag="nuxt-link"
         :to="`${
           accountId
@@ -18,41 +20,40 @@
         }`"
         data-cy="global-offers">
         {{ $t('navbar.globalOffers') }}
-      </b-navbar-item>
-      <b-navbar-item
+      </b-dropdown-item>
+      <b-dropdown-item
         tag="nuxt-link"
         :to="`/${urlPrefix}/stats`"
         data-cy="offers-stats">
-        <span> {{ $t('navbar.offerStats') }}</span>
-      </b-navbar-item>
-    </b-navbar-dropdown>
-    <b-navbar-dropdown
+        {{ $t('navbar.offerStats') }}
+      </b-dropdown-item>
+    </b-dropdown>
+    <b-dropdown
       v-if="isRmrk"
       id="NavStats"
-      arrowless
-      collapsible
-      data-cy="stats">
-      <template #label>
-        <span>{{ $t('stats') }}</span>
+      class="navbar-chain"
+      data-cy="stats"
+      :triggers="['click', 'hover']">
+      <template #trigger>
+        <div class="navbar-item" data-cy="stats">
+          {{ $t('stats') }}
+        </div>
       </template>
       <template>
-        <b-navbar-item tag="nuxt-link" to="/spotlight" data-cy="spotlight">
+        <b-dropdown-item tag="nuxt-link" to="/spotlight" data-cy="spotlight">
           {{ $t('spotlight.page') }}
-        </b-navbar-item>
-        <b-navbar-item
-          tag="nuxt-link"
-          to="/series-insight"
-          data-cy="series-insight">
-          Series
-        </b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/sales" data-cy="sales">
+        </b-dropdown-item>
+        <b-dropdown-item data-cy="series-insight">
+          <nuxt-link has-link to="/series-insight"> Series </nuxt-link>
+        </b-dropdown-item>
+        <b-dropdown-item tag="nuxt-link" to="/sales" data-cy="sales">
           Sales
-        </b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/hot" data-cy="hot">
+        </b-dropdown-item>
+        <b-dropdown-item tag="nuxt-link" to="/hot" data-cy="hot">
           Hot
-        </b-navbar-item>
+        </b-dropdown-item>
       </template>
-    </b-navbar-dropdown>
+    </b-dropdown>
   </div>
 </template>
 <script lang="ts">

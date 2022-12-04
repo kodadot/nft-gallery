@@ -302,6 +302,17 @@
       &:hover {
         background-color: $k-accentlight;
       }
+      .has-link {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        border: none;
+        &:hover {
+          background-color: transparent;
+        }
+      }
     }
   }
 }
