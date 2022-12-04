@@ -45,53 +45,7 @@
         class="custom-navbar-item navbar-link-background is-hidden-touch" /> -->
 
       <NavbarExplore />
-
-      <b-navbar-dropdown
-        v-show="isCreateVisible"
-        id="NavCreate"
-        hoverable
-        arrowless
-        collapsible
-        data-cy="create-dropdown">
-        <template #label>
-          <span>{{ $t('create') }}</span>
-        </template>
-        <b-tooltip
-          label="Start by creating your collection and add NFTs to it"
-          position="is-right">
-          <b-navbar-item
-            tag="nuxt-link"
-            :to="`/${urlPrefix}/create`"
-            data-cy="classic">
-            {{ $t('classic') }}
-          </b-navbar-item>
-        </b-tooltip>
-        <template v-if="isRmrk">
-          <b-tooltip
-            label="Simplified process to create your NFT in a single step"
-            position="is-right"
-            style="display: block">
-            <b-navbar-item
-              tag="nuxt-link"
-              :to="`/${urlPrefix}/mint`"
-              data-cy="simple">
-              {{ $t('simple') }}
-            </b-navbar-item>
-          </b-tooltip>
-          <b-tooltip
-            label="AI powered process to create your NFT"
-            position="is-right"
-            append-to-body>
-            <b-navbar-item
-              tag="nuxt-link"
-              :to="`/${urlPrefix}/creative`"
-              data-cy="creative">
-              {{ $t('creative') }}
-            </b-navbar-item>
-          </b-tooltip>
-        </template>
-      </b-navbar-dropdown>
-
+      <NavbarCreate />
       <b-navbar-dropdown
         v-if="isBsx || isSnek"
         id="NavStats"
@@ -169,6 +123,7 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import NavbarExplore from '@/components/navbar/NavbarExplore.vue'
+import NavbarCreate from '@/components/navbar/NavbarCreate.vue'
 import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
 import KodaBeta from '@/assets/Koda_Beta.svg'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
@@ -185,6 +140,7 @@ import ExperimentMixin from '~~/utils/mixins/experimentMixin'
     Identity,
     BasicImage,
     NavbarExplore,
+    NavbarCreate,
   },
 })
 export default class NavbarMenu extends mixins(
