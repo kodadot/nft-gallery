@@ -1,49 +1,51 @@
 <template>
-  <b-navbar-dropdown
-    v-show="isCreateVisible"
-    id="NavCreate"
-    hoverable
-    arrowless
-    collapsible
-    data-cy="create-dropdown">
-    <template #label>
-      <span>{{ $t('create') }}</span>
-    </template>
-    <b-tooltip
-      label="Start by creating your collection and add NFTs to it"
-      position="is-right">
-      <b-navbar-item
-        tag="nuxt-link"
-        :to="`/${urlPrefix}/create`"
-        data-cy="classic">
-        {{ $t('classic') }}
-      </b-navbar-item>
-    </b-tooltip>
-    <template v-if="isRmrk">
+  <div>
+    <b-dropdown
+      class="navbar-chain"
+      aria-role="list"
+      :triggers="['click', 'hover']">
+      <template #trigger>
+        <div class="navbar-item" data-cy="chain">
+          {{ $t('create') }}
+        </div>
+      </template>
       <b-tooltip
-        label="Simplified process to create your NFT in a single step"
+        label="Start by creating your collection and add NFTs to it"
         position="is-right"
         style="display: block">
-        <b-navbar-item
+        <b-dropdown-item
           tag="nuxt-link"
-          :to="`/${urlPrefix}/mint`"
-          data-cy="simple">
-          {{ $t('simple') }}
-        </b-navbar-item>
+          :to="`/${urlPrefix}/create`"
+          data-cy="classic">
+          {{ $t('classic') }}
+        </b-dropdown-item>
       </b-tooltip>
-      <b-tooltip
-        label="AI powered process to create your NFT"
-        position="is-right"
-        append-to-body>
-        <b-navbar-item
-          tag="nuxt-link"
-          :to="`/${urlPrefix}/creative`"
-          data-cy="creative">
-          {{ $t('creative') }}
-        </b-navbar-item>
-      </b-tooltip>
-    </template>
-  </b-navbar-dropdown>
+      <template v-if="isRmrk">
+        <b-tooltip
+          label="Simplified process to create your NFT in a single step"
+          position="is-right"
+          style="display: block">
+          <b-dropdown-item
+            tag="nuxt-link"
+            :to="`/${urlPrefix}/mint`"
+            data-cy="simple">
+            {{ $t('simple') }}
+          </b-dropdown-item>
+        </b-tooltip>
+        <b-tooltip
+          label="AI powered process to create your NFT"
+          position="is-right"
+          style="display: block">
+          <b-dropdown-item
+            tag="nuxt-link"
+            :to="`/${urlPrefix}/creative`"
+            data-cy="creative">
+            {{ $t('creative') }}
+          </b-dropdown-item>
+        </b-tooltip>
+      </template>
+    </b-dropdown>
+  </div>
 </template>
 
 <script lang="ts">
