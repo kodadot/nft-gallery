@@ -42,59 +42,7 @@
     <template #end>
       <NavbarExplore />
       <NavbarCreate />
-      <b-navbar-dropdown
-        v-if="isBsx || isSnek"
-        id="NavStats"
-        arrowless
-        collapsible
-        data-cy="stats">
-        <template #label>
-          <span>{{ $t('stats') }}</span>
-        </template>
-        <b-navbar-item
-          tag="nuxt-link"
-          :to="`${
-            accountId
-              ? `/${urlPrefix}/offers?target=${accountId}`
-              : `/${urlPrefix}/offers`
-          }`"
-          data-cy="global-offers">
-          {{ $t('navbar.globalOffers') }}
-        </b-navbar-item>
-        <b-navbar-item
-          tag="nuxt-link"
-          :to="`/${urlPrefix}/stats`"
-          data-cy="offers-stats">
-          <span> {{ $t('navbar.offerStats') }}</span>
-        </b-navbar-item>
-      </b-navbar-dropdown>
-      <b-navbar-dropdown
-        v-if="isRmrk"
-        id="NavStats"
-        arrowless
-        collapsible
-        data-cy="stats">
-        <template #label>
-          <span>{{ $t('stats') }}</span>
-        </template>
-        <template>
-          <b-navbar-item tag="nuxt-link" to="/spotlight" data-cy="spotlight">
-            {{ $t('spotlight.page') }}
-          </b-navbar-item>
-          <b-navbar-item
-            tag="nuxt-link"
-            to="/series-insight"
-            data-cy="series-insight">
-            Series
-          </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/sales" data-cy="sales">
-            Sales
-          </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/hot" data-cy="hot">
-            Hot
-          </b-navbar-item>
-        </template>
-      </b-navbar-dropdown>
+      <NavbarStats />
       <NavbarChainSelect
         id="NavChainSelect"
         class="navbar-item has-dropdown"
@@ -116,7 +64,7 @@ import { get } from 'idb-keyval'
 
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import NavbarProfileDropdown from '~/components/navbar/NavbarProfileDropdown.vue'
+import NavbarProfileDropdown from '@/components/navbar/NavbarProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import NavbarExplore from '@/components/navbar/NavbarExplore.vue'
 import NavbarCreate from '@/components/navbar/NavbarCreate.vue'
@@ -126,12 +74,14 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { createVisible } from '@/utils/config/permision.config'
 import { identityStore } from '@/utils/idbStore'
-import AuthMixin from '~~/utils/mixins/authMixin'
-import ExperimentMixin from '~~/utils/mixins/experimentMixin'
-import NavbarChainSelect from '~/components/navbar/NavbarChainSelect.vue'
+import AuthMixin from '@/utils/mixins/authMixin'
+import ExperimentMixin from '@/utils/mixins/experimentMixin'
+import NavbarChainSelect from '@/components/navbar/NavbarChainSelect.vue'
+import NavbarStats from '@/components/navbar/NavbarStats.vue'
 
 @Component({
   components: {
+    NavbarStats,
     NavbarChainSelect,
     NavbarProfileDropdown,
     Search,
