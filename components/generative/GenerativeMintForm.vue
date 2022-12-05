@@ -2,7 +2,9 @@
   <section>
     <br />
     <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-3">Mint your sub0 POAP</p>
+    <p class="title is-size-3">
+      Mint your Polkadot Metaverse Championship POAP
+    </p>
 
     <p class="title is-size-4">I want to be</p>
     <RadioSelect v-model="form.gender" :options="gender" />
