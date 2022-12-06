@@ -41,15 +41,15 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { getChainTestList } from '~/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import AuthMixin from '~~/utils/mixins/authMixin'
-import { createVisible } from '~/utils/config/permision.config'
 
 @Component({})
 export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
+  @Prop({ default: false }) isRmrk!: boolean
   get options() {
     const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']
 
@@ -59,14 +59,6 @@ export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
       )
     }
     return availableUrlPrefixes
-  }
-
-  get isCreateVisible(): boolean {
-    return createVisible(this.urlPrefix)
-  }
-
-  get isRmrk(): boolean {
-    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
   }
 }
 </script>

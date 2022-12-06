@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-dropdown
-      v-if="isBsx || isSnek"
+      v-if="isBsx || isSnek || isRmrk"
       aria-role="list"
       data-cy="stats"
       :triggers="['hover']">
@@ -25,18 +25,7 @@
           {{ $t('navbar.offerStats') }}
         </nuxt-link>
       </b-dropdown-item>
-    </b-dropdown>
-    <b-dropdown
-      v-if="isRmrk"
-      id="NavStats"
-      data-cy="stats"
-      :triggers="['click', 'hover']">
-      <template #trigger>
-        <div class="navbar-item" data-cy="stats">
-          {{ $t('stats') }}
-        </div>
-      </template>
-      <template>
+      <template v-if="isRmrk">
         <b-dropdown-item has-link aria-role="menu-item" data-cy="spotlight">
           <nuxt-link to="/spotlight">
             {{ $t('spotlight.page') }}
@@ -56,15 +45,18 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { getChainTestList } from '~/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-
 import AuthMixin from '~~/utils/mixins/authMixin'
-import { createVisible } from '~/utils/config/permision.config'
 
 @Component({})
 export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
+  // prop for isBsx isRmrk and isSnek
+  @Prop({ type: Boolean }) isBsx!: boolean
+  @Prop({ type: Boolean }) isRmrk!: boolean
+  @Prop({ type: Boolean }) isSnek!: boolean
+
   get options() {
     const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']
 
@@ -74,22 +66,6 @@ export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
       )
     }
     return availableUrlPrefixes
-  }
-
-  get isBsx(): boolean {
-    return this.urlPrefix === 'bsx'
-  }
-
-  get isSnek(): boolean {
-    return this.urlPrefix === 'snek' || this.urlPrefix === 'bsx'
-  }
-
-  get(): boolean {
-    return createVisible(this.urlPrefix)
-  }
-
-  get isRmrk(): boolean {
-    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
   }
 }
 </script>

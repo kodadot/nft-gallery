@@ -49,8 +49,16 @@
     </template>
     <template #end>
       <NavbarExplore />
-      <NavbarCreate class="navbar-create custom-navbar-item" data-cy="create" />
-      <NavbarStats class="navbar-stats custom-navbar-item" data-cy="stats" />
+      <NavbarCreate
+        class="navbar-create custom-navbar-item"
+        data-cy="create"
+        :is-rmrk="isRmrk" />
+      <NavbarStats
+        class="navbar-stats custom-navbar-item"
+        data-cy="stats"
+        :is-bsx="isBsx"
+        :is-rmrk="isRmrk"
+        :is-snek="isSnek" />
       <NavbarChainSelect
         id="NavChainSelect"
         class="navbar-chain custom-navbar-item"
@@ -106,7 +114,6 @@ export default class NavbarMenu extends mixins(
 ) {
   protected showTopNavbar = true
   protected openMobileSearchBar = false
-  private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
   private fixedTitleNavAppearDistance = 85
   private lastScrollPosition = 0
   private artistName = ''
