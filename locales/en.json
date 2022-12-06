@@ -1062,5 +1062,6 @@
     "subscribe": "Get The Latest KodaDot Updates",
     "join": "Join Our Community",
     "subscribeLabel": "Subscribe"
-  }
+  },
+  "cancel": "Cancel"
 }
