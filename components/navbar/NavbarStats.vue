@@ -32,22 +32,21 @@
           {{ $t('stats') }}
         </div>
       </template>
-      <template>
-        <b-dropdown-item has-link aria-role="menu-item" data-cy="spotlight">
-          <nuxt-link to="/spotlight">
-            {{ $t('spotlight.page') }}
-          </nuxt-link>
-        </b-dropdown-item>
-        <b-dropdown-item has-link data-cy="series-insight">
-          <nuxt-link to="/series-insight"> Series</nuxt-link>
-        </b-dropdown-item>
-        <b-dropdown-item has-link data-cy="sales">
-          <nuxt-link to="/sales"> Sales</nuxt-link>
-        </b-dropdown-item>
-        <b-dropdown-item has-link data-cy="hot">
-          <nuxt-link to="/hot"> Hot</nuxt-link>
-        </b-dropdown-item>
-      </template>
+      =
+      <b-dropdown-item has-link aria-role="menu-item" data-cy="spotlight">
+        <nuxt-link to="/spotlight">
+          {{ $t('spotlight.page') }}
+        </nuxt-link>
+      </b-dropdown-item>
+      <b-dropdown-item has-link data-cy="series-insight">
+        <nuxt-link to="/series-insight"> Series</nuxt-link>
+      </b-dropdown-item>
+      <b-dropdown-item has-link data-cy="sales">
+        <nuxt-link to="/sales"> Sales</nuxt-link>
+      </b-dropdown-item>
+      <b-dropdown-item has-link data-cy="hot">
+        <nuxt-link to="/hot"> Hot</nuxt-link>
+      </b-dropdown-item>
     </b-dropdown>
   </div>
 </template>
