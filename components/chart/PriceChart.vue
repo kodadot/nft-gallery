@@ -234,7 +234,7 @@ const getPriceChartData = () => {
               },
               grid: {
                 drawTicks: false,
-                color: isDarkMode.value ? lineColor.value : '#ccc',
+                color: '#ccc',
                 borderColor: lineColor.value,
               },
             },

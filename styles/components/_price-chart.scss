@@ -11,6 +11,9 @@
     right: 10px;
     top: -12px;
     font-size: 12px;
+    .dropdown-menu {
+      padding-top: 16px;
+    }
     .dropdown-content {
       width: 89px;
       padding: 0;
@@ -48,18 +51,19 @@
 .dark-mode {
   .common-price-chart {
     .time-range-button {
-      background: black;
+      background: $k-dark;
       color: white;
       border-color: white;
       box-shadow: 4px 4px 0px white;
       &:hover {
         background: $k-accent;
+        color: black;
       }
     }
 
     .dropdown-item {
       color: white;
-      background: black;
+      background: $k-dark;
 
       border-color: white;
 
