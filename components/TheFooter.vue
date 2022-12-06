@@ -60,7 +60,6 @@
         <h4
           class="subtitle is-5"
           :class="isDarkMode ? 'has-text-white ' : 'has-text-black '">
-          >
           {{ $t('footer.join') }}
         </h4>
         <ul class="footer-container-socials-list is-flex">

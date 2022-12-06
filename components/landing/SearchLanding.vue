@@ -1,7 +1,8 @@
 <template>
   <section
-    class="landing-search is-flex is-justify-content-center is-align-items-center">
-    <img :src="landingImage[0]" class="landing-search-left" />
+    class="landing-search is-flex is-justify-content-space-between is-align-items-center">
+    <img src="/landing-blurred-header-left.svg" class="landing-search-left" />
+    <img :src="landingImage[0]" class="is-hidden-touch landing-shapes" />
     <div
       class="is-flex is-flex-direction-column is-align-items-center search-info">
       <h1
@@ -34,7 +35,8 @@
         </a>
       </div>
     </div>
-    <img :src="landingImage[1]" class="landing-search-right" />
+    <img src="/landing-blurred-header-right.svg" class="landing-search-right" />
+    <img :src="landingImage[1]" class="is-hidden-touch landing-shapes" />
   </section>
 </template>
 
@@ -54,11 +56,14 @@ const isDarkMode = computed(
 const landingImage = computed(() => {
   if (isDarkMode.value) {
     return [
-      '/blurred-landing-header-dark.svg',
-      '/blurred-landing-header-right-dark.svg',
+      '/landing-shape-header-left-dark.svg',
+      '/landing-shape-header-right-dark.svg',
     ]
   } else {
-    return ['/blurred-landing-header.svg', '/blurred-landing-header-right.svg']
+    return [
+      '/landing-shape-header-left-light.svg',
+      '/landing-shape-header-right-light.svg',
+    ]
   }
 })
 
