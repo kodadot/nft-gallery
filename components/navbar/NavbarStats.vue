@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-dropdown
-      v-if="isBsx || isSnek || isRmrk"
+      v-if="isBsx || isSnek"
       aria-role="list"
       data-cy="stats"
       :triggers="['hover']">
@@ -25,7 +25,14 @@
           {{ $t('navbar.offerStats') }}
         </nuxt-link>
       </b-dropdown-item>
-      <template v-if="isRmrk">
+    </b-dropdown>
+    <b-dropdown v-if="isRmrk" data-cy="stats" :triggers="['hover']">
+      <template #trigger>
+        <div class="navbar-item" data-cy="stats">
+          {{ $t('stats') }}
+        </div>
+      </template>
+      <template>
         <b-dropdown-item has-link aria-role="menu-item" data-cy="spotlight">
           <nuxt-link to="/spotlight">
             {{ $t('spotlight.page') }}
