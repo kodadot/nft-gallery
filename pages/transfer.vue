@@ -318,11 +318,13 @@ export default class Transfer extends mixins(
       const amountToTansfer = String(
         calculateBalance(this.price, this.decimals)
       )
-      const howManyAddress = Object.keys(this.targets).length
+      const numOfTargetAddresses = Object.keys(this.targets).length
       const cb =
-        howManyAddress > 1 ? api.tx.utility.batch : api.tx.balances.transfer
+        numOfTargetAddresses > 1
+          ? api.tx.utility.batch
+          : api.tx.balances.transfer
       const arg =
-        howManyAddress > 1
+        numOfTargetAddresses > 1
           ? [
               Object.values(this.targets).map((target) =>
                 api.tx.balances.transfer(target, amountToTansfer)
@@ -340,10 +342,9 @@ export default class Transfer extends mixins(
             this.transactionValue = execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
-            const numOfTargetAddress = Object.keys(this.targets).length
 
             showNotification(
-              `[${this.unit}] Transfered ${this.price * numOfTargetAddress} ${
+              `[${this.unit}] Transfered ${this.price * numOfTargetAddresses} ${
                 this.unit
               } in block ${blockNumber}`,
               notificationTypes.success
