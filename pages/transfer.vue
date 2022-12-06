@@ -19,17 +19,16 @@
       <Auth />
     </b-field>
 
-    <div v-if="$route.query.target && hasBlockExplorer" class="mb-3">
+    <div v-if="targets && hasBlockExplorer" class="mb-3">
       {{ $t('teleport.donationSentTo') }}
       <a
-        :href="addressExplorerUrl"
+        v-for="target in targets"
+        :key="target"
+        :href="addressExplorerUrl(target)"
         target="_blank"
         rel="noopener noreferrer"
         class="has-text-weight-bold">
-        <Identity
-          ref="identity"
-          :address="$route.query.target"
-          show-onchain-identity />
+        <Identity ref="identity" :address="target" show-onchain-identity />
       </a>
     </div>
 
@@ -40,13 +39,33 @@
       </b-field>
     </div>
 
-    <b-field>
-      <AddressInput v-model="destinationAddress" :strict="false" />
-    </b-field>
-    <DisabledInput
-      v-show="correctAddress && correctAddress !== destinationAddress"
-      :label="$t('general.correctAddress')"
-      :value="correctAddress" />
+    <div
+      v-for="(destinationAddress, index) in destinationAddresses"
+      :key="destinationAddress">
+      <div class="is-flex">
+        <b-field class="is-flex-grow-1">
+          <AddressInput v-model="destinationAddresses[index]" :strict="false" />
+        </b-field>
+        <b-button
+          v-show="index == destinationAddresses.length - 1"
+          type="is-primary"
+          size="is-small"
+          icon-left="plus"
+          class="ml-2 mt-2"
+          outlined
+          @click="addAddress">
+          Add
+        </b-button>
+      </div>
+
+      <DisabledInput
+        v-show="
+          correctAddress(destinationAddress) &&
+          correctAddress(destinationAddress) !== destinationAddress
+        "
+        :label="$t('general.correctAddress')"
+        :value="correctAddress(destinationAddress)" />
+    </div>
     <div class="container mb-3">
       <b-field>
         <BalanceInput
@@ -92,7 +111,7 @@
         <b-icon size="is-small" pack="fas" icon="link" />
       </b-button>
       <b-button
-        v-if="destinationAddress"
+        v-if="hasAddress"
         v-clipboard:copy="generatePaymentLink()"
         type="is-success"
         icon-left="money-bill"
@@ -170,10 +189,11 @@ export default class Transfer extends mixins(
   PrefixMixin,
   UseApiMixin
 ) {
-  protected destinationAddress = ''
+  protected destinationAddresses = ['']
   protected transactionValue = ''
   protected price = 0
   protected usdValue = 0
+  protected targets = {}
 
   layout() {
     return 'centered-half-layout'
@@ -195,11 +215,11 @@ export default class Transfer extends mixins(
     return this.chainProperties?.ss58Format
   }
   get hasAddress(): boolean {
-    return isAddress(this.destinationAddress)
+    return Object.keys(this.targets).length > 0
   }
-  get correctAddress(): string {
-    return this.hasAddress
-      ? encodeAddress(this.destinationAddress, correctFormat(this.ss58Format))
+  correctAddress(destinationAddress): string {
+    return isAddress(destinationAddress)
+      ? encodeAddress(destinationAddress, correctFormat(this.ss58Format))
       : ''
   }
 
@@ -211,12 +231,15 @@ export default class Transfer extends mixins(
     return hasExplorer(this.urlPrefix)
   }
 
-  get addressExplorerUrl(): string {
-    return getExplorer(this.urlPrefix, this.$route?.query?.target) || '#'
+  addressExplorerUrl(address): string {
+    return getExplorer(this.urlPrefix, address) || '#'
   }
 
   get balance(): string {
     return this.$store.getters.getAuthBalance
+  }
+  protected addAddress() {
+    this.destinationAddresses.push('')
   }
 
   protected created() {
@@ -253,13 +276,21 @@ export default class Transfer extends mixins(
 
   protected checkQueryParams() {
     const { query } = this.$route
-    if (query.target) {
-      const hasAddress = isAddress(query.target as string)
-      if (hasAddress) {
-        this.destinationAddress = query.target as string
-      } else {
-        showNotification('Unable to use target address', notificationTypes.warn)
-      }
+    const targets = Object.entries(query)
+      .filter(([key]) => key.startsWith('target'))
+      .filter(([_, address]) => {
+        if (isAddress(address as string)) {
+          return true
+        }
+        showNotification(
+          `Unable to use target address ${address}`,
+          notificationTypes.warn
+        )
+        return false
+      })
+      .map(([_, address]) => address as string)
+    if (targets.length > 0) {
+      this.destinationAddresses = targets
     }
 
     if (query.amount) {
@@ -284,11 +315,21 @@ export default class Transfer extends mixins(
 
     try {
       const api = await this.useApi()
-      const cb = api.tx.balances.transfer
-      const arg = [
-        this.destinationAddress,
-        String(calculateBalance(this.price, this.decimals)),
-      ]
+      const amountToTansfer = String(
+        calculateBalance(this.price, this.decimals)
+      )
+      const howManyAddress = Object.keys(this.targets).length
+      const cb =
+        howManyAddress > 1 ? api.tx.utility.batch : api.tx.balances.transfer
+      const arg =
+        howManyAddress > 1
+          ? [
+              Object.values(this.targets).map((target) =>
+                api.tx.balances.transfer(target, amountToTansfer)
+              ),
+            ]
+          : [this.targets['target'], amountToTansfer]
+
       const tx = await exec(
         this.accountId,
         '',
@@ -305,7 +346,7 @@ export default class Transfer extends mixins(
               notificationTypes.success
             )
 
-            this.destinationAddress = ''
+            this.destinationAddresses = ['']
             this.price = 0
             this.usdValue = 0
             if (this.$route.query && !this.$route.query.donation) {
@@ -381,11 +422,13 @@ export default class Transfer extends mixins(
   }
 
   protected generatePaymentLink(address?): string {
-    let targetAddress = this.destinationAddress
+    let addressQueryString: string
     if (address) {
-      targetAddress = address
+      addressQueryString = `target=${address}`
+    } else {
+      addressQueryString = new URLSearchParams(this.targets).toString()
     }
-    return `${window.location.origin}/transfer?target=${targetAddress}&usdamount=${this.usdValue}&donation=true`
+    return `${window.location.origin}/transfer?${addressQueryString}&usdamount=${this.usdValue}&donation=true`
   }
 
   protected shareInTweet() {
@@ -395,16 +438,28 @@ export default class Transfer extends mixins(
     window.open(url, '_blank')
   }
 
-  @Watch('destinationAddress')
-  destinationChanged(target: string): void {
+  @Watch('destinationAddresses', { deep: true })
+  destinationChanged(destinationAddresses: string[]): void {
+    console.log('watch destinationAddresses')
     const { usdamount } = this.$route.query
-    this.$router.replace({ query: { target, usdamount } }).catch(() => null) // null to further not throw navigation errors
+    const targets = destinationAddresses
+      .filter((addr) => isAddress(addr))
+      .reduce(
+        (object, address, i) => ({
+          ...object,
+          [`target${i == 0 ? '' : i}`]: address,
+        }),
+        {}
+      )
+    this.targets = targets
+    this.$router.replace({ query: { ...targets, usdamount } }).catch(() => null) // null to further not throw navigation errors
   }
 
   @Watch('usdValue')
   usdValueChanged(usdamount: string): void {
-    const { target } = this.$route.query
-    this.$router.replace({ query: { target, usdamount } }).catch(() => null) // null to further not throw navigation errors
+    this.$router
+      .replace({ query: { ...this.$route.query, usdamount } })
+      .catch(() => null) // null to further not throw navigation errors
   }
 
   private toast(message: string): void {
