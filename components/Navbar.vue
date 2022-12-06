@@ -49,11 +49,11 @@
     </template>
     <template #end>
       <NavbarExplore />
-      <NavbarCreate id="NavCreate" data-cy="create" />
-      <NavbarStats id="NavStats" data-cy="stats" />
+      <NavbarCreate class="navbar-create custom-navbar-item" data-cy="create" />
+      <NavbarStats class="navbar-stats custom-navbar-item" data-cy="stats" />
       <NavbarChainSelect
         id="NavChainSelect"
-        class="navbar-chain"
+        class="navbar-chain custom-navbar-item"
         data-cy="chain-select" />
       <NavbarProfileDropdown
         id="NavProfile"

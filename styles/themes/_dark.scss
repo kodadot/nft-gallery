@@ -36,21 +36,19 @@ html.dark-mode {
     .dropdown-content .dropdown-item .menu-item {
       color: $white !important;
     }
-    .navbar-dropdown,
+
     .dropdown-content {
       box-shadow: 4px 4px 0px $white !important;
       border-color: $white !important;
     }
     .dropdown .dropdown-menu .has-link a,
     .navbar-dropdown a.navbar-item {
+      border-bottom: 1px solid $white;
       &:hover,
       &:focus {
         background-color: $k-accent !important;
         color: $black;
       }
-    }
-    .navbar-dropdown a.navbar-item {
-      border-bottom: 1px solid $white;
     }
 
     .navbar-link {
@@ -226,7 +224,7 @@ html.dark-mode {
   .chain-option {
     &:hover {
       color: $shade !important;
-     
+
     }
   }
 

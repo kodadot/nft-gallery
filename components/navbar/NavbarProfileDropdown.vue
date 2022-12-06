@@ -46,9 +46,9 @@
           v-if="showIncomingOffers"
           has-link
           aria-role="menuitem">
-          <nuxt-link :to="`/${urlPrefix}/incomingoffers`">{{
-            $t('incomingOffers')
-          }}</nuxt-link>
+          <nuxt-link :to="`/${urlPrefix}/incomingoffers`"
+            >{{ $t('incomingOffers') }}
+          </nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item v-if="isSnek" has-link aria-role="menuitem">
           <nuxt-link :to="`/${urlPrefix}/assets`">{{ $t('assets') }}</nuxt-link>
@@ -57,9 +57,9 @@
           <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
-          <nuxt-link to="/teleport-bridge">{{
-            $t('navbar.teleportBridge')
-          }}</nuxt-link>
+          <nuxt-link to="/teleport-bridge"
+            >{{ $t('navbar.teleportBridge') }}
+          </nuxt-link>
         </b-dropdown-item>
       </template>
 
