@@ -11,14 +11,13 @@
         flex-direction: column;
       }
     }
+    .custom-navbar-item {
+      margin-left: 0 !important;
+    }
 
-    //.custom-navbar-item {
-    //  margin-left: 0 !important;
-    //}
-
-    //.navbar-dropdown .b-tooltip {
-    //  width: 100%;
-    //}
+    .navbar-dropdown .b-tooltip {
+      width: 100%;
+    }
 
     #NavProfile {
       margin-left: 0;
@@ -27,9 +26,9 @@
       position: absolute;
       bottom: 0;
 
-      //.dropdown-trigger .button {
-      //  width: 40vw;
-      //}
+      .dropdown-trigger .button {
+        width: 40vw;
+      }
     }
 
     .dropdown.is-mobile-modal > .dropdown-menu {
@@ -40,14 +39,14 @@
 }
 
 .navbar {
-  background-color: inherit;
-  transform: translateZ(0px);
-  transition: 0.3s ease;
-  -webkit-transition: 0.3s ease;
-  z-index: 999 !important;
-  font-family: 'Work Sans';
-  min-height: 72px;
-  width: 100vw;
+	background-color: inherit;
+	transform: translateZ(0px);
+	transition: 0.3s ease;
+	-webkit-transition: 0.3s ease;
+	z-index: 999 !important;
+	font-family: 'Work Sans';
+	min-height: 72px;
+	width: 100vw;
   background: $white;
   border-bottom: 1px solid black;
 
@@ -57,14 +56,12 @@
 
   &.is-spaced {
     padding: 0;
-
     & > .container {
       .navbar-menu {
         margin-right: 0;
 
         .button {
           height: 40px;
-
           &:hover {
             background-color: $k-accentlight;
           }
@@ -78,21 +75,6 @@
     padding-top: 8px;
     padding-bottom: 8px;
     font-size: 16px;
-    border-top: 1px solid $black;
-    border-radius: 0;
-
-    &:first-child {
-      border-top: none;
-    }
-
-    :hover {
-      background-color: $k-accentlight !important;
-    }
-
-    &.is-active {
-      background-color: $black !important;
-      color: $white !important;
-    }
   }
 
   &.navbar-shrink {
@@ -109,9 +91,9 @@
     border-radius: 0 !important;
   }
 
-  //.custom-navbar-item {
-  //  margin-left: 0.5em;
-  //}
+  .custom-navbar-item {
+    margin-left: 0.5em;
+  }
 
   .navbar-brand {
     align-items: center;
@@ -141,16 +123,13 @@
     .b-tooltip {
       width: 100%;
     }
-
     a.navbar-item {
       margin: 0;
       border-top: 1px solid $black;
       width: 100%;
-
       &:first-child {
         border-top: none;
       }
-
       &:hover,
       &:focus {
         background-color: $k-accentlight !important;
@@ -208,7 +187,6 @@
     text-transform: none;
     color: $k-blue;
   }
-
   &__sign-out-button {
     border: 1px solid $black;
     box-shadow: 4px 4px 0px $black !important;
@@ -216,24 +194,22 @@
     border-radius: 0;
     text-transform: capitalize;
     width: 120px;
-
     &:hover {
       border: 1px solid $black;
     }
   }
 
-  #NavProfile {
-    .button.is-primary {
-      background: $k-accent;
-      border: 1px solid $black !important;
-      color: $black;
-      border-radius: 0;
-      z-index: 3;
-      box-shadow: none;
-      text-transform: capitalize;
-    }
-  }
-
+	#NavProfile {
+		.button.is-primary {
+			background: $k-accent;
+			border: 1px solid $black !important;
+			color: $black;
+			border-radius: 0;
+			z-index: 3;
+			box-shadow: none;
+			text-transform: capitalize;
+		}
+	}
   .mobile-nav-search-btn {
     background: $white;
     border: 1px solid $black;
@@ -250,7 +226,6 @@
   .dropdown-menu {
     width: max-content;
   }
-
   .dropdown-content {
     border: 1px solid $black;
     box-shadow: 4px 4px 0px $black;
@@ -259,6 +234,9 @@
     padding: 0;
     width: 100%;
 
+    .has-link:hover {
+      background-color: $k-accentlight !important;
+    }
     .is-active,
     .is-active > a {
       background-color: $black !important;
@@ -271,35 +249,42 @@
   }
 
   .dropdown .dropdown-menu .has-link {
+    border-top: 1px solid $black;
+    border-radius: 0;
+    &:first-child {
+      border-top: none;
+    }
 
+    a:hover {
+      background-color: $k-accentlight !important;
+    }
+    &.is-active {
+      background-color: $black !important;
+      color: $white !important;
+    }
   }
 
   .small-size-text {
     font-size: 0.5rem;
     vertical-align: text-bottom;
   }
-
   .color-mode-icon {
     width: 12px;
     height: 12px;
   }
-
   .navbar-explore {
     .dropdown-item {
       padding: 23px 32px;
     }
-
     .menu-item {
       cursor: pointer;
       color: $black;
-
       &:hover,
       &.is-active {
         font-weight: bold;
         background-color: transparent !important;
         color: $black !important;
       }
-
       &.is-disabled {
         cursor: not-allowed;
         color: $shade;
@@ -314,14 +299,47 @@
       padding: 7px 0px;
       border-bottom: 1px solid $black;
       font-size: 16px;
-
       &:hover {
         background-color: $k-accentlight;
       }
     }
   }
 
-  .navbar-item-tooltip {
-    display: block;
+  .fixed-stack {
+    border-bottom: 1px solid black;
+    background-color: $white;
+    box-sizing: border-box;
+    position: fixed;
+    width: 100%;
+    height: 70px;
+    top: 0;
+    left: 0;
+    z-index: 989;
+    border-radius: 0;
+    overflow: hidden;
+
+    .dropdown-menu {
+      position: fixed;
+      top: 55px;
+      left: 0;
+      width: 98% !important;
+    }
+
+    > .control {
+      margin-right: auto !important;
+
+      > .input {
+        height: 50px;
+      }
+
+      > .icon {
+        top: 10%;
+      }
+    }
+  }
+
+  .cancel-btn {
+    border: none;
+    text-transform: capitalize;
   }
 }

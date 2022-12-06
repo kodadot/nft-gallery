@@ -56,6 +56,7 @@
   "I do not want to support": "I do not want to support",
   "createNftExplainer": "If your collection was minted recently and it doesn't show up here, please wait, it will show up in the selector below shortly",
   "passion": "Passion Feed",
+  "beta": "Beta",
   "search": {
     "seeAll": "See All",
     "rankings": "Rankings",
@@ -1063,5 +1064,6 @@
     "subscribe": "Get The Latest KodaDot Updates",
     "join": "Join Our Community",
     "subscribeLabel": "Subscribe"
-  }
+  },
+  "cancel": "Cancel"
 }
