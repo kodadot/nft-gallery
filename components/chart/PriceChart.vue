@@ -3,7 +3,8 @@
     <span class="chart-y-description is-size-7">Price ({{ unit }})</span>
     <b-dropdown aria-role="list" class="time-range-dropdown py-0">
       <template #trigger>
-        <div class="time-range-button is-flex is-justify-content-center">
+        <div
+          class="time-range-button is-flex is-justify-content-center is-align-items-center">
           {{ selectedTimeRange.label }}
         </div>
       </template>
@@ -30,6 +31,7 @@ import ChartJS from 'chart.js/auto'
 import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { getChartData } from '@/utils/chart'
+import { format } from 'date-fns'
 
 ChartJS.register(zoomPlugin)
 const { $i18n, $colorMode } = useNuxtApp()
@@ -128,8 +130,9 @@ const getPriceChartData = () => {
     if (ctx) {
       const commonStyle = {
         tension: 0,
-        pointRadius: 4,
+        pointRadius: 6,
         pointHoverRadius: 6,
+        pointHoverBackgroundColor: isDarkMode.value ? '#181717' : 'white',
         borderJoinStyle: 'miter' as const,
         radius: 0,
         pointStyle: 'rect',
@@ -161,6 +164,16 @@ const getPriceChartData = () => {
           plugins: {
             customCanvasBackgroundColor: {
               color: isDarkMode.value ? '#181717' : 'white',
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return `Price: ${context.parsed.y}${unit.value}`
+                },
+                title: function (context) {
+                  return format(context[0].parsed.x, 'MMM dd HH:mm')
+                },
+              },
             },
             zoom: {
               limits: {
@@ -196,8 +209,8 @@ const getPriceChartData = () => {
               },
               grid: {
                 drawOnChartArea: false,
-                drawTicks: false,
-                drawBorder: false,
+                borderColor: lineColor.value,
+                color: lineColor.value,
               },
               ticks: {
                 callback: (value) => {
@@ -214,13 +227,15 @@ const getPriceChartData = () => {
             y: {
               ticks: {
                 callback: (value) => {
-                  return Number(value).toFixed(2)
+                  return `${Number(value).toFixed(2)}  `
                 },
                 maxTicksLimit: 7,
                 color: lineColor.value,
               },
               grid: {
-                color: lineColor.value,
+                drawTicks: false,
+                color: isDarkMode.value ? lineColor.value : '#ccc',
+                borderColor: lineColor.value,
               },
             },
           },
