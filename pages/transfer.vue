@@ -340,9 +340,12 @@ export default class Transfer extends mixins(
             this.transactionValue = execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
+            const numOfTargetAddress = Object.keys(this.targets).length
 
             showNotification(
-              `[${this.unit}] Transfered ${this.price} ${this.unit} in block ${blockNumber}`,
+              `[${this.unit}] Transfered ${this.price * numOfTargetAddress} ${
+                this.unit
+              } in block ${blockNumber}`,
               notificationTypes.success
             )
 
@@ -440,7 +443,6 @@ export default class Transfer extends mixins(
 
   @Watch('destinationAddresses', { deep: true })
   destinationChanged(destinationAddresses: string[]): void {
-    console.log('watch destinationAddresses')
     const { usdamount } = this.$route.query
     const targets = destinationAddresses
       .filter((addr) => isAddress(addr))
