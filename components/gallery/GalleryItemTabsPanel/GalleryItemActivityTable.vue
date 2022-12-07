@@ -82,7 +82,7 @@ import { OSkeleton, OTable, OTableColumn, OTooltip } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 
 import { formatToNow } from '@/utils/format/time'
-import formatBalance from '@/utils/formatBalance'
+import formatBalance from '@/utils/format/balance'
 import { parseDate } from '@/utils/datetime'
 
 import type { Interaction } from '@/components/rmrk/service/scheme'
