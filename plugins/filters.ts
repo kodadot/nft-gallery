@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import shortAddress from '@/utils/shortAddress'
-import formatBalance from '@/utils/formatBalance'
+import formatBalance from '@/utils/format/balance'
 import {
-  toString,
   toNumber,
   toPercent,
-  truncateStr,
   toSanitizedUrl,
+  toString,
+  truncateStr,
 } from '@/utils/filters'
 
 Vue.filter('shortAddress', shortAddress)
