@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown aria-role="list" :triggers="['click', 'hover']">
+  <b-dropdown aria-role="list" :triggers="['hover']">
     <template #trigger>
       <div class="navbar-item" data-cy="create-dropdown">
         {{ $t('create') }}

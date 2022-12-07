@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown class="navbar-explore" :triggers="['click', 'hover']">
+  <b-dropdown class="navbar-explore" :triggers="['hover']">
     <template #trigger>
       <div class="navbar-item" data-cy="explore">
         {{ $t('explore') }}

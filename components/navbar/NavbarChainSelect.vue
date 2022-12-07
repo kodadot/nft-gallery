@@ -1,8 +1,5 @@
 <template>
-  <b-dropdown
-    v-model="selected"
-    aria-role="list"
-    :triggers="['click', 'hover']">
+  <b-dropdown v-model="selected" aria-role="list" :triggers="['hover']">
     <template #trigger>
       <div class="navbar-item" data-cy="chain">
         {{ selected }}
