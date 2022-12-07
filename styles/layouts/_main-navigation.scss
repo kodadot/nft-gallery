@@ -305,4 +305,42 @@
       }
     }
   }
+
+  .fixed-stack {
+    border-bottom: 1px solid black;
+    background-color: $white;
+    box-sizing: border-box;
+    position: fixed;
+    width: 100%;
+    height: 70px;
+    top: 0;
+    left: 0;
+    z-index: 989;
+    border-radius: 0;
+    overflow: hidden;
+
+    .dropdown-menu {
+      position: fixed;
+      top: 55px;
+      left: 0;
+      width: 98% !important;
+    }
+
+    > .control {
+      margin-right: auto !important;
+
+      > .input {
+        height: 50px;
+      }
+
+      > .icon {
+        top: 10%;
+      }
+    }
+  }
+
+  .cancel-btn {
+    border: none;
+    text-transform: capitalize;
+  }
 }
