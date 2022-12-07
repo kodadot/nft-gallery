@@ -21,6 +21,15 @@ const KNOWN_WEIGHTS: Record<string, number> = {
   [KUSAMA_GENESIS]: KUSAMA_WEIGHT,
 }
 
+export enum Chain {
+  KUSAMA = 'Kusama',
+  BASILISK = 'Basilisk',
+}
+export const ChainIdMap = {
+  [Chain.KUSAMA]: 2000,
+  [Chain.BASILISK]: 2090,
+}
+
 export function getTeleportWeight(api: ApiPromise): number {
   return KNOWN_WEIGHTS[api.genesisHash.toHex()] || DEFAULT_WEIGHT
 }

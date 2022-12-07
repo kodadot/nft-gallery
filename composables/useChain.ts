@@ -1,5 +1,6 @@
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { ChainProperties } from '@/utils/api/Query'
+
 export default function () {
   const { urlPrefix } = usePrefix()
 

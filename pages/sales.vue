@@ -9,7 +9,7 @@
         <img
           src="~/assets/rmrk-logo-pink-faded.png"
           alt="RMRK"
-          class="rmrk-logo is-hidden-mobile" />
+          class="chain-logo is-hidden-mobile" />
       </div>
     </div>
 
@@ -30,7 +30,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
       type: 'profile',
       description: 'Featuring the most recently sold NFTs on RMRK.',
       url: './sales.vue',
-      image: `${this.$config.baseUrl}/k_card_series.png`,
+      image: `${this.$config.baseUrl}/k_card.png`,
     }
     return {
       title,

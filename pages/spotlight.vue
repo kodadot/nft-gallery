@@ -9,7 +9,7 @@
         <img
           src="~/assets/rmrk-logo-pink-faded.png"
           alt="RMRK"
-          class="rmrk-logo is-hidden-mobile" />
+          class="chain-logo is-hidden-mobile" />
       </div>
     </div>
 
@@ -31,7 +31,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
       type: 'profile',
       description: 'Discover new artists based on ranking',
       url: '/spotlight',
-      image: `${this.$config.baseUrl}/k_card_spotlight.png`,
+      image: `${this.$config.baseUrl}/k_card.png`,
     }
     return {
       title,

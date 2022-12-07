@@ -29,7 +29,7 @@
 <script lang="ts">
 import { Attribute } from '@/components/rmrk/types'
 import existingCollectionList from '@/queries/unique/existingCollectionList.graphql'
-import formatBalance from '@/utils/formatBalance'
+import formatBalance from '@/utils/format/balance'
 import { unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'

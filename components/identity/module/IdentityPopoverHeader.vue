@@ -31,8 +31,6 @@
 </template>
 
 <script lang="ts" setup>
-import useIdentityStats from '../utils/useIdentityStats'
-
 const address = inject('address')
 const shortenedAddress = inject('shortenedAddress')
 

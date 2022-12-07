@@ -12,114 +12,7 @@
             class="navbar__avatar-icon"
             :size="27" />
 
-          <svg
-            v-else
-            width="27"
-            height="27"
-            viewBox="0 0 27 27"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_2684_707)">
-              <rect width="27" height="27" rx="13.5" fill="white" />
-              <g filter="url(#filter0_d_2684_707)">
-                <rect
-                  x="3.375"
-                  y="18.7681"
-                  width="20.4146"
-                  height="16.4634"
-                  rx="8.23171"
-                  fill="white" />
-                <rect
-                  x="4.125"
-                  y="19.5181"
-                  width="18.9146"
-                  height="14.9634"
-                  rx="7.48171"
-                  stroke="black"
-                  stroke-width="1.5" />
-              </g>
-              <g filter="url(#filter1_d_2684_707)">
-                <circle cx="13.6643" cy="11.3599" r="5.7622" fill="white" />
-                <circle
-                  cx="13.6643"
-                  cy="11.3599"
-                  r="5.0122"
-                  stroke="black"
-                  stroke-width="1.5" />
-              </g>
-            </g>
-            <rect
-              x="0.75"
-              y="0.75"
-              width="25.5"
-              height="25.5"
-              rx="12.75"
-              stroke="black"
-              stroke-width="1.5" />
-            <defs>
-              <filter
-                id="filter0_d_2684_707"
-                x="3.375"
-                y="18.7681"
-                width="21.2583"
-                height="17.3071"
-                filterUnits="userSpaceOnUse"
-                color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                <feColorMatrix
-                  in="SourceAlpha"
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                  result="hardAlpha" />
-                <feOffset dx="0.84375" dy="0.84375" />
-                <feComposite in2="hardAlpha" operator="out" />
-                <feColorMatrix
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" />
-                <feBlend
-                  mode="normal"
-                  in2="BackgroundImageFix"
-                  result="effect1_dropShadow_2684_707" />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="effect1_dropShadow_2684_707"
-                  result="shape" />
-              </filter>
-              <filter
-                id="filter1_d_2684_707"
-                x="7.9021"
-                y="5.59766"
-                width="12.3682"
-                height="12.3682"
-                filterUnits="userSpaceOnUse"
-                color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                <feColorMatrix
-                  in="SourceAlpha"
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                  result="hardAlpha" />
-                <feOffset dx="0.84375" dy="0.84375" />
-                <feComposite in2="hardAlpha" operator="out" />
-                <feColorMatrix
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" />
-                <feBlend
-                  mode="normal"
-                  in2="BackgroundImageFix"
-                  result="effect1_dropShadow_2684_707" />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="effect1_dropShadow_2684_707"
-                  result="shape" />
-              </filter>
-              <clipPath id="clip0_2684_707">
-                <rect width="27" height="27" rx="13.5" fill="white" />
-              </clipPath>
-            </defs>
-          </svg>
+          <img v-else :src="profileIcon" />
         </a>
       </template>
 
@@ -163,6 +56,11 @@
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
           <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
+        </b-dropdown-item>
+        <b-dropdown-item has-link aria-role="menuitem">
+          <nuxt-link to="/teleport-bridge">{{
+            $t('navbar.teleportBridge')
+          }}</nuxt-link>
         </b-dropdown-item>
       </template>
 
@@ -215,20 +113,31 @@
               y="1.25"
               width="23.5"
               height="20.5"
-              fill="white"
-              stroke="black"
+              fill="none"
+              :stroke="isDarkMode ? 'white' : 'black'"
               stroke-width="1.5" />
             <g filter="url(#filter0_d_2684_755)">
-              <rect x="15" y="7.5" width="12" height="9" fill="white" />
+              <rect
+                x="15"
+                y="7.5"
+                width="12"
+                height="9"
+                :fill="isDarkMode ? 'black' : 'white'" />
               <rect
                 x="15.75"
                 y="8.25"
                 width="10.5"
                 height="7.5"
-                stroke="black"
+                :stroke="isDarkMode ? 'white' : 'black'"
                 stroke-width="1.5" />
             </g>
-            <rect x="19" y="10.5" width="3" height="3" rx="1.5" fill="black" />
+            <rect
+              x="19"
+              y="10.5"
+              width="3"
+              height="3"
+              rx="1.5"
+              :fill="isDarkMode ? 'white' : 'black'" />
             <defs>
               <filter
                 id="filter0_d_2684_755"
@@ -393,6 +302,17 @@ export default class NavbarProfileDropdown extends mixins(
   @Prop() public showIncommingOffers!: boolean
   @Prop() public isSnek!: boolean
   @Ref('languageDropdown') readonly languageDropdown
+
+  get isDarkMode() {
+    return (
+      this.$colorMode.preference === 'dark' ||
+      document.documentElement.className.includes('dark-mode')
+    )
+  }
+
+  get profileIcon() {
+    return this.isDarkMode ? '/profile-dark.svg' : '/profile.svg'
+  }
 
   get langsFlags(): { value: string; flag: string; label: string }[] {
     return this.$store.getters['lang/getLangsFlags']

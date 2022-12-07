@@ -25,6 +25,8 @@ export const SHOW_SCROLL_TOP_BUTTON_HEIGHT = 350
 
 export const DETAIL_TIMEOUT = 3000
 
+export const MAX_UPLOADED_FILE_SIZE = 30
+
 export const URLS = {
   koda: {
     cloudflare: 'https://durable-jpeg.kodadot.workers.dev/',
@@ -39,6 +41,7 @@ export const URLS = {
     snekRococo: 'https://squid.subsquid.io/snekk/v/004/graphql',
     click: 'https://squid.subsquid.io/click/v/002/graphql',
     antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
+    replicate: 'https://replicate.kodadot.workers.dev/',
   },
   providers: {
     coingecko: 'https://api.coingecko.com/api/v3',

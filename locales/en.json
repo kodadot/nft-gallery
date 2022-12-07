@@ -55,6 +55,7 @@
   "I do not want to support": "I do not want to support",
   "createNftExplainer": "If your collection was minted recently and it doesn't show up here, please wait, it will show up in the selector below shortly",
   "passion": "Passion Feed",
+  "beta": "Beta",
   "search": {
     "seeAll": "See All",
     "rankings": "Rankings",
@@ -64,6 +65,14 @@
     "landingTitle2": "Collect",
     "landingTitle3": "And Sell",
     "landingSubtitle": "Kusama NFTS"
+  },
+  "topCollections": {
+    "timeFrames": {
+      "7 Days": "7 Days",
+      "30 Days": "30 Days",
+      "90 Days": "90 Days",
+      "all": "All"
+    }
   },
   "faq": {
     "page": "FAQ",
@@ -632,6 +641,11 @@
       "creative": {
         "heading": "Creative Minting"
       },
+      "email": {
+        "label": "email",
+        "placeholder": "Enter your email",
+        "message": "Enter your email to receive a notification when your request is done"
+      },
       "creativeDrop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",
       "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)",
       "creativeFailDesc": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
@@ -654,6 +668,7 @@
     "gains": "Gained by",
     "makeOfferDisabled": "You have already made an offer for this NFT",
     "needToUploadNFTFile": "You need to upload NFT file",
+    "failedMaxSize": "Your File is too large",
     "needToSetValidPrice": "In order to list NFT, price has to be more than 0",
     "notEnoughBalance": "Insufficient funds",
     "haveNoToS": "Have no permission to use the asset",
@@ -698,8 +713,9 @@
     }
   },
   "offer": {
-    "caller": "Maker",
+    "caller": "From",
     "price": "Price",
+    "usdPrice": "USD Price",
     "expiration": "Expiration",
     "expired": "offer has expired",
     "action": "Action",
@@ -712,7 +728,8 @@
     "withdraw": "your offer has been withdrawn",
     "burnedToggle": "Show Burned Nfts",
     "offersCreated": "Offers Created",
-    "incomingOffers": "Incoming Offers"
+    "incomingOffers": "Incoming Offers",
+    "floorDifferences": "Floor Difference"
   },
   "statsOverview": {
     "buys": "Buys",
@@ -748,7 +765,13 @@
     "ipfs": "Uploading data to IPFS",
     "arweave": "Storing data via PermaFrost",
     "uploading": "({0}/{1}) Uploading data to IPFS",
-    "checkBalance": "Checking if you have enough balance"
+    "checkBalance": "Checking if you have enough balance",
+    "generative": {
+      "starting": "Warming up the AI model",
+      "processing": "Predicting (wait around ~20s)",
+      "send": "Sending links to your email"
+    }
+
   },
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
@@ -813,7 +836,7 @@
   },
   "series": {
     "title": "Top Collection",
-    "subtitle": "The top NFTs on RMRK, ranked by volume, floor price and other statistics.",
+    "subtitle": "The top NFTs on {chain}, ranked by volume, floor price and other statistics.",
     "assets": "Assets",
     "buys": "Buys",
     "collected": "Collected",
@@ -879,6 +902,7 @@
     "newestListDesc": "Discover the latest items on sale",
     "newestListHeading": "Newest List",
     "topCollectionsHeading": "Top Collections",
+    "floor": "floor",
     "popularCollectionsHeading": "Popular Collections",
     "popularCollectionsDesc": "Discover the most popular collections on rmrk",
     "featuredArticlesHeading": "Featured Articles",
@@ -978,6 +1002,7 @@
   },
   "navbar": {
     "teleport": "Teleport",
+    "teleportBridge": "Teleport Bridge",
     "globalOffers": "Global Offers",
     "offerStats": "Offers Stats"
   },
@@ -1044,5 +1069,33 @@
     "subscribe": "Get The Latest KodaDot Updates",
     "join": "Join Our Community",
     "subscribeLabel": "Subscribe"
-  }
+  },
+  "tabs": {
+    "properties": "Properties",
+    "description": "Description",
+    "details": "Details",
+    "offers": "Offers",
+    "activity": "Activity",
+    "chart": "Chart",
+    "rarity": "Rarity by Kodadot",
+    "tabProperties": {
+      "trait": "Trait",
+      "section": "Section",
+      "floorPrice": "Floor Price",
+      "percentage": "Percentage"
+    },
+    "tabDescription": {
+      "made": "Made By"
+    },
+    "tabDetails": {
+      "contractAddress": "Contract Address",
+      "creator": "Creator",
+      "blockchain": "Blockchain",
+      "tokenStandard": "Token Standard",
+      "royalties": "Royalties",
+      "media": "Media",
+      "metadata": "Metadata"
+    }
+  },
+  "cancel": "Cancel"
 }

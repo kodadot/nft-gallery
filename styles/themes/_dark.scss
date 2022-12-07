@@ -29,6 +29,7 @@ html.dark-mode {
     background-color: $background-dark !important;
 
     .navbar-item:hover {
+      color: inherit;
       background-color: inherit;
     }
 
@@ -48,6 +49,9 @@ html.dark-mode {
         color: $black;
       }
     }
+    .navbar-dropdown a.navbar-item {
+      border-bottom: 1px solid $white;
+    }
 
     .navbar-link {
       &:hover {
@@ -65,9 +69,9 @@ html.dark-mode {
     }
 
     .navbar__sign-out-button {
-      border-color: $white!important;
+      border-color: $white !important;
       box-shadow: 4px 4px 0px $white !important;
-      background: $dark-accent!important;
+      background: $dark-accent !important;
       color: $white;
       &:hover {
         background-color: $primary !important;
@@ -88,13 +92,17 @@ html.dark-mode {
       border-color: $white !important;
 
       .button:hover {
-        background-color: $primary;
+        background-color: $k-accent !important;
+        color: $black !important;
       }
     }
 
     #NavProfile {
       .button.is-primary {
         border: 1px solid $white !important;
+      }
+      .dropdown .dropdown-menu .has-link {
+        border-top: 1px solid $white;
       }
     }
 
@@ -214,6 +222,15 @@ html.dark-mode {
     }
   }
 
+
+  .chain-option {
+    &:hover {
+      color: $shade !important;
+     
+    }
+  }
+
+
   .modal-card-container {
     border: 1px solid white;
     .wallet .buttons {
@@ -227,7 +244,8 @@ html.dark-mode {
         border-radius: unset;
 
         &:hover {
-          background-color: $k-accentlight2dark!important;
+          background-color: $k-accentlight2dark !important;
+          color: $white;
         }
       }
     }
@@ -254,10 +272,9 @@ html.dark-mode {
     }
     .dropdown-content .dropdown-item {
       &:hover {
-      background-color: $k-accentlight2dark!important;
-     }
+        background-color: $k-accentlight2dark !important;
+      }
     }
-
   }
 
   .image-outline {

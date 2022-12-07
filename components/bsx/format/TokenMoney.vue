@@ -4,7 +4,8 @@
     :unit="unit"
     :decimals="decimals"
     :inline="inline"
-    :hide-unit="hideUnit" />
+    :hide-unit="hideUnit"
+    :round="round" />
 </template>
 
 <script lang="ts">
@@ -23,6 +24,7 @@ export default class TokenMoney extends mixins(AssetMixin) {
 
   @Prop(Boolean) readonly inline!: boolean
   @Prop(Boolean) readonly hideUnit!: boolean
+  @Prop({ type: Number, default: 4 }) readonly round!: number
 
   get asset() {
     return this.assetIdOf(this.tokenId)
