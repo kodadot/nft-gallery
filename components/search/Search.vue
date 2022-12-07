@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-3">
+  <div>
     <div v-if="!isVisible && !hideSearchInput" class="row">
       <div v-if="priceRangeDirty && !hideFilter" class="is-size-7">
         <PriceRange inline />

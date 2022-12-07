@@ -1,8 +1,17 @@
-<svg width="35" height="23" viewBox="0 0 35 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M29.8492 0L29.868 0.0125005V0H29.8492Z" fill="black"/>
-<path d="M0.54895 19.5572L5.33764 22.6918H34.0429L29.522 19.4387L0.54895 19.5572Z" fill="#8D8D8D"/>
-<path d="M29.8493 0.356567L34.5102 3.54768L34.4308 22.5463L29.5223 19.4387L29.8493 0.356567Z" fill="#CCCCCC"/>
-<path d="M29.8694 0.013459L29.8493 0H0V19.7079L5.22746 23H34.8587V3.44818L29.8694 0.013459ZM0.815612 0.538358H29.0538V19.1696H0.815612V0.538358ZM5.56662 22.4616L1.18304 19.7079H29.2921L33.4643 22.4616H5.56662ZM34.0431 22.0808L29.8708 19.3271V0.752355L34.0431 3.6716V22.0808Z" fill="#8D8D8D"/>
-<path d="M20.5885 5.2019V10.9839H9.70422" stroke="#8D8D8D" stroke-width="1.34589" stroke-miterlimit="10"/>
-<path d="M12.7226 7.72937L9.28247 11.0672L12.7212 14.506" stroke="#8D8D8D" stroke-width="1.34589" stroke-miterlimit="10"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 243.21 170.89">
+  <defs>
+    <style>.cls-1{fill:#8d8d8d}.cls-4{fill:none;stroke:#8d8d8d;stroke-miterlimit:10;stroke-width:10px}</style>
+  </defs>
+  <g id="Layer_2" data-name="Layer 2">
+    <g id="Layer_1-2" data-name="Layer 1">
+      <path d="M218.75 5.59V143.6l20.46 20.46V27.28Zm0 0V143.6l20.46 20.46V27.28Z" class="cls-1" />
+      <path d="m218.75.1-.1-.1-5.57.08L72.31 2.1h144.18v142.33h-60.76l-83.42.51L0 145.2l1.26 1.25 24.64 24.44h217.31V25.62Zm20.46 163.96-20.46-20.46V5.59l20.46 21.69Z" class="cls-1" />
+      <path d="M239.21 27.28v136.78l-20.46-20.46V5.59l20.46 21.69z" style="fill:#ccc" />
+      <path d="M72.31 144.43v.51l83.42-.51Z" class="cls-1" />
+      <path d="M2.02 2.1h214.47v142.33H2.02z" style="fill:transparent" />
+      <path d="M0 .08V145.2l1.26 1.25h217.25V.08Zm4.04 4.04h210.43v138.29H4.04Z" class="cls-1" />
+      <path d="M151.255 38.7v42.961h-80.87" class="cls-4" />
+      <path d="M92.82 57.483 67.255 82.281l25.549 25.549" class="cls-4" />
+    </g>
+  </g>
 </svg>

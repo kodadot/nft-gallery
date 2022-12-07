@@ -46,7 +46,7 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 
 import { onApiConnect } from '@kodadot1/sub-api'
 import { getKSMUSD } from '@/utils/coingecko'
-import formatBalance from '@/utils/formatBalance'
+import formatBalance from '@/utils/format/balance'
 import { formatSecondsToDuration } from '@/utils/format/time'
 
 import type { Offer, OfferResponse } from '@/components/bsx/Offer/types'
