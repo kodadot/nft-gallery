@@ -31,7 +31,9 @@
     </section>
 
     <section class="section instance instance-accent">
-      <div class="container"><LazyFeaturedArticles /></div>
+      <div class="container footer-landing-container">
+        <LazyFeaturedArticles />
+      </div>
     </section>
   </div>
 </template>
