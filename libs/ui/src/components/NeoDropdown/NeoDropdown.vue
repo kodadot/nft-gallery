@@ -3,7 +3,6 @@
     <template #trigger="{}">
       <slot />
     </template>
-
     <o-dropdown-item
       v-for="(item, index) in items"
       :key="index"

@@ -1,8 +1,12 @@
 <template>
   <o-field :label="label">
-    <o-select placeholder="Select a name">
-      <option value="flint">Flint</option>
-      <option value="silver">Silver</option>
+    <o-select :placeholder="placeholder">
+      <option
+        v-for="(option, index) in options"
+        :key="index"
+        :value="option.value">
+        {{ option.text }}
+      </option>
     </o-select>
   </o-field>
 </template>
@@ -12,6 +16,8 @@ import { OField, OSelect } from '@oruga-ui/oruga'
 
 defineProps<{
   label?: string
+  placeholder?: string
+  options: { value: string; text: string }[]
 }>()
 </script>
 
