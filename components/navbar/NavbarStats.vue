@@ -10,8 +10,9 @@
           {{ $t('stats') }}
         </div>
       </template>
-      <b-dropdown-item has-link data-cy="global-offers">
+      <b-dropdown-item has->
         <nuxt-link
+          data-cy="global-offers"
           :to="`${
             accountId
               ? `/${urlPrefix}/offers?target=${accountId}`
@@ -20,8 +21,8 @@
           {{ $t('navbar.globalOffers') }}
         </nuxt-link>
       </b-dropdown-item>
-      <b-dropdown-item has-link data-cy="offers-stats">
-        <nuxt-link :to="`/${urlPrefix}/stats`">
+      <b-dropdown-item has-link>
+        <nuxt-link data-cy="offers-stats" :to="`/${urlPrefix}/stats`">
           {{ $t('navbar.offerStats') }}
         </nuxt-link>
       </b-dropdown-item>
@@ -33,19 +34,21 @@
         </div>
       </template>
       =
-      <b-dropdown-item has-link aria-role="menu-item" data-cy="spotlight">
-        <nuxt-link to="/spotlight">
+      <b-dropdown-item has-link aria-role="menu-item">
+        <nuxt-link data-cy="spotlight" to="/spotlight">
           {{ $t('spotlight.page') }}
         </nuxt-link>
       </b-dropdown-item>
-      <b-dropdown-item has-link data-cy="series-insight">
-        <nuxt-link to="/series-insight"> Series</nuxt-link>
+      <b-dropdown-item has-link>
+        <nuxt-link data-cy="series-insight" to="/series-insight">
+          Series</nuxt-link
+        >
       </b-dropdown-item>
-      <b-dropdown-item has-link data-cy="sales">
-        <nuxt-link to="/sales"> Sales</nuxt-link>
+      <b-dropdown-item has-link>
+        <nuxt-link data-cy="sales" to="/sales"> Sales</nuxt-link>
       </b-dropdown-item>
-      <b-dropdown-item has-link data-cy="hot">
-        <nuxt-link to="/hot"> Hot</nuxt-link>
+      <b-dropdown-item has-link>
+        <nuxt-link data-cy="hot" to="/hot"> Hot</nuxt-link>
       </b-dropdown-item>
     </b-dropdown>
   </div>
