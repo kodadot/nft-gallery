@@ -74,9 +74,7 @@ Cypress.Commands.add('collectionsSortBy', () => {
 })
 
 Cypress.Commands.add('rmrkNavbar', () => {
-  // cy.get('[data-cy="create-dropdown"]').invoke('show')
   cy.get('[data-cy="classic"]')
-    // contains 'href' attribute
     .should('have.attr', 'href')
     .and('include', '/rmrk/create')
   cy.get('[data-cy="simple"]')
