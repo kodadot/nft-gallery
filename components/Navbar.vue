@@ -50,6 +50,7 @@
     <template #end>
       <NavbarExplore />
       <NavbarCreate
+        v-show="isCreateVisible"
         class="navbar-create custom-navbar-item"
         data-cy="create"
         :is-rmrk="isRmrk" />
@@ -112,14 +113,14 @@ export default class NavbarMenu extends mixins(
   AuthMixin,
   ExperimentMixin
 ) {
-  protected showTopNavbar = true
-  protected openMobileSearchBar = false
+  public showTopNavbar = true
+  public openMobileSearchBar = false
+  private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
   private fixedTitleNavAppearDistance = 85
   private lastScrollPosition = 0
   private artistName = ''
-  private isBurgerMenuOpened = false
+  public isBurgerMenuOpened = false
   @Ref('mobilSearchRef') readonly mobilSearchRef
-
   @Watch('isBurgerMenuOpened') onDisableScroll() {
     if (this.isBurgerMenuOpened) {
       return (document.body.style.overflowY = 'hidden')

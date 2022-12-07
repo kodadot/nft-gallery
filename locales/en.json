@@ -714,8 +714,9 @@
     }
   },
   "offer": {
-    "caller": "Maker",
+    "caller": "From",
     "price": "Price",
+    "usdPrice": "USD Price",
     "expiration": "Expiration",
     "expired": "offer has expired",
     "action": "Action",
@@ -728,7 +729,8 @@
     "withdraw": "your offer has been withdrawn",
     "burnedToggle": "Show Burned Nfts",
     "offersCreated": "Offers Created",
-    "incomingOffers": "Incoming Offers"
+    "incomingOffers": "Incoming Offers",
+    "floorDifferences": "Floor Difference"
   },
   "statsOverview": {
     "buys": "Buys",
@@ -835,7 +837,7 @@
   },
   "series": {
     "title": "Top Collection",
-    "subtitle": "The top NFTs on RMRK, ranked by volume, floor price and other statistics.",
+    "subtitle": "The top NFTs on {chain}, ranked by volume, floor price and other statistics.",
     "assets": "Assets",
     "buys": "Buys",
     "collected": "Collected",
@@ -1060,10 +1062,41 @@
     "disconnect": "Disconnect",
     "wallet": "Wallet"
   },
+  "priceChart": {
+    "days": "{0} Days",
+    "all": "All"
+  },
   "footer": {
     "subscribe": "Get The Latest KodaDot Updates",
     "join": "Join Our Community",
     "subscribeLabel": "Subscribe"
+  },
+  "tabs": {
+    "properties": "Properties",
+    "description": "Description",
+    "details": "Details",
+    "offers": "Offers",
+    "activity": "Activity",
+    "chart": "Chart",
+    "rarity": "Rarity by Kodadot",
+    "tabProperties": {
+      "trait": "Trait",
+      "section": "Section",
+      "floorPrice": "Floor Price",
+      "percentage": "Percentage"
+    },
+    "tabDescription": {
+      "made": "Made By"
+    },
+    "tabDetails": {
+      "contractAddress": "Contract Address",
+      "creator": "Creator",
+      "blockchain": "Blockchain",
+      "tokenStandard": "Token Standard",
+      "royalties": "Royalties",
+      "media": "Media",
+      "metadata": "Metadata"
+    }
   },
   "cancel": "Cancel"
 }
