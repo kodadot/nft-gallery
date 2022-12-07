@@ -3,7 +3,7 @@
     <b-dropdown
       position="is-bottom-left"
       aria-role="menu"
-      :triggers="['click', 'hover']">
+      :triggers="['hover']">
       <template #trigger>
         <a class="navbar-item" role="button">
           <Avatar
@@ -98,7 +98,7 @@
       v-if="account"
       position="is-bottom-left"
       aria-role="menu"
-      :triggers="['click', 'hover']">
+      :triggers="['hover']">
       <template #trigger>
         <a class="navbar-item" role="button">
           <svg
