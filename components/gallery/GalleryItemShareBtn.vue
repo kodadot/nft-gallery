@@ -1,25 +1,21 @@
 <template>
   <div>
-    <b-dropdown aria-role="list" position="is-bottom-left">
-      <template #trigger>
-        <NeoButton label="Share" icon="share-square" />
-      </template>
+    <NeoDropdown>
+      <NeoButton label="Share" icon="share-square" />
 
-      <b-dropdown-item
-        v-clipboard:copy="realworldFullPathShare"
-        aria-role="listitem"
-        @click="toast($t('toast.urlCopy'))">
-        Copy Link
-      </b-dropdown-item>
-      <b-dropdown-item aria-role="listitem" @click="isModalActive = true">
-        QR Code
-      </b-dropdown-item>
-      <b-dropdown-item aria-role="listitem" has-link>
-        <a :href="twitterUri" target="_blank" rel="noopener noreferrer">
-          Share On Twitter
-        </a>
-      </b-dropdown-item>
-    </b-dropdown>
+      <template #items>
+        <NeoDropdownItem
+          v-clipboard:copy="realworldFullPathShare"
+          item="Copy Link"
+          @click="toast(String($t('toast.urlCopy')))" />
+        <NeoDropdownItem item="QR Code" @click="isModalActive = true" />
+        <NeoDropdownItem>
+          <a :href="twitterUri" target="_blank" rel="noopener noreferrer">
+            Share On Twitter
+          </a>
+        </NeoDropdownItem>
+      </template>
+    </NeoDropdown>
 
     <b-modal v-model="isModalActive">
       <div class="card">
@@ -38,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 
 const QRCode = () => import('@/components/shared/QRCode.vue')
 

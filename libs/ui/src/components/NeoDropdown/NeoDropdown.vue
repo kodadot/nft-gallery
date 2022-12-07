@@ -1,22 +1,20 @@
 <template>
-  <o-dropdown aria-role="list">
+  <o-dropdown aria-role="list" :position="position">
     <template #trigger="{}">
       <slot />
     </template>
-    <o-dropdown-item
-      v-for="(item, index) in items"
-      :key="index"
-      aria-role="listitem">
-      {{ item }}
-    </o-dropdown-item>
+    <slot name="items" />
   </o-dropdown>
 </template>
 
 <script lang="ts" setup>
-import { ODropdown, ODropdownItem } from '@oruga-ui/oruga'
+import { ODropdown } from '@oruga-ui/oruga'
 
 defineProps<{
-  items: string[]
+  position?: {
+    type: string
+    default: 'bottom-left'
+  }
 }>()
 </script>
 
