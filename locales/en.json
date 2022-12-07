@@ -55,6 +55,7 @@
   "I do not want to support": "I do not want to support",
   "createNftExplainer": "If your collection was minted recently and it doesn't show up here, please wait, it will show up in the selector below shortly",
   "passion": "Passion Feed",
+  "beta": "Beta",
   "search": {
     "seeAll": "See All",
     "rankings": "Rankings",
@@ -64,6 +65,14 @@
     "landingTitle2": "Collect",
     "landingTitle3": "And Sell",
     "landingSubtitle": "Kusama NFTS"
+  },
+  "topCollections": {
+    "timeFrames": {
+      "7 Days": "7 Days",
+      "30 Days": "30 Days",
+      "90 Days": "90 Days",
+      "all": "All"
+    }
   },
   "faq": {
     "page": "FAQ",
@@ -893,6 +902,7 @@
     "newestListDesc": "Discover the latest items on sale",
     "newestListHeading": "Newest List",
     "topCollectionsHeading": "Top Collections",
+    "floor": "floor",
     "popularCollectionsHeading": "Popular Collections",
     "popularCollectionsDesc": "Discover the most popular collections on rmrk",
     "featuredArticlesHeading": "Featured Articles",
@@ -1082,5 +1092,6 @@
       "media": "Media",
       "metadata": "Metadata"
     }
-  }
+  },
+  "cancel": "Cancel"
 }

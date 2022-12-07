@@ -17,17 +17,18 @@
         hide-filter
         class="landing-search-bar"
         search-column-class="is-flex-grow-1" />
-      <div class="is-flex is-justify-content-center is-flex-wrap-wrap">
+      <div
+        id="networkList"
+        class="is-flex is-justify-content-center is-flex-wrap-wrap is-align-items-baseline">
         <a
           v-for="chain in chainList"
           :key="chain.value"
-          :class="[
-            'mr-2 mb-2',
-            'chain-option',
-            { active: urlPrefix === chain.value },
-          ]"
+          :class="['m-2', 'chain-option active']"
           @click="switchChain(chain.value)">
-          {{ chain.text }}
+          {{ chainText(chain.text) }}
+          <sup v-if="chain.text.includes('[Beta]')" class="beta-text is-size-7">
+            {{ $t('beta') }}</sup
+          >
         </a>
       </div>
     </div>
@@ -48,6 +49,13 @@ const isDarkMode = computed(
     document.documentElement.className.includes('dark-mode')
 )
 
+const chainText = (chain: string) => {
+  if (chain.includes('[Beta]')) {
+    return chain.split(' ')[0]
+  } else {
+    return chain
+  }
+}
 const landingImage = computed(() => {
   if (isDarkMode.value) {
     return ['/landing-search-left-dark.svg', '/landing-search-right-dark.svg']

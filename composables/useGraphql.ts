@@ -16,16 +16,14 @@ export default function ({
   clientName = '',
   variables = {},
   options = {},
+  data = ref(),
+  error = ref(),
+  loading = ref(true),
 }) {
   const { $apollo, $consola } = useNuxtApp()
   const { prefix, client } = useQueryParams({ queryPrefix, clientName })
-  const data = ref(null)
-  const error = ref(null)
-  const loading = ref(true)
 
   async function doFetch() {
-    data.value = null
-    error.value = null
     const query = await resolveQueryPath(prefix, queryName)
 
     try {
