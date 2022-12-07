@@ -25,10 +25,18 @@
           class="mr-2 mobile-nav-search-btn is-flex"
           @click="showMobileSearchBar">
         </b-button>
-        <Search
-          ref="mobilSearchRef"
-          hide-filter
-          class="mt-5 search-navbar-container-mobile" />
+        <div v-show="openMobileSearchBar">
+          <div
+            class="fixed-stack is-flex is-align-items-center is-justify-content-space-between p-2">
+            <Search
+              ref="mobilSearchRef"
+              hide-filter
+              class="is-flex-grow-1 mt-5" />
+            <b-button class="cancel-btn" @click="hideMobileSearchBar">
+              {{ $t('cancel') }}
+            </b-button>
+          </div>
+        </div>
       </div>
     </template>
     <template #start>
@@ -199,6 +207,7 @@ export default class NavbarMenu extends mixins(
   ExperimentMixin
 ) {
   public showTopNavbar = true
+  public openMobileSearchBar = false
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
   private fixedTitleNavAppearDistance = 85
   private lastScrollPosition = 0
@@ -318,7 +327,14 @@ export default class NavbarMenu extends mixins(
   }
 
   showMobileSearchBar() {
-    this.mobilSearchRef?.focusInput()
+    this.openMobileSearchBar = true
+    this.$nextTick(() => {
+      this.mobilSearchRef?.focusInput()
+    })
+  }
+
+  hideMobileSearchBar() {
+    this.openMobileSearchBar = false
   }
 
   closeBurgerMenu() {

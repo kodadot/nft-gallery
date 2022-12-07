@@ -39,11 +39,7 @@
         v-for="option in options.slice(0, 3)"
         :key="option.value"
         :value="option.value"
-        :class="[
-          'menu-item',
-          'mr-2',
-          { 'is-active': selectedChain === option.value },
-        ]"
+        :class="['menu-item', 'mr-2']"
         @click="setSelectedChain(option.value)">
         {{ option.text }}
       </span>
@@ -77,7 +73,7 @@ export default class NavbarExplore extends mixins(PrefixMixin, AuthMixin) {
 
   setSelectedChain(value) {
     this.$store.dispatch('setUrlPrefix', value)
-    this.$router.push({ path: `/${value}` })
+    this.$router.push({ path: `/${value}/explore?tab=COLLECTION` })
   }
 }
 </script>

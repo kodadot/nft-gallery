@@ -55,6 +55,7 @@
   "I do not want to support": "I do not want to support",
   "createNftExplainer": "If your collection was minted recently and it doesn't show up here, please wait, it will show up in the selector below shortly",
   "passion": "Passion Feed",
+  "beta": "Beta",
   "search": {
     "seeAll": "See All",
     "rankings": "Rankings",
@@ -712,8 +713,9 @@
     }
   },
   "offer": {
-    "caller": "Maker",
+    "caller": "From",
     "price": "Price",
+    "usdPrice": "USD Price",
     "expiration": "Expiration",
     "expired": "offer has expired",
     "action": "Action",
@@ -726,7 +728,8 @@
     "withdraw": "your offer has been withdrawn",
     "burnedToggle": "Show Burned Nfts",
     "offersCreated": "Offers Created",
-    "incomingOffers": "Incoming Offers"
+    "incomingOffers": "Incoming Offers",
+    "floorDifferences": "Floor Difference"
   },
   "statsOverview": {
     "buys": "Buys",
@@ -1062,5 +1065,33 @@
     "subscribe": "Get The Latest KodaDot Updates",
     "join": "Join Our Community",
     "subscribeLabel": "Subscribe"
-  }
+  },
+  "tabs": {
+    "properties": "Properties",
+    "description": "Description",
+    "details": "Details",
+    "offers": "Offers",
+    "activity": "Activity",
+    "chart": "Chart",
+    "rarity": "Rarity by Kodadot",
+    "tabProperties": {
+      "trait": "Trait",
+      "section": "Section",
+      "floorPrice": "Floor Price",
+      "percentage": "Percentage"
+    },
+    "tabDescription": {
+      "made": "Made By"
+    },
+    "tabDetails": {
+      "contractAddress": "Contract Address",
+      "creator": "Creator",
+      "blockchain": "Blockchain",
+      "tokenStandard": "Token Standard",
+      "royalties": "Royalties",
+      "media": "Media",
+      "metadata": "Metadata"
+    }
+  },
+  "cancel": "Cancel"
 }
