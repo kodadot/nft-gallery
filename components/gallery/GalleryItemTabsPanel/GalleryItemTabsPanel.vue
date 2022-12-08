@@ -13,14 +13,8 @@
     </o-tab-item>
 
     <!-- activity -->
-    <o-tab-item value="1" :label="$t('tabs.activity')" class="p-5">
+    <o-tab-item value="1" :label="$t('tabs.activity')">
       <GalleryItemActivity v-if="nft?.id" :nft-id="nft?.id" />
-      Activity
-      <LazyGalleryHistory
-        class="is-invisible"
-        :events="nft?.events"
-        data-cy="history"
-        @setPriceChartData="setPriceChartData" />
     </o-tab-item>
 
     <!-- chart -->
@@ -44,10 +38,6 @@ const priceChartData = ref<[Date, number][][]>([])
 
 const activeTab = ref('0')
 const collectionId = ref('')
-
-const setPriceChartData = (data: [Date, number][][]) => {
-  priceChartData.value = data
-}
 
 watchEffect(() => {
   if (urlPrefix.value === 'rmrk') {

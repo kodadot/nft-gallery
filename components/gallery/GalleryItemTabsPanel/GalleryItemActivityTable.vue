@@ -4,7 +4,7 @@
       <!-- event name -->
       <o-table-column
         v-slot="props"
-        width="10%"
+        width="20%"
         field="interaction"
         :label="$t('tabs.tabActivity.event')">
         {{ props.row.interaction }}
@@ -13,6 +13,7 @@
       <!-- price -->
       <o-table-column
         v-slot="props"
+        width="20%"
         field="meta"
         :label="$t('tabs.tabActivity.price')">
         <p v-if="Number(props.row.meta)">
@@ -23,6 +24,7 @@
       <!-- from -->
       <o-table-column
         v-slot="props"
+        width="20%"
         field="caller"
         :label="$t('tabs.tabActivity.from')">
         <nuxt-link
@@ -42,6 +44,7 @@
       <!-- to -->
       <o-table-column
         v-slot="props"
+        width="20%"
         field="currentOwner"
         :label="$t('tabs.tabActivity.to')">
         <div v-if="props.row.caller !== props.row.currentOwner">
@@ -63,6 +66,7 @@
       <!-- date -->
       <o-table-column
         v-slot="props"
+        width="20%"
         field="timestamp"
         :label="$t('tabs.tabActivity.date')">
         <o-tooltip :label="parseDate(props.row.timestamp)" position="left">
@@ -71,7 +75,7 @@
       </o-table-column>
     </o-table>
     <div v-else-if="loading" class="p-5">
-      <o-skeleton animated size="large" :count="5"></o-skeleton>
+      <o-skeleton animated size="large"></o-skeleton>
     </div>
     <div v-else class="p-5">{{ $t('tabs.tabActivity.empty') }}</div>
   </div>
