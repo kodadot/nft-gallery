@@ -231,7 +231,7 @@ export interface CollectionEvents {
 }
 
 export const getNftId = (nft: NFT, blocknumber?: string | number): string => {
-  return `${blocknumber ? blocknumber + '-' : ''}${nft.collection}-${
+  return `${blocknumber ? blocknumber + '-' : ''}${nft.collection.id}-${
     nft.instance || nft.name
   }-${nft.sn}`
 }
