@@ -1,5 +1,8 @@
 <template>
-  <o-dropdown aria-role="list" :position="position">
+  <o-dropdown
+    aria-role="list"
+    :position="position"
+    :append-to-body="appendToBody">
     <template #trigger="{}">
       <slot />
     </template>
@@ -10,12 +13,15 @@
 <script lang="ts" setup>
 import { ODropdown } from '@oruga-ui/oruga'
 
-defineProps<{
-  position?: {
-    type: string
-    default: 'bottom-left'
+withDefaults(
+  defineProps<{
+    position?: string
+    appendToBody?: boolean
+  }>(),
+  {
+    position: 'bottom-left',
   }
-}>()
+)
 </script>
 
 <style lang="scss">
