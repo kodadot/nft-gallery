@@ -9,7 +9,7 @@
       value="0"
       :label="$t('properties')"
       :disabled="propertiesDisabled"
-      :disabled-tooltip="$t('noPropertiesForNFT')">
+      :disabled-tooltip="$t('tabs.noPropertiesForNFT')">
       <o-table
         v-if="nftMetadata?.attributes.length"
         :data="nftMetadata?.attributes"
