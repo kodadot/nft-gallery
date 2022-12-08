@@ -28,7 +28,7 @@
           :class="`column is-4 column-padding ${scrollItemClassName}`">
           <div class="card nft-card">
             <nuxt-link
-              :to="`/${urlPrefix}/gallery/${nft.id}`"
+              :to="`/${urlPrefix}/gallery/${nft.id}/?redesign=true`"
               class="nft-card__skeleton">
               <div class="card-image">
                 <span v-if="nft.emoteCount" class="card-image__emotes">
@@ -56,7 +56,8 @@
                   v-if="!isLoading"
                   class="title mb-0 is-4 has-text-centered"
                   :title="getDisplayNameOfNft(nft)">
-                  <nuxt-link :to="`/${urlPrefix}/gallery/${nft.id}`">
+                  <nuxt-link
+                    :to="`/${urlPrefix}/gallery/${nft.id}/?redesign=true`">
                     <div class="has-text-overflow-ellipsis">
                       {{ getDisplayNameOfNft(nft) }}
                     </div>

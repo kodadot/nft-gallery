@@ -1,7 +1,26 @@
 <template>
-  <o-tabs v-model="activeTab" expanded>
+  <o-tabs
+    v-model="activeTab"
+    expanded
+    class="gallery-item-description"
+    :class="{ 'disabled-tab': propertiesDisabled }">
     <!-- properties tab -->
-    <o-tab-item value="0" label="Properties" class="py-4">
+
+    <o-tab-item value="0" class="py-4" :disabled="propertiesDisabled">
+      <template #header>
+        <b-tooltip
+          v-if="propertiesDisabled"
+          always
+          append-to-body
+          class="disabled-tab-tooltip"
+          square
+          position="is-top"
+          :label="'No Offers on this NFT'"
+          @click.native.stop>
+          <span class="o-tabs__nav-item-text">Properties</span>
+        </b-tooltip>
+        <span v-else class="o-tabs__nav-item-text">Properties</span>
+      </template>
       <o-table
         v-if="nftMetadata?.attributes.length"
         :data="nftMetadata?.attributes"
@@ -18,6 +37,9 @@
     <!-- description tab -->
     <o-tab-item value="1" label="Description" class="p-5">
       <div class="mb-3 is-flex">
+        <b-switch v-model="propertiesEnabled">
+          disable properties tab
+        </b-switch>
         <span class="mr-2">Made By:</span>
         <a
           v-if="nft?.issuer"
@@ -93,7 +115,17 @@ const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
 
-const activeTab = ref('0')
+const propertiesEnabled = ref(true)
+
+const propertiesDisabled = computed(() => {
+  return propertiesEnabled.value
+  if (!nftMetadata.value) {
+    return false
+  }
+  return nftMetadata.value.attributes.length == 0
+})
+
+const activeTab = computed(() => (propertiesDisabled.value ? '1' : '0'))
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
 
