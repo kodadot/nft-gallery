@@ -56,14 +56,15 @@
 
 .footer-container {
   font-family: 'Work Sans';
-  background-color: $k-blue;
-  color: $white;
+  color: $black;
+  position: relative;
 
   .subtitle {
     font-weight: 700;
   }
 
   .container {
+    z-index: 1;
     @include mobile {
       flex-direction: column;
       gap: 50px;
@@ -112,9 +113,9 @@
 
       &-item {
         a {
-          color: $white !important;
+          color: $black !important;
           &:hover {
-            color: $k-accentlight !important;
+            color: $k-accent !important;
             font-weight: 700;
           }
         }
@@ -181,6 +182,12 @@
       }
 
     }
+  }
+
+  .left-blurred-image {
+    position: absolute;
+    left: -20rem;
+    top: -30rem;
   }
 }
 

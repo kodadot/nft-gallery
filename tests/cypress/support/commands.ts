@@ -35,7 +35,7 @@ Cypress.Commands.add('rmrkGallerySortBy', () => {
   cy.waitForNetworkIdle('POST', '*', 1000)
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-trigger > [data-cy="gallery-sort-by"]'
+    '#GALLERY-content .collapse #sortAndFilter [data-cy="gallery-sort-by"]'
   ).click()
   cy.get('[data-cy="Recently Created"]').should('be.visible')
   cy.get('[data-cy="Oldest"]').should('be.visible')
@@ -46,14 +46,14 @@ Cypress.Commands.add('rmrkGallerySortBy', () => {
   // cy.get('[data-cy="Most reacted"]').should('be.visible')
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > [data-cy="Price: Low to High"]'
+    '#GALLERY-content .collapse #sortAndFilter [data-cy="Price: Low to High"]'
   ).click()
 })
 
 Cypress.Commands.add('snekGallerySortBy', () => {
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-trigger > [data-cy="gallery-sort-by"]'
+    '#GALLERY-content .collapse #sortAndFilter [data-cy="gallery-sort-by"]'
   ).click()
   cy.get('[data-cy="Recently Created"]').should('be.visible')
   cy.get('[data-cy="Oldest"]').should('be.visible')
@@ -63,8 +63,8 @@ Cypress.Commands.add('snekGallerySortBy', () => {
   cy.get('[data-cy="Unpopular"]').should('be.visible')
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > [data-cy="Price: Low to High"]'
-  ).click({ force: true })
+    '#GALLERY-content .collapse #sortAndFilter [data-cy="Price: Low to High"]'
+  ).click()
 })
 
 Cypress.Commands.add('collectionsSortBy', () => {
