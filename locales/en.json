@@ -836,7 +836,7 @@
   },
   "series": {
     "title": "Top Collection",
-    "subtitle": "The top NFTs on RMRK, ranked by volume, floor price and other statistics.",
+    "subtitle": "The top NFTs on {chain}, ranked by volume, floor price and other statistics.",
     "assets": "Assets",
     "buys": "Buys",
     "collected": "Collected",
@@ -1060,6 +1060,10 @@
     "language": "Language",
     "disconnect": "Disconnect",
     "wallet": "Wallet"
+  },
+  "priceChart": {
+    "days": "{0} Days",
+    "all": "All"
   },
   "footer": {
     "subscribe": "Get The Latest KodaDot Updates",

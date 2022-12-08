@@ -13,13 +13,19 @@
     </o-tab-item>
 
     <!-- activity -->
-    <o-tab-item value="1" :label="$t('tabs.activity')">
+    <o-tab-item value="1" :label="$t('tabs.activity')" class="p-5">
       <GalleryItemActivity v-if="nft?.id" :nft-id="nft?.id" />
+      Activity
+      <LazyGalleryHistory
+        class="is-invisible"
+        :events="nft?.events"
+        data-cy="history"
+        @setPriceChartData="setPriceChartData" />
     </o-tab-item>
 
     <!-- chart -->
     <o-tab-item value="2" :label="$t('tabs.chart')" class="p-5">
-      Chart
+      <PriceChart class="mt-4" :price-chart-data="priceChartData" />
     </o-tab-item>
   </o-tabs>
 </template>
@@ -30,12 +36,18 @@ import { OTabItem, OTabs } from '@oruga-ui/oruga'
 import { useGalleryItem } from '../useGalleryItem'
 import GalleryItemActivity from './GalleryItemActivity.vue'
 import GalleryItemOffers from './GalleryItemOffers.vue'
+import PriceChart from '@/components/chart/PriceChart.vue'
 
 const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()
+const priceChartData = ref<[Date, number][][]>([])
 
 const activeTab = ref('0')
 const collectionId = ref('')
+
+const setPriceChartData = (data: [Date, number][][]) => {
+  priceChartData.value = data
+}
 
 watchEffect(() => {
   if (urlPrefix.value === 'rmrk') {
