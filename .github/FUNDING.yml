@@ -1,6 +1,6 @@
 # These are supported funding model platforms
 
-github: [vikiival, yangwao, roiLeo, kkukelka] # Replace with up to 4 GitHub Sponsors-enabled usernames e.g., [user1, user2]
+github: [vikiival, yangwao, roiLeo] # Replace with up to 4 GitHub Sponsors-enabled usernames e.g., [user1, user2]
 patreon: # Replace with a single Patreon username
 open_collective: # Replace with a single Open Collective username
 ko_fi: # Replace with a single Ko-fi username
@@ -10,4 +10,4 @@ liberapay: # Replace with a single Liberapay username
 issuehunt: # Replace with a single IssueHunt username
 otechie: # Replace with a single Otechie username
 lfx_crowdfunding: # Replace with a single LFX Crowdfunding project-name e.g., cloud-foundry
-custom: ['https://kodadot.xyz/transfer?target=G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar&usdamount=100&donation=true', 'https://kodadot.xyz/transfer?target=G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar&usdamount=1000&donation=true' ] # Replace with up to 4 custom sponsorship URLs e.g., ['link1', 'link2']
+custom: ['[https://kodadot.xyz/transfer?target=G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar&usdamount=1000&donation=true](Donate $1000 to devs)' ] # Replace with up to 4 custom sponsorship URLs e.g., ['link1', 'link2']
