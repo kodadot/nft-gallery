@@ -7,8 +7,8 @@
         <NeoDropdownItem
           v-clipboard:copy="realworldFullPathShare"
           item="Copy Link"
-          @click="toast(String($t('toast.urlCopy')))" />
-        <NeoDropdownItem item="QR Code" @click="isModalActive = true" />
+          @click.native="toast(String($t('toast.urlCopy')))" />
+        <NeoDropdownItem item="QR Code" @click.native="isModalActive = true" />
         <NeoDropdownItem>
           <a :href="twitterUri" target="_blank" rel="noopener noreferrer">
             Share On Twitter

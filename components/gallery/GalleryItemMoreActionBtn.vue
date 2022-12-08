@@ -1,21 +1,19 @@
 <template>
-  <b-dropdown aria-role="list" position="is-bottom-left">
-    <template #trigger>
-      <NeoButton label="⋮" />
-    </template>
+  <NeoDropdown>
+    <NeoButton label="⋮" />
 
-    <b-dropdown-item
-      v-if="currentGalleryItemImage.mimeType.includes('image')"
-      aria-role="listitem"
-      @click="downloadMedia"
-      >Download</b-dropdown-item
-    >
-    <b-dropdown-item aria-role="listitem" disabled> Report </b-dropdown-item>
-  </b-dropdown>
+    <template #items>
+      <NeoDropdownItem
+        v-if="currentGalleryItemImage.mimeType.includes('image')"
+        item="Download"
+        @click.native="downloadMedia" />
+      <NeoDropdownItem disabled item="Report" />
+    </template>
+  </NeoDropdown>
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { downloadImage } from '~/utils/download'
 
 const { $store } = useNuxtApp()

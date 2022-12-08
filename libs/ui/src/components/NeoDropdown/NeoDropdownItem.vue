@@ -1,5 +1,5 @@
 <template>
-  <o-dropdown-item aria-role="listitem">
+  <o-dropdown-item aria-role="listitem" :disabled="disabled">
     {{ item }}
     <slot />
   </o-dropdown-item>
@@ -10,6 +10,7 @@ import { ODropdownItem } from '@oruga-ui/oruga'
 
 defineProps<{
   item?: string
+  disabled?: boolean
 }>()
 </script>
 
