@@ -10,7 +10,7 @@
           {{ $t('stats') }}
         </div>
       </template>
-      <b-dropdown-item has->
+      <b-dropdown-item has-link>
         <nuxt-link
           data-cy="global-offers"
           :to="`${
@@ -33,7 +33,6 @@
           {{ $t('stats') }}
         </div>
       </template>
-      =
       <b-dropdown-item has-link aria-role="menu-item">
         <nuxt-link data-cy="spotlight" to="/spotlight">
           {{ $t('spotlight.page') }}
