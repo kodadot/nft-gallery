@@ -282,13 +282,13 @@ html.light-mode {
     color: $text-light-theme;
   }
 
+  .search-footer-link {
+    color: $black !important;
+  }
+
   .landing-search {
     .active {
       color: $dark;
-    }
-
-    .search-footer-link {
-      color: $black !important;
     }
   }
 
