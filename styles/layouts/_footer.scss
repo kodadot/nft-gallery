@@ -58,6 +58,9 @@
   font-family: 'Work Sans';
   color: $black;
   position: relative;
+  background: url('./static/blurred-landing-footer.svg');
+  background-repeat: no-repeat;
+  background-position: -20rem -30rem;
 
   .subtitle {
     font-weight: 700;
@@ -184,11 +187,6 @@
     }
   }
 
-  .left-blurred-image {
-    position: absolute;
-    left: -20rem;
-    top: -30rem;
-  }
 }
 
 .icons {
