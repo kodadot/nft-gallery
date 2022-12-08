@@ -1,8 +1,6 @@
 <template>
   <div v-if="nfts.length">
-    <h2
-      class="title is-2"
-      :class="textColor === 'light' ? 'has-text-light' : 'has-text-dark'">
+    <h2 class="title is-2">
       {{ title }}
     </h2>
 
@@ -23,7 +21,6 @@ const props = defineProps<{
   subtitle?: string
   nfts: CarouselNFT[] | RowSeries[]
   loading?: boolean
-  textColor?: 'dark' | 'light'
   actionType?: 'pagination' | 'link'
   linkUrl?: string
   linkText?: string
