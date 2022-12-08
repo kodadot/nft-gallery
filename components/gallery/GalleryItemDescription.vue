@@ -147,10 +147,4 @@ watchEffect(async () => {
     metadataURL.value = sanitizeMetadata
   }
 })
-
-watch(nftMetadata, (metadata) => {
-  if (metadata?.attributes.length) {
-    activeTab.value = '0'
-  }
-})
 </script>
