@@ -279,11 +279,16 @@
     .menu-item {
       cursor: pointer;
       color: $black;
-      &:hover,
+
       &.is-active {
         font-weight: bold;
         background-color: transparent !important;
         color: $black !important;
+      }
+      &:hover {
+        background-color: transparent !important;
+        color: $k-hovergrey !important;
+
       }
       &.is-disabled {
         cursor: not-allowed;
