@@ -1,5 +1,5 @@
 <template>
-  <o-tab-item :value="value" class="py-5" :disabled="disabled">
+  <o-tab-item :value="value" class="py-5" :disabled="disabled" :label="label">
     <template #header>
       <b-tooltip
         v-if="disabled"
@@ -9,13 +9,14 @@
         position="is-top"
         :label="disabledTooltip"
         @click.native.stop>
-        <span>{{ label }}</span>
-      </b-tooltip>
-      <span v-else>
         {{ label }}
-      </span>
+      </b-tooltip>
+
+      <div v-else>
+        {{ label }}
+      </div>
     </template>
-    <slot></slot>
+    <!-- <slot /> -->
   </o-tab-item>
 </template>
 
@@ -27,7 +28,7 @@ export interface Props {
   disabled?: boolean
   label: string | LocaleMessage
   value: string
-  disabledTooltip?: string
+  disabledTooltip?: string | LocaleMessage
 }
 
 const props = withDefaults(defineProps<Props>(), {

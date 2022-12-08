@@ -7,8 +7,9 @@
     <!-- properties tab -->
     <GalleryTab
       value="0"
-      :label="'properties'"
-      disabled-tooltip="No Properties for this NFT">
+      :label="$t('properties')"
+      :disabled="propertiesDisabled"
+      :disabled-tooltip="$t('noPropertiesForNFT')">
       <o-table
         v-if="nftMetadata?.attributes.length"
         :data="nftMetadata?.attributes"
@@ -59,7 +60,7 @@
     </o-tab-item> -->
 
     <!-- description tab -->
-    <o-tab-item value="1" :label="$t('tabs.description')" class="p-5">
+    <o-tab-item value="1" :label="$t('tabs.description')" class="p-5" tag="div">
       <div class="mb-3 is-flex">
         <span class="mr-2">{{ $t('tabs.tabDescription.made') }}:</span>
         <nuxt-link
@@ -144,7 +145,7 @@ const propertiesDisabled = computed(() => {
   if (!nftMetadata.value) {
     return false
   }
-  return !(nftMetadata.value.attributes.length == 0)
+  return nftMetadata.value.attributes.length == 0
 })
 
 const activeTab = computed(() => (propertiesDisabled.value ? '1' : '0'))

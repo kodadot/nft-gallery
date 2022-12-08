@@ -5,9 +5,14 @@
       :disabled="urlPrefix === 'rmrk'"
       value="0"
       :label="$t('tabs.offers')"
-      disabled-tooltip="Offers Are Not Available on RMRK">
+      :disabled-tooltip="$t('tabs.offersDisabledRMRK')">
       <GalleryItemOffers
-        v-if="nft?.collection.id && nft?.id && nft.currentOwner"
+        v-if="
+          urlPrefix !== 'rmrk' &&
+          nft?.collection.id &&
+          nft?.id &&
+          nft.currentOwner
+        "
         :collection-id="nft?.collection.id"
         :nft-id="nft?.id"
         :account="nft?.currentOwner" />
