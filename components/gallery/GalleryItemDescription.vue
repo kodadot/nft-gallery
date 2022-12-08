@@ -60,7 +60,7 @@
     </o-tab-item> -->
 
     <!-- description tab -->
-    <o-tab-item value="1" :label="$t('tabs.description')" class="p-5" tag="div">
+    <o-tab-item value="1" :label="$t('tabs.description')" class="p-5">
       <div class="mb-3 is-flex">
         <span class="mr-2">{{ $t('tabs.tabDescription.made') }}:</span>
         <nuxt-link
