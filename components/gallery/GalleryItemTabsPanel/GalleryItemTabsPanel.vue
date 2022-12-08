@@ -1,16 +1,17 @@
 <template>
   <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
     <!-- offers -->
-    <o-tab-item
-      v-if="urlPrefix !== 'rmrk'"
+    <GalleryTab
+      :disabled="urlPrefix === 'rmrk'"
       value="0"
-      :label="$t('tabs.offers')">
+      :label="$t('tabs.offers')"
+      disabled-tooltip="Offers Are Not Available on RMRK">
       <GalleryItemOffers
         v-if="nft?.collection.id && nft?.id && nft.currentOwner"
         :collection-id="nft?.collection.id"
         :nft-id="nft?.id"
         :account="nft?.currentOwner" />
-    </o-tab-item>
+    </GalleryTab>
 
     <!-- activity -->
     <o-tab-item value="1" :label="$t('tabs.activity')" class="p-5">
@@ -35,6 +36,7 @@ import { OTabItem, OTabs } from '@oruga-ui/oruga'
 import { useGalleryItem } from '../useGalleryItem'
 import GalleryItemOffers from './GalleryItemOffers.vue'
 import PriceChart from '@/components/chart/PriceChart.vue'
+import GalleryTab from '~~/components/gallery/GalleryTab.vue'
 
 const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()

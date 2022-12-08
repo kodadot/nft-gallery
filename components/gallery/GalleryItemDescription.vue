@@ -3,11 +3,29 @@
     v-model="activeTab"
     expanded
     content-class="o-tabs__content--fixed"
-    class="gallery-item-description"
-    :class="{ 'disabled-tab': propertiesDisabled }">
+    class="custom-disabled-tab">
     <!-- properties tab -->
+    <GalleryTab
+      value="0"
+      :label="'properties'"
+      disabled-tooltip="No Properties for this NFT">
+      <o-table
+        v-if="nftMetadata?.attributes.length"
+        :data="nftMetadata?.attributes"
+        hoverable>
+        <o-table-column v-slot="props" field="value" label="Trait">
+          {{ props.row.value }}
+        </o-table-column>
+        <o-table-column
+          v-slot="props"
+          field="trait_type"
+          :label="$t('tabs.tabProperties.section')">
+          {{ props.row.trait_type }}
+        </o-table-column>
+      </o-table>
+    </GalleryTab>
 
-    <o-tab-item value="0" class="py-5" :disabled="propertiesDisabled">
+    <!-- <o-tab-item value="0" class="py-5"  disabled="propertiesDisabled">
       <template #header>
         <b-tooltip
           v-if="propertiesDisabled"
@@ -38,7 +56,7 @@
           {{ props.row.trait_type }}
         </o-table-column>
       </o-table>
-    </o-tab-item>
+    </o-tab-item> -->
 
     <!-- description tab -->
     <o-tab-item value="1" :label="$t('tabs.description')" class="p-5">
@@ -114,6 +132,7 @@ import { OTabItem, OTable, OTableColumn, OTabs } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import VueMarkdown from 'vue-markdown-render'
+import GalleryTab from '~~/components/gallery/GalleryTab.vue'
 
 import { useGalleryItem } from './useGalleryItem'
 
@@ -121,14 +140,11 @@ const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
 
-const propertiesEnabled = ref(true)
-
 const propertiesDisabled = computed(() => {
-  return propertiesEnabled.value
   if (!nftMetadata.value) {
     return false
   }
-  return nftMetadata.value.attributes.length == 0
+  return !(nftMetadata.value.attributes.length == 0)
 })
 
 const activeTab = computed(() => (propertiesDisabled.value ? '1' : '0'))
