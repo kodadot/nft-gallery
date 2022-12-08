@@ -53,7 +53,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 
 @Component
 export default class BalanceInput extends mixins(ChainMixin) {
-  @Prop({ type: Number, default: 0 }) value?: number
+  @Prop({ type: Number, default: 0 }) value!: number
   @Prop({ default: 'amount' }) public label!: string
   @Prop({ default: true }) public calculate!: boolean
   @Prop(Boolean) public expanded!: boolean
@@ -106,6 +106,7 @@ export default class BalanceInput extends mixins(ChainMixin) {
 
   public mounted() {
     this.units = defaultUnits.map(this.mapper)
+    this.internalValue = this.value
   }
 
   @Debounce(200)
