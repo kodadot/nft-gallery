@@ -154,7 +154,7 @@
     color: $white !important;
     .link-item {
       &:hover {
-        color: $shade !important;
+        color: $shade;
         background: transparent !important;
       }
     }

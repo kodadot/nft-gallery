@@ -283,6 +283,9 @@ html.light-mode {
 
   .search-footer-link {
     color: $black !important;
+    .link-item:hover {
+      color: $k-hovergrey;
+    }
   }
 
   .landing-search {
