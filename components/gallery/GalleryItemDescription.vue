@@ -1,9 +1,5 @@
 <template>
-  <o-tabs
-    v-model="activeTab"
-    expanded
-    content-class="o-tabs__content--fixed"
-    class="custom-disabled-tab">
+  <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
     <!-- properties tab -->
     <GalleryTab
       value="0"
