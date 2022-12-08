@@ -105,6 +105,7 @@ const { data, loading } = useGraphql({
   variables: {
     id: dprops.nftId,
     interaction: dprops.interactions,
+    limit: 100,
   },
 })
 
