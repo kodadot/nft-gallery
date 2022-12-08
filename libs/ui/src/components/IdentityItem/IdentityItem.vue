@@ -18,6 +18,8 @@
 </template>
 
 <script lang="ts" setup>
+import { defineAsyncComponent } from 'vue'
+
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/IdentityIndex.vue')
 )
