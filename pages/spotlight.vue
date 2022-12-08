@@ -9,7 +9,7 @@
         <img
           src="~/assets/rmrk-logo-pink-faded.png"
           alt="RMRK"
-          class="rmrk-logo is-hidden-mobile" />
+          class="chain-logo is-hidden-mobile" />
       </div>
     </div>
 

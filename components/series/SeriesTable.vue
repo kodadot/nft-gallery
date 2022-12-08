@@ -402,7 +402,7 @@ export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
       offset: 0,
       orderBy: sort || 'volume_DESC',
       where: {
-        floorPrice_isNull: false,
+        volume_isNull: false,
       },
     }
     // if (this.isLogIn && this.hasPassionFeed) {

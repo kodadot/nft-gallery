@@ -3,13 +3,21 @@
     <div class="columns">
       <div class="column is-four-fifths">
         <h1 class="title is-2">{{ $t('series.title') }}</h1>
-        <p class="subtitle is-size-5">{{ $t('series.subtitle') }}</p>
+        <p class="subtitle is-size-5">
+          {{ $t('series.subtitle', { chain: urlPrefix }) }}
+        </p>
       </div>
       <div class="column">
         <img
+          v-if="urlPrefix === 'rmrk'"
           src="~/assets/rmrk-logo-pink-faded.png"
           alt="RMRK"
-          class="rmrk-logo is-hidden-mobile" />
+          class="chain-logo is-hidden-mobile" />
+        <img
+          v-else-if="urlPrefix === 'bsx'"
+          src="~/assets/bsx-logo.png"
+          alt="BSX"
+          class="chain-logo is-hidden-mobile" />
       </div>
     </div>
 
@@ -17,11 +25,11 @@
   </section>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 @Component<Series>({
   components: {
-    Identity: () => import('@/components/identity/IdentityIndex.vue'),
     SeriesTable: () => import('@/components/series/SeriesTable.vue'),
   },
   head() {
@@ -39,5 +47,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
     }
   },
 })
-export default class Series extends Vue {}
+export default class Series extends mixins(PrefixMixin) {}
 </script>
