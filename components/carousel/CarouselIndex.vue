@@ -29,12 +29,6 @@ const props = defineProps<{
 
 const itemUrl = computed(() => props.itemUrl || 'gallery')
 provide('itemUrl', itemUrl.value)
-const { $colorMode } = useNuxtApp()
 
-const isDarkMode = computed(
-  () =>
-    $colorMode.preference === 'dark' ||
-    document.documentElement.className.includes('dark-mode')
-)
 const showCarousel = computed(() => props.nfts.length)
 </script>
