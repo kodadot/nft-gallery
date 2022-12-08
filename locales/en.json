@@ -1061,6 +1061,10 @@
     "disconnect": "Disconnect",
     "wallet": "Wallet"
   },
+  "priceChart": {
+    "days": "{0} Days",
+    "all": "All"
+  },
   "footer": {
     "subscribe": "Get The Latest KodaDot Updates",
     "join": "Join Our Community",
