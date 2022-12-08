@@ -1,11 +1,9 @@
 <template>
   <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
     <!-- offers -->
-    <GalleryTab
-      :disabled="urlPrefix === 'rmrk'"
-      value="0"
-      :label="$t('tabs.offers')"
-      :disabled-tooltip="$t('tabs.offersDisabledRMRK')">
+
+    <o-tab-item value="0" class="py-5">
+      <template #header> Offers </template>
       <GalleryItemOffers
         v-if="
           urlPrefix !== 'rmrk' &&
@@ -16,7 +14,7 @@
         :collection-id="nft?.collection.id"
         :nft-id="nft?.id"
         :account="nft?.currentOwner" />
-    </GalleryTab>
+    </o-tab-item>
 
     <!-- activity -->
     <o-tab-item value="1" :label="$t('tabs.activity')" class="p-5">
@@ -41,7 +39,6 @@ import { OTabItem, OTabs } from '@oruga-ui/oruga'
 import { useGalleryItem } from '../useGalleryItem'
 import GalleryItemOffers from './GalleryItemOffers.vue'
 import PriceChart from '@/components/chart/PriceChart.vue'
-import GalleryTab from '~~/components/gallery/GalleryTab.vue'
 
 const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()
@@ -53,9 +50,10 @@ const collectionId = ref('')
 const setPriceChartData = (data: [Date, number][][]) => {
   priceChartData.value = data
 }
+const offersTabDisabled = computed(() => urlPrefix.value === 'rmrk')
 
 watchEffect(() => {
-  if (urlPrefix.value === 'rmrk') {
+  if (offersTabDisabled.value) {
     activeTab.value = '1'
   }
 

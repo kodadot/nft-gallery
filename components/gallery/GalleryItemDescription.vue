@@ -1,11 +1,8 @@
 <template>
   <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
     <!-- properties tab -->
-    <GalleryTab
-      value="0"
-      :label="$t('properties')"
-      :disabled="propertiesDisabled"
-      :disabled-tooltip="$t('tabs.noPropertiesForNFT')">
+    <o-tab-item value="0" class="py-5">
+      <template #header> Properties </template>
       <o-table
         v-if="nftMetadata?.attributes.length"
         :data="nftMetadata?.attributes"
@@ -20,40 +17,7 @@
           {{ props.row.trait_type }}
         </o-table-column>
       </o-table>
-    </GalleryTab>
-
-    <!-- <o-tab-item value="0" class="py-5"  disabled="propertiesDisabled">
-      <template #header>
-        <b-tooltip
-          v-if="propertiesDisabled"
-          always
-          append-to-body
-          class="disabled-tab-tooltip"
-          square
-          position="is-top"
-          :label="'No Offers on this NFT'"
-          @click.native.stop>
-          <span class="o-tabs__nav-item-text">{{ $t('tabs.properties') }}</span>
-        </b-tooltip>
-        <span v-else class="o-tabs__nav-item-text">{{
-          $t('tabs.properties')
-        }}</span>
-      </template>
-      <o-table
-        v-if="nftMetadata?.attributes.length"
-        :data="nftMetadata?.attributes"
-        hoverable>
-        <o-table-column v-slot="props" field="value" label="Trait">
-          {{ props.row.value }}
-        </o-table-column>
-        <o-table-column
-          v-slot="props"
-          field="trait_type"
-          :label="$t('tabs.tabProperties.section')">
-          {{ props.row.trait_type }}
-        </o-table-column>
-      </o-table>
-    </o-tab-item> -->
+    </o-tab-item>
 
     <!-- description tab -->
     <o-tab-item value="1" :label="$t('tabs.description')" class="p-5">
@@ -129,7 +93,6 @@ import { OTabItem, OTable, OTableColumn, OTabs } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import VueMarkdown from 'vue-markdown-render'
-import GalleryTab from '~~/components/gallery/GalleryTab.vue'
 
 import { useGalleryItem } from './useGalleryItem'
 
@@ -137,14 +100,14 @@ const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
 
-const propertiesDisabled = computed(() => {
+const propertiesTabDisabled = computed(() => {
   if (!nftMetadata.value) {
     return false
   }
   return nftMetadata.value.attributes.length == 0
 })
 
-const activeTab = computed(() => (propertiesDisabled.value ? '1' : '0'))
+const activeTab = computed(() => (propertiesTabDisabled.value ? '1' : '0'))
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
 
