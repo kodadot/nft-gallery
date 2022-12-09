@@ -121,6 +121,14 @@ html.dark-mode {
         }
       }
     }
+
+    .navbar-explore {
+      a {
+        &:hover {
+          color: $white !important;
+        }
+      }
+    }
   }
 
   .instance {

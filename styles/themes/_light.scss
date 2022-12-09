@@ -101,6 +101,14 @@ html.light-mode {
         background-color: $k-accentlight !important;
       }
     }
+
+    .navbar-explore {
+      a {
+        &:hover {
+          color: $black !important;
+        }
+      }
+    }
   }
 
   .dropdown-content {

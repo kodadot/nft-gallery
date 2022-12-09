@@ -4,7 +4,7 @@
       v-if="isBsx || isSnek"
       aria-role="list"
       data-cy="stats"
-      :triggers="['hover']">
+      :triggers="['click']">
       <template #trigger>
         <div class="navbar-item" data-cy="stats">
           {{ $t('stats') }}
@@ -27,7 +27,7 @@
         </nuxt-link>
       </b-dropdown-item>
     </b-dropdown>
-    <b-dropdown v-if="isRmrk" data-cy="stats" :triggers="['hover']">
+    <b-dropdown v-if="isRmrk" data-cy="stats" :triggers="['click']">
       <template #trigger>
         <div class="navbar-item" data-cy="stats">
           {{ $t('stats') }}

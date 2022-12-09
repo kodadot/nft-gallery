@@ -1,7 +1,7 @@
 <template>
   <b-dropdown v-model="selected" aria-role="list" :triggers="['click']">
     <template #trigger>
-      <div class="navbar-item" data-cy="chain">{{ selected }}`</div>
+      <div class="navbar-item" data-cy="chain">{{ selected }}</div>
     </template>
     <b-dropdown-item
       v-for="option in options"
