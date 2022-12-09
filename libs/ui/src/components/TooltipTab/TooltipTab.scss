@@ -4,20 +4,14 @@
         // allows tooltip to recieve hover event
 
         pointer-events: all;
-        // remove o-tab-item header button element padding
-        // in order for tooltip to show on hover anywhere
-        // on the header, not just when hovering over the text
-        padding: 0;
 
         &:hover {
-            background-color: inherit;
+            background-color: inherit !important;
         }
     }
 }
 
 .disabled-tab-tooltip {
-    // exapnd tooltip to the entire size of tab header
-    padding: 8px;
     width: 100%;
 
     &.b-tooltip.is-primary .tooltip-content {
