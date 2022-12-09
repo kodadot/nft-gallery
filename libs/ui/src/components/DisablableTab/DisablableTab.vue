@@ -1,15 +1,9 @@
 <template>
-  <o-tab-item :value="value" class="py-5" :label="label">
+  <o-tab-item :value="value" class="py-5" :label="label" :disabled="disabled">
     <template #header>
-      <o-tooltip
-        v-if="disabled"
-        append-to-body
-        class="disabled-tab-tooltip"
-        position="top"
-        :label="disabledTooltip"
-        @click.native.stop>
+      <NeoTooltip v-if="disabled" :label="disabledTooltip">
         {{ label }}
-      </o-tooltip>
+      </NeoTooltip>
 
       <div v-else>
         {{ label }}
@@ -22,7 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import { OTabItem, OTooltip } from '@oruga-ui/oruga'
+import { OTabItem } from '@oruga-ui/oruga'
+import NeoTooltip from '../NeoTooltip/NeoTooltip.vue'
 import { LocaleMessage } from 'vue-i18n'
 export interface Props {
   disabled?: boolean
@@ -37,5 +32,5 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="scss">
-@import './TooltipTab.scss';
+@import './DisablableTab.scss';
 </style>

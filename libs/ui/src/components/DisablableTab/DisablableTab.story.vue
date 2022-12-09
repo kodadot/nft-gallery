@@ -1,28 +1,29 @@
 <template>
   <Story :layout="{ type: 'single' }">
     <Variant>
-      <div :style="{ padding: '5rem' }" />
-      <o-tabs
-        v-model="activeTab"
-        expanded
-        content-class="o-tabs__content--fixed">
-        <TooltipTab
-          disabled
-          value="0"
-          label="Disabled"
-          disabled-tooltip="Not Available" />
-        <TooltipTab value="1" label="Enabled">
-          <div>
-            {{ tabContent }}
-          </div>
-        </TooltipTab>
-      </o-tabs>
+      <div :style="{ padding: '3rem' }">
+        <o-tabs
+          v-model="activeTab"
+          expanded
+          content-class="o-tabs__content--fixed">
+          <DisablableTab
+            disabled
+            value="0"
+            label="Disabled"
+            disabled-tooltip="Not Available" />
+          <DisablableTab value="1" label="Enabled">
+            <div>
+              {{ tabContent }}
+            </div>
+          </DisablableTab>
+        </o-tabs>
+      </div>
     </Variant>
   </Story>
 </template>
 
 <script lang="ts" setup>
-import TooltipTab from './TooltipTab.vue'
+import DisablableTab from './DisablableTab.vue'
 import { OTabs } from '@oruga-ui/oruga'
 import { ref } from 'vue'
 

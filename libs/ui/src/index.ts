@@ -4,4 +4,5 @@ export { default as IdentityItem } from './components/IdentityItem/IdentityItem.
 export { default as NeoButton } from './components/NeoButton/NeoButton.vue'
 
 export { default as SampleButton } from './components/TheButton/TheButton.vue'
-export { default as TooltipTab } from './components/TooltipTab/TooltipTab'
+export { default as DisablableTab } from './components/DisablableTab/DisablableTab'
+export { default as NeoTooltip } from './components/NeoTooltip/NeoTooltip'

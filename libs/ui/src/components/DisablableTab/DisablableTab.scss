@@ -1,0 +1,34 @@
+.o-tabs__nav-item-default {
+    &--disabled {
+        // overide o-tabs-item
+        cursor: auto !important;
+        pointer-events: all !important;
+        opacity: unset !important;
+        // mimick opacity (opacity prevents hover form triggering tooltip)
+        color: rgba($color: black, $alpha: 0.5) !important;
+        border-color: rgba($color: black, $alpha: 0.5) !important;
+
+
+        &:hover {
+            background-color: inherit !important;
+        }
+    }
+}
+
+
+
+.dark-mode {
+    .o-tabs__nav-item-default {
+        &--disabled {
+            // mimick opacity (opacity prevents hover form triggering tooltip)
+            color: rgba($color: white, $alpha: 0.5)  !important;
+            border-color: rgba($color: white, $alpha: 0.5) !important;
+
+        }
+    }
+
+
+
+
+
+}

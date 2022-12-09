@@ -1,7 +1,7 @@
 <template>
   <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
     <!-- properties tab -->
-    <TooltipTab
+    <DisablableTab
       value="0"
       :disabled="propertiesTabDisabled"
       :label="$t('tabs.properties')"
@@ -20,7 +20,7 @@
           {{ props.row.trait_type }}
         </o-table-column>
       </o-table>
-    </TooltipTab>
+    </DisablableTab>
 
     <!-- description tab -->
     <o-tab-item value="1" :label="$t('tabs.description')" class="p-5">
@@ -96,7 +96,7 @@ import { OTabItem, OTable, OTableColumn, OTabs } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import VueMarkdown from 'vue-markdown-render'
-import { TooltipTab } from '@kodadot1/brick'
+import { DisablableTab } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 

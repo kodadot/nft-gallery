@@ -1,0 +1,49 @@
+
+.neo-tooltip {
+    width: 100%;
+    $tooltip-distance: calc(20px  + 100%);
+
+    .o-tip__content {
+        font-size: 0.9rem;
+        box-shadow: none;
+        border: 1px solid;
+        background: white;
+        color: black;
+        border-color: black;
+        border-radius: 0;
+        padding: 4px 8px;
+
+        .o-tip__arrow {
+            color: black;
+
+        }
+        &--top {
+            bottom: $tooltip-distance;
+        }
+        &--bottom {
+            top: $tooltip-distance;
+        }
+        &--left {
+            right: $tooltip-distance;
+        }
+        &--right {
+            left: $tooltip-distance;
+        }
+
+    }
+}
+
+.dark-mode {
+
+    .neo-tooltip {
+        .o-tip__content {
+            background: black;
+            color: white;
+            border-color: white;
+            .o-tip__arrow {
+                color: white;
+            }
+        }
+    }
+
+}
