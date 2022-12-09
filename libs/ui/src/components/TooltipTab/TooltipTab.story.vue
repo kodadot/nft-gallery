@@ -33,7 +33,6 @@ const tabContent =
 </script>
 <style lang="scss">
 @import '@oruga-ui/oruga/dist/oruga.min.css';
-@import '@oruga-ui/oruga/dist/oruga-full-vars.min.css';
 
 .o-tabs {
   box-shadow: 4px 4px 0px #000;
