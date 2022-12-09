@@ -6,8 +6,11 @@ html.dark-mode {
     margin: 0;
     width: 100%;
     height: 100%;
-    background-color: $background-dark;
+    background-color: $dark-accent;
     z-index: 1;
+  }
+  main {
+    background-color: unset;
   }
 
   .title,
@@ -127,10 +130,6 @@ html.dark-mode {
 
   .instance {
     border-color: $white;
-    &-accent,
-    &-blue {
-      background-color: $dark-accent;
-    }
   }
 
   .landing-search {
@@ -238,7 +237,6 @@ html.dark-mode {
   .chain-option {
     &:hover {
       color: $shade !important;
-     
     }
   }
 
