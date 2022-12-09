@@ -79,6 +79,7 @@
         </ul>
       </div>
     </div>
+    <img src="/blurred-landing-footer.svg" class="left-blurred-image" />
   </footer>
 </template>
 
