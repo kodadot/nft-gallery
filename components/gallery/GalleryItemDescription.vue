@@ -1,8 +1,11 @@
 <template>
   <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
     <!-- properties tab -->
-    <o-tab-item value="0" class="py-5">
-      <template #header> Properties </template>
+    <TooltipTab
+      value="0"
+      :disabled="propertiesTabDisabled"
+      :label="$t('tabs.properties')"
+      :disabled-tooltip="$t('tabs.noPropertiesForNFT')">
       <o-table
         v-if="nftMetadata?.attributes.length"
         :data="nftMetadata?.attributes"
@@ -17,7 +20,7 @@
           {{ props.row.trait_type }}
         </o-table-column>
       </o-table>
-    </o-tab-item>
+    </TooltipTab>
 
     <!-- description tab -->
     <o-tab-item value="1" :label="$t('tabs.description')" class="p-5">
@@ -93,12 +96,14 @@ import { OTabItem, OTable, OTableColumn, OTabs } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import VueMarkdown from 'vue-markdown-render'
+import { TooltipTab } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
+const activeTab = ref('0')
 
 const propertiesTabDisabled = computed(() => {
   if (!nftMetadata.value) {
@@ -107,7 +112,11 @@ const propertiesTabDisabled = computed(() => {
   return nftMetadata.value.attributes.length == 0
 })
 
-const activeTab = computed(() => (propertiesTabDisabled.value ? '1' : '0'))
+watch(propertiesTabDisabled, () => {
+  activeTab.value = propertiesTabDisabled.value ? '1' : '0'
+})
+
+// const activeTab = computed(() => (propertiesTabDisabled.value ? '1' : '0'))
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
 

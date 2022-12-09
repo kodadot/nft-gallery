@@ -1,9 +1,11 @@
 <template>
   <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
     <!-- offers -->
-
-    <o-tab-item value="0" class="py-5">
-      <template #header> Offers </template>
+    <TooltipTab
+      value="0"
+      :disabled="offersTabDisabled"
+      :label="$t('tabs.offers')"
+      :disabled-tooltip="$t('tabs.offersDisabledRMRK')">
       <GalleryItemOffers
         v-if="
           urlPrefix !== 'rmrk' &&
@@ -14,7 +16,7 @@
         :collection-id="nft?.collection.id"
         :nft-id="nft?.id"
         :account="nft?.currentOwner" />
-    </o-tab-item>
+    </TooltipTab>
 
     <!-- activity -->
     <o-tab-item value="1" :label="$t('tabs.activity')" class="p-5">
@@ -39,6 +41,7 @@ import { OTabItem, OTabs } from '@oruga-ui/oruga'
 import { useGalleryItem } from '../useGalleryItem'
 import GalleryItemOffers from './GalleryItemOffers.vue'
 import PriceChart from '@/components/chart/PriceChart.vue'
+import { TooltipTab } from '@kodadot1/brick'
 
 const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()
