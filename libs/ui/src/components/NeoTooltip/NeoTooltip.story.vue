@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts" setup>
-import { Container } from 'postcss'
 import NeoTooltip from './NeoTooltip.vue'
 </script>
 <style lang="scss">

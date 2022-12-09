@@ -116,7 +116,6 @@ watch(propertiesTabDisabled, () => {
   activeTab.value = propertiesTabDisabled.value ? '1' : '0'
 })
 
-// const activeTab = computed(() => (propertiesTabDisabled.value ? '1' : '0'))
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
 
