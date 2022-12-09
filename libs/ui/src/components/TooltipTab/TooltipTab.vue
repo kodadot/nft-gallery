@@ -42,7 +42,5 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="scss">
-@import '@oruga-ui/oruga/dist/oruga.min.css';
-// @import '@oruga-ui/oruga/dist/oruga-full-vars.min.css';
 @import './TooltipTab.scss';
 </style>
