@@ -1,20 +1,15 @@
 <template>
-  <o-tab-item
-    :value="value"
-    class="py-5 tooltip-tab"
-    :disabled="disabled"
-    :label="label">
+  <o-tab-item :value="value" class="py-5" :label="label">
     <template #header>
-      <b-tooltip
+      <o-tooltip
         v-if="disabled"
         append-to-body
         class="disabled-tab-tooltip"
-        square
-        position="is-top"
+        position="top"
         :label="disabledTooltip"
         @click.native.stop>
         {{ label }}
-      </b-tooltip>
+      </o-tooltip>
 
       <div v-else>
         {{ label }}
@@ -27,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { OTabItem } from '@oruga-ui/oruga'
+import { OTabItem, OTooltip } from '@oruga-ui/oruga'
 import { LocaleMessage } from 'vue-i18n'
 export interface Props {
   disabled?: boolean

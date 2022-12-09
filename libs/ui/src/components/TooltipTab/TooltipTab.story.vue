@@ -3,7 +3,7 @@
     <Variant>
       <div :style="{ padding: '5rem' }" />
       <o-tabs
-        :v-model="activeTab"
+        v-model="activeTab"
         expanded
         content-class="o-tabs__content--fixed">
         <TooltipTab
@@ -24,10 +24,7 @@
 <script lang="ts" setup>
 import TooltipTab from './TooltipTab.vue'
 import { OTabs } from '@oruga-ui/oruga'
-import Vue, { ref } from 'vue'
-import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'
-Vue.use(Buefy)
+import { ref } from 'vue'
 
 const activeTab = ref('1')
 
