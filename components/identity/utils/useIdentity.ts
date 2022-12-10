@@ -74,7 +74,6 @@ const displayName = ({
 }
 
 export default function useIdentity({ address, customNameOption }) {
-  console.log('useIdentity', address)
   const { apiUrl } = useApi()
   const identity = ref<IdentityFields>({})
   const isFetchingIdentity = ref(false)
