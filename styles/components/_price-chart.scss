@@ -57,7 +57,8 @@
       box-shadow: 4px 4px 0px white;
       &:hover {
         background: $k-accent;
-        color: black;
+        color: $k-hovergrey;
+
       }
     }
 
@@ -69,14 +70,13 @@
 
       &:hover {
         background: $k-accentlight;
-        color: black;
+        color: $k-hovergrey;
+
 
       }
       &.is-active {
         background: white;
         color: black;
-
-
       }
     }
 
