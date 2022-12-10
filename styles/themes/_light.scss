@@ -5,7 +5,7 @@ html.light-mode {
     color: $text-light-theme;
 
     &:hover {
-      color: $primary-light;
+      color: $shade;
     }
   }
 
@@ -13,8 +13,7 @@ html.light-mode {
     color: #000 !important;
 
     &:hover {
-      font-weight: 700;
-      color: $k-accentlight !important;
+      color: $k-hovergrey !important;
     }
   }
 
@@ -288,6 +287,9 @@ html.light-mode {
 
   .search-footer-link {
     color: $black !important;
+    .link-item:hover {
+      color: $k-hovergrey;
+    }
   }
 
   .landing-search {

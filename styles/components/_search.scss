@@ -56,7 +56,7 @@
 
     &:hover {
       color: $k-hovergrey !important;
-     
+
     }
   }
 
@@ -154,7 +154,7 @@
     color: $white !important;
     .link-item {
       &:hover {
-        font-weight: 700;
+        color: $shade;
         background: transparent !important;
       }
     }
@@ -238,7 +238,7 @@
 
     .times-icon {
       &:hover {
-        color: $black;
+        color: $k-hovergrey;
       }
     }
 

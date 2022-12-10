@@ -117,8 +117,7 @@
         a {
           color: $black !important;
           &:hover {
-            color: $k-accent !important;
-            font-weight: 700;
+            color: $k-hovergrey !important;
           }
         }
 
@@ -150,7 +149,7 @@
         }
         &:hover {
           a {
-            color: $k-accentlight !important;
+            color: $shade !important;
           }
         }
       }
