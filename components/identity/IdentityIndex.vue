@@ -16,7 +16,7 @@
       :show-onchain-identity="showOnchainIdentity"
       :hide-identity-popover="hideIdentityPopover"
       :is-fetching-identity="isFetchingIdentity"
-      :identity="identityItems"
+      :identity="identity"
       :address="address"
       :shortened-address="shortenedAddress"
       :name="name" />
