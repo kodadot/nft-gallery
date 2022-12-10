@@ -60,6 +60,13 @@ html.dark-mode {
       border-bottom: 1px solid $white;
     }
 
+    .dropdown .dropdown-menu .has-link.is-active a {
+      &:hover,
+      &:focus {
+        background-color: $white !important;
+      }
+    }
+
     .navbar-link {
       &:hover {
         background-color: transparent;
