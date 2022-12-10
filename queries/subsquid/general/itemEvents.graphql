@@ -1,0 +1,11 @@
+#import "../../fragments/event.graphql"
+
+query itemEvents($id: String!, $interaction: [Interaction!]!, $limit: Int!) {
+  events(
+    where: { nft: { id_eq: $id }, interaction_in: $interaction }
+    orderBy: timestamp_DESC
+    limit: $limit
+  ) {
+    ...event
+  }
+}
