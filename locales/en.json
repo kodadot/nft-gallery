@@ -715,6 +715,8 @@
   },
   "offer": {
     "caller": "From",
+    "status": "Status",
+    "withdrawn": "CANCELLED",
     "price": "Price",
     "usdPrice": "USD Price",
     "expiration": "Expiration",
@@ -1096,6 +1098,19 @@
       "royalties": "Royalties",
       "media": "Media",
       "metadata": "Metadata"
+    },
+    "tabActivity": {
+      "event": "Event",
+      "price": "Price",
+      "from": "From",
+      "to": "To",
+      "date": "Date",
+      "empty": "There is no activity for this NFT yet.",
+      "all": "All",
+      "MINTNFT": "Mints",
+      "BUY": "Sales",
+      "LIST": "Listings",
+      "SEND": "Transfers"
     }
   },
   "cancel": "Cancel"

@@ -35,6 +35,16 @@
           <Identity :address="props.row.caller" />
         </nuxt-link>
       </o-table-column>
+      <!-- status -->
+      <o-table-column v-slot="props" field="status" :label="$t('offer.status')">
+        <span
+          :class="{
+            'has-text-danger': props.row.status === OfferStatusType.WITHDRAWN,
+            'has-text-success': props.row.status === OfferStatusType.ACTIVE,
+          }"
+          >{{ formatOfferStatus(props.row.status) }}</span
+        >
+      </o-table-column>
     </o-table>
     <div v-else class="has-text-centered">{{ $t('nft.offer.empty') }}</div>
   </div>
@@ -51,6 +61,8 @@ import { formatSecondsToDuration } from '@/utils/format/time'
 
 import type { Offer, OfferResponse } from '@/components/bsx/Offer/types'
 import type { CollectionEvents } from '@/components/rmrk/service/scheme'
+import { OfferStatusType } from '@/utils/offerStatus'
+const { $i18n } = useNuxtApp()
 
 const { apiUrl } = useApi()
 const { urlPrefix, tokenId, assets } = usePrefix()
@@ -105,6 +117,13 @@ const expirationTime = (block) => {
   const secondsToBlock = 12 * (block - currentBlock.value)
 
   return formatSecondsToDuration(secondsToBlock)
+}
+
+const formatOfferStatus = (status: OfferStatusType) => {
+  if (status === OfferStatusType.WITHDRAWN) {
+    return $i18n.t('offer.withdrawn')
+  }
+  return status
 }
 
 onMounted(() => {

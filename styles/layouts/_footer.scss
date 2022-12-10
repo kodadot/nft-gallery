@@ -58,6 +58,8 @@
   font-family: 'Work Sans';
   color: $black;
   position: relative;
+  border-top: 1px solid;
+  background: $white;
 
   .subtitle {
     font-weight: 700;
@@ -115,8 +117,7 @@
         a {
           color: $black !important;
           &:hover {
-            color: $k-accent !important;
-            font-weight: 700;
+            color: $k-hovergrey !important;
           }
         }
 
@@ -148,7 +149,7 @@
         }
         &:hover {
           a {
-            color: $k-accentlight !important;
+            color: $shade !important;
           }
         }
       }
