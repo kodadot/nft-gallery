@@ -1,5 +1,5 @@
 html.light-mode {
-  background-color: $background-light;
+  background-color: $white;
 
   a {
     color: $text-light-theme;
@@ -27,6 +27,10 @@ html.light-mode {
     background-color: $white;
     color: $text-light-theme;
     z-index: 1;
+  }
+
+  main {
+    background-color: unset;
   }
 
   .footer {
