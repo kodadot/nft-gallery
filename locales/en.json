@@ -714,6 +714,8 @@
   },
   "offer": {
     "caller": "From",
+    "status": "Status",
+    "withdrawn": "CANCELLED",
     "price": "Price",
     "usdPrice": "USD Price",
     "expiration": "Expiration",

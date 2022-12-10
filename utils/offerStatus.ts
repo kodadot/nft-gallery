@@ -1,4 +1,4 @@
-enum OfferStatusType {
+export enum OfferStatusType {
   ACTIVE = 'ACTIVE',
   ACCEPTED = 'ACCEPTED',
   WITHDRAWN = 'WITHDRAWN',
