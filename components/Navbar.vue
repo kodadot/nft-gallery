@@ -48,23 +48,23 @@
       </div>
     </template>
     <template #end>
-      <NavbarExplore />
-      <NavbarCreate
+      <ExploreDropdown />
+      <CreateDropdown
         v-show="isCreateVisible"
         class="navbar-create custom-navbar-item"
         data-cy="create"
         :is-rmrk="isRmrk" />
-      <NavbarStats
+      <StatsDropdown
         class="navbar-stats custom-navbar-item"
         data-cy="stats"
         :is-bsx="isBsx"
         :is-rmrk="isRmrk"
         :is-snek="isSnek" />
-      <NavbarChainSelect
+      <ChainSelectDropdown
         id="NavChainSelect"
         class="navbar-chain custom-navbar-item"
         data-cy="chain-select" />
-      <NavbarProfileDropdown
+      <ProfileDropdown
         id="NavProfile"
         :is-rmrk="isRmrk"
         :show-incomming-offers="isBsx || isSnek"
@@ -81,10 +81,10 @@ import { get } from 'idb-keyval'
 
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import NavbarProfileDropdown from '@/components/navbar/NavbarProfileDropdown.vue'
+import ProfileDropdown from '~/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
-import NavbarExplore from '@/components/navbar/NavbarExplore.vue'
-import NavbarCreate from '@/components/navbar/NavbarCreate.vue'
+import ExploreDropdown from '~/components/navbar/ExploreDropdown.vue'
+import CreateDropdown from '~/components/navbar/CreateDropdown.vue'
 import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
 import KodaBeta from '@/assets/Koda_Beta.svg'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
@@ -93,19 +93,19 @@ import { createVisible } from '@/utils/config/permision.config'
 import { identityStore } from '@/utils/idbStore'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ExperimentMixin from '@/utils/mixins/experimentMixin'
-import NavbarChainSelect from '@/components/navbar/NavbarChainSelect.vue'
-import NavbarStats from '@/components/navbar/NavbarStats.vue'
+import ChainSelectDropdown from '~/components/navbar/ChainSelectDropdown.vue'
+import StatsDropdown from '~/components/navbar/StatsDropdown.vue'
 
 @Component({
   components: {
-    NavbarStats,
-    NavbarChainSelect,
-    NavbarProfileDropdown,
     Search,
     Identity,
     BasicImage,
-    NavbarExplore,
-    NavbarCreate,
+    ProfileDropdown,
+    ExploreDropdown,
+    CreateDropdown,
+    ChainSelectDropdown,
+    StatsDropdown,
   },
 })
 export default class NavbarMenu extends mixins(
