@@ -87,7 +87,7 @@ html.light-mode {
       background-color: transparent !important;
     }
 
-    .navbar-dropdown,
+
     .navbar-menu.is-active {
       color: $text-light-theme;
       background-color: $white;
@@ -108,6 +108,14 @@ html.light-mode {
 
       &:hover {
         background-color: $k-accentlight !important;
+      }
+    }
+
+    .navbar-explore {
+      a {
+        &:hover {
+          color: $black !important;
+        }
       }
     }
   }

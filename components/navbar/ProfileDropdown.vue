@@ -3,7 +3,7 @@
     <b-dropdown
       position="is-bottom-left"
       aria-role="menu"
-      :triggers="['click', 'hover']">
+      :triggers="['hover']">
       <template #trigger>
         <a class="navbar-item" role="button">
           <Avatar
@@ -11,7 +11,6 @@
             :value="account"
             class="navbar__avatar-icon"
             :size="27" />
-
           <img v-else :src="profileIcon" />
         </a>
       </template>
@@ -25,7 +24,7 @@
         <b-dropdown-item has-link aria-role="menuitem">
           <nuxt-link to="/settings">{{ $t('settings') }}</nuxt-link>
         </b-dropdown-item>
-        <template v-if="isRmrk">
+        <template v-if="chain === 'rmrk'">
           <b-dropdown-item has-link aria-role="menuitem">
             <a @click="showRampSDK">
               {{ $t('credit') }}
@@ -44,23 +43,26 @@
           </b-dropdown-item>
         </template>
         <b-dropdown-item
-          v-if="showIncommingOffers"
+          v-if="chain === 'bsx' || chain === 'snek'"
           has-link
           aria-role="menuitem">
-          <nuxt-link :to="`/${urlPrefix}/incomingoffers`">{{
-            $t('incomingOffers')
-          }}</nuxt-link>
+          <nuxt-link :to="`/${urlPrefix}/incomingoffers`"
+            >{{ $t('incomingOffers') }}
+          </nuxt-link>
         </b-dropdown-item>
-        <b-dropdown-item v-if="isSnek" has-link aria-role="menuitem">
+        <b-dropdown-item
+          v-if="chain === 'bsx' || chain === 'snek'"
+          has-link
+          aria-role="menuitem">
           <nuxt-link :to="`/${urlPrefix}/assets`">{{ $t('assets') }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
           <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
-          <nuxt-link to="/teleport-bridge">{{
-            $t('navbar.teleportBridge')
-          }}</nuxt-link>
+          <nuxt-link to="/teleport-bridge"
+            >{{ $t('navbar.teleportBridge') }}
+          </nuxt-link>
         </b-dropdown-item>
       </template>
 
@@ -99,7 +101,7 @@
       v-if="account"
       position="is-bottom-left"
       aria-role="menu"
-      :triggers="['click', 'hover']">
+      :triggers="['hover']">
       <template #trigger>
         <a class="navbar-item" role="button">
           <svg
@@ -290,15 +292,14 @@ const components = {
 }
 
 @Component({ components })
-export default class NavbarProfileDropdown extends mixins(
+export default class ProfileDropdown extends mixins(
   PrefixMixin,
   AuthMixin,
   useApiMixin
 ) {
   @Prop() public value!: any
-  @Prop() public isRmrk!: boolean
-  @Prop() public showIncommingOffers!: boolean
-  @Prop() public isSnek!: boolean
+  @Prop() public showIncomingOffers!: boolean
+  @Prop() public chain!: string
   @Ref('languageDropdown') readonly languageDropdown
 
   get isDarkMode() {
