@@ -175,12 +175,13 @@ export type EntityWithId = {
 }
 
 export interface Interaction {
-  meta: string
+  blockNumber: string | number
   caller: string
-  timestamp: string
-  blockNumber: number | string
-  interaction: string
+  currentOwner: string
   id: string
+  interaction: string
+  meta: string
+  timestamp: string
 }
 
 export interface BasePack {
@@ -230,7 +231,7 @@ export interface CollectionEvents {
 }
 
 export const getNftId = (nft: NFT, blocknumber?: string | number): string => {
-  return `${blocknumber ? blocknumber + '-' : ''}${nft.collection}-${
+  return `${blocknumber ? blocknumber + '-' : ''}${nft.collection.id}-${
     nft.instance || nft.name
   }-${nft.sn}`
 }

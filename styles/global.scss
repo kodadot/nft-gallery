@@ -157,4 +157,7 @@ body {
 .instance {
   border-bottom: 1px solid black;
   font-family: 'Work Sans';
+  &:last-child {
+    border-bottom: none;
+  }
 }

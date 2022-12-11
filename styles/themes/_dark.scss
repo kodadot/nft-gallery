@@ -6,7 +6,10 @@ html.dark-mode {
     margin: 0;
     width: 100%;
     height: 100%;
-    background-color: $background-dark;
+    background-color: $dark-accent;
+  }
+  main {
+    background-color: unset;
   }
 
   .title,
@@ -19,8 +22,8 @@ html.dark-mode {
     color: #fff !important;
 
     &:hover {
-      font-weight: 700;
-      color: $k-accentlight !important;
+      color: $shade !important;
+
     }
   }
 
@@ -41,8 +44,7 @@ html.dark-mode {
       box-shadow: 4px 4px 0px $white !important;
       border-color: $white !important;
     }
-    .dropdown .dropdown-menu .has-link a,
-    .navbar-dropdown a.navbar-item {
+    .dropdown .dropdown-menu .has-link a {
       &:hover,
       &:focus {
         background-color: $k-accent !important;
@@ -50,7 +52,21 @@ html.dark-mode {
       }
     }
     .navbar-dropdown a.navbar-item {
+      &:hover,
+      &:focus {
+        background-color: $k-accent !important;
+        color: $k-hovergrey;
+      }
+    }
+    .navbar-dropdown a.navbar-item {
       border-bottom: 1px solid $white;
+    }
+
+    .dropdown .dropdown-menu .has-link.is-active a {
+      &:hover,
+      &:focus {
+        background-color: $white !important;
+      }
     }
 
     .navbar-link {
@@ -107,7 +123,9 @@ html.dark-mode {
     }
 
     .navbar-explore .menu-item {
-      &:hover,
+      &:hover {
+        color: $shade !important;
+      }
       &.is-active {
         color: $white !important;
       }
@@ -126,10 +144,6 @@ html.dark-mode {
 
   .instance {
     border-color: $white;
-    &-accent,
-    &-blue {
-      background-color: $dark-accent;
-    }
   }
 
   .landing-search {
@@ -160,7 +174,7 @@ html.dark-mode {
     .search-history {
       .times-icon {
         &:hover {
-          color: $white;
+          color: $shade;
         }
       }
 
@@ -181,7 +195,6 @@ html.dark-mode {
   .footer-container {
     background-color: $dark-accent;
     color: $white;
-    // border-top: 1px solid $white;
 
     &-socials {
       &-list {
@@ -208,7 +221,10 @@ html.dark-mode {
       &-list {
         &-item {
           a {
-            color: $white!important;
+            color: $white !important;
+            &:hover {
+              color: $shade !important;
+            }
           }
         }
       }
@@ -237,7 +253,6 @@ html.dark-mode {
   .chain-option {
     &:hover {
       color: $shade !important;
-     
     }
   }
 

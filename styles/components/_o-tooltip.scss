@@ -1,0 +1,13 @@
+.o-tip {
+  &__content {
+    background-color: white;
+    border: 1px solid black;
+    color: black;
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+  }
+
+  &__arrow {
+    color: black;
+  }
+}

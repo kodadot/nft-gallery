@@ -19,13 +19,8 @@
     </DisablableTab>
 
     <!-- activity -->
-    <o-tab-item value="1" :label="$t('tabs.activity')" class="p-5">
-      Activity
-      <LazyGalleryHistory
-        class="is-invisible"
-        :events="nft?.events"
-        data-cy="history"
-        @setPriceChartData="setPriceChartData" />
+    <o-tab-item value="1" :label="$t('tabs.activity')">
+      <GalleryItemActivity v-if="nft?.id" :nft-id="nft?.id" />
     </o-tab-item>
 
     <!-- chart -->
@@ -39,6 +34,7 @@
 import { OTabItem, OTabs } from '@oruga-ui/oruga'
 
 import { useGalleryItem } from '../useGalleryItem'
+import GalleryItemActivity from './GalleryItemActivity.vue'
 import GalleryItemOffers from './GalleryItemOffers.vue'
 import PriceChart from '@/components/chart/PriceChart.vue'
 import { DisablableTab } from '@kodadot1/brick'
@@ -50,9 +46,6 @@ const priceChartData = ref<[Date, number][][]>([])
 const activeTab = ref('0')
 const collectionId = ref('')
 
-const setPriceChartData = (data: [Date, number][][]) => {
-  priceChartData.value = data
-}
 const offersTabDisabled = computed(() => urlPrefix.value === 'rmrk')
 
 watchEffect(() => {
