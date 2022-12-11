@@ -53,22 +53,18 @@
         v-show="isCreateVisible"
         class="navbar-create custom-navbar-item"
         data-cy="create"
-        :is-rmrk="isRmrk" />
+        :chain="chain" />
       <StatsDropdown
         class="navbar-stats custom-navbar-item"
         data-cy="stats"
-        :is-bsx="isBsx"
-        :is-rmrk="isRmrk"
-        :is-snek="isSnek" />
+        :chain="chain" />
       <ChainSelectDropdown
         id="NavChainSelect"
         class="navbar-chain custom-navbar-item"
         data-cy="chain-select" />
       <ProfileDropdown
         id="NavProfile"
-        :is-rmrk="isRmrk"
-        :show-incomming-offers="isBsx || isSnek"
-        :is-snek="isSnek"
+        :show-incomming-offers="chain === 'snek' || chain === 'bsx'"
         data-cy="profileDropdown"
         @closeBurgerMenu="closeBurgerMenu" />
     </template>
@@ -115,7 +111,6 @@ export default class NavbarMenu extends mixins(
 ) {
   public showTopNavbar = true
   public openMobileSearchBar = false
-  private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
   private fixedTitleNavAppearDistance = 85
   private lastScrollPosition = 0
   private artistName = ''
@@ -129,16 +124,8 @@ export default class NavbarMenu extends mixins(
     }
   }
 
-  get isRmrk(): boolean {
-    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
-  }
-
-  get isBsx(): boolean {
-    return this.urlPrefix === 'bsx'
-  }
-
-  get isSnek(): boolean {
-    return this.urlPrefix === 'snek' || this.urlPrefix === 'bsx'
+  get chain(): string {
+    return this.urlPrefix
   }
 
   get inCollectionPage(): boolean {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-dropdown
-      v-if="isBsx || isSnek"
+      v-if="chain === 'bsx' || chain === 'snek'"
       aria-role="list"
       data-cy="stats"
       :triggers="['click']">
@@ -27,7 +27,7 @@
         </nuxt-link>
       </b-dropdown-item>
     </b-dropdown>
-    <b-dropdown v-if="isRmrk" data-cy="stats" :triggers="['click']">
+    <b-dropdown v-if="chain === 'rmrk'" data-cy="stats" :triggers="['click']">
       <template #trigger>
         <div class="navbar-item" data-cy="stats">
           {{ $t('stats') }}
@@ -60,10 +60,7 @@ import AuthMixin from '~~/utils/mixins/authMixin'
 
 @Component({})
 export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
-  // prop for isBsx isRmrk and isSnek
-  @Prop({ type: Boolean }) isBsx!: boolean
-  @Prop({ type: Boolean }) isRmrk!: boolean
-  @Prop({ type: Boolean }) isSnek!: boolean
+  @Prop({ type: String }) chain!: string
 
   get options() {
     const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']

@@ -15,7 +15,7 @@
         </nuxt-link>
       </b-tooltip>
     </b-dropdown-item>
-    <template v-if="isRmrk">
+    <template v-if="chain === 'rmrk'">
       <b-dropdown-item has-link>
         <b-tooltip
           position="is-left"
@@ -49,7 +49,7 @@ import AuthMixin from '~~/utils/mixins/authMixin'
 
 @Component({})
 export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
-  @Prop({ default: false }) isRmrk!: boolean
+  @Prop({ type: String }) chain!: string
   get options() {
     const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']
 
