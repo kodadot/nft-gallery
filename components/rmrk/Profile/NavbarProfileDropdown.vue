@@ -184,7 +184,9 @@
           hide-identity-popover />
       </b-dropdown-item>
 
-      <hr class="profile-dropdown-divider mx-4" aria-role="menuitem" />
+      <hr
+        class="profile-dropdown-divider dropdown-divider mx-4"
+        aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
         <div v-if="isSnek">
@@ -200,7 +202,9 @@
         <AccountBalance v-else class="is-size-7" />
       </b-dropdown-item>
 
-      <hr class="profile-dropdown-divider mx-4" aria-role="menuitem" />
+      <hr
+        class="profile-dropdown-divider dropdown-divider mx-4"
+        aria-role="menuitem" />
       <b-dropdown-item custom aria-role="menuitem">
         <div class="buttons is-justify-content-space-between my-2">
           <ConnectWalletButton
