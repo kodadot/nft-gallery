@@ -18,6 +18,9 @@ html.light-mode {
   }
   a.address-link {
     color: #6188e7;
+    &:hover {
+      color: #B6CBFF;
+    }
   }
 
   body,
