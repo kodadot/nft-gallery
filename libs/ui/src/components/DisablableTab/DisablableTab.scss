@@ -6,7 +6,6 @@
         opacity: unset !important;
         // mimick opacity (opacity prevents hover form triggering tooltip)
         color: rgba($color: black, $alpha: 0.5) !important;
-        border-color: rgba($color: black, $alpha: 0.5) !important;
 
 
         &:hover {
@@ -22,7 +21,6 @@
         &--disabled {
             // mimick opacity (opacity prevents hover form triggering tooltip)
             color: rgba($color: white, $alpha: 0.5)  !important;
-            border-color: rgba($color: white, $alpha: 0.5) !important;
 
         }
     }

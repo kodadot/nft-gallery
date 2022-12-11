@@ -4,7 +4,7 @@
     $tooltip-distance: calc(20px  + 100%);
 
     .o-tip__content {
-        font-size: 0.9rem;
+        font-size: 1rem;
         box-shadow: none;
         border: 1px solid;
         background: white;
@@ -12,6 +12,7 @@
         border-color: black;
         border-radius: 0;
         padding: 4px 8px;
+        font-family: 'worksans';
 
         .o-tip__arrow {
             color: black;
