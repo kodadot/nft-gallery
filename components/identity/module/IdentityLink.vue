@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a :href="explorerLink">
+    <a class="address-link" :href="explorerLink">
       {{ shortenedAddress }}
     </a>
     <a v-clipboard:copy="address" @click="toast('Copied to clipboard')">

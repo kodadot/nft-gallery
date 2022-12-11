@@ -366,4 +366,11 @@ html.dark-mode {
   .ms-dos-shadow {
     box-shadow: $primary-shadow-dark;
   }
+
+  a.address-link {
+    color: #6188e7;
+  }
+  .profile-dropdown-divider {
+    background-color: #CCCCCC;
+  }
 }
