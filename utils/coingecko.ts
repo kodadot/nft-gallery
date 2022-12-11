@@ -26,6 +26,21 @@ export const getKsmPrice = async (): Promise<void> => {
   }
 }
 
+export const getBsxPrice = async (): Promise<void> => {
+  try {
+    const { data } = await api.get('/simple/price', {
+      params: {
+        ids: 'basilisk',
+        vs_currencies: 'usd',
+      },
+    })
+
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const getKSMUSD = async (): Promise<number> => {
   const coinId = 'kusama'
   try {

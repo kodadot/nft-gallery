@@ -1,4 +1,4 @@
-import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
+import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
 import { getKsmPrice } from '@/utils/coingecko'
 
 export const state = () => ({
@@ -18,8 +18,6 @@ export const getters: GetterTree<FiatState, FiatState> = {
 export const mutations: MutationTree<FiatState> = {
   SET_FIAT_PRICE(state, data: any) {
     state.fiatPrice = Object.assign({}, state.fiatPrice, data)
-    // or
-    // state.fiatPrice = data
   },
 }
 
