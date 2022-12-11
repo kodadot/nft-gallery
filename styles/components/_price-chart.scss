@@ -90,3 +90,10 @@
   }
 
 }
+
+@include touch {
+  .common-price-chart .time-range-dropdown .dropdown-menu{
+    display: flex;
+    justify-content: center;
+  }
+}
