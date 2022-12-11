@@ -189,17 +189,7 @@
         aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
-        <div v-if="isSnek">
-          <div class="has-text-left has-text-grey is-size-7">
-            {{ $t('general.balance') }}
-          </div>
-          <SimpleAccountBalance
-            v-for="token in tokens"
-            :key="token"
-            class="is-size-6"
-            :token-id="token" />
-        </div>
-        <AccountBalance v-else class="is-size-7" />
+        <ProfileAssetsList />
       </b-dropdown-item>
 
       <hr
@@ -295,6 +285,8 @@ const components = {
   SimpleAccountBalance: () =>
     import('@/components/shared/SimpleAccountBalance.vue'),
   ColorModeButton: () => import('@/components/common/ColorModeButton.vue'),
+  ProfileAssetsList: () =>
+    import('@/components/rmrk/Profile/ProfileAssetsList.vue'),
 }
 
 @Component({ components })
@@ -331,10 +323,6 @@ export default class NavbarProfileDropdown extends mixins(
   get userLang(): string {
     this.$i18n.locale = this.$store.getters['lang/getUserLang']
     return this.$store.getters['lang/getUserLang']
-  }
-
-  get tokens() {
-    return ['', getKusamaAssetId(this.urlPrefix)]
   }
 
   get account() {
