@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a :href="`https://kusama.subscan.io/account/${address}`">
+    <a :href="explorerLink">
       {{ shortenedAddress }}
     </a>
     <a v-clipboard:copy="address" @click="toast('Copied to clipboard')">
@@ -19,9 +19,19 @@
 
 <script lang="ts" setup>
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
+import { getExplorer } from '~/components/rmrk/Profile/utils'
 type Address = string | GenericAccountId | undefined
 
+const props = defineProps<{
+  shortenedAddress?: string | object
+  address?: Address
+}>()
+
+const { $store } = useNuxtApp()
 const { $buefy } = useNuxtApp()
+const { urlPrefix } = usePrefix()
+
+const explorerLink = getExplorer(urlPrefix.value, String(props.address))
 
 const toast = (message: string) => {
   $buefy.toast.open({
@@ -29,9 +39,4 @@ const toast = (message: string) => {
     type: 'is-neo',
   })
 }
-
-defineProps<{
-  shortenedAddress?: string | object
-  address?: Address
-}>()
 </script>
