@@ -177,6 +177,7 @@
         <div class="has-text-grey is-size-7 mt-2">
           {{ $t('profileMenu.wallet') }}
         </div>
+        <span class="is-size-6">My {{ userWallet.name }} wallet</span>
         <Identity
           :address="account"
           class="navbar__address is-size-6"
@@ -279,6 +280,7 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { clearSession } from '@/utils/cachingStrategy'
+import { SupportedWallets } from '@/utils/config/wallets'
 
 const components = {
   Avatar,
@@ -366,6 +368,12 @@ export default class NavbarProfileDropdown extends mixins(
 
   protected closeBurgerMenu(): void {
     this.$emit('closeBurgerMenu')
+  }
+
+  get userWallet() {
+    return SupportedWallets().find(
+      (w) => w.extensionName === localStorage.getItem('wallet')
+    )
   }
 }
 </script>
