@@ -27,7 +27,7 @@
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { defineEmits } from '#app'
 
-import useIdentity, { IdentityFields } from './utils/useIdentity'
+import useIdentity from './utils/useIdentity'
 
 type Address = string | GenericAccountId | undefined
 
@@ -48,26 +48,16 @@ const props = defineProps<{
   customNameOption?: string
 }>()
 
-const name = ref<string>()
-const shortenedAddress = ref<string>()
-const identity = ref<IdentityFields>({})
-const isFetchingIdentity = ref(false)
-const twitter = ref<string>()
-const discord = ref<string>()
-const display = ref<string>()
-
-watchEffect(() => {
-  const identityItems = useIdentity({
-    address: props.address,
-    customNameOption: props.customNameOption,
-  })
-  name.value = identityItems.name.value
-  shortenedAddress.value = identityItems.shortenedAddress.value
-  identity.value = identityItems.identity.value
-  isFetchingIdentity.value = identityItems.isFetchingIdentity.value
-  twitter.value = identityItems.twitter.value
-  discord.value = identityItems.discord.value
-  display.value = identityItems.display.value
+const {
+  identity,
+  isFetchingIdentity,
+  shortenedAddress,
+  twitter,
+  discord,
+  name,
+} = useIdentity({
+  address: props.address,
+  customNameOption: props.customNameOption,
 })
 
 provide('address', props.address)
