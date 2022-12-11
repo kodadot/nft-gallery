@@ -33,7 +33,7 @@ const props = defineProps({
 
 const isOpened = ref(false)
 
-const close = () => {
+const close = (): void => {
   isOpened.value = false
 }
 </script>

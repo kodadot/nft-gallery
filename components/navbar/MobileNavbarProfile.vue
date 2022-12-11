@@ -17,24 +17,18 @@
   </div>
 </template>
 
-<script lang="ts">
-import Identity from '@/components/identity/IdentityIndex.vue'
-import { Component, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { clearSession } from '~/utils/cachingStrategy'
 
-@Component({
-  components: {
-    Identity,
-  },
-})
-export default class MobileNavbarProfile extends mixins() {
-  get account() {
-    return this.$store.getters.getAuthAddress
-  }
+const Identity = defineAsyncComponent(
+  () => import('@/components/identity/IdentityIndex.vue')
+)
 
-  public disconnect() {
-    this.$store.dispatch('setAuth', { address: '' }) // null not working
-    clearSession()
-  }
+const { $store, $i18n } = useNuxtApp()
+const account = $store.getters.getAuthAddress
+
+const disconnect = () => {
+  $store.dispatch('setAuth', { address: '' }) // null not working
+  clearSession()
 }
 </script>

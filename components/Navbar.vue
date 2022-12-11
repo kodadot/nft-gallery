@@ -163,81 +163,87 @@
         </template>
       </b-navbar-dropdown>
       <LazyChainSelect
+        v-if="!isMobile"
         id="NavChainSelect"
         class="navbar-item has-dropdown"
         data-cy="chain-select" />
-      <MobileLanguageOption v-if="isMobile && !account" />
-      <MobileExpandableSection
-        v-if="isMobile && account"
-        :no-padding="true"
-        :title="$t('account')"
-        icon="person-circle-outline">
-        <b-navbar-item
-          :to="`/${urlPrefix}/u/${account}`"
-          data-cy="hot"
-          tag="nuxt-link">
-          {{ $t('profile.page') }}
-        </b-navbar-item>
-        <b-navbar-item :to="{ name: 'identity' }" data-cy="hot" tag="nuxt-link">
-          {{ $t('identity.page') }}
-        </b-navbar-item>
-        <b-navbar-item data-cy="hot" tag="nuxt-link" to="/settings">
-          {{ $t('settings') }}
-        </b-navbar-item>
-        <MobileLanguageOption />
-        <MobileNavbarProfile id="NavProfile" />
-      </MobileExpandableSection>
-      <MobileExpandableSection
-        v-if="isMobile && account"
-        :no-padding="true"
-        :title="$t('wallet')"
-        icon="wallet-outline">
-        <b-navbar-item class="navbar-item--noBorder">
-          <div class="has-text-grey is-size-7 mt-2">
-            {{ $t('profileMenu.wallet') }}
-          </div>
-          <Identity
-            :address="account"
-            class="navbar__address is-size-6"
-            hide-identity-popover />
-
-          <hr aria-role="menuitem" class="dropdown-divider mx-4" />
-
-          <div v-if="isSnek">
-            <div class="has-text-left has-text-grey is-size-7">
-              {{ $t('general.balance') }}
+      <template v-if="isMobile">
+        <MobileLanguageOption v-if="!account" />
+        <MobileExpandableSection
+          v-if="account"
+          :no-padding="true"
+          :title="$t('account')"
+          icon="user-circle"
+          icon-family="fa">
+          <b-navbar-item
+            :to="`/${urlPrefix}/u/${account}`"
+            data-cy="hot"
+            tag="nuxt-link">
+            {{ $t('profile.page') }}
+          </b-navbar-item>
+          <b-navbar-item
+            :to="{ name: 'identity' }"
+            data-cy="hot"
+            tag="nuxt-link">
+            {{ $t('identity.page') }}
+          </b-navbar-item>
+          <b-navbar-item data-cy="hot" tag="nuxt-link" to="/settings">
+            {{ $t('settings') }}
+          </b-navbar-item>
+          <MobileLanguageOption />
+          <MobileNavbarProfile id="NavProfile" />
+        </MobileExpandableSection>
+        <MobileExpandableSection
+          v-if="account"
+          :no-padding="true"
+          :title="$t('wallet')"
+          icon="wallet">
+          <b-navbar-item class="navbar-item--noBorder">
+            <div class="has-text-grey is-size-7 mt-2">
+              {{ $t('profileMenu.wallet') }}
             </div>
-            <SimpleAccountBalance
-              v-for="token in tokens"
-              :key="token"
-              :token-id="token"
-              class="is-size-6" />
-          </div>
-          <AccountBalance v-else class="is-size-7" />
+            <Identity
+              :address="account"
+              class="navbar__address is-size-6"
+              hide-identity-popover />
 
-          <hr aria-role="menuitem" class="dropdown-divider mx-4" />
+            <hr aria-role="menuitem" class="dropdown-divider mx-4" />
 
-          <div
-            aria-role="menuitem"
-            class="is-flex is-justify-content-center"
-            custom
-            paddingless>
-            <b-button
-              class="navbar__sign-out-button menu-item mb-4 is-size-7"
-              @click="disconnect()">
-              {{ $t('profileMenu.disconnect') }}
-            </b-button>
-          </div>
-        </b-navbar-item>
-      </MobileExpandableSection>
-      <ColorModeButton v-if="isMobile" />
+            <div v-if="isSnek">
+              <div class="has-text-left has-text-grey is-size-7">
+                {{ $t('general.balance') }}
+              </div>
+              <SimpleAccountBalance
+                v-for="token in tokens"
+                :key="token"
+                :token-id="token"
+                class="is-size-6" />
+            </div>
+            <AccountBalance v-else class="is-size-7" />
 
-      <div v-if="!account && isMobile" id="NavProfile">
-        <ConnectWalletButton
-          class="button-connect-wallet"
-          @closeBurgerMenu="closeBurgerMenu" />
-      </div>
+            <hr aria-role="menuitem" class="dropdown-divider mx-4" />
 
+            <div
+              aria-role="menuitem"
+              class="is-flex is-justify-content-center"
+              custom
+              paddingless>
+              <b-button
+                class="navbar__sign-out-button menu-item mb-4 is-size-7"
+                @click="disconnect()">
+                {{ $t('profileMenu.disconnect') }}
+              </b-button>
+            </div>
+          </b-navbar-item>
+        </MobileExpandableSection>
+        <ColorModeButton />
+
+        <div v-if="!account" id="NavProfile">
+          <ConnectWalletButton
+            class="button-connect-wallet"
+            @closeBurgerMenu="closeBurgerMenu" />
+        </div>
+      </template>
       <NavbarProfileDropdown
         v-if="!isMobile"
         id="NavProfile"
@@ -263,8 +269,6 @@
 
 <script lang="ts">
 import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
-import { get } from 'idb-keyval'
-
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import KodaBeta from '@/assets/Koda_Beta.svg'
 import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
@@ -274,13 +278,11 @@ import NavbarExplore from '@/components/navbar/NavbarExplore.vue'
 import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
-import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { createVisible } from '@/utils/config/permision.config'
 import { isMobileDevice } from '@/utils/extension'
 import { identityStore } from '@/utils/idbStore'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { get } from 'idb-keyval'
-import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import ColorModeButton from '~/components/common/ColorModeButton.vue'
 import MobileLanguageOption from '~/components/navbar/MobileLanguageOption.vue'
 import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
@@ -311,7 +313,6 @@ export default class NavbarMenu extends mixins(
   ExperimentMixin
 ) {
   public openMobileSearchBar = false
-  @Ref('mobilSearchRef') readonly mobilSearchRef
   protected showTopNavbar = true
   private isMobile = isMobileDevice
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')

@@ -88,6 +88,7 @@ import {
   faTrash,
   faUpload,
   faUser,
+  faUserCircle,
   faUsers,
   faWallet,
 } from '@fortawesome/free-solid-svg-icons'
@@ -97,7 +98,6 @@ import {
   faCommentDots,
   faThumbsDown,
   faThumbsUp,
-  faUserCircle,
 } from '@fortawesome/free-regular-svg-icons'
 
 import {
@@ -179,6 +179,7 @@ library.add(
   faEyeSlash,
   faArrowUp,
   faUser,
+  faUserCircle,
   faGlobe,
   faExclamationCircle,
   faFilter,

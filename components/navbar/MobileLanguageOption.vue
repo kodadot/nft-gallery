@@ -1,5 +1,6 @@
 <template>
   <MobileExpandableSection
+    class="mobile-language"
     :no-padding="true"
     :title="$t('profileMenu.language')"
     icon="globe">
@@ -19,28 +20,26 @@
   </MobileExpandableSection>
 </template>
 
-<script lang="ts">
-import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
-import { Component, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+const MobileExpandableSection = defineAsyncComponent(
+  () => import('@/components/navbar/MobileExpandableSection.vue')
+)
 
-@Component({
-  components: {
-    MobileExpandableSection,
-  },
+const { $store, $i18n } = useNuxtApp()
+const langsFlags = $store.getters['lang/getLangsFlags']
+
+const userLang = computed(() => {
+  $i18n.locale = $store.getters['lang/getUserLang']
+  return $store.getters['lang/getUserLang']
 })
-export default class MobileLanguageOption extends mixins() {
-  get langsFlags(): { value: string; flag: string; label: string }[] {
-    return this.$store.getters['lang/getLangsFlags']
-  }
 
-  get userLang(): string {
-    this.$i18n.locale = this.$store.getters['lang/getUserLang']
-    return this.$store.getters['lang/getUserLang']
-  }
-
-  setUserLang(value: string) {
-    this.$store.dispatch('lang/setLanguage', { userLang: value })
-    this.$i18n.locale = value
-  }
+const setUserLang = (value: string) => {
+  $store.dispatch('lang/setLanguage', { userLang: value })
+  $i18n.locale = value
 }
 </script>
+
+<style lang="scss" scoped>
+.mobile-language {
+}
+</style>

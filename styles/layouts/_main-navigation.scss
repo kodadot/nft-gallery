@@ -1,19 +1,34 @@
 @include touch {
   html.dark-mode {
     .navbar {
-      .container {
-        .navbar-menu {
-          border-color: black !important;
-        }
-      }
 
       &-item {
-        .navbar-link {
-          color: white !important;
+        border-color: $white!important;
+        .menu-item {
+          color: $white;
         }
+
+        &--reverse {
+          background-color: $white !important;
+          color: $black !important;
+        }
+
 
         &--fullpage {
           background-color: $background-dark !important;
+        }
+      }
+
+      .mobile-language {
+        a {
+          color: $white;
+        }
+
+        .is-active {
+          background-color: $white;
+          a {
+            color: $black;
+          }
         }
       }
     }
@@ -40,14 +55,10 @@
           &.is-active {
             border-top: 1px solid white;
 
-            a {
-              color: white;
-            }
+
           }
 
-          a {
-            color: black;
-          }
+
 
           &--noBorder {
             border-bottom: none;
@@ -132,25 +143,41 @@
       .dropdown-trigger .button {
         width: 40vw;
       }
+
+      .navbar-dropdown a {
+        color: $black !important;
+      }
     }
 
     .dropdown.is-mobile-modal > .dropdown-menu {
       -webkit-transform: translate3d(-50%, 10%, 0);
       transform: translate3d(-50%, 10%, 0);
     }
+
+    .mobile-language {
+      a {
+        color: $black;
+      }
+
+      .is-active {
+        background-color: $black;
+        a {
+          color: $white;
+        }
+      }
+    }
   }
-}
 }
 
 .navbar {
-	background-color: inherit;
-	transform: translateZ(0px);
-	transition: 0.3s ease;
-	-webkit-transition: 0.3s ease;
-	z-index: 999 !important;
-	font-family: 'Work Sans';
-	min-height: 72px;
-	width: 100vw;
+  background-color: inherit;
+  transform: translateZ(0px);
+  transition: 0.3s ease;
+  -webkit-transition: 0.3s ease;
+  z-index: 999 !important;
+  font-family: 'Work Sans';
+  min-height: 72px;
+  width: 100vw;
   background: $white;
   border-bottom: 1px solid black;
 
@@ -216,6 +243,9 @@
   .navbar-start {
     flex: 1;
     margin-top: 24px;
+    @include mobile {
+      display: none;
+    }
   }
 
   .navbar-dropdown {
@@ -303,17 +333,17 @@
     }
   }
 
-	#NavProfile {
-		.button.is-primary {
-			background: $k-accent;
-			border: 1px solid $black !important;
-			color: $black;
-			border-radius: 0;
-			z-index: 3;
-			box-shadow: none;
-			text-transform: capitalize;
-		}
-	}
+  #NavProfile {
+    .button.is-primary {
+      background: $k-accent;
+      border: 1px solid $black !important;
+      color: $black;
+      border-radius: 0;
+      z-index: 3;
+      box-shadow: none;
+      text-transform: capitalize;
+    }
+  }
   .mobile-nav-search-btn {
     background: $white;
     border: 1px solid $black;
@@ -396,7 +426,6 @@
       &:hover {
         background-color: transparent !important;
         color: $k-hovergrey !important;
-
       }
       &.is-disabled {
         cursor: not-allowed;

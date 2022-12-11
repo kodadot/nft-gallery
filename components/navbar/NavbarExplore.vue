@@ -23,17 +23,8 @@
   </b-dropdown>
 </template>
 
-<script lang="ts">
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { Component, mixins } from 'nuxt-property-decorator'
-
-import AuthMixin from '~~/utils/mixins/authMixin'
-import NavbarExploreOptions from './NavbarExploreOptions.vue'
-
-@Component({
-  components: {
-    NavbarExploreOptions,
-  },
-})
-export default class NavbarExplore extends mixins(PrefixMixin, AuthMixin) {}
+<script lang="ts" setup>
+const NavbarExploreOptions = defineAsyncComponent(
+  () => import('./NavbarExploreOptions.vue')
+)
 </script>

@@ -30,36 +30,28 @@
   </div>
 </template>
 
-<script lang="ts">
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { Component, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { getChainTestList } from '~/utils/constants'
 
-import AuthMixin from '~~/utils/mixins/authMixin'
+const { $store, $config, $router } = useNuxtApp()
+const { urlPrefix } = usePrefix()
 
-@Component({})
-export default class NavbarExploreOptions extends mixins(
-  PrefixMixin,
-  AuthMixin
-) {
-  get options() {
-    const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']
+const options = computed(() => {
+  const availableUrlPrefixes = $store.getters['availableUrlPrefixes']
 
-    if (!this.$config.dev) {
-      return availableUrlPrefixes.filter(
-        (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
-      )
-    }
-    return availableUrlPrefixes
+  if (!$config.dev) {
+    return availableUrlPrefixes.filter(
+      (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
+    )
   }
+  return availableUrlPrefixes
+})
 
-  get selectedChain() {
-    return this.$store.getters.getSettings['urlPrefix']
-  }
+const selectedChain = $store.getters.getSettings['urlPrefix']
 
-  setSelectedChain(value) {
-    this.$store.dispatch('setUrlPrefix', value)
-    this.$router.push({ path: `/${value}` })
-  }
+const setSelectedChain = (value) => {
+  $store.dispatch('setUrlPrefix', value)
+  $router.push({ path: `/${value}` })
 }
+// }
 </script>
