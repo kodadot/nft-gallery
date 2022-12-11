@@ -64,7 +64,7 @@
         data-cy="chain-select" />
       <ProfileDropdown
         id="NavProfile"
-        :show-incomming-offers="chain === 'snek' || chain === 'bsx'"
+        :chain="chain"
         data-cy="profileDropdown"
         @closeBurgerMenu="closeBurgerMenu" />
     </template>

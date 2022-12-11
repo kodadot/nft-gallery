@@ -24,7 +24,7 @@
         <b-dropdown-item has-link aria-role="menuitem">
           <nuxt-link to="/settings">{{ $t('settings') }}</nuxt-link>
         </b-dropdown-item>
-        <template v-if="isRmrk">
+        <template v-if="chain === 'rmrk'">
           <b-dropdown-item has-link aria-role="menuitem">
             <a @click="showRampSDK">
               {{ $t('credit') }}
@@ -43,14 +43,17 @@
           </b-dropdown-item>
         </template>
         <b-dropdown-item
-          v-if="showIncomingOffers"
+          v-if="chain === 'bsx' || chain === 'snek'"
           has-link
           aria-role="menuitem">
           <nuxt-link :to="`/${urlPrefix}/incomingoffers`"
             >{{ $t('incomingOffers') }}
           </nuxt-link>
         </b-dropdown-item>
-        <b-dropdown-item v-if="isSnek" has-link aria-role="menuitem">
+        <b-dropdown-item
+          v-if="chain === 'bsx' || chain === 'snek'"
+          has-link
+          aria-role="menuitem">
           <nuxt-link :to="`/${urlPrefix}/assets`">{{ $t('assets') }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
@@ -185,7 +188,7 @@
       <hr class="dropdown-divider mx-4" aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
-        <div v-if="isSnek">
+        <div v-if="chain === 'snek' || chain === 'bsx'">
           <div class="has-text-left has-text-grey is-size-7">
             {{ $t('general.balance') }}
           </div>
@@ -291,15 +294,14 @@ const components = {
 }
 
 @Component({ components })
-export default class NavbarProfileDropdown extends mixins(
+export default class ProfileDropdown extends mixins(
   PrefixMixin,
   AuthMixin,
   useApiMixin
 ) {
   @Prop() public value!: any
-  @Prop() public isRmrk!: boolean
   @Prop() public showIncomingOffers!: boolean
-  @Prop() public isSnek!: boolean
+  @Prop() public chain!: string
   @Ref('languageDropdown') readonly languageDropdown
 
   get isDarkMode() {
