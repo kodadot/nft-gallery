@@ -26,6 +26,11 @@
           {{ $t('navbar.offerStats') }}
         </nuxt-link>
       </b-dropdown-item>
+      <b-dropdown-item has-link>
+        <nuxt-link data-cy="series-insight" to="/series-insight">
+          Series</nuxt-link
+        >
+      </b-dropdown-item>
     </b-dropdown>
     <b-dropdown v-if="chain === 'rmrk'" data-cy="stats" :triggers="['click']">
       <template #trigger>
