@@ -1,20 +1,39 @@
 <template>
-  <table>
-    <thead>
-      <tr>
-        <th class="has-text-grey">Asset</th>
-        <th class="has-text-grey">Balance</th>
-        <th class="has-text-grey">USD</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="asset in nonZeroAssetList" :key="asset.id">
-        <td>{{ asset.symbol }}</td>
-        <td><Money :value="Number(asset.balance)" inline hide-unit /></td>
-        <td>{{ '$' + usdValue(asset) }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <hr
+      class="profile-dropdown-divider dropdown-divider"
+      aria-role="menuitem" />
+    <table>
+      <thead>
+        <tr>
+          <th class="has-text-grey">Asset</th>
+          <th class="has-text-grey">Balance</th>
+          <th class="has-text-grey">USD</th>
+        </tr>
+      </thead>
+      <tbody v-if="urlPrefix === 'snek' || urlPrefix === 'bsx'">
+        <tr v-for="asset in nonZeroAssetList" :key="asset.id">
+          <td>{{ asset.symbol }}</td>
+          <td>
+            <Money :value="Number(asset.balance)" inline hide-unit />
+          </td>
+          <td>{{ '$' + usdValue(asset) }}</td>
+        </tr>
+      </tbody>
+      <tbody v-else>
+        <tr v-for="asset in nonZeroAssetList" :key="asset.id">
+          <td>{{ asset.symbol }}</td>
+          <td>
+            <Money :value="Number(asset.balance)" inline hide-unit />
+          </td>
+          <td>{{ '$' + usdValue(asset) }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <hr
+      class="profile-dropdown-divider dropdown-divider"
+      aria-role="menuitem" />
+  </div>
 </template>
 <script lang="ts" setup>
 import assetListByIdList from '@/queries/subsquid/bsx/assetListByIdList.graphql'
@@ -36,8 +55,8 @@ const { urlPrefix, client } = usePrefix()
 const { $apollo, $consola, $set } = useNuxtApp()
 const { $store } = useNuxtApp()
 
-const { howAboutToExecute, initTransactionLoader, isLoading, status } =
-  useMetaTransaction()
+const rmrkBalance = ref<string>('0')
+
 const nonZeroAssetList = computed(() => {
   return assetList.value.filter((asset) => asset.balance !== '0')
 })
@@ -51,20 +70,18 @@ const loadAssets = async () => {
       ids: ['0', getKusamaAssetId(client.value), '6'],
     })
     assetList.value = newAssetList
-    fetchAccountBalance()
+    await fetchAccountBalance()
   } catch (e) {
     $consola.warn(e)
     showNotification('Unable to load assets')
   }
 }
-
 const fetchAccountBalance = async () => {
   const { apiInstance } = useApi()
   const api = await apiInstance.value
   const mapper = (id: string) => getAsssetBalance(api, accountId.value, id)
   assetList.value.map(mapToId).map(mapper).forEach(updatedBalanceFor)
 }
-
 const updatedBalanceFor = async (balance: Promise<string>, index: number) => {
   try {
     $set(assetList.value, index, {
@@ -101,7 +118,9 @@ const usdValue = (asset: AssetItem) => {
 watch(
   () => accountId.value,
   async () => {
-    await loadAssets()
+    if (urlPrefix.value === 'bsx' || urlPrefix.value === 'snek') {
+      await loadAssets()
+    }
   },
   { immediate: true }
 )

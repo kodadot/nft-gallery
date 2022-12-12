@@ -186,17 +186,10 @@
           hide-identity-popover />
       </b-dropdown-item>
 
-      <hr
-        class="profile-dropdown-divider dropdown-divider mx-4"
-        aria-role="menuitem" />
-
       <b-dropdown-item custom aria-role="menuitem">
         <ProfileAssetsList />
       </b-dropdown-item>
 
-      <hr
-        class="profile-dropdown-divider dropdown-divider mx-4"
-        aria-role="menuitem" />
       <b-dropdown-item custom aria-role="menuitem">
         <div class="buttons is-justify-content-space-between my-2">
           <ConnectWalletButton
