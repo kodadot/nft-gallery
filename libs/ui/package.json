@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@histoire/plugin-vue2": "^0.11.9",
-    "@vitejs/plugin-vue2": "^2.1.0",
+    "@vitejs/plugin-vue2": "^2.2.0",
     "eslint": "^8.29.0",
     "eslint-plugin-vue": "^8.7.1",
     "histoire": "^0.11.9",
