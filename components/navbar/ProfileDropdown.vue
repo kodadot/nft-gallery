@@ -179,7 +179,7 @@
         <div class="has-text-grey is-size-7 mt-2">
           {{ $t('profileMenu.wallet') }}
         </div>
-        <span class="is-size-6">My {{ userWallet.name }} wallet</span>
+        <span class="is-size-6">My {{ userWalletName }} wallet</span>
         <Identity
           :address="account"
           class="navbar__address is-size-6"
@@ -363,10 +363,8 @@ export default class ProfileDropdown extends mixins(
     this.$emit('closeBurgerMenu')
   }
 
-  get userWallet() {
-    return SupportedWallets().find(
-      (w) => w.extensionName === localStorage.getItem('wallet')
-    )
+  get userWalletName(): string | null {
+    return localStorage.getItem('walletName')
   }
 }
 </script>

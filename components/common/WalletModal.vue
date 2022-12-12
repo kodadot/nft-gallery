@@ -144,8 +144,14 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
   private hasUserAuthorized = false
 
   set account(account: string) {
+    const walletName = this.walletAccounts.find(
+      (wallet) => wallet.address === account
+    )?.name
     this.$emit('close')
     this.$store.dispatch('setAuth', { address: account })
+    if (walletName) {
+      localStorage.setItem('walletName', walletName)
+    }
     localStorage.setItem('kodaauth', account)
     localStorage.setItem('wallet', this.selectedWalletProvider.extensionName)
   }
