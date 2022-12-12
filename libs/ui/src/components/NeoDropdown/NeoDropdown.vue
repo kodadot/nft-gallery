@@ -3,7 +3,7 @@
     aria-role="list"
     :position="position"
     :append-to-body="appendToBody">
-    <template #trigger="{}">
+    <template #trigger>
       <slot />
     </template>
     <slot name="items" />
