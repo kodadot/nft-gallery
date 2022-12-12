@@ -274,9 +274,7 @@ import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { clearSession } from '@/utils/cachingStrategy'
-import { SupportedWallets } from '@/utils/config/wallets'
 
 const components = {
   Avatar,
@@ -363,8 +361,8 @@ export default class ProfileDropdown extends mixins(
     this.$emit('closeBurgerMenu')
   }
 
-  get userWalletName(): string | null {
-    return localStorage.getItem('walletName')
+  get userWalletName(): string {
+    return this.$store.getters['wallet/getWalletName']
   }
 }
 </script>
