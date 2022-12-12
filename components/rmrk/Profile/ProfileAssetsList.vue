@@ -24,12 +24,11 @@ import { mapToId } from '@/utils/mappers'
 import { showNotification } from '@/utils/notification'
 import { AssetItem, AssetListQueryResponse } from '@/components/bsx/Asset/types'
 import Money from '~/components/shared/format/Money.vue'
-import { calculateExactUsdFromKsm } from '~/utils/calculation'
+import { calculateExactUsdFromToken } from '~/utils/calculation'
 import formatBalance, {
   checkInvalidBalanceFilter,
   roundTo,
 } from '@/utils/format/balance'
-import { getBsxPrice, getKsmPrice } from '~/utils/coingecko'
 
 const { accountId } = useAuth()
 
@@ -74,15 +73,26 @@ const updatedBalanceFor = async (balance: Promise<string>, index: number) => {
     console.warn('Unable to fetch balance', e)
   }
 }
-let bsxPrice: void | number
 const usdValue = (asset: AssetItem) => {
   if (asset.symbol === 'KSM') {
     let value = checkInvalidBalanceFilter(asset.balance)
     value = roundTo(formatBalance(value, 12, ''), 4)
-    return calculateExactUsdFromKsm(
+    return calculateExactUsdFromToken(
       value,
       $store.getters['fiat/getCurrentKSMValue']
     )
+  }
+  if (asset.symbol === 'BSX') {
+    let value = checkInvalidBalanceFilter(asset.balance)
+    value = checkInvalidBalanceFilter(
+      roundTo(formatBalance(value, 12, ''), 4).replace(',', '')
+    )
+    return calculateExactUsdFromToken(
+      value,
+      $store.getters['fiat/getCurrentBSXValue']
+    )
+  } else {
+    return '--'
   }
 }
 
@@ -93,6 +103,10 @@ watch(
   },
   { immediate: true }
 )
+
+onMounted(async () => {
+  $store.dispatch('fiat/fetchFiatPrice')
+})
 </script>
 <style lang="scss" scoped>
 table {
