@@ -8,7 +8,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="asset in assetList" :key="asset.id">
+      <tr v-for="asset in nonZeroAssetList" :key="asset.id">
         <td>{{ asset.symbol }}</td>
         <td><Money :value="Number(asset.balance)" inline hide-unit /></td>
         <td>{{ '$' + usdValue(asset) }}</td>
@@ -38,8 +38,10 @@ const { $store } = useNuxtApp()
 
 const { howAboutToExecute, initTransactionLoader, isLoading, status } =
   useMetaTransaction()
+const nonZeroAssetList = computed(() => {
+  return assetList.value.filter((asset) => asset.balance !== '0')
+})
 const assetList = ref<AssetItem[]>([])
-
 const loadAssets = async () => {
   try {
     const { assetList: newAssetList } = await useApollo<
@@ -48,7 +50,7 @@ const loadAssets = async () => {
     >($apollo as any, urlPrefix.value, assetListByIdList, {
       ids: ['0', getKusamaAssetId(client.value), '6'],
     })
-    assetList.value = newAssetList.filter((asset) => asset.balance !== '0')
+    assetList.value = newAssetList
     fetchAccountBalance()
   } catch (e) {
     $consola.warn(e)
