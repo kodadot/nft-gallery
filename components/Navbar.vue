@@ -48,126 +48,23 @@
       </div>
     </template>
     <template #end>
-      <!-- <LazyHistoryBrowser
-        id="NavHistoryBrowser"
-        class="custom-navbar-item navbar-link-background is-hidden-touch" /> -->
-
-      <NavbarExplore />
-
-      <b-navbar-dropdown
+      <ExploreDropdown />
+      <CreateDropdown
         v-show="isCreateVisible"
-        id="NavCreate"
-        hoverable
-        arrowless
-        collapsible
-        data-cy="create-dropdown">
-        <template #label>
-          <span>{{ $t('create') }}</span>
-        </template>
-        <b-tooltip
-          label="Start by creating your collection and add NFTs to it"
-          position="is-right">
-          <b-navbar-item
-            tag="nuxt-link"
-            :to="`/${urlPrefix}/create`"
-            data-cy="classic">
-            {{ $t('classic') }}
-          </b-navbar-item>
-        </b-tooltip>
-        <template v-if="isRmrk">
-          <b-tooltip
-            label="Simplified process to create your NFT in a single step"
-            position="is-right"
-            style="display: block">
-            <b-navbar-item
-              tag="nuxt-link"
-              :to="`/${urlPrefix}/mint`"
-              data-cy="simple">
-              {{ $t('simple') }}
-            </b-navbar-item>
-          </b-tooltip>
-          <b-tooltip
-            label="AI powered process to create your NFT"
-            position="is-right"
-            append-to-body>
-            <b-navbar-item
-              tag="nuxt-link"
-              :to="`/${urlPrefix}/creative`"
-              data-cy="creative">
-              {{ $t('creative') }}
-            </b-navbar-item>
-          </b-tooltip>
-        </template>
-      </b-navbar-dropdown>
-
-      <b-navbar-dropdown
-        v-if="isBsx || isSnek"
-        id="NavStats"
-        arrowless
-        collapsible
-        data-cy="stats">
-        <template #label>
-          <span>{{ $t('stats') }}</span>
-        </template>
-        <b-navbar-item
-          tag="nuxt-link"
-          :to="`${
-            accountId
-              ? `/${urlPrefix}/offers?target=${accountId}`
-              : `/${urlPrefix}/offers`
-          }`"
-          data-cy="global-offers">
-          {{ $t('navbar.globalOffers') }}
-        </b-navbar-item>
-        <b-navbar-item
-          tag="nuxt-link"
-          :to="`/${urlPrefix}/stats`"
-          data-cy="offers-stats">
-          <span> {{ $t('navbar.offerStats') }}</span>
-        </b-navbar-item>
-        <b-navbar-item
-          tag="nuxt-link"
-          to="/series-insight"
-          data-cy="series-insight">
-          Series
-        </b-navbar-item>
-      </b-navbar-dropdown>
-      <b-navbar-dropdown
-        v-if="isRmrk"
-        id="NavStats"
-        arrowless
-        collapsible
-        data-cy="stats">
-        <template #label>
-          <span>{{ $t('stats') }}</span>
-        </template>
-        <template>
-          <b-navbar-item tag="nuxt-link" to="/spotlight" data-cy="spotlight">
-            {{ $t('spotlight.page') }}
-          </b-navbar-item>
-          <b-navbar-item
-            tag="nuxt-link"
-            to="/series-insight"
-            data-cy="series-insight">
-            Series
-          </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/sales" data-cy="sales">
-            Sales
-          </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/hot" data-cy="hot">
-            Hot
-          </b-navbar-item>
-        </template>
-      </b-navbar-dropdown>
-      <LazyChainSelect
+        class="navbar-create custom-navbar-item"
+        data-cy="create"
+        :chain="chain" />
+      <StatsDropdown
+        class="navbar-stats custom-navbar-item"
+        data-cy="stats"
+        :chain="chain" />
+      <ChainSelectDropdown
         id="NavChainSelect"
-        class="navbar-item has-dropdown"
+        class="navbar-chain custom-navbar-item"
         data-cy="chain-select" />
-      <NavbarProfileDropdown
+      <ProfileDropdown
         id="NavProfile"
-        :is-rmrk="isRmrk"
-        :show-incomming-offers="isBsx || isSnek"
-        :is-snek="isSnek"
+        :chain="chain"
         data-cy="profileDropdown"
         @closeBurgerMenu="closeBurgerMenu" />
     </template>
@@ -180,25 +77,31 @@ import { get } from 'idb-keyval'
 
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
+import ProfileDropdown from '~/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
-import NavbarExplore from '@/components/navbar/NavbarExplore.vue'
+import ExploreDropdown from '~/components/navbar/ExploreDropdown.vue'
+import CreateDropdown from '~/components/navbar/CreateDropdown.vue'
 import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
 import KodaBeta from '@/assets/Koda_Beta.svg'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { createVisible } from '@/utils/config/permision.config'
 import { identityStore } from '@/utils/idbStore'
-import AuthMixin from '~~/utils/mixins/authMixin'
-import ExperimentMixin from '~~/utils/mixins/experimentMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
+import ExperimentMixin from '@/utils/mixins/experimentMixin'
+import ChainSelectDropdown from '~/components/navbar/ChainSelectDropdown.vue'
+import StatsDropdown from '~/components/navbar/StatsDropdown.vue'
 
 @Component({
   components: {
-    NavbarProfileDropdown,
     Search,
     Identity,
     BasicImage,
-    NavbarExplore,
+    ProfileDropdown,
+    ExploreDropdown,
+    CreateDropdown,
+    ChainSelectDropdown,
+    StatsDropdown,
   },
 })
 export default class NavbarMenu extends mixins(
@@ -208,7 +111,6 @@ export default class NavbarMenu extends mixins(
 ) {
   public showTopNavbar = true
   public openMobileSearchBar = false
-  private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
   private fixedTitleNavAppearDistance = 85
   private lastScrollPosition = 0
   private artistName = ''
@@ -222,24 +124,18 @@ export default class NavbarMenu extends mixins(
     }
   }
 
-  get isRmrk(): boolean {
-    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
-  }
-
-  get isBsx(): boolean {
-    return this.urlPrefix === 'bsx'
-  }
-
-  get isSnek(): boolean {
-    return this.urlPrefix === 'snek' || this.urlPrefix === 'bsx'
+  get chain(): string {
+    return this.urlPrefix
   }
 
   get inCollectionPage(): boolean {
     return this.$route.name === 'rmrk-collection-id'
   }
+
   get inGalleryDetailPage(): boolean {
     return this.$route.name === 'rmrk-gallery-id'
   }
+
   get inUserProfilePage(): boolean {
     return this.$route.name === 'rmrk-u-id'
   }
@@ -256,9 +152,11 @@ export default class NavbarMenu extends mixins(
       this.inUserProfilePage
     )
   }
+
   get currentCollection() {
     return this.$store.getters['history/getCurrentlyViewedCollection'] || {}
   }
+
   get currentGalleryItemName() {
     return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
   }

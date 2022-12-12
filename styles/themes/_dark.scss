@@ -39,7 +39,7 @@ html.dark-mode {
     .dropdown-content .dropdown-item .menu-item {
       color: $white !important;
     }
-    .navbar-dropdown,
+
     .dropdown-content {
       box-shadow: 4px 4px 0px $white !important;
       border-color: $white !important;
@@ -52,14 +52,12 @@ html.dark-mode {
       }
     }
     .navbar-dropdown a.navbar-item {
+      border-bottom: 1px solid $white;
       &:hover,
       &:focus {
         background-color: $k-accent !important;
         color: $k-hovergrey;
       }
-    }
-    .navbar-dropdown a.navbar-item {
-      border-bottom: 1px solid $white;
     }
 
     .dropdown .dropdown-menu .has-link.is-active a {
@@ -137,6 +135,14 @@ html.dark-mode {
         &:hover {
           background-color: $k-accent;
           color: $black;
+        }
+      }
+    }
+
+    .navbar-explore {
+      a {
+        &:hover {
+          color: $white !important;
         }
       }
     }
@@ -253,6 +259,7 @@ html.dark-mode {
   .chain-option {
     &:hover {
       color: $shade !important;
+
     }
   }
 

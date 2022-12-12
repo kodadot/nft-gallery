@@ -28,9 +28,10 @@
           </div>
         </div>
 
-        <div class="is-flex is-flex-direction-row py-4">
+        <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4">
           <IdentityItem
             v-if="nft?.issuer"
+            class="mb-1"
             label="Creator"
             :prefix="urlPrefix"
             :account="nft?.issuer" />
