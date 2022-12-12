@@ -1,1 +1,1 @@
-import './histoire.css'
+import './histoire.scss'

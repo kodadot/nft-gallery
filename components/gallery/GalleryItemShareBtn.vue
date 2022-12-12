@@ -9,11 +9,9 @@
           item="Copy Link"
           @click.native="toast(String($t('toast.urlCopy')))" />
         <NeoDropdownItem item="QR Code" @click.native="isModalActive = true" />
-        <NeoDropdownItem>
-          <a :href="twitterUri" target="_blank" rel="noopener noreferrer">
-            Share On Twitter
-          </a>
-        </NeoDropdownItem>
+        <NeoDropdownItem
+          item="Share On Twitter"
+          @click.native="actionTwitterShare" />
       </template>
     </NeoDropdown>
 
@@ -53,5 +51,8 @@ const toast = (message: string): void => {
     message,
     type: 'is-neo',
   })
+}
+const actionTwitterShare = (): void => {
+  window.open(twitterUri.value, '_blank')
 }
 </script>

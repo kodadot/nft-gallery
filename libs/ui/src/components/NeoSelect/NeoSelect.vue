@@ -21,9 +21,8 @@ defineProps<{
 }>()
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@oruga-ui/oruga/dist/oruga-full-vars.min.css';
-@import '../../scss/variable.scss';
 
 :root {
   /** Select **/
