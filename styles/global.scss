@@ -157,12 +157,7 @@ body {
 .instance {
   border-bottom: 1px solid black;
   font-family: 'Work Sans';
-
-  &-accent {
-    background-color: $k-accent;
-  }
-
-  &-blue {
-    background-color: $k-blue;
+  &:last-child {
+    border-bottom: none;
   }
 }

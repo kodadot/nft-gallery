@@ -1,8 +1,10 @@
 <template>
   <section
     class="landing-search is-flex is-justify-content-space-between is-align-items-center">
-    <img class="landing-search-left is-hidden-touch" :src="landingImage[0]" />
-    <div class="is-flex is-flex-direction-column is-align-items-center">
+    <img src="/landing-blurred-header-left.svg" class="landing-search-left" />
+    <img :src="landingImage[0]" class="is-hidden-touch landing-shapes" />
+    <div
+      class="is-flex is-flex-direction-column is-align-items-center search-info">
       <h1
         class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered">
         <span>{{ $t('search.landingTitle1') }}</span>
@@ -32,7 +34,8 @@
         </a>
       </div>
     </div>
-    <img class="landing-search-right is-hidden-touch" :src="landingImage[1]" />
+    <img src="/landing-blurred-header-right.svg" class="landing-search-right" />
+    <img :src="landingImage[1]" class="is-hidden-touch landing-shapes" />
   </section>
 </template>
 
@@ -58,9 +61,15 @@ const chainText = (chain: string) => {
 }
 const landingImage = computed(() => {
   if (isDarkMode.value) {
-    return ['/landing-search-left-dark.svg', '/landing-search-right-dark.svg']
+    return [
+      '/landing-shape-header-left-dark.svg',
+      '/landing-shape-header-right-dark.svg',
+    ]
   } else {
-    return ['/landing-search-left.svg', '/landing-search-right.svg']
+    return [
+      '/landing-shape-header-left-light.svg',
+      '/landing-shape-header-right-light.svg',
+    ]
   }
 })
 

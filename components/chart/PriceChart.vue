@@ -161,6 +161,7 @@ const getPriceChartData = () => {
           ],
         },
         options: {
+          maintainAspectRatio: false,
           plugins: {
             customCanvasBackgroundColor: {
               color: isDarkMode.value ? '#181717' : 'white',
@@ -273,3 +274,9 @@ const onWindowResize = () => {
   Chart?.resize()
 }
 </script>
+
+<style scoped>
+.content {
+  height: 15rem;
+}
+</style>

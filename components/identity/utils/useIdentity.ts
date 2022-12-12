@@ -10,7 +10,7 @@ import shortAddress from '@/utils/shortAddress'
 import type { NFT } from '@/components/rmrk/service/scheme'
 
 type Address = string | GenericAccountId | undefined
-type IdentityFields = Record<string, string>
+export type IdentityFields = Record<string, string>
 
 const resolveAddress = (account: Address): string => {
   return account instanceof GenericAccountId

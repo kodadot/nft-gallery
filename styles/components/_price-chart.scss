@@ -57,7 +57,8 @@
       box-shadow: 4px 4px 0px white;
       &:hover {
         background: $k-accent;
-        color: black;
+        color: $k-hovergrey;
+
       }
     }
 
@@ -69,14 +70,13 @@
 
       &:hover {
         background: $k-accentlight;
-        color: black;
+        color: $k-hovergrey;
+
 
       }
       &.is-active {
         background: white;
         color: black;
-
-
       }
     }
 
@@ -89,4 +89,17 @@
     }
   }
 
+}
+
+@include touch {
+  .common-price-chart .time-range-dropdown .dropdown-menu{
+    display: flex;
+    justify-content: center;
+
+    justify-content: center;
+    .dropdown-content > .dropdown-item {
+      padding: 0;
+      align-items: center;
+    }
+  }
 }
