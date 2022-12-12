@@ -13,6 +13,15 @@ $dropdown-item-hover-background-color: #ffe5f3;
 
 @import '@oruga-ui/oruga/src/scss/components/dropdown.scss';
 
+.light-mode {
+  .o-drop__item {
+    border-bottom: 1px solid #0a0a0a;
+  }
+  .o-drop__menu {
+    border: 1px solid #0a0a0a;
+  }
+}
+
 .dark-mode {
   .o-drop__menu {
     border: 1px solid hsl(0deg, 0%, 100%);
