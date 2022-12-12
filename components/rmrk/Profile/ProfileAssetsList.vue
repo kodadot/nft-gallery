@@ -49,7 +49,7 @@ const loadAssets = async () => {
     >($apollo as any, urlPrefix.value, assetListByIdList, {
       ids: ['0', getKusamaAssetId(client.value), '6'],
     })
-    assetList.value = newAssetList
+    assetList.value = newAssetList.filter((asset) => asset.balance !== '0')
     fetchAccountBalance()
   } catch (e) {
     $consola.warn(e)
