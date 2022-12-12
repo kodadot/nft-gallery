@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NeoDropdown append-to-body>
+    <NeoDropdown>
       <NeoButton label="Share" icon="share-square" />
 
       <template #items>

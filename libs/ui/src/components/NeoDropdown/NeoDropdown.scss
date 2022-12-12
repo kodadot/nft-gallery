@@ -1,0 +1,29 @@
+@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+
+$dropdown-menu-padding: 0;
+$dropdown-menu-margin: 1rem 0;
+$dropdown-menu-border-radius: 0;
+
+$dropdown-menu-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+$dropdown-item-hover-color: #1f1f1f;
+$dropdown-item-hover-background-color: #ffe5f3;
+
+@import '@oruga-ui/oruga/src/scss/components/dropdown.scss';
+
+.dark-mode {
+  .o-drop__menu {
+    border: 1px solid hsl(0deg, 0%, 100%);
+    box-shadow: 4px 4px white;
+    background: #181717;
+  }
+  .o-drop__item {
+    color: #f8f4f6;
+    border-bottom: 1px solid hsl(0deg, 0%, 100%);
+    &:hover {
+      background-color: #ff7ac3;
+    }
+  }
+}
