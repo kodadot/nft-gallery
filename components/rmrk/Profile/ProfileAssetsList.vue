@@ -1,5 +1,5 @@
 <template>
-  <div v-if="rmrkBalance === 0">
+  <div v-if="nonSnekBalance === 0">
     <hr
       class="profile-dropdown-divider dropdown-divider"
       aria-role="menuitem" />
@@ -55,7 +55,7 @@ const { urlPrefix, client } = usePrefix()
 const { $apollo, $consola, $set } = useNuxtApp()
 const { $store } = useNuxtApp()
 
-const rmrkBalance = ref<number>(0)
+const nonSnekBalance = ref<number>(0)
 
 const nonZeroAssetList = computed(() => {
   return assetList.value.filter((asset) => asset.balance !== '0')
@@ -119,11 +119,15 @@ watch(
   () => accountId.value + urlPrefix.value,
   async () => {
     if (urlPrefix.value === 'bsx' || urlPrefix.value === 'snek') {
-      rmrkBalance.value = 0
+      nonSnekBalance.value = 0
       await loadAssets()
     }
-    if (urlPrefix.value === 'rmrk') {
-      rmrkBalance.value = 1
+    if (
+      urlPrefix.value === 'rmrk' ||
+      urlPrefix.value === 'movr' ||
+      urlPrefix.value === 'glmr'
+    ) {
+      nonSnekBalance.value = 1
     }
   },
   { immediate: true }
