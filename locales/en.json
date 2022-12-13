@@ -1064,6 +1064,11 @@
     "disconnect": "Disconnect",
     "wallet": "Wallet"
   },
+  "profileAssetsList": {
+    "asset": "Asset",
+    "balance": "Balance",
+    "noAssets": "There are currently no assets in this wallet."
+  },
   "priceChart": {
     "days": "{0} Days",
     "all": "All"

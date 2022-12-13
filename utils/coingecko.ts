@@ -11,11 +11,11 @@ const api = Axios.create({
   withCredentials: false,
 })
 
-export const getKsmPrice = async (): Promise<void> => {
+export const getPrice = async (id: string): Promise<void> => {
   try {
     const { data } = await api.get('/simple/price', {
       params: {
-        ids: 'kusama',
+        ids: id,
         vs_currencies: 'usd',
       },
     })
