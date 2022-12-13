@@ -1,5 +1,5 @@
 import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
-import { getBsxPrice, getKsmPrice } from '@/utils/coingecko'
+import { getPrice } from '@/utils/coingecko'
 
 export const state = () => ({
   fiatPrice: {
@@ -27,9 +27,9 @@ export const mutations: MutationTree<FiatState> = {
 
 export const actions: ActionTree<FiatState, FiatState> = {
   async fetchFiatPrice({ commit }: { commit: Commit }) {
-    const ksmPrice = await getKsmPrice()
+    const ksmPrice = await getPrice('kusama')
     commit('SET_FIAT_PRICE', ksmPrice)
-    const bsxPrice = await getBsxPrice()
+    const bsxPrice = await getPrice('basilisk')
     commit('SET_FIAT_PRICE', bsxPrice)
   },
   setFiatPrice({ commit }: { commit: Commit }, data: any) {
