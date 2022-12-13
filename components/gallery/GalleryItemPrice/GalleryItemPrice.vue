@@ -1,0 +1,24 @@
+<template>
+  <div>
+    <!-- price -->
+    <GalleryItemPriceBuy />
+
+    <!-- highest offer -->
+    <GalleryItemPriceOffer
+      v-if="nft?.id && nft.currentOwner"
+      :nft-id="nft.id"
+      :account="nft.currentOwner"
+      class="mt-5" />
+  </div>
+</template>
+
+<script lang="ts" setup>
+import GalleryItemPriceBuy from './GalleryItemPriceBuy.vue'
+import GalleryItemPriceOffer from './GalleryItemPriceOffer.vue'
+
+import { useGalleryItem } from '../useGalleryItem'
+
+const { nft } = useGalleryItem()
+</script>
+
+<style scoped></style>

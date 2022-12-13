@@ -1,0 +1,13 @@
+query offerHighest($id: String!, $account: String) {
+  offers(
+    where: { nft: { id_eq: $id }, caller_not_eq: $account, status_eq: ACTIVE }
+    orderBy: price_DESC
+    limit: 1
+  ) {
+    id
+    caller
+    expiration
+    price
+    status
+  }
+}

@@ -11,45 +11,48 @@
           :title="nft?.name" />
       </div>
       <div class="column">
-        <div class="is-flex is-justify-content-space-between">
+        <div
+          class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
+          <!-- title section -->
           <div>
-            <h1 class="title">{{ nft?.name }}</h1>
-            <h2 class="subtitle">
-              <nuxt-link
-                :to="`/${urlPrefix}/collection/${nft?.collection.id}`"
-                class="has-text-link">
-                {{ nft?.collection.name }}
-              </nuxt-link>
-            </h2>
+            <div class="is-flex is-justify-content-space-between">
+              <div>
+                <h1 class="title">{{ nft?.name }}</h1>
+                <h2 class="subtitle">
+                  <nuxt-link
+                    :to="`/${urlPrefix}/collection/${nft?.collection.id}`"
+                    class="has-text-link">
+                    {{ nft?.collection.name }}
+                  </nuxt-link>
+                </h2>
+              </div>
+              <div class="buttons is-align-content-start">
+                <GalleryItemShareBtn />
+                <GalleryItemMoreActionBtn class="ml-4" />
+              </div>
+            </div>
+
+            <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4">
+              <IdentityItem
+                v-if="nft?.issuer"
+                class="mb-1"
+                label="Creator"
+                :prefix="urlPrefix"
+                :account="nft?.issuer" />
+              <IdentityItem
+                v-if="nft?.currentOwner !== nft?.issuer"
+                label="Owner"
+                :prefix="urlPrefix"
+                :account="nft?.currentOwner || ''" />
+            </div>
           </div>
-          <div class="buttons is-align-content-start">
-            <GalleryItemShareBtn />
-            <GalleryItemMoreActionBtn class="ml-4" />
-          </div>
+
+          <!-- LINE DIVIDER -->
+          <hr />
+
+          <!-- price section -->
+          <GalleryItemPrice />
         </div>
-
-        <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4">
-          <IdentityItem
-            v-if="nft?.issuer"
-            class="mb-1"
-            label="Creator"
-            :prefix="urlPrefix"
-            :account="nft?.issuer" />
-          <IdentityItem
-            v-if="nft?.currentOwner !== nft?.issuer"
-            label="Owner"
-            :prefix="urlPrefix"
-            :account="nft?.currentOwner || ''" />
-        </div>
-
-        <!-- LINE DIVIDER -->
-        <hr />
-
-        <!-- <p>{{ nft }}</p> -->
-        <p>nftImage: {{ nftImage }}</p>
-        <p>nftAnimation: {{ nftAnimation }}</p>
-        <p>nftMimeType: {{ nftMimeType }}</p>
-        <!-- <p>{{ nftMetadata }}</p> -->
       </div>
     </div>
 
@@ -81,6 +84,7 @@ import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
 import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
+import GalleryItemPrice from './GalleryItemPrice/GalleryItemPrice.vue'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
