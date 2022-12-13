@@ -1,6 +1,6 @@
 <template>
-  <GalleryItemPriceSection v-if="price" title="Highest Offer" :price="price">
-    Make Offer
+  <GalleryItemPriceSection title="Highest Offer" :price="price">
+    <button>Make Offer</button>
   </GalleryItemPriceSection>
 </template>
 

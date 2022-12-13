@@ -1,6 +1,7 @@
 <template>
   <GalleryItemPriceSection v-if="nft?.price" title="Price" :price="nft?.price">
-    Buy
+    <div v-if="Number(nft.price)"><button>Buy</button></div>
+    <div v-else>Not Listed</div>
   </GalleryItemPriceSection>
 </template>
 
