@@ -20,6 +20,10 @@
     <!-- chart -->
     <o-tab-item value="2" :label="$t('tabs.chart')" class="p-5">
       <PriceChart class="mt-4" :price-chart-data="priceChartData" />
+      <LazyGalleryHistory
+        class="is-hidden"
+        :events="nft?.events"
+        @setPriceChartData="setPriceChartData" />
     </o-tab-item>
   </o-tabs>
 </template>
@@ -38,6 +42,10 @@ const priceChartData = ref<[Date, number][][]>([])
 
 const activeTab = ref('0')
 const collectionId = ref('')
+
+const setPriceChartData = (data: [Date, number][][]) => {
+  priceChartData.value = data
+}
 
 watchEffect(() => {
   if (urlPrefix.value === 'rmrk') {
