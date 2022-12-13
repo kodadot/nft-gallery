@@ -9,8 +9,7 @@ describe('simple mint in rmrk', () => {
 
   it('should able to simple mint', () => {
     // mint page
-    cy.get('[data-cy="create-dropdown"]').click()
-    cy.get('[data-cy="simple"]').click()
+    cy.visit('/rmrk/mint')
     cy.waitForNetworkIdle('POST', '*', 1000)
 
     // fee should zero at first
