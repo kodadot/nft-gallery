@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a class="address-link" :href="explorerLink">
+    <a class="has-text-link" :href="explorerLink">
       {{ shortenedAddress }}
     </a>
     <a v-clipboard:copy="address" @click="toast('Copied to clipboard')">
@@ -27,8 +27,7 @@ const props = defineProps<{
   address?: Address
 }>()
 
-const { $store } = useNuxtApp()
-const { $buefy } = useNuxtApp()
+const { $store, $buefy } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
 const explorerLink = computed(() => {

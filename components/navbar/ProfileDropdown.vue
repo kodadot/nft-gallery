@@ -42,18 +42,12 @@
             <nuxt-link to="/transform">{{ $t('transform') }}</nuxt-link>
           </b-dropdown-item>
         </template>
-        <b-dropdown-item
-          v-if="chain === 'bsx' || chain === 'snek'"
-          has-link
-          aria-role="menuitem">
+        <b-dropdown-item v-if="isSnekOrBsx" has-link aria-role="menuitem">
           <nuxt-link :to="`/${urlPrefix}/incomingoffers`"
             >{{ $t('incomingOffers') }}
           </nuxt-link>
         </b-dropdown-item>
-        <b-dropdown-item
-          v-if="chain === 'bsx' || chain === 'snek'"
-          has-link
-          aria-role="menuitem">
+        <b-dropdown-item v-if="isSnekOrBsx" has-link aria-role="menuitem">
           <nuxt-link :to="`/${urlPrefix}/assets`">{{ $t('assets') }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
@@ -179,16 +173,21 @@
         <div class="has-text-grey is-size-7 mt-2">
           {{ $t('profileMenu.wallet') }}
         </div>
-        <span class="is-size-6">My {{ userWalletName }} wallet</span>
+        <span class="is-size-6">{{ userWalletName }}</span>
         <Identity
           :address="account"
           class="navbar__address is-size-6"
           hide-identity-popover />
       </b-dropdown-item>
 
+      <hr class="dropdown-divider mx-4" aria-role="menuitem" />
+
       <b-dropdown-item custom aria-role="menuitem">
-        <ProfileAssetsList />
+        <ProfileAssetsList v-if="isSnekOrBsx" />
+        <AccountBalance v-else class="is-size-7" />
       </b-dropdown-item>
+
+      <hr class="dropdown-divider mx-4" aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
         <div class="buttons is-justify-content-space-between my-2">
@@ -268,6 +267,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
 import { clearSession } from '@/utils/cachingStrategy'
+import { getKusamaAssetId } from '~~/utils/api/bsx/query'
 
 const components = {
   Avatar,
@@ -353,7 +353,12 @@ export default class ProfileDropdown extends mixins(
   protected closeBurgerMenu(): void {
     this.$emit('closeBurgerMenu')
   }
-
+  get tokens() {
+    return ['', getKusamaAssetId(this.urlPrefix)]
+  }
+  get isSnekOrBsx() {
+    return this.chain === 'snek' || this.chain === 'bsx'
+  }
   get userWalletName(): string {
     return this.$store.getters['wallet/getWalletName']
   }

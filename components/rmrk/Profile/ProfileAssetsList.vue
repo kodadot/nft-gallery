@@ -1,38 +1,24 @@
 <template>
-  <div v-if="nonSnekBalance === 0">
-    <hr
-      class="profile-dropdown-divider dropdown-divider"
-      aria-role="menuitem" />
-    <table>
-      <thead>
-        <tr>
-          <th class="has-text-grey">Asset</th>
-          <th class="has-text-grey">Balance</th>
-          <th class="has-text-grey">USD</th>
-        </tr>
-      </thead>
-      <tbody v-if="urlPrefix === 'snek' || urlPrefix === 'bsx'">
-        <tr v-for="asset in nonZeroAssetList" :key="asset.id">
-          <td>{{ asset.symbol }}</td>
-          <td>
-            <Money :value="Number(asset.balance)" inline hide-unit />
-          </td>
-          <td>{{ '$' + usdValue(asset) }}</td>
-        </tr>
-      </tbody>
-      <tbody v-else>
-        <tr v-for="asset in nonZeroAssetList" :key="asset.id">
-          <td>{{ asset.symbol }}</td>
-          <td>
-            <Money :value="Number(asset.balance)" inline hide-unit />
-          </td>
-          <td>{{ '$' + usdValue(asset) }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <hr
-      class="profile-dropdown-divider dropdown-divider"
-      aria-role="menuitem" />
+  <table v-if="nonZeroAssetList.length !== 0">
+    <thead>
+      <tr>
+        <th class="has-text-grey">{{ $t('profileAssetsList.asset') }}</th>
+        <th class="has-text-grey">{{ $t('profileAssetsList.balance') }}</th>
+        <th class="has-text-grey">USD</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="asset in nonZeroAssetList" :key="asset.id">
+        <td>{{ asset.symbol }}</td>
+        <td>
+          <Money :value="Number(asset.balance)" inline hide-unit />
+        </td>
+        <td>{{ '$' + usdValue(asset) }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div v-else class="has-text-grey">
+    {{ $t('profileAssetsList.noAssets') }}
   </div>
 </template>
 <script lang="ts" setup>
@@ -52,10 +38,7 @@ import formatBalance, {
 const { accountId } = useAuth()
 
 const { urlPrefix, client } = usePrefix()
-const { $apollo, $consola, $set } = useNuxtApp()
-const { $store } = useNuxtApp()
-
-const nonSnekBalance = ref<number>(0)
+const { $apollo, $consola, $set, $store } = useNuxtApp()
 
 const nonZeroAssetList = computed(() => {
   return assetList.value.filter((asset) => asset.balance !== '0')
@@ -116,19 +99,9 @@ const usdValue = (asset: AssetItem) => {
 }
 
 watch(
-  () => accountId.value + urlPrefix.value,
+  () => accountId.value,
   async () => {
-    if (urlPrefix.value === 'bsx' || urlPrefix.value === 'snek') {
-      nonSnekBalance.value = 0
-      await loadAssets()
-    }
-    if (
-      urlPrefix.value === 'rmrk' ||
-      urlPrefix.value === 'movr' ||
-      urlPrefix.value === 'glmr'
-    ) {
-      nonSnekBalance.value = 1
-    }
+    await loadAssets()
   },
   { immediate: true }
 )
