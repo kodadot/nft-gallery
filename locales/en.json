@@ -886,6 +886,7 @@
   },
   "general": {
     "apply": "Apply",
+    "asset": "Asset",
     "using": "using",
     "balance": "Balance",
     "connect": "Connect",
@@ -917,7 +918,8 @@
     },
     "searchPlaceholder": "Search by Collection or NFT",
     "tagsAdd": "Type and press enter to add your own",
-    "chooseWallet": "Choose your"
+    "chooseWallet": "Choose your",
+    "noAssets": "There are currently no assets in this wallet."
   },
   "helper": {
     "seeMore": "See More",
@@ -1063,11 +1065,6 @@
     "language": "Language",
     "disconnect": "Disconnect",
     "wallet": "Wallet"
-  },
-  "profileAssetsList": {
-    "asset": "Asset",
-    "balance": "Balance",
-    "noAssets": "There are currently no assets in this wallet."
   },
   "priceChart": {
     "days": "{0} Days",

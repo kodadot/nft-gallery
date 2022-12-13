@@ -2,8 +2,8 @@
   <table v-if="nonZeroAssetList.length !== 0">
     <thead>
       <tr>
-        <th class="has-text-grey">{{ $t('profileAssetsList.asset') }}</th>
-        <th class="has-text-grey">{{ $t('profileAssetsList.balance') }}</th>
+        <th class="has-text-grey">{{ $t('general.asset') }}</th>
+        <th class="has-text-grey">{{ $t('general.balance') }}</th>
         <th class="has-text-grey">USD</th>
       </tr>
     </thead>
@@ -18,7 +18,7 @@
     </tbody>
   </table>
   <div v-else class="has-text-grey">
-    {{ $t('profileAssetsList.noAssets') }}
+    {{ $t('general.noAssets') }}
   </div>
 </template>
 <script lang="ts" setup>
