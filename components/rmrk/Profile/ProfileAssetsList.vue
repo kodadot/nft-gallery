@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="rmrkBalance === 0">
     <hr
       class="profile-dropdown-divider dropdown-divider"
       aria-role="menuitem" />
@@ -55,7 +55,7 @@ const { urlPrefix, client } = usePrefix()
 const { $apollo, $consola, $set } = useNuxtApp()
 const { $store } = useNuxtApp()
 
-const rmrkBalance = ref<string>('0')
+const rmrkBalance = ref<number>(0)
 
 const nonZeroAssetList = computed(() => {
   return assetList.value.filter((asset) => asset.balance !== '0')
@@ -116,10 +116,14 @@ const usdValue = (asset: AssetItem) => {
 }
 
 watch(
-  () => accountId.value,
+  () => accountId.value + urlPrefix.value,
   async () => {
     if (urlPrefix.value === 'bsx' || urlPrefix.value === 'snek') {
+      rmrkBalance.value = 0
       await loadAssets()
+    }
+    if (urlPrefix.value === 'rmrk') {
+      rmrkBalance.value = 1
     }
   },
   { immediate: true }
