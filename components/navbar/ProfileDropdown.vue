@@ -3,7 +3,7 @@
     <b-dropdown
       position="is-bottom-left"
       aria-role="menu"
-      :triggers="['click', 'hover']">
+      :triggers="['hover']">
       <template #trigger>
         <a class="navbar-item" role="button">
           <Avatar
@@ -11,7 +11,6 @@
             :value="account"
             class="navbar__avatar-icon"
             :size="27" />
-
           <img v-else :src="profileIcon" />
         </a>
       </template>
@@ -25,7 +24,7 @@
         <b-dropdown-item has-link aria-role="menuitem">
           <nuxt-link to="/settings">{{ $t('settings') }}</nuxt-link>
         </b-dropdown-item>
-        <template v-if="isRmrk">
+        <template v-if="chain === 'rmrk'">
           <b-dropdown-item has-link aria-role="menuitem">
             <a @click="showRampSDK">
               {{ $t('credit') }}
@@ -43,24 +42,21 @@
             <nuxt-link to="/transform">{{ $t('transform') }}</nuxt-link>
           </b-dropdown-item>
         </template>
-        <b-dropdown-item
-          v-if="showIncommingOffers"
-          has-link
-          aria-role="menuitem">
-          <nuxt-link :to="`/${urlPrefix}/incomingoffers`">{{
-            $t('incomingOffers')
-          }}</nuxt-link>
+        <b-dropdown-item v-if="isSnekOrBsx" has-link aria-role="menuitem">
+          <nuxt-link :to="`/${urlPrefix}/incomingoffers`"
+            >{{ $t('incomingOffers') }}
+          </nuxt-link>
         </b-dropdown-item>
-        <b-dropdown-item v-if="isSnek" has-link aria-role="menuitem">
+        <b-dropdown-item v-if="isSnekOrBsx" has-link aria-role="menuitem">
           <nuxt-link :to="`/${urlPrefix}/assets`">{{ $t('assets') }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
           <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
-          <nuxt-link to="/teleport-bridge">{{
-            $t('navbar.teleportBridge')
-          }}</nuxt-link>
+          <nuxt-link to="/teleport-bridge"
+            >{{ $t('navbar.teleportBridge') }}
+          </nuxt-link>
         </b-dropdown-item>
       </template>
 
@@ -99,7 +95,7 @@
       v-if="account"
       position="is-bottom-left"
       aria-role="menu"
-      :triggers="['click', 'hover']">
+      :triggers="['hover']">
       <template #trigger>
         <a class="navbar-item" role="button">
           <svg
@@ -177,6 +173,7 @@
         <div class="has-text-grey is-size-7 mt-2">
           {{ $t('profileMenu.wallet') }}
         </div>
+        <span class="is-size-6">{{ userWalletName }}</span>
         <Identity
           :address="account"
           class="navbar__address is-size-6"
@@ -186,20 +183,12 @@
       <hr class="dropdown-divider mx-4" aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
-        <div v-if="isSnek">
-          <div class="has-text-left has-text-grey is-size-7">
-            {{ $t('general.balance') }}
-          </div>
-          <SimpleAccountBalance
-            v-for="token in tokens"
-            :key="token"
-            class="is-size-6"
-            :token-id="token" />
-        </div>
+        <ProfileAssetsList v-if="isSnekOrBsx" />
         <AccountBalance v-else class="is-size-7" />
       </b-dropdown-item>
 
       <hr class="dropdown-divider mx-4" aria-role="menuitem" />
+
       <b-dropdown-item custom aria-role="menuitem">
         <div class="buttons is-justify-content-space-between my-2">
           <ConnectWalletButton
@@ -277,8 +266,8 @@ import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { clearSession } from '@/utils/cachingStrategy'
+import { getKusamaAssetId } from '~~/utils/api/bsx/query'
 
 const components = {
   Avatar,
@@ -289,18 +278,19 @@ const components = {
   SimpleAccountBalance: () =>
     import('@/components/shared/SimpleAccountBalance.vue'),
   ColorModeButton: () => import('@/components/common/ColorModeButton.vue'),
+  ProfileAssetsList: () =>
+    import('@/components/rmrk/Profile/ProfileAssetsList.vue'),
 }
 
 @Component({ components })
-export default class NavbarProfileDropdown extends mixins(
+export default class ProfileDropdown extends mixins(
   PrefixMixin,
   AuthMixin,
   useApiMixin
 ) {
   @Prop() public value!: any
-  @Prop() public isRmrk!: boolean
-  @Prop() public showIncommingOffers!: boolean
-  @Prop() public isSnek!: boolean
+  @Prop() public showIncomingOffers!: boolean
+  @Prop() public chain!: string
   @Ref('languageDropdown') readonly languageDropdown
 
   get isDarkMode() {
@@ -325,10 +315,6 @@ export default class NavbarProfileDropdown extends mixins(
   get userLang(): string {
     this.$i18n.locale = this.$store.getters['lang/getUserLang']
     return this.$store.getters['lang/getUserLang']
-  }
-
-  get tokens() {
-    return ['', getKusamaAssetId(this.urlPrefix)]
   }
 
   get account() {
@@ -366,6 +352,15 @@ export default class NavbarProfileDropdown extends mixins(
 
   protected closeBurgerMenu(): void {
     this.$emit('closeBurgerMenu')
+  }
+  get tokens() {
+    return ['', getKusamaAssetId(this.urlPrefix)]
+  }
+  get isSnekOrBsx() {
+    return this.chain === 'snek' || this.chain === 'bsx'
+  }
+  get userWalletName(): string {
+    return this.$store.getters['wallet/getWalletName']
   }
 }
 </script>

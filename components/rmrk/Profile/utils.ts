@@ -3,6 +3,8 @@ export const supportedExplorers: Record<string, string> = {
   statemine: 'https://statemine.statescan.io/account/',
   bsx: 'https://basilisk.subscan.io/account/',
   snek: 'https://calamar.play.hydration.cloud/rococo%20basilisk/search?query=',
+  movr: 'https://moonriver.subscan.io/account/',
+  glmr: 'https://moonbeam.subscan.io/account/',
 }
 
 export const hasExplorer = (prefix: string): boolean => {

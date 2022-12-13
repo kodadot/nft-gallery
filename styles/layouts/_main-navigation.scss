@@ -15,14 +15,10 @@
       margin-left: 0 !important;
     }
 
-    .navbar-dropdown .b-tooltip {
-      width: 100%;
-    }
 
     #NavProfile {
-      margin-left: 0;
       align-self: center;
-      margin-bottom: 1rem;
+      margin-bottom: 3.5rem;
       position: absolute;
       bottom: 0;
 
@@ -34,6 +30,7 @@
     .dropdown.is-mobile-modal > .dropdown-menu {
       -webkit-transform: translate3d(-50%, 10%, 0);
       transform: translate3d(-50%, 10%, 0);
+      width: 100%;
     }
   }
 }
@@ -70,7 +67,6 @@
     }
   }
 
-  .navbar-dropdown .navbar-item,
   .dropdown .dropdown-menu .has-link a {
     padding-top: 8px;
     padding-bottom: 8px;
@@ -89,10 +85,6 @@
     font-weight: 500;
     cursor: pointer;
     border-radius: 0 !important;
-  }
-
-  .custom-navbar-item {
-    margin-left: 0.5em;
   }
 
   .navbar-brand {
@@ -114,29 +106,10 @@
     margin-top: 24px;
   }
 
-  .navbar-dropdown {
-    padding: 0 !important;
-    border: 1px solid $black !important;
-    box-shadow: 4px 4px 0px $black !important;
-    border-radius: 0 !important;
 
     .b-tooltip {
       width: 100%;
     }
-    a.navbar-item {
-      margin: 0;
-      border-top: 1px solid $black;
-      width: 100%;
-      &:first-child {
-        border-top: none;
-      }
-      &:hover,
-      &:focus {
-        background-color: $k-accentlight !important;
-        // color: $white;
-      }
-    }
-  }
 
   .search-navbar {
     box-shadow: none;
@@ -193,7 +166,7 @@
     padding: 8px 16px;
     border-radius: 0;
     text-transform: capitalize;
-    width: 120px;
+    width: 120px;custom-navbar-itemcustom-navbar-item
     &:hover {
       border: 1px solid $black;
     }
@@ -221,6 +194,12 @@
 
   button.button.is-bordered-light {
     border-radius: 0;
+  }
+
+  .navbar-create, .navbar-stats {
+    .dropdown-content {
+      width: 70% ;
+    }
   }
 
   .dropdown-menu {
@@ -261,6 +240,10 @@
     &.is-active {
       background-color: $black !important;
       color: $white !important;
+
+      a:hover {
+        background-color: $black !important;
+      }
     }
   }
 
@@ -279,11 +262,16 @@
     .menu-item {
       cursor: pointer;
       color: $black;
-      &:hover,
+
       &.is-active {
         font-weight: bold;
         background-color: transparent !important;
         color: $black !important;
+      }
+      &:hover {
+        background-color: transparent !important;
+        color: $k-hovergrey !important;
+
       }
       &.is-disabled {
         cursor: not-allowed;
@@ -303,5 +291,43 @@
         background-color: $k-accentlight;
       }
     }
+  }
+
+  .fixed-stack {
+    border-bottom: 1px solid black;
+    background-color: $white;
+    box-sizing: border-box;
+    position: fixed;
+    width: 100%;
+    height: 70px;
+    top: 0;
+    left: 0;
+    z-index: 989;
+    border-radius: 0;
+    overflow: hidden;
+
+    .dropdown-menu {
+      position: fixed;
+      top: 55px;
+      left: 0;
+      width: 98% !important;
+    }
+
+    > .control {
+      margin-right: auto !important;
+
+      > .input {
+        height: 50px;
+      }
+
+      > .icon {
+        top: 10%;
+      }
+    }
+  }
+
+  .cancel-btn {
+    border: none;
+    text-transform: capitalize;
   }
 }

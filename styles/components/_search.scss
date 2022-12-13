@@ -4,6 +4,10 @@
   width: 100%;
   gap: 50px;
 
+  .search-info {
+    z-index: 1;
+  }
+
   .title {
     word-break: keep-all;
   }
@@ -26,24 +30,39 @@
   }
 
   .landing-search-left {
-    overflow: auto;
+    position: absolute;
+    left: 0rem;
+    top: -6rem;
+  }
+
+  .landing-shapes {
+    z-index: 1;
   }
 
   .landing-search-right {
-    overflow: auto;
+    position: absolute;
+    right: 0rem;
+    top: -6rem;
   }
 
   .chain-option {
     font-weight: 400;
-    font-size: 1.3rem;
+    font-size: 20px;
     line-height: 23px;
     color: $grey;
     width: max-content;
+    font-weight: 700;
+    color: $white;
 
-    &.active {
-      font-weight: 700;
-      color: $white;
+    &:hover {
+      color: $k-hovergrey !important;
+
     }
+  }
+
+  .beta-text {
+    color: $shade;
+    font-weight: 400;
   }
 
   @include touch {
@@ -135,7 +154,7 @@
     color: $white !important;
     .link-item {
       &:hover {
-        font-weight: 700;
+        color: $shade;
         background: transparent !important;
       }
     }
@@ -219,7 +238,7 @@
 
     .times-icon {
       &:hover {
-        color: $black;
+        color: $k-hovergrey;
       }
     }
 

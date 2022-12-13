@@ -35,7 +35,7 @@ Cypress.Commands.add('rmrkGallerySortBy', () => {
   cy.waitForNetworkIdle('POST', '*', 1000)
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-trigger > [data-cy="gallery-sort-by"]'
+    '#GALLERY-content .collapse #sortAndFilter [data-cy="gallery-sort-by"]'
   ).click()
   cy.get('[data-cy="Recently Created"]').should('be.visible')
   cy.get('[data-cy="Oldest"]').should('be.visible')
@@ -46,14 +46,14 @@ Cypress.Commands.add('rmrkGallerySortBy', () => {
   // cy.get('[data-cy="Most reacted"]').should('be.visible')
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > [data-cy="Price: Low to High"]'
+    '#GALLERY-content .collapse #sortAndFilter [data-cy="Price: Low to High"]'
   ).click()
 })
 
 Cypress.Commands.add('snekGallerySortBy', () => {
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-trigger > [data-cy="gallery-sort-by"]'
+    '#GALLERY-content .collapse #sortAndFilter [data-cy="gallery-sort-by"]'
   ).click()
   cy.get('[data-cy="Recently Created"]').should('be.visible')
   cy.get('[data-cy="Oldest"]').should('be.visible')
@@ -63,8 +63,8 @@ Cypress.Commands.add('snekGallerySortBy', () => {
   cy.get('[data-cy="Unpopular"]').should('be.visible')
   // TODO: clean up selector -> too many elements for data-cy
   cy.get(
-    '.gallery > .mb-3 > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > [data-cy="Price: Low to High"]'
-  ).click({ force: true })
+    '#GALLERY-content .collapse #sortAndFilter [data-cy="Price: Low to High"]'
+  ).click()
 })
 
 Cypress.Commands.add('collectionsSortBy', () => {
@@ -74,7 +74,6 @@ Cypress.Commands.add('collectionsSortBy', () => {
 })
 
 Cypress.Commands.add('rmrkNavbar', () => {
-  cy.get('[data-cy="create-dropdown"]').click()
   cy.get('[data-cy="classic"]')
     .should('have.attr', 'href')
     .and('include', '/rmrk/create')
@@ -103,14 +102,12 @@ Cypress.Commands.add('rmrkNavbar', () => {
 })
 
 Cypress.Commands.add('snekNavbar', () => {
-  cy.get('[data-cy="create-dropdown"]').click()
   cy.get('[data-cy="classic"]')
     .should('have.attr', 'href')
     .and('include', '/snek/create')
   cy.get('[data-cy="explore"]').should('be.visible')
-  cy.get('[data-cy="explore"]').click()
   cy.get('[data-cy="chain"]').should('be.visible')
-  cy.get('[data-cy="stats"]').should('be.visible').click()
+  cy.get('[data-cy="stats"]').should('be.visible')
   cy.get('[data-cy="global-offers"]')
     .should('have.attr', 'href')
     .and('include', '/snek/offers')

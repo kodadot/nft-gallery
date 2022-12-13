@@ -25,10 +25,12 @@
 @import "components/toast";
 @import "components/top-collections";
 @import "components/scroll-to-top-button";
+@import "components/price-chart";
 
 // OVERRIDE ORUGA COMPONENTS
 @import "components/o-table";
 @import "components/o-tabs";
+@import "components/o-tooltip";
 
 // LAYOUTS
 @import "layouts/footer";

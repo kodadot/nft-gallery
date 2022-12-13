@@ -28,9 +28,10 @@
           </div>
         </div>
 
-        <div class="is-flex is-flex-direction-row py-4">
+        <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4">
           <IdentityItem
             v-if="nft?.issuer"
+            class="mb-1"
             label="Creator"
             :prefix="urlPrefix"
             :account="nft?.issuer" />
@@ -58,7 +59,7 @@
       </div>
 
       <div class="column">
-        <GalleryItemActivity />
+        <GalleryItemTabsPanel />
       </div>
     </div>
 
@@ -79,7 +80,7 @@ import { useGalleryItem } from './useGalleryItem'
 import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
 import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
-import GalleryItemActivity from './GalleryItemActivity.vue'
+import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()

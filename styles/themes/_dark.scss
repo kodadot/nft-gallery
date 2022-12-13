@@ -6,7 +6,11 @@ html.dark-mode {
     margin: 0;
     width: 100%;
     height: 100%;
-    background-color: $background-dark;
+    background-color: $dark-accent;
+    z-index: 1;
+  }
+  main {
+    background-color: unset;
   }
 
   .title,
@@ -19,8 +23,8 @@ html.dark-mode {
     color: #fff !important;
 
     &:hover {
-      font-weight: 700;
-      color: $k-accentlight !important;
+      color: $shade !important;
+
     }
   }
 
@@ -36,17 +40,31 @@ html.dark-mode {
     .dropdown-content .dropdown-item .menu-item {
       color: $white !important;
     }
-    .navbar-dropdown,
+
     .dropdown-content {
       box-shadow: 4px 4px 0px $white !important;
       border-color: $white !important;
     }
-    .dropdown .dropdown-menu .has-link a,
-    .navbar-dropdown a.navbar-item {
+    .dropdown .dropdown-menu .has-link a {
       &:hover,
       &:focus {
         background-color: $k-accent !important;
         color: $black;
+      }
+    }
+    .navbar-dropdown a.navbar-item {
+      border-bottom: 1px solid $white;
+      &:hover,
+      &:focus {
+        background-color: $k-accent !important;
+        color: $k-hovergrey;
+      }
+    }
+
+    .dropdown .dropdown-menu .has-link.is-active a {
+      &:hover,
+      &:focus {
+        background-color: $white !important;
       }
     }
 
@@ -66,9 +84,9 @@ html.dark-mode {
     }
 
     .navbar__sign-out-button {
-      border-color: $white!important;
+      border-color: $white !important;
       box-shadow: 4px 4px 0px $white !important;
-      background: $dark-accent!important;
+      background: $dark-accent !important;
       color: $white;
       &:hover {
         background-color: $primary !important;
@@ -98,10 +116,15 @@ html.dark-mode {
       .button.is-primary {
         border: 1px solid $white !important;
       }
+      .dropdown .dropdown-menu .has-link {
+        border-top: 1px solid $white;
+      }
     }
 
     .navbar-explore .menu-item {
-      &:hover,
+      &:hover {
+        color: $shade !important;
+      }
       &.is-active {
         color: $white !important;
       }
@@ -116,14 +139,18 @@ html.dark-mode {
         }
       }
     }
+
+    .navbar-explore {
+      a {
+        &:hover {
+          color: $white !important;
+        }
+      }
+    }
   }
 
   .instance {
     border-color: $white;
-    &-accent,
-    &-blue {
-      background-color: $dark-accent;
-    }
   }
 
   .landing-search {
@@ -154,7 +181,7 @@ html.dark-mode {
     .search-history {
       .times-icon {
         &:hover {
-          color: $white;
+          color: $shade;
         }
       }
 
@@ -174,7 +201,7 @@ html.dark-mode {
 
   .footer-container {
     background-color: $dark-accent;
-    // border-top: 1px solid $white;
+    color: $white;
 
     &-socials {
       &-list {
@@ -191,6 +218,19 @@ html.dark-mode {
                   color: $black !important;
                 }
               }
+            }
+          }
+        }
+      }
+    }
+
+    &-info {
+      &-list {
+        &-item {
+          a {
+            color: $white !important;
+            &:hover {
+              color: $shade !important;
             }
           }
         }
@@ -216,6 +256,15 @@ html.dark-mode {
     }
   }
 
+
+  .chain-option {
+    &:hover {
+      color: $shade !important;
+
+    }
+  }
+
+
   .modal-card-container {
     border: 1px solid white;
     .wallet .buttons {
@@ -229,7 +278,7 @@ html.dark-mode {
         border-radius: unset;
 
         &:hover {
-          background-color: $k-accentlight2dark!important;
+          background-color: $k-accentlight2dark !important;
           color: $white;
         }
       }
@@ -257,10 +306,9 @@ html.dark-mode {
     }
     .dropdown-content .dropdown-item {
       &:hover {
-      background-color: $k-accentlight2dark!important;
-     }
+        background-color: $k-accentlight2dark !important;
+      }
     }
-
   }
 
   .image-outline {
@@ -324,5 +372,9 @@ html.dark-mode {
 
   .ms-dos-shadow {
     box-shadow: $primary-shadow-dark;
+  }
+
+  .profile-dropdown-divider {
+    background-color: #CCCCCC;
   }
 }
