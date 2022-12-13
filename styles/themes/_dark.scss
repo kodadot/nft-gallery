@@ -24,7 +24,6 @@ html.dark-mode {
 
     &:hover {
       color: $shade !important;
-
     }
   }
 
@@ -96,13 +95,12 @@ html.dark-mode {
     }
 
     .mobile-nav-search-btn {
-      background: $black;
-      border: 1px solid $white;
-      box-shadow: 4px 4px 0px $white;
+      color: $white;
     }
 
     .navbar-burger {
       color: $white;
+      background-color: $background-dark;
     }
 
     .navbar-menu {
@@ -250,13 +248,11 @@ html.dark-mode {
     }
   }
 
-
   .chain-option {
     &:hover {
       color: $shade !important;
     }
   }
-
 
   .modal-card-container {
     border: 1px solid white;

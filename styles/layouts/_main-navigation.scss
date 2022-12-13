@@ -233,10 +233,8 @@
       height: 2.5em;
       width: 2.5em;
       color: $black;
+      background-color: $white;
 
-      &:hover {
-        border-top: 1px solid #ff47ac !important;
-      }
     }
   }
 
@@ -345,12 +343,7 @@
     }
   }
   .mobile-nav-search-btn {
-    background: $white;
-    border: 1px solid $black;
-    box-shadow: 4px 4px 0px $black;
-    width: 33px;
-    height: 30px;
-    border-radius: 0;
+
   }
 
   button.button.is-bordered-light {

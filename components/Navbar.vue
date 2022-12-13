@@ -19,12 +19,16 @@
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
         <!-- <HistoryBrowser class="navbar-item" /> -->
-        <b-button
+        <img
           v-if="showSearchOnNavbar"
-          class="mr-2 mobile-nav-search-btn is-flex"
-          icon-left="search"
-          @click="showMobileSearchBar">
-        </b-button>
+          class="mobile-nav-search-btn mr-2"
+          :src="
+            isDarkMode
+              ? '/search-mobile-navbar-dark.svg'
+              : '/search-mobile-navbar.svg'
+          "
+          @click="showMobileSearchBar" />
+
         <div v-show="openMobileSearchBar">
           <div
             class="fixed-stack is-flex is-align-items-center is-justify-content-space-between p-2">
