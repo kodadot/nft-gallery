@@ -250,7 +250,6 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 .modal-card-container {
-  font-family: 'Work Sans';
   font-style: normal;
   position: relative;
   border: 1px solid $k-dark;
@@ -306,7 +305,6 @@ export default class WalletModal extends mixins(UseApiMixin, ChainMixin) {
     }
 
     .modal-card-title {
-      font-family: 'Work Sans';
       font-style: normal;
     }
 

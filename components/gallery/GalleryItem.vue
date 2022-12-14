@@ -92,9 +92,3 @@ const CarouselTypeVisited = defineAsyncComponent(
   () => import('@/components/carousel/CarouselTypeVisited.vue')
 )
 </script>
-
-<style lang="scss" scoped>
-.gallery-item {
-  font-family: 'Work Sans';
-}
-</style>
