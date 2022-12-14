@@ -24,7 +24,7 @@ const { data } = useGraphql({
 const price = ref('')
 
 watchEffect(() => {
-  price.value = data.value?.offers[0]?.price
+  price.value = data.value?.offers[0]?.price || ''
 })
 </script>
 
