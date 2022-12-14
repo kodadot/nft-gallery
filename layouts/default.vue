@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-full is-flex is-flex-direction-column is-clipped">
     <Navbar />
-    <!--    <MobileNavbar v-else />-->
     <main class="is-flex-grow-1">
       <section class="section">
         <div class="container">
@@ -19,7 +18,6 @@
 </template>
 
 <script lang="ts">
-import { isMobileDevice } from '@/utils/extension'
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<DefaultLayout>({
@@ -36,7 +34,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
     }
   },
 })
-export default class DefaultLayout extends Vue {
-  private isMobile = isMobileDevice
-}
+export default class DefaultLayout extends Vue {}
 </script>

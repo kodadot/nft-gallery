@@ -38,8 +38,3 @@ const setUserLang = (value: string) => {
   $i18n.locale = value
 }
 </script>
-
-<style lang="scss" scoped>
-.mobile-language {
-}
-</style>

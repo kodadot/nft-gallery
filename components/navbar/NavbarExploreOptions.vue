@@ -53,5 +53,4 @@ const setSelectedChain = (value) => {
   $store.dispatch('setUrlPrefix', value)
   $router.push({ path: `/${value}` })
 }
-// }
 </script>

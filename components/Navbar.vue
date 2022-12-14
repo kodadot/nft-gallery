@@ -366,10 +366,7 @@ export default class NavbarMenu extends mixins(
   }
 
   closeBurgerMenu() {
-    console.log('emittt')
-    // if (this.isBurgerMenuOpened) {
     this.isBurgerMenuOpened = false
-    // }
   }
 
   mounted() {
