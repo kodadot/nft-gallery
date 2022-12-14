@@ -1,10 +1,11 @@
 <template>
   <GalleryItemPriceSection title="Highest Offer" :price="price">
-    <button>Make Offer</button>
+    <NeoButton label="Make Offer" size="large" fixed-width variant="k-blue" />
   </GalleryItemPriceSection>
 </template>
 
 <script setup lang="ts">
+import { NeoButton } from '@kodadot1/brick'
 import GalleryItemPriceSection from './GalleryItemPriceSection.vue'
 
 const props = defineProps<{
