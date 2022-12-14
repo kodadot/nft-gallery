@@ -114,6 +114,7 @@ export const WalletConfigMap: IWalletConfigMap = {
     'SubWallet',
     'https://chrome.google.com/webstore/detail/subwallet/onhogfjeacnfoofkfgppdlbmlmnplgbn?hl=en&authuser=0',
     'https://connect.subwallet.app/#/welcome',
+    true,
     true
   ),
   [SupportWalletExtension.Talisman]: buildWalletConfig(
