@@ -20,7 +20,8 @@
 import format from '@/utils/format/balance'
 import { getKSMUSD } from '@/utils/coingecko'
 
-const { decimals } = useChain()
+const { urlPrefix } = usePrefix()
+const { decimals, unit } = useChain()
 const { tokenId, assets } = usePrefix()
 
 const props = defineProps<{
@@ -35,8 +36,9 @@ watchEffect(async () => {
   const ksmPrice = localStorage.getItem('KSM') || (await getKSMUSD())
   const { symbol } = assets(tokenId.value)
   const price = format(props.price || '0', decimals.value, '')
+  const chainSymbol = urlPrefix.value === 'rmrk' ? unit.value : symbol
 
-  priceChain.value = `${parseFloat(price).toFixed(2)} ${symbol}`
+  priceChain.value = `${parseFloat(price).toFixed(2)} ${chainSymbol}`
   priceUsd.value = `$${Math.round(Number(price) * Number(ksmPrice))}`
 })
 </script>
