@@ -217,6 +217,7 @@ export default class NavbarMenu extends mixins(
   AuthMixin,
   ExperimentMixin
 ) {
+  public showTopNavbar = true
   public openMobileSearchBar = false
   private fixedTitleNavAppearDistance = 85
   private lastScrollPosition = 0

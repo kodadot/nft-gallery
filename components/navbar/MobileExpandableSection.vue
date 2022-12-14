@@ -18,9 +18,15 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps({
-  title: String,
-  icon: String,
+defineProps({
+  title: {
+    type: String,
+    default: '',
+  },
+  icon: {
+    type: String,
+    default: '',
+  },
   iconFamily: {
     type: String,
     default: 'fas',

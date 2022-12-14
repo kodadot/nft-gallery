@@ -24,7 +24,7 @@ const Identity = defineAsyncComponent(
   () => import('@/components/identity/IdentityIndex.vue')
 )
 
-const { $store, $i18n } = useNuxtApp()
+const { $store } = useNuxtApp()
 const account = $store.getters.getAuthAddress
 
 const disconnect = () => {
