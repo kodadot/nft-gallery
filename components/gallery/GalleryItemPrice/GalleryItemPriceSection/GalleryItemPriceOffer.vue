@@ -1,17 +1,26 @@
 <template>
   <GalleryItemPriceSection title="Highest Offer" :price="price">
-    <NeoButton
-      label="Make Offer"
-      size="large"
-      fixed-width
-      variant="k-blue"
-      no-shadow />
+    <GalleryItemPriceAction :active="active">
+      <template #action>
+        <NeoButton
+          label="Make Offer"
+          size="large"
+          fixed-width
+          variant="k-blue"
+          no-shadow
+          @click.native="toggleActive" />
+      </template>
+
+      <template #content> Type Your Offer </template>
+    </GalleryItemPriceAction>
   </GalleryItemPriceSection>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+
 import GalleryItemPriceSection from '../GalleryItemPriceSection.vue'
+import GalleryItemPriceAction from '../GalleryItemPriceAction.vue'
 
 const props = defineProps<{
   nftId: string
@@ -28,6 +37,11 @@ const { data } = useGraphql({
 })
 
 const price = ref('')
+const active = ref(false)
+
+function toggleActive() {
+  active.value = !active.value
+}
 
 watchEffect(() => {
   price.value = data.value?.offers[0]?.price || ''

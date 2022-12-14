@@ -29,6 +29,11 @@ defineProps<{
   &-action {
     position: relative;
     z-index: 1;
+
+    & > * {
+      font-size: 1rem;
+      height: 100%;
+    }
   }
 
   &-content {
