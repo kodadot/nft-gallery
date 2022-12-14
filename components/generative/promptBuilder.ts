@@ -99,7 +99,7 @@ export const buildMetadata = async (
   const imageHash = await pinImageSafe(file, 'token')
   const attributes = buildAttributes(options)
   const description = buildDescription(options)
-  const name = `Metaverse Championship ${options.gender}`
+  const name = `SubWork Christmas ${options.gender}`
 
   const meta = createMetadata(
     name,
