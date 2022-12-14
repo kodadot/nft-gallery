@@ -25,9 +25,9 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 
-import { useGalleryItem } from '../useGalleryItem'
-import GalleryItemPriceSection from './GalleryItemPriceSection.vue'
-import GalleryItemPriceAction from './GalleryItemPriceAction.vue'
+import { useGalleryItem } from '../../useGalleryItem'
+import GalleryItemPriceSection from '../GalleryItemPriceSection.vue'
+import GalleryItemPriceAction from '../GalleryItemPriceAction.vue'
 
 const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()

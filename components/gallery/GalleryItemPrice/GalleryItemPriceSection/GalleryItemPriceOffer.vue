@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import GalleryItemPriceSection from './GalleryItemPriceSection.vue'
+import GalleryItemPriceSection from '../GalleryItemPriceSection.vue'
 
 const props = defineProps<{
   nftId: string

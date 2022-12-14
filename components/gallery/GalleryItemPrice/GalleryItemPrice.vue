@@ -13,8 +13,8 @@
 </template>
 
 <script lang="ts" setup>
-import GalleryItemPriceBuy from './GalleryItemPriceBuy.vue'
-import GalleryItemPriceOffer from './GalleryItemPriceOffer.vue'
+import GalleryItemPriceBuy from './GalleryItemPriceSection/GalleryItemPriceBuy.vue'
+import GalleryItemPriceOffer from './GalleryItemPriceSection/GalleryItemPriceOffer.vue'
 
 import { useGalleryItem } from '../useGalleryItem'
 
