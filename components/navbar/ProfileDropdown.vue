@@ -42,18 +42,12 @@
             <nuxt-link to="/transform">{{ $t('transform') }}</nuxt-link>
           </b-dropdown-item>
         </template>
-        <b-dropdown-item
-          v-if="chain === 'bsx' || chain === 'snek'"
-          has-link
-          aria-role="menuitem">
+        <b-dropdown-item v-if="isSnekOrBsx" has-link aria-role="menuitem">
           <nuxt-link :to="`/${urlPrefix}/incomingoffers`"
             >{{ $t('incomingOffers') }}
           </nuxt-link>
         </b-dropdown-item>
-        <b-dropdown-item
-          v-if="chain === 'bsx' || chain === 'snek'"
-          has-link
-          aria-role="menuitem">
+        <b-dropdown-item v-if="isSnekOrBsx" has-link aria-role="menuitem">
           <nuxt-link :to="`/${urlPrefix}/assets`">{{ $t('assets') }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
@@ -179,6 +173,7 @@
         <div class="has-text-grey is-size-7 mt-2">
           {{ $t('profileMenu.wallet') }}
         </div>
+        <span class="is-size-6">{{ userWalletName }}</span>
         <Identity
           :address="account"
           class="navbar__address is-size-6"
@@ -188,20 +183,12 @@
       <hr class="dropdown-divider mx-4" aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
-        <div v-if="chain === 'snek' || chain === 'bsx'">
-          <div class="has-text-left has-text-grey is-size-7">
-            {{ $t('general.balance') }}
-          </div>
-          <SimpleAccountBalance
-            v-for="token in tokens"
-            :key="token"
-            class="is-size-6"
-            :token-id="token" />
-        </div>
+        <ProfileAssetsList v-if="isSnekOrBsx" />
         <AccountBalance v-else class="is-size-7" />
       </b-dropdown-item>
 
       <hr class="dropdown-divider mx-4" aria-role="menuitem" />
+
       <b-dropdown-item custom aria-role="menuitem">
         <div class="buttons is-justify-content-space-between my-2">
           <ConnectWalletButton
@@ -279,8 +266,8 @@ import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { clearSession } from '@/utils/cachingStrategy'
+import { getKusamaAssetId } from '~~/utils/api/bsx/query'
 
 const components = {
   Avatar,
@@ -291,6 +278,8 @@ const components = {
   SimpleAccountBalance: () =>
     import('@/components/shared/SimpleAccountBalance.vue'),
   ColorModeButton: () => import('@/components/common/ColorModeButton.vue'),
+  ProfileAssetsList: () =>
+    import('@/components/rmrk/Profile/ProfileAssetsList.vue'),
 }
 
 @Component({ components })
@@ -328,10 +317,6 @@ export default class ProfileDropdown extends mixins(
     return this.$store.getters['lang/getUserLang']
   }
 
-  get tokens() {
-    return ['', getKusamaAssetId(this.urlPrefix)]
-  }
-
   get account() {
     return this.$store.getters.getAuthAddress
   }
@@ -367,6 +352,15 @@ export default class ProfileDropdown extends mixins(
 
   protected closeBurgerMenu(): void {
     this.$emit('closeBurgerMenu')
+  }
+  get tokens() {
+    return ['', getKusamaAssetId(this.urlPrefix)]
+  }
+  get isSnekOrBsx() {
+    return this.chain === 'snek' || this.chain === 'bsx'
+  }
+  get userWalletName(): string {
+    return this.$store.getters['wallet/getWalletName']
   }
 }
 </script>

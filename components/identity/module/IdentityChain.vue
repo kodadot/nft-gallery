@@ -22,7 +22,7 @@
       </IdentityPopover>
     </template>
     <span v-else>
-      {{ name }}
+      <IdentityLink :shortened-address="name" :address="address" />
     </span>
   </div>
 </template>
