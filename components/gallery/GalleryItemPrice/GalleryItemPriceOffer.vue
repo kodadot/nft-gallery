@@ -1,6 +1,11 @@
 <template>
   <GalleryItemPriceSection title="Highest Offer" :price="price">
-    <NeoButton label="Make Offer" size="large" fixed-width variant="k-blue" />
+    <NeoButton
+      label="Make Offer"
+      size="large"
+      fixed-width
+      variant="k-blue"
+      no-shadow />
   </GalleryItemPriceSection>
 </template>
 

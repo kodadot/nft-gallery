@@ -1,6 +1,10 @@
 <template>
   <o-button
-    :class="{ active: active, 'is-fixed-width': fixedWidth }"
+    :class="{
+      active: active,
+      'is-fixed-width': fixedWidth,
+      'no-shadow': noShadow,
+    }"
     :size="size"
     :icon-right="icon"
     :variant="variant"
@@ -19,6 +23,7 @@ defineProps<{
   label?: string
   active?: boolean
   fixedWidth?: boolean
+  noShadow?: boolean
   variant?:
     | 'primary'
     | 'info'
@@ -79,6 +84,10 @@ defineProps<{
 
   &--k-blue {
     background-color: $k-blue;
+  }
+
+  &.no-shadow {
+    box-shadow: none;
   }
 }
 
