@@ -148,6 +148,7 @@ export const SubstrateWallets = [
 const MobileWalletExtensionList = [
   SupportWalletExtension.Math,
   SupportWalletExtension.Nova,
+  SupportWalletExtension.SubWallet,
 ]
 const PCWalletExtensionList = [
   SupportWalletExtension.Enkrypt,
