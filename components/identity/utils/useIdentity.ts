@@ -8,6 +8,8 @@ import { identityStore } from '@/utils/idbStore'
 import shortAddress from '@/utils/shortAddress'
 
 import type { NFT } from '@/components/rmrk/service/scheme'
+import { Ref } from 'vue'
+import consolaGlobalInstance from 'consola'
 
 type Address = string | GenericAccountId | undefined
 export type IdentityFields = Record<string, string>
@@ -56,7 +58,7 @@ const fetchIdentity = async (address: string): Promise<IdentityFields> => {
   return final
 }
 
-const displayName = ({
+export const displayName = ({
   customNameOption,
   identity,
   shortenedAddress,
@@ -73,11 +75,17 @@ const displayName = ({
   return display || shortenedAddress.value
 }
 
-export default async function useIdentity({ address, customNameOption }) {
+export default function useIdentity({ address, customNameOption }) {
   const { apiUrl } = useApi()
   const identity = ref<IdentityFields>({})
   const isFetchingIdentity = ref(false)
   const shortenedAddress = computed(() => shortAddress(address))
+  const twitter = computed(() => identity?.value?.twitter)
+  const discord = computed(() => identity?.value?.discord)
+  const display = computed(() => identity?.value?.display)
+  const name = computed(() =>
+    displayName({ customNameOption, identity, shortenedAddress })
+  )
 
   const whichIdentity = async () => {
     const identityCached = await get(resolveAddress(address), identityStore)
@@ -95,14 +103,7 @@ export default async function useIdentity({ address, customNameOption }) {
       })
     }
   }
-  await whichIdentity()
-
-  const twitter = computed(() => identity?.value?.twitter)
-  const discord = computed(() => identity?.value?.discord)
-  const display = computed(() => identity?.value?.display)
-  const name = computed(() =>
-    displayName({ customNameOption, identity, shortenedAddress })
-  )
+  whichIdentity()
 
   return {
     identity,

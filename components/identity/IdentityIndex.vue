@@ -27,7 +27,7 @@
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { defineEmits } from '#app'
 
-import useIdentity, { IdentityFields } from './utils/useIdentity'
+import useIdentity from './utils/useIdentity'
 
 type Address = string | GenericAccountId | undefined
 
@@ -47,26 +47,31 @@ const props = defineProps<{
   hideIdentityPopover?: boolean
   customNameOption?: string
 }>()
-const identity = ref<IdentityFields>()
-const shortenedAddress = ref<string>()
-const name = ref<string>()
-const twitter = ref<string>()
-const discord = ref<string>()
-const isFetchingIdentity = ref(false)
 
-watchEffect(async () => {
-  isFetchingIdentity.value = true
-  const fields = await useIdentity({
+const identity = ref({})
+const isFetchingIdentity = ref(false)
+const discord = ref<string>()
+const twitter = ref<string>()
+const name = ref<string>()
+const shortenedAddress = ref<string>()
+
+const syncIdentity = () => {
+  const { identity: id, ...rest } = useIdentity({
     address: props.address,
     customNameOption: props.customNameOption,
   })
-  identity.value = fields.identity.value
-  shortenedAddress.value = fields.shortenedAddress.value
-  name.value = fields.name.value
-  twitter.value = fields.twitter.value
-  discord.value = fields.discord.value
-  isFetchingIdentity.value = fields.isFetchingIdentity.value
-})
+  watch(id, () => {
+    identity.value = id?.value
+    isFetchingIdentity.value = rest.isFetchingIdentity?.value
+    discord.value = rest.discord.value
+    twitter.value = rest.twitter.value
+    name.value = rest.name.value
+    shortenedAddress.value = rest.shortenedAddress.value
+  })
+}
+
+onMounted(syncIdentity)
+watch(() => props.address, syncIdentity)
 
 provide('address', props.address)
 provide('shortenedAddress', shortenedAddress.value)
