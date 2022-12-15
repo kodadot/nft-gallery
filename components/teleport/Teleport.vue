@@ -137,7 +137,7 @@ const sendXCM = async (address: string) => {
     const wsProvider = new WsProvider('wss://public-rpc.pinknode.io/kusama')
     const apiKusama = await ApiPromise.create({ provider: wsProvider })
 
-    const promise = paraspell.xTokens.transferRelayToPara(
+    const promise = paraspell.xcmPallet.transferRelayToPara(
       apiKusama,
       ChainIdMap[Chain.BASILISK],
       amount.value,
@@ -151,7 +151,7 @@ const sendXCM = async (address: string) => {
     const wsProvider = new WsProvider('wss://rpc.basilisk.cloud')
     const apiBasilisk = await ApiPromise.create({ provider: wsProvider })
 
-    const promise = paraspell.xTokens.transferParaToRelay(
+    const promise = paraspell.xcmPallet.send(
       apiBasilisk,
       Chain.BASILISK,
       currency.value,
