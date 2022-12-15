@@ -111,6 +111,9 @@ html.light-mode {
           color: $black !important;
         }
       }
+      .menu-item:hover {
+        color: $k-hovergrey !important;
+      }
     }
   }
 
