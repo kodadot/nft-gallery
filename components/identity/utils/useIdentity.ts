@@ -8,11 +8,9 @@ import { identityStore } from '@/utils/idbStore'
 import shortAddress from '@/utils/shortAddress'
 
 import type { NFT } from '@/components/rmrk/service/scheme'
-import { Ref } from 'vue'
-import consolaGlobalInstance from 'consola'
 
 type Address = string | GenericAccountId | undefined
-export type IdentityFields = Record<string, string>
+type IdentityFields = Record<string, string>
 
 const resolveAddress = (account: Address): string => {
   return account instanceof GenericAccountId
@@ -58,7 +56,7 @@ const fetchIdentity = async (address: string): Promise<IdentityFields> => {
   return final
 }
 
-export const displayName = ({
+const displayName = ({
   customNameOption,
   identity,
   shortenedAddress,
