@@ -10,7 +10,7 @@ import shortAddress from '@/utils/shortAddress'
 import type { NFT } from '@/components/rmrk/service/scheme'
 
 type Address = string | GenericAccountId | undefined
-type IdentityFields = Record<string, string>
+export type IdentityFields = Record<string, string>
 
 const resolveAddress = (account: Address): string => {
   return account instanceof GenericAccountId
@@ -73,17 +73,11 @@ const displayName = ({
   return display || shortenedAddress.value
 }
 
-export default function useIdentity({ address, customNameOption }) {
+export default async function useIdentity({ address, customNameOption }) {
   const { apiUrl } = useApi()
   const identity = ref<IdentityFields>({})
   const isFetchingIdentity = ref(false)
-  const twitter = computed(() => identity?.value?.twitter)
-  const discord = computed(() => identity?.value?.discord)
-  const display = computed(() => identity?.value?.display)
   const shortenedAddress = computed(() => shortAddress(address))
-  const name = computed(() =>
-    displayName({ customNameOption, identity, shortenedAddress })
-  )
 
   const whichIdentity = async () => {
     const identityCached = await get(resolveAddress(address), identityStore)
@@ -101,8 +95,14 @@ export default function useIdentity({ address, customNameOption }) {
       })
     }
   }
+  await whichIdentity()
 
-  onMounted(whichIdentity)
+  const twitter = computed(() => identity?.value?.twitter)
+  const discord = computed(() => identity?.value?.discord)
+  const display = computed(() => identity?.value?.display)
+  const name = computed(() =>
+    displayName({ customNameOption, identity, shortenedAddress })
+  )
 
   return {
     identity,
