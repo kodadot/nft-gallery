@@ -176,7 +176,7 @@ export const actions = {
   },
   setAuth({ commit, dispatch }, authRequest: Auth): void {
     commit('addAuth', authRequest)
-    dispatch('fetchBalance', { address: authRequest.address })
+    dispatch('fetchBalance', authRequest)
   },
   setBalance({ commit, rootState }, balance: string): void {
     const prefix = rootState.setting.urlPrefix
