@@ -51,7 +51,7 @@
           <hr />
 
           <!-- price section -->
-          <GalleryItemPrice />
+          <GalleryItemAction />
         </div>
       </div>
     </div>
@@ -84,7 +84,7 @@ import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
 import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
-import GalleryItemPrice from './GalleryItemPrice/GalleryItemPrice.vue'
+import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
