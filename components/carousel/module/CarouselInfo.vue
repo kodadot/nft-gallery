@@ -34,7 +34,7 @@
         :custom-token-id="getTokenId(item.chain)"
         :value="item.price"
         class="has-text-weight-bold" />
-      <p class="is-size-7">{{ chainName }}</p>
+      <p class="is-size-7 chain-name">{{ chainName }}</p>
     </div>
   </div>
 </template>
