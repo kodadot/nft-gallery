@@ -1075,6 +1075,12 @@
     "join": "Join Our Community",
     "subscribeLabel": "Subscribe"
   },
+  "collectionCard": {
+    "volume": "Volume",
+    "highestSale": "Highest Sale",
+    "items": "Items"
+
+  },
   "tabs": {
     "properties": "Properties",
     "description": "Description",
