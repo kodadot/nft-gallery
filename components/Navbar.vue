@@ -35,7 +35,7 @@
             <Search
               ref="mobilSearchRef"
               hide-filter
-              class="mt-5 search-navbar-container-mobile" />
+              class="is-flex-grow-1 mt-5" />
             <b-button class="cancel-btn" @click="hideMobileSearchBar">
               {{ $t('cancel') }}
             </b-button>
@@ -260,6 +260,10 @@ export default class NavbarMenu extends mixins(
 
   get isCreateVisible(): boolean {
     return createVisible(this.urlPrefix)
+  }
+
+  get isSnek(): boolean {
+    return this.urlPrefix === 'snek'
   }
 
   get isTargetPage(): boolean {

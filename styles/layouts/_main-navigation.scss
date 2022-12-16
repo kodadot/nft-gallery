@@ -258,23 +258,6 @@
     }
   }
 
-  .search-navbar-container-mobile {
-    width: 0;
-    height: 0;
-    overflow: hidden;
-
-    input {
-      color: $white;
-      padding: 0;
-      z-index: 1;
-
-      &:focus {
-        box-shadow: none !important;
-        border-top: 2px solid $primary;
-      }
-    }
-  }
-
   &__identity {
     @include from($desktop) {
       display: none;
