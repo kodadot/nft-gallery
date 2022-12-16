@@ -1,3 +1,40 @@
+<template>
+  <Story :layout="{ type: 'single' }">
+    <Variant>
+      <div :style="{ padding: '3rem' }">
+        <o-tabs
+          v-model="activeTab"
+          expanded
+          content-class="o-tabs__content--fixed">
+          <DisablableTab
+            disabled
+            value="0"
+            label="Disabled"
+            disabled-tooltip="Not Available" />
+          <DisablableTab value="1" label="Enabled">
+            <div>
+              {{ tabContent }}
+            </div>
+          </DisablableTab>
+        </o-tabs>
+      </div>
+    </Variant>
+  </Story>
+</template>
+
+<script lang="ts" setup>
+import DisablableTab from './DisablableTab.vue'
+import { OTabs } from '@oruga-ui/oruga'
+import { ref } from 'vue'
+
+const activeTab = ref('1')
+
+const tabContent =
+  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam soluta explicabo reprehenderit? Vero fugit officiis enim temporibus nihil, quibusdam ea?'
+</script>
+<style lang="scss">
+@import '@oruga-ui/oruga/dist/oruga.min.css';
+
 .o-tabs {
   box-shadow: 4px 4px 0px #000;
 
@@ -5,8 +42,6 @@
     overflow-x: initial;
 
     &-item {
-      font-family: 'Work Sans';
-      font-size: 1rem;
       &-default {
         border: 1px solid black;
         border-right: 0;
@@ -19,7 +54,7 @@
         }
 
         &:hover:not(.o-tabs__nav-item-default--active) {
-          background-color: $k-accentlight2;
+          background-color: #fff0f8;
         }
       }
 
@@ -35,12 +70,11 @@
     border: 1px solid black;
 
     &--fixed {
-      height: 20rem;
+      min-height: 16rem;
       overflow-y: auto;
     }
   }
 }
-
 
 .dark-mode {
   .o-tabs {
@@ -58,7 +92,7 @@
           }
 
           &:hover:not(.o-tabs__nav-item-default--active) {
-            background-color: $k-accentlight2dark;
+            background-color: #363234;
           }
         }
 
@@ -74,6 +108,5 @@
       border: 1px solid white;
     }
   }
-
-
 }
+</style>

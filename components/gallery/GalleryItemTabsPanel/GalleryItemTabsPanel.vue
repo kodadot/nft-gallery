@@ -1,16 +1,22 @@
 <template>
   <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
     <!-- offers -->
-    <o-tab-item
-      v-if="urlPrefix !== 'rmrk'"
+    <DisablableTab
       value="0"
-      :label="$t('tabs.offers')">
+      :disabled="offersTabDisabled"
+      :label="$t('tabs.offers')"
+      :disabled-tooltip="$t('tabs.offersDisabledRMRK')">
       <GalleryItemOffers
-        v-if="nft?.collection.id && nft?.id && nft.currentOwner"
+        v-if="
+          urlPrefix !== 'rmrk' &&
+          nft?.collection.id &&
+          nft?.id &&
+          nft.currentOwner
+        "
         :collection-id="nft?.collection.id"
         :nft-id="nft?.id"
         :account="nft?.currentOwner" />
-    </o-tab-item>
+    </DisablableTab>
 
     <!-- activity -->
     <o-tab-item value="1" :label="$t('tabs.activity')">
@@ -31,6 +37,7 @@ import { useGalleryItem } from '../useGalleryItem'
 import GalleryItemActivity from './GalleryItemActivity.vue'
 import GalleryItemChart from './GalleryItemChart.vue'
 import GalleryItemOffers from './GalleryItemOffers.vue'
+import { DisablableTab } from '@kodadot1/brick'
 
 const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()
@@ -38,8 +45,10 @@ const { nft } = useGalleryItem()
 const activeTab = ref('0')
 const collectionId = ref('')
 
+const offersTabDisabled = computed(() => urlPrefix.value === 'rmrk')
+
 watchEffect(() => {
-  if (urlPrefix.value === 'rmrk') {
+  if (offersTabDisabled.value) {
     activeTab.value = '1'
   }
 

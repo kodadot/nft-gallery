@@ -1,6 +1,15 @@
 html {
   height: 100%
 }
+body,
+div#__nuxt,
+div#__layout,
+main {
+  //without this, footer image is above main contents
+  // block hover, click events
+  z-index: 100;
+
+}
 
 body {
   .select select,
