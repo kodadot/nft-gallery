@@ -2,9 +2,7 @@
   <section>
     <br />
     <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-3">
-      Mint your Polkadot Metaverse Championship POAP
-    </p>
+    <p class="title is-size-3">Mint your Christmas waifu</p>
 
     <p class="title is-size-4">I want to be</p>
     <RadioSelect v-model="form.gender" :options="gender" />
@@ -50,7 +48,7 @@
     <p class="title is-size-5">art inspired by</p>
     <RadioSelect
       v-model="form.inspiredBy"
-      :options="inspirations"
+      :options="inspiredBy"
       separated
       show-empty />
 
@@ -75,6 +73,7 @@ import {
   framing,
   gender,
   inspirations,
+  inspiredBy,
   lights,
   styles,
 } from './options'
