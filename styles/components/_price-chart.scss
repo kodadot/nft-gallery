@@ -13,6 +13,8 @@
     font-size: 12px;
     .dropdown-menu {
       padding-top: 16px;
+      //override bulma's min-width: 12rem
+      min-width: fit-content;
     }
     .dropdown-content {
       width: 89px;
