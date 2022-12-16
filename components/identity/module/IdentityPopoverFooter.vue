@@ -37,6 +37,7 @@
             hide-name
             :metadata="nft.metadata"
             :current-owner="nft.currentOwner"
+            :route="`/${urlPrefix}/gallery`"
             :data-cy="soldItems.indexOf(nft)" />
         </div>
       </div>
@@ -54,6 +55,7 @@ const GalleryCard = defineAsyncComponent(
 )
 
 const address = inject('address')
+const { urlPrefix } = usePrefix()
 const { totalCollected, totalCreated, totalSold } = useIdentityStats({
   address,
 })

@@ -1,18 +1,125 @@
 @include touch {
+  html.dark-mode {
+    .navbar {
+
+      &-item {
+        border-color: $white!important;
+        .menu-item {
+          color: $white;
+        }
+
+        &--reverse {
+          background-color: $white !important;
+          color: $black !important;
+        }
+
+
+        &--fullpage {
+          background-color: $background-dark !important;
+        }
+      }
+
+      .mobile-language {
+        a {
+          color: $white;
+        }
+
+        .is-active {
+          background-color: $white;
+          a {
+            color: $black;
+          }
+        }
+      }
+    }
+  }
+
   .navbar {
     .navbar-menu {
       border-top: 1px solid $black;
       width: 100vw;
-
       height: 100vh;
+
+      @include mobile {
+        padding: 0;
+      }
 
       .navbar-end {
         display: flex;
         flex-direction: column;
+
+        .navbar-item {
+          padding: 24px 20px;
+          border-bottom: 1px solid black;
+
+          &.is-active {
+            border-top: 1px solid white;
+
+
+          }
+
+
+
+          &--noBorder {
+            border-bottom: none;
+          }
+
+          &-body {
+            overflow-y: auto;
+            height: calc(100% - 118px);
+            position: relative;
+          }
+
+          span {
+            vertical-align: middle;
+          }
+
+          .icon {
+            margin: 0;
+
+            &--right {
+              @include set-position(center, right);
+            }
+          }
+
+          &--fullpage {
+            position: fixed;
+            top: 65px;
+            background-color: $background-light;
+            height: 100vh;
+            width: 100%;
+            z-index: 100;
+          }
+
+          &--reverse {
+            background-color: black;
+            color: white;
+          }
+
+          .navbar-link {
+            padding: 0;
+          }
+        }
+
+        #NavProfile {
+          .button-connect-wallet {
+            box-shadow: 4px 4px 0px black !important;
+            width: 80%;
+            height: 67px;
+            border-radius: 0;
+            display: block;
+            margin: 0 auto 20px;
+            text-transform: capitalize;
+          }
+        }
       }
     }
+
     .custom-navbar-item {
       margin-left: 0 !important;
+      .dropdown-trigger {
+        width: 100%;
+      }
     }
 
 
@@ -22,8 +129,22 @@
       position: absolute;
       bottom: 0;
 
+      @include mobile {
+        align-self: auto;
+        width: 100%;
+        padding: 24px 20px 0;
+
+        div {
+          flex-grow: 1;
+        }
+      }
+
       .dropdown-trigger .button {
         width: 40vw;
+      }
+
+      .navbar-dropdown a {
+        color: $black !important;
       }
     }
 
@@ -31,6 +152,19 @@
       -webkit-transform: translate3d(-50%, 10%, 0);
       transform: translate3d(-50%, 10%, 0);
       width: 100%;
+    }
+
+    .mobile-language {
+      a {
+        color: $black;
+      }
+
+      .is-active {
+        background-color: $black;
+        a {
+          color: $white;
+        }
+      }
     }
   }
 }
@@ -93,16 +227,17 @@
       height: 2.5em;
       width: 2.5em;
       color: $black;
+      background-color: $white;
 
-      &:hover {
-        border-top: 1px solid #ff47ac !important;
-      }
     }
   }
 
   .navbar-start {
     flex: 1;
     margin-top: 24px;
+    @include mobile {
+      display: none;
+    }
   }
 
 
@@ -118,23 +253,6 @@
     .dropdown-menu {
       > .dropdown-content {
         width: 550px;
-      }
-    }
-  }
-
-  .search-navbar-container-mobile {
-    width: 0;
-    height: 0;
-    overflow: hidden;
-
-    input {
-      color: $white;
-      padding: 0;
-      z-index: 1;
-
-      &:focus {
-        box-shadow: none !important;
-        border-top: 2px solid $primary;
       }
     }
   }
@@ -171,24 +289,19 @@
     }
   }
 
-	#NavProfile {
-		.button.is-primary {
-			background: $k-accent;
-			border: 1px solid $black !important;
-			color: $black;
-			border-radius: 0;
-			z-index: 3;
-			box-shadow: none;
-			text-transform: capitalize;
-		}
-	}
+  #NavProfile {
+    .button.is-primary {
+      background: $k-accent;
+      border: 1px solid $black !important;
+      color: $black;
+      border-radius: 0;
+      z-index: 3;
+      box-shadow: none;
+      text-transform: capitalize;
+    }
+  }
   .mobile-nav-search-btn {
-    background: $white;
-    border: 1px solid $black;
-    box-shadow: 4px 4px 0px $black;
-    width: 33px;
-    height: 30px;
-    border-radius: 0;
+
   }
 
   button.button.is-bordered-light {
@@ -270,7 +383,6 @@
       &:hover {
         background-color: transparent !important;
         color: $k-hovergrey !important;
-
       }
       &.is-disabled {
         cursor: not-allowed;

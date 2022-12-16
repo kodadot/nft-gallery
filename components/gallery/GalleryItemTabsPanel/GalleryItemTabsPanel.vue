@@ -19,7 +19,7 @@
 
     <!-- chart -->
     <o-tab-item value="2" :label="$t('tabs.chart')" class="p-5">
-      <PriceChart class="mt-4" :price-chart-data="priceChartData" />
+      <GalleryItemChart :nft-events="nft?.events" />
     </o-tab-item>
   </o-tabs>
 </template>
@@ -29,12 +29,11 @@ import { OTabItem, OTabs } from '@oruga-ui/oruga'
 
 import { useGalleryItem } from '../useGalleryItem'
 import GalleryItemActivity from './GalleryItemActivity.vue'
+import GalleryItemChart from './GalleryItemChart.vue'
 import GalleryItemOffers from './GalleryItemOffers.vue'
-import PriceChart from '@/components/chart/PriceChart.vue'
 
 const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()
-const priceChartData = ref<[Date, number][][]>([])
 
 const activeTab = ref('0')
 const collectionId = ref('')

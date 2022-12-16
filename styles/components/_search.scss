@@ -229,6 +229,7 @@
 
     .history-label {
       font-size: 16px;
+      text-transform: none;
     }
 
     .times-icon {
@@ -246,38 +247,6 @@
   }
 }
 
-.search-navbar-container-mobile {
-  .gallery-search:focus-within {
-    box-sizing: border-box;
-    position: fixed;
-    width: 100%;
-    height: 50px;
-    top: 0;
-    left: 0;
-    z-index: 989;
-    border-radius: 0;
-    overflow: auto;
-
-    .dropdown-menu {
-      position: fixed;
-      top: 46px;
-      left: 0;
-      width: 98%;
-    }
-
-    > .control {
-      margin-right: auto !important;
-
-      > .input {
-        height: 50px;
-      }
-
-      > .icon {
-        top: 10%;
-      }
-    }
-  }
-}
 
 .section-search {
   padding: 3rem 0rem!important;
