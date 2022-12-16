@@ -1,0 +1,28 @@
+$base-margin: 20px;
+
+@mixin set-position($v: unset, $h: unset, $type: absolute) {
+  position: $type;
+  @if ($v==center and $h==center) {
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  } @else {
+    @if ($v==top) {
+      top: $base-margin;
+    } @else if ($v==center) {
+      top: 50%;
+      transform: translateY(-50%);
+    } @else if ($v==bottom) {
+      bottom: $base-margin;
+    }
+
+    @if ($h==left) {
+      left: $base-margin;
+    } @else if ($h==center) {
+      left: 50%;
+      transform: translateX(-50%);
+    } @else if ($h==right) {
+      right: $base-margin;
+    }
+  }
+}
