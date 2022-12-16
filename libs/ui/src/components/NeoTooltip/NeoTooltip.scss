@@ -2,9 +2,13 @@
 .neo-tooltip {
     width: 100%;
     $tooltip-distance: calc(20px  + 100%);
+    @media screen and (max-width: 768px) {
+        $tooltip-distance: calc(16px  + 100%);
+      }
+
 
     .o-tip__content {
-        font-size: 1rem;
+        font-size: max(min(2vw, 1rem), 0.45rem);
         box-shadow: none;
         border: 1px solid;
         background: white;
