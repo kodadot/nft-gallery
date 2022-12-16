@@ -45,6 +45,19 @@ defineProps<{
     white-space: nowrap;
     height: 54px;
     width: 20rem;
+
+    & > * {
+      width: 20rem;
+    }
+
+    input {
+      border: 1px solid black;
+      border-left: 0;
+      height: 54px;
+      outline: none;
+      padding: 0 1rem;
+      width: 100%;
+    }
   }
 }
 </style>

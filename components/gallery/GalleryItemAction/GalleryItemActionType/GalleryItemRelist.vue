@@ -3,22 +3,35 @@
     <GalleryItemPriceAction v-if="Number(nft.price)" :active="active">
       <template #action>
         <NeoButton
-          :label="label"
+          label="Change Price"
           size="large"
           fixed-width
-          variant="k-accent"
           no-shadow
           @click.native="toggleActive" />
       </template>
 
       <template #content>
-        <div class="has-text-centered">
-          Buy NFT on
-          <span class="has-text-weight-bold is-uppercase">{{ urlPrefix }}</span>
+        <div>
+          <input type="number" placeholder="Your New Price" />
         </div>
       </template>
     </GalleryItemPriceAction>
-    <div v-else>Not Listed</div>
+    <GalleryItemPriceAction v-else :active="active"
+      ><template #action>
+        <NeoButton
+          label="List"
+          size="large"
+          fixed-width
+          no-shadow
+          variant="k-accent"
+          @click.native="toggleActive" />
+      </template>
+
+      <template #content>
+        <div>
+          <input type="number" placeholder="Your Listing Price" />
+        </div> </template
+    ></GalleryItemPriceAction>
   </GalleryItemPriceSection>
 </template>
 
@@ -29,11 +42,9 @@ import { useGalleryItem } from '../../useGalleryItem'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemPriceAction from '../GalleryItemActionCta.vue'
 
-const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()
 
 const active = ref(false)
-const label = computed(() => (active.value ? 'Confirm' : 'Buy'))
 
 function toggleActive() {
   active.value = !active.value
