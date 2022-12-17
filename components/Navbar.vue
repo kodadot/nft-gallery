@@ -35,7 +35,7 @@
             <Search
               ref="mobilSearchRef"
               hide-filter
-              class="is-flex-grow-1 mt-5" />
+              class="is-flex-grow-1 mt-3" />
             <b-button class="cancel-btn" @click="hideMobileSearchBar">
               {{ $t('cancel') }}
             </b-button>
