@@ -58,7 +58,7 @@
         <GalleryItemDescription />
       </div>
 
-      <div class="column">
+      <div class="column mobile-top-margin">
         <GalleryItemTabsPanel />
       </div>
     </div>
@@ -92,3 +92,15 @@ const CarouselTypeVisited = defineAsyncComponent(
   () => import('@/components/carousel/CarouselTypeVisited.vue')
 )
 </script>
+
+<style lang="scss" scoped>
+.mobile-top-margin {
+  margin-top: unset;
+}
+
+@media screen and (max-width: 768px) {
+  .mobile-top-margin {
+    margin-top: 1.25rem;
+  }
+}
+</style>

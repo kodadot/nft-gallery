@@ -1,16 +1,16 @@
 <template>
   <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
     <!-- properties tab -->
-    <o-tab-item
-      v-if="nftMetadata?.attributes.length"
+    <DisablableTab
       value="0"
+      :disabled="propertiesTabDisabled"
       :label="$t('tabs.properties')"
-      class="py-5">
-      <o-table :data="nftMetadata?.attributes" hoverable>
-        <o-table-column
-          v-slot="props"
-          field="value"
-          :label="$t('tabs.tabProperties.trait')">
+      :disabled-tooltip="$t('tabs.noPropertiesForNFT')">
+      <o-table
+        v-if="nftMetadata?.attributes.length"
+        :data="nftMetadata?.attributes"
+        hoverable>
+        <o-table-column v-slot="props" field="value" label="Trait">
           {{ props.row.value }}
         </o-table-column>
         <o-table-column
@@ -20,7 +20,7 @@
           {{ props.row.trait_type }}
         </o-table-column>
       </o-table>
-    </o-tab-item>
+    </DisablableTab>
 
     <!-- description tab -->
     <o-tab-item value="1" :label="$t('tabs.description')" class="p-5">
@@ -96,14 +96,26 @@ import { OTabItem, OTable, OTableColumn, OTabs } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import VueMarkdown from 'vue-markdown-render'
+import { DisablableTab } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
+const activeTab = ref('0')
 
-const activeTab = ref('1')
+const propertiesTabDisabled = computed(() => {
+  if (!nftMetadata.value) {
+    return false
+  }
+  return nftMetadata.value.attributes.length == 0
+})
+
+watch(propertiesTabDisabled, () => {
+  activeTab.value = propertiesTabDisabled.value ? '1' : '0'
+})
+
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
 
@@ -117,12 +129,6 @@ watchEffect(async () => {
     metadataMimeType.value =
       response.headers.get('content-type') || 'application/json'
     metadataURL.value = sanitizeMetadata
-  }
-})
-
-watch(nftMetadata, (metadata) => {
-  if (metadata?.attributes.length) {
-    activeTab.value = '0'
   }
 })
 </script>
