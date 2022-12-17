@@ -31,6 +31,13 @@
           }
         }
       }
+
+      .fixed-stack {
+        background-color: $black;
+      }
+      .cancel-btn {
+        background-color: $black !important;
+      }
     }
   }
 
@@ -300,9 +307,6 @@
       box-shadow: none;
       text-transform: capitalize;
     }
-  }
-  .mobile-nav-search-btn {
-
   }
 
   button.button.is-bordered-light {
