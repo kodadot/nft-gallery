@@ -358,13 +358,15 @@ export default class NavbarMenu extends mixins(
     this.lastScrollPosition = currentScrollPosition
   }
   toggleBodyScroll() {
-    const body = document.querySelector('body') as HTMLBodyElement
-    const clippedClass = 'is-clipped'
-    if (body.classList.contains(clippedClass)) {
-      body.classList.remove(clippedClass)
-    } else {
-      body.classList.add(clippedClass)
-    }
+    this.$nextTick(() => {
+      const body = document.querySelector('body') as HTMLBodyElement
+      const clippedClass = 'is-clipped'
+      if (body.classList.contains(clippedClass)) {
+        body.classList.remove(clippedClass)
+      } else {
+        body.classList.add(clippedClass)
+      }
+    })
   }
 
   showMobileSearchBar() {
