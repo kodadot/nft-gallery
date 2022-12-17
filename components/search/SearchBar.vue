@@ -7,7 +7,7 @@
       :placeholder="placeholderContent"
       icon="search"
       :open-on-focus="showDefaultSuggestions"
-      max-height="600"
+      max-height="100vh"
       dropdown-position="bottom"
       expanded
       @blur="onInputBlur"
