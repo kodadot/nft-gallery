@@ -419,10 +419,16 @@
     overflow: hidden;
 
     .dropdown-menu {
+      $navbar-height:70px;
       position: fixed;
-      top: 55px;
+      top: $navbar-height;
       left: 0;
-      width: 98% !important;
+      width: 100%;
+      padding-top:0;
+
+      .dropdown-content {
+        height: 100vh;
+      }
     }
 
     > .control {

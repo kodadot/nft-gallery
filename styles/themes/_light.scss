@@ -126,6 +126,10 @@ html.light-mode {
     .dropdown-item:not(.is-active) {
       color: $text-light-theme;
     }
+    @include touch {
+      border: none;
+      box-shadow: none;
+    }
   }
 
 
