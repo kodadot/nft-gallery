@@ -52,7 +52,10 @@
       </div>
     </template>
     <template #end>
-      <ExploreDropdown v-if="!isMobile" />
+      <ExploreDropdown
+        v-if="!isMobile"
+        class="navbar-explore custom-navbar-item"
+        data-cy="explore" />
       <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
         <NavbarExploreOptions />
       </MobileExpandableSection>
