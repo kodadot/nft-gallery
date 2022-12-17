@@ -1,6 +1,6 @@
 <template>
   <GalleryItemPriceSection v-if="nft?.price" title="Price" :price="nft?.price">
-    <GalleryItemPriceAction
+    <GalleryItemActionSlides
       v-if="Number(nft.price)"
       ref="actionRef"
       :active="active">
@@ -20,7 +20,7 @@
           <span class="has-text-weight-bold is-uppercase">{{ urlPrefix }}</span>
         </div>
       </template>
-    </GalleryItemPriceAction>
+    </GalleryItemActionSlides>
     <div v-else>Not Listed</div>
   </GalleryItemPriceSection>
 </template>
@@ -31,7 +31,7 @@ import { onClickOutside } from '@vueuse/core'
 
 import { useGalleryItem } from '../../useGalleryItem'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
-import GalleryItemPriceAction from '../GalleryItemActionCta.vue'
+import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 
 const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()

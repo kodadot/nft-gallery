@@ -1,6 +1,6 @@
 <template>
   <GalleryItemPriceSection title="Highest Offer" :price="price">
-    <GalleryItemPriceAction ref="actionRef" :active="active">
+    <GalleryItemActionSlides ref="actionRef" :active="active">
       <template #action>
         <NeoButton
           v-if="!active"
@@ -56,7 +56,7 @@
           <div>Days</div>
         </div>
       </template>
-    </GalleryItemPriceAction>
+    </GalleryItemActionSlides>
   </GalleryItemPriceSection>
 </template>
 
@@ -65,7 +65,7 @@ import { NeoButton } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
 
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
-import GalleryItemPriceAction from '../GalleryItemActionCta.vue'
+import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 
 const props = defineProps<{
   nftId: string

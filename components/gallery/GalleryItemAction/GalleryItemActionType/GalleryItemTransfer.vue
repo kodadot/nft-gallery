@@ -1,7 +1,7 @@
 <template>
   <div class="is-flex is-justify-content-space-between">
     <div>&nbsp;</div>
-    <GalleryItemPriceAction ref="actionRef" :active="active">
+    <GalleryItemActionSlides ref="actionRef" :active="active">
       <template #action>
         <NeoButton
           label="Transfer"
@@ -16,7 +16,7 @@
           <input type="number" placeholder="Transfer To:" />
         </div>
       </template>
-    </GalleryItemPriceAction>
+    </GalleryItemActionSlides>
   </div>
 </template>
 
@@ -24,7 +24,7 @@
 import { NeoButton } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
 
-import GalleryItemPriceAction from '../GalleryItemActionCta.vue'
+import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 
 const active = ref(false)
 

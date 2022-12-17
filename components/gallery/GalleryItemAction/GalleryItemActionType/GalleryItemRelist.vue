@@ -1,6 +1,6 @@
 <template>
   <GalleryItemPriceSection v-if="nft?.price" title="Price" :price="nft?.price">
-    <GalleryItemPriceAction
+    <GalleryItemActionSlides
       v-if="Number(nft.price)"
       ref="actionRef"
       :active="active">
@@ -18,9 +18,9 @@
           <input type="number" placeholder="Your New Price" />
         </div>
       </template>
-    </GalleryItemPriceAction>
-    <GalleryItemPriceAction v-else :active="active"
-      ><template #action>
+    </GalleryItemActionSlides>
+    <GalleryItemActionSlides v-else :active="active">
+      <template #action>
         <NeoButton
           label="List"
           size="large"
@@ -33,8 +33,9 @@
       <template #content>
         <div>
           <input type="number" placeholder="Your Listing Price" />
-        </div> </template
-    ></GalleryItemPriceAction>
+        </div>
+      </template>
+    </GalleryItemActionSlides>
   </GalleryItemPriceSection>
 </template>
 
@@ -44,7 +45,7 @@ import { onClickOutside } from '@vueuse/core'
 
 import { useGalleryItem } from '../../useGalleryItem'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
-import GalleryItemPriceAction from '../GalleryItemActionCta.vue'
+import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 
 const { nft } = useGalleryItem()
 
