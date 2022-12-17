@@ -243,7 +243,7 @@ export default class Search extends mixins(
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
-    if (!value != !this.$route.query.search && value !== this.searchQuery) {
+    if (value !== this.$route.query.search && value !== this.searchQuery) {
       this.replaceUrl({ search: value ?? undefined }, this.$route.path)
     }
     return value

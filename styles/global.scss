@@ -1,6 +1,15 @@
 html {
   height: 100%;
 }
+body,
+div#__nuxt,
+div#__layout,
+main {
+  //without this, footer image is above main contents
+  // block hover, click events
+  z-index: 100;
+
+}
 
 body {
   .select select,
@@ -99,6 +108,10 @@ body {
 .force-clip {
   max-width: 85%;
   max-height: 24px;
+}
+
+.w-100 {
+  width: 100%;
 }
 
 .b-radio.radio.button.is-selected {
