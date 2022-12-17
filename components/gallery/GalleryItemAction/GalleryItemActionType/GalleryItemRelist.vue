@@ -1,6 +1,9 @@
 <template>
   <GalleryItemPriceSection v-if="nft?.price" title="Price" :price="nft?.price">
-    <GalleryItemPriceAction v-if="Number(nft.price)" :active="active">
+    <GalleryItemPriceAction
+      v-if="Number(nft.price)"
+      ref="actionRef"
+      :active="active">
       <template #action>
         <NeoButton
           label="Change Price"
@@ -37,6 +40,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import { onClickOutside } from '@vueuse/core'
 
 import { useGalleryItem } from '../../useGalleryItem'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
@@ -49,6 +53,9 @@ const active = ref(false)
 function toggleActive() {
   active.value = !active.value
 }
+
+const actionRef = ref(null)
+onClickOutside(actionRef, () => (active.value = false))
 </script>
 
 <style lang="scss" scoped></style>

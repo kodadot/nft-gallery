@@ -1,6 +1,6 @@
 <template>
   <GalleryItemPriceSection title="Highest Offer" :price="price">
-    <GalleryItemPriceAction :active="active">
+    <GalleryItemPriceAction ref="actionRef" :active="active">
       <template #action>
         <NeoButton
           v-if="!active"
@@ -42,7 +42,17 @@
           v-else
           class="offer is-flex is-justify-content-space-evenly is-align-items-center">
           <div>Expire In:</div>
-          <div>1 | 3 | 7 | 14 | 30</div>
+          <div class="is-flex offer-days">
+            <div v-for="day in days" :key="day">
+              <input
+                :id="`${day}`"
+                v-model="selectedDay"
+                type="radio"
+                name="days"
+                :value="day" />
+              <label :for="`${day}`">{{ day }}</label>
+            </div>
+          </div>
           <div>Days</div>
         </div>
       </template>
@@ -52,6 +62,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import { onClickOutside } from '@vueuse/core'
 
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemPriceAction from '../GalleryItemActionCta.vue'
@@ -73,6 +84,8 @@ const { data } = useGraphql({
 const price = ref('')
 const active = ref(false)
 const confirm = ref(false)
+const days = [1, 3, 7, 14, 30]
+const selectedDay = ref(14)
 
 function toggleActive() {
   active.value = !active.value
@@ -90,9 +103,14 @@ function confirm2() {
 watchEffect(() => {
   price.value = data.value?.offers[0]?.price || ''
 })
+
+const actionRef = ref(null)
+onClickOutside(actionRef, () => confirm2())
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
 .offer {
   width: 20rem;
 
@@ -103,6 +121,36 @@ watchEffect(() => {
     outline: none;
     padding: 0 1rem;
     width: 100%;
+  }
+
+  &-days {
+    justify-content: center;
+    width: 45%;
+
+    input[type='radio'] {
+      display: none;
+
+      &:checked + label {
+        font-weight: bold;
+      }
+    }
+
+    label {
+      cursor: pointer;
+      display: block;
+      line-height: 1;
+      // width: 1.5rem;
+      border-left: 1px solid $k-grey;
+      text-align: center;
+      margin-left: 0.5rem;
+      padding-left: 0.5rem;
+    }
+
+    & > *:first-child label {
+      border-left: 0;
+      margin-left: 0;
+      padding-left: 0;
+    }
   }
 }
 </style>
