@@ -100,7 +100,7 @@
         <a class="navbar-item" role="button">
           <svg
             width="28"
-            height="23"
+            height="27"
             viewBox="0 0 28 23"
             fill="none"
             xmlns="http://www.w3.org/2000/svg">
