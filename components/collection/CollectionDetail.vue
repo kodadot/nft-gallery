@@ -1,40 +1,37 @@
 <template>
-  <div>
-    <div class="is-12">
-      <div class="is-flex">
-        <BasicImage
-          :src="image"
-          :alt="name"
-          custom-class="collection-card__image-wrapper-sub p-1" />
-        <span class="collection-name">{{ name }}</span>
-      </div>
+  <div class="collection-detail">
+    <div class="collection-detail__header is-12 is-flex">
+      <BasicImage
+        :src="image"
+        :alt="name"
+        custom-class="collection-card__image-wrapper-sub p-1" />
+      <span class="collection-detail__name">{{ name }}</span>
     </div>
-    <div v-if="nfts" class="is-flex is-justify-content-space-between">
-      <div class="level-item column is-4 has-text-centered">
-        <p class="heading--inline heading">
+    <div v-if="nfts" class="is-flex is-justify-content-space-around">
+      <div class="detail-item has-text-centered">
+        <p class="detail-item__title has-text-grey">
           {{ $t('collectionCard.volume') }}
-          <CommonTokenMoney :value="collectionTradedVolumeNumber" />
         </p>
+        <CommonTokenMoney :value="collectionTradedVolumeNumber" />
       </div>
-      <div class="level-item column is-4 has-text-centered">
-        <p class="heading--inline heading">
+      <div class="detail-item has-text-centered">
+        <p class="detail-item__title has-text-grey">
           {{ $t('collectionCard.highestSale') }}
-          <CommonTokenMoney :value="collectionHighestSalePrice" />
         </p>
+        <CommonTokenMoney :value="collectionHighestSalePrice" />
       </div>
 
-      <div class="level-item column is-4 has-text-centered">
-        <p class="heading--inline heading">
+      <div class="detail-item has-text-centered">
+        <p class="detail-item__title has-text-grey">
           {{ $t('collectionCard.items') }}
-          <span class=""> {{ collectionLength }} </span>
         </p>
+        {{ collectionLength }}
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Prop, Vue } from 'nuxt-property-decorator'
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
 import { getVolume } from '@/utils/math'
 import BasicImage from '@/components/shared/view/BasicImage.vue'

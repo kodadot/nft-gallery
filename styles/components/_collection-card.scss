@@ -1,0 +1,107 @@
+
+.collection-card {
+  font-family: 'Work Sans';
+  border: 1px solid $black;
+  border-radius: 0;
+  color: $black;
+  cursor: pointer;
+  a:hover {
+    color: unset !important;
+  }
+  &__image-wrapper {
+    padding-top: 112px !important;
+    &-sub {
+      height: 80px;
+      min-width: 80px;
+      padding: 0 !important;
+      border: 6px solid $white;
+      transform: translate(15px, -50%);
+      background: $white;
+
+      img {
+        border: 1px solid $black;
+      }
+    }
+  }
+  .collection-detail {
+    background: $white;
+    $header-height: 55px;
+    &__header {
+      height: $header-height;
+      border-top: 1px solid $black;
+      border-bottom: 1px solid $black;
+    }
+    &__name {
+      padding-left: 32px;
+      padding-right: 20px;
+      text-overflow: ellipsis;
+      font-weight: 700;
+      font-size: 1rem;
+      overflow: hidden;
+      white-space: nowrap;
+      line-height: $header-height;
+      &:hover {
+        color: $k-hovergrey;
+      }
+    }
+
+    .detail-item {
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      font-weight: 700;
+      font-size: 12px;
+      padding-right: 0;
+      height: 67px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-content: center;
+      &__title {
+        font-weight: 400;
+        min-width: 80px;
+      }
+    }
+  }
+
+}
+
+
+.dark-mode {
+
+  .collection-card {
+    border: 1px solid $white;
+    a {
+      color: $white;
+      &:hover {
+        color: $white !important;
+      }
+    }
+    &__image-wrapper-sub {
+        border: 6px solid $black;
+
+        background: $black;
+
+        img {
+          border: 1px solid $white;
+        }
+      }
+
+    .collection-detail {
+      background: $black;
+      &__header {
+        border-color: $white;
+      }
+      &__name {
+        &:hover {
+          color: $shade;
+        }
+      }
+
+
+    }
+
+
+
+  }
+
+}
