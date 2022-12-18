@@ -250,31 +250,7 @@
     }
   }
 
-  @include touch {
-    $touch-padding-x: 20px;
-    .link-item {
-      padding-right: $touch-padding-x;
-      padding-left: $touch-padding-x;
-    }
 
-    .loading-item {
-      padding-right: $touch-padding-x;
-      padding-left: $touch-padding-x;
-    }
-    .tabs:not(:last-child) {
-      padding-right: $touch-padding-x;
-      padding-left: $touch-padding-x;
-    }
-
-    .search-history-item {
-      padding-right: $touch-padding-x;
-      padding-left: $touch-padding-x;
-    }
-
-    .touch-mt-20 {
-      margin-top: 20px;
-    }
-  }
 }
 
 .section-search {

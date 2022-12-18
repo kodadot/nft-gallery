@@ -1,9 +1,8 @@
 @include touch {
   html.dark-mode {
     .navbar {
-
       &-item {
-        border-color: $white!important;
+        border-color: $white !important;
         .menu-item {
           color: $white;
         }
@@ -12,7 +11,6 @@
           background-color: $white !important;
           color: $black !important;
         }
-
 
         &--fullpage {
           background-color: $background-dark !important;
@@ -54,11 +52,7 @@
 
           &.is-active {
             border-top: 1px solid white;
-
-
           }
-
-
 
           &--noBorder {
             border-bottom: none;
@@ -121,7 +115,6 @@
         width: 100%;
       }
     }
-
 
     #NavProfile {
       align-self: center;
@@ -229,7 +222,6 @@
       width: 2.5em;
       color: $black;
       background-color: $white;
-
     }
   }
 
@@ -241,10 +233,9 @@
     }
   }
 
-
-    .b-tooltip {
-      width: 100%;
-    }
+  .b-tooltip {
+    width: 100%;
+  }
 
   .search-navbar {
     box-shadow: none;
@@ -284,8 +275,8 @@
     padding: 8px 16px;
     border-radius: 0;
     text-transform: capitalize;
-    width: 120px;custom-navbar-itemcustom-navbar-item
-    &:hover {
+    width: 120px;
+    custom-navbar-itemcustom-navbar-item &:hover {
       border: 1px solid $black;
     }
   }
@@ -302,16 +293,16 @@
     }
   }
   .mobile-nav-search-btn {
-
   }
 
   button.button.is-bordered-light {
     border-radius: 0;
   }
 
-  .navbar-create, .navbar-stats {
+  .navbar-create,
+  .navbar-stats {
     .dropdown-content {
-      width: 70% ;
+      width: 70%;
     }
   }
 
@@ -419,12 +410,12 @@
     overflow: hidden;
 
     .dropdown-menu {
-      $navbar-height:70px;
+      $navbar-height: 70px;
       position: fixed;
       top: $navbar-height;
       left: 0;
       width: 100%;
-      padding-top:0;
+      padding-top: 0;
 
       .dropdown-content {
         height: 100vh;
@@ -440,6 +431,33 @@
 
       > .icon {
         top: 10%;
+      }
+    }
+    @include touch {
+      $touch-padding-x: 20px;
+      .dropdown-content .search-suggestion-container {
+        .link-item {
+          padding-right: $touch-padding-x;
+          padding-left: $touch-padding-x;
+        }
+
+        .loading-item {
+          padding-right: $touch-padding-x;
+          padding-left: $touch-padding-x;
+        }
+        .tabs:not(:last-child) {
+          padding-right: $touch-padding-x;
+          padding-left: $touch-padding-x;
+        }
+
+        .search-history-item {
+          padding-right: $touch-padding-x;
+          padding-left: $touch-padding-x;
+        }
+
+        .touch-mt-20 {
+          margin-top: 20px;
+        }
       }
     }
   }
