@@ -16,6 +16,10 @@ $dropdown-item-hover-background-color: #ffe5f3;
 .light-mode {
   .o-drop__item {
     border-bottom: 1px solid #0a0a0a;
+    &.is-active {
+      background: black;
+      color: white;
+    }
   }
   .o-drop__menu {
     border: 1px solid #0a0a0a;
@@ -33,6 +37,10 @@ $dropdown-item-hover-background-color: #ffe5f3;
     border-bottom: 1px solid hsl(0deg, 0%, 100%);
     &:hover {
       background-color: #ff7ac3;
+    }
+    &.is-active {
+      background: white;
+      color: black;
     }
   }
 }
