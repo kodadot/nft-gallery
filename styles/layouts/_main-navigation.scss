@@ -170,14 +170,13 @@
 }
 
 .navbar {
-  background-color: inherit;
-  transform: translateZ(0px);
-  transition: 0.3s ease;
-  -webkit-transition: 0.3s ease;
-  z-index: 999 !important;
-  font-family: 'Work Sans';
-  min-height: 72px;
-  width: 100vw;
+	background-color: inherit;
+	transform: translateZ(0px);
+	transition: 0.3s ease;
+	-webkit-transition: 0.3s ease;
+	z-index: 999 !important;
+	min-height: 72px;
+	width: 100vw;
   background: $white;
   border-bottom: 1px solid black;
 
