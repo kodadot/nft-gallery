@@ -56,7 +56,6 @@
 
     &:hover {
       color: $k-hovergrey !important;
-
     }
   }
 
@@ -67,7 +66,7 @@
 
   @include touch {
     padding: 0;
-    justify-content: space-evenly!important;
+    justify-content: space-evenly !important;
 
     .landing-search-bar {
       width: 70%;
@@ -79,7 +78,6 @@
       width: 90%;
     }
   }
-
 }
 
 .search-bar-container {
@@ -145,6 +143,7 @@
 }
 
 .search-suggestion-container {
+  $desktop-padding-x: 32px;
   .selected-item {
     box-sizing: border-box;
     border: 1px solid $primary !important;
@@ -163,7 +162,7 @@
   .link-item {
     border: 1px solid transparent;
     cursor: pointer;
-    padding: 10px 32px;
+    padding: 10px $desktop-padding-x;
     font-size: 16px;
     &:hover {
       background-color: $k-accentlight;
@@ -171,7 +170,7 @@
   }
 
   .loading-item {
-    padding: 10px 32px;
+    padding: 10px $desktop-padding-x;
   }
 
   .main-title {
@@ -219,7 +218,7 @@
   }
   .tabs:not(:last-child) {
     margin-bottom: 0.5rem;
-    padding: 0px 32px;
+    padding: 0px $desktop-padding-x;
   }
 
   .image-outline {
@@ -244,15 +243,40 @@
     }
 
     .search-history-item {
-      padding: 0 32px;
+      padding: 0 $desktop-padding-x;
       &:hover {
         background-color: $k-accentlight;
       }
     }
   }
+
+  @include touch {
+    $touch-padding-x: 20px;
+    .link-item {
+      padding-right: $touch-padding-x;
+      padding-left: $touch-padding-x;
+    }
+
+    .loading-item {
+      padding-right: $touch-padding-x;
+      padding-left: $touch-padding-x;
+    }
+    .tabs:not(:last-child) {
+      padding-right: $touch-padding-x;
+      padding-left: $touch-padding-x;
+    }
+
+    .search-history-item {
+      padding-right: $touch-padding-x;
+      padding-left: $touch-padding-x;
+    }
+
+    .touch-mt-20 {
+      margin-top: 20px;
+    }
+  }
 }
 
-
 .section-search {
-  padding: 3rem 0rem!important;
+  padding: 3rem 0rem !important;
 }
