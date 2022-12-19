@@ -226,7 +226,7 @@ export default class NavbarMenu extends mixins(
   private lastScrollPosition = 0
   private artistName = ''
   public isBurgerMenuOpened = false
-  private isMobile = isMobileDevice
+  private isMobile = window.innerWidth < 1024 ? true : isMobileDevice
 
   @Ref('mobilSearchRef') readonly mobilSearchRef
   @Watch('isBurgerMenuOpened') onDisableScroll() {
@@ -379,6 +379,9 @@ export default class NavbarMenu extends mixins(
   mounted() {
     window.addEventListener('scroll', this.onScroll)
     document.body.style.overflowY = 'initial'
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth < 1024 ? true : isMobileDevice
+    })
   }
 
   beforeDestroy() {

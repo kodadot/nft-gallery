@@ -204,9 +204,11 @@
       </b-dropdown-item>
     </b-dropdown>
 
-    <b-navbar-item v-else>
-      <ConnectWalletButton @closeBurgerMenu="closeBurgerMenu" />
-    </b-navbar-item>
+    <div v-else>
+      <ConnectWalletButton
+        class="button-connect-wallet"
+        @closeBurgerMenu="closeBurgerMenu" />
+    </div>
 
     <b-dropdown
       ref="languageDropdown"

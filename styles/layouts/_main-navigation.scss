@@ -131,19 +131,15 @@
 
 
     #NavProfile {
-      align-self: center;
+      align-self: auto;
+      width: 100%;
+      padding: 24px 20px 0;
       margin-bottom: 3.5rem;
       position: absolute;
       bottom: 0;
 
-      @include mobile {
-        align-self: auto;
-        width: 100%;
-        padding: 24px 20px 0;
-
-        div {
-          flex-grow: 1;
-        }
+      div {
+        flex-grow: 1;
       }
 
       .dropdown-trigger .button {
@@ -243,7 +239,7 @@
   .navbar-start {
     flex: 1;
     margin-top: 24px;
-    @include mobile {
+    @media screen and (max-width: 1024px) {
       display: none;
     }
   }
@@ -307,6 +303,12 @@
       box-shadow: none;
       text-transform: capitalize;
     }
+    //@media screen and (min-width max-width: 1024px) {
+    //  .button-connect-wallet {
+    //    width: 120px !important;
+    //    margin: 0 auto 20px !important;
+    //  }
+    //}
   }
 
   button.button.is-bordered-light {
