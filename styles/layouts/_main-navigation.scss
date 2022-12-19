@@ -316,6 +316,7 @@
     user-select: none;
     padding: 0;
     width: 100%;
+    max-height: 600px;
 
     .has-link:hover {
       background-color: $k-accentlight !important;
@@ -419,6 +420,7 @@
 
       .dropdown-content {
         height: 100vh;
+        max-height: 100vh;
       }
     }
 

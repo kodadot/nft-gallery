@@ -7,7 +7,6 @@
       :placeholder="placeholderContent"
       icon="search"
       :open-on-focus="showDefaultSuggestions"
-      :max-height="maxHeight"
       dropdown-position="bottom"
       expanded
       @blur="onInputBlur"
@@ -48,7 +47,6 @@ import {
 import { SearchQuery } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import ScreenDimesionsMixin from '~~/utils/mixins/screenDimensionsMixin'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
@@ -59,8 +57,7 @@ const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 })
 export default class SearchBar extends mixins(
   PrefixMixin,
-  KeyboardEventsMixin,
-  ScreenDimesionsMixin
+  KeyboardEventsMixin
 ) {
   @Prop({ type: Object, required: false }) public query!: SearchQuery
   @VModel({ type: String }) name!: string
@@ -77,10 +74,6 @@ export default class SearchBar extends mixins(
 
   get placeholderContent() {
     return this.inputFocused ? '' : this.$t('general.searchPlaceholder')
-  }
-
-  get maxHeight() {
-    return this.istouch ? '100vh' : '600px'
   }
 
   @Emit('enter')
