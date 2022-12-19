@@ -31,6 +31,13 @@
           }
         }
       }
+
+      .fixed-stack {
+        background-color: $black;
+      }
+      .cancel-btn {
+        background-color: $black !important;
+      }
     }
   }
 
@@ -124,19 +131,15 @@
 
 
     #NavProfile {
-      align-self: center;
+      align-self: auto;
+      width: 100%;
+      padding: 24px 20px 0;
       margin-bottom: 3.5rem;
       position: absolute;
       bottom: 0;
 
-      @include mobile {
-        align-self: auto;
-        width: 100%;
-        padding: 24px 20px 0;
-
-        div {
-          flex-grow: 1;
-        }
+      div {
+        flex-grow: 1;
       }
 
       .dropdown-trigger .button {
@@ -235,7 +238,7 @@
   .navbar-start {
     flex: 1;
     margin-top: 24px;
-    @include mobile {
+    @media screen and (max-width: 1024px) {
       display: none;
     }
   }
@@ -299,9 +302,6 @@
       box-shadow: none;
       text-transform: capitalize;
     }
-  }
-  .mobile-nav-search-btn {
-
   }
 
   button.button.is-bordered-light {
