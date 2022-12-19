@@ -7,21 +7,23 @@
         custom-class="collection-card__image-wrapper-sub p-1" />
       <span class="collection-detail__name">{{ name }}</span>
     </div>
-    <div v-if="nfts" class="is-flex is-justify-content-space-around">
-      <div class="detail-item has-text-centered">
+    <div
+      v-if="nfts"
+      class="is-flex is-justify-content-space-around is-vcentered">
+      <div class="detail-item has-text-centered column">
         <p class="detail-item__title has-text-grey">
           {{ $t('collectionCard.volume') }}
         </p>
         <CommonTokenMoney :value="collectionTradedVolumeNumber" />
       </div>
-      <div class="detail-item has-text-centered">
+      <div class="detail-item has-text-centered column">
         <p class="detail-item__title has-text-grey">
-          {{ $t('collectionCard.highestSale') }}
+          {{ $t('series.highestSale') }}
         </p>
         <CommonTokenMoney :value="collectionHighestSalePrice" />
       </div>
 
-      <div class="detail-item has-text-centered">
+      <div class="detail-item has-text-centered column">
         <p class="detail-item__title has-text-grey">
           {{ $t('collectionCard.items') }}
         </p>

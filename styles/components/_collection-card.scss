@@ -49,16 +49,11 @@
     }
 
     .detail-item {
-      font-size: 12px;
+      font-size: 0.75rem;
       letter-spacing: 0.02em;
       font-weight: 700;
-      font-size: 12px;
       padding-right: 0;
       height: 67px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-content: center;
       &__title {
         font-weight: 400;
         min-width: 80px;
@@ -101,12 +96,6 @@
           color: $shade;
         }
       }
-
-
     }
-
-
-
   }
-
 }
