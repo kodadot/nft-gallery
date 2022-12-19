@@ -74,7 +74,7 @@
     "@nuxtjs/i18n": "^7.3.0",
     "@nuxtjs/sentry": "^6.0.2",
     "@oruga-ui/oruga": "^0.5.9",
-    "@paraspell/sdk": "^0.0.11-alpha.0",
+    "@paraspell/sdk": "^0.0.16",
     "@polkadot/extension-dapp": "^0.44.6",
     "@polkadot/extension-inject": "^0.44.6",
     "@polkadot/ui-keyring": "2.9.10",

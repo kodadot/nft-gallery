@@ -98,10 +98,6 @@ const CarouselTypeVisited = defineAsyncComponent(
 </script>
 
 <style lang="scss" scoped>
-.gallery-item {
-  font-family: 'Work Sans';
-}
-
 .mobile-top-margin {
   margin-top: unset;
 }
