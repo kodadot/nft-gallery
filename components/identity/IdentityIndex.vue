@@ -48,17 +48,30 @@ const props = defineProps<{
   customNameOption?: string
 }>()
 
-const {
-  identity,
-  isFetchingIdentity,
-  shortenedAddress,
-  twitter,
-  discord,
-  name,
-} = useIdentity({
-  address: props.address,
-  customNameOption: props.customNameOption,
-})
+const identity = ref({})
+const isFetchingIdentity = ref(false)
+const discord = ref<string>()
+const twitter = ref<string>()
+const name = ref<string>()
+const shortenedAddress = ref<string>()
+
+const syncIdentity = () => {
+  const { identity: id, ...rest } = useIdentity({
+    address: props.address,
+    customNameOption: props.customNameOption,
+  })
+  watch(id, () => {
+    identity.value = id?.value
+    isFetchingIdentity.value = rest.isFetchingIdentity?.value
+    discord.value = rest.discord.value
+    twitter.value = rest.twitter.value
+    name.value = rest.name.value
+    shortenedAddress.value = rest.shortenedAddress.value
+  })
+}
+
+onMounted(syncIdentity)
+watch(() => props.address, syncIdentity)
 
 provide('address', props.address)
 provide('shortenedAddress', shortenedAddress.value)

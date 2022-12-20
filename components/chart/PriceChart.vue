@@ -1,24 +1,21 @@
 <template>
   <div class="common-price-chart">
     <span class="chart-y-description is-size-7">Price ({{ unit }})</span>
-    <b-dropdown aria-role="list" class="time-range-dropdown py-0">
-      <template #trigger>
-        <div
-          class="time-range-button is-flex is-justify-content-center is-align-items-center">
-          {{ selectedTimeRange.label }}
-        </div>
+    <NeoDropdown class="py-0">
+      <NeoButton :label="selectedTimeRange.label" class="time-range-button" />
+
+      <template #items>
+        <NeoDropdownItem
+          v-for="range in timeRangeList"
+          :key="range.value"
+          class="is-flex is-justify-content-center px-0"
+          :active="selectedTimeRange.value === range.value"
+          :value="selectedTimeRange"
+          @click.native="setTimeRange(range)">
+          {{ range.label }}
+        </NeoDropdownItem>
       </template>
-      <b-dropdown-item
-        v-for="range in timeRangeList"
-        :key="range.value"
-        class="is-flex is-justify-content-center px-0"
-        aria-role="listitem"
-        :value="selectedTimeRange"
-        :class="{ 'is-active': selectedTimeRange.value === range.value }"
-        @click="setTimeRange(range)">
-        {{ range.label }}
-      </b-dropdown-item>
-    </b-dropdown>
+    </NeoDropdown>
 
     <div class="content">
       <canvas id="priceChart" />
@@ -32,6 +29,7 @@ import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { getChartData } from '@/utils/chart'
 import { format } from 'date-fns'
+import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 
 ChartJS.register(zoomPlugin)
 const { $i18n, $colorMode } = useNuxtApp()
