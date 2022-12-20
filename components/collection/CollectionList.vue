@@ -56,7 +56,6 @@ import {
 import { getSanitizer } from '@/components/rmrk/utils'
 import { SearchQuery } from '@/components/rmrk/Gallery/search/types'
 import 'lazysizes'
-import CollectionCard from '@/components/collection/CollectionCard'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
@@ -83,6 +82,7 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
+  CollectionCard: () => import('@/components/collection/CollectionCard'),
 }
 
 @Component<CollectionList>({
