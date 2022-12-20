@@ -41,7 +41,6 @@ const { nftEntities } = useIdentitySoldData({
 }
 
 .popover-content-container {
-  font-family: 'Work Sans';
   border: 1px solid $black;
   width: 300px;
 }

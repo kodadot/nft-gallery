@@ -34,32 +34,32 @@ interface Articles {
 
 const articles: Articles[] = [
   {
-    title: 'A few words about DOTBrno and ETHBrno',
+    title: 'Travel with KodaDot to Lisbon and Budapest',
     // prettier-ignore
     description:
-      'This year has come together in Brno (Czech Republic) two big events from two significant ecosystems just for one November week. And since it\'s my birth town, let me introduce you to both events.',
+      'The Christmas holiday is nearly here but before the well-deserved rest, we co-organize two events. Let me introduce them to you...',
     image:
-      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F35112f48-b33c-4b59-a96c-0feb41fdbdb7_1200x675.png',
-    link: 'https://kodadot.substack.com/p/a-few-words-about-dotbrno-and-ethbrno',
+      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fa5f550d2-1863-4a0a-8815-18e29c0c9858_1456x728.webp',
+    link: 'https://kodadot.substack.com/p/travel-with-kodadot-to-lisbon-and',
   },
   {
-    title: 'RIDE ON ART #4 Keith',
+    title: 'RIDE ON ART #6 RainbowNFT',
     description:
       // prettier-ignore
-      'Hello, my name is Luuu and I’m glad that I can introduce you to another talented artist we did an interview with. Sit back, relax and learn more about Keith\'s life and art.',
+      'Another Friday, another article. This week I will introduce you to RainbowNFT. An incredible NFT artist who is part of our DotSama ecosystem. Who is the person behind this art? Read and learn!',
     image:
-      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F1170d884-3ed4-4915-ba45-0e237872b34c_2400x1350.png',
-    link: 'https://kodadot.substack.com/p/ride-on-art-4-keith',
+      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fefd65f3d-b736-4b29-81c8-c65fa000d952_1200x675.png',
+    link: 'https://kodadot.substack.com/p/ride-on-art-6-rainbownft',
   },
   {
     // prettier-ignore
-    title: 'RIDE ON ART #2 - HookerNFT',
+    title: 'RIDE ON ART #5 KUSAMA ACID',
     description:
       // prettier-ignore
-      'My name is Luuu and I’m bringing you another interview with the talented artist. In KodaDot, we love good art, especially with interesting stories. Find out more about our newest cooperation.',
+      'Hello Koda readers. I\'m happy to introduce you to our already fifth artist in this series, "Ride on art". Adding music to NFTs is just a whole different level and area, don\'t you think?\n',
     image:
-      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fb2442781-e7d6-4ed2-b444-e55036a989ef_1200x675.png',
-    link: 'https://kodadot.substack.com/p/ride-on-art-2-hookernft',
+      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F4a146af3-aa81-41cd-924d-5bfe43da0931_1200x675.png',
+    link: 'https://kodadot.substack.com/p/ride-on-art-5-kusama-acid',
   },
 ]
 </script>
