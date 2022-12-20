@@ -7,8 +7,8 @@
           <Error
             v-if="$nuxt.isOffline"
             :has-img="false"
-            error-title="Offline Detected"
-            error-subtitle="Please check your network connections" />
+            error-subtitle="Please check your network connections"
+            error-title="Offline Detected" />
           <Nuxt v-else />
         </div>
       </section>
@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+
 @Component<DefaultLayout>({
   name: 'DefaultLayout',
   head() {

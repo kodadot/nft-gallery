@@ -79,3 +79,10 @@ export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
   }
 }
 </script>
+<style lang="scss">
+.navbar-stats {
+  .dropdown {
+    width: 100%;
+  }
+}
+</style>

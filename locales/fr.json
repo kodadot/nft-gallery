@@ -376,6 +376,8 @@
     "mint": "3. Minting"
   },
   "general": {
+    "apply": "Appliquer",
+    "asset": "Actif",
     "using": "utilise",
     "balance": "Balance",
     "connect": "Connexion",
@@ -388,7 +390,27 @@
     "openUrl": "Ouvrir l'URL",
     "copyRewardTooltip": "Votre lien de récompense copié dans le presse-papiers",
     "copyRewardLink": "Copier le lien Reward Me",
-    "latestSales": "Dernières ventes"
+    "latestSales": "Dernières ventes",
+    "searchResultsText": "Afficher les résultats pour",
+    "ksmDiscoverText": "Découvrir, collecter et vendre les NFT Kusama",
+    "latestSalesheading": "Découvrez les dernières ventes sur",
+    "newestListDesc": "Découvrez les derniers articles en vente",
+    "newestListHeading": "Listé récemment",
+    "topCollectionsHeading": "Top Collections",
+    "floor": "plancher",
+    "popularCollectionsHeading": "Collections populaires",
+    "popularCollectionsDesc": "Découvrez les collections les plus populaires sur rmrk",
+    "featuredArticlesHeading": "Articles à la une",
+    "from": "de",
+    "to": "à",
+    "tx": {
+      "cancelled": "La transaction a été annulée",
+      "feesPaidIn": "Vous payez des frais en {0}"
+    },
+    "searchPlaceholder": "Recherche par collection ou NFT",
+    "tagsAdd": "Tapez et appuyez sur la touche Entrée pour ajouter votre propre tag",
+    "chooseWallet": "Choisissez votre",
+    "noAssets": "Il n'y a pas d'actifs dans ce portefeuille."
   },
   "helper": {
     "seeMore": "Voir plus",
@@ -401,7 +423,9 @@
       "label": "URL à transformer",
       "placeholder": "singular.rmrk.app/collectibles/",
       "copy": "Le lien Kodadot a été copié avec succès"
-    }
+    },
+    "builtOn": "Bâti sur",
+    "signStuckText": "Vous êtes coincé ? Vérifiez qu'il n'y a pas de pop-up et signez la transaction."
   },
   "cookies": {
     "notice": "Nous utilisons des 🍪 tiers afin de personnaliser votre expérience du site.",
@@ -421,7 +445,10 @@
     "set": "Créer une identité sur la blockchain",
     "click": "Cliquez pour créer une identité",
     "handleRequired": "Votre identifiant est requis",
-    "deposit": "Dépôt"
+    "deposit": "Dépôt",
+    "fundsReserve": "0.0333 KSM seront réservés. Ces fonds sont restitués lors de l'apurement de l'identité.",
+    "onChainPlaceholder": "Mon nom sur la chaîne",
+    "namePlaceholder": "Nom complet"
   },
   "collapse": {
     "collection": {

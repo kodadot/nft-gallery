@@ -7,3 +7,5 @@ export { default as NeoDropdownItem } from './components/NeoDropdown/NeoDropdown
 export { default as NeoSelect } from './components/NeoSelect/NeoSelect.vue'
 
 export { default as SampleButton } from './components/TheButton/TheButton.vue'
+export { default as DisablableTab } from './components/DisablableTab/DisablableTab'
+export { default as NeoTooltip } from './components/NeoTooltip/NeoTooltip'

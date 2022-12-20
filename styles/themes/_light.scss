@@ -26,7 +26,6 @@ html.light-mode {
     height: 100%;
     background-color: $white;
     color: $text-light-theme;
-    z-index: 1;
   }
 
   main {
@@ -110,6 +109,9 @@ html.light-mode {
         &:hover {
           color: $black !important;
         }
+      }
+      .menu-item:hover {
+        color: $k-hovergrey !important;
       }
     }
   }
