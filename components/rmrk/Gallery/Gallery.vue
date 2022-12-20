@@ -25,11 +25,8 @@
         <div
           v-for="nft in results"
           :key="nft.id"
-          :class="`column is-4 column-padding carousel-agnostic ${scrollItemClassName}`">
-          <div class="carousel-item">
-            <CarouselMedia :item="nft" />
-            <CarouselInfo :item="nft" />
-          </div>
+          :class="`column is-4 column-padding ${scrollItemClassName}`">
+          <NftCard :nft="nft" />
         </div>
       </div>
       <InfiniteLoading
@@ -90,6 +87,7 @@ const components = {
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   CarouselMedia: () => import('@/components/carousel/module/CarouselMedia.vue'),
   CarouselInfo: () => import('@/components/carousel/module/CarouselInfo.vue'),
+  NftCard: () => import('./NftCard.vue'),
 }
 
 @Component<Gallery>({

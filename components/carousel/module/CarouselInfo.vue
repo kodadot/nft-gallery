@@ -12,15 +12,11 @@
     </nuxt-link>
 
     <nuxt-link
-      v-if="
-        !isCollection &&
-        ((item.collectionName && item.collectionId) ||
-          (item.collection.name && item.collection.id))
-      "
-      :title="item.collectionName || item.collection.name"
+      v-if="!isCollection && item.collectionName && item.collectionId"
+      :title="item.collectionName"
       :to="
         urlOf({
-          id: item.collectionId || item.collection.id,
+          id: item.collectionId,
           url: 'collection',
           chain: item.chain,
         })
@@ -32,8 +28,7 @@
     <div v-if="showPrice" class="carousel-meta">
       <CommonTokenMoney
         :custom-token-id="getTokenId(item.chain)"
-        :value="item.price"
-        class="has-text-weight-bold" />
+        :value="item.price" />
       <p class="is-size-7 chain-name">{{ chainName }}</p>
     </div>
   </div>
