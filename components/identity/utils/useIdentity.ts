@@ -77,10 +77,10 @@ export default function useIdentity({ address, customNameOption }) {
   const { apiUrl } = useApi()
   const identity = ref<IdentityFields>({})
   const isFetchingIdentity = ref(false)
+  const shortenedAddress = computed(() => shortAddress(address))
   const twitter = computed(() => identity?.value?.twitter)
   const discord = computed(() => identity?.value?.discord)
   const display = computed(() => identity?.value?.display)
-  const shortenedAddress = computed(() => shortAddress(address))
   const name = computed(() =>
     displayName({ customNameOption, identity, shortenedAddress })
   )
@@ -101,8 +101,7 @@ export default function useIdentity({ address, customNameOption }) {
       })
     }
   }
-
-  onMounted(whichIdentity)
+  whichIdentity()
 
   return {
     identity,

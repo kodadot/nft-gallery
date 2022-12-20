@@ -1,14 +1,14 @@
 <template>
   <b-navbar
-    fixed-top
-    spaced
-    wrapper-class="container"
-    close-on-click
-    mobile-burger
     :active.sync="isBurgerMenuOpened"
-    :class="{ 'navbar-shrink': !showTopNavbar }">
+    :class="{ 'navbar-shrink': !showTopNavbar }"
+    close-on-click
+    fixed-top
+    mobile-burger
+    spaced
+    wrapper-class="container">
     <template #brand>
-      <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
+      <b-navbar-item :to="{ path: '/' }" class="logo" tag="nuxt-link">
         <img
           :src="logoSrc"
           alt="First NFT market explorer on Kusama and Polkadot"
@@ -19,19 +19,23 @@
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
         <!-- <HistoryBrowser class="navbar-item" /> -->
-        <b-button
+        <img
           v-if="showSearchOnNavbar"
-          icon-left="search"
-          class="mr-2 mobile-nav-search-btn is-flex"
-          @click="showMobileSearchBar">
-        </b-button>
+          class="mobile-nav-search-btn mr-2"
+          :src="
+            isDarkMode
+              ? '/search-mobile-navbar-dark.svg'
+              : '/search-mobile-navbar.svg'
+          "
+          @click="showMobileSearchBar" />
+
         <div v-show="openMobileSearchBar">
           <div
             class="fixed-stack is-flex is-align-items-center is-justify-content-space-between p-2">
             <Search
               ref="mobilSearchRef"
               hide-filter
-              class="is-flex-grow-1 mt-5" />
+              class="is-flex-grow-1 mt-3" />
             <b-button class="cancel-btn" @click="hideMobileSearchBar">
               {{ $t('cancel') }}
             </b-button>
@@ -42,13 +46,19 @@
     <template #start>
       <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
         <Search
-          hide-filter
           class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
+          hide-filter
           search-column-class="is-flex-grow-1" />
       </div>
     </template>
     <template #end>
-      <ExploreDropdown />
+      <ExploreDropdown
+        v-if="!isMobile"
+        class="navbar-explore custom-navbar-item"
+        data-cy="explore" />
+      <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
+        <NavbarExploreOptions />
+      </MobileExpandableSection>
       <CreateDropdown
         v-show="isCreateVisible"
         class="navbar-create custom-navbar-item"
@@ -59,23 +69,112 @@
         data-cy="stats"
         :chain="chain" />
       <ChainSelectDropdown
+        v-if="!isMobile"
         id="NavChainSelect"
         class="navbar-chain custom-navbar-item"
         data-cy="chain-select" />
+      <template v-if="isMobile">
+        <MobileLanguageOption v-if="!account" />
+        <MobileExpandableSection
+          v-if="account"
+          :no-padding="true"
+          :title="$t('account')"
+          icon="user-circle"
+          icon-family="fa">
+          <b-navbar-item
+            :to="`/${urlPrefix}/u/${account}`"
+            data-cy="hot"
+            tag="nuxt-link">
+            {{ $t('profile.page') }}
+          </b-navbar-item>
+          <b-navbar-item
+            :to="{ name: 'identity' }"
+            data-cy="hot"
+            tag="nuxt-link">
+            {{ $t('identity.page') }}
+          </b-navbar-item>
+          <b-navbar-item data-cy="hot" tag="nuxt-link" to="/settings">
+            {{ $t('settings') }}
+          </b-navbar-item>
+          <MobileLanguageOption />
+          <MobileNavbarProfile id="NavProfile" />
+        </MobileExpandableSection>
+        <MobileExpandableSection
+          v-if="account"
+          :no-padding="true"
+          :title="$t('wallet')"
+          icon="wallet">
+          <b-navbar-item class="navbar-item--noBorder">
+            <div class="has-text-grey is-size-7 mt-2">
+              {{ $t('profileMenu.wallet') }}
+            </div>
+            <Identity
+              :address="account"
+              class="navbar__address is-size-6"
+              hide-identity-popover />
+
+            <hr aria-role="menuitem" class="dropdown-divider mx-4" />
+
+            <div v-if="isSnek">
+              <div class="has-text-left has-text-grey is-size-7">
+                {{ $t('general.balance') }}
+              </div>
+              <SimpleAccountBalance
+                v-for="token in tokens"
+                :key="token"
+                :token-id="token"
+                class="is-size-6" />
+            </div>
+            <AccountBalance v-else class="is-size-7" />
+
+            <hr aria-role="menuitem" class="dropdown-divider mx-4" />
+
+            <div
+              aria-role="menuitem"
+              class="is-flex is-justify-content-center"
+              custom
+              paddingless>
+              <b-button
+                class="navbar__sign-out-button menu-item mb-4 is-size-7"
+                @click="disconnect()">
+                {{ $t('profileMenu.disconnect') }}
+              </b-button>
+            </div>
+          </b-navbar-item>
+        </MobileExpandableSection>
+        <ColorModeButton />
+
+        <div v-if="!account" id="NavProfile">
+          <ConnectWalletButton
+            class="button-connect-wallet"
+            @closeBurgerMenu="closeBurgerMenu" />
+        </div>
+      </template>
       <ProfileDropdown
+        v-if="!isMobile"
         id="NavProfile"
         :chain="chain"
         data-cy="profileDropdown"
         @closeBurgerMenu="closeBurgerMenu" />
     </template>
+    <!-- <template v-else #end>
+      <div class="image is-32x32 mr-2">
+        <BasicImage
+          v-show="inCollectionPage && currentCollection.image"
+          :alt="navBarTitle"
+          :src="currentCollection.image"
+          rounded />
+      </div>
+      <div class="title is-4">{{ navBarTitle }}</div>
+    </template> -->
   </b-navbar>
 </template>
 
 <script lang="ts">
 import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
-import { get } from 'idb-keyval'
-
 import BasicImage from '@/components/shared/view/BasicImage.vue'
+import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
+import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import ProfileDropdown from '~/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
@@ -84,24 +183,36 @@ import CreateDropdown from '~/components/navbar/CreateDropdown.vue'
 import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
 import KodaBeta from '@/assets/Koda_Beta.svg'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-
+import ColorModeButton from '~/components/common/ColorModeButton.vue'
+import MobileLanguageOption from '~/components/navbar/MobileLanguageOption.vue'
 import { createVisible } from '@/utils/config/permision.config'
+import { isMobileDevice } from '@/utils/extension'
 import { identityStore } from '@/utils/idbStore'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ExperimentMixin from '@/utils/mixins/experimentMixin'
 import ChainSelectDropdown from '~/components/navbar/ChainSelectDropdown.vue'
 import StatsDropdown from '~/components/navbar/StatsDropdown.vue'
+import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
+import ConnectWalletButton from '~/components/shared/ConnectWalletButton.vue'
+import { getKusamaAssetId } from '~/utils/api/bsx/query'
+import { clearSession } from '~/utils/cachingStrategy'
 
 @Component({
   components: {
     Search,
     Identity,
     BasicImage,
+    MobileExpandableSection,
     ProfileDropdown,
     ExploreDropdown,
     CreateDropdown,
     ChainSelectDropdown,
     StatsDropdown,
+    MobileNavbarProfile,
+    NavbarExploreOptions,
+    ConnectWalletButton,
+    ColorModeButton,
+    MobileLanguageOption,
   },
 })
 export default class NavbarMenu extends mixins(
@@ -115,6 +226,8 @@ export default class NavbarMenu extends mixins(
   private lastScrollPosition = 0
   private artistName = ''
   public isBurgerMenuOpened = false
+  private isMobile = window.innerWidth < 1024 ? true : isMobileDevice
+
   @Ref('mobilSearchRef') readonly mobilSearchRef
   @Watch('isBurgerMenuOpened') onDisableScroll() {
     if (this.isBurgerMenuOpened) {
@@ -124,8 +237,16 @@ export default class NavbarMenu extends mixins(
     }
   }
 
+  get account() {
+    return this.$store.getters.getAuthAddress
+  }
+
   get chain(): string {
     return this.urlPrefix
+  }
+
+  get tokens() {
+    return ['', getKusamaAssetId(this.urlPrefix)]
   }
 
   get inCollectionPage(): boolean {
@@ -142,6 +263,10 @@ export default class NavbarMenu extends mixins(
 
   get isCreateVisible(): boolean {
     return createVisible(this.urlPrefix)
+  }
+
+  get isSnek(): boolean {
+    return this.urlPrefix === 'snek'
   }
 
   get isTargetPage(): boolean {
@@ -196,6 +321,18 @@ export default class NavbarMenu extends mixins(
     return title
   }
 
+  public disconnect() {
+    this.$store.dispatch('setAuth', { address: '' }) // null not working
+    clearSession()
+  }
+
+  @Watch('isBurgerMenuOpened')
+  onBurgerMenuOpenedChanged() {
+    document.documentElement.style.overflow = this.isBurgerMenuOpened
+      ? 'hidden'
+      : 'auto'
+  }
+
   async fetchArtistIdentity(address) {
     const identity = await get(address, identityStore)
     if (identity && identity.display) {
@@ -236,14 +373,15 @@ export default class NavbarMenu extends mixins(
   }
 
   closeBurgerMenu() {
-    if (this.isBurgerMenuOpened) {
-      this.isBurgerMenuOpened = false
-    }
+    this.isBurgerMenuOpened = false
   }
 
   mounted() {
     window.addEventListener('scroll', this.onScroll)
     document.body.style.overflowY = 'initial'
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth < 1024 ? true : isMobileDevice
+    })
   }
 
   beforeDestroy() {

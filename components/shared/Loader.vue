@@ -85,7 +85,6 @@ export default class Loader extends Vue {
 @import '@/styles/abstracts/variables';
 
 .loading-container {
-  font-family: 'Work Sans';
   padding: 24px 16px;
   background: $white;
   backdrop-filter: $frosted-glass-backdrop-filter;
