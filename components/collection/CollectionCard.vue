@@ -20,8 +20,7 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import CollectionDetail from './CollectionDetail.vue'
 const { urlPrefix } = usePrefix()
 
-const props = defineProps<{
+defineProps<{
   collection: CollectionWithMeta
-  isLoading: boolean
 }>()
 </script>
