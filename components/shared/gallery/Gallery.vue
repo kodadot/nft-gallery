@@ -64,9 +64,9 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
-import { NFT, NFTMetadata } from '../service/scheme'
+import { NFT, NFTMetadata } from '../../rmrk/service/scheme'
 import { SearchQuery } from './search/types'
-import { getNameOfNft, getSanitizer } from '../utils'
+import { getNameOfNft, getSanitizer } from '../../rmrk/utils'
 
 // import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
@@ -74,10 +74,10 @@ type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
 type SearchedNftsWithMeta = NFTWithCollectionMeta & NFTMetadata
 const components = {
-  GalleryCardList: () => import('./GalleryCardList.vue'),
+  GalleryCardList: () => import('../../rmrk/Gallery/GalleryCardList.vue'),
   Search: () => import('@/components/search/Search.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  Pagination: () => import('./Pagination.vue'),
+  Pagination: () => import('../../rmrk/Gallery/Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
@@ -87,7 +87,7 @@ const components = {
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   CarouselMedia: () => import('@/components/carousel/module/CarouselMedia.vue'),
   CarouselInfo: () => import('@/components/carousel/module/CarouselInfo.vue'),
-  NftCard: () => import('./NftCard.vue'),
+  NftCard: () => import('../../rmrk/Gallery/NftCard.vue'),
 }
 
 @Component<Gallery>({
