@@ -41,7 +41,7 @@
         transform: translate(15px, -50%);
         background: $white;
 
-        &::before{
+        &::before, &::after {
           content: '';
           position: absolute;
           top: 0;
@@ -52,14 +52,8 @@
           z-index: 1;
         }
         &::after{
-          content: '';
-          position: absolute;
-          top: 0;
+          left: unset;
           right: 0;
-          width: 1px;
-          height: 39px;
-          background: $black;
-
         }
       }
     }
@@ -125,10 +119,7 @@
         border-top: 1px solid $white;
         background: $k-dark;
 
-        &::before{
-          background: $white;
-        }
-        &::after{
+        &::before, &::after {
           background: $white;
         }
       }
