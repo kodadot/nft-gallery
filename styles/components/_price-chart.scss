@@ -6,100 +6,33 @@
     left: 0;
     top: 0;
   }
-  .time-range-dropdown {
+  .neo-dropdown {
+    $width: 89px;
+    $height: 30px;
+    $font-size: 12px;
+
     position: absolute;
     right: 10px;
     top: -12px;
-    font-size: 12px;
-    .dropdown-menu {
-      padding-top: 16px;
-    }
-    .dropdown-content {
-      width: 89px;
+    font-size: $font-size;
+
+    .o-drop__menu {
+      width: $width;
+      min-width: $width;
       padding: 0;
+      margin: 0;
+      margin-top: 16px;
+    }
 
+    &-item {
+      height: $height;
+      font-size: inherit;
     }
-    .dropdown-item {
-      height: 30px;
-      font-size: 12px;
-      border-bottom: 1px solid black;
-      &:last-child {
-        border-bottom: none;
-      }
-      &:hover {
-        background: $k-accentlight;
-      }
-      &.is-active {
-        background: black;
-        color: white;
-      }
-    }
+
     .time-range-button {
-      cursor: pointer;
-      height: 30px;
-      min-width: 89px;
-      background: white;
-      border: 1px solid black;
-      box-shadow: 4px 4px 0px black;
-      &:hover {
-        background: $k-accentlight;
-      }
-    }
-  }
-}
-
-.dark-mode {
-  .common-price-chart {
-    .time-range-button {
-      background: $k-dark;
-      color: white;
-      border-color: white;
-      box-shadow: 4px 4px 0px white;
-      &:hover {
-        background: $k-accent;
-        color: $k-hovergrey;
-
-      }
-    }
-
-    .dropdown-item {
-      color: white;
-      background: $k-dark;
-
-      border-color: white;
-
-      &:hover {
-        background: $k-accentlight;
-        color: $k-hovergrey;
-
-
-      }
-      &.is-active {
-        background: white;
-        color: black;
-      }
-    }
-
-    .dropdown-item {
-      height: 30px;
-
-      &:hover {
-        background: $k-accent;
-      }
-    }
-  }
-
-}
-
-@include touch {
-  .common-price-chart .time-range-dropdown .dropdown-menu{
-    display: flex;
-    justify-content: center;
-
-    justify-content: center;
-    .dropdown-content > .dropdown-item {
-      padding: 0;
-      align-items: center;
+      height: $height;
+      min-width: $width;
+      font-size: $font-size;
     }
   }
 }

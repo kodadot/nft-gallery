@@ -35,7 +35,7 @@
             <Search
               ref="mobilSearchRef"
               hide-filter
-              class="is-flex-grow-1 mt-5" />
+              class="is-flex-grow-1 mt-3" />
             <b-button class="cancel-btn" @click="hideMobileSearchBar">
               {{ $t('cancel') }}
             </b-button>
@@ -52,7 +52,10 @@
       </div>
     </template>
     <template #end>
-      <ExploreDropdown v-if="!isMobile" />
+      <ExploreDropdown
+        v-if="!isMobile"
+        class="navbar-explore custom-navbar-item"
+        data-cy="explore" />
       <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
         <NavbarExploreOptions />
       </MobileExpandableSection>
@@ -223,7 +226,7 @@ export default class NavbarMenu extends mixins(
   private lastScrollPosition = 0
   private artistName = ''
   public isBurgerMenuOpened = false
-  private isMobile = isMobileDevice
+  private isMobile = window.innerWidth < 1024 ? true : isMobileDevice
 
   @Ref('mobilSearchRef') readonly mobilSearchRef
   @Watch('isBurgerMenuOpened') onDisableScroll() {
@@ -389,6 +392,9 @@ export default class NavbarMenu extends mixins(
   mounted() {
     window.addEventListener('scroll', this.onScroll)
     document.body.style.overflowY = 'initial'
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth < 1024 ? true : isMobileDevice
+    })
   }
 
   beforeDestroy() {

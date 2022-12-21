@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown class="navbar-explore" :triggers="['hover']">
+  <b-dropdown :triggers="['hover']">
     <template #trigger>
       <nuxt-link :to="`/${urlPrefix}/explore`">
         <div class="navbar-item" data-cy="explore">
