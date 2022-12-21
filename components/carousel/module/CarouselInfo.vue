@@ -22,7 +22,7 @@
         })
       "
       class="is-size-7 carousel-info-collection-name">
-      {{ item.collectionName || item.collection.name }}
+      {{ item.collectionName }}
     </nuxt-link>
 
     <div v-if="showPrice" class="carousel-meta">
