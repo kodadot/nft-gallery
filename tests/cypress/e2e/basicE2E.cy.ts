@@ -95,7 +95,7 @@ describe('exploreSnekGallery', () => {
 })
 
 describe('snekCollectionItem', () => {
-  it('collectionActions', () => {
+  it('collectionActions', { scrollBehavior: false }, () => {
     cy.snekCollectionActions('3132385849', 'Morski pes', 'bXkmyH...J5CSGP')
   })
 })
@@ -112,7 +112,7 @@ describe.skip('snekGalleryItem', () => {
 })
 
 describe('rmrkCollectionItem', () => {
-  it('collectionActions', () => {
+  it('collectionActions', { scrollBehavior: false }, () => {
     cy.rmrkCollectionActions(
       '32b209ecbe2b33dd24-DINOXEGGS',
       'Angel',

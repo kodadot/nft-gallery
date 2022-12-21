@@ -189,7 +189,7 @@ export default defineNuxtConfig({
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxtjs/pwa', '@nuxtjs/color-mode'],
+  buildModules: ['@nuxtjs/pwa', '@nuxtjs/color-mode', '@vueuse/nuxt'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [

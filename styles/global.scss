@@ -1,5 +1,5 @@
 html {
-  height: 100%
+  height: 100%;
 }
 body,
 div#__nuxt,
@@ -84,7 +84,6 @@ body {
     color: $primary;
   }
 }
-
 
 @include mobile {
   .column-padding {
@@ -172,4 +171,8 @@ body {
   &:last-child {
     border-bottom: none;
   }
+}
+
+.h-full {
+  height: 100%;
 }
