@@ -78,7 +78,7 @@ export default class OfferMixin extends mixins(
     return endDate(this.calcSecondsToBlock(expirationBlock))
   }
 
-  public isExpired(expirationBlock): boolean {
+  public isExpired(expirationBlock: number): boolean {
     return this.currentBlock >= expirationBlock
   }
 
@@ -86,19 +86,21 @@ export default class OfferMixin extends mixins(
     maker: string,
     nftId: string,
     collectionId: string,
+    withdraw: boolean,
     onSuccess?: () => void
   ) {
     try {
       const api = await this.useApi()
       this.initTransactionLoader()
-      const isMe = isSameAccount(this.accountId, maker)
-      const cb = !isMe
+      const cb = !withdraw
         ? api.tx.marketplace.acceptOffer
         : api.tx.marketplace.withdrawOffer
       const args = [collectionId, nftId, maker]
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
-        const msg = !isMe ? this.$t('offer.accept') : this.$t('offer.withdraw')
+        const msg = !withdraw
+          ? this.$t('offer.accept')
+          : this.$t('offer.withdraw')
         showNotification(
           `[OFFER] Since block ${blockNumber}, ${msg}`,
           notificationTypes.success
