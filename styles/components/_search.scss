@@ -104,6 +104,10 @@
   .dropdown-menu {
     padding-top: 13px;
 
+    .dropdown-content {
+      max-height: 600px;
+    }
+
     .dropdown-item {
       padding: 0px;
     }

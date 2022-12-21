@@ -42,10 +42,6 @@ html.dark-mode {
     .dropdown-content {
       box-shadow: 4px 4px 0px $white !important;
       border-color: $white !important;
-      @include touch {
-        border: none;
-        box-shadow: none;
-      }
     }
     .dropdown .dropdown-menu .has-link a {
       &:hover,
