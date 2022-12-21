@@ -74,7 +74,10 @@ onMounted(syncIdentity)
 watch(() => props.address, syncIdentity)
 
 provide('address', props.address)
-provide('shortenedAddress', shortenedAddress.value)
+provide(
+  'shortenedAddress',
+  computed(() => shortenedAddress.value)
+)
 provide(
   'identity',
   computed(() => identity.value)
