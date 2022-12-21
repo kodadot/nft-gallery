@@ -1,10 +1,12 @@
 <template>
   <div class="collection-detail">
     <div class="collection-detail__header is-12 is-flex">
-      <BasicImage
-        :src="image"
-        :alt="name"
-        custom-class="collection-card__image-wrapper-sub p-1" />
+      <div class="collection-detail__header-image-wrapper">
+        <BasicImage
+          :src="image"
+          :alt="name"
+          custom-class="collection-card__image-wrapper-sub p-1" />
+      </div>
       <span class="collection-detail__name">{{ name }}</span>
     </div>
     <div
