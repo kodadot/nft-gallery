@@ -38,7 +38,7 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import type { NFT } from '@/components/rmrk/service/scheme'
 
 defineProps<{
-  nft?: NFT
+  nft: NFT
   prefix: string
   showPrice: boolean
 }>()
