@@ -9,7 +9,7 @@ import type { NFT } from '@/components/rmrk/service/scheme'
 const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
-  nft?: NFT
+  nft: NFT
 }>()
 
 const showPrice = computed((): boolean => {
