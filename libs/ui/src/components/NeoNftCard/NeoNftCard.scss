@@ -53,13 +53,14 @@
   }
 }
 
+
 @keyframes cardMoveUp {
   0% {
     box-shadow: none;
     transform: none;
   }
   50% {
-    box-shadow: 2px 2px 0px;
+    box-shadow: none;
     transform: translate(-2px, -2px);
   }
   100% {
