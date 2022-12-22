@@ -59,6 +59,8 @@ const cssActive = (value) => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables.scss';
+
 .events {
   border-bottom: 1px solid black;
 
@@ -74,9 +76,12 @@ const cssActive = (value) => {
       cursor: pointer;
     }
 
-    &:hover,
+    &:hover {
+      color: $k-hovergrey;
+    }
+
     &-active {
-      text-shadow: 0 0 0.5px black;
+      font-weight: bold;
     }
   }
 }

@@ -1,9 +1,15 @@
 <template>
   <o-button
-    :class="{ 'is-neo': true, active: active }"
+    :class="{
+      active: active,
+      'is-fixed-width': fixedWidth,
+      'no-shadow': noShadow,
+    }"
     :size="size"
     :icon-right="icon"
-    icon-pack="fas">
+    :variant="variant"
+    icon-pack="fas"
+    class="is-neo">
     {{ label }}
   </o-button>
 </template>
@@ -12,16 +18,27 @@
 import { OButton } from '@oruga-ui/oruga'
 
 defineProps<{
-  size?: string
+  size?: 'small' | 'medium' | 'large'
   icon?: string
   label?: string
   active?: boolean
+  fixedWidth?: boolean
+  noShadow?: boolean
+  variant?:
+    | 'primary'
+    | 'info'
+    | 'success'
+    | 'warning'
+    | 'danger'
+    | 'k-accent'
+    | 'k-blue'
 }>()
 </script>
 
 <style lang="scss" scoped>
-@import '@oruga-ui/oruga/dist/oruga-full-vars.min.css';
+@import '@oruga-ui/oruga/src/scss/oruga-full.scss';
 @import '../../scss/variable.scss';
+
 .is-neo {
   border-radius: 0;
   color: hsl(0deg, 0%, 4%);
@@ -58,5 +75,23 @@ defineProps<{
     color: hsl(0deg, 0%, 4%);
     background-color: hsl(0deg, 0%, 100%);
   }
+}
+
+.o-btn {
+  &--k-accent {
+    background-color: $k-accent;
+  }
+
+  &--k-blue {
+    background-color: $k-blue;
+  }
+
+  &.no-shadow {
+    box-shadow: none;
+  }
+}
+
+.is-fixed-width {
+  width: 10rem;
 }
 </style>

@@ -5,6 +5,7 @@
       v-model="activeSearchTab"
       destroy-on-hide
       expanded
+      class="touch-mt-20"
       @input="resetSelectedIndex">
       <b-tab-item label="Collections" value="Collections">
         <div v-if="isCollectionResultLoading">
