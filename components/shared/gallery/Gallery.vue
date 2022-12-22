@@ -87,7 +87,7 @@ const components = {
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   CarouselMedia: () => import('@/components/carousel/module/CarouselMedia.vue'),
   CarouselInfo: () => import('@/components/carousel/module/CarouselInfo.vue'),
-  NftCard: () => import('../../rmrk/Gallery/NftCard.vue'),
+  NftCard: () => import('./NftCard.vue'),
 }
 
 @Component<Gallery>({

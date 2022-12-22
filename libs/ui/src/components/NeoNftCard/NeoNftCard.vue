@@ -9,7 +9,8 @@
         :mime-type="nft.mimeType"
         :title="nft?.name" />
     </nuxt-link>
-    <div class="nft-media-info">
+    <div
+      class="nft-media-info is-flex is-flex-direction-column is-justify-content-space-between">
       <div class="is-flex is-flex-direction-column">
         <span class="is-ellipsis has-text-weight-bold">{{ nft.name }}</span>
 

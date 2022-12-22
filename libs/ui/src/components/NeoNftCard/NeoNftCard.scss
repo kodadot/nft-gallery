@@ -7,13 +7,14 @@
 }
 .nft-media {
   border: 1px solid $black;
-  border-bottom: none!important;
+  border-bottom: none !important;
   box-shadow: none;
 }
 
 .nft-media-info {
   border: 1px solid $black;
   padding: 13px;
+  min-height: 102px;
 }
 
 .nft-info-collection-name {
