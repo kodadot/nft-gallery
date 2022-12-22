@@ -6,8 +6,9 @@
   color: $black;
   &:hover {
     box-shadow: 4px 4px 0px $dark;
-    transform: scale(1.05);
-    transition: transform 0.3s ease-in;
+    animation: cardEnter 0.3s ease-in;
+    transform: translate(-4px, -4px);
+
   }
   cursor: pointer;
   a:hover {
@@ -132,5 +133,21 @@
         }
       }
     }
+  }
+}
+
+
+@keyframes cardMoveUp {
+  0% {
+    box-shadow: none;
+    transform: none;
+  }
+  50% {
+    box-shadow: none;
+    transform: translate(-2px, -2px);
+  }
+  100% {
+    box-shadow: 4px 4px 0px;
+    transform: translate(-4px, -4px);
   }
 }

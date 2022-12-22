@@ -3,7 +3,7 @@
 .nft-card {
   &:hover {
     box-shadow: $primary-shadow;
-    transform: scale(1.03);
+    transform: translate(-4px, -4px);
     transition: transform 0.3s ease-in;
   }
 }
@@ -50,5 +50,20 @@
 
   .nft-media-info {
     border: 1px solid $white;
+  }
+}
+
+@keyframes cardMoveUp {
+  0% {
+    box-shadow: none;
+    transform: none;
+  }
+  50% {
+    box-shadow: 2px 2px 0px;
+    transform: translate(-2px, -2px);
+  }
+  100% {
+    box-shadow: 4px 4px 0px;
+    transform: translate(-4px, -4px);
   }
 }
