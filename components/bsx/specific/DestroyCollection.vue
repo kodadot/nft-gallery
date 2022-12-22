@@ -4,7 +4,6 @@
     <b-button
       type="is-primary is-bordered-light share-button"
       icon-left="trash"
-      :disabled="disabled"
       @click="submit">
     </b-button>
   </span>
@@ -19,7 +18,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 
-type BurnableStats = Record<'all' | 'burned', { count: number }>
+type BurnableStats = Record<'all' | 'owned', { count: number }>
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -35,31 +34,36 @@ export default class DonationButton extends mixins(
   @Prop(String) public id!: string
   public disabled = true
 
-  fetch() {
-    this.fetchStats()
-  }
-
-  protected async fetchStats() {
+  async fetch() {
     try {
       const { data } = await this.$apollo.query<BurnableStats>({
         client: this.client,
         query: collectionBurnableStats,
-        variables: { id: this.id },
+        variables: { id: this.id, owner: this.accountId },
       })
 
-      this.disabled = data.all.count - data.burned.count > 0
+      console.log(data)
+
+      this.disabled = data.all.count - data.owned.count !== 0
     } catch (e) {
       this.$consola.error(e)
     }
   }
 
-  protected async submit() {
+  public async submit() {
     const { id: collectionId } = this
     try {
       const api = await this.useApi()
       this.initTransactionLoader()
-      const cb = api.tx.nft.destroyClass
+      const cb = api.tx.utility.batchAll
+
+      // loop
       const args = [collectionId]
+      // api.tx.nft.burn(collectionId, non_burnedNftId1),
+      // api.tx.nft.burn(collectionId, non_burnedNftId2),
+      // api.tx.nft.burn(collectionId, non_burnedNftId3),
+      // ...
+      // api.tx.nft.destroyCollection(collectionId),
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
         showNotification(
