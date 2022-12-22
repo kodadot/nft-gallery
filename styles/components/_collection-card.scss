@@ -6,6 +6,8 @@
   color: $black;
   &:hover {
     box-shadow: 4px 4px 0px $dark;
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in;
   }
   cursor: pointer;
   a:hover {

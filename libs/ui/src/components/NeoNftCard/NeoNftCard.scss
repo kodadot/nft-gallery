@@ -3,6 +3,8 @@
 .nft-card {
   &:hover {
     box-shadow: $primary-shadow;
+    transform: scale(1.03);
+    transition: transform 0.3s ease-in;
   }
 }
 .nft-media {
