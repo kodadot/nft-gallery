@@ -1,6 +1,5 @@
 import { Component, mixins } from 'nuxt-property-decorator'
 
-import { isSameAccount } from '~/utils/account'
 import AuthMixin from '~/utils/mixins/authMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import { notificationTypes, showNotification } from '~/utils/notification'
