@@ -1,7 +1,7 @@
 <template>
   <Story title="NeoNftCard">
     <Variant title="Nft Card">
-      <NeoNftCard :nft="nft" prefix="'rmrk'" :show-price="true" />
+      <NeoNftCard :nft="nft" prefix="rmrk" show-price />
     </Variant>
   </Story>
 </template>
