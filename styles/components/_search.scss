@@ -55,7 +55,6 @@
 
     &:hover {
       color: $k-hovergrey !important;
-
     }
   }
 
@@ -66,7 +65,7 @@
 
   @include touch {
     padding: 0;
-    justify-content: space-evenly!important;
+    justify-content: space-evenly !important;
 
     .landing-search-bar {
       width: 70%;
@@ -78,7 +77,6 @@
       width: 90%;
     }
   }
-
 }
 
 .search-bar-container {
@@ -105,6 +103,10 @@
 
   .dropdown-menu {
     padding-top: 13px;
+
+    .dropdown-content {
+      max-height: 600px;
+    }
 
     .dropdown-item {
       padding: 0px;
@@ -140,6 +142,7 @@
 }
 
 .search-suggestion-container {
+  $desktop-padding-x: 32px;
   .selected-item {
     box-sizing: border-box;
     border: 1px solid $primary !important;
@@ -158,7 +161,7 @@
   .link-item {
     border: 1px solid transparent;
     cursor: pointer;
-    padding: 10px 32px;
+    padding: 10px $desktop-padding-x;
     font-size: 16px;
     &:hover {
       background-color: $k-accentlight;
@@ -166,7 +169,7 @@
   }
 
   .loading-item {
-    padding: 10px 32px;
+    padding: 10px $desktop-padding-x;
   }
 
   .main-title {
@@ -214,7 +217,7 @@
   }
   .tabs:not(:last-child) {
     margin-bottom: 0.5rem;
-    padding: 0px 32px;
+    padding: 0px $desktop-padding-x;
   }
 
   .image-outline {
@@ -239,15 +242,16 @@
     }
 
     .search-history-item {
-      padding: 0 32px;
+      padding: 0 $desktop-padding-x;
       &:hover {
         background-color: $k-accentlight;
       }
     }
   }
+
+
 }
 
-
 .section-search {
-  padding: 3rem 0rem!important;
+  padding: 3rem 0rem !important;
 }

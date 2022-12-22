@@ -33,27 +33,7 @@
           v-for="collection in results"
           :key="collection.id"
           :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`">
-          <nuxt-link
-            :to="`/${urlPrefix}/collection/${collection.id}`"
-            tag="div"
-            class="card collection-card"
-            :data-cy="results.indexOf(collection)">
-            <div class="card-image">
-              <BasicImage
-                :src="collection.image"
-                :alt="collection.name"
-                custom-class="collection__image-wrapper" />
-            </div>
-
-            <div class="card-content">
-              <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
-                <CollectionDetail
-                  :nfts="collection.nfts"
-                  :name="collection.name" />
-              </nuxt-link>
-              <b-skeleton :active="isLoading" />
-            </div>
-          </nuxt-link>
+          <CollectionCard :is-loading="isLoading" :collection="collection" />
         </div>
       </div>
       <InfiniteLoading
@@ -76,7 +56,6 @@ import {
 import { getSanitizer } from '@/components/rmrk/utils'
 import { SearchQuery } from '@/components/rmrk/Gallery/search/types'
 import 'lazysizes'
-
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
@@ -100,12 +79,10 @@ const components = {
   Search: () => import('@/components/search/SearchCollection.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  CollectionDetail: () =>
-    import('@/components/rmrk/Gallery/CollectionDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
-  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
+  CollectionCard: () => import('@/components/collection/CollectionCard'),
 }
 
 @Component<CollectionList>({
@@ -283,149 +260,3 @@ export default class CollectionList extends mixins(
   }
 }
 </script>
-
-<style lang="scss">
-// move to scss component
-@import '@/styles/abstracts/variables';
-.card-image__burned {
-  filter: blur(7px);
-}
-
-.collections {
-  &__image-wrapper {
-    position: relative;
-    margin: auto;
-    padding-top: 100%;
-    overflow: hidden;
-    cursor: pointer;
-  }
-
-  .collection-card {
-    cursor: pointer;
-  }
-
-  .card-image img {
-    border-radius: 0px;
-    top: 50%;
-    transition: all 0.3s;
-    display: block;
-    width: 100%;
-    height: auto;
-    transform: scale(1);
-  }
-
-  .has-text-overflow-ellipsis {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: #fff;
-  }
-
-  .card-image__emotes__count {
-    vertical-align: text-bottom;
-  }
-
-  .columns {
-    padding-top: 10px;
-
-    .card {
-      border-radius: 0px;
-      position: relative;
-      overflow: hidden;
-
-      &-image {
-        &__emotes {
-          position: absolute;
-          background-color: $primary-light;
-          border-radius: 4px;
-          padding: 3px 8px;
-          color: #fff;
-          top: 10px;
-          right: 10px;
-          font-size: 14px;
-          z-index: 3;
-          transition: all 0.3s;
-        }
-
-        &__price {
-          position: absolute;
-          background-color: $grey-darker;
-          border-radius: 4px;
-          padding: 3px 8px;
-          color: #fff;
-          bottom: 10px;
-          left: 10px;
-          font-size: 14px;
-          z-index: 3;
-          transition: all 0.3s;
-        }
-      }
-
-      .card-content {
-        .heading--inline {
-          display: inline-block;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          color: #fff;
-        }
-
-        .level-item {
-          padding: 0.1rem;
-          text-align: left;
-          line-height: initial;
-        }
-
-        .collection-title {
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          color: #fff;
-          font-size: 1.5rem;
-        }
-        .collection-title-class {
-          max-width: 100%;
-          text-align: center;
-        }
-      }
-
-      @media screen and (min-width: 1024px) {
-        &-content {
-          position: absolute;
-          bottom: -45px;
-          left: 0;
-          width: 100%;
-          transition: all 0.3s;
-          background: #fff;
-          opacity: 0;
-        }
-
-        &:hover .card-content {
-          background: $frosted-glass-background;
-          backdrop-filter: $frosted-glass-backdrop-filter;
-          bottom: 0;
-          border-radius: 0;
-          opacity: 1;
-          z-index: 2;
-          padding-left: 1rem;
-          padding-right: 1rem;
-        }
-
-        &:hover .collection__image-wrapper img {
-          transform: scale(1.1);
-          transition: transform 0.3s linear;
-        }
-
-        &:hover .card-image__emotes {
-          top: 15px;
-          right: 15px;
-        }
-
-        &:hover .card-image__price {
-          bottom: 62px;
-        }
-      }
-    }
-  }
-}
-</style>
