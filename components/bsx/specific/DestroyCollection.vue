@@ -4,6 +4,7 @@
     <b-button
       type="is-primary is-bordered-light share-button"
       icon-left="trash"
+      :disabled="disabled"
       @click="submit">
     </b-button>
   </span>
