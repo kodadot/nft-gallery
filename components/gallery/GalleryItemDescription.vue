@@ -7,7 +7,7 @@
       :label="$t('tabs.properties')"
       :disabled-tooltip="$t('tabs.noPropertiesForNFT')">
       <o-table
-        v-if="nftMetadata?.attributes.length"
+        v-if="nftMetadata?.attributes?.length"
         :data="nftMetadata?.attributes"
         hoverable>
         <o-table-column v-slot="props" field="value" label="Trait">
@@ -109,7 +109,8 @@ const propertiesTabDisabled = computed(() => {
   if (!nftMetadata.value) {
     return false
   }
-  return nftMetadata.value.attributes.length == 0
+
+  return !nftMetadata.value.attributes?.length
 })
 
 watch(propertiesTabDisabled, () => {
