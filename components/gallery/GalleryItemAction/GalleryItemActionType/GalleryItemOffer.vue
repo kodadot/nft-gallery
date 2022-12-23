@@ -72,6 +72,8 @@ import { onClickOutside } from '@vueuse/core'
 import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
 import { createTokenId } from '@/components/unique/utils'
 import { calculateBalance } from '@/utils/format/balance'
+import { getExpiration } from '@/utils/api/bsx/query'
+import { dangerMessage, infoMessage } from '@/utils/notification'
 
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
@@ -89,7 +91,6 @@ const props = defineProps<{
 
 const { apiInstance } = useApi()
 const { accountId } = useAuth()
-const { toast } = useToast()
 const { urlPrefix } = usePrefix()
 const { howAboutToExecute, isLoading, status } = useMetaTransaction()
 
@@ -117,22 +118,11 @@ function confirm1() {
   confirm.value = true
 }
 
-// TODO: move to bsx utils
-function getExpiration(currentBlock: number): number {
-  const BLOCK_OFFSET = 5 // time between submit & finalization
-  const BLOCK_PER_DAY_COUNT = 7200 // 7200 = 86400 / 12
-  const DAY_COUNT = selectedDay.value
-  const expiration =
-    currentBlock + BLOCK_OFFSET + BLOCK_PER_DAY_COUNT * DAY_COUNT
-
-  return expiration
-}
-
 async function confirm2() {
   try {
     const api = await apiInstance.value
     const currentBlock = await (await api.query.system.number()).toNumber()
-    const expiration = getExpiration(currentBlock)
+    const expiration = getExpiration(currentBlock, selectedDay.value)
     const meta = calculateBalance(offerPrice.value)
 
     const cb = getApiCall(api, urlPrefix.value, 'MAKE_OFFER')
@@ -145,10 +135,10 @@ async function confirm2() {
     )
 
     howAboutToExecute(accountId.value, cb, arg, () => {
-      toast(`Offered: ${props.nftId} for ${offerPrice.value} KSM`)
+      infoMessage(`Offered: ${props.nftId} for ${offerPrice.value} KSM`)
     })
   } catch (error) {
-    console.log(error)
+    dangerMessage(error)
   } finally {
     active.value = false
     confirm.value = false
