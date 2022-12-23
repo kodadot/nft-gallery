@@ -8,6 +8,7 @@
     :size="size"
     :icon-right="icon"
     :variant="variant"
+    :disabled="disabled"
     icon-pack="fas"
     class="is-neo">
     {{ label }}
@@ -19,6 +20,7 @@ import { OButton } from '@oruga-ui/oruga'
 
 defineProps<{
   size?: 'small' | 'medium' | 'large'
+  disabled?: boolean
   icon?: string
   label?: string
   active?: boolean
