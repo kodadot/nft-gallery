@@ -44,7 +44,7 @@ const isModalActive = ref(false)
 const sharingTxt = $i18n.t('sharing.nft')
 const realworldFullPathShare = ref(`${window.location.origin}${route.fullPath}`)
 const twitterUri = ref(
-  `https://twitter.com/intent/tweet?text=${sharingTxt.value}&via=KodaDot&url=${realworldFullPathShare.value}`
+  `https://twitter.com/intent/tweet?text=${sharingTxt}&via=KodaDot&url=${realworldFullPathShare.value}`
 )
 
 const actionTwitterShare = (): void => {
