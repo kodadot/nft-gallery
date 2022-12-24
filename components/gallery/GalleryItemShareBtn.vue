@@ -37,21 +37,16 @@ import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 const QRCode = () => import('@/components/shared/QRCode.vue')
 
 const route = useRoute()
-const { $buefy } = useNuxtApp()
+const { $i18n } = useNuxtApp()
+const { toast } = useToast()
 
 const isModalActive = ref(false)
-// TODO: sharingTxt = $t('sharing.nft')
-const sharingTxt = ref('Check out this awesome NFT on Kodadot ')
+const sharingTxt = $i18n.t('sharing.nft')
 const realworldFullPathShare = ref(`${window.location.origin}${route.fullPath}`)
 const twitterUri = ref(
   `https://twitter.com/intent/tweet?text=${sharingTxt.value}&via=KodaDot&url=${realworldFullPathShare.value}`
 )
-const toast = (message: string): void => {
-  $buefy.toast.open({
-    message,
-    type: 'is-neo',
-  })
-}
+
 const actionTwitterShare = (): void => {
   window.open(twitterUri.value, '_blank')
 }
