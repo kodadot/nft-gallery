@@ -151,9 +151,7 @@ const handleBuy = async () => {
   const { cb, arg } = await getTranasactionParams()
 
   showNotification(`[${ACTION}] NFT: ${itemId}`)
-  if (urlPrefix.value === 'rmrk') {
-  }
-  if (!(await checkBuyBeforeSubmit())) {
+  if (urlPrefix.value === 'rmrk' && !(await checkBuyBeforeSubmit())) {
     return
   }
 
