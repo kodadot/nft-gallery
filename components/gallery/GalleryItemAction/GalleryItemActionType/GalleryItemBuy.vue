@@ -1,46 +1,167 @@
 <template>
-  <GalleryItemPriceSection v-if="nft?.price" title="Price" :price="nft?.price">
-    <GalleryItemActionSlides
-      v-if="Number(nft.price)"
-      ref="actionRef"
-      :active="active">
-      <template #action>
-        <NeoButton
-          :label="label"
-          size="large"
-          fixed-width
-          variant="k-accent"
-          no-shadow
-          @click.native="toggleActive" />
-      </template>
+  <div>
+    <Loader v-model="isLoading" :status="status" />
+    <GalleryItemPriceSection v-if="nftPrice" title="Price" :price="nftPrice">
+      <GalleryItemActionSlides
+        v-if="Number(nftPrice)"
+        ref="actionRef"
+        :active="active">
+        <template #action>
+          <NeoButton
+            :label="label"
+            size="large"
+            fixed-width
+            variant="k-accent"
+            :disabled="disabled"
+            no-shadow
+            @click.native="onClick" />
+        </template>
 
-      <template #content>
-        <div class="has-text-centered">
-          Buy NFT on
-          <span class="has-text-weight-bold is-uppercase">{{ urlPrefix }}</span>
-        </div>
-      </template>
-    </GalleryItemActionSlides>
-    <div v-else>Not Listed</div>
-  </GalleryItemPriceSection>
+        <template #content>
+          <div class="has-text-centered">
+            Buy NFT on
+            <span class="has-text-weight-bold is-uppercase">{{
+              urlPrefix
+            }}</span>
+          </div>
+        </template>
+      </GalleryItemActionSlides>
+      <div v-else>Not Listed</div>
+    </GalleryItemPriceSection>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
+import { notificationTypes, showNotification } from '@/utils/notification'
 
-import { useGalleryItem } from '../../useGalleryItem'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
+import { tokenIdToRoute } from '@/components/unique/utils'
+import { getApiCall } from '@/utils/gallery/abstractCalls'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
+import { JustInteraction, createInteraction } from '@kodadot1/minimark'
+import { somePercentFromTX } from '@/utils/support'
+import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 
-const { urlPrefix } = usePrefix()
-const { nft } = useGalleryItem()
+const props = defineProps<{
+  nftId: string
+  currentOwner: string
+  collectionId: string
+  nftPrice: string
+}>()
+
+const { urlPrefix, client } = usePrefix()
+const { accountId } = useAuth()
+const { $store, $apollo } = useNuxtApp()
+const { apiInstance } = useApi()
+const ACTION = 'BUY'
+
+const { howAboutToExecute, initTransactionLoader, isLoading, status } =
+  useMetaTransaction()
 
 const active = ref(false)
 const label = computed(() => (active.value ? 'Confirm' : 'Buy'))
 
-function toggleActive() {
-  active.value = !active.value
+const balance = computed<string>(() => {
+  if (urlPrefix.value == 'rmrk') {
+    return $store.getters.getAuthBalance
+  }
+  return $store.getters.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
+})
+const disabled = computed(() => {
+  if (!(props.nftPrice && balance.value)) {
+    return false
+  }
+  return Number(balance.value) <= Number(props.nftPrice)
+})
+
+function onClick() {
+  if (active.value) {
+    handleBuy()
+  } else {
+    active.value = true
+  }
+}
+watch(isLoading, (loading) => {
+  active.value = loading
+})
+
+const getTranasactionParams = async () => {
+  let cb
+  let arg
+
+  const api = await apiInstance.value
+  if (urlPrefix.value == 'rmrk') {
+    const rmrk = createInteraction(
+      ACTION as JustInteraction,
+      useRmrkVersion().version,
+      props.nftId,
+      ''
+    )
+
+    cb = api.tx.utility.batchAll
+    arg = [
+      [
+        api.tx.system.remark(rmrk),
+        api.tx.balances.transfer(props.currentOwner, props.nftPrice),
+        somePercentFromTX(api, props.nftPrice),
+      ],
+    ]
+  } else {
+    const { id: collectionId, item: itemId } = tokenIdToRoute(props.nftId)
+    const api = await apiInstance.value
+    cb = getApiCall(api, urlPrefix.value, ACTION)
+    arg = [collectionId, itemId]
+  }
+  return { cb, arg }
+}
+const checkBuyBeforeSubmit = async () => {
+  const nft = await $apollo.query({
+    query: nftByIdMinimal,
+    client: client.value,
+    variables: {
+      id: props.nftId,
+    },
+  })
+
+  const {
+    data: { nft: nFTEntity },
+  } = nft
+
+  if (
+    nFTEntity.currentOwner !== props.currentOwner ||
+    nFTEntity.burned ||
+    nFTEntity.price === 0 ||
+    nFTEntity.price !== props.nftPrice
+  ) {
+    showNotification(
+      `[RMRK::${ACTION}] Owner changed or NFT does not exist`,
+      notificationTypes.warn
+    )
+    return false
+  }
+  return true
+}
+
+const handleBuy = async () => {
+  const { item: itemId } = tokenIdToRoute(props.nftId)
+
+  const { cb, arg } = await getTranasactionParams()
+
+  showNotification(`[${ACTION}] NFT: ${itemId}`)
+  if (urlPrefix.value === 'rmrk') {
+  }
+  if (!(await checkBuyBeforeSubmit())) {
+    return
+  }
+
+  initTransactionLoader()
+  howAboutToExecute(accountId.value, cb, arg, (blockNumber: string) => {
+    showNotification(blockNumber, notificationTypes.info)
+    showNotification(`[${ACTION}] ${itemId}`, notificationTypes.success)
+  })
 }
 
 const actionRef = ref(null)
