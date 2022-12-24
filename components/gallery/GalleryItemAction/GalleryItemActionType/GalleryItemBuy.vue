@@ -33,16 +33,15 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { onClickOutside } from '@vueuse/core'
-import { notificationTypes, showNotification } from '@/utils/notification'
-
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
-import { tokenIdToRoute } from '@/components/unique/utils'
+import { onClickOutside } from '@vueuse/core'
+import { notificationTypes, showNotification } from '@/utils/notification'
 import { getApiCall } from '@/utils/gallery/abstractCalls'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { JustInteraction, createInteraction } from '@kodadot1/minimark'
 import { somePercentFromTX } from '@/utils/support'
+import { tokenIdToRoute } from '@/components/unique/utils'
+import { JustInteraction, createInteraction } from '@kodadot1/minimark'
 import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 
 const props = defineProps<{
@@ -84,14 +83,12 @@ function onClick() {
     active.value = true
   }
 }
+// close the buy button when transaction loading is finsihed
 watch(isLoading, (loading) => {
   active.value = loading
 })
 
 const getTranasactionParams = async () => {
-  let cb
-  let arg
-
   const api = await apiInstance.value
   if (urlPrefix.value == 'rmrk') {
     const rmrk = createInteraction(
@@ -100,22 +97,24 @@ const getTranasactionParams = async () => {
       props.nftId,
       ''
     )
-
-    cb = api.tx.utility.batchAll
-    arg = [
-      [
-        api.tx.system.remark(rmrk),
-        api.tx.balances.transfer(props.currentOwner, props.nftPrice),
-        somePercentFromTX(api, props.nftPrice),
+    return {
+      cb: api.tx.utility.batchAll,
+      arg: [
+        [
+          api.tx.system.remark(rmrk),
+          api.tx.balances.transfer(props.currentOwner, props.nftPrice),
+          somePercentFromTX(api, props.nftPrice),
+        ],
       ],
-    ]
-  } else {
-    const { id: collectionId, item: itemId } = tokenIdToRoute(props.nftId)
-    const api = await apiInstance.value
-    cb = getApiCall(api, urlPrefix.value, ACTION)
-    arg = [collectionId, itemId]
+    }
   }
-  return { cb, arg }
+
+  // not RMRK
+  const { id: collectionId, item: itemId } = tokenIdToRoute(props.nftId)
+  return {
+    cb: getApiCall(api, urlPrefix.value, ACTION),
+    arg: [collectionId, itemId],
+  }
 }
 const checkBuyBeforeSubmit = async () => {
   const nft = await $apollo.query({
@@ -147,10 +146,10 @@ const checkBuyBeforeSubmit = async () => {
 
 const handleBuy = async () => {
   const { item: itemId } = tokenIdToRoute(props.nftId)
-
   const { cb, arg } = await getTranasactionParams()
 
   showNotification(`[${ACTION}] NFT: ${itemId}`)
+
   if (urlPrefix.value === 'rmrk' && !(await checkBuyBeforeSubmit())) {
     return
   }
@@ -165,5 +164,3 @@ const handleBuy = async () => {
 const actionRef = ref(null)
 onClickOutside(actionRef, () => (active.value = false))
 </script>
-
-<style lang="scss" scoped></style>
