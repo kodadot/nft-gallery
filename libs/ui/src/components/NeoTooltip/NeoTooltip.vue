@@ -1,5 +1,6 @@
 <template>
   <o-tooltip
+    v-if="active"
     append-to-body
     class="neo-tooltip"
     :position="position"
@@ -9,6 +10,11 @@
       <div />
     </slot>
   </o-tooltip>
+  <div v-else>
+    <slot>
+      <div />
+    </slot>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -17,9 +23,11 @@ import { LocaleMessage } from 'vue-i18n'
 export interface Props {
   label: string | LocaleMessage
   position?: 'top' | 'bottom' | 'left' | 'right'
+  active?: boolean
 }
 withDefaults(defineProps<Props>(), {
   position: 'top',
+  active: true,
 })
 </script>
 
