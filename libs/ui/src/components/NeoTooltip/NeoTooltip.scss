@@ -5,6 +5,11 @@
     @media screen and (max-width: 768px) {
         $tooltip-distance: calc(16px  + 100%);
       }
+      .o-tip__trigger > * {
+        height: 100%;
+        font-size: inherit;
+        font-family: inherit;
+      }
 
 
     .o-tip__content {
