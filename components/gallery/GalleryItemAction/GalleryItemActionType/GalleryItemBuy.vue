@@ -24,14 +24,14 @@
 
         <template #content>
           <div class="has-text-centered">
-            Buy NFT on
+            {{ $t('nft.buyNFTOn') }}
             <span class="has-text-weight-bold is-uppercase">{{
               urlPrefix
             }}</span>
           </div>
         </template>
       </GalleryItemActionSlides>
-      <div v-else>Not Listed</div>
+      <div v-else>{{ $t('nft.notListed') }}</div>
     </GalleryItemPriceSection>
   </div>
 </template>
@@ -48,7 +48,6 @@ import { somePercentFromTX } from '@/utils/support'
 import { tokenIdToRoute } from '@/components/unique/utils'
 import { JustInteraction, createInteraction } from '@kodadot1/minimark'
 import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
-
 const props = defineProps<{
   nftId: string
   currentOwner: string
@@ -58,15 +57,18 @@ const props = defineProps<{
 
 const { urlPrefix, client } = usePrefix()
 const { accountId } = useAuth()
-const { $store, $apollo } = useNuxtApp()
+const { $store, $apollo, $i18n } = useNuxtApp()
 const { apiInstance } = useApi()
 const ACTION = 'BUY'
+const actionLabel = $i18n.t('nft.action.buy')
 
 const { howAboutToExecute, initTransactionLoader, isLoading, status } =
   useMetaTransaction()
 
 const active = ref(false)
-const label = computed(() => (active.value ? 'Confirm' : 'Buy'))
+const label = computed(() =>
+  active.value ? $i18n.t('nft.action.confirm') : $i18n.t('nft.action.buy')
+)
 
 const balance = computed<string>(() => {
   if (urlPrefix.value == 'rmrk') {
@@ -141,7 +143,10 @@ const checkBuyBeforeSubmit = async () => {
     nFTEntity.price !== props.nftPrice
   ) {
     showNotification(
-      `[RMRK::${ACTION}] Owner changed or NFT does not exist`,
+      $i18n.t('nft.notification.nftChanged', {
+        chain: 'RMRK',
+        action: actionLabel,
+      }),
       notificationTypes.warn
     )
     return false
@@ -153,7 +158,9 @@ const handleBuy = async () => {
   const { item: itemId } = tokenIdToRoute(props.nftId)
   const { cb, arg } = await getTranasactionParams()
 
-  showNotification(`[${ACTION}] NFT: ${itemId}`)
+  showNotification(
+    $i18n.t('nft.notification.info', { itemId, action: actionLabel })
+  )
 
   if (urlPrefix.value === 'rmrk' && !(await checkBuyBeforeSubmit())) {
     return
@@ -162,7 +169,7 @@ const handleBuy = async () => {
   initTransactionLoader()
   howAboutToExecute(accountId.value, cb, arg, (blockNumber: string) => {
     showNotification(blockNumber, notificationTypes.info)
-    showNotification(`[${ACTION}] ${itemId}`, notificationTypes.success)
+    showNotification(`[${actionLabel}] ${itemId}`, notificationTypes.success)
   })
 }
 
