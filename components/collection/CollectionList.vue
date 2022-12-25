@@ -31,9 +31,10 @@
         class="columns is-multiline"
         @scroll="onScroll">
         <div
-          v-for="collection in results"
+          v-for="(collection, index) in results"
           :key="collection.id"
-          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`">
+          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`"
+          :data-cy="`collection-index-${index}`">
           <CollectionCard :is-loading="isLoading" :collection="collection" />
         </div>
       </div>
