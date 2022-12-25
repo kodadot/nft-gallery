@@ -5,7 +5,8 @@
       <GalleryItemActionSlides
         v-if="Number(nftPrice)"
         ref="actionRef"
-        :active="active">
+        :active="active"
+        :disabled="disabled">
         <template #action>
           <NeoButton
             :label="label"

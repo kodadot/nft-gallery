@@ -46,8 +46,8 @@ defineProps<{
   color: hsl(0deg, 0%, 4%);
   background: hsl(0deg, 0%, 100%);
   border: 1px solid hsl(0deg, 0%, 4%);
-  -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
-  box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+  -webkit-box-shadow: $primary-shadow;
+  box-shadow: $primary-shadow;
   font-family: inherit;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -68,12 +68,24 @@ defineProps<{
     &:hover {
       background: white;
     }
+    &.o-btn--disabled {
+      opacity: unset;
+      background-color: $shade;
+      color: $k-grey;
+      border-color: $k-grey;
+    }
   }
 
   &--k-blue {
     background-color: $k-blue;
     &:hover {
       background: white;
+    }
+    &.o-btn--disabled {
+      opacity: unset;
+      background-color: $shade;
+      color: $k-grey;
+      border-color: $k-grey;
     }
   }
 
@@ -87,11 +99,11 @@ defineProps<{
     color: hsl(0deg, 0%, 100%);
     background: hsl(330, 4%, 9%);
     border: 1px solid hsl(0deg, 0%, 100%);
-    -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
-    box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+    -webkit-box-shadow: $primary-shadow-dark;
+    box-shadow: $primary-shadow-dark;
 
     &:hover {
-      background: #ff7ac3;
+      background: $k-accent;
       color: hsl(0deg, 0%, 4%);
     }
     &.active {
@@ -108,14 +120,26 @@ defineProps<{
         color: hsl(0deg, 0%, 100%);
         background: hsl(0deg, 0%, 4%);
       }
+      &.o-btn--disabled {
+        opacity: unset;
+        background-color: $k-grey;
+        color: $shade;
+        border-color: $shade;
+      }
     }
 
     &--k-blue {
-      color: hslhsl(0deg, 0%, 4%);
+      color: hsl(0deg, 0%, 4%);
       background-color: $k-blue;
       &:hover {
         color: hsl(0deg, 0%, 100%);
         background: hsl(0deg, 0%, 4%);
+      }
+      &.o-btn--disabled {
+        opacity: unset;
+        background-color: $k-grey;
+        color: $shade;
+        border-color: $shade;
       }
     }
   }

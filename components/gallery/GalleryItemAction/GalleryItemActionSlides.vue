@@ -1,5 +1,7 @@
 <template>
-  <div class="slide is-flex" :class="{ 'slide-active': active }">
+  <div
+    class="slide is-flex"
+    :class="{ 'slide-active': active, 'slide-disabled': disabled }">
     <div class="slide-action">
       <slot name="action"></slot>
     </div>
@@ -12,6 +14,7 @@
 <script setup lang="ts">
 defineProps<{
   active: boolean
+  disabled?: boolean
 }>()
 </script>
 
@@ -59,6 +62,9 @@ defineProps<{
       width: 100%;
     }
   }
+  &-disabled {
+    box-shadow: 4px 4px hsl(0, 0%, 60%);
+  }
 }
 
 .dark-mode {
@@ -69,6 +75,9 @@ defineProps<{
       input {
         border-color: hsl(0deg, 0%, 100%);
       }
+    }
+    &-disabled {
+      box-shadow: 4px 4px hsla(0, 0%, 80%, 1);
     }
   }
 }
