@@ -62,34 +62,62 @@ defineProps<{
   }
 }
 
-.dark-mode .is-neo {
-  color: hsl(0deg, 0%, 100%);
-  background: hsl(330, 4%, 9%);
-  border: 1px solid hsl(0deg, 0%, 100%);
-  -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
-  box-shadow: 4px 4px hsl(0deg, 0%, 100%);
-
-  &:hover {
-    background: #ff7ac3;
-    color: hsl(0deg, 0%, 4%);
-  }
-  &.active {
-    color: hsl(0deg, 0%, 4%);
-    background-color: hsl(0deg, 0%, 100%);
-  }
-}
-
 .o-btn {
   &--k-accent {
     background-color: $k-accent;
+    &:hover {
+      background: white;
+    }
   }
 
   &--k-blue {
     background-color: $k-blue;
+    &:hover {
+      background: white;
+    }
   }
 
   &.no-shadow {
-    box-shadow: none;
+    box-shadow: none !important;
+  }
+}
+
+.dark-mode {
+  .is-neo {
+    color: hsl(0deg, 0%, 100%);
+    background: hsl(330, 4%, 9%);
+    border: 1px solid hsl(0deg, 0%, 100%);
+    -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+    box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+
+    &:hover {
+      background: #ff7ac3;
+      color: hsl(0deg, 0%, 4%);
+    }
+    &.active {
+      color: hsl(0deg, 0%, 4%);
+      background-color: hsl(0deg, 0%, 100%);
+    }
+  }
+
+  .o-btn {
+    &--k-accent {
+      color: hsl(0deg, 0%, 4%);
+      background-color: $k-accent;
+      &:hover {
+        color: hsl(0deg, 0%, 100%);
+        background: hsl(0deg, 0%, 4%);
+      }
+    }
+
+    &--k-blue {
+      color: hslhsl(0deg, 0%, 4%);
+      background-color: $k-blue;
+      &:hover {
+        color: hsl(0deg, 0%, 100%);
+        background: hsl(0deg, 0%, 4%);
+      }
+    }
   }
 }
 

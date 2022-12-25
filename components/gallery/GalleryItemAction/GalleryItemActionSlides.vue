@@ -60,4 +60,16 @@ defineProps<{
     }
   }
 }
+
+.dark-mode {
+  .slide {
+    box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+    &-content {
+      border-color: hsl(0deg, 0%, 100%);
+      input {
+        border-color: hsl(0deg, 0%, 100%);
+      }
+    }
+  }
+}
 </style>
