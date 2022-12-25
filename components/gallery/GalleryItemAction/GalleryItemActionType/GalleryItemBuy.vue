@@ -8,14 +8,18 @@
         :active="active"
         :disabled="disabled">
         <template #action>
-          <NeoButton
-            :label="label"
-            size="large"
-            fixed-width
-            variant="k-accent"
-            :disabled="disabled"
-            no-shadow
-            @click.native="onClick" />
+          <NeoTooltip
+            :active="disabled"
+            :label="$t('tooltip.notEnoughBalance')">
+            <NeoButton
+              :label="label"
+              size="large"
+              fixed-width
+              variant="k-accent"
+              :disabled="disabled"
+              no-shadow
+              @click.native="onClick" />
+          </NeoTooltip>
         </template>
 
         <template #content>
@@ -33,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 import { onClickOutside } from '@vueuse/core'
