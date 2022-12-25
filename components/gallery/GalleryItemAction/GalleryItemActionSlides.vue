@@ -64,6 +64,9 @@ defineProps<{
   }
   &-disabled {
     box-shadow: 4px 4px hsl(0, 0%, 60%);
+    &:hover {
+      cursor: not-allowed;
+    }
   }
 }
 
