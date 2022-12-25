@@ -10,7 +10,7 @@
       <div />
     </slot>
   </o-tooltip>
-  <div v-else>
+  <div v-else class="wrapper">
     <slot>
       <div />
     </slot>
