@@ -229,13 +229,6 @@ export default class NavbarMenu extends mixins(
   private isMobile = window.innerWidth < 1024 ? true : isMobileDevice
 
   @Ref('mobilSearchRef') readonly mobilSearchRef
-  @Watch('isBurgerMenuOpened') onDisableScroll() {
-    if (this.isBurgerMenuOpened) {
-      return (document.body.style.overflowY = 'hidden')
-    } else {
-      return (document.body.style.overflowY = 'initial')
-    }
-  }
 
   get account() {
     return this.$store.getters.getAuthAddress
@@ -326,11 +319,14 @@ export default class NavbarMenu extends mixins(
     clearSession()
   }
 
+  get isMobileMenuOpen() {
+    const navbarMenu = document.querySelector('.navbar-menu')
+    return navbarMenu?.classList.contains('is-active')
+  }
+
   @Watch('isBurgerMenuOpened')
   onBurgerMenuOpenedChanged() {
-    document.documentElement.style.overflow = this.isBurgerMenuOpened
-      ? 'hidden'
-      : 'auto'
+    this.toggleBodyScroll()
   }
 
   async fetchArtistIdentity(address) {
@@ -399,6 +395,10 @@ export default class NavbarMenu extends mixins(
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.onScroll)
+    if (this.isMobileMenuOpen) {
+      this.toggleBodyScroll()
+      document.documentElement.classList.remove('is-clipped-touch')
+    }
   }
 }
 </script>
