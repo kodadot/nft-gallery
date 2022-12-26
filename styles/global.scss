@@ -87,8 +87,8 @@ body {
 
 @include mobile {
   .column-padding {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
     margin: 0 -12px !important;
   }
 }

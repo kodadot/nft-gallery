@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import CollectionList from '@/components/rmrk/Collection/List/CollectionList.vue'
+import CollectionList from '@/components/collection/CollectionList.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {

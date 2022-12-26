@@ -23,10 +23,10 @@
         @infinite="reachTopHandler"></InfiniteLoading>
       <div :id="scrollContainerId" class="columns is-multiline">
         <div
-          v-for="nft in results"
-          :key="nft.id"
+          v-for="(nft, index) in results"
+          :key="`${nft.id}-${index}`"
           :class="`column is-4 column-padding ${scrollItemClassName}`">
-          <NftCard :nft="nft" />
+          <NftCard :nft="nft" :data-cy="`item-index-${index}`" />
         </div>
       </div>
       <InfiniteLoading

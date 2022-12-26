@@ -1075,6 +1075,10 @@
     "join": "Join Our Community",
     "subscribeLabel": "Subscribe"
   },
+  "collectionCard": {
+    "volume": "Volume",
+    "items": "Items"
+  },
   "tabs": {
     "properties": "Properties",
     "noPropertiesForNFT" : "No Properties for this NFT",
