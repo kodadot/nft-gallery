@@ -319,14 +319,9 @@ export default class NavbarMenu extends mixins(
     clearSession()
   }
 
-  get isMobileMenuOpen() {
-    const navbarMenu = document.querySelector('.navbar-menu')
-    return navbarMenu?.classList.contains('is-active')
-  }
-
   @Watch('isBurgerMenuOpened')
   onBurgerMenuOpenedChanged() {
-    this.toggleBodyScroll()
+    this.setBodyScroll(!this.isBurgerMenuOpened)
   }
 
   async fetchArtistIdentity(address) {
@@ -356,14 +351,13 @@ export default class NavbarMenu extends mixins(
     }
     this.lastScrollPosition = currentScrollPosition
   }
-  toggleBodyScroll() {
+  setBodyScroll(allowScroll: boolean) {
     this.$nextTick(() => {
       const body = document.querySelector('body') as HTMLBodyElement
-      const clippedClass = 'is-clipped'
-      if (body.classList.contains(clippedClass)) {
-        body.classList.remove(clippedClass)
+      if (allowScroll) {
+        body.classList.remove('is-clipped')
       } else {
-        body.classList.add(clippedClass)
+        body.classList.add('is-clipped')
       }
     })
   }
@@ -373,12 +367,12 @@ export default class NavbarMenu extends mixins(
     this.$nextTick(() => {
       this.mobilSearchRef?.focusInput()
     })
-    this.toggleBodyScroll()
+    this.setBodyScroll(false)
   }
 
   hideMobileSearchBar() {
     this.openMobileSearchBar = false
-    this.toggleBodyScroll()
+    this.setBodyScroll(true)
   }
 
   closeBurgerMenu() {
@@ -395,10 +389,8 @@ export default class NavbarMenu extends mixins(
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.onScroll)
-    if (this.isMobileMenuOpen) {
-      this.toggleBodyScroll()
-      document.documentElement.classList.remove('is-clipped-touch')
-    }
+    this.setBodyScroll(true)
+    document.documentElement.classList.remove('is-clipped-touch')
   }
 }
 </script>
