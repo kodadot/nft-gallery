@@ -398,10 +398,6 @@ export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
     await this.fetchCollectionsSeries(Number(this.nbRows))
   }
 
-  get urlPrefix() {
-    return this.$store.getters.currentUrlPrefix
-  }
-
   private async seriesQueryParams(limit, sort) {
     const queryVars = {
       limit,
