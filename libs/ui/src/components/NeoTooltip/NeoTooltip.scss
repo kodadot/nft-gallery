@@ -1,3 +1,4 @@
+@import '../../scss/variable.scss';
 
 .neo-tooltip {
     width: 100%;
@@ -50,7 +51,7 @@
 
     .neo-tooltip {
         .o-tip__content {
-            background: black;
+            background: $k-dark;
             color: white;
             border-color: white;
             .o-tip__arrow {
