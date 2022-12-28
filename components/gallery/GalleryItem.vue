@@ -100,6 +100,10 @@ const CarouselTypeVisited = defineAsyncComponent(
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
+.title {
+  font-size: 39px;
+}
+
 .mobile-top-margin {
   margin-top: unset;
 }
