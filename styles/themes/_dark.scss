@@ -372,4 +372,12 @@ html.dark-mode {
   .profile-dropdown-divider {
     background-color: #CCCCCC;
   }
+
+  .identity-name {
+    color: white;
+
+    &:hover {
+      color: $shade;
+    }
+  }
 }

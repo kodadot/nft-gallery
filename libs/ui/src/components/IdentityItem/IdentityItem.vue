@@ -6,7 +6,7 @@
         {{ label }}
       </div>
       <nuxt-link
-        class="has-text-weight-bold"
+        class="identity-name has-text-weight-bold"
         :to="{
           name: `${prefix}-u-id`,
           params: { id: account },
