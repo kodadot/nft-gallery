@@ -46,6 +46,9 @@ defineProps<{
   border: 1px solid $dark-accent;
   box-shadow: $primary-shadow;
   border-radius: 0;
+  position: absolute;
+  left: -15rem;
+  z-index: 1;
   .message-body {
     border: none;
   }
