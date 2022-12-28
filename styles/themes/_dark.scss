@@ -111,6 +111,7 @@ html.dark-mode {
 
     #NavProfile {
       .button.is-primary {
+        color: $black;
         border: 1px solid $white !important;
       }
       .dropdown .dropdown-menu .has-link {
