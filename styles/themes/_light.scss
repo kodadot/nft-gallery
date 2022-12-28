@@ -57,14 +57,6 @@ html.light-mode {
   }
 
 
-  .custom-navbar-item {
-    .navbar-item {
-      &:hover {
-        color: $k-hovergrey!important;
-      }
-    }
-  }
-
   .navbar {
     .navbar-item,
     .navbar-link,
