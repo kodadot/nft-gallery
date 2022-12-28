@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { OTabItem, OTabs } from '@oruga-ui/oruga'
 
-const { $store, $route, $router } = useNuxtApp()
+const { $route, $router } = useNuxtApp()
 
 const selectedTab = computed({
   // getter
