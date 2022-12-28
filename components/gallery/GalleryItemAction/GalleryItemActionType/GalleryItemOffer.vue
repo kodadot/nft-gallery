@@ -115,14 +115,20 @@ onClickOutside(actionRef, () => confirm2())
   color: black;
   background: $k-blue;
   border: 1px solid hsl(0deg, 0%, 100%);
-  // where is the box shadow coming from?
 
   &:hover {
     background: $k-dark;
     color: white;
   }
 }
-
+.slide {
+  box-shadow: 4px 4px 0px white;
+}
+.is-neo {
+  &:hover {
+    background: white;
+  }
+}
 .offer {
   width: 20rem;
 
