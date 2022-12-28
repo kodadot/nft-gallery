@@ -61,6 +61,10 @@ const cssActive = (value) => {
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables.scss';
 
+.dark-mode .events {
+  border-bottom: 1px solid white;
+}
+
 .events {
   border-bottom: 1px solid black;
 
