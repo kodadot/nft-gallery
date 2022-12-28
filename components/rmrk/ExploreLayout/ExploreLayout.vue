@@ -35,7 +35,6 @@ const selectedTab = computed({
   },
   // setter
   set(val) {
-    console.log('valll', val)
     $route.query.page = ''
     let queryOptions: {
       page: string
