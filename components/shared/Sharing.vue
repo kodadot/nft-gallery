@@ -4,29 +4,31 @@
       <slot />
 
       <p class="control">
-        <ShowQRModal
-          :address="realworldFullPath"
-          :title="$t(label)"
-          :type="btnType" />
+        <b-button
+          v-if="enableDownload"
+          :type="btnType"
+          class="share-option"
+          @click="downloadImage()">
+          <b-icon pack="fas" icon="download" />
+        </b-button>
       </p>
 
       <p class="control">
         <b-button
           v-clipboard:copy="realworldFullPathShare"
-          class="is-bordered-light"
+          class="share-option"
           :type="btnType"
           @click="toast($t('toast.urlCopy'))">
-          <b-icon size="is-small" pack="fas" icon="link" />
+          <b-icon pack="fas" icon="link" />
         </b-button>
       </p>
 
       <p class="control">
-        <b-button
-          v-if="enableDownload"
-          :type="btnType"
-          @click="downloadImage()">
-          <b-icon size="is-small" pack="fas" icon="download" />
-        </b-button>
+        <ShowQRModal
+          class="share-option"
+          :address="realworldFullPath"
+          :title="$t(label)"
+          :type="btnType" />
       </p>
 
       <b-tooltip
@@ -89,8 +91,8 @@
           </ShareNetwork>
         </template>
         <p class="control">
-          <b-button :type="btnType">
-            <b-icon size="is-small" pack="fas" icon="share" />
+          <b-button :type="btnType" class="share-option">
+            <b-icon pack="fas" icon="share" />
           </b-button>
         </p>
       </b-tooltip>
@@ -114,7 +116,7 @@ export default class Sharing extends Vue {
   @Prop({ default: () => emptyIframe }) iframe!: IFrame
   @Prop(Boolean) enableDownload!: boolean
   @Prop({ default: false }) isPrimary?: boolean
-  @Prop({ default: 'is-bordered-light' }) btnType?: string
+  @Prop({ default: '' }) btnType?: string
 
   private active = false
 
@@ -199,7 +201,7 @@ export default class Sharing extends Vue {
 
 .share {
   &__button {
-    color: $primary;
+    color: $white;
     background: transparent;
     border: none;
     margin: 5px;
@@ -212,9 +214,9 @@ export default class Sharing extends Vue {
 
   &__tooltip {
     .tooltip-content {
-      border: 2px solid $primary-light !important;
-      box-shadow: $dropdown-content-shadow !important;
-      background: $black !important;
+      border: 1px solid $black !important;
+      box-shadow: $primary-shadow !important;
+      background: $white !important;
     }
 
     .tooltip-trigger {
@@ -228,6 +230,24 @@ export default class Sharing extends Vue {
         background-color: $white;
       }
     }
+  }
+}
+
+.share-option,
+.share-option button {
+  border: none;
+  background-color: transparent !important;
+
+  .icon svg {
+    color: $k-blue;
+  }
+}
+
+.dark-mode .share__tooltip {
+  .tooltip-content {
+    background-color: $dark-accent !important;
+    border: 1px solid $white !important;
+    box-shadow: $primary-shadow-dark !important;
   }
 }
 </style>

@@ -1,16 +1,18 @@
 <template>
   <div>
-    <b-message class="message-box" type="is-primary">
-      <div class="columns">
-        <div class="column is-four-fifths">
-          <p class="title is-3 has-text-white">
+    <b-message class="message-box">
+      <img src="/congrats-message-header.svg" class="congrats-message" />
+      <div class="is-flex is-flex-direction-column">
+        <div class="is-four-fifths mb-4">
+          <p class="title is-3">
             {{ title }}
           </p>
-          <p class="subtitle is-size-5 subtitle-text has-text-white">
-            {{ subtitle }}
-          </p>
         </div>
-        <div class="column">
+        <div
+          class="subtitle-box is-flex is-align-items-center is-justify-content-space-between pt-2">
+          <span class="subtitle is-size-5 subtitle-text-congrats">
+            {{ subtitle }}
+          </span>
           <Sharing
             btn-type="is-primary"
             :enable-download="enableDownload"
@@ -21,17 +23,45 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+const Sharing = defineAsyncComponent(
+  () => import('@/components/shared/Sharing.vue')
+)
 
-@Component<MessageNotify>({
-  components: {
-    Sharing: () => import('@/components/shared/Sharing.vue'),
-  },
-})
-export default class MessageNotify extends Vue {
-  @Prop() public title!: string
-  @Prop() public subtitle!: string
-  @Prop({ default: false }) public enableDownload?: boolean
-}
+defineProps<{
+  title?: string
+  subtitle?: string
+  enableDownload: {
+    type: boolean
+    default: false
+  }
+}>()
 </script>
+
+<style lang="scss">
+@import '@/styles/abstracts/variables';
+.message-box {
+  max-width: 480px;
+  background-color: $white;
+  border: 1px solid $dark-accent;
+  box-shadow: $primary-shadow;
+  border-radius: 0;
+  .message-body {
+    border: none;
+  }
+
+  .subtitle-text-congrats {
+    margin-bottom: 0;
+  }
+
+  .subtitle-box {
+    border-top: 1px solid $k-grey;
+  }
+}
+
+.dark-mode .message-box {
+  background-color: $dark-accent;
+  border: 1px solid $white;
+  box-shadow: $primary-shadow-dark;
+}
+</style>

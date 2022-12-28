@@ -9,11 +9,11 @@
     :is-loading="isLoading"
     @mouseEntered="showNavigation = true"
     @mouseLeft="showNavigation = false">
-    <template v-if="message" #top>
+    <template #top>
       <MessageNotify
         :enable-download="isOwner"
         :title="$t('mint.success') + ' 🎉'"
-        :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
+        :subtitle="$t('mint.successNewNfts')" />
     </template>
     <template #image>
       <Navigation
