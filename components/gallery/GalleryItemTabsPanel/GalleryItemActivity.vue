@@ -81,7 +81,7 @@ const cssActive = (value) => {
     }
 
     &:hover {
-      color: $k-hovergrey;
+      color: $shade;
     }
 
     &-active {
