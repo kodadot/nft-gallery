@@ -5,13 +5,13 @@
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
     <b-tabs v-model="selectedTab" data-cy="tabs" :animated="false">
-      <b-tab-item :label="$t('collections')" value="COLLECTION">
-        <template v-if="selectedTab === 'COLLECTION'">
+      <b-tab-item :label="$t('collections')" value="collectibles">
+        <template v-if="selectedTab === 'collectibles'">
           <CollectionList />
         </template>
       </b-tab-item>
-      <b-tab-item :label="$t('gallery')" value="GALLERY"
-        ><Gallery v-if="selectedTab === 'GALLERY'"
+      <b-tab-item :label="$t('gallery')" value="items"
+        ><Gallery v-if="selectedTab === 'items'"
       /></b-tab-item>
     </b-tabs>
   </div>
@@ -35,21 +35,27 @@ export default class ExploreLayout extends mixins(PrefixMixin) {
   }
 
   get selectedTab(): string {
-    let defaultTab = 'COLLECTION'
-    if (this.tabOrder) {
-      defaultTab = this.tabOrder
-    }
-    return (this.$route.query.tab as string) || defaultTab
+    console.log('this.$route.query', this.$route)
+    return this.$route.name?.split('-')[2] as string
+    // if (currenttab === 'collectibles') {
+
+    // }
+    // let defaultTab = 'collectibles'
+    // if (this.tabOrder) {
+    //   defaultTab = this.tabOrder
+    // }
+    // return (this.$route.query.tab as string) || defaultTab
   }
 
   set selectedTab(val) {
+    console.log('valll', val)
     this.$route.query.page = ''
     let queryOptions: {
-      tab: string
+      // tab: string
       page: string
       search?: string | (string | null)[]
     } = {
-      tab: val,
+      // tab: val,
       page: '1',
     }
     if (this.$route.query.search) {
@@ -57,6 +63,7 @@ export default class ExploreLayout extends mixins(PrefixMixin) {
     }
 
     this.$router.replace({
+      path: val,
       query: queryOptions,
     })
   }

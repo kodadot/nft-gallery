@@ -10,7 +10,7 @@ const components = {
   ExploreLayout,
 }
 
-@Component<ExploreMoonriver>({
+@Component<ExploreBsx>({
   components,
   head() {
     const title = 'Low minting fees and carbonless NFTs'
@@ -18,7 +18,7 @@ const components = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: '/movr/explore',
+      url: '/bsx/explore',
       image: `${this.$config.baseUrl}/k_card.png`,
     }
     return {
@@ -27,5 +27,5 @@ const components = {
     }
   },
 })
-export default class ExploreMoonriver extends Vue {}
+export default class ExploreBsx extends Vue {}
 </script>
