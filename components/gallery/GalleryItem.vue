@@ -98,6 +98,8 @@ const CarouselTypeVisited = defineAsyncComponent(
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
 .mobile-top-margin {
   margin-top: unset;
 }
@@ -106,5 +108,9 @@ const CarouselTypeVisited = defineAsyncComponent(
   .mobile-top-margin {
     margin-top: 1.25rem;
   }
+}
+
+hr {
+  background: $k-grey;
 }
 </style>
