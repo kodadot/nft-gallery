@@ -56,6 +56,15 @@ html.light-mode {
     color: $text-light-theme;
   }
 
+
+  .custom-navbar-item {
+    .navbar-item {
+      &:hover {
+        color: $k-hovergrey!important;
+      }
+    }
+  }
+
   .navbar {
     .navbar-item,
     .navbar-link,

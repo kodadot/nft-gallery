@@ -26,6 +26,14 @@ html.dark-mode {
     }
   }
 
+  .custom-navbar-item {
+    .navbar-item {
+      &:hover {
+        color: $shade!important;
+      }
+    }
+  }
+
   .navbar {
     border-color: $white;
     background-color: $background-dark !important;
