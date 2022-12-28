@@ -4,68 +4,79 @@
       {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
-    <b-tabs v-model="selectedTab" data-cy="tabs" :animated="false">
-      <b-tab-item :label="$t('collections')" value="collectibles">
+    <o-tabs
+      v-model="selectedTab"
+      data-cy="tabs"
+      class="explore-tabs"
+      content-class="explore-tabs-content">
+      <o-tab-item :label="$t('collections')" value="collectibles">
         <template v-if="selectedTab === 'collectibles'">
           <CollectionList />
         </template>
-      </b-tab-item>
-      <b-tab-item :label="$t('gallery')" value="items"
-        ><Gallery v-if="selectedTab === 'items'"
-      /></b-tab-item>
-    </b-tabs>
+      </o-tab-item>
+
+      <o-tab-item :label="$t('gallery')" value="items" class="p-5">
+        <Gallery v-if="selectedTab === 'items'" />
+      </o-tab-item>
+    </o-tabs>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import CollectionList from '@/components/collection/CollectionList.vue'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+<script setup lang="ts">
+import { OTabItem, OTabs } from '@oruga-ui/oruga'
 
-const components = {
-  CollectionList,
-}
+const { $store, $route, $router } = useNuxtApp()
+const tabOrder = $store.state.preferences.exploreTabOrder
 
-@Component<ExploreLayout>({
-  components,
-})
-export default class ExploreLayout extends mixins(PrefixMixin) {
-  get tabOrder(): string {
-    return this.$store.state.preferences.exploreTabOrder
-  }
-
-  get selectedTab(): string {
-    console.log('this.$route.query', this.$route)
-    return this.$route.name?.split('-')[2] as string
-    // if (currenttab === 'collectibles') {
-
-    // }
-    // let defaultTab = 'collectibles'
-    // if (this.tabOrder) {
-    //   defaultTab = this.tabOrder
-    // }
-    // return (this.$route.query.tab as string) || defaultTab
-  }
-
-  set selectedTab(val) {
+const selectedTab = computed({
+  // getter
+  get() {
+    return $route.name?.split('-')[2] as string
+  },
+  // setter
+  set(val) {
     console.log('valll', val)
-    this.$route.query.page = ''
+    $route.query.page = ''
     let queryOptions: {
-      // tab: string
       page: string
       search?: string | (string | null)[]
     } = {
-      // tab: val,
       page: '1',
     }
-    if (this.$route.query.search) {
-      queryOptions.search = this.$route.query.search
+    if ($route.query.search) {
+      queryOptions.search = $route.query.search
     }
 
-    this.$router.replace({
+    $router.replace({
       path: val,
       query: queryOptions,
     })
+  },
+})
+</script>
+<style lang="scss">
+@import '@/styles/abstracts/variables';
+
+.explore-tabs {
+  border: none;
+  box-shadow: none;
+
+  .o-tabs__nav {
+    margin-bottom: 35px;
+    max-width: 450px;
+    box-shadow: $primary-shadow;
+  }
+
+  .o-tabs__nav-item-wrapper {
+    width: 100%;
+  }
+
+  .o-tabs__nav-item {
+    padding: 5px;
+  }
+
+  .explore-tabs-content {
+    border: 0;
   }
 }
-</script>
+</style>
