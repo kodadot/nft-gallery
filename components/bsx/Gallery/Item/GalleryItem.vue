@@ -9,7 +9,7 @@
     :is-loading="isLoading"
     @mouseEntered="showNavigation = true"
     @mouseLeft="showNavigation = false">
-    <template #top>
+    <template v-if="message" #top>
       <MessageNotify
         :enable-download="isOwner"
         :title="$t('mint.success') + ' 🎉'"
