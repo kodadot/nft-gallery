@@ -1,0 +1,24 @@
+$themes: (
+  'light-mode': (
+    '$k-accent': #ff7ac3,
+    'text-color': #000000,
+  ),
+  'dark-mode': (
+    '$k-accent': #1a1718,
+    'text-color': #ffffff,
+  ),
+);
+
+@mixin theme() {
+  @each $theme, $map in $themes {
+    $theme-map: $map !global;
+    .#{$theme} & {
+      @content;
+    }
+  }
+  $theme-map: null !global;
+}
+
+@function theme-get($key) {
+  @return map-get($theme-map, $key);
+}

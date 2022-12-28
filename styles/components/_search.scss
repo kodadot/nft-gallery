@@ -1,3 +1,5 @@
+@import '@/styles/abstracts/theme';
+
 .landing-search {
   min-height: 334px;
   width: 100%;
@@ -51,7 +53,10 @@
     color: $grey;
     width: max-content;
     font-weight: 700;
-    color: $white;
+
+    @include theme() {
+      color: theme-get('text-color');
+    }
 
     &:hover {
       color: $k-hovergrey !important;
