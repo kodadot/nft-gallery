@@ -26,7 +26,6 @@
 import { OTabItem, OTabs } from '@oruga-ui/oruga'
 
 const { $store, $route, $router } = useNuxtApp()
-const tabOrder = $store.state.preferences.exploreTabOrder
 
 const selectedTab = computed({
   // getter
