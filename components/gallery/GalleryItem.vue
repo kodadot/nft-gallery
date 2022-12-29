@@ -27,8 +27,8 @@
                 </h2>
               </div>
               <div class="buttons is-align-content-start">
+                <GalleryItemMoreActionBtn class="mr-4" />
                 <GalleryItemShareBtn />
-                <GalleryItemMoreActionBtn class="ml-4" />
               </div>
             </div>
 
@@ -98,8 +98,13 @@ const CarouselTypeVisited = defineAsyncComponent(
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
 .mobile-top-margin {
   margin-top: unset;
+}
+
+hr {
+  background: $k-grey;
 }
 
 @media screen and (max-width: 768px) {
