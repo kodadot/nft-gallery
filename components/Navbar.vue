@@ -59,15 +59,90 @@
       <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
         <NavbarExploreOptions />
       </MobileExpandableSection>
+
+      <MobileExpandableSection
+        v-if="isMobile"
+        :no-padding="true"
+        :title="$t('create')">
+        <b-navbar-item
+          data-cy="classic"
+          :to="`/${urlPrefix}/create`"
+          tag="nuxt-link">
+          {{ $t('classic') }}
+        </b-navbar-item>
+        <b-navbar-item
+          data-cy="simple"
+          :to="`/${urlPrefix}/mint`"
+          tag="nuxt-link">
+          {{ $t('simple') }}
+        </b-navbar-item>
+        <b-navbar-item
+          data-cy="creative"
+          :to="`/${urlPrefix}/creative`"
+          tag="nuxt-link">
+          {{ $t('creative') }}
+        </b-navbar-item>
+      </MobileExpandableSection>
+
       <CreateDropdown
-        v-show="isCreateVisible"
+        v-show="isCreateVisible && !isMobile"
         class="navbar-create custom-navbar-item"
         data-cy="create"
         :chain="chain" />
       <StatsDropdown
+        v-if="!isMobile"
         class="navbar-stats custom-navbar-item"
         data-cy="stats"
         :chain="chain" />
+
+      <MobileExpandableSection
+        v-if="isMobile"
+        :no-padding="true"
+        :title="$t('stats')">
+        <template>
+          <template v-if="chain === 'bsx' || chain === 'snek'">
+            <b-navbar-item
+              data-cy="global-offers"
+              :to="`${
+                accountId
+                  ? `/${urlPrefix}/offers?target=${accountId}`
+                  : `/${urlPrefix}/offers`
+              }`"
+              tag="nuxt-link">
+              {{ $t('navbar.globalOffers') }}
+            </b-navbar-item>
+            <b-navbar-item
+              data-cy="offers-stats"
+              :to="`/${urlPrefix}/stats`"
+              tag="nuxt-link">
+              {{ $t('navbar.offerStats') }}
+            </b-navbar-item>
+            <b-navbar-item
+              data-cy="series-insight"
+              to="/series-insight"
+              tag="nuxt-link">
+              {{ $t('series.label') }}
+            </b-navbar-item>
+          </template>
+          <template v-if="chain === 'rmrk'">
+            <b-navbar-item data-cy="spotlight" to="/spotlight" tag="nuxt-link">
+              {{ $t('spotlight.page') }}
+            </b-navbar-item>
+            <b-navbar-item
+              data-cy="series-insight"
+              to="/series-insight"
+              tag="nuxt-link">
+              {{ $t('series.label') }}
+            </b-navbar-item>
+            <b-navbar-item data-cy="sales" to="/sales" tag="nuxt-link">
+              {{ $t('sales.page') }}
+            </b-navbar-item>
+            <b-navbar-item data-cy="hot" to="/hot" tag="nuxt-link">
+              {{ $t('hot.label') }}
+            </b-navbar-item>
+          </template>
+        </template>
+      </MobileExpandableSection>
       <ChainSelectDropdown
         v-if="!isMobile"
         id="NavChainSelect"
@@ -97,7 +172,9 @@
             {{ $t('settings') }}
           </b-navbar-item>
           <MobileLanguageOption />
-          <MobileNavbarProfile id="NavProfile" />
+          <MobileNavbarProfile
+            id="NavProfile"
+            @closeBurgerMenu="closeBurgerMenu" />
         </MobileExpandableSection>
         <MobileExpandableSection
           v-if="account"
@@ -134,6 +211,10 @@
               class="is-flex is-justify-content-center"
               custom
               paddingless>
+              <ConnectWalletButton
+                label="general.change_account"
+                class="navbar__sign-out-button menu-item is-size-7 mr-3"
+                @closeBurgerMenu="closeBurgerMenu" />
               <b-button
                 class="navbar__sign-out-button menu-item mb-4 is-size-7"
                 @click="disconnect()">

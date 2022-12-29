@@ -8,8 +8,12 @@
         hide-identity-popover />
     </div>
     <div class="has-text-right">
-      <b-button
+      <ConnectWalletButton
+        label="general.change_account"
         class="navbar__sign-out-button menu-item mb-4 is-size-7"
+        @closeBurgerMenu="closeBurgerMenu" />
+      <b-button
+        class="navbar__sign-out-button menu-item is-size-7"
         @click="disconnect()">
         {{ $t('profileMenu.disconnect') }}
       </b-button>
@@ -23,10 +27,16 @@ import { clearSession } from '~/utils/cachingStrategy'
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/IdentityIndex.vue')
 )
+const ConnectWalletButton = defineAsyncComponent(
+  () => import('@/components/shared/ConnectWalletButton.vue')
+)
 
-const { $store } = useNuxtApp()
+const { $store, $emit } = useNuxtApp()
 const account = $store.getters.getAuthAddress
 
+const closeBurgerMenu = (): void => {
+  $emit('closeBurgerMenu')
+}
 const disconnect = () => {
   $store.dispatch('setAuth', { address: '' }) // null not working
   clearSession()

@@ -814,6 +814,7 @@
     "price": "Price of sale"
   },
   "hot": {
+    "label": "Hot",
     "title": "Recently KUSAMA Sales In One Week",
     "subtitle": "Featuring the recently sold NFTs on RMRK"
   },
@@ -838,6 +839,7 @@
     "scoreCalc": "sold * (unique / total)"
   },
   "series": {
+    "label": "Series",
     "title": "Top Collection",
     "subtitle": "The top NFTs on {chain}, ranked by volume, floor price and other statistics.",
     "assets": "Assets",
