@@ -32,7 +32,6 @@ const showMessageBox = ref(true)
 
 onMounted(() => {
   setTimeout(() => {
-    console.log('calllled', showMessageBox)
     showMessageBox.value = false
   }, 6000)
 })
