@@ -60,6 +60,10 @@ defineProps<{
   .subtitle-box {
     border-top: 1px solid $k-grey;
   }
+
+  .congrats-message {
+    filter: drop-shadow(4px 4px 0px rgb(0 0 0 / 1));
+  }
 }
 
 .dark-mode .message-box {
