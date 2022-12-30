@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="showMessageBox">
     <b-message class="message-box">
       <img src="/congrats-message-header.svg" class="congrats-message" />
       <div class="is-flex is-flex-direction-column">
@@ -27,6 +27,15 @@
 const Sharing = defineAsyncComponent(
   () => import('@/components/shared/Sharing.vue')
 )
+
+const showMessageBox = ref(true)
+
+onMounted(() => {
+  setTimeout(() => {
+    console.log('calllled', showMessageBox)
+    showMessageBox.value = false
+  }, 6000)
+})
 
 defineProps<{
   title?: string
