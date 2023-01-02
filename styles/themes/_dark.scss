@@ -126,6 +126,10 @@ html.dark-mode {
       }
     }
 
+    .dropdown .dropdown-menu .has-link {
+      border-color: $white;
+    }
+
     .navbar-explore .menu-item {
       &:hover {
         color: $shade !important;
