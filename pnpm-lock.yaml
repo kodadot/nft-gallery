@@ -4,6 +4,7 @@ overrides:
   '@polkadot/util': ^10.1.9
   vue-server-renderer: 2.7.14
   vue-template-compiler: 2.7.14
+  '@nuxt/kit': 3.0.0-rc.13
 
 patchedDependencies:
   vuex@3.6.2:
@@ -3309,7 +3310,7 @@ packages:
       '@babel/plugin-proposal-nullish-coalescing-operator': 7.18.6_@babel+core@7.20.7
       '@babel/plugin-proposal-optional-chaining': 7.20.7_@babel+core@7.20.7
       '@babel/plugin-transform-typescript': 7.18.12_@babel+core@7.20.7
-      '@nuxt/kit': 3.0.0
+      '@nuxt/kit': 3.0.0-rc.13
       '@nuxt/postcss8': 1.1.3
       '@nuxt/schema': 3.0.0
       '@nuxt/ui-templates': 0.3.2
@@ -3559,28 +3560,28 @@ packages:
       ufo: 0.8.6
     dev: false
 
-  /@nuxt/kit/3.0.0:
-    resolution: {integrity: sha512-7ZsOLt5s9a0ZleAIzmoD70JwkZf5ti6bDdxl6f8ew7Huxz+ni/oRfTPTX9TrORXsgW5CvDt6Q9M7IJNPkAN/Iw==}
+  /@nuxt/kit/3.0.0-rc.13:
+    resolution: {integrity: sha512-FYEnMRm4LvIUxygmBX/p5kykzSeBleUqCOfxervQFONkz5PVVYXEp1DDBINGR3xk01yuPElENuf+l59iEQ4q7g==}
     engines: {node: ^14.16.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
     dependencies:
-      '@nuxt/schema': 3.0.0
-      c12: 1.1.0
+      '@nuxt/schema': 3.0.0-rc.13
+      c12: 0.2.13
       consola: 2.15.3
       defu: 6.1.1
       globby: 13.1.2
       hash-sum: 2.0.0
       ignore: 5.2.0
       jiti: 1.16.0
-      knitwork: 1.0.0
+      knitwork: 0.1.2
       lodash.template: 4.5.0
-      mlly: 1.0.0
-      pathe: 1.0.0
-      pkg-types: 1.0.1
-      scule: 1.0.0
+      mlly: 0.5.16
+      pathe: 0.3.9
+      pkg-types: 0.3.6
+      scule: 0.3.2
       semver: 7.3.8
       unctx: 2.1.1
-      unimport: 1.0.2
-      untyped: 1.2.0
+      unimport: 0.7.1
+      untyped: 0.5.0
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -3641,6 +3642,27 @@ packages:
       ufo: 1.0.1
       unimport: 1.0.2
       untyped: 1.2.0
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+    dev: true
+
+  /@nuxt/schema/3.0.0-rc.13:
+    resolution: {integrity: sha512-yfNPvUkOQ1/8aKHX8OtU7stANAaZ3B8Rty7HPuo1KHv0R3wNqlRdoRXwFuf4D+jcsS+R5Kccr7i8YYD5IG56Iw==}
+    engines: {node: ^14.16.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
+    dependencies:
+      c12: 0.2.13
+      create-require: 1.1.1
+      defu: 6.1.1
+      jiti: 1.16.0
+      pathe: 0.3.9
+      pkg-types: 0.3.6
+      postcss-import-resolver: 2.0.0
+      scule: 0.3.2
+      std-env: 3.3.1
+      ufo: 0.8.6
+      unimport: 0.7.1
+      untyped: 0.5.0
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -7204,7 +7226,7 @@ packages:
     peerDependencies:
       nuxt: ^3.0.0
     dependencies:
-      '@nuxt/kit': 3.0.0
+      '@nuxt/kit': 3.0.0-rc.13
       '@vueuse/core': 9.9.0_vue@2.7.14
       '@vueuse/metadata': 9.9.0
       local-pkg: 0.4.2
@@ -8968,8 +8990,8 @@ packages:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
     engines: {node: '>= 0.8'}
 
-  /c12/0.2.9:
-    resolution: {integrity: sha512-6jYdexgAKr+3kYoTmvC5eDtDHUg7GmFQSdeQqZzAKiPlFAN1heGUoXDbAYYwUCfefZy+WgVJbmAej5TTQpp3jA==}
+  /c12/0.2.13:
+    resolution: {integrity: sha512-wJL0/knDbqM/3moLb+8Xd+w3JdkggkIIhiNBkxZ1mWlskKC/vajb85wM3UPg/D9nK6RbI1NgaVTg6AeXBVbknA==}
     dependencies:
       defu: 6.1.1
       dotenv: 16.0.3
@@ -8977,6 +8999,7 @@ packages:
       jiti: 1.16.0
       mlly: 0.5.16
       pathe: 0.3.9
+      pkg-types: 0.3.6
       rc9: 1.2.2
     dev: true
 
@@ -14550,10 +14573,6 @@ packages:
     resolution: {integrity: sha512-2ekmY2S/VB3YGVhrIFadyJQpkjMFSf48tsXCnA+kjs4FEQIT+5FLyOF0No/X58z/2E/VaMyeJfukRoVT4gMsfQ==}
     dev: true
 
-  /knitwork/1.0.0:
-    resolution: {integrity: sha512-dWl0Dbjm6Xm+kDxhPQJsCBTxrJzuGl0aP9rhr+TG8D3l+GL90N8O8lYUi7dTSAN2uuDqCtNgb6aEuQH5wsiV8Q==}
-    dev: true
-
   /last-call-webpack-plugin/3.0.0:
     resolution: {integrity: sha512-7KI2l2GIZa9p2spzPIVZBYyNKkN+e/SQPpnjlTiPhdbDW3F86tdKKELxKpzJ5sgU19wQWsACULZmpTPYHeWO5w==}
     dependencies:
@@ -15403,7 +15422,7 @@ packages:
     dependencies:
       acorn: 8.8.1
       pathe: 0.3.9
-      pkg-types: 0.3.5
+      pkg-types: 0.3.6
       ufo: 0.8.6
     dev: true
 
@@ -15573,7 +15592,7 @@ packages:
       '@types/jsdom': 20.0.0
       '@vercel/nft': 0.21.0
       archiver: 5.3.1
-      c12: 0.2.9
+      c12: 0.2.13
       chalk: 5.0.1
       chokidar: 3.5.3
       consola: 2.15.3
@@ -15602,7 +15621,7 @@ packages:
       ohmyfetch: 0.4.18
       pathe: 0.3.9
       perfect-debounce: 0.1.3
-      pkg-types: 0.3.5
+      pkg-types: 0.3.6
       pretty-bytes: 6.0.0
       radix3: 0.1.2
       rollup: 2.79.1
@@ -16479,8 +16498,8 @@ packages:
     dependencies:
       find-up: 4.1.0
 
-  /pkg-types/0.3.5:
-    resolution: {integrity: sha512-VkxCBFVgQhNHYk9subx+HOhZ4jzynH11ah63LZsprTKwPCWG9pfWBlkElWFbvkP9BVR0dP1jS9xPdhaHQNK74Q==}
+  /pkg-types/0.3.6:
+    resolution: {integrity: sha512-uQZutkkh6axl1GxDm5/+8ivVdwuJ5pyDGqJeSiIWIUWIqYiK3p9QKozN/Rv6eVvFoeSWkN1uoYeSDBwwBJBtbg==}
     dependencies:
       jsonc-parser: 3.2.0
       mlly: 0.5.16
@@ -19966,6 +19985,24 @@ packages:
       - webpack
     dev: true
 
+  /unimport/0.7.1:
+    resolution: {integrity: sha512-rn/hRpCtFxVVT3T8a6sG738xiA6yp8eFzzMLVr+ebp2FBU1gF0Qo6SfOGrrXATDmKruskhYAvPN7djhydgHU8A==}
+    dependencies:
+      '@rollup/pluginutils': 5.0.2
+      escape-string-regexp: 5.0.0
+      fast-glob: 3.2.12
+      local-pkg: 0.4.2
+      magic-string: 0.26.7
+      mlly: 1.0.0
+      pathe: 1.0.0
+      pkg-types: 1.0.1
+      scule: 1.0.0
+      strip-literal: 1.0.0
+      unplugin: 1.0.1
+    transitivePeerDependencies:
+      - rollup
+    dev: true
+
   /unimport/1.0.2:
     resolution: {integrity: sha512-DcYkDwl1XMZNmyEKUFzVzHAul0FZcj9m0OM/WRfaAtg6Gw1waYlypYJl6qAg31k57TnNPwGDCAxYPodYC5qomQ==}
     dependencies:
@@ -20138,6 +20175,17 @@ packages:
 
   /untyped/0.4.5:
     resolution: {integrity: sha512-buq9URfOj4xAnVfu6BYNKzHZLHAzsCbHsDc/kHy66ESMqRpj00oD9qWf2M2qm0pC0DigsVxRF3uhOa5HJtrwGA==}
+    dependencies:
+      '@babel/core': 7.20.7
+      '@babel/standalone': 7.20.6
+      '@babel/types': 7.20.7
+      scule: 0.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /untyped/0.5.0:
+    resolution: {integrity: sha512-2Sre5A1a7G61bjaAKZnSFaVgbJMwwbbYQpJFH69hAYcDfN7kIaktlSphS02XJilz4+/jR1tsJ5MHo1oMoCezxg==}
     dependencies:
       '@babel/core': 7.20.7
       '@babel/standalone': 7.20.6

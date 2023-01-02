@@ -174,7 +174,8 @@
     "overrides": {
       "@polkadot/util": "^10.1.9",
       "vue-server-renderer": "2.7.14",
-      "vue-template-compiler": "2.7.14"
+      "vue-template-compiler": "2.7.14",
+      "@nuxt/kit": "3.0.0-rc.13"
     },
     "patchedDependencies": {
       "vuex@3.6.2": "patches/vuex@3.6.2.patch"
