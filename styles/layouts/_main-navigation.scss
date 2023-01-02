@@ -296,11 +296,14 @@
     .button.is-primary {
       background: $k-accent;
       border: 1px solid $black !important;
-      color: $black;
       border-radius: 0;
       z-index: 3;
       box-shadow: none;
       text-transform: capitalize;
+
+      &:hover {
+        background: $white;
+      }
     }
   }
 
@@ -375,7 +378,6 @@
     }
     .menu-item {
       cursor: pointer;
-      color: $black;
 
       &.is-active {
         font-weight: bold;

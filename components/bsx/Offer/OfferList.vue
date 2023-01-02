@@ -16,12 +16,12 @@
 import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { isSameAccount } from '~/utils/account'
 import { Offer, OfferResponse } from './types'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { createTokenId } from '~/components/unique/utils'
 import offerListByNftId from '@/queries/subsquid/bsx/offerListByNftId.graphql'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
 import UseApiMixin from '~/utils/mixins/useApiMixin'
 import OfferMixin from '~/utils/mixins/offerMixin'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -37,8 +37,8 @@ export default class OfferList extends mixins(
   UseApiMixin,
   OfferMixin
 ) {
-  protected offers: Offer[] = []
-  protected total = 0
+  public offers: Offer[] = []
+  public total = 0
   @Prop(String) public currentOwnerId!: string
   @Prop(String) public collectionId!: string
   @Prop(String) public nftId!: string
@@ -51,15 +51,7 @@ export default class OfferList extends mixins(
     )
   }
 
-  // fetch() {
-  //   this.fetchOffers()
-  // }
-
-  get tokenId(): [string, string] {
-    return [this.collectionId, this.nftId]
-  }
-
-  public mounted() {
+  fetch() {
     this.$apollo.addSmartQuery<OfferResponse>('offers', {
       client: this.urlPrefix,
       query: offerListByNftId,
@@ -98,9 +90,15 @@ export default class OfferList extends mixins(
     }
   }
 
-  public async onOfferSelected(maker: string) {
+  public async onOfferSelected(data: { caller: string; withdraw: boolean }) {
     const { collectionId, nftId } = this
-    await this.submit(maker, nftId, collectionId, this.fetchOffers)
+    await this.submit(
+      data.caller,
+      nftId,
+      collectionId,
+      data.withdraw,
+      this.fetchOffers
+    )
   }
 }
 </script>

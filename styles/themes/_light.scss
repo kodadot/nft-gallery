@@ -32,10 +32,6 @@ html.light-mode {
     background-color: unset;
   }
 
-  .footer {
-    background-color: $white;
-  }
-
   .box,
   .card {
     background-color: $background-light;
@@ -105,7 +101,12 @@ html.light-mode {
       }
     }
 
+    .button.is-primary {
+      color: $text-light-theme !important;
+    }
+
     .navbar-explore {
+        color: $text-light-theme;
       a {
         &:hover {
           color: $black !important;
@@ -304,7 +305,7 @@ html.light-mode {
 
   .landing-search {
     .active {
-      color: $dark;
+      color: $text-light-theme;
     }
   }
 
