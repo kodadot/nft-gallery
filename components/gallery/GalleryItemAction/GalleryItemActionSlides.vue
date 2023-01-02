@@ -19,6 +19,7 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
 .slide {
   box-shadow: 4px 4px hsl(0deg, 0%, 4%);
   overflow: hidden;
@@ -63,7 +64,7 @@ defineProps<{
     }
   }
   &-disabled {
-    box-shadow: 4px 4px hsl(0, 0%, 60%);
+    box-shadow: 4px 4px $k-grey;
     &:hover {
       cursor: not-allowed;
     }
@@ -72,15 +73,15 @@ defineProps<{
 
 .dark-mode {
   .slide {
-    box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+    box-shadow: 4px 4px $white;
     &-content {
-      border-color: hsl(0deg, 0%, 100%);
+      border-color: $white;
       input {
-        border-color: hsl(0deg, 0%, 100%);
+        border-color: $white;
       }
     }
     &-disabled {
-      box-shadow: 4px 4px hsla(0, 0%, 80%, 1);
+      box-shadow: 4px 4px $shade;
     }
   }
 }
