@@ -190,7 +190,7 @@
               class="navbar__address is-size-6"
               hide-identity-popover />
 
-            <hr aria-role="menuitem" class="dropdown-divider mx-4" />
+            <hr aria-role="menuitem" class="dropdown-divider" />
 
             <div v-if="isSnek">
               <div class="has-text-left has-text-grey is-size-7">
@@ -204,19 +204,19 @@
             </div>
             <AccountBalance v-else class="is-size-7" />
 
-            <hr aria-role="menuitem" class="dropdown-divider mx-4" />
+            <hr aria-role="menuitem" class="dropdown-divider" />
 
             <div
               aria-role="menuitem"
-              class="is-flex is-justify-content-center"
+              class="is-flex is-justify-content-space-between"
               custom
               paddingless>
               <ConnectWalletButton
                 label="general.change_account"
-                class="navbar__sign-out-button menu-item is-size-7 mr-3"
+                class="navbar__sign-out-button menu-item is-size-7 mr-3 w-100"
                 @closeBurgerMenu="closeBurgerMenu" />
               <b-button
-                class="navbar__sign-out-button menu-item mb-4 is-size-7"
+                class="navbar__sign-out-button menu-item mb-4 is-size-7 w-100"
                 @click="disconnect()">
                 {{ $t('profileMenu.disconnect') }}
               </b-button>

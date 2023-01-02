@@ -1,5 +1,5 @@
 <template>
-  <b-button @click="toggleWalletConnectModal">
+  <b-button type="is-primary" @click="toggleWalletConnectModal">
     {{ $t(label) }}
   </b-button>
 </template>

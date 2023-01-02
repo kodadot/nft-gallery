@@ -7,7 +7,8 @@
         class="navbar__address is-size-6"
         hide-identity-popover />
     </div>
-    <div class="has-text-right">
+    <div
+      class="is-flex is-flex-direction-column is-justify-content-space-between">
       <ConnectWalletButton
         label="general.change_account"
         class="navbar__sign-out-button menu-item mb-4 is-size-7"
