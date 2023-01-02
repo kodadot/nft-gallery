@@ -3,9 +3,7 @@
     <div
       class="container is-flex is-align-items-start is-justify-content-space-between">
       <div class="footer-container-subs is-flex is-flex-direction-column">
-        <h4
-          class="subtitle is-5"
-          :class="isDarkMode ? 'has-text-white ' : 'has-text-black '">
+        <h4 class="subtitle is-5">
           {{ $t('footer.subscribe') }}
         </h4>
         <div class="is-flex is-align-items-center footer-container-subs-items">
@@ -28,11 +26,7 @@
         </div>
       </div>
       <div class="footer-container-info is-flex is-flex-direction-column">
-        <h4
-          class="subtitle is-5"
-          :class="isDarkMode ? 'has-text-white ' : 'has-text-black '">
-          KodaDot
-        </h4>
+        <h4 class="subtitle is-5">KodaDot</h4>
         <div>
           <ul class="footer-container-info-list">
             <li
@@ -57,9 +51,7 @@
         </div>
       </div>
       <div class="footer-container-socials is-flex is-flex-direction-column">
-        <h4
-          class="subtitle is-5"
-          :class="isDarkMode ? 'has-text-white ' : 'has-text-black '">
+        <h4 class="subtitle is-5">
           {{ $t('footer.join') }}
         </h4>
         <ul class="footer-container-socials-list is-flex">
@@ -165,12 +157,6 @@ export default class Footer extends Vue {
       icon: 'medium',
     },
   ]
-  get isDarkMode() {
-    return (
-      this.$colorMode.preference === 'dark' ||
-      document.documentElement.className.includes('dark-mode')
-    )
-  }
   public goToSocials(url): void {
     window.open(url, '_blank')
   }

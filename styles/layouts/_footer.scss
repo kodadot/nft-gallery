@@ -55,7 +55,6 @@
 }
 
 .footer-container {
-  color: $black;
   position: relative;
   border-top: 1px solid;
   background: $white;
@@ -114,7 +113,6 @@
 
       &-item {
         a {
-          color: $black !important;
           &:hover {
             color: $k-hovergrey !important;
           }
