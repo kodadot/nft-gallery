@@ -48,12 +48,21 @@ import { somePercentFromTX } from '@/utils/support'
 import { tokenIdToRoute } from '@/components/unique/utils'
 import { JustInteraction, createInteraction } from '@kodadot1/minimark'
 import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
-const props = defineProps<{
-  nftId: string
-  currentOwner: string
-  collectionId: string
-  nftPrice: string
-}>()
+import useRmrkVersion from '@/composables/useRmrkVersion'
+const props = withDefaults(
+  defineProps<{
+    nftId: string
+    currentOwner?: string
+    collectionId?: string
+    nftPrice?: string
+  }>(),
+  {
+    nftId: '',
+    currentOwner: '',
+    collectionId: '',
+    nftPrice: '',
+  }
+)
 
 const { urlPrefix, client } = usePrefix()
 const { accountId } = useAuth()

@@ -2,11 +2,11 @@
   <div>
     <!-- price -->
     <GalleryItemPriceBuy
-      v-if="!isOwner && nft?.id && nft.currentOwner"
-      :nft-id="nft.id"
-      :nft-price="nft.price"
-      :collection-id="nft.collection.id"
-      :current-owner="nft.currentOwner" />
+      v-if="!isOwner"
+      :nft-id="nft?.id"
+      :nft-price="nft?.price"
+      :collection-id="nft?.collection.id"
+      :current-owner="nft?.currentOwner" />
 
     <!-- highest offer -->
     <GalleryItemPriceOffer
