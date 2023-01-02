@@ -80,19 +80,17 @@ html.light-mode {
       background-color: transparent !important;
     }
 
-
     .navbar-menu.is-active {
       color: $text-light-theme;
       background-color: $white;
       box-shadow: rgba(229, 229, 229, 0.55) !important;
     }
     .navbar-dropdown a.navbar-item,
-    .dropdown-item:not(.is-active)  {
-
+    .dropdown-item:not(.is-active) {
       &:last-child {
         border-bottom: none;
       }
-      color: $text-light-theme
+      color: $text-light-theme;
     }
 
     &__sign-out-button {
@@ -128,8 +126,6 @@ html.light-mode {
     }
   }
 
-
-
   .homepage .tile .box {
     border-color: #f3f3f3;
     background-color: $white;
@@ -155,7 +151,6 @@ html.light-mode {
   .royalty {
     color: $text-light-theme;
   }
-
 
   .level .title,
   .homepage .title:not(h2),
@@ -286,7 +281,7 @@ html.light-mode {
     }
   }
 
-  .b-table .table .chevron-cell>a {
+  .b-table .table .chevron-cell > a {
     color: $primary !important;
   }
 
@@ -330,6 +325,18 @@ html.light-mode {
 
     .search-bar-bg {
       background-color: #000;
+    }
+  }
+}
+
+.gallery-avatar {
+  .avatar {
+    box-shadow: $primary-shadow;
+    border: 1px solid $black;
+    border-radius: 50%;
+    & > div {
+      display: flex;
+      align-items: center;
     }
   }
 }

@@ -27,20 +27,21 @@
                 </h2>
               </div>
               <div class="buttons is-align-content-start">
-                <GalleryItemMoreActionBtn class="mr-4" />
                 <GalleryItemShareBtn />
+                <GalleryItemMoreActionBtn class="ml-4" />
               </div>
             </div>
 
             <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4">
               <IdentityItem
                 v-if="nft?.issuer"
-                class="mb-1"
+                class="mb-1 gallery-avatar"
                 label="Creator"
                 :prefix="urlPrefix"
                 :account="nft?.issuer" />
               <IdentityItem
                 v-if="nft?.currentOwner !== nft?.issuer"
+                class="gallery-avatar"
                 label="Owner"
                 :prefix="urlPrefix"
                 :account="nft?.currentOwner || ''" />
@@ -101,10 +102,6 @@ const CarouselTypeVisited = defineAsyncComponent(
 @import '@/styles/abstracts/variables';
 .mobile-top-margin {
   margin-top: unset;
-}
-
-hr {
-  background: $k-grey;
 }
 
 @media screen and (max-width: 768px) {
