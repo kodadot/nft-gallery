@@ -203,6 +203,14 @@ export default class AvailableActions extends mixins(
     return this.selectedAction === ShoppingActions.CONSUME
   }
 
+  get isOffer() {
+    return this.selectedAction === ShoppingActions.MAKE_OFFER
+  }
+
+  get isSend() {
+    return this.selectedAction === ShoppingActions.SEND
+  }
+
   unlistNft() {
     this.selectedAction = ShoppingActions.LIST
     this.meta = 0
@@ -228,6 +236,7 @@ export default class AvailableActions extends mixins(
 
   protected async submit() {
     const api = await this.useApi()
+    let expiration: number | undefined = undefined
     this.initTransactionLoader()
 
     try {
@@ -237,13 +246,23 @@ export default class AvailableActions extends mixins(
       }
 
       showNotification(`[${this.selectedAction}] NFT: ${this.nftId}`)
-      let cb = getApiCall(api, this.urlPrefix, this.selectedAction)
-      let expiration: number | undefined = undefined
-      if (this.selectedAction === ShoppingActions.MAKE_OFFER) {
+      const cb = this.isSend
+        ? api.tx.utility.batchAll
+        : getApiCall(api, this.urlPrefix, this.selectedAction)
+
+      if (this.isOffer) {
         const currentBlock = await api.query.system.number()
         expiration = this.getExpiration(currentBlock.toNumber())
       }
-      let arg: any[] = this.getArgs(expiration)
+
+      const arg: any[] = this.isSend
+        ? [
+            [
+              api.tx.marketplace.setPrice(this.collectionId, this.nftId, 0),
+              api.tx.nft.transfer(this.collectionId, this.nftId, this.meta),
+            ],
+          ]
+        : this.getArgs(expiration)
 
       this.howAboutToExecute(
         this.accountId,
