@@ -52,6 +52,7 @@ html.light-mode {
     color: $text-light-theme;
   }
 
+
   .navbar {
     .navbar-item,
     .navbar-link,
@@ -333,4 +334,7 @@ html.light-mode {
       background-color: #000;
     }
   }
+
+  --card-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+
 }

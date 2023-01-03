@@ -118,6 +118,11 @@
 
     .custom-navbar-item {
       margin-left: 0 !important;
+      .navbar-item {
+        &:hover {
+          color: $k-hovergrey!important;
+        }
+      }
       .dropdown-trigger {
         width: 100%;
       }
@@ -214,6 +219,10 @@
     font-weight: 500;
     cursor: pointer;
     border-radius: 0 !important;
+
+    &:hover {
+      color: $k-hovergrey !important;
+    }
   }
 
   .navbar-brand {

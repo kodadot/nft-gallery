@@ -1,7 +1,5 @@
 <template>
-  <a
-    class="navbar-item is-flex is-align-items-center m-0"
-    @click="toggleColorMode">
+  <a class="is-flex is-align-items-center m-0" @click="toggleColorMode">
     <ColorScheme placeholder="...">
       <span v-if="$colorMode.value === 'dark'">{{
         $t('profileMenu.lightMode')
