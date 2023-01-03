@@ -32,10 +32,6 @@ html.light-mode {
     background-color: unset;
   }
 
-  .footer {
-    background-color: $white;
-  }
-
   .box,
   .card {
     background-color: $background-light;
@@ -55,6 +51,7 @@ html.light-mode {
   .select select option {
     color: $text-light-theme;
   }
+
 
   .navbar {
     .navbar-item,
@@ -102,7 +99,12 @@ html.light-mode {
       }
     }
 
+    .button.is-primary {
+      color: $text-light-theme !important;
+    }
+
     .navbar-explore {
+        color: $text-light-theme;
       a {
         &:hover {
           color: $black !important;
@@ -298,7 +300,7 @@ html.light-mode {
 
   .landing-search {
     .active {
-      color: $dark;
+      color: $text-light-theme;
     }
   }
 
@@ -327,6 +329,9 @@ html.light-mode {
       background-color: #000;
     }
   }
+
+  --card-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+
 }
 
 .gallery-avatar {

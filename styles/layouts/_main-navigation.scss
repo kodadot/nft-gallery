@@ -118,6 +118,11 @@
 
     .custom-navbar-item {
       margin-left: 0 !important;
+      .navbar-item {
+        &:hover {
+          color: $k-hovergrey!important;
+        }
+      }
       .dropdown-trigger {
         width: 100%;
       }
@@ -166,13 +171,13 @@
 }
 
 .navbar {
-	background-color: inherit;
-	transform: translateZ(0px);
-	transition: 0.3s ease;
-	-webkit-transition: 0.3s ease;
-	z-index: 999 !important;
-	min-height: 72px;
-	width: 100vw;
+  background-color: inherit;
+  transform: translateZ(0px);
+  transition: 0.3s ease;
+  -webkit-transition: 0.3s ease;
+  z-index: 999 !important;
+  min-height: 72px;
+  width: 100vw;
   background: $white;
   border-bottom: 1px solid black;
 
@@ -214,6 +219,10 @@
     font-weight: 500;
     cursor: pointer;
     border-radius: 0 !important;
+
+    &:hover {
+      color: $k-hovergrey !important;
+    }
   }
 
   .navbar-brand {
@@ -287,11 +296,14 @@
     .button.is-primary {
       background: $k-accent;
       border: 1px solid $black !important;
-      color: $black;
       border-radius: 0;
       z-index: 3;
       box-shadow: none;
       text-transform: capitalize;
+
+      &:hover {
+        background: $white;
+      }
     }
   }
 
@@ -366,7 +378,6 @@
     }
     .menu-item {
       cursor: pointer;
-      color: $black;
 
       &.is-active {
         font-weight: bold;
