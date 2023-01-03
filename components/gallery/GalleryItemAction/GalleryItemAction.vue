@@ -10,7 +10,7 @@
 
     <!-- highest offer -->
     <GalleryItemPriceOffer
-      v-if="urlPrefix !== 'rmrk' && nft?.id && nft.currentOwner"
+      v-if="urlPrefix !== 'rmrk' && !isOwner && nft?.id && nft.currentOwner"
       :nft-id="nft.id"
       :account="nft.currentOwner"
       class="mt-5" />
