@@ -1,4 +1,5 @@
 @import '../../scss/variable.scss';
+@import '../../scss/animation.scss';
 
 .nft-card {
   animation: cardHoverOut 0.3s ease-out;
@@ -51,24 +52,5 @@
 
   .nft-media-info {
     border: 1px solid $white;
-  }
-}
-
-
-@keyframes cardHoverIn {
-  0% {
-    box-shadow: none;
-  }
-  100% {
-    box-shadow: 4px 4px 0px;
-  }
-}
-
-@keyframes cardHoverOut {
-  0% {
-    box-shadow: 4px 4px 0px;
-  }
-  100% {
-    box-shadow: none;
   }
 }

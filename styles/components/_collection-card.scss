@@ -133,30 +133,3 @@
     }
   }
 }
-
-
-@keyframes cardHoverIn {
-  0% {
-    box-shadow: none;
-  }
-  100% {
-    box-shadow: var(--card-box-shadow);
-  }
-}
-@keyframes cardHoverInDark {
-  0% {
-    box-shadow: none;
-  }
-  100% {
-    box-shadow: $primary-shadow-dark;
-  }
-}
-
-@keyframes cardHoverOut {
-  0% {
-    box-shadow: var(--card-box-shadow);
-  }
-  100% {
-    box-shadow: none;
-  }
-}
