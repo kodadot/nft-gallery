@@ -93,7 +93,7 @@ html.dark-mode {
       border-color: $white !important;
       box-shadow: 4px 4px 0px $white !important;
       background: $dark-accent !important;
-      color: $white;
+      color: $white!important;
       &:hover {
         background-color: $primary !important;
       }
