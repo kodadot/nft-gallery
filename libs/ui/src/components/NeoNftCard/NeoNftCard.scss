@@ -1,12 +1,11 @@
 @import '../../scss/variable.scss';
 
 .nft-card {
-  animation: cardMoveDown 0.3s ease-out;
+  animation: cardHoverOut 0.3s ease-out;
 
   &:hover {
     box-shadow: $primary-shadow;
-    transform: translate(-4px, -4px);
-    animation: cardMoveUp 0.3s ease-in;
+    animation: cardHoverIn 0.3s ease-in;
   }
 }
 .nft-media {
@@ -56,32 +55,20 @@
 }
 
 
-@keyframes cardMoveUp {
+@keyframes cardHoverIn {
   0% {
     box-shadow: none;
-    transform: none;
-  }
-  50% {
-    box-shadow: none;
-    transform: translate(-2px, -2px);
   }
   100% {
     box-shadow: 4px 4px 0px;
-    transform: translate(-4px, -4px);
   }
 }
 
-@keyframes cardMoveDown {
+@keyframes cardHoverOut {
   0% {
     box-shadow: 4px 4px 0px;
-    transform: translate(-4px, -4px);
-  }
-  50% {
-    box-shadow: none;
-    transform: translate(-2px, -2px);
   }
   100% {
     box-shadow: none;
-    transform: none;
   }
 }

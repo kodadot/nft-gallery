@@ -4,12 +4,11 @@
   border: 1px solid $black;
   border-radius: 0;
   color: $black;
-  animation: cardMoveDown 0.3s ease-out;
+  animation: cardHoverOut 0.3s ease-out;
 
   &:hover {
-    box-shadow: 4px 4px 0px $dark;
-    animation: cardMoveUp 0.3s ease-in;
-    transform: translate(-4px, -4px);
+    box-shadow: var(--card-box-shadow);
+    animation: cardHoverIn 0.3s ease-in;
 
   }
   cursor: pointer;
@@ -96,9 +95,6 @@
 
   .collection-card {
     border: 1px solid $white;
-    &:hover {
-      box-shadow: 4px 4px 0px $white;
-    }
     a {
       color: $white;
       &:hover {
@@ -139,32 +135,28 @@
 }
 
 
-@keyframes cardMoveUp {
+@keyframes cardHoverIn {
   0% {
     box-shadow: none;
-    transform: none;
-  }
-  50% {
-    box-shadow: none;
-    transform: translate(-2px, -2px);
   }
   100% {
-    box-shadow: 4px 4px 0px;
-    transform: translate(-4px, -4px);
+    box-shadow: var(--card-box-shadow);
+  }
+}
+@keyframes cardHoverInDark {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: $primary-shadow-dark;
   }
 }
 
-@keyframes cardMoveDown {
+@keyframes cardHoverOut {
   0% {
-    box-shadow: 4px 4px 0px;
-    transform: translate(-4px, -4px);
-  }
-  50% {
-    box-shadow: none;
-    transform: translate(-2px, -2px);
+    box-shadow: var(--card-box-shadow);
   }
   100% {
     box-shadow: none;
-    transform: none;
   }
 }
