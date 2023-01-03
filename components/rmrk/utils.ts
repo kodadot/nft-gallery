@@ -26,11 +26,11 @@ export type IPFSProviders =
 export type PriceDataType = [date: Date, value: number]
 
 export const ipfsProviders: Record<IPFSProviders, string> = {
-  pinata: 'https://kodadot.mypinata.cloud/',
+  pinata: 'https://r2.infura-ipfs.io/', // temporary disable pinata
   cloudflare: 'https://cloudflare-ipfs.com/',
   ipfs: DEFAULT_IPFS_PROVIDER,
   dweb: 'https://dweb.link/',
-  kodadot: 'https://kodadot.mypinata.cloud/',
+  kodadot: 'https://r2.infura-ipfs.io/',
 }
 
 export const arweaveProviders: Record<ArweaveProviders, string> = {
