@@ -66,13 +66,13 @@
           type="is-orange"
           outlined
           icon-left="times"
-          @click="onClick(props.row)" />
+          @click="onClick(props.row, true)" />
         <b-button
           v-else
           type="is-success"
           outlined
           icon-left="money-bill"
-          @click="onClick(props.row)" />
+          @click="onClick(props.row, false)" />
       </b-table-column>
       <b-table-column
         v-slot="props"
@@ -119,7 +119,7 @@ const components = {
   filters: { formatDistanceToNow },
 })
 export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
-  protected offers: Offer[] = []
+  public offers: Offer[] = []
   public destinationAddress = ''
   @Prop({ type: String, default: '' }) public address!: string
   @Prop({ type: Boolean, default: false }) public hideHeading!: boolean
@@ -141,11 +141,11 @@ export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
     }
   }
 
-  public onClick = async (offer: Offer) => {
+  public onClick = async (offer: Offer, withdraw: boolean) => {
     const { caller, nft } = offer
     const { id: collectionId, item } = tokenIdToRoute(nft.id)
     this.isLoading = true
-    await this.submit(caller, item, collectionId, this.fetchMyOffers)
+    await this.submit(caller, item, collectionId, withdraw, this.fetchMyOffers)
   }
 
   @Emit('offersIncoming')
