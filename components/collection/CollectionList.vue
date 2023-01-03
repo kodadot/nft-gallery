@@ -8,7 +8,8 @@
       :sort-option="collectionSortOption"
       @resetPage="resetPage">
       <b-field class="is-flex">
-        <Layout class="mr-5" @change="onResize" />
+        <!--        disabled until redesign explorer menubar-->
+        <!--        <Layout class="mr-5" @change="onResize" />-->
         <Pagination
           v-model="currentValue"
           has-magic-btn
@@ -30,9 +31,10 @@
         class="columns is-multiline"
         @scroll="onScroll">
         <div
-          v-for="collection in results"
+          v-for="(collection, index) in results"
           :key="collection.id"
-          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`">
+          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`"
+          :data-cy="`collection-index-${index}`">
           <CollectionCard :is-loading="isLoading" :collection="collection" />
         </div>
       </div>
@@ -157,6 +159,11 @@ export default class CollectionList extends mixins(
 
   public async created() {
     this.fetchPageData(this.startPage)
+    // setting the default layout until redesign explorer menubar
+    this.$store.dispatch(
+      'preferences/setLayoutClass',
+      'is-one-quarter-desktop is-one-third-tablet'
+    )
   }
 
   protected async fetchPageData(page: number, loadDirection = 'down') {

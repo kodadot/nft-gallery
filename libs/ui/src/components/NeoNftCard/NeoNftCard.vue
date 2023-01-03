@@ -24,7 +24,12 @@
       </div>
 
       <div
-        class="is-flex is-align-items-center is-justify-content-space-between mt-2">
+        class="is-flex is-align-items-center mt-2"
+        :class="[
+          showPrice
+            ? 'is-justify-content-space-between'
+            : 'is-justify-content-end',
+        ]">
         <CommonTokenMoney v-if="showPrice" :value="nft.price" />
         <span class="chain-name">{{ prefix }}</span>
       </div>

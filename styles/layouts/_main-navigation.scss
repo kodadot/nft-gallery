@@ -166,13 +166,13 @@
 }
 
 .navbar {
-	background-color: inherit;
-	transform: translateZ(0px);
-	transition: 0.3s ease;
-	-webkit-transition: 0.3s ease;
-	z-index: 999 !important;
-	min-height: 72px;
-	width: 100vw;
+  background-color: inherit;
+  transform: translateZ(0px);
+  transition: 0.3s ease;
+  -webkit-transition: 0.3s ease;
+  z-index: 999 !important;
+  min-height: 72px;
+  width: 100vw;
   background: $white;
   border-bottom: 1px solid black;
 
@@ -229,7 +229,7 @@
 
   .navbar-start {
     flex: 1;
-    margin-top: 24px;
+    margin-top: 10px;
     @media screen and (max-width: 1024px) {
       display: none;
     }
@@ -287,11 +287,14 @@
     .button.is-primary {
       background: $k-accent;
       border: 1px solid $black !important;
-      color: $black;
       border-radius: 0;
       z-index: 3;
       box-shadow: none;
       text-transform: capitalize;
+
+      &:hover {
+        background: $white;
+      }
     }
   }
 
@@ -366,7 +369,6 @@
     }
     .menu-item {
       cursor: pointer;
-      color: $black;
 
       &.is-active {
         font-weight: bold;
