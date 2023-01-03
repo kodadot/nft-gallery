@@ -1,6 +1,6 @@
 <template>
   <div v-if="showMessageBox">
-    <b-message class="message-box">
+    <b-message class="message-box" :duration="10000" auto-close>
       <img src="/congrats-message-header.svg" class="congrats-message" />
       <div class="is-flex is-flex-direction-column">
         <div class="is-four-fifths mb-4">
@@ -30,24 +30,16 @@ const Sharing = defineAsyncComponent(
 
 const showMessageBox = ref(true)
 
-onMounted(() => {
-  setTimeout(() => {
-    showMessageBox.value = false
-  }, 6000)
-})
-
 defineProps<{
   title?: string
   subtitle?: string
-  enableDownload: {
-    type: boolean
-    default: false
-  }
+  enableDownload: false
 }>()
 </script>
 
 <style lang="scss">
 @import '@/styles/abstracts/variables';
+
 .message-box {
   max-width: 480px;
   background-color: $white;
@@ -55,8 +47,9 @@ defineProps<{
   box-shadow: $primary-shadow;
   border-radius: 0;
   position: absolute;
-  left: -15rem;
+  left: 0;
   z-index: 1;
+
   .message-body {
     border: none;
   }

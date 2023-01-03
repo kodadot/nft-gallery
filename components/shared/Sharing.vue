@@ -159,7 +159,10 @@ export default class Sharing extends Vue {
   }
 
   public toast(message: string): void {
-    this.$buefy.toast.open(message)
+    this.$buefy.toast.open({
+      message,
+      type: 'is-neo',
+    })
   }
 
   get currentGalleryItemImage(): { image: string; name: string } {
