@@ -23,5 +23,7 @@ export const getIPFSProvider = (providerName: IPFSProviders): string => {
 
 export const arweaveProviders: Record<ArweaveProviders, string> = {
   permafrost: process.env.VUE_APP_PERMAFROST_URL + '/meta/',
-  arweave: process.env.VUE_APP_AR_URL + '/' || 'https://arweave.net/',
+  arweave: process.env.VUE_APP_AR_URL
+    ? process.env.VUE_APP_AR_URL + '/'
+    : 'https://arweave.net/',
 }
