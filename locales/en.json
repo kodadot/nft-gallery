@@ -1075,11 +1075,17 @@
     "join": "Join Our Community",
     "subscribeLabel": "Subscribe"
   },
+  "collectionCard": {
+    "volume": "Volume",
+    "items": "Items"
+  },
   "tabs": {
     "properties": "Properties",
+    "noPropertiesForNFT" : "No Properties for this NFT",
     "description": "Description",
     "details": "Details",
     "offers": "Offers",
+    "offersDisabledRMRK": "Offers Are Not Available on RMRK",
     "activity": "Activity",
     "chart": "Chart",
     "rarity": "Rarity by Kodadot",

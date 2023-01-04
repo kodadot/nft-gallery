@@ -23,55 +23,10 @@
         @infinite="reachTopHandler"></InfiniteLoading>
       <div :id="scrollContainerId" class="columns is-multiline">
         <div
-          v-for="nft in results"
-          :key="nft.id"
+          v-for="(nft, index) in results"
+          :key="`${nft.id}-${index}`"
           :class="`column is-4 column-padding ${scrollItemClassName}`">
-          <div class="card nft-card">
-            <nuxt-link
-              :to="`/${urlPrefix}/gallery/${nft.id}`"
-              class="nft-card__skeleton">
-              <div class="card-image">
-                <span v-if="nft.emoteCount" class="card-image__emotes">
-                  <b-icon icon="heart" />
-                  <span class="card-image__emotes__count">{{
-                    nft.emoteCount
-                  }}</span>
-                </span>
-                <PreviewMediaResolver
-                  :src="nft.image || nft.animation_url"
-                  :metadata="nft.metadata"
-                  :mime-type="nft.type" />
-                <span
-                  v-if="nft.price > 0 && showPriceValue"
-                  class="card-image__price">
-                  <CommonTokenMoney
-                    :value="nft.price"
-                    :data-cy="results.indexOf(nft)"
-                    inline />
-                </span>
-              </div>
-
-              <div class="card-content">
-                <span
-                  v-if="!isLoading"
-                  class="title mb-0 is-4 has-text-centered"
-                  :title="getDisplayNameOfNft(nft)">
-                  <nuxt-link :to="`/${urlPrefix}/gallery/${nft.id}`">
-                    <div class="has-text-overflow-ellipsis">
-                      {{ getDisplayNameOfNft(nft) }}
-                    </div>
-                  </nuxt-link>
-                  <p
-                    v-if="nft.count > 2"
-                    :title="`${nft.count} items available in collection`"
-                    class="is-absolute nft-collection-counter title is-6">
-                    「{{ nft.count }}」
-                  </p>
-                </span>
-                <!-- <b-skeleton :active="isLoading"> </b-skeleton> -->
-              </div>
-            </nuxt-link>
-          </div>
+          <NftCard :nft="nft" :data-cy="`item-index-${index}`" />
         </div>
       </div>
       <InfiniteLoading
@@ -109,9 +64,9 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
-import { NFT, NFTMetadata } from '../service/scheme'
+import { NFT, NFTMetadata } from '../../rmrk/service/scheme'
 import { SearchQuery } from './search/types'
-import { getNameOfNft, getSanitizer } from '../utils'
+import { getNameOfNft, getSanitizer } from '../../rmrk/utils'
 
 // import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
@@ -119,10 +74,10 @@ type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
 type SearchedNftsWithMeta = NFTWithCollectionMeta & NFTMetadata
 const components = {
-  GalleryCardList: () => import('./GalleryCardList.vue'),
+  GalleryCardList: () => import('../../rmrk/Gallery/GalleryCardList.vue'),
   Search: () => import('@/components/search/Search.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  Pagination: () => import('./Pagination.vue'),
+  Pagination: () => import('../../rmrk/Gallery/Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
@@ -130,6 +85,9 @@ const components = {
   InfiniteLoading: () => import('vue-infinite-loading'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
+  CarouselMedia: () => import('@/components/carousel/module/CarouselMedia.vue'),
+  CarouselInfo: () => import('@/components/carousel/module/CarouselInfo.vue'),
+  NftCard: () => import('./NftCard.vue'),
 }
 
 @Component<Gallery>({
@@ -434,7 +392,7 @@ export default class Gallery extends mixins(
       position: relative;
       overflow: hidden;
       border-radius: 0px;
-
+      border: 1px solid $black;
       &-image {
         &__emotes {
           position: absolute;
@@ -457,7 +415,7 @@ export default class Gallery extends mixins(
           color: #fff;
           bottom: 10px;
           left: 10px;
-          font-size: 14px;
+          font-size: 12px;
           z-index: 3;
           transition: all 0.3s;
         }
@@ -470,21 +428,11 @@ export default class Gallery extends mixins(
       @media screen and (min-width: 1024px) {
         &-content {
           position: absolute;
-          bottom: -45px;
+          bottom: 0;
           left: 0;
           width: 100%;
           transition: all 0.3s;
           background: #fff;
-          opacity: 0;
-        }
-
-        &:hover .card-content {
-          bottom: 0;
-          opacity: 1;
-          z-index: 2;
-          background: $frosted-glass-background;
-          backdrop-filter: $frosted-glass-backdrop-filter;
-          border-radius: 0;
         }
 
         &:hover .gallery__image-wrapper img {
@@ -500,10 +448,6 @@ export default class Gallery extends mixins(
         &:hover .card-image__emotes {
           top: 15px;
           right: 15px;
-        }
-
-        &:hover .card-image__price {
-          bottom: 62px;
         }
       }
     }

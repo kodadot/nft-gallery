@@ -1,6 +1,7 @@
 // ABSTRACTS
 @import "abstracts/variables";
 @import "abstracts/animations";
+@import "abstracts/mixins";
 @import "abstracts/fonts";
 
 // FRAMEWORK (note: don't move this on top)
@@ -26,6 +27,7 @@
 @import "components/top-collections";
 @import "components/scroll-to-top-button";
 @import "components/price-chart";
+@import "components/collection-card";
 
 // OVERRIDE ORUGA COMPONENTS
 @import "components/o-table";

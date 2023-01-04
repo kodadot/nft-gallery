@@ -5,6 +5,8 @@
     overflow-x: initial;
 
     &-item {
+      font-family: 'Work Sans';
+      font-size: 1rem;
       &-default {
         border: 1px solid black;
         border-right: 0;
@@ -39,34 +41,39 @@
   }
 }
 
-.dark-mode .o-tabs {
-  box-shadow: 4px 4px 0px white;
 
-  &__nav {
-    &-item {
-      &-default {
-        border: 1px solid white;
-        color: white;
+.dark-mode {
+  .o-tabs {
+    box-shadow: 4px 4px 0px white;
 
-        &--active {
-          background-color: white;
-          color: black;
+    &__nav {
+      &-item {
+        &-default {
+          border: 1px solid white;
+          color: white;
+
+          &--active {
+            background-color: white;
+            color: black;
+          }
+
+          &:hover:not(.o-tabs__nav-item-default--active) {
+            background-color: $k-accentlight2dark;
+          }
         }
 
-        &:hover:not(.o-tabs__nav-item-default--active) {
-          background-color: $k-accentlight2dark;
-        }
-      }
-
-      &-wrapper:last-child {
-        button {
-          border-right: 1px solid white;
+        &-wrapper:last-child {
+          button {
+            border-right: 1px solid white;
+          }
         }
       }
     }
+
+    &__content {
+      border: 1px solid white;
+    }
   }
 
-  &__content {
-    border: 1px solid white;
-  }
+
 }

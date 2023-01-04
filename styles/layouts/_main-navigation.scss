@@ -1,29 +1,151 @@
 @include touch {
+  html.dark-mode {
+    .navbar {
+      &-item {
+        border-color: $white !important;
+        .menu-item {
+          color: $white;
+        }
+
+        &--reverse {
+          background-color: $white !important;
+          color: $black !important;
+        }
+
+        &--fullpage {
+          background-color: $background-dark !important;
+        }
+      }
+
+      .mobile-language {
+        a {
+          color: $white;
+        }
+
+        .is-active {
+          background-color: $white;
+          a {
+            color: $black;
+          }
+        }
+      }
+
+      .fixed-stack {
+        background-color: $black;
+      }
+      .cancel-btn {
+        background-color: $black !important;
+      }
+    }
+  }
+
   .navbar {
     .navbar-menu {
       border-top: 1px solid $black;
       width: 100vw;
-
       height: 100vh;
+
+      @include mobile {
+        padding: 0;
+      }
 
       .navbar-end {
         display: flex;
         flex-direction: column;
+
+        .navbar-item {
+          padding: 24px 20px;
+          border-bottom: 1px solid black;
+
+          &.is-active {
+            border-top: 1px solid white;
+          }
+
+          &--noBorder {
+            border-bottom: none;
+          }
+
+          &-body {
+            overflow-y: auto;
+            height: calc(100% - 118px);
+            position: relative;
+          }
+
+          span {
+            vertical-align: middle;
+          }
+
+          .icon {
+            margin: 0;
+
+            &--right {
+              @include set-position(center, right);
+            }
+          }
+
+          &--fullpage {
+            position: fixed;
+            top: 65px;
+            background-color: $background-light;
+            height: 100vh;
+            width: 100%;
+            z-index: 100;
+          }
+
+          &--reverse {
+            background-color: black;
+            color: white;
+          }
+
+          .navbar-link {
+            padding: 0;
+          }
+        }
+
+        #NavProfile {
+          .button-connect-wallet {
+            box-shadow: 4px 4px 0px black !important;
+            width: 80%;
+            height: 67px;
+            border-radius: 0;
+            display: block;
+            margin: 0 auto 20px;
+            text-transform: capitalize;
+          }
+        }
       }
     }
+
     .custom-navbar-item {
       margin-left: 0 !important;
+      .navbar-item {
+        &:hover {
+          color: $k-hovergrey!important;
+        }
+      }
+      .dropdown-trigger {
+        width: 100%;
+      }
     }
 
-
     #NavProfile {
-      align-self: center;
+      align-self: auto;
+      width: 100%;
+      padding: 24px 20px 0;
       margin-bottom: 3.5rem;
       position: absolute;
       bottom: 0;
 
+      div {
+        flex-grow: 1;
+      }
+
       .dropdown-trigger .button {
         width: 40vw;
+      }
+
+      .navbar-dropdown a {
+        color: $black !important;
       }
     }
 
@@ -32,18 +154,30 @@
       transform: translate3d(-50%, 10%, 0);
       width: 100%;
     }
+
+    .mobile-language {
+      a {
+        color: $black;
+      }
+
+      .is-active {
+        background-color: $black;
+        a {
+          color: $white;
+        }
+      }
+    }
   }
 }
 
 .navbar {
-	background-color: inherit;
-	transform: translateZ(0px);
-	transition: 0.3s ease;
-	-webkit-transition: 0.3s ease;
-	z-index: 999 !important;
-	font-family: 'Work Sans';
-	min-height: 72px;
-	width: 100vw;
+  background-color: inherit;
+  transform: translateZ(0px);
+  transition: 0.3s ease;
+  -webkit-transition: 0.3s ease;
+  z-index: 999 !important;
+  min-height: 72px;
+  width: 100vw;
   background: $white;
   border-bottom: 1px solid black;
 
@@ -85,6 +219,10 @@
     font-weight: 500;
     cursor: pointer;
     border-radius: 0 !important;
+
+    &:hover {
+      color: $k-hovergrey !important;
+    }
   }
 
   .navbar-brand {
@@ -94,22 +232,21 @@
       height: 2.5em;
       width: 2.5em;
       color: $black;
-
-      &:hover {
-        border-top: 1px solid #ff47ac !important;
-      }
+      background-color: $white;
     }
   }
 
   .navbar-start {
     flex: 1;
-    margin-top: 24px;
+    margin-top: 10px;
+    @media screen and (max-width: 1024px) {
+      display: none;
+    }
   }
 
-
-    .b-tooltip {
-      width: 100%;
-    }
+  .b-tooltip {
+    width: 100%;
+  }
 
   .search-navbar {
     box-shadow: none;
@@ -119,23 +256,6 @@
     .dropdown-menu {
       > .dropdown-content {
         width: 550px;
-      }
-    }
-  }
-
-  .search-navbar-container-mobile {
-    width: 0;
-    height: 0;
-    overflow: hidden;
-
-    input {
-      color: $white;
-      padding: 0;
-      z-index: 1;
-
-      &:focus {
-        box-shadow: none !important;
-        border-top: 2px solid $primary;
       }
     }
   }
@@ -166,39 +286,35 @@
     padding: 8px 16px;
     border-radius: 0;
     text-transform: capitalize;
-    width: 120px;custom-navbar-itemcustom-navbar-item
-    &:hover {
+    width: 120px;
+    custom-navbar-itemcustom-navbar-item &:hover {
       border: 1px solid $black;
     }
   }
 
-	#NavProfile {
-		.button.is-primary {
-			background: $k-accent;
-			border: 1px solid $black !important;
-			color: $black;
-			border-radius: 0;
-			z-index: 3;
-			box-shadow: none;
-			text-transform: capitalize;
-		}
-	}
-  .mobile-nav-search-btn {
-    background: $white;
-    border: 1px solid $black;
-    box-shadow: 4px 4px 0px $black;
-    width: 33px;
-    height: 30px;
-    border-radius: 0;
+  #NavProfile {
+    .button.is-primary {
+      background: $k-accent;
+      border: 1px solid $black !important;
+      border-radius: 0;
+      z-index: 3;
+      box-shadow: none;
+      text-transform: capitalize;
+
+      &:hover {
+        background: $white;
+      }
+    }
   }
 
   button.button.is-bordered-light {
     border-radius: 0;
   }
 
-  .navbar-create, .navbar-stats {
+  .navbar-create,
+  .navbar-stats {
     .dropdown-content {
-      width: 70% ;
+      width: 70%;
     }
   }
 
@@ -212,6 +328,7 @@
     user-select: none;
     padding: 0;
     width: 100%;
+    max-height: 600px;
 
     .has-link:hover {
       background-color: $k-accentlight !important;
@@ -261,7 +378,6 @@
     }
     .menu-item {
       cursor: pointer;
-      color: $black;
 
       &.is-active {
         font-weight: bold;
@@ -271,7 +387,6 @@
       &:hover {
         background-color: transparent !important;
         color: $k-hovergrey !important;
-
       }
       &.is-disabled {
         cursor: not-allowed;
@@ -307,10 +422,19 @@
     overflow: hidden;
 
     .dropdown-menu {
+      $navbar-height: 70px;
       position: fixed;
-      top: 55px;
+      top: $navbar-height;
       left: 0;
-      width: 98% !important;
+      width: 100%;
+      padding-top: 0;
+
+      .dropdown-content {
+        height: 100vh;
+        max-height: 100vh;
+        border: none;
+        box-shadow: none;
+      }
     }
 
     > .control {
@@ -322,6 +446,33 @@
 
       > .icon {
         top: 10%;
+      }
+    }
+    @include touch {
+      $touch-padding-x: 20px;
+      .dropdown-content .search-suggestion-container {
+        .link-item {
+          padding-right: $touch-padding-x;
+          padding-left: $touch-padding-x;
+        }
+
+        .loading-item {
+          padding-right: $touch-padding-x;
+          padding-left: $touch-padding-x;
+        }
+        .tabs:not(:last-child) {
+          padding-right: $touch-padding-x;
+          padding-left: $touch-padding-x;
+        }
+
+        .search-history-item {
+          padding-right: $touch-padding-x;
+          padding-left: $touch-padding-x;
+        }
+
+        .touch-mt-20 {
+          margin-top: 20px;
+        }
       }
     }
   }

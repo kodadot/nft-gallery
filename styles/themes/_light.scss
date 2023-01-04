@@ -26,15 +26,10 @@ html.light-mode {
     height: 100%;
     background-color: $white;
     color: $text-light-theme;
-    z-index: 1;
   }
 
   main {
     background-color: unset;
-  }
-
-  .footer {
-    background-color: $white;
   }
 
   .box,
@@ -56,6 +51,7 @@ html.light-mode {
   .select select option {
     color: $text-light-theme;
   }
+
 
   .navbar {
     .navbar-item,
@@ -105,11 +101,19 @@ html.light-mode {
       }
     }
 
+    .button.is-primary {
+      color: $text-light-theme !important;
+    }
+
     .navbar-explore {
+        color: $text-light-theme;
       a {
         &:hover {
           color: $black !important;
         }
+      }
+      .menu-item:hover {
+        color: $k-hovergrey !important;
       }
     }
   }
@@ -255,8 +259,7 @@ html.light-mode {
     color: $text-light-theme;
   }
 
-  .nft-card .card-content,
-  .collection-card .card-content {
+  .nft-card .card-content {
     background-color: $frosted-glass-background-dark !important;
   }
 
@@ -302,7 +305,7 @@ html.light-mode {
 
   .landing-search {
     .active {
-      color: $dark;
+      color: $text-light-theme;
     }
   }
 
@@ -331,4 +334,7 @@ html.light-mode {
       background-color: #000;
     }
   }
+
+  --card-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+
 }

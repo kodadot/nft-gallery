@@ -1,5 +1,9 @@
 <template>
-  <o-dropdown-item aria-role="listitem" :disabled="disabled">
+  <o-dropdown-item
+    aria-role="listitem"
+    :disabled="disabled"
+    :class="{ 'is-active': active }"
+    class="neo-dropdown-item">
     {{ item }}
     <slot />
   </o-dropdown-item>
@@ -11,5 +15,6 @@ import { ODropdownItem } from '@oruga-ui/oruga'
 defineProps<{
   item?: string
   disabled?: boolean
+  active?: boolean
 }>()
 </script>

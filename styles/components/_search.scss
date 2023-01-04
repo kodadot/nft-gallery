@@ -1,5 +1,4 @@
 .landing-search {
-  font-family: 'Work Sans';
   min-height: 334px;
   width: 100%;
   gap: 50px;
@@ -56,7 +55,6 @@
 
     &:hover {
       color: $k-hovergrey !important;
-
     }
   }
 
@@ -67,7 +65,7 @@
 
   @include touch {
     padding: 0;
-    justify-content: space-evenly!important;
+    justify-content: space-evenly !important;
 
     .landing-search-bar {
       width: 70%;
@@ -79,7 +77,6 @@
       width: 90%;
     }
   }
-
 }
 
 .search-bar-container {
@@ -104,12 +101,12 @@
     pointer-events: none;
   }
 
-  input {
-    font-family: 'Work Sans';
-  }
-
   .dropdown-menu {
     padding-top: 13px;
+
+    .dropdown-content {
+      max-height: 600px;
+    }
 
     .dropdown-item {
       padding: 0px;
@@ -145,6 +142,7 @@
 }
 
 .search-suggestion-container {
+  $desktop-padding-x: 32px;
   .selected-item {
     box-sizing: border-box;
     border: 1px solid $primary !important;
@@ -163,7 +161,7 @@
   .link-item {
     border: 1px solid transparent;
     cursor: pointer;
-    padding: 10px 32px;
+    padding: 10px $desktop-padding-x;
     font-size: 16px;
     &:hover {
       background-color: $k-accentlight;
@@ -171,7 +169,7 @@
   }
 
   .loading-item {
-    padding: 10px 32px;
+    padding: 10px $desktop-padding-x;
   }
 
   .main-title {
@@ -219,7 +217,7 @@
   }
   .tabs:not(:last-child) {
     margin-bottom: 0.5rem;
-    padding: 0px 32px;
+    padding: 0px $desktop-padding-x;
   }
 
   .image-outline {
@@ -234,56 +232,28 @@
 
     .history-label {
       font-size: 16px;
+      text-transform: none;
     }
 
-    .times-icon {
+    .remove-search-history {
+      padding: 5px;
+
       &:hover {
         color: $k-hovergrey;
       }
     }
 
     .search-history-item {
-      padding: 0 32px;
+      padding: 0 $desktop-padding-x;
       &:hover {
         background-color: $k-accentlight;
       }
     }
   }
-}
 
-.search-navbar-container-mobile {
-  .gallery-search:focus-within {
-    box-sizing: border-box;
-    position: fixed;
-    width: 100%;
-    height: 50px;
-    top: 0;
-    left: 0;
-    z-index: 989;
-    border-radius: 0;
-    overflow: auto;
 
-    .dropdown-menu {
-      position: fixed;
-      top: 46px;
-      left: 0;
-      width: 98%;
-    }
-
-    > .control {
-      margin-right: auto !important;
-
-      > .input {
-        height: 50px;
-      }
-
-      > .icon {
-        top: 10%;
-      }
-    }
-  }
 }
 
 .section-search {
-  padding: 3rem 0rem!important;
+  padding: 3rem 0rem !important;
 }

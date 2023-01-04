@@ -127,20 +127,16 @@ Cypress.Commands.add('collectionsBuyNow', () => {
     cy.get('[type="checkbox"]').check({ force: true })
     cy.get('[type="checkbox"]').should('be.checked')
   })
-  cy.get('[data-cy="0"]').within(() => {
-    cy.get('[data-cy="collection-floor-price"]')
-      .invoke('text')
-      .then((text) => {
-        if (!(parseFloat(text.replace(',', '')) >= 0)) {
-          throw '[ERROR] Collection BUY NOW is not working'
-        }
-      })
-  })
+
+  cy.get('[data-cy="collection-index-0"]').should('exist')
+  cy.get('[data-cy="collection-index-1"]').should('exist')
+  cy.get('[data-cy="collection-index-2"]').should('exist')
+  cy.get('[data-cy="collection-index-3"]').should('exist')
 })
 
 Cypress.Commands.add('galleryBuyNow', (amount) => {
   cy.toggleBuyNowGallery()
-  cy.get('[data-cy="0"]')
+  cy.get('[data-cy="item-index-0"] .money')
     .invoke('text')
     .then((text) => {
       if (!(parseFloat(text.replace(',', '')) >= amount)) {
