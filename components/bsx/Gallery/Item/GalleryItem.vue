@@ -460,7 +460,7 @@ export default class GalleryItem extends mixins(
             getSanitizer(this.nft.metadata, 'pinata', 'permafrost')
           )
 
-      const imageSanitizer = getSanitizer(meta.image, 'pinata')
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
