@@ -46,29 +46,3 @@ function toggleActive() {
 const actionRef = ref(null)
 onClickOutside(actionRef, () => (active.value = false))
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
-.dark-mode {
-  .slide {
-    box-shadow: 4px 4px 0 white;
-  }
-
-  .is-neo {
-    background: $k-accent;
-    color: black;
-
-    &:hover {
-      background: $k-dark;
-      color: white;
-    }
-  }
-}
-
-.is-neo {
-  &:hover {
-    background: white;
-  }
-}
-</style>
