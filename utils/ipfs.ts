@@ -49,10 +49,6 @@ export type SomethingWithMeta = {
   metadata: string
 }
 
-export const fetchCollectionMetadata = (
-  rmrk: Collection | SomethingWithMeta
-): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
-
 export const fetchNFTMetadata = (
   rmrk: NFT | SomethingWithMeta,
   sanitizer: SanitizerFunc = sanitizeIpfsUrl
@@ -77,6 +73,10 @@ export const fetchMetadata = async <T>(
 
   return emptyObject<T>()
 }
+
+export const fetchCollectionMetadata = (
+  rmrk: Collection | SomethingWithMeta
+): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
 
 export const preheatFileFromIPFS = (ipfsUrl: string) => {
   const url = sanitizeIpfsUrl(ipfsUrl, 'pinata')
@@ -112,6 +112,13 @@ export const isArweaveUrl = (url: string): boolean => {
   return ar.test(url)
 }
 
+export const sanitizeIpfsCid = (
+  url: string,
+  provider?: ProviderKeyType
+): string => {
+  return `${resolveProvider(provider)}ipfs/${url}`
+}
+
 export const getSanitizer = (
   url: string,
   ipfsProvider?: ProviderKeyType,
@@ -130,13 +137,6 @@ export const getSanitizer = (
   }
 
   return (link) => link
-}
-
-export const sanitizeIpfsCid = (
-  url: string,
-  provider?: ProviderKeyType
-): string => {
-  return `${resolveProvider(provider)}ipfs/${url}`
 }
 
 export const sanitizeIpfsUrl = (
@@ -159,8 +159,8 @@ export const sanitizeIpfsUrl = (
     return ipfsUrl.replace('ipfs://', resolveProvider(provider))
   }
 
-  const r = /^ipfs:\/\//
-  if (r.test(ipfsUrl)) {
+  const ipfsRegexp = /^ipfs:\/\//
+  if (ipfsRegexp.test(ipfsUrl)) {
     return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`)
   }
 
