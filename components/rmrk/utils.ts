@@ -208,7 +208,7 @@ export function sanitizeImage<T extends RmrkWithMetaType>(
 ): T {
   return {
     ...instance,
-    image: sanitizeIpfsUrl(instance.image || '', provider),
+    image: sanitizeIpfsUrl(instance.image || '', provider, 'image'),
   }
 }
 

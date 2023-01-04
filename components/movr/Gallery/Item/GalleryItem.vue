@@ -185,7 +185,7 @@ export default class GalleryItem extends mixins(
       this.meta = {
         ...this.meta,
         ...nftEntity.meta,
-        image: sanitizeIpfsUrl(nftEntity.meta.image || ''),
+        image: sanitizeIpfsUrl(nftEntity.meta.image || '', 'image'),
       }
     }
 

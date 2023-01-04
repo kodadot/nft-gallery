@@ -518,7 +518,7 @@ export default class CollectionItem extends mixins(
       this.collection = Object.assign(this.collection, { ...meta })
       this.meta = {
         ...meta,
-        image: sanitizeIpfsUrl(meta.image || ''),
+        image: sanitizeIpfsUrl(meta.image || '', 'image'),
       }
       this.$store.dispatch('history/setCurrentlyViewedCollection', {
         name: this.name,

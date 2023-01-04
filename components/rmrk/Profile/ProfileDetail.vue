@@ -705,7 +705,7 @@ export default class ProfileDetail extends mixins(
         const meta = await fetchNFTMetadata(nfts[0])
         this.firstNFTData = {
           ...meta,
-          image: sanitizeIpfsUrl(meta.image || ''),
+          image: sanitizeIpfsUrl(meta.image || '', 'image'),
         }
       }
     }
