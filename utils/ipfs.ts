@@ -37,6 +37,37 @@ export const extractCid = (ipfsLink?: string): string => {
 export const dummyIpfsCid = (): string => {
   return ipfsUrlPrefix + 'QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
 }
+const ar = /^ar:\/\//
+
+export const sanitizeArweaveUrl = (
+  url: string,
+  provider?: ArweaveProviders
+): string => {
+  if (ar.test(url)) {
+    return url.replace(ar, resolveArProvider(provider))
+  }
+
+  return url
+}
+
+export const isArweaveUrl = (url: string): boolean => {
+  return ar.test(url)
+}
+
+export const sanitizeIpfsCid = (
+  url: string,
+  provider?: ProviderKeyType
+): string => {
+  return `${resolveProvider(provider)}ipfs/${url}`
+}
+
+export const isIpfsUrl = (url: string): boolean => {
+  return /^ipfs:\/\//.test(url)
+}
+
+export const isIpfsCid = (url: string): boolean => {
+  return /^[0-9a-zA-Z]{44,}$/.test(url)
+}
 
 export type SanitizerFunc = (url: string) => string
 
@@ -111,38 +142,6 @@ export const preheatFileFromIPFS = (ipfsUrl: string) => {
     .get(url)
     .then(() => consola.log(`[PREHEAT] ${hash}`))
     .catch((err) => consola.warn(`[PREHEAT] ${hash} ${err.message}`))
-}
-
-const ar = /^ar:\/\//
-
-export const sanitizeArweaveUrl = (
-  url: string,
-  provider?: ArweaveProviders
-): string => {
-  if (ar.test(url)) {
-    return url.replace(ar, resolveArProvider(provider))
-  }
-
-  return url
-}
-
-export const isIpfsUrl = (url: string): boolean => {
-  return /^ipfs:\/\//.test(url)
-}
-
-export const isIpfsCid = (url: string): boolean => {
-  return /^[0-9a-zA-Z]{44,}$/.test(url)
-}
-
-export const isArweaveUrl = (url: string): boolean => {
-  return ar.test(url)
-}
-
-export const sanitizeIpfsCid = (
-  url: string,
-  provider?: ProviderKeyType
-): string => {
-  return `${resolveProvider(provider)}ipfs/${url}`
 }
 
 export const getSanitizer = (
