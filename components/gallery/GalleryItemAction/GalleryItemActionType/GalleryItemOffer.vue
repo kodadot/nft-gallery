@@ -111,26 +111,6 @@ onClickOutside(actionRef, () => confirm2())
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
-.dark-mode {
-  .slide {
-    box-shadow: 4px 4px 0 white;
-  }
-
-  .is-neo {
-    color: black;
-    background: $k-blue;
-
-    &:hover {
-      background: $k-dark;
-      color: white;
-    }
-  }
-}
-.is-neo {
-  &:hover {
-    background: white;
-  }
-}
 .offer {
   width: 20rem;
 

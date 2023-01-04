@@ -405,4 +405,18 @@ html.dark-mode {
       color: $shade;
     }
   }
+
+  .offer {
+    &-input {
+      background: $k-dark !important;
+      border: 1px solid white !important;
+    }
+  }
+  .slide {
+    box-shadow: 4px 4px 0 white;
+
+    .slide-content {
+      border: 1px solid white !important;
+    }
+  }
 }
