@@ -1,18 +1,13 @@
 import { emptyObject } from '@/utils/empty'
 import { CollectionMetadata, MediaType, RMRK } from './types'
 import api from '@/utils/fetch'
-import {
-  Interaction as EventInteraction,
-  RmrkWithMetaType,
-} from './service/scheme'
+import { Interaction as EventInteraction } from './service/scheme'
 import { Collection, NFT, NFTMetadata, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
-import { Interaction, justHash } from '@kodadot1/minimark'
-import { logError } from '@/utils/mappers'
+import { Interaction } from '@kodadot1/minimark'
 import consola from 'consola'
 import { fastExtract } from '~/utils/ipfs'
 
-export const SQUARE = '::'
 export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/'
 
 export type ProviderKeyType = IPFSProviders
@@ -41,17 +36,6 @@ export const arweaveProviders: Record<ArweaveProviders, string> = {
 }
 
 export type SanitizerFunc = (url: string) => string
-
-export const ipfsHashToUrl = (
-  ipfsHash = '',
-  provider?: ProviderKeyType
-): string | undefined => {
-  if (justHash(ipfsHash)) {
-    return `${resolveProvider(provider)}ipfs/${ipfsHash}`
-  }
-
-  return ipfsHash || ''
-}
 
 const resolveProvider = (key: ProviderKeyType = 'kodadot'): string =>
   ipfsProviders[key]
@@ -112,14 +96,6 @@ export const preheatFileFromIPFS = (ipfsUrl: string) => {
     .get(url)
     .then(() => consola.log(`[PREHEAT] ${hash}`))
     .catch((err) => consola.warn(`[PREHEAT] ${hash} ${err.message}`))
-}
-
-export const unSanitizeArweaveId = (url: string): string => {
-  return unSanitizeUrl(url, 'ar://')
-}
-
-const unSanitizeUrl = (url: string, prefix: string) => {
-  return `${prefix}${url}`
 }
 
 const ar = /^ar:\/\//
@@ -202,23 +178,6 @@ export const sanitizeIpfsUrl = (
   return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders)
 }
 
-export function sanitizeImage<T extends RmrkWithMetaType>(
-  instance: T,
-  provider?: ProviderKeyType
-): T {
-  return {
-    ...instance,
-    image: sanitizeIpfsUrl(instance.image || '', provider),
-  }
-}
-
-export function sanitizeObjectArray<T extends RmrkWithMetaType>(
-  instances: T[],
-  provider?: ProviderKeyType
-): T[] {
-  return instances.map((i) => sanitizeImage(i, provider))
-}
-
 export function mapPriceToNumber(instances: NFTWithMeta[]): any[] {
   return instances.map((i) => ({ ...i, price: Number(i.price || 0) }))
 }
@@ -276,18 +235,7 @@ export const resolveMedia = (mimeType?: string): MediaType => {
   return result
 }
 
-export const decode = (value: string): string => decodeURIComponent(value)
-export const sortByTimeStamp = (
-  a: EventInteraction,
-  b: EventInteraction
-): number => (b.timestamp < a.timestamp ? 1 : -1)
-export const sortByModification = (a: any, b: any): number => b._mod - a._mod
-export const nftSort = (a: any, b: any): number => b.blockNumber - a.blockNumber
-export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
-export const defaultSortBy = (arr: any[]) => sortBy(arr)
-
 export const onlyEvents = (nft: NFT): EventInteraction[] => nft.events
-export const eventTimestamp = (e: { timestamp: string }): string => e.timestamp
 export const onlyPriceEvents = (e: { interaction: string }): boolean =>
   e.interaction !== 'MINTNFT'
 export const eventsBeforeTime =
@@ -323,34 +271,6 @@ export const onlyBuyEvents = (
     }
   })
   return buyEvents
-}
-export const soldNFTPrice =
-  (decimals: number) =>
-  (e: EventInteraction): PriceDataType =>
-    [new Date(e.timestamp), Number(e.meta) / 10 ** decimals]
-
-export const isJsonGltf = (value: any): boolean => {
-  try {
-    if (!(value['asset'] && /^2\.[0-9]$/.test(value['asset']['version']))) {
-      return false
-    }
-
-    if (
-      !(
-        value['buffers'] &&
-        /^data:application\/octet/.test(value['buffers'][0]['uri'])
-      )
-    ) {
-      return false
-    }
-
-    return true
-  } catch (e) {
-    logError(e, (msg) => {
-      console.warn(`Unable to decide on isJsonGltf ${msg}`)
-    })
-    return false
-  }
 }
 
 export const getRandomIntInRange = (min: number, max: number): number => {
