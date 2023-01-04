@@ -23,6 +23,7 @@ export type IPFSProviders =
   | 'ipfs'
   | 'dweb'
   | 'kodadot'
+  | 'image'
 export type PriceDataType = [date: Date, value: number]
 
 export const ipfsProviders: Record<IPFSProviders, string> = {
@@ -31,6 +32,7 @@ export const ipfsProviders: Record<IPFSProviders, string> = {
   ipfs: DEFAULT_IPFS_PROVIDER,
   dweb: 'https://dweb.link/',
   kodadot: 'https://kodadot.mypinata.cloud/',
+  image: 'https://image.kodadot.workers.dev/',
 }
 
 export const arweaveProviders: Record<ArweaveProviders, string> = {
