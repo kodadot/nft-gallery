@@ -31,8 +31,8 @@ export const ipfsProviders: Record<IPFSProviders, string> = {
   cloudflare: 'https://cloudflare-ipfs.com/',
   ipfs: DEFAULT_IPFS_PROVIDER,
   dweb: 'https://dweb.link/',
-  kodadot: 'https://image.kodadot.workers.dev/',
-  image: 'https://image.kodadot.workers.dev/',
+  kodadot: 'https://image.w.kodadot.xyz/',
+  image: 'https://image.w.kodadot.xyz/',
 }
 
 export const arweaveProviders: Record<ArweaveProviders, string> = {
