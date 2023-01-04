@@ -87,7 +87,8 @@ import {
 import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { NFT, SimpleNFT, getNftId } from '../service/scheme'
 import { MediaType } from '../types'
-import { resolveMedia, sanitizeIpfsUrl } from '../utils'
+import { resolveMedia } from '../utils'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const components = {
   AuthField: () => import('@/components/shared/form/AuthField.vue'),

@@ -162,11 +162,7 @@ import {
   NFT,
   NFTMetadata,
 } from '@/components/rmrk/service/scheme'
-import {
-  fetchNFTMetadata,
-  getSanitizer,
-  sanitizeIpfsUrl,
-} from '@/components/rmrk/utils'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
 import itemEvents from '@/queries/subsquid/bsx/itemEvents.graphql'
 import { isOwner } from '@/utils/account'

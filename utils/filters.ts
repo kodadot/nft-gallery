@@ -1,6 +1,6 @@
 import BN from 'bn.js'
 import { isNumber } from '@polkadot/util'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { sanitizeIpfsUrl } from './ipfs'
 const EMPTY = '0.00 %'
 
 export const toNumber = (value: BN | number): number =>

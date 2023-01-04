@@ -1,8 +1,7 @@
-import type { SomethingWithMeta } from '@/components/rmrk/utils'
+import type { SomethingWithMeta, getSanitizer } from '@/utils/ipfs'
 import type { CollectionMetadata } from '@/components/rmrk/types'
 import type { CarouselNFT } from '@/components/base/types'
 
-import { getSanitizer } from '@/components/rmrk/utils'
 import { mapOnlyMetadata } from '@/utils/mappers'
 import {
   getCloudflareImageLinks,
