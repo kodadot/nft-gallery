@@ -3,7 +3,12 @@ import { CollectionMetadata } from '@/components/rmrk/types'
 import api from '@/utils/fetch'
 import { Collection, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import consola from 'consola'
-
+import {
+  ArweaveProviders,
+  ProviderKeyType,
+  arweaveProviders,
+  getIPFSProvider,
+} from './config/ipfs'
 export const ipfsUrlPrefix = 'ipfs://ipfs/'
 
 export const fastExtract = (ipfsLink?: string): string => {
@@ -33,37 +38,10 @@ export const dummyIpfsCid = (): string => {
   return ipfsUrlPrefix + 'QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
 }
 
-export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/'
-
-export type ProviderKeyType = IPFSProviders
-export type ArweaveProviders = 'permafrost' | 'arweave'
-export type IPFSProviders =
-  | 'pinata'
-  | 'cloudflare'
-  | 'ipfs'
-  | 'dweb'
-  | 'kodadot'
-  | 'image'
-export type PriceDataType = [date: Date, value: number]
-
-export const ipfsProviders: Record<IPFSProviders, string> = {
-  pinata: 'https://kodadot.mypinata.cloud/',
-  cloudflare: 'https://cloudflare-ipfs.com/',
-  ipfs: DEFAULT_IPFS_PROVIDER,
-  dweb: 'https://dweb.link/',
-  kodadot: 'https://image.w.kodadot.xyz/',
-  image: 'https://image.w.kodadot.xyz/',
-}
-
-export const arweaveProviders: Record<ArweaveProviders, string> = {
-  permafrost: process.env.VUE_APP_PERMAFROST_URL + '/meta/',
-  arweave: process.env.VUE_APP_AR_URL + '/' || 'https://arweave.net/',
-}
-
 export type SanitizerFunc = (url: string) => string
 
-const resolveProvider = (key: ProviderKeyType = 'kodadot'): string =>
-  ipfsProviders[key]
+const resolveProvider = (key: ProviderKeyType = 'image'): string =>
+  getIPFSProvider(key)
 const resolveArProvider = (key: ArweaveProviders = 'arweave'): string =>
   arweaveProviders[key]
 
