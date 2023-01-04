@@ -246,23 +246,39 @@ export default class AvailableActions extends mixins(
       }
 
       showNotification(`[${this.selectedAction}] NFT: ${this.nftId}`)
-      const cb = this.isSend
-        ? api.tx.utility.batchAll
-        : getApiCall(api, this.urlPrefix, this.selectedAction)
+      const cb =
+        this.isSend || this.isConsume
+          ? api.tx.utility.batchAll
+          : getApiCall(api, this.urlPrefix, this.selectedAction)
 
       if (this.isOffer) {
         const currentBlock = await api.query.system.number()
         expiration = this.getExpiration(currentBlock.toNumber())
       }
 
-      const arg: any[] = this.isSend
-        ? [
-            [
-              api.tx.marketplace.setPrice(this.collectionId, this.nftId, 0),
-              api.tx.nft.transfer(this.collectionId, this.nftId, this.meta),
-            ],
-          ]
-        : this.getArgs(expiration)
+      let arg: any[] = this.getArgs(expiration)
+
+      if (this.isConsume) {
+        // todo: withdraw all offer on consume
+        const offerWithdrawArgs = [
+          api.tx.marketplace.withdrawOffer(this.collectionId, this.nftId),
+        ]
+        arg = [
+          [
+            ...offerWithdrawArgs,
+            api.tx.nft.burn(this.collectionId, this.nftId),
+          ],
+        ]
+      }
+
+      if (this.isSend) {
+        arg = [
+          [
+            api.tx.marketplace.setPrice(this.collectionId, this.nftId, 0),
+            api.tx.nft.transfer(this.collectionId, this.nftId, this.meta),
+          ],
+        ]
+      }
 
       this.howAboutToExecute(
         this.accountId,
