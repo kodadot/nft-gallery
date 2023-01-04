@@ -99,23 +99,26 @@
         :label="$t('offer.action')"
         width="120"
         sortable>
-        <b-button
-          v-if="props.row.caller === accountId"
-          type="is-orange"
-          outlined
-          icon-left="times"
-          @click="tellFrens(props.row.caller)" />
-        <b-tooltip
-          v-else-if="isOwner"
-          :label="$t('offer.expired')"
-          :active="calcExpirationTime(props.row.expiration) === 'expired'">
+        <div class="buttons">
+          <b-tooltip
+            v-if="isOwner"
+            :label="$t('offer.expired')"
+            :active="calcExpirationTime(props.row.expiration) === 'expired'"
+            class="mr-2">
+            <b-button
+              type="is-success"
+              outlined
+              icon-left="money-bill"
+              :disabled="calcExpirationTime(props.row.expiration) === 'expired'"
+              @click="tellFrens(props.row.caller, false)" />
+          </b-tooltip>
           <b-button
-            type="is-success"
+            v-if="props.row.caller === accountId || isOwner"
+            type="is-orange"
             outlined
-            icon-left="money-bill"
-            :disabled="calcExpirationTime(props.row.expiration) === 'expired'"
-            @click="tellFrens(props.row.caller)" />
-        </b-tooltip>
+            icon-left="times"
+            @click="tellFrens(props.row.caller, true)" />
+        </div>
       </b-table-column>
       <b-table-column
         v-if="isBsxStats"
@@ -154,6 +157,7 @@ import { formatDistanceToNow } from 'date-fns'
 
 import { Offer } from './types'
 import OfferMixin from '@/utils/mixins/offerMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 const components = {
@@ -163,7 +167,7 @@ const components = {
 }
 
 @Component({ components, filters: { formatDistanceToNow } })
-export default class OfferTable extends mixins(OfferMixin) {
+export default class OfferTable extends mixins(OfferMixin, PrefixMixin) {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
   public offers!: Offer[]
   @Prop(Boolean) public isOwner!: boolean
@@ -173,14 +177,14 @@ export default class OfferTable extends mixins(OfferMixin) {
   @Prop({ type: Boolean, default: false }) public displayCollection!: boolean
   public currentBlock = 0
   public itemsPerPage = 20
-  private currentPage = parseInt(this.$route.query?.page as string) || 1
+  public currentPage = parseInt(this.$route.query?.page as string) || 1
 
   @Emit('select')
-  tellFrens(caller: string) {
-    return caller
-  }
-  get urlPrefix() {
-    return this.$store.getters.currentUrlPrefix
+  tellFrens(caller: string, withdraw: boolean) {
+    return {
+      caller,
+      withdraw,
+    }
   }
 
   get assetId() {

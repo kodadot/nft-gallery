@@ -235,7 +235,9 @@
       text-transform: none;
     }
 
-    .times-icon {
+    .remove-search-history {
+      padding: 5px;
+
       &:hover {
         color: $k-hovergrey;
       }
