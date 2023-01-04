@@ -31,7 +31,7 @@ export const ipfsProviders: Record<IPFSProviders, string> = {
   cloudflare: 'https://cloudflare-ipfs.com/',
   ipfs: DEFAULT_IPFS_PROVIDER,
   dweb: 'https://dweb.link/',
-  kodadot: 'https://kodadot.mypinata.cloud/',
+  kodadot: 'https://image.kodadot.workers.dev/',
   image: 'https://image.kodadot.workers.dev/',
 }
 
