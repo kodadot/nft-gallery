@@ -48,12 +48,33 @@ const resolveArProvider = (key: ArweaveProviders = 'arweave'): string =>
 export type SomethingWithMeta = {
   metadata: string
 }
+export const sanitizeIpfsUrl = (
+  ipfsUrl: string,
+  provider?: ProviderKeyType
+): string => {
+  if (ipfsUrl.includes('https://gateway.pinata.cloud')) {
+    return ipfsUrl.replace(
+      'https://gateway.pinata.cloud/',
+      resolveProvider(provider)
+    )
+  }
 
-export const fetchNFTMetadata = (
-  rmrk: NFT | SomethingWithMeta,
-  sanitizer: SanitizerFunc = sanitizeIpfsUrl
-): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk, sanitizer)
+  if (isIpfsCid(ipfsUrl)) {
+    return sanitizeIpfsCid(ipfsUrl, provider)
+  }
 
+  const rr = /^ipfs:\/\/ipfs/
+  if (rr.test(ipfsUrl)) {
+    return ipfsUrl.replace('ipfs://', resolveProvider(provider))
+  }
+
+  const ipfsRegexp = /^ipfs:\/\//
+  if (ipfsRegexp.test(ipfsUrl)) {
+    return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`)
+  }
+
+  return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders)
+}
 export const fetchMetadata = async <T>(
   rmrk: SomethingWithMeta,
   sanitizer: SanitizerFunc = sanitizeIpfsUrl
@@ -73,6 +94,11 @@ export const fetchMetadata = async <T>(
 
   return emptyObject<T>()
 }
+
+export const fetchNFTMetadata = (
+  rmrk: NFT | SomethingWithMeta,
+  sanitizer: SanitizerFunc = sanitizeIpfsUrl
+): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk, sanitizer)
 
 export const fetchCollectionMetadata = (
   rmrk: Collection | SomethingWithMeta
@@ -137,32 +163,4 @@ export const getSanitizer = (
   }
 
   return (link) => link
-}
-
-export const sanitizeIpfsUrl = (
-  ipfsUrl: string,
-  provider?: ProviderKeyType
-): string => {
-  if (ipfsUrl.includes('https://gateway.pinata.cloud')) {
-    return ipfsUrl.replace(
-      'https://gateway.pinata.cloud/',
-      resolveProvider(provider)
-    )
-  }
-
-  if (isIpfsCid(ipfsUrl)) {
-    return sanitizeIpfsCid(ipfsUrl, provider)
-  }
-
-  const rr = /^ipfs:\/\/ipfs/
-  if (rr.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', resolveProvider(provider))
-  }
-
-  const ipfsRegexp = /^ipfs:\/\//
-  if (ipfsRegexp.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`)
-  }
-
-  return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders)
 }
