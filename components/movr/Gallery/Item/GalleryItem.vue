@@ -185,7 +185,7 @@ export default class GalleryItem extends mixins(
       this.meta = {
         ...this.meta,
         ...nftEntity.meta,
-        image: sanitizeIpfsUrl(nftEntity.meta.image || ''),
+        image: sanitizeIpfsUrl(nftEntity.meta.image || '', 'image'),
       }
     }
 
@@ -211,7 +211,7 @@ export default class GalleryItem extends mixins(
             getSanitizer(this.nft.metadata, 'cloudflare', 'permafrost')
           )
 
-      const imageSanitizer = getSanitizer(meta.image, 'cloudflare')
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
