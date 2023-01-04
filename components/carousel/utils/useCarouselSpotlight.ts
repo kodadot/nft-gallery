@@ -1,4 +1,4 @@
-import type { SomethingWithMeta, getSanitizer } from '@/utils/ipfs'
+import type { SomethingWithMeta } from '@/utils/ipfs'
 import type { CollectionMetadata } from '@/components/rmrk/types'
 import type { CarouselNFT } from '@/components/base/types'
 
@@ -7,7 +7,7 @@ import {
   getCloudflareImageLinks,
   processMetadata,
 } from '@/utils/cachingStrategy'
-import { fastExtract } from '@/utils/ipfs'
+import { fastExtract, getSanitizer } from '@/utils/ipfs'
 
 const curatedCollection = {
   rmrk: [
