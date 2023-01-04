@@ -18,7 +18,7 @@ const whichMimeType = async (data) => {
 const whichAsset = (data) => {
   return {
     animation_url: sanitizeIpfsUrl(data.animation_url || ''),
-    image: sanitizeIpfsUrl(data.image || ''),
+    image: sanitizeIpfsUrl(data.image || '', 'image'),
   }
 }
 

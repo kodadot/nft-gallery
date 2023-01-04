@@ -26,6 +26,14 @@ html.dark-mode {
     }
   }
 
+  .custom-navbar-item {
+    .navbar-item {
+      &:hover {
+        color: $shade!important;
+      }
+    }
+  }
+
   .navbar {
     border-color: $white;
     background-color: $background-dark !important;
@@ -121,6 +129,10 @@ html.dark-mode {
       .dropdown .dropdown-menu .has-link {
         border-top: 1px solid $white;
       }
+    }
+
+    .dropdown .dropdown-menu .has-link {
+      border-color: $white;
     }
 
     .navbar-explore .menu-item {
@@ -377,4 +389,6 @@ html.dark-mode {
   .profile-dropdown-divider {
     background-color: #CCCCCC;
   }
+
+  --card-box-shadow: 4px 4px white;
 }

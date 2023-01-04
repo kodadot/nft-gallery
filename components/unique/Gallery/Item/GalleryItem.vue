@@ -238,7 +238,7 @@ export default class GalleryItem extends mixins(
       } as NFT)
       this.meta = {
         ...nft,
-        image: sanitizeIpfsUrl(nft.image || ''),
+        image: sanitizeIpfsUrl(nft.image || '', 'image'),
         animation_url: sanitizeIpfsUrl(
           nft.animation_url || nft.image || '',
           'pinata'
@@ -320,7 +320,7 @@ export default class GalleryItem extends mixins(
           )
       this.$consola.log(meta)
 
-      const imageSanitizer = getSanitizer(meta.image)
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
