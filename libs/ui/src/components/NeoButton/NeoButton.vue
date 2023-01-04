@@ -51,12 +51,11 @@ defineProps<{
   padding-bottom: 8px;
 
   &:hover {
-    background: #ffe5f3;
+    background: $k-accentlight;
   }
 
-  &.active {
-    color: hsl(0deg, 0%, 100%);
-    background-color: hsl(0deg, 0%, 4%);
+  &:active {
+    background-color: $k-accentlight;
   }
 }
 
@@ -68,22 +67,27 @@ defineProps<{
   box-shadow: 4px 4px hsl(0deg, 0%, 100%);
 
   &:hover {
-    background: #ff7ac3;
+    background: $k-accent;
     color: hsl(0deg, 0%, 4%);
   }
-  &.active {
-    color: hsl(0deg, 0%, 4%);
-    background-color: hsl(0deg, 0%, 100%);
+  &:active {
+    background-color: $k-accent;
   }
 }
 
 .o-btn {
   &--k-accent {
     background-color: $k-accent;
+    &:hover {
+      background: $white !important;
+    }
   }
 
   &--k-blue {
     background-color: $k-blue;
+    &:hover {
+      background: $white !important;
+    }
   }
 
   &.no-shadow {

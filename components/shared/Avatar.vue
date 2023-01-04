@@ -16,12 +16,3 @@ export default class Avatar extends Vue {
   @Prop({ default: 64 }) public size!: number
 }
 </script>
-
-<style lang="scss">
-.avatar {
-  & > div {
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
