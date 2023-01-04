@@ -102,7 +102,7 @@ const CarouselTypeVisited = defineAsyncComponent(
 @import '@/styles/abstracts/variables';
 
 .title {
-  font-size: 39px;
+  font-size: 2.4375em;
 }
 
 .mobile-top-margin {
