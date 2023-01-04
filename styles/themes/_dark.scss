@@ -273,7 +273,6 @@ html.dark-mode {
   .chain-option {
     &:hover {
       color: $shade !important;
-
     }
   }
 
@@ -387,8 +386,17 @@ html.dark-mode {
   }
 
   .profile-dropdown-divider {
-    background-color: #CCCCCC;
+    background-color: #cccccc;
   }
+
+  .gallery-avatar {
+    .avatar {
+      box-shadow: $primary-shadow-dark !important;
+      border: 1px solid $white !important;
+    }
+  }
+
+  --card-box-shadow: 4px 4px white;
 
   .identity-name {
     color: white;

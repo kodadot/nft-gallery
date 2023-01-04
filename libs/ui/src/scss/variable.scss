@@ -12,3 +12,11 @@ $primary-shadow: 4px 4px hsl(0deg, 0%, 4%);
 $primary-shadow-dark: 4px 4px white;
 $black: #000000;
 $white: #ffffff;
+
+.dark-mode {
+  --card-box-shadow: 4px 4px white;
+}
+
+.light-mode {
+  --card-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+}

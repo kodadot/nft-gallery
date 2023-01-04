@@ -12,7 +12,7 @@
       <MessageNotify
         :enable-download="isOwner"
         :title="$t('mint.success') + ' 🎉'"
-        :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
+        :subtitle="$t('mint.successNewNfts')" />
     </template>
     <template #image>
       <Navigation
@@ -366,7 +366,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
             getSanitizer(this.nft.metadata, undefined, 'permafrost')
           )
 
-      const imageSanitizer = getSanitizer(meta.image)
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),

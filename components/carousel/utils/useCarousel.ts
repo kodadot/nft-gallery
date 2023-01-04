@@ -106,7 +106,7 @@ export const useCarouselPopularCollections = () => {
     nfts.value = data.seriesInsightTable.map(
       (e: RowSeries): RowSeries => ({
         ...e,
-        image: sanitizeIpfsUrl(e.image),
+        image: sanitizeIpfsUrl(e.image, 'image'),
       })
     )
   }

@@ -85,7 +85,9 @@ export const processMetadata = async <T>(
 export const getProperImageLink =
   (imageLinks: KeyValue) =>
   (metadata: string, image: string): string => {
-    return imageLinks[fastExtract(metadata)] || getSanitizer(image)(image)
+    return (
+      imageLinks[fastExtract(metadata)] || getSanitizer(image, 'image')(image)
+    )
   }
 
 export const flushIndexedDb = () => {
