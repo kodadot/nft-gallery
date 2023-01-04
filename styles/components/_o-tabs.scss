@@ -41,6 +41,30 @@
   }
 }
 
+.explore-tabs {
+  .o-tabs__content {
+    border: none;
+    box-shadow: none;
+  }
+
+  .o-tabs__nav {
+    margin-bottom: 35px;
+    max-width: 450px;
+    box-shadow: $primary-shadow;
+  }
+
+  .o-tabs__nav-item-wrapper {
+    width: 100%;
+  }
+
+  .o-tabs__nav-item {
+    padding: 5px;
+  }
+
+  .explore-tabs-content {
+    border: 0;
+  }
+}
 
 .dark-mode {
   .o-tabs {
@@ -74,6 +98,4 @@
       border: 1px solid white;
     }
   }
-
-
 }

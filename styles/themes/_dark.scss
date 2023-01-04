@@ -122,8 +122,8 @@ html.dark-mode {
         color: $black;
         border: 1px solid $white !important;
         &:hover {
-          background-color: $dark-accent!important;
-          color: $white!important;
+          background-color: $dark-accent !important;
+          color: $white !important;
         }
       }
       .dropdown .dropdown-menu .has-link {
@@ -161,6 +161,10 @@ html.dark-mode {
         }
       }
     }
+  }
+
+  .pagination-link {
+    border: 1px solid $white !important;
   }
 
   .instance {
@@ -273,7 +277,6 @@ html.dark-mode {
   .chain-option {
     &:hover {
       color: $shade !important;
-
     }
   }
 
@@ -387,7 +390,7 @@ html.dark-mode {
   }
 
   .profile-dropdown-divider {
-    background-color: #CCCCCC;
+    background-color: #cccccc;
   }
 
   --card-box-shadow: 4px 4px white;
