@@ -321,7 +321,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
                 image:
                   (collections[i]?.metadata &&
                     imageLinks[fastExtract(collections[i].metadata)]) ||
-                  getSanitizer(meta.image || '')(meta.image || ''),
+                  getSanitizer(meta.image || '', 'image')(meta.image || ''),
               })
             }
           ).then(() => {
@@ -510,7 +510,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
             image:
               (nftList[i]?.metadata &&
                 imageLinks[fastExtract(nftList[i].metadata)]) ||
-              getSanitizer(meta.image || '')(meta.image || ''),
+              getSanitizer(meta.image || '', 'image')(meta.image || ''),
             animation_url: getSanitizer(meta.animation_url || '')(
               meta.animation_url || ''
             ),
@@ -554,7 +554,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
             image:
               (collections[i]?.metadata &&
                 imageLinks[fastExtract(collections[i].metadata)]) ||
-              getSanitizer(meta.image || '')(meta.image || ''),
+              getSanitizer(meta.image || '', 'image')(meta.image || ''),
           })
         }).then(() => {
           this.collectionResult = collectionResult

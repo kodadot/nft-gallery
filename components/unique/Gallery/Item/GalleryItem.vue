@@ -320,7 +320,7 @@ export default class GalleryItem extends mixins(
           )
       this.$consola.log(meta)
 
-      const imageSanitizer = getSanitizer(meta.image)
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),

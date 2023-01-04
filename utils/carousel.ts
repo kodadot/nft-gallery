@@ -67,7 +67,7 @@ export const setNftMetaFromCache = async (nfts): Promise<CarouselNFT[]> => {
         )
         set(nft.metadata, meta)
       }
-      const imageSanitizer = getSanitizer(meta.image, 'pinata')
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       return {
         ...nft,
         name: meta.name,

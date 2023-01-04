@@ -226,7 +226,7 @@ export default class CollectionList extends mixins(
         ...meta,
         image:
           imageLinks[fastExtract(this.collections[i]?.metadata)] ||
-          getSanitizer(meta.image || '')(meta.image || ''),
+          getSanitizer(meta.image || '', 'image')(meta.image || ''),
       })
     })
 

@@ -264,7 +264,7 @@ export default class Gallery extends mixins(
             fastExtract(
               this.nfts[i].metadata || this.nfts[i].collection.metadata
             )
-          ] || getSanitizer(meta.image || '')(meta.image || ''),
+          ] || getSanitizer(meta.image || '', 'image')(meta.image || ''),
         animation_url: getSanitizer(meta.animation_url || '')(
           meta.animation_url || ''
         ),
