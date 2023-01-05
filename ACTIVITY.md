@@ -13,7 +13,7 @@ Check out KodaDot's [monthly statistics](https://github.com/kodadot/nft-gallery/
 [![Timeline graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_timeline.svg)](https://github.com/kodadot/nft-gallery/commits)
 [![Pull request status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_prs.svg)](https://github.com/kodadot/nft-gallery/pulls)
 [![Top contributors](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_users.svg)](https://github.com/kodadot/nft-gallery/graphs/contributors)
-
+[![Top contributors](https://images.repography.com/23713223/kodadot/nft-gallery/top-contributors/DYAz-BO_qqvGvrhbsslMKq1enXQGP-XfrQn_llfQsMU_table.svg)](https://github.com/kodadot/nft-gallery/graphs/contributors)
 
 ## We're constantly growing!
 
