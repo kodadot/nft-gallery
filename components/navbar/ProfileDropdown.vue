@@ -207,7 +207,7 @@
 
     <div v-else>
       <ConnectWalletButton
-        class="button-connect-wallet"
+        class="button-connect-wallet px-4"
         no-shadow
         @closeBurgerMenu="closeBurgerMenu" />
     </div>
