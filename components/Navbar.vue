@@ -147,6 +147,7 @@
         <div v-if="!account" id="NavProfile">
           <ConnectWalletButton
             class="button-connect-wallet"
+            variant="connect"
             @closeBurgerMenu="closeBurgerMenu" />
         </div>
       </template>

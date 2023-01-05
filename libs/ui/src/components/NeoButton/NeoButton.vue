@@ -81,9 +81,10 @@ defineProps<{
         color: $white;
       }
     }
-    &--connect {
+    &--connect-dropdown {
       background: $k-dark !important;
       &:hover {
+        border: 1px solid $white !important;
         background: $k-accent !important;
         color: $black !important;
       }
