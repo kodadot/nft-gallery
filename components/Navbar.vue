@@ -134,11 +134,11 @@
               class="is-flex is-justify-content-center"
               custom
               paddingless>
-              <b-button
-                class="navbar__sign-out-button menu-item mb-4 is-size-7"
-                @click="disconnect()">
-                {{ $t('profileMenu.disconnect') }}
-              </b-button>
+              <NeoButton
+                class="button is-size-7 is-capitalized"
+                :label="$t('profileMenu.disconnect')"
+                variant="connect-dropdown"
+                @click.native="disconnect()" />
             </div>
           </b-navbar-item>
         </MobileExpandableSection>
@@ -147,6 +147,7 @@
         <div v-if="!account" id="NavProfile">
           <ConnectWalletButton
             class="button-connect-wallet"
+            variant="connect"
             @closeBurgerMenu="closeBurgerMenu" />
         </div>
       </template>
@@ -157,16 +158,6 @@
         data-cy="profileDropdown"
         @closeBurgerMenu="closeBurgerMenu" />
     </template>
-    <!-- <template v-else #end>
-      <div class="image is-32x32 mr-2">
-        <BasicImage
-          v-show="inCollectionPage && currentCollection.image"
-          :alt="navBarTitle"
-          :src="currentCollection.image"
-          rounded />
-      </div>
-      <div class="title is-4">{{ navBarTitle }}</div>
-    </template> -->
   </b-navbar>
 </template>
 
@@ -196,9 +187,11 @@ import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
 import ConnectWalletButton from '~/components/shared/ConnectWalletButton.vue'
 import { getKusamaAssetId } from '~/utils/api/bsx/query'
 import { clearSession } from '~/utils/cachingStrategy'
+import { NeoButton } from '@kodadot1/brick'
 
 @Component({
   components: {
+    NeoButton,
     Search,
     Identity,
     BasicImage,

@@ -89,15 +89,6 @@ html.dark-mode {
       }
     }
 
-    .navbar__sign-out-button {
-      border-color: $white !important;
-      box-shadow: 4px 4px 0px $white !important;
-      background: $dark-accent !important;
-      color: $white;
-      &:hover {
-        background-color: $primary !important;
-      }
-    }
 
     .mobile-nav-search-btn {
       color: $white;
