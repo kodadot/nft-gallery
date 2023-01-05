@@ -58,7 +58,10 @@
             <hr />
 
             <!-- price section -->
-            <GalleryItemAction @buyNFT="onNFTBought" />
+            <GalleryItemAction
+              :nft="nft"
+              @buy-success="onNFTBought"
+              @buy-start="pollNFT" />
           </div>
         </div>
       </div>
@@ -112,6 +115,25 @@ const isOwner = computed(() =>
 const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongratsMessgae.value = true
+}
+
+const pollNFT = () => {
+  const { data, querySubscription } = useGraphql({
+    queryName: 'nftByIdMinimal',
+    variables: {
+      id: nft.value?.id,
+    },
+    options: {
+      pollInterval: 1000,
+    },
+  })
+  watch(data, (newData) => {
+    const minimalNFT = newData?.nftEntity
+    if (minimalNFT?.currentOwner !== nft.value?.currentOwner) {
+      nft.value = { ...nft.value, ...minimalNFT }
+      querySubscription.value?.unsubscribe()
+    }
+  })
 }
 
 const CarouselTypeRelated = defineAsyncComponent(

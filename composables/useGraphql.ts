@@ -22,18 +22,30 @@ export default function ({
 }) {
   const { $apollo, $consola } = useNuxtApp()
   const { prefix, client } = useQueryParams({ queryPrefix, clientName })
+  const querySubscription = ref<ZenObservable.Subscription>()
 
   async function doFetch() {
     const query = await resolveQueryPath(prefix, queryName)
 
     try {
-      const response = await $apollo.query({
+      const usePollInerval = Object.keys(options).includes('pollInterval')
+      const queryParams = {
         query: query.default,
         client: client,
         variables,
         ...options,
-      })
-      data.value = response.data
+      }
+
+      if (usePollInerval) {
+        querySubscription.value = $apollo.watchQuery(queryParams).subscribe({
+          next: ({ data: response }) => {
+            data.value = response
+          },
+        })
+      } else {
+        const response = await $apollo.query(queryParams)
+        data.value = response.data
+      }
     } catch (err) {
       ;(error.value as unknown) = err
       showNotification(`${err as string}`, notificationTypes.danger)
@@ -53,5 +65,6 @@ export default function ({
     data,
     error,
     loading,
+    querySubscription,
   }
 }

@@ -7,7 +7,8 @@
       :nft-price="nft?.price"
       :collection-id="nft?.collection.id"
       :current-owner="nft?.currentOwner"
-      @buyNFT="emit('buyNFT')" />
+      @buy-start="emit('buy-start')"
+      @buy-success="emit('buy-success')" />
 
     <!-- highest offer -->
     <GalleryItemPriceOffer
@@ -32,16 +33,15 @@ import GalleryItemPriceOffer from './GalleryItemActionType/GalleryItemOffer.vue'
 import GalleryItemPriceRelist from './GalleryItemActionType/GalleryItemRelist.vue'
 import GalleryItemPriceTransfer from './GalleryItemActionType/GalleryItemTransfer.vue'
 
-import { useGalleryItem } from '../useGalleryItem'
-
-const { $store } = useNuxtApp()
+import { NFT } from '~~/components/rmrk/service/scheme'
+const props = defineProps<{
+  nft: NFT | undefined
+}>()
+const emit = defineEmits(['buy-start', 'buy-success'])
 const { urlPrefix } = usePrefix()
-const { nft } = useGalleryItem()
-const emit = defineEmits(['buyNFT'])
-
-const accountId = computed(() => $store.getters.getAuthAddress)
+const { accountId } = useAuth()
 const isOwner = computed(() =>
-  checkOwner(nft.value?.currentOwner, accountId.value)
+  checkOwner(props.nft?.currentOwner, accountId.value)
 )
 </script>
 
