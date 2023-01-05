@@ -308,7 +308,7 @@ export default class Profile extends mixins(PrefixMixin) {
         const meta = await fetchNFTMetadata(nfts[0])
         this.firstNFTData = {
           ...meta,
-          image: sanitizeIpfsUrl(meta.image || ''),
+          image: sanitizeIpfsUrl(meta.image || '', 'image'),
         }
       }
     }

@@ -13,7 +13,7 @@
       <MessageNotify
         :enable-download="isOwner"
         :title="$t('mint.success') + ' 🎉'"
-        :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
+        :subtitle="$t('mint.successNewNfts')" />
     </template>
     <template #image>
       <Navigation
@@ -425,7 +425,7 @@ export default class GalleryItem extends mixins(
       this.meta = {
         ...this.meta,
         ...nftEntity.meta,
-        image: sanitizeIpfsUrl(nftEntity.meta.image || ''),
+        image: sanitizeIpfsUrl(nftEntity.meta.image || '', 'image'),
       }
     }
 
@@ -460,7 +460,7 @@ export default class GalleryItem extends mixins(
             getSanitizer(this.nft.metadata, 'pinata', 'permafrost')
           )
 
-      const imageSanitizer = getSanitizer(meta.image, 'pinata')
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
