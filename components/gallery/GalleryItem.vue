@@ -112,9 +112,6 @@ const isOwner = computed(() =>
 const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongratsMessgae.value = true
-  setTimeout(() => {
-    showCongratsMessgae.value = false
-  }, 10000)
 }
 
 const CarouselTypeRelated = defineAsyncComponent(
