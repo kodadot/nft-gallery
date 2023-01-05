@@ -13,10 +13,7 @@
           <span class="subtitle is-size-5 subtitle-text-congrats">
             {{ subtitle }}
           </span>
-          <Sharing
-            btn-type="is-primary"
-            :enable-download="enableDownload"
-            is-primary="{true}" />
+          <Sharing btn-type="is-primary" :enable-download="enableDownload" />
         </div>
       </div>
     </b-message>

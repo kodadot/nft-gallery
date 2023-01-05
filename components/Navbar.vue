@@ -142,7 +142,7 @@
             </div>
           </b-navbar-item>
         </MobileExpandableSection>
-        <ColorModeButton />
+        <ColorModeButton class="navbar-item" />
 
         <div v-if="!account" id="NavProfile">
           <ConnectWalletButton

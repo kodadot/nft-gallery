@@ -32,6 +32,7 @@ defineProps<{
 <style lang="scss" scoped>
 @import '@oruga-ui/oruga/src/scss/oruga-full.scss';
 @import '../../scss/variable.scss';
+
 .is-neo {
   border-radius: 0;
   color: hsl(0deg, 0%, 4%);
@@ -42,13 +43,57 @@ defineProps<{
   font-family: inherit;
   padding-top: 8px;
   padding-bottom: 8px;
+
   &:hover {
     background: $k-accentlight;
   }
+
   &:active {
     background-color: $k-accentlight;
   }
 }
+
+.dark-mode {
+  .is-neo {
+    color: hsl(0deg, 0%, 100%);
+    background: hsl(330, 4%, 9%);
+    border: 1px solid hsl(0deg, 0%, 100%);
+    -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+    box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+
+    &:hover {
+      background: $k-accent;
+      color: hsl(0deg, 0%, 4%);
+    }
+
+    &:active {
+      background-color: $k-accent;
+    }
+  }
+
+  .o-btn {
+    &--k-accent {
+      background: $k-accent;
+      color: $black;
+
+      &:hover {
+        background: $k-dark !important;
+        color: $white;
+      }
+    }
+
+    &--k-blue {
+      background-color: $k-blue;
+      color: $black;
+
+      &:hover {
+        background: $k-dark !important;
+        color: $white;
+      }
+    }
+  }
+}
+
 .dark-mode {
   .is-neo {
     color: hsl(0deg, 0%, 100%);
@@ -94,12 +139,14 @@ defineProps<{
 .o-btn {
   &--k-accent {
     background-color: $k-accent;
+
     &:hover {
       background: $white !important;
     }
   }
   &--k-blue {
     background-color: $k-blue;
+
     &:hover {
       background: $white !important;
     }
