@@ -192,14 +192,13 @@
       <b-dropdown-item custom aria-role="menuitem">
         <div class="buttons is-justify-content-space-between my-2">
           <ConnectWalletButton
+            class="navbar__sign-out-button menu-item is-size-7"
             label="general.change_account"
-            class="navbar__sign-out-button menu-item is-size-7"
             @closeBurgerMenu="closeBurgerMenu" />
-          <b-button
+          <NeoButton
             class="navbar__sign-out-button menu-item is-size-7"
-            @click="disconnect()">
-            {{ $t('profileMenu.disconnect') }}
-          </b-button>
+            :label="$t('profileMenu.disconnect')"
+            @click.native="disconnect()" />
         </div>
       </b-dropdown-item>
     </b-dropdown>
@@ -207,6 +206,7 @@
     <div v-else>
       <ConnectWalletButton
         class="button-connect-wallet"
+        no-shadow
         @closeBurgerMenu="closeBurgerMenu" />
     </div>
 
@@ -263,6 +263,7 @@
 <script lang="ts">
 import { Component, Prop, Ref, mixins } from 'nuxt-property-decorator'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
+import { NeoButton } from '@kodadot1/brick'
 
 import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
@@ -273,6 +274,7 @@ import { getKusamaAssetId } from '~~/utils/api/bsx/query'
 
 const components = {
   Avatar,
+  NeoButton,
   ConnectWalletButton: () =>
     import('@/components/shared/ConnectWalletButton.vue'),
   Identity: () => import('@/components/identity/IdentityIndex.vue'),

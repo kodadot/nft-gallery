@@ -157,16 +157,6 @@
         data-cy="profileDropdown"
         @closeBurgerMenu="closeBurgerMenu" />
     </template>
-    <!-- <template v-else #end>
-      <div class="image is-32x32 mr-2">
-        <BasicImage
-          v-show="inCollectionPage && currentCollection.image"
-          :alt="navBarTitle"
-          :src="currentCollection.image"
-          rounded />
-      </div>
-      <div class="title is-4">{{ navBarTitle }}</div>
-    </template> -->
   </b-navbar>
 </template>
 
@@ -196,9 +186,11 @@ import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
 import ConnectWalletButton from '~/components/shared/ConnectWalletButton.vue'
 import { getKusamaAssetId } from '~/utils/api/bsx/query'
 import { clearSession } from '~/utils/cachingStrategy'
+import { NeoButton } from '@kodadot1/brick'
 
 @Component({
   components: {
+    NeoButton,
     Search,
     Identity,
     BasicImage,
