@@ -134,11 +134,11 @@
               class="is-flex is-justify-content-center"
               custom
               paddingless>
-              <b-button
-                class="navbar__sign-out-button menu-item mb-4 is-size-7"
-                @click="disconnect()">
-                {{ $t('profileMenu.disconnect') }}
-              </b-button>
+              <NeoButton
+                class="button is-size-7 is-capitalized"
+                :label="$t('profileMenu.disconnect')"
+                variant="connect-dropdown"
+                @click.native="disconnect()" />
             </div>
           </b-navbar-item>
         </MobileExpandableSection>

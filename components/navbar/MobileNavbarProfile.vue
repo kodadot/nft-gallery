@@ -8,17 +8,18 @@
         hide-identity-popover />
     </div>
     <div class="has-text-right">
-      <b-button
-        class="navbar__sign-out-button menu-item mb-4 is-size-7"
-        @click="disconnect()">
-        {{ $t('profileMenu.disconnect') }}
-      </b-button>
+      <NeoButton
+        class="menu-item mb-4 is-size-7"
+        :label="$t('profileMenu.disconnect')"
+        variant="connect-dropdown"
+        @click="disconnect()" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { clearSession } from '~/utils/cachingStrategy'
+import { NeoButton } from '@kodadot1/brick'
 
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/IdentityIndex.vue')

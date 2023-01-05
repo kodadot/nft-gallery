@@ -114,14 +114,14 @@ html.light-mode {
         color: $k-hovergrey !important;
       }
     }
-    .navbar__sign-out-button {
-      border-color: $black !important;
-      box-shadow: 4px 4px 0px $black !important;
-      color: $black;
-      &:hover {
-        background-color: $k-accentlight !important;
-      }
-    }
+    //.navbar__sign-out-button {
+    //  border-color: $black !important;
+    //  box-shadow: 4px 4px 0px $black !important;
+    //  color: $black;
+    //  &:hover {
+    //    background-color: $k-accentlight !important;
+    //  }
+    //}
   }
 
   .dropdown-content {

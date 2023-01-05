@@ -192,12 +192,14 @@
       <b-dropdown-item custom aria-role="menuitem">
         <div class="buttons is-justify-content-space-between my-2">
           <ConnectWalletButton
-            class="navbar__sign-out-button menu-item is-size-7"
+            class="button is-size-7 is-capitalized"
             label="general.change_account"
+            variant="connect-dropdown"
             @closeBurgerMenu="closeBurgerMenu" />
           <NeoButton
-            class="navbar__sign-out-button menu-item is-size-7"
+            class="button is-size-7 is-capitalized"
             :label="$t('profileMenu.disconnect')"
+            variant="connect-dropdown"
             @click.native="disconnect()" />
         </div>
       </b-dropdown-item>
