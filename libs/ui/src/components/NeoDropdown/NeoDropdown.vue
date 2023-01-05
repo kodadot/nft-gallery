@@ -3,7 +3,8 @@
     aria-role="list"
     :position="position"
     :append-to-body="appendToBody"
-    class="neo-dropdown">
+    class="neo-dropdown"
+    @active-change="$emit('active-change', $event)">
     <template #trigger>
       <slot />
     </template>

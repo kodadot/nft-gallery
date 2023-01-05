@@ -48,7 +48,7 @@ defineProps<{
     background: $k-accentlight;
   }
 
-  &:active {
+  &.is-active {
     background-color: $k-accentlight;
   }
 }
@@ -66,8 +66,9 @@ defineProps<{
       color: hsl(0deg, 0%, 4%);
     }
 
-    &:active {
+    &.is-active {
       background-color: $k-accent;
+      color: hsl(0deg, 0%, 4%);
     }
   }
 

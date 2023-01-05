@@ -1,6 +1,6 @@
 <template>
-  <NeoDropdown>
-    <NeoButton label="⋮" />
+  <NeoDropdown @active-change="isDropdownActive = $event">
+    <NeoButton label="⋮" :class="isDropdownActive ? 'is-active' : ''" />
 
     <template #items>
       <NeoDropdownItem
@@ -18,6 +18,7 @@ import { downloadImage } from '~/utils/download'
 
 const { $store } = useNuxtApp()
 const currentGalleryItemImage = $store.getters['history/getCurrentlyViewedItem']
+const isDropdownActive = ref(false)
 
 const downloadMedia = () => {
   const { image, name } = currentGalleryItemImage
