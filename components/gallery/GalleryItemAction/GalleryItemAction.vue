@@ -6,7 +6,8 @@
       :nft-id="nft?.id"
       :nft-price="nft?.price"
       :collection-id="nft?.collection.id"
-      :current-owner="nft?.currentOwner" />
+      :current-owner="nft?.currentOwner"
+      @buyNFT="emit('buyNFT')" />
 
     <!-- highest offer -->
     <GalleryItemPriceOffer
@@ -36,6 +37,7 @@ import { useGalleryItem } from '../useGalleryItem'
 const { $store } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()
+const emit = defineEmits(['buyNFT'])
 
 const accountId = computed(() => $store.getters.getAuthAddress)
 const isOwner = computed(() =>

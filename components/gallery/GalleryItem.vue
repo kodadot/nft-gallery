@@ -51,7 +51,7 @@
           <hr />
 
           <!-- price section -->
-          <GalleryItemAction />
+          <GalleryItemAction @buyNFT="changeTab" />
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
       </div>
 
       <div class="column mobile-top-margin">
-        <GalleryItemTabsPanel />
+        <GalleryItemTabsPanel :active-tab="activeTab" />
       </div>
     </div>
 
@@ -88,6 +88,16 @@ import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
+const tabs = {
+  offers: '0',
+  activity: '1',
+  chart: '2',
+}
+const activeTab = ref(tabs.offers)
+
+const changeTab = () => {
+  activeTab.value = tabs.activity
+}
 
 const CarouselTypeRelated = defineAsyncComponent(
   () => import('@/components/carousel/CarouselTypeRelated.vue')

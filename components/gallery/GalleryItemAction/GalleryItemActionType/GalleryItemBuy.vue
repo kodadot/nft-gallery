@@ -68,6 +68,7 @@ const { urlPrefix, client } = usePrefix()
 const { accountId } = useAuth()
 const { $store, $apollo, $i18n } = useNuxtApp()
 const { apiInstance } = useApi()
+const emit = defineEmits(['buyNFT'])
 const ACTION = 'BUY'
 const actionLabel = $i18n.t('nft.action.buy')
 
@@ -86,6 +87,7 @@ const balance = computed<string>(() => {
   return $store.getters.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
 })
 const disabled = computed(() => {
+  return false
   if (!(props.nftPrice && balance.value)) {
     return false
   }
@@ -179,6 +181,7 @@ const handleBuy = async () => {
   howAboutToExecute(accountId.value, cb, arg, (blockNumber: string) => {
     showNotification(blockNumber, notificationTypes.info)
     showNotification(`[${actionLabel}] ${itemId}`, notificationTypes.success)
+    emit('buyNFT')
   })
 }
 
