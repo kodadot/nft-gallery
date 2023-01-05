@@ -51,12 +51,14 @@
         {{ $t('classic') }}
       </b-navbar-item>
       <b-navbar-item
+        v-if="chain === 'rmrk'"
         data-cy="simple"
         :to="`/${urlPrefix}/mint`"
         tag="nuxt-link">
         {{ $t('simple') }}
       </b-navbar-item>
       <b-navbar-item
+        v-if="chain === 'rmrk'"
         data-cy="creative"
         :to="`/${urlPrefix}/creative`"
         tag="nuxt-link">
