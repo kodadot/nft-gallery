@@ -2,7 +2,7 @@
   <div>
     <div v-if="!isMobile">
       <b-dropdown
-        v-if="chain === 'bsx' || chain === 'snek'"
+        v-if="showSnekBsxOptions"
         aria-role="list"
         data-cy="stats"
         :triggers="['click']">
@@ -12,18 +12,12 @@
           </div>
         </template>
         <b-dropdown-item has-link>
-          <nuxt-link
-            data-cy="global-offers"
-            :to="`${
-              accountId
-                ? `/${urlPrefix}/offers?target=${accountId}`
-                : `/${urlPrefix}/offers`
-            }`">
+          <nuxt-link data-cy="global-offers" :to="offersUrl">
             {{ $t('navbar.globalOffers') }}
           </nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link>
-          <nuxt-link data-cy="offers-stats" :to="`/${urlPrefix}/stats`">
+          <nuxt-link data-cy="offers-stats" :to="statsUrl">
             {{ $t('navbar.offerStats') }}
           </nuxt-link>
         </b-dropdown-item>
@@ -63,21 +57,14 @@
       :no-padding="true"
       :title="$t('stats')">
       <template>
-        <template v-if="chain === 'bsx' || chain === 'snek'">
+        <template v-if="showSnekBsxOptions">
           <b-navbar-item
             data-cy="global-offers"
-            :to="`${
-              accountId
-                ? `/${urlPrefix}/offers?target=${accountId}`
-                : `/${urlPrefix}/offers`
-            }`"
+            :to="offersUrl"
             tag="nuxt-link">
             {{ $t('navbar.globalOffers') }}
           </b-navbar-item>
-          <b-navbar-item
-            data-cy="offers-stats"
-            :to="`/${urlPrefix}/stats`"
-            tag="nuxt-link">
+          <b-navbar-item data-cy="offers-stats" :to="statsUrl" tag="nuxt-link">
             {{ $t('navbar.offerStats') }}
           </b-navbar-item>
           <b-navbar-item
@@ -108,35 +95,30 @@
     </MobileExpandableSection>
   </div>
 </template>
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import { getChainTestList } from '~/utils/constants'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import AuthMixin from '~~/utils/mixins/authMixin'
+<script lang="ts" setup>
 import { isMobileDevice } from '~~/utils/extension'
-import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
 
-@Component({
-  components: {
-    MobileExpandableSection,
-  },
-})
-export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
-  @Prop({ type: String }) chain!: string
+const MobileExpandableSection = defineAsyncComponent(
+  () => import('@/components/navbar/MobileExpandableSection.vue')
+)
+const { accountId } = useAuth()
 
-  public isMobile = window.innerWidth < 1024 ? true : isMobileDevice
+const { urlPrefix } = usePrefix()
+const props = defineProps<{
+  chain?: string
+}>()
 
-  get options() {
-    const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']
+const isMobile = window.innerWidth < 1024 ? true : isMobileDevice
 
-    if (!this.$config.dev) {
-      return availableUrlPrefixes.filter(
-        (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
-      )
-    }
-    return availableUrlPrefixes
-  }
-}
+const offersUrl = `${
+  accountId.value
+    ? `/${urlPrefix.value}/offers?target=${accountId.value}`
+    : `/${urlPrefix.value}/offers`
+}`
+
+const statsUrl = `/${urlPrefix.value}/stats`
+
+const showSnekBsxOptions = props.chain === 'bsx' || props.chain === 'snek'
 </script>
 <style lang="scss">
 .navbar-stats {
