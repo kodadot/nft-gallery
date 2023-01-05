@@ -10,7 +10,7 @@
         <MessageNotify
           :enable-download="isOwner"
           :title="$t('mint.success') + ' 🎉'"
-          :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
+          :subtitle="$t('mint.successNewNfts')" />
       </b-message>
     </template>
     <template #main>
