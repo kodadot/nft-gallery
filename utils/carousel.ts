@@ -9,11 +9,7 @@ import {
 import { LastEvent } from '@/utils/types/types'
 
 import { CarouselNFT } from '@/components/base/types'
-import {
-  fetchNFTMetadata,
-  getSanitizer,
-  sanitizeIpfsUrl,
-} from '@/components/rmrk/utils'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 /**
  * Format the data to fit with CarouselNFT[]
  * Get cloudflare images

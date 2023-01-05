@@ -1,5 +1,5 @@
 import { queryBatch, querySingle } from '@/utils/cloudflare'
-import { zip } from '~/components/rmrk/utils'
+import { zip } from '@/components/rmrk/utils'
 
 describe('CACHE TEST', (): void => {
   let extracted: string[]
