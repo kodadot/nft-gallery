@@ -154,7 +154,7 @@ const checkBuyBeforeSubmit = async () => {
   ) {
     showNotification(
       $i18n.t('nft.notification.nftChanged', {
-        chain: 'RMRK',
+        chain: urlPrefix.value.toUpperCase(),
         action: actionLabel,
       }),
       notificationTypes.warn
