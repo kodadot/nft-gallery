@@ -5,7 +5,7 @@
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
     <NeoTab
-      :v-model="selectedTab"
+      :model-value="selectedTab"
       data-cy="tabs"
       class="explore-tabs"
       content-class="explore-tabs-content"
@@ -26,35 +26,7 @@
 <script setup lang="ts">
 import { NeoTab, NeoTabItem } from '@kodadot1/brick'
 const { $route, $router } = useNuxtApp()
-let selectedTab
-
-// const selectedTab = computed({
-//   // getter
-//   get() {
-//     console.log('helllo')
-//     return $route.name?.split('-')[2] as string
-//   },
-//   // setter
-//   set(val) {
-//     console.log('helllo2', $route.query.page)
-
-//     $route.query.page = ''
-//     let queryOptions: {
-//       page: string
-//       search?: string | (string | null)[]
-//     } = {
-//       page: '1',
-//     }
-//     if ($route.query.search) {
-//       queryOptions.search = $route.query.search
-//     }
-
-//     $router.replace({
-//       path: val,
-//       query: queryOptions,
-//     })
-//   },
-// })
+const selectedTab = ref($route.name?.split('-')[2])
 
 const updateTab = (val) => {
   $route.query.page = ''
@@ -64,14 +36,8 @@ const updateTab = (val) => {
   } = {
     page: '1',
   }
-  if ($route.query.search) {
-    queryOptions.search = $route.query.search
-  }
 
-  $router.replace({
-    path: val,
-    query: queryOptions,
-  })
+  history.pushState({}, '', val)
 }
 </script>
 <style lang="scss">

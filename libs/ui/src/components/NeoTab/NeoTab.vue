@@ -1,25 +1,21 @@
 <template>
-  <o-tabs v-model="tabValue">
+  <o-tabs v-model="model">
     <slot name="items" />
   </o-tabs>
 </template>
 
 <script setup lang="ts">
 import { OTabs } from '@oruga-ui/oruga'
+import { useVModel } from '@vueuse/core'
 
 const props = defineProps({
-  modelValue: String,
+  modelValue: {
+    type: [String, Number],
+    default: '',
+  },
 })
 const emit = defineEmits(['update:modelValue'])
-const tabValue = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val) {
-    console.log('helllo4')
-    emit('update:modelValue', val)
-  },
-})
+const model = useVModel(props, 'modelValue', emit)
 </script>
 
 <style lang="scss">
