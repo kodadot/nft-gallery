@@ -1,4 +1,4 @@
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import {
   calculateAvgPrice,
   monthlyVolume,

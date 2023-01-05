@@ -1,4 +1,4 @@
-import { SomethingWithMeta } from '~/components/rmrk/utils'
+import { SomethingWithMeta } from '@/utils/ipfs'
 import { NFTWithCollectionMeta } from '~/components/unique/graphqlResponseTypes'
 import { fromDecimals, toDecimals } from './math'
 

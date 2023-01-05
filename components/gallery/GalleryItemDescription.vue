@@ -94,7 +94,7 @@
 <script setup lang="ts">
 import { OTabItem, OTable, OTableColumn, OTabs } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import VueMarkdown from 'vue-markdown-render'
 import { DisablableTab } from '@kodadot1/brick'
 

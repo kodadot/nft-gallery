@@ -106,11 +106,7 @@
 
 <script lang="ts">
 import { Emote, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
-import {
-  getSanitizer,
-  resolveMedia,
-  sanitizeIpfsUrl,
-} from '@/components/rmrk/utils'
+import { resolveMedia } from '@/components/rmrk/utils'
 import { isOwner } from '~/utils/account'
 import { emptyObject } from '@/utils/empty'
 import { Component, mixins } from 'nuxt-property-decorator'
@@ -123,7 +119,7 @@ import {
 } from '@polkadot/types/interfaces'
 
 import { MediaType } from '@/components/rmrk/types'
-import { fetchNFTMetadata } from '@/components/rmrk/utils'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 import nftById from '@/queries/unique/nftById.graphql'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import isShareMode from '@/utils/isShareMode'
