@@ -1,10 +1,10 @@
 <template>
   <div>
     <MessageNotify
-      v-show="showCongrtsMessgae"
+      v-if="showCongrtsMessgae"
       :enable-download="isOwner"
       :title="$t('mint.success') + ' 🎉'"
-      :subtitle="$t('mint.shareWithFriends', [nft?.name]) + ' △'" />
+      :subtitle="$t('mint.successNewNfts')" />
     <section class="py-5 gallery-item">
       <div class="columns">
         <div class="column is-two-fifths">
@@ -113,6 +113,9 @@ const isOwner = computed(() =>
 const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongrtsMessgae.value = true
+  setTimeout(() => {
+    showCongrtsMessgae.value = false
+  }, 10000)
 }
 
 const CarouselTypeRelated = defineAsyncComponent(
