@@ -66,8 +66,10 @@
     }
 }
 
-.wrapper > * {
+.wrapper{
+    height: 100%;
+    > * {
     font-size: inherit !important;
     font-family: inherit !important;
     height: inherit !important;
-}
+}}
