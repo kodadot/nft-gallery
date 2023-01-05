@@ -100,7 +100,7 @@ import { Component, mixins } from 'nuxt-property-decorator'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
 

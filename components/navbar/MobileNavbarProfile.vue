@@ -8,22 +8,24 @@
         hide-identity-popover />
     </div>
     <div
-      class="is-flex is-flex-direction-column is-justify-content-space-between">
+      class="is-flex is-flex-direction-column is-justify-content-space-between is-align-items-end">
       <ConnectWalletButton
         label="general.change_account"
-        class="navbar__sign-out-button menu-item mb-4 is-size-7"
+        class="menu-item mb-4 is-size-7"
+        variant="connect-dropdown"
         @closeBurgerMenu="closeBurgerMenu" />
-      <b-button
-        class="navbar__sign-out-button menu-item is-size-7"
-        @click="disconnect()">
-        {{ $t('profileMenu.disconnect') }}
-      </b-button>
+      <NeoButton
+        class="menu-item mb-4 is-size-7"
+        :label="$t('profileMenu.disconnect')"
+        variant="connect-dropdown"
+        @click="disconnect()" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { clearSession } from '~/utils/cachingStrategy'
+import { NeoButton } from '@kodadot1/brick'
 
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/IdentityIndex.vue')

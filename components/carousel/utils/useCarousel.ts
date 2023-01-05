@@ -6,7 +6,7 @@ import {
   formatNFT,
   setNftMetaFromCache,
 } from '@/utils/carousel'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { sortItemListByIds } from '@/utils/sorting'
 import { correctPrefix } from '@/utils/uniquery'
 

@@ -7,7 +7,7 @@
         <b-button
           v-if="enableDownload"
           :type="btnType"
-          class="share-option"
+          :class="btnClass"
           @click="downloadImage()">
           <b-icon pack="fas" icon="download" />
         </b-button>
@@ -16,7 +16,7 @@
       <p class="control">
         <b-button
           v-clipboard:copy="realworldFullPathShare"
-          class="share-option"
+          :class="btnClass"
           :type="btnType"
           @click="toast($t('toast.urlCopy'))">
           <b-icon pack="fas" icon="link" />
@@ -25,7 +25,7 @@
 
       <p class="control">
         <ShowQRModal
-          class="share-option"
+          :class="btnType === 'is-primary' ? 'share-option' : 'qr-basic'"
           :address="realworldFullPath"
           :title="$t(label)"
           :type="btnType" />
@@ -91,7 +91,7 @@
           </ShareNetwork>
         </template>
         <p class="control">
-          <b-button :type="btnType" class="share-option">
+          <b-button :type="btnType" :class="btnClass">
             <b-icon pack="fas" icon="share" />
           </b-button>
         </p>
@@ -115,7 +115,6 @@ export default class Sharing extends Vue {
   @Prop({ default: 'sharing.nft' }) label!: string
   @Prop({ default: () => emptyIframe }) iframe!: IFrame
   @Prop(Boolean) enableDownload!: boolean
-  @Prop({ default: false }) isPrimary?: boolean
   @Prop({ default: '' }) btnType?: string
 
   private active = false
@@ -124,6 +123,10 @@ export default class Sharing extends Vue {
 
   get helloText(): string {
     return this.label
+  }
+
+  get btnClass(): string {
+    return this.btnType === 'is-primary' ? 'share-option' : 'is-bordered-light'
   }
 
   get realworldFullPath(): string {
@@ -236,9 +239,15 @@ export default class Sharing extends Vue {
   }
 }
 
+.qr-basic button {
+  border: none !important;
+  border-top: 1px solid #ff47ac !important;
+  background-color: transparent !important;
+}
+
 .share-option,
 .share-option button {
-  border: none;
+  border: none !important;
   background-color: transparent !important;
 
   .icon svg {
