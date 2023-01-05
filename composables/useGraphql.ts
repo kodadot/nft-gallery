@@ -28,7 +28,7 @@ export default function ({
     const query = await resolveQueryPath(prefix, queryName)
 
     try {
-      const usePollInerval = Object.keys(options).includes('pollInterval')
+      const usePolling = Object.keys(options).includes('pollInterval')
       const queryParams = {
         query: query.default,
         client: client,
@@ -36,7 +36,7 @@ export default function ({
         ...options,
       }
 
-      if (usePollInerval) {
+      if (usePolling) {
         querySubscription.value = $apollo.watchQuery(queryParams).subscribe({
           next: ({ data: response }) => {
             data.value = response
