@@ -328,6 +328,11 @@ html.light-mode {
     .search-bar-bg {
       background-color: #000;
     }
+
+    .identity-name {
+      color: $black;
+
+    }
   }
 
   --card-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
