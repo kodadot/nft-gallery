@@ -392,6 +392,13 @@ html.dark-mode {
   .profile-dropdown-divider {
     background-color: #cccccc;
   }
+  
+  .gallery-avatar {
+    .avatar {
+      box-shadow: $primary-shadow-dark !important;
+      border: 1px solid $white !important;
+    }
+  }
 
   --card-box-shadow: 4px 4px white;
 }
