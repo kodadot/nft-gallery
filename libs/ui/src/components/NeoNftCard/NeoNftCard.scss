@@ -1,0 +1,56 @@
+@import '../../scss/variable.scss';
+@import '../../scss/animation.scss';
+
+.nft-card {
+  animation: cardHoverOut 0.3s ease-out;
+
+  &:hover {
+    box-shadow: $primary-shadow;
+    animation: cardHoverIn 0.3s ease-in;
+  }
+}
+.nft-media {
+  border: 1px solid $black;
+  border-bottom: none !important;
+  box-shadow: none;
+}
+
+.nft-media-info {
+  border: 1px solid $black;
+  padding: 13px;
+  min-height: 102px;
+}
+
+.nft-info-collection-name {
+  color: $k-grey;
+  &:hover {
+    color: $black;
+  }
+}
+
+.chain-name {
+  text-transform: uppercase;
+  color: $k-grey;
+}
+
+.dark-mode {
+  .nft-card {
+    &:hover {
+      box-shadow: $primary-shadow-dark;
+    }
+  }
+
+  .nft-media {
+    border: 1px solid $white;
+  }
+
+  .nft-info-collection-name {
+    &:hover {
+      color: $white;
+    }
+  }
+
+  .nft-media-info {
+    border: 1px solid $white;
+  }
+}

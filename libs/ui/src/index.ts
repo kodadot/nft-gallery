@@ -6,6 +6,7 @@ export { default as NeoDropdown } from './components/NeoDropdown/NeoDropdown.vue
 export { default as NeoDropdownItem } from './components/NeoDropdown/NeoDropdownItem.vue'
 export { default as NeoSelect } from './components/NeoSelect/NeoSelect.vue'
 
-export { default as SampleButton } from './components/TheButton/TheButton.vue'
+export { default as TheButton } from './components/TheButton/TheButton.vue'
 export { default as DisablableTab } from './components/DisablableTab/DisablableTab'
 export { default as NeoTooltip } from './components/NeoTooltip/NeoTooltip'
+export { default as NeoNftCard } from './components/NeoNftCard/NeoNftCard'

@@ -1,17 +1,18 @@
 @import '../../scss/variable.scss';
+@import '../../scss/animation.scss';
 
 .article {
   background-color: white;
   border: 1px solid $dark-accent;
   display: block;
   height: 100%;
-  box-shadow: 4px 4px 0 0 rgba(255, 255, 255, 0);
   text-decoration: none;
-  transition-duration: 0.4s;
-  transition-property: box-shadow;
+  animation: cardHoverOut 0.3s ease-out;
 
   &:hover {
-    box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 1);
+    box-shadow: var(--card-box-shadow);
+    animation: cardHoverIn 0.3s ease-in;
+
   }
 
   p {
@@ -37,10 +38,6 @@
 .dark-mode .article {
   background-color: $dark-accent;
   border: 1px solid white;
-
-  &:hover {
-    box-shadow: 4px 4px 0 0 rgba(255, 255, 255, 1);
-  }
 
   p {
     color: white;

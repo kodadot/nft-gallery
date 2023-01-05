@@ -15,18 +15,21 @@
       v-if="!isCollection && item.collectionName && item.collectionId"
       :title="item.collectionName"
       :to="
-        urlOf({ id: item.collectionId, url: 'collection', chain: item.chain })
+        urlOf({
+          id: item.collectionId,
+          url: 'collection',
+          chain: item.chain,
+        })
       "
-      class="is-size-7 carousel-info-name">
+      class="is-size-7 carousel-info-collection-name">
       {{ item.collectionName }}
     </nuxt-link>
 
     <div v-if="showPrice" class="carousel-meta">
       <CommonTokenMoney
         :custom-token-id="getTokenId(item.chain)"
-        :value="item.price"
-        class="has-text-weight-bold" />
-      <p class="is-size-7">{{ chainName }}</p>
+        :value="item.price" />
+      <p class="is-size-7 chain-name">{{ chainName }}</p>
     </div>
   </div>
 </template>
@@ -43,8 +46,8 @@ const props = defineProps<{
 }>()
 const { urlPrefix } = usePrefix()
 const { urlOf } = useCarouselUrl()
-const url = inject('itemUrl') as string
-const isCollection = inject<boolean>('isCollection')
+const url = inject('itemUrl', 'gallery') as string
+const isCollection = inject<boolean>('isCollection', false)
 const chainName = computed(() => {
   const name = {
     rmrk: 'RMRK',

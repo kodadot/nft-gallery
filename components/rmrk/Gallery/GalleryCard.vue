@@ -88,7 +88,8 @@ export default class GalleryCard extends mixins(AuthMixin) {
       const image = await getSingleCloudflareImage(this.metadata)
       const meta = await processSingleMetadata<NFTMetadata>(this.metadata)
 
-      this.image = image || getSanitizer(meta.image || '')(meta.image || '')
+      this.image =
+        image || getSanitizer(meta.image || '', 'image')(meta.image || '')
       this.title = meta.name
       this.animatedUrl = sanitizeIpfsUrl(
         meta.animation_url || meta.mediaUri || '',

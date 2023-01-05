@@ -4,17 +4,25 @@
     overflow: visible !important;
   }
 
+  .carousel-info-collection-name {
+    color: $k-grey;
+    &:hover {
+      color: $black;
+    }
+  }
+
   .carousel-item {
     background-color: white;
     color: black;
     border: 1px solid black;
     box-shadow: 4px 4px 0 0 rgba(255, 255, 255, 0);
     transition: box-shadow 0.4s, opacity 0.4s;
-
+    animation: cardHoverOut 0.3s ease-out;
 
     &:hover {
-      box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 1);
+      box-shadow: var(--card-box-shadow);
       opacity: 1 !important;
+      animation: cardHoverIn 0.3s ease-in;
     }
   }
 
@@ -44,6 +52,9 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      &:hover {
+        color: $k-hovergrey;
+      }
     }
 
     &-collection {
@@ -67,6 +78,10 @@
 
   .navigation-wrapper {
     position: relative;
+  }
+
+  .chain-name {
+    color: $k-grey;
   }
 
   .dots {
@@ -201,9 +216,19 @@
     .carousel-item {
       background-color: $dark-accent;
       border: 1px solid white;
+    }
 
+    .carousel-info-collection-name {
       &:hover {
-        box-shadow: 4px 4px 0 0 rgba(255, 255, 255, 1);
+        color: $white;
+      }
+    }
+
+    .carousel-info {
+      &-name {
+        &:hover {
+          color: $shade !important;
+        }
       }
     }
 

@@ -39,7 +39,7 @@ const props = defineProps<{
   nfts: CarouselNFT[]
 }>()
 
-const url = inject('itemUrl') as string
+const url = inject('itemUrl', 'gallery') as string
 const isCollection = computed(() => url.includes('collection'))
 provide('isCollection', isCollection.value)
 
