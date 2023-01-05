@@ -87,7 +87,6 @@ const balance = computed<string>(() => {
   return $store.getters.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
 })
 const disabled = computed(() => {
-  return false
   if (!(props.nftPrice && balance.value)) {
     return false
   }

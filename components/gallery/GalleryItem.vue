@@ -1,79 +1,86 @@
 <template>
-  <section class="py-5 gallery-item">
-    <div class="columns">
-      <div class="column is-two-fifths">
-        <MediaItem
-          :key="nftImage"
-          class="gallery-item-media"
-          :src="nftImage"
-          :animation-src="nftAnimation"
-          :mime-type="nftMimeType"
-          :title="nft?.name" />
-      </div>
-      <div class="column">
-        <div
-          class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
-          <!-- title section -->
-          <div>
-            <div class="is-flex is-justify-content-space-between">
-              <div>
-                <h1 class="title">{{ nft?.name }}</h1>
-                <h2 class="subtitle">
-                  <nuxt-link
-                    :to="`/${urlPrefix}/collection/${nft?.collection.id}`"
-                    class="has-text-link">
-                    {{ nft?.collection.name }}
-                  </nuxt-link>
-                </h2>
+  <div>
+    <MessageNotify
+      v-show="showCongrtsMessgae"
+      :enable-download="isOwner"
+      :title="$t('mint.success') + ' 🎉'"
+      :subtitle="$t('mint.shareWithFriends', [nft?.name]) + ' △'" />
+    <section class="py-5 gallery-item">
+      <div class="columns">
+        <div class="column is-two-fifths">
+          <MediaItem
+            :key="nftImage"
+            class="gallery-item-media"
+            :src="nftImage"
+            :animation-src="nftAnimation"
+            :mime-type="nftMimeType"
+            :title="nft?.name" />
+        </div>
+        <div class="column">
+          <div
+            class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
+            <!-- title section -->
+            <div>
+              <div class="is-flex is-justify-content-space-between">
+                <div>
+                  <h1 class="title">{{ nft?.name }}</h1>
+                  <h2 class="subtitle">
+                    <nuxt-link
+                      :to="`/${urlPrefix}/collection/${nft?.collection.id}`"
+                      class="has-text-link">
+                      {{ nft?.collection.name }}
+                    </nuxt-link>
+                  </h2>
+                </div>
+                <div class="buttons is-align-content-start">
+                  <GalleryItemShareBtn />
+                  <GalleryItemMoreActionBtn class="ml-4" />
+                </div>
               </div>
-              <div class="buttons is-align-content-start">
-                <GalleryItemShareBtn />
-                <GalleryItemMoreActionBtn class="ml-4" />
+
+              <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4">
+                <IdentityItem
+                  v-if="nft?.issuer"
+                  class="mb-1"
+                  label="Creator"
+                  :prefix="urlPrefix"
+                  :account="nft?.issuer" />
+                <IdentityItem
+                  v-if="nft?.currentOwner !== nft?.issuer"
+                  label="Owner"
+                  :prefix="urlPrefix"
+                  :account="nft?.currentOwner || ''" />
               </div>
             </div>
 
-            <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4">
-              <IdentityItem
-                v-if="nft?.issuer"
-                class="mb-1"
-                label="Creator"
-                :prefix="urlPrefix"
-                :account="nft?.issuer" />
-              <IdentityItem
-                v-if="nft?.currentOwner !== nft?.issuer"
-                label="Owner"
-                :prefix="urlPrefix"
-                :account="nft?.currentOwner || ''" />
-            </div>
+            <!-- LINE DIVIDER -->
+            <hr />
+
+            <!-- price section -->
+            <GalleryItemAction @buyNFT="onNFTBought" />
           </div>
-
-          <!-- LINE DIVIDER -->
-          <hr />
-
-          <!-- price section -->
-          <GalleryItemAction @buyNFT="changeTab" />
         </div>
       </div>
-    </div>
 
-    <div class="columns mt-6">
-      <div class="column is-two-fifths">
-        <GalleryItemDescription />
+      <div class="columns mt-6">
+        <div class="column is-two-fifths">
+          <GalleryItemDescription />
+        </div>
+
+        <div class="column mobile-top-margin">
+          <GalleryItemTabsPanel :active-tab="activeTab" />
+        </div>
       </div>
 
-      <div class="column mobile-top-margin">
-        <GalleryItemTabsPanel :active-tab="activeTab" />
-      </div>
-    </div>
+      <CarouselTypeRelated
+        v-if="nft?.collection.id"
+        class="mt-6"
+        :collection-id="nft?.collection.id"
+        data-cy="carousel-related" />
 
-    <CarouselTypeRelated
-      v-if="nft?.collection.id"
-      class="mt-6"
-      :collection-id="nft?.collection.id"
-      data-cy="carousel-related" />
-
-    <CarouselTypeVisited class="mt-6" />
-  </section>
+      <CarouselTypeVisited class="mt-6" />
+    </section>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -85,17 +92,26 @@ import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
+import { isOwner as checkOwner } from '@/utils/account'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
+const { $store } = useNuxtApp()
 const tabs = {
   offers: '0',
   activity: '1',
   chart: '2',
 }
 const activeTab = ref(tabs.offers)
+const showCongrtsMessgae = ref(false)
+const accountId = computed(() => $store.getters.getAuthAddress)
+const isOwner = computed(() =>
+  checkOwner(nft.value?.currentOwner, accountId.value)
+)
 
-const changeTab = () => {
+const onNFTBought = () => {
+  activeTab.value = tabs.activity
+  showCongrtsMessgae.value = true
   activeTab.value = tabs.activity
 }
 
