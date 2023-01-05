@@ -1,14 +1,13 @@
-import type { SomethingWithMeta } from '@/components/rmrk/utils'
+import type { SomethingWithMeta } from '@/utils/ipfs'
 import type { CollectionMetadata } from '@/components/rmrk/types'
 import type { CarouselNFT } from '@/components/base/types'
 
-import { getSanitizer } from '@/components/rmrk/utils'
 import { mapOnlyMetadata } from '@/utils/mappers'
 import {
   getCloudflareImageLinks,
   processMetadata,
 } from '@/utils/cachingStrategy'
-import { fastExtract } from '@/utils/ipfs'
+import { fastExtract, getSanitizer } from '@/utils/ipfs'
 
 const curatedCollection = {
   rmrk: [
@@ -44,7 +43,7 @@ async function updateCollections(data) {
   processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
     collections.value[i].image =
       imageLinks[fastExtract(collections.value[i]?.metadata)] ||
-      getSanitizer(meta.image || '')(meta.image || '')
+      getSanitizer(meta.image || '', 'image')(meta.image || '')
   })
 }
 

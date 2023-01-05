@@ -9,11 +9,7 @@ import {
 import { LastEvent } from '@/utils/types/types'
 
 import { CarouselNFT } from '@/components/base/types'
-import {
-  fetchNFTMetadata,
-  getSanitizer,
-  sanitizeIpfsUrl,
-} from '@/components/rmrk/utils'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 /**
  * Format the data to fit with CarouselNFT[]
  * Get cloudflare images
@@ -67,7 +63,7 @@ export const setNftMetaFromCache = async (nfts): Promise<CarouselNFT[]> => {
         )
         set(nft.metadata, meta)
       }
-      const imageSanitizer = getSanitizer(meta.image, 'pinata')
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       return {
         ...nft,
         name: meta.name,

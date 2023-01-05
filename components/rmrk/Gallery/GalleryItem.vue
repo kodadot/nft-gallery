@@ -12,7 +12,7 @@
       <MessageNotify
         :enable-download="isOwner"
         :title="$t('mint.success') + ' 🎉'"
-        :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
+        :subtitle="$t('mint.successNewNfts')" />
     </template>
     <template #image>
       <Navigation
@@ -139,9 +139,8 @@ import { get, set } from 'idb-keyval'
 import { Debounce } from 'vue-debounce-decorator'
 
 import { Emote, NFT, NFTMetadata } from '../service/scheme'
-import { getSanitizer, sanitizeIpfsUrl } from '../utils'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { exist } from '@/components/search/exist'
-import { fetchNFTMetadata } from '../utils'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
 import Orientation from '@/utils/directives/DeviceOrientation'
@@ -366,7 +365,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
             getSanitizer(this.nft.metadata, undefined, 'permafrost')
           )
 
-      const imageSanitizer = getSanitizer(meta.image)
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),

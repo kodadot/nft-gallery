@@ -6,7 +6,7 @@ import {
   formatNFT,
   setNftMetaFromCache,
 } from '@/utils/carousel'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { sortItemListByIds } from '@/utils/sorting'
 import { correctPrefix } from '@/utils/uniquery'
 
@@ -106,7 +106,7 @@ export const useCarouselPopularCollections = () => {
     nfts.value = data.seriesInsightTable.map(
       (e: RowSeries): RowSeries => ({
         ...e,
-        image: sanitizeIpfsUrl(e.image),
+        image: sanitizeIpfsUrl(e.image, 'image'),
       })
     )
   }

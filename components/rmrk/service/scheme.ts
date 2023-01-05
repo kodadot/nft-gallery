@@ -1,5 +1,5 @@
 import { Attribute, CreatedNFT } from '@kodadot1/minimark'
-import { sanitizeIpfsUrl } from '../utils'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 export interface CompletePack extends BasePack {
   collections: Collection[]

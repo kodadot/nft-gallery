@@ -92,7 +92,9 @@
         cell-class="is-vcentered"
         field="id"
         label="Collection">
-        <nuxt-link v-if="!isLoading" :to="`/rmrk/collection/${props.row.id}`">
+        <nuxt-link
+          v-if="!isLoading"
+          :to="`/${urlPrefix}/collection/${props.row.id}`">
           {{ props.row.name }}
         </nuxt-link>
         <b-skeleton :active="isLoading" />
@@ -298,7 +300,7 @@
         :label="$t('series.chart')">
         <nuxt-link
           v-if="!isLoading"
-          :to="`/rmrk/collection/${props.row.id}?tab=chart&locate=true`"
+          :to="`/${urlPrefix}/collection/${props.row.id}?tab=chart&locate=true`"
           target="_blank">
           <b-icon icon="chart-line"> </b-icon>
         </nuxt-link>
@@ -312,7 +314,7 @@
         :label="$t('series.history')">
         <nuxt-link
           v-if="!isLoading"
-          :to="`/rmrk/collection/${props.row.id}?tab=history&locate=true`"
+          :to="`/${urlPrefix}/collection/${props.row.id}?tab=history&locate=true`"
           target="_blank">
           <b-icon icon="list-ul"> </b-icon>
         </nuxt-link>
@@ -345,7 +347,7 @@ import { Component, Watch, mixins } from 'nuxt-property-decorator'
 
 import { Collection, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { exist } from '@/components/search/exist'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import AuthMixin from '@/utils/mixins/authMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'

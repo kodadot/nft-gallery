@@ -30,6 +30,6 @@ defineProps<{
 }>()
 
 const { urlOf } = useCarouselUrl()
-const url = inject('itemUrl') as string
-const isCollection = inject('isCollection')
+const url = inject('itemUrl', 'gallery') as string
+const isCollection = inject('isCollection', false)
 </script>

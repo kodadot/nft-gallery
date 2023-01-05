@@ -21,7 +21,7 @@ const components = {
 export default class ShowQRModal extends Vue {
   @Prop({ type: String, required: true }) public address!: string
   @Prop({ type: String }) public title!: string
-  @Prop({ type: String, default: 'is-bordered-light share-button' })
+  @Prop({ type: String, default: 'is-bordered-light' })
   public type?: string
 
   get qrCodePath(): string {

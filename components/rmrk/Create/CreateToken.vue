@@ -94,7 +94,7 @@ import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { unwrapSafe } from '~/utils/uniquery'
 import { basicUpdateFunction } from '../service/NftUtils'
 import { toNFTId } from '../service/scheme'
-import { preheatFileFromIPFS } from '../utils'
+import { preheatFileFromIPFS } from '@/utils/ipfs'
 import {
   nsfwAttribute,
   offsetAttribute,

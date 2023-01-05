@@ -134,19 +134,20 @@
               class="is-flex is-justify-content-center"
               custom
               paddingless>
-              <b-button
-                class="navbar__sign-out-button menu-item mb-4 is-size-7"
-                @click="disconnect()">
-                {{ $t('profileMenu.disconnect') }}
-              </b-button>
+              <NeoButton
+                class="button is-size-7 is-capitalized"
+                :label="$t('profileMenu.disconnect')"
+                variant="connect-dropdown"
+                @click.native="disconnect()" />
             </div>
           </b-navbar-item>
         </MobileExpandableSection>
-        <ColorModeButton />
+        <ColorModeButton class="navbar-item" />
 
         <div v-if="!account" id="NavProfile">
           <ConnectWalletButton
             class="button-connect-wallet"
+            variant="connect"
             @closeBurgerMenu="closeBurgerMenu" />
         </div>
       </template>
@@ -157,16 +158,6 @@
         data-cy="profileDropdown"
         @closeBurgerMenu="closeBurgerMenu" />
     </template>
-    <!-- <template v-else #end>
-      <div class="image is-32x32 mr-2">
-        <BasicImage
-          v-show="inCollectionPage && currentCollection.image"
-          :alt="navBarTitle"
-          :src="currentCollection.image"
-          rounded />
-      </div>
-      <div class="title is-4">{{ navBarTitle }}</div>
-    </template> -->
   </b-navbar>
 </template>
 
@@ -196,9 +187,11 @@ import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
 import ConnectWalletButton from '~/components/shared/ConnectWalletButton.vue'
 import { getKusamaAssetId } from '~/utils/api/bsx/query'
 import { clearSession } from '~/utils/cachingStrategy'
+import { NeoButton } from '@kodadot1/brick'
 
 @Component({
   components: {
+    NeoButton,
     Search,
     Identity,
     BasicImage,
@@ -229,13 +222,6 @@ export default class NavbarMenu extends mixins(
   private isMobile = window.innerWidth < 1024 ? true : isMobileDevice
 
   @Ref('mobilSearchRef') readonly mobilSearchRef
-  @Watch('isBurgerMenuOpened') onDisableScroll() {
-    if (this.isBurgerMenuOpened) {
-      return (document.body.style.overflowY = 'hidden')
-    } else {
-      return (document.body.style.overflowY = 'initial')
-    }
-  }
 
   get account() {
     return this.$store.getters.getAuthAddress
@@ -328,9 +314,7 @@ export default class NavbarMenu extends mixins(
 
   @Watch('isBurgerMenuOpened')
   onBurgerMenuOpenedChanged() {
-    document.documentElement.style.overflow = this.isBurgerMenuOpened
-      ? 'hidden'
-      : 'auto'
+    this.setBodyScroll(!this.isBurgerMenuOpened)
   }
 
   async fetchArtistIdentity(address) {
@@ -360,16 +344,28 @@ export default class NavbarMenu extends mixins(
     }
     this.lastScrollPosition = currentScrollPosition
   }
+  setBodyScroll(allowScroll: boolean) {
+    this.$nextTick(() => {
+      const body = document.querySelector('body') as HTMLBodyElement
+      if (allowScroll) {
+        body.classList.remove('is-clipped')
+      } else {
+        body.classList.add('is-clipped')
+      }
+    })
+  }
 
   showMobileSearchBar() {
     this.openMobileSearchBar = true
     this.$nextTick(() => {
       this.mobilSearchRef?.focusInput()
     })
+    this.setBodyScroll(false)
   }
 
   hideMobileSearchBar() {
     this.openMobileSearchBar = false
+    this.setBodyScroll(true)
   }
 
   closeBurgerMenu() {
@@ -386,6 +382,8 @@ export default class NavbarMenu extends mixins(
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.onScroll)
+    this.setBodyScroll(true)
+    document.documentElement.classList.remove('is-clipped-touch')
   }
 }
 </script>

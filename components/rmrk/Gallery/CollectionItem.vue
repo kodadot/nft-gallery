@@ -155,11 +155,8 @@ import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
 import { CollectionMetadata } from '../types'
-import {
-  fetchCollectionMetadata,
-  onlyPriceEvents,
-  sanitizeIpfsUrl,
-} from '../utils'
+import { onlyPriceEvents } from '../utils'
+import { fetchCollectionMetadata, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { SearchQuery } from './search/types'
 import { isSameAccount } from '~/utils/account'
 
@@ -518,7 +515,7 @@ export default class CollectionItem extends mixins(
       this.collection = Object.assign(this.collection, { ...meta })
       this.meta = {
         ...meta,
-        image: sanitizeIpfsUrl(meta.image || ''),
+        image: sanitizeIpfsUrl(meta.image || '', 'image'),
       }
       this.$store.dispatch('history/setCurrentlyViewedCollection', {
         name: this.name,

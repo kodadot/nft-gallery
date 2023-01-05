@@ -1,5 +1,5 @@
 import { $fetch } from 'ohmyfetch'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getMimeType } from '@/utils/gallery/media'
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 
@@ -18,7 +18,7 @@ const whichMimeType = async (data) => {
 const whichAsset = (data) => {
   return {
     animation_url: sanitizeIpfsUrl(data.animation_url || ''),
-    image: sanitizeIpfsUrl(data.image || ''),
+    image: sanitizeIpfsUrl(data.image || '', 'image'),
   }
 }
 

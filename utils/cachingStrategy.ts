@@ -2,7 +2,8 @@
 import { queryBatch } from '@/utils/cloudflare'
 import { isEmpty } from '@kodadot1/minimark'
 import { get, getMany, setMany, update } from 'idb-keyval'
-import { fetchMetadata, getSanitizer, zip } from '~/components/rmrk/utils'
+import { zip } from '@/components/rmrk/utils'
+import { fetchMetadata, getSanitizer } from '@/utils/ipfs'
 import { emptyObject } from './empty'
 import { imageStore } from './idbStore'
 import { fastExtract } from './ipfs'
@@ -85,7 +86,9 @@ export const processMetadata = async <T>(
 export const getProperImageLink =
   (imageLinks: KeyValue) =>
   (metadata: string, image: string): string => {
-    return imageLinks[fastExtract(metadata)] || getSanitizer(image)(image)
+    return (
+      imageLinks[fastExtract(metadata)] || getSanitizer(image, 'image')(image)
+    )
   }
 
 export const flushIndexedDb = () => {
