@@ -53,18 +53,36 @@ defineProps<{
   padding-bottom: 8px;
 
   &:hover {
-    background: #ffe5f3;
+    background: $k-accentlight;
   }
 
-  &.active {
-    color: hsl(0deg, 0%, 100%);
-    background-color: hsl(0deg, 0%, 4%);
+  &:active {
+    background-color: $k-accentlight;
+  }
+}
+
+.dark-mode .is-neo {
+  color: hsl(0deg, 0%, 100%);
+  background: hsl(330, 4%, 9%);
+  border: 1px solid hsl(0deg, 0%, 100%);
+  -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+  box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+
+  &:hover {
+    background: $k-accent;
+    color: hsl(0deg, 0%, 4%);
+  }
+  &:active {
+    background-color: $k-accent;
   }
 }
 
 .o-btn {
   &--k-accent {
     background-color: $k-accent;
+    &:hover {
+      background: $white !important;
+    }
     &:hover {
       background: white;
     }
@@ -78,6 +96,9 @@ defineProps<{
 
   &--k-blue {
     background-color: $k-blue;
+    &:hover {
+      background: $white !important;
+    }
     &:hover {
       background: white;
     }
