@@ -1,7 +1,7 @@
 <template>
   <div>
     <MessageNotify
-      v-if="showCongrtsMessgae"
+      v-if="showCongratsMessgae"
       :enable-download="isOwner"
       :title="$t('mint.success') + ' 🎉'"
       :subtitle="$t('mint.successNewNfts')" />
@@ -97,24 +97,23 @@ import { isOwner as checkOwner } from '@/utils/account'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
-const { $store } = useNuxtApp()
 const tabs = {
   offers: '0',
   activity: '1',
   chart: '2',
 }
 const activeTab = ref(tabs.offers)
-const showCongrtsMessgae = ref(false)
-const accountId = computed(() => $store.getters.getAuthAddress)
+const showCongratsMessgae = ref(false)
+const { accountId } = useAuth()
 const isOwner = computed(() =>
   checkOwner(nft.value?.currentOwner, accountId.value)
 )
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity
-  showCongrtsMessgae.value = true
+  showCongratsMessgae.value = true
   setTimeout(() => {
-    showCongrtsMessgae.value = false
+    showCongratsMessgae.value = false
   }, 10000)
 }
 
