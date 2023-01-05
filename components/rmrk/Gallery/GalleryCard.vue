@@ -52,7 +52,7 @@ import {
 import AuthMixin from '@/utils/mixins/authMixin'
 
 import { getMimeType } from '@/utils/gallery/media'
-import { getSanitizer, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 
 const components = {

@@ -64,7 +64,7 @@ import { getMany, update } from 'idb-keyval'
 import { Component, Vue, Watch, mixins } from 'nuxt-property-decorator'
 
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
-import { fetchCollectionMetadata } from '@/components/rmrk/utils'
+import { fetchCollectionMetadata } from '@/utils/ipfs'
 import {
   DETAIL_TIMEOUT,
   IPFS_KODADOT_IMAGE_PLACEHOLDER,
