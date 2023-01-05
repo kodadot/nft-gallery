@@ -110,15 +110,19 @@ const props = defineProps<{
 
 const isMobile = window.innerWidth < 1024 ? true : isMobileDevice
 
-const offersUrl = `${
-  accountId.value
-    ? `/${urlPrefix.value}/offers?target=${accountId.value}`
-    : `/${urlPrefix.value}/offers`
-}`
+const offersUrl = computed(
+  () =>
+    `${
+      accountId.value
+        ? `/${urlPrefix.value}/offers?target=${accountId.value}`
+        : `/${urlPrefix.value}/offers`
+    }`
+)
+const statsUrl = computed(() => `/${urlPrefix.value}/stats`)
 
-const statsUrl = `/${urlPrefix.value}/stats`
-
-const showSnekBsxOptions = props.chain === 'bsx' || props.chain === 'snek'
+const showSnekBsxOptions = computed(
+  () => props.chain === 'bsx' || props.chain === 'snek'
+)
 </script>
 <style lang="scss">
 .navbar-stats {
