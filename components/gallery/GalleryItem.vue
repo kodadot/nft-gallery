@@ -112,7 +112,6 @@ const isOwner = computed(() =>
 const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongrtsMessgae.value = true
-  activeTab.value = tabs.activity
 }
 
 const CarouselTypeRelated = defineAsyncComponent(
