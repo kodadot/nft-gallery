@@ -49,94 +49,13 @@ defineProps<{
   }
 
   &.is-active {
-    background-color: $k-accentlight;
+    border: 1px solid $black;
+    background-color: $black;
+    box-shadow: 4px 4px $black;
+    color: $white;
   }
 }
 
-.dark-mode {
-  .is-neo {
-    color: hsl(0deg, 0%, 100%);
-    background: hsl(330, 4%, 9%);
-    border: 1px solid hsl(0deg, 0%, 100%);
-    -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
-    box-shadow: 4px 4px hsl(0deg, 0%, 100%);
-
-    &:hover {
-      background: $k-accent;
-      color: hsl(0deg, 0%, 4%);
-    }
-
-    &.is-active {
-      background-color: $k-accent;
-      color: hsl(0deg, 0%, 4%);
-    }
-  }
-
-  .o-btn {
-    &--k-accent {
-      background: $k-accent;
-      color: $black;
-
-      &:hover {
-        background: $k-dark !important;
-        color: $white;
-      }
-    }
-
-    &--k-blue {
-      background-color: $k-blue;
-      color: $black;
-
-      &:hover {
-        background: $k-dark !important;
-        color: $white;
-      }
-    }
-  }
-}
-
-.dark-mode {
-  .is-neo {
-    color: hsl(0deg, 0%, 100%);
-    background: hsl(330, 4%, 9%);
-    border: 1px solid hsl(0deg, 0%, 100%);
-    -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
-    box-shadow: 4px 4px hsl(0deg, 0%, 100%);
-    &:hover {
-      background: $k-accent;
-      color: hsl(0deg, 0%, 4%);
-    }
-    &:active {
-      background-color: $k-accent;
-    }
-  }
-  .o-btn {
-    &--k-accent {
-      background: $k-accent;
-      color: $black;
-      &:hover {
-        background: $k-dark !important;
-        color: $white;
-      }
-    }
-    &--k-blue {
-      background-color: $k-blue;
-      color: $black;
-      &:hover {
-        background: $k-dark !important;
-        color: $white;
-      }
-    }
-    &--connect-dropdown {
-      background: $k-dark !important;
-      &:hover {
-        border: 1px solid $white !important;
-        background: $k-accent !important;
-        color: $black !important;
-      }
-    }
-  }
-}
 .o-btn {
   &--k-accent {
     background-color: $k-accent;
@@ -168,5 +87,53 @@ defineProps<{
 }
 .is-fixed-width {
   width: 10rem;
+}
+
+.dark-mode {
+  .is-neo {
+    color: hsl(0deg, 0%, 100%);
+    background: hsl(330, 4%, 9%);
+    border: 1px solid hsl(0deg, 0%, 100%);
+    -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+    box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+
+    &:hover {
+      background: $k-accent;
+      color: hsl(0deg, 0%, 4%);
+    }
+
+    &.is-active {
+      border: 1px solid $white;
+      background-color: $white;
+      box-shadow: 4px 4px $white;
+      color: $black;
+    }
+  }
+  .o-btn {
+    &--k-accent {
+      background: $k-accent;
+      color: $black;
+      &:hover {
+        background: $k-dark !important;
+        color: $white;
+      }
+    }
+    &--k-blue {
+      background-color: $k-blue;
+      color: $black;
+      &:hover {
+        background: $k-dark !important;
+        color: $white;
+      }
+    }
+    &--connect-dropdown {
+      background: $k-dark !important;
+      &:hover {
+        border: 1px solid $white !important;
+        background: $k-accent !important;
+        color: $black !important;
+      }
+    }
+  }
 }
 </style>
