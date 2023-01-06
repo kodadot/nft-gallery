@@ -11,10 +11,7 @@ import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
  * Get cloudflare images
  * Update timestamp
  */
-export const formatNFT = async (
-  nfts,
-  chain?: string
-): Promise<CarouselNFT[]> => {
+export const formatNFT = (nfts, chain?: string): CarouselNFT[] => {
   if (!nfts) {
     return []
   }

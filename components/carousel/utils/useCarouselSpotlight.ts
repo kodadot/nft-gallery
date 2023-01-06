@@ -19,7 +19,7 @@ type Collections = CarouselNFT & SomethingWithMeta
 
 const useSpotlightNft = () => useState<Collections[]>('nfts', () => [])
 
-async function updateCollections(data) {
+function updateCollections(data) {
   const collections = useSpotlightNft()
 
   if (!data?.collectionEntities?.length) {
