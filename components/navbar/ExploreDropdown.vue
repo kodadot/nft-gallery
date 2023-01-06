@@ -1,7 +1,7 @@
 <template>
-  <b-dropdown :triggers="isMobileDevice ? ['click'] : ['hover']">
+  <b-dropdown :triggers="['hover']">
     <template #trigger>
-      <nuxt-link :to="isMobileDevice ? '' : `/${urlPrefix}/explore`">
+      <nuxt-link :to="`/${urlPrefix}/explore`">
         <div class="navbar-item" data-cy="explore">
           {{ $t('explore') }}
           <svg
@@ -26,8 +26,6 @@
 </template>
 
 <script lang="ts" setup>
-import { isMobileDevice } from '~/utils/extension'
-
 const NavbarExploreOptions = defineAsyncComponent(
   () => import('./NavbarExploreOptions.vue')
 )
