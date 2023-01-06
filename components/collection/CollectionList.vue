@@ -1,6 +1,5 @@
 <template>
   <div class="collections">
-    <Loader :value="isLoading" />
     <Search
       v-bind.sync="searchQuery"
       hide-search
