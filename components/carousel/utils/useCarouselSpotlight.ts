@@ -29,7 +29,7 @@ function updateCollections(data) {
   collections.value = data.collectionEntities.map((e) => ({
     ...e,
     metadata: e.meta?.id || e.metadata,
-    image: sanitizeIpfsUrl(e.meta?.image) || '',
+    image: (e.meta?.image && sanitizeIpfsUrl(e.meta?.image)) || '',
   })) as Collections[]
 }
 
