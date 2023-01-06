@@ -1,10 +1,7 @@
 <template>
   <div>
-    <NeoDropdown @active-change="isDropdownActive = $event">
-      <NeoButton
-        label="Share"
-        icon="share-square"
-        :class="isDropdownActive ? 'is-active' : ''" />
+    <NeoDropdown>
+      <NeoButton label="Share" icon="share-square" />
 
       <template #items>
         <NeoDropdownItem
@@ -42,7 +39,6 @@ const QRCode = () => import('@/components/shared/QRCode.vue')
 const route = useRoute()
 const { $buefy } = useNuxtApp()
 
-const isDropdownActive = ref(false)
 const isModalActive = ref(false)
 // TODO: sharingTxt = $t('sharing.nft')
 const sharingTxt = ref('Check out this awesome NFT on Kodadot ')
