@@ -4,29 +4,33 @@
       {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
-    <NeoTab
-      :model-value="selectedTab"
-      data-cy="tabs"
-      class="explore-tabs"
-      content-class="explore-tabs-content"
-      @update:modelValue="updateTab($event)">
-      <template #items>
-        <NeoTabItem :label="$t('collections')" value="collectibles">
-          <CollectionList />
-        </NeoTabItem>
-
-        <NeoTabItem :label="$t('gallery')" value="items" class="p-5">
-          <Gallery />
-        </NeoTabItem>
-      </template>
-    </NeoTab>
+    <div class="mb-5 explore-tabs">
+      <NeoButton
+        class="btn-collection"
+        :selected="selectedTab === tabType.COLLECTION"
+        :label="$t('collections')"
+        @click.native="updateTab(tabType.COLLECTION)" />
+      <NeoButton
+        class="btn-items"
+        :selected="selectedTab === tabType.ITEMS"
+        :label="$t('items')"
+        @click.native="updateTab(tabType.ITEMS)" />
+    </div>
+    <CollectionList v-if="selectedTab === tabType.COLLECTION" />
+    <Gallery v-if="selectedTab === tabType.ITEMS" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoTab, NeoTabItem } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
+
+enum tabType {
+  COLLECTION = 'collectibles',
+  ITEMS = 'items',
+}
+
 const { $route, $router } = useNuxtApp()
-const selectedTab = ref($route.name?.split('-')[2])
+let selectedTab = ref($route.name?.split('-')[2])
 
 const updateTab = (val) => {
   $route.query.page = ''
@@ -36,17 +40,26 @@ const updateTab = (val) => {
   } = {
     page: '1',
   }
-
-  history.pushState({}, '', val)
+  if ($route.query.search) {
+    queryOptions.search = $route.query.search
+  }
+  $router.replace({
+    path: val,
+    query: queryOptions,
+  })
 }
 </script>
+
 <style lang="scss">
 .explore-tabs {
-  border: none;
-  box-shadow: none;
+  .btn-items {
+    width: 240px;
+    left: -5px;
+    border-left: none;
+  }
 
-  .explore-tabs-content {
-    border: 0;
+  .btn-collection {
+    width: 240px;
   }
 }
 </style>

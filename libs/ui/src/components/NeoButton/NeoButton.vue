@@ -4,6 +4,7 @@
       active: active,
       'is-fixed-width': fixedWidth,
       'no-shadow': noShadow,
+      selected: selected,
     }"
     :size="size"
     :icon-right="icon"
@@ -16,14 +17,16 @@
 
 <script lang="ts" setup>
 import { OButton } from '@oruga-ui/oruga'
+import { TranslateResult } from 'vue-i18n'
 
 defineProps<{
   size?: 'small' | 'medium' | 'large'
   icon?: string
-  label?: string
+  label?: string | TranslateResult
   active?: boolean
   fixedWidth?: boolean
   noShadow?: boolean
+  selected?: boolean
   variant?:
     | 'primary'
     | 'info'
@@ -57,6 +60,11 @@ defineProps<{
   &:active {
     background-color: $k-accentlight;
   }
+
+  &.selected {
+    background: $dark-accent;
+    color: $white;
+  }
 }
 
 .dark-mode .is-neo {
@@ -72,6 +80,11 @@ defineProps<{
   }
   &:active {
     background-color: $k-accent;
+  }
+
+  &.selected {
+    background: $white;
+    color: $black;
   }
 }
 
