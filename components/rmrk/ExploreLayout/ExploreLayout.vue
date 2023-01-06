@@ -4,26 +4,12 @@
       {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
-    <div class="mb-5 explore-tabs">
-      <NeoButton
-        class="btn-collection"
-        :selected="selectedTab === tabType.COLLECTION"
-        :label="$t('collections')"
-        @click.native="updateTab(tabType.COLLECTION)" />
-      <NeoButton
-        class="btn-items"
-        :selected="selectedTab === tabType.ITEMS"
-        :label="$t('items')"
-        @click.native="updateTab(tabType.ITEMS)" />
-    </div>
     <CollectionList v-if="selectedTab === tabType.COLLECTION" />
     <Gallery v-if="selectedTab === tabType.ITEMS" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
-
 enum tabType {
   COLLECTION = 'collectibles',
   ITEMS = 'items',
@@ -31,35 +17,4 @@ enum tabType {
 
 const { $route, $router } = useNuxtApp()
 let selectedTab = ref($route.name?.split('-')[2])
-
-const updateTab = (val) => {
-  $route.query.page = ''
-  let queryOptions: {
-    page: string
-    search?: string | (string | null)[]
-  } = {
-    page: '1',
-  }
-  if ($route.query.search) {
-    queryOptions.search = $route.query.search
-  }
-  $router.replace({
-    path: val,
-    query: queryOptions,
-  })
-}
 </script>
-
-<style lang="scss">
-.explore-tabs {
-  .btn-items {
-    width: 240px;
-    left: -5px;
-    border-left: none;
-  }
-
-  .btn-collection {
-    width: 240px;
-  }
-}
-</style>

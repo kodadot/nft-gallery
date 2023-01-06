@@ -12,6 +12,9 @@ const components = {
 
 @Component<ExploreBsx>({
   components,
+  layout() {
+    return 'explore-layout'
+  },
   head() {
     const title = 'Low minting fees and carbonless NFTs'
     const metaData = {
