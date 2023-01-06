@@ -1,5 +1,5 @@
 <template>
-  <div class="section">
+  <div class="section pb-0">
     <div v-if="$route.query.search" class="block">
       {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
