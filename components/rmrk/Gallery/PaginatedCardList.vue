@@ -38,8 +38,6 @@ import { NFTWithMeta } from '../service/scheme'
 import { SearchQuery } from '@/components/rmrk/Gallery/search/types'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
-import { mapOnlyMetadata } from '~/utils/mappers'
 import { Debounce } from 'vue-debounce-decorator'
 import shouldUpdate from '~/utils/shouldUpdate'
 
