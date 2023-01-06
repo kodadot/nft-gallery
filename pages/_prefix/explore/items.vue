@@ -10,11 +10,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import ExploreLayout from '@/components/rmrk/ExploreLayout/ExploreLayout.vue'
 
-const components = {
-  ExploreLayout,
-}
+const components = {}
 
 @Component<ExploreBsx>({
   components,
