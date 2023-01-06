@@ -177,7 +177,6 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import ColorModeButton from '~/components/common/ColorModeButton.vue'
 import MobileLanguageOption from '~/components/navbar/MobileLanguageOption.vue'
 import { createVisible } from '@/utils/config/permision.config'
-import { isMobileDevice } from '@/utils/extension'
 import { identityStore } from '@/utils/idbStore'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ExperimentMixin from '@/utils/mixins/experimentMixin'
@@ -219,7 +218,7 @@ export default class NavbarMenu extends mixins(
   private lastScrollPosition = 0
   private artistName = ''
   public isBurgerMenuOpened = false
-  private isMobile = window.innerWidth < 1024 ? true : isMobileDevice
+  private isMobile = window.innerWidth < 1024
 
   @Ref('mobilSearchRef') readonly mobilSearchRef
 
@@ -376,7 +375,7 @@ export default class NavbarMenu extends mixins(
     window.addEventListener('scroll', this.onScroll)
     document.body.style.overflowY = 'initial'
     window.addEventListener('resize', () => {
-      this.isMobile = window.innerWidth < 1024 ? true : isMobileDevice
+      this.isMobile = window.innerWidth < 1024
     })
   }
 
