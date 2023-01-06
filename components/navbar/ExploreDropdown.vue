@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown :triggers="!isMobileDevice ? ['hover'] : ''">
+  <b-dropdown :triggers="!isMobileDevice ? ['hover'] : []">
     <template #trigger>
       <nuxt-link :to="`/${urlPrefix}/explore`">
         <div class="navbar-item" data-cy="explore">
