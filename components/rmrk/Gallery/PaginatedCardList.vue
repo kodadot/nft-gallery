@@ -172,9 +172,6 @@ export default class PaginatedCardList extends mixins(
         emoteCount: nft?.emotes?.length,
       })
       const nftEntities = data.nftEntities.map(helper)
-      await getCloudflareImageLinks(nftEntities.map(mapOnlyMetadata)).catch(
-        this.$consola.warn
-      )
 
       if (loadDirection === 'up') {
         this.items = nftEntities.concat(this.items)

@@ -490,9 +490,6 @@ export default class CollectionItem extends mixins(
       emoteCount: e?.emotes?.totalCount,
     }))
 
-    await getCloudflareImageLinks(newNfts.map(mapOnlyMetadata)).catch(
-      this.$consola.warn
-    )
     this.collection = {
       ...collectionEntity,
       nfts: newNfts,
