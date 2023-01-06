@@ -196,11 +196,7 @@ import {
 import { getSanitizer } from '@/utils/ipfs'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { logError, mapNFTorCollectionMetadata } from '~/utils/mappers'
-import {
-  getCloudflareImageLinks,
-  processMetadata,
-} from '~/utils/cachingStrategy'
-import { fastExtract } from '~/utils/ipfs'
+import { processMetadata } from '~/utils/cachingStrategy'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
 import { RowSeries } from '~/components/series/types'
@@ -322,23 +318,18 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
         const collectionMetadataList = collections
           .slice(0, this.searchSuggestionEachTypeMaxNum)
           .map(mapNFTorCollectionMetadata)
-        getCloudflareImageLinks(collectionMetadataList).then((imageLinks) => {
-          const collectionResult: (CollectionWithMeta & RowSeries)[] = []
-          processMetadata<CollectionWithMeta>(
-            collectionMetadataList,
-            (meta, i) => {
-              collectionResult.push({
-                ...collections[i],
-                ...meta,
-                image:
-                  (collections[i]?.metadata &&
-                    imageLinks[fastExtract(collections[i].metadata)]) ||
-                  getSanitizer(meta.image || '', 'image')(meta.image || ''),
-              })
-            }
-          ).then(() => {
-            this.defaultCollectionSuggestions = collectionResult
-          })
+        const collectionResult: (CollectionWithMeta & RowSeries)[] = []
+        processMetadata<CollectionWithMeta>(
+          collectionMetadataList,
+          (meta, i) => {
+            collectionResult.push({
+              ...collections[i],
+              ...meta,
+              image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
+            })
+          }
+        ).then(() => {
+          this.defaultCollectionSuggestions = collectionResult
         })
       } catch (e) {
         this.$consola.warn(e, 'Error while fetching default suggestions')
@@ -502,7 +493,6 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       const nfts = this.$apollo.query({
         query: queryNft.default,
         client: this.client,
-
         variables: this.queryVariables,
       })
 
@@ -513,24 +503,19 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
         nFTEntities.slice(0, this.searchSuggestionEachTypeMaxNum)
       )
       const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-      getCloudflareImageLinks(metadataList).then((imageLinks) => {
-        const nftResult: NFTWithMeta[] = []
-        processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
-          nftResult.push({
-            ...nftList[i],
-            ...meta,
-            image:
-              (nftList[i]?.metadata &&
-                imageLinks[fastExtract(nftList[i].metadata)]) ||
-              getSanitizer(meta.image || '', 'image')(meta.image || ''),
-            animation_url: getSanitizer(meta.animation_url || '')(
-              meta.animation_url || ''
-            ),
-          })
-        }).then(() => {
-          this.nftResult = nftResult
-          this.isNFTResultLoading = false
+      const nftResult: NFTWithMeta[] = []
+      processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
+        nftResult.push({
+          ...nftList[i],
+          ...meta,
+          image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
+          animation_url: getSanitizer(meta.animation_url || '')(
+            meta.animation_url || ''
+          ),
         })
+      }).then(() => {
+        this.nftResult = nftResult
+        this.isNFTResultLoading = false
       })
     } catch (e) {
       logError(e, (msg) =>
@@ -556,22 +541,19 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       const collections = unwrapSafe(
         collectionEntities.slice(0, this.searchSuggestionEachTypeMaxNum)
       )
+
       const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
-      getCloudflareImageLinks(metadataList).then((imageLinks) => {
-        const collectionResult: CollectionWithMeta[] = []
-        processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
-          collectionResult.push({
-            ...collections[i],
-            ...meta,
-            image:
-              (collections[i]?.metadata &&
-                imageLinks[fastExtract(collections[i].metadata)]) ||
-              getSanitizer(meta.image || '', 'image')(meta.image || ''),
-          })
-        }).then(() => {
-          this.collectionResult = collectionResult
-          this.isCollectionResultLoading = false
+
+      const collectionWithImages: CollectionWithMeta[] = []
+      processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
+        collectionWithImages.push({
+          ...collections[i],
+          ...meta,
+          image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
         })
+      }).then(() => {
+        this.collectionResult = collectionWithImages
+        this.isCollectionResultLoading = false
       })
     } catch (e) {
       logError(e, (msg) =>
