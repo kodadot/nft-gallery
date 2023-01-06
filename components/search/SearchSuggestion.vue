@@ -193,7 +193,7 @@ import {
   CollectionWithMeta,
   NFTWithMeta,
 } from '@/components/rmrk/service/scheme'
-import { getSanitizer } from '@/components/rmrk/utils'
+import { getSanitizer } from '@/utils/ipfs'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { logError, mapNFTorCollectionMetadata } from '~/utils/mappers'
 import {

@@ -65,8 +65,8 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { NFT, NFTMetadata } from '../../rmrk/service/scheme'
 import { SearchQuery } from './search/types'
-import { getNameOfNft, getSanitizer } from '../../rmrk/utils'
-
+import { getNameOfNft } from '../../rmrk/utils'
+import { getSanitizer } from '@/utils/ipfs'
 // import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>

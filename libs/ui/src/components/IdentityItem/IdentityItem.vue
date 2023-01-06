@@ -2,11 +2,11 @@
   <div class="is-flex is-align-items-center mr-6">
     <Avatar :size="48" :value="account" class="mr-2" />
     <div class="px-3">
-      <div class="has-text-grey is-size-7">
+      <div class="has-text-grey is-size-6">
         {{ label }}
       </div>
       <nuxt-link
-        class="has-text-weight-bold"
+        class="identity-name has-text-weight-bold"
         :to="{
           name: `${prefix}-u-id`,
           params: { id: account },

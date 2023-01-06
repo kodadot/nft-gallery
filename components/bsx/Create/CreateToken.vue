@@ -108,10 +108,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
 import { Royalty, isRoyaltyValid } from '@/utils/royalty'
-import {
-  fetchCollectionMetadata,
-  preheatFileFromIPFS,
-} from '~/components/rmrk/utils'
+import { fetchCollectionMetadata, preheatFileFromIPFS } from '@/utils/ipfs'
 import { getMany, update } from 'idb-keyval'
 import ApiUrlMixin from '~/utils/mixins/apiUrlMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'

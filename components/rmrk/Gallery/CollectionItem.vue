@@ -155,11 +155,8 @@ import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
 import { CollectionMetadata } from '../types'
-import {
-  fetchCollectionMetadata,
-  onlyPriceEvents,
-  sanitizeIpfsUrl,
-} from '../utils'
+import { onlyPriceEvents } from '../utils'
+import { fetchCollectionMetadata, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { SearchQuery } from './search/types'
 import { isSameAccount } from '~/utils/account'
 

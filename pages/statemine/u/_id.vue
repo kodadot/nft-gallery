@@ -133,7 +133,7 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 
 import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
-import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
