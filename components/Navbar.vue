@@ -61,7 +61,7 @@
       </MobileExpandableSection>
       <CreateDropdown
         v-show="isCreateVisible"
-        class="navbar-create custom-navbar-item"
+        class="navbar-create custom-navbar-item ml-0"
         data-cy="create"
         :chain="chain" />
       <StatsDropdown
@@ -383,6 +383,9 @@ export default class NavbarMenu extends mixins(
     window.removeEventListener('scroll', this.onScroll)
     this.setBodyScroll(true)
     document.documentElement.classList.remove('is-clipped-touch')
+    window.removeEventListener('resize', () => {
+      this.isMobile = window.innerWidth < 1024
+    })
   }
 }
 </script>

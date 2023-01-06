@@ -99,5 +99,9 @@
         color: $black !important;
       }
     }
+
+    &.no-shadow {
+      box-shadow: none;
+    }
   }
 }
