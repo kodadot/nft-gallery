@@ -378,18 +378,14 @@ export default class NavbarMenu extends mixins(
   mounted() {
     window.addEventListener('scroll', this.onScroll)
     document.body.style.overflowY = 'initial'
-    window.addEventListener('resize', () => {
-      this.handleResize()
-    })
+    window.addEventListener('resize', this.handleResize)
   }
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.onScroll)
     this.setBodyScroll(true)
     document.documentElement.classList.remove('is-clipped-touch')
-    window.removeEventListener('resize', () => {
-      this.handleResize()
-    })
+    window.removeEventListener('resize', this.handleResize)
   }
 }
 </script>
