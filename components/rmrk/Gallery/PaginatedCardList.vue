@@ -38,8 +38,6 @@ import { NFTWithMeta } from '../service/scheme'
 import { SearchQuery } from '@/components/rmrk/Gallery/search/types'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
-import { mapOnlyMetadata } from '~/utils/mappers'
 import { Debounce } from 'vue-debounce-decorator'
 import shouldUpdate from '~/utils/shouldUpdate'
 
@@ -172,9 +170,6 @@ export default class PaginatedCardList extends mixins(
         emoteCount: nft?.emotes?.length,
       })
       const nftEntities = data.nftEntities.map(helper)
-      await getCloudflareImageLinks(nftEntities.map(mapOnlyMetadata)).catch(
-        this.$consola.warn
-      )
 
       if (loadDirection === 'up') {
         this.items = nftEntities.concat(this.items)
