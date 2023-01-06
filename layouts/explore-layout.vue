@@ -37,7 +37,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
   components: {
     ExploreTabsFilterSort: () =>
       import(
-        '@/components/shared/exploreTabsFilterSort/exploreTabsFilterSort.vue'
+        '@/components/shared/exploreTabsFilterSort/ExploreTabsFilterSort.vue'
       ),
   },
 })

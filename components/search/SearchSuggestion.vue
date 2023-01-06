@@ -35,7 +35,7 @@
         <nuxt-link
           class="search-footer-link"
           :to="{
-            path: 'explore/collectibles',
+            path: `/${urlPrefix}/explore/collectibles`,
             query: { ...$route.query },
           }"
           @click.native="$emit('close')">
