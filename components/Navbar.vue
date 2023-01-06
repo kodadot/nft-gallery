@@ -371,11 +371,15 @@ export default class NavbarMenu extends mixins(
     this.isBurgerMenuOpened = false
   }
 
+  handleResize() {
+    this.isMobile = window.innerWidth < 1024
+  }
+
   mounted() {
     window.addEventListener('scroll', this.onScroll)
     document.body.style.overflowY = 'initial'
     window.addEventListener('resize', () => {
-      this.isMobile = window.innerWidth < 1024
+      this.handleResize()
     })
   }
 
@@ -384,7 +388,7 @@ export default class NavbarMenu extends mixins(
     this.setBodyScroll(true)
     document.documentElement.classList.remove('is-clipped-touch')
     window.removeEventListener('resize', () => {
-      this.isMobile = window.innerWidth < 1024
+      this.handleResize()
     })
   }
 }
