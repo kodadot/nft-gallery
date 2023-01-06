@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="section">
     <div v-if="$route.query.search" class="block">
       {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
-    <div class="mb-5 explore-tabs">
+    <div class="mb-5 explore-tabs container">
       <NeoButton
         class="btn-collection"
         :selected="selectedTab === tabType.COLLECTION"
@@ -51,11 +51,9 @@ const updateTab = (val) => {
 
 <style lang="scss">
 .explore-tabs {
-  margin-top: 100px;
-  margin-left: 150px;
   .btn-items {
     width: 240px;
-    left: -5px;
+    left: -6px;
     border-left: none;
   }
 
