@@ -4,34 +4,13 @@
       <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
       <div
         class="top-collection-controls buttons is-align-items-flex-start pt-2">
-        <div class="control column p-0">
-          <NeoButton
-            class="has-fixed-width px-4 mobile-padding"
-            :active="state.timeRange === 'Week'"
-            :label="`${$t('topCollections.timeFrames.7 Days')}`"
-            @click.native="setTimeRange('Week')" />
-        </div>
-        <div class="control column p-0">
-          <NeoButton
-            class="has-fixed-width px-4 mobile-padding"
-            :active="state.timeRange === 'Month'"
-            :label="`${$t('topCollections.timeFrames.30 Days')}`"
-            @click.native="setTimeRange('Month')" />
-        </div>
-        <div class="control column p-0">
-          <NeoButton
-            class="has-fixed-width px-4 mobile-padding"
-            :active="state.timeRange === '3Month'"
-            :label="`${$t('topCollections.timeFrames.90 Days')}`"
-            @click.native="setTimeRange('3Month')" />
-        </div>
-        <div class="control column p-0">
-          <NeoButton
-            class="has-fixed-width px-4 mobile-padding"
-            :active="state.timeRange === 'All'"
-            :label="`${$t('topCollections.timeFrames.all')}`"
-            @click.native="setTimeRange('All')" />
-        </div>
+        <NeoButton
+          v-for="{ value, label } in timeRanges"
+          :key="value"
+          class="control column p-0 has-fixed-width px-4 mobile-padding"
+          :active="state.timeRange === value"
+          :label="`${$t(`topCollections.timeFrames.${label}`)}`"
+          @click.native="setTimeRange(value)" />
       </div>
       <div></div>
     </div>
@@ -90,7 +69,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TimeRange } from '@/components/series/types'
+import { TimeRange, TimeRangeOption } from '@/components/series/types'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 import { NeoButton } from '@kodadot1/brick'
@@ -103,6 +82,13 @@ const limit = 12
 const { data, loading } = useTopCollections(limit)
 
 const state = reactive<{ timeRange: TimeRange }>({ timeRange: 'All' })
+
+const timeRanges: TimeRangeOption[] = [
+  { value: 'Week', label: '7 Days' },
+  { value: 'Month', label: '30 Days' },
+  { value: '3Month', label: '90 Days' },
+  { value: 'All', label: 'all' },
+]
 
 const setTimeRange = (timeRange: TimeRange) => {
   state.timeRange = timeRange

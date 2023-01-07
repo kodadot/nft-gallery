@@ -26,8 +26,12 @@
   }
 }
 
-.top-collection-controls {
-  gap: 1px;
+.top-collection-controls.buttons .control {
+  border: 1px;
+}
+
+.top-collection-controls.buttons .control:not(:last-of-type) {
+  border-right: 0;
 }
 
 .dark-mode {

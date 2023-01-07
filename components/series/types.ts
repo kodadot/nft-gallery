@@ -3,6 +3,11 @@ import { Interaction } from '../rmrk/service/scheme'
 
 export type TimeRange = 'All' | '3Month' | 'Month' | 'Week'
 
+export interface TimeRangeOption {
+  value: TimeRange
+  label: string
+}
+
 export type Column = {
   field: keyof RowSeries
   label: string | TranslateResult
