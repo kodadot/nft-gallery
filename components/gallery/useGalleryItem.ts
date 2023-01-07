@@ -2,6 +2,9 @@ import { $fetch } from 'ohmyfetch'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getMimeType } from '@/utils/gallery/media'
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+interface NFTData {
+  nftEntity?: NFT
+}
 
 const whichMimeType = async (data) => {
   if (data?.type) {
@@ -34,17 +37,25 @@ export const useGalleryItem = () => {
   // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
 
   const { urlPrefix } = usePrefix()
-  const { data } = useGraphql({
+  const { data, refetch } = useGraphql({
     queryName: urlPrefix.value === 'rmrk' ? 'nftByIdWithoutRoyalty' : 'nftById',
     variables: {
       id: params.id,
     },
   })
 
-  interface NFTData {
-    nftEntity?: NFT
-  }
-
+  useSubscriptionGraphql({
+    query: `   nftEntities(where: {id_eq: "${params.id}"}) {
+      id
+      price
+      events(limit: 1, orderBy: blockNumber_DESC) {
+        id
+        interaction
+      }
+      currentOwner
+    }`,
+    onChange: refetch,
+  })
   watch(data as unknown as NFTData, async (newData) => {
     const nftEntity = newData?.nftEntity
 
