@@ -1,5 +1,4 @@
 import Axios from 'axios'
-import { saveKey } from '@/utils/cloudflare'
 import { URLS } from './constants'
 
 export const BASE_URL = URLS.koda.directUpload
@@ -66,7 +65,6 @@ export const uploadDirect = async (
   try {
     const token = await getKey(ipfsHash)
     const { result } = await upload(file, token.uploadURL)
-    await saveKey(ipfsHash, result.id)
   } catch (e) {
     console.warn('[DIRECT UPLOAD] ERR!', (e as Error).message)
   }
