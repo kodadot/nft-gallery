@@ -7,28 +7,28 @@
         <div class="control column p-0">
           <NeoButton
             class="has-fixed-width px-4 mobile-padding"
-            :active="state.timeRange == 'Week'"
+            :active="state.timeRange === 'Week'"
             :label="`${$t('topCollections.timeFrames.7 Days')}`"
             @click.native="setTimeRange('Week')" />
         </div>
         <div class="control column p-0">
           <NeoButton
             class="has-fixed-width px-4 mobile-padding"
-            :active="state.timeRange == 'Month'"
+            :active="state.timeRange === 'Month'"
             :label="`${$t('topCollections.timeFrames.30 Days')}`"
             @click.native="setTimeRange('Month')" />
         </div>
         <div class="control column p-0">
           <NeoButton
             class="has-fixed-width px-4 mobile-padding"
-            :active="state.timeRange == '3Month'"
+            :active="state.timeRange === '3Month'"
             :label="`${$t('topCollections.timeFrames.90 Days')}`"
             @click.native="setTimeRange('3Month')" />
         </div>
         <div class="control column p-0">
           <NeoButton
             class="has-fixed-width px-4 mobile-padding"
-            :active="state.timeRange == 'All'"
+            :active="state.timeRange === 'All'"
             :label="`${$t('topCollections.timeFrames.all')}`"
             @click.native="setTimeRange('All')" />
         </div>
