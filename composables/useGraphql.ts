@@ -22,14 +22,12 @@ export default function ({
 }) {
   const { $apollo, $consola } = useNuxtApp()
   const { prefix, client } = useQueryParams({ queryPrefix, clientName })
-  const querySubscription = ref<ZenObservable.Subscription>()
 
   async function doFetch() {
-    console.log('doFetch')
     const query = await resolveQueryPath(prefix, queryName)
+    console.log('doFetch: query', query)
 
     try {
-      const usePolling = Object.keys(options).includes('pollInterval')
       const queryParams = {
         query: query.default,
         client: client,
@@ -37,17 +35,9 @@ export default function ({
         ...options,
       }
 
-      if (usePolling) {
-        querySubscription.value = $apollo.watchQuery(queryParams).subscribe({
-          next: ({ data: response }) => {
-            data.value = response
-          },
-        })
-      } else {
-        const response = await $apollo.query(queryParams)
-        data.value = response.data
-        console.log('doFetch', response.data?.nftEntities)
-      }
+      const response = await $apollo.query(queryParams)
+      data.value = response.data
+      console.log('doFetch', response.data)
     } catch (err) {
       ;(error.value as unknown) = err
       showNotification(`${err as string}`, notificationTypes.danger)
@@ -68,6 +58,5 @@ export default function ({
     error,
     refetch: doFetch,
     loading,
-    querySubscription,
   }
 }
