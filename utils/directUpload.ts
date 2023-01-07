@@ -1,5 +1,4 @@
 import Axios from 'axios'
-import { s } from 'vitest/dist/index-fde81ec3'
 import { secondaryFileVisible } from '~~/components/rmrk/Create/mintUtils'
 
 import { URLS } from './constants'
