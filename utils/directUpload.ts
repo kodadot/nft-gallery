@@ -79,8 +79,8 @@ export const uploadDirect = async (
 }
 
 export const uploadDirectWhenMultiple = async (
-  files: [File, undefined] | [File, File],
-  ipfsHashes: [string, string] | [string, undefined]
+  files: [File, undefined | null] | [File, File],
+  ipfsHashes: [string, string] | [string, undefined | null]
 ): Promise<void> => {
   const [file, secondFile] = files
   const [ipfsHash, secondIpfsHash] = ipfsHashes
