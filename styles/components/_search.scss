@@ -37,6 +37,9 @@
   .landing-shapes {
     z-index: 1;
     overflow: hidden;
+    @media screen and (max-width: 1123px) {
+      visibility: hidden !important;
+    }
   }
 
   .landing-search-right {
