@@ -1,4 +1,6 @@
 import Axios from 'axios'
+import { s } from 'vitest/dist/index-fde81ec3'
+import { secondaryFileVisible } from '~~/components/rmrk/Create/mintUtils'
 
 import { URLS } from './constants'
 
@@ -73,6 +75,20 @@ export const uploadDirect = async (
     console.log('[DIRECT UPLOAD] OK!', result.filename)
   } catch (e) {
     console.warn('[DIRECT UPLOAD] ERR!', (e as Error).message)
+  }
+}
+
+export const uploadDirectWhenMultiple = async (
+  files: [File, undefined] | [File, File],
+  ipfsHashes: [string, string] | [string, undefined]
+): Promise<void> => {
+  const [file, secondFile] = files
+  const [ipfsHash, secondIpfsHash] = ipfsHashes
+
+  if (secondaryFileVisible(file) && secondFile && secondIpfsHash) {
+    await uploadDirect(secondFile, secondIpfsHash)
+  } else {
+    await uploadDirect(file, ipfsHash)
   }
 }
 
