@@ -1,3 +1,7 @@
+import defineApolloConfig, {
+  toApolloEndpoint,
+} from './config/defineApolloConfig'
+
 export const denyList = [
   'DQcegDuBQG6V99hgRd87UJ8anZxTcumJEVBAnAGomXCJ3dc', // RMRK Minter -> Kanaria
   'Gskn3eRyr3tDiKxhzU1MPG4ha8RFTBG9ft3C6Rrn3kGJMXn', // No One, art thief
@@ -36,7 +40,7 @@ export const URLS = {
     nftStorage: 'https://nft-storage.kodadot.workers.dev/',
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
-    rubick: 'https://squid.subsquid.io/rubick/v/007/graphql',
+    rubick: 'https://squid.subsquid.io/rubick/v/008/graphql',
     snek: 'https://squid.subsquid.io/snekk/v/005/graphql',
     snekRococo: 'https://squid.subsquid.io/snekk/v/004/graphql',
     click: 'https://squid.subsquid.io/click/v/002/graphql',
@@ -49,6 +53,15 @@ export const URLS = {
     cloudflare: 'https://cloudflare-ipfs.com/ipfs/',
     pinata: 'https://api.pinata.cloud/',
   },
+}
+
+export const apolloClientConfig = {
+  ...defineApolloConfig(),
+  subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT || URLS.koda.rubick),
+  bsx: toApolloEndpoint(URLS.koda.snek),
+  movr: toApolloEndpoint(URLS.koda.click),
+  snek: toApolloEndpoint(URLS.koda.snekRococo),
+  glmr: toApolloEndpoint(URLS.koda.antick),
 }
 
 export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [

@@ -92,6 +92,7 @@
     "date-fns": "^2.29.3",
     "emoji-unicode": "^2.0.1",
     "graphql": "^16.6.0",
+    "graphql-ws": "^5.11.2",
     "highlight.js": "^11.7.0",
     "idb-keyval": "^6.2.0",
     "keen-slider": "^6.8.5",

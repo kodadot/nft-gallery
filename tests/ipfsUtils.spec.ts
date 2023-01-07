@@ -1,4 +1,4 @@
-import { fastExtract, extractCid } from '@/utils/ipfs'
+import { extractCid, fastExtract } from '@/utils/ipfs'
 
 describe('IPFS UTILS TEST', (): void => {
   let ipfsUrlList: string[]
@@ -38,11 +38,4 @@ describe('IPFS UTILS TEST', (): void => {
       'bafkreibv426brrflmozbukxcbvg6qopbtgjwn3xtdlblgc5g4yqgkjekiy'
     )
   })
-
-  // it('can correctlyBuild a cache map', async () => {
-  //   const urls = await getCloudflareImageLinks(ipfsUrlList)
-  //   const extracted = fastExtract(ipfsUrlList[0])
-  //   console.log(urls)
-  //   expect(urls[extracted]).toBeDefined()
-  // })
 })

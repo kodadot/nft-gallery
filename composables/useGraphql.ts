@@ -64,6 +64,7 @@ export default function ({
   return {
     data,
     error,
+    refetch: doFetch,
     loading,
     querySubscription,
   }
