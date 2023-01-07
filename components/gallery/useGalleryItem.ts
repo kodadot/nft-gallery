@@ -43,15 +43,16 @@ export const useGalleryItem = () => {
     variables: {
       id: params.id,
     },
+    options: {
+      fetchPolicy: 'network-only',
+    },
   })
-
   useSubscriptionGraphql({
     query: `   nftEntities(where: {id_eq: "${params.id}"}) {
       id
       price
       events(limit: 1, orderBy: blockNumber_DESC) {
         id
-        interaction
       }
       currentOwner
     }`,
