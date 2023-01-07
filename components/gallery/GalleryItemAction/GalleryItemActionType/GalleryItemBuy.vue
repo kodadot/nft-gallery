@@ -68,7 +68,7 @@ const { urlPrefix, client } = usePrefix()
 const { accountId } = useAuth()
 const { $store, $apollo, $i18n } = useNuxtApp()
 const { apiInstance } = useApi()
-const emit = defineEmits(['buy-start', 'buy-success'])
+const emit = defineEmits(['buy-success'])
 const ACTION = 'BUY'
 const actionLabel = $i18n.t('nft.action.buy')
 
@@ -177,7 +177,6 @@ const handleBuy = async () => {
   }
 
   initTransactionLoader()
-  emit('buy-start')
   howAboutToExecute(accountId.value, cb, arg, (blockNumber: string) => {
     showNotification(blockNumber, notificationTypes.info)
     showNotification(`[${actionLabel}] ${itemId}`, notificationTypes.success)

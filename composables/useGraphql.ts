@@ -25,6 +25,7 @@ export default function ({
   const querySubscription = ref<ZenObservable.Subscription>()
 
   async function doFetch() {
+    console.log('doFetch')
     const query = await resolveQueryPath(prefix, queryName)
 
     try {
@@ -45,6 +46,7 @@ export default function ({
       } else {
         const response = await $apollo.query(queryParams)
         data.value = response.data
+        console.log('doFetch', response.data?.nftEntities)
       }
     } catch (err) {
       ;(error.value as unknown) = err

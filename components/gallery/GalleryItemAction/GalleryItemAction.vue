@@ -7,7 +7,6 @@
       :nft-price="nft?.price"
       :collection-id="nft?.collection.id"
       :current-owner="nft?.currentOwner"
-      @buy-start="emit('buy-start')"
       @buy-success="emit('buy-success')" />
 
     <!-- highest offer -->
@@ -37,7 +36,7 @@ import { NFT } from '~~/components/rmrk/service/scheme'
 const props = defineProps<{
   nft: NFT | undefined
 }>()
-const emit = defineEmits(['buy-start', 'buy-success'])
+const emit = defineEmits(['buy-success'])
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const isOwner = computed(() =>
