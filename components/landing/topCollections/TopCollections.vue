@@ -3,7 +3,7 @@
     <div class="is-flex is-justify-content-space-between mobile">
       <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
       <div
-        class="is-flex buttons is-flex-wrap-nowrap is-align-items-flex-start pt-2">
+        class="top-collection-controls buttons is-align-items-flex-start pt-2">
         <div class="control column p-0">
           <NeoButton
             class="has-fixed-width px-4 mobile-padding"

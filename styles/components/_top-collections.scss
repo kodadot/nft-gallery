@@ -26,6 +26,10 @@
   }
 }
 
+.top-collection-controls {
+  gap: 1px;
+}
+
 .dark-mode {
   .top-collections-item {
     background-color: $dark-accent;
