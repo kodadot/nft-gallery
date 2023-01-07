@@ -25,8 +25,6 @@ export default function ({
 
   async function doFetch() {
     const query = await resolveQueryPath(prefix, queryName)
-    console.log('doFetch: query', query)
-
     try {
       const queryParams = {
         query: query.default,
@@ -37,7 +35,6 @@ export default function ({
 
       const response = await $apollo.query(queryParams)
       data.value = response.data
-      console.log('doFetch', response.data)
     } catch (err) {
       ;(error.value as unknown) = err
       showNotification(`${err as string}`, notificationTypes.danger)

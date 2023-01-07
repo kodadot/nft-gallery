@@ -60,8 +60,6 @@ export const useGalleryItem = () => {
   })
   watch(data as unknown as NFTData, async (newData) => {
     const nftEntity = newData?.nftEntity
-    $consola.log('useGallryItem watch', nftEntity)
-
     if (!nftEntity) {
       $consola.log(`NFT with id ${params.id} not found. Fallback to RPC Node`)
       return
