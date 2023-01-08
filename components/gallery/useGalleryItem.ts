@@ -49,11 +49,12 @@ export const useGalleryItem = () => {
   useSubscriptionGraphql({
     query: `   nftEntities(where: {id_eq: "${params.id}"}) {
       id
+      currentOwner
       price
-      events(limit: 1, orderBy: blockNumber_DESC) {
+      burned
+      events {
         id
       }
-      currentOwner
     }`,
     onChange: refetch,
   })
