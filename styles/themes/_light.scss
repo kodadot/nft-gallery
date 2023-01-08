@@ -90,15 +90,6 @@ html.light-mode {
       color: $text-light-theme;
     }
 
-    &__sign-out-button {
-      color: $black;
-      background-color: $white !important;
-
-      &:hover {
-        background-color: $k-accentlight !important;
-      }
-    }
-
     .button.is-primary {
       color: $text-light-theme !important;
     }

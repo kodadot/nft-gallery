@@ -96,16 +96,6 @@ html.dark-mode {
       }
     }
 
-    .navbar__sign-out-button {
-      border-color: $white !important;
-      box-shadow: 4px 4px 0px $white !important;
-      background: $dark-accent !important;
-      color: $white !important;
-      &:hover {
-        background-color: $primary !important;
-      }
-    }
-
     .mobile-nav-search-btn {
       color: $white;
     }
@@ -136,12 +126,12 @@ html.dark-mode {
       .dropdown .dropdown-menu .has-link {
         border-top: 1px solid $white;
       }
-
-      .button-connect-wallet {
-        box-shadow: $primary-shadow-dark !important;
-        background-color: $k-accent!important;
-        color: $black!important
-    
+      @include mobile {
+        .button-connect-wallet {
+          box-shadow: $primary-shadow-dark !important;
+          background-color: $k-accent !important;
+          color: $black !important;
+        }
       }
     }
 

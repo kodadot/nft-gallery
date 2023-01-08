@@ -283,16 +283,6 @@
     text-transform: none;
     color: $k-blue;
   }
-  &__sign-out-button {
-    border: 1px solid $black!important;
-    box-shadow: 4px 4px 0px $black !important;
-    padding: 8px 16px;
-    border-radius: 0;
-    text-transform: capitalize;
-    custom-navbar-itemcustom-navbar-item &:hover {
-      border: 1px solid $black;
-    }
-  }
 
   #NavProfile {
     .button.is-primary {
