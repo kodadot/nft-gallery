@@ -104,7 +104,7 @@
 
         #NavProfile {
           .button-connect-wallet {
-            box-shadow: 4px 4px 0px black !important;
+            box-shadow: $primary-shadow;
             width: 80%;
             height: 67px;
             border-radius: 0;
@@ -218,10 +218,13 @@
     text-transform: capitalize;
     font-weight: 500;
     cursor: pointer;
+    color: $black;
     border-radius: 0 !important;
-
+ 
     &:hover {
-      color: $k-hovergrey !important;
+      color: $k-hovergrey;
+      background-color: inherit;
+
     }
   }
 

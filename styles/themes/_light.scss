@@ -52,18 +52,18 @@ html.light-mode {
     color: $text-light-theme;
   }
 
-
   .navbar {
-    .navbar-item,
     .navbar-link,
     .button.is-text {
       color: $text-light-theme;
-      &:hover {
-        color: $primary-light;
+    }
+
+    @include mobile {
+      .navbar-item:hover {
+        color: $black !important;
       }
     }
 
-    .navbar-item:hover,
     .navbar-link:hover,
     .navbar-item:focus,
     .navbar-link:focus {
@@ -104,12 +104,8 @@ html.light-mode {
     }
 
     .navbar-explore {
-        color: $text-light-theme;
-      a {
-        &:hover {
-          color: $black !important;
-        }
-      }
+      color: $text-light-theme;
+
       .menu-item:hover {
         color: $k-hovergrey !important;
       }
@@ -331,12 +327,10 @@ html.light-mode {
 
     .identity-name {
       color: $black;
-
     }
   }
 
   --card-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
-
 }
 
 .gallery-avatar {
