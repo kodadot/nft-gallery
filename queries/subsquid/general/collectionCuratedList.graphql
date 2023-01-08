@@ -13,5 +13,8 @@ query collectionCuratedList {
   ) {
     ...collection
     ...collectionDetails
+    meta {
+      image
+    }
   }
 }
