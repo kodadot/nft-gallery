@@ -13,13 +13,6 @@ describe('CACHE TEST', (): void => {
     ]
   })
 
-  // it('can correctlyBuild a cache map', async () => {
-  //   const urls = await getCloudflareImageLinks(ipfsUrlList)
-  //   const extracted = fastExtract(ipfsUrlList[0])
-  //   console.log(urls)
-  //   expect(urls[extracted]).toBeDefined()
-  // })
-
   // it('get data from idb', async () => {
   //   const extracted = fastExtract(ipfsUrlList[0])
   //   const urls = await getMany([extracted], imageStore).catch(console.error)

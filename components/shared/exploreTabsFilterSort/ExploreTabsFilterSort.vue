@@ -1,5 +1,6 @@
 <template>
   <div class="section pb-0">
+    <h1 class="container mb-5 pb-4 explore-heading">{{ $t('explore') }}</h1>
     <div v-if="$route.query.search" class="block">
       {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
@@ -50,6 +51,11 @@ const updateTab = (val) => {
 </script>
 
 <style lang="scss">
+.explore-heading {
+  font-weight: 700;
+  font-size: 39px;
+}
+
 .explore-tabs {
   .btn-items {
     width: 240px;

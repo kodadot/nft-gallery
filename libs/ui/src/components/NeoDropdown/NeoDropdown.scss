@@ -16,13 +16,23 @@ $dropdown-item-hover-background-color: #ffe5f3;
 .light-mode {
   .o-drop__item {
     border-bottom: 1px solid #0a0a0a;
+
     &.is-active {
       background: black;
       color: white;
     }
   }
+
   .o-drop__menu {
     border: 1px solid #0a0a0a;
+  }
+
+  .o-drop-active {
+    .is-neo,
+    .is-neo:hover {
+      background-color: black;
+      color: white;
+    }
   }
 }
 
@@ -32,14 +42,25 @@ $dropdown-item-hover-background-color: #ffe5f3;
     box-shadow: 4px 4px white;
     background: #181717;
   }
+
   .o-drop__item {
     color: #f8f4f6;
     border-bottom: 1px solid hsl(0deg, 0%, 100%);
+
     &:hover {
       background-color: #ff7ac3;
     }
+
     &.is-active {
       background: white;
+      color: black;
+    }
+  }
+
+  .o-drop-active {
+    .is-neo,
+    .is-neo:hover {
+      background-color: white;
       color: black;
     }
   }

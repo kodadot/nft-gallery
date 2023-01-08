@@ -48,13 +48,9 @@ import {
 } from 'components/unique/graphqlResponseTypes'
 import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
 
-import {
-  getCloudflareImageLinks,
-  processMetadata,
-} from '@/utils/cachingStrategy'
+import { processMetadata } from '@/utils/cachingStrategy'
 import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { fastExtract } from '@/utils/ipfs'
 import { getDenyList } from '@/utils/prefix'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
@@ -209,19 +205,13 @@ export default class Gallery extends mixins(
     }
 
     const metadataList: string[] = this.nfts.map(mapNFTorCollectionMetadata)
-    const imageLinks = await getCloudflareImageLinks(metadataList)
 
     await processMetadata<NFTMetadata>(metadataList, (meta, i) => {
       Vue.set(this.nfts, i, {
         ...this.nfts[i],
         ...meta,
         id: this.nfts[i].id,
-        image:
-          imageLinks[
-            fastExtract(
-              this.nfts[i].metadata || this.nfts[i].collection.metadata
-            )
-          ] || getSanitizer(meta.image || '', 'image')(meta.image || ''),
+        image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
         animation_url: getSanitizer(meta.animation_url || '')(
           meta.animation_url || ''
         ),
