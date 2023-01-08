@@ -12,6 +12,7 @@
     icon-pack="fas"
     class="is-neo">
     {{ label }}
+    <img v-if="selected" src="/checkmark.svg" class="check-icon" />
   </o-button>
 </template>
 
