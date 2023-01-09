@@ -103,8 +103,8 @@ export const useCarouselPopularCollections = () => {
   const { data } = useGraphql(popularCollectionsGraphql)
   const nfts = ref<RowSeries[]>([])
 
-  const handleResult = ({ data }) => {
-    nfts.value = data.seriesInsightTable.map(
+  const handleResult = ({ data: result }) => {
+    nfts.value = result.seriesInsightTable.map(
       (e: RowSeries): RowSeries => ({
         ...e,
         image: sanitizeIpfsUrl(e.image, 'image'),
