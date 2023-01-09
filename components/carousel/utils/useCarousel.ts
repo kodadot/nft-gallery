@@ -66,7 +66,8 @@ export const useCarouselNftEvents = ({ type }: Types) => {
     }
 
     const events = data.events.map(convertLastEventFlatNft)
-    return await formatNFT(events, chain)
+    const listOfNfts = await formatNFT(events, chain)
+    return await setNftMetaFromCache(listOfNfts)
   }
 
   // currently only support rmrk and snek
