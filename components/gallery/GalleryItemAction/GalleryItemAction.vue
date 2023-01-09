@@ -11,7 +11,11 @@
       class="mt-5" />
 
     <!-- change price as an owner -->
-    <GalleryItemPriceRelist v-if="isOwner" />
+    <GalleryItemPriceRelist
+      v-if="isOwner && nft?.id && nft?.price"
+      :nft-id="nft.id"
+      :nft-price="nft.price"
+      class="mt-5" />
 
     <!-- transfer item as an owner -->
     <GalleryItemPriceTransfer v-if="isOwner" class="mt-5" />

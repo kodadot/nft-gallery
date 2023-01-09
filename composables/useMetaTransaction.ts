@@ -20,6 +20,7 @@ function useMetaTransaction() {
   } = useTransactionStatus()
   const { apiInstance } = useAPI()
   const tx = ref<ExecResult>()
+
   const howAboutToExecute = async (
     account: string,
     cb: (...params: any[]) => Extrinsic,
@@ -28,6 +29,7 @@ function useMetaTransaction() {
     onError?: () => void
   ): Promise<void> => {
     try {
+      isLoading.value = true
       tx.value = await exec(
         account,
         '',
