@@ -1,5 +1,7 @@
 import Axios from 'axios'
-import { secondaryFileVisible } from '~~/components/rmrk/Create/mintUtils'
+import consola from 'consola'
+
+import { secondaryFileVisible } from '@/components/rmrk/Create/mintUtils'
 
 import { URLS } from './constants'
 
@@ -37,10 +39,10 @@ export const getKey = async (
     const { status, data } = await api.get<DirectUploadApiResponse>(
       `getKey/${validationKey}`
     )
-    console.log('[PINNING] Obtain', status)
+    consola.log('[PINNING] Obtain', status)
     return data.result
   } catch (e) {
-    console.warn(e)
+    consola.warn(e)
     throw e
   }
 }
@@ -60,7 +62,7 @@ export const upload = async (
       'Content-Type': 'multipart/form-data;',
     },
   })
-  console.log('[DIRECT UPLOAD] OK?', status)
+  consola.log('[DIRECT UPLOAD] OK?', status)
   return data
 }
 
@@ -71,9 +73,9 @@ export const uploadDirect = async (
   try {
     const token = await getKey(ipfsHash)
     const { result } = await upload(file, token.uploadURL, ipfsHash)
-    console.log('[DIRECT UPLOAD] OK!', result.filename)
+    consola.log('[DIRECT UPLOAD] OK!', result.filename)
   } catch (e) {
-    console.warn('[DIRECT UPLOAD] ERR!', (e as Error).message)
+    consola.warn('[DIRECT UPLOAD] ERR!', (e as Error).message)
   }
 }
 
