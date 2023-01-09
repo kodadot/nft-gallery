@@ -139,9 +139,8 @@ import { get, set } from 'idb-keyval'
 import { Debounce } from 'vue-debounce-decorator'
 
 import { Emote, NFT, NFTMetadata } from '../service/scheme'
-import { getSanitizer, sanitizeIpfsUrl } from '../utils'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { exist } from '@/components/search/exist'
-import { fetchNFTMetadata } from '../utils'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
 import Orientation from '@/utils/directives/DeviceOrientation'

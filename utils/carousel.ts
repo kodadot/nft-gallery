@@ -1,39 +1,25 @@
 import { formatDistanceToNow } from 'date-fns'
 import { get, set } from 'idb-keyval'
 import { isEmpty } from '@kodadot1/minimark'
-import {
-  getCloudflareImageLinks,
-  getProperImageLink,
-  processSingleMetadata,
-} from '@/utils/cachingStrategy'
+import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { LastEvent } from '@/utils/types/types'
 
 import { CarouselNFT } from '@/components/base/types'
-import {
-  fetchNFTMetadata,
-  getSanitizer,
-  sanitizeIpfsUrl,
-} from '@/components/rmrk/utils'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 /**
  * Format the data to fit with CarouselNFT[]
  * Get cloudflare images
  * Update timestamp
  */
-export const formatNFT = async (
-  nfts,
-  chain?: string
-): Promise<CarouselNFT[]> => {
+export const formatNFT = (nfts, chain?: string): CarouselNFT[] => {
   if (!nfts) {
     return []
   }
   const { urlPrefix } = usePrefix()
   const data = nfts.filter((nft) => Boolean(nft.meta))
-  const images = await getCloudflareImageLinks(data.map((nft) => nft.meta.id))
-  const imageOf = getProperImageLink(images)
 
   return data.map((nft) => {
     const timestamp = nft.updatedAt || nft.timestamp
-    const metaId = nft.meta.id
     const metaImage = nft.meta.image
     const metaAnimationUrl = nft.meta.animationUrl
 
@@ -44,8 +30,8 @@ export const formatNFT = async (
       }),
       unixTime: new Date(timestamp).getTime(),
       price: nft.price || 0,
-      image: imageOf(metaId, metaImage),
-      animationUrl: imageOf(metaId, metaAnimationUrl) || '',
+      image: metaImage && sanitizeIpfsUrl(metaImage),
+      animationUrl: metaAnimationUrl && sanitizeIpfsUrl(metaAnimationUrl),
       chain: chain || urlPrefix.value,
     }
   })

@@ -136,11 +136,10 @@ import { exist } from '@/components/search/exist'
 import { NFT } from '@/components/rmrk/service/scheme'
 import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
 import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
-import { getCloudflareImageLinks } from '@/utils/cachingStrategy'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import { emptyObject } from '@/utils/empty'
 import isShareMode from '@/utils/isShareMode'
-import { mapDecimals, mapOnlyMetadata } from '@/utils/mappers'
+import { mapDecimals } from '@/utils/mappers'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
@@ -155,11 +154,8 @@ import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
 import { CollectionMetadata } from '../types'
-import {
-  fetchCollectionMetadata,
-  onlyPriceEvents,
-  sanitizeIpfsUrl,
-} from '../utils'
+import { onlyPriceEvents } from '../utils'
+import { fetchCollectionMetadata, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { SearchQuery } from './search/types'
 import { isSameAccount } from '~/utils/account'
 
@@ -493,9 +489,6 @@ export default class CollectionItem extends mixins(
       emoteCount: e?.emotes?.totalCount,
     }))
 
-    await getCloudflareImageLinks(newNfts.map(mapOnlyMetadata)).catch(
-      this.$consola.warn
-    )
     this.collection = {
       ...collectionEntity,
       nfts: newNfts,
