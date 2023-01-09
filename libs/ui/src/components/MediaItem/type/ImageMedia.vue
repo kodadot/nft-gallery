@@ -1,5 +1,5 @@
 <template>
-  <figure :class="[!original ? 'is-square image' : '']">
+  <figure>
     <img
       class="is-block image-media__image"
       :src="src"
@@ -15,9 +15,3 @@ defineProps<{
   original: boolean
 }>()
 </script>
-
-<style scoped>
-figure > img.image-media__image {
-  object-fit: cover;
-}
-</style>
