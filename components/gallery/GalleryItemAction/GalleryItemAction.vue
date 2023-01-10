@@ -19,7 +19,10 @@
       class="mt-5" />
 
     <!-- transfer item as an owner -->
-    <GalleryItemPriceTransfer v-if="isOwner" class="mt-5" />
+    <GalleryItemPriceTransfer
+      v-if="isOwner && nft?.id"
+      :nft-id="nft.id"
+      class="mt-5" />
   </div>
 </template>
 
