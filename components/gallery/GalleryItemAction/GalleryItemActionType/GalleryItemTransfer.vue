@@ -27,8 +27,7 @@
 import { onClickOutside } from '@vueuse/core'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import { NeoButton } from '@kodadot1/brick'
-import { createInteraction } from '@kodadot1/minimark'
-import { Interaction } from '@kodadot1/minimark'
+import { Interaction, createInteraction } from '@kodadot1/minimark'
 
 import { dangerMessage, infoMessage } from '@/utils/notification'
 import { ss58Of } from '@/utils/config/chain.config'
@@ -48,6 +47,9 @@ const props = defineProps<{
 
 const active = ref(false)
 const address = ref()
+
+const cb = ref()
+const arg = ref()
 
 async function sendItem() {
   if (active.value === false) {
@@ -70,12 +72,10 @@ async function sendItem() {
       return
     }
 
-    let cb, arg
-
     switch (urlPrefix.value) {
       case 'rmrk':
-        cb = api.tx.system.remark
-        arg = [
+        cb.value = api.tx.system.remark
+        arg.value = [
           createInteraction(
             Interaction.BUY,
             '1.0.0',
@@ -87,8 +87,8 @@ async function sendItem() {
 
       case 'bsx':
       case 'snek':
-        cb = api.tx.utility.batchAll
-        arg = [
+        cb.value = api.tx.utility.batchAll
+        arg.value = [
           [
             api.tx.marketplace.setPrice(id, item, 0),
             api.tx.nft.transfer(id, item, address.value),
@@ -100,7 +100,7 @@ async function sendItem() {
         break
     }
 
-    howAboutToExecute(accountId.value, cb, arg, () => {
+    howAboutToExecute(accountId.value, cb.value, arg.value, () => {
       infoMessage('Item transfered')
     })
   }

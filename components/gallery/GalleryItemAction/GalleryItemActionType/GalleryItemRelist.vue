@@ -58,6 +58,9 @@ const isListed = computed(() => Boolean(props.nftPrice))
 const actionRef = ref(null)
 onClickOutside(actionRef, () => (active.value = false))
 
+const cb = ref()
+const arg = ref()
+
 async function updatePrice() {
   if (active.value === false) {
     active.value = true
@@ -70,12 +73,10 @@ async function updatePrice() {
       return
     }
 
-    let cb, arg
-
     switch (urlPrefix.value) {
       case 'rmrk':
-        cb = api.tx.system.remark
-        arg = [
+        cb.value = api.tx.system.remark
+        arg.value = [
           createInteraction(
             Interaction.LIST,
             '1.0.0',
@@ -87,15 +88,19 @@ async function updatePrice() {
 
       case 'snek':
       case 'bsx':
-        cb = getApiCall(api, urlPrefix.value, Interaction.LIST)
-        arg = bsxParamResolver(props.nftId, Interaction.LIST, String(meta))
+        cb.value = getApiCall(api, urlPrefix.value, Interaction.LIST)
+        arg.value = bsxParamResolver(
+          props.nftId,
+          Interaction.LIST,
+          String(meta)
+        )
         break
 
       default:
         break
     }
 
-    howAboutToExecute(accountId.value, cb, arg, () => {
+    howAboutToExecute(accountId.value, cb.value, arg.value, () => {
       infoMessage('Price updated')
     })
   }
