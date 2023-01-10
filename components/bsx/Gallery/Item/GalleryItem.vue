@@ -272,7 +272,6 @@ export default class GalleryItem extends mixins(
     })
 
     exist(this.$route.query.message, (val) => {
-      this.$buefy.toast.open(val)
       this.message = val === 'congrats' ? val : ''
       this.$router.replace({ query: null } as any)
     })
@@ -490,10 +489,6 @@ export default class GalleryItem extends mixins(
       this.id = item
       this.collectionId = id
     }
-  }
-
-  public toast(message: string): void {
-    this.$buefy.toast.open(message)
   }
 
   get hasPrice(): boolean {

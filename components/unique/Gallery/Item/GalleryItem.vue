@@ -354,10 +354,6 @@ export default class GalleryItem extends mixins(
     }
   }
 
-  public toast(message: string): void {
-    this.$buefy.toast.open(message)
-  }
-
   get hasPrice() {
     return Number(this.nft.price) > 0
   }
