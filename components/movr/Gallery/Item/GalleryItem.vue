@@ -93,11 +93,7 @@
 
 <script lang="ts">
 import { Emote, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
-import {
-  fetchNFTMetadata,
-  getSanitizer,
-  sanitizeIpfsUrl,
-} from '@/components/rmrk/utils'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import { emptyObject } from '@/utils/empty'

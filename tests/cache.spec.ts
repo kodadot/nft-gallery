@@ -1,5 +1,5 @@
 import { queryBatch, querySingle } from '@/utils/cloudflare'
-import { zip } from '~/components/rmrk/utils'
+import { zip } from '@/components/rmrk/utils'
 
 describe('CACHE TEST', (): void => {
   let extracted: string[]
@@ -12,13 +12,6 @@ describe('CACHE TEST', (): void => {
       'bafkreie6ha2kq4ira22zsrkw6zyixjyjwukrcvqklevsrtj6dpu5fex7nm',
     ]
   })
-
-  // it('can correctlyBuild a cache map', async () => {
-  //   const urls = await getCloudflareImageLinks(ipfsUrlList)
-  //   const extracted = fastExtract(ipfsUrlList[0])
-  //   console.log(urls)
-  //   expect(urls[extracted]).toBeDefined()
-  // })
 
   // it('get data from idb', async () => {
   //   const extracted = fastExtract(ipfsUrlList[0])

@@ -347,7 +347,7 @@ import { Component, Watch, mixins } from 'nuxt-property-decorator'
 
 import { Collection, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { exist } from '@/components/search/exist'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import AuthMixin from '@/utils/mixins/authMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'

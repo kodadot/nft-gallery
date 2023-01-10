@@ -1,62 +1,10 @@
-import { emptyObject } from '@/utils/empty'
-import { CollectionMetadata, MediaType, RMRK } from './types'
-import api from '@/utils/fetch'
-import {
-  Interaction as EventInteraction,
-  RmrkWithMetaType,
-} from './service/scheme'
-import { Collection, NFT, NFTMetadata, NFTWithMeta } from './service/scheme'
+import { MediaType, RMRK } from './types'
+import { Interaction as EventInteraction } from './service/scheme'
+import { NFT, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
-import { Interaction, justHash } from '@kodadot1/minimark'
-import { logError } from '@/utils/mappers'
-import consola from 'consola'
-import { fastExtract } from '~/utils/ipfs'
+import { Interaction } from '@kodadot1/minimark'
 
-export const SQUARE = '::'
-export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/'
-
-export type ProviderKeyType = IPFSProviders
-export type ArweaveProviders = 'permafrost' | 'arweave'
-export type IPFSProviders =
-  | 'pinata'
-  | 'cloudflare'
-  | 'ipfs'
-  | 'dweb'
-  | 'kodadot'
-  | 'image'
 export type PriceDataType = [date: Date, value: number]
-
-export const ipfsProviders: Record<IPFSProviders, string> = {
-  pinata: 'https://kodadot.mypinata.cloud/',
-  cloudflare: 'https://cloudflare-ipfs.com/',
-  ipfs: DEFAULT_IPFS_PROVIDER,
-  dweb: 'https://dweb.link/',
-  kodadot: 'https://image.w.kodadot.xyz/',
-  image: 'https://image.w.kodadot.xyz/',
-}
-
-export const arweaveProviders: Record<ArweaveProviders, string> = {
-  permafrost: process.env.VUE_APP_PERMAFROST_URL + '/meta/',
-  arweave: process.env.VUE_APP_AR_URL + '/' || 'https://arweave.net/',
-}
-
-export type SanitizerFunc = (url: string) => string
-
-export const ipfsHashToUrl = (
-  ipfsHash = '',
-  provider?: ProviderKeyType
-): string | undefined => {
-  if (justHash(ipfsHash)) {
-    return `${resolveProvider(provider)}ipfs/${ipfsHash}`
-  }
-
-  return ipfsHash || ''
-}
-
-const resolveProvider = (key: ProviderKeyType = 'kodadot'): string =>
-  ipfsProviders[key]
-const resolveArProvider = (key: ArweaveProviders = 'arweave'): string =>
-  arweaveProviders[key]
 
 export const zip = <T1, T2, T3>(
   a: T1[],
@@ -70,153 +18,6 @@ export const zip = <T1, T2, T3>(
   }
 
   return res
-}
-
-export type SomethingWithMeta = {
-  metadata: string
-}
-
-export const fetchCollectionMetadata = (
-  rmrk: Collection | SomethingWithMeta
-): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
-
-export const fetchNFTMetadata = (
-  rmrk: NFT | SomethingWithMeta,
-  sanitizer: SanitizerFunc = sanitizeIpfsUrl
-): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk, sanitizer)
-
-export const fetchMetadata = async <T>(
-  rmrk: SomethingWithMeta,
-  sanitizer: SanitizerFunc = sanitizeIpfsUrl
-): Promise<T> => {
-  try {
-    if (!rmrk.metadata) {
-      return emptyObject<T>()
-    }
-
-    const { status, data } = await api.get(sanitizer(rmrk.metadata))
-    if (status < 400) {
-      return data as T
-    }
-  } catch (e) {
-    console.warn('IPFS Err', e)
-  }
-
-  return emptyObject<T>()
-}
-
-export const preheatFileFromIPFS = (ipfsUrl: string) => {
-  const url = sanitizeIpfsUrl(ipfsUrl, 'pinata')
-  const hash = fastExtract(url)
-  api
-    .get(url)
-    .then(() => consola.log(`[PREHEAT] ${hash}`))
-    .catch((err) => consola.warn(`[PREHEAT] ${hash} ${err.message}`))
-}
-
-export const unSanitizeArweaveId = (url: string): string => {
-  return unSanitizeUrl(url, 'ar://')
-}
-
-const unSanitizeUrl = (url: string, prefix: string) => {
-  return `${prefix}${url}`
-}
-
-const ar = /^ar:\/\//
-
-export const sanitizeArweaveUrl = (
-  url: string,
-  provider?: ArweaveProviders
-): string => {
-  if (ar.test(url)) {
-    return url.replace(ar, resolveArProvider(provider))
-  }
-
-  return url
-}
-
-export const isIpfsUrl = (url: string): boolean => {
-  return /^ipfs:\/\//.test(url)
-}
-
-export const isIpfsCid = (url: string): boolean => {
-  return /^[0-9a-zA-Z]{44,}$/.test(url)
-}
-
-export const isArweaveUrl = (url: string): boolean => {
-  return ar.test(url)
-}
-
-export const getSanitizer = (
-  url: string,
-  ipfsProvider?: ProviderKeyType,
-  arProvider?: ArweaveProviders
-): SanitizerFunc => {
-  if (url && (isIpfsUrl(url) || url.includes('https://gateway.pinata.cloud'))) {
-    return (link) => sanitizeIpfsUrl(link, ipfsProvider)
-  }
-
-  if (isArweaveUrl(url)) {
-    return (link) => sanitizeArweaveUrl(link, arProvider)
-  }
-
-  if (isIpfsCid(url)) {
-    return (link) => sanitizeIpfsCid(link, ipfsProvider)
-  }
-
-  return (link) => link
-}
-
-export const sanitizeIpfsCid = (
-  url: string,
-  provider?: ProviderKeyType
-): string => {
-  return `${resolveProvider(provider)}ipfs/${url}`
-}
-
-export const sanitizeIpfsUrl = (
-  ipfsUrl: string,
-  provider?: ProviderKeyType
-): string => {
-  if (ipfsUrl.includes('https://gateway.pinata.cloud')) {
-    return ipfsUrl.replace(
-      'https://gateway.pinata.cloud/',
-      resolveProvider(provider)
-    )
-  }
-
-  if (isIpfsCid(ipfsUrl)) {
-    return sanitizeIpfsCid(ipfsUrl, provider)
-  }
-
-  const rr = /^ipfs:\/\/ipfs/
-  if (rr.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', resolveProvider(provider))
-  }
-
-  const r = /^ipfs:\/\//
-  if (r.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`)
-  }
-
-  return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders)
-}
-
-export function sanitizeImage<T extends RmrkWithMetaType>(
-  instance: T,
-  provider?: ProviderKeyType
-): T {
-  return {
-    ...instance,
-    image: sanitizeIpfsUrl(instance.image || '', provider),
-  }
-}
-
-export function sanitizeObjectArray<T extends RmrkWithMetaType>(
-  instances: T[],
-  provider?: ProviderKeyType
-): T[] {
-  return instances.map((i) => sanitizeImage(i, provider))
 }
 
 export function mapPriceToNumber(instances: NFTWithMeta[]): any[] {
@@ -276,18 +77,7 @@ export const resolveMedia = (mimeType?: string): MediaType => {
   return result
 }
 
-export const decode = (value: string): string => decodeURIComponent(value)
-export const sortByTimeStamp = (
-  a: EventInteraction,
-  b: EventInteraction
-): number => (b.timestamp < a.timestamp ? 1 : -1)
-export const sortByModification = (a: any, b: any): number => b._mod - a._mod
-export const nftSort = (a: any, b: any): number => b.blockNumber - a.blockNumber
-export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
-export const defaultSortBy = (arr: any[]) => sortBy(arr)
-
 export const onlyEvents = (nft: NFT): EventInteraction[] => nft.events
-export const eventTimestamp = (e: { timestamp: string }): string => e.timestamp
 export const onlyPriceEvents = (e: { interaction: string }): boolean =>
   e.interaction !== 'MINTNFT'
 export const eventsBeforeTime =
@@ -323,34 +113,6 @@ export const onlyBuyEvents = (
     }
   })
   return buyEvents
-}
-export const soldNFTPrice =
-  (decimals: number) =>
-  (e: EventInteraction): PriceDataType =>
-    [new Date(e.timestamp), Number(e.meta) / 10 ** decimals]
-
-export const isJsonGltf = (value: any): boolean => {
-  try {
-    if (!(value['asset'] && /^2\.[0-9]$/.test(value['asset']['version']))) {
-      return false
-    }
-
-    if (
-      !(
-        value['buffers'] &&
-        /^data:application\/octet/.test(value['buffers'][0]['uri'])
-      )
-    ) {
-      return false
-    }
-
-    return true
-  } catch (e) {
-    logError(e, (msg) => {
-      console.warn(`Unable to decide on isJsonGltf ${msg}`)
-    })
-    return false
-  }
 }
 
 export const getRandomIntInRange = (min: number, max: number): number => {
