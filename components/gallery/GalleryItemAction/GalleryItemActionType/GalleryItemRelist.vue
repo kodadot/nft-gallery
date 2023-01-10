@@ -32,8 +32,7 @@
 import { onClickOutside } from '@vueuse/core'
 import { NeoButton } from '@kodadot1/brick'
 import { createInteraction } from '@kodadot1/minimark'
-
-import type { JustInteraction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark'
 
 import { calculateBalance } from '@/utils/format/balance'
 import { dangerMessage, infoMessage } from '@/utils/notification'
@@ -54,7 +53,7 @@ const props = defineProps<{
 
 const active = ref(false)
 const price = ref()
-const isListed = computed(() => Number(props.nftPrice))
+const isListed = computed(() => Boolean(props.nftPrice))
 
 const actionRef = ref(null)
 onClickOutside(actionRef, () => (active.value = false))
@@ -78,7 +77,7 @@ async function updatePrice() {
         cb = api.tx.system.remark
         arg = [
           createInteraction(
-            'LIST' as JustInteraction,
+            Interaction.LIST,
             '1.0.0',
             props.nftId,
             String(meta)
@@ -88,8 +87,8 @@ async function updatePrice() {
 
       case 'snek':
       case 'bsx':
-        cb = getApiCall(api, urlPrefix.value, 'LIST')
-        arg = bsxParamResolver(props.nftId, 'LIST', String(meta))
+        cb = getApiCall(api, urlPrefix.value, Interaction.LIST)
+        arg = bsxParamResolver(props.nftId, Interaction.LIST, String(meta))
         break
 
       default:

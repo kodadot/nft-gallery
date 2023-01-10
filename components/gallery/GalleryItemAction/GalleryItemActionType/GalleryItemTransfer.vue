@@ -28,8 +28,7 @@ import { onClickOutside } from '@vueuse/core'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import { NeoButton } from '@kodadot1/brick'
 import { createInteraction } from '@kodadot1/minimark'
-
-import type { JustInteraction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark'
 
 import { dangerMessage, infoMessage } from '@/utils/notification'
 import { ss58Of } from '@/utils/config/chain.config'
@@ -78,7 +77,7 @@ async function sendItem() {
         cb = api.tx.system.remark
         arg = [
           createInteraction(
-            'SEND' as JustInteraction,
+            Interaction.BUY,
             '1.0.0',
             props.nftId,
             String(address.value)
