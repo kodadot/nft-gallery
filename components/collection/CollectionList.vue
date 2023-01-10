@@ -47,23 +47,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch, mixins } from 'nuxt-property-decorator'
+import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import {
   Collection,
   CollectionWithMeta,
   Metadata,
-  NFTMetadata,
 } from '@/components/rmrk/service/scheme'
-import { getSanitizer } from '@/utils/ipfs'
 import { SearchQuery } from '@/components/rmrk/Gallery/search/types'
 import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
-import { mapOnlyMetadata } from '~/utils/mappers'
-import { processMetadata } from '~/utils/cachingStrategy'
-import { CollectionMetadata } from '~/components/rmrk/types'
 import { getDenyList } from '~/utils/prefix'
 
 interface Image extends HTMLImageElement {
@@ -198,43 +193,7 @@ export default class CollectionList extends mixins(
       this.collections = this.collections.concat(newCollections)
     }
 
-    const metadataList: string[] = this.collections.map(mapOnlyMetadata)
-    processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
-      Vue.set(this.collections, i, {
-        ...this.collections[i],
-        ...meta,
-        image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
-      })
-    })
-
     this.isLoading = false
-    this.prefetchPage(this.offset + this.first, this.offset + 3 * this.first)
-  }
-
-  public async prefetchPage(offset: number, prefetchLimit: number) {
-    try {
-      const collections = this.$apollo.query({
-        query: collectionListWithSearch,
-        client: this.client,
-        variables: {
-          first: this.first,
-          offset,
-        },
-      })
-
-      const {
-        data: { collectionEntities: collectionList },
-      } = await collections
-
-      const metadataList: string[] = collectionList.map(mapOnlyMetadata)
-      processMetadata<NFTMetadata>(metadataList)
-    } catch (e: any) {
-      this.$consola.warn('[PREFETCH] Unable fo fetch', offset, e.message)
-    } finally {
-      if (offset <= prefetchLimit) {
-        this.prefetchPage(offset + this.first, prefetchLimit)
-      }
-    }
   }
 
   @Watch('$route.query.search')
