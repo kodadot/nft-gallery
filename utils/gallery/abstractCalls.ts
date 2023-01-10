@@ -22,7 +22,7 @@ export const bsxParamResolver = (
   id: string,
   selectedAction: string,
   meta: string | number,
-  currentOwner: string,
+  currentOwner?: string,
   expiration?: number
 ): any[] => {
   const [collectionId, tokenId] = id.split('-')

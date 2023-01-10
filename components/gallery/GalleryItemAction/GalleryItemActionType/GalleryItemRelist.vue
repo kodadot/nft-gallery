@@ -37,6 +37,7 @@ import type { JustInteraction } from '@kodadot1/minimark'
 
 import { calculateBalance } from '@/utils/format/balance'
 import { dangerMessage, infoMessage } from '@/utils/notification'
+import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 
@@ -46,6 +47,7 @@ const { accountId } = useAuth()
 const { howAboutToExecute, isLoading, status } = useMetaTransaction()
 
 const props = defineProps<{
+  collectionId: string
   nftId: string
   nftPrice: string
 }>()
@@ -63,36 +65,40 @@ async function updatePrice() {
   } else {
     const api = await apiInstance.value
     const meta = calculateBalance(price.value)
-    const cb = {
-      rmrk: api.tx.system.remark,
-    }
 
     if (!meta) {
       dangerMessage('Price is not valid')
       return
     }
 
-    const arg = {
-      rmrk: [
-        createInteraction(
-          'LIST' as JustInteraction,
-          '1.0.0',
-          props.nftId,
-          String(meta)
-        ),
-      ],
+    let cb, arg
+
+    switch (urlPrefix.value) {
+      case 'rmrk':
+        cb = api.tx.system.remark
+        arg = [
+          createInteraction(
+            'LIST' as JustInteraction,
+            '1.0.0',
+            props.nftId,
+            String(meta)
+          ),
+        ]
+        break
+
+      case 'snek':
+      case 'bsx':
+        cb = getApiCall(api, urlPrefix.value, 'LIST')
+        arg = bsxParamResolver(props.nftId, 'LIST', String(meta))
+        break
+
+      default:
+        break
     }
 
-    // console.log('prefix', urlPrefix.value)
-
-    howAboutToExecute(
-      accountId.value,
-      cb[urlPrefix.value],
-      arg[urlPrefix.value],
-      () => {
-        infoMessage('Price updated')
-      }
-    )
+    howAboutToExecute(accountId.value, cb, arg, () => {
+      infoMessage('Price updated')
+    })
   }
 }
 </script>
