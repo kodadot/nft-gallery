@@ -148,6 +148,7 @@ export default class CreateToken extends mixins(
   public listed = true
   public postfix = true
   public balanceNotEnough = false
+
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
   @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
