@@ -11,7 +11,7 @@
     <template v-if="message" #top>
       <MessageNotify
         :enable-download="isOwner"
-        :title="$t('mint.success') + ' 🎉'"
+        :title="$t('mint.success')"
         :subtitle="$t('mint.successNewNfts')" />
     </template>
     <template #image>
@@ -290,10 +290,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
       },
       pollInterval: 1000,
     })
-
-    if (this.message === 'congrats') {
-      this.toast(this.message)
-    }
   }
 
   public setPriceChartData(data: [Date, number][][]) {
@@ -387,10 +383,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         set(this.nft.metadata, meta)
       }
     }
-  }
-
-  public toast(message: string): void {
-    this.$buefy.toast.open(message)
   }
 
   get hasPrice(): boolean {

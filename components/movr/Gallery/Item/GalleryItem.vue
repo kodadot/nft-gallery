@@ -10,7 +10,7 @@
     <template v-if="message" #top>
       <MessageNotify
         :enable-download="isOwner"
-        :title="$t('mint.success') + ' 🎉'"
+        :title="$t('mint.success')"
         :subtitle="$t('mint.successNewNfts')" />
     </template>
     <template #main>
@@ -241,10 +241,6 @@ export default class GalleryItem extends mixins(
       this.id = item
       this.collectionId = id
     }
-  }
-
-  public toast(message: string): void {
-    this.$buefy.toast.open(message)
   }
 
   get hasPrice(): boolean {
