@@ -588,6 +588,7 @@
     "unlimited": "Unlimited items in in your collection",
     "nfsw": "Explicit content (NSFW)",
     "listForSale": "List NFT for sale",
+    "listWithRoyalty": "Add royalty",
     "mass": "NFT mass minter",
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
