@@ -29,8 +29,8 @@ type ActionSend = {
 
 type Actions = ActionList | ActionSend
 
-function checkBeforeList(item: ActionList) {
-  const meta = item.price
+function checkTsxList(item: ActionList) {
+  const meta = Number(item.price)
 
   if (!meta) {
     dangerMessage('Price is not valid')
@@ -40,9 +40,11 @@ function checkBeforeList(item: ActionList) {
   return true
 }
 
-function constructTransactionList(item: ActionList, api, executeTransaction) {
+async function execTsxList(item: ActionList, api, executeTransaction) {
   const meta = item.price
-  checkBeforeList(item)
+  if (!checkTsxList(item)) {
+    return
+  }
 
   if (item.urlPrefix === 'rmrk') {
     executeTransaction({
@@ -63,7 +65,7 @@ function constructTransactionList(item: ActionList, api, executeTransaction) {
   }
 }
 
-function checkBeforeSend(item: ActionSend) {
+function checkTsxSend(item: ActionSend) {
   const [, err] = checkAddress(
     item.address,
     correctFormat(ss58Of(item.urlPrefix))
@@ -71,18 +73,22 @@ function checkBeforeSend(item: ActionSend) {
 
   if (!isAddress(item.address)) {
     dangerMessage('Invalid address')
-    return
+    return false
   }
 
   if (err) {
     dangerMessage(err)
-    return
+    return false
   }
+
+  return true
 }
 
-function constructTransactionSend(item: ActionSend, api, executeTransaction) {
+function execTsxSend(item: ActionSend, api, executeTransaction) {
   const { id, item: token } = tokenIdToRoute(item.tokenId)
-  checkBeforeSend(item)
+  if (!checkTsxSend(item)) {
+    return
+  }
 
   if (item.urlPrefix === 'rmrk') {
     executeTransaction({
@@ -141,11 +147,11 @@ export const useGalleryItemAction = () => {
     const api = await apiInstance.value
 
     if (item.interaction === Interaction.LIST) {
-      constructTransactionList(item, api, executeTransaction)
+      execTsxList(item, api, executeTransaction)
     }
 
     if (item.interaction === Interaction.SEND) {
-      constructTransactionSend(item, api, executeTransaction)
+      execTsxSend(item, api, executeTransaction)
     }
   }
 

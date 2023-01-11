@@ -6,7 +6,7 @@
       <GalleryItemActionSlides ref="actionRef" :active="active">
         <template #action>
           <NeoButton
-            label="Transfer"
+            :label="`${$i18n.t('transaction.transfer')}`"
             size="large"
             fixed-width
             no-shadow
@@ -15,7 +15,10 @@
 
         <template #content>
           <div>
-            <input v-model="address" type="text" placeholder="Transfer To:" />
+            <input
+              v-model="address"
+              type="text"
+              :placeholder="`${$i18n.t('transaction.transferTo')}:`" />
           </div>
         </template>
       </GalleryItemActionSlides>
@@ -32,7 +35,7 @@ import { useGalleryItemAction } from './useGalleryItemAction'
 import { Interaction } from '@kodadot1/minimark'
 
 const { transaction, status, isLoading } = useGalleryItemAction()
-const { $route } = useNuxtApp()
+const { $route, $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
@@ -52,8 +55,8 @@ function sendItem() {
       address: address.value,
       tokenId: $route.params.id,
       nftId: props.nftId,
-      successMessage: 'Item sent',
-      errorMessage: 'Failed to send item',
+      successMessage: $i18n.t('transaction.item.success') as string,
+      errorMessage: $i18n.t('transaction.item.error') as string,
     })
   }
 }

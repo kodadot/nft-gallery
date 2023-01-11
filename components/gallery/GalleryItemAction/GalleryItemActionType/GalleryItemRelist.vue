@@ -5,7 +5,11 @@
       <GalleryItemActionSlides ref="actionRef" :active="active">
         <template #action>
           <NeoButton
-            :label="isListed ? 'Change Price' : 'List'"
+            :label="
+              isListed
+                ? `${$i18n.t('transaction.price.change')}`
+                : `${$i18n.t('transaction.list')}`
+            "
             size="large"
             fixed-width
             no-shadow
@@ -19,7 +23,9 @@
               v-model="price"
               type="number"
               :placeholder="
-                isListed ? 'Your New Price' : 'Your Listing Price'
+                isListed
+                  ? `${$i18n.t('transaction.price.new')}`
+                  : `${$i18n.t('transaction.price.list')}`
               " />
           </div>
         </template>
@@ -40,6 +46,7 @@ import { Interaction } from '@kodadot1/minimark'
 
 const { transaction, status, isLoading } = useGalleryItemAction()
 const { urlPrefix } = usePrefix()
+const { $i18n } = useNuxtApp()
 
 const props = defineProps<{
   collectionId: string
@@ -61,10 +68,10 @@ function updatePrice() {
     transaction({
       interaction: Interaction.LIST,
       urlPrefix: urlPrefix.value,
-      price: String(calculateBalance(price.value)),
+      price: price.value && String(calculateBalance(price.value)),
       nftId: props.nftId,
-      successMessage: 'Price updated',
-      errorMessage: 'Price update failed',
+      successMessage: $i18n.t('transaction.price.success') as string,
+      errorMessage: $i18n.t('transaction.price.error') as string,
     })
   }
 }
