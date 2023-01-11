@@ -1,5 +1,8 @@
 import Axios from 'axios'
-import { saveKey } from '@/utils/cloudflare'
+import consola from 'consola'
+
+import { secondaryFileVisible } from '@/components/rmrk/Create/mintUtils'
+
 import { URLS } from './constants'
 
 export const BASE_URL = URLS.koda.directUpload
@@ -36,26 +39,30 @@ export const getKey = async (
     const { status, data } = await api.get<DirectUploadApiResponse>(
       `getKey/${validationKey}`
     )
-    console.log('[PINNING] Obtain', status)
+    consola.log('[PINNING] Obtain', status)
     return data.result
   } catch (e) {
-    console.warn(e)
+    consola.warn(e)
     throw e
   }
 }
 
 export const upload = async (
   file: File,
-  url: string
+  url: string,
+  id?: string
 ): Promise<CdnUploadResponse> => {
   const formData = new FormData()
   formData.append('file', file)
+  if (id) {
+    formData.append('id', id)
+  }
   const { status, data } = await Axios.post<CdnUploadResponse>(url, formData, {
     headers: {
       'Content-Type': 'multipart/form-data;',
     },
   })
-  console.log('[DIRECT UPLOAD] OK?', status)
+  consola.log('[DIRECT UPLOAD] OK?', status)
   return data
 }
 
@@ -65,10 +72,24 @@ export const uploadDirect = async (
 ): Promise<void> => {
   try {
     const token = await getKey(ipfsHash)
-    const { result } = await upload(file, token.uploadURL)
-    await saveKey(ipfsHash, result.id)
+    const { result } = await upload(file, token.uploadURL, ipfsHash)
+    consola.log('[DIRECT UPLOAD] OK!', result.filename)
   } catch (e) {
-    console.warn('[DIRECT UPLOAD] ERR!', (e as Error).message)
+    consola.warn('[DIRECT UPLOAD] ERR!', (e as Error).message)
+  }
+}
+
+export const uploadDirectWhenMultiple = async (
+  files: [File, undefined | null] | [File, File],
+  ipfsHashes: [string, string] | [string, undefined | null]
+): Promise<void> => {
+  const [file, secondFile] = files
+  const [ipfsHash, secondIpfsHash] = ipfsHashes
+
+  if (secondaryFileVisible(file) && secondFile && secondIpfsHash) {
+    await uploadDirect(secondFile, secondIpfsHash)
+  } else {
+    await uploadDirect(file, ipfsHash)
   }
 }
 

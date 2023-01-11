@@ -255,7 +255,7 @@ export default class CreativeMint extends mixins(
 
     const metaHash = await pinJson(meta, imageHash)
 
-    uploadDirect(file, metaHash).catch(this.$consola.warn)
+    uploadDirect(file, imageHash).catch(this.$consola.warn)
 
     return unSanitizeIpfsUrl(metaHash)
   }
