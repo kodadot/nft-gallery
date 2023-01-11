@@ -776,7 +776,6 @@
       "processing": "Predicting (wait around ~20s)",
       "send": "Sending links to your email"
     }
-
   },
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
@@ -1083,7 +1082,7 @@
   },
   "tabs": {
     "properties": "Properties",
-    "noPropertiesForNFT" : "No Properties for this NFT",
+    "noPropertiesForNFT": "No Properties for this NFT",
     "description": "Description",
     "details": "Details",
     "offers": "Offers",
@@ -1123,5 +1122,21 @@
       "SEND": "Transfers"
     }
   },
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "transaction": {
+    "list": "List",
+    "transfer": "Transfer",
+    "transferTo": "Transfer to",
+    "price": {
+      "change": "Change Price",
+      "new": "Your New Price",
+      "list": "Your Listing Price",
+      "success": "Price updated",
+      "error": "Price update failed"
+    },
+    "item": {
+      "success": "Item sent",
+      "error": "Failed to send item"
+    }
+  }
 }
