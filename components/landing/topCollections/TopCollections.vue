@@ -84,9 +84,9 @@ const { data, loading } = useTopCollections(limit)
 const state = reactive<{ timeRange: TimeRange }>({ timeRange: 'All' })
 
 const timeRanges: TimeRangeOption[] = [
-  { value: 'Week', label: '7 Days' },
-  { value: 'Month', label: '30 Days' },
-  { value: '3Month', label: '90 Days' },
+  { value: 'Week', label: 'week' },
+  { value: 'Month', label: 'month' },
+  { value: 'Quarter', label: 'quarter' },
   { value: 'All', label: 'all' },
 ]
 
