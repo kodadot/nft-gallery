@@ -136,7 +136,7 @@ export const fetchCollectionMetadata = (
 ): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
 
 export const preheatFileFromIPFS = (ipfsUrl: string) => {
-  const url = sanitizeIpfsUrl(ipfsUrl, 'pinata')
+  const url = sanitizeIpfsUrl(ipfsUrl, 'image')
   const hash = fastExtract(url)
   api
     .get(url)

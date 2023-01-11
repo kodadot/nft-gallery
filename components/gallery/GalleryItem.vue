@@ -1,5 +1,9 @@
 <template>
   <section class="py-5 gallery-item">
+    <MessageNotify
+      v-if="message"
+      :title="$t('mint.success')"
+      :subtitle="$t('mint.successNewNfts')" />
     <div class="columns">
       <div class="column is-two-fifths">
         <MediaItem
@@ -35,14 +39,14 @@
             <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4">
               <IdentityItem
                 v-if="nft?.issuer"
-                class="mb-1 gallery-avatar"
-                label="Creator"
+                class="gallery-avatar"
+                :label="`${$t('Creator')}`"
                 :prefix="urlPrefix"
                 :account="nft?.issuer" />
               <IdentityItem
                 v-if="nft?.currentOwner !== nft?.issuer"
                 class="gallery-avatar"
-                label="Owner"
+                :label="`${$t('Owner')}`"
                 :prefix="urlPrefix"
                 :account="nft?.currentOwner || ''" />
             </div>
@@ -86,9 +90,13 @@ import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
+import { exist } from '@/components/search/exist'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
+const route = useRoute()
+const router = useRouter()
+const message = ref('')
 
 const CarouselTypeRelated = defineAsyncComponent(
   () => import('@/components/carousel/CarouselTypeRelated.vue')
@@ -96,6 +104,13 @@ const CarouselTypeRelated = defineAsyncComponent(
 const CarouselTypeVisited = defineAsyncComponent(
   () => import('@/components/carousel/CarouselTypeVisited.vue')
 )
+
+onMounted(() => {
+  exist(route.query.message, (val) => {
+    message.value = val === 'congrats' ? val : ''
+    router.replace({ query: { redesign: 'true' } })
+  })
+})
 </script>
 
 <style lang="scss" scoped>
