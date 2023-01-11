@@ -27,39 +27,41 @@ type ActionSend = {
 
 type Actions = ActionList | ActionSend
 
-const defaultValue = {
-  cb: undefined,
-  arg: undefined,
-}
-
-function constructTransactionList(urlPrefix, api, item: ActionList) {
+function constructTransactionList(
+  urlPrefix,
+  api,
+  item: ActionList,
+  executeTransaction
+) {
   const meta = item.price
 
   if (!meta) {
-    dangerMessage('Price is not valid')
-    return defaultValue
+    return dangerMessage('Price is not valid')
   }
 
   if (urlPrefix === 'rmrk') {
-    return {
+    return executeTransaction({
       cb: api.tx.system.remark,
       arg: [createInteraction(Interaction.LIST, '1.0.0', item.nftId, meta)],
-    }
+    })
   }
 
   if (urlPrefix === 'snek' || urlPrefix === 'bsx') {
-    return {
+    return executeTransaction({
       cb: getApiCall(api, urlPrefix, Interaction.LIST),
       arg: bsxParamResolver(item.nftId, Interaction.LIST, meta),
-    }
+    })
   }
 
-  dangerMessage('Unknown prefix')
-
-  return defaultValue
+  return dangerMessage('Unknown prefix')
 }
 
-function constructTransactionSend(urlPrefix, api, item: ActionSend) {
+function constructTransactionSend(
+  urlPrefix,
+  api,
+  item: ActionSend,
+  executeTransaction
+) {
   const { id, item: token } = tokenIdToRoute(item.tokenId)
   const [, err] = checkAddress(
     item.address,
@@ -67,26 +69,24 @@ function constructTransactionSend(urlPrefix, api, item: ActionSend) {
   )
 
   if (!isAddress(item.address)) {
-    dangerMessage('Invalid address')
-    return defaultValue
+    return dangerMessage('Invalid address')
   }
 
   if (err) {
-    dangerMessage(err)
-    return defaultValue
+    return dangerMessage(err)
   }
 
   if (urlPrefix === 'rmrk') {
-    return {
+    return executeTransaction({
       cb: api.tx.system.remark,
       arg: [
         createInteraction(Interaction.SEND, '1.0.0', item.nftId, item.address),
       ],
-    }
+    })
   }
 
   if (urlPrefix === 'snek' || urlPrefix === 'bsx') {
-    return {
+    return executeTransaction({
       cb: api.tx.utility.batchAll,
       arg: [
         [
@@ -94,31 +94,26 @@ function constructTransactionSend(urlPrefix, api, item: ActionSend) {
           api.tx.nft.transfer(id, token, item.address),
         ],
       ],
-    }
+    })
   }
-
-  return defaultValue
 }
 
-export const useGalleryItemAction = () => {
-  const cb = ref()
-  const arg = ref()
-
-  const { urlPrefix } = usePrefix()
-  const { apiInstance } = useApi()
+const useExecuteTransaction = () => {
   const { accountId } = useAuth()
   const { howAboutToExecute, isLoading, status, initTransactionLoader } =
     useMetaTransaction()
 
   const executeTransaction = ({
+    cb,
+    arg,
     successMessage = 'Success!',
     errorMessage = 'Failed!',
   }) => {
     initTransactionLoader()
     howAboutToExecute(
       accountId.value,
-      cb.value,
-      arg.value,
+      cb,
+      arg,
       () => {
         infoMessage(successMessage)
       },
@@ -128,35 +123,28 @@ export const useGalleryItemAction = () => {
     )
   }
 
+  return {
+    isLoading,
+    status,
+    executeTransaction,
+  }
+}
+
+export const useGalleryItemAction = () => {
+  const { urlPrefix } = usePrefix()
+  const { apiInstance } = useApi()
+  const { isLoading, status, executeTransaction } = useExecuteTransaction()
+
   const transaction = async (item: Actions) => {
     const api = await apiInstance.value
 
     if (item.interaction === Interaction.LIST) {
-      const { cb: newCb, arg: newArg } = constructTransactionList(
-        urlPrefix.value,
-        api,
-        item
-      )
-
-      cb.value = newCb
-      arg.value = newArg
+      constructTransactionList(urlPrefix.value, api, item, executeTransaction)
     }
 
     if (item.interaction === Interaction.SEND) {
-      const { cb: newCb, arg: newArg } = constructTransactionSend(
-        urlPrefix.value,
-        api,
-        item
-      )
-
-      cb.value = newCb
-      arg.value = newArg
+      constructTransactionSend(urlPrefix.value, api, item, executeTransaction)
     }
-
-    executeTransaction({
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
   }
 
   return {
