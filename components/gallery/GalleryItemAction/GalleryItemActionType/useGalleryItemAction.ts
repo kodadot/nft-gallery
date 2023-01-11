@@ -10,6 +10,7 @@ import correctFormat from '@/utils/ss58Format'
 
 type ActionList = {
   interaction: Interaction.LIST
+  urlPrefix: string
   price: string
   nftId: string
   successMessage?: string
@@ -18,6 +19,7 @@ type ActionList = {
 
 type ActionSend = {
   interaction: Interaction.SEND
+  urlPrefix: string
   tokenId: string
   address: string
   nftId: string
@@ -27,66 +29,74 @@ type ActionSend = {
 
 type Actions = ActionList | ActionSend
 
-function constructTransactionList(
-  urlPrefix,
-  api,
-  item: ActionList,
-  executeTransaction
-) {
+function checkBeforeList(item: ActionList) {
   const meta = item.price
 
   if (!meta) {
-    return dangerMessage('Price is not valid')
+    dangerMessage('Price is not valid')
+    return false
   }
 
-  if (urlPrefix === 'rmrk') {
-    return executeTransaction({
-      cb: api.tx.system.remark,
-      arg: [createInteraction(Interaction.LIST, '1.0.0', item.nftId, meta)],
-    })
-  }
-
-  if (urlPrefix === 'snek' || urlPrefix === 'bsx') {
-    return executeTransaction({
-      cb: getApiCall(api, urlPrefix, Interaction.LIST),
-      arg: bsxParamResolver(item.nftId, Interaction.LIST, meta),
-    })
-  }
-
-  return dangerMessage('Unknown prefix')
+  return true
 }
 
-function constructTransactionSend(
-  urlPrefix,
-  api,
-  item: ActionSend,
-  executeTransaction
-) {
-  const { id, item: token } = tokenIdToRoute(item.tokenId)
+function constructTransactionList(item: ActionList, api, executeTransaction) {
+  const meta = item.price
+  checkBeforeList(item)
+
+  if (item.urlPrefix === 'rmrk') {
+    executeTransaction({
+      cb: api.tx.system.remark,
+      arg: [createInteraction(Interaction.LIST, '1.0.0', item.nftId, meta)],
+      successMessage: item.successMessage,
+      errorMessage: item.errorMessage,
+    })
+  }
+
+  if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
+    executeTransaction({
+      cb: getApiCall(api, item.urlPrefix, Interaction.LIST),
+      arg: bsxParamResolver(item.nftId, Interaction.LIST, meta),
+      successMessage: item.successMessage,
+      errorMessage: item.errorMessage,
+    })
+  }
+}
+
+function checkBeforeSend(item: ActionSend) {
   const [, err] = checkAddress(
     item.address,
-    correctFormat(ss58Of(urlPrefix.value))
+    correctFormat(ss58Of(item.urlPrefix))
   )
 
   if (!isAddress(item.address)) {
-    return dangerMessage('Invalid address')
+    dangerMessage('Invalid address')
+    return
   }
 
   if (err) {
-    return dangerMessage(err)
+    dangerMessage(err)
+    return
   }
+}
 
-  if (urlPrefix === 'rmrk') {
-    return executeTransaction({
+function constructTransactionSend(item: ActionSend, api, executeTransaction) {
+  const { id, item: token } = tokenIdToRoute(item.tokenId)
+  checkBeforeSend(item)
+
+  if (item.urlPrefix === 'rmrk') {
+    executeTransaction({
       cb: api.tx.system.remark,
       arg: [
         createInteraction(Interaction.SEND, '1.0.0', item.nftId, item.address),
       ],
+      successMessage: item.successMessage,
+      errorMessage: item.errorMessage,
     })
   }
 
-  if (urlPrefix === 'snek' || urlPrefix === 'bsx') {
-    return executeTransaction({
+  if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
+    executeTransaction({
       cb: api.tx.utility.batchAll,
       arg: [
         [
@@ -94,6 +104,8 @@ function constructTransactionSend(
           api.tx.nft.transfer(id, token, item.address),
         ],
       ],
+      successMessage: item.successMessage,
+      errorMessage: item.errorMessage,
     })
   }
 }
@@ -103,23 +115,14 @@ const useExecuteTransaction = () => {
   const { howAboutToExecute, isLoading, status, initTransactionLoader } =
     useMetaTransaction()
 
-  const executeTransaction = ({
-    cb,
-    arg,
-    successMessage = 'Success!',
-    errorMessage = 'Failed!',
-  }) => {
+  const executeTransaction = ({ cb, arg, successMessage, errorMessage }) => {
     initTransactionLoader()
     howAboutToExecute(
       accountId.value,
       cb,
       arg,
-      () => {
-        infoMessage(successMessage)
-      },
-      () => {
-        dangerMessage(errorMessage)
-      }
+      () => infoMessage(successMessage || 'Success!'),
+      () => dangerMessage(errorMessage || 'Failed!')
     )
   }
 
@@ -131,7 +134,6 @@ const useExecuteTransaction = () => {
 }
 
 export const useGalleryItemAction = () => {
-  const { urlPrefix } = usePrefix()
   const { apiInstance } = useApi()
   const { isLoading, status, executeTransaction } = useExecuteTransaction()
 
@@ -139,11 +141,11 @@ export const useGalleryItemAction = () => {
     const api = await apiInstance.value
 
     if (item.interaction === Interaction.LIST) {
-      constructTransactionList(urlPrefix.value, api, item, executeTransaction)
+      constructTransactionList(item, api, executeTransaction)
     }
 
     if (item.interaction === Interaction.SEND) {
-      constructTransactionSend(urlPrefix.value, api, item, executeTransaction)
+      constructTransactionSend(item, api, executeTransaction)
     }
   }
 

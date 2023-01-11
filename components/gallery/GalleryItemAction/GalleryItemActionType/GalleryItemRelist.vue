@@ -39,6 +39,7 @@ import { useGalleryItemAction } from './useGalleryItemAction'
 import { Interaction } from '@kodadot1/minimark'
 
 const { transaction, status, isLoading } = useGalleryItemAction()
+const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
   collectionId: string
@@ -59,6 +60,7 @@ function updatePrice() {
   } else {
     transaction({
       interaction: Interaction.LIST,
+      urlPrefix: urlPrefix.value,
       price: String(calculateBalance(price.value)),
       nftId: props.nftId,
       successMessage: 'Price updated',
