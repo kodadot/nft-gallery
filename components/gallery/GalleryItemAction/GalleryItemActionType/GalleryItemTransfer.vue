@@ -46,7 +46,7 @@ async function sendItem() {
   } else {
     transactionSend({
       address: address.value,
-      urlId: $route.params.id,
+      tokenId: $route.params.id,
       nftId: props.nftId,
       successMessage: 'Item sent',
       errorMessage: 'Failed to send item',

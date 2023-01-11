@@ -37,10 +37,15 @@ export const useGalleryItemAction = () => {
   }
 
   const transactionList = async ({
-    price = '',
-    nftId = '',
+    price,
+    nftId,
     successMessage = '',
     errorMessage = '',
+  }: {
+    price: string
+    nftId: string
+    successMessage?: string
+    errorMessage?: string
   }) => {
     const api = await apiInstance.value
     const meta = price
@@ -71,14 +76,20 @@ export const useGalleryItemAction = () => {
   }
 
   const transactionSend = async ({
-    urlId = '',
-    address = '',
-    nftId = '',
+    tokenId,
+    address,
+    nftId,
     successMessage = '',
     errorMessage = '',
+  }: {
+    tokenId: string
+    address: string
+    nftId: string
+    successMessage?: string
+    errorMessage?: string
   }) => {
     const api = await apiInstance.value
-    const { id, item } = tokenIdToRoute(urlId)
+    const { id, item } = tokenIdToRoute(tokenId)
     const [, err] = checkAddress(
       address,
       correctFormat(ss58Of(urlPrefix.value))
