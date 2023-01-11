@@ -115,8 +115,9 @@ import { unwrapSafe } from '@/utils/uniquery'
 import { Royalty, isRoyaltyValid } from '@/utils/royalty'
 import { fetchCollectionMetadata, preheatFileFromIPFS } from '@/utils/ipfs'
 import { getMany, update } from 'idb-keyval'
-import ApiUrlMixin from '~/utils/mixins/apiUrlMixin'
+import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
+import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -387,7 +388,11 @@ export default class CreateToken extends mixins(
     )
 
     preheatFileFromIPFS(fileHash)
-    // uploadDirect(file, this.accountId).catch(this.$consola.warn)
+
+    uploadDirectWhenMultiple(
+      [file, secondFile],
+      [fileHash, secondFileHash]
+    ).catch(this.$consola.warn)
     const metaHash = await pinJson(meta, imageHash)
     const metadata = unSanitizeIpfsUrl(metaHash)
     this.metadata = metadata
