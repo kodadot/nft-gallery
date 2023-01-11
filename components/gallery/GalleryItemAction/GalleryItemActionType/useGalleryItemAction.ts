@@ -8,6 +8,94 @@ import { tokenIdToRoute } from '@/components/unique/utils'
 import { ss58Of } from '@/utils/config/chain.config'
 import correctFormat from '@/utils/ss58Format'
 
+type ActionList = {
+  price: string
+  nftId: string
+  successMessage?: string
+  errorMessage?: string
+}
+
+type ActionSend = {
+  tokenId: string
+  address: string
+  nftId: string
+  successMessage?: string
+  errorMessage?: string
+}
+
+const defaultValue = {
+  cb: undefined,
+  arg: undefined,
+}
+
+function constructTransactionList(urlPrefix, api, item: ActionList) {
+  const meta = item.price
+
+  if (!meta) {
+    dangerMessage('Price is not valid')
+    return defaultValue
+  }
+
+  if (urlPrefix === 'rmrk') {
+    return {
+      cb: api.tx.system.remark,
+      arg: [createInteraction(Interaction.LIST, '1.0.0', item.nftId, meta)],
+    }
+  }
+
+  if (urlPrefix === 'snek' || urlPrefix === 'bsx') {
+    return {
+      cb: getApiCall(api, urlPrefix, Interaction.LIST),
+      arg: bsxParamResolver(item.nftId, Interaction.LIST, meta),
+    }
+  }
+
+  dangerMessage('Unknown prefix')
+
+  return defaultValue
+}
+
+function constructTransactionSend(urlPrefix, api, item: ActionSend) {
+  const { id, item: token } = tokenIdToRoute(item.tokenId)
+  const [, err] = checkAddress(
+    item.address,
+    correctFormat(ss58Of(urlPrefix.value))
+  )
+
+  if (!isAddress(item.address)) {
+    dangerMessage('Invalid address')
+    return defaultValue
+  }
+
+  if (err) {
+    dangerMessage(err)
+    return defaultValue
+  }
+
+  if (urlPrefix === 'rmrk') {
+    return {
+      cb: api.tx.system.remark,
+      arg: [
+        createInteraction(Interaction.SEND, '1.0.0', item.nftId, item.address),
+      ],
+    }
+  }
+
+  if (urlPrefix === 'snek' || urlPrefix === 'bsx') {
+    return {
+      cb: api.tx.utility.batchAll,
+      arg: [
+        [
+          api.tx.marketplace.setPrice(id, token, 0),
+          api.tx.nft.transfer(id, token, item.address),
+        ],
+      ],
+    }
+  }
+
+  return defaultValue
+}
+
 export const useGalleryItemAction = () => {
   const cb = ref()
   const arg = ref()
@@ -36,100 +124,38 @@ export const useGalleryItemAction = () => {
     )
   }
 
-  const transactionList = async ({
-    price,
-    nftId,
-    successMessage = '',
-    errorMessage = '',
-  }: {
-    price: string
-    nftId: string
-    successMessage?: string
-    errorMessage?: string
-  }) => {
+  const transactionList = async (item: ActionList) => {
     const api = await apiInstance.value
-    const meta = price
-
-    if (!meta) {
-      dangerMessage('Price is not valid')
-      return
-    }
-
-    switch (urlPrefix.value) {
-      case 'rmrk':
-        cb.value = api.tx.system.remark
-        arg.value = [createInteraction(Interaction.LIST, '1.0.0', nftId, meta)]
-        break
-
-      case 'snek':
-      case 'bsx':
-        cb.value = getApiCall(api, urlPrefix.value, Interaction.LIST)
-        arg.value = bsxParamResolver(nftId, Interaction.LIST, meta)
-        break
-
-      default:
-        dangerMessage('Unknown prefix')
-        break
-    }
-
-    executeTransaction({ successMessage, errorMessage })
-  }
-
-  const transactionSend = async ({
-    tokenId,
-    address,
-    nftId,
-    successMessage = '',
-    errorMessage = '',
-  }: {
-    tokenId: string
-    address: string
-    nftId: string
-    successMessage?: string
-    errorMessage?: string
-  }) => {
-    const api = await apiInstance.value
-    const { id, item } = tokenIdToRoute(tokenId)
-    const [, err] = checkAddress(
-      address,
-      correctFormat(ss58Of(urlPrefix.value))
+    const { cb: newCb, arg: newArg } = constructTransactionList(
+      urlPrefix.value,
+      api,
+      item
     )
 
-    if (!isAddress(address)) {
-      dangerMessage('Invalid address')
-      return
-    }
+    cb.value = newCb
+    arg.value = newArg
 
-    if (err) {
-      dangerMessage(err)
-      return
-    }
+    executeTransaction({
+      successMessage: item.successMessage,
+      errorMessage: item.errorMessage,
+    })
+  }
 
-    switch (urlPrefix.value) {
-      case 'rmrk':
-        cb.value = api.tx.system.remark
-        arg.value = [
-          createInteraction(Interaction.SEND, '1.0.0', nftId, address),
-        ]
-        break
+  const transactionSend = async (item: ActionSend) => {
+    const api = await apiInstance.value
+    const { cb: newCb, arg: newArg } = constructTransactionSend(
+      urlPrefix.value,
+      api,
+      item
+    )
 
-      case 'bsx':
-      case 'snek':
-        cb.value = api.tx.utility.batchAll
-        arg.value = [
-          [
-            api.tx.marketplace.setPrice(id, item, 0),
-            api.tx.nft.transfer(id, item, address),
-          ],
-        ]
-        break
+    cb.value = newCb
+    arg.value = newArg
 
-      default:
-        dangerMessage('Unknown prefix')
-        break
-    }
-
-    executeTransaction({ successMessage, errorMessage })
+    executeTransaction({
+      successMessage: item.successMessage,
+      errorMessage: item.errorMessage,
+    })
   }
 
   return {
