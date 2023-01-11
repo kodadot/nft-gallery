@@ -10,6 +10,7 @@
       <Nuxt v-else />
     </main>
     <LazyTheFooter />
+    <LazyCookieBanner />
   </div>
 </template>
 

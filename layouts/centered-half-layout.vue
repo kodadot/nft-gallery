@@ -18,6 +18,7 @@
       </section>
     </main>
     <LazyTheFooter />
+    <LazyCookieBanner />
   </div>
 </template>
 
