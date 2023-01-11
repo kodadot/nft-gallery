@@ -40,7 +40,7 @@ function checkTsxList(item: ActionList) {
   return true
 }
 
-async function execTsxList(item: ActionList, api, executeTransaction) {
+function execTsxList(item: ActionList, api, executeTransaction) {
   const meta = item.price
   if (!checkTsxList(item)) {
     return
@@ -84,35 +84,44 @@ function checkTsxSend(item: ActionSend) {
   return true
 }
 
-function execTsxSend(item: ActionSend, api, executeTransaction) {
+function execSendRmrk(item: ActionSend, api, executeTransaction) {
+  executeTransaction({
+    cb: api.tx.system.remark,
+    arg: [
+      createInteraction(Interaction.SEND, '1.0.0', item.nftId, item.address),
+    ],
+    successMessage: item.successMessage,
+    errorMessage: item.errorMessage,
+  })
+}
+
+function execSendBasilisk(item: ActionSend, api, executeTransaction) {
   const { id, item: token } = tokenIdToRoute(item.tokenId)
+
+  executeTransaction({
+    cb: api.tx.utility.batchAll,
+    arg: [
+      [
+        api.tx.marketplace.setPrice(id, token, 0),
+        api.tx.nft.transfer(id, token, item.address),
+      ],
+    ],
+    successMessage: item.successMessage,
+    errorMessage: item.errorMessage,
+  })
+}
+
+function execTsxSend(item: ActionSend, api, executeTransaction) {
   if (!checkTsxSend(item)) {
     return
   }
 
   if (item.urlPrefix === 'rmrk') {
-    executeTransaction({
-      cb: api.tx.system.remark,
-      arg: [
-        createInteraction(Interaction.SEND, '1.0.0', item.nftId, item.address),
-      ],
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
+    execSendRmrk(item, api, executeTransaction)
   }
 
   if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
-    executeTransaction({
-      cb: api.tx.utility.batchAll,
-      arg: [
-        [
-          api.tx.marketplace.setPrice(id, token, 0),
-          api.tx.nft.transfer(id, token, item.address),
-        ],
-      ],
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
+    execSendBasilisk(item, api, executeTransaction)
   }
 }
 
