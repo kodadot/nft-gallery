@@ -88,7 +88,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
       this.title = meta.name
       this.animatedUrl = sanitizeIpfsUrl(
         meta.animation_url || meta.mediaUri || '',
-        'pinata'
+        'image'
       )
       this.mimeType = (await getMimeType(this.animatedUrl || this.image)) || ''
     }
