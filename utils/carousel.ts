@@ -1,7 +1,6 @@
 import { formatDistanceToNow } from 'date-fns'
 import { get, set } from 'idb-keyval'
 import { isEmpty } from '@kodadot1/minimark'
-import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { LastEvent } from '@/utils/types/types'
 
 import { CarouselNFT } from '@/components/base/types'
@@ -47,10 +46,7 @@ export const setNftMetaFromCache = async (nfts): Promise<CarouselNFT[]> => {
       let meta = await get(nft.metadata)
 
       if (isEmpty(meta)) {
-        meta = await fetchNFTMetadata(
-          nft,
-          getSanitizer(nft.metadata, 'pinata', 'permafrost')
-        )
+        meta = await fetchNFTMetadata(nft, getSanitizer(nft.metadata))
         set(nft.metadata, meta)
       }
       const imageSanitizer = getSanitizer(meta.image, 'image')
@@ -58,38 +54,10 @@ export const setNftMetaFromCache = async (nfts): Promise<CarouselNFT[]> => {
         ...nft,
         name: meta.name,
         image: imageSanitizer(meta.image),
-        animation_url: sanitizeIpfsUrl(
-          meta.animation_url || meta.image,
-          'pinata'
-        ),
+        animation_url: sanitizeIpfsUrl(meta.animation_url || meta.image),
       }
     })
   )
-}
-
-interface Events {
-  nft: {
-    metadata: string
-    meta: {
-      id: string
-      image: string
-    }
-  }
-}
-
-/**
- * Catch undefined meta
- */
-export const fallbackMetaByNftEvent = async (events: Events[]) => {
-  for (const event of events) {
-    if (!event.nft.meta) {
-      event.nft.meta = {
-        id: event.nft.metadata,
-        image: '',
-      }
-      await processSingleMetadata(event.nft.metadata)
-    }
-  }
 }
 
 export const convertLastEventFlatNft = (e: LastEvent) => {
@@ -108,24 +76,5 @@ export const convertLastEventFlatNft = (e: LastEvent) => {
     },
     collectionId: e.collectionId,
     collectionName: e.collectionName,
-  }
-}
-
-export const convertLastEventToNft = (e: LastEvent) => {
-  return {
-    meta: e.meta,
-    timestamp: e.timestamp,
-    nft: {
-      id: e.nftId,
-      name: e.name,
-      issuer: e.issuer,
-      currentOwner: e.currentOwner,
-      metadata: e.metadata,
-      animationUrl: sanitizeIpfsUrl(e.animationUrl),
-      meta: {
-        id: e.metadata,
-        image: e.image,
-      },
-    },
   }
 }

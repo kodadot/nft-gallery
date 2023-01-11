@@ -213,7 +213,7 @@ export default class GalleryItem extends mixins(
         image: imageSanitizer(meta.image),
         animation_url: sanitizeIpfsUrl(
           meta.animation_url || meta.image,
-          'pinata'
+          'image'
         ),
       }
 
