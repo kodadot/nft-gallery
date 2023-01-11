@@ -453,7 +453,7 @@ export default class GalleryItem extends mixins(
         ? cachedMeta
         : await fetchNFTMetadata(
             this.nft,
-            getSanitizer(this.nft.metadata, 'pinata', 'permafrost')
+            getSanitizer(this.nft.metadata, 'image', 'permafrost')
           )
 
       const imageSanitizer = getSanitizer(meta.image, 'image')
@@ -462,7 +462,7 @@ export default class GalleryItem extends mixins(
         image: imageSanitizer(meta.image),
         animation_url: sanitizeIpfsUrl(
           meta.animation_url || meta.image,
-          'pinata'
+          'image'
         ),
       }
 
