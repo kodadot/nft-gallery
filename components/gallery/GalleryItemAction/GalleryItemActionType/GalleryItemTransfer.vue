@@ -29,8 +29,9 @@ import { NeoButton } from '@kodadot1/brick'
 
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 import { useGalleryItemAction } from './useGalleryItemAction'
+import { Interaction } from '@kodadot1/minimark'
 
-const { transactionSend, status, isLoading } = useGalleryItemAction()
+const { transaction, status, isLoading } = useGalleryItemAction()
 const { $route } = useNuxtApp()
 
 const props = defineProps<{
@@ -44,7 +45,8 @@ function sendItem() {
   if (active.value === false) {
     active.value = true
   } else {
-    transactionSend({
+    transaction({
+      interaction: Interaction.SEND,
       address: address.value,
       tokenId: $route.params.id,
       nftId: props.nftId,

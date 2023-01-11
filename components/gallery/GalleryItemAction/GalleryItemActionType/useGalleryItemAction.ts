@@ -9,6 +9,7 @@ import { ss58Of } from '@/utils/config/chain.config'
 import correctFormat from '@/utils/ss58Format'
 
 type ActionList = {
+  interaction: Interaction.LIST
   price: string
   nftId: string
   successMessage?: string
@@ -16,12 +17,15 @@ type ActionList = {
 }
 
 type ActionSend = {
+  interaction: Interaction.SEND
   tokenId: string
   address: string
   nftId: string
   successMessage?: string
   errorMessage?: string
 }
+
+type Actions = ActionList | ActionSend
 
 const defaultValue = {
   cb: undefined,
@@ -124,33 +128,30 @@ export const useGalleryItemAction = () => {
     )
   }
 
-  const transactionList = async (item: ActionList) => {
+  const transaction = async (item: Actions) => {
     const api = await apiInstance.value
-    const { cb: newCb, arg: newArg } = constructTransactionList(
-      urlPrefix.value,
-      api,
-      item
-    )
 
-    cb.value = newCb
-    arg.value = newArg
+    if (item.interaction === Interaction.LIST) {
+      const { cb: newCb, arg: newArg } = constructTransactionList(
+        urlPrefix.value,
+        api,
+        item
+      )
 
-    executeTransaction({
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
-  }
+      cb.value = newCb
+      arg.value = newArg
+    }
 
-  const transactionSend = async (item: ActionSend) => {
-    const api = await apiInstance.value
-    const { cb: newCb, arg: newArg } = constructTransactionSend(
-      urlPrefix.value,
-      api,
-      item
-    )
+    if (item.interaction === Interaction.SEND) {
+      const { cb: newCb, arg: newArg } = constructTransactionSend(
+        urlPrefix.value,
+        api,
+        item
+      )
 
-    cb.value = newCb
-    arg.value = newArg
+      cb.value = newCb
+      arg.value = newArg
+    }
 
     executeTransaction({
       successMessage: item.successMessage,
@@ -161,7 +162,6 @@ export const useGalleryItemAction = () => {
   return {
     isLoading,
     status,
-    transactionList,
-    transactionSend,
+    transaction,
   }
 }

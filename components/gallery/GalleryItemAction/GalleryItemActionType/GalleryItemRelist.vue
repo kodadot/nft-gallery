@@ -36,8 +36,9 @@ import { calculateBalance } from '@/utils/format/balance'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 import { useGalleryItemAction } from './useGalleryItemAction'
+import { Interaction } from '@kodadot1/minimark'
 
-const { transactionList, status, isLoading } = useGalleryItemAction()
+const { transaction, status, isLoading } = useGalleryItemAction()
 
 const props = defineProps<{
   collectionId: string
@@ -56,7 +57,8 @@ function updatePrice() {
   if (active.value === false) {
     active.value = true
   } else {
-    transactionList({
+    transaction({
+      interaction: Interaction.LIST,
       price: String(calculateBalance(price.value)),
       nftId: props.nftId,
       successMessage: 'Price updated',
