@@ -237,7 +237,7 @@ export default class GalleryItem extends mixins(
         image: sanitizeIpfsUrl(nft.image || '', 'image'),
         animation_url: sanitizeIpfsUrl(
           nft.animation_url || nft.image || '',
-          'pinata'
+          'image'
         ),
       }
       // TODO: add attributes as traits
@@ -322,7 +322,7 @@ export default class GalleryItem extends mixins(
         image: imageSanitizer(meta.image),
         animation_url: sanitizeIpfsUrl(
           meta.animation_url || meta.image,
-          'pinata'
+          'image'
         ),
       }
 
