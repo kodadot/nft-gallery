@@ -11,7 +11,7 @@
     <template v-if="message" #top>
       <MessageNotify
         :enable-download="isOwner"
-        :title="$t('mint.success') + ' 🎉'"
+        :title="$t('mint.success')"
         :subtitle="$t('mint.successNewNfts')" />
     </template>
     <template #image>

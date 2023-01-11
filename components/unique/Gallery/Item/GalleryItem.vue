@@ -9,7 +9,7 @@
       <b-message class="message-box" type="is-primary">
         <MessageNotify
           :enable-download="isOwner"
-          :title="$t('mint.success') + ' 🎉'"
+          :title="$t('mint.success')"
           :subtitle="$t('mint.successNewNfts')" />
       </b-message>
     </template>

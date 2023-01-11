@@ -2,7 +2,7 @@
   <section class="py-5 gallery-item">
     <MessageNotify
       v-if="message"
-      :title="$t('mint.success') + ' 🎉'"
+      :title="$t('mint.success')"
       :subtitle="$t('mint.successNewNfts')" />
     <div class="columns">
       <div class="column is-two-fifths">
