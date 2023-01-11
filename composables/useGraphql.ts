@@ -25,15 +25,14 @@ export default function ({
 
   async function doFetch() {
     const query = await resolveQueryPath(prefix, queryName)
+
     try {
-      const queryParams = {
+      const response = await $apollo.query({
         query: query.default,
         client: client,
         variables,
         ...options,
-      }
-
-      const response = await $apollo.query(queryParams)
+      })
       data.value = response.data
     } catch (err) {
       ;(error.value as unknown) = err
