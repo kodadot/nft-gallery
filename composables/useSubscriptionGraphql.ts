@@ -13,7 +13,7 @@ export default function ({
   onError?: (error) => void
 }) {
   const { client: prefixClient } = usePrefix()
-
+  const { $consola } = useNuxtApp()
   const client = clientName || prefixClient.value
   const wsUrl = getWSUrlByClient(client)
 
@@ -41,20 +41,16 @@ export default function ({
     },
     {
       next: (data) => {
-        console.log(`ws subscription: New changes: ${JSON.stringify(data)}`)
+        $consola.log(`ws subscription: New changes: ${JSON.stringify(data)}`)
         onChange(data)
       },
       error: (error) => {
-        console.error('ws subscription: error', error)
+        $consola.error('ws subscription: error', error)
         onError && onError(error)
       },
       complete: () => {
-        console.log('ws subscription: done!')
+        $consola.log('ws subscription: done!')
       },
     }
   )
-
-  return {
-    wsClient,
-  }
 }

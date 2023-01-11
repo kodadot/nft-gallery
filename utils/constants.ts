@@ -33,14 +33,13 @@ export const MAX_UPLOADED_FILE_SIZE = 30
 
 export const URLS = {
   koda: {
-    cloudflare: 'https://durable-jpeg.kodadot.workers.dev/',
     pinata: 'https://kodadot.mypinata.cloud/ipfs/',
     directUpload: 'https://direct-upload.kodadot.workers.dev/',
     estuary: 'https://pinning.kodadot.workers.dev/',
     nftStorage: 'https://nft-storage.kodadot.workers.dev/',
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
-    rubick: 'https://squid.subsquid.io/rubick/v/008/graphql',
+    rubick: 'https://squid.subsquid.io/rubick/graphql',
     snek: 'https://squid.subsquid.io/snekk/v/005/graphql',
     snekRococo: 'https://squid.subsquid.io/snekk/v/004/graphql',
     click: 'https://squid.subsquid.io/click/v/002/graphql',
