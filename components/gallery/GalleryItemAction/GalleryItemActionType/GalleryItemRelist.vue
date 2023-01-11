@@ -52,7 +52,7 @@ const isListed = computed(() => Boolean(props.nftPrice))
 const actionRef = ref(null)
 onClickOutside(actionRef, () => (active.value = false))
 
-async function updatePrice() {
+function updatePrice() {
   if (active.value === false) {
     active.value = true
   } else {

@@ -40,7 +40,7 @@ const props = defineProps<{
 const active = ref(false)
 const address = ref()
 
-async function sendItem() {
+function sendItem() {
   if (active.value === false) {
     active.value = true
   } else {
