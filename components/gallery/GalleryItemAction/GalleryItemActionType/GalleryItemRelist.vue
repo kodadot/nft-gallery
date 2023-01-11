@@ -31,19 +31,13 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
 import { NeoButton } from '@kodadot1/brick'
-import { createInteraction } from '@kodadot1/minimark'
-import { Interaction } from '@kodadot1/minimark'
-
 import { calculateBalance } from '@/utils/format/balance'
-import { dangerMessage, infoMessage } from '@/utils/notification'
-import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
+
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
+import { useGalleryItemAction } from './useGalleryItemAction'
 
-const { urlPrefix } = usePrefix()
-const { apiInstance } = useApi()
-const { accountId } = useAuth()
-const { howAboutToExecute, isLoading, status } = useMetaTransaction()
+const { transactionList, status, isLoading } = useGalleryItemAction()
 
 const props = defineProps<{
   collectionId: string
@@ -58,50 +52,15 @@ const isListed = computed(() => Boolean(props.nftPrice))
 const actionRef = ref(null)
 onClickOutside(actionRef, () => (active.value = false))
 
-const cb = ref()
-const arg = ref()
-
 async function updatePrice() {
   if (active.value === false) {
     active.value = true
   } else {
-    const api = await apiInstance.value
-    const meta = calculateBalance(price.value)
-
-    if (!meta) {
-      dangerMessage('Price is not valid')
-      return
-    }
-
-    switch (urlPrefix.value) {
-      case 'rmrk':
-        cb.value = api.tx.system.remark
-        arg.value = [
-          createInteraction(
-            Interaction.LIST,
-            '1.0.0',
-            props.nftId,
-            String(meta)
-          ),
-        ]
-        break
-
-      case 'snek':
-      case 'bsx':
-        cb.value = getApiCall(api, urlPrefix.value, Interaction.LIST)
-        arg.value = bsxParamResolver(
-          props.nftId,
-          Interaction.LIST,
-          String(meta)
-        )
-        break
-
-      default:
-        break
-    }
-
-    howAboutToExecute(accountId.value, cb.value, arg.value, () => {
-      infoMessage('Price updated')
+    transactionList({
+      price: String(calculateBalance(price.value)),
+      nftId: props.nftId,
+      successMessage: 'Price updated',
+      errorMessage: 'Price update failed',
     })
   }
 }
