@@ -1,14 +1,7 @@
-import type { SomethingWithMeta } from '@/components/rmrk/utils'
-import type { CollectionMetadata } from '@/components/rmrk/types'
+import type { SomethingWithMeta } from '@/utils/ipfs'
 import type { CarouselNFT } from '@/components/base/types'
 
-import { getSanitizer } from '@/components/rmrk/utils'
-import { mapOnlyMetadata } from '@/utils/mappers'
-import {
-  getCloudflareImageLinks,
-  processMetadata,
-} from '@/utils/cachingStrategy'
-import { fastExtract } from '@/utils/ipfs'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const curatedCollection = {
   rmrk: [
@@ -26,7 +19,7 @@ type Collections = CarouselNFT & SomethingWithMeta
 
 const useSpotlightNft = () => useState<Collections[]>('nfts', () => [])
 
-async function updateCollections(data) {
+function updateCollections(data) {
   const collections = useSpotlightNft()
 
   if (!data?.collectionEntities?.length) {
@@ -36,16 +29,8 @@ async function updateCollections(data) {
   collections.value = data.collectionEntities.map((e) => ({
     ...e,
     metadata: e.meta?.id || e.metadata,
-    image: '',
+    image: (e.meta?.image && sanitizeIpfsUrl(e.meta?.image)) || '',
   })) as Collections[]
-  const metadataList: string[] = collections.value.map(mapOnlyMetadata)
-  const imageLinks = await getCloudflareImageLinks(metadataList)
-
-  processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
-    collections.value[i].image =
-      imageLinks[fastExtract(collections.value[i]?.metadata)] ||
-      getSanitizer(meta.image || '')(meta.image || '')
-  })
 }
 
 export default function useCarouselSpotlight() {

@@ -89,15 +89,6 @@ html.dark-mode {
       }
     }
 
-    .navbar__sign-out-button {
-      border-color: $white !important;
-      box-shadow: 4px 4px 0px $white !important;
-      background: $dark-accent !important;
-      color: $white;
-      &:hover {
-        background-color: $primary !important;
-      }
-    }
 
     .mobile-nav-search-btn {
       color: $white;
@@ -273,7 +264,6 @@ html.dark-mode {
   .chain-option {
     &:hover {
       color: $shade !important;
-
     }
   }
 
@@ -387,8 +377,37 @@ html.dark-mode {
   }
 
   .profile-dropdown-divider {
-    background-color: #CCCCCC;
+    background-color: #cccccc;
+  }
+
+  .gallery-avatar {
+    .avatar {
+      box-shadow: $primary-shadow-dark !important;
+      border: 1px solid $white !important;
+    }
   }
 
   --card-box-shadow: 4px 4px white;
+
+  .identity-name {
+    color: white;
+
+    &:hover {
+      color: $shade;
+    }
+  }
+
+  .offer {
+    &-input {
+      background: $k-dark !important;
+      border: 1px solid white !important;
+    }
+  }
+  .slide {
+    box-shadow: 4px 4px 0 white;
+
+    .slide-content {
+      border: 1px solid white !important;
+    }
+  }
 }

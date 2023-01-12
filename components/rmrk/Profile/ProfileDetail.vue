@@ -245,7 +245,7 @@ import {
   Pack,
 } from '@/components/rmrk/service/scheme'
 import { Offer, OfferResponse } from '@/components/bsx/Offer/types'
-import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
@@ -705,7 +705,7 @@ export default class ProfileDetail extends mixins(
         const meta = await fetchNFTMetadata(nfts[0])
         this.firstNFTData = {
           ...meta,
-          image: sanitizeIpfsUrl(meta.image || ''),
+          image: sanitizeIpfsUrl(meta.image || '', 'image'),
         }
       }
     }

@@ -36,6 +36,7 @@
         </b-field>
         <SubmitButton
           key="submit"
+          expanded
           label="mint.submit"
           :disabled="disabled"
           :loading="isLoading"
@@ -64,7 +65,7 @@ import { getMany, update } from 'idb-keyval'
 import { Component, Vue, Watch, mixins } from 'nuxt-property-decorator'
 
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
-import { fetchCollectionMetadata } from '@/components/rmrk/utils'
+import { fetchCollectionMetadata } from '@/utils/ipfs'
 import {
   DETAIL_TIMEOUT,
   IPFS_KODADOT_IMAGE_PLACEHOLDER,
@@ -102,7 +103,7 @@ export default class CreateToken extends mixins(
   AuthMixin,
   UseApiMixin
 ) {
-  protected base: BaseTokenType<MintedCollection> = {
+  public base: BaseTokenType<MintedCollection> = {
     name: '',
     file: null,
     description: '',
@@ -110,12 +111,11 @@ export default class CreateToken extends mixins(
     edition: 1,
     secondFile: null,
   }
-  protected collections: MintedCollection[] = []
-  protected postfix = true
-  protected deposit = '0'
-  protected depositPerByte = BigInt(0)
-  protected attributes: Attribute[] = []
-  protected nsfw = false
+  public collections: MintedCollection[] = []
+  public postfix = true
+  public deposit = '0'
+  public attributes: Attribute[] = []
+  public nsfw = false
 
   get accountId() {
     return this.$store.getters.getAuthAddress
@@ -210,7 +210,7 @@ export default class CreateToken extends mixins(
     return this.$store.state.preferences.arweaveUpload
   }
 
-  protected async submit(): Promise<void> {
+  public async submit(): Promise<void> {
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
     }

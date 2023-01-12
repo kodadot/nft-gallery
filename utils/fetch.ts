@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { logError } from '@/utils/mappers'
 
 export const BASE_URL = 'https://ipfs.io/'
@@ -19,7 +19,7 @@ export const fetchMimeType = async (
     return undefined
   }
 
-  const assetUrl = sanitizeIpfsUrl(ipfsLink, 'pinata')
+  const assetUrl = sanitizeIpfsUrl(ipfsLink, 'image')
 
   try {
     const { headers } = await api.head(assetUrl)

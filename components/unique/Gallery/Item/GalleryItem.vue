@@ -9,8 +9,8 @@
       <b-message class="message-box" type="is-primary">
         <MessageNotify
           :enable-download="isOwner"
-          :title="$t('mint.success') + ' 🎉'"
-          :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
+          :title="$t('mint.success')"
+          :subtitle="$t('mint.successNewNfts')" />
       </b-message>
     </template>
     <template #main>
@@ -106,11 +106,7 @@
 
 <script lang="ts">
 import { Emote, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
-import {
-  getSanitizer,
-  resolveMedia,
-  sanitizeIpfsUrl,
-} from '@/components/rmrk/utils'
+import { resolveMedia } from '@/components/rmrk/utils'
 import { isOwner } from '~/utils/account'
 import { emptyObject } from '@/utils/empty'
 import { Component, mixins } from 'nuxt-property-decorator'
@@ -123,7 +119,7 @@ import {
 } from '@polkadot/types/interfaces'
 
 import { MediaType } from '@/components/rmrk/types'
-import { fetchNFTMetadata } from '@/components/rmrk/utils'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 import nftById from '@/queries/unique/nftById.graphql'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import isShareMode from '@/utils/isShareMode'
@@ -238,10 +234,10 @@ export default class GalleryItem extends mixins(
       } as NFT)
       this.meta = {
         ...nft,
-        image: sanitizeIpfsUrl(nft.image || ''),
+        image: sanitizeIpfsUrl(nft.image || '', 'image'),
         animation_url: sanitizeIpfsUrl(
           nft.animation_url || nft.image || '',
-          'pinata'
+          'image'
         ),
       }
       // TODO: add attributes as traits
@@ -320,13 +316,13 @@ export default class GalleryItem extends mixins(
           )
       this.$consola.log(meta)
 
-      const imageSanitizer = getSanitizer(meta.image)
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
         animation_url: sanitizeIpfsUrl(
           meta.animation_url || meta.image,
-          'pinata'
+          'image'
         ),
       }
 
@@ -356,10 +352,6 @@ export default class GalleryItem extends mixins(
       this.id = item
       this.collectionId = id
     }
-  }
-
-  public toast(message: string): void {
-    this.$buefy.toast.open(message)
   }
 
   get hasPrice() {

@@ -12,13 +12,16 @@
           v-model="tags"
           placeholder="Get discovered easier through tags" />
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
+        <BasicSwitch key="listed" v-model="listed" label="mint.listForSale" />
+
         <BalanceInput
+          v-if="listed"
           ref="balanceInput"
           key="price"
           label="Price"
           expanded
           required
-          has-to-larger-than-zero
+          :has-to-larger-than-zero="listed"
           :step="0.1"
           class="mb-3"
           @input="updatePrice" />
@@ -50,6 +53,7 @@
           type="is-danger"
           :message="balanceNotEnoughMessage">
           <SubmitButton
+            expanded
             label="mint.submit"
             :loading="isLoading"
             @click="submit()" />
@@ -67,7 +71,7 @@ import {
   DETAIL_TIMEOUT,
   IPFS_KODADOT_IMAGE_PLACEHOLDER,
 } from '@/utils/constants'
-import { uploadDirect } from '@/utils/directUpload'
+import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
@@ -94,7 +98,7 @@ import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { unwrapSafe } from '~/utils/uniquery'
 import { basicUpdateFunction } from '../service/NftUtils'
 import { toNFTId } from '../service/scheme'
-import { preheatFileFromIPFS } from '../utils'
+import { preheatFileFromIPFS } from '@/utils/ipfs'
 import {
   nsfwAttribute,
   offsetAttribute,
@@ -129,7 +133,7 @@ export default class CreateToken extends mixins(
   AuthMixin,
   UseApiMixin
 ) {
-  protected base: BaseTokenType<MintedCollection> = {
+  public base: BaseTokenType<MintedCollection> = {
     name: '',
     file: null,
     description: '',
@@ -138,17 +142,19 @@ export default class CreateToken extends mixins(
     secondFile: null,
   }
 
-  protected collections: MintedCollection[] = []
-  protected tags: Attribute[] = []
-  protected price: string | number = 0
-  protected nsfw = false
-  protected postfix = true
-  protected balanceNotEnough = false
+  public collections: MintedCollection[] = []
+  public tags: Attribute[] = []
+  public price: string | number = 0
+  public nsfw = false
+  public listed = true
+  public postfix = true
+  public balanceNotEnough = false
+
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
   @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
 
-  protected updatePrice(value: string) {
+  public updatePrice(value: string) {
     this.price = value
   }
 
@@ -194,7 +200,7 @@ export default class CreateToken extends mixins(
   }
 
   public checkValidity() {
-    const balanceInputValid = this.balanceInput.checkValidity()
+    const balanceInputValid = !this.listed || this.balanceInput.checkValidity()
     const baseTokenFormValid = this.baseTokenForm.checkValidity()
     return balanceInputValid && baseTokenFormValid
   }
@@ -211,7 +217,7 @@ export default class CreateToken extends mixins(
     return this.$store.state.preferences.arweaveUpload
   }
 
-  protected async submit() {
+  public async submit() {
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
     }
@@ -329,7 +335,10 @@ export default class CreateToken extends mixins(
 
     const metaHash = await pinJson(meta, imageHash)
     preheatFileFromIPFS(fileHash)
-    uploadDirect(file, metaHash).catch(this.$consola.warn)
+    uploadDirectWhenMultiple(
+      [file, secondFile],
+      [fileHash, secondFileHash]
+    ).catch(this.$consola.warn)
     return unSanitizeIpfsUrl(metaHash)
   }
 

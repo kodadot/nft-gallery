@@ -79,10 +79,7 @@
 </template>
 
 <script lang="ts">
-import {
-  fetchCollectionMetadata,
-  sanitizeIpfsUrl,
-} from '@/components/rmrk/utils'
+import { fetchCollectionMetadata, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { emptyObject } from '@/utils/empty'
 import isShareMode from '@/utils/isShareMode'
 import { notificationTypes, showNotification } from '@/utils/notification'
