@@ -4,8 +4,13 @@
   border: 1px solid $black;
   border-radius: 0;
   color: $black;
+  animation: cardHoverOut 0.3s ease-out;
+  box-shadow: none;
+
   &:hover {
-    box-shadow: 4px 4px 0px $dark;
+    box-shadow: var(--card-box-shadow);
+    animation: cardHoverIn 0.3s ease-in;
+
   }
   cursor: pointer;
   a:hover {
@@ -91,9 +96,6 @@
 
   .collection-card {
     border: 1px solid $white;
-    &:hover {
-      box-shadow: 4px 4px 0px $white;
-    }
     a {
       color: $white;
       &:hover {

@@ -31,9 +31,10 @@
         class="columns is-multiline"
         @scroll="onScroll">
         <div
-          v-for="collection in results"
+          v-for="(collection, index) in results"
           :key="collection.id"
-          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`">
+          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`"
+          :data-cy="`collection-index-${index}`">
           <CollectionCard :is-loading="isLoading" :collection="collection" />
         </div>
       </div>
@@ -54,19 +55,15 @@ import {
   Metadata,
   NFTMetadata,
 } from '@/components/rmrk/service/scheme'
-import { getSanitizer } from '@/components/rmrk/utils'
+import { getSanitizer } from '@/utils/ipfs'
 import { SearchQuery } from '@/components/rmrk/Gallery/search/types'
 import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import { mapOnlyMetadata } from '~/utils/mappers'
-import {
-  getCloudflareImageLinks,
-  processMetadata,
-} from '~/utils/cachingStrategy'
+import { processMetadata } from '~/utils/cachingStrategy'
 import { CollectionMetadata } from '~/components/rmrk/types'
-import { fastExtract } from '~/utils/ipfs'
 import { getDenyList } from '~/utils/prefix'
 
 interface Image extends HTMLImageElement {
@@ -202,14 +199,11 @@ export default class CollectionList extends mixins(
     }
 
     const metadataList: string[] = this.collections.map(mapOnlyMetadata)
-    const imageLinks = await getCloudflareImageLinks(metadataList)
     processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
       Vue.set(this.collections, i, {
         ...this.collections[i],
         ...meta,
-        image:
-          imageLinks[fastExtract(this.collections[i]?.metadata)] ||
-          getSanitizer(meta.image || '')(meta.image || ''),
+        image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
       })
     })
 

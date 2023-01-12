@@ -53,3 +53,22 @@
 .slide-leave-to {
   opacity: 0;
 }
+
+
+@keyframes cardHoverIn {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: var(--card-box-shadow);
+  }
+}
+
+@keyframes cardHoverOut {
+  0% {
+    box-shadow: var(--card-box-shadow);
+  }
+  100% {
+    box-shadow: none;
+  }
+}

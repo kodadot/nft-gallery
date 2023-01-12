@@ -11,8 +11,8 @@
     <template v-if="message" #top>
       <MessageNotify
         :enable-download="isOwner"
-        :title="$t('mint.success') + ' 🎉'"
-        :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
+        :title="$t('mint.success')"
+        :subtitle="$t('mint.successNewNfts')" />
     </template>
     <template #image>
       <Navigation
@@ -139,9 +139,8 @@ import { get, set } from 'idb-keyval'
 import { Debounce } from 'vue-debounce-decorator'
 
 import { Emote, NFT, NFTMetadata } from '../service/scheme'
-import { getSanitizer, sanitizeIpfsUrl } from '../utils'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { exist } from '@/components/search/exist'
-import { fetchNFTMetadata } from '../utils'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
 import Orientation from '@/utils/directives/DeviceOrientation'
@@ -291,10 +290,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
       },
       pollInterval: 1000,
     })
-
-    if (this.message === 'congrats') {
-      this.toast(this.message)
-    }
   }
 
   public setPriceChartData(data: [Date, number][][]) {
@@ -366,13 +361,13 @@ export default class GalleryItem extends mixins(PrefixMixin) {
             getSanitizer(this.nft.metadata, undefined, 'permafrost')
           )
 
-      const imageSanitizer = getSanitizer(meta.image)
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
         animation_url: sanitizeIpfsUrl(
           meta.animation_url || meta.image || meta.mediaUri,
-          'pinata'
+          'image'
         ),
       }
 
@@ -388,10 +383,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         set(this.nft.metadata, meta)
       }
     }
-  }
-
-  public toast(message: string): void {
-    this.$buefy.toast.open(message)
   }
 
   get hasPrice(): boolean {

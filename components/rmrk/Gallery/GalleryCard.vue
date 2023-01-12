@@ -45,14 +45,11 @@
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 
-import {
-  getSingleCloudflareImage,
-  processSingleMetadata,
-} from '@/utils/cachingStrategy'
+import { processSingleMetadata } from '@/utils/cachingStrategy'
 import AuthMixin from '@/utils/mixins/authMixin'
 
 import { getMimeType } from '@/utils/gallery/media'
-import { getSanitizer, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 
 const components = {
@@ -85,14 +82,13 @@ export default class GalleryCard extends mixins(AuthMixin) {
 
   async fetch() {
     if (this.metadata) {
-      const image = await getSingleCloudflareImage(this.metadata)
       const meta = await processSingleMetadata<NFTMetadata>(this.metadata)
 
-      this.image = image || getSanitizer(meta.image || '')(meta.image || '')
+      this.image = getSanitizer(meta.image || '', 'image')(meta.image || '')
       this.title = meta.name
       this.animatedUrl = sanitizeIpfsUrl(
         meta.animation_url || meta.mediaUri || '',
-        'pinata'
+        'image'
       )
       this.mimeType = (await getMimeType(this.animatedUrl || this.image)) || ''
     }

@@ -61,7 +61,7 @@
       </MobileExpandableSection>
       <CreateDropdown
         v-show="isCreateVisible"
-        class="navbar-create custom-navbar-item"
+        class="navbar-create custom-navbar-item ml-0"
         data-cy="create"
         :chain="chain" />
       <StatsDropdown
@@ -134,19 +134,20 @@
               class="is-flex is-justify-content-center"
               custom
               paddingless>
-              <b-button
-                class="navbar__sign-out-button menu-item mb-4 is-size-7"
-                @click="disconnect()">
-                {{ $t('profileMenu.disconnect') }}
-              </b-button>
+              <NeoButton
+                class="button is-size-7 is-capitalized"
+                :label="$t('profileMenu.disconnect')"
+                variant="connect-dropdown"
+                @click.native="disconnect()" />
             </div>
           </b-navbar-item>
         </MobileExpandableSection>
-        <ColorModeButton />
+        <ColorModeButton class="navbar-item" />
 
         <div v-if="!account" id="NavProfile">
           <ConnectWalletButton
             class="button-connect-wallet"
+            variant="connect"
             @closeBurgerMenu="closeBurgerMenu" />
         </div>
       </template>
@@ -157,16 +158,6 @@
         data-cy="profileDropdown"
         @closeBurgerMenu="closeBurgerMenu" />
     </template>
-    <!-- <template v-else #end>
-      <div class="image is-32x32 mr-2">
-        <BasicImage
-          v-show="inCollectionPage && currentCollection.image"
-          :alt="navBarTitle"
-          :src="currentCollection.image"
-          rounded />
-      </div>
-      <div class="title is-4">{{ navBarTitle }}</div>
-    </template> -->
   </b-navbar>
 </template>
 
@@ -186,7 +177,6 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import ColorModeButton from '~/components/common/ColorModeButton.vue'
 import MobileLanguageOption from '~/components/navbar/MobileLanguageOption.vue'
 import { createVisible } from '@/utils/config/permision.config'
-import { isMobileDevice } from '@/utils/extension'
 import { identityStore } from '@/utils/idbStore'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ExperimentMixin from '@/utils/mixins/experimentMixin'
@@ -196,9 +186,11 @@ import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
 import ConnectWalletButton from '~/components/shared/ConnectWalletButton.vue'
 import { getKusamaAssetId } from '~/utils/api/bsx/query'
 import { clearSession } from '~/utils/cachingStrategy'
+import { NeoButton } from '@kodadot1/brick'
 
 @Component({
   components: {
+    NeoButton,
     Search,
     Identity,
     BasicImage,
@@ -226,16 +218,9 @@ export default class NavbarMenu extends mixins(
   private lastScrollPosition = 0
   private artistName = ''
   public isBurgerMenuOpened = false
-  private isMobile = window.innerWidth < 1024 ? true : isMobileDevice
+  private isMobile = window.innerWidth < 1024
 
   @Ref('mobilSearchRef') readonly mobilSearchRef
-  @Watch('isBurgerMenuOpened') onDisableScroll() {
-    if (this.isBurgerMenuOpened) {
-      return (document.body.style.overflowY = 'hidden')
-    } else {
-      return (document.body.style.overflowY = 'initial')
-    }
-  }
 
   get account() {
     return this.$store.getters.getAuthAddress
@@ -328,9 +313,7 @@ export default class NavbarMenu extends mixins(
 
   @Watch('isBurgerMenuOpened')
   onBurgerMenuOpenedChanged() {
-    document.documentElement.style.overflow = this.isBurgerMenuOpened
-      ? 'hidden'
-      : 'auto'
+    this.setBodyScroll(!this.isBurgerMenuOpened)
   }
 
   async fetchArtistIdentity(address) {
@@ -360,14 +343,13 @@ export default class NavbarMenu extends mixins(
     }
     this.lastScrollPosition = currentScrollPosition
   }
-  toggleBodyScroll() {
+  setBodyScroll(allowScroll: boolean) {
     this.$nextTick(() => {
       const body = document.querySelector('body') as HTMLBodyElement
-      const clippedClass = 'is-clipped'
-      if (body.classList.contains(clippedClass)) {
-        body.classList.remove(clippedClass)
+      if (allowScroll) {
+        body.classList.remove('is-clipped')
       } else {
-        body.classList.add(clippedClass)
+        body.classList.add('is-clipped')
       }
     })
   }
@@ -377,28 +359,33 @@ export default class NavbarMenu extends mixins(
     this.$nextTick(() => {
       this.mobilSearchRef?.focusInput()
     })
-    this.toggleBodyScroll()
+    this.setBodyScroll(false)
   }
 
   hideMobileSearchBar() {
     this.openMobileSearchBar = false
-    this.toggleBodyScroll()
+    this.setBodyScroll(true)
   }
 
   closeBurgerMenu() {
     this.isBurgerMenuOpened = false
   }
 
+  handleResize() {
+    this.isMobile = window.innerWidth < 1024
+  }
+
   mounted() {
     window.addEventListener('scroll', this.onScroll)
     document.body.style.overflowY = 'initial'
-    window.addEventListener('resize', () => {
-      this.isMobile = window.innerWidth < 1024 ? true : isMobileDevice
-    })
+    window.addEventListener('resize', this.handleResize)
   }
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.onScroll)
+    this.setBodyScroll(true)
+    document.documentElement.classList.remove('is-clipped-touch')
+    window.removeEventListener('resize', this.handleResize)
   }
 }
 </script>

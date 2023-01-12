@@ -23,10 +23,10 @@
         @infinite="reachTopHandler"></InfiniteLoading>
       <div :id="scrollContainerId" class="columns is-multiline">
         <div
-          v-for="nft in results"
-          :key="nft.id"
+          v-for="(nft, index) in results"
+          :key="`${nft.id}-${index}`"
           :class="`column is-4 column-padding ${scrollItemClassName}`">
-          <NftCard :nft="nft" />
+          <NftCard :nft="nft" :data-cy="`item-index-${index}`" />
         </div>
       </div>
       <InfiniteLoading
@@ -49,13 +49,9 @@ import {
 } from 'components/unique/graphqlResponseTypes'
 import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
 
-import {
-  getCloudflareImageLinks,
-  processMetadata,
-} from '@/utils/cachingStrategy'
+import { processMetadata } from '@/utils/cachingStrategy'
 import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { fastExtract } from '@/utils/ipfs'
 import { getDenyList } from '@/utils/prefix'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
@@ -66,8 +62,8 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { NFT, NFTMetadata } from '../../rmrk/service/scheme'
 import { SearchQuery } from './search/types'
-import { getNameOfNft, getSanitizer } from '../../rmrk/utils'
-
+import { getNameOfNft } from '../../rmrk/utils'
+import { getSanitizer } from '@/utils/ipfs'
 // import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
@@ -210,19 +206,13 @@ export default class Gallery extends mixins(
     }
 
     const metadataList: string[] = this.nfts.map(mapNFTorCollectionMetadata)
-    const imageLinks = await getCloudflareImageLinks(metadataList)
 
     await processMetadata<NFTMetadata>(metadataList, (meta, i) => {
       Vue.set(this.nfts, i, {
         ...this.nfts[i],
         ...meta,
         id: this.nfts[i].id,
-        image:
-          imageLinks[
-            fastExtract(
-              this.nfts[i].metadata || this.nfts[i].collection.metadata
-            )
-          ] || getSanitizer(meta.image || '')(meta.image || ''),
+        image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
         animation_url: getSanitizer(meta.animation_url || '')(
           meta.animation_url || ''
         ),

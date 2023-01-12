@@ -2,6 +2,7 @@
   min-height: 334px;
   width: 100%;
   gap: 50px;
+  justify-content: space-between;
 
   .search-info {
     z-index: 1;
@@ -36,6 +37,7 @@
 
   .landing-shapes {
     z-index: 1;
+    overflow: hidden;
   }
 
   .landing-search-right {
@@ -65,7 +67,6 @@
 
   @include touch {
     padding: 0;
-    justify-content: space-evenly !important;
 
     .landing-search-bar {
       width: 70%;
@@ -235,7 +236,9 @@
       text-transform: none;
     }
 
-    .times-icon {
+    .remove-search-history {
+      padding: 5px;
+
       &:hover {
         color: $k-hovergrey;
       }
@@ -254,4 +257,13 @@
 
 .section-search {
   padding: 3rem 0rem !important;
+}
+
+@media screen and (max-width: 1123px) {
+  .landing-search {
+    justify-content: space-evenly;
+  }
+  .landing-shapes {
+    display: none;
+  }
 }

@@ -131,7 +131,7 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 
 import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
-import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { fetchNFTMetadata, sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
@@ -305,7 +305,7 @@ export default class Profile extends mixins(PrefixMixin) {
         const meta = await fetchNFTMetadata(nfts[0])
         this.firstNFTData = {
           ...meta,
-          image: sanitizeIpfsUrl(meta.image || ''),
+          image: sanitizeIpfsUrl(meta.image || '', 'image'),
         }
       }
     }

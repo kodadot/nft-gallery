@@ -10,8 +10,8 @@
     <template v-if="message" #top>
       <MessageNotify
         :enable-download="isOwner"
-        :title="$t('mint.success') + ' 🎉'"
-        :subtitle="$t('mint.shareWithFriends', [nft.name]) + ' △'" />
+        :title="$t('mint.success')"
+        :subtitle="$t('mint.successNewNfts')" />
     </template>
     <template #main>
       <div class="columns">
@@ -93,11 +93,7 @@
 
 <script lang="ts">
 import { Emote, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
-import {
-  fetchNFTMetadata,
-  getSanitizer,
-  sanitizeIpfsUrl,
-} from '@/components/rmrk/utils'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import { emptyObject } from '@/utils/empty'
@@ -185,7 +181,7 @@ export default class GalleryItem extends mixins(
       this.meta = {
         ...this.meta,
         ...nftEntity.meta,
-        image: sanitizeIpfsUrl(nftEntity.meta.image || ''),
+        image: sanitizeIpfsUrl(nftEntity.meta.image || '', 'image'),
       }
     }
 
@@ -211,13 +207,13 @@ export default class GalleryItem extends mixins(
             getSanitizer(this.nft.metadata, 'cloudflare', 'permafrost')
           )
 
-      const imageSanitizer = getSanitizer(meta.image, 'cloudflare')
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
         animation_url: sanitizeIpfsUrl(
           meta.animation_url || meta.image,
-          'pinata'
+          'image'
         ),
       }
 
@@ -245,10 +241,6 @@ export default class GalleryItem extends mixins(
       this.id = item
       this.collectionId = id
     }
-  }
-
-  public toast(message: string): void {
-    this.$buefy.toast.open(message)
   }
 
   get hasPrice(): boolean {

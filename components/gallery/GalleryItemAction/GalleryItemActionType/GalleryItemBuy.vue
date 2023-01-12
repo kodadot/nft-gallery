@@ -46,5 +46,3 @@ function toggleActive() {
 const actionRef = ref(null)
 onClickOutside(actionRef, () => (active.value = false))
 </script>
-
-<style lang="scss" scoped></style>

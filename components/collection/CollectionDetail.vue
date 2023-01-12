@@ -44,7 +44,7 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 const props = defineProps<{
   nfts: NFT[]
   name: string
-  image: string
+  image?: string
 }>()
 
 const saleEvents = computed((): Interaction[] => {

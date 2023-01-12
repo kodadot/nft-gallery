@@ -1,39 +1,24 @@
 import { formatDistanceToNow } from 'date-fns'
 import { get, set } from 'idb-keyval'
 import { isEmpty } from '@kodadot1/minimark'
-import {
-  getCloudflareImageLinks,
-  getProperImageLink,
-  processSingleMetadata,
-} from '@/utils/cachingStrategy'
 import { LastEvent } from '@/utils/types/types'
 
 import { CarouselNFT } from '@/components/base/types'
-import {
-  fetchNFTMetadata,
-  getSanitizer,
-  sanitizeIpfsUrl,
-} from '@/components/rmrk/utils'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 /**
  * Format the data to fit with CarouselNFT[]
  * Get cloudflare images
  * Update timestamp
  */
-export const formatNFT = async (
-  nfts,
-  chain?: string
-): Promise<CarouselNFT[]> => {
+export const formatNFT = (nfts, chain?: string): CarouselNFT[] => {
   if (!nfts) {
     return []
   }
   const { urlPrefix } = usePrefix()
   const data = nfts.filter((nft) => Boolean(nft.meta))
-  const images = await getCloudflareImageLinks(data.map((nft) => nft.meta.id))
-  const imageOf = getProperImageLink(images)
 
   return data.map((nft) => {
     const timestamp = nft.updatedAt || nft.timestamp
-    const metaId = nft.meta.id
     const metaImage = nft.meta.image
     const metaAnimationUrl = nft.meta.animationUrl
 
@@ -44,8 +29,8 @@ export const formatNFT = async (
       }),
       unixTime: new Date(timestamp).getTime(),
       price: nft.price || 0,
-      image: imageOf(metaId, metaImage),
-      animationUrl: imageOf(metaId, metaAnimationUrl) || '',
+      image: metaImage && sanitizeIpfsUrl(metaImage),
+      animationUrl: metaAnimationUrl && sanitizeIpfsUrl(metaAnimationUrl),
       chain: chain || urlPrefix.value,
     }
   })
@@ -61,49 +46,18 @@ export const setNftMetaFromCache = async (nfts): Promise<CarouselNFT[]> => {
       let meta = await get(nft.metadata)
 
       if (isEmpty(meta)) {
-        meta = await fetchNFTMetadata(
-          nft,
-          getSanitizer(nft.metadata, 'pinata', 'permafrost')
-        )
+        meta = await fetchNFTMetadata(nft, getSanitizer(nft.metadata))
         set(nft.metadata, meta)
       }
-      const imageSanitizer = getSanitizer(meta.image, 'pinata')
+      const imageSanitizer = getSanitizer(meta.image, 'image')
       return {
         ...nft,
         name: meta.name,
         image: imageSanitizer(meta.image),
-        animation_url: sanitizeIpfsUrl(
-          meta.animation_url || meta.image,
-          'pinata'
-        ),
+        animation_url: sanitizeIpfsUrl(meta.animation_url || meta.image),
       }
     })
   )
-}
-
-interface Events {
-  nft: {
-    metadata: string
-    meta: {
-      id: string
-      image: string
-    }
-  }
-}
-
-/**
- * Catch undefined meta
- */
-export const fallbackMetaByNftEvent = async (events: Events[]) => {
-  for (const event of events) {
-    if (!event.nft.meta) {
-      event.nft.meta = {
-        id: event.nft.metadata,
-        image: '',
-      }
-      await processSingleMetadata(event.nft.metadata)
-    }
-  }
 }
 
 export const convertLastEventFlatNft = (e: LastEvent) => {
@@ -122,24 +76,5 @@ export const convertLastEventFlatNft = (e: LastEvent) => {
     },
     collectionId: e.collectionId,
     collectionName: e.collectionName,
-  }
-}
-
-export const convertLastEventToNft = (e: LastEvent) => {
-  return {
-    meta: e.meta,
-    timestamp: e.timestamp,
-    nft: {
-      id: e.nftId,
-      name: e.name,
-      issuer: e.issuer,
-      currentOwner: e.currentOwner,
-      metadata: e.metadata,
-      animationUrl: sanitizeIpfsUrl(e.animationUrl),
-      meta: {
-        id: e.metadata,
-        image: e.image,
-      },
-    },
   }
 }

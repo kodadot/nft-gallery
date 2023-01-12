@@ -1,43 +1,13 @@
 // TODO: hacky, but works for now
-import { queryBatch } from '@/utils/cloudflare'
 import { isEmpty } from '@kodadot1/minimark'
-import { get, getMany, setMany, update } from 'idb-keyval'
-import { fetchMetadata, getSanitizer, zip } from '~/components/rmrk/utils'
+import { get, getMany, update } from 'idb-keyval'
+import { fetchMetadata, getSanitizer } from '@/utils/ipfs'
 import { emptyObject } from './empty'
 import { imageStore } from './idbStore'
 import { fastExtract } from './ipfs'
 
-type Option<T> = T | undefined
-type MayString = Option<string>
-type ZipResult = [string, string]
 type P<T> = Promise<T>
 type KeyValue = Record<string, string>
-
-const DELIVERY_URL = 'https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/'
-
-const urlOf = (ipfsHash: string) => DELIVERY_URL + ipfsHash + '/public'
-const withUrlOf = ([key, value]: ZipResult) => [key, urlOf(value)]
-const withValue = ([, value]: [string, MayString]): boolean => Boolean(value)
-const getUniqueLinks = (keys: string[]) =>
-  Array.from(new Set(keys.map(fastExtract).filter(Boolean)))
-
-export const getCloudflareImageLinks = async (keys: string[]): P<KeyValue> => {
-  const values = getUniqueLinks(keys)
-  const fromCache = await getMany<string>(values, imageStore)
-  const zipped = zip<string, MayString, ZipResult>(values, fromCache)
-  const uncached = zipped.filter(([, value]) => !value).map(([key]) => key)
-  const cached = zipped.filter(withValue) as ZipResult[]
-  const deliveryLinks: KeyValue = await queryBatch(uncached)
-    .then((values) => Object.entries(values).map(withUrlOf))
-    .then(Object.fromEntries)
-    .catch(() => ({}))
-  setMany(Object.entries(deliveryLinks), imageStore).catch(console.warn)
-
-  return {
-    ...deliveryLinks,
-    ...Object.fromEntries(cached),
-  }
-}
 
 export const cacheOrFetchMetadata = async <T>(
   fromCache: T | undefined,
@@ -85,7 +55,9 @@ export const processMetadata = async <T>(
 export const getProperImageLink =
   (imageLinks: KeyValue) =>
   (metadata: string, image: string): string => {
-    return imageLinks[fastExtract(metadata)] || getSanitizer(image)(image)
+    return (
+      imageLinks[fastExtract(metadata)] || getSanitizer(image, 'image')(image)
+    )
   }
 
 export const flushIndexedDb = () => {
