@@ -1,10 +1,6 @@
 import { defineNuxtConfig } from '@nuxt/bridge'
 
-import defineApolloConfig, {
-  toApolloEndpoint,
-} from './utils/config/defineApolloConfig'
-
-import { URLS } from './utils/constants'
+import { apolloClientConfig } from './utils/constants'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -211,6 +207,7 @@ export default defineNuxtConfig({
 
   sentry: {
     disabled: process.env.NODE_ENV === 'development',
+    lazy: true,
     dsn: 'https://6fc80708bf024dc8b43c3058f8260dd6@o4503930691256320.ingest.sentry.io/4503930702331904', // Enter your project's DSN here
     // Additional Module Options go here
     // https://sentry.nuxtjs.org/sentry/options
@@ -281,16 +278,8 @@ export default defineNuxtConfig({
   },
 
   apollo: {
-    clientConfigs: {
-      ...defineApolloConfig(),
-      subsquid: toApolloEndpoint(
-        process.env.SUBSQUID_ENDPOINT || URLS.koda.rubick
-      ),
-      bsx: toApolloEndpoint(URLS.koda.snek),
-      movr: toApolloEndpoint(URLS.koda.click),
-      snek: toApolloEndpoint(URLS.koda.snekRococo),
-      glmr: toApolloEndpoint(URLS.koda.antick),
-    }, // https://github.com/nuxt-community/apollo-module#options
+    clientConfigs: apolloClientConfig,
+    // https://github.com/nuxt-community/apollo-module#options
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
