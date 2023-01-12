@@ -19,10 +19,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import ExploreTabsFilterSort from '@/components/shared/exploreTabsFilterSort/ExploreTabsFilterSort.vue'
 
-@Component<ExploreLayout>({
+export default {
   name: 'ExploreLayout',
+  components: { ExploreTabsFilterSort },
   head() {
     return {
       link: [
@@ -34,12 +35,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
       ],
     }
   },
-  components: {
-    ExploreTabsFilterSort: () =>
-      import(
-        '@/components/shared/exploreTabsFilterSort/ExploreTabsFilterSort.vue'
-      ),
-  },
-})
-export default class ExploreLayout extends Vue {}
+}
 </script>
