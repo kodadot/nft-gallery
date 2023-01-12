@@ -68,7 +68,7 @@
     "@keeex/qrcodejs-kx": "^1.0.2",
     "@kodadot1/brick": "workspace:*",
     "@kodadot1/minimark": "^0.0.1-rc.10",
-    "@kodadot1/sub-api": "0.1.1-alpha.4",
+    "@kodadot1/sub-api": "0.1.1-alpha.5",
     "@kodadot1/vuex-options": "0.0.3-rc.10",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.3.0",
