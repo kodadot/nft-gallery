@@ -12,7 +12,7 @@
     <template v-if="message" #top>
       <MessageNotify
         :enable-download="isOwner"
-        :title="$t('mint.success') + ' 🎉'"
+        :title="$t('mint.success')"
         :subtitle="$t('mint.successNewNfts')" />
     </template>
     <template #image>
@@ -272,7 +272,6 @@ export default class GalleryItem extends mixins(
     })
 
     exist(this.$route.query.message, (val) => {
-      this.$buefy.toast.open(val)
       this.message = val === 'congrats' ? val : ''
       this.$router.replace({ query: null } as any)
     })
@@ -453,7 +452,7 @@ export default class GalleryItem extends mixins(
         ? cachedMeta
         : await fetchNFTMetadata(
             this.nft,
-            getSanitizer(this.nft.metadata, 'pinata', 'permafrost')
+            getSanitizer(this.nft.metadata, 'image', 'permafrost')
           )
 
       const imageSanitizer = getSanitizer(meta.image, 'image')
@@ -462,7 +461,7 @@ export default class GalleryItem extends mixins(
         image: imageSanitizer(meta.image),
         animation_url: sanitizeIpfsUrl(
           meta.animation_url || meta.image,
-          'pinata'
+          'image'
         ),
       }
 
@@ -490,10 +489,6 @@ export default class GalleryItem extends mixins(
       this.id = item
       this.collectionId = id
     }
-  }
-
-  public toast(message: string): void {
-    this.$buefy.toast.open(message)
   }
 
   get hasPrice(): boolean {
