@@ -54,7 +54,7 @@ function execSendBasilisk(item: ActionSend, api, executeTransaction) {
   })
 }
 
-export function execTsxSend(item: ActionSend, api, executeTransaction) {
+export function execSendTx(item: ActionSend, api, executeTransaction) {
   if (!checkTsxSend(item)) {
     return
   }

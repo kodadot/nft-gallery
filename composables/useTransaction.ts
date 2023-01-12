@@ -2,9 +2,9 @@ import { Interaction } from '@kodadot1/minimark'
 
 import { dangerMessage, infoMessage } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
-import { execTsxList } from './transaction/transactionList'
-import { execTsxSend } from './transaction/transactionSend'
-import { execTsxOffer } from './transaction/transactionOffer'
+import { execListTx } from './transaction/transactionList'
+import { execSendTx } from './transaction/transactionSend'
+import { exectMakeOfferTx } from './transaction/transactionOffer'
 
 import type {
   ActionList,
@@ -44,11 +44,11 @@ export const useTransaction = () => {
     const api = await apiInstance.value
     const map = {
       [Interaction.LIST]: () =>
-        execTsxList(item as ActionList, api, executeTransaction),
+        execListTx(item as ActionList, api, executeTransaction),
       [Interaction.SEND]: () =>
-        execTsxSend(item as ActionSend, api, executeTransaction),
+        execSendTx(item as ActionSend, api, executeTransaction),
       [ShoppingActions.MAKE_OFFER]: () =>
-        execTsxOffer(item as ActionOffer, api, executeTransaction),
+        exectMakeOfferTx(item as ActionOffer, api, executeTransaction),
     }
 
     return map[item.interaction]?.() ?? 'UNKNOWN'

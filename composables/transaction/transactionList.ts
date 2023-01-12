@@ -16,7 +16,7 @@ function checkTsxList(item: ActionList) {
   return true
 }
 
-export function execTsxList(item: ActionList, api, executeTransaction) {
+export function execListTx(item: ActionList, api, executeTransaction) {
   const meta = item.price
   if (!checkTsxList(item)) {
     return

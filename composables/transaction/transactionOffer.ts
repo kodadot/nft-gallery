@@ -6,7 +6,11 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 
 import type { ActionOffer } from './types'
 
-export async function execTsxOffer(item: ActionOffer, api, executeTransaction) {
+export async function exectMakeOfferTx(
+  item: ActionOffer,
+  api,
+  executeTransaction
+) {
   try {
     const currentBlock = await (await api.query.system.number()).toNumber()
     const expiration = getExpiration(currentBlock, item.day)
