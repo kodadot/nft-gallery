@@ -9,7 +9,7 @@
       <b-dropdown-item has-link>
         <b-tooltip
           position="is-left"
-          label="Start by creating your collection and add NFTs to it"
+          :label="$t('createDropdown.start')"
           class="navbar-item-tooltip">
           <nuxt-link data-cy="classic" :to="`/${urlPrefix}/create`">
             {{ $t('classic') }}
@@ -20,7 +20,7 @@
         <b-dropdown-item has-link>
           <b-tooltip
             position="is-left"
-            label="Simplified process to create your NFT in a single step"
+            :label="$t('createDropdown.simplifiedNft')"
             class="navbar-item-tooltip">
             <nuxt-link data-cy="simple" :to="`/${urlPrefix}/mint`">
               {{ $t('simple') }}
@@ -30,7 +30,7 @@
         <b-dropdown-item has-link>
           <b-tooltip
             position="is-left"
-            label="AI powered process to create your NFT"
+            :label="$t('createDropdown.aiPowered')"
             class="navbar-item-tooltip">
             <nuxt-link data-cy="creative" :to="`/${urlPrefix}/creative`">
               {{ $t('creative') }}
@@ -40,30 +40,27 @@
       </template>
     </b-dropdown>
 
-    <MobileExpandableSection
-      v-if="isMobile"
-      :no-padding="true"
-      :title="$t('create')">
+    <MobileExpandableSection v-else :no-padding="true" :title="$t('create')">
       <b-navbar-item
         data-cy="classic"
         :to="`/${urlPrefix}/create`"
         tag="nuxt-link">
         {{ $t('classic') }}
       </b-navbar-item>
-      <b-navbar-item
-        v-if="chain === 'rmrk'"
-        data-cy="simple"
-        :to="`/${urlPrefix}/mint`"
-        tag="nuxt-link">
-        {{ $t('simple') }}
-      </b-navbar-item>
-      <b-navbar-item
-        v-if="chain === 'rmrk'"
-        data-cy="creative"
-        :to="`/${urlPrefix}/creative`"
-        tag="nuxt-link">
-        {{ $t('creative') }}
-      </b-navbar-item>
+      <template v-if="chain === 'rmrk'">
+        <b-navbar-item
+          data-cy="simple"
+          :to="`/${urlPrefix}/mint`"
+          tag="nuxt-link">
+          {{ $t('simple') }}
+        </b-navbar-item>
+        <b-navbar-item
+          data-cy="creative"
+          :to="`/${urlPrefix}/creative`"
+          tag="nuxt-link">
+          {{ $t('creative') }}
+        </b-navbar-item>
+      </template>
     </MobileExpandableSection>
   </div>
 </template>
@@ -74,7 +71,7 @@ import { getChainTestList } from '~/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
 import AuthMixin from '~~/utils/mixins/authMixin'
-import { isMobileDevice } from '~~/utils/extension'
+import { isMobileDevice } from '@/utils/extension'
 
 @Component({
   components: {
@@ -84,7 +81,7 @@ import { isMobileDevice } from '~~/utils/extension'
 export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
   @Prop({ type: String }) chain!: string
 
-  public isMobile = window.innerWidth < 1024 ? true : isMobileDevice
+  public isMobile = isMobileDevice
 
   get options() {
     const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']

@@ -1140,5 +1140,10 @@
       "success": "Item sent",
       "error": "Failed to send item"
     }
+  },
+  "createDropdown": {
+    "start": "Start by creating your collection and add NFTs to it",
+    "simplifiedNft": "Simplified process to create your NFT in a single step",
+    "aiPowered": "AI powered process to create your NFT"
   }
 }

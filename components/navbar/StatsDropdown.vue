@@ -52,10 +52,7 @@
       </b-dropdown>
     </div>
 
-    <MobileExpandableSection
-      v-if="isMobile"
-      :no-padding="true"
-      :title="$t('stats')">
+    <MobileExpandableSection v-else :no-padding="true" :title="$t('stats')">
       <template>
         <template v-if="showSnekBsxOptions">
           <b-navbar-item
