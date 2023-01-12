@@ -131,6 +131,11 @@ export default class CreateCollection extends mixins(
     )
     const metaHash = await pinJson(meta, imageHash)
 
+    if (file) {
+      this.$consola.log('[UPLOADING FILE]')
+      uploadDirect(file, imageHash).catch(this.$consola.warn)
+    }
+
     return unSanitizeIpfsUrl(metaHash)
   }
 
@@ -215,11 +220,6 @@ export default class CreateCollection extends mixins(
         await this.cretateArgs(randomId, metadata),
         ...(await canSupport(api, this.hasSupport)),
       ]
-
-      if (this.base.file) {
-        this.$consola.log('[UPLOADING FILE]')
-        uploadDirect(this.base.file, this.accountId).catch(this.$consola.warn)
-      }
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
         showNotification(

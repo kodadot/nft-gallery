@@ -121,10 +121,7 @@
             field="Timestamp"
             :label="dateHeaderLabel"
             sortable>
-            <b-tooltip
-              :label="props.row.Date"
-              position="is-right"
-              append-to-body>
+            <b-tooltip :label="props.row.Date" position="is-right">
               <BlockExplorerLink
                 :text="props.row.Time"
                 :block-id="props.row.Block" />
@@ -162,10 +159,7 @@
                 {{ item.Percentage | toPercent('-') }}
               </td>
               <td v-show="columnsVisible['Date'].display">
-                <b-tooltip
-                  :label="item.Date"
-                  position="is-right"
-                  append-to-body>
+                <b-tooltip :label="item.Date" position="is-right">
                   <BlockExplorerLink :text="item.Time" :block-id="item.Block" />
                 </b-tooltip>
               </td>

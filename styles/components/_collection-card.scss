@@ -5,6 +5,7 @@
   border-radius: 0;
   color: $black;
   animation: cardHoverOut 0.3s ease-out;
+  box-shadow: none;
 
   &:hover {
     box-shadow: var(--card-box-shadow);

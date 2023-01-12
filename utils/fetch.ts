@@ -19,7 +19,7 @@ export const fetchMimeType = async (
     return undefined
   }
 
-  const assetUrl = sanitizeIpfsUrl(ipfsLink, 'pinata')
+  const assetUrl = sanitizeIpfsUrl(ipfsLink, 'image')
 
   try {
     const { headers } = await api.head(assetUrl)
