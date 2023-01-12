@@ -1,6 +1,6 @@
 <template>
   <div class="section pb-0">
-    <h1 class="container mb-5 pb-4 explore-heading">{{ $t('explore') }}</h1>
+    <h1 class="title container">{{ $t('explore') }}</h1>
     <div v-if="$route.query.search" class="block">
       {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
@@ -8,22 +8,22 @@
     <div class="mb-5 explore-tabs container">
       <NeoButton
         class="btn-collection"
-        :selected="selectedTab === tabType.COLLECTION"
+        :selected="selectedTab === TabType.COLLECTION"
         :label="$t('collections')"
-        @click.native="updateTab(tabType.COLLECTION)" />
+        @click.native="updateTab(TabType.COLLECTION)" />
       <NeoButton
         class="btn-items"
-        :selected="selectedTab === tabType.ITEMS"
+        :selected="selectedTab === TabType.ITEMS"
         :label="$t('items')"
-        @click.native="updateTab(tabType.ITEMS)" />
+        @click.native="updateTab(TabType.ITEMS)" />
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" scoped>
 import { NeoButton } from '@kodadot1/brick'
 
-enum tabType {
+enum TabType {
   COLLECTION = 'collectibles',
   ITEMS = 'items',
 }
@@ -53,7 +53,6 @@ const updateTab = (val) => {
 <style lang="scss">
 .explore-heading {
   font-weight: 700;
-  font-size: 39px;
 }
 
 .explore-tabs {
