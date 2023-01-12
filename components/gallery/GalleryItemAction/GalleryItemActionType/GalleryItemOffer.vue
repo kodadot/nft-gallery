@@ -37,7 +37,7 @@
             class="offer is-flex is-justify-content-space-between is-align-items-center">
             <input
               v-model="offerPrice"
-              class="offer-input"
+              class="offer-price"
               type="number"
               placeholder="Type Your Offer"
               min="0" />
@@ -69,7 +69,6 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
-import { createTokenId } from '@/components/unique/utils'
 import { dangerMessage } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
 
@@ -88,7 +87,7 @@ const props = defineProps<{
 }>()
 
 const { urlPrefix } = usePrefix()
-const { $i18n } = useNuxtApp()
+const { $route, $i18n } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
 
 const { data } = useGraphql({
@@ -122,7 +121,7 @@ async function confirm2() {
       currentOwner: props.currentOwner,
       day: selectedDay.value,
       price: offerPrice.value,
-      tokenId: createTokenId(props.collectionId, props.nftId),
+      tokenId: $route.params.id,
       urlPrefix: urlPrefix.value,
       successMessage: $i18n.t('transaction.offer.success') as string,
       errorMessage: $i18n.t('transaction.item.error') as string,
@@ -152,7 +151,7 @@ onClickOutside(actionRef, () => {
 .offer {
   width: 20rem;
 
-  &-input {
+  &-price {
     border: 1px solid black;
     border-left: 0;
     height: 54px;
