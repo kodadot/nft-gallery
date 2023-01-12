@@ -1137,6 +1137,10 @@
     "item": {
       "success": "Item sent",
       "error": "Failed to send item"
+    },
+    "offer": {
+      "success": "Offer successfully created",
+      "error": "Offer creation failed"
     }
   }
 }

@@ -41,10 +41,9 @@ import { calculateBalance } from '@/utils/format/balance'
 
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
-import { useGalleryItemAction } from './useGalleryItemAction'
 import { Interaction } from '@kodadot1/minimark'
 
-const { transaction, status, isLoading } = useGalleryItemAction()
+const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 

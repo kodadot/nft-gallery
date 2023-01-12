@@ -69,11 +69,9 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
-import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
 import { createTokenId } from '@/components/unique/utils'
-import { calculateBalance } from '@/utils/format/balance'
-import { getExpiration } from '@/utils/api/bsx/query'
-import { dangerMessage, infoMessage } from '@/utils/notification'
+import { dangerMessage } from '@/utils/notification'
+import { ShoppingActions } from '@/utils/shoppingActions'
 
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
@@ -89,10 +87,9 @@ const props = defineProps<{
   account: string
 }>()
 
-const { apiInstance } = useApi()
-const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-const { howAboutToExecute, isLoading, status } = useMetaTransaction()
+const { $i18n } = useNuxtApp()
+const { transaction, status, isLoading } = useTransaction()
 
 const { data } = useGraphql({
   queryName: 'offerHighest',
@@ -120,22 +117,15 @@ function confirm1() {
 
 async function confirm2() {
   try {
-    const api = await apiInstance.value
-    const currentBlock = await (await api.query.system.number()).toNumber()
-    const expiration = getExpiration(currentBlock, selectedDay.value)
-    const meta = calculateBalance(offerPrice.value)
-
-    const cb = getApiCall(api, urlPrefix.value, 'MAKE_OFFER')
-    const arg = bsxParamResolver(
-      createTokenId(props.collectionId, props.nftId),
-      'MAKE_OFFER',
-      meta,
-      props.currentOwner,
-      expiration
-    )
-
-    howAboutToExecute(accountId.value, cb, arg, () => {
-      infoMessage(`Offered: ${props.nftId} for ${offerPrice.value} KSM`)
+    transaction({
+      interaction: ShoppingActions.MAKE_OFFER,
+      currentOwner: props.currentOwner,
+      day: selectedDay.value,
+      price: offerPrice.value,
+      tokenId: createTokenId(props.collectionId, props.nftId),
+      urlPrefix: urlPrefix.value,
+      successMessage: $i18n.t('transaction.offer.success') as string,
+      errorMessage: $i18n.t('transaction.item.error') as string,
     })
   } catch (error) {
     dangerMessage(error)
