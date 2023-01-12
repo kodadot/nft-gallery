@@ -70,7 +70,7 @@ import {
   DETAIL_TIMEOUT,
   IPFS_KODADOT_IMAGE_PLACEHOLDER,
 } from '@/utils/constants'
-import { uploadDirect } from '@/utils/directUpload'
+import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
@@ -334,7 +334,10 @@ export default class CreateToken extends mixins(
 
     const metaHash = await pinJson(meta, imageHash)
     preheatFileFromIPFS(fileHash)
-    uploadDirect(file, metaHash).catch(this.$consola.warn)
+    uploadDirectWhenMultiple(
+      [file, secondFile],
+      [fileHash, secondFileHash]
+    ).catch(this.$consola.warn)
     return unSanitizeIpfsUrl(metaHash)
   }
 
