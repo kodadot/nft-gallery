@@ -12,13 +12,16 @@
           v-model="tags"
           placeholder="Get discovered easier through tags" />
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
+        <BasicSwitch key="listed" v-model="listed" label="mint.listForSale" />
+
         <BalanceInput
+          v-if="listed"
           ref="balanceInput"
           key="price"
           label="Price"
           expanded
           required
-          has-to-larger-than-zero
+          :has-to-larger-than-zero="listed"
           :step="0.1"
           class="mb-3"
           @input="updatePrice" />
@@ -143,8 +146,10 @@ export default class CreateToken extends mixins(
   public tags: Attribute[] = []
   public price: string | number = 0
   public nsfw = false
+  public listed = true
   public postfix = true
-  protected balanceNotEnough = false
+  public balanceNotEnough = false
+
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
   @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
@@ -195,7 +200,7 @@ export default class CreateToken extends mixins(
   }
 
   public checkValidity() {
-    const balanceInputValid = this.balanceInput.checkValidity()
+    const balanceInputValid = !this.listed || this.balanceInput.checkValidity()
     const baseTokenFormValid = this.baseTokenForm.checkValidity()
     return balanceInputValid && baseTokenFormValid
   }
