@@ -8,6 +8,7 @@
     :size="size"
     :icon-right="icon"
     :variant="variant"
+    :disabled="disabled"
     icon-pack="fas"
     class="is-neo">
     {{ label }}
@@ -20,6 +21,7 @@ import { NeoButtonVariant } from '@kodadot1/brick'
 
 defineProps<{
   size?: 'small' | 'medium' | 'large'
+  disabled?: boolean
   icon?: string
   label?: string
   active?: boolean
