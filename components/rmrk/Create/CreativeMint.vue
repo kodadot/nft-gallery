@@ -2,10 +2,10 @@
   <section>
     <br />
     <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-3">
+    <h2 class="title is-size-3">
       <!-- {{ $t('mint.context') }} -->
       {{ $t('mint.nft.creative.heading') }}
-    </p>
+    </h2>
     <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
     <b-field>
       <div>
@@ -54,7 +54,11 @@
       key="submit"
       type="is-danger"
       :message="balanceNotEnoughMessage">
-      <SubmitButton label="mint.submit" :loading="isLoading" @click="sub" />
+      <SubmitButton
+        expanded
+        label="mint.submit"
+        :loading="isLoading"
+        @click="sub" />
     </b-field>
   </section>
 </template>
@@ -109,17 +113,17 @@ export default class CreativeMint extends mixins(
   AuthMixin,
   UseApiMixin
 ) {
-  private rmrkMint: SimpleNFT = {
+  public rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
     max: 1,
     symbol: makeSymbol(),
     name: '~',
     description: '~',
   }
-  private file: File | null = null
-  private price = 0
-  private fileHash = ''
-  private isGptLoading = false
+  public file: File | null = null
+  public price = 0
+  public fileHash = ''
+  public isGptLoading = false
   protected balanceNotEnough = false
   @Ref('uploadFileRef') readonly uploadFileRef
 
@@ -150,7 +154,7 @@ export default class CreativeMint extends mixins(
     return !!(this.price && name && symbol && max)
   }
 
-  protected async sub(): Promise<void> {
+  public async sub(): Promise<void> {
     const { name, symbol, max } = this.rmrkMint
     if (!this.checkValidity()) {
       return
@@ -255,7 +259,7 @@ export default class CreativeMint extends mixins(
 
     const metaHash = await pinJson(meta, imageHash)
 
-    uploadDirect(file, metaHash).catch(this.$consola.warn)
+    uploadDirect(file, imageHash).catch(this.$consola.warn)
 
     return unSanitizeIpfsUrl(metaHash)
   }

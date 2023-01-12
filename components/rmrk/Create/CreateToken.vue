@@ -50,6 +50,7 @@
           type="is-danger"
           :message="balanceNotEnoughMessage">
           <SubmitButton
+            expanded
             label="mint.submit"
             :loading="isLoading"
             @click="submit()" />
@@ -67,7 +68,7 @@ import {
   DETAIL_TIMEOUT,
   IPFS_KODADOT_IMAGE_PLACEHOLDER,
 } from '@/utils/constants'
-import { uploadDirect } from '@/utils/directUpload'
+import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
@@ -129,7 +130,7 @@ export default class CreateToken extends mixins(
   AuthMixin,
   UseApiMixin
 ) {
-  protected base: BaseTokenType<MintedCollection> = {
+  public base: BaseTokenType<MintedCollection> = {
     name: '',
     file: null,
     description: '',
@@ -138,17 +139,17 @@ export default class CreateToken extends mixins(
     secondFile: null,
   }
 
-  protected collections: MintedCollection[] = []
-  protected tags: Attribute[] = []
-  protected price: string | number = 0
-  protected nsfw = false
-  protected postfix = true
+  public collections: MintedCollection[] = []
+  public tags: Attribute[] = []
+  public price: string | number = 0
+  public nsfw = false
+  public postfix = true
   protected balanceNotEnough = false
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
   @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
 
-  protected updatePrice(value: string) {
+  public updatePrice(value: string) {
     this.price = value
   }
 
@@ -211,7 +212,7 @@ export default class CreateToken extends mixins(
     return this.$store.state.preferences.arweaveUpload
   }
 
-  protected async submit() {
+  public async submit() {
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
     }
@@ -329,7 +330,10 @@ export default class CreateToken extends mixins(
 
     const metaHash = await pinJson(meta, imageHash)
     preheatFileFromIPFS(fileHash)
-    uploadDirect(file, metaHash).catch(this.$consola.warn)
+    uploadDirectWhenMultiple(
+      [file, secondFile],
+      [fileHash, secondFileHash]
+    ).catch(this.$consola.warn)
     return unSanitizeIpfsUrl(metaHash)
   }
 

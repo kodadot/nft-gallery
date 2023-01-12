@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p class="title is-size-3">
+    <h2 class="title is-size-3">
       {{ $t(label) }}
-    </p>
+    </h2>
     <slot name="header"></slot>
     <b-field>
       <Auth />
