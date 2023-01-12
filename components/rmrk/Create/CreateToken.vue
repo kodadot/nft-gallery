@@ -53,6 +53,7 @@
           type="is-danger"
           :message="balanceNotEnoughMessage">
           <SubmitButton
+            expanded
             label="mint.submit"
             :loading="isLoading"
             @click="submit()" />
@@ -132,7 +133,7 @@ export default class CreateToken extends mixins(
   AuthMixin,
   UseApiMixin
 ) {
-  protected base: BaseTokenType<MintedCollection> = {
+  public base: BaseTokenType<MintedCollection> = {
     name: '',
     file: null,
     description: '',
