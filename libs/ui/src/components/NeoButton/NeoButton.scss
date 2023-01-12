@@ -15,6 +15,11 @@
   &:hover {
     background: $k-accentlight;
   }
+
+  &.active {
+    background-color: black;
+    color: white;
+  }
 }
 
 .o-btn {
@@ -51,10 +56,6 @@
   }
 }
 
-.is-fixed-width {
-  width: 10rem;
-}
-
 .dark-mode {
   .is-neo {
     color: hsl(0deg, 0%, 100%);
@@ -66,6 +67,11 @@
     &:hover {
       background: $k-accent;
       color: hsl(0deg, 0%, 4%);
+    }
+
+    &.active {
+      background-color: white;
+      color: black;
     }
   }
 
@@ -104,4 +110,8 @@
       box-shadow: none;
     }
   }
+}
+
+.is-fixed-width {
+  width: 10rem;
 }
