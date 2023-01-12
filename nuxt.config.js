@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from '@nuxt/bridge'
+import SentryWebpackPlugin from '@sentry/webpack-plugin'
 
 import { apolloClientConfig } from './utils/constants'
 
@@ -215,6 +216,17 @@ export default defineNuxtConfig({
       // Add native Sentry config here
       // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/
       sampleRate: 0.25,
+      beforeSend(event) {
+        if (window.navigator.userAgent.indexOf('prerender') !== -1) {
+          return null
+        }
+
+        if (window.navigator.userAgent.indexOf('Headless') !== -1) {
+          return null
+        }
+
+        return event
+      },
     },
   },
 
@@ -305,6 +317,22 @@ export default defineNuxtConfig({
       '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
     ],
     extend(config) {
+      if (
+        process.env.NODE_ENV !== 'development' ||
+        process.env.DISABLE_SENTRY === 'true'
+      ) {
+        config.devtool = 'source-map'
+
+        config.plugins.push(
+          new SentryWebpackPlugin({
+            org: 'kodadot',
+            project: 'nft-gallery',
+            include: './dist',
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+          })
+        )
+      }
+
       // add markdown loader
       config.module.rules.push({
         test: /\.md$/,
