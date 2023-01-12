@@ -56,7 +56,6 @@
   }
 
   .beta-text {
-    color: $shade;
     @include ktheme() {
       color: theme('k-shade');
     }
