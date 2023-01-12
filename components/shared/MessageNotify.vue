@@ -37,7 +37,7 @@ defineProps<{
 @import '@/styles/abstracts/variables';
 
 .message-box {
-  z-index: 1;
+  z-index: 10;
   max-width: 500px;
   position: absolute;
   background-color: $white;
@@ -45,7 +45,6 @@ defineProps<{
   border-radius: 0;
   box-shadow: $primary-shadow;
   top: 0;
-  left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;

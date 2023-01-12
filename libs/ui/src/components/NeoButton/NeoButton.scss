@@ -15,8 +15,10 @@
   &:hover {
     background: $k-accentlight;
   }
-  &:active {
-    background-color: $k-accentlight;
+
+  &.active {
+    background-color: black;
+    color: white;
   }
 }
 
@@ -66,10 +68,6 @@
   }
 }
 
-.is-fixed-width {
-  width: 10rem;
-}
-
 .dark-mode {
   .is-neo {
     color: $white;
@@ -83,9 +81,10 @@
       color: $black;
     }
     &.active {
-      color: $black;
-      background-color: $white;
+      background-color: white;
+      color: black;
     }
+
   }
 
   .o-btn {
@@ -138,4 +137,8 @@
       box-shadow: none;
     }
   }
+}
+
+.is-fixed-width {
+  width: 10rem;
 }

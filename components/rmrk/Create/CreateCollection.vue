@@ -42,6 +42,7 @@
           type="is-danger"
           :message="balanceNotEnoughMessage">
           <SubmitButton
+            expanded
             label="create collection"
             :loading="isLoading"
             @click="submit" />
@@ -95,14 +96,14 @@ export default class CreateCollection extends mixins(
   AuthMixin,
   UseApiMixin
 ) {
-  private base: BaseCollectionType = {
+  public base: BaseCollectionType = {
     name: '',
     file: null,
     description: '',
   }
-  private symbol = ''
-  private max = 1
-  protected unlimited = true
+  public symbol = ''
+  public max = 1
+  public unlimited = true
   protected hasSupport = true
   protected balanceNotEnough = false
   @Ref('collectionForm') readonly collectionForm
@@ -174,7 +175,7 @@ export default class CreateCollection extends mixins(
     return unSanitizeIpfsUrl(metaHash)
   }
 
-  protected async submit() {
+  public async submit() {
     if (!this.checkValidity()) {
       return
     }
