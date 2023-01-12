@@ -29,7 +29,6 @@ function useMetaTransaction() {
     onError?: () => void
   ): Promise<void> => {
     try {
-      isLoading.value = true
       tx.value = await exec(
         account,
         '',
