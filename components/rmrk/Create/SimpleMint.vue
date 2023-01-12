@@ -2,10 +2,10 @@
   <section>
     <br />
     <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-3">
+    <h2 class="title is-size-3">
       <!-- {{ $t('mint.context') }} -->
       Create NFT Collectibles
-    </p>
+    </h2>
     <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
     <b-field>
       <div>

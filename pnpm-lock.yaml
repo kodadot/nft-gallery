@@ -50,6 +50,7 @@ importers:
       '@polkadot/vue-identicon': ^2.9.10
       '@ramp-network/ramp-instant-sdk': ^3.2.3
       '@rollup/plugin-graphql': ^1.1.0
+      '@sentry/browser': 7.30.0
       '@sentry/webpack-plugin': ^1.20.0
       '@sgratzl/chartjs-chart-boxplot': ^3.10.0
       '@types/jest': ^27.5.2
@@ -147,6 +148,7 @@ importers:
       '@polkadot/ui-keyring': 2.9.10
       '@polkadot/vue-identicon': 2.9.10_vue@2.7.14
       '@ramp-network/ramp-instant-sdk': 3.2.3
+      '@sentry/browser': 7.30.0
       '@sgratzl/chartjs-chart-boxplot': 3.10.0_chart.js@3.9.1
       apollo-boost: 0.4.9_graphql@16.6.0
       axios: 0.27.2
@@ -436,7 +438,7 @@ packages:
       '@babel/core': 7.20.7
       '@babel/generator': 7.20.7
       '@babel/parser': 7.20.7
-      '@babel/runtime': 7.20.6
+      '@babel/runtime': 7.20.7
       '@babel/traverse': 7.20.10
       '@babel/types': 7.20.7
       babel-preset-fbjs: 3.4.0_@babel+core@7.20.7
@@ -4849,7 +4851,7 @@ packages:
     resolution: {integrity: sha512-219isiCWVfbu5JxZnOPj+cV4T+S0XHS4+Jal3t3xz9y4nbgr+25Pa4KInEsJPx0u8EZAxMeiUCX3vd5U7oe72g==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@babel/runtime': 7.20.6
+      '@babel/runtime': 7.20.7
       '@polkadot/types': 4.17.1
       '@polkadot/types-known': 4.17.1
       '@polkadot/util': 10.1.9
@@ -5139,9 +5141,9 @@ packages:
       '@polkadot/types-support': 9.10.5
       '@polkadot/util': 10.1.9
       '@polkadot/util-crypto': 10.2.3_@polkadot+util@10.1.9
-      '@polkadot/x-fetch': 10.2.1
-      '@polkadot/x-global': 10.2.1
-      '@polkadot/x-ws': 10.2.1
+      '@polkadot/x-fetch': 10.2.3
+      '@polkadot/x-global': 10.2.3
+      '@polkadot/x-ws': 10.2.3
       '@substrate/connect': 0.7.18
       eventemitter3: 4.0.7
       mock-socket: 9.1.5
@@ -5291,7 +5293,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.7
       '@polkadot/util': 10.1.9
-      '@polkadot/x-bigint': 10.2.1
+      '@polkadot/x-bigint': 10.2.3
     dev: false
 
   /@polkadot/types-codec/9.11.1:
@@ -5427,7 +5429,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.20.7
-      '@polkadot/networks': 10.2.1
+      '@polkadot/networks': 10.2.3
       '@polkadot/types': 9.10.5
       '@polkadot/types-codec': 9.10.5
       '@polkadot/types-create': 9.10.5
@@ -5694,7 +5696,7 @@ packages:
     peerDependencies:
       '@polkadot/util': 6.11.1
     dependencies:
-      '@babel/runtime': 7.20.6
+      '@babel/runtime': 7.20.7
       '@polkadot/networks': 6.11.1
       '@polkadot/util': 10.1.9
       '@polkadot/wasm-crypto': 4.6.1_2qimcnouz2fhqk6qjnumqmwpyi
@@ -6138,7 +6140,7 @@ packages:
     resolution: {integrity: sha512-zIciEmij7SUuXXg9g/683Irx6GogxivrQS2pgBir2DI/YZq+um52+Dqg1mqsEZt74N4KMTMnzAZAP6LJOBOMww==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@babel/runtime': 7.20.6
+      '@babel/runtime': 7.20.7
       rxjs: 6.6.7
     dev: false
 
@@ -8621,7 +8623,7 @@ packages:
       subscriptions-transport-ws: ^0.9.0
     dependencies:
       '@apollo/client': 3.6.9_d4kar5ickchhqij4cbqqc3eacy
-      '@babel/runtime': 7.20.6
+      '@babel/runtime': 7.20.7
       extract-files: 9.0.0
       graphql: 15.8.0
       subscriptions-transport-ws: 0.9.19_graphql@15.8.0
