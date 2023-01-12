@@ -70,6 +70,7 @@
           type="is-danger"
           :message="balanceNotEnoughMessage">
           <SubmitButton
+            expanded
             label="mint.submit"
             :loading="isLoading"
             @click="submit()" />
@@ -167,7 +168,7 @@ export default class CreateToken extends mixins(
   public attributes: Attribute[] = []
   public nsfw = false
   public price = '0'
-  public listed = true
+  public listed = false
   public hasRoyalty = true
   public royalty: Royalty = {
     amount: 0.15,
