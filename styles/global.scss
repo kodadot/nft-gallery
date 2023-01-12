@@ -8,10 +8,20 @@ main {
   //without this, footer image is above main contents
   // block hover, click events
   z-index: 100;
-
 }
 
 body {
+  a {
+    @include ktheme() {
+      color: theme('text-color');
+    }
+    &:hover {
+      @include ktheme() {
+        color: theme('k-hovergrey');
+      }
+    }
+  }
+
   .select select,
   .select select option,
   .taginput .taginput-container.is-focusable,

@@ -1,21 +1,6 @@
 html.light-mode {
   background-color: $white;
 
-  a {
-    color: $text-light-theme;
-
-    &:hover {
-      color: $shade;
-    }
-  }
-
-  a.link {
-    color: #000 !important;
-
-    &:hover {
-      color: $k-hovergrey !important;
-    }
-  }
 
   body,
   div#__nuxt,
@@ -54,7 +39,6 @@ html.light-mode {
 
 
   .navbar {
-    .navbar-item,
     .navbar-link,
     .button.is-text {
       color: $text-light-theme;
@@ -63,7 +47,6 @@ html.light-mode {
       }
     }
 
-    .navbar-item:hover,
     .navbar-link:hover,
     .navbar-item:focus,
     .navbar-link:focus {
@@ -298,11 +281,6 @@ html.light-mode {
     }
   }
 
-  .landing-search {
-    .active {
-      color: $text-light-theme;
-    }
-  }
 
   .gallery-item-media {
     border: 1px solid #000;

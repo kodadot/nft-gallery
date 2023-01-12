@@ -120,7 +120,7 @@
       margin-left: 0 !important;
       .navbar-item {
         &:hover {
-          color: $k-hovergrey!important;
+          color: $k-hovergrey !important;
         }
       }
       .dropdown-trigger {
@@ -220,8 +220,13 @@
     cursor: pointer;
     border-radius: 0 !important;
 
+    @include ktheme() {
+      color: theme('text-color');
+    }
     &:hover {
-      color: $k-hovergrey !important;
+      @include ktheme() {
+        color: theme('k-hovergrey');
+      }
     }
   }
 
