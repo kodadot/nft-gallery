@@ -6,7 +6,13 @@ import { execTsxList } from './transaction/transactionList'
 import { execTsxSend } from './transaction/transactionSend'
 import { execTsxOffer } from './transaction/transactionOffer'
 
-import type { Actions } from './transaction/types'
+import type {
+  ActionList,
+  ActionOffer,
+  ActionSend,
+  Actions,
+} from './transaction/types'
+import type { ApiPromise } from '@polkadot/api'
 
 const useExecuteTransaction = () => {
   const { accountId } = useAuth()
@@ -35,20 +41,21 @@ export const useTransaction = () => {
   const { apiInstance } = useApi()
   const { isLoading, status, executeTransaction } = useExecuteTransaction()
 
+  const transactionMap = (item: Actions, api: ApiPromise) => {
+    const map = {
+      [Interaction.LIST]: (item, api) =>
+        execTsxList(item as ActionList, api, executeTransaction),
+      [Interaction.SEND]: (item, api) =>
+        execTsxSend(item as ActionSend, api, executeTransaction),
+      [ShoppingActions.MAKE_OFFER]: (item, api) =>
+        execTsxOffer(item as ActionOffer, api, executeTransaction),
+    }
+    return map[item.interaction]?.(item, api) ?? 'UNKNOW'
+  }
+
   const transaction = async (item: Actions) => {
     const api = await apiInstance.value
-
-    if (item.interaction === Interaction.LIST) {
-      execTsxList(item, api, executeTransaction)
-    }
-
-    if (item.interaction === Interaction.SEND) {
-      execTsxSend(item, api, executeTransaction)
-    }
-
-    if (item.interaction === ShoppingActions.MAKE_OFFER) {
-      execTsxOffer(item, api, executeTransaction)
-    }
+    return transactionMap(item, api)
   }
 
   return {
