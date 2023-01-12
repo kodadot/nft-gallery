@@ -217,6 +217,7 @@ export default defineNuxtConfig({
       // Add native Sentry config here
       // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/
       sampleRate: 0.25,
+      whitelistUrls: [/kodadot\.xyz/],
       beforeSend(event) {
         if (window.navigator.userAgent.indexOf('prerender') !== -1) {
           return null
