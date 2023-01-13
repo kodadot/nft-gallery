@@ -13,6 +13,8 @@
     <GalleryItemPriceOffer
       v-if="urlPrefix !== 'rmrk' && !isOwner && nft?.id && nft.currentOwner"
       :nft-id="nft.id"
+      :collection-id="nft.collection.id"
+      :current-owner="nft.currentOwner"
       :account="nft.currentOwner"
       class="mt-5" />
 
