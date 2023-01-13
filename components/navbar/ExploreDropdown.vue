@@ -1,7 +1,7 @@
 <template>
   <b-dropdown :triggers="!isMobileDevice ? ['hover'] : []">
     <template #trigger>
-      <nuxt-link :to="`/${urlPrefix}/explore`">
+      <nuxt-link :to="`/${urlPrefix}/explore/collectibles`">
         <div class="navbar-item" data-cy="explore">
           {{ $t('explore') }}
           <svg

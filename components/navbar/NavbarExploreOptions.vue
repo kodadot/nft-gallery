@@ -1,10 +1,10 @@
 <template>
   <div>
-    <nuxt-link :to="`/${urlPrefix}/explore?tab=GALLERY`" class="menu-item mr-2">
+    <nuxt-link :to="`/${urlPrefix}/explore/items`" class="menu-item mr-2">
       {{ $t('gallery') }}
     </nuxt-link>
     <nuxt-link
-      :to="`/${urlPrefix}/explore?tab=COLLECTION`"
+      :to="`/${urlPrefix}/explore/collectibles`"
       class="menu-item mr-2">
       {{ $t('collections') }}
     </nuxt-link>
