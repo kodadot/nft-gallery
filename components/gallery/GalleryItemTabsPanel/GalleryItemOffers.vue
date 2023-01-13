@@ -102,7 +102,7 @@ const getOffersDetails = (id) => {
 }
 
 const formatPrice = (price) => {
-  return parseFloat(formatBalance(price, decimals.value, '')).toFixed(2)
+  return formatBalance(price, decimals.value, '')
 }
 
 const getPercentage = (numA, numB) => {

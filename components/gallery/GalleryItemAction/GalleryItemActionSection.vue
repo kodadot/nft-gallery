@@ -38,7 +38,7 @@ watchEffect(async () => {
   const price = format(props.price || '0', decimals.value, '')
   const chainSymbol = urlPrefix.value === 'rmrk' ? unit.value : symbol
 
-  priceChain.value = `${parseFloat(price).toFixed(2)} ${chainSymbol}`
+  priceChain.value = `${price} ${chainSymbol}`
   priceUsd.value = `${Math.round(Number(price) * Number(ksmPrice))}`
 })
 </script>
