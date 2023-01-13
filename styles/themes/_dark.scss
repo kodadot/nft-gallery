@@ -29,7 +29,7 @@ html.dark-mode {
   .custom-navbar-item {
     .navbar-item {
       &:hover {
-        color: $shade!important;
+        color: $shade !important;
       }
     }
   }
@@ -37,10 +37,17 @@ html.dark-mode {
   .navbar {
     border-color: $white;
     background-color: $background-dark !important;
-
-    .navbar-item:hover {
-      color: inherit;
-      background-color: inherit;
+    .navbar-item {
+      color: $white;
+      @include mobile {
+        &:hover {
+          color: $white !important;
+        }
+      }
+      &:hover {
+        color: inherit;
+        background-color: inherit;
+      }
     }
 
     .dropdown-content .dropdown-item .menu-item {
@@ -89,7 +96,6 @@ html.dark-mode {
       }
     }
 
-
     .mobile-nav-search-btn {
       color: $white;
     }
@@ -113,12 +119,19 @@ html.dark-mode {
         color: $black;
         border: 1px solid $white !important;
         &:hover {
-          background-color: $dark-accent!important;
-          color: $white!important;
+          background-color: $dark-accent !important;
+          color: $white !important;
         }
       }
       .dropdown .dropdown-menu .has-link {
         border-top: 1px solid $white;
+      }
+      @include mobile {
+        .button-connect-wallet {
+          box-shadow: $primary-shadow-dark !important;
+          background-color: $k-accent !important;
+          color: $black !important;
+        }
       }
     }
 
@@ -152,6 +165,10 @@ html.dark-mode {
         }
       }
     }
+  }
+
+  .pagination-link {
+    border: 1px solid $white !important;
   }
 
   .instance {

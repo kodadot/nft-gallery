@@ -1,83 +1,125 @@
 <template>
   <div>
-    <b-dropdown
-      v-if="chain === 'bsx' || chain === 'snek'"
-      aria-role="list"
-      data-cy="stats"
-      :triggers="['click']">
-      <template #trigger>
-        <div class="navbar-item" data-cy="stats">
-          {{ $t('stats') }}
-        </div>
+    <div v-if="!isMobile">
+      <b-dropdown
+        v-if="showSnekBsxOptions"
+        aria-role="list"
+        data-cy="stats"
+        :triggers="['click']">
+        <template #trigger>
+          <div class="navbar-item" data-cy="stats">
+            {{ $t('stats') }}
+          </div>
+        </template>
+        <b-dropdown-item has-link>
+          <nuxt-link data-cy="global-offers" :to="offersUrl">
+            {{ $t('navbar.globalOffers') }}
+          </nuxt-link>
+        </b-dropdown-item>
+        <b-dropdown-item has-link>
+          <nuxt-link data-cy="offers-stats" :to="statsUrl">
+            {{ $t('navbar.offerStats') }}
+          </nuxt-link>
+        </b-dropdown-item>
+        <b-dropdown-item has-link>
+          <nuxt-link data-cy="series-insight" to="/series-insight">
+            Series</nuxt-link
+          >
+        </b-dropdown-item>
+      </b-dropdown>
+      <b-dropdown v-if="chain === 'rmrk'" data-cy="stats" :triggers="['click']">
+        <template #trigger>
+          <div class="navbar-item" data-cy="stats">
+            {{ $t('stats') }}
+          </div>
+        </template>
+        <b-dropdown-item has-link aria-role="menu-item">
+          <nuxt-link data-cy="spotlight" to="/spotlight">
+            {{ $t('spotlight.page') }}
+          </nuxt-link>
+        </b-dropdown-item>
+        <b-dropdown-item has-link>
+          <nuxt-link data-cy="series-insight" to="/series-insight">
+            Series</nuxt-link
+          >
+        </b-dropdown-item>
+        <b-dropdown-item has-link>
+          <nuxt-link data-cy="sales" to="/sales"> Sales</nuxt-link>
+        </b-dropdown-item>
+        <b-dropdown-item has-link>
+          <nuxt-link data-cy="hot" to="/hot"> Hot</nuxt-link>
+        </b-dropdown-item>
+      </b-dropdown>
+    </div>
+
+    <MobileExpandableSection v-else :no-padding="true" :title="$t('stats')">
+      <template>
+        <template v-if="showSnekBsxOptions">
+          <b-navbar-item
+            data-cy="global-offers"
+            :to="offersUrl"
+            tag="nuxt-link">
+            {{ $t('navbar.globalOffers') }}
+          </b-navbar-item>
+          <b-navbar-item data-cy="offers-stats" :to="statsUrl" tag="nuxt-link">
+            {{ $t('navbar.offerStats') }}
+          </b-navbar-item>
+          <b-navbar-item
+            data-cy="series-insight"
+            to="/series-insight"
+            tag="nuxt-link">
+            {{ $t('series.label') }}
+          </b-navbar-item>
+        </template>
+        <template v-if="chain === 'rmrk'">
+          <b-navbar-item data-cy="spotlight" to="/spotlight" tag="nuxt-link">
+            {{ $t('spotlight.page') }}
+          </b-navbar-item>
+          <b-navbar-item
+            data-cy="series-insight"
+            to="/series-insight"
+            tag="nuxt-link">
+            {{ $t('series.label') }}
+          </b-navbar-item>
+          <b-navbar-item data-cy="sales" to="/sales" tag="nuxt-link">
+            {{ $t('sales.page') }}
+          </b-navbar-item>
+          <b-navbar-item data-cy="hot" to="/hot" tag="nuxt-link">
+            {{ $t('hot.label') }}
+          </b-navbar-item>
+        </template>
       </template>
-      <b-dropdown-item has-link>
-        <nuxt-link
-          data-cy="global-offers"
-          :to="`${
-            accountId
-              ? `/${urlPrefix}/offers?target=${accountId}`
-              : `/${urlPrefix}/offers`
-          }`">
-          {{ $t('navbar.globalOffers') }}
-        </nuxt-link>
-      </b-dropdown-item>
-      <b-dropdown-item has-link>
-        <nuxt-link data-cy="offers-stats" :to="`/${urlPrefix}/stats`">
-          {{ $t('navbar.offerStats') }}
-        </nuxt-link>
-      </b-dropdown-item>
-      <b-dropdown-item has-link>
-        <nuxt-link data-cy="series-insight" to="/series-insight">
-          Series</nuxt-link
-        >
-      </b-dropdown-item>
-    </b-dropdown>
-    <b-dropdown v-if="chain === 'rmrk'" data-cy="stats" :triggers="['click']">
-      <template #trigger>
-        <div class="navbar-item" data-cy="stats">
-          {{ $t('stats') }}
-        </div>
-      </template>
-      <b-dropdown-item has-link aria-role="menu-item">
-        <nuxt-link data-cy="spotlight" to="/spotlight">
-          {{ $t('spotlight.page') }}
-        </nuxt-link>
-      </b-dropdown-item>
-      <b-dropdown-item has-link>
-        <nuxt-link data-cy="series-insight" to="/series-insight">
-          Series</nuxt-link
-        >
-      </b-dropdown-item>
-      <b-dropdown-item has-link>
-        <nuxt-link data-cy="sales" to="/sales"> Sales</nuxt-link>
-      </b-dropdown-item>
-      <b-dropdown-item has-link>
-        <nuxt-link data-cy="hot" to="/hot"> Hot</nuxt-link>
-      </b-dropdown-item>
-    </b-dropdown>
+    </MobileExpandableSection>
   </div>
 </template>
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import { getChainTestList } from '~/utils/constants'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import AuthMixin from '~~/utils/mixins/authMixin'
+<script lang="ts" setup>
+import { isMobileDevice } from '@/utils/extension'
 
-@Component({})
-export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
-  @Prop({ type: String }) chain!: string
+const MobileExpandableSection = defineAsyncComponent(
+  () => import('@/components/navbar/MobileExpandableSection.vue')
+)
+const { accountId } = useAuth()
 
-  get options() {
-    const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']
+const { urlPrefix } = usePrefix()
+const props = defineProps<{
+  chain?: string
+}>()
 
-    if (!this.$config.dev) {
-      return availableUrlPrefixes.filter(
-        (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
-      )
-    }
-    return availableUrlPrefixes
-  }
-}
+const isMobile = isMobileDevice
+
+const offersUrl = computed(
+  () =>
+    `${
+      accountId.value
+        ? `/${urlPrefix.value}/offers?target=${accountId.value}`
+        : `/${urlPrefix.value}/offers`
+    }`
+)
+const statsUrl = computed(() => `/${urlPrefix.value}/stats`)
+
+const showSnekBsxOptions = computed(
+  () => props.chain === 'bsx' || props.chain === 'snek'
+)
 </script>
 <style lang="scss">
 .navbar-stats {

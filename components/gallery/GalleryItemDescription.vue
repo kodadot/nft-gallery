@@ -109,10 +109,8 @@ const propertiesTabDisabled = computed(() => {
   if (!nftMetadata.value) {
     return false
   }
-  if (!nftMetadata.value.attributes) {
-    return true
-  }
-  return nftMetadata.value.attributes.length == 0
+
+  return !nftMetadata.value.attributes?.length
 })
 
 watch(propertiesTabDisabled, () => {

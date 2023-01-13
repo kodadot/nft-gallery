@@ -66,6 +66,11 @@
   &.no-shadow {
     box-shadow: none;
   }
+
+  &.selected {
+    background: $dark-accent;
+    color: $white;
+  }
 }
 
 .dark-mode {
@@ -135,6 +140,15 @@
 
     &.no-shadow {
       box-shadow: none;
+    }
+
+    &.selected {
+      background: $white;
+      color: $black;
+    }
+
+    .check-icon {
+      filter: brightness(0%);
     }
   }
 }

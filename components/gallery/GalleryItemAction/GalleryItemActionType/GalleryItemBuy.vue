@@ -12,7 +12,7 @@
             :active="disabled"
             :label="$t('tooltip.notEnoughBalance')">
             <NeoButton
-              :label="label"
+              :label="`${label}`"
               size="large"
               fixed-width
               variant="k-accent"
@@ -156,7 +156,7 @@ const checkBuyBeforeSubmit = async () => {
       $i18n.t('nft.notification.nftChanged', {
         chain: urlPrefix.value.toUpperCase(),
         action: actionLabel,
-      }),
+      }) as string,
       notificationTypes.warn
     )
     return false
@@ -169,7 +169,7 @@ const handleBuy = async () => {
   const { cb, arg } = await getTranasactionParams()
 
   showNotification(
-    $i18n.t('nft.notification.info', { itemId, action: actionLabel })
+    $i18n.t('nft.notification.info', { itemId, action: actionLabel }) as string
   )
 
   if (urlPrefix.value === 'rmrk' && !(await checkBuyBeforeSubmit())) {
