@@ -93,7 +93,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { isMobileDevice } from '~~/utils/extension'
+import { isMobileDevice } from '@/utils/extension'
 
 const MobileExpandableSection = defineAsyncComponent(
   () => import('@/components/navbar/MobileExpandableSection.vue')
@@ -105,7 +105,7 @@ const props = defineProps<{
   chain?: string
 }>()
 
-const isMobile = window.innerWidth < 1024 ? true : isMobileDevice
+const isMobile = isMobileDevice
 
 const offersUrl = computed(
   () =>
