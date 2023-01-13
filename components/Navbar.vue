@@ -59,6 +59,7 @@
       <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
         <NavbarExploreOptions />
       </MobileExpandableSection>
+
       <CreateDropdown
         v-show="isCreateVisible"
         class="navbar-create custom-navbar-item ml-0"
@@ -68,6 +69,7 @@
         class="navbar-stats custom-navbar-item"
         data-cy="stats"
         :chain="chain" />
+
       <ChainSelectDropdown
         v-if="!isMobile"
         id="NavChainSelect"
@@ -97,7 +99,9 @@
             {{ $t('settings') }}
           </b-navbar-item>
           <MobileLanguageOption />
-          <MobileNavbarProfile id="NavProfile" />
+          <MobileNavbarProfile
+            id="NavProfile"
+            @closeBurgerMenu="closeBurgerMenu" />
         </MobileExpandableSection>
         <MobileExpandableSection
           v-if="account"
@@ -113,7 +117,7 @@
               class="navbar__address is-size-6"
               hide-identity-popover />
 
-            <hr aria-role="menuitem" class="dropdown-divider mx-4" />
+            <hr aria-role="menuitem" class="dropdown-divider" />
 
             <div v-if="isSnek">
               <div class="has-text-left has-text-grey is-size-7">
@@ -127,15 +131,20 @@
             </div>
             <AccountBalance v-else class="is-size-7" />
 
-            <hr aria-role="menuitem" class="dropdown-divider mx-4" />
+            <hr aria-role="menuitem" class="dropdown-divider" />
 
             <div
               aria-role="menuitem"
-              class="is-flex is-justify-content-center"
+              class="is-flex is-justify-content-space-between"
               custom
               paddingless>
+              <ConnectWalletButton
+                label="general.change_account"
+                variant="connect-dropdown"
+                class="menu-item is-size-7 mr-3 w-100"
+                @closeBurgerMenu="closeBurgerMenu" />
               <NeoButton
-                class="button is-size-7 is-capitalized"
+                class="button is-size-7 is-capitalized w-100"
                 :label="$t('profileMenu.disconnect')"
                 variant="connect-dropdown"
                 @click.native="disconnect()" />

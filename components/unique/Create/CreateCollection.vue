@@ -17,6 +17,7 @@
           </p>
         </b-field>
         <SubmitButton
+          expanded
           label="create collection"
           :disabled="disabled"
           :loading="isLoading"
@@ -73,15 +74,15 @@ export default class CreateCollection extends mixins(
   PrefixMixin,
   UseApiMixin
 ) {
-  private base: BaseCollectionType = {
+  public base: BaseCollectionType = {
     name: '',
     file: null,
     description: '',
   }
-  private hasSupport = true
-  protected collectionDeposit = ''
+  public collectionDeposit = ''
   protected id = '0'
   protected attributes: Attribute[] = []
+  private hasSupport = true
 
   public async created() {
     onApiConnect(this.apiUrl, (api) => {
@@ -130,6 +131,11 @@ export default class CreateCollection extends mixins(
       type
     )
     const metaHash = await pinJson(meta, imageHash)
+
+    if (file) {
+      this.$consola.log('[UPLOADING FILE]')
+      uploadDirect(file, imageHash).catch(this.$consola.warn)
+    }
 
     return unSanitizeIpfsUrl(metaHash)
   }
@@ -194,7 +200,7 @@ export default class CreateCollection extends mixins(
     }
   }
 
-  protected async submit(): Promise<void> {
+  public async submit(): Promise<void> {
     this.isLoading = true
     this.status = 'loader.checkBalance'
 
@@ -215,11 +221,6 @@ export default class CreateCollection extends mixins(
         await this.cretateArgs(randomId, metadata),
         ...(await canSupport(api, this.hasSupport)),
       ]
-
-      if (this.base.file) {
-        this.$consola.log('[UPLOADING FILE]')
-        uploadDirect(this.base.file, this.accountId).catch(this.$consola.warn)
-      }
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
         showNotification(

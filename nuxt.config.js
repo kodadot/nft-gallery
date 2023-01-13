@@ -1,10 +1,7 @@
 import { defineNuxtConfig } from '@nuxt/bridge'
+import SentryWebpackPlugin from '@sentry/webpack-plugin'
 
-import defineApolloConfig, {
-  toApolloEndpoint,
-} from './utils/config/defineApolloConfig'
-
-import { URLS } from './utils/constants'
+import { apolloClientConfig } from './utils/constants'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -211,13 +208,27 @@ export default defineNuxtConfig({
 
   sentry: {
     disabled: process.env.NODE_ENV === 'development',
+    lazy: true,
     dsn: 'https://6fc80708bf024dc8b43c3058f8260dd6@o4503930691256320.ingest.sentry.io/4503930702331904', // Enter your project's DSN here
+    customClientIntegrations: '@/plugins/sentry',
     // Additional Module Options go here
     // https://sentry.nuxtjs.org/sentry/options
     config: {
       // Add native Sentry config here
       // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/
       sampleRate: 0.25,
+      whitelistUrls: [/kodadot\.xyz/],
+      beforeSend(event) {
+        if (window.navigator.userAgent.indexOf('prerender') !== -1) {
+          return null
+        }
+
+        if (window.navigator.userAgent.indexOf('Headless') !== -1) {
+          return null
+        }
+
+        return event
+      },
     },
   },
 
@@ -281,16 +292,8 @@ export default defineNuxtConfig({
   },
 
   apollo: {
-    clientConfigs: {
-      ...defineApolloConfig(),
-      subsquid: toApolloEndpoint(
-        process.env.SUBSQUID_ENDPOINT || URLS.koda.rubick
-      ),
-      bsx: toApolloEndpoint(URLS.koda.snek),
-      movr: toApolloEndpoint(URLS.koda.click),
-      snek: toApolloEndpoint(URLS.koda.snekRococo),
-      glmr: toApolloEndpoint(URLS.koda.antick),
-    }, // https://github.com/nuxt-community/apollo-module#options
+    clientConfigs: apolloClientConfig,
+    // https://github.com/nuxt-community/apollo-module#options
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -316,6 +319,22 @@ export default defineNuxtConfig({
       '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
     ],
     extend(config) {
+      if (
+        process.env.NODE_ENV !== 'development' &&
+        process.env.SENTRY_AUTH_TOKEN
+      ) {
+        config.devtool = 'source-map'
+
+        config.plugins.push(
+          new SentryWebpackPlugin({
+            org: 'kodadot',
+            project: 'nft-gallery',
+            include: './dist',
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+          })
+        )
+      }
+
       // add markdown loader
       config.module.rules.push({
         test: /\.md$/,

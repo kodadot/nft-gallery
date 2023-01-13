@@ -1,62 +1,79 @@
 <template>
-  <GalleryItemPriceSection v-if="nft?.price" title="Price" :price="nft?.price">
-    <GalleryItemActionSlides
-      v-if="Number(nft.price)"
-      ref="actionRef"
-      :active="active">
-      <template #action>
-        <NeoButton
-          label="Change Price"
-          size="large"
-          fixed-width
-          no-shadow
-          @click.native="toggleActive" />
-      </template>
+  <div>
+    <Loader v-model="isLoading" :status="status" />
+    <GalleryItemPriceSection title="Price" :price="nftPrice">
+      <GalleryItemActionSlides ref="actionRef" :active="active">
+        <template #action>
+          <NeoButton
+            :label="
+              isListed
+                ? `${$i18n.t('transaction.price.change')}`
+                : `${$i18n.t('transaction.list')}`
+            "
+            size="large"
+            fixed-width
+            no-shadow
+            :variant="isListed ? 'k-accent' : 'primary'"
+            @click.native="updatePrice" />
+        </template>
 
-      <template #content>
-        <div>
-          <input type="number" placeholder="Your New Price" />
-        </div>
-      </template>
-    </GalleryItemActionSlides>
-    <GalleryItemActionSlides v-else :active="active">
-      <template #action>
-        <NeoButton
-          label="List"
-          size="large"
-          fixed-width
-          no-shadow
-          variant="k-accent"
-          @click.native="toggleActive" />
-      </template>
-
-      <template #content>
-        <div>
-          <input type="number" placeholder="Your Listing Price" />
-        </div>
-      </template>
-    </GalleryItemActionSlides>
-  </GalleryItemPriceSection>
+        <template #content>
+          <div>
+            <input
+              v-model="price"
+              type="number"
+              :placeholder="
+                isListed
+                  ? `${$i18n.t('transaction.price.new')}`
+                  : `${$i18n.t('transaction.price.list')}`
+              " />
+          </div>
+        </template>
+      </GalleryItemActionSlides>
+    </GalleryItemPriceSection>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
+import { NeoButton } from '@kodadot1/brick'
+import { calculateBalance } from '@/utils/format/balance'
 
-import { useGalleryItem } from '../../useGalleryItem'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
+import { Interaction } from '@kodadot1/minimark'
 
-const { nft } = useGalleryItem()
+const { transaction, status, isLoading } = useTransaction()
+const { urlPrefix } = usePrefix()
+const { $i18n } = useNuxtApp()
+
+const props = defineProps<{
+  collectionId: string
+  nftId: string
+  nftPrice: string
+}>()
 
 const active = ref(false)
-
-function toggleActive() {
-  active.value = !active.value
-}
+const price = ref()
+const isListed = computed(() => Boolean(props.nftPrice))
 
 const actionRef = ref(null)
 onClickOutside(actionRef, () => (active.value = false))
+
+function updatePrice() {
+  if (active.value === false) {
+    active.value = true
+  } else {
+    transaction({
+      interaction: Interaction.LIST,
+      urlPrefix: urlPrefix.value,
+      price: price.value && String(calculateBalance(price.value)),
+      nftId: props.nftId,
+      successMessage: $i18n.t('transaction.price.success') as string,
+      errorMessage: $i18n.t('transaction.price.error') as string,
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>

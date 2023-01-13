@@ -7,6 +7,7 @@
   "collection": "Collection",
   "creator": "Creator",
   "collections": "Collections",
+  "items": "Items",
   "users": "Users",
   "user": "User",
   "soon": "Soon",
@@ -69,9 +70,9 @@
   },
   "topCollections": {
     "timeFrames": {
-      "7 Days": "7 Days",
-      "30 Days": "30 Days",
-      "90 Days": "90 Days",
+      "week": "7 Days",
+      "month": "30 Days",
+      "quarter": "90 Days",
       "all": "All"
     }
   },
@@ -583,11 +584,12 @@
     "estimate": "Show me the transaction fees",
     "estimated": "Transaction fees will cost about",
     "success": "Congratulations",
-    "successNewNfts": "You Have New NFT(s)",
+    "successNewNfts": "You have successfully purchased this NFT",
     "shareWithFriends": "Share {0} with your friends",
     "unlimited": "Unlimited items in in your collection",
     "nfsw": "Explicit content (NSFW)",
     "listForSale": "List NFT for sale",
+    "listWithRoyalty": "Add royalty",
     "mass": "NFT mass minter",
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
@@ -685,6 +687,8 @@
     "frozen": "NFT is frozen",
     "related": "More From This Collection",
     "visited": "Visited NFTs",
+    "buyNFTOn": "Buy NFT on",
+    "notListed": "Not Listed",
     "event": {
       "MINTNFT": "MINT",
       "LIST": "LIST",
@@ -699,7 +703,9 @@
       "PAY_ROYALTY": "PAY ROYALTY"
     },
     "action": {
-      "submit": "Submit {0}"
+      "submit": "Submit {0}",
+      "buy": "Buy",
+      "confirm": "Confirm"
     },
     "properties": {
       "label": "Attributes"
@@ -712,6 +718,10 @@
       "status": "Offer status",
       "date": "Date",
       "title": "Global Marketplace Offers"
+    },
+    "notification" : {
+      "nftChanged": "[{chain}::{action}] Owner changed or NFT does not exist",
+      "info": "[{action}] NFT: {itemId}"
     }
   },
   "offer": {
@@ -775,7 +785,6 @@
       "processing": "Predicting (wait around ~20s)",
       "send": "Sending links to your email"
     }
-
   },
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
@@ -815,6 +824,7 @@
     "price": "Price of sale"
   },
   "hot": {
+    "label": "Hot",
     "title": "Recently KUSAMA Sales In One Week",
     "subtitle": "Featuring the recently sold NFTs on RMRK"
   },
@@ -839,6 +849,7 @@
     "scoreCalc": "sold * (unique / total)"
   },
   "series": {
+    "label": "Series",
     "title": "Top Collection",
     "subtitle": "The top NFTs on {chain}, ranked by volume, floor price and other statistics.",
     "assets": "Assets",
@@ -1082,7 +1093,7 @@
   },
   "tabs": {
     "properties": "Properties",
-    "noPropertiesForNFT" : "No Properties for this NFT",
+    "noPropertiesForNFT": "No Properties for this NFT",
     "description": "Description",
     "details": "Details",
     "offers": "Offers",
@@ -1122,5 +1133,30 @@
       "SEND": "Transfers"
     }
   },
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "transaction": {
+    "list": "List",
+    "transfer": "Transfer",
+    "transferTo": "Transfer to",
+    "price": {
+      "change": "Change Price",
+      "new": "Your New Price",
+      "list": "Your Listing Price",
+      "success": "Price updated",
+      "error": "Price update failed"
+    },
+    "item": {
+      "success": "Item sent",
+      "error": "Failed to send item"
+    },
+    "offer": {
+      "success": "Offer successfully created",
+      "error": "Offer creation failed"
+    }
+  },
+  "createDropdown": {
+    "start": "Start by creating your collection and add NFTs to it",
+    "simplifiedNft": "Simplified process to create your NFT in a single step",
+    "aiPowered": "AI powered process to create your NFT"
+  }
 }

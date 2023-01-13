@@ -38,6 +38,14 @@ import GalleryItemActivity from './GalleryItemActivity.vue'
 import GalleryItemChart from './GalleryItemChart.vue'
 import GalleryItemOffers from './GalleryItemOffers.vue'
 import { DisablableTab } from '@kodadot1/brick'
+const props = withDefaults(
+  defineProps<{
+    activeTab?: string
+  }>(),
+  {
+    activeTab: '0',
+  }
+)
 
 const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()
@@ -48,6 +56,9 @@ const collectionId = ref('')
 const offersTabDisabled = computed(() => urlPrefix.value === 'rmrk')
 
 watchEffect(() => {
+  if (props.activeTab) {
+    activeTab.value = props.activeTab
+  }
   if (offersTabDisabled.value) {
     activeTab.value = '1'
   }

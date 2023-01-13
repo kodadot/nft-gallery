@@ -1,7 +1,12 @@
 import { TranslateResult } from 'vue-i18n'
 import { Interaction } from '../rmrk/service/scheme'
 
-export type TimeRange = 'All' | '3Month' | 'Month' | 'Week'
+export type TimeRange = 'All' | 'Quarter' | 'Month' | 'Week'
+
+export interface TimeRangeOption {
+  value: TimeRange
+  label: string
+}
 
 export type Column = {
   field: keyof RowSeries

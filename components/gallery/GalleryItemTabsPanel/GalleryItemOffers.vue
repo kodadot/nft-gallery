@@ -102,7 +102,7 @@ const getOffersDetails = (id) => {
 }
 
 const formatPrice = (price) => {
-  return parseFloat(formatBalance(price, decimals.value, '')).toFixed(2)
+  return formatBalance(price, decimals.value, '')
 }
 
 const getPercentage = (numA, numB) => {
@@ -139,14 +139,11 @@ watch(
     dataCollection as unknown as CollectionEvents,
   ],
   async ([offersData, collectionData]) => {
-    if (
-      offersData?.offers.length &&
-      collectionData?.collectionEntity.nfts[0].price
-    ) {
+    const nftPrice = collectionData?.collectionEntity?.nfts[0]?.price
+
+    if (offersData?.offers.length && nftPrice) {
       const ksmPrice = await getKSMUSD()
-      const floorPrice = formatPrice(
-        collectionData?.collectionEntity.nfts[0].price
-      )
+      const floorPrice = formatPrice(nftPrice)
 
       offers.value = offersData.offers
 

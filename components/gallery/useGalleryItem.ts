@@ -2,6 +2,10 @@ import { $fetch } from 'ohmyfetch'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getMimeType } from '@/utils/gallery/media'
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
+interface NFTData {
+  nftEntity?: NFT
+}
 
 const whichMimeType = async (data) => {
   if (data?.type) {
@@ -34,20 +38,29 @@ export const useGalleryItem = () => {
   // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
 
   const { urlPrefix } = usePrefix()
-  const { data } = useGraphql({
+  const { data, refetch } = useGraphql({
     queryName: urlPrefix.value === 'rmrk' ? 'nftByIdWithoutRoyalty' : 'nftById',
     variables: {
       id: params.id,
     },
+    options: {
+      fetchPolicy: 'network-only',
+    },
   })
-
-  interface NFTData {
-    nftEntity?: NFT
-  }
-
+  useSubscriptionGraphql({
+    query: `   nft: nftEntityById(id: "${params.id}") {
+      id
+      currentOwner
+      price
+      burned
+      events {
+        id
+      }
+    }`,
+    onChange: refetch,
+  })
   watch(data as unknown as NFTData, async (newData) => {
     const nftEntity = newData?.nftEntity
-
     if (!nftEntity) {
       $consola.log(`NFT with id ${params.id} not found. Fallback to RPC Node`)
       return

@@ -95,8 +95,7 @@ body {
 
 // global css for pagination
 .pagination-link {
-  border: none !important;
-  border-top: 1px solid $primary !important;
+  border: 1px solid $black;
 }
 
 /* move to global */
@@ -111,7 +110,7 @@ body {
 }
 
 .w-100 {
-  width: 100%;
+  width: 100%!important;
 }
 
 .b-radio.radio.button.is-selected {

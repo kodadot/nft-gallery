@@ -1,16 +1,15 @@
 <template>
   <div v-if="showMessageBox">
-    <b-message class="message-box" :duration="10000" auto-close>
+    <b-message class="message-box" duration="10000" auto-close>
       <img src="/congrats-message-header.svg" class="congrats-message" />
       <div class="is-flex is-flex-direction-column">
-        <div class="is-four-fifths mb-4">
-          <p class="title is-3">
-            {{ title }}
-          </p>
+        <div class="title is-3 mb-4">
+          {{ title }}
         </div>
+        <hr class="my-2" />
         <div
-          class="subtitle-box is-flex is-align-items-center is-justify-content-space-between pt-2">
-          <span class="subtitle is-size-5 subtitle-text-congrats">
+          class="is-flex is-align-items-center is-justify-content-space-between">
+          <span class="subtitle is-6 mb-0">
             {{ subtitle }}
           </span>
           <Sharing btn-type="is-primary" :enable-download="enableDownload" />
@@ -38,25 +37,20 @@ defineProps<{
 @import '@/styles/abstracts/variables';
 
 .message-box {
-  max-width: 480px;
+  z-index: 10;
+  max-width: 500px;
+  position: absolute;
   background-color: $white;
   border: 1px solid $dark-accent;
-  box-shadow: $primary-shadow;
   border-radius: 0;
-  position: absolute;
-  left: 0;
-  z-index: 1;
+  box-shadow: $primary-shadow;
+  top: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 
   .message-body {
     border: none;
-  }
-
-  .subtitle-text-congrats {
-    margin-bottom: 0;
-  }
-
-  .subtitle-box {
-    border-top: 1px solid $k-grey;
   }
 
   .congrats-message {
