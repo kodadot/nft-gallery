@@ -1,14 +1,5 @@
 <template>
   <section class="py-5 gallery-item">
-    <GalleryItemHead
-      v-if="nft?.name"
-      :title="nft.name"
-      :description="nftMetadata?.description"
-      :image="sanitizeIpfsUrl(nftMetadata?.image || '')"
-      :mime="nftMimeType"
-      :url="route.path"
-      :video="sanitizeIpfsUrl(nftMetadata?.animation_url || '')" />
-
     <MessageNotify
       v-if="message || showCongratsMessage"
       :title="$t('mint.success')"
@@ -94,16 +85,20 @@
 import { IdentityItem, MediaItem } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
-import GalleryItemHead from './GalleryItemHead.vue'
+
 import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
 import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
+
 import { exist } from '@/components/search/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { generateNftImage } from '@/utils/seoImageGenerator'
+import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 
 const { urlPrefix } = usePrefix()
+const { $seoMeta } = useNuxtApp()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
 const tabs = {
@@ -134,6 +129,30 @@ onMounted(() => {
     message.value = val === 'congrats' ? val : ''
     router.replace({ query: { redesign: 'true' } })
   })
+})
+
+const title = computed(() => nft.value?.name)
+const meta = computed(() => {
+  return [
+    ...$seoMeta({
+      title: title.value,
+      description: nftMetadata.value?.description,
+      image: generateNftImage(
+        nft.value?.name || '',
+        formatBalanceEmptyOnZero(nft.value?.price as string),
+        sanitizeIpfsUrl(nftImage.value || ''),
+        nftMimeType.value
+      ),
+      mime: nftMimeType.value,
+      url: route.path,
+      video: sanitizeIpfsUrl(nftAnimation.value || ''),
+    }),
+  ]
+})
+
+useNuxt2Meta({
+  title,
+  meta,
 })
 </script>
 
