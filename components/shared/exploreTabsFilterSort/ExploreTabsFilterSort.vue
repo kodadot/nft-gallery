@@ -5,17 +5,22 @@
       {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
-    <div class="mb-5 explore-tabs container">
-      <NeoButton
-        class="btn-collection"
-        :selected="selectedTab === TabType.COLLECTION"
-        :label="$t('collections')"
-        @click.native="updateTab(TabType.COLLECTION)" />
-      <NeoButton
-        class="btn-items"
-        :selected="selectedTab === TabType.ITEMS"
-        :label="$t('items')"
-        @click.native="updateTab(TabType.ITEMS)" />
+
+    <div class="mb-5 explore-tabs container is-flex">
+      <p>
+        <NeoButton
+          class="btn-collection"
+          :selected="selectedTab === TabType.COLLECTION"
+          :label="$t('collections')"
+          @click.native="updateTab(TabType.COLLECTION)" />
+      </p>
+      <p>
+        <NeoButton
+          class="btn-items"
+          :selected="selectedTab === TabType.ITEMS"
+          :label="$t('items')"
+          @click.native="updateTab(TabType.ITEMS)" />
+      </p>
     </div>
   </div>
 </template>
@@ -58,7 +63,6 @@ const updateTab = (val) => {
 .explore-tabs {
   .btn-items {
     width: 240px;
-    left: -6px;
     border-left: none;
   }
 
