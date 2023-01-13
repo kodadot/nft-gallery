@@ -1,7 +1,7 @@
 <template>
   <section class="py-5 gallery-item">
     <MessageNotify
-      v-if="message"
+      v-if="message || showCongratsMessage"
       :title="$t('mint.success')"
       :subtitle="$t('mint.successNewNfts')" />
     <div class="columns">
@@ -56,7 +56,7 @@
           <hr />
 
           <!-- price section -->
-          <GalleryItemAction />
+          <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
         </div>
       </div>
     </div>
@@ -67,7 +67,7 @@
       </div>
 
       <div class="column mobile-top-margin">
-        <GalleryItemTabsPanel />
+        <GalleryItemTabsPanel :active-tab="activeTab" />
       </div>
     </div>
 
@@ -94,6 +94,18 @@ import { exist } from '@/components/search/exist'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
+const tabs = {
+  offers: '0',
+  activity: '1',
+  chart: '2',
+}
+const activeTab = ref(tabs.offers)
+const showCongratsMessage = ref(false)
+
+const onNFTBought = () => {
+  activeTab.value = tabs.activity
+  showCongratsMessage.value = true
+}
 const route = useRoute()
 const router = useRouter()
 const message = ref('')

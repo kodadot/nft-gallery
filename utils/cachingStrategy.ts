@@ -33,7 +33,14 @@ export const getSingleCloudflareImage = async (
   return get<string>(fastExtract(metadata), imageStore)
 }
 
-export const processSingleMetadata = async <T>(metadata: string): P<T> => {
+export const processSingleMetadata = async <T>(
+  metadata: string,
+  disableIDB = false
+): P<T> => {
+  if (disableIDB) {
+    return cacheOrFetchMetadata<T>(undefined, metadata)
+  }
+
   const meta = metadata ? await get(metadata) : undefined
   return cacheOrFetchMetadata(meta, metadata)
 }

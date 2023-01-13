@@ -69,9 +69,9 @@
   },
   "topCollections": {
     "timeFrames": {
-      "7 Days": "7 Days",
-      "30 Days": "30 Days",
-      "90 Days": "90 Days",
+      "week": "7 Days",
+      "month": "30 Days",
+      "quarter": "90 Days",
       "all": "All"
     }
   },
@@ -686,6 +686,8 @@
     "frozen": "NFT is frozen",
     "related": "More From This Collection",
     "visited": "Visited NFTs",
+    "buyNFTOn": "Buy NFT on",
+    "notListed": "Not Listed",
     "event": {
       "MINTNFT": "MINT",
       "LIST": "LIST",
@@ -700,7 +702,9 @@
       "PAY_ROYALTY": "PAY ROYALTY"
     },
     "action": {
-      "submit": "Submit {0}"
+      "submit": "Submit {0}",
+      "buy": "Buy",
+      "confirm": "Confirm"
     },
     "properties": {
       "label": "Attributes"
@@ -713,6 +717,10 @@
       "status": "Offer status",
       "date": "Date",
       "title": "Global Marketplace Offers"
+    },
+    "notification" : {
+      "nftChanged": "[{chain}::{action}] Owner changed or NFT does not exist",
+      "info": "[{action}] NFT: {itemId}"
     }
   },
   "offer": {

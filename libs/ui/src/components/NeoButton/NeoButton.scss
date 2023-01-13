@@ -3,17 +3,22 @@
 
 .is-neo {
   border-radius: 0;
-  color: hsl(0deg, 0%, 4%);
-  background: hsl(0deg, 0%, 100%);
-  border: 1px solid hsl(0deg, 0%, 4%);
-  -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
-  box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+  color: $black;
+  background: $white;
+  border: 1px solid $black;
+  -webkit-box-shadow: 4px 4px $black;
+  box-shadow: 4px 4px $black;
   font-family: inherit;
   padding-top: 8px;
   padding-bottom: 8px;
 
   &:hover {
     background: $k-accentlight;
+  }
+
+  &.active {
+    background-color: black;
+    color: white;
   }
 }
 
@@ -22,7 +27,13 @@
     background-color: $k-accent;
 
     &:hover {
-      background: $white !important;
+      background: $white;
+    }
+    &.o-btn--disabled {
+      opacity: unset;
+      background-color: $shade;
+      color: $k-grey;
+      border-color: $k-grey;
     }
   }
 
@@ -30,7 +41,13 @@
     background-color: $k-blue;
 
     &:hover {
-      background: $white !important;
+      background: $white;
+    }
+    &.o-btn--disabled {
+      opacity: unset;
+      background-color: $shade;
+      color: $k-grey;
+      border-color: $k-grey;
     }
   }
 
@@ -51,22 +68,23 @@
   }
 }
 
-.is-fixed-width {
-  width: 10rem;
-}
-
 .dark-mode {
   .is-neo {
-    color: hsl(0deg, 0%, 100%);
-    background: hsl(330, 4%, 9%);
-    border: 1px solid hsl(0deg, 0%, 100%);
-    -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
-    box-shadow: 4px 4px hsl(0deg, 0%, 100%);
+    color: $white;
+    background: $k-dark;
+    border: 1px solid $white;
+    -webkit-box-shadow: $primary-shadow-dark;
+    box-shadow: $primary-shadow-dark;
 
     &:hover {
       background: $k-accent;
-      color: hsl(0deg, 0%, 4%);
+      color: $black;
     }
+    &.active {
+      background-color: white;
+      color: black;
+    }
+
   }
 
   .o-btn {
@@ -74,9 +92,18 @@
       background: $k-accent;
       color: $black;
 
+
+
       &:hover {
-        background: $k-dark !important;
+        background: $k-dark;
         color: $white;
+      }
+
+      &.o-btn--disabled {
+        opacity: unset;
+        background-color: $k-grey;
+        color: $shade;
+        border-color: $shade;
       }
     }
 
@@ -85,8 +112,14 @@
       color: $black;
 
       &:hover {
-        background: $k-dark !important;
+        background: $k-dark;
         color: $white;
+      }
+      &.o-btn--disabled {
+        opacity: unset;
+        background-color: $k-grey;
+        color: $shade;
+        border-color: $shade;
       }
     }
 
@@ -104,4 +137,8 @@
       box-shadow: none;
     }
   }
+}
+
+.is-fixed-width {
+  width: 10rem;
 }
