@@ -32,7 +32,7 @@ importers:
       '@kodadot1/brick': workspace:*
       '@kodadot1/minimark': ^0.0.1-rc.10
       '@kodadot1/sub-api': 0.1.1-alpha.4
-      '@kodadot1/vuex-options': 0.0.3-rc.10
+      '@kodadot1/vuex-options': 0.0.3-rc.11
       '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27672061.a645f7f
       '@nuxt/test-utils': ^0.2.2
       '@nuxt/types': ^2.15.8
@@ -137,7 +137,7 @@ importers:
       '@kodadot1/brick': link:libs/ui
       '@kodadot1/minimark': 0.0.1-rc.10
       '@kodadot1/sub-api': 0.1.1-alpha.4
-      '@kodadot1/vuex-options': 0.0.3-rc.10
+      '@kodadot1/vuex-options': 0.0.3-rc.11
       '@nuxtjs/apollo': 4.0.1-rc.5_f5of7corczyyzufgn47mquc2mu
       '@nuxtjs/i18n': 7.3.1_vue@2.7.14
       '@nuxtjs/sentry': 7.0.2_vue@2.7.14
@@ -3115,8 +3115,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@kodadot1/vuex-options/0.0.3-rc.10:
-    resolution: {integrity: sha512-3r+PKuSK95PJX9A3e7/oqODT0LZ1lcaU/SDUwex16kDRo32xFXuAN0agYrAGCnnny7hGa90wjwKj7yujQcvA0g==}
+  /@kodadot1/vuex-options/0.0.3-rc.11:
+    resolution: {integrity: sha512-AvhLRNZafb56L7lom3sTSxt+SeZJN5748Z3coz/ULbrJXMCD8fGnifVNO6qCBt9F8VNcJsM8i+OcPnivWlmSGA==}
     dependencies:
       '@polkadot/networks': 10.1.7
     dev: false
@@ -4625,7 +4625,7 @@ packages:
       '@phala/typedefs': 0.2.32
       '@polkadot/api': 9.11.1
       '@polkadot/api-derive': 9.11.1
-      '@polkadot/networks': 10.2.3
+      '@polkadot/networks': 10.2.6
       '@polkadot/types': 9.11.1
       '@polkadot/util': 10.1.9
       '@polkadot/x-fetch': 10.2.3
@@ -4786,9 +4786,9 @@ packages:
     resolution: {integrity: sha512-ol864SZ/GwAF72GQOPRy+Y9r6NtgJJjMBlDLESvV5VK64eEB0MRSSyiOdd7y/4SumR9crrrNimx3ynACFgxZ8A==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@babel/runtime': 7.20.6
+      '@babel/runtime': 7.20.7
       '@polkadot/util': 10.1.9
-      '@substrate/ss58-registry': 1.36.0
+      '@substrate/ss58-registry': 1.37.0
     dev: false
 
   /@polkadot/networks/10.1.9:
@@ -5269,7 +5269,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.20.7
-      '@polkadot/networks': 10.2.3
+      '@polkadot/networks': 10.2.6
       '@polkadot/types': 9.11.1
       '@polkadot/types-codec': 9.11.1
       '@polkadot/types-create': 9.11.1
@@ -6567,10 +6567,6 @@ packages:
       - utf-8-validate
     dev: false
     optional: true
-
-  /@substrate/ss58-registry/1.36.0:
-    resolution: {integrity: sha512-YfQIpe2bIvGg/XWNByycznbOiAknMvpYaUpQJ2sLmNT/OwPx7XjEXk7dLShccuiQDoOQt3trTtF3Frz/Tjv6Fg==}
-    dev: false
 
   /@substrate/ss58-registry/1.37.0:
     resolution: {integrity: sha512-8R/4aQdZlKEPNrp2HSoPNxlDPPOyJe20qFk2w1hT0lXVbY4ZALrsO5Z4NrObAM2D9wTSpcxNKMFVQ2hIsqEHdw==}
@@ -15752,6 +15748,7 @@ packages:
       pathe: 1.0.0
       pkg-types: 1.0.1
       ufo: 1.0.1
+    dev: false
 
   /mlly/1.1.0:
     resolution: {integrity: sha512-cwzBrBfwGC1gYJyfcy8TcZU1f+dbH/T+TuOhtYP2wLv/Fb51/uV7HJQfBPtEupZ2ORLRU1EKFS/QfS3eo9+kBQ==}
@@ -15760,7 +15757,6 @@ packages:
       pathe: 1.0.0
       pkg-types: 1.0.1
       ufo: 1.0.1
-    dev: true
 
   /mock-socket/9.1.5:
     resolution: {integrity: sha512-3DeNIcsQixWHHKk6NdoBhWI4t1VMj5/HzfnI1rE/pLl5qKx7+gd4DNA07ehTaZ6MoUU053si6Hd+YtiM/tQZfg==}
@@ -16856,7 +16852,7 @@ packages:
     resolution: {integrity: sha512-jHv9HB+Ho7dj6ItwppRDDl0iZRYBD0jsakHXtFgoLr+cHSF6xC+QL54sJmWxyGxOLYSHm0afhXhXcQDQqH9z8g==}
     dependencies:
       jsonc-parser: 3.2.0
-      mlly: 1.0.0
+      mlly: 1.1.0
       pathe: 1.0.0
 
   /pluralize/8.0.0:
