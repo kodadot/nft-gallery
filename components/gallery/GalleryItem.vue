@@ -56,7 +56,10 @@
           <hr />
 
           <!-- price section -->
-          <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
+          <GalleryItemAction
+            :nft="nft"
+            :offers-disabled="offersDisabled"
+            @buy-success="onNFTBought" />
         </div>
       </div>
     </div>
@@ -67,7 +70,9 @@
       </div>
 
       <div class="column mobile-top-margin">
-        <GalleryItemTabsPanel :active-tab="activeTab" />
+        <GalleryItemTabsPanel
+          :active-tab="activeTab"
+          :offers-disabled="offersDisabled" />
       </div>
     </div>
 
@@ -116,6 +121,10 @@ const onNFTBought = () => {
 const route = useRoute()
 const router = useRouter()
 const message = ref('')
+
+const offersDisabled = computed(() => {
+  return urlPrefix.value !== 'snek' && urlPrefix.value !== 'bsx'
+})
 
 const CarouselTypeRelated = defineAsyncComponent(
   () => import('@/components/carousel/CarouselTypeRelated.vue')
