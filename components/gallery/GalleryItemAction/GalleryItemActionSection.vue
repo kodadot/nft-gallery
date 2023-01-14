@@ -3,7 +3,7 @@
     <div>
       <p class="has-text-grey">{{ title }}</p>
       <div class="is-flex is-align-items-center">
-        <div v-if="Number(price)" class="has-text-weight-bold is-size-3 mr-5">
+        <div v-if="Number(price)" class="has-text-weight-bold is-size-3 mr-6">
           {{ priceChain }}
         </div>
         <div v-else class="has-text-weight-bold is-size-3">--</div>

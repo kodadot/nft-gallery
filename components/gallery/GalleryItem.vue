@@ -5,7 +5,7 @@
       :title="$t('mint.success')"
       :subtitle="$t('mint.successNewNfts')" />
     <div class="columns">
-      <div class="column is-two-fifths">
+      <div class="pr-4 column is-two-fifths">
         <MediaItem
           :key="nftImage"
           class="gallery-item-media"
@@ -14,7 +14,7 @@
           :mime-type="nftMimeType"
           :title="nft?.name" />
       </div>
-      <div class="column">
+      <div class="pl-4 py-6 column">
         <div
           class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
           <!-- title section -->
@@ -36,7 +36,8 @@
               </div>
             </div>
 
-            <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4">
+            <div
+              class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4 pt-6">
               <IdentityItem
                 v-if="nft?.issuer"
                 class="gallery-avatar"
@@ -56,17 +57,20 @@
           <hr />
 
           <!-- price section -->
-          <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
+          <GalleryItemAction
+            class="is-flex is-flex-direction-column is-flex-grow-1 is-justify-content-start"
+            :nft="nft"
+            @buy-success="onNFTBought" />
         </div>
       </div>
     </div>
 
     <div class="columns mt-6">
-      <div class="column is-two-fifths">
+      <div class="pr-4 column is-two-fifths">
         <GalleryItemDescription />
       </div>
 
-      <div class="column mobile-top-margin">
+      <div class="pl-4 column mobile-top-margin">
         <GalleryItemTabsPanel :active-tab="activeTab" />
       </div>
     </div>
@@ -159,6 +163,11 @@ useNuxt2Meta({
 <style lang="scss" scoped>
 .title {
   font-size: 2.4375em;
+}
+
+hr {
+  height: 1px;
+  margin: 60px 0;
 }
 
 .mobile-top-margin {
