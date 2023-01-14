@@ -103,9 +103,8 @@ const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const props = defineProps<{
   chain?: string
+  isMobile?: boolean
 }>()
-
-const isMobile = isMobileDevice
 
 const offersUrl = computed(
   () =>
