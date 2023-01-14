@@ -67,18 +67,6 @@ Cypress.Commands.add('snekNavbar', () => {
   cy.get('[data-cy="chain-select"]').click()
 })
 
-Cypress.Commands.add('collectionsBuyNow', () => {
-  cy.get('[data-cy="buy-now"]').within(() => {
-    cy.get('[type="checkbox"]').check({ force: true })
-    cy.get('[type="checkbox"]').should('be.checked')
-  })
-
-  cy.get('[data-cy="collection-index-0"]').should('exist')
-  cy.get('[data-cy="collection-index-1"]').should('exist')
-  cy.get('[data-cy="collection-index-2"]').should('exist')
-  cy.get('[data-cy="collection-index-3"]').should('exist')
-})
-
 Cypress.Commands.add('snekGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/snek/gallery/${nftId}`)
   cy.waitForNetworkIdle('POST', '*', 1000)
@@ -164,21 +152,6 @@ declare global {
       loginWithKeyring(): Chainable<Element>
 
       /**
-       * @desc clicks on sort button in gallery (rmrk), checks whether all the sort options are visible, finally selects Low to High price options
-       */
-      rmrkGallerySortBy(): Chainable<Element>
-
-      /**
-       * @desc clicks on sort button in gallery (snek), checks whether all the sort options are visible, finally selects Low to High price options
-       */
-      snekGallerySortBy(): Chainable<Element>
-
-      /**
-       * @desc check whether collection sorting is visible, then selects both of the options one by one
-       */
-      collectionsSortBy(): Chainable<Element>
-
-      /**
        * @desc checks whether the elements of RMRK navbar are visible, goes through some options and clicks them
        */
       rmrkNavbar(): Chainable<Element>
@@ -187,23 +160,6 @@ declare global {
        * @desc checks whether the elements of snek navbar are visible, goes through some options and clicks them
        */
       snekNavbar(): Chainable<Element>
-
-      /**
-       * @desc makes sure Buy Now toggle is on, checks the first item fetched, makes sure the price of it is more than 0
-       */
-      collectionsBuyNow(): Chainable<Element>
-
-      /**
-       * @desc tests buy now in gallery by checking the price of the first item
-       * @param amount - what kind of amount are you testing for (set for in tests)
-       *
-       */
-      galleryBuyNow(amount: number): Chainable<Element>
-
-      /**
-       * @desc makes sure that 'Buy Now' toggle in gallery is off
-       */
-      toggleBuyNowGallery(): Chainable<Element>
 
       /**
        * @desc checks all of the actions available when interacted with listed item on snek
