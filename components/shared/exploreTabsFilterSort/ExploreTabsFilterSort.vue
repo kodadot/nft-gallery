@@ -27,15 +27,25 @@
 
 <script setup lang="ts" scoped>
 import { NeoButton } from '@kodadot1/brick'
-
+import shouldUpdate from '@/utils/shouldUpdate'
 enum TabType {
   COLLECTION = 'collectibles',
   ITEMS = 'items',
 }
 
 const { $route, $router } = useNuxtApp()
-let selectedTab = ref($route.name?.split('-')[2])
 
+const getExploreTabFromRouteName = (route) => route?.name?.split('-')[2]
+let selectedTab = ref(getExploreTabFromRouteName($route))
+
+watch(
+  () => getExploreTabFromRouteName(useNuxtApp()?.$route),
+  (newTab) => {
+    if (shouldUpdate(newTab, selectedTab.value)) {
+      selectedTab.value = newTab
+    }
+  }
+)
 const updateTab = (val) => {
   selectedTab.value = val
   $route.query.page = ''
