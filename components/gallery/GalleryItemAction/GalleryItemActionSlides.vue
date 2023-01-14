@@ -27,7 +27,7 @@ defineProps<{
   width: 10rem;
 
   &-active {
-    width: 30rem;
+    width: 22rem;
   }
 
   &-action {
@@ -48,10 +48,10 @@ defineProps<{
     justify-content: center;
     white-space: nowrap;
     height: 54px;
-    width: 20rem;
+    width: 12rem;
 
     & > * {
-      width: 20rem;
+      width: 12rem;
     }
 
     input {
@@ -59,7 +59,6 @@ defineProps<{
       border-left: 0;
       height: 54px;
       outline: none;
-      padding: 0 1rem;
       width: 100%;
     }
   }
