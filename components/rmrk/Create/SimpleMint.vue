@@ -2,10 +2,10 @@
   <section>
     <br />
     <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-3">
+    <h2 class="title is-size-3">
       <!-- {{ $t('mint.context') }} -->
       Create NFT Collectibles
-    </p>
+    </h2>
     <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
     <b-field>
       <div>
@@ -188,7 +188,7 @@ import {
   DETAIL_TIMEOUT,
   IPFS_KODADOT_IMAGE_PLACEHOLDER,
 } from '@/utils/constants'
-import { uploadDirect } from '@/utils/directUpload'
+import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import { emptyObject } from '@/utils/empty'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
@@ -815,9 +815,10 @@ export default class SimpleMint extends mixins(
 
     const metaHash = await pinJson(meta, imageHash)
 
-    if (file) {
-      uploadDirect(file, metaHash).catch(this.$consola.warn)
-    }
+    uploadDirectWhenMultiple(
+      [file, secondFile],
+      [fileHash, secondFileHash]
+    ).catch(this.$consola.warn)
     return unSanitizeIpfsUrl(metaHash)
   }
 

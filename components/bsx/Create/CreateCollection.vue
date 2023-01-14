@@ -27,6 +27,7 @@
         </b-field>
         <b-field type="is-danger" :message="balanceNotEnoughMessage">
           <SubmitButton
+            expanded
             label="create collection"
             :loading="isLoading"
             @click="submit" />
@@ -89,12 +90,12 @@ export default class CreateCollection extends mixins(
   PrefixMixin,
   ApiUrlMixin
 ) {
-  private base: BaseCollectionType = {
+  public base: BaseCollectionType = {
     name: '',
     file: null,
     description: '',
   }
-  protected collectionDeposit = ''
+  public collectionDeposit = ''
   protected id = '0'
   protected attributes: Attribute[] = []
   protected balanceNotEnough = false
@@ -144,6 +145,11 @@ export default class CreateCollection extends mixins(
       type
     )
     const metaHash = await pinJson(meta, imageHash)
+
+    if (file) {
+      this.$consola.log('[UPLOADING FILE]')
+      uploadDirect(file, imageHash).catch(this.$consola.warn)
+    }
 
     return unSanitizeIpfsUrl(metaHash)
   }
@@ -206,7 +212,7 @@ export default class CreateCollection extends mixins(
     }
   }
 
-  protected async submit(): Promise<void> {
+  public async submit(): Promise<void> {
     // check fields
     if (!this.checkValidity()) {
       return
@@ -236,11 +242,6 @@ export default class CreateCollection extends mixins(
       const randomId = await this.generateNewCollectionId()
 
       const args = this.cretateArgs(randomId, metadata)
-
-      if (this.base.file) {
-        this.$consola.log('[UPLOADING FILE]')
-        uploadDirect(this.base.file, this.accountId).catch(this.$consola.warn)
-      }
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
         showNotification(

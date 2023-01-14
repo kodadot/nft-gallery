@@ -33,7 +33,12 @@
             visible="collapse.collection.attributes.show"
             hidden="collapse.collection.attributes.hide" />
         </div>
-        <RoyaltyForm key="royalty" v-bind.sync="royalty" />
+
+        <BasicSwitch
+          key="hasRoyalty"
+          v-model="hasRoyalty"
+          label="mint.listWithRoyalty" />
+        <RoyaltyForm v-if="hasRoyalty" key="royalty" v-bind.sync="royalty" />
       </template>
       <template #footer>
         <b-field key="advanced">
@@ -65,6 +70,7 @@
           type="is-danger"
           :message="balanceNotEnoughMessage">
           <SubmitButton
+            expanded
             label="mint.submit"
             :loading="isLoading"
             @click="submit()" />
@@ -110,8 +116,9 @@ import { unwrapSafe } from '@/utils/uniquery'
 import { Royalty, isRoyaltyValid } from '@/utils/royalty'
 import { fetchCollectionMetadata, preheatFileFromIPFS } from '@/utils/ipfs'
 import { getMany, update } from 'idb-keyval'
-import ApiUrlMixin from '~/utils/mixins/apiUrlMixin'
+import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
+import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -147,7 +154,7 @@ export default class CreateToken extends mixins(
 ) {
   @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
 
-  protected base: BaseTokenType<MintedCollection> = {
+  public base: BaseTokenType<MintedCollection> = {
     name: '',
     file: null,
     description: '',
@@ -155,15 +162,15 @@ export default class CreateToken extends mixins(
     edition: 1,
     secondFile: null,
   }
-  protected collections: MintedCollection[] = []
-  protected postfix = true
-  protected deposit = '0'
-  protected depositPerByte = BigInt(0)
-  protected attributes: Attribute[] = []
-  protected nsfw = false
-  protected price = '0'
-  protected listed = true
-  protected royalty: Royalty = {
+  public collections: MintedCollection[] = []
+  public postfix = true
+  public deposit = '0'
+  public attributes: Attribute[] = []
+  public nsfw = false
+  public price = '0'
+  public listed = false
+  public hasRoyalty = true
+  public royalty: Royalty = {
     amount: 0.15,
     address: '',
   }
@@ -177,10 +184,6 @@ export default class CreateToken extends mixins(
   protected updatePrice(value: string) {
     this.price = value
     this.balanceInput.checkValidity()
-  }
-
-  get hasPrice() {
-    return Number(this.price)
   }
 
   get balanceNotEnoughMessage() {
@@ -256,19 +259,6 @@ export default class CreateToken extends mixins(
     })
   }
 
-  get hasSupport(): boolean {
-    return this.$store.state.preferences.hasSupport
-  }
-
-  get arweaveUpload(): boolean {
-    return this.$store.state.preferences.arweaveUpload
-  }
-
-  get validPriceValue(): boolean {
-    const price = parseInt(this.price as string)
-    return !this.listed || price > 0
-  }
-
   get tokenId() {
     return getKusamaAssetId(this.urlPrefix)
   }
@@ -283,7 +273,7 @@ export default class CreateToken extends mixins(
     return balanceInputValid && baseTokenFormValid
   }
 
-  protected async submit(retryCount = 0): Promise<void> {
+  public async submit(retryCount = 0): Promise<void> {
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
     }
@@ -317,16 +307,17 @@ export default class CreateToken extends mixins(
         ? [api.tx.marketplace.setPrice(collectionId, nextId, this.price)]
         : []
 
-      const addRoyalty = isRoyaltyValid(this.royalty)
-        ? [
-            api.tx.marketplace.addRoyalty(
-              collectionId,
-              nextId,
-              this.royalty.address,
-              this.royalty.amount * 100
-            ),
-          ]
-        : []
+      const addRoyalty =
+        isRoyaltyValid(this.royalty) && this.hasRoyalty
+          ? [
+              api.tx.marketplace.addRoyalty(
+                collectionId,
+                nextId,
+                this.royalty.address,
+                this.royalty.amount * 100
+              ),
+            ]
+          : []
 
       const args = [[create, ...list, ...addRoyalty]]
 
@@ -398,7 +389,11 @@ export default class CreateToken extends mixins(
     )
 
     preheatFileFromIPFS(fileHash)
-    // uploadDirect(file, this.accountId).catch(this.$consola.warn)
+
+    uploadDirectWhenMultiple(
+      [file, secondFile],
+      [fileHash, secondFileHash]
+    ).catch(this.$consola.warn)
     const metaHash = await pinJson(meta, imageHash)
     const metadata = unSanitizeIpfsUrl(metaHash)
     this.metadata = metadata

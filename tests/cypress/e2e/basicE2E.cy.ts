@@ -34,7 +34,7 @@ describe('exploreRmrkCollections', () => {
 
 describe('exploreRmrkGallery', () => {
   it('loadExplore', () => {
-    cy.visit('/rmrk/explore?tab=GALLERY&page=1')
+    cy.visit('/rmrk/explore/items?page=1')
   })
   it('exploreTabs', () => {
     cy.exploreTabs()
