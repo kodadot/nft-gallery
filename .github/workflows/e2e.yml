@@ -17,7 +17,7 @@ jobs:
       CYPRESS_CACHE_FOLDER: '${GITHUB_WORKSPACE}/.cypress-cache'
     strategy:
       matrix:
-        index: [1, 2, 3, 4] # [1, ..., n] where n === parallelSize in e2e-run-tests.js
+        index: [1, 2, 3, 4, 5] # [1, ..., n] where n === parallelSize in e2e-run-tests.js
     steps:
       - uses: actions/checkout@v3
 

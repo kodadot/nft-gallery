@@ -22,57 +22,6 @@ Cypress.Commands.add('loginWithKeyring', () => {
   cy.waitForNetworkIdle('POST', '*', 1000)
 })
 
-Cypress.Commands.add('exploreTabs', () => {
-  cy.get('[data-cy="tabs"]')
-    .should('be.visible')
-    .within(() => {
-      cy.contains('Collections').should('be.visible')
-      cy.contains('Gallery').should('be.visible')
-    })
-})
-
-Cypress.Commands.add('rmrkGallerySortBy', () => {
-  cy.waitForNetworkIdle('POST', '*', 1000)
-  // TODO: clean up selector -> too many elements for data-cy
-  cy.get(
-    '#GALLERY-content .collapse #sortAndFilter [data-cy="gallery-sort-by"]'
-  ).click()
-  cy.get('[data-cy="Recently Created"]').should('be.visible')
-  cy.get('[data-cy="Oldest"]').should('be.visible')
-  cy.get('[data-cy="Price: High to Low"]').should('be.visible')
-  cy.get('[data-cy="Price: Low to High"]').should('be.visible')
-  cy.get('[data-cy="Recently Interacted"]').should('be.visible')
-  cy.get('[data-cy="Unpopular"]').should('be.visible')
-  // cy.get('[data-cy="Most reacted"]').should('be.visible')
-  // TODO: clean up selector -> too many elements for data-cy
-  cy.get(
-    '#GALLERY-content .collapse #sortAndFilter [data-cy="Price: Low to High"]'
-  ).click()
-})
-
-Cypress.Commands.add('snekGallerySortBy', () => {
-  // TODO: clean up selector -> too many elements for data-cy
-  cy.get(
-    '#GALLERY-content .collapse #sortAndFilter [data-cy="gallery-sort-by"]'
-  ).click()
-  cy.get('[data-cy="Recently Created"]').should('be.visible')
-  cy.get('[data-cy="Oldest"]').should('be.visible')
-  cy.get('[data-cy="Price: High to Low"]').should('be.visible')
-  cy.get('[data-cy="Price: Low to High"]').should('be.visible')
-  cy.get('[data-cy="Recently Interacted"]').should('be.visible')
-  cy.get('[data-cy="Unpopular"]').should('be.visible')
-  // TODO: clean up selector -> too many elements for data-cy
-  cy.get(
-    '#GALLERY-content .collapse #sortAndFilter [data-cy="Price: Low to High"]'
-  ).click()
-})
-
-Cypress.Commands.add('collectionsSortBy', () => {
-  cy.get('[data-cy="collection-sort-by"]').should('be.visible')
-  cy.get('[data-cy="collection-sort-by"]').select('Old first')
-  cy.get('[data-cy="collection-sort-by"]').select('New first')
-})
-
 Cypress.Commands.add('rmrkNavbar', () => {
   cy.get('[data-cy="classic"]')
     .should('have.attr', 'href')
@@ -118,10 +67,6 @@ Cypress.Commands.add('snekNavbar', () => {
   cy.get('[data-cy="chain-select"]').click()
 })
 
-Cypress.Commands.add('expandGallerySearch', () => {
-  cy.get('[data-cy="expand-search"]').click({ force: true })
-})
-
 Cypress.Commands.add('collectionsBuyNow', () => {
   cy.get('[data-cy="buy-now"]').within(() => {
     cy.get('[type="checkbox"]').check({ force: true })
@@ -132,28 +77,6 @@ Cypress.Commands.add('collectionsBuyNow', () => {
   cy.get('[data-cy="collection-index-1"]').should('exist')
   cy.get('[data-cy="collection-index-2"]').should('exist')
   cy.get('[data-cy="collection-index-3"]').should('exist')
-})
-
-Cypress.Commands.add('galleryBuyNow', (amount) => {
-  cy.toggleBuyNowGallery()
-  cy.get('[data-cy="item-index-0"] .money')
-    .invoke('text')
-    .then((text) => {
-      if (!(parseFloat(text.replace(',', '')) >= amount)) {
-        throw '[ERROR] Gallery BUY NOW is not working'
-      }
-    })
-})
-
-Cypress.Commands.add('galleryInputFields', (amount) => {
-  cy.get('[data-cy="input-min"]').type(String(amount), { force: true })
-  cy.get('[data-cy="apply"]').click({ force: true })
-})
-
-Cypress.Commands.add('toggleBuyNowGallery', () => {
-  cy.get('[data-cy="buy-now"]').within(() => {
-    return cy.get('[type="checkbox"]').check({ force: true, timeout: 5000 })
-  })
 })
 
 Cypress.Commands.add('snekGalleryListedItemActions', (nftId, creator) => {
@@ -241,11 +164,6 @@ declare global {
       loginWithKeyring(): Chainable<Element>
 
       /**
-       * @desc checks tab in /explore section, checks whether the tab section contains two visible tabs
-       */
-      exploreTabs(): Chainable<Element>
-
-      /**
        * @desc clicks on sort button in gallery (rmrk), checks whether all the sort options are visible, finally selects Low to High price options
        */
       rmrkGallerySortBy(): Chainable<Element>
@@ -271,11 +189,6 @@ declare global {
       snekNavbar(): Chainable<Element>
 
       /**
-       * @desc click on expand gallery search
-       */
-      expandGallerySearch(): Chainable<Element>
-
-      /**
        * @desc makes sure Buy Now toggle is on, checks the first item fetched, makes sure the price of it is more than 0
        */
       collectionsBuyNow(): Chainable<Element>
@@ -286,12 +199,6 @@ declare global {
        *
        */
       galleryBuyNow(amount: number): Chainable<Element>
-
-      /**
-       * @desc enters the amount to the input field "Min" and hits "Apply"
-       * @param amount selected to be but into input field
-       */
-      galleryInputFields(amount: number): Chainable<Element>
 
       /**
        * @desc makes sure that 'Buy Now' toggle in gallery is off
