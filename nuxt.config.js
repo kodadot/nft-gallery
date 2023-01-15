@@ -204,6 +204,7 @@ export default defineNuxtConfig({
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     '@nuxtjs/sentry',
+    '@kevinmarrec/nuxt-pwa',
   ],
 
   sentry: {
@@ -378,12 +379,14 @@ export default defineNuxtConfig({
   // env: {
   //   baseUrl : process.env.BASE_URL || 'http://localhost:9090',
   // },
-  // https://nuxtjs.org/docs/configuration-glossary/configuration-env/
-  publicRuntimeConfig: {
-    prefix: process.env.URL_PREFIX || 'rmrk',
-    baseUrl: process.env.BASE_URL || 'http://localhost:9090',
-    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
-    dev: process.env.NODE_ENV === 'development',
+  // https://nuxtjs.org/docs/configuration-glossary/configuration-env/,
+  runtimeConfig: {
+    public: {
+      prefix: process.env.URL_PREFIX || 'rmrk',
+      baseUrl: process.env.BASE_URL || 'http://localhost:9090',
+      googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
+      dev: process.env.NODE_ENV === 'development',
+    },
   },
   // In case of using ssr
   // privateRuntimeConfig: {}

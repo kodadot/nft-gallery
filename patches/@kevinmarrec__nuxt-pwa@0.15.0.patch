@@ -1,0 +1,18 @@
+diff --git a/dist/module.mjs b/dist/module.mjs
+index bd2dd6975bb57752abe52060b9a447dae586bdeb..9ead613c02732ca211222febf76b793a3ae7f46f 100644
+--- a/dist/module.mjs
++++ b/dist/module.mjs
+@@ -400,8 +400,11 @@ const module = defineNuxtModule({
+     addImportsDir(ctx._resolver.resolve("./runtime/composables"));
+     for (const part of parts)
+       await part(ctx);
+-    nitro.publicAssets = nitro.publicAssets || [];
+-    nitro.publicAssets.push({ dir: ctx._buildDir, baseURL: "/" });
++
++    if (nitro) {
++      nitro.publicAssets = nitro.publicAssets || [];
++      nitro.publicAssets.push({ dir: ctx._buildDir, baseURL: "/" });
++    }
+   }
+ });
+ 

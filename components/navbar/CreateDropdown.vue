@@ -86,7 +86,7 @@ export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
   get options() {
     const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']
 
-    if (!this.$config.dev) {
+    if (!this.$config.public.dev) {
       return availableUrlPrefixes.filter(
         (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
       )
