@@ -22,7 +22,6 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
-  // currently we can only use nitro in development https://github.com/nuxt/framework/issues/886
   bridge: {
     nitro: true,
   },
@@ -185,9 +184,6 @@ export default defineNuxtConfig({
     ],
   },
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@kevinmarrec/nuxt-pwa', '@nuxtjs/color-mode', '@vueuse/nuxt'],
-
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/buefy
@@ -205,6 +201,8 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/sentry',
     '@kevinmarrec/nuxt-pwa',
+    '@nuxtjs/color-mode',
+    '@vueuse/nuxt',
   ],
 
   sentry: {
