@@ -43,19 +43,13 @@ import GalleryItemPriceRelist from './GalleryItemActionType/GalleryItemRelist.vu
 import GalleryItemPriceTransfer from './GalleryItemActionType/GalleryItemTransfer.vue'
 
 import { NFT } from '~~/components/rmrk/service/scheme'
-const props = withDefaults(
-  defineProps<{
-    nft: NFT | undefined
-    offersDisabled?: boolean
-  }>(),
-  {
-    nft: undefined,
-    offersDisabled: false,
-  }
-)
+const props = defineProps<{
+  nft: NFT | undefined
+}>()
 
 const emit = defineEmits(['buy-success'])
 const { accountId } = useAuth()
+const { offersDisabled } = useChain()
 const isOwner = computed(() =>
   checkOwner(props.nft?.currentOwner, accountId.value)
 )

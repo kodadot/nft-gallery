@@ -3,7 +3,7 @@
     <!-- offers -->
     <DisablableTab
       value="0"
-      :disabled="offersTabDisabled"
+      :disabled="offersDisabled"
       :label="$t('tabs.offers')"
       :disabled-tooltip="$t('tabs.offersDisabled')">
       <GalleryItemOffers
@@ -41,26 +41,24 @@ import { DisablableTab } from '@kodadot1/brick'
 const props = withDefaults(
   defineProps<{
     activeTab?: string
-    offersDisabled?: boolean
   }>(),
   {
     activeTab: '0',
-    offersDisabled: false,
   }
 )
 
 const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()
+const { offersDisabled } = useChain()
 
 const activeTab = ref('0')
 const collectionId = ref('')
-const offersTabDisabled = ref(props.offersDisabled)
 
 watchEffect(() => {
   if (props.activeTab) {
     activeTab.value = props.activeTab
   }
-  if (offersTabDisabled.value) {
+  if (offersDisabled) {
     activeTab.value = '1'
   }
 
