@@ -1,7 +1,11 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <GalleryItemPriceSection v-if="nftPrice" title="Price" :price="nftPrice">
+    <GalleryItemPriceSection
+      v-if="nftPrice"
+      ref="root"
+      title="Price"
+      :price="nftPrice">
       <GalleryItemActionSlides
         v-if="Number(nftPrice)"
         ref="actionRef"
@@ -49,6 +53,8 @@ import { tokenIdToRoute } from '@/components/unique/utils'
 import { JustInteraction, createInteraction } from '@kodadot1/minimark'
 import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import useRmrkVersion from '@/composables/useRmrkVersion'
+import WalletModal from '@/components/common/WalletModal.vue'
+
 const props = withDefaults(
   defineProps<{
     nftId: string
@@ -66,7 +72,8 @@ const props = withDefaults(
 
 const { urlPrefix, client } = usePrefix()
 const { accountId } = useAuth()
-const { $store, $apollo, $i18n } = useNuxtApp()
+const root = ref(null)
+const { $store, $apollo, $i18n, $buefy } = useNuxtApp()
 const { apiInstance } = useApi()
 const emit = defineEmits(['buy-success'])
 const ACTION = 'BUY'
@@ -74,7 +81,7 @@ const actionLabel = $i18n.t('nft.action.buy')
 
 const { howAboutToExecute, initTransactionLoader, isLoading, status } =
   useMetaTransaction()
-
+const connected = computed(() => Boolean(accountId.value))
 const active = ref(false)
 const label = computed(() =>
   active.value ? $i18n.t('nft.action.confirm') : $i18n.t('nft.action.buy')
@@ -87,13 +94,23 @@ const balance = computed<string>(() => {
   return $store.getters.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
 })
 const disabled = computed(() => {
-  if (!(props.nftPrice && balance.value)) {
+  if (!(props.nftPrice && balance.value) || !connected.value) {
     return false
   }
   return Number(balance.value) <= Number(props.nftPrice)
 })
 
 function onClick() {
+  if (!connected.value) {
+    $buefy.modal.open({
+      parent: root?.value as any,
+      component: WalletModal,
+      hasModalCard: true,
+      trapFocus: true,
+      canCancel: true,
+    })
+    return
+  }
   if (active.value) {
     handleBuy()
   } else {
