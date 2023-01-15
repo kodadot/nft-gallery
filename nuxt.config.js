@@ -28,9 +28,6 @@ export default defineNuxtConfig({
 
   nitro: {
     publicAssets: [],
-    output: {
-      publicDir: 'dist',
-    },
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
