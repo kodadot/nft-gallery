@@ -3,6 +3,7 @@
     class="tippy-container"
     interactive
     :animate-fill="false"
+    boundary="viewport"
     placement="bottom"
     :delay="[100, 800]"
     data-cy="identity">
