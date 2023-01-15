@@ -5,7 +5,7 @@
     :animate-fill="false"
     boundary="viewport"
     placement="bottom"
-    :delay="[100, 800]"
+    :delay="0"
     data-cy="identity">
     <template #trigger>
       <slot name="trigger" />
