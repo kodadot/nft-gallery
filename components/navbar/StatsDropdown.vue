@@ -93,8 +93,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { isMobileDevice } from '@/utils/extension'
-
 const MobileExpandableSection = defineAsyncComponent(
   () => import('@/components/navbar/MobileExpandableSection.vue')
 )
