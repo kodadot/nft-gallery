@@ -181,8 +181,7 @@
       "@nuxt/kit": "3.0.0-rc.13"
     },
     "patchedDependencies": {
-      "vuex@3.6.2": "patches/vuex@3.6.2.patch",
-      "@kevinmarrec/nuxt-pwa@0.15.0": "patches/@kevinmarrec__nuxt-pwa@0.15.0.patch"
+      "vuex@3.6.2": "patches/vuex@3.6.2.patch"
     }
   }
 }
