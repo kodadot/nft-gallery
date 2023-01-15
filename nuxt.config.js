@@ -186,7 +186,7 @@ export default defineNuxtConfig({
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxtjs/pwa', '@nuxtjs/color-mode', '@vueuse/nuxt'],
+  buildModules: ['@kevinmarrec/nuxt-pwa', '@nuxtjs/color-mode', '@vueuse/nuxt'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -240,16 +240,17 @@ export default defineNuxtConfig({
       background_color: '#181717',
       theme_color: '#181717',
     },
-    workbox: {
-      // importScripts: [
-      //   'service-worker.js'
-      // ],
-      // swDest: 'service-worker.js',
-      // swURL: './'
-    },
+    // workbox: {
+    // importScripts: [
+    //   'service-worker.js'
+    // ],
+    // swDest: 'service-worker.js',
+    // swURL: './'
+    // },
 
     // according to Google using purpose ['any', 'maskable'] is discouraged
     icon: {
+      source: 'static/icon.png',
       purpose: ['any'],
     },
   },
@@ -302,6 +303,20 @@ export default defineNuxtConfig({
     babel: {
       // silence babel warning regarding exceeding file sizes (>500kb)
       compact: true,
+    },
+    optimization: {
+      runtimeChunk: true,
+      splitChunks: {
+        name: true,
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /.(css|vue)$/,
+            chunks: 'all',
+            enforce: true,
+          },
+        },
+      },
     },
     transpile: [
       '@kodadot1/sub-api',

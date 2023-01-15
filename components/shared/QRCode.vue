@@ -1,13 +1,25 @@
 <template>
-  <div class="qr-code-wrapper"></div>
+  <vue-qrcode
+    :value="text"
+    :options="{
+      width: size,
+      color: {
+        dark: color,
+        light: bgColor,
+      },
+    }" />
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import QRCode from '@keeex/qrcodejs-kx'
+import VueQrcode from '@chenfengyuan/vue-qrcode'
 import shouldUpdate from '@/utils/shouldUpdate'
 
-@Component({})
+@Component({
+  components: {
+    VueQrcode,
+  },
+})
 export default class QRCodeComponent extends Vue {
   @Prop({ type: String, required: true }) public text!: string
   @Prop({ type: Number, required: false, default: 256 }) public size!: number
@@ -27,16 +39,16 @@ export default class QRCodeComponent extends Vue {
 
   protected qrCode: Record<string, any> | null = null
 
-  public mounted(): void {
-    this.qrCode = new QRCode(this.$el, {
-      text: this.text,
-      width: this.size,
-      height: this.size,
-      colorDark: this.color,
-      colorLight: this.bgColor,
-      correctLevel: QRCode.CorrectLevel[this.errorLevel],
-    })
-  }
+  // public mounted(): void {
+  //   this.qrCode = new QRCode(this.$el, {
+  //     text: this.text,
+  //     width: this.size,
+  //     height: this.size,
+  //     colorDark: this.color,
+  //     colorLight: this.bgColor,
+  //     correctLevel: QRCode.CorrectLevel[this.errorLevel],
+  //   })
+  // }
 
   protected clear(): void {
     this.qrCode?.clear()
