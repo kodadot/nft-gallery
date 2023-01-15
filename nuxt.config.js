@@ -26,6 +26,10 @@ export default defineNuxtConfig({
     nitro: true,
   },
 
+  nitro: {
+    publicAssets: ['static'],
+  },
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
