@@ -13,7 +13,7 @@ glob('./tests/cypress/e2e/**/*.cy.ts', async (err, files) => {
     process.exit(1)
   }
 
-  const parallelSize = 4 // make sure to adjust strategy.matrix.index also in e2e.yml
+  const parallelSize = 5 // make sure to adjust strategy.matrix.index also in e2e.yml
   const size = Math.ceil(files.length / parallelSize)
   const group = chunk(files, size)
   const index = process.env.MATRIX || 1
