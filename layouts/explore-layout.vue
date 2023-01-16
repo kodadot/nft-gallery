@@ -1,7 +1,11 @@
 <template>
   <div class="min-h-full is-flex is-flex-direction-column is-clipped">
     <Navbar />
-    <ExploreTabsFilterSort />
+    <div class="section pb-0">
+      <div class="container">
+        <ExploreTabsFilterSort />
+      </div>
+    </div>
     <main class="is-flex-grow-1">
       <section class="section">
         <div class="container">
