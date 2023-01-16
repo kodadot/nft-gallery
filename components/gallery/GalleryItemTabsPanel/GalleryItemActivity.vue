@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div class="events p-5">
-      <div class="events-filter is-flex">
+  <div class="gallery-activity-events-wrapper is-flex is-flex-direction-column">
+    <div class="events p-5 is-flex is-flex-direction-column">
+      <div class="events-filter is-flex is-flex-wrap-wrap">
         <div class="events-checkbox" @click="checkAll">
           {{ $t('tabs.tabActivity.all') }}
         </div>
@@ -64,12 +64,14 @@ const cssActive = (value) => {
 .dark-mode .events {
   border-bottom: 1px solid white;
 }
-
+.gallery-activity-events-wrapper {
+  height: 100%;
+}
 .events {
   border-bottom: 1px solid black;
 
   &-filter {
-    gap: 2rem;
+    column-gap: 2rem;
   }
 
   &-checkbox {

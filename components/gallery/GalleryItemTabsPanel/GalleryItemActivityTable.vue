@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="gallery-item-activity-table is-flex is-flex-direction-column">
     <o-table v-if="events.length" :data="events" hoverable class="py-5">
       <!-- event name -->
       <o-table-column
@@ -130,3 +130,8 @@ const formatPrice = (price) => {
   return formatBalance(price, decimals.value, tokenSymbol)
 }
 </script>
+<style lang="scss" scoped>
+.gallery-item-activity-table {
+  overflow-y: scroll;
+}
+</style>
