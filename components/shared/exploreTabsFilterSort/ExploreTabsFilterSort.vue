@@ -6,7 +6,7 @@
       <span class="text__stroked is-size-3">{{ route.query.search }}</span>
     </div>
 
-    <div class="mb-5 explore-tabs field has-addons" data-cy="tabs">
+    <div class="mb-5 explore-tabs field has-addons is-flex" data-cy="tabs">
       <p class="control">
         <NeoButton
           class="explore-tabs-button"
@@ -60,8 +60,6 @@ const updateTab = (val) => {
 @import '@/styles/abstracts/variables';
 
 .explore-tabs {
-  display: flex;
-
   &-button {
     width: 15rem;
   }
