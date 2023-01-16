@@ -10,6 +10,13 @@ type Stats = {
   collectionDailyTradedVolumeNumber?: bigint
 }
 
+const differentOwner = (nft: {
+  issuer: string
+  currentOwner: string
+}): boolean => {
+  return nft.currentOwner !== nft.issuer
+}
+
 export const useCollectionDetails = ({ collectionId }) => {
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
@@ -20,7 +27,7 @@ export const useCollectionDetails = ({ collectionId }) => {
   })
   const stats = ref<Stats>({})
 
-  watch(data, async () => {
+  watch(data, () => {
     if (data.value) {
       const uniqueOwnerCount = [
         ...new Set(data.value.stats.base.map((item) => item.currentOwner)),
@@ -58,20 +65,13 @@ export const useBuyEvents = ({ collectionId }) => {
     },
   })
   const highestBuyPrice = ref<number>(0)
-  watch(data, async () => {
+  watch(data, () => {
     if (data && data.value.stats && data.value.stats[0]) {
       const { max } = data.value.stats[0]
       highestBuyPrice.value = parseInt(max)
     }
   })
   return { highestBuyPrice }
-}
-
-const differentOwner = (nft: {
-  issuer: string
-  currentOwner: string
-}): boolean => {
-  return nft.currentOwner !== nft.issuer
 }
 
 export function useCollectionSoldData({ address, collectionId }) {
@@ -83,7 +83,7 @@ export function useCollectionSoldData({ address, collectionId }) {
       account: address,
       limit: 3,
       orderBy: 'price_DESC',
-      collectionId: collectionId,
+      collectionId,
       where: {
         collection: { id_eq: collectionId },
       },

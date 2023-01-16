@@ -71,14 +71,17 @@
             {{ $t('profile.highestSales') }}
           </h6>
           <div class="is-flex sold-items">
-            <div v-for="nft in soldItems" :key="nft.id" class="sold-item">
+            <div
+              v-for="nftItem in soldItems"
+              :key="nftItem.id"
+              class="sold-item">
               <GalleryCard
-                :id="nft.id"
+                :id="nftItem.id"
                 hide-name
-                :metadata="nft.metadata"
-                :current-owner="nft.currentOwner"
+                :metadata="nftItem.metadata"
+                :current-owner="nftItem.currentOwner"
                 :route="`/${urlPrefix}/gallery`"
-                :data-cy="soldItems.indexOf(nft)" />
+                :data-cy="soldItems.indexOf(nftItem)" />
             </div>
           </div>
         </div>
