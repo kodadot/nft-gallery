@@ -39,7 +39,7 @@ const { urlPrefix } = usePrefix()
 const options = computed(() => {
   const availableUrlPrefixes = $store.getters['availableUrlPrefixes']
 
-  if (!$config.dev) {
+  if (!$config.public.dev) {
     return availableUrlPrefixes.filter(
       (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
     )
