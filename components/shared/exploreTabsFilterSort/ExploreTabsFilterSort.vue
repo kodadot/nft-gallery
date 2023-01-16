@@ -1,12 +1,12 @@
 <template>
   <div class="section pb-0">
     <h1 class="title container">{{ $t('explore') }}</h1>
-    <div v-if="$route.query.search" class="block">
+    <div v-if="route.query.search" class="block">
       {{ $t('general.searchResultsText') }}
-      <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
+      <span class="text__stroked is-size-3">{{ route.query.search }}</span>
     </div>
 
-    <div class="mb-5 explore-tabs container is-flex">
+    <div class="mb-5 explore-tabs container is-flex" data-cy="tabs">
       <p>
         <NeoButton
           class="btn-collection"
@@ -27,28 +27,28 @@
 
 <script setup lang="ts" scoped>
 import { NeoButton } from '@kodadot1/brick'
-
 enum TabType {
   COLLECTION = 'collectibles',
   ITEMS = 'items',
 }
 
-const { $route, $router } = useNuxtApp()
-let selectedTab = ref($route.name?.split('-')[2])
+const route = useRoute()
+const router = useRouter()
+
+const selectedTab = computed(() => route?.name?.split('-')[2])
 
 const updateTab = (val) => {
-  selectedTab.value = val
-  $route.query.page = ''
+  route.query.page = ''
   let queryOptions: {
     page: string
     search?: string | (string | null)[]
   } = {
     page: '1',
   }
-  if ($route.query.search) {
-    queryOptions.search = $route.query.search
+  if (route.query.search) {
+    queryOptions.search = route.query.search
   }
-  $router.replace({
+  router.replace({
     path: val,
     query: queryOptions,
   })
