@@ -116,7 +116,7 @@ export default function useIdentity({ address, customNameOption }) {
   }
 }
 
-interface NFTListSold {
+export interface NFTListSold {
   nftEntities?: NFT[]
   nftEntitiesConnection: {
     totalCount: number
