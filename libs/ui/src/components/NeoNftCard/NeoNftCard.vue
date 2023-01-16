@@ -30,7 +30,10 @@
             ? 'is-justify-content-space-between'
             : 'is-justify-content-end',
         ]">
-        <CommonTokenMoney v-if="showPrice" :value="nft.price" />
+        <CommonTokenMoney
+          v-if="showPrice"
+          :value="nft.price"
+          data-cy="card-money" />
         <span class="chain-name">{{ prefix }}</span>
       </div>
     </div>

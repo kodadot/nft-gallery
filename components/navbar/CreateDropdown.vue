@@ -71,7 +71,6 @@ import { getChainTestList } from '~/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
 import AuthMixin from '~~/utils/mixins/authMixin'
-import { isMobileDevice } from '@/utils/extension'
 
 @Component({
   components: {
@@ -80,8 +79,7 @@ import { isMobileDevice } from '@/utils/extension'
 })
 export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
   @Prop({ type: String }) chain!: string
-
-  public isMobile = isMobileDevice
+  @Prop({ type: Boolean, default: false }) isMobile!: boolean
 
   get options() {
     const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']
