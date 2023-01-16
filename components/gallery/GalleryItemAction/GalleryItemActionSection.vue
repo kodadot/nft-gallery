@@ -1,18 +1,20 @@
 <template>
-  <div class="is-flex gallery-item-action-section">
-    <div class="gallery-item-action-section__info">
-      <p class="has-text-grey">{{ title }}</p>
-      <div class="is-flex gallery-item-action-section__price-box">
+  <div class="is-flex gallery-action-section">
+    <div class="gallery-action-section-info">
+      <div class="has-text-grey gallery-action-section-info-title">
+        {{ title }}
+      </div>
+      <div class="is-flex gallery-action-section-price-box">
         <div
           v-if="Number(price)"
-          class="gallery-item-action-section__price has-text-weight-bold">
+          class="gallery-action-section-price has-text-weight-bold">
           {{ priceChain }}
         </div>
         <div v-else class="has-text-weight-bold is-size-3">--</div>
 
         <div
           v-if="Number(price)"
-          class="has-text-grey is-flex is-align-items-center gallery-item-action-section__price-sub">
+          class="has-text-grey is-flex is-align-items-center gallery-action-section-price-sub">
           {{ priceUsd }} USD
         </div>
       </div>
@@ -52,41 +54,42 @@ watchEffect(async () => {
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
-.gallery-item-action-section {
+.gallery-action-section {
   justify-content: space-between;
   align-items: center;
 
-  &__price {
-    margin-right: 1rem;
-    font-size: 2rem;
-    &-box {
-      align-content: center;
+  .gallery-action-section-price-box {
+    align-content: center;
+    .gallery-action-section-price {
+      margin-right: 1rem;
+      font-size: 2rem;
     }
   }
+
   @include until-widescreen {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-end;
-    &__info {
+    .gallery-action-section-info {
       min-width: 10rem;
       text-align: left;
-      > p {
+      .gallery-action-section-info-title {
         font-size: 0.8rem;
         margin-bottom: -0.3rem;
       }
-    }
-    &__price {
-      margin-right: 0;
-      font-size: 1.5rem;
 
-      &-box {
+      .gallery-action-section-price-box {
         flex-direction: column;
         align-content: left;
         margin-bottom: 1rem;
-      }
-      &-sub {
-        margin-top: -0.3rem;
-        font-size: 0.8rem;
+        .gallery-action-section-price {
+          margin-right: 0;
+          font-size: 1.5rem;
+          .gallery-action-section-price-sub {
+            margin-top: -0.3rem;
+            font-size: 0.8rem;
+          }
+        }
       }
     }
   }
