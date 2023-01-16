@@ -75,7 +75,6 @@ watchEffect(async () => {
       text-align: left;
       .gallery-action-section-info-title {
         font-size: 0.8rem;
-        margin-bottom: -0.3rem;
       }
 
       .gallery-action-section-price-box {
@@ -85,10 +84,10 @@ watchEffect(async () => {
         .gallery-action-section-price {
           margin-right: 0;
           font-size: 1.5rem;
-          .gallery-action-section-price-sub {
-            margin-top: -0.3rem;
-            font-size: 0.8rem;
-          }
+          line-height: 1.5rem;
+        }
+        .gallery-action-section-price-sub {
+          font-size: 0.8rem;
         }
       }
     }
