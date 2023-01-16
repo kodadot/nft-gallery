@@ -20,7 +20,7 @@ import ClaimForm from '@/components/poap/claim/ClaimForm.vue'
       type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
       url: '/claim',
-      image: `${this.$config.baseUrl}/k_card_mint.png`,
+      image: `${this.$config.public.baseUrl}/k_card_mint.png`,
     }
     return {
       title,

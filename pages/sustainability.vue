@@ -113,7 +113,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
       type: 'article',
       description: 'KodaDot: Sustainibility mission',
       url: '/sustainibility',
-      image: `${this.$config.baseUrl}/k_card.png`,
+      image: `${this.$config.public.baseUrl}/k_card.png`,
     }
     return {
       meta: [...this.$seoMeta(metaData)],

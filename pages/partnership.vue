@@ -18,8 +18,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
     const metaData = {
       title,
       type: 'article',
-      url: `${this.$config.baseUrl}/partnership`,
-      image: `${this.$config.baseUrl}/k_card.png`,
+      url: `${this.$config.public.baseUrl}/partnership`,
+      image: `${this.$config.public.baseUrl}/k_card.png`,
     }
     return {
       title,
