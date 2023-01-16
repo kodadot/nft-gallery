@@ -54,6 +54,7 @@ import { JustInteraction, createInteraction } from '@kodadot1/minimark'
 import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import useRmrkVersion from '@/composables/useRmrkVersion'
 import WalletModal from '@/components/common/WalletModal.vue'
+import Vue from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -72,7 +73,7 @@ const props = withDefaults(
 
 const { urlPrefix, client } = usePrefix()
 const { accountId } = useAuth()
-const root = ref(null)
+const root = ref<Vue<Record<string, string>>>()
 const { $store, $apollo, $i18n, $buefy } = useNuxtApp()
 const { apiInstance } = useApi()
 const emit = defineEmits(['buy-success'])
