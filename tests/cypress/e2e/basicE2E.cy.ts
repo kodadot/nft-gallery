@@ -2,8 +2,6 @@ describe('landingRmrk', () => {
   it('loadLanding', () => {
     cy.loginWithKeyring()
     cy.visit('/rmrk')
-  })
-  it('checkNavbar', () => {
     cy.rmrkNavbar()
   })
 })
@@ -11,8 +9,6 @@ describe('landingRmrk', () => {
 describe('landingBsx', () => {
   it('loadLanding', () => {
     cy.visit('/snek')
-  })
-  it('checkNavbar', () => {
     cy.snekNavbar()
   })
 })

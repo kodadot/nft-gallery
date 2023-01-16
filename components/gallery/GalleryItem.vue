@@ -21,8 +21,8 @@
           <div>
             <div class="is-flex is-justify-content-space-between">
               <div>
-                <h1 class="title">{{ nft?.name }}</h1>
-                <h2 class="subtitle">
+                <h1 class="title" data-cy="item-title">{{ nft?.name }}</h1>
+                <h2 class="subtitle" data-cy="item-collection">
                   <nuxt-link
                     :to="`/${urlPrefix}/collection/${nft?.collection.id}`"
                     class="has-text-link">
@@ -42,13 +42,15 @@
                 class="gallery-avatar mr-4"
                 :label="`${$t('Creator')}`"
                 :prefix="urlPrefix"
-                :account="nft?.issuer" />
+                :account="nft?.issuer"
+                data-cy="item-creator" />
               <IdentityItem
                 v-if="nft?.currentOwner !== nft?.issuer"
                 class="gallery-avatar"
                 :label="`${$t('Owner')}`"
                 :prefix="urlPrefix"
-                :account="nft?.currentOwner || ''" />
+                :account="nft?.currentOwner || ''"
+                data-cy="item-owner" />
             </div>
           </div>
 
