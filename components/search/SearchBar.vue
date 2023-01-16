@@ -116,7 +116,7 @@ export default class SearchBar extends mixins(
   redirectToGalleryPageIfNeed(params?: Record<string, string>) {
     if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
       this.$router.push({
-        name: `${this.urlPrefix}-explore`,
+        path: `${this.urlPrefix}/explore/items`,
         query: {
           ...this.$route.query,
           ...params,

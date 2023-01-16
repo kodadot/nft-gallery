@@ -26,6 +26,14 @@
   }
 }
 
+.top-collection-controls.buttons .control {
+  border: 1px solid black;
+}
+
+.top-collection-controls.buttons .control:not(:last-of-type) {
+  border-right: 0;
+}
+
 .dark-mode {
   .top-collections-item {
     background-color: $dark-accent;

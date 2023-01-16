@@ -85,8 +85,8 @@ export default function useIdentity({ address, customNameOption }) {
     displayName({ customNameOption, identity, shortenedAddress })
   )
 
-  const whichIdentity = async () => {
-    const identityCached = await get(resolveAddress(address), identityStore)
+  const whichIdentity = async (addr) => {
+    const identityCached = await get(resolveAddress(addr), identityStore)
 
     if (identityCached) {
       identity.value = identityCached
@@ -96,12 +96,13 @@ export default function useIdentity({ address, customNameOption }) {
       // better if get data from indexer
       // reference: https://github.com/kodadot/nft-gallery/issues/3783
       onApiConnect(apiUrl.value, async () => {
-        identity.value = await fetchIdentity(address)
+        identity.value = await fetchIdentity(addr)
         isFetchingIdentity.value = false
       })
     }
   }
-  whichIdentity()
+
+  onMounted(() => whichIdentity(address))
 
   return {
     identity,
@@ -111,6 +112,7 @@ export default function useIdentity({ address, customNameOption }) {
     discord,
     display,
     name,
+    whichIdentity,
   }
 }
 

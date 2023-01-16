@@ -1,35 +1,34 @@
 <template>
-  <ExploreLayout />
+  <div>
+    <div v-if="$route.query.search" class="block">
+      {{ $t('general.searchResultsText') }}
+      <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
+    </div>
+    <Gallery />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import ExploreLayout from '@/components/rmrk/ExploreLayout/ExploreLayout.vue'
 
-const components = {
-  ExploreLayout,
-}
+const components = {}
 
 @Component<ExploreBsx>({
   components,
+  layout() {
+    return 'explore-layout'
+  },
   head() {
     const title = 'Low minting fees and carbonless NFTs'
     const metaData = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: '/bsx/explore',
-      image: `${this.$config.baseUrl}/k_card.png`,
+      url: `/${this.$route.params.prefix}/explore`,
+      image: `${this.$config.public.baseUrl}/k_card.png`,
     }
     return {
       title,
-      link: [
-        {
-          hid: 'canonical',
-          rel: 'canonical',
-          href: this.$root.$config.baseUrl + this.$route.path,
-        },
-      ],
       meta: [...this.$seoMeta(metaData)],
     }
   },

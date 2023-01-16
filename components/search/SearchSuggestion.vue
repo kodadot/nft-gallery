@@ -35,8 +35,8 @@
         <nuxt-link
           class="search-footer-link"
           :to="{
-            name: routeOf('explore'),
-            query: { ...$route.query, tab: 'COLLECTION' },
+            path: `/${urlPrefix}/explore/collectibles`,
+            query: { ...$route.query },
           }"
           @click.native="$emit('close')">
           <div :class="loadMoreItemClassName">
@@ -91,8 +91,8 @@
         <nuxt-link
           class="search-footer-link"
           :to="{
-            name: routeOf('explore'),
-            query: { ...$route.query, tab: 'GALLERY' },
+            path: 'explore/items',
+            query: { ...$route.query },
           }"
           @click.native="$emit('close')">
           <div :class="loadMoreItemClassName">
@@ -358,9 +358,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
 
     // search result
     if (isSeeMore) {
-      this.$emit('gotoGallery', {
-        tab: this.activeSearchTab === 'Collections' ? 'COLLECTION' : 'GALLERY',
-      })
+      this.$emit('gotoGallery')
     } else {
       if (this.activeSearchTab === 'NFTs') {
         this.gotoGalleryItem(

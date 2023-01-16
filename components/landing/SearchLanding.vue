@@ -84,6 +84,6 @@ const switchChain = (value) => {
     return
   }
   $store.dispatch('setUrlPrefix', value)
-  $router.push({ path: `/${value}/explore` })
+  $router.push({ path: `/${value}/explore/collectibles` })
 }
 </script>
