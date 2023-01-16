@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1 class="title">{{ $t('explore') }}</h1>
     <div v-if="route.query.search" class="block">
       {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ route.query.search }}</span>
