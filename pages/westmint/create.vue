@@ -33,7 +33,7 @@ const components = { Collection, NFT }
       type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
       url: '/westmint/create',
-      image: `${this.$config.baseUrl}/k_card.png`,
+      image: `${this.$config.public.baseUrl}/k_card.png`,
     }
     return {
       title,

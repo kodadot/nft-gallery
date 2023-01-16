@@ -22,9 +22,12 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
-  // currently we can only use nitro in development https://github.com/nuxt/framework/issues/886
   bridge: {
-    nitro: process.env.NODE_ENV !== 'production',
+    nitro: true,
+  },
+
+  nitro: {
+    publicAssets: [],
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -185,9 +188,6 @@ export default defineNuxtConfig({
     ],
   },
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxtjs/pwa', '@nuxtjs/color-mode', '@vueuse/nuxt'],
-
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/buefy
@@ -204,6 +204,9 @@ export default defineNuxtConfig({
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     '@nuxtjs/sentry',
+    '@kevinmarrec/nuxt-pwa',
+    '@nuxtjs/color-mode',
+    '@vueuse/nuxt',
   ],
 
   sentry: {
@@ -240,16 +243,17 @@ export default defineNuxtConfig({
       background_color: '#181717',
       theme_color: '#181717',
     },
-    workbox: {
-      // importScripts: [
-      //   'service-worker.js'
-      // ],
-      // swDest: 'service-worker.js',
-      // swURL: './'
-    },
+    // workbox: {
+    // importScripts: [
+    //   'service-worker.js'
+    // ],
+    // swDest: 'service-worker.js',
+    // swURL: './'
+    // },
 
     // according to Google using purpose ['any', 'maskable'] is discouraged
     icon: {
+      source: 'static/icon.png',
       purpose: ['any'],
     },
   },
@@ -302,6 +306,20 @@ export default defineNuxtConfig({
     babel: {
       // silence babel warning regarding exceeding file sizes (>500kb)
       compact: true,
+    },
+    optimization: {
+      runtimeChunk: true,
+      splitChunks: {
+        name: true,
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /.(css|vue)$/,
+            chunks: 'all',
+            enforce: true,
+          },
+        },
+      },
     },
     transpile: [
       '@kodadot1/sub-api',
@@ -363,12 +381,14 @@ export default defineNuxtConfig({
   // env: {
   //   baseUrl : process.env.BASE_URL || 'http://localhost:9090',
   // },
-  // https://nuxtjs.org/docs/configuration-glossary/configuration-env/
-  publicRuntimeConfig: {
-    prefix: process.env.URL_PREFIX || 'rmrk',
-    baseUrl: process.env.BASE_URL || 'http://localhost:9090',
-    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
-    dev: process.env.NODE_ENV === 'development',
+  // https://nuxtjs.org/docs/configuration-glossary/configuration-env/,
+  runtimeConfig: {
+    public: {
+      prefix: process.env.URL_PREFIX || 'rmrk',
+      baseUrl: process.env.BASE_URL || 'http://localhost:9090',
+      googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
+      dev: process.env.NODE_ENV === 'development',
+    },
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
