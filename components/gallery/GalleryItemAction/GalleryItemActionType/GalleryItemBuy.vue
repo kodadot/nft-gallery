@@ -104,7 +104,7 @@ const disabled = computed(() => {
 function onClick() {
   if (!connected.value) {
     $buefy.modal.open({
-      parent: root?.value as any,
+      parent: root?.value,
       component: WalletModal,
       hasModalCard: true,
       trapFocus: true,
