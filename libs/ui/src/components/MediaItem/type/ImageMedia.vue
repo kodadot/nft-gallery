@@ -1,7 +1,7 @@
 <template>
   <figure
     class="image-container"
-    :class="[!original && !isMobile ? 'is-square image' : '']">
+    :class="{ 'is-square image': !original && !isMobile }">
     <img
       class="is-block image-media__image"
       :src="src"
