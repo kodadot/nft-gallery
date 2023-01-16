@@ -77,7 +77,7 @@
     "@paraspell/sdk": "^0.0.21",
     "@polkadot/extension-dapp": "^0.44.8",
     "@polkadot/extension-inject": "^0.44.8",
-    "@polkadot/ui-keyring": "2.9.10",
+    "@polkadot/ui-keyring": "^2.10.1",
     "@polkadot/vue-identicon": "^2.10.1",
     "@ramp-network/ramp-instant-sdk": "^3.2.3",
     "@sentry/browser": "7.30.0",
