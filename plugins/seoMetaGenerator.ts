@@ -42,7 +42,7 @@ export default function ({ app }, inject): void {
   }
 
   const seoMeta = (meta: MetaProperties): MetaTag[] => {
-    const baseUrl: string = app.$config.baseUrl
+    const baseUrl: string = app.$config.public.baseUrl
     const title = 'KodaDot - Kusama NFT Market Explorer'
     const description = 'Creating Carbonless NFTs on Kusama'
     const image = `${baseUrl}/k_card.png`

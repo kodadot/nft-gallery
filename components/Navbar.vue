@@ -64,10 +64,12 @@
         v-show="isCreateVisible"
         class="navbar-create custom-navbar-item ml-0"
         data-cy="create"
+        :is-mobile="isMobile"
         :chain="chain" />
       <StatsDropdown
         class="navbar-stats custom-navbar-item"
         data-cy="stats"
+        :is-mobile="isMobile"
         :chain="chain" />
 
       <ChainSelectDropdown
