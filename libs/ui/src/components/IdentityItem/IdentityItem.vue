@@ -1,7 +1,7 @@
 <template>
-  <div class="is-flex is-align-items-center mr-6">
-    <Avatar :size="48" :value="account" class="mr-2" />
-    <div class="px-3">
+  <div class="is-flex is-align-items-center">
+    <Avatar :size="48" :value="account" />
+    <div class="p-3">
       <div class="has-text-grey is-size-6">
         {{ label }}
       </div>

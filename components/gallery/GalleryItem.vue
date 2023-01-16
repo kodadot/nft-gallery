@@ -36,10 +36,10 @@
               </div>
             </div>
 
-            <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4">
+            <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-2">
               <IdentityItem
                 v-if="nft?.issuer"
-                class="gallery-avatar"
+                class="gallery-avatar mr-4"
                 :label="`${$t('Creator')}`"
                 :prefix="urlPrefix"
                 :account="nft?.issuer" />

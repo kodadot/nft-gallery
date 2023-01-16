@@ -18,7 +18,7 @@ import GalleryItem from '@/components/bsx/Gallery/Item/GalleryItem.vue'
         {
           hid: 'canonical',
           rel: 'canonical',
-          href: this.$root.$config.baseUrl + this.$route.path,
+          href: this.$root.$config.public.baseUrl + this.$route.path,
         },
       ],
     }
