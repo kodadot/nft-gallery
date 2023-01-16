@@ -8,7 +8,25 @@
 
   &__td {
     padding: 0.25rem 1.5rem;
+    @include touch {
+      &::before {
+        font-size: 0.75rem;
+        line-height: 1.5rem;
+        color: $k-grey;
+      }
+    }
   }
+
+  @include touch {
+    tbody tr {
+      &:last-child {
+        border-bottom: none !important;
+      }
+      border-bottom: 1px solid $shade;
+
+    }
+  }
+
 
   &--hoverable {
     tbody tr:hover td {
@@ -21,6 +39,12 @@
   &--hoverable {
     tbody tr:hover td {
       background-color: $k-accentlight2dark;
+    }
+  }
+
+  @include touch {
+    tbody tr {
+      border-bottom: 1px solid $white;
     }
   }
 }

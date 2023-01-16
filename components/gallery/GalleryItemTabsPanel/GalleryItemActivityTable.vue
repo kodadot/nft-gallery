@@ -7,7 +7,7 @@
         width="20%"
         field="interaction"
         :label="$t('tabs.tabActivity.event')">
-        {{ props.row.interaction }}
+        {{ props.row.interaction.toLowerCase() }}
       </o-table-column>
 
       <!-- price -->
