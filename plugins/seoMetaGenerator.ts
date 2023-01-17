@@ -17,6 +17,7 @@ interface MetaProperties {
   author?: string
   video?: string
   mime?: string
+  name?: string
 }
 
 interface MetaTag {
@@ -43,12 +44,17 @@ export default function ({ app }, inject): void {
 
   const seoMeta = (meta: MetaProperties): MetaTag[] => {
     const baseUrl: string = app.$config.public.baseUrl
-    const title = 'KodaDot - Kusama NFT Market Explorer'
-    const description = 'Creating Carbonless NFTs on Kusama'
+    const title = 'KodaDot - NFT Market Explorer'
+    const description = 'One Stop Shop NFTs on Polkadot'
     const image = `${baseUrl}/k_card.png`
     const type = resolveMedia(meta?.mime)
 
     const seoTags: MetaTag[] = [
+      {
+        hid: 'name',
+        name: 'name',
+        content: meta?.name ? meta?.name : 'KodaDot NFT Marketplace',
+      },
       {
         hid: 'title',
         name: 'title',
