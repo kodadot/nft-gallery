@@ -98,7 +98,17 @@ import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 
 const { urlPrefix } = usePrefix()
-const { $seoMeta } = useNuxtApp()
+const { $seoMeta, $store } = useNuxtApp()
+const route = useRoute()
+const router = useRouter()
+
+onBeforeMount(() => {
+  if (urlPrefix.value !== route.params.prefix) {
+    $store.dispatch('setUrlPrefix', route.params.prefix)
+    router.go(0)
+  }
+})
+
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
 const tabs = {
@@ -113,8 +123,6 @@ const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongratsMessage.value = true
 }
-const route = useRoute()
-const router = useRouter()
 const message = ref('')
 
 const CarouselTypeRelated = defineAsyncComponent(
