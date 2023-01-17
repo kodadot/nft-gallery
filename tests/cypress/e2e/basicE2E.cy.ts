@@ -43,15 +43,21 @@ describe('rmrkCollectionItem', () => {
 describe('rmrkGalleryItem', () => {
   it('galleryListedItemActions', () => {
     cy.loginWithKeyring()
-    cy.rmrkGalleryListedItemActions(
-      '9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000080',
-      'DinoPQ...LPj2rd'
+    cy.visit('/rmrk')
+    cy.visit(
+      '/rmrk/gallery/9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000080'
     )
+    cy.waitForNetworkIdle('+(HEAD|GET)', '*', 1000)
+    cy.get('[data-cy="item-price"]').should('contain', 'KSM')
+    cy.get('[data-cy="item-buy"]').should('be.disabled')
   })
+
   it('galleryUnlistedItemActions', () => {
-    cy.rmrkGalleryUnlistedItemActions(
-      '9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000061',
-      'DinoPQ...LPj2rd'
+    cy.visit('/rmrk')
+    cy.visit(
+      '/rmrk/gallery/9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000061'
     )
+    cy.waitForNetworkIdle('POST', '*', 1000)
+    cy.get('[data-cy="item-price"]').should('not.contain', 'KSM')
   })
 })
