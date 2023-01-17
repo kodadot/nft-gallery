@@ -274,7 +274,7 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
 import { clearSession } from '@/utils/cachingStrategy'
 import { getKusamaAssetId } from '~~/utils/api/bsx/query'
-import { getUserFlag, langsFlags as langsFlagsList } from '@/utils/config/i18n'
+import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 
 const components = {
   Avatar,
@@ -314,10 +314,6 @@ export default class ProfileDropdown extends mixins(
 
   get langsFlags(): { value: string; flag: string; label: string }[] {
     return langsFlagsList
-  }
-
-  get userFlag(): string {
-    return getUserFlag(this.userLang)
   }
 
   get userLang(): string {
