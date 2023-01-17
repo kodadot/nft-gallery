@@ -25,7 +25,7 @@ const components = {}
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
       url: `/${this.$route.params.prefix}/explore`,
-      image: `${this.$config.baseUrl}/k_card.png`,
+      image: `${this.$config.public.baseUrl}/k_card.png`,
     }
     return {
       title,

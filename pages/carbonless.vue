@@ -159,8 +159,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
     const metaData = {
       title,
       type: 'article',
-      url: `${this.$config.baseUrl}/carbonless`,
-      image: `${this.$config.baseUrl}/k_card.png`,
+      url: `${this.$config.public.baseUrl}/carbonless`,
+      image: `${this.$config.public.baseUrl}/k_card.png`,
     }
     return {
       title,
