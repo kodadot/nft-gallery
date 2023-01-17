@@ -33,13 +33,11 @@ export default class CookieBanner extends Vue {
   public acceptCookies() {
     localStorage.setItem('cookies_enabled', '1')
     this.hasDisplayedCookieBanner = true
-    this.$gtag.optIn()
   }
 
   public declineCookies() {
     localStorage.setItem('cookies_enabled', '0')
     this.hasDisplayedCookieBanner = true
-    this.$gtag.optOut()
   }
 }
 </script>
