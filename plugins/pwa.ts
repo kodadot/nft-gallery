@@ -7,7 +7,7 @@ import { clearSession } from '@/utils/cachingStrategy'
 export default async () => {
   const workbox = new Workbox('/sw.js')
 
-  console.info('workbox detected', workbox)
+  consola.info('workbox detected', workbox)
 
   workbox.addEventListener('installed', (event) => {
     consola.info(
