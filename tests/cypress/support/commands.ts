@@ -115,25 +115,6 @@ Cypress.Commands.add(
   }
 )
 
-Cypress.Commands.add('rmrkGalleryListedItemActions', (nftId, creator) => {
-  cy.visit(`/rmrk/gallery/${nftId}`)
-  cy.waitForNetworkIdle('+(HEAD|GET)', '*', 1000)
-  cy.get('[data-cy="money"]').should('contain', 'KSM')
-  cy.get('[data-cy="BUY"]').should('be.disabled')
-  cy.get('[data-cy="history"]').should('contain', 'History')
-  cy.get('[data-cy="history"]').click()
-  cy.get('[data-cy="select-event"]').select('🖼 MINT')
-  cy.get('[data-label="Type"]').should('contain', '🖼 MINT')
-  cy.get('[data-label="From"]').should('contain', `${creator}`)
-  cy.get('[data-label="Amount"]').should('contain', '-')
-})
-
-Cypress.Commands.add('rmrkGalleryUnlistedItemActions', (nftId) => {
-  cy.visit(`/rmrk/gallery/${nftId}`)
-  cy.waitForNetworkIdle('POST', '*', 1000)
-  cy.get('[data-cy="money"]').should('not.exist')
-})
-
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -202,27 +183,6 @@ declare global {
       rmrkCollectionActions(
         collectionId: string,
         nftName: string,
-        creator: string
-      ): Chainable<Element>
-
-      /**
-       * @desc checks all of the actions available when interacted with listed item on RMRK
-       * @param nftId
-       * @param creator
-       */
-      rmrkGalleryListedItemActions(
-        nftId: string,
-        creator: string
-      ): Chainable<Element>
-
-      /**
-       * @desc checks all of the actions available when interacted with unlisted item on RMRK
-       * @param nftId
-       * @param creator
-       */
-
-      rmrkGalleryUnlistedItemActions(
-        nftId: string,
         creator: string
       ): Chainable<Element>
     }
