@@ -4,7 +4,7 @@ import { Workbox } from 'workbox-window'
 
 import { clearSession } from '@/utils/cachingStrategy'
 
-export default async () => {
+export default () => {
   const workbox = new Workbox('/sw.js')
 
   consola.info('workbox detected', workbox)
