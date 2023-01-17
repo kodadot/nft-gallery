@@ -1,5 +1,5 @@
-# NFT Explorer for Kusama & Polkadot & Substrate Ecosystem
-## Opensea for Polkadot, NFT paraverse of parachains, built as public good.
+# One Stop Shop for your Polkadot NFTs 
+
 ![](https://github.com/kodadot/kodadot-presskit/blob/main/v3/KODA_v3.png?raw=true)
 
 # Contributing
@@ -20,8 +20,7 @@ We [reward](REWARDS.md) our contributors in $KSM for their time and effort with 
 # Features Roadmap
 You'll find our goals for KodaDot upcoming future!
 - [Beta Roadmap](https://github.com/orgs/kodadot/projects/4/views/1)
-
-Test out KodaDot's [Beta](https://beta.kodadot.xyz/)
+- Test out KodaDot's [Beta](https://beta.kodadot.xyz/)
 
 # Writings
 
@@ -34,10 +33,8 @@ Test out KodaDot's [Beta](https://beta.kodadot.xyz/)
 
 # Support KodaDot
 #### Please ⭐️ **star** and **share** this repository! This exposes us to other builders and creators in the space.
-#### Feel free to donate to our [KodaDot_Guild_Rewards](https://beta.kodadot.xyz/transfer?target=G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar&usdamount=1000&donation=true) which already funded over $100k (~1000 $KSM) to notable contributing members
+#### Feel free to donate to our [KodaDot_Guild_Rewards](https://beta.kodadot.xyz/transfer?target=G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar&usdamount=1000&donation=true) which already funded over $200k ([~1740 $KSM](https://dotscanner.com/Kusama/account/G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar)) to notable contributing members
 
 # Stay Tuned for Updates!
-- Follow us on [Twitter](https://twitter.com/KodaDot), [Instagram](https://instagram.com/kodadot.xyz), [Youtube](https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA), and [Medium](https://medium.com/kodadot)
+- Follow us on [Twitter](https://twitter.com/KodaDot), [Instagram](https://instagram.com/kodadot.xyz), [Youtube](https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA), [SubStack](https://kodadot.substack.com/) and [Medium](https://medium.com/kodadot)
 - Join our [Discord](https://discord.gg/u6ymnbz4PR)
-
-![Darling in the Franxx](https://media.giphy.com/media/10YWqUivkQPeeJWD3u/giphy.gif)

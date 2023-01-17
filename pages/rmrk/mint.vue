@@ -17,7 +17,7 @@ import SimpleMint from '@/components/rmrk/Create/SimpleMint.vue'
       type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
       url: '/mint',
-      image: `${this.$config.baseUrl}/k_card.png`,
+      image: `${this.$config.public.baseUrl}/k_card.png`,
     }
     return {
       title,
