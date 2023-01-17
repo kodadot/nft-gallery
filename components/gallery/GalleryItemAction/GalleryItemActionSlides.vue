@@ -1,5 +1,7 @@
 <template>
-  <div class="slide is-flex" :class="{ 'slide-active': active }">
+  <div
+    class="slide is-flex"
+    :class="{ 'slide-active': active, 'slide-disabled': disabled }">
     <div class="slide-action">
       <slot name="action"></slot>
     </div>
@@ -12,10 +14,12 @@
 <script setup lang="ts">
 defineProps<{
   active: boolean
+  disabled?: boolean
 }>()
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
 .slide {
   box-shadow: 4px 4px hsl(0deg, 0%, 4%);
   overflow: hidden;
@@ -57,6 +61,27 @@ defineProps<{
       outline: none;
       padding: 0 1rem;
       width: 100%;
+    }
+  }
+  &-disabled {
+    box-shadow: 4px 4px $k-grey;
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.dark-mode {
+  .slide {
+    box-shadow: 4px 4px $white;
+    &-content {
+      border-color: $white;
+      input {
+        border-color: $white;
+      }
+    }
+    &-disabled {
+      box-shadow: 4px 4px $shade;
     }
   }
 }

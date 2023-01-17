@@ -85,8 +85,8 @@
 
           &--fullpage {
             position: fixed;
-            top: 65px;
-            background-color: $background-light;
+            top: 59px;
+            background-color: $white;
             height: 100vh;
             width: 100%;
             z-index: 100;
@@ -104,13 +104,15 @@
 
         #NavProfile {
           .button-connect-wallet {
-            box-shadow: 4px 4px 0px black !important;
+            box-shadow: $primary-shadow;
             width: 80%;
             height: 67px;
             border-radius: 0;
             display: block;
             margin: 0 auto 20px;
             text-transform: capitalize;
+            background-color: $k-accent !important;
+            color: $black !important;
           }
         }
       }
@@ -218,6 +220,7 @@
     text-transform: capitalize;
     font-weight: 500;
     cursor: pointer;
+    color: $black;
     border-radius: 0 !important;
 
     @include ktheme() {
@@ -227,6 +230,7 @@
       @include ktheme() {
         color: theme('k-hovergrey');
       }
+      background-color: inherit;
     }
   }
 
@@ -284,17 +288,6 @@
   &__address {
     text-transform: none;
     color: $k-blue;
-  }
-  &__sign-out-button {
-    border: 1px solid $black;
-    box-shadow: 4px 4px 0px $black !important;
-    padding: 8px 16px;
-    border-radius: 0;
-    text-transform: capitalize;
-    width: 120px;
-    custom-navbar-itemcustom-navbar-item &:hover {
-      border: 1px solid $black;
-    }
   }
 
   #NavProfile {
@@ -485,5 +478,9 @@
   .cancel-btn {
     border: none;
     text-transform: capitalize;
+  }
+
+  .dropdown-divider {
+    color: $k-grey;
   }
 }

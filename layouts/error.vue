@@ -19,7 +19,7 @@
     </p>
     <b-button
       tag="nuxt-link"
-      :to="`/${urlPrefix}/explore`"
+      :to="`/${urlPrefix}/explore/collectibles`"
       type="is-primary"
       class="mt-5">
       Explore NFTs and Collections

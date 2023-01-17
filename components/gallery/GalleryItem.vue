@@ -1,7 +1,7 @@
 <template>
   <section class="py-5 gallery-item">
     <MessageNotify
-      v-if="message"
+      v-if="message || showCongratsMessage"
       :title="$t('mint.success')"
       :subtitle="$t('mint.successNewNfts')" />
     <div class="columns">
@@ -36,10 +36,10 @@
               </div>
             </div>
 
-            <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4">
+            <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-2">
               <IdentityItem
                 v-if="nft?.issuer"
-                class="gallery-avatar"
+                class="gallery-avatar mr-4"
                 :label="`${$t('Creator')}`"
                 :prefix="urlPrefix"
                 :account="nft?.issuer" />
@@ -56,7 +56,7 @@
           <hr />
 
           <!-- price section -->
-          <GalleryItemAction />
+          <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
         </div>
       </div>
     </div>
@@ -67,7 +67,7 @@
       </div>
 
       <div class="column mobile-top-margin">
-        <GalleryItemTabsPanel />
+        <GalleryItemTabsPanel :active-tab="activeTab" />
       </div>
     </div>
 
@@ -85,15 +85,34 @@
 import { IdentityItem, MediaItem } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
+
 import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
 import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
+
 import { exist } from '@/components/search/exist'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { generateNftImage } from '@/utils/seoImageGenerator'
+import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 
 const { urlPrefix } = usePrefix()
-const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
+const { $seoMeta } = useNuxtApp()
+const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
+  useGalleryItem()
+const tabs = {
+  offers: '0',
+  activity: '1',
+  chart: '2',
+}
+const activeTab = ref(tabs.offers)
+const showCongratsMessage = ref(false)
+
+const onNFTBought = () => {
+  activeTab.value = tabs.activity
+  showCongratsMessage.value = true
+}
 const route = useRoute()
 const router = useRouter()
 const message = ref('')
@@ -110,6 +129,30 @@ onMounted(() => {
     message.value = val === 'congrats' ? val : ''
     router.replace({ query: { redesign: 'true' } })
   })
+})
+
+const title = computed(() => nft.value?.name)
+const meta = computed(() => {
+  return [
+    ...$seoMeta({
+      title: title.value,
+      description: nftMetadata.value?.description,
+      image: generateNftImage(
+        nft.value?.name || '',
+        formatBalanceEmptyOnZero(nft.value?.price as string),
+        sanitizeIpfsUrl(nftImage.value || ''),
+        nftMimeType.value
+      ),
+      mime: nftMimeType.value,
+      url: route.path,
+      video: sanitizeIpfsUrl(nftAnimation.value || ''),
+    }),
+  ]
+})
+
+useNuxt2Meta({
+  title,
+  meta,
 })
 </script>
 

@@ -54,9 +54,9 @@
   },
   "topCollections": {
     "timeFrames": {
-      "7 Days": "7 Tage",
-      "30 Days": "30 Tage",
-      "90 Days": "90 Tage",
+      "week": "7 Tage",
+      "month": "30 Tage",
+      "quarter": "90 Tage",
       "all": "Alle"
     }
   },

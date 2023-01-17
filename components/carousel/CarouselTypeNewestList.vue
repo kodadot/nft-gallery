@@ -4,7 +4,7 @@
     :subtitle="`${$t('general.newestListDesc')}`"
     :nfts="nfts"
     action-type="link"
-    :link-url="`/${urlPrefix}/explore?search=&sort=updatedAt_DESC&tab=GALLERY`"
+    :link-url="`/${urlPrefix}/explore/items/?search=&sort=updatedAt_DESC`"
     :link-text="`${$t('helper.seeMore')}`" />
 </template>
 

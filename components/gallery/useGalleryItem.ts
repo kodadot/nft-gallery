@@ -2,6 +2,7 @@ import { $fetch } from 'ohmyfetch'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getMimeType } from '@/utils/gallery/media'
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 interface NFTData {
   nftEntity?: NFT
 }
@@ -60,7 +61,6 @@ export const useGalleryItem = () => {
   })
   watch(data as unknown as NFTData, async (newData) => {
     const nftEntity = newData?.nftEntity
-
     if (!nftEntity) {
       $consola.log(`NFT with id ${params.id} not found. Fallback to RPC Node`)
       return

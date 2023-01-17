@@ -27,6 +27,7 @@
         </b-field>
         <b-field type="is-danger" :message="balanceNotEnoughMessage">
           <SubmitButton
+            expanded
             label="create collection"
             :loading="isLoading"
             @click="submit" />
@@ -89,12 +90,12 @@ export default class CreateCollection extends mixins(
   PrefixMixin,
   ApiUrlMixin
 ) {
-  private base: BaseCollectionType = {
+  public base: BaseCollectionType = {
     name: '',
     file: null,
     description: '',
   }
-  protected collectionDeposit = ''
+  public collectionDeposit = ''
   protected id = '0'
   protected attributes: Attribute[] = []
   protected balanceNotEnough = false
@@ -211,7 +212,7 @@ export default class CreateCollection extends mixins(
     }
   }
 
-  protected async submit(): Promise<void> {
+  public async submit(): Promise<void> {
     // check fields
     if (!this.checkValidity()) {
       return

@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from '@nuxt/bridge'
+import SentryWebpackPlugin from '@sentry/webpack-plugin'
 
 import { apolloClientConfig } from './utils/constants'
 
@@ -21,9 +22,12 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
-  // currently we can only use nitro in development https://github.com/nuxt/framework/issues/886
   bridge: {
-    nitro: process.env.NODE_ENV !== 'production',
+    nitro: true,
+  },
+
+  nitro: {
+    publicAssets: [],
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -184,9 +188,6 @@ export default defineNuxtConfig({
     ],
   },
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxtjs/pwa', '@nuxtjs/color-mode', '@vueuse/nuxt'],
-
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/buefy
@@ -203,18 +204,35 @@ export default defineNuxtConfig({
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     '@nuxtjs/sentry',
+    '@kevinmarrec/nuxt-pwa',
+    '@nuxtjs/color-mode',
+    '@vueuse/nuxt',
   ],
 
   sentry: {
     disabled: process.env.NODE_ENV === 'development',
     lazy: true,
     dsn: 'https://6fc80708bf024dc8b43c3058f8260dd6@o4503930691256320.ingest.sentry.io/4503930702331904', // Enter your project's DSN here
+    customClientIntegrations:
+      process.platform !== 'win32' ? '@/plugins/sentry' : undefined,
     // Additional Module Options go here
     // https://sentry.nuxtjs.org/sentry/options
     config: {
       // Add native Sentry config here
       // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/
       sampleRate: 0.25,
+      whitelistUrls: [/kodadot\.xyz/],
+      beforeSend(event) {
+        if (window.navigator.userAgent.indexOf('prerender') !== -1) {
+          return null
+        }
+
+        if (window.navigator.userAgent.indexOf('Headless') !== -1) {
+          return null
+        }
+
+        return event
+      },
     },
   },
 
@@ -225,16 +243,17 @@ export default defineNuxtConfig({
       background_color: '#181717',
       theme_color: '#181717',
     },
-    workbox: {
-      // importScripts: [
-      //   'service-worker.js'
-      // ],
-      // swDest: 'service-worker.js',
-      // swURL: './'
-    },
+    // workbox: {
+    // importScripts: [
+    //   'service-worker.js'
+    // ],
+    // swDest: 'service-worker.js',
+    // swURL: './'
+    // },
 
     // according to Google using purpose ['any', 'maskable'] is discouraged
     icon: {
+      source: 'static/icon.png',
       purpose: ['any'],
     },
   },
@@ -288,6 +307,20 @@ export default defineNuxtConfig({
       // silence babel warning regarding exceeding file sizes (>500kb)
       compact: true,
     },
+    optimization: {
+      runtimeChunk: true,
+      splitChunks: {
+        name: true,
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /.(css|vue)$/,
+            chunks: 'all',
+            enforce: true,
+          },
+        },
+      },
+    },
     transpile: [
       '@kodadot1/sub-api',
       '@polkadot/api',
@@ -305,6 +338,22 @@ export default defineNuxtConfig({
       '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
     ],
     extend(config) {
+      if (
+        process.env.NODE_ENV !== 'development' &&
+        process.env.SENTRY_AUTH_TOKEN
+      ) {
+        config.devtool = 'source-map'
+
+        config.plugins.push(
+          new SentryWebpackPlugin({
+            org: 'kodadot',
+            project: 'nft-gallery',
+            include: './dist',
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+          })
+        )
+      }
+
       // add markdown loader
       config.module.rules.push({
         test: /\.md$/,
@@ -332,12 +381,14 @@ export default defineNuxtConfig({
   // env: {
   //   baseUrl : process.env.BASE_URL || 'http://localhost:9090',
   // },
-  // https://nuxtjs.org/docs/configuration-glossary/configuration-env/
-  publicRuntimeConfig: {
-    prefix: process.env.URL_PREFIX || 'rmrk',
-    baseUrl: process.env.BASE_URL || 'http://localhost:9090',
-    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
-    dev: process.env.NODE_ENV === 'development',
+  // https://nuxtjs.org/docs/configuration-glossary/configuration-env/,
+  runtimeConfig: {
+    public: {
+      prefix: process.env.URL_PREFIX || 'rmrk',
+      baseUrl: process.env.BASE_URL || 'http://localhost:9090',
+      googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
+      dev: process.env.NODE_ENV === 'development',
+    },
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
