@@ -51,7 +51,7 @@ export default defineNuxtConfig({
       {
         hid: 'description',
         name: 'description',
-        content: 'One Stop Shop NFTs on Polkadot',
+        content: 'One Stop NFT Shop on Polkadot',
       },
       { property: 'og:locale', content: 'en_US' },
       { property: 'twitter:site', content: '@KodaDot' },
@@ -66,7 +66,7 @@ export default defineNuxtConfig({
       {
         hid: 'og:description',
         property: 'og:description',
-        content: 'One Stop Shop NFTs on Polkadot',
+        content: 'One Stop NFT Shop on Polkadot',
       },
       {
         hid: 'og:image',
@@ -82,7 +82,7 @@ export default defineNuxtConfig({
       {
         hid: 'twitter:description',
         name: 'twitter:description',
-        content: 'One Stop Shop NFTs on Polkadot',
+        content: 'One Stop NFT Shop on Polkadot',
       },
       {
         hid: 'twitter:image',

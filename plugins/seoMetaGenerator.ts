@@ -44,7 +44,7 @@ export default function ({ app }, inject): void {
   const seoMeta = (meta: MetaProperties): MetaTag[] => {
     const baseUrl: string = app.$config.public.baseUrl
     const title = 'KodaDot - NFT Market Explorer'
-    const description = 'One Stop Shop NFTs on Polkadot'
+    const description = 'One Stop NFT Shop on Polkadot'
     const image = `${baseUrl}/k_card.png`
     const type = resolveMedia(meta?.mime)
 
