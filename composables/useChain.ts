@@ -11,12 +11,18 @@ export default function () {
   const decimals = computed<number>(() => {
     return chainProperties.value.tokenDecimals
   })
+
   const unit = computed<string>(() => {
     return chainProperties.value.tokenSymbol
+  })
+
+  const offersDisabled = computed(() => {
+    return urlPrefix.value !== 'snek' && urlPrefix.value !== 'bsx'
   })
 
   return {
     decimals,
     unit,
+    offersDisabled,
   }
 }
