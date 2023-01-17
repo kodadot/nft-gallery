@@ -6,7 +6,7 @@
       <span class="text__stroked is-size-3">{{ route.query.search }}</span>
     </div>
 
-    <div class="mb-5 explore-tabs container is-flex">
+    <div class="mb-5 explore-tabs container is-flex" data-cy="tabs">
       <p>
         <NeoButton
           class="btn-collection"

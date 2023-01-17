@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <GalleryItemPriceSection title="Highest Offer" :price="price">
+    <GalleryItemPriceSection ref="root" title="Highest Offer" :price="price">
       <GalleryItemActionSlides ref="actionRef" :active="active">
         <template #action>
           <NeoButton
@@ -14,7 +14,7 @@
             @click.native="toggleActive" />
           <NeoButton
             v-if="active && !confirm"
-            :disabled="!(offerPrice > 0)"
+            :disabled="disabledConfirmBtn"
             label="Confirm 1/2"
             size="large"
             fixed-width
@@ -71,9 +71,11 @@ import { NeoButton } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
 import { dangerMessage } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
-
+import { simpleDivision } from '@/utils/balance'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
+import WalletModal from '@/components/common/WalletModal.vue'
+import Vue from 'vue'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/shared/Loader.vue')
@@ -86,10 +88,20 @@ const props = defineProps<{
   account: string
 }>()
 
-const { urlPrefix } = usePrefix()
-const { $route, $i18n } = useNuxtApp()
+const { urlPrefix, tokenId } = usePrefix()
+const { $store, $route, $i18n, $buefy } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
+const { accountId } = useAuth()
+const { decimals } = useChain()
+const root = ref<Vue<Record<string, string>>>()
+const connected = computed(() => Boolean(accountId.value))
 
+const balance = computed<string>(() => {
+  if (urlPrefix.value == 'rmrk') {
+    return $store.getters.getAuthBalance
+  }
+  return $store.getters.getTokenBalanceOf(tokenId.value)
+})
 const { data } = useGraphql({
   queryName: 'offerHighest',
   queryPrefix: 'chain-bsx',
@@ -100,13 +112,30 @@ const { data } = useGraphql({
 })
 
 const price = ref('')
-const offerPrice = ref()
+const offerPrice = ref<number>()
 const active = ref(false)
 const confirm = ref(false)
 const days = [1, 3, 7, 14, 30]
 const selectedDay = ref(14)
 
+const disabledConfirmBtn = computed(
+  () =>
+    !(
+      offerPrice.value &&
+      Number(offerPrice.value) < simpleDivision(balance.value, decimals.value)
+    )
+)
 function toggleActive() {
+  if (!connected.value) {
+    $buefy.modal.open({
+      parent: root?.value,
+      component: WalletModal,
+      hasModalCard: true,
+      trapFocus: true,
+      canCancel: true,
+    })
+    return
+  }
   active.value = !active.value
 }
 

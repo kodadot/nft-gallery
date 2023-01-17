@@ -20,7 +20,7 @@ import GenerativeMint from '@/components/bsx/Create/GenerativeMint.vue'
       type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
       url: '/mint',
-      image: `${this.$config.baseUrl}/k_card_mint.png`,
+      image: `${this.$config.public.baseUrl}/k_card_mint.png`,
     }
     return {
       title,
