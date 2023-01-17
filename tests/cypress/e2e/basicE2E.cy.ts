@@ -43,7 +43,6 @@ describe('rmrkCollectionItem', () => {
 describe('rmrkGalleryItem', () => {
   it('galleryListedItemActions', () => {
     cy.loginWithKeyring()
-    cy.visit('/rmrk')
     cy.visit(
       '/rmrk/gallery/9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000080'
     )
@@ -53,7 +52,6 @@ describe('rmrkGalleryItem', () => {
   })
 
   it('galleryUnlistedItemActions', () => {
-    cy.visit('/rmrk')
     cy.visit(
       '/rmrk/gallery/9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000061'
     )
