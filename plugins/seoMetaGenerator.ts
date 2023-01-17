@@ -17,7 +17,6 @@ interface MetaProperties {
   author?: string
   video?: string
   mime?: string
-  name?: string
 }
 
 interface MetaTag {
@@ -50,11 +49,6 @@ export default function ({ app }, inject): void {
     const type = resolveMedia(meta?.mime)
 
     const seoTags: MetaTag[] = [
-      {
-        hid: 'name',
-        name: 'name',
-        content: meta?.name ? meta?.name : 'KodaDot NFT Marketplace',
-      },
       {
         hid: 'title',
         name: 'title',
