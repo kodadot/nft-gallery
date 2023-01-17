@@ -1,4 +1,4 @@
-import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
+import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
 
 export const state = (): {
   // Interface
@@ -21,7 +21,7 @@ export const state = (): {
   hasCarbonOffset: boolean
   arweaveUpload: boolean
 } => ({
-  layoutClass: 'is-half-desktop is-half-tablet',
+  layoutClass: 'is-one-quarter-desktop is-one-third-tablet',
   advancedUI: false,
   theatreView: 'default',
   compactGalleryItem: true,
