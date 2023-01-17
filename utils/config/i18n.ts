@@ -2,6 +2,29 @@ import { LocaleMessages } from 'vue-i18n'
 import MarkdownIt from 'markdown-it'
 import commonData from '@/locales/all_lang.json'
 
+export const langsFlags = [
+  {
+    value: 'en',
+    flag: '🇬🇧',
+    label: 'English',
+  },
+  {
+    value: 'de',
+    flag: '🇩🇪',
+    label: 'Deutsch',
+  },
+  {
+    value: 'es',
+    flag: '🇪🇸',
+    label: 'Español',
+  },
+  {
+    value: 'fr',
+    flag: '🇫🇷',
+    label: 'Français',
+  },
+]
+
 const md = MarkdownIt({
   breaks: false,
 })
