@@ -1,13 +1,13 @@
-import { NFTListSold } from './../../identity/utils/useIdentity'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { getVolume } from '@/utils/math'
+import { NFTListSold } from '@/components/identity/utils/useIdentity'
 
 type Stats = {
   listedCount?: number
   collectionLength?: number
   collectionFloorPrice?: number
   uniqueOwnersPercent?: string
-  collectionDailyTradedVolumeNumber?: bigint
+  collectionTradedVolumeNumber?: bigint
 }
 
 const differentOwner = (nft: {
@@ -44,7 +44,7 @@ export const useCollectionDetails = ({ collectionId }) => {
         uniqueOwnersPercent: `${
           (uniqueOwnerCount / differentOwnerCount) * 100
         }%`,
-        collectionDailyTradedVolumeNumber: getVolume(
+        collectionTradedVolumeNumber: getVolume(
           data.value.stats.sales.map((nft) => nft.events).flat()
         ),
       }

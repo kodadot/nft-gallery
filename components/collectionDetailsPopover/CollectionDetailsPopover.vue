@@ -61,7 +61,7 @@
 
             <p class="is-size-6" data-cy="identity-collected">
               <CommonTokenMoney
-                :value="stats.collectionDailyTradedVolumeNumber"
+                :value="stats.collectionTradedVolumeNumber"
                 inline />
             </p>
           </div>
@@ -170,6 +170,12 @@ const { nftEntities: soldItems } = useCollectionSoldData({
     width: 78px;
     height: 78px;
     border: 1px solid $black;
+  }
+}
+
+.dark-mode {
+  .sold-item {
+    border: 1px solid $white;
   }
 }
 </style>
