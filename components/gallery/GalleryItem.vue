@@ -57,15 +57,12 @@
           <hr />
 
           <!-- price section -->
-          <GalleryItemAction
-            class="is-flex is-flex-direction-column is-flex-grow-1 is-justify-content-start"
-            :nft="nft"
-            @buy-success="onNFTBought" />
+          <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
         </div>
       </div>
     </div>
 
-    <div class="columns mt-6">
+    <div class="columns">
       <div class="pr-4 column is-two-fifths">
         <GalleryItemDescription />
       </div>
