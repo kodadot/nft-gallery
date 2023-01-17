@@ -21,11 +21,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 
 @Component({})
 export default class LocaleChanger extends Vue {
-  get langsFlags(): string {
-    return this.$store.getters['lang/getLangsFlags']
+  get langsFlags() {
+    return langsFlagsList
   }
 
   get userFlag(): string {

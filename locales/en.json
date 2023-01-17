@@ -1098,7 +1098,7 @@
     "description": "Description",
     "details": "Details",
     "offers": "Offers",
-    "offersDisabledRMRK": "Offers Are Not Available on RMRK",
+    "offersDisabled": "Offers Are Not Available on this chain",
     "activity": "Activity",
     "chart": "Chart",
     "rarity": "Rarity by Kodadot",
