@@ -98,16 +98,9 @@ import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 
 const { urlPrefix } = usePrefix()
-const { $seoMeta, $store } = useNuxtApp()
+const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
-
-onBeforeMount(() => {
-  if (urlPrefix.value !== route.params.prefix) {
-    $store.dispatch('setUrlPrefix', route.params.prefix)
-    router.go(0)
-  }
-})
 
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
