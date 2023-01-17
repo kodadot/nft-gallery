@@ -40,9 +40,14 @@
         <span
           :class="{
             'has-text-danger': props.row.status === OfferStatusType.WITHDRAWN,
-            'has-text-success': props.row.status === OfferStatusType.ACTIVE,
+            'has-text-success':
+              props.row.status === OfferStatusType.ACTIVE &&
+              props.row.expiration >= currentBlock,
+            'has-text-warning':
+              props.row.status === OfferStatusType.ACTIVE &&
+              props.row.expiration < currentBlock,
           }"
-          >{{ formatOfferStatus(props.row.status) }}</span
+          >{{ formatOfferStatus(props.row.status, props.row.expiration) }}</span
         >
       </o-table-column>
     </o-table>
@@ -54,7 +59,6 @@
 import { OTable, OTableColumn } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 
-import { onApiConnect } from '@kodadot1/sub-api'
 import { getKSMUSD } from '@/utils/coingecko'
 import formatBalance from '@/utils/format/balance'
 import { formatSecondsToDuration } from '@/utils/format/time'
@@ -64,7 +68,7 @@ import type { CollectionEvents } from '@/components/rmrk/service/scheme'
 import { OfferStatusType } from '@/utils/offerStatus'
 const { $i18n } = useNuxtApp()
 
-const { apiUrl } = useApi()
+const { apiInstance } = useApi()
 const { urlPrefix, tokenId, assets } = usePrefix()
 const { decimals } = useChain()
 
@@ -119,18 +123,21 @@ const expirationTime = (block) => {
   return formatSecondsToDuration(secondsToBlock)
 }
 
-const formatOfferStatus = (status: OfferStatusType) => {
+const formatOfferStatus = (status: OfferStatusType, expiration: number) => {
   if (status === OfferStatusType.WITHDRAWN) {
     return $i18n.t('offer.withdrawn')
+  }
+
+  if (status === OfferStatusType.ACTIVE && expiration < currentBlock.value) {
+    return $i18n.t('offer.inactive')
   }
   return status
 }
 
-onMounted(() => {
-  onApiConnect(apiUrl.value, async (api) => {
-    const block = await api.rpc.chain.getHeader()
-    currentBlock.value = block.number.toNumber()
-  })
+onMounted(async () => {
+  const api = await apiInstance.value
+  const block = await api.rpc.chain.getHeader()
+  currentBlock.value = block.number.toNumber()
 })
 
 watch(
