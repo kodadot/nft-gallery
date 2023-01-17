@@ -1,6 +1,6 @@
 <template>
   <div
-    class="is-flex is-flex-direction-column is-flex-grow-1 is-justify-content-start">
+    class="is-flex is-flex-direction-column is-flex-grow-1 is-justify-content-start mt-5">
     <!-- price -->
     <GalleryItemPriceBuy
       v-if="!isOwner"

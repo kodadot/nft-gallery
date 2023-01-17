@@ -4,8 +4,8 @@
       v-if="message || showCongratsMessage"
       :title="$t('mint.success')"
       :subtitle="$t('mint.successNewNfts')" />
-    <div class="columns">
-      <div class="pr-4 column is-two-fifths">
+    <div class="columns is-variable is-6">
+      <div class="column is-two-fifths">
         <MediaItem
           :key="nftImage"
           class="gallery-item-media"
@@ -14,11 +14,11 @@
           :mime-type="nftMimeType"
           :title="nft?.name" />
       </div>
-      <div class="pl-4 py-6 column">
+      <div class="py-6 column">
         <div
           class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
           <!-- title section -->
-          <div>
+          <div class="pb-4">
             <div class="is-flex is-justify-content-space-between">
               <div>
                 <h1 class="title" data-cy="item-title">{{ nft?.name }}</h1>
@@ -64,12 +64,12 @@
       </div>
     </div>
 
-    <div class="columns">
-      <div class="pr-4 column is-two-fifths">
+    <div class="columns is-variable is-6 mt-5">
+      <div class="column is-two-fifths">
         <GalleryItemDescription />
       </div>
 
-      <div class="pl-4 column mobile-top-margin">
+      <div class="column mobile-top-margin">
         <GalleryItemTabsPanel :active-tab="activeTab" />
       </div>
     </div>
@@ -167,7 +167,6 @@ useNuxt2Meta({
 
 hr {
   height: 1px;
-  margin: 60px 0;
 }
 
 .mobile-top-margin {
