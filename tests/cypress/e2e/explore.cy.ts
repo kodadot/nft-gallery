@@ -1,28 +1,19 @@
 const testCollections = (route) => {
   it('loadExplore', () => {
     cy.visit(route)
-  })
-
-  it('exploreTabs', () => {
     cy.getCy('tabs')
       .should('be.visible')
       .within(() => {
         cy.contains('Collections').should('be.visible')
         cy.contains('Items').should('be.visible')
       })
-  })
 
-  it('collectionsSort', () => {
     cy.getCy('collection-sort-by').should('be.visible')
     cy.getCy('collection-sort-by').select('Old first')
     cy.getCy('collection-sort-by').select('New first')
-  })
 
-  it('collectionsBuyNow', () => {
-    cy.getCy('buy-now').within(() => {
-      cy.get('[type="checkbox"]').check({ force: true })
-      cy.get('[type="checkbox"]').should('be.checked')
-    })
+    cy.get('[type="checkbox"]').check({ force: true })
+    cy.get('[type="checkbox"]').should('be.checked')
 
     cy.get('[data-cy="collection-index-0"]').should('exist')
     cy.get('[data-cy="collection-index-1"]').should('exist')
@@ -34,27 +25,16 @@ const testCollections = (route) => {
 const testItems = (route) => {
   it('loadExplore', () => {
     cy.visit(route)
-  })
 
-  it('exploreTabs', () => {
     cy.getCy('tabs')
       .should('be.visible')
       .within(() => {
         cy.contains('Collections').should('be.visible')
         cy.contains('Items').should('be.visible')
       })
-  })
-
-  it('itemsExpandSearch', () => {
     cy.getCy('expand-search').click({ force: true })
-  })
-
-  it('itemsInputFields', () => {
     cy.getCy('input-min').type('100', { force: true })
     cy.getCy('apply').click({ force: true })
-  })
-
-  it('itemsSort', () => {
     cy.waitForNetworkIdle('POST', '*', 1000)
     // TODO: clean up selector -> too many elements for data-cy
     cy.get(
@@ -70,12 +50,7 @@ const testItems = (route) => {
     cy.get(
       '[pricemin="100000000000000"] > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > [data-cy="Price: Low to High"]'
     ).click()
-  })
-
-  it('itemsBuyNow', () => {
-    cy.getCy('buy-now').within(() => {
-      return cy.get('[type="checkbox"]').check({ force: true, timeout: 5000 })
-    })
+    cy.get('[type="checkbox"]').check({ force: true, timeout: 5000 })
     cy.getCy('item-index-0')
       .getCy('card-money')
       .invoke('text')
@@ -86,6 +61,7 @@ const testItems = (route) => {
       })
   })
 }
+
 describe('exploreCollections', () => {
   const routes = ['/rmrk/explore/collectibles', '/bsx/explore/collectibles']
   routes.forEach((route) => {
