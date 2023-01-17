@@ -135,7 +135,6 @@ export default defineNuxtConfig({
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
-    '~/plugins/vueGtag',
   ],
 
   router: {
@@ -243,13 +242,11 @@ export default defineNuxtConfig({
       background_color: '#181717',
       theme_color: '#181717',
     },
-    // workbox: {
-    // importScripts: [
-    //   'service-worker.js'
-    // ],
-    // swDest: 'service-worker.js',
-    // swURL: './'
-    // },
+    workbox: {
+      enabled: true,
+      autoRegister: true,
+      workboxVersion: '6.5.4',
+    },
 
     // according to Google using purpose ['any', 'maskable'] is discouraged
     icon: {
