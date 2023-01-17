@@ -68,7 +68,7 @@ export const mutations: MutationTree<PreferencesState> = {
   SET_ADVANCED_UI(state: PreferencesState, data) {
     // if set to false reset state back to default
     if (!data) {
-      state.layoutClass = 'is-half-desktop is-half-tablet'
+      state.layoutClass = 'is-one-quarter-desktop is-one-third-tablet'
       state.theatreView = 'theatre'
       state.compactGalleryItem = true
       state.compactCollection = false
