@@ -4,7 +4,9 @@
       <div class="has-text-grey gallery-action-section-info-title">
         {{ title }}
       </div>
-      <div class="is-flex gallery-action-section-price-box">
+      <div
+        class="is-flex gallery-action-section-price-box"
+        data-cy="item-price">
         <div
           v-if="Number(price)"
           class="gallery-action-section-price has-text-weight-bold">

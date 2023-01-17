@@ -1,5 +1,7 @@
 <template>
-  <figure :class="[!original ? 'is-square image' : '']">
+  <figure
+    class="image-container"
+    :class="{ 'is-square image': !original && !isMobile }">
     <img
       class="is-block image-media__image"
       :src="src"
@@ -14,10 +16,12 @@ defineProps<{
   alt?: string
   original: boolean
 }>()
+
+const isMobile = ref(window.innerWidth < 768)
 </script>
 
-<style scoped>
-figure > img.image-media__image {
-  object-fit: cover;
+<style>
+.image-container.is-square > img {
+  object-fit: contain;
 }
 </style>
