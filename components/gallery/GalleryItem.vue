@@ -101,6 +101,9 @@ import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 
 const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
+const route = useRoute()
+const router = useRouter()
+
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
 const tabs = {
@@ -115,8 +118,6 @@ const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongratsMessage.value = true
 }
-const route = useRoute()
-const router = useRouter()
 const message = ref('')
 
 const CarouselTypeRelated = defineAsyncComponent(
