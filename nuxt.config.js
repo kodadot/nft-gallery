@@ -38,19 +38,20 @@ export default defineNuxtConfig({
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'KodaDot - Kusama NFT Market Explorer',
+    title: 'KodaDot - NFT Market Explorer',
     titleTemplate: '%s | Low Carbon NFTs',
     htmlAttrs: {
       lang: 'en',
     },
     meta: [
+      { name: 'name', content: 'KodaDot NFT Marketplace' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'format-detection', content: 'telephone=no' },
       // { property: 'og:site_name', content: 'KodaDot' },
       {
         hid: 'description',
         name: 'description',
-        content: 'Creating Carbonless NFTs on Kusama',
+        content: 'One Stop NFT Shop on Polkadot',
       },
       { property: 'og:locale', content: 'en_US' },
       { property: 'twitter:site', content: '@KodaDot' },
@@ -60,12 +61,12 @@ export default defineNuxtConfig({
       {
         hid: 'og:title',
         property: 'og:title',
-        content: 'KodaDot - Kusama NFT Market Explorer',
+        content: 'KodaDot - NFT Market Explorer',
       },
       {
         hid: 'og:description',
         property: 'og:description',
-        content: 'Creating Carbonless NFTs on Kusama',
+        content: 'One Stop NFT Shop on Polkadot',
       },
       {
         hid: 'og:image',
@@ -76,12 +77,12 @@ export default defineNuxtConfig({
       {
         hid: 'twitter:title',
         name: 'twitter:title',
-        content: 'KodaDot - Kusama NFT Market Explorer',
+        content: 'KodaDot - NFT Market Explorer',
       },
       {
         hid: 'twitter:description',
         name: 'twitter:description',
-        content: 'Creating Carbonless NFTs on Kusama',
+        content: 'One Stop NFT Shop on Polkadot',
       },
       {
         hid: 'twitter:image',
@@ -135,7 +136,6 @@ export default defineNuxtConfig({
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
-    '~/plugins/vueGtag',
   ],
 
   router: {
@@ -238,18 +238,16 @@ export default defineNuxtConfig({
 
   pwa: {
     manifest: {
-      name: 'KodaDot - Polkadot / Kusama NFT explorer',
+      name: 'KodaDot - Polkadot NFT explorer',
       short_name: 'KodaDot',
       background_color: '#181717',
       theme_color: '#181717',
     },
-    // workbox: {
-    // importScripts: [
-    //   'service-worker.js'
-    // ],
-    // swDest: 'service-worker.js',
-    // swURL: './'
-    // },
+    workbox: {
+      enabled: true,
+      autoRegister: true,
+      workboxVersion: '6.5.4',
+    },
 
     // according to Google using purpose ['any', 'maskable'] is discouraged
     icon: {
