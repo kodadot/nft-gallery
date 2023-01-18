@@ -15,7 +15,7 @@
     "public good"
   ],
   "license": "MIT",
-  "name": "kodadot-nft-gallery",
+  "name": "kodadot-nft-marketplace",
   "version": "3.0.0",
   "private": true,
   "scripts": {
