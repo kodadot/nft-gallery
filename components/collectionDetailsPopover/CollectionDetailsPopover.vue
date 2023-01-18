@@ -17,9 +17,11 @@
           <div class="is-flex is-align-items-center">
             <nuxt-link
               class="is-size-6 break-word mr-2 has-text-link"
-              :to="`/${urlPrefix}/collection/${nft?.collection.id}`">
+              :to="`/${urlPrefix}/collection/${
+                nft?.collection?.id || nft.collectionId
+              }`">
               <span data-cy="identity-display">
-                {{ nft?.collection.name }}</span
+                {{ nft?.collection?.name || nft?.collectionName }}</span
               >
             </nuxt-link>
           </div>
@@ -91,15 +93,15 @@
 </template>
 
 <script lang="ts" setup>
+import { CarouselNFT } from '../base/types'
 import {
   useBuyEvents,
   useCollectionDetails,
   useCollectionSoldData,
 } from '../collection/utils/useCollectionDetails'
-import { NFT } from '../rmrk/service/scheme'
 
 const props = defineProps<{
-  nft: NFT
+  nft: CarouselNFT
 }>()
 
 const CommonTokenMoney = defineAsyncComponent(
@@ -113,16 +115,16 @@ const GalleryCard = defineAsyncComponent(
 const { urlPrefix } = usePrefix()
 
 let { stats } = useCollectionDetails({
-  collectionId: props.nft?.collection.id,
+  collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
 
 let { highestBuyPrice } = useBuyEvents({
-  collectionId: props.nft?.collection.id,
+  collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
 
 const { nftEntities: soldItems } = useCollectionSoldData({
   address: props.nft?.issuer,
-  collectionId: props.nft?.collection.id,
+  collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
 </script>
 
