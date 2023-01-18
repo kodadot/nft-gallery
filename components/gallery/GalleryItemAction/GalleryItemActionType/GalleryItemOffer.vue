@@ -2,16 +2,21 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <GalleryItemPriceSection ref="root" title="Highest Offer" :price="price">
-      <GalleryItemActionSlides ref="actionRef" :active="active">
-        <template #action>
+      <GalleryItemActionSlides
+        ref="actionRef"
+        :active="active"
+        :class="{ 'gallery-item-slides-entry': !active }">
+        <template #entry>
           <NeoButton
             v-if="!active"
             label="Make Offer"
             size="large"
-            fixed-width
             variant="k-blue"
+            class="full-width-action-button"
             no-shadow
             @click.native="toggleActive" />
+        </template>
+        <template #action>
           <NeoButton
             v-if="active && !confirm"
             :disabled="disabledConfirmBtn"

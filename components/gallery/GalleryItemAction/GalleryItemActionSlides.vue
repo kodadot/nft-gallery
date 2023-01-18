@@ -2,6 +2,8 @@
   <div
     class="slide is-flex"
     :class="{ 'slide-active': active, 'slide-disabled': disabled }">
+    <slot name="entry"></slot>
+
     <div class="slide-action">
       <slot name="action"></slot>
     </div>
@@ -18,7 +20,7 @@ defineProps<{
 }>()
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/styles/abstracts/variables';
 .slide {
   box-shadow: 4px 4px hsl(0deg, 0%, 4%);
@@ -35,8 +37,8 @@ defineProps<{
     z-index: 1;
 
     & > * {
-      font-size: 1rem;
-      height: 100%;
+      font-size: 1rem !important;
+      height: 100% !important;
     }
   }
 
@@ -70,6 +72,28 @@ defineProps<{
   }
 }
 
+.gallery-item-slides-entry {
+  width: 10rem;
+  font-size: 1rem;
+  position: relative;
+  .wrapper {
+    width: 100%;
+    height: 100%;
+  }
+  .full-width-action-button {
+    width: 100%;
+    height: 100%;
+    font-size: 1rem;
+    position: absolute;
+    z-index: 2;
+  }
+  @include until-widescreen {
+    width: 100%;
+    .wrapper {
+      position: initial;
+    }
+  }
+}
 .dark-mode {
   .slide {
     box-shadow: 4px 4px $white;

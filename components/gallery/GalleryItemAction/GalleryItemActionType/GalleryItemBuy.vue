@@ -10,21 +10,35 @@
         v-if="Number(nftPrice)"
         ref="actionRef"
         :active="active"
+        :class="{ 'gallery-item-slides-entry': !active }"
         :disabled="disabled">
-        <template #action>
+        <template #entry>
           <NeoTooltip
+            v-if="!active"
             :active="disabled"
             :label="$t('tooltip.notEnoughBalance')">
             <NeoButton
               :label="`${label}`"
               size="large"
-              fixed-width
+              class="full-width-action-button"
               variant="k-accent"
               :disabled="disabled"
               no-shadow
               data-cy="item-buy"
               @click.native="onClick" />
           </NeoTooltip>
+        </template>
+
+        <template #action>
+          <NeoButton
+            :label="`${label}`"
+            size="large"
+            fixed-width
+            variant="k-accent"
+            :disabled="disabled"
+            no-shadow
+            data-cy="item-buy"
+            @click.native="onClick" />
         </template>
 
         <template #content>
