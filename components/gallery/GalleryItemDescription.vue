@@ -14,7 +14,7 @@
 
       <vue-markdown
         :source="nftMetadata?.description?.replaceAll('\n', '  \n') || ''"
-        :style="{ wordBreak: 'break-word' }" />
+        class="gallery-item-desc-markdown" />
     </o-tab-item>
 
     <!-- properties tab -->
@@ -129,3 +129,17 @@ watchEffect(async () => {
   }
 })
 </script>
+<style lang="scss">
+@import '@/styles/abstracts/variables.scss';
+
+.gallery-item-desc-markdown {
+  pre {
+    background-color: transparent;
+    color: $shade;
+    border: 1px solid $shade;
+    margin: 1rem 0;
+    white-space: pre-wrap;
+  }
+  word-break: 'break-word';
+}
+</style>
