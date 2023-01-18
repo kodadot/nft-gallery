@@ -11,7 +11,7 @@
 
     <!-- highest offer -->
     <GalleryItemPriceOffer
-      v-if="urlPrefix !== 'rmrk' && !isOwner && nft?.id && nft.currentOwner"
+      v-if="!offersDisabled && !isOwner && nft?.id && nft.currentOwner"
       :nft-id="nft.id"
       :collection-id="nft.collection.id"
       :current-owner="nft.currentOwner"
@@ -46,9 +46,10 @@ import { NFT } from '~~/components/rmrk/service/scheme'
 const props = defineProps<{
   nft: NFT | undefined
 }>()
+
 const emit = defineEmits(['buy-success'])
-const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
+const { offersDisabled } = useChain()
 const isOwner = computed(() =>
   checkOwner(props.nft?.currentOwner, accountId.value)
 )

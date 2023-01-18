@@ -411,9 +411,9 @@ html.dark-mode {
   }
 
   .offer {
-    &-input {
+    &-price {
       background: $k-dark !important;
-      border: 1px solid white !important;
+      color: $text !important;
     }
   }
   .slide {
