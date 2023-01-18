@@ -69,6 +69,7 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
+import { OfferStatusType } from '@/utils/offerStatus'
 import { dangerMessage } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { simpleDivision } from '@/utils/balance'
@@ -166,7 +167,8 @@ async function confirm2() {
 
 watchEffect(async () => {
   price.value =
-    currentBlock < data.value?.offers[0]?.expiration
+    currentBlock < data.value?.offers[0]?.expiration &&
+    data.value?.offers[0]?.status === OfferStatusType.ACTIVE
       ? data.value?.offers[0]?.price
       : ''
 })
