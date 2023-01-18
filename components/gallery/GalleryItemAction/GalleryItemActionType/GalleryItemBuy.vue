@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-cy="item-section-buy">
     <Loader v-model="isLoading" :status="status" />
     <GalleryItemPriceSection
       v-if="nftPrice"
@@ -22,6 +22,7 @@
               variant="k-accent"
               :disabled="disabled"
               no-shadow
+              data-cy="item-buy"
               @click.native="onClick" />
           </NeoTooltip>
         </template>

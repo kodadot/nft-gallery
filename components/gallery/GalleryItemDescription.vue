@@ -1,8 +1,25 @@
 <template>
   <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
+    <!-- description tab -->
+    <o-tab-item value="0" :label="$t('tabs.description')" class="p-5">
+      <div class="mb-3 is-flex">
+        <span class="mr-2">{{ $t('tabs.tabDescription.made') }}:</span>
+        <nuxt-link
+          v-if="nft?.issuer"
+          :to="`/${urlPrefix}/u/${nft?.issuer}`"
+          class="has-text-link">
+          <Identity ref="identity" :address="nft?.issuer" />
+        </nuxt-link>
+      </div>
+
+      <vue-markdown
+        :source="nftMetadata?.description?.replaceAll('\n', '  \n') || ''"
+        :style="{ wordBreak: 'break-word' }" />
+    </o-tab-item>
+
     <!-- properties tab -->
     <DisablableTab
-      value="0"
+      value="1"
       :disabled="propertiesTabDisabled"
       :label="$t('tabs.properties')"
       :disabled-tooltip="$t('tabs.noPropertiesForNFT')">
@@ -21,23 +38,6 @@
         </o-table-column>
       </o-table>
     </DisablableTab>
-
-    <!-- description tab -->
-    <o-tab-item value="1" :label="$t('tabs.description')" class="p-5">
-      <div class="mb-3 is-flex">
-        <span class="mr-2">{{ $t('tabs.tabDescription.made') }}:</span>
-        <nuxt-link
-          v-if="nft?.issuer"
-          :to="`/${urlPrefix}/u/${nft?.issuer}`"
-          class="has-text-link">
-          <Identity ref="identity" :address="nft?.issuer" />
-        </nuxt-link>
-      </div>
-
-      <vue-markdown
-        :source="nftMetadata?.description?.replaceAll('\n', '  \n') || ''"
-        :style="{ wordBreak: 'break-word' }" />
-    </o-tab-item>
 
     <!-- details tab -->
     <o-tab-item value="2" :label="$t('tabs.details')" class="p-5">
@@ -111,10 +111,6 @@ const propertiesTabDisabled = computed(() => {
   }
 
   return !nftMetadata.value.attributes?.length
-})
-
-watch(propertiesTabDisabled, () => {
-  activeTab.value = propertiesTabDisabled.value ? '1' : '0'
 })
 
 const metadataMimeType = ref('application/json')

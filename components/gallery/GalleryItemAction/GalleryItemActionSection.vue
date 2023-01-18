@@ -2,7 +2,7 @@
   <div class="is-flex is-justify-content-space-between is-align-items-center">
     <div>
       <p class="has-text-grey">{{ title }}</p>
-      <div class="is-flex is-align-items-center">
+      <div class="is-flex is-align-items-center" data-cy="item-price">
         <div v-if="Number(price)" class="has-text-weight-bold is-size-3 mr-5">
           {{ priceChain }}
         </div>
