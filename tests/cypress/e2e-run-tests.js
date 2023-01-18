@@ -30,6 +30,7 @@ glob('./tests/cypress/e2e/**/*.cy.ts', async (err, files) => {
           specPattern: specs,
         },
       },
+      quiet: true,
     })
 
     if (results.totalFailed > 0) {
