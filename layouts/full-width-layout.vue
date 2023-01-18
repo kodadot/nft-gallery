@@ -25,7 +25,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
         {
           hid: 'canonical',
           rel: 'canonical',
-          href: this.$root.$config.baseUrl + this.$route.path,
+          href: this.$root.$config.public.baseUrl + this.$route.path,
         },
       ],
     }

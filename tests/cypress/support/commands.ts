@@ -22,57 +22,6 @@ Cypress.Commands.add('loginWithKeyring', () => {
   cy.waitForNetworkIdle('POST', '*', 1000)
 })
 
-Cypress.Commands.add('exploreTabs', () => {
-  cy.get('[data-cy="tabs"]')
-    .should('be.visible')
-    .within(() => {
-      cy.contains('Collections').should('be.visible')
-      cy.contains('Gallery').should('be.visible')
-    })
-})
-
-Cypress.Commands.add('rmrkGallerySortBy', () => {
-  cy.waitForNetworkIdle('POST', '*', 1000)
-  // TODO: clean up selector -> too many elements for data-cy
-  cy.get(
-    '#GALLERY-content .collapse #sortAndFilter [data-cy="gallery-sort-by"]'
-  ).click()
-  cy.get('[data-cy="Recently Created"]').should('be.visible')
-  cy.get('[data-cy="Oldest"]').should('be.visible')
-  cy.get('[data-cy="Price: High to Low"]').should('be.visible')
-  cy.get('[data-cy="Price: Low to High"]').should('be.visible')
-  cy.get('[data-cy="Recently Interacted"]').should('be.visible')
-  cy.get('[data-cy="Unpopular"]').should('be.visible')
-  // cy.get('[data-cy="Most reacted"]').should('be.visible')
-  // TODO: clean up selector -> too many elements for data-cy
-  cy.get(
-    '#GALLERY-content .collapse #sortAndFilter [data-cy="Price: Low to High"]'
-  ).click()
-})
-
-Cypress.Commands.add('snekGallerySortBy', () => {
-  // TODO: clean up selector -> too many elements for data-cy
-  cy.get(
-    '#GALLERY-content .collapse #sortAndFilter [data-cy="gallery-sort-by"]'
-  ).click()
-  cy.get('[data-cy="Recently Created"]').should('be.visible')
-  cy.get('[data-cy="Oldest"]').should('be.visible')
-  cy.get('[data-cy="Price: High to Low"]').should('be.visible')
-  cy.get('[data-cy="Price: Low to High"]').should('be.visible')
-  cy.get('[data-cy="Recently Interacted"]').should('be.visible')
-  cy.get('[data-cy="Unpopular"]').should('be.visible')
-  // TODO: clean up selector -> too many elements for data-cy
-  cy.get(
-    '#GALLERY-content .collapse #sortAndFilter [data-cy="Price: Low to High"]'
-  ).click()
-})
-
-Cypress.Commands.add('collectionsSortBy', () => {
-  cy.get('[data-cy="collection-sort-by"]').should('be.visible')
-  cy.get('[data-cy="collection-sort-by"]').select('Old first')
-  cy.get('[data-cy="collection-sort-by"]').select('New first')
-})
-
 Cypress.Commands.add('rmrkNavbar', () => {
   cy.get('[data-cy="classic"]')
     .should('have.attr', 'href')
@@ -116,44 +65,6 @@ Cypress.Commands.add('snekNavbar', () => {
     .and('include', '/snek/stats')
   cy.get('[data-cy="chain-select"]').should('be.visible')
   cy.get('[data-cy="chain-select"]').click()
-})
-
-Cypress.Commands.add('expandGallerySearch', () => {
-  cy.get('[data-cy="expand-search"]').click({ force: true })
-})
-
-Cypress.Commands.add('collectionsBuyNow', () => {
-  cy.get('[data-cy="buy-now"]').within(() => {
-    cy.get('[type="checkbox"]').check({ force: true })
-    cy.get('[type="checkbox"]').should('be.checked')
-  })
-
-  cy.get('[data-cy="collection-index-0"]').should('exist')
-  cy.get('[data-cy="collection-index-1"]').should('exist')
-  cy.get('[data-cy="collection-index-2"]').should('exist')
-  cy.get('[data-cy="collection-index-3"]').should('exist')
-})
-
-Cypress.Commands.add('galleryBuyNow', (amount) => {
-  cy.toggleBuyNowGallery()
-  cy.get('[data-cy="item-index-0"] .money')
-    .invoke('text')
-    .then((text) => {
-      if (!(parseFloat(text.replace(',', '')) >= amount)) {
-        throw '[ERROR] Gallery BUY NOW is not working'
-      }
-    })
-})
-
-Cypress.Commands.add('galleryInputFields', (amount) => {
-  cy.get('[data-cy="input-min"]').type(String(amount), { force: true })
-  cy.get('[data-cy="apply"]').click({ force: true })
-})
-
-Cypress.Commands.add('toggleBuyNowGallery', () => {
-  cy.get('[data-cy="buy-now"]').within(() => {
-    return cy.get('[type="checkbox"]').check({ force: true, timeout: 5000 })
-  })
 })
 
 Cypress.Commands.add('snekGalleryListedItemActions', (nftId, creator) => {
@@ -204,25 +115,6 @@ Cypress.Commands.add(
   }
 )
 
-Cypress.Commands.add('rmrkGalleryListedItemActions', (nftId, creator) => {
-  cy.visit(`/rmrk/gallery/${nftId}`)
-  cy.waitForNetworkIdle('+(HEAD|GET)', '*', 1000)
-  cy.get('[data-cy="money"]').should('contain', 'KSM')
-  cy.get('[data-cy="BUY"]').should('be.disabled')
-  cy.get('[data-cy="history"]').should('contain', 'History')
-  cy.get('[data-cy="history"]').click()
-  cy.get('[data-cy="select-event"]').select('🖼 MINT')
-  cy.get('[data-label="Type"]').should('contain', '🖼 MINT')
-  cy.get('[data-label="From"]').should('contain', `${creator}`)
-  cy.get('[data-label="Amount"]').should('contain', '-')
-})
-
-Cypress.Commands.add('rmrkGalleryUnlistedItemActions', (nftId) => {
-  cy.visit(`/rmrk/gallery/${nftId}`)
-  cy.waitForNetworkIdle('POST', '*', 1000)
-  cy.get('[data-cy="money"]').should('not.exist')
-})
-
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -241,26 +133,6 @@ declare global {
       loginWithKeyring(): Chainable<Element>
 
       /**
-       * @desc checks tab in /explore section, checks whether the tab section contains two visible tabs
-       */
-      exploreTabs(): Chainable<Element>
-
-      /**
-       * @desc clicks on sort button in gallery (rmrk), checks whether all the sort options are visible, finally selects Low to High price options
-       */
-      rmrkGallerySortBy(): Chainable<Element>
-
-      /**
-       * @desc clicks on sort button in gallery (snek), checks whether all the sort options are visible, finally selects Low to High price options
-       */
-      snekGallerySortBy(): Chainable<Element>
-
-      /**
-       * @desc check whether collection sorting is visible, then selects both of the options one by one
-       */
-      collectionsSortBy(): Chainable<Element>
-
-      /**
        * @desc checks whether the elements of RMRK navbar are visible, goes through some options and clicks them
        */
       rmrkNavbar(): Chainable<Element>
@@ -269,34 +141,6 @@ declare global {
        * @desc checks whether the elements of snek navbar are visible, goes through some options and clicks them
        */
       snekNavbar(): Chainable<Element>
-
-      /**
-       * @desc click on expand gallery search
-       */
-      expandGallerySearch(): Chainable<Element>
-
-      /**
-       * @desc makes sure Buy Now toggle is on, checks the first item fetched, makes sure the price of it is more than 0
-       */
-      collectionsBuyNow(): Chainable<Element>
-
-      /**
-       * @desc tests buy now in gallery by checking the price of the first item
-       * @param amount - what kind of amount are you testing for (set for in tests)
-       *
-       */
-      galleryBuyNow(amount: number): Chainable<Element>
-
-      /**
-       * @desc enters the amount to the input field "Min" and hits "Apply"
-       * @param amount selected to be but into input field
-       */
-      galleryInputFields(amount: number): Chainable<Element>
-
-      /**
-       * @desc makes sure that 'Buy Now' toggle in gallery is off
-       */
-      toggleBuyNowGallery(): Chainable<Element>
 
       /**
        * @desc checks all of the actions available when interacted with listed item on snek
@@ -339,27 +183,6 @@ declare global {
       rmrkCollectionActions(
         collectionId: string,
         nftName: string,
-        creator: string
-      ): Chainable<Element>
-
-      /**
-       * @desc checks all of the actions available when interacted with listed item on RMRK
-       * @param nftId
-       * @param creator
-       */
-      rmrkGalleryListedItemActions(
-        nftId: string,
-        creator: string
-      ): Chainable<Element>
-
-      /**
-       * @desc checks all of the actions available when interacted with unlisted item on RMRK
-       * @param nftId
-       * @param creator
-       */
-
-      rmrkGalleryUnlistedItemActions(
-        nftId: string,
         creator: string
       ): Chainable<Element>
     }

@@ -22,9 +22,12 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
-  // currently we can only use nitro in development https://github.com/nuxt/framework/issues/886
   bridge: {
-    nitro: process.env.NODE_ENV !== 'production',
+    nitro: true,
+  },
+
+  nitro: {
+    publicAssets: [],
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -35,19 +38,20 @@ export default defineNuxtConfig({
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'KodaDot - Kusama NFT Market Explorer',
+    title: 'KodaDot - NFT Market Explorer',
     titleTemplate: '%s | Low Carbon NFTs',
     htmlAttrs: {
       lang: 'en',
     },
     meta: [
+      { name: 'name', content: 'KodaDot NFT Marketplace' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'format-detection', content: 'telephone=no' },
       // { property: 'og:site_name', content: 'KodaDot' },
       {
         hid: 'description',
         name: 'description',
-        content: 'Creating Carbonless NFTs on Kusama',
+        content: 'One Stop NFT Shop on Polkadot',
       },
       { property: 'og:locale', content: 'en_US' },
       { property: 'twitter:site', content: '@KodaDot' },
@@ -57,12 +61,12 @@ export default defineNuxtConfig({
       {
         hid: 'og:title',
         property: 'og:title',
-        content: 'KodaDot - Kusama NFT Market Explorer',
+        content: 'KodaDot - NFT Market Explorer',
       },
       {
         hid: 'og:description',
         property: 'og:description',
-        content: 'Creating Carbonless NFTs on Kusama',
+        content: 'One Stop NFT Shop on Polkadot',
       },
       {
         hid: 'og:image',
@@ -73,12 +77,12 @@ export default defineNuxtConfig({
       {
         hid: 'twitter:title',
         name: 'twitter:title',
-        content: 'KodaDot - Kusama NFT Market Explorer',
+        content: 'KodaDot - NFT Market Explorer',
       },
       {
         hid: 'twitter:description',
         name: 'twitter:description',
-        content: 'Creating Carbonless NFTs on Kusama',
+        content: 'One Stop NFT Shop on Polkadot',
       },
       {
         hid: 'twitter:image',
@@ -132,7 +136,6 @@ export default defineNuxtConfig({
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
-    '~/plugins/vueGtag',
   ],
 
   router: {
@@ -185,9 +188,6 @@ export default defineNuxtConfig({
     ],
   },
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxtjs/pwa', '@nuxtjs/color-mode', '@vueuse/nuxt'],
-
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/buefy
@@ -204,6 +204,9 @@ export default defineNuxtConfig({
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     '@nuxtjs/sentry',
+    '@kevinmarrec/nuxt-pwa',
+    '@nuxtjs/color-mode',
+    '@vueuse/nuxt',
   ],
 
   sentry: {
@@ -235,21 +238,20 @@ export default defineNuxtConfig({
 
   pwa: {
     manifest: {
-      name: 'KodaDot - Polkadot / Kusama NFT explorer',
+      name: 'KodaDot - Polkadot NFT explorer',
       short_name: 'KodaDot',
       background_color: '#181717',
       theme_color: '#181717',
     },
     workbox: {
-      // importScripts: [
-      //   'service-worker.js'
-      // ],
-      // swDest: 'service-worker.js',
-      // swURL: './'
+      enabled: true,
+      autoRegister: true,
+      workboxVersion: '6.5.4',
     },
 
     // according to Google using purpose ['any', 'maskable'] is discouraged
     icon: {
+      source: 'static/icon.png',
       purpose: ['any'],
     },
   },
@@ -302,6 +304,20 @@ export default defineNuxtConfig({
     babel: {
       // silence babel warning regarding exceeding file sizes (>500kb)
       compact: true,
+    },
+    optimization: {
+      runtimeChunk: true,
+      splitChunks: {
+        name: true,
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /.(css|vue)$/,
+            chunks: 'all',
+            enforce: true,
+          },
+        },
+      },
     },
     transpile: [
       '@kodadot1/sub-api',
@@ -363,12 +379,14 @@ export default defineNuxtConfig({
   // env: {
   //   baseUrl : process.env.BASE_URL || 'http://localhost:9090',
   // },
-  // https://nuxtjs.org/docs/configuration-glossary/configuration-env/
-  publicRuntimeConfig: {
-    prefix: process.env.URL_PREFIX || 'rmrk',
-    baseUrl: process.env.BASE_URL || 'http://localhost:9090',
-    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
-    dev: process.env.NODE_ENV === 'development',
+  // https://nuxtjs.org/docs/configuration-glossary/configuration-env/,
+  runtimeConfig: {
+    public: {
+      prefix: process.env.URL_PREFIX || 'rmrk',
+      baseUrl: process.env.BASE_URL || 'http://localhost:9090',
+      googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
+      dev: process.env.NODE_ENV === 'development',
+    },
   },
   // In case of using ssr
   // privateRuntimeConfig: {}

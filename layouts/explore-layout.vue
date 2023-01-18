@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-full is-flex is-flex-direction-column is-clipped">
     <Navbar />
-    <ExploreTabsFilterSort />
     <main class="is-flex-grow-1">
       <section class="section">
         <div class="container">
@@ -10,7 +9,12 @@
             :has-img="false"
             error-subtitle="Please check your network connections"
             error-title="Offline Detected" />
-          <Nuxt v-else />
+          <div v-else>
+            <h1 class="title">{{ $t('explore') }}</h1>
+            <ExploreTabsFilterSort />
+
+            <Nuxt />
+          </div>
         </div>
       </section>
     </main>
@@ -30,7 +34,7 @@ export default {
         {
           hid: 'canonical',
           rel: 'canonical',
-          href: this.$root.$config.baseUrl + this.$route.path,
+          href: this.$root.$config.public.baseUrl + this.$route.path,
         },
       ],
     }

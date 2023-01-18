@@ -39,7 +39,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
       type: 'profile',
       description: 'Discover new artists based on ranking',
       url: '/series-insight',
-      image: `${this.$config.baseUrl}/k_card.png`,
+      image: `${this.$config.public.baseUrl}/k_card.png`,
     }
     return {
       title,
