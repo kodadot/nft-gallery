@@ -727,7 +727,9 @@
   "offer": {
     "caller": "From",
     "status": "Status",
-    "withdrawn": "CANCELLED",
+    "withdrawn": "Cancelled",
+    "active": "Active",
+    "accepted": "Accepted",
     "price": "Price",
     "usdPrice": "USD Price",
     "expiration": "Expiration",

@@ -14,19 +14,23 @@
         line-height: 1.5rem;
         color: $k-grey;
       }
+
+      margin: 0 1.5rem;
+      padding: 0.25rem 0;
+
+      &:last-child {
+        border-bottom: 1px solid $shade !important;
+
+      }
     }
   }
 
   @include touch {
     tbody tr {
-      &:last-child {
-        border-bottom: none !important;
-      }
-      border-bottom: 1px solid $shade;
+      padding-top: 0.5rem;
 
     }
   }
-
 
   &--hoverable {
     tbody tr:hover td {
@@ -42,9 +46,4 @@
     }
   }
 
-  @include touch {
-    tbody tr {
-      border-bottom: 1px solid $white;
-    }
-  }
 }

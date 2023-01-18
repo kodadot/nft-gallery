@@ -120,10 +120,16 @@ const expirationTime = (block) => {
 }
 
 const formatOfferStatus = (status: OfferStatusType) => {
-  if (status === OfferStatusType.WITHDRAWN) {
-    return $i18n.t('offer.withdrawn')
+  switch (status) {
+    case OfferStatusType.WITHDRAWN:
+      return $i18n.t('offer.withdrawn')
+    case OfferStatusType.ACTIVE:
+      return $i18n.t('offer.active')
+    case OfferStatusType.ACCEPTED:
+      return $i18n.t('offer.accepted')
+    default:
+      return status
   }
-  return status
 }
 
 onMounted(() => {

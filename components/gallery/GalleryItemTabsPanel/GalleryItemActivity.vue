@@ -72,6 +72,9 @@ const cssActive = (value) => {
 
   &-filter {
     column-gap: 2rem;
+    @include mobile {
+      column-gap: 1rem;
+    }
   }
 
   &-checkbox {
