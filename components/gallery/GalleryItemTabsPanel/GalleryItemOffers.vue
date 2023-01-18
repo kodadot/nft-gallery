@@ -43,9 +43,10 @@
             'has-text-success':
               props.row.status === OfferStatusType.ACTIVE &&
               props.row.expiration >= currentBlock,
-            'has-text-warning':
-              props.row.status === OfferStatusType.ACTIVE &&
-              props.row.expiration < currentBlock,
+            'has-text-warning': isInactiveOffer(
+              props.row.status,
+              props.row.expiration
+            ),
           }"
           >{{ formatOfferStatus(props.row.status, props.row.expiration) }}</span
         >
@@ -101,19 +102,23 @@ const offers = ref<Offer[]>()
 const offersAdditionals = ref({})
 const currentBlock = ref(0)
 
-const getOffersDetails = (id) => {
+const getOffersDetails = (id: string) => {
   return offersAdditionals.value[id]
 }
 
-const formatPrice = (price) => {
-  return formatBalance(price, decimals.value, '')
-}
-
-const getPercentage = (numA, numB) => {
+const getPercentage = (numA: number, numB: number) => {
   return Math.round(((numA - numB) / numB) * 100)
 }
 
-const expirationTime = (block) => {
+const formatPrice = (price: string) => {
+  return formatBalance(price, decimals.value, '')
+}
+
+const isInactiveOffer = (status: OfferStatusType, expiration: number) => {
+  return status === OfferStatusType.ACTIVE && expiration < currentBlock.value
+}
+
+const expirationTime = (block: number) => {
   if (currentBlock.value > block) {
     return 'Expired'
   }
@@ -128,9 +133,10 @@ const formatOfferStatus = (status: OfferStatusType, expiration: number) => {
     return $i18n.t('offer.withdrawn')
   }
 
-  if (status === OfferStatusType.ACTIVE && expiration < currentBlock.value) {
+  if (isInactiveOffer(status, expiration)) {
     return $i18n.t('offer.inactive')
   }
+
   return status
 }
 
@@ -160,7 +166,10 @@ watch(
 
         const token = `${price} ${symbol}`
         const usd = `$${Math.round(Number(price) * ksmPrice)}`
-        const floorDifference = `${getPercentage(price, floorPrice)}%`
+        const floorDifference = `${getPercentage(
+          Number(price),
+          Number(floorPrice)
+        )}%`
 
         offersAdditionals.value[offer.id] = {
           token,
