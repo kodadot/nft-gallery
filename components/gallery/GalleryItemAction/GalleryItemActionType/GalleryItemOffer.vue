@@ -37,7 +37,7 @@
             class="offer is-flex is-justify-content-space-between is-align-items-center">
             <input
               v-model="offerPrice"
-              class="offer-price"
+              class="offer-price is-flex is-align-items-center"
               type="number"
               placeholder="Type Your Offer"
               min="0" />
@@ -46,7 +46,7 @@
           <div
             v-else
             class="offer is-flex is-justify-content-space-evenly is-align-items-center">
-            <div>Expire In:</div>
+            <img src="/timer.svg" />
             <div class="is-flex offer-days">
               <div v-for="day in days" :key="day">
                 <input
@@ -115,7 +115,7 @@ const price = ref('')
 const offerPrice = ref<number>()
 const active = ref(false)
 const confirm = ref(false)
-const days = [1, 3, 7, 14, 30]
+const days = [7, 14, 30]
 const selectedDay = ref(14)
 
 const disabledConfirmBtn = computed(
@@ -178,15 +178,19 @@ onClickOutside(actionRef, () => {
 @import '@/styles/abstracts/variables';
 
 .offer {
-  width: 20rem;
-
+  width: 12rem;
   &-price {
     border: 1px solid black;
     border-left: 0;
+    padding: 0 0.5rem;
     height: 54px;
     outline: none;
-    padding: 0 1rem;
     width: 100%;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none !important;
+    }
   }
 
   &-days {
