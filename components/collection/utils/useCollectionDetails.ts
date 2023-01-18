@@ -1,5 +1,6 @@
 import { getVolume } from '@/utils/math'
-import { useIdentitySoldData } from '@/components/identity/utils/useIdentity'
+import { NFT } from '@/components/rmrk/service/scheme'
+import { NFTListSold } from '@/components/identity/utils/useIdentity'
 
 type Stats = {
   listedCount?: number
@@ -74,7 +75,26 @@ export const useBuyEvents = ({ collectionId }) => {
 }
 
 export function useCollectionSoldData({ address, collectionId }) {
-  const { nftEntities } = useIdentitySoldData({ address }, collectionId)
+  const nftEntities = ref<NFT[]>([])
+
+  const { data } = useGraphql({
+    queryName: 'nftListSoldByCollection',
+    variables: {
+      account: address,
+      limit: 3,
+      orderBy: 'price_DESC',
+      collectionId,
+      where: {
+        collection: { id_eq: collectionId },
+      },
+    },
+  })
+
+  watch(data as unknown as NFTListSold, (list) => {
+    if (list.nftEntities?.length) {
+      nftEntities.value = list.nftEntities
+    }
+  })
 
   return { nftEntities }
 }
