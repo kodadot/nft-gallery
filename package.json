@@ -31,7 +31,7 @@
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:fix": "eslint --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "test": "vitest run --reporter verbose --allowOnly",
-    "test:e2e": "cypress run --project tests",
+    "test:e2e": "cypress run -q --project tests",
     "test:e2e-gui": "cypress open --project tests",
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
