@@ -68,7 +68,7 @@
         <GalleryItemDescription />
       </div>
 
-      <div class="column gallery-item-tabs-panel-wrapper">
+      <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
         <GalleryItemTabsPanel :active-tab="activeTab" />
       </div>
     </div>
