@@ -1,4 +1,7 @@
 .o-table {
+  &__root {
+    overflow-x: scroll;
+  }
   &__th {
     color: $k-grey;
     font-size: 12px;

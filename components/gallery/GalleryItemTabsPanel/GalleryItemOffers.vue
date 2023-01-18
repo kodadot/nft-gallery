@@ -1,5 +1,5 @@
 <template>
-  <div class="py-5">
+  <div>
     <o-table v-if="offers?.length" :data="offers" hoverable>
       <!-- token price -->
       <o-table-column v-slot="props" field="id" :label="$t('offer.price')">
