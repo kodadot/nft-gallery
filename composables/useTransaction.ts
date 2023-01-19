@@ -4,9 +4,11 @@ import { dangerMessage, infoMessage } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { execListTx } from './transaction/transactionList'
 import { execSendTx } from './transaction/transactionSend'
+import { exectConsumeTx } from './transaction/transactionConsume'
 import { exectMakeOfferTx } from './transaction/transactionOffer'
 
 import type {
+  ActionConsume,
   ActionList,
   ActionOffer,
   ActionSend,
@@ -49,6 +51,8 @@ export const useTransaction = () => {
         execSendTx(item as ActionSend, api, executeTransaction),
       [ShoppingActions.MAKE_OFFER]: () =>
         exectMakeOfferTx(item as ActionOffer, api, executeTransaction),
+      [ShoppingActions.CONSUME]: () =>
+        exectConsumeTx(item as ActionConsume, api, executeTransaction),
     }
 
     return map[item.interaction]?.() ?? 'UNKNOWN'
