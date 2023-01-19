@@ -32,7 +32,11 @@
               </div>
               <div class="buttons is-align-content-start">
                 <GalleryItemShareBtn />
-                <GalleryItemMoreActionBtn class="ml-4" />
+                <GalleryItemMoreActionBtn
+                  class="ml-4"
+                  :ipfs-image="nftMetadata?.image"
+                  :mime-type="nftMimeType"
+                  :name="nft?.name" />
               </div>
             </div>
 
