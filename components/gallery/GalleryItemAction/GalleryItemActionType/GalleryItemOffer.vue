@@ -2,16 +2,21 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <GalleryItemPriceSection ref="root" title="Highest Offer" :price="price">
-      <GalleryItemActionSlides ref="actionRef" :active="active">
-        <template #action>
+      <GalleryItemActionSlides
+        ref="actionRef"
+        :active="active"
+        :class="{ 'gallery-item-slides-entry': !active }">
+        <template #entry>
           <NeoButton
             v-if="!active"
             label="Make Offer"
             size="large"
-            fixed-width
             variant="k-blue"
+            class="full-width-action-button"
             no-shadow
             @click.native="toggleActive" />
+        </template>
+        <template #action>
           <NeoButton
             v-if="active && !confirm"
             :disabled="disabledConfirmBtn"
@@ -88,6 +93,7 @@ const props = defineProps<{
   account: string
 }>()
 
+const { apiInstance } = useApi()
 const { urlPrefix, tokenId } = usePrefix()
 const { $store, $route, $i18n, $buefy } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
@@ -149,7 +155,7 @@ async function confirm2() {
       interaction: ShoppingActions.MAKE_OFFER,
       currentOwner: props.currentOwner,
       day: selectedDay.value,
-      price: offerPrice.value,
+      price: offerPrice.value || 0,
       tokenId: $route.params.id,
       urlPrefix: urlPrefix.value,
       successMessage: $i18n.t('transaction.offer.success') as string,
@@ -163,8 +169,17 @@ async function confirm2() {
   }
 }
 
-watchEffect(() => {
-  price.value = data.value?.offers[0]?.price || ''
+watchEffect(async () => {
+  price.value =
+    currentBlock < data.value?.offers[0]?.expiration
+      ? data.value?.offers[0]?.price
+      : ''
+})
+
+const currentBlock = computed(async () => {
+  const api = await apiInstance.value
+  const block = await api.rpc.chain.getHeader()
+  return block.number.toNumber()
 })
 
 const actionRef = ref(null)
@@ -209,7 +224,6 @@ onClickOutside(actionRef, () => {
       cursor: pointer;
       display: block;
       line-height: 1;
-      // width: 1.5rem;
       border-left: 1px solid $k-grey;
       text-align: center;
       margin-left: 0.5rem;

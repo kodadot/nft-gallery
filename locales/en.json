@@ -730,6 +730,7 @@
     "withdrawn": "Cancelled",
     "active": "Active",
     "accepted": "Accepted",
+    "inactive": "Inactive",
     "price": "Price",
     "usdPrice": "USD Price",
     "expiration": "Expiration",
