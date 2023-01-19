@@ -4,7 +4,7 @@
 
     <template #items>
       <NeoDropdownItem
-        v-if="mimeType.includes('image') && ipfsImage && name"
+        v-if="mimeType.includes('image') && ipfsImage"
         item="Download"
         @click.native="downloadMedia" />
       <NeoDropdownItem disabled item="Report" />
