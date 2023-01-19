@@ -8,7 +8,7 @@
         item="Download"
         @click.native="downloadMedia" />
       <NeoDropdownItem
-        :disabled="currentGalleryItem.currentOwner !== accountId"
+        :disabled="currentGalleryItem.author !== accountId"
         item="Burn"
         @click.native="burn" />
       <NeoDropdownItem disabled item="Report" />
