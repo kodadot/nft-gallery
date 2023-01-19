@@ -3,10 +3,9 @@
     <NeoButton label="⋮" />
 
     <template #items>
-      <NeoDropdownItem
-        v-if="mimeType.includes('image') && ipfsImage && name"
-        item="Download"
-        @click.native="downloadMedia" />
+      <NeoDropdownItem v-if="mimeType.includes('image') && ipfsImage && name">
+        <a :href="ipfsToCf(ipfsImage)" :download="name">Download</a>
+      </NeoDropdownItem>
       <NeoDropdownItem disabled item="Report" />
     </template>
   </NeoDropdown>
