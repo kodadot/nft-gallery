@@ -76,9 +76,10 @@ defineProps<{
   width: 10rem;
   font-size: 1rem;
   position: relative;
-  .wrapper {
+  .neo-tooltip {
     width: 100%;
     height: 100%;
+    position: absolute;
   }
   .full-width-action-button {
     width: 100%;
