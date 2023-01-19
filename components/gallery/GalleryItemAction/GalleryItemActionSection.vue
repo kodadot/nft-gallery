@@ -71,7 +71,7 @@ watchEffect(async () => {
   @include until-widescreen {
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-end;
+    align-items: flex-start;
     .gallery-action-section-info {
       min-width: 10rem;
       text-align: left;
