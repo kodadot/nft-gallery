@@ -244,7 +244,7 @@ export default defineNuxtConfig({
       theme_color: '#181717',
     },
     workbox: {
-      // enabled: true, // enable this to use workbox in localhost
+      enabled: Boolean(process.env.WORKBOX), // auto enable on production build
       autoRegister: true,
       workboxVersion: '6.5.4',
     },
