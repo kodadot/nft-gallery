@@ -77,6 +77,7 @@ defineProps<{
       border-color: $white;
       input {
         border-color: $white;
+        background-color: $k-dark;
       }
     }
     &-disabled {
