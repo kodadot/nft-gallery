@@ -125,7 +125,7 @@ let menu: Menu[] = [
   },
 ]
 
-let socials = [
+const socials = [
   {
     name: 'Discord',
     url: 'https://discord.gg/u6ymnbz4PR',
