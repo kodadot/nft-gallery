@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Neo } from '@/libs/ui/src'
+import { Neo } from '@kodadot1/brick'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { config, library } from '@fortawesome/fontawesome-svg-core'
 
