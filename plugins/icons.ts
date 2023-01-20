@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { Neo } from '@/libs/ui/src'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { config, library } from '@fortawesome/fontawesome-svg-core'
 
@@ -225,4 +226,14 @@ library.add(
   faInstagram
 )
 
-Vue.component('VueFontawesome', FontAwesomeIcon)
+Vue.component('VueFontawesome', FontAwesomeIcon).use(Neo, {
+  iconComponent: 'vue-fontawesome',
+  iconPack: 'fas',
+  customIconPacks: {
+    fas: {
+      sizes: {
+        default: 'fw',
+      },
+    },
+  },
+})

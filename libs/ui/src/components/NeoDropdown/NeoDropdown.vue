@@ -5,6 +5,7 @@
     :append-to-body="appendToBody"
     class="neo-dropdown"
     :class="{ 'o-drop-active': isActive }"
+    :mobile-modal="mobileModal"
     @active-change="isActive = $event">
     <template #trigger>
       <slot />
@@ -22,10 +23,12 @@ withDefaults(
   defineProps<{
     position?: string
     appendToBody?: boolean
+    mobileModal?: boolean
   }>(),
   {
     position: 'bottom-left',
     appendToBody: false,
+    mobileModal: false,
   }
 )
 </script>

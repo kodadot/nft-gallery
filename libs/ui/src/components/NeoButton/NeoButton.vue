@@ -11,8 +11,8 @@
     :variant="variant"
     :disabled="disabled"
     icon-pack="fas"
-    class="is-neo">
-    {{ label }}
+    class="is-neo"
+    :label="label">
     <img v-if="selected" src="/checkmark.svg" class="check-icon" />
   </o-button>
 </template>
