@@ -21,9 +21,6 @@
 </template>
 
 <script lang="ts" setup>
-// let hasDisplayedCookieBanner: boolean =
-//   localStorage.getItem('cookies_enabled') !== null || false
-
 const hasDisplayedCookieBanner = ref(
   localStorage.getItem('cookies_enabled') !== null || false
 )
