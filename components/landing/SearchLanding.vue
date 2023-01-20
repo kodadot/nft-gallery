@@ -1,7 +1,7 @@
 <template>
   <section class="landing-search is-flex is-align-items-center">
-    <img src="/landing-blurred-header-left.svg" class="landing-search-left" />
-    <img :src="landingImage[0]" class="landing-shapes" />
+    <LandingBlurHeaderLeft class="landing-search-left" />
+    <LandingImageLeft class="landing-shapes" />
     <div
       class="is-flex is-flex-direction-column is-align-items-center search-info">
       <h1
@@ -33,8 +33,8 @@
         </a>
       </div>
     </div>
-    <img src="/landing-blurred-header-right.svg" class="landing-search-right" />
-    <img :src="landingImage[1]" class="landing-shapes" />
+    <LandingBlurHeaderRight class="landing-search-right" />
+    <LandingImageRight class="landing-shapes" />
   </section>
 </template>
 
@@ -42,6 +42,14 @@
 import { Option } from '@kodadot1/vuex-options/dist/types'
 
 import { getChainTestList } from '~/utils/constants'
+
+import LandingHeaderLeftDark from '@/static/landing-shape-header-left-dark.svg?inline'
+import LandingHeaderRightDark from '@/static/landing-shape-header-right-dark.svg?inline'
+import LandingHeaderLeftLight from '@/static/landing-shape-header-left-light.svg?inline'
+import LandingHeaderRightLight from '@/static/landing-shape-header-right-light.svg?inline'
+
+import LandingBlurHeaderLeft from '@/static/landing-blurred-header-left.svg?inline'
+import LandingBlurHeaderRight from '@/static/landing-blurred-header-right.svg?inline'
 
 const { urlPrefix } = usePrefix()
 const { $store, $colorMode, $router } = useNuxtApp()
@@ -58,19 +66,12 @@ const chainText = (chain: string) => {
     return chain
   }
 }
-const landingImage = computed(() => {
-  if (isDarkMode.value) {
-    return [
-      '/landing-shape-header-left-dark.svg',
-      '/landing-shape-header-right-dark.svg',
-    ]
-  } else {
-    return [
-      '/landing-shape-header-left-light.svg',
-      '/landing-shape-header-right-light.svg',
-    ]
-  }
-})
+const LandingImageLeft = isDarkMode.value
+  ? LandingHeaderLeftDark
+  : LandingHeaderLeftLight
+const LandingImageRight = isDarkMode.value
+  ? LandingHeaderRightDark
+  : LandingHeaderRightLight
 
 const chainList = computed(() => {
   const availableUrlPrefixes: Option[] = $store.getters['availableUrlPrefixes']

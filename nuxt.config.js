@@ -390,4 +390,5 @@ export default defineNuxtConfig({
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
+  buildModules: ['@nuxtjs/svg'],
 })
