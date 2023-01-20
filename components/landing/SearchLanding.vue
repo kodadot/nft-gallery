@@ -43,13 +43,24 @@ import { Option } from '@kodadot1/vuex-options/dist/types'
 
 import { getChainTestList } from '~/utils/constants'
 
-import LandingHeaderLeftDark from '@/assets/landing-shape-header-left-dark.svg?inline'
-import LandingHeaderRightDark from '@/assets/landing-shape-header-right-dark.svg?inline'
-import LandingHeaderLeftLight from '@/assets/landing-shape-header-left-light.svg?inline'
-import LandingHeaderRightLight from '@/assets/landing-shape-header-right-light.svg?inline'
-
-import LandingBlurHeaderLeft from '@/assets/landing-blurred-header-left.svg?inline'
-import LandingBlurHeaderRight from '@/assets/landing-blurred-header-right.svg?inline'
+const LandingHeaderLeftDark = defineAsyncComponent(
+  () => import('@/assets/landing-shape-header-left-dark.svg?inline')
+)
+const LandingHeaderRightDark = defineAsyncComponent(
+  () => import('@/assets/landing-shape-header-right-dark.svg?inline')
+)
+const LandingHeaderLeftLight = defineAsyncComponent(
+  () => import('@/assets/landing-shape-header-left-light.svg?inline')
+)
+const LandingHeaderRightLight = defineAsyncComponent(
+  () => import('@/assets/landing-shape-header-right-light.svg?inline')
+)
+const LandingBlurHeaderLeft = defineAsyncComponent(
+  () => import('@/assets/landing-blurred-header-left.svg?inline')
+)
+const LandingBlurHeaderRight = defineAsyncComponent(
+  () => import('@/assets/landing-blurred-header-right.svg?inline')
+)
 
 const { urlPrefix } = usePrefix()
 const { $store, $colorMode, $router } = useNuxtApp()

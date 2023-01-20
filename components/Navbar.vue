@@ -177,11 +177,6 @@ import ProfileDropdown from '~/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import ExploreDropdown from '~/components/navbar/ExploreDropdown.vue'
 import CreateDropdown from '~/components/navbar/CreateDropdown.vue'
-import KodaBetaLogoDark from '@/assets/Koda_Beta_dark.svg?inline'
-import KodaBetaLogo from '@/assets/Koda_Beta.svg?inline'
-import SearchMobileNavbarIconDark from '@/assets/search-mobile-navbar-dark.svg?inline'
-import SearchMobileNavbarIcon from '@/assets/search-mobile-navbar.svg?inline'
-
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import ColorModeButton from '~/components/common/ColorModeButton.vue'
 import MobileLanguageOption from '~/components/navbar/MobileLanguageOption.vue'
@@ -214,10 +209,13 @@ import { NeoButton } from '@kodadot1/brick'
     ConnectWalletButton,
     ColorModeButton,
     MobileLanguageOption,
-    KodaBetaLogoDark,
-    KodaBetaLogo,
-    SearchMobileNavbarIconDark,
-    SearchMobileNavbarIcon,
+
+    KodaBetaLogoDark: () => import('@/assets/Koda_Beta_dark.svg?inline'),
+    KodaBetaLogo: () => import('@/assets/Koda_Beta.svg?inline'),
+    SearchMobileNavbarIconDark: () =>
+      import('@/assets/search-mobile-navbar-dark.svg?inline'),
+    SearchMobileNavbarIcon: () =>
+      import('@/assets/search-mobile-navbar.svg?inline'),
   },
 })
 export default class NavbarMenu extends mixins(

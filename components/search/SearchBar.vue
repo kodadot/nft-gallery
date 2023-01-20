@@ -46,16 +46,13 @@ import { SearchQuery } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
-import SearchKeyboardIcon from '@/assets/search-k-keyboard.svg?inline'
-import SearchEnterIcon from '@/assets/k-search-enter.svg?inline'
-
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
 @Component({
   components: {
     SearchSuggestion: () => import('./SearchSuggestion.vue'),
-    SearchKeyboardIcon,
-    SearchEnterIcon,
+    SearchKeyboardIcon: () => import('@/assets/search-k-keyboard.svg?inline'),
+    SearchEnterIcon: () => import('@/assets/k-search-enter.svg?inline'),
   },
 })
 export default class SearchBar extends mixins(

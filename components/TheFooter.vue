@@ -77,7 +77,10 @@
 
 <script lang="ts" setup>
 import { TranslateResult } from 'vue-i18n/types'
-import LandingBlurFooter from '~/assets/blurred-landing-footer.svg?inline'
+
+const LandingBlurFooter = defineAsyncComponent(
+  () => import('~/assets/blurred-landing-footer.svg?inline')
+)
 const { $i18n } = useNuxtApp()
 
 interface Menu {
