@@ -75,8 +75,7 @@
   </footer>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { TranslateResult } from 'vue-i18n/types'
 
 interface Menu {
@@ -84,81 +83,81 @@ interface Menu {
   url: string
   external?: boolean
 }
-@Component({})
-export default class Footer extends Vue {
-  public menu: Menu[] = [
-    {
-      name: this.$t('about'),
-      url: '/about',
-    },
-    {
-      name: this.$t('faq.page'),
-      url: '/rmrk/faq',
-    },
-    {
-      name: this.$t('careers'),
-      url: '/jobs',
-    },
-    {
-      name: this.$t('contribute'),
-      url: '/contribute',
-    },
-    {
-      name: this.$t('grants'),
-      url: 'https://form.kodadot.xyz/grant',
-      external: true,
-    },
-    {
-      name: this.$t('documentation'),
-      url: 'https://docs.kodadot.xyz/',
-      external: true,
-    },
-    {
-      name: this.$t('press kit'),
-      url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
-      external: true,
-    },
-    {
-      name: this.$t('ambassador program'),
-      url: 'https://docs.kodadot.xyz/ambassador-program/ambassador-intro.html#the-opportunity',
-      external: true,
-    },
-  ]
 
-  public socials = [
-    {
-      name: 'Discord',
-      url: 'https://discord.gg/u6ymnbz4PR',
-      icon: 'discord',
-    },
-    {
-      name: 'Reddit',
-      url: 'https://www.reddit.com/r/KodaDot',
-      icon: 'reddit-alien',
-    },
-    {
-      name: 'Twitter',
-      url: 'https://twitter.com/KodaDot',
-      icon: 'twitter',
-    },
-    {
-      name: 'Instagram',
-      url: 'https://instagram.com/kodadot.xyz',
-      icon: 'instagram',
-    },
-    {
-      name: 'Youtube',
-      url: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/',
-      icon: 'youtube',
-    },
-    {
-      name: 'Medium',
-      url: 'https://medium.com/kodadot',
-      icon: 'medium',
-    },
-  ]
-  public goToSocials(url): void {
-    window.open(url, '_blank')
-  }
+const { $i18n, $colorMode } = useNuxtApp()
+
+let menu: Menu[] = [
+  {
+    name: $i18n.t('about'),
+    url: '/about',
+  },
+  {
+    name: $i18n.t('faq.page'),
+    url: '/rmrk/faq',
+  },
+  {
+    name: $i18n.t('careers'),
+    url: '/jobs',
+  },
+  {
+    name: $i18n.t('contribute'),
+    url: '/contribute',
+  },
+  {
+    name: $i18n.t('grants'),
+    url: 'https://form.kodadot.xyz/grant',
+    external: true,
+  },
+  {
+    name: $i18n.t('documentation'),
+    url: 'https://docs.kodadot.xyz/',
+    external: true,
+  },
+  {
+    name: $i18n.t('press kit'),
+    url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
+    external: true,
+  },
+  {
+    name: $i18n.t('ambassador program'),
+    url: 'https://docs.kodadot.xyz/ambassador-program/ambassador-intro.html#the-opportunity',
+    external: true,
+  },
+]
+
+let socials = [
+  {
+    name: 'Discord',
+    url: 'https://discord.gg/u6ymnbz4PR',
+    icon: 'discord',
+  },
+  {
+    name: 'Reddit',
+    url: 'https://www.reddit.com/r/KodaDot',
+    icon: 'reddit-alien',
+  },
+  {
+    name: 'Twitter',
+    url: 'https://twitter.com/KodaDot',
+    icon: 'twitter',
+  },
+  {
+    name: 'Instagram',
+    url: 'https://instagram.com/kodadot.xyz',
+    icon: 'instagram',
+  },
+  {
+    name: 'Youtube',
+    url: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/',
+    icon: 'youtube',
+  },
+  {
+    name: 'Medium',
+    url: 'https://medium.com/kodadot',
+    icon: 'medium',
+  },
+]
+const goToSocials = (url): void => {
+  window.open(url, '_blank')
 }
 </script>

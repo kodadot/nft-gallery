@@ -48,26 +48,22 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { emptyArray } from '@kodadot1/minimark'
-import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
 import { AssetItem } from './types'
 
-@Component({
-  components: {
-    Money: () => import('@/components/shared/format/Money.vue'),
-  },
+const Money = defineAsyncComponent(
+  () => import('@/components/shared/format/Money.vue')
+)
+const emit = defineEmits(['select'])
+defineProps({
+  accountId: { type: String, default: '' },
+  currentAsset: { type: String, default: '' },
+  assetList: { type: Array, default: () => emptyArray<AssetItem>() },
 })
-export default class AssetTable extends Vue {
-  @Prop(String) public accountId!: string
-  @Prop(String) public currentAsset!: string
 
-  @Prop({ type: Array, default: () => emptyArray<AssetItem>() })
-  public assetList!: AssetItem[]
-
-  @Emit('select')
-  tellFrens(id: string) {
-    return id
-  }
+const tellFrens = (id: string) => {
+  emit('select')
+  return id
 }
 </script>

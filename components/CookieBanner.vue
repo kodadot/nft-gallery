@@ -20,24 +20,17 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+let hasDisplayedCookieBanner: boolean =
+  localStorage.getItem('cookies_enabled') !== null || false
 
-@Component({
-  components: {}, // do not remove!
-})
-export default class CookieBanner extends Vue {
-  public hasDisplayedCookieBanner: boolean =
-    localStorage.getItem('cookies_enabled') !== null || false
+const acceptCookies = () => {
+  localStorage.setItem('cookies_enabled', '1')
+  hasDisplayedCookieBanner = true
+}
 
-  public acceptCookies() {
-    localStorage.setItem('cookies_enabled', '1')
-    this.hasDisplayedCookieBanner = true
-  }
-
-  public declineCookies() {
-    localStorage.setItem('cookies_enabled', '0')
-    this.hasDisplayedCookieBanner = true
-  }
+const declineCookies = () => {
+  localStorage.setItem('cookies_enabled', '0')
+  hasDisplayedCookieBanner = true
 }
 </script>
