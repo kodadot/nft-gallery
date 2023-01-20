@@ -80,6 +80,7 @@ defineProps<{
     width: 100%;
     height: 100%;
     position: absolute;
+    z-index: 2;
   }
   .full-width-action-button {
     width: 100%;
