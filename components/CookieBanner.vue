@@ -21,16 +21,20 @@
 </template>
 
 <script lang="ts" setup>
-let hasDisplayedCookieBanner: boolean =
+// let hasDisplayedCookieBanner: boolean =
+//   localStorage.getItem('cookies_enabled') !== null || false
+
+const hasDisplayedCookieBanner = ref(
   localStorage.getItem('cookies_enabled') !== null || false
+)
 
 const acceptCookies = () => {
   localStorage.setItem('cookies_enabled', '1')
-  hasDisplayedCookieBanner = true
+  hasDisplayedCookieBanner.value = true
 }
 
 const declineCookies = () => {
   localStorage.setItem('cookies_enabled', '0')
-  hasDisplayedCookieBanner = true
+  hasDisplayedCookieBanner.value = true
 }
 </script>
