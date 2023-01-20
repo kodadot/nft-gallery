@@ -19,6 +19,7 @@ import {
   faCaretDown,
   faCaretUp,
   faChartLine,
+  faCheck,
   faChevronDown,
   faChevronLeft,
   faChevronRight,
@@ -203,6 +204,7 @@ library.add(
   faChartLine,
   faListUl,
   faDownload,
+  faCheck,
 
   // Social
   faTwitter,

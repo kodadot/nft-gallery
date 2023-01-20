@@ -9,15 +9,17 @@
       <p class="control">
         <NeoButton
           class="explore-tabs-button"
-          :selected="selectedTab === TabType.COLLECTION"
-          :label="$t('collections')"
+          :active="selectedTab === TabType.COLLECTION"
+          :icon="checkIcon(TabType.COLLECTION)"
+          :label="`${$t('collections')}`"
           @click.native="updateTab(TabType.COLLECTION)" />
       </p>
       <p class="control">
         <NeoButton
           class="explore-tabs-button"
-          :selected="selectedTab === TabType.ITEMS"
-          :label="$t('items')"
+          :active="selectedTab === TabType.ITEMS"
+          :icon="checkIcon(TabType.ITEMS)"
+          :label="`${$t('items')}`"
           @click.native="updateTab(TabType.ITEMS)" />
       </p>
     </div>
@@ -36,6 +38,9 @@ const route = useRoute()
 const router = useRouter()
 
 const selectedTab = computed(() => route?.name?.split('-')[2])
+const checkIcon = (tab) => {
+  return selectedTab.value === tab ? 'check' : ''
+}
 
 const updateTab = (val) => {
   route.query.page = ''

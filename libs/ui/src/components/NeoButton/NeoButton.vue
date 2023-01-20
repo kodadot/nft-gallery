@@ -4,35 +4,41 @@
       active: active,
       'is-fixed-width': fixedWidth,
       'no-shadow': noShadow,
-      selected: selected,
     }"
     :size="size"
     :icon-right="icon"
     :variant="variant"
     :disabled="disabled"
     icon-pack="fas"
-    class="is-neo"
-    :label="label">
-    <img v-if="selected" src="/checkmark.svg" class="check-icon" />
+    class="is-neo">
+    <slot v-if="label">
+      {{ label }}
+    </slot>
   </o-button>
 </template>
 
 <script lang="ts" setup>
 import { OButton } from '@oruga-ui/oruga'
-import { TranslateResult } from 'vue-i18n'
 import { NeoButtonVariant } from '@kodadot1/brick'
 
-defineProps<{
-  size?: 'small' | 'medium' | 'large'
-  disabled?: boolean
-  icon?: string
-  label?: string | TranslateResult
-  active?: boolean
-  fixedWidth?: boolean
-  noShadow?: boolean
-  selected?: boolean
-  variant?: NeoButtonVariant
-}>()
+withDefaults(
+  defineProps<{
+    size?: 'small' | 'medium' | 'large'
+    disabled?: boolean
+    icon?: string
+    label?: string
+    active?: boolean
+    fixedWidth?: boolean
+    noShadow?: boolean
+    variant?: NeoButtonVariant
+  }>(),
+  {
+    size: 'medium',
+    icon: '',
+    label: '',
+    variant: 'primary',
+  }
+)
 </script>
 
 <style lang="scss" scoped>

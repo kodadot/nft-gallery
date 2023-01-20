@@ -23,6 +23,11 @@
 }
 
 .o-btn {
+  &--medium {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+  }
+
   &--k-accent {
     background-color: $k-accent;
 
@@ -66,11 +71,6 @@
   &.no-shadow {
     box-shadow: none;
   }
-
-  &.selected {
-    background: $dark-accent;
-    color: $white;
-  }
 }
 
 .dark-mode {
@@ -89,15 +89,12 @@
       background-color: white;
       color: black;
     }
-
   }
 
   .o-btn {
     &--k-accent {
       background: $k-accent;
       color: $black;
-
-
 
       &:hover {
         background: $k-dark;
@@ -140,15 +137,6 @@
 
     &.no-shadow {
       box-shadow: none;
-    }
-
-    &.selected {
-      background: $white;
-      color: $black;
-    }
-
-    .check-icon {
-      filter: brightness(0%);
     }
   }
 }
