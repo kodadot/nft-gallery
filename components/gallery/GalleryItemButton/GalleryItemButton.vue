@@ -1,13 +1,19 @@
 <template>
   <div class="buttons is-align-content-start gallery-button">
     <GalleryItemShareBtn />
-    <GalleryItemMoreActionBtn />
+    <GalleryItemMoreActionBtn
+      :ipfs-image="nftMetadata?.image"
+      :mime-type="nftMimeType"
+      :name="nft?.name" />
   </div>
 </template>
 
 <script setup lang="ts">
 import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
 import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
+import { useGalleryItem } from '../useGalleryItem'
+
+const { nftMetadata, nftMimeType, nft } = useGalleryItem()
 </script>
 
 <style scoped lang="scss">
