@@ -4,7 +4,7 @@
       v-if="message || showCongratsMessage"
       :title="$t('mint.success')"
       :subtitle="$t('mint.successNewNfts')" />
-    <div class="columns">
+    <div class="columns is-variable is-6">
       <div class="column is-two-fifths">
         <MediaItem
           :key="nftImage"
@@ -12,31 +12,38 @@
           :src="nftImage"
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
-          :title="nft?.name" />
+          :title="nft?.name || nft?.id" />
       </div>
-      <div class="column">
+      <div class="py-6 column">
         <div
           class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
           <!-- title section -->
-          <div>
+          <div class="pb-4">
             <div class="is-flex is-justify-content-space-between">
               <div>
-                <h1 class="title" data-cy="item-title">{{ nft?.name }}</h1>
+                <h1 class="title" data-cy="item-title">
+                  {{ nft?.name || nft?.id }}
+                </h1>
                 <h2 class="subtitle" data-cy="item-collection">
                   <nuxt-link
-                    :to="`/${urlPrefix}/collection/${nft?.collection.id}`"
+                    :to="`/${urlPrefix}/collection/${collection?.id}`"
                     class="has-text-link">
-                    {{ nft?.collection.name }}
+                    {{ collection?.name || collection?.id }}
                   </nuxt-link>
                 </h2>
               </div>
               <div class="buttons is-align-content-start">
                 <GalleryItemShareBtn />
-                <GalleryItemMoreActionBtn class="ml-4" />
+                <GalleryItemMoreActionBtn
+                  class="ml-4"
+                  :ipfs-image="nftMetadata?.image"
+                  :mime-type="nftMimeType"
+                  :name="nft?.name" />
               </div>
             </div>
 
-            <div class="is-flex is-flex-direction-row is-flex-wrap-wrap py-2">
+            <div
+              class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4 pt-6">
               <IdentityItem
                 v-if="nft?.issuer"
                 class="gallery-avatar mr-4"
@@ -63,7 +70,7 @@
       </div>
     </div>
 
-    <div class="columns mt-6">
+    <div class="columns is-variable is-6 mt-5">
       <div class="column is-two-fifths">
         <GalleryItemDescription />
       </div>
@@ -106,6 +113,8 @@ const router = useRouter()
 
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
+const collection = computed(() => nft.value?.collection)
+
 const tabs = {
   offers: '0',
   activity: '1',
@@ -162,6 +171,10 @@ useNuxt2Meta({
 <style lang="scss" scoped>
 .title {
   font-size: 2.4375em;
+}
+
+hr {
+  height: 1px;
 }
 
 .mobile-top-margin {
