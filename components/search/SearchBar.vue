@@ -24,14 +24,12 @@
       </template>
     </b-autocomplete>
     <div class="search-bar-bg"></div>
-    <img
+    <SearchKeyboardIcon
       class="search-bar-keyboard-icon"
-      :class="{ 'is-invisible': name || inputFocused }"
-      src="/search-k-keyboard.svg" />
-    <img
+      :class="{ 'is-invisible': name || inputFocused }" />
+    <SearchEnterIcon
       class="search-bar-keyboard-icon"
-      :class="{ 'is-invisible': !name && !inputFocused }"
-      src="/k-search-enter.svg" />
+      :class="{ 'is-invisible': !name && !inputFocused }" />
   </div>
 </template>
 
@@ -48,11 +46,16 @@ import { SearchQuery } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
+import SearchKeyboardIcon from '@/assets/search-k-keyboard.svg?inline'
+import SearchEnterIcon from '@/assets/k-search-enter.svg?inline'
+
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
 @Component({
   components: {
     SearchSuggestion: () => import('./SearchSuggestion.vue'),
+    SearchKeyboardIcon,
+    SearchEnterIcon,
   },
 })
 export default class SearchBar extends mixins(

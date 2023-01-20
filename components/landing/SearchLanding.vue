@@ -43,13 +43,13 @@ import { Option } from '@kodadot1/vuex-options/dist/types'
 
 import { getChainTestList } from '~/utils/constants'
 
-import LandingHeaderLeftDark from '@/static/landing-shape-header-left-dark.svg?inline'
-import LandingHeaderRightDark from '@/static/landing-shape-header-right-dark.svg?inline'
-import LandingHeaderLeftLight from '@/static/landing-shape-header-left-light.svg?inline'
-import LandingHeaderRightLight from '@/static/landing-shape-header-right-light.svg?inline'
+import LandingHeaderLeftDark from '@/assets/landing-shape-header-left-dark.svg?inline'
+import LandingHeaderRightDark from '@/assets/landing-shape-header-right-dark.svg?inline'
+import LandingHeaderLeftLight from '@/assets/landing-shape-header-left-light.svg?inline'
+import LandingHeaderRightLight from '@/assets/landing-shape-header-right-light.svg?inline'
 
-import LandingBlurHeaderLeft from '@/static/landing-blurred-header-left.svg?inline'
-import LandingBlurHeaderRight from '@/static/landing-blurred-header-right.svg?inline'
+import LandingBlurHeaderLeft from '@/assets/landing-blurred-header-left.svg?inline'
+import LandingBlurHeaderRight from '@/assets/landing-blurred-header-right.svg?inline'
 
 const { urlPrefix } = usePrefix()
 const { $store, $colorMode, $router } = useNuxtApp()

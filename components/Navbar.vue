@@ -9,25 +9,20 @@
     wrapper-class="container">
     <template #brand>
       <b-navbar-item :to="{ path: '/' }" class="logo" tag="nuxt-link">
-        <img
-          :src="logoSrc"
-          alt="First NFT market explorer on Kusama and Polkadot"
-          width="143"
-          height="42" />
+        <KodaBetaLogoDark v-if="isDarkMode" width="143" height="42" />
+        <KodaBetaLogo v-else width="143" height="42" />
       </b-navbar-item>
       <div
         class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
         <!-- <HistoryBrowser class="navbar-item" /> -->
-        <img
+        <div
           v-if="showSearchOnNavbar"
           class="mobile-nav-search-btn mr-2"
-          :src="
-            isDarkMode
-              ? '/search-mobile-navbar-dark.svg'
-              : '/search-mobile-navbar.svg'
-          "
-          @click="showMobileSearchBar" />
+          @click="showMobileSearchBar">
+          <SearchMobileNavbarIconDark v-if="isDarkMode" />
+          <SearchMobileNavbarIcon v-else />
+        </div>
 
         <div v-show="openMobileSearchBar">
           <div
@@ -182,8 +177,11 @@ import ProfileDropdown from '~/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import ExploreDropdown from '~/components/navbar/ExploreDropdown.vue'
 import CreateDropdown from '~/components/navbar/CreateDropdown.vue'
-import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
-import KodaBeta from '@/assets/Koda_Beta.svg'
+import KodaBetaLogoDark from '@/assets/Koda_Beta_dark.svg?inline'
+import KodaBetaLogo from '@/assets/Koda_Beta.svg?inline'
+import SearchMobileNavbarIconDark from '@/assets/search-mobile-navbar-dark.svg?inline'
+import SearchMobileNavbarIcon from '@/assets/search-mobile-navbar.svg?inline'
+
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import ColorModeButton from '~/components/common/ColorModeButton.vue'
 import MobileLanguageOption from '~/components/navbar/MobileLanguageOption.vue'
@@ -216,6 +214,10 @@ import { NeoButton } from '@kodadot1/brick'
     ConnectWalletButton,
     ColorModeButton,
     MobileLanguageOption,
+    KodaBetaLogoDark,
+    KodaBetaLogo,
+    SearchMobileNavbarIconDark,
+    SearchMobileNavbarIcon,
   },
 })
 export default class NavbarMenu extends mixins(
@@ -291,10 +293,6 @@ export default class NavbarMenu extends mixins(
       this.$colorMode.preference === 'dark' ||
       document.documentElement.className.includes('dark-mode')
     )
-  }
-
-  get logoSrc() {
-    return this.isDarkMode ? KodaBetaDark : KodaBeta
   }
 
   get showSearchOnNavbar(): boolean {
