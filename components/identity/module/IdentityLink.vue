@@ -1,9 +1,12 @@
 <template>
   <div>
-    <a class="has-text-link" :href="explorerLink">
+    <a class="identity-name has-text-weight-bold" :href="explorerLink">
       {{ shortenedAddress }}
     </a>
-    <a v-clipboard:copy="address" @click="toast('Copied to clipboard')">
+    <a
+      v-if="showClipboard"
+      v-clipboard:copy="address"
+      @click="toast('Copied to clipboard')">
       <svg
         width="13"
         height="13"
@@ -25,9 +28,9 @@ type Address = string | GenericAccountId | undefined
 const props = defineProps<{
   shortenedAddress?: string | object
   address?: Address
+  showClipboard: { type: boolean; required: false; default: false }
 }>()
-
-const { $store, $buefy } = useNuxtApp()
+const { $buefy } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
 const explorerLink = computed(() => {
