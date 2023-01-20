@@ -66,12 +66,12 @@ const chainText = (chain: string) => {
     return chain
   }
 }
-const LandingImageLeft = isDarkMode.value
-  ? LandingHeaderLeftDark
-  : LandingHeaderLeftLight
-const LandingImageRight = isDarkMode.value
-  ? LandingHeaderRightDark
-  : LandingHeaderRightLight
+const LandingImageLeft = computed(() =>
+  isDarkMode.value ? LandingHeaderLeftDark : LandingHeaderLeftLight
+)
+const LandingImageRight = computed(() =>
+  isDarkMode.value ? LandingHeaderRightDark : LandingHeaderRightLight
+)
 
 const chainList = computed(() => {
   const availableUrlPrefixes: Option[] = $store.getters['availableUrlPrefixes']
