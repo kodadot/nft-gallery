@@ -41,9 +41,10 @@ export const useCollectionDetails = ({ collectionId }) => {
         collectionFloorPrice: Math.min(
           ...data.value.stats.listed.map((item) => parseInt(item.price))
         ),
-        uniqueOwnersPercent: `${
-          (uniqueOwnerCount / (uniqueOwnerCount + differentOwnerCount)) * 100
-        }%`,
+        uniqueOwnersPercent: `${(
+          (uniqueOwnerCount / (uniqueOwnerCount + differentOwnerCount)) *
+          100
+        ).toFixed(2)}%`,
         collectionTradedVolumeNumber: getVolume(
           data.value.stats.sales.map((nft) => nft.events).flat()
         ),
