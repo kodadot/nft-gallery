@@ -81,9 +81,12 @@ export type SomethingWithMeta = {
   metadata: string
 }
 export const sanitizeIpfsUrl = (
-  ipfsUrl: string,
+  ipfsUrl = '',
   provider?: ProviderKeyType
 ): string => {
+  if (!ipfsUrl) {
+    return ''
+  }
   if (ipfsUrl.includes('https://gateway.pinata.cloud')) {
     return ipfsUrl.replace(
       'https://gateway.pinata.cloud/',
