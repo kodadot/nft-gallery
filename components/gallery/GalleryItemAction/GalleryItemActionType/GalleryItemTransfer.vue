@@ -18,6 +18,7 @@
             <input
               v-model="address"
               type="text"
+              class="pl-3"
               :placeholder="`${$i18n.t('transaction.transferTo')}:`" />
           </div>
         </template>

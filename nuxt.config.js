@@ -244,7 +244,7 @@ export default defineNuxtConfig({
       theme_color: '#181717',
     },
     workbox: {
-      enabled: true,
+      // enabled: true, // enable this to use workbox in localhost
       autoRegister: true,
       workboxVersion: '6.5.4',
     },

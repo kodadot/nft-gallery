@@ -5,6 +5,7 @@ import { Collection, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import consola from 'consola'
 import {
   ArweaveProviders,
+  CF_IMAGE_URL,
   ProviderKeyType,
   arweaveProviders,
   getIPFSProvider,
@@ -80,9 +81,12 @@ export type SomethingWithMeta = {
   metadata: string
 }
 export const sanitizeIpfsUrl = (
-  ipfsUrl: string,
+  ipfsUrl = '',
   provider?: ProviderKeyType
 ): string => {
+  if (!ipfsUrl) {
+    return ''
+  }
   if (ipfsUrl.includes('https://gateway.pinata.cloud')) {
     return ipfsUrl.replace(
       'https://gateway.pinata.cloud/',
@@ -162,4 +166,9 @@ export const getSanitizer = (
   }
 
   return (link) => link
+}
+
+export const ipfsToCf = (ipfsUrl: string): string => {
+  const cid = extractCid(ipfsUrl)
+  return `${CF_IMAGE_URL}${cid}/public`
 }

@@ -1,10 +1,10 @@
 <template>
   <NeoDropdown>
-    <NeoButton label="⋮" />
+    <NeoButton icon="ellipsis-v" />
 
     <template #items>
       <NeoDropdownItem
-        v-if="currentGalleryItemImage.mimeType.includes('image')"
+        v-if="mimeType.includes('image') && ipfsImage"
         item="Download"
         @click.native="downloadMedia" />
       <NeoDropdownItem disabled item="Report" />
@@ -14,13 +14,16 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
-import { downloadImage } from '~/utils/download'
+import { downloadImage } from '@/utils/download'
+import { ipfsToCf } from '@/utils/ipfs'
 
-const { $store } = useNuxtApp()
-const currentGalleryItemImage = $store.getters['history/getCurrentlyViewedItem']
+const props = defineProps<{
+  mimeType: string
+  name?: string
+  ipfsImage?: string
+}>()
 
 const downloadMedia = () => {
-  const { image, name } = currentGalleryItemImage
-  image && downloadImage(image, name)
+  props.ipfsImage && downloadImage(ipfsToCf(props.ipfsImage), props.name)
 }
 </script>
