@@ -61,7 +61,6 @@ export const useGalleryItem = () => {
     onChange: refetch,
   })
   watch(data as unknown as NFTData, async (newData) => {
-    console.log(params.prefix, { newData })
     const nftEntity = newData?.nftEntity
     if (!nftEntity) {
       $consola.log(`NFT with id ${params.id} not found. Fallback to RPC Node`)
