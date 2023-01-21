@@ -6,7 +6,7 @@ export default function () {
   const route = useRoute()
 
   const chainProperties = computed<ChainProperties>(() => {
-    return chainPropListOf(urlPrefix.value)
+    return chainPropListOf(route.params.prefix || urlPrefix.value)
   })
 
   const decimals = computed<number>(() => {
