@@ -80,4 +80,8 @@ const updateTab = (val) => {
     }
   }
 }
+
+.dark-mode .explore-tabs-button.active img {
+  filter: brightness(0%);
+}
 </style>
