@@ -13,7 +13,6 @@
             size="large"
             fixed-width
             no-shadow
-            :variant="isListed ? 'k-accent' : 'primary'"
             @click.native="updatePrice" />
         </template>
 
@@ -21,6 +20,7 @@
           <div>
             <input
               v-model="price"
+              class="pl-3"
               type="number"
               :placeholder="
                 isListed
