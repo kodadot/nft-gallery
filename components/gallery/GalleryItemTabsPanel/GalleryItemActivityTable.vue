@@ -132,6 +132,6 @@ const formatPrice = (price) => {
 </script>
 <style lang="scss" scoped>
 .gallery-item-activity-table {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 </style>

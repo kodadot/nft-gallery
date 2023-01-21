@@ -1,6 +1,6 @@
 .o-table {
   &__root {
-    overflow-x: scroll;
+    overflow-x: auto;
   }
   &__th {
     color: $k-grey;
