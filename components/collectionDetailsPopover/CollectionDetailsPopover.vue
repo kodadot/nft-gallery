@@ -1,6 +1,6 @@
 <template>
   <v-tippy
-    class="tippy-container"
+    class="is-flex"
     interactive
     :animate-fill="false"
     placement="bottom"
@@ -130,10 +130,6 @@ const { nftEntities: soldItems } = useCollectionSoldData({
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-
-.tippy-container {
-  display: inline-block;
-}
 
 .popover-content-container {
   border: 1px solid $black;
