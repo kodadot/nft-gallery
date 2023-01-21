@@ -11,6 +11,17 @@ main {
 }
 
 body {
+  a {
+    @include ktheme() {
+      color: theme('text-color');
+    }
+    &:hover {
+      @include ktheme() {
+        color: theme('k-hovergrey');
+      }
+    }
+  }
+
   .select select,
   .select select option,
   .taginput .taginput-container.is-focusable,
