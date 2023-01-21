@@ -125,6 +125,7 @@ defineProps<{
 
       input {
         border-color: $white;
+        background-color: $k-dark;
       }
     }
 
