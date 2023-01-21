@@ -80,7 +80,10 @@ defineProps<{
     }
     &-content {
       width: 100%;
-      justify-content: space-between;
+
+      .offer {
+        width: 100% !important;
+      }
     }
   }
 }
