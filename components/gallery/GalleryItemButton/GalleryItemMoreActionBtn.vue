@@ -1,6 +1,6 @@
 <template>
   <NeoDropdown>
-    <NeoButton label="⋮" />
+    <NeoButton icon="ellipsis-v" />
 
     <template #items>
       <NeoDropdownItem

@@ -1,7 +1,7 @@
 <template>
   <div>
     <NeoDropdown>
-      <NeoButton label="Share" icon="share-square" />
+      <NeoButton :label="label" :icon="icon" />
 
       <template #items>
         <NeoDropdownItem
@@ -33,6 +33,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
+import { isMobileDevice } from '@/utils/extension'
 
 const QRCode = () => import('@/components/shared/QRCode.vue')
 
@@ -46,6 +47,9 @@ const realworldFullPathShare = ref(`${window.location.origin}${route.fullPath}`)
 const twitterUri = ref(
   `https://twitter.com/intent/tweet?text=${sharingTxt}&via=KodaDot&url=${realworldFullPathShare.value}`
 )
+
+const label = computed(() => (isMobileDevice ? '' : 'Share'))
+const icon = computed(() => (isMobileDevice ? 'share-square' : ''))
 
 const actionTwitterShare = (): void => {
   window.open(twitterUri.value, '_blank')
