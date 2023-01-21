@@ -29,13 +29,13 @@
         :label="$t('tabs.tabActivity.from')">
         <nuxt-link
           v-if="props.row.interaction === 'BUY'"
-          :to="`/${urlPrefix}/u/${props.row.currentOwner}`"
+          :to="`/${route.params.prefix}/u/${props.row.currentOwner}`"
           class="has-text-link">
           <Identity :address="props.row.currentOwner" />
         </nuxt-link>
         <nuxt-link
           v-else
-          :to="`/${urlPrefix}/u/${props.row.caller}`"
+          :to="`/${route.params.prefix}/u/${props.row.caller}`"
           class="has-text-link">
           <Identity :address="props.row.caller" />
         </nuxt-link>
@@ -50,13 +50,13 @@
         <div v-if="props.row.caller !== props.row.currentOwner">
           <nuxt-link
             v-if="props.row.interaction === 'BUY'"
-            :to="`/${urlPrefix}/u/${props.row.caller}`"
+            :to="`/${route.params.prefix}/u/${props.row.caller}`"
             class="has-text-link">
             <Identity :address="props.row.caller" />
           </nuxt-link>
           <nuxt-link
             v-else
-            :to="`/${urlPrefix}/u/${props.row.currentOwner}`"
+            :to="`/${route.params.prefix}/u/${props.row.currentOwner}`"
             class="has-text-link">
             <Identity :address="props.row.currentOwner" />
           </nuxt-link>
@@ -97,11 +97,12 @@ const dprops = defineProps<{
 }>()
 
 const { decimals, unit } = useChain()
-const { urlPrefix, tokenId, assets } = usePrefix()
+const { tokenId, assets } = usePrefix()
+const route = useRoute()
 
 const { data, loading } = useGraphql({
   queryName: 'itemEvents',
-  clientName: urlPrefix.value,
+  clientName: route.params.prefix,
   variables: {
     id: dprops.nftId,
     interaction: dprops.interactions,
@@ -125,7 +126,7 @@ watchEffect(() => {
 
 const formatPrice = (price) => {
   const { symbol } = assets(tokenId.value)
-  const tokenSymbol = urlPrefix.value === 'rmrk' ? unit.value : symbol
+  const tokenSymbol = route.params.prefix === 'rmrk' ? unit.value : symbol
 
   return formatBalance(price, decimals.value, tokenSymbol)
 }

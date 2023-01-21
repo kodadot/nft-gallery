@@ -45,7 +45,7 @@
           <div class="has-text-centered">
             {{ $t('nft.buyNFTOn') }}
             <span class="has-text-weight-bold is-uppercase">{{
-              urlPrefix
+              route.params.prefix
             }}</span>
           </div>
         </template>
@@ -86,7 +86,8 @@ const props = withDefaults(
   }
 )
 
-const { urlPrefix, client } = usePrefix()
+const route = useRoute()
+const { client } = usePrefix()
 const { accountId } = useAuth()
 const root = ref<Vue<Record<string, string>>>()
 const { $store, $apollo, $i18n, $buefy } = useNuxtApp()
@@ -104,10 +105,10 @@ const label = computed(() =>
 )
 
 const balance = computed<string>(() => {
-  if (urlPrefix.value == 'rmrk') {
+  if (route.params.prefix == 'rmrk') {
     return $store.getters.getAuthBalance
   }
-  return $store.getters.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
+  return $store.getters.getTokenBalanceOf(getKusamaAssetId(route.params.prefix))
 })
 const disabled = computed(() => {
   if (!(props.nftPrice && balance.value) || !connected.value) {
@@ -140,7 +141,7 @@ watch(isLoading, (loading) => {
 
 const getTranasactionParams = async () => {
   const api = await apiInstance.value
-  if (urlPrefix.value == 'rmrk') {
+  if (route.params.prefix == 'rmrk') {
     const rmrk = createInteraction(
       ACTION as JustInteraction,
       useRmrkVersion().version,
@@ -162,7 +163,7 @@ const getTranasactionParams = async () => {
   // not RMRK
   const { id: collectionId, item: itemId } = tokenIdToRoute(props.nftId)
   return {
-    cb: getApiCall(api, urlPrefix.value, ACTION),
+    cb: getApiCall(api, route.params.prefix, ACTION),
     arg: [collectionId, itemId],
   }
 }
@@ -187,7 +188,7 @@ const checkBuyBeforeSubmit = async () => {
   ) {
     showNotification(
       $i18n.t('nft.notification.nftChanged', {
-        chain: urlPrefix.value.toUpperCase(),
+        chain: route.params.prefix.toUpperCase(),
         action: actionLabel,
       }) as string,
       notificationTypes.warn
@@ -205,7 +206,7 @@ const handleBuy = async () => {
     $i18n.t('nft.notification.info', { itemId, action: actionLabel }) as string
   )
 
-  if (urlPrefix.value === 'rmrk' && !(await checkBuyBeforeSubmit())) {
+  if (route.params.prefix === 'rmrk' && !(await checkBuyBeforeSubmit())) {
     return
   }
 

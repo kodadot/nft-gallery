@@ -8,7 +8,7 @@
       :disabled-tooltip="$t('tabs.offersDisabled')">
       <GalleryItemOffers
         v-if="
-          urlPrefix !== 'rmrk' &&
+          route.params.prefix !== 'rmrk' &&
           nft?.collection.id &&
           nft?.id &&
           nft.currentOwner
@@ -47,7 +47,7 @@ const props = withDefaults(
   }
 )
 
-const { urlPrefix } = usePrefix()
+const route = useRoute()
 const { nft } = useGalleryItem()
 const { offersDisabled } = useChain()
 

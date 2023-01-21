@@ -6,7 +6,7 @@
         <span class="mr-2">{{ $t('tabs.tabDescription.made') }}:</span>
         <nuxt-link
           v-if="nft?.issuer"
-          :to="`/${urlPrefix}/u/${nft?.issuer}`"
+          :to="`/${route.params.prefix}/u/${nft?.issuer}`"
           class="has-text-link">
           <Identity ref="identity" :address="nft?.issuer" />
         </nuxt-link>
@@ -49,14 +49,14 @@
         <p>{{ $t('tabs.tabDetails.creator') }}</p>
         <nuxt-link
           v-if="nft?.issuer"
-          :to="`/${urlPrefix}/u/${nft?.issuer}`"
+          :to="`/${route.params.prefix}/u/${nft?.issuer}`"
           class="has-text-link">
           <Identity ref="identity" :address="nft?.issuer" />
         </nuxt-link>
       </div>
       <div class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.blockchain') }}</p>
-        <p>{{ urlPrefix }}</p>
+        <p>{{ route.params.prefix }}</p>
       </div>
       <!-- <div class="is-flex is-justify-content-space-between">
         <p>Token Standard</p>
@@ -100,7 +100,7 @@ import { DisablableTab } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 
-const { urlPrefix } = usePrefix()
+const route = useRoute()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
 const activeTab = ref('0')

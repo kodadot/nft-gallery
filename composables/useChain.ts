@@ -3,6 +3,7 @@ import { ChainProperties } from '@/utils/api/Query'
 
 export default function () {
   const { urlPrefix } = usePrefix()
+  const route = useRoute()
 
   const chainProperties = computed<ChainProperties>(() => {
     return chainPropListOf(urlPrefix.value)
@@ -17,7 +18,7 @@ export default function () {
   })
 
   const offersDisabled = computed(() => {
-    return urlPrefix.value !== 'snek' && urlPrefix.value !== 'bsx'
+    return route.params.prefix !== 'snek' && route.params.prefix !== 'bsx'
   })
 
   return {

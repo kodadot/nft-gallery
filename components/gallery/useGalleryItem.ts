@@ -37,9 +37,10 @@ export const useGalleryItem = () => {
   const { params } = useRoute()
   // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
 
-  const { urlPrefix } = usePrefix()
   const { data, refetch } = useGraphql({
-    queryName: urlPrefix.value === 'rmrk' ? 'nftByIdWithoutRoyalty' : 'nftById',
+    queryName: params.prefix === 'rmrk' ? 'nftByIdWithoutRoyalty' : 'nftById',
+    queryPrefix: params.prefix === 'rmrk' ? 'subsquid' : params.prefix,
+    clientName: params.prefix,
     variables: {
       id: params.id,
     },
@@ -60,6 +61,7 @@ export const useGalleryItem = () => {
     onChange: refetch,
   })
   watch(data as unknown as NFTData, async (newData) => {
+    console.log(params.prefix, { newData })
     const nftEntity = newData?.nftEntity
     if (!nftEntity) {
       $consola.log(`NFT with id ${params.id} not found. Fallback to RPC Node`)
@@ -84,7 +86,7 @@ export const useGalleryItem = () => {
       author: nft.value.currentOwner,
       price: nft.value.price,
       mimeType: nftMimeType.value,
-      prefix: urlPrefix,
+      prefix: params.prefix,
     })
   })
 

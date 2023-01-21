@@ -94,7 +94,8 @@ const props = defineProps<{
 }>()
 
 const { apiInstance } = useApi()
-const { urlPrefix, tokenId } = usePrefix()
+const route = useRoute()
+const { tokenId } = usePrefix()
 const { $store, $route, $i18n, $buefy } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
 const { accountId } = useAuth()
@@ -103,7 +104,7 @@ const root = ref<Vue<Record<string, string>>>()
 const connected = computed(() => Boolean(accountId.value))
 
 const balance = computed<string>(() => {
-  if (urlPrefix.value == 'rmrk') {
+  if (route.params.prefix == 'rmrk') {
     return $store.getters.getAuthBalance
   }
   return $store.getters.getTokenBalanceOf(tokenId.value)
@@ -157,7 +158,7 @@ async function confirm2() {
       day: selectedDay.value,
       price: offerPrice.value || 0,
       tokenId: $route.params.id,
-      urlPrefix: urlPrefix.value,
+      urlPrefix: route.params.prefix,
       successMessage: $i18n.t('transaction.offer.success') as string,
       errorMessage: $i18n.t('transaction.item.error') as string,
     })

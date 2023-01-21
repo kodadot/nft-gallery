@@ -35,7 +35,7 @@ import { Interaction } from '@kodadot1/minimark'
 
 const { transaction, status, isLoading } = useTransaction()
 const { $route, $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
+const route = useRoute()
 
 const props = defineProps<{
   nftId: string
@@ -50,7 +50,7 @@ function sendItem() {
   } else {
     transaction({
       interaction: Interaction.SEND,
-      urlPrefix: urlPrefix.value,
+      urlPrefix: route.params.prefix,
       address: address.value,
       tokenId: $route.params.id,
       nftId: props.nftId,

@@ -30,7 +30,7 @@
       <!-- caller -->
       <o-table-column v-slot="props" field="caller" :label="$t('offer.caller')">
         <nuxt-link
-          :to="`/${urlPrefix}/u/${props.row.caller}`"
+          :to="`/${route.params.prefix}/u/${props.row.caller}`"
           class="has-text-link">
           <Identity :address="props.row.caller" />
         </nuxt-link>
@@ -70,8 +70,9 @@ import { OfferStatusType } from '@/utils/offerStatus'
 const { $i18n } = useNuxtApp()
 
 const { apiInstance } = useApi()
-const { urlPrefix, tokenId, assets } = usePrefix()
+const { tokenId, assets } = usePrefix()
 const { decimals } = useChain()
+const route = useRoute()
 
 const dprops = defineProps<{
   collectionId: string

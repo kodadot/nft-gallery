@@ -12,9 +12,10 @@ export default function ({
   onChange: (data) => void
   onError?: (error) => void
 }) {
+  const route = useRoute()
   const { client: prefixClient } = usePrefix()
   const { $consola } = useNuxtApp()
-  const client = clientName || prefixClient.value
+  const client = clientName || route.params.prefix || prefixClient.value
   const wsUrl = getWSUrlByClient(client)
 
   if (!wsUrl) {

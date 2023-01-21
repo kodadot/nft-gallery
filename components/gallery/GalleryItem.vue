@@ -26,7 +26,7 @@
                 </h1>
                 <h2 class="subtitle" data-cy="item-collection">
                   <nuxt-link
-                    :to="`/${urlPrefix}/collection/${collection?.id}`"
+                    :to="`/${route.params.prefix}/collection/${collection?.id}`"
                     class="has-text-link">
                     {{ collection?.name || collection?.id }}
                   </nuxt-link>
@@ -48,14 +48,14 @@
                 v-if="nft?.issuer"
                 class="gallery-avatar mr-4"
                 :label="`${$t('Creator')}`"
-                :prefix="urlPrefix"
+                :prefix="route.params.prefix"
                 :account="nft?.issuer"
                 data-cy="item-creator" />
               <IdentityItem
                 v-if="nft?.currentOwner !== nft?.issuer"
                 class="gallery-avatar"
                 :label="`${$t('Owner')}`"
-                :prefix="urlPrefix"
+                :prefix="route.params.prefix"
                 :account="nft?.currentOwner || ''"
                 data-cy="item-owner" />
             </div>
@@ -106,7 +106,6 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 
-const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
