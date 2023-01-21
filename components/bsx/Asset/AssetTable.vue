@@ -63,7 +63,6 @@ defineProps({
 })
 
 const tellFrens = (id: string) => {
-  emit('select')
-  return id
+  emit('select', id)
 }
 </script>
