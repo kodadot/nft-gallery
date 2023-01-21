@@ -86,7 +86,6 @@ const fetchCurrentToken = async (): Promise<void> => {
 }
 
 const handleTokenSelect = async (id: string) => {
-  console.log('idddd', id)
   const { apiInstance } = useApi()
   const api = await apiInstance.value
   const { call, args } = setDefaultFeeToken(api, id)
