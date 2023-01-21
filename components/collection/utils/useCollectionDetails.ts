@@ -42,7 +42,7 @@ export const useCollectionDetails = ({ collectionId }) => {
           ...data.value.stats.listed.map((item) => parseInt(item.price))
         ),
         uniqueOwnersPercent: `${
-          (uniqueOwnerCount / differentOwnerCount) * 100
+          (uniqueOwnerCount / (uniqueOwnerCount + differentOwnerCount)) * 100
         }%`,
         collectionTradedVolumeNumber: getVolume(
           data.value.stats.sales.map((nft) => nft.events).flat()
