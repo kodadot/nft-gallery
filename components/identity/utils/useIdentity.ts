@@ -1,22 +1,11 @@
-import { get, update } from 'idb-keyval'
 import { hexToString, isHex } from '@polkadot/util'
-import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { onApiConnect } from '@kodadot1/sub-api'
 
 import { emptyObject } from '@/utils/empty'
-import { identityStore } from '@/utils/idbStore'
 import shortAddress from '@/utils/shortAddress'
 
 import type { NFT } from '@/components/rmrk/service/scheme'
 
-type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
-
-const resolveAddress = (account: Address): string => {
-  return account instanceof GenericAccountId
-    ? account.toString()
-    : account || ''
-}
 
 const handleRaw = (display): string => {
   if (display?.isRaw) {
@@ -51,8 +40,6 @@ const fetchIdentity = async (address: string): Promise<IdentityFields> => {
       return acc
     }, {} as IdentityFields)
 
-  update(address, () => final, identityStore)
-
   return final
 }
 
@@ -74,7 +61,6 @@ const displayName = ({
 }
 
 export default function useIdentity({ address, customNameOption }) {
-  const { apiUrl } = useApi()
   const identity = ref<IdentityFields>({})
   const isFetchingIdentity = ref(false)
   const shortenedAddress = computed(() => shortAddress(address))
@@ -86,20 +72,13 @@ export default function useIdentity({ address, customNameOption }) {
   )
 
   const whichIdentity = async (addr) => {
-    const identityCached = await get(resolveAddress(addr), identityStore)
+    isFetchingIdentity.value = true
 
-    if (identityCached) {
-      identity.value = identityCached
-    } else {
-      isFetchingIdentity.value = true
+    // better if get data from indexer
+    // reference: https://github.com/kodadot/nft-gallery/issues/3783
+    identity.value = await fetchIdentity(addr)
 
-      // better if get data from indexer
-      // reference: https://github.com/kodadot/nft-gallery/issues/3783
-      onApiConnect(apiUrl.value, async () => {
-        identity.value = await fetchIdentity(addr)
-        isFetchingIdentity.value = false
-      })
-    }
+    isFetchingIdentity.value = false
   }
 
   onMounted(() => whichIdentity(address))

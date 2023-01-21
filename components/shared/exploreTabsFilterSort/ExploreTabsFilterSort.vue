@@ -9,16 +9,26 @@
       <p class="control">
         <NeoButton
           class="explore-tabs-button"
-          :selected="selectedTab === TabType.COLLECTION"
-          :label="$t('collections')"
-          @click.native="updateTab(TabType.COLLECTION)" />
+          :active="selectedTab === TabType.COLLECTION"
+          @click.native="updateTab(TabType.COLLECTION)">
+          <span> {{ $t('collections') }}</span>
+          <img
+            v-if="selectedTab === TabType.COLLECTION"
+            src="/checkmark.svg"
+            class="check-icon" />
+        </NeoButton>
       </p>
       <p class="control">
         <NeoButton
           class="explore-tabs-button"
-          :selected="selectedTab === TabType.ITEMS"
-          :label="$t('items')"
-          @click.native="updateTab(TabType.ITEMS)" />
+          :active="selectedTab === TabType.ITEMS"
+          @click.native="updateTab(TabType.ITEMS)">
+          <span> {{ $t('items') }}</span>
+          <img
+            v-if="selectedTab === TabType.ITEMS"
+            src="/checkmark.svg"
+            class="check-icon" />
+        </NeoButton>
       </p>
     </div>
   </div>
@@ -69,5 +79,9 @@ const updateTab = (val) => {
       width: 100%;
     }
   }
+}
+
+.dark-mode .explore-tabs-button.active img {
+  filter: brightness(0%);
 }
 </style>
