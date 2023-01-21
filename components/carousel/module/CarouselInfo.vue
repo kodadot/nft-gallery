@@ -25,11 +25,18 @@
       {{ item.collectionName }}
     </nuxt-link>
 
-    <div v-if="showPrice" class="carousel-meta">
+    <div
+      class="carousel-meta is-flex"
+      :class="[
+        showPrice
+          ? 'is-justify-content-space-between'
+          : 'is-justify-content-end',
+      ]">
       <CommonTokenMoney
+        v-if="showPrice"
         :custom-token-id="getTokenId(item.chain)"
         :value="item.price" />
-      <p class="is-size-7 chain-name">{{ chainName }}</p>
+      <p class="is-size-6 chain-name">{{ chainName }}</p>
     </div>
   </div>
 </template>
