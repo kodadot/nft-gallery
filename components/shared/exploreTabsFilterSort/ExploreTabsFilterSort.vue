@@ -10,17 +10,25 @@
         <NeoButton
           class="explore-tabs-button"
           :active="selectedTab === TabType.COLLECTION"
-          :icon="checkIcon(TabType.COLLECTION)"
-          :label="`${$t('collections')}`"
-          @click.native="updateTab(TabType.COLLECTION)" />
+          @click.native="updateTab(TabType.COLLECTION)">
+          <span> {{ $t('collections') }}</span>
+          <img
+            v-if="selectedTab === TabType.COLLECTION"
+            src="/checkmark.svg"
+            class="check-icon" />
+        </NeoButton>
       </p>
       <p class="control">
         <NeoButton
           class="explore-tabs-button"
           :active="selectedTab === TabType.ITEMS"
-          :icon="checkIcon(TabType.ITEMS)"
-          :label="`${$t('items')}`"
-          @click.native="updateTab(TabType.ITEMS)" />
+          @click.native="updateTab(TabType.ITEMS)">
+          <span> {{ $t('items') }}</span>
+          <img
+            v-if="selectedTab === TabType.ITEMS"
+            src="/checkmark.svg"
+            class="check-icon" />
+        </NeoButton>
       </p>
     </div>
   </div>
@@ -38,9 +46,6 @@ const route = useRoute()
 const router = useRouter()
 
 const selectedTab = computed(() => route?.name?.split('-')[2])
-const checkIcon = (tab) => {
-  return selectedTab.value === tab ? 'check' : ''
-}
 
 const updateTab = (val) => {
   route.query.page = ''

@@ -235,7 +235,6 @@ Vue.component('VueFontawesome', FontAwesomeIcon).use(Neo, {
     fas: {
       sizes: {
         default: 'fw',
-        medium: 'fw',
       },
     },
   },

@@ -10,10 +10,9 @@
     :variant="variant"
     :disabled="disabled"
     icon-pack="fas"
+    :label="label"
     class="is-neo">
-    <slot v-if="label">
-      {{ label }}
-    </slot>
+    <slot />
   </o-button>
 </template>
 
@@ -21,24 +20,16 @@
 import { OButton } from '@oruga-ui/oruga'
 import { NeoButtonVariant } from '@kodadot1/brick'
 
-withDefaults(
-  defineProps<{
-    size?: 'small' | 'medium' | 'large'
-    disabled?: boolean
-    icon?: string
-    label?: string
-    active?: boolean
-    fixedWidth?: boolean
-    noShadow?: boolean
-    variant?: NeoButtonVariant
-  }>(),
-  {
-    size: 'medium',
-    icon: '',
-    label: '',
-    variant: 'primary',
-  }
-)
+defineProps<{
+  size?: 'small' | 'medium' | 'large'
+  disabled?: boolean
+  icon?: string
+  label?: string
+  active?: boolean
+  fixedWidth?: boolean
+  noShadow?: boolean
+  variant?: NeoButtonVariant
+}>()
 </script>
 
 <style lang="scss" scoped>
