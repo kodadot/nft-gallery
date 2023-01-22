@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { Neo } from '@kodadot1/brick'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { config, library } from '@fortawesome/fontawesome-svg-core'
 
@@ -18,6 +19,7 @@ import {
   faCaretDown,
   faCaretUp,
   faChartLine,
+  faCheck,
   faChevronDown,
   faChevronLeft,
   faChevronRight,
@@ -202,6 +204,7 @@ library.add(
   faChartLine,
   faListUl,
   faDownload,
+  faCheck,
 
   // Social
   faTwitter,
@@ -225,4 +228,14 @@ library.add(
   faInstagram
 )
 
-Vue.component('VueFontawesome', FontAwesomeIcon)
+Vue.component('VueFontawesome', FontAwesomeIcon).use(Neo, {
+  iconComponent: 'vue-fontawesome',
+  iconPack: 'fas',
+  customIconPacks: {
+    fas: {
+      sizes: {
+        default: 'fw',
+      },
+    },
+  },
+})

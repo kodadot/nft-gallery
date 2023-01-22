@@ -32,14 +32,7 @@
                   </nuxt-link>
                 </h2>
               </div>
-              <div class="buttons is-align-content-start">
-                <GalleryItemShareBtn />
-                <GalleryItemMoreActionBtn
-                  class="ml-4"
-                  :ipfs-image="nftMetadata?.image"
-                  :mime-type="nftMimeType"
-                  :name="nft?.name" />
-              </div>
+              <GalleryItemButton />
             </div>
 
             <div
@@ -95,8 +88,7 @@ import { IdentityItem, MediaItem } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 
-import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
-import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
+import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
