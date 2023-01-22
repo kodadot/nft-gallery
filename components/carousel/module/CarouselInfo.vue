@@ -35,7 +35,6 @@
       ]">
       <CommonTokenMoney
         v-if="showPrice"
-        class="is-size-7"
         :custom-token-id="getTokenId(item.chain)"
         :value="item.price" />
       <p class="is-size-7 chain-name">{{ chainName }}</p>
