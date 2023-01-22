@@ -36,7 +36,7 @@
         v-if="showPrice"
         :custom-token-id="getTokenId(item.chain)"
         :value="item.price" />
-      <p class="is-size-6 chain-name">{{ chainName }}</p>
+      <p v-if="!isCollection" class="is-size-7 chain-name">{{ chainName }}</p>
     </div>
   </div>
 </template>
