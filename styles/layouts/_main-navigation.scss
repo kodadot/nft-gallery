@@ -223,8 +223,13 @@
     color: $black;
     border-radius: 0 !important;
 
+    @include ktheme() {
+      color: theme('text-color');
+    }
     &:hover {
-      color: $k-hovergrey;
+      @include ktheme() {
+        color: theme('k-hovergrey');
+      }
       background-color: inherit;
     }
   }
