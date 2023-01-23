@@ -1,5 +1,5 @@
-query offerListByNftId($id: String!, $account: String) {
-  offers(where: { nft: { id_eq: $id }, caller_not_eq: $account }) {
+query offerListByNftId($id: String!) {
+  offers(where: { nft: { id_eq: $id } }) {
     id
     caller
     expiration
@@ -8,7 +8,7 @@ query offerListByNftId($id: String!, $account: String) {
   }
   stats: offersConnection(
     orderBy: id_ASC
-    where: { nft: { id_eq: $id }, caller_not_eq: $account }
+    where: { nft: { id_eq: $id } }
   ) {
     total: totalCount
   }
