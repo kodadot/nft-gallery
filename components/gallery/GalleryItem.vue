@@ -12,7 +12,7 @@
           :src="nftImage"
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
-          :title="nft?.name" />
+          :title="nft?.name || nft?.id" />
       </div>
       <div class="py-6 column">
         <div
@@ -21,19 +21,18 @@
           <div class="pb-4">
             <div class="is-flex is-justify-content-space-between">
               <div>
-                <h1 class="title" data-cy="item-title">{{ nft?.name }}</h1>
+                <h1 class="title" data-cy="item-title">
+                  {{ nft?.name || nft?.id }}
+                </h1>
                 <h2 class="subtitle" data-cy="item-collection">
                   <nuxt-link
-                    :to="`/${urlPrefix}/collection/${nft?.collection.id}`"
+                    :to="`/${urlPrefix}/collection/${collection?.id}`"
                     class="has-text-link">
-                    {{ nft?.collection.name }}
+                    {{ collection?.name || collection?.id }}
                   </nuxt-link>
                 </h2>
               </div>
-              <div class="buttons is-align-content-start">
-                <GalleryItemShareBtn />
-                <GalleryItemMoreActionBtn class="ml-4" />
-              </div>
+              <GalleryItemButton />
             </div>
 
             <div
@@ -89,8 +88,7 @@ import { IdentityItem, MediaItem } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 
-import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
-import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
+import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
@@ -107,6 +105,8 @@ const router = useRouter()
 
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
+const collection = computed(() => nft.value?.collection)
+
 const tabs = {
   offers: '0',
   activity: '1',

@@ -50,18 +50,15 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 23px;
-    color: $grey;
     width: max-content;
     font-weight: 700;
-    color: $white;
 
-    &:hover {
-      color: $k-hovergrey !important;
-    }
   }
 
   .beta-text {
-    color: $shade;
+    @include ktheme() {
+      color: theme('k-shade');
+    }
     font-weight: 400;
   }
 
@@ -251,8 +248,6 @@
       }
     }
   }
-
-
 }
 
 .section-search {
