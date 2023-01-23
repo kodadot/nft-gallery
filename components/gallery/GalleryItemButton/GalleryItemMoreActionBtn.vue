@@ -4,13 +4,14 @@
 
     <template #items>
       <NeoDropdownItem
-        v-if="mimeType.includes('image') && ipfsImage"
+        v-if="
+          currentOwner === accountId && mimeType.includes('image') && ipfsImage
+        "
         item="Download"
         @click.native="downloadMedia" />
       <NeoDropdownItem
-        v-if="currentOwner"
+        v-if="currentOwner === accountId"
         item="Burn"
-        :disabled="hasBurnBtnDisabled"
         @click.native="burn" />
       <NeoDropdownItem disabled item="Report" />
     </template>
@@ -34,13 +35,6 @@ const props = defineProps<{
   ipfsImage?: string
   currentOwner?: string
 }>()
-
-const nftCurrentOwner = computed(() => props.currentOwner)
-const hasBurnBtnDisabled = ref(true)
-
-watch(nftCurrentOwner, () => {
-  hasBurnBtnDisabled.value = props.currentOwner !== accountId.value
-})
 
 const downloadMedia = () => {
   props.ipfsImage && downloadImage(ipfsToCf(props.ipfsImage), props.name)
