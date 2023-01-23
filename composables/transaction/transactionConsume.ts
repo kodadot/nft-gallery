@@ -14,9 +14,27 @@ export function exectConsumeTx(item: ActionConsume, api, executeTransaction) {
   }
 
   if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
+    // todo: withdraw offers
+    const hasOffers = false
+    const cb = hasOffers
+      ? api.tx.utility.batchAll
+      : getApiCall(api, item.urlPrefix, Interaction.CONSUME)
+
+    const [collectionId, tokenId] = bsxParamResolver(
+      item.nftId,
+      Interaction.CONSUME,
+      '🔥'
+    )
+    const arg = [
+      [
+        api.tx.marketplace.withdrawOffer(collectionId, tokenId),
+        api.tx.nft.burn(collectionId, tokenId),
+      ],
+    ]
+
     executeTransaction({
-      cb: getApiCall(api, item.urlPrefix, Interaction.CONSUME),
-      arg: bsxParamResolver(item.nftId, Interaction.CONSUME, '🔥'),
+      cb: cb,
+      arg: arg,
       successMessage: item.successMessage,
       errorMessage: item.errorMessage,
     })
