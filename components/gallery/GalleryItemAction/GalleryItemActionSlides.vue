@@ -76,9 +76,11 @@ defineProps<{
   width: 10rem;
   font-size: 1rem;
   position: relative;
-  .wrapper {
+  .neo-tooltip {
     width: 100%;
     height: 100%;
+    position: absolute;
+    z-index: 2;
   }
   .full-width-action-button {
     width: 100%;
@@ -101,6 +103,7 @@ defineProps<{
       border-color: $white;
       input {
         border-color: $white;
+        background-color: $k-dark;
       }
     }
     &-disabled {

@@ -207,10 +207,13 @@ export default class Gallery extends mixins(
     const metadataList: string[] = this.nfts.map(mapNFTorCollectionMetadata)
 
     await processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+      const nft = this.nfts[i]
+      if (!nft) {
+        return
+      }
       Vue.set(this.nfts, i, {
-        ...this.nfts[i],
+        ...nft,
         ...meta,
-        id: this.nfts[i].id,
         image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
         animation_url: getSanitizer(meta.animation_url || '')(
           meta.animation_url || ''
