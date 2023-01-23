@@ -14,29 +14,44 @@ export function exectConsumeTx(item: ActionConsume, api, executeTransaction) {
   }
 
   if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
-    // todo: withdraw offers
-    const hasOffers = false
-    const cb = hasOffers
-      ? api.tx.utility.batchAll
-      : getApiCall(api, item.urlPrefix, Interaction.CONSUME)
-
     const [collectionId, tokenId] = bsxParamResolver(
       item.nftId,
       Interaction.CONSUME,
       '🔥'
     )
-    const arg = [
-      [
-        api.tx.marketplace.withdrawOffer(collectionId, tokenId),
-        api.tx.nft.burn(collectionId, tokenId),
-      ],
-    ]
+    const hasOffers = ref(false)
+    const { data } = useGraphql({
+      queryName: 'offerListByNftId',
+      queryPrefix: 'chain-bsx',
+      variables: {
+        id: item.nftId,
+      },
+    })
 
-    executeTransaction({
-      cb: cb,
-      arg: arg,
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
+    watch(data, (data) => {
+      hasOffers.value = Boolean(data.offers.length)
+      const offerWithdrawArgs = data.offers.map((offer: { caller: string }) => {
+        return api.tx.marketplace.withdrawOffer(
+          collectionId,
+          tokenId,
+          offer.caller
+        )
+      })
+      const cb = hasOffers.value
+        ? api.tx.utility.batchAll
+        : getApiCall(api, item.urlPrefix, Interaction.CONSUME)
+
+      console.log([offerWithdrawArgs])
+      const arg = [
+        [...offerWithdrawArgs, api.tx.nft.burn(collectionId, tokenId)],
+      ]
+
+      executeTransaction({
+        cb: cb,
+        arg: arg,
+        successMessage: item.successMessage,
+        errorMessage: item.errorMessage,
+      })
     })
   }
 }
