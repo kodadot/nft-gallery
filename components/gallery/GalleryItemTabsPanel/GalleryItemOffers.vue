@@ -84,7 +84,6 @@ const { data } = useGraphql({
   queryPrefix: 'chain-bsx',
   variables: {
     id: dprops.nftId,
-    account: dprops.account,
   },
 })
 
