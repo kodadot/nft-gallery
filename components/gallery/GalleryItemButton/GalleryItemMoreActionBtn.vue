@@ -4,9 +4,7 @@
 
     <template #items>
       <NeoDropdownItem
-        v-if="
-          currentOwner === accountId && mimeType.includes('image') && ipfsImage
-        "
+        v-if="mimeType.includes('image') && ipfsImage"
         item="Download"
         @click.native="downloadMedia" />
       <NeoDropdownItem
