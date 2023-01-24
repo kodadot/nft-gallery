@@ -1,5 +1,5 @@
 <template>
-  <div class="py-5">
+  <div>
     <o-table v-if="offers?.length" :data="offers" hoverable>
       <!-- token price -->
       <o-table-column v-slot="props" field="id" :label="$t('offer.price')">
@@ -131,15 +131,19 @@ const expirationTime = (block: number) => {
 }
 
 const formatOfferStatus = (status: OfferStatusType, expiration: number) => {
-  if (status === OfferStatusType.WITHDRAWN) {
-    return $i18n.t('offer.withdrawn')
+  switch (status) {
+    case OfferStatusType.WITHDRAWN:
+      return $i18n.t('offer.withdrawn')
+    case OfferStatusType.ACTIVE:
+      if (isInactiveOffer(status, expiration)) {
+        return $i18n.t('offer.inactive')
+      }
+      return $i18n.t('offer.active')
+    case OfferStatusType.ACCEPTED:
+      return $i18n.t('offer.accepted')
+    default:
+      return status
   }
-
-  if (isInactiveOffer(status, expiration)) {
-    return $i18n.t('offer.inactive')
-  }
-
-  return status
 }
 
 onMounted(async () => {
