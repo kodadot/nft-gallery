@@ -81,7 +81,7 @@ watchEffect(async () => {
 
       .gallery-action-section-price-box {
         flex-direction: column;
-        align-content: left;
+        align-content: flex-start;
         margin-bottom: 1rem;
         .gallery-action-section-price {
           margin-right: 0;
