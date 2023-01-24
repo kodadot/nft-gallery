@@ -22,8 +22,12 @@ defineProps<{
 
 <style lang="scss">
 @import '@/styles/abstracts/variables';
+
 .slide {
-  box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+  }
+
   overflow: hidden;
   transition-duration: 0.2s;
   width: 10rem;
@@ -43,7 +47,6 @@ defineProps<{
   }
 
   &-content {
-    border: 1px solid black;
     border-left: initial;
     display: flex;
     align-items: center;
@@ -52,20 +55,33 @@ defineProps<{
     height: 54px;
     width: 12rem;
 
+    @include ktheme() {
+      border: 1px solid theme('text-color');
+    }
+
     & > * {
       width: 12rem;
     }
 
     input {
-      border: 1px solid black;
       border-left: 0;
       height: 54px;
       outline: none;
       width: 100%;
+
+      @include ktheme() {
+        border: 1px solid theme('text-color');
+        color: theme('text-color');
+        background-color: theme('text-color-inverse');
+      }
     }
   }
+
   &-disabled {
-    box-shadow: 4px 4px $k-grey;
+    @include ktheme() {
+      box-shadow: 4px 4px theme('k-grey');
+    }
+
     &:hover {
       cursor: not-allowed;
     }
@@ -76,12 +92,14 @@ defineProps<{
   width: 10rem;
   font-size: 1rem;
   position: relative;
+
   .neo-tooltip {
     width: 100%;
     height: 100%;
     position: absolute;
     z-index: 2;
   }
+
   .full-width-action-button {
     width: 100%;
     height: 100%;
@@ -89,25 +107,12 @@ defineProps<{
     position: absolute;
     z-index: 2;
   }
+
   @include until-widescreen {
     width: 100%;
+
     .wrapper {
       position: initial;
-    }
-  }
-}
-.dark-mode {
-  .slide {
-    box-shadow: 4px 4px $white;
-    &-content {
-      border-color: $white;
-      input {
-        border-color: $white;
-        background-color: $k-dark;
-      }
-    }
-    &-disabled {
-      box-shadow: 4px 4px $shade;
     }
   }
 }
