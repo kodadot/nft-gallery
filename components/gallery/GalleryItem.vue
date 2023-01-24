@@ -68,7 +68,7 @@
         <GalleryItemDescription />
       </div>
 
-      <div class="column mobile-top-margin">
+      <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
         <GalleryItemTabsPanel :active-tab="activeTab" />
       </div>
     </div>
@@ -168,13 +168,13 @@ useNuxt2Meta({
 hr {
   height: 1px;
 }
-
-.mobile-top-margin {
+.gallery-item-tabs-panel-wrapper {
   margin-top: unset;
+  height: 100%;
 }
 
 @media screen and (max-width: 768px) {
-  .mobile-top-margin {
+  .gallery-item-tabs-panel-wrapper {
     margin-top: 1.25rem;
   }
 }
