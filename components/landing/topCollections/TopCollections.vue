@@ -36,25 +36,14 @@
           <div>
             <BasicImage custom-class="is-48x48 image-outline" rounded />
           </div>
-          <div class="px-2">
-            <div>
-              <b-skeleton width="170px"></b-skeleton>
-            </div>
-            <div>
-              <b-skeleton width="140px" size="is-small"></b-skeleton>
-            </div>
-          </div>
         </div>
-        <div class="is-pulled-right has-text-right px-4">
-          <div>
-            <b-skeleton width="120px"></b-skeleton>
-          </div>
-          <div>
-            <b-skeleton
-              width="70%"
-              size="is-small"
-              position="is-right"></b-skeleton>
-          </div>
+        <div class="px-2" style="width: 60%">
+          <b-skeleton width="70%" />
+          <b-skeleton width="20%" size="is-small" />
+        </div>
+        <div class="is-pulled-right has-text-right px-4" style="width: 20%">
+          <b-skeleton width="80%" position="is-right" />
+          <b-skeleton width="70%" size="is-small" position="is-right" />
         </div>
       </div>
     </div>
