@@ -10,23 +10,34 @@
       <span class="is-ellipsis">{{ item.name }}</span>
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>
+    <CollectionDetailsPopover v-if="item?.collectionId" :nft="item">
+      <template #trigger>
+        <nuxt-link
+          v-if="!isCollection && item.collectionName && item.collectionId"
+          :title="item.collectionName"
+          :to="
+            urlOf({
+              id: item.collectionId,
+              url: 'collection',
+              chain: item.chain,
+            })
+          "
+          class="is-size-7 carousel-info-collection-name">
+          {{ item.collectionName }}
+        </nuxt-link>
+      </template>
+    </CollectionDetailsPopover>
 
-    <nuxt-link
-      v-if="!isCollection && item.collectionName && item.collectionId"
-      :title="item.collectionName"
-      :to="
-        urlOf({
-          id: item.collectionId,
-          url: 'collection',
-          chain: item.chain,
-        })
-      "
-      class="is-size-7 carousel-info-collection-name">
-      {{ item.collectionName }}
-    </nuxt-link>
-
-    <div v-if="showPrice" class="carousel-meta">
+    <div
+      v-if="!isCollection"
+      class="carousel-meta is-flex"
+      :class="[
+        showPrice
+          ? 'is-justify-content-space-between'
+          : 'is-justify-content-end',
+      ]">
       <CommonTokenMoney
+        v-if="showPrice"
         :custom-token-id="getTokenId(item.chain)"
         :value="item.price" />
       <p class="is-size-7 chain-name">{{ chainName }}</p>
@@ -40,6 +51,11 @@ import type { CarouselNFT } from '@/components/base/types'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 import { useCarouselUrl } from '../utils/useCarousel'
+
+const CollectionDetailsPopover = defineAsyncComponent(
+  () =>
+    import('@/components/collectionDetailsPopover/CollectionDetailsPopover.vue')
+)
 
 const props = defineProps<{
   item: CarouselNFT
