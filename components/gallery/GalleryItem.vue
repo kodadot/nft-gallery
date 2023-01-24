@@ -25,11 +25,17 @@
                   {{ nft?.name || nft?.id }}
                 </h1>
                 <h2 class="subtitle" data-cy="item-collection">
-                  <nuxt-link
-                    :to="`/${urlPrefix}/collection/${collection?.id}`"
-                    class="has-text-link">
-                    {{ collection?.name || collection?.id }}
-                  </nuxt-link>
+                  <CollectionDetailsPopover
+                    v-if="nft?.collection.id"
+                    :nft="nft">
+                    <template #trigger>
+                      <nuxt-link
+                        :to="`/${urlPrefix}/collection/${collection?.id}`"
+                        class="has-text-link">
+                        {{ collection?.name || collection?.id }}
+                      </nuxt-link>
+                    </template>
+                  </CollectionDetailsPopover>
                 </h2>
               </div>
               <GalleryItemButton />
@@ -126,6 +132,10 @@ const CarouselTypeRelated = defineAsyncComponent(
 )
 const CarouselTypeVisited = defineAsyncComponent(
   () => import('@/components/carousel/CarouselTypeVisited.vue')
+)
+const CollectionDetailsPopover = defineAsyncComponent(
+  () =>
+    import('@/components/collectionDetailsPopover/CollectionDetailsPopover.vue')
 )
 
 onMounted(() => {

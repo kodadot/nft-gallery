@@ -10,20 +10,23 @@
       <span class="is-ellipsis">{{ item.name }}</span>
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>
-
-    <nuxt-link
-      v-if="!isCollection && item.collectionName && item.collectionId"
-      :title="item.collectionName"
-      :to="
-        urlOf({
-          id: item.collectionId,
-          url: 'collection',
-          chain: item.chain,
-        })
-      "
-      class="is-size-7 carousel-info-collection-name">
-      {{ item.collectionName }}
-    </nuxt-link>
+    <CollectionDetailsPopover v-if="item?.collectionId" :nft="item">
+      <template #trigger>
+        <nuxt-link
+          v-if="!isCollection && item.collectionName && item.collectionId"
+          :title="item.collectionName"
+          :to="
+            urlOf({
+              id: item.collectionId,
+              url: 'collection',
+              chain: item.chain,
+            })
+          "
+          class="is-size-7 carousel-info-collection-name">
+          {{ item.collectionName }}
+        </nuxt-link>
+      </template>
+    </CollectionDetailsPopover>
 
     <div
       v-if="!isCollection"
@@ -48,6 +51,11 @@ import type { CarouselNFT } from '@/components/base/types'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 import { useCarouselUrl } from '../utils/useCarousel'
+
+const CollectionDetailsPopover = defineAsyncComponent(
+  () =>
+    import('@/components/collectionDetailsPopover/CollectionDetailsPopover.vue')
+)
 
 const props = defineProps<{
   item: CarouselNFT

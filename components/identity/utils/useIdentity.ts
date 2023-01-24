@@ -95,15 +95,24 @@ export default function useIdentity({ address, customNameOption }) {
   }
 }
 
-interface NFTListSold {
+export interface NFTListSold {
   nftEntities?: NFT[]
   nftEntitiesConnection: {
     totalCount: number
   }
 }
 
-export function useIdentitySoldData({ address }) {
+export function useIdentitySoldData({ address }, collectionId?) {
   const nftEntities = ref<NFT[]>([])
+  let collectionObject = {}
+  if (collectionId) {
+    collectionObject = {
+      collectionId,
+      where: {
+        collection: { id_eq: collectionId },
+      },
+    }
+  }
 
   const { data } = useGraphql({
     queryName: 'nftListSold',
@@ -111,6 +120,7 @@ export function useIdentitySoldData({ address }) {
       account: address,
       limit: 3,
       orderBy: 'price_DESC',
+      ...collectionObject,
     },
   })
 
