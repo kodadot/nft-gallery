@@ -84,7 +84,6 @@ const { data } = useGraphql({
   queryPrefix: 'chain-bsx',
   variables: {
     id: dprops.nftId,
-    account: dprops.account,
   },
 })
 
@@ -107,7 +106,10 @@ const getOffersDetails = (id: string) => {
 }
 
 const getPercentage = (numA: number, numB: number) => {
-  return Math.round(((numA - numB) / numB) * 100)
+  if (!numA || !numB) {
+    return '--'
+  }
+  return Math.round(((numA - numB) / numB) * 100) + '%'
 }
 
 const formatPrice = (price: string) => {
@@ -154,9 +156,9 @@ watch(
   async ([offersData, collectionData]) => {
     const nftPrice = collectionData?.collectionEntity?.nfts[0]?.price
 
-    if (offersData?.offers.length && nftPrice) {
+    if (offersData?.offers.length) {
       const ksmPrice = await getKSMUSD()
-      const floorPrice = formatPrice(nftPrice)
+      const floorPrice = formatPrice(nftPrice || '')
 
       offers.value = offersData.offers
 
@@ -166,10 +168,7 @@ watch(
 
         const token = `${price} ${symbol}`
         const usd = `$${Math.round(Number(price) * ksmPrice)}`
-        const floorDifference = `${getPercentage(
-          Number(price),
-          Number(floorPrice)
-        )}%`
+        const floorDifference = getPercentage(Number(price), Number(floorPrice))
 
         offersAdditionals.value[offer.id] = {
           token,

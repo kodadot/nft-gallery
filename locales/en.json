@@ -1131,7 +1131,8 @@
       "MINTNFT": "Mints",
       "BUY": "Sales",
       "LIST": "Listings",
-      "SEND": "Transfers"
+      "SEND": "Transfers",
+      "CONSUME": "Burns"
     }
   },
   "cancel": "Cancel",

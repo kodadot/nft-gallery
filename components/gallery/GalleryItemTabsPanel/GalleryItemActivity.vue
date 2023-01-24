@@ -36,13 +36,14 @@ defineProps<{
   nftId: string
 }>()
 
-const defaultInteractions = ['MINTNFT', 'BUY', 'LIST', 'SEND']
+const defaultInteractions = ['MINTNFT', 'BUY', 'LIST', 'SEND', 'CONSUME']
 const interactions = ref(['BUY']) // default to sales
 const filters = {
   mints: 'MINTNFT',
   sales: 'BUY',
   listings: 'LIST',
   transfers: 'SEND',
+  burns: 'CONSUME',
 }
 
 const checkAll = () => {
