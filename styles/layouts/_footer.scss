@@ -112,11 +112,6 @@
       grid-gap: 10px;
 
       &-item {
-        a {
-          &:hover {
-            color: $k-hovergrey !important;
-          }
-        }
 
         &:first-child {
           padding-left: 0px;

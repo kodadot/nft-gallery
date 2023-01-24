@@ -1,5 +1,5 @@
 <template>
-  <div class="py-5">
+  <div>
     <o-table v-if="offers?.length" :data="offers" hoverable>
       <!-- token price -->
       <o-table-column v-slot="props" field="id" :label="$t('offer.price')">
@@ -84,7 +84,6 @@ const { data } = useGraphql({
   queryPrefix: 'chain-bsx',
   variables: {
     id: dprops.nftId,
-    account: dprops.account,
   },
 })
 
@@ -107,7 +106,10 @@ const getOffersDetails = (id: string) => {
 }
 
 const getPercentage = (numA: number, numB: number) => {
-  return Math.round(((numA - numB) / numB) * 100)
+  if (!numA || !numB) {
+    return '--'
+  }
+  return Math.round(((numA - numB) / numB) * 100) + '%'
 }
 
 const formatPrice = (price: string) => {
@@ -129,15 +131,19 @@ const expirationTime = (block: number) => {
 }
 
 const formatOfferStatus = (status: OfferStatusType, expiration: number) => {
-  if (status === OfferStatusType.WITHDRAWN) {
-    return $i18n.t('offer.withdrawn')
+  switch (status) {
+    case OfferStatusType.WITHDRAWN:
+      return $i18n.t('offer.withdrawn')
+    case OfferStatusType.ACTIVE:
+      if (isInactiveOffer(status, expiration)) {
+        return $i18n.t('offer.inactive')
+      }
+      return $i18n.t('offer.active')
+    case OfferStatusType.ACCEPTED:
+      return $i18n.t('offer.accepted')
+    default:
+      return status
   }
-
-  if (isInactiveOffer(status, expiration)) {
-    return $i18n.t('offer.inactive')
-  }
-
-  return status
 }
 
 onMounted(async () => {
@@ -154,9 +160,9 @@ watch(
   async ([offersData, collectionData]) => {
     const nftPrice = collectionData?.collectionEntity?.nfts[0]?.price
 
-    if (offersData?.offers.length && nftPrice) {
+    if (offersData?.offers.length) {
       const ksmPrice = await getKSMUSD()
-      const floorPrice = formatPrice(nftPrice)
+      const floorPrice = formatPrice(nftPrice || '')
 
       offers.value = offersData.offers
 
@@ -166,10 +172,7 @@ watch(
 
         const token = `${price} ${symbol}`
         const usd = `$${Math.round(Number(price) * ksmPrice)}`
-        const floorDifference = `${getPercentage(
-          Number(price),
-          Number(floorPrice)
-        )}%`
+        const floorDifference = getPercentage(Number(price), Number(floorPrice))
 
         offersAdditionals.value[offer.id] = {
           token,
