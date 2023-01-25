@@ -8,7 +8,7 @@ import type { ActionList } from './types'
 function checkTsxList(item: ActionList) {
   const meta = Number(item.price)
 
-  if (!meta) {
+  if (Math.sign(meta) === -1) {
     dangerMessage('Price is not valid')
     return false
   }
