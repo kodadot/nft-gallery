@@ -21,7 +21,7 @@
           <div>
             <input
               v-model="price"
-              class="pl-3"
+              class="input-price pl-3"
               type="number"
               :placeholder="
                 isListed
