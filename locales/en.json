@@ -1160,6 +1160,10 @@
     "offer": {
       "success": "Offer successfully created",
       "error": "Offer creation failed"
+    },
+    "unlist": {
+      "success": "Item successfully unlisted",
+        "error": "Item unlisting failed"
     }
   },
   "createDropdown": {

@@ -1,19 +1,22 @@
 <template>
-  <NeoDropdown>
-    <NeoButton icon="ellipsis-v" />
+  <div>
+    <Loader v-model="isLoading" :status="status" />
+    <NeoDropdown>
+      <NeoButton icon="ellipsis-v" />
 
-    <template #items>
-      <NeoDropdownItem
-        v-if="mimeType.includes('image') && ipfsImage"
-        item="Download"
-        @click.native="downloadMedia" />
-      <NeoDropdownItem
-        v-if="accountId === currentOwner"
-        item="Delist"
-        @click.native="unlist" />
-      <NeoDropdownItem disabled item="Report" />
-    </template>
-  </NeoDropdown>
+      <template #items>
+        <NeoDropdownItem
+          v-if="mimeType.includes('image') && ipfsImage"
+          item="Download"
+          @click.native="downloadMedia" />
+        <NeoDropdownItem
+          v-if="accountId === currentOwner"
+          item="Delist"
+          @click.native="unlist" />
+        <NeoDropdownItem disabled item="Report" />
+      </template>
+    </NeoDropdown>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -24,7 +27,7 @@ import { ipfsToCf } from '@/utils/ipfs'
 
 const { $route, $i18n } = useNuxtApp()
 const { accountId } = useAuth()
-const { transaction } = useTransaction()
+const { transaction, isLoading, status } = useTransaction()
 const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
@@ -43,8 +46,8 @@ const unlist = () => {
     interaction: Interaction.UNLIST,
     urlPrefix: urlPrefix.value,
     nftId: $route.params.id,
-    successMessage: 'testing success' as string,
-    errorMessage: 'testing error' as string,
+    successMessage: $i18n.t('transaction.unlist.success') as string,
+    errorMessage: $i18n.t('transaction.unlist.error') as string,
   })
 }
 </script>
