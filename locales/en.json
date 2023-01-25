@@ -1157,6 +1157,10 @@
       "success": "Item sent",
       "error": "Failed to send item"
     },
+    "consume": {
+      "success": "Item burned",
+      "error": "Failed to burned item"
+    },
     "offer": {
       "success": "Offer successfully created",
       "error": "Offer creation failed"
