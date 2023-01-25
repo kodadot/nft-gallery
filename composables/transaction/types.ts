@@ -1,6 +1,14 @@
 import { Interaction } from '@kodadot1/minimark'
 import { ShoppingActions } from '@/utils/shoppingActions'
 
+export type ActionConsume = {
+  interaction: Interaction.CONSUME
+  urlPrefix: string
+  nftId: string
+  successMessage?: string
+  errorMessage?: string
+}
+
 export type ActionList = {
   interaction: Interaction.LIST
   urlPrefix: string
@@ -31,4 +39,4 @@ export type ActionOffer = {
   errorMessage?: string
 }
 
-export type Actions = ActionList | ActionSend | ActionOffer
+export type Actions = ActionList | ActionSend | ActionOffer | ActionConsume
