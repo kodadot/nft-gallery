@@ -5,7 +5,14 @@
       <span class="text__stroked is-size-3">{{ route.query.search }}</span>
     </div>
 
-    <div class="mb-5 explore-tabs field has-addons is-flex" data-cy="tabs">
+    <div
+      class="mb-5 explore-tabs field has-addons is-flex is-align-items-center"
+      data-cy="tabs">
+      <p class="control mr-4">
+        <a @click="toggleSidebarfilter">
+          <b-icon :icon="isSidebarOpen ? 'times' : 'bars'" size="is-medium" />
+        </a>
+      </p>
       <p class="control">
         <NeoButton
           class="explore-tabs-button"
@@ -44,8 +51,21 @@ enum TabType {
 
 const route = useRoute()
 const router = useRouter()
+const { $store } = useNuxtApp()
 
 const selectedTab = computed(() => route?.name?.split('-')[2])
+
+const isSidebarOpen = computed(
+  () => $store.getters['preferences/getSidebarfilterCollapse']
+)
+const toggleSidebarfilter = () =>
+  $store.dispatch('preferences/setSidebarfilterCollapse', !isSidebarOpen.value)
+
+const open = computed({
+  get: () => $store.getters['preferences/getSidebarfilterCollapse'],
+  set: (value) =>
+    $store.dispatch('preferences/setSidebarfilterCollapse', value),
+})
 
 const updateTab = (val) => {
   route.query.page = ''

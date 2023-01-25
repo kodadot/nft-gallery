@@ -1,6 +1,6 @@
 <template>
   <div class="gallery container">
-    <Search
+    <!-- <Search
       v-bind.sync="searchQuery"
       hide-search-input
       :is-moon-river="isMoonriver"
@@ -13,25 +13,30 @@
         :per-page="first"
         replace
         class="remove-margin" />
-    </Search>
+    </Search> -->
 
-    <div>
-      <InfiniteLoading
-        v-if="startPage > 1 && !isLoading && total > 0"
-        direction="top"
-        @infinite="reachTopHandler"></InfiniteLoading>
-      <div :id="scrollContainerId" class="columns is-multiline">
-        <div
-          v-for="(nft, index) in results"
-          :key="`${nft.id}-${index}`"
-          :class="`column is-4 column-padding ${scrollItemClassName}`">
-          <NftCard :nft="nft" :data-cy="`item-index-${index}`" />
-        </div>
+    <div class="is-flex">
+      <div>
+        <SidebarFilter />
       </div>
-      <InfiniteLoading
-        v-if="canLoadNextPage && !isLoading && total > 0"
-        @infinite="reachBottomHandler"></InfiniteLoading>
-      <ScrollTopButton />
+      <div>
+        <InfiniteLoading
+          v-if="startPage > 1 && !isLoading && total > 0"
+          direction="top"
+          @infinite="reachTopHandler"></InfiniteLoading>
+        <div :id="scrollContainerId" class="columns is-multiline">
+          <div
+            v-for="(nft, index) in results"
+            :key="`${nft.id}-${index}`"
+            :class="`column is-4 column-padding ${scrollItemClassName}`">
+            <NftCard :nft="nft" :data-cy="`item-index-${index}`" />
+          </div>
+        </div>
+        <InfiniteLoading
+          v-if="canLoadNextPage && !isLoading && total > 0"
+          @infinite="reachBottomHandler"></InfiniteLoading>
+        <ScrollTopButton />
+      </div>
     </div>
   </div>
 </template>
@@ -60,10 +65,9 @@ import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { NFT, NFTMetadata } from '../../rmrk/service/scheme'
-import { SearchQuery } from './search/types'
+import { SearchQuery } from '@/components/search/types'
 import { getNameOfNft } from '../../rmrk/utils'
 import { getSanitizer } from '@/utils/ipfs'
-// import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -83,6 +87,7 @@ const components = {
   CarouselMedia: () => import('@/components/carousel/module/CarouselMedia.vue'),
   CarouselInfo: () => import('@/components/carousel/module/CarouselInfo.vue'),
   NftCard: () => import('./NftCard.vue'),
+  SidebarFilter: () => import('./SidebarFilter.vue'),
 }
 
 @Component<Gallery>({
@@ -94,8 +99,8 @@ export default class Gallery extends mixins(
   InfiniteScrollMixin,
   AuthMixin
 ) {
-  private nfts: NFTWithCollectionMeta[] = []
-  private searchQuery: SearchQuery = {
+  public nfts: NFTWithCollectionMeta[] = []
+  public searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
     sortByMultiple: this.$route.query?.sort?.toString()
@@ -106,9 +111,7 @@ export default class Gallery extends mixins(
     priceMin: undefined,
     priceMax: undefined,
   }
-  protected isLoading = true
-  // private hasPassionFeed = false
-  // private passionList: string[] = []
+  public isLoading = true
 
   get showPriceValue(): boolean {
     return (
@@ -139,7 +142,7 @@ export default class Gallery extends mixins(
   }
 
   @Debounce(500)
-  private resetPage() {
+  public resetPage() {
     this.gotoPage(1)
   }
 
@@ -160,9 +163,6 @@ export default class Gallery extends mixins(
     this.isFetchingData = true
     const query = await resolveQueryPath(this.client, 'nftListWithSearch')
 
-    // if (this.hasPassionFeed) {
-    //   await this.fetchPassionList()
-    // }
     const result = await this.$apollo.query({
       query: query.default,
       client: this.client,
@@ -284,12 +284,6 @@ export default class Gallery extends mixins(
       }
     }
 
-    // if (this.hasPassionFeed) {
-    //   params.push({
-    //     issuer: { in: this.passionList },
-    //   })
-    // }
-
     return params
   }
 
@@ -304,15 +298,6 @@ export default class Gallery extends mixins(
       this.searchQuery.search = val || ''
     }
   }
-
-  // @Watch('hasPassionFeed')
-  // protected async onHasPassionFeed() {
-  //   try {
-  //     this.resetPage()
-  //   } catch (e) {
-  //     showNotification((e as Error).message, notificationTypes.danger)
-  //   }
-  // }
 
   @Watch('searchQuery', { deep: true })
   protected onSearchQueryChange() {
