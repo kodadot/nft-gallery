@@ -10,14 +10,6 @@ export type ActionList = {
   errorMessage?: string
 }
 
-export type ActionUnlist = {
-  interaction: Interaction.UNLIST
-  urlPrefix: string
-  nftId: string
-  successMessage?: string
-  errorMessage?: string
-}
-
 export type ActionSend = {
   interaction: Interaction.SEND
   urlPrefix: string
@@ -39,4 +31,4 @@ export type ActionOffer = {
   errorMessage?: string
 }
 
-export type Actions = ActionList | ActionSend | ActionOffer | ActionUnlist
+export type Actions = ActionList | ActionSend | ActionOffer

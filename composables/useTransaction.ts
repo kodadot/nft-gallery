@@ -5,13 +5,11 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 import { execListTx } from './transaction/transactionList'
 import { execSendTx } from './transaction/transactionSend'
 import { exectMakeOfferTx } from './transaction/transactionOffer'
-import { execUnlistTx } from './transaction/transactionUnlist'
 
 import type {
   ActionList,
   ActionOffer,
   ActionSend,
-  ActionUnlist,
   Actions,
 } from './transaction/types'
 
@@ -51,8 +49,6 @@ export const useTransaction = () => {
         execSendTx(item as ActionSend, api, executeTransaction),
       [ShoppingActions.MAKE_OFFER]: () =>
         exectMakeOfferTx(item as ActionOffer, api, executeTransaction),
-      [Interaction.UNLIST]: () =>
-        execUnlistTx(item as ActionUnlist, api, executeTransaction),
     }
 
     return map[item.interaction]?.() ?? 'UNKNOWN'

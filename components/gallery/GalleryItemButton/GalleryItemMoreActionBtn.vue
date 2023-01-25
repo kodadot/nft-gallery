@@ -44,9 +44,10 @@ const downloadMedia = () => {
 
 const unlist = () => {
   transaction({
-    interaction: Interaction.UNLIST,
+    interaction: Interaction.LIST,
     urlPrefix: urlPrefix.value,
     nftId: $route.params.id,
+    price: '0',
     successMessage: $i18n.t('transaction.unlist.success') as string,
     errorMessage: $i18n.t('transaction.unlist.error') as string,
   })
