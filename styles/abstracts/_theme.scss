@@ -1,0 +1,48 @@
+$themes: (
+  'light-mode': (
+    'white': #ffffff,
+    'black': #000000,
+    'text-color': #000000,
+    'text-color-inverse': #ffffff,
+    'k-accent': #ff7ac3,
+    'k-accentlight': #ffe5f3,
+    'k-accentlight2': #fff0f8,
+    'k-green': #04af00,
+    'k-red': #ff5757,
+    'k-grey': #999999,
+    'k-hovergrey': #6b6b6b,
+    'k-blue': #6188e7,
+    'k-shade': #cccccc,
+    'primary-shadow': 4px 4px $black,
+  ),
+  'dark-mode': (
+    'white': #ffffff,
+    'black': #000000,
+    'text-color': #ffffff,
+    'text-color-inverse': #000000,
+    'k-accent': #191718,
+    'k-accentlight': #ffe5f3,
+    'k-accentlight2': #363234,
+    'k-green': #04af00,
+    'k-red': #ff5757,
+    'k-grey': #999999,
+    'k-hovergrey': #6b6b6b,
+    'k-blue': #6188e7,
+    'k-shade': #cccccc,
+    'primary-shadow': 4px 4px $white,
+  ),
+);
+
+@mixin ktheme() {
+  @each $theme, $map in $themes {
+    $theme-map: $map !global;
+    .#{$theme} & {
+      @content;
+    }
+  }
+  $theme-map: null !global;
+}
+
+@function theme($key) {
+  @return map-get($theme-map, $key);
+}
