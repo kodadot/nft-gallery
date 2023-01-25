@@ -8,11 +8,13 @@
     <div
       class="mb-5 explore-tabs field has-addons is-flex is-align-items-center"
       data-cy="tabs">
-      <p class="control mr-4">
-        <a @click="toggleSidebarfilter">
+      <div class="mr-4">
+        <a
+          :class="{ disabled: selectedTab === TabType.COLLECTION }"
+          @click="toggleSidebarfilter">
           <b-icon :icon="isSidebarOpen ? 'times' : 'bars'" size="is-medium" />
         </a>
-      </p>
+      </div>
       <p class="control">
         <NeoButton
           class="explore-tabs-button"
@@ -61,12 +63,6 @@ const isSidebarOpen = computed(
 const toggleSidebarfilter = () =>
   $store.dispatch('preferences/setSidebarfilterCollapse', !isSidebarOpen.value)
 
-const open = computed({
-  get: () => $store.getters['preferences/getSidebarfilterCollapse'],
-  set: (value) =>
-    $store.dispatch('preferences/setSidebarfilterCollapse', value),
-})
-
 const updateTab = (val) => {
   route.query.page = ''
   let queryOptions: {
@@ -75,6 +71,10 @@ const updateTab = (val) => {
   } = {
     page: '1',
   }
+  if (val === TabType.COLLECTION) {
+    $store.dispatch('preferences/setSidebarfilterCollapse', false)
+  }
+
   if (route.query.search) {
     queryOptions.search = route.query.search
   }
@@ -85,9 +85,14 @@ const updateTab = (val) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
+a.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 .explore-tabs {
   &-button {
     width: 15rem;
