@@ -236,5 +236,9 @@ onClickOutside(actionRef, () => {
       padding-left: 0;
     }
   }
+
+  @include until-widescreen {
+    width: 100%;
+  }
 }
 </style>

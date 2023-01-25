@@ -1,0 +1,21 @@
+query collectionStatsById($id: String!) {
+  stats: collectionEntityById(id: $id) {
+    id
+    base: nfts(where: { burned_eq: false }) {
+      id
+      currentOwner
+      issuer
+    }
+    listed: nfts(where: { price_gt: "0" }) {
+      id
+      price
+  	}
+    sales: nfts(where: { events_some: { interaction_eq: BUY } }) {
+      id
+      events(where: { interaction_eq: BUY }) {
+        id,
+        meta
+      }
+    }
+  }
+}
