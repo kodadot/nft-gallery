@@ -10,7 +10,7 @@
           item="Download"
           @click.native="downloadMedia" />
         <NeoDropdownItem
-          v-if="accountId === currentOwner"
+          v-if="accountId === currentOwner && price !== '0'"
           item="Delist"
           @click.native="unlist" />
         <NeoDropdownItem disabled item="Report" />
@@ -35,6 +35,7 @@ const props = defineProps<{
   name?: string
   ipfsImage?: string
   currentOwner?: string
+  price?: string
 }>()
 
 const downloadMedia = () => {
