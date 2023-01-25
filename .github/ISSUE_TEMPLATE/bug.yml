@@ -38,13 +38,13 @@ body:
       label: What browsers are you seeing the problem on?
       multiple: true
       options:
-        - Chrome
-        - Firefox
-        - Safari
-        - Microsoft Edge
+        - Desktop Chrome
+        - Desktop Firefox
+        - Desktop Safari
         - Mobile Android Chrome
-        - Mobile iOS Safari
+        - Mobile iOS Safari (WebKit)
         - Mobile Firefox
+        - Other
   - type: dropdown
     id: beta-yes-no
     attributes:
@@ -70,6 +70,7 @@ body:
         - PolkadotJS
         - Talisman
         - SubWallet
+        - Nova Wallet
   - type: dropdown
     id: wallet-selector
     attributes:

@@ -10,6 +10,10 @@
           item="Download"
           @click.native="downloadMedia" />
         <NeoDropdownItem
+          v-if="currentOwner === accountId"
+          item="Burn"
+          @click.native="burn" />
+        <NeoDropdownItem
           v-if="accountId === currentOwner && price !== '0'"
           item="Delist"
           @click.native="unlist" />
@@ -40,6 +44,16 @@ const props = defineProps<{
 
 const downloadMedia = () => {
   props.ipfsImage && downloadImage(ipfsToCf(props.ipfsImage), props.name)
+}
+
+const burn = () => {
+  transaction({
+    interaction: Interaction.CONSUME,
+    urlPrefix: urlPrefix.value,
+    nftId: $route.params.id,
+    successMessage: $i18n.t('transaction.consume.success') as string,
+    errorMessage: $i18n.t('transaction.consume.error') as string,
+  })
 }
 
 const unlist = () => {
