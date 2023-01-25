@@ -79,7 +79,7 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 import { simpleDivision } from '@/utils/balance'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
-import WalletModal from '@/components/common/WalletModal.vue'
+import ConnectWalletModal from '@/components/common/ConnectWallet/ConnectWalletModal.vue'
 import Vue from 'vue'
 
 const Loader = defineAsyncComponent(
@@ -135,9 +135,7 @@ function toggleActive() {
   if (!connected.value) {
     $buefy.modal.open({
       parent: root?.value,
-      component: WalletModal,
-      hasModalCard: true,
-      trapFocus: true,
+      component: ConnectWalletModal,
       canCancel: true,
     })
     return
