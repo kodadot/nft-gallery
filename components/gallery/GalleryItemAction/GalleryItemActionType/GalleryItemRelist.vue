@@ -12,6 +12,7 @@
             "
             size="large"
             fixed-width
+            :variant="isListed ? '' : 'k-accent'"
             no-shadow
             @click.native="updatePrice" />
         </template>
@@ -55,7 +56,7 @@ const props = defineProps<{
 
 const active = ref(false)
 const price = ref()
-const isListed = computed(() => Boolean(props.nftPrice))
+const isListed = computed(() => Boolean(Number(props.nftPrice)))
 
 const actionRef = ref(null)
 onClickOutside(actionRef, () => (active.value = false))
