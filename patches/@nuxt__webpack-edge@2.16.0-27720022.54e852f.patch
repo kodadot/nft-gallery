@@ -1,0 +1,22 @@
+diff --git a/dist/webpack.js b/dist/webpack.js
+index ebe49a8ca15f09b4fb82af6ac0a8294fc117a02c..620e4a676899ca746dbe57693f3893d674e54bb6 100644
+--- a/dist/webpack.js
++++ b/dist/webpack.js
+@@ -41,6 +41,7 @@ const createResolver = require('postcss-import-resolver');
+ const Watchpack = require('watchpack');
+ const objectToMap = require('webpack/lib/util/objectToMap');
+ const nodeExternals = require('webpack-node-externals');
++const h3 = require('h3')
+ 
+ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+ 
+@@ -1992,7 +1993,8 @@ class WebpackBundler {
+         }
+       )
+     );
+-    await this.buildContext.nuxt.callHook("server:devMiddleware", this.middleware);
++    // await this.buildContext.nuxt.callHook("server:devMiddleware", this.middleware);
++    await this.buildContext.nuxt.callHook("server:devHandler", h3.fromNodeMiddleware(this.middleware));
+   }
+   async middleware(req, res, next) {
+     const name = utilsEdge.isModernRequest(req, this.buildContext.options.modern) ? "modern" : "client";
