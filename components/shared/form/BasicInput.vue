@@ -1,5 +1,5 @@
 <template>
-  <b-field :label="$t(label)">
+  <b-field :label="$i18n.t(label)">
     <b-input
       ref="input"
       v-model="vValue"
@@ -19,26 +19,34 @@
   </b-field>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Ref, VModel, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+const vValue = ref('')
+const { $i18n } = useNuxtApp()
 
-@Component
-export default class BasicInput extends Vue {
-  // Dev: make vValue required
-  @VModel({ type: String }) vValue!: string
-  @Prop({ type: String, required: true }) label!: string
-  @Prop({ type: String, required: true }) placeholder!: string
-  @Prop({ type: Boolean, default: false }) expanded!: boolean
-  @Prop({ type: String }) message!: string
-  @Prop({ type: String, required: false }) maxlength!: string
-  @Prop({ type: String, required: false }) type!: string
-  @Prop({ type: Boolean, default: false }) required!: boolean
-  @Prop({ type: Boolean, default: false }) disabled!: boolean
-  @Ref('input') readonly input
-  protected hasFocus = false
-  public checkValidity() {
-    return this.input.checkHtml5Validity()
+withDefaults(
+  defineProps<{
+    label: string
+    placeholder: string
+    expanded?: boolean
+    message?: string
+    maxlength?: string
+    type?: string
+    required?: boolean
+    disabled?: boolean
+  }>(),
+  {
+    expanded: false,
+    type: '',
+    required: false,
+    disabled: false,
   }
+)
+
+const input = ref<{ checkHtml5Validity: () => void } | null>(null)
+
+const hasFocus = ref(false)
+const checkValidity = () => {
+  return input.value?.checkHtml5Validity()
 }
 </script>
 
