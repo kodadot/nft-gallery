@@ -4,7 +4,7 @@
       size="is-medium"
       :icon-right="walletIcon"
       expanded
-      class="px-5 my-1 is-flex is-justify-content-space-between is-align-items-center"
+      class="px-5 my-0 is-flex is-justify-content-space-between is-align-items-center"
       @click="onClickWallet(wallet)">
       <b-image
         :src="wallet.img"
@@ -14,18 +14,26 @@
     </b-button>
 
     <div v-if="walletAccounts.length && showAccountList" class="account-list">
-      <a
+      <div
         v-for="option in walletAccounts"
         :key="option.address"
-        class="mx-5 my-2 pl-5 is-flex is-align-items-center account-item"
-        :value="option.address"
-        @click="emitAccountChange(option.address)">
-        <Avatar :size="33" :value="option.address" class="mr-2 image-outline" />
-        <div class="is-flex is-flex-direction-column">
-          <span class="has-text-grey is-size-7">{{ option.name }}</span>
-          <div>{{ shortAddress(option.address, 6, -3) }}</div>
-        </div>
-      </a>
+        class="mx-5 py-1 account-item">
+        <a
+          class="pl-5 is-flex is-align-items-center"
+          :value="option.address"
+          @click="emitAccountChange(option.address)">
+          <Avatar
+            :size="33"
+            :value="option.address"
+            class="mr-2 image-outline" />
+          <div class="is-flex is-flex-direction-column">
+            <span class="has-text-grey is-size-7">{{ option.name }}</span>
+            <div>
+              {{ shortAddress(option.address, 6, -3) }}
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </template>

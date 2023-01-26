@@ -68,7 +68,7 @@ import { tokenIdToRoute } from '@/components/unique/utils'
 import { JustInteraction, createInteraction } from '@kodadot1/minimark'
 import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import useRmrkVersion from '@/composables/useRmrkVersion'
-import ConnectWalletModal from '@/components/common/ConnectWallet/ConnectWalletModal.vue'
+import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 
 import Vue from 'vue'
 
@@ -121,8 +121,7 @@ function onClick() {
   if (!connected.value) {
     $buefy.modal.open({
       parent: root?.value,
-      component: ConnectWalletModal,
-      canCancel: true,
+      ...ConnectWalletModalConfig,
     })
     return
   }

@@ -1,76 +1,105 @@
-
-.wallet-modal-container {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100%;
-  padding-top: 72px;
-  border-left: 1px solid $k-dark;
-  @include mobile {
-    padding-top: 58px;
+.connect-wallet-modal {
+  .modal-content {
+    border: none;
   }
-  @include ktheme() {
-    background: theme('background-color');
+  .modal-background {
+    background-color: rgba(0, 0, 0, 0.17);
   }
-
-  max-width: 360px;
-  height: 100%;
-
-  .more-option-button {
-    &:hover {
-      @include ktheme() {
-        color: theme('k-hovergrey') !important;
-      }
+  .wallet-modal-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding-top: 72px;
+    border-left: 1px solid $k-dark;
+    @include mobile {
+      padding-top: 58px;
     }
     @include ktheme() {
-      border-top: 1px solid theme('k-shade');
+      background: theme('background-color');
     }
-  }
 
-  .modal-card-head {
-    background: unset;
-    border-bottom: 1px solid #000000;
-  }
+    max-width: 360px;
+    height: 100%;
 
-  .modal-card-body {
-    padding: 0;
-    background-color: unset;
-    display: block;
-  }
-
-
-
-  footer {
-    border-top: 1px solid #000000;
-  }
-
-  .confirm-button {
-    width: 100%;
-  }
-
-
-  .wallet-menu-item {
-    width: 100%;
-    .button {
-      border: none;
-      box-shadow: none !important;
-      .icon {
-        margin-right: 0 !important;
-      }
+    .more-option-button {
       &:hover {
-        background-color: $k-accentlight2 !important;
+        @include ktheme() {
+          color: theme('k-hovergrey') !important;
+        }
+      }
+      @include ktheme() {
+        border-top: 1px solid theme('k-shade');
       }
     }
-    .account-list {
-      .account-item {
-        border-left: 1px solid $grey-light;
-        &:hover {
-          background-color: $k-accentlight2;
+
+    .modal-card-head {
+      background: unset;
+      border-bottom: 1px solid #000000;
+    }
+
+    .modal-card-body {
+      padding: 0;
+      background-color: unset;
+      display: block;
+    }
+
+
+
+    footer {
+      border-top: 1px solid #000000;
+    }
+
+    .confirm-button {
+      width: 100%;
+      height: 2.2rem;
+      font-size: 1rem;
+      @include ktheme() {
+        box-shadow: theme('primary-shadow');
+      }
+
+    }
+
+
+    .wallet-menu-item {
+      width: 100%;
+      .button {
+        border: none;
+        border-radius: 0;
+        box-shadow: none !important;
+        .icon {
+          margin-right: 0 !important;
+        }
+        @include ktheme() {
+          color: theme('text-color');
+          &:hover {
+            background-color: theme('k-accentlight2') !important;
+          }
+        }
+      }
+      .account-list {
+        .account-item {
+          a {
+            border-left: 1px solid $grey-light;
+            @include ktheme() {
+              color: theme('text-color');
+
+              &:hover {
+                color: theme('text-color');
+              }
+            }
+          }
+          &:hover {
+            @include ktheme() {
+              background-color: theme('k-accentlight2') !important;
+            }
+          }
         }
       }
     }
   }
 }
+
 
 
 .dark-mode {

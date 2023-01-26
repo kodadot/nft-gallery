@@ -1,6 +1,6 @@
 <template>
   <div class="wallet-modal-container is-flex is-flex-direction-column">
-    <header class="modal-card-head p-4">
+    <header class="modal-card-head py-4 px-5">
       <b-button
         v-show="hasSelectedWalletProvider"
         type="is-text"
@@ -16,7 +16,27 @@
           )
         }}
       </span>
-      <button type="button" class="delete p-0" @click="emit('close')"></button>
+      <div @click="emit('close')">
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 15 15"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <line
+            x1="0.33914"
+            y1="0.632598"
+            x2="13.3391"
+            y2="12.6326"
+            stroke="currentColor" />
+          <line
+            x1="0.646447"
+            y1="12.6464"
+            x2="12.6464"
+            y2="0.646447"
+            stroke="currentColor" />
+        </svg>
+      </div>
     </header>
     <section v-if="hasUserWalletAuth" class="modal-card-body">
       <div class="buttons m-0">
@@ -50,12 +70,25 @@
       </div>
       <b-field>
         <NeoButton
-          :label="`${$i18n.t('walletConnect.confirm')} >`"
           size="medium"
           variant="k-accent"
           class="confirm-button"
-          no-shadow
-          @click.native="setUserAuthValue" />
+          @click.native="setUserAuthValue">
+          <span class="is-flex is-align-items-center is-justify-content-center">
+            {{ $i18n.t('walletConnect.confirm') }}
+            <svg
+              class="ml-2"
+              width="13"
+              height="13"
+              viewBox="0 0 13 13"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M4.675 1.5L3.5 2.67498L7.31667 6.49992L3.5 10.3249L4.675 11.4998L9.675 6.49992L4.675 1.5Z"
+                fill="currentColor" />
+            </svg>
+          </span>
+        </NeoButton>
       </b-field>
     </section>
 
