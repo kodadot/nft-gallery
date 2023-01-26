@@ -121,21 +121,13 @@
 <script lang="ts" setup>
 import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
-import shouldUpdate from '@/utils/shouldUpdate'
-import { formatAddress } from '@/utils/account'
-import ChainMixin from '~/utils/mixins/chainMixin'
 import { NeoButton } from '@kodadot1/brick'
-import shortAddress from '@/utils/shortAddress'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem'
 
-const { chainProperties } = useChain()
-const { $store, $buefy, $consola } = useNuxtApp()
+const { $store } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const hasSelectedWalletProvider = ref(false)
-const hasWalletProviderExtension = ref(false)
 const showUninstalledWallet = ref(false)
-const guideUrl = ref('')
-const extensionUrl = ref('')
 const walletAccounts = ref<WalletAccount[]>([])
 const account = ref<string>($store.getters.getAuthAddress)
 const hasUserWalletAuth = ref(
