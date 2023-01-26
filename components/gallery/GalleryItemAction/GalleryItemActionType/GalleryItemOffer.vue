@@ -19,7 +19,7 @@
         <template #action>
           <NeoButton
             v-if="active && !confirm"
-            :disabled="insufficientFunds"
+            :disabled="disabledButton"
             label="Confirm 1/2"
             size="large"
             fixed-width
@@ -124,12 +124,16 @@ const confirm = ref(false)
 const days = [7, 14, 30]
 const selectedDay = ref(14)
 
-const insufficientFunds = computed(
+const disabledButton = computed(
   () =>
     !(
       offerPrice.value &&
       Number(offerPrice.value) < simpleDivision(balance.value, decimals.value)
     )
+)
+
+const insufficientFunds = computed(
+  () => !simpleDivision(balance.value, decimals.value)
 )
 function toggleActive() {
   if (insufficientFunds.value) {
