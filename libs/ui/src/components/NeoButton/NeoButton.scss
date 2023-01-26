@@ -1,138 +1,91 @@
 @import '@oruga-ui/oruga/src/scss/oruga-full.scss';
 @import '../../scss/variable.scss';
+@import '../../scss/theme.scss';
 
 .is-neo {
   border-radius: 0;
-  color: $black;
-  background: $white;
-  border: 1px solid $black;
-  -webkit-box-shadow: 4px 4px $black;
-  box-shadow: 4px 4px $black;
   font-family: inherit;
   padding-top: 8px;
   padding-bottom: 8px;
 
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+    border: 1px solid theme('text-color');
+    color: theme('text-color');
+    background: theme('text-color-inverse');
+  }
+
   &:hover {
-    background: $k-accentlight;
+    @include ktheme() {
+      background: theme('k-accentHover');
+    }
   }
 
   &.active {
-    background-color: black;
-    color: white;
+    @include ktheme() {
+      background-color: theme('text-color');
+      color: theme('text-color-inverse');
+    }
   }
 }
 
 .o-btn {
   &--k-accent {
-    background-color: $k-accent;
-
-    &:hover {
-      background: $white;
+    @include ktheme() {
+      background-color: theme('k-primary');
+      color: theme('black');
+      &:hover {
+        background: theme('text-color-inverse');
+        color: theme('text-color');
+      }
     }
+
     &.o-btn--disabled {
       opacity: unset;
-      background-color: $shade;
-      color: $k-grey;
-      border-color: $k-grey;
+      @include ktheme() {
+        background-color: theme('k-shade');
+        color: theme('k-grey');
+        border-color: theme('k-grey');
+      }
     }
   }
 
   &--k-blue {
-    background-color: $k-blue;
-
-    &:hover {
-      background: $white;
+    @include ktheme() {
+      background-color: theme('k-blue');
+      color: theme('black');
+      &:hover {
+        background: theme('text-color-inverse');
+        color: theme('text-color');
+      }
     }
     &.o-btn--disabled {
       opacity: unset;
-      background-color: $shade;
-      color: $k-grey;
-      border-color: $k-grey;
+
+      @include ktheme() {
+        background-color: theme('k-shade');
+        color: theme('k-grey');
+        border-color: theme('k-grey');
+      }
     }
   }
 
   &--connect-dropdown {
     width: 120px;
     height: 40px;
-    background: $white;
 
-    &:hover {
-      border: 1px solid $black;
-      background: $k-accentlight !important;
-      color: $black !important;
+    @include ktheme() {
+      background-color: theme('text-color-inverse');
+      &:hover {
+        background-color: theme('k-accentHover');
+        color: theme('text-color');
+        border: 1px solid theme('text-color');
+      }
     }
   }
 
   &.no-shadow {
     box-shadow: none;
-  }
-}
-
-.dark-mode {
-  .is-neo {
-    color: $white;
-    background: $k-dark;
-    border: 1px solid $white;
-    -webkit-box-shadow: $primary-shadow-dark;
-    box-shadow: $primary-shadow-dark;
-
-    &:hover {
-      background: $k-accent;
-      color: $black;
-    }
-    &.active {
-      background-color: white;
-      color: black;
-    }
-  }
-
-  .o-btn {
-    &--k-accent {
-      background: $k-accent;
-      color: $black;
-
-      &:hover {
-        background: $k-dark;
-        color: $white;
-      }
-
-      &.o-btn--disabled {
-        opacity: unset;
-        background-color: $k-grey;
-        color: $shade;
-        border-color: $shade;
-      }
-    }
-
-    &--k-blue {
-      background-color: $k-blue;
-      color: $black;
-
-      &:hover {
-        background: $k-dark;
-        color: $white;
-      }
-      &.o-btn--disabled {
-        opacity: unset;
-        background-color: $k-grey;
-        color: $shade;
-        border-color: $shade;
-      }
-    }
-
-    &--connect-dropdown {
-      background: $k-dark !important;
-
-      &:hover {
-        border: 1px solid $white !important;
-        background: $k-accent !important;
-        color: $black !important;
-      }
-    }
-
-    &.no-shadow {
-      box-shadow: none;
-    }
   }
 }
 

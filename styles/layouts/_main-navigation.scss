@@ -1,49 +1,13 @@
 @include touch {
-  html.dark-mode {
-    .navbar {
-      &-item {
-        border-color: $white !important;
-        .menu-item {
-          color: $white;
-        }
-
-        &--reverse {
-          background-color: $white !important;
-          color: $black !important;
-        }
-
-        &--fullpage {
-          background-color: $background-dark !important;
-        }
-      }
-
-      .mobile-language {
-        a {
-          color: $white;
-        }
-
-        .is-active {
-          background-color: $white;
-          a {
-            color: $black;
-          }
-        }
-      }
-
-      .fixed-stack {
-        background-color: $black;
-      }
-      .cancel-btn {
-        background-color: $black !important;
-      }
-    }
-  }
-
   .navbar {
     .navbar-menu {
-      border-top: 1px solid $black;
       width: 100vw;
       height: 100vh;
+
+      @include ktheme() {
+        border-top: 1px solid theme('text-color');
+        background: theme('text-color-inverse');
+      }
 
       @include mobile {
         padding: 0;
@@ -55,10 +19,17 @@
 
         .navbar-item {
           padding: 24px 20px;
-          border-bottom: 1px solid black;
+          @include ktheme() {
+            border-bottom: 1px solid theme('text-color');
+            &:hover {
+              color: theme('text-color');
+            }
+          }
 
           &.is-active {
-            border-top: 1px solid white;
+            @include ktheme() {
+              border-top: 1px solid theme('text-color-inverse');
+            }
           }
 
           &--noBorder {
@@ -86,15 +57,20 @@
           &--fullpage {
             position: fixed;
             top: 59px;
-            background-color: $white;
             height: 100vh;
             width: 100%;
             z-index: 100;
+
+            @include ktheme() {
+              background-color: theme('text-color-inverse');
+            }
           }
 
           &--reverse {
-            background-color: black;
-            color: white;
+            @include ktheme() {
+              background-color: theme('text-color');
+              color: theme('text-color-inverse');
+            }
           }
 
           .navbar-link {
@@ -104,15 +80,18 @@
 
         #NavProfile {
           .button-connect-wallet {
-            box-shadow: $primary-shadow;
             width: 80%;
             height: 67px;
             border-radius: 0;
             display: block;
             margin: 0 auto 20px;
             text-transform: capitalize;
-            background-color: $k-accent !important;
-            color: $black !important;
+
+            @include ktheme() {
+              box-shadow: theme('primary-shadow');
+              color: theme('black');
+              background: theme('k-primary');
+            }
           }
         }
       }
@@ -122,7 +101,9 @@
       margin-left: 0 !important;
       .navbar-item {
         &:hover {
-          color: $k-hovergrey !important;
+          @include ktheme() {
+            color: theme('k-grey');
+          }
         }
       }
       .dropdown-trigger {
@@ -145,10 +126,6 @@
       .dropdown-trigger .button {
         width: 40vw;
       }
-
-      .navbar-dropdown a {
-        color: $black !important;
-      }
     }
 
     .dropdown.is-mobile-modal > .dropdown-menu {
@@ -156,24 +133,10 @@
       transform: translate3d(-50%, 10%, 0);
       width: 100%;
     }
-
-    .mobile-language {
-      a {
-        color: $black;
-      }
-
-      .is-active {
-        background-color: $black;
-        a {
-          color: $white;
-        }
-      }
-    }
   }
 }
 
 .navbar {
-  background-color: inherit;
   transform: translateZ(0px);
   transition: 0.3s ease;
   -webkit-transition: 0.3s ease;
@@ -181,7 +144,11 @@
   min-height: 72px;
   width: 100vw;
   background: $white;
-  border-bottom: 1px solid black;
+
+  @include ktheme() {
+    background-color: theme('text-color-inverse');
+    border-bottom: 1px solid theme('text-color');
+  }
 
   @include mobile {
     min-height: 60px;
@@ -196,7 +163,9 @@
         .button {
           height: 40px;
           &:hover {
-            background-color: $k-accentlight;
+            @include ktheme() {
+              background-color: theme('k-accentHover');
+            }
           }
         }
       }
@@ -207,6 +176,10 @@
     padding-top: 8px;
     padding-bottom: 8px;
     font-size: 16px;
+
+    @include ktheme() {
+      color: theme('text-color');
+    }
   }
 
   &.navbar-shrink {
@@ -220,7 +193,6 @@
     text-transform: capitalize;
     font-weight: 500;
     cursor: pointer;
-    color: $black;
     border-radius: 0 !important;
 
     @include ktheme() {
@@ -228,7 +200,7 @@
     }
     &:hover {
       @include ktheme() {
-        color: theme('k-hovergrey');
+        color: theme('k-grey');
       }
       background-color: inherit;
     }
@@ -240,8 +212,10 @@
     .navbar-burger {
       height: 2.5em;
       width: 2.5em;
-      color: $black;
-      background-color: $white;
+      @include ktheme() {
+        background-color: theme('text-color-inverse');
+        color: theme('text-color');
+      }
     }
   }
 
@@ -275,33 +249,10 @@
     }
   }
 
-  &__button {
-    border: 0;
-    border-top: 2px solid $primary !important;
-  }
-
   &__avatar-icon {
-    border: 1.5px solid $black;
     border-radius: 24.5px;
-  }
-
-  &__address {
-    text-transform: none;
-    color: $k-blue;
-  }
-
-  #NavProfile {
-    .button.is-primary {
-      background: $k-accent;
-      border: 1px solid $black !important;
-      border-radius: 0;
-      z-index: 3;
-      box-shadow: none;
-      text-transform: capitalize;
-
-      &:hover {
-        background: $white;
-      }
+    @include ktheme() {
+      border: 1.5px solid theme('text-color');
     }
   }
 
@@ -320,21 +271,31 @@
     width: max-content;
   }
   .dropdown-content {
-    border: 1px solid $black;
-    box-shadow: 4px 4px 0px $black;
     border-radius: 0;
     user-select: none;
     padding: 0;
     width: 100%;
     max-height: 600px;
 
+    @include ktheme() {
+      box-shadow: theme('primary-shadow');
+      border: 1px solid theme('text-color');
+    }
+
     .has-link:hover {
-      background-color: $k-accentlight !important;
+      @include ktheme() {
+        background-color: theme('k-accentHover');
+      }
     }
     .is-active,
     .is-active > a {
-      background-color: $black !important;
-      color: $white !important;
+      @include ktheme() {
+        color: theme('text-color-inverse') !important;
+        background: theme('text-color');
+        &:hover {
+          background: theme('text-color') !important;
+        }
+      }
     }
 
     .dropdown-item {
@@ -343,21 +304,18 @@
   }
 
   .dropdown .dropdown-menu .has-link {
-    border-top: 1px solid $black;
     border-radius: 0;
     &:first-child {
-      border-top: none;
+      border-top: none !important;
+    }
+
+    @include ktheme() {
+      border-top: 1px solid theme('text-color');
     }
 
     a:hover {
-      background-color: $k-accentlight !important;
-    }
-    &.is-active {
-      background-color: $black !important;
-      color: $white !important;
-
-      a:hover {
-        background-color: $black !important;
+      @include ktheme() {
+        background-color: theme('k-accentHover');
       }
     }
   }
@@ -380,15 +338,24 @@
       &.is-active {
         font-weight: bold;
         background-color: transparent !important;
-        color: $black !important;
+        @include ktheme() {
+          color: theme('text-color') !important;
+          &:hover {
+            background-color: transparent !important;
+          }
+        }
       }
       &:hover {
         background-color: transparent !important;
-        color: $k-hovergrey !important;
+        @include ktheme() {
+          color: theme('k-hovergrey') !important;
+        }
       }
       &.is-disabled {
         cursor: not-allowed;
-        color: $shade;
+        @include ktheme() {
+          color: theme('k-shade');
+        }
       }
     }
   }
@@ -398,17 +365,17 @@
       display: flex;
       justify-content: center;
       padding: 7px 0px;
-      border-bottom: 1px solid $black;
       font-size: 16px;
-      &:hover {
-        background-color: $k-accentlight;
+      @include ktheme() {
+        border-bottom: 1px solid theme('text-color');
+        &:hover {
+          background-color: theme('k-accentHover');
+        }
       }
     }
   }
 
   .fixed-stack {
-    border-bottom: 1px solid black;
-    background-color: $white;
     box-sizing: border-box;
     position: fixed;
     width: 100%;
@@ -418,6 +385,11 @@
     z-index: 989;
     border-radius: 0;
     overflow: hidden;
+
+    @include ktheme() {
+      border-bottom: 1px solid theme('text-color');
+      background: theme('text-color-inverse');
+    }
 
     .dropdown-menu {
       $navbar-height: 70px;
@@ -481,6 +453,8 @@
   }
 
   .dropdown-divider {
-    color: $k-grey;
+    @include ktheme() {
+      color: theme('k-grey');
+    }
   }
 }

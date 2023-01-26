@@ -10,7 +10,7 @@
     <template #trigger>
       <slot name="trigger" />
     </template>
-    <div class="popover-content-container p-5 ms-dos-shadow">
+    <div class="popover-content-container p-5">
       <IdentityPopoverHeader />
       <IdentityPopoverFooter :sold-items="nftEntities" />
     </div>
@@ -42,11 +42,11 @@ const { nftEntities } = useIdentitySoldData({
 }
 
 .popover-content-container {
-  border: 1px solid $black;
   width: 300px;
-}
 
-.ms-dos-shadow {
-  box-shadow: $primary-shadow;
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+    border: 1px solid theme('text-color');
+  }
 }
 </style>

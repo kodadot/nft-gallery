@@ -1,7 +1,6 @@
 html.light-mode {
   background-color: $white;
 
-
   body,
   div#__nuxt,
   div#__layout,
@@ -35,57 +34,6 @@ html.light-mode {
 
   .select select option {
     color: $text-light-theme;
-  }
-
-  .navbar {
-    .navbar-link,
-    .button.is-text {
-      color: $text-light-theme;
-    }
-
-    @include mobile {
-      .navbar-item:hover {
-        color: $black !important;
-      }
-    }
-
-    .navbar-link:hover,
-    .navbar-item:focus,
-    .navbar-link:focus {
-      color: inherit;
-      background-color: inherit;
-    }
-
-    .navbar-item.has-dropdown:focus .navbar-link,
-    .navbar-item.has-dropdown:hover .navbar-link,
-    .navbar-item.has-dropdown.is-active .navbar-link {
-      background-color: transparent !important;
-    }
-
-    .navbar-menu.is-active {
-      color: $text-light-theme;
-      background-color: $white;
-      box-shadow: rgba(229, 229, 229, 0.55) !important;
-    }
-    .navbar-dropdown a.navbar-item,
-    .dropdown-item:not(.is-active) {
-      &:last-child {
-        border-bottom: none;
-      }
-      color: $text-light-theme;
-    }
-
-    .button.is-primary {
-      color: $text-light-theme !important;
-    }
-
-    .navbar-explore {
-      color: $text-light-theme;
-
-      .menu-item:hover {
-        color: $k-hovergrey !important;
-      }
-    }
   }
 
   .dropdown-content {
@@ -269,7 +217,6 @@ html.light-mode {
       color: $k-hovergrey;
     }
   }
-
 
   .gallery-item-media {
     border: 1px solid #000;

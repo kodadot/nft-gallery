@@ -40,14 +40,17 @@ defineProps<{
   z-index: 10;
   max-width: 500px;
   position: absolute;
-  background-color: $white;
-  border: 1px solid $dark-accent;
   border-radius: 0;
-  box-shadow: $primary-shadow;
   top: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
+
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+    background-color: theme('text-color-inverse');
+    border: 1px solid theme('text-color');
+  }
 
   .message-body {
     border: none;
@@ -56,11 +59,5 @@ defineProps<{
   .congrats-message {
     filter: drop-shadow(4px 4px 0px rgb(0 0 0 / 1));
   }
-}
-
-.dark-mode .message-box {
-  background-color: $dark-accent;
-  border: 1px solid $white;
-  box-shadow: $primary-shadow-dark;
 }
 </style>
