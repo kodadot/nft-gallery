@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
+import { WalletAccount } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { formatAddress } from '@/utils/account'
@@ -49,19 +49,15 @@ const props = defineProps<{
   wallet: BaseDotsamaWallet
 }>()
 
-const { wallet } = props
-const installed = wallet.installed
-
 const { chainProperties } = useChain()
-const { $store, $consola } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const hasWalletProviderExtension = ref(false)
 const walletAccounts = ref<WalletAccount[]>([])
-const account = ref<string>($store.getters.getAuthAddress)
 const showAccountList = ref(false)
 const emit = defineEmits(['setWallet', 'setAccount'])
 
 const walletIcon = computed(() =>
-  installed
+  props.wallet.installed
     ? showAccountList.value
       ? 'chevron-down'
       : 'chevron-right'

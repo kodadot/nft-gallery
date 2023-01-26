@@ -100,7 +100,8 @@
       <a
         class="is-size-7 has-text-link is-flex is-align-items-center"
         href="https://docs.kodadot.xyz/tutorial-overview.html"
-        target="_blank">
+        target="_blank"
+        rel="noopener noreferrer">
         <svg
           class="mr-2"
           width="9"
