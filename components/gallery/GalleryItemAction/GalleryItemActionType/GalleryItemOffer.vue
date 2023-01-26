@@ -19,7 +19,7 @@
         <template #action>
           <NeoButton
             v-if="active && !confirm"
-            :disabled="disabledConfirmBtn"
+            :disabled="insufficientFunds"
             label="Confirm 1/2"
             size="large"
             fixed-width
@@ -74,7 +74,11 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
-import { dangerMessage } from '@/utils/notification'
+import {
+  dangerMessage,
+  showNotification,
+  warningMessage,
+} from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { simpleDivision } from '@/utils/balance'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
@@ -124,7 +128,7 @@ const confirm = ref(false)
 const days = [7, 14, 30]
 const selectedDay = ref(14)
 
-const disabledConfirmBtn = computed(
+const insufficientFunds = computed(
   () =>
     !(
       offerPrice.value &&
@@ -132,6 +136,9 @@ const disabledConfirmBtn = computed(
     )
 )
 function toggleActive() {
+  if (insufficientFunds.value) {
+    warningMessage($i18n.t('transaction.insufficientFunds') as string)
+  }
   if (!connected.value) {
     $buefy.modal.open({
       parent: root?.value,

@@ -1164,7 +1164,8 @@
     "offer": {
       "success": "Offer successfully created",
       "error": "Offer creation failed"
-    }
+    },
+    "insufficientFunds": "Insufficient funds"
   },
   "createDropdown": {
     "start": "Start by creating your collection and add NFTs to it",
