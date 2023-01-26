@@ -1,25 +1,10 @@
 <template>
   <div class="gallery container">
-    <!-- <Search
-      v-bind.sync="searchQuery"
-      hide-search-input
-      :is-moon-river="isMoonriver"
-      @resetPage="resetPage">
-      <Pagination
-        v-model="currentValue"
-        has-magic-btn
-        simple
-        :total="total"
-        :per-page="first"
-        replace
-        class="remove-margin" />
-    </Search> -->
-
     <div class="is-flex">
       <div>
-        <SidebarFilter />
+        <SidebarFilter @resetPage="resetPage" />
       </div>
-      <div>
+      <div class="mt-6">
         <InfiniteLoading
           v-if="startPage > 1 && !isLoading && total > 0"
           direction="top"
@@ -28,7 +13,7 @@
           <div
             v-for="(nft, index) in results"
             :key="`${nft.id}-${index}`"
-            :class="`column is-4 column-padding ${scrollItemClassName}`">
+            :class="`column is-3 column-padding ${scrollItemClassName}`">
             <NftCard :nft="nft" :data-cy="`item-index-${index}`" />
           </div>
         </div>
@@ -284,6 +269,10 @@ export default class Gallery extends mixins(
       }
     }
 
+    if (this.searchQuery.owned && this.accountId) {
+      params.push({ currentOwner_eq: this.accountId })
+    }
+
     return params
   }
 
@@ -300,7 +289,10 @@ export default class Gallery extends mixins(
   }
 
   @Watch('searchQuery', { deep: true })
+  @Watch('$route.query', { deep: true })
   protected onSearchQueryChange() {
+    this.searchQuery.owned = this.$route.query?.owned?.toString() === 'true'
+    this.searchQuery.listed = this.$route.query?.listed?.toString() === 'true'
     this.resetPage()
   }
 }

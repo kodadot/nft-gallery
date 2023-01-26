@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <NeoSidebar :reduce="false" :open="open" :class="{ 'mr-4': open }">
+  <div :class="{ 'mr-4 bordered': open }">
+    <NeoSidebar :reduce="false" :open="open" fullheight>
       <b-collapse :open="false" animation="slide">
         <template #trigger="props">
           <div class="is-flex" role="button" :aria-expanded="props.open">
@@ -89,18 +89,55 @@
 import { NeoSidebar } from '@kodadot1/brick'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 
-const { $store } = useNuxtApp()
+const { $store, $consola } = useNuxtApp()
 const route = useRoute()
+const router = useRouter()
 const range = ref([0, 0])
 const open = computed(
   () => $store.getters['preferences/getSidebarfilterCollapse']
 )
-const listed = ref(false)
-const owned = ref(false)
+const emit = defineEmits(['resetPage'])
 
 const query = ref({
   search: route.query?.search?.toString() ?? '',
   type: route.query?.type?.toString() ?? '',
   listed: route.query?.listed?.toString() === 'true',
 })
+
+const listed = computed({
+  get: () => route.query?.listed?.toString() === 'true',
+  set: (value) => replaceUrl({ listed: String(value) }),
+})
+const owned = computed({
+  get: () => route.query?.owned?.toString() === 'true',
+  set: (value) => replaceUrl({ owned: String(value) }),
+})
+
+const replaceUrl = (
+  queryCondition: { [key: string]: any },
+  pathName?: string
+) => {
+  if (pathName && pathName !== route.path) {
+    return
+  }
+  router
+    .replace({
+      path: String(route.path),
+      query: {
+        page: '1',
+        ...route.query,
+        ...queryCondition,
+        // search: query || undefined,
+      },
+    })
+    .catch($consola.warn)
+  emit('resetPage')
+}
 </script>
+
+<style lang="scss" scoped>
+.bordered {
+  height: 100%;
+  border-right: 1px solid;
+}
+</style>

@@ -2,6 +2,7 @@
   <o-sidebar
     position="static"
     :mobile="mobile"
+    :fullheight="fullheight"
     :expand-on-hover="expandOnHover"
     :reduce="reduce"
     :open="open">
@@ -15,6 +16,7 @@ import { OSidebar } from '@oruga-ui/oruga'
 defineProps<{
   mobile?: string
   expandOnHover?: string
+  fullheight?: boolean
   reduce?: boolean
   open?: boolean
 }>()

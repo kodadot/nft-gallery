@@ -2,21 +2,25 @@
   <div class="min-h-full is-flex is-flex-direction-column is-clipped">
     <Navbar />
     <main class="is-flex-grow-1">
-      <section class="section">
-        <div class="container">
-          <Error
-            v-if="$nuxt.isOffline"
-            :has-img="false"
-            error-subtitle="Please check your network connections"
-            error-title="Offline Detected" />
-          <div v-else>
+      <Error
+        v-if="$nuxt.isOffline"
+        :has-img="false"
+        error-subtitle="Please check your network connections"
+        error-title="Offline Detected" />
+      <div v-else>
+        <section class="section">
+          <div class="container">
             <h1 class="title">{{ $t('explore') }}</h1>
             <ExploreTabsFilterSort />
-
-            <Nuxt />
           </div>
-        </div>
-      </section>
+        </section>
+        <hr class="m-0" />
+        <!-- <section class="section">
+          <div class="container"> -->
+        <Nuxt />
+      </div>
+      <!-- </section>
+      </div> -->
     </main>
     <LazyTheFooter />
   </div>
