@@ -74,11 +74,7 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
-import {
-  dangerMessage,
-  showNotification,
-  warningMessage,
-} from '@/utils/notification'
+import { dangerMessage, warningMessage } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { simpleDivision } from '@/utils/balance'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
