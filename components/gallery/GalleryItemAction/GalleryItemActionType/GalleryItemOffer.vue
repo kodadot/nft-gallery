@@ -42,7 +42,7 @@
             class="offer is-flex is-justify-content-space-between is-align-items-center">
             <input
               v-model="offerPrice"
-              class="offer-price is-flex is-align-items-center"
+              class="input-price is-flex is-align-items-center"
               type="number"
               placeholder="Type Your Offer"
               min="0" />
@@ -235,6 +235,10 @@ onClickOutside(actionRef, () => {
       margin-left: 0;
       padding-left: 0;
     }
+  }
+
+  @include until-widescreen {
+    width: 100%;
   }
 }
 </style>

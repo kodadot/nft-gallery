@@ -57,7 +57,6 @@ export default class OfferList extends mixins(
       query: offerListByNftId,
       variables: () => ({
         id: createTokenId(this.collectionId, this.nftId),
-        account: this.currentOwnerId,
       }),
       result: ({ data }) => this.setResponse(data),
       manual: true,
@@ -78,7 +77,6 @@ export default class OfferList extends mixins(
         query: offerListByNftId,
         variables: () => ({
           id: createTokenId(this.collectionId, this.nftId),
-          account: this.currentOwnerId,
         }),
         manual: true,
         result: ({ data }) => {
