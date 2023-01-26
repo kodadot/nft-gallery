@@ -1,6 +1,4 @@
 import { formatDistanceToNow } from 'date-fns'
-import { get, set } from 'idb-keyval'
-import { isEmpty } from '@kodadot1/minimark'
 import { LastEvent } from '@/utils/types/types'
 
 import { CarouselNFT } from '@/components/base/types'
@@ -36,25 +34,21 @@ export const formatNFT = (nfts, chain?: string): CarouselNFT[] => {
   })
 }
 
-export const setNftMetaFromCache = async (nfts): Promise<CarouselNFT[]> => {
+export const setCarouselMetadata = async (nfts): Promise<CarouselNFT[]> => {
   return await Promise.all(
     nfts.map(async (nft) => {
       if (nft.image) {
         return nft
       }
 
-      let meta = await get(nft.metadata)
-
-      if (isEmpty(meta)) {
-        meta = await fetchNFTMetadata(nft, getSanitizer(nft.metadata))
-        set(nft.metadata, meta)
-      }
-      const imageSanitizer = getSanitizer(meta.image, 'image')
+      const meta = await fetchNFTMetadata(nft, getSanitizer(nft.metadata))
+      const image = meta.image || ''
+      const imageSanitizer = getSanitizer(image, 'image')
       return {
         ...nft,
         name: meta.name,
-        image: imageSanitizer(meta.image),
-        animation_url: sanitizeIpfsUrl(meta.animation_url || meta.image),
+        image: imageSanitizer(image),
+        animation_url: sanitizeIpfsUrl(meta.animation_url || image),
       }
     })
   )
