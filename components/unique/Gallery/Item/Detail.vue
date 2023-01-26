@@ -4,15 +4,22 @@
       {{ $t('collection') }}
     </p>
     <p class="subtitle is-size-6">
-      <nuxt-link
+      <CollectionDetailsPopover
         v-if="nft.collection"
         v-show="!isLoading"
-        :to="`/${urlPrefix}/collection/${
-          nft.collectionId || nft.collection.id
-        }`"
-        data-cy="item-collection">
-        {{ nft.collection.name }}
-      </nuxt-link>
+        :nft="nft">
+        <template #trigger>
+          <nuxt-link
+            v-if="nft.collection"
+            v-show="!isLoading"
+            :to="`/${urlPrefix}/collection/${
+              nft.collectionId || nft.collection.id
+            }`"
+            data-cy="item-collection">
+            {{ nft.collection.name }}
+          </nuxt-link>
+        </template>
+      </CollectionDetailsPopover>
       <b-skeleton :active="isLoading"></b-skeleton>
     </p>
     <p class="label">
@@ -68,6 +75,10 @@ import isShareMode from '@/utils/isShareMode'
 
 const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
+  CollectionDetailsPopover: () =>
+    import(
+      '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
+    ),
 }
 
 @Component({ components })
