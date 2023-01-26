@@ -25,21 +25,20 @@
                   {{ nft?.name || nft?.id }}
                 </h1>
                 <h2 class="subtitle" data-cy="item-collection">
-                  <nuxt-link
-                    :to="`/${urlPrefix}/collection/${collection?.id}`"
-                    class="has-text-link">
-                    {{ collection?.name || collection?.id }}
-                  </nuxt-link>
+                  <CollectionDetailsPopover
+                    v-if="nft?.collection.id"
+                    :nft="nft">
+                    <template #trigger>
+                      <nuxt-link
+                        :to="`/${urlPrefix}/collection/${collection?.id}`"
+                        class="has-text-link">
+                        {{ collection?.name || collection?.id }}
+                      </nuxt-link>
+                    </template>
+                  </CollectionDetailsPopover>
                 </h2>
               </div>
-              <div class="buttons is-align-content-start">
-                <GalleryItemShareBtn />
-                <GalleryItemMoreActionBtn
-                  class="ml-4"
-                  :ipfs-image="nftMetadata?.image"
-                  :mime-type="nftMimeType"
-                  :name="nft?.name" />
-              </div>
+              <GalleryItemButton />
             </div>
 
             <div
@@ -75,7 +74,7 @@
         <GalleryItemDescription />
       </div>
 
-      <div class="column mobile-top-margin">
+      <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
         <GalleryItemTabsPanel :active-tab="activeTab" />
       </div>
     </div>
@@ -95,8 +94,7 @@ import { IdentityItem, MediaItem } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 
-import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
-import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
+import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
@@ -134,6 +132,10 @@ const CarouselTypeRelated = defineAsyncComponent(
 )
 const CarouselTypeVisited = defineAsyncComponent(
   () => import('@/components/carousel/CarouselTypeVisited.vue')
+)
+const CollectionDetailsPopover = defineAsyncComponent(
+  () =>
+    import('@/components/collectionDetailsPopover/CollectionDetailsPopover.vue')
 )
 
 onMounted(() => {
@@ -176,13 +178,13 @@ useNuxt2Meta({
 hr {
   height: 1px;
 }
-
-.mobile-top-margin {
+.gallery-item-tabs-panel-wrapper {
   margin-top: unset;
+  height: 100%;
 }
 
 @media screen and (max-width: 768px) {
-  .mobile-top-margin {
+  .gallery-item-tabs-panel-wrapper {
     margin-top: 1.25rem;
   }
 }

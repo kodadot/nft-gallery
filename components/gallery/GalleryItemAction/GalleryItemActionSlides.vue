@@ -22,6 +22,7 @@ defineProps<{
 
 <style lang="scss">
 @import '@/styles/abstracts/variables';
+
 .slide {
   box-shadow: 4px 4px hsl(0deg, 0%, 4%);
   overflow: hidden;
@@ -64,10 +65,21 @@ defineProps<{
       width: 100%;
     }
   }
+
   &-disabled {
     box-shadow: 4px 4px $k-grey;
+
     &:hover {
       cursor: not-allowed;
+    }
+  }
+
+  @include until-widescreen {
+    &-active {
+      width: 100%;
+    }
+    &-content {
+      width: 100%;
     }
   }
 }
@@ -76,12 +88,14 @@ defineProps<{
   width: 10rem;
   font-size: 1rem;
   position: relative;
+
   .neo-tooltip {
     width: 100%;
     height: 100%;
     position: absolute;
     z-index: 2;
   }
+
   .full-width-action-button {
     width: 100%;
     height: 100%;
@@ -89,6 +103,7 @@ defineProps<{
     position: absolute;
     z-index: 2;
   }
+
   @include until-widescreen {
     width: 100%;
     .wrapper {
@@ -96,15 +111,20 @@ defineProps<{
     }
   }
 }
+
 .dark-mode {
   .slide {
     box-shadow: 4px 4px $white;
+
     &-content {
       border-color: $white;
+
       input {
         border-color: $white;
+        background-color: $k-dark;
       }
     }
+
     &-disabled {
       box-shadow: 4px 4px $shade;
     }

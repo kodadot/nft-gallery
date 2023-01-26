@@ -1,4 +1,7 @@
 .o-table {
+  &__root {
+    overflow-x: auto;
+  }
   &__th {
     color: $k-grey;
     font-size: 12px;
@@ -8,6 +11,28 @@
 
   &__td {
     padding: 0.25rem 1.5rem;
+    @include touch {
+      &::before {
+        font-size: 0.75rem;
+        line-height: 1.5rem;
+        color: $k-grey;
+      }
+
+      margin: 0 1.5rem;
+      padding: 0.25rem 0;
+
+      &:last-child {
+        border-bottom: 1px solid $shade !important;
+
+      }
+    }
+  }
+
+  @include touch {
+    tbody tr {
+      padding-top: 1.5rem;
+
+    }
   }
 
   &--hoverable {
@@ -23,4 +48,5 @@
       background-color: $k-accentlight2dark;
     }
   }
+
 }

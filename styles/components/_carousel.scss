@@ -4,37 +4,30 @@
     overflow: visible !important;
   }
 
-  .carousel-info-collection-name {
-    color: $k-grey;
-    &:hover {
-      color: $black;
-    }
-  }
 
   .carousel-item {
-    background-color: white;
-    color: black;
-    border: 1px solid black;
-    box-shadow: 4px 4px 0 0 rgba(255, 255, 255, 0);
+    @include ktheme() {
+      border: 1px solid theme('text-color');
+      &:hover {
+        box-shadow: theme('primary-shadow');
+        opacity: 1 !important;
+        animation: cardHoverIn 0.3s ease-in;
+      }
+    }
     transition: box-shadow 0.4s, opacity 0.4s;
     animation: cardHoverOut 0.3s ease-out;
-
-    &:hover {
-      box-shadow: var(--card-box-shadow);
-      opacity: 1 !important;
-      animation: cardHoverIn 0.3s ease-in;
-    }
   }
 
   .carousel-media {
-    border-bottom: 1px solid black;
-
     &-collection {
       border-bottom: none;
       padding: 16px 16px 0 16px;
 
       a {
-        border: 1px solid black;
+        @include ktheme() {
+          border: 1px solid theme('text-color');
+        }
+
         display: block;
       }
     }
@@ -47,14 +40,10 @@
     text-overflow: ellipsis;
 
     &-name {
-      color: black;
       width: 100%;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      &:hover {
-        color: $k-hovergrey;
-      }
     }
 
     &-collection {
@@ -64,7 +53,9 @@
     }
 
     &-arrow {
-      color: black;
+      @include ktheme() {
+        color: theme('text-color');
+      }
       font-family: 'Fira Code', monospace;
     }
   }
@@ -81,7 +72,9 @@
   }
 
   .chain-name {
-    color: $k-grey;
+    @include ktheme() {
+      color: theme('k-grey');
+    }
   }
 
   .dots {
@@ -98,7 +91,6 @@
     border: none;
     width: 10px;
     height: 10px;
-    background: #c5c5c5;
     margin: 0 12px;
     padding: 5px;
     cursor: pointer;
@@ -107,8 +99,11 @@
       outline: none;
     }
 
-    &.active {
-      background: #000;
+    @include ktheme() {
+      background: theme('k-shade');
+      &.active {
+        background: theme('k-grey');
+      }
     }
   }
 
@@ -129,8 +124,9 @@
 
       border-bottom: solid $side-y transparent;
       border-top: solid $side-y transparent;
-      border-right: solid $side-x black;
-
+      @include ktheme() {
+        border-right: solid $side-x theme('black');
+      }
       &::after {
         content: '';
         width: 0;
@@ -139,7 +135,9 @@
         position: absolute;
         border-bottom: solid $side-y - 2 transparent;
         border-top: solid $side-y - 2 transparent;
-        border-right: solid $side-x - 2 white;
+        @include ktheme() {
+          border-right: solid $side-x - 2 theme('white');
+        }
         top: -($side-y - 2);
         right: -($side-x - 1);
         transition-duration: 0.2s;
@@ -153,7 +151,10 @@
         position: absolute;
         border-bottom: solid $side-y transparent;
         border-top: solid $side-y transparent;
-        border-right: solid $side-x black;
+        @include ktheme() {
+          border-right: solid $side-x theme('black');
+        }
+
         top: -($side-y - 6);
         right: -($side-x + 4);
       }
@@ -165,8 +166,9 @@
 
       border-bottom: solid $side-y transparent;
       border-top: solid $side-y transparent;
-      border-left: solid $side-x black;
-
+      @include ktheme() {
+        border-left: solid $side-x theme('black');
+      }
       &::after {
         content: '';
         width: 0;
@@ -175,7 +177,9 @@
         position: absolute;
         border-bottom: solid $side-y - 2 transparent;
         border-top: solid $side-y - 2 transparent;
-        border-left: solid $side-x - 2 white;
+        @include ktheme() {
+          border-left: solid $side-x - 2 theme('white');
+        }
         top: -($side-y - 2);
         left: -($side-x - 1);
         transition-duration: 0.2s;
@@ -189,7 +193,9 @@
         position: absolute;
         border-bottom: solid $side-y transparent;
         border-top: solid $side-y transparent;
-        border-left: solid $side-x black;
+        @include ktheme() {
+          border-left: solid $side-x theme('black');
+        }
         top: -($side-y - 6);
         left: -($side-x - 4);
       }
@@ -197,53 +203,20 @@
 
     &:hover {
       &.arrow-left::after {
-        border-right: solid $side-x - 2 $k-accentlight;
+        @include ktheme() {
+          border-right: solid $side-x - 2 theme('k-accentlight');
+        }
       }
 
       &.arrow-right::after {
-        border-left: solid $side-x - 2 $k-accentlight;
+        @include ktheme() {
+          border-left: solid $side-x - 2 theme('k-accentlight');
+        }
       }
     }
 
     @media screen and (max-width: 640px) {
       display: none;
-    }
-  }
-}
-
-.dark-mode {
-  .carousel-agnostic {
-    .carousel-item {
-      background-color: $dark-accent;
-      border: 1px solid white;
-    }
-
-    .carousel-info-collection-name {
-      &:hover {
-        color: $white;
-      }
-    }
-
-    .carousel-info {
-      &-name {
-        &:hover {
-          color: $shade !important;
-        }
-      }
-    }
-
-    .carousel-info-name,
-    .carousel-meta,
-    .carousel-info-arrow {
-      color: white;
-    }
-
-    .carousel-media-collection a {
-      border: 1px solid white;
-    }
-
-    .dot.active {
-      background-color: white;
     }
   }
 }
