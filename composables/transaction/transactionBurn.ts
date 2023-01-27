@@ -42,15 +42,13 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
       const cb = hasOffers.value
         ? api.tx.utility.batchAll
         : getApiCall(api, item.urlPrefix, Interaction.CONSUME)
-      const arg = [
-        [...offerWithdrawArgs, api.tx.nft.burn(collectionId, tokenId)],
-      ]
+      const arg = hasOffers.value
+        ? [[...offerWithdrawArgs, api.tx.nft.burn(collectionId, tokenId)]]
+        : bsxParamResolver(item.nftId, Interaction.CONSUME, '')
 
       executeTransaction({
         cb,
-        arg: hasOffers.value
-          ? arg
-          : bsxParamResolver(item.nftId, Interaction.CONSUME, ''),
+        arg,
         successMessage: item.successMessage,
         errorMessage: item.errorMessage,
       })
