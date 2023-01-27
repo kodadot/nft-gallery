@@ -90,10 +90,10 @@ const onClickWallet = (wallet: BaseDotsamaWallet): void => {
   }
 }
 
-const setWallet = (wallet: BaseDotsamaWallet): void => {
+const setWallet = async (wallet: BaseDotsamaWallet) => {
   emit('setWallet', wallet)
   // web3 wallet connect logic here & show accountSelect, async or not?
-  wallet.enable()
+  await wallet.enable()
 
   // init account
   wallet
