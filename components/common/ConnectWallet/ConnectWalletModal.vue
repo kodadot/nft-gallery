@@ -1,6 +1,6 @@
 <template>
   <div class="wallet-modal-container is-flex is-flex-direction-column">
-    <header class="modal-card-head py-4 px-5">
+    <header class="modal-card-head mb-4">
       <b-button
         v-show="hasSelectedWalletProvider"
         type="is-text"
@@ -16,7 +16,7 @@
           )
         }}
       </span>
-      <div @click="emit('close')">
+      <a @click="emit('close')">
         <svg
           width="15"
           height="15"
@@ -36,7 +36,7 @@
             y2="0.646447"
             stroke="currentColor" />
         </svg>
-      </div>
+      </a>
     </header>
     <section v-if="hasUserWalletAuth" class="modal-card-body">
       <div class="buttons m-0">
@@ -48,7 +48,7 @@
       </div>
 
       <a
-        class="is-flex is-align-items-center mx-5 py-2 is-size-7 has-text-grey more-option-button"
+        class="is-flex is-align-items-center pt-4 pb-3 is-size-7 has-text-grey more-option-button"
         @click="toggleShowUninstalledWallet">
         {{ $i18n.t('walletConnect.moreOption')
         }}<b-icon
@@ -128,7 +128,19 @@ import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem'
 const { $store } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const hasSelectedWalletProvider = ref(false)
-const showUninstalledWallet = ref(false)
+
+const wallets = SupportedWallets()
+
+const setAccount = (addr: string) => {
+  account.value = addr
+}
+const installedWallet = computed(() => {
+  return wallets.filter((wallet) => wallet.installed)
+})
+const uninstalledWallet = computed(() => {
+  return wallets.filter((wallet) => !wallet.installed)
+})
+const showUninstalledWallet = ref(!installedWallet.value.length)
 const walletAccounts = ref<WalletAccount[]>([])
 const account = ref<string>($store.getters.getAuthAddress)
 const hasUserWalletAuth = ref(
@@ -150,18 +162,6 @@ watch(account, (account) => {
   if (selectedWalletProvider.value) {
     localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
   }
-})
-
-const wallets = SupportedWallets()
-
-const setAccount = (addr: string) => {
-  account.value = addr
-}
-const installedWallet = computed(() => {
-  return wallets.filter((wallet) => wallet.installed)
-})
-const uninstalledWallet = computed(() => {
-  return wallets.filter((wallet) => !wallet.installed)
 })
 
 const setUserAuthValue = () => {

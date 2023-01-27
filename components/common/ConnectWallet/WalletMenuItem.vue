@@ -4,13 +4,13 @@
       size="is-medium"
       :icon-right="walletIcon"
       expanded
-      class="px-5 my-0 is-flex is-justify-content-space-between is-align-items-center"
+      class="my-0 is-flex is-justify-content-space-between is-align-items-center"
       @click="onClickWallet(wallet)">
       <b-image
         :src="wallet.img"
         class="is-32x32 is-inline-block"
         style="vertical-align: middle"></b-image>
-      <span class="is-size-6 ml-2">{{ wallet.name }}</span>
+      <span class="is-size-6 ml-2 is-capitalized">{{ wallet.name }}</span>
     </b-button>
 
     <div v-if="walletAccounts.length && showAccountList" class="account-list">
