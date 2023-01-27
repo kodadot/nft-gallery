@@ -17,7 +17,7 @@
       <div
         v-for="option in walletAccounts"
         :key="option.address"
-        class="mx-5 account-item">
+        class="account-item">
         <a
           class="pl-5 is-flex is-align-items-center"
           :value="option.address"

@@ -84,6 +84,7 @@
       .account-list {
         .account-item {
           padding: 10px 0;
+          margin: 0 2rem;
           a {
             border-left: 1px solid $grey-light;
             @include ktheme() {
