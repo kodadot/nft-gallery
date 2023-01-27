@@ -40,22 +40,27 @@
           </div>
         </template>
         <div class="p-4">
-          <b-input
-            v-model="range[0]"
-            type="number"
-            min="0"
-            step="any"
-            :placeholder="$t('query.priceRange.minPrice')"
-            data-cy="input-min">
-          </b-input>
-          <b-input
-            v-model="range[1]"
-            min="0"
-            step="any"
-            type="number"
-            :placeholder="$t('query.priceRange.maxPrice')"
-            data-cy="input-max">
-          </b-input>
+          <b-field label="MIN" label-position="inside">
+            <b-input
+              v-model="range.min"
+              type="number"
+              min="0"
+              step="any"
+              :placeholder="$t('query.priceRange.minPrice')"
+              data-cy="input-min" />
+          </b-field>
+          <b-field label="MAX" label-position="inside">
+            <b-input
+              v-model="range.max"
+              min="0"
+              step="any"
+              type="number"
+              :placeholder="$t('query.priceRange.maxPrice')"
+              data-cy="input-max" />
+          </b-field>
+          <NeoButton data-cy="apply" @click.native="setPriceRange">
+            {{ $t('general.apply') }}
+          </NeoButton>
         </div>
       </b-collapse>
       <b-collapse :open="true" animation="slide">
@@ -86,24 +91,21 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoSidebar } from '@kodadot1/brick'
+import { NeoButton, NeoSidebar } from '@kodadot1/brick'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 
 const { $store, $consola } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
-const range = ref([0, 0])
+const { decimals } = useChain()
+const range = ref({
+  min: Number(route.query?.min) || 0,
+  max: Number(route.query?.max) || 0,
+})
 const open = computed(
   () => $store.getters['preferences/getSidebarfilterCollapse']
 )
 const emit = defineEmits(['resetPage'])
-
-const query = ref({
-  search: route.query?.search?.toString() ?? '',
-  type: route.query?.type?.toString() ?? '',
-  listed: route.query?.listed?.toString() === 'true',
-})
-
 const listed = computed({
   get: () => route.query?.listed?.toString() === 'true',
   set: (value) => replaceUrl({ listed: String(value) }),
@@ -112,6 +114,17 @@ const owned = computed({
   get: () => route.query?.owned?.toString() === 'true',
   set: (value) => replaceUrl({ owned: String(value) }),
 })
+
+const setPriceRange = () => {
+  const priceMin = range.value.min
+    ? String(range.value.min * 10 ** decimals.value)
+    : undefined
+  const priceMax = range.value.max
+    ? String(range.value.max * 10 ** decimals.value)
+    : undefined
+
+  replaceUrl({ listed: String(true), min: priceMin, max: priceMax })
+}
 
 const replaceUrl = (
   queryCondition: { [key: string]: any },

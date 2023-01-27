@@ -293,6 +293,8 @@ export default class Gallery extends mixins(
   protected onSearchQueryChange() {
     this.searchQuery.owned = this.$route.query?.owned?.toString() === 'true'
     this.searchQuery.listed = this.$route.query?.listed?.toString() === 'true'
+    this.searchQuery.priceMin = Number(this.$route.query?.min)
+    this.searchQuery.priceMax = Number(this.$route.query?.max)
     this.resetPage()
   }
 }
