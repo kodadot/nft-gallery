@@ -9,15 +9,14 @@
           v-if="mimeType.includes('image') && ipfsImage"
           item="Download"
           @click.native="downloadMedia" />
-        <NeoDropdownItem
-          v-if="currentOwner === accountId"
-          item="Burn"
-          @click.native="burn" />
-        <NeoDropdownItem
-          v-if="accountId === currentOwner && price !== '0'"
-          item="Delist"
-          @click.native="unlist" />
-        <NeoDropdownItem disabled item="Report" />
+        <template v-if="accountId === currentOwner">
+          <NeoDropdownItem item="Burn" @click.native="burn" />
+          <NeoDropdownItem
+            v-if="price !== '0'"
+            item="Delist"
+            @click.native="unlist" />
+          <NeoDropdownItem disabled item="Report" />
+        </template>
       </template>
     </NeoDropdown>
   </div>
