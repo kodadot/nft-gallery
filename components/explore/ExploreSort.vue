@@ -98,6 +98,8 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/theme';
+
 .sort {
   position: relative;
 
@@ -112,9 +114,12 @@ onMounted(() => {
     height: 1.5rem;
     width: 1.5rem;
     line-height: 1.5rem;
-    background: #ff7ac3;
-    border: 1px solid #000000;
     text-align: center;
+
+    @include ktheme() {
+      background-color: theme('k-accent');
+      border: 1px solid theme('text-color');
+    }
   }
 }
 </style>
