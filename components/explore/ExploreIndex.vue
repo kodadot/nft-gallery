@@ -1,12 +1,12 @@
 <template>
   <div class="explore is-flex">
-    <ExploreTabs />
+    <ExploreTabItem />
     <ExploreSort v-if="route.path.includes('items')" />
   </div>
 </template>
 
 <script setup lang="ts" scoped>
-import ExploreTabs from './ExploreTabs.vue'
+import ExploreTabItem from './ExploreTabItem.vue'
 import ExploreSort from './ExploreSort.vue'
 
 const route = useRoute()

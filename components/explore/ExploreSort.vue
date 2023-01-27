@@ -38,7 +38,7 @@ const { $i18n } = useNuxtApp()
 
 const options = NFT_SQUID_SORT_CONDITION_LIST
 
-function selectiveSort(options) {
+function selectiveSort(options: string[]) {
   const uniqueOptions = {}
 
   if (!isArray(options)) {
@@ -60,12 +60,8 @@ function selectiveSort(options) {
 
 const sortOptions = ref<string[]>([])
 const selectedSort = computed({
-  get() {
-    return sortOptions.value
-  },
-  set(value) {
-    sortOptions.value = selectiveSort(value)
-  },
+  get: () => sortOptions.value,
+  set: (value) => (sortOptions.value = selectiveSort(value)),
 })
 
 function onChange(selected) {
@@ -105,6 +101,10 @@ onMounted(() => {
 
   .is-neo {
     width: 10rem;
+  }
+
+  .neo-dropdown-item {
+    width: 15rem;
   }
 
   &-count {
