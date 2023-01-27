@@ -48,7 +48,9 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
 
       executeTransaction({
         cb,
-        arg,
+        arg: hasOffers.value
+          ? arg
+          : bsxParamResolver(item.nftId, Interaction.CONSUME, ''),
         successMessage: item.successMessage,
         errorMessage: item.errorMessage,
       })
