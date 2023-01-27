@@ -4,11 +4,11 @@
       <NeoButton
         class="explore-tabs-button"
         tag="nuxt-link"
-        :active="selectedTab === TabType.COLLECTION"
-        to="collectibles">
-        <span> {{ $t('collections') }}</span>
+        :active="selectedTab === TabType.ITEMS"
+        to="items">
+        <span> {{ $t('items') }}</span>
         <img
-          v-if="selectedTab === TabType.COLLECTION"
+          v-if="selectedTab === TabType.ITEMS"
           src="/checkmark.svg"
           class="check-icon" />
       </NeoButton>
@@ -17,11 +17,11 @@
       <NeoButton
         class="explore-tabs-button"
         tag="nuxt-link"
-        :active="selectedTab === TabType.ITEMS"
-        to="items">
-        <span> {{ $t('items') }}</span>
+        :active="selectedTab === TabType.COLLECTION"
+        to="collectibles">
+        <span> {{ $t('collections') }}</span>
         <img
-          v-if="selectedTab === TabType.ITEMS"
+          v-if="selectedTab === TabType.COLLECTION"
           src="/checkmark.svg"
           class="check-icon" />
       </NeoButton>
