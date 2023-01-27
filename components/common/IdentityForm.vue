@@ -35,7 +35,7 @@
       <BasicInput
         v-model="identity.email"
         type="email"
-        :maxlength="32"
+        :maxlength="emailLengthLimit"
         :label="$i18n.t('email')"
         placeholder="somebody@example.com"
         expanded />
@@ -103,6 +103,7 @@ type IdentityFields = Record<string, string>
 
 const { $store, $i18n } = useNuxtApp()
 const { apiUrl, apiInstance } = useApi()
+const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
   useMetaTransaction()
@@ -116,6 +117,13 @@ const identity = ref<Record<string, string>>({
   legal: '',
 })
 const deposit = ref('0')
+
+const emailLengthLimit = computed(() => {
+  if (urlPrefix.value === 'bsx' || urlPrefix.value === 'snek') {
+    return 32
+  }
+  return undefined
+})
 
 onBeforeMount(async () => {
   onApiConnect(apiUrl.value, async (api) => {
