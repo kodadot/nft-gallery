@@ -172,6 +172,7 @@
     "vitest": "^0.27.3",
     "vue-debounce-decorator": "^1.0.1",
     "vue-eslint-parser": "^9.1.0",
+    "vue-gtag-next": "^1.14.0",
     "wait-on": "^6.0.1"
   },
   "pnpm": {
@@ -180,7 +181,8 @@
       "vue-template-compiler": "2.7.14"
     },
     "patchedDependencies": {
-      "vuex@3.6.2": "patches/vuex@3.6.2.patch"
+      "vuex@3.6.2": "patches/vuex@3.6.2.patch",
+      "@nuxt/webpack-edge@2.16.0-27720022.54e852f": "patches/@nuxt__webpack-edge@2.16.0-27720022.54e852f.patch"
     }
   }
 }

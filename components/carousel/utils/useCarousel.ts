@@ -4,7 +4,7 @@ import type { RowSeries } from '@/components/series/types'
 import {
   convertLastEventFlatNft,
   formatNFT,
-  setNftMetaFromCache,
+  setCarouselMetadata,
 } from '@/utils/carousel'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { sortItemListByIds } from '@/utils/sorting'
@@ -67,7 +67,7 @@ export const useCarouselNftEvents = ({ type }: Types) => {
 
     const events = data.events.map(convertLastEventFlatNft)
     const listOfNfts = await formatNFT(events, chain)
-    return await setNftMetaFromCache(listOfNfts)
+    return await setCarouselMetadata(listOfNfts)
   }
 
   // currently only support rmrk and snek
@@ -148,7 +148,7 @@ export const useCarouselRelated = ({ collectionId }) => {
       const listOfRelatedNFTs = await formatNFT(
         (data.value as Collections).collection?.nfts
       )
-      nfts.value = await setNftMetaFromCache(listOfRelatedNFTs)
+      nfts.value = await setCarouselMetadata(listOfRelatedNFTs)
     }
   })
 

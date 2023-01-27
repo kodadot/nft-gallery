@@ -727,8 +727,10 @@
   "offer": {
     "caller": "From",
     "status": "Status",
-    "inactive": "INACTIVE",
-    "withdrawn": "CANCELLED",
+    "withdrawn": "Cancelled",
+    "active": "Active",
+    "accepted": "Accepted",
+    "inactive": "Inactive",
     "price": "Price",
     "usdPrice": "USD Price",
     "expiration": "Expiration",
@@ -759,7 +761,11 @@
     "activeWallets": "Active wallets",
     "offers": "Offers",
     "values": "VALUES",
-    "bsxTitle": "Basilisk Marketplace Statistics"
+    "bsxTitle": "Basilisk Marketplace Statistics",
+    "uniqueOwners": "Unique Owners",
+    "highestSale": "Highest Sale",
+    "floorPrice": "Floor Price",
+    "totalVolume": "Total Volume"
   },
   "myOffer": {
     "bsxTitle": "Incoming Offers",
@@ -1150,6 +1156,10 @@
     "item": {
       "success": "Item sent",
       "error": "Failed to send item"
+    },
+    "consume": {
+      "success": "Item burned",
+      "error": "Failed to burned item"
     },
     "offer": {
       "success": "Offer successfully created",

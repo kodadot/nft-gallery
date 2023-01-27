@@ -21,15 +21,19 @@
 </template>
 
 <script lang="ts" setup>
+import { useState } from 'vue-gtag-next'
+
+const { isEnabled } = useState()
 const hasDisplayedCookieBanner = ref(
   localStorage.getItem('cookies_enabled') !== null || false
 )
-
 const acceptCookies = () => {
+  if (isEnabled) {
+    isEnabled.value = true
+  }
   localStorage.setItem('cookies_enabled', '1')
   hasDisplayedCookieBanner.value = true
 }
-
 const declineCookies = () => {
   localStorage.setItem('cookies_enabled', '0')
   hasDisplayedCookieBanner.value = true
