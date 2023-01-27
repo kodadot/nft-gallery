@@ -17,15 +17,20 @@
             @click.native="toggleActive" />
         </template>
         <template #action>
-          <NeoButton
-            v-if="active && !confirm"
-            :disabled="disabledConfirmBtn"
-            label="Confirm 1/2"
-            size="large"
-            fixed-width
-            variant="k-blue"
-            no-shadow
-            @click.native="confirm1" />
+          <NeoTooltip
+            v-if="active"
+            :active="insufficientBalance"
+            :label="$t('tooltip.notEnoughBalance')">
+            <NeoButton
+              v-if="active && !confirm"
+              :disabled="disabledConfirmBtn"
+              label="Confirm 1/2"
+              size="large"
+              fixed-width
+              variant="k-blue"
+              no-shadow
+              @click.native="confirm1" />
+          </NeoTooltip>
           <NeoButton
             v-if="confirm"
             label="Confirm 2/2"
@@ -72,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
 import { dangerMessage } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
@@ -124,12 +129,11 @@ const confirm = ref(false)
 const days = [7, 14, 30]
 const selectedDay = ref(14)
 
+const insufficientBalance = computed(
+  () => Number(offerPrice.value) > simpleDivision(balance.value, decimals.value)
+)
 const disabledConfirmBtn = computed(
-  () =>
-    !(
-      offerPrice.value &&
-      Number(offerPrice.value) < simpleDivision(balance.value, decimals.value)
-    )
+  () => !(offerPrice.value && !insufficientBalance.value)
 )
 
 function toggleActive() {
