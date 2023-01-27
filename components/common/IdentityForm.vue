@@ -1,7 +1,7 @@
 <template>
   <section>
     <Loader v-model="isLoading" :status="status" />
-    <div class="box">
+    <form>
       <p class="title is-size-3">
         {{ $i18n.t('identity.set') }}
         <b-tooltip
@@ -72,18 +72,15 @@
         :label="$i18n.t('identity.click')"
         :disabled="disabled"
         :loading="isLoading"
+        expanded
         @click="submit" />
-    </div>
+    </form>
   </section>
 </template>
 
 <script lang="ts" setup>
-import { Component, mixins } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { onApiConnect } from '@kodadot1/sub-api'
-import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import AuthMixin from '@/utils/mixins/authMixin'
-import IdentityMixin from '@/utils/mixins/identityMixin'
 import { update } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { hexToString, isHex } from '@polkadot/util'
@@ -154,7 +151,7 @@ const fetchIdentity = async (address: string): Promise<IdentityFields> => {
   const api = await apiInstance.value
   const optionIdentity = await api?.query.identity?.identityOf(address)
   const identity = optionIdentity?.unwrapOrDefault()
-  const final = Array.from(identity.info)
+  const final = Array.from(identity?.info)
     .filter(([, value]) => !Array.isArray(value) && !value.isEmpty)
     .reduce((acc, [key, value]) => {
       acc[key] = handleRaw(value as unknown as Data)
@@ -184,6 +181,6 @@ const onSuccess = (block: string) => {
 const balance = computed(() => $store.getters.getAuthBalance)
 
 const disabled = computed(
-  () => Object.values(identity.value).filter((val) => val)?.length === 0
+  () => Object.values(identity.value).filter((val) => val).length === 0
 )
 </script>

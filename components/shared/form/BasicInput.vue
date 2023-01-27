@@ -37,6 +37,7 @@ withDefaults(
   {
     expanded: false,
     type: '',
+    message: '',
     required: false,
     disabled: false,
   }
