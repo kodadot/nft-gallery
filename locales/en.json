@@ -1168,8 +1168,7 @@
     "unlist": {
       "success": "Item successfully unlisted",
         "error": "Item unlisting failed"
-    },
-    "insufficientFunds": "Insufficient funds"
+    }
   },
   "createDropdown": {
     "start": "Start by creating your collection and add NFTs to it",
