@@ -34,7 +34,7 @@
           v-if="showPrice"
           :value="nft.price"
           data-cy="card-money" />
-        <span class="chain-name">{{ prefix }}</span>
+        <span class="chain-name">{{ getChainNameByPrefix(prefix) }}</span>
       </div>
     </div>
   </div>
@@ -44,6 +44,7 @@
 import MediaItem from '../MediaItem/MediaItem.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import type { NFT } from '@/components/rmrk/service/scheme'
+import { getChainNameByPrefix } from '@/utils/chain'
 
 defineProps<{
   nft: NFT

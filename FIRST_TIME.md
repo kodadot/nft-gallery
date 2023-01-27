@@ -249,9 +249,9 @@ In case you are using Apple M1, we have a [tutorial for that 🍏 ](https://viki
 Current Indexers we have/use:
 
 - SubSquid
-  - RMRK: [rubick](https://github.com/kodadot/rubick)
+  - Kusama: [rubick](https://github.com/kodadot/rubick)
 - SubQuery
-  - RMRK: [magick](https://github.com/vikiival/magick)
+  - Kusama: [magick](https://github.com/vikiival/magick)
   - Statemine (Unique NFT pallet): [unique](https://github.com/kodadot/unique)
 
 ### MISC 🏞
