@@ -6,9 +6,13 @@
       :close-on-click="false"
       multiple
       aria-role="list"
-      @change="onChange">
+      :class="{ 'sort-active': isActive }"
+      @change="onChange"
+      @active-change="isActive = $event">
       <template #trigger>
-        <NeoButton type="button" icon="caret-down">Sort By</NeoButton>
+        <NeoButton type="button" icon="caret-down" class="has-text-left">
+          Sort By
+        </NeoButton>
         <div v-if="selectedSort.length" class="sort-count">
           {{ selectedSort.length }}
         </div>
@@ -19,7 +23,11 @@
         :key="option"
         aria-role="listitem"
         :value="option">
-        <span>{{ $i18n.t(`sort.${option}`) }}</span>
+        <span> {{ $i18n.t(`sort.${option}`) }} </span>
+        <img
+          v-if="selectedSort.includes(option)"
+          class="sort-check"
+          src="/checkmark.svg" />
       </NeoDropdownItem>
     </o-dropdown>
   </div>
@@ -37,6 +45,7 @@ const router = useRouter()
 const { $i18n } = useNuxtApp()
 
 const options = NFT_SQUID_SORT_CONDITION_LIST
+const isActive = ref(false)
 
 function selectiveSort(options: string[]) {
   const uniqueOptions = {}
@@ -99,12 +108,19 @@ onMounted(() => {
 .sort {
   position: relative;
 
+  &-active .is-neo {
+    @include ktheme() {
+      background-color: theme('text-color');
+      color: theme('text-color-inverse');
+    }
+  }
+
   .is-neo {
     width: 10rem;
   }
 
   .neo-dropdown-item {
-    width: 15rem;
+    width: 16rem;
   }
 
   &-count {
@@ -121,5 +137,9 @@ onMounted(() => {
       border: 1px solid theme('text-color');
     }
   }
+}
+
+.dark-mode .sort-check {
+  filter: brightness(0%);
 }
 </style>

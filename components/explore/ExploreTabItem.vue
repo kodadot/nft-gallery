@@ -7,10 +7,7 @@
         :active="selectedTab === TabType.COLLECTION"
         to="collectibles">
         <span> {{ $t('collections') }}</span>
-        <img
-          v-if="selectedTab === TabType.COLLECTION"
-          src="/checkmark.svg"
-          class="check-icon" />
+        <img v-if="selectedTab === TabType.COLLECTION" src="/checkmark.svg" />
       </NeoButton>
     </p>
     <p class="control">
@@ -20,10 +17,7 @@
         :active="selectedTab === TabType.ITEMS"
         to="items">
         <span> {{ $t('items') }}</span>
-        <img
-          v-if="selectedTab === TabType.ITEMS"
-          src="/checkmark.svg"
-          class="check-icon" />
+        <img v-if="selectedTab === TabType.ITEMS" src="/checkmark.svg" />
       </NeoButton>
     </p>
   </div>

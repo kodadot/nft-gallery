@@ -48,11 +48,6 @@
       aria-id="sortAndFilter"
       animation="opacitySlide">
       <div class="columns mb-0">
-        <Sort
-          multiple-select
-          class="column is-4 mb-0"
-          :value="sortByMultiple"
-          @input="updateSortBy($event, sortByMultiple)" />
         <BasicSwitch
           v-if="!isMoonRiver"
           v-model="vListed"
