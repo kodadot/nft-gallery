@@ -10,7 +10,7 @@
     top: 0;
     right: 0;
     height: 100%;
-    padding-top: 72px;
+    padding-top: 78px;
     border-left: 1px solid $k-dark;
     max-width: 360px;
     width: 100%;
@@ -83,6 +83,7 @@
       }
       .account-list {
         .account-item {
+          padding: 10px 0;
           a {
             border-left: 1px solid $grey-light;
             @include ktheme() {
@@ -91,6 +92,13 @@
               &:hover {
                 color: theme('text-color');
               }
+            }
+
+            .account-name {
+              line-height: 14px;
+            }
+            .account-address {
+              line-height: 19px;
             }
           }
           &:hover {

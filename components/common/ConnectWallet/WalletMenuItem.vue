@@ -17,7 +17,7 @@
       <div
         v-for="option in walletAccounts"
         :key="option.address"
-        class="mx-5 py-1 account-item">
+        class="mx-5 account-item">
         <a
           class="pl-5 is-flex is-align-items-center"
           :value="option.address"
@@ -27,8 +27,10 @@
             :value="option.address"
             class="mr-2 image-outline" />
           <div class="is-flex is-flex-direction-column">
-            <span class="has-text-grey is-size-7">{{ option.name }}</span>
-            <div>
+            <span class="has-text-grey is-size-7 account-name">{{
+              option.name
+            }}</span>
+            <div class="account-address">
               {{ shortAddress(option.address, 6, -3) }}
             </div>
           </div>

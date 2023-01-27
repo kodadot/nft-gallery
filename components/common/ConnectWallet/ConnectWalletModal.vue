@@ -16,7 +16,7 @@
           )
         }}
       </span>
-      <a @click="emit('close')">
+      <a class="is-flex is-align-items-center" @click="emit('close')">
         <svg
           width="15"
           height="15"
