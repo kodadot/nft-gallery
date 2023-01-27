@@ -1,7 +1,6 @@
 <template>
   <b-field :label="$i18n.t(label)">
     <b-input
-      ref="input"
       v-model="vValue"
       :placeholder="placeholder"
       :expanded="expanded"
@@ -43,12 +42,7 @@ withDefaults(
   }
 )
 
-const input = ref<{ checkHtml5Validity: () => void } | null>(null)
-
 const hasFocus = ref(false)
-const checkValidity = () => {
-  return input.value?.checkHtml5Validity()
-}
 </script>
 
 <style scoped>

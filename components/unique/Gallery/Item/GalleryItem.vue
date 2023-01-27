@@ -206,7 +206,7 @@ export default class GalleryItem extends mixins(
 
   public async loadMagic() {
     const api = await this.useApi()
-    await api?.isReady
+    await api.isReady
     try {
       this.$consola.log('loading magic', this.id)
       const nftId = this.id || 0

@@ -159,7 +159,7 @@ const fetchIdentity = async (address: string): Promise<IdentityFields> => {
   const api = await apiInstance.value
   const optionIdentity = await api?.query.identity?.identityOf(address)
   const identity = optionIdentity?.unwrapOrDefault()
-  const final = Array.from(identity?.info)
+  const final = Array.from(identity?.info || {})
     .filter(([, value]) => !Array.isArray(value) && !value.isEmpty)
     .reduce((acc, [key, value]) => {
       acc[key] = handleRaw(value as unknown as Data)

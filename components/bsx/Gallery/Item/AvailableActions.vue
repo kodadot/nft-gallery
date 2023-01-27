@@ -47,7 +47,6 @@ import {
   iconResolver,
 } from '@/utils/shoppingActions'
 import shouldUpdate from '@/utils/shouldUpdate'
-import { onApiConnect } from '@kodadot1/sub-api'
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { formatBsxBalanceToNumber } from '@/utils/format/balance'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
