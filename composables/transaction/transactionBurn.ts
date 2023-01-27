@@ -28,15 +28,17 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
       },
     })
 
-    watch(data, (data) => {
-      hasOffers.value = Boolean(data.offers.length)
-      const offerWithdrawArgs = data.offers.map((offer: { caller: string }) => {
-        return api.tx.marketplace.withdrawOffer(
-          collectionId,
-          tokenId,
-          offer.caller
-        )
-      })
+    watch(data, () => {
+      hasOffers.value = Boolean(data.value.offers.length)
+      const offerWithdrawArgs = data.value.offers.map(
+        (offer: { caller: string }) => {
+          return api.tx.marketplace.withdrawOffer(
+            collectionId,
+            tokenId,
+            offer.caller
+          )
+        }
+      )
       const cb = hasOffers.value
         ? api.tx.utility.batchAll
         : getApiCall(api, item.urlPrefix, Interaction.CONSUME)
@@ -45,8 +47,8 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
       ]
 
       executeTransaction({
-        cb: cb,
-        arg: arg,
+        cb,
+        arg,
         successMessage: item.successMessage,
         errorMessage: item.errorMessage,
       })
