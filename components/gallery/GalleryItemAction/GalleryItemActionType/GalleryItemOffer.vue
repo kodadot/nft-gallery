@@ -132,8 +132,16 @@ const selectedDay = ref(14)
 const insufficientBalance = computed(
   () => Number(offerPrice.value) > simpleDivision(balance.value, decimals.value)
 )
+
+const offerPriceInvalid = computed(() => {
+  if (offerPrice.value) {
+    return !(Math.sign(offerPrice.value) === 1)
+  }
+  return true
+})
+
 const disabledConfirmBtn = computed(
-  () => !(offerPrice.value && !insufficientBalance.value)
+  () => !(!offerPriceInvalid.value && !insufficientBalance.value)
 )
 
 function toggleActive() {
