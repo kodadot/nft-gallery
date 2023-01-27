@@ -21,6 +21,7 @@
         <b-input
           v-model="identity.display"
           :placeholder="$i18n.t('identity.onChainPlaceholder')"
+          :maxlength="inputLengthLimit"
           required
           :validation-message="$i18n.t('identity.handleRequired')">
         </b-input>
@@ -29,13 +30,14 @@
       <BasicInput
         v-model="identity.legal"
         :label="$i18n.t('name')"
+        :maxlength="inputLengthLimit"
         :placeholder="$i18n.t('identity.namePlaceholder')"
         expanded />
 
       <BasicInput
         v-model="identity.email"
         type="email"
-        :maxlength="emailLengthLimit"
+        :maxlength="inputLengthLimit"
         :label="$i18n.t('email')"
         placeholder="somebody@example.com"
         expanded />
@@ -43,24 +45,28 @@
       <BasicInput
         v-model="identity.web"
         label="Web"
+        :maxlength="inputLengthLimit"
         placeholder="https://example.com"
         expanded />
 
       <BasicInput
         v-model="identity.twitter"
         label="Twitter"
+        :maxlength="inputLengthLimit"
         placeholder="@YourTwitterName"
         expanded />
 
       <BasicInput
         v-model="identity.discord"
         label="Discord"
+        :maxlength="inputLengthLimit"
         placeholder="Discord UserName#0000"
         expanded />
 
       <BasicInput
         v-model="identity.riot"
         label="Riot"
+        :maxlength="inputLengthLimit"
         placeholder="@yourname:matrix.org"
         expanded />
 
@@ -118,7 +124,7 @@ const identity = ref<Record<string, string>>({
 })
 const deposit = ref('0')
 
-const emailLengthLimit = computed(() => {
+const inputLengthLimit = computed(() => {
   if (urlPrefix.value === 'bsx' || urlPrefix.value === 'snek') {
     return 32
   }
