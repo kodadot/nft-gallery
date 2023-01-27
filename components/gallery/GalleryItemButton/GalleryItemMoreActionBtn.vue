@@ -15,8 +15,8 @@
             v-if="price !== '0'"
             item="Delist"
             @click.native="unlist" />
-          <NeoDropdownItem disabled item="Report" />
         </template>
+        <NeoDropdownItem disabled item="Report" />
       </template>
     </NeoDropdown>
   </div>
