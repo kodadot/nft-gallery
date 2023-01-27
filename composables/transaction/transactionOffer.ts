@@ -6,7 +6,7 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 
 import type { ActionOffer } from './types'
 
-export async function exectMakeOfferTx(
+export async function execMakeOfferTx(
   item: ActionOffer,
   api,
   executeTransaction

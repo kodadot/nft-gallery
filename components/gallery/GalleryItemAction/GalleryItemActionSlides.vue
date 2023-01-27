@@ -86,6 +86,15 @@ defineProps<{
       cursor: not-allowed;
     }
   }
+
+  @include until-widescreen {
+    &-active {
+      width: 100%;
+    }
+    &-content {
+      width: 100%;
+    }
+  }
 }
 
 .gallery-item-slides-entry {
