@@ -5,7 +5,8 @@
       :ipfs-image="nftMetadata?.image"
       :mime-type="nftMimeType"
       :name="nft?.name"
-      :current-owner="nft?.currentOwner" />
+      :current-owner="nft?.currentOwner"
+      :price="nft?.price" />
   </div>
 </template>
 
