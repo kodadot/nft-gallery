@@ -64,7 +64,7 @@ body:
   - type: dropdown
     id: chain-selector
     attributes:
-      label: Which wallet you are using? 
+      label: Which wallet you are using?
       multiple: true
       options:
         - PolkadotJS
@@ -79,7 +79,7 @@ body:
       options:
         - Basilisk
         - MoonSama
-        - RMRK
+        - Kusama
   - type: textarea
     id: Screenshots
     attributes:
@@ -94,12 +94,12 @@ body:
       label: Relevant log output
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
       render: shell
-      
+
   - type: textarea
     id: rewardaddress
     attributes:
       label: Payment link for reward
-      description: Whenever you will be actively participating to get your bug fixed, helping elaborating and testing to get bug mitigated, you are eliglible for recieving reward. Read more how to share your address for reciving rewards https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#sharing-your-address-to-receive-reward 
+      description: Whenever you will be actively participating to get your bug fixed, helping elaborating and testing to get bug mitigated, you are eliglible for recieving reward. Read more how to share your address for reciving rewards https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#sharing-your-address-to-receive-reward
       value: "https://kodadot.xyz/transfer/?target=%3CMy_Kusama_Address_check_https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#creating-your-ksm-address%3E"
   - type: checkboxes
     id: terms
