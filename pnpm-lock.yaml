@@ -24,7 +24,7 @@ importers:
       '@babel/plugin-transform-runtime': ^7.19.6
       '@babel/preset-env': ^7.20.2
       '@chenfengyuan/vue-qrcode': '1'
-      '@fortawesome/fontawesome-svg-core': 6.2.1
+      '@fortawesome/fontawesome-svg-core': ^6.2.1
       '@fortawesome/free-brands-svg-icons': ^6.2.1
       '@fortawesome/free-regular-svg-icons': ^6.2.1
       '@fortawesome/free-solid-svg-icons': ^6.2.1
