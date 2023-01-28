@@ -28,6 +28,7 @@ export default defineNuxtConfig({
 
   nitro: {
     publicAssets: [],
+    preset: 'netlify',
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
