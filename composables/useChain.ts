@@ -24,5 +24,6 @@ export default function () {
     decimals,
     unit,
     offersDisabled,
+    chainProperties,
   }
 }
