@@ -1033,6 +1033,12 @@
     "offerStats": "Offers Stats"
   },
   "walletConnect": {
+    "confirm": "Confirm",
+    "warning": "Warning",
+    "moreOption": "More Options",
+    "walletQuestion": "Don't have a wallet yet?",
+    "walletAnswer": "Wallets are used to send, receive, store, and display digital assets",
+    "walletLink": "Learn about wallets",
     "walletHeading": "Connect Wallet",
     "authText": "KodaDot will never ask you to provide your mnemonic phrase or private key.",
     "understand": "I understand",

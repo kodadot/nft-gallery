@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import WalletModal from '~/components/common/WalletModal.vue'
+import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 
 @Component({
@@ -28,9 +28,7 @@ export default class ConnectWalletButton extends Vue {
     }
     this.modal = this.$buefy.modal.open({
       parent: this,
-      component: WalletModal,
-      hasModalCard: true,
-      trapFocus: true,
+      ...ConnectWalletModalConfig,
     })
 
     this.$emit('closeBurgerMenu')
