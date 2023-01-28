@@ -7,10 +7,15 @@
       multiple
       aria-role="list"
       :class="{ 'sort-active': isActive }"
+      :mobile-modal="false"
       @change="onChange"
       @active-change="isActive = $event">
       <template #trigger>
-        <NeoButton type="button" icon="caret-down" class="has-text-left">
+        <NeoButton
+          type="button"
+          :icon="isActive ? 'caret-up' : 'caret-down'"
+          class="has-text-left"
+          data-cy="explore-sort">
           Sort By
         </NeoButton>
         <div v-if="selectedSort.length" class="sort-count">
@@ -23,7 +28,11 @@
         :key="option"
         aria-role="listitem"
         :value="option">
-        <span> {{ $i18n.t(`sort.${option}`) }} </span>
+        <span>
+          {{
+            $i18n.t(isItems ? `sort.${option}` : `sort.collection.${option}`)
+          }}
+        </span>
         <img
           v-if="selectedSort.includes(option)"
           class="sort-check"
@@ -38,14 +47,22 @@ import { isArray } from 'lodash'
 import { ODropdown } from '@oruga-ui/oruga'
 import { NeoButton, NeoDropdownItem } from '@kodadot1/brick'
 
-import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
+import {
+  NFT_SQUID_SORT_COLLECTIONS,
+  NFT_SQUID_SORT_CONDITION_LIST,
+} from '@/utils/constants'
 
 const route = useRoute()
 const router = useRouter()
 const { $i18n } = useNuxtApp()
 
-const options = NFT_SQUID_SORT_CONDITION_LIST
 const isActive = ref(false)
+const isItems = computed(() => route.path.includes('items'))
+const options = computed(() => {
+  return isItems.value
+    ? NFT_SQUID_SORT_CONDITION_LIST
+    : NFT_SQUID_SORT_COLLECTIONS
+})
 
 function selectiveSort(options: string[]) {
   const uniqueOptions = {}

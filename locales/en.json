@@ -555,6 +555,8 @@
       "blockNumber_ASC": "Old first",
       "updatedAt_DESC": "Recently Interacted",
       "updatedAt_ASC": "Unpopular",
+      "supply_DESC": "Most Supply",
+      "supply_ASC": "Least Supply",
       "price_DESC": "Price: High to Low",
       "price_ASC": "Price: Low to High",
       "sn_ASC": "Serial Number Ascending",
@@ -719,7 +721,7 @@
       "date": "Date",
       "title": "Global Marketplace Offers"
     },
-    "notification" : {
+    "notification": {
       "nftChanged": "[{chain}::{action}] Owner changed or NFT does not exist",
       "info": "[{action}] NFT: {itemId}"
     }

@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-5 explore-tabs field has-addons is-flex" data-cy="tabs">
+  <div class="explore-tabs field has-addons is-flex" data-cy="tabs">
     <p class="control">
       <NeoButton
         class="explore-tabs-button"

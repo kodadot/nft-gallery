@@ -79,7 +79,6 @@ import ChainMixin from '~/utils/mixins/chainMixin'
 
 @Component({
   components: {
-    Sort: () => import('./SearchSortDropdown.vue'),
     SearchBarInput: () => import('./SearchBar.vue'),
     SearchPriceRange: () => import('./SearchPriceRange.vue'),
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
