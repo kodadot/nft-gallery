@@ -132,10 +132,6 @@ onMounted(() => {
     }
   }
 
-  .is-neo {
-    width: 10rem;
-  }
-
   .neo-dropdown-item {
     width: 16rem;
   }
