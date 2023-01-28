@@ -266,7 +266,7 @@
         "m": "Currently, the minimum cost of transferring KSM is 0.01 KSM (the base fee), although this can be changed via governance."
       },
       "36": {
-        "m": "RMRK is currently just an NFT baked into the blockchain and we don't have any chain logic. From the lesson of randomness, we know that there is the possibility that two or more people can make buy transactions in the same block and can lose money. Then it's just about the honesty of the artist to return the money or mint the same NFT as the token of appreciation."
+        "m": "Kusama is currently just an NFT baked into the blockchain and we don't have any chain logic. From the lesson of randomness, we know that there is the possibility that two or more people can make buy transactions in the same block and can lose money. Then it's just about the honesty of the artist to return the money or mint the same NFT as the token of appreciation."
       },
       "37": {
         "m": "Yes, currently the KodaDot integration in Nova wallet is working fine. We've made @.md:faq.a.37.l1 on how to do this.",
@@ -469,7 +469,7 @@
     },
     "49": {
       "heading:": "Did you know ...",
-      "question": "KodaDot was the first unofficial RMRK explorer? We hack fast. "
+      "question": "KodaDot was the first unofficial Kusama explorer? We hack fast. "
     },
     "50": {
       "heading:": "Did you know ...",
@@ -827,7 +827,7 @@
   "sales": {
     "page": "Sales",
     "title": "Latest KUSAMA Sales",
-    "subtitle": "Featuring the most recently sold NFTs on RMRK.",
+    "subtitle": "Featuring the most recently sold NFTs on Kusama.",
     "buyer": "Buyer",
     "tableDate": "Relative Date",
     "price": "Price of sale"
@@ -835,12 +835,12 @@
   "hot": {
     "label": "Hot",
     "title": "Recently KUSAMA Sales In One Week",
-    "subtitle": "Featuring the recently sold NFTs on RMRK"
+    "subtitle": "Featuring the recently sold NFTs on Kusama"
   },
   "spotlight": {
     "page": "Spotlight",
     "title": "User Spotlight",
-    "subtitle": "Featuring the most active collectors and artits on RMRK.",
+    "subtitle": "Featuring the most active collectors and artits on Kusama.",
     "filter_accounts": "Accounts With Identity",
     "id": "Creator",
     "sold": "Sold",
@@ -929,7 +929,7 @@
     "topCollectionsHeading": "Top Collections",
     "floor": "floor",
     "popularCollectionsHeading": "Popular Collections",
-    "popularCollectionsDesc": "Discover the most popular collections on rmrk",
+    "popularCollectionsDesc": "Discover the most popular collections on Kusama",
     "featuredArticlesHeading": "Featured Articles",
     "from": "from",
     "to": "to",
@@ -1166,6 +1166,10 @@
     "offer": {
       "success": "Offer successfully created",
       "error": "Offer creation failed"
+    },
+    "unlist": {
+      "success": "Item successfully unlisted",
+        "error": "Item unlisting failed"
     }
   },
   "createDropdown": {
