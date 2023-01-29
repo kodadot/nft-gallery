@@ -43,23 +43,23 @@ const articles: Articles[] = [
     link: 'https://kodadot.substack.com/p/travel-with-kodadot-to-lisbon-and',
   },
   {
-    title: 'RIDE ON ART #6 RainbowNFT',
+    title: 'RIDE ON ART #7 - CHIGO ARTISH',
     description:
       // prettier-ignore
-      'Another Friday, another article. This week I will introduce you to RainbowNFT. An incredible NFT artist who is part of our DotSama ecosystem. Who is the person behind this art? Read and learn!',
+      'You probably noticed that a few weeks ago, a new collection, Coalesce, was minted on KodaDot. Each piece is a collage full of bright colours. You will fall in love with them as it happened to me.',
     image:
-      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fefd65f3d-b736-4b29-81c8-c65fa000d952_1200x675.png',
-    link: 'https://kodadot.substack.com/p/ride-on-art-6-rainbownft',
+      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd31d2945-c620-423a-8c21-d88807326b45_1200x675.png',
+    link: 'https://kodadot.substack.com/p/ride-on-art-7-chigo-artish',
   },
   {
     // prettier-ignore
-    title: 'RIDE ON ART #5 KUSAMA ACID',
+    title: 'How was DOTBrno? 💚',
     description:
       // prettier-ignore
-      'Hello Koda readers. I\'m happy to introduce you to our already fifth artist in this series, "Ride on art". Adding music to NFTs is just a whole different level and area, don\'t you think?\n',
+      'After a successful event, DotsamaPrague, we decided to organise DOTBrno. Read more about how this day went, who the speakers were and what surprises we prepared for attendees.',
     image:
-      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F4a146af3-aa81-41cd-924d-5bfe43da0931_1200x675.png',
-    link: 'https://kodadot.substack.com/p/ride-on-art-5-kusama-acid',
+      'https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F2399b7cb-c35e-4e2a-97ff-2c8da99929bc_1456x485.png',
+    link: 'https://kodadot.substack.com/p/how-was-dotbrno',
   },
 ]
 </script>
