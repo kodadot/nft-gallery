@@ -3366,13 +3366,6 @@ packages:
   /@jridgewell/sourcemap-codec/1.4.14:
     resolution: {integrity: sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==}
 
-  /@jridgewell/trace-mapping/0.3.14:
-    resolution: {integrity: sha512-bJWEfQ9lPTvm3SneWwRFVLzrh6nhjwqw7TUFFBEMzwvg7t7PCDenf2lDwqo4NQXzdpgBXyFgDWnQA+2vkruksQ==}
-    dependencies:
-      '@jridgewell/resolve-uri': 3.1.0
-      '@jridgewell/sourcemap-codec': 1.4.14
-    dev: true
-
   /@jridgewell/trace-mapping/0.3.17:
     resolution: {integrity: sha512-MCNzAp77qzKca9+W/+I0+sEpaUnZoeasnghNeVc41VZCEKaCH73Vq3BZZ/SzWIgrqE4H4ceI+p+b6C0mHf9T4g==}
     dependencies:
@@ -20783,7 +20776,7 @@ packages:
     resolution: {integrity: sha512-74Y4LqY74kLE6IFyIjPtkSTWzUZmj8tdHT9Ii/26dvQ6K9Dl2NbEfj0XgU2sHCtKgt5VupqhlO/5aWuqS+IY1w==}
     engines: {node: '>=10.12.0'}
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.14
+      '@jridgewell/trace-mapping': 0.3.17
       '@types/istanbul-lib-coverage': 2.0.4
       convert-source-map: 1.8.0
     dev: true
@@ -21022,8 +21015,8 @@ packages:
         optional: true
     dependencies:
       '@types/node': 18.11.4
-      esbuild: 0.15.18
-      postcss: 8.4.21
+      esbuild: 0.15.12
+      postcss: 8.4.18
       resolve: 1.22.1
       rollup: 2.79.1
       sass: 1.57.1
@@ -21056,8 +21049,8 @@ packages:
       terser:
         optional: true
     dependencies:
-      esbuild: 0.15.18
-      postcss: 8.4.21
+      esbuild: 0.15.12
+      postcss: 8.4.18
       resolve: 1.22.1
       rollup: 2.79.1
       sass: 1.57.1

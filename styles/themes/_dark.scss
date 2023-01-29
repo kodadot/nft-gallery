@@ -1,179 +1,168 @@
-html.dark-mode {
-  body,
-  div#__nuxt,
-  div#__layout,
-  main {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $dark-accent;
-  }
-  main {
-    background-color: unset;
-  }
+// html.dark-mode {
 
-  .title,
-  .card-header-title,
-  .input {
-    color: $text !important;
-  }
 
-  .link {
-    color: #fff !important;
+//   // .title,
+//   // .card-header-title,
+//   // .input {
+//   //   color: $text !important;
+//   // }
 
-    &:hover {
-      color: $shade !important;
-    }
-  }
+//   .link {
+//     color: #fff !important;
 
-  .instance {
-    border-color: $white;
-  }
+//     &:hover {
+//       color: $shade !important;
+//     }
+//   }
 
-  .landing-search {
-    .subtitle {
-      color: $search-background-color !important;
-      text-shadow: 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
-        -1px -1px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, -1px 0px 0 #fff,
-        0px -1px 0 #fff, 4px 4px #fff;
-    }
-  }
+//   .instance {
+//     border-color: $white;
+//   }
 
-  .search-bar-container {
-    .link-item {
-      &:hover {
-        background-color: $k-accentlight2dark;
-      }
-    }
+//   .landing-search {
+//     .subtitle {
+//       color: $search-background-color !important;
+//       text-shadow: 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+//         -1px -1px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, -1px 0px 0 #fff,
+//         0px -1px 0 #fff, 4px 4px #fff;
+//     }
+//   }
 
-    .tabs li.is-active a {
-      color: $white !important;
-      background-color: $k-dark !important;
-    }
+//   .search-bar-container {
+//     .link-item {
+//       &:hover {
+//         background-color: $k-accentlight2dark;
+//       }
+//     }
 
-    .tabs li:not(.is-active) a {
-      color: $white;
-    }
+//     .tabs li.is-active a {
+//       color: $white !important;
+//       background-color: $k-dark !important;
+//     }
 
-    .search-history {
-      .times-icon {
-        &:hover {
-          color: $shade;
-        }
-      }
+//     .tabs li:not(.is-active) a {
+//       color: $white;
+//     }
 
-      .search-history-item {
-        &:hover {
-          background-color: $k-accentlight2dark;
-        }
-      }
-    }
-  }
+//     .search-history {
+//       .times-icon {
+//         &:hover {
+//           color: $shade;
+//         }
+//       }
 
-  .dropdown-content {
-    box-shadow: $primary-shadow-dark;
-    border-radius: 0;
-    border: 1px solid $white;
-  }
+//       .search-history-item {
+//         &:hover {
+//           background-color: $k-accentlight2dark;
+//         }
+//       }
+//     }
+//   }
 
-  .modal-card-container {
-    border: 1px solid white;
-    .wallet .buttons {
-      button {
-        background: $k-dark !important;
-        border: 1px solid $white;
-      }
-      .button {
-        background: $k-dark !important;
-        border: 1px solid $white;
-        border-radius: unset;
+//   .dropdown-content {
+//     box-shadow: $primary-shadow-dark;
+//     border-radius: 0;
+//     border: 1px solid $white;
+//   }
 
-        &:hover {
-          background-color: $k-accentlight2dark !important;
-          color: $white;
-        }
-      }
-    }
-    .modal-card-bg {
-      background: $white;
-    }
-    .modal-card-head {
-      background: $k-dark !important;
-      .delete {
-        background: none;
-        &::before {
-          background-color: $white;
-        }
-        &::after {
-          background-color: $white;
-        }
-      }
-    }
-    .wallet-name {
-      background: $white !important;
-      .is-white {
-        color: $background-dark !important;
-      }
-    }
-    .dropdown-content .dropdown-item {
-      &:hover {
-        background-color: $k-accentlight2dark !important;
-      }
-    }
-  }
+//   .modal-card-container {
+//     border: 1px solid white;
+//     .wallet .buttons {
+//       button {
+//         background: $k-dark !important;
+//         border: 1px solid $white;
+//       }
+//       .button {
+//         background: $k-dark !important;
+//         border: 1px solid $white;
+//         border-radius: unset;
 
-  .image-outline {
-    border-color: $white;
-  }
+//         &:hover {
+//           background-color: $k-accentlight2dark !important;
+//           color: $white;
+//         }
+//       }
+//     }
+//     .modal-card-bg {
+//       background: $white;
+//     }
+//     .modal-card-head {
+//       background: $k-dark !important;
+//       .delete {
+//         background: none;
+//         &::before {
+//           background-color: $white;
+//         }
+//         &::after {
+//           background-color: $white;
+//         }
+//       }
+//     }
+//     .wallet-name {
+//       background: $white !important;
+//       .is-white {
+//         color: $background-dark !important;
+//       }
+//     }
+//     .dropdown-content .dropdown-item {
+//       &:hover {
+//         background-color: $k-accentlight2dark !important;
+//       }
+//     }
+//   }
 
-  .scroll-top-button {
-    border-color: $white !important;
-    box-shadow: 4px 4px 0px $white;
-    &:hover {
-      background: $k-accent !important;
-      path {
-        color: $black;
-      }
-    }
-  }
+//   .image-outline {
+//     border-color: $white;
+//   }
 
-  .gallery-item-media {
-    border: 1px solid #fff;
-    box-shadow: 4px 4px 0px #fff;
-  }
+//   .scroll-top-button {
+//     border-color: $white !important;
+//     box-shadow: 4px 4px 0px $white;
+//     &:hover {
+//       background: $k-accent !important;
+//       path {
+//         color: $black;
+//       }
+//     }
+//   }
 
-  .profile-dropdown-divider {
-    background-color: #cccccc;
-  }
+//   .gallery-item-media {
+//     border: 1px solid #fff;
+//     box-shadow: 4px 4px 0px #fff;
+//   }
 
-  .gallery-avatar {
-    .avatar {
-      box-shadow: $primary-shadow-dark !important;
-      border: 1px solid $white !important;
-    }
-  }
+//   .profile-dropdown-divider {
+//     background-color: #cccccc;
+//   }
 
-  --card-box-shadow: 4px 4px white;
+//   .gallery-avatar {
+//     .avatar {
+//       box-shadow: $primary-shadow-dark !important;
+//       border: 1px solid $white !important;
+//     }
+//   }
 
-  .identity-name {
-    color: white;
+//   --card-box-shadow: 4px 4px white;
 
-    &:hover {
-      color: $shade;
-    }
-  }
+//   .identity-name {
+//     color: white;
 
-  .input {
-    &-price {
-      background: $k-dark !important;
-      color: $text !important;
-    }
-  }
-  .slide {
-    box-shadow: 4px 4px 0 white;
+//     &:hover {
+//       color: $shade;
+//     }
+//   }
 
-    .slide-content {
-      border: 1px solid white !important;
-    }
-  }
-}
+//   .input {
+//     &-price {
+//       background: $k-dark !important;
+//       color: $text !important;
+//     }
+//   }
+//   .slide {
+//     box-shadow: 4px 4px 0 white;
+
+//     .slide-content {
+//       border: 1px solid white !important;
+//     }
+//   }
+// }

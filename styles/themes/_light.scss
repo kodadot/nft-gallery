@@ -1,264 +1,248 @@
-html.light-mode {
-  background-color: $white;
+// html.light-mode {
 
-  body,
-  div#__nuxt,
-  div#__layout,
-  main {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $white;
-    color: $text-light-theme;
-  }
+//   .box,
+//   .card {
+//     background-color: $background-light;
+//     color: $text-light-theme;
+//   }
 
-  main {
-    background-color: unset;
-  }
+//   .subtitle {
+//     color: $text-light-theme;
+//   }
 
-  .box,
-  .card {
-    background-color: $background-light;
-    color: $text-light-theme;
-  }
+//   .text {
+//     &__stroked {
+//       -webkit-text-fill-color: $white;
+//     }
+//   }
 
-  .subtitle {
-    color: $text-light-theme;
-  }
+//   .select select option {
+//     color: $text-light-theme;
+//   }
 
-  .text {
-    &__stroked {
-      -webkit-text-fill-color: $white;
-    }
-  }
+//   .dropdown-content {
+//     color: $text-light-theme;
+//     background-color: $white;
+//     box-shadow: $primary-shadow;
+//     border-radius: 0;
+//     border: 1px solid $black;
 
-  .select select option {
-    color: $text-light-theme;
-  }
+//     .dropdown-item:not(.is-active) {
+//       color: $text-light-theme;
+//     }
+//   }
 
-  .dropdown-content {
-    color: $text-light-theme;
-    background-color: $white;
-    box-shadow: $primary-shadow;
-    border-radius: 0;
-    border: 1px solid $black;
+//   .homepage .tile .box {
+//     border-color: #f3f3f3;
+//     background-color: $white;
+//   }
 
-    .dropdown-item:not(.is-active) {
-      color: $text-light-theme;
-    }
-  }
+//   .select select {
+//     color: $text-light-theme;
+//     background-color: #f3f3f3;
+//   }
 
-  .homepage .tile .box {
-    border-color: #f3f3f3;
-    background-color: $white;
-  }
+//   .select {
+//     &:not(.is-multiple):not(.is-loading)::after {
+//       border-color: $black;
+//     }
+//   }
 
-  .select select {
-    color: $text-light-theme;
-    background-color: #f3f3f3;
-  }
+//   //  .tabs li:not(.is-active) a,
+//   // .pagination-previous,
+//   // .pagination-next,
+//   // .pagination-link,
+//   body .title,
+//   .auth-avatar .subtitle,
+//   .royalty {
+//     color: $text-light-theme;
+//   }
 
-  .select {
-    &:not(.is-multiple):not(.is-loading)::after {
-      border-color: $black;
-    }
-  }
+//   .level .title,
+//   .homepage .title:not(h2),
+//   body .card-header-title,
+//   .card-header-icon {
+//     color: $text-light-theme !important;
+//   }
 
-  //  .tabs li:not(.is-active) a,
-  // .pagination-previous,
-  // .pagination-next,
-  // .pagination-link,
-  body .title,
-  .auth-avatar .subtitle,
-  .royalty {
-    color: $text-light-theme;
-  }
+//   .button:not(.is-primary),
+//   .input,
+//   .textarea,
+//   .taginput .taginput-container.is-focusable {
+//     color: $text-light-theme;
+//     background-color: $white;
+//   }
 
-  .level .title,
-  .homepage .title:not(h2),
-  body .card-header-title,
-  .card-header-icon {
-    color: $text-light-theme !important;
-  }
+//   .input::placeholder,
+//   .textarea::placeholder {
+//     color: #b2b2b2 !important;
+//   }
 
-  .button:not(.is-primary),
-  .input,
-  .textarea,
-  .taginput .taginput-container.is-focusable {
-    color: $text-light-theme;
-    background-color: $white;
-  }
+//   .list-header,
+//   .collapse.card {
+//     background: inherit;
+//   }
 
-  .input::placeholder,
-  .textarea::placeholder {
-    color: #b2b2b2 !important;
-  }
+//   .select select::placeholder,
+//   .taginput .taginput-container.is-focusable::placeholder,
+//   .textarea::placeholder,
+//   .input::placeholder {
+//     color: inherit;
+//   }
 
-  .list-header,
-  .collapse.card {
-    background: inherit;
-  }
+//   .scroll-top-button,
+//   .tippy-popper .tippy-tooltip {
+//     color: $text-light-theme;
+//     background-color: $white;
+//   }
 
-  .select select::placeholder,
-  .taginput .taginput-container.is-focusable::placeholder,
-  .textarea::placeholder,
-  .input::placeholder {
-    color: inherit;
-  }
+//   .carousel-card-list .card {
+//     box-shadow: -8px 4px 8px #f3f3f3;
+//     border-color: #f3f3f3;
+//     background-color: $white;
 
-  .scroll-top-button,
-  .tippy-popper .tippy-tooltip {
-    color: $text-light-theme;
-    background-color: $white;
-  }
+//     .card-footer {
+//       color: $text-light-theme;
+//     }
+//   }
 
-  .carousel-card-list .card {
-    box-shadow: -8px 4px 8px #f3f3f3;
-    border-color: #f3f3f3;
-    background-color: $white;
+//   .modal-card {
+//     background: $white !important;
+//     color: $text-light-theme;
 
-    .card-footer {
-      color: $text-light-theme;
-    }
-  }
+//     &-title {
+//       color: $text-light-theme !important;
+//     }
 
-  .modal-card {
-    background: $white !important;
-    color: $text-light-theme;
+//     .button.is-primary.is-inverted.is-outlined {
+//       background-color: transparent;
+//       border-color: $primary;
+//       color: $primary;
+//     }
+//   }
 
-    &-title {
-      color: $text-light-theme !important;
-    }
+//   .table {
+//     color: $text-light-theme;
+//     background-color: $white;
 
-    .button.is-primary.is-inverted.is-outlined {
-      background-color: transparent;
-      border-color: $primary;
-      color: $primary;
-    }
-  }
+//     &.is-hoverable tbody tr:not(.is-selected):hover {
+//       background-color: hsl(0deg, 0%, 92%);
+//     }
 
-  .table {
-    color: $text-light-theme;
-    background-color: $white;
+//     th {
+//       color: hsl(0deg, 0%, 8%);
+//     }
+//   }
 
-    &.is-hoverable tbody tr:not(.is-selected):hover {
-      background-color: hsl(0deg, 0%, 92%);
-    }
+//   .b-table .table-wrapper.has-sticky-header tr:first-child th,
+//   tr,
+//   .snackbar {
+//     background-color: $white !important;
+//   }
 
-    th {
-      color: hsl(0deg, 0%, 8%);
-    }
-  }
+//   .loading-container {
+//     .funfact-text {
+//       color: $text-light-theme;
+//     }
+//   }
 
-  .b-table .table-wrapper.has-sticky-header tr:first-child th,
-  tr,
-  .snackbar {
-    background-color: $white !important;
-  }
+//   .wallet .buttons button {
+//     background-color: rgba(243, 243, 243, 0.9);
+//   }
 
-  .loading-container {
-    .funfact-text {
-      color: $text-light-theme;
-    }
-  }
+//   .gallery .has-text-overflow-ellipsis,
+//   .collections .columns .card .card-content .collection-title,
+//   .collections .columns .card .card-content .heading--inline,
+//   .control-label,
+//   .snackbar {
+//     color: $text-light-theme;
+//   }
 
-  .wallet .buttons button {
-    background-color: rgba(243, 243, 243, 0.9);
-  }
+//   .nft-card .card-content {
+//     background-color: $frosted-glass-background-dark !important;
+//   }
 
-  .gallery .has-text-overflow-ellipsis,
-  .collections .columns .card .card-content .collection-title,
-  .collections .columns .card .card-content .heading--inline,
-  .control-label,
-  .snackbar {
-    color: $text-light-theme;
-  }
+//   .price-block__original {
+//     .money {
+//       color: $text-light-theme;
+//     }
+//   }
 
-  .nft-card .card-content {
-    background-color: $frosted-glass-background-dark !important;
-  }
+//   .share__tooltip {
+//     .tooltip-content {
+//       background-color: $white !important;
+//     }
+//   }
 
-  .price-block__original {
-    .money {
-      color: $text-light-theme;
-    }
-  }
+//   .carousel-items {
+//     .title {
+//       color: $text-light-theme;
+//     }
+//   }
 
-  .share__tooltip {
-    .tooltip-content {
-      background-color: $white !important;
-    }
-  }
+//   .snackbar {
+//     .button {
+//       background-color: rgba(243, 243, 243, 0.9) !important;
+//       color: $text-light-theme !important;
+//     }
+//   }
 
-  .carousel-items {
-    .title {
-      color: $text-light-theme;
-    }
-  }
+//   .b-table .table .chevron-cell > a {
+//     color: $primary !important;
+//   }
 
-  .snackbar {
-    .button {
-      background-color: rgba(243, 243, 243, 0.9) !important;
-      color: $text-light-theme !important;
-    }
-  }
+//   .main-title {
+//     color: $text-light-theme;
+//   }
 
-  .b-table .table .chevron-cell > a {
-    color: $primary !important;
-  }
+//   .search-footer-link {
+//     color: $black !important;
+//     .link-item:hover {
+//       color: $k-hovergrey;
+//     }
+//   }
 
-  .main-title {
-    color: $text-light-theme;
-  }
+//   .gallery-item-media {
+//     border: 1px solid #000;
+//     box-shadow: 4px 4px 0px #000;
+//   }
 
-  .search-footer-link {
-    color: $black !important;
-    .link-item:hover {
-      color: $k-hovergrey;
-    }
-  }
+//   .search-bar-container {
+//     .gallery-search {
+//       .control .icon {
+//         color: $dark;
+//       }
 
-  .gallery-item-media {
-    border: 1px solid #000;
-    box-shadow: 4px 4px 0px #000;
-  }
+//       .media-content {
+//         color: $k-grey;
+//       }
 
-  .search-bar-container {
-    .gallery-search {
-      .control .icon {
-        color: $dark;
-      }
+//       input {
+//         border: 1px solid #000;
+//         background-color: #fff;
+//       }
+//     }
 
-      .media-content {
-        color: $k-grey;
-      }
+//     .search-bar-bg {
+//       background-color: #000;
+//     }
 
-      input {
-        border: 1px solid #000;
-        background-color: #fff;
-      }
-    }
+//     .identity-name {
+//       color: $black;
+//     }
+//   }
 
-    .search-bar-bg {
-      background-color: #000;
-    }
+//   --card-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+// }
 
-    .identity-name {
-      color: $black;
-    }
-  }
-
-  --card-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
-}
-
-.gallery-avatar {
-  .avatar {
-    box-shadow: $primary-shadow;
-    border: 1px solid $black;
-    border-radius: 50%;
-    & > div {
-      display: flex;
-      align-items: center;
-    }
-  }
-}
+// .gallery-avatar {
+//   .avatar {
+//     box-shadow: $primary-shadow;
+//     border: 1px solid $black;
+//     border-radius: 50%;
+//     & > div {
+//       display: flex;
+//       align-items: center;
+//     }
+//   }
+// }
