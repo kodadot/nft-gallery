@@ -18,8 +18,10 @@
           data-cy="explore-sort">
           Sort By
         </NeoButton>
-        <div v-if="selectedSort.length" class="sort-count">
-          {{ selectedSort.length }}
+        <div
+          v-if="selectedSort.length"
+          class="sort-count is-flex is-justify-content-center is-align-items-center">
+          <span>{{ selectedSort.length }}</span>
         </div>
       </template>
 
@@ -148,6 +150,7 @@ onMounted(() => {
     @include ktheme() {
       background-color: theme('k-accent');
       border: 1px solid theme('text-color');
+      color: theme('text-color-indicator');
     }
   }
 }
