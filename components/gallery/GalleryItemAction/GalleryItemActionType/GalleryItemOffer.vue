@@ -140,7 +140,7 @@ const offerPriceInvalid = computed(() => {
 })
 
 const disabledConfirmBtn = computed(
-  () => !(!offerPriceInvalid.value && !insufficientBalance.value)
+  () => offerPriceInvalid.value || insufficientBalance.value
 )
 
 function toggleActive() {
@@ -203,6 +203,7 @@ onClickOutside(actionRef, () => {
 
 .offer {
   width: 12rem;
+
   &-price {
     border: 1px solid black;
     border-left: 0;
