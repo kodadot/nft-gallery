@@ -6,7 +6,7 @@
 
       @include ktheme() {
         border-top: 1px solid theme('text-color');
-        background: theme('text-color-inverse');
+    background: theme('background-color');
       }
 
       @include mobile {
@@ -62,13 +62,13 @@
             z-index: 100;
 
             @include ktheme() {
-              background-color: theme('text-color-inverse');
+              background: theme('background-color');
             }
           }
 
           &--reverse {
             @include ktheme() {
-              background-color: theme('text-color');
+              background: theme('background-color-inverse');
               color: theme('text-color-inverse');
             }
           }
@@ -146,7 +146,7 @@
   background: $white;
 
   @include ktheme() {
-    background-color: theme('text-color-inverse');
+    background: theme('background-color');
     border-bottom: 1px solid theme('text-color');
   }
 
@@ -213,7 +213,7 @@
       height: 2.5em;
       width: 2.5em;
       @include ktheme() {
-        background-color: theme('text-color-inverse');
+        background: theme('background-color');
         color: theme('text-color');
       }
     }
@@ -286,7 +286,7 @@
     .is-active > a {
       @include ktheme() {
         color: theme('text-color-inverse') !important;
-        background: theme('text-color');
+        background: theme('background-color-inverse');
         &:hover {
           background: theme('text-color') !important;
         }
@@ -383,7 +383,7 @@
 
     @include ktheme() {
       border-bottom: 1px solid theme('text-color');
-      background: theme('text-color-inverse');
+      background: theme('background-color');
     }
 
     .dropdown-menu {

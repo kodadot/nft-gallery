@@ -226,7 +226,7 @@ export default class Sharing extends Vue {
       @include ktheme() {
         box-shadow: theme('primary-shadow' !important);
         border: 1px solid theme('text-color') !important;
-        background: theme('text-color-inverse') !important;
+        background: theme('background-color') !important;
       }
     }
 
@@ -239,7 +239,7 @@ export default class Sharing extends Vue {
     &.is-light {
       .tooltip-content {
         @include ktheme() {
-          background-color: 1px solid theme('text-color-inverse');
+          background-color: 1px solid theme('background-color');
         }
       }
     }

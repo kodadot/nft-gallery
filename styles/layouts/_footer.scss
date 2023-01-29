@@ -2,7 +2,7 @@
   position: relative;
   border-top: 1px solid;
   @include ktheme() {
-    background: theme('text-color-inverse');
+    background: theme('background-color');
   }
 
   .subtitle {
@@ -54,7 +54,7 @@
         box-shadow: $primary-shadow;
 
         @include ktheme() {
-          background: theme('text-color-inverse');
+          background: theme('background-color');
           border: 1px solid theme('text-color');
           box-shadow: theme('primary-shadow');
           &:hover {
@@ -86,7 +86,7 @@
       padding-left: 24px !important;
 
       @include ktheme() {
-        background-color: theme('text-color-inverse') !important;
+        background: theme('background-color') !important;
         color: theme('text-color') !important;
         &::placeholder {
           color: theme('placeholder-color') !important;
@@ -101,7 +101,7 @@
       @include ktheme() {
         border-left: 1px solid theme('text-color') !important;
         &:hover {
-          background: theme('text-color-inverse') !important;
+          background: theme('background-color') !important;
           color: theme('text-color') !important;
         }
       }

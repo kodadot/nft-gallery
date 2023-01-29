@@ -72,7 +72,7 @@ defineProps<{
       @include ktheme() {
         border: 1px solid theme('text-color');
         color: theme('text-color');
-        background-color: theme('text-color-inverse');
+        background-color: theme('background-color');
       }
     }
   }

@@ -48,7 +48,7 @@ defineProps<{
 
   @include ktheme() {
     box-shadow: theme('primary-shadow');
-    background-color: theme('text-color-inverse');
+    background-color: theme('background-color');
     border: 1px solid theme('text-color');
   }
 

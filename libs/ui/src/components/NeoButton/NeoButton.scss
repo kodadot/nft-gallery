@@ -12,7 +12,7 @@
     box-shadow: theme('primary-shadow');
     border: 1px solid theme('text-color');
     color: theme('text-color');
-    background: theme('text-color-inverse');
+    background: theme('background-color');
   }
 
   &:hover {
@@ -23,7 +23,7 @@
 
   &.active {
     @include ktheme() {
-      background-color: theme('text-color');
+      background-color: theme('background-color-inverse');
       color: theme('text-color-inverse');
     }
   }
@@ -35,7 +35,7 @@
       background-color: theme('k-primary');
       color: theme('black');
       &:hover {
-        background: theme('text-color-inverse');
+        background: theme('background-color');
         color: theme('text-color');
       }
     }
@@ -55,7 +55,7 @@
       background-color: theme('k-blue');
       color: theme('black');
       &:hover {
-        background: theme('text-color-inverse');
+        background: theme('background-color');
         color: theme('text-color');
       }
     }
@@ -75,7 +75,7 @@
     height: 40px;
 
     @include ktheme() {
-      background-color: theme('text-color-inverse');
+      background: theme('background-color');
       &:hover {
         background-color: theme('k-accentHover');
         color: theme('text-color');

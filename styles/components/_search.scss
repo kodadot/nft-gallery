@@ -91,7 +91,7 @@
     left: 4px;
     z-index: 0;
     @include ktheme() {
-      background: theme('text-color-inverse');
+      background: theme('background-color');
     }
   }
 
@@ -144,7 +144,7 @@
       box-shadow: theme('primary-shadow');
       border: 1px solid theme('text-color');
       color: theme('text-color');
-      background: theme('text-color-inverse');
+      background: theme('background-color');
 
       &::placeholder {
         color: theme('placeholder-color') !important;
@@ -231,7 +231,7 @@
     font-weight: 700;
     @include ktheme() {
       border-bottom-color: theme('placeholder-color');
-      background: theme('text-color-inverse');
+      background: theme('background-color');
       color: theme('text-color');
     }
   }
