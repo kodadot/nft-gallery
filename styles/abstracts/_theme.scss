@@ -16,7 +16,8 @@ $themes: (
     'k-primary': #ff7ac3,
     'k-shade': #cccccc,
     'placeholder-color':  #cccccc,
-    'primary-shadow': 4px 4px $black
+    'primary-shadow': 4px 4px $black,
+    'background-color': #ffffff,
   ),
   'dark-mode': (
     'white': #ffffff,
@@ -36,6 +37,7 @@ $themes: (
     'k-shade': #999999,
     'placeholder-color':  #cccccc,
     'primary-shadow': 4px 4px $white
+    'background-color': #191718,
   ),
 );
 

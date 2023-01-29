@@ -66,7 +66,7 @@ const url = inject('itemUrl', 'gallery') as string
 const isCollection = inject<boolean>('isCollection', false)
 const chainName = computed(() => {
   const name = {
-    rmrk: 'RMRK',
+    rmrk: 'Kusama',
     snek: 'Snek (Rococo)',
     bsx: 'Basilisk',
   }
