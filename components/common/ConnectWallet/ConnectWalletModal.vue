@@ -133,12 +133,12 @@ const setForceWalletSelect = () => {
   forceWalletSelect.value = true
 }
 
-const showAccount = computed(() => account && !forceWalletSelect.value)
+const showAccount = computed(() => account.value && !forceWalletSelect.value)
 
 const wallets = SupportedWallets()
 const headerTitle = computed(() =>
   $i18n.t(
-    account
+    account.value
       ? 'walletConnect.walletDetails'
       : hasUserWalletAuth
       ? 'walletConnect.walletHeading'
