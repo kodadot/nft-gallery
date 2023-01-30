@@ -19,7 +19,7 @@
             </a>
           </div>
         </template>
-        <div class="p-4">
+        <form class="p-4" @submit.prevent="setPriceRange">
           <b-field label="MIN" label-position="inside">
             <b-input
               v-model="range.min"
@@ -41,7 +41,7 @@
           <NeoButton data-cy="apply" expanded @click.native="setPriceRange">
             {{ $t('general.apply') }}
           </NeoButton>
-        </div>
+        </form>
       </b-collapse>
       <b-collapse :open="true" animation="slide">
         <template #trigger="props">
