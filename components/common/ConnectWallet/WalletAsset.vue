@@ -1,12 +1,12 @@
 <template>
   <div class="is-flex is-flex-direction-column wallet-asset">
-    <div class="">
-      <div>
+    <div>
+      <div class="is-capitalized">
         {{ $i18n.t('walletConnect.walletAccount', [extensionName]) }}
       </div>
       <Identity
+        class="identity-address is-size-6"
         :address="account"
-        class="is-size-6"
         show-clipboard
         hide-identity-popover />
     </div>
@@ -20,11 +20,14 @@
 
     <hr class="dropdown-divider" />
 
-    <div class="is-flex is-justify-content-space-between">
-      <span> {{ $i18n.t('walletConnect.total') }}: </span>
+    <div
+      v-if="totalValue"
+      class="is-flex is-justify-content-space-between is-align-items-center my-1">
+      <span class="is-size-7"> {{ $i18n.t('walletConnect.total') }}: </span>
       <span> ${{ totalValue }} </span>
     </div>
-    <div class="buttons is-justify-content-space-between my-2">
+    <div
+      class="buttons is-justify-content-space-between is-flex-wrap-nowrap my-2">
       <NeoButton
         class="button is-size-7 is-capitalized"
         :label="$i18n.t('general.change_account')"
