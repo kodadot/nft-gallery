@@ -8,13 +8,7 @@
         icon-left="chevron-left"
         @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
       <span class="modal-card-title is-size-6">
-        {{
-          $i18n.t(
-            hasUserWalletAuth
-              ? 'walletConnect.walletHeading'
-              : 'walletConnect.warning'
-          )
-        }}
+        {{ headerTitle }}
       </span>
       <a class="is-flex is-align-items-center" @click="emit('close')">
         <svg
@@ -38,7 +32,10 @@
         </svg>
       </a>
     </header>
-    <section v-if="hasUserWalletAuth" class="modal-card-body">
+    <section v-if="showAccount">
+      <WalletAsset @back="setForceWalletSelect" />
+    </section>
+    <section v-else-if="hasUserWalletAuth" class="modal-card-body">
       <div class="buttons m-0">
         <WalletMenuItem
           v-for="(wallet, index) in installedWallet"
@@ -92,7 +89,7 @@
       </b-field>
     </section>
 
-    <footer class="px-5 py-4">
+    <footer v-if="!showAccount" class="px-5 py-4">
       <div>{{ $i18n.t('walletConnect.walletQuestion') }}</div>
       <div class="is-size-7">
         {{ $i18n.t('walletConnect.walletAnswer') }}
@@ -124,13 +121,30 @@ import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { NeoButton } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem'
+import WalletAsset from '@/components/common/ConnectWallet/WalletAsset'
 
-const { $store } = useNuxtApp()
+const { $store, $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const hasSelectedWalletProvider = ref(false)
+const account = ref<string>($store.getters.getAuthAddress)
+const forceWalletSelect = ref(false)
+
+const setForceWalletSelect = () => {
+  forceWalletSelect.value = true
+}
+
+const showAccount = computed(() => account && !forceWalletSelect.value)
 
 const wallets = SupportedWallets()
-
+const headerTitle = computed(() =>
+  $i18n.t(
+    account
+      ? 'walletConnect.walletDetails'
+      : hasUserWalletAuth
+      ? 'walletConnect.walletHeading'
+      : 'walletConnect.warning'
+  )
+)
 const setAccount = (addr: string) => {
   account.value = addr
 }
@@ -142,7 +156,6 @@ const uninstalledWallet = computed(() => {
 })
 const showUninstalledWallet = ref(!installedWallet.value.length)
 const walletAccounts = ref<WalletAccount[]>([])
-const account = ref<string>($store.getters.getAuthAddress)
 const hasUserWalletAuth = ref(
   Boolean(localStorage.getItem('user_auth_wallet_add'))
 )
@@ -155,7 +168,7 @@ watch(account, (account) => {
   const walletName = walletAccounts.value.find(
     (wallet) => wallet.address === account
   )?.name
-  emit('close')
+  forceWalletSelect.value = false
   $store.dispatch('wallet/setWalletName', { name: walletName })
   $store.dispatch('setAuth', { address: account })
   localStorage.setItem('kodaauth', account)

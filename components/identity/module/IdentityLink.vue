@@ -29,7 +29,7 @@ type Address = string | GenericAccountId | undefined
 const props = defineProps<{
   shortenedAddress?: string | object
   address?: Address
-  showClipboard?: { type: boolean; required: false; default: false }
+  showClipboard?: boolean
 }>()
 const { $buefy } = useNuxtApp()
 const { urlPrefix } = usePrefix()
