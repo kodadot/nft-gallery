@@ -23,7 +23,7 @@
     <div
       v-if="totalValue"
       class="is-flex is-justify-content-space-between is-align-items-center my-1">
-      <span class="is-size-7"> {{ $i18n.t('walletConnect.total') }}: </span>
+      <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
       <span> ${{ totalValue }} </span>
     </div>
     <div
