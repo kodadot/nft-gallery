@@ -1,47 +1,29 @@
 <template>
   <div class="collections">
-    <Search
-      v-bind.sync="searchQuery"
-      hide-search
-      :is-moon-river="isMoonriver"
-      :sort-option="collectionSortOption"
-      @resetPage="resetPage">
-      <b-field class="is-flex">
-        <!--        disabled until redesign explorer menubar-->
-        <!--        <Layout class="mr-5" @change="onResize" />-->
-        <Pagination
-          v-model="currentValue"
-          has-magic-btn
-          simple
-          replace
-          preserve-scroll
-          :total="total"
-          :per-page="first" />
-      </b-field>
-    </Search>
-
-    <div>
-      <InfiniteLoading
-        v-if="startPage > 1 && !isLoading && total > 0"
-        direction="top"
-        @infinite="reachTopHandler" />
-      <div
-        :id="scrollContainerId"
-        class="columns is-multiline"
-        @scroll="onScroll">
-        <div
-          v-for="(collection, index) in results"
-          :key="collection.id"
-          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`"
-          :data-cy="`collection-index-${index}`">
-          <CollectionCard :is-loading="isLoading" :collection="collection" />
-        </div>
-      </div>
-      <InfiniteLoading
-        v-if="canLoadNextPage && !isLoading && total > 0"
-        @infinite="reachBottomHandler" />
-      <ScrollTopButton />
+    <div class="is-flex is-flex-direction-row-reverse py-5">
+      <div v-show="total">{{ total }} {{ $t('items') }}</div>
     </div>
+    <hr class="mt-0" />
+    <InfiniteLoading
+      v-if="startPage > 1 && !isLoading && total > 0"
+      direction="top"
+      @infinite="reachTopHandler" />
+    <div
+      :id="scrollContainerId"
+      class="columns is-multiline"
+      @scroll="onScroll">
+      <div
+        v-for="(collection, index) in results"
+        :key="collection.id"
+        :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`"
+        :data-cy="`collection-index-${index}`">
+        <CollectionCard :is-loading="isLoading" :collection="collection" />
+      </div>
+    </div>
+    <InfiniteLoading
+      v-if="canLoadNextPage && !isLoading && total > 0"
+      @infinite="reachBottomHandler" />
+    <ScrollTopButton />
   </div>
 </template>
 

@@ -38,7 +38,7 @@
               :placeholder="$t('query.priceRange.maxPrice')"
               data-cy="input-max" />
           </b-field>
-          <NeoButton data-cy="apply" @click.native="setPriceRange">
+          <NeoButton data-cy="apply" expanded @click.native="setPriceRange">
             {{ $t('general.apply') }}
           </NeoButton>
         </div>
@@ -79,8 +79,8 @@ const route = useRoute()
 const router = useRouter()
 const { decimals } = useChain()
 const range = ref({
-  min: Number(route.query?.min) || 0,
-  max: Number(route.query?.max) || 0,
+  min: Number(route.query?.min) / 10 ** decimals.value || 0,
+  max: Number(route.query?.max) / 10 ** decimals.value || 0,
 })
 const open = computed(
   () => $store.getters['preferences/getSidebarfilterCollapse']

@@ -4,7 +4,7 @@
       {{ $t('general.searchResultsText') }}
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
-    <Gallery />
+    <Gallery class="container" />
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 const components = {}
 
-@Component<ExploreBsx>({
+@Component<ExploreItems>({
   components,
   layout() {
     return 'explore-layout'
@@ -24,7 +24,7 @@ const components = {}
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: `/${this.$route.params.prefix}/explore`,
+      url: `/${this.$route.params.prefix}/explore/items`,
       image: `${this.$config.public.baseUrl}/k_card.png`,
     }
     return {
@@ -33,5 +33,5 @@ const components = {}
     }
   },
 })
-export default class ExploreBsx extends Vue {}
+export default class ExploreItems extends Vue {}
 </script>

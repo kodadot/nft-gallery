@@ -1,5 +1,5 @@
 <template>
-  <div class="gallery container">
+  <div class="gallery">
     <div class="is-flex is-align-self-flex-start">
       <SidebarFilter class="sticky" @resetPage="resetPage" />
       <div>
