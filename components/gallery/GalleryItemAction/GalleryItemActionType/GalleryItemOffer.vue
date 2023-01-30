@@ -17,15 +17,19 @@
             @click.native="toggleActive" />
         </template>
         <template #action>
-          <NeoButton
+          <NeoTooltip
             v-if="active && !confirm"
-            :disabled="disabledConfirmBtn"
-            label="Confirm 1/2"
-            size="large"
-            fixed-width
-            variant="k-blue"
-            no-shadow
-            @click.native="confirm1" />
+            :active="insufficientBalance"
+            :label="$t('tooltip.notEnoughBalance')">
+            <NeoButton
+              :disabled="disabledConfirmBtn"
+              label="Confirm 1/2"
+              size="large"
+              fixed-width
+              variant="k-blue"
+              no-shadow
+              @click.native="confirm1" />
+          </NeoTooltip>
           <NeoButton
             v-if="confirm"
             label="Confirm 2/2"
@@ -72,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
 import { dangerMessage } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
@@ -124,13 +128,21 @@ const confirm = ref(false)
 const days = [7, 14, 30]
 const selectedDay = ref(14)
 
-const disabledConfirmBtn = computed(
-  () =>
-    !(
-      offerPrice.value &&
-      Number(offerPrice.value) < simpleDivision(balance.value, decimals.value)
-    )
+const insufficientBalance = computed(
+  () => Number(offerPrice.value) > simpleDivision(balance.value, decimals.value)
 )
+
+const offerPriceInvalid = computed(() => {
+  if (offerPrice.value) {
+    return Math.sign(offerPrice.value) !== 1
+  }
+  return true
+})
+
+const disabledConfirmBtn = computed(
+  () => offerPriceInvalid.value || insufficientBalance.value
+)
+
 function toggleActive() {
   if (!connected.value) {
     $buefy.modal.open({
@@ -191,6 +203,7 @@ onClickOutside(actionRef, () => {
 
 .offer {
   width: 12rem;
+
   &-price {
     border: 1px solid black;
     border-left: 0;
