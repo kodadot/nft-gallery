@@ -16,7 +16,7 @@ async function init() {
 
     const post = list
       .slice(0, 3)
-      .map(function (i, el) {
+      .map((i, el) => {
         const title = $dom(el).find('.post-preview-title').text()
         const description = $dom(el).find('.post-preview-description').text()
         const image = $dom(el).find('.post-preview-image source').attr('srcset')
