@@ -122,6 +122,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
 @import '@/styles/abstracts/theme';
 
 .sort {
@@ -146,11 +147,11 @@ onMounted(() => {
     width: 1.5rem;
     line-height: 1.5rem;
     text-align: center;
+    background-color: $k-accent;
+    color: black;
 
     @include ktheme() {
-      background-color: theme('k-accent');
       border: 1px solid theme('text-color');
-      color: theme('text-color-indicator');
     }
   }
 }
