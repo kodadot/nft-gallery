@@ -46,18 +46,12 @@
 import { NeoButton } from '@kodadot1/brick'
 
 import { clearSession } from '@/utils/cachingStrategy'
-import { getKusamaAssetId } from '~~/utils/api/bsx/query'
-const ConnectWalletButton = defineAsyncComponent(
-  () => import('@/components/shared/ConnectWalletButton.vue')
-)
+
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/IdentityIndex.vue')
 )
 const AccountBalance = defineAsyncComponent(
   () => import('@/components/shared/AccountBalance.vue')
-)
-const SimpleAccountBalance = defineAsyncComponent(
-  () => import('@/components/shared/SimpleAccountBalance.vue')
 )
 const ProfileAssetsList = defineAsyncComponent(
   () => import('@/components/rmrk/Profile/ProfileAssetsList.vue')
@@ -84,8 +78,6 @@ const disconnect = () => {
 const backToWallet = () => {
   emit('back')
 }
-
-const tokens = computed(() => ['', getKusamaAssetId(urlPrefix.value)])
 
 const isSnekOrBsx = computed(
   () => urlPrefix.value === 'snek' || urlPrefix.value === 'bsx'

@@ -157,7 +157,6 @@ import StatsDropdown from '~/components/navbar/StatsDropdown.vue'
 import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
 import ConnectWalletButton from '~/components/shared/ConnectWalletButton.vue'
 import { getKusamaAssetId } from '~/utils/api/bsx/query'
-import { clearSession } from '~/utils/cachingStrategy'
 import { NeoButton } from '@kodadot1/brick'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 

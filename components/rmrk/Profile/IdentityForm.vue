@@ -146,7 +146,7 @@ export default class IdentityForm extends mixins(
     const api = await this.useApi()
     const optionIdentity = await api?.query.identity?.identityOf(address)
     const identity = optionIdentity?.unwrapOrDefault()
-    const final = Array.from(identity.info)
+    const final = Array.from(identity?.info)
       .filter(([, value]) => !Array.isArray(value) && !value.isEmpty)
       .reduce((acc, [key, value]) => {
         acc[key] = this.handleRaw(value as unknown as Data)
@@ -178,7 +178,7 @@ export default class IdentityForm extends mixins(
   }
 
   get disabled(): boolean {
-    return Object.values(this.identity).filter((val) => val)?.length === 0
+    return Object.values(this.identity).filter((val) => val).length === 0
   }
 }
 </script>
