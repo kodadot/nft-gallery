@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import { load } from 'cheerio'
 import fs from 'fs/promises'
+import consola from 'consola'
 
 async function init() {
   try {
@@ -8,18 +9,18 @@ async function init() {
       'https://kodadot.substack.com/archive?sort=new'
     )
     const body = await response.text()
-    const $ = load(body)
-    const list = $(
+    const $dom = load(body)
+    const list = $dom(
       '.portable-archive-list .post-preview.portable-archive-post.has-image'
     )
 
     const post = list
       .slice(0, 3)
       .map(function (i, el) {
-        const title = $(el).find('.post-preview-title').text()
-        const description = $(el).find('.post-preview-description').text()
-        const image = $(el).find('.post-preview-image source').attr('srcset')
-        const link = $(el).find('.post-preview-title').attr('href')
+        const title = $dom(el).find('.post-preview-title').text()
+        const description = $dom(el).find('.post-preview-description').text()
+        const image = $dom(el).find('.post-preview-image source').attr('srcset')
+        const link = $dom(el).find('.post-preview-title').attr('href')
 
         return { title, description, image, link }
       })
@@ -30,9 +31,9 @@ async function init() {
       JSON.stringify({ post }, null, 2)
     )
 
-    console.log('substack.json created')
+    consola.info('substack.json created')
   } catch (error) {
-    console.log(error)
+    consola.error(error)
   }
 }
 
