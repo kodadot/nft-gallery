@@ -4,7 +4,8 @@
       <SidebarFilter class="sticky" @resetPage="resetPage" />
       <div>
         <!-- TODO: FilterBreadcrumbs here -->
-        <div class="is-flex is-flex-direction-row-reverse py-5">
+        <div class="is-flex is-justify-content-space-between py-5">
+          <BreadcrumbsFilter />
           <div v-show="total">{{ total }} {{ $t('items') }}</div>
         </div>
         <hr class="mt-0" />
@@ -76,6 +77,7 @@ const components = {
   CarouselInfo: () => import('@/components/carousel/module/CarouselInfo.vue'),
   NftCard: () => import('./NftCard.vue'),
   SidebarFilter: () => import('./SidebarFilter.vue'),
+  BreadcrumbsFilter: () => import('./BreadcrumbsFilter.vue'),
 }
 
 @Component<Gallery>({
