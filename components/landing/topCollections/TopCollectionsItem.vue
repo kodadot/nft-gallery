@@ -28,12 +28,12 @@
               <div v-else>---</div>
             </div>
             <div class="is-uppercase has-text-grey px-3 is-hidden-mobile">
-              {{ urlPrefix }}
+              {{ chainName }}
             </div>
           </div>
           <div
             class="is-uppercase has-text-grey is-hidden-tablet is-size-7-mobile">
-            {{ urlPrefix }}
+            {{ chainName }}
           </div>
         </div>
       </div>
@@ -73,7 +73,7 @@
 import { TimeRange } from '@/components/series/types'
 import { calculateUsdFromKsm } from '~~/utils/calculation'
 import { CollectionEntityWithVolumes } from './utils/types'
-
+import { getChainNameByPrefix } from '@/utils/chain'
 const BasicImage = defineAsyncComponent(
   () => import('@/components/shared/view/BasicImage.vue')
 )
@@ -94,6 +94,7 @@ const props = defineProps<{
   timeRange?: TimeRange
 }>()
 
+const chainName = getChainNameByPrefix(urlPrefix.value)
 const timeRange = computed(() => props.timeRange || 'Month')
 
 const volume = computed(() => {
