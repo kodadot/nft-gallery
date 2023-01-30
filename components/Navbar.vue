@@ -165,7 +165,6 @@ import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useC
   components: {
     NeoButton,
     Search,
-    Identity,
     BasicImage,
     MobileExpandableSection,
     ProfileDropdown,
