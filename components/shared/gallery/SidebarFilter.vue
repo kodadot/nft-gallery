@@ -12,26 +12,6 @@
                   'has-text-weight-normal': !props.open,
                 },
               ]">
-              {{ $t('tabs.properties') }}
-            </p>
-            <a class="card-header-icon">
-              {{ props.open ? '-' : '+' }}
-            </a>
-          </div>
-        </template>
-        <div class="p-4">Yeet!</div>
-      </b-collapse>
-      <b-collapse :open="false" animation="slide">
-        <template #trigger="props">
-          <div class="is-flex" role="button" :aria-expanded="props.open">
-            <p
-              :class="[
-                'card-header-title',
-                {
-                  'has-text-weight-semibold': props.open,
-                  'has-text-weight-normal': !props.open,
-                },
-              ]">
               {{ $t('tabs.tabActivity.price') }}
             </p>
             <a class="card-header-icon">

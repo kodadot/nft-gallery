@@ -1,10 +1,13 @@
 <template>
   <div class="gallery container">
-    <div class="is-flex">
+    <div class="is-flex is-align-self-flex-start">
+      <SidebarFilter class="sticky" @resetPage="resetPage" />
       <div>
-        <SidebarFilter @resetPage="resetPage" />
-      </div>
-      <div class="mt-6">
+        <!-- TODO: FilterBreadcrumbs here -->
+        <div class="is-flex is-flex-direction-row-reverse py-5">
+          <div v-show="total">{{ total }} {{ $t('items') }}</div>
+        </div>
+        <hr class="mt-0" />
         <InfiniteLoading
           v-if="startPage > 1 && !isLoading && total > 0"
           direction="top"
@@ -288,13 +291,13 @@ export default class Gallery extends mixins(
     }
   }
 
-  @Watch('searchQuery', { deep: true })
+  // @Watch('searchQuery', { deep: true })
   @Watch('$route.query', { deep: true })
   protected onSearchQueryChange() {
     this.searchQuery.owned = this.$route.query?.owned?.toString() === 'true'
     this.searchQuery.listed = this.$route.query?.listed?.toString() === 'true'
-    this.searchQuery.priceMin = Number(this.$route.query?.min)
-    this.searchQuery.priceMax = Number(this.$route.query?.max)
+    this.searchQuery.priceMin = Number(this.$route.query?.min) || undefined
+    this.searchQuery.priceMax = Number(this.$route.query?.max) || undefined
     this.resetPage()
   }
 }
@@ -332,6 +335,13 @@ export default class Gallery extends mixins(
     width: 100%;
     height: auto;
     transform: scale(1);
+  }
+
+  .sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 72px;
+    height: 110vh;
   }
 
   .has-text-overflow-ellipsis {

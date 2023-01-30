@@ -6,7 +6,7 @@
     </div>
 
     <div
-      class="mb-5 explore-tabs field has-addons is-flex is-align-items-center"
+      class="explore-tabs field has-addons is-flex is-align-items-center"
       data-cy="tabs">
       <div class="mr-4">
         <a

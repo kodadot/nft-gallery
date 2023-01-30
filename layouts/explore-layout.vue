@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full is-flex is-flex-direction-column is-clipped">
+  <div class="min-h-full is-flex is-flex-direction-column">
     <Navbar />
     <main class="is-flex-grow-1">
       <Error
@@ -15,12 +15,8 @@
           </div>
         </section>
         <hr class="m-0" />
-        <!-- <section class="section">
-          <div class="container"> -->
         <Nuxt />
       </div>
-      <!-- </section>
-      </div> -->
     </main>
     <LazyTheFooter />
   </div>
