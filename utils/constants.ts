@@ -81,6 +81,15 @@ export const NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER: string[] = [
   'sn_ASC',
 ]
 
+export const NFT_SQUID_SORT_COLLECTIONS: string[] = [
+  'blockNumber_ASC',
+  'blockNumber_DESC',
+  'updatedAt_ASC',
+  'updatedAt_DESC',
+  'supply_ASC',
+  'supply_DESC',
+]
+
 export const disableChainListOnProductionEnv = [
   'westend',
   'westmint',
