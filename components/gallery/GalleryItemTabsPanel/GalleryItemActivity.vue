@@ -44,7 +44,7 @@ const defaultInteractions = [
   'CONSUME',
   'UNLIST',
 ]
-const interactions = ref(['BUY']) // default to sales
+const interactions = ref(defaultInteractions) // default to all
 const filters = {
   mints: 'MINTNFT',
   sales: 'BUY',
