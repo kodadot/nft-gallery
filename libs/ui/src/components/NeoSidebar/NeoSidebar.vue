@@ -15,7 +15,7 @@ import { OSidebar } from '@oruga-ui/oruga'
 
 defineProps<{
   mobile?: string
-  expandOnHover?: string
+  expandOnHover?: boolean
   fullheight?: boolean
   reduce?: boolean
   open?: boolean

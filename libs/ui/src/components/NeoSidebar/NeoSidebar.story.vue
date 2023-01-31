@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import NeoSidebar from './NeoSidebar.vue'
 
-const mobile = 'Select something'
-const expandOnHover = 'Select...'
+const mobile = 'reduced'
+const expandOnHover = false
 const reduce = false
 </script>

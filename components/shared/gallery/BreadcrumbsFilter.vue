@@ -1,13 +1,14 @@
 <template>
   <b-field grouped group-multiline class="filters-tag">
     <div v-for="(value, key) in breads" :key="key" class="control">
+      <!-- NeoTag -->
       <b-tag
         v-if="value === 'true'"
         attached
         closable
         aria-close-label="clear filter"
         @close="closeTag(String(key))">
-        {{ key }}
+        {{ queryMap[key] }}
       </b-tag>
     </div>
   </b-field>
@@ -17,6 +18,11 @@
 const route = useRoute()
 const router = useRouter()
 const { $consola } = useNuxtApp()
+
+const queryMap = {
+  listed: 'Buy Now',
+  owned: 'Own',
+}
 
 const breads = computed(() => route.query)
 

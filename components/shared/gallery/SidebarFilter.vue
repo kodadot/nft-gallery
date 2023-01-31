@@ -15,7 +15,7 @@
               {{ $t('tabs.tabActivity.price') }}
             </p>
             <a class="card-header-icon">
-              {{ props.open ? '-' : '+' }}
+              <b-icon :icon="props.open ? 'minus' : 'plus'" />
             </a>
           </div>
         </template>
@@ -57,7 +57,7 @@
               {{ $t('offer.status') }}
             </p>
             <a class="card-header-icon">
-              {{ props.open ? '-' : '+' }}
+              <b-icon :icon="props.open ? 'minus' : 'plus'" />
             </a>
           </div>
         </template>
