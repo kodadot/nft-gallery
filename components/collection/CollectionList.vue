@@ -1,25 +1,5 @@
 <template>
   <div class="collections">
-    <Search
-      v-bind.sync="searchQuery"
-      hide-search
-      :is-moon-river="isMoonriver"
-      :sort-option="collectionSortOption"
-      @resetPage="resetPage">
-      <b-field class="is-flex">
-        <!--        disabled until redesign explorer menubar-->
-        <!--        <Layout class="mr-5" @change="onResize" />-->
-        <Pagination
-          v-model="currentValue"
-          has-magic-btn
-          simple
-          replace
-          preserve-scroll
-          :total="total"
-          :per-page="first" />
-      </b-field>
-    </Search>
-
     <div>
       <InfiniteLoading
         v-if="startPage > 1 && !isLoading && total > 0"
@@ -62,6 +42,7 @@ import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import { mapOnlyMetadata } from '~/utils/mappers'
 import { processMetadata } from '~/utils/cachingStrategy'
 import { getDenyList } from '~/utils/prefix'
+import shouldUpdate from '@/utils/shouldUpdate'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -97,7 +78,10 @@ export default class CollectionList extends mixins(
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
-    sortBy: this.$route.query?.sort?.toString() ?? 'blockNumber_DESC',
+    sortBy:
+      typeof this.$route.query?.sort === 'string'
+        ? [this.$route.query?.sort]
+        : this.$route.query?.sort,
     listed: this.$route.query?.listed?.toString() === 'true',
   }
   private collectionSortOption: string[] = [
@@ -228,6 +212,14 @@ export default class CollectionList extends mixins(
     if (val !== oldVal) {
       this.resetPage()
       this.searchQuery.search = val || ''
+    }
+  }
+
+  @Watch('$route.query.sort')
+  protected onSortChange(val, oldVal) {
+    if (shouldUpdate(val, oldVal)) {
+      this.searchQuery.sortBy = val
+      this.resetPage()
     }
   }
 

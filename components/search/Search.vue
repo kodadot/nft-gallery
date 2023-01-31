@@ -48,11 +48,6 @@
       aria-id="sortAndFilter"
       animation="opacitySlide">
       <div class="columns mb-0">
-        <Sort
-          multiple-select
-          class="column is-4 mb-0"
-          :value="sortByMultiple"
-          @input="updateSortBy($event, sortByMultiple)" />
         <BasicSwitch
           v-if="!isMoonRiver"
           v-model="vListed"
@@ -84,7 +79,6 @@ import ChainMixin from '~/utils/mixins/chainMixin'
 
 @Component({
   components: {
-    Sort: () => import('./SearchSortDropdown.vue'),
     SearchBarInput: () => import('./SearchBar.vue'),
     SearchPriceRange: () => import('./SearchPriceRange.vue'),
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),

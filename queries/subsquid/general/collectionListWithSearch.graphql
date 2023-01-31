@@ -5,11 +5,11 @@ query collectionListWithSearch(
   $first: Int!
   $offset: Int
   $search: [CollectionEntityWhereInput!]
-  $orderBy: CollectionEntityOrderByInput = blockNumber_DESC
+  $orderBy: [CollectionEntityOrderByInput!] = [blockNumber_DESC]
   $denyList: [String!]
 ) {
   collectionEntities(
-    orderBy: [$orderBy, blockNumber_DESC]
+    orderBy: $orderBy
     limit: $first
     offset: $offset
     where: {
