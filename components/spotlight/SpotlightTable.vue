@@ -187,7 +187,6 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { get } from 'idb-keyval'
 
 import {
   axisLize,
@@ -414,8 +413,7 @@ export default class SpotlightTable extends mixins(
 
   public async identityOf(account: Address) {
     const address: string = this.resolveAddress(account)
-    const identity = await get(address, identityStore)
-    return identity
+    return address
   }
 
   private resolveAddress(account: Address): string {
