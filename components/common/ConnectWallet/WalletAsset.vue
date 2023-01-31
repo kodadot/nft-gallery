@@ -11,30 +11,30 @@
         hide-identity-popover />
     </div>
 
-    <hr class="dropdown-divider" />
+    <hr class="my-2" />
 
     <div>
       <ProfileAssetsList v-if="isSnekOrBsx" @totalValueChange="setTotalValue" />
       <AccountBalance v-else class="is-size-7" />
     </div>
 
-    <hr class="dropdown-divider" />
+    <hr class="my-2" />
 
     <div
       v-if="totalValue"
       class="is-flex is-justify-content-space-between is-align-items-center my-1">
       <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
-      <span> ${{ totalValue }} </span>
+      <span> ${{ totalValue.toFixed(2) }} </span>
     </div>
     <div
       class="buttons is-justify-content-space-between is-flex-wrap-nowrap my-2">
       <NeoButton
-        class="button is-size-7 is-capitalized"
+        class="button is-size-7 is-capitalized is-flex-grow-1"
         :label="$i18n.t('general.change_account')"
         variant="connect-dropdown"
         @click.native="backToWallet" />
       <NeoButton
-        class="button is-size-7 is-capitalized"
+        class="button is-size-7 is-capitalized is-flex-grow-1"
         :label="$i18n.t('profileMenu.disconnect')"
         variant="connect-dropdown"
         @click.native="disconnect()" />
@@ -64,7 +64,7 @@ const emit = defineEmits(['back'])
 const { urlPrefix } = usePrefix()
 
 const { $store, $i18n } = useNuxtApp()
-const account = ref($store.getters.getAuthAddress)
+const account = computed(() => $store.getters.getAuthAddress)
 
 watch(account, (val) => {
   $store.dispatch('setAuth', { address: val })
@@ -85,4 +85,8 @@ const isSnekOrBsx = computed(
 const setTotalValue = (value: number) => {
   totalValue.value = value
 }
+
+watch(urlPrefix, () => {
+  setTotalValue(0)
+})
 </script>

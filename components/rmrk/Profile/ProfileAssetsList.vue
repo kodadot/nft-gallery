@@ -2,9 +2,13 @@
   <table v-if="nonZeroAssetList.length !== 0">
     <thead>
       <tr>
-        <th class="has-text-grey">{{ $t('general.asset') }}</th>
-        <th class="has-text-grey">{{ $t('general.balance') }}</th>
-        <th class="has-text-grey">USD</th>
+        <th class="is-size-7 has-text-weight-normal">
+          {{ $t('general.asset') }}
+        </th>
+        <th class="is-size-7 has-text-weight-normal">
+          {{ $t('general.balance') }}
+        </th>
+        <th class="is-size-7 has-text-weight-normal">USD</th>
       </tr>
     </thead>
     <tbody>
@@ -116,7 +120,7 @@ watch(totalUsdValue, (value) => {
 })
 
 watch(
-  () => accountId.value,
+  () => [accountId.value, urlPrefix.value],
   async () => {
     await loadAssets()
   },
@@ -128,13 +132,16 @@ onMounted(async () => {
 })
 </script>
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
 table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
   border-radius: 0.25rem;
   overflow: hidden;
-
+  th {
+    color: $k-grey;
+  }
   tr:last-child {
     border-bottom: none;
   }
