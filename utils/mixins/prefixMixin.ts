@@ -9,7 +9,7 @@ import { getKusamaAssetId } from '@/utils/api/bsx/query'
 @Component
 export default class PrefixMixin extends Vue {
   get urlPrefix() {
-    return this.$store.getters.currentUrlPrefix
+    return this.$route.params.prefix || this.$store.getters.currentUrlPrefix
   }
 
   get client(): string {

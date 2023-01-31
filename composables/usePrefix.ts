@@ -2,9 +2,10 @@ import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 export default function () {
   const { $store } = useNuxtApp()
+  const route = useRoute()
 
   const urlPrefix = computed<string>(() => {
-    return $store.getters.currentUrlPrefix
+    return route.params.prefix || $store.getters.currentUrlPrefix
   })
 
   const client = computed<string>(() => {
