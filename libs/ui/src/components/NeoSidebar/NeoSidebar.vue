@@ -23,15 +23,5 @@ defineProps<{
 </script>
 
 <style lang="scss">
-@import '@oruga-ui/oruga/dist/oruga-full-vars.min.css';
-
-:root {
-  // --oruga-sidebar-overlay:	hsla(0,0%,4%,.86);
-  // --oruga-sidebar-box-shadow: inherit;
-  --oruga-sidebar-box-shadow: 0;
-  --oruga-sidebar-content-background-color: transparent;
-  --oruga-sidebar-mobile-width: 80px;
-  --oruga-sidebar-width: 260px;
-  --oruga-sidebar-zindex: 38;
-}
+@import './NeoSidebar';
 </style>
