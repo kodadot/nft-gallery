@@ -146,6 +146,7 @@ const headerTitle = computed(() =>
   )
 )
 const setAccount = (addr: string) => {
+  forceWalletSelect.value = false
   account.value = addr
 }
 const installedWallet = computed(() => {
