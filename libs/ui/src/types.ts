@@ -7,3 +7,4 @@ export type NeoButtonVariant =
   | 'k-accent'
   | 'k-blue'
   | 'connect'
+  | 'connect-dropdown'
