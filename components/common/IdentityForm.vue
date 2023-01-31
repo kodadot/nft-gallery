@@ -87,7 +87,6 @@
 <script lang="ts" setup>
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { onApiConnect } from '@kodadot1/sub-api'
-import { update } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { hexToString, isHex } from '@polkadot/util'
 import { Data } from '@polkadot/types'
@@ -188,8 +187,6 @@ const onSuccess = (block: string) => {
     `[Identity] You are known as ${identity.value.display} since block ${block}`,
     notificationTypes.success
   )
-
-  update(accountId.value, () => identity.value, identityStore)
 }
 
 const balance = computed(() => $store.getters.getAuthBalance)
