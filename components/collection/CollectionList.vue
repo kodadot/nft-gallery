@@ -15,7 +15,7 @@
       <div
         v-for="(collection, index) in results"
         :key="collection.id"
-        :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`"
+        :class="`column ${classLayout} ${scrollItemClassName}`"
         :data-cy="`collection-index-${index}`">
         <CollectionCard :is-loading="isLoading" :collection="collection" />
       </div>
@@ -34,7 +34,6 @@ import { Debounce } from 'vue-debounce-decorator'
 import {
   Collection,
   CollectionWithMeta,
-  Metadata,
   NFTMetadata,
 } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from '@/components/search/types'
@@ -73,7 +72,6 @@ export default class CollectionList extends mixins(
   InfiniteScrollMixin
 ) {
   private collections: Collection[] = []
-  private meta: Metadata[] = []
   private placeholder =
     this.$colorMode.preference === 'dark'
       ? '/placeholder.webp'
@@ -88,12 +86,6 @@ export default class CollectionList extends mixins(
         : this.$route.query?.sort,
     listed: this.$route.query?.listed?.toString() === 'true',
   }
-  private collectionSortOption: string[] = [
-    'blockNumber_DESC',
-    'blockNumber_ASC',
-    // 'updatedAt_DESC',   // unsupported options for now
-    // 'updatedAt_ASC',
-  ]
 
   set currentValue(page: number) {
     this.gotoPage(page)
@@ -140,7 +132,7 @@ export default class CollectionList extends mixins(
 
   public async created() {
     this.fetchPageData(this.startPage)
-    // setting the default layout until redesign explorer menubar
+    // setting the default layout until redesign explorer menubar: YOLO
     this.$store.dispatch(
       'preferences/setLayoutClass',
       'is-one-quarter-desktop is-one-third-tablet'

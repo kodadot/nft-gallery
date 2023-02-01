@@ -17,7 +17,7 @@
           <div
             v-for="(nft, index) in results"
             :key="`${nft.id}-${index}`"
-            :class="`column is-3 column-padding ${scrollItemClassName}`">
+            :class="`column ${classLayout} ${scrollItemClassName}`">
             <NftCard :nft="nft" :data-cy="`item-index-${index}`" />
           </div>
         </div>
@@ -120,6 +120,10 @@ export default class Gallery extends mixins(
 
   get currentValue() {
     return this.currentPage
+  }
+
+  get classLayout() {
+    return this.$store.getters['preferences/getLayoutClass']
   }
 
   get results() {
