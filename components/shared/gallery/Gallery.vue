@@ -305,7 +305,6 @@ export default class Gallery extends mixins(
     }
   }
 
-  @Watch('$route.query', { deep: true })
   @Watch('searchQuery', { deep: true })
   protected onSearchQueryChange() {
     this.searchQuery.owned = this.$route.query?.owned?.toString() === 'true'
