@@ -18,7 +18,6 @@
         </div>
       </section>
     </main>
-    <LazyTheFooter />
   </div>
 </template>
 
