@@ -2,7 +2,7 @@
   <div>
     <NeoDropdown position="bottom-right" @active-change="isActive = $event">
       <NeoButton
-        label="All Networks"
+        :label="`Network: ${route.params.prefix}`"
         :icon="isActive ? 'caret-up' : 'caret-down'" />
 
       <template #items>
