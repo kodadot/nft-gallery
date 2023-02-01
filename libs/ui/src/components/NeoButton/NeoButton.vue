@@ -11,7 +11,8 @@
     :disabled="disabled"
     icon-pack="fas"
     :label="label"
-    class="is-neo">
+    class="is-neo"
+    v-bind="$attrs">
     <slot />
   </o-button>
 </template>

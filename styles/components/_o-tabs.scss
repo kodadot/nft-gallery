@@ -1,8 +1,9 @@
 .o-tabs {
+
   @include ktheme() {
+    background: theme('background-color');
     box-shadow: theme('primary-shadow');
   }
-
   &__nav {
     overflow-x: initial;
 

@@ -63,6 +63,7 @@ import { NFT, NFTMetadata } from '../../rmrk/service/scheme'
 import { SearchQuery } from './search/types'
 import { getNameOfNft } from '../../rmrk/utils'
 import { getSanitizer } from '@/utils/ipfs'
+import shouldUpdate from '@/utils/shouldUpdate'
 // import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
@@ -98,9 +99,10 @@ export default class Gallery extends mixins(
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
-    sortByMultiple: this.$route.query?.sort?.toString()
-      ? [this.$route.query?.sort?.toString()]
-      : undefined,
+    sortByMultiple:
+      typeof this.$route.query?.sort === 'string'
+        ? [this.$route.query?.sort]
+        : this.$route.query?.sort,
     listed: this.$route.query?.listed?.toString() === 'true',
     owned: this.$route.query?.owned?.toString() === 'true',
     priceMin: undefined,
@@ -302,6 +304,14 @@ export default class Gallery extends mixins(
     if (val !== oldVal) {
       this.resetPage()
       this.searchQuery.search = val || ''
+    }
+  }
+
+  @Watch('$route.query.sort')
+  protected onSortChange(val, oldVal) {
+    if (shouldUpdate(val, oldVal)) {
+      this.searchQuery.sortByMultiple = val
+      this.resetPage()
     }
   }
 

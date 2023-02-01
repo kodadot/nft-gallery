@@ -22,12 +22,12 @@ $dropdown-item-hover-background-color: #ffe5f3;
 
   &:hover {
     @include ktheme() {
-      background-color: theme('k-accentHover');
-      color: theme('black');
+      background: theme('k-accentHover');
     }
   }
 
-  &.is-active {
+  &.is-active,
+  &--active {
     @include ktheme() {
       color: theme('text-color-inverse');
       background: theme('background-color-inverse');

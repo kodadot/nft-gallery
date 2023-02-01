@@ -122,4 +122,16 @@
       }
     }
   }
+
+  .wallet-asset {
+    padding: 0 2rem;
+    .identity-address a {
+        font-weight: normal !important;
+        color: $k-blue;
+    }
+    hr {
+      background: $k-grey;
+      height: 1px;
+    }
+  }
 }

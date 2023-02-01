@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import ExploreTabsFilterSort from '@/components/shared/exploreTabsFilterSort/ExploreTabsFilterSort.vue'
+import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
 
 export default {
   name: 'ExploreLayout',
