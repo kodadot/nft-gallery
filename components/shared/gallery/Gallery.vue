@@ -24,6 +24,7 @@
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
           @infinite="reachBottomHandler"></InfiniteLoading>
+        <EmptyResult v-if="total === 0" />
         <ScrollTopButton />
       </div>
     </div>
@@ -77,8 +78,9 @@ const components = {
   CarouselMedia: () => import('@/components/carousel/module/CarouselMedia.vue'),
   CarouselInfo: () => import('@/components/carousel/module/CarouselInfo.vue'),
   NftCard: () => import('./NftCard.vue'),
-  SidebarFilter: () => import('./SidebarFilter.vue'),
+  SidebarFilter: () => import('@/components/explore/SidebarFilter.vue'),
   BreadcrumbsFilter: () => import('./BreadcrumbsFilter.vue'),
+  EmptyResult: () => import('@/components/common/EmptyResult.vue'),
 }
 
 @Component<Gallery>({

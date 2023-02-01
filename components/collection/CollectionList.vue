@@ -23,6 +23,7 @@
     <InfiniteLoading
       v-if="canLoadNextPage && !isLoading && total > 0"
       @infinite="reachBottomHandler" />
+    <EmptyResult v-if="total === 0" />
     <ScrollTopButton />
   </div>
 </template>
@@ -61,6 +62,7 @@ const components = {
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
   CollectionCard: () => import('@/components/collection/CollectionCard.vue'),
+  EmptyResult: () => import('@/components/common/EmptyResult.vue'),
 }
 
 @Component<CollectionList>({
