@@ -355,7 +355,7 @@ export default class Gallery extends mixins(
     position: -webkit-sticky;
     position: sticky;
     top: 72px;
-    height: 110vh;
+    height: calc(100vh - 72px);
   }
 
   .has-text-overflow-ellipsis {
