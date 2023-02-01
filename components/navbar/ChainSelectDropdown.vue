@@ -1,7 +1,7 @@
 <template>
   <b-dropdown v-model="selected" aria-role="list" :triggers="['click']">
     <template #trigger>
-      <div class="navbar-item" data-cy="chain">{{ selected }}</div>
+      <div class="navbar-item" data-cy="chain">{{ chainName }}</div>
     </template>
     <b-dropdown-item
       v-for="option in options"
@@ -41,6 +41,14 @@ export default class ChainSelect extends Vue {
   set selected(value) {
     this.$store.dispatch('setUrlPrefix', value)
     this.$router.push({ path: `/${value}` })
+  }
+
+  get chainName() {
+    if (this.selected === 'rmrk') {
+      return 'kusama'
+    } else {
+      return this.selected
+    }
   }
 }
 </script>
