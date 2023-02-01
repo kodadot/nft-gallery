@@ -148,10 +148,10 @@ onMounted(() => {
     line-height: 1.5rem;
     text-align: center;
     background-color: $k-accent;
+    color: black;
 
     @include ktheme() {
       border: 1px solid theme('text-color');
-      color: theme('text-color');
     }
   }
 }

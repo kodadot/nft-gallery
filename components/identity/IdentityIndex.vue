@@ -18,6 +18,7 @@
       :is-fetching-identity="isFetchingIdentity"
       :identity="identity"
       :address="address"
+      :show-clipboard="showClipboard"
       :shortened-address="shortenedAddress"
       :name="name" />
   </div>
@@ -45,6 +46,7 @@ const props = defineProps<{
   showDiscord?: boolean
   showOnchainIdentity?: boolean
   hideIdentityPopover?: boolean
+  showClipboard?: boolean
   customNameOption?: string
 }>()
 
