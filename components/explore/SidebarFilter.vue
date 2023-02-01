@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'mr-4 bordered': open }">
+  <div :class="{ 'mr-4 bordered sticky': open }">
     <NeoSidebar :reduce="false" :open="open" fullheight>
       <b-collapse :open="false" animation="slide">
         <template #trigger="props">
@@ -133,7 +133,12 @@ const replaceUrl = (
 
 <style lang="scss" scoped>
 .bordered {
-  height: 100%;
   border-right: 1px solid;
+}
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 72px;
+  height: calc(100vh - 72px);
 }
 </style>
