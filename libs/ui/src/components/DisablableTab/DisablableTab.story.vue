@@ -36,76 +36,51 @@ const tabContent =
 @import '@oruga-ui/oruga/dist/oruga.min.css';
 
 .o-tabs {
-  box-shadow: 4px 4px 0px #000;
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+  }
 
   &__nav {
     overflow-x: initial;
 
     &-item {
       &-default {
-        border: 1px solid black;
         border-right: 0;
-        color: black;
         padding: 8px;
 
-        &--active {
-          background-color: black;
-          color: white;
-        }
+        @include ktheme() {
+          border: 1px solid theme('text-color');
+          color: theme('text-color');
 
-        &:hover:not(.o-tabs__nav-item-default--active) {
-          background-color: #fff0f8;
+          &--active {
+            background-color: theme('background-color-inverse');
+            color: theme('text-color-inverse');
+          }
+
+          &:hover:not(.o-tabs__nav-item-default--active) {
+            background-color: theme('k-accentlight2');
+          }
         }
       }
 
       &-wrapper:last-child {
         button {
-          border-right: 1px solid black;
+          @include ktheme() {
+            border-right: 1px solid theme('text-color');
+          }
         }
       }
     }
   }
 
   &__content {
-    border: 1px solid black;
+    @include ktheme() {
+      border: 1px solid theme('text-color');
+    }
 
     &--fixed {
       min-height: 16rem;
       overflow-y: auto;
-    }
-  }
-}
-
-.dark-mode {
-  .o-tabs {
-    box-shadow: 4px 4px 0px white;
-
-    &__nav {
-      &-item {
-        &-default {
-          border: 1px solid white;
-          color: white;
-
-          &--active {
-            background-color: white;
-            color: black;
-          }
-
-          &:hover:not(.o-tabs__nav-item-default--active) {
-            background-color: #363234;
-          }
-        }
-
-        &-wrapper:last-child {
-          button {
-            border-right: 1px solid white;
-          }
-        }
-      }
-    }
-
-    &__content {
-      border: 1px solid white;
     }
   }
 }

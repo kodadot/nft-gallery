@@ -5,23 +5,30 @@
   .modal-background {
     background-color: rgba(0, 0, 0, 0.17);
   }
+
   .wallet-modal-container {
     position: fixed;
     top: 0;
     right: 0;
     height: 100%;
     padding-top: 78px;
-    border-left: 1px solid $k-dark;
     max-width: 360px;
     width: 100%;
+
     @include mobile {
       padding-top: 58px;
       max-width: 100vw;
     }
     @include ktheme() {
       background: theme('background-color');
+      border-left: 1px solid theme('text-color');
     }
 
+    .modal-card-title {
+      @include ktheme() {
+        color: theme('text-color');
+      }
+    }
 
     .more-option-button {
       margin: 0 34px;
@@ -37,20 +44,24 @@
 
     .modal-card-head {
       background: unset;
-      border-bottom: 1px solid #000000;
       padding: 1rem 2rem;
+      @include ktheme() {
+        border-bottom: 1px solid theme('text-color');
+      }
     }
 
     .modal-card-body {
       padding: 0;
-      background-color: unset;
       display: block;
+      @include ktheme() {
+        background-color: theme('background-color');
+      }
     }
 
-
-
     footer {
-      border-top: 1px solid #000000;
+      @include ktheme() {
+        border-top: 1px solid theme('text-color');
+      }
     }
 
     .confirm-button {
@@ -60,9 +71,7 @@
       @include ktheme() {
         box-shadow: theme('primary-shadow');
       }
-
     }
-
 
     .wallet-menu-item {
       width: 100%;
@@ -71,6 +80,7 @@
         border-radius: 0;
         padding: 10px 2rem;
         box-shadow: none !important;
+        background: unset;
         .icon {
           margin-right: 0 !important;
         }
@@ -86,9 +96,10 @@
           padding: 10px 0;
           margin: 0 2rem;
           a {
-            border-left: 1px solid $grey-light;
+            // border-left: 1px solid $grey-light;
             @include ktheme() {
               color: theme('text-color');
+              border-left: 1px solid theme('k-shade');
 
               &:hover {
                 color: theme('text-color');
@@ -111,28 +122,4 @@
       }
     }
   }
-}
-
-
-
-.dark-mode {
-  .wallet-modal-container {
-    border-color: $white;
-
-    .modal-card-head{
-      border-color: $white;
-    }
-
-    .more-option-button {
-      :hover {
-        color: $k-grey;
-      }
-    }
-
-    footer {
-      border-top: 1px solid $white;
-    }
-
-  }
-
 }

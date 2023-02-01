@@ -162,11 +162,6 @@
 
         .button {
           height: 40px;
-          &:hover {
-            @include ktheme() {
-              background-color: theme('k-accentHover');
-            }
-          }
         }
       }
     }
@@ -280,6 +275,7 @@
     .has-link:hover {
       @include ktheme() {
         background-color: theme('k-accentHover');
+        color:  theme('black');
       }
     }
     .is-active,
@@ -311,6 +307,7 @@
     a:hover {
       @include ktheme() {
         background-color: theme('k-accentHover');
+        color:  theme('black');
       }
     }
   }
@@ -365,6 +362,7 @@
         border-bottom: 1px solid theme('text-color');
         &:hover {
           background-color: theme('k-accentHover');
+          color:  theme('black');
         }
       }
     }

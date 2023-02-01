@@ -69,17 +69,18 @@ const cssActive = (value) => {
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables.scss';
 
-.dark-mode .events {
-  border-bottom: 1px solid white;
-}
 .gallery-activity-events-wrapper {
   height: 100%;
 }
+
 .events {
-  border-bottom: 1px solid black;
+  @include ktheme() {
+    border-bottom: 1px solid theme('text-color');
+  }
 
   &-filter {
     column-gap: 2rem;
+
     @include mobile {
       column-gap: 1rem;
     }
@@ -94,7 +95,9 @@ const cssActive = (value) => {
     }
 
     &:hover {
-      color: $shade;
+      @include ktheme() {
+        color: theme('k-shade');
+      }
     }
 
     &-active {

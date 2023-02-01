@@ -7,16 +7,10 @@
     opacity: 1;
     font-size: 12px;
     border-radius: 0;
-    border: 1px solid hsl(0deg, 0%, 4%);
-    box-shadow: 4px 4px hsl(0deg, 0%, 4%);
-    -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
+    @include ktheme() {
+      border: 1px solid theme('text-color');
+      box-shadow: theme('primary-shadow');
+      -webkit-box-shadow: theme('primary-shadow');
+    }
   }
-}
-
-.dark-mode .toast.is-neo {
-  color: hsl(0deg, 0%, 100%);
-  background: #181717;
-  border: 1px solid hsl(0deg, 0%, 100%);
-  -webkit-box-shadow: 4px 4px hsl(0deg, 0%, 100%);
-  box-shadow: 4px 4px hsl(0deg, 0%, 100%);
 }

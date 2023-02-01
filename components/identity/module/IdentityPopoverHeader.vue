@@ -58,10 +58,16 @@ const toast = (message: string) => {
 }
 
 .popover-header {
-  border-bottom: 1px solid $k-grey;
+  @include ktheme() {
+    border-bottom: 1px solid theme('k-grey');
+  }
+
   .popover-user-heading {
     font-size: 12px;
-    color: $k-grey;
+
+    @include ktheme() {
+      color: theme('k-grey');
+    }
   }
 }
 </style>

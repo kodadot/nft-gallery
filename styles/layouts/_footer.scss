@@ -113,6 +113,12 @@
     left: -20rem;
     top: -30rem;
   }
+
+  .subtitle {
+    @include ktheme() {
+      color: theme('text-color');
+    }
+  }
 }
 
 .icons {

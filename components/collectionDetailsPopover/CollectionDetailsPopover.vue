@@ -132,12 +132,17 @@ const { nftEntities: soldItems } = useCollectionSoldData({
 @import '@/styles/abstracts/variables';
 
 .popover-content-container {
-  border: 1px solid $black;
+  @include ktheme() {
+    border: 1px solid theme('text-color');
+  }
+
   width: 300px;
 }
 
 .ms-dos-shadow {
-  box-shadow: $primary-shadow;
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+  }
 }
 
 .popover-image {
@@ -149,16 +154,23 @@ const { nftEntities: soldItems } = useCollectionSoldData({
 }
 
 .popover-header {
-  border-bottom: 1px solid $k-grey;
+  @include ktheme() {
+    border-bottom: 1px solid theme('k-grey');
+  }
 
   .popover-user-heading {
     font-size: 12px;
-    color: $k-grey;
+
+    @include ktheme() {
+      color: theme('k-grey');
+    }
   }
 }
 
 .sales-container {
-  border-top: 1px solid $k-grey;
+  @include ktheme() {
+    border-top: 1px solid theme('k-grey');
+  }
 }
 
 .sold-items {
@@ -167,13 +179,10 @@ const { nftEntities: soldItems } = useCollectionSoldData({
   .sold-item {
     width: 78px;
     height: 78px;
-    border: 1px solid $black;
-  }
-}
 
-.dark-mode {
-  .sold-item {
-    border: 1px solid $white;
+    @include ktheme() {
+      border: 1px solid theme('text-color');
+    }
   }
 }
 </style>

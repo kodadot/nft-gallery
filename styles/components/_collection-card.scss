@@ -1,62 +1,80 @@
-
 .collection-card {
   font-family: 'Work Sans';
-  border: 1px solid $black;
   border-radius: 0;
-  color: $black;
   animation: cardHoverOut 0.3s ease-out;
   box-shadow: none;
 
-  &:hover {
-    box-shadow: var(--card-box-shadow);
-    animation: cardHoverIn 0.3s ease-in;
+  @include ktheme() {
+    border: 1px solid theme('text-color');
+    color: theme('text-color');
+  }
 
+  &:hover {
+    animation: cardHoverIn 0.3s ease-in;
+    @include ktheme() {
+      box-shadow: theme('primary-shadow');
+    }
   }
   cursor: pointer;
   a:hover {
     color: unset !important;
   }
+
   &__image-wrapper {
     padding-top: 112px !important;
     &-sub {
-      border: 6px solid $white;
       height: 100%;
       width: 100%;
 
-      img {
-        border: 1px solid $black;
+      @include ktheme() {
+        border: 6px solid theme('text-color-inverse');
+        img {
+          border: 1px solid theme('text-color');
+        }
       }
     }
   }
   .collection-detail {
-    background: $white;
     $header-height: 55px;
+
+    @include ktheme() {
+      background: theme('background-color');
+    }
 
     &__header {
       height: $header-height;
-      border-top: 1px solid $black;
-      border-bottom: 1px solid $black;
+
+      @include ktheme() {
+        border-top: 1px solid theme('text-color');
+        border-bottom: 1px solid theme('text-color');
+      }
 
       &-image-wrapper {
-
         height: 80px;
         min-width: 80px;
         padding: 0 !important;
-        border-top: 1px solid $black;
         transform: translate(15px, -50%);
-        background: $white;
 
-        &::before, &::after {
+        @include ktheme() {
+          background: theme('background-color');
+          border-top: 1px solid theme('text-color');
+        }
+
+        &::before,
+        &::after {
           content: '';
           position: absolute;
           top: 0;
           left: 0;
           width: 1px;
           height: 39px;
-          background: $black;
           z-index: 1;
+
+          @include ktheme() {
+            background: theme('background-color-inverse');
+          }
         }
-        &::after{
+        &::after {
           left: unset;
           right: 0;
         }
@@ -72,7 +90,9 @@
       white-space: nowrap;
       line-height: $header-height;
       &:hover {
-        color: $k-hovergrey;
+        @include ktheme() {
+          color: theme('k-grey');
+        }
       }
     }
 
@@ -85,51 +105,6 @@
       &__title {
         font-weight: 400;
         min-width: 80px;
-      }
-    }
-  }
-
-}
-
-
-.dark-mode {
-
-  .collection-card {
-    border: 1px solid $white;
-    a {
-      color: $white;
-      &:hover {
-        color: $white !important;
-      }
-    }
-    &__image-wrapper-sub {
-        border: 6px solid $k-dark;
-        background: $k-dark;
-
-        img {
-          border: 1px solid $white;
-        }
-      }
-
-    .collection-detail {
-      background: $k-dark;
-      &__header {
-        border-color: $white;
-
-
-      &-image-wrapper {
-        border-top: 1px solid $white;
-        background: $k-dark;
-
-        &::before, &::after {
-          background: $white;
-        }
-      }
-      }
-      &__name {
-        &:hover {
-          color: $shade;
-        }
       }
     }
   }

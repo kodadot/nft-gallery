@@ -1,0 +1,14 @@
+.gallery-avatar {
+  .avatar {
+    border-radius: 50%;
+    & > div {
+      display: flex;
+      align-items: center;
+    }
+
+    @include ktheme() {
+      box-shadow: theme('primary-shadow');
+      border: 1px solid theme('text-color');
+    }
+  }
+}

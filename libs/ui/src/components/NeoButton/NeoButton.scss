@@ -18,6 +18,7 @@
   &:hover {
     @include ktheme() {
       background: theme('k-accentHover');
+      color: theme('black');
     }
   }
 
@@ -78,7 +79,7 @@
       background: theme('background-color');
       &:hover {
         background-color: theme('k-accentHover');
-        color: theme('text-color');
+        color: theme('black');
         border: 1px solid theme('text-color');
       }
     }

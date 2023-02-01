@@ -2,28 +2,37 @@
 @import '../../scss/animation.scss';
 
 .article {
-  background-color: white;
-  border: 1px solid $dark-accent;
   display: block;
   height: 100%;
   text-decoration: none;
   animation: cardHoverOut 0.3s ease-out;
 
   &:hover {
-    box-shadow: var(--card-box-shadow);
     animation: cardHoverIn 0.3s ease-in;
+  }
 
+  @include ktheme() {
+    border: 1px solid theme('text-color-inverse');
+    background: theme('background-color');
+    &:hover {
+      box-shadow: theme('primary-shadow');
+    }
   }
 
   p {
-    color: black;
+    @include ktheme() {
+      color: theme('text-color');
+    }
   }
 
   &-image {
     background-size: cover;
     background-position: center;
-    border-bottom: 1px solid $dark-accent;
     height: 14rem;
+
+    @include ktheme() {
+      border-bottom: 1px solid theme('text-color');
+    }
   }
 
   &-info {
@@ -32,18 +41,5 @@
 
   &-title {
     font-weight: 700;
-  }
-}
-
-.dark-mode .article {
-  background-color: $dark-accent;
-  border: 1px solid white;
-
-  p {
-    color: white;
-  }
-
-  &-image {
-    border-bottom: 1px solid white;
   }
 }
