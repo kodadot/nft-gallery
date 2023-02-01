@@ -1,16 +1,17 @@
 <template>
   <b-field grouped group-multiline class="filters-tag">
-    <div v-for="(value, key) in breads" :key="key" class="control">
-      <!-- NeoTag -->
-      <b-tag
-        v-if="value === 'true'"
-        attached
-        closable
-        aria-close-label="clear filter"
-        @close="closeTag(String(key))">
-        {{ queryMap[key] }}
-      </b-tag>
-    </div>
+    <template v-for="(value, key) in breads">
+      <div v-if="value === 'true'" :key="key" class="control">
+        <!-- NeoTag -->
+        <b-tag
+          attached
+          closable
+          aria-close-label="clear filter"
+          @close="closeTag(String(key))">
+          {{ queryMap[key] }}
+        </b-tag>
+      </div>
+    </template>
   </b-field>
 </template>
 

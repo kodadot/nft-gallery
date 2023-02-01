@@ -3,7 +3,8 @@
     aria-role="listitem"
     :disabled="disabled"
     :class="{ 'is-active': active }"
-    class="neo-dropdown-item">
+    class="neo-dropdown-item"
+    v-bind="$attrs">
     {{ item }}
     <slot />
   </o-dropdown-item>

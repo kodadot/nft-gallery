@@ -57,6 +57,7 @@ import { NFT, NFTMetadata } from '../../rmrk/service/scheme'
 import { SearchQuery } from '@/components/search/types'
 import { getNameOfNft } from '../../rmrk/utils'
 import { getSanitizer } from '@/utils/ipfs'
+import shouldUpdate from '@/utils/shouldUpdate'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -93,9 +94,10 @@ export default class Gallery extends mixins(
   public searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
-    sortByMultiple: this.$route.query?.sort?.toString()
-      ? [this.$route.query?.sort?.toString()]
-      : undefined,
+    sortByMultiple:
+      typeof this.$route.query?.sort === 'string'
+        ? [this.$route.query?.sort]
+        : this.$route.query?.sort,
     listed: this.$route.query?.listed?.toString() === 'true',
     owned: this.$route.query?.owned?.toString() === 'true',
     priceMin: undefined,
@@ -293,8 +295,16 @@ export default class Gallery extends mixins(
     }
   }
 
-  // @Watch('searchQuery', { deep: true })
+  @Watch('$route.query.sort')
+  protected onSortChange(val, oldVal) {
+    if (shouldUpdate(val, oldVal)) {
+      this.searchQuery.sortByMultiple = val
+      this.resetPage()
+    }
+  }
+
   @Watch('$route.query', { deep: true })
+  @Watch('searchQuery', { deep: true })
   protected onSearchQueryChange() {
     this.searchQuery.owned = this.$route.query?.owned?.toString() === 'true'
     this.searchQuery.listed = this.$route.query?.listed?.toString() === 'true'

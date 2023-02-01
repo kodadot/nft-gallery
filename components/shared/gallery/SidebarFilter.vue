@@ -62,8 +62,12 @@
           </div>
         </template>
         <div class="p-4">
-          <BasicSwitch v-model="listed" label="sort.listed" />
-          <BasicSwitch v-model="owned" label="sort.own" />
+          <b-field>
+            <b-checkbox v-model="listed"> {{ $t('sort.listed') }} </b-checkbox>
+          </b-field>
+          <b-field>
+            <b-checkbox v-model="owned"> {{ $t('sort.own') }} </b-checkbox>
+          </b-field>
         </div>
       </b-collapse>
     </NeoSidebar>
@@ -72,7 +76,6 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoSidebar } from '@kodadot1/brick'
-import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 
 const { $store, $consola } = useNuxtApp()
 const route = useRoute()

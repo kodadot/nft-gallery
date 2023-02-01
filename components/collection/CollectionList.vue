@@ -36,7 +36,7 @@ import {
   Metadata,
   NFTMetadata,
 } from '@/components/rmrk/service/scheme'
-import { SearchQuery } from '@/components/rmrk/Gallery/search/types'
+import { SearchQuery } from '@/components/search/types'
 import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -44,6 +44,7 @@ import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import { mapOnlyMetadata } from '~/utils/mappers'
 import { processMetadata } from '~/utils/cachingStrategy'
 import { getDenyList } from '~/utils/prefix'
+import shouldUpdate from '@/utils/shouldUpdate'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -59,7 +60,7 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
-  CollectionCard: () => import('@/components/collection/CollectionCard'),
+  CollectionCard: () => import('@/components/collection/CollectionCard.vue'),
 }
 
 @Component<CollectionList>({
@@ -79,7 +80,10 @@ export default class CollectionList extends mixins(
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
-    sortBy: this.$route.query?.sort?.toString() ?? 'blockNumber_DESC',
+    sortBy:
+      typeof this.$route.query?.sort === 'string'
+        ? [this.$route.query?.sort]
+        : this.$route.query?.sort,
     listed: this.$route.query?.listed?.toString() === 'true',
   }
   private collectionSortOption: string[] = [
@@ -210,6 +214,14 @@ export default class CollectionList extends mixins(
     if (val !== oldVal) {
       this.resetPage()
       this.searchQuery.search = val || ''
+    }
+  }
+
+  @Watch('$route.query.sort')
+  protected onSortChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.searchQuery.sortBy = val
+      this.resetPage()
     }
   }
 
