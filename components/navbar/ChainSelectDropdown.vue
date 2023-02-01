@@ -19,6 +19,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Option } from '@kodadot1/vuex-options/dist/types'
 import { getChainTestList } from '~/utils/constants'
+import { getChainNameByPrefix } from '~/utils/chain'
 
 @Component({})
 export default class ChainSelect extends Vue {
@@ -44,11 +45,7 @@ export default class ChainSelect extends Vue {
   }
 
   get chainName() {
-    if (this.selected === 'rmrk') {
-      return 'kusama'
-    } else {
-      return this.selected
-    }
+    return getChainNameByPrefix(this.selected)
   }
 }
 </script>
