@@ -2,7 +2,7 @@
   <div>
     <NeoDropdown position="bottom-right" @active-change="isActive = $event">
       <NeoButton
-        :label="`Network: ${route.params.prefix}`"
+        :label="`Network: ${selected.text}`"
         :icon="isActive ? 'caret-up' : 'caret-down'" />
 
       <template #items>
@@ -27,6 +27,9 @@ const { $store } = useNuxtApp()
 
 const { availableChains } = useChain()
 const isActive = ref(false)
+const selected = computed(() =>
+  availableChains.value.find((chain) => chain.value === route.params.prefix)
+)
 
 function onSwitchChain(chain) {
   $store.dispatch('setUrlPrefix', chain)
