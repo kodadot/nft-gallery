@@ -106,7 +106,6 @@ export default class InfiniteScrollMixin extends Vue {
       this.endPage = nextPage
       this.checkAfterFetchDataSuccess()
     }
-    console.log(nextPage)
     $state.loaded()
   }
 
