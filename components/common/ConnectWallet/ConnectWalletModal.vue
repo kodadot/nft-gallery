@@ -156,7 +156,6 @@ const uninstalledWallet = computed(() => {
   return wallets.filter((wallet) => !wallet.installed)
 })
 const showUninstalledWallet = ref(!installedWallet.value.length)
-const walletAccounts = ref<WalletAccount[]>([])
 const hasUserWalletAuth = ref(
   Boolean(localStorage.getItem('user_auth_wallet_add'))
 )
@@ -166,11 +165,7 @@ const toggleShowUninstalledWallet = () => {
   showUninstalledWallet.value = !showUninstalledWallet.value
 }
 watch(account, (account) => {
-  const walletName = walletAccounts.value.find(
-    (wallet) => wallet.address === account
-  )?.name
   forceWalletSelect.value = false
-  $store.dispatch('wallet/setWalletName', { name: walletName })
   $store.dispatch('setAuth', { address: account })
   localStorage.setItem('kodaauth', account)
   if (selectedWalletProvider.value) {

@@ -1041,7 +1041,6 @@
     "walletLink": "Learn about wallets",
     "walletHeading": "Connect Wallet",
     "walletDetails": "Your Wallet",
-    "walletAccount": "My {0} Account",
     "authText": "KodaDot will never ask you to provide your mnemonic phrase or private key.",
     "understand": "I understand",
     "learnText": "Learn how to Connect",
