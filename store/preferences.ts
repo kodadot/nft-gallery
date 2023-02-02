@@ -22,7 +22,7 @@ export const state = (): {
   hasCarbonOffset: boolean
   arweaveUpload: boolean
 } => ({
-  sidebarfilterCollapseOpen: false,
+  sidebarfilterCollapseOpen: true,
   layoutClass: 'is-one-quarter-desktop is-one-third-tablet',
   advancedUI: false,
   theatreView: 'default',

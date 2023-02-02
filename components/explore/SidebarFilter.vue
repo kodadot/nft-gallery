@@ -99,6 +99,10 @@ const owned = computed({
   set: (value) => replaceUrl({ owned: String(value) }),
 })
 
+onMounted(() => {
+  console.log(open)
+})
+
 const setPriceRange = () => {
   const priceMin = range.value.min
     ? String(toDecimals(range.value.min, decimals.value))

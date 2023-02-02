@@ -6,7 +6,13 @@
       <a
         :class="{ disabled: selectedTab === TabType.COLLECTION }"
         @click="toggleSidebarfilter">
-        <b-icon :icon="isSidebarOpen ? 'times' : 'bars'" size="is-medium" />
+        <b-icon
+          :icon="
+            isSidebarOpen && selectedTab !== TabType.COLLECTION
+              ? 'times'
+              : 'bars'
+          "
+          size="is-medium" />
       </a>
     </div>
     <p class="control">
