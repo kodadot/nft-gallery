@@ -1,62 +1,50 @@
 <template>
-  <section>
-    <Loader v-model="isLoading" />
-    <b-field class="" label-position="inside" label="Select origin parachain">
-      <b-select
-        v-model="fromChain"
-        expanded
-        placeholder="Select parachain 1"
-        required>
-        <option v-for="chain in chains" :key="chain">{{ chain }}</option>
-      </b-select>
-    </b-field>
+  <section class="is-flex is-justify-content-center">
+    <div>
+      <Loader v-model="isLoading" />
+      <p class="is-size-3 has-text-weight-bold">Teleport</p>
+      <div class="mb-4">
+        <h1 class="has-text-weight-bold">From</h1>
+        <TeleportTabs
+          :tabs="fromTabs"
+          :value="fromChain"
+          @select="onFromChainChange" />
+      </div>
 
-    <b-field
-      class=""
-      label-position="inside"
-      label="Select destination parachain">
-      <b-select
-        v-model="toChain"
-        disabled
-        expanded
-        placeholder="Select parachain 2"
-        required>
-        <option v-for="chain in chains" :key="chain">{{ chain }}</option>
-      </b-select>
-    </b-field>
+      <div
+        class="mb-4 is-flex is-justify-content-space-between is-align-items-center input-wrapper">
+        <input
+          v-model="amount"
+          class="transfer-amount is-flex is-align-items-center"
+          type="number"
+          placeholder="type your amount"
+          min="0" />
+        <div class="px-4">KSM</div>
+      </div>
 
-    <b-field class="" label-position="inside">
-      <AddressInput
-        v-model="toAddress"
-        :strict="false"
-        :label="`Input recipient address (${toChain})`"
-        required />
-    </b-field>
+      <div class="mb-4">
+        <h1 class="has-text-weight-bold">To</h1>
+        <TeleportTabs
+          :tabs="toTabs"
+          :value="toChain"
+          @select="onToChainChange" />
+      </div>
+      <div
+        class="mb-4 is-flex is-justify-content-space-between is-align-items-center input-wrapper">
+        <input
+          v-model="toAddress"
+          class="transfer-amount is-flex is-align-items-center"
+          :placeholder="`Input recipient address (${toChain})`" />
+      </div>
 
-    <b-field class="" label-position="inside" label="Select currency">
-      <b-select
-        v-model="currency"
-        expanded
-        placeholder="Select currency"
-        required>
-        <option v-for="currency in currencies" :key="currency">
-          {{ currency }}
-        </option>
-      </b-select>
-    </b-field>
-
-    <b-field class="" label-position="inside" label="">
-      <TokenBalanceInput
-        key="token-price"
-        v-model="amount"
-        token-id="1"
-        class="mb-3" />
-    </b-field>
-
-    <SubmitButton
-      label="Send transaction"
-      :loading="isLoading"
-      @click="sendXCM(accountId)" />
+      <NeoButton
+        label="send"
+        size="large"
+        class="is-size-6 submit-button"
+        :loading="isLoading"
+        variant="k-accent"
+        @click.native="sendXCM(accountId)" />
+    </div>
   </section>
 </template>
 
@@ -71,10 +59,10 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import useAuth from '@/composables/useAuth'
 import Loader from '@/components/shared/Loader.vue'
 import * as paraspell from '@paraspell/sdk'
-import AddressInput from '@/components/shared/AddressInput.vue'
-import TokenBalanceInput from '@/components/bsx/input/TokenBalanceInput.vue'
-import SubmitButton from '@/components/base/SubmitButton.vue'
+
 import { txCb } from '@/utils/transactionExecutor'
+import TeleportTabs from './TeleportTabs'
+import { NeoButton } from '@kodadot1/brick'
 
 const { accountId } = useAuth()
 
@@ -82,9 +70,8 @@ const chains = ref([Chain.KUSAMA, Chain.BASILISK])
 const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
 const toChain = ref(Chain.BASILISK) //Selected destination parachain
 const toAddress = ref('') //Recipient address is stored here
-const amount = ref(0) //Required amount to be transfered is stored here
+const amount = ref() //Required amount to be transfered is stored here
 const currency = ref('KSM') //Selected currency is stored here
-const currencies = ref(['KSM']) //Currently available currencies
 const isLoading = ref(false)
 
 const resetStatus = () => {
@@ -92,10 +79,29 @@ const resetStatus = () => {
   isLoading.value = false
 }
 
-watch([fromChain], async () => {
-  const idx = chains.value.indexOf(toChain.value)
-  toChain.value = chains.value[(idx + 1) % chains.value.length]
-})
+const fromTabs = [
+  {
+    label: Chain.KUSAMA,
+    value: Chain.KUSAMA,
+  },
+  {
+    label: Chain.BASILISK,
+    value: Chain.BASILISK,
+  },
+]
+const toTabs = fromTabs.reverse()
+const getAnotherOption = (val) => {
+  return chains.value.find((chain) => chain !== val) || Chain.KUSAMA
+}
+const onFromChainChange = (val) => {
+  fromChain.value = val
+  toChain.value = getAnotherOption(val)
+}
+
+const onToChainChange = (val) => {
+  toChain.value = val
+  fromChain.value = getAnotherOption(val)
+}
 
 //Used to create XCM transfer
 const sendXCM = async (address: string) => {
@@ -166,3 +172,26 @@ const sendXCM = async (address: string) => {
   }
 }
 </script>
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables.scss';
+
+.input-wrapper {
+  border: 1px solid $black;
+}
+.transfer-amount {
+  border: none;
+  border-right: 1px solid black;
+  padding: 0 0.5rem;
+  height: 54px;
+  outline: none;
+  width: 100%;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+  }
+}
+.submit-button {
+  width: 100%;
+}
+</style>
