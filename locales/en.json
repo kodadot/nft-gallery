@@ -922,6 +922,8 @@
     "copyRewardLink": "Copy Reward Me link",
     "latestSales": "Latest sales",
     "searchResultsText": "Showing results for",
+    "searchNoResultsTitle": "Whoops, Couldn't find anything matching your search",
+    "searchNoResultsText": "Give it another shot with different parameters or check back later - New awesome NFTs are added all the time",
     "ksmDiscoverText": "Discover, collect and sell Kusama NFTs",
     "latestSalesheading": "Discover the most recent sales on",
     "newestListDesc": "Discover the latest items on sale",

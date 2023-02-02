@@ -76,14 +76,15 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoSidebar } from '@kodadot1/brick'
+import { fromDecimals, toDecimals } from '@/utils/math'
 
 const { $store, $consola } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 const { decimals } = useChain()
 const range = ref({
-  min: Number(route.query?.min) / 10 ** decimals.value || 0,
-  max: Number(route.query?.max) / 10 ** decimals.value || 0,
+  min: fromDecimals(Number(route.query?.min), decimals.value) || 0,
+  max: fromDecimals(Number(route.query?.max), decimals.value) || 0,
 })
 const open = computed(
   () => $store.getters['preferences/getSidebarfilterCollapse']
@@ -100,22 +101,16 @@ const owned = computed({
 
 const setPriceRange = () => {
   const priceMin = range.value.min
-    ? String(range.value.min * 10 ** decimals.value)
+    ? String(toDecimals(range.value.min, decimals.value))
     : undefined
   const priceMax = range.value.max
-    ? String(range.value.max * 10 ** decimals.value)
+    ? String(toDecimals(range.value.max, decimals.value))
     : undefined
 
   replaceUrl({ listed: String(true), min: priceMin, max: priceMax })
 }
 
-const replaceUrl = (
-  queryCondition: { [key: string]: any },
-  pathName?: string
-) => {
-  if (pathName && pathName !== route.path) {
-    return
-  }
+const replaceUrl = (queryCondition: { [key: string]: any }) => {
   router
     .replace({
       path: String(route.path),
@@ -123,7 +118,6 @@ const replaceUrl = (
         page: '1',
         ...route.query,
         ...queryCondition,
-        // search: query || undefined,
       },
     })
     .catch($consola.warn)

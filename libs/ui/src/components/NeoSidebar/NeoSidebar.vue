@@ -3,6 +3,7 @@
     position="static"
     :mobile="mobile"
     :fullheight="fullheight"
+    :fullwidth="fullwidth"
     :expand-on-hover="expandOnHover"
     :reduce="reduce"
     :open="open">
@@ -17,6 +18,7 @@ defineProps<{
   mobile?: string
   expandOnHover?: boolean
   fullheight?: boolean
+  fullwidth?: boolean
   reduce?: boolean
   open?: boolean
 }>()
