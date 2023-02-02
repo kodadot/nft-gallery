@@ -1,7 +1,7 @@
 <template>
   <div>
     <nuxt-link :to="`/${urlPrefix}/explore/items`" class="menu-item mr-2">
-      {{ $t('gallery') }}
+      {{ $t('items') }}
     </nuxt-link>
     <nuxt-link
       :to="`/${urlPrefix}/explore/collectibles`"
