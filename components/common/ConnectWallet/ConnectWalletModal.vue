@@ -117,7 +117,7 @@
 </template>
 
 <script lang="ts" setup>
-import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
+import { SupportedWallets } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { NeoButton } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem'
