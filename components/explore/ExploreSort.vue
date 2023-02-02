@@ -95,6 +95,7 @@ const selectedSort = computed({
 function onChange(selected) {
   router.push({
     query: {
+      ...route.query,
       page: '1',
       sort: selectiveSort(selected),
     },
