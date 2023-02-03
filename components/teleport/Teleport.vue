@@ -54,7 +54,13 @@
 
       <div class="mb-5">
         {{ $i18n.t('teleport.receiveValue', [amount || 0, toChain]) }}
-        <span class="has-text-info">{{ shortAddress(toAddress) }}</span>
+        <a
+          :href="explorerUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="has-text-info">
+          {{ shortAddress(toAddress) }}
+        </a>
       </div>
 
       <NeoButton
@@ -88,7 +94,7 @@ import TeleportTabs from './TeleportTabs'
 import { NeoButton } from '@kodadot1/brick'
 import { getss58AddressByPrefix } from '@/utils/account'
 import { getAsssetBalance, getKusamaAssetId } from '@/utils/api/bsx/query'
-
+import { blockExplorerOf } from '@/utils/config/chain.config'
 const getKusamaApi = async () =>
   await ApiPromise.create({
     provider: new WsProvider('wss://public-rpc.pinknode.io/kusama'),
@@ -123,7 +129,11 @@ const fromTabs = [
     value: Chain.BASILISK,
   },
 ]
-
+const explorerUrl = computed(() => {
+  return `${blockExplorerOf(chainToPrefixMap[toChain.value])}account/${
+    toAddress.value
+  }`
+})
 const getAnotherOption = (val) => {
   return chains.value.find((chain) => chain !== val) || Chain.KUSAMA
 }
