@@ -9,10 +9,6 @@
     grid-auto-flow: column;
   }
 
-  @media (min-width: 1540px) {
-    grid-template-rows: repeat(4, minmax(0, 1fr));
-  }
-
   .top-collections-item {
     background-color: white;
     color: black;
