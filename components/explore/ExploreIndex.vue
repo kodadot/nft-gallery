@@ -18,7 +18,6 @@ import ExploreChain from './ExploreChain.vue'
 @import '@/styles/abstracts/variables';
 
 .explore {
-  margin-bottom: 2.5rem;
   gap: 2rem;
 
   &-menu {

@@ -1,5 +1,20 @@
 <template>
-  <div class="explore-tabs field has-addons is-flex" data-cy="tabs">
+  <div
+    class="explore-tabs field has-addons is-flex is-align-items-center"
+    data-cy="tabs">
+    <div class="mr-4">
+      <a
+        :class="{ disabled: selectedTab === TabType.COLLECTION }"
+        @click="toggleSidebarfilter">
+        <b-icon
+          :icon="
+            isSidebarOpen && selectedTab !== TabType.COLLECTION
+              ? 'times'
+              : 'bars'
+          "
+          size="is-medium" />
+      </a>
+    </div>
     <p class="control">
       <NeoButton
         class="explore-tabs-button"
@@ -32,13 +47,29 @@ enum TabType {
 }
 
 const route = useRoute()
+const { $store } = useNuxtApp()
 
 const selectedTab = computed(() => route?.name?.split('-')[2])
+const isSidebarOpen = computed(
+  () => $store.getters['preferences/getSidebarfilterCollapse']
+)
+const toggleSidebarfilter = () =>
+  $store.dispatch('preferences/setSidebarfilterCollapse', !isSidebarOpen.value)
+
+watch(selectedTab, () => {
+  if (selectedTab.value === TabType.COLLECTION) {
+    $store.dispatch('preferences/setSidebarfilterCollapse', false)
+  }
+})
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-
+a.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 .explore-tabs {
   &-button {
     width: 15rem;
