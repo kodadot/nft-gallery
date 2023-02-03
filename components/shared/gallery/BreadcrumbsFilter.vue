@@ -27,9 +27,9 @@ const closeTag = (key: string) => {
     .replace({
       path: String(route.path),
       query: {
-        page: '1',
         ...route.query,
         ...{ [key]: false },
+        page: '1',
       },
     })
     .catch($consola.warn)

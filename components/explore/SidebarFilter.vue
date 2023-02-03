@@ -117,9 +117,9 @@ const replaceUrl = (queryCondition: { [key: string]: any }) => {
     .replace({
       path: String(route.path),
       query: {
-        page: '1',
         ...route.query,
         ...queryCondition,
+        page: '1',
       },
     })
     .catch($consola.warn)
