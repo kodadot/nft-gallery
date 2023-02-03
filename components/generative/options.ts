@@ -27,15 +27,21 @@ export const vibes = [
 export const art = ['photo', 'painting']
 
 export const lights = [
-  'soft',
   'ambient',
-  'ring',
+  'cinematic',
   'glow',
   'natural',
   'nostalgic',
+  'pink neon',
+  'red neon',
+  'ring',
+  'soft',
+  'street',
+  'studio',
   'sun rays',
-  'cinematic',
-  'purple neon',
+  'sunrise',
+  'sunset',
+  'vaporwave',
 ]
 
 export const framing = [
@@ -47,36 +53,34 @@ export const framing = [
 ]
 
 export const clothes = [
-  'business suit',
-  'christmas costume',
-  'christmas sweater',
-  'christmas uniform',
-  'elf costume',
-  'kimono',
+  'angel wings',
   'kogal',
   'maid constume',
-  'school uniform',
+  'red dress',
   'turtleneck sweater',
+  'school uniform',
+  'sensual costume',
   'v-shaped dress',
+  'valentine uniform',
 ]
 
 export const accessories = [
-  'angel wings',
+  'angel halo',
   'cat ears',
   'cat on the shoulder',
   'chain pendant',
-  'christmas hat',
+  'chocolate box',
+  'cigarette',
   'cone hat',
-  'eye patch',
+  'flower bouquet',
+  'flower crown',
   'fox tail',
-  'glasses',
-  'headphones',
+  'glass of wine',
+  'heart-shaped glasses',
   'kitsune ears',
-  'mask',
   'oni horns',
   'rabbit ears',
-  'reindeer antlers',
-  'reindeer nose',
+  'sensual mask',
   'tanuki ears',
 ]
 
@@ -90,18 +94,22 @@ export const filmTypes = [
 ]
 
 export const styles = [
+  'abstract',
   'acrylic',
   'ballpoint pen',
   'chalk',
   'charcoal',
   'digital',
-  'grafitti',
+  'fantasy',
+  'high-quality',
   'low-poly',
   'oil',
   'pastel',
   'pencil sketch',
+  'photorealistic',
   'pixel art',
-  'stencil',
+  'pop art',
+  'realistic',
   'ukiyo-e',
   'watercolor',
 ]
@@ -116,14 +124,18 @@ export const inspiredBy = [
 ]
 
 export const inspirations = [
+  'Akira Toriyama',
+  'Eiichiro Oda',
+  'Hayao Miyazaki',
+  'Hideaki Anno',
   'Hiroshi Yoshida',
-  'Ivan Bilibin',
   'Ivan Shishkin',
   'Katsuhiro Otomo',
   'Kentaro Miura',
   'Kuniyoshi',
   'Makoto Shinkai',
   'Masashi Kishimoto',
+  'Satoshi Kon',
   'Toshi Yoshida',
   'Yoji Shinkawa',
 ]

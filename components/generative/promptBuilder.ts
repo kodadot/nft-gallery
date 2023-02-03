@@ -25,6 +25,8 @@ const OF = 'of'
 const BY = 'by'
 const COMMA = ','
 
+const NAME = 'Valentine anime'
+
 export const buildPrompt = (options: Options): string => {
   const { gender, framing, art, style, having, wearing, lighting, inspiredBy } =
     options
@@ -99,7 +101,7 @@ export const buildMetadata = async (
   const imageHash = await pinImageSafe(file, 'token')
   const attributes = buildAttributes(options)
   const description = buildDescription(options)
-  const name = `SubWork Christmas ${options.gender}`
+  const name = `${NAME} ${options.gender}`
 
   const meta = createMetadata(
     name,

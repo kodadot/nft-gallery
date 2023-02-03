@@ -48,7 +48,7 @@
     <p class="title is-size-5">art inspired by</p>
     <RadioSelect
       v-model="form.inspiredBy"
-      :options="inspiredBy"
+      :options="inspirations"
       separated
       show-empty />
 
