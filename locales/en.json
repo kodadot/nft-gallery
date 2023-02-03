@@ -791,7 +791,7 @@
     "checkBalance": "Checking if you have enough balance",
     "generative": {
       "starting": "Warming up the AI model",
-      "processing": "Predicting (wait around ~20s)",
+      "processing": "Predicting (wait around ~2 min)",
       "send": "Sending links to your email"
     }
   },
