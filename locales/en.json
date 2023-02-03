@@ -1003,7 +1003,10 @@
   },
   "teleport": {
     "page": "Teleport",
-    "route": "Teleporting {0} from {1} to {2}",
+    "from": "From",
+    "to": "To",
+    "max": "Max",
+    "receiveValue": "You will receive {0} KSM on {1} to",
     "artistProfile": "Go to artist's profile",
     "usdInput": "USD Value (approx)",
     "btnCopyPayment": "Copy Payment link",

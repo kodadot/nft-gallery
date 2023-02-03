@@ -2,31 +2,50 @@
   <section class="is-flex is-justify-content-center">
     <div class="teleport-container">
       <Loader v-model="isLoading" />
-      <p class="is-size-3 has-text-weight-bold">Teleport</p>
+      <p class="is-size-3 has-text-weight-bold">
+        {{ $i18n.t('teleport.page') }}
+      </p>
       <div class="mb-5">
-        <h1 class="has-text-weight-bold">From</h1>
+        <h1 class="has-text-weight-bold">{{ $i18n.t('teleport.from') }}</h1>
         <TeleportTabs
           :tabs="fromTabs"
           :value="fromChain"
           @select="onFromChainChange" />
       </div>
 
-      <div
-        class="mb-5 is-flex is-justify-content-space-between is-align-items-center input-wrapper">
-        <input
-          v-model="amount"
-          class="transfer-amount is-flex is-align-items-center"
-          type="number"
-          placeholder="type your amount"
-          :min="0" />
+      <div class="mb-5 is-flex is-flex-direction-column">
         <div
-          class="token is-flex is-align-items-center is-justify-content-center">
-          KSM
+          class="is-flex is-justify-content-space-between is-align-items-center input-wrapper">
+          <input
+            v-model="amount"
+            class="transfer-amount is-flex is-align-items-center"
+            type="number"
+            placeholder="type your amount"
+            :min="0" />
+          <div
+            class="token is-flex is-align-items-center is-justify-content-center">
+            <span v-if="ksmValue" class="token-value is-size-7"
+              >~{{ ksmValue }} usd</span
+            >
+            KSM
+          </div>
+        </div>
+
+        <div
+          v-if="fromChain === Chain.BASILISK"
+          class="is-size-7 is-flex is-justify-content-end is-align-items-center">
+          <span class="is-flex is-align-items-center">
+            <span class="mr-2">{{ $i18n.t('balance') }}:</span
+            ><Money :value="ksmBalanceOnBasilisk" />
+          </span>
+          <a class="has-text-info ml-2" @click="handleMaxClick">{{
+            $i18n.t('teleport.max')
+          }}</a>
         </div>
       </div>
 
       <div class="mb-5">
-        <h1 class="has-text-weight-bold">To</h1>
+        <h1 class="has-text-weight-bold">{{ $i18n.t('teleport.to') }}</h1>
         <TeleportTabs
           :tabs="fromTabs"
           :value="toChain"
@@ -34,7 +53,7 @@
       </div>
 
       <div class="mb-5">
-        You will receive {{ amount || 0 }} KSM on {{ toChain }} to
+        {{ $i18n.t('teleport.receiveValue', [amount || 0, toChain]) }}
         <span class="has-text-info">{{ shortAddress(toAddress) }}</span>
       </div>
 
@@ -60,22 +79,34 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import useAuth from '@/composables/useAuth'
 import Loader from '@/components/shared/Loader.vue'
 import * as paraspell from '@paraspell/sdk'
+import { calculateExactUsdFromToken } from '@/utils/calculation'
+import shortAddress from '@/utils/shortAddress'
+import Money from '@/components/shared/format/Money.vue'
 
 import { txCb } from '@/utils/transactionExecutor'
 import TeleportTabs from './TeleportTabs'
 import { NeoButton } from '@kodadot1/brick'
 import { getss58AddressByPrefix } from '@/utils/account'
+import { getAsssetBalance, getKusamaAssetId } from '@/utils/api/bsx/query'
 
+const getKusamaApi = async () =>
+  await ApiPromise.create({
+    provider: new WsProvider('wss://public-rpc.pinknode.io/kusama'),
+  })
+const getBasiliskApi = async () =>
+  await ApiPromise.create({
+    provider: new WsProvider('wss://rpc.basilisk.cloud'),
+  })
 const { accountId } = useAuth()
 const { assets } = usePrefix()
+const { $store, $i18n } = useNuxtApp()
 const chains = ref([Chain.KUSAMA, Chain.BASILISK])
 const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
 const toChain = ref(Chain.BASILISK) //Selected destination parachain
 const amount = ref() //Required amount to be transfered is stored here
-
+const ksmBalanceOnBasilisk = ref()
 const currency = ref('KSM') //Selected currency is stored here
 const isLoading = ref(false)
-import shortAddress from '@/utils/shortAddress'
 
 const resetStatus = () => {
   amount.value = undefined
@@ -111,6 +142,32 @@ const getAddressByChain = (chain) => {
 const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))
 
+const ksmValue = computed(() => {
+  return calculateExactUsdFromToken(
+    amount.value,
+    $store.getters['fiat/getCurrentKSMValue']
+  )
+})
+
+const fetchBasiliskBalance = async () => {
+  const api = await getBasiliskApi()
+  getAsssetBalance(api, getAddressByChain(fromChain.value), '1').then(
+    (data) => {
+      ksmBalanceOnBasilisk.value = data
+    }
+  )
+}
+const ksmTokenDecimals = computed(() => assets(5).decimals)
+
+const handleMaxClick = () => {
+  amount.value = (
+    ksmBalanceOnBasilisk.value / 10 ** ksmTokenDecimals.value || 0
+  ).toFixed(4)
+}
+onMounted(() => {
+  fetchBasiliskBalance()
+})
+
 //Used to create XCM transfer
 const sendXCM = async () => {
   if (!amount.value || amount.value < 0) {
@@ -119,7 +176,7 @@ const sendXCM = async () => {
   await web3Enable('Kodadot')
   let isFirstStatus = true
   isLoading.value = true
-  const amountValue = 10 ** assets(5).decimals * amount.value
+  const amountValue = 10 ** ksmTokenDecimals.value * amount.value
   const transactionHandler = txCb(
     (blockHash) => {
       showNotification(
@@ -147,13 +204,9 @@ const sendXCM = async () => {
     showNotification('Cancelled', notificationTypes.warn)
     isLoading.value = false
   }
-
   const injector = await getAddress(toDefaultAddress(fromAddress.value))
-
   if (fromChain.value === Chain.KUSAMA) {
-    const wsProvider = new WsProvider('wss://public-rpc.pinknode.io/kusama')
-    const apiKusama = await ApiPromise.create({ provider: wsProvider })
-
+    const apiKusama = await getKusamaApi()
     const promise = paraspell.xcmPallet.transferRelayToPara(
       apiKusama,
       Chain.BASILISK,
@@ -169,8 +222,7 @@ const sendXCM = async () => {
       )
       .catch(errorHandler)
   } else if (fromChain.value === Chain.BASILISK) {
-    const wsProvider = new WsProvider('wss://rpc.basilisk.cloud')
-    const apiBasilisk = await ApiPromise.create({ provider: wsProvider })
+    const apiBasilisk = await getBasiliskApi()
 
     const promise = paraspell.xcmPallet.send(
       apiBasilisk,
@@ -206,7 +258,15 @@ const sendXCM = async () => {
   border: 1px solid $black;
   .token {
     width: 16rem;
+    position: relative;
+    .token-value {
+      color: $k-grey;
+      position: absolute;
+      left: 0;
+      transform: translateX(-110%);
+    }
   }
+
   .transfer-amount {
     border: none;
     border-right: 1px solid black;
