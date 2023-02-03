@@ -1,47 +1,30 @@
 <template>
   <div class="collections">
-    <Search
-      v-bind.sync="searchQuery"
-      hide-search
-      :is-moon-river="isMoonriver"
-      :sort-option="collectionSortOption"
-      @resetPage="resetPage">
-      <b-field class="is-flex">
-        <!--        disabled until redesign explorer menubar-->
-        <!--        <Layout class="mr-5" @change="onResize" />-->
-        <Pagination
-          v-model="currentValue"
-          has-magic-btn
-          simple
-          replace
-          preserve-scroll
-          :total="total"
-          :per-page="first" />
-      </b-field>
-    </Search>
-
-    <div>
-      <InfiniteLoading
-        v-if="startPage > 1 && !isLoading && total > 0"
-        direction="top"
-        @infinite="reachTopHandler" />
-      <div
-        :id="scrollContainerId"
-        class="columns is-multiline"
-        @scroll="onScroll">
-        <div
-          v-for="(collection, index) in results"
-          :key="collection.id"
-          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`"
-          :data-cy="`collection-index-${index}`">
-          <CollectionCard :is-loading="isLoading" :collection="collection" />
-        </div>
-      </div>
-      <InfiniteLoading
-        v-if="canLoadNextPage && !isLoading && total > 0"
-        @infinite="reachBottomHandler" />
-      <ScrollTopButton />
+    <div class="is-flex is-flex-direction-row-reverse py-5">
+      <div v-show="total">{{ total }} {{ $t('items') }}</div>
     </div>
+    <hr class="mt-0" />
+    <InfiniteLoading
+      v-if="startPage > 1 && !isLoading && total > 0"
+      direction="top"
+      @infinite="reachTopHandler" />
+    <div
+      :id="scrollContainerId"
+      class="columns is-multiline"
+      @scroll="onScroll">
+      <div
+        v-for="(collection, index) in results"
+        :key="collection.id"
+        :class="`column ${classLayout} ${scrollItemClassName}`"
+        :data-cy="`collection-index-${index}`">
+        <CollectionCard :is-loading="isLoading" :collection="collection" />
+      </div>
+    </div>
+    <InfiniteLoading
+      v-if="canLoadNextPage && !isLoading && total > 0"
+      @infinite="reachBottomHandler" />
+    <EmptyResult v-if="total === 0" />
+    <ScrollTopButton />
   </div>
 </template>
 
@@ -51,10 +34,9 @@ import { Debounce } from 'vue-debounce-decorator'
 import {
   Collection,
   CollectionWithMeta,
-  Metadata,
   NFTMetadata,
 } from '@/components/rmrk/service/scheme'
-import { SearchQuery } from '@/components/rmrk/Gallery/search/types'
+import { SearchQuery } from '@/components/search/types'
 import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -62,6 +44,7 @@ import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import { mapOnlyMetadata } from '~/utils/mappers'
 import { processMetadata } from '~/utils/cachingStrategy'
 import { getDenyList } from '~/utils/prefix'
+import shouldUpdate from '@/utils/shouldUpdate'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -77,7 +60,8 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
-  CollectionCard: () => import('@/components/collection/CollectionCard'),
+  CollectionCard: () => import('@/components/collection/CollectionCard.vue'),
+  EmptyResult: () => import('@/components/common/EmptyResult.vue'),
 }
 
 @Component<CollectionList>({
@@ -88,7 +72,6 @@ export default class CollectionList extends mixins(
   InfiniteScrollMixin
 ) {
   private collections: Collection[] = []
-  private meta: Metadata[] = []
   private placeholder =
     this.$colorMode.preference === 'dark'
       ? '/placeholder.webp'
@@ -97,15 +80,12 @@ export default class CollectionList extends mixins(
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
-    sortBy: this.$route.query?.sort?.toString() ?? 'blockNumber_DESC',
+    sortBy:
+      typeof this.$route.query?.sort === 'string'
+        ? [this.$route.query?.sort]
+        : this.$route.query?.sort,
     listed: this.$route.query?.listed?.toString() === 'true',
   }
-  private collectionSortOption: string[] = [
-    'blockNumber_DESC',
-    'blockNumber_ASC',
-    // 'updatedAt_DESC',   // unsupported options for now
-    // 'updatedAt_ASC',
-  ]
 
   set currentValue(page: number) {
     this.gotoPage(page)
@@ -152,7 +132,7 @@ export default class CollectionList extends mixins(
 
   public async created() {
     this.fetchPageData(this.startPage)
-    // setting the default layout until redesign explorer menubar
+    // setting the default layout until redesign explorer menubar: YOLO
     this.$store.dispatch(
       'preferences/setLayoutClass',
       'is-one-quarter-desktop is-one-third-tablet'
@@ -228,6 +208,14 @@ export default class CollectionList extends mixins(
     if (val !== oldVal) {
       this.resetPage()
       this.searchQuery.search = val || ''
+    }
+  }
+
+  @Watch('$route.query.sort')
+  protected onSortChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.searchQuery.sortBy = val
+      this.resetPage()
     }
   }
 

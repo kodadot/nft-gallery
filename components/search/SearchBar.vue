@@ -48,7 +48,7 @@ import { SearchQuery } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
-const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
+const SearchPageRoutePathList = ['collectibles', 'items']
 
 @Component({
   components: {
@@ -114,7 +114,10 @@ export default class SearchBar extends mixins(
   }
 
   redirectToGalleryPageIfNeed(params?: Record<string, string>) {
-    if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
+    const routePathList = SearchPageRoutePathList.map(
+      (route) => `/${this.urlPrefix}/explore/${route}`
+    )
+    if (routePathList.indexOf(this.$route.path) === -1) {
       this.$router.push({
         path: `${this.urlPrefix}/explore/items`,
         query: {

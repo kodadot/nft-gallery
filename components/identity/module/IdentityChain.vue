@@ -22,7 +22,10 @@
       </IdentityPopover>
     </template>
     <span v-else>
-      <IdentityLink :shortened-address="name" :address="address" />
+      <IdentityLink
+        :shortened-address="name"
+        :address="address"
+        :show-clipboard="showClipboard" />
     </span>
   </div>
 </template>
@@ -42,6 +45,7 @@ defineProps<{
   showOnchainIdentity?: boolean
   hideIdentityPopover?: boolean
   isFetchingIdentity?: boolean
+  showClipboard?: boolean
   identity?: IdentityFields
   address?: Address
   shortenedAddress?: string

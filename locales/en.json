@@ -555,6 +555,8 @@
       "blockNumber_ASC": "Old first",
       "updatedAt_DESC": "Recently Interacted",
       "updatedAt_ASC": "Unpopular",
+      "supply_DESC": "Most Supply",
+      "supply_ASC": "Least Supply",
       "price_DESC": "Price: High to Low",
       "price_ASC": "Price: Low to High",
       "sn_ASC": "Serial Number Ascending",
@@ -719,7 +721,7 @@
       "date": "Date",
       "title": "Global Marketplace Offers"
     },
-    "notification" : {
+    "notification": {
       "nftChanged": "[{chain}::{action}] Owner changed or NFT does not exist",
       "info": "[{action}] NFT: {itemId}"
     }
@@ -920,6 +922,8 @@
     "copyRewardLink": "Copy Reward Me link",
     "latestSales": "Latest sales",
     "searchResultsText": "Showing results for",
+    "searchNoResultsTitle": "Whoops, Couldn't find anything matching your search",
+    "searchNoResultsText": "Give it another shot with different parameters or check back later - New awesome NFTs are added all the time",
     "ksmDiscoverText": "Discover, collect and sell Kusama NFTs",
     "latestSalesheading": "Discover the most recent sales on",
     "newestListDesc": "Discover the latest items on sale",
@@ -1038,6 +1042,7 @@
     "walletAnswer": "Wallets are used to send, receive, store, and display digital assets",
     "walletLink": "Learn about wallets",
     "walletHeading": "Connect Wallet",
+    "walletDetails": "Your Wallet",
     "authText": "KodaDot will never ask you to provide your mnemonic phrase or private key.",
     "understand": "I understand",
     "learnText": "Learn how to Connect",

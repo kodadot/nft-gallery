@@ -17,7 +17,8 @@ $dropdown-item-hover-background-color: #ffe5f3;
   .o-drop__item {
     border-bottom: 1px solid #0a0a0a;
 
-    &.is-active {
+    &.is-active,
+    &--active {
       background: black;
       color: white;
     }
@@ -51,7 +52,8 @@ $dropdown-item-hover-background-color: #ffe5f3;
       background-color: #ff7ac3;
     }
 
-    &.is-active {
+    &.is-active,
+    &--active {
       background: white;
       color: black;
     }

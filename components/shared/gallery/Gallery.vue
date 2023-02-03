@@ -1,37 +1,32 @@
 <template>
-  <div class="gallery container">
-    <Search
-      v-bind.sync="searchQuery"
-      hide-search-input
-      :is-moon-river="isMoonriver"
-      @resetPage="resetPage">
-      <Pagination
-        v-model="currentValue"
-        has-magic-btn
-        simple
-        :total="total"
-        :per-page="first"
-        replace
-        class="remove-margin" />
-    </Search>
-
-    <div>
-      <InfiniteLoading
-        v-if="startPage > 1 && !isLoading && total > 0"
-        direction="top"
-        @infinite="reachTopHandler"></InfiniteLoading>
-      <div :id="scrollContainerId" class="columns is-multiline">
-        <div
-          v-for="(nft, index) in results"
-          :key="`${nft.id}-${index}`"
-          :class="`column is-4 column-padding ${scrollItemClassName}`">
-          <NftCard :nft="nft" :data-cy="`item-index-${index}`" />
+  <div class="gallery">
+    <div class="is-flex is-align-self-flex-start">
+      <SidebarFilter @resetPage="resetPage" />
+      <div>
+        <!-- TODO: FilterBreadcrumbs here -->
+        <div class="is-flex is-justify-content-space-between py-5">
+          <BreadcrumbsFilter />
+          <div v-show="total">{{ total }} {{ $t('items') }}</div>
         </div>
+        <hr class="mt-0" />
+        <InfiniteLoading
+          v-if="startPage > 1 && !isLoading && total > 0"
+          direction="top"
+          @infinite="reachTopHandler"></InfiniteLoading>
+        <div :id="scrollContainerId" class="columns is-multiline">
+          <div
+            v-for="(nft, index) in results"
+            :key="`${nft.id}-${index}`"
+            :class="`column ${classLayout} ${scrollItemClassName}`">
+            <NftCard :nft="nft" :data-cy="`item-index-${index}`" />
+          </div>
+        </div>
+        <InfiniteLoading
+          v-if="canLoadNextPage && !isLoading && total > 0"
+          @infinite="reachBottomHandler"></InfiniteLoading>
+        <EmptyResult v-if="total === 0" />
+        <ScrollTopButton />
       </div>
-      <InfiniteLoading
-        v-if="canLoadNextPage && !isLoading && total > 0"
-        @infinite="reachBottomHandler"></InfiniteLoading>
-      <ScrollTopButton />
     </div>
   </div>
 </template>
@@ -60,10 +55,10 @@ import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { NFT, NFTMetadata } from '../../rmrk/service/scheme'
-import { SearchQuery } from './search/types'
+import { SearchQuery } from '@/components/search/types'
 import { getNameOfNft } from '../../rmrk/utils'
 import { getSanitizer } from '@/utils/ipfs'
-// import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
+import shouldUpdate from '@/utils/shouldUpdate'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -83,6 +78,9 @@ const components = {
   CarouselMedia: () => import('@/components/carousel/module/CarouselMedia.vue'),
   CarouselInfo: () => import('@/components/carousel/module/CarouselInfo.vue'),
   NftCard: () => import('./NftCard.vue'),
+  SidebarFilter: () => import('@/components/explore/SidebarFilter.vue'),
+  BreadcrumbsFilter: () => import('./BreadcrumbsFilter.vue'),
+  EmptyResult: () => import('@/components/common/EmptyResult.vue'),
 }
 
 @Component<Gallery>({
@@ -94,21 +92,20 @@ export default class Gallery extends mixins(
   InfiniteScrollMixin,
   AuthMixin
 ) {
-  private nfts: NFTWithCollectionMeta[] = []
-  private searchQuery: SearchQuery = {
+  public nfts: NFTWithCollectionMeta[] = []
+  public searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() ?? '',
     type: this.$route.query?.type?.toString() ?? '',
-    sortByMultiple: this.$route.query?.sort?.toString()
-      ? [this.$route.query?.sort?.toString()]
-      : undefined,
+    sortByMultiple:
+      typeof this.$route.query?.sort === 'string'
+        ? [this.$route.query?.sort]
+        : this.$route.query?.sort,
     listed: this.$route.query?.listed?.toString() === 'true',
     owned: this.$route.query?.owned?.toString() === 'true',
     priceMin: undefined,
     priceMax: undefined,
   }
-  protected isLoading = true
-  // private hasPassionFeed = false
-  // private passionList: string[] = []
+  public isLoading = true
 
   get showPriceValue(): boolean {
     return (
@@ -125,6 +122,10 @@ export default class Gallery extends mixins(
     return this.currentPage
   }
 
+  get classLayout() {
+    return this.$store.getters['preferences/getLayoutClass']
+  }
+
   get results() {
     return this.nfts as SearchedNftsWithMeta[]
   }
@@ -139,7 +140,7 @@ export default class Gallery extends mixins(
   }
 
   @Debounce(500)
-  private resetPage() {
+  public resetPage() {
     this.gotoPage(1)
   }
 
@@ -160,9 +161,6 @@ export default class Gallery extends mixins(
     this.isFetchingData = true
     const query = await resolveQueryPath(this.client, 'nftListWithSearch')
 
-    // if (this.hasPassionFeed) {
-    //   await this.fetchPassionList()
-    // }
     const result = await this.$apollo.query({
       query: query.default,
       client: this.client,
@@ -284,11 +282,9 @@ export default class Gallery extends mixins(
       }
     }
 
-    // if (this.hasPassionFeed) {
-    //   params.push({
-    //     issuer: { in: this.passionList },
-    //   })
-    // }
+    if (this.searchQuery.owned && this.accountId) {
+      params.push({ currentOwner_eq: this.accountId })
+    }
 
     return params
   }
@@ -305,144 +301,25 @@ export default class Gallery extends mixins(
     }
   }
 
-  // @Watch('hasPassionFeed')
-  // protected async onHasPassionFeed() {
-  //   try {
-  //     this.resetPage()
-  //   } catch (e) {
-  //     showNotification((e as Error).message, notificationTypes.danger)
-  //   }
-  // }
+  @Watch('$route.query.sort')
+  protected onSortChange(val, oldVal) {
+    if (shouldUpdate(val, oldVal)) {
+      this.searchQuery.sortByMultiple = val
+      this.resetPage()
+    }
+  }
 
   @Watch('searchQuery', { deep: true })
+  @Watch('$route.query.owned', { deep: true })
+  @Watch('$route.query.listed', { deep: true })
+  @Watch('$route.query.min', { deep: true })
+  @Watch('$route.query.max', { deep: true })
   protected onSearchQueryChange() {
+    this.searchQuery.owned = this.$route.query?.owned?.toString() === 'true'
+    this.searchQuery.listed = this.$route.query?.listed?.toString() === 'true'
+    this.searchQuery.priceMin = Number(this.$route.query?.min) || undefined
+    this.searchQuery.priceMax = Number(this.$route.query?.max) || undefined
     this.resetPage()
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
-.card-image__burned {
-  filter: blur(7px);
-}
-
-.remove-margin nav {
-  margin-bottom: 0 !important;
-}
-
-.gallery {
-  &-switch {
-    margin-left: 10px;
-  }
-
-  &__image-wrapper {
-    position: relative;
-    margin: auto;
-    padding-top: 100%;
-    overflow: hidden;
-    cursor: pointer;
-  }
-
-  .card-image img {
-    border-radius: 0px;
-    top: 50%;
-    transition: all 0.3s;
-    display: block;
-    width: 100%;
-    height: auto;
-    transform: scale(1);
-  }
-
-  .has-text-overflow-ellipsis {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: #fff;
-  }
-
-  .card-image__emotes__count {
-    vertical-align: text-bottom;
-  }
-
-  .is-float-right {
-    float: right;
-  }
-
-  .is-absolute {
-    position: absolute;
-  }
-
-  .nft-collection-counter {
-    top: 5px;
-    right: -5px;
-  }
-
-  .columns {
-    .card {
-      position: relative;
-      overflow: hidden;
-      border-radius: 0px;
-      border: 1px solid $black;
-      &-image {
-        &__emotes {
-          position: absolute;
-          background-color: $primary-light;
-          border-radius: 4px;
-          padding: 3px 8px;
-          color: #fff;
-          top: 10px;
-          right: 10px;
-          font-size: 14px;
-          z-index: 3;
-          transition: all 0.3s;
-        }
-
-        &__price {
-          position: absolute;
-          background-color: $grey-darker;
-          border-radius: 4px;
-          padding: 3px 8px;
-          color: #fff;
-          bottom: 10px;
-          left: 10px;
-          font-size: 12px;
-          z-index: 3;
-          transition: all 0.3s;
-        }
-      }
-
-      .gallery__image-wrapper img {
-        border-radius: 0px !important;
-      }
-
-      @media screen and (min-width: 1024px) {
-        &-content {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          transition: all 0.3s;
-          background: #fff;
-        }
-
-        &:hover .gallery__image-wrapper img {
-          transform: scale(1.1);
-          transition: transform 0.3s linear;
-        }
-
-        &:hover .gallery__image-wrapper video {
-          transform: scale(1.1);
-          transition: transform 0.3s linear;
-        }
-
-        &:hover .card-image__emotes {
-          top: 15px;
-          right: 15px;
-        }
-      }
-    }
-  }
-}
-</style>

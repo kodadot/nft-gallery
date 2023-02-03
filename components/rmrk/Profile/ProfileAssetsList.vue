@@ -2,9 +2,13 @@
   <table v-if="nonZeroAssetList.length !== 0">
     <thead>
       <tr>
-        <th class="has-text-grey">{{ $t('general.asset') }}</th>
-        <th class="has-text-grey">{{ $t('general.balance') }}</th>
-        <th class="has-text-grey">USD</th>
+        <th class="is-size-7 has-text-weight-normal">
+          {{ $t('general.asset') }}
+        </th>
+        <th class="is-size-7 has-text-weight-normal">
+          {{ $t('general.balance') }}
+        </th>
+        <th class="is-size-7 has-text-weight-normal">USD</th>
       </tr>
     </thead>
     <tbody>
@@ -13,7 +17,7 @@
         <td>
           <Money :value="Number(asset.balance)" inline hide-unit />
         </td>
-        <td>{{ '$' + usdValue(asset) }}</td>
+        <td>{{ '$' + usdValueFormat(asset) }}</td>
       </tr>
     </tbody>
   </table>
@@ -36,6 +40,7 @@ import formatBalance, {
 } from '@/utils/format/balance'
 
 const { accountId } = useAuth()
+const emit = defineEmits(['totalValueChange'])
 
 const { urlPrefix, client } = usePrefix()
 const { $apollo, $consola, $set, $store } = useNuxtApp()
@@ -75,7 +80,8 @@ const updatedBalanceFor = async (balance: Promise<string>, index: number) => {
     console.warn('Unable to fetch balance', e)
   }
 }
-const usdValue = (asset: AssetItem) => {
+
+const assetToUsdValue = (asset: AssetItem) => {
   if (asset.symbol === 'KSM') {
     let value = checkInvalidBalanceFilter(asset.balance)
     value = roundTo(formatBalance(value, 12, ''), 4)
@@ -93,13 +99,28 @@ const usdValue = (asset: AssetItem) => {
       value,
       $store.getters['fiat/getCurrentBSXValue']
     )
+  }
+  return 0
+}
+
+const usdValueFormat = (asset: AssetItem) => {
+  if (asset.symbol === 'KSM' || asset.symbol === 'BSX') {
+    return assetToUsdValue(asset)
   } else {
     return '--'
   }
 }
 
+const totalUsdValue = computed(() =>
+  nonZeroAssetList.value.map(assetToUsdValue).reduce((a, b) => a + b, 0)
+)
+
+watch(totalUsdValue, (value) => {
+  emit('totalValueChange', value)
+})
+
 watch(
-  () => accountId.value,
+  () => [accountId.value, urlPrefix.value],
   async () => {
     await loadAssets()
   },
@@ -111,13 +132,16 @@ onMounted(async () => {
 })
 </script>
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
 table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
   border-radius: 0.25rem;
   overflow: hidden;
-
+  th {
+    color: $k-grey;
+  }
   tr:last-child {
     border-bottom: none;
   }

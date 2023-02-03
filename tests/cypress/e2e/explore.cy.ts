@@ -1,3 +1,5 @@
+const sortSamples = ['blockNumber_DESC', 'updatedAt_ASC']
+
 const testCollections = (route) => {
   it('loadExplore', () => {
     cy.visit(route)
@@ -8,12 +10,10 @@ const testCollections = (route) => {
         cy.contains('Items').should('be.visible')
       })
 
-    cy.getCy('collection-sort-by').should('be.visible')
-    cy.getCy('collection-sort-by').select('Old first')
-    cy.getCy('collection-sort-by').select('New first')
-
-    cy.get('[type="checkbox"]').check({ force: true })
-    cy.get('[type="checkbox"]').should('be.checked')
+    cy.getCy('explore-sort').should('be.visible').click()
+    sortSamples.forEach((sort) => {
+      cy.get(`[value="${sort}"]`).should('exist')
+    })
 
     cy.get('[data-cy="collection-index-0"]').should('exist')
     cy.get('[data-cy="collection-index-1"]').should('exist')
@@ -36,20 +36,14 @@ const testItems = (route) => {
     cy.getCy('input-min').type('100', { force: true })
     cy.getCy('apply').click({ force: true })
     cy.waitForNetworkIdle('POST', '*', 1000)
+
+    cy.getCy('explore-sort').should('be.visible').click()
+    sortSamples.forEach((sort) => {
+      cy.get(`[value="${sort}"]`).should('exist')
+    })
+
     // TODO: clean up selector -> too many elements for data-cy
-    cy.get(
-      '.gallery > :nth-child(1) > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-trigger > [data-cy="gallery-sort-by"]'
-    ).click()
-    cy.get('[data-cy="Recently Created"]').should('be.visible')
-    cy.get('[data-cy="Oldest"]').should('be.visible')
-    cy.get('[data-cy="Price: High to Low"]').should('be.visible')
-    cy.get('[data-cy="Price: Low to High"]').should('be.visible')
-    cy.get('[data-cy="Recently Interacted"]').should('be.visible')
-    cy.get('[data-cy="Unpopular"]').should('be.visible')
-    // TODO: clean up selector -> too many elements for data-cy
-    cy.get(
-      '[pricemin="100000000000000"] > .collapse > #sortAndFilter > :nth-child(1) > .mb-0 > .dropdown > .dropdown-menu > .dropdown-content > [data-cy="Price: Low to High"]'
-    ).click()
+    cy.get('[value="price_ASC"]').click()
     cy.get('[type="checkbox"]').check({ force: true, timeout: 5000 })
     cy.getCy('item-index-0')
       .getCy('card-money')
