@@ -110,7 +110,7 @@
       "25": "How do I set identity?",
       "26": "Is there an official KodaDot token?",
       "27": "How can I contribute to the project?",
-      "28": "Is it possible to move nfts frome one collection to another?",
+      "28": "Is it possible to move nfts from one collection to another?",
       "29": "Where can I access latest KodaDot presskit?",
       "30": "What is Kodadot and what is Kusama?",
       "31": "What is NSFW?",
@@ -134,7 +134,7 @@
         "l1": "[Create](@.common:links.rmrk_create.href)"
       },
       "4": {
-        "m": "You can mint practically anything, actual possibilites:<br/> @.md:faq.a.4.l1",
+        "m": "You can mint practically anything, actual possibilities:<br/> @.md:faq.a.4.l1",
         "l1": "![File formats](/minting-file-formats.png)"
       },
       "5": {
@@ -174,7 +174,7 @@
         "l3": "[looking for simple trade, try SimpleSwap.](@.common:links.simpleswap_exchange.href)"
       },
       "11": {
-        "m": "We are trying to deliver incremental updates on daily basis & fixes ASAP. We may have published new version and your browser has cached old one. If you are on Windows, try hold down Ctrl and then press F5. Mac users, hold down CMD and Shift and then press R. If this did not help, DM us on Twitter or discord with screenshot where is developer console open."
+        "m": "We are trying to deliver incremental updates on daily basis & fixes ASAP. We may have published new version and your browser has cached old one. If you are on Windows, try hold down Ctrl and then press F5. Mac users, hold down CMD and Shift and then press R. If this did not help, DM us on Twitter or discord with a screenshot where the developer console is open."
       },
       "12": {
         "m": "SEND will send it to someone, CONSUME will burn it, LIST will list it for sale so someone can buy it from you."
@@ -203,7 +203,7 @@
         "l1": "[here.](@.common:links.chain_decision.href)"
       },
       "18": {
-        "m": "<b>CLASSIC</b> let's you create collection and add NFTs to it. <b>SIMPLE</b> mint will create NFT collectible and add it to your profile and <b>PERMAFROST</b> is NFT minting using Arweave protocol: The protocol matches people who have hard drive space to spare with those individuals and organizations that need to store data or host content permanently."
+        "m": "<b>CLASSIC</b> lets you create collection and add NFTs to it. <b>SIMPLE</b> mint will create NFT collectible and add it to your profile and <b>PERMAFROST</b> is NFT minting using Arweave protocol: The protocol matches people who have hard drive space to spare with those individuals and organizations that need to store data or host content permanently."
       },
       "19": {
         "m": "Right now, we have @.md:faq.a.19.l1 We are actively looking for funding options, eventually we would raise private funds. DMs us, if you are interested into private sale.",
@@ -231,7 +231,7 @@
         "l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
       },
       "26": {
-        "m": "No, there is no official token launched. Please follow official social media and be aware of scam and phissing attempts from unofficial sources. DYOR."
+        "m": "No, there is no official token launched. Please follow official social media and be aware of scam and phishing attempts from unofficial sources. DYOR."
       },
       "27": {
         "m": "We are always welcoming contributions from our community. There are numerous @.md:faq.a.27.l1 for all skill levels - some will even be rewarded in $KSM. @.md:faq.a.27.l2",
@@ -293,7 +293,7 @@
     },
     "5": {
       "heading": "Did you know...",
-      "question": "that there is so much psychadelic and trippy NFT artwork? We do not know either."
+      "question": "that there is so much psychedelic and trippy NFT artwork? We do not know either."
     },
     "6": {
       "heading": "Can you guess...",
@@ -317,7 +317,7 @@
     },
     "11": {
       "heading": "Did you know...",
-      "question": "that KodaDot has an mobile app?"
+      "question": "that KodaDot has a mobile app?"
     },
     "12": {
       "heading": "Did you know...",
@@ -345,7 +345,7 @@
     },
     "18": {
       "heading": "Did you know...",
-      "question": "that KodaDot's founders encourage forking it's codebase and welcome more KodaDot instances in the wild?"
+      "question": "that KodaDot's founders encourage forking its codebase and welcome more KodaDot instances in the wild?"
     },
     "19": {
       "heading": "Did you know...",
@@ -588,7 +588,7 @@
     "success": "Congratulations",
     "successNewNfts": "You have successfully purchased this NFT",
     "shareWithFriends": "Share {0} with your friends",
-    "unlimited": "Unlimited items in in your collection",
+    "unlimited": "Unlimited items in your collection",
     "nfsw": "Explicit content (NSFW)",
     "listForSale": "List NFT for sale",
     "listWithRoyalty": "Add royalty",
@@ -599,8 +599,8 @@
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",
-      "count": "Currently matched {0} adresses",
-      "countGlitch": "You have more adresses than available editions. This can cause a problem. Consider to set EDITION field to at least to {0}",
+      "count": "Currently matched {0} addresses",
+      "countGlitch": "You have more addresses than available editions. This can cause a problem. Consider to set EDITION field to at least to {0}",
       "postfix": "Add hashtag and index after the name (e.g #1)",
       "sync": "Sync editions to {0}"
     },
@@ -840,7 +840,7 @@
   "spotlight": {
     "page": "Spotlight",
     "title": "User Spotlight",
-    "subtitle": "Featuring the most active collectors and artits on Kusama.",
+    "subtitle": "Featuring the most active collectors and artists on Kusama.",
     "filter_accounts": "Accounts With Identity",
     "id": "Creator",
     "sold": "Sold",
@@ -954,7 +954,7 @@
     "urlToTransform": {
       "label": "URL to transform",
       "placeholder": "singular.rmrk.app/collectibles/",
-      "copy": "Kodadot link successfuly copied"
+      "copy": "Kodadot link successfully copied"
     },
     "builtOn": "Built on",
     "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction."
@@ -1082,7 +1082,7 @@
   "ramp": {
     "selectAccount": "Select your account and click on buy.",
     "redirect": "You will be redirected to hosted mode of Ramp.network to top-up your address.",
-    "kyc": "KYC might requried, but you can verify with your Revolut card.",
+    "kyc": "KYC might be required, but you can verify with your Revolut card.",
     "buyKsm": "Buy Kusama"
   },
   "toast": {
@@ -1170,7 +1170,7 @@
     },
     "consume": {
       "success": "Item burned",
-      "error": "Failed to burned item"
+      "error": "Failed to burn item"
     },
     "offer": {
       "success": "Offer successfully created",

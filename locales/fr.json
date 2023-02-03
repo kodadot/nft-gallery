@@ -103,7 +103,7 @@
         "l3": "[recherchez un échange simple, essayez SimpleSwap](@.common:links.simpleswap_exchange.href)."
       },
       "7": {
-        "m": "Tout d'abord, vous devez installer l'@.md:faq.a.2.l1, <b>sauvegardez votre graine</b>. Ensuite, vous rechargez l'adresse de votre portefeuille grace à notre fonction @.md:faq.a.1.l2 Une fois que vous avez les fonds, allez à @.md:faq.a.3.l1, créer Collection. Attendez que la collection soit émise, puis allez à @.md:faq.a.7.l1 et émettez votre tout premier jeton ! Si vous avez eu des problèmes, nous travaillons sur notre flux d'UX. Le code de KodaDot a environ un mois d'existance et il y a encore des possibilités d'amélioration, supportez-nous, nous ne sommes qu'une équipe de deux. Bonne frappe de la monnaie 😌",
+        "m": "Tout d'abord, vous devez installer l'@.md:faq.a.2.l1, <b>sauvegardez votre graine</b>. Ensuite, vous rechargez l'adresse de votre portefeuille grâce à notre fonction @.md:faq.a.1.l2 Une fois que vous avez les fonds, allez à @.md:faq.a.3.l1, créer Collection. Attendez que la collection soit émise, puis allez à @.md:faq.a.7.l1 et émettez votre tout premier jeton ! Si vous avez eu des problèmes, nous travaillons sur notre flux d'UX. Le code de KodaDot a environ un mois d'existance et il y a encore des possibilités d'amélioration, supportez-nous, nous ne sommes qu'une équipe de deux. Bonne frappe de la monnaie 😌",
         "l1": "[Créer un jeton](@.common:links.rmrk_create.href)"
       },
       "8": {
@@ -241,7 +241,7 @@
     "name": "Le NFT sera visible sous ce nom dans la galerie",
     "edition": "Nombre d'exemplaires",
     "created": "créer par",
-    "collections": "Collections créer par",
+    "collections": "Collections créées par",
     "sold": "Nfts vendu par",
     "collected": "Nfts collecté par",
     "buy": "Afficher uniquement les nfts disponibles à la vente",
