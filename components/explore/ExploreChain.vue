@@ -39,8 +39,8 @@ function onSwitchChain(chain) {
       prefix: chain,
     },
     query: {
+      ...route.query,
       page: '1',
-      sort: route.query.sort,
     },
   })
 }

@@ -1,8 +1,8 @@
 <template>
   <div class="is-flex is-flex-direction-column wallet-asset">
     <div>
-      <div class="is-capitalized">
-        {{ $i18n.t('walletConnect.walletAccount', [extensionName]) }}
+      <div>
+        {{ walletName }}
       </div>
       <Identity
         class="identity-address is-size-6"
@@ -56,8 +56,9 @@ const AccountBalance = defineAsyncComponent(
 const ProfileAssetsList = defineAsyncComponent(
   () => import('@/components/rmrk/Profile/ProfileAssetsList.vue')
 )
-const extensionName = computed(() => localStorage.getItem('wallet'))
 const totalValue = ref(0)
+
+const walletName = computed(() => $store.getters['wallet/getWalletName'])
 
 const emit = defineEmits(['back'])
 
