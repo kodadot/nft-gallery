@@ -93,7 +93,7 @@ import { txCb } from '@/utils/transactionExecutor'
 import TeleportTabs from './TeleportTabs'
 import { NeoButton } from '@kodadot1/brick'
 import { getss58AddressByPrefix } from '@/utils/account'
-import { getAsssetBalance, getKusamaAssetId } from '@/utils/api/bsx/query'
+import { getAsssetBalance } from '@/utils/api/bsx/query'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 const getKusamaApi = async () =>
   await ApiPromise.create({
