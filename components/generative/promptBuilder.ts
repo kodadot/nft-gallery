@@ -25,7 +25,7 @@ const OF = 'of'
 const BY = 'by'
 const COMMA = ','
 
-const NAME = 'Valentine anime'
+export const NAME = 'Valentine anime'
 
 export const buildPrompt = (options: Options): string => {
   const { gender, framing, art, style, having, wearing, lighting, inspiredBy } =
