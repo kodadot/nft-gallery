@@ -315,7 +315,6 @@ export default class Gallery extends mixins(
   @Watch('$route.query.min', { deep: true })
   @Watch('$route.query.max', { deep: true })
   protected onSearchQueryChange() {
-    console.log('updated')
     this.searchQuery.owned = this.$route.query?.owned?.toString() === 'true'
     this.searchQuery.listed = this.$route.query?.listed?.toString() === 'true'
     this.searchQuery.priceMin = Number(this.$route.query?.min) || undefined

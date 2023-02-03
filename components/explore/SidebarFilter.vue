@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'mr-4 bordered sticky': open }">
+  <div :class="{ 'mr-5 bordered sticky': open }">
     <NeoSidebar :reduce="false" :open="open" fullheight>
       <b-collapse :open="false" animation="slide">
         <template #trigger="props">
@@ -66,7 +66,9 @@
             <b-checkbox v-model="listed"> {{ $t('sort.listed') }} </b-checkbox>
           </b-field>
           <b-field>
-            <b-checkbox v-model="owned"> {{ $t('sort.own') }} </b-checkbox>
+            <b-checkbox v-model="owned" :disabled="!accountId">
+              {{ $t('sort.own') }}
+            </b-checkbox>
           </b-field>
         </div>
       </b-collapse>
@@ -82,6 +84,7 @@ const { $store, $consola } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 const { decimals } = useChain()
+const { accountId } = useAuth()
 const range = ref({
   min: fromDecimals(Number(route.query?.min), decimals.value) || 0,
   max: fromDecimals(Number(route.query?.max), decimals.value) || 0,
