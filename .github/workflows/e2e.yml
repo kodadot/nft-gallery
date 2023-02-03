@@ -41,16 +41,10 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        uses: Wandalen/wretry.action@master
-        with:
-          command: pnpm install && pnpm cypress install
-          attempt_limit: 3
+        run: pnpm install && pnpm cypress install
 
       - name: Build App
-        uses: Wandalen/wretry.action@master
-        with:
-          command: pnpm generate
-          attempt_limit: 3
+        run: pnpm generate
 
       - name: Cypress run
         timeout-minutes: 10
