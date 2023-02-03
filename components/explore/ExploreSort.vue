@@ -69,6 +69,10 @@ const options = computed(() => {
 function selectiveSort(options: string[]) {
   const uniqueOptions = {}
 
+  if (!isArray(options)) {
+    return []
+  }
+
   options.forEach((option) => {
     const opt = option.split('_')
     const identifier = opt[0]
