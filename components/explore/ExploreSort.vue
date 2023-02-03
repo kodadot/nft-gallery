@@ -92,6 +92,7 @@ function onChange(selected) {
   router.push({
     path: route.fullPath,
     query: {
+      ...route.query,
       page: '1',
       sort: selectiveSort(selected),
     },

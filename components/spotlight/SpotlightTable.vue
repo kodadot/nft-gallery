@@ -187,7 +187,6 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { get } from 'idb-keyval'
 
 import {
   axisLize,
@@ -206,7 +205,6 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 
 import { PER_PAGE } from '@/utils/constants'
-import { identityStore } from '@/utils/idbStore'
 
 import { Row } from './types'
 
@@ -323,8 +321,8 @@ export default class SpotlightTable extends mixins(
     )
 
     for (let index = 0; index < this.data.length; index++) {
-      const result = await this.identityOf(this.data[index].id)
-      if (result && Object.keys(result).length) {
+      const result = this.resolveAddress(this.data[index].id)
+      if (result) {
         this.$set(this.data[index], 'hasIdentity', true)
       }
     }
@@ -410,12 +408,6 @@ export default class SpotlightTable extends mixins(
         query: { ...this.$route.query, [key]: value },
       })
       .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
-  }
-
-  public async identityOf(account: Address) {
-    const address: string = this.resolveAddress(account)
-    const identity = await get(address, identityStore)
-    return identity
   }
 
   private resolveAddress(account: Address): string {
