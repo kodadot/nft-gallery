@@ -90,7 +90,7 @@ import shortAddress from '@/utils/shortAddress'
 import Money from '@/components/shared/format/Money.vue'
 
 import { txCb } from '@/utils/transactionExecutor'
-import TeleportTabs from './TeleportTabs'
+import TeleportTabs from './TeleportTabs.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { getss58AddressByPrefix } from '@/utils/account'
 import { getAsssetBalance } from '@/utils/api/bsx/query'
