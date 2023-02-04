@@ -13,7 +13,7 @@ $themes: (
     'k-hovergrey': #6b6b6b,
     'k-blue': #6188e7,
     'k-shade': #cccccc,
-    'primary-shadow': 4px 4px $black,
+    'primary-shadow': 4px 4px black,
     'background-color': #ffffff,
   ),
   'dark-mode': (
@@ -30,7 +30,7 @@ $themes: (
     'k-hovergrey': #6b6b6b,
     'k-blue': #6188e7,
     'k-shade': #cccccc,
-    'primary-shadow': 4px 4px $white,
+    'primary-shadow': 4px 4px white,
     'background-color': #191718,
   ),
 );

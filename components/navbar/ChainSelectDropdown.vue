@@ -1,7 +1,7 @@
 <template>
   <b-dropdown v-model="selected" aria-role="list" :triggers="['click']">
     <template #trigger>
-      <div class="navbar-item" data-cy="chain">{{ selected }}</div>
+      <div class="navbar-item" data-cy="chain">{{ chainName }}</div>
     </template>
     <b-dropdown-item
       v-for="option in options"
@@ -19,6 +19,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Option } from '@kodadot1/vuex-options/dist/types'
 import { getChainTestList } from '~/utils/constants'
+import { getChainNameByPrefix } from '~/utils/chain'
 
 @Component({})
 export default class ChainSelect extends Vue {
@@ -41,6 +42,10 @@ export default class ChainSelect extends Vue {
   set selected(value) {
     this.$store.dispatch('setUrlPrefix', value)
     this.$router.push({ path: `/${value}` })
+  }
+
+  get chainName() {
+    return getChainNameByPrefix(this.selected)
   }
 }
 </script>

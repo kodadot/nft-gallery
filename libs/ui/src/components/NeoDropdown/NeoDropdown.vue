@@ -6,7 +6,7 @@
     class="neo-dropdown"
     :class="{ 'o-drop-active': isActive }"
     :mobile-modal="mobileModal"
-    @active-change="isActive = $event">
+    @active-change="onActiveChange($event)">
     <template #trigger>
       <slot />
     </template>
@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts" setup>
+import { defineEmits } from 'vue'
 import { ODropdown } from '@oruga-ui/oruga'
 
 const isActive = ref(false)
@@ -31,6 +32,13 @@ withDefaults(
     mobileModal: false,
   }
 )
+
+const emit = defineEmits(['active-change'])
+
+function onActiveChange(event) {
+  isActive.value = event
+  emit('active-change', event)
+}
 </script>
 
 <style lang="scss">

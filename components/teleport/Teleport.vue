@@ -66,7 +66,7 @@ import { web3Enable } from '@polkadot/extension-dapp'
 import '@polkadot/api-augment'
 import { toDefaultAddress } from '@/utils/account'
 import { getAddress } from '@/utils/extension'
-import { Chain, ChainIdMap } from '@/utils/teleport'
+import { Chain } from '@/utils/teleport'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import useAuth from '@/composables/useAuth'
 import Loader from '@/components/shared/Loader.vue'
@@ -139,7 +139,7 @@ const sendXCM = async (address: string) => {
 
     const promise = paraspell.xcmPallet.transferRelayToPara(
       apiKusama,
-      ChainIdMap[Chain.BASILISK],
+      Chain.BASILISK,
       amount.value,
       toAddress.value
     )

@@ -60,10 +60,14 @@ const displayName = ({
   return display || shortenedAddress.value
 }
 
-export default function useIdentity({ address, customNameOption }) {
+export default function useIdentity({
+  address: initAddress,
+  customNameOption,
+}) {
+  const address = ref(initAddress)
   const identity = ref<IdentityFields>({})
   const isFetchingIdentity = ref(false)
-  const shortenedAddress = computed(() => shortAddress(address))
+  const shortenedAddress = computed(() => shortAddress(address.value))
   const twitter = computed(() => identity?.value?.twitter)
   const discord = computed(() => identity?.value?.discord)
   const display = computed(() => identity?.value?.display)
@@ -79,9 +83,10 @@ export default function useIdentity({ address, customNameOption }) {
     identity.value = await fetchIdentity(addr)
 
     isFetchingIdentity.value = false
+    address.value = addr
   }
 
-  onMounted(() => whichIdentity(address))
+  onMounted(() => whichIdentity(address.value))
 
   return {
     identity,
