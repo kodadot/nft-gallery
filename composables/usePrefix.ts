@@ -4,9 +4,8 @@ export default function () {
   const { $store } = useNuxtApp()
   const route = useRoute()
 
-  const urlPrefix = computed<string>(() => {
-    return route.params.prefix || $store.getters.currentUrlPrefix
-  })
+  const prefix = ref(route.params.prefix || $store.getters.currentUrlPrefix)
+  const urlPrefix = computed<string>(() => prefix.value || 'bsx')
 
   const client = computed<string>(() => {
     return urlPrefix.value === 'rmrk' ? 'subsquid' : urlPrefix.value
@@ -17,6 +16,18 @@ export default function () {
   const assets = (id: string | number) => {
     return $store.getters['assets/getAssetById'](id)
   }
+
+  // we can remove this watcher
+  // once we are not rely on `$store.getters.currentUrlPrefix`
+  watch(
+    () => route.params.prefix,
+    (newPrefix) => {
+      if (urlPrefix.value !== route.params.prefix && newPrefix) {
+        prefix.value = newPrefix
+        $store.dispatch('setUrlPrefix', newPrefix)
+      }
+    }
+  )
 
   return {
     urlPrefix,
