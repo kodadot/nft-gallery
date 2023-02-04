@@ -11,6 +11,7 @@ import {
   faAngleRight,
   faArrowUp,
   faArrowsAlt,
+  faBars,
   faBookOpen,
   faBookmark,
   faCalculator,
@@ -120,6 +121,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
+  faBars,
   faBookOpen,
   faPaperPlane,
   faFileImage,
