@@ -251,7 +251,7 @@ export default class Sharing extends Vue {
   background-color: transparent !important;
 
   @include ktheme() {
-    border-top: 1px solid theme('k-accent') !important;
+    border-top: 1px solid theme('k-primary') !important;
   }
 }
 

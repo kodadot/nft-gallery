@@ -133,15 +133,22 @@ onMounted(async () => {
 </script>
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
+
 table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
   border-radius: 0.25rem;
   overflow: hidden;
+
   th {
-    color: $k-grey;
+    @include ktheme() {
+      @include ktheme() {
+        color: theme('k-grey');
+      }
+    }
   }
+
   tr:last-child {
     border-bottom: none;
   }

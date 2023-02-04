@@ -31,53 +31,17 @@ body {
     }
   }
 
-  // .select select,
-  // .select select option,
-  // .taginput .taginput-container.is-focusable,
-  // .textarea {
-  //   color: $select-color;
-  // }
-
-  .title, .subtitle {
+  .title,
+  .subtitle {
     @include ktheme() {
       color: theme('text-color');
     }
   }
 
-  // .select-dropdown {
-  //   select {
-  //     border: 1px solid $select-border-color !important;
-  //   }
-
-  //   @media screen and (max-width: 1216px) and (min-width: 768px) {
-  //     width: 200px;
-  //   }
-  // }
-
-  // .select {
-  //   &:not(.is-multiple):not(.is-loading):hover::after {
-  //     border-color: $select-border-color;
-  //   }
-  // }
-
-  // .select select[disabled],
-  // .taginput [disabled].taginput-container.is-focusable,
-  // [disabled].textarea,
-  // [disabled].input,
-  // fieldset[disabled] .select select,
-  // .select fieldset[disabled] select,
-  // fieldset[disabled] .taginput .taginput-container.is-focusable,
-  // .taginput fieldset[disabled] .taginput-container.is-focusable,
-  // fieldset[disabled] .textarea,
-  // fieldset[disabled] .input {
-  //   @include ktheme() {
-  //     background-color: theme('background-color');
-  //   }
-  // }
-
   .input,
   select,
-  textarea, .taginput-container {
+  textarea,
+  .taginput-container {
     @include ktheme() {
       background-color: theme('background-color') !important;
       color: theme('text-color') !important;
@@ -145,7 +109,6 @@ body {
 // global css for pagination
 .pagination-link {
   border: none !important;
-  // border-top: 1px solid $primary !important;
   @include ktheme() {
     border-top: 1px solid theme('k-primary') !important;
   }
@@ -166,18 +129,24 @@ body {
   width: 100% !important;
 }
 
-// .b-radio.radio.button.is-selected {
-//   background-color: #db2980;
-// }
-// .b-radio.is-selected {
-//   color: #000;
-//   background-color: $primary;
-// }
+.b-radio.radio.button.is-selected {
+  @include ktheme() {
+    background-color: theme('k-primary');
+  }
+}
+.b-radio.is-selected {
+  @include ktheme() {
+    background-color: theme('k-primary');
+    color: theme('black');
+  }
+}
 
-// .collection-radio-btn .b-radio.radio.button {
-//   border: none !important;
-//   border-top: 1px solid $primary !important;
-// }
+.collection-radio-btn .b-radio.radio.button {
+  border: none !important;
+  @include ktheme() {
+    border-top: 1px solid theme('k-primary') !important;
+  }
+}
 
 .short-identity__table {
   max-width: 50em;
@@ -196,7 +165,6 @@ body {
 }
 
 .image-outline {
-  // border: 1px solid $black;
   @include ktheme() {
     border: 1px solid theme('text-color');
   }
@@ -222,7 +190,6 @@ body {
 }
 
 .instance {
-  // border-bottom: 1px solid black;
   &:last-child {
     border-bottom: none;
   }
@@ -236,7 +203,6 @@ body {
 }
 
 hr {
-  // background: $k-grey;
   @include ktheme() {
     background: theme('k-grey');
   }

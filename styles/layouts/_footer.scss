@@ -49,9 +49,6 @@
       &-item {
         height: 33px;
         width: 33px;
-        background: $white;
-        border: 1px solid $black;
-        box-shadow: $primary-shadow;
 
         @include ktheme() {
           background: theme('background-color');

@@ -14,7 +14,6 @@
 @import "./global.scss";
 
 // BASE STYLES
-@import "base/reset";
 @import "base/typography";
 
 // COMPONENTS
@@ -31,6 +30,7 @@
 @import "components/collection-card";
 @import "components/connect-wallet";
 @import "components/gallery";
+@import "components/collection";
 
 // OVERRIDE ORUGA COMPONENTS
 @import "components/o-table";
@@ -40,7 +40,3 @@
 // LAYOUTS
 @import "layouts/footer";
 @import "layouts/main-navigation";
-
-// THEMES
-@import "themes/dark";
-@import "themes/light";

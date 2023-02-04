@@ -88,10 +88,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.media-object {
-  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 1);
-  border: 1px solid black;
-}
-</style>

@@ -1,0 +1,21 @@
+.box {
+  @include ktheme() {
+    background-color: theme('k-accentlight2');
+    color: theme('text-color');
+  }
+}
+
+.table {
+  @include ktheme() {
+    background-color: theme('background-color');
+    color: theme('text-color');
+
+    &.is-hoverable tbody tr:not(.is-selected):hover {
+      background-color: theme('background-color');
+    }
+
+    th {
+      color: theme('text-color');
+    }
+  }
+}

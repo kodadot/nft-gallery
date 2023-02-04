@@ -12,3 +12,25 @@
     }
   }
 }
+
+.gallery-item {
+  .media-object {
+    @include ktheme() {
+      box-shadow: theme('primary-shadow');
+      border: 1px solid theme('text-color'); 
+    }
+  }
+}
+
+.gallery-item-desc-markdown {
+  pre {
+    background-color: transparent;
+    margin: 1rem 0;
+    white-space: pre-wrap;
+    @include ktheme() {
+      border: 1px solid theme('k-shade');
+      color: theme('k-shade');
+    }
+  }
+  word-break: 'break-word';
+}

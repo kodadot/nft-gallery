@@ -1,20 +1,20 @@
 .modal.is-active {
-	z-index: 998;
+  z-index: 998;
 }
 
 .modal-background {
-	background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal {
-	.modal-close {
-		background-color: rgba(255, 255, 255, 0.2);
-	}
+  .modal-close {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
 
-	.modal-content {
-		border: 2px solid $primary-light;
-		box-shadow: 13px 14px rgba(90, 15, 60, 0.7);
-		width: fit-content;
-	}
-
+  .modal-content {
+    @include ktheme() {
+      box-shadow: theme('primary-shadow');
+      border: 1px solid theme('text-color');
+    }
+  }
 }

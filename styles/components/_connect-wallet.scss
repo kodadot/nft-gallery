@@ -126,11 +126,12 @@
   .wallet-asset {
     padding: 0 2rem;
     .identity-address a {
-        font-weight: normal !important;
-        color: $k-blue;
+      font-weight: normal !important;
+      @include ktheme() {
+        color: theme('k-blue') !important;
+      }
     }
     hr {
-      background: $k-grey;
       height: 1px;
     }
   }
