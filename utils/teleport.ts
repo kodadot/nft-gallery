@@ -26,6 +26,11 @@ export enum Chain {
   BASILISK = 'Basilisk',
 }
 
+export const chainToPrefixMap = {
+  [Chain.KUSAMA]: 'rmrk',
+  [Chain.BASILISK]: 'bsx',
+}
+
 export function getTeleportWeight(api: ApiPromise): number {
   return KNOWN_WEIGHTS[api.genesisHash.toHex()] || DEFAULT_WEIGHT
 }

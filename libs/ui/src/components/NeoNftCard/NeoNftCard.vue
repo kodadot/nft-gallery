@@ -34,7 +34,9 @@
           v-if="showPrice"
           :value="nft.price"
           data-cy="card-money" />
-        <span class="chain-name">{{ getChainNameByPrefix(prefix) }}</span>
+        <span class="chain-name is-capitalized is-size-7">{{
+          getChainNameByPrefix(prefix)
+        }}</span>
       </div>
     </div>
   </div>
