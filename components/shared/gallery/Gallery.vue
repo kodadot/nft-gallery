@@ -309,16 +309,19 @@ export default class Gallery extends mixins(
     }
   }
 
-  @Watch('searchQuery', { deep: true })
   @Watch('$route.query.owned', { deep: true })
   @Watch('$route.query.listed', { deep: true })
   @Watch('$route.query.min', { deep: true })
   @Watch('$route.query.max', { deep: true })
-  protected onSearchQueryChange() {
+  protected onRouteQueryChange() {
     this.searchQuery.owned = this.$route.query?.owned?.toString() === 'true'
     this.searchQuery.listed = this.$route.query?.listed?.toString() === 'true'
     this.searchQuery.priceMin = Number(this.$route.query?.min) || undefined
     this.searchQuery.priceMax = Number(this.$route.query?.max) || undefined
+  }
+
+  @Watch('searchQuery', { deep: true })
+  protected onSearchQueryChange() {
     this.resetPage()
   }
 }
