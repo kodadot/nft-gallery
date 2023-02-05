@@ -1,7 +1,6 @@
 html.light-mode {
   background-color: $white;
 
-
   body,
   div#__nuxt,
   div#__layout,
@@ -31,6 +30,21 @@ html.light-mode {
     &__stroked {
       -webkit-text-fill-color: $white;
     }
+  }
+
+  .content h1,
+  .content h2,
+  .content h3,
+  .content h4,
+  .content h5,
+  .content h6,
+  .content pre:not(.hljs),
+  .content strong {
+    color: $text-light-theme;
+  }
+
+  .content blockquote {
+    background-color: $white;
   }
 
   .select select option {
@@ -269,7 +283,6 @@ html.light-mode {
       color: $k-hovergrey;
     }
   }
-
 
   .gallery-item-media {
     border: 1px solid #000;
