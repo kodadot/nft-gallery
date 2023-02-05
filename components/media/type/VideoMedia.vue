@@ -55,6 +55,7 @@ const controls = computed(() => !props.preview)
     -moz-box-align: center;
     -moz-box-pack: center;
     justify-content: center;
+    object-fit: cover;
   }
 }
 </style>
