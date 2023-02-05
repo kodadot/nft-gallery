@@ -89,7 +89,7 @@ import * as paraspell from '@paraspell/sdk'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import shortAddress from '@/utils/shortAddress'
 import Money from '@/components/shared/format/Money.vue'
-
+import { getChainEndpointByPrefix } from '@/utils/chain'
 import { txCb } from '@/utils/transactionExecutor'
 import TeleportTabs from './TeleportTabs.vue'
 import { NeoButton } from '@kodadot1/brick'
@@ -98,11 +98,11 @@ import { getAsssetBalance } from '@/utils/api/bsx/query'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 const getKusamaApi = async () =>
   await ApiPromise.create({
-    provider: new WsProvider('wss://public-rpc.pinknode.io/kusama'),
+    provider: new WsProvider(getChainEndpointByPrefix('kusama') as string),
   })
 const getBasiliskApi = async () =>
   await ApiPromise.create({
-    provider: new WsProvider('wss://basilisk-rpc.dwellir.com'),
+    provider: new WsProvider(getChainEndpointByPrefix('basilisk') as string),
   })
 const { accountId } = useAuth()
 const { assets } = usePrefix()
