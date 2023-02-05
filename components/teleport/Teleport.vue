@@ -38,7 +38,7 @@
             <span class="mr-2">{{ $i18n.t('balance') }}:</span
             ><Money :value="ksmBalanceOnBasilisk" hide-unit />KSM
           </span>
-          <a class="has-text-info ml-2" @click="handleMaxClick">{{
+          <a class="max-button ml-2" @click="handleMaxClick">{{
             $i18n.t('teleport.max')
           }}</a>
         </div>
@@ -268,7 +268,8 @@ const sendXCM = async () => {
     height: 3.5rem;
   }
 
-  .short-address {
+  .short-address,
+  .max-button {
     color: $k-blue;
   }
 }
@@ -289,6 +290,7 @@ const sendXCM = async () => {
   .transfer-amount {
     border: none;
     @include ktheme() {
+      color: theme('text-color');
       border-right: 1px solid theme('border-color');
       background: theme('background-color');
     }
