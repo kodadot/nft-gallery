@@ -34,8 +34,14 @@ const emit = defineEmits(['select'])
 @import '@/styles/abstracts/variables';
 
 .teleport-tabs {
-  &-button {
+  .teleport-tabs-button {
     width: 15rem;
+    @include ktheme() {
+      color: theme('text-color');
+      &.active {
+        color: theme('text-color-inverse');
+      }
+    }
   }
 
   @include mobile {

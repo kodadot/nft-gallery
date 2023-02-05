@@ -36,7 +36,7 @@
           class="is-size-7 is-flex is-justify-content-end is-align-items-center">
           <span class="is-flex is-align-items-center">
             <span class="mr-2">{{ $i18n.t('balance') }}:</span
-            ><Money :value="ksmBalanceOnBasilisk" />
+            ><Money :value="ksmBalanceOnBasilisk" hide-unit />KSM
           </span>
           <a class="has-text-info ml-2" @click="handleMaxClick">{{
             $i18n.t('teleport.max')
@@ -58,16 +58,17 @@
           :href="explorerUrl"
           target="_blank"
           rel="noopener noreferrer"
-          class="has-text-info">
+          class="short-address">
           {{ shortAddress(toAddress) }}
         </a>
       </div>
 
       <NeoButton
-        label="send"
+        :label="$i18n.t('teleport.send')"
         size="large"
         class="is-size-6 submit-button"
         :loading="isLoading"
+        :disabled="isDisabledButton"
         variant="k-accent"
         @click.native="sendXCM" />
     </div>
@@ -167,6 +168,10 @@ const fetchBasiliskBalance = async () => {
     }
   )
 }
+const isDisabledButton = computed(() => {
+  return !amount.value || amount.value <= 0
+})
+
 const ksmTokenDecimals = computed(() => assets(5).decimals)
 
 const handleMaxClick = () => {
@@ -262,6 +267,10 @@ const sendXCM = async () => {
     width: 100%;
     height: 3.5rem;
   }
+
+  .short-address {
+    color: $k-blue;
+  }
 }
 
 .input-wrapper {
@@ -279,7 +288,11 @@ const sendXCM = async () => {
 
   .transfer-amount {
     border: none;
-    border-right: 1px solid black;
+    @include ktheme() {
+      border-right: 1px solid theme('border-color');
+      background: theme('background-color');
+    }
+    background: transparent;
     padding: 0 0.5rem;
     height: 54px;
     outline: none;
