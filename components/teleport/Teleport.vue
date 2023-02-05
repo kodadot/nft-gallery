@@ -102,7 +102,7 @@ const getKusamaApi = async () =>
   })
 const getBasiliskApi = async () =>
   await ApiPromise.create({
-    provider: new WsProvider('wss://rpc.basilisk.cloud'),
+    provider: new WsProvider('wss://basilisk-rpc.dwellir.com'),
   })
 const { accountId } = useAuth()
 const { assets } = usePrefix()
