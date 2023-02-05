@@ -97,6 +97,11 @@ export default class InfiniteScrollMixin extends Vue {
 
   @Debounce(1000)
   protected async reachBottomHandler($state): Promise<void> {
+    await this.fetchNextPage()
+    $state?.loaded()
+  }
+
+  public async fetchNextPage() {
     if (!this.canLoadNextPage) {
       return
     }
@@ -106,7 +111,6 @@ export default class InfiniteScrollMixin extends Vue {
       this.endPage = nextPage
       this.checkAfterFetchDataSuccess()
     }
-    $state.loaded()
   }
 
   private checkAfterFetchDataSuccess(): void {

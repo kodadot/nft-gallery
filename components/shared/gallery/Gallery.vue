@@ -23,7 +23,8 @@
         </div>
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
-          @infinite="reachBottomHandler"></InfiniteLoading>
+          :distance="400"
+          @infinite="reachBottom"></InfiniteLoading>
         <EmptyResult v-if="total === 0" />
         <ScrollTopButton />
       </div>
@@ -44,7 +45,7 @@ import {
 import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
 
 import { processMetadata } from '@/utils/cachingStrategy'
-import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
+import { mapNFTorCollectionMetadata } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { getDenyList } from '@/utils/prefix'
 import resolveQueryPath from '@/utils/queryPathResolver'
@@ -133,6 +134,7 @@ export default class Gallery extends mixins(
   public async created() {
     try {
       await this.fetchPageData(this.startPage)
+      this.prefetchPage()
     } catch (e) {
       showNotification((e as Error).message, notificationTypes.danger)
     }
@@ -204,7 +206,7 @@ export default class Gallery extends mixins(
 
     const metadataList: string[] = this.nfts.map(mapNFTorCollectionMetadata)
 
-    await processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+    processMetadata<NFTMetadata>(metadataList, (meta, i) => {
       const nft = this.nfts[i]
       if (!nft) {
         return
@@ -220,43 +222,17 @@ export default class Gallery extends mixins(
       })
     })
     this.isLoading = false
-    await this.prefetchPage(
-      this.offset + this.first,
-      this.offset + 3 * this.first
-    )
   }
 
-  public async prefetchPage(offset: number, prefetchLimit: number) {
-    try {
-      const query = await resolveQueryPath(this.client, 'nftListWithSearch')
-      const nfts = this.$apollo.query({
-        query: query.default,
-        client: this.client,
-        variables: {
-          first: this.first,
-          offset,
-          denyList: getDenyList(this.urlPrefix),
-          orderBy: this.searchQuery.sortByMultiple,
-          search: this.buildSearchParam(),
-          priceMin: this.searchQuery.priceMin,
-          priceMax: this.searchQuery.priceMax,
-        },
-      })
+  public async reachBottom(state) {
+    await this.reachBottomHandler(state)
+    this.prefetchPage()
+  }
 
-      const {
-        data: { nFTEntities },
-      } = await nfts
-      const nftList = unwrapSafe(nFTEntities)
-      const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-      await processMetadata<NFTMetadata>(metadataList)
-    } catch (e) {
-      logError(e, (msg) =>
-        this.$consola.warn('[PREFETCH] Unable fo fetch', offset, msg)
-      )
-    } finally {
-      if (offset <= prefetchLimit) {
-        await this.prefetchPage(offset + this.first, prefetchLimit)
-      }
+  public async prefetchPage(prefetchCount = 0) {
+    if (prefetchCount < 3) {
+      await this.fetchNextPage()
+      this.prefetchPage(prefetchCount + 1)
     }
   }
 
