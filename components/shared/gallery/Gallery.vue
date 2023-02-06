@@ -12,7 +12,7 @@
         <InfiniteLoading
           v-if="startPage > 1 && !isLoading && total > 0"
           direction="top"
-          :distance="1000"
+          :distance="600"
           @infinite="reachTop"></InfiniteLoading>
         <div :id="scrollContainerId" class="columns is-multiline">
           <div
@@ -24,7 +24,7 @@
         </div>
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
-          :distance="400"
+          :distance="600"
           @infinite="reachBottom"></InfiniteLoading>
         <EmptyResult v-if="total === 0" />
         <ScrollTopButton />
@@ -135,7 +135,7 @@ export default class Gallery extends mixins(
   public async created() {
     try {
       await this.fetchPageData(this.startPage)
-      this.prefetchPage()
+      this.prefetchPage(1, this.fetchNextPage)
     } catch (e) {
       showNotification((e as Error).message, notificationTypes.danger)
     }
