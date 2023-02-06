@@ -71,6 +71,9 @@
         border-radius: 0;
         padding: 10px 2rem;
         box-shadow: none !important;
+        > span {
+          flex: 1;
+        }
         .icon {
           margin-right: 0 !important;
         }
