@@ -55,14 +55,11 @@
           </div>
         </div>
         <div
+          v-if="diffPercentString"
           class="is-hidden-mobile is-justify-content-center is-align-items-center is-flex px-2">
-          <div
-            v-if="diffPercentString"
-            class="is-size-6 no-wrap"
-            :class="color">
+          <div class="is-size-6 no-wrap" :class="color">
             {{ diffPercentString }}
           </div>
-          <div v-else class="is-size-6" :class="color">--</div>
         </div>
       </div>
     </div>
