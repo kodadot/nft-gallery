@@ -12,7 +12,8 @@
         <InfiniteLoading
           v-if="startPage > 1 && !isLoading && total > 0"
           direction="top"
-          @infinite="reachTopHandler"></InfiniteLoading>
+          :distance="1000"
+          @infinite="reachTop"></InfiniteLoading>
         <div :id="scrollContainerId" class="columns is-multiline">
           <div
             v-for="(nft, index) in results"
@@ -107,7 +108,7 @@ export default class Gallery extends mixins(
     priceMax: undefined,
   }
   public isLoading = true
-
+  public first = 20
   get showPriceValue(): boolean {
     return (
       this.searchQuery?.listed ||
@@ -226,13 +227,18 @@ export default class Gallery extends mixins(
 
   public async reachBottom(state) {
     await this.reachBottomHandler(state)
-    this.prefetchPage()
+    this.prefetchPage(3, this.fetchNextPage)
   }
 
-  public async prefetchPage(prefetchCount = 0) {
-    if (prefetchCount < 3) {
-      await this.fetchNextPage()
-      this.prefetchPage(prefetchCount + 1)
+  public async reachTop(state) {
+    await this.reachTopHandler(state)
+    this.prefetchPage(1, this.fetchPreviousPage)
+  }
+
+  public async prefetchPage(prefetchCount = 3, fetchFn: () => void) {
+    if (prefetchCount > 0) {
+      await fetchFn()
+      this.prefetchPage(prefetchCount - 1, fetchFn)
     }
   }
 
