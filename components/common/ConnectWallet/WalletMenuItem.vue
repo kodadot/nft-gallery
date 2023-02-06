@@ -52,7 +52,7 @@ const props = defineProps<{
 }>()
 
 const { chainProperties } = useChain()
-const { $consola } = useNuxtApp()
+const { $consola, $store } = useNuxtApp()
 const hasWalletProviderExtension = ref(false)
 const walletAccounts = ref<WalletAccount[]>([])
 const showAccountList = ref(false)
@@ -67,6 +67,10 @@ const walletIcon = computed(() =>
 )
 const emitAccountChange = (address: string): void => {
   emit('setAccount', address)
+  const walletName = walletAccounts.value.find(
+    (wallet) => wallet.address === address
+  )?.name
+  $store.dispatch('wallet/setWalletName', { name: walletName })
 }
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 

@@ -17,6 +17,12 @@ flowchart TD
   SubSquid --> MoonRiver_parachain
 
 ```
+### RepoTracker
+
+[Peak on recent activity over KodaDot](https://repo-tracker.com/r/gh/kodadot/nft-gallery)
+
+![image](https://user-images.githubusercontent.com/5887929/216818611-1ccfbb32-de2f-4b81-b806-7e76d65bb2a1.png)
+
 
 ## Recent Contributors ✨
 
