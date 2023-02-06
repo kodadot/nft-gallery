@@ -28,12 +28,12 @@
               <div v-else>---</div>
             </div>
             <div class="is-uppercase has-text-grey px-3 is-hidden-mobile">
-              {{ urlPrefix }}
+              {{ chainName }}
             </div>
           </div>
           <div
             class="is-uppercase has-text-grey is-hidden-tablet is-size-7-mobile">
-            {{ urlPrefix }}
+            {{ chainName }}
           </div>
         </div>
       </div>
@@ -55,14 +55,11 @@
           </div>
         </div>
         <div
+          v-if="diffPercentString"
           class="is-hidden-mobile is-justify-content-center is-align-items-center is-flex px-2">
-          <div
-            v-if="diffPercentString"
-            class="is-size-6 no-wrap"
-            :class="color">
+          <div class="is-size-6 no-wrap" :class="color">
             {{ diffPercentString }}
           </div>
-          <div v-else class="is-size-6" :class="color">--</div>
         </div>
       </div>
     </div>
@@ -73,7 +70,7 @@
 import { TimeRange } from '@/components/series/types'
 import { calculateUsdFromKsm } from '~~/utils/calculation'
 import { CollectionEntityWithVolumes } from './utils/types'
-
+import { getChainNameByPrefix } from '@/utils/chain'
 const BasicImage = defineAsyncComponent(
   () => import('@/components/shared/view/BasicImage.vue')
 )
@@ -94,6 +91,7 @@ const props = defineProps<{
   timeRange?: TimeRange
 }>()
 
+const chainName = getChainNameByPrefix(urlPrefix.value)
 const timeRange = computed(() => props.timeRange || 'Month')
 
 const volume = computed(() => {

@@ -1,5 +1,29 @@
 # KodaDot's Repository Statistics
 
+## KodaDot Infrastructure
+
+```mermaid
+---
+title: KodaDot Infrastructure (unfinished)
+---
+flowchart TD
+  KodaDot --> SubSquid
+  KodaDot --> HyperGate 
+  KodaDot --> Netlify
+  HyperGate --> image_worker
+  SubSquid --> Kusama_relay_chain
+  SubSquid --> Basilisk_parachain
+  SubSquid --> MoonBeam_parachain
+  SubSquid --> MoonRiver_parachain
+
+```
+### RepoTracker
+
+[Peak on recent activity over KodaDot](https://repo-tracker.com/r/gh/kodadot/nft-gallery)
+
+![image](https://user-images.githubusercontent.com/5887929/216818611-1ccfbb32-de2f-4b81-b806-7e76d65bb2a1.png)
+
+
 ## Recent Contributors ✨
 
 <img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
@@ -43,7 +67,9 @@ Check out KodaDot's [monthly statistics](https://github.com/kodadot/nft-gallery/
 [![Star History Chart](https://api.star-history.com/svg?repos=kodadot/nft-gallery&type=Date)](https://star-history.com/#kodadot/nft-gallery&Date)
 
 ### New Issues and pull requests 
-https://www.repotrends.com/kodadot/nft-gallery
+- https://www.repotrends.com/kodadot/nft-gallery
 
-![image](https://user-images.githubusercontent.com/5887929/186192408-cf04dd5d-a809-4d0f-9e57-b1f371a5c2d4.png)
+![image](https://user-images.githubusercontent.com/5887929/215277906-044ff1e0-2c5e-48ce-829c-4ea085517d44.png)
+
+
 

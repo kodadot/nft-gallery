@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import Identity from '@/components/rmrk/Profile/IdentityForm.vue'
+import Identity from '@/components/common/IdentityForm.vue'
 
 @Component({
   components: {

@@ -22,6 +22,6 @@ const isMobile = ref(window.innerWidth < 768)
 
 <style>
 .image-container.is-square > img {
-  object-fit: contain;
+  object-fit: cover;
 }
 </style>

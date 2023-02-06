@@ -25,9 +25,10 @@ export enum Chain {
   KUSAMA = 'Kusama',
   BASILISK = 'Basilisk',
 }
-export const ChainIdMap = {
-  [Chain.KUSAMA]: 2000,
-  [Chain.BASILISK]: 2090,
+
+export const chainToPrefixMap = {
+  [Chain.KUSAMA]: 'rmrk',
+  [Chain.BASILISK]: 'bsx',
 }
 
 export function getTeleportWeight(api: ApiPromise): number {

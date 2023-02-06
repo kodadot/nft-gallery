@@ -5,10 +5,10 @@ import { dangerMessage } from '@/utils/notification'
 
 import type { ActionList } from './types'
 
-function checkTsxList(item: ActionList) {
+function isListTxValid(item: ActionList) {
   const meta = Number(item.price)
 
-  if (!meta) {
+  if (Math.sign(meta) === -1) {
     dangerMessage('Price is not valid')
     return false
   }
@@ -18,7 +18,7 @@ function checkTsxList(item: ActionList) {
 
 export function execListTx(item: ActionList, api, executeTransaction) {
   const meta = item.price
-  if (!checkTsxList(item)) {
+  if (!isListTxValid(item)) {
     return
   }
 

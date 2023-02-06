@@ -110,7 +110,7 @@
       "25": "How do I set identity?",
       "26": "Is there an official KodaDot token?",
       "27": "How can I contribute to the project?",
-      "28": "Is it possible to move nfts frome one collection to another?",
+      "28": "Is it possible to move nfts from one collection to another?",
       "29": "Where can I access latest KodaDot presskit?",
       "30": "What is Kodadot and what is Kusama?",
       "31": "What is NSFW?",
@@ -134,7 +134,7 @@
         "l1": "[Create](@.common:links.rmrk_create.href)"
       },
       "4": {
-        "m": "You can mint practically anything, actual possibilites:<br/> @.md:faq.a.4.l1",
+        "m": "You can mint practically anything, actual possibilities:<br/> @.md:faq.a.4.l1",
         "l1": "![File formats](/minting-file-formats.png)"
       },
       "5": {
@@ -174,7 +174,7 @@
         "l3": "[looking for simple trade, try SimpleSwap.](@.common:links.simpleswap_exchange.href)"
       },
       "11": {
-        "m": "We are trying to deliver incremental updates on daily basis & fixes ASAP. We may have published new version and your browser has cached old one. If you are on Windows, try hold down Ctrl and then press F5. Mac users, hold down CMD and Shift and then press R. If this did not help, DM us on Twitter or discord with screenshot where is developer console open."
+        "m": "We are trying to deliver incremental updates on daily basis & fixes ASAP. We may have published new version and your browser has cached old one. If you are on Windows, try hold down Ctrl and then press F5. Mac users, hold down CMD and Shift and then press R. If this did not help, DM us on Twitter or discord with a screenshot where the developer console is open."
       },
       "12": {
         "m": "SEND will send it to someone, CONSUME will burn it, LIST will list it for sale so someone can buy it from you."
@@ -203,7 +203,7 @@
         "l1": "[here.](@.common:links.chain_decision.href)"
       },
       "18": {
-        "m": "<b>CLASSIC</b> let's you create collection and add NFTs to it. <b>SIMPLE</b> mint will create NFT collectible and add it to your profile and <b>PERMAFROST</b> is NFT minting using Arweave protocol: The protocol matches people who have hard drive space to spare with those individuals and organizations that need to store data or host content permanently."
+        "m": "<b>CLASSIC</b> lets you create collection and add NFTs to it. <b>SIMPLE</b> mint will create NFT collectible and add it to your profile and <b>PERMAFROST</b> is NFT minting using Arweave protocol: The protocol matches people who have hard drive space to spare with those individuals and organizations that need to store data or host content permanently."
       },
       "19": {
         "m": "Right now, we have @.md:faq.a.19.l1 We are actively looking for funding options, eventually we would raise private funds. DMs us, if you are interested into private sale.",
@@ -231,7 +231,7 @@
         "l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
       },
       "26": {
-        "m": "No, there is no official token launched. Please follow official social media and be aware of scam and phissing attempts from unofficial sources. DYOR."
+        "m": "No, there is no official token launched. Please follow official social media and be aware of scam and phishing attempts from unofficial sources. DYOR."
       },
       "27": {
         "m": "We are always welcoming contributions from our community. There are numerous @.md:faq.a.27.l1 for all skill levels - some will even be rewarded in $KSM. @.md:faq.a.27.l2",
@@ -266,7 +266,7 @@
         "m": "Currently, the minimum cost of transferring KSM is 0.01 KSM (the base fee), although this can be changed via governance."
       },
       "36": {
-        "m": "RMRK is currently just an NFT baked into the blockchain and we don't have any chain logic. From the lesson of randomness, we know that there is the possibility that two or more people can make buy transactions in the same block and can lose money. Then it's just about the honesty of the artist to return the money or mint the same NFT as the token of appreciation."
+        "m": "Kusama is currently just an NFT baked into the blockchain and we don't have any chain logic. From the lesson of randomness, we know that there is the possibility that two or more people can make buy transactions in the same block and can lose money. Then it's just about the honesty of the artist to return the money or mint the same NFT as the token of appreciation."
       },
       "37": {
         "m": "Yes, currently the KodaDot integration in Nova wallet is working fine. We've made @.md:faq.a.37.l1 on how to do this.",
@@ -293,7 +293,7 @@
     },
     "5": {
       "heading": "Did you know...",
-      "question": "that there is so much psychadelic and trippy NFT artwork? We do not know either."
+      "question": "that there is so much psychedelic and trippy NFT artwork? We do not know either."
     },
     "6": {
       "heading": "Can you guess...",
@@ -317,7 +317,7 @@
     },
     "11": {
       "heading": "Did you know...",
-      "question": "that KodaDot has an mobile app?"
+      "question": "that KodaDot has a mobile app?"
     },
     "12": {
       "heading": "Did you know...",
@@ -345,7 +345,7 @@
     },
     "18": {
       "heading": "Did you know...",
-      "question": "that KodaDot's founders encourage forking it's codebase and welcome more KodaDot instances in the wild?"
+      "question": "that KodaDot's founders encourage forking its codebase and welcome more KodaDot instances in the wild?"
     },
     "19": {
       "heading": "Did you know...",
@@ -469,7 +469,7 @@
     },
     "49": {
       "heading:": "Did you know ...",
-      "question": "KodaDot was the first unofficial RMRK explorer? We hack fast. "
+      "question": "KodaDot was the first unofficial Kusama explorer? We hack fast. "
     },
     "50": {
       "heading:": "Did you know ...",
@@ -555,6 +555,8 @@
       "blockNumber_ASC": "Old first",
       "updatedAt_DESC": "Recently Interacted",
       "updatedAt_ASC": "Unpopular",
+      "supply_DESC": "Most Supply",
+      "supply_ASC": "Least Supply",
       "price_DESC": "Price: High to Low",
       "price_ASC": "Price: Low to High",
       "sn_ASC": "Serial Number Ascending",
@@ -586,7 +588,7 @@
     "success": "Congratulations",
     "successNewNfts": "You have successfully purchased this NFT",
     "shareWithFriends": "Share {0} with your friends",
-    "unlimited": "Unlimited items in in your collection",
+    "unlimited": "Unlimited items in your collection",
     "nfsw": "Explicit content (NSFW)",
     "listForSale": "List NFT for sale",
     "listWithRoyalty": "Add royalty",
@@ -597,8 +599,8 @@
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",
-      "count": "Currently matched {0} adresses",
-      "countGlitch": "You have more adresses than available editions. This can cause a problem. Consider to set EDITION field to at least to {0}",
+      "count": "Currently matched {0} addresses",
+      "countGlitch": "You have more addresses than available editions. This can cause a problem. Consider to set EDITION field to at least to {0}",
       "postfix": "Add hashtag and index after the name (e.g #1)",
       "sync": "Sync editions to {0}"
     },
@@ -719,7 +721,7 @@
       "date": "Date",
       "title": "Global Marketplace Offers"
     },
-    "notification" : {
+    "notification": {
       "nftChanged": "[{chain}::{action}] Owner changed or NFT does not exist",
       "info": "[{action}] NFT: {itemId}"
     }
@@ -825,7 +827,7 @@
   "sales": {
     "page": "Sales",
     "title": "Latest KUSAMA Sales",
-    "subtitle": "Featuring the most recently sold NFTs on RMRK.",
+    "subtitle": "Featuring the most recently sold NFTs on Kusama.",
     "buyer": "Buyer",
     "tableDate": "Relative Date",
     "price": "Price of sale"
@@ -833,12 +835,12 @@
   "hot": {
     "label": "Hot",
     "title": "Recently KUSAMA Sales In One Week",
-    "subtitle": "Featuring the recently sold NFTs on RMRK"
+    "subtitle": "Featuring the recently sold NFTs on Kusama"
   },
   "spotlight": {
     "page": "Spotlight",
     "title": "User Spotlight",
-    "subtitle": "Featuring the most active collectors and artits on RMRK.",
+    "subtitle": "Featuring the most active collectors and artists on Kusama.",
     "filter_accounts": "Accounts With Identity",
     "id": "Creator",
     "sold": "Sold",
@@ -920,6 +922,8 @@
     "copyRewardLink": "Copy Reward Me link",
     "latestSales": "Latest sales",
     "searchResultsText": "Showing results for",
+    "searchNoResultsTitle": "Whoops, Couldn't find anything matching your search",
+    "searchNoResultsText": "Give it another shot with different parameters or check back later - New awesome NFTs are added all the time",
     "ksmDiscoverText": "Discover, collect and sell Kusama NFTs",
     "latestSalesheading": "Discover the most recent sales on",
     "newestListDesc": "Discover the latest items on sale",
@@ -927,7 +931,7 @@
     "topCollectionsHeading": "Top Collections",
     "floor": "floor",
     "popularCollectionsHeading": "Popular Collections",
-    "popularCollectionsDesc": "Discover the most popular collections on rmrk",
+    "popularCollectionsDesc": "Discover the most popular collections on Kusama",
     "featuredArticlesHeading": "Featured Articles",
     "from": "from",
     "to": "to",
@@ -950,7 +954,7 @@
     "urlToTransform": {
       "label": "URL to transform",
       "placeholder": "singular.rmrk.app/collectibles/",
-      "copy": "Kodadot link successfuly copied"
+      "copy": "Kodadot link successfully copied"
     },
     "builtOn": "Built on",
     "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction."
@@ -1001,7 +1005,11 @@
   },
   "teleport": {
     "page": "Teleport",
-    "route": "Teleporting {0} from {1} to {2}",
+    "from": "From",
+    "to": "To",
+    "max": "Max",
+    "send": "Send",
+    "receiveValue": "You will receive {0} KSM on {1} to",
     "artistProfile": "Go to artist's profile",
     "usdInput": "USD Value (approx)",
     "btnCopyPayment": "Copy Payment link",
@@ -1031,7 +1039,14 @@
     "offerStats": "Offers Stats"
   },
   "walletConnect": {
+    "confirm": "Confirm",
+    "warning": "Warning",
+    "moreOption": "More Options",
+    "walletQuestion": "Don't have a wallet yet?",
+    "walletAnswer": "Wallets are used to send, receive, store, and display digital assets",
+    "walletLink": "Learn about wallets",
     "walletHeading": "Connect Wallet",
+    "walletDetails": "Your Wallet",
     "authText": "KodaDot will never ask you to provide your mnemonic phrase or private key.",
     "understand": "I understand",
     "learnText": "Learn how to Connect",
@@ -1071,7 +1086,7 @@
   "ramp": {
     "selectAccount": "Select your account and click on buy.",
     "redirect": "You will be redirected to hosted mode of Ramp.network to top-up your address.",
-    "kyc": "KYC might requried, but you can verify with your Revolut card.",
+    "kyc": "KYC might be required, but you can verify with your Revolut card.",
     "buyKsm": "Buy Kusama"
   },
   "toast": {
@@ -1157,9 +1172,17 @@
       "success": "Item sent",
       "error": "Failed to send item"
     },
+    "consume": {
+      "success": "Item burned",
+      "error": "Failed to burn item"
+    },
     "offer": {
       "success": "Offer successfully created",
       "error": "Offer creation failed"
+    },
+    "unlist": {
+      "success": "Item successfully unlisted",
+        "error": "Item unlisting failed"
     }
   },
   "createDropdown": {

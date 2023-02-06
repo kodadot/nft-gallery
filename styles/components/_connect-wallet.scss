@@ -1,0 +1,153 @@
+.connect-wallet-modal {
+  .modal-content {
+    border: none;
+  }
+  .modal-background {
+    background-color: rgba(0, 0, 0, 0.17);
+  }
+  .wallet-modal-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding-top: 78px;
+    border-left: 1px solid $k-dark;
+    max-width: 360px;
+    width: 100%;
+    @include mobile {
+      padding-top: 58px;
+      max-width: 100vw;
+    }
+    @include ktheme() {
+      background: theme('background-color');
+    }
+
+
+    .more-option-button {
+      margin: 0 34px;
+      &:hover {
+        @include ktheme() {
+          color: theme('k-hovergrey') !important;
+        }
+      }
+      @include ktheme() {
+        border-top: 1px solid theme('k-shade');
+      }
+    }
+
+    .modal-card-head {
+      background: unset;
+      border-bottom: 1px solid #000000;
+      padding: 1rem 2rem;
+    }
+
+    .modal-card-body {
+      padding: 0;
+      background-color: unset;
+      display: block;
+    }
+
+
+
+    footer {
+      border-top: 1px solid #000000;
+    }
+
+    .confirm-button {
+      width: 100%;
+      height: 2.2rem;
+      font-size: 1rem;
+      @include ktheme() {
+        box-shadow: theme('primary-shadow');
+      }
+
+    }
+
+
+    .wallet-menu-item {
+      width: 100%;
+      .button {
+        border: none;
+        border-radius: 0;
+        padding: 10px 2rem;
+        box-shadow: none !important;
+        > span {
+          flex: 1;
+        }
+        .icon {
+          margin-right: 0 !important;
+        }
+        @include ktheme() {
+          color: theme('text-color');
+          &:hover {
+            background-color: theme('k-accentlight2') !important;
+          }
+        }
+      }
+      .account-list {
+        .account-item {
+          padding: 10px 0;
+          margin: 0 2rem;
+          a {
+            border-left: 1px solid $grey-light;
+            @include ktheme() {
+              color: theme('text-color');
+
+              &:hover {
+                color: theme('text-color');
+              }
+            }
+
+            .account-name {
+              line-height: 14px;
+            }
+            .account-address {
+              line-height: 19px;
+            }
+          }
+          &:hover {
+            @include ktheme() {
+              background-color: theme('k-accentlight2') !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .wallet-asset {
+    padding: 0 2rem;
+    .identity-address a {
+        font-weight: normal !important;
+        color: $k-blue;
+    }
+    hr {
+      background: $k-grey;
+      height: 1px;
+    }
+  }
+}
+
+
+
+.dark-mode {
+  .wallet-modal-container {
+    border-color: $white;
+
+    .modal-card-head{
+      border-color: $white;
+    }
+
+    .more-option-button {
+      :hover {
+        color: $k-grey;
+      }
+    }
+
+    footer {
+      border-top: 1px solid $white;
+    }
+
+  }
+
+}

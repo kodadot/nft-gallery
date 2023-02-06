@@ -4,7 +4,9 @@
     <GalleryItemMoreActionBtn
       :ipfs-image="nftMetadata?.image"
       :mime-type="nftMimeType"
-      :name="nft?.name" />
+      :name="nft?.name"
+      :current-owner="nft?.currentOwner"
+      :price="nft?.price" />
   </div>
 </template>
 

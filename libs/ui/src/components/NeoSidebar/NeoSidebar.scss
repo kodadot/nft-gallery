@@ -1,0 +1,12 @@
+@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+
+$sidebar-box-shadow: 0;
+$sidebar-content-background-color: transparent;
+$sidebar-mobile-width: 80px;
+$sidebar-width: 260px;
+$sidebar-zindex: 38;
+
+@import '@oruga-ui/oruga/src/scss/components/sidebar.scss';

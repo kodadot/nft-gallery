@@ -17,15 +17,19 @@
             @click.native="toggleActive" />
         </template>
         <template #action>
-          <NeoButton
+          <NeoTooltip
             v-if="active && !confirm"
-            :disabled="disabledConfirmBtn"
-            label="Confirm 1/2"
-            size="large"
-            fixed-width
-            variant="k-blue"
-            no-shadow
-            @click.native="confirm1" />
+            :active="insufficientBalance"
+            :label="$t('tooltip.notEnoughBalance')">
+            <NeoButton
+              :disabled="disabledConfirmBtn"
+              label="Confirm 1/2"
+              size="large"
+              fixed-width
+              variant="k-blue"
+              no-shadow
+              @click.native="confirm1" />
+          </NeoTooltip>
           <NeoButton
             v-if="confirm"
             label="Confirm 2/2"
@@ -42,7 +46,7 @@
             class="offer is-flex is-justify-content-space-between is-align-items-center">
             <input
               v-model="offerPrice"
-              class="offer-price is-flex is-align-items-center"
+              class="input-price is-flex is-align-items-center"
               type="number"
               placeholder="Type Your Offer"
               min="0" />
@@ -72,14 +76,14 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
 import { dangerMessage } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { simpleDivision } from '@/utils/balance'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
-import WalletModal from '@/components/common/WalletModal.vue'
+import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import Vue from 'vue'
 
 const Loader = defineAsyncComponent(
@@ -124,21 +128,26 @@ const confirm = ref(false)
 const days = [7, 14, 30]
 const selectedDay = ref(14)
 
-const disabledConfirmBtn = computed(
-  () =>
-    !(
-      offerPrice.value &&
-      Number(offerPrice.value) < simpleDivision(balance.value, decimals.value)
-    )
+const insufficientBalance = computed(
+  () => Number(offerPrice.value) > simpleDivision(balance.value, decimals.value)
 )
+
+const offerPriceInvalid = computed(() => {
+  if (offerPrice.value) {
+    return Math.sign(offerPrice.value) !== 1
+  }
+  return true
+})
+
+const disabledConfirmBtn = computed(
+  () => offerPriceInvalid.value || insufficientBalance.value
+)
+
 function toggleActive() {
   if (!connected.value) {
     $buefy.modal.open({
       parent: root?.value,
-      component: WalletModal,
-      hasModalCard: true,
-      trapFocus: true,
-      canCancel: true,
+      ...ConnectWalletModalConfig,
     })
     return
   }
@@ -194,6 +203,7 @@ onClickOutside(actionRef, () => {
 
 .offer {
   width: 12rem;
+
   &-price {
     border: 1px solid black;
     border-left: 0;

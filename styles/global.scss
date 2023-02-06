@@ -95,14 +95,6 @@ body {
   }
 }
 
-@include mobile {
-  .column-padding {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-    margin: 0 -12px !important;
-  }
-}
-
 // global css for pagination
 .pagination-link {
   border: none !important;
@@ -189,4 +181,9 @@ body {
 
 hr {
   background: $k-grey;
+}
+
+.icon svg {
+  width: 1rem;
+  height: 1rem;
 }
