@@ -20,24 +20,25 @@
           </div>
         </template>
         <form class="p-4" @submit.prevent="setPriceRange">
-          <b-field label="MIN" label-position="inside">
+          <div class="is-flex input-container mb-4">
             <b-input
               v-model="range.min"
+              custom-class="input-sidebar"
               type="number"
               min="0"
               step="any"
-              :placeholder="$t('query.priceRange.minPrice')"
+              placeholder="MIN"
               data-cy="input-min" />
-          </b-field>
-          <b-field label="MAX" label-position="inside">
+            <img src="/arrow-right.svg" />
             <b-input
               v-model="range.max"
+              custom-class="input-sidebar"
               min="0"
               step="any"
               type="number"
-              :placeholder="$t('query.priceRange.maxPrice')"
+              placeholder="MAX"
               data-cy="input-max" />
-          </b-field>
+          </div>
           <NeoButton data-cy="apply" expanded @click.native="setPriceRange">
             {{ $t('general.apply') }}
           </NeoButton>
@@ -86,8 +87,8 @@ const router = useRouter()
 const { decimals } = useChain()
 const { accountId } = useAuth()
 const range = ref({
-  min: fromDecimals(Number(route.query?.min), decimals.value) || 0,
-  max: fromDecimals(Number(route.query?.max), decimals.value) || 0,
+  min: fromDecimals(Number(route.query?.min), decimals.value),
+  max: fromDecimals(Number(route.query?.max), decimals.value),
 })
 const open = computed(
   () => $store.getters['preferences/getSidebarfilterCollapse']
@@ -128,13 +129,32 @@ const replaceUrl = (queryCondition: { [key: string]: any }) => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
 .bordered {
   border-right: 1px solid;
 }
+
 .sticky {
   position: -webkit-sticky;
   position: sticky;
   top: 72px;
   height: calc(100vh - 72px);
+}
+</style>
+
+<style lang="scss">
+@import '@/styles/abstracts/variables';
+
+.input-container {
+  @include ktheme() {
+    border: 1px solid theme('text-color');
+  }
+  .input-sidebar {
+    border: none !important;
+    &:focus {
+      border: none !important;
+      box-shadow: none !important;
+    }
+  }
 }
 </style>
