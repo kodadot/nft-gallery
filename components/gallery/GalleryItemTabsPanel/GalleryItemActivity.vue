@@ -58,8 +58,6 @@ const checkAll = () => {
 }
 
 const cssActive = (value) => {
-  console.log('value', value)
-  console.log('value1', interactions)
   return {
     'events-checkbox-active': interactions.value.find(
       (interaction) => interaction === value
