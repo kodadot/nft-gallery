@@ -16,7 +16,7 @@ describe('URL TRANSFORMER TEST', (): void => {
         'https://singular.rmrk.app/collectibles/10249854-FC77C33AB229A2056A-BTFLSUZANN-BEAUTIFUL_SUZANNE_13-0000000000000013'
       const transformed = transform(nft)
       expect(transformed).toBe(
-        '/rmrk/detail/10249854-FC77C33AB229A2056A-BTFLSUZANN-BEAUTIFUL_SUZANNE_13-0000000000000013'
+        '/rmrk/gallery/10249854-FC77C33AB229A2056A-BTFLSUZANN-BEAUTIFUL_SUZANNE_13-0000000000000013'
       )
     })
 
