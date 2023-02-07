@@ -12,7 +12,8 @@
         <InfiniteLoading
           v-if="startPage > 1 && !isLoading && total > 0"
           direction="top"
-          @infinite="reachTopHandler"></InfiniteLoading>
+          :distance="600"
+          @infinite="reachTop"></InfiniteLoading>
         <div :id="scrollContainerId" class="columns is-multiline">
           <div
             v-for="(nft, index) in results"
@@ -23,7 +24,8 @@
         </div>
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
-          @infinite="reachBottomHandler"></InfiniteLoading>
+          :distance="600"
+          @infinite="reachBottom"></InfiniteLoading>
         <EmptyResult v-if="total === 0" />
         <ScrollTopButton />
       </div>
@@ -44,7 +46,7 @@ import {
 import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
 
 import { processMetadata } from '@/utils/cachingStrategy'
-import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
+import { mapNFTorCollectionMetadata } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { getDenyList } from '@/utils/prefix'
 import resolveQueryPath from '@/utils/queryPathResolver'
@@ -106,7 +108,7 @@ export default class Gallery extends mixins(
     priceMax: undefined,
   }
   public isLoading = true
-
+  public first = 20
   get showPriceValue(): boolean {
     return (
       this.searchQuery?.listed ||
@@ -133,6 +135,7 @@ export default class Gallery extends mixins(
   public async created() {
     try {
       await this.fetchPageData(this.startPage)
+      this.prefetchPage(1, this.fetchNextPage)
     } catch (e) {
       showNotification((e as Error).message, notificationTypes.danger)
     }
@@ -204,7 +207,7 @@ export default class Gallery extends mixins(
 
     const metadataList: string[] = this.nfts.map(mapNFTorCollectionMetadata)
 
-    await processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+    processMetadata<NFTMetadata>(metadataList, (meta, i) => {
       const nft = this.nfts[i]
       if (!nft) {
         return
@@ -220,43 +223,22 @@ export default class Gallery extends mixins(
       })
     })
     this.isLoading = false
-    await this.prefetchPage(
-      this.offset + this.first,
-      this.offset + 3 * this.first
-    )
   }
 
-  public async prefetchPage(offset: number, prefetchLimit: number) {
-    try {
-      const query = await resolveQueryPath(this.client, 'nftListWithSearch')
-      const nfts = this.$apollo.query({
-        query: query.default,
-        client: this.client,
-        variables: {
-          first: this.first,
-          offset,
-          denyList: getDenyList(this.urlPrefix),
-          orderBy: this.searchQuery.sortByMultiple,
-          search: this.buildSearchParam(),
-          priceMin: this.searchQuery.priceMin,
-          priceMax: this.searchQuery.priceMax,
-        },
-      })
+  public async reachBottom(state) {
+    await this.reachBottomHandler(state)
+    this.prefetchPage(3, this.fetchNextPage)
+  }
 
-      const {
-        data: { nFTEntities },
-      } = await nfts
-      const nftList = unwrapSafe(nFTEntities)
-      const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-      await processMetadata<NFTMetadata>(metadataList)
-    } catch (e) {
-      logError(e, (msg) =>
-        this.$consola.warn('[PREFETCH] Unable fo fetch', offset, msg)
-      )
-    } finally {
-      if (offset <= prefetchLimit) {
-        await this.prefetchPage(offset + this.first, prefetchLimit)
-      }
+  public async reachTop(state) {
+    await this.reachTopHandler(state)
+    this.prefetchPage(1, this.fetchPreviousPage)
+  }
+
+  public async prefetchPage(prefetchCount = 3, fetchFn: () => void) {
+    if (prefetchCount > 0) {
+      await fetchFn()
+      this.prefetchPage(prefetchCount - 1, fetchFn)
     }
   }
 
@@ -309,16 +291,19 @@ export default class Gallery extends mixins(
     }
   }
 
-  @Watch('searchQuery', { deep: true })
   @Watch('$route.query.owned', { deep: true })
   @Watch('$route.query.listed', { deep: true })
   @Watch('$route.query.min', { deep: true })
   @Watch('$route.query.max', { deep: true })
-  protected onSearchQueryChange() {
+  protected onRouteQueryChange() {
     this.searchQuery.owned = this.$route.query?.owned?.toString() === 'true'
     this.searchQuery.listed = this.$route.query?.listed?.toString() === 'true'
     this.searchQuery.priceMin = Number(this.$route.query?.min) || undefined
     this.searchQuery.priceMax = Number(this.$route.query?.max) || undefined
+  }
+
+  @Watch('searchQuery', { deep: true })
+  protected onSearchQueryChange() {
     this.resetPage()
   }
 }

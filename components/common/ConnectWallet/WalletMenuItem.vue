@@ -2,15 +2,50 @@
   <div class="wallet-menu-item">
     <b-button
       size="is-medium"
-      :icon-right="walletIcon"
       expanded
       class="my-0 is-flex is-justify-content-space-between is-align-items-center"
       @click="onClickWallet(wallet)">
-      <b-image
-        :src="wallet.img"
-        class="is-32x32 is-inline-block"
-        style="vertical-align: middle"></b-image>
-      <span class="is-size-6 ml-2 is-capitalized">{{ wallet.name }}</span>
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center">
+        <span>
+          <b-image
+            :src="wallet.img"
+            class="is-32x32 is-inline-block"
+            style="vertical-align: middle"></b-image>
+          <span class="is-size-6 ml-2 is-capitalized">{{ wallet.name }}</span>
+        </span>
+
+        <svg
+          v-if="!wallet.installed"
+          width="14"
+          height="15"
+          viewBox="0 0 14 15"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M11.0832 13.3334H2.9165V12.1667H11.0832V13.3334ZM6.99984 11.0001L3.49984 7.50008L4.32234 6.67758L6.4165 8.76591V1.66675H7.58317V8.76591L9.67734 6.67758L10.4998 7.50008L6.99984 11.0001Z"
+            fill="currentColor" />
+        </svg>
+        <svg
+          v-else-if="showAccountList"
+          width="15"
+          height="8"
+          viewBox="0 0 15 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 0.5L7.5 6.5L0.5 0.499999" stroke="currentColor" />
+        </svg>
+
+        <svg
+          v-else
+          width="8"
+          height="15"
+          viewBox="0 0 8 15"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 0.75L7 7.25L1 14.25" stroke="currentColor" />
+        </svg>
+      </div>
     </b-button>
 
     <div v-if="walletAccounts.length && showAccountList" class="account-list">
@@ -58,13 +93,6 @@ const walletAccounts = ref<WalletAccount[]>([])
 const showAccountList = ref(false)
 const emit = defineEmits(['setWallet', 'setAccount'])
 
-const walletIcon = computed(() =>
-  props.wallet.installed
-    ? showAccountList.value
-      ? 'chevron-down'
-      : 'chevron-right'
-    : 'download'
-)
 const emitAccountChange = (address: string): void => {
   emit('setAccount', address)
   const walletName = walletAccounts.value.find(
