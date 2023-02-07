@@ -52,7 +52,7 @@
 
         @include ktheme() {
           background: theme('background-color');
-          border: 1px solid theme('text-color');
+          border: 1px solid theme('border-color');
           box-shadow: theme('primary-shadow');
           &:hover {
             background: theme('k-accentHover');
@@ -73,7 +73,7 @@
 
     @include ktheme() {
       box-shadow: theme('primary-shadow');
-      border: 1px solid theme('text-color') !important;
+      border: 1px solid theme('border-color') !important;
     }
 
     input {
@@ -96,7 +96,7 @@
       padding: 0 28px !important;
 
       @include ktheme() {
-        border-left: 1px solid theme('text-color') !important;
+        border-left: 1px solid theme('border-color') !important;
         &:hover {
           background: theme('background-color') !important;
           color: theme('text-color') !important;

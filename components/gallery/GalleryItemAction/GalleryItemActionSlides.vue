@@ -56,7 +56,7 @@ defineProps<{
     width: 12rem;
 
     @include ktheme() {
-      border: 1px solid theme('text-color');
+      border: 1px solid theme('border-color');
     }
 
     & > * {
@@ -70,7 +70,7 @@ defineProps<{
       width: 100%;
 
       @include ktheme() {
-        border: 1px solid theme('text-color');
+        border: 1px solid theme('border-color');
         color: theme('text-color');
         background-color: theme('background-color');
       }

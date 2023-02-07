@@ -94,7 +94,7 @@ export default class Loader extends Vue {
 
   @include ktheme() {
     box-shadow: theme('primary-shadow');
-    border: 1px solid theme('text-color');
+    border: 1px solid theme('border-color');
     background: theme('background-color');
   }
 }

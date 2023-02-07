@@ -5,7 +5,7 @@
       height: 100vh;
 
       @include ktheme() {
-        border-top: 1px solid theme('text-color');
+        border-top: 1px solid theme('border-color');
     background: theme('background-color');
       }
 
@@ -20,7 +20,7 @@
         .navbar-item {
           padding: 24px 20px;
           @include ktheme() {
-            border-bottom: 1px solid theme('text-color');
+            border-bottom: 1px solid theme('border-color');
             &:hover {
               color: theme('text-color');
             }
@@ -147,7 +147,7 @@
 
   @include ktheme() {
     background: theme('background-color');
-    border-bottom: 1px solid theme('text-color');
+    border-bottom: 1px solid theme('border-color');
   }
 
   @include mobile {
@@ -301,7 +301,7 @@
     }
 
     @include ktheme() {
-      border-top: 1px solid theme('text-color');
+      border-top: 1px solid theme('border-color');
     }
 
     a:hover {
@@ -359,7 +359,7 @@
       padding: 7px 0px;
       font-size: 16px;
       @include ktheme() {
-        border-bottom: 1px solid theme('text-color');
+        border-bottom: 1px solid theme('border-color');
         &:hover {
           background-color: theme('k-accentHover');
           color:  theme('black');
@@ -380,7 +380,7 @@
     overflow: hidden;
 
     @include ktheme() {
-      border-bottom: 1px solid theme('text-color');
+      border-bottom: 1px solid theme('border-color');
       background: theme('background-color');
     }
 

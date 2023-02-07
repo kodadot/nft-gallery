@@ -49,7 +49,7 @@ const tabContent =
         padding: 8px;
 
         @include ktheme() {
-          border: 1px solid theme('text-color');
+          border: 1px solid theme('border-color');
           color: theme('text-color');
 
           &--active {
@@ -66,7 +66,7 @@ const tabContent =
       &-wrapper:last-child {
         button {
           @include ktheme() {
-            border-right: 1px solid theme('text-color');
+            border-right: 1px solid theme('border-color');
           }
         }
       }
@@ -75,7 +75,7 @@ const tabContent =
 
   &__content {
     @include ktheme() {
-      border: 1px solid theme('text-color');
+      border: 1px solid theme('border-color');
     }
 
     &--fixed {

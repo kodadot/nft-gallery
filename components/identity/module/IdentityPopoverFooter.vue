@@ -76,7 +76,7 @@ defineProps<{
     height: 78px;
 
     @include ktheme() {
-      border: 1px solid theme('text-color');
+      border: 1px solid theme('border-color');
     }
   }
 }

@@ -279,7 +279,7 @@ const sendXCM = async () => {
 
 .input-wrapper {
   @include ktheme() {
-    border: 1px solid theme('text-color');
+    border: 1px solid theme('border-color');
   }
 
   .token {

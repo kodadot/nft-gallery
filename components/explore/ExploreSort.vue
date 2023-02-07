@@ -151,7 +151,7 @@ onMounted(() => {
     text-align: center;
 
     @include ktheme() {
-      border: 1px solid theme('text-color');
+      border: 1px solid theme('border-color');
       background: theme('k-accent');
       color: theme('black');
     }

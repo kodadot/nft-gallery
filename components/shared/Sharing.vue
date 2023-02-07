@@ -225,7 +225,7 @@ export default class Sharing extends Vue {
     .tooltip-content {
       @include ktheme() {
         box-shadow: theme('primary-shadow' !important);
-        border: 1px solid theme('text-color') !important;
+        border: 1px solid theme('border-color') !important;
         background: theme('background-color') !important;
       }
     }

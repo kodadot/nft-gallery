@@ -75,7 +75,7 @@ const cssActive = (value) => {
 
 .events {
   @include ktheme() {
-    border-bottom: 1px solid theme('text-color');
+    border-bottom: 1px solid theme('border-color');
   }
 
   &-filter {
