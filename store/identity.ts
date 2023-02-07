@@ -8,9 +8,11 @@ import type { ApiPromise } from '@polkadot/api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
 import { unwrapOrNull } from '@/utils/api/format'
 import type { Option, u32 } from '@polkadot/types'
-
-declare type Unsubscribe = () => void
-type UnsubscribePromise = Promise<Unsubscribe>
+import {
+  Unsubscribe,
+  UnsubscribePromise,
+  subscribeBalance,
+} from '@/utils/balance'
 
 export interface IdentityMap {
   [address: string]: Registration
@@ -51,19 +53,8 @@ const defaultState: IdentityStruct = {
     tokens: emptyObject<BalanceMap>(),
   },
 }
-
 let balanceSub: Unsubscribe = () => void 0
 let tokenSub: Unsubscribe = () => void 0
-
-function subscribeBalance(
-  api: ApiPromise,
-  address: string,
-  cb: (value: string) => void
-): UnsubscribePromise {
-  return api.derive.balances.all(address, ({ availableBalance }) => {
-    cb(availableBalance.toString())
-  })
-}
 
 function free({ free }: any) {
   return free.toString()

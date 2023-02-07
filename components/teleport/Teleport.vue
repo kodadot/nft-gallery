@@ -32,11 +32,11 @@
         </div>
 
         <div
-          v-if="fromChain === Chain.BASILISK"
+          v-if="myKsmBalance"
           class="is-size-7 is-flex is-justify-content-end is-align-items-center">
           <span class="is-flex is-align-items-center">
             <span class="mr-2">{{ $i18n.t('balance') }}:</span
-            ><Money :value="ksmBalanceOnBasilisk" hide-unit />KSM
+            ><Money :value="myKsmBalance" hide-unit />KSM
           </span>
           <a class="max-button ml-2" @click="handleMaxClick">{{
             $i18n.t('teleport.max')
@@ -64,7 +64,11 @@
       </div>
 
       <NeoButton
-        :label="$i18n.t('teleport.send')"
+        :label="
+          insufficientBalance
+            ? $t('teleport.insufficientBalance', [currency])
+            : $t('teleport.send')
+        "
         size="large"
         class="is-size-6 submit-button"
         :loading="isLoading"
@@ -96,6 +100,7 @@ import { NeoButton } from '@kodadot1/brick'
 import { getss58AddressByPrefix } from '@/utils/account'
 import { getAsssetBalance } from '@/utils/api/bsx/query'
 import { blockExplorerOf } from '@/utils/config/chain.config'
+import { simpleDivision, subscribeBalance } from '@/utils/balance'
 const getKusamaApi = async () =>
   await ApiPromise.create({
     provider: new WsProvider(getChainEndpointByPrefix('kusama') as string),
@@ -112,6 +117,7 @@ const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
 const toChain = ref(Chain.BASILISK) //Selected destination parachain
 const amount = ref() //Required amount to be transfered is stored here
 const ksmBalanceOnBasilisk = ref()
+const ksmBalanceOnKusama = ref()
 const currency = ref('KSM') //Selected currency is stored here
 const isLoading = ref(false)
 
@@ -130,6 +136,12 @@ const fromTabs = [
     value: Chain.BASILISK,
   },
 ]
+
+const myKsmBalance = computed(() => {
+  return fromChain.value === Chain.KUSAMA
+    ? ksmBalanceOnKusama.value
+    : ksmBalanceOnBasilisk.value
+})
 const explorerUrl = computed(() => {
   return `${blockExplorerOf(chainToPrefixMap[toChain.value])}account/${
     toAddress.value
@@ -168,8 +180,20 @@ const fetchBasiliskBalance = async () => {
     }
   )
 }
+
+const fetchKusamaBalance = async () => {
+  const api = await getKusamaApi()
+  subscribeBalance(api, getAddressByChain(Chain.KUSAMA), (...data) => {
+    ksmBalanceOnKusama.value = data[0]
+  })
+}
+
+const insufficientBalance = computed(
+  () => Number(amount.value) > simpleDivision(myKsmBalance.value, 12)
+)
+
 const isDisabledButton = computed(() => {
-  return !amount.value || amount.value <= 0
+  return !amount.value || amount.value <= 0 || insufficientBalance.value
 })
 
 const ksmTokenDecimals = computed(() => assets(5).decimals)
@@ -181,6 +205,7 @@ const handleMaxClick = () => {
 }
 onMounted(() => {
   fetchBasiliskBalance()
+  fetchKusamaBalance()
 })
 
 //Used to create XCM transfer

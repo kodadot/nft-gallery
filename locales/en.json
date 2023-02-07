@@ -1010,6 +1010,7 @@
     "max": "Max",
     "send": "Send",
     "receiveValue": "You will receive {0} KSM on {1} to",
+    "insufficientBalance": "Insufficient {0} Balance",
     "artistProfile": "Go to artist's profile",
     "usdInput": "USD Value (approx)",
     "btnCopyPayment": "Copy Payment link",
