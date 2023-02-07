@@ -2,7 +2,7 @@
   <div class="gallery">
     <div class="is-flex is-align-self-flex-start">
       <SidebarFilter @resetPage="resetPage" />
-      <div class="gallery-container">
+      <div class="container">
         <!-- TODO: FilterBreadcrumbs here -->
         <div class="is-flex is-justify-content-space-between py-5">
           <BreadcrumbsFilter />
@@ -308,9 +308,3 @@ export default class Gallery extends mixins(
   }
 }
 </script>
-
-<style scoped>
-.gallery-container {
-  width: 100%;
-}
-</style>
