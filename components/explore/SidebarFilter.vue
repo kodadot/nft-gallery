@@ -27,7 +27,7 @@
               type="number"
               min="0"
               step="any"
-              placeholder="MIN"
+              :placeholder="$t('query.priceRange.minPrice')"
               data-cy="input-min" />
             <img src="/arrow-right.svg" />
             <b-input
@@ -36,7 +36,7 @@
               min="0"
               step="any"
               type="number"
-              placeholder="MAX"
+              :placeholder="$t('query.priceRange.maxPrice')"
               data-cy="input-max" />
           </div>
           <NeoButton data-cy="apply" expanded @click.native="setPriceRange">
