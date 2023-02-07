@@ -147,6 +147,11 @@ const socials = [
     icon: 'instagram',
   },
   {
+    name: 'Swag',
+    url: 'https://shop.kodadot.xyz',
+    icon: 'shop',
+  },
+  {
     name: 'Youtube',
     url: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/',
     icon: 'youtube',
