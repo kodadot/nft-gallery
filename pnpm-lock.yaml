@@ -91,7 +91,6 @@ importers:
       graphql-ws: ^5.11.3
       highlight.js: ^11.7.0
       husky: ^7.0.4
-      idb-keyval: ^6.2.0
       jsdom: ^19.0.0
       keen-slider: ^6.8.5
       lazysizes: ^5.3.2
@@ -166,7 +165,6 @@ importers:
       graphql: 16.6.0
       graphql-ws: 5.11.3_graphql@16.6.0
       highlight.js: 11.7.0
-      idb-keyval: 6.2.0
       keen-slider: 6.8.5
       lazysizes: 5.3.2
       lodash: 4.17.21
@@ -14571,12 +14569,6 @@ packages:
     dependencies:
       postcss: 8.4.16
 
-  /idb-keyval/6.2.0:
-    resolution: {integrity: sha512-uw+MIyQn2jl3+hroD7hF8J7PUviBU7BPKWw4f/ISf32D4LoGu98yHjrzWWJDASu9QNrX10tCJqk9YY0ClWm8Ng==}
-    dependencies:
-      safari-14-idb-fix: 3.0.0
-    dev: false
-
   /ieee754/1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
 
@@ -19439,10 +19431,6 @@ packages:
     dependencies:
       mri: 1.2.0
     dev: true
-
-  /safari-14-idb-fix/3.0.0:
-    resolution: {integrity: sha512-eBNFLob4PMq8JA1dGyFn6G97q3/WzNtFK4RnzT1fnLq+9RyrGknzYiM/9B12MnKAxuj1IXr7UKYtTNtjyKMBog==}
-    dev: false
 
   /safe-buffer/5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}

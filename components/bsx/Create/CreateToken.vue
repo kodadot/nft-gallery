@@ -115,7 +115,6 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
 import { Royalty, isRoyaltyValid } from '@/utils/royalty'
 import { fetchCollectionMetadata, preheatFileFromIPFS } from '@/utils/ipfs'
-import { getMany, update } from 'idb-keyval'
 import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { uploadDirectWhenMultiple } from '@/utils/directUpload'
@@ -234,27 +233,17 @@ export default class CreateToken extends mixins(
   }
 
   protected async loadCollectionMeta() {
-    const storedMetadata = await getMany(
-      this.collections.map(({ metadata }: any) => metadata)
-    )
+    const metadata = this.collections.map(({ metadata }) => metadata)
 
-    storedMetadata.forEach(async (m, i) => {
-      if (!m) {
-        try {
-          const meta = await fetchCollectionMetadata(this.collections[i])
-          this.$set(this.collections, i, {
-            ...this.collections[i],
-            ...meta,
-          })
-          update(this.collections[i].metadata, () => meta)
-        } catch (e) {
-          this.$consola.warn('[ERR] unable to get metadata')
-        }
-      } else {
+    metadata.forEach(async (m, i) => {
+      try {
+        const meta = await fetchCollectionMetadata(this.collections[i])
         this.$set(this.collections, i, {
           ...this.collections[i],
-          ...m,
+          ...meta,
         })
+      } catch (e) {
+        this.$consola.warn('[ERR] unable to get metadata')
       }
     })
   }
