@@ -114,7 +114,7 @@
       buffer,
       <b
         ><a
-          href="https://nft.kodadot.xyz/rmrk/detail/7369221-0E76E3AC15B4C1FA1E-VCU-KODADOT_CARBON_CREDITS-0000000000000001"
+          href="https://kodadot.xyz/rmrk/gallery/7369221-0E76E3AC15B4C1FA1E-VCU-KODADOT_CARBON_CREDITS-0000000000000001"
           >we've already bought KodaDot Carbon Credits</a
         ></b
       >
