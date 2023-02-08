@@ -23,14 +23,14 @@ export const cacheOrFetchMetadata = async <T>(
   }
 }
 
-export const processSingleMetadata = async <T>(metadata: string): P<T> => {
+export const processSingleMetadata = <T>(metadata: string): P<T> => {
   return cacheOrFetchMetadata<T>(undefined, metadata)
 }
 
-export const processMetadata = async <T>(
+export const processMetadata = <T>(
   metadataList: string[],
   cb?: (meta: T, index: number) => void
-): P<void> => {
+): void => {
   const metadata = metadataList.map((meta) => meta || '')
 
   metadata.forEach(async (m, i) => {
