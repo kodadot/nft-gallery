@@ -7,8 +7,6 @@
 </template>
 
 <script lang="ts" setup>
-import { update } from 'idb-keyval'
-
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { getMimeType } from '@/utils/gallery/media'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
@@ -39,11 +37,6 @@ const fetchMimeType = async () => {
 
   if (!type.value) {
     type.value = await getMimeType(props.src)
-
-    update(props.metadata, (cached) => ({
-      ...(cached || {}),
-      type: type.value,
-    }))
   }
 }
 
