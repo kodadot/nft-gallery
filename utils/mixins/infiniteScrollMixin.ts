@@ -85,9 +85,7 @@ export default class InfiniteScrollMixin extends Vue {
 
   @Debounce(1000)
   protected async reachTopHandler($state): Promise<void> {
-    await this.fetchPreviousPage().then((isSuccess) => {
-      isSuccess && this.prefetchPage(1, this.fetchPreviousPage)
-    })
+    await this.startPrefetch(this.fetchPreviousPage, 1)
     $state.loaded()
   }
 
@@ -109,10 +107,14 @@ export default class InfiniteScrollMixin extends Vue {
 
   @Debounce(1000)
   protected async reachBottomHandler($state): Promise<void> {
-    await this.fetchNextPage().then((isSuccess) => {
-      isSuccess && this.prefetchPage(3, this.fetchNextPage)
-    })
+    await this.startPrefetch(this.fetchNextPage, 3)
     $state?.loaded()
+  }
+
+  private async startPrefetch(fetchFn, fetchCount) {
+    return await fetchFn().then((isSuccess) => {
+      isSuccess && this.prefetchPage(fetchCount, fetchFn)
+    })
   }
 
   public async fetchNextPage() {
