@@ -38,7 +38,7 @@ function transform(url: string): string {
 const singularTransformer: Transformer = {
   space: (params: URLParams) => `/rmrk/u/${lastParam(params)}`,
   collections: (params: URLParams) => `/rmrk/collection/${lastParam(params)}`,
-  collectibles: (params: URLParams) => `/rmrk/detail/${lastParam(params)}`,
+  collectibles: (params: URLParams) => `/rmrk/gallery/${lastParam(params)}`,
 }
 
 const availableTranformers: Record<string, Transformer> = {
