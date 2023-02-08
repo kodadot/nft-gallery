@@ -18,9 +18,10 @@ export default class InfiniteScrollMixin extends Vue {
   protected isFetchingData = false
   protected scrollContainerId = INFINITE_SCROLL_CONTAINER_ID
   protected scrollItemClassName = INFINITE_SCROLL_ITEM_CLASS_NAME
+  protected prefetching = false
 
   protected mounted(): void {
-    this.prefetchPage(1, this.fetchNextPage)
+    this.prefetchNextPage()
     window.addEventListener('resize', this.onResize)
     window.addEventListener('scroll', this.onScroll)
   }
@@ -85,7 +86,7 @@ export default class InfiniteScrollMixin extends Vue {
 
   @Debounce(1000)
   protected async reachTopHandler($state): Promise<void> {
-    await this.startPrefetch(this.fetchPreviousPage, 1)
+    await this.fetchPreviousPage()
     $state.loaded()
   }
 
@@ -99,6 +100,7 @@ export default class InfiniteScrollMixin extends Vue {
         if (isSuccess) {
           this.startPage = nextPage
           this.checkAfterFetchDataSuccess()
+          this.prefetchPreviousPage()
         }
         return isSuccess
       }
@@ -107,14 +109,8 @@ export default class InfiniteScrollMixin extends Vue {
 
   @Debounce(1000)
   protected async reachBottomHandler($state): Promise<void> {
-    await this.startPrefetch(this.fetchNextPage, 3)
+    await this.fetchNextPage()
     $state?.loaded()
-  }
-
-  private async startPrefetch(fetchFn, fetchCount) {
-    return await fetchFn().then((isSuccess) => {
-      isSuccess && this.prefetchPage(fetchCount, fetchFn)
-    })
   }
 
   public async fetchNextPage() {
@@ -127,9 +123,36 @@ export default class InfiniteScrollMixin extends Vue {
       if (isSuccess) {
         this.endPage = nextPage
         this.checkAfterFetchDataSuccess()
+        this.prefetchNextPage()
       }
       return isSuccess
     })
+  }
+
+  @Debounce(1000)
+  public async prefetchNextPage() {
+    if (
+      this.endPage - this.currentPage <= 3 &&
+      this.canLoadNextPage &&
+      !this.prefetching
+    ) {
+      this.prefetching = true
+      await this.fetchNextPage()
+      this.prefetching = false
+    }
+  }
+
+  @Debounce(1000)
+  public async prefetchPreviousPage() {
+    if (
+      this.currentPage - this.startPage <= 1 &&
+      this.startPage > 1 &&
+      !this.prefetching
+    ) {
+      this.prefetching = true
+      await this.fetchPreviousPage()
+      this.prefetching = false
+    }
   }
 
   public async prefetchPage(prefetchCount = 3, fetchFn: () => void) {
