@@ -14,11 +14,13 @@ export default class InfiniteScrollMixin extends Vue {
   protected mobileScreenWidth = 768
   protected first = 12
   protected total = 0
+  protected prefetchDistance = 600
   protected isFetchingData = false
   protected scrollContainerId = INFINITE_SCROLL_CONTAINER_ID
   protected scrollItemClassName = INFINITE_SCROLL_ITEM_CLASS_NAME
 
   protected mounted(): void {
+    this.prefetchPage(1, this.fetchNextPage)
     window.addEventListener('resize', this.onResize)
     window.addEventListener('scroll', this.onScroll)
   }
@@ -83,7 +85,9 @@ export default class InfiniteScrollMixin extends Vue {
 
   @Debounce(1000)
   protected async reachTopHandler($state): Promise<void> {
-    await this.fetchPreviousPage()
+    await this.fetchPreviousPage().then((isSuccess) => {
+      isSuccess && this.prefetchPage(1, this.fetchPreviousPage)
+    })
     $state.loaded()
   }
 
@@ -92,16 +96,22 @@ export default class InfiniteScrollMixin extends Vue {
       return
     }
     const nextPage = this.startPage - 1
-    const isSuccess = await this.fetchPageData(this.startPage - 1, 'up')
-    if (isSuccess) {
-      this.startPage = nextPage
-      this.checkAfterFetchDataSuccess()
-    }
+    return await this.fetchPageData(this.startPage - 1, 'up').then(
+      (isSuccess) => {
+        if (isSuccess) {
+          this.startPage = nextPage
+          this.checkAfterFetchDataSuccess()
+        }
+        return isSuccess
+      }
+    )
   }
 
   @Debounce(1000)
   protected async reachBottomHandler($state): Promise<void> {
-    await this.fetchNextPage()
+    await this.fetchNextPage().then((isSuccess) => {
+      isSuccess && this.prefetchPage(3, this.fetchNextPage)
+    })
     $state?.loaded()
   }
 
@@ -110,10 +120,20 @@ export default class InfiniteScrollMixin extends Vue {
       return
     }
     const nextPage = this.endPage + 1
-    const isSuccess = await this.fetchPageData(nextPage, 'down')
-    if (isSuccess) {
-      this.endPage = nextPage
-      this.checkAfterFetchDataSuccess()
+
+    return await this.fetchPageData(nextPage, 'down').then((isSuccess) => {
+      if (isSuccess) {
+        this.endPage = nextPage
+        this.checkAfterFetchDataSuccess()
+      }
+      return isSuccess
+    })
+  }
+
+  public async prefetchPage(prefetchCount = 3, fetchFn: () => void) {
+    if (prefetchCount > 0) {
+      await fetchFn()
+      this.prefetchPage(prefetchCount - 1, fetchFn)
     }
   }
 

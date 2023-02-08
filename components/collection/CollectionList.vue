@@ -6,6 +6,7 @@
     <hr class="mt-0" />
     <InfiniteLoading
       v-if="startPage > 1 && !isLoading && total > 0"
+      :distance="prefetchDistance"
       direction="top"
       @infinite="reachTopHandler" />
     <div
@@ -22,6 +23,7 @@
     </div>
     <InfiniteLoading
       v-if="canLoadNextPage && !isLoading && total > 0"
+      :distance="prefetchDistance"
       @infinite="reachBottomHandler" />
     <EmptyResult v-if="total === 0" />
     <ScrollTopButton />
@@ -176,31 +178,6 @@ export default class CollectionList extends mixins(
     }
 
     this.isLoading = false
-    this.prefetchPage(this.offset + this.first, this.offset + 3 * this.first)
-  }
-
-  public async prefetchPage(offset: number, prefetchLimit: number) {
-    try {
-      const collections = this.$apollo.query({
-        query: collectionListWithSearch,
-        client: this.client,
-        variables: {
-          first: this.first,
-          offset,
-        },
-      })
-      const {
-        data: { collectionEntities: collectionList },
-      } = await collections
-      const metadataList: string[] = collectionList.map(mapOnlyMetadata)
-      processMetadata<NFTMetadata>(metadataList)
-    } catch (e: any) {
-      this.$consola.warn('[PREFETCH] Unable fo fetch', offset, e.message)
-    } finally {
-      if (offset <= prefetchLimit) {
-        this.prefetchPage(offset + this.first, prefetchLimit)
-      }
-    }
   }
 
   @Watch('$route.query.search')
