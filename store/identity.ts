@@ -75,8 +75,11 @@ async function subscribeTokens(
   cb: (value: BalanceMap) => void
 ): UnsubscribePromise {
   if (api.query.tokens) {
+    const version = await api.query.system
+      .lastRuntimeUpgrade()
+      .then((value) => unwrapOrNull(value)?.specVersion.toNumber())
     const kusamaTokenId = await api.query.assetRegistry
-      .assetIds('Kusama')
+      .assetIds(Number(version) > 82 ? 'Kusama' : 'KSM')
       .then((value) => unwrapOrNull(value as Option<u32>))
     const realKusamaTokenId = kusamaTokenId ? '5' : '1'
     return api.query.tokens.accounts.multi(
