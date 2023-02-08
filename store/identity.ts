@@ -75,12 +75,10 @@ async function subscribeTokens(
   cb: (value: BalanceMap) => void
 ): UnsubscribePromise {
   if (api.query.tokens) {
-    // not working?
-    // const kusamaTokenId = await api.query.assetRegistry
-    //   .assetIds('KSM')
-    //   .then((value) => unwrapOrNull(value as Option<u32>))
-    // const realKusamaTokenId = kusamaTokenId ? '5' : '1'
-    const realKusamaTokenId = '5'
+    const kusamaTokenId = await api.query.assetRegistry
+      .assetIds('Kusama')
+      .then((value) => unwrapOrNull(value as Option<u32>))
+    const realKusamaTokenId = kusamaTokenId ? '5' : '1'
     return api.query.tokens.accounts.multi(
       [[address, realKusamaTokenId]],
       ([ksm]: any[]) =>
