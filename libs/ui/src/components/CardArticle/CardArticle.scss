@@ -12,7 +12,7 @@
   }
 
   @include ktheme() {
-    border: 1px solid theme('text-color-inverse');
+    border: 1px solid theme('border-color');
     background: theme('background-color');
     &:hover {
       box-shadow: theme('primary-shadow');
