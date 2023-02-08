@@ -75,10 +75,12 @@ async function subscribeTokens(
   cb: (value: BalanceMap) => void
 ): UnsubscribePromise {
   if (api.query.tokens) {
-    const kusamaTokenId = await api.query.assetRegistry
-      .assetIds('KSM')
-      .then((value) => unwrapOrNull(value as Option<u32>))
-    const realKusamaTokenId = kusamaTokenId ? '5' : '1'
+    // not working?
+    // const kusamaTokenId = await api.query.assetRegistry
+    //   .assetIds('KSM')
+    //   .then((value) => unwrapOrNull(value as Option<u32>))
+    // const realKusamaTokenId = kusamaTokenId ? '5' : '1'
+    const realKusamaTokenId = '5'
     return api.query.tokens.accounts.multi(
       [[address, realKusamaTokenId]],
       ([ksm]: any[]) =>
@@ -141,7 +143,7 @@ export const actions = {
       consola.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
-  fetchBalance(
+  async fetchBalance(
     { commit, dispatch, rootState },
     { address, apiUrl }: ChangeAddressRequest
   ) {
@@ -152,6 +154,8 @@ export const actions = {
       tokenSub()
       return
     }
+
+    const api = await ApiFactory.useApiInstance(endpoint)
     onApiConnect(endpoint, async (api) => {
       try {
         if (balanceSub) {
