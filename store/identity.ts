@@ -143,7 +143,7 @@ export const actions = {
       consola.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
-  async fetchBalance(
+  fetchBalance(
     { commit, dispatch, rootState },
     { address, apiUrl }: ChangeAddressRequest
   ) {
@@ -155,7 +155,6 @@ export const actions = {
       return
     }
 
-    const api = await ApiFactory.useApiInstance(endpoint)
     onApiConnect(endpoint, async (api) => {
       try {
         if (balanceSub) {
