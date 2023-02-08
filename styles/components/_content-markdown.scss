@@ -1,11 +1,9 @@
 @import '~/node_modules/highlight.js/styles/github-dark.css';
+@import '@/styles/abstracts/variables';
 
 .content {
-  pre,
-  blockquote {
-    background-color: black;
-    border-left: 5px solid #dbdbdb;
-    padding: 1.25em 1.5em;
+  pre.hljs {
+    background: $black;
   }
   code {
     font-family: monospace;
