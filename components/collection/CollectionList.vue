@@ -36,15 +36,12 @@ import { Debounce } from 'vue-debounce-decorator'
 import {
   Collection,
   CollectionWithMeta,
-  NFTMetadata,
 } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from '@/components/search/types'
 import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
-import { mapOnlyMetadata } from '~/utils/mappers'
-import { processMetadata } from '~/utils/cachingStrategy'
 import { getDenyList } from '~/utils/prefix'
 import shouldUpdate from '@/utils/shouldUpdate'
 
