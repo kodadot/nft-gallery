@@ -90,21 +90,25 @@ export default class InfiniteScrollMixin extends Vue {
     $state.loaded()
   }
 
+  private async fetchDataCallback(page, direction, successCb) {
+    return await this.fetchPageData(page, direction).then((isSuccess) => {
+      if (isSuccess) {
+        successCb()
+      }
+      return isSuccess
+    })
+  }
+
   protected async fetchPreviousPage() {
     if (this.startPage <= 1) {
       return
     }
     const nextPage = this.startPage - 1
-    return await this.fetchPageData(this.startPage - 1, 'up').then(
-      (isSuccess) => {
-        if (isSuccess) {
-          this.startPage = nextPage
-          this.checkAfterFetchDataSuccess()
-          this.prefetchPreviousPage()
-        }
-        return isSuccess
-      }
-    )
+    return this.fetchDataCallback(this.startPage - 1, 'up', () => {
+      this.startPage = nextPage
+      this.checkAfterFetchDataSuccess()
+      this.prefetchPreviousPage()
+    })
   }
 
   @Debounce(1000)
@@ -118,14 +122,10 @@ export default class InfiniteScrollMixin extends Vue {
       return
     }
     const nextPage = this.endPage + 1
-
-    return await this.fetchPageData(nextPage, 'down').then((isSuccess) => {
-      if (isSuccess) {
-        this.endPage = nextPage
-        this.checkAfterFetchDataSuccess()
-        this.prefetchNextPage()
-      }
-      return isSuccess
+    return this.fetchDataCallback(nextPage, 'down', () => {
+      this.endPage = nextPage
+      this.checkAfterFetchDataSuccess()
+      this.prefetchNextPage()
     })
   }
 
