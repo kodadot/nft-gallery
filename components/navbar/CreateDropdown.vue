@@ -16,6 +16,17 @@
           </nuxt-link>
         </b-tooltip>
       </b-dropdown-item>
+      <b-dropdown-item has-link>
+        <b-tooltip
+          v-if="chain === 'bsx' && accountId"
+          position="is-left"
+          :label="$t('createDropdown.waifu')"
+          class="navbar-item-tooltip">
+          <nuxt-link data-cy="waifu" :to="`/${urlPrefix}/waifu`">
+            {{ $t('navbar.create.waifu') }}
+          </nuxt-link>
+        </b-tooltip>
+      </b-dropdown-item>
       <template v-if="chain === 'rmrk'">
         <b-dropdown-item has-link>
           <b-tooltip
@@ -46,6 +57,13 @@
         :to="`/${urlPrefix}/create`"
         tag="nuxt-link">
         {{ $t('classic') }}
+      </b-navbar-item>
+      <b-navbar-item
+        v-if="chain === 'bsx' && accountId"
+        data-cy="waifu"
+        :to="`/${urlPrefix}/create`"
+        tag="nuxt-link">
+        {{ $t('waifu') }}
       </b-navbar-item>
       <template v-if="chain === 'rmrk'">
         <b-navbar-item
