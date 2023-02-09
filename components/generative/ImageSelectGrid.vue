@@ -6,8 +6,11 @@
       <p class="title is-size-4">
         🎉 loaded {{ predicion.output.length }} predictions
       </p>
-      <p v-if="4 - predicion.output.length" class="title is-size-4">
-        {{ 4 - predicion.output.length }} prediction(s) was marked as NFSW 🔞
+      <p
+        v-if="expectedOutput - predicion.output.length"
+        class="title is-size-4">
+        {{ expectedOutput - predicion.output.length }} prediction(s) was marked
+        as NFSW 🔞
       </p>
     </template>
     <ImageGrid
@@ -19,11 +22,13 @@
 </template>
 
 <script setup lang="ts">
-import { PredictionStatus } from '@/services/replicate'
+import { OUTPUTS, PredictionStatus } from '@/services/replicate'
 
 const ImageGrid = defineAsyncComponent(
   () => import('@/components/shared/view/ImageGrid.vue')
 )
+
+const expectedOutput = Number(OUTPUTS)
 
 const emit = defineEmits(['select'])
 
