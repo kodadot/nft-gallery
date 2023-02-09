@@ -26,6 +26,7 @@ const BY = 'by'
 const COMMA = ','
 
 export const NAME = 'Valentine anime'
+export const COLLECTION_ID = '14022023'
 
 export const buildPrompt = (options: Options): string => {
   const { gender, framing, art, style, having, wearing, lighting, inspiredBy } =
