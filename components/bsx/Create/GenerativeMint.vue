@@ -17,10 +17,6 @@
           @select="handleImageSelect" />
       </b-step-item>
 
-      <!-- <b-step-item step="3" label="Contact" :clickable="isStepsClickable">
-        <ContactForm @select="handleMailSubmit" />
-      </b-step-item> -->
-
       <b-step-item
         step="3"
         label="Finish"
@@ -50,10 +46,6 @@ const GenerativeMint = defineAsyncComponent(
 const ImageSelectGrid = defineAsyncComponent(
   () => import('@/components/generative/ImageSelectGrid.vue')
 )
-
-// const ContactForm = defineAsyncComponent(
-//   () => import('@/components/generative/ContactForm.vue')
-// )
 
 const CongratsView = defineAsyncComponent(
   () => import('@/components/generative/CongratsView.vue')
