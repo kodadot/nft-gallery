@@ -207,7 +207,8 @@ const isDisabledButton = computed(() => {
 const ksmTokenDecimals = computed(() => assets(5).decimals)
 
 const handleMaxClick = () => {
-  amount.value = (myKsmBalanceWithoutDivision.value || 0).toFixed(4)
+  amount.value =
+    Math.floor((myKsmBalanceWithoutDivision.value || 0) * 10 ** 4) / 10 ** 4
 }
 onMounted(() => {
   fetchBasiliskBalance()
