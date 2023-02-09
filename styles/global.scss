@@ -59,8 +59,8 @@ body {
 
   .select select[disabled] {
     @include ktheme() {
-      background-color: theme('disabled')!important;
-      color: theme('placeholder-color')!important;
+      background-color: theme('disabled') !important;
+      color: theme('placeholder-color') !important;
     }
   }
 
@@ -246,4 +246,22 @@ hr {
 .icon svg {
   width: 1rem;
   height: 1rem;
+}
+
+// global table css
+
+.table {
+  @include ktheme() {
+    background-color: theme('background-color');
+    color: theme('text-color');
+
+    &.is-hoverable tbody tr:not(.is-selected):hover {
+      background-color: theme('background-color');
+    }
+
+    th {
+      color: theme('text-color');
+      background-color: theme('background-color') !important;
+    }
+  }
 }
