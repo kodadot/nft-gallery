@@ -19,8 +19,11 @@
   }
 
   .carousel-media {
+    @include ktheme() {
+      border-bottom: 1px solid theme('text-color');
+    }
     &-collection {
-      border-bottom: none;
+      border-bottom: none !important;
       padding: 16px 16px 0 16px;
 
       a {

@@ -2,7 +2,7 @@
   <section>
     <br />
     <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-3">Mint your Christmas waifu</p>
+    <p class="title is-size-3">Mint your {{ NAME }} waifu</p>
 
     <p class="title is-size-4">I want to be</p>
     <RadioSelect v-model="form.gender" :options="gender" />
@@ -48,7 +48,7 @@
     <p class="title is-size-5">art inspired by</p>
     <RadioSelect
       v-model="form.inspiredBy"
-      :options="inspiredBy"
+      :options="inspirations"
       separated
       show-empty />
 
@@ -77,7 +77,7 @@ import {
   lights,
   styles,
 } from './options'
-import { Options, buildPrompt } from './promptBuilder'
+import { NAME, Options, buildPrompt } from './promptBuilder'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/shared/Loader.vue')
