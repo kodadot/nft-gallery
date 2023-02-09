@@ -791,7 +791,7 @@
     "checkBalance": "Checking if you have enough balance",
     "generative": {
       "starting": "Warming up the AI model",
-      "processing": "Predicting (wait around ~20s)",
+      "processing": "Predicting (wait around ~2 min)",
       "send": "Sending links to your email"
     }
   },
@@ -1036,7 +1036,10 @@
     "teleport": "Teleport",
     "teleportBridge": "Teleport Bridge",
     "globalOffers": "Global Offers",
-    "offerStats": "Offers Stats"
+    "offerStats": "Offers Stats",
+    "create": {
+      "waifu": "Waifu"
+    }
   },
   "walletConnect": {
     "confirm": "Confirm",
@@ -1188,6 +1191,7 @@
   "createDropdown": {
     "start": "Start by creating your collection and add NFTs to it",
     "simplifiedNft": "Simplified process to create your NFT in a single step",
-    "aiPowered": "AI powered process to create your NFT"
+    "aiPowered": "AI powered process to create your NFT",
+    "waifu": "Create your anime waifu using AI"
   }
 }
