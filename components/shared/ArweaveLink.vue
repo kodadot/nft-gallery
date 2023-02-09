@@ -7,18 +7,18 @@
   </ExternalLink>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-const components = {
-  ExternalLink: () => import('@/components/shared/format/ExternalLink.vue'),
-}
-
-@Component({ components })
-export default class ArweaveLink extends Vue {
-  @Prop() public id!: string
-  @Prop({ default: 'content' }) public label!: string
-  protected link = 'https://viewblock.io/arweave/tx/'
-}
+<script lang="ts" setup>
+withDefaults(
+  defineProps<{
+    id: string
+    label: string
+  }>(),
+  {
+    id: '',
+    label: 'content',
+  }
+)
+const link = 'https://viewblock.io/arweave/tx/'
 </script>
 
 <style scoped>

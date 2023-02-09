@@ -40,14 +40,15 @@ module.exports = {
         allowSeparatedGroups: true,
       },
     ],
+    'vue/multi-word-component-names': 'off',
   },
   ignorePatterns: ['*.md'],
   overrides: [
     {
       files: ['layouts/**/*.{js,ts,vue}', 'pages/**/*.vue'],
-      rules: {
-        'vue/multi-word-component-names': 'off',
-      },
+      // rules: {
+      //   'vue/multi-word-component-names': 'off',
+      // },
     },
   ],
 }

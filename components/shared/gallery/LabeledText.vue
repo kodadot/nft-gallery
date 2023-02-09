@@ -10,14 +10,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-
-@Component({})
-export default class LabeledText extends Vue {
-  @Prop({ type: String, required: true, default: 'general.label' })
-  public label!: string
-  @Prop({ type: Boolean, default: false })
-  public isLoading!: string
-}
+<script lang="ts" setup>
+withDefaults(
+  defineProps<{
+    label: string
+    type?: boolean
+  }>(),
+  {
+    label: 'general.label',
+    type: false,
+  }
+)
 </script>

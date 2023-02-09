@@ -3,14 +3,18 @@
     <b-input :value="value" :readonly="readonly" disabled></b-input>
   </b-field>
 </template>
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
-@Component({})
-export default class DisabledInput extends Vue {
-  @Prop({ type: String, required: true }) public label!: string
-  @Prop({ type: String, required: true }) public value!: string
-  @Prop({ type: Boolean, default: false }) public expanded!: boolean
-  @Prop({ type: Boolean, default: false }) public readonly!: boolean
-}
+<script lang="ts" setup>
+defineProps<{
+  label: string
+  value: string
+  expanded: boolean
+  readonly: boolean
+}>(),
+  {
+    label: '',
+    value: '',
+    expanded: false,
+    readonly: false,
+  }
 </script>
