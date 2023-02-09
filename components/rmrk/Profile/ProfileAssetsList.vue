@@ -84,7 +84,7 @@ const updatedBalanceFor = async (balance: Promise<string>, index: number) => {
 const assetToUsdValue = (asset: AssetItem) => {
   if (asset.symbol === 'KSM') {
     let value = checkInvalidBalanceFilter(asset.balance)
-    value = roundTo(formatBalance(value, 12, ''), 4)
+    value = roundTo(formatBalance(value, 12, ''), 4).replace(',', '.')
     return calculateExactUsdFromToken(
       value,
       $store.getters['fiat/getCurrentKSMValue']
@@ -93,7 +93,9 @@ const assetToUsdValue = (asset: AssetItem) => {
   if (asset.symbol === 'BSX') {
     let value = checkInvalidBalanceFilter(asset.balance)
     value = checkInvalidBalanceFilter(
-      roundTo(formatBalance(value, 12, ''), 4).replace(',', '')
+      roundTo(formatBalance(value, 12, ''), 4)
+        .replace(',', '')
+        .replace(/\s/g, '')
     )
     return calculateExactUsdFromToken(
       value,
