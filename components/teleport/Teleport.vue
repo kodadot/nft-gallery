@@ -120,7 +120,7 @@ const ksmBalanceOnBasilisk = ref()
 const ksmBalanceOnKusama = ref()
 const currency = ref('KSM') //Selected currency is stored here
 const isLoading = ref(false)
-
+const unsubscribeKusamaBalance = ref()
 const resetStatus = () => {
   amount.value = undefined
   isLoading.value = false
@@ -183,9 +183,13 @@ const fetchBasiliskBalance = async () => {
 
 const fetchKusamaBalance = async () => {
   const api = await getKusamaApi()
-  subscribeBalance(api, getAddressByChain(Chain.KUSAMA), (...data) => {
-    ksmBalanceOnKusama.value = data[0]
-  })
+  unsubscribeKusamaBalance.value = await subscribeBalance(
+    api,
+    getAddressByChain(Chain.KUSAMA),
+    (...data) => {
+      ksmBalanceOnKusama.value = data[0]
+    }
+  )
 }
 
 const insufficientBalance = computed(
@@ -208,6 +212,10 @@ const handleMaxClick = () => {
 onMounted(() => {
   fetchBasiliskBalance()
   fetchKusamaBalance()
+})
+
+onBeforeUnmount(() => {
+  unsubscribeKusamaBalance.value && unsubscribeKusamaBalance.value()
 })
 
 //Used to create XCM transfer
