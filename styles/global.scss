@@ -29,7 +29,8 @@ body {
   }
 
   .title,
-  .subtitle {
+  .subtitle,
+  .card-header-title {
     @include ktheme() {
       color: theme('text-color');
     }
@@ -53,6 +54,13 @@ body {
       @include ktheme() {
         border-color: theme('text-color');
       }
+    }
+  }
+
+  .select select[disabled] {
+    @include ktheme() {
+      background-color: theme('disabled')!important;
+      color: theme('placeholder-color')!important;
     }
   }
 
