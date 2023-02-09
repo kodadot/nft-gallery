@@ -17,12 +17,12 @@
           @select="handleImageSelect" />
       </b-step-item>
 
-      <b-step-item step="3" label="Contact" :clickable="isStepsClickable">
+      <!-- <b-step-item step="3" label="Contact" :clickable="isStepsClickable">
         <ContactForm @select="handleMailSubmit" />
-      </b-step-item>
+      </b-step-item> -->
 
       <b-step-item
-        step="4"
+        step="3"
         label="Finish"
         :clickable="isStepsClickable"
         :type="{ 'is-success': true }">
@@ -51,9 +51,9 @@ const ImageSelectGrid = defineAsyncComponent(
   () => import('@/components/generative/ImageSelectGrid.vue')
 )
 
-const ContactForm = defineAsyncComponent(
-  () => import('@/components/generative/ContactForm.vue')
-)
+// const ContactForm = defineAsyncComponent(
+//   () => import('@/components/generative/ContactForm.vue')
+// )
 
 const CongratsView = defineAsyncComponent(
   () => import('@/components/generative/CongratsView.vue')
@@ -67,6 +67,7 @@ const image = ref<string>('')
 const email = ref('')
 const isLoading = ref(false)
 const status = ref('')
+const { accountId } = useAuth()
 
 const handlePrediction = (generation: PredictionStatus) => {
   predicion.value = generation
@@ -76,6 +77,7 @@ const handlePrediction = (generation: PredictionStatus) => {
 const handleImageSelect = (imageURI: string) => {
   image.value = imageURI
   goToStep(2)
+  handleMailSubmit(accountId.value)
 }
 
 const handleMailSubmit = (mail: string) => {
