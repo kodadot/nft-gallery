@@ -3,6 +3,8 @@
 ![](https://github.com/kodadot/kodadot-presskit/blob/main/v3/KODA_v3.png?raw=true)
 
 # Contributing
+![image](https://user-images.githubusercontent.com/5887929/217076362-464e1293-8a2d-43ee-829f-fba17408e4c3.png)
+
 #### Is this your first time contributing? Set up your local environment [here](FIRST_TIME.md)
 Before submitting your pull request, read up on our [documentation](https://docs.kodadot.xyz) and make sure it follows:
 
@@ -11,7 +13,6 @@ Before submitting your pull request, read up on our [documentation](https://docs
 - [Style Guide](STYLE_GUIDE.md)
 
 ##### **Failure to do so can lead to your PR being rejected**
-
 We [reward](REWARDS.md) our contributors in $KSM for their time and effort with every issue they solve. If you're finding yourself to be more involved with KodaDot, we are always [hiring](HIRING.md).
 
 ### **Check out our repository's [activity](ACTIVITY.md) by our recent contributors!**

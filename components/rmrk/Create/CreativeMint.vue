@@ -270,7 +270,7 @@ export default class CreativeMint extends mixins(
     )
     const go = () =>
       this.$router.push({
-        path: `/rmrk/detail/${getNftId(nft, blockNumber)}`,
+        path: `/rmrk/gallery/${getNftId(nft, blockNumber)}`,
         query: { message: 'congrats' },
       })
     setTimeout(go, DETAIL_TIMEOUT)

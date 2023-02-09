@@ -10,7 +10,7 @@
     :variant="variant"
     :disabled="disabled"
     :expanded="expanded"
-    icon-pack="fas"
+    icon-pack="fa"
     :label="label"
     class="is-neo"
     v-bind="$attrs">

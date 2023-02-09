@@ -60,9 +60,12 @@
             :key="item.url"
             class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center mr-2"
             @click="goToSocials(item.url)">
-            <a class="is-flex" rel="noopener noreferrer" aria-label="Discord">
+            <a
+              class="is-flex"
+              rel="noopener noreferrer"
+              :aria-label="item.name">
               <b-icon
-                pack="fab"
+                :pack="item.name == 'Swag' ? 'fas' : 'fab'"
                 :icon="item.icon"
                 size="is-small"
                 :type="$colorMode.value === 'dark' ? 'is-white' : 'is-black'" />
@@ -86,7 +89,7 @@ interface Menu {
 
 const { $i18n, $colorMode } = useNuxtApp()
 
-let menu: Menu[] = [
+const menu: Menu[] = [
   {
     name: $i18n.t('about'),
     url: '/about',
@@ -145,6 +148,11 @@ const socials = [
     name: 'Instagram',
     url: 'https://instagram.com/kodadot.xyz',
     icon: 'instagram',
+  },
+  {
+    name: 'Swag',
+    url: 'https://shop.kodadot.xyz',
+    icon: 'shop',
   },
   {
     name: 'Youtube',
