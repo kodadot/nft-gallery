@@ -3,6 +3,8 @@ import { Debounce } from 'vue-debounce-decorator'
 
 export const INFINITE_SCROLL_CONTAINER_ID = 'infinite-scroll-container'
 export const INFINITE_SCROLL_ITEM_CLASS_NAME = 'infinite-scroll-item'
+
+type LoadDirection = 'up' | 'down'
 @Component
 export default class InfiniteScrollMixin extends Vue {
   protected currentPage = parseInt(this.$route.query.page as string) || 1
@@ -90,7 +92,11 @@ export default class InfiniteScrollMixin extends Vue {
     $state.loaded()
   }
 
-  private async fetchDataCallback(page, direction, successCb) {
+  private async fetchDataCallback(
+    page: number,
+    direction: LoadDirection,
+    successCb: () => void
+  ) {
     return await this.fetchPageData(page, direction).then((isSuccess) => {
       if (isSuccess) {
         successCb()
@@ -104,7 +110,7 @@ export default class InfiniteScrollMixin extends Vue {
       return
     }
     const nextPage = this.startPage - 1
-    return this.fetchDataCallback(this.startPage - 1, 'up', () => {
+    await this.fetchDataCallback(this.startPage - 1, 'up', () => {
       this.startPage = nextPage
       this.checkAfterFetchDataSuccess()
       this.prefetchPreviousPage()
@@ -122,14 +128,13 @@ export default class InfiniteScrollMixin extends Vue {
       return
     }
     const nextPage = this.endPage + 1
-    return this.fetchDataCallback(nextPage, 'down', () => {
+    await this.fetchDataCallback(nextPage, 'down', () => {
       this.endPage = nextPage
       this.checkAfterFetchDataSuccess()
       this.prefetchNextPage()
     })
   }
 
-  @Debounce(1000)
   public async prefetchNextPage() {
     if (
       this.endPage - this.currentPage <= 3 &&
@@ -142,7 +147,6 @@ export default class InfiniteScrollMixin extends Vue {
     }
   }
 
-  @Debounce(1000)
   public async prefetchPreviousPage() {
     if (
       this.currentPage - this.startPage <= 1 &&
