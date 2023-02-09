@@ -32,9 +32,3 @@
     </div>
   </section>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-
-@Component
-export default class Tutorials extends Vue {}
-</script>

@@ -1,3 +1,3 @@
 <template>
-  <EsSustainability />
+  <ProfileDetail />
 </template>
