@@ -189,7 +189,11 @@ const fetchKusamaBalance = async () => {
 }
 
 const insufficientBalance = computed(
-  () => Number(amount.value) > simpleDivision(myKsmBalance.value, 12)
+  () => Number(amount.value) > myKsmBalanceWithoutDivision.value
+)
+
+const myKsmBalanceWithoutDivision = computed(() =>
+  simpleDivision(myKsmBalance.value, 12)
 )
 
 const isDisabledButton = computed(() => {
@@ -199,9 +203,7 @@ const isDisabledButton = computed(() => {
 const ksmTokenDecimals = computed(() => assets(5).decimals)
 
 const handleMaxClick = () => {
-  amount.value = (
-    ksmBalanceOnBasilisk.value / 10 ** ksmTokenDecimals.value || 0
-  ).toFixed(4)
+  amount.value = (myKsmBalanceWithoutDivision.value || 0).toFixed(4)
 }
 onMounted(() => {
   fetchBasiliskBalance()
