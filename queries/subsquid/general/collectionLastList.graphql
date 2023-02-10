@@ -1,15 +1,15 @@
 #import "../../fragments/collection.graphql"
 #import "../../fragments/collectionDetails.graphql"
 
-query collectionCuratedList($list: [String!]) {
+query collectionCuratedList {
   collectionEntities(
+    orderBy: blockNumber_DESC
+    limit: 5
     where: {
       nfts_some: { burned_eq: false }
       name_isNull: false
       name_not_eq: ""
-      id_in: $list
     }
-    orderBy: blockNumber_DESC
   ) {
     ...collection
     ...collectionDetails
