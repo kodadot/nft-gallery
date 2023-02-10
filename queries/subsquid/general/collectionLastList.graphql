@@ -1,7 +1,7 @@
 #import "../../fragments/collection.graphql"
 #import "../../fragments/collectionDetails.graphql"
 
-query collectionCuratedList {
+query collectionLastList {
   collectionEntities(
     orderBy: blockNumber_DESC
     limit: 5
