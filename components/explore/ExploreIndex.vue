@@ -4,7 +4,7 @@
     <div class="explore-menu is-flex">
       <ExploreSort />
       <ExploreChain />
-      <ExploreGrid />
+      <ExploreGrid class="is-hidden-mobile" />
     </div>
   </div>
 </template>
