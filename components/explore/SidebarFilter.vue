@@ -59,6 +59,8 @@
           <NeoButton
             data-cy="apply"
             :disabled="!isValidFilter(range.min, range.max)"
+            no-shadow
+            variant="k-accent"
             expanded
             @click.native="setPriceRange">
             {{ $t('general.apply') }}
