@@ -58,7 +58,7 @@
           </div>
           <NeoButton
             data-cy="apply"
-            :disabled="!isValidFilter(Number(range.min), Number(range.max))
+            :disabled="!isValidFilter(range.min, range.max)"
             expanded
             @click.native="setPriceRange">
             {{ $t('general.apply') }}
@@ -155,13 +155,16 @@ const replaceUrl = (queryCondition: { [key: string]: any }) => {
 }
 
 const isValidFilter = (
-  min: number | undefined,
-  max: number | undefined
+  min: number | string | undefined,
+  max: number | string | undefined
 ): boolean => {
-  if (min && max) {
-    return max > min
-  }
-  return false
+  return (
+    min !== undefined &&
+    max !== undefined &&
+    min !== '' &&
+    max !== '' &&
+    Number(max) > Number(min)
+  )
 }
 
 const inputFocused = ref(false)
