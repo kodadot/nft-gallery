@@ -20,7 +20,9 @@
           </div>
         </template>
         <form class="p-4" @submit.prevent="setPriceRange">
-          <div class="is-flex input-container mb-4">
+          <div
+            class="is-flex input-container mb-4"
+            :class="[inputFocused ? 'input-focused' : '']">
             <b-input
               v-model="range.min"
               custom-class="input-sidebar"
@@ -28,7 +30,9 @@
               min="0"
               step="any"
               placeholder="MIN"
-              data-cy="input-min" />
+              data-cy="input-min"
+              @focus="isInputFocused"
+              @blur="isInputFocused" />
             <img src="/arrow-right.svg" />
             <b-input
               v-model="range.max"
@@ -37,9 +41,15 @@
               step="any"
               type="number"
               placeholder="MAX"
-              data-cy="input-max" />
+              data-cy="input-max"
+              @focus="isInputFocused"
+              @blur="isInputFocused" />
           </div>
-          <NeoButton data-cy="apply" expanded @click.native="setPriceRange">
+          <NeoButton
+            data-cy="apply"
+            :disabled="!isValidFilter(range.min, range.max)"
+            expanded
+            @click.native="setPriceRange">
             {{ $t('general.apply') }}
           </NeoButton>
         </form>
@@ -87,21 +97,26 @@ const router = useRouter()
 const { decimals } = useChain()
 const { accountId } = useAuth()
 const range = ref({
-  min: fromDecimals(Number(route.query?.min), decimals.value),
-  max: fromDecimals(Number(route.query?.max), decimals.value),
+  min: fromDecimals(Number(route.query?.min), decimals.value) || undefined,
+  max: fromDecimals(Number(route.query?.max), decimals.value) || undefined,
 })
+
 const open = computed(
   () => $store.getters['preferences/getSidebarfilterCollapse']
 )
+
 const emit = defineEmits(['resetPage'])
+
 const listed = computed({
   get: () => route.query?.listed?.toString() === 'true',
   set: (value) => replaceUrl({ listed: String(value) }),
 })
+
 const owned = computed({
   get: () => route.query?.owned?.toString() === 'true',
   set: (value) => replaceUrl({ owned: String(value) }),
 })
+
 const setPriceRange = () => {
   const priceMin = range.value.min
     ? String(toDecimals(range.value.min, decimals.value))
@@ -111,6 +126,7 @@ const setPriceRange = () => {
     : undefined
 
   replaceUrl({ listed: String(true), min: priceMin, max: priceMax })
+  range.value = { min: undefined, max: undefined }
 }
 
 const replaceUrl = (queryCondition: { [key: string]: any }) => {
@@ -125,6 +141,22 @@ const replaceUrl = (queryCondition: { [key: string]: any }) => {
     })
     .catch($consola.warn)
   emit('resetPage')
+}
+
+const isValidFilter = (
+  min: number | undefined,
+  max: number | undefined
+): boolean => {
+  if (min && max) {
+    return max > min
+  }
+  return false
+}
+
+const inputFocused = ref(false)
+
+const isInputFocused = (): void => {
+  inputFocused.value = !inputFocused.value
 }
 </script>
 
@@ -155,6 +187,11 @@ const replaceUrl = (queryCondition: { [key: string]: any }) => {
       border: none !important;
       box-shadow: none !important;
     }
+  }
+}
+.input-focused {
+  @include ktheme() {
+    box-shadow: 0 0 0 1px theme('k-blue');
   }
 }
 </style>
