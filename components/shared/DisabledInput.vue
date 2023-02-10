@@ -5,7 +5,20 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
+withDefaults(
+  defineProps<{
+    label: string
+    value: string
+    expanded: boolean
+    readonly: boolean
+  }>(),
+  {
+    label: '',
+    value: '',
+    expanded: false,
+    readonly: false,
+  }
+)
   label: string
   value: string
   expanded: boolean
