@@ -575,8 +575,8 @@
   },
   "query": {
     "priceRange": {
-      "minPrice": "MIN PRICE",
-      "maxPrice": "MAX PRICE",
+      "minPrice": "MIN",
+      "maxPrice": "MAX",
       "priceValidation": "Min price has to be smaller than max price!",
       "range": "Price range"
     }
@@ -791,7 +791,7 @@
     "checkBalance": "Checking if you have enough balance",
     "generative": {
       "starting": "Warming up the AI model",
-      "processing": "Predicting (wait around ~20s)",
+      "processing": "Predicting (wait around ~2 min)",
       "send": "Sending links to your email"
     }
   },
@@ -1005,7 +1005,11 @@
   },
   "teleport": {
     "page": "Teleport",
-    "route": "Teleporting {0} from {1} to {2}",
+    "from": "From",
+    "to": "To",
+    "max": "Max",
+    "send": "Send",
+    "receiveValue": "You will receive {0} KSM on {1} to",
     "artistProfile": "Go to artist's profile",
     "usdInput": "USD Value (approx)",
     "btnCopyPayment": "Copy Payment link",
@@ -1032,7 +1036,10 @@
     "teleport": "Teleport",
     "teleportBridge": "Teleport Bridge",
     "globalOffers": "Global Offers",
-    "offerStats": "Offers Stats"
+    "offerStats": "Offers Stats",
+    "create": {
+      "waifu": "Waifu"
+    }
   },
   "walletConnect": {
     "confirm": "Confirm",
@@ -1184,6 +1191,7 @@
   "createDropdown": {
     "start": "Start by creating your collection and add NFTs to it",
     "simplifiedNft": "Simplified process to create your NFT in a single step",
-    "aiPowered": "AI powered process to create your NFT"
+    "aiPowered": "AI powered process to create your NFT",
+    "waifu": "Create your anime waifu using AI"
   }
 }

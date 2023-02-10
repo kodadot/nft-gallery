@@ -47,12 +47,35 @@
       <a
         class="is-flex is-align-items-center pt-4 pb-3 is-size-7 has-text-grey more-option-button"
         @click="toggleShowUninstalledWallet">
-        {{ $i18n.t('walletConnect.moreOption')
-        }}<b-icon
+        {{ $i18n.t('walletConnect.moreOption') }}
+
+        <svg
+          v-if="showUninstalledWallet"
           class="ml-1"
-          :icon="
-            showUninstalledWallet ? 'chevron-down' : 'chevron-right'
-          "></b-icon>
+          width="9"
+          height="4"
+          viewBox="0 0 9 4"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M8.20068 0.5L4.60068 3.5L1.00068 0.5"
+            stroke="currentColor"
+            stroke-width="0.761905" />
+        </svg>
+
+        <svg
+          v-else
+          class="ml-1"
+          width="5"
+          height="8"
+          viewBox="0 0 5 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M1 0.399658L4 3.99966L1 7.59966"
+            stroke="currentColor"
+            stroke-width="0.761905" />
+        </svg>
       </a>
       <div v-if="showUninstalledWallet" class="buttons">
         <WalletMenuItem
