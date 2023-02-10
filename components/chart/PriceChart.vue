@@ -1,6 +1,8 @@
 <template>
   <div class="common-price-chart">
-    <span class="chart-y-description is-size-7">Price ({{ unit }})</span>
+    <span class="chart-y-description is-size-7"
+      >Price ({{ unit === 'BSX' ? 'KSM' : unit }})</span
+    >
     <NeoDropdown class="py-0">
       <NeoButton :label="selectedTimeRange.label" class="time-range-button" />
 
@@ -167,7 +169,9 @@ const getPriceChartData = () => {
             tooltip: {
               callbacks: {
                 label: function (context) {
-                  return `Price: ${context.parsed.y}${unit.value}`
+                  return `Price: ${context.parsed.y} ${
+                    unit.value === 'BSX' ? 'KSM' : unit.value
+                  }`
                 },
                 title: function (context) {
                   return format(context[0].parsed.x, 'MMM dd HH:mm')
