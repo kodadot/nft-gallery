@@ -92,6 +92,7 @@
           horizontal-layout />
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
+          :distance="prefetchDistance"
           @infinite="reachBottomHandler">
         </InfiniteLoading>
         <ScrollTopButton />
