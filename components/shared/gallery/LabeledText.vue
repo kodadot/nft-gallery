@@ -15,10 +15,12 @@ withDefaults(
   defineProps<{
     label: string
     type?: boolean
+    isLoading?: boolean
   }>(),
   {
     label: 'general.label',
     type: false,
+    isLoading: false,
   }
 )
 </script>
