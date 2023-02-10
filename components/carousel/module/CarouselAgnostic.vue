@@ -36,11 +36,13 @@
         <div class="arrow arrow-left" @click="slider?.prev()"></div>
         <div class="arrow arrow-right" @click="slider?.next()"></div>
       </div>
-      <button
-        v-for="(_slide, idx) in dotHelper"
-        :key="idx"
-        :class="{ dot: true, active: current === idx }"
-        @click="slider?.moveToIdx(idx)"></button>
+      <div v-if="slider && !isCollection" class="dots">
+        <button
+          v-for="(_slide, idx) in dotHelper"
+          :key="idx"
+          :class="{ dot: true, active: current === idx }"
+          @click="slider?.moveToIdx(idx)"></button>
+      </div>
     </div>
   </div>
 </template>
