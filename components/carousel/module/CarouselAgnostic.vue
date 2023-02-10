@@ -12,10 +12,30 @@
           </div>
         </div>
       </div>
-      <div class="arrow arrow-left" @click="slider?.prev()"></div>
-      <div class="arrow arrow-right" @click="slider?.next()"></div>
-    </div>
-    <div v-if="slider && !isCollection" class="dots">
+      <div v-if="galleryItemCarousel">
+        <div
+          class="arrow arrow-left"
+          @click="
+            slider?.moveToIdx(
+              slider.track.details.abs - 3 >= 0
+                ? slider.track.details.abs - 3
+                : 0
+            )
+          "></div>
+        <div
+          class="arrow arrow-right"
+          @click="
+            slider?.moveToIdx(
+              slider.track.details.abs + 6 < slider.slides.length
+                ? slider.track.details.abs + 3
+                : slider.slides.length - slider.options.slides.perView
+            )
+          "></div>
+      </div>
+      <div v-else>
+        <div class="arrow arrow-left" @click="slider?.prev()"></div>
+        <div class="arrow arrow-right" @click="slider?.next()"></div>
+      </div>
       <button
         v-for="(_slide, idx) in dotHelper"
         :key="idx"
@@ -37,6 +57,7 @@ import { wheelControls } from '../utils/useCarousel'
 
 const props = defineProps<{
   nfts: CarouselNFT[]
+  galleryItemCarousel?: boolean
 }>()
 
 const url = inject('itemUrl', 'gallery') as string

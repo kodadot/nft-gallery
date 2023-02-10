@@ -4,7 +4,10 @@
       {{ title }}
     </h2>
 
-    <CarouselList v-if="showCarousel" :nfts="nfts" />
+    <CarouselList
+      v-if="showCarousel"
+      :nfts="nfts"
+      :gallery-item-carousel="galleryItemCarousel" />
   </div>
 </template>
 
@@ -25,6 +28,7 @@ const props = defineProps<{
   linkUrl?: string
   linkText?: string
   itemUrl?: string
+  galleryItemCarousel?: boolean
 }>()
 
 const itemUrl = computed(() => props.itemUrl || 'gallery')
