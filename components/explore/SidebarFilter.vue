@@ -58,7 +58,7 @@
           </div>
           <NeoButton
             data-cy="apply"
-            :disabled="!isValidFilter(range.min, range.max)"
+            :disabled="!isValidFilter(Number(range.min), Number(range.max))
             expanded
             @click.native="setPriceRange">
             {{ $t('general.apply') }}
