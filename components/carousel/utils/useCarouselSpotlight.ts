@@ -4,14 +4,25 @@ import type { CarouselNFT } from '@/components/base/types'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const curatedCollection = {
+  bsx: [
+    '14022023', // Will You Be My Valentine? ♥️ (Kodadot)
+    '2551182625', // Luna Witches (deepologics)
+    '2608295324', // Deity
+    '3579963603', // Hooker's Urban
+    '945672150', // NAGA KADAL
+    '1825819407', // KoDragons
+    '1635680444', // KODACHAINS
+  ],
   rmrk: [
-    '8adee5c0c132c32e6a-🎵QMB🎵', // 🎵Quakz Music Box🎵
-    '800f8a914281765a7d-KITTY', // Kitty
-    '2075be44ea4b9e422d-🐺', // WolfAngryClub
+    '900D19DC7D3C444E4C-MECHWOM', // Mechanical Woman (deepologics)
+    '4A43156FE23E061C03-SNK', // Snek-Frens
+    '08C79124CAC59DC643-BOREDBARRO', // BOREDBARRO
     '160a6f4320f11acb25-LCKWV', // PixelBabe
+    '800f8a914281765a7d-KITTY', // Kitty
     '0a24c7876a892acb79-RADTOADZ', // RadToadz (ZestLifeLab)
-    '7cf9daa38281a57331-BSS', // Spaceships (ClownWorldHouse)
-    '900D19DC7D3C444E4C-KSMBOT', // KusamaBot (deepologics)
+    // '8adee5c0c132c32e6a-🎵QMB🎵', // 🎵Quakz Music Box🎵
+    // '2075be44ea4b9e422d-🐺', // WolfAngryClub
+    // '7cf9daa38281a57331-BSS', // Spaceships (ClownWorldHouse)
   ],
 }
 
@@ -40,7 +51,9 @@ export default function useCarouselSpotlight() {
     ? { list: curatedCollection[urlPrefix.value] }
     : undefined
   const { data } = useGraphql({
-    queryName: 'collectionCuratedList',
+    queryName: curatedCollection[urlPrefix.value]?.length
+      ? 'collectionCuratedList'
+      : 'collectionLastList',
     queryPrefix: urlPrefix.value,
     variables,
   })

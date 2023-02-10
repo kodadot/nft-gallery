@@ -12,8 +12,8 @@
         <InfiniteLoading
           v-if="startPage > 1 && !isLoading && total > 0"
           direction="top"
-          :distance="600"
-          @infinite="reachTop"></InfiniteLoading>
+          :distance="prefetchDistance"
+          @infinite="reachTopHandler"></InfiniteLoading>
         <div :id="scrollContainerId" class="columns is-multiline">
           <div
             v-for="(nft, index) in results"
@@ -24,8 +24,8 @@
         </div>
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
-          :distance="600"
-          @infinite="reachBottom"></InfiniteLoading>
+          :distance="prefetchDistance"
+          @infinite="reachBottomHandler"></InfiniteLoading>
         <EmptyResult v-if="total === 0" />
         <ScrollTopButton />
       </div>
@@ -135,7 +135,6 @@ export default class Gallery extends mixins(
   public async created() {
     try {
       await this.fetchPageData(this.startPage)
-      this.prefetchPage(1, this.fetchNextPage)
     } catch (e) {
       showNotification((e as Error).message, notificationTypes.danger)
     }
@@ -223,23 +222,6 @@ export default class Gallery extends mixins(
       })
     })
     this.isLoading = false
-  }
-
-  public async reachBottom(state) {
-    await this.reachBottomHandler(state)
-    this.prefetchPage(3, this.fetchNextPage)
-  }
-
-  public async reachTop(state) {
-    await this.reachTopHandler(state)
-    this.prefetchPage(1, this.fetchPreviousPage)
-  }
-
-  public async prefetchPage(prefetchCount = 3, fetchFn: () => void) {
-    if (prefetchCount > 0) {
-      await fetchFn()
-      this.prefetchPage(prefetchCount - 1, fetchFn)
-    }
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
