@@ -117,6 +117,7 @@
           </div>
           <InfiniteLoading
             v-if="startPage > 1 && !isLoading && totalCollections > 0"
+            :distance="prefetchDistance"
             direction="top"
             @infinite="reachTopHandler">
           </InfiniteLoading>
@@ -128,6 +129,7 @@
             horizontal-layout />
           <InfiniteLoading
             v-if="canLoadNextPage && !isLoading && totalCollections > 0"
+            :distance="prefetchDistance"
             @infinite="reachBottomHandler">
           </InfiniteLoading>
           <ScrollTopButton />
