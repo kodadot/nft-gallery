@@ -109,6 +109,11 @@ export default function ({ app }, inject): void {
         property: 'twitter:image',
         content: meta?.image || image,
       },
+      {
+        hid: 'twitter:card',
+        property: 'twitter:card',
+        content: 'summary_large_image',
+      },
     ]
 
     if (type === MediaType.IMAGE) {

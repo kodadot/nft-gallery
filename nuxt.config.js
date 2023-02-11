@@ -55,7 +55,11 @@ export default defineNuxtConfig({
       },
       { property: 'og:locale', content: 'en_US' },
       { property: 'twitter:site', content: '@KodaDot' },
-      { property: 'twitter:card', content: 'summary_large_image' },
+      {
+        hid: 'twitter:card',
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
       { hid: 'og:type', property: 'og:type', content: 'website' },
       { hid: 'og:url', property: 'og:url', content: baseUrl },
       {
