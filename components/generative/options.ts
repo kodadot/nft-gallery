@@ -55,7 +55,7 @@ export const framing = [
 export const clothes = [
   'angel wings',
   'kogal',
-  'maid constume',
+  'maid costume',
   'red dress',
   'turtleneck sweater',
   'school uniform',
