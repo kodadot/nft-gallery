@@ -38,6 +38,10 @@ const emit = defineEmits(['select'])
     width: 15rem;
     @include ktheme() {
       color: theme('text-color');
+
+      &:hover {
+        color: $black;
+      }
       &.active {
         color: theme('text-color-inverse');
       }

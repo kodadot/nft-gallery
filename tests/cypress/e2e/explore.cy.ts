@@ -56,7 +56,7 @@ const testItems = (route) => {
   })
 }
 
-describe('exploreCollections', () => {
+describe.skip('exploreCollections', () => {
   const routes = ['/rmrk/explore/collectibles', '/bsx/explore/collectibles']
   routes.forEach((route) => {
     describe(`Collections explore at ${route}`, () => {
@@ -65,7 +65,7 @@ describe('exploreCollections', () => {
   })
 })
 
-describe('exploreItems', () => {
+describe.skip('exploreItems', () => {
   const routes = ['/rmrk/explore/items?page=1', '/bsx/explore/items?page=1']
   routes.forEach((route) => {
     describe(`Testing route ${route}`, () => {

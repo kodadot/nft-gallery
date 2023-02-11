@@ -51,3 +51,24 @@
     line-height: 8rem;
   }
 }
+
+.content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  blockquote,
+  strong,
+  pre:not(.hljs) {
+    @include ktheme() {
+      color: theme('text-color');
+    }
+  }
+  blockquote {
+    @include ktheme() {
+      background-color: theme('background-color');
+    }
+  }
+}

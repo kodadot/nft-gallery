@@ -12,7 +12,8 @@
           :src="nftImage"
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
-          :title="nft?.name || nft?.id" />
+          :title="nft?.name || nft?.id"
+          is-detail />
       </div>
       <div class="py-6 column">
         <div

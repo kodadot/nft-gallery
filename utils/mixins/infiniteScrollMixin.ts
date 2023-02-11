@@ -3,6 +3,8 @@ import { Debounce } from 'vue-debounce-decorator'
 
 export const INFINITE_SCROLL_CONTAINER_ID = 'infinite-scroll-container'
 export const INFINITE_SCROLL_ITEM_CLASS_NAME = 'infinite-scroll-item'
+
+type LoadDirection = 'up' | 'down'
 @Component
 export default class InfiniteScrollMixin extends Vue {
   protected currentPage = parseInt(this.$route.query.page as string) || 1
@@ -14,11 +16,14 @@ export default class InfiniteScrollMixin extends Vue {
   protected mobileScreenWidth = 768
   protected first = 12
   protected total = 0
+  protected prefetchDistance = 600
   protected isFetchingData = false
   protected scrollContainerId = INFINITE_SCROLL_CONTAINER_ID
   protected scrollItemClassName = INFINITE_SCROLL_ITEM_CLASS_NAME
+  protected prefetching = false
 
   protected mounted(): void {
+    this.prefetchNextPage()
     window.addEventListener('resize', this.onResize)
     window.addEventListener('scroll', this.onScroll)
   }
@@ -87,16 +92,29 @@ export default class InfiniteScrollMixin extends Vue {
     $state.loaded()
   }
 
+  private async fetchDataCallback(
+    page: number,
+    direction: LoadDirection,
+    successCb: () => void
+  ) {
+    return await this.fetchPageData(page, direction).then((isSuccess) => {
+      if (isSuccess) {
+        successCb()
+      }
+      return isSuccess
+    })
+  }
+
   protected async fetchPreviousPage() {
     if (this.startPage <= 1) {
       return
     }
     const nextPage = this.startPage - 1
-    const isSuccess = await this.fetchPageData(this.startPage - 1, 'up')
-    if (isSuccess) {
+    await this.fetchDataCallback(this.startPage - 1, 'up', () => {
       this.startPage = nextPage
       this.checkAfterFetchDataSuccess()
-    }
+      this.prefetchPreviousPage()
+    })
   }
 
   @Debounce(1000)
@@ -110,10 +128,41 @@ export default class InfiniteScrollMixin extends Vue {
       return
     }
     const nextPage = this.endPage + 1
-    const isSuccess = await this.fetchPageData(nextPage, 'down')
-    if (isSuccess) {
+    await this.fetchDataCallback(nextPage, 'down', () => {
       this.endPage = nextPage
       this.checkAfterFetchDataSuccess()
+      this.prefetchNextPage()
+    })
+  }
+
+  public async prefetchNextPage() {
+    if (
+      this.endPage - this.currentPage <= 3 &&
+      this.canLoadNextPage &&
+      !this.prefetching
+    ) {
+      this.prefetching = true
+      await this.fetchNextPage()
+      this.prefetching = false
+    }
+  }
+
+  public async prefetchPreviousPage() {
+    if (
+      this.currentPage - this.startPage <= 1 &&
+      this.startPage > 1 &&
+      !this.prefetching
+    ) {
+      this.prefetching = true
+      await this.fetchPreviousPage()
+      this.prefetching = false
+    }
+  }
+
+  public async prefetchPage(prefetchCount = 3, fetchFn: () => void) {
+    if (prefetchCount > 0) {
+      await fetchFn()
+      this.prefetchPage(prefetchCount - 1, fetchFn)
     }
   }
 

@@ -1,3 +1,8 @@
+import type { ApiPromise } from '@polkadot/api'
+
+export declare type Unsubscribe = () => void
+export type UnsubscribePromise = Promise<Unsubscribe>
+
 function simpleMultiply(value: string | number, decimals = 0): string {
   return (BigInt(value) * BigInt(10 ** decimals)).toString()
 }
@@ -33,4 +38,14 @@ export function balanceFrom(input: number | string, decimals = 12): string {
   }
 
   return simpleMultiply(value, decimals)
+}
+
+export function subscribeBalance(
+  api: ApiPromise,
+  address: string,
+  cb: (value: string) => void
+): UnsubscribePromise {
+  return api.derive.balances.all(address, ({ availableBalance }) => {
+    cb(availableBalance.toString())
+  })
 }

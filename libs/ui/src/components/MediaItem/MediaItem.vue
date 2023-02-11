@@ -5,7 +5,8 @@
       :src="properSrc"
       :animation-src="animationSrc"
       :alt="title"
-      :original="original" />
+      :original="original"
+      :is-detail="isDetail" />
   </div>
 </template>
 
@@ -39,6 +40,10 @@ export default {
     },
     original: {
       // original size of the image
+      type: Boolean,
+      default: false,
+    },
+    isDetail: {
       type: Boolean,
       default: false,
     },

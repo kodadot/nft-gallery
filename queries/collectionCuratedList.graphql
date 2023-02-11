@@ -1,5 +1,5 @@
 query collectionCuratedList($list: [String!]) {
-  collectionEntities(where: { id_in: $list }) {
+  collectionEntities(where: { id_in: $list }, orderBy: blockNumber_DESC) {
     id
     issuer
     name
