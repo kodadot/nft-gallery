@@ -31,8 +31,8 @@
               step="any"
               placeholder="MIN"
               data-cy="input-min"
-              @focus="isInputFocused"
-              @blur="isInputFocused" />
+              @focus="toggleInputFocused"
+              @blur="toggleInputFocused" />
             <div class="is-flex is-align-items-center">
               <svg
                 width="28"
@@ -53,8 +53,8 @@
               type="number"
               placeholder="MAX"
               data-cy="input-max"
-              @focus="isInputFocused"
-              @blur="isInputFocused" />
+              @focus="toggleInputFocused"
+              @blur="toggleInputFocused" />
           </div>
           <NeoButton
             data-cy="apply"
@@ -160,18 +160,15 @@ const isValidFilter = (
   min: number | string | undefined,
   max: number | string | undefined
 ): boolean => {
-  return (
-    min !== undefined &&
-    max !== undefined &&
-    min !== '' &&
-    max !== '' &&
-    Number(max) > Number(min)
-  )
+  const minValue = typeof min === 'string' ? min.trim() : min
+  const maxValue = typeof max === 'string' ? max.trim() : max
+  return ((minValue || maxValue) &&
+    (!minValue || !maxValue || Number(maxValue) > Number(minValue))) as boolean
 }
 
 const inputFocused = ref(false)
 
-const isInputFocused = (): void => {
+const toggleInputFocused = (): void => {
   inputFocused.value = !inputFocused.value
 }
 </script>
