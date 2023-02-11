@@ -39,3 +39,4 @@ You'll find our goals for KodaDot upcoming future!
 # Stay Tuned for Updates!
 - Follow us on [Twitter](https://twitter.com/KodaDot), [Instagram](https://instagram.com/kodadot.xyz), [Youtube](https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA), [SubStack](https://kodadot.substack.com/) and [Medium](https://medium.com/kodadot)
 - Join our [Discord](https://discord.gg/u6ymnbz4PR)
+- Love our merchandise designs and haven't been on our physical events? You can now order it to [your home at our K-shop](https://shop.kodadot.xyz) and support us!
