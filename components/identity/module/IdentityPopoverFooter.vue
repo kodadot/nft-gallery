@@ -74,6 +74,8 @@ defineProps<{
     width: 78px;
     height: 78px;
     border: 1px solid $black;
+    // add white stroke
+    box-shadow: 0 0 0 1px $white;
   }
 }
 
