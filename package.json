@@ -77,8 +77,8 @@
     "@paraspell/sdk": "^0.0.25",
     "@polkadot/extension-dapp": "^0.44.8",
     "@polkadot/extension-inject": "^0.44.8",
-    "@polkadot/ui-keyring": "^2.10.1",
-    "@polkadot/vue-identicon": "^2.10.1",
+    "@polkadot/ui-keyring": "^2.11.1",
+    "@polkadot/vue-identicon": "^2.11.1",
     "@ramp-network/ramp-instant-sdk": "^3.2.3",
     "@sentry/browser": "7.30.0",
     "@sgratzl/chartjs-chart-boxplot": "^3.10.0",
@@ -177,7 +177,8 @@
   "pnpm": {
     "overrides": {
       "vue-server-renderer": "2.7.14",
-      "vue-template-compiler": "2.7.14"
+      "vue-template-compiler": "2.7.14",
+      "h3": "1.1.0"
     },
     "patchedDependencies": {
       "vuex@3.6.2": "patches/vuex@3.6.2.patch",
