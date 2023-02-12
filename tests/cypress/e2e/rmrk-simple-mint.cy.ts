@@ -85,10 +85,10 @@ describe('simple mint in rmrk', () => {
       '- FqCJeGcPidYSsvvmT17fHVaYdE2nXMYgPsBn3CP9gugvZR5{enter}'
     )
     cy.get('[data-cy="input-batch-address"]').type('- 123INVALID{enter}').blur()
-    cy.get('[data-cy="input-valid-address"]').should(
-      'contain.text',
-      'Currently matched 3 adresses'
-    )
+    cy.get('[data-cy="input-valid-address"]').then(($el) => {
+      const text = $el.text()
+      expect(text.trim()).to.equal('Currently matched 3 addresses')
+    })
 
     cy.get('[data-cy="input-distribution"]').should('exist')
     cy.get('[data-cy="input-random"] [type="checkbox"]').check({ force: true })
