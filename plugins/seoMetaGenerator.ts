@@ -75,6 +75,11 @@ export default function ({ app }, inject): void {
         content: meta?.title ? `${meta.title} | ${title}` : title,
       },
       {
+        hid: 'og:site_name',
+        property: 'og:site_name',
+        content: 'KodaDot - Polkadot / Kusama NFT explorer',
+      },
+      {
         hid: 'og:description',
         property: 'og:description',
         content: meta?.description || description,
@@ -86,23 +91,28 @@ export default function ({ app }, inject): void {
       },
       {
         hid: 'twitter:url',
-        name: 'twitter:url',
+        property: 'twitter:url',
         content: `${baseUrl}${meta?.url || ''}`,
       },
       {
         hid: 'twitter:title',
-        name: 'twitter:title',
+        property: 'twitter:title',
         content: meta?.title || title,
       },
       {
         hid: 'twitter:description',
-        name: 'twitter:description',
+        property: 'twitter:description',
         content: meta?.description || description,
       },
       {
         hid: 'twitter:image',
-        name: 'twitter:image',
+        property: 'twitter:image',
         content: meta?.image || image,
+      },
+      {
+        hid: 'twitter:card',
+        property: 'twitter:card',
+        content: 'summary_large_image',
       },
     ]
 
@@ -156,7 +166,7 @@ export default function ({ app }, inject): void {
         },
         {
           hid: 'twitter:player',
-          name: 'twitter:player',
+          property: 'twitter:player',
           content: meta?.video,
         },
       ]

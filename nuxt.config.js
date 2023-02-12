@@ -55,7 +55,11 @@ export default defineNuxtConfig({
       },
       { property: 'og:locale', content: 'en_US' },
       { property: 'twitter:site', content: '@KodaDot' },
-      { property: 'twitter:card', content: 'summary_large_image' },
+      {
+        hid: 'twitter:card',
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
       { hid: 'og:type', property: 'og:type', content: 'website' },
       { hid: 'og:url', property: 'og:url', content: baseUrl },
       {
@@ -73,20 +77,24 @@ export default defineNuxtConfig({
         property: 'og:image',
         content: `${baseUrl}/k_card.png`,
       },
-      { hid: 'twitter:url', name: 'twitter:url', content: baseUrl },
+      {
+        hid: 'twitter:url',
+        property: 'twitter:url',
+        content: baseUrl,
+      },
       {
         hid: 'twitter:title',
-        name: 'twitter:title',
+        property: 'twitter:title',
         content: 'KodaDot - NFT Market Explorer',
       },
       {
         hid: 'twitter:description',
-        name: 'twitter:description',
+        property: 'twitter:description',
         content: 'One Stop NFT Shop on Polkadot',
       },
       {
         hid: 'twitter:image',
-        name: 'twitter:image',
+        property: 'twitter:image',
         content: `${baseUrl}/k_card.png`,
       },
     ],
