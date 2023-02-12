@@ -7,10 +7,7 @@
       </div>
       <nuxt-link
         class="identity-name has-text-weight-bold"
-        :to="{
-          name: `${prefix}-u-id`,
-          params: { id: account },
-        }">
+        :to="`/${prefix}/u/${account}`">
         <Identity :address="account" />
       </nuxt-link>
     </div>
@@ -19,7 +16,6 @@
 
 <script lang="ts" setup>
 import { defineAsyncComponent } from 'vue'
-
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/IdentityIndex.vue')
 )
