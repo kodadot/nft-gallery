@@ -70,20 +70,28 @@ defineProps<{
 
 .sold-items {
   gap: 10px;
+
   .sold-item {
     width: 78px;
     height: 78px;
-    border: 1px solid $black;
-    box-shadow: 0 0 0 1px $white;
+
+    @include ktheme() {
+      border: 1px solid theme('border-color');
+    }
   }
 }
 
 .sales-container {
-  border-top: 1px solid $k-grey;
+  @include ktheme() {
+    border-top: 1px solid theme('k-grey');
+  }
 }
 
 .popover-user-heading {
   font-size: 12px;
-  color: $k-grey;
+
+  @include ktheme() {
+    color: theme('k-grey');
+  }
 }
 </style>
