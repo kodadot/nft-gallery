@@ -36,7 +36,7 @@
         <div class="arrow arrow-left" @click="slider?.prev()"></div>
         <div class="arrow arrow-right" @click="slider?.next()"></div>
       </div>
-      <div v-if="slider && !isCollection" class="dots">
+      <div v-if="slider && !isCollection && !galleryItemCarousel" class="dots">
         <button
           v-for="(_slide, idx) in dotHelper"
           :key="idx"
