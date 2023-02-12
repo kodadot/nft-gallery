@@ -48,6 +48,7 @@ export type PredictionStatus = {
 
 export type Input = {
   prompt: string
+  negative_prompt?: string
   width: Option<string>
   height: Option<string>
   num_outputs: Option<string>
@@ -62,6 +63,7 @@ export const predict = async (
     version: VERSION,
     input: {
       prompt: object,
+      negative_prompt: 'bad eyes, ugly hands',
       width: '512',
       height: '512',
       num_outputs: OUTPUTS,
