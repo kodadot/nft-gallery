@@ -14,27 +14,23 @@
       </div>
       <div v-if="galleryItemCarousel">
         <div
+          v-if="sliderSettings.leftArrowValid"
           class="arrow arrow-left"
-          @click="
-            slider?.moveToIdx(
-              slider.track.details.abs - 3 >= 0
-                ? slider.track.details.abs - 3
-                : 0
-            )
-          "></div>
+          @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)"></div>
         <div
+          v-if="sliderSettings.rightArrowValid"
           class="arrow arrow-right"
-          @click="
-            slider?.moveToIdx(
-              slider.track.details.abs + 6 < slider.slides.length
-                ? slider.track.details.abs + 3
-                : slider.slides.length - slider.options.slides.perView
-            )
-          "></div>
+          @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)"></div>
       </div>
       <div v-else>
-        <div class="arrow arrow-left" @click="slider?.prev()"></div>
-        <div class="arrow arrow-right" @click="slider?.next()"></div>
+        <div
+          v-if="sliderSettings.leftArrowValid"
+          class="arrow arrow-left"
+          @click="slider?.prev()"></div>
+        <div
+          v-if="sliderSettings.rightArrowValid"
+          class="arrow arrow-right"
+          @click="slider?.next()"></div>
       </div>
       <div v-if="slider && !isCollection && !galleryItemCarousel" class="dots">
         <button
@@ -118,6 +114,32 @@ const totalDots = computed(() => {
 const dotHelper = computed(() =>
   slider.value && totalDots.value > 0 ? [...Array(totalDots.value).keys()] : []
 )
+
+const slideIndex = ref(3)
+
+const sliderSettings = computed(() => {
+  if (slider.value) {
+    const { track, options, slides } = slider.value
+    const abs = track.details.abs
+    const perView = options.slides.perView
+    const leftArrowValid = abs !== 0
+    const rightArrowValid = abs + perView < slides.length
+    const leftCarouselIndex = Math.max(abs - slideIndex.value, 0)
+    const rightCarouselIndex = Math.min(
+      abs + slideIndex.value,
+      slides.length - perView
+    )
+
+    return {
+      leftArrowValid,
+      rightArrowValid,
+      leftCarouselIndex,
+      rightCarouselIndex,
+    }
+  } else {
+    return {}
+  }
+})
 </script>
 
 <style lang="scss">
