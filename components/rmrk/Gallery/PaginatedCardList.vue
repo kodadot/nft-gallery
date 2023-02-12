@@ -16,6 +16,7 @@
     </Search>
     <InfiniteLoading
       v-if="startPage > 1 && !isLoading && total > 0"
+      :distance="prefetchDistance"
       direction="top"
       @infinite="reachTopHandler"></InfiniteLoading>
     <GalleryCardList
@@ -26,6 +27,7 @@
       :listed="searchQuery.listed" />
     <InfiniteLoading
       v-if="canLoadNextPage && !isLoading && total > 0"
+      :distance="prefetchDistance"
       @infinite="reachBottomHandler"></InfiniteLoading>
     <ScrollTopButton />
   </div>
