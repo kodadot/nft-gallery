@@ -111,8 +111,8 @@ const dotHelper = computed(() =>
 const sliderSettings = computed(() => {
   if (slider.value) {
     const { track, options, slides } = slider.value
-    const abs = track.details.abs
-    const perView = options.slides.perView
+    const abs = Number(track.details.abs)
+    const perView = Number(options.slides.perView)
     const leftArrowValid = abs !== 0
     const rightArrowValid = abs + perView < slides.length
     const leftCarouselIndex = Math.max(abs - props.step, 0)
