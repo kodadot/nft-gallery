@@ -8,9 +8,11 @@ import type { ApiPromise } from '@polkadot/api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
 import { unwrapOrNull } from '@/utils/api/format'
 import type { Option, u32 } from '@polkadot/types'
-
-declare type Unsubscribe = () => void
-type UnsubscribePromise = Promise<Unsubscribe>
+import {
+  Unsubscribe,
+  UnsubscribePromise,
+  subscribeBalance,
+} from '@/utils/balance'
 
 export interface IdentityMap {
   [address: string]: Registration
@@ -51,19 +53,8 @@ const defaultState: IdentityStruct = {
     tokens: emptyObject<BalanceMap>(),
   },
 }
-
 let balanceSub: Unsubscribe = () => void 0
 let tokenSub: Unsubscribe = () => void 0
-
-function subscribeBalance(
-  api: ApiPromise,
-  address: string,
-  cb: (value: string) => void
-): UnsubscribePromise {
-  return api.derive.balances.all(address, ({ availableBalance }) => {
-    cb(availableBalance.toString())
-  })
-}
 
 function free({ free }: any) {
   return free.toString()
@@ -75,8 +66,11 @@ async function subscribeTokens(
   cb: (value: BalanceMap) => void
 ): UnsubscribePromise {
   if (api.query.tokens) {
+    const version = await api.query.system
+      .lastRuntimeUpgrade()
+      .then((value) => unwrapOrNull(value)?.specVersion.toNumber())
     const kusamaTokenId = await api.query.assetRegistry
-      .assetIds('KSM')
+      .assetIds(Number(version) > 82 ? 'Kusama' : 'KSM')
       .then((value) => unwrapOrNull(value as Option<u32>))
     const realKusamaTokenId = kusamaTokenId ? '5' : '1'
     return api.query.tokens.accounts.multi(
@@ -152,6 +146,7 @@ export const actions = {
       tokenSub()
       return
     }
+
     onApiConnect(endpoint, async (api) => {
       try {
         if (balanceSub) {

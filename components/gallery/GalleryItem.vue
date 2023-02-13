@@ -12,7 +12,8 @@
           :src="nftImage"
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
-          :title="nft?.name || nft?.id" />
+          :title="nft?.name || nft?.id"
+          is-detail />
       </div>
       <div class="py-6 column">
         <div
@@ -141,7 +142,7 @@ const CollectionDetailsPopover = defineAsyncComponent(
 onMounted(() => {
   exist(route.query.message, (val) => {
     message.value = val === 'congrats' ? val : ''
-    router.replace({ query: { redesign: 'true' } })
+    router.replace({ query: {} })
   })
 })
 

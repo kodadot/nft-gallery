@@ -61,19 +61,14 @@
             :label="nameHeaderLabel">
             <nuxt-link
               v-if="groupKey === 'Holder' || groupKey === 'Flipper'"
-              :to="{
-                name: `${urlPrefix}-u-id`,
-                params: { id: props.row[groupKey] },
-                query: { tab: groupKey === 'Holder' ? 'holdings' : 'gains' },
-              }">
+              :to="`/${urlPrefix}/u/${props.row[groupKey]}?tab=${
+                groupKey === 'Holder' ? 'holdings' : 'gains'
+              }`">
               <Identity :address="props.row[groupKey]" />
             </nuxt-link>
             <nuxt-link
-              v-else-if="groupKey === 'CollectionId'"
-              :to="{
-                name: `${urlPrefix}-collection-id`,
-                params: { id: props.row.CollectionId },
-              }">
+              v-else
+              :to="`/${urlPrefix}/collection/${props.row.CollectionId}`">
               <Identity
                 :address="props.row.Item.collection.issuer"
                 :custom-name-option="props.row.Item.collection.name" />

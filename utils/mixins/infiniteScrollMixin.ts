@@ -3,6 +3,8 @@ import { Debounce } from 'vue-debounce-decorator'
 
 export const INFINITE_SCROLL_CONTAINER_ID = 'infinite-scroll-container'
 export const INFINITE_SCROLL_ITEM_CLASS_NAME = 'infinite-scroll-item'
+
+type LoadDirection = 'up' | 'down'
 @Component
 export default class InfiniteScrollMixin extends Vue {
   protected currentPage = parseInt(this.$route.query.page as string) || 1
@@ -12,8 +14,9 @@ export default class InfiniteScrollMixin extends Vue {
   protected itemsPerRow = 4
   private scrollItemSizeInit = false
   protected mobileScreenWidth = 768
-  protected first = 12
+  protected first = 20
   protected total = 0
+  protected prefetchDistance = 600
   protected isFetchingData = false
   protected scrollContainerId = INFINITE_SCROLL_CONTAINER_ID
   protected scrollItemClassName = INFINITE_SCROLL_ITEM_CLASS_NAME
@@ -38,8 +41,7 @@ export default class InfiniteScrollMixin extends Vue {
     return this.scrollItemHeight * (this.first / this.itemsPerRow)
   }
 
-  @Debounce(1000)
-  protected onScroll(): void {
+  private updateCurrentPage() {
     const currentPage =
       Math.floor(document.documentElement.scrollTop / this.pageHeight) +
       this.startPage
@@ -47,6 +49,11 @@ export default class InfiniteScrollMixin extends Vue {
       this.replaceUrlPage(String(currentPage))
       this.currentPage = currentPage
     }
+  }
+
+  @Debounce(1000)
+  protected onScroll(): void {
+    this.updateCurrentPage()
   }
 
   protected replaceUrlPage(page: string): void {
@@ -87,16 +94,29 @@ export default class InfiniteScrollMixin extends Vue {
     $state.loaded()
   }
 
+  private async fetchDataCallback(
+    page: number,
+    direction: LoadDirection,
+    successCb: () => void
+  ) {
+    return await this.fetchPageData(page, direction).then((isSuccess) => {
+      if (isSuccess) {
+        successCb()
+      }
+      return isSuccess
+    })
+  }
+
   protected async fetchPreviousPage() {
     if (this.startPage <= 1) {
       return
     }
     const nextPage = this.startPage - 1
-    const isSuccess = await this.fetchPageData(this.startPage - 1, 'up')
-    if (isSuccess) {
+    await this.fetchDataCallback(this.startPage - 1, 'up', () => {
       this.startPage = nextPage
       this.checkAfterFetchDataSuccess()
-    }
+      this.prefetchPreviousPage()
+    })
   }
 
   @Debounce(1000)
@@ -110,10 +130,31 @@ export default class InfiniteScrollMixin extends Vue {
       return
     }
     const nextPage = this.endPage + 1
-    const isSuccess = await this.fetchPageData(nextPage, 'down')
-    if (isSuccess) {
+    await this.fetchDataCallback(nextPage, 'down', () => {
       this.endPage = nextPage
       this.checkAfterFetchDataSuccess()
+      this.prefetchNextPage()
+    })
+  }
+
+  public async prefetchNextPage() {
+    this.updateCurrentPage()
+    if (this.endPage - this.currentPage <= 4 && this.canLoadNextPage) {
+      await this.fetchNextPage()
+    }
+  }
+
+  public async prefetchPreviousPage() {
+    this.updateCurrentPage()
+    if (this.currentPage - this.startPage <= 1 && this.startPage > 1) {
+      await this.fetchPreviousPage()
+    }
+  }
+
+  public async prefetchPage(prefetchCount = 3, fetchFn: () => void) {
+    if (prefetchCount > 0) {
+      await fetchFn()
+      this.prefetchPage(prefetchCount - 1, fetchFn)
     }
   }
 

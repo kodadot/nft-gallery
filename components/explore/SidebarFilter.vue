@@ -20,7 +20,9 @@
           </div>
         </template>
         <form class="p-4" @submit.prevent="setPriceRange">
-          <div class="is-flex input-container mb-4">
+          <div
+            class="is-flex input-container mb-4"
+            :class="[inputFocused ? 'input-focused' : '']">
             <b-input
               v-model="range.min"
               custom-class="input-sidebar"
@@ -28,8 +30,21 @@
               min="0"
               step="any"
               placeholder="MIN"
-              data-cy="input-min" />
-            <img src="/arrow-right.svg" />
+              data-cy="input-min"
+              @focus="toggleInputFocused"
+              @blur="toggleInputFocused" />
+            <div class="is-flex is-align-items-center">
+              <svg
+                width="28"
+                height="8"
+                viewBox="0 0 28 8"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M27.3536 4.35355C27.5488 4.15829 27.5488 3.84171 27.3536 3.64645L24.1716 0.464466C23.9763 0.269204 23.6597 0.269204 23.4645 0.464466C23.2692 0.659728 23.2692 0.976311 23.4645 1.17157L26.2929 4L23.4645 6.82843C23.2692 7.02369 23.2692 7.34027 23.4645 7.53553C23.6597 7.7308 23.9763 7.7308 24.1716 7.53553L27.3536 4.35355ZM0 4.5H27V3.5H0V4.5Z"
+                  fill="currentColor" />
+              </svg>
+            </div>
             <b-input
               v-model="range.max"
               custom-class="input-sidebar"
@@ -37,9 +52,17 @@
               step="any"
               type="number"
               placeholder="MAX"
-              data-cy="input-max" />
+              data-cy="input-max"
+              @focus="toggleInputFocused"
+              @blur="toggleInputFocused" />
           </div>
-          <NeoButton data-cy="apply" expanded @click.native="setPriceRange">
+          <NeoButton
+            data-cy="apply"
+            :disabled="!isValidFilter(range.min, range.max)"
+            no-shadow
+            variant="k-accent"
+            expanded
+            @click.native="setPriceRange">
             {{ $t('general.apply') }}
           </NeoButton>
         </form>
@@ -87,21 +110,26 @@ const router = useRouter()
 const { decimals } = useChain()
 const { accountId } = useAuth()
 const range = ref({
-  min: fromDecimals(Number(route.query?.min), decimals.value),
-  max: fromDecimals(Number(route.query?.max), decimals.value),
+  min: fromDecimals(Number(route.query?.min), decimals.value) || undefined,
+  max: fromDecimals(Number(route.query?.max), decimals.value) || undefined,
 })
+
 const open = computed(
   () => $store.getters['preferences/getSidebarfilterCollapse']
 )
+
 const emit = defineEmits(['resetPage'])
+
 const listed = computed({
   get: () => route.query?.listed?.toString() === 'true',
   set: (value) => replaceUrl({ listed: String(value) }),
 })
+
 const owned = computed({
   get: () => route.query?.owned?.toString() === 'true',
   set: (value) => replaceUrl({ owned: String(value) }),
 })
+
 const setPriceRange = () => {
   const priceMin = range.value.min
     ? String(toDecimals(range.value.min, decimals.value))
@@ -111,6 +139,7 @@ const setPriceRange = () => {
     : undefined
 
   replaceUrl({ listed: String(true), min: priceMin, max: priceMax })
+  range.value = { min: undefined, max: undefined }
 }
 
 const replaceUrl = (queryCondition: { [key: string]: any }) => {
@@ -125,6 +154,22 @@ const replaceUrl = (queryCondition: { [key: string]: any }) => {
     })
     .catch($consola.warn)
   emit('resetPage')
+}
+
+const isValidFilter = (
+  min: number | string | undefined,
+  max: number | string | undefined
+): boolean => {
+  const minValue = typeof min === 'string' ? min.trim() : min
+  const maxValue = typeof max === 'string' ? max.trim() : max
+  return ((minValue || maxValue) &&
+    (!minValue || !maxValue || Number(maxValue) > Number(minValue))) as boolean
+}
+
+const inputFocused = ref(false)
+
+const toggleInputFocused = (): void => {
+  inputFocused.value = !inputFocused.value
 }
 </script>
 
@@ -155,6 +200,11 @@ const replaceUrl = (queryCondition: { [key: string]: any }) => {
       border: none !important;
       box-shadow: none !important;
     }
+  }
+}
+.input-focused {
+  @include ktheme() {
+    box-shadow: 0 0 0 1px theme('k-blue');
   }
 }
 </style>

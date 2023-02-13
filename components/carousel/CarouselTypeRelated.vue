@@ -1,5 +1,8 @@
 <template>
-  <CarouselIndex :title="`${$t('nft.related')}`" :nfts="nfts" />
+  <CarouselIndex
+    :title="`${$t('nft.related')}`"
+    :nfts="nfts"
+    gallery-item-carousel />
 </template>
 
 <script lang="ts" setup>

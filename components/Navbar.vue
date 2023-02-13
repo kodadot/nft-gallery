@@ -149,7 +149,6 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import ColorModeButton from '~/components/common/ColorModeButton.vue'
 import MobileLanguageOption from '~/components/navbar/MobileLanguageOption.vue'
 import { createVisible } from '@/utils/config/permision.config'
-import { identityStore } from '@/utils/idbStore'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ExperimentMixin from '@/utils/mixins/experimentMixin'
 import ChainSelectDropdown from '~/components/navbar/ChainSelectDropdown.vue'
@@ -205,29 +204,8 @@ export default class NavbarMenu extends mixins(
     return ['', getKusamaAssetId(this.urlPrefix)]
   }
 
-  get inCollectionPage(): boolean {
-    return this.$route.name === 'rmrk-collection-id'
-  }
-
-  get inGalleryDetailPage(): boolean {
-    return this.$route.name === 'rmrk-gallery-id'
-  }
-
-  get inUserProfilePage(): boolean {
-    return this.$route.name === 'rmrk-u-id'
-  }
-
   get isCreateVisible(): boolean {
     return createVisible(this.urlPrefix)
-  }
-
-  get isTargetPage(): boolean {
-    // why?
-    return (
-      this.inCollectionPage ||
-      this.inGalleryDetailPage ||
-      this.inUserProfilePage
-    )
   }
 
   get currentCollection() {
@@ -257,22 +235,6 @@ export default class NavbarMenu extends mixins(
     return !this.isLandingPage || !this.showTopNavbar || this.isBurgerMenuOpened
   }
 
-  get navBarTitle(): string {
-    let title = ''
-    if (this.inCollectionPage) {
-      title = this.currentCollection.name
-    } else if (this.inGalleryDetailPage) {
-      title = this.currentGalleryItemName
-    } else if (this.inUserProfilePage) {
-      const address = this.$route.params.id
-      title = this.artistName ? this.artistName : address
-      if (!this.artistName) {
-        this.fetchArtistIdentity(address)
-      }
-    }
-    return title
-  }
-
   public openWalletConnectModal(): void {
     this.closeBurgerMenu()
 
@@ -285,13 +247,6 @@ export default class NavbarMenu extends mixins(
   @Watch('isBurgerMenuOpened')
   onBurgerMenuOpenedChanged() {
     this.setBodyScroll(!this.isBurgerMenuOpened)
-  }
-
-  async fetchArtistIdentity(address) {
-    const identity = await get(address, identityStore)
-    if (identity && identity.display) {
-      this.artistName = identity.display
-    }
   }
 
   onScroll() {
