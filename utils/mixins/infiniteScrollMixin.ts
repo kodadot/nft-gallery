@@ -20,7 +20,6 @@ export default class InfiniteScrollMixin extends Vue {
   protected isFetchingData = false
   protected scrollContainerId = INFINITE_SCROLL_CONTAINER_ID
   protected scrollItemClassName = INFINITE_SCROLL_ITEM_CLASS_NAME
-  protected prefetching = false
 
   protected mounted(): void {
     window.addEventListener('resize', this.onResize)
