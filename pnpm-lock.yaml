@@ -31,7 +31,7 @@ importers:
       '@fortawesome/free-solid-svg-icons': ^6.2.1
       '@fortawesome/vue-fontawesome': ^2.0.10
       '@google/model-viewer': ^1.12.1
-      '@kevinmarrec/nuxt-pwa': 0.16.2
+      '@kevinmarrec/nuxt-pwa': 0.15.0
       '@kodadot1/brick': workspace:*
       '@kodadot1/minimark': ^0.0.1-rc.10
       '@kodadot1/sub-api': 0.1.1-alpha.5
@@ -197,7 +197,7 @@ importers:
       '@babel/plugin-proposal-private-property-in-object': 7.20.5_@babel+core@7.20.12
       '@babel/plugin-transform-runtime': 7.19.6_@babel+core@7.20.12
       '@babel/preset-env': 7.20.2_@babel+core@7.20.12
-      '@kevinmarrec/nuxt-pwa': 0.16.2
+      '@kevinmarrec/nuxt-pwa': 0.15.0
       '@nuxt/bridge': /@nuxt/bridge-edge/3.0.0-27889410.9247608_auhom3jantioc3rb64kmu44f5a
       '@nuxt/test-utils': 0.2.2_@babel+core@7.20.12
       '@nuxt/types': 2.16.0
@@ -3396,8 +3396,8 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
 
-  /@kevinmarrec/nuxt-pwa/0.16.2:
-    resolution: {integrity: sha512-KRQtJ9hrIDogG7OrofmyOG+dM/vERF6KQGeI5IvINeZmmQxoO27IWO8D/ues10Ed/qYzjs6vj0vASsbJq0IY7A==}
+  /@kevinmarrec/nuxt-pwa/0.15.0:
+    resolution: {integrity: sha512-7aEX3k123gq15859pHLnZZgSGSsTnH1BduK4sICktnkOJK6u62Uo0TT85ma9m5OOC27RJuCo/G8nBWEa39dD+g==}
     dependencies:
       hasha: 5.2.2
       sharp: 0.31.3
@@ -13798,7 +13798,7 @@ packages:
     dev: false
 
   /github-from-package/0.0.0:
-    resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
+    resolution: {integrity: sha1-l/tdlr/eiXMxPyDoKI75oWf6ZM4=}
     dev: true
 
   /glob-parent/3.1.0:

@@ -48,4 +48,13 @@ it('should render correct twitter opengraph on item page', () => {
     'content',
     'https://og-image-green-seven.vercel.app/Luna%20Witches%20%231.jpeg?price=0.7500KSM&image=https://image-beta.w.kodadot.xyz/ipfs/bafybeicybs6ew352zb7ze5tsvc72zh4bp57k3dgikzhxfhpcfd5ebt3wc4&mime=image/jpeg'
   )
+
+  // make sure no duplicate tag
+  cy.get('meta[property="og:site_name"]').should('have.length', 1)
+  cy.get('meta[name="twitter:card"]').should('not.exist')
+  cy.get('meta[name="twitter:site"]').should('not.exist')
+  cy.get('meta[name="twitter:url"]').should('not.exist')
+  cy.get('meta[name="twitter:title"]').should('not.exist')
+  cy.get('meta[name="twitter:description"]').should('not.exist')
+  cy.get('meta[name="twitter:image"]').should('not.exist')
 })
