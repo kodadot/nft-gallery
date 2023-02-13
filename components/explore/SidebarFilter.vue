@@ -20,15 +20,19 @@
           </div>
         </template>
         <form class="p-4" @submit.prevent="setPriceRange">
-          <div class="is-flex input-container mb-4">
+          <div
+            class="is-flex input-container mb-4"
+            :class="[inputFocused ? 'input-focused' : '']">
             <b-input
               v-model="range.min"
               custom-class="input-sidebar"
               type="number"
               min="0"
               step="any"
-              :placeholder="$t('query.priceRange.minPrice')"
-              data-cy="input-min" />
+              placeholder="MIN"
+              data-cy="input-min"
+              @focus="toggleInputFocused"
+              @blur="toggleInputFocused" />
             <div class="is-flex is-align-items-center">
               <svg
                 width="28"
@@ -47,10 +51,18 @@
               min="0"
               step="any"
               type="number"
-              :placeholder="$t('query.priceRange.maxPrice')"
-              data-cy="input-max" />
+              placeholder="MAX"
+              data-cy="input-max"
+              @focus="toggleInputFocused"
+              @blur="toggleInputFocused" />
           </div>
-          <NeoButton data-cy="apply" expanded @click.native="setPriceRange">
+          <NeoButton
+            data-cy="apply"
+            :disabled="!isValidFilter(range.min, range.max)"
+            no-shadow
+            variant="k-accent"
+            expanded
+            @click.native="setPriceRange">
             {{ $t('general.apply') }}
           </NeoButton>
         </form>
@@ -98,21 +110,26 @@ const router = useRouter()
 const { decimals } = useChain()
 const { accountId } = useAuth()
 const range = ref({
-  min: fromDecimals(Number(route.query?.min), decimals.value),
-  max: fromDecimals(Number(route.query?.max), decimals.value),
+  min: fromDecimals(Number(route.query?.min), decimals.value) || undefined,
+  max: fromDecimals(Number(route.query?.max), decimals.value) || undefined,
 })
+
 const open = computed(
   () => $store.getters['preferences/getSidebarfilterCollapse']
 )
+
 const emit = defineEmits(['resetPage'])
+
 const listed = computed({
   get: () => route.query?.listed?.toString() === 'true',
   set: (value) => replaceUrl({ listed: String(value) }),
 })
+
 const owned = computed({
   get: () => route.query?.owned?.toString() === 'true',
   set: (value) => replaceUrl({ owned: String(value) }),
 })
+
 const setPriceRange = () => {
   const priceMin = range.value.min
     ? String(toDecimals(range.value.min, decimals.value))
@@ -122,6 +139,7 @@ const setPriceRange = () => {
     : undefined
 
   replaceUrl({ listed: String(true), min: priceMin, max: priceMax })
+  range.value = { min: undefined, max: undefined }
 }
 
 const replaceUrl = (queryCondition: { [key: string]: any }) => {
@@ -136,6 +154,22 @@ const replaceUrl = (queryCondition: { [key: string]: any }) => {
     })
     .catch($consola.warn)
   emit('resetPage')
+}
+
+const isValidFilter = (
+  min: number | string | undefined,
+  max: number | string | undefined
+): boolean => {
+  const minValue = typeof min === 'string' ? min.trim() : min
+  const maxValue = typeof max === 'string' ? max.trim() : max
+  return ((minValue || maxValue) &&
+    (!minValue || !maxValue || Number(maxValue) > Number(minValue))) as boolean
+}
+
+const inputFocused = ref(false)
+
+const toggleInputFocused = (): void => {
+  inputFocused.value = !inputFocused.value
 }
 </script>
 
@@ -166,6 +200,11 @@ const replaceUrl = (queryCondition: { [key: string]: any }) => {
       border: none !important;
       box-shadow: none !important;
     }
+  }
+}
+.input-focused {
+  @include ktheme() {
+    box-shadow: 0 0 0 1px theme('k-blue');
   }
 }
 </style>
