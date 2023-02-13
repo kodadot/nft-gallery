@@ -1,4 +1,4 @@
-it('should render correct twitter opengraph', () => {
+it('should render correct twitter opengraph on collection page', () => {
   cy.visit('/bsx/collection/2551182625')
 
   cy.get('meta[property="og:site_name"]').should(
@@ -36,4 +36,13 @@ it('should render correct twitter opengraph', () => {
     'content',
     'https://og-image-green-seven.vercel.app/Luna%20Witches.jpeg?price=Items:11&image=https://image-beta.w.kodadot.xyz/ipfs/bafybeibblf24qqngkfos4j3xpb33kffgqyeucdrcn4z2sn7o5mikwx7itu&mime='
   )
+
+  // make sure no duplicate tag
+  cy.get('meta[property="og:site_name"]').should('have.length', 1)
+  cy.get('meta[name="twitter:card"]').should('not.exist')
+  cy.get('meta[name="twitter:site"]').should('not.exist')
+  cy.get('meta[name="twitter:url"]').should('not.exist')
+  cy.get('meta[name="twitter:title"]').should('not.exist')
+  cy.get('meta[name="twitter:description"]').should('not.exist')
+  cy.get('meta[name="twitter:image"]').should('not.exist')
 })
