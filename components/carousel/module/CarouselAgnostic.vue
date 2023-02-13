@@ -13,24 +13,32 @@
         </div>
       </div>
       <div v-if="galleryItemCarousel">
-        <div
-          v-if="sliderSettings.leftArrowValid"
-          class="arrow arrow-left"
-          @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)"></div>
-        <div
-          v-if="sliderSettings.rightArrowValid"
-          class="arrow arrow-right"
-          @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)"></div>
+        <Transition name="fade">
+          <div
+            v-if="sliderSettings.leftArrowValid"
+            class="arrow arrow-left"
+            @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)"></div>
+        </Transition>
+        <Transition name="fade">
+          <div
+            v-if="sliderSettings.rightArrowValid"
+            class="arrow arrow-right"
+            @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)"></div>
+        </Transition>
       </div>
       <div v-else>
-        <div
-          v-if="sliderSettings.leftArrowValid"
-          class="arrow arrow-left"
-          @click="slider?.prev()"></div>
-        <div
-          v-if="sliderSettings.rightArrowValid"
-          class="arrow arrow-right"
-          @click="slider?.next()"></div>
+        <Transition name="fade">
+          <div
+            v-if="sliderSettings.leftArrowValid"
+            class="arrow arrow-left"
+            @click="slider?.prev()"></div>
+        </Transition>
+        <Transition name="fade">
+          <div
+            v-if="sliderSettings.rightArrowValid"
+            class="arrow arrow-right"
+            @click="slider?.next()"></div>
+        </Transition>
       </div>
       <div v-if="slider && !isCollection && !galleryItemCarousel" class="dots">
         <button
@@ -152,5 +160,9 @@ const sliderSettings = computed(() => {
       transform: translate3d(#{$i * 32px}, 0px, 0px);
     }
   }
+}
+.fade-leave-active,
+.fade-enter-active {
+  transition: all 1s ease;
 }
 </style>
