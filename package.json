@@ -127,7 +127,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.20.5",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@babel/preset-env": "^7.20.2",
-    "@kevinmarrec/nuxt-pwa": "0.15.0",
+    "@kevinmarrec/nuxt-pwa": "0.16.2",
     "@nuxt/bridge": "npm:@nuxt/bridge-edge@3.0.0-27889410.9247608",
     "@nuxt/test-utils": "^0.2.2",
     "@nuxt/types": "^2.16.0",
