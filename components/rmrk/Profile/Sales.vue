@@ -23,10 +23,7 @@
             label="Collection"
             cell-class="type-table">
             <nuxt-link
-              :to="{
-                name: `${urlPrefix}-collection-id`,
-                params: { id: props.row.Collection.id },
-              }">
+              :to="`/${urlPrefix}/collection/${props.row.Collection.id}`">
               {{ props.row.Collection.name }}
             </nuxt-link>
           </b-table-column>
@@ -35,11 +32,7 @@
             field="Nft"
             label="Nft"
             cell-class="type-table">
-            <nuxt-link
-              :to="{
-                name: `${urlPrefix}-gallery-id`,
-                params: { id: props.row.Nft.id },
-              }">
+            <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.Nft.id}`">
               {{ props.row.Nft.name }}
             </nuxt-link>
           </b-table-column>
@@ -48,11 +41,7 @@
             cell-class="short-identity__table"
             field="Buyer"
             label="Buyer">
-            <nuxt-link
-              :to="{
-                name: `${urlPrefix}-u-id`,
-                params: { id: props.row.Buyer },
-              }">
+            <nuxt-link :to="`/${urlPrefix}/u/${props.row.Buyer}`">
               <Identity :address="props.row.Buyer" />
             </nuxt-link>
           </b-table-column>
@@ -148,7 +137,6 @@ export default class Sales extends mixins(
   protected first = 20
   private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: string = this.$tc('nft.event.BUY')
-  private isCollectionPage = !!(this.$route?.name === 'rmrk-collection-id')
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []

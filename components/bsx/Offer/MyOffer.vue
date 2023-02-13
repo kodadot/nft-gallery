@@ -42,8 +42,7 @@
         field="caller"
         :label="$t('myOffer.caller')"
         sortable>
-        <nuxt-link
-          :to="{ name: `${urlPrefix}-u-id`, params: { id: props.row.caller } }">
+        <nuxt-link :to="`/${urlPrefix}/u/${props.row.caller}`">
           <Identity :address="props.row.caller" />
         </nuxt-link>
       </b-table-column>
