@@ -74,6 +74,7 @@
           target="_blank"
           rel="noopener noreferrer"
           class="has-text-link"
+          data-cy="media-link"
           >{{ nftMimeType }}</a
         >
       </div>
@@ -84,6 +85,7 @@
           :href="metadataURL"
           target="_blank"
           rel="noopener noreferrer"
+          data-cy="metadata-link"
           >{{ metadataMimeType }}</a
         >
       </div>

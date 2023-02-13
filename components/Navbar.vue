@@ -204,29 +204,8 @@ export default class NavbarMenu extends mixins(
     return ['', getKusamaAssetId(this.urlPrefix)]
   }
 
-  get inCollectionPage(): boolean {
-    return this.$route.name === 'rmrk-collection-id'
-  }
-
-  get inGalleryDetailPage(): boolean {
-    return this.$route.name === 'rmrk-gallery-id'
-  }
-
-  get inUserProfilePage(): boolean {
-    return this.$route.name === 'rmrk-u-id'
-  }
-
   get isCreateVisible(): boolean {
     return createVisible(this.urlPrefix)
-  }
-
-  get isTargetPage(): boolean {
-    // why?
-    return (
-      this.inCollectionPage ||
-      this.inGalleryDetailPage ||
-      this.inUserProfilePage
-    )
   }
 
   get currentCollection() {

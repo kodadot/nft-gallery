@@ -13,14 +13,11 @@ import { correctPrefix } from '@/utils/uniquery'
 export const useCarouselUrl = () => {
   const { urlPrefix } = usePrefix()
 
-  const profileUrl = computed(() => `${urlPrefix.value}-u-id`)
-
   const urlOf = ({ id = '', url = '', chain = '' }): string => {
     return `/${chain || urlPrefix.value}/${url}/${id}`
   }
 
   return {
-    profileUrl,
     urlOf,
   }
 }

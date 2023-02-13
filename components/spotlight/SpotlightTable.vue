@@ -44,9 +44,7 @@
         field="id"
         :label="$t('spotlight.id')">
         <template v-if="!isLoading">
-          <nuxt-link
-            v-if="!isLoading"
-            :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }">
+          <nuxt-link v-if="!isLoading" :to="`/${urlPrefix}/u/${props.row.id}`">
             <Identity :address="props.row.id" />
           </nuxt-link>
         </template>

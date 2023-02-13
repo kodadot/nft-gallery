@@ -1,6 +1,6 @@
 <template>
-  <div v-if="showMessageBox">
-    <b-message class="message-box" duration="10000" auto-close>
+  <div>
+    <b-message class="message-box" :duration="10000" auto-close>
       <img src="/congrats-message-header.svg" class="congrats-message" />
       <div class="is-flex is-flex-direction-column">
         <div class="title is-3 mb-4">
@@ -20,16 +20,10 @@
 </template>
 
 <script lang="ts" setup>
-const Sharing = defineAsyncComponent(
-  () => import('@/components/shared/Sharing.vue')
-)
-
-const showMessageBox = ref(true)
-
 defineProps<{
   title?: string
   subtitle?: string
-  enableDownload: false
+  enableDownload?: false
 }>()
 </script>
 

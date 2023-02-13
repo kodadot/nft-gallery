@@ -68,11 +68,7 @@
             cell-class="short-identity__table"
             field="From"
             label="From">
-            <nuxt-link
-              :to="{
-                name: `${urlPrefix}-u-id`,
-                params: { id: props.row.From },
-              }">
+            <nuxt-link :to="`/${urlPrefix}/u/${props.row.From}`">
               <Identity :address="props.row.From" />
             </nuxt-link>
           </b-table-column>
@@ -82,8 +78,7 @@
             cell-class="short-identity__table"
             field="To"
             label="To">
-            <nuxt-link
-              :to="{ name: `${urlPrefix}-u-id`, params: { id: props.row.To } }">
+            <nuxt-link :to="`/${urlPrefix}/u/${props.row.toString}`">
               <Identity :address="props.row.To" />
             </nuxt-link>
           </b-table-column>
