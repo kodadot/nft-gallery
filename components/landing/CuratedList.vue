@@ -18,20 +18,12 @@
         <BasicImage :src="collection.image" :alt="collection.name" />
         <div class="box">
           <div class="content has-text-left">
-            <nuxt-link
-              :to="{
-                name: `${urlPrefix}-collection-id`,
-                params: { id: collection.id },
-              }">
+            <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
               <h2 class="title is-5" data-cy="curated-name">
                 {{ collection.name }}
               </h2>
             </nuxt-link>
-            <nuxt-link
-              :to="{
-                name: `${urlPrefix}-u-id`,
-                params: { id: collection.issuer },
-              }">
+            <nuxt-link :to="`/${urlPrefix}/u/${collection.issuer}`">
               <div class="is-size-7 icon-text">
                 <b-icon icon="palette" />
                 <Identity

@@ -4,7 +4,8 @@
     :subtitle="`${$t('general.popularCollectionsDesc')}`"
     :nfts="nfts"
     action-type="pagination"
-    item-url="collection" />
+    item-url="collection"
+    :gallery-item-carousel="false" />
 </template>
 
 <script lang="ts" setup>
