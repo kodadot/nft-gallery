@@ -12,34 +12,18 @@
           </div>
         </div>
       </div>
-      <div v-if="galleryItemCarousel">
-        <Transition name="fade">
-          <div
-            v-if="sliderSettings.leftArrowValid"
-            class="arrow arrow-left"
-            @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)"></div>
-        </Transition>
-        <Transition name="fade">
-          <div
-            v-if="sliderSettings.rightArrowValid"
-            class="arrow arrow-right"
-            @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)"></div>
-        </Transition>
-      </div>
-      <div v-else>
-        <Transition name="fade">
-          <div
-            v-if="sliderSettings.leftArrowValid"
-            class="arrow arrow-left"
-            @click="slider?.prev()"></div>
-        </Transition>
-        <Transition name="fade">
-          <div
-            v-if="sliderSettings.rightArrowValid"
-            class="arrow arrow-right"
-            @click="slider?.next()"></div>
-        </Transition>
-      </div>
+      <Transition name="fade">
+        <div
+          v-if="sliderSettings.leftArrowValid"
+          class="arrow arrow-left"
+          @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)"></div>
+      </Transition>
+      <Transition name="fade">
+        <div
+          v-if="sliderSettings.rightArrowValid"
+          class="arrow arrow-right"
+          @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)"></div>
+      </Transition>
       <div v-if="slider && !isCollection && !galleryItemCarousel" class="dots">
         <button
           v-for="(_slide, idx) in dotHelper"
@@ -64,6 +48,7 @@ import { wheelControls } from '../utils/useCarousel'
 const props = defineProps<{
   nfts: CarouselNFT[]
   galleryItemCarousel?: boolean
+  step: number
 }>()
 
 const url = inject('itemUrl', 'gallery') as string
@@ -123,8 +108,6 @@ const dotHelper = computed(() =>
   slider.value && totalDots.value > 0 ? [...Array(totalDots.value).keys()] : []
 )
 
-const slideIndex = ref(3)
-
 const sliderSettings = computed(() => {
   if (slider.value) {
     const { track, options, slides } = slider.value
@@ -132,9 +115,9 @@ const sliderSettings = computed(() => {
     const perView = options.slides.perView
     const leftArrowValid = abs !== 0
     const rightArrowValid = abs + perView < slides.length
-    const leftCarouselIndex = Math.max(abs - slideIndex.value, 0)
+    const leftCarouselIndex = Math.max(abs - props.step, 0)
     const rightCarouselIndex = Math.min(
-      abs + slideIndex.value,
+      abs + props.step,
       slides.length - perView
     )
 
@@ -150,7 +133,7 @@ const sliderSettings = computed(() => {
 })
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 // avoid fouc on navigating
 @media screen and (min-width: 768px) {
   @for $i from 0 through 3 {
