@@ -20,10 +20,10 @@ import ExploreGrid from './ExploreGrid.vue'
 @import '@/styles/abstracts/variables';
 
 .explore {
-  gap: 2rem;
+  gap: 1.5rem;
 
   &-menu {
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   @include mobile {
