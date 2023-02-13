@@ -2,7 +2,8 @@
   <CarouselIndex
     v-if="showCarousel"
     :title="`${$t('nft.visited')}`"
-    :nfts="nfts" />
+    :nfts="nfts"
+    gallery-item-carousel />
 </template>
 
 <script lang="ts" setup>

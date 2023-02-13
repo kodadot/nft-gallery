@@ -15,4 +15,7 @@ Your report should include the following:
 - reproduction
 - other details
 
+
 Try to include as much information in your report as you can, including a description of the vulnerability, its potential impact, and steps for reproducing it. Be sure to use a descriptive subject line.
+
+We are awarding critical vulnerabilities well in $KSM.

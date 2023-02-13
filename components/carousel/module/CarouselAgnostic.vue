@@ -12,15 +12,25 @@
           </div>
         </div>
       </div>
-      <div class="arrow arrow-left" @click="slider?.prev()"></div>
-      <div class="arrow arrow-right" @click="slider?.next()"></div>
-    </div>
-    <div v-if="slider && !isCollection" class="dots">
-      <button
-        v-for="(_slide, idx) in dotHelper"
-        :key="idx"
-        :class="{ dot: true, active: current === idx }"
-        @click="slider?.moveToIdx(idx)"></button>
+      <Transition name="fade">
+        <div
+          v-if="sliderSettings.leftArrowValid"
+          class="arrow arrow-left"
+          @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)"></div>
+      </Transition>
+      <Transition name="fade">
+        <div
+          v-if="sliderSettings.rightArrowValid"
+          class="arrow arrow-right"
+          @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)"></div>
+      </Transition>
+      <div v-if="slider && !isCollection && !galleryItemCarousel" class="dots">
+        <button
+          v-for="(_slide, idx) in dotHelper"
+          :key="idx"
+          :class="{ dot: true, active: current === idx }"
+          @click="slider?.moveToIdx(idx)"></button>
+      </div>
     </div>
   </div>
 </template>
@@ -37,6 +47,8 @@ import { wheelControls } from '../utils/useCarousel'
 
 const props = defineProps<{
   nfts: CarouselNFT[]
+  galleryItemCarousel?: boolean
+  step: number
 }>()
 
 const url = inject('itemUrl', 'gallery') as string
@@ -95,9 +107,33 @@ const totalDots = computed(() => {
 const dotHelper = computed(() =>
   slider.value && totalDots.value > 0 ? [...Array(totalDots.value).keys()] : []
 )
+
+const sliderSettings = computed(() => {
+  if (slider.value) {
+    const { track, options, slides } = slider.value
+    const abs = Number(track.details.abs)
+    const perView = Number(options.slides.perView)
+    const leftArrowValid = abs !== 0
+    const rightArrowValid = abs + perView < slides.length
+    const leftCarouselIndex = Math.max(abs - props.step, 0)
+    const rightCarouselIndex = Math.min(
+      abs + props.step,
+      slides.length - perView
+    )
+
+    return {
+      leftArrowValid,
+      rightArrowValid,
+      leftCarouselIndex,
+      rightCarouselIndex,
+    }
+  } else {
+    return {}
+  }
+})
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 // avoid fouc on navigating
 @media screen and (min-width: 768px) {
   @for $i from 0 through 3 {
@@ -107,5 +143,9 @@ const dotHelper = computed(() =>
       transform: translate3d(#{$i * 32px}, 0px, 0px);
     }
   }
+}
+.fade-leave-active,
+.fade-enter-active {
+  transition: all 1s ease;
 }
 </style>

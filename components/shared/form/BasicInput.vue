@@ -1,6 +1,7 @@
 <template>
   <b-field :label="$i18n.t(label)">
     <b-input
+      ref="input"
       v-model="vValue"
       :placeholder="placeholder"
       :expanded="expanded"
@@ -19,6 +20,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { BInput } from 'buefy/dist/components/input'
+
 const vValue = ref('')
 const { $i18n } = useNuxtApp()
 
@@ -39,10 +42,19 @@ withDefaults(
     message: '',
     required: false,
     disabled: false,
+    maxlength: undefined,
   }
 )
 
 const hasFocus = ref(false)
+
+const input = ref<BInput>(null)
+
+function checkValidity() {
+  return input.value?.checkHtml5Validity()
+}
+
+defineExpose({ checkValidity })
 </script>
 
 <style scoped>

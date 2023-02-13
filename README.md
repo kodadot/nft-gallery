@@ -3,6 +3,8 @@
 ![](https://github.com/kodadot/kodadot-presskit/blob/main/v3/KODA_v3.png?raw=true)
 
 # Contributing
+[![Lint, Build & Test workflow](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml) [![cypress](https://github.com/kodadot/nft-gallery/actions/workflows/e2e.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/e2e.yml) [![Reviewdog](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml)
+
 ![image](https://user-images.githubusercontent.com/5887929/217076362-464e1293-8a2d-43ee-829f-fba17408e4c3.png)
 
 #### Is this your first time contributing? Set up your local environment [here](FIRST_TIME.md)
@@ -39,3 +41,4 @@ You'll find our goals for KodaDot upcoming future!
 # Stay Tuned for Updates!
 - Follow us on [Twitter](https://twitter.com/KodaDot), [Instagram](https://instagram.com/kodadot.xyz), [Youtube](https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA), [SubStack](https://kodadot.substack.com/) and [Medium](https://medium.com/kodadot)
 - Join our [Discord](https://discord.gg/u6ymnbz4PR)
+- Love our merchandise designs and haven't been on our physical events? You can now order it to [your home at our K-shop](https://shop.kodadot.xyz) and support us!
