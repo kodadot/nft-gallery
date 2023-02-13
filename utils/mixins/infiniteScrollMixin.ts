@@ -14,7 +14,7 @@ export default class InfiniteScrollMixin extends Vue {
   protected itemsPerRow = 4
   private scrollItemSizeInit = false
   protected mobileScreenWidth = 768
-  protected first = 12
+  protected first = 20
   protected total = 0
   protected prefetchDistance = 600
   protected isFetchingData = false
