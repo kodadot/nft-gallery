@@ -19,15 +19,4 @@ withDefaults(
     readonly: false,
   }
 )
-  label: string
-  value: string
-  expanded: boolean
-  readonly: boolean
-}>(),
-  {
-    label: '',
-    value: '',
-    expanded: false,
-    readonly: false,
-  }
 </script>

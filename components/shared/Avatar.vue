@@ -1,5 +1,5 @@
 <template>
-  <Identicon :size="size" :theme="'polkadot'" :value="value" class="avatar" />
+  <Identicon :size="size" theme="polkadot" :value="value" class="avatar" />
 </template>
 
 <script lang="ts" setup>
@@ -15,11 +15,4 @@ withDefaults(
     size: 64,
   }
 )
-  value: string
-  size: number
-}>(),
-  {
-    value: '',
-    size: 64,
-  }
 </script>
