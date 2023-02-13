@@ -1,4 +1,4 @@
-it('should render correct twitter opengraph', () => {
+it('should render correct twitter opengraph on collection page', () => {
   cy.visit('/bsx/collection/2551182625')
 
   cy.get('meta[property="og:site_name"]').should(

@@ -1,5 +1,17 @@
-it('should render correct twitter opengraph', () => {
+it('should render correct twitter opengraph on item page', () => {
   cy.visit('/bsx/gallery/2551182625-1')
+  cy.contains('.o-tabs__nav-item-text', 'Details').click()
+
+  cy.getCy('media-link').should(
+    'have.attr',
+    'href',
+    'https://image-beta.w.kodadot.xyz/ipfs/bafybeicybs6ew352zb7ze5tsvc72zh4bp57k3dgikzhxfhpcfd5ebt3wc4'
+  )
+  cy.getCy('metadata-link').should(
+    'have.attr',
+    'href',
+    'https://image-beta.w.kodadot.xyz/ipfs/bafkreih2u3pxsdtqid7owzwn6wpyfwfpgi6jg65onz4tae7snybamyds54'
+  )
 
   cy.get('meta[property="og:site_name"]').should(
     'have.attr',
