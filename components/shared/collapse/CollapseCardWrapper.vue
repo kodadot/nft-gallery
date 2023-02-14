@@ -14,8 +14,7 @@
             {{ $t(label) }}
           </p>
           <a class="card-header-icon">
-            <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
-            </b-icon>
+            <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
           </a>
         </div>
       </template>
@@ -28,12 +27,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
-
-@Component
-export default class CollapseCardWrapper extends Vue {
-  @Prop({ type: String, default: 'label' }) label!: string
-  protected isOpen = false
-}
+<script lang="ts" setup>
+withDefaults(
+  defineProps<{
+    label: string
+  }>(),
+  {
+    label: 'label',
+  }
+)
+const isOpen = ref(false)
 </script>

@@ -10,39 +10,32 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import Twitter from '@/assets/qrCode/twitter.png'
 import Instagram from '@/assets/qrCode/instagram.png'
 import Discord from '@/assets/qrCode/discord.png'
 import Github from '@/assets/qrCode/github.png'
 
-@Component({
-  name: 'QRCode',
-})
-export default class QRCode extends Vue {
-  // QR code made from https://www.qrcode-monkey.com/
-  private qrCodeList = [
-    {
-      title: 'Discord',
-      img: Discord,
-      link: 'https://discord.gg/u6ymnbz4PR',
-    },
-    {
-      title: 'Twitter',
-      img: Twitter,
-      link: 'https://twitter.com/KodaDot',
-    },
-    {
-      title: 'Github',
-      img: Github,
-      link: 'https://github.com/kodadot/nft-gallery',
-    },
-    {
-      title: 'Instagram',
-      img: Instagram,
-      link: 'https://instagram.com/kodadot.xyz',
-    },
-  ]
-}
+const qrCodeList = [
+  {
+    title: 'Discord',
+    img: Discord,
+    link: 'https://discord.gg/u6ymnbz4PR',
+  },
+  {
+    title: 'Twitter',
+    img: Twitter,
+    link: 'https://twitter.com/KodaDot',
+  },
+  {
+    title: 'Github',
+    img: Github,
+    link: 'https://github.com/kodadot/nft-gallery',
+  },
+  {
+    title: 'Instagram',
+    img: Instagram,
+    link: 'https://instagram.com/kodadot.xyz',
+  },
+]
 </script>

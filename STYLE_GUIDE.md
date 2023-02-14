@@ -40,7 +40,6 @@ Since we want to upgrade to Nuxt 3 in the near future, we should pre-emptively w
 
 ```vue
 <script lang="ts" setup>
-import { computed, reactive, ref, onMounted, watch } from 'vue'
 import type { CarouselNFT } from '@/components/base/types'
 
 // declaring props
