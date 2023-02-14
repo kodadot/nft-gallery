@@ -6,8 +6,6 @@ import Vue from 'vue'
 import { formatAddress } from '@/utils/account'
 import type { ApiPromise } from '@polkadot/api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
-import { unwrapOrNull } from '@/utils/api/format'
-import type { Option, u32 } from '@polkadot/types'
 import {
   Unsubscribe,
   UnsubscribePromise,
