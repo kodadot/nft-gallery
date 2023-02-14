@@ -10,6 +10,7 @@ main {
   z-index: 100;
   @include ktheme() {
     background: theme('background-color');
+    background-color: unset;
   }
 }
 
@@ -196,7 +197,7 @@ body {
 
 .instance {
   &:last-child {
-    border-bottom: none;
+    border-bottom: none !important;
   }
   @include ktheme() {
     border-bottom: 1px solid theme('border-color');
