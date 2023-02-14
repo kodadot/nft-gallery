@@ -6,9 +6,18 @@
   height: 35px;
   z-index: 998;
   border-radius: 0;
-  border: 1px solid $black !important;
-  box-shadow: 4px 4px 0px $black;
-  &:hover {
-    background: $k-accentlight !important;
+
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+    border: 1px solid theme('border-color');
+    color: theme('text-color');
+    background: theme('background-color');
+    &:hover {
+      background: theme('k-accentHover');
+      .icon {
+        color: theme('black')!important;
+      }
+    }
+    
   }
 }

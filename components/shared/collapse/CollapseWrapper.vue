@@ -18,22 +18,21 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
-
-@Component
-export default class CollapseWrapper extends Vue {
-  @Prop({ type: String, default: 'Show' }) visible!: string
-  @Prop({ type: String, default: 'Hide' }) hidden!: string
-  @Prop({ type: Boolean, default: false })
-  @Prop(Boolean)
-  bottom!: boolean
-  @Prop({ type: Boolean, default: false }) isSelectable!: boolean
-
-  protected isOpen = false
-
-  get position(): string {
-    return this.bottom ? 'is-bottom' : 'is-top'
+<script lang="ts" setup>
+const cprops = withDefaults(
+  defineProps<{
+    visible: string
+    hidden: string
+    bottom: boolean
+    isSelectable: boolean
+  }>(),
+  {
+    visible: 'Show',
+    hidden: 'Hide',
+    bottom: false,
+    isSelectable: false,
   }
-}
+)
+const isOpen = ref(false)
+const position = computed(() => (cprops.bottom ? 'is-bottom' : 'is-top'))
 </script>

@@ -234,10 +234,13 @@ onClickOutside(actionRef, () => {
       cursor: pointer;
       display: block;
       line-height: 1;
-      border-left: 1px solid $k-grey;
       text-align: center;
       margin-left: 0.5rem;
       padding-left: 0.5rem;
+
+      @include ktheme() {
+        border-left: 1px solid theme('k-grey');
+      }
     }
 
     & > *:first-child label {

@@ -6,17 +6,17 @@
   </b-button>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-@Component({})
-export default class DonationButton extends Vue {
-  @Prop() public address!: string
+<script lang="ts" setup>
+const props = defineProps<{
+  address: string
+}>()
 
-  public goToTransfer() {
-    this.$router.push({
-      name: 'transfer',
-      query: { target: this.address, usdamount: '10', donation: 'true' },
-    })
-  }
+const { $router } = useNuxtApp()
+
+function goToTransfer() {
+  $router.push({
+    name: 'transfer',
+    query: { target: props.address, usdamount: '10', donation: 'true' },
+  })
 }
 </script>

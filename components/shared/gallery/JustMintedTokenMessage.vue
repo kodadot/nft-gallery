@@ -8,17 +8,14 @@
         </p>
       </div>
       <div class="column">
-        <Sharing onlyCopyLink />
+        <Sharing only-copy-link />
       </div>
     </div>
   </b-message>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-
-@Component({})
-export default class JustMintedTokenMessage extends Vue {
-  @Prop(String) public name!: string
-}
+<script lang="ts" setup>
+defineProps<{
+  name: string
+}>()
 </script>

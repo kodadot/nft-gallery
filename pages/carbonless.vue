@@ -149,24 +149,3 @@
     </p>
   </section>
 </template>
-
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-
-@Component<Carbonless>({
-  head() {
-    const title = 'KodaDot cares about environmental impact'
-    const metaData = {
-      title,
-      type: 'article',
-      url: `${this.$config.public.baseUrl}/carbonless`,
-      image: `${this.$config.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
-  },
-})
-export default class Carbonless extends Vue {}
-</script>

@@ -1,75 +1,65 @@
 @import '../../scss/variable.scss';
 
 .neo-tooltip {
-    width: 100%;
-    $tooltip-distance: calc(20px  + 100%);
-    @media screen and (max-width: 768px) {
-        $tooltip-distance: calc(16px  + 100%);
-      }
-      .o-tip__trigger > * {
-        height: 100%;
-        font-size: inherit;
-        font-family: inherit;
-      }
-
-
-    .o-tip__content {
-        font-size: max(min(2vw, 1rem), 0.45rem);
-        box-shadow: none;
-        border: 1px solid;
-        background: white;
-        color: black;
-        border-color: black;
-        border-radius: 0;
-        padding: 4px 8px;
-        font-family: 'Work Sans';
-
-        .o-tip__arrow {
-            color: black;
-        }
-        &--top {
-            bottom: $tooltip-distance;
-        }
-        &--bottom {
-            top: $tooltip-distance;
-        }
-        &--left {
-            right: $tooltip-distance;
-        }
-        &--right {
-            left: $tooltip-distance;
-        }
-    }
-    .o-tip__trigger {
-        &:after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            bottom: -10px;
-            left: -10px;
-            right: -10px;
-        }
-    }
-}
-
-.dark-mode {
-
-    .neo-tooltip {
-        .o-tip__content {
-            background: $k-dark;
-            color: white;
-            border-color: white;
-            .o-tip__arrow {
-                color: white;
-            }
-        }
-    }
-}
-
-.wrapper{
+  width: 100%;
+  $tooltip-distance: calc(20px + 100%);
+  @media screen and (max-width: 768px) {
+    $tooltip-distance: calc(16px + 100%);
+  }
+  .o-tip__trigger > * {
     height: 100%;
-    > * {
+    font-size: inherit;
+    font-family: inherit;
+  }
+
+  .o-tip__content {
+    font-size: max(min(2vw, 1rem), 0.45rem);
+    box-shadow: none;
+    border: 1px solid;
+    border-radius: 0;
+    padding: 4px 8px;
+    font-family: 'Work Sans';
+
+    @include ktheme() {
+      color: theme('text-color');
+      border-color: theme('text-color');
+      background: theme('background-color');
+
+      .o-tip__arrow {
+        color: theme('text-color');
+      }
+    }
+
+    &--top {
+      bottom: $tooltip-distance;
+    }
+    &--bottom {
+      top: $tooltip-distance;
+    }
+    &--left {
+      right: $tooltip-distance;
+    }
+    &--right {
+      left: $tooltip-distance;
+    }
+  }
+  .o-tip__trigger {
+    &:after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      bottom: -10px;
+      left: -10px;
+      right: -10px;
+    }
+  }
+}
+
+.wrapper {
+  height: 100%;
+  > * {
     font-size: inherit !important;
     font-family: inherit !important;
     height: inherit !important;
-}}
+  }
+}

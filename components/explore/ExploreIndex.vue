@@ -1,5 +1,5 @@
 <template>
-  <div class="explore is-flex">
+  <div class="explore is-flex is-flex-wrap-wrap">
     <ExploreTabItem />
     <div class="explore-menu is-flex">
       <ExploreSort />

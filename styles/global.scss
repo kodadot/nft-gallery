@@ -8,9 +8,15 @@ main {
   //without this, footer image is above main contents
   // block hover, click events
   z-index: 100;
+  @include ktheme() {
+    background: theme('background-color');
+  }
 }
 
 body {
+  @include ktheme() {
+    color: theme('text-color');
+  }
   a {
     @include ktheme() {
       color: theme('text-color');
@@ -22,44 +28,40 @@ body {
     }
   }
 
-  .select select,
-  .select select option,
-  .taginput .taginput-container.is-focusable,
-  .textarea {
-    color: $select-color;
-  }
-
-  .input {
-    color: $input-color;
-  }
-
-  .select-dropdown {
-    select {
-      border: 1px solid $select-border-color !important;
+  .title,
+  .subtitle,
+  .card-header-title {
+    @include ktheme() {
+      color: theme('text-color');
     }
+  }
 
-    @media screen and (max-width: 1216px) and (min-width: 768px) {
-      width: 200px;
+  .input,
+  select,
+  textarea,
+  .taginput-container {
+    @include ktheme() {
+      background-color: theme('background-color') !important;
+      color: theme('text-color') !important;
+      &::placeholder {
+        color: theme('placeholder-color') !important;
+      }
     }
   }
 
   .select {
-    &:not(.is-multiple):not(.is-loading):hover::after {
-      border-color: $select-border-color;
+    &:not(.is-multiple):not(.is-loading)::after {
+      @include ktheme() {
+        border-color: theme('text-color');
+      }
     }
   }
 
-  .select select[disabled],
-  .taginput [disabled].taginput-container.is-focusable,
-  [disabled].textarea,
-  [disabled].input,
-  fieldset[disabled] .select select,
-  .select fieldset[disabled] select,
-  fieldset[disabled] .taginput .taginput-container.is-focusable,
-  .taginput fieldset[disabled] .taginput-container.is-focusable,
-  fieldset[disabled] .textarea,
-  fieldset[disabled] .input {
-    background-color: $scheme-main;
+  .select select[disabled] {
+    @include ktheme() {
+      background-color: theme('disabled') !important;
+      color: theme('placeholder-color') !important;
+    }
   }
 
   .label {
@@ -95,10 +97,26 @@ body {
   }
 }
 
+.control-label {
+  @include ktheme() {
+    color: theme('text-color');
+  }
+}
+
+@include mobile {
+  .column-padding {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    margin: 0 -12px !important;
+  }
+}
+
 // global css for pagination
 .pagination-link {
   border: none !important;
-  border-top: 1px solid $primary !important;
+  @include ktheme() {
+    border-top: 1px solid theme('k-primary') !important;
+  }
 }
 
 /* move to global */
@@ -117,16 +135,22 @@ body {
 }
 
 .b-radio.radio.button.is-selected {
-  background-color: #db2980;
+  @include ktheme() {
+    background-color: theme('k-primary');
+  }
 }
 .b-radio.is-selected {
-  color: #000;
-  background-color: $primary;
+  @include ktheme() {
+    background-color: theme('k-primary');
+    color: theme('black');
+  }
 }
 
 .collection-radio-btn .b-radio.radio.button {
   border: none !important;
-  border-top: 1px solid $primary !important;
+  @include ktheme() {
+    border-top: 1px solid theme('k-primary') !important;
+  }
 }
 
 .short-identity__table {
@@ -146,7 +170,9 @@ body {
 }
 
 .image-outline {
-  border: 1px solid $black;
+  @include ktheme() {
+    border: 1px solid theme('border-color');
+  }
   border-radius: 50%;
 }
 
@@ -169,9 +195,11 @@ body {
 }
 
 .instance {
-  border-bottom: 1px solid black;
   &:last-child {
     border-bottom: none;
+  }
+  @include ktheme() {
+    border-bottom: 1px solid theme('border-color');
   }
 }
 
@@ -180,10 +208,60 @@ body {
 }
 
 hr {
-  background: $k-grey;
+  @include ktheme() {
+    background: theme('k-grey');
+  }
+}
+
+.dropdown-content {
+  border-radius: 0;
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+    border: 1px solid theme('border-color');
+    background: theme('background-color');
+
+    .dropdown-item {
+      color: theme('text-color');
+    }
+  }
+}
+
+.has-text-grey {
+  @include ktheme() {
+    color: theme('k-grey') !important;
+  }
+}
+
+.snackbar {
+  @include ktheme() {
+    color: theme('text-color');
+    background: theme('background-color');
+    .button {
+      background-color: theme('k-accentlight2') !important;
+      color: theme('text-color') !important;
+    }
+  }
 }
 
 .icon svg {
   width: 1rem;
   height: 1rem;
+}
+
+// global table css
+
+.table {
+  @include ktheme() {
+    background-color: theme('background-color');
+    color: theme('text-color');
+
+    &.is-hoverable tbody tr:not(.is-selected):hover {
+      background-color: theme('background-color');
+    }
+
+    th {
+      color: theme('text-color');
+      background-color: theme('background-color') !important;
+    }
+  }
 }
