@@ -66,7 +66,7 @@ async function subscribeTokens(
 ): UnsubscribePromise {
   if (api.query.tokens) {
     const realKusamaTokenId = prefix === 'bsx' || prefix === 'rmrk' ? '1' : '5'
-    return api.query.tokens.accounts.multi(
+    return await api.query.tokens.accounts.multi(
       [[address, realKusamaTokenId]],
       ([ksm]: any[]) =>
         cb({
