@@ -8,7 +8,7 @@
     <template #trigger>
       <slot name="trigger" />
     </template>
-    <div class="popover-content-container p-4 ms-dos-shadow">
+    <div class="popover-content-container p-4">
       <slot name="content" />
     </div>
   </v-tippy>
@@ -33,15 +33,15 @@ export default class BasicPopup extends Vue {
 }
 
 .popover-content-container {
-  border: 2px solid $primary;
   max-width: 350px;
+
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+    border: 1px solid theme('border-color');
+  }
 }
 
 .break-word {
   overflow-wrap: break-word;
-}
-
-.ms-dos-shadow {
-  box-shadow: $dropdown-content-shadow;
 }
 </style>

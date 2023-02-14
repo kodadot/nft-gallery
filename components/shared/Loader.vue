@@ -91,15 +91,22 @@ export default class Loader extends Vue {
   margin: 0rem 1rem;
   width: 300px;
   min-height: 350px;
-  border: 1px solid $black;
-  box-shadow: $primary-shadow;
+
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+    border: 1px solid theme('border-color');
+    background: theme('background-color');
+  }
 }
 
 .funfact-heading {
-  color: $black;
   font-size: 20px;
   line-height: 2.5rem;
+  @include ktheme() {
+    color: theme('text-color');
+  }
 }
+
 .question {
   min-height: 70px;
   font-size: 16px;
@@ -113,6 +120,8 @@ export default class Loader extends Vue {
 }
 
 .loading-icon {
-  border-bottom: 1px solid $shade;
+  @include ktheme() {
+    border-bottom: 1px solid theme('k-shade');
+  }
 }
 </style>

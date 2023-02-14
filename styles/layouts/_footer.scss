@@ -1,63 +1,9 @@
-.footer {
-  &__wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    padding: 16px;
-    height: 135px;
-
-    @include desktop {
-      flex-direction: row;
-
-      opacity: 0.3;
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-
-  &__list {
-    display: flex;
-    align-items: center;
-    list-style: none;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  &__list-item {
-    position: relative;
-    padding: 0 8px;
-
-    &:not(:last-child) {
-      &:after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 0;
-        width: 1px;
-        height: 12px;
-        background: #fff;
-      }
-    }
-  }
-
-  .snackbar {
-    border: 2px solid $primary;
-    background-color: #202225;
-    box-shadow: $dropdown-content-shadow;
-  }
-
-  #keyboardShortcutsModal {
-    height: 0;
-  }
-}
-
 .footer-container {
   position: relative;
   border-top: 1px solid;
-  background: $white;
+  @include ktheme() {
+    background: theme('background-color');
+  }
 
   .subtitle {
     font-weight: 700;
@@ -77,28 +23,6 @@
     @include mobile {
       align-items: center !important;
     }
-
-    &-btn {
-      text-transform: capitalize;
-      color: $black !important;
-      background-color: $k-accent !important;
-      border-radius: 0px;
-      border: 1px solid $black;
-      border-color: $black !important;
-      border-left: 0 !important;
-      box-shadow: $primary-shadow !important;
-    }
-
-    &-input {
-      box-shadow: $primary-shadow;
-      .input {
-        border-radius: 0px;
-        border: 1px solid $black;
-        &:focus {
-          box-shadow: none;
-        }
-      }
-    }
   }
 
   &-info {
@@ -112,7 +36,6 @@
       grid-gap: 10px;
 
       &-item {
-
         &:first-child {
           padding-left: 0px;
         }
@@ -121,27 +44,26 @@
   }
 
   &-socials {
-
     &-list {
       cursor: pointer;
       &-item {
-        &:hover {
-          background: $k-accentlight !important;
-        }
-
         height: 33px;
         width: 33px;
-        background: $white;
-        border: 1px solid $black;
-        box-shadow: $primary-shadow;
+
+        @include ktheme() {
+          background: theme('background-color');
+          border: 1px solid theme('border-color');
+          box-shadow: theme('primary-shadow');
+          &:hover {
+            background: theme('k-accentHover');
+            .icon {
+              color: theme('black')!important;
+            }
+          }
+        }
         .icon {
           svg {
             height: 16px;
-          }
-        }
-        &:hover {
-          a {
-            color: $shade !important;
           }
         }
       }
@@ -149,29 +71,40 @@
   }
 
   .csw-substack-gradient-custom {
-    border: 1px solid $black !important;
     border-radius: 0 !important;
-    box-shadow: 4px 4px 0px $black;
     height: 35px !important;
+
+    @include ktheme() {
+      box-shadow: theme('primary-shadow');
+      border: 1px solid theme('border-color') !important;
+    }
 
     input {
       font-weight: 400;
       border-radius: 0 !important;
       font-size: 16px !important;
       padding-left: 24px !important;
-      &::placeholder {
-        color: $placeholder-color !important;
+
+      @include ktheme() {
+        background: theme('background-color') !important;
+        color: theme('text-color') !important;
+        &::placeholder {
+          color: theme('placeholder-color') !important;
+        }
       }
     }
     button {
       font-size: 16px !important;
       font-weight: 400 !important;
       padding: 0 28px !important;
-      border-left: 1px solid $black !important;
-      &:hover {
-        background: $white !important;
-      }
 
+      @include ktheme() {
+        border-left: 1px solid theme('border-color') !important;
+        &:hover {
+          background: theme('background-color') !important;
+          color: theme('text-color') !important;
+        }
+      }
     }
   }
 
@@ -179,6 +112,12 @@
     position: absolute;
     left: -20rem;
     top: -30rem;
+  }
+
+  .subtitle {
+    @include ktheme() {
+      color: theme('text-color');
+    }
   }
 }
 

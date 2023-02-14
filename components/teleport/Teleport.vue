@@ -296,6 +296,7 @@ const sendXCM = async () => {
 </script>
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables.scss';
+
 .teleport-container {
   max-width: 30rem;
 
@@ -306,30 +307,41 @@ const sendXCM = async () => {
 
   .short-address,
   .max-button {
-    color: $k-blue;
+    @include ktheme() {
+      color: theme('k-blue');
+    }
   }
 }
 
 .input-wrapper {
-  border: 1px solid $black;
+  @include ktheme() {
+    border: 1px solid theme('border-color');
+  }
+
   .token {
     width: 16rem;
     position: relative;
+
     .token-value {
-      color: $k-grey;
       position: absolute;
       left: 0;
       transform: translateX(-110%);
+
+      @include ktheme() {
+        color: theme('k-grey');
+      }
     }
   }
 
   .transfer-amount {
     border: none;
+
     @include ktheme() {
       color: theme('text-color');
       border-right: 1px solid theme('border-color');
       background: theme('background-color');
     }
+
     background: transparent;
     padding: 0 0.5rem;
     height: 54px;
@@ -340,11 +352,6 @@ const sendXCM = async () => {
     &::-webkit-inner-spin-button {
       -webkit-appearance: none !important;
     }
-  }
-}
-.dark-mode {
-  .input-wrapper {
-    border-color: $white;
   }
 }
 </style>
