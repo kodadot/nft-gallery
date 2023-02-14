@@ -2,7 +2,7 @@
   <div class="gallery">
     <div class="is-flex is-align-self-flex-start">
       <SidebarFilter @resetPage="resetPage" />
-      <div class="container section pt-0">
+      <div class="container">
         <!-- TODO: FilterBreadcrumbs here -->
         <div class="is-flex is-justify-content-space-between py-5">
           <BreadcrumbsFilter />

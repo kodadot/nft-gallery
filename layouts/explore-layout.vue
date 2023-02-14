@@ -21,7 +21,9 @@
           </div>
         </section>
         <hr class="m-0" />
-        <Nuxt />
+        <section class="section pt-0">
+          <Nuxt />
+        </section>
       </div>
     </main>
   </div>
