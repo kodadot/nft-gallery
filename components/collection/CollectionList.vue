@@ -1,5 +1,5 @@
 <template>
-  <div class="collections section">
+  <div class="collections section pt-0">
     <div class="is-flex is-flex-direction-row-reverse py-5">
       <div v-show="total">{{ total }} {{ $t('items') }}</div>
     </div>
