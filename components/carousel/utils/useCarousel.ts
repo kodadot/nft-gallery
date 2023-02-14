@@ -136,6 +136,7 @@ export const useCarouselRelated = ({ collectionId }) => {
     variables: {
       id: collectionId,
       nftId: $route.params.id,
+      limit: 60,
     },
   })
   const nfts = ref<CarouselNFT[]>([])
