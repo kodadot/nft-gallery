@@ -319,7 +319,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
           .slice(0, this.searchSuggestionEachTypeMaxNum)
           .map(mapNFTorCollectionMetadata)
         const collectionResult: (CollectionWithMeta & RowSeries)[] = []
-        processMetadata<CollectionWithMeta>(
+        await processMetadata<CollectionWithMeta>(
           collectionMetadataList,
           (meta, i) => {
             collectionResult.push({
@@ -328,9 +328,8 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
               image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
             })
           }
-        ).then(() => {
-          this.defaultCollectionSuggestions = collectionResult
-        })
+        )
+        this.defaultCollectionSuggestions = collectionResult
       } catch (e) {
         this.$consola.warn(e, 'Error while fetching default suggestions')
       }
@@ -502,7 +501,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       )
       const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
       const nftResult: NFTWithMeta[] = []
-      processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
+      await processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
         nftResult.push({
           ...nftList[i],
           ...meta,
@@ -511,10 +510,9 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
             meta.animation_url || ''
           ),
         })
-      }).then(() => {
-        this.nftResult = nftResult
-        this.isNFTResultLoading = false
       })
+      this.nftResult = nftResult
+      this.isNFTResultLoading = false
     } catch (e) {
       logError(e, (msg) =>
         this.$consola.warn('[PREFETCH] Unable fo fetch', msg)
@@ -543,16 +541,15 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
 
       const collectionWithImages: CollectionWithMeta[] = []
-      processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
+      await processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
         collectionWithImages.push({
           ...collections[i],
           ...meta,
           image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
         })
-      }).then(() => {
-        this.collectionResult = collectionWithImages
-        this.isCollectionResultLoading = false
       })
+      this.collectionResult = collectionWithImages
+      this.isCollectionResultLoading = false
     } catch (e) {
       logError(e, (msg) =>
         this.$consola.warn('[PREFETCH] Unable fo fetch', msg)

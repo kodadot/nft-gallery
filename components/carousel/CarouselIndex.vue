@@ -29,7 +29,7 @@ const props = defineProps<{
   linkUrl?: string
   linkText?: string
   itemUrl?: string
-  galleryItemCarousel: boolean
+  galleryItemCarousel?: boolean
 }>()
 
 const step = computed(() => (props.galleryItemCarousel ? 3 : 1))
