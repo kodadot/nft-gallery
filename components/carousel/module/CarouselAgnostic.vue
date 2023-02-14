@@ -119,6 +119,6 @@ const sliderSettings = computed(() => {
 }
 .fade-leave-active,
 .fade-enter-active {
-  transition: all 0.5s ease;
+  transition: all 0.1s ease;
 }
 </style>
