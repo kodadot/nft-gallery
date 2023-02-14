@@ -63,16 +63,11 @@ function free({ free }: any) {
 async function subscribeTokens(
   api: ApiPromise,
   address: string,
+  prefix: string,
   cb: (value: BalanceMap) => void
 ): UnsubscribePromise {
   if (api.query.tokens) {
-    const version = await api.query.system
-      .lastRuntimeUpgrade()
-      .then((value) => unwrapOrNull(value)?.specVersion.toNumber())
-    const kusamaTokenId = await api.query.assetRegistry
-      .assetIds(Number(version) > 82 ? 'Kusama' : 'KSM')
-      .then((value) => unwrapOrNull(value as Option<u32>))
-    const realKusamaTokenId = kusamaTokenId ? '5' : '1'
+    const realKusamaTokenId = prefix === 'bsx' || prefix === 'rmrk' ? '1' : '5'
     return api.query.tokens.accounts.multi(
       [[address, realKusamaTokenId]],
       ([ksm]: any[]) =>
@@ -139,7 +134,8 @@ export const actions = {
     { commit, dispatch, rootState },
     { address, apiUrl }: ChangeAddressRequest
   ) {
-    const directEndpoint = getChainEndpointByPrefix(rootState.setting.urlPrefix)
+    const prefix = rootState.setting.urlPrefix
+    const directEndpoint = getChainEndpointByPrefix(prefix)
     const endpoint = apiUrl || directEndpoint || rootState.setting.apiUrl
     if (!address) {
       balanceSub()
@@ -161,7 +157,7 @@ export const actions = {
           dispatch('setBalance', balance)
         })
 
-        tokenSub = await subscribeTokens(api, address, (balance) => {
+        tokenSub = await subscribeTokens(api, address, prefix, (balance) => {
           commit('setTokenListBalance', balance)
         })
       } catch (e) {
