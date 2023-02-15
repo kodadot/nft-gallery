@@ -5,7 +5,7 @@
     :nfts="nfts"
     action-type="link"
     :link-url="`/${urlPrefix}/explore/items/?search=&sort=updatedAt_DESC`"
-    :link-text="`${$t('helper.seeMore')}`" />
+    :link-text="$t('helper.seeMore')" />
 </template>
 
 <script lang="ts" setup>
