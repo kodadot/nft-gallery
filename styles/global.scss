@@ -10,8 +10,11 @@ main {
   z-index: 100;
   @include ktheme() {
     background: theme('background-color');
-    background-color: unset;
   }
+}
+
+main {
+  background-color: unset !important;
 }
 
 body {
