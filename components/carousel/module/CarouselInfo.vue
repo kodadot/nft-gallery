@@ -7,7 +7,7 @@
         'has-text-weight-bold carousel-info-name',
         { 'carousel-info-collection': isCollection },
       ]">
-      <span class="is-ellipsis">{{ item.name }}</span>
+      <span class="is-ellipsis">{{ item.name || item.id }}</span>
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>
     <CollectionDetailsPopover v-if="item?.collectionId" :nft="item">
