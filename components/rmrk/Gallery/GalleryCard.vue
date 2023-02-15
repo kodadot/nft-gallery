@@ -34,7 +34,7 @@
           :class="{ 'title is-4': largeDisplay }"
           :title="name">
           <div class="has-text-overflow-ellipsis">
-            {{ nftName }}
+            {{ nftName || id }}
           </div>
         </span>
       </div>
@@ -83,6 +83,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
   async fetch() {
     if (this.metadata) {
       const meta = await processSingleMetadata<NFTMetadata>(this.metadata)
+      console.log(meta)
 
       this.image = getSanitizer(meta.image || '', 'image')(meta.image || '')
       this.title = meta.name

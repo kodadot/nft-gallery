@@ -12,14 +12,16 @@
     <div
       class="nft-media-info is-flex is-flex-direction-column is-justify-content-space-between">
       <div class="is-flex is-flex-direction-column">
-        <span class="is-ellipsis has-text-weight-bold">{{ nft.name }}</span>
+        <span class="is-ellipsis has-text-weight-bold">{{
+          nft.name || nft.id
+        }}</span>
 
         <nuxt-link
-          v-if="nft.collection.name && nft.collection.id"
+          v-if="nft.collection.name || nft.collection.id"
           :title="nft.collectionName || nft.collection.name"
           :to="`/${prefix}/collection/${nft.collection.id}`"
           class="is-size-7 nft-info-collection-name">
-          {{ nft.collection.name }}
+          {{ nft.collection.name || nft.collection.id }}
         </nuxt-link>
       </div>
 
