@@ -9,6 +9,7 @@
       :required="required"
       :disabled="disabled"
       :type="type"
+      :pattern="`\\S+`"
       @blur="hasFocus = false"
       @focus="hasFocus = true" />
     <template v-if="hasFocus && message" #message>
