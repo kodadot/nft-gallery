@@ -19,12 +19,7 @@
       :distance="prefetchDistance"
       direction="top"
       @infinite="reachTopHandler"></InfiniteLoading>
-    <GalleryCardList
-      :items="items"
-      horizontal-layout
-      :route="prefixedRoute"
-      :link="link"
-      :listed="searchQuery.listed" />
+    <GalleryNftCardList :items="items" />
     <InfiniteLoading
       v-if="canLoadNextPage && !isLoading && total > 0"
       :distance="prefetchDistance"
@@ -44,7 +39,8 @@ import { Debounce } from 'vue-debounce-decorator'
 import shouldUpdate from '~/utils/shouldUpdate'
 
 const components = {
-  GalleryCardList: () => import('./GalleryCardList.vue'),
+  GalleryNftCardList: () =>
+    import('@/components/shared/Gallery/GalleryNftCardList.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   Search: () => import('@/components/search/SearchCollection.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
