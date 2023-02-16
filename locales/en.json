@@ -40,7 +40,7 @@
   "contribute": "Contribute",
   "qrCode": "QR",
   "documentation": "Documentation",
-  "grants": "Grants",
+  "referralProgram": "Referral Program",
   "theatre": "theatre",
   "view": "view",
   "price": "price",
@@ -1186,7 +1186,7 @@
     },
     "unlist": {
       "success": "Item successfully unlisted",
-        "error": "Item unlisting failed"
+      "error": "Item unlisting failed"
     }
   },
   "createDropdown": {
