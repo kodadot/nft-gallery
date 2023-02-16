@@ -1,6 +1,10 @@
 <template>
   <div class="min-h-full is-flex is-flex-direction-column">
     <Navbar />
+
+    <!-- new header component for collection here -->
+    <div v-if="isCollection">header collection here</div>
+
     <main class="is-flex-grow-1">
       <Error
         v-if="$nuxt.isOffline"
@@ -10,7 +14,8 @@
       <div v-else>
         <section class="section">
           <div class="container">
-            <h1 class="title">{{ $t('explore') }}</h1>
+            <h1 v-if="isExplore" class="title">{{ $t('explore') }}</h1>
+
             <ExploreTabsFilterSort />
             <div v-if="$route.query.search">
               {{ $t('general.searchResultsText') }}
@@ -29,22 +34,22 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
 
-export default {
-  name: 'ExploreLayout',
-  components: { ExploreTabsFilterSort },
-  head() {
-    return {
-      link: [
-        {
-          hid: 'canonical',
-          rel: 'canonical',
-          href: this.$root.$config.public.baseUrl + this.$route.path,
-        },
-      ],
-    }
-  },
-}
+const { $config } = useNuxtApp()
+const route = useRoute()
+
+useNuxt2Meta({
+  link: [
+    {
+      hid: 'canonical',
+      rel: 'canonical',
+      href: $config.public.baseUrl + route.path,
+    },
+  ],
+})
+
+const isExplore = computed(() => route.path.includes('/explore'))
+const isCollection = computed(() => route.name === 'prefix-collection-id')
 </script>
