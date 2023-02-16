@@ -13,6 +13,10 @@ main {
   }
 }
 
+main {
+  background-color: unset !important;
+}
+
 body {
   @include ktheme() {
     color: theme('text-color');
@@ -196,7 +200,7 @@ body {
 
 .instance {
   &:last-child {
-    border-bottom: none;
+    border-bottom: none !important;
   }
   @include ktheme() {
     border-bottom: 1px solid theme('border-color');

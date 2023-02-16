@@ -3,6 +3,7 @@ import { getKusamaAssetId } from '@/utils/api/bsx/query'
 export default function () {
   const { $store } = useNuxtApp()
   const route = useRoute()
+  const router = useRouter()
 
   const prefix = ref(route.params.prefix || $store.getters.currentUrlPrefix)
   const urlPrefix = computed<string>(() => prefix.value || 'bsx')
@@ -29,10 +30,19 @@ export default function () {
     }
   )
 
+  const checkPrefixBeforeMount = () => {
+    const prefix = route.params.prefix
+    if (urlPrefix.value !== prefix) {
+      $store.dispatch('setUrlPrefix', prefix)
+      router.go(0)
+    }
+  }
+
   return {
     urlPrefix,
     client,
     tokenId,
     assets,
+    checkPrefixBeforeMount,
   }
 }
