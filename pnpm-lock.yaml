@@ -35,7 +35,7 @@ importers:
       '@kodadot1/brick': workspace:*
       '@kodadot1/minimark': ^0.0.1-rc.10
       '@kodadot1/sub-api': 0.1.1-alpha.5
-      '@kodadot1/vuex-options': 0.0.5-rc.3
+      '@kodadot1/vuex-options': 0.0.5-rc.4
       '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27889410.9247608
       '@nuxt/test-utils': ^0.2.2
       '@nuxt/types': ^2.16.0
@@ -140,7 +140,7 @@ importers:
       '@kodadot1/brick': link:libs/ui
       '@kodadot1/minimark': 0.0.1-rc.10
       '@kodadot1/sub-api': 0.1.1-alpha.5
-      '@kodadot1/vuex-options': 0.0.5-rc.3
+      '@kodadot1/vuex-options': 0.0.5-rc.4
       '@nuxtjs/apollo': 4.0.1-rc.5_poy6bg7j5ifu7vj334gpx4bp7y
       '@nuxtjs/i18n': 7.3.1_vue@2.7.14
       '@nuxtjs/sentry': 7.0.3_vue@2.7.14
@@ -3431,8 +3431,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@kodadot1/vuex-options/0.0.5-rc.3:
-    resolution: {integrity: sha512-WC8s/UPrZ893cEIoz/J4FqhGXIYxuAdZGy8A1qzVJZlGjzRpA+x1lvjU0gOOPOeAF/hmbpnekby+CSCkE6miaw==}
+  /@kodadot1/vuex-options/0.0.5-rc.4:
+    resolution: {integrity: sha512-2kxP7/TVIG6xl3oc+Hed8WriDXKWTy249oiufkdYtk/Qz9uynpbWhOu8u7hRIg5RVp0wrfT0nTdklJ9FbvG5Cg==}
     dependencies:
       '@polkadot/networks': 10.4.1
     dev: false
