@@ -11,6 +11,7 @@
 
 <script lang="ts" setup>
 import { RmrkType } from '@/components/rmrk/service/scheme'
+
 import {
   INFINITE_SCROLL_CONTAINER_ID,
   INFINITE_SCROLL_ITEM_CLASS_NAME,

@@ -40,7 +40,7 @@ import shouldUpdate from '~/utils/shouldUpdate'
 
 const components = {
   GalleryNftCardList: () =>
-    import('@/components/shared/Gallery/GalleryNftCardList.vue'),
+    import('@/components/shared/gallery/GalleryNftCardList.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   Search: () => import('@/components/search/SearchCollection.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
