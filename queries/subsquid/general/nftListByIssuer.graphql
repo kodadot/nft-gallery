@@ -10,11 +10,7 @@ query nftListByIssuer(
   $orderBy: NFTEntityOrderByInput = blockNumber_DESC
 ) {
   nftEntities(
-    where: {
-      issuer_eq: $account
-      burned_eq: false
-      AND: $and
-    }
+    where: { issuer_eq: $account, burned_eq: false, AND: $and }
     orderBy: [$orderBy, blockNumber_DESC]
     limit: $limit
     offset: $offset
@@ -24,11 +20,7 @@ query nftListByIssuer(
     ...collectionMeta
   }
   nftEntitiesConnection(
-    where: {
-      issuer_eq: $account
-      burned_eq: false
-      AND: $and
-    }
+    where: { issuer_eq: $account, burned_eq: false, AND: $and }
     orderBy: blockNumber_DESC
   ) {
     totalCount
