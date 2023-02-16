@@ -4,7 +4,6 @@ export default function () {
   const { $store } = useNuxtApp()
   const route = useRoute()
   const router = useRouter()
-
   const urlPrefix = computed<string>(() => {
     return $store.getters.currentUrlPrefix
   })
@@ -21,7 +20,6 @@ export default function () {
 
   const checkPrefixBeforeMount = () => {
     const prefix = route.params.prefix
-
     if (urlPrefix.value !== prefix) {
       $store.dispatch('setUrlPrefix', prefix)
       router.go(0)
