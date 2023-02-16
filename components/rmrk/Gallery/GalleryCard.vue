@@ -34,7 +34,7 @@
           :class="{ 'title is-4': largeDisplay }"
           :title="name">
           <div class="has-text-overflow-ellipsis">
-            {{ nftName || id }}
+            {{ nftName }}
           </div>
         </span>
       </div>
@@ -103,7 +103,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
   }
 
   get nftName(): string {
-    return this.name || this.title
+    return this.name || this.title || this.id
   }
 
   get largeDisplay(): boolean {
