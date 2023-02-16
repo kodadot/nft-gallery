@@ -75,9 +75,13 @@ a.disabled {
     width: 15rem;
   }
 
-  @include mobile {
-    .control,
-    &-button {
+  .control,
+  &-button {
+    @include until-widescreen {
+      width: 12rem;
+    }
+
+    @include mobile {
       width: 100%;
     }
   }

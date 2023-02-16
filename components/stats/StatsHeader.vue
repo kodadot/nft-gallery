@@ -13,12 +13,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-
-@Component({})
-export default class StatsHeader extends Vue {
-  @Prop({ type: String }) public title!: ''
-  @Prop({ type: String }) public subtitle!: ''
-}
+<script lang="ts" setup>
+defineProps<{
+  title: string
+  subtitle: string
+}>()
 </script>

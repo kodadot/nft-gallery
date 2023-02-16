@@ -1,0 +1,7 @@
+.box {
+  @include ktheme() {
+    background-color: theme('k-accentlight2');
+    color: theme('text-color');
+  }
+}
+

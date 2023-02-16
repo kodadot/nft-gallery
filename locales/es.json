@@ -29,7 +29,7 @@
   "contribute": "Contribuya",
   "qrCode": "Qrcode",
   "documentation": "Documentación",
-  "grants": "Subsidios",
+  "referralProgram": "Programa de Referidos",
   "theatre": "Sala",
   "view": "visión",
   "price": "precio",
@@ -625,8 +625,8 @@
     "holdings": "NFTs propiedad de",
     "gains": "Ganado por",
     "makeOfferDisabled": "Ya has hecho una oferta por este NFT",
-    "needToUploadNFTFile":  "Necesitas subir el archivo NFT",
-    "needToSetValidPrice":  "Para enumerar NFT, el precio debe ser mayor que 0",
+    "needToUploadNFTFile": "Necesitas subir el archivo NFT",
+    "needToSetValidPrice": "Para enumerar NFT, el precio debe ser mayor que 0",
     "notEnoughBalance": "Fondos insuficientes",
     "haveNoToS": "No tienes permiso para usar el activo"
   },
@@ -694,7 +694,7 @@
     "activeWallets": "Carteras activas",
     "offers": "Ofertas",
     "values": "VALORES",
-    "bsxTitle":  "Estadísticas del Marketplace Basilisk"
+    "bsxTitle": "Estadísticas del Marketplace Basilisk"
   },
   "myOffer": {
     "bsxTitle": "Ofertas recibidas",

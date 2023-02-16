@@ -85,11 +85,3 @@
     </div>
   </section>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-
-@Component<About>({
-  components: {},
-})
-export default class About extends Vue {}
-</script>

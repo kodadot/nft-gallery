@@ -4,7 +4,8 @@ import { getChainTestList } from '@/utils/constants'
 
 export default function () {
   const { $store, $config } = useNuxtApp()
-  const { urlPrefix } = usePrefix()
+  const { urlPrefix, tokenId, assets } = usePrefix()
+  const { symbol } = assets(tokenId.value)
 
   const chainProperties = computed<ChainProperties>(() => {
     return chainPropListOf(urlPrefix.value)
@@ -34,11 +35,16 @@ export default function () {
     return availableUrlPrefixes
   })
 
+  const chainSymbol = computed(() => {
+    return urlPrefix.value === 'rmrk' ? unit.value : symbol
+  })
+
   return {
     decimals,
     unit,
     offersDisabled,
     chainProperties,
     availableChains,
+    chainSymbol,
   }
 }

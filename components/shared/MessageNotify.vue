@@ -1,6 +1,6 @@
 <template>
-  <div v-if="showMessageBox">
-    <b-message class="message-box" duration="10000" auto-close>
+  <div>
+    <b-message class="message-box" :duration="10000" auto-close>
       <img src="/congrats-message-header.svg" class="congrats-message" />
       <div class="is-flex is-flex-direction-column">
         <div class="title is-3 mb-4">
@@ -20,16 +20,10 @@
 </template>
 
 <script lang="ts" setup>
-const Sharing = defineAsyncComponent(
-  () => import('@/components/shared/Sharing.vue')
-)
-
-const showMessageBox = ref(true)
-
 defineProps<{
   title?: string
   subtitle?: string
-  enableDownload: false
+  enableDownload?: false
 }>()
 </script>
 
@@ -40,14 +34,17 @@ defineProps<{
   z-index: 10;
   max-width: 500px;
   position: absolute;
-  background-color: $white;
-  border: 1px solid $dark-accent;
   border-radius: 0;
-  box-shadow: $primary-shadow;
   top: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
+
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+    background-color: theme('background-color');
+    border: 1px solid theme('border-color');
+  }
 
   .message-body {
     border: none;
@@ -56,11 +53,5 @@ defineProps<{
   .congrats-message {
     filter: drop-shadow(4px 4px 0px rgb(0 0 0 / 1));
   }
-}
-
-.dark-mode .message-box {
-  background-color: $dark-accent;
-  border: 1px solid $white;
-  box-shadow: $primary-shadow-dark;
 }
 </style>

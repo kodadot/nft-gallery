@@ -1,27 +1,29 @@
 <template>
-  <div class="explore is-flex">
+  <div class="explore is-flex is-flex-wrap-wrap">
     <ExploreTabItem />
     <div class="explore-menu is-flex">
       <ExploreSort />
       <ExploreChain />
+      <ExploreGrid class="is-hidden-mobile" />
     </div>
   </div>
 </template>
 
-<script setup lang="ts" scoped>
+<script setup lang="ts">
 import ExploreTabItem from './ExploreTabItem.vue'
 import ExploreSort from './ExploreSort.vue'
 import ExploreChain from './ExploreChain.vue'
+import ExploreGrid from './ExploreGrid.vue'
 </script>
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
 .explore {
-  gap: 2rem;
+  gap: 1.5rem;
 
   &-menu {
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   @include mobile {

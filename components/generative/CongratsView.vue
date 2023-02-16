@@ -5,10 +5,7 @@
     <p class="title is-size-4">Your NFT should be ready in 1 minute</p>
     <nuxt-link
       class="is-size-4 link"
-      :to="{
-        name: `${urlPrefix}-collection-id`,
-        params: { id: collectionId },
-      }">
+      :to="`/${urlPrefix}/collection/${collectionId}`">
       In the meanwhile, click here to check the collection ♥️🍷
     </nuxt-link>
     <b-image

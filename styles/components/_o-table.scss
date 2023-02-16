@@ -3,7 +3,9 @@
     overflow-x: auto;
   }
   &__th {
-    color: $k-grey;
+    @include ktheme() {
+      color: theme('k-grey');
+    }
     font-size: 12px;
     font-weight: normal;
     padding: 0 1.5rem 0.5rem 1.5rem;
@@ -15,15 +17,18 @@
       &::before {
         font-size: 0.75rem;
         line-height: 1.5rem;
-        color: $k-grey;
+        @include ktheme() {
+          color: theme('k-grey');
+        }
       }
 
       margin: 0 1.5rem;
       padding: 0.25rem 0;
 
       &:last-child {
-        border-bottom: 1px solid $shade !important;
-
+        @include ktheme() {
+          border: 1px solid theme('k-shade') !important;
+        }
       }
     }
   }
@@ -31,22 +36,15 @@
   @include touch {
     tbody tr {
       padding-top: 1.5rem;
-
     }
   }
 
   &--hoverable {
     tbody tr:hover td {
-      background-color: $k-accentlight2;
+      @include ktheme() {
+        background-color: theme('k-accentlight2');
+      }
     }
   }
 }
 
-.dark-mode .o-table {
-  &--hoverable {
-    tbody tr:hover td {
-      background-color: $k-accentlight2dark;
-    }
-  }
-
-}

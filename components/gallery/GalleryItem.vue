@@ -142,7 +142,7 @@ const CollectionDetailsPopover = defineAsyncComponent(
 onMounted(() => {
   exist(route.query.message, (val) => {
     message.value = val === 'congrats' ? val : ''
-    router.replace({ query: { redesign: 'true' } })
+    router.replace({ query: {} })
   })
 })
 
