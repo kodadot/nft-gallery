@@ -107,8 +107,8 @@ const menu: Menu[] = [
     url: '/contribute',
   },
   {
-    name: $i18n.t('grants'),
-    url: 'https://form.kodadot.xyz/grant',
+    name: $i18n.t('referralProgram'),
+    url: 'https://docs.kodadot.xyz/referral-program.html',
     external: true,
   },
   {
