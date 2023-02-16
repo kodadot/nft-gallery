@@ -120,7 +120,7 @@ Then we can use it like this:
 <script lang="ts" setup>
 const route = useRoute()
 const { data: nft } = useGraphql({
-  queryName: 'nftByIdMinimal',
+  queryName: 'nftById',
   variables: { id: route.params.id },
 })
 
