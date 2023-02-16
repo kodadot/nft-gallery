@@ -35,7 +35,7 @@ importers:
       '@kodadot1/brick': workspace:*
       '@kodadot1/minimark': ^0.0.1-rc.10
       '@kodadot1/sub-api': 0.1.1-alpha.5
-      '@kodadot1/vuex-options': 0.0.5-rc.2
+      '@kodadot1/vuex-options': 0.0.5-rc.3
       '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27889410.9247608
       '@nuxt/test-utils': ^0.2.2
       '@nuxt/types': ^2.16.0
@@ -140,7 +140,7 @@ importers:
       '@kodadot1/brick': link:libs/ui
       '@kodadot1/minimark': 0.0.1-rc.10
       '@kodadot1/sub-api': 0.1.1-alpha.5
-      '@kodadot1/vuex-options': 0.0.5-rc.2
+      '@kodadot1/vuex-options': 0.0.5-rc.3
       '@nuxtjs/apollo': 4.0.1-rc.5_poy6bg7j5ifu7vj334gpx4bp7y
       '@nuxtjs/i18n': 7.3.1_vue@2.7.14
       '@nuxtjs/sentry': 7.0.3_vue@2.7.14
@@ -3431,8 +3431,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@kodadot1/vuex-options/0.0.5-rc.2:
-    resolution: {integrity: sha512-LiC6JJAhozPFseRj9lkgLhIwBnPjIycQCZAOLEemAr6eGk75ncVxVsqhbYK3xHPtlivZMMdF1ctXMl0No8zLpA==}
+  /@kodadot1/vuex-options/0.0.5-rc.3:
+    resolution: {integrity: sha512-WC8s/UPrZ893cEIoz/J4FqhGXIYxuAdZGy8A1qzVJZlGjzRpA+x1lvjU0gOOPOeAF/hmbpnekby+CSCkE6miaw==}
     dependencies:
       '@polkadot/networks': 10.4.1
     dev: false
@@ -3475,7 +3475,7 @@ packages:
     engines: {node: '>=16'}
     dependencies:
       '@polkadot/api': 9.13.6
-      '@polkadot/util': 10.3.1
+      '@polkadot/util': 10.4.1
       '@polkadot/util-crypto': 10.3.1
       '@types/uuid': 8.3.4
       fast-sha256: 1.3.0
@@ -4906,7 +4906,7 @@ packages:
       '@phala/typedefs': 0.2.33
       '@polkadot/api': 9.13.6
       '@polkadot/api-derive': 9.13.6
-      '@polkadot/networks': 10.3.1
+      '@polkadot/networks': 10.4.1
       '@polkadot/types': 9.13.6
       '@polkadot/util': 10.3.1
       '@polkadot/x-fetch': 10.3.1
@@ -5483,7 +5483,7 @@ packages:
     resolution: {integrity: sha512-7yZwb3VxGh7VPHkyygktL7Oep0c4XUyKkYGwSmgP2Gt2IcvnGXFUQVSEARKs9FCanl19f2CEU1m19+FFrjlUNQ==}
     dependencies:
       '@babel/runtime': 7.20.13
-      '@polkadot/networks': 10.3.1
+      '@polkadot/networks': 10.4.1
       '@polkadot/util': 10.3.1
       eventemitter3: 4.0.7
       store: 2.0.12
