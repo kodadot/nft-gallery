@@ -27,7 +27,7 @@
 
       &:last-child {
         @include ktheme() {
-          border: 1px solid theme('k-shade') !important;
+          border-bottom: 1px solid theme('k-shade') !important;
         }
       }
     }
@@ -35,7 +35,11 @@
 
   @include touch {
     tbody tr {
+
       padding-top: 1.5rem;
+      @include ktheme() {
+        background-color: theme('background-color');
+      }
     }
   }
 
