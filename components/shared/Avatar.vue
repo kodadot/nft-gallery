@@ -8,7 +8,7 @@ import Identicon from '@polkadot/vue-identicon'
 withDefaults(
   defineProps<{
     value: string
-    size: number
+    size?: number
   }>(),
   {
     value: '',
