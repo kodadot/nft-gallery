@@ -57,7 +57,6 @@ function checkValidity() {
 }
 
 const handleInput = (value: string) => {
-  console.log('input', value)
   emit('input', value.trim())
 }
 
