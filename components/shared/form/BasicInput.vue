@@ -2,14 +2,14 @@
   <b-field :label="$i18n.t(label)">
     <b-input
       ref="input"
-      v-model="vValue"
+      v-model.trim="vValue"
       :placeholder="placeholder"
       :expanded="expanded"
       :maxlength="maxlength"
       :required="required"
       :disabled="disabled"
       :type="type"
-      :pattern="`\\S+`"
+      :pattern="!vValue && required ? `\\S+` : '.*'"
       @blur="hasFocus = false"
       @focus="hasFocus = true" />
     <template v-if="hasFocus && message" #message>
