@@ -28,11 +28,11 @@ interface Types {
 
 const nftEventVariables = {
   latestSales: {
-    limit: 10,
+    limit: 30,
     event: 'BUY',
   },
   newestList: {
-    limit: 10,
+    limit: 30,
     event: 'LIST',
   },
 }
@@ -77,7 +77,7 @@ export const useCarouselNftEvents = ({ type }: Types) => {
 
       const data = [...rmrkNfts, ...snekNfts, ...bsxNfts]
 
-      nfts.value = data.sort((a, b) => b.unixTime - a.unixTime).slice(0, 10)
+      nfts.value = data.sort((a, b) => b.unixTime - a.unixTime).slice(0, 30)
     }
   })
 
@@ -136,6 +136,7 @@ export const useCarouselRelated = ({ collectionId }) => {
     variables: {
       id: collectionId,
       nftId: $route.params.id,
+      limit: 60,
     },
   })
   const nfts = ref<CarouselNFT[]>([])
@@ -183,7 +184,7 @@ export const useCarouselVisited = ({ ids }) => {
       )
 
       if (filteredNftsNullMeta) {
-        const sortedNftList = sortItemListByIds(filteredNftsNullMeta, ids, 10)
+        const sortedNftList = sortItemListByIds(filteredNftsNullMeta, ids, 30)
         nfts.value = await formatNFT(sortedNftList)
       }
     }
