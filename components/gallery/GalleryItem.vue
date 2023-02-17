@@ -23,7 +23,7 @@
             <div class="is-flex is-justify-content-space-between">
               <div>
                 <h1 class="title" data-cy="item-title">
-                  {{ nft?.name || nft?.id }}
+                  {{ nft?.name || '--' }}
                 </h1>
                 <h2 class="subtitle" data-cy="item-collection">
                   <CollectionDetailsPopover
@@ -33,7 +33,7 @@
                       <nuxt-link
                         :to="`/${urlPrefix}/collection/${collection?.id}`"
                         class="has-text-link">
-                        {{ collection?.name || collection?.id }}
+                        {{ collection?.name || '--' }}
                       </nuxt-link>
                     </template>
                   </CollectionDetailsPopover>
