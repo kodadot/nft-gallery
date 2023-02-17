@@ -121,12 +121,7 @@
             direction="top"
             @infinite="reachTopHandler">
           </InfiniteLoading>
-          <GalleryCardList
-            :items="collections"
-            type="collectionDetail"
-            :route="`/${urlPrefix}/collection`"
-            :link="`${urlPrefix}/collection`"
-            horizontal-layout />
+          <CollectionItemCardList :collections="collections" />
           <InfiniteLoading
             v-if="canLoadNextPage && !isLoading && totalCollections > 0"
             :distance="prefetchDistance"
@@ -280,8 +275,6 @@ import { exist } from '@/components/search/exist'
 const tabNameWithoutCollections = ['holdings', 'gains']
 
 const components = {
-  GalleryCardList: () =>
-    import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/shared/Sharing.vue'),
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
@@ -301,6 +294,8 @@ const components = {
   OffersUserTable: () => import('@/components/bsx/Offer/OffersUserTable.vue'),
   Sales: () => import('@/components/rmrk/Profile/Sales.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
+  CollectionItemCardList: () =>
+    import('@/components/shared/collection/CollectionItemCardList'),
 }
 
 @Component<ProfileDetail>({
