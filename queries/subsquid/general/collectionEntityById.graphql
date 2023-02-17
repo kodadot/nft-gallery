@@ -2,12 +2,12 @@
 #import "../../fragments/nftDetails.graphql"
 #import "../../fragments/baseMeta.graphql"
 
-query collectionEntityById($id: String!, $nftId: String!) {
+query collectionEntityById($id: String!, $nftId: String!, $limit: Int!) {
   collection: collectionEntityById(id: $id) {
     id
     name
     nfts(
-      limit: 20
+      limit: $limit
       orderBy: [updatedAt_DESC]
       where: { burned_eq: false, id_not_eq: $nftId }
     ) {

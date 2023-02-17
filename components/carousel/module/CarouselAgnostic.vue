@@ -24,13 +24,6 @@
           class="arrow arrow-right"
           @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)"></div>
       </Transition>
-      <div v-if="slider && !isCollection && !galleryItemCarousel" class="dots">
-        <button
-          v-for="(_slide, idx) in dotHelper"
-          :key="idx"
-          :class="{ dot: true, active: current === idx }"
-          @click="slider?.moveToIdx(idx)"></button>
-      </div>
     </div>
   </div>
 </template>
@@ -38,16 +31,12 @@
 <script lang="ts" setup>
 import type { CarouselNFT } from '@/components/base/types'
 
-import CarouselMedia from './CarouselMedia.vue'
-import CarouselInfo from './CarouselInfo.vue'
-
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue.es'
 import { wheelControls } from '../utils/useCarousel'
 
 const props = defineProps<{
   nfts: CarouselNFT[]
-  galleryItemCarousel?: boolean
   step: number
 }>()
 
@@ -56,7 +45,6 @@ const isCollection = computed(() => url.includes('collection'))
 provide('isCollection', isCollection.value)
 
 const current = ref(0)
-const minWidths = [1280, 1024, 768, 640]
 
 const [wrapper, slider] = useKeenSlider(
   {
@@ -91,21 +79,6 @@ const [wrapper, slider] = useKeenSlider(
     slides: { perView: 1.5, spacing: 32 },
   },
   [wheelControls]
-)
-const totalDots = computed(() => {
-  const width = window.innerWidth
-
-  for (const [index, breakpoint] of minWidths.entries()) {
-    if (breakpoint <= width) {
-      const perView = 4.5 - (index + 1)
-      return Math.round(props.nfts.length - perView)
-    }
-  }
-
-  return 0
-})
-const dotHelper = computed(() =>
-  slider.value && totalDots.value > 0 ? [...Array(totalDots.value).keys()] : []
 )
 
 const sliderSettings = computed(() => {
@@ -146,6 +119,6 @@ const sliderSettings = computed(() => {
 }
 .fade-leave-active,
 .fade-enter-active {
-  transition: all 1s ease;
+  transition: all 0.2s ease;
 }
 </style>
