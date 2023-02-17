@@ -9,7 +9,7 @@
       :required="required"
       :disabled="disabled"
       :type="type"
-      :pattern="!value && required ? `\\S+` : '.*'"
+      :pattern="!value && required ? `^\\S+` : '.*'"
       @blur="hasFocus = false"
       @focus="hasFocus = true"
       @input="handleInput" />
