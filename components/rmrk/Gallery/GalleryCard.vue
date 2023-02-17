@@ -103,7 +103,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
   }
 
   get nftName(): string {
-    return this.name || this.title || this.id
+    return this.name || this.title || '--'
   }
 
   get largeDisplay(): boolean {

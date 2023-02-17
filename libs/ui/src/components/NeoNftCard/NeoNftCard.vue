@@ -13,7 +13,7 @@
       class="nft-media-info is-flex is-flex-direction-column is-justify-content-space-between">
       <div class="is-flex is-flex-direction-column">
         <span class="is-ellipsis has-text-weight-bold">{{
-          nft.name || nft.id
+          nft.name || '--'
         }}</span>
 
         <nuxt-link
@@ -21,7 +21,7 @@
           :title="nft.collectionName || nft.collection.name"
           :to="`/${prefix}/collection/${nft.collection.id}`"
           class="is-size-7 nft-info-collection-name">
-          {{ nft.collection.name || nft.collection.id }}
+          {{ nft.collection.name || '--' }}
         </nuxt-link>
       </div>
 

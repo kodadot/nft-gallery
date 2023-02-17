@@ -7,7 +7,7 @@
         'has-text-weight-bold carousel-info-name',
         { 'carousel-info-collection': isCollection },
       ]">
-      <span class="is-ellipsis">{{ item.name || item.id }}</span>
+      <span class="is-ellipsis">{{ item.name || '--' }}</span>
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>
     <CollectionDetailsPopover v-if="item?.collectionId" :nft="item">
@@ -23,7 +23,7 @@
             })
           "
           class="is-size-7 carousel-info-collection-name">
-          {{ item.collectionName }}
+          {{ item.collectionName || '--' }}
         </nuxt-link>
       </template>
     </CollectionDetailsPopover>
