@@ -5,7 +5,15 @@ export default function () {
   const route = useRoute()
   const router = useRouter()
 
-  const prefix = ref(route.params.prefix || $store.getters.currentUrlPrefix)
+  const prefix = computed(() => {
+    const currentPrefix = route.params.prefix
+
+    if (currentPrefix && currentPrefix !== $store.getters.currentUrlPrefix) {
+      $store.dispatch('setUrlPrefix', currentPrefix)
+    }
+
+    return currentPrefix || $store.getters.currentUrlPrefix
+  })
   const urlPrefix = computed<string>(() => prefix.value || 'bsx')
 
   const client = computed<string>(() => {
@@ -17,18 +25,6 @@ export default function () {
   const assets = (id: string | number) => {
     return $store.getters['assets/getAssetById'](id)
   }
-
-  // we can remove this watcher
-  // once we are not rely on `$store.getters.currentUrlPrefix`
-  watch(
-    () => route.params.prefix,
-    (newPrefix) => {
-      if (urlPrefix.value !== route.params.prefix && newPrefix) {
-        prefix.value = newPrefix
-        $store.dispatch('setUrlPrefix', newPrefix)
-      }
-    }
-  )
 
   const checkPrefixBeforeMount = () => {
     const prefix = route.params.prefix
