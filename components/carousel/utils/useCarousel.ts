@@ -76,7 +76,6 @@ export const useCarouselNftEvents = ({ type }: Types) => {
       const bsxNfts = await flattenNFT(dataBsx.value, 'bsx')
 
       const data = [...rmrkNfts, ...snekNfts, ...bsxNfts]
-      console.log(data.length)
 
       nfts.value = data.sort((a, b) => b.unixTime - a.unixTime).slice(0, 30)
     }
