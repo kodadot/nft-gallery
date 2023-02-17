@@ -23,4 +23,13 @@ export default class PrefixMixin extends Vue {
   get tokenId() {
     return getKusamaAssetId(this.urlPrefix)
   }
+
+  public checkPrefixBeforeMount() {
+    const prefix = this.$route.params.prefix
+
+    if (this.urlPrefix !== prefix) {
+      this.$store.dispatch('setUrlPrefix', prefix)
+      this.$router.go(0)
+    }
+  }
 }

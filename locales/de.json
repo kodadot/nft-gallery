@@ -31,7 +31,7 @@
   "contribute": "Mach mit",
   "qrCode": "QR Code",
   "documentation": "Dokumentation",
-  "grants": "Zuschuss",
+  "referralProgram": "Empfehlungsprogramm",
   "theatre": "Bühne",
   "view": "Ansehen",
   "price": "Preis",
@@ -622,7 +622,7 @@
         "label": "Edition",
         "placeholder": "Minimum ist 1",
         "message": "Anzahl der zu mintenden NFTs"
-  },
+      },
       "creative": {
         "heading": "Creative Minting"
       },
@@ -718,7 +718,7 @@
     "activeWallets": "Aktive Konten",
     "offers": "Angebote",
     "values": "VALUES",
-    "bsxTitle":  "Basilisk Marktplatz Statistiken"
+    "bsxTitle": "Basilisk Marktplatz Statistiken"
   },
   "myOffer": {
     "bsxTitle": "Eingehende Angebote",
@@ -772,7 +772,7 @@
     "page": "Verkäufe",
     "title": "Neueste Verkäufe auf KUSAMA",
     "subtitle": "Und den kürzlich verkauften NFTs auf RMRK.",
-     "buyer": "Käufer",
+    "buyer": "Käufer",
     "tableDate": "Relatives Datum",
     "price": "Verkaufspreis"
   },
@@ -875,8 +875,8 @@
     "tx": {
       "cancelled": "Transaktion wurde abgebrochen",
       "feesPaidIn": "Du bezahlst die Gebühren in {0}"
-  },
-   "searchPlaceholder": "Suche nach Kunstwerk, Sammlung...",
+    },
+    "searchPlaceholder": "Suche nach Kunstwerk, Sammlung...",
     "tagsAdd": "Schreib und drück Enter um deine eigenen hinzuzufügen",
     "chooseWallet": "Wähle deine Wallet"
   },
@@ -914,10 +914,10 @@
     "click": "Klicke um Identität zu erstellen",
     "handleRequired": "Dein Nutzername wird benötigt",
     "deposit": "Einzahlen",
-     "fundsReserve": "0.0333 KSM werden festgesetzt. Der Betrag wird zurückerstattet wenn die Identität aufgelöst wird.",
+    "fundsReserve": "0.0333 KSM werden festgesetzt. Der Betrag wird zurückerstattet wenn die Identität aufgelöst wird.",
     "onChainPlaceholder": "Mein On-Chain Name",
-     "namePlaceholder": "Vollständiger Klarname"
- },
+    "namePlaceholder": "Vollständiger Klarname"
+  },
   "collapse": {
     "collection": {
       "description": {
@@ -976,7 +976,7 @@
     "learnText": "Lerne wie man sich verbindet",
     "downloadExtension": "Lade die Extension herunter"
   },
- "landing": {
+  "landing": {
     "newNftHeading": "NFTs sind neu für Dich?",
     "ksmArtistHeading": "KSM für Künstler",
     "socials": "Hast Du Fragen oder möchtest auf dem Laufenden bleiben? Schreib uns ein paar Zeilen auf unseren Socials.",

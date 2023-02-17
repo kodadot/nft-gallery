@@ -5,11 +5,12 @@
 <script lang="ts" setup>
 import { NeoNftCard } from '@kodadot1/brick'
 import type { NFT } from '@/components/rmrk/service/scheme'
+import type { CarouselNFT } from '@/components/base/types'
 
 const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
-  nft: NFT
+  nft: NFT | CarouselNFT
 }>()
 
 const showPrice = computed((): boolean => {
