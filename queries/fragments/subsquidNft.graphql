@@ -4,8 +4,14 @@ fragment subsquidNft on NFTEntity {
   issuer
   currentOwner
   blockNumber
-  collection {
-      id
-  }
   burned
+  collection {
+    id
+    name
+  }
+  meta {
+    id
+    name
+    image
+  }
 }

@@ -22,9 +22,11 @@ export const formatNFT = (nfts, chain?: string): CarouselNFT[] => {
 
     return {
       ...nft,
-      timestamp: formatDistanceToNow(new Date(timestamp), {
-        addSuffix: true,
-      }),
+      timestamp: timestamp
+        ? formatDistanceToNow(new Date(timestamp), {
+            addSuffix: true,
+          })
+        : '',
       unixTime: new Date(timestamp).getTime(),
       price: nft.price || 0,
       image: metaImage && sanitizeIpfsUrl(metaImage),
