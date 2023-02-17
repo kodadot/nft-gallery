@@ -107,7 +107,7 @@
               <span class="tab-counter">{{ totalCollections }}</span>
             </b-tooltip>
           </template>
-          <div class="is-flex is-justify-content-flex-end">
+          <div class="is-flex is-justify-content-flex-end mb-3">
             <Layout class="mr-5" @change="onResize" />
             <Pagination
               v-model="currentValue"
