@@ -5,8 +5,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 const components = {}
 
@@ -30,5 +29,5 @@ const components = {}
     }
   },
 })
-export default class ExploreCollectibles extends mixins(PrefixMixin) {}
+export default class ExploreCollectibles extends Vue {}
 </script>
