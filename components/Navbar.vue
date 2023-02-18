@@ -170,9 +170,7 @@ const route = useRoute()
 
 const account = computed(() => $store.getters.getAuthAddress)
 
-const isCreateVisible = computed(() => {
-  return createVisible(urlPrefix.value)
-})
+const isCreateVisible = computed(() => createVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')
 
 const isDarkMode = computed(
