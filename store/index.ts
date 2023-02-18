@@ -65,5 +65,3 @@ export const getters: GetterTree<IndexState, IndexState> = {
 }
 
 export const plugins = [formatPlugin, balancePlugin]
-
-export const strict = false
