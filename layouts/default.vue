@@ -19,8 +19,9 @@
 </template>
 
 <script lang="ts" setup>
-const { $config, $store } = useNuxtApp()
+const { $config } = useNuxtApp()
 const route = useRoute()
+const { checkPrefixBeforeMount } = usePrefix()
 
 useNuxt2Meta({
   link: [
@@ -32,13 +33,5 @@ useNuxt2Meta({
   ],
 })
 
-// TODO: we can remove this watcher
-// once we are not rely on `$store.getters.currentUrlPrefix`
-onBeforeMount(() => {
-  const prefix = route.params.prefix
-
-  if (prefix && prefix !== $store.getters.currentUrlPrefix) {
-    $store.dispatch('setUrlPrefix', prefix)
-  }
-})
+onBeforeMount(checkPrefixBeforeMount)
 </script>
