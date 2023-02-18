@@ -15,26 +15,44 @@
           size="is-medium" />
       </a>
     </div>
-    <p class="control">
-      <NeoButton
-        class="explore-tabs-button"
-        tag="nuxt-link"
-        :active="selectedTab === TabType.COLLECTION"
-        to="collectibles">
-        <span> {{ $t('collections') }}</span>
-        <img v-if="selectedTab === TabType.COLLECTION" src="/checkmark.svg" />
-      </NeoButton>
-    </p>
-    <p class="control">
-      <NeoButton
-        class="explore-tabs-button"
-        tag="nuxt-link"
-        :active="selectedTab === TabType.ITEMS"
-        to="items">
-        <span> {{ $t('items') }}</span>
-        <img v-if="selectedTab === TabType.ITEMS" src="/checkmark.svg" />
-      </NeoButton>
-    </p>
+
+    <!-- TODO: tabs for collection here -->
+    <template v-if="route.name === 'prefix-collection-id'">
+      <p class="control">
+        <NeoButton
+          class="explore-tabs-button"
+          :active="route.name === 'prefix-collection-id'">
+          <span>Items</span>
+        </NeoButton>
+      </p>
+      <p class="control">
+        <NeoButton class="explore-tabs-button">
+          <span>Activity</span>
+        </NeoButton>
+      </p>
+    </template>
+    <template v-else>
+      <p class="control">
+        <NeoButton
+          class="explore-tabs-button"
+          tag="nuxt-link"
+          :active="selectedTab === TabType.COLLECTION"
+          to="collectibles">
+          <span> {{ $t('collections') }}</span>
+          <img v-if="selectedTab === TabType.COLLECTION" src="/checkmark.svg" />
+        </NeoButton>
+      </p>
+      <p class="control">
+        <NeoButton
+          class="explore-tabs-button"
+          tag="nuxt-link"
+          :active="selectedTab === TabType.ITEMS"
+          to="items">
+          <span> {{ $t('items') }}</span>
+          <img v-if="selectedTab === TabType.ITEMS" src="/checkmark.svg" />
+        </NeoButton>
+      </p>
+    </template>
   </div>
 </template>
 
