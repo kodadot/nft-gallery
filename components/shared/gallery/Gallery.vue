@@ -111,6 +111,7 @@ export default class Gallery extends mixins(
   }
   public isLoading = true
   public first = 20
+  public disablePrefetchPreviousPage = true
   get showPriceValue(): boolean {
     return (
       this.searchQuery?.listed ||

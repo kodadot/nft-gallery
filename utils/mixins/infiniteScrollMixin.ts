@@ -18,6 +18,7 @@ export default class InfiniteScrollMixin extends Vue {
   protected total = 0
   protected prefetchDistance = 1600
   protected isFetchingData = false
+  protected disablePrefetchPreviousPage = false
   protected scrollContainerId = INFINITE_SCROLL_CONTAINER_ID
   protected scrollItemClassName = INFINITE_SCROLL_ITEM_CLASS_NAME
 
@@ -146,7 +147,11 @@ export default class InfiniteScrollMixin extends Vue {
 
   public async prefetchPreviousPage() {
     this.updateCurrentPage()
-    if (this.currentPage - this.startPage <= 1 && this.startPage > 1) {
+    if (
+      !this.disablePrefetchPreviousPage &&
+      this.currentPage - this.startPage <= 1 &&
+      this.startPage > 1
+    ) {
       await this.fetchPreviousPage()
     }
   }
