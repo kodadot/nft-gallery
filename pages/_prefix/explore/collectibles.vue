@@ -30,9 +30,5 @@ const components = {}
     }
   },
 })
-export default class ExploreCollectibles extends mixins(PrefixMixin) {
-  created() {
-    this.checkPrefixBeforeMount()
-  }
-}
+export default class ExploreCollectibles extends mixins(PrefixMixin) {}
 </script>

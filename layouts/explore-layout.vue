@@ -37,7 +37,7 @@
 <script lang="ts" setup>
 import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
 
-const { $config } = useNuxtApp()
+const { $config, $store } = useNuxtApp()
 const route = useRoute()
 
 useNuxt2Meta({
@@ -52,4 +52,14 @@ useNuxt2Meta({
 
 const isExplore = computed(() => route.path.includes('/explore'))
 const isCollection = computed(() => route.name === 'prefix-collection-id')
+
+// TODO: we can remove this watcher
+// once we are not rely on `$store.getters.currentUrlPrefix`
+onBeforeMount(() => {
+  const prefix = route.params.prefix
+
+  if (prefix && prefix !== $store.getters.currentUrlPrefix) {
+    $store.dispatch('setUrlPrefix', prefix)
+  }
+})
 </script>

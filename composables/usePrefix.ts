@@ -3,17 +3,8 @@ import { getKusamaAssetId } from '@/utils/api/bsx/query'
 export default function () {
   const { $store } = useNuxtApp()
   const route = useRoute()
-  const router = useRouter()
 
-  const prefix = computed(() => {
-    const currentPrefix = route.params.prefix
-
-    if (currentPrefix && currentPrefix !== $store.getters.currentUrlPrefix) {
-      $store.dispatch('setUrlPrefix', currentPrefix)
-    }
-
-    return currentPrefix || $store.getters.currentUrlPrefix
-  })
+  const prefix = ref(route.params.prefix || $store.getters.currentUrlPrefix)
   const urlPrefix = computed<string>(() => prefix.value || 'bsx')
 
   const client = computed<string>(() => {
@@ -26,19 +17,19 @@ export default function () {
     return $store.getters['assets/getAssetById'](id)
   }
 
-  const checkPrefixBeforeMount = () => {
-    const prefix = route.params.prefix
-    if (urlPrefix.value !== prefix) {
-      $store.dispatch('setUrlPrefix', prefix)
-      router.go(0)
+  // TODO: we can remove this watcher
+  // once we are not rely on `$store.getters.currentUrlPrefix`
+  watch([() => route.params.prefix], ([newPrefix]) => {
+    if (urlPrefix.value !== route.params.prefix && newPrefix) {
+      prefix.value = newPrefix
+      $store.dispatch('setUrlPrefix', newPrefix)
     }
-  }
+  })
 
   return {
     urlPrefix,
     client,
     tokenId,
     assets,
-    checkPrefixBeforeMount,
   }
 }
