@@ -31,34 +31,37 @@
 </template>
 
 <script lang="ts" setup>
-const { $consola } = useNuxtApp()
+import useReplaceUrl from './useReplaceUrl'
+
+const { $store } = useNuxtApp()
 const route = useRoute()
-const router = useRouter()
 const { accountId } = useAuth()
+const { replaceUrl: replaceURL } = useReplaceUrl()
+
+const props = defineProps({
+  isImmediate: { type: Boolean, default: true },
+})
 
 const emit = defineEmits(['resetPage'])
 
 const listed = computed({
   get: () => route.query?.listed?.toString() === 'true',
-  set: (value) => replaceUrl({ listed: String(value) }),
+  set: (value) =>
+    props.isImmediate
+      ? replaceUrl({ listed: String(value) })
+      : $store.dispatch('exploreFilters/setListed', value),
 })
 
 const owned = computed({
   get: () => route.query?.owned?.toString() === 'true',
-  set: (value) => replaceUrl({ owned: String(value) }),
+  set: (value) =>
+    props.isImmediate
+      ? replaceUrl({ owned: String(value) })
+      : $store.dispatch('exploreFilters/setOwned', value),
 })
 
 const replaceUrl = (queryCondition: { [key: string]: any }) => {
-  router
-    .replace({
-      path: String(route.path),
-      query: {
-        ...route.query,
-        ...queryCondition,
-        page: '1',
-      },
-    })
-    .catch($consola.warn)
+  replaceURL(queryCondition)
   emit('resetPage')
 }
 </script>
