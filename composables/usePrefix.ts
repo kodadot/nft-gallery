@@ -22,12 +22,12 @@ export default function () {
   const checkPrefixBeforeMount = () => {
     const prefix = route.params.prefix
 
-    if (urlPrefix.value !== prefix && prefix) {
+    if ($store.getters.currentUrlPrefix !== prefix && prefix) {
       $store.dispatch('setUrlPrefix', prefix)
     }
   }
   watch([() => route.params.prefix], ([newPrefix]) => {
-    if (urlPrefix.value !== route.params.prefix && newPrefix) {
+    if ($store.getters.currentUrlPrefix !== route.params.prefix && newPrefix) {
       prefix.value = newPrefix
       $store.dispatch('setUrlPrefix', newPrefix)
     }
