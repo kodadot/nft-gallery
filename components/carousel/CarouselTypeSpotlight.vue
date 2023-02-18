@@ -8,7 +8,6 @@
 </template>
 
 <script lang="ts" setup>
-import CarouselIndex from './CarouselIndex.vue'
 import useCarouselSpotlight from './utils/useCarouselSpotlight'
 
 const { collections: spotlight } = useCarouselSpotlight()

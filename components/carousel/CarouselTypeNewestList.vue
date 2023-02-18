@@ -5,12 +5,10 @@
     :nfts="nfts"
     action-type="link"
     :link-url="`/${urlPrefix}/explore/items/?search=&sort=updatedAt_DESC`"
-    :link-text="`${$t('helper.seeMore')}`"
-    :gallery-item-carousel="false" />
+    :link-text="$t('helper.seeMore')" />
 </template>
 
 <script lang="ts" setup>
-import CarouselIndex from './CarouselIndex.vue'
 import { useCarouselNftEvents } from './utils/useCarousel'
 
 const { urlPrefix } = usePrefix()
