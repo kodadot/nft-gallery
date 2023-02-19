@@ -62,11 +62,11 @@ const emit = defineEmits(['resetPage'])
 const isMobile = computed(() => width.value <= 764)
 
 const open = computed(
-  () => $store.getters['preferences/getSidebarfilterCollapse']
+  () => $store.getters['preferences/getExploreFilterCollapse']
 )
 
 const closeFilterModal = () => {
-  $store.dispatch('preferences/setSidebarfilterCollapse', false)
+  $store.dispatch('preferences/setExploreFilterCollapse', false)
 }
 
 const resetFilters = () => {

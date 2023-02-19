@@ -15,7 +15,7 @@ import StatusFilter from './filters/StatusFilter.vue'
 const { $store } = useNuxtApp()
 
 const open = computed(
-  () => $store.getters['preferences/getSidebarfilterCollapse']
+  () => $store.getters['preferences/getExploreFilterCollapse']
 )
 </script>
 

@@ -2,7 +2,7 @@ import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
 
 export const state = (): {
   // Interface
-  sidebarfilterCollapseOpen: boolean
+  exploreFilterCollapseOpen: boolean
   layoutClass: string
   advancedUI: boolean
   theatreView: string
@@ -22,7 +22,7 @@ export const state = (): {
   hasCarbonOffset: boolean
   arweaveUpload: boolean
 } => ({
-  sidebarfilterCollapseOpen: true,
+  exploreFilterCollapseOpen: true,
   layoutClass: 'is-one-quarter-desktop is-one-third-tablet',
   advancedUI: false,
   theatreView: 'default',
@@ -45,8 +45,8 @@ export const state = (): {
 export type PreferencesState = ReturnType<typeof state>
 
 export const getters: GetterTree<PreferencesState, PreferencesState> = {
-  getSidebarfilterCollapse: ({ sidebarfilterCollapseOpen }) =>
-    sidebarfilterCollapseOpen,
+  getExploreFilterCollapse: ({ exploreFilterCollapseOpen }) =>
+    exploreFilterCollapseOpen,
   getLayoutClass: ({ layoutClass }) => layoutClass,
   getTheatreView: ({ theatreView }) => theatreView,
   getCompactCollection: ({ compactCollection }) => compactCollection,
@@ -66,8 +66,8 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
 }
 
 export const mutations: MutationTree<PreferencesState> = {
-  SET_SIDEBARFILTER_COLLAPSE(state: PreferencesState, data) {
-    state.sidebarfilterCollapseOpen = data
+  SET_EXPLOREFILTER_COLLAPSE(state: PreferencesState, data) {
+    state.exploreFilterCollapseOpen = data
   },
   SET_LAYOUT_CLASS(state: PreferencesState, data) {
     state.layoutClass = data
@@ -132,8 +132,8 @@ export const mutations: MutationTree<PreferencesState> = {
 }
 
 export const actions: ActionTree<PreferencesState, PreferencesState> = {
-  setSidebarfilterCollapse({ commit }: { commit: Commit }, data) {
-    commit('SET_SIDEBARFILTER_COLLAPSE', data)
+  setExploreFilterCollapse({ commit }: { commit: Commit }, data) {
+    commit('SET_EXPLOREFILTER_COLLAPSE', data)
   },
   setLayoutClass({ commit }: { commit: Commit }, data) {
     commit('SET_LAYOUT_CLASS', data)

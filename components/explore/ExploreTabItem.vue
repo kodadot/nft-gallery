@@ -5,10 +5,10 @@
     <div class="mr-4">
       <a
         :class="{ disabled: selectedTab === TabType.COLLECTION }"
-        @click="toggleSidebarfilter">
+        @click="toggleFilters">
         <b-icon
           :icon="
-            isSidebarOpen && selectedTab !== TabType.COLLECTION
+            isFiltersOpen && selectedTab !== TabType.COLLECTION
               ? 'times'
               : 'bars'
           "
@@ -50,15 +50,15 @@ const route = useRoute()
 const { $store } = useNuxtApp()
 
 const selectedTab = computed(() => route?.name?.split('-')[2])
-const isSidebarOpen = computed(
-  () => $store.getters['preferences/getSidebarfilterCollapse']
+const isFiltersOpen = computed(
+  () => $store.getters['preferences/getExploreFilterCollapse']
 )
-const toggleSidebarfilter = () =>
-  $store.dispatch('preferences/setSidebarfilterCollapse', !isSidebarOpen.value)
+const toggleFilters = () =>
+  $store.dispatch('preferences/setExploreFilterCollapse', !isFiltersOpen.value)
 
 watch(selectedTab, () => {
   if (selectedTab.value === TabType.COLLECTION) {
-    $store.dispatch('preferences/setSidebarfilterCollapse', false)
+    $store.dispatch('preferences/setExploreFilterCollapse', false)
   }
 })
 </script>
