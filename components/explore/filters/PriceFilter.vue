@@ -70,14 +70,15 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 import { fromDecimals, toDecimals } from '@/utils/math'
+import useReplaceUrl from './useReplaceUrl'
+
+const { replaceUrl: replaceURL } = useReplaceUrl()
 
 defineProps({
   expanded: { type: Boolean, default: false },
 })
 
-const { $consola } = useNuxtApp()
 const route = useRoute()
-const router = useRouter()
 const { decimals } = useChain()
 
 const range = ref({
@@ -100,19 +101,9 @@ const setPriceRange = () => {
 }
 
 const replaceUrl = (queryCondition: { [key: string]: any }) => {
-  router
-    .replace({
-      path: String(route.path),
-      query: {
-        ...route.query,
-        ...queryCondition,
-        page: '1',
-      },
-    })
-    .catch($consola.warn)
+  replaceURL(queryCondition)
   emit('resetPage')
 }
-
 const isValidFilter = (
   min: number | string | undefined,
   max: number | string | undefined
