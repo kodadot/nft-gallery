@@ -14,12 +14,27 @@
           direction="top"
           :distance="prefetchDistance"
           @infinite="reachTopHandler"></InfiniteLoading>
-        <div :id="scrollContainerId" class="columns is-multiline">
+        <div
+          :id="scrollContainerId"
+          class="columns is-multiline is-hidden-mobile">
           <div
             v-for="(nft, index) in results"
             :key="`${nft.id}-${index}`"
             :class="`column ${classLayout} ${scrollItemClassName}`">
             <NftCard :nft="nft" :data-cy="`item-index-${index}`" />
+          </div>
+        </div>
+        <div
+          :id="scrollContainerId"
+          class="columns is-multiline is-hidden-tablet">
+          <div
+            v-for="(nft, index) in results"
+            :key="`${nft.id}-${index}`"
+            :class="`column ${classLayout} ${scrollItemClassName}`">
+            <NftCard
+              variant="minimal"
+              :nft="nft"
+              :data-cy="`item-index-${index}`" />
           </div>
         </div>
         <InfiniteLoading
