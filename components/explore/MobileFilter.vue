@@ -1,9 +1,10 @@
 <template>
   <b-modal
+    v-if="isMobile"
     :active="open"
     :on-cancel="closeFilterModal"
     :can-cancel="['escape']"
-    class="is-hidden-tablet top background-white"
+    class="top"
     full-screen>
     <div class="is-flex is-flex-direction-column is-fullheight is-fullwidth">
       <div class="is-flex-grow-1">
@@ -44,9 +45,18 @@ import StatusFilter from './filters/StatusFilter.vue'
 import useReplaceUrl from './filters/useReplaceUrl'
 
 const { $store } = useNuxtApp()
+const { replaceUrl } = useReplaceUrl()
+const width = ref(window.innerWidth)
+
+onMounted(() =>
+  window.addEventListener('resize', () => {
+    width.value = window.innerWidth
+  })
+)
+
 const emit = defineEmits(['resetPage'])
 
-const { replaceUrl } = useReplaceUrl()
+const isMobile = computed(() => width.value <= 764)
 
 const open = computed(
   () => $store.getters['preferences/getSidebarfilterCollapse']
