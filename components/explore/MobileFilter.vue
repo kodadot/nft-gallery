@@ -107,10 +107,14 @@ const applyFilters = () => {
   height: 100%;
 }
 .border-bottom {
-  border-bottom: 1px solid $black;
+  @include ktheme() {
+    border-bottom: 1px solid theme('border-color');
+  }
 }
 .border-top {
-  border-top: 1px solid $black;
+  @include ktheme() {
+    border-top: 1px solid theme('border-color');
+  }
 }
 .top {
   z-index: 1000;
@@ -127,12 +131,8 @@ const applyFilters = () => {
 @import '@/styles/abstracts/variables';
 
 .modal-content {
-  background-color: $white !important;
-}
-
-.dark-mode {
-  .modal-content {
-    background-color: $black !important;
+  @include ktheme() {
+    background-color: theme('background-color') !important;
   }
 }
 </style>
