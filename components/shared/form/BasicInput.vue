@@ -2,15 +2,17 @@
   <b-field :label="$i18n.t(label)">
     <b-input
       ref="input"
-      v-model="vValue"
+      :value="value"
       :placeholder="placeholder"
       :expanded="expanded"
       :maxlength="maxlength"
       :required="required"
       :disabled="disabled"
       :type="type"
+      :pattern="!value && required ? `^\\S+` : '.*'"
       @blur="hasFocus = false"
-      @focus="hasFocus = true" />
+      @focus="hasFocus = true"
+      @input="handleInput" />
     <template v-if="hasFocus && message" #message>
       <transition name="fade">
         <span class="has-text-primary is-italic">{{ message }}</span>
@@ -22,11 +24,11 @@
 <script lang="ts" setup>
 import type { BInput } from 'buefy/dist/components/input'
 
-const vValue = ref('')
 const { $i18n } = useNuxtApp()
 
 withDefaults(
   defineProps<{
+    value: string
     label: string
     placeholder: string
     expanded?: boolean
@@ -47,11 +49,15 @@ withDefaults(
 )
 
 const hasFocus = ref(false)
-
+const emit = defineEmits(['input'])
 const input = ref<BInput>(null)
 
 function checkValidity() {
   return input.value?.checkHtml5Validity()
+}
+
+const handleInput = (value: string) => {
+  emit('input', value.trim())
 }
 
 defineExpose({ checkValidity })
