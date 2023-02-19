@@ -2,7 +2,7 @@ export default function () {
   const { $consola } = useNuxtApp()
   const route = useRoute()
   const router = useRouter()
-  const replaceUrl = (queryCondition: { [key: string]: any }) => {
+  const replaceUrl = (queryCondition: { [key: string]: unknown }) => {
     router
       .replace({
         path: String(route.path),

@@ -1,19 +1,19 @@
 <template>
   <b-collapse :open="expanded" animation="slide">
-    <template #trigger="props">
-      <div class="is-flex" role="button" :aria-expanded="props.open">
+    <template #trigger="{ open }">
+      <div class="is-flex" role="button" :aria-expanded="open">
         <p
           :class="[
             'card-header-title',
             {
-              'has-text-weight-semibold': props.open,
-              'has-text-weight-normal': !props.open,
+              'has-text-weight-semibold': open,
+              'has-text-weight-normal': !open,
             },
           ]">
           {{ $t('offer.status') }}
         </p>
         <a class="card-header-icon">
-          <b-icon :icon="props.open ? 'minus' : 'plus'" />
+          <b-icon :icon="open ? 'minus' : 'plus'" />
         </a>
       </div>
     </template>
