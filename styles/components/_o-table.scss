@@ -35,10 +35,16 @@
 
   @include touch {
     tbody tr {
-
       padding-top: 1.5rem;
       @include ktheme() {
-        background-color: theme('background-color');
+        background-color: theme('background-color') !important;
+      }
+    }
+    &--hoverable {
+      tbody tr:hover td {
+        @include ktheme() {
+          background-color: theme('background-color') !important;
+        }
       }
     }
   }
@@ -51,4 +57,3 @@
     }
   }
 }
-
