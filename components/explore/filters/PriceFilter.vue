@@ -1,5 +1,5 @@
 <template>
-  <b-collapse :open="false" animation="slide">
+  <b-collapse :open="expanded" animation="slide">
     <template #trigger="props">
       <div class="is-flex" role="button" :aria-expanded="props.open">
         <p
@@ -70,6 +70,10 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 import { fromDecimals, toDecimals } from '@/utils/math'
+
+defineProps({
+  expanded: { type: Boolean, default: false },
+})
 
 const { $consola } = useNuxtApp()
 const route = useRoute()

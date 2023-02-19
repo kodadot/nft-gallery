@@ -1,5 +1,5 @@
 <template>
-  <b-collapse :open="true" animation="slide">
+  <b-collapse :open="expanded" animation="slide">
     <template #trigger="props">
       <div class="is-flex" role="button" :aria-expanded="props.open">
         <p
@@ -40,6 +40,7 @@ const { replaceUrl: replaceURL } = useReplaceUrl()
 
 const props = defineProps({
   isImmediate: { type: Boolean, default: true },
+  expanded: { type: Boolean, default: true },
 })
 
 const emit = defineEmits(['resetPage'])
