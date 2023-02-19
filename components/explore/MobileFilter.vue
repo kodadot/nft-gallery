@@ -62,11 +62,11 @@ const emit = defineEmits(['resetPage'])
 const isMobile = computed(() => width.value <= 768)
 
 const open = computed(
-  () => $store.getters['preferences/getExploreFilterCollapse']
+  () => $store.getters['preferences/getMobileFilterCollapse']
 )
 
 const closeFilterModal = () => {
-  $store.dispatch('preferences/setExploreFilterCollapse', false)
+  $store.dispatch('preferences/setMobileFilterCollapse', false)
 }
 
 const resetFilters = () => {

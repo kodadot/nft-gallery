@@ -4,15 +4,22 @@
     data-cy="tabs">
     <div class="mr-4">
       <a
+        class="is-hidden-mobile"
         :class="{ disabled: selectedTab === TabType.COLLECTION }"
-        @click="toggleFilters">
+        @click="toggleSidebarFilters">
         <b-icon
           :icon="
-            isFiltersOpen && selectedTab !== TabType.COLLECTION
+            isSidebarFiltersOpen && selectedTab !== TabType.COLLECTION
               ? 'times'
               : 'bars'
           "
           size="is-medium" />
+      </a>
+      <a
+        class="is-hidden-tablet"
+        :class="{ disabled: selectedTab === TabType.COLLECTION }"
+        @click="openMobileFilters">
+        <b-icon :icon="'bars'" size="is-medium" />
       </a>
     </div>
     <p class="control">
@@ -50,15 +57,23 @@ const route = useRoute()
 const { $store } = useNuxtApp()
 
 const selectedTab = computed(() => route?.name?.split('-')[2])
-const isFiltersOpen = computed(
-  () => $store.getters['preferences/getExploreFilterCollapse']
+const isSidebarFiltersOpen = computed(
+  () => $store.getters['preferences/getsidebarFilterCollapse']
 )
-const toggleFilters = () =>
-  $store.dispatch('preferences/setExploreFilterCollapse', !isFiltersOpen.value)
+
+const toggleSidebarFilters = () => {
+  $store.dispatch(
+    'preferences/setSidebarFilterCollapse',
+    !isSidebarFiltersOpen.value
+  )
+}
+const openMobileFilters = () => {
+  $store.dispatch('preferences/setMobileFilterCollapse', true)
+}
 
 watch(selectedTab, () => {
   if (selectedTab.value === TabType.COLLECTION) {
-    $store.dispatch('preferences/setExploreFilterCollapse', false)
+    $store.dispatch('preferences/setSidebarFilterCollapse', false)
   }
 })
 </script>
