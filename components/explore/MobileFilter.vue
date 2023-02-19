@@ -16,9 +16,9 @@
           </div>
         </div>
         <div class="border-bottom">
-          <PriceFilter />
+          <StatusFilter :is-immediate="false" :expanded="true" />
         </div>
-        <StatusFilter :is-immediate="false" />
+        <PriceFilter :expanded="true" />
       </div>
 
       <div
@@ -26,12 +26,12 @@
         <NeoButton
           label="Reset All"
           variant="primary"
-          size="large"
+          class="w-9 h-3_5"
           @click.native="resetFilters" />
         <NeoButton
           label="Apply"
           variant="k-accent"
-          size="large"
+          class="w-9 h-3_5"
           @click.native="applyFilters" />
       </div>
     </div>
@@ -112,10 +112,24 @@ const applyFilters = () => {
 .top {
   z-index: 1000;
 }
+.h-3_5 {
+  height: 3.5rem !important;
+}
+.w-9 {
+  width: 9rem;
+}
 </style>
 
-<style>
+<style lang="scss">
+@import '@/styles/abstracts/variables';
+
 .modal-content {
-  background-color: white !important;
+  background-color: $white !important;
+}
+
+.dark-mode {
+  .modal-content {
+    background-color: $black !important;
+  }
 }
 </style>
