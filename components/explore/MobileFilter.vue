@@ -10,7 +10,7 @@
       <div class="is-flex-grow-1">
         <div
           class="is-flex is-justify-content-space-between px-4 py-3 border-bottom">
-          <div>Filters</div>
+          <div>{{ $t('general.filters') }}</div>
           <div class="filters-close">
             <b-icon icon="x" @click.native="closeFilterModal"></b-icon>
           </div>
@@ -27,12 +27,15 @@
           label="Reset All"
           variant="primary"
           class="w-9 h-3_5"
-          @click.native="resetFilters" />
+          @click.native="resetFilters">
+          {{ $t('general.resetAll') }}
+        </NeoButton>
         <NeoButton
-          label="Apply"
           variant="k-accent"
           class="w-9 h-3_5"
-          @click.native="applyFilters" />
+          @click.native="applyFilters">
+          {{ $t('general.apply') }}
+        </NeoButton>
       </div>
     </div>
   </b-modal>
