@@ -26,7 +26,7 @@
         </div>
         <div
           :id="scrollContainerId"
-          class="columns is-multiline is-hidden-tablet">
+          class="columns is-mobile is-multiline is-hidden-tablet">
           <div
             v-for="(nft, index) in results"
             :key="`${nft.id}-${index}`"
@@ -140,7 +140,7 @@ export default class Gallery extends mixins(
   }
 
   get classLayout() {
-    return this.$store.getters['preferences/getLayoutClass']
+    return this.$store.getters['preferences/getGalleryLayoutClass']
   }
 
   get results() {

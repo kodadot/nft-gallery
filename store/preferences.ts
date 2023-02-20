@@ -5,6 +5,7 @@ export const state = (): {
   sidebarFilterCollapseOpen: boolean
   mobileFilterCollapseOpen: boolean
   layoutClass: string
+  galleryLayoutClass: string
   advancedUI: boolean
   theatreView: string
   compactGalleryItem: boolean
@@ -26,6 +27,8 @@ export const state = (): {
   sidebarFilterCollapseOpen: true,
   mobileFilterCollapseOpen: false,
   layoutClass: 'is-one-quarter-desktop is-one-third-tablet',
+  galleryLayoutClass:
+    'is-one-quarter-desktop is-one-third-tablet is-half-mobile',
   advancedUI: false,
   theatreView: 'default',
   compactGalleryItem: true,
@@ -52,6 +55,7 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getMobileFilterCollapse: ({ mobileFilterCollapseOpen }) =>
     mobileFilterCollapseOpen,
   getLayoutClass: ({ layoutClass }) => layoutClass,
+  getGalleryLayoutClass: ({ galleryLayoutClass }) => galleryLayoutClass,
   getTheatreView: ({ theatreView }) => theatreView,
   getCompactCollection: ({ compactCollection }) => compactCollection,
   getShowPriceValue: ({ showPriceGallery }) => showPriceGallery,
@@ -79,10 +83,15 @@ export const mutations: MutationTree<PreferencesState> = {
   SET_LAYOUT_CLASS(state: PreferencesState, data) {
     state.layoutClass = data
   },
+  SET_GALLERY_LAYOUT_CLASS(state: PreferencesState, data) {
+    state.galleryLayoutClass = data
+  },
   SET_ADVANCED_UI(state: PreferencesState, data) {
     // if set to false reset state back to default
     if (!data) {
       state.layoutClass = 'is-one-quarter-desktop is-one-third-tablet'
+      state.galleryLayoutClass =
+        'is-one-quarter-desktop is-one-third-tablet is-half-mobile'
       state.theatreView = 'theatre'
       state.compactGalleryItem = true
       state.compactCollection = false
@@ -147,6 +156,9 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   },
   setLayoutClass({ commit }: { commit: Commit }, data) {
     commit('SET_LAYOUT_CLASS', data)
+  },
+  setGalleryLayoutClass({ commit }: { commit: Commit }, data) {
+    commit('SET_GALLERY_LAYOUT_CLASS', data)
   },
   setAdvancedUI({ commit }: { commit: Commit }, data) {
     commit('SET_ADVANCED_UI', data)
