@@ -1,4 +1,7 @@
 .carousel-agnostic {
+  @include ktheme() {
+    background: theme('background-color');
+  }
   .keen-slider {
     padding-bottom: 16px;
     overflow: visible !important;
