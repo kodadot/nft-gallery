@@ -17,7 +17,7 @@
         </a>
       </div>
     </template>
-    <form class="p-4" @submit.prevent="setPriceRange">
+    <form class="p-4" @submit.prevent="apply">
       <div
         class="is-flex input-container mb-4"
         :class="[inputFocused ? 'input-focused' : '']">
@@ -60,7 +60,7 @@
         no-shadow
         variant="k-accent"
         expanded
-        @click.native="setPriceRange">
+        @click.native="apply">
         {{ $t('general.apply') }}
       </NeoButton>
     </form>
@@ -72,23 +72,68 @@ import { NeoButton } from '@kodadot1/brick'
 import { fromDecimals, toDecimals } from '@/utils/math'
 import useReplaceUrl from './useReplaceUrl'
 
-const { replaceUrl: replaceURL } = useReplaceUrl()
+const { $store } = useNuxtApp()
 
-defineProps({
-  expanded: { type: Boolean, default: false },
-})
+const { replaceUrl } = useReplaceUrl()
+type DataModel = 'query' | 'store'
+
+const props = withDefaults(
+  defineProps<{
+    expanded?: boolean
+    dataModel?: DataModel
+  }>(),
+  {
+    expanded: false,
+    dataModel: 'query',
+  }
+)
 
 const route = useRoute()
 const { decimals } = useChain()
 
-const range = ref({
-  min: fromDecimals(Number(route.query?.min), decimals.value) || undefined,
-  max: fromDecimals(Number(route.query?.max), decimals.value) || undefined,
-})
+const range =
+  props.dataModel === 'query'
+    ? ref({
+        min:
+          fromDecimals(Number(route.query?.min), decimals.value) || undefined,
+        max:
+          fromDecimals(Number(route.query?.max), decimals.value) || undefined,
+      })
+    : ref({
+        min: fromDecimals(
+          $store.getters['exploreFilters/getMin'],
+          decimals.value
+        ),
+        max: fromDecimals(
+          $store.getters['exploreFilters/getMax'],
+          decimals.value
+        ),
+      })
 
 const emit = defineEmits(['resetPage'])
+const apply = () => {
+  if (props.dataModel === 'query') {
+    applyToQuery()
+  }
+  if (props.dataModel === 'store') {
+    applyToStore()
+  }
 
-const setPriceRange = () => {
+  range.value = { min: undefined, max: undefined }
+}
+
+const applyToStore = () => {
+  const min = range.value.min
+    ? toDecimals(range.value.min, decimals.value)
+    : undefined
+  const max = range.value.max
+    ? toDecimals(range.value.max, decimals.value)
+    : undefined
+  $store.dispatch('exploreFilters/setPriceRange', { min, max })
+  $store.dispatch('exploreFilters/setListed', true)
+}
+
+const applyToQuery = () => {
   const priceMin = range.value.min
     ? String(toDecimals(range.value.min, decimals.value))
     : undefined
@@ -97,11 +142,6 @@ const setPriceRange = () => {
     : undefined
 
   replaceUrl({ listed: String(true), min: priceMin, max: priceMax })
-  range.value = { min: undefined, max: undefined }
-}
-
-const replaceUrl = (queryCondition: { [key: string]: any }) => {
-  replaceURL(queryCondition)
   emit('resetPage')
 }
 const isValidFilter = (

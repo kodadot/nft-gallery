@@ -16,9 +16,9 @@
           </div>
         </div>
         <div class="border-bottom">
-          <StatusFilter :is-immediate="false" :expanded="true" />
+          <StatusFilter data-model="store" expanded />
         </div>
-        <PriceFilter :expanded="true" />
+        <PriceFilter data-model="store" expanded />
       </div>
 
       <div
@@ -46,16 +46,18 @@ import { NeoButton } from '@kodadot1/brick'
 import PriceFilter from './filters/PriceFilter.vue'
 import StatusFilter from './filters/StatusFilter.vue'
 import useReplaceUrl from './filters/useReplaceUrl'
+const route = useRoute()
 
 const { $store } = useNuxtApp()
 const { replaceUrl } = useReplaceUrl()
 const width = ref(window.innerWidth)
 
-onMounted(() =>
+onMounted(() => {
   window.addEventListener('resize', () => {
     width.value = window.innerWidth
   })
-)
+  readFiltersFromUrl()
+})
 
 const emit = defineEmits(['resetPage'])
 
@@ -69,18 +71,34 @@ const closeFilterModal = () => {
   $store.dispatch('preferences/setMobileFilterCollapse', false)
 }
 
+const readFiltersFromUrl = () => {
+  const listed = route.query?.listed?.toString() === 'true',
+    owned = route.query?.owned?.toString() === 'true',
+    min = Number(route.query?.min) || undefined,
+    max = Number(route.query?.max) || undefined
+
+  $store.dispatch('exploreFilters/setListed', listed)
+  $store.dispatch('exploreFilters/setOwned', owned)
+  $store.dispatch('exploreFilters/setPriceRange', { min, max })
+}
+
 const resetFilters = () => {
   // set store to defaults
-  $store.dispatch('exploreFilters/setListed', false)
-  $store.dispatch('exploreFilters/setOwned', false)
+  const statusDefaults = {
+    listed: false,
+    owned: false,
+  }
+  $store.dispatch('exploreFilters/setListed', statusDefaults.listed)
+  $store.dispatch('exploreFilters/setOwned', statusDefaults.owned)
   // price
   const priceDefaults = {
     min: undefined,
     max: undefined,
   }
+  $store.dispatch('exploreFilters/setPriceRange', priceDefaults)
 
   replaceUrl({
-    ...$store.getters['exploreFilters/getStatusFilters'],
+    ...statusDefaults,
     ...priceDefaults,
   })
   emit('resetPage')
@@ -90,9 +108,10 @@ const resetFilters = () => {
 const applyFilters = () => {
   // status filters
   const statusFilters = $store.getters['exploreFilters/getStatusFilters']
+  const priceRangeFilter = $store.getters['exploreFilters/getPriceRange']
 
   // apply to URL
-  replaceUrl(statusFilters)
+  replaceUrl({ ...statusFilters, ...priceRangeFilter })
   emit('resetPage')
   closeFilterModal()
 }

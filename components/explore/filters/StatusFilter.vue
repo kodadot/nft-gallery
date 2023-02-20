@@ -38,30 +38,44 @@ const route = useRoute()
 const { accountId } = useAuth()
 const { replaceUrl: replaceURL } = useReplaceUrl()
 
-const props = defineProps({
-  isImmediate: { type: Boolean, default: true },
-  expanded: { type: Boolean, default: true },
-})
+type DataModel = 'query' | 'store'
+
+const props = withDefaults(
+  defineProps<{
+    expanded?: boolean
+    dataModel?: DataModel
+  }>(),
+  {
+    expanded: false,
+    dataModel: 'query',
+  }
+)
 
 const emit = defineEmits(['resetPage'])
 
-const listed = computed({
-  get: () => route.query?.listed?.toString() === 'true',
-  set: (value) =>
-    props.isImmediate
-      ? replaceUrl({ listed: String(value) })
-      : $store.dispatch('exploreFilters/setListed', value),
-})
+const listed =
+  props.dataModel === 'query'
+    ? computed({
+        get: () => route.query?.listed?.toString() === 'true',
+        set: (value) => applyToUrl({ listed: String(value) }),
+      })
+    : computed({
+        get: () => $store.getters['exploreFilters/getListed'],
+        set: (value) => $store.dispatch('exploreFilters/setListed', value),
+      })
 
-const owned = computed({
-  get: () => route.query?.owned?.toString() === 'true',
-  set: (value) =>
-    props.isImmediate
-      ? replaceUrl({ owned: String(value) })
-      : $store.dispatch('exploreFilters/setOwned', value),
-})
+const owned =
+  props.dataModel === 'query'
+    ? computed({
+        get: () => route.query?.owned?.toString() === 'true',
+        set: (value) => applyToUrl({ owned: String(value) }),
+      })
+    : computed({
+        get: () => $store.getters['exploreFilters/getOwned'],
+        set: (value) => $store.dispatch('exploreFilters/setOwned', value),
+      })
 
-const replaceUrl = (queryCondition: { [key: string]: any }) => {
+const applyToUrl = (queryCondition: { [key: string]: any }) => {
   replaceURL(queryCondition)
   emit('resetPage')
 }
