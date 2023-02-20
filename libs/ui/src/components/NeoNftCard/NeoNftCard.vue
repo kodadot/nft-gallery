@@ -13,16 +13,18 @@
       class="nft-media-info is-flex is-flex-direction-column"
       :class="`nft-media-info__${variant}`">
       <div class="is-flex is-flex-direction-column">
-        <span class="is-ellipsis has-text-weight-bold">{{ nft.name }}</span>
+        <span class="is-ellipsis has-text-weight-bold">{{
+          nft.name || '--'
+        }}</span>
 
         <nuxt-link
           v-if="
-            variant !== 'minimal' && nft.collection.name && nft.collection.id
+            variant !== 'minimal' && (nft.collection.name || nft.collection.id)
           "
           :title="nft.collectionName || nft.collection.name"
           :to="`/${prefix}/collection/${nft.collection.id}`"
           class="is-size-7 nft-info-collection-name">
-          {{ nft.collection.name }}
+          {{ nft.collection.name || '--' }}
         </nuxt-link>
       </div>
 

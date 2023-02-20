@@ -11,11 +11,12 @@
         </div>
         <hr class="mt-0 is-hidden-mobile" />
         <br class="is-hidden-tablet" />
-        <InfiniteLoading
+        <a
           v-if="startPage > 1 && !isLoading && total > 0"
-          direction="top"
-          :distance="prefetchDistance"
-          @infinite="reachTopHandler"></InfiniteLoading>
+          class="is-flex is-justify-content-center pb-4"
+          @click="fetchPreviousPage">
+          <b-icon icon="chevron-up" />
+        </a>
         <div
           :id="scrollContainerId"
           class="columns is-multiline is-hidden-mobile">
@@ -126,6 +127,7 @@ export default class Gallery extends mixins(
   }
   public isLoading = true
   public first = 20
+  public disablePrefetchPreviousPage = true
   get showPriceValue(): boolean {
     return (
       this.searchQuery?.listed ||

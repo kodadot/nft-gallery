@@ -6,6 +6,7 @@ import { fastExtract } from './ipfs'
 
 type P<T> = Promise<T>
 type KeyValue = Record<string, string>
+const metadataCache = {}
 
 export const cacheOrFetchMetadata = async <T>(
   fromCache: T | undefined,
@@ -24,7 +25,7 @@ export const cacheOrFetchMetadata = async <T>(
 }
 
 export const processSingleMetadata = <T>(metadata: string): P<T> => {
-  return cacheOrFetchMetadata<T>(undefined, metadata)
+  return cacheOrFetchMetadata<T>(metadataCache[metadata], metadata)
 }
 
 export const processMetadata = <T>(
@@ -34,9 +35,10 @@ export const processMetadata = <T>(
   const metadata = metadataList.map((meta) => meta || '')
 
   metadata.forEach(async (m, i) => {
-    const meta = await cacheOrFetchMetadata(undefined, m)
+    const meta = await cacheOrFetchMetadata(metadataCache[m], m)
 
     if (cb && meta !== undefined) {
+      metadataCache[m] = meta
       cb(meta, i)
     }
   })

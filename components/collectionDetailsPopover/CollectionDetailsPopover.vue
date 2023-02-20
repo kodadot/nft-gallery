@@ -21,7 +21,7 @@
                 nft?.collection?.id || nft.collectionId
               }`">
               <span data-cy="identity-display">
-                {{ nft?.collection?.name || nft?.collectionName }}</span
+                {{ nft?.collection?.name || nft?.collectionName || '--' }}</span
               >
             </nuxt-link>
           </div>
