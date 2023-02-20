@@ -8,7 +8,7 @@
       :disabled-tooltip="$t('tabs.offersDisabled')">
       <GalleryItemOffers
         v-if="
-          urlPrefix !== 'rmrk' &&
+          !['rmrk', 'rmrk2'].includes(urlPrefix) &&
           nft?.collection.id &&
           nft?.id &&
           nft.currentOwner

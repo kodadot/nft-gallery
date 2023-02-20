@@ -104,7 +104,9 @@ const { data, loading } = useGraphql({
   clientName: urlPrefix.value,
   variables: {
     id: dprops.nftId,
-    interaction: dprops.interactions,
+    interaction: dprops.interactions.filter(
+      (i) => i !== 'MINTNFT' && i !== 'CONSUME'
+    ),
     limit: 100,
   },
 })
@@ -125,7 +127,9 @@ watchEffect(() => {
 
 const formatPrice = (price) => {
   const { symbol } = assets(tokenId.value)
-  const tokenSymbol = urlPrefix.value === 'rmrk' ? unit.value : symbol
+  const tokenSymbol = ['rmrk', 'rmrk2'].includes(urlPrefix.value)
+    ? unit.value
+    : symbol
 
   return formatBalance(price, decimals.value, tokenSymbol)
 }
