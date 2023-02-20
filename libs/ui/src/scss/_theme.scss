@@ -16,11 +16,13 @@ $themes: (
     'k-grey': #999999,
     'k-hovergrey': #6b6b6b,
     'k-blue': #6188e7,
+    'k-blueLight': #e8edfb,
     'k-primary': #ff7ac3,
+    'k-primaryLight': #fff0f8,
     'k-shade': #cccccc,
     'placeholder-color': #cccccc,
     'primary-shadow': 4px 4px black,
-    'disabled': #f3f3f3
+    'disabled': #f3f3f3,
   ),
   'dark-mode': (
     'white': #ffffff,
@@ -39,11 +41,13 @@ $themes: (
     'k-grey': #cccccc,
     'k-hovergrey': #6b6b6b,
     'k-blue': #6188e7,
+    'k-blueLight': #e8edfb,
     'k-primary': #ff7ac3,
+    'k-primaryLight': #fff0f8,
     'k-shade': #999999,
     'placeholder-color': #cccccc,
     'primary-shadow': 4px 4px white,
-    'disabled': #f3f3f3
+    'disabled': #191718,
   ),
 );
 

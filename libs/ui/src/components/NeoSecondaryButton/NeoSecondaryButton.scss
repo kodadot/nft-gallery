@@ -1,0 +1,34 @@
+@import '@oruga-ui/oruga/src/scss/oruga-full.scss';
+@import '../../scss/variable.scss';
+@import '../../scss/theme.scss';
+
+.button-override {
+  border-radius: 0;
+  padding: 6px 16px;
+}
+
+.o-btn {
+  &--primary {
+    @include ktheme() {
+      background-color: theme('background-color');
+      color: theme('black');
+      border: 1px solid theme('k-primary');
+      &:hover {
+        background-color: theme('k-primaryLight');
+        color: theme('black');
+      }
+    }
+  }
+
+  &--info {
+    @include ktheme() {
+      background-color: theme('background-color');
+      color: theme('black');
+      border: 1px solid theme('k-blue');
+      &:hover {
+        background-color: theme('k-blueLight');
+        color: theme('black');
+      }
+    }
+  }
+}

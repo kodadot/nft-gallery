@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Loader v-model="isLoading" :status="status" />
     <o-table v-if="offers?.length" :data="offers" hoverable>
       <!-- token price -->
       <o-table-column v-slot="props" field="id" :label="$t('offer.price')">
@@ -51,6 +52,29 @@
           >{{ formatOfferStatus(props.row.status, props.row.expiration) }}</span
         >
       </o-table-column>
+      <o-table-column v-slot="props" field="action">
+        <NeoSecondaryButton
+          v-if="
+            (props.row.caller === accountId || isOwner) &&
+            props.row.status === OfferStatusType.ACTIVE
+          "
+          variant="primary"
+          @click.native="onOfferSelected(props.row.caller, true)"
+          >Cancel</NeoSecondaryButton
+        >
+        <NeoSecondaryButton
+          v-if="isOwner && props.row.status === OfferStatusType.ACTIVE"
+          variant="info"
+          @click.native="onOfferSelected(props.row.caller, false)"
+          >Accept</NeoSecondaryButton
+        >
+        <b-button
+          v-if="isOwner"
+          type="is-orange"
+          outlined
+          icon-left="times"
+          @click="onOfferSelected(props.row.caller, false) || true" />
+      </o-table-column>
     </o-table>
     <div v-else class="has-text-centered">{{ $t('nft.offer.empty') }}</div>
   </div>
@@ -63,27 +87,39 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 import { getKSMUSD } from '@/utils/coingecko'
 import formatBalance from '@/utils/format/balance'
 import { formatSecondsToDuration } from '@/utils/format/time'
-
+import { NeoSecondaryButton } from '@kodadot1/brick'
 import type { Offer, OfferResponse } from '@/components/bsx/Offer/types'
 import type { CollectionEvents } from '@/components/rmrk/service/scheme'
 import { OfferStatusType } from '@/utils/offerStatus'
-const { $i18n } = useNuxtApp()
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { tokenIdToRoute } from '~~/components/unique/utils'
+import { isOwner as checkOwner } from '@/utils/account'
+
+const { $i18n, $consola } = useNuxtApp()
 
 const { apiInstance } = useApi()
 const { urlPrefix, tokenId, assets } = usePrefix()
 const { decimals } = useChain()
-
+const { howAboutToExecute, initTransactionLoader, isLoading, status } =
+  useMetaTransaction()
 const dprops = defineProps<{
   collectionId: string
   nftId: string
   account: string
 }>()
 
-const { data } = useGraphql({
+const isOwner = computed(() => checkOwner(dprops.account, accountId.value))
+
+const { accountId } = useAuth()
+
+const { data, refetch } = useGraphql({
   queryName: 'offerListByNftId',
   queryPrefix: 'chain-bsx',
   variables: {
     id: dprops.nftId,
+  },
+  options: {
+    fetchPolicy: 'network-only',
   },
 })
 
@@ -146,11 +182,42 @@ const formatOfferStatus = (status: OfferStatusType, expiration: number) => {
   }
 }
 
+const onOfferSelected = async (caller: string, withdraw: boolean) => {
+  await submit(caller, withdraw, refetch)
+}
+
 onMounted(async () => {
   const api = await apiInstance.value
   const block = await api.rpc.chain.getHeader()
   currentBlock.value = block.number.toNumber()
 })
+
+const submit = async (
+  maker: string,
+  withdraw: boolean,
+  onSuccess?: () => void
+) => {
+  try {
+    const api = await apiInstance.value
+    initTransactionLoader()
+    const cb = !withdraw
+      ? api.tx.marketplace.acceptOffer
+      : api.tx.marketplace.withdrawOffer
+    const { id, item } = tokenIdToRoute(dprops.nftId)
+    const args = [id, item, maker]
+    await howAboutToExecute(accountId.value, cb, args, (blockNumber) => {
+      const msg = 'your offer has been withdrawn'
+      showNotification(
+        `[OFFER] Since block ${blockNumber} ${msg}`,
+        notificationTypes.success
+      )
+      onSuccess && onSuccess()
+    })
+  } catch (e: any) {
+    showNotification(`[OFFER::ERR] ${e}`, notificationTypes.danger)
+    $consola.error(e)
+  }
+}
 
 watch(
   [
@@ -165,6 +232,7 @@ watch(
       const floorPrice = formatPrice(nftPrice || '')
 
       offers.value = offersData.offers
+      console.log('offerss', offers)
 
       offersData.offers.map((offer) => {
         const price = formatPrice(offer.price)
