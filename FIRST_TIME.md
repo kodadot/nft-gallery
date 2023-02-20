@@ -195,7 +195,7 @@ Current Indexers we have/use:
 - SubSquid
   - Basilisk: [snek](https://github.com/kodadot/snek)
   - Kusama: [rubick](https://github.com/kodadot/rubick)
-  - Moonsama: [click](https://github.com/kodadot/click)
+  - MoonRiver: [click](https://github.com/kodadot/click)
 
 ### MISC 🏞
 
