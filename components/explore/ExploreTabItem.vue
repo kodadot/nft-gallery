@@ -22,12 +22,12 @@
         <NeoButton
           class="explore-tabs-button"
           :active="route.name === 'prefix-collection-id'">
-          <span>Items</span>
+          <span>{{ $t('items') }}</span>
         </NeoButton>
       </p>
       <p class="control">
         <NeoButton class="explore-tabs-button">
-          <span>Activity</span>
+          <span>{{ $t('tabs.activity') }}</span>
         </NeoButton>
       </p>
     </template>

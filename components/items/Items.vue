@@ -9,5 +9,3 @@
 import SidebarFilter from '@/components/explore/SidebarFilter.vue'
 import ItemsGrid from './ItemsGrid/ItemsGrid.vue'
 </script>
-
-<style scoped></style>
