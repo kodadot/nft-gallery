@@ -4,11 +4,13 @@
       <SidebarFilter @resetPage="resetPage" />
       <div class="container">
         <!-- TODO: FilterBreadcrumbs here -->
-        <div class="is-flex is-justify-content-space-between py-5">
+        <div
+          class="is-flex is-justify-content-space-between py-5 is-hidden-mobile">
           <BreadcrumbsFilter />
           <div v-show="total">{{ total }} {{ $t('items') }}</div>
         </div>
-        <hr class="mt-0" />
+        <hr class="mt-0 is-hidden-mobile" />
+        <br class="is-hidden-tablet" />
         <InfiniteLoading
           v-if="startPage > 1 && !isLoading && total > 0"
           direction="top"
