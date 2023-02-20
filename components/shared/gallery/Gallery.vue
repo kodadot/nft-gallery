@@ -9,11 +9,13 @@
           <div v-show="total">{{ total }} {{ $t('items') }}</div>
         </div>
         <hr class="mt-0" />
-        <InfiniteLoading
+        <a
           v-if="startPage > 1 && !isLoading && total > 0"
-          direction="top"
-          :distance="prefetchDistance"
-          @infinite="reachTopHandler"></InfiniteLoading>
+          class="is-flex is-justify-content-center pb-4"
+          @click="fetchPreviousPage">
+          <b-icon icon="chevron-up" />
+        </a>
+
         <div :id="scrollContainerId" class="columns is-multiline">
           <div
             v-for="(nft, index) in results"
@@ -109,6 +111,7 @@ export default class Gallery extends mixins(
   }
   public isLoading = true
   public first = 20
+  public disablePrefetchPreviousPage = true
   get showPriceValue(): boolean {
     return (
       this.searchQuery?.listed ||
