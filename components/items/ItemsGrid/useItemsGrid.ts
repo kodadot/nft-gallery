@@ -1,4 +1,4 @@
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
@@ -8,6 +8,8 @@ type PriceRange = {
   price_gte: number
   price_lte?: number
 }[]
+
+export type NFTWithMetadata = NFT & NFTMetadata & { meta: NFTMetadata }
 
 function useSearchParams() {
   const route = useRoute()
@@ -70,7 +72,7 @@ export function useFetchSearch() {
 
   const first = 20
   const page = ref(1)
-  const nfts = ref<NFT[]>([])
+  const nfts = ref<NFTWithMetadata[]>([])
   const total = ref(0)
 
   const { searchParams } = useSearchParams()
