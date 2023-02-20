@@ -105,7 +105,7 @@ Every `.graphql` file is located in the `queries/`.
 
 ```graphql
 query nftByIdMinimal($id: String!) {
-  nft: nFTEntity(id: $id) {
+  nft: nftEntityById(id: $id) {
     id
     currentOwner
     price
