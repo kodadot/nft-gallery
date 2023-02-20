@@ -56,6 +56,11 @@
     line-height: 23px;
     width: max-content;
     font-weight: 700;
+    &:hover {
+      @include ktheme() {
+        color: theme('link-hover');
+      }
+    }
   }
 
   .beta-text {

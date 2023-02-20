@@ -22,7 +22,7 @@
           @include ktheme() {
             border-bottom: 1px solid theme('border-color');
             &:hover {
-              color: theme('text-color');
+              color: theme('k-hovergrey');
             }
           }
 
@@ -102,7 +102,7 @@
       .navbar-item {
         &:hover {
           @include ktheme() {
-            color: theme('k-grey');
+            color: theme('k-hovergrey');
           }
         }
       }
@@ -195,7 +195,7 @@
     }
     &:hover {
       @include ktheme() {
-        color: theme('k-grey');
+        color: theme('k-hovergrey');
       }
       background-color: inherit;
     }
