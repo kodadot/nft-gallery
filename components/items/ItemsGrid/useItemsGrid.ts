@@ -50,7 +50,11 @@ function useSearchParams() {
         ? [{ collection: { id_eq: route.params.id } }]
         : []
 
-    return [...keywords, ...price, ...owner, ...collectionId]
+    // on user page. fetch by creator
+    const userId =
+      route.name === 'prefix-u-id' ? [{ issuer_eq: route.params.id }] : []
+
+    return [...keywords, ...price, ...owner, ...collectionId, ...userId]
   })
 
   return {
