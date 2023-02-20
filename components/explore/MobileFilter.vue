@@ -2,7 +2,7 @@
   <b-modal
     v-if="isMobile"
     :active="open"
-    :on-cancel="closeFilterModal"
+    :on-cancel="onClose"
     :can-cancel="['escape']"
     class="top no-border"
     full-screen>
@@ -13,7 +13,7 @@
             {{ $t('general.filters') }}
           </p>
           <a class="card-header-icon">
-            <b-icon icon="x" @click.native="closeFilterModal" />
+            <b-icon icon="x" @click.native="onClose" />
           </a>
         </div>
         <div class="border-bottom">
@@ -58,7 +58,7 @@ onMounted(() => {
   window.addEventListener('resize', () => {
     width.value = window.innerWidth
   })
-  readFiltersFromUrl()
+  syncFromUrl()
 })
 
 const emit = defineEmits(['resetPage'])
@@ -69,11 +69,16 @@ const open = computed(
   () => $store.getters['preferences/getMobileFilterCollapse']
 )
 
+const onClose = () => {
+  syncFromUrl()
+  closeFilterModal()
+}
+
 const closeFilterModal = () => {
   $store.dispatch('preferences/setMobileFilterCollapse', false)
 }
 
-const readFiltersFromUrl = () => {
+const syncFromUrl = () => {
   const listed = route.query?.listed?.toString() === 'true',
     owned = route.query?.owned?.toString() === 'true',
     min = Number(route.query?.min) || undefined,
