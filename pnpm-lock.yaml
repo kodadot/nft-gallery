@@ -35,7 +35,7 @@ importers:
       '@kodadot1/brick': workspace:*
       '@kodadot1/minimark': ^0.0.1-rc.10
       '@kodadot1/sub-api': 0.1.1-alpha.5
-      '@kodadot1/vuex-options': 0.0.4-rc.0
+      '@kodadot1/vuex-options': 0.0.5-rc.4
       '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27889410.9247608
       '@nuxt/test-utils': ^0.2.2
       '@nuxt/types': ^2.16.0
@@ -140,7 +140,7 @@ importers:
       '@kodadot1/brick': link:libs/ui
       '@kodadot1/minimark': 0.0.1-rc.10
       '@kodadot1/sub-api': 0.1.1-alpha.5
-      '@kodadot1/vuex-options': 0.0.4-rc.0
+      '@kodadot1/vuex-options': 0.0.5-rc.4
       '@nuxtjs/apollo': 4.0.1-rc.5_poy6bg7j5ifu7vj334gpx4bp7y
       '@nuxtjs/i18n': 7.3.1_vue@2.7.14
       '@nuxtjs/sentry': 7.0.4_vue@2.7.14
@@ -3425,10 +3425,10 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@kodadot1/vuex-options/0.0.4-rc.0:
-    resolution: {integrity: sha512-vQY/mis9/4TtZ2nNYDX3cpir3FXFW9UxcXg/crn0CY8Wdp5SYHTj5FaaHkRry7IXnXjTBONcnJsjHu44ah1Xug==}
+  /@kodadot1/vuex-options/0.0.5-rc.4:
+    resolution: {integrity: sha512-2kxP7/TVIG6xl3oc+Hed8WriDXKWTy249oiufkdYtk/Qz9uynpbWhOu8u7hRIg5RVp0wrfT0nTdklJ9FbvG5Cg==}
     dependencies:
-      '@polkadot/networks': 10.1.7
+      '@polkadot/networks': 10.4.1
     dev: false
 
   /@laminar/type-definitions/0.3.1:
@@ -3469,7 +3469,7 @@ packages:
     engines: {node: '>=16'}
     dependencies:
       '@polkadot/api': 9.13.6
-      '@polkadot/util': 10.3.1
+      '@polkadot/util': 10.4.1
       '@polkadot/util-crypto': 10.3.1
       '@types/uuid': 8.3.4
       fast-sha256: 1.3.0
@@ -4900,7 +4900,7 @@ packages:
       '@phala/typedefs': 0.2.33
       '@polkadot/api': 9.13.6
       '@polkadot/api-derive': 9.13.6
-      '@polkadot/networks': 10.3.1
+      '@polkadot/networks': 10.4.1
       '@polkadot/types': 9.13.6
       '@polkadot/util': 10.3.1
       '@polkadot/x-fetch': 10.3.1
@@ -5029,15 +5029,6 @@ packages:
       '@polkadot/types-known': 4.17.1
       '@polkadot/util': 6.11.1
       '@polkadot/util-crypto': 6.11.1_@polkadot+util@6.11.1
-    dev: false
-
-  /@polkadot/networks/10.1.7:
-    resolution: {integrity: sha512-ol864SZ/GwAF72GQOPRy+Y9r6NtgJJjMBlDLESvV5VK64eEB0MRSSyiOdd7y/4SumR9crrrNimx3ynACFgxZ8A==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@babel/runtime': 7.20.13
-      '@polkadot/util': 10.1.7
-      '@substrate/ss58-registry': 1.37.0
     dev: false
 
   /@polkadot/networks/10.3.1:
@@ -5362,7 +5353,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.20.13
-      '@polkadot/networks': 10.3.1
+      '@polkadot/networks': 10.4.1
       '@polkadot/types': 9.13.6
       '@polkadot/types-codec': 9.13.6
       '@polkadot/types-create': 9.13.6
@@ -5486,7 +5477,7 @@ packages:
     resolution: {integrity: sha512-7yZwb3VxGh7VPHkyygktL7Oep0c4XUyKkYGwSmgP2Gt2IcvnGXFUQVSEARKs9FCanl19f2CEU1m19+FFrjlUNQ==}
     dependencies:
       '@babel/runtime': 7.20.13
-      '@polkadot/networks': 10.3.1
+      '@polkadot/networks': 10.4.1
       '@polkadot/util': 10.3.1
       eventemitter3: 4.0.7
       store: 2.0.12
@@ -5648,19 +5639,6 @@ packages:
       '@scure/base': 1.0.0
       ed2curve: 0.3.0
       tweetnacl: 1.0.3
-    dev: false
-
-  /@polkadot/util/10.1.7:
-    resolution: {integrity: sha512-s7gDLdNb4HUpoe3faXwoO6HwiUp8pi66voYKiUYRh1kEtW1o9vGBgyZPHPGC/FBgILzTJKii/9XxnSex60zBTA==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@babel/runtime': 7.20.13
-      '@polkadot/x-bigint': 10.1.7
-      '@polkadot/x-global': 10.1.7
-      '@polkadot/x-textdecoder': 10.1.7
-      '@polkadot/x-textencoder': 10.1.7
-      '@types/bn.js': 5.1.1
-      bn.js: 5.2.1
     dev: false
 
   /@polkadot/util/10.3.1:
@@ -6029,14 +6007,6 @@ packages:
       '@polkadot/util': 10.4.2
     dev: false
 
-  /@polkadot/x-bigint/10.1.7:
-    resolution: {integrity: sha512-uaClHpI6cnDumIfejUKvNTkB43JleEb0V6OIufDKJ/e1aCLE3f/Ws9ggwL8ea05lQP5k5xqOzbPdizi/UvrgKQ==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@babel/runtime': 7.20.13
-      '@polkadot/x-global': 10.1.7
-    dev: false
-
   /@polkadot/x-bigint/10.3.1:
     resolution: {integrity: sha512-hXtnwy9LXmV43B9pT8gY1zwdNRhpPBEOk1PfL2Ze0Iw2zd+lbljD3GwDP5mkBfIYIw/s15eRTjiUIKfpTRRDXw==}
     engines: {node: '>=14.0.0'}
@@ -6091,13 +6061,6 @@ packages:
       node-fetch: 2.6.9
     transitivePeerDependencies:
       - encoding
-    dev: false
-
-  /@polkadot/x-global/10.1.7:
-    resolution: {integrity: sha512-k2ZUZyBVgDnP/Ysxapa0mthn63j6gsN2V0kZejEQPyOfCHtQQkse3jFvAWdslpWoR8j2k8SN5O6reHc0F4f7mA==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@babel/runtime': 7.20.13
     dev: false
 
   /@polkadot/x-global/10.3.1:
@@ -6183,14 +6146,6 @@ packages:
       rxjs: 6.6.7
     dev: false
 
-  /@polkadot/x-textdecoder/10.1.7:
-    resolution: {integrity: sha512-iAFOHludmZFOyVL8sQFv4TDqbcqQU5gwwYv74duTA+WQBgbSITJrBahSCV/rXOjUqds9pzQO3qBFzziznNnkiQ==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@babel/runtime': 7.20.13
-      '@polkadot/x-global': 10.1.7
-    dev: false
-
   /@polkadot/x-textdecoder/10.3.1:
     resolution: {integrity: sha512-BgjcImRYCM2TOMa/95Mmqo6T/YdQWQdVlVQ33PZda7A/I2jBYeOXDj16ftVgn4DWM9xcFVdy2Z3Jg3RGCNbjww==}
     engines: {node: '>=14.0.0'}
@@ -6221,14 +6176,6 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.13
       '@polkadot/x-global': 8.7.1
-    dev: false
-
-  /@polkadot/x-textencoder/10.1.7:
-    resolution: {integrity: sha512-GzjaWZDbgzZ0IQT60xuZ7cZ0wnlNVYMqpfI9KvBc58X9dPI3TIMwzbXDVzZzpjY1SAqJGs4hJse9HMWZazfhew==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@babel/runtime': 7.20.13
-      '@polkadot/x-global': 10.1.7
     dev: false
 
   /@polkadot/x-textencoder/10.3.1:
@@ -6884,10 +6831,6 @@ packages:
       - utf-8-validate
     dev: false
     optional: true
-
-  /@substrate/ss58-registry/1.37.0:
-    resolution: {integrity: sha512-8R/4aQdZlKEPNrp2HSoPNxlDPPOyJe20qFk2w1hT0lXVbY4ZALrsO5Z4NrObAM2D9wTSpcxNKMFVQ2hIsqEHdw==}
-    dev: false
 
   /@substrate/ss58-registry/1.38.0:
     resolution: {integrity: sha512-sHiVRWekGMRZAjPukN9/W166NM6D5wtHcK6RVyLy66kg3CHNZ1BXfpXcjOiXSwhbd7guQFDEwnOVaDrbk1XL1g==}
