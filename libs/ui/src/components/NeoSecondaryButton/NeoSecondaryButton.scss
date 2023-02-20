@@ -11,11 +11,11 @@
   &--primary {
     @include ktheme() {
       background-color: theme('background-color');
-      color: theme('black');
+      color: theme('text-color');
       border: 1px solid theme('k-primary');
       &:hover {
         background-color: theme('k-primaryLight');
-        color: theme('black');
+        color: theme('text-color');
       }
     }
   }
@@ -23,11 +23,11 @@
   &--info {
     @include ktheme() {
       background-color: theme('background-color');
-      color: theme('black');
+      color: theme('text-color');
       border: 1px solid theme('k-blue');
       &:hover {
         background-color: theme('k-blueLight');
-        color: theme('black');
+        color: theme('text-color');
       }
     }
   }

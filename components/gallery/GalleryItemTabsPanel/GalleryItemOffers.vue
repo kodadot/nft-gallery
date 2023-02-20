@@ -59,21 +59,15 @@
             props.row.status === OfferStatusType.ACTIVE
           "
           variant="primary"
-          @click.native="onOfferSelected(props.row.caller, true)"
+          @click.native="onWithdrawOffer(props.row.caller)"
           >Cancel</NeoSecondaryButton
         >
         <NeoSecondaryButton
           v-if="isOwner && props.row.status === OfferStatusType.ACTIVE"
           variant="info"
-          @click.native="onOfferSelected(props.row.caller, false)"
+          @click.native="onAcceptOffer(props.row.caller)"
           >Accept</NeoSecondaryButton
         >
-        <b-button
-          v-if="isOwner"
-          type="is-orange"
-          outlined
-          icon-left="times"
-          @click="onOfferSelected(props.row.caller, false) || true" />
       </o-table-column>
     </o-table>
     <div v-else class="has-text-centered">{{ $t('nft.offer.empty') }}</div>
@@ -92,16 +86,17 @@ import type { Offer, OfferResponse } from '@/components/bsx/Offer/types'
 import type { CollectionEvents } from '@/components/rmrk/service/scheme'
 import { OfferStatusType } from '@/utils/offerStatus'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { tokenIdToRoute } from '~~/components/unique/utils'
 import { isOwner as checkOwner } from '@/utils/account'
+import { ShoppingActions } from '@/utils/shoppingActions'
 
 const { $i18n, $consola } = useNuxtApp()
 
 const { apiInstance } = useApi()
 const { urlPrefix, tokenId, assets } = usePrefix()
 const { decimals } = useChain()
-const { howAboutToExecute, initTransactionLoader, isLoading, status } =
-  useMetaTransaction()
+
+const { transaction, status, isLoading } = useTransaction()
+
 const dprops = defineProps<{
   collectionId: string
   nftId: string
@@ -182,8 +177,12 @@ const formatOfferStatus = (status: OfferStatusType, expiration: number) => {
   }
 }
 
-const onOfferSelected = async (caller: string, withdraw: boolean) => {
-  await submit(caller, withdraw, refetch)
+const onWithdrawOffer = async (caller: string) => {
+  await submit(caller, ShoppingActions.WITHDRAW_OFFER, refetch)
+}
+
+const onAcceptOffer = async (caller: string) => {
+  await submit(caller, ShoppingActions.ACCEPT_OFFER, refetch)
 }
 
 onMounted(async () => {
@@ -194,25 +193,21 @@ onMounted(async () => {
 
 const submit = async (
   maker: string,
-  withdraw: boolean,
+  interaction:
+    | typeof ShoppingActions.WITHDRAW_OFFER
+    | typeof ShoppingActions.ACCEPT_OFFER,
   onSuccess?: () => void
 ) => {
+  console.log('interaction', interaction)
   try {
-    const api = await apiInstance.value
-    initTransactionLoader()
-    const cb = !withdraw
-      ? api.tx.marketplace.acceptOffer
-      : api.tx.marketplace.withdrawOffer
-    const { id, item } = tokenIdToRoute(dprops.nftId)
-    const args = [id, item, maker]
-    await howAboutToExecute(accountId.value, cb, args, (blockNumber) => {
-      const msg = 'your offer has been withdrawn'
-      showNotification(
-        `[OFFER] Since block ${blockNumber} ${msg}`,
-        notificationTypes.success
-      )
-      onSuccess && onSuccess()
+    await transaction({
+      interaction: interaction,
+      maker: maker,
+      nftId: dprops.nftId,
+      successMessage: $i18n.t('transaction.offer.success') as string,
+      errorMessage: $i18n.t('transaction.item.error') as string,
     })
+    console.log('awaitt')
   } catch (e: any) {
     showNotification(`[OFFER::ERR] ${e}`, notificationTypes.danger)
     $consola.error(e)
