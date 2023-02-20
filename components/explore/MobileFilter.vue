@@ -8,31 +8,33 @@
     full-screen>
     <div class="is-flex is-flex-direction-column is-fullheight is-fullwidth">
       <div class="is-flex-grow-1">
-        <div
-          class="is-flex is-justify-content-space-between px-4 py-3 border-bottom">
-          <div>{{ $t('general.filters') }}</div>
-          <div class="filters-close">
-            <b-icon icon="x" @click.native="closeFilterModal"></b-icon>
-          </div>
+        <div class="is-flex border-bottom">
+          <p class="card-header-title has-text-weight-normal">
+            {{ $t('general.filters') }}
+          </p>
+          <a class="card-header-icon">
+            <b-icon icon="x" @click.native="closeFilterModal" />
+          </a>
         </div>
         <div class="border-bottom">
           <StatusFilter data-model="store" expanded />
         </div>
-        <PriceFilter data-model="store" expanded />
+        <div class="border-bottom">
+          <PriceFilter data-model="store" expanded />
+        </div>
       </div>
 
-      <div
-        class="is-flex is-flex-direction-row is-justify-content-space-between px-4 py-3 border-top">
+      <div class="buttons-container px-4 py-3 border-top">
         <NeoButton
           label="Reset All"
           variant="primary"
-          class="w-9 h-3_5"
+          class="is-fullwidth mw-9 h-3_5"
           @click.native="resetFilters">
           {{ $t('general.resetAll') }}
         </NeoButton>
         <NeoButton
           variant="k-accent"
-          class="w-9 h-3_5"
+          class="is-fullwidth mw-9 h-3_5"
           @click.native="applyFilters">
           {{ $t('general.apply') }}
         </NeoButton>
@@ -125,6 +127,11 @@ const applyFilters = () => {
 .is-fullheight {
   height: 100%;
 }
+.buttons-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
 
 .border-bottom {
   @include ktheme() {
@@ -142,8 +149,8 @@ const applyFilters = () => {
 .h-3_5 {
   height: 3.5rem !important;
 }
-.w-9 {
-  width: 9rem;
+.mw-9 {
+  min-width: 9rem;
 }
 </style>
 
