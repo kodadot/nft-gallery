@@ -118,13 +118,14 @@ Then we can use it like this:
 
 ```html
 <script lang="ts" setup>
+const { $consola } = useNuxtApp()
 const route = useRoute()
 const { data: nft } = useGraphql({
   queryName: 'nftById',
   variables: { id: route.params.id },
 })
 
-console.log(nft)
+$consola.log(nft)
 </script>
 ```
 
@@ -132,6 +133,7 @@ console.log(nft)
 
 ```html
 <script lang="ts" setup>
+const { $consola } = useNuxtApp()
 const { apiInstance } = useApi()
 
 const collectionId = ref('0')
@@ -139,7 +141,7 @@ const id = ref('0')
 const api = await apiInstance.value
 const nft = await api.query.uniques.asset(collectionId, id)
 
-console.log(nft)
+$consola.log(nft)
 </script>
 ```
 
@@ -172,9 +174,6 @@ async function submit() {
 ```
 
 **4. How can I test Kodadot without spending KSM?**
-
-For Kusama:
-[You can obtain some Westend (WND)](https://matrix.to/#/#westend_faucet:matrix.org)
 
 For Basilisk (Rococo):
 [You can obtain some KSM & BSX](https://discord.com/channels/840514076538830888/881839877140930630)
