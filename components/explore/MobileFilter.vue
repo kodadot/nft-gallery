@@ -4,7 +4,7 @@
     :active="open"
     :on-cancel="closeFilterModal"
     :can-cancel="['escape']"
-    class="top"
+    class="top no-border"
     full-screen>
     <div class="is-flex is-flex-direction-column is-fullheight is-fullwidth">
       <div class="is-flex-grow-1">
@@ -125,6 +125,7 @@ const applyFilters = () => {
 .is-fullheight {
   height: 100%;
 }
+
 .border-bottom {
   @include ktheme() {
     border-bottom: 1px solid theme('border-color');
@@ -148,6 +149,12 @@ const applyFilters = () => {
 
 <style lang="scss">
 @import '@/styles/abstracts/variables';
+.no-border {
+  > .modal-content {
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
 
 .modal-content {
   @include ktheme() {
