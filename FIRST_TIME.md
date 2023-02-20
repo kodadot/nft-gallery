@@ -180,7 +180,9 @@ For Basilisk (Rococo):
 [You can obtain some KSM & BSX](https://discord.com/channels/840514076538830888/881839877140930630)
 
 You can change the network in the navbar.
-Currently supported networks are `Basilisk, Kusama, Westend, statemine, westmint`.
+Currently supported networks are `Basilisk`, `Basilisk-Rococo` and `Kusama`.
+EVM chains such as `MoonBeam` and `MoonRiver` are in read-only mode.
+
 Do you want to add more networks? [Open a PR on vuex-options](https://github.com/kodadot/packages)
 
 ## Running local Polkadot and subquery nodes
