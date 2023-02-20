@@ -2,14 +2,7 @@
   <b-collapse :open="expanded" animation="slide">
     <template #trigger="{ open }">
       <div class="is-flex" role="button" :aria-expanded="open">
-        <p
-          :class="[
-            'card-header-title',
-            {
-              'has-text-weight-semibold': open,
-              'has-text-weight-normal': !open,
-            },
-          ]">
+        <p class="card-header-title has-text-weight-normal">
           {{ $t('offer.status') }}
         </p>
         <a class="card-header-icon">
