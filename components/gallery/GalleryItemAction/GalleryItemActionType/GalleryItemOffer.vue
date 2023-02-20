@@ -134,7 +134,7 @@ const insufficientBalance = computed(
 
 const offerPriceInvalid = computed(() => {
   if (offerPrice.value) {
-    return Math.sign(offerPrice.value) !== 1
+    return offerPrice.value < 0.01
   }
   return true
 })
