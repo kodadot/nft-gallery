@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { langsFlags } from '@/utils/config/i18n'
 
 interface State {
-  lang: Record<any, any>
   language: {
     userLang: string
   }
@@ -10,7 +9,6 @@ interface State {
 
 export const useLangStore = defineStore('lang', {
   state: (): State => ({
-    lang: {},
     language: {
       userLang: process.env.VUE_APP_I18N_LOCALE || 'en',
     },
