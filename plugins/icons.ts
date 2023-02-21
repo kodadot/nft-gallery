@@ -95,6 +95,7 @@ import {
   faUserCircle,
   faUsers,
   faWallet,
+  faX,
 } from '@fortawesome/free-solid-svg-icons'
 
 // throws error, idk why
@@ -229,7 +230,8 @@ library.add(
   faThumbsDown,
   faExternalLinkSquareAlt,
   faYoutube,
-  faInstagram
+  faInstagram,
+  faX
 )
 
 Vue.component('VueFontawesome', FontAwesomeIcon).use(Neo, {
