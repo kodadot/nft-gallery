@@ -9,16 +9,10 @@ chains.forEach((chain) => {
     cy.get('input[type="file"]').attachFile('unsplash-image.jpg')
 
     // trigger danger button
-    if (chain === 'rmrk') {
-      cy.contains('button', 'CREATE COLLECTION', {
-        matchCase: false,
-      }).should('have.attr', 'disabled')
-    } else {
-      cy.contains('button', 'CREATE COLLECTION', { matchCase: false }).click()
-      cy.contains('p.help.is-danger', 'Please fill out this field.', {
-        matchCase: false,
-      }).should('exist')
-    }
+    cy.contains('button', 'CREATE COLLECTION', { matchCase: false }).click()
+    cy.contains('p.help.is-danger', 'Please fill out this field.', {
+      matchCase: false,
+    }).should('exist')
 
     // input collection name
     cy.get('input[placeholder="Enter collection name"]').type('Test Collection')
