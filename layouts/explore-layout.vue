@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-full is-flex is-flex-direction-column">
+    <MobileFilter />
     <Navbar />
 
     <!-- new header component for collection here -->
@@ -36,6 +37,7 @@
 
 <script lang="ts" setup>
 import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
+import MobileFilter from '@/components/explore/MobileFilter.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()

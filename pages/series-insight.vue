@@ -9,7 +9,7 @@
       </div>
       <div class="column">
         <img
-          v-if="urlPrefix === 'rmrk'"
+          v-if="urlPrefix === 'rmrk' || urlPrefix === 'rmrk2'"
           src="~/assets/rmrk-logo-pink-faded.png"
           alt="RMRK"
           class="chain-logo is-hidden-mobile" />
