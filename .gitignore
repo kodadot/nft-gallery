@@ -9,7 +9,6 @@ package-lock.json
 .env.local
 .env.*.local
 
-#.vscode
 *.suo
 *.ntvs*
 *.njsproj
@@ -81,10 +80,9 @@ typings/
 
 # dotenv environment variables file
 .env
-.vscode/
-.nuxt
 
-# Exclude built Nitro folder from git https://v3.nuxtjs.org/getting-started/bridge#exclude-built-nitro-folder-from-git
+# nuxt build output
+.nuxt
 .output
 
 ### its generated, this time is different

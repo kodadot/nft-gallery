@@ -56,3 +56,11 @@ const isCollection = computed(() => route.name === 'prefix-collection-id')
 
 onBeforeMount(checkPrefixBeforeMount)
 </script>
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+hr {
+  @include ktheme() {
+    background: theme('border-color');
+  }
+}
+</style>
