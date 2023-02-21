@@ -58,44 +58,29 @@ netlify dev
 
 **App will start on [localhost:9000](http://localhost:9000).**
 
-# ⚠️ Notice for contributors before 15/01/2022 ⚠️
-
-If you've had contributed before **15/01/2022 and have an older fork of** `nft-gallery`, there are currently two strategies to be up-to-date.
-
-- Easiest - [Delete your fork and fork it as new.](https://docs.github.com/en/repositories/creating-and-managing-repositories/deleting-a-repository)
-- Harder - [Sync your fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)
-
-### Ref
-
-- https://github.com/kodadot/nft-gallery/issues/1845
-- https://github.com/kodadot/nft-gallery/issues/1844
-
 ## Docker 🐳
 
 If you just want to try out our KodaDot on Kusama and have a complete local set up with a local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed.
 
-- ### First time setup
+### First time setup
 
-  - Build the docker image
+- Build the docker image
+```bash
+# Make sure you are logged into docker.
+docker-compose up --build
+```
 
-    ```bash
-    # Make sure you are logged into docker.
+- To check if the container is up:
+```bash
+docker ps
+```
 
-    docker-compose up --build
-    ```
+### From next time
 
-  - To check if the container is up:
-    ```bash
-    docker ps
-    ```
-
-- ### From next time
-
-  Run:
-
-  ```bash
-  docker-compose up
-  ```
+Run:
+```bash
+docker-compose up
+```
 
 Voila! KodaDot will be available at [localhost:9090](http://localhost:9090).
 KodaDot supports Hot Module Replacement on docker; any changes made will take effect immediately.
@@ -116,129 +101,91 @@ pnpm install
 
 **1. How can I read some data from the GraphQL?**
 
-Every `.graphql` file is located in the `src/queries/`.
+Every `.graphql` file is located in the `queries/`.
 
 ```graphql
 query nftByIdMinimal($id: String!) {
-  nFTEntity(id: $id) {
+  nft: nftEntityById(id: $id) {
     id
     currentOwner
     price
+    events(limit: 10) {
+      id
+      caller
+      interaction
+    }
   }
 }
 ```
 
-To use it inside the `.vue` file, we can import it like a regular module:
-For specific purposes, we also need to import the `PrefixMixin`. Thanks to that app, know which indexer is using.
-
-> PrefixMixin is only applicable to the SubQuery indexers. To use SubSquid, please use client: 'subsquid' in the query call.
-
 Then we can use it like this:
 
 ```html
-<script lang="ts">
-  import { Component, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+const { $consola } = useNuxtApp()
+const route = useRoute()
+const { data: nft } = useGraphql({
+  queryName: 'nftById',
+  variables: { id: route.params.id },
+})
 
-  import nftByIdMinimal from '@/queries/nftByIdMinimal.graphql'
-  import PrefixMixin from '~/utils/mixins/prefixMixin'
-
-  @Component({})
-  export default class GalleryItem extends mixins(PrefixMixin) {
-    id: string = ''
-    nft: NFT = emptyObject<NFT>()
-
-    async fetch() {
-      const { data } = await this.$apollo.query({
-        client: this.urlPrefix,
-        query: nftByIdMinimal,
-        variables: { id: this.id },
-      })
-
-      this.nft = data.nFTEntity
-      console.log('nft', this.nft)
-    }
-  }
+$consola.log(nft)
 </script>
 ```
 
 **2. How can I read on-chain data from the RPC node?**
 
 ```html
-<script lang="ts">
-  import { Component, mixins } from 'nuxt-property-decorator'
-  import { ApiFactory } from '@kodadot1/sub-api'
-  import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
+<script lang="ts" setup>
+const { $consola } = useNuxtApp()
+const { apiInstance } = useApi()
 
-  @Component({})
-  export default class GalleryItem extends mixins(ApiUrlMixin) {
-    id = '0'
-    collectionId = '0'
+const collectionId = ref('0')
+const id = ref('0')
+const api = await apiInstance.value
+const nft = await api.query.uniques.asset(collectionId, id)
 
-    async fetch() {
-      const api = await ApiFactory.useApiInstance(this.apiUrl)
-      const nft = await api.query.uniques.asset(this.collectionId, this.id)
-      console.log('nft', nft)
-    }
-  }
+$consola.log(nft)
 </script>
 ```
 
-**3. Is it possible to subscribe to the on-chain data from the RPC node?**
+**3. How can I make an on-chain transaction?**
 
 ```html
-<script lang="ts">
-  import { Component, mixins } from 'nuxt-property-decorator'
-  import SubscribeMixin from '@/utils/mixins/subscribeMixin'
+<script lang="ts" setup>
+async function submit() {
+  const { accountId } = useAuth()
+  const { howAboutToExecute, isLoading, status, initTransactionLoader } =
+    useMetaTransaction()
 
-  @Component({})
-  export default class GalleryItem extends mixins(SubscribeMixin) {
-    id = '0'
-    collectionId = '0'
-
-    async created() {
-      this.subscribe(
-        api.query.uniques.asset,
-        [this.collectionId, this.id],
-        (nft: any) => console.log(nft) // callback which returns the data
-      )
-    }
+  const executeTransaction = ({ cb, arg, successMessage, errorMessage }) => {
+    initTransactionLoader()
+    howAboutToExecute(
+      accountId.value,
+      cb,
+      arg,
+      () => infoMessage(successMessage || 'Success!'),
+      () => dangerMessage(errorMessage || 'Failed!')
+    )
   }
+
+  executeTransaction({
+    cb: api.tx.system.remark,
+    arg: ['args']
+  })
+}
 </script>
 ```
 
-**4. How can I make an on-chain transaction?**
+**4. How can I test Kodadot without spending KSM?**
 
-```html
-<script lang="ts">
-  import { Component, mixins } from 'nuxt-property-decorator'
-  import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-  import UseApiMixin from '@/utils/mixins/useApiMixin'
-
-  @Component({})
-  export default class GalleryItem extends mixins(MetaTransactionMixin, UseApiMixin) {
-    async submit() {
-      const api = await this.useApi()
-      const cb = api.tx.system.remark
-      const args = 'Hello World'
-
-      await this.howAboutToExecute(
-        this.accountId, // sender can be obtained from the AuthMixin
-        cb,
-        [args],
-        (blockNumber) =>
-          console.log(`Remark ${args} saved in block ${blockNumber}`)
-      )
-    }
-  }
-</script>
-```
-
-**5. How can I test Kodadot without spending KSM?**
-
-[You can obtain some Westend (WND)](https://matrix.to/#/#westend_faucet:matrix.org)
+For Basilisk (Rococo):
+[You can obtain some KSM & BSX](https://discord.com/channels/840514076538830888/881839877140930630)
 
 You can change the network in the navbar.
-Currently supported networks are `Kusama, Westend, statemine, westmint`.
+Currently supported networks are `Basilisk`, `Basilisk-Rococo` and `Kusama`.
+EVM chains such as `MoonBeam` and `MoonRiver` are in read-only mode.
+
 Do you want to add more networks? [Open a PR on vuex-options](https://github.com/kodadot/packages)
 
 ## Running local Polkadot and subquery nodes
@@ -249,10 +196,9 @@ In case you are using Apple M1, we have a [tutorial for that 🍏 ](https://viki
 Current Indexers we have/use:
 
 - SubSquid
+  - Basilisk: [snek](https://github.com/kodadot/snek)
   - Kusama: [rubick](https://github.com/kodadot/rubick)
-- SubQuery
-  - Kusama: [magick](https://github.com/vikiival/magick)
-  - Statemine (Unique NFT pallet): [unique](https://github.com/kodadot/unique)
+  - MoonRiver: [click](https://github.com/kodadot/click)
 
 ### MISC 🏞
 
@@ -267,13 +213,13 @@ pnpm lint
 **Show only errors**
 
 ```bash
-pnpm lint --quiet
+pnpm lint:quiet
 ```
 
 **Fix errors**
 
 ```bash
-pnpm lint --fix
+pnpm lint:fix
 ```
 
 #### Generating changelog

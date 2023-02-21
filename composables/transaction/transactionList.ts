@@ -22,10 +22,11 @@ export function execListTx(item: ActionList, api, executeTransaction) {
     return
   }
 
-  if (item.urlPrefix === 'rmrk') {
+  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'rmrk2') {
+    const version = item.urlPrefix === 'rmrk' ? '1.0.0' : '2.0.0'
     executeTransaction({
       cb: api.tx.system.remark,
-      arg: [createInteraction(Interaction.LIST, '1.0.0', item.nftId, meta)],
+      arg: [createInteraction(Interaction.LIST, version, item.nftId, meta)],
       successMessage: item.successMessage,
       errorMessage: item.errorMessage,
     })

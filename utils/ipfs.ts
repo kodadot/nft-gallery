@@ -125,6 +125,7 @@ export const fetchMetadata = async <T>(
     }
   } catch (e) {
     console.warn('IPFS Err', e)
+    return emptyObject<T>()
   }
 
   return emptyObject<T>()
