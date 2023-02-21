@@ -231,6 +231,7 @@ import { clearSession } from '@/utils/cachingStrategy'
 import { getKusamaAssetId } from '~~/utils/api/bsx/query'
 import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { useLangStore } from '@/stores/lang'
 
 const components = {
   Avatar,
@@ -273,9 +274,13 @@ export default class ProfileDropdown extends mixins(
     return langsFlagsList
   }
 
+  get langStore() {
+    return useLangStore()
+  }
+
   get userLang(): string {
-    this.$i18n.locale = this.$store.getters['lang/getUserLang']
-    return this.$store.getters['lang/getUserLang']
+    this.$i18n.locale = this.langStore.language.userLang
+    return this.langStore.language.userLang
   }
 
   get account() {
@@ -301,8 +306,8 @@ export default class ProfileDropdown extends mixins(
   }
 
   setUserLang(value: string) {
-    this.$store.dispatch('lang/setLanguage', { userLang: value })
     this.$i18n.locale = value
+    this.langStore.setLanguage({ userLang: value })
   }
 
   public toggleLanguageMenu() {
