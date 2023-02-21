@@ -28,10 +28,11 @@ function checkTsxSend(item: ActionSend) {
 }
 
 function execSendRmrk(item: ActionSend, api, executeTransaction) {
+  const version = item.urlPrefix === 'rmrk' ? '1.0.0' : '2.0.0'
   executeTransaction({
     cb: api.tx.system.remark,
     arg: [
-      createInteraction(Interaction.SEND, '1.0.0', item.nftId, item.address),
+      createInteraction(Interaction.SEND, version, item.nftId, item.address),
     ],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
@@ -59,7 +60,7 @@ export function execSendTx(item: ActionSend, api, executeTransaction) {
     return
   }
 
-  if (item.urlPrefix === 'rmrk') {
+  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'rmrk2') {
     execSendRmrk(item, api, executeTransaction)
   }
 

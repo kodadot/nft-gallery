@@ -14,10 +14,14 @@
 
   .subtitle {
     letter-spacing: -0.02em;
-    color: $white !important;
-    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-      -1px -1px 0 #000, 1px 0px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000,
-      0px -1px 0 #000, 4px 4px #000;
+    @include ktheme() {
+      color: theme('text-color-inverse');
+      text-shadow: 1px 1px 0 theme('text-color'), 1px -1px 0 theme('text-color'),
+        -1px 1px 0 theme('text-color'), -1px -1px 0 theme('text-color'),
+        1px 0px 0 theme('text-color'), 0px 1px 0 theme('text-color'),
+        -1px 0px 0 theme('text-color'), 0px -1px 0 theme('text-color'),
+        4px 4px theme('text-color');
+    }
   }
 
   .landing-search-bar {
@@ -52,7 +56,6 @@
     line-height: 23px;
     width: max-content;
     font-weight: 700;
-
   }
 
   .beta-text {
@@ -84,10 +87,12 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #fff;
     top: 4px;
     left: 4px;
     z-index: 0;
+    @include ktheme() {
+      background: theme('background-color');
+    }
   }
 
   .search-bar-keyboard-icon {
@@ -116,25 +121,39 @@
   z-index: 1;
 
   .control .icon {
-    color: $white;
+    @include ktheme() {
+      color: theme('text-color') !important;
+    }
   }
 
   input {
-    border: 1px solid $white;
     border-radius: 0;
     padding: 0 50px 0 42px !important;
-    background-color: $search-background-color;
 
     &::placeholder {
-      color: $placeholder-color !important;
       margin-left: 10px;
       font-weight: 400;
     }
 
     &:hover,
     &:focus {
-      border: 1px solid $white;
       box-shadow: none;
+    }
+
+    @include ktheme() {
+      box-shadow: theme('primary-shadow');
+      border: 1px solid theme('border-color');
+      color: theme('text-color');
+      background: theme('background-color');
+
+      &::placeholder {
+        color: theme('placeholder-color') !important;
+      }
+
+      &:hover,
+      &:focus {
+        border: 1px solid theme('border-color');
+      }
     }
   }
 }
@@ -143,14 +162,11 @@
   $desktop-padding-x: 32px;
   .selected-item {
     box-sizing: border-box;
-    border: 1px solid $primary !important;
   }
 
   .search-footer-link {
-    color: $white !important;
     .link-item {
       &:hover {
-        color: $shade;
         background: transparent !important;
       }
     }
@@ -162,7 +178,9 @@
     padding: 10px $desktop-padding-x;
     font-size: 16px;
     &:hover {
-      background-color: $k-accentlight;
+      @include ktheme() {
+        background-color: theme('k-accentlight2');
+      }
     }
   }
 
@@ -184,6 +202,10 @@
     @include mobile {
       flex-direction: column !important;
     }
+
+    @include ktheme() {
+      color: theme('k-grey');
+    }
   }
 
   .small-soon-text {
@@ -197,17 +219,24 @@
   }
 
   .tabs li a {
-    border-bottom-color: $shade;
     display: flex;
     padding: 10px 0;
     justify-content: flex-start;
+    @include ktheme() {
+      border-bottom-color: theme('placeholder-color');
+    }
   }
 
   .tabs li.is-active a {
-    color: $black !important;
-    border-bottom-color: $shade;
     font-weight: 700;
-    background-color: $white !important;
+    @include ktheme() {
+      border-bottom-color: theme('placeholder-color');
+      background: theme('background-color');
+      color: theme('text-color') !important;
+      &:hover {
+        background: theme('background-color') !important;
+      }
+    }
   }
 
   .b-tabs:not(:last-child) {
@@ -219,14 +248,19 @@
   }
 
   .image-outline {
-    border: 1px solid $black;
     border-radius: 50%;
+    @include ktheme() {
+      border: 1px solid theme('border-color');
+    }
   }
 
   .search-history {
     margin-top: 20px;
-    color: $k-grey;
     cursor: pointer;
+
+    @include ktheme() {
+      color: theme('k-grey');
+    }
 
     .history-label {
       font-size: 16px;
@@ -237,14 +271,18 @@
       padding: 5px;
 
       &:hover {
-        color: $k-hovergrey;
+        @include ktheme() {
+          color: theme('k-hovergrey');
+        }
       }
     }
 
     .search-history-item {
       padding: 0 $desktop-padding-x;
       &:hover {
-        background-color: $k-accentlight;
+        @include ktheme() {
+          background-color: theme('k-accentlight2');
+        }
       }
     }
   }

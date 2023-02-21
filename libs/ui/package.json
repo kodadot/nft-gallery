@@ -10,11 +10,11 @@
     "story:preview": "histoire preview"
   },
   "devDependencies": {
-    "@histoire/plugin-vue2": "^0.13.0",
+    "@histoire/plugin-vue2": "^0.15.8",
     "@vitejs/plugin-vue2": "^2.2.0",
-    "eslint": "^8.33.0",
+    "eslint": "^8.34.0",
     "eslint-plugin-vue": "^8.7.1",
-    "histoire": "^0.13.0",
+    "histoire": "^0.15.8",
     "vite": "^3.2.5",
     "vue": "2.7.14"
   },

@@ -24,7 +24,7 @@
         <b-dropdown-item has-link aria-role="menuitem">
           <nuxt-link to="/settings">{{ $t('settings') }}</nuxt-link>
         </b-dropdown-item>
-        <template v-if="chain === 'rmrk'">
+        <template v-if="chain === 'rmrk' || chain === 'rmrk2'">
           <b-dropdown-item has-link aria-role="menuitem">
             <a @click="showRampSDK">
               {{ $t('credit') }}
@@ -34,12 +34,6 @@
             <nuxt-link :to="{ name: 'identity' }">
               {{ $t('identity.page') }}
             </nuxt-link>
-          </b-dropdown-item>
-          <b-dropdown-item has-link aria-role="menuitem">
-            <nuxt-link to="/teleport">{{ $t('navbar.teleport') }}</nuxt-link>
-          </b-dropdown-item>
-          <b-dropdown-item has-link aria-role="menuitem">
-            <nuxt-link to="/transform">{{ $t('transform') }}</nuxt-link>
           </b-dropdown-item>
         </template>
         <b-dropdown-item v-if="isSnekOrBsx" has-link aria-role="menuitem">
@@ -237,6 +231,8 @@ import { clearSession } from '@/utils/cachingStrategy'
 import { getKusamaAssetId } from '~~/utils/api/bsx/query'
 import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { useLangStore } from '@/stores/lang'
+import { useWalletStore } from '@/stores/wallet'
 
 const components = {
   Avatar,
@@ -279,9 +275,17 @@ export default class ProfileDropdown extends mixins(
     return langsFlagsList
   }
 
+  get langStore() {
+    return useLangStore()
+  }
+
+  get walletStore() {
+    return useWalletStore()
+  }
+
   get userLang(): string {
-    this.$i18n.locale = this.$store.getters['lang/getUserLang']
-    return this.$store.getters['lang/getUserLang']
+    this.$i18n.locale = this.langStore.language.userLang
+    return this.langStore.language.userLang
   }
 
   get account() {
@@ -307,8 +311,8 @@ export default class ProfileDropdown extends mixins(
   }
 
   setUserLang(value: string) {
-    this.$store.dispatch('lang/setLanguage', { userLang: value })
     this.$i18n.locale = value
+    this.langStore.setLanguage({ userLang: value })
   }
 
   public toggleLanguageMenu() {
@@ -341,7 +345,7 @@ export default class ProfileDropdown extends mixins(
     return this.chain === 'snek' || this.chain === 'bsx'
   }
   get userWalletName(): string {
-    return this.$store.getters['wallet/getWalletName']
+    return this.walletStore.wallet.name
   }
 }
 </script>

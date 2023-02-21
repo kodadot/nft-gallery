@@ -103,7 +103,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
   }
 
   get nftName(): string {
-    return this.name || this.title
+    return this.name || this.title || '--'
   }
 
   get largeDisplay(): boolean {
@@ -127,7 +127,10 @@ export default class GalleryCard extends mixins(AuthMixin) {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: #fff;
+
+    @include ktheme() {
+      color: theme('white');
+    }
   }
 
   &__skeleton {
@@ -136,28 +139,34 @@ export default class GalleryCard extends mixins(AuthMixin) {
     .card-image {
       &__emotes {
         position: absolute;
-        background-color: $primary-light;
         border-radius: 4px;
         padding: 3px 8px;
-        color: #fff;
         top: 10px;
         right: 10px;
         font-size: 14px;
         z-index: 3;
         transition: all 0.3s;
+
+        @include ktheme() {
+          color: theme('white');
+          background: theme('k-primary');
+        }
       }
 
       &__price {
         position: absolute;
-        background-color: $grey-darker;
         border-radius: 4px;
         padding: 3px 8px;
-        color: #fff;
         bottom: 10px;
         left: 10px;
         font-size: 14px;
         z-index: 3;
         transition: all 0.3s ease;
+
+        @include ktheme() {
+          background: theme('k-shade');
+          color: theme('white');
+        }
       }
     }
   }
@@ -176,8 +185,11 @@ export default class GalleryCard extends mixins(AuthMixin) {
       bottom: -45px;
       left: 0;
       width: 100%;
-      background: #fff;
       opacity: 0;
+
+      @include ktheme() {
+        background: theme('background-color');
+      }
     }
 
     .card-image img {

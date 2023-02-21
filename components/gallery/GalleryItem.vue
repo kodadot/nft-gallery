@@ -176,9 +176,6 @@ useNuxt2Meta({
   font-size: 2.4375em;
 }
 
-hr {
-  height: 1px;
-}
 .gallery-item-tabs-panel-wrapper {
   margin-top: unset;
   height: 100%;

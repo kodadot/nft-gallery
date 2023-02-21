@@ -1,11 +1,15 @@
 <template>
-  <CollectionItem />
+  <div v-if="redesign">
+    <div>collection content here</div>
+  </div>
+  <CollectionItem v-else />
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
 import { generateCollectionImage } from '~/utils/seoImageGenerator'
+import ExperimentMixin from '@/utils/mixins/experimentMixin'
 
 type CurrentCollection = {
   name: string
@@ -18,6 +22,9 @@ type CurrentCollection = {
   name: 'CollectionItemPage',
   components: {
     CollectionItem,
+  },
+  layout(context) {
+    return context.query.redesign === 'true' ? 'explore-layout' : 'default'
   },
   head() {
     const title = this.currentlyViewedCollection.name
@@ -34,7 +41,7 @@ type CurrentCollection = {
     }
   },
 })
-export default class CollectionItemPage extends Vue {
+export default class CollectionItemPage extends mixins(ExperimentMixin) {
   get currentlyViewedCollection(): CurrentCollection {
     return this.$store.getters['history/getCurrentlyViewedCollection']
   }

@@ -1,15 +1,21 @@
 <template>
-  <NeoNftCard :nft="nft" :prefix="urlPrefix" :show-price="showPrice" />
+  <NeoNftCard
+    :nft="nft"
+    :prefix="urlPrefix"
+    :show-price="showPrice"
+    :variant="variant" />
 </template>
 
 <script lang="ts" setup>
-import { NeoNftCard } from '@kodadot1/brick'
+import { NeoNftCard, NftCardVariant } from '@kodadot1/brick'
 import type { NFT } from '@/components/rmrk/service/scheme'
+import type { CarouselNFT } from '@/components/base/types'
 
 const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
-  nft: NFT
+  nft: NFT | CarouselNFT
+  variant?: NftCardVariant
 }>()
 
 const showPrice = computed((): boolean => {

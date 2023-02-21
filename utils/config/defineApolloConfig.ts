@@ -4,8 +4,17 @@ type Endpoint = {
   httpEndpoint: string
 }
 
-const toClient = (value: string): string =>
-  value !== 'kusama' ? value : 'rmrk'
+const toClient = (value: string): string => {
+  switch (value) {
+    case 'kusama':
+      return 'rmrk'
+    case 'rmrk':
+      return 'rmrk2'
+    default:
+      return value
+  }
+}
+
 export const toApolloEndpoint = (httpEndpoint: string): Endpoint => ({
   httpEndpoint,
 })

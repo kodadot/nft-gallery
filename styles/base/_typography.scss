@@ -3,11 +3,13 @@
 }
 
 .text__stroked {
-  color: $primary;
-  -webkit-text-fill-color: $black;
   -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: $primary;
   padding: 0 8px 0 0;
+  @include ktheme() {
+    color: theme('k-primary');
+    -webkit-text-fill-color: theme('black');
+    -webkit-text-stroke-color: theme('k-primary');
+  }
 }
 
 .heading {

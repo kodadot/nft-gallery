@@ -1,20 +1,25 @@
+.card {
+  background-color: unset;
+}
 .card-header {
-	box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .card.bordered {
-	border-radius: 4px;
-	box-shadow: none;
-	border-top: $sleek-primary-border;
+  border-radius: 4px;
+  box-shadow: none;
 
-	&-content {
-		padding-left: 1rem;
-		padding-top: 1rem;
-	}
+  @include ktheme() {
+    border-top: 1px solid theme('k-primary');
+  }
+  &-content {
+    padding-left: 1rem;
+    padding-top: 1rem;
+  }
 
-	&-footer {
-		&-item {
-			padding: 0.75rem !important;
-		}
-	}
+  &-footer {
+    &-item {
+      padding: 0.75rem !important;
+    }
+  }
 }

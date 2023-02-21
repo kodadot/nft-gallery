@@ -36,7 +36,7 @@ export default function () {
   })
 
   const chainSymbol = computed(() => {
-    return urlPrefix.value === 'rmrk' ? unit.value : symbol
+    return ['rmrk', 'rmrk2'].includes(urlPrefix.value) ? unit.value : symbol
   })
 
   return {

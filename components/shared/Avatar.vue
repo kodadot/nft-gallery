@@ -1,18 +1,18 @@
 <template>
-  <Identicon :size="size" :theme="'polkadot'" :value="value" class="avatar" />
+  <Identicon :size="size" theme="polkadot" :value="value" class="avatar" />
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import Identicon from '@polkadot/vue-identicon'
 
-@Component({
-  components: {
-    Identicon,
-  },
-})
-export default class Avatar extends Vue {
-  @Prop({ default: '' }) public value!: string
-  @Prop({ default: 64 }) public size!: number
-}
+withDefaults(
+  defineProps<{
+    value: string
+    size?: number
+  }>(),
+  {
+    value: '',
+    size: 64,
+  }
+)
 </script>

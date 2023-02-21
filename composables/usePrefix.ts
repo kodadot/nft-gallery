@@ -2,10 +2,10 @@ import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 export default function () {
   const { $store } = useNuxtApp()
+  const route = useRoute()
 
-  const urlPrefix = computed<string>(() => {
-    return $store.getters.currentUrlPrefix
-  })
+  const prefix = ref(route.params.prefix || $store.getters.currentUrlPrefix)
+  const urlPrefix = computed<string>(() => prefix.value || 'bsx')
 
   const client = computed<string>(() => {
     return urlPrefix.value === 'rmrk' ? 'subsquid' : urlPrefix.value

@@ -27,12 +27,12 @@
               </div>
               <div v-else>---</div>
             </div>
-            <div class="is-uppercase has-text-grey px-3 is-hidden-mobile">
+            <div class="is-capitalized has-text-grey px-3 is-hidden-mobile">
               {{ chainName }}
             </div>
           </div>
           <div
-            class="is-uppercase has-text-grey is-hidden-tablet is-size-7-mobile">
+            class="is-capitalized has-text-grey is-hidden-tablet is-size-7-mobile">
             {{ chainName }}
           </div>
         </div>

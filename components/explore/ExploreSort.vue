@@ -149,11 +149,11 @@ onMounted(() => {
     width: 1.5rem;
     line-height: 1.5rem;
     text-align: center;
-    background-color: $k-accent;
-    color: black;
 
     @include ktheme() {
-      border: 1px solid theme('text-color');
+      border: 1px solid theme('border-color');
+      background: theme('k-accent');
+      color: theme('black');
     }
   }
 }

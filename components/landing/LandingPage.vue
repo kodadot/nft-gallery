@@ -12,9 +12,7 @@
     </section>
 
     <!-- top collections -->
-    <section
-      v-if="urlPrefix === 'rmrk' || urlPrefix === 'snek' || urlPrefix === 'bsx'"
-      class="section instance">
+    <section v-if="showCarousel" class="section instance">
       <div class="container">
         <LazyTopCollections class="my-5" />
       </div>
@@ -45,6 +43,7 @@ const { urlPrefix } = usePrefix()
 const showCarousel = computed(() => {
   return (
     urlPrefix.value === 'rmrk' ||
+    urlPrefix.value === 'rmrk2' ||
     urlPrefix.value === 'snek' ||
     urlPrefix.value === 'bsx'
   )

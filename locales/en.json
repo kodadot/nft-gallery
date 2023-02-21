@@ -40,7 +40,7 @@
   "contribute": "Contribute",
   "qrCode": "QR",
   "documentation": "Documentation",
-  "grants": "Grants",
+  "referralProgram": "Referral Program",
   "theatre": "theatre",
   "view": "view",
   "price": "price",
@@ -907,6 +907,8 @@
   },
   "general": {
     "apply": "Apply",
+    "resetAll": "Reset All",
+    "filters": "Filters",
     "asset": "Asset",
     "using": "using",
     "balance": "Balance",
@@ -1186,7 +1188,7 @@
     },
     "unlist": {
       "success": "Item successfully unlisted",
-        "error": "Item unlisting failed"
+      "error": "Item unlisting failed"
     }
   },
   "createDropdown": {

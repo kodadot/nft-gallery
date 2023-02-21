@@ -15,10 +15,12 @@
   }
 
   .top-collections-item {
-    background-color: white;
-    color: black;
-    border: 1px solid black;
     animation: cardHoverOut 0.3s ease-out;
+    @include ktheme() {
+      background: theme('background-color');
+      color: theme('text-color');
+      border: 1px solid theme('border-color');
+    }
 
     &:hover {
       box-shadow: var(--card-box-shadow);
@@ -35,16 +37,6 @@
   border-right: 0;
 }
 
-.dark-mode {
-  .top-collections-item {
-    background-color: $dark-accent;
-    color: $white;
-    border: 1px solid $white;
-  }
-
-
-
-}
 
 .has-fixed-width {
   min-width: 98px;
@@ -56,10 +48,9 @@
 
 @include tablet {
   .w-160 {
-    width :160px
+    width: 160px;
   }
 }
-
 
 @include mobile {
   .mobile {
@@ -68,7 +59,5 @@
   .has-fixed-width {
     width: 100%;
     min-width: 70px;
-
-
   }
 }
