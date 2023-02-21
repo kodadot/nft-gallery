@@ -21,9 +21,6 @@
           padding: 24px 20px;
           @include ktheme() {
             border-bottom: 1px solid theme('border-color');
-            &:hover {
-              color: theme('k-hovergrey');
-            }
           }
 
           &.is-active {
@@ -99,13 +96,6 @@
 
     .custom-navbar-item {
       margin-left: 0 !important;
-      .navbar-item {
-        &:hover {
-          @include ktheme() {
-            color: theme('k-hovergrey');
-          }
-        }
-      }
       .dropdown-trigger {
         width: 100%;
       }
@@ -195,7 +185,7 @@
     }
     &:hover {
       @include ktheme() {
-        color: theme('k-hovergrey');
+        color: theme('link-hover');
       }
       background-color: inherit;
     }
