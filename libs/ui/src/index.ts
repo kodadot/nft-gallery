@@ -7,6 +7,7 @@ export { default as NeoDropdownItem } from './components/NeoDropdown/NeoDropdown
 export { default as NeoSelect } from './components/NeoSelect/NeoSelect.vue'
 export { default as NeoSidebar } from './components/NeoSidebar/NeoSidebar.vue'
 export { type NeoButtonVariant } from './types'
+export { type NftCardVariant } from './types'
 
 export { default as TheButton } from './components/TheButton/TheButton.vue'
 export { default as DisablableTab } from './components/DisablableTab/DisablableTab'
