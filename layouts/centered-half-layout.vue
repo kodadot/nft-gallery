@@ -25,7 +25,6 @@
 <script lang="ts" setup>
 const { $config } = useNuxtApp()
 const route = useRoute()
-const { checkPrefixBeforeMount } = usePrefix()
 
 useNuxt2Meta({
   link: [
@@ -36,6 +35,4 @@ useNuxt2Meta({
     },
   ],
 })
-
-onBeforeMount(checkPrefixBeforeMount)
 </script>

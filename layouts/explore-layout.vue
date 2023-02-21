@@ -39,7 +39,6 @@ import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()
-const { checkPrefixBeforeMount } = usePrefix()
 
 useNuxt2Meta({
   link: [
@@ -53,8 +52,6 @@ useNuxt2Meta({
 
 const isExplore = computed(() => route.path.includes('/explore'))
 const isCollection = computed(() => route.name === 'prefix-collection-id')
-
-onBeforeMount(checkPrefixBeforeMount)
 </script>
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
