@@ -2,8 +2,10 @@ import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
 
 export const state = (): {
   // Interface
-  sidebarfilterCollapseOpen: boolean
+  sidebarFilterCollapseOpen: boolean
+  mobileFilterCollapseOpen: boolean
   layoutClass: string
+  galleryLayoutClass: string
   advancedUI: boolean
   theatreView: string
   compactGalleryItem: boolean
@@ -22,8 +24,11 @@ export const state = (): {
   hasCarbonOffset: boolean
   arweaveUpload: boolean
 } => ({
-  sidebarfilterCollapseOpen: true,
+  sidebarFilterCollapseOpen: true,
+  mobileFilterCollapseOpen: false,
   layoutClass: 'is-one-quarter-desktop is-one-third-tablet',
+  galleryLayoutClass:
+    'is-one-quarter-desktop is-one-third-tablet is-half-mobile',
   advancedUI: false,
   theatreView: 'default',
   compactGalleryItem: true,
@@ -45,9 +50,12 @@ export const state = (): {
 export type PreferencesState = ReturnType<typeof state>
 
 export const getters: GetterTree<PreferencesState, PreferencesState> = {
-  getSidebarfilterCollapse: ({ sidebarfilterCollapseOpen }) =>
-    sidebarfilterCollapseOpen,
+  getsidebarFilterCollapse: ({ sidebarFilterCollapseOpen }) =>
+    sidebarFilterCollapseOpen,
+  getMobileFilterCollapse: ({ mobileFilterCollapseOpen }) =>
+    mobileFilterCollapseOpen,
   getLayoutClass: ({ layoutClass }) => layoutClass,
+  getGalleryLayoutClass: ({ galleryLayoutClass }) => galleryLayoutClass,
   getTheatreView: ({ theatreView }) => theatreView,
   getCompactCollection: ({ compactCollection }) => compactCollection,
   getShowPriceValue: ({ showPriceGallery }) => showPriceGallery,
@@ -67,15 +75,23 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
 
 export const mutations: MutationTree<PreferencesState> = {
   SET_SIDEBARFILTER_COLLAPSE(state: PreferencesState, data) {
-    state.sidebarfilterCollapseOpen = data
+    state.sidebarFilterCollapseOpen = data
+  },
+  SET_MOBILEFILTER_COLLAPSE(state: PreferencesState, data) {
+    state.mobileFilterCollapseOpen = data
   },
   SET_LAYOUT_CLASS(state: PreferencesState, data) {
     state.layoutClass = data
+  },
+  SET_GALLERY_LAYOUT_CLASS(state: PreferencesState, data) {
+    state.galleryLayoutClass = data
   },
   SET_ADVANCED_UI(state: PreferencesState, data) {
     // if set to false reset state back to default
     if (!data) {
       state.layoutClass = 'is-one-quarter-desktop is-one-third-tablet'
+      state.galleryLayoutClass =
+        'is-one-quarter-desktop is-one-third-tablet is-half-mobile'
       state.theatreView = 'theatre'
       state.compactGalleryItem = true
       state.compactCollection = false
@@ -132,11 +148,17 @@ export const mutations: MutationTree<PreferencesState> = {
 }
 
 export const actions: ActionTree<PreferencesState, PreferencesState> = {
-  setSidebarfilterCollapse({ commit }: { commit: Commit }, data) {
+  setSidebarFilterCollapse({ commit }: { commit: Commit }, data) {
     commit('SET_SIDEBARFILTER_COLLAPSE', data)
+  },
+  setMobileFilterCollapse({ commit }: { commit: Commit }, data) {
+    commit('SET_MOBILEFILTER_COLLAPSE', data)
   },
   setLayoutClass({ commit }: { commit: Commit }, data) {
     commit('SET_LAYOUT_CLASS', data)
+  },
+  setGalleryLayoutClass({ commit }: { commit: Commit }, data) {
+    commit('SET_GALLERY_LAYOUT_CLASS', data)
   },
   setAdvancedUI({ commit }: { commit: Commit }, data) {
     commit('SET_ADVANCED_UI', data)

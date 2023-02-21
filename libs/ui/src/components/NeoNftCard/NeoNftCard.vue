@@ -10,14 +10,17 @@
         :title="nft?.name" />
     </nuxt-link>
     <div
-      class="nft-media-info is-flex is-flex-direction-column is-justify-content-space-between">
+      class="nft-media-info is-flex is-flex-direction-column"
+      :class="`nft-media-info__${variant}`">
       <div class="is-flex is-flex-direction-column">
         <span class="is-ellipsis has-text-weight-bold">{{
           nft.name || '--'
         }}</span>
 
         <nuxt-link
-          v-if="nft.collection.name || nft.collection.id"
+          v-if="
+            variant !== 'minimal' && (nft.collection.name || nft.collection.id)
+          "
           :title="nft.collectionName || nft.collection.name"
           :to="`/${prefix}/collection/${nft.collection.id}`"
           class="is-size-7 nft-info-collection-name">
@@ -36,9 +39,11 @@
           v-if="showPrice"
           :value="nft.price"
           data-cy="card-money" />
-        <span class="chain-name is-capitalized is-size-7">{{
-          getChainNameByPrefix(prefix)
-        }}</span>
+        <span
+          v-if="variant !== 'minimal'"
+          class="chain-name is-capitalized is-size-7"
+          >{{ getChainNameByPrefix(prefix) }}</span
+        >
       </div>
     </div>
   </div>
@@ -49,12 +54,15 @@ import MediaItem from '../MediaItem/MediaItem.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import { getChainNameByPrefix } from '@/utils/chain'
+import { NftCardVariant } from '@kodadot1/brick'
 
-defineProps<{
+const props = defineProps<{
   nft: NFT
   prefix: string
   showPrice: boolean
+  variant?: NftCardVariant
 }>()
+const variant = computed(() => props.variant || 'primary')
 </script>
 
 <style lang="scss" scoped>

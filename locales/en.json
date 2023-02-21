@@ -907,6 +907,8 @@
   },
   "general": {
     "apply": "Apply",
+    "resetAll": "Reset All",
+    "filters": "Filters",
     "asset": "Asset",
     "using": "using",
     "balance": "Balance",

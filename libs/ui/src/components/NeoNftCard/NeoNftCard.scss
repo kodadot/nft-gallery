@@ -27,6 +27,10 @@
   @include ktheme() {
     border: 1px solid theme('border-color');
   }
+  &__minimal {
+    padding:9px;
+    min-height: 76px;
+  }
 }
 
 .nft-info-collection-name {
