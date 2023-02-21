@@ -232,6 +232,7 @@ import { getKusamaAssetId } from '~~/utils/api/bsx/query'
 import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { useLangStore } from '@/stores/lang'
+import { useWalletStore } from '@/stores/wallet'
 
 const components = {
   Avatar,
@@ -276,6 +277,10 @@ export default class ProfileDropdown extends mixins(
 
   get langStore() {
     return useLangStore()
+  }
+
+  get walletStore() {
+    return useWalletStore()
   }
 
   get userLang(): string {
@@ -340,7 +345,7 @@ export default class ProfileDropdown extends mixins(
     return this.chain === 'snek' || this.chain === 'bsx'
   }
   get userWalletName(): string {
-    return this.$store.getters['wallet/getWalletName']
+    return this.walletStore.wallet.name
   }
 }
 </script>
