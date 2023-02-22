@@ -43,7 +43,7 @@ watchEffect(async () => {
   const name = collection?.name
 
   if (image && name) {
-    collectionAvatar.value = image
+    collectionAvatar.value = sanitizeIpfsUrl(image)
     collectionName.value = name
   } else {
     const meta = (await processSingleMetadata(metadata)) as NFTMetadata
