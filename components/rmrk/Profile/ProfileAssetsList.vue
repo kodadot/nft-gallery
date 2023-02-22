@@ -92,11 +92,9 @@ const assetToUsdValue = (asset: AssetItem) => {
   }
   if (asset.symbol === 'BSX') {
     let value = checkInvalidBalanceFilter(asset.balance)
-    value = checkInvalidBalanceFilter(
-      roundTo(formatBalance(value, 12, ''), 4)
-        .replace(',', '')
-        .replace(/\s/g, '')
-    )
+    value = roundTo(formatBalance(value, 12, ''), 4)
+      .replace(',', '.')
+      .replace(/\s/g, '')
     return calculateExactUsdFromToken(
       value,
       $store.getters['fiat/getCurrentBSXValue']
