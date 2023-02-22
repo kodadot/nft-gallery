@@ -69,6 +69,10 @@ watchEffect(async () => {
   height: 560px;
   position: relative;
 
+  @include ktheme() {
+    border: 1px solid theme('border-color');
+  }
+
   &-shadow {
     background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
     position: absolute;
@@ -90,6 +94,7 @@ watchEffect(async () => {
     @include ktheme() {
       border: 1px solid theme('border-color');
       background-color: theme('background-color');
+      box-shadow: theme('primary-shadow');
     }
 
     img {
