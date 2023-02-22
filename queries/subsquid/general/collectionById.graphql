@@ -7,7 +7,7 @@ query collectionById(
   $id: String!
   $search: [NFTEntityWhereInput!]
   $orderBy: NFTEntityOrderByInput = blockNumber_DESC
-  $first: Int!
+  $first: Int
   $offset: Int
 ) {
   collectionEntity: collectionEntityById(id: $id) {

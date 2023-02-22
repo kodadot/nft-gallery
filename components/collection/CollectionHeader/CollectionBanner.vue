@@ -29,7 +29,6 @@ const { data } = useGraphql({
   queryName: 'collectionById',
   variables: {
     id: route.params.id,
-    first: 0,
   },
 })
 
