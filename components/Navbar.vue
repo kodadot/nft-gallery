@@ -152,7 +152,7 @@ import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
 import ConnectWalletButton from '~/components/shared/ConnectWalletButton.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { BModalConfig } from 'buefy/types/components'
-import Vue from 'vue'
+import type Vue from 'vue'
 
 const { $store, $colorMode, $buefy, $nextTick } = useNuxtApp()
 const root = ref<Vue<Record<string, string>>>()
