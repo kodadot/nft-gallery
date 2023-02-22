@@ -87,12 +87,12 @@
         </template>
         <div class="p-4">
           <b-field>
-            <b-checkbox v-model="listed"> {{ $t('sort.listed') }} </b-checkbox>
+            <NeoCheckbox v-model="listed"> {{ $t('sort.listed') }}</NeoCheckbox>
           </b-field>
           <b-field>
-            <b-checkbox v-model="owned" :disabled="!accountId">
-              {{ $t('sort.own') }}
-            </b-checkbox>
+            <NeoCheckbox v-model="owned" :disabled="!accountId">
+              {{ $t('sort.own') }}</NeoCheckbox
+            >
           </b-field>
         </div>
       </b-collapse>
@@ -101,9 +101,8 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoSidebar } from '@kodadot1/brick'
+import { NeoButton, NeoCheckbox, NeoSidebar } from '@kodadot1/brick'
 import { fromDecimals, toDecimals } from '@/utils/math'
-
 const { $store, $consola } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
