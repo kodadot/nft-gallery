@@ -1,0 +1,109 @@
+<template>
+  <div
+    class="collection-banner"
+    :style="{ backgroundImage: `url(${collectionAvatar})` }">
+    <div class="collection-banner-shadow"></div>
+
+    <div class="container collection-banner-content">
+      <div class="is-flex is-flex-direction-column is-align-items-start">
+        <div class="collection-banner-avatar">
+          <img
+            v-if="collectionAvatar"
+            :src="collectionAvatar"
+            :alt="collectionName" />
+          <img v-else src="/placeholder.webp" />
+        </div>
+        <h1 class="collection-banner-name">{{ collectionName }}</h1>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { NFTMetadata } from '@/components/rmrk/service/scheme'
+import { processSingleMetadata } from '@/utils/cachingStrategy'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
+
+const route = useRoute()
+const { data } = useGraphql({
+  queryName: 'collectionById',
+  variables: {
+    id: route.params.id,
+    first: 0,
+  },
+})
+
+const collectionAvatar = ref('')
+const collectionName = ref('--')
+
+watchEffect(async () => {
+  const collection = data.value?.collectionEntity
+  const metadata = collection?.metadata
+  const image = collection?.meta?.image
+  const name = collection?.name
+
+  if (image && name) {
+    collectionAvatar.value = image
+    collectionName.value = name
+  } else {
+    const meta = (await processSingleMetadata(metadata)) as NFTMetadata
+    const metaImage = sanitizeIpfsUrl(meta?.image)
+    const metaName = meta?.name
+
+    if (metaName) {
+      collectionName.value = metaName
+    }
+
+    if (metaImage) {
+      collectionAvatar.value = metaImage
+    }
+  }
+})
+console.log(route.params.id, data.value)
+</script>
+
+<style scoped lang="scss">
+.collection-banner {
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 560px;
+  position: relative;
+
+  &-shadow {
+    background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &-content {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+  }
+
+  &-avatar {
+    border: 1px solid black;
+    background-color: white;
+    padding: 0.75rem;
+
+    img {
+      display: block;
+      width: 5.5rem;
+      height: 5.5rem;
+    }
+  }
+
+  &-name {
+    color: #fff;
+    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+      -1px -1px 0 #000, 1px 0 0 #000, 0 1px 0 #000, -1px 0 0 #000, 0 -1px 0 #000,
+      4px 4px #000;
+    font-weight: bold;
+    font-size: 2.5rem;
+    margin: 1.5rem 0;
+  }
+}
+</style>

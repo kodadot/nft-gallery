@@ -1,6 +1,7 @@
 #import "../../fragments/collection.graphql"
 #import "../../fragments/collectionDetails.graphql"
 #import "../../fragments/subsquidNft.graphql"
+#import "../../fragments/baseMeta.graphql"
 
 query collectionById(
   $id: String!
@@ -13,6 +14,9 @@ query collectionById(
     ...collection
     ...collectionDetails
     createdAt
+    meta {
+      ...baseMeta
+    }
     nfts(
       orderBy: [$orderBy, blockNumber_DESC]
       limit: $first
