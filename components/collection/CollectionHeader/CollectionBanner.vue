@@ -59,7 +59,6 @@ watchEffect(async () => {
     }
   }
 })
-console.log(route.params.id, data.value)
 </script>
 
 <style scoped lang="scss">
@@ -98,9 +97,7 @@ console.log(route.params.id, data.value)
 
   &-name {
     color: #fff;
-    text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-      -1px -1px 0 #000, 1px 0 0 #000, 0 1px 0 #000, -1px 0 0 #000, 0 -1px 0 #000,
-      4px 4px #000;
+    text-shadow: 4px 4px 0px #000000;
     font-weight: bold;
     font-size: 2.5rem;
     margin: 1.5rem 0;
