@@ -81,24 +81,26 @@ import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { formatAddress } from '@/utils/account'
 import shortAddress from '@/utils/shortAddress'
+import { useWalletStore } from '@/stores/wallet'
 
 const props = defineProps<{
   wallet: BaseDotsamaWallet
 }>()
 
 const { chainProperties } = useChain()
-const { $consola, $store } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const hasWalletProviderExtension = ref(false)
 const walletAccounts = ref<WalletAccount[]>([])
 const showAccountList = ref(false)
 const emit = defineEmits(['setWallet', 'setAccount'])
+const walletStore = useWalletStore()
 
 const emitAccountChange = (address: string): void => {
   emit('setAccount', address)
   const walletName = walletAccounts.value.find(
     (wallet) => wallet.address === address
   )?.name
-  $store.dispatch('wallet/setWalletName', { name: walletName })
+  walletStore.setWalletName({ name: walletName })
 }
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 
