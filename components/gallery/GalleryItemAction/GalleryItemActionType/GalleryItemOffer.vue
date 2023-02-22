@@ -178,17 +178,18 @@ async function confirm2() {
   }
 }
 
-watchEffect(async () => {
-  price.value =
-    currentBlock < data.value?.offers[0]?.expiration
-      ? data.value?.offers[0]?.price
-      : ''
-})
-
-const currentBlock = computed(async () => {
+async function currentBlock() {
   const api = await apiInstance.value
   const block = await api.rpc.chain.getHeader()
   return block.number.toNumber()
+}
+
+watchEffect(async () => {
+  const blockNumber = await currentBlock()
+  price.value =
+    blockNumber < data.value?.offers[0]?.expiration
+      ? data.value?.offers[0]?.price
+      : ''
 })
 
 const actionRef = ref(null)
