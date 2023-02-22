@@ -330,7 +330,7 @@
       &:hover {
         background-color: transparent !important;
         @include ktheme() {
-          color: theme('k-hovergrey') !important;
+          color: theme('link-hover') !important;
         }
       }
       &.is-disabled {
