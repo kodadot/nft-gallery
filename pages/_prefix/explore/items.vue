@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Gallery class="container" />
+    <Gallery class="container is-fluid" />
   </div>
 </template>
 

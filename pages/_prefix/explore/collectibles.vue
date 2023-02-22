@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CollectionList class="container" />
+    <CollectionList class="container is-fluid" />
   </div>
 </template>
 
