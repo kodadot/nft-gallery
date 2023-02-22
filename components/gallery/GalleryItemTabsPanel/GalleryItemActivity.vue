@@ -96,7 +96,7 @@ const cssActive = (value) => {
 
     &:hover {
       @include ktheme() {
-        color: theme('k-hovergrey');
+        color: theme('link-hover');
       }
     }
 
