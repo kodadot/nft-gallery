@@ -61,6 +61,8 @@ watchEffect(async () => {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/abstracts/variables';
+
 .collection-banner {
   background-repeat: no-repeat;
   background-size: cover;
@@ -83,9 +85,12 @@ watchEffect(async () => {
   }
 
   &-avatar {
-    border: 1px solid black;
-    background-color: white;
     padding: 0.75rem;
+
+    @include ktheme() {
+      border: 1px solid theme('border-color');
+      background-color: theme('background-color');
+    }
 
     img {
       display: block;
@@ -95,11 +100,14 @@ watchEffect(async () => {
   }
 
   &-name {
-    color: #fff;
-    text-shadow: 4px 4px 0px #000000;
     font-weight: bold;
     font-size: 2.5rem;
     margin: 1.5rem 0;
+
+    @include ktheme() {
+      color: theme('text-color-inverse');
+      text-shadow: 4px 4px 0px theme('text-color');
+    }
   }
 }
 </style>
