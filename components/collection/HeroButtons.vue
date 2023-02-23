@@ -1,81 +1,73 @@
 <template>
-  <section>
+  <div>
     <div class="is-flex is-justify-content-flex-start is-align-items-end px-2">
-      <NeoButton icon="twitter" icon-pack="fab" class="squere-32 mr-3" />
-      <NeoButton icon="instagram" icon-pack="fab" class="squere-32 mr-3" />
-      <NeoButton icon="discord" icon-pack="fab" class="squere-32" />
-      <div class="vertical-seperator mx-4"></div>
-      <NeoDropdown append-to-body fit-to-content>
-        <NeoButton icon="share-alt" class="squere-32 mr-3" />
+      <NeoButton icon="twitter" icon-pack="fab" class="square-32 mr-3" />
+      <NeoButton icon="instagram" icon-pack="fab" class="square-32 mr-3" />
+      <NeoButton icon="discord" icon-pack="fab" class="square-32" />
+
+      <div class="vertical-seperator mx-4" />
+
+      <NeoDropdown append-to-body>
+        <NeoButton icon="share-alt" class="square-32 mr-3" />
         <template #items>
-          <div class="mw-11 is-flex is-flex-wrap-wrap px-1">
+          <NeoDropdownItem
+            v-clipboard:copy="realworldFullPath"
+            @click.native="toast($i18n.t('toast.urlCopy'))">
+            {{ $i18n.t('share.copyLink') }}
+          </NeoDropdownItem>
+          <NeoDropdownItem @click.native="QRModalActive = true">
+            {{ $i18n.t('share.qrCode') }}
+          </NeoDropdownItem>
+          <NeoDropdownItem>
             <ShareNetwork
-              tag="button"
-              class="button share__button is-medium"
+              tag="div"
               network="twitter"
-              :title="sharingLabel"
               :hashtags="hashtags"
               :url="realworldFullPath"
+              :title="sharingLabel"
               twitter-user="KodaDot">
-              <b-icon size="is-large" pack="fab" icon="twitter" />
+              {{ $i18n.t('share.twitter') }}
             </ShareNetwork>
-            <ShareNetwork
-              tag="button"
-              class="button share__button is-medium"
-              network="telegram"
-              :title="sharingLabel"
-              :url="realworldFullPath">
-              <b-icon size="is-large" pack="fab" icon="telegram" />
-            </ShareNetwork>
-            <ShareNetwork
-              tag="button"
-              class="button share__button is-medium"
-              network="facebook"
-              :title="sharingLabel"
-              :hashtags="hashtags"
-              :url="realworldFullPath">
-              <b-icon size="is-large" pack="fab" icon="facebook" />
-            </ShareNetwork>
-            <ShareNetwork
-              tag="button"
-              class="button share__button is-medium"
-              network="messenger"
-              :title="sharingLabel"
-              :url="realworldFullPath">
-              <b-icon size="is-large" pack="fab" icon="facebook-messenger" />
-            </ShareNetwork>
-            <ShareNetwork
-              tag="button"
-              class="button share__button is-medium"
-              network="whatsapp"
-              :title="sharingLabel"
-              :url="realworldFullPath">
-              <b-icon size="is-large" pack="fab" icon="whatsapp" />
-            </ShareNetwork>
-            <ShareNetwork
-              tag="button"
-              class="button share__button is-medium"
-              network="email"
-              :title="sharingLabel"
-              :url="realworldFullPath">
-              <b-icon size="is-large" pack="fas" icon="envelope" />
-            </ShareNetwork>
-          </div>
+          </NeoDropdownItem>
         </template>
       </NeoDropdown>
+
       <NeoDropdown append-to-body>
-        <NeoButton icon="ellipsis-v" class="squere-32" />
+        <NeoButton icon="ellipsis-v" class="square-32" />
         <template #items>
           <div v-if="isOwner">
-            <NeoDropdownItem> Delete </NeoDropdownItem>
-            <NeoDropdownItem> Customize </NeoDropdownItem>
+            <NeoDropdownItem>
+              {{ $i18n.t('moreActions.delete') }}
+            </NeoDropdownItem>
+            <NeoDropdownItem>
+              {{ $i18n.t('moreActions.customize') }}
+            </NeoDropdownItem>
           </div>
-
-          <NeoDropdownItem v-else> Report </NeoDropdownItem>
+          <div v-else>
+            <NeoDropdownItem>
+              {{ $i18n.t('moreActions.reportNFT') }}
+            </NeoDropdownItem>
+            <NeoDropdownItem>
+              <div class="is-flex">
+                {{ $i18n.t('moreActions.download') }}
+                <b-icon icon="download" class="pl-3" />
+              </div>
+            </NeoDropdownItem>
+          </div>
         </template>
       </NeoDropdown>
     </div>
-  </section>
+    <b-modal v-model="QRModalActive">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">{{ collection?.name }}</p>
+        </header>
+        <div class="card-content">
+          <QRCode :text="realworldFullPath" color="#db2980" bg-color="#000" />
+        </div>
+      </div>
+    </b-modal>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -87,7 +79,7 @@ import {
 } from './utils/useCollectionDetails'
 const route = useRoute()
 const { accountId } = useAuth()
-const { $i18n } = useNuxtApp()
+const { $i18n, $buefy } = useNuxtApp()
 const collection = ref<CollectionEntityMinimal>()
 const collectionId = computed(() => route.params.id)
 const realworldFullPath = computed(
@@ -96,6 +88,9 @@ const realworldFullPath = computed(
 const isOwner = computed(() =>
   checkOwner(collection.value?.currentOwner, accountId.value)
 )
+
+const QRModalActive = ref(false)
+
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
 
@@ -106,12 +101,19 @@ const { collection: data } = useCollectionMinimal({
 watch(data, () => {
   collection.value = data.value
 })
+
+const toast = (message: string) => {
+  $buefy.toast.open({
+    message,
+    type: 'is-neo',
+  })
+}
 </script>
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
-.squere-32 {
+.square-32 {
   width: 32px;
   height: 32px;
 }
@@ -122,15 +124,5 @@ watch(data, () => {
   @include ktheme() {
     background-color: theme('border-color');
   }
-}
-.mw-11 {
-  min-width: 11rem;
-}
-</style>
-
-<style lang="scss">
-@import '@/styles/abstracts/variables';
-.o-drop__menu {
-  min-width: fit-content;
 }
 </style>
