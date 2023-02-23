@@ -207,7 +207,6 @@ const submit = async (
       successMessage: $i18n.t('transaction.offer.success') as string,
       errorMessage: $i18n.t('transaction.item.error') as string,
     })
-    console.log('awaitt')
   } catch (e: any) {
     showNotification(`[OFFER::ERR] ${e}`, notificationTypes.danger)
     $consola.error(e)
@@ -227,7 +226,6 @@ watch(
       const floorPrice = formatPrice(nftPrice || '')
 
       offers.value = offersData.offers
-      console.log('offerss', offers)
 
       offersData.offers.map((offer) => {
         const price = formatPrice(offer.price)

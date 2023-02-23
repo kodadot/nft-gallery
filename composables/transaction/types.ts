@@ -47,6 +47,14 @@ export type ActionWithdrawOffer = {
   errorMessage?: string
 }
 
+export type ActionAcceptOffer = {
+  interaction: typeof ShoppingActions.WITHDRAW_OFFER
+  nftId: string
+  maker: string
+  successMessage?: string
+  errorMessage?: string
+}
+
 export type Actions =
   | ActionList
   | ActionSend

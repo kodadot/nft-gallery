@@ -10,6 +10,7 @@ import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 
 import type {
+  ActionAcceptOffer,
   ActionConsume,
   ActionList,
   ActionOffer,
@@ -47,7 +48,6 @@ export const useTransaction = () => {
 
   const transaction = async (item: Actions) => {
     const api = await apiInstance.value
-    console.log('itemmm', item)
     const map = {
       [Interaction.LIST]: () =>
         execListTx(item as ActionList, api, executeTransaction),
@@ -64,7 +64,7 @@ export const useTransaction = () => {
           executeTransaction
         ),
       [ShoppingActions.ACCEPT_OFFER]: () =>
-        execAcceptOfferTx(item as ActionWithdrawOffer, api, executeTransaction),
+        execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
     }
 
     return map[item.interaction]?.() ?? 'UNKNOWN'
