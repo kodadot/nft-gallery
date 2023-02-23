@@ -3,7 +3,9 @@
     <!-- TODO: breadcrumbs filter here -->
     <p>total: {{ total }}</p>
     <hr />
-    <div class="columns is-multiline" style="min-height: 100vh">
+    <div
+      class="columns is-multiline is-align-content-flex-start"
+      style="min-height: 100vh">
       <div
         v-for="(nft, index) in nfts"
         :key="`${nft.id}=${index}`"
