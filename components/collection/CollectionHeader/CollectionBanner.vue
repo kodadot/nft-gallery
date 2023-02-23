@@ -64,14 +64,15 @@ watchEffect(async () => {
 @import '@/styles/abstracts/variables';
 
 .collection-banner {
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 560px;
-  position: relative;
-
   @include ktheme() {
     border: 1px solid theme('border-color');
   }
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-top: none !important;
+  height: 560px;
+  position: relative;
 
   &-shadow {
     background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
