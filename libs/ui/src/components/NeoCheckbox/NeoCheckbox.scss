@@ -18,6 +18,9 @@ $checkbox-checkmark-color: #000;
   }
 
   .o-chk__check--checked {
+    background-size: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
     @include ktheme() {
       background-color: theme('k-primary');
     }
