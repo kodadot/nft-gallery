@@ -198,7 +198,6 @@ const submit = async (
     | typeof ShoppingActions.ACCEPT_OFFER,
   onSuccess?: () => void
 ) => {
-  console.log('interaction', interaction)
   try {
     await transaction({
       interaction: interaction,
