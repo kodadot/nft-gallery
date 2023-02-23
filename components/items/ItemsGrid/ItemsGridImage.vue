@@ -25,7 +25,6 @@ onBeforeMount(async () => {
   if (props.nft.meta) {
     item.value = {
       ...props.nft,
-      ...props.nft.meta,
       name: props.nft.name || props.nft.id,
       image: sanitizeIpfsUrl(props.nft.meta.image || ''),
       animation_url: sanitizeIpfsUrl(props.nft.meta.animation_url || ''),
@@ -43,7 +42,6 @@ onBeforeMount(async () => {
 
   item.value = {
     ...props.nft,
-    ...metadata,
     name: props.nft.name || metadata.name || props.nft.id,
     image,
     animation_url,

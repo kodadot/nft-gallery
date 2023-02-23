@@ -34,5 +34,3 @@ useIntersectionObserver(
   { rootMargin: '1000px' }
 )
 </script>
-
-<style scoped></style>
