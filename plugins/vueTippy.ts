@@ -15,4 +15,4 @@ tippy.setDefaults({
 })
 
 Vue.use(VueTippy)
-Vue.component('v-tippy', TippyComponent)
+Vue.component('VTippy', TippyComponent)

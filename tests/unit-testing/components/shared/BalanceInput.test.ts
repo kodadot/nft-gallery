@@ -30,6 +30,11 @@ describe('BalanceInput.vue', () => {
             currentUrlPrefix: 'rmrk',
           },
         },
+        $route: {
+          params: {
+            prefix: 'rmrk',
+          },
+        },
       },
       localVue,
     })
