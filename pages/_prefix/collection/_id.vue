@@ -1,5 +1,5 @@
 <template>
-  <div v-if="redesign" class="container">
+  <div v-if="redesign">
     <Items />
   </div>
   <CollectionItem v-else />
