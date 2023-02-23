@@ -1,7 +1,7 @@
 <template>
   <Story title="NeoButton" :layout="{ type: 'grid', width: '200px' }">
     <Variant title="small neo button">
-      <NeoCheckbox> test </NeoCheckbox>
+      <NeoCheckbox> {{ label }} </NeoCheckbox>
     </Variant>
   </Story>
 </template>
