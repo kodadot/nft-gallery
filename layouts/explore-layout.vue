@@ -42,7 +42,7 @@
 <script lang="ts" setup>
 import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
 import MobileFilter from '@/components/explore/MobileFilter.vue'
-import HeroButtons from '~~/components/collection/HeroButtons.vue'
+import HeroButtons from '@/components/collection/HeroButtons.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()

@@ -11,8 +11,8 @@
         <NeoButton icon="share-alt" class="square-32 mr-3" />
         <template #items>
           <NeoDropdownItem
-            v-clipboard:copy="realworldFullPath"
-            @click.native="toast($i18n.t('toast.urlCopy'))">
+            v-clipboard:copy="currentURL"
+            @click.native="toast(`${$i18n.t('toast.urlCopy')}`)">
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem @click.native="QRModalActive = true">
@@ -23,7 +23,7 @@
               tag="div"
               network="twitter"
               :hashtags="hashtags"
-              :url="realworldFullPath"
+              :url="currentURL"
               :title="sharingLabel"
               twitter-user="KodaDot">
               {{ $i18n.t('share.twitter') }}
@@ -63,7 +63,7 @@
           <p class="card-header-title">{{ collection?.name }}</p>
         </header>
         <div class="card-content">
-          <QRCode :text="realworldFullPath" color="#db2980" bg-color="#000" />
+          <QRCode :text="currentURL" color="#db2980" bg-color="#000" />
         </div>
       </div>
     </b-modal>
@@ -73,18 +73,15 @@
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { isOwner as checkOwner } from '@/utils/account'
-import {
-  CollectionEntityMinimal,
-  useCollectionMinimal,
-} from './utils/useCollectionDetails'
+import { useCollectionMinimal } from './utils/useCollectionDetails'
 const route = useRoute()
 const { accountId } = useAuth()
 const { $i18n, $buefy } = useNuxtApp()
-const collection = ref<CollectionEntityMinimal>()
 const collectionId = computed(() => route.params.id)
-const realworldFullPath = computed(
-  () => `${window.location.origin}${route.fullPath}`
-)
+const currentURL = computed(() => window.location.href)
+const { collection } = useCollectionMinimal({
+  collectionId: collectionId.value,
+})
 const isOwner = computed(() =>
   checkOwner(collection.value?.currentOwner, accountId.value)
 )
@@ -93,14 +90,6 @@ const QRModalActive = ref(false)
 
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
-
-const { collection: data } = useCollectionMinimal({
-  collectionId: collectionId.value,
-})
-
-watch(data, () => {
-  collection.value = data.value
-})
 
 const toast = (message: string) => {
   $buefy.toast.open({
