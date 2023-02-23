@@ -5,7 +5,7 @@
 
     <!-- new header component for collection here -->
     <div v-if="isCollection">
-      <section class="container">
+      <section class="container p-4">
         <HeroButtons />
       </section>
     </div>
