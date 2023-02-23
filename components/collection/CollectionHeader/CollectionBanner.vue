@@ -64,15 +64,14 @@ watchEffect(async () => {
 @import '@/styles/abstracts/variables';
 
 .collection-banner {
-  @include ktheme() {
-    border: 1px solid theme('border-color');
-  }
-
   background-repeat: no-repeat;
   background-size: cover;
-  border-top: none !important;
   height: 560px;
   position: relative;
+
+  @include ktheme() {
+    border-bottom: 1px solid theme('border-color');
+  }
 
   &-shadow {
     background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
@@ -112,7 +111,11 @@ watchEffect(async () => {
 
     @include ktheme() {
       color: theme('text-color-inverse');
-      text-shadow: 4px 4px 0px theme('text-color');
+      text-shadow: 1px 1px 0 theme('text-color'), 1px -1px 0 theme('text-color'),
+        -1px 1px 0 theme('text-color'), -1px -1px 0 theme('text-color'),
+        1px 0px 0 theme('text-color'), 0px 1px 0 theme('text-color'),
+        -1px 0px 0 theme('text-color'), 0px -1px 0 theme('text-color'),
+        4px 4px theme('text-color');
     }
   }
 }
