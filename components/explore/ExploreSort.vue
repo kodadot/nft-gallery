@@ -14,6 +14,7 @@
         <NeoButton
           type="button"
           :icon="isActive ? 'caret-up' : 'caret-down'"
+          variant="k-accent"
           class="has-text-left"
           data-cy="explore-sort">
           Sort By
