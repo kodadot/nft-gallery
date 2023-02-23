@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="is-flex-grow-1">
     <!-- TODO: breadcrumbs filter here -->
     <p>total: {{ total }}</p>
     <hr />
