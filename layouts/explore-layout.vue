@@ -53,7 +53,9 @@ useNuxt2Meta({
 })
 
 const isExplore = computed(() => route.path.includes('/explore'))
-const isCollection = computed(() => route.name === 'prefix-collection-id')
+const isCollection = computed(() =>
+  route.name?.includes('prefix-collection-id')
+)
 </script>
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
