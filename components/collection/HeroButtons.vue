@@ -88,6 +88,7 @@ import {
 const route = useRoute()
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
+const collection = ref<CollectionEntityMinimal>()
 const collectionId = computed(() => route.params.id)
 const realworldFullPath = computed(
   () => `${window.location.origin}${route.fullPath}`
@@ -97,8 +98,6 @@ const isOwner = computed(() =>
 )
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
-
-const collection = ref<CollectionEntityMinimal>()
 
 const { collection: data } = useCollectionMinimal({
   collectionId: collectionId.value,
