@@ -3,7 +3,7 @@ import { tokenIdToRoute } from '~~/components/unique/utils'
 
 import type { ActionWithdrawOffer } from './types'
 
-export async function execAcceptOfferTx(
+export function execAcceptOfferTx(
   params: ActionWithdrawOffer,
   api,
   executeTransaction
@@ -14,7 +14,7 @@ export async function execAcceptOfferTx(
     const cb = api.tx.marketplace.acceptOffer
 
     executeTransaction({
-      cb: cb,
+      cb,
       arg: args,
     })
   } catch (error) {
