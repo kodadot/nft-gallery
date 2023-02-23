@@ -1,16 +1,23 @@
 <template>
-  <o-checkbox class="neo-checkbox" :disabled="disabled" @input="updateValue">
+  <o-checkbox
+    v-model="checkboxValue"
+    class="neo-checkbox"
+    :native-value="checkboxValue"
+    :disabled="disabled"
+    @input="updateValue">
     <slot />
   </o-checkbox>
 </template>
 
 <script lang="ts" setup>
 import { OCheckbox } from '@oruga-ui/oruga'
-defineProps<{
+const props = defineProps<{
   disabled?: boolean
+  value: boolean
 }>()
-const emit = defineEmits(['input'])
 
+const emit = defineEmits(['input'])
+const checkboxValue = useVModel(props, 'value')
 const updateValue = (event) => {
   emit('input', event)
 }
