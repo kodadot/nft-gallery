@@ -6,7 +6,7 @@
         :class="{ disabled: disabled }"
         @click="toggleSidebarFilters">
         <b-icon
-          :icon="isSidebarFiltersOpen ? 'times' : 'bars'"
+          :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
           size="is-medium" />
       </a>
       <a
@@ -17,56 +17,20 @@
       </a>
     </div>
 
-    <TabOnExplore />
-
-    <!-- TODO: tabs for collection here -->
-    <!-- <template v-if="route.name === 'prefix-collection-id'">
-      <p class="control">
-        <NeoButton
-          class="explore-tabs-button"
-          :active="route.name === 'prefix-collection-id'">
-          <span>{{ $t('items') }}</span>
-        </NeoButton>
-      </p>
-      <p class="control">
-        <NeoButton class="explore-tabs-button">
-          <span>{{ $t('tabs.activity') }}</span>
-        </NeoButton>
-      </p>
-    </template>
-    <template v-else>
-      <p class="control">
-        <NeoButton
-          class="explore-tabs-button"
-          tag="nuxt-link"
-          :active="selectedTab === TabType.COLLECTION"
-          to="collectibles">
-          <span> {{ $t('collections') }}</span>
-          <img v-if="selectedTab === TabType.COLLECTION" src="/checkmark.svg" />
-        </NeoButton>
-      </p>
-      <p class="control">
-        <NeoButton
-          class="explore-tabs-button"
-          tag="nuxt-link"
-          :active="selectedTab === TabType.ITEMS"
-          to="items">
-          <span> {{ $t('items') }}</span>
-          <img v-if="selectedTab === TabType.ITEMS" src="/checkmark.svg" />
-        </NeoButton>
-      </p>
-    </template> -->
+    <TabOnCollection v-if="route.name?.includes('prefix-collection-id')" />
+    <TabOnExplore v-else />
   </div>
 </template>
 
 <script setup lang="ts">
 import TabOnExplore from './tab/TabOnExplore.vue'
+import TabOnCollection from './tab/TabOnCollection.vue'
 
 const route = useRoute()
 const { $store } = useNuxtApp()
 
 const disabled = computed(() => {
-  const allowedList = ['prefix-explore-items']
+  const allowedList = ['prefix-explore-items', 'prefix-collection-id']
 
   return !allowedList.includes(route.name || '')
 })
