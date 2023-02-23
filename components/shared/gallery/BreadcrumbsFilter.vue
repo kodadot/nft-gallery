@@ -3,19 +3,17 @@
     <template v-for="(value, key) in breads">
       <div v-if="value === 'true'" :key="key" class="control">
         <!-- NeoTag -->
-        <b-tag
-          attached
-          closable
-          aria-close-label="clear filter"
-          @close="closeTag(String(key))">
+        <NeoTag @close="closeTag(String(key))">
           {{ $i18n.t(`sort.${String(key)}`) }}
-        </b-tag>
+        </NeoTag>
       </div>
     </template>
   </b-field>
 </template>
 
 <script lang="ts" setup>
+import NeoTag from './NeoTag.vue'
+
 const route = useRoute()
 const router = useRouter()
 const { $i18n, $consola } = useNuxtApp()
