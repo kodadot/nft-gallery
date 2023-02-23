@@ -8,7 +8,7 @@
           closable
           aria-close-label="clear filter"
           @close="closeTag(String(key))">
-          {{ $i18n.t(`sort.${String(key)}`) }}
+          {{ queryMapTranslation[String(key)] }}
         </b-tag>
       </div>
     </template>
@@ -21,6 +21,11 @@ const router = useRouter()
 const { $i18n, $consola } = useNuxtApp()
 
 const breads = computed(() => route.query)
+
+const queryMapTranslation = {
+  listed: $i18n.t('sort.listed'),
+  owned: $i18n.t('sort.own'),
+}
 
 const closeTag = (key: string) => {
   router
