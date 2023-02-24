@@ -12,7 +12,7 @@
         :key="key"
         class="control">
         <NeoTag @close="removeSearch">
-          {{ `search: ${value}` }}
+          {{ `${$i18n.t('general.search')}: ${value}` }}
         </NeoTag>
       </div>
     </template>
