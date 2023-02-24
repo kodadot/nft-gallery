@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, ModelSync } from 'nuxt-property-decorator'
+import { Component, ModelSync, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class ArweaveUploadSwitch extends Vue {

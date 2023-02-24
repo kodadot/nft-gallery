@@ -7,9 +7,9 @@
       :placeholder="placeholder">
     </b-datepicker>
     <b-button
-      @click="$refs.datepicker.toggle()"
       icon-left="calendar-today"
-      type="is-primary" />
+      type="is-primary"
+      @click="$refs.datepicker.toggle()" />
   </b-field>
 </template>
 

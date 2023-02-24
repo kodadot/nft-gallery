@@ -1,4 +1,4 @@
-import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
+import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
 
 const defaultState: IdentityMintStruct = {
   identities: {},

@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Provide, Emit, Prop } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Provide, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class AddOption extends Vue {

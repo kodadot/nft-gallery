@@ -28,15 +28,14 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['input'])
-
-const props = defineProps<{
+defineProps<{
   value: string
   options: string[]
   showEmpty?: boolean
   separated?: boolean
 }>()
 
+const emit = defineEmits(['input'])
 const handleInput = (value: string) => {
   emit('input', value)
 }

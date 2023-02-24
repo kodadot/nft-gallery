@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, VModel } from 'nuxt-property-decorator'
+import { Component, VModel, mixins } from 'nuxt-property-decorator'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import BasicBalanceInput from '@/components/shared/form/BasicBalanceInput.vue'
 

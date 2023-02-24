@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
 import { isAccountLocked } from '@/utils/account'
 
 @Component

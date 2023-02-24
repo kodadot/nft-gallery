@@ -5,11 +5,11 @@
     </p>
     <b-field :label="$t('mint.expert.batchSend')">
       <b-input
-        @input="handleInput"
         type="textarea"
         :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
         spellcheck="true"
-        custom-class="ap-textarea"></b-input>
+        custom-class="ap-textarea"
+        @input="handleInput"></b-input>
     </b-field>
   </div>
 </template>

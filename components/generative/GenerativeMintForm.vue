@@ -73,7 +73,6 @@ import {
   framing,
   gender,
   inspirations,
-  inspiredBy,
   lights,
   styles,
 } from './options'
@@ -82,9 +81,7 @@ import { NAME, Options, buildPrompt } from './promptBuilder'
 const Loader = defineAsyncComponent(
   () => import('@/components/shared/Loader.vue')
 )
-// const BasicInput = defineAsyncComponent(
-//   () => import('@/components/shared/form/BasicInput.vue')
-// )
+
 const SubmitButton = defineAsyncComponent(
   () => import('@/components/base/SubmitButton.vue')
 )

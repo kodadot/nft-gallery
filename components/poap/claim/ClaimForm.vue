@@ -43,15 +43,15 @@ const BasicInput = defineAsyncComponent(
 const token = ref('')
 const hasToken = ref(false)
 const { query } = useRoute()
-const waifu = ref<any>(null)
 const { accountId, isLogIn } = useAuth()
+// const waifu = ref<any>(null)
 
-const fetchWaifu = async (id: string) => {
-  const waifuResponse = await getWaifuById(id)
-  if (waifuResponse) {
-    waifu.value = waifuResponse
-  }
-}
+// const fetchWaifu = async (id: string) => {
+//   const waifuResponse = await getWaifuById(id)
+//   if (waifuResponse) {
+//     waifu.value = waifuResponse
+//   }
+// }
 
 if (query.token) {
   token.value = query.token as string
@@ -61,18 +61,18 @@ if (query.token) {
   // })
 }
 
-const isLoading = ref(false)
-const submit = async () => {
-  try {
-    showNotification('Claiming your POAP', notificationTypes.info)
-    isLoading.value = true
-    await claimWaifu(token.value, accountId.value)
-    showNotification('POAP was claimed', notificationTypes.success)
-    isLoading.value = false
-  } catch (error) {
-    console.error(error)
-    showNotification('Error claiming your POAP', notificationTypes.danger)
-    isLoading.value = false
-  }
-}
+// const isLoading = ref(false)
+// const submit = async () => {
+//   try {
+//     showNotification('Claiming your POAP', notificationTypes.info)
+//     isLoading.value = true
+//     await claimWaifu(token.value, accountId.value)
+//     showNotification('POAP was claimed', notificationTypes.success)
+//     isLoading.value = false
+//   } catch (error) {
+//     console.error(error)
+//     showNotification('Error claiming your POAP', notificationTypes.danger)
+//     isLoading.value = false
+//   }
+// }
 </script>

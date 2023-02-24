@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import shouldUpdate from '@/utils/shouldUpdate'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import nftSimpleListByAccount from '@/queries/nftSimpleListByAccount.graphql'

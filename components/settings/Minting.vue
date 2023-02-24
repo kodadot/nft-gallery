@@ -4,8 +4,8 @@
       {{ $t('Minting Settings') }}
     </div>
     <b-field>
-      <Support v-model="hasSupport" :showPrice="false">
-        <template v-slot:tooltip>
+      <Support v-model="hasSupport" :show-price="false">
+        <template #tooltip>
           <Tooltip
             :label="$t('support.tooltip')"
             iconsize="is-small"
@@ -18,14 +18,14 @@
       <Support
         v-model="hasCarbonOffset"
         :price="1"
-        :activeMessage="$t('carbonOffset.carbonOffsetYes')"
-        :passiveMessage="$t('carbonOffset.carbonOffsetNo')">
-        <template v-slot:tooltip>
+        :active-message="$t('carbonOffset.carbonOffsetYes')"
+        :passive-message="$t('carbonOffset.carbonOffsetNo')">
+        <template #tooltip>
           <Tooltip
             iconsize="is-small"
             buttonsize="is-small"
             tooltipsize="is-large">
-            <template v-slot:content>
+            <template #content>
               {{ $t('carbonOffset.tooltip') }}
               (<a
                 class="has-text-black is-underlined"
@@ -38,7 +38,7 @@
       </Support>
     </b-field>
     <ArweaveUploadSwitch v-model="arweaveUpload">
-      <template v-slot:tooltip>
+      <template #tooltip>
         <Tooltip
           :label="$t('arweave.tooltip')"
           iconsize="is-small"

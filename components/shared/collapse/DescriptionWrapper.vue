@@ -8,7 +8,7 @@
       <VueMarkdown :source="text" />
     </div>
     <div class="has-text-centered">
-      <a @click.prevent="toggleDescription" v-if="hasWrapper">
+      <a v-if="hasWrapper" @click.prevent="toggleDescription">
         <b-icon :icon="activeWrapper ? 'chevron-down' : 'chevron-up'"></b-icon>
       </a>
     </div>

@@ -1,12 +1,12 @@
 <template>
   <CommonHolderTable
     :events="ownerEventsOfNft"
-    groupKeyOption="CollectionId"
-    openOnDefault
-    dateHeaderLabel="Last Activity"
-    nameHeaderLabel="Collection"
-    :collapseTitleOption="$t('Holdings')"
-    hideCollapse />
+    group-key-option="CollectionId"
+    open-on-default
+    date-header-label="Last Activity"
+    name-header-label="Collection"
+    :collapse-title-option="$t('Holdings')"
+    hide-collapse />
 </template>
 
 <script lang="ts">

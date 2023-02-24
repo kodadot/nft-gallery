@@ -1,7 +1,7 @@
 import * as store from '~/store'
 import correctFormat from '~/utils/ss58Format'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
-import { createInteraction, Interaction } from '@kodadot1/minimark'
+import { Interaction, createInteraction } from '@kodadot1/minimark'
 
 export type ShuffleFunction = (arr: string[]) => string[]
 export type ProcessFunction = (

@@ -5,7 +5,7 @@
       :min="min"
       :max="max"
       :ticks="ticks"
-      :customFormatter="customFormatter"
+      :custom-formatter="customFormatter"
       :lazy="lazy" />
   </b-field>
 </template>

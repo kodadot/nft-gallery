@@ -10,11 +10,11 @@
 <script lang="ts">
 import {
   ProcessFunction,
-  sendFunction,
   SendType,
+  sendFunction,
   shuffleFunction,
 } from '@/components/accounts/utils'
-import { Component, Emit, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Emit, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 

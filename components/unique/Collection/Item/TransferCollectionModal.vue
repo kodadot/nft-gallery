@@ -1,6 +1,6 @@
 <template>
-  <ModalWrapper icon="paper-plane" title="Transfer collection" isRight>
-    <template v-slot:default>
+  <ModalWrapper icon="paper-plane" title="Transfer collection" is-right>
+    <template #default>
       <Loader v-model="isLoading" :status="status" />
       <b-field>
         <Auth />
@@ -27,7 +27,7 @@
 <script lang="ts">
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import { isAddress } from '@polkadot/util-crypto'
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { showNotification } from '@/utils/notification'
 
 const components = {

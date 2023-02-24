@@ -1,5 +1,5 @@
 <template>
-  <b-tabs type="is-toggle" v-model="selectedAction" size="is-small">
+  <b-tabs v-model="selectedAction" type="is-toggle" size="is-small">
     <b-tab-item label="CONSUME" icon="fire" value="CONSUME"></b-tab-item>
     <b-tab-item label="SEND" icon="paper-plane" value="SEND"></b-tab-item>
     <b-tab-item

@@ -1,9 +1,9 @@
 <template>
-  <OfferTable :offers="showOffers" :accountId="accountId" is-bsx-stats />
+  <OfferTable :offers="showOffers" :account-id="accountId" is-bsx-stats />
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import AuthMixin from '~/utils/mixins/authMixin'
 import { Offer, OfferResponse } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
