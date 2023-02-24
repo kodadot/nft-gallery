@@ -4,7 +4,7 @@
     interactive
     :animate-fill="false"
     placement="bottom"
-    :delay="0"
+    :delay="delay"
     data-cy="identity">
     <template #trigger>
       <slot name="trigger" />
@@ -100,9 +100,15 @@ import {
   useCollectionSoldData,
 } from '../collection/utils/useCollectionDetails'
 
-const props = defineProps<{
-  nft: CarouselNFT
-}>()
+const props = withDefaults(
+  defineProps<{
+    nft: CarouselNFT
+    delay?: number
+  }>(),
+  {
+    delay: 0,
+  }
+)
 
 const CommonTokenMoney = defineAsyncComponent(
   () => import('@/components/shared/CommonTokenMoney.vue')
