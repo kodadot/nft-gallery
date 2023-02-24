@@ -23,22 +23,21 @@ const onClose = () => {
 .neo-tag {
   @include ktheme() {
     border: 1px solid theme('k-primary');
-    // color: theme('text-color') !important;
+  }
+  &:hover {
+    @include ktheme() {
+      background-color: theme('k-accentlight2');
+    }
   }
 
   .tag {
     margin-bottom: 0;
     padding: 0;
-    background-color: transparent;
+    background-color: inherit;
     font-size: 16px;
 
     @include ktheme() {
       color: theme('text-color');
-    }
-    &:hover {
-      @include ktheme() {
-        background-color: theme('k-accentlight2');
-      }
     }
 
     &:first-child {
@@ -48,7 +47,7 @@ const onClose = () => {
     &.is-delete {
       &:hover,
       &:focus {
-        background-color: transparent;
+        background-color: inherit;
         @include ktheme() {
           color: theme('k-grey');
         }
