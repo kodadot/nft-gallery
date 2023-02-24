@@ -17,15 +17,20 @@
           nft.name || '--'
         }}</span>
 
-        <nuxt-link
-          v-if="
-            variant !== 'minimal' && (nft.collection.name || nft.collection.id)
-          "
-          :title="nft.collectionName || nft.collection.name"
-          :to="`/${prefix}/collection/${nft.collection.id}`"
-          class="is-size-7 nft-info-collection-name">
-          {{ nft.collection.name || '--' }}
-        </nuxt-link>
+        <CollectionDetailsPopover :nft="nft">
+          <template #trigger>
+            <nuxt-link
+              v-if="
+                variant !== 'minimal' &&
+                (nft.collection.name || nft.collection.id)
+              "
+              :title="nft.collectionName || nft.collection.name"
+              :to="`/${prefix}/collection/${nft.collection.id}`"
+              class="is-size-7 nft-info-collection-name">
+              {{ nft.collection.name || '--' }}
+            </nuxt-link>
+          </template>
+        </CollectionDetailsPopover>
       </div>
 
       <div
@@ -55,6 +60,7 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { NftCardVariant } from '@kodadot1/brick'
+import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover'
 
 const props = defineProps<{
   nft: NFT
