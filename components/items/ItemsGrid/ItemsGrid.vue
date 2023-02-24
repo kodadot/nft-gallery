@@ -9,7 +9,7 @@
       <div
         v-for="(nft, index) in nfts"
         :key="`${nft.id}=${index}`"
-        class="column is-2">
+        class="column is-3">
         <ItemsGridImage :nft="nft" />
       </div>
     </div>
