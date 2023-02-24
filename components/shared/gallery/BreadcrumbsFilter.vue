@@ -20,6 +20,21 @@ const { $i18n, $consola } = useNuxtApp()
 
 const breads = computed(() => route.query)
 
+onMounted(() => {
+  if (route.query.listed == undefined) {
+    router
+      .replace({
+        path: String(route.path),
+        query: {
+          ...route.query,
+          page: '1',
+          listed: 'true',
+        },
+      })
+      .catch($consola.warn)
+  }
+})
+
 const closeTag = (key: string) => {
   router
     .replace({
