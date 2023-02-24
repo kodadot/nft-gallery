@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <div class="is-flex is-align-self-flex-start">
       <SidebarFilter />
       <ItemsGrid />

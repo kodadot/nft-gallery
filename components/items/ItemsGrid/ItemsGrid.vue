@@ -3,13 +3,8 @@
     <!-- TODO: breadcrumbs filter here -->
     <p>total: {{ total }}</p>
     <hr />
-    <div
-      class="columns is-multiline is-align-content-flex-start"
-      style="min-height: 100vh">
-      <div
-        v-for="(nft, index) in nfts"
-        :key="`${nft.id}=${index}`"
-        class="column is-3">
+    <div ref="container" :style="gridCols">
+      <div v-for="(nft, index) in nfts" :key="`${nft.id}=${index}`">
         <ItemsGridImage :nft="nft" />
       </div>
     </div>
@@ -35,4 +30,8 @@ useIntersectionObserver(
   },
   { rootMargin: '1000px' }
 )
+
+// dynamic grids
+const container = ref<HTMLDivElement | null>(null)
+const { gridCols } = useDynamicGrid(container)
 </script>
