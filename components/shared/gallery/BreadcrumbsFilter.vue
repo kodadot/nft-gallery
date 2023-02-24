@@ -7,6 +7,14 @@
           {{ $i18n.t(`sort.${String(key)}`) }}
         </NeoTag>
       </div>
+      <div
+        v-if="key === 'search' && value != undefined"
+        :key="key"
+        class="control">
+        <NeoTag @close="removeSearch">
+          {{ `search: ${value}` }}
+        </NeoTag>
+      </div>
     </template>
   </b-field>
 </template>
@@ -42,6 +50,18 @@ const closeTag = (key: string) => {
       query: {
         ...route.query,
         ...{ [key]: false },
+        page: '1',
+      },
+    })
+    .catch($consola.warn)
+}
+const removeSearch = () => {
+  router
+    .replace({
+      path: String(route.path),
+      query: {
+        ...route.query,
+        search: undefined,
         page: '1',
       },
     })
