@@ -82,7 +82,7 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import { formatAddress } from '@/utils/account'
 import shortAddress from '@/utils/shortAddress'
 
-const props = defineProps<{
+defineProps<{
   wallet: BaseDotsamaWallet
 }>()
 
