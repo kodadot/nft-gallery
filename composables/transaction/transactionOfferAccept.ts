@@ -1,5 +1,5 @@
 import { dangerMessage } from '@/utils/notification'
-import { tokenIdToRoute } from '~~/components/unique/utils'
+import { tokenIdToRoute } from '@/components/unique/utils'
 
 import type { ActionWithdrawOffer } from './types'
 
