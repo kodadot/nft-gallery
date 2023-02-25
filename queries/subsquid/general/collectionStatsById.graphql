@@ -5,6 +5,10 @@ query collectionStatsById($id: String!) {
       id
       currentOwner
       issuer
+      offers(where: { price_isNull: false }) {
+        price
+        id
+      }
     }
     listed: nfts(where: { price_gt: "0" }) {
       id

@@ -8,6 +8,9 @@
       <section class="container p-4">
         <HeroButtons />
       </section>
+      <section class="container">
+        <CollectionInfo />
+      </section>
     </div>
 
     <main class="is-flex-grow-1">
@@ -43,6 +46,7 @@
 import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
 import MobileFilter from '@/components/explore/MobileFilter.vue'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
+import CollectionInfo from '@/components/collection/CollectionInfo.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()

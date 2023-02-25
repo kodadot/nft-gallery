@@ -6,6 +6,8 @@ type Stats = {
   listedCount?: number
   collectionLength?: number
   collectionFloorPrice?: number
+  bestOffer?: number
+  uniqueOwners?: number
   uniqueOwnersPercent?: string
   collectionTradedVolumeNumber?: bigint
 }
@@ -45,12 +47,21 @@ export const useCollectionDetails = ({ collectionId }) => {
 
       const differentOwnerCount =
         data.value.stats.base.filter(differentOwner).length
+
+      const offresPerNft = data.value.stats.base.map((nft) =>
+        nft.offers.map((offer) => Number(offer.price))
+      )
+      const maxOffer = Math.max(
+        ...offresPerNft.map((nftOffers) => Math.max(...nftOffers))
+      )
       stats.value = {
         listedCount: data.value.stats.listed.length,
         collectionLength: data.value.stats.base.length,
         collectionFloorPrice: Math.min(
           ...data.value.stats.listed.map((item) => parseInt(item.price))
         ),
+        uniqueOwners: uniqueOwnerCount,
+        bestOffer: maxOffer,
         uniqueOwnersPercent: `${(
           (uniqueOwnerCount / (uniqueOwnerCount + differentOwnerCount)) *
           100
