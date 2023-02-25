@@ -13,6 +13,15 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
     })
   }
 
+  if (item.urlPrefix === 'rmrk2') {
+    executeTransaction({
+      cb: api.tx.system.remark,
+      arg: [createInteraction('BURN' as any, '2.0.0', item.nftId, '')],
+      successMessage: item.successMessage,
+      errorMessage: item.errorMessage,
+    })
+  }
+
   if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
     const [collectionId, tokenId] = bsxParamResolver(
       item.nftId,

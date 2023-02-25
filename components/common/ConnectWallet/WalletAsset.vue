@@ -44,7 +44,7 @@
 
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
-
+import { useWalletStore } from '@/stores/wallet'
 import { clearSession } from '@/utils/cachingStrategy'
 
 const Identity = defineAsyncComponent(
@@ -57,8 +57,9 @@ const ProfileAssetsList = defineAsyncComponent(
   () => import('@/components/rmrk/Profile/ProfileAssetsList.vue')
 )
 const totalValue = ref(0)
+const walletStore = useWalletStore()
 
-const walletName = computed(() => $store.getters['wallet/getWalletName'])
+const walletName = computed(() => walletStore.wallet.name)
 
 const emit = defineEmits(['back'])
 

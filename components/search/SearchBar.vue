@@ -100,7 +100,10 @@ export default class SearchBar extends mixins(
 
   private bindSearchEvents(event) {
     event.preventDefault()
-    if (event.key === 'k') {
+    if (
+      event.key === 'k' &&
+      this.searchRef?.$el?.getBoundingClientRect()?.top > 0
+    ) {
       this.focusInput()
     }
   }

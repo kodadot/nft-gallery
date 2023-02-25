@@ -3,7 +3,9 @@
 
 .nft-card {
   animation: cardHoverOut 0.3s ease-out;
-
+  @include ktheme() {
+    background: theme('background-color');
+  }
   &:hover {
     @include ktheme() {
       box-shadow: theme('primary-shadow');
@@ -24,6 +26,10 @@
   min-height: 102px;
   @include ktheme() {
     border: 1px solid theme('border-color');
+  }
+  &__minimal {
+    padding:9px;
+    min-height: 76px;
   }
 }
 

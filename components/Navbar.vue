@@ -152,7 +152,7 @@ import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
 import ConnectWalletButton from '~/components/shared/ConnectWalletButton.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { BModalConfig } from 'buefy/types/components'
-import Vue from 'vue'
+import type Vue from 'vue'
 
 const { $store, $colorMode, $buefy, $nextTick } = useNuxtApp()
 const root = ref<Vue<Record<string, string>>>()
@@ -170,9 +170,7 @@ const route = useRoute()
 
 const account = computed(() => $store.getters.getAuthAddress)
 
-const isCreateVisible = computed(() => {
-  return createVisible(urlPrefix.value)
-})
+const isCreateVisible = computed(() => createVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')
 
 const isDarkMode = computed(

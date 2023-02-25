@@ -4,22 +4,40 @@
       <SidebarFilter @resetPage="resetPage" />
       <div class="container">
         <!-- TODO: FilterBreadcrumbs here -->
-        <div class="is-flex is-justify-content-space-between py-5">
+        <div
+          class="is-flex is-justify-content-space-between py-5 is-hidden-mobile">
           <BreadcrumbsFilter />
           <div v-show="total">{{ total }} {{ $t('items') }}</div>
         </div>
-        <hr class="mt-0" />
-        <InfiniteLoading
+        <hr class="mt-0 is-hidden-mobile" />
+        <br class="is-hidden-tablet" />
+        <a
           v-if="startPage > 1 && !isLoading && total > 0"
-          direction="top"
-          :distance="prefetchDistance"
-          @infinite="reachTopHandler"></InfiniteLoading>
-        <div :id="scrollContainerId" class="columns is-multiline">
+          class="is-flex is-justify-content-center pb-4"
+          @click="fetchPreviousPage">
+          <b-icon icon="chevron-up" />
+        </a>
+        <div
+          :id="scrollContainerId"
+          class="columns is-multiline is-hidden-mobile">
           <div
             v-for="(nft, index) in results"
             :key="`${nft.id}-${index}`"
             :class="`column ${classLayout} ${scrollItemClassName}`">
             <NftCard :nft="nft" :data-cy="`item-index-${index}`" />
+          </div>
+        </div>
+        <div
+          :id="scrollContainerId"
+          class="columns is-mobile is-multiline is-hidden-tablet">
+          <div
+            v-for="(nft, index) in results"
+            :key="`${nft.id}-${index}`"
+            :class="`column ${classLayout} ${scrollItemClassName}`">
+            <NftCard
+              variant="minimal"
+              :nft="nft"
+              :data-cy="`item-index-${index}`" />
           </div>
         </div>
         <InfiniteLoading
@@ -109,6 +127,7 @@ export default class Gallery extends mixins(
   }
   public isLoading = true
   public first = 20
+  public disablePrefetchPreviousPage = true
   get showPriceValue(): boolean {
     return (
       this.searchQuery?.listed ||
@@ -125,7 +144,7 @@ export default class Gallery extends mixins(
   }
 
   get classLayout() {
-    return this.$store.getters['preferences/getLayoutClass']
+    return this.$store.getters['preferences/getGalleryLayoutClass']
   }
 
   get results() {

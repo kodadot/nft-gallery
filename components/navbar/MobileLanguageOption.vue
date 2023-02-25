@@ -22,19 +22,21 @@
 
 <script lang="ts" setup>
 import { langsFlags } from '@/utils/config/i18n'
+import { useLangStore } from '@/stores/lang'
+
 const MobileExpandableSection = defineAsyncComponent(
   () => import('@/components/navbar/MobileExpandableSection.vue')
 )
 
-const { $store, $i18n } = useNuxtApp()
-
+const { $i18n } = useNuxtApp()
+const langStore = useLangStore()
 const userLang = computed(() => {
-  $i18n.locale = $store.getters['lang/getUserLang']
-  return $store.getters['lang/getUserLang']
+  $i18n.locale = langStore.language.userLang
+  return langStore.language.userLang
 })
 
 const setUserLang = (value: string) => {
-  $store.dispatch('lang/setLanguage', { userLang: value })
+  langStore.setLanguage({ userLang: value })
   $i18n.locale = value
 }
 </script>

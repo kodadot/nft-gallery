@@ -6,4 +6,5 @@ export type Prefix =
   | 'movr'
   | 'snek'
   | 'glmr'
+  | 'rmrk2'
 export type Config<T = boolean> = Record<Prefix, T>

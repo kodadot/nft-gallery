@@ -1,9 +1,14 @@
 <template>
   <div class="min-h-full is-flex is-flex-direction-column">
+    <MobileFilter />
     <Navbar />
 
     <!-- new header component for collection here -->
-    <div v-if="isCollection">header collection here</div>
+    <div v-if="isCollection">
+      <section class="container p-4">
+        <HeroButtons />
+      </section>
+    </div>
 
     <main class="is-flex-grow-1">
       <Error
@@ -36,6 +41,8 @@
 
 <script lang="ts" setup>
 import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
+import MobileFilter from '@/components/explore/MobileFilter.vue'
+import HeroButtons from '@/components/collection/HeroButtons.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()
@@ -53,3 +60,11 @@ useNuxt2Meta({
 const isExplore = computed(() => route.path.includes('/explore'))
 const isCollection = computed(() => route.name === 'prefix-collection-id')
 </script>
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+hr {
+  @include ktheme() {
+    background: theme('border-color');
+  }
+}
+</style>
