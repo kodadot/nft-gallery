@@ -43,7 +43,6 @@
           :message="balanceNotEnoughMessage">
           <SubmitButton
             expanded
-            :disabled="disabled"
             label="create collection"
             :loading="isLoading"
             @click="submit" />
@@ -134,10 +133,6 @@ export default class CreateCollection extends mixins(
 
   get isMintDisabled(): boolean {
     return Number(this.balance) <= 2
-  }
-
-  get disabled() {
-    return !this.base.name || !this.symbol || !this.base.file
   }
 
   public constructRmrkMint(metadata: string): CreatedCollection {

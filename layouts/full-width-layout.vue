@@ -14,22 +14,17 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+const { $config } = useNuxtApp()
+const route = useRoute()
 
-@Component<FullWidthLayout>({
-  name: 'FullWidthLayout',
-  head() {
-    return {
-      link: [
-        {
-          hid: 'canonical',
-          rel: 'canonical',
-          href: this.$root.$config.public.baseUrl + this.$route.path,
-        },
-      ],
-    }
-  },
+useNuxt2Meta({
+  link: [
+    {
+      hid: 'canonical',
+      rel: 'canonical',
+      href: $config.public.baseUrl + route.path,
+    },
+  ],
 })
-export default class FullWidthLayout extends Vue {}
 </script>
