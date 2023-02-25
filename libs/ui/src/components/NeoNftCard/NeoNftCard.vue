@@ -17,7 +17,7 @@
           nft.name || '--'
         }}</span>
 
-        <CollectionDetailsPopover :delay="500" :nft="nft">
+        <CollectionDetailsPopover :show-delay="500" :nft="nft">
           <template #trigger>
             <nuxt-link
               v-if="

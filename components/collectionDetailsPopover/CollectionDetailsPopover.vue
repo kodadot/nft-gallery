@@ -4,7 +4,7 @@
     interactive
     :animate-fill="false"
     placement="bottom"
-    :delay="delay"
+    :delay="[showDelay, 0]"
     data-cy="identity">
     <template #trigger>
       <slot name="trigger" />
@@ -103,10 +103,10 @@ import {
 const props = withDefaults(
   defineProps<{
     nft: CarouselNFT
-    delay?: number
+    showDelay?: number
   }>(),
   {
-    delay: 0,
+    showDelay: 0,
   }
 )
 
