@@ -1,5 +1,5 @@
 import { getVolume } from '@/utils/math'
-import { NFT } from '@/components/rmrk/service/scheme'
+import { CollectionMetadata, NFT } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
 
 type Stats = {
@@ -8,6 +8,16 @@ type Stats = {
   collectionFloorPrice?: number
   uniqueOwnersPercent?: string
   collectionTradedVolumeNumber?: bigint
+}
+
+export type CollectionEntityMinimal = {
+  id: string
+  issuer: string
+  meta: CollectionMetadata
+  metadata: string
+  name: string
+  currentOwner: string
+  type: string
 }
 
 const differentOwner = (nft: {
@@ -98,4 +108,22 @@ export function useCollectionSoldData({ address, collectionId }) {
   })
 
   return { nftEntities }
+}
+
+export const useCollectionMinimal = ({ collectionId }) => {
+  const collection = ref<CollectionEntityMinimal>()
+
+  const { data } = useGraphql({
+    queryName: 'collectionByIdMinimal',
+    variables: {
+      id: collectionId,
+    },
+  })
+
+  watch(data, (result) => {
+    if (result?.collectionEntityById) {
+      collection.value = result.collectionEntityById
+    }
+  })
+  return { collection }
 }

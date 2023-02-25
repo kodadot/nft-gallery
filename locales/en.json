@@ -1115,6 +1115,19 @@
     "join": "Join Our Community",
     "subscribeLabel": "Subscribe"
   },
+    "share": {
+      "copyLink": "Copy Link",
+      "qrCode": "QR Code",
+      "twitter": "Share on Twitter"
+    },
+
+    "moreActions": {
+      "download": "Download",
+      "reportNFT": "Report NFT",
+      "delete": "Delete",
+      "customize": "Customize"
+    },
+
   "collectionCard": {
     "volume": "Volume",
     "items": "Items"
