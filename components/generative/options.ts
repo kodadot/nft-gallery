@@ -63,7 +63,6 @@ export const clothes = [
   'red dress',
   'school uniform',
   'turtleneck sweater',
-  'us flag dress',
   'v-shaped dress',
   'winter jacket',
 ]
