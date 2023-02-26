@@ -21,7 +21,7 @@
           <!-- title section -->
           <div class="pb-4">
             <div class="is-flex is-justify-content-space-between">
-              <div>
+              <div class="name-container">
                 <h1 class="title" data-cy="item-title">
                   {{ nft?.name || nft?.id }}
                 </h1>
@@ -174,6 +174,10 @@ useNuxt2Meta({
 <style lang="scss" scoped>
 .title {
   font-size: 2.4375em;
+}
+
+.name-container {
+  max-width: 75%;
 }
 
 .gallery-item-tabs-panel-wrapper {
