@@ -154,7 +154,7 @@ import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useC
 import { BModalConfig } from 'buefy/types/components'
 import type Vue from 'vue'
 
-const { $store, $colorMode, $buefy, $nextTick } = useNuxtApp()
+const { $store, $buefy, $nextTick } = useNuxtApp()
 const root = ref<Vue<Record<string, string>>>()
 const showTopNavbar = ref(true)
 const openMobileSearchBar = ref(false)
@@ -163,6 +163,7 @@ const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
 const isMobile = ref(window.innerWidth < 1024)
 const { urlPrefix } = usePrefix()
+const { isDarkMode } = useTheme()
 
 const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
@@ -172,12 +173,6 @@ const account = computed(() => $store.getters.getAuthAddress)
 
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')
-
-const isDarkMode = computed(
-  () =>
-    $colorMode.preference === 'dark' ||
-    document.documentElement.className.includes('dark-mode')
-)
 
 const logoSrc = computed(() => (isDarkMode.value ? KodaBetaDark : KodaBeta))
 
