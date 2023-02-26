@@ -26,12 +26,6 @@
             <h1 v-if="isExplore" class="title">{{ $t('explore') }}</h1>
 
             <ExploreTabsFilterSort />
-            <div v-if="$route.query.search">
-              {{ $t('general.searchResultsText') }}
-              <span class="text__stroked is-size-3">{{
-                $route.query.search
-              }}</span>
-            </div>
           </div>
         </section>
         <hr class="m-0" />

@@ -677,6 +677,7 @@
     "failedMaxSize": "Your File is too large",
     "needToSetValidPrice": "In order to list NFT, price has to be more than 0",
     "notEnoughBalance": "Insufficient funds",
+    "invalidAmount": "Amount must be higher than 0.01 KSM",
     "haveNoToS": "Have no permission to use the asset",
     "smallDisplay": "Small Display",
     "largeDisplay": "Large Display"
@@ -928,6 +929,7 @@
     "copyRewardTooltip": "Your reward link copied to clipboard",
     "copyRewardLink": "Copy Reward Me link",
     "latestSales": "Latest sales",
+    "search": "Search",
     "searchResultsText": "Showing results for",
     "searchNoResultsTitle": "Whoops, Couldn't find anything matching your search",
     "searchNoResultsText": "Give it another shot with different parameters or check back later - New awesome NFTs are added all the time",
