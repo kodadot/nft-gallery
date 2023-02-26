@@ -4,8 +4,8 @@ import { URLS } from '../utils/constants'
 
 const BASE_URL = URLS.koda.replicate
 const VERSION =
-  '09a5805203f4c12da649ec1923bb7729517ca25fcac790e640eaa9ed66573b65'
-export const OUTPUTS = '1'
+  '42a996d39a96aedc57b2e0aa8105dea39c9c89d9d266caf6bb4327a1c191b061'
+export const OUTPUTS = '4'
 
 type Option<T> = T | null
 
