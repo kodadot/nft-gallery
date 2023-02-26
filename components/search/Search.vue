@@ -68,7 +68,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Ref, mixins } from 'nuxt-property-decorator'
+import {
+  Component,
+  Emit,
+  Prop,
+  Ref,
+  Watch,
+  mixins,
+} from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist, existArray } from './exist'
 import { SearchQuery } from './types'
@@ -174,6 +181,13 @@ export default class Search extends mixins(
 
   set searchQuery(value: string) {
     this.updateSearch(value)
+  }
+
+  @Watch('name', { deep: true })
+  protected onSearchQueryChange(value) {
+    if (value) {
+      this.updateSearch(value)
+    }
   }
 
   get replaceBuyNowWithYolo(): boolean {

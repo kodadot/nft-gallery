@@ -91,7 +91,7 @@
         <nuxt-link
           class="search-footer-link"
           :to="{
-            path: 'explore/items',
+            path: `/${urlPrefix}/explore/items`,
             query: { ...$route.query },
           }"
           @click.native="$emit('close')">
@@ -396,7 +396,6 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
 
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
-
     if (this.query.search) {
       params.push({ name_containsInsensitive: this.query.search })
     }
