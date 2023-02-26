@@ -60,7 +60,6 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { NftCardVariant } from '@kodadot1/brick'
-import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover'
 
 const props = defineProps<{
   nft: NFT
