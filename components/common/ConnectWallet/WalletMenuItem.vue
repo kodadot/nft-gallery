@@ -83,7 +83,7 @@ import { formatAddress } from '@/utils/account'
 import shortAddress from '@/utils/shortAddress'
 import { useWalletStore } from '@/stores/wallet'
 
-const props = defineProps<{
+defineProps<{
   wallet: BaseDotsamaWallet
 }>()
 
