@@ -68,6 +68,7 @@ export const clothes = [
 ]
 
 export const accessories = [
+  'apple pie in hand',
   'angel halo',
   'baseball hat',
   'bufallo horns',
@@ -81,7 +82,7 @@ export const accessories = [
   'fox tail',
   'gold crown with diamonds',
   'gold spork in hand',
-  'heart-shaped glasses',
+  'hot-dog in hand',
   'kitsune ears',
   'microphone in hand',
   'ox horns',
