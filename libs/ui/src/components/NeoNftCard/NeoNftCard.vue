@@ -17,7 +17,9 @@
           nft.name || '--'
         }}</span>
 
-        <CollectionDetailsPopover :show-delay="500" :nft="nft">
+        <CollectionDetailsPopover
+          :show-delay="collectionPopoverShowDelay"
+          :nft="nft">
           <template #trigger>
             <nuxt-link
               v-if="
@@ -61,13 +63,19 @@ import type { NFT } from '@/components/rmrk/service/scheme'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { NftCardVariant } from '@kodadot1/brick'
 
-const props = defineProps<{
-  nft: NFT
-  prefix: string
-  showPrice: boolean
-  variant?: NftCardVariant
-}>()
-const variant = computed(() => props.variant || 'primary')
+withDefaults(
+  defineProps<{
+    nft: NFT
+    prefix: string
+    showPrice: boolean
+    collectionPopoverShowDelay?: number
+    variant?: NftCardVariant
+  }>(),
+  {
+    collectionPopoverShowDelay: 500,
+    variant: 'primary',
+  }
+)
 </script>
 
 <style lang="scss" scoped>
