@@ -33,15 +33,13 @@ const components = {
   Media: defineAsyncComponent(() => import('./type/UnknownMedia.vue')),
 }
 
-const { $colorMode } = useNuxtApp()
+const { isDarkMode } = useTheme()
 
 const resolveComponent = computed(() => {
   return components[resolveMedia(props.mimeType) + SUFFIX]
 })
 
 const placeholder = computed(() => {
-  return $colorMode.preference === 'dark'
-    ? '/placeholder.webp'
-    : '/placeholder-white.webp'
+  return isDarkMode.value ? '/placeholder.webp' : '/placeholder-white.webp'
 })
 </script>
