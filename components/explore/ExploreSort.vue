@@ -152,7 +152,7 @@ onMounted(() => {
 
     @include ktheme() {
       border: 1px solid theme('border-color');
-      background: theme('k-accent');
+      background: theme('k-primary');
       color: theme('black');
     }
   }
