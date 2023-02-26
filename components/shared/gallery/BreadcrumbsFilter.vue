@@ -3,24 +3,45 @@
     <template v-for="(value, key) in breads">
       <div v-if="value === 'true'" :key="key" class="control">
         <!-- NeoTag -->
-        <b-tag
-          attached
-          closable
-          aria-close-label="clear filter"
-          @close="closeTag(String(key))">
+        <NeoTag @close="closeTag(String(key))">
           {{ $i18n.t(`sort.${String(key)}`) }}
-        </b-tag>
+        </NeoTag>
+      </div>
+      <div
+        v-if="key === 'search' && value != undefined"
+        :key="key"
+        class="control">
+        <NeoTag @close="removeSearch">
+          {{ `${$i18n.t('general.search')}: ${value}` }}
+        </NeoTag>
       </div>
     </template>
   </b-field>
 </template>
 
 <script lang="ts" setup>
+import NeoTag from './NeoTag.vue'
+
 const route = useRoute()
 const router = useRouter()
 const { $i18n, $consola } = useNuxtApp()
 
 const breads = computed(() => route.query)
+
+onMounted(() => {
+  if (route.query.listed == undefined) {
+    router
+      .replace({
+        path: String(route.path),
+        query: {
+          ...route.query,
+          page: '1',
+          listed: 'true',
+        },
+      })
+      .catch($consola.warn)
+  }
+})
 
 const closeTag = (key: string) => {
   router
@@ -29,6 +50,18 @@ const closeTag = (key: string) => {
       query: {
         ...route.query,
         ...{ [key]: false },
+        page: '1',
+      },
+    })
+    .catch($consola.warn)
+}
+const removeSearch = () => {
+  router
+    .replace({
+      path: String(route.path),
+      query: {
+        ...route.query,
+        search: undefined,
         page: '1',
       },
     })
