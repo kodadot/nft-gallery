@@ -21,6 +21,7 @@ export type CollectionEntityMinimal = {
   currentOwner: string
   type: string
 }
+const chainsSupportingOffers = ['bsx']
 
 const differentOwner = (nft: {
   issuer: string
@@ -33,10 +34,9 @@ export const useCollectionDetails = ({ collectionId }) => {
   const { urlPrefix } = usePrefix()
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
-    queryName:
-      urlPrefix.value == 'bsx'
-        ? 'collectionStatsByIdWithOffers'
-        : 'collectionStatsById',
+    queryName: chainsSupportingOffers.includes(urlPrefix.value)
+      ? 'collectionStatsByIdWithOffers'
+      : 'collectionStatsById',
     variables: {
       id: collectionId,
     },
@@ -52,16 +52,19 @@ export const useCollectionDetails = ({ collectionId }) => {
       const differentOwnerCount =
         data.value.stats.base.filter(differentOwner).length
 
-      const offresPerNft =
-        urlPrefix.value == 'bsx'
-          ? data.value.stats.base.map((nft) =>
-              nft.offers.map((offer) => Number(offer.price))
-            )
-          : []
-      const maxOffer =
-        urlPrefix.value == 'bsx'
-          ? Math.max(...offresPerNft.map((nftOffers) => Math.max(...nftOffers)))
-          : undefined
+      const maxOffer = computed(() => {
+        if (!chainsSupportingOffers.includes(urlPrefix.value)) {
+          return undefined
+        }
+        const offresPerNft = data.value.stats.base.map((nft) =>
+          nft.offers.map((offer) => Number(offer.price))
+        )
+        const highestOffer = Math.max(
+          ...offresPerNft.map((nftOffers) => Math.max(...nftOffers))
+        )
+        return highestOffer
+      })
+
       stats.value = {
         listedCount: data.value.stats.listed.length,
         collectionLength: data.value.stats.base.length,
@@ -69,7 +72,7 @@ export const useCollectionDetails = ({ collectionId }) => {
           ...data.value.stats.listed.map((item) => parseInt(item.price))
         ),
         uniqueOwners: uniqueOwnerCount,
-        bestOffer: maxOffer,
+        bestOffer: maxOffer.value,
         uniqueOwnersPercent: `${(
           (uniqueOwnerCount / (uniqueOwnerCount + differentOwnerCount)) *
           100
