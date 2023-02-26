@@ -107,3 +107,5 @@ export const getChainTestList = () => {
     ? disableChainListOnProductionEnv
     : chainTestList
 }
+
+export const MIN_OFFER_PRICE = 0.01

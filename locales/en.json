@@ -677,6 +677,7 @@
     "failedMaxSize": "Your File is too large",
     "needToSetValidPrice": "In order to list NFT, price has to be more than 0",
     "notEnoughBalance": "Insufficient funds",
+    "invalidAmount": "Amount must be higher than 0.01 KSM",
     "haveNoToS": "Have no permission to use the asset",
     "smallDisplay": "Small Display",
     "largeDisplay": "Large Display"
