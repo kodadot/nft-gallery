@@ -37,9 +37,8 @@
           :to="{
             path: `/${urlPrefix}/explore/collectibles`,
             query: { ...$route.query },
-          }"
-          @click.native="$emit('close')">
-          <div :class="loadMoreItemClassName">
+          }">
+          <div :class="loadMoreItemClassName" @click="seeAllCollection">
             {{ $t('search.seeAll') }}
             <svg
               class="ml-1"
@@ -299,6 +298,20 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     }
   }
 
+  public updateSearchUrl() {
+    if (this.name) {
+      this.$router
+        .replace({
+          path: String(this.$route.path),
+          query: {
+            page: '1',
+            search: this.name || undefined,
+          },
+        })
+        .catch(this.$consola.warn)
+    }
+  }
+
   public async fetchSuggestions() {
     if (this.showDefaultSuggestions) {
       try {
@@ -334,6 +347,11 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
         this.$consola.warn(e, 'Error while fetching default suggestions')
       }
     }
+  }
+
+  seeAllCollection() {
+    this.$emit('close')
+    this.updateSearchUrl()
   }
 
   nativeSearch() {
