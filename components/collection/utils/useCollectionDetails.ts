@@ -30,9 +30,13 @@ const differentOwner = (nft: {
 }
 
 export const useCollectionDetails = ({ collectionId }) => {
+  const { urlPrefix } = usePrefix()
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
-    queryName: 'collectionStatsById',
+    queryName:
+      urlPrefix.value == 'bsx'
+        ? 'collectionStatsByIdWithOffers'
+        : 'collectionStatsById',
     variables: {
       id: collectionId,
     },
@@ -48,12 +52,16 @@ export const useCollectionDetails = ({ collectionId }) => {
       const differentOwnerCount =
         data.value.stats.base.filter(differentOwner).length
 
-      const offresPerNft = data.value.stats.base.map((nft) =>
-        nft.offers.map((offer) => Number(offer.price))
-      )
-      const maxOffer = Math.max(
-        ...offresPerNft.map((nftOffers) => Math.max(...nftOffers))
-      )
+      const offresPerNft =
+        urlPrefix.value == 'bsx'
+          ? data.value.stats.base.map((nft) =>
+              nft.offers.map((offer) => Number(offer.price))
+            )
+          : []
+      const maxOffer =
+        urlPrefix.value == 'bsx'
+          ? Math.max(...offresPerNft.map((nftOffers) => Math.max(...nftOffers)))
+          : undefined
       stats.value = {
         listedCount: data.value.stats.listed.length,
         collectionLength: data.value.stats.base.length,

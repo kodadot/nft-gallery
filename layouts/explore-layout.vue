@@ -8,8 +8,9 @@
       <section class="container p-4">
         <HeroButtons />
       </section>
-      <section class="container">
+      <section class="container mobile-padding">
         <CollectionInfo />
+        <hr />
       </section>
     </div>
 
@@ -68,7 +69,13 @@ const isCollection = computed(() => route.name === 'prefix-collection-id')
 @import '@/styles/abstracts/variables';
 hr {
   @include ktheme() {
-    background: theme('border-color');
+    background: theme('k-grey');
+  }
+}
+
+@include touch {
+  .mobile-padding {
+    padding: 0 2rem;
   }
 }
 </style>

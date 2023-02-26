@@ -1,10 +1,14 @@
-query collectionStatsById($id: String!) {
+query collectionStatsByIdWithOffers($id: String!) {
   stats: collectionEntityById(id: $id) {
     id
     base: nfts(where: { burned_eq: false }) {
       id
       currentOwner
       issuer
+      offers(where: { price_isNull: false }) {
+        price
+        id
+      }
     }
     listed: nfts(where: { price_gt: "0" }) {
       id

@@ -1,40 +1,42 @@
 <template>
-  <div class="is-flex is-justify-content-space-between">
+  <div class="is-flex is-justify-content-space-between flex-direction">
     <div class="is-flex is-flex-direction-column limit-width">
       <div v-if="collectionInfo?.currentOwner" class="is-flex mb-2">
-        <div class="mr-2">Creator:</div>
-        <nuxt-link
-          class="is-size-6 break-word mr-2 has-text-link"
-          :to="`/${chain}/u/${address}`">
-          <span data-cy="identity-display"> {{ shortenedAddress }}</span>
-        </nuxt-link>
+        <div class="mr-2">{{ $i18n.t('activity.creator') }}</div>
+        <IdentityIndex
+          :address="address"
+          hide-identity-popover
+          :show-clipboard="false"
+          class="has-text-link" />
       </div>
       <div>
         {{ collectionInfo?.meta.description }}
       </div>
     </div>
     <div>
-      <div class="columns">
+      <div class="columns is-mobile">
         <div class="column">
-          <CollectionInfoLine title="Network" :value="chain" />
+          <CollectionInfoLine
+            :title="`${$i18n.t('activity.network')}`"
+            :value="chain" />
           <CollectionInfoLine
             title="Items"
             :value="representation(stats.collectionLength)" />
           <CollectionInfoLine
-            title="Owners"
+            :title="`${$i18n.t('series.owners')}`"
             :value="representation(stats.uniqueOwners)" />
         </div>
         <div class="column">
-          <CollectionInfoLine title="Floor">
+          <CollectionInfoLine :title="`${$i18n.t('activity.floor')}`">
             <CommonTokenMoney
               :value="stats.collectionFloorPrice"
               inline
               :round="2" />
           </CollectionInfoLine>
-          <CollectionInfoLine title="Best Offer">
+          <CollectionInfoLine :title="`${$i18n.t('activity.bestOffer')}`">
             <CommonTokenMoney :value="stats.bestOffer" inline :round="2" />
           </CollectionInfoLine>
-          <CollectionInfoLine title="Volume">
+          <CollectionInfoLine :title="`${$i18n.t('activity.volume')}`">
             <CommonTokenMoney
               :value="stats.collectionTradedVolumeNumber"
               inline
@@ -46,12 +48,14 @@
   </div>
 </template>
 <script setup lang="ts">
-// TODO onChain identity
-// TODO translation
-// TODO which network colection belongs to?
-import shortAddress from '@/utils/shortAddress'
+// TODO
+// which network collection belongs to?
+// offers on RMRK? what to show instead?
+// limit height of collection description?
+
 import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 import {
   useCollectionDetails,
   useCollectionMinimal,
@@ -67,7 +71,6 @@ const chain = computed(
       .text
 )
 const address = computed(() => `${collectionInfo.value?.currentOwner}`)
-const shortenedAddress = computed(() => shortAddress(address.value))
 
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: collectionId.value,
@@ -90,5 +93,33 @@ const representation = (value: number | undefined): string => {
 @import '@/styles/abstracts/variables';
 .limit-width {
   max-width: 320px;
+}
+
+.flex-direction {
+  flex-direction: row;
+}
+
+@include mobile {
+  .flex-direction {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .limit-width {
+    max-width: 100%;
+  }
+}
+.has-text-link {
+  a {
+    color: inherit;
+  }
+}
+</style>
+
+<style lang="scss">
+.has-text-link {
+  a {
+    color: inherit !important;
+  }
 }
 </style>
