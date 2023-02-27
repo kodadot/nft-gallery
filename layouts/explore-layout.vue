@@ -6,9 +6,6 @@
     <!-- new header component for collection here -->
     <div v-if="isCollection">
       <CollectionBanner />
-      <section class="container p-4">
-        <HeroButtons />
-      </section>
     </div>
 
     <main class="is-flex-grow-1">
@@ -38,7 +35,6 @@
 import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
 import MobileFilter from '@/components/explore/MobileFilter.vue'
 import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
-import HeroButtons from '@/components/collection/HeroButtons.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()

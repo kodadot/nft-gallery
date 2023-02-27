@@ -4,18 +4,22 @@
     :style="{ backgroundImage: `url(${collectionAvatar})` }">
     <div class="collection-banner-shadow"></div>
 
-    <div class="container collection-banner-content">
-      <div class="is-flex is-flex-direction-column is-align-items-start">
-        <div class="collection-banner-avatar">
-          <img
-            v-if="collectionAvatar"
-            :src="collectionAvatar"
-            :alt="collectionName" />
-          <img v-else src="/placeholder.webp" />
+    <section class="section h-full py-5">
+      <div class="container collection-banner-content">
+        <div class="is-flex is-flex-direction-column is-align-items-start">
+          <div class="collection-banner-avatar">
+            <img
+              v-if="collectionAvatar"
+              :src="collectionAvatar"
+              :alt="collectionName" />
+            <img v-else src="/placeholder.webp" />
+          </div>
+          <h1 class="collection-banner-name">{{ collectionName }}</h1>
         </div>
-        <h1 class="collection-banner-name">{{ collectionName }}</h1>
+
+        <HeroButtons />
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -23,6 +27,7 @@
 import type { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import HeroButtons from './HeroButtons.vue'
 
 const route = useRoute()
 const { data } = useGraphql({
@@ -85,7 +90,13 @@ watchEffect(async () => {
   &-content {
     display: flex;
     align-items: flex-end;
+    justify-content: space-between;
     height: 100%;
+
+    @include mobile {
+      flex-direction: column;
+      justify-content: flex-end;
+    }
   }
 
   &-avatar {
@@ -107,7 +118,7 @@ watchEffect(async () => {
   &-name {
     font-weight: bold;
     font-size: 2.5rem;
-    margin: 1.5rem 0;
+    margin-top: 1.5rem;
 
     @include ktheme() {
       color: theme('text-color-inverse');
