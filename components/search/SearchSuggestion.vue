@@ -304,7 +304,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
           path: String(this.$route.path),
           query: {
             page: '1',
-            search: this.name || undefined,
+            search: this.name,
           },
         })
         .catch(this.$consola.warn)
