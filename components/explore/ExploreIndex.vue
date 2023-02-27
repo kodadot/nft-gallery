@@ -3,7 +3,7 @@
     <ExploreTabItem />
     <div class="explore-menu is-flex">
       <ExploreSort />
-      <ExploreChain />
+      <ExploreChain v-if="route.name !== 'prefix-collection-id'" />
       <ExploreGrid class="is-hidden-mobile" />
     </div>
   </div>
@@ -14,6 +14,8 @@ import ExploreTabItem from './ExploreTabItem.vue'
 import ExploreSort from './ExploreSort.vue'
 import ExploreChain from './ExploreChain.vue'
 import ExploreGrid from './ExploreGrid.vue'
+
+const route = useRoute()
 </script>
 
 <style lang="scss" scoped>
