@@ -183,13 +183,6 @@ export default class Search extends mixins(
     this.updateSearch(value)
   }
 
-  // @Watch('name', { deep: true })
-  // protected onSearchQueryChange(value) {
-  //   if (value) {
-  //     this.updateSearch(value)
-  //   }
-  // }
-
   get replaceBuyNowWithYolo(): boolean {
     return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
   }

@@ -38,7 +38,7 @@
             path: `/${urlPrefix}/explore/collectibles`,
             query: { ...$route.query },
           }">
-          <div :class="loadMoreItemClassName" @click="seeAllCollection">
+          <div :class="loadMoreItemClassName" @click="seeAllButtonHandler">
             {{ $t('search.seeAll') }}
             <svg
               class="ml-1"
@@ -92,9 +92,8 @@
           :to="{
             path: `/${urlPrefix}/explore/items`,
             query: { ...$route.query },
-          }"
-          @click.native="$emit('close')">
-          <div :class="loadMoreItemClassName">
+          }">
+          <div :class="loadMoreItemClassName" @click="seeAllButtonHandler">
             {{ $t('search.seeAll') }} <span class="info-arrow">--></span>
           </div>
         </nuxt-link>
@@ -349,7 +348,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     }
   }
 
-  seeAllCollection() {
+  seeAllButtonHandler() {
     this.$emit('close')
     this.updateSearchUrl()
   }
