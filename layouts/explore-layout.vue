@@ -5,9 +5,7 @@
 
     <!-- new header component for collection here -->
     <div v-if="isCollection">
-      <section class="container p-4">
-        <HeroButtons />
-      </section>
+      <CollectionBanner />
     </div>
 
     <main class="is-flex-grow-1">
@@ -36,7 +34,7 @@
 <script lang="ts" setup>
 import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
 import MobileFilter from '@/components/explore/MobileFilter.vue'
-import HeroButtons from '@/components/collection/HeroButtons.vue'
+import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()
@@ -52,8 +50,11 @@ useNuxt2Meta({
 })
 
 const isExplore = computed(() => route.path.includes('/explore'))
-const isCollection = computed(() => route.name === 'prefix-collection-id')
+const isCollection = computed(() =>
+  route.name?.includes('prefix-collection-id')
+)
 </script>
+
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 hr {

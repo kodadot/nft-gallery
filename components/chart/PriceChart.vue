@@ -34,9 +34,9 @@ import { format } from 'date-fns'
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 
 ChartJS.register(zoomPlugin)
-const { $i18n, $colorMode } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { chainSymbol } = useChain()
-
+const { isDarkMode } = useTheme()
 const daysTranslation = (day: number) => $i18n.t('priceChart.days', [day])
 
 const timeRangeList = [
@@ -63,11 +63,6 @@ const selectedTimeRange = ref(timeRangeList[0])
 const setTimeRange = (value: { value: number; label: string }) => {
   selectedTimeRange.value = value
 }
-const isDarkMode = computed(
-  () =>
-    $colorMode.preference === 'dark' ||
-    document.documentElement.className.includes('dark-mode')
-)
 
 const props = defineProps<{
   priceChartData?: [Date, number][][]
