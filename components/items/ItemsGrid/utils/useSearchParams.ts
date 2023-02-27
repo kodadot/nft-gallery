@@ -1,9 +1,3 @@
-type PriceRange = {
-  price_gt: string
-  price_gte: number
-  price_lte?: number
-}[]
-
 // search items by keywords
 function useSearchKeywords() {
   const route = useRoute()
@@ -20,28 +14,29 @@ function useSearchKeywords() {
 // search items by price range
 function useSearchPriceRange() {
   const route = useRoute()
+  const priceRange = computed(() => {
+    const minPrice = route.query.min ?? 0
 
-  return {
-    priceRange: computed(() => {
-      const price: PriceRange = []
-      const minPrice = route.query.min ?? 0
+    if (route.query.listed !== 'true') {
+      return {}
+    }
 
-      if (route.query.max) {
-        price.push({
-          price_gt: '0',
-          price_gte: Number(minPrice),
-          price_lte: Number(route.query.max),
-        })
-      } else {
-        price.push({
-          price_gt: '0',
-          price_gte: Number(minPrice),
-        })
+    const defaultParams = {
+      price_gt: '0',
+      price_gte: Number(minPrice),
+    }
+
+    if (route.query.max) {
+      return {
+        ...defaultParams,
+        price_lte: Number(route.query.max),
       }
+    }
 
-      return price
-    }),
-  }
+    return defaultParams
+  })
+
+  return { priceRange: computed(() => [priceRange.value]) }
 }
 
 // search items by owner
