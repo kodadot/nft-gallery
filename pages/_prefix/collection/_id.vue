@@ -1,6 +1,6 @@
 <template>
   <div v-if="redesign">
-    <div>collection content here</div>
+    <Items />
   </div>
   <CollectionItem v-else />
 </template>
@@ -10,6 +10,7 @@ import { Component, mixins } from 'nuxt-property-decorator'
 import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
 import { generateCollectionImage } from '~/utils/seoImageGenerator'
 import ExperimentMixin from '@/utils/mixins/experimentMixin'
+import Items from '@/components/items/Items.vue'
 
 type CurrentCollection = {
   name: string
@@ -22,6 +23,7 @@ type CurrentCollection = {
   name: 'CollectionItemPage',
   components: {
     CollectionItem,
+    Items,
   },
   layout(context) {
     return context.query.redesign === 'true' ? 'explore-layout' : 'default'

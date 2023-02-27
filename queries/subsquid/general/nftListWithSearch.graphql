@@ -1,5 +1,6 @@
 #import "../../fragments/nft.graphql"
 #import "../../fragments/nftDetails.graphql"
+#import "../../fragments/baseMeta.graphql"
 
 query nftListWithSearch(
   $first: Int!
@@ -24,6 +25,9 @@ query nftListWithSearch(
     collection {
       id
       name
+    }
+    meta {
+      ...baseMeta
     }
   }
   nftEntitiesConnection(
