@@ -38,7 +38,6 @@ const { $i18n } = useNuxtApp()
 const breads = computed(() => {
   const filters = { ...route.query }
   delete filters.redesign
-  console.log(filters)
   return filters
 })
 
