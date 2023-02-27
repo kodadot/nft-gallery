@@ -73,7 +73,6 @@ import {
   Emit,
   Prop,
   Ref,
-  Watch,
   mixins,
 } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
