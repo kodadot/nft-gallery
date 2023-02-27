@@ -3,7 +3,7 @@
     class="is-flex is-justify-content-space-between mobile-flex-direction-column gap">
     <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
       <div v-if="collectionInfo?.currentOwner" class="is-flex mb-2">
-        <div class="mr-2">{{ $i18n.t('activity.creator') }}</div>
+        <div class="mr-2">{{ $t('activity.creator') }}</div>
         <IdentityIndex
           :address="address"
           hide-identity-popover
@@ -17,18 +17,16 @@
     <div>
       <div class="columns is-mobile">
         <div class="column">
-          <CollectionInfoLine
-            :title="`${$t('activity.network')}`"
-            :value="chain" />
+          <CollectionInfoLine :title="$t('activity.network')" :value="chain" />
           <CollectionInfoLine
             title="Items"
             :value="representation(stats.collectionLength)" />
           <CollectionInfoLine
-            :title="`${$i18n.t('series.owners')}`"
+            :title="$t('series.owners')"
             :value="representation(stats.uniqueOwners)" />
         </div>
         <div class="column">
-          <CollectionInfoLine :title="`${$i18n.t('activity.floor')}`">
+          <CollectionInfoLine :title="$t('activity.floor')">
             <CommonTokenMoney
               :value="stats.collectionFloorPrice"
               inline
@@ -36,10 +34,10 @@
           </CollectionInfoLine>
           <CollectionInfoLine
             v-if="stats.bestOffer"
-            :title="`${$i18n.t('activity.bestOffer')}`">
+            :title="$t('activity.bestOffer')">
             <CommonTokenMoney :value="stats.bestOffer" inline :round="2" />
           </CollectionInfoLine>
-          <CollectionInfoLine :title="`${$i18n.t('activity.volume')}`">
+          <CollectionInfoLine :title="$t('activity.volume')">
             <CommonTokenMoney
               :value="stats.collectionTradedVolumeNumber"
               inline
