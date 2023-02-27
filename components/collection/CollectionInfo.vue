@@ -1,6 +1,7 @@
 <template>
-  <div class="is-flex is-justify-content-space-between flex-direction">
-    <div class="is-flex is-flex-direction-column limit-width">
+  <div
+    class="is-flex is-justify-content-space-between mobile-flex-direction-column gap">
+    <div class="is-flex is-flex-direction-column is-flex-grow-1">
       <div v-if="collectionInfo?.currentOwner" class="is-flex mb-2">
         <div class="mr-2">{{ $i18n.t('activity.creator') }}</div>
         <IdentityIndex
@@ -17,7 +18,7 @@
       <div class="columns is-mobile">
         <div class="column">
           <CollectionInfoLine
-            :title="`${$i18n.t('activity.network')}`"
+            :title="`${$t('activity.network')}`"
             :value="chain" />
           <CollectionInfoLine
             title="Items"
@@ -33,7 +34,9 @@
               inline
               :round="2" />
           </CollectionInfoLine>
-          <CollectionInfoLine :title="`${$i18n.t('activity.bestOffer')}`">
+          <CollectionInfoLine
+            v-if="stats.bestOffer"
+            :title="`${$i18n.t('activity.bestOffer')}`">
             <CommonTokenMoney :value="stats.bestOffer" inline :round="2" />
           </CollectionInfoLine>
           <CollectionInfoLine :title="`${$i18n.t('activity.volume')}`">
@@ -48,11 +51,6 @@
   </div>
 </template>
 <script setup lang="ts">
-// TODO
-// which network collection belongs to?
-// offers on RMRK? what to show instead?
-// limit height of collection description?
-
 import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
@@ -70,7 +68,7 @@ const chain = computed(
     availableChains.value.find((chain) => chain.value === route.params.prefix)
       .text
 )
-const address = computed(() => `${collectionInfo.value?.currentOwner}`)
+const address = computed(() => collectionInfo.value?.currentOwner)
 
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: collectionId.value,
@@ -95,14 +93,13 @@ const representation = (value: number | undefined): string => {
   max-width: 320px;
 }
 
-.flex-direction {
-  flex-direction: row;
+.gap {
+  gap: 1rem;
 }
 
 @include mobile {
-  .flex-direction {
+  .mobile-flex-direction-column {
     flex-direction: column;
-    gap: 1rem;
   }
 
   .limit-width {
