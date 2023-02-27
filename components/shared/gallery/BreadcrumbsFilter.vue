@@ -21,7 +21,7 @@
         v-if="isAnyFilterActive"
         class="control py-1 is-clickable"
         @click="clearAllFilters">
-        <span>Clear All</span>
+        <span>{{ $t('sort.clearAll') }}</span>
       </div>
     </template>
   </b-field>
