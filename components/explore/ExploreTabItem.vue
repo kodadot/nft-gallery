@@ -3,15 +3,15 @@
     <div class="mr-4">
       <a
         class="is-hidden-mobile"
-        :class="{ disabled: disabled }"
+        :class="{ disabled: disabledTab }"
         @click="toggleSidebarFilters">
         <b-icon
-          :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
+          :icon="isSidebarFiltersOpen && !disabledTab ? 'times' : 'bars'"
           size="is-medium" />
       </a>
       <a
         class="is-hidden-tablet"
-        :class="{ disabled: disabled }"
+        :class="{ disabled: disabledTab }"
         @click="openMobileFilters">
         <b-icon :icon="'bars'" size="is-medium" />
       </a>
@@ -29,7 +29,7 @@ import TabOnCollection from './tab/TabOnCollection.vue'
 const route = useRoute()
 const { $store } = useNuxtApp()
 
-const disabled = computed(() => {
+const disabledTab = computed(() => {
   const allowedList = ['prefix-explore-items', 'prefix-collection-id']
 
   return !allowedList.includes(route.name || '')
