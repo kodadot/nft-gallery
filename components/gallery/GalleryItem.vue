@@ -47,14 +47,14 @@
               <IdentityItem
                 v-if="nft?.issuer"
                 class="gallery-avatar mr-4"
-                :label="`${$t('Creator')}`"
+                :label="$t('Creator')"
                 :prefix="urlPrefix"
                 :account="nft?.issuer"
                 data-cy="item-creator" />
               <IdentityItem
                 v-if="nft?.currentOwner !== nft?.issuer"
                 class="gallery-avatar"
-                :label="`${$t('Owner')}`"
+                :label="$t('Owner')"
                 :prefix="urlPrefix"
                 :account="nft?.currentOwner || ''"
                 data-cy="item-owner" />
