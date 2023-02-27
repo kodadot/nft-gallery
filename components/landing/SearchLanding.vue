@@ -44,12 +44,8 @@ import { Option } from '@kodadot1/vuex-options/dist/types'
 import { getChainTestList } from '~/utils/constants'
 
 const { urlPrefix } = usePrefix()
-const { $store, $colorMode, $router } = useNuxtApp()
-const isDarkMode = computed(
-  () =>
-    $colorMode.preference === 'dark' ||
-    document.documentElement.className.includes('dark-mode')
-)
+const { $store, $router } = useNuxtApp()
+const { isDarkMode } = useTheme()
 
 const chainText = (chain: string) => {
   if (chain.includes('[Beta]')) {

@@ -4,13 +4,11 @@
     :class="isMobileDevice ? 'navbar-item' : ''"
     @click="toggleColorMode">
     <ColorScheme placeholder="...">
-      <span v-if="$colorMode.value === 'dark'">{{
-        $t('profileMenu.lightMode')
-      }}</span>
+      <span v-if="isDarkMode">{{ $t('profileMenu.lightMode') }}</span>
       <span v-else>{{ $t('profileMenu.darkMode') }}</span>
       <!-- SUN -->
       <svg
-        v-if="$colorMode.value === 'dark'"
+        v-if="isDarkMode"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -40,15 +38,7 @@
 
 <script lang="ts" setup>
 import { isMobileDevice } from '@/utils/extension'
-const { $colorMode } = useNuxtApp()
-
-const toggleColorMode = (): void => {
-  if ($colorMode.preference !== 'light') {
-    $colorMode.preference = 'light'
-  } else {
-    $colorMode.preference = 'dark'
-  }
-}
+const { toggleColorMode, isDarkMode } = useTheme()
 </script>
 
 <style scoped></style>
