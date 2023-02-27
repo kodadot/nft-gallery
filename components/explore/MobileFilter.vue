@@ -58,7 +58,6 @@ onMounted(() => {
   window.addEventListener('resize', () => {
     width.value = window.innerWidth
   })
-  syncFromUrl()
 })
 
 const emit = defineEmits(['resetPage'])
@@ -122,6 +121,8 @@ const applyFilters = () => {
   emit('resetPage')
   closeFilterModal()
 }
+
+watch(() => route.query, syncFromUrl)
 </script>
 
 <style lang="scss" scoped>

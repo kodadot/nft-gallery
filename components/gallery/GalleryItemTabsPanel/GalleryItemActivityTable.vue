@@ -104,9 +104,10 @@ const { data, loading } = useGraphql({
   clientName: urlPrefix.value,
   variables: {
     id: dprops.nftId,
-    interaction: dprops.interactions.filter(
-      (i) => i !== 'MINTNFT' && i !== 'CONSUME'
-    ),
+    interaction:
+      urlPrefix.value === 'rmrk2'
+        ? dprops.interactions.filter((i) => i !== 'MINTNFT' && i !== 'CONSUME')
+        : dprops.interactions,
     limit: 100,
   },
 })
