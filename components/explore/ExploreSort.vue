@@ -45,7 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import { isArray } from 'lodash'
 import { ODropdown } from '@oruga-ui/oruga'
 import { NeoButton, NeoDropdownItem } from '@kodadot1/brick'
 
@@ -69,7 +68,7 @@ const options = computed(() => {
 function selectiveSort(options: string[]) {
   const uniqueOptions = {}
 
-  if (!isArray(options)) {
+  if (!Array.isArray(options)) {
     return []
   }
 
@@ -114,7 +113,7 @@ onMounted(() => {
   const sort = route.query.sort
 
   if (sort?.length) {
-    if (isArray(sort)) {
+    if (Array.isArray(sort)) {
       selectedSort.value = sort as string[]
     } else {
       selectedSort.value = [sort] as string[]
@@ -152,7 +151,7 @@ onMounted(() => {
 
     @include ktheme() {
       border: 1px solid theme('border-color');
-      background: theme('k-accent');
+      background: theme('k-primary');
       color: theme('black');
     }
   }
