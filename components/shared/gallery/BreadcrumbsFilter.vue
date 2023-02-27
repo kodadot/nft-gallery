@@ -4,7 +4,7 @@
       <div v-if="value === 'true'" :key="key" class="control">
         <!-- NeoTag -->
         <NeoTag @close="closeTag(String(key))">
-          {{ $i18n.t(`sort.${String(key)}`) }}
+          {{ queryMapTranslation[String(key)] }}
         </NeoTag>
       </div>
       <div
@@ -27,6 +27,11 @@ const router = useRouter()
 const { $i18n, $consola } = useNuxtApp()
 
 const breads = computed(() => route.query)
+
+const queryMapTranslation = {
+  listed: $i18n.t('sort.listed'),
+  owned: $i18n.t('sort.own'),
+}
 
 onMounted(() => {
   if (route.query.listed == undefined) {
