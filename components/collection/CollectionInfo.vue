@@ -1,7 +1,7 @@
 <template>
   <div
     class="is-flex is-justify-content-space-between mobile-flex-direction-column gap">
-    <div class="is-flex is-flex-direction-column is-flex-grow-1">
+    <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
       <div v-if="collectionInfo?.currentOwner" class="is-flex mb-2">
         <div class="mr-2">{{ $i18n.t('activity.creator') }}</div>
         <IdentityIndex
@@ -89,8 +89,8 @@ const representation = (value: number | undefined): string => {
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-.limit-width {
-  max-width: 320px;
+.max-width {
+  max-width: 50%;
 }
 
 .gap {
@@ -102,7 +102,7 @@ const representation = (value: number | undefined): string => {
     flex-direction: column;
   }
 
-  .limit-width {
+  .max-width {
     max-width: 100%;
   }
 }
