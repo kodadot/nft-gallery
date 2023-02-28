@@ -2,17 +2,13 @@
   <b-field grouped group-multiline class="filters-tag">
     <template v-for="(value, key) in breads">
       <NeoTag
-        v-if="key === 'search' && value !== undefined"
+        v-if="key === 'search'"
         :key="key"
         class="control"
         @close="removeSearch">
         {{ `${$t('general.search')}: ${value}` }}
       </NeoTag>
-      <NeoTag
-        v-if="key !== 'search'"
-        :key="key"
-        class="control"
-        @close="closeTag(String(key))">
+      <NeoTag v-else :key="key" class="control" @close="closeTag(String(key))">
         {{ queryMapTranslation[String(key)] }}
       </NeoTag>
     </template>
@@ -34,16 +30,17 @@ const { replaceUrl } = useReplaceUrl()
 const { $i18n } = useNuxtApp()
 
 const breads = computed(() => {
-  const query = { ...route.query, redesign: undefined, search: undefined }
+  const query = { ...route.query, redesign: undefined }
 
   const activeFilters = Object.entries(query).filter(
-    ([key, value]) => value == 'true'
+    ([key, value]) =>
+      (key === 'search' && value !== undefined) || value === 'true'
   )
-  return { ...Object.fromEntries(activeFilters), search: route.query.search }
+  return Object.fromEntries(activeFilters)
 })
 
-const isAnyFilterActive = computed(
-  () => Boolean(breads.value?.search) || Object.keys(breads.value).length > 1
+const isAnyFilterActive = computed(() =>
+  Boolean(Object.keys(breads.value).length)
 )
 
 const clearAllFilters = () => {
