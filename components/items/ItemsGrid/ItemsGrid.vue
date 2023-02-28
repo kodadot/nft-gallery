@@ -3,7 +3,7 @@
     <div
       class="is-flex is-justify-content-space-between pt-5 is-align-content-center">
       <BreadcrumbsFilter />
-      <p>total: {{ total }}</p>
+      <div v-show="total">{{ total }} {{ $t('items') }}</div>
     </div>
 
     <hr />
@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core'
-import BreadcrumbsFilter from '~~/components/shared/gallery/BreadcrumbsFilter.vue'
+import BreadcrumbsFilter from '@/components/shared/gallery/BreadcrumbsFilter.vue'
 
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'

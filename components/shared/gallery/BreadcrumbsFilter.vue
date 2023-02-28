@@ -1,29 +1,27 @@
 <template>
   <b-field grouped group-multiline class="filters-tag">
-    <template v-if="true">
-      <template v-for="(value, key) in breads">
-        <div v-if="value === 'true'" :key="key" class="control">
-          <!-- NeoTag -->
-          <NeoTag @close="closeTag(String(key))">
-            {{ queryMapTranslation[String(key)] }}
-          </NeoTag>
-        </div>
-        <div
-          v-if="key === 'search' && value != undefined"
-          :key="key"
-          class="control">
-          <NeoTag @close="removeSearch">
-            {{ `${$i18n.t('general.search')}: ${value}` }}
-          </NeoTag>
-        </div>
-      </template>
-      <div
-        v-if="isAnyFilterActive"
-        class="control py-1 is-clickable"
-        @click="clearAllFilters">
-        <span>{{ $t('sort.clearAll') }}</span>
-      </div>
+    <template v-for="(value, key) in breads">
+      <NeoTag
+        v-if="key === 'search' && value !== undefined"
+        :key="key"
+        class="control"
+        @close="removeSearch">
+        {{ `${$t('general.search')}: ${value}` }}
+      </NeoTag>
+      <NeoTag
+        v-if="key !== 'search'"
+        :key="key"
+        class="control"
+        @close="closeTag(String(key))">
+        {{ queryMapTranslation[String(key)] }}
+      </NeoTag>
     </template>
+    <div
+      v-if="isAnyFilterActive"
+      class="control py-1 is-clickable"
+      @click="clearAllFilters">
+      <span>{{ $t('sort.clearAll') }}</span>
+    </div>
   </b-field>
 </template>
 
@@ -36,16 +34,17 @@ const { replaceUrl } = useReplaceUrl()
 const { $i18n } = useNuxtApp()
 
 const breads = computed(() => {
-  const filters = { ...route.query }
-  delete filters.redesign
-  console.log(filters)
-  return filters
+  const query = { ...route.query }
+  delete query.redesign
+  delete query.search
+  const activeFilters = Object.entries(query).filter(
+    ([key, value]) => value == 'true'
+  )
+  return { ...Object.fromEntries(activeFilters), search: route.query.search }
 })
 
 const isAnyFilterActive = computed(
-  () =>
-    Boolean(breads.value?.search) ||
-    Object.values(breads.value).includes('true')
+  () => Boolean(breads.value?.search) || Object.keys(breads.value).length > 1
 )
 
 const clearAllFilters = () => {
