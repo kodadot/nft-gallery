@@ -34,9 +34,8 @@ const { replaceUrl } = useReplaceUrl()
 const { $i18n } = useNuxtApp()
 
 const breads = computed(() => {
-  const query = { ...route.query }
-  delete query.redesign
-  delete query.search
+  const query = { ...route.query, redesign: undefined, search: undefined }
+
   const activeFilters = Object.entries(query).filter(
     ([key, value]) => value == 'true'
   )
