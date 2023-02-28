@@ -24,6 +24,12 @@
   .icon-action {
     width: 2.188rem;
   }
+
+  @media screen and (max-width: 806px) {
+    .column {
+      padding-right: 0!important;
+    }
+  }
 }
 
 .gallery-item-desc-markdown {
