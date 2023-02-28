@@ -2,9 +2,7 @@
   <b-switch v-model="model" :type="type" :rounded="false">
     <div class="is-flex is-align-items-center">
       <span class="mr-2">
-        {{
-          value ? `${$t(activeMessage)}${priceString}` : `${$t(passiveMessage)}`
-        }}
+        {{ value ? `${$t(activeMessage)}${priceString}` : $t(passiveMessage) }}
       </span>
       <slot name="tooltip" />
     </div>

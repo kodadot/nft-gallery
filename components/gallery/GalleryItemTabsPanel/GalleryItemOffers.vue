@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Loader v-model="isLoading" :status="status" />
     <o-table v-if="offers?.length" :data="offers" hoverable>
       <!-- token price -->
       <o-table-column v-slot="props" field="id" :label="$t('offer.price')">
@@ -51,6 +52,23 @@
           >{{ formatOfferStatus(props.row.status, props.row.expiration) }}</span
         >
       </o-table-column>
+      <o-table-column v-slot="props" field="action">
+        <NeoSecondaryButton
+          v-if="
+            (props.row.caller === accountId || isOwner) &&
+            props.row.status === OfferStatusType.ACTIVE
+          "
+          variant="primary"
+          @click.native="onWithdrawOffer(props.row.caller)"
+          >Cancel</NeoSecondaryButton
+        >
+        <NeoSecondaryButton
+          v-if="isOwner && props.row.status === OfferStatusType.ACTIVE"
+          variant="info"
+          @click.native="onAcceptOffer(props.row.caller)"
+          >Accept</NeoSecondaryButton
+        >
+      </o-table-column>
     </o-table>
     <div v-else class="has-text-centered">{{ $t('nft.offer.empty') }}</div>
   </div>
@@ -63,15 +81,21 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 import { getKSMUSD } from '@/utils/coingecko'
 import formatBalance from '@/utils/format/balance'
 import { formatSecondsToDuration } from '@/utils/format/time'
-
+import { NeoSecondaryButton } from '@kodadot1/brick'
 import type { Offer, OfferResponse } from '@/components/bsx/Offer/types'
 import type { CollectionEvents } from '@/components/rmrk/service/scheme'
 import { OfferStatusType } from '@/utils/offerStatus'
-const { $i18n } = useNuxtApp()
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { isOwner as checkOwner } from '@/utils/account'
+import { ShoppingActions } from '@/utils/shoppingActions'
+
+const { $i18n, $consola } = useNuxtApp()
 
 const { apiInstance } = useApi()
 const { urlPrefix, tokenId, assets } = usePrefix()
 const { decimals } = useChain()
+
+const { transaction, status, isLoading } = useTransaction()
 
 const dprops = defineProps<{
   collectionId: string
@@ -79,11 +103,18 @@ const dprops = defineProps<{
   account: string
 }>()
 
-const { data } = useGraphql({
+const isOwner = computed(() => checkOwner(dprops.account, accountId.value))
+
+const { accountId } = useAuth()
+
+const { data, refetch } = useGraphql({
   queryName: 'offerListByNftId',
   queryPrefix: 'chain-bsx',
   variables: {
     id: dprops.nftId,
+  },
+  options: {
+    fetchPolicy: 'network-only',
   },
 })
 
@@ -146,11 +177,40 @@ const formatOfferStatus = (status: OfferStatusType, expiration: number) => {
   }
 }
 
+const onWithdrawOffer = async (caller: string) => {
+  await submit(caller, ShoppingActions.WITHDRAW_OFFER, refetch)
+}
+
+const onAcceptOffer = async (caller: string) => {
+  await submit(caller, ShoppingActions.ACCEPT_OFFER, refetch)
+}
+
 onMounted(async () => {
   const api = await apiInstance.value
   const block = await api.rpc.chain.getHeader()
   currentBlock.value = block.number.toNumber()
 })
+
+const submit = async (
+  maker: string,
+  interaction:
+    | typeof ShoppingActions.WITHDRAW_OFFER
+    | typeof ShoppingActions.ACCEPT_OFFER,
+  onSuccess?: () => void
+) => {
+  try {
+    await transaction({
+      interaction: interaction,
+      maker: maker,
+      nftId: dprops.nftId,
+      successMessage: $i18n.t('transaction.offer.success') as string,
+      errorMessage: $i18n.t('transaction.item.error') as string,
+    })
+  } catch (e: any) {
+    showNotification(`[OFFER::ERR] ${e}`, notificationTypes.danger)
+    $consola.error(e)
+  }
+}
 
 watch(
   [
