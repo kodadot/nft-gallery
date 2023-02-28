@@ -73,7 +73,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { isOwner as checkOwner } from '@/utils/account'
-import { useCollectionMinimal } from './utils/useCollectionDetails'
+import { useCollectionMinimal } from '../utils/useCollectionDetails'
 const route = useRoute()
 const { accountId } = useAuth()
 const { $i18n, $buefy } = useNuxtApp()

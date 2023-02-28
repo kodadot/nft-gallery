@@ -2,67 +2,9 @@ import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
-
-type PriceRange = {
-  price_gt: string
-  price_gte: number
-  price_lte?: number
-}[]
+import { useSearchParams } from './utils/useSearchParams'
 
 export type NFTWithMetadata = NFT & NFTMetadata & { meta: NFTMetadata }
-
-function useSearchParams() {
-  const route = useRoute()
-  const { accountId } = useAuth()
-
-  const searchParams = computed(() => {
-    // construct keywords
-    const keywords = route.query.search?.length
-      ? [{ name_containsInsensitive: route.query.search }]
-      : []
-
-    // construct price range
-    const price: PriceRange = []
-    if (route.query.listed) {
-      const minPrice = route.query.min ?? 0
-
-      if (route.query.max) {
-        price.push({
-          price_gt: '0',
-          price_gte: Number(minPrice),
-          price_lte: Number(route.query.max),
-        })
-      } else {
-        price.push({
-          price_gt: '0',
-          price_gte: Number(minPrice),
-        })
-      }
-    }
-
-    // construct owner
-    const owner =
-      route.query.owned && accountId.value
-        ? [{ currentOwner_eq: accountId.value }]
-        : []
-
-    // on collection page
-    const collectionId =
-      route.name === 'prefix-collection-id'
-        ? [{ collection: { id_eq: route.params.id } }]
-        : []
-
-    // on user page. fetch by creator
-    const userId =
-      route.name === 'prefix-u-id' ? [{ issuer_eq: route.params.id }] : []
-
-    return [...keywords, ...price, ...owner, ...collectionId, ...userId]
-  })
-
-  return {
-    searchParams,
-  }
-}
 
 export function useFetchSearch() {
   const { $apollo } = useNuxtApp()

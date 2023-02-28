@@ -6,12 +6,16 @@ import { execListTx } from './transaction/transactionList'
 import { execSendTx } from './transaction/transactionSend'
 import { execBurnTx } from './transaction/transactionBurn'
 import { execMakeOfferTx } from './transaction/transactionOffer'
+import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
+import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 
 import type {
+  ActionAcceptOffer,
   ActionConsume,
   ActionList,
   ActionOffer,
   ActionSend,
+  ActionWithdrawOffer,
   Actions,
 } from './transaction/types'
 
@@ -53,6 +57,14 @@ export const useTransaction = () => {
         execMakeOfferTx(item as ActionOffer, api, executeTransaction),
       [ShoppingActions.CONSUME]: () =>
         execBurnTx(item as ActionConsume, api, executeTransaction),
+      [ShoppingActions.WITHDRAW_OFFER]: () =>
+        execWithdrawOfferTx(
+          item as ActionWithdrawOffer,
+          api,
+          executeTransaction
+        ),
+      [ShoppingActions.ACCEPT_OFFER]: () =>
+        execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
     }
 
     return map[item.interaction]?.() ?? 'UNKNOWN'
