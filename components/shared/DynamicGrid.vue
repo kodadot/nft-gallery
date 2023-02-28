@@ -8,17 +8,17 @@
 import { useResizeObserver } from '@vueuse/core'
 
 const defaultWidth = {
-  small: 16 * 15,
-  large: 16 * 20,
+  small: 16 * 15, // 15rem
+  large: 16 * 20, // 20rem
 }
 
-const route = useRoute()
+const { $store } = useNuxtApp()
 
 const cols = ref(5)
 const containerWidth = ref(0)
 const container = ref<HTMLDivElement | null>(null)
 
-const grid = computed(() => (route.query.grid as string) || 'small')
+const grid = computed(() => $store.getters['preferences/getGridSize'])
 
 const updateColumns = () => {
   if (containerWidth.value) {
@@ -32,18 +32,13 @@ useResizeObserver(container, (entries) => {
   updateColumns()
 })
 
-watch(
-  () => route.query.grid,
-  () => {
-    updateColumns()
-  }
-)
-
-const gridCols = computed(() => {
-  return {
-    display: 'grid',
-    gap: '2rem',
-    gridTemplateColumns: `repeat(${cols.value}, minmax(0, 1fr))`,
-  }
+watch(grid, () => {
+  updateColumns()
 })
+
+const gridCols = computed(() => ({
+  display: 'grid',
+  gap: '2rem',
+  gridTemplateColumns: `repeat(${cols.value}, minmax(0, 1fr))`,
+}))
 </script>

@@ -21,8 +21,6 @@
 import { NeoButton } from '@kodadot1/brick'
 
 const { $store } = useNuxtApp()
-const route = useRoute()
-const router = useRouter()
 
 const gridLayoutSize = computed(
   () => $store.getters['preferences/getGalleryLayoutClass']
@@ -34,11 +32,6 @@ const largeGridLayout = ref(
 
 const changeGridLayout = (layout: string, grid: string) => {
   $store.dispatch('preferences/setGalleryLayoutClass', layout)
-  router.push({
-    query: {
-      ...route.query,
-      grid,
-    },
-  })
+  $store.dispatch('preferences/setGridSize', grid)
 }
 </script>
