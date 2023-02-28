@@ -11,6 +11,8 @@ enum UniqueActions {
 enum BasiliskActions {
   MAKE_OFFER = 'MAKE_OFFER',
   SET_ROYALTY = 'SET_ROYALTY',
+  WITHDRAW_OFFER = 'WITHDRAW_OFFER',
+  ACCEPT_OFFER = 'ACCEPT_OFFER',
 }
 
 export type ShoppingActions = Interaction | BasiliskActions

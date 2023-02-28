@@ -1,7 +1,7 @@
 <template>
   <CarouselIndex
     data-cy="latest-sales"
-    :title="`${$t('general.latestSales')}`"
+    :title="$t('general.latestSales')"
     :subtitle="`${$t('general.latestSalesheading')} ${urlPrefix}`"
     :nfts="nfts"
     action-type="pagination" />

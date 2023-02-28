@@ -18,8 +18,8 @@
 </template>
 
 <script lang="ts" setup>
-const { $consola, $colorMode } = useNuxtApp()
-
+const { $consola } = useNuxtApp()
+const { isDarkMode } = useTheme()
 defineProps({
   src: { type: String, default: '' },
   alt: { type: String, default: 'KodaDot NFT minted multimedia' },
@@ -28,9 +28,7 @@ defineProps({
 })
 
 const placeholder = computed(() => {
-  return $colorMode.preference === 'dark' || $colorMode.preference === 'system'
-    ? '/placeholder.webp'
-    : '/placeholder-white.webp'
+  return isDarkMode.value ? '/placeholder.webp' : '/placeholder-white.webp'
 })
 
 function onImageError(ev: Event, src: string) {

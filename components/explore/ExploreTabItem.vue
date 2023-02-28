@@ -1,80 +1,40 @@
 <template>
-  <div
-    class="explore-tabs field has-addons is-flex is-align-items-center"
-    data-cy="tabs">
+  <div class="field has-addons is-flex is-align-items-center" data-cy="tabs">
     <div class="mr-4">
       <a
         class="is-hidden-mobile"
-        :class="{ disabled: selectedTab === TabType.COLLECTION }"
+        :class="{ disabled: disabledTab }"
         @click="toggleSidebarFilters">
         <b-icon
-          :icon="
-            isSidebarFiltersOpen && selectedTab !== TabType.COLLECTION
-              ? 'times'
-              : 'bars'
-          "
+          :icon="isSidebarFiltersOpen && !disabledTab ? 'times' : 'bars'"
           size="is-medium" />
       </a>
       <a
         class="is-hidden-tablet"
-        :class="{ disabled: selectedTab === TabType.COLLECTION }"
+        :class="{ disabled: disabledTab }"
         @click="openMobileFilters">
         <b-icon :icon="'bars'" size="is-medium" />
       </a>
     </div>
 
-    <!-- TODO: tabs for collection here -->
-    <template v-if="route.name === 'prefix-collection-id'">
-      <p class="control">
-        <NeoButton
-          class="explore-tabs-button"
-          :active="route.name === 'prefix-collection-id'">
-          <span>{{ $t('items') }}</span>
-        </NeoButton>
-      </p>
-      <p class="control">
-        <NeoButton class="explore-tabs-button">
-          <span>{{ $t('tabs.activity') }}</span>
-        </NeoButton>
-      </p>
-    </template>
-    <template v-else>
-      <p class="control">
-        <NeoButton
-          class="explore-tabs-button"
-          tag="nuxt-link"
-          :active="selectedTab === TabType.COLLECTION"
-          to="collectibles">
-          <span> {{ $t('collections') }}</span>
-          <img v-if="selectedTab === TabType.COLLECTION" src="/checkmark.svg" />
-        </NeoButton>
-      </p>
-      <p class="control">
-        <NeoButton
-          class="explore-tabs-button"
-          tag="nuxt-link"
-          :active="selectedTab === TabType.ITEMS"
-          to="items">
-          <span> {{ $t('items') }}</span>
-          <img v-if="selectedTab === TabType.ITEMS" src="/checkmark.svg" />
-        </NeoButton>
-      </p>
-    </template>
+    <TabOnCollection v-if="route.name?.includes('prefix-collection-id')" />
+    <TabOnExplore v-else />
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
-
-enum TabType {
-  COLLECTION = 'collectibles',
-  ITEMS = 'items',
-}
+import TabOnExplore from './tab/TabOnExplore.vue'
+import TabOnCollection from './tab/TabOnCollection.vue'
 
 const route = useRoute()
 const { $store } = useNuxtApp()
 
-const selectedTab = computed(() => route?.name?.split('-')[2])
+const disabledTab = computed(() => {
+  const allowedList = ['prefix-explore-items', 'prefix-collection-id']
+
+  return !allowedList.includes(route.name || '')
+})
+
 const isSidebarFiltersOpen = computed(
   () => $store.getters['preferences/getsidebarFilterCollapse']
 )
@@ -88,12 +48,6 @@ const toggleSidebarFilters = () => {
 const openMobileFilters = () => {
   $store.dispatch('preferences/setMobileFilterCollapse', true)
 }
-
-watch(selectedTab, () => {
-  if (selectedTab.value === TabType.COLLECTION) {
-    $store.dispatch('preferences/setSidebarFilterCollapse', false)
-  }
-})
 </script>
 
 <style lang="scss" scoped>
@@ -102,25 +56,5 @@ a.disabled {
   opacity: 0.3;
   cursor: not-allowed;
   pointer-events: none;
-}
-.explore-tabs {
-  &-button {
-    width: 15rem;
-  }
-
-  .control,
-  &-button {
-    @include until-widescreen {
-      width: 12rem;
-    }
-
-    @include mobile {
-      width: 100%;
-    }
-  }
-}
-
-.dark-mode .explore-tabs-button.active img {
-  filter: brightness(0%);
 }
 </style>
