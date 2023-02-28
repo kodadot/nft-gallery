@@ -4,11 +4,9 @@
     <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
       <div v-if="collectionInfo?.currentOwner" class="is-flex mb-2">
         <div class="mr-2">{{ $t('activity.creator') }}</div>
-        <IdentityIndex
-          :address="address"
-          hide-identity-popover
-          :show-clipboard="false"
-          class="has-text-link has-text-weight-normal" />
+        <nuxt-link :to="`/${urlPrefix}/u/${address}`" class="has-text-link">
+          <IdentityIndex ref="identity" :address="address" />
+        </nuxt-link>
       </div>
       <div>
         {{ collectionInfo?.meta.description }}
@@ -58,6 +56,7 @@ import {
 } from './utils/useCollectionDetails'
 
 const route = useRoute()
+const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
 
 const collectionId = computed(() => route.params.id)
@@ -102,24 +101,6 @@ const representation = (value: number | undefined): string => {
 
   .max-width {
     max-width: 100%;
-  }
-}
-.has-text-link {
-  a {
-    color: inherit;
-  }
-}
-</style>
-
-<style lang="scss">
-.has-text-link {
-  a {
-    color: inherit !important;
-  }
-}
-.has-text-weight-normal {
-  a {
-    font-weight: inherit !important;
   }
 }
 </style>
