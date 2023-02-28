@@ -8,7 +8,7 @@
           :address="address"
           hide-identity-popover
           :show-clipboard="false"
-          class="has-text-link" />
+          class="has-text-link has-text-weight-normal" />
       </div>
       <div>
         {{ collectionInfo?.meta.description }}
@@ -115,6 +115,11 @@ const representation = (value: number | undefined): string => {
 .has-text-link {
   a {
     color: inherit !important;
+  }
+}
+.has-text-weight-normal {
+  a {
+    font-weight: inherit !important;
   }
 }
 </style>
