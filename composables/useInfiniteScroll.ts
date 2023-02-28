@@ -7,14 +7,12 @@ type LoadDirection = 'up' | 'down'
 
 export default function ({
   defaultFirst,
-  defaultDisablePrefetchPreviousPage,
   defaultScrollContainerId,
   defaultScrollItemClassName,
   gotoPage,
   fetchPageData,
 }: {
   defaultFirst?: number
-  defaultDisablePrefetchPreviousPage?: boolean
   defaultScrollContainerId?: string
   defaultScrollItemClassName?: string
   gotoPage: (page: number) => void
@@ -36,9 +34,7 @@ export default function ({
   const total = ref(0)
   const prefetchDistance = ref(1600)
   const isFetchingData = ref(false)
-  const disablePrefetchPreviousPage = ref(
-    defaultDisablePrefetchPreviousPage ?? false
-  )
+
   const scrollContainerId = ref(
     defaultScrollContainerId ?? INFINITE_SCROLL_CONTAINER_ID
   )
@@ -133,7 +129,6 @@ export default function ({
     await fetchDataCallback(startPage.value - 1, 'up', () => {
       startPage.value = nextPage
       checkAfterFetchDataSuccess()
-      prefetchPreviousPage()
     })
   }
 
@@ -158,17 +153,6 @@ export default function ({
     updateCurrentPage()
     if (endPage.value - currentPage.value <= 3 && canLoadNextPage.value) {
       await fetchNextPage()
-    }
-  }
-
-  const prefetchPreviousPage = async () => {
-    updateCurrentPage()
-    if (
-      !disablePrefetchPreviousPage.value &&
-      currentPage.value - startPage.value <= 1 &&
-      startPage.value > 1
-    ) {
-      await fetchPreviousPage()
     }
   }
 
