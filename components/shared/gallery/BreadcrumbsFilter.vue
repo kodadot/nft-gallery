@@ -1,32 +1,58 @@
 <template>
   <b-field grouped group-multiline class="filters-tag">
     <template v-for="(value, key) in breads">
-      <div v-if="value === 'true'" :key="key" class="control">
-        <!-- NeoTag -->
-        <NeoTag @close="closeTag(String(key))">
-          {{ queryMapTranslation[String(key)] }}
-        </NeoTag>
-      </div>
-      <div
-        v-if="key === 'search' && value != undefined"
+      <NeoTag
+        v-if="key === 'search'"
         :key="key"
-        class="control">
-        <NeoTag @close="removeSearch">
-          {{ `${$i18n.t('general.search')}: ${value}` }}
-        </NeoTag>
-      </div>
+        class="control"
+        @close="removeSearch">
+        {{ `${$t('general.search')}: ${value}` }}
+      </NeoTag>
+      <NeoTag v-else :key="key" class="control" @close="closeTag(String(key))">
+        {{ queryMapTranslation[String(key)] }}
+      </NeoTag>
     </template>
+    <div
+      v-if="isAnyFilterActive"
+      class="control py-1 is-clickable"
+      @click="clearAllFilters">
+      <span>{{ $t('sort.clearAll') }}</span>
+    </div>
   </b-field>
 </template>
 
 <script lang="ts" setup>
+import useReplaceUrl from '@/components/explore/filters/useReplaceUrl'
 import NeoTag from './NeoTag.vue'
 
 const route = useRoute()
-const router = useRouter()
-const { $i18n, $consola } = useNuxtApp()
+const { replaceUrl } = useReplaceUrl()
+const { $i18n } = useNuxtApp()
 
-const breads = computed(() => route.query)
+const breads = computed(() => {
+  const query = { ...route.query, redesign: undefined }
+
+  const activeFilters = Object.entries(query).filter(
+    ([key, value]) =>
+      (key === 'search' && value !== undefined) || value === 'true'
+  )
+  return Object.fromEntries(activeFilters)
+})
+
+const isAnyFilterActive = computed(() =>
+  Boolean(Object.keys(breads.value).length)
+)
+
+const clearAllFilters = () => {
+  const clearedFilters = Object.keys(breads.value).reduce((filters, key) => {
+    if (key === 'search') {
+      return { ...filters, [key]: undefined }
+    }
+    return { ...filters, [key]: 'false' }
+  }, {})
+
+  replaceUrl(clearedFilters)
+}
 
 const queryMapTranslation = {
   listed: $i18n.t('sort.listed'),
@@ -35,42 +61,16 @@ const queryMapTranslation = {
 
 onMounted(() => {
   if (route.query.listed == undefined) {
-    router
-      .replace({
-        path: String(route.path),
-        query: {
-          ...route.query,
-          page: '1',
-          listed: 'true',
-        },
-      })
-      .catch($consola.warn)
+    replaceUrl({ listed: 'true' })
   }
 })
 
 const closeTag = (key: string) => {
-  router
-    .replace({
-      path: String(route.path),
-      query: {
-        ...route.query,
-        ...{ [key]: false },
-        page: '1',
-      },
-    })
-    .catch($consola.warn)
+  replaceUrl({ [key]: false })
 }
+
 const removeSearch = () => {
-  router
-    .replace({
-      path: String(route.path),
-      query: {
-        ...route.query,
-        search: undefined,
-        page: '1',
-      },
-    })
-    .catch($consola.warn)
+  replaceUrl({ search: undefined })
 }
 </script>
 
