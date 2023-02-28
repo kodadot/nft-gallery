@@ -16,10 +16,6 @@ defineProps<{
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
-.no-wrap {
-  white-space: nowrap;
-}
-
 .k-grey {
   @include ktheme() {
     color: theme('k-grey');
