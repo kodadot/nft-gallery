@@ -68,7 +68,7 @@
                 :pack="item.name == 'Swag' ? 'fas' : 'fab'"
                 :icon="item.icon"
                 size="is-small"
-                :type="$colorMode.value === 'dark' ? 'is-white' : 'is-black'" />
+                :type="isDarkMode ? 'is-white' : 'is-black'" />
             </a>
           </li>
         </ul>
@@ -87,7 +87,8 @@ interface Menu {
   external?: boolean
 }
 
-const { $i18n, $colorMode } = useNuxtApp()
+const { $i18n } = useNuxtApp()
+const { isDarkMode } = useTheme()
 
 const menu: Menu[] = [
   {

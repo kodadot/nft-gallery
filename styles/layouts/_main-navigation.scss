@@ -6,7 +6,7 @@
 
       @include ktheme() {
         border-top: 1px solid theme('border-color');
-    background: theme('background-color');
+        background: theme('background-color');
       }
 
       @include mobile {
@@ -131,7 +131,7 @@
   transition: 0.3s ease;
   -webkit-transition: 0.3s ease;
   z-index: 999 !important;
-  min-height: 72px;
+  min-height: 84px;
   width: 100vw;
   background: $white;
 
@@ -265,7 +265,7 @@
     .has-link:hover {
       @include ktheme() {
         background-color: theme('k-accentHover');
-        color:  theme('black');
+        color: theme('black');
       }
     }
     .is-active,
@@ -297,7 +297,7 @@
     a:hover {
       @include ktheme() {
         background-color: theme('k-accentHover');
-        color:  theme('black');
+        color: theme('black');
       }
     }
   }
@@ -352,7 +352,7 @@
         border-bottom: 1px solid theme('border-color');
         &:hover {
           background-color: theme('k-accentHover');
-          color:  theme('black');
+          color: theme('black');
         }
       }
     }

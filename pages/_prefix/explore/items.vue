@@ -1,13 +1,16 @@
 <template>
   <div>
-    <Gallery class="container" />
+    <Items v-if="redesign" />
+    <Gallery v-else class="container" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
+import ExperimentMixin from '@/utils/mixins/experimentMixin'
+import Items from '@/components/items/Items.vue'
 
-const components = {}
+const components = { Items }
 
 @Component<ExploreItems>({
   components,
@@ -29,5 +32,5 @@ const components = {}
     }
   },
 })
-export default class ExploreItems extends Vue {}
+export default class ExploreItems extends mixins(ExperimentMixin) {}
 </script>
