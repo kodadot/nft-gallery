@@ -48,7 +48,10 @@ import { NeoButton } from '@kodadot1/brick'
 import PriceFilter from './filters/PriceFilter.vue'
 import StatusFilter from './filters/StatusFilter.vue'
 import useReplaceUrl from './filters/useReplaceUrl'
+import { useExploreFiltersStore } from '@/stores/exploreFilters'
+
 const route = useRoute()
+const exploreFiltersStore = useExploreFiltersStore()
 
 const { $store } = useNuxtApp()
 const { replaceUrl } = useReplaceUrl()
@@ -83,25 +86,26 @@ const syncFromUrl = () => {
     min = Number(route.query?.min) || undefined,
     max = Number(route.query?.max) || undefined
 
-  $store.dispatch('exploreFilters/setListed', listed)
-  $store.dispatch('exploreFilters/setOwned', owned)
-  $store.dispatch('exploreFilters/setPriceRange', { min, max })
+  exploreFiltersStore.setListed(listed)
+  exploreFiltersStore.setOwned(owned)
+  exploreFiltersStore.setPriceRange({ min, max })
 }
 
+// TODO: move this to pinia
 const resetFilters = () => {
   // set store to defaults
   const statusDefaults = {
     listed: false,
     owned: false,
   }
-  $store.dispatch('exploreFilters/setListed', statusDefaults.listed)
-  $store.dispatch('exploreFilters/setOwned', statusDefaults.owned)
+  exploreFiltersStore.setListed(statusDefaults.listed)
+  exploreFiltersStore.setOwned(statusDefaults.owned)
   // price
   const priceDefaults = {
     min: undefined,
     max: undefined,
   }
-  $store.dispatch('exploreFilters/setPriceRange', priceDefaults)
+  exploreFiltersStore.setPriceRange(priceDefaults)
 
   replaceUrl({
     ...statusDefaults,
@@ -113,8 +117,8 @@ const resetFilters = () => {
 
 const applyFilters = () => {
   // status filters
-  const statusFilters = $store.getters['exploreFilters/getStatusFilters']
-  const priceRangeFilter = $store.getters['exploreFilters/getPriceRange']
+  const statusFilters = exploreFiltersStore.getStatusFilters
+  const priceRangeFilter = exploreFiltersStore.getPriceRange
 
   // apply to URL
   replaceUrl({ ...statusFilters, ...priceRangeFilter })
