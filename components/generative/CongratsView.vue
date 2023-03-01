@@ -3,13 +3,11 @@
     <br />
     <p class="title is-size-3">Waii you made it! ✨</p>
     <p class="title is-size-4">Your NFT should be ready in 1 minute</p>
-    <nuxt-link
-      class="is-size-4 link"
-      :to="`/${urlPrefix}/collection/${collectionId}`">
+    <nuxt-link class="is-size-4 link" :to="`/bsx/collection/${collectionId}`">
       In the meanwhile, click here to check the collection ♥️🍷
     </nuxt-link>
     <b-image
-      src="https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/bafkreiao33lq57laoccwj47gw46tnf76xypfug66p7aj2amwkjtf2k52r4/aaa" />
+      src="https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/bafybeibmsolkc4gwnznfd7wddnerrkdxhoj3upmhqykygee2bkvmwth2wm/aaa" />
     <br />
     <SubmitButton
       icon="sync"

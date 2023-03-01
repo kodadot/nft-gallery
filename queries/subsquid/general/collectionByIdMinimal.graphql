@@ -13,6 +13,5 @@ query collectionByIdMinimal($id: String!) {
     metadata
     name
     currentOwner
-    type
   }
 }

@@ -73,6 +73,7 @@ import {
   Emit,
   Prop,
   Ref,
+  Watch,
   mixins,
 } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
@@ -121,6 +122,18 @@ export default class Search extends mixins(
     number | string | undefined
   ] = [undefined, undefined]
   public priceRangeDirty = false
+
+  get urlSearchQuery() {
+    return this.$route.query.search
+  }
+
+  // clear search bar value when search is cannceled via breadcrumbs
+  @Watch('urlSearchQuery')
+  syncSearchfromUrl(urlSearchQuery) {
+    if (urlSearchQuery == undefined) {
+      this.name = ''
+    }
+  }
 
   public created() {
     this.initKeyboardEventHandler({
@@ -285,7 +298,7 @@ export default class Search extends mixins(
         query: {
           page: '1',
           ...this.$route.query,
-          search: this.searchQuery || undefined,
+          search: this.searchQuery || this.$route.query.search || undefined,
           ...queryCondition,
         },
       })
