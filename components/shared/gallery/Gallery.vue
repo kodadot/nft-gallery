@@ -17,29 +17,17 @@
           @click="fetchPreviousPage">
           <b-icon icon="chevron-up" />
         </a>
-        <div
-          :id="scrollContainerId"
-          class="columns is-multiline is-hidden-mobile">
+        <DynamicGrid :id="scrollContainerId" v-slot="slotProps">
           <div
             v-for="(nft, index) in results"
             :key="`${nft.id}-${index}`"
-            :class="`column ${classLayout} ${scrollItemClassName}`">
-            <NftCard :nft="nft" :data-cy="`item-index-${index}`" />
-          </div>
-        </div>
-        <div
-          :id="scrollContainerId"
-          class="columns is-mobile is-multiline is-hidden-tablet">
-          <div
-            v-for="(nft, index) in results"
-            :key="`${nft.id}-${index}`"
-            :class="`column ${classLayout} ${scrollItemClassName}`">
+            :class="scrollItemClassName">
             <NftCard
-              variant="minimal"
               :nft="nft"
-              :data-cy="`item-index-${index}`" />
+              :data-cy="`item-index-${index}`"
+              :variant="slotProps.isMobileVariant && 'minimal'" />
           </div>
-        </div>
+        </DynamicGrid>
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
           :distance="prefetchDistance"
@@ -101,6 +89,7 @@ const components = {
   SidebarFilter: () => import('@/components/explore/SidebarFilter.vue'),
   BreadcrumbsFilter: () => import('./BreadcrumbsFilter.vue'),
   EmptyResult: () => import('@/components/common/EmptyResult.vue'),
+  DynamicGrid: () => import('@/components/shared/DynamicGrid.vue'),
 }
 
 @Component<Gallery>({
