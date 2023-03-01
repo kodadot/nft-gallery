@@ -1,0 +1,17 @@
+query collectionByIdMinimal($id: String!) {
+  collectionEntityById(id: $id) {
+    id
+    issuer
+    meta {
+      animationUrl
+      description
+      id
+      image
+      name
+      type
+    }
+    metadata
+    name
+    currentOwner
+  }
+}

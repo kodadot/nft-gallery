@@ -1,0 +1,30 @@
+@import '../../scss/variable.scss';
+@import '../../scss/theme.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+
+$checkbox-checkmark-color: #000;
+
+.neo-checkbox {
+  .o-chk__check {
+    border-radius: 0;
+    @include ktheme() {
+      border: 1px solid theme('border-color');
+      color: theme('text-color');
+      background-color: theme('background-color');
+    }
+  }
+
+  .o-chk__check--checked {
+    background-size: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    @include ktheme() {
+      background-color: theme('k-primary');
+    }
+  }
+}
+
+@import '@oruga-ui/oruga/src/scss/components/checkbox.scss';

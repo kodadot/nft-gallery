@@ -12,12 +12,12 @@
     </template>
     <div class="p-4">
       <b-field>
-        <b-checkbox v-model="listed"> {{ $t('sort.listed') }} </b-checkbox>
+        <NeoCheckbox v-model="listed"> {{ $t('sort.listed') }}</NeoCheckbox>
       </b-field>
       <b-field>
-        <b-checkbox v-model="owned" :disabled="!accountId">
-          {{ $t('sort.own') }}
-        </b-checkbox>
+        <NeoCheckbox v-model="owned" :disabled="!accountId">
+          {{ $t('sort.own') }}</NeoCheckbox
+        >
       </b-field>
     </div>
   </b-collapse>
@@ -25,6 +25,7 @@
 
 <script lang="ts" setup>
 import useReplaceUrl from './useReplaceUrl'
+import { NeoCheckbox } from '@kodadot1/brick'
 
 const { $store } = useNuxtApp()
 const route = useRoute()

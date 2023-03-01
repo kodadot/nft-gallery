@@ -5,19 +5,19 @@
         <th class="is-size-7 has-text-weight-normal">
           {{ $t('general.asset') }}
         </th>
-        <th class="is-size-7 has-text-weight-normal">
+        <th class="is-size-7 has-text-weight-normal has-text-right">
           {{ $t('general.balance') }}
         </th>
-        <th class="is-size-7 has-text-weight-normal">USD</th>
+        <th class="is-size-7 has-text-weight-normal has-text-right">USD</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="asset in nonZeroAssetList" :key="asset.id">
         <td>{{ asset.symbol }}</td>
-        <td>
+        <td class="has-text-right">
           <Money :value="Number(asset.balance)" inline hide-unit />
         </td>
-        <td>{{ '$' + usdValueFormat(asset) }}</td>
+        <td class="has-text-right">{{ '$' + usdValueFormat(asset) }}</td>
       </tr>
     </tbody>
   </table>
@@ -92,11 +92,9 @@ const assetToUsdValue = (asset: AssetItem) => {
   }
   if (asset.symbol === 'BSX') {
     let value = checkInvalidBalanceFilter(asset.balance)
-    value = checkInvalidBalanceFilter(
-      roundTo(formatBalance(value, 12, ''), 4)
-        .replace(',', '')
-        .replace(/\s/g, '')
-    )
+    value = roundTo(formatBalance(value, 12, ''), 4)
+      .replace(',', '.')
+      .replace(/\s/g, '')
     return calculateExactUsdFromToken(
       value,
       $store.getters['fiat/getCurrentBSXValue']

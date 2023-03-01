@@ -1,7 +1,7 @@
 <template>
   <CarouselIndex
-    :title="`${$t('general.popularCollectionsHeading')}`"
-    :subtitle="`${$t('general.popularCollectionsDesc')}`"
+    :title="$t('general.popularCollectionsHeading')"
+    :subtitle="$t('general.popularCollectionsDesc')"
     :nfts="nfts"
     action-type="pagination"
     item-url="collection" />

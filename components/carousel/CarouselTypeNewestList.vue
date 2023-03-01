@@ -1,7 +1,7 @@
 <template>
   <CarouselIndex
-    :title="`${$t('general.newestListHeading')}`"
-    :subtitle="`${$t('general.newestListDesc')}`"
+    :title="$t('general.newestListHeading')"
+    :subtitle="$t('general.newestListDesc')"
     :nfts="nfts"
     action-type="link"
     :link-url="`/${urlPrefix}/explore/items/?search=&sort=updatedAt_DESC`"

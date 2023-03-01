@@ -1,7 +1,10 @@
 <template>
   <div>
     <NeoDropdown>
-      <NeoButton :label="label" :icon="icon" />
+      <NeoButton
+        :class="isMobileDevice ? 'icon-action' : ''"
+        :label="label"
+        :icon="icon" />
 
       <template #items>
         <NeoDropdownItem
@@ -49,7 +52,7 @@ const twitterUri = ref(
 )
 
 const label = computed(() => (isMobileDevice ? '' : 'Share'))
-const icon = computed(() => (isMobileDevice ? 'share-square' : ''))
+const icon = computed(() => (isMobileDevice ? 'share' : ''))
 
 const actionTwitterShare = (): void => {
   window.open(twitterUri.value, '_blank')
