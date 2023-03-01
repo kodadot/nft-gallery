@@ -97,7 +97,7 @@ const menu: Menu[] = [
   },
   {
     name: $i18n.t('faq.page'),
-    url: '/faq',
+    url: '/rmrk/faq',
   },
   {
     name: $i18n.t('careers'),
