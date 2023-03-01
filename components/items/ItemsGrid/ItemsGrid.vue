@@ -1,7 +1,11 @@
 <template>
   <div class="is-flex-grow-1">
-    <!-- TODO: breadcrumbs filter here -->
-    <p>total: {{ total }}</p>
+    <div
+      class="is-flex is-justify-content-space-between pt-5 is-align-content-center">
+      <BreadcrumbsFilter />
+      <div v-show="total">{{ total }} {{ $t('items') }}</div>
+    </div>
+
     <hr />
     <DynamicGrid>
       <div v-for="(nft, index) in nfts" :key="`${nft.id}=${index}`">
@@ -14,6 +18,7 @@
 
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core'
+import BreadcrumbsFilter from '@/components/shared/gallery/BreadcrumbsFilter.vue'
 
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
