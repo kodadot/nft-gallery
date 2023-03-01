@@ -8,7 +8,8 @@
       :multiple="true"
       :close-on-click="false"
       :mobile-modal="false"
-      @change="onChange">
+      @change="onChange"
+      @active-change="isActive = $event">
       <NeoButton
         type="button"
         :icon="isActive ? 'caret-up' : 'caret-down'"
@@ -54,6 +55,7 @@ const route = useRoute()
 const router = useRouter()
 const { $i18n } = useNuxtApp()
 
+const isActive = ref(false)
 const isItems = computed(() => route.path.includes('items'))
 const options = computed(() => {
   return isItems.value
