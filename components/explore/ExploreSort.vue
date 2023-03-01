@@ -1,52 +1,49 @@
 <template>
   <div>
-    <o-dropdown
+    <NeoDropdown
       v-model="selectedSort"
       class="sort"
+      :append-to-body="true"
+      position="bottom-right"
+      :multiple="true"
       :close-on-click="false"
-      multiple
-      aria-role="list"
-      :class="{ 'sort-active': isActive }"
       :mobile-modal="false"
-      @change="onChange"
-      @active-change="isActive = $event">
-      <template #trigger>
-        <NeoButton
-          type="button"
-          :icon="isActive ? 'caret-up' : 'caret-down'"
-          class="has-text-left"
-          data-cy="explore-sort">
-          Sort By
-        </NeoButton>
-        <div
-          v-if="selectedSort.length"
-          class="sort-count is-flex is-justify-content-center is-align-items-center">
-          <span>{{ selectedSort.length }}</span>
-        </div>
+      @change="onChange">
+      <NeoButton
+        type="button"
+        :icon="isActive ? 'caret-up' : 'caret-down'"
+        class="has-text-left"
+        data-cy="explore-sort">
+        Sort By
+      </NeoButton>
+      <div
+        v-if="selectedSort.length"
+        class="sort-count is-flex is-justify-content-center is-align-items-center">
+        <span>{{ selectedSort.length }}</span>
+      </div>
+      <template #items>
+        <NeoDropdownItem
+          v-for="option in options"
+          :key="option"
+          aria-role="listitem"
+          :value="option">
+          <span>
+            {{
+              $i18n.t(isItems ? `sort.${option}` : `sort.collection.${option}`)
+            }}
+          </span>
+          <img
+            v-if="selectedSort.includes(option)"
+            class="sort-check"
+            src="/checkmark.svg" />
+        </NeoDropdownItem>
       </template>
-
-      <NeoDropdownItem
-        v-for="option in options"
-        :key="option"
-        aria-role="listitem"
-        :value="option">
-        <span>
-          {{
-            $i18n.t(isItems ? `sort.${option}` : `sort.collection.${option}`)
-          }}
-        </span>
-        <img
-          v-if="selectedSort.includes(option)"
-          class="sort-check"
-          src="/checkmark.svg" />
-      </NeoDropdownItem>
-    </o-dropdown>
+    </NeoDropdown>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ODropdown } from '@oruga-ui/oruga'
-import { NeoButton, NeoDropdownItem } from '@kodadot1/brick'
+import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 
 import {
   NFT_SQUID_SORT_COLLECTIONS,
@@ -57,7 +54,6 @@ const route = useRoute()
 const router = useRouter()
 const { $i18n } = useNuxtApp()
 
-const isActive = ref(false)
 const isItems = computed(() => route.path.includes('items'))
 const options = computed(() => {
   return isItems.value
@@ -127,19 +123,6 @@ onMounted(() => {
 @import '@/styles/abstracts/theme';
 
 .sort {
-  position: relative;
-
-  &-active .is-neo {
-    @include ktheme() {
-      background-color: theme('text-color');
-      color: theme('text-color-inverse');
-    }
-  }
-
-  .neo-dropdown-item {
-    width: 16rem;
-  }
-
   &-count {
     position: absolute;
     top: -0.75rem;
