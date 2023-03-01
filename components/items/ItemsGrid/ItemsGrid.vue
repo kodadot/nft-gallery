@@ -1,7 +1,11 @@
 <template>
   <div class="is-flex-grow-1">
-    <!-- TODO: breadcrumbs filter here -->
-    <p>total: {{ total }}</p>
+    <div
+      class="is-flex is-justify-content-space-between pt-5 is-align-content-center">
+      <BreadcrumbsFilter />
+      <div v-show="total">{{ total }} {{ $t('items') }}</div>
+    </div>
+
     <hr />
     <div
       class="columns is-multiline is-align-content-flex-start"
@@ -19,6 +23,7 @@
 
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core'
+import BreadcrumbsFilter from '@/components/shared/gallery/BreadcrumbsFilter.vue'
 
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'

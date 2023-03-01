@@ -550,6 +550,7 @@
     "sn_ASC": "Serial Number Ascending",
     "listed": "Buy now",
     "own": "Own",
+    "clearAll": "Clear All",
     "collection": {
       "blockNumber_DESC": "New first",
       "blockNumber_ASC": "Old first",
