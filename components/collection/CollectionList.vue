@@ -10,15 +10,18 @@
       @click="reachTopHandler">
       <b-icon icon="chevron-up" />
     </a>
-    <div :id="scrollContainerId" class="columns is-multiline">
+    <DynamicGrid
+      :id="scrollContainerId"
+      :default-width="{ small: 16 * 20, large: 16 * 25 }"
+      :mobile-variant="false">
       <div
         v-for="(collection, index) in collections"
         :key="collection.id"
-        :class="`column ${classLayout} ${scrollItemClassName}`"
+        :class="scrollItemClassName"
         :data-cy="`collection-index-${index}`">
         <CollectionCard :is-loading="isLoading" :collection="collection" />
       </div>
-    </div>
+    </DynamicGrid>
     <EmptyResult v-if="total === 0" />
     <ScrollTopButton />
   </div>
@@ -31,8 +34,8 @@ import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import { getDenyList } from '~/utils/prefix'
 import shouldUpdate from '@/utils/shouldUpdate'
-import EmptyResult from '@/components/common/EmptyResult.vue'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
+import DynamicGrid from '@/components/shared/DynamicGrid'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -54,8 +57,6 @@ const searchQuery = ref<SearchQuery>({
       : route.query?.sort,
   listed: route.query?.listed?.toString() === 'true',
 })
-
-const classLayout = computed(() => $store.getters['preferences/getLayoutClass'])
 
 const resetPage = useDebounceFn(() => {
   gotoPage(1)
