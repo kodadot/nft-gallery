@@ -93,8 +93,8 @@ const range =
           fromDecimals(Number(route.query?.max), decimals.value) || undefined,
       })
     : ref({
-        min: fromDecimals(Number(exploreFiltersStore.getMin), decimals.value),
-        max: fromDecimals(Number(exploreFiltersStore.getMax), decimals.value),
+        min: fromDecimals(Number(exploreFiltersStore.min), decimals.value),
+        max: fromDecimals(Number(exploreFiltersStore.max), decimals.value),
       })
 
 const emit = defineEmits(['resetPage'])

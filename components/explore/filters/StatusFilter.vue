@@ -55,7 +55,7 @@ const listed =
         set: (value) => applyToUrl({ listed: String(value) }),
       })
     : computed({
-        get: () => exploreFiltersStore.getListed,
+        get: () => exploreFiltersStore.listed,
         set: (value) => exploreFiltersStore.setListed(value),
       })
 
@@ -66,7 +66,7 @@ const owned =
         set: (value) => applyToUrl({ owned: String(value) }),
       })
     : computed({
-        get: () => exploreFiltersStore.getOwned,
+        get: () => exploreFiltersStore.owned,
         set: (value) => exploreFiltersStore.setOwned(value),
       })
 
