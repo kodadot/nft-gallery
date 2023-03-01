@@ -1,4 +1,9 @@
-import { useDebounceFn } from '@vueuse/core'
+import {
+  useDebounceFn,
+  useInfiniteScroll,
+  useResizeObserver,
+  useScroll,
+} from '@vueuse/core'
 
 export const INFINITE_SCROLL_CONTAINER_ID = 'infinite-scroll-container'
 export const INFINITE_SCROLL_ITEM_CLASS_NAME = 'infinite-scroll-item'
@@ -35,22 +40,24 @@ export default function ({
   const prefetchDistance = ref(1600)
   const isFetchingData = ref(false)
 
+  const containerRef = ref<Window>(window)
+
+  useInfiniteScroll(
+    containerRef,
+    () => {
+      if (canLoadNextPage && total.value > 0) {
+        reachBottomHandler()
+      }
+    },
+    { distance: prefetchDistance.value }
+  )
+
   const scrollContainerId = ref(
     defaultScrollContainerId ?? INFINITE_SCROLL_CONTAINER_ID
   )
   const scrollItemClassName = ref(
     defaultScrollItemClassName ?? INFINITE_SCROLL_ITEM_CLASS_NAME
   )
-
-  onMounted(() => {
-    window.addEventListener('resize', onResize)
-    window.addEventListener('scroll', onScroll)
-  })
-
-  onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize)
-    window.removeEventListener('scroll', onScroll)
-  })
 
   const canLoadNextPage = computed(
     () => endPage.value < Math.ceil(total.value / first.value)
@@ -68,20 +75,6 @@ export default function ({
       replaceUrlPage(String(page))
       currentPage.value = page
     }
-  }
-
-  const onScroll = useDebounceFn(updateCurrentPage, 1000)
-
-  const replaceUrlPage = (page: string) => {
-    if (page === route.query.page) {
-      return
-    }
-    router
-      .replace({
-        path: String(route.path),
-        query: { ...route.query, page },
-      })
-      .catch($consola.warn)
   }
 
   const onResize = useDebounceFn(() => {
@@ -103,9 +96,23 @@ export default function ({
     }
   }, 1000)
 
-  const reachTopHandler = useDebounceFn(async ($state): Promise<void> => {
-    await fetchPreviousPage()
-    $state.loaded()
+  useScroll(window, { onScroll: updateCurrentPage, throttle: 1000 })
+  useResizeObserver(document.body, onResize)
+
+  const replaceUrlPage = (page: string) => {
+    if (page === route.query.page) {
+      return
+    }
+    router
+      .replace({
+        path: String(route.path),
+        query: { ...route.query, page },
+      })
+      .catch($consola.warn)
+  }
+
+  const reachTopHandler = useDebounceFn(() => {
+    fetchPreviousPage()
   }, 1000)
 
   const fetchDataCallback = async (
@@ -132,9 +139,8 @@ export default function ({
     })
   }
 
-  const reachBottomHandler = useDebounceFn(async ($state): Promise<void> => {
-    await fetchNextPage()
-    $state?.loaded()
+  const reachBottomHandler = useDebounceFn(() => {
+    fetchNextPage()
   }, 1000)
 
   const fetchNextPage = async () => {
@@ -153,13 +159,6 @@ export default function ({
     updateCurrentPage()
     if (endPage.value - currentPage.value <= 3 && canLoadNextPage.value) {
       await fetchNextPage()
-    }
-  }
-
-  const prefetchPage = async (prefetchCount = 3, fetchFn: () => void) => {
-    if (prefetchCount > 0) {
-      await fetchFn()
-      prefetchPage(prefetchCount - 1, fetchFn)
     }
   }
 
@@ -183,14 +182,18 @@ export default function ({
   }
 
   return {
-    prefetchPage,
     prefetchDistance,
     isFetchingData,
+    fetchPreviousPage,
     reachBottomHandler,
     reachTopHandler,
     canLoadNextPage,
+    first,
+    total,
     startPage,
     currentPage,
     endPage,
+    scrollItemClassName,
+    scrollContainerId,
   }
 }
