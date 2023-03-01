@@ -19,6 +19,7 @@ export const state = (): {
   replaceBuyNowWithYolo: boolean
   enableAllArtwork: boolean
   enableGyroEffect: boolean
+  gridSize: 'small' | 'large'
   // Minting
   hasSupport: boolean
   hasCarbonOffset: boolean
@@ -45,6 +46,7 @@ export const state = (): {
   arweaveUpload: false,
   enableAllArtwork: true,
   enableGyroEffect: false,
+  gridSize: 'small',
 })
 
 export type PreferencesState = ReturnType<typeof state>
@@ -71,6 +73,7 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getArweaveUpload: ({ arweaveUpload }) => arweaveUpload,
   getLoadAllArtwork: ({ enableAllArtwork }) => enableAllArtwork,
   getEnableGyroEffect: ({ enableGyroEffect }) => enableGyroEffect,
+  getGridSize: ({ gridSize }) => gridSize,
 }
 
 export const mutations: MutationTree<PreferencesState> = {
@@ -145,6 +148,9 @@ export const mutations: MutationTree<PreferencesState> = {
   SET_ENABLE_GYRO_EFFECT(state: PreferencesState, data) {
     state.enableGyroEffect = data
   },
+  SET_GRID_SIZE(state: PreferencesState, data) {
+    state.gridSize = data
+  },
 }
 
 export const actions: ActionTree<PreferencesState, PreferencesState> = {
@@ -204,5 +210,8 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   },
   setEnableGyroEffect({ commit }: { commit: Commit }, data) {
     commit('SET_ENABLE_GYRO_EFFECT', data)
+  },
+  setGridSize({ commit }: { commit: Commit }, data) {
+    commit('SET_GRID_SIZE', data)
   },
 }
