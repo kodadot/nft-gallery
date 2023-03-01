@@ -7,16 +7,11 @@
     </div>
 
     <hr />
-    <div
-      class="columns is-multiline is-align-content-flex-start"
-      style="min-height: 100vh">
-      <div
-        v-for="(nft, index) in nfts"
-        :key="`${nft.id}=${index}`"
-        class="column is-3">
+    <DynamicGrid>
+      <div v-for="(nft, index) in nfts" :key="`${nft.id}=${index}`">
         <ItemsGridImage :nft="nft" />
       </div>
-    </div>
+    </DynamicGrid>
     <div ref="reachBottom">bottom</div>
   </div>
 </template>
@@ -25,6 +20,7 @@
 import { useIntersectionObserver } from '@vueuse/core'
 import BreadcrumbsFilter from '@/components/shared/gallery/BreadcrumbsFilter.vue'
 
+import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 

@@ -37,9 +37,8 @@
           :to="{
             path: `/${urlPrefix}/explore/collectibles`,
             query: { ...$route.query },
-          }"
-          @click.native="$emit('close')">
-          <div :class="loadMoreItemClassName">
+          }">
+          <div :class="loadMoreItemClassName" @click="seeAllButtonHandler">
             {{ $t('search.seeAll') }}
             <svg
               class="ml-1"
@@ -91,11 +90,10 @@
         <nuxt-link
           class="search-footer-link"
           :to="{
-            path: 'explore/items',
+            path: `/${urlPrefix}/explore/items`,
             query: { ...$route.query },
-          }"
-          @click.native="$emit('close')">
-          <div :class="loadMoreItemClassName">
+          }">
+          <div :class="loadMoreItemClassName" @click="seeAllButtonHandler">
             {{ $t('search.seeAll') }} <span class="info-arrow">--></span>
           </div>
         </nuxt-link>
@@ -299,6 +297,20 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     }
   }
 
+  public updateSearchUrl() {
+    if (this.name) {
+      this.$router
+        .replace({
+          path: String(this.$route.path),
+          query: {
+            page: '1',
+            search: this.name,
+          },
+        })
+        .catch(this.$consola.warn)
+    }
+  }
+
   public async fetchSuggestions() {
     if (this.showDefaultSuggestions) {
       try {
@@ -334,6 +346,11 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
         this.$consola.warn(e, 'Error while fetching default suggestions')
       }
     }
+  }
+
+  seeAllButtonHandler() {
+    this.$emit('close')
+    this.updateSearchUrl()
   }
 
   nativeSearch() {
@@ -396,7 +413,6 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
 
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
-
     if (this.query.search) {
       params.push({ name_containsInsensitive: this.query.search })
     }
