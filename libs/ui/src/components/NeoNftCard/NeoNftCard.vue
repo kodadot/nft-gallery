@@ -17,24 +17,24 @@
           nft.name || '--'
         }}</span>
 
-        <span class="is-ellipsis">
-          <CollectionDetailsPopover
-            :show-delay="collectionPopoverShowDelay"
-            :nft="nft">
-            <template #trigger>
-              <nuxt-link
-                v-if="
-                  variant !== 'minimal' &&
-                  (nft.collection.name || nft.collection.id)
-                "
-                :title="nft.collectionName || nft.collection.name"
-                :to="`/${prefix}/collection/${nft.collection.id}`"
-                class="is-size-7 nft-info-collection-name">
-                {{ nft.collection.name || '--' }}
-              </nuxt-link>
-            </template>
-          </CollectionDetailsPopover>
-        </span>
+        <CollectionDetailsPopover
+          :show-delay="collectionPopoverShowDelay"
+          :nft="nft"
+          class="is-ellipsis"
+        >
+          <template #trigger>
+            <nuxt-link
+              v-if="
+                variant !== 'minimal' &&
+                (nft.collection.name || nft.collection.id)
+              "
+              :title="nft.collectionName || nft.collection.name"
+              :to="`/${prefix}/collection/${nft.collection.id}`"
+              class="is-size-7 nft-info-collection-name">
+              {{ nft.collection.name || '--' }}
+            </nuxt-link>
+          </template>
+        </CollectionDetailsPopover>
       </div>
 
       <div
