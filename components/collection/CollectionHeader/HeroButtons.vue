@@ -1,11 +1,25 @@
 <template>
   <div>
     <div class="is-flex is-justify-content-flex-start is-align-items-end px-2">
-      <NeoButton icon="twitter" icon-pack="fab" class="square-32 mr-3" />
-      <NeoButton icon="instagram" icon-pack="fab" class="square-32 mr-3" />
-      <NeoButton icon="discord" icon-pack="fab" class="square-32" />
+      <div class="is-hidden-mobile">
+        <NeoButton icon="twitter" icon-pack="fab" class="square-32 mr-3" />
+        <NeoButton icon="instagram" icon-pack="fab" class="square-32 mr-3" />
+        <NeoButton icon="discord" icon-pack="fab" class="square-32" />
+      </div>
+      <div class="vertical-seperator mx-4 is-hidden-mobile" />
 
-      <div class="vertical-seperator mx-4" />
+      <NeoDropdown
+        append-to-body
+        class="is-hidden-tablet"
+        position="bottom-left">
+        <NeoButton icon="arrow-up-right-from-square" class="square-32 mr-3" />
+        <!-- Temporary until there will be a design -->
+        <template #items>
+          <NeoDropdownItem item="twitter" />
+          <NeoDropdownItem item="instagram" />
+          <NeoDropdownItem item="discord" />
+        </template>
+      </NeoDropdown>
 
       <NeoDropdown append-to-body>
         <NeoButton icon="share-alt" class="square-32 mr-3" />
