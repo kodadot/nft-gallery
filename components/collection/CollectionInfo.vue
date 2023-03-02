@@ -8,7 +8,7 @@
           <IdentityIndex ref="identity" :address="address" />
         </nuxt-link>
       </div>
-      <div>
+      <div class="overflow-wrap">
         {{ collectionInfo?.meta.description }}
       </div>
     </div>
@@ -101,6 +101,9 @@ const representation = (value: number | undefined): string => {
 
   .max-width {
     max-width: 100%;
+  }
+  .overflow-wrap {
+    overflow-wrap: break-word;
   }
 }
 </style>
