@@ -12,12 +12,11 @@
       @active-change="isActive = $event">
       <template #trigger>
         <NeoButton
-          type="button"
-          :icon="isActive ? 'caret-up' : 'caret-down'"
+          data-cy="explore-sort"
           class="has-text-left"
-          data-cy="explore-sort">
-          Sort By
-        </NeoButton>
+          :label="label"
+          :icon="icon" />
+
         <div
           v-if="selectedSort.length"
           class="sort-count is-flex is-justify-content-center is-align-items-center">
@@ -47,6 +46,7 @@
 <script setup lang="ts">
 import { ODropdown } from '@oruga-ui/oruga'
 import { NeoButton, NeoDropdownItem } from '@kodadot1/brick'
+import { isMobileDevice } from '@/utils/extension'
 
 import {
   NFT_SQUID_SORT_COLLECTIONS,
@@ -64,6 +64,8 @@ const options = computed(() => {
     ? NFT_SQUID_SORT_CONDITION_LIST
     : NFT_SQUID_SORT_COLLECTIONS
 })
+const label = computed(() => (isMobileDevice ? '' : 'Sort By'))
+const icon = computed(() => (isMobileDevice ? 'filter' : ''))
 
 function selectiveSort(options: string[]) {
   const uniqueOptions = {}

@@ -2,6 +2,7 @@
   <div class="explore is-flex is-flex-wrap-wrap">
     <ExploreTabItem />
     <div class="explore-menu is-flex">
+      <ExploreSidebarToggle v-if="isMobileDevice" />
       <ExploreSort />
       <ExploreOffer />
       <ExploreChain v-if="!route.name?.includes('prefix-collection-id')" />
@@ -16,6 +17,8 @@ import ExploreSort from './ExploreSort.vue'
 import ExploreChain from './ExploreChain.vue'
 import ExploreGrid from './ExploreGrid.vue'
 import ExploreOffer from './ExploreOffer.vue'
+import { isMobileDevice } from '@/utils/extension'
+import ExploreSidebarToggle from './ExploreSidebarToggle.vue'
 
 const route = useRoute()
 </script>

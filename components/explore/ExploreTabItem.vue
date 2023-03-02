@@ -1,22 +1,6 @@
 <template>
   <div class="field has-addons is-flex is-align-items-center" data-cy="tabs">
-    <div class="mr-4">
-      <a
-        class="is-hidden-mobile"
-        :class="{ disabled: disabledTab }"
-        @click="toggleSidebarFilters">
-        <b-icon
-          :icon="isSidebarFiltersOpen && !disabledTab ? 'times' : 'bars'"
-          size="is-medium" />
-      </a>
-      <a
-        class="is-hidden-tablet"
-        :class="{ disabled: disabledTab }"
-        @click="openMobileFilters">
-        <b-icon :icon="'bars'" size="is-medium" />
-      </a>
-    </div>
-
+    <ExploreSidebarToggle v-if="!isMobileDevice" class="mr-4" />
     <TabOnCollection v-if="route.name?.includes('prefix-collection-id')" />
     <TabOnExplore v-else />
   </div>
@@ -25,29 +9,10 @@
 <script setup lang="ts">
 import TabOnExplore from './tab/TabOnExplore.vue'
 import TabOnCollection from './tab/TabOnCollection.vue'
+import ExploreSidebarToggle from './ExploreSidebarToggle.vue'
+import { isMobileDevice } from '@/utils/extension'
 
 const route = useRoute()
-const { $store } = useNuxtApp()
-
-const disabledTab = computed(() => {
-  const allowedList = ['prefix-explore-items', 'prefix-collection-id']
-
-  return !allowedList.includes(route.name || '')
-})
-
-const isSidebarFiltersOpen = computed(
-  () => $store.getters['preferences/getsidebarFilterCollapse']
-)
-
-const toggleSidebarFilters = () => {
-  $store.dispatch(
-    'preferences/setSidebarFilterCollapse',
-    !isSidebarFiltersOpen.value
-  )
-}
-const openMobileFilters = () => {
-  $store.dispatch('preferences/setMobileFilterCollapse', true)
-}
 </script>
 
 <style lang="scss" scoped>

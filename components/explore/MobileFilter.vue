@@ -9,7 +9,7 @@
     <div class="is-flex is-flex-direction-column is-fullheight is-fullwidth">
       <div class="is-flex-grow-1">
         <div class="is-flex border-bottom">
-          <p class="card-header-title has-text-weight-normal">
+          <p class="card-header-title has-text-weight-bold">
             {{ $t('general.filters') }}
           </p>
           <a class="card-header-icon">
@@ -28,7 +28,7 @@
         <NeoButton
           label="Reset All"
           variant="primary"
-          class="is-fullwidth mw-9 h-3_5"
+          class="is-fullwidth mw-9 h-3_5 no-shadow"
           @click.native="resetFilters">
           {{ $t('general.resetAll') }}
         </NeoButton>
