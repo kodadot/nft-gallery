@@ -9,11 +9,11 @@ import { useResizeObserver } from '@vueuse/core'
 
 const props = withDefaults(
   defineProps<{
-    defaultWidth: {
+    defaultWidth?: {
       small: number
       large: number
     }
-    mobileVariant: boolean
+    mobileVariant?: boolean
   }>(),
   {
     defaultWidth: () => ({
