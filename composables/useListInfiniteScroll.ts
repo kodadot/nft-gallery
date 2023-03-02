@@ -23,7 +23,7 @@ export default function ({
   gotoPage: (page: number) => void
   fetchPageData: (
     page: number,
-    loadDirection: LoadDirection
+    loadDirection?: LoadDirection
   ) => Promise<boolean>
 }) {
   const route = useRoute()
@@ -184,6 +184,7 @@ export default function ({
     isFetchingData,
     fetchPreviousPage,
     reachTopHandler,
+    prefetchNextPage,
     first,
     total,
     startPage,

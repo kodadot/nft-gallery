@@ -35,11 +35,6 @@ import collectionListWithSearch from '@/queries/subsquid/general/collectionListW
 import { getDenyList } from '~/utils/prefix'
 import shouldUpdate from '@/utils/shouldUpdate'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
-import DynamicGrid from '@/components/shared/DynamicGrid'
-
-interface Image extends HTMLImageElement {
-  ffInitialized: boolean
-}
 
 const { urlPrefix, client } = usePrefix()
 const { $store, $apollo } = useNuxtApp()
