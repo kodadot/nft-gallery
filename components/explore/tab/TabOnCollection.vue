@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex field has-addons">
+  <div class="is-flex field has-addons mobile-expand">
     <TabItem
       :active="route.name === 'prefix-collection-id'"
       :text="`${$t('items')}`"
@@ -19,3 +19,13 @@ const route = useRoute()
 const toItem = `/${route.params.prefix}/collection/${route.params.id}?redesign=true`
 const toActivity = `/${route.params.prefix}/collection/${route.params.id}/activity`
 </script>
+
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
+@include mobile {
+  .mobile-expand {
+    width: 100%;
+  }
+}
+</style>
