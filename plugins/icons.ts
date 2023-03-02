@@ -10,6 +10,7 @@ import {
   faAngleLeft,
   faAngleRight,
   faArrowUp,
+  faArrowUpRightFromSquare,
   faArrowsAlt,
   faBars,
   faBookOpen,
@@ -82,6 +83,8 @@ import {
   faShareSquare,
   faShop,
   faSignOutAlt,
+  faSort,
+  faSquareArrowUpRight,
   faSync,
   faTable,
   faTag,
@@ -123,6 +126,9 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
+  faSort,
+  faArrowUpRightFromSquare,
+  faSquareArrowUpRight,
   faBars,
   faBookOpen,
   faPaperPlane,
