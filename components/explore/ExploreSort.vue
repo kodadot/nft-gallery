@@ -4,7 +4,6 @@
       v-model="selectedSort"
       class="sort"
       :append-to-body="true"
-      position="bottom-right"
       :multiple="true"
       :close-on-click="false"
       :mobile-modal="false"
@@ -13,10 +12,16 @@
       <NeoButton
         type="button"
         :icon="isActive ? 'caret-up' : 'caret-down'"
-        class="has-text-left"
+        class="has-text-left is-hidden-touch"
         data-cy="explore-sort">
         Sort By
       </NeoButton>
+      <NeoButton
+        type="button"
+        icon="sort"
+        class="is-hidden-desktop"
+        data-cy="explore-sort" />
+
       <div
         v-if="selectedSort.length"
         class="sort-count is-flex is-justify-content-center is-align-items-center">
