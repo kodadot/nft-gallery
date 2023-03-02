@@ -113,6 +113,11 @@ export default defineNuxtConfig({
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@600;700&display=swap',
       },
+      {
+        rel: 'stylesheet',
+        href: 'https://kit.fontawesome.com/54f29b7997.css',
+        crossorigin: 'anonymous',
+      },
     ],
   },
 
@@ -123,12 +128,7 @@ export default defineNuxtConfig({
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    'styles/index.scss',
-    '~/assets/fontawesome-pro-6.3.0-web/css/fontawesome.css',
-    '~/assets/fontawesome-pro-6.3.0-web/css/brands.css',
-    '~/assets/fontawesome-pro-6.3.0-web/css/sharp-regular.css',
-  ],
+  css: ['styles/index.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
