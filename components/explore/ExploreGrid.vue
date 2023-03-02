@@ -5,13 +5,13 @@
         <NeoButton
           icon-left="th-large"
           :active="gridLayoutSize === smallGridLayout"
-          @click.native="changeGridLayout(smallGridLayout)" />
+          @click.native="changeGridLayout(smallGridLayout, 'large')" />
       </p>
       <p class="control">
         <NeoButton
           icon-left="th"
           :active="gridLayoutSize === largeGridLayout"
-          @click.native="changeGridLayout(largeGridLayout)" />
+          @click.native="changeGridLayout(largeGridLayout, 'small')" />
       </p>
     </b-field>
   </div>
@@ -30,7 +30,8 @@ const largeGridLayout = ref(
   'is-one-quarter-desktop is-one-third-tablet is-half-mobile'
 )
 
-const changeGridLayout = (layout: string) => {
+const changeGridLayout = (layout: string, grid: string) => {
   $store.dispatch('preferences/setGalleryLayoutClass', layout)
+  $store.dispatch('preferences/setGridSize', grid)
 }
 </script>
