@@ -17,7 +17,7 @@
   .media-object {
     @include ktheme() {
       box-shadow: theme('primary-shadow');
-      border: 1px solid theme('border-color'); 
+      border: 1px solid theme('border-color');
     }
   }
 
@@ -36,5 +36,12 @@
       color: theme('k-shade');
     }
   }
+
+  a {
+    @include ktheme() {
+      color: theme('k-blue') !important;
+    }
+  }
+
   word-break: 'break-word';
 }
