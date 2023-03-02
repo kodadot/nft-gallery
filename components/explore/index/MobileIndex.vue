@@ -1,6 +1,6 @@
 <template>
   <div class="explore is-flex is-flex-wrap-wrap">
-    <ExploreTabItem />
+    <ExploreTabs />
     <div class="explore-menu is-flex">
       <FilterMenuButton />
       <ExploreOffer class="is-flex-grow-1" />
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import ExploreTabItem from '../ExploreTabItem.vue'
+import ExploreTabs from '../ExploreTabs.vue'
 import ExploreSort from '../ExploreSort.vue'
 import ExploreChain from '../ExploreChain.vue'
 import ExploreOffer from '../ExploreOffer.vue'
