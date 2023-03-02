@@ -19,7 +19,8 @@
 
         <CollectionDetailsPopover
           :show-delay="collectionPopoverShowDelay"
-          :nft="nft">
+          :nft="nft"
+          class="is-ellipsis">
           <template #trigger>
             <nuxt-link
               v-if="
@@ -36,7 +37,7 @@
       </div>
 
       <div
-        class="is-flex is-align-items-center mt-2"
+        class="is-flex is-align-items-center mt-2 is-ellipsis nft-media-info-footer"
         :class="[
           showPrice
             ? 'is-justify-content-space-between'
