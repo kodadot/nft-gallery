@@ -61,7 +61,7 @@
       <b-navbar-item
         v-if="chain === 'bsx' && accountId"
         data-cy="waifu"
-        :to="`/${urlPrefix}/create`"
+        :to="`/${urlPrefix}/waifu`"
         tag="nuxt-link">
         {{ $t('waifu') }}
       </b-navbar-item>
