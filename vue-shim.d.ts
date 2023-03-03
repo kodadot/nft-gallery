@@ -6,7 +6,7 @@ declare module '*.vue' {
 import { ApolloClientMethods } from 'vue-apollo/types/vue-apollo'
 import { BuefyNamespace } from 'buefy'
 import consola from 'consola'
-import { IVueI18n } from 'vue-i18n'
+import IVueI18n from 'vue-i18n'
 
 declare module '#app' {
   interface NuxtAppCompat {
