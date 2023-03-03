@@ -1,6 +1,6 @@
 <template>
   <div class="field has-addons is-flex is-align-items-center" data-cy="tabs">
-    <ExploreSidebarToggle v-if="!isMobileDevice" class="mr-4" />
+    <ExploreSidebarToggle class="mr-4 is-hidden-mobile" />
     <TabOnCollection v-if="route.name?.includes('prefix-collection-id')" />
     <TabOnExplore v-else />
   </div>
@@ -10,7 +10,6 @@
 import TabOnExplore from './tab/TabOnExplore.vue'
 import TabOnCollection from './tab/TabOnCollection.vue'
 import ExploreSidebarToggle from './ExploreSidebarToggle.vue'
-import { isMobileDevice } from '@/utils/extension'
 
 const route = useRoute()
 </script>

@@ -28,7 +28,7 @@
         <NeoButton
           label="Reset All"
           variant="primary"
-          class="is-fullwidth mw-9 h-3_5 no-shadow"
+          class="is-fullwidth mw-9 h-3_5 is-shadowless"
           @click.native="resetFilters">
           {{ $t('general.resetAll') }}
         </NeoButton>
