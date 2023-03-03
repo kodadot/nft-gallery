@@ -1,6 +1,6 @@
 <template>
   <div class="explore is-flex is-flex-wrap-wrap">
-    <ExploreTabItem />
+    <ExploreTabs />
     <div class="explore-menu is-flex">
       <ExploreSidebarToggle class="is-hidden-tablet" />
       <ExploreSort />
@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import ExploreTabItem from './ExploreTabItem.vue'
+import ExploreTabs from './ExploreTabs.vue'
 import ExploreSort from './ExploreSort.vue'
 import ExploreChain from './ExploreChain.vue'
 import ExploreGrid from './ExploreGrid.vue'
