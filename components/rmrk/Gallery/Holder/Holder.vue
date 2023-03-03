@@ -128,11 +128,7 @@
               <td
                 v-show="columnsVisible['Name'].display"
                 class="short-name-column">
-                <nuxt-link
-                  :to="{
-                    name: `${urlPrefix}-gallery-id`,
-                    params: { id: item.Item.id },
-                  }">
+                <nuxt-link :to="`/${urlPrefix}/gallery/${item.Item.id}`">
                   {{ item.Item.name || item.Item.id }}
                 </nuxt-link>
               </td>
