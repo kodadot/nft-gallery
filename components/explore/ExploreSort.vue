@@ -12,14 +12,14 @@
       <NeoButton
         type="button"
         :icon="isActive ? 'caret-up' : 'caret-down'"
-        class="has-text-left is-hidden-touch"
+        class="has-text-left is-hidden-mobile"
         data-cy="explore-sort">
         Sort By
       </NeoButton>
       <NeoButton
         type="button"
         icon="sort"
-        class="is-hidden-desktop"
+        class="is-hidden-tablet"
         data-cy="explore-sort" />
 
       <div

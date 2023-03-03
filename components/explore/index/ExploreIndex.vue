@@ -1,7 +1,7 @@
 <template>
   <div>
-    <MobileIndex class="is-hidden-dektop" />
-    <DesktopIndex class="is-hidden-touch" />
+    <MobileIndex class="is-hidden-tablet" />
+    <DesktopIndex class="is-hidden-mobile" />
   </div>
 </template>
 
