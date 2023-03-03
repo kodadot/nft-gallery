@@ -7,12 +7,10 @@
     </div>
 
     <hr />
-    <a
+
+    <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
-      class="is-flex is-justify-content-center pb-4"
-      @click="reachTopHandler">
-      <b-icon icon="chevron-up" />
-    </a>
+      @click="reachTopHandler" />
     <DynamicGrid :class="scrollContainerId">
       <div
         v-for="(nft, index) in nfts"

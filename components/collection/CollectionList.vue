@@ -4,12 +4,10 @@
       <div v-show="total">{{ total }} {{ $t('items') }}</div>
     </div>
     <hr class="mt-0" />
-    <a
+
+    <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
-      class="is-flex is-justify-content-center pb-4"
-      @click="reachTopHandler">
-      <b-icon icon="chevron-up" />
-    </a>
+      @click="reachTopHandler" />
     <DynamicGrid
       :id="scrollContainerId"
       :default-width="{ small: 16 * 20, large: 16 * 25 }"
