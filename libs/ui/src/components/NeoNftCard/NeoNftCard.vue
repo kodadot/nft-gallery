@@ -20,8 +20,7 @@
         <CollectionDetailsPopover
           :show-delay="collectionPopoverShowDelay"
           :nft="nft"
-          class="is-ellipsis"
-        >
+          class="is-ellipsis">
           <template #trigger>
             <nuxt-link
               v-if="
