@@ -240,7 +240,7 @@ Vue.component('VueFontawesome', FontAwesomeIcon).use(Neo, {
     'fa-sharp': {
       iconPrefix: 'fa-',
       sizes: {
-        default: 'fw',
+        default: 'fw fa-regular',
       },
     },
   },
