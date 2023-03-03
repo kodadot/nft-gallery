@@ -1,12 +1,13 @@
 <template>
-  <b-modal
-    v-if="isMobile"
-    :active="open"
-    :on-cancel="onClose"
+  <b-sidebar
+    fullheight
+    fullwidth
+    overlay
+    :open="open"
     :can-cancel="['escape']"
-    class="top no-border"
-    full-screen>
-    <div class="is-flex is-flex-direction-column is-fullheight is-fullwidth">
+    :on-cancel="onClose"
+    class="top is-absolute">
+    <div class="is-flex is-flex-direction-column is-fullheight">
       <div class="is-flex-grow-1">
         <div class="is-flex border-bottom">
           <p class="card-header-title has-text-weight-normal">
@@ -40,7 +41,7 @@
         </NeoButton>
       </div>
     </div>
-  </b-modal>
+  </b-sidebar>
 </template>
 
 <script lang="ts" setup>
@@ -133,6 +134,9 @@ watch(() => route.query, syncFromUrl)
 .is-fullheight {
   height: 100%;
 }
+.is-absolute {
+  position: absolute;
+}
 .buttons-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -169,7 +173,7 @@ watch(() => route.query, syncFromUrl)
   }
 }
 
-.modal-content {
+.sidebar-content {
   @include ktheme() {
     background-color: theme('background-color') !important;
   }
