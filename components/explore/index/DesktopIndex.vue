@@ -6,7 +6,7 @@
       <ExploreSort />
       <ExploreOffer class="is-flex-grow-1" />
       <ExploreChain v-if="!route.name?.includes('prefix-collection-id')" />
-      <ExploreGrid />
+      <ExploreGrid class="is-hidden-touch" />
     </div>
   </div>
 </template>
