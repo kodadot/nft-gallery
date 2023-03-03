@@ -9,18 +9,19 @@
       :distance="prefetchDistance"
       direction="top"
       @infinite="reachTopHandler" />
-    <div
+    <DynamicGrid
       :id="scrollContainerId"
-      class="columns is-multiline"
+      :default-width="{ small: 16 * 20, large: 16 * 25 }"
+      :mobile-variant="false"
       @scroll="onScroll">
       <div
         v-for="(collection, index) in results"
         :key="collection.id"
-        :class="`column ${classLayout} ${scrollItemClassName}`"
+        :class="scrollItemClassName"
         :data-cy="`collection-index-${index}`">
         <CollectionCard :is-loading="isLoading" :collection="collection" />
       </div>
-    </div>
+    </DynamicGrid>
     <InfiniteLoading
       v-if="canLoadNextPage && !isLoading && total > 0"
       :distance="prefetchDistance"
@@ -61,6 +62,7 @@ const components = {
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
   CollectionCard: () => import('@/components/collection/CollectionCard.vue'),
   EmptyResult: () => import('@/components/common/EmptyResult.vue'),
+  DynamicGrid: () => import('@/components/shared/DynamicGrid.vue'),
 }
 
 @Component<CollectionList>({
@@ -92,10 +94,6 @@ export default class CollectionList extends mixins(
 
   get currentValue() {
     return this.currentPage
-  }
-
-  get classLayout() {
-    return this.$store.getters['preferences/getLayoutClass']
   }
 
   @Debounce(500)
