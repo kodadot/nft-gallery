@@ -113,9 +113,10 @@ export default defineNuxtConfig({
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@600;700&display=swap',
       },
+    ],
+    script: [
       {
-        rel: 'stylesheet',
-        href: 'https://kit.fontawesome.com/54f29b7997.css',
+        src: 'https://kit.fontawesome.com/54f29b7997.js',
         crossorigin: 'anonymous',
       },
     ],
