@@ -40,6 +40,9 @@
   a {
     @include ktheme() {
       color: theme('k-blue') !important;
+      &:hover {
+        color: theme('k-blue-hover')  !important;
+      }
     }
   }
 
