@@ -157,7 +157,7 @@ const checkBuyBeforeSubmit = async () => {
       $i18n.t('nft.notification.nftChanged', {
         chain: urlPrefix.value.toUpperCase(),
         action: actionLabel,
-      }) as string,
+      }),
       notificationTypes.warn
     )
     return false
@@ -169,7 +169,7 @@ const handleBuy = async () => {
   const { item: itemId } = tokenIdToRoute(props.nftId)
 
   showNotification(
-    $i18n.t('nft.notification.info', { itemId, action: actionLabel }) as string
+    $i18n.t('nft.notification.info', { itemId, action: actionLabel })
   )
 
   if (urlPrefix.value === 'rmrk' && !(await checkBuyBeforeSubmit())) {
@@ -184,8 +184,8 @@ const handleBuy = async () => {
       nftId: $route.params.id,
       tokenId: $route.params.id,
       urlPrefix: urlPrefix.value,
-      successMessage: $i18n.t('mint.successNewNfts') as string,
-      errorMessage: $i18n.t('transaction.buy.error') as string,
+      successMessage: $i18n.t('mint.successNewNfts'),
+      errorMessage: $i18n.t('transaction.buy.error'),
     })
   } catch (error) {
     dangerMessage(error)
