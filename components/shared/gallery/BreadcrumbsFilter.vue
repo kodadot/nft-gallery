@@ -34,7 +34,8 @@ const breads = computed(() => {
 
   const activeFilters = Object.entries(query).filter(
     ([key, value]) =>
-      (key === 'search' && value !== undefined) || value === 'true'
+      (key === 'search' && value !== undefined && value !== '') ||
+      value === 'true'
   )
   return Object.fromEntries(activeFilters)
 })
