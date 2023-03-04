@@ -13,9 +13,12 @@
       <template #trigger>
         <NeoButton
           data-cy="explore-sort"
-          class="has-text-left"
-          :label="label"
-          :icon="icon" />
+          class="has-text-left is-hidden-mobile"
+          label="Sort By" />
+        <NeoButton
+          data-cy="explore-sort"
+          class="has-text-left is-hidden-tablet"
+          icon="filter" />
 
         <div
           v-if="selectedSort.length"
@@ -46,7 +49,6 @@
 <script setup lang="ts">
 import { ODropdown } from '@oruga-ui/oruga'
 import { NeoButton, NeoDropdownItem } from '@kodadot1/brick'
-import { isMobileDevice } from '@/utils/extension'
 
 import {
   NFT_SQUID_SORT_COLLECTIONS,
@@ -64,8 +66,6 @@ const options = computed(() => {
     ? NFT_SQUID_SORT_CONDITION_LIST
     : NFT_SQUID_SORT_COLLECTIONS
 })
-const label = computed(() => (isMobileDevice ? '' : 'Sort By'))
-const icon = computed(() => (isMobileDevice ? 'filter' : ''))
 
 function selectiveSort(options: string[]) {
   const uniqueOptions = {}
