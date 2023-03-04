@@ -5,7 +5,7 @@
       tag="nuxt-link"
       :active="active"
       :to="to"
-      icon="check">
+      :icon="active ? 'check' : ''">
       <span> {{ text }}</span>
     </NeoButton>
   </p>
