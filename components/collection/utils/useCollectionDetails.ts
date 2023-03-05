@@ -1,6 +1,7 @@
 import { getVolume } from '@/utils/math'
 import { CollectionMetadata, NFT } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
+import config from './useCollectionDeatils.config'
 
 type Stats = {
   listedCount?: number
@@ -21,7 +22,6 @@ export type CollectionEntityMinimal = {
   currentOwner: string
   type: string
 }
-const chainsSupportingOffers = ['bsx']
 
 const differentOwner = (nft: {
   issuer: string
@@ -34,7 +34,7 @@ export const useCollectionDetails = ({ collectionId }) => {
   const { urlPrefix } = usePrefix()
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
-    queryName: chainsSupportingOffers.includes(urlPrefix.value)
+    queryName: config.chainsSupportingOffers.includes(urlPrefix.value)
       ? 'collectionStatsByIdWithOffers'
       : 'collectionStatsById',
     variables: {
@@ -53,7 +53,7 @@ export const useCollectionDetails = ({ collectionId }) => {
         data.value.stats.base.filter(differentOwner).length
 
       const maxOffer = computed(() => {
-        if (!chainsSupportingOffers.includes(urlPrefix.value)) {
+        if (!config.chainsSupportingOffers.includes(urlPrefix.value)) {
           return undefined
         }
         const offresPerNft = data.value.stats.base.map((nft) =>
