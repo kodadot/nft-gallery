@@ -6,7 +6,7 @@
     :open="open"
     :can-cancel="['escape']"
     :on-cancel="onClose"
-    class="top is-absolute">
+    class="top is-absolute background-color">
     <div class="is-flex is-flex-direction-column is-fullheight">
       <div class="is-flex-grow-1">
         <div class="is-flex border-bottom">
@@ -170,10 +170,17 @@ watch(() => route.query, syncFromUrl)
     box-shadow: none !important;
   }
 }
-
-.sidebar-content {
-  @include ktheme() {
-    background-color: theme('background-color') !important;
+.background-color {
+  .sidebar-content {
+    @include ktheme() {
+      background-color: theme('background-color');
+    }
+  }
+  .sidebar-background {
+    @include ktheme() {
+      background-color: theme('background-color');
+      opacity: 0.86;
+    }
   }
 }
 </style>
