@@ -43,7 +43,7 @@ const numOfActiveFilters = computed(() => {
       (key === 'search' && value !== undefined) || value === 'true'
   )
 
-  return activeFilters?.length || 0
+  return activeFilters.length
 })
 
 const toggleSidebarFilters = () => {
