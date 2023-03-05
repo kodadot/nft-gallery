@@ -1,8 +1,7 @@
 <template>
   <div>
     <NeoDropdown
-      v-model="selectedSort"
-      class="sort"
+      :v-model="selectedSort"
       :append-to-body="true"
       :multiple="true"
       :close-on-click="false"

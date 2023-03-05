@@ -9,7 +9,6 @@
     :class="{ 'o-drop-active': isActive }"
     :mobile-modal="mobileModal"
     :v-model="vModal"
-    v-bind="$attrs"
     @change="onChange($event)"
     @active-change="onActiveChange($event)">
     <template #trigger>
