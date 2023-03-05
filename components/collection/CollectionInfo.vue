@@ -16,12 +16,10 @@
       <div class="columns is-mobile">
         <div class="column">
           <CollectionInfoLine :title="$t('activity.network')" :value="chain" />
-          <CollectionInfoLine
-            title="Items"
-            :value="representation(stats.collectionLength)" />
+          <CollectionInfoLine title="Items" :value="stats.collectionLength" />
           <CollectionInfoLine
             :title="$t('series.owners')"
-            :value="representation(stats.uniqueOwners)" />
+            :value="stats.uniqueOwners" />
         </div>
         <div class="column">
           <CollectionInfoLine :title="$t('activity.floor')">
@@ -71,17 +69,6 @@ const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: collectionId.value,
 })
 const { stats } = useCollectionDetails({ collectionId: collectionId.value })
-
-const representation = (value: number | undefined): string => {
-  if (value == undefined) {
-    return '0'
-  }
-
-  if (value >= 1000) {
-    return (value / 1000).toFixed(2) + 'K'
-  }
-  return `${value}`
-}
 </script>
 
 <style lang="scss" scoped>
