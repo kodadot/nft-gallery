@@ -4,8 +4,10 @@
     <div class="explore-menu is-flex">
       <FilterMenuButton />
       <ExploreOffer class="is-flex-grow-1" />
+      <ExploreChain
+        v-if="!route.name?.includes('prefix-collection-id')"
+        class="flex-grow-1" />
       <ExploreSort />
-      <ExploreChain v-if="!route.name?.includes('prefix-collection-id')" />
     </div>
   </div>
 </template>
