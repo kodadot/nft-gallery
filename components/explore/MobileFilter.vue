@@ -63,8 +63,6 @@ onMounted(() => {
 
 const emit = defineEmits(['resetPage'])
 
-const isMobile = computed(() => width.value <= 768)
-
 const open = computed(
   () => $store.getters['preferences/getMobileFilterCollapse']
 )
