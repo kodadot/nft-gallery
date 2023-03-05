@@ -30,8 +30,4 @@ defineProps<{
     color: theme('black');
   }
 }
-
-.dark-mode .sort-check {
-  filter: brightness(0%);
-}
 </style>
