@@ -9,17 +9,20 @@
           :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
           size="is-medium" />
       </a>
-      <NeoButton
-        class="is-hidden-tablet"
-        :disabled="disabled"
-        icon="bars"
-        @click.native="openMobileFilters" />
+      <div class="is-hidden-tablet">
+        <NeoButton
+          :disabled="disabled"
+          icon="bars"
+          @click.native="openMobileFilters" />
+        <ActiveCount :count="numOfActiveFilters" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import ActiveCount from './ActiveCount.vue'
 const route = useRoute()
 const { $store } = useNuxtApp()
 
@@ -32,6 +35,17 @@ const disabled = computed(() => {
 const isSidebarFiltersOpen = computed(
   () => $store.getters['preferences/getsidebarFilterCollapse']
 )
+
+const numOfActiveFilters = computed(() => {
+  const query = { ...route.query, redesign: undefined }
+
+  return (
+    Object.entries(query).filter(
+      ([key, value]) =>
+        (key === 'search' && value !== undefined) || value === 'true'
+    )?.length || 0
+  )
+})
 
 const toggleSidebarFilters = () => {
   $store.dispatch(

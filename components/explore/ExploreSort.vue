@@ -22,11 +22,7 @@
         class="is-hidden-tablet"
         data-cy="explore-sort" />
 
-      <div
-        v-if="selectedSort.length"
-        class="sort-count is-flex is-justify-content-center is-align-items-center">
-        <span>{{ selectedSort.length }}</span>
-      </div>
+      <ActiveCount :count="selectedSort.length" />
       <template #items>
         <NeoDropdownItem
           v-for="option in options"
@@ -55,6 +51,7 @@ import {
   NFT_SQUID_SORT_COLLECTIONS,
   NFT_SQUID_SORT_CONDITION_LIST,
 } from '@/utils/constants'
+import ActiveCount from './ActiveCount.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -124,30 +121,3 @@ onMounted(() => {
   }
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-@import '@/styles/abstracts/theme';
-
-.sort {
-  &-count {
-    position: absolute;
-    top: -0.75rem;
-    left: -0.75rem;
-    height: 1.5rem;
-    width: 1.5rem;
-    line-height: 1.5rem;
-    text-align: center;
-
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-      background: theme('k-primary');
-      color: theme('black');
-    }
-  }
-}
-
-.dark-mode .sort-check {
-  filter: brightness(0%);
-}
-</style>
