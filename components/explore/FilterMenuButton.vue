@@ -38,13 +38,12 @@ const isSidebarFiltersOpen = computed(
 
 const numOfActiveFilters = computed(() => {
   const query = { ...route.query, redesign: undefined }
-
-  return (
-    Object.entries(query).filter(
-      ([key, value]) =>
-        (key === 'search' && value !== undefined) || value === 'true'
-    )?.length || 0
+  const activeFilters = Object.entries(query).filter(
+    ([key, value]) =>
+      (key === 'search' && value !== undefined) || value === 'true'
   )
+
+  return activeFilters?.length || 0
 })
 
 const toggleSidebarFilters = () => {
