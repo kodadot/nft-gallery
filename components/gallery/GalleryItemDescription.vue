@@ -23,18 +23,15 @@
       :disabled="propertiesTabDisabled"
       :label="$t('tabs.properties')"
       :disabled-tooltip="$t('tabs.noPropertiesForNFT')">
-      <o-table
-        v-if="nftMetadata?.attributes?.length"
-        :data="nftMetadata?.attributes"
-        hoverable>
-        <o-table-column v-slot="props" field="value" label="Trait">
-          {{ props.row.value }}
-        </o-table-column>
+      <o-table v-if="properties?.length" :data="properties" hoverable>
         <o-table-column
           v-slot="props"
           field="trait_type"
           :label="$t('tabs.tabProperties.section')">
           {{ props.row.trait_type }}
+        </o-table-column>
+        <o-table-column v-slot="props" field="value" label="Trait">
+          {{ props.row.value }}
         </o-table-column>
       </o-table>
     </DisablableTab>
@@ -107,12 +104,28 @@ const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
 const activeTab = ref('0')
 
+const properties = computed(() => {
+  // we have different format between rmrk2 and the other chains
+  if (urlPrefix.value === 'rmrk2') {
+    return Object.entries(nftMetadata.value?.properties || {}).map(
+      ([key, value]) => {
+        return {
+          trait_type: key,
+          value: (value as unknown as { value: string; type: string }).value,
+        }
+      }
+    )
+  }
+
+  return nftMetadata.value?.attributes
+})
+
 const propertiesTabDisabled = computed(() => {
   if (!nftMetadata.value) {
     return false
   }
 
-  return !nftMetadata.value.attributes?.length
+  return !properties.value?.length
 })
 
 const metadataMimeType = ref('application/json')
