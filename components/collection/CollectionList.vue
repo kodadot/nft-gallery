@@ -11,7 +11,7 @@
       @infinite="reachTopHandler" />
     <DynamicGrid
       :id="scrollContainerId"
-      :default-width="{ small: 16 * 20, large: 16 * 25 }"
+      :default-width="{ small: 16 * 15, medium: 16 * 20, large: 16 * 25 }"
       :mobile-variant="false"
       @scroll="onScroll">
       <div
