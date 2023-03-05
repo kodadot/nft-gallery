@@ -18,7 +18,7 @@
       </NeoButton>
       <NeoButton
         type="button"
-        icon="sort"
+        icon="filter"
         class="is-hidden-tablet"
         data-cy="explore-sort" />
 

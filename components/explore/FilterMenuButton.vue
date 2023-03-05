@@ -3,27 +3,27 @@
     <div>
       <a
         class="is-hidden-mobile"
-        :class="{ disabled: disabledTab }"
+        :class="{ disabled: disabled }"
         @click="toggleSidebarFilters">
         <b-icon
-          :icon="isSidebarFiltersOpen && !disabledTab ? 'times' : 'bars'"
+          :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
           size="is-medium" />
       </a>
-      <a
+      <NeoButton
         class="is-hidden-tablet"
-        :class="{ disabled: disabledTab }"
-        @click="openMobileFilters">
-        <b-icon :icon="'bars'" size="is-medium" />
-      </a>
+        :disabled="disabled"
+        icon="bars"
+        @click.native="openMobileFilters" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { NeoButton } from '@kodadot1/brick'
 const route = useRoute()
 const { $store } = useNuxtApp()
 
-const disabledTab = computed(() => {
+const disabled = computed(() => {
   const allowedList = ['prefix-explore-items', 'prefix-collection-id']
 
   return !allowedList.includes(route.name || '')
