@@ -7,37 +7,72 @@
     </div>
 
     <hr />
-    <div
-      class="columns is-multiline is-align-content-flex-start"
-      style="min-height: 100vh">
+
+    <LoadPreviousPage
+      v-if="startPage > 1 && !isLoading && total > 0"
+      @click="reachTopHandler" />
+    <DynamicGrid :class="scrollContainerId">
       <div
         v-for="(nft, index) in nfts"
         :key="`${nft.id}=${index}`"
-        class="column is-3">
+        :class="scrollItemClassName">
         <ItemsGridImage :nft="nft" />
       </div>
-    </div>
-    <div ref="reachBottom">bottom</div>
+    </DynamicGrid>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useIntersectionObserver } from '@vueuse/core'
 import BreadcrumbsFilter from '@/components/shared/gallery/BreadcrumbsFilter.vue'
-
+import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 
-const { nfts, total, nextPage } = useFetchSearch()
+const isLoading = ref(true)
+const gotoPage = (page: number) => {
+  currentPage.value = page
+  startPage.value = page
+  endPage.value = page
+  nfts.value = []
+  isFetchingData.value = false
+  isLoading.value = true
 
-const reachBottom = ref<HTMLElement | null>(null)
-useIntersectionObserver(
-  reachBottom,
-  ([{ isIntersecting }]) => {
-    if (isIntersecting) {
-      nextPage()
-    }
-  },
-  { rootMargin: '1000px' }
-)
+  fetchSearch(page)
+}
+const fetchPageData = async (page: number, loadDirection) => {
+  return await fetchSearch(page, loadDirection)
+}
+const {
+  first,
+  total,
+  startPage,
+  endPage,
+  currentPage,
+  scrollItemClassName,
+  isFetchingData,
+  scrollContainerId,
+  reachTopHandler,
+  prefetchNextPage,
+} = useListInfiniteScroll({
+  gotoPage,
+  fetchPageData,
+})
+
+const resetPage = useDebounceFn(() => {
+  gotoPage(1)
+}, 500)
+
+const { nfts, fetchSearch } = useFetchSearch({
+  first,
+  total,
+  isFetchingData,
+  isLoading,
+  resetSearch: resetPage,
+})
+
+onBeforeMount(async () => {
+  await fetchSearch(startPage.value)
+  isLoading.value = false
+  prefetchNextPage()
+})
 </script>

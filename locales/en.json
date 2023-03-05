@@ -1195,6 +1195,9 @@
       "success": "Price updated",
       "error": "Price update failed"
     },
+    "buy": {
+      "error": "Failed to buy this item"
+    },
     "item": {
       "success": "Item sent",
       "error": "Failed to send item"
