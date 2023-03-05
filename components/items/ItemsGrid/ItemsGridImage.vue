@@ -1,9 +1,19 @@
 <template>
-  <NeoNftCard
-    v-if="item"
-    :nft="item"
-    :prefix="urlPrefix"
-    :show-price="Number(item?.price) > 0" />
+  <div>
+    <NeoNftCard
+      v-if="item"
+      class="is-hidden-mobile"
+      :nft="item"
+      :prefix="urlPrefix"
+      :show-price="Number(item?.price) > 0" />
+    <NeoNftCard
+      v-if="item"
+      class="is-hidden-tablet"
+      :nft="item"
+      :prefix="urlPrefix"
+      :show-price="Number(item?.price) > 0"
+      variant="minimal" />
+  </div>
 </template>
 
 <script setup lang="ts">
