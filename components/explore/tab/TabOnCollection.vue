@@ -19,7 +19,3 @@ const route = useRoute()
 const toItem = `/${route.params.prefix}/collection/${route.params.id}?redesign=true`
 const toActivity = `/${route.params.prefix}/collection/${route.params.id}/activity`
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-</style>
