@@ -16,8 +16,8 @@ defineProps<{
 @import '@/styles/abstracts/variables';
 
 .count {
-  position: relative;
-  bottom: 3rem;
+  position: absolute;
+  bottom: 1.5rem;
   left: -0.75rem;
   height: 1.5rem;
   width: 1.5rem;

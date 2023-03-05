@@ -9,7 +9,7 @@
           :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
           size="is-medium" />
       </a>
-      <div class="is-hidden-tablet">
+      <div class="is-hidden-tablet position-relative">
         <NeoButton
           :disabled="disabled"
           icon="bars"
@@ -63,5 +63,8 @@ a.disabled {
   opacity: 0.3;
   cursor: not-allowed;
   pointer-events: none;
+}
+.position-relative {
+  position: relative;
 }
 </style>

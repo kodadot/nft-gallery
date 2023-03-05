@@ -70,10 +70,14 @@ const options = computed(() => {
     : NFT_SQUID_SORT_COLLECTIONS
 })
 
+function enforceArray(options: string[]) {
+  return Array.isArray(options) ? options : []
+}
+
 const sortOptions = ref<string[]>([])
 const selectedSort = computed({
   get: () => sortOptions.value,
-  set: (value) => (sortOptions.value = value),
+  set: (value) => (sortOptions.value = enforceArray(value)),
 })
 
 function onChange(selected) {
@@ -82,7 +86,7 @@ function onChange(selected) {
     query: {
       ...route.query,
       page: '1',
-      sort: selected,
+      sort: enforceArray(selected),
     },
   })
 }
