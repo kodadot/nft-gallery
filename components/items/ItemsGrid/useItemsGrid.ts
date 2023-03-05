@@ -3,23 +3,39 @@ import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
 import { useSearchParams } from './utils/useSearchParams'
-
+import { Ref } from 'vue'
 export type NFTWithMetadata = NFT & NFTMetadata & { meta: NFTMetadata }
 
-export function useFetchSearch() {
+export function useFetchSearch({
+  first,
+  total,
+  isFetchingData,
+  resetSearch,
+  isLoading,
+}: {
+  first: Ref<number>
+  total: Ref<number>
+  isFetchingData: Ref<boolean>
+  isLoading: Ref<boolean>
+  resetSearch: () => void
+}) {
   const { $apollo } = useNuxtApp()
   const { client, urlPrefix } = usePrefix()
   const route = useRoute()
-  const router = useRouter()
 
-  const first = 20
-  const page = ref(1)
   const nfts = ref<NFTWithMetadata[]>([])
-  const total = ref(0)
 
   const { searchParams } = useSearchParams()
 
-  async function fetchSearch(page) {
+  async function fetchSearch(
+    page: number,
+    loadDirection: 'up' | 'down' = 'down'
+  ) {
+    if (isFetchingData.value) {
+      return false
+    }
+    isFetchingData.value = true
+
     const query = await resolveQueryPath(client.value, 'nftListWithSearch')
     const result = await $apollo.query({
       query: query.default,
@@ -32,8 +48,8 @@ export function useFetchSearch() {
         search: searchParams.value,
         priceMin: Number(route.query.min),
         priceMax: Number(route.query.max),
-        first,
-        offset: (page - 1) * first,
+        first: first.value,
+        offset: (page - 1) * first.value,
       },
     })
 
@@ -41,36 +57,17 @@ export function useFetchSearch() {
     const { nFTEntities, nftEntitiesConnection } = result.data
 
     total.value = nftEntitiesConnection.totalCount
-    nFTEntities.forEach((nft) => {
-      if (nft) {
-        nfts.value.push(nft)
-      }
-    })
+
+    if (loadDirection === 'up') {
+      nfts.value = nFTEntities.concat(nfts.value)
+    } else {
+      nfts.value = nfts.value.concat(nFTEntities)
+    }
+
+    isFetchingData.value = false
+    isLoading.value = false
+    return true
   }
-
-  function resetSearch() {
-    nfts.value = []
-    page.value = 1
-
-    fetchSearch(1)
-  }
-
-  function nextPage() {
-    page.value += 1
-
-    router.push({
-      query: {
-        ...route.query,
-        page: `${page.value}`,
-      },
-    })
-
-    fetchSearch(page.value)
-  }
-
-  onBeforeMount(() => {
-    fetchSearch(page)
-  })
 
   watch(
     [
@@ -87,7 +84,6 @@ export function useFetchSearch() {
 
   return {
     nfts,
-    total,
-    nextPage,
+    fetchSearch,
   }
 }
