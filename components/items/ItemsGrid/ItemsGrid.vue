@@ -2,13 +2,12 @@
   <div class="is-flex-grow-1">
     <div
       class="is-flex is-justify-content-space-between pt-5 is-align-content-center">
-      <BreadcrumbsFilter class="is-hidden-mobile" />
-      <div v-show="total" class="is-hidden-mobile">
-        {{ total }} {{ $t('items') }}
+      <div class="is-hidden-mobile">
+        <BreadcrumbsFilter />
+        <div v-show="total">{{ total }} {{ $t('items') }}</div>
       </div>
+      <hr />
     </div>
-
-    <hr />
 
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
