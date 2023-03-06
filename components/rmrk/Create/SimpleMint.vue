@@ -225,6 +225,7 @@ import { NFT, NFTMetadata, SimpleNFT, getNftId } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
 import AuthMixin from '~/utils/mixins/authMixin'
+import { useFiatStore } from '@/stores/fiat'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -290,6 +291,10 @@ export default class SimpleMint extends mixins(
 
   get haveNoToSMessage() {
     return this.haveNoToS ? this.$t('tooltip.haveNoToS') : ''
+  }
+
+  get fiatStore() {
+    return useFiatStore()
   }
 
   // query for nfts information by accountId
@@ -835,13 +840,13 @@ export default class SimpleMint extends mixins(
   }
 
   protected getUsdFromKsm() {
-    let KSMVal = formatBalance(this.estimated, {
+    const KSMVal = formatBalance(this.estimated, {
       decimals: this.decimals,
       withUnit: false,
       forceUnit: '-',
     })
 
-    return this.$store.getters['fiat/getCurrentKSMValue'] * Number(KSMVal)
+    return Number(this.fiatStore.getCurrentKSMValue) * Number(KSMVal)
   }
 
   @Watch('rmrkMint', { deep: true })

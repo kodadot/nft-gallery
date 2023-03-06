@@ -47,7 +47,7 @@
       </NeoDropdown>
 
       <NeoDropdown append-to-body>
-        <NeoButton icon="ellipsis-v" class="square-32" />
+        <NeoButton icon="ellipsis-vertical" class="square-32" />
         <template #items>
           <div v-if="isOwner">
             <NeoDropdownItem>

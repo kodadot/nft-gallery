@@ -1,6 +1,7 @@
 import { getVolume } from '@/utils/math'
 import { CollectionMetadata, NFT } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
+import { chainsSupportingOffers } from './useCollectionDetails.config'
 
 type Stats = {
   listedCount?: number
@@ -21,7 +22,6 @@ export type CollectionEntityMinimal = {
   currentOwner: string
   type: string
 }
-const chainsSupportingOffers = ['bsx']
 
 const differentOwner = (nft: {
   issuer: string

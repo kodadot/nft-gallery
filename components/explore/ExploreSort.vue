@@ -15,7 +15,7 @@
       <template #trigger>
         <NeoButton
           type="button"
-          :icon="isActive ? 'caret-up' : 'caret-down'"
+          :icon="isActive ? 'chevron-up' : 'chevron-down'"
           class="has-text-left is-hidden-mobile"
           data-cy="explore-sort">
           Sort By

@@ -126,7 +126,7 @@ export default class PaginatedCardList extends mixins(
       PRICE_ASC: 'price_ASC',
     }
 
-    return remapTable[this.searchQuery.sortBy || '']
+    return remapTable[this.searchQuery.sortBy || ''] || this.searchQuery.sortBy
   }
 
   created() {
@@ -176,9 +176,8 @@ export default class PaginatedCardList extends mixins(
       }
 
       this.total = totalCount
-      // this.items = nftEntities
       this.isLoading = false
-      this.$emit('change', this.total)
+      this.total > 0 && this.$emit('change', this.total)
     }
   }
 

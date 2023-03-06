@@ -241,12 +241,12 @@ library.add(
 )
 
 Vue.component('VueFontawesome', FontAwesomeIcon).use(Neo, {
-  iconComponent: 'vue-fontawesome',
-  iconPack: 'fas',
+  iconPack: 'fa-sharp',
   customIconPacks: {
-    fas: {
+    'fa-sharp': {
+      iconPrefix: 'fa-',
       sizes: {
-        default: 'fw',
+        default: 'fw fa-regular',
       },
     },
   },
