@@ -4,7 +4,7 @@
     <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
       <div v-if="collectionInfo?.currentOwner" class="is-flex mb-2">
         <div class="mr-2">{{ $t('activity.creator') }}</div>
-        <nuxt-link :to="`/${urlPrefix}/u/${address}`">
+        <nuxt-link :to="`/${urlPrefix}/u/${address}`" class="has-text-link">
           <IdentityIndex
             ref="identity"
             :address="address"
