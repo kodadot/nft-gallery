@@ -26,7 +26,7 @@
             <ExploreTabsFilterSort />
           </div>
         </section>
-        <hr class="text-color" />
+        <hr class="text-color mb-0" />
         <section class="section pt-0">
           <Nuxt />
         </section>
