@@ -13,7 +13,8 @@
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
           :title="nft?.name || nft?.id"
-          is-detail />
+          is-detail
+          :original="isMobile && true" />
       </div>
       <div class="py-6 column">
         <div
@@ -113,6 +114,7 @@ const router = useRouter()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
 const collection = computed(() => nft.value?.collection)
+const isMobile = ref(window.innerWidth < 768)
 
 const tabs = {
   offers: '0',

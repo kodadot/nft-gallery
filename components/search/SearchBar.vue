@@ -80,7 +80,7 @@ export default class SearchBar extends mixins(
   onEnter() {
     this.redirectToGalleryPageIfNeed()
     this.closeDropDown()
-
+    this.searchRef?.$refs?.input?.$refs?.input?.blur()
     // insert search term in history
     this.searchSuggestionRef?.insertNewHistory()
   }

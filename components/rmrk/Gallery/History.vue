@@ -55,11 +55,7 @@
             cell-class="short-identity__table"
             field="Item"
             label="Item">
-            <nuxt-link
-              :to="{
-                name: `${urlPrefix}-gallery-id`,
-                params: { id: props.row.Item.id },
-              }">
+            <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.Item.id}`">
               {{ props.row.Item.name || props.row.Item.id }}
             </nuxt-link>
           </b-table-column>
