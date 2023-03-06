@@ -10,12 +10,12 @@ interface NFTData {
 const whichMimeType = async (data) => {
   if (data?.type) {
     return data?.type
-  } else if (data?.animation_url) {
+  }
+  if (data?.animation_url) {
     return await getMimeType(sanitizeIpfsUrl(data.animation_url))
-  } else if (data?.image) {
-    return await getMimeType(sanitizeIpfsUrl(data.image))
-  } else if (data?.mediaUri) {
-    return await getMimeType(sanitizeIpfsUrl(data.mediaUri))
+  }
+  if (data?.image || data?.mediaUri) {
+    return await getMimeType(sanitizeIpfsUrl(data.image || data?.mediaUri))
   }
 
   return ''
