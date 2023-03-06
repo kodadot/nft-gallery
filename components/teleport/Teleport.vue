@@ -101,6 +101,8 @@ import { getss58AddressByPrefix } from '@/utils/account'
 import { getAsssetBalance } from '@/utils/api/bsx/query'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision, subscribeBalance } from '@/utils/balance'
+import { useFiatStore } from '@/stores/fiat'
+
 const getKusamaApi = async () =>
   await ApiPromise.create({
     provider: new WsProvider(getChainEndpointByPrefix('kusama') as string),
@@ -109,9 +111,12 @@ const getBasiliskApi = async () =>
   await ApiPromise.create({
     provider: new WsProvider(getChainEndpointByPrefix('basilisk') as string),
   })
+
 const { accountId } = useAuth()
 const { assets } = usePrefix()
-const { $store, $i18n } = useNuxtApp()
+const { $i18n } = useNuxtApp()
+const fiatStore = useFiatStore()
+
 const chains = ref([Chain.KUSAMA, Chain.BASILISK])
 const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
 const toChain = ref(Chain.BASILISK) //Selected destination parachain
@@ -165,12 +170,12 @@ const getAddressByChain = (chain) => {
 const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))
 
-const ksmValue = computed(() => {
-  return calculateExactUsdFromToken(
+const ksmValue = computed(() =>
+  calculateExactUsdFromToken(
     amount.value,
-    $store.getters['fiat/getCurrentKSMValue']
+    fiatStore.getCurrentKSMValue as number
   )
-})
+)
 
 const fetchBasiliskBalance = async () => {
   const api = await getBasiliskApi()
