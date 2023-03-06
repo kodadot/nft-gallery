@@ -15,7 +15,7 @@ const whichMimeType = async (data) => {
     return await getMimeType(sanitizeIpfsUrl(data.animation_url))
   }
   if (data?.image || data?.mediaUri) {
-    return await getMimeType(sanitizeIpfsUrl(data.image || data?.mediaUri))
+    return await getMimeType(sanitizeIpfsUrl(data?.image || data?.mediaUri))
   }
 
   return ''
