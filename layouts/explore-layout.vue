@@ -6,7 +6,7 @@
     <!-- new header component for collection here -->
     <div v-if="isCollection">
       <CollectionBanner />
-      <section class="container mobile-padding pt-5">
+      <section class="container mobile-padding pt-2">
         <CollectionInfo />
         <hr />
       </section>
@@ -19,14 +19,14 @@
         error-subtitle="Please check your network connections"
         error-title="Offline Detected" />
       <div v-else>
-        <section class="section pt-2">
+        <section class="section py-2">
           <div class="container">
             <h1 v-if="isExplore" class="title">{{ $t('explore') }}</h1>
 
             <ExploreTabsFilterSort />
           </div>
         </section>
-        <hr class="m-0 text-color" />
+        <hr class="text-color" />
         <section class="section pt-0">
           <Nuxt />
         </section>
