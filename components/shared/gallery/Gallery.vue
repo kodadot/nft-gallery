@@ -3,11 +3,10 @@
     <div class="is-flex is-align-self-flex-start">
       <SidebarFilter @resetPage="resetPage" />
       <div class="container">
-        <!-- TODO: FilterBreadcrumbs here -->
         <div
-          class="is-flex is-justify-content-space-between py-5 is-hidden-mobile">
+          class="is-flex is-justify-content-space-between pb-4 pt-5 is-hidden-mobile">
           <BreadcrumbsFilter />
-          <div v-show="total">{{ total }} {{ $t('items') }}</div>
+          <div v-show="total" class="mb-5">{{ total }} {{ $t('items') }}</div>
         </div>
         <hr class="mt-0 is-hidden-mobile" />
         <br class="is-hidden-tablet" />
