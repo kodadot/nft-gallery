@@ -6,7 +6,7 @@
     <!-- new header component for collection here -->
     <div v-if="isCollection">
       <CollectionBanner />
-      <section class="container mobile-padding pt-2">
+      <section class="container mobile-padding pt-5">
         <CollectionInfo />
         <hr />
       </section>

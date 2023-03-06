@@ -2,7 +2,7 @@
   <div class="is-flex-grow-1">
     <div class="is-hidden-mobile">
       <div
-        class="is-flex is-justify-content-space-between pt-5 is-align-content-center">
+        class="is-flex is-justify-content-space-between pt-2 is-align-content-center">
         <BreadcrumbsFilter />
         <div v-show="total">{{ total }} {{ $t('items') }}</div>
       </div>
