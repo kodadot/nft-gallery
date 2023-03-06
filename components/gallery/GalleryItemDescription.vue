@@ -111,7 +111,7 @@ const properties = computed(() => {
       ([key, value]) => {
         return {
           trait_type: key,
-          value: (value as unknown as { value: string; type: string }).value,
+          value: value.value,
         }
       }
     )
