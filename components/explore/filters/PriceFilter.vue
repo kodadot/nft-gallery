@@ -64,9 +64,9 @@
 import { NeoButton } from '@kodadot1/brick'
 import { fromDecimals, toDecimals } from '@/utils/math'
 import useReplaceUrl from './useReplaceUrl'
+import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
-const { $store } = useNuxtApp()
-
+const exploreFiltersStore = useExploreFiltersStore()
 const { replaceUrl } = useReplaceUrl()
 type DataModel = 'query' | 'store'
 
@@ -93,14 +93,8 @@ const range =
           fromDecimals(Number(route.query?.max), decimals.value) || undefined,
       })
     : ref({
-        min: fromDecimals(
-          $store.getters['exploreFilters/getMin'],
-          decimals.value
-        ),
-        max: fromDecimals(
-          $store.getters['exploreFilters/getMax'],
-          decimals.value
-        ),
+        min: fromDecimals(Number(exploreFiltersStore.min), decimals.value),
+        max: fromDecimals(Number(exploreFiltersStore.max), decimals.value),
       })
 
 const emit = defineEmits(['resetPage'])
@@ -122,8 +116,8 @@ const applyToStore = () => {
   const max = range.value.max
     ? toDecimals(range.value.max, decimals.value)
     : undefined
-  $store.dispatch('exploreFilters/setPriceRange', { min, max })
-  $store.dispatch('exploreFilters/setListed', true)
+  exploreFiltersStore.setPriceRange({ min, max })
+  exploreFiltersStore.setListed(true)
 }
 
 const applyToQuery = () => {
