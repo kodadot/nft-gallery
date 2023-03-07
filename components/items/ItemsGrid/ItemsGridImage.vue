@@ -32,7 +32,7 @@ onBeforeMount(async () => {
     item.value = {
       ...props.nft,
       name: props.nft.name || props.nft.id,
-      image: sanitizeIpfsUrl(props.nft.meta.image || ''),
+      image: sanitizeIpfsUrl(props.nft.meta.image),
       animation_url: sanitizeIpfsUrl(props.nft.meta.animation_url || ''),
       type: props.nft.meta.type || '',
     }
