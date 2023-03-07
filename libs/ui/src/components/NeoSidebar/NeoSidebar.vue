@@ -1,12 +1,14 @@
 <template>
   <o-sidebar
-    position="static"
+    :position="position || 'static'"
     :mobile="mobile"
     :fullheight="fullheight"
     :fullwidth="fullwidth"
     :expand-on-hover="expandOnHover"
     :reduce="reduce"
-    :open="open">
+    :open="open"
+    :overlay="overlay"
+    :on-cancel="onCancel">
     <slot />
   </o-sidebar>
 </template>
@@ -21,6 +23,10 @@ defineProps<{
   fullwidth?: boolean
   reduce?: boolean
   open?: boolean
+  overlay?: boolean
+  canCancel?: Array<string>
+  onCancel?: () => void
+  position?: 'fixed' | 'absoulte' | 'static'
 }>()
 </script>
 

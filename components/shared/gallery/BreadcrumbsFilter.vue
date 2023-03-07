@@ -28,14 +28,13 @@ import NeoTag from './NeoTag.vue'
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
 const { $i18n } = useNuxtApp()
+const isExplore = computed(() => route.path.includes('/explore'))
 
 const breads = computed(() => {
   const query = { ...route.query, redesign: undefined }
 
   const activeFilters = Object.entries(query).filter(
-    ([key, value]) =>
-(key === 'search' && Boolean(value)) ||
-      value === 'true'
+    ([key, value]) => (key === 'search' && Boolean(value)) || value === 'true'
   )
   return Object.fromEntries(activeFilters)
 })
@@ -61,7 +60,7 @@ const queryMapTranslation = {
 }
 
 onMounted(() => {
-  if (route.query.listed == undefined) {
+  if (isExplore.value && route.query.listed == undefined) {
     replaceUrl({ listed: 'true' })
   }
 })
