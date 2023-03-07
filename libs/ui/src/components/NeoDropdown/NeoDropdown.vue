@@ -1,6 +1,5 @@
 <template>
   <o-dropdown
-    aria-role="list"
     :position="position"
     :append-to-body="appendToBody"
     class="neo-dropdown"

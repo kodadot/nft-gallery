@@ -26,7 +26,7 @@
             <ExploreTabsFilterSort />
           </div>
         </section>
-        <hr class="m-0" />
+        <hr class="text-color my-0" />
         <section class="section pt-0">
           <Nuxt />
         </section>
@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
+import ExploreTabsFilterSort from '@/components/explore/Controls.vue'
 import MobileFilter from '@/components/explore/MobileFilter.vue'
 import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
 import CollectionInfo from '@/components/collection/CollectionInfo.vue'
@@ -67,10 +67,15 @@ hr {
     background: theme('k-grey');
   }
 }
+.text-color {
+  @include ktheme() {
+    background: theme('text-color');
+  }
+}
 
 @include touch {
   .mobile-padding {
-    padding: 0 2rem;
+    padding: 0 1rem;
   }
 }
 </style>
