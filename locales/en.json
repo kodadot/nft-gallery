@@ -887,7 +887,12 @@
     "unique": "UNIQUE",
     "owners": "OWNERS",
     "distribution": "DISTRIBUTION",
-    "floorPrice": "FLOOR PRICE"
+    "floorPrice": "FLOOR PRICE",
+    "floor": "Floor",
+    "bestOffer": "Best Offer",
+    "volume": "Volume",
+    "network": "Network",
+    "creator": "Creator"
   },
   "profileStats": {
     "listed": "Listed",
@@ -1189,6 +1194,9 @@
       "list": "Your Listing Price",
       "success": "Price updated",
       "error": "Price update failed"
+    },
+    "buy": {
+      "error": "Failed to buy this item"
     },
     "item": {
       "success": "Item sent",

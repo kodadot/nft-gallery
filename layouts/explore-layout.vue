@@ -6,6 +6,10 @@
     <!-- new header component for collection here -->
     <div v-if="isCollection">
       <CollectionBanner />
+      <section class="container mobile-padding pt-5">
+        <CollectionInfo />
+        <hr />
+      </section>
     </div>
 
     <main class="is-flex-grow-1">
@@ -35,6 +39,7 @@
 import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
 import MobileFilter from '@/components/explore/MobileFilter.vue'
 import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
+import CollectionInfo from '@/components/collection/CollectionInfo.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()
@@ -59,7 +64,13 @@ const isCollection = computed(() =>
 @import '@/styles/abstracts/variables';
 hr {
   @include ktheme() {
-    background: theme('border-color');
+    background: theme('k-grey');
+  }
+}
+
+@include touch {
+  .mobile-padding {
+    padding: 0 2rem;
   }
 }
 </style>

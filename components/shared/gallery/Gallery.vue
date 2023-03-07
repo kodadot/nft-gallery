@@ -11,12 +11,11 @@
         </div>
         <hr class="mt-0 is-hidden-mobile" />
         <br class="is-hidden-tablet" />
-        <a
+
+        <LoadPreviousPage
           v-if="startPage > 1 && !isLoading && total > 0"
-          class="is-flex is-justify-content-center pb-4"
-          @click="fetchPreviousPage">
-          <b-icon icon="chevron-up" />
-        </a>
+          @click="fetchPreviousPage" />
+
         <DynamicGrid :id="scrollContainerId" v-slot="slotProps">
           <div
             v-for="(nft, index) in results"
