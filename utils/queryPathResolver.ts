@@ -1,10 +1,5 @@
 type AvailableClients = 'subquery' | 'subsquid'
 
-type PathOptions = {
-  client?: AvailableClients
-  specialized?: boolean
-}
-
 const defaultPaths: Record<AvailableClients, string> = {
   subquery: '',
   subsquid: 'subsquid/general/',
