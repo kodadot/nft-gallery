@@ -24,7 +24,10 @@
             <NftCard
               :nft="nft"
               :data-cy="`item-index-${index}`"
-              :variant="slotProps.isMobileVariant && 'minimal'" />
+              :variant="
+                (slotProps.isMobileVariant || slotProps.grid === 'small') &&
+                'minimal'
+              " />
           </div>
         </DynamicGrid>
         <InfiniteLoading

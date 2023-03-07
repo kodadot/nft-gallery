@@ -3,9 +3,9 @@
     <b-field>
       <p class="control">
         <NeoButton
-          icon-left="grid-4"
-          :active="gridSize === 'small'"
-          @click.native="changeGridLayout(largeGridLayout, 'small')" />
+          icon-left="grid-2"
+          :active="gridSize === 'large'"
+          @click.native="changeGridLayout(smallGridLayout, 'large')" />
       </p>
       <p class="control">
         <NeoButton
@@ -15,9 +15,9 @@
       </p>
       <p class="control">
         <NeoButton
-          icon-left="grid-2"
-          :active="gridSize === 'large'"
-          @click.native="changeGridLayout(smallGridLayout, 'large')" />
+          icon-left="grid-4"
+          :active="gridSize === 'small'"
+          @click.native="changeGridLayout(largeGridLayout, 'small')" />
       </p>
     </b-field>
   </div>
