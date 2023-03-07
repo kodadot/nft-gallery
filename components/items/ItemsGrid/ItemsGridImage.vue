@@ -40,20 +40,20 @@ onBeforeMount(async () => {
     return
   }
 
-  const metadata = (await processSingleMetadata(
-    props.nft.metadata
-  )) as NFTWithMetadata
-
   if (urlPrefix.value === 'rmrk2' && props.nft.resources.length) {
     const { src, thumb } = props.nft.resources[0]
-    console.log(src, thumb)
+
     item.value = {
       ...props.nft,
       image: sanitizeIpfsUrl(thumb || src || ''),
     }
+
     return
   }
 
+  const metadata = (await processSingleMetadata(
+    props.nft.metadata
+  )) as NFTWithMetadata
   const image = sanitizeIpfsUrl(metadata.image || '')
   const animation_url = sanitizeIpfsUrl(metadata.animation_url || '')
 
