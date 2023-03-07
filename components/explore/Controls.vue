@@ -6,6 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import DesktopIndex from './DesktopIndex.vue'
-import MobileIndex from './MobileIndex.vue'
+import DesktopIndex from './DesktopControls.vue'
+import MobileIndex from './MobileControls.vue'
 </script>

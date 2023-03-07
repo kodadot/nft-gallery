@@ -26,7 +26,7 @@
           class="is-hidden-tablet"
           data-cy="explore-sort" />
 
-        <ActiveCount :count="selectedSort.length" />
+        <ActiveCount v-if="selectedSort.length" :count="selectedSort.length" />
       </template>
 
       <NeoDropdownItem

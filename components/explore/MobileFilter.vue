@@ -1,8 +1,9 @@
 <template>
-  <b-sidebar
+  <NeoSidebar
     fullheight
     fullwidth
     overlay
+    position="fixed"
     :open="open"
     :can-cancel="['escape']"
     :on-cancel="onClose"
@@ -29,23 +30,23 @@
         <NeoButton
           label="Reset All"
           variant="primary"
-          class="is-fullwidth mw-9 h-3_5 is-shadowless"
+          class="is-flex-grow-1 mw-9 h-3_5 is-shadowless"
           @click.native="resetFilters">
           {{ $t('general.resetAll') }}
         </NeoButton>
         <NeoButton
           variant="k-accent"
-          class="is-fullwidth mw-9 h-3_5"
+          class="is-flex-grow-1 mw-9 h-3_5"
           @click.native="applyFilters">
           {{ $t('general.apply') }}
         </NeoButton>
       </div>
     </div>
-  </b-sidebar>
+  </NeoSidebar>
 </template>
 
 <script lang="ts" setup>
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoSidebar } from '@kodadot1/brick'
 import PriceFilter from './filters/PriceFilter.vue'
 import StatusFilter from './filters/StatusFilter.vue'
 import useReplaceUrl from './filters/useReplaceUrl'
@@ -56,13 +57,6 @@ const exploreFiltersStore = useExploreFiltersStore()
 
 const { $store } = useNuxtApp()
 const { replaceUrl } = useReplaceUrl()
-const width = ref(window.innerWidth)
-
-onMounted(() => {
-  window.addEventListener('resize', () => {
-    width.value = window.innerWidth
-  })
-})
 
 const emit = defineEmits(['resetPage'])
 
@@ -130,9 +124,6 @@ watch(() => route.query, syncFromUrl)
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-.is-fullwidth {
-  width: 100%;
-}
 .is-fullheight {
   height: 100%;
 }
@@ -168,19 +159,13 @@ watch(() => route.query, syncFromUrl)
 
 <style lang="scss">
 @import '@/styles/abstracts/variables';
-.no-border {
-  > .modal-content {
-    border: none !important;
-    box-shadow: none !important;
-  }
-}
-.background-color {
-  .sidebar-content {
+.background-color .o-side {
+  &__content {
     @include ktheme() {
       background-color: theme('background-color');
     }
   }
-  .sidebar-background {
+  &__overlay {
     @include ktheme() {
       background-color: theme('background-color');
       opacity: 0.86;

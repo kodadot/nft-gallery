@@ -9,12 +9,12 @@
           :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
           size="is-medium" />
       </a>
-      <div class="is-hidden-tablet position-relative">
+      <div class="is-hidden-tablet is-relative">
         <NeoButton
           :disabled="disabled"
           icon="bars"
           @click.native="openMobileFilters" />
-        <ActiveCount :count="numOfActiveFilters" />
+        <ActiveCount v-if="numOfActiveFilters" :count="numOfActiveFilters" />
       </div>
     </div>
   </div>
@@ -62,8 +62,5 @@ a.disabled {
   opacity: 0.3;
   cursor: not-allowed;
   pointer-events: none;
-}
-.position-relative {
-  position: relative;
 }
 </style>

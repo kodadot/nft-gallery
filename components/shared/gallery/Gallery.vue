@@ -6,7 +6,7 @@
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-hidden-mobile">
           <BreadcrumbsFilter />
-          <div v-show="total" class="mb-5">{{ total }} {{ $t('items') }}</div>
+          <div v-show="total">{{ total }} {{ $t('items') }}</div>
         </div>
         <hr class="mt-0 is-hidden-mobile" />
         <br class="is-hidden-tablet" />
