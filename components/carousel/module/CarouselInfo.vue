@@ -13,8 +13,7 @@
     <CollectionDetailsPopover v-if="item?.collectionId" :nft="item">
       <template #trigger>
         <nuxt-link
-          v-if="!isCollection && item.collectionName && item.collectionId"
-          :title="item.collectionName"
+          v-if="!isCollection && item.collectionId"
           :to="
             urlOf({
               id: item.collectionId,

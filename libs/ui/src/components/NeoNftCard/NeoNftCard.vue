@@ -17,19 +17,27 @@
           nft.name || '--'
         }}</span>
 
-        <nuxt-link
-          v-if="
-            variant !== 'minimal' && (nft.collection.name || nft.collection.id)
-          "
-          :title="nft.collectionName || nft.collection.name"
-          :to="`/${prefix}/collection/${nft.collection.id}`"
-          class="is-size-7 nft-info-collection-name">
-          {{ nft.collection.name || '--' }}
-        </nuxt-link>
+        <CollectionDetailsPopover
+          :show-delay="collectionPopoverShowDelay"
+          :nft="nft"
+          class="is-ellipsis">
+          <template #trigger>
+            <nuxt-link
+              v-if="
+                variant !== 'minimal' &&
+                (nft.collection.name || nft.collection.id)
+              "
+              :title="nft.collectionName || nft.collection.name"
+              :to="`/${prefix}/collection/${nft.collection.id}`"
+              class="is-size-7 nft-info-collection-name">
+              {{ nft.collection.name || '--' }}
+            </nuxt-link>
+          </template>
+        </CollectionDetailsPopover>
       </div>
 
       <div
-        class="is-flex is-align-items-center mt-2"
+        class="is-flex is-align-items-center mt-2 is-ellipsis nft-media-info-footer"
         :class="[
           showPrice
             ? 'is-justify-content-space-between'
@@ -56,13 +64,19 @@ import type { NFT } from '@/components/rmrk/service/scheme'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { NftCardVariant } from '@kodadot1/brick'
 
-const props = defineProps<{
-  nft: NFT
-  prefix: string
-  showPrice: boolean
-  variant?: NftCardVariant
-}>()
-const variant = computed(() => props.variant || 'primary')
+withDefaults(
+  defineProps<{
+    nft: NFT
+    prefix: string
+    showPrice: boolean
+    collectionPopoverShowDelay?: number
+    variant?: NftCardVariant
+  }>(),
+  {
+    collectionPopoverShowDelay: 500,
+    variant: 'primary',
+  }
+)
 </script>
 
 <style lang="scss" scoped>

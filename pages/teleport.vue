@@ -11,7 +11,7 @@
     <p class="title is-size-3">
       {{ $t('teleport.page') }} {{ unit }}
       <span v-if="isKSM" class="has-text-primary"
-        >${{ $store.getters['fiat/getCurrentKSMValue'] }}</span
+        >${{ fiatStore.getCurrentKSMValue }}</span
       >
     </p>
 
@@ -127,6 +127,8 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 
+import { useFiatStore } from '@/stores/fiat'
+
 @Component({
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
@@ -180,12 +182,16 @@ export default class Transfer extends mixins(
     return this.unit === 'KSM'
   }
 
+  get fiatStore() {
+    return useFiatStore()
+  }
+
   layout() {
     return 'centered-half-layout'
   }
 
   protected created() {
-    this.$store.dispatch('fiat/fetchFiatPrice')
+    this.fiatStore.fetchFiatPrice()
     this.checkQueryParams()
     onApiConnect(this.apiUrl, async (api) => {
       const paraId = await api.query.parachainInfo?.parachainId()
@@ -222,7 +228,7 @@ export default class Transfer extends mixins(
     /* calculating usd value on the basis of price entered */
     if (this.price) {
       this.usdValue = calculateUsdFromKsm(
-        this.$store.getters['fiat/getCurrentKSMValue'],
+        this.fiatStore.getCurrentKSMValue as number,
         this.price
       )
     } else {
@@ -234,7 +240,7 @@ export default class Transfer extends mixins(
     /* calculating price value on the basis of usd entered */
     if (this.usdValue) {
       this.price = calculateKsmFromUsd(
-        this.$store.getters['fiat/getCurrentKSMValue'],
+        this.fiatStore.getCurrentKSMValue as number,
         this.usdValue
       )
     } else {
@@ -262,7 +268,7 @@ export default class Transfer extends mixins(
       this.usdValue = Number(query.usdamount)
       // getting ksm value from the usd value
       this.price = calculateKsmFromUsd(
-        this.$store.getters['fiat/getCurrentKSMValue'],
+        this.fiatStore.getCurrentKSMValue as number,
         this.usdValue
       )
     }

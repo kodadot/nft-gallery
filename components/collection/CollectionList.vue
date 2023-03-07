@@ -4,207 +4,167 @@
       <div v-show="total">{{ total }} {{ $t('items') }}</div>
     </div>
     <hr class="mt-0" />
-    <InfiniteLoading
+
+    <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
-      :distance="prefetchDistance"
-      direction="top"
-      @infinite="reachTopHandler" />
-    <div
+      @click="reachTopHandler" />
+    <DynamicGrid
       :id="scrollContainerId"
-      class="columns is-multiline"
-      @scroll="onScroll">
+      :default-width="{ small: 16 * 20, large: 16 * 25 }"
+      :mobile-variant="false">
       <div
-        v-for="(collection, index) in results"
+        v-for="(collection, index) in collections"
         :key="collection.id"
-        :class="`column ${classLayout} ${scrollItemClassName}`"
+        :class="scrollItemClassName"
         :data-cy="`collection-index-${index}`">
         <CollectionCard :is-loading="isLoading" :collection="collection" />
       </div>
-    </div>
-    <InfiniteLoading
-      v-if="canLoadNextPage && !isLoading && total > 0"
-      :distance="prefetchDistance"
-      @infinite="reachBottomHandler" />
+    </DynamicGrid>
     <EmptyResult v-if="total === 0" />
     <ScrollTopButton />
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Watch, mixins } from 'nuxt-property-decorator'
-import { Debounce } from 'vue-debounce-decorator'
-import {
-  Collection,
-  CollectionWithMeta,
-} from '@/components/rmrk/service/scheme'
+<script lang="ts" setup>
+import { Collection } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from '@/components/search/types'
 import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import { getDenyList } from '~/utils/prefix'
 import shouldUpdate from '@/utils/shouldUpdate'
+import CollectionCard from '@/components/collection/CollectionCard.vue'
 
-interface Image extends HTMLImageElement {
-  ffInitialized: boolean
-}
+const { urlPrefix, client } = usePrefix()
+const { $store, $apollo } = useNuxtApp()
 
-const components = {
-  GalleryCardList: () =>
-    import('@/components/rmrk/Gallery/GalleryCardList.vue'),
-  InfiniteLoading: () => import('vue-infinite-loading'),
-  Search: () => import('@/components/search/SearchCollection.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
-  Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  Loader: () => import('@/components/shared/Loader.vue'),
-  Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
-  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
-  CollectionCard: () => import('@/components/collection/CollectionCard.vue'),
-  EmptyResult: () => import('@/components/common/EmptyResult.vue'),
-}
+const route = useRoute()
 
-@Component<CollectionList>({
-  components,
+const collections = ref<Collection[]>([])
+const isLoading = ref(true)
+const searchQuery = ref<SearchQuery>({
+  search: route.query?.search?.toString() ?? '',
+  type: route.query?.type?.toString() ?? '',
+  sortBy:
+    typeof route.query?.sort === 'string'
+      ? [route.query?.sort]
+      : route.query?.sort,
+  listed: route.query?.listed?.toString() === 'true',
 })
-export default class CollectionList extends mixins(
-  PrefixMixin,
-  InfiniteScrollMixin
-) {
-  private collections: Collection[] = []
-  private placeholder =
-    this.$colorMode.preference === 'dark'
-      ? '/placeholder.webp'
-      : '/placeholder-white.webp'
-  private isLoading = true
-  private searchQuery: SearchQuery = {
-    search: this.$route.query?.search?.toString() ?? '',
-    type: this.$route.query?.type?.toString() ?? '',
-    sortBy:
-      typeof this.$route.query?.sort === 'string'
-        ? [this.$route.query?.sort]
-        : this.$route.query?.sort,
-    listed: this.$route.query?.listed?.toString() === 'true',
-  }
 
-  set currentValue(page: number) {
-    this.gotoPage(page)
-  }
+const resetPage = useDebounceFn(() => {
+  gotoPage(1)
+}, 500)
 
-  get currentValue() {
-    return this.currentPage
-  }
+const buildSearchParam = (): Record<string, unknown>[] => {
+  const params: any[] = []
 
-  get classLayout() {
-    return this.$store.getters['preferences/getLayoutClass']
-  }
-
-  @Debounce(500)
-  private resetPage() {
-    this.gotoPage(1)
-  }
-
-  protected gotoPage(page: number) {
-    this.currentPage = page
-    this.startPage = page
-    this.endPage = page
-    this.collections = []
-    this.isFetchingData = false
-    this.isLoading = true
-    this.fetchPageData(page)
-  }
-
-  private buildSearchParam(): Record<string, unknown>[] {
-    const params: any[] = []
-
-    if (this.searchQuery.search) {
-      params.push({
-        name_containsInsensitive: this.searchQuery.search,
-      })
-    }
-
-    if (this.searchQuery.listed) {
-      params.push({ nfts_some: { price_gt: '0' } })
-    }
-
-    return params
-  }
-
-  public async created() {
-    this.fetchPageData(this.startPage)
-    // setting the default layout until redesign explorer menubar: YOLO
-    this.$store.dispatch(
-      'preferences/setLayoutClass',
-      'is-one-quarter-desktop is-one-third-tablet'
-    )
-  }
-
-  protected async fetchPageData(page: number, loadDirection = 'down') {
-    if (this.isFetchingData) {
-      return
-    }
-    this.isFetchingData = true
-    const result = await this.$apollo.query({
-      query: collectionListWithSearch,
-      client: this.client,
-      variables: {
-        denyList: getDenyList(this.urlPrefix),
-        orderBy: this.searchQuery.sortBy,
-        search: this.buildSearchParam(),
-        listed: this.searchQuery.listed
-          ? [{ price: { greaterThan: '0' } }]
-          : [],
-        first: this.first,
-        offset: (page - 1) * this.first,
-      },
+  if (searchQuery.value.search) {
+    params.push({
+      name_containsInsensitive: searchQuery.value.search,
     })
-    await this.handleResult(result, loadDirection)
-    this.isFetchingData = false
-    return true
   }
 
-  protected async handleResult({ data }: any, loadDirection = 'down') {
-    this.total = data.stats.totalCount
-    const newCollections = data.collectionEntities.map((e: any) => ({
-      ...e,
-    }))
-
-    if (loadDirection === 'up') {
-      this.collections = newCollections.concat(this.collections)
-    } else {
-      this.collections = this.collections.concat(newCollections)
-    }
-
-    this.isLoading = false
+  if (searchQuery.value.listed) {
+    params.push({ nfts_some: { price_gt: '0' } })
   }
 
-  @Watch('$route.query.search')
-  protected onSearchChange(val: string, oldVal: string) {
-    if (val !== oldVal) {
-      this.resetPage()
-      this.searchQuery.search = val || ''
-    }
-  }
-
-  @Watch('$route.query.sort')
-  protected onSortChange(val: string, oldVal: string) {
-    if (shouldUpdate(val, oldVal)) {
-      this.searchQuery.sortBy = val
-      this.resetPage()
-    }
-  }
-
-  @Watch('searchQuery', { deep: true })
-  protected onSearchQueryChange() {
-    this.resetPage()
-  }
-
-  get results() {
-    return this.collections as CollectionWithMeta[]
-  }
-
-  onError(e: Event) {
-    const target = e.target as Image
-    target.src = this.placeholder
-  }
+  return params
 }
+
+onBeforeMount(() => {
+  fetchPageData(startPage.value)
+  // setting the default layout until redesign explorer menubar: YOLO
+  $store.dispatch(
+    'preferences/setLayoutClass',
+    'is-one-quarter-desktop is-one-third-tablet'
+  )
+})
+
+const fetchPageData = async (page: number, loadDirection = 'down') => {
+  if (isFetchingData.value) {
+    return false
+  }
+  isFetchingData.value = true
+  const result = await $apollo.query({
+    query: collectionListWithSearch,
+    client: client.value,
+    variables: {
+      denyList: getDenyList(urlPrefix.value),
+      orderBy: searchQuery.value.sortBy,
+      search: buildSearchParam(),
+      listed: searchQuery.value.listed ? [{ price: { greaterThan: '0' } }] : [],
+      first: first.value,
+      offset: (page - 1) * first.value,
+    },
+  })
+  await handleResult(result, loadDirection)
+  isFetchingData.value = false
+  return true
+}
+
+const gotoPage = (page: number) => {
+  currentPage.value = page
+  startPage.value = page
+  endPage.value = page
+  collections.value = []
+  isFetchingData.value = false
+  isLoading.value = true
+  fetchPageData(page)
+}
+const {
+  first,
+  total,
+  startPage,
+  endPage,
+  currentPage,
+  scrollItemClassName,
+  isFetchingData,
+  scrollContainerId,
+  reachTopHandler,
+} = useListInfiniteScroll({
+  gotoPage,
+  fetchPageData,
+})
+
+const handleResult = async ({ data }: any, loadDirection = 'down') => {
+  total.value = data.stats.totalCount
+  const newCollections = data.collectionEntities.map((e: any) => ({
+    ...e,
+  }))
+
+  if (loadDirection === 'up') {
+    collections.value = newCollections.concat(collections.value)
+  } else {
+    collections.value = collections.value.concat(newCollections)
+  }
+
+  isLoading.value = false
+}
+
+watch(
+  () => route.query.search,
+  (val, oldVal) => {
+    if (val !== oldVal) {
+      resetPage()
+      searchQuery.value.search = String(val) || ''
+    }
+  }
+)
+
+watch(
+  () => route.query.sort,
+  (val, oldVal) => {
+    if (shouldUpdate(val, oldVal)) {
+      resetPage()
+      searchQuery.value.sortBy = String(val) || ''
+    }
+  }
+)
+
+watch(
+  () => searchQuery.value,
+  () => {
+    resetPage()
+  }
+)
 </script>

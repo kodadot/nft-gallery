@@ -36,6 +36,11 @@
       grid-gap: 10px;
 
       &-item {
+        a:hover{
+          @include ktheme() {
+            color: theme('link-hover');
+          }
+        }
         &:first-child {
           padding-left: 0px;
         }

@@ -9,6 +9,17 @@ export type ActionConsume = {
   errorMessage?: string
 }
 
+export type ActionBuy = {
+  interaction: Interaction.BUY
+  urlPrefix: string
+  price: string
+  nftId: string
+  tokenId: string
+  currentOwner: string
+  successMessage?: string
+  errorMessage?: string
+}
+
 export type ActionList = {
   interaction: Interaction.LIST
   urlPrefix: string
@@ -39,4 +50,26 @@ export type ActionOffer = {
   errorMessage?: string
 }
 
-export type Actions = ActionList | ActionSend | ActionOffer | ActionConsume
+export type ActionWithdrawOffer = {
+  interaction: typeof ShoppingActions.WITHDRAW_OFFER
+  nftId: string
+  maker: string
+  successMessage?: string
+  errorMessage?: string
+}
+
+export type ActionAcceptOffer = {
+  interaction: typeof ShoppingActions.WITHDRAW_OFFER
+  nftId: string
+  maker: string
+  successMessage?: string
+  errorMessage?: string
+}
+
+export type Actions =
+  | ActionBuy
+  | ActionList
+  | ActionSend
+  | ActionOffer
+  | ActionConsume
+  | ActionWithdrawOffer

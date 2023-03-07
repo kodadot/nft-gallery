@@ -196,7 +196,7 @@ import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
+import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import correctFormat from '@/utils/ss58Format'
 import { canSupport, feeTx } from '@/utils/support'
@@ -225,6 +225,8 @@ import { NFT, NFTMetadata, SimpleNFT, getNftId } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
 import AuthMixin from '~/utils/mixins/authMixin'
+import { useFiatStore } from '@/stores/fiat'
+import { usePinningStore } from '@/stores/pinning'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -290,6 +292,10 @@ export default class SimpleMint extends mixins(
 
   get haveNoToSMessage() {
     return this.haveNoToS ? this.$t('tooltip.haveNoToS') : ''
+  }
+
+  get fiatStore() {
+    return useFiatStore()
   }
 
   // query for nfts information by accountId
@@ -464,6 +470,10 @@ export default class SimpleMint extends mixins(
 
   get isMintDisabled(): boolean {
     return Number(this.balance) < Number(this.estimated)
+  }
+
+  get pinningStore() {
+    return usePinningStore()
   }
 
   protected syncEdition(): void {
@@ -778,11 +788,7 @@ export default class SimpleMint extends mixins(
     if (!file) {
       throw new ReferenceError('No file found!')
     }
-
-    const { token }: PinningKey = await this.$store.dispatch(
-      'pinning/fetchPinningKey',
-      this.accountId
-    )
+    const { token } = await this.pinningStore.fetchPinningKey(this.accountId)
 
     const fileHash = await pinFileToIPFS(file, token)
     const secondFileHash = secondFile
@@ -835,13 +841,13 @@ export default class SimpleMint extends mixins(
   }
 
   protected getUsdFromKsm() {
-    let KSMVal = formatBalance(this.estimated, {
+    const KSMVal = formatBalance(this.estimated, {
       decimals: this.decimals,
       withUnit: false,
       forceUnit: '-',
     })
 
-    return this.$store.getters['fiat/getCurrentKSMValue'] * Number(KSMVal)
+    return Number(this.fiatStore.getCurrentKSMValue) * Number(KSMVal)
   }
 
   @Watch('rmrkMint', { deep: true })

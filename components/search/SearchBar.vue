@@ -80,7 +80,7 @@ export default class SearchBar extends mixins(
   onEnter() {
     this.redirectToGalleryPageIfNeed()
     this.closeDropDown()
-
+    this.searchRef?.$refs?.input?.$refs?.input?.blur()
     // insert search term in history
     this.searchSuggestionRef?.insertNewHistory()
   }
@@ -122,7 +122,7 @@ export default class SearchBar extends mixins(
     )
     if (routePathList.indexOf(this.$route.path) === -1) {
       this.$router.push({
-        path: `${this.urlPrefix}/explore/items`,
+        path: `/${this.urlPrefix}/explore/items`,
         query: {
           ...this.$route.query,
           ...params,

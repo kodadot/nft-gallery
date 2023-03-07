@@ -4,25 +4,29 @@
       v-model="selectedSort"
       class="sort"
       :close-on-click="false"
+      append-to-body
       multiple
+      :mobile-modal="false"
       aria-role="list"
       :class="{ 'sort-active': isActive }"
-      :mobile-modal="false"
+      position="bottom-left"
       @change="onChange"
       @active-change="isActive = $event">
       <template #trigger>
         <NeoButton
           type="button"
-          :icon="isActive ? 'caret-up' : 'caret-down'"
-          class="has-text-left"
+          :icon="isActive ? 'chevron-up' : 'chevron-down'"
+          class="has-text-left is-hidden-mobile"
           data-cy="explore-sort">
           Sort By
         </NeoButton>
-        <div
-          v-if="selectedSort.length"
-          class="sort-count is-flex is-justify-content-center is-align-items-center">
-          <span>{{ selectedSort.length }}</span>
-        </div>
+        <NeoButton
+          type="button"
+          icon="filter"
+          class="is-hidden-tablet"
+          data-cy="explore-sort" />
+
+        <ActiveCount v-if="selectedSort.length" :count="selectedSort.length" />
       </template>
 
       <NeoDropdownItem
@@ -45,7 +49,6 @@
 </template>
 
 <script setup lang="ts">
-import { isArray } from 'lodash'
 import { ODropdown } from '@oruga-ui/oruga'
 import { NeoButton, NeoDropdownItem } from '@kodadot1/brick'
 
@@ -53,6 +56,7 @@ import {
   NFT_SQUID_SORT_COLLECTIONS,
   NFT_SQUID_SORT_CONDITION_LIST,
 } from '@/utils/constants'
+import ActiveCount from './ActiveCount.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -66,30 +70,14 @@ const options = computed(() => {
     : NFT_SQUID_SORT_COLLECTIONS
 })
 
-function selectiveSort(options: string[]) {
-  const uniqueOptions = {}
-
-  if (!isArray(options)) {
-    return []
-  }
-
-  options.forEach((option) => {
-    const opt = option.split('_')
-    const identifier = opt[0]
-    const sort = opt[1]
-
-    uniqueOptions[identifier] = sort
-  })
-
-  return Object.keys(uniqueOptions).map((identifier) => {
-    return `${identifier}_${uniqueOptions[identifier]}`
-  })
+function enforceArray(options: string[]) {
+  return Array.isArray(options) ? options : []
 }
 
 const sortOptions = ref<string[]>([])
 const selectedSort = computed({
   get: () => sortOptions.value,
-  set: (value) => (sortOptions.value = selectiveSort(value)),
+  set: (value) => (sortOptions.value = enforceArray(value)),
 })
 
 function onChange(selected) {
@@ -98,7 +86,7 @@ function onChange(selected) {
     query: {
       ...route.query,
       page: '1',
-      sort: selectiveSort(selected),
+      sort: enforceArray(selected),
     },
   })
 }
@@ -114,7 +102,7 @@ onMounted(() => {
   const sort = route.query.sort
 
   if (sort?.length) {
-    if (isArray(sort)) {
+    if (Array.isArray(sort)) {
       selectedSort.value = sort as string[]
     } else {
       selectedSort.value = [sort] as string[]
@@ -125,7 +113,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-@import '@/styles/abstracts/theme';
 
 .sort {
   position: relative;
@@ -139,22 +126,6 @@ onMounted(() => {
 
   .neo-dropdown-item {
     width: 16rem;
-  }
-
-  &-count {
-    position: absolute;
-    top: -0.75rem;
-    left: -0.75rem;
-    height: 1.5rem;
-    width: 1.5rem;
-    line-height: 1.5rem;
-    text-align: center;
-
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-      background: theme('k-accent');
-      color: theme('black');
-    }
   }
 }
 

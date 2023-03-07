@@ -4,7 +4,13 @@
     <Navbar />
 
     <!-- new header component for collection here -->
-    <div v-if="isCollection">header collection here</div>
+    <div v-if="isCollection">
+      <CollectionBanner />
+      <section class="container mobile-padding pt-5">
+        <CollectionInfo />
+        <hr />
+      </section>
+    </div>
 
     <main class="is-flex-grow-1">
       <Error
@@ -13,21 +19,15 @@
         error-subtitle="Please check your network connections"
         error-title="Offline Detected" />
       <div v-else>
-        <section class="section">
+        <section>
           <div class="container is-fluid">
             <h1 v-if="isExplore" class="title">{{ $t('explore') }}</h1>
 
             <ExploreTabsFilterSort />
-            <div v-if="$route.query.search">
-              {{ $t('general.searchResultsText') }}
-              <span class="text__stroked is-size-3">{{
-                $route.query.search
-              }}</span>
-            </div>
           </div>
         </section>
-        <hr class="m-0" />
-        <section class="section pt-0">
+        <hr class="text-color my-0" />
+        <section class="pt-0">
           <Nuxt />
         </section>
       </div>
@@ -36,8 +36,10 @@
 </template>
 
 <script lang="ts" setup>
-import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
+import ExploreTabsFilterSort from '@/components/explore/Controls.vue'
 import MobileFilter from '@/components/explore/MobileFilter.vue'
+import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
+import CollectionInfo from '@/components/collection/CollectionInfo.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()
@@ -53,13 +55,27 @@ useNuxt2Meta({
 })
 
 const isExplore = computed(() => route.path.includes('/explore'))
-const isCollection = computed(() => route.name === 'prefix-collection-id')
+const isCollection = computed(() =>
+  route.name?.includes('prefix-collection-id')
+)
 </script>
+
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 hr {
   @include ktheme() {
-    background: theme('border-color');
+    background: theme('k-grey');
+  }
+}
+.text-color {
+  @include ktheme() {
+    background: theme('text-color');
+  }
+}
+
+@include touch {
+  .mobile-padding {
+    padding: 0 1rem;
   }
 }
 </style>

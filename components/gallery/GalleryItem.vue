@@ -13,7 +13,8 @@
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
           :title="nft?.name || nft?.id"
-          is-detail />
+          is-detail
+          :original="isMobile && true" />
       </div>
       <div class="py-6 column">
         <div
@@ -21,7 +22,7 @@
           <!-- title section -->
           <div class="pb-4">
             <div class="is-flex is-justify-content-space-between">
-              <div>
+              <div class="name-container">
                 <h1 class="title" data-cy="item-title">
                   {{ nft?.name || nft?.id }}
                 </h1>
@@ -47,14 +48,14 @@
               <IdentityItem
                 v-if="nft?.issuer"
                 class="gallery-avatar mr-4"
-                :label="`${$t('Creator')}`"
+                :label="$t('Creator')"
                 :prefix="urlPrefix"
                 :account="nft?.issuer"
                 data-cy="item-creator" />
               <IdentityItem
                 v-if="nft?.currentOwner !== nft?.issuer"
                 class="gallery-avatar"
-                :label="`${$t('Owner')}`"
+                :label="$t('Owner')"
                 :prefix="urlPrefix"
                 :account="nft?.currentOwner || ''"
                 data-cy="item-owner" />
@@ -113,6 +114,7 @@ const router = useRouter()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
 const collection = computed(() => nft.value?.collection)
+const isMobile = ref(window.innerWidth < 768)
 
 const tabs = {
   offers: '0',
@@ -174,6 +176,10 @@ useNuxt2Meta({
 <style lang="scss" scoped>
 .title {
   font-size: 2.4375em;
+}
+
+.name-container {
+  max-width: 75%;
 }
 
 .gallery-item-tabs-panel-wrapper {

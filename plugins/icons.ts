@@ -10,6 +10,7 @@ import {
   faAngleLeft,
   faAngleRight,
   faArrowUp,
+  faArrowUpRightFromSquare,
   faArrowsAlt,
   faBars,
   faBookOpen,
@@ -82,6 +83,8 @@ import {
   faShareSquare,
   faShop,
   faSignOutAlt,
+  faSort,
+  faSquareArrowUpRight,
   faSync,
   faTable,
   faTag,
@@ -123,6 +126,9 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
+  faSort,
+  faArrowUpRightFromSquare,
+  faSquareArrowUpRight,
   faBars,
   faBookOpen,
   faPaperPlane,
@@ -235,12 +241,12 @@ library.add(
 )
 
 Vue.component('VueFontawesome', FontAwesomeIcon).use(Neo, {
-  iconComponent: 'vue-fontawesome',
-  iconPack: 'fas',
+  iconPack: 'fa-sharp',
   customIconPacks: {
-    fas: {
+    'fa-sharp': {
+      iconPrefix: 'fa-',
       sizes: {
-        default: 'fw',
+        default: 'fw fa-regular',
       },
     },
   },
