@@ -5,10 +5,13 @@
       <div v-if="collectionInfo?.currentOwner" class="is-flex mb-2">
         <div class="mr-2">{{ $t('activity.creator') }}</div>
         <nuxt-link :to="`/${urlPrefix}/u/${address}`" class="has-text-link">
-          <IdentityIndex ref="identity" :address="address" />
+          <IdentityIndex
+            ref="identity"
+            :address="address"
+            link-class="has-text-link" />
         </nuxt-link>
       </div>
-      <div>
+      <div class="overflow-wrap">
         {{ collectionInfo?.meta.description }}
       </div>
     </div>
@@ -88,6 +91,9 @@ const { stats } = useCollectionDetails({ collectionId: collectionId.value })
 
   .max-width {
     max-width: 100%;
+  }
+  .overflow-wrap {
+    overflow-wrap: break-word;
   }
 }
 </style>
