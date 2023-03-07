@@ -22,7 +22,13 @@ const props = defineProps<{
 const item = ref<NFTWithMetadata>()
 
 onBeforeMount(async () => {
-  if (props.nft.meta) {
+  // set default values
+  item.value = {
+    ...props.nft,
+    image: '/placeholder.webp',
+  }
+
+  if (props.nft.meta && props.nft.meta.image) {
     item.value = {
       ...props.nft,
       name: props.nft.name || props.nft.id,
@@ -37,6 +43,17 @@ onBeforeMount(async () => {
   const metadata = (await processSingleMetadata(
     props.nft.metadata
   )) as NFTWithMetadata
+
+  if (urlPrefix.value === 'rmrk2' && props.nft.resources.length) {
+    const { src, thumb } = props.nft.resources[0]
+    console.log(src, thumb)
+    item.value = {
+      ...props.nft,
+      image: sanitizeIpfsUrl(thumb || src || ''),
+    }
+    return
+  }
+
   const image = sanitizeIpfsUrl(metadata.image || '')
   const animation_url = sanitizeIpfsUrl(metadata.animation_url || '')
 

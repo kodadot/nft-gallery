@@ -251,6 +251,7 @@ importers:
       '@google/model-viewer': ^1.12.1
       '@histoire/plugin-vue2': ^0.15.8
       '@vitejs/plugin-vue2': ^2.2.0
+      '@vueuse/core': ^9.13.0
       bulma: 0.9.4
       eslint: ^8.35.0
       eslint-plugin-vue: ^8.7.1
@@ -260,6 +261,7 @@ importers:
       vue-audio-visual: 2.5.0
     dependencies:
       '@google/model-viewer': 1.12.1
+      '@vueuse/core': 9.13.0_vue@2.7.14
       bulma: 0.9.4
       vue-audio-visual: 2.5.0
     devDependencies:
@@ -7395,7 +7397,6 @@ packages:
 
   /@types/web-bluetooth/0.0.16:
     resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}
-    dev: true
 
   /@types/webpack-bundle-analyzer/4.6.0:
     resolution: {integrity: sha512-XeQmQCCXdZdap+A/60UKmxW5Mz31Vp9uieGlHB3T4z/o2OLVLtTI3bvTuS6A2OWd/rbAAQiGGWIEFQACu16szA==}
@@ -8031,11 +8032,9 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: true
 
   /@vueuse/metadata/9.13.0:
     resolution: {integrity: sha512-gdU7TKNAUVlXXLbaF+ZCfte8BjRJQWPCa2J55+7/h+yDtzw3vOoGQDRXzI6pyKyo6bXFT5/QoPE4hAknExjRLQ==}
-    dev: true
 
   /@vueuse/nuxt/9.13.0_vue@2.7.14:
     resolution: {integrity: sha512-JunH/w6nFIwCyaZ0s+pfrYFMfBzGfhkwmFPz7ogHFmb71Ty/5HINrYOAOZCXpN44X6QH6FiJq/wuLLdvYzqFUw==}
@@ -8061,7 +8060,6 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: true
 
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}

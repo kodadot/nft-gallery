@@ -4,7 +4,16 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
 import { useSearchParams } from './utils/useSearchParams'
 import { Ref } from 'vue'
-export type NFTWithMetadata = NFT & NFTMetadata & { meta: NFTMetadata }
+
+type RMRK2Resources = {
+  resources: {
+    src: string
+    thumb: string
+  }[]
+}
+
+export type NFTWithMetadata = NFT &
+  NFTMetadata & { meta: NFTMetadata } & RMRK2Resources
 
 export function useFetchSearch({
   first,
@@ -36,7 +45,8 @@ export function useFetchSearch({
     }
     isFetchingData.value = true
 
-    const query = await resolveQueryPath(client.value, 'nftListWithSearch')
+    const queryPath = client.value === 'rmrk2' ? 'chain-rmrk2' : client.value
+    const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
     const result = await $apollo.query({
       query: query.default,
       client: client.value,

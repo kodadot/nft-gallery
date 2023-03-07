@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@google/model-viewer": "^1.12.1",
+    "@vueuse/core": "^9.13.0",
     "bulma": "0.9.4",
     "vue-audio-visual": "2.5.0"
   }
