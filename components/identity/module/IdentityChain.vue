@@ -25,7 +25,8 @@
       <IdentityLink
         :shortened-address="name"
         :address="address"
-        :show-clipboard="showClipboard" />
+        :show-clipboard="showClipboard"
+        :link-class="linkClass" />
     </span>
   </div>
 </template>
@@ -50,6 +51,7 @@ defineProps<{
   address?: Address
   shortenedAddress?: string
   name?: string | object
+  linkClass?: string
 }>()
 </script>
 

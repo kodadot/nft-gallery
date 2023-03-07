@@ -20,7 +20,8 @@
       :address="address"
       :show-clipboard="showClipboard"
       :shortened-address="shortenedAddress"
-      :name="name" />
+      :name="name"
+      :link-class="linkClass" />
   </div>
 </template>
 
@@ -48,6 +49,7 @@ const props = defineProps<{
   hideIdentityPopover?: boolean
   showClipboard?: boolean
   customNameOption?: string
+  linkClass?: string
 }>()
 
 const {

@@ -1,15 +1,17 @@
 <template>
-  <b-modal
-    v-if="isMobile"
-    :active="open"
-    :on-cancel="onClose"
+  <NeoSidebar
+    fullheight
+    fullwidth
+    overlay
+    position="fixed"
+    :open="open"
     :can-cancel="['escape']"
-    class="top no-border"
-    full-screen>
-    <div class="is-flex is-flex-direction-column is-fullheight is-fullwidth">
+    :on-cancel="onClose"
+    class="top is-absolute background-color">
+    <div class="is-flex is-flex-direction-column is-fullheight">
       <div class="is-flex-grow-1">
         <div class="is-flex border-bottom">
-          <p class="card-header-title has-text-weight-normal">
+          <p class="card-header-title has-text-weight-bold">
             {{ $t('general.filters') }}
           </p>
           <a class="card-header-icon">
@@ -28,23 +30,23 @@
         <NeoButton
           label="Reset All"
           variant="primary"
-          class="is-fullwidth mw-9 h-3_5"
+          class="is-flex-grow-1 mw-9 h-3_5 is-shadowless"
           @click.native="resetFilters">
           {{ $t('general.resetAll') }}
         </NeoButton>
         <NeoButton
           variant="k-accent"
-          class="is-fullwidth mw-9 h-3_5"
+          class="is-flex-grow-1 mw-9 h-3_5"
           @click.native="applyFilters">
           {{ $t('general.apply') }}
         </NeoButton>
       </div>
     </div>
-  </b-modal>
+  </NeoSidebar>
 </template>
 
 <script lang="ts" setup>
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoSidebar } from '@kodadot1/brick'
 import PriceFilter from './filters/PriceFilter.vue'
 import StatusFilter from './filters/StatusFilter.vue'
 import useReplaceUrl from './filters/useReplaceUrl'
@@ -55,17 +57,8 @@ const exploreFiltersStore = useExploreFiltersStore()
 
 const { $store } = useNuxtApp()
 const { replaceUrl } = useReplaceUrl()
-const width = ref(window.innerWidth)
-
-onMounted(() => {
-  window.addEventListener('resize', () => {
-    width.value = window.innerWidth
-  })
-})
 
 const emit = defineEmits(['resetPage'])
-
-const isMobile = computed(() => width.value <= 768)
 
 const open = computed(
   () => $store.getters['preferences/getMobileFilterCollapse']
@@ -131,11 +124,11 @@ watch(() => route.query, syncFromUrl)
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-.is-fullwidth {
-  width: 100%;
-}
 .is-fullheight {
   height: 100%;
+}
+.is-absolute {
+  position: absolute;
 }
 .buttons-container {
   display: grid;
@@ -166,16 +159,17 @@ watch(() => route.query, syncFromUrl)
 
 <style lang="scss">
 @import '@/styles/abstracts/variables';
-.no-border {
-  > .modal-content {
-    border: none !important;
-    box-shadow: none !important;
+.background-color .o-side {
+  &__content {
+    @include ktheme() {
+      background-color: theme('background-color');
+    }
   }
-}
-
-.modal-content {
-  @include ktheme() {
-    background-color: theme('background-color') !important;
+  &__overlay {
+    @include ktheme() {
+      background-color: theme('background-color');
+      opacity: 0.86;
+    }
   }
 }
 </style>
