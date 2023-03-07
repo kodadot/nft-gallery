@@ -2,7 +2,7 @@
   <div class="gallery">
     <div class="is-flex is-align-self-flex-start">
       <SidebarFilter @resetPage="resetPage" />
-      <div class="container">
+      <div>
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-hidden-mobile">
           <BreadcrumbsFilter />
