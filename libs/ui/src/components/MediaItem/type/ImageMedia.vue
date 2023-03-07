@@ -2,7 +2,7 @@
   <figure
     class="image-container"
     :class="{
-      'is-square image': !original && !isMobile,
+      'is-square image': !original,
       'is-detail': isDetail,
     }">
     <img
@@ -20,8 +20,6 @@ defineProps<{
   original: boolean
   isDetail?: boolean
 }>()
-
-const isMobile = ref(window.innerWidth < 768)
 </script>
 
 <style>

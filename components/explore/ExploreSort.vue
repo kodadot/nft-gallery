@@ -14,12 +14,13 @@
         <NeoButton
           data-cy="explore-sort"
           class="has-text-left is-hidden-mobile"
-          label="Sort By" />
+          label="Sort By"
+          :icon="isActive ? 'chevron-up' : 'chevron-down'" />
+
         <NeoButton
           data-cy="explore-sort"
           class="has-text-left is-hidden-tablet"
           icon="filter" />
-
         <div
           v-if="selectedSort.length"
           class="sort-count is-flex is-justify-content-center is-align-items-center">

@@ -887,7 +887,12 @@
     "unique": "UNIQUE",
     "owners": "OWNERS",
     "distribution": "DISTRIBUTION",
-    "floorPrice": "FLOOR PRICE"
+    "floorPrice": "FLOOR PRICE",
+    "floor": "Floor",
+    "bestOffer": "Best Offer",
+    "volume": "Volume",
+    "network": "Network",
+    "creator": "Creator"
   },
   "profileStats": {
     "listed": "Listed",

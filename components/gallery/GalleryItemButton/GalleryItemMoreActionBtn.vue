@@ -2,7 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <NeoDropdown>
-      <NeoButton class="icon-action" icon="ellipsis-v" />
+      <NeoButton class="icon-action" icon="ellipsis-vertical" />
 
       <template #items>
         <NeoDropdownItem
