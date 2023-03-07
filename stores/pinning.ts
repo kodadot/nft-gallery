@@ -25,7 +25,7 @@ export const usePinningStore = defineStore('pinning', {
   getters: {
     getPinningKey: (state) => state.pinningKey?.token,
     isKeyValid: (state) =>
-      !!state.pinningKey?.expiry &&
+      Boolean(state.pinningKey?.expiry) &&
       new Date(state.pinningKey.expiry).getTime() < Date.now(),
   },
   actions: {
