@@ -108,7 +108,7 @@ $gap-percents: 5.5%;
 
 $max-card-width: 760px;
 $min-card-width: 225px;
-$max-card-height: 464px;
+$card-height: 464px;
 $max-gap: 80px;
 
 $gap: min($gap-percents, $max-gap);
@@ -117,7 +117,6 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 $base-shift: calc((100% - $card-width) / 2);
 
 .carousel-wrapper {
-  //   margin-left: calc((100% - (#{$card-width})) / 2);
   transition: transform 0.5s ease-in-out;
   gap: #{$gap};
 
@@ -136,7 +135,7 @@ $base-shift: calc((100% - $card-width) / 2);
 
 .carousel-card {
   flex: 0 0 #{$card-width};
-  height: $max-card-height;
+  height: $card-height;
 
   &.mobile-padding {
     @include mobile {
@@ -167,7 +166,6 @@ $base-shift: calc((100% - $card-width) / 2);
   width: 10px;
   height: 10px;
   border-radius: 25%;
-  background-color: #ccc;
   transition: background-color 0.2s ease-in-out;
   @include ktheme() {
     background-color: theme('k-shade');
