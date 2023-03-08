@@ -7,7 +7,7 @@ import {
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import { pinJson } from '@/services/nftStorage'
-import { preheatFileFromIPFS } from '~~/utils/ipfs'
+import { preheatFileFromIPFS } from '@/utils/ipfs'
 
 export type Options = {
   gender: string
@@ -128,6 +128,8 @@ export const buildMetadata = async (
   }
 
   const metaHash = await pinJson(replicableMeta, imageHash)
+
+  preheatFileFromIPFS(metaHash)
 
   return unSanitizeIpfsUrl(metaHash)
 }
