@@ -117,25 +117,6 @@ export const useHistoryStore = defineStore('history', {
     setCurrentlyViewedCollection(payload) {
       this.currentlyViewedCollection = payload
     },
-    removeHistoryItem(payload) {
-      if (typeof payload === 'string') {
-        this.visitedNFTs = this.visitedNFTs.filter(
-          (item) => item.id !== payload
-        )
-      } else {
-        // check if nft was visited before -> in that case delete it from history first
-        if (this.visitedNFTs.find((item) => item.id === payload.id)) {
-          this.visitedNFTs = this.visitedNFTs.filter(
-            (item) => item.id !== payload.id
-          )
-        }
-        // save a maximum of 30 items
-        if (this.visitedNFTs.length > 30) {
-          this.visitedNFTs.pop()
-        }
-        this.visitedNFTs.unshift(payload)
-      }
-    },
     setCurrentCollection(payload) {
       this.currentCollection = payload
     },
