@@ -1,27 +1,19 @@
 <template>
-  <div>
-    <NeoNftCard
-      v-if="item"
-      class="is-hidden-mobile"
-      :nft="item"
-      :prefix="urlPrefix"
-      :show-price="Number(item?.price) > 0" />
-    <NeoNftCard
-      v-if="item"
-      class="is-hidden-tablet"
-      :nft="item"
-      :prefix="urlPrefix"
-      :show-price="Number(item?.price) > 0"
-      variant="minimal" />
-  </div>
+  <NeoNftCard
+    v-if="item"
+    class="is-hidden-mobile"
+    :nft="item"
+    :prefix="urlPrefix"
+    :show-price="Number(item?.price) > 0"
+    :variant="isMobile && 'small'" />
 </template>
 
 <script setup lang="ts">
+import { useWindowSize } from '@vueuse/core'
 import { NeoNftCard } from '@kodadot1/brick'
-import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { getNftMetadata } from '@/utils/nft'
 
-import type { NFTWithMetadata } from './useItemsGrid'
+import type { NFTWithMetadata } from '@/utils/nft'
 
 const { urlPrefix } = usePrefix()
 
@@ -32,47 +24,9 @@ const props = defineProps<{
 const item = ref<NFTWithMetadata>()
 
 onBeforeMount(async () => {
-  // set default values
-  item.value = {
-    ...props.nft,
-    image: '/placeholder.webp',
-  }
-
-  if (props.nft.meta && props.nft.meta.image) {
-    item.value = {
-      ...props.nft,
-      name: props.nft.name || props.nft.id,
-      image: sanitizeIpfsUrl(props.nft.meta.image),
-      animation_url: sanitizeIpfsUrl(props.nft.meta.animation_url || ''),
-      type: props.nft.meta.type || '',
-    }
-
-    return
-  }
-
-  if (urlPrefix.value === 'rmrk2' && props.nft.resources.length) {
-    const { src, thumb } = props.nft.resources[0]
-
-    item.value = {
-      ...props.nft,
-      image: sanitizeIpfsUrl(thumb || src || ''),
-    }
-
-    return
-  }
-
-  const metadata = (await processSingleMetadata(
-    props.nft.metadata
-  )) as NFTWithMetadata
-  const image = sanitizeIpfsUrl(metadata.image || '')
-  const animation_url = sanitizeIpfsUrl(metadata.animation_url || '')
-
-  item.value = {
-    ...props.nft,
-    name: props.nft.name || metadata.name || props.nft.id,
-    image,
-    animation_url,
-    type: metadata.type || '',
-  }
+  item.value = await getNftMetadata(props.nft, urlPrefix.value)
 })
+
+const { width } = useWindowSize()
+const isMobile = computed(() => width.value <= 768)
 </script>

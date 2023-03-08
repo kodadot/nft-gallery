@@ -12,6 +12,7 @@
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
+
     <DynamicGrid :class="scrollContainerId" class="mt-5">
       <div
         v-for="(nft, index) in nfts"

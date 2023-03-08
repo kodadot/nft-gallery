@@ -1,19 +1,9 @@
-import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
-
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
 import { useSearchParams } from './utils/useSearchParams'
 import { Ref } from 'vue'
 
-type RMRK2Resources = {
-  resources: {
-    src: string
-    thumb: string
-  }[]
-}
-
-export type NFTWithMetadata = NFT &
-  NFTMetadata & { meta: NFTMetadata } & RMRK2Resources
+import type { NFTWithMetadata } from '@/utils/nft'
 
 export function useFetchSearch({
   first,
