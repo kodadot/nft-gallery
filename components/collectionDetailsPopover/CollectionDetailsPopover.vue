@@ -38,6 +38,6 @@ const show = ref(false)
 
 <style lang="scss" scoped>
 .popover-container {
-  min-height: 20rem;
+  min-height: 12.5rem;
 }
 </style>
