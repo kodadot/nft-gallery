@@ -835,7 +835,7 @@ export default class SimpleMint extends mixins(
     const go = () =>
       this.$router.push({
         path: `/rmrk/gallery/${getNftId(nft, blockNumber)}`,
-        query: { message: 'congrats' },
+        query: { congratsNft: nft.name },
       })
     setTimeout(go, DETAIL_TIMEOUT)
   }
