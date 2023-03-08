@@ -88,7 +88,7 @@ import {
 } from '@/components/rmrk/Create/mintUtils'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
+import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import shouldUpdate from '@/utils/shouldUpdate'
 import {
   Attribute,
@@ -118,6 +118,7 @@ import { fetchCollectionMetadata, preheatFileFromIPFS } from '@/utils/ipfs'
 import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { uploadDirectWhenMultiple } from '@/utils/directUpload'
+import { usePinningStore } from '@/stores/pinning'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -190,6 +191,10 @@ export default class CreateToken extends mixins(
       return this.$t('tooltip.notEnoughBalance')
     }
     return ''
+  }
+
+  get pinningStore() {
+    return usePinningStore()
   }
 
   public async created() {
@@ -342,11 +347,7 @@ export default class CreateToken extends mixins(
       throw new ReferenceError('No file found!')
     }
 
-    const { token }: PinningKey = await this.$store.dispatch(
-      'pinning/fetchPinningKey',
-      this.accountId
-    )
-
+    const { token } = await this.pinningStore.fetchPinningKey(this.accountId)
     const fileHash = await pinFileToIPFS(file, token)
     const secondFileHash = secondFile
       ? await pinFileToIPFS(secondFile, token)

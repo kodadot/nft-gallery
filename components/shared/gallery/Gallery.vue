@@ -3,9 +3,8 @@
     <div class="is-flex is-align-self-flex-start">
       <SidebarFilter @resetPage="resetPage" />
       <div class="container">
-        <!-- TODO: FilterBreadcrumbs here -->
         <div
-          class="is-flex is-justify-content-space-between py-5 is-hidden-mobile">
+          class="is-flex is-justify-content-space-between pb-4 pt-5 is-hidden-mobile">
           <BreadcrumbsFilter />
           <div v-show="total">{{ total }} {{ $t('items') }}</div>
         </div>
@@ -24,7 +23,10 @@
             <NftCard
               :nft="nft"
               :data-cy="`item-index-${index}`"
-              :variant="slotProps.isMobileVariant && 'minimal'" />
+              :variant="
+                (slotProps.isMobileVariant || slotProps.grid === 'small') &&
+                'minimal'
+              " />
           </div>
         </DynamicGrid>
         <InfiniteLoading

@@ -78,7 +78,7 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
+import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
@@ -104,6 +104,7 @@ import {
   offsetAttribute,
   secondaryFileVisible,
 } from './mintUtils'
+import { usePinningStore } from '@/stores/pinning'
 
 type MintedCollection = BaseMintedCollection & {
   name: string
@@ -164,6 +165,10 @@ export default class CreateToken extends mixins(
 
   get balanceNotEnoughMessage() {
     return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
+  }
+
+  get pinningStore() {
+    return usePinningStore()
   }
 
   @Watch('accountId', { immediate: true })
@@ -298,11 +303,7 @@ export default class CreateToken extends mixins(
       throw new ReferenceError('No file found!')
     }
 
-    const { token }: PinningKey = await this.$store.dispatch(
-      'pinning/fetchPinningKey',
-      this.accountId
-    )
-
+    const { token } = await this.pinningStore.fetchPinningKey(this.accountId)
     const fileHash = await pinFileToIPFS(file, token)
     const secondFileHash = secondFile
       ? await pinFileToIPFS(secondFile, token)

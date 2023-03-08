@@ -1,17 +1,18 @@
 <template>
   <div class="is-flex-grow-1">
-    <div
-      class="is-flex is-justify-content-space-between pt-5 is-align-content-center">
-      <BreadcrumbsFilter />
-      <div v-show="total">{{ total }} {{ $t('items') }}</div>
+    <div class="is-hidden-mobile">
+      <div
+        class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
+        <BreadcrumbsFilter />
+        <div v-show="total">{{ total }} {{ $t('items') }}</div>
+      </div>
+      <hr class="my-0" />
     </div>
-
-    <hr />
 
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
-    <DynamicGrid :class="scrollContainerId">
+    <DynamicGrid :class="scrollContainerId" class="mt-5">
       <div
         v-for="(nft, index) in nfts"
         :key="`${nft.id}=${index}`"
