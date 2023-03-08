@@ -1,6 +1,9 @@
 <template>
   <div class="collections">
-    <div class="is-flex is-flex-direction-row-reverse py-5">
+    <div
+      class="is-flex is-flex-direction-row is-justify-content-space-between py-5">
+      <BreadcrumbsFilter />
+
       <div v-show="total">{{ total }} {{ $t('items') }}</div>
     </div>
     <hr class="mt-0" />

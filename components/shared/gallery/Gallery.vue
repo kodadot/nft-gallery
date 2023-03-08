@@ -88,7 +88,7 @@ const components = {
   CarouselInfo: () => import('@/components/carousel/module/CarouselInfo.vue'),
   NftCard: () => import('./NftCard.vue'),
   SidebarFilter: () => import('@/components/explore/SidebarFilter.vue'),
-  BreadcrumbsFilter: () => import('./BreadcrumbsFilter.vue'),
+  BreadcrumbsFilter: () => import('@/components/shared/BreadcrumbsFilter.vue'),
   EmptyResult: () => import('@/components/common/EmptyResult.vue'),
   DynamicGrid: () => import('@/components/shared/DynamicGrid.vue'),
 }
