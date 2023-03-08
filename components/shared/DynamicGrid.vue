@@ -1,6 +1,6 @@
 <template>
   <div ref="container" :style="gridCols">
-    <slot :is-mobile-variant="isMobileVariant" />
+    <slot :is-mobile-variant="isMobileVariant" :grid="grid" />
   </div>
 </template>
 
@@ -11,13 +11,15 @@ const props = withDefaults(
   defineProps<{
     defaultWidth?: {
       small: number
+      medium: number
       large: number
     }
     mobileVariant?: boolean
   }>(),
   {
     defaultWidth: () => ({
-      small: 16 * 15, // 15rem
+      small: 16 * 12, // 12rem
+      medium: 16 * 15, // 15rem
       large: 16 * 20, // 20rem
     }),
     mobileVariant: true,
@@ -57,7 +59,7 @@ watch(grid, () => {
 
 const gridCols = computed(() => ({
   display: 'grid',
-  gap: '2rem',
+  gap: '1rem',
   gridTemplateColumns: `repeat(${cols.value}, minmax(0, 1fr))`,
 }))
 </script>
