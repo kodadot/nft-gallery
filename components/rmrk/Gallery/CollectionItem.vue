@@ -228,6 +228,7 @@ export default class CollectionItem extends mixins(
   private openHistory = true
   private openHolder = true
   private nfts: NFT[] = []
+  private historyStore = useHistoryStore()
 
   protected squidCollectionProfileSortOption: string[] = [
     'blockNumber_DESC',
@@ -238,10 +239,6 @@ export default class CollectionItem extends mixins(
     'price_ASC',
     'sn_ASC',
   ]
-
-  get historyStore() {
-    return useHistoryStore()
-  }
 
   get isBsx(): boolean {
     return this.urlPrefix === 'bsx'

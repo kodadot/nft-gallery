@@ -119,12 +119,9 @@ export default class Sharing extends Vue {
   @Prop({ default: '' }) btnType?: string
 
   private active = false
+  private historyStore = useHistoryStore()
 
   public hashtags = 'KusamaNetwork,KodaDot'
-
-  get historyStore() {
-    return useHistoryStore()
-  }
 
   get helloText(): string {
     return this.label

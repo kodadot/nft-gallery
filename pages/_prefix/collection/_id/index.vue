@@ -45,9 +45,7 @@ type CurrentCollection = {
   },
 })
 export default class CollectionItemPage extends mixins(ExperimentMixin) {
-  get historyStore() {
-    return useHistoryStore()
-  }
+  private historyStore = useHistoryStore()
 
   get currentlyViewedCollection(): CurrentCollection {
     return this.historyStore.getCurrentlyViewedCollection
