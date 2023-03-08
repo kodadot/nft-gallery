@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="is-flex is-align-items-center is-justify-content-center mb-6 px-3">
+      class="is-flex is-align-items-center is-justify-content-center mb-6 px-6">
       <div
         class="is-size-1-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
         Mass Mint Onboarding
