@@ -159,6 +159,7 @@ import { onlyPriceEvents } from '../utils'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { SearchQuery } from './search/types'
 import { isSameAccount } from '~/utils/account'
+import { useHistoryStore } from '@/stores/history'
 
 const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
 
@@ -237,6 +238,10 @@ export default class CollectionItem extends mixins(
     'price_ASC',
     'sn_ASC',
   ]
+
+  get historyStore() {
+    return useHistoryStore()
+  }
 
   get isBsx(): boolean {
     return this.urlPrefix === 'bsx'
@@ -514,7 +519,7 @@ export default class CollectionItem extends mixins(
         ...meta,
         image: sanitizeIpfsUrl(meta.image || '', 'image'),
       }
-      this.$store.dispatch('history/setCurrentlyViewedCollection', {
+      this.historyStore.setCurrentlyViewedCollection({
         name: this.name,
         image: this.image,
         description: this.description,
