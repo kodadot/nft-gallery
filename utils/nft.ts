@@ -32,7 +32,6 @@ function getRmrk2Resources(nft: NFTWithMetadata) {
 }
 
 async function getProcessMetadata(nft: NFTWithMetadata) {
-  console.log(nft.metadata)
   const metadata = (await processSingleMetadata(
     nft.metadata
   )) as NFTWithMetadata
