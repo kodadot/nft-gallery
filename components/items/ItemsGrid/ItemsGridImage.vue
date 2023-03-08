@@ -1,7 +1,6 @@
 <template>
   <NeoNftCard
     v-if="item"
-    class="is-hidden-mobile"
     :nft="item"
     :prefix="urlPrefix"
     :show-price="Number(item?.price) > 0"
