@@ -3,7 +3,7 @@ import { getDenyList } from '@/utils/prefix'
 import { useSearchParams } from './utils/useSearchParams'
 import { Ref } from 'vue'
 
-import type { NFTWithMetadata } from '@/utils/nft'
+import type { NFTWithMetadata } from '@/composables/useNft'
 
 export function useFetchSearch({
   first,

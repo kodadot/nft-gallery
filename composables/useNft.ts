@@ -47,7 +47,7 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
   }
 }
 
-export async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
+async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
   // if subsquid already give us the metadata, we don't need to fetch it again
   if (nft.meta && nft.meta.image) {
     return getGeneralMetadata(nft)
@@ -59,4 +59,17 @@ export async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
   }
 
   return await getProcessMetadata(nft)
+}
+
+export default function useNftMetadata(nft: NFTWithMetadata) {
+  const item = ref<NFTWithMetadata>(nft)
+  const { urlPrefix } = usePrefix()
+
+  onMounted(async () => {
+    item.value = await getNftMetadata(nft, urlPrefix.value)
+  })
+
+  return {
+    nft: computed(() => item.value),
+  }
 }
