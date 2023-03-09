@@ -104,6 +104,7 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { IFrame, emptyIframe } from '../../components/rmrk/types'
 import { downloadImage } from '~/utils/download'
+import { useHistoryStore } from '@/stores/history'
 
 const components = {
   ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
@@ -118,8 +119,9 @@ export default class Sharing extends Vue {
   @Prop({ default: '' }) btnType?: string
 
   private active = false
+  private historyStore = useHistoryStore()
 
-  private hashtags = 'KusamaNetwork,KodaDot'
+  public hashtags = 'KusamaNetwork,KodaDot'
 
   get helloText(): string {
     return this.label
@@ -168,8 +170,8 @@ export default class Sharing extends Vue {
     })
   }
 
-  get currentGalleryItemImage(): { image: string; name: string } {
-    return this.$store.getters['history/getCurrentlyViewedItem'] || {}
+  get currentGalleryItemImage() {
+    return this.historyStore.getCurrentlyViewedItem || {}
   }
 
   public async shareTooltip(): Promise<void> {
@@ -188,9 +190,9 @@ export default class Sharing extends Vue {
     }
   }
 
-  protected downloadImage() {
-    const { image, name } = this.currentGalleryItemImage
-    image && downloadImage(image, name)
+  public downloadImage() {
+    const { image } = this.currentGalleryItemImage
+    image && downloadImage(image)
   }
 
   public openFallbackShareTooltip(): void {
