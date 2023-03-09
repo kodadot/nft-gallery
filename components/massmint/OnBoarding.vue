@@ -7,23 +7,21 @@
       </div>
       <NeoButton :label="'Skip'" icon="arrow-right" icon-pack="fas" />
     </div>
-    <div class="carousel is-clipped is-relative">
+    <div
+      class="carousel is-flex is-flex-wrap-nowrap"
+      :class="`slide-${currentSlide}`">
       <div
-        class="carousel-wrapper is-flex is-flex-wrap-nowrap"
-        :class="`slide-${currentSlide}`">
-        <div
-          v-for="(card, index) in cards"
-          :key="index"
-          class="carousel-card p-5 mobile-padding"
-          :class="{ 'not-active': index !== currentSlide }">
-          <div class="card__content">
-            <p
-              class="title is-size-2-desktop is-size-3-tablet is-size-5-mobile is-capitalized">
-              {{ card.title }}
-            </p>
-            <div class="content is-size-4-tablet is-size-5-mobile">
-              <VueMarkdown :source="card.content" />
-            </div>
+        v-for="(card, index) in cards"
+        :key="index"
+        class="carousel-card p-5 mobile-padding"
+        :class="{ 'not-active': index !== currentSlide }">
+        <div class="card__content">
+          <p
+            class="title is-size-2-desktop is-size-3-tablet is-size-5-mobile is-capitalized">
+            {{ card.title }}
+          </p>
+          <div class="content is-size-4-tablet is-size-5-mobile">
+            <VueMarkdown :source="card.content" />
           </div>
         </div>
       </div>
@@ -39,7 +37,7 @@
       <NeoButton
         :label="currentSlide === 2 ? 'Done' : 'Next'"
         class="is-flex-grow-1 limit-width"
-        variant="k-accent"
+        :variant="currentSlide === 2 ? 'k-accent' : 'primary'"
         @click.native="nextSlide" />
     </div>
   </div>
@@ -49,50 +47,20 @@
 import { ref } from 'vue'
 import { NeoButton } from '@kodadot1/brick'
 import VueMarkdown from 'vue-markdown-render'
-
-interface Card {
-  title: string
-  content: string
-}
-
-const cards: Card[] = [
-  {
-    title: 'How to Name your NFTs',
-    content: `instructions:
-
-* **File Name:** the file name of your assets should be
-  **numeric** and **consecutive** 
-
-e.g. 
-* '1.png', '2.png', '3.png', or 
-* 'awesome_art_1', 'awesome_art_2' and so on...
-`,
-  },
-  {
-    title: 'description for your NFTs',
-    content: `
-Each NFT has a name, description and price.
-You can prepare this up front in a separate file
-so that you don’t have to do it manually for all of your NFTs.
-
-Instructions:
-* File type: .TXT, .JSON or CSV
-`,
-  },
-  {
-    title: 'You need to have A collection',
-    content: `In order to use the Mass Mint feature **you need to have an NFT collection created**
-     to which you will mint all of your NFTs. 
-
-If you don’t have a collection created yet, you will be able to create one in the Miss Mint.
-`,
-  },
-]
+const { $i18n } = useNuxtApp()
+const numOfCards = 3
+const cards = computed(() => {
+  const indices = Array.from({ length: numOfCards }, (_, i) => i + 1)
+  return indices.map((i: number) => ({
+    title: $i18n.t(`massmint.onboarding.cards.${i}.title`),
+    content: $i18n.t(`massmint.onboarding.cards.${i}.content`),
+  }))
+})
 
 const currentSlide = ref(0)
 
 const nextSlide = () => {
-  if (currentSlide.value < cards.length - 1) {
+  if (currentSlide.value < numOfCards - 1) {
     currentSlide.value++
   }
 }
@@ -114,7 +82,7 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 
 $base-shift: calc((100% - $card-width) / 2);
 
-.carousel-wrapper {
+.carousel {
   transition: transform 0.5s ease-in-out;
   gap: #{$gap};
 
