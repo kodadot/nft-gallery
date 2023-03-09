@@ -7,6 +7,8 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import OnBoarding from '@/components/massmint/OnBoarding.vue'
+import { useMassmintsStore } from '@/stores/massmint'
+
 const components = { OnBoarding }
 
 @Component<OnBoardingPage>({
@@ -26,6 +28,14 @@ const components = { OnBoarding }
     return {
       title,
       meta: [...this.$seoMeta(metaData)],
+    }
+  },
+  middleware({ store, redirect }) {
+    const prefix = store.getters.currentUrlPrefix
+
+    const { visitedOnboarding } = useMassmintsStore().getVisitedOnboarding
+    if (visitedOnboarding) {
+      setTimeout(() => redirect(`/${prefix}/massmint`))
     }
   },
 })

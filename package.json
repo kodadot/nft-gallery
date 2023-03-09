@@ -104,6 +104,7 @@
     "nuxt-edge": "2.16.0-27720022.54e852f",
     "nuxt-property-decorator": "^2.9.1",
     "ohmyfetch": "^0.4.21",
+    "pinia-plugin-persist": "^1.0.0",
     "setimmediate": "^1.0.5",
     "slugify": "^1.6.5",
     "v-emoji-picker": "^2.3.3",

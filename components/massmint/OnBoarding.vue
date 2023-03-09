@@ -5,7 +5,11 @@
         class="is-size-1-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
         Mass Mint Onboarding
       </div>
-      <NeoButton :label="'Skip'" icon="arrow-right" icon-pack="fas" />
+      <NeoButton
+        :label="'Skip'"
+        icon="arrow-right"
+        icon-pack="fas"
+        @click.native="toMassMint" />
     </div>
     <div
       class="carousel is-flex is-flex-wrap-nowrap"
@@ -35,20 +39,29 @@
     </div>
     <div class="is-flex is-justify-content-center">
       <NeoButton
-        :label="currentSlide === 2 ? 'Done' : 'Next'"
+        :label="btn.label"
         class="is-flex-grow-1 limit-width"
-        :variant="currentSlide === 2 ? 'k-accent' : 'primary'"
-        @click.native="nextSlide" />
+        :variant="btn.variant"
+        @click.native="btn.onClick" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 import VueMarkdown from 'vue-markdown-render'
+import { useMassmintsStore } from '@/stores/massmint'
+
+const { $consola } = useNuxtApp()
+const router = useRouter()
+const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
+
 const numOfCards = 3
+const massMintStore = useMassmintsStore()
+const currentSlide = ref(0)
+
 const cards = computed(() => {
   const indices = Array.from({ length: numOfCards }, (_, i) => i + 1)
   return indices.map((i: number) => ({
@@ -57,13 +70,34 @@ const cards = computed(() => {
   }))
 })
 
-const currentSlide = ref(0)
-
 const nextSlide = () => {
   if (currentSlide.value < numOfCards - 1) {
     currentSlide.value++
   }
 }
+
+const toMassMint = () => {
+  massMintStore.setVisitedOnboarding(true)
+  router
+    .replace({
+      path: `/${urlPrefix.value}/massmint`,
+    })
+    .catch($consola.warn)
+}
+
+const btn = computed(() =>
+  currentSlide.value === 2
+    ? {
+        label: 'Done',
+        variant: 'k-accent' as NeoButtonVariant,
+        onClick: toMassMint,
+      }
+    : {
+        label: 'Next',
+        variant: 'primary' as NeoButtonVariant,
+        onClick: nextSlide,
+      }
+)
 </script>
 
 <style lang="scss" scoped>
