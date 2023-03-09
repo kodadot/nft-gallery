@@ -3,10 +3,10 @@
     <div class="is-flex is-align-items-center mb-6 px-6">
       <div
         class="is-size-1-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
-        Mass Mint Onboarding
+        {{ $t('massmint.onboarding.pageTitle') }}
       </div>
       <NeoButton
-        :label="'Skip'"
+        :label="$t('massmint.onboarding.skip')"
         icon="arrow-right"
         icon-pack="fas"
         @click.native="toMassMint" />
@@ -82,8 +82,6 @@ const currentSlide = ref(0)
 const startX = ref(0)
 const startY = ref(0)
 const isSwiping = ref(false)
-// const nextSlideDebounced = ref<(() => void) | null>(null)
-// const debounceTime = 200
 
 const cards = computed(() => {
   const indices = Array.from({ length: numOfCards }, (_, i) => i + 1)
@@ -116,12 +114,12 @@ const toMassMint = () => {
 const btn = computed(() =>
   currentSlide.value === 2
     ? {
-        label: 'Done',
+        label: $i18n.t('massmint.onboarding.done'),
         variant: 'k-accent' as NeoButtonVariant,
         onClick: toMassMint,
       }
     : {
-        label: 'Next',
+        label: $i18n.t('massmint.onboarding.next'),
         variant: 'primary' as NeoButtonVariant,
         onClick: nextSlide,
       }
