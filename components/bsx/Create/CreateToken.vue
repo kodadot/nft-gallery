@@ -398,7 +398,7 @@ export default class CreateToken extends mixins(
     const go = () =>
       this.$router.push({
         path: `/${this.urlPrefix}/gallery/${createTokenId(collection, id)}`,
-        query: { message: 'congrats' },
+        query: { congratsNft: this.base.name },
       })
     setTimeout(go, DETAIL_TIMEOUT)
   }
