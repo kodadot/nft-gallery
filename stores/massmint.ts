@@ -1,33 +1,21 @@
-import { createPinia, defineStore } from 'pinia'
-import piniaPersist from 'pinia-plugin-persist'
-// const STORAGE_KEY = 'massmint'
+import { defineStore } from 'pinia'
 
 interface State {
   visitedOnboarding: boolean
 }
-
-const pinia = createPinia()
-pinia.use(piniaPersist)
+const localStorage = useLocalStorage('massmint', { visitedOnboarding: false })
 
 export const useMassmintsStore = defineStore('massmint', {
   state: (): State => ({
-    visitedOnboarding: false,
+    visitedOnboarding: localStorage.value.visitedOnboarding,
   }),
   getters: {
     getVisitedOnboarding: ({ visitedOnboarding }) => ({ visitedOnboarding }),
   },
   actions: {
-    setVisitedOnboarding(payload) {
+    setVisitedOnboarding(payload: boolean) {
       this.visitedOnboarding = payload
+      localStorage.value = { visitedOnboarding: payload }
     },
-  },
-  persist: {
-    enabled: true,
-    strategies: [
-      {
-        key: 'massmint',
-        storage: localStorage,
-      },
-    ],
   },
 })

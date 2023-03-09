@@ -150,7 +150,6 @@ export default defineNuxtConfig({
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
-    '~/plugins/pinia-plugin-persist.client',
   ],
 
   router: {

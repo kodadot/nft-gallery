@@ -104,7 +104,6 @@ importers:
       nuxt-edge: 2.16.0-27720022.54e852f
       nuxt-property-decorator: ^2.9.1
       ohmyfetch: ^0.4.21
-      pinia-plugin-persist: ^1.0.0
       prettier: ^2.8.4
       raw-loader: ^4.0.2
       sass: ^1.58.3
@@ -177,7 +176,6 @@ importers:
       nuxt-edge: 2.16.0-27720022.54e852f_stgnfuekanqoxv2sawfe5zt2vu
       nuxt-property-decorator: 2.9.1_vue@2.7.14+vuex@3.6.2
       ohmyfetch: 0.4.21
-      pinia-plugin-persist: 1.0.0_vue@2.7.14
       setimmediate: 1.0.5
       slugify: 1.6.5
       v-emoji-picker: 2.3.3_vue@2.7.14
@@ -17608,20 +17606,6 @@ packages:
     resolution: {integrity: sha512-eW/gHNMlxdSP6dmG6uJip6FXN0EQBwm2clYYd8Wul42Cwu/DK8HEftzsapcNdYe2MfLiIwZqsDk2RDEsTE79hA==}
     engines: {node: '>=10'}
 
-  /pinia-plugin-persist/1.0.0_vue@2.7.14:
-    resolution: {integrity: sha512-M4hBBd8fz/GgNmUPaaUsC29y1M09lqbXrMAHcusVoU8xlQi1TqgkWnnhvMikZwr7Le/hVyMx8KUcumGGrR6GVw==}
-    peerDependencies:
-      '@vue/composition-api': ^1.0.0
-      pinia: ^2.0.0
-      vue: ^2.0.0 || >=3.0.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-    dependencies:
-      vue: 2.7.14
-      vue-demi: 0.12.5_vue@2.7.14
-    dev: false
-
   /pinia/2.0.31_hwpzsh6pnvsm3pjf2zi526hnzq:
     resolution: {integrity: sha512-6OOKZGX79jm3q0xAu+X/PaRjfyOcFnPXcHFAA8HHa+wbJeSi5xc/nYqO8Ff7XLvwV8mKGYXcUfZUHbqUmw6P0w==}
     peerDependencies:
@@ -22024,21 +22008,6 @@ packages:
     dependencies:
       vue-class-component: 6.3.2
     dev: true
-
-  /vue-demi/0.12.5_vue@2.7.14:
-    resolution: {integrity: sha512-BREuTgTYlUr0zw0EZn3hnhC3I6gPWv+Kwh4MCih6QcAeaTlaIX0DwOVN0wHej7hSvDPecz4jygy/idsgKfW58Q==}
-    engines: {node: '>=12'}
-    hasBin: true
-    requiresBuild: true
-    peerDependencies:
-      '@vue/composition-api': ^1.0.0-rc.1
-      vue: ^3.0.0-0 || ^2.6.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-    dependencies:
-      vue: 2.7.14
-    dev: false
 
   /vue-demi/0.13.11_vue@2.7.14:
     resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
