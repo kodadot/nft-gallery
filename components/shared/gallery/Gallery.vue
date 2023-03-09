@@ -68,6 +68,7 @@ import { SearchQuery } from '@/components/search/types'
 import { getNameOfNft } from '../../rmrk/utils'
 import { getSanitizer } from '@/utils/ipfs'
 import shouldUpdate from '@/utils/shouldUpdate'
+import { usePreferencesStore } from '@/stores/preferences'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -118,11 +119,10 @@ export default class Gallery extends mixins(
   public isLoading = true
   public first = 20
   public disablePrefetchPreviousPage = true
+  private preferencesStore = usePreferencesStore()
+
   get showPriceValue(): boolean {
-    return (
-      this.searchQuery?.listed ||
-      this.$store.getters['preferences/getShowPriceValue']
-    )
+    return this.searchQuery?.listed || this.preferencesStore.getShowPriceValue
   }
 
   set currentValue(page: number) {
@@ -134,7 +134,7 @@ export default class Gallery extends mixins(
   }
 
   get classLayout() {
-    return this.$store.getters['preferences/getGalleryLayoutClass']
+    return this.preferencesStore.getGalleryLayoutClass
   }
 
   get results() {

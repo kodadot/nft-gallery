@@ -83,6 +83,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import ChainMixin from '~/utils/mixins/chainMixin'
+import { usePreferencesStore } from '@/stores/preferences'
 
 @Component({
   components: {
@@ -122,6 +123,7 @@ export default class Search extends mixins(
     number | string | undefined
   ] = [undefined, undefined]
   public priceRangeDirty = false
+  private preferencesStore = usePreferencesStore()
 
   get urlSearchQuery() {
     return this.$route.query.search
@@ -196,7 +198,7 @@ export default class Search extends mixins(
   }
 
   get replaceBuyNowWithYolo(): boolean {
-    return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
+    return this.preferencesStore.getReplaceBuyNowWithYolo
   }
 
   @Emit('update:listed')
