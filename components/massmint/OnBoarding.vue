@@ -11,25 +11,43 @@
         icon-pack="fas"
         @click.native="toMassMint" />
     </div>
-    <div
-      class="carousel is-flex is-flex-wrap-nowrap"
-      :class="`slide-${currentSlide}`">
+    <div class="is-relative">
       <div
-        v-for="(card, index) in cards"
-        :key="index"
-        class="carousel-card p-5 mobile-padding"
-        :class="{ 'not-active': index !== currentSlide }">
-        <div class="card__content">
-          <p
-            class="title is-size-2-desktop is-size-3-tablet is-size-5-mobile is-capitalized">
-            {{ card.title }}
-          </p>
-          <div class="content is-size-4-tablet is-size-5-mobile">
-            <VueMarkdown :source="card.content" />
+        class="carousel is-flex is-flex-wrap-nowrap"
+        :class="`slide-${currentSlide}`"
+        @touchstart="onTouchStart"
+        @touchmove="onTouchMove"
+        @touchend="onTouchEnd">
+        <div
+          v-for="(card, index) in cards"
+          :key="index"
+          class="carousel-card p-5 mobile-padding"
+          :class="{ 'not-active': index !== currentSlide }">
+          <div class="card__content">
+            <p
+              class="title is-size-2-desktop is-size-3-tablet is-size-5-mobile is-capitalized">
+              {{ card.title }}
+            </p>
+            <div class="content is-size-4-tablet is-size-5-mobile">
+              <VueMarkdown :source="card.content" />
+            </div>
           </div>
         </div>
       </div>
+      <Transition name="fade">
+        <div
+          v-if="currentSlide > 0"
+          class="arrow arrow-left"
+          @click="prevSlide" />
+      </Transition>
+      <Transition name="fade">
+        <div
+          v-if="currentSlide < numOfCards - 1"
+          class="arrow arrow-right"
+          @click="nextSlide" />
+      </Transition>
     </div>
+
     <div class="is-flex is-justify-content-center my-6">
       <span
         v-for="(card, index) in cards"
@@ -61,6 +79,11 @@ const { $i18n } = useNuxtApp()
 const numOfCards = 3
 const massMintStore = useMassmintsStore()
 const currentSlide = ref(0)
+const startX = ref(0)
+const startY = ref(0)
+const isSwiping = ref(false)
+// const nextSlideDebounced = ref<(() => void) | null>(null)
+// const debounceTime = 200
 
 const cards = computed(() => {
   const indices = Array.from({ length: numOfCards }, (_, i) => i + 1)
@@ -73,6 +96,11 @@ const cards = computed(() => {
 const nextSlide = () => {
   if (currentSlide.value < numOfCards - 1) {
     currentSlide.value++
+  }
+}
+const prevSlide = () => {
+  if (currentSlide.value > 0) {
+    currentSlide.value--
   }
 }
 
@@ -98,10 +126,40 @@ const btn = computed(() =>
         onClick: nextSlide,
       }
 )
+
+const onTouchStart = (event: TouchEvent) => {
+  startX.value = event.touches[0].clientX
+  startY.value = event.touches[0].clientY
+}
+
+const onTouchMove = (event: TouchEvent) => {
+  if (isSwiping.value) {
+    return
+  }
+  const diffX = startX.value - event.touches[0].clientX
+  const diffY = startY.value - event.touches[0].clientY
+  const threshold = 80
+
+  if (Math.abs(diffX) > threshold && Math.abs(diffX) > Math.abs(diffY)) {
+    isSwiping.value = true
+    if (diffX > 0) {
+      nextSlide()
+    } else {
+      prevSlide()
+    }
+  }
+}
+
+const onTouchEnd = () => {
+  startX.value = 0
+  startY.value = 0
+  isSwiping.value = false
+}
 </script>
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
+@import '@/styles/components/carousel-arrows';
 
 $card-width-percents: 54%;
 $gap-percents: 5.5%;
@@ -181,5 +239,14 @@ $base-shift: calc((100% - $card-width) / 2);
 .limit-width {
   max-width: $card-width;
   min-width: $min-card-width;
+}
+
+.arrow {
+  &-left {
+    left: 30px;
+  }
+  &-right {
+    right: 30px;
+  }
 }
 </style>

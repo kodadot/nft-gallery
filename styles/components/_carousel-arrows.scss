@@ -1,0 +1,115 @@
+
+    .arrow {
+      $side-y: 32px;
+      $side-x: 55px;
+  
+      width: $side-x;
+      height: $side-x;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      cursor: pointer;
+  
+      &-left {
+        left: -30px;
+  
+        border-bottom: solid $side-y transparent;
+        border-top: solid $side-y transparent;
+        @include ktheme() {
+          border-right: solid $side-x theme('black');
+        }
+        &::after {
+          content: '';
+          width: 0;
+          height: 0;
+  
+          position: absolute;
+          border-bottom: solid $side-y - 2 transparent;
+          border-top: solid $side-y - 2 transparent;
+          @include ktheme() {
+            border-right: solid $side-x - 2 theme('white');
+          }
+          top: -($side-y - 2);
+          right: -($side-x - 1);
+          transition-duration: 0.2s;
+        }
+  
+        &::before {
+          content: '';
+          width: 0;
+          height: 0;
+  
+          position: absolute;
+          border-bottom: solid $side-y transparent;
+          border-top: solid $side-y transparent;
+          @include ktheme() {
+            border-right: solid $side-x theme('black');
+          }
+  
+          top: -($side-y - 6);
+          right: -($side-x + 4);
+        }
+      }
+  
+      &-right {
+        left: auto;
+        right: -30px;
+  
+        border-bottom: solid $side-y transparent;
+        border-top: solid $side-y transparent;
+        @include ktheme() {
+          border-left: solid $side-x theme('black');
+        }
+        &::after {
+          content: '';
+          width: 0;
+          height: 0;
+  
+          position: absolute;
+          border-bottom: solid $side-y - 2 transparent;
+          border-top: solid $side-y - 2 transparent;
+          @include ktheme() {
+            border-left: solid $side-x - 2 theme('white');
+          }
+          top: -($side-y - 2);
+          left: -($side-x - 1);
+          transition-duration: 0.2s;
+        }
+  
+        &::before {
+          content: '';
+          width: 0;
+          height: 0;
+  
+          position: absolute;
+          border-bottom: solid $side-y transparent;
+          border-top: solid $side-y transparent;
+          @include ktheme() {
+            border-left: solid $side-x theme('black');
+          }
+          top: -($side-y - 6);
+          left: -($side-x - 4);
+        }
+      }
+  
+      &:hover {
+        &.arrow-left::after {
+          @include ktheme() {
+            border-right: solid $side-x - 2 theme('k-accentlight');
+          }
+        }
+  
+        &.arrow-right::after {
+          @include ktheme() {
+            border-left: solid $side-x - 2 theme('k-accentlight');
+          }
+        }
+      }
+  
+      @media screen and (max-width: 640px) {
+        display: none;
+      }
+    }
+  
+  
