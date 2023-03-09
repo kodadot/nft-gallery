@@ -4,7 +4,6 @@
       v-model="selectedSort"
       class="sort"
       :close-on-click="false"
-      append-to-body
       multiple
       :mobile-modal="false"
       aria-role="list"
@@ -33,16 +32,14 @@
         v-for="option in options"
         :key="option"
         aria-role="listitem"
+        class="is-flex"
         :value="option">
         <span>
           {{
             $i18n.t(isItems ? `sort.${option}` : `sort.collection.${option}`)
           }}
         </span>
-        <img
-          v-if="selectedSort.includes(option)"
-          class="sort-check"
-          src="/checkmark.svg" />
+        <b-icon v-if="selectedSort.includes(option)" icon="check" />
       </NeoDropdownItem>
     </o-dropdown>
   </div>
@@ -125,7 +122,7 @@ onMounted(() => {
   }
 
   .neo-dropdown-item {
-    width: 16rem;
+    width: 14rem;
   }
 }
 
