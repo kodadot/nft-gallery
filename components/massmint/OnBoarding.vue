@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 import VueMarkdown from 'vue-markdown-render'
 import { useMassmintsStore } from '@/stores/massmint'
 
@@ -114,12 +114,12 @@ const btn = computed(() =>
   currentSlide.value === 2
     ? {
         label: $i18n.t('massmint.onboarding.done'),
-        variant: 'k-accent',
+        variant: 'k-accent' as NeoButtonVariant,
         onClick: toMassMint,
       }
     : {
         label: $i18n.t('massmint.onboarding.next'),
-        variant: 'primary',
+        variant: 'primary' as NeoButtonVariant,
         onClick: nextSlide,
       }
 )
