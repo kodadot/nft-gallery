@@ -1,22 +1,20 @@
 <template>
   <div>
-    <div
-      class="is-flex is-align-items-center is-justify-content-center mb-6 px-6">
+    <div class="is-flex is-align-items-center mb-6 px-6">
       <div
         class="is-size-1-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
         Mass Mint Onboarding
       </div>
       <NeoButton :label="'Skip'" icon="arrow-right" icon-pack="fas" />
     </div>
-    <div
-      class="carousel is-flex is-flex-direction-column is-align-items-center is-clipped is-relative">
+    <div class="carousel is-clipped is-relative">
       <div
         class="carousel-wrapper is-flex is-flex-wrap-nowrap"
         :class="`slide-${currentSlide}`">
         <div
           v-for="(card, index) in cards"
           :key="index"
-          class="carousel-card is-flex p-5 is-justify-content-start mobile-padding"
+          class="carousel-card p-5 mobile-padding"
           :class="{ 'not-active': index !== currentSlide }">
           <div class="card__content">
             <p
@@ -135,7 +133,7 @@ $base-shift: calc((100% - $card-width) / 2);
 
 .carousel-card {
   flex: 0 0 #{$card-width};
-  height: $card-height;
+  min-height: $card-height;
 
   &.mobile-padding {
     @include mobile {

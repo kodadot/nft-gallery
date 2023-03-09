@@ -10,7 +10,6 @@ export default class LandingPage extends Vue {
   }
 
   middleware({ store, redirect }) {
-    // If the user is not authenticated
     const prefix = store.getters.currentUrlPrefix
 
     setTimeout(() => redirect(`/${prefix}/massmint/onboarding`))
