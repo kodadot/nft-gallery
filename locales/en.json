@@ -33,6 +33,7 @@
   "name": "Name",
   "simple": "Simple",
   "creative": "Creative",
+  "multipleNFTS": "Multiple NFT's",
   "about": "About",
   "ambassador program": "Ambassador Program",
   "press kit": "Press Kit",
@@ -1220,7 +1221,8 @@
     "start": "Start by creating your collection and add NFTs to it",
     "simplifiedNft": "Simplified process to create your NFT in a single step",
     "aiPowered": "AI powered process to create your NFT",
-    "waifu": "Create your anime waifu using AI"
+    "waifu": "Create your anime waifu using AI",
+    "massmint": "Simplified process to create multiple NFT's for your collection"
   },
   "massmint": {
     "onboarding": {

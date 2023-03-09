@@ -18,6 +18,17 @@
       </b-dropdown-item>
       <b-dropdown-item has-link>
         <b-tooltip
+          position="is-left"
+          :label="$t('createDropdown.massmint')"
+          class="navbar-item-tooltip">
+          <nuxt-link data-cy="massmint" :to="`/${urlPrefix}/massmint`">
+            {{ $t('multipleNFTS') }}
+          </nuxt-link>
+        </b-tooltip>
+      </b-dropdown-item>
+
+      <b-dropdown-item has-link>
+        <b-tooltip
           v-if="chain === 'bsx' && accountId"
           position="is-left"
           :label="$t('createDropdown.waifu')"
@@ -57,6 +68,12 @@
         :to="`/${urlPrefix}/create`"
         tag="nuxt-link">
         {{ $t('classic') }}
+      </b-navbar-item>
+      <b-navbar-item
+        data-cy="massmint"
+        :to="`/${urlPrefix}/massmint`"
+        tag="nuxt-link">
+        {{ $t('multipleNFTS') }}
       </b-navbar-item>
       <b-navbar-item
         v-if="chain === 'bsx' && accountId"
