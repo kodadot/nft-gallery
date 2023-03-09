@@ -24,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import BreadcrumbsFilter from '@/components/shared/gallery/BreadcrumbsFilter.vue'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
