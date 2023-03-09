@@ -1,6 +1,9 @@
 <template>
   <div class="collections">
-    <div class="is-flex is-flex-direction-row-reverse py-5">
+    <div
+      class="is-flex is-flex-direction-row is-justify-content-space-between py-5">
+      <BreadcrumbsFilter />
+
       <div v-show="total">{{ total }} {{ $t('items') }}</div>
     </div>
     <hr class="mt-0" />
@@ -31,7 +34,6 @@ import { SearchQuery } from '@/components/search/types'
 import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import { getDenyList } from '~/utils/prefix'
-import shouldUpdate from '@/utils/shouldUpdate'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
 
 const { urlPrefix, client } = usePrefix()
@@ -57,7 +59,6 @@ const resetPage = useDebounceFn(() => {
 
 const buildSearchParam = (): Record<string, unknown>[] => {
   const params: any[] = []
-
   if (searchQuery.value.search) {
     params.push({
       name_containsInsensitive: searchQuery.value.search,
@@ -146,7 +147,7 @@ watch(
   (val, oldVal) => {
     if (val !== oldVal) {
       resetPage()
-      searchQuery.value.search = String(val) || ''
+      searchQuery.value.search = val === undefined ? val : String(val)
     }
   }
 )
@@ -154,7 +155,7 @@ watch(
 watch(
   () => route.query.sort,
   (val, oldVal) => {
-    if (shouldUpdate(val, oldVal)) {
+    if (val !== oldVal) {
       resetPage()
       searchQuery.value.sortBy = String(val) || ''
     }
