@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 interface State {
   visitedOnboarding: boolean
 }
+
 const localStorage = useLocalStorage('massmint', { visitedOnboarding: false })
 
 export const useMassmintsStore = defineStore('massmint', {
