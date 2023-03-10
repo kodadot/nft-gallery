@@ -32,7 +32,7 @@ runs:
 
     - name: Remove PWA/Icons
       shell: bash
-      run: rm -rf ./.nuxt/pwa
+      run: rm -rf ./.nuxt/pwa/*
 
     - name: Install dependencies
       shell: bash
@@ -40,4 +40,4 @@ runs:
 
     - name: Remove PWA/Icons
       shell: bash
-      run: rm -rf ./.nuxt/pwa
+      run: rm -rf ./.nuxt/pwa/*
