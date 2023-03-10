@@ -70,7 +70,9 @@
         field="timestamp"
         :label="$t('tabs.tabActivity.date')">
         <o-tooltip :label="parseDate(props.row.timestamp)" position="left">
-          {{ formatToNow(props.row.timestamp) }}
+          <span class="date-column">{{
+            formatToNow(props.row.timestamp)
+          }}</span>
         </o-tooltip>
       </o-table-column>
     </o-table>
@@ -138,5 +140,9 @@ const formatPrice = (price) => {
 <style lang="scss" scoped>
 .gallery-item-activity-table {
   overflow-y: auto;
+}
+
+.date-column {
+  white-space: nowrap;
 }
 </style>

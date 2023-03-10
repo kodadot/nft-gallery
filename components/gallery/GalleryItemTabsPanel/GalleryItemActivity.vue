@@ -1,21 +1,24 @@
 <template>
   <div class="gallery-activity-events-wrapper is-flex is-flex-direction-column">
-    <div class="events p-5 is-flex is-flex-direction-column">
+    <div class="events px-5 py-4 is-flex is-flex-direction-column">
       <div class="events-filter is-flex is-flex-wrap-wrap">
-        <div class="events-checkbox" @click="checkAll">
+        <div
+          class="events-checkbox is-flex is-align-items-center"
+          @click="checkAll">
           {{ $t('tabs.tabActivity.all') }}
         </div>
         <div
           v-for="(value, name) in filters"
           :key="name"
-          class="events-checkbox">
+          class="events-checkbox events-checkbox-container"
+          :class="cssActive(value)">
           <input
             :id="name"
             v-model="interactions"
             type="checkbox"
             :value="value"
             class="is-hidden" />
-          <label :for="name" :class="cssActive(value)">
+          <label :for="name">
             {{ $t(`tabs.tabActivity.${value}`) }}
           </label>
         </div>
@@ -79,7 +82,8 @@ const cssActive = (value) => {
   }
 
   &-filter {
-    column-gap: 2rem;
+    column-gap: 1.5rem;
+    row-gap: 1rem;
 
     @include mobile {
       column-gap: 1rem;
@@ -93,15 +97,23 @@ const cssActive = (value) => {
     label {
       cursor: pointer;
     }
+  }
 
-    &:hover {
-      @include ktheme() {
-        color: theme('link-hover');
+  .events-checkbox-container {
+    @include ktheme() {
+      border: 1px solid theme('k-shade');
+      &:hover {
+        border-color: theme('border-color');
       }
     }
+    border-radius: 25px;
+    padding: 5px 16px;
+  }
 
-    &-active {
-      font-weight: bold;
+  .events-checkbox-active {
+    @include ktheme() {
+      background-color: theme('k-shade');
+      color: theme('black');
     }
   }
 }
