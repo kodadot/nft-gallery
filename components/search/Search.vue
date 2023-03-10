@@ -21,6 +21,7 @@
           ref="searchRef"
           v-model="name"
           :query="query"
+          @redirect="redirectToGalleryPageIfNeed"
           @enter="nativeSearch"
           @blur="onBlur"></SearchBarInput>
         <div v-if="!isVisible && hideSearchInput">
@@ -84,6 +85,8 @@ import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import ChainMixin from '~/utils/mixins/chainMixin'
 
+const SearchPageRoutePathList = ['collectibles', 'items']
+
 @Component({
   components: {
     SearchBarInput: () => import('./SearchBar.vue'),
@@ -125,6 +128,12 @@ export default class Search extends mixins(
 
   get urlSearchQuery() {
     return this.$route.query.search
+  }
+
+  get routePathList() {
+    return SearchPageRoutePathList.map(
+      (route) => `/${this.urlPrefix}/explore/${route}`
+    )
   }
 
   // clear search bar value when search is cannceled via breadcrumbs
@@ -279,6 +288,7 @@ export default class Search extends mixins(
   }
 
   nativeSearch() {
+    this.redirectToGalleryPageIfNeed()
     this.searchQuery = this.name
     this.updateSearch(this.name)
   }
@@ -294,7 +304,10 @@ export default class Search extends mixins(
     }
     this.$router
       .replace({
-        path: String(this.$route.path),
+        path:
+          this.routePathList.indexOf(this.$route.path) === -1
+            ? `/${this.urlPrefix}/explore/items`
+            : String(this.$route.path),
         query: {
           page: '1',
           ...this.$route.query,
@@ -305,6 +318,18 @@ export default class Search extends mixins(
       .catch(this.$consola.warn)
     // if searchbar request or filter is set, pagination should always revert to page 1
     this.$emit('resetPage')
+  }
+
+  redirectToGalleryPageIfNeed(params?: Record<string, string>) {
+    if (this.routePathList.indexOf(this.$route.path) === -1) {
+      this.$router.push({
+        path: `/${this.urlPrefix}/explore/items`,
+        query: {
+          ...this.$route.query,
+          ...params,
+        },
+      })
+    }
   }
 
   public priceRangeChange([min, max]: [
