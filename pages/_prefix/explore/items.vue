@@ -1,7 +1,6 @@
 <template>
   <div class="container is-fluid">
-    <Items v-if="redesign" />
-    <Gallery v-else />
+    <Items />
   </div>
 </template>
 

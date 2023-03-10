@@ -397,7 +397,7 @@ export default class CreateToken extends mixins(
     const go = () =>
       this.$router.push({
         path: `/rmrk/gallery/${toNFTId(nft, blockNumber)}`,
-        query: { message: 'congrats' },
+        query: { congratsNft: nft.name },
       })
     setTimeout(go, DETAIL_TIMEOUT)
   }
