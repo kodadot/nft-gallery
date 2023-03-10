@@ -11,6 +11,7 @@ import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
 import { generateCollectionImage } from '~/utils/seoImageGenerator'
 import ExperimentMixin from '@/utils/mixins/experimentMixin'
 import Items from '@/components/items/Items.vue'
+import { useHistoryStore } from '@/stores/history'
 
 type CurrentCollection = {
   name: string
@@ -44,8 +45,10 @@ type CurrentCollection = {
   },
 })
 export default class CollectionItemPage extends mixins(ExperimentMixin) {
+  private historyStore = useHistoryStore()
+
   get currentlyViewedCollection(): CurrentCollection {
-    return this.$store.getters['history/getCurrentlyViewedCollection']
+    return this.historyStore.getCurrentlyViewedCollection
   }
 
   get image(): string {

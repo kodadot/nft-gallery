@@ -23,12 +23,12 @@
 
 <script lang="ts" setup>
 import useReplaceUrl from '@/components/explore/filters/useReplaceUrl'
-import NeoTag from './NeoTag.vue'
+import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
 const { $i18n } = useNuxtApp()
-const isExplore = computed(() => route.path.includes('/explore'))
+const isItemsExplore = computed(() => route.path.includes('/explore/items'))
 
 const breads = computed(() => {
   const query = { ...route.query, redesign: undefined }
@@ -60,7 +60,7 @@ const queryMapTranslation = {
 }
 
 onMounted(() => {
-  if (isExplore.value && route.query.listed == undefined) {
+  if (isItemsExplore.value && route.query.listed == undefined) {
     replaceUrl({ listed: 'true' })
   }
 })
