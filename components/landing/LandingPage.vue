@@ -6,20 +6,20 @@
 
     <!-- spotlight -->
     <section v-if="showCarousel" class="section instance">
-      <div class="container">
+      <div class="container is-fluid">
         <LazyCarouselTypeSpotlight />
       </div>
     </section>
 
     <!-- top collections -->
     <section v-if="showCarousel" class="section instance">
-      <div class="container">
+      <div class="container is-fluid">
         <LazyTopCollections class="my-5" />
       </div>
     </section>
 
     <section v-if="showCarousel" class="section instance">
-      <div class="container">
+      <div class="container is-fluid">
         <!-- new listings -->
         <LazyCarouselTypeNewestList />
 
@@ -29,7 +29,7 @@
     </section>
 
     <section class="section instance instance-accent">
-      <div class="container footer-landing-container">
+      <div class="container is-fluid footer-landing-container">
         <LazyFeaturedArticles />
       </div>
     </section>
