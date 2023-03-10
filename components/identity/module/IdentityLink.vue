@@ -1,10 +1,6 @@
 <template>
   <div>
-    <a
-      class="identity-name"
-      :class="aClass"
-      :href="explorerLink"
-      v-bind="$attrs">
+    <a class="identity-name has-text-weight-bold" :href="explorerLink">
       {{ shortenedAddress }}
     </a>
     <a
@@ -34,16 +30,13 @@ const props = defineProps<{
   shortenedAddress?: string | object
   address?: Address
   showClipboard?: boolean
-  linkClass?: string
 }>()
 const { $buefy } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
-const aClass = computed(() => props.linkClass || 'has-text-weight-bold')
-
-const explorerLink = computed(() => {
-  return getExplorer(urlPrefix.value, String(props.address))
-})
+const explorerLink = computed(() =>
+  getExplorer(urlPrefix.value, String(props.address))
+)
 
 const toast = (message: string) => {
   $buefy.toast.open({
