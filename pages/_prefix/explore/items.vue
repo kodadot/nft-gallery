@@ -1,7 +1,6 @@
 <template>
   <div>
-    <Items v-if="redesign" />
-    <Gallery v-else class="container" />
+    <Items />
   </div>
 </template>
 
