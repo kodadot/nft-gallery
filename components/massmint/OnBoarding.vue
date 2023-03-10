@@ -13,11 +13,9 @@
     </div>
     <div class="is-relative">
       <div
+        ref="carouselRef"
         class="carousel is-flex is-flex-wrap-nowrap"
-        :class="`slide-${currentSlide}`"
-        @touchstart="onTouchStart"
-        @touchmove="onTouchMove"
-        @touchend="onTouchEnd">
+        :class="`slide-${currentSlide}`">
         <div
           v-for="(card, index) in cards"
           :key="index"
@@ -69,7 +67,7 @@
 import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 import VueMarkdown from 'vue-markdown-render'
 import { useMassmintsStore } from '@/stores/massmint'
-
+import { SwipeDirection, useSwipe } from '@vueuse/core'
 const { $consola } = useNuxtApp()
 const router = useRouter()
 const { urlPrefix } = usePrefix()
@@ -78,9 +76,19 @@ const { $i18n } = useNuxtApp()
 const numOfCards = 3
 const massMintStore = useMassmintsStore()
 const currentSlide = ref(0)
-const startX = ref(0)
-const startY = ref(0)
-const isSwiping = ref(false)
+const swipeThreshold = 40
+const carouselRef = ref<HTMLElement | null>(null)
+
+useSwipe(carouselRef, {
+  threshold: swipeThreshold,
+  onSwipeEnd: (_, direction) => {
+    if (direction === SwipeDirection.LEFT) {
+      nextSlide()
+    } else if (direction === SwipeDirection.RIGHT) {
+      prevSlide()
+    }
+  },
+})
 
 const cards = computed(() => {
   const indices = Array.from({ length: numOfCards }, (_, i) => i + 1)
@@ -123,35 +131,6 @@ const btn = computed(() =>
         onClick: nextSlide,
       }
 )
-
-const onTouchStart = (event: TouchEvent) => {
-  startX.value = event.touches[0].clientX
-  startY.value = event.touches[0].clientY
-}
-
-const onTouchMove = (event: TouchEvent) => {
-  if (isSwiping.value) {
-    return
-  }
-  const diffX = startX.value - event.touches[0].clientX
-  const diffY = startY.value - event.touches[0].clientY
-  const threshold = 80
-
-  if (Math.abs(diffX) > threshold && Math.abs(diffX) > Math.abs(diffY)) {
-    isSwiping.value = true
-    if (diffX > 0) {
-      nextSlide()
-    } else {
-      prevSlide()
-    }
-  }
-}
-
-const onTouchEnd = () => {
-  startX.value = 0
-  startY.value = 0
-  isSwiping.value = false
-}
 </script>
 
 <style lang="scss" scoped>
