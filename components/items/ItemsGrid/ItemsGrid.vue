@@ -12,19 +12,24 @@
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
-    <DynamicGrid :class="scrollContainerId" class="mt-5">
+
+    <DynamicGrid v-slot="slotProps" :class="scrollContainerId" class="mt-5">
       <div
         v-for="(nft, index) in nfts"
         :key="`${nft.id}=${index}`"
         :class="scrollItemClassName">
-        <ItemsGridImage :nft="nft" />
+        <ItemsGridImage
+          :nft="nft"
+          :variant="
+            (slotProps.isMobileVariant || slotProps.grid === 'small') &&
+            'minimal'
+          " />
       </div>
     </DynamicGrid>
   </div>
 </template>
 
 <script setup lang="ts">
-import BreadcrumbsFilter from '@/components/shared/gallery/BreadcrumbsFilter.vue'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
