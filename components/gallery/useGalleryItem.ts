@@ -3,6 +3,8 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getMimeType } from '@/utils/gallery/media'
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
+import { useHistoryStore } from '@/stores/history'
+
 interface NFTData {
   nftEntity?: NFT
 }
@@ -29,7 +31,8 @@ const whichAsset = (data) => {
 }
 
 export const useGalleryItem = () => {
-  const { $consola, $store } = useNuxtApp()
+  const { $consola } = useNuxtApp()
+  const historyStore = useHistoryStore()
   const nft = ref<NFT>()
   const nftImage = ref('')
   const nftAnimation = ref('')
@@ -76,7 +79,7 @@ export const useGalleryItem = () => {
     nftImage.value = asset.image
     nftAnimation.value = asset.animation_url
 
-    $store.dispatch('history/addHistoryItem', {
+    historyStore.addHistoryItem({
       id: nft.value.id,
       name: nft.value.name,
       image: nftImage.value,
