@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <h1
       class="has-text-weight-bold text__stroked heading heading-is-6 is-size-1-mobile mb-6">
       {{ $t('faq.title') }}
