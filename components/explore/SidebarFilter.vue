@@ -1,7 +1,7 @@
 <template>
   <div :class="{ 'mr-5 bordered sticky': open }" class="is-hidden-mobile">
     <NeoSidebar :reduce="false" :open="open" fullheight>
-      <StatusFilter expanded class="mt-3" />
+      <StatusFilter expanded />
       <PriceFilter />
     </NeoSidebar>
   </div>
@@ -28,7 +28,7 @@ const open = computed(
 .sticky {
   position: -webkit-sticky;
   position: sticky;
-  top: 72px;
-  height: calc(100vh - 72px);
+  top: 84px;
+  height: calc(100vh - 84px);
 }
 </style>
