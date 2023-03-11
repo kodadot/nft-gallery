@@ -61,13 +61,16 @@ export const clothes = [
   'flower dress',
   'flower t-shirt',
   'jacket',
+  'light dress',
   'pastel colored hoodie',
   'raincoat',
   'raincoat',
   'school uniform',
+  'shirt and shorts',
   'spring dress',
   'trench coat',
   'turtleneck sweater',
+  'unbuttoned shirt',
 ]
 
 export const accessories = [
@@ -88,6 +91,7 @@ export const accessories = [
   'sunglasses',
   'tanuki ears',
   'tulips in hand',
+  'umbrella over head',
 ]
 
 export const filmTypes = [
