@@ -1,5 +1,8 @@
 <template>
-  <div v-if="redesign">
+  <div
+    v-if="redesign"
+    class="container is-fluid"
+    :class="{ 'sidebar-padding-left': isSidebarOpen }">
     <Items />
   </div>
   <CollectionItem v-else />
@@ -58,5 +61,26 @@ export default class CollectionItemPage extends mixins(ExperimentMixin) {
       this.currentlyViewedCollection.image
     )
   }
+
+  get isSidebarOpen() {
+    return this.$store.getters['preferences/getsidebarFilterCollapse']
+  }
 }
 </script>
+
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
+.sidebar-padding-left {
+  padding-left: 0;
+}
+
+// this cover the edge case where sidebar is open and then screen size changes to mobile
+// for exmpale on rotation of tablet device
+// in that case the padding need to match that of the fluid container
+@include mobile {
+  .sidebar-padding-left {
+    padding-left: $fluid-container-padding-mobile;
+  }
+}
+</style>

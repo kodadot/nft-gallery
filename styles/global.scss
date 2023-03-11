@@ -102,8 +102,8 @@ body {
 }
 
 .container.is-fluid {
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+  padding-left: $fluid-container-padding;
+  padding-right: $fluid-container-padding;
 }
 
 .control-label {
@@ -119,8 +119,8 @@ body {
     margin: 0 -12px !important;
   }
   .container.is-fluid {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding-left: $fluid-container-padding-mobile;
+    padding-right: $fluid-container-padding-mobile;
   }
 }
 
