@@ -3,15 +3,6 @@
     <MobileFilter />
     <Navbar />
 
-    <!-- new header component for collection here -->
-    <div v-if="isCollection">
-      <CollectionBanner />
-      <section class="container mobile-padding pt-5">
-        <CollectionInfo />
-        <hr />
-      </section>
-    </div>
-
     <main class="is-flex-grow-1">
       <Error
         v-if="$nuxt.isOffline"
@@ -19,17 +10,25 @@
         error-subtitle="Please check your network connections"
         error-title="Offline Detected" />
       <div v-else>
-        <section class="section">
-          <div class="container">
+        <!-- new header component for collection here -->
+        <div v-if="isCollection">
+          <CollectionBanner />
+          <section class="pt-5">
+            <div class="container is-fluid mobile-padding">
+              <CollectionInfo />
+              <hr />
+            </div>
+          </section>
+        </div>
+        <section class="py-6">
+          <div class="container is-fluid">
             <h1 v-if="isExplore" class="title">{{ $t('explore') }}</h1>
 
             <ExploreTabsFilterSort />
           </div>
         </section>
         <hr class="text-color my-0" />
-        <section class="section pt-0">
-          <Nuxt />
-        </section>
+        <Nuxt />
       </div>
     </main>
   </div>
