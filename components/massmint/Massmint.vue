@@ -25,6 +25,13 @@
           class="w-100"
           :label="'Select Collection'"
           icon="chevron-down" />
+        <template #items>
+          <NeoDropdownItem
+            v-for="c in collectionsEntites"
+            :key="c.id"
+            :item="c.name">
+          </NeoDropdownItem>
+        </template>
       </NeoDropdown>
     </section>
   </div>
@@ -40,15 +47,10 @@ const { $consola } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
 const { urlPrefix } = usePrefix()
-const { accountId, isLogIn } = useAuth()
 
 const tabs = ['Collection', 'NFT', 'Mass Mint']
 
-const { collections } = isLogIn.value ? useMassMint() : { collections: ref([]) }
-
-watch(collections, () => {
-  console.log(collections.value)
-})
+const { collectionsEntites } = useMassMint()
 
 const toOnborading = () => {
   massMintStore.setVisitedOnboarding(false)

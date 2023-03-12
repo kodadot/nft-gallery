@@ -1,52 +1,67 @@
 import { BaseMintedCollection } from '../base/types'
 import { unwrapSafe } from '~~/utils/uniquery'
+import resolveQueryPath from '~~/utils/queryPathResolver'
+import shouldUpdate from '~~/utils/shouldUpdate'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
   lastIndexUsed: number
 }
 
-type QueryReposne = {
-  collectionEntities: MintedCollection[]
-}
-
 export const useMassMint = () => {
-  const collections = ref<MintedCollection[]>([])
+  const collectionsEntites = ref<MintedCollection[]>()
+  const collections = ref()
   const { $consola } = useNuxtApp()
   const { accountId, isLogIn } = useAuth()
-  console.log(accountId, accountId.value)
-
   const { urlPrefix } = usePrefix()
-  const { data, loading, error } = useGraphql({
-    queryPrefix: urlPrefix.value,
-    queryName: 'collectionForMint',
-    variables: {
-      account: accountId.value,
-    },
-    options: {
+  const { $apollo } = useNuxtApp()
+
+  const doFetch = async () => {
+    if (!isLogIn.value) {
+      return
+    }
+    const query = await resolveQueryPath(urlPrefix.value, 'collectionForMint')
+    const data = await $apollo.query({
+      query: query.default,
+      client: urlPrefix.value,
+      variables: {
+        account: accountId.value,
+      },
       fetchPolicy: 'network-only',
-    },
+    })
+
+    const {
+      data: { collectionEntities },
+    } = data
+
+    collections.value = collectionEntities
+  }
+
+  doFetch()
+
+  watch(accountId, (newId, oldId) => {
+    if (shouldUpdate(newId, oldId)) {
+      doFetch()
+    }
   })
 
-  watch(data as unknown as QueryReposne, async (newData) => {
-    console.log('data', data)
-    const collectionEntities = newData?.collectionEntities
-    if (!collectionEntities) {
+  watch(collections, () => {
+    if (!collections) {
       $consola.log(`collections for account ${accountId.value} not found`)
       return
     }
 
-    collections.value = unwrapSafe(collectionEntities)?.map((ce: any) => ({
-      ...ce,
-      alreadyMinted: ce.nfts?.length,
-      lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
-      totalCount: ce.nfts?.filter((nft) => !nft.burned).length,
-    }))
+    collectionsEntites.value = unwrapSafe(collections.value)?.map(
+      (ce: any) => ({
+        ...ce,
+        alreadyMinted: ce.nfts?.length,
+        lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
+        totalCount: ce.nfts?.filter((nft) => !nft.burned).length,
+      })
+    )
   })
 
   return {
-    collections,
-    loading,
-    error,
+    collectionsEntites,
   }
 }
