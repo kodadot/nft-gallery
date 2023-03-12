@@ -3,14 +3,14 @@
     <div class="events px-5 py-4 is-flex is-flex-direction-column">
       <div class="events-filter is-flex is-flex-wrap-wrap">
         <div
-          class="events-checkbox is-flex is-align-items-center"
+          class="is-clickable is-capitalized is-flex is-align-items-center"
           @click="checkAll">
           {{ $t('tabs.tabActivity.all') }}
         </div>
-        <div
+        <label
           v-for="(value, name) in filters"
           :key="name"
-          class="events-checkbox events-checkbox-container"
+          class="is-clickable is-capitalized events-checkbox-container"
           :class="cssActive(value)">
           <input
             :id="name"
@@ -18,10 +18,10 @@
             type="checkbox"
             :value="value"
             class="is-hidden" />
-          <label :for="name">
+          <span :for="name" class="is-clickable">
             {{ $t(`tabs.tabActivity.${value}`) }}
-          </label>
-        </div>
+          </span>
+        </label>
       </div>
     </div>
 
@@ -82,20 +82,11 @@ const cssActive = (value) => {
   }
 
   &-filter {
-    column-gap: 1.5rem;
+    column-gap: 0.625rem;
     row-gap: 1rem;
 
     @include mobile {
       column-gap: 1rem;
-    }
-  }
-
-  &-checkbox {
-    cursor: pointer;
-    text-transform: capitalize;
-
-    label {
-      cursor: pointer;
     }
   }
 
@@ -107,7 +98,7 @@ const cssActive = (value) => {
       }
     }
     border-radius: 25px;
-    padding: 5px 16px;
+    padding: 5px 20px;
   }
 
   .events-checkbox-active {
