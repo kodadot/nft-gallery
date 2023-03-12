@@ -15,36 +15,11 @@
           <span class="is-size-6 ml-2 is-capitalized">{{ wallet.name }}</span>
         </span>
 
-        <svg
-          v-if="!wallet.installed"
-          width="14"
-          height="15"
-          viewBox="0 0 14 15"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M11.0832 13.3334H2.9165V12.1667H11.0832V13.3334ZM6.99984 11.0001L3.49984 7.50008L4.32234 6.67758L6.4165 8.76591V1.66675H7.58317V8.76591L9.67734 6.67758L10.4998 7.50008L6.99984 11.0001Z"
-            fill="currentColor" />
-        </svg>
-        <svg
-          v-else-if="showAccountList"
-          width="15"
-          height="8"
-          viewBox="0 0 15 8"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 0.5L7.5 6.5L0.5 0.499999" stroke="currentColor" />
-        </svg>
+        <NeoIcon v-if="!wallet.installed" icon="download" />
 
-        <svg
-          v-else
-          width="8"
-          height="15"
-          viewBox="0 0 8 15"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 0.75L7 7.25L1 14.25" stroke="currentColor" />
-        </svg>
+        <NeoIcon v-else-if="showAccountList" icon="chevron-down" />
+
+        <NeoIcon v-else icon="chevron-right" />
       </div>
     </b-button>
 
@@ -82,6 +57,7 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import { formatAddress } from '@/utils/account'
 import shortAddress from '@/utils/shortAddress'
 import { useWalletStore } from '@/stores/wallet'
+import { NeoIcon } from '@kodadot1/brick'
 
 defineProps<{
   wallet: BaseDotsamaWallet
