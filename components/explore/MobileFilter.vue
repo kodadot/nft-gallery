@@ -18,12 +18,8 @@
             <b-icon icon="x" @click.native="onClose" />
           </a>
         </div>
-        <div class="border-bottom">
-          <StatusFilter data-model="store" expanded />
-        </div>
-        <div class="border-bottom">
-          <PriceFilter data-model="store" expanded />
-        </div>
+        <StatusFilter data-model="store" expanded />
+        <PriceFilter data-model="store" expanded />
       </div>
 
       <div class="buttons-container px-4 py-3 border-top">

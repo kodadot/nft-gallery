@@ -34,6 +34,11 @@ const components = { Items }
   },
 })
 export default class ExploreItems extends mixins(ExperimentMixin) {
+  // private preferencesStore = usePreferencesStore()
+  // get isSidebarOpen() {
+  //   return preferencesStore.getsidebarFilterCollapse
+  // }
+
   get isSidebarOpen() {
     return this.$store.getters['preferences/getsidebarFilterCollapse']
   }

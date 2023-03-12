@@ -2,7 +2,8 @@
   <b-collapse
     :open="expanded"
     animation="slide"
-    class="padding-left border-bottom">
+    class="border-bottom"
+    :class="{ 'fluid-padding': fluidPadding }">
     <template #trigger="{ open }">
       <div class="is-flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">
@@ -42,10 +43,12 @@ const props = withDefaults(
   defineProps<{
     expanded?: boolean
     dataModel?: DataModel
+    fluidPadding?: boolean
   }>(),
   {
     expanded: false,
     dataModel: 'query',
+    fluidPadding: false,
   }
 )
 
@@ -90,5 +93,8 @@ const applyToUrl = (queryCondition: { [key: string]: any }) => {
   @include ktheme() {
     border-bottom: 1px solid theme('tborder-color');
   }
+}
+.fluid-padding {
+  padding-left: $fluid-container-padding;
 }
 </style>

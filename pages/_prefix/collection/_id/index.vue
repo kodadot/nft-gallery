@@ -49,6 +49,10 @@ type CurrentCollection = {
 })
 export default class CollectionItemPage extends mixins(ExperimentMixin) {
   private historyStore = useHistoryStore()
+  // private preferencesStore = usePreferencesStore()
+  // get isSidebarOpen() {
+  //   return preferencesStore.getsidebarFilterCollapse
+  // }
 
   get currentlyViewedCollection(): CurrentCollection {
     return this.historyStore.getCurrentlyViewedCollection
