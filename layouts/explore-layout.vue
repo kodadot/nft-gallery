@@ -20,7 +20,7 @@
             </div>
           </section>
         </div>
-        <section class="py-6">
+        <section class="pt-6 explore-header">
           <div class="container is-fluid">
             <h1 v-if="isExplore" class="title">{{ $t('explore') }}</h1>
 
@@ -76,5 +76,9 @@ hr {
   .mobile-padding {
     padding: 0 1rem;
   }
+}
+
+.explore-header {
+  padding-bottom: 40px;
 }
 </style>

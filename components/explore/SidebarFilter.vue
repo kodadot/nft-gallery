@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'mr-5 bordered sticky': open }" class="is-hidden-mobile">
+  <div :class="{ 'bordered sticky': open }" class="is-hidden-mobile">
     <NeoSidebar :reduce="false" :open="open" fullheight>
       <StatusFilter expanded />
       <PriceFilter />
@@ -30,5 +30,6 @@ const open = computed(
   position: sticky;
   top: 72px;
   height: calc(100vh - 72px);
+  margin-right: 32px;
 }
 </style>
