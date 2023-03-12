@@ -21,6 +21,8 @@
   }
 
   .carousel-media {
+    display: grid;
+    align-items: center;
     @include ktheme() {
       border-bottom: 1px solid theme('border-color');
     }

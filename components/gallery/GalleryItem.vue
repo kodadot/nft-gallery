@@ -12,6 +12,10 @@
       <div class="column is-two-fifths">
         <MediaItem
           :key="nftImage"
+          :class="{
+            'is-flex is-align-items-center is-justify-content-center h-full':
+              resolveMedia(nftMimeType) == MediaType.AUDIO,
+          }"
           class="gallery-item-media"
           :src="nftImage"
           :animation-src="nftAnimation"
@@ -109,6 +113,8 @@ import { exist } from '@/components/search/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
+import { MediaType } from '@/components/rmrk/types'
+import { resolveMedia } from '@/utils/gallery/media'
 
 const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()

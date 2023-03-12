@@ -6,7 +6,7 @@
           v-for="(item, index) in nfts"
           :key="`${item.id}-${index}`"
           class="keen-slider__slide carousel-item">
-          <div>
+          <div class="h-full is-flex is-flex-direction-column">
             <CarouselMedia :item="item" />
             <CarouselInfo :item="item" />
           </div>
