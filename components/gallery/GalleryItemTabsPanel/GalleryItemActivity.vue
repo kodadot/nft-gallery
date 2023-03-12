@@ -18,7 +18,7 @@
             type="checkbox"
             :value="value"
             class="is-hidden" />
-          <span :for="name" class="is-clickable">
+          <span :for="name">
             {{ $t(`tabs.tabActivity.${value}`) }}
           </span>
         </label>
