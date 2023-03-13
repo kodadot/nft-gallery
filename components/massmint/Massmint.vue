@@ -81,7 +81,6 @@
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { OIcon } from '@oruga-ui/oruga'
 import { useMassmintsStore } from '@/stores/massmint'
-import TabItem from '@/components/shared/TabItem.vue'
 import { MintedCollection, useMassMint } from './useMassMint'
 const massMintStore = useMassmintsStore()
 const { $consola } = useNuxtApp()
