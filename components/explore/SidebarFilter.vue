@@ -1,8 +1,8 @@
 <template>
   <div :class="{ 'mr-5 bordered sticky': open }" class="is-hidden-mobile">
     <NeoSidebar :reduce="false" :open="open" fullheight>
-      <StatusFilter expanded />
-      <PriceFilter />
+      <StatusFilter expanded fluid-padding />
+      <PriceFilter fluid-padding />
     </NeoSidebar>
   </div>
 </template>

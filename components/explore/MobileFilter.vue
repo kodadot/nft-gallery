@@ -18,12 +18,8 @@
             <b-icon icon="x" @click.native="onClose" />
           </a>
         </div>
-        <div class="border-bottom">
-          <StatusFilter data-model="store" expanded />
-        </div>
-        <div class="border-bottom">
-          <PriceFilter data-model="store" expanded />
-        </div>
+        <StatusFilter data-model="store" expanded />
+        <PriceFilter data-model="store" expanded />
       </div>
 
       <div class="buttons-container px-4 py-3 border-top">
@@ -67,7 +63,8 @@ const onClose = () => {
   closeFilterModal()
 }
 
-const closeFilterModal = () => preferencesStore.setMobileFilterCollapse(false)
+const closeFilterModal = () =>
+  (preferencesStore.mobileFilterCollapseOpen = false)
 
 const syncFromUrl = () => {
   const listed = route.query?.listed?.toString() === 'true',
@@ -132,16 +129,6 @@ watch(() => route.query, syncFromUrl)
   gap: 20px;
 }
 
-.border-bottom {
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
-}
-.border-top {
-  @include ktheme() {
-    border-top: 1px solid theme('border-color');
-  }
-}
 .top {
   z-index: 1000;
 }

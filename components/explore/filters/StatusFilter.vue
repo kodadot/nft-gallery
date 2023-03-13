@@ -1,5 +1,9 @@
 <template>
-  <b-collapse :open="expanded" animation="slide">
+  <b-collapse
+    :open="expanded"
+    animation="slide"
+    class="border-bottom"
+    :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
       <div class="is-flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">
@@ -39,10 +43,12 @@ const props = withDefaults(
   defineProps<{
     expanded?: boolean
     dataModel?: DataModel
+    fluidPadding?: boolean
   }>(),
   {
     expanded: false,
     dataModel: 'query',
+    fluidPadding: false,
   }
 )
 
