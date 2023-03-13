@@ -68,10 +68,9 @@ import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 import VueMarkdown from 'vue-markdown-render'
 import { useMassmintsStore } from '@/stores/massmint'
 import { SwipeDirection, useSwipe } from '@vueuse/core'
-const { $consola } = useNuxtApp()
 const router = useRouter()
 const { urlPrefix } = usePrefix()
-const { $i18n } = useNuxtApp()
+const { $i18n, $consola } = useNuxtApp()
 
 const numOfCards = 3
 const massMintStore = useMassmintsStore()
