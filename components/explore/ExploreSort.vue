@@ -71,16 +71,23 @@ const options = computed(() => {
 })
 
 function removeDuplicateSortKeys(options: string[]) {
+  const uniqueOptions = {}
+
   if (!Array.isArray(options)) {
     return []
   }
-  const uniqueSortOptions = options.reduce((dict, option) => {
-    const [sortKey, modifier] = option.split('_')
-    return { ...dict, [sortKey]: modifier }
-  }, {})
-  return Object.entries(uniqueSortOptions).map(
-    ([sortKey, modifier]) => `${sortKey}_${modifier}`
-  )
+
+  options.forEach((option) => {
+    const opt = option.split('_')
+    const identifier = opt[0]
+    const sort = opt[1]
+
+    uniqueOptions[identifier] = sort
+  })
+
+  return Object.keys(uniqueOptions).map((identifier) => {
+    return `${identifier}_${uniqueOptions[identifier]}`
+  })
 }
 
 const sortOptions = ref<string[]>([])
