@@ -13,9 +13,10 @@
 
 <script setup lang="ts">
 import TabItem from '@/components/shared/TabItem.vue'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const route = useRoute()
-const { $store } = useNuxtApp()
+const preferencesStore = usePreferencesStore()
 
 enum TabType {
   COLLECTION = 'collectibles',
@@ -31,7 +32,7 @@ const pathWithSearchQuery = (path: string) => {
 
 watch(selectedTab, () => {
   if (selectedTab.value === TabType.COLLECTION) {
-    $store.dispatch('preferences/setSidebarFilterCollapse', false)
+    preferencesStore.setSidebarFilterCollapse(false)
   }
 })
 </script>
