@@ -26,7 +26,7 @@ const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 .sticky {
   position: -webkit-sticky;
   position: sticky;
-  top: 72px;
-  height: calc(100vh - 72px);
+  top: 84px;
+  height: calc(100vh - 84px);
 }
 </style>
