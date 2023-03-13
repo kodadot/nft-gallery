@@ -116,7 +116,7 @@ export const useHistoryStore = defineStore('history', {
 
       localStorage.setItem(
         'history',
-        JSON.stringify({ visitedNFTs: this.visitedNFTs })
+        JSON.stringify({ history: { visitedNFTs: this.visitedNFTs } })
       )
     },
     setCurrentlyViewedCollection(payload) {
