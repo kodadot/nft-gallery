@@ -94,6 +94,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import { usePreferencesStore } from '@/stores/preferences'
 
 @Component({
   components: {
@@ -104,101 +105,102 @@ import { Component, Vue } from 'nuxt-property-decorator'
 export default class Interface extends Vue {
   public paginationOptions = [9, 12, 24, 36]
   public exploreTabOptions = ['GALLERY', 'COLLECTION']
+  private preferencesStore = usePreferencesStore()
 
   get enabledAdvancedUI(): boolean {
-    return this.$store.state.preferences.advancedUI
+    return this.preferencesStore.advancedUI
   }
 
   set enabledAdvancedUI(value: boolean) {
-    this.$store.dispatch('preferences/setAdvancedUI', value)
+    this.preferencesStore.setAdvancedUI(value)
   }
 
   get theatreView(): boolean {
-    return this.$store.state.preferences.theatreView === 'theatre'
+    return this.preferencesStore.theatreView === 'theatre'
   }
 
   set theatreView(value: boolean) {
-    this.$store.dispatch('preferences/setTheatreView', value)
+    this.preferencesStore.setTheatreView(value)
   }
 
   get compactGalleryItem(): boolean {
-    return this.$store.state.preferences.compactGalleryItem
+    return this.preferencesStore.compactGalleryItem
   }
 
   set compactGalleryItem(value: boolean) {
-    this.$store.dispatch('preferences/setCompactGalleryItem', value)
+    this.preferencesStore.setCompactGalleryItem(value)
   }
 
   get compactCollection(): boolean {
-    return this.$store.state.preferences.compactCollection
+    return this.preferencesStore.compactCollection
   }
 
   set compactCollection(value: boolean) {
-    this.$store.dispatch('preferences/setCompactCollection', value)
+    this.preferencesStore.setCompactCollection(value)
   }
 
   get showPriceValue(): boolean {
-    return this.$store.state.preferences.showPriceGallery
+    return this.preferencesStore.showPriceGallery
   }
 
   set showPriceValue(value: boolean) {
-    this.$store.dispatch('preferences/setShowPriceValue', value)
+    this.preferencesStore.setShowPriceValue(value)
   }
 
   get showMintTime(): boolean {
-    return this.$store.state.preferences.showMintTimeCollection
+    return this.preferencesStore.showMintTimeCollection
   }
 
   set showMintTime(value: boolean) {
-    this.$store.dispatch('preferences/setShowMintTime', value)
+    this.preferencesStore.setShowMintTime(value)
   }
 
   get replaceBuyNowWithYolo(): boolean {
-    return this.$store.state.preferences.replaceBuyNowWithYolo
+    return this.preferencesStore.replaceBuyNowWithYolo
   }
 
   set replaceBuyNowWithYolo(value: boolean) {
-    this.$store.dispatch('preferences/setReplaceBuyNowWithYolo', value)
+    this.preferencesStore.setReplaceBuyNowWithYolo(value)
   }
 
   get galleryItemsPerPage(): number {
-    return this.$store.state.preferences.galleryItemsPerPage
+    return this.preferencesStore.galleryItemsPerPage
   }
 
   set galleryItemsPerPage(value: number) {
-    this.$store.dispatch('preferences/setGalleryItemsPerPage', value)
+    this.preferencesStore.setGalleryItemsPerPage(value)
   }
 
   get collectionsPerPage(): number {
-    return this.$store.state.preferences.collectionsPerPage
+    return this.preferencesStore.collectionsPerPage
   }
 
   set collectionsPerPage(value: number) {
-    this.$store.dispatch('preferences/setCollectionsPerPage', value)
+    this.preferencesStore.setCollectionsPerPage(value)
   }
 
-  get exploreTabOrder(): number {
-    return this.$store.state.preferences.exploreTabOrder
+  get exploreTabOrder(): string {
+    return this.preferencesStore.exploreTabOrder
   }
 
-  set exploreTabOrder(value: number) {
-    this.$store.dispatch('preferences/setExploreTabOrder', value)
+  set exploreTabOrder(value: string) {
+    this.preferencesStore.setExploreTabOrder(value)
   }
 
   get enableAllArtworks(): boolean {
-    return this.$store.state.preferences.enableAllArtwork
+    return this.preferencesStore.enableAllArtwork
   }
 
   set enableAllArtworks(value: boolean) {
-    this.$store.dispatch('preferences/setAllArtworkVisible', value)
+    this.preferencesStore.setAllArtworkVisible(value)
   }
 
   get enableGyroEffect(): boolean {
-    return this.$store.state.preferences.enableGyroEffect
+    return this.preferencesStore.enableGyroEffect
   }
 
   set enableGyroEffect(value: boolean) {
-    this.$store.dispatch('preferences/setEnableGyroEffect', value)
+    this.preferencesStore.setEnableGyroEffect(value)
   }
 }
 </script>
