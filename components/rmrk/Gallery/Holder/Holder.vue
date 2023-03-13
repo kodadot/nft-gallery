@@ -298,7 +298,7 @@ export default class CommonHolderTable extends mixins(
   }
 
   get itemsPerPage(): number {
-    return preferencesStore.getHistoryItemsPerPage
+    return this.preferencesStore.getHistoryItemsPerPage
   }
 
   get showList(): TableRow[] {
