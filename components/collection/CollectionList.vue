@@ -35,11 +35,12 @@ import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
-
-const { urlPrefix, client } = usePrefix()
-const { $store, $apollo } = useNuxtApp()
+import { usePreferencesStore } from '@/stores/preferences'
 
 const route = useRoute()
+const { $apollo } = useNuxtApp()
+const { urlPrefix, client } = usePrefix()
+const preferencesStore = usePreferencesStore()
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
@@ -75,10 +76,7 @@ const buildSearchParam = (): Record<string, unknown>[] => {
 onBeforeMount(() => {
   fetchPageData(startPage.value)
   // setting the default layout until redesign explorer menubar: YOLO
-  $store.dispatch(
-    'preferences/setLayoutClass',
-    'is-one-quarter-desktop is-one-third-tablet'
-  )
+  preferencesStore.setLayoutClass('is-one-quarter-desktop is-one-third-tablet')
 })
 
 const fetchPageData = async (page: number, loadDirection = 'down') => {

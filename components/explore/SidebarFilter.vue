@@ -11,12 +11,10 @@
 import { NeoSidebar } from '@kodadot1/brick'
 import PriceFilter from './filters/PriceFilter.vue'
 import StatusFilter from './filters/StatusFilter.vue'
+import { usePreferencesStore } from '@/stores/preferences'
 
-const { $store } = useNuxtApp()
-
-const open = computed(
-  () => $store.getters['preferences/getsidebarFilterCollapse']
-)
+const preferencesStore = usePreferencesStore()
+const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 </script>
 
 <style lang="scss" scoped>

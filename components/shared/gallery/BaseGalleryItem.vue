@@ -94,6 +94,7 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import { isMobileDevice } from '~/utils/extension'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
@@ -112,18 +113,19 @@ export default class BaseGalleryItem extends Vue {
   @Prop(Boolean) public imageVisible!: boolean
   @Prop(Boolean) public isLoading!: boolean
   @Prop(String) public mimeType!: string
+  private preferencesStore = usePreferencesStore()
 
   private isFullScreenView = false
   private isTileView = false
   private viewMode = isMobileDevice
     ? 'theater'
-    : this.$store.getters['preferences/getTheatreView']
+    : this.preferencesStore.getTheatreView
 
   get isGyroEffectEnabled(): boolean {
     if (isMobileDevice) {
       return true
     }
-    return this.$store.getters['preferences/getEnableGyroEffect']
+    return this.preferencesStore.getEnableGyroEffect
   }
 
   get itemImage(): string {
