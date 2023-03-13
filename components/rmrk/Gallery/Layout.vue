@@ -3,29 +3,27 @@
     <b-field :position="position">
       <b-tooltip :label="$t('tooltip.largeDisplay')">
         <b-radio-button
-          v-model="layout"
+          v-model="preferenceLayout"
           type="is-primary"
           class="collection-radio-btn"
           native-value="is-half-desktop is-half-tablet"
           :disabled="disabled"
-          data-cy="large-display"
-          @input="onInputChange">
+          data-cy="large-display">
           <span>
-            <b-icon icon="th-large"></b-icon>
+            <b-icon icon="th-large" />
           </span>
         </b-radio-button>
       </b-tooltip>
       <b-tooltip :label="$t('tooltip.smallDisplay')">
         <b-radio-button
-          v-model="layout"
+          v-model="preferenceLayout"
           type="is-primary"
           class="collection-radio-btn"
           native-value="is-one-quarter-desktop is-one-third-tablet"
           :disabled="disabled"
-          data-cy="small-display"
-          @input="onInputChange">
+          data-cy="small-display">
           <span>
-            <b-icon icon="th"></b-icon>
+            <b-icon icon="th" />
           </span>
         </b-radio-button>
       </b-tooltip>
@@ -47,15 +45,18 @@ export default class Layout extends Vue {
     | 'is-left'
     | 'is-right'
   @Prop() public items!: RmrkType[]
-  private preferencesStore = usePreferencesStore()
 
-  get layout() {
+  get preferencesStore() {
+    return usePreferencesStore()
+  }
+
+  get preferenceLayout() {
     return this.preferencesStore.getLayoutClass
   }
 
-  public onInputChange(data: string) {
+  set preferenceLayout(data) {
     this.$emit('change')
-    this.preferencesStore.setLayoutClass(data)
+    this.preferencesStore.layoutClass = data
   }
 }
 </script>
