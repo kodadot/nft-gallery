@@ -63,8 +63,7 @@ const onClose = () => {
   closeFilterModal()
 }
 
-const closeFilterModal = () =>
-  (preferencesStore.mobileFilterCollapseOpen = false)
+const closeFilterModal = () => preferencesStore.setMobileFilterCollapse(false)
 
 const syncFromUrl = () => {
   const listed = route.query?.listed?.toString() === 'true',

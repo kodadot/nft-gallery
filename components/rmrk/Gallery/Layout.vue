@@ -56,7 +56,7 @@ export default class Layout extends Vue {
 
   set preferenceLayout(data) {
     this.$emit('change')
-    this.preferencesStore.layoutClass = data
+    this.preferencesStore.setLayoutClass(data)
   }
 }
 </script>
