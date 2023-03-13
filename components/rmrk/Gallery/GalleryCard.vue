@@ -51,6 +51,7 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import { getMimeType } from '@/utils/gallery/media'
 import { getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
@@ -79,6 +80,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
   public title = ''
   public animatedUrl = ''
   public mimeType = ''
+  private preferencesStore = usePreferencesStore()
 
   async fetch() {
     if (this.metadata) {
@@ -99,7 +101,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
   }
 
   get showPriceValue(): boolean {
-    return this.listed || this.$store.getters['preferences/getShowPriceValue']
+    return this.listed || this.preferencesStore.getShowPriceValue
   }
 
   get nftName(): string {
@@ -108,8 +110,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
 
   get largeDisplay(): boolean {
     return (
-      this.$store.getters['preferences/getLayoutClass'] ===
-      'is-half-desktop is-half-tablet'
+      this.preferencesStore.getLayoutClass === 'is-half-desktop is-half-tablet'
     )
   }
 }

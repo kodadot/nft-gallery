@@ -105,6 +105,7 @@ import {
   secondaryFileVisible,
 } from './mintUtils'
 import { usePinningStore } from '@/stores/pinning'
+import { usePreferencesStore } from '@/stores/preferences'
 
 type MintedCollection = BaseMintedCollection & {
   name: string
@@ -151,6 +152,9 @@ export default class CreateToken extends mixins(
   public postfix = true
   public balanceNotEnough = false
 
+  private pinningStore = usePinningStore()
+  private preferencesStore = usePreferencesStore()
+
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
   @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
@@ -165,10 +169,6 @@ export default class CreateToken extends mixins(
 
   get balanceNotEnoughMessage() {
     return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
-  }
-
-  get pinningStore() {
-    return usePinningStore()
   }
 
   @Watch('accountId', { immediate: true })
@@ -211,15 +211,15 @@ export default class CreateToken extends mixins(
   }
 
   get hasSupport(): boolean {
-    return this.$store.state.preferences.hasSupport
+    return this.preferencesStore.hasSupport
   }
 
   get hasCarbonOffset(): boolean {
-    return this.$store.state.preferences.hasCarbonOffset
+    return this.preferencesStore.hasCarbonOffset
   }
 
   get arweaveUpload(): boolean {
-    return this.$store.state.preferences.arweaveUpload
+    return this.preferencesStore.arweaveUpload
   }
 
   public async submit() {

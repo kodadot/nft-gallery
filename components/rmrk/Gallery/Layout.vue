@@ -36,6 +36,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { RmrkType } from '@/components/rmrk/service/scheme'
+import { usePreferencesStore } from '@/stores/preferences'
 
 @Component({})
 export default class Layout extends Vue {
@@ -46,11 +47,15 @@ export default class Layout extends Vue {
     | 'is-left'
     | 'is-right'
   @Prop() public items!: RmrkType[]
-  public layout = this.$store.getters['preferences/getLayoutClass']
+  private preferencesStore = usePreferencesStore()
+
+  get layout() {
+    return this.preferencesStore.getLayoutClass
+  }
 
   public onInputChange(data: string) {
     this.$emit('change')
-    this.$store.dispatch('preferences/setLayoutClass', data)
+    this.preferencesStore.setLayoutClass(data)
   }
 }
 </script>
