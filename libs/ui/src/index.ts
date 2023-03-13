@@ -17,5 +17,6 @@ export { default as NeoTooltip } from './components/NeoTooltip/NeoTooltip'
 export { default as NeoNftCard } from './components/NeoNftCard/NeoNftCard'
 export { default as NeoTab } from './components/NeoTab/NeoTab'
 export { default as NeoTabItem } from './components/NeoTab/NeoTabItem'
+export { default as NeoIcon } from './components/NeoIcon/NeoIcon'
 
 export { default as Neo } from '@oruga-ui/oruga'
