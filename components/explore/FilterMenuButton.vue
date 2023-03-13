@@ -23,8 +23,10 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import ActiveCount from './ActiveCount.vue'
+import { usePreferencesStore } from '@/stores/preferences'
+
 const route = useRoute()
-const { $store } = useNuxtApp()
+const preferencesStore = usePreferencesStore()
 
 const disabled = computed(() => {
   const allowedList = ['prefix-explore-items', 'prefix-collection-id']
@@ -33,7 +35,7 @@ const disabled = computed(() => {
 })
 
 const isSidebarFiltersOpen = computed(
-  () => $store.getters['preferences/getsidebarFilterCollapse']
+  () => preferencesStore.getsidebarFilterCollapse
 )
 
 const numOfActiveFilters = computed(() => {
@@ -45,15 +47,9 @@ const numOfActiveFilters = computed(() => {
   return activeFilters.length
 })
 
-const toggleSidebarFilters = () => {
-  $store.dispatch(
-    'preferences/setSidebarFilterCollapse',
-    !isSidebarFiltersOpen.value
-  )
-}
-const openMobileFilters = () => {
-  $store.dispatch('preferences/setMobileFilterCollapse', true)
-}
+const toggleSidebarFilters = () =>
+  preferencesStore.setSidebarFilterCollapse(!isSidebarFiltersOpen.value)
+const openMobileFilters = () => preferencesStore.setMobileFilterCollapse(true)
 </script>
 
 <style lang="scss" scoped>

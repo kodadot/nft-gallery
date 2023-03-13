@@ -31,6 +31,7 @@ import {
   INFINITE_SCROLL_CONTAINER_ID,
   INFINITE_SCROLL_ITEM_CLASS_NAME,
 } from '~/utils/mixins/infiniteScrollMixin'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const components = {
   GalleryCard: () => import('./GalleryCard.vue'),
@@ -46,9 +47,10 @@ export default class GalleryCardList extends Vue {
   @Prop(Boolean) public listed!: boolean
   protected scrollContainerId = INFINITE_SCROLL_CONTAINER_ID
   protected scrollItemClassName = INFINITE_SCROLL_ITEM_CLASS_NAME
+  private preferencesStore = usePreferencesStore()
 
   get classLayout() {
-    return this.$store.getters['preferences/getLayoutClass']
+    return this.preferencesStore.getLayoutClass
   }
 
   protected metadataOf(nft: any) {

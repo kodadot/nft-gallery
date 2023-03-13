@@ -119,6 +119,7 @@ import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import { usePinningStore } from '@/stores/pinning'
+import { usePreferencesStore } from '@/stores/preferences'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -153,6 +154,7 @@ export default class CreateToken extends mixins(
   ApiUrlMixin
 ) {
   @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
+  private preferencesStore = usePreferencesStore()
 
   public base: BaseTokenType<MintedCollection> = {
     name: '',
@@ -176,7 +178,6 @@ export default class CreateToken extends mixins(
   }
   protected metadata = ''
   protected balanceNotEnough = false
-  public hasCarbonOffset = this.$store.state.preferences.hasCarbonOffset
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
 
@@ -184,6 +185,10 @@ export default class CreateToken extends mixins(
   protected updatePrice(value: string) {
     this.price = value
     this.balanceInput.checkValidity()
+  }
+
+  get hasCarbonOffset() {
+    return this.preferencesStore.hasCarbonOffset
   }
 
   get balanceNotEnoughMessage() {

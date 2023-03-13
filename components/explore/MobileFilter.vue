@@ -47,27 +47,23 @@ import PriceFilter from './filters/PriceFilter.vue'
 import StatusFilter from './filters/StatusFilter.vue'
 import useReplaceUrl from './filters/useReplaceUrl'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const route = useRoute()
+const preferencesStore = usePreferencesStore()
 const exploreFiltersStore = useExploreFiltersStore()
-
-const { $store } = useNuxtApp()
 const { replaceUrl } = useReplaceUrl()
 
 const emit = defineEmits(['resetPage'])
 
-const open = computed(
-  () => $store.getters['preferences/getMobileFilterCollapse']
-)
+const open = computed(() => preferencesStore.getMobileFilterCollapse)
 
 const onClose = () => {
   syncFromUrl()
   closeFilterModal()
 }
 
-const closeFilterModal = () => {
-  $store.dispatch('preferences/setMobileFilterCollapse', false)
-}
+const closeFilterModal = () => preferencesStore.setMobileFilterCollapse(false)
 
 const syncFromUrl = () => {
   const listed = route.query?.listed?.toString() === 'true',

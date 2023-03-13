@@ -6,6 +6,7 @@
 
 <script setup lang="ts">
 import { useResizeObserver } from '@vueuse/core'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const props = withDefaults(
   defineProps<{
@@ -26,13 +27,13 @@ const props = withDefaults(
   }
 )
 
-const { $store } = useNuxtApp()
+const preferencesStore = usePreferencesStore()
 
 const cols = ref(5)
 const containerWidth = ref(0)
 const container = ref<HTMLDivElement | null>(null)
 
-const grid = computed(() => $store.getters['preferences/getGridSize'])
+const grid = computed(() => preferencesStore.getGridSize)
 const isMobileVariant = computed(
   () => props.mobileVariant && containerWidth.value <= 768
 )
