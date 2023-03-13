@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import TabItem from './TabItem.vue'
+import TabItem from '@/components/shared/TabItem.vue'
 
 const route = useRoute()
 const { $store } = useNuxtApp()
