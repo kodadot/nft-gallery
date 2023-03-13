@@ -160,6 +160,7 @@ import { fetchCollectionMetadata, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { SearchQuery } from './search/types'
 import { isSameAccount } from '~/utils/account'
 import { useHistoryStore } from '@/stores/history'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
 
@@ -229,6 +230,7 @@ export default class CollectionItem extends mixins(
   private openHolder = true
   private nfts: NFT[] = []
   private historyStore = useHistoryStore()
+  private preferencesStore = usePreferencesStore()
 
   protected squidCollectionProfileSortOption: string[] = [
     'blockNumber_DESC',
@@ -277,11 +279,11 @@ export default class CollectionItem extends mixins(
   }
 
   get compactCollection(): boolean {
-    return this.$store.getters['preferences/getCompactCollection']
+    return this.preferencesStore.getCompactCollection
   }
 
   get showMintTime(): boolean {
-    return this.$store.state.preferences.showMintTimeCollection
+    return this.preferencesStore.getShowMintTime
   }
 
   set currentValue(page: number) {

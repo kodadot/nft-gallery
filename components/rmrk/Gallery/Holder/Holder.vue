@@ -174,6 +174,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 import { parseDate, parsePriceForItem } from './helper'
 import { Interaction as EventInteraction } from '../../service/scheme'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
@@ -251,6 +252,7 @@ export default class CommonHolderTable extends mixins(
   }
   public isOpen = false
   private showDetailIcon = true
+  private preferencesStore = usePreferencesStore()
 
   public async created() {
     this.initKeyboardEventHandler({
@@ -296,7 +298,7 @@ export default class CommonHolderTable extends mixins(
   }
 
   get itemsPerPage(): number {
-    return this.$store.getters['preferences/getHistoryItemsPerPage']
+    return preferencesStore.getHistoryItemsPerPage
   }
 
   get showList(): TableRow[] {
