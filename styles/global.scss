@@ -279,3 +279,17 @@ hr {
     }
   }
 }
+
+.fluid-padding-left {
+  padding-left: $fluid-container-padding;
+}
+.border-bottom {
+  @include ktheme() {
+    border-bottom: 1px solid theme('border-color');
+  }
+}
+.border-top {
+  @include ktheme() {
+    border-top: 1px solid theme('border-color');
+  }
+}

@@ -10,6 +10,7 @@
 import { Component, mixins } from 'nuxt-property-decorator'
 import ExperimentMixin from '@/utils/mixins/experimentMixin'
 import Items from '@/components/items/Items.vue'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const components = { Items }
 
@@ -34,13 +35,11 @@ const components = { Items }
   },
 })
 export default class ExploreItems extends mixins(ExperimentMixin) {
-  // private preferencesStore = usePreferencesStore()
-  // get isSidebarOpen() {
-  //   return preferencesStore.getsidebarFilterCollapse
-  // }
-
+  get preferencesStore() {
+    return usePreferencesStore()
+  }
   get isSidebarOpen() {
-    return this.$store.getters['preferences/getsidebarFilterCollapse']
+    return this.preferencesStore.getsidebarFilterCollapse
   }
 }
 </script>

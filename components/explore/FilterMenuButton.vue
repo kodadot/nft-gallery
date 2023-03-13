@@ -49,7 +49,9 @@ const numOfActiveFilters = computed(() => {
 
 const toggleSidebarFilters = () =>
   (preferencesStore.sidebarFilterCollapseOpen = !isSidebarFiltersOpen.value)
-const openMobileFilters = () => preferencesStore.setMobileFilterCollapse(true)
+
+const openMobileFilters = () =>
+  (preferencesStore.mobileFilterCollapseOpen = true)
 </script>
 
 <style lang="scss" scoped>

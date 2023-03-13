@@ -15,6 +15,7 @@ import { generateCollectionImage } from '~/utils/seoImageGenerator'
 import ExperimentMixin from '@/utils/mixins/experimentMixin'
 import Items from '@/components/items/Items.vue'
 import { useHistoryStore } from '@/stores/history'
+import { usePreferencesStore } from '@/stores/preferences'
 
 type CurrentCollection = {
   name: string
@@ -49,10 +50,12 @@ type CurrentCollection = {
 })
 export default class CollectionItemPage extends mixins(ExperimentMixin) {
   private historyStore = useHistoryStore()
-  // private preferencesStore = usePreferencesStore()
-  // get isSidebarOpen() {
-  //   return preferencesStore.getsidebarFilterCollapse
-  // }
+  get preferencesStore() {
+    return usePreferencesStore()
+  }
+  get isSidebarOpen() {
+    return this.preferencesStore.getsidebarFilterCollapse
+  }
 
   get currentlyViewedCollection(): CurrentCollection {
     return this.historyStore.getCurrentlyViewedCollection
@@ -64,10 +67,6 @@ export default class CollectionItemPage extends mixins(ExperimentMixin) {
       this.currentlyViewedCollection.numberOfItems,
       this.currentlyViewedCollection.image
     )
-  }
-
-  get isSidebarOpen() {
-    return this.$store.getters['preferences/getsidebarFilterCollapse']
   }
 }
 </script>

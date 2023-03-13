@@ -63,7 +63,8 @@ const onClose = () => {
   closeFilterModal()
 }
 
-const closeFilterModal = () => preferencesStore.setMobileFilterCollapse(false)
+const closeFilterModal = () =>
+  (preferencesStore.mobileFilterCollapseOpen = false)
 
 const syncFromUrl = () => {
   const listed = route.query?.listed?.toString() === 'true',
@@ -128,16 +129,6 @@ watch(() => route.query, syncFromUrl)
   gap: 20px;
 }
 
-.border-bottom {
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
-}
-.border-top {
-  @include ktheme() {
-    border-top: 1px solid theme('border-color');
-  }
-}
 .top {
   z-index: 1000;
 }

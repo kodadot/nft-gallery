@@ -3,7 +3,7 @@
     :open="expanded"
     animation="slide"
     class="border-bottom"
-    :class="{ 'fluid-padding': fluidPadding }">
+    :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
       <div class="is-flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">
@@ -172,14 +172,6 @@ const toggleInputFocused = (): void => {
 .input-focused {
   @include ktheme() {
     box-shadow: 0 0 0 1px theme('k-blue');
-  }
-}
-.fluid-padding {
-  padding-left: $fluid-container-padding;
-}
-.border-bottom {
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
   }
 }
 </style>

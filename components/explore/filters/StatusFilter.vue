@@ -3,7 +3,7 @@
     :open="expanded"
     animation="slide"
     class="border-bottom"
-    :class="{ 'fluid-padding': fluidPadding }">
+    :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
       <div class="is-flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">
@@ -81,20 +81,3 @@ const applyToUrl = (queryCondition: { [key: string]: any }) => {
   emit('resetPage')
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
-.padding-left {
-  padding-left: $fluid-container-padding;
-}
-
-.border-bottom {
-  @include ktheme() {
-    border-bottom: 1px solid theme('tborder-color');
-  }
-}
-.fluid-padding {
-  padding-left: $fluid-container-padding;
-}
-</style>
