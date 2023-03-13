@@ -1,25 +1,24 @@
 <template>
   <div>
-    <section class="is-flex pb-6">
-      <NeoButton
-        :label="'to onboarding'"
-        icon="arrow-right"
-        icon-pack="fas"
-        class="mr-6"
-        @click.native="toOnborading" />
-      <div class="is-flex ml-6">
+    <section class="is-flex pb-6 is-flex-wrap-wrap row-gap">
+      <NeoButton class="mr-6" @click.native="toOnborading">
+        <o-icon pack="fas" icon="arrow-left" size="small" class="mr-1" />
+        {{ $t('massmint.backToOnbaording') }}
+      </NeoButton>
+      <div class="is-flex">
         <TabItem
           v-for="tab in tabs"
           :key="tab"
           :active="tab === 'Mass Mint'"
           :text="tab"
-          :to="route.path" />
+          :to="route.path"
+          class="mobile-width" />
       </div>
     </section>
     <hr class="m-0" />
     <section
       class="pt-6 is-flex is-flex-direction-column is-align-items-center">
-      <p class="mb-4">Choose a collection to which you want to mint</p>
+      <p class="mb-4">{{ $t('massmint.chooseCollection') }}</p>
       <NeoDropdown
         class="dropdown-width"
         :disabled="!isLogIn"
@@ -27,13 +26,13 @@
         <NeoButton
           v-if="!selectedCollection"
           class="dropdown-width"
-          :label="'Select Collection'"
+          :label="$t('massmint.selectCollection')"
           :icon="isDropdownopen ? 'chevron-up' : 'chevron-down'" />
         <NeoButton
           v-else
           class="dropdown-width"
           :icon="isDropdownopen ? 'chevron-up' : 'chevron-down'">
-          {{ selectedCollection }}
+          {{ selectedCollection.name || selectedCollection.id }}
           <o-icon
             v-if="selectedCollection"
             icon="check"
@@ -43,30 +42,33 @@
         </NeoButton>
         <template v-if="collectionsEntites?.length" #items>
           <NeoDropdownItem
-            v-for="c in collectionsEntites"
-            :key="c.id"
+            v-for="collection in collectionsEntites"
+            :key="collection.id"
             class="dropdown-width"
-            @click.native="selectCollection(c.name)">
+            @click.native="selectCollection(collection)">
             <span class="px-5">
-              {{ c.name }}
+              {{ collection.name || collection.id }}
             </span>
           </NeoDropdownItem>
-          <NeoDropdownItem class="dropdown-width">
-            <div>
-              <o-icon pack="fas" icon="plus" size="small" class="mr-1">
-              </o-icon>
-              <span>Create New Collection</span>
-            </div>
+          <NeoDropdownItem class="dropdown-width" has-link>
+            <nuxt-link :to="`/${urlPrefix}/create`" class="w-100">
+              <div class="w-100">
+                <o-icon pack="fas" icon="plus" size="small" class="mr-1">
+                </o-icon>
+                {{ $t('massmint.createNewCollection') }}
+              </div>
+            </nuxt-link>
           </NeoDropdownItem>
         </template>
         <template v-else #items>
           <NeoDropdownItem disabled class="dropdown-width">
-            <span class="px-5"> No Collection </span>
+            <span class="px-5"> {{ $t('massmint.noCollection') }} </span>
           </NeoDropdownItem>
           <NeoDropdownItem class="dropdown-width">
-            <div>
-              <o-icon pack="fas" icon="plus" size="small" class="mr-1" />
-              <span>Create New Collection</span>
+            <div class="w-100">
+              <o-icon pack="fas" icon="plus" size="small" class="mr-1">
+              </o-icon>
+              {{ $t('massmint.createNewCollection') }}
             </div>
           </NeoDropdownItem>
         </template>
@@ -80,7 +82,7 @@ import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { OIcon } from '@oruga-ui/oruga'
 import { useMassmintsStore } from '@/stores/massmint'
 import TabItem from '@/components/explore/tab/TabItem.vue'
-import { useMassMint } from './useMassMint'
+import { MintedCollection, useMassMint } from './useMassMint'
 const massMintStore = useMassmintsStore()
 const { $consola } = useNuxtApp()
 const router = useRouter()
@@ -92,7 +94,7 @@ const tabs = ['Collection', 'NFT', 'Mass Mint']
 
 const { collectionsEntites } = useMassMint()
 const isDropdownopen = ref(false)
-const selectedCollection = ref<string>()
+const selectedCollection = ref<MintedCollection>()
 
 watch(accountId, () => {
   selectedCollection.value = undefined
@@ -101,8 +103,8 @@ watch(accountId, () => {
 const toggleOpen = () => {
   isDropdownopen.value = !isDropdownopen.value
 }
-const selectCollection = (name: string) => {
-  selectedCollection.value = name
+const selectCollection = (collection) => {
+  selectedCollection.value = collection
 }
 
 const toOnborading = () => {
@@ -121,8 +123,16 @@ const toOnborading = () => {
 .dropdown-width {
   width: 30rem;
 }
-.max-width {
-  max-width: 466px;
+@include mobile {
+  .dropdown-width {
+    width: 100%;
+  }
+  .mobile-width {
+    min-width: 6rem;
+  }
+}
+.row-gap {
+  row-gap: 2rem;
 }
 .w-100 {
   width: 100%;

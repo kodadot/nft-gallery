@@ -1225,6 +1225,11 @@
     "massmint": "Simplified process to create multiple NFT's for your collection"
   },
   "massmint": {
+    "backToOnbaording": "Back To Onboarding",
+    "chooseCollection": "Choose a collection to which you want to mint",
+    "selectCollection": "Select Collection",
+    "createNewCollection": "Create New Collection",
+    "noCollection": "No Collection",
     "onboarding": {
       "pageTitle": "Mass Mint Onboarding",
       "skip": "Skip",

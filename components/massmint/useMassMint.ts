@@ -1,9 +1,9 @@
 import { BaseMintedCollection } from '../base/types'
-import { unwrapSafe } from '~~/utils/uniquery'
-import resolveQueryPath from '~~/utils/queryPathResolver'
-import shouldUpdate from '~~/utils/shouldUpdate'
+import { unwrapSafe } from '@/utils/uniquery'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import shouldUpdate from '@/utils/shouldUpdate'
 
-type MintedCollection = BaseMintedCollection & {
+export type MintedCollection = BaseMintedCollection & {
   name?: string
   lastIndexUsed: number
 }
@@ -11,10 +11,9 @@ type MintedCollection = BaseMintedCollection & {
 export const useMassMint = () => {
   const collectionsEntites = ref<MintedCollection[]>()
   const collections = ref()
-  const { $consola } = useNuxtApp()
+  const { $consola, $apollo } = useNuxtApp()
   const { accountId, isLogIn } = useAuth()
   const { urlPrefix } = usePrefix()
-  const { $apollo } = useNuxtApp()
 
   const doFetch = async () => {
     if (!isLogIn.value) {
@@ -51,14 +50,7 @@ export const useMassMint = () => {
       return
     }
 
-    collectionsEntites.value = unwrapSafe(collections.value)?.map(
-      (ce: any) => ({
-        ...ce,
-        alreadyMinted: ce.nfts?.length,
-        lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
-        totalCount: ce.nfts?.filter((nft) => !nft.burned).length,
-      })
-    )
+    collectionsEntites.value = unwrapSafe(collections.value)
   })
 
   return {
