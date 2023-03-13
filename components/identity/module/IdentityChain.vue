@@ -22,11 +22,7 @@
       </IdentityPopover>
     </template>
     <span v-else>
-      <IdentityLink
-        :shortened-address="name"
-        :address="address"
-        :show-clipboard="showClipboard"
-        :link-class="linkClass" />
+      {{ name }}
     </span>
   </div>
 </template>
@@ -51,7 +47,6 @@ defineProps<{
   address?: Address
   shortenedAddress?: string
   name?: string | object
-  linkClass?: string
 }>()
 </script>
 

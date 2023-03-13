@@ -101,6 +101,11 @@ body {
   }
 }
 
+.container.is-fluid {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
 .control-label {
   @include ktheme() {
     color: theme('text-color');
@@ -112,6 +117,10 @@ body {
     padding-left: 10px !important;
     padding-right: 10px !important;
     margin: 0 -12px !important;
+  }
+  .container.is-fluid {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 }
 

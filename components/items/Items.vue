@@ -1,9 +1,7 @@
 <template>
-  <div class="container">
-    <div class="is-flex is-align-self-flex-start">
-      <SidebarFilter />
-      <ItemsGrid />
-    </div>
+  <div class="is-flex is-align-self-flex-start">
+    <SidebarFilter />
+    <ItemsGrid />
   </div>
 </template>
 
