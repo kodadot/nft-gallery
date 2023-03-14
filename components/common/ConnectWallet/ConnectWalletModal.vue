@@ -7,7 +7,7 @@
         class="mr-2 is-no-border"
         icon-left="chevron-left"
         @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
-      <span class="modal-card-title is-size-6">
+      <span class="modal-card-title is-size-6 has-text-weight-bold">
         {{ headerTitle }}
       </span>
       <a class="is-flex is-align-items-center" @click="emit('close')">

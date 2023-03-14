@@ -22,6 +22,33 @@
         <NeoIcon v-else icon="chevron-right" />
       </div>
     </b-button>
+    <div
+      v-if="isAuth && walletAccounts.length === 0"
+      class="pl-5 pt-2 pb-2 is-flex is-align-items-center auth-tip">
+      <i class="is-flex circle-icon">
+        <svg
+          width="20"
+          height="21"
+          viewBox="0 0 20 21"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M10 1.5C14.9706 1.5 19 5.52944 19 10.5C19 15.4706 14.9706 19.5 10 19.5C5.02944 19.5 1 15.4706 1 10.5C1 5.52944 5.02944 1.5 10 1.5Z"
+            stroke="black"
+            stroke-opacity="0.3"
+            stroke-width="2"
+            stroke-linecap="round" />
+          <path
+            d="M10 1.5C14.9706 1.5 19 5.52944 19 10.5"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round" />
+        </svg>
+      </i>
+      <span class="has-text-grey is-size-7 pl-4">
+        Waiting For Authorization
+      </span>
+    </div>
 
     <div v-if="walletAccounts.length && showAccountList" class="account-list">
       <div
@@ -70,6 +97,7 @@ const walletAccounts = ref<WalletAccount[]>([])
 const showAccountList = ref(false)
 const emit = defineEmits(['setWallet', 'setAccount'])
 const walletStore = useWalletStore()
+const isAuth = ref(false)
 
 const emitAccountChange = (address: string): void => {
   emit('setAccount', address)
@@ -105,18 +133,18 @@ const onClickWallet = (wallet: BaseDotsamaWallet): void => {
 const setWallet = async (wallet: BaseDotsamaWallet) => {
   emit('setWallet', wallet)
   // web3 wallet connect logic here & show accountSelect, async or not?
-  await wallet.enable()
+  isAuth.value = true
 
+  await wallet.enable()
   // init account
-  wallet
-    .getAccounts()
-    .then((data) => {
-      walletAccounts.value = data ? data.map(formatAccount) : []
-      localStorage.setItem('wallet', wallet.extensionName)
-    })
-    .catch((e) => {
-      $consola.error('init account error', e)
-    })
+  try {
+    const data = await wallet.getAccounts()
+    walletAccounts.value = data ? data.map(formatAccount) : []
+    localStorage.setItem('wallet', wallet.extensionName)
+  } catch (e) {
+    isAuth.value = false
+    $consola.error('init account error', e)
+  }
 
   // subscribe change
   wallet.subscribeAccounts((accounts) => {
@@ -124,6 +152,7 @@ const setWallet = async (wallet: BaseDotsamaWallet) => {
     if (accounts) {
       walletAccounts.value = accounts.map(formatAccount)
     }
+    isAuth.value = false
   })
   hasWalletProviderExtension.value = true
   //
