@@ -13,6 +13,7 @@
       @click="reachTopHandler" />
     <DynamicGrid
       :id="scrollContainerId"
+      grid-size="medium"
       :default-width="{ small: 16 * 15, medium: 16 * 20, large: 16 * 25 }"
       :mobile-variant="false">
       <div
