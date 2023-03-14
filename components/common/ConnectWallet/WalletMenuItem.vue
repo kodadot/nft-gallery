@@ -22,6 +22,14 @@
         <NeoIcon v-else icon="chevron-right" />
       </div>
     </b-button>
+    <div
+      v-if="isAuth && walletAccounts.length === 0"
+      class="pl-5 pt-2 pb-2 is-flex is-align-items-center auth-tip">
+      <NeoIcon icon="spinner-third" icon-pack="fad" />
+      <span class="has-text-grey is-size-7 pl-4">
+        {{ $i18n.t('walletConnect.authTip') }}
+      </span>
+    </div>
 
     <div v-if="walletAccounts.length && showAccountList" class="account-list">
       <div
@@ -70,6 +78,7 @@ const walletAccounts = ref<WalletAccount[]>([])
 const showAccountList = ref(false)
 const emit = defineEmits(['setWallet', 'setAccount'])
 const walletStore = useWalletStore()
+const isAuth = ref(false)
 
 const emitAccountChange = (address: string): void => {
   emit('setAccount', address)
@@ -105,18 +114,18 @@ const onClickWallet = (wallet: BaseDotsamaWallet): void => {
 const setWallet = async (wallet: BaseDotsamaWallet) => {
   emit('setWallet', wallet)
   // web3 wallet connect logic here & show accountSelect, async or not?
-  await wallet.enable()
+  isAuth.value = true
 
+  await wallet.enable()
   // init account
-  wallet
-    .getAccounts()
-    .then((data) => {
-      walletAccounts.value = data ? data.map(formatAccount) : []
-      localStorage.setItem('wallet', wallet.extensionName)
-    })
-    .catch((e) => {
-      $consola.error('init account error', e)
-    })
+  try {
+    const data = await wallet.getAccounts()
+    walletAccounts.value = data ? data.map(formatAccount) : []
+    localStorage.setItem('wallet', wallet.extensionName)
+  } catch (e) {
+    isAuth.value = false
+    $consola.error('init account error', e)
+  }
 
   // subscribe change
   wallet.subscribeAccounts((accounts) => {
@@ -124,6 +133,7 @@ const setWallet = async (wallet: BaseDotsamaWallet) => {
     if (accounts) {
       walletAccounts.value = accounts.map(formatAccount)
     }
+    isAuth.value = false
   })
   hasWalletProviderExtension.value = true
   //
