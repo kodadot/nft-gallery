@@ -46,7 +46,7 @@
         </svg>
       </i>
       <span class="has-text-grey is-size-7 pl-4">
-        Waiting For Authorization
+        {{ $i18n.t('walletConnect.authTip') }}
       </span>
     </div>
 
