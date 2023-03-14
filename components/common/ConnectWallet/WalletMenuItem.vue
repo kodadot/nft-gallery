@@ -26,24 +26,7 @@
       v-if="isAuth && walletAccounts.length === 0"
       class="pl-5 pt-2 pb-2 is-flex is-align-items-center auth-tip">
       <i class="is-flex circle-icon">
-        <svg
-          width="20"
-          height="21"
-          viewBox="0 0 20 21"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M10 1.5C14.9706 1.5 19 5.52944 19 10.5C19 15.4706 14.9706 19.5 10 19.5C5.02944 19.5 1 15.4706 1 10.5C1 5.52944 5.02944 1.5 10 1.5Z"
-            stroke="black"
-            stroke-opacity="0.3"
-            stroke-width="2"
-            stroke-linecap="round" />
-          <path
-            d="M10 1.5C14.9706 1.5 19 5.52944 19 10.5"
-            stroke="black"
-            stroke-width="2"
-            stroke-linecap="round" />
-        </svg>
+        <i class="fad fa-spinner-third"></i>
       </i>
       <span class="has-text-grey is-size-7 pl-4">
         {{ $i18n.t('walletConnect.authTip') }}
