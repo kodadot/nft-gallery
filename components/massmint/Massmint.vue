@@ -8,14 +8,14 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { useMassmintsStore } from '@/stores/massmint'
-const massMintStore = useMassmintsStore()
+import { usePreferencesStore } from '@/stores/preferences'
+const preferencesStore = usePreferencesStore()
 const { $consola } = useNuxtApp()
 const router = useRouter()
 const { urlPrefix } = usePrefix()
 
 const toOnborading = () => {
-  massMintStore.setVisitedOnboarding(false)
+  preferencesStore.setVisitedOnboarding(false)
   router
     .replace({
       path: `/${urlPrefix.value}/massmint/onboarding`,

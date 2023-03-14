@@ -7,7 +7,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import OnBoarding from '@/components/massmint/OnBoarding.vue'
-import { useMassmintsStore } from '@/stores/massmint'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const components = { OnBoarding }
 
@@ -33,8 +33,7 @@ const components = { OnBoarding }
   middleware({ store, redirect }) {
     const prefix = store.getters.currentUrlPrefix
 
-    const { visitedOnboarding } = useMassmintsStore().getVisitedOnboarding
-    if (visitedOnboarding) {
+    if (usePreferencesStore().getVisitedOnboarding) {
       setTimeout(() => redirect(`/${prefix}/massmint`))
     }
   },
