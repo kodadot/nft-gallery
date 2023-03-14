@@ -1,8 +1,8 @@
 <template>
   <div :class="{ 'mr-5 bordered sticky': open }" class="is-hidden-mobile">
     <NeoSidebar :reduce="false" :open="open" fullheight>
-      <StatusFilter expanded />
-      <PriceFilter />
+      <StatusFilter expanded fluid-padding />
+      <PriceFilter fluid-padding />
     </NeoSidebar>
   </div>
 </template>
@@ -11,12 +11,10 @@
 import { NeoSidebar } from '@kodadot1/brick'
 import PriceFilter from './filters/PriceFilter.vue'
 import StatusFilter from './filters/StatusFilter.vue'
+import { usePreferencesStore } from '@/stores/preferences'
 
-const { $store } = useNuxtApp()
-
-const open = computed(
-  () => $store.getters['preferences/getsidebarFilterCollapse']
-)
+const preferencesStore = usePreferencesStore()
+const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 </script>
 
 <style lang="scss" scoped>
@@ -28,7 +26,7 @@ const open = computed(
 .sticky {
   position: -webkit-sticky;
   position: sticky;
-  top: 72px;
-  height: calc(100vh - 72px);
+  top: 84px;
+  height: calc(100vh - 84px);
 }
 </style>
