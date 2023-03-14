@@ -6,7 +6,7 @@
       <ExploreSort />
       <ExploreOffer class="is-flex-grow-1" />
       <ExploreChain v-if="!route.name?.includes('prefix-collection-id')" />
-      <ExploreGrid />
+      <ExploreGrid v-if="!isCollection" />
     </div>
   </div>
 </template>
@@ -20,6 +20,10 @@ import ExploreOffer from './ExploreOffer.vue'
 import FilterMenuButton from './FilterMenuButton.vue'
 
 const route = useRoute()
+
+const isCollection = computed(() =>
+  route.name?.includes('prefix-explore-collectibles')
+)
 </script>
 
 <style lang="scss" scoped>
