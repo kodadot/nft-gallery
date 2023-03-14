@@ -35,6 +35,8 @@ interface State {
   }
 }
 
+const storage = useLocalStorage('history', { history: { visitedNFTs: [] } })
+
 export const useHistoryStore = defineStore('history', {
   state: (): State => ({
     visitedNFTs: [],
@@ -113,6 +115,8 @@ export const useHistoryStore = defineStore('history', {
         }
         this.visitedNFTs.unshift(historyItem)
       }
+
+      storage.value = { history: { visitedNFTs: this.visitedNFTs } }
     },
     setCurrentlyViewedCollection(payload) {
       this.currentlyViewedCollection = payload

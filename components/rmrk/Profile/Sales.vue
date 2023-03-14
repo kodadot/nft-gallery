@@ -88,6 +88,7 @@ import formatBalance from '@/utils/format/balance'
 import shortAddress from '@/utils/shortAddress'
 
 import { Event } from '../service/types'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
@@ -137,6 +138,7 @@ export default class Sales extends mixins(
   protected first = 20
   private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: string = this.$tc('nft.event.BUY')
+  private preferencesStore = usePreferencesStore()
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
@@ -167,7 +169,7 @@ export default class Sales extends mixins(
   }
 
   get itemsPerPage(): number {
-    return this.$store.getters['preferences/getHistoryItemsPerPage']
+    return this.preferencesStore.getHistoryItemsPerPage
   }
 
   get showList(): TableRow[] {

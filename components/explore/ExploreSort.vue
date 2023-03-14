@@ -68,14 +68,30 @@ const options = computed(() => {
     : NFT_SQUID_SORT_COLLECTIONS
 })
 
-function enforceArray(options: string[]) {
-  return Array.isArray(options) ? options : []
+function removeDuplicateSortKeys(options: string[]) {
+  const uniqueOptions = {}
+
+  if (!Array.isArray(options)) {
+    return []
+  }
+
+  options.forEach((option) => {
+    const opt = option.split('_')
+    const identifier = opt[0]
+    const sort = opt[1]
+
+    uniqueOptions[identifier] = sort
+  })
+
+  return Object.keys(uniqueOptions).map((identifier) => {
+    return `${identifier}_${uniqueOptions[identifier]}`
+  })
 }
 
 const sortOptions = ref<string[]>([])
 const selectedSort = computed({
   get: () => sortOptions.value,
-  set: (value) => (sortOptions.value = enforceArray(value)),
+  set: (value) => (sortOptions.value = removeDuplicateSortKeys(value)),
 })
 
 function onChange(selected) {
@@ -84,7 +100,7 @@ function onChange(selected) {
     query: {
       ...route.query,
       page: '1',
-      sort: enforceArray(selected),
+      sort: removeDuplicateSortKeys(selected),
     },
   })
 }

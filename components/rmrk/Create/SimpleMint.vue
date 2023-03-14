@@ -227,6 +227,7 @@ import { resolveMedia } from '../utils'
 import AuthMixin from '~/utils/mixins/authMixin'
 import { useFiatStore } from '@/stores/fiat'
 import { usePinningStore } from '@/stores/pinning'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -278,6 +279,11 @@ export default class SimpleMint extends mixins(
   protected usedCollectionSymbols: string[] = []
   protected balanceNotEnough = false
   protected haveNoToS = false
+
+  private fiatStore = useFiatStore()
+  private pinningStore = usePinningStore()
+  private preferencesStore = usePreferencesStore()
+
   @Ref('nftUpload') readonly nftUpload
   @Ref('nftNameInput') readonly nftNameInput
   @Ref('nftSymbolInput') readonly nftSymbolInput
@@ -292,10 +298,6 @@ export default class SimpleMint extends mixins(
 
   get haveNoToSMessage() {
     return this.haveNoToS ? this.$t('tooltip.haveNoToS') : ''
-  }
-
-  get fiatStore() {
-    return useFiatStore()
   }
 
   // query for nfts information by accountId
@@ -388,15 +390,15 @@ export default class SimpleMint extends mixins(
   }
 
   get hasSupport(): boolean {
-    return this.$store.state.preferences.hasSupport
+    return this.preferencesStore.hasSupport
   }
 
   get hasCarbonOffset(): boolean {
-    return this.$store.state.preferences.hasCarbonOffset
+    return this.preferencesStore.hasCarbonOffset
   }
 
   get arweaveUpload(): boolean {
-    return this.$store.state.preferences.arweaveUpload
+    return this.preferencesStore.arweaveUpload
   }
 
   public checkValidity() {
@@ -470,10 +472,6 @@ export default class SimpleMint extends mixins(
 
   get isMintDisabled(): boolean {
     return Number(this.balance) < Number(this.estimated)
-  }
-
-  get pinningStore() {
-    return usePinningStore()
   }
 
   protected syncEdition(): void {

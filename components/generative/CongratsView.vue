@@ -7,7 +7,7 @@
       In the meanwhile, click here to check the collection ♥️🍷
     </nuxt-link>
     <b-image
-      src="https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/bafybeibmsolkc4gwnznfd7wddnerrkdxhoj3upmhqykygee2bkvmwth2wm/aaa" />
+      src="https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/bafkreierepnow4cazbhinko36ubpuxl6pih7wuyxvi5mfmhvcmm6xgt6ha/aaa" />
     <br />
     <SubmitButton
       icon="sync"
