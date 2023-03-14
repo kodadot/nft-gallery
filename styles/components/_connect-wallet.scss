@@ -1,3 +1,15 @@
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .connect-wallet-modal {
   .modal-content {
     border: none!important;
@@ -92,6 +104,16 @@
           &:hover {
             background-color: theme('k-accentlight2') !important;
           }
+        }
+      }
+      .auth-tip {
+        margin: 0 2rem;
+        @include ktheme() {
+          color: theme('text-color');
+          border-left: 1px solid theme('k-shade');
+        }
+        i {
+          animation: rotate 1s linear infinite;
         }
       }
       .account-list {
