@@ -210,7 +210,7 @@ export default class Search extends mixins(
     return this.preferencesStore.getReplaceBuyNowWithYolo
   }
 
-  get isSearchPage() {
+  get isExplorePage() {
     return this.routePathList.includes(this.$route.path)
   }
 
@@ -265,7 +265,7 @@ export default class Search extends mixins(
   }
 
   onBlur() {
-    if (this.isSearchPage) {
+    if (this.isExplorePage) {
       this.updateSearch(this.name)
     }
   }
@@ -312,7 +312,7 @@ export default class Search extends mixins(
     }
     this.$router
       .replace({
-        path: this.isSearchPage
+        path: this.isExplorePage
           ? String(this.$route.path)
           : `/${this.urlPrefix}/explore/items`,
         query: {
@@ -328,7 +328,7 @@ export default class Search extends mixins(
   }
 
   redirectToGalleryPageIfNeed(params?: Record<string, string>) {
-    if (!this.isSearchPage) {
+    if (!this.isExplorePage) {
       this.$router.push({
         path: `/${this.urlPrefix}/explore/items`,
         query: {
