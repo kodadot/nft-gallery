@@ -15,6 +15,7 @@ const props = withDefaults(
       medium: number
       large: number
     }
+    gridSize?: 'small' | 'medium' | 'large'
     mobileVariant?: boolean
   }>(),
   {
@@ -33,7 +34,7 @@ const cols = ref(5)
 const containerWidth = ref(0)
 const container = ref<HTMLDivElement | null>(null)
 
-const grid = computed(() => preferencesStore.getGridSize)
+const grid = computed(() => props.gridSize || preferencesStore.getGridSize)
 const isMobileVariant = computed(
   () => props.mobileVariant && containerWidth.value <= 768
 )

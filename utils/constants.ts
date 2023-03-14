@@ -98,6 +98,7 @@ export const disableChainListOnProductionEnv = [
   'movr',
   'glmr',
   'snek',
+  'rmrk2',
 ]
 
 export const chainTestList = ['westend', 'westmint']
