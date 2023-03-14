@@ -18,9 +18,10 @@ import {
 } from '@/utils/mixins/infiniteScrollMixin'
 import { formatNFT } from '@/utils/carousel'
 import NftCard from '@/components/shared/gallery/NftCard.vue'
+import { usePreferencesStore } from '@/stores/preferences'
 
 defineProps<{ items: RmrkType[] }>()
-const { $store } = useNuxtApp()
 
-const classLayout = computed(() => $store.getters['preferences/getLayoutClass'])
+const preferencesStore = usePreferencesStore()
+const classLayout = computed(() => preferencesStore.getLayoutClass)
 </script>
