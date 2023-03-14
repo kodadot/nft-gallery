@@ -39,8 +39,10 @@
             $i18n.t(isItems ? `sort.${option}` : `sort.collection.${option}`)
           }}
         </span>
-        <o-icon v-if="selectedSort.includes(option)" icon="check" class="ml-2">
-        </o-icon>
+        <NeoIcon
+          v-if="selectedSort.includes(option)"
+          class="ml-2"
+          icon="check" />
       </NeoDropdownItem>
     </o-dropdown>
   </div>
@@ -48,8 +50,7 @@
 
 <script setup lang="ts">
 import { ODropdown } from '@oruga-ui/oruga'
-import { NeoButton, NeoDropdownItem } from '@kodadot1/brick'
-import { OIcon } from '@oruga-ui/oruga'
+import { NeoButton, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import {
   NFT_SQUID_SORT_COLLECTIONS,
   NFT_SQUID_SORT_CONDITION_LIST,
