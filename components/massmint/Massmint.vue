@@ -80,9 +80,9 @@
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { OIcon } from '@oruga-ui/oruga'
-import { useMassmintsStore } from '@/stores/massmint'
+import { usePreferencesStore } from '@/stores/preferences'
 import { MintedCollection, useMassMint } from './useMassMint'
-const massMintStore = useMassmintsStore()
+const preferencesStore = usePreferencesStore()
 const { $consola } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
@@ -107,7 +107,7 @@ const selectCollection = (collection) => {
 }
 
 const toOnborading = () => {
-  massMintStore.setVisitedOnboarding(false)
+  preferencesStore.setVisitedOnboarding(false)
   router
     .replace({
       path: `/${urlPrefix.value}/massmint/onboarding`,

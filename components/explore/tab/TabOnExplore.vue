@@ -3,11 +3,11 @@
     <TabItem
       :active="selectedTab === TabType.COLLECTION"
       :text="`${$t('collections')}`"
-      :to="pathWithSearchQuery('collectibles')" />
+      :to="pathWithSearchQuery(TabType.COLLECTION)" />
     <TabItem
       :active="selectedTab === TabType.ITEMS"
       :text="`${$t('items')}`"
-      :to="pathWithSearchQuery('items')" />
+      :to="pathWithSearchQuery(TabType.ITEMS)" />
   </div>
 </template>
 
@@ -25,6 +25,9 @@ enum TabType {
 const selectedTab = computed(() => route?.name?.split('-')[2])
 
 const pathWithSearchQuery = (path: string) => {
+  if (path === selectedTab.value) {
+    return route.fullPath
+  }
   const searchQuery = route.query.search
   return searchQuery ? `${path}?search=${searchQuery}` : path
 }

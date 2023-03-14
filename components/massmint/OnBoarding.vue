@@ -66,14 +66,14 @@
 <script lang="ts" setup>
 import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 import VueMarkdown from 'vue-markdown-render'
-import { useMassmintsStore } from '@/stores/massmint'
+import { usePreferencesStore } from '@/stores/preferences'
 import { SwipeDirection, useSwipe } from '@vueuse/core'
 const router = useRouter()
 const { urlPrefix } = usePrefix()
 const { $i18n, $consola } = useNuxtApp()
 
 const numOfCards = 3
-const massMintStore = useMassmintsStore()
+const preferencesStore = usePreferencesStore()
 const currentSlide = ref(0)
 const swipeThreshold = 40
 const carouselRef = ref<HTMLElement | null>(null)
@@ -109,7 +109,7 @@ const prevSlide = () => {
 }
 
 const toMassMint = () => {
-  massMintStore.setVisitedOnboarding(true)
+  preferencesStore.setVisitedOnboarding(true)
   router
     .replace({
       path: `/${urlPrefix.value}/massmint`,
