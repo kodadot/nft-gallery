@@ -2,7 +2,7 @@
   <div>
     <section class="is-flex pb-6 is-flex-wrap-wrap row-gap">
       <NeoButton class="mr-6" @click.native="toOnborading">
-        <o-icon pack="fas" icon="arrow-left" size="small" class="mr-1" />
+        <NeoIcon icon="arrow-left" size="small" class="mr-1" />
         {{ $t('massmint.backToOnbaording') }}
       </NeoButton>
       <div class="is-flex">
@@ -33,9 +33,9 @@
           class="dropdown-width"
           :icon="isDropdownopen ? 'chevron-up' : 'chevron-down'">
           {{ selectedCollection.name || selectedCollection.id }}
-          <o-icon
+          <NeoIcon
             v-if="selectedCollection"
-            icon="check"
+            icon="circle-check"
             size="small"
             variant="success"
             class="ml-3" />
@@ -53,8 +53,7 @@
           <NeoDropdownItem class="dropdown-width" has-link>
             <nuxt-link :to="`/${urlPrefix}/create`" class="w-100">
               <div class="w-100">
-                <o-icon pack="fas" icon="plus" size="small" class="mr-1">
-                </o-icon>
+                <NeoIcon icon="plus" size="small" class="mr-1" />
                 {{ $t('massmint.createNewCollection') }}
               </div>
             </nuxt-link>
@@ -66,8 +65,7 @@
           </NeoDropdownItem>
           <NeoDropdownItem class="dropdown-width">
             <div class="w-100">
-              <o-icon pack="fas" icon="plus" size="small" class="mr-1">
-              </o-icon>
+              <NeoIcon icon="plus" size="small" class="mr-1" />
               {{ $t('massmint.createNewCollection') }}
             </div>
           </NeoDropdownItem>
@@ -78,8 +76,12 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
-import { OIcon } from '@oruga-ui/oruga'
+import {
+  NeoButton,
+  NeoDropdown,
+  NeoDropdownItem,
+  NeoIcon,
+} from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { MintedCollection, useMassMint } from './useMassMint'
 const preferencesStore = usePreferencesStore()
@@ -135,11 +137,5 @@ const toOnborading = () => {
 }
 .w-100 {
   width: 100%;
-}
-
-.o-icon--success {
-  @include ktheme() {
-    color: theme('k-green');
-  }
 }
 </style>

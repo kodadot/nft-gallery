@@ -1,0 +1,7 @@
+
+@import '../../scss/theme';
+.o-icon--success {
+    @include ktheme() {
+      color: theme('k-green');
+    }
+  }
