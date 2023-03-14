@@ -25,10 +25,11 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import { usePreferencesStore } from '@/stores/preferences'
 
-const { $store } = useNuxtApp()
+const preferencesStore = usePreferencesStore()
 
-const gridSize = computed(() => $store.getters['preferences/getGridSize'])
+const gridSize = computed(() => preferencesStore.getGridSize)
 
 const smallGridLayout = ref('is-half-desktop is-half-tablet is-half-mobile')
 const largeGridLayout = ref(
@@ -36,7 +37,7 @@ const largeGridLayout = ref(
 )
 
 const changeGridLayout = (layout: string, grid: string) => {
-  $store.dispatch('preferences/setGalleryLayoutClass', layout)
-  $store.dispatch('preferences/setGridSize', grid)
+  preferencesStore.setGalleryLayoutClass(layout)
+  preferencesStore.setGridSize(grid)
 }
 </script>
