@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import useLocalStorage from '@/composables/useLocalStorage'
 
 interface State {
   sidebarFilterCollapseOpen: boolean
@@ -26,7 +27,7 @@ interface State {
   // Mass Mint
   visitedOnboarding: boolean
 }
-const localStorage = useLocalStorage('preferences', {
+const massMintLocalStorage = useLocalStorage('massmint', {
   visitedOnboarding: false,
 })
 
@@ -54,7 +55,7 @@ export const usePreferencesStore = defineStore('preferences', {
     enableAllArtwork: true,
     enableGyroEffect: false,
     gridSize: 'small',
-    visitedOnboarding: localStorage.value.visitedOnboarding,
+    visitedOnboarding: massMintLocalStorage.value.visitedOnboarding,
   }),
   getters: {
     getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,
@@ -155,7 +156,7 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setVisitedOnboarding(payload: boolean) {
       this.visitedOnboarding = payload
-      localStorage.value = { ...localStorage.value, visitedOnboarding: payload }
+      massMintLocalStorage.value = { visitedOnboarding: payload }
     },
   },
 })
