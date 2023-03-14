@@ -107,13 +107,12 @@
         }
       }
       .auth-tip {
-        padding: 10px 0;
         margin: 0 2rem;
         @include ktheme() {
           color: theme('text-color');
           border-left: 1px solid theme('k-shade');
         }
-        .circle-icon {
+        i {
           animation: rotate 1s linear infinite;
         }
       }
