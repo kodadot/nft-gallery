@@ -211,7 +211,7 @@ export default class Search extends mixins(
   }
 
   get isSearchPage() {
-    return this.routePathList.indexOf(this.$route.path) !== -1
+    return this.routePathList.includes(this.$route.path)
   }
 
   @Emit('update:listed')
