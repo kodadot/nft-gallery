@@ -73,16 +73,16 @@ export const usePreferencesStore = defineStore('preferences', {
   },
   actions: {
     setSidebarFilterCollapse(payload) {
-      this.setSidebarFilterCollapse = payload
+      this.sidebarFilterCollapseOpen = payload
     },
     setMobileFilterCollapse(payload) {
-      this.setMobileFilterCollapse = payload
+      this.mobileFilterCollapseOpen = payload
     },
     setLayoutClass(payload) {
-      this.setLayoutClass = payload
+      this.layoutClass = payload
     },
     setGalleryLayoutClass(payload) {
-      this.setGalleryLayoutClass = payload
+      this.galleryLayoutClass = payload
     },
     setAdvancedUI(payload) {
       // if set to false reset state back to default
@@ -105,40 +105,40 @@ export const usePreferencesStore = defineStore('preferences', {
       this.theatreView = payload ? 'theatre' : 'default'
     },
     setCompactGalleryItem(payload) {
-      this.setCompactGalleryItem = payload
+      this.compactGalleryItem = payload
     },
     setCompactCollection(payload) {
-      this.setCompactCollection = payload
+      this.compactCollection = payload
     },
     setShowPriceValue(payload) {
-      this.setShowPriceValue = payload
+      this.showPriceGallery = payload
     },
     setShowMintTime(payload) {
-      this.setShowMintTime = payload
+      this.showMintTimeCollection = payload
     },
     setGalleryItemsPerPage(payload) {
-      this.setGalleryItemsPerPage = payload
+      this.galleryItemsPerPage = payload
     },
     setCollectionsPerPage(payload) {
-      this.setCollectionsPerPage = payload
+      this.collectionsPerPage = payload
     },
     setExploreTabOrder(payload) {
-      this.setExploreTabOrder = payload
+      this.exploreTabOrder = payload
     },
     setReplaceBuyNowWithYolo(payload) {
-      this.setReplaceBuyNowWithYolo = payload
+      this.replaceBuyNowWithYolo = payload
     },
     setHasSupport(payload) {
-      this.setHasSupport = payload
+      this.hasSupport = payload
     },
     setHasCarbonOffset(payload) {
-      this.setHasCarbonOffset = payload
+      this.hasCarbonOffset = payload
     },
     setArweaveUpload(payload) {
-      this.setArweaveUpload = payload
+      this.arweaveUpload = payload
     },
     setAllArtworkVisible(payload) {
-      this.setAllArtworkVisible = payload
+      this.enableAllArtwork = payload
     },
     setEnableGyroEffect(payload) {
       this.enableGyroEffect = payload
