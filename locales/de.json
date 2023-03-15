@@ -972,6 +972,7 @@
   "walletConnect": {
     "walletHeading": "Wallet verbinden",
     "authText": "KodaDot wird niemals nach deinem mnemonischen or privaten Key fragen.",
+    "authTip": "Warten auf Autorisierung",
     "understand": "Ich verstehe",
     "learnText": "Lerne wie man sich verbindet",
     "downloadExtension": "Lade die Extension herunter"
