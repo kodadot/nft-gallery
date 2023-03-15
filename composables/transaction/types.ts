@@ -1,5 +1,7 @@
-import { Interaction } from '@kodadot1/minimark'
+import { Attribute, Interaction } from '@kodadot1/minimark'
 import { ShoppingActions } from '@/utils/shoppingActions'
+import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
+import { Royalty } from '@/utils/royalty'
 
 export type ActionConsume = {
   interaction: Interaction.CONSUME
@@ -66,6 +68,22 @@ export type ActionAcceptOffer = {
   errorMessage?: string
 }
 
+export interface ActionMintToken extends BaseTokenType<BaseMintedCollection> {
+  interaction: Interaction.MINTNFT
+  urlPrefix: string
+  tags: Attribute[]
+  nsfw: boolean
+  price?: string
+  postfix: boolean
+  royalty?: Royalty
+  edition: number
+  hasRoyalty?: boolean
+  successMessage?: string
+  errorMessage?: string
+  onSuccess?: any
+  onError?: () => void
+}
+
 export type Actions =
   | ActionBuy
   | ActionList
@@ -73,3 +91,4 @@ export type Actions =
   | ActionOffer
   | ActionConsume
   | ActionWithdrawOffer
+  | ActionMintToken

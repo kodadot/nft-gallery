@@ -9,32 +9,54 @@ import { execBurnTx } from './transaction/transactionBurn'
 import { execMakeOfferTx } from './transaction/transactionOffer'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
+import { execMintToken } from './transaction/transactionMintToken'
+import { Extrinsic } from '@/utils/transactionExecutor'
 
 import type {
   ActionAcceptOffer,
   ActionBuy,
   ActionConsume,
   ActionList,
+  ActionMintToken,
   ActionOffer,
   ActionSend,
   ActionWithdrawOffer,
   Actions,
 } from './transaction/types'
 
+export type ExecuteTransactionParams = {
+  cb: (...params: any[]) => Extrinsic
+  arg: any[]
+  onSuccess?: (blockNumber: string) => void
+  onError?: () => void
+  successMessage?: string
+  errorMessage?: string
+}
+
 const useExecuteTransaction = () => {
   const { accountId } = useAuth()
   const { howAboutToExecute, isLoading, status, initTransactionLoader } =
     useMetaTransaction()
 
-  const executeTransaction = ({ cb, arg, successMessage, errorMessage }) => {
+  const executeTransaction = ({
+    cb,
+    arg,
+    successMessage,
+    errorMessage,
+    onSuccess,
+    onError,
+  }: ExecuteTransactionParams) => {
     initTransactionLoader()
-    howAboutToExecute(
-      accountId.value,
-      cb,
-      arg,
-      () => infoMessage(successMessage || 'Success!'),
-      () => dangerMessage(errorMessage || 'Failed!')
-    )
+
+    const successCb =
+      onSuccess === undefined
+        ? () => infoMessage(successMessage || 'Success!')
+        : onSuccess
+    const errorCb =
+      onError === undefined
+        ? () => dangerMessage(errorMessage || 'Failed!')
+        : onError
+    howAboutToExecute(accountId.value, cb, arg, successCb, errorCb)
   }
 
   return {
@@ -69,6 +91,8 @@ export const useTransaction = () => {
         ),
       [ShoppingActions.ACCEPT_OFFER]: () =>
         execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
+      [ShoppingActions.MINTNFT]: () =>
+        execMintToken(item as ActionMintToken, api, executeTransaction),
     }
 
     return map[item.interaction]?.() ?? 'UNKNOWN'

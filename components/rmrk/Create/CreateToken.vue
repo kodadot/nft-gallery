@@ -67,44 +67,30 @@
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
 import collectionForMint from '@/queries/subsquid/rmrk/collectionForMint.graphql'
 
-import {
-  DETAIL_TIMEOUT,
-  IPFS_KODADOT_IMAGE_PLACEHOLDER,
-} from '@/utils/constants'
-import { uploadDirectWhenMultiple } from '@/utils/directUpload'
+import { DETAIL_TIMEOUT } from '@/utils/constants'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
-import { notificationTypes, showNotification } from '@/utils/notification'
+import {
+  dangerMessage,
+  notificationTypes,
+  showNotification,
+} from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
-import { canSupport } from '@/utils/support'
 import {
   Attribute,
   CreatedNFT,
   Interaction,
   asSystemRemark,
   createInteraction,
-  createMetadata,
-  createMintInteaction,
-  createMultipleNFT,
-  unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import { formatBalance } from '@polkadot/util'
 import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { unwrapSafe } from '~/utils/uniquery'
-import { basicUpdateFunction } from '../service/NftUtils'
 import { toNFTId } from '../service/scheme'
-import { preheatFileFromIPFS } from '@/utils/ipfs'
-import {
-  nsfwAttribute,
-  offsetAttribute,
-  secondaryFileVisible,
-} from './mintUtils'
-import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
 
 type MintedCollection = BaseMintedCollection & {
@@ -152,7 +138,6 @@ export default class CreateToken extends mixins(
   public postfix = true
   public balanceNotEnough = false
 
-  private pinningStore = usePinningStore()
   private preferencesStore = usePreferencesStore()
 
   @Ref('balanceInput') readonly balanceInput
@@ -210,14 +195,6 @@ export default class CreateToken extends mixins(
     return balanceInputValid && baseTokenFormValid
   }
 
-  get hasSupport(): boolean {
-    return this.preferencesStore.hasSupport
-  }
-
-  get hasCarbonOffset(): boolean {
-    return this.preferencesStore.hasCarbonOffset
-  }
-
   get arweaveUpload(): boolean {
     return this.preferencesStore.arweaveUpload
   }
@@ -238,109 +215,51 @@ export default class CreateToken extends mixins(
 
     this.isLoading = true
     this.status = 'loader.ipfs'
-    const { name, edition, selectedCollection } = this.base
-    const { alreadyMinted, id: collectionId } = selectedCollection
+    const { file, name, description, secondFile, edition, selectedCollection } =
+      this.base
+    const { urlPrefix } = usePrefix()
+    const { transaction, status, isLoading } = useTransaction()
 
-    try {
-      const api = await this.useApi()
-      const metadata = await this.constructMeta()
-
-      const mint = createMultipleNFT(
-        edition,
-        this.accountId,
-        collectionId,
-        name,
-        metadata,
-        alreadyMinted,
-        this.postfix && edition > 1 ? basicUpdateFunction : undefined
+    const onSucessCb = (CreatedNFTs: CreatedNFT[]) => (blockNumber: string) => {
+      showNotification(
+        `[NFT] Saved ${this.base.name} in block ${blockNumber}`,
+        notificationTypes.success
       )
 
-      const mintInteraction = mint.map((nft) =>
-        createMintInteaction(Interaction.MINTNFT, this.version, nft)
-      )
-
-      const enabledFees: boolean = this.hasSupport || this.hasCarbonOffset
-      const feeMultiplier =
-        Number(this.hasSupport) + 2 * Number(this.hasCarbonOffset)
-      const isSingle = mintInteraction.length === 1 && !enabledFees
-
-      const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
-      const args = isSingle
-        ? mintInteraction[0]
-        : [
-            ...mintInteraction.map((nft) => asSystemRemark(api, nft)),
-            ...(await canSupport(api, enabledFees, feeMultiplier)),
-          ]
-
-      await this.howAboutToExecute(
-        this.accountId,
-        cb,
-        [args],
-        (blockNumber) => {
-          showNotification(
-            `[NFT] Saved ${this.base.name} in block ${blockNumber}`,
-            notificationTypes.success
-          )
-
-          if (this.hasPrice) {
-            const list = this.listForSale
-            setTimeout(() => list(mint, blockNumber), 300)
-          }
-        }
-      )
-    } catch (e) {
-      if (e instanceof Error) {
-        showNotification(e.toString(), notificationTypes.danger)
-        this.isLoading = false
+      if (this.hasPrice) {
+        setTimeout(() => this.listForSale(CreatedNFTs, blockNumber), 300)
       }
     }
-  }
 
-  public async constructMeta(): Promise<string> {
-    const { file, name, description, secondFile } = this.base
+    watch([isLoading, status], () => {
+      this.isLoading = isLoading.value
+      if (Boolean(status.value)) {
+        this.status = status.value
+      }
+    })
 
-    if (!file) {
-      throw new ReferenceError('No file found!')
+    try {
+      transaction({
+        interaction: Interaction.MINTNFT,
+        urlPrefix: urlPrefix.value,
+        tags: this.tags,
+        nsfw: this.nsfw,
+        postfix: this.postfix,
+        price: this.price.toString(),
+        selectedCollection,
+        description,
+        file,
+        secondFile,
+        name,
+        edition,
+        onSuccess: onSucessCb,
+        errorMessage: this.$t('mint.ErrorCreateNewNft', name),
+      })
+    } catch (e) {
+      if (e instanceof Error) {
+        dangerMessage(e)
+      }
     }
-
-    const { token } = await this.pinningStore.fetchPinningKey(this.accountId)
-    const fileHash = await pinFileToIPFS(file, token)
-    const secondFileHash = secondFile
-      ? await pinFileToIPFS(secondFile, token)
-      : undefined
-
-    let imageHash: string | undefined = fileHash
-    let animationUrl: string | undefined = undefined
-
-    // if secondaryFileVisible(file) then assign secondaryFileHash to image and set animationUrl to fileHash
-    if (secondaryFileVisible(file)) {
-      animationUrl = fileHash
-      imageHash = secondFileHash || IPFS_KODADOT_IMAGE_PLACEHOLDER
-    }
-
-    const attributes = [
-      ...(this.tags || []),
-      ...nsfwAttribute(this.nsfw),
-      ...offsetAttribute(this.hasCarbonOffset),
-    ]
-
-    const meta = createMetadata(
-      name,
-      description,
-      imageHash,
-      animationUrl,
-      attributes,
-      'https://kodadot.xyz',
-      file.type
-    )
-
-    const metaHash = await pinJson(meta, imageHash)
-    preheatFileFromIPFS(fileHash)
-    uploadDirectWhenMultiple(
-      [file, secondFile],
-      [fileHash, secondFileHash]
-    ).catch(this.$consola.warn)
-    return unSanitizeIpfsUrl(metaHash)
   }
 
   public async listForSale(remarks: CreatedNFT[], originalBlockNumber: string) {
