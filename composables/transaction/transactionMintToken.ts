@@ -1,5 +1,5 @@
 import { ExecuteTransactionParams } from '../useTransaction'
-import { execMintRmrk } from './MintToken/transactionMinRmrk'
+import { execMintRmrk } from './MintToken/transactionMintRmrk'
 import { execMintBasilisk } from './MintToken/transactionMintBasilisk'
 import { ActionMintToken } from './types'
 
