@@ -130,9 +130,10 @@ interface Collections {
 
 export const useCarouselRelated = ({ collectionId }) => {
   const { $route } = useNuxtApp()
+  const { urlPrefix } = usePrefix()
   const { data } = useGraphql({
-    queryPrefix: 'subsquid',
     queryName: 'collectionEntityById',
+    queryPrefix: urlPrefix.value === 'rmrk2' ? 'chain-rmrk2' : 'subsquid',
     variables: {
       id: collectionId,
       nftId: $route.params.id,
