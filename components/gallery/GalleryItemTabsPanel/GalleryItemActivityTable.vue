@@ -70,7 +70,7 @@
         field="timestamp"
         :label="$t('tabs.tabActivity.date')">
         <o-tooltip :label="parseDate(props.row.timestamp)" position="left">
-          {{ formatToNow(props.row.timestamp) }}
+          <span class="no-wrap">{{ formatToNow(props.row.timestamp) }}</span>
         </o-tooltip>
       </o-table-column>
     </o-table>
