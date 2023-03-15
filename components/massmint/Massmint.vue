@@ -46,9 +46,7 @@
             :key="collection.id"
             class="dropdown-width"
             @click.native="selectCollection(collection)">
-            <span class="px-5">
-              {{ collection.name || collection.id }}
-            </span>
+            {{ collection.name || collection.id }}
           </NeoDropdownItem>
           <NeoDropdownItem class="dropdown-width" has-link>
             <nuxt-link :to="`/${urlPrefix}/create`" class="w-100">
@@ -61,7 +59,7 @@
         </template>
         <template v-else #items>
           <NeoDropdownItem disabled class="dropdown-width">
-            <span class="px-5"> {{ $t('massmint.noCollection') }} </span>
+            {{ $t('massmint.noCollection') }}
           </NeoDropdownItem>
           <NeoDropdownItem class="dropdown-width">
             <div class="w-100">
