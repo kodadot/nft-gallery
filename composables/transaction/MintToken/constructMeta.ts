@@ -30,7 +30,7 @@ export async function constructMeta(item: ActionMintToken): Promise<string> {
     : undefined
 
   let imageHash: string | undefined = fileHash
-  let animationUrl: string | undefined = undefined
+  let animationUrl: string | undefined
 
   // if secondaryFileVisible(file) then assign secondaryFileHash to image and set animationUrl to fileHash
   if (secondaryFileVisible(file)) {
