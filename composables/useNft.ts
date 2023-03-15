@@ -2,10 +2,10 @@ import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 
-type RMRK2Resources = {
-  resources: {
-    src: string
-    thumb: string
+export type RMRK2Resources = {
+  resources?: {
+    src?: string
+    thumb?: string
   }[]
 }
 
@@ -23,7 +23,8 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
 }
 
 function getRmrk2Resources(nft: NFTWithMetadata) {
-  const { src, thumb } = nft.resources[0]
+  const thumb = nft.resources && nft.resources[0].thumb
+  const src = nft.resources && nft.resources[0].src
 
   return {
     ...nft,
@@ -54,7 +55,7 @@ async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
   }
 
   // if it's rmrk2, we need to check `resources` field
-  if (prefix === 'rmrk2' && nft.resources.length) {
+  if (prefix === 'rmrk2' && nft.resources?.length) {
     return getRmrk2Resources(nft)
   }
 

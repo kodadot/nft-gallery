@@ -42,9 +42,15 @@ export const useGalleryItem = () => {
   const { params } = useRoute()
   // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
 
+  const queryPath = {
+    rmrk: 'chain-rmrk',
+    rmrk2: 'chain-rmrk2',
+  }
+
   const { urlPrefix } = usePrefix()
   const { data, refetch } = useGraphql({
-    queryName: urlPrefix.value === 'rmrk' ? 'nftByIdWithoutRoyalty' : 'nftById',
+    queryName: 'nftById',
+    queryPrefix: queryPath[urlPrefix.value],
     variables: {
       id: params.id,
     },
@@ -52,6 +58,7 @@ export const useGalleryItem = () => {
       fetchPolicy: 'network-only',
     },
   })
+
   useSubscriptionGraphql({
     query: `   nft: nftEntityById(id: "${params.id}") {
       id
@@ -64,6 +71,7 @@ export const useGalleryItem = () => {
     }`,
     onChange: refetch,
   })
+
   watch(data as unknown as NFTData, async (newData) => {
     const nftEntity = newData?.nftEntity
     if (!nftEntity) {
@@ -72,7 +80,17 @@ export const useGalleryItem = () => {
     }
 
     nft.value = nftEntity
-    nftMetadata.value = await $fetch(sanitizeIpfsUrl(nftEntity.metadata))
+
+    if (urlPrefix.value === 'rmrk2') {
+      nftMetadata.value = {
+        name: nftEntity.name,
+        description: nftEntity.meta?.description,
+        image: nftEntity.resources?.length ? nftEntity.resources[0].src : '',
+      }
+    } else {
+      nftMetadata.value = await $fetch(sanitizeIpfsUrl(nftEntity.metadata))
+    }
+
     nftMimeType.value = await whichMimeType(nftMetadata.value)
 
     const asset = whichAsset(nftMetadata.value)
