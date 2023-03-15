@@ -1,6 +1,6 @@
 <template>
   <div class="gallery-activity-events-wrapper is-flex is-flex-direction-column">
-    <div class="events px-5 py-5 is-flex is-flex-direction-column">
+    <div class="events p-5 is-flex is-flex-direction-column">
       <div class="events-filter is-flex is-flex-wrap-wrap">
         <a
           class="is-capitalized is-flex is-align-items-center"
