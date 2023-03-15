@@ -63,7 +63,6 @@ export interface NFTMetadata extends Metadata {
   youtube_url?: string
   type?: string
   image_ar?: string
-  properties?: Record<string, { value: string; type: string }>
 }
 
 export type CollectionMetadata = Metadata

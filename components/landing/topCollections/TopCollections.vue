@@ -64,10 +64,8 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { NeoButton } from '@kodadot1/brick'
 import TopCollectionsItem from './TopCollectionsItem.vue'
 import { useTopCollections } from './utils/useTopCollections'
-import { useFiatStore } from '@/stores/fiat'
-
 const { urlPrefix } = usePrefix()
-const fiatStore = useFiatStore()
+const { $store } = useNuxtApp()
 
 const limit = 12
 const { data, loading } = useTopCollections(limit)
@@ -86,8 +84,8 @@ const setTimeRange = (timeRange: TimeRange) => {
 }
 
 onMounted(() => {
-  if (fiatStore.getCurrentKSMValue) {
-    fiatStore.fetchFiatPrice()
+  if ($store.getters['getCurrentKSMValue']) {
+    $store.dispatch('fiat/fetchFiatPrice')
   }
 })
 </script>

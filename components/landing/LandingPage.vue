@@ -1,25 +1,25 @@
 <template>
   <div>
-    <section class="py-6 instance section-search">
+    <section class="section instance section-search">
       <LazySearchLanding />
     </section>
 
     <!-- spotlight -->
-    <section v-if="showCarousel" class="py-6 instance">
-      <div class="container is-fluid">
+    <section v-if="showCarousel" class="section instance">
+      <div class="container">
         <LazyCarouselTypeSpotlight />
       </div>
     </section>
 
     <!-- top collections -->
-    <section v-if="showCarousel" class="py-6 instance">
-      <div class="container is-fluid">
+    <section v-if="showCarousel" class="section instance">
+      <div class="container">
         <LazyTopCollections class="my-5" />
       </div>
     </section>
 
-    <section v-if="showCarousel" class="py-6 instance">
-      <div class="container is-fluid">
+    <section v-if="showCarousel" class="section instance">
+      <div class="container">
         <!-- new listings -->
         <LazyCarouselTypeNewestList />
 
@@ -28,8 +28,8 @@
       </div>
     </section>
 
-    <section class="py-6 instance instance-accent">
-      <div class="container is-fluid footer-landing-container">
+    <section class="section instance instance-accent">
+      <div class="container footer-landing-container">
         <LazyFeaturedArticles />
       </div>
     </section>

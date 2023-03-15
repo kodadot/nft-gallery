@@ -78,7 +78,7 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
@@ -104,8 +104,6 @@ import {
   offsetAttribute,
   secondaryFileVisible,
 } from './mintUtils'
-import { usePinningStore } from '@/stores/pinning'
-import { usePreferencesStore } from '@/stores/preferences'
 
 type MintedCollection = BaseMintedCollection & {
   name: string
@@ -151,9 +149,6 @@ export default class CreateToken extends mixins(
   public listed = true
   public postfix = true
   public balanceNotEnough = false
-
-  private pinningStore = usePinningStore()
-  private preferencesStore = usePreferencesStore()
 
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
@@ -211,15 +206,15 @@ export default class CreateToken extends mixins(
   }
 
   get hasSupport(): boolean {
-    return this.preferencesStore.hasSupport
+    return this.$store.state.preferences.hasSupport
   }
 
   get hasCarbonOffset(): boolean {
-    return this.preferencesStore.hasCarbonOffset
+    return this.$store.state.preferences.hasCarbonOffset
   }
 
   get arweaveUpload(): boolean {
-    return this.preferencesStore.arweaveUpload
+    return this.$store.state.preferences.arweaveUpload
   }
 
   public async submit() {
@@ -303,7 +298,11 @@ export default class CreateToken extends mixins(
       throw new ReferenceError('No file found!')
     }
 
-    const { token } = await this.pinningStore.fetchPinningKey(this.accountId)
+    const { token }: PinningKey = await this.$store.dispatch(
+      'pinning/fetchPinningKey',
+      this.accountId
+    )
+
     const fileHash = await pinFileToIPFS(file, token)
     const secondFileHash = secondFile
       ? await pinFileToIPFS(secondFile, token)
@@ -397,7 +396,7 @@ export default class CreateToken extends mixins(
     const go = () =>
       this.$router.push({
         path: `/rmrk/gallery/${toNFTId(nft, blockNumber)}`,
-        query: { congratsNft: nft.name },
+        query: { message: 'congrats' },
       })
     setTimeout(go, DETAIL_TIMEOUT)
   }

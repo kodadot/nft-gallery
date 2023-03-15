@@ -71,8 +71,6 @@ import { TimeRange } from '@/components/series/types'
 import { calculateUsdFromKsm } from '~~/utils/calculation'
 import { CollectionEntityWithVolumes } from './utils/types'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { useFiatStore } from '@/stores/fiat'
-
 const BasicImage = defineAsyncComponent(
   () => import('@/components/shared/view/BasicImage.vue')
 )
@@ -86,7 +84,7 @@ const BasicMoney = defineAsyncComponent(
 )
 
 const { urlPrefix } = usePrefix()
-const fiatStore = useFiatStore()
+const { $store } = useNuxtApp()
 const props = defineProps<{
   collection: CollectionEntityWithVolumes
   index: number
@@ -100,7 +98,7 @@ const volume = computed(() => {
   switch (timeRange.value) {
     case 'All':
       return Number(props.collection.volume)
-    case 'Quarter':
+    case '3Month':
       return Number(props.collection.threeMonthVolume)
     case 'Month':
       return Number(props.collection.monthlyVolume)
@@ -113,7 +111,7 @@ const previousVolume = computed(() => {
   switch (timeRange.value) {
     case 'All':
       return 0
-    case 'Quarter':
+    case '3Month':
       return Number(props.collection.threeMonthlyrangeVolume)
     case 'Month':
       return Number(props.collection.monthlyrangeVolume)
@@ -144,7 +142,7 @@ const diffPercentString = computed(() => {
 })
 
 const usdValue = computed(() =>
-  calculateUsdFromKsm(volume.value, fiatStore.getCurrentKSMValue as number)
+  calculateUsdFromKsm(volume.value, $store.getters['fiat/getCurrentKSMValue'])
 )
 
 const color = computed(() => {

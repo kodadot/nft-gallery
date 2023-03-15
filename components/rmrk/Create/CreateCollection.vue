@@ -60,7 +60,7 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { canSupport } from '@/utils/support'
 import {
@@ -74,7 +74,6 @@ import {
   unSanitizeIpfsUrl,
 } from '@kodadot1/minimark'
 import { Component, Ref, mixins } from 'nuxt-property-decorator'
-import { usePinningStore } from '@/stores/pinning'
 
 type BaseCollectionType = {
   name: string
@@ -136,10 +135,6 @@ export default class CreateCollection extends mixins(
     return Number(this.balance) <= 2
   }
 
-  get pinningStore() {
-    return usePinningStore()
-  }
-
   public constructRmrkMint(metadata: string): CreatedCollection {
     const {
       symbol,
@@ -152,7 +147,11 @@ export default class CreateCollection extends mixins(
 
   public async constructMeta() {
     const { file, name, description } = this.base
-    const pinningKey = await this.pinningStore.fetchPinningKey(this.accountId)
+
+    const pinningKey: PinningKey = await this.$store.dispatch(
+      'pinning/fetchPinningKey',
+      this.accountId
+    )
 
     const imageHash = !file
       ? IPFS_KODADOT_IMAGE_PLACEHOLDER

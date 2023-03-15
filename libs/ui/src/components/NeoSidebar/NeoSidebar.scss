@@ -10,13 +10,3 @@ $sidebar-width: 260px;
 $sidebar-zindex: 38;
 
 @import '@oruga-ui/oruga/src/scss/components/sidebar.scss';
-
-// to fix safari issue: https://github.com/kodadot/nft-gallery/issues/5227
-.is-hidden-mobile > .o-side {
-  transition: width 150ms;
-  width: 0;
-}
-
-.is-hidden-mobile.sticky > .o-side {
-  width: $sidebar-width;
-}

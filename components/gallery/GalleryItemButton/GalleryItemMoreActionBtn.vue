@@ -2,11 +2,11 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <NeoDropdown>
-      <NeoButton class="icon-action" icon="ellipsis-vertical" />
+      <NeoButton class="icon-action" icon="ellipsis-v" />
 
       <template #items>
         <NeoDropdownItem
-          v-if="mimeType?.includes('image') && ipfsImage"
+          v-if="mimeType.includes('image') && ipfsImage"
           item="Download"
           @click.native="downloadMedia" />
         <template v-if="accountId === currentOwner">

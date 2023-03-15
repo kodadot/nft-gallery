@@ -1,11 +1,7 @@
 <template>
   <section class="py-5 gallery-item">
     <MessageNotify
-      v-if="congratsNewNft"
-      :title="$t('mint.success')"
-      :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
-    <MessageNotify
-      v-else-if="showCongratsMessage"
+      v-if="message || showCongratsMessage"
       :title="$t('mint.success')"
       :subtitle="$t('mint.successNewNfts')" />
     <div class="columns is-variable is-6">
@@ -17,8 +13,7 @@
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
           :title="nft?.name || nft?.id"
-          is-detail
-          :original="isMobile && true" />
+          is-detail />
       </div>
       <div class="py-6 column">
         <div
@@ -118,7 +113,6 @@ const router = useRouter()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
 const collection = computed(() => nft.value?.collection)
-const isMobile = ref(window.innerWidth < 768)
 
 const tabs = {
   offers: '0',
@@ -132,7 +126,7 @@ const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongratsMessage.value = true
 }
-const congratsNewNft = ref('')
+const message = ref('')
 
 const CarouselTypeRelated = defineAsyncComponent(
   () => import('@/components/carousel/CarouselTypeRelated.vue')
@@ -146,8 +140,8 @@ const CollectionDetailsPopover = defineAsyncComponent(
 )
 
 onMounted(() => {
-  exist(route.query.congratsNft, (val) => {
-    congratsNewNft.value = val ? val : ''
+  exist(route.query.message, (val) => {
+    message.value = val === 'congrats' ? val : ''
     router.replace({ query: {} })
   })
 })

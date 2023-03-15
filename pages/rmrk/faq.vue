@@ -1,5 +1,3 @@
 <template>
-  <div class="container is-fluid">
-    <FrequentlyAsked />
-  </div>
+  <FrequentlyAsked />
 </template>

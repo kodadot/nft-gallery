@@ -11,7 +11,25 @@
         {{ headerTitle }}
       </span>
       <a class="is-flex is-align-items-center" @click="emit('close')">
-        <NeoIcon icon="close" />
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 15 15"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <line
+            x1="0.33914"
+            y1="0.632598"
+            x2="13.3391"
+            y2="12.6326"
+            stroke="currentColor" />
+          <line
+            x1="0.646447"
+            y1="12.6464"
+            x2="12.6464"
+            y2="0.646447"
+            stroke="currentColor" />
+        </svg>
       </a>
     </header>
     <section v-if="showAccount">
@@ -30,12 +48,34 @@
         class="is-flex is-align-items-center pt-4 pb-3 is-size-7 has-text-grey more-option-button"
         @click="toggleShowUninstalledWallet">
         {{ $i18n.t('walletConnect.moreOption') }}
-        <NeoIcon
+
+        <svg
           v-if="showUninstalledWallet"
           class="ml-1"
-          icon="chevron-down" />
+          width="9"
+          height="4"
+          viewBox="0 0 9 4"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M8.20068 0.5L4.60068 3.5L1.00068 0.5"
+            stroke="currentColor"
+            stroke-width="0.761905" />
+        </svg>
 
-        <NeoIcon v-else class="ml-1" icon="chevron-right" />
+        <svg
+          v-else
+          class="ml-1"
+          width="5"
+          height="8"
+          viewBox="0 0 5 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M1 0.399658L4 3.99966L1 7.59966"
+            stroke="currentColor"
+            stroke-width="0.761905" />
+        </svg>
       </a>
       <div v-if="showUninstalledWallet" class="buttons">
         <WalletMenuItem
@@ -56,7 +96,17 @@
           @click.native="setUserAuthValue">
           <span class="is-flex is-align-items-center is-justify-content-center">
             {{ $i18n.t('walletConnect.confirm') }}
-            <NeoIcon class="ml-2" icon="chevron-right" />
+            <svg
+              class="ml-2"
+              width="13"
+              height="13"
+              viewBox="0 0 13 13"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M4.675 1.5L3.5 2.67498L7.31667 6.49992L3.5 10.3249L4.675 11.4998L9.675 6.49992L4.675 1.5Z"
+                fill="currentColor" />
+            </svg>
           </span>
         </NeoButton>
       </b-field>
@@ -72,7 +122,17 @@
         href="https://docs.kodadot.xyz/tutorial-overview.html"
         target="_blank"
         rel="noopener noreferrer">
-        <NeoIcon class="mr-2" icon="circle-info" />
+        <svg
+          class="mr-2"
+          width="9"
+          height="10"
+          viewBox="0 0 9 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M4.5 0.5C2.0187 0.5 0 2.5187 0 5C0 7.4813 2.0187 9.5 4.5 9.5C6.9813 9.5 9 7.4813 9 5C9 2.5187 6.9813 0.5 4.5 0.5ZM4.95 7.25H4.05V4.55H4.95V7.25ZM4.95 3.65H4.05V2.75H4.95V3.65Z"
+            fill="#6188E7" />
+        </svg>
         {{ $i18n.t('walletConnect.walletLink') }}
       </a>
     </footer>
@@ -82,7 +142,7 @@
 <script lang="ts" setup>
 import { SupportedWallets } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset'
 

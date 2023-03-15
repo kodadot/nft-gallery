@@ -45,6 +45,10 @@ export const somePercentFromTX = (api: ApiPromise, price: number | string) => {
   return asBalanceTransfer(api, resolveSupportAddress(api), fee)
 }
 
+// DEV: so thing is that store.getters['chain/getChainProperties58Format'] is no longer available
+//     so we need to use the chainSS58 from the api
+//
+
 const getTokenDecimals = (api: ApiPromise): number => {
   const { chainDecimals } = api.registry
   return chainDecimals[0] || 12

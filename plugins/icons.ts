@@ -11,7 +11,6 @@ import {
   faAngleRight,
   faArrowRight,
   faArrowUp,
-  faArrowUpRightFromSquare,
   faArrowsAlt,
   faBars,
   faBookOpen,
@@ -84,8 +83,6 @@ import {
   faShareSquare,
   faShop,
   faSignOutAlt,
-  faSort,
-  faSquareArrowUpRight,
   faSync,
   faTable,
   faTag,
@@ -243,12 +240,12 @@ library.add(
 )
 
 Vue.component('VueFontawesome', FontAwesomeIcon).use(Neo, {
-  iconPack: 'fa-sharp',
+  iconComponent: 'vue-fontawesome',
+  iconPack: 'fas',
   customIconPacks: {
-    'fa-sharp': {
-      iconPrefix: 'fa-',
+    fas: {
       sizes: {
-        default: 'fw fa-regular',
+        default: 'fw',
       },
     },
   },

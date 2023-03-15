@@ -35,7 +35,7 @@ const props = defineProps<{
   variant?: NeoButtonVariant
 }>()
 
-const iconPack = computed(() => props?.iconPack || 'fa-sharp')
+const iconPack = computed(() => props?.iconPack || 'fa')
 </script>
 
 <style lang="scss" scoped>

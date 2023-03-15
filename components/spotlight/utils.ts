@@ -1,7 +1,7 @@
 import { Row, SimpleSpotlightNFT } from './types'
 import formatBalance from '@/utils/format/balance'
+import * as store from '~/store'
 import { getVolume, pairListBuyEvent } from '@/utils/math'
-import { useChainStore } from '@/stores/chain'
 
 export const nftFn = (a: any): Row => {
   const sold = a.nfts.nodes.reduce(soldFn, 0)
@@ -31,8 +31,9 @@ export const nftFn = (a: any): Row => {
   }
 }
 
-const chainStore = useChainStore()
-const tokenDecimals = chainStore.getChainPropertiesTokenDecimals
+const tokenDecimals = store.getters[
+  'chain/getChainPropertiesTokenDecimals'
+] as any
 const formatNumber = (val: SimpleSpotlightNFT) =>
   Number(formatBalance(val.price, tokenDecimals, false, true))
 const sumFn = (acc: number, val: SimpleSpotlightNFT) => {

@@ -82,6 +82,9 @@ export const nftFn = (a: any): RowSeries => {
   }
 }
 
+// const tokenDecimals = store.getters[
+//   'chain/getChainPropertiesTokenDecimals'
+// ] as any
 // const formatNumber = (val: SimpleSeriesNFT) =>
 //   Number(formatBalance(val.price, tokenDecimals, false, true))
 // const sumFn = (acc: number, val: SimpleSeriesNFT) => acc + formatNumber(val)

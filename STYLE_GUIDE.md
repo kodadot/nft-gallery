@@ -36,7 +36,7 @@ With a few exceptions, code and comments should be written in **English** only.
 ```
 
 ### Composition API
-Since we want to upgrade to Nuxt 3 in the near future, we should pre-emptively work towards a compatible codebase, such that the transition will be as smooth as possible. Therefore, every new feature is required to be written in the new **Composition API** and should follow the following recommendations:
+Since we want to upgrade to Nuxt 3 in the near future, we should pre-emptively work towards a compatible codebase, such that the transition will be as smooth as possible. Therefore, every new feature is required to be written in the new **Composition API** and should follow the following recommendations: 
 
 ```vue
 <script lang="ts" setup>
@@ -177,7 +177,7 @@ const getItemsWithText = computed(() => props.items.filter(item => item.text) ||
 </script>
 ```
 
-## Vuex Conventions (old, now we're using pinia)
+## Vuex Conventions
 - each module is defined in its own file -> Explorer Module has its state, actions, mutations, getters defined in `explorer.ts`
 - **mutations** should only be **triggered via actions** and should be named in **SCREAMING_SNAKE_CASE**:
 ```typescript

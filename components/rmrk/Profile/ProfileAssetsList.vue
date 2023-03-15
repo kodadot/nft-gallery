@@ -38,13 +38,12 @@ import formatBalance, {
   checkInvalidBalanceFilter,
   roundTo,
 } from '@/utils/format/balance'
-import { useFiatStore } from '@/stores/fiat'
 
 const { accountId } = useAuth()
-const fiatStore = useFiatStore()
-const { urlPrefix, client } = usePrefix()
-const { $apollo, $consola, $set } = useNuxtApp()
 const emit = defineEmits(['totalValueChange'])
+
+const { urlPrefix, client } = usePrefix()
+const { $apollo, $consola, $set, $store } = useNuxtApp()
 
 const nonZeroAssetList = computed(() => {
   return assetList.value.filter((asset) => asset.balance !== '0')
@@ -88,7 +87,7 @@ const assetToUsdValue = (asset: AssetItem) => {
     value = roundTo(formatBalance(value, 12, ''), 4).replace(',', '.')
     return calculateExactUsdFromToken(
       value,
-      Number(fiatStore.getCurrentKSMValue)
+      $store.getters['fiat/getCurrentKSMValue']
     )
   }
   if (asset.symbol === 'BSX') {
@@ -98,7 +97,7 @@ const assetToUsdValue = (asset: AssetItem) => {
       .replace(/\s/g, '')
     return calculateExactUsdFromToken(
       value,
-      Number(fiatStore.getCurrentBSXValue)
+      $store.getters['fiat/getCurrentBSXValue']
     )
   }
   return 0
@@ -129,7 +128,7 @@ watch(
 )
 
 onMounted(async () => {
-  fiatStore.fetchFiatPrice()
+  $store.dispatch('fiat/fetchFiatPrice')
 })
 </script>
 <style lang="scss" scoped>

@@ -7,9 +7,9 @@ import {
   decodeAddress,
   encodeAddress,
 } from '@polkadot/util-crypto'
+import * as store from '~/store'
 import { Prefix } from '@polkadot/util-crypto/address/types'
 import { ss58Of } from './config/chain.config'
-import { useChainStore } from '@/stores/chain'
 
 export const isAccountLocked = (account: KeyringAccount | string): boolean => {
   const address = typeof account === 'string' ? account : account.address
@@ -41,8 +41,7 @@ export const toDefaultAddress = (account: KeyringAccount | string) => {
     return address
   }
 
-  const chainStore = useChainStore()
-  const ss58Format = chainStore.getChainProperties58Format
+  const ss58Format = store.getters['chain/getChainProperties58Format']
 
   return encodeAddress(decodeAddress(address, <any>ss58Format))
 }
@@ -51,8 +50,7 @@ export const formatAddress = (address: string, ss58Format: number) =>
   encodeAddress(address, ss58Format)
 
 export const pubKeyToAddress = (publicKey: string) => {
-  const chainStore = useChainStore()
-  const ss58Format = chainStore.getChainProperties58Format
+  const ss58Format = store.getters['chain/getChainProperties58Format']
   return encodeAddress(publicKey, <any>ss58Format)
 }
 
@@ -61,8 +59,9 @@ export const formatAccount = (
   format?: Prefix
 ) => {
   const address = accountToAddress(account)
-  const chainStore = useChainStore()
-  const ss58Format = format ? format : chainStore.getChainProperties58Format
+  const ss58Format = format
+    ? format
+    : store.getters['chain/getChainProperties58Format']
   return encodeAddress(decodeAddress(address), <any>ss58Format)
 }
 

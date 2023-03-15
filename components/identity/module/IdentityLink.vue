@@ -34,9 +34,9 @@ const props = defineProps<{
 const { $buefy } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
-const explorerLink = computed(() =>
-  getExplorer(urlPrefix.value, String(props.address))
-)
+const explorerLink = computed(() => {
+  return getExplorer(urlPrefix.value, String(props.address))
+})
 
 const toast = (message: string) => {
   $buefy.toast.open({

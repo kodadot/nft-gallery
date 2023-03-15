@@ -5,27 +5,24 @@
       class="sort"
       :close-on-click="false"
       multiple
-      :mobile-modal="false"
       aria-role="list"
       :class="{ 'sort-active': isActive }"
-      position="bottom-left"
+      :mobile-modal="false"
       @change="onChange"
       @active-change="isActive = $event">
       <template #trigger>
         <NeoButton
           type="button"
-          :icon="isActive ? 'chevron-up' : 'chevron-down'"
-          class="has-text-left is-hidden-mobile"
+          :icon="isActive ? 'caret-up' : 'caret-down'"
+          class="has-text-left"
           data-cy="explore-sort">
           Sort By
         </NeoButton>
-        <NeoButton
-          type="button"
-          icon="filter"
-          class="is-hidden-tablet"
-          data-cy="explore-sort" />
-
-        <ActiveCount v-if="selectedSort.length" :count="selectedSort.length" />
+        <div
+          v-if="selectedSort.length"
+          class="sort-count is-flex is-justify-content-center is-align-items-center">
+          <span>{{ selectedSort.length }}</span>
+        </div>
       </template>
 
       <NeoDropdownItem
@@ -55,7 +52,6 @@ import {
   NFT_SQUID_SORT_COLLECTIONS,
   NFT_SQUID_SORT_CONDITION_LIST,
 } from '@/utils/constants'
-import ActiveCount from './ActiveCount.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -69,7 +65,7 @@ const options = computed(() => {
     : NFT_SQUID_SORT_COLLECTIONS
 })
 
-function removeDuplicateSortKeys(options: string[]) {
+function selectiveSort(options: string[]) {
   const uniqueOptions = {}
 
   if (!Array.isArray(options)) {
@@ -92,7 +88,7 @@ function removeDuplicateSortKeys(options: string[]) {
 const sortOptions = ref<string[]>([])
 const selectedSort = computed({
   get: () => sortOptions.value,
-  set: (value) => (sortOptions.value = removeDuplicateSortKeys(value)),
+  set: (value) => (sortOptions.value = selectiveSort(value)),
 })
 
 function onChange(selected) {
@@ -101,7 +97,7 @@ function onChange(selected) {
     query: {
       ...route.query,
       page: '1',
-      sort: removeDuplicateSortKeys(selected),
+      sort: selectiveSort(selected),
     },
   })
 }
@@ -128,6 +124,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/theme';
 
 .sort {
   position: relative;
@@ -141,6 +138,22 @@ onMounted(() => {
 
   .neo-dropdown-item {
     width: 14rem;
+  }
+
+  &-count {
+    position: absolute;
+    top: -0.75rem;
+    left: -0.75rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+
+    @include ktheme() {
+      border: 1px solid theme('border-color');
+      background: theme('k-primary');
+      color: theme('black');
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div v-if="route.name?.includes('prefix-collection-id')">
-    <NeoTooltip label="Coming Soon" position="bottom">
-      <NeoButton label="Make Collection Offer" disabled class="offer w-100" />
+    <NeoTooltip label="Coming Soon">
+      <NeoButton label="Make Collection Offer" disabled class="offer" />
     </NeoTooltip>
   </div>
 </template>

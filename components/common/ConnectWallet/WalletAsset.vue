@@ -6,9 +6,9 @@
       </div>
       <Identity
         class="identity-address is-size-6"
-        :shortened-address="shortenedAddress"
         :address="account"
-        show-clipboard />
+        show-clipboard
+        hide-identity-popover />
     </div>
 
     <hr class="my-2" />
@@ -46,10 +46,9 @@
 import { NeoButton } from '@kodadot1/brick'
 import { useWalletStore } from '@/stores/wallet'
 import { clearSession } from '@/utils/cachingStrategy'
-import useIdentity from '@/components/identity/utils/useIdentity'
 
 const Identity = defineAsyncComponent(
-  () => import('@/components/identity/module/IdentityLink.vue')
+  () => import('@/components/identity/IdentityIndex.vue')
 )
 const AccountBalance = defineAsyncComponent(
   () => import('@/components/shared/AccountBalance.vue')
@@ -61,6 +60,7 @@ const totalValue = ref(0)
 const walletStore = useWalletStore()
 
 const walletName = computed(() => walletStore.wallet.name)
+
 const emit = defineEmits(['back'])
 
 const { urlPrefix } = usePrefix()
@@ -70,11 +70,6 @@ const account = computed(() => $store.getters.getAuthAddress)
 
 watch(account, (val) => {
   $store.dispatch('setAuth', { address: val })
-})
-
-const { shortenedAddress } = useIdentity({
-  address: account,
-  customNameOption: '',
 })
 
 const disconnect = () => {

@@ -53,7 +53,7 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinJson } from '@/services/nftStorage'
+import { PinningKey, pinJson } from '@/services/nftStorage'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getImageTypeSafe, pinImageSafe } from '@/utils/safePin'
 import { estimate } from '@/utils/transactionExecutor'
@@ -63,7 +63,6 @@ import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
 import { dummyIpfsCid } from '@/utils/ipfs'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { usePinningStore } from '@/stores/pinning'
 
 type BaseCollectionType = {
   name: string
@@ -113,10 +112,6 @@ export default class CreateCollection extends mixins(
     return ''
   }
 
-  get pinningStore() {
-    return usePinningStore()
-  }
-
   public async created() {
     onApiConnect(this.apiUrl, (api) => {
       const classDeposit = getclassDeposit(api)
@@ -128,7 +123,11 @@ export default class CreateCollection extends mixins(
   public async constructMeta() {
     const { file, name, description } = this.base
 
-    const pinningKey = await this.pinningStore.fetchPinningKey(this.accountId)
+    const pinningKey: PinningKey = await this.$store.dispatch(
+      'pinning/fetchPinningKey',
+      this.accountId
+    )
+
     const imageHash = await pinImageSafe(file, pinningKey.token)
     const type = getImageTypeSafe(file)
     const attributes = this.attributes.map((val) => ({

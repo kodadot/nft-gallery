@@ -3,8 +3,6 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getMimeType } from '@/utils/gallery/media'
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import { useHistoryStore } from '@/stores/history'
-
 interface NFTData {
   nftEntity?: NFT
 }
@@ -12,12 +10,10 @@ interface NFTData {
 const whichMimeType = async (data) => {
   if (data?.type) {
     return data?.type
-  }
-  if (data?.animation_url) {
+  } else if (data?.animation_url) {
     return await getMimeType(sanitizeIpfsUrl(data.animation_url))
-  }
-  if (data?.image || data?.mediaUri) {
-    return await getMimeType(sanitizeIpfsUrl(data?.image || data?.mediaUri))
+  } else if (data?.image) {
+    return await getMimeType(sanitizeIpfsUrl(data.image))
   }
 
   return ''
@@ -26,13 +22,12 @@ const whichMimeType = async (data) => {
 const whichAsset = (data) => {
   return {
     animation_url: sanitizeIpfsUrl(data.animation_url || ''),
-    image: sanitizeIpfsUrl(data.image || data.mediaUri || '', 'image'),
+    image: sanitizeIpfsUrl(data.image || '', 'image'),
   }
 }
 
 export const useGalleryItem = () => {
-  const { $consola } = useNuxtApp()
-  const historyStore = useHistoryStore()
+  const { $consola, $store } = useNuxtApp()
   const nft = ref<NFT>()
   const nftImage = ref('')
   const nftAnimation = ref('')
@@ -79,7 +74,7 @@ export const useGalleryItem = () => {
     nftImage.value = asset.image
     nftAnimation.value = asset.animation_url
 
-    historyStore.addHistoryItem({
+    $store.dispatch('history/addHistoryItem', {
       id: nft.value.id,
       name: nft.value.name,
       image: nftImage.value,

@@ -11,7 +11,7 @@
     <p class="title is-size-3">
       {{ $t('transfer') }} {{ unit }}
       <span v-if="isKSM" class="has-text-primary"
-        >${{ fiatStore.getCurrentKSMValue }}</span
+        >${{ $store.getters['fiat/getCurrentKSMValue'] }}</span
       >
     </p>
 
@@ -166,7 +166,6 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { useFiatStore } from '@/stores/fiat'
 
 import { getExplorer, hasExplorer } from '@/components/rmrk/Profile/utils'
 
@@ -198,10 +197,6 @@ export default class Transfer extends mixins(
 
   layout() {
     return 'centered-half-layout'
-  }
-
-  get fiatStore() {
-    return useFiatStore()
   }
 
   get isApiConnected() {
@@ -248,7 +243,7 @@ export default class Transfer extends mixins(
   }
 
   protected created() {
-    this.fiatStore.fetchFiatPrice()
+    this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
     onApiConnect(this.apiUrl, async (api) => {
       this.$store.commit('setApiConnected', api.isConnected)
@@ -259,7 +254,7 @@ export default class Transfer extends mixins(
     /* calculating usd value on the basis of price entered */
     if (this.price) {
       this.usdValue = calculateUsdFromKsm(
-        Number(this.fiatStore.getCurrentKSMValue),
+        this.$store.getters['fiat/getCurrentKSMValue'],
         this.price
       )
     } else {
@@ -271,7 +266,7 @@ export default class Transfer extends mixins(
     /* calculating price value on the basis of usd entered */
     if (this.usdValue) {
       this.price = calculateKsmFromUsd(
-        Number(this.fiatStore.getCurrentKSMValue),
+        this.$store.getters['fiat/getCurrentKSMValue'],
         this.usdValue
       )
     } else {
@@ -306,7 +301,7 @@ export default class Transfer extends mixins(
       this.usdValue = Number(query.usdamount)
       // getting ksm value from the usd value
       this.price = calculateKsmFromUsd(
-        Number(this.fiatStore.getCurrentKSMValue),
+        this.$store.getters['fiat/getCurrentKSMValue'],
         this.usdValue
       )
     }

@@ -51,7 +51,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { usePreferencesStore } from '@/stores/preferences'
 
 @Component({
   components: {
@@ -62,30 +61,28 @@ import { usePreferencesStore } from '@/stores/preferences'
   },
 })
 export default class Minting extends Vue {
-  private preferencesStore = usePreferencesStore()
-
   get hasSupport(): boolean {
-    return this.preferencesStore.hasSupport
+    return this.$store.state.preferences.hasSupport
   }
 
   set hasSupport(value: boolean) {
-    this.preferencesStore.setHasSupport(value)
+    this.$store.dispatch('preferences/setHasSupport', value)
   }
 
   get hasCarbonOffset(): boolean {
-    return this.preferencesStore.hasCarbonOffset
+    return this.$store.state.preferences.hasCarbonOffset
   }
 
   set hasCarbonOffset(value: boolean) {
-    this.preferencesStore.setHasCarbonOffset(value)
+    this.$store.dispatch('preferences/setHasCarbonOffset', value)
   }
 
   get arweaveUpload(): boolean {
-    return this.preferencesStore.arweaveUpload
+    return this.$store.state.preferences.arweaveUpload
   }
 
   set arweaveUpload(value: boolean) {
-    this.preferencesStore.setArweaveUpload(value)
+    this.$store.dispatch('preferences/setArweaveUpload', value)
   }
 }
 </script>

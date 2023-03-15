@@ -1,10 +1,9 @@
 <template>
   <div class="explore is-flex is-flex-wrap-wrap">
-    <FilterMenuButton />
     <ExploreTabs />
     <div class="explore-menu is-flex">
       <ExploreSort />
-      <ExploreOffer class="is-flex-grow-1" />
+      <ExploreOffer />
       <ExploreChain v-if="!route.name?.includes('prefix-collection-id')" />
       <ExploreGrid v-if="!isCollection" />
     </div>
@@ -17,7 +16,6 @@ import ExploreSort from './ExploreSort.vue'
 import ExploreChain from './ExploreChain.vue'
 import ExploreGrid from './ExploreGrid.vue'
 import ExploreOffer from './ExploreOffer.vue'
-import FilterMenuButton from './FilterMenuButton.vue'
 
 const route = useRoute()
 

@@ -30,9 +30,8 @@
 <script lang="ts" setup>
 import useReplaceUrl from './useReplaceUrl'
 import { NeoCheckbox } from '@kodadot1/brick'
-import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
-const exploreFiltersStore = useExploreFiltersStore()
+const { $store } = useNuxtApp()
 const route = useRoute()
 const { accountId } = useAuth()
 const { replaceUrl: replaceURL } = useReplaceUrl()
@@ -61,8 +60,8 @@ const listed =
         set: (value) => applyToUrl({ listed: String(value) }),
       })
     : computed({
-        get: () => exploreFiltersStore.listed,
-        set: (value) => exploreFiltersStore.setListed(value),
+        get: () => $store.getters['exploreFilters/getListed'],
+        set: (value) => $store.dispatch('exploreFilters/setListed', value),
       })
 
 const owned =
@@ -72,8 +71,8 @@ const owned =
         set: (value) => applyToUrl({ owned: String(value) }),
       })
     : computed({
-        get: () => exploreFiltersStore.owned,
-        set: (value) => exploreFiltersStore.setOwned(value),
+        get: () => $store.getters['exploreFilters/getOwned'],
+        set: (value) => $store.dispatch('exploreFilters/setOwned', value),
       })
 
 const applyToUrl = (queryCondition: { [key: string]: any }) => {

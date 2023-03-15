@@ -196,7 +196,7 @@ import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import correctFormat from '@/utils/ss58Format'
 import { canSupport, feeTx } from '@/utils/support'
@@ -225,9 +225,6 @@ import { NFT, NFTMetadata, SimpleNFT, getNftId } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
 import AuthMixin from '~/utils/mixins/authMixin'
-import { useFiatStore } from '@/stores/fiat'
-import { usePinningStore } from '@/stores/pinning'
-import { usePreferencesStore } from '@/stores/preferences'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -279,11 +276,6 @@ export default class SimpleMint extends mixins(
   protected usedCollectionSymbols: string[] = []
   protected balanceNotEnough = false
   protected haveNoToS = false
-
-  private fiatStore = useFiatStore()
-  private pinningStore = usePinningStore()
-  private preferencesStore = usePreferencesStore()
-
   @Ref('nftUpload') readonly nftUpload
   @Ref('nftNameInput') readonly nftNameInput
   @Ref('nftSymbolInput') readonly nftSymbolInput
@@ -390,15 +382,15 @@ export default class SimpleMint extends mixins(
   }
 
   get hasSupport(): boolean {
-    return this.preferencesStore.hasSupport
+    return this.$store.state.preferences.hasSupport
   }
 
   get hasCarbonOffset(): boolean {
-    return this.preferencesStore.hasCarbonOffset
+    return this.$store.state.preferences.hasCarbonOffset
   }
 
   get arweaveUpload(): boolean {
-    return this.preferencesStore.arweaveUpload
+    return this.$store.state.preferences.arweaveUpload
   }
 
   public checkValidity() {
@@ -786,7 +778,11 @@ export default class SimpleMint extends mixins(
     if (!file) {
       throw new ReferenceError('No file found!')
     }
-    const { token } = await this.pinningStore.fetchPinningKey(this.accountId)
+
+    const { token }: PinningKey = await this.$store.dispatch(
+      'pinning/fetchPinningKey',
+      this.accountId
+    )
 
     const fileHash = await pinFileToIPFS(file, token)
     const secondFileHash = secondFile
@@ -833,19 +829,19 @@ export default class SimpleMint extends mixins(
     const go = () =>
       this.$router.push({
         path: `/rmrk/gallery/${getNftId(nft, blockNumber)}`,
-        query: { congratsNft: nft.name },
+        query: { message: 'congrats' },
       })
     setTimeout(go, DETAIL_TIMEOUT)
   }
 
   protected getUsdFromKsm() {
-    const KSMVal = formatBalance(this.estimated, {
+    let KSMVal = formatBalance(this.estimated, {
       decimals: this.decimals,
       withUnit: false,
       forceUnit: '-',
     })
 
-    return Number(this.fiatStore.getCurrentKSMValue) * Number(KSMVal)
+    return this.$store.getters['fiat/getCurrentKSMValue'] * Number(KSMVal)
   }
 
   @Watch('rmrkMint', { deep: true })

@@ -4,9 +4,9 @@
       class="explore-tabs-button"
       tag="nuxt-link"
       :active="active"
-      :to="to"
-      :icon="active ? 'check' : ''">
+      :to="to">
       <span> {{ text }}</span>
+      <img v-if="active" src="/checkmark.svg" />
     </NeoButton>
   </p>
 </template>
@@ -35,5 +35,11 @@ defineProps<{
   @include mobile {
     width: 100%;
   }
+}
+</style>
+
+<style>
+.dark-mode .explore-tabs-button.active img {
+  filter: brightness(0%);
 }
 </style>

@@ -17,18 +17,12 @@
   .media-object {
     @include ktheme() {
       box-shadow: theme('primary-shadow');
-      border: 1px solid theme('border-color');
+      border: 1px solid theme('border-color'); 
     }
   }
 
   .icon-action {
     width: 2.188rem;
-  }
-
-  @media screen and (max-width: 806px) and (min-width: 768px) {
-    .column {
-      padding-right: 0!important;
-    }
   }
 }
 
@@ -42,15 +36,5 @@
       color: theme('k-shade');
     }
   }
-
-  a {
-    @include ktheme() {
-      color: theme('k-blue') !important;
-      &:hover {
-        color: theme('k-blue-hover')  !important;
-      }
-    }
-  }
-
   word-break: 'break-word';
 }

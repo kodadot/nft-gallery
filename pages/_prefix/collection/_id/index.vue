@@ -58,7 +58,7 @@ export default class CollectionItemPage extends mixins(ExperimentMixin) {
   }
 
   get currentlyViewedCollection(): CurrentCollection {
-    return this.historyStore.getCurrentlyViewedCollection
+    return this.$store.getters['history/getCurrentlyViewedCollection']
   }
 
   get image(): string {

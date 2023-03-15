@@ -1,5 +1,5 @@
 <template>
-  <div class="container is-fluid">
+  <div class="container">
     <div v-for="job in jobPostings" :key="job.headline" class="mb-5">
       <h2 class="heading heading-is-5 is-size-2-mobile has-text-weight-bold">
         {{ job.headline }}

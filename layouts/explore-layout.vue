@@ -3,6 +3,11 @@
     <MobileFilter />
     <Navbar />
 
+    <!-- new header component for collection here -->
+    <div v-if="isCollection">
+      <CollectionBanner />
+    </div>
+
     <main class="is-flex-grow-1">
       <Error
         v-if="$nuxt.isOffline"
@@ -27,18 +32,19 @@
             <ExploreTabsFilterSort />
           </div>
         </section>
-        <hr class="text-color my-0" />
-        <Nuxt />
+        <hr class="m-0" />
+        <section class="section pt-0">
+          <Nuxt />
+        </section>
       </div>
     </main>
   </div>
 </template>
 
 <script lang="ts" setup>
-import ExploreTabsFilterSort from '@/components/explore/Controls.vue'
+import ExploreTabsFilterSort from '@/components/explore/ExploreIndex.vue'
 import MobileFilter from '@/components/explore/MobileFilter.vue'
 import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
-import CollectionInfo from '@/components/collection/CollectionInfo.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()
@@ -63,18 +69,7 @@ const isCollection = computed(() =>
 @import '@/styles/abstracts/variables';
 hr {
   @include ktheme() {
-    background: theme('k-grey');
-  }
-}
-.text-color {
-  @include ktheme() {
-    background: theme('text-color');
-  }
-}
-
-@include touch {
-  .mobile-padding {
-    padding: 0 1rem;
+    background: theme('border-color');
   }
 }
 

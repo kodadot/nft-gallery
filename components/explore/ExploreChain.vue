@@ -3,7 +3,7 @@
     <NeoDropdown position="bottom-right" @active-change="isActive = $event">
       <NeoButton
         :label="`Network: ${selected.text}`"
-        :icon="isActive ? 'chevron-up' : 'chevron-down'" />
+        :icon="isActive ? 'caret-up' : 'caret-down'" />
 
       <template #items>
         <NeoDropdownItem

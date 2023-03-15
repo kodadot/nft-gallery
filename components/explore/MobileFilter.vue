@@ -1,17 +1,15 @@
 <template>
-  <NeoSidebar
-    fullheight
-    fullwidth
-    overlay
-    position="fixed"
-    :open="open"
-    :can-cancel="['escape']"
+  <b-modal
+    v-if="isMobile"
+    :active="open"
     :on-cancel="onClose"
-    class="top is-absolute background-color">
-    <div class="is-flex is-flex-direction-column is-fullheight">
+    :can-cancel="['escape']"
+    class="top no-border"
+    full-screen>
+    <div class="is-flex is-flex-direction-column is-fullheight is-fullwidth">
       <div class="is-flex-grow-1">
         <div class="is-flex border-bottom">
-          <p class="card-header-title has-text-weight-bold">
+          <p class="card-header-title has-text-weight-normal">
             {{ $t('general.filters') }}
           </p>
           <a class="card-header-icon">
@@ -26,44 +24,54 @@
         <NeoButton
           label="Reset All"
           variant="primary"
-          class="is-flex-grow-1 mw-9 h-3_5 is-shadowless"
+          class="is-fullwidth mw-9 h-3_5"
           @click.native="resetFilters">
           {{ $t('general.resetAll') }}
         </NeoButton>
         <NeoButton
           variant="k-accent"
-          class="is-flex-grow-1 mw-9 h-3_5"
+          class="is-fullwidth mw-9 h-3_5"
           @click.native="applyFilters">
           {{ $t('general.apply') }}
         </NeoButton>
       </div>
     </div>
-  </NeoSidebar>
+  </b-modal>
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoSidebar } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import PriceFilter from './filters/PriceFilter.vue'
 import StatusFilter from './filters/StatusFilter.vue'
 import useReplaceUrl from './filters/useReplaceUrl'
-import { useExploreFiltersStore } from '@/stores/exploreFilters'
-import { usePreferencesStore } from '@/stores/preferences'
-
 const route = useRoute()
-const preferencesStore = usePreferencesStore()
-const exploreFiltersStore = useExploreFiltersStore()
+
+const { $store } = useNuxtApp()
 const { replaceUrl } = useReplaceUrl()
+const width = ref(window.innerWidth)
+
+onMounted(() => {
+  window.addEventListener('resize', () => {
+    width.value = window.innerWidth
+  })
+})
 
 const emit = defineEmits(['resetPage'])
 
-const open = computed(() => preferencesStore.getMobileFilterCollapse)
+const isMobile = computed(() => width.value <= 768)
+
+const open = computed(
+  () => $store.getters['preferences/getMobileFilterCollapse']
+)
 
 const onClose = () => {
   syncFromUrl()
   closeFilterModal()
 }
 
-const closeFilterModal = () => preferencesStore.setMobileFilterCollapse(false)
+const closeFilterModal = () => {
+  $store.dispatch('preferences/setMobileFilterCollapse', false)
+}
 
 const syncFromUrl = () => {
   const listed = route.query?.listed?.toString() === 'true',
@@ -71,26 +79,25 @@ const syncFromUrl = () => {
     min = Number(route.query?.min) || undefined,
     max = Number(route.query?.max) || undefined
 
-  exploreFiltersStore.setListed(listed)
-  exploreFiltersStore.setOwned(owned)
-  exploreFiltersStore.setPriceRange({ min, max })
+  $store.dispatch('exploreFilters/setListed', listed)
+  $store.dispatch('exploreFilters/setOwned', owned)
+  $store.dispatch('exploreFilters/setPriceRange', { min, max })
 }
 
-// TODO: move this to pinia
 const resetFilters = () => {
   // set store to defaults
   const statusDefaults = {
     listed: false,
     owned: false,
   }
-  exploreFiltersStore.setListed(statusDefaults.listed)
-  exploreFiltersStore.setOwned(statusDefaults.owned)
+  $store.dispatch('exploreFilters/setListed', statusDefaults.listed)
+  $store.dispatch('exploreFilters/setOwned', statusDefaults.owned)
   // price
   const priceDefaults = {
     min: undefined,
     max: undefined,
   }
-  exploreFiltersStore.setPriceRange(priceDefaults)
+  $store.dispatch('exploreFilters/setPriceRange', priceDefaults)
 
   replaceUrl({
     ...statusDefaults,
@@ -102,8 +109,8 @@ const resetFilters = () => {
 
 const applyFilters = () => {
   // status filters
-  const statusFilters = exploreFiltersStore.getStatusFilters
-  const priceRangeFilter = exploreFiltersStore.getPriceRange
+  const statusFilters = $store.getters['exploreFilters/getStatusFilters']
+  const priceRangeFilter = $store.getters['exploreFilters/getPriceRange']
 
   // apply to URL
   replaceUrl({ ...statusFilters, ...priceRangeFilter })
@@ -116,11 +123,11 @@ watch(() => route.query, syncFromUrl)
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
+.is-fullwidth {
+  width: 100%;
+}
 .is-fullheight {
   height: 100%;
-}
-.is-absolute {
-  position: absolute;
 }
 .buttons-container {
   display: grid;
@@ -141,17 +148,16 @@ watch(() => route.query, syncFromUrl)
 
 <style lang="scss">
 @import '@/styles/abstracts/variables';
-.background-color .o-side {
-  &__content {
-    @include ktheme() {
-      background-color: theme('background-color');
-    }
+.no-border {
+  > .modal-content {
+    border: none !important;
+    box-shadow: none !important;
   }
-  &__overlay {
-    @include ktheme() {
-      background-color: theme('background-color');
-      opacity: 0.86;
-    }
+}
+
+.modal-content {
+  @include ktheme() {
+    background-color: theme('background-color') !important;
   }
 }
 </style>
