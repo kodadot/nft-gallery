@@ -9,6 +9,7 @@ config.autoAddCss = false
 import {
   faAngleLeft,
   faAngleRight,
+  faArrowRight,
   faArrowUp,
   faArrowUpRightFromSquare,
   faArrowsAlt,
@@ -126,6 +127,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
+  faArrowRight,
   faSort,
   faArrowUpRightFromSquare,
   faSquareArrowUpRight,
