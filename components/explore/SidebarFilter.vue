@@ -1,8 +1,8 @@
 <template>
-  <div :class="{ 'mr-5 bordered sticky': open }" class="is-hidden-mobile">
+  <div :class="{ 'bordered sticky': open }" class="is-hidden-mobile">
     <NeoSidebar :reduce="false" :open="open" fullheight>
-      <StatusFilter expanded />
-      <PriceFilter />
+      <StatusFilter expanded fluid-padding />
+      <PriceFilter fluid-padding />
     </NeoSidebar>
   </div>
 </template>
@@ -26,7 +26,8 @@ const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 .sticky {
   position: -webkit-sticky;
   position: sticky;
-  top: 72px;
-  height: calc(100vh - 72px);
+  top: 84px;
+  height: calc(100vh - 84px);
+  margin-right: 32px;
 }
 </style>

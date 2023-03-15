@@ -4,7 +4,6 @@
       v-model="selectedSort"
       class="sort"
       :close-on-click="false"
-      append-to-body
       multiple
       :mobile-modal="false"
       aria-role="list"
@@ -33,16 +32,17 @@
         v-for="option in options"
         :key="option"
         aria-role="listitem"
+        class="is-flex"
         :value="option">
         <span>
           {{
             $i18n.t(isItems ? `sort.${option}` : `sort.collection.${option}`)
           }}
         </span>
-        <img
+        <NeoIcon
           v-if="selectedSort.includes(option)"
-          class="sort-check"
-          src="/checkmark.svg" />
+          class="ml-2"
+          icon="check" />
       </NeoDropdownItem>
     </o-dropdown>
   </div>
@@ -50,8 +50,7 @@
 
 <script setup lang="ts">
 import { ODropdown } from '@oruga-ui/oruga'
-import { NeoButton, NeoDropdownItem } from '@kodadot1/brick'
-
+import { NeoButton, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import {
   NFT_SQUID_SORT_COLLECTIONS,
   NFT_SQUID_SORT_CONDITION_LIST,
@@ -70,14 +69,30 @@ const options = computed(() => {
     : NFT_SQUID_SORT_COLLECTIONS
 })
 
-function enforceArray(options: string[]) {
-  return Array.isArray(options) ? options : []
+function removeDuplicateSortKeys(options: string[]) {
+  const uniqueOptions = {}
+
+  if (!Array.isArray(options)) {
+    return []
+  }
+
+  options.forEach((option) => {
+    const opt = option.split('_')
+    const identifier = opt[0]
+    const sort = opt[1]
+
+    uniqueOptions[identifier] = sort
+  })
+
+  return Object.keys(uniqueOptions).map((identifier) => {
+    return `${identifier}_${uniqueOptions[identifier]}`
+  })
 }
 
 const sortOptions = ref<string[]>([])
 const selectedSort = computed({
   get: () => sortOptions.value,
-  set: (value) => (sortOptions.value = enforceArray(value)),
+  set: (value) => (sortOptions.value = removeDuplicateSortKeys(value)),
 })
 
 function onChange(selected) {
@@ -86,7 +101,7 @@ function onChange(selected) {
     query: {
       ...route.query,
       page: '1',
-      sort: enforceArray(selected),
+      sort: removeDuplicateSortKeys(selected),
     },
   })
 }
@@ -125,7 +140,7 @@ onMounted(() => {
   }
 
   .neo-dropdown-item {
-    width: 16rem;
+    width: 14rem;
   }
 }
 
