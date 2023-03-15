@@ -22,6 +22,12 @@
   &-inner {
     z-index: 1;
     position: relative;
+
+    @include mobile {
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center !important;
+    }
   }
 
   &-subs {
@@ -54,6 +60,10 @@
   }
 
   &-socials {
+
+    @include mobile {
+      align-items: center !important;
+    }
     &-list {
       cursor: pointer;
       &-item {
