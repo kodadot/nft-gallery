@@ -88,7 +88,9 @@ export const useGalleryItem = () => {
         image: nftEntity.resources?.length ? nftEntity.resources[0].src : '',
       }
     } else {
-      nftMetadata.value = await $fetch(sanitizeIpfsUrl(nftEntity.metadata))
+      nftMetadata.value =
+        (nftEntity.meta as NFTMetadata) ||
+        (await $fetch(sanitizeIpfsUrl(nftEntity.metadata)))
     }
 
     nftMimeType.value = await whichMimeType(nftMetadata.value)
