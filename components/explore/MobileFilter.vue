@@ -18,12 +18,8 @@
             <b-icon icon="x" @click.native="onClose" />
           </a>
         </div>
-        <div class="border-bottom">
-          <StatusFilter data-model="store" expanded />
-        </div>
-        <div class="border-bottom">
-          <PriceFilter data-model="store" expanded />
-        </div>
+        <StatusFilter data-model="store" expanded />
+        <PriceFilter data-model="store" expanded />
       </div>
 
       <div class="buttons-container px-4 py-3 border-top">
@@ -51,27 +47,23 @@ import PriceFilter from './filters/PriceFilter.vue'
 import StatusFilter from './filters/StatusFilter.vue'
 import useReplaceUrl from './filters/useReplaceUrl'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const route = useRoute()
+const preferencesStore = usePreferencesStore()
 const exploreFiltersStore = useExploreFiltersStore()
-
-const { $store } = useNuxtApp()
 const { replaceUrl } = useReplaceUrl()
 
 const emit = defineEmits(['resetPage'])
 
-const open = computed(
-  () => $store.getters['preferences/getMobileFilterCollapse']
-)
+const open = computed(() => preferencesStore.getMobileFilterCollapse)
 
 const onClose = () => {
   syncFromUrl()
   closeFilterModal()
 }
 
-const closeFilterModal = () => {
-  $store.dispatch('preferences/setMobileFilterCollapse', false)
-}
+const closeFilterModal = () => preferencesStore.setMobileFilterCollapse(false)
 
 const syncFromUrl = () => {
   const listed = route.query?.listed?.toString() === 'true',
@@ -136,16 +128,6 @@ watch(() => route.query, syncFromUrl)
   gap: 20px;
 }
 
-.border-bottom {
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
-}
-.border-top {
-  @include ktheme() {
-    border-top: 1px solid theme('border-color');
-  }
-}
 .top {
   z-index: 1000;
 }

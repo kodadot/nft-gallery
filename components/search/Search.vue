@@ -84,6 +84,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import ChainMixin from '~/utils/mixins/chainMixin'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const SearchPageRoutePathList = ['collectibles', 'items']
 
@@ -125,6 +126,7 @@ export default class Search extends mixins(
     number | string | undefined
   ] = [undefined, undefined]
   public priceRangeDirty = false
+  private preferencesStore = usePreferencesStore()
 
   get urlSearchQuery() {
     return this.$route.query.search
@@ -205,7 +207,11 @@ export default class Search extends mixins(
   }
 
   get replaceBuyNowWithYolo(): boolean {
-    return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
+    return this.preferencesStore.getReplaceBuyNowWithYolo
+  }
+
+  get isExplorePage() {
+    return this.routePathList.includes(this.$route.path)
   }
 
   @Emit('update:listed')
@@ -259,7 +265,9 @@ export default class Search extends mixins(
   }
 
   onBlur() {
-    this.updateSearch(this.name)
+    if (this.isExplorePage) {
+      this.updateSearch(this.name)
+    }
   }
 
   @Emit('update:search')
@@ -304,10 +312,9 @@ export default class Search extends mixins(
     }
     this.$router
       .replace({
-        path:
-          this.routePathList.indexOf(this.$route.path) === -1
-            ? `/${this.urlPrefix}/explore/items`
-            : String(this.$route.path),
+        path: this.isExplorePage
+          ? String(this.$route.path)
+          : `/${this.urlPrefix}/explore/items`,
         query: {
           page: '1',
           ...this.$route.query,
@@ -321,7 +328,7 @@ export default class Search extends mixins(
   }
 
   redirectToGalleryPageIfNeed(params?: Record<string, string>) {
-    if (this.routePathList.indexOf(this.$route.path) === -1) {
+    if (!this.isExplorePage) {
       this.$router.push({
         path: `/${this.urlPrefix}/explore/items`,
         query: {

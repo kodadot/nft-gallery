@@ -50,6 +50,7 @@ import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist } from './exist'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import { usePreferencesStore } from '@/stores/preferences'
 
 @Component({
   components: {
@@ -71,6 +72,7 @@ export default class SearchCollection extends mixins(KeyboardEventsMixin) {
   @Prop(Boolean) public showOwnerSwitch!: boolean
   @Prop(Array) public sortOption?: string[]
   protected isVisible = false
+  private preferencesStore = usePreferencesStore()
 
   public mounted(): void {
     exist(this.$route.query.search, this.updateSearch)
@@ -139,7 +141,7 @@ export default class SearchCollection extends mixins(KeyboardEventsMixin) {
   }
 
   get replaceBuyNowWithYolo(): boolean {
-    return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
+    return this.preferencesStore.getReplaceBuyNowWithYolo
   }
 
   @Emit('update:listed')
