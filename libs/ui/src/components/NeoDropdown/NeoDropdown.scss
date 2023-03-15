@@ -29,8 +29,8 @@ $dropdown-item-hover-background-color: #ffe5f3;
   &.is-active,
   &--active {
     @include ktheme() {
-      color: theme('text-color-inverse');
-      background: theme('background-color-inverse');
+      color: theme('text-color-inverse')!important;
+      background: theme('background-color-inverse')!important;
     }
   }
 }
