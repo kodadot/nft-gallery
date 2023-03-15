@@ -5,40 +5,44 @@
       class="sort"
       :close-on-click="false"
       multiple
+      :mobile-modal="false"
       aria-role="list"
       :class="{ 'sort-active': isActive }"
-      :mobile-modal="false"
+      position="bottom-left"
       @change="onChange"
       @active-change="isActive = $event">
       <template #trigger>
         <NeoButton
           type="button"
-          :icon="isActive ? 'caret-up' : 'caret-down'"
-          class="has-text-left"
+          :icon="isActive ? 'chevron-up' : 'chevron-down'"
+          class="has-text-left is-hidden-mobile"
           data-cy="explore-sort">
           Sort By
         </NeoButton>
-        <div
-          v-if="selectedSort.length"
-          class="sort-count is-flex is-justify-content-center is-align-items-center">
-          <span>{{ selectedSort.length }}</span>
-        </div>
+        <NeoButton
+          type="button"
+          icon="filter"
+          class="is-hidden-tablet"
+          data-cy="explore-sort" />
+
+        <ActiveCount v-if="selectedSort.length" :count="selectedSort.length" />
       </template>
 
       <NeoDropdownItem
         v-for="option in options"
         :key="option"
         aria-role="listitem"
+        class="is-flex"
         :value="option">
         <span>
           {{
             $i18n.t(isItems ? `sort.${option}` : `sort.collection.${option}`)
           }}
         </span>
-        <img
+        <NeoIcon
           v-if="selectedSort.includes(option)"
-          class="sort-check"
-          src="/checkmark.svg" />
+          class="ml-2"
+          icon="check" />
       </NeoDropdownItem>
     </o-dropdown>
   </div>
@@ -46,12 +50,12 @@
 
 <script setup lang="ts">
 import { ODropdown } from '@oruga-ui/oruga'
-import { NeoButton, NeoDropdownItem } from '@kodadot1/brick'
-
+import { NeoButton, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import {
   NFT_SQUID_SORT_COLLECTIONS,
   NFT_SQUID_SORT_CONDITION_LIST,
 } from '@/utils/constants'
+import ActiveCount from './ActiveCount.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -65,7 +69,7 @@ const options = computed(() => {
     : NFT_SQUID_SORT_COLLECTIONS
 })
 
-function selectiveSort(options: string[]) {
+function removeDuplicateSortKeys(options: string[]) {
   const uniqueOptions = {}
 
   if (!Array.isArray(options)) {
@@ -88,7 +92,7 @@ function selectiveSort(options: string[]) {
 const sortOptions = ref<string[]>([])
 const selectedSort = computed({
   get: () => sortOptions.value,
-  set: (value) => (sortOptions.value = selectiveSort(value)),
+  set: (value) => (sortOptions.value = removeDuplicateSortKeys(value)),
 })
 
 function onChange(selected) {
@@ -97,7 +101,7 @@ function onChange(selected) {
     query: {
       ...route.query,
       page: '1',
-      sort: selectiveSort(selected),
+      sort: removeDuplicateSortKeys(selected),
     },
   })
 }
@@ -124,7 +128,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-@import '@/styles/abstracts/theme';
 
 .sort {
   position: relative;
@@ -137,23 +140,7 @@ onMounted(() => {
   }
 
   .neo-dropdown-item {
-    width: 16rem;
-  }
-
-  &-count {
-    position: absolute;
-    top: -0.75rem;
-    left: -0.75rem;
-    height: 1.5rem;
-    width: 1.5rem;
-    line-height: 1.5rem;
-    text-align: center;
-
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-      background: theme('k-primary');
-      color: theme('black');
-    }
+    width: 14rem;
   }
 }
 

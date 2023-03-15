@@ -1,5 +1,9 @@
 <template>
-  <b-collapse :open="expanded" animation="slide">
+  <b-collapse
+    :open="expanded"
+    animation="slide"
+    class="border-bottom"
+    :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
       <div class="is-flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">
@@ -64,9 +68,9 @@
 import { NeoButton } from '@kodadot1/brick'
 import { fromDecimals, toDecimals } from '@/utils/math'
 import useReplaceUrl from './useReplaceUrl'
+import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
-const { $store } = useNuxtApp()
-
+const exploreFiltersStore = useExploreFiltersStore()
 const { replaceUrl } = useReplaceUrl()
 type DataModel = 'query' | 'store'
 
@@ -74,10 +78,12 @@ const props = withDefaults(
   defineProps<{
     expanded?: boolean
     dataModel?: DataModel
+    fluidPadding?: boolean
   }>(),
   {
     expanded: false,
     dataModel: 'query',
+    fluidPadding: false,
   }
 )
 
@@ -93,14 +99,8 @@ const range =
           fromDecimals(Number(route.query?.max), decimals.value) || undefined,
       })
     : ref({
-        min: fromDecimals(
-          $store.getters['exploreFilters/getMin'],
-          decimals.value
-        ),
-        max: fromDecimals(
-          $store.getters['exploreFilters/getMax'],
-          decimals.value
-        ),
+        min: fromDecimals(Number(exploreFiltersStore.min), decimals.value),
+        max: fromDecimals(Number(exploreFiltersStore.max), decimals.value),
       })
 
 const emit = defineEmits(['resetPage'])
@@ -122,8 +122,8 @@ const applyToStore = () => {
   const max = range.value.max
     ? toDecimals(range.value.max, decimals.value)
     : undefined
-  $store.dispatch('exploreFilters/setPriceRange', { min, max })
-  $store.dispatch('exploreFilters/setListed', true)
+  exploreFiltersStore.setPriceRange({ min, max })
+  exploreFiltersStore.setListed(true)
 }
 
 const applyToQuery = () => {

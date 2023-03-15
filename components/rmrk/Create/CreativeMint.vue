@@ -73,7 +73,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
+import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import {
@@ -93,6 +93,7 @@ import { NFT, SimpleNFT, getNftId } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { usePinningStore } from '@/stores/pinning'
 
 const components = {
   AuthField: () => import('@/components/shared/form/AuthField.vue'),
@@ -133,6 +134,10 @@ export default class CreativeMint extends mixins(
 
   protected updateMeta(value: number): void {
     this.price = value
+  }
+
+  get pinningStore() {
+    return usePinningStore()
   }
 
   get fileType(): MediaType {
@@ -236,14 +241,10 @@ export default class CreativeMint extends mixins(
     if (!file) {
       throw new ReferenceError('No file found!')
     }
+    const { token } = await this.pinningStore.fetchPinningKey(this.accountId)
 
-    const { token }: PinningKey = await this.$store.dispatch(
-      'pinning/fetchPinningKey',
-      this.accountId
-    )
-
-    let imageHash: string | undefined = await pinFileToIPFS(file, token)
-    let animationUrl: string | undefined = undefined
+    const imageHash: string | undefined = await pinFileToIPFS(file, token)
+    const animationUrl: string | undefined = undefined
 
     const attributes = []
 
@@ -271,7 +272,7 @@ export default class CreativeMint extends mixins(
     const go = () =>
       this.$router.push({
         path: `/rmrk/gallery/${getNftId(nft, blockNumber)}`,
-        query: { message: 'congrats' },
+        query: { congratsNft: nft.name },
       })
     setTimeout(go, DETAIL_TIMEOUT)
   }
@@ -285,10 +286,7 @@ export default class CreativeMint extends mixins(
   }
 
   protected async uploadFile(file: File) {
-    const { token }: PinningKey = await this.$store.dispatch(
-      'pinning/fetchPinningKey',
-      this.accountId
-    )
+    const { token } = await this.pinningStore.fetchPinningKey(this.accountId)
     try {
       this.isGptLoading = true
       this.fileHash = await pinFileToIPFS(file, token)

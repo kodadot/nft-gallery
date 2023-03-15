@@ -21,6 +21,7 @@
           ref="searchRef"
           v-model="name"
           :query="query"
+          @redirect="redirectToGalleryPageIfNeed"
           @enter="nativeSearch"
           @blur="onBlur"></SearchBarInput>
         <div v-if="!isVisible && hideSearchInput">
@@ -83,6 +84,9 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import ChainMixin from '~/utils/mixins/chainMixin'
+import { usePreferencesStore } from '@/stores/preferences'
+
+const SearchPageRoutePathList = ['collectibles', 'items']
 
 @Component({
   components: {
@@ -122,9 +126,16 @@ export default class Search extends mixins(
     number | string | undefined
   ] = [undefined, undefined]
   public priceRangeDirty = false
+  private preferencesStore = usePreferencesStore()
 
   get urlSearchQuery() {
     return this.$route.query.search
+  }
+
+  get routePathList() {
+    return SearchPageRoutePathList.map(
+      (route) => `/${this.urlPrefix}/explore/${route}`
+    )
   }
 
   // clear search bar value when search is cannceled via breadcrumbs
@@ -196,7 +207,11 @@ export default class Search extends mixins(
   }
 
   get replaceBuyNowWithYolo(): boolean {
-    return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
+    return this.preferencesStore.getReplaceBuyNowWithYolo
+  }
+
+  get isExplorePage() {
+    return this.routePathList.includes(this.$route.path)
   }
 
   @Emit('update:listed')
@@ -250,14 +265,16 @@ export default class Search extends mixins(
   }
 
   onBlur() {
-    this.updateSearch(this.name)
+    if (this.isExplorePage) {
+      this.updateSearch(this.name)
+    }
   }
 
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
     if (value !== this.$route.query.search && value !== this.searchQuery) {
-      this.replaceUrl({ search: value ?? undefined }, this.$route.path)
+      this.replaceUrl({ search: value ? value : undefined }, this.$route.path)
     }
     return value
   }
@@ -279,6 +296,7 @@ export default class Search extends mixins(
   }
 
   nativeSearch() {
+    this.redirectToGalleryPageIfNeed()
     this.searchQuery = this.name
     this.updateSearch(this.name)
   }
@@ -294,7 +312,9 @@ export default class Search extends mixins(
     }
     this.$router
       .replace({
-        path: String(this.$route.path),
+        path: this.isExplorePage
+          ? String(this.$route.path)
+          : `/${this.urlPrefix}/explore/items`,
         query: {
           page: '1',
           ...this.$route.query,
@@ -305,6 +325,18 @@ export default class Search extends mixins(
       .catch(this.$consola.warn)
     // if searchbar request or filter is set, pagination should always revert to page 1
     this.$emit('resetPage')
+  }
+
+  redirectToGalleryPageIfNeed(params?: Record<string, string>) {
+    if (!this.isExplorePage) {
+      this.$router.push({
+        path: `/${this.urlPrefix}/explore/items`,
+        query: {
+          ...this.$route.query,
+          ...params,
+        },
+      })
+    }
   }
 
   public priceRangeChange([min, max]: [

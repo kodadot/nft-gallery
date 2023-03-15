@@ -101,6 +101,11 @@ body {
   }
 }
 
+.container.is-fluid {
+  padding-left: $fluid-container-padding;
+  padding-right: $fluid-container-padding;
+}
+
 .control-label {
   @include ktheme() {
     color: theme('text-color');
@@ -112,6 +117,10 @@ body {
     padding-left: 10px !important;
     padding-right: 10px !important;
     margin: 0 -12px !important;
+  }
+  .container.is-fluid {
+    padding-left: $fluid-container-padding-mobile;
+    padding-right: $fluid-container-padding-mobile;
   }
 }
 
@@ -268,5 +277,19 @@ hr {
       color: theme('text-color');
       background-color: theme('background-color') !important;
     }
+  }
+}
+
+.fluid-padding-left {
+  padding-left: $fluid-container-padding;
+}
+.border-bottom {
+  @include ktheme() {
+    border-bottom: 1px solid theme('border-color');
+  }
+}
+.border-top {
+  @include ktheme() {
+    border-top: 1px solid theme('border-color');
   }
 }

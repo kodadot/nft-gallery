@@ -1,5 +1,9 @@
 <template>
-  <b-collapse :open="expanded" animation="slide">
+  <b-collapse
+    :open="expanded"
+    animation="slide"
+    class="border-bottom"
+    :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
       <div class="is-flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">
@@ -26,8 +30,9 @@
 <script lang="ts" setup>
 import useReplaceUrl from './useReplaceUrl'
 import { NeoCheckbox } from '@kodadot1/brick'
+import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
-const { $store } = useNuxtApp()
+const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
 const { accountId } = useAuth()
 const { replaceUrl: replaceURL } = useReplaceUrl()
@@ -38,10 +43,12 @@ const props = withDefaults(
   defineProps<{
     expanded?: boolean
     dataModel?: DataModel
+    fluidPadding?: boolean
   }>(),
   {
     expanded: false,
     dataModel: 'query',
+    fluidPadding: false,
   }
 )
 
@@ -54,8 +61,8 @@ const listed =
         set: (value) => applyToUrl({ listed: String(value) }),
       })
     : computed({
-        get: () => $store.getters['exploreFilters/getListed'],
-        set: (value) => $store.dispatch('exploreFilters/setListed', value),
+        get: () => exploreFiltersStore.listed,
+        set: (value) => exploreFiltersStore.setListed(value),
       })
 
 const owned =
@@ -65,8 +72,8 @@ const owned =
         set: (value) => applyToUrl({ owned: String(value) }),
       })
     : computed({
-        get: () => $store.getters['exploreFilters/getOwned'],
-        set: (value) => $store.dispatch('exploreFilters/setOwned', value),
+        get: () => exploreFiltersStore.owned,
+        set: (value) => exploreFiltersStore.setOwned(value),
       })
 
 const applyToUrl = (queryCondition: { [key: string]: any }) => {

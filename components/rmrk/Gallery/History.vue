@@ -55,11 +55,7 @@
             cell-class="short-identity__table"
             field="Item"
             label="Item">
-            <nuxt-link
-              :to="{
-                name: `${urlPrefix}-gallery-id`,
-                params: { id: props.row.Item.id },
-              }">
+            <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.Item.id}`">
               {{ props.row.Item.name || props.row.Item.id }}
             </nuxt-link>
           </b-table-column>
@@ -133,6 +129,7 @@ import { exist } from '@/components/search/exist'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { usePreferencesStore } from '@/stores/preferences'
 
 import {
   HistoryEventType,
@@ -191,6 +188,7 @@ export default class History extends mixins(
   protected copyTableData: TableRow[] = []
   public isOpen = false
   public shortAddress = shortAddress
+  private preferencesStore = usePreferencesStore()
 
   public async created() {
     this.initKeyboardEventHandler({
@@ -216,7 +214,7 @@ export default class History extends mixins(
   }
 
   get itemsPerPage(): number {
-    return this.$store.getters['preferences/getHistoryItemsPerPage']
+    return this.preferencesStore.getHistoryItemsPerPage
   }
 
   get showList(): TableRow[] {

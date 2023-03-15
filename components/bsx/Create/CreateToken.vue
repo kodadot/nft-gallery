@@ -88,7 +88,7 @@ import {
 } from '@/components/rmrk/Create/mintUtils'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { PinningKey, pinFileToIPFS, pinJson } from '@/services/nftStorage'
+import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import shouldUpdate from '@/utils/shouldUpdate'
 import {
   Attribute,
@@ -118,6 +118,8 @@ import { fetchCollectionMetadata, preheatFileFromIPFS } from '@/utils/ipfs'
 import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { uploadDirectWhenMultiple } from '@/utils/directUpload'
+import { usePinningStore } from '@/stores/pinning'
+import { usePreferencesStore } from '@/stores/preferences'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -152,6 +154,7 @@ export default class CreateToken extends mixins(
   ApiUrlMixin
 ) {
   @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
+  private preferencesStore = usePreferencesStore()
 
   public base: BaseTokenType<MintedCollection> = {
     name: '',
@@ -175,7 +178,6 @@ export default class CreateToken extends mixins(
   }
   protected metadata = ''
   protected balanceNotEnough = false
-  public hasCarbonOffset = this.$store.state.preferences.hasCarbonOffset
   @Ref('balanceInput') readonly balanceInput
   @Ref('baseTokenForm') readonly baseTokenForm
 
@@ -185,11 +187,19 @@ export default class CreateToken extends mixins(
     this.balanceInput.checkValidity()
   }
 
+  get hasCarbonOffset() {
+    return this.preferencesStore.hasCarbonOffset
+  }
+
   get balanceNotEnoughMessage() {
     if (this.balanceNotEnough) {
       return this.$t('tooltip.notEnoughBalance')
     }
     return ''
+  }
+
+  get pinningStore() {
+    return usePinningStore()
   }
 
   public async created() {
@@ -342,11 +352,7 @@ export default class CreateToken extends mixins(
       throw new ReferenceError('No file found!')
     }
 
-    const { token }: PinningKey = await this.$store.dispatch(
-      'pinning/fetchPinningKey',
-      this.accountId
-    )
-
+    const { token } = await this.pinningStore.fetchPinningKey(this.accountId)
     const fileHash = await pinFileToIPFS(file, token)
     const secondFileHash = secondFile
       ? await pinFileToIPFS(secondFile, token)
@@ -397,7 +403,7 @@ export default class CreateToken extends mixins(
     const go = () =>
       this.$router.push({
         path: `/${this.urlPrefix}/gallery/${createTokenId(collection, id)}`,
-        query: { message: 'congrats' },
+        query: { congratsNft: this.base.name },
       })
     setTimeout(go, DETAIL_TIMEOUT)
   }

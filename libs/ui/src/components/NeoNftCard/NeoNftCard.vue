@@ -18,16 +18,14 @@
         }}</span>
 
         <CollectionDetailsPopover
+          v-if="
+            variant !== 'minimal' && (nft.collection.name || nft.collection.id)
+          "
           :show-delay="collectionPopoverShowDelay"
           :nft="nft"
-          class="is-ellipsis"
-        >
+          class="is-ellipsis">
           <template #trigger>
             <nuxt-link
-              v-if="
-                variant !== 'minimal' &&
-                (nft.collection.name || nft.collection.id)
-              "
               :title="nft.collectionName || nft.collection.name"
               :to="`/${prefix}/collection/${nft.collection.id}`"
               class="is-size-7 nft-info-collection-name">

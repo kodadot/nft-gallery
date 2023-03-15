@@ -588,6 +588,7 @@
     "estimated": "Transaction fees will cost about",
     "success": "Congratulations",
     "successNewNfts": "You have successfully purchased this NFT",
+    "successCreateNewNft": "You have successfully created {0}",
     "shareWithFriends": "Share {0} with your friends",
     "unlimited": "Unlimited items in your collection",
     "nfsw": "Explicit content (NSFW)",
@@ -887,7 +888,12 @@
     "unique": "UNIQUE",
     "owners": "OWNERS",
     "distribution": "DISTRIBUTION",
-    "floorPrice": "FLOOR PRICE"
+    "floorPrice": "FLOOR PRICE",
+    "floor": "Floor",
+    "bestOffer": "Best Offer",
+    "volume": "Volume",
+    "network": "Network",
+    "creator": "Creator"
   },
   "profileStats": {
     "listed": "Listed",
@@ -1057,6 +1063,7 @@
     "walletHeading": "Connect Wallet",
     "walletDetails": "Your Wallet",
     "authText": "KodaDot will never ask you to provide your mnemonic phrase or private key.",
+    "authTip": "Waiting For Authorization",
     "understand": "I understand",
     "learnText": "Learn how to Connect",
     "downloadExtension": "Download extension"
@@ -1118,18 +1125,18 @@
     "join": "Join Our Community",
     "subscribeLabel": "Subscribe"
   },
-    "share": {
-      "copyLink": "Copy Link",
-      "qrCode": "QR Code",
-      "twitter": "Share on Twitter"
-    },
+  "share": {
+    "copyLink": "Copy Link",
+    "qrCode": "QR Code",
+    "twitter": "Share on Twitter"
+  },
 
-    "moreActions": {
-      "download": "Download",
-      "reportNFT": "Report NFT",
-      "delete": "Delete",
-      "customize": "Customize"
-    },
+  "moreActions": {
+    "download": "Download",
+    "reportNFT": "Report NFT",
+    "delete": "Delete",
+    "customize": "Customize"
+  },
 
   "collectionCard": {
     "volume": "Volume",
@@ -1189,6 +1196,9 @@
       "list": "Your Listing Price",
       "success": "Price updated",
       "error": "Price update failed"
+    },
+    "buy": {
+      "error": "Failed to buy this item"
     },
     "item": {
       "success": "Item sent",

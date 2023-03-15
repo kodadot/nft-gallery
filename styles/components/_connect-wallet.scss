@@ -1,3 +1,15 @@
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .connect-wallet-modal {
   .modal-content {
     border: none!important;
@@ -11,7 +23,7 @@
     top: 0;
     right: 0;
     height: 100%;
-    padding-top: 78px;
+    padding-top: 83px;
     max-width: 360px;
     width: 100%;
 
@@ -92,6 +104,16 @@
           &:hover {
             background-color: theme('k-accentlight2') !important;
           }
+        }
+      }
+      .auth-tip {
+        margin: 0 2rem;
+        @include ktheme() {
+          color: theme('text-color');
+          border-left: 1px solid theme('k-shade');
+        }
+        i {
+          animation: rotate 1s linear infinite;
         }
       }
       .account-list {

@@ -1,5 +1,8 @@
 <template>
-  <div v-if="redesign">
+  <div
+    v-if="redesign"
+    class="container is-fluid"
+    :class="{ 'sidebar-padding-left': isSidebarOpen }">
     <Items />
   </div>
   <CollectionItem v-else />
@@ -11,6 +14,8 @@ import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
 import { generateCollectionImage } from '~/utils/seoImageGenerator'
 import ExperimentMixin from '@/utils/mixins/experimentMixin'
 import Items from '@/components/items/Items.vue'
+import { useHistoryStore } from '@/stores/history'
+import { usePreferencesStore } from '@/stores/preferences'
 
 type CurrentCollection = {
   name: string
@@ -44,8 +49,16 @@ type CurrentCollection = {
   },
 })
 export default class CollectionItemPage extends mixins(ExperimentMixin) {
+  private historyStore = useHistoryStore()
+  get preferencesStore() {
+    return usePreferencesStore()
+  }
+  get isSidebarOpen() {
+    return this.preferencesStore.getsidebarFilterCollapse
+  }
+
   get currentlyViewedCollection(): CurrentCollection {
-    return this.$store.getters['history/getCurrentlyViewedCollection']
+    return this.historyStore.getCurrentlyViewedCollection
   }
 
   get image(): string {
@@ -57,3 +70,20 @@ export default class CollectionItemPage extends mixins(ExperimentMixin) {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
+.sidebar-padding-left {
+  padding-left: 0;
+}
+
+// this cover the edge case where sidebar is open and then screen size changes to mobile
+// for exmpale on rotation of tablet device
+// in that case the padding need to match that of the fluid container
+@include mobile {
+  .sidebar-padding-left {
+    padding-left: $fluid-container-padding-mobile;
+  }
+}
+</style>

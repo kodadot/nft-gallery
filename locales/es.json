@@ -948,6 +948,7 @@
   "walletConnect": {
     "walletHeading": "Conectar Cartera",
     "authText": "KodaDot nunca te pedirá que proporciones tu frase minemonic o clave privada.",
+    "authTip": "Esperando Autorización",
     "understand": "Yo entiendo",
     "learnText": "Aprenda a conectarse",
     "downloadExtension": "Descarga extensión"

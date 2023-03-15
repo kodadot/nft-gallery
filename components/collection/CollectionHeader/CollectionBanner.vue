@@ -4,8 +4,8 @@
     :style="{ backgroundImage: `url(${collectionAvatar})` }">
     <div class="collection-banner-shadow"></div>
 
-    <section class="section h-full py-5">
-      <div class="container collection-banner-content">
+    <section class="h-full py-6">
+      <div class="container is-fluid collection-banner-content">
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">
             <img
@@ -16,8 +16,7 @@
           </div>
           <h1 class="collection-banner-name">{{ collectionName }}</h1>
         </div>
-
-        <HeroButtons />
+        <HeroButtons class="is-align-self-flex-end" />
       </div>
     </section>
   </div>
@@ -96,6 +95,7 @@ watchEffect(async () => {
     @include mobile {
       flex-direction: column;
       justify-content: flex-end;
+      align-items: flex-start;
     }
   }
 
@@ -117,7 +117,7 @@ watchEffect(async () => {
 
   &-name {
     font-weight: bold;
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin-top: 1.5rem;
 
     @include ktheme() {
