@@ -3,6 +3,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 
 export type RMRK2Resources = {
+  mediaUri?: string
   resources?: {
     src?: string
     thumb?: string
@@ -48,7 +49,7 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
   }
 }
 
-async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
+export async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
   // if subsquid already give us the metadata, we don't need to fetch it again
   if (nft.meta && nft.meta.image) {
     return getGeneralMetadata(nft)

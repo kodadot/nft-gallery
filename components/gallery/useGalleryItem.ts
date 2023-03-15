@@ -1,12 +1,13 @@
-import { $fetch } from 'ohmyfetch'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getMimeType } from '@/utils/gallery/media'
-import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
-import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import { useHistoryStore } from '@/stores/history'
+import { getNftMetadata } from '@/composables/useNft'
+import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
+import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFTWithMetadata } from '@/composables/useNft'
 
 interface NFTData {
-  nftEntity?: NFT
+  nftEntity?: NFTWithMetadata
 }
 
 const whichMimeType = async (data) => {
@@ -37,7 +38,7 @@ export const useGalleryItem = () => {
   const nftImage = ref('')
   const nftAnimation = ref('')
   const nftMimeType = ref('')
-  const nftMetadata = ref<NFTMetadata>()
+  const nftMetadata = ref<NFTWithMetadata>()
 
   const { params } = useRoute()
   // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
@@ -81,18 +82,7 @@ export const useGalleryItem = () => {
 
     nft.value = nftEntity
 
-    if (urlPrefix.value === 'rmrk2') {
-      nftMetadata.value = {
-        name: nftEntity.name,
-        description: nftEntity.meta?.description,
-        image: nftEntity.resources?.length ? nftEntity.resources[0].src : '',
-      }
-    } else {
-      nftMetadata.value =
-        (nftEntity.meta as NFTMetadata) ||
-        (await $fetch(sanitizeIpfsUrl(nftEntity.metadata)))
-    }
-
+    nftMetadata.value = await getNftMetadata(nftEntity, urlPrefix.value)
     nftMimeType.value = await whichMimeType(nftMetadata.value)
 
     const asset = whichAsset(nftMetadata.value)
