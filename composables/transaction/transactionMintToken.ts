@@ -91,11 +91,12 @@ async function execMintBasilisk(
   item: ActionMintToken,
   api,
   executeTransaction: (p: ExecuteTransactionParams) => void,
-  metadataRef?: Ref<string | undefined>
+  metadataRef: Ref<string | undefined>
 ) {
-  const metadata = metadataRef?.value
+  const metadata = metadataRef.value
     ? metadataRef.value
     : await constructMeta(item)
+  metadataRef.value = metadata
   const { selectedCollection, price, royalty, hasRoyalty } = item
   const {
     id: collectionId,
