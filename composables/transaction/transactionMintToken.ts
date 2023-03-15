@@ -133,18 +133,6 @@ async function execMintBasilisk(
     onSuccess: item.onSuccess,
     onError: item.onError,
   })
-
-  //   executeTransaction(cb, [args], (blockNumber) => {
-  // showNotification(
-  //   `[NFT] Saved ${name} in block ${blockNumber}`,
-  //   notificationTypes.success
-  // )
-
-  // if (price) {
-  //   const list = this.listForSale
-  //   setTimeout(() => list(mint, blockNumber), 300)
-  // }
-  // })
 }
 
 async function execMintRmrk(
@@ -156,7 +144,7 @@ async function execMintRmrk(
   const { version } = useRmrkVersion()
   const preferences = usePreferencesStore()
   const metadata = await constructMeta(item)
-  const { edition, name, postfix, selectedCollection, price } = item
+  const { edition, name, postfix, selectedCollection } = item
   const { id: collectionId, alreadyMinted: collectionAlreadyMinted } =
     selectedCollection as RMRKMintedCollection
 
@@ -210,7 +198,6 @@ export async function execMintToken(
   executeTransaction: (p: ExecuteTransactionParams) => void
 ) {
   const metaData = ref<string>()
-  console.log('item', item)
 
   if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'rmrk2') {
     execMintRmrk(item, api, executeTransaction)
