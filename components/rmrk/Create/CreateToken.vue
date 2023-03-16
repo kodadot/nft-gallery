@@ -92,6 +92,7 @@ import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { unwrapSafe } from '~/utils/uniquery'
 import { toNFTId } from '../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
+import { Ref as RefType } from 'vue'
 
 type MintedCollection = BaseMintedCollection & {
   name: string
@@ -218,18 +219,7 @@ export default class CreateToken extends mixins(
     const { file, name, description, secondFile, edition, selectedCollection } =
       this.base
     const { urlPrefix } = usePrefix()
-    const { transaction, status, isLoading } = useTransaction()
-
-    const onSucessCb = (CreatedNFTs: CreatedNFT[]) => (blockNumber: string) => {
-      showNotification(
-        `[NFT] Saved ${this.base.name} in block ${blockNumber}`,
-        notificationTypes.success
-      )
-
-      if (this.hasPrice) {
-        setTimeout(() => this.listForSale(CreatedNFTs, blockNumber), 300)
-      }
-    }
+    const { transaction, status, isLoading, blockNumber } = useTransaction()
 
     watch([isLoading, status], () => {
       this.isLoading = isLoading.value
@@ -239,7 +229,7 @@ export default class CreateToken extends mixins(
     })
 
     try {
-      transaction({
+      const { createdNFTs } = (await transaction({
         interaction: Interaction.MINTNFT,
         urlPrefix: urlPrefix.value,
         tags: this.tags,
@@ -252,8 +242,26 @@ export default class CreateToken extends mixins(
         secondFile,
         name,
         edition,
-        onSuccess: onSucessCb,
+        successMessage: (blockNumber) =>
+          `NFT ${name} Saved in block ${blockNumber}`,
         errorMessage: this.$t('mint.ErrorCreateNewNft', name),
+      })) as {
+        createdNFTs: RefType<CreatedNFT[]>
+      }
+
+      watch([blockNumber, createdNFTs], () => {
+        if (this.hasPrice) {
+          if (blockNumber.value && createdNFTs.value) {
+            setTimeout(
+              () =>
+                this.listForSale(
+                  createdNFTs.value,
+                  blockNumber.value as string
+                ),
+              300
+            )
+          }
+        }
       })
     } catch (e) {
       if (e instanceof Error) {

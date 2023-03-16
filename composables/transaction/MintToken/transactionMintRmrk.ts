@@ -1,4 +1,5 @@
 import {
+  CreatedNFT,
   Interaction,
   asSystemRemark,
   createMintInteaction,
@@ -43,6 +44,7 @@ export async function execMintRmrk(
     collectionAlreadyMinted,
     postfix && edition > 1 ? basicUpdateFunction : undefined
   )
+  const createdNFTs = ref<CreatedNFT[]>(mint)
 
   const mintInteraction = mint.map((nft) =>
     createMintInteaction(Interaction.MINTNFT, version, nft)
@@ -73,7 +75,8 @@ export async function execMintRmrk(
     arg: args,
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
-    onSuccess: item.onSuccess(mint),
-    onError: item.onError,
   })
+  return {
+    createdNFTs,
+  }
 }

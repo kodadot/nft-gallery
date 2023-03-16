@@ -1,6 +1,9 @@
 import { Interaction } from '@kodadot1/minimark'
 
-import { dangerMessage, infoMessage } from '@/utils/notification'
+import {
+  dangerMessage,
+  successMessage as successNotification,
+} from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { execBuyTx } from './transaction/transactionBuy'
 import { execListTx } from './transaction/transactionList'
@@ -27,35 +30,43 @@ import type {
 export type ExecuteTransactionParams = {
   cb: (...params: any[]) => Extrinsic
   arg: any[]
-  onSuccess?: (blockNumber: string) => void
-  onError?: () => void
-  successMessage?: string
+  successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
+}
+
+const resolveSuccessMessage = (successMessage, block: string) => {
+  if (typeof successMessage === 'string') {
+    return successMessage
+  }
+  if (typeof successMessage === 'function') {
+    return successMessage(block)
+  }
+
+  return 'Success!'
 }
 
 const useExecuteTransaction = () => {
   const { accountId } = useAuth()
   const { howAboutToExecute, isLoading, status, initTransactionLoader } =
     useMetaTransaction()
+  const blockNumber = ref<string>()
 
   const executeTransaction = ({
     cb,
     arg,
     successMessage,
     errorMessage,
-    onSuccess,
-    onError,
   }: ExecuteTransactionParams) => {
     initTransactionLoader()
 
-    const successCb =
-      onSuccess === undefined
-        ? () => infoMessage(successMessage || 'Success!')
-        : onSuccess
-    const errorCb =
-      onError === undefined
-        ? () => dangerMessage(errorMessage || 'Failed!')
-        : onError
+    const successCb = (block: string) => {
+      blockNumber.value = block
+      const message = resolveSuccessMessage(successMessage, block)
+      successNotification(message)
+    }
+
+    const errorCb = () => dangerMessage(errorMessage || 'Failed!')
+
     howAboutToExecute(accountId.value, cb, arg, successCb, errorCb)
   }
 
@@ -63,12 +74,14 @@ const useExecuteTransaction = () => {
     isLoading,
     status,
     executeTransaction,
+    blockNumber,
   }
 }
 
 export const useTransaction = () => {
   const { apiInstance } = useApi()
-  const { isLoading, status, executeTransaction } = useExecuteTransaction()
+  const { isLoading, status, executeTransaction, blockNumber } =
+    useExecuteTransaction()
 
   const transaction = async (item: Actions) => {
     const api = await apiInstance.value
@@ -102,5 +115,6 @@ export const useTransaction = () => {
     isLoading,
     status,
     transaction,
+    blockNumber,
   }
 }

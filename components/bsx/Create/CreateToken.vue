@@ -283,19 +283,16 @@ export default class CreateToken extends mixins(
     } = selectedCollection
     const nextId = Math.max(lastIndexUsed + 1, alreadyMinted + 1)
 
-    const onSuccessCb = (blockNumber) => {
-      showNotification(
-        `[NFT] Saved ${this.base.name} in block ${blockNumber}`,
-        notificationTypes.success
-      )
-      this.navigateToDetail(collectionId, String(nextId))
-      // this.stopLoader()
-    }
-    const { transaction, status, isLoading } = useTransaction()
+    const { transaction, status, isLoading, blockNumber } = useTransaction()
     watch([isLoading, status], () => {
       this.isLoading = isLoading.value
       if (Boolean(status.value)) {
         this.status = status.value
+      }
+    })
+    watch(blockNumber, (block) => {
+      if (block) {
+        this.navigateToDetail(collectionId, String(nextId))
       }
     })
 
@@ -313,7 +310,8 @@ export default class CreateToken extends mixins(
         name,
         tags: this.attributes,
         edition,
-        onSuccess: onSuccessCb,
+        successMessage: (blockNumber) =>
+          `NFT ${name} Saved in block ${blockNumber}`,
         errorMessage: this.$t('mint.ErrorCreateNewNft', name),
       })
     } catch (e) {

@@ -51,7 +51,5 @@ export async function execMintBasilisk(
     arg: args,
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
-    onSuccess: item.onSuccess,
-    onError: item.onError,
   })
 }
