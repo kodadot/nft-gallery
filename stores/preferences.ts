@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import useLocalStorage from '@/composables/useLocalStorage'
 
 interface State {
   sidebarFilterCollapseOpen: boolean
@@ -23,7 +24,12 @@ interface State {
   hasSupport: boolean
   hasCarbonOffset: boolean
   arweaveUpload: boolean
+  // Mass Mint
+  visitedOnboarding: boolean
 }
+const massMintLocalStorage = useLocalStorage('massmint', {
+  visitedOnboarding: false,
+})
 
 export const usePreferencesStore = defineStore('preferences', {
   state: (): State => ({
@@ -49,6 +55,7 @@ export const usePreferencesStore = defineStore('preferences', {
     enableAllArtwork: true,
     enableGyroEffect: false,
     gridSize: 'small',
+    visitedOnboarding: massMintLocalStorage.value.visitedOnboarding,
   }),
   getters: {
     getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,
@@ -70,6 +77,7 @@ export const usePreferencesStore = defineStore('preferences', {
     getLoadAllArtwork: (state) => state.enableAllArtwork,
     getEnableGyroEffect: (state) => state.enableGyroEffect,
     getGridSize: (state) => state.gridSize,
+    getVisitedOnboarding: (state) => state.visitedOnboarding,
   },
   actions: {
     setSidebarFilterCollapse(payload) {
@@ -145,6 +153,10 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setGridSize(payload) {
       this.gridSize = payload
+    },
+    setVisitedOnboarding(payload: boolean) {
+      this.visitedOnboarding = payload
+      massMintLocalStorage.value = { visitedOnboarding: payload }
     },
   },
 })
