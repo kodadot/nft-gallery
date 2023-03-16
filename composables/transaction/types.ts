@@ -78,7 +78,7 @@ export interface ActionMintToken extends BaseTokenType<BaseMintedCollection> {
   royalty?: Royalty
   edition: number
   hasRoyalty?: boolean
-  successMessage?: string | string | ((blockNumber: string) => string)
+  successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
   onError?: () => void
 }
