@@ -14,12 +14,17 @@ export const useMassMint = () => {
   const { $consola, $apollo } = useNuxtApp()
   const { accountId, isLogIn } = useAuth()
   const { urlPrefix } = usePrefix()
+  const queryPath = {
+    rmrk: 'chain-rmrk',
+    rmrk2: 'chain-rmrk2',
+  }
 
   const doFetch = async () => {
     if (!isLogIn.value) {
       return
     }
-    const query = await resolveQueryPath(urlPrefix.value, 'collectionForMint')
+    const prefix = queryPath[urlPrefix.value] || urlPrefix.value
+    const query = await resolveQueryPath(prefix, 'collectionForMint')
     const data = await $apollo.query({
       query: query.default,
       client: urlPrefix.value,

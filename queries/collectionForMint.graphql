@@ -1,17 +1,21 @@
 query collectionForMint($account: String!) {
   collectionEntities(
-    where: { issuer_eq: $account, currentOwner_eq: $account }
-    orderBy: blockNumber_DESC
+    filter: { currentOwner: { equalTo: $account } }
+    orderBy: BLOCK_NUMBER_DESC
   ) {
-    id
-    name
-    max
-    metadata
-    symbol
-    nftCount
-    nfts(orderBy: sn_DESC)  {
-      burned
+    nodes {
       id
+      name
+      max
+      metadata
+      symbol
+      nfts {
+        totalCount
+        nodes {
+          id
+          burned
+        }
+      }
     }
   }
 }
