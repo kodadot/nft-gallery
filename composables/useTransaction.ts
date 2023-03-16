@@ -20,12 +20,14 @@ import type {
   ActionBuy,
   ActionConsume,
   ActionList,
+  ActionMintCollection,
   ActionMintToken,
   ActionOffer,
   ActionSend,
   ActionWithdrawOffer,
   Actions,
 } from './transaction/types'
+import { execMintCollection } from './transaction/transactionMintCollection'
 
 export type ExecuteTransactionParams = {
   cb: (...params: any[]) => Extrinsic
@@ -106,6 +108,12 @@ export const useTransaction = () => {
         execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
       [ShoppingActions.MINTNFT]: () =>
         execMintToken(item as ActionMintToken, api, executeTransaction),
+      [ShoppingActions.MINT]: () =>
+        execMintCollection(
+          item as ActionMintCollection,
+          api,
+          executeTransaction
+        ),
     }
 
     return map[item.interaction]?.() ?? 'UNKNOWN'

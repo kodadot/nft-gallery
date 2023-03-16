@@ -3,6 +3,12 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
 import { Royalty } from '@/utils/royalty'
 
+type BaseCollectionType = {
+  name: string
+  file: File | null
+  description: string
+}
+
 export type ActionConsume = {
   interaction: Interaction.CONSUME
   urlPrefix: string
@@ -80,7 +86,15 @@ export interface ActionMintToken extends BaseTokenType<BaseMintedCollection> {
   hasRoyalty?: boolean
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
-  onError?: () => void
+}
+export interface ActionMintCollection extends BaseCollectionType {
+  interaction: Interaction.MINT
+  urlPrefix: string
+  tags: Attribute[]
+  count?: number
+  symbol?: string
+  successMessage?: string | ((blockNumber: string) => string)
+  errorMessage?: string
 }
 
 export type Actions =
@@ -91,3 +105,4 @@ export type Actions =
   | ActionConsume
   | ActionWithdrawOffer
   | ActionMintToken
+  | ActionMintCollection

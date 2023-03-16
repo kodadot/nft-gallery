@@ -1,5 +1,5 @@
-import { execMintRmrk } from './MintToken/transactionMintRmrk'
-import { execMintBasilisk } from './MintToken/transactionMintBasilisk'
+import { execMintRmrk } from './mintToken/transactionMintRmrk'
+import { execMintBasilisk } from './mintToken/transactionMintBasilisk'
 import { ActionMintToken } from './types'
 
 export function execMintToken(item: ActionMintToken, api, executeTransaction) {

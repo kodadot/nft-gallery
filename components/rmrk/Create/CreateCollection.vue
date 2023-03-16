@@ -54,27 +54,13 @@
 
 <script lang="ts">
 import { generateId } from '@/components/rmrk/service/Consolidator'
-import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
-import { uploadDirect } from '@/utils/directUpload'
 import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { canSupport } from '@/utils/support'
-import {
-  CreatedCollection,
-  Interaction,
-  addressToHex,
-  asSystemRemark,
-  createCollection,
-  createMetadata,
-  createMintInteaction,
-  unSanitizeIpfsUrl,
-} from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark'
 import { Component, Ref, mixins } from 'nuxt-property-decorator'
-import { usePinningStore } from '@/stores/pinning'
 
 type BaseCollectionType = {
   name: string
@@ -124,56 +110,12 @@ export default class CreateCollection extends mixins(
     return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
   }
 
-  get accountIdToPubKey(): string {
-    return addressToHex(this.accountId)
-  }
-
   get balance(): string {
     return this.$store.getters.getAuthBalance
   }
 
   get isMintDisabled(): boolean {
     return Number(this.balance) <= 2
-  }
-
-  get pinningStore() {
-    return usePinningStore()
-  }
-
-  public constructRmrkMint(metadata: string): CreatedCollection {
-    const {
-      symbol,
-      base: { name },
-      max,
-    } = this
-    const count = this.unlimited ? 0 : max
-    return createCollection(this.accountId, symbol, name, metadata, count)
-  }
-
-  public async constructMeta() {
-    const { file, name, description } = this.base
-    const pinningKey = await this.pinningStore.fetchPinningKey(this.accountId)
-
-    const imageHash = !file
-      ? IPFS_KODADOT_IMAGE_PLACEHOLDER
-      : await pinFileToIPFS(file, pinningKey.token)
-    const type = !file ? 'image/png' : file.type
-    const meta = createMetadata(
-      name,
-      description,
-      imageHash,
-      undefined,
-      [],
-      undefined,
-      type
-    )
-    const metaHash = await pinJson(meta, imageHash)
-
-    if (file) {
-      uploadDirect(file, imageHash).catch(this.$consola.warn)
-    }
-
-    return unSanitizeIpfsUrl(metaHash)
   }
 
   public async submit() {
@@ -189,43 +131,37 @@ export default class CreateCollection extends mixins(
     this.isLoading = true
     this.status = 'loader.ipfs'
 
+    const { transaction, status, isLoading, blockNumber } = useTransaction()
+
+    watch([isLoading, status], () => {
+      this.isLoading = isLoading.value
+      if (Boolean(status.value)) {
+        this.status = status.value
+      }
+    })
+    watch(blockNumber, (block) => {
+      if (block) {
+        this.$emit('created')
+      }
+    })
+    showNotification(
+      `Creating collection ${this.base.name}`,
+      notificationTypes.info
+    )
+
     try {
-      const metadata = await this.constructMeta()
-      const mint = this.constructRmrkMint(metadata)
-      const mintInteraction = createMintInteaction(
-        Interaction.MINT,
-        this.version,
-        mint
-      )
+      const { description, file, name } = this.base
 
-      const api = await this.useApi()
-      showNotification(
-        `Creating collection ${this.base.name}`,
-        notificationTypes.info
-      )
-
-      const cb = !this.hasSupport
-        ? api.tx.system.remark
-        : api.tx.utility.batchAll
-      const args = !this.hasSupport
-        ? mintInteraction
-        : [
-            asSystemRemark(api, mintInteraction),
-            ...(await canSupport(api, this.hasSupport)),
-          ]
-
-      await this.howAboutToExecute(
-        this.accountId,
-        cb,
-        [args],
-        (blockNumber) => {
-          showNotification(
-            `[Collection] Saved ${this.base.name} in block ${blockNumber}`,
-            notificationTypes.success
-          )
-          this.$emit('created')
-        }
-      )
+      transaction({
+        interaction: Interaction.MINT,
+        urlPrefix: usePrefix().urlPrefix.value,
+        description,
+        file,
+        name,
+        tags: [],
+        count: this.unlimited ? 0 : this.max,
+        symbol: this.symbol,
+      })
     } catch (e: any) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
       this.$consola.error(e)
