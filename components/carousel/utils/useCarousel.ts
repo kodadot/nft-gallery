@@ -55,6 +55,10 @@ export const useCarouselNftEvents = ({ type }: Types) => {
   const { data: dataRmrk, loading: loadingRmrk } = useChainEvents('rmrk', type)
   const { data: dataSnek, loading: loadingSnek } = useChainEvents('snek', type)
   const { data: dataBsx, loading: loadingBsx } = useChainEvents('bsx', type)
+  const { data: dataRmrk2, loading: loadingRmrk2 } = useChainEvents(
+    'rmrk2',
+    type
+  )
   const nfts = ref<CarouselNFT[]>([])
 
   const flattenNFT = async (data, chain) => {
@@ -69,13 +73,19 @@ export const useCarouselNftEvents = ({ type }: Types) => {
 
   // currently only support rmrk and snek
   // moonriver: https://github.com/kodadot/nft-gallery/issues/3891
-  watch([loadingRmrk, loadingSnek, loadingBsx], async () => {
-    if (!loadingRmrk.value && !loadingSnek.value && !loadingBsx.value) {
+  watch([loadingRmrk, loadingSnek, loadingBsx, loadingRmrk2], async () => {
+    if (
+      !loadingRmrk.value &&
+      !loadingSnek.value &&
+      !loadingBsx.value &&
+      !loadingRmrk2.value
+    ) {
       const rmrkNfts = await flattenNFT(dataRmrk.value, 'rmrk')
       const snekNfts = await flattenNFT(dataSnek.value, 'snek')
       const bsxNfts = await flattenNFT(dataBsx.value, 'bsx')
+      const rmrk2Nfts = await flattenNFT(dataRmrk2.value, 'rmrk2')
 
-      const data = [...rmrkNfts, ...snekNfts, ...bsxNfts]
+      const data = [...rmrkNfts, ...snekNfts, ...bsxNfts, ...rmrk2Nfts]
 
       nfts.value = data.sort((a, b) => b.unixTime - a.unixTime).slice(0, 30)
     }
