@@ -76,9 +76,12 @@ const { nfts, fetchSearch } = useFetchSearch({
   resetSearch: resetPage,
 })
 
+watch(total, () => {
+  prefetchNextPage()
+})
+
 onBeforeMount(async () => {
   await fetchSearch(startPage.value)
   isLoading.value = false
-  prefetchNextPage()
 })
 </script>
