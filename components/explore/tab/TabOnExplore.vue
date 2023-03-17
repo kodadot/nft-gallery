@@ -12,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import TabItem from './TabItem.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const route = useRoute()
