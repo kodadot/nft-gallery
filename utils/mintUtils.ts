@@ -113,8 +113,8 @@ const correctText = (original: string, parsed: string): string => {
 }
 
 export function toRange(line: string): Range | null {
-  const regExp = /^(\d+)-(\d*)\n?$/
-  const match = regExp.exec(line)
+  const regex = /^(\d+)-(\d*)\n?$/
+  const match = regex.exec(line)
   if (!match) {
     return null
   }
