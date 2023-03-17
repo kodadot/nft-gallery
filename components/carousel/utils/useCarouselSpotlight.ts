@@ -5,6 +5,8 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const curatedCollection = {
   bsx: [
+    '1865909717', // 'Berliner'
+    '21032023', // 'Spring Waifus 🐞
     '26022023', // Denver waifus 🤎
     '14022023', // Will You Be My Valentine? ♥️ (Kodadot)
     '2551182625', // Luna Witches (deepologics)
