@@ -91,10 +91,16 @@
     }
   }
 
-  .csw-substack-gradient-custom {
-    border-radius: 0 !important;
-    height: 35px !important;
+  #custom-substack-embed .csw-substack-gradient-custom {
+    border-radius: 0;
+    height: 2.2rem;
 
+
+
+    @include touch {
+      flex-direction: column;
+      height: 4.4rem;
+    }
     @include ktheme() {
       box-shadow: theme('primary-shadow');
       border: 1px solid theme('border-color') !important;
@@ -102,9 +108,9 @@
 
     input {
       font-weight: 400;
-      border-radius: 0 !important;
-      font-size: 16px !important;
-      padding-left: 24px !important;
+      border-radius: 0;
+      font-size: 16px;
+      padding-left: 24px;
 
       @include ktheme() {
         background: theme('background-color') !important;
@@ -115,16 +121,26 @@
       }
     }
     button {
-      font-size: 16px !important;
-      font-weight: 400 !important;
-      padding: 0 28px !important;
+      font-size: 16px;
+      font-weight: 400;
+      padding: 0 28px;
+      border-left: 1px solid;
 
       @include ktheme() {
-        border-left: 1px solid theme('border-color') !important;
+        border-color: theme('border-color');
         &:hover {
           background: theme('background-color') !important;
           color: theme('text-color') !important;
         }
+      }
+
+      @include touch {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid;
+        padding: 0;
+        justify-content: center;
+
       }
     }
   }
