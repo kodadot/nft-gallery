@@ -5,6 +5,7 @@
     class="neo-dropdown"
     :class="{ 'o-drop-active': isActive }"
     :mobile-modal="mobileModal"
+    :disabled="disabled"
     @active-change="onActiveChange($event)">
     <template #trigger>
       <slot />
@@ -24,11 +25,13 @@ withDefaults(
     position?: string
     appendToBody?: boolean
     mobileModal?: boolean
+    disabled?: boolean
   }>(),
   {
     position: 'bottom-left',
     appendToBody: false,
     mobileModal: false,
+    disabled: false,
   }
 )
 
