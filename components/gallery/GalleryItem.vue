@@ -13,7 +13,7 @@
         <MediaItem
           :key="nftImage"
           :class="{
-            'is-flex is-align-items-center is-justify-content-center h-full':
+            'is-flex is-align-items-center is-justify-content-center h-audio':
               resolveMedia(nftMimeType) == MediaType.AUDIO,
           }"
           class="gallery-item-media"
@@ -201,5 +201,9 @@ useNuxt2Meta({
   .gallery-item-tabs-panel-wrapper {
     margin-top: 1.25rem;
   }
+}
+
+.h-audio {
+  height: 70%;
 }
 </style>
