@@ -33,6 +33,7 @@
   "name": "Name",
   "simple": "Simple",
   "creative": "Creative",
+  "multipleNFTS": "Multiple NFT's",
   "about": "About",
   "ambassador program": "Ambassador Program",
   "press kit": "Press Kit",
@@ -1221,6 +1222,34 @@
     "start": "Start by creating your collection and add NFTs to it",
     "simplifiedNft": "Simplified process to create your NFT in a single step",
     "aiPowered": "AI powered process to create your NFT",
-    "waifu": "Create your anime waifu using AI"
+    "waifu": "Create your anime waifu using AI",
+    "massmint": "Simplified process to create multiple NFT's for your collection"
+  },
+  "massmint": {
+    "backToOnbaording": "Back To Onboarding",
+    "chooseCollection": "Choose a collection to which you want to mint",
+    "selectCollection": "Select Collection",
+    "createNewCollection": "Create New Collection",
+    "noCollection": "No Collection",
+    "onboarding": {
+      "pageTitle": "Mass Mint Onboarding",
+      "skip": "Skip",
+      "next": "Next",
+      "done": "Done",
+      "cards": {
+        "1": {
+          "title": "How to Name your NFTs",
+          "content": "instructions:\n* **File Name:** the file name of your assets should be **numeric** and **consecutive**\n e.g.\n * '1.png', '2.png', '3.png', or\n* 'awesome_art_1', 'awesome_art_2' and so on..."
+        },
+        "2": {
+          "title": "description for your NFTs",
+          "content": "Each NFT has a name, description and price.\nYou can prepare this up front in a separate file\nso that you don’t have to do it manually for all of your NFTs.\n\nInstructions:\n* File type: .TXT, .JSON or CSV"
+        },
+        "3": {
+          "title": "You need to have A collection",
+          "content": "In order to use the Mass Mint feature **you need to have an NFT collection created**\nto which you will mint all of your NFTs.\n\nIf you don’t have a collection created yet, you will be able to create one in the Miss Mint."
+        }
+      }
+    }
   }
 }

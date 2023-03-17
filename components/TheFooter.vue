@@ -1,6 +1,7 @@
 <template>
   <footer class="footer-container section">
-    <div class="is-flex is-align-items-start is-justify-content-space-between">
+    <div
+      class="footer-container-inner is-flex is-align-items-start is-justify-content-space-between">
       <div class="footer-container-subs is-flex is-flex-direction-column">
         <h4 class="subtitle is-5">
           {{ $t('footer.subscribe') }}
