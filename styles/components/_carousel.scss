@@ -56,6 +56,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      &-name {
+        @include ktheme() {
+          color: theme('k-grey');
+          &:hover {
+            color: theme('text-color');
+          }
+        }
+      }
     }
 
     &-arrow {
@@ -112,5 +120,4 @@
       }
     }
   }
-
 }
