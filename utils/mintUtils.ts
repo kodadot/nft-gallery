@@ -90,8 +90,8 @@ export function isMatchAll(text: string): boolean {
 }
 
 const hasIndex = (line: string) => {
-  const regExp = /{i}/
-  return regExp.test(line)
+  const regex = /{i}/
+  return regex.test(line)
 }
 
 export const replaceIndex = (
