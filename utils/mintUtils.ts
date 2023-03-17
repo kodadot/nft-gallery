@@ -100,8 +100,8 @@ export const replaceIndex = (
 ): string => (hasIndex(line) ? line.replace(/{i}/g, String(replaceWith)) : line)
 
 export const skipProcess = (line: string): boolean => {
-  const regExp = /^-/
-  return regExp.test(line)
+  const regex = /^-/
+  return regex.test(line)
 }
 
 const correctText = (original: string, parsed: string): string => {
