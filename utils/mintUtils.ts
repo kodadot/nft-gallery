@@ -73,8 +73,8 @@ function toMassMint(mints: string[][]) {
 }
 
 export const isRangeSyntax = (text: string): boolean => {
-  const regExp = /^\d+-\d*\n/
-  return regExp.test(text)
+  const regex = /^\d+-\d*\n/
+  return regex.test(text)
 }
 
 export function between(
