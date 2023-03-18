@@ -61,12 +61,7 @@ import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { Interaction } from '@kodadot1/minimark'
 import { Component, Ref, mixins } from 'nuxt-property-decorator'
-
-type BaseCollectionType = {
-  name: string
-  file: File | null
-  description: string
-}
+import { BaseCollectionType } from '@/composables/transaction/types'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -145,22 +140,20 @@ export default class CreateCollection extends mixins(
       }
     })
     showNotification(
-      `Creating collection ${this.base.name}`,
+      this.$t('mint.creatingCollection', { name: this.base.name }),
       notificationTypes.info
     )
 
     try {
-      const { description, file, name } = this.base
-
       transaction({
         interaction: Interaction.MINT,
         urlPrefix: usePrefix().urlPrefix.value,
-        description,
-        file,
-        name,
-        tags: [],
-        count: this.unlimited ? 0 : this.max,
-        symbol: this.symbol,
+        collection: {
+          ...this.base,
+          tags: [],
+          nftCount: this.unlimited ? 0 : this.max,
+          symbol: this.symbol,
+        },
       })
     } catch (e: any) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)

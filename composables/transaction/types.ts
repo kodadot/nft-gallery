@@ -3,10 +3,35 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
 import { Royalty } from '@/utils/royalty'
 
-type BaseCollectionType = {
+export type BaseCollectionType = {
   name: string
   file: File | null
   description: string
+}
+
+export type MintedCollectionKusama = BaseMintedCollection & {
+  max: number
+  symbol: string
+}
+export type MintedCollectionBasilisk = BaseMintedCollection & {
+  lastIndexUsed: number
+}
+export interface TokenToMint
+  extends BaseTokenType<MintedCollectionBasilisk | MintedCollectionKusama> {
+  tags: Attribute[]
+  nsfw: boolean
+  postfix: boolean
+  price?: string
+  royalty?: Royalty
+  hasRoyalty?: boolean
+}
+
+export interface CollectionToMintKusama extends BaseCollectionType {
+  nftCount: number
+  symbol: string
+}
+export interface CollectionToMintBasilisk extends BaseCollectionType {
+  tags: Attribute[]
 }
 
 export type ActionConsume = {
@@ -74,25 +99,18 @@ export type ActionAcceptOffer = {
   errorMessage?: string
 }
 
-export interface ActionMintToken extends BaseTokenType<BaseMintedCollection> {
+export interface ActionMintToken {
   interaction: Interaction.MINTNFT
   urlPrefix: string
-  tags: Attribute[]
-  nsfw: boolean
-  price?: string
-  postfix: boolean
-  royalty?: Royalty
-  edition: number
-  hasRoyalty?: boolean
+  token: TokenToMint
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }
-export interface ActionMintCollection extends BaseCollectionType {
+
+export interface ActionMintCollection {
   interaction: Interaction.MINT
   urlPrefix: string
-  tags: Attribute[]
-  count?: number
-  symbol?: string
+  collection: CollectionToMintBasilisk | CollectionToMintKusama
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }

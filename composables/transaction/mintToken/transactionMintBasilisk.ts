@@ -1,24 +1,21 @@
-import type { ActionMintToken } from '../types'
-import { BaseMintedCollection } from '@/components/base/types'
+import type { ActionMintToken, MintedCollectionBasilisk } from '../types'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { constructMeta } from './constructMeta'
 import { ExecuteTransactionParams } from '@/composables/useTransaction'
-
-type BSXMintedCollection = BaseMintedCollection & {
-  lastIndexUsed: number
-}
 
 export async function execMintBasilisk(
   item: ActionMintToken,
   api,
   executeTransaction: (p: ExecuteTransactionParams) => void
 ) {
-  const { selectedCollection, price, royalty, hasRoyalty } = item
+  const { $i18n } = useNuxtApp()
+
   const {
     id: collectionId,
     alreadyMinted: collectionAlreadyMinted,
     lastIndexUsed,
-  } = selectedCollection as BSXMintedCollection
+  } = item.token.selectedCollection as MintedCollectionBasilisk
+  const { price, royalty, hasRoyalty } = item.token
 
   const metadata = await constructMeta(item)
 
@@ -49,7 +46,14 @@ export async function execMintBasilisk(
   executeTransaction({
     cb,
     arg: args,
-    successMessage: item.successMessage,
-    errorMessage: item.errorMessage,
+    successMessage:
+      item.successMessage ||
+      ((blockNumber) =>
+        $i18n.t('mintNFTSuccess', {
+          name: item.token.name,
+          block: blockNumber,
+        })),
+    errorMessage:
+      item.errorMessage || $i18n.t('mint.ErrorCreateNewNft', item.token.name),
   })
 }

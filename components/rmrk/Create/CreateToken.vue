@@ -93,12 +93,7 @@ import { unwrapSafe } from '~/utils/uniquery'
 import { toNFTId } from '../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
 import { Ref as RefType } from 'vue'
-
-type MintedCollection = BaseMintedCollection & {
-  name: string
-  max: number
-  symbol: string
-}
+import { MintedCollectionKusama } from '@/composables/transaction/types'
 
 const components = {
   AttributeTagInput: () =>
@@ -122,7 +117,7 @@ export default class CreateToken extends mixins(
   AuthMixin,
   UseApiMixin
 ) {
-  public base: BaseTokenType<MintedCollection> = {
+  public base: BaseTokenType<MintedCollectionKusama> = {
     name: '',
     file: null,
     description: '',
@@ -131,7 +126,7 @@ export default class CreateToken extends mixins(
     secondFile: null,
   }
 
-  public collections: MintedCollection[] = []
+  public collections: MintedCollectionKusama[] = []
   public tags: Attribute[] = []
   public price: string | number = 0
   public nsfw = false
@@ -186,7 +181,8 @@ export default class CreateToken extends mixins(
         totalCount: ce.nfts?.filter((nft) => !nft.burned).length,
       }))
       .filter(
-        (ce: MintedCollection) => (ce.max || Infinity) - ce.alreadyMinted > 0
+        (ce: MintedCollectionKusama) =>
+          (ce.max || Infinity) - ce.alreadyMinted > 0
       )
   }
 
@@ -216,8 +212,6 @@ export default class CreateToken extends mixins(
 
     this.isLoading = true
     this.status = 'loader.ipfs'
-    const { file, name, description, secondFile, edition, selectedCollection } =
-      this.base
     const { urlPrefix } = usePrefix()
     const { transaction, status, isLoading, blockNumber } = useTransaction()
 
@@ -232,19 +226,13 @@ export default class CreateToken extends mixins(
       const { createdNFTs } = (await transaction({
         interaction: Interaction.MINTNFT,
         urlPrefix: urlPrefix.value,
-        tags: this.tags,
-        nsfw: this.nsfw,
-        postfix: this.postfix,
-        price: this.price.toString(),
-        selectedCollection,
-        description,
-        file,
-        secondFile,
-        name,
-        edition,
-        successMessage: (blockNumber) =>
-          `NFT ${name} Saved in block ${blockNumber}`,
-        errorMessage: this.$t('mint.ErrorCreateNewNft', name),
+        token: {
+          ...this.base,
+          tags: this.tags,
+          nsfw: this.nsfw,
+          postfix: this.postfix,
+          price: this.price.toString(),
+        },
       })) as {
         createdNFTs: RefType<CreatedNFT[]>
       }

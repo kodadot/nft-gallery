@@ -10,16 +10,9 @@ import { canSupport } from '@/utils/support'
 
 import { basicUpdateFunction } from '@/components/unique/NftUtils'
 import { usePreferencesStore } from '@/stores/preferences'
-import { BaseMintedCollection } from '@/components/base/types'
 import { ExecuteTransactionParams } from '@/composables/useTransaction'
 import { constructMeta } from './constructMeta'
-import { ActionMintToken } from '../types'
-
-type RMRKMintedCollection = BaseMintedCollection & {
-  name: string
-  max: number
-  symbol: string
-}
+import { ActionMintToken, MintedCollectionKusama } from '../types'
 
 export async function execMintRmrk(
   item: ActionMintToken,
@@ -29,9 +22,11 @@ export async function execMintRmrk(
   const { accountId } = useAuth()
   const { version } = useRmrkVersion()
   const preferences = usePreferencesStore()
-  const { edition, name, postfix, selectedCollection } = item
-  const { id: collectionId, alreadyMinted: collectionAlreadyMinted } =
-    selectedCollection as RMRKMintedCollection
+  const { $i18n } = useNuxtApp()
+
+  const { id: collectionId, alreadyMinted: collectionAlreadyMinted } = item
+    .token.selectedCollection as MintedCollectionKusama
+  const { edition, name, postfix } = item.token
 
   const metadata = await constructMeta(item)
 
@@ -73,8 +68,15 @@ export async function execMintRmrk(
   executeTransaction({
     cb,
     arg: args,
-    successMessage: item.successMessage,
-    errorMessage: item.errorMessage,
+    successMessage:
+      item.successMessage ||
+      ((blockNumber) =>
+        $i18n.t('mintNFTSuccess', {
+          name: item.token.name,
+          block: blockNumber,
+        })),
+    errorMessage:
+      item.errorMessage || $i18n.t('mint.ErrorCreateNewNft', item.token.name),
   })
   return {
     createdNFTs,

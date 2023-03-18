@@ -107,11 +107,7 @@ import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
-
-type MintedCollection = BaseMintedCollection & {
-  name?: string
-  lastIndexUsed: number
-}
+import { MintedCollectionBasilisk } from '~~/composables/transaction/types'
 
 const components = {
   CustomAttributeInput: () =>
@@ -143,7 +139,7 @@ export default class CreateToken extends mixins(
   @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
   private preferencesStore = usePreferencesStore()
 
-  public base: BaseTokenType<MintedCollection> = {
+  public base: BaseTokenType<MintedCollectionBasilisk> = {
     name: '',
     file: null,
     description: '',
@@ -151,7 +147,7 @@ export default class CreateToken extends mixins(
     edition: 1,
     secondFile: null,
   }
-  public collections: MintedCollection[] = []
+  public collections: MintedCollectionBasilisk[] = []
   public postfix = true
   public deposit = '0'
   public attributes: Attribute[] = []
@@ -274,13 +270,11 @@ export default class CreateToken extends mixins(
     }
     this.isLoading = true
     this.status = 'loader.ipfs'
-    const { selectedCollection, description, edition, file, name, secondFile } =
-      this.base
     const {
       alreadyMinted,
       id: collectionId,
       lastIndexUsed,
-    } = selectedCollection
+    } = this.base.selectedCollection
     const nextId = Math.max(lastIndexUsed + 1, alreadyMinted + 1)
 
     const { transaction, status, isLoading, blockNumber } = useTransaction()
@@ -300,19 +294,13 @@ export default class CreateToken extends mixins(
       transaction({
         interaction: Interaction.MINTNFT,
         urlPrefix: usePrefix().urlPrefix.value,
-        nsfw: this.nsfw,
-        price: this.price,
-        postfix: this.postfix,
-        selectedCollection,
-        description,
-        file,
-        secondFile,
-        name,
-        tags: this.attributes,
-        edition,
-        successMessage: (blockNumber) =>
-          `NFT ${name} Saved in block ${blockNumber}`,
-        errorMessage: this.$t('mint.ErrorCreateNewNft', name),
+        token: {
+          ...this.base,
+          nsfw: this.nsfw,
+          price: this.price,
+          postfix: this.postfix,
+          tags: this.attributes,
+        },
       })
     } catch (e) {
       if (e instanceof Error) {

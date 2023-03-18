@@ -17,7 +17,7 @@ export async function constructMeta(item: ActionMintToken): Promise<string> {
   const preferencesStore = usePreferencesStore()
   const { accountId } = useAuth()
   const { $consola } = useNuxtApp()
-  const { file, name, description, secondFile, tags, nsfw } = item
+  const { file, name, description, secondFile, tags, nsfw } = item.token
 
   if (!file) {
     throw new ReferenceError('No file found!')

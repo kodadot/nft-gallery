@@ -58,12 +58,7 @@ import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
 import { dummyIpfsCid } from '@/utils/ipfs'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { createArgs } from '@/composables/transaction/mintCollection/utils'
-
-type BaseCollectionType = {
-  name: string
-  file: File | null
-  description: string
-}
+import { BaseCollectionType } from '@/composables/transaction/types'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -176,18 +171,17 @@ export default class CreateCollection extends mixins(
     try {
       // await this.checkBalanceBeforeTx()
       showNotification(
-        `Creating collection ${this.base.name}`,
+        this.$t('mint.creatingCollection', { name: this.base.name }),
         notificationTypes.info
       )
-      const { description, file, name } = this.base
       this.status = 'loader.ipfs'
       transaction({
         interaction: Interaction.MINT,
         urlPrefix: usePrefix().urlPrefix.value,
-        description,
-        file,
-        name,
-        tags: this.attributes,
+        collection: {
+          ...this.base,
+          tags: this.attributes,
+        },
       })
     } catch (e: any) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)

@@ -1,4 +1,4 @@
-import type { ActionMintCollection } from '../types'
+import type { ActionMintCollection, CollectionToMintKusama } from '../types'
 import { ExecuteTransactionParams } from '@/composables/useTransaction'
 import { constructMeta } from './constructMeta'
 import {
@@ -16,15 +16,17 @@ export async function execMintCollectionRmrk(
 ) {
   const { version } = useRmrkVersion()
   const { accountId } = useAuth()
+  const { $i18n } = useNuxtApp()
 
   const metadata = await constructMeta(item)
+  const { symbol, name, nftCount } = item.collection as CollectionToMintKusama
 
   const mint = createCollection(
     accountId.value,
-    item.symbol || '',
-    item.name,
+    symbol || '',
+    name,
     metadata,
-    item.count
+    nftCount
   )
   const mintInteraction = createMintInteaction(Interaction.MINT, version, mint)
 
@@ -39,8 +41,15 @@ export async function execMintCollectionRmrk(
   executeTransaction({
     cb,
     arg,
-    successMessage: (blockNumber) =>
-      `Saved ${item.name} Collection Saved in block ${blockNumber}`,
-    errorMessage: item.errorMessage,
+    successMessage:
+      item.successMessage ||
+      ((blockNumber) =>
+        $i18n.t('mintCollectionSuccess', {
+          name: item.collection.name,
+          block: blockNumber,
+        })),
+    errorMessage:
+      item.errorMessage ||
+      $i18n.t('mint.ErrorCreateNewNft', item.collection.name),
   })
 }

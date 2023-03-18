@@ -1,25 +1,18 @@
-import { ActionMintCollection } from '../types'
+import { ActionMintCollection, CollectionToMintBasilisk } from '../types'
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import { pinJson } from '@/services/nftStorage'
 import { usePinningStore } from '@/stores/pinning'
 import { uploadDirect } from '@/utils/directUpload'
 import { getImageTypeSafe, pinImageSafe } from '@/utils/safePin'
-import { Attribute } from '@kodadot1/minimark'
 
-const createAttributes = ({
-  tags,
-  urlPrefix,
-}: {
-  tags: Attribute[]
-  urlPrefix: string
-}) => {
-  if (urlPrefix === 'bsx' || urlPrefix === 'snek') {
-    return tags.map((val) => ({
+const createAttributes = (item: ActionMintCollection) => {
+  if (item.urlPrefix === 'bsx' || item.urlPrefix === 'snek') {
+    return (item.collection as CollectionToMintBasilisk).tags.map((val) => ({
       ...val,
       display_type: null,
     }))
   }
-  if (urlPrefix === 'rmrk' || urlPrefix === 'rmrk2') {
+  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'rmrk2') {
     return []
   }
 
@@ -27,7 +20,7 @@ const createAttributes = ({
 }
 
 export async function constructMeta(item: ActionMintCollection) {
-  const { file, name, description, tags, urlPrefix } = item
+  const { file, name, description } = item.collection
 
   const pinningStore = usePinningStore()
   const { accountId } = useAuth()
@@ -35,7 +28,7 @@ export async function constructMeta(item: ActionMintCollection) {
   const pinningKey = await pinningStore.fetchPinningKey(accountId.value)
   const imageHash = await pinImageSafe(file, pinningKey.token)
   const type = getImageTypeSafe(file)
-  const attributes = createAttributes({ tags, urlPrefix })
+  const attributes = createAttributes(item)
 
   const meta = createMetadata(
     name,

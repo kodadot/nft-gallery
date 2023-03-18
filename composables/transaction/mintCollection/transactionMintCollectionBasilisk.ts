@@ -9,6 +9,7 @@ export async function execMintCollectionBasilisk(
   api,
   executeTransaction: (p: ExecuteTransactionParams) => void
 ) {
+  const { $i18n } = useNuxtApp()
   const metadata = await constructMeta(item)
 
   const cb = api.tx.nft.createCollection
@@ -21,9 +22,16 @@ export async function execMintCollectionBasilisk(
       executeTransaction({
         cb,
         arg,
-        successMessage: (blockNumber) =>
-          `Saved ${item.name} Collection Saved in block ${blockNumber}`,
-        errorMessage: item.errorMessage,
+        successMessage:
+          item.successMessage ||
+          ((blockNumber) =>
+            $i18n.t('mintCollectionSuccess', {
+              name: item.collection.name,
+              block: blockNumber,
+            })),
+        errorMessage:
+          item.errorMessage ||
+          $i18n.t('mint.ErrorCreateNewNft', item.collection.name),
       })
     }
   })
