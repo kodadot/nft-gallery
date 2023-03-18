@@ -73,8 +73,8 @@ function toMassMint(mints: string[][]) {
 }
 
 export const isRangeSyntax = (text: string): boolean => {
-  const regExp = /^\d+-\d*\n/
-  return regExp.test(text)
+  const regex = /^\d+-\d*\n/
+  return regex.test(text)
 }
 
 export function between(
@@ -90,8 +90,8 @@ export function isMatchAll(text: string): boolean {
 }
 
 const hasIndex = (line: string) => {
-  const regExp = /{i}/
-  return regExp.test(line)
+  const regex = /{i}/
+  return regex.test(line)
 }
 
 export const replaceIndex = (
@@ -100,8 +100,8 @@ export const replaceIndex = (
 ): string => (hasIndex(line) ? line.replace(/{i}/g, String(replaceWith)) : line)
 
 export const skipProcess = (line: string): boolean => {
-  const regExp = /^-/
-  return regExp.test(line)
+  const regex = /^-/
+  return regex.test(line)
 }
 
 const correctText = (original: string, parsed: string): string => {
@@ -113,8 +113,8 @@ const correctText = (original: string, parsed: string): string => {
 }
 
 export function toRange(line: string): Range | null {
-  const regExp = /^(\d+)-(\d*)\n?$/
-  const match = regExp.exec(line)
+  const regex = /^(\d+)-(\d*)\n?$/
+  const match = regex.exec(line)
   if (!match) {
     return null
   }
