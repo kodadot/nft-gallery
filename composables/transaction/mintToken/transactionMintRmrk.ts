@@ -71,12 +71,13 @@ export async function execMintRmrk(
     successMessage:
       item.successMessage ||
       ((blockNumber) =>
-        $i18n.t('mintNFTSuccess', {
+        $i18n.t('mint.mintNFTSuccess', {
           name: item.token.name,
           block: blockNumber,
         })),
     errorMessage:
-      item.errorMessage || $i18n.t('mint.ErrorCreateNewNft', item.token.name),
+      item.errorMessage ||
+      $i18n.t('mint.ErrorCreateNewNft', { name: item.token.name }),
   })
   return {
     createdNFTs,

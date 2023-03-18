@@ -593,7 +593,7 @@
     "success": "Congratulations",
     "successNewNfts": "You have successfully purchased this NFT",
     "successCreateNewNft": "You have successfully created {0}",
-    "ErrorCreateNewNft": "Minting {0} failed",
+    "ErrorCreateNewNft": "Minting {name} failed",
     "shareWithFriends": "Share {0} with your friends",
     "unlimited": "Unlimited items in your collection",
     "nfsw": "Explicit content (NSFW)",
@@ -1255,6 +1255,6 @@
         }
       }
     }
-  },
+  }
 
 }

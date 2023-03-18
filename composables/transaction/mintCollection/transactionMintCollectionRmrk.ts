@@ -44,12 +44,12 @@ export async function execMintCollectionRmrk(
     successMessage:
       item.successMessage ||
       ((blockNumber) =>
-        $i18n.t('mintCollectionSuccess', {
+        $i18n.t('mint.mintCollectionSuccess', {
           name: item.collection.name,
           block: blockNumber,
         })),
     errorMessage:
       item.errorMessage ||
-      $i18n.t('mint.ErrorCreateNewNft', item.collection.name),
+      $i18n.t('mint.ErrorCreateNewNft', { name: item.collection.name }),
   })
 }
