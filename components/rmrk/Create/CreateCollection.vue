@@ -150,7 +150,6 @@ export default class CreateCollection extends mixins(
         urlPrefix: usePrefix().urlPrefix.value,
         collection: {
           ...this.base,
-          tags: [],
           nftCount: this.unlimited ? 0 : this.max,
           symbol: this.symbol,
         },
