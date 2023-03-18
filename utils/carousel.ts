@@ -31,8 +31,8 @@ export const formatNFT = (nfts, chain?: string): CarouselNFT[] => {
       price: nft.price || 0,
       image: metaImage && sanitizeIpfsUrl(metaImage),
       animationUrl: metaAnimationUrl && sanitizeIpfsUrl(metaAnimationUrl),
-      collectionName: nft.collection?.name || '--',
-      collectionId: nft.collection?.id,
+      collectionName: nft.collectionName || nft.collection?.name || '--',
+      collectionId: nft.collectionId || nft.collection?.id,
       chain: chain || urlPrefix.value,
     }
   })
