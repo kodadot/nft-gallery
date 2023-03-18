@@ -70,6 +70,9 @@
         </template>
       </NeoDropdown>
     </section>
+    <section class="collapse-container">
+      <UploadPicture />
+    </section>
   </div>
 </template>
 
@@ -82,6 +85,8 @@ import {
 } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { MintedCollection, useMassMint } from './useMassMint'
+import UploadPicture from '@/components/massmint/UploadPicture/UploadPicture.vue'
+
 const preferencesStore = usePreferencesStore()
 const { $consola } = useNuxtApp()
 const router = useRouter()
@@ -135,5 +140,9 @@ const toOnborading = () => {
 }
 .w-100 {
   width: 100%;
+}
+
+.collapse-container {
+  margin-top: 40px;
 }
 </style>
