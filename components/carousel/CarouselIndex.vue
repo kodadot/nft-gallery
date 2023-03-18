@@ -1,10 +1,3 @@
-<!--
- * @Description:
- * @Author: Floyd Li (floyd.li@outlook.com)
- * @Date: 2023-03-13 17:20:12
- * @LastEditors: Floyd Li (floyd.li@outlook.com)
- * @LastEditTime: 2023-03-18 16:21:22
--->
 <template>
   <div v-if="nfts.length">
     <h2 class="title is-2">
