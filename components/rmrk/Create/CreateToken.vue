@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
+import { BaseTokenType } from '@/components/base/types'
 import collectionForMint from '@/queries/subsquid/rmrk/collectionForMint.graphql'
 
 import { DETAIL_TIMEOUT } from '@/utils/constants'

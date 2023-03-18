@@ -89,7 +89,7 @@ import { Attribute, Interaction } from '@kodadot1/minimark'
 
 import { onApiConnect } from '@kodadot1/sub-api'
 import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
-import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
+import { BaseTokenType } from '@/components/base/types'
 import {
   getInstanceDeposit,
   getMetadataDeposit,
