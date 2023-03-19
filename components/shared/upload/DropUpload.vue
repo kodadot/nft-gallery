@@ -120,7 +120,6 @@ const mimeType = computed(() => {
 })
 
 const isModelMedia = computed(() => {
-  console.log('mimeType.value', mimeType.value)
   return mimeType.value.startsWith('model')
 })
 
