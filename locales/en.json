@@ -15,6 +15,8 @@
   "account": "Account",
   "accounts": "Accounts",
   "amount": "Amount",
+  "uploaded": "uploaded",
+  "chooseFile": "Choose File",
   "transfer": "Transfer",
   "chart": "Chart",
   "holders": "Holders",
@@ -568,7 +570,6 @@
       "sn_ASC": "Serial Number Ascending",
       "listed": "Buy now",
       "sortBy": "Sort By",
-
       "EMOTES_COUNT_DESC": "Most reacted",
       "BLOCK_NUMBER_DESC": "Recently Created",
       "BLOCK_NUMBER_ASC": "Oldest",
@@ -637,7 +638,9 @@
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
       "create": "Create collection",
-      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
+      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
+      "massmintDrop": "Drop your file here or click to upload.",
+      "formats": "Supported formats:"
     },
     "nft": {
       "name": {
@@ -1162,14 +1165,12 @@
     "qrCode": "QR Code",
     "twitter": "Share on Twitter"
   },
-
   "moreActions": {
     "download": "Download",
     "reportNFT": "Report NFT",
     "delete": "Delete",
     "customize": "Customize"
   },
-
   "collectionCard": {
     "volume": "Volume",
     "items": "Items"
