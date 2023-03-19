@@ -5,7 +5,7 @@ import consola from 'consola'
 async function init() {
   try {
     const response = await fetch(
-      'https://kodadot.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=3'
+      'https://kodadot.substack.com/api/v1/archive?sort=new&search=&offset=0&limit=4'
     )
     const json = await response.json()
     const post = json.map((article) => {
