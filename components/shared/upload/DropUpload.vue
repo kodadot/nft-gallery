@@ -81,7 +81,7 @@ const props = withDefaults(
     icon?: string
     required?: boolean
     preview?: boolean
-    expanded?: string
+    expanded?: boolean
     accept?: string
     format?: string
   }>(),
@@ -91,6 +91,9 @@ const props = withDefaults(
     icon: 'cloud-arrow-up',
     required: false,
     preview: false,
+    expanded: false,
+    accept: '',
+    format: '',
   }
 )
 
