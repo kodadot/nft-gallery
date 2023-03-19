@@ -1,5 +1,9 @@
 <template>
-  <o-collapse class="card" animation="slide" :open="false">
+  <o-collapse
+    class="card"
+    animation="slide"
+    :open="false"
+    content-class="collapse-content">
     <template #trigger="props">
       <div
         class="card-header"
@@ -25,6 +29,6 @@
 import { OCollapse, OIcon } from '@oruga-ui/oruga'
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import './NeoCollapse.scss';
 </style>
