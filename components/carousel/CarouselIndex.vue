@@ -40,8 +40,11 @@ const showCarousel = computed(() => props.nfts.length)
 
 const { width } = useWindowSize()
 const steps = computed(() => {
-  if (width.value > 1280) {
+  if (width.value > 1540) {
     return 6
+  }
+  if (width.value > 1280) {
+    return 5
   }
   if (width.value > 1024) {
     return 4
