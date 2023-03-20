@@ -36,15 +36,14 @@ export type ExecuteTransactionParams = {
   errorMessage?: string
 }
 
-const resolveSuccessMessage = (successMessage, block: string) => {
-  if (typeof successMessage === 'string') {
-    return successMessage
-  }
+const resolveSuccessMessage = (
+  successMessage: string | ((blockNumber) => void),
+  block: string
+) => {
   if (typeof successMessage === 'function') {
     return successMessage(block)
   }
-
-  return 'Success!'
+  return successMessage || 'Success!'
 }
 
 const useExecuteTransaction = () => {
