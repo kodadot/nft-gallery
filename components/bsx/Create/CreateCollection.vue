@@ -124,6 +124,9 @@ export default class CreateCollection extends mixins(
       this.collectionDeposit = (classDeposit + metadataDeposit).toString()
     })
   }
+  get balanceOfToken() {
+    return this.$store.getters.getTokenBalanceOf(this.tokenId)
+  }
 
   public async constructMeta() {
     const { file, name, description } = this.base
@@ -221,7 +224,7 @@ export default class CreateCollection extends mixins(
     // check balance
     if (
       !!this.collectionDeposit &&
-      parseFloat(this.balance) < parseFloat(this.collectionDeposit)
+      parseFloat(this.balanceOfToken) < parseFloat(this.collectionDeposit)
     ) {
       this.balanceNotEnough = true
       return

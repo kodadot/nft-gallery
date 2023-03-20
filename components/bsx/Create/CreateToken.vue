@@ -75,6 +75,7 @@
             :loading="isLoading"
             @click="submit()" />
         </b-field>
+        <div></div>
       </template>
     </BaseTokenForm>
   </div>
@@ -190,6 +191,9 @@ export default class CreateToken extends mixins(
   get hasCarbonOffset() {
     return this.preferencesStore.hasCarbonOffset
   }
+  get balanceOfToken() {
+    return this.$store.getters.getTokenBalanceOf(this.tokenId)
+  }
 
   get balanceNotEnoughMessage() {
     if (this.balanceNotEnough) {
@@ -281,7 +285,10 @@ export default class CreateToken extends mixins(
       return
     }
     // check balance
-    if (!!this.deposit && parseFloat(this.balance) < parseFloat(this.deposit)) {
+    if (
+      !!this.deposit &&
+      parseFloat(this.balanceOfToken) < parseFloat(this.deposit)
+    ) {
       this.balanceNotEnough = true
       return
     }
