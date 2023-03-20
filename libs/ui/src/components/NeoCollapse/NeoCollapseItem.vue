@@ -13,7 +13,7 @@
           <slot name="title" />
         </p>
         <a class="card-header-icon">
-          <o-icon :icon="props.open ? 'caret-up' : 'caret-down'"> </o-icon>
+<o-icon :icon="props.open ? 'chevron-up' : 'chevron-down'"> </o-icon>
         </a>
       </div>
     </template>
