@@ -632,7 +632,8 @@
       "create": "Create collection",
       "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
       "massmintDrop": "Drop your file here or click to upload.",
-      "formats": "Supported formats:"
+      "formats": "Supported formats:",
+      "compressZip": "Compress your Art files into a .ZIP file."
     },
     "nft": {
       "name": {

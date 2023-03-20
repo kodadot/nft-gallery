@@ -8,7 +8,7 @@
             :preview="true"
             :label="$t('mint.collection.massmintDrop')"
             format="BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON"
-            accept="image/*, audio/*"
+            accept="image/*, audio/*, .zip"
             @input="selectedFile" />
         </template>
       </NeoCollapseItem>

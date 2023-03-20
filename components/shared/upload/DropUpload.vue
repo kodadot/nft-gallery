@@ -17,8 +17,13 @@
           @input="createInput">
           <section class="section">
             <div class="content has-text-centered">
-              <div v-if="!file" class="main-label mb-6">
-                <span
+              <div
+                v-if="!file"
+                class="main-label mb-6 is-flex is-flex-direction-column">
+                <span class="mb-4 labels">{{
+                  $t('mint.collection.compressZip')
+                }}</span>
+                <span class="labels"
                   ><b>{{ $t('mint.collection.formats') }}</b> {{ format }}</span
                 >
               </div>
@@ -29,11 +34,7 @@
                 size="is-large"
                 icon-pack="fas" />
               <div v-if="url && !isModelMedia" @click.prevent>
-                <MediaResolver
-                  :src="url"
-                  :mime-type="mimeType"
-                  :preview="false"
-                  @error="hasError = true" />
+                <NeoIcon icon="circle-check" class="check-icon" />
               </div>
               <NeoIcon v-if="hasError" icon="eye-slash" size="is-large" />
 
@@ -157,6 +158,13 @@ const createInput = (file): void | boolean => {
   }
 }
 
+.check-icon {
+  font-size: 42px;
+  @include ktheme() {
+    color: theme('k-green');
+  }
+}
+
 .description {
   @include ktheme() {
     color: theme('k-grey');
@@ -164,7 +172,11 @@ const createInput = (file): void | boolean => {
 }
 
 .main-label {
-  max-width: 500px;
+  max-width: 390px;
+}
+
+.labels {
+  text-align: left;
 }
 
 .button-upload {
