@@ -31,7 +31,3 @@ const selectedFile = (file) => {
   console.log('selected file', file)
 }
 </script>
-
-<style lang="scss" scoped>
-@import './UploadPicture.scss';
-</style>
