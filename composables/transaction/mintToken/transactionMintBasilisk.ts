@@ -25,7 +25,7 @@ export async function execMintBasilisk(
 
   const create = api.tx.nft.mint(collectionId, nextId, metadata)
 
-  const list = price
+  const list = Boolean(Number(price))
     ? [api.tx.marketplace.setPrice(collectionId, nextId, price)]
     : []
 
