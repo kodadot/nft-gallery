@@ -37,8 +37,8 @@ export type ExecuteTransactionParams = {
 }
 
 const resolveSuccessMessage = (
-  successMessage: string | ((blockNumber) => void),
-  block: string
+  block: string,
+  successMessage?: string | ((blockNumber) => void)
 ) => {
   if (typeof successMessage === 'function') {
     return successMessage(block)
@@ -62,7 +62,7 @@ const useExecuteTransaction = () => {
 
     const successCb = (block: string) => {
       blockNumber.value = block
-      const message = resolveSuccessMessage(successMessage, block)
+      const message = resolveSuccessMessage(block, successMessage)
       successNotification(message)
     }
 
