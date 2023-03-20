@@ -180,7 +180,7 @@ import {
   nsfwAttribute,
   offsetAttribute,
   secondaryFileVisible,
-} from '@/components/rmrk/Create/mintUtils'
+} from '@/utils/mintUtils'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import Support from '@/components/shared/Support.vue'
 import collectionList from '@/queries/subsquid/rmrk/usedCollectionSymbolsByAccount.graphql'
