@@ -75,7 +75,6 @@
             :loading="isLoading"
             @click="submit()" />
         </b-field>
-        <div></div>
       </template>
     </BaseTokenForm>
   </div>
