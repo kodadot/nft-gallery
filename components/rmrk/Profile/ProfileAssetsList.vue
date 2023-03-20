@@ -34,10 +34,7 @@ import { showNotification } from '@/utils/notification'
 import { AssetItem, AssetListQueryResponse } from '@/components/bsx/Asset/types'
 import Money from '~/components/shared/format/Money.vue'
 import { calculateExactUsdFromToken } from '~/utils/calculation'
-import formatBalance, {
-  checkInvalidBalanceFilter,
-  roundTo,
-} from '@/utils/format/balance'
+import { checkInvalidBalanceFilter } from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
 
 const { accountId } = useAuth()
