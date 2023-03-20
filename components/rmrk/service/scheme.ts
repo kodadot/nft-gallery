@@ -167,7 +167,7 @@ export interface NFT {
   emoteCount?: number
   emotes?: Emote[]
   royalty?: number
-  meta?: Metadata
+  meta?: NFTMetadata
 }
 
 export type EntityWithId = {
