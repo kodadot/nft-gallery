@@ -60,7 +60,8 @@
           </p>
         </b-field>
         <b-field key="balance">
-          <AccountBalance :token-id="useKSM ? tokenId : undefined" />
+          <AccountBalance
+            :token-id="feesToken === 'KSM' ? tokenId : undefined" />
         </b-field>
         <b-field key="token">
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
@@ -104,10 +105,9 @@ import { unwrapSafe } from '@/utils/uniquery'
 import { Royalty } from '@/utils/royalty'
 import { fetchCollectionMetadata } from '@/utils/ipfs'
 import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
-import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { usePreferencesStore } from '@/stores/preferences'
 import { MintedCollectionBasilisk } from '~~/composables/transaction/types'
-import { useFiatStore } from '@/stores/fiat'
+import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 
 const components = {
   CustomAttributeInput: () =>
@@ -155,7 +155,7 @@ export default class CreateToken extends mixins(
   public price = '0'
   public listed = false
   public hasRoyalty = true
-  public useKSM = false
+  public feesToken: Token = 'BSX'
   public royalty: Royalty = {
     amount: 0.15,
     address: '',
@@ -171,43 +171,11 @@ export default class CreateToken extends mixins(
     this.balanceInput.checkValidity()
   }
 
-  async getFeesToken() {
-    try {
-      const api = await this.useApi()
-      const tokenId = await getAssetIdByAccount(api, this.accountId)
-      if (tokenId === '0') {
-        // use token different from BSX
-        this.useKSM = false
-      } else {
-        this.useKSM = true
-      }
-    } catch (e) {
-      this.$consola.log(e)
-    }
-  }
-
-  private KsmToBsx(KsmValue: number) {
-    const fiatStore = useFiatStore()
-    const KSMToUsd = fiatStore.getCurrentKSMValue
-    const BSXToUsd = fiatStore.getCurrentBSXValue
-    if (KSMToUsd && BSXToUsd) {
-      return KsmValue * (Number(KSMToUsd) / Number(BSXToUsd))
-    } else {
-      return 0
-    }
-  }
-
   get balanceOfToken() {
-    return parseFloat(
-      this.useKSM
-        ? this.$store.getters.getTokenBalanceOf(this.tokenId)
-        : this.balance
-    )
+    return getBalance(this.feesToken)
   }
   get depositOfToken() {
-    return this.useKSM
-      ? parseFloat(this.deposit)
-      : this.KsmToBsx(parseFloat(this.deposit))
+    return getDeposit(this.feesToken, parseFloat(this.deposit))
   }
 
   get balanceNotEnoughMessage() {
@@ -234,10 +202,10 @@ export default class CreateToken extends mixins(
   }
 
   @Watch('accountId', { immediate: true })
-  hasAccount(value: string, oldVal: string) {
+  async hasAccount(value: string, oldVal: string) {
     if (shouldUpdate(value, oldVal)) {
       this.fetchCollections()
-      this.fetchCurrency()
+      this.feesToken = await getFeesToken()
     }
   }
 
