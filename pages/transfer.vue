@@ -307,6 +307,11 @@ export default class Transfer extends mixins(
 
     if (query.usdamount) {
       this.usdValue = Number(query.usdamount)
+
+      this.price = calculateKsmFromUsd(
+        Number(this.fiatStore.getCurrentKSMValue),
+        this.usdValue
+      )
     }
   }
 
