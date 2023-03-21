@@ -1,4 +1,4 @@
-import { RMRK2Resources } from '@/composables/useNft'
+import { ItemResources } from '@/composables/useNft'
 
 export type BaseMintedCollection = {
   id: string
@@ -16,7 +16,7 @@ export type BaseTokenType<T = BaseMintedCollection> = {
   secondFile: File | null
 }
 
-export interface CarouselNFT extends RMRK2Resources {
+export interface CarouselNFT extends ItemResources {
   currentOwner: string
   id: string
   image: string

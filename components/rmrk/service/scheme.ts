@@ -1,6 +1,6 @@
 import { Attribute, CreatedNFT } from '@kodadot1/minimark'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { RMRK2Resources } from '@/composables/useNft'
+import { ItemResources } from '@/composables/useNft'
 
 export interface CompletePack extends BasePack {
   collections: Collection[]
@@ -56,7 +56,7 @@ export interface Metadata {
   type?: string
 }
 
-export interface NFTMetadata extends Metadata, RMRK2Resources {
+export interface NFTMetadata extends Metadata, ItemResources {
   name: string
   mediaUri?: string
   background_color?: string
@@ -149,7 +149,7 @@ export interface Collection {
   blockNumber?: number
 }
 
-export interface NFT extends RMRK2Resources {
+export interface NFT extends ItemResources {
   events: Interaction[]
   name: string
   instance: string

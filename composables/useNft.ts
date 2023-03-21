@@ -2,7 +2,7 @@ import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 
-export type RMRK2Resources = {
+export type ItemResources = {
   mediaUri?: string
   resources?: {
     src?: string
@@ -11,7 +11,7 @@ export type RMRK2Resources = {
 }
 
 export type NFTWithMetadata = NFT &
-  NFTMetadata & { meta: NFTMetadata } & RMRK2Resources
+  NFTMetadata & { meta: NFTMetadata } & ItemResources
 
 function getGeneralMetadata(nft: NFTWithMetadata) {
   return {
