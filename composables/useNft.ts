@@ -16,7 +16,7 @@ export type NFTWithMetadata = NFT &
 function getGeneralMetadata(nft: NFTWithMetadata) {
   return {
     ...nft,
-    name: nft.name || nft.id,
+    name: nft.name || nft.meta.name || nft.id,
     image: sanitizeIpfsUrl(nft.meta.image),
     animation_url: sanitizeIpfsUrl(nft.meta.animation_url || ''),
     type: nft.meta.type || '',

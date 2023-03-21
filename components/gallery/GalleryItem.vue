@@ -20,7 +20,7 @@
           :src="nftImage"
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
-          :title="nft?.name || nft?.id"
+          :title="nftMetadata?.name"
           is-detail
           :original="isMobile && true" />
       </div>
@@ -32,7 +32,7 @@
             <div class="is-flex is-justify-content-space-between">
               <div class="name-container">
                 <h1 class="title" data-cy="item-title">
-                  {{ nft?.name || nft?.id }}
+                  {{ nftMetadata?.name }}
                 </h1>
                 <h2 class="subtitle" data-cy="item-collection">
                   <CollectionDetailsPopover
