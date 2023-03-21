@@ -1,6 +1,9 @@
 import { Interaction } from '@kodadot1/minimark'
 
-import { dangerMessage, infoMessage } from '@/utils/notification'
+import {
+  dangerMessage,
+  successMessage as successNotification,
+} from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { execBuyTx } from './transaction/transactionBuy'
 import { execListTx } from './transaction/transactionList'
@@ -9,44 +12,77 @@ import { execBurnTx } from './transaction/transactionBurn'
 import { execMakeOfferTx } from './transaction/transactionOffer'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
+import { execMintToken } from './transaction/transactionMintToken'
+import { Extrinsic } from '@/utils/transactionExecutor'
 
 import type {
   ActionAcceptOffer,
   ActionBuy,
   ActionConsume,
   ActionList,
+  ActionMintCollection,
+  ActionMintToken,
   ActionOffer,
   ActionSend,
   ActionWithdrawOffer,
   Actions,
 } from './transaction/types'
+import { execMintCollection } from './transaction/transactionMintCollection'
+
+export type ExecuteTransactionParams = {
+  cb: (...params: any[]) => Extrinsic
+  arg: any[]
+  successMessage?: string | ((blockNumber: string) => string)
+  errorMessage?: string
+}
+
+const resolveSuccessMessage = (
+  block: string,
+  successMessage?: string | ((blockNumber) => void)
+) => {
+  if (typeof successMessage === 'function') {
+    return successMessage(block)
+  }
+  return successMessage || 'Success!'
+}
 
 const useExecuteTransaction = () => {
   const { accountId } = useAuth()
   const { howAboutToExecute, isLoading, status, initTransactionLoader } =
     useMetaTransaction()
+  const blockNumber = ref<string>()
 
-  const executeTransaction = ({ cb, arg, successMessage, errorMessage }) => {
+  const executeTransaction = ({
+    cb,
+    arg,
+    successMessage,
+    errorMessage,
+  }: ExecuteTransactionParams) => {
     initTransactionLoader()
-    howAboutToExecute(
-      accountId.value,
-      cb,
-      arg,
-      () => infoMessage(successMessage || 'Success!'),
-      () => dangerMessage(errorMessage || 'Failed!')
-    )
+
+    const successCb = (block: string) => {
+      blockNumber.value = block
+      const message = resolveSuccessMessage(block, successMessage)
+      successNotification(message)
+    }
+
+    const errorCb = () => dangerMessage(errorMessage || 'Failed!')
+
+    howAboutToExecute(accountId.value, cb, arg, successCb, errorCb)
   }
 
   return {
     isLoading,
     status,
     executeTransaction,
+    blockNumber,
   }
 }
 
 export const useTransaction = () => {
   const { apiInstance } = useApi()
-  const { isLoading, status, executeTransaction } = useExecuteTransaction()
+  const { isLoading, status, executeTransaction, blockNumber } =
+    useExecuteTransaction()
 
   const transaction = async (item: Actions) => {
     const api = await apiInstance.value
@@ -69,6 +105,14 @@ export const useTransaction = () => {
         ),
       [ShoppingActions.ACCEPT_OFFER]: () =>
         execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
+      [ShoppingActions.MINTNFT]: () =>
+        execMintToken(item as ActionMintToken, api, executeTransaction),
+      [ShoppingActions.MINT]: () =>
+        execMintCollection(
+          item as ActionMintCollection,
+          api,
+          executeTransaction
+        ),
     }
 
     return map[item.interaction]?.() ?? 'UNKNOWN'
@@ -78,5 +122,6 @@ export const useTransaction = () => {
     isLoading,
     status,
     transaction,
+    blockNumber,
   }
 }

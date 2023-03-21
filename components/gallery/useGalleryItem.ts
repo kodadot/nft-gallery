@@ -72,6 +72,7 @@ export const useGalleryItem = () => {
     }
 
     nft.value = nftEntity
+    nft.value.name = nft.value.name || (nftEntity.meta?.name as string)
     nftMetadata.value = await $fetch(sanitizeIpfsUrl(nftEntity.metadata))
     nftMimeType.value = await whichMimeType(nftMetadata.value)
 

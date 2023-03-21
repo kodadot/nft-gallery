@@ -30,4 +30,8 @@ const open = computed(() => preferencesStore.getsidebarFilterCollapse)
   height: calc(100vh - 84px);
   margin-right: 32px;
 }
+
+.o-side {
+  position: relative;
+}
 </style>
