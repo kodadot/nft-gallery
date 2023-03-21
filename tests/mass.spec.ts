@@ -4,7 +4,7 @@ import {
   processMatchAllSyntax,
   processRangeSyntax,
   replaceIndex,
-} from '@/components/rmrk/Create/mintUtils'
+} from '@/utils/mintUtils'
 
 describe.skip('MASS MINT TEST', () => {
   it('should replaceIndex correctly', () => {

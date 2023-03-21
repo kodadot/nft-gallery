@@ -54,6 +54,8 @@ export const infiniteNotif = (message: string) => {
 
 export const infoMessage = (msg) =>
   showNotification(`[INFO] ${msg}`, notificationTypes.info)
+export const successMessage = (msg) =>
+  showNotification(`[SUCCESS] ${msg}`, notificationTypes.success)
 export const warningMessage = (msg) =>
   showNotification(`[WARN] ${msg}`, notificationTypes.warn)
 export const dangerMessage = (msg) =>
