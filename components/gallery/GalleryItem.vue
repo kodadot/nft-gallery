@@ -158,14 +158,14 @@ onMounted(() => {
   })
 })
 
-const title = computed(() => nft.value?.name)
+const title = computed(() => nftMetadata.value?.name || '')
 const meta = computed(() => {
   return [
     ...$seoMeta({
       title: title.value,
       description: nftMetadata.value?.description,
       image: generateNftImage(
-        nft.value?.name || '',
+        title.value,
         formatBalanceEmptyOnZero(nft.value?.price as string),
         sanitizeIpfsUrl(nftImage.value || ''),
         nftMimeType.value
