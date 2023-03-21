@@ -171,7 +171,11 @@ export default class CreateToken extends mixins(
   }
 
   get hasCarbonOffset() {
-    return this.preferencesStore.hasCarbonOffset
+    return this.preferencesStore.getHasCarbonOffset
+  }
+
+  set hasCarbonOffset(value: boolean) {
+    this.preferencesStore.setHasCarbonOffset(value)
   }
 
   get balanceNotEnoughMessage() {

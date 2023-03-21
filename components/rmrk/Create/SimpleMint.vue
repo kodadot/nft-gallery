@@ -393,12 +393,12 @@ export default class SimpleMint extends mixins(
     return this.preferencesStore.hasSupport
   }
 
-  get hasCarbonOffset(): boolean {
-    return this.preferencesStore.hasCarbonOffset
+  get hasCarbonOffset() {
+    return this.preferencesStore.getHasCarbonOffset
   }
 
-  get arweaveUpload(): boolean {
-    return this.preferencesStore.arweaveUpload
+  set hasCarbonOffset(value: boolean) {
+    this.preferencesStore.setHasCarbonOffset(value)
   }
 
   public checkValidity() {
