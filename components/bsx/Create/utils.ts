@@ -12,7 +12,7 @@ export const ksmToBsx = (value: number): number => {
   const fiatStore = useFiatStore()
   const KSMToUsd = fiatStore.getCurrentKSMValue
   const BSXToUsd = fiatStore.getCurrentBSXValue
-  return KsmValue * (Number(KSMToUsd) / Number(BSXToUsd))
+  return value * (Number(KSMToUsd) / Number(BSXToUsd))
 }
 
 export const getBalance = (token?: Token): number => {
