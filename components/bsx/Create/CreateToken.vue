@@ -75,7 +75,6 @@
 </template>
 
 <script lang="ts">
-import { offsetAttribute } from '@/utils/mintUtils'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
