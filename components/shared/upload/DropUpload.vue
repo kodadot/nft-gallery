@@ -94,17 +94,18 @@ const props = withDefaults(
     preview: false,
     expanded: false,
     accept: '',
-    format: '',
+    format:
+      'BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON',
   }
 )
 
 const file: any = ref(null)
 const url = ref('')
+let hasError = ref(false)
+let checkFailed = ref(false)
+let fileSizeFailed = ref(false)
 
 const fileSizeLimit = MAX_UPLOADED_FILE_SIZE
-let hasError = false
-let checkFailed = false
-let fileSizeFailed = false
 
 const emit = defineEmits(['input'])
 
@@ -130,12 +131,12 @@ const isModelMedia = computed(() => {
 const createInput = (file): void | boolean => {
   const fileSize = file.size / Math.pow(1024, 2)
   if (fileSize > fileSizeLimit) {
-    fileSizeFailed = true
+    fileSizeFailed.value = true
     file = null
     return false
   }
-  fileSizeFailed = false
-  checkFailed = false
+  fileSizeFailed.value = false
+  checkFailed.value = false
   const reader = new FileReader()
   reader.onload = () => {
     // onload
@@ -143,7 +144,7 @@ const createInput = (file): void | boolean => {
   emit('input', file)
   if (props.preview) {
     url.value = URL.createObjectURL(file)
-    hasError = false
+    hasError.value = false
   }
 
   reader.readAsText(file)

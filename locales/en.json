@@ -1283,7 +1283,9 @@
           "content": "In order to use the Mass Mint feature **you need to have an NFT collection created**\nto which you will mint all of your NFTs.\n\nIf you don’t have a collection created yet, you will be able to create one in the Miss Mint."
         }
       }
-    }
+    },
+    "uploadPics": "Upload Pictures",
+    "uploadDesc": "Upload Description File (Optional)"
   },
   "filters": {
     "buy": "Buy",

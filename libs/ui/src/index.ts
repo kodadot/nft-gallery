@@ -19,6 +19,6 @@ export { default as NeoTab } from './components/NeoTab/NeoTab'
 export { default as NeoTabItem } from './components/NeoTab/NeoTabItem'
 export { default as NeoIcon } from './components/NeoIcon/NeoIcon'
 export { default as NeoCollapse } from './components/NeoCollapse/NeoCollapse'
-export { default as NeoCollapseItem } from './components/NeoCollapse/NeoCollapseItem'
+export { default as NeoCollapseStack } from './components/NeoCollapse/NeoCollapseStack'
 
 export { default as Neo } from '@oruga-ui/oruga'
