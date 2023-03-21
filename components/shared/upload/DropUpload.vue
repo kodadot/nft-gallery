@@ -20,10 +20,10 @@
               <div
                 v-if="!file"
                 class="main-label mb-6 is-flex is-flex-direction-column">
-                <span class="mb-4 labels">{{
+                <span class="mb-4 has-text-left">{{
                   $t('mint.collection.compressZip')
                 }}</span>
-                <span class="labels"
+                <span class="has-text-left"
                   ><b>{{ $t('mint.collection.formats') }}</b> {{ format }}</span
                 >
               </div>
@@ -80,7 +80,6 @@ const props = withDefaults(
   defineProps<{
     label?: string
     icon?: string
-    required?: boolean
     preview?: boolean
     expanded?: boolean
     accept?: string
@@ -90,7 +89,6 @@ const props = withDefaults(
     label:
       'Drop your NFT here or click to upload or simply paste image from clipboard',
     icon: 'cloud-arrow-up',
-    required: false,
     preview: false,
     expanded: false,
     accept: '',
@@ -132,15 +130,13 @@ const createInput = (file): void | boolean => {
   const fileSize = file.size / Math.pow(1024, 2)
   if (fileSize > fileSizeLimit) {
     fileSizeFailed.value = true
-    file = null
+    file.value = null
     return false
   }
   fileSizeFailed.value = false
   checkFailed.value = false
   const reader = new FileReader()
-  reader.onload = () => {
-    // onload
-  }
+
   emit('input', file)
   if (props.preview) {
     url.value = URL.createObjectURL(file)

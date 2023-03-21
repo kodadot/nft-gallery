@@ -10,10 +10,11 @@
         role="button"
         :class="{ 'active-collpase': props.open }">
         <p
-          class="card-header-title is-flex is-justify-content-center is-align-items-center">
+          class="card-header-title is-flex is-justify-content-center is-align-items-center is-flex-grow-1">
           <slot name="title" />
         </p>
-        <a class="card-header-icon">
+        <a
+          class="card-header-icon is-flex is-justify-content-center is-align-items-center">
           <o-icon :icon="props.open ? 'chevron-up' : 'chevron-down'"> </o-icon>
         </a>
       </div>
