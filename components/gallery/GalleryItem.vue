@@ -203,18 +203,13 @@ useNuxt2Meta({
   }
 }
 
-@media screen and (max-width: 930px) {
+@media screen and (min-width: 769px) and (max-width: 930px) {
   .columns {
     display: inherit;
     & > .column {
       width: 100%;
     }
   }
-}
-
-.gallery-item-media image {
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .h-audio {
