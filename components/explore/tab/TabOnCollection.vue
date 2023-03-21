@@ -12,8 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import TabItem from './TabItem.vue'
-
 const route = useRoute()
 
 const toItem = `/${route.params.prefix}/collection/${route.params.id}?redesign=true`
