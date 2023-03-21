@@ -101,7 +101,6 @@ import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { usePreferencesStore } from '@/stores/preferences'
 import { MintedCollectionBasilisk } from '~~/composables/transaction/types'
 import { Token, getBalance, getDeposit, getFeesToken } from './utils'
-import { offsetAttribute } from '@/utils/mintUtils'
 
 const components = {
   CustomAttributeInput: () =>
@@ -177,14 +176,6 @@ export default class CreateToken extends mixins(
       return this.$t('tooltip.notEnoughBalance')
     }
     return ''
-  }
-
-  get hasCarbonOffset() {
-    return this.preferencesStore.hasCarbonOffset
-  }
-
-  get carbonLessAttribute(): Attribute[] {
-    return offsetAttribute(this.hasCarbonOffset)
   }
 
   public async created() {
