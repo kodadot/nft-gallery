@@ -19,15 +19,9 @@
           :prefix="urlPrefix"
           class="mb-3" />
 
-        <BasicSwitch
-          key="hasCarbonOffset"
-          v-model="hasCarbonOffset"
-          label="carbonOffset.carbonOffsetSwitch" />
-
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
             v-model="attributes"
-            :prefix-attributes="carbonLessAttribute"
             :max="10"
             class="mb-3"
             visible="collapse.collection.attributes.show"
@@ -170,14 +164,6 @@ export default class CreateToken extends mixins(
     this.balanceInput.checkValidity()
   }
 
-  get hasCarbonOffset() {
-    return this.preferencesStore.getHasCarbonOffset
-  }
-
-  set hasCarbonOffset(value: boolean) {
-    this.preferencesStore.setHasCarbonOffset(value)
-  }
-
   get balanceNotEnoughMessage() {
     if (this.balanceNotEnough) {
       return this.$t('tooltip.notEnoughBalance')
@@ -247,10 +233,6 @@ export default class CreateToken extends mixins(
 
   get tokenId() {
     return getKusamaAssetId(this.urlPrefix)
-  }
-
-  get carbonLessAttribute(): Attribute[] {
-    return offsetAttribute(this.hasCarbonOffset)
   }
 
   public checkValidity() {
