@@ -170,7 +170,6 @@ import { useFiatStore } from '@/stores/fiat'
 
 import { getExplorer, hasExplorer } from '@/components/rmrk/Profile/utils'
 import { emptyObject } from '@kodadot1/minimark'
-import shouldUpdate from '@/utils/shouldUpdate'
 
 type Target = 'target' | `target${number}`
 type TargetMap = Record<Target, string>
@@ -253,8 +252,7 @@ export default class Transfer extends mixins(
   }
 
   protected created() {
-    this.fiatStore.fetchFiatPrice()
-    this.checkQueryParams()
+    this.fiatStore.fetchFiatPrice().then(this.checkQueryParams)
     onApiConnect(this.apiUrl, async (api) => {
       this.$store.commit('setApiConnected', api.isConnected)
     })
@@ -461,13 +459,6 @@ export default class Transfer extends mixins(
       )
     this.targets = targets
     this.$router.replace({ query: { ...targets, usdamount } }).catch(() => null) // null to further not throw navigation errors
-  }
-
-  @Watch('fiatStore.getCurrentKSMValue')
-  onKusamaValueChange(value: any, oldValue: any): void {
-    if (shouldUpdate(value, oldValue)) {
-      this.onUSDFieldChange()
-    }
   }
 
   @Watch('usdValue')
