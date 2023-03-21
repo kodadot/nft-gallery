@@ -169,6 +169,10 @@ import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { useFiatStore } from '@/stores/fiat'
 
 import { getExplorer, hasExplorer } from '@/components/rmrk/Profile/utils'
+import { emptyObject } from '@kodadot1/minimark'
+
+type Target = 'target' | `target${number}`
+type TargetMap = Record<Target, string>
 
 @Component({
   components: {
@@ -194,7 +198,7 @@ export default class Transfer extends mixins(
   protected transactionValue = ''
   protected price = 0
   protected usdValue = 0
-  protected targets = {}
+  protected targets = emptyObject<TargetMap>()
 
   layout() {
     return 'centered-half-layout'
@@ -457,7 +461,7 @@ export default class Transfer extends mixins(
           ...object,
           [`target${i == 0 ? '' : i}`]: address,
         }),
-        {}
+        {} as TargetMap
       )
     this.targets = targets
     this.$router.replace({ query: { ...targets, usdamount } }).catch(() => null) // null to further not throw navigation errors
