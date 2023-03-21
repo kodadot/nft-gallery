@@ -8,7 +8,7 @@ const tokenToTokenId: { [K in Token]: string } = {
   KSM: '1',
 }
 
-export const ksmToBsx = (KsmValue: number): number => {
+export const ksmToBsx = (value: number): number => {
   const fiatStore = useFiatStore()
   const KSMToUsd = fiatStore.getCurrentKSMValue
   const BSXToUsd = fiatStore.getCurrentBSXValue
