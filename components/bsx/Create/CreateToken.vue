@@ -19,15 +19,9 @@
           :prefix="urlPrefix"
           class="mb-3" />
 
-        <BasicSwitch
-          key="hasCarbonOffset"
-          v-model="hasCarbonOffset"
-          label="carbonOffset.carbonOffsetSwitch" />
-
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
             v-model="attributes"
-            :prefix-attributes="carbonLessAttribute"
             :max="10"
             class="mb-3"
             visible="collapse.collection.attributes.show"
@@ -82,7 +76,6 @@
 </template>
 
 <script lang="ts">
-import { offsetAttribute } from '@/utils/mintUtils'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
