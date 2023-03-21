@@ -28,7 +28,7 @@ function getRmrk2Resources(nft: NFTWithMetadata) {
   const src = nft.resources && nft.resources[0].src
 
   return {
-    ...nft,
+    ...getGeneralMetadata(nft),
     image: sanitizeIpfsUrl(thumb || src || ''),
   }
 }
