@@ -72,8 +72,8 @@ export default class Minting extends Vue {
     this.preferencesStore.setHasSupport(value)
   }
 
-  get hasCarbonOffset(): boolean {
-    return this.preferencesStore.hasCarbonOffset
+  get hasCarbonOffset() {
+    return this.preferencesStore.getHasCarbonOffset
   }
 
   set hasCarbonOffset(value: boolean) {
