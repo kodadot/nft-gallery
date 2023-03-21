@@ -1,6 +1,6 @@
-import { MassMintNFT } from '../service/scheme'
-import { MediaType } from '../types'
-import { resolveMedia } from '../utils'
+import { MassMintNFT } from '@/components/rmrk/service/scheme'
+import { MediaType } from '@/components/rmrk/types'
+import { resolveMedia } from '@/components/rmrk/utils'
 import { Attribute } from '@kodadot1/minimark'
 import consola from 'consola'
 type Range = [number, number]
@@ -73,8 +73,8 @@ function toMassMint(mints: string[][]) {
 }
 
 export const isRangeSyntax = (text: string): boolean => {
-  const r = /^\d+-\d*\n/
-  return r.test(text)
+  const regex = /^\d+-\d*\n/
+  return regex.test(text)
 }
 
 export function between(
@@ -89,19 +89,19 @@ export function isMatchAll(text: string): boolean {
   return /^\.\.\.\n/.test(text)
 }
 
+const hasIndex = (line: string) => {
+  const regex = /{i}/
+  return regex.test(line)
+}
+
 export const replaceIndex = (
   line: string,
   replaceWith: string | number
 ): string => (hasIndex(line) ? line.replace(/{i}/g, String(replaceWith)) : line)
 
-const hasIndex = (line: string) => {
-  const r = /{i}/
-  return r.test(line)
-}
-
 export const skipProcess = (line: string): boolean => {
-  const r = /^-/
-  return r.test(line)
+  const regex = /^-/
+  return regex.test(line)
 }
 
 const correctText = (original: string, parsed: string): string => {
@@ -113,8 +113,8 @@ const correctText = (original: string, parsed: string): string => {
 }
 
 export function toRange(line: string): Range | null {
-  const r = /^(\d+)-(\d*)\n?$/
-  const match = r.exec(line)
+  const regex = /^(\d+)-(\d*)\n?$/
+  const match = regex.exec(line)
   if (!match) {
     return null
   }
