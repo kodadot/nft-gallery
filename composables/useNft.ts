@@ -17,6 +17,7 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
   return {
     ...nft,
     name: nft.name || nft.meta.name || nft.id,
+    description: nft.description || nft.meta.description || '',
     image: sanitizeIpfsUrl(nft.meta.image),
     animation_url: sanitizeIpfsUrl(nft.meta.animation_url || ''),
     type: nft.meta.type || '',
@@ -43,6 +44,7 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
   return {
     ...nft,
     name: nft.name || metadata.name || nft.id,
+    description: nft.description || metadata.description || '',
     image,
     animation_url,
     type: metadata.type || '',
