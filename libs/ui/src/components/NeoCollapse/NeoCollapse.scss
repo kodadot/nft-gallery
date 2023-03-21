@@ -40,24 +40,12 @@
 
   .card-header {
     border-radius: 0;
-    background-color: transparent;
-    align-items: stretch;
-    display: flex;
   }
 
   .card-header-title {
-    flex-grow: 1;
     font-weight: 700;
     padding: 0.75rem;
     margin: 0;
-  }
-
-  .card-header-icon {
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-    padding: 0.75rem;
-    justify-content: center;
   }
 
   .card-content {
