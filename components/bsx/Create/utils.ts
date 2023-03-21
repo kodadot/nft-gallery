@@ -3,6 +3,11 @@ import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 
 export type Token = 'BSX' | 'KSM'
 
+const tokenToTokenId: { [K in Token]: string } = {
+  BSX: '0',
+  KSM: '1',
+}
+
 export const ksmToBsx = (KsmValue: number): number => {
   const fiatStore = useFiatStore()
   const KSMToUsd = fiatStore.getCurrentKSMValue
@@ -15,7 +20,7 @@ export const getBalance = (token?: Token): number => {
   const { $store } = useNuxtApp()
 
   if (token === 'KSM') {
-    return $store.getters.getTokenBalanceOf('1')
+    return $store.getters.getTokenBalanceOf(tokenToTokenId['KSM'])
   }
   return balance.value
 }
@@ -31,7 +36,7 @@ export const getFeesToken = async (): Promise<Token> => {
   try {
     const api = await apiInstance.value
     const tokenId = await getAssetIdByAccount(api, accountId.value)
-    return tokenId === '0' ? 'BSX' : 'KSM'
+    return tokenId === tokenToTokenId['BSX'] ? 'BSX' : 'KSM'
   } catch (e) {
     $consola.log(e)
     return 'BSX'
