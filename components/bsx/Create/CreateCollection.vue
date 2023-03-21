@@ -20,7 +20,7 @@
           </p>
         </b-field>
         <b-field>
-          <AccountBalance :token-id="tokenId" />
+          <AccountBalance :token-id="useKSM ? tokenId : undefined" />
         </b-field>
         <b-field>
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
@@ -53,12 +53,14 @@ import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { estimate } from '@/utils/transactionExecutor'
 import { Interaction } from '@kodadot1/minimark'
-import { Component, Ref, mixins } from 'nuxt-property-decorator'
+import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
 import { dummyIpfsCid } from '@/utils/ipfs'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
+import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { createArgs } from '@/composables/transaction/mintCollection/utils'
 import { BaseCollectionType } from '@/composables/transaction/types'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { useFiatStore } from '@/stores/fiat'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -89,6 +91,7 @@ export default class CreateCollection extends mixins(
   protected id = '0'
   protected attributes: Attribute[] = []
   protected balanceNotEnough = false
+  protected useKSM = false
   @Ref('collectionForm') readonly collectionForm
 
   public checkValidity() {
@@ -101,6 +104,38 @@ export default class CreateCollection extends mixins(
     }
     return ''
   }
+  async getFeesToken() {
+    try {
+      const api = await this.useApi()
+      const tokenId = await getAssetIdByAccount(api, this.accountId)
+      if (tokenId === '0') {
+        // use token different from BSX
+        this.useKSM = false
+      } else {
+        this.useKSM = true
+      }
+    } catch (e) {
+      this.$consola.log(e)
+    }
+  }
+
+  @Watch('accountId', { immediate: true })
+  onAccountIdChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.getFeesToken()
+    }
+  }
+
+  KsmToBsx(KsmValue: number) {
+    const fiatStore = useFiatStore()
+    const KSMToUsd = fiatStore.getCurrentKSMValue
+    const BSXToUsd = fiatStore.getCurrentBSXValue
+    if (KSMToUsd && BSXToUsd) {
+      return KsmValue * (Number(KSMToUsd) / Number(BSXToUsd))
+    } else {
+      return 0
+    }
+  }
 
   public async created() {
     onApiConnect(this.apiUrl, (api) => {
@@ -110,11 +145,17 @@ export default class CreateCollection extends mixins(
     })
   }
   get balanceOfToken() {
-    return this.$store.getters.getTokenBalanceOf(this.tokenId)
+    return parseFloat(
+      this.useKSM
+        ? this.$store.getters.getTokenBalanceOf(this.tokenId)
+        : this.balance
+    )
   }
 
-  get tokenId() {
-    return getKusamaAssetId(this.urlPrefix)
+  get depositOfToken() {
+    return this.useKSM
+      ? parseFloat(this.collectionDeposit)
+      : this.KsmToBsx(parseFloat(this.collectionDeposit))
   }
 
   protected async tryToEstimateTx(): Promise<string> {
@@ -148,10 +189,7 @@ export default class CreateCollection extends mixins(
       return
     }
     // check balance
-    if (
-      !!this.collectionDeposit &&
-      parseFloat(this.balanceOfToken) < parseFloat(this.collectionDeposit)
-    ) {
+    if (!!this.collectionDeposit && this.balanceOfToken < this.depositOfToken) {
       this.balanceNotEnough = true
       return
     }
