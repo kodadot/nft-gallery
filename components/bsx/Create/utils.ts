@@ -39,6 +39,7 @@ export const getFeesToken = async (): Promise<Token> => {
     return tokenId === tokenToTokenId['BSX'] ? 'BSX' : 'KSM'
   } catch (e) {
     $consola.log(e)
-    return 'BSX'
   }
+
+  return 'BSX'
 }
