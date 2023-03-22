@@ -20,35 +20,6 @@ labels:
 # A workflow is a list of actions that will be executed based on the defined rules.
 # For more details see https://docs.reviewpad.com/guides/syntax#workflow.
 workflows:
-  # This workflow praises contributors on their pull request contributions.
-  # This helps contributors feel appreciated.
-  - name: praise-contributors-on-milestones
-    description: Praise contributors based on their contributions
-    always-run: true
-    if:
-      # Praise contributors on their first pull request.
-      - rule: $pullRequestCountBy($author()) == 1
-        extra-actions:
-          - $commentOnce($sprintf("Thank you @%s for this first contribution!", [$author()]))
-      # Praise contributors on their 100th pull request.
-      - rule: $pullRequestCountBy($author()) == 100
-        extra-actions:
-          - $commentOnce($sprintf("Way to go 🎉 This is your 100th pull request!", [$author()]))
-
-  # This workflow validates that pull requests follow the conventional commits specification.
-  # This helps developers automatically generate changelogs.
-  # For more details, see https://www.conventionalcommits.org/en/v1.0.0/.
-  - name: check-conventional-commits
-    description: Validate that pull requests follow the conventional commits
-    always-run: true
-    if:
-      - rule: $isDraft() == false
-    then:
-      # Check commits messages against the conventional commits specification
-      - $commitLint()
-      # Check pull request title against the conventional commits specification.
-      - $titleLint()
-
   # This workflow validates best practices for pull request management.
   # This helps developers follow best practices.
   - name: best-practices
@@ -86,17 +57,6 @@ workflows:
         extra-actions:
           - $removeLabels(["small", "medium"])
           - $addLabel("large")
-
-  # This workflow assigns a random reviewer to pull requests.
-  # This helps guarantee that most pull requests are reviewed by at least one person.
-  - name: reviewer-assignment
-    description: Assign a reviewer to pull requests
-    always-run: true
-    if:
-      # Automatically assign a random reviewer when the pull request is ready for review;
-      - rule: $isDraft() == false
-        extra-actions:
-          - $assignRandomReviewer()
 
   # This workflow signals pull requests waiting for reviews.
   # This helps guarantee that pull requests are reviewed and approved by at least one person.
