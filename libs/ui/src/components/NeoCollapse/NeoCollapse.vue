@@ -33,4 +33,10 @@ import { OCollapse, OIcon } from '@oruga-ui/oruga'
 
 <style lang="scss">
 @import './NeoCollapse.scss';
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: inherit;
+}
 </style>
