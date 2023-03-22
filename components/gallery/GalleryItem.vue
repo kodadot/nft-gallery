@@ -9,7 +9,10 @@
       :title="$t('mint.success')"
       :subtitle="$t('mint.successNewNfts')" />
     <div class="columns is-variable is-6">
-      <div class="column is-two-fifths">
+      <div class="column is-two-fifths is-relative">
+        <a class="fullscreen-button" @click="isFullscreen = true">
+          <NeoIcon icon="expand" />
+        </a>
         <MediaItem
           :key="nftImage"
           :class="{
@@ -96,11 +99,39 @@
       data-cy="carousel-related" />
 
     <CarouselTypeVisited class="mt-6" />
+
+    <b-modal
+      v-model="isFullscreen"
+      :destroy-on-hide="false"
+      :can-cancel="false"
+      full-screen
+      custom-class="gallery-item-modal"
+      custom-content-class="gallery-item-modal-content">
+      <NeoButton class="back-button" @click.native="isFullscreen = false">
+        <NeoIcon icon="chevron-left" />
+        {{ $i18n.t('go back') }}
+      </NeoButton>
+
+      <div class="gallery-item-modal-container">
+        <MediaItem
+          :key="nftImage"
+          :class="{
+            'is-flex is-align-items-center is-justify-content-center h-audio':
+              resolveMedia(nftMimeType) == MediaType.AUDIO,
+          }"
+          class="gallery-item-media"
+          :src="nftImage"
+          :animation-src="nftAnimation"
+          :mime-type="nftMimeType"
+          :title="nft?.name || nft?.id"
+          original />
+      </div>
+    </b-modal>
   </section>
 </template>
 
 <script setup lang="ts">
-import { IdentityItem, MediaItem } from '@kodadot1/brick'
+import { IdentityItem, MediaItem, NeoButton, NeoIcon } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 
@@ -133,6 +164,8 @@ const tabs = {
 }
 const activeTab = ref(tabs.offers)
 const showCongratsMessage = ref(false)
+
+const isFullscreen = ref(false)
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity
@@ -184,6 +217,8 @@ useNuxt2Meta({
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+$break-point-width: 930px;
 .title {
   font-size: 2.4375em;
 }
@@ -203,12 +238,73 @@ useNuxt2Meta({
   }
 }
 
-@media screen and (min-width: 769px) and (max-width: 930px) {
+@media screen and (min-width: 769px) and (max-width: $break-point-width) {
   .columns {
     display: inherit;
     & > .column {
       width: 100%;
     }
+  }
+}
+
+.fullscreen-button {
+  position: absolute;
+  right: 2.75rem;
+  top: 2rem;
+  z-index: 1;
+  display: none;
+  @include ktheme() {
+    color: theme('text-color-inverse');
+    background: theme('background-color-inverse');
+    padding: 0 0.3rem;
+    opacity: 0.6;
+  }
+}
+
+.column:hover .fullscreen-button {
+  display: block;
+}
+
+.gallery-item-modal {
+  :deep &-content {
+    height: calc(100% - $navbar-min-height + 1px) !important;
+    margin-top: calc($navbar-min-height - 1px) !important;
+    border: none !important;
+  }
+  :deep {
+    figure,
+    img {
+      height: 100%;
+      width: 100%;
+    }
+    img {
+      object-fit: contain;
+    }
+  }
+  .back-button {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    z-index: 99;
+  }
+  &-container {
+    @include ktheme() {
+      background-color: theme('background-color');
+    }
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    .media-object {
+      height: 100%;
+      box-shadow: none;
+      border: none;
+    }
+  }
+}
+
+@media screen and (max-width: $break-point-width) {
+  .fullscreen-button {
+    display: block;
   }
 }
 
