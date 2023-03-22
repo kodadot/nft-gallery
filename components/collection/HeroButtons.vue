@@ -6,28 +6,23 @@
         <a
           v-if="twitter"
           :href="`https://twitter.com/${twitter}`"
+          rel="noopener noreferrer"
           target="_blank">
           <NeoButton icon="twitter" icon-pack="fab" class="square-32" />
         </a>
         <a
-          v-if="twitter"
+          v-if="instagram"
           :href="`https://instagram.com/${instagram}`"
+          rel="noopener noreferrer"
           target="_blank">
-          <NeoButton
-            v-if="instagram"
-            icon="instagram"
-            icon-pack="fab"
-            class="square-32" />
+          <NeoButton icon="instagram" icon-pack="fab" class="square-32" />
         </a>
         <a
-          v-if="twitter"
+          v-if="discord"
+          rel="noopener noreferrer"
           :href="`https://discord.com/users/${discord}`"
           target="_blank">
-          <NeoButton
-            v-if="discord"
-            icon="discord"
-            icon-pack="fab"
-            class="square-32" />
+          <NeoButton icon="discord" icon-pack="fab" class="square-32" />
         </a>
       </div>
 
