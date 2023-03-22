@@ -9,8 +9,8 @@ withDefaults(
   defineProps<{
     label: string
     value: string
-    expanded: boolean
-    readonly: boolean
+    expanded?: boolean
+    readonly?: boolean
   }>(),
   {
     label: '',
