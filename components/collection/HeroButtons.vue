@@ -3,27 +3,26 @@
     <div
       class="hero-buttons is-flex is-justify-content-flex-start is-align-items-end px-2">
       <div class="is-flex">
-        <a
+        <NeoButton
           v-if="twitter"
-          :href="`https://twitter.com/${twitter}`"
-          rel="noopener noreferrer"
-          target="_blank">
-          <NeoButton icon="twitter" icon-pack="fab" class="square-32" />
-        </a>
-        <a
+          icon="twitter"
+          icon-pack="fab"
+          class="square-32"
+          @click.native="openUrl(`https://twitter.com/${twitter}`)" />
+
+        <NeoButton
           v-if="instagram"
-          :href="`https://instagram.com/${instagram}`"
-          rel="noopener noreferrer"
-          target="_blank">
-          <NeoButton icon="instagram" icon-pack="fab" class="square-32" />
-        </a>
-        <a
+          icon="instagram"
+          icon-pack="fab"
+          class="square-32"
+          @click.native="openUrl(`https://instagram.com/${instagram}`)" />
+
+        <NeoButton
           v-if="discord"
-          rel="noopener noreferrer"
-          :href="`https://discord.com/users/${discord}`"
-          target="_blank">
-          <NeoButton icon="discord" icon-pack="fab" class="square-32" />
-        </a>
+          class="square-32"
+          icon-pack="fab"
+          icon="discord"
+          @click.native="openUrl(`https://discord.com/users/${discord}`)" />
       </div>
 
       <div
@@ -114,6 +113,10 @@ const collectionIssuer = computed(() => collection.value?.issuer)
 const { discord, twitter, instagram, whichIdentity } = useIdentity({
   address: collectionIssuer.value,
 })
+
+const openUrl = (url: string) => {
+  window.open(url, '_blank')
+}
 
 watch(collectionIssuer, () => {
   whichIdentity(collectionIssuer.value)
