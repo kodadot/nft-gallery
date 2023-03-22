@@ -49,7 +49,7 @@
 import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
-import HeroButtons from './HeroButtons.vue'
+import HeroButtons from '@/components/collection/HeroButtons.vue'
 
 import {
   useCollectionDetails,
