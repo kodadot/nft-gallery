@@ -1,12 +1,13 @@
-import { $fetch } from 'ohmyfetch'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getMimeType } from '@/utils/gallery/media'
-import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
-import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import { useHistoryStore } from '@/stores/history'
+import { getNftMetadata } from '@/composables/useNft'
+import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
+import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFTWithMetadata } from '@/composables/useNft'
 
 interface NFTData {
-  nftEntity?: NFT
+  nftEntity?: NFTWithMetadata
 }
 
 const whichMimeType = async (data) => {
@@ -37,14 +38,20 @@ export const useGalleryItem = () => {
   const nftImage = ref('')
   const nftAnimation = ref('')
   const nftMimeType = ref('')
-  const nftMetadata = ref<NFTMetadata>()
+  const nftMetadata = ref<NFTWithMetadata>()
 
   const { params } = useRoute()
   // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
 
+  const queryPath = {
+    rmrk: 'chain-rmrk',
+    rmrk2: 'chain-rmrk2',
+  }
+
   const { urlPrefix } = usePrefix()
   const { data, refetch } = useGraphql({
-    queryName: urlPrefix.value === 'rmrk' ? 'nftByIdWithoutRoyalty' : 'nftById',
+    queryName: 'nftById',
+    queryPrefix: queryPath[urlPrefix.value],
     variables: {
       id: params.id,
     },
@@ -52,6 +59,7 @@ export const useGalleryItem = () => {
       fetchPolicy: 'network-only',
     },
   })
+
   useSubscriptionGraphql({
     query: `   nft: nftEntityById(id: "${params.id}") {
       id
@@ -64,6 +72,7 @@ export const useGalleryItem = () => {
     }`,
     onChange: refetch,
   })
+
   watch(data as unknown as NFTData, async (newData) => {
     const nftEntity = newData?.nftEntity
     if (!nftEntity) {
@@ -72,8 +81,8 @@ export const useGalleryItem = () => {
     }
 
     nft.value = nftEntity
-    nft.value.name = nft.value.name || (nftEntity.meta?.name as string)
-    nftMetadata.value = await $fetch(sanitizeIpfsUrl(nftEntity.metadata))
+
+    nftMetadata.value = await getNftMetadata(nftEntity, urlPrefix.value)
     nftMimeType.value = await whichMimeType(nftMetadata.value)
 
     const asset = whichAsset(nftMetadata.value)

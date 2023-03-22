@@ -1,3 +1,5 @@
+import { ItemResources } from '@/composables/useNft'
+
 export type BaseMintedCollection = {
   id: string
   alreadyMinted: number
@@ -14,7 +16,7 @@ export type BaseTokenType<T = BaseMintedCollection> = {
   secondFile: File | null
 }
 
-export type CarouselNFT = {
+export interface CarouselNFT extends ItemResources {
   currentOwner: string
   id: string
   image: string
