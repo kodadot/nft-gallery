@@ -99,39 +99,12 @@
       data-cy="carousel-related" />
 
     <CarouselTypeVisited class="mt-6" />
-
-    <b-modal
-      v-model="isFullscreen"
-      :destroy-on-hide="false"
-      :can-cancel="false"
-      full-screen
-      custom-class="gallery-item-modal"
-      custom-content-class="gallery-item-modal-content">
-      <NeoButton class="back-button" @click.native="isFullscreen = false">
-        <NeoIcon icon="chevron-left" />
-        {{ $i18n.t('go back') }}
-      </NeoButton>
-
-      <div class="gallery-item-modal-container">
-        <MediaItem
-          :key="nftImage"
-          :class="{
-            'is-flex is-align-items-center is-justify-content-center h-audio':
-              resolveMedia(nftMimeType) == MediaType.AUDIO,
-          }"
-          class="gallery-item-media"
-          :src="nftImage"
-          :animation-src="nftAnimation"
-          :mime-type="nftMimeType"
-          :title="nft?.name || nft?.id"
-          original />
-      </div>
-    </b-modal>
+    <GalleryItemPreviewer v-model="isFullscreen" />
   </section>
 </template>
 
 <script setup lang="ts">
-import { IdentityItem, MediaItem, NeoButton, NeoIcon } from '@kodadot1/brick'
+import { IdentityItem, MediaItem, NeoIcon } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 
@@ -139,6 +112,7 @@ import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
+import GalleryItemPreviewer from './GalleryItemPreviewer.vue'
 
 import { exist } from '@/components/search/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
@@ -263,43 +237,6 @@ $break-point-width: 930px;
 
 .column:hover .fullscreen-button {
   display: block;
-}
-
-.gallery-item-modal {
-  :deep &-content {
-    height: calc(100% - $navbar-min-height + 1px) !important;
-    margin-top: calc($navbar-min-height - 1px) !important;
-    border: none !important;
-  }
-  :deep {
-    figure,
-    img {
-      height: 100%;
-      width: 100%;
-    }
-    img {
-      object-fit: contain;
-    }
-  }
-  .back-button {
-    position: absolute;
-    right: 2rem;
-    top: 2rem;
-    z-index: 99;
-  }
-  &-container {
-    @include ktheme() {
-      background-color: theme('background-color');
-    }
-    height: 100%;
-    width: 100%;
-    padding: 0;
-    .media-object {
-      height: 100%;
-      box-shadow: none;
-      border: none;
-    }
-  }
 }
 
 @media screen and (max-width: $break-point-width) {
