@@ -1,7 +1,7 @@
 <template>
   <o-collapse
-class="neo-collapse card"
-:class="{ 'disabled': disabled }"
+    class="neo-collapse card"
+    :class="{ disabled: disabled }"
     animation="slide"
     :open="false"
     content-class="collapse-content">
@@ -37,10 +37,4 @@ defineProps<{
 
 <style lang="scss">
 @import './NeoCollapse.scss';
-
-.disabled {
-  opacity: 0.5;
-  pointer-events: none;
-  cursor: inherit;
-}
 </style>

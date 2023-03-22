@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NeoCollapse>
+    <NeoCollapse :disabled="disabled">
       <template #title> {{ $t('massmint.uploadPics') }}</template>
       <template #content>
         <DropUpload
@@ -14,6 +14,15 @@
 
 <script setup lang="ts">
 import { NeoCollapse } from '@kodadot1/brick'
+
+withDefaults(
+  defineProps<{
+    disabled?: boolean
+  }>(),
+  {
+    disabled: false,
+  }
+)
 
 const DropUpload = defineAsyncComponent(
   () => import('@/components/shared/upload/DropUpload.vue')

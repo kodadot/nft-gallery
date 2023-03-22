@@ -71,7 +71,7 @@
       </NeoDropdown>
     </section>
     <section class="collpase-massmint-container">
-      <UploadPicture />
+      <UploadPicture :disabled="!selectedCollection" />
     </section>
   </div>
 </template>

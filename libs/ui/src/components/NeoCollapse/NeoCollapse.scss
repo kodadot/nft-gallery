@@ -46,4 +46,12 @@
       color: theme('text-color');
     }
   }
+
+  &.disabled {
+    pointer-events: none;
+    cursor: inherit;
+    @include ktheme() {
+      background-color: theme('k-shade');
+    }
+  }
 }
