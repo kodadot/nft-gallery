@@ -54,7 +54,8 @@
           </p>
         </b-field>
         <b-field key="balance">
-          <AccountBalance :token-id="tokenId" />
+          <AccountBalance
+            :token-id="feesToken === 'KSM' ? tokenId : undefined" />
         </b-field>
         <b-field key="token">
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
@@ -97,10 +98,9 @@ import { unwrapSafe } from '@/utils/uniquery'
 import { Royalty } from '@/utils/royalty'
 import { fetchCollectionMetadata } from '@/utils/ipfs'
 import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
 import { MintedCollectionBasilisk } from '~~/composables/transaction/types'
+import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 
 const components = {
   CustomAttributeInput: () =>
@@ -148,6 +148,7 @@ export default class CreateToken extends mixins(
   public price = '0'
   public listed = false
   public hasRoyalty = true
+  public feesToken: Token = 'BSX'
   public royalty: Royalty = {
     amount: 0.15,
     address: '',
@@ -163,15 +164,18 @@ export default class CreateToken extends mixins(
     this.balanceInput.checkValidity()
   }
 
+  get balanceOfToken() {
+    return getBalance(this.feesToken)
+  }
+  get depositOfToken() {
+    return getDeposit(this.feesToken, parseFloat(this.deposit))
+  }
+
   get balanceNotEnoughMessage() {
     if (this.balanceNotEnough) {
       return this.$t('tooltip.notEnoughBalance')
     }
     return ''
-  }
-
-  get pinningStore() {
-    return usePinningStore()
   }
 
   public async created() {
@@ -183,9 +187,10 @@ export default class CreateToken extends mixins(
   }
 
   @Watch('accountId', { immediate: true })
-  hasAccount(value: string, oldVal: string) {
+  async hasAccount(value: string, oldVal: string) {
     if (shouldUpdate(value, oldVal)) {
       this.fetchCollections()
+      this.feesToken = await getFeesToken()
     }
   }
 
@@ -230,10 +235,6 @@ export default class CreateToken extends mixins(
     })
   }
 
-  get tokenId() {
-    return getKusamaAssetId(this.urlPrefix)
-  }
-
   public checkValidity() {
     const balanceInputValid = !this.listed || this.balanceInput?.checkValidity()
     const baseTokenFormValid = this.baseTokenForm?.checkValidity()
@@ -249,7 +250,7 @@ export default class CreateToken extends mixins(
       return
     }
     // check balance
-    if (!!this.deposit && parseFloat(this.balance) < parseFloat(this.deposit)) {
+    if (!!this.deposit && this.balanceOfToken < this.depositOfToken) {
       this.balanceNotEnough = true
       return
     }
