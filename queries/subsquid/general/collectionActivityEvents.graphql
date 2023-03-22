@@ -1,0 +1,18 @@
+query collectionActivityEvents($id: String!) {
+  collection: collectionEntityById(id: $id) {
+    id
+    nfts {
+      events(
+        where: {
+          interaction_eq: MINT
+          OR: { interaction_eq: LIST, OR: { interaction_eq: BUY } }
+        }
+      ) {
+        timestamp
+        meta
+        interaction
+        id
+      }
+    }
+  }
+}

@@ -1,5 +1,9 @@
 import { getVolume } from '@/utils/math'
-import { CollectionMetadata, NFT } from '@/components/rmrk/service/scheme'
+import {
+  ActivityInteraction,
+  CollectionMetadata,
+  NFT,
+} from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { chainsSupportingOffers } from './useCollectionDetails.config'
 
@@ -148,4 +152,23 @@ export const useCollectionMinimal = ({ collectionId }) => {
     }
   })
   return { collection }
+}
+
+export const useCollectionActivity = ({ collectionId }) => {
+  const events = ref<ActivityInteraction[]>()
+
+  const { data } = useGraphql({
+    queryPrefix: 'subsquid',
+    queryName: 'collectionActivityEvents',
+    variables: {
+      id: collectionId,
+    },
+  })
+
+  watch(data, (result) => {
+    if (result?.collection) {
+      events.value = result.collection.nfts.map((nft) => nft.events).flat()
+    }
+  })
+  return events
 }
