@@ -2,7 +2,7 @@
   <div class="explore is-flex is-flex-wrap-wrap">
     <FilterMenuButton />
     <ExploreTabs />
-    <div class="explore-menu is-flex">
+    <div v-if="!isActivityTab" class="explore-menu is-flex">
       <ExploreSort />
       <ExploreOffer class="is-flex-grow-1" />
       <ExploreChain v-if="!route.name?.includes('prefix-collection-id')" />
@@ -23,6 +23,9 @@ const route = useRoute()
 
 const isCollection = computed(() =>
   route.name?.includes('prefix-explore-collectibles')
+)
+const isActivityTab = computed(() =>
+  route.name?.includes('prefix-collection-id-activity')
 )
 </script>
 
