@@ -584,12 +584,16 @@
     }
   },
   "mint": {
+    "creatingCollection": "Creating collection {name}",
+    "mintCollectionSuccess": "Collection {name} Saved in block {block}",
+    "mintNFTSuccess": "NFT {name} Saved in block {block}",
     "submit": "Click to create NFT(s)",
     "estimate": "Show me the transaction fees",
     "estimated": "Transaction fees will cost about",
     "success": "Congratulations",
     "successNewNfts": "You have successfully purchased this NFT",
     "successCreateNewNft": "You have successfully created {0}",
+    "ErrorCreateNewNft": "Minting {name} failed",
     "shareWithFriends": "Share {0} with your friends",
     "unlimited": "Unlimited items in your collection",
     "nfsw": "Explicit content (NSFW)",
@@ -1226,6 +1230,11 @@
     "massmint": "Simplified process to create multiple NFT's for your collection"
   },
   "massmint": {
+    "backToOnbaording": "Back To Onboarding",
+    "chooseCollection": "Choose a collection to which you want to mint",
+    "selectCollection": "Select Collection",
+    "createNewCollection": "Create New Collection",
+    "noCollection": "No Collection",
     "onboarding": {
       "pageTitle": "Mass Mint Onboarding",
       "skip": "Skip",
@@ -1247,4 +1256,5 @@
       }
     }
   }
+
 }

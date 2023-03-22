@@ -8,11 +8,12 @@
       v-if="showCarousel"
       :nfts="nfts"
       :gallery-item-carousel="galleryItemCarousel"
-      :step="3" />
+      :step="steps" />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useWindowSize } from '@vueuse/core'
 import type { CarouselNFT } from '@/components/base/types'
 import type { RowSeries } from '@/components/series/types'
 
@@ -36,4 +37,21 @@ const itemUrl = computed(() => props.itemUrl || 'gallery')
 provide('itemUrl', itemUrl.value)
 
 const showCarousel = computed(() => props.nfts.length)
+
+const { width } = useWindowSize()
+const steps = computed(() => {
+  if (width.value > 1540) {
+    return 6
+  }
+  if (width.value > 1280) {
+    return 5
+  }
+  if (width.value > 1024) {
+    return 4
+  }
+  if (width.value > 768) {
+    return 2
+  }
+  return 1
+})
 </script>

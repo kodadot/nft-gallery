@@ -12,11 +12,15 @@
       <div class="column is-two-fifths">
         <MediaItem
           :key="nftImage"
+          :class="{
+            'is-flex is-align-items-center is-justify-content-center h-audio':
+              resolveMedia(nftMimeType) == MediaType.AUDIO,
+          }"
           class="gallery-item-media"
           :src="nftImage"
           :animation-src="nftAnimation"
           :mime-type="nftMimeType"
-          :title="nft?.name || nft?.id"
+          :title="nftMetadata?.name"
           is-detail
           :original="isMobile && true" />
       </div>
@@ -28,7 +32,7 @@
             <div class="is-flex is-justify-content-space-between">
               <div class="name-container">
                 <h1 class="title" data-cy="item-title">
-                  {{ nft?.name || nft?.id }}
+                  {{ nftMetadata?.name }}
                 </h1>
                 <h2 class="subtitle" data-cy="item-collection">
                   <CollectionDetailsPopover
@@ -109,6 +113,8 @@ import { exist } from '@/components/search/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
+import { MediaType } from '@/components/rmrk/types'
+import { resolveMedia } from '@/utils/gallery/media'
 
 const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
@@ -152,14 +158,14 @@ onMounted(() => {
   })
 })
 
-const title = computed(() => nft.value?.name)
+const title = computed(() => nftMetadata.value?.name || '')
 const meta = computed(() => {
   return [
     ...$seoMeta({
       title: title.value,
       description: nftMetadata.value?.description,
       image: generateNftImage(
-        nft.value?.name || '',
+        title.value,
         formatBalanceEmptyOnZero(nft.value?.price as string),
         sanitizeIpfsUrl(nftImage.value || ''),
         nftMimeType.value
@@ -195,5 +201,23 @@ useNuxt2Meta({
   .gallery-item-tabs-panel-wrapper {
     margin-top: 1.25rem;
   }
+}
+
+@media screen and (max-width: 930px) {
+  .columns {
+    display: inherit;
+    & > .column {
+      width: 100%;
+    }
+  }
+}
+
+.gallery-item-media image {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.h-audio {
+  height: 70%;
 }
 </style>

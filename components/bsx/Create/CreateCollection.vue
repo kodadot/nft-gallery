@@ -20,7 +20,8 @@
           </p>
         </b-field>
         <b-field>
-          <AccountBalance :token-id="tokenId" />
+          <AccountBalance
+            :token-id="feesToken === 'KSM' ? tokenId : undefined" />
         </b-field>
         <b-field>
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
@@ -43,33 +44,23 @@ import {
   getMetadataDeposit,
   getclassDeposit,
 } from '@/components/unique/apiConstants'
-import { getRandomValues, hasEnoughToken } from '@/components/unique/utils'
-import { uploadDirect } from '@/utils/directUpload'
+import { hasEnoughToken } from '@/components/unique/utils'
 import formatBalance from '@/utils/format/balance'
-import { mapToId } from '@/utils/mappers'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinJson } from '@/services/nftStorage'
-import resolveQueryPath from '@/utils/queryPathResolver'
-import { getImageTypeSafe, pinImageSafe } from '@/utils/safePin'
 import { estimate } from '@/utils/transactionExecutor'
-import { unwrapSafe } from '@/utils/uniquery'
-import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
-import { Component, Ref, mixins } from 'nuxt-property-decorator'
+import { Interaction } from '@kodadot1/minimark'
+import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
 import { dummyIpfsCid } from '@/utils/ipfs'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { usePinningStore } from '@/stores/pinning'
-
-type BaseCollectionType = {
-  name: string
-  file: File | null
-  description: string
-}
+import { createArgs } from '@/composables/transaction/mintCollection/utils'
+import { BaseCollectionType } from '@/composables/transaction/types'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -100,6 +91,7 @@ export default class CreateCollection extends mixins(
   protected id = '0'
   protected attributes: Attribute[] = []
   protected balanceNotEnough = false
+  public feesToken: Token = 'BSX'
   @Ref('collectionForm') readonly collectionForm
 
   public checkValidity() {
@@ -113,8 +105,11 @@ export default class CreateCollection extends mixins(
     return ''
   }
 
-  get pinningStore() {
-    return usePinningStore()
+  @Watch('accountId', { immediate: true })
+  async onAccountIdChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.feesToken = await getFeesToken()
+    }
   }
 
   public async created() {
@@ -124,68 +119,12 @@ export default class CreateCollection extends mixins(
       this.collectionDeposit = (classDeposit + metadataDeposit).toString()
     })
   }
-
-  public async constructMeta() {
-    const { file, name, description } = this.base
-
-    const pinningKey = await this.pinningStore.fetchPinningKey(this.accountId)
-    const imageHash = await pinImageSafe(file, pinningKey.token)
-    const type = getImageTypeSafe(file)
-    const attributes = this.attributes.map((val) => ({
-      ...val,
-      display_type: null,
-    }))
-
-    const meta = createMetadata(
-      name,
-      description,
-      imageHash,
-      undefined,
-      attributes,
-      undefined,
-      type
-    )
-    const metaHash = await pinJson(meta, imageHash)
-
-    if (file) {
-      this.$consola.log('[UPLOADING FILE]')
-      uploadDirect(file, imageHash).catch(this.$consola.warn)
-    }
-
-    return unSanitizeIpfsUrl(metaHash)
+  get balanceOfToken() {
+    return getBalance(this.feesToken)
   }
 
-  get tokenId() {
-    return getKusamaAssetId(this.urlPrefix)
-  }
-
-  protected async generateNewCollectionId(): Promise<number> {
-    const randomNumbers = getRandomValues(10).map(String)
-    const query = await resolveQueryPath(
-      this.urlPrefix,
-      'existingCollectionList'
-    )
-    const cols = this.$apollo.query({
-      query: query.default,
-      client: this.urlPrefix,
-      variables: {
-        ids: randomNumbers,
-      },
-    })
-    const {
-      data: { collectionEntities },
-    } = await cols
-    const collectionList = unwrapSafe(collectionEntities)
-    const existingIds = collectionList.map(mapToId)
-    const newId = randomNumbers.find((id) => !existingIds.includes(id))
-    return Number(newId)
-  }
-
-  protected cretateArgs(
-    randomId: number,
-    metadata: string
-  ): [number, { Marketplace: null }, string] {
-    return [randomId, { Marketplace: null }, metadata]
+  get depositOfToken() {
+    return getDeposit(this.feesToken, parseFloat(this.collectionDeposit))
   }
 
   protected async tryToEstimateTx(): Promise<string> {
@@ -193,7 +132,7 @@ export default class CreateCollection extends mixins(
     const cb = api.tx.utility.batchAll
     const metadata = dummyIpfsCid()
     const randomId = 0
-    const args = [this.cretateArgs(randomId, metadata)]
+    const args = [createArgs(randomId, metadata)]
     return estimate(this.accountId, cb, args)
   }
 
@@ -219,37 +158,40 @@ export default class CreateCollection extends mixins(
       return
     }
     // check balance
-    if (
-      !!this.collectionDeposit &&
-      parseFloat(this.balance) < parseFloat(this.collectionDeposit)
-    ) {
+    if (!!this.collectionDeposit && this.balanceOfToken < this.depositOfToken) {
       this.balanceNotEnough = true
       return
     }
     this.isLoading = true
     this.status = 'loader.checkBalance'
 
+    const { transaction, status, isLoading, blockNumber } = useTransaction()
+    watch([isLoading, status], () => {
+      this.isLoading = isLoading.value
+      if (Boolean(status.value)) {
+        this.status = status.value
+      }
+    })
+    watch(blockNumber, (block) => {
+      if (block) {
+        this.$emit('created')
+      }
+    })
+
     try {
       // await this.checkBalanceBeforeTx()
       showNotification(
-        `Creating collection ${this.base.name}`,
+        this.$t('mint.creatingCollection', { name: this.base.name }),
         notificationTypes.info
       )
       this.status = 'loader.ipfs'
-      const metadata = await this.constructMeta()
-      // const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
-      const api = await ApiFactory.useApiInstance(this.apiUrl)
-      const cb = api.tx.nft.createCollection
-      const randomId = await this.generateNewCollectionId()
-
-      const args = this.cretateArgs(randomId, metadata)
-
-      await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
-        showNotification(
-          `[Collection] Saved ${this.base.name} in block ${blockNumber}`,
-          notificationTypes.success
-        )
-        this.$emit('created')
+      transaction({
+        interaction: Interaction.MINT,
+        urlPrefix: usePrefix().urlPrefix.value,
+        collection: {
+          ...this.base,
+          tags: this.attributes,
+        },
       })
     } catch (e: any) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)

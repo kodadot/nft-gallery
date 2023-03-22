@@ -1,5 +1,9 @@
 <template>
-  <o-icon :pack="iconPack" :icon="icon" :size="size || 'medium'"> </o-icon>
+  <o-icon
+    :pack="iconPack"
+    :icon="icon"
+    :size="size || 'medium'"
+    :variant="variant" />
 </template>
 
 <script lang="ts" setup>
@@ -9,6 +13,7 @@ const props = defineProps<{
   size?: 'small' | 'medium' | 'large'
   icon?: string
   iconPack?: string
+  variant?: 'success'
 }>()
 
 const iconPack = computed(() => props?.iconPack || 'fa-sharp')

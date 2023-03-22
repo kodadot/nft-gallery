@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import consola from 'consola'
 
-import { secondaryFileVisible } from '@/components/rmrk/Create/mintUtils'
+import { secondaryFileVisible } from '@/utils/mintUtils'
 
 import { URLS } from './constants'
 

@@ -22,6 +22,8 @@
   }
 
   .carousel-media {
+    display: grid;
+    align-items: center;
     @include ktheme() {
       border-bottom: 1px solid theme('border-color');
     }
@@ -56,6 +58,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      &-name {
+        @include ktheme() {
+          color: theme('k-grey');
+          &:hover {
+            color: theme('text-color');
+          }
+        }
+      }
     }
 
     &-arrow {
@@ -112,5 +122,4 @@
       }
     }
   }
-
 }
