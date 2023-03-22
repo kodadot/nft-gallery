@@ -91,7 +91,7 @@ const props = withDefaults(
     icon: 'cloud-arrow-up',
     preview: false,
     expanded: false,
-    accept: '',
+    accept: '.zip',
     format:
       'BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON',
   }
