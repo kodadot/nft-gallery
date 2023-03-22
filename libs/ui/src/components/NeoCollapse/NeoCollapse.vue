@@ -30,6 +30,9 @@ class="neo-collapse card"
 
 <script lang="ts" setup>
 import { OCollapse, OIcon } from '@oruga-ui/oruga'
+defineProps<{
+  disabled?: boolean
+}>()
 </script>
 
 <style lang="scss">
