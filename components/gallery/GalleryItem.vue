@@ -11,7 +11,7 @@
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths is-relative">
         <a class="fullscreen-button" @click="isFullscreen = true">
-          <NeoIcon icon="expand" />
+          <i class="icon-expand" />
         </a>
         <MediaItem
           :key="nftImage"
@@ -227,14 +227,17 @@ $break-point-width: 930px;
   top: 2rem;
   z-index: 1;
   display: none;
-  @include ktheme() {
-    color: theme('text-color-inverse');
-    background: theme('background-color-inverse');
-    padding: 0 0.3rem;
-    opacity: 0.6;
-  }
 }
 
+i.icon-expand {
+  display: block;
+  height: 35px;
+  width: 35px;
+  background-image: url('@/static/expand_light.svg');
+}
+.dark-mode i.icon-expand {
+  background-image: url('@/static/expand_dark.svg');
+}
 .column:hover .fullscreen-button {
   display: block;
 }
