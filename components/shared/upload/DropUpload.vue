@@ -172,10 +172,6 @@ const createInput = (file): void | boolean => {
   max-width: 390px;
 }
 
-.labels {
-  text-align: left;
-}
-
 .button-upload {
   pointer-events: none;
 }
