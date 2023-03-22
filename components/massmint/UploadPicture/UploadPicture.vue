@@ -6,19 +6,14 @@
         <DropUpload
           preview
           :label="$t('mint.collection.massmintDrop')"
-          accept="image/*, audio/*, .zip"
           @input="selectedFile" />
       </template>
-    </NeoCollapse>
-    <NeoCollapse>
-      <template #title> {{ $t('massmint.uploadDesc') }} </template>
-      <template #content> custom content </template>
     </NeoCollapse>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoCollapse, NeoCollapseStack } from '@kodadot1/brick'
+import { NeoCollapse } from '@kodadot1/brick'
 
 const DropUpload = defineAsyncComponent(
   () => import('@/components/shared/upload/DropUpload.vue')
