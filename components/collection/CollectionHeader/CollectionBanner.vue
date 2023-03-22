@@ -26,7 +26,7 @@
 import type { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import HeroButtons from '../HeroButtons.vue'
+import HeroButtons from '@/components/collection/HeroButtons.vue'
 
 const route = useRoute()
 const { data } = useGraphql({

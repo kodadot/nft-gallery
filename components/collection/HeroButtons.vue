@@ -98,7 +98,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { isOwner as checkOwner } from '@/utils/account'
-import { useCollectionMinimal } from './utils/useCollectionDetails'
+import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import useIdentity from '@/components/identity/utils/useIdentity'
 
 const route = useRoute()
