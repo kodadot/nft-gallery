@@ -70,7 +70,7 @@
         </template>
       </NeoDropdown>
     </section>
-    <section class="collapse-container">
+    <section class="collpase-massmint-container">
       <UploadPicture />
     </section>
   </div>
@@ -141,8 +141,13 @@ const toOnborading = () => {
 .w-100 {
   width: 100%;
 }
-
-.collapse-container {
+.collpase-massmint-container {
   margin-top: 40px;
+  @include ktheme() {
+    background-color: theme('background-color');
+    color: theme('text-color');
+    border: 1px solid theme('border-color');
+    box-shadow: theme('primary-shadow');
+  }
 }
 </style>

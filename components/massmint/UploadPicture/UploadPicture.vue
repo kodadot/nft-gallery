@@ -1,5 +1,5 @@
 <template>
-  <div class="collpase-massmint">
+  <div>
     <NeoCollapse>
       <template #title> {{ $t('massmint.uploadPics') }}</template>
       <template #content>
@@ -23,16 +23,3 @@ const selectedFile = (file) => {
   console.log('selected file', file)
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
-.collpase-massmint {
-  @include ktheme() {
-    background-color: theme('background-color');
-    color: theme('text-color');
-    border: 1px solid theme('border-color');
-    box-shadow: theme('primary-shadow');
-  }
-}
-</style>
