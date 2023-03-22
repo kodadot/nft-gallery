@@ -1,6 +1,7 @@
 <template>
   <o-collapse
-    class="card"
+class="neo-collapse card"
+:class="{ 'disabled': disabled }"
     animation="slide"
     :open="false"
     content-class="collapse-content">
