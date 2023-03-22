@@ -10,7 +10,9 @@
       :subtitle="$t('mint.successNewNfts')" />
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths is-relative">
-        <a class="fullscreen-button" @click="isFullscreen = true">
+        <a
+          class="fullscreen-button is-justify-content-center is-align-items-center"
+          @click="isFullscreen = true">
           <NeoIcon icon="expand" />
         </a>
         <MediaItem
@@ -227,21 +229,27 @@ $break-point-width: 930px;
   top: 2rem;
   z-index: 1;
   display: none;
-  @include ktheme() {
-    color: theme('text-color-inverse');
-    background: theme('background-color-inverse');
-    padding: 0 0.3rem;
-    opacity: 0.6;
-  }
+  width: 35px;
+  height: 35px;
+  border: 1px solid;
+  color: #000 !important;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.dark-mode .fullscreen-button {
+  color: #fff !important;
+  background: rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0.3);
 }
 
 .column:hover .fullscreen-button {
-  display: block;
+  display: flex;
 }
 
 @media screen and (max-width: $break-point-width) {
   .fullscreen-button {
-    display: block;
+    display: flex;
   }
 }
 
