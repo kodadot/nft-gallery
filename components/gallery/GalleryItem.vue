@@ -10,25 +10,27 @@
       :subtitle="$t('mint.successNewNfts')" />
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths is-relative">
-        <a
-          v-if="canPreview"
-          class="fullscreen-button is-justify-content-center is-align-items-center"
-          @click="isFullscreen = true">
-          <NeoIcon icon="expand" />
-        </a>
-        <MediaItem
-          :key="nftImage"
-          :class="{
-            'is-flex is-align-items-center is-justify-content-center h-audio':
-              resolveMedia(nftMimeType) == MediaType.AUDIO,
-          }"
-          class="gallery-item-media"
-          :src="nftImage"
-          :animation-src="nftAnimation"
-          :mime-type="nftMimeType"
-          :title="nftMetadata?.name"
-          is-detail
-          :original="isMobile && true" />
+        <div>
+          <a
+            v-if="canPreview"
+            class="fullscreen-button is-justify-content-center is-align-items-center"
+            @click="isFullscreen = true">
+            <NeoIcon icon="expand" />
+          </a>
+          <MediaItem
+            :key="nftImage"
+            :class="{
+              'is-flex is-align-items-center is-justify-content-center h-audio':
+                resolveMedia(nftMimeType) == MediaType.AUDIO,
+            }"
+            class="gallery-item-media"
+            :src="nftImage"
+            :animation-src="nftAnimation"
+            :mime-type="nftMimeType"
+            :title="nftMetadata?.name"
+            is-detail
+            :original="isMobile && true" />
+        </div>
       </div>
       <div class="py-6 column">
         <div
@@ -144,7 +146,9 @@ const showCongratsMessage = ref(false)
 
 const isFullscreen = ref(false)
 const canPreview = computed(() =>
-  [MediaType.VIDEO, MediaType.IMAGE].includes(resolveMedia(nftMimeType.value))
+  [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
+    resolveMedia(nftMimeType.value)
+  )
 )
 
 const onNFTBought = () => {
@@ -236,22 +240,24 @@ $break-point-width: 930px;
   width: 35px;
   height: 35px;
   border: 1px solid;
-  color: #000 !important;
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  @include ktheme() {
+    background-color: rgba(theme('background-color'), 0.15);
+    border-color: rgba(theme('background-color'), 0.3);
+    color: theme('text-color');
+  }
 }
 
-.dark-mode .fullscreen-button {
-  color: #fff !important;
-  background: rgba(0, 0, 0, 0.15);
-  border-color: rgba(0, 0, 0, 0.3);
-}
-
-.column:hover .fullscreen-button {
+.column > div:hover .fullscreen-button {
   display: flex;
 }
 
-@include touch {
+@media screen and (max-width: $break-point-width) {
+  .fullscreen-button {
+    display: flex;
+  }
+}
+
+@media (hover: none) {
   .fullscreen-button {
     display: flex;
   }
