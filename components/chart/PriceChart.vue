@@ -22,7 +22,7 @@
       </template>
     </NeoDropdown>
 
-    <div class="content">
+    <div :class="{ content: !chartHeight }" :style="heightStyle">
       <canvas id="priceChart" />
     </div>
   </div>
@@ -69,7 +69,12 @@ const setTimeRange = (value: { value: number; label: string }) => {
 
 const props = defineProps<{
   priceChartData?: [Date, number][][]
+  chartHeight?: string
 }>()
+
+const heightStyle = computed(() =>
+  props.chartHeight ? `height: ${props.chartHeight}` : ''
+)
 let Chart: ChartJS<'line', any, unknown>
 
 onMounted(() => {
