@@ -9,8 +9,8 @@
       :title="$t('mint.success')"
       :subtitle="$t('mint.successNewNfts')" />
     <div class="columns is-variable is-6">
-      <div class="column is-two-fifths is-relative">
-        <div>
+      <div class="column is-two-fifths">
+        <div class="is-relative">
           <a
             v-if="canPreview"
             class="fullscreen-button is-justify-content-center is-align-items-center"
