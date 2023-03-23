@@ -175,14 +175,23 @@ type NFTMap = {
     latestPrice: number
   }
 }
+type FlipEvent = {
+  nft: NFTExcludingEvents
+  soldPrice: number
+  soldTo: string
+  sellTimeStamp: number
+  boughtPrice: number
+}
+
 export type Flippers = {
   [identity: string]: {
-    nftId: string
-    soldPrice: number
-    soldTo: string
-    sellTimeStamp: number
-    boughtPrice: number
-  }[]
+    flips: FlipEvent[]
+    owned: number
+    totalBought: number
+    totalsold: number
+    bestFlip: number
+    latestflipTimestamp: number
+  }
 }
 export type Owners = {
   [identity: string]: {
@@ -324,6 +333,7 @@ const getFlippers = (interactions: InteractionWithNFT[]) => {
     preProccessForFindingFlippers(interactions)
 
   const flippers: Flippers = {}
+
   changeHandsInteractions.forEach((interaction) => {
     if (interaction.interaction === Interaction.SEND) {
       NFTS[interaction.nft.id].owner = interaction.meta
@@ -331,17 +341,29 @@ const getFlippers = (interactions: InteractionWithNFT[]) => {
     }
     if (interaction.interaction === Interaction.BUY) {
       //it's a Flip!
+
       const nftId = interaction.nft.id
       const PreviousNFTState = NFTS[nftId]
       const baseInfo = {
-        nftId,
+        nft: NFTS[nftId].nft,
         soldPrice: parseInt(interaction.meta),
         soldTo: interaction.caller,
         sellTimeStamp: new Date(interaction.timestamp).getTime(),
       }
+      if (flippers[PreviousNFTState.owner] === undefined) {
+        flippers[PreviousNFTState.owner] = {
+          flips: [],
+          bestFlip: 0,
+          latestflipTimestamp: 0,
+          owned: 0,
+          totalBought: 0,
+          totalsold: 0,
+        }
+      }
 
       //nft has been bought from previous owner -> previous owner is the flipper
-      const flipperHistory = flippers[PreviousNFTState.owner] || []
+
+      const flipperHistory = flippers[PreviousNFTState.owner].flips
       const thisFlip = {
         ...baseInfo,
         boughtPrice:
@@ -349,7 +371,8 @@ const getFlippers = (interactions: InteractionWithNFT[]) => {
             ? PreviousNFTState.latestPrice
             : 0,
       }
-      flippers[PreviousNFTState.owner] = [...flipperHistory, thisFlip]
+
+      flippers[PreviousNFTState.owner].flips = [...flipperHistory, thisFlip]
 
       // update last state of NFT
       NFTS[nftId] = {
@@ -360,5 +383,29 @@ const getFlippers = (interactions: InteractionWithNFT[]) => {
       }
     }
   })
+  for (const flipper in flippers) {
+    flippers[flipper].owned = flippers[flipper].flips.length
+
+    flippers[flipper].totalBought = sum(
+      flippers[flipper].flips.map((flip) => flip.boughtPrice)
+    )
+    flippers[flipper].totalsold = sum(
+      flippers[flipper].flips.map((flip) => flip.soldPrice)
+    )
+    const flipsPercentages = flippers[flipper].flips
+      .map((flip) =>
+        flip.boughtPrice > 0 ? flip.soldPrice / flip.boughtPrice : 0
+      )
+      .filter(Boolean)
+    flippers[flipper].bestFlip =
+      flipsPercentages.length > 0 ? Math.max(...flipsPercentages) * 100 : 0 //to percents
+
+    flippers[flipper].latestflipTimestamp = Math.max(
+      ...flippers[flipper].flips.map((flip) => flip.sellTimeStamp)
+    )
+  }
   return flippers
 }
+
+const sum = (array: number[]): number =>
+  array.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
