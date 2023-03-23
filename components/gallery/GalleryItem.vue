@@ -251,7 +251,7 @@ $break-point-width: 930px;
   display: flex;
 }
 
-@media screen and (max-width: $break-point-width) {
+@include touch {
   .fullscreen-button {
     display: flex;
   }
