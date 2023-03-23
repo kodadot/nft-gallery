@@ -6,6 +6,7 @@
         <DropUpload
           preview
           :label="$t('mint.collection.massmintDrop')"
+          accept=".zip, .gltf"
           @input="selectedFile" />
       </template>
     </NeoCollapse>
