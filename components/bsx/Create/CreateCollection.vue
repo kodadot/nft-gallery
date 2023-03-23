@@ -20,7 +20,8 @@
           </p>
         </b-field>
         <b-field>
-          <AccountBalance :token-id="tokenId" />
+          <AccountBalance
+            :token-id="feesToken === 'KSM' ? tokenId : undefined" />
         </b-field>
         <b-field>
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
@@ -53,12 +54,13 @@ import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { estimate } from '@/utils/transactionExecutor'
 import { Interaction } from '@kodadot1/minimark'
-import { Component, Ref, mixins } from 'nuxt-property-decorator'
+import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
 import { dummyIpfsCid } from '@/utils/ipfs'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { createArgs } from '@/composables/transaction/mintCollection/utils'
 import { BaseCollectionType } from '@/composables/transaction/types'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -89,6 +91,7 @@ export default class CreateCollection extends mixins(
   protected id = '0'
   protected attributes: Attribute[] = []
   protected balanceNotEnough = false
+  public feesToken: Token = 'BSX'
   @Ref('collectionForm') readonly collectionForm
 
   public checkValidity() {
@@ -102,6 +105,13 @@ export default class CreateCollection extends mixins(
     return ''
   }
 
+  @Watch('accountId', { immediate: true })
+  async onAccountIdChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.feesToken = await getFeesToken()
+    }
+  }
+
   public async created() {
     onApiConnect(this.apiUrl, (api) => {
       const classDeposit = getclassDeposit(api)
@@ -109,9 +119,12 @@ export default class CreateCollection extends mixins(
       this.collectionDeposit = (classDeposit + metadataDeposit).toString()
     })
   }
+  get balanceOfToken() {
+    return getBalance(this.feesToken)
+  }
 
-  get tokenId() {
-    return getKusamaAssetId(this.urlPrefix)
+  get depositOfToken() {
+    return getDeposit(this.feesToken, parseFloat(this.collectionDeposit))
   }
 
   protected async tryToEstimateTx(): Promise<string> {
@@ -145,10 +158,7 @@ export default class CreateCollection extends mixins(
       return
     }
     // check balance
-    if (
-      !!this.collectionDeposit &&
-      parseFloat(this.balance) < parseFloat(this.collectionDeposit)
-    ) {
+    if (!!this.collectionDeposit && this.balanceOfToken < this.depositOfToken) {
       this.balanceNotEnough = true
       return
     }
