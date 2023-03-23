@@ -1,5 +1,6 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import type { QueryOptions } from 'apollo-client'
 
 const useQueryParams = ({ queryPrefix, clientName }) => {
   const { client } = usePrefix()
@@ -23,7 +24,10 @@ export default function ({
   const { $apollo, $consola } = useNuxtApp()
   const { prefix, client } = useQueryParams({ queryPrefix, clientName })
 
-  async function doFetch() {
+  interface DoFetchParams {
+    options?: Omit<QueryOptions, 'query'>
+  }
+  async function doFetch({ options: extraOptions = {} }: DoFetchParams = {}) {
     const query = await resolveQueryPath(prefix, queryName)
 
     try {
@@ -32,6 +36,7 @@ export default function ({
         client: client,
         variables,
         ...options,
+        ...extraOptions,
       })
       data.value = response.data
     } catch (err) {

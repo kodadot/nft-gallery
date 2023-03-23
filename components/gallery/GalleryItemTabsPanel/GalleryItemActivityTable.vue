@@ -112,7 +112,15 @@ const { data, loading, refetch } = useGraphql({
   },
 })
 
-defineExpose({ refreshTable: refetch })
+defineExpose({
+  async refreshTable() {
+    await refetch({
+      options: {
+        fetchPolicy: 'network-only',
+      },
+    })
+  },
+})
 
 interface ItemEvents {
   events?: Interaction[]
