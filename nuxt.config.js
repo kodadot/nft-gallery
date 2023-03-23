@@ -140,7 +140,6 @@ export default defineNuxtConfig({
     { src: '~/plugins/keyboardEvents', mode: 'client' },
     { src: '~/plugins/userBalance', mode: 'client' },
     { src: '~/plugins/icons', mode: 'client' },
-    { src: '~/plugins/InfiniteScroll', mode: 'client' },
     { src: '~/plugins/consola', mode: 'client' },
     { src: '~/plugins/assets', mode: 'client' },
     '~/plugins/filters',
