@@ -1,10 +1,33 @@
 import fs from 'fs/promises'
 import path from 'path'
 
+// current support --baseLocale and --locales flag
+// default baseLocale is "en", default locale is "all"
+// e.g --baseLocale=en --locales=en,fr,de or --locales=all
+
+const argArr = process.argv.slice(2)
+
+let args = {
+  baseLocale: 'en',
+  locales: 'all',
+}
+
+argArr.forEach((arg) => {
+  if (arg.indexOf('locales') > -1) {
+    args.locales = arg
+      .substring(arg.indexOf('=') + 1)
+      .split(',')
+      .map((x) => x.toLocaleLowerCase())
+  }
+  if (arg.indexOf('baseLocale') > -1) {
+    args.baseLocale = arg.substring(arg.indexOf('=') + 1).toLocaleLowerCase()
+  }
+})
+
 const CONSTANTS = {
-  BASE_LOCALE: 'en',
+  BASE_LOCALE: args.baseLocale,
   LOCALE_DIR: 'locales',
-  LOCALES: ['en', 'fr', 'de', 'es'], // "ALL" or locales needed eg. ["fr","de"]
+  LOCALES: args.locales,
 }
 
 async function readJson(filePath) {
@@ -23,7 +46,7 @@ async function writeJson(filePath, json) {
 async function getLocales() {
   const locales = {}
   let dirs = []
-  if (CONSTANTS.LOCALES === 'ALL') {
+  if (CONSTANTS.LOCALES === 'all') {
     // get json file like en.json, fr.json in locale directory
     dirs = (await fs.readdir(path.join(CONSTANTS.LOCALE_DIR))).filter(
       (fileName) => /^[a-z]{2}\.json/.test(fileName)
@@ -101,5 +124,10 @@ if (Object.keys(checkResult).length > 0) {
     table.push([key, checkResult[key]])
   })
   console.table(table)
-  throw new Error('Missing Translations')
+  await writeJson('locale-check.log.json', checkResult)
+  throw new Error(
+    '❌ Missing translations, please check locale-check.log.json for detail.'
+  )
+} else {
+  console.log('🚀 Translation check passed!')
 }
