@@ -11,6 +11,7 @@
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths is-relative">
         <a
+          v-if="canPreview"
           class="fullscreen-button is-justify-content-center is-align-items-center"
           @click="isFullscreen = true">
           <NeoIcon icon="expand" />
@@ -142,6 +143,9 @@ const activeTab = ref(tabs.offers)
 const showCongratsMessage = ref(false)
 
 const isFullscreen = ref(false)
+const canPreview = computed(() =>
+  [MediaType.VIDEO, MediaType.IMAGE].includes(resolveMedia(nftMimeType.value))
+)
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity
