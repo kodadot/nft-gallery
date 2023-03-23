@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import Activity from '@/components/collection/activity/activity.vue'
+import Activity from '@/components/collection/activity/Activity.vue'
 import ExperimentMixin from '@/utils/mixins/experimentMixin'
 import { Component, mixins } from 'nuxt-property-decorator'
 import { useHistoryStore } from '@/stores/history'

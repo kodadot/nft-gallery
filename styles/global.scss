@@ -296,3 +296,8 @@ hr {
     border-top: 1px solid theme('border-color');
   }
 }
+.border {
+  @include ktheme() {
+    border: 1px solid theme('border-color')
+  }
+}

@@ -4,7 +4,10 @@
       >Price ({{ chainSymbol }})
     </span>
     <NeoDropdown class="py-0">
-      <NeoButton :label="selectedTimeRange.label" class="time-range-button" />
+      <NeoButton
+        :label="selectedTimeRange.label"
+        class="time-range-button"
+        no-shadow />
 
       <template #items>
         <NeoDropdownItem

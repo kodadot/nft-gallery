@@ -1,11 +1,13 @@
 import { getVolume } from '@/utils/math'
 import {
-  ActivityInteraction,
   CollectionMetadata,
+  Interaction as InteractionType,
   NFT,
+  NFTMetadata,
 } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { chainsSupportingOffers } from './useCollectionDetails.config'
+import { Interaction } from '@kodadot1/minimark'
 
 type Stats = {
   listedCount?: number
@@ -153,9 +155,48 @@ export const useCollectionMinimal = ({ collectionId }) => {
   })
   return { collection }
 }
+export type NFTExcludingEvents = {
+  currentOwner: string
+  name: string
+  price?: string
+  metadata: string
+  meta: NFTMetadata
+  updatedAt: string
+  id: string
+}
+type InteractionWithNFT = InteractionType & {
+  nft: NFTExcludingEvents
+}
+type NFTMap = {
+  [nftId: string]: {
+    owner: string
+    nft: NFTExcludingEvents
+    latestInteraction: Interaction
+    latestPrice: number
+  }
+}
+export type Flippers = {
+  [identity: string]: {
+    nftId: string
+    soldPrice: number
+    soldTo: string
+    sellTimeStamp: number
+    boughtPrice: number
+  }[]
+}
+export type Owners = {
+  [identity: string]: {
+    nftCount: number
+    totalBought: number
+    nfts: NFTExcludingEvents[]
+    lastActivityTimestamp: number
+  }
+}
 
 export const useCollectionActivity = ({ collectionId }) => {
-  const events = ref<ActivityInteraction[]>()
+  const events = ref<InteractionWithNFT[]>()
+  const owners = ref<Owners>()
+  const flippers = ref<Flippers>()
 
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
@@ -167,8 +208,157 @@ export const useCollectionActivity = ({ collectionId }) => {
 
   watch(data, (result) => {
     if (result?.collection) {
-      events.value = result.collection.nfts.map((nft) => nft.events).flat()
+      // flat events for chart
+      const interactions: InteractionWithNFT[] = result.collection.nfts
+        .map((nft) =>
+          nft.events.map((e) => ({ ...e, nft: { ...nft, events: undefined } }))
+        )
+        .flat()
+      events.value = interactions
+      owners.value = getOwners(result.collection.nfts)
+      flippers.value = getFlippers(interactions)
     }
   })
-  return events
+  return {
+    events,
+    owners,
+    flippers,
+  }
+}
+
+const getOwners = (nfts) => {
+  const owners: Owners = {}
+
+  nfts.forEach((nft) => {
+    const interactions = nft.events.map((e) => e.interaction)
+    const { events, ...nftExcludingEvents } = nft
+
+    if (interactions.includes(Interaction.CONSUME)) {
+      // no owner
+      return
+    }
+    if (
+      interactions.includes(Interaction.BUY) ||
+      interactions.includes(Interaction.SEND)
+    ) {
+      // NFT changed hands
+      const latestInteraction = events[events.length - 1]
+      const lastestTimeStamp = new Date(latestInteraction.timestamp).getTime()
+
+      const owner = owners[nft.currentOwner]
+      if (owner) {
+        // update entry
+        owner.nftCount++
+        owner.totalBought += parseInt(latestInteraction.meta)
+        owner.lastActivityTimestamp =
+          lastestTimeStamp > owner.lastActivityTimestamp
+            ? lastestTimeStamp
+            : owner.lastActivityTimestamp
+        owner.nfts = [...owner.nfts, nftExcludingEvents]
+        return
+      }
+      // new owner entry
+      owners[nft.currentOwner] = {
+        nftCount: 1,
+        totalBought: parseInt(latestInteraction.meta),
+        lastActivityTimestamp: lastestTimeStamp,
+        nfts: [nftExcludingEvents],
+      }
+      return
+    }
+
+    // nft isn't consumed and it hasn't change hands => it is owned by it's creator
+    const mintInteraction = events[0]
+    const mintTimeStamp = new Date(mintInteraction.timestamp).getTime()
+    const owner = owners[nft.currentOwner]
+
+    if (owner) {
+      // update entry
+      owner.nftCount++
+      owner.lastActivityTimestamp =
+        mintTimeStamp > owner.lastActivityTimestamp
+          ? mintTimeStamp
+          : owner.lastActivityTimestamp
+      owner.nfts = [...owner.nfts, nftExcludingEvents]
+      return
+    }
+    // new owner entry
+    owners[nft.currentOwner] = {
+      nftCount: 1,
+      totalBought: 0,
+      lastActivityTimestamp: mintTimeStamp,
+      nfts: [nftExcludingEvents],
+    }
+  })
+  return owners
+}
+
+const preProccessForFindingFlippers = (interactions: InteractionWithNFT[]) => {
+  const changeHandsInteractions: InteractionWithNFT[] = []
+  const NFTS: NFTMap = {}
+
+  interactions.forEach((event) => {
+    if (event.interaction === Interaction.MINTNFT) {
+      // mintInteractions.push(event)
+      NFTS[event.nft.id] = {
+        owner: event.caller,
+        nft: event.nft,
+        latestInteraction: Interaction.MINTNFT,
+        latestPrice: 0,
+      }
+    }
+
+    if (
+      event.interaction === Interaction.SEND ||
+      event.interaction === Interaction.BUY
+    ) {
+      changeHandsInteractions.push(event)
+    }
+  })
+
+  return { NFTS, changeHandsInteractions }
+}
+
+const getFlippers = (interactions: InteractionWithNFT[]) => {
+  const { NFTS, changeHandsInteractions } =
+    preProccessForFindingFlippers(interactions)
+
+  const flippers: Flippers = {}
+  changeHandsInteractions.forEach((interaction) => {
+    if (interaction.interaction === Interaction.SEND) {
+      NFTS[interaction.nft.id].owner = interaction.meta
+      NFTS[interaction.nft.id].latestInteraction = Interaction.SEND
+    }
+    if (interaction.interaction === Interaction.BUY) {
+      //it's a Flip!
+      const nftId = interaction.nft.id
+      const PreviousNFTState = NFTS[nftId]
+      const baseInfo = {
+        nftId,
+        soldPrice: parseInt(interaction.meta),
+        soldTo: interaction.caller,
+        sellTimeStamp: new Date(interaction.timestamp).getTime(),
+      }
+
+      //nft has been bought from previous owner -> previous owner is the flipper
+      const flipperHistory = flippers[PreviousNFTState.owner] || []
+      const thisFlip = {
+        ...baseInfo,
+        boughtPrice:
+          PreviousNFTState.latestInteraction === Interaction.BUY
+            ? PreviousNFTState.latestPrice
+            : 0,
+      }
+      flippers[PreviousNFTState.owner] = [...flipperHistory, thisFlip]
+
+      // update last state of NFT
+      NFTS[nftId] = {
+        ...PreviousNFTState,
+        owner: interaction.caller,
+        latestInteraction: interaction.interaction,
+        latestPrice: parseInt(interaction.meta),
+      }
+    }
+  })
+  return flippers
 }
