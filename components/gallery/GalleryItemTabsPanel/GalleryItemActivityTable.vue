@@ -99,7 +99,7 @@ const dprops = defineProps<{
 const { decimals, unit } = useChain()
 const { urlPrefix, tokenId, assets } = usePrefix()
 
-const { data, loading } = useGraphql({
+const { data, loading, refetch } = useGraphql({
   queryName: 'itemEvents',
   clientName: urlPrefix.value,
   variables: {
@@ -111,6 +111,8 @@ const { data, loading } = useGraphql({
     limit: 100,
   },
 })
+
+defineExpose({ refreshTable: refetch })
 
 interface ItemEvents {
   events?: Interaction[]

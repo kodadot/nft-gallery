@@ -85,7 +85,7 @@
       </div>
 
       <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
-        <GalleryItemTabsPanel :active-tab="activeTab" />
+        <GalleryItemTabsPanel ref="tabsRef" :active-tab="activeTab" />
       </div>
     </div>
 
@@ -120,6 +120,7 @@ const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
+const tabsRef = ref<InstanceType<typeof GalleryItemTabsPanel>>()
 
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
@@ -137,7 +138,9 @@ const showCongratsMessage = ref(false)
 const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongratsMessage.value = true
+  tabsRef.value?.refetchActivityTab()
 }
+
 const congratsNewNft = ref('')
 
 const CarouselTypeRelated = defineAsyncComponent(
