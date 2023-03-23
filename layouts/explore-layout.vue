@@ -13,9 +13,10 @@
         <!-- new header component for collection here -->
         <div v-if="isCollection">
           <CollectionBanner />
-          <section class="py-5">
+          <section class="pt-5">
             <div class="container is-fluid mobile-padding">
               <CollectionInfo />
+              <hr class="mb-0" />
             </div>
           </section>
         </div>
@@ -79,6 +80,5 @@ hr {
 
 .explore-header {
   padding: 2.5rem 0;
-  border-top: 1px solid;
 }
 </style>
