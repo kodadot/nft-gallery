@@ -112,6 +112,7 @@ watchEffect(async () => {
       display: block;
       width: 5.5rem;
       height: 5.5rem;
+      border: 1px solid;
     }
   }
 
