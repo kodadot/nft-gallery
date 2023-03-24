@@ -23,6 +23,7 @@
     "dev-docker": "npx nuxi dev",
     "dev-experimental": "nuxi dev --hostname localhost --port 9090",
     "build": "nuxi build --modern",
+    "locales:check": "node ./script/checkLocale.mjs",
     "start": "nuxi preview",
     "start:static": "npx --yes serve@14.2.0 -L -l 9090 -s dist",
     "generate:pnpm": "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm generate",
