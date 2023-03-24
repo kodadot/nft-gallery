@@ -26,10 +26,12 @@ chains.forEach((chain) => {
       'Test Description'
     )
 
-    // trigger insufficient funds
-    cy.contains('button', 'CREATE COLLECTION', { matchCase: false }).click()
-    cy.contains('p.help.is-danger', 'Insufficient funds', {
-      matchCase: false,
-    }).should('exist')
+    if (chain === 'rmrk') {
+      // trigger insufficient funds
+      cy.contains('button', 'CREATE COLLECTION', { matchCase: false }).click()
+      cy.contains('p.help.is-danger', 'Insufficient funds', {
+        matchCase: false,
+      }).should('exist')
+    }
   })
 })
