@@ -131,9 +131,13 @@
   transition: 0.3s ease;
   -webkit-transition: 0.3s ease;
   z-index: 999 !important;
-  min-height: $navbar-min-height;
+  min-height: $navbar-desktop-min-height;
   width: 100vw;
   background: $white;
+
+  @include mobile {
+    min-height: $navbar-mobile-min-height;
+  }
 
   @include ktheme() {
     background: theme('background-color');

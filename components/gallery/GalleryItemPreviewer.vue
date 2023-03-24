@@ -41,9 +41,13 @@ const isFullscreen = useVModel(props, 'value', emit)
 
 .gallery-item-modal {
   :deep &-content {
-    height: calc(100% - $navbar-min-height + 1px) !important;
-    margin-top: calc($navbar-min-height - 1px) !important;
+    height: calc(100% - $navbar-desktop-min-height + 1px) !important;
+    margin-top: calc($navbar-desktop-min-height - 1px) !important;
     border: none !important;
+    @include mobile {
+      height: calc(100% - $navbar-mobile-min-height + 1px) !important;
+      margin-top: calc($navbar-mobile-min-height - 1px) !important;
+    }
   }
   :deep {
     figure,
