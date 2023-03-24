@@ -1,34 +1,32 @@
 <template>
   <div v-if="events.length > 0">
-    <div id="desktop and up">
-      <div class="columns is-size-7 k-grey py-3">
-        <div class="column">
-          <span>item</span>
-        </div>
-        <div class="column">
-          <span>event</span>
-        </div>
-        <div class="column">
-          <span>amount</span>
-        </div>
-        <div class="column">
-          <span>from</span>
-        </div>
-        <div class="column">
-          <span>to</span>
-        </div>
-        <div class="column">
-          <span>time</span>
-        </div>
+    <div class="is-hidden-touch columns is-size-7 k-grey py-3">
+      <div class="column">
+        <span>item</span>
       </div>
-      <div>
-        <EventRow
-          v-for="event in displayedEvents"
-          :key="event.id"
-          :event="event"
-          class="my-2 event-row-transition" />
-        <div ref="sentinel" />
+      <div class="column">
+        <span>event</span>
       </div>
+      <div class="column">
+        <span>amount</span>
+      </div>
+      <div class="column">
+        <span>from</span>
+      </div>
+      <div class="column">
+        <span>to</span>
+      </div>
+      <div class="column">
+        <span>time</span>
+      </div>
+    </div>
+    <div>
+      <EventRow
+        v-for="event in displayedEvents"
+        :key="event.id"
+        :event="event"
+        class="my-2 event-row-transition" />
+      <div ref="sentinel" />
     </div>
   </div>
 </template>
