@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex is-align-self-flex-start">
+  <div class="is-flex">
     <SidebarFilter />
     <div class="w-full mt-5">
       <div class="columns">
@@ -10,6 +10,10 @@
           <OwnerInsights :owners="owners" :flippers="flippers" />
         </div>
       </div>
+      <!-- <div v-show="isFiltersActive" class="border-bottom pb-5 border-k-grey">
+        <BreadcrumbsFilter @filtersActive="toggleBreadcrumbsVisible" />
+      </div> -->
+      <Events :events="sortedEvents" />
     </div>
   </div>
 </template>
@@ -18,16 +22,49 @@
 import SidebarFilter from '@/components/explore/SidebarFilter.vue'
 import ActivityChart from './Chart.vue'
 import OwnerInsights from './OwnerInsights.vue'
-
+import Events from './events/Events.vue'
+import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
 import { useCollectionActivity } from '@/components/collection/utils/useCollectionDetails'
+import { Interaction } from '@kodadot1/minimark'
 const route = useRoute()
+
+const isFiltersActive = ref(false)
+
+const toggleBreadcrumbsVisible = (active: boolean) => {
+  isFiltersActive.value = active
+}
 
 const collectionId = computed(() => route.params.id)
 const { events, flippers, owners } = useCollectionActivity({
   collectionId: collectionId.value,
 })
+
+const InteractionIncluded = [
+  Interaction.BUY,
+  Interaction.LIST,
+  Interaction.MINTNFT,
+  Interaction.SEND,
+]
+
+const filteredEvents = computed(() =>
+  events.value
+    ? events.value.filter((event) =>
+        InteractionIncluded.includes(event.interaction as Interaction)
+      )
+    : []
+)
+
+const sortedEvents = computed(() =>
+  filteredEvents.value.sort((a, b) => b.timestamp - a.timestamp)
+)
 </script>
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
+
+.border-k-grey {
+  @include ktheme() {
+    border-color: theme('k-grey');
+  }
+}
 </style>

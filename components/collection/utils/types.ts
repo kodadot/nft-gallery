@@ -37,6 +37,7 @@ export type NFTExcludingEvents = {
 }
 export type InteractionWithNFT = InteractionType & {
   nft: NFTExcludingEvents
+  timestamp: number
 }
 export type NFTMap = {
   [nftId: string]: {

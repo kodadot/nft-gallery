@@ -12,7 +12,7 @@
           width="40"
           height="40"
           class="border mr-2rem" />
-        <img v-else src="/placeholder.webp" class="border" />
+        <img v-else src="/placeholder.webp" class="border mr-2rem" />
         <span>{{ nft.name }}</span>
       </div>
       <div
