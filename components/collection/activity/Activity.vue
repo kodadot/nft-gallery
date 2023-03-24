@@ -3,7 +3,7 @@
     <SidebarFilter />
     <div class="w-full mt-5">
       <div class="columns">
-        <div class="column is-two-thirds">
+        <div class="column is-two-thirds-desktop is-half-tablet">
           <ActivityChart :events="events" />
         </div>
         <div class="column">
@@ -30,9 +30,4 @@ const { events, flippers, owners } = useCollectionActivity({
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-
-.fixed-height {
-  height: 350px;
-}
 </style>
-a
