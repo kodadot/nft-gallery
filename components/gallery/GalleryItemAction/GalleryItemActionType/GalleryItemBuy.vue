@@ -177,7 +177,7 @@ const handleBuy = async () => {
   }
 
   try {
-    await transaction({
+    transaction({
       interaction: ShoppingActions.BUY,
       currentOwner: props.currentOwner,
       price: props.nftPrice,
