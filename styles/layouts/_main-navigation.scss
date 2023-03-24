@@ -131,17 +131,17 @@
   transition: 0.3s ease;
   -webkit-transition: 0.3s ease;
   z-index: 999 !important;
-  min-height: 84px;
+  min-height: $navbar-desktop-min-height;
   width: 100vw;
   background: $white;
+
+  @include mobile {
+    min-height: $navbar-mobile-min-height;
+  }
 
   @include ktheme() {
     background: theme('background-color');
     border-bottom: 1px solid theme('border-color');
-  }
-
-  @include mobile {
-    min-height: 60px;
   }
 
   &.is-spaced {
