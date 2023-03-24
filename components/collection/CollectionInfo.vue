@@ -10,7 +10,10 @@
         </nuxt-link>
       </div>
       <div class="overflow-wrap">
-        {{ collectionInfo?.meta.description }}
+        <vue-markdown
+          :source="
+            collectionInfo?.meta.description?.replaceAll('\n', '  \n') || ''
+          " />
       </div>
     </div>
     <div>
@@ -46,6 +49,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import VueMarkdown from 'vue-markdown-render'
 import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
