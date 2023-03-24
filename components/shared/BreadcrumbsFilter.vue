@@ -4,11 +4,31 @@
       <NeoTag
         v-if="key === 'search'"
         :key="key"
-        class="control"
-        @close="removeSearch">
+        class="control a"
+        @close="removeBread('search')">
         {{ `${$t('general.search')}: ${value}` }}
       </NeoTag>
-      <NeoTag v-else :key="key" class="control" @close="closeTag(String(key))">
+      <NeoTag
+        v-else-if="key === 'min'"
+        :key="key"
+        class="control b"
+        @close="removeBread('min')">
+        {{ `${$t('Min')}:` }}
+        <CommonTokenMoney :value="value" />
+      </NeoTag>
+      <NeoTag
+        v-else-if="key === 'max'"
+        :key="key"
+        class="control c"
+        @close="removeBread('max')">
+        {{ `${$t('Max')}:` }}
+        <CommonTokenMoney :value="value" />
+      </NeoTag>
+      <NeoTag
+        v-else
+        :key="key"
+        class="control d"
+        @close="closeTag(String(key))">
         {{ queryMapTranslation[String(key)] }}
       </NeoTag>
     </template>
@@ -23,6 +43,7 @@
 
 <script lang="ts" setup>
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
 const route = useRoute()
 const isCollectionActivityTab = computed(
@@ -38,7 +59,11 @@ const breads = computed(() => {
   const query = { ...route.query, redesign: undefined }
 
   const activeFilters = Object.entries(query).filter(
-    ([key, value]) => (key === 'search' && Boolean(value)) || value === 'true'
+    ([key, value]) =>
+      (key === 'search' && Boolean(value)) ||
+      (key === 'min' && value) ||
+      (key === 'max' && value) ||
+      value === 'true'
   )
   return Object.fromEntries(activeFilters)
 })
@@ -49,7 +74,7 @@ const isAnyFilterActive = computed(() =>
 
 const clearAllFilters = () => {
   const clearedFilters = Object.keys(breads.value).reduce((filters, key) => {
-    if (key === 'search') {
+    if (['search', 'min', 'max'].includes(key)) {
       return { ...filters, [key]: undefined }
     }
     return { ...filters, [key]: isCollectionActivityTab ? undefined : 'false' }
@@ -78,8 +103,8 @@ const closeTag = (key: string) => {
   replaceUrl({ [key]: false })
 }
 
-const removeSearch = () => {
-  replaceUrl({ search: undefined })
+const removeBread = (key: string) => {
+  replaceUrl({ [key]: undefined })
 }
 </script>
 

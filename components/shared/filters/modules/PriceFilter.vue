@@ -15,41 +15,46 @@
       </div>
     </template>
     <form class="p-4" @submit.prevent="apply">
-      <div
-        class="is-flex input-container mb-4"
-        :class="[inputFocused ? 'input-focused' : '']">
-        <b-input
-          v-model="range.min"
-          custom-class="input-sidebar"
-          type="number"
-          min="0"
-          step="any"
-          placeholder="MIN"
-          data-cy="input-min"
-          @focus="toggleInputFocused"
-          @blur="toggleInputFocused" />
-        <div class="is-flex is-align-items-center">
-          <svg
-            width="28"
-            height="8"
-            viewBox="0 0 28 8"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M27.3536 4.35355C27.5488 4.15829 27.5488 3.84171 27.3536 3.64645L24.1716 0.464466C23.9763 0.269204 23.6597 0.269204 23.4645 0.464466C23.2692 0.659728 23.2692 0.976311 23.4645 1.17157L26.2929 4L23.4645 6.82843C23.2692 7.02369 23.2692 7.34027 23.4645 7.53553C23.6597 7.7308 23.9763 7.7308 24.1716 7.53553L27.3536 4.35355ZM0 4.5H27V3.5H0V4.5Z"
-              fill="currentColor" />
-          </svg>
+      <div class="is-flex">
+        <div
+          class="is-flex input-container mb-4"
+          :class="[inputFocused ? 'input-focused' : '']">
+          <b-input
+            v-model="range.min"
+            custom-class="input-sidebar"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="MIN"
+            data-cy="input-min"
+            @focus="toggleInputFocused"
+            @blur="toggleInputFocused" />
+          <div class="is-flex is-align-items-center">
+            <svg
+              width="28"
+              height="8"
+              viewBox="0 0 28 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M27.3536 4.35355C27.5488 4.15829 27.5488 3.84171 27.3536 3.64645L24.1716 0.464466C23.9763 0.269204 23.6597 0.269204 23.4645 0.464466C23.2692 0.659728 23.2692 0.976311 23.4645 1.17157L26.2929 4L23.4645 6.82843C23.2692 7.02369 23.2692 7.34027 23.4645 7.53553C23.6597 7.7308 23.9763 7.7308 24.1716 7.53553L27.3536 4.35355ZM0 4.5H27V3.5H0V4.5Z"
+                fill="currentColor" />
+            </svg>
+          </div>
+          <b-input
+            v-model="range.max"
+            custom-class="input-sidebar"
+            min="0"
+            step="any"
+            type="number"
+            placeholder="MAX"
+            data-cy="input-max"
+            @focus="toggleInputFocused"
+            @blur="toggleInputFocused" />
         </div>
-        <b-input
-          v-model="range.max"
-          custom-class="input-sidebar"
-          min="0"
-          step="any"
-          type="number"
-          placeholder="MAX"
-          data-cy="input-max"
-          @focus="toggleInputFocused"
-          @blur="toggleInputFocused" />
+        <div class="unit mb-4 is-flex is-align-items-center py-1 px-3">
+          {{ unit }}
+        </div>
       </div>
       <NeoButton
         data-cy="apply"
@@ -87,7 +92,7 @@ const props = withDefaults(
 )
 
 const route = useRoute()
-const { decimals } = useChain()
+const { decimals, unit } = useChain()
 
 const range =
   props.dataModel === 'query'
@@ -110,8 +115,6 @@ const apply = () => {
   if (props.dataModel === 'store') {
     applyToStore()
   }
-
-  range.value = { min: undefined, max: undefined }
 }
 
 const applyToStore = () => {
@@ -168,6 +171,14 @@ const toggleInputFocused = (): void => {
     }
   }
 }
+
+.unit {
+  border-left: none !important;
+  @include ktheme() {
+    border: 1px solid theme('text-color');
+  }
+}
+
 .input-focused {
   @include ktheme() {
     box-shadow: 0 0 0 1px theme('k-blue');
