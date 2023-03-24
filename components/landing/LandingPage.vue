@@ -12,7 +12,7 @@
     </section>
 
     <!-- top collections -->
-    <section v-if="showCarousel" class="py-6 instance">
+    <section v-if="showCarousel && urlPrefix !== 'rmrk2'" class="py-6 instance">
       <div class="container is-fluid">
         <LazyTopCollections class="my-5" />
       </div>

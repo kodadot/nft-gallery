@@ -28,11 +28,11 @@ interface Types {
 
 const nftEventVariables = {
   latestSales: {
-    limit: 30,
+    limit: 8,
     event: 'BUY',
   },
   newestList: {
-    limit: 30,
+    limit: 8,
     event: 'LIST',
   },
 }
