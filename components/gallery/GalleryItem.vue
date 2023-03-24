@@ -29,7 +29,7 @@
             :mime-type="nftMimeType"
             :title="nftMetadata?.name"
             is-detail
-            :original="isMobile && true" />
+            :original="isMobile" />
         </div>
       </div>
       <div class="py-6 column">

@@ -8,7 +8,7 @@
     custom-content-class="gallery-item-modal-content">
     <NeoButton class="back-button" @click.native="emit('input', false)">
       <NeoIcon icon="chevron-left" />
-      {{ $i18n.t('go back') }}
+      {{ $t('go back') }}
     </NeoButton>
 
     <div class="gallery-item-modal-container">
