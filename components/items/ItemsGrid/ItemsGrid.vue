@@ -26,6 +26,7 @@
           " />
       </div>
     </DynamicGrid>
+    <EmptyResult v-if="total === 0" />
   </div>
 </template>
 
