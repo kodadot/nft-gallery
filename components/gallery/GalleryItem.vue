@@ -138,7 +138,7 @@ const showCongratsMessage = ref(false)
 const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongratsMessage.value = true
-  tabsRef.value?.refreshActivityTab()
+  tabsRef.value?.refetchActivityTab()
 }
 
 const congratsNewNft = ref('')
