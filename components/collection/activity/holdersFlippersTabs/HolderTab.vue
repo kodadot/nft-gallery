@@ -7,26 +7,27 @@
       <div class="is-flex is-flex-direction-column gap">
         <ProfileLink :address="holderId" />
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">Owned</span>
+          <span class="is-size-7 k-grey">{{ $t('activity.owned') }}</span>
           <span>{{ holdings.nftCount }}</span>
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">Total Bought</span>
+          <span class="is-size-7 k-grey">{{ $t('activity.totalBought') }}</span>
           <Money :value="holdings.totalBought" />
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">Total Sold</span>
-          <span>??</span>
+          <span class="is-size-7 k-grey">{{ $t('activity.totalSold') }}</span>
+          <Money v-if="holdings.totalSold > 0" :value="holdings.totalSold" />
+          <span v-else>--</span>
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">Date</span>
+          <span class="is-size-7 k-grey">{{ $t('activity.date') }}</span>
           <span>{{ timeAgo(holdings.lastActivityTimestamp) }}</span>
         </div>
         <div>
           <div
             class="is-size-7 k-blue is-clickable"
             @click="toggleNFTDetails(holderId)">
-            NFT details
+            {{ $t('activity.nftDetails') }}
             <NeoIcon
               :icon="
                 isNFTDetailsOpen[holderId] ? 'chevron-down' : 'chevron-right'
@@ -34,7 +35,7 @@
           </div>
 
           <div v-if="isNFTDetailsOpen[holderId]">
-            <MoreNFTS :nfts="holdings.nfts" />
+            <MoreNFTS :holder-nfts="holdings.nfts" variant="Holders" />
           </div>
         </div>
       </div>
@@ -45,7 +46,7 @@
 
 <script setup lang="ts">
 import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
-import { Owners } from '@/components/collection/utils/useCollectionDetails'
+import { Owners } from '@/components/collection/utils/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { NeoIcon } from '@kodadot1/brick'
 import { set } from 'vue'

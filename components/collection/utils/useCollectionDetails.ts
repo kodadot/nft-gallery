@@ -1,33 +1,9 @@
-import { getVolume } from '@/utils/math'
-import {
-  CollectionMetadata,
-  Interaction as InteractionType,
-  NFT,
-  NFTMetadata,
-} from '@/components/rmrk/service/scheme'
+import { getVolume, sum } from '@/utils/math'
+import { NFT } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { chainsSupportingOffers } from './useCollectionDetails.config'
 import { Interaction } from '@kodadot1/minimark'
-
-type Stats = {
-  listedCount?: number
-  collectionLength?: number
-  collectionFloorPrice?: number
-  bestOffer?: number
-  uniqueOwners?: number
-  uniqueOwnersPercent?: string
-  collectionTradedVolumeNumber?: bigint
-}
-
-export type CollectionEntityMinimal = {
-  id: string
-  issuer: string
-  meta: CollectionMetadata
-  metadata: string
-  name: string
-  currentOwner: string
-  type: string
-}
+import { Flippers, InteractionWithNFT, NFTMap, Owners, Stats } from './types'
 
 const differentOwner = (nft: {
   issuer: string
@@ -155,52 +131,6 @@ export const useCollectionMinimal = ({ collectionId }) => {
   })
   return { collection }
 }
-export type NFTExcludingEvents = {
-  currentOwner: string
-  name: string
-  price?: string
-  metadata: string
-  meta: NFTMetadata
-  updatedAt: string
-  id: string
-}
-type InteractionWithNFT = InteractionType & {
-  nft: NFTExcludingEvents
-}
-type NFTMap = {
-  [nftId: string]: {
-    owner: string
-    nft: NFTExcludingEvents
-    latestInteraction: Interaction
-    latestPrice: number
-  }
-}
-type FlipEvent = {
-  nft: NFTExcludingEvents
-  soldPrice: number
-  soldTo: string
-  sellTimeStamp: number
-  boughtPrice: number
-}
-
-export type Flippers = {
-  [identity: string]: {
-    flips: FlipEvent[]
-    owned: number
-    totalBought: number
-    totalsold: number
-    bestFlip: number
-    latestflipTimestamp: number
-  }
-}
-export type Owners = {
-  [identity: string]: {
-    nftCount: number
-    totalBought: number
-    nfts: NFTExcludingEvents[]
-    lastActivityTimestamp: number
-  }
-}
 
 export const useCollectionActivity = ({ collectionId }) => {
   const events = ref<InteractionWithNFT[]>()
@@ -224,8 +154,22 @@ export const useCollectionActivity = ({ collectionId }) => {
         )
         .flat()
       events.value = interactions
-      owners.value = getOwners(result.collection.nfts)
-      flippers.value = getFlippers(interactions)
+
+      // not to repeat ref names
+      const ownersTemp = getOwners(result.collection.nfts)
+      const flippersTemp = getFlippers(interactions)
+
+      const flipperdIds = Object.keys(flippersTemp)
+      const OwnersIds = Object.keys(ownersTemp)
+
+      flipperdIds.forEach((id) => {
+        if (OwnersIds.includes(id)) {
+          ownersTemp[id].totalSold = flippersTemp[id].totalsold
+        }
+      })
+
+      owners.value = ownersTemp
+      flippers.value = flippersTemp
     }
   })
   return {
@@ -328,7 +272,7 @@ const preProccessForFindingFlippers = (interactions: InteractionWithNFT[]) => {
   return { NFTS, changeHandsInteractions }
 }
 
-const getFlippers = (interactions: InteractionWithNFT[]) => {
+const getFlippers = (interactions: InteractionWithNFT[]): Flippers => {
   const { NFTS, changeHandsInteractions } =
     preProccessForFindingFlippers(interactions)
 
@@ -364,12 +308,16 @@ const getFlippers = (interactions: InteractionWithNFT[]) => {
       //nft has been bought from previous owner -> previous owner is the flipper
 
       const flipperHistory = flippers[PreviousNFTState.owner].flips
+      const boughtPrice =
+        PreviousNFTState.latestInteraction === Interaction.BUY
+          ? PreviousNFTState.latestPrice
+          : 0
+      const profit =
+        boughtPrice > 0 ? (baseInfo.soldPrice / boughtPrice) * 100 : 0
       const thisFlip = {
         ...baseInfo,
-        boughtPrice:
-          PreviousNFTState.latestInteraction === Interaction.BUY
-            ? PreviousNFTState.latestPrice
-            : 0,
+        boughtPrice,
+        profit,
       }
 
       flippers[PreviousNFTState.owner].flips = [...flipperHistory, thisFlip]
@@ -383,29 +331,16 @@ const getFlippers = (interactions: InteractionWithNFT[]) => {
       }
     }
   })
-  for (const flipper in flippers) {
-    flippers[flipper].owned = flippers[flipper].flips.length
 
-    flippers[flipper].totalBought = sum(
-      flippers[flipper].flips.map((flip) => flip.boughtPrice)
-    )
-    flippers[flipper].totalsold = sum(
-      flippers[flipper].flips.map((flip) => flip.soldPrice)
-    )
-    const flipsPercentages = flippers[flipper].flips
-      .map((flip) =>
-        flip.boughtPrice > 0 ? flip.soldPrice / flip.boughtPrice : 0
-      )
-      .filter(Boolean)
-    flippers[flipper].bestFlip =
-      flipsPercentages.length > 0 ? Math.max(...flipsPercentages) * 100 : 0 //to percents
-
-    flippers[flipper].latestflipTimestamp = Math.max(
-      ...flippers[flipper].flips.map((flip) => flip.sellTimeStamp)
-    )
-  }
+  Object.entries(flippers).forEach(([flipperId, { flips }]) => {
+    flippers[flipperId] = {
+      owned: flips.length,
+      totalBought: sum(flips.map((flip) => flip.boughtPrice)),
+      totalsold: sum(flips.map((flip) => flip.soldPrice)),
+      bestFlip: Math.max(...flips.map((flip) => flip.profit)),
+      latestflipTimestamp: Math.max(...flips.map((flip) => flip.sellTimeStamp)),
+      flips,
+    }
+  })
   return flippers
 }
-
-const sum = (array: number[]): number =>
-  array.reduce((accumulator, currentValue) => accumulator + currentValue, 0)

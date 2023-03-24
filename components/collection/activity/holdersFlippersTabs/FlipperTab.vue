@@ -10,32 +10,34 @@
       <div class="is-flex is-flex-direction-column gap">
         <ProfileLink :address="flipperId" />
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">Owned</span>
+          <span class="is-size-7 k-grey">{{ $t('activity.owned') }}</span>
           <span>{{ owned }}</span>
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">Total Bought</span>
+          <span class="is-size-7 k-grey">{{ $t('activity.totalBought') }}</span>
           <Money :value="totalBought" />
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">Total Sold</span>
+          <span class="is-size-7 k-grey">{{ $t('activity.totalSold') }}</span>
           <Money :value="totalsold" />
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">Best Flip</span>
+          <span class="is-size-7 k-grey">{{ $t('activity.bestFlip') }}</span>
           <span :class="{ 'k-green': bestFlip > 0, 'k-red': bestFlip < 0 }">{{
             bestFlip === 0 ? '--' : `${bestFlip}%`
           }}</span>
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">Latest Activity</span>
-          <span>{{ timeAgo(latestflipTimestamp) }}</span>
+          <span class="is-size-7 k-grey">{{
+            $t('activity.latestActivity')
+          }}</span>
+          <span class="no-wrap">{{ timeAgo(latestflipTimestamp) }}</span>
         </div>
         <div>
           <div
             class="is-size-7 k-blue is-clickable"
             @click="toggleNFTDetails(flipperId)">
-            NFT details
+            {{ $t('activity.nftDetails') }}
             <NeoIcon
               :icon="
                 isNFTDetailsOpen[flipperId] ? 'chevron-down' : 'chevron-right'
@@ -43,7 +45,7 @@
           </div>
 
           <div v-if="isNFTDetailsOpen[flipperId]">
-            <MoreNFTS :nfts="flips.map((flip) => flip.nft)" />
+            <MoreNFTS :flips="flips" variant="Flippers" />
           </div>
         </div>
       </div>
@@ -53,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { Flippers } from '@/components/collection/utils/useCollectionDetails'
+import { Flippers } from '@/components/collection/utils/types'
 import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { NeoIcon } from '@kodadot1/brick'
@@ -69,17 +71,16 @@ const toggleNFTDetails = (flipperId: string) => {
 
 const flippers = computed(() => Object.entries(props.flippers || {}))
 
-// map of owner id to bolean, is the NFT details section of that owner open or nor
+// map of flipper id to bolean, is the NFT details section of that flipper open or nor
 // {id0: false, id1: true, id3: false, ...}
-const isNFTDetailsOpen = ref(
-  flippers.value.reduce(
-    (isOpen, [flipperId, _]) => ({
-      ...isOpen,
-      [flipperId]: false,
-    }),
-    {}
-  )
+const isFlipperMoreNFTSectionOpen = flippers.value.reduce(
+  (accumelator, [holderId, _]) => ({
+    ...accumelator,
+    [holderId]: false,
+  }),
+  {}
 )
+const isNFTDetailsOpen = ref(isFlipperMoreNFTSectionOpen)
 
 const props = defineProps<{
   flippers?: Flippers

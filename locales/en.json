@@ -884,6 +884,17 @@
     "history": "History",
     "chart": "Chart"
   },
+  "time": {
+    "ago": "Ago",
+    "second": "Second",
+    "seconds": "Seconds",
+    "minute": "Minute",
+    "minutes": "Minutes",
+    "hour": "Hour",
+    "hours": "Hours",
+    "day": "Day",
+    "days": "Days"
+  },
   "activity": {
     "listed": "Listed",
     "totalItems": "Σ Items",
@@ -899,7 +910,17 @@
     "bestOffer": "Best Offer",
     "volume": "Volume",
     "network": "Network",
-    "creator": "Creator"
+    "creator": "Creator",
+    "owned": "Owned",
+    "totalBought": "Total Bought",
+    "totalSold": "Total Sold",
+    "date": "Date",
+    "bestFlip": "Best Flip",
+    "latestActivity": "LatestActivity",
+    "nftDetails": "NFT Details",
+    "profit": "Profit",
+    "bought": "Bought",
+    "sold": "Sold"
   },
   "profileStats": {
     "listed": "Listed",
