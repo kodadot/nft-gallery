@@ -16,7 +16,7 @@
           </div>
           <h1 class="collection-banner-name">{{ collectionName }}</h1>
         </div>
-        <HeroButtons class="is-align-self-flex-end" />
+        <HeroButtons class="is-hidden-mobile is-align-self-flex-end" />
       </div>
     </section>
   </div>
@@ -26,7 +26,7 @@
 import type { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import HeroButtons from './HeroButtons.vue'
+import HeroButtons from '@/components/collection/HeroButtons.vue'
 
 const route = useRoute()
 const { data } = useGraphql({
