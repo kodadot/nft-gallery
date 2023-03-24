@@ -180,7 +180,7 @@ import {
   nsfwAttribute,
   offsetAttribute,
   secondaryFileVisible,
-} from '@/components/rmrk/Create/mintUtils'
+} from '@/utils/mintUtils'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import Support from '@/components/shared/Support.vue'
 import collectionList from '@/queries/subsquid/rmrk/usedCollectionSymbolsByAccount.graphql'
@@ -393,12 +393,12 @@ export default class SimpleMint extends mixins(
     return this.preferencesStore.hasSupport
   }
 
-  get hasCarbonOffset(): boolean {
-    return this.preferencesStore.hasCarbonOffset
+  get hasCarbonOffset() {
+    return this.preferencesStore.getHasCarbonOffset
   }
 
-  get arweaveUpload(): boolean {
-    return this.preferencesStore.arweaveUpload
+  set hasCarbonOffset(value: boolean) {
+    this.preferencesStore.setHasCarbonOffset(value)
   }
 
   public checkValidity() {

@@ -6,7 +6,7 @@
           v-for="(item, index) in nfts"
           :key="`${item.id}-${index}`"
           class="keen-slider__slide carousel-item">
-          <div>
+          <div class="h-full is-flex is-flex-direction-column">
             <CarouselMedia :item="item" />
             <CarouselInfo :item="item" />
           </div>
@@ -70,10 +70,13 @@ const [wrapper, slider] = useKeenSlider(
         slides: { perView: 2.5, spacing: 32 },
       },
       '(min-width: 1024px)': {
-        slides: { perView: 3, spacing: 32 },
+        slides: { perView: 4, spacing: 32 },
       },
       '(min-width: 1280px)': {
-        slides: { perView: 4, spacing: 32 },
+        slides: { perView: 5, spacing: 32 },
+      },
+      '(min-width: 1540px)': {
+        slides: { perView: 6, spacing: 32 },
       },
     },
     slides: { perView: 1.5, spacing: 32 },

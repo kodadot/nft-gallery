@@ -1,10 +1,3 @@
-type AvailableClients = 'subquery' | 'subsquid'
-
-const defaultPaths: Record<AvailableClients, string> = {
-  subquery: '',
-  subsquid: 'subsquid/general/',
-}
-
 function resolveQueryPath(
   prefix: string,
   queryName: string
@@ -29,15 +22,13 @@ function getPath(prefix: string) {
       return 'unique/'
     case 'chain-bsx':
       return 'subsquid/bsx/'
+    case 'chain-rmrk':
+      return 'subsquid/rmrk/'
     case 'chain-rmrk2':
       return 'subsquid/rmrk2/'
     default:
       return ''
   }
-}
-
-function getDefaultPathForClient(client: AvailableClients): string {
-  return defaultPaths[client]
 }
 
 // const queryPaths: Record<string, { subsquid: string, subquery: string | undefined }> = {

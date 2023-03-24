@@ -26,6 +26,7 @@
           " />
       </div>
     </DynamicGrid>
+    <EmptyResult v-if="total === 0" />
   </div>
 </template>
 
@@ -76,9 +77,12 @@ const { nfts, fetchSearch } = useFetchSearch({
   resetSearch: resetPage,
 })
 
+watch(total, () => {
+  prefetchNextPage()
+})
+
 onBeforeMount(async () => {
   await fetchSearch(startPage.value)
   isLoading.value = false
-  prefetchNextPage()
 })
 </script>

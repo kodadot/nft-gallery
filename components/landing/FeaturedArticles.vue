@@ -35,3 +35,11 @@ interface Articles {
 
 const articles: Articles[] = substack.post
 </script>
+
+<style scoped>
+@media screen and (max-width: 1540px) {
+  .columns .column:last-child {
+    display: none;
+  }
+}
+</style>

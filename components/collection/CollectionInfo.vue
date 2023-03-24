@@ -2,6 +2,7 @@
   <div
     class="is-flex is-justify-content-space-between mobile-flex-direction-column gap">
     <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
+      <HeroButtons class="is-hidden-tablet" />
       <div v-if="collectionInfo?.currentOwner" class="is-flex mb-2">
         <div class="mr-2">{{ $t('activity.creator') }}</div>
         <nuxt-link :to="`/${urlPrefix}/u/${address}`" class="has-text-link">
@@ -9,7 +10,10 @@
         </nuxt-link>
       </div>
       <div class="overflow-wrap">
-        {{ collectionInfo?.meta.description }}
+        <vue-markdown
+          :source="
+            collectionInfo?.meta.description?.replaceAll('\n', '  \n') || ''
+          " />
       </div>
     </div>
     <div>
@@ -45,9 +49,12 @@
   </div>
 </template>
 <script setup lang="ts">
+import VueMarkdown from 'vue-markdown-render'
 import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
+import HeroButtons from '@/components/collection/HeroButtons.vue'
+
 import {
   useCollectionDetails,
   useCollectionMinimal,

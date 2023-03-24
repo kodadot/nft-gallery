@@ -19,15 +19,9 @@
           :prefix="urlPrefix"
           class="mb-3" />
 
-        <BasicSwitch
-          key="hasCarbonOffset"
-          v-model="hasCarbonOffset"
-          label="carbonOffset.carbonOffsetSwitch" />
-
         <div v-show="base.selectedCollection" key="attributes">
           <CustomAttributeInput
             v-model="attributes"
-            :prefix-attributes="carbonLessAttribute"
             :max="10"
             class="mb-3"
             visible="collapse.collection.attributes.show"
@@ -60,7 +54,8 @@
           </p>
         </b-field>
         <b-field key="balance">
-          <AccountBalance :token-id="tokenId" />
+          <AccountBalance
+            :token-id="feesToken === 'KSM' ? tokenId : undefined" />
         </b-field>
         <b-field key="token">
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
@@ -81,50 +76,31 @@
 </template>
 
 <script lang="ts">
-import {
-  nsfwAttribute,
-  offsetAttribute,
-  secondaryFileVisible,
-} from '@/components/rmrk/Create/mintUtils'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import shouldUpdate from '@/utils/shouldUpdate'
-import {
-  Attribute,
-  createMetadata,
-  unSanitizeIpfsUrl,
-} from '@kodadot1/minimark'
+import { Attribute, Interaction } from '@kodadot1/minimark'
 
-import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
+import { onApiConnect } from '@kodadot1/sub-api'
 import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
-import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
+import { BaseTokenType } from '@/components/base/types'
 import {
   getInstanceDeposit,
   getMetadataDeposit,
 } from '@/components/unique/apiConstants'
 import { createTokenId } from '@/components/unique/utils'
-import {
-  DETAIL_TIMEOUT,
-  IPFS_KODADOT_IMAGE_PLACEHOLDER,
-} from '@/utils/constants'
+import { DETAIL_TIMEOUT } from '@/utils/constants'
 import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
-import { Royalty, isRoyaltyValid } from '@/utils/royalty'
-import { fetchCollectionMetadata, preheatFileFromIPFS } from '@/utils/ipfs'
+import { Royalty } from '@/utils/royalty'
+import { fetchCollectionMetadata } from '@/utils/ipfs'
 import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { uploadDirectWhenMultiple } from '@/utils/directUpload'
-import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
-
-type MintedCollection = BaseMintedCollection & {
-  name?: string
-  lastIndexUsed: number
-}
+import { MintedCollectionBasilisk } from '~~/composables/transaction/types'
+import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 
 const components = {
   CustomAttributeInput: () =>
@@ -156,7 +132,7 @@ export default class CreateToken extends mixins(
   @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
   private preferencesStore = usePreferencesStore()
 
-  public base: BaseTokenType<MintedCollection> = {
+  public base: BaseTokenType<MintedCollectionBasilisk> = {
     name: '',
     file: null,
     description: '',
@@ -164,7 +140,7 @@ export default class CreateToken extends mixins(
     edition: 1,
     secondFile: null,
   }
-  public collections: MintedCollection[] = []
+  public collections: MintedCollectionBasilisk[] = []
   public postfix = true
   public deposit = '0'
   public attributes: Attribute[] = []
@@ -172,6 +148,7 @@ export default class CreateToken extends mixins(
   public price = '0'
   public listed = false
   public hasRoyalty = true
+  public feesToken: Token = 'BSX'
   public royalty: Royalty = {
     amount: 0.15,
     address: '',
@@ -187,8 +164,11 @@ export default class CreateToken extends mixins(
     this.balanceInput.checkValidity()
   }
 
-  get hasCarbonOffset() {
-    return this.preferencesStore.hasCarbonOffset
+  get balanceOfToken() {
+    return getBalance(this.feesToken)
+  }
+  get depositOfToken() {
+    return getDeposit(this.feesToken, parseFloat(this.deposit))
   }
 
   get balanceNotEnoughMessage() {
@@ -196,10 +176,6 @@ export default class CreateToken extends mixins(
       return this.$t('tooltip.notEnoughBalance')
     }
     return ''
-  }
-
-  get pinningStore() {
-    return usePinningStore()
   }
 
   public async created() {
@@ -211,9 +187,10 @@ export default class CreateToken extends mixins(
   }
 
   @Watch('accountId', { immediate: true })
-  hasAccount(value: string, oldVal: string) {
+  async hasAccount(value: string, oldVal: string) {
     if (shouldUpdate(value, oldVal)) {
       this.fetchCollections()
+      this.feesToken = await getFeesToken()
     }
   }
 
@@ -258,14 +235,6 @@ export default class CreateToken extends mixins(
     })
   }
 
-  get tokenId() {
-    return getKusamaAssetId(this.urlPrefix)
-  }
-
-  get carbonLessAttribute(): Attribute[] {
-    return offsetAttribute(this.hasCarbonOffset)
-  }
-
   public checkValidity() {
     const balanceInputValid = !this.listed || this.balanceInput?.checkValidity()
     const baseTokenFormValid = this.baseTokenForm?.checkValidity()
@@ -281,53 +250,43 @@ export default class CreateToken extends mixins(
       return
     }
     // check balance
-    if (!!this.deposit && parseFloat(this.balance) < parseFloat(this.deposit)) {
+    if (!!this.deposit && this.balanceOfToken < this.depositOfToken) {
       this.balanceNotEnough = true
       return
     }
     this.isLoading = true
     this.status = 'loader.ipfs'
-    const api = await ApiFactory.useApiInstance(this.apiUrl)
-    const { selectedCollection } = this.base
     const {
       alreadyMinted,
       id: collectionId,
       lastIndexUsed,
-    } = selectedCollection
+    } = this.base.selectedCollection
+    const nextId = Math.max(lastIndexUsed + 1, alreadyMinted + 1)
+
+    const { transaction, status, isLoading, blockNumber } = useTransaction()
+    watch([isLoading, status], () => {
+      this.isLoading = isLoading.value
+      if (Boolean(status.value)) {
+        this.status = status.value
+      }
+    })
+    watch(blockNumber, (block) => {
+      if (block) {
+        this.navigateToDetail(collectionId, String(nextId))
+      }
+    })
 
     try {
-      const metadata =
-        retryCount && this.metadata ? this.metadata : await this.constructMeta()
-
-      const cb = api.tx.utility.batchAll
-      const nextId = Math.max(lastIndexUsed + 1, alreadyMinted + 1)
-      const create = api.tx.nft.mint(collectionId, nextId, metadata)
-      const list = this.price
-        ? [api.tx.marketplace.setPrice(collectionId, nextId, this.price)]
-        : []
-
-      const addRoyalty =
-        isRoyaltyValid(this.royalty) && this.hasRoyalty
-          ? [
-              api.tx.marketplace.addRoyalty(
-                collectionId,
-                nextId,
-                this.royalty.address,
-                this.royalty.amount * 100
-              ),
-            ]
-          : []
-
-      const args = [[create, ...list, ...addRoyalty]]
-
-      await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
-        showNotification(
-          `[NFT] Saved ${this.base.name} in block ${blockNumber}`,
-          notificationTypes.success
-        )
-
-        this.navigateToDetail(collectionId, String(nextId))
-        this.stopLoader()
+      transaction({
+        interaction: Interaction.MINTNFT,
+        urlPrefix: usePrefix().urlPrefix.value,
+        token: {
+          ...this.base,
+          nsfw: this.nsfw,
+          price: this.price,
+          postfix: this.postfix,
+          tags: this.attributes,
+        },
       })
     } catch (e) {
       if (e instanceof Error) {
@@ -343,57 +302,6 @@ export default class CreateToken extends mixins(
         }
       }
     }
-  }
-
-  public async constructMeta(): Promise<string> {
-    const { file, name, description, secondFile } = this.base
-
-    if (!file) {
-      throw new ReferenceError('No file found!')
-    }
-
-    const { token } = await this.pinningStore.fetchPinningKey(this.accountId)
-    const fileHash = await pinFileToIPFS(file, token)
-    const secondFileHash = secondFile
-      ? await pinFileToIPFS(secondFile, token)
-      : undefined
-
-    let imageHash: string | undefined = fileHash
-    let animationUrl: string | undefined = undefined
-
-    // if secondaryFileVisible(file) then assign secondaryFileHash to image and set animationUrl to fileHash
-    if (secondaryFileVisible(file)) {
-      animationUrl = fileHash
-      imageHash = secondFileHash || IPFS_KODADOT_IMAGE_PLACEHOLDER
-    }
-
-    const attributes = [
-      ...(this.attributes || []),
-      ...nsfwAttribute(this.nsfw),
-      ...offsetAttribute(this.hasCarbonOffset),
-    ]
-
-    const meta = createMetadata(
-      name,
-      description,
-      imageHash,
-      animationUrl,
-      attributes,
-      'https://kodadot.xyz',
-      file.type
-    )
-
-    preheatFileFromIPFS(fileHash)
-
-    uploadDirectWhenMultiple(
-      [file, secondFile],
-      [fileHash, secondFileHash]
-    ).catch(this.$consola.warn)
-    const metaHash = await pinJson(meta, imageHash)
-    const metadata = unSanitizeIpfsUrl(metaHash)
-    this.metadata = metadata
-
-    return metadata
   }
 
   protected navigateToDetail(collection: string, id: string): void {
