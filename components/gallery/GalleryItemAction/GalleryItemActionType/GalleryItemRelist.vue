@@ -63,7 +63,10 @@ const active = ref(false)
 const price = ref()
 const isListed = computed(() => Boolean(Number(props.nftPrice)))
 const isListDisabled = computed(() => {
-  return active.value && (price.value === undefined || price.value === '')
+  return (
+    active.value &&
+    (price.value === undefined || price.value === '' || Number(price.value) < 0)
+  )
 })
 const actionRef = ref(null)
 onClickOutside(actionRef, () => (active.value = false))

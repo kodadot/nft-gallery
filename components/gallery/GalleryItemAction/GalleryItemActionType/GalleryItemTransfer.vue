@@ -7,6 +7,7 @@
         <template #action>
           <NeoTooltip
             :active="isTransferButtonDisabled"
+            position="bottom"
             :label="$t('tooltip.emptyAddress')">
             <NeoButton
               :label="`${$i18n.t('transaction.transfer')}`"
