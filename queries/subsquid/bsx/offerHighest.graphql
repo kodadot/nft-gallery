@@ -1,6 +1,6 @@
-query offerHighest($id: String!, $account: String) {
+query offerHighest($id: String!) {
   offers(
-    where: { nft: { id_eq: $id }, caller_not_eq: $account, status_eq: ACTIVE }
+    where: { nft: { id_eq: $id }, status_eq: ACTIVE }
     orderBy: price_DESC
     limit: 1
   ) {
