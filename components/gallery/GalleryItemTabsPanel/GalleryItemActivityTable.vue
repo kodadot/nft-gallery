@@ -136,16 +136,6 @@ useSubscriptionGraphql({
   },
 })
 
-defineExpose({
-  async refreshTable() {
-    await refetch({
-      options: {
-        fetchPolicy: 'network-only',
-      },
-    })
-  },
-})
-
 interface ItemEvents {
   events?: Interaction[]
 }

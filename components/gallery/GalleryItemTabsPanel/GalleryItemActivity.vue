@@ -27,7 +27,6 @@
     </div>
 
     <GalleryItemActivityTable
-      ref="activityRef"
       :key="interactions.join('')"
       :nft-id="nftId"
       :interactions="interactions" />
@@ -37,17 +36,9 @@
 <script setup lang="ts">
 import GalleryItemActivityTable from './GalleryItemActivityTable.vue'
 
-const activityRef = ref<InstanceType<typeof GalleryItemActivityTable>>()
-
 defineProps<{
   nftId: string
 }>()
-
-defineExpose({
-  refreshTable: () => {
-    activityRef.value.refreshTable()
-  },
-})
 
 const defaultInteractions = [
   'MINTNFT',

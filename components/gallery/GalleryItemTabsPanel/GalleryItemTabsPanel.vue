@@ -20,10 +20,7 @@
 
     <!-- activity -->
     <o-tab-item value="1" :label="$t('tabs.activity')">
-      <GalleryItemActivity
-        v-if="nft?.id"
-        ref="activityTabRef"
-        :nft-id="nft?.id" />
+      <GalleryItemActivity v-if="nft?.id" :nft-id="nft?.id" />
     </o-tab-item>
 
     <!-- chart -->
@@ -49,14 +46,6 @@ const props = withDefaults(
     activeTab: '0',
   }
 )
-
-const activityTabRef = ref<InstanceType<typeof GalleryItemActivity>>()
-
-defineExpose({
-  refreshActivityTab: () => {
-    activityTabRef.value?.refreshTable()
-  },
-})
 
 const { urlPrefix } = usePrefix()
 const { nft } = useGalleryItem()
