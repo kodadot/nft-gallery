@@ -127,13 +127,7 @@ useSubscriptionGraphql({
     timestamp
     meta
   }`,
-  onChange: () => {
-    refetch({
-      options: {
-        fetchPolicy: 'network-only',
-      },
-    })
-  },
+  onChange: refetch,
 })
 
 interface ItemEvents {

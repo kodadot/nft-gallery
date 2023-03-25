@@ -48,6 +48,14 @@ export default function ({
     }
   }
 
+  async function refetch() {
+    await doFetch({
+      options: {
+        fetchPolicy: 'network-only',
+      },
+    })
+  }
+
   if (isRef(variables)) {
     watchEffect(doFetch)
   } else {
@@ -57,7 +65,7 @@ export default function ({
   return {
     data,
     error,
-    refetch: doFetch,
+    refetch,
     loading,
   }
 }
