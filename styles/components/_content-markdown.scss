@@ -1,8 +1,12 @@
 @import '@/styles/abstracts/variables';
 
 .content-markdown {
-  pre .token.tag{
+  pre .token.tag, .number{
     background: transparent;
+  }
+  .number {
+    padding: 0;
+    min-width: auto;
   }
   code {
     font-family: monospace;

@@ -13,9 +13,15 @@
 import VueMarkdown from 'vue-markdown'
 import Prism from 'prismjs'
 import 'prismjs/themes/prism-okaidia.css' // theme
-import 'prismjs/components/prism-javascript.min' // js language
-import 'prismjs/components/prism-json.min' // json language
+
 import '@/styles/components/_content-markdown.scss'
+
+// import languages
+import 'prismjs/components/prism-javascript.min'
+import 'prismjs/components/prism-json.min'
+import 'prismjs/components/prism-graphql.min'
+import 'prismjs/components/prism-typescript.min'
+import 'prismjs/components/prism-bash.min'
 
 defineProps<{
   source: string
