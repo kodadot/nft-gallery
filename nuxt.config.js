@@ -147,6 +147,7 @@ export default defineNuxtConfig({
     '~/plugins/pwa',
     '~/plugins/vueAudioVisual',
     '~/plugins/vueClipboard',
+    '~/plugins/vueMarkdown',
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
   ],

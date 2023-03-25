@@ -5,10 +5,10 @@
         activeWrapper && hasWrapper ? { maxHeight: `${rowHeight}px` } : null,
       ]"
       :class="{ 'description-wrapper': activeWrapper && hasWrapper }">
-      <VueMarkdown :source="text" />
+      <Markdown :source="text" />
     </div>
     <div class="has-text-centered">
-      <a @click.prevent="toggleDescription" v-if="hasWrapper">
+      <a v-if="hasWrapper" @click.prevent="toggleDescription">
         <b-icon :icon="activeWrapper ? 'chevron-down' : 'chevron-up'"></b-icon>
       </a>
     </div>
@@ -18,9 +18,9 @@
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-
+import Markdown from '@/components/shared/Markdown'
 const components = {
-  VueMarkdown: () => import('vue-markdown-render'),
+  Markdown,
 }
 
 @Component({ components })

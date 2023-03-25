@@ -27,7 +27,7 @@
               {{ card.title }}
             </p>
             <div class="content is-size-4-tablet is-size-5-mobile">
-              <VueMarkdown :source="card.content" />
+              <Markdown :source="card.content" />
             </div>
           </div>
         </div>
@@ -65,7 +65,6 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
-import VueMarkdown from 'vue-markdown-render'
 import { usePreferencesStore } from '@/stores/preferences'
 import { SwipeDirection, useSwipe } from '@vueuse/core'
 const router = useRouter()

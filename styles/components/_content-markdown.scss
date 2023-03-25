@@ -1,9 +1,8 @@
-@import '~/node_modules/highlight.js/styles/github-dark.css';
 @import '@/styles/abstracts/variables';
 
-.content {
-  pre.hljs {
-    background: $black;
+.content-markdown {
+  pre .token.tag{
+    background: transparent;
   }
   code {
     font-family: monospace;
