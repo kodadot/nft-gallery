@@ -5,7 +5,7 @@
       :key="holderId"
       class="hide-last-hr">
       <div class="is-flex is-flex-direction-column gap">
-        <ProfileLink :address="holderId" />
+        <ProfileLink :address="holderId" :avatar-size="35" />
         <div class="is-flex is-justify-content-space-between">
           <span class="is-size-7 k-grey">{{ $t('activity.owned') }}</span>
           <span>{{ holdings.nftCount }}</span>

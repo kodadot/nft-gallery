@@ -2,17 +2,26 @@
   <div class="columns">
     <div class="column">
       <div class="is-flex is-align-items-center">
-        <img
-          v-if="avatar"
-          :src="avatar"
-          :alt="event.nft.name"
-          width="40"
-          height="40"
-          class="border" />
-        <img v-else src="/placeholder.webp" class="border" />
-        <div class="ml-5 has-text-weight-bold is-clipped elipsis">
-          {{ event.nft.name }}
-        </div>
+        <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
+          <img
+            v-if="avatar"
+            :src="avatar"
+            :alt="event.nft.name"
+            width="50"
+            height="50"
+            class="border" />
+          <img
+            v-else
+            src="/placeholder.webp"
+            class="border"
+            width="50"
+            height="50" />
+        </nuxt-link>
+        <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
+          <div class="ml-5 has-text-weight-bold is-clipped elipsis">
+            {{ event.nft.name }}
+          </div>
+        </nuxt-link>
       </div>
     </div>
 

@@ -2,28 +2,28 @@
   <div v-if="events.length > 0">
     <div class="is-hidden-touch columns is-size-7 k-grey py-3">
       <div class="column">
-        <span>item</span>
+        <span>{{ $t('activity.event.item') }}</span>
       </div>
       <div class="column">
-        <span>event</span>
+        <span>{{ $t('activity.event.event') }}</span>
       </div>
       <div class="column">
-        <span>amount</span>
+        <span>{{ $t('activity.event.amount') }}</span>
       </div>
       <div class="column">
-        <span>from</span>
+        <span>{{ $t('activity.event.from') }}</span>
       </div>
       <div class="column">
-        <span>to</span>
+        <span>{{ $t('activity.event.to') }}</span>
       </div>
       <div class="column">
-        <span>time</span>
+        <span>{{ $t('activity.event.time') }}</span>
       </div>
     </div>
     <div>
       <EventRow
         v-for="event in displayedEvents"
-        :key="event.id"
+        :key="event.timestamp"
         :event="event"
         class="my-2 event-row-transition" />
       <div ref="sentinel" />

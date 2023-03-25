@@ -28,7 +28,7 @@ const open = computed(() => preferencesStore.getsidebarFilterCollapse)
   position: sticky;
   top: 84px;
   height: calc(100vh - 84px);
-  margin-right: 32px;
+  margin-right: $fluid-container-padding;
 }
 
 .o-side {
