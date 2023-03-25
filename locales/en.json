@@ -59,6 +59,7 @@
   "createNftExplainer": "If your collection was minted recently and it doesn't show up here, please wait, it will show up in the selector below shortly",
   "passion": "Passion Feed",
   "beta": "Beta",
+  "go back": "Go Back",
   "search": {
     "seeAll": "See All",
     "rankings": "Rankings",
@@ -1256,5 +1257,4 @@
       }
     }
   }
-
 }

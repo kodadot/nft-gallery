@@ -62,12 +62,16 @@ export const flushIndexedDb = () => {
 
 export const clearSession = () => {
   try {
-    window.sessionStorage.clear()
-    window.localStorage.clear()
-    flushIndexedDb()
+    setTimeout(() => {
+      window.sessionStorage.clear()
+      window.localStorage.clear()
+      flushIndexedDb()
+    }, 100)
   } catch (error) {
     console.error(error)
   } finally {
-    window.location.reload()
+    setTimeout(() => {
+      window.location.reload()
+    }, 200)
   }
 }

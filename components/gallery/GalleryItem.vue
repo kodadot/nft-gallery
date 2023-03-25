@@ -10,19 +10,27 @@
       :subtitle="$t('mint.successNewNfts')" />
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths">
-        <MediaItem
-          :key="nftImage"
-          :class="{
-            'is-flex is-align-items-center is-justify-content-center h-audio':
-              resolveMedia(nftMimeType) == MediaType.AUDIO,
-          }"
-          class="gallery-item-media"
-          :src="nftImage"
-          :animation-src="nftAnimation"
-          :mime-type="nftMimeType"
-          :title="nftMetadata?.name"
-          is-detail
-          :original="isMobile && true" />
+        <div class="is-relative">
+          <a
+            v-if="canPreview"
+            class="fullscreen-button is-justify-content-center is-align-items-center"
+            @click="isFullscreen = true">
+            <NeoIcon icon="expand" />
+          </a>
+          <MediaItem
+            :key="nftImage"
+            :class="{
+              'is-flex is-align-items-center is-justify-content-center h-audio':
+                resolveMedia(nftMimeType) == MediaType.AUDIO,
+            }"
+            class="gallery-item-media"
+            :src="nftImage"
+            :animation-src="nftAnimation"
+            :mime-type="nftMimeType"
+            :title="nftMetadata?.name"
+            is-detail
+            :original="isMobile" />
+        </div>
       </div>
       <div class="py-6 column">
         <div
@@ -96,11 +104,12 @@
       data-cy="carousel-related" />
 
     <CarouselTypeVisited class="mt-6" />
+    <GalleryItemPreviewer v-model="isFullscreen" />
   </section>
 </template>
 
 <script setup lang="ts">
-import { IdentityItem, MediaItem } from '@kodadot1/brick'
+import { IdentityItem, MediaItem, NeoIcon } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 
@@ -108,6 +117,7 @@ import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
+import GalleryItemPreviewer from './GalleryItemPreviewer.vue'
 
 import { exist } from '@/components/search/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
@@ -133,6 +143,13 @@ const tabs = {
 }
 const activeTab = ref(tabs.offers)
 const showCongratsMessage = ref(false)
+
+const isFullscreen = ref(false)
+const canPreview = computed(() =>
+  [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
+    resolveMedia(nftMimeType.value)
+  )
+)
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity
@@ -184,6 +201,8 @@ useNuxt2Meta({
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+$break-point-width: 930px;
 .title {
   font-size: 2.4375em;
 }
@@ -203,7 +222,7 @@ useNuxt2Meta({
   }
 }
 
-@media screen and (max-width: 930px) {
+@media screen and (min-width: 769px) and (max-width: $break-point-width) {
   .columns {
     display: inherit;
     & > .column {
@@ -212,9 +231,36 @@ useNuxt2Meta({
   }
 }
 
-.gallery-item-media image {
-  margin-left: auto;
-  margin-right: auto;
+.fullscreen-button {
+  position: absolute;
+  right: 2.75rem;
+  top: 2rem;
+  z-index: 1;
+  display: none;
+  width: 35px;
+  height: 35px;
+  border: 1px solid;
+  @include ktheme() {
+    background-color: rgba(theme('background-color'), 0.15);
+    border-color: rgba(theme('background-color'), 0.3);
+    color: theme('text-color');
+  }
+}
+
+.column > div:hover .fullscreen-button {
+  display: flex;
+}
+
+@media screen and (max-width: $break-point-width) {
+  .fullscreen-button {
+    display: flex;
+  }
+}
+
+@media (hover: none) {
+  .fullscreen-button {
+    display: flex;
+  }
 }
 
 .h-audio {
