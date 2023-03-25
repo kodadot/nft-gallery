@@ -690,7 +690,7 @@
     "smallDisplay": "Small Display",
     "largeDisplay": "Large Display",
     "emptyAddress": "Receiver address cannot be empty",
-    "emptyListAmount": "Amount should be greater than or equal to 0"
+    "emptyListAmount": "Amount should be greater than 0"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",

@@ -65,7 +65,9 @@ const isListed = computed(() => Boolean(Number(props.nftPrice)))
 const isListDisabled = computed(() => {
   return (
     active.value &&
-    (price.value === undefined || price.value === '' || Number(price.value) < 0)
+    (price.value === undefined ||
+      price.value === '' ||
+      Number(price.value) <= 0)
   )
 })
 const actionRef = ref(null)
