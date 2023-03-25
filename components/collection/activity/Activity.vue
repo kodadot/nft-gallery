@@ -35,7 +35,7 @@ import SidebarFilter from '@/components/explore/SidebarFilter.vue'
 import ActivityChart from './Chart.vue'
 import OwnerInsights from './OwnerInsights.vue'
 import Events from './events/Events.vue'
-import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
+// import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
 import { useCollectionActivity } from '~~/components/collection/utils/useCollectionActivity'
 import { Interaction } from '@kodadot1/minimark'
 import { useResizeObserver, useWindowSize } from '@vueuse/core'
@@ -49,9 +49,9 @@ const wrapper = ref<HTMLDivElement | null>(null)
 
 const isFiltersActive = ref(false)
 
-const toggleBreadcrumbsVisible = (active: boolean) => {
-  isFiltersActive.value = active
-}
+// const toggleBreadcrumbsVisible = (active: boolean) => {
+//   isFiltersActive.value = active
+// }
 
 const collectionId = computed(() => route.params.id)
 const { events, flippers, owners, offers } = useCollectionActivity({

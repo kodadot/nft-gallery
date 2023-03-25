@@ -58,7 +58,7 @@ const processNFTImages = async () => {
   if (props.flips) {
     const promises = props.flips.map(async ({ nft }, i) => {
       let avatar
-      if (nft?.meta?.image) {
+      if (nft.meta?.image) {
         avatar = sanitizeIpfsUrl(nft.meta.image)
       } else {
         const meta = (await processSingleMetadata(nft.metadata)) as NFTMetadata

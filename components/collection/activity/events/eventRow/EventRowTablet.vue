@@ -141,7 +141,7 @@ onMounted(() => {
 
 const getAvatar = async () => {
   if (props.event) {
-    if (props.event.nft?.meta?.image) {
+    if (props.event.nft.meta?.image) {
       avatar.value = sanitizeIpfsUrl(props.event.nft.meta.image)
     } else {
       const meta = (await processSingleMetadata(

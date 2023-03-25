@@ -1,9 +1,8 @@
-import { getVolume, sum } from '@/utils/math'
+import { getVolume } from '@/utils/math'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { chainsSupportingOffers } from './useCollectionDetails.config'
-import { Interaction } from '@kodadot1/minimark'
-import { Flippers, InteractionWithNFT, NFTMap, Owners, Stats } from './types'
+import { Stats } from './types'
 
 const differentOwner = (nft: {
   issuer: string
