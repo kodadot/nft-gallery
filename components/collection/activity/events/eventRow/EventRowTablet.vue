@@ -7,10 +7,15 @@
             v-if="avatar"
             :src="avatar"
             :alt="event.nft.name"
-            width="40"
-            height="40"
+            width="50"
+            height="50"
             class="border" />
-          <img v-else src="/placeholder.webp" class="border" />
+          <img
+            v-else
+            src="/placeholder.webp"
+            class="border"
+            width="50"
+            height="50" />
         </div>
       </nuxt-link>
       <div class="is-flex is-flex-direction-column is-flex-grow-1">

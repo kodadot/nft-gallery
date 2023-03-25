@@ -1,7 +1,8 @@
 <template>
   <div :class="{ 'bordered sticky': open }" class="is-hidden-mobile">
     <NeoSidebar :reduce="false" :open="open" fullheight>
-      <StatusFilter expanded fluid-padding />
+      <EventTypeFilter v-if="isCollectionActivityTab" expanded fluid-padding />
+      <StatusFilter v-else expanded fluid-padding />
       <PriceFilter fluid-padding />
     </NeoSidebar>
   </div>
@@ -11,10 +12,15 @@
 import { NeoSidebar } from '@kodadot1/brick'
 import PriceFilter from './filters/PriceFilter.vue'
 import StatusFilter from './filters/StatusFilter.vue'
+import EventTypeFilter from './filters/EventTypeFilter.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+const route = useRoute()
 
 const preferencesStore = usePreferencesStore()
 const open = computed(() => preferencesStore.getsidebarFilterCollapse)
+const isCollectionActivityTab = computed(
+  () => route.name === 'prefix-collection-id-activity'
+)
 </script>
 
 <style lang="scss" scoped>

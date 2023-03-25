@@ -57,6 +57,11 @@ const clearAllFilters = () => {
 const queryMapTranslation = {
   listed: $i18n.t('sort.listed'),
   owned: $i18n.t('sort.own'),
+  sale: 'Sale',
+  offer: 'Offer',
+  listing: 'Listing',
+  mint: 'Mint',
+  transfer: 'Transfer',
 }
 
 onMounted(() => {
