@@ -120,7 +120,7 @@ useSubscriptionGraphql({
   events (
     where: { nft: { id_eq: "${dprops.nftId}" }, interaction_in: [${interaction}] }
     orderBy: timestamp_DESC
-    limit: 100
+    limit: 5
   ) {
     id
     interaction
