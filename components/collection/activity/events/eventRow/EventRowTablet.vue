@@ -1,16 +1,18 @@
 <template>
   <div>
     <div class="is-flex">
-      <div class="mr-5">
-        <img
-          v-if="avatar"
-          :src="avatar"
-          :alt="event.nft.name"
-          width="40"
-          height="40"
-          class="border" />
-        <img v-else src="/placeholder.webp" class="border" />
-      </div>
+      <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
+        <div class="mr-5">
+          <img
+            v-if="avatar"
+            :src="avatar"
+            :alt="event.nft.name"
+            width="40"
+            height="40"
+            class="border" />
+          <img v-else src="/placeholder.webp" class="border" />
+        </div>
+      </nuxt-link>
       <div class="is-flex is-flex-direction-column is-flex-grow-1">
         <div class="is-flex is-justify-content-space-between mb-2">
           <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
