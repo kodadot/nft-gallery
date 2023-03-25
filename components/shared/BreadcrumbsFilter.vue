@@ -4,14 +4,14 @@
       <NeoTag
         v-if="key === 'search'"
         :key="key"
-        class="control a"
+        class="control"
         @close="removeBread('search')">
         {{ `${$t('general.search')}: ${value}` }}
       </NeoTag>
       <NeoTag
         v-else-if="key === 'min'"
         :key="key"
-        class="control b"
+        class="control"
         @close="removeBread('min')">
         {{ `${$t('Min')}:` }}
         <CommonTokenMoney :value="value" />
@@ -19,7 +19,7 @@
       <NeoTag
         v-else-if="key === 'max'"
         :key="key"
-        class="control c"
+        class="control"
         @close="removeBread('max')">
         {{ `${$t('Max')}:` }}
         <CommonTokenMoney :value="value" />
