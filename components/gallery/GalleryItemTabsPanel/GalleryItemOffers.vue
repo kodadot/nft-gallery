@@ -56,14 +56,19 @@
         <NeoSecondaryButton
           v-if="
             (props.row.caller === accountId || isOwner) &&
-            props.row.status === OfferStatusType.ACTIVE
+            props.row.status === OfferStatusType.ACTIVE &&
+            expirationTime(props.row.expiration) !== 'Expired'
           "
           variant="primary"
           @click.native="onWithdrawOffer(props.row.caller)"
           >Cancel</NeoSecondaryButton
         >
         <NeoSecondaryButton
-          v-if="isOwner && props.row.status === OfferStatusType.ACTIVE"
+          v-if="
+            isOwner &&
+            props.row.status === OfferStatusType.ACTIVE &&
+            expirationTime(props.row.expiration) !== 'Expired'
+          "
           variant="info"
           @click.native="onAcceptOffer(props.row.caller)"
           >Accept</NeoSecondaryButton
