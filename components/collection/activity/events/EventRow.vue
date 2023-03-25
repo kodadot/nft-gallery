@@ -1,7 +1,7 @@
 <template>
   <div>
-    <EventRowDesktop :event="event" />
-    <!-- <EventRowTablet :event="event" class="is-hidden-desktop is-hidden-mobile" /> -->
+    <EventRowDesktop :event="event" class="is-hidden-touch" />
+    <EventRowTablet :event="event" class="is-hidden-desktop" />
   </div>
 </template>
 

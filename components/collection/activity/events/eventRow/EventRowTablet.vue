@@ -1,62 +1,76 @@
 <template>
   <div>
-    <div class="mr-5">
-      <img
-        v-if="avatar"
-        :src="avatar"
-        :alt="event.nft.name"
-        width="40"
-        height="40"
-        class="border" />
-      <img v-else src="/placeholder.webp" class="border" />
+    <div class="is-flex">
+      <div class="mr-5">
+        <img
+          v-if="avatar"
+          :src="avatar"
+          :alt="event.nft.name"
+          width="40"
+          height="40"
+          class="border" />
+        <img v-else src="/placeholder.webp" class="border" />
+      </div>
+      <div class="is-flex is-flex-direction-column is-flex-grow-1">
+        <div class="is-flex is-justify-content-space-between mb-2">
+          <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
+            <div class="has-text-weight-bold is-clipped elipsis">
+              {{ event.nft.name }}
+            </div>
+          </nuxt-link>
+          <div v-if="amount === blank">
+            {{ blank }}
+          </div>
+          <Money v-else :value="amount" />
+        </div>
+        <div class="is-flex is-justify-content-space-between">
+          <div
+            class="border is-size-7 px-4 py-1 is-flex is-align-items-center fixed-width fixed-height"
+            :class="interactionClass[event.interaction]">
+            <span>{{ interactionName }}</span>
+          </div>
+          <div>
+            {{ timeAgo(event.timestamp) }}
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="is-flex is-justify-content-space-between"></div>
+    <div class="is-flex mt-4 gap">
+      <div class="is-flex is-align-items-center">
+        <span class="is-size-7 k-grey mr-3"
+          >{{ $t('activity.event.from') }}:</span
+        >
+        <nuxt-link
+          v-if="fromAddress !== blank"
+          :to="`/${urlPrefix}/u/${fromAddress}`"
+          class="has-text-link">
+          <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
+        </nuxt-link>
+        <div v-else>
+          {{ blank }}
+        </div>
+      </div>
 
-    <div class="column">
-      <div
-        class="border is-size-7 px-4 py-1 is-flex is-align-items-center fixed-width fixed-height"
-        :class="interactionClass[event.interaction]">
-        <span>{{ interactionName }}</span>
+      <div class="is-flex is-align-items-center">
+        <span class="is-size-7 k-grey mr-3"
+          >{{ $t('activity.event.to') }}:</span
+        >
+        <nuxt-link
+          v-if="toAddress !== blank"
+          :to="`/${urlPrefix}/u/${toAddress}`"
+          class="has-text-link">
+          <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
+        </nuxt-link>
+        <div v-else>
+          {{ blank }}
+        </div>
       </div>
-    </div>
-
-    <div class="column">
-      <div v-if="amount === blank">
-        {{ blank }}
-      </div>
-      <Money v-else :value="amount" />
-    </div>
-
-    <div class="column">
-      <nuxt-link
-        v-if="fromAddress !== blank"
-        :to="`/${urlPrefix}/u/${fromAddress}`"
-        class="has-text-link">
-        <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
-      </nuxt-link>
-      <div v-else>
-        {{ blank }}
-      </div>
-    </div>
-    <div class="column">
-      <nuxt-link
-        v-if="toAddress !== blank"
-        :to="`/${urlPrefix}/u/${toAddress}`"
-        class="has-text-link">
-        <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
-      </nuxt-link>
-      <div v-else>
-        {{ blank }}
-      </div>
-    </div>
-    <div class="column">
-      {{ timeAgo(event.timestamp) }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { InteractionWithNFT } from '@/components/collection/utils/types'
+import { InteractionWithNFT, Offer } from '@/components/collection/utils/types'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
@@ -67,7 +81,7 @@ import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 const { urlPrefix } = usePrefix()
 const props = defineProps<{
-  event: InteractionWithNFT
+  event: InteractionWithNFT | Offer
 }>()
 
 const avatar = ref<string>()
@@ -148,9 +162,18 @@ const getAvatar = async () => {
 .fixed-height {
   height: 22px;
 }
+
+.gap {
+  gap: 1rem;
+}
 .k-pink {
   @include ktheme() {
     background-color: theme('k-pink');
+  }
+}
+.k-grey {
+  @include ktheme() {
+    color: theme('k-grey');
   }
 }
 
