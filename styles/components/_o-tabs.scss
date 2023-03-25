@@ -19,6 +19,7 @@
         @include ktheme() {
           border: 1px solid theme('border-color');
           color: theme('text-color');
+          border-right: 0;
           &--active {
             background-color: theme('background-color-inverse');
             color: theme('text-color-inverse');
