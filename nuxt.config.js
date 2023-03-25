@@ -144,6 +144,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/assets', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
+    '~/plugins/handleRedirect',
     '~/plugins/pwa',
     '~/plugins/vueAudioVisual',
     '~/plugins/vueClipboard',
