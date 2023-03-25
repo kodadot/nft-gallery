@@ -110,3 +110,7 @@ export const getChainTestList = () => {
 }
 
 export const MIN_OFFER_PRICE = 0.01
+
+export const EXTERNAL_LINK_WHITELIST = ['docs.kodadot.xyz']
+
+export const EXTERNAL_LINK_BLACKLIST = ['github.com']
