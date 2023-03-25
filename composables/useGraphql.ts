@@ -57,7 +57,7 @@ export default function ({
   }
 
   if (isRef(variables)) {
-    watchEffect(doFetch)
+    watchEffect(() => doFetch())
   } else {
     doFetch()
   }
