@@ -24,7 +24,7 @@ import ActivityChart from './Chart.vue'
 import OwnerInsights from './OwnerInsights.vue'
 import Events from './events/Events.vue'
 import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
-import { useCollectionActivity } from '@/components/collection/utils/useCollectionDetails'
+import { useCollectionActivity } from '~~/components/collection/utils/useCollectionActivity'
 import { Interaction } from '@kodadot1/minimark'
 const route = useRoute()
 
@@ -35,7 +35,7 @@ const toggleBreadcrumbsVisible = (active: boolean) => {
 }
 
 const collectionId = computed(() => route.params.id)
-const { events, flippers, owners } = useCollectionActivity({
+const { events, flippers, owners, offers } = useCollectionActivity({
   collectionId: collectionId.value,
 })
 
@@ -47,15 +47,14 @@ const InteractionIncluded = [
 ]
 
 const filteredEvents = computed(() =>
-  events.value
-    ? events.value.filter((event) =>
-        InteractionIncluded.includes(event.interaction as Interaction)
-      )
-    : []
+  events.value.filter((event) =>
+    InteractionIncluded.includes(event.interaction as Interaction)
+  )
 )
+const withOffers = computed(() => [...filteredEvents.value, ...offers.value])
 
 const sortedEvents = computed(() =>
-  filteredEvents.value.sort((a, b) => b.timestamp - a.timestamp)
+  withOffers.value.sort((a, b) => b.timestamp - a.timestamp)
 )
 </script>
 

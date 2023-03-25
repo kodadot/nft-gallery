@@ -32,20 +32,20 @@
 </template>
 
 <script setup lang="ts">
-import { InteractionWithNFT } from '@/components/collection/utils/types'
+import { InteractionWithNFT, Offer } from '@/components/collection/utils/types'
 import EventRow from './EventRow.vue'
 import { useIntersectionObserver } from '@vueuse/core'
 
 const props = withDefaults(
   defineProps<{
-    events: InteractionWithNFT[]
+    events: (InteractionWithNFT | Offer)[]
   }>(),
   {
     events: () => [],
   }
 )
 
-const displayedEvents = ref<InteractionWithNFT[]>([])
+const displayedEvents = ref<(InteractionWithNFT | Offer)[]>([])
 
 watch(
   () => props.events,

@@ -52,7 +52,7 @@ import { NeoIcon } from '@kodadot1/brick'
 import { set } from 'vue'
 
 import MoreNFTS from './moreNFTS.vue'
-import { timeAgo } from '../utils'
+import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 const toggleNFTDetails = (holderId: string) => {
   const isOpen = isNFTDetailsOpen.value[holderId]

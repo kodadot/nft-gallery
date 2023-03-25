@@ -6,9 +6,9 @@
 </template>
 
 <script setup lang="ts">
-import { InteractionWithNFT } from '../../utils/types'
+import { InteractionWithNFT, Offer } from '@/components/collection/utils/types'
 import EventRowDesktop from './eventRow/EventRowDesktop.vue'
 import EventRowTablet from './eventRow/EventRowTablet.vue'
 
-defineProps<{ event: InteractionWithNFT }>()
+defineProps<{ event: InteractionWithNFT | Offer }>()
 </script>

@@ -60,18 +60,22 @@
 </template>
 
 <script setup lang="ts">
-import { InteractionWithNFT } from '@/components/collection/utils/types'
+import {
+  InteractionWithNFT,
+  Offer,
+  OfferInteraction,
+} from '@/components/collection/utils/types'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { Interaction } from '@kodadot1/minimark'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
-import { timeAgo } from '../../utils'
+import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 const { urlPrefix } = usePrefix()
 const props = defineProps<{
-  event: InteractionWithNFT
+  event: InteractionWithNFT | Offer
 }>()
 
 const avatar = ref<string>()
@@ -80,6 +84,7 @@ const ineteractionNameMap = {
   LIST: 'List',
   MINTNFT: 'Mint',
   SEND: 'Transfer',
+  Offer: 'Offer',
 }
 const blank = '--'
 
@@ -92,7 +97,9 @@ const amount = computed(() => {
       return blank
     case Interaction.LIST:
     case Interaction.BUY:
-      return props.event.meta
+      return (props.event as InteractionWithNFT).meta
+    case OfferInteraction:
+      return (props.event as Offer).price
     default:
       return blank
   }
@@ -104,7 +111,10 @@ const fromAddress = computed(() => {
     return blank
   }
   if (interaction === Interaction.BUY || interaction === Interaction.SEND) {
-    return props.event.currentOwner
+    return (props.event as InteractionWithNFT).currentOwner
+  }
+  if (interaction === OfferInteraction) {
+    return (props.event as Offer).caller
   }
 })
 
@@ -116,12 +126,14 @@ const toAddress = computed(() => {
   if (interaction === Interaction.BUY || interaction === Interaction.SEND) {
     return props.event.caller
   }
+  return blank
 })
 
 const interactionClass = {
   [Interaction.MINTNFT]: 'k-yellow',
   [Interaction.LIST]: 'k-blueaccent',
   [Interaction.BUY]: 'k-pink',
+  [OfferInteraction]: 'k-greenaccent',
   [Interaction.SEND]: 'background-color',
 }
 
@@ -155,6 +167,11 @@ const getAvatar = async () => {
 .k-pink {
   @include ktheme() {
     background-color: theme('k-pink');
+  }
+}
+.k-greenaccent {
+  @include ktheme() {
+    background-color: theme('k-greenaccent');
   }
 }
 

@@ -63,7 +63,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { Interaction } from '@kodadot1/minimark'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
-import { timeAgo } from '../../utils'
+import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 const { urlPrefix } = usePrefix()
 const props = defineProps<{

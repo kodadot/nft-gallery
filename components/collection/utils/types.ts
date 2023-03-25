@@ -39,6 +39,17 @@ export type InteractionWithNFT = InteractionType & {
   nft: NFTExcludingEvents
   timestamp: number
 }
+
+export const OfferInteraction = 'Offer'
+export type Offer = {
+  caller: string
+  expiration: string
+  status: string
+  price: number
+  timestamp: number
+  interaction: string
+  nft: NFTExcludingEvents
+}
 export type NFTMap = {
   [nftId: string]: {
     owner: string

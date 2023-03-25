@@ -29,7 +29,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { NFTExcludingEvents } from '@/components/collection/utils/types'
-import { timeAgo } from '@/components/collection/activity/utils'
+import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 const props = defineProps<{
   nfts: (NFTExcludingEvents & { avatar?: string })[]

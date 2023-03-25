@@ -6,7 +6,10 @@
 </template>
 
 <script setup lang="ts">
-import { FlipEvent, NFTExcludingEvents } from '../../utils/types'
+import {
+  FlipEvent,
+  NFTExcludingEvents,
+} from '@/components/collection/utils/types'
 import Flipper from './moreNFTs/Flipper.vue'
 import Holder from './moreNFTs/Holder.vue'
 
