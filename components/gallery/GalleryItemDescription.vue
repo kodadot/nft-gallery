@@ -117,7 +117,14 @@ const properties = computed(() => {
     )
   }
 
-  return nftMetadata.value?.attributes
+  const attributes =
+    nftMetadata.value?.attributes || nftMetadata.value?.meta.attributes || []
+  return attributes.map((attr) => {
+    return {
+      trait_type: attr.trait_type || attr.key,
+      value: attr.value,
+    }
+  })
 })
 
 const propertiesTabDisabled = computed(() => {
