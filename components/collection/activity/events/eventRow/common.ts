@@ -63,6 +63,9 @@ export const getToAddress = (event: InteractionWithNFT | Offer): string => {
   if (interaction === Interaction.BUY || interaction === Interaction.SEND) {
     return event.caller
   }
+  if (interaction === Interaction.SEND) {
+    return (event as InteractionWithNFT).meta
+  }
   return blank
 }
 export const getNFTAvatar = async (
