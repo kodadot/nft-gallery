@@ -87,6 +87,7 @@
 
   &--link {
     border: none !important;
+    width: min-content;
     @include ktheme() {
       color: theme('k-grey');
       text-underline-offset: 0.25rem;
