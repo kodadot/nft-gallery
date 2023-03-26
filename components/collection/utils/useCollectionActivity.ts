@@ -98,7 +98,6 @@ const preProccessForFindingFlippers = (interactions: InteractionWithNFT[]) => {
 
   interactions.forEach((event) => {
     if (event.interaction === Interaction.MINTNFT) {
-      // mintInteractions.push(event)
       NFTS[event.nft.id] = {
         owner: event.caller,
         nft: event.nft,
