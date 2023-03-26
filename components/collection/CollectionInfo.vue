@@ -16,8 +16,8 @@
         v-if="hasSeeAllDescriptionOption"
         variant="link"
         class="no-shadow is-underlined has-text-left p-0"
-        :label="$t('showMore')"
-        @click.native="hasSeeAllDescriptionOption = false" />
+        :label="seeAllDescription ? $t('showLess') : $t('showMore')"
+        @click.native="toggleSeeAllDescription" />
     </div>
     <div>
       <div class="columns is-mobile">
@@ -74,28 +74,30 @@ const chain = computed(
       .text
 )
 const address = computed(() => collectionInfo.value?.currentOwner)
-const hasSeeAllDescriptionOption = ref(false)
+const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: collectionId.value,
 })
 
-watch(
-  () => collectionInfo.value?.meta?.description,
-  (description) => {
-    if (description) {
-      hasSeeAllDescriptionOption.value =
-        description.length > DESCRIPTION_MAX_LENGTH
-    }
-  }
-)
+const toggleSeeAllDescription = () => {
+  seeAllDescription.value = !seeAllDescription.value
+}
+
+const hasSeeAllDescriptionOption = computed(() => {
+  return (
+    (collectionInfo.value?.meta?.description?.length || 0) >
+    DESCRIPTION_MAX_LENGTH
+  )
+})
+
 const visibleDescription = computed(() => {
   const desc = collectionInfo.value?.meta?.description
 
   return (
-    (hasSeeAllDescriptionOption.value
-      ? desc?.slice(0, DESCRIPTION_MAX_LENGTH)
-      : desc
+    (!hasSeeAllDescriptionOption.value || seeAllDescription.value
+      ? desc
+      : desc?.slice(0, DESCRIPTION_MAX_LENGTH)
     )?.replaceAll('\n', '  \n') || ''
   )
 })
