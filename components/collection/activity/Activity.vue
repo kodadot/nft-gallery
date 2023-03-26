@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <hr class="my-5" />
+      <hr class="my-40" />
       <Events :events="sortedEvents" />
     </div>
   </div>
@@ -76,6 +76,9 @@ useResizeObserver(wrapper, (entry) => {
 <style lang="scss" scoped>
 .gap {
   gap: 2.5rem;
+}
+.my-40 {
+  margin: 2.5rem 0;
 }
 .is-flex-basis-two-thirds {
   flex-basis: 66.6%;

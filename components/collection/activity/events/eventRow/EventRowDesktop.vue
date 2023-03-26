@@ -126,7 +126,7 @@ const getAvatar = async () => {
 @import '@/styles/abstracts/variables';
 
 .fixed-width {
-  width: 84px;
+  width: 66px;
 }
 .fixed-height {
   height: 22px;

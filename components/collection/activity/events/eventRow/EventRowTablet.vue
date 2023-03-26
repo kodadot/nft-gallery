@@ -44,9 +44,7 @@
     </div>
     <div class="is-flex mt-4 gap">
       <div class="is-flex is-align-items-center">
-        <span class="is-size-7 k-grey mr-3"
-          >{{ $t('activity.event.from') }}:</span
-        >
+        <span class="is-size-7 mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
           v-if="fromAddress !== blank"
           :to="`/${urlPrefix}/u/${fromAddress}`"
@@ -59,9 +57,7 @@
       </div>
 
       <div class="is-flex is-align-items-center">
-        <span class="is-size-7 k-grey mr-3"
-          >{{ $t('activity.event.to') }}:</span
-        >
+        <span class="is-size-7 mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
           v-if="toAddress !== blank"
           :to="`/${urlPrefix}/u/${toAddress}`"
@@ -122,7 +118,7 @@ const getAvatar = async () => {
 @import '@/styles/abstracts/variables';
 
 .fixed-width {
-  width: 84px;
+  width: 66px;
 }
 .fixed-height {
   height: 22px;
@@ -138,11 +134,6 @@ const getAvatar = async () => {
 .k-pink {
   @include ktheme() {
     background-color: theme('k-pink');
-  }
-}
-.k-grey {
-  @include ktheme() {
-    color: theme('k-grey');
   }
 }
 

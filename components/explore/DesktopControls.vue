@@ -1,7 +1,10 @@
 <template>
   <div class="explore is-flex is-flex-wrap-wrap">
-    <FilterMenuButton />
-    <ExploreTabs />
+    <div class="is-flex is-align-content-center gap">
+      <FilterMenuButton />
+      <ExploreTabs />
+    </div>
+
     <div v-if="!isActivityTab" class="explore-menu is-flex">
       <ExploreSort />
       <ExploreOffer class="is-flex-grow-1" />
@@ -32,6 +35,9 @@ const isActivityTab = computed(() =>
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
+.gap {
+  gap: 1.5rem;
+}
 .explore {
   gap: 1.5rem;
 
