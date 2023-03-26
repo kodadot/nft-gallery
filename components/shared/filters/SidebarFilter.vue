@@ -3,7 +3,7 @@
     <NeoSidebar :reduce="false" :open="open" fullheight>
       <EventTypeFilter v-if="isCollectionActivityTab" expanded fluid-padding />
       <StatusFilter v-else expanded fluid-padding />
-      <PriceFilter fluid-padding />
+      <PriceFilter v-if="!isCollectionActivityTab" fluid-padding />
     </NeoSidebar>
   </div>
 </template>

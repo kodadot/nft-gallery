@@ -23,7 +23,10 @@
           data-model="store"
           expanded />
         <StatusFilter v-else data-model="store" expanded />
-        <PriceFilter data-model="store" expanded />
+        <PriceFilter
+          v-if="!isCollectionActivityTab"
+          data-model="store"
+          expanded />
       </div>
 
       <div class="buttons-container px-4 py-3 border-top">
