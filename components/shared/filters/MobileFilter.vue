@@ -47,13 +47,13 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoSidebar } from '@kodadot1/brick'
-import PriceFilter from './filters/PriceFilter.vue'
-import StatusFilter from './filters/StatusFilter.vue'
-import useReplaceUrl from './filters/useReplaceUrl'
+import useReplaceUrl, { is } from '@/components/shared/filters/filterUtils'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 import { useAcivityFiltersStore } from '@/stores/activityFilters'
 import { usePreferencesStore } from '@/stores/preferences'
-import EventTypeFilter from './filters/EventTypeFilter.vue'
+import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
+import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
+import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
 
 const route = useRoute()
 const preferencesStore = usePreferencesStore()
@@ -79,17 +79,13 @@ const onClose = () => {
 const closeFilterModal = () => preferencesStore.setMobileFilterCollapse(false)
 
 const syncFromUrlOnActivityTab = () => {
-  const sale = route.query?.sale?.toString() === 'true',
-    offer = route.query?.offer?.toString() === 'true',
-    listing = route.query?.listing?.toString() === 'true',
-    mint = route.query?.mint?.toString() === 'true',
-    transfer = route.query?.transfer?.toString() === 'true'
+  const sale = is(route.query?.sale?.toString()),
+    offer = is(route.query?.offer?.toString()),
+    listing = is(route.query?.listing?.toString()),
+    mint = is(route.query?.mint?.toString()),
+    transfer = is(route.query?.transfer?.toString())
 
-  activityFiltersStore.setSale(sale)
-  activityFiltersStore.setOffer(offer)
-  activityFiltersStore.setListing(listing)
-  activityFiltersStore.setMint(mint)
-  activityFiltersStore.setTransfer(transfer)
+  activityFiltersStore.setFilters({ sale, offer, listing, mint, transfer })
 }
 const syncFromUrlOnGrid = () => {
   const listed = route.query?.listed?.toString() === 'true',
@@ -114,22 +110,18 @@ const syncFromUrl = () => {
 
 const resetFilterOnAcivityTab = () => {
   const statusDefaults = {
-    sale: false,
-    offer: false,
-    listing: false,
-    mint: false,
-    transfer: false,
+    sale: undefined,
+    offer: undefined,
+    listing: undefined,
+    mint: undefined,
+    transfer: undefined,
   }
 
   const priceDefaults = {
     min: undefined,
     max: undefined,
   }
-  activityFiltersStore.setSale(statusDefaults.sale)
-  activityFiltersStore.setOffer(statusDefaults.offer)
-  activityFiltersStore.setListing(statusDefaults.listing)
-  activityFiltersStore.setMint(statusDefaults.mint)
-  activityFiltersStore.setTransfer(statusDefaults.transfer)
+  activityFiltersStore.setFilters(statusDefaults)
 
   activityFiltersStore.setPriceRange(priceDefaults)
   replaceUrl({
@@ -138,8 +130,8 @@ const resetFilterOnAcivityTab = () => {
   })
 }
 const resetFilters = () => {
-  if (isCollectionActivityTab) {
-    resetFilterOnAcivityTab
+  if (isCollectionActivityTab.value) {
+    resetFilterOnAcivityTab()
   } else {
     const statusDefaults = {
       listed: false,

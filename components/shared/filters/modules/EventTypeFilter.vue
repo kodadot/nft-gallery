@@ -14,26 +14,28 @@
     </template>
     <div class="p-4">
       <b-field>
-        <NeoCheckbox v-model="sale">Sale</NeoCheckbox>
+        <NeoCheckbox v-model="sale">{{ $t('filters.sale') }}</NeoCheckbox>
       </b-field>
       <b-field>
-        <NeoCheckbox v-model="offer">Offer</NeoCheckbox>
+        <NeoCheckbox v-model="offer">{{ $t('filters.offer') }}</NeoCheckbox>
       </b-field>
       <b-field>
-        <NeoCheckbox v-model="listing">Listing</NeoCheckbox>
+        <NeoCheckbox v-model="listing">{{ $t('filters.listing') }}</NeoCheckbox>
       </b-field>
       <b-field>
-        <NeoCheckbox v-model="mint">Mint</NeoCheckbox>
+        <NeoCheckbox v-model="mint">{{ $t('filters.mint') }}</NeoCheckbox>
       </b-field>
       <b-field>
-        <NeoCheckbox v-model="transfer">Transfer</NeoCheckbox>
+        <NeoCheckbox v-model="transfer">{{
+          $t('filters.transfer')
+        }}</NeoCheckbox>
       </b-field>
     </div>
   </b-collapse>
 </template>
 
 <script lang="ts" setup>
-import useReplaceUrl from './useReplaceUrl'
+import useReplaceUrl from '../filterUtils'
 import { NeoCheckbox } from '@kodadot1/brick'
 import { useAcivityFiltersStore } from '@/stores/activityFilters'
 

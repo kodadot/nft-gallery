@@ -37,3 +37,20 @@ function replaceBooleanWithStrings(
     return result
   }, {})
 }
+
+export const readParam = (param) => {
+  if (param === 'undefined' || param === null || param === undefined) {
+    return undefined
+  }
+  if (param === 'true') {
+    return true
+  }
+  if (param === 'false') {
+    return false
+  }
+  return param
+}
+
+export const is = (queryParam: string | undefined) => {
+  return Boolean(readParam(queryParam))
+}

@@ -10,9 +10,9 @@
 
 <script lang="ts" setup>
 import { NeoSidebar } from '@kodadot1/brick'
-import PriceFilter from './filters/PriceFilter.vue'
-import StatusFilter from './filters/StatusFilter.vue'
-import EventTypeFilter from './filters/EventTypeFilter.vue'
+import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
+import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
+import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 const route = useRoute()
 

@@ -21,7 +21,6 @@
       </div>
     </div>
     <div>
-      {{ displayedEvents.length }}
       <EventRow
         v-for="event in displayedEvents"
         :key="event.timestamp"
@@ -41,6 +40,7 @@ import {
 import EventRow from './EventRow.vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { Interaction } from '@kodadot1/minimark'
+import { is, readParam } from '@/components/shared/filters/filterUtils'
 
 const props = withDefaults(
   defineProps<{
@@ -51,25 +51,26 @@ const props = withDefaults(
   }
 )
 const offset = ref(10)
-const toKeep = (queryParam: string | undefined) => {
-  if (queryParam === undefined) {
-    return true
-  }
-  if (queryParam === 'true') {
-    return true
-  }
-  return false
-}
 
 const filteredEvents = computed(() => {
-  const route = useRoute()
+  const query = useRoute().query
+  const isAnyFilterActive =
+    readParam(query.sale) ||
+    readParam(query.listing) ||
+    readParam(query.mint) ||
+    readParam(query.transfer) ||
+    readParam(query.offer)
+  // don't filter events if no filter is applied
+  if (!isAnyFilterActive) {
+    return props.events
+  }
 
   const InteractionToKeep = {
-    [Interaction.BUY]: toKeep(route.query?.sale as string),
-    [Interaction.MINTNFT]: toKeep(route.query?.mint as string),
-    [Interaction.LIST]: toKeep(route.query?.listing as string),
-    [Interaction.SEND]: toKeep(route.query?.transfer as string),
-    [OfferInteraction]: toKeep(route.query?.offer as string),
+    [Interaction.BUY]: is(query?.sale as string),
+    [Interaction.MINTNFT]: is(query?.mint as string),
+    [Interaction.LIST]: is(query?.listing as string),
+    [Interaction.SEND]: is(query?.transfer as string),
+    [OfferInteraction]: is(query?.offer as string),
   }
 
   return props.events.filter((event) => {
@@ -81,7 +82,6 @@ const displayedEvents = ref<(InteractionWithNFT | Offer)[]>([])
 
 const displayMoreEvents = () => {
   offset.value += 10
-  console.log('offset', offset.value)
 }
 
 watch(
@@ -93,7 +93,6 @@ watch(
 )
 
 const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-  console.log('handleIntersection')
   const target = entries[0]
   if (target.isIntersecting) {
     displayMoreEvents()

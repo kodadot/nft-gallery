@@ -1286,5 +1286,13 @@
         }
       }
     }
+  },
+  "filters": {
+    "sale": "Sale",
+    "offer": "Offer",
+    "listing": "Listing",
+    "mint": "Mint",
+    "transfer": "Transfer"
+
   }
 }

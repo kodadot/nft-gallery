@@ -54,6 +54,13 @@ export const useAcivityFiltersStore = defineStore('activityFilters', {
     setMax(payload) {
       this.max = payload
     },
+    setFilters(payload) {
+      this.sale = Boolean(payload.sale)
+      this.offer = Boolean(payload.offer)
+      this.listing = Boolean(payload.listing)
+      this.mint = Boolean(payload.mint)
+      this.transfer = Boolean(payload.transfer)
+    },
     setPriceRange(payload) {
       this.min = payload.min
       this.max = payload.max

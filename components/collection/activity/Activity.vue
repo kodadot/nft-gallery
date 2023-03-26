@@ -38,8 +38,7 @@ import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
 import { useCollectionActivity } from '@/components/collection/utils/useCollectionActivity'
 import { Interaction } from '@kodadot1/minimark'
 import { useResizeObserver, useWindowSize } from '@vueuse/core'
-import SidebarFilter from '@/components/explore/SidebarFilter.vue'
-import useReplaceUrl from '@/components/explore/filters/useReplaceUrl'
+import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
 const sidebarwidth = 55
 const mobileBreakpoint = 768 + sidebarwidth
 const windowWidth = useWindowSize().width.value
@@ -47,7 +46,6 @@ const route = useRoute()
 const tablet = ref(windowWidth > mobileBreakpoint)
 const mobile = ref(windowWidth <= mobileBreakpoint)
 const wrapper = ref<HTMLDivElement | null>(null)
-const { replaceUrl } = useReplaceUrl({ resetPage: false })
 
 const collectionId = computed(() => route.params.id)
 const { events, flippers, owners, offers } = useCollectionActivity({
@@ -85,17 +83,6 @@ useResizeObserver(
   },
   {}
 )
-
-onMounted(() => {
-  const statusDefaults = {
-    sale: true,
-    offer: true,
-    listing: true,
-    mint: true,
-    transfer: true,
-  }
-  replaceUrl(statusDefaults)
-})
 </script>
 
 <style lang="scss" scoped>
