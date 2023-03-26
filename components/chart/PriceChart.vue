@@ -166,9 +166,15 @@ const getPriceChartData = () => {
         options: {
           maintainAspectRatio: false,
           responsive: true,
-          animation: {
-            duration: 1000,
+          responsiveAnimationDuration: 0,
+          transitions: {
+            resize: {
+              animation: {
+                duration: 0,
+              },
+            },
           },
+
           plugins: {
             customCanvasBackgroundColor: {
               color: isDarkMode.value ? '#181717' : 'white',
