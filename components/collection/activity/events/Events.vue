@@ -59,7 +59,6 @@ const props = withDefaults(
 )
 
 useResizeObserver(eventsContainer, (entry) => {
-  console.log('width:', entry[0].contentRect.width)
   if (entry[0].contentRect.width >= desktopBreakPoint) {
     desktop.value = true
   } else {
