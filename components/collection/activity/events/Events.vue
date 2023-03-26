@@ -1,6 +1,6 @@
 <template>
   <div v-if="events.length > 0">
-    <div class="is-hidden-touch columns is-size-7 k-grey py-3">
+    <div class="is-hidden-touch columns is-size-7 k-grey">
       <div class="column">
         <span>{{ $t('activity.event.item') }}</span>
       </div>
@@ -24,8 +24,7 @@
       <EventRow
         v-for="event in displayedEvents"
         :key="event.timestamp"
-        :event="event"
-        class="my-2 event-row-transition" />
+        :event="event" />
       <div ref="sentinel" />
     </div>
   </div>

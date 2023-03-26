@@ -12,7 +12,6 @@
           </div>
         </div>
         <BreadcrumbsFilter />
-        <hr class="my-0" />
       </div>
       <div v-if="mobile">
         <div class="is-flex is-flex-direction-column gap">
@@ -22,6 +21,7 @@
           </div>
         </div>
       </div>
+      <hr class="my-5" />
       <Events :events="sortedEvents" />
     </div>
   </div>
@@ -34,11 +34,9 @@ import Events from './events/Events.vue'
 import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
 import { useCollectionActivity } from '@/components/collection/utils/useCollectionActivity'
 import { Interaction } from '@kodadot1/minimark'
-import { useResizeObserver, useWindowSize } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
-// const sidebarwidth = 55
 const mobileBreakpoint = 800
-// const windowWidth = useWindowSize().width.value
 const route = useRoute()
 const tablet = ref(true)
 const mobile = ref(false)

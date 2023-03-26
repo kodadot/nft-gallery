@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-5">
     <div class="is-flex">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
         <div class="mr-5">
@@ -9,11 +9,11 @@
             :alt="event.nft.name"
             width="50"
             height="50"
-            class="border" />
+            class="border image-size" />
           <img
             v-else
             src="/placeholder.webp"
-            class="border"
+            class="border image-size"
             width="50"
             height="50" />
         </div>
@@ -32,9 +32,9 @@
         </div>
         <div class="is-flex is-justify-content-space-between">
           <div
-            class="border is-size-7 px-4 py-1 is-flex is-align-items-center fixed-width fixed-height"
+            class="border is-size-7 is-justify-content-center py-1 is-flex is-align-items-center fixed-width fixed-height"
             :class="interactionColor[event.interaction]">
-            <span>{{ interactionName }}</span>
+            {{ interactionName }}
           </div>
           <div>
             {{ timeAgo(event.timestamp) }}
@@ -122,10 +122,14 @@ const getAvatar = async () => {
 @import '@/styles/abstracts/variables';
 
 .fixed-width {
-  width: 60px;
+  width: 84px;
 }
 .fixed-height {
   height: 22px;
+}
+.image-size {
+  width: 50px !important;
+  height: 50px !important;
 }
 
 .gap {

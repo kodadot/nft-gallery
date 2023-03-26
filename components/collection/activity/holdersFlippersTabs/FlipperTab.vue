@@ -8,7 +8,10 @@
       :key="flipperId"
       class="hide-last-hr">
       <div class="is-flex is-flex-direction-column gap">
-        <ProfileLink :address="flipperId" :avatar-size="35" />
+        <ProfileLink
+          :address="flipperId"
+          :avatar-size="35"
+          class="has-text-weight-bold" />
         <div class="is-flex is-justify-content-space-between">
           <span class="is-size-7 k-grey">{{ $t('activity.owned') }}</span>
           <span>{{ owned }}</span>
