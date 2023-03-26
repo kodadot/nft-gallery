@@ -39,7 +39,8 @@ import {
 import EventRow from './EventRow.vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { Interaction } from '@kodadot1/minimark'
-import { is, readParam } from '@/components/shared/filters/filterUtils'
+import { is } from '@/components/shared/filters/filterUtils'
+import { isAnyActivityFilterActive } from '../utils'
 
 const props = withDefaults(
   defineProps<{
@@ -53,14 +54,9 @@ const offset = ref(10)
 
 const filteredEvents = computed(() => {
   const query = useRoute().query
-  const isAnyFilterActive =
-    readParam(query?.sale) ||
-    readParam(query?.listing) ||
-    readParam(query?.mint) ||
-    readParam(query?.transfer) ||
-    readParam(query?.offer)
+  const noFilterisActive = !isAnyActivityFilterActive()
   // don't filter events if no filter is applied
-  if (!isAnyFilterActive) {
+  if (noFilterisActive) {
     return props.events
   }
 

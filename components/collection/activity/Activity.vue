@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <hr class="my-40" />
+      <hr class="mb-40" :class="{ 'my-40': !isBreadCrumbsShowing }" />
       <Events :events="sortedEvents" />
     </div>
   </div>
@@ -36,10 +36,15 @@ import { useCollectionActivity } from '@/components/collection/utils/useCollecti
 import { Interaction } from '@kodadot1/minimark'
 import { useResizeObserver } from '@vueuse/core'
 import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
+import { isAnyActivityFilterActive } from './utils'
 const mobileBreakpoint = 800
 const route = useRoute()
 const tablet = ref(true)
 const wrapper = ref<HTMLDivElement | null>(null)
+
+const isBreadCrumbsShowing = computed(
+  () => isAnyActivityFilterActive() && tablet.value
+)
 
 const collectionId = computed(() => route.params.id)
 const { events, flippers, owners, offers } = useCollectionActivity({
@@ -79,6 +84,9 @@ useResizeObserver(wrapper, (entry) => {
 }
 .my-40 {
   margin: 2.5rem 0;
+}
+.mb-40 {
+  margin-bottom: 2.5rem;
 }
 .is-flex-basis-two-thirds {
   flex-basis: 66.6%;
