@@ -1,29 +1,30 @@
 <template>
-  <div v-if="events.length > 0">
-    <div class="is-hidden-touch columns is-size-7 k-grey">
-      <div class="column">
-        <span>{{ $t('activity.event.item') }}</span>
+  <div ref="eventsContainer">
+    <div v-if="events.length > 0">
+      <div v-if="desktop" class="columns is-size-7 k-grey">
+        <div class="column">
+          <span>{{ $t('activity.event.item') }}</span>
+        </div>
+        <div class="column">
+          <span>{{ $t('activity.event.event') }}</span>
+        </div>
+        <div class="column">
+          <span>{{ $t('activity.event.amount') }}</span>
+        </div>
+        <div class="column">
+          <span>{{ $t('activity.event.from') }}</span>
+        </div>
+        <div class="column">
+          <span>{{ $t('activity.event.to') }}</span>
+        </div>
+        <div class="column">
+          <span>{{ $t('activity.event.time') }}</span>
+        </div>
       </div>
-      <div class="column">
-        <span>{{ $t('activity.event.event') }}</span>
-      </div>
-      <div class="column">
-        <span>{{ $t('activity.event.amount') }}</span>
-      </div>
-      <div class="column">
-        <span>{{ $t('activity.event.from') }}</span>
-      </div>
-      <div class="column">
-        <span>{{ $t('activity.event.to') }}</span>
-      </div>
-      <div class="column">
-        <span>{{ $t('activity.event.time') }}</span>
-      </div>
-    </div>
-    <div>
       <EventRow
         v-for="event in displayedEvents"
         :key="event.timestamp"
+        :variant="variant"
         :event="event" />
       <div ref="sentinel" />
     </div>
@@ -41,6 +42,12 @@ import { useIntersectionObserver } from '@vueuse/core'
 import { Interaction } from '@kodadot1/minimark'
 import { is } from '@/components/shared/filters/filterUtils'
 import { isAnyActivityFilterActive } from '../utils'
+import { useResizeObserver } from '@vueuse/core'
+
+const desktop = ref(true)
+const desktopBreakPoint = 1024
+const eventsContainer = ref<HTMLDivElement | null>(null)
+const variant = computed(() => (desktop.value ? 'Desktop' : 'Touch'))
 
 const props = withDefaults(
   defineProps<{
@@ -50,6 +57,16 @@ const props = withDefaults(
     events: () => [],
   }
 )
+
+useResizeObserver(eventsContainer, (entry) => {
+  console.log('width:', entry[0].contentRect.width)
+  if (entry[0].contentRect.width >= desktopBreakPoint) {
+    desktop.value = true
+  } else {
+    desktop.value = false
+  }
+})
+
 const offset = ref(10)
 
 const filteredEvents = computed(() => {
