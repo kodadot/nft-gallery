@@ -27,7 +27,7 @@
         <div class="is-flex is-justify-content-space-between">
           <span class="is-size-7 k-grey">{{ $t('activity.bestFlip') }}</span>
           <span :class="{ 'k-green': bestFlip > 0, 'k-red': bestFlip < 0 }">{{
-            bestFlip === 0 ? '--' : `${bestFlip}%`
+            bestFlip === 0 ? '--' : `${bestFlip.toFixed(4)}%`
           }}</span>
         </div>
         <div class="is-flex is-justify-content-space-between">

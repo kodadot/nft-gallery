@@ -20,7 +20,7 @@
         <div class="is-flex is-justify-content-space-between no-wrap">
           <span class="is-size-7 k-grey">{{ $t('activity.profit') }}</span>
           <span :class="{ 'k-green': profit > 0, 'k-red': profit < 0 }">{{
-            profit === 0 ? '--' : `${profit}%`
+            profit === 0 ? '--' : `${profit.toFixed(4)}%`
           }}</span>
         </div>
         <div class="is-flex is-justify-content-space-between no-wrap">
