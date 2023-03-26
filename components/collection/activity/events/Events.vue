@@ -54,11 +54,11 @@ const offset = ref(10)
 const filteredEvents = computed(() => {
   const query = useRoute().query
   const isAnyFilterActive =
-    readParam(query.sale) ||
-    readParam(query.listing) ||
-    readParam(query.mint) ||
-    readParam(query.transfer) ||
-    readParam(query.offer)
+    readParam(query?.sale) ||
+    readParam(query?.listing) ||
+    readParam(query?.mint) ||
+    readParam(query?.transfer) ||
+    readParam(query?.offer)
   // don't filter events if no filter is applied
   if (!isAnyFilterActive) {
     return props.events

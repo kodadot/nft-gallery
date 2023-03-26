@@ -103,7 +103,7 @@ const syncFromUrl = () => {
     syncFromUrlOnActivityTab()
     activityFiltersStore.setPriceRange({ min, max })
   } else {
-    syncFromUrlOnGrid
+    syncFromUrlOnGrid()
     exploreFiltersStore.setPriceRange({ min, max })
   }
 }
