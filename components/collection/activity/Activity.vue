@@ -13,7 +13,7 @@
         </div>
         <BreadcrumbsFilter />
       </div>
-      <div v-if="mobile">
+      <div v-else>
         <div class="is-flex is-flex-direction-column gap">
           <OwnerInsights :owners="owners" :flippers="flippers" />
           <div class="max-width">
@@ -39,7 +39,6 @@ import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
 const mobileBreakpoint = 800
 const route = useRoute()
 const tablet = ref(true)
-const mobile = ref(false)
 const wrapper = ref<HTMLDivElement | null>(null)
 
 const collectionId = computed(() => route.params.id)
@@ -68,10 +67,8 @@ const sortedEvents = computed(() =>
 useResizeObserver(wrapper, (entry) => {
   if (entry[0].contentRect.width >= mobileBreakpoint) {
     tablet.value = true
-    mobile.value = false
   } else {
     tablet.value = false
-    mobile.value = true
   }
 })
 </script>
