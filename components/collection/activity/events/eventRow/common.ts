@@ -57,10 +57,11 @@ export const getFromAddress = (event: InteractionWithNFT | Offer): string => {
 
 export const getToAddress = (event: InteractionWithNFT | Offer): string => {
   const interaction = event.interaction
-  if (interaction === Interaction.MINTNFT || interaction === Interaction.LIST) {
-    return event.caller
-  }
-  if (interaction === Interaction.BUY) {
+  if (
+    interaction === Interaction.MINTNFT ||
+    interaction === Interaction.LIST ||
+    interaction === Interaction.BUY
+  ) {
     return event.caller
   }
   if (interaction === Interaction.SEND) {
