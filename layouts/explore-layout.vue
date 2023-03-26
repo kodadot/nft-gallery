@@ -16,7 +16,7 @@
           <section class="pt-5">
             <div class="container is-fluid mobile-padding">
               <CollectionInfo />
-              <hr />
+              <hr class="mb-0" />
             </div>
           </section>
         </div>

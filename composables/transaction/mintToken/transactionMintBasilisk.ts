@@ -25,9 +25,10 @@ export async function execMintBasilisk(
 
   const create = api.tx.nft.mint(collectionId, nextId, metadata)
 
-  const list = Number(price) > 0
-    ? [api.tx.marketplace.setPrice(collectionId, nextId, price)]
-    : []
+  const list =
+    Number(price) > 0
+      ? [api.tx.marketplace.setPrice(collectionId, nextId, price)]
+      : []
 
   const addRoyalty =
     royalty !== undefined && isRoyaltyValid(royalty) && hasRoyalty
