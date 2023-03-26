@@ -89,6 +89,7 @@
     border: none !important;
     @include ktheme() {
       color: theme('k-grey');
+      text-underline-offset: 0.25rem;
       &:hover {
         color: theme('k-accentHover');
         background: none;

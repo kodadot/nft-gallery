@@ -15,7 +15,7 @@
       <NeoButton
         v-if="hasSeeAllDescriptionOption"
         variant="link"
-        class="no-shadow"
+        class="no-shadow is-underlined"
         :label="$t('showMore')"
         @click.native="hasSeeAllDescriptionOption = false" />
     </div>
@@ -75,7 +75,7 @@ const chain = computed(
 )
 const address = computed(() => collectionInfo.value?.currentOwner)
 const hasSeeAllDescriptionOption = ref(false)
-const DESCRIPTION_MAX_LENGTH = 150
+const DESCRIPTION_MAX_LENGTH = 210
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: collectionId.value,
 })
