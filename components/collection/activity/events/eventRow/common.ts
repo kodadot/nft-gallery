@@ -60,7 +60,7 @@ export const getToAddress = (event: InteractionWithNFT | Offer): string => {
   if (interaction === Interaction.MINTNFT || interaction === Interaction.LIST) {
     return event.caller
   }
-  if (interaction === Interaction.BUY || interaction === Interaction.SEND) {
+  if (interaction === Interaction.BUY) {
     return event.caller
   }
   if (interaction === Interaction.SEND) {
