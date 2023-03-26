@@ -10,11 +10,14 @@
         </nuxt-link>
       </div>
       <div class="overflow-wrap">
-        <vue-markdown
-          :source="
-            collectionInfo?.meta.description?.replaceAll('\n', '  \n') || ''
-          " />
+        <vue-markdown :source="visibleDescription" />
       </div>
+      <NeoButton
+        v-if="hasSeeAllDescriptionOption"
+        variant="link"
+        class="no-shadow"
+        :label="$t('showMore')"
+        @click.native="hasSeeAllDescriptionOption = false" />
     </div>
     <div>
       <div class="columns is-mobile">
@@ -54,6 +57,7 @@ import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
+import { NeoButton } from '@kodadot1/brick'
 
 import {
   useCollectionDetails,
@@ -63,7 +67,6 @@ import {
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
-
 const collectionId = computed(() => route.params.id)
 const chain = computed(
   () =>
@@ -71,10 +74,32 @@ const chain = computed(
       .text
 )
 const address = computed(() => collectionInfo.value?.currentOwner)
-
+const hasSeeAllDescriptionOption = ref(false)
+const DESCRIPTION_MAX_LENGTH = 150
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: collectionId.value,
 })
+
+watch(
+  () => collectionInfo.value?.meta?.description,
+  (description) => {
+    if (description) {
+      hasSeeAllDescriptionOption.value =
+        description.length > DESCRIPTION_MAX_LENGTH
+    }
+  }
+)
+const visibleDescription = computed(() => {
+  const desc = collectionInfo.value?.meta?.description
+
+  return (
+    (hasSeeAllDescriptionOption.value
+      ? desc?.slice(0, DESCRIPTION_MAX_LENGTH)
+      : desc
+    )?.replaceAll('\n', '  \n') || ''
+  )
+})
+
 const { stats } = useCollectionDetails({ collectionId: collectionId.value })
 </script>
 

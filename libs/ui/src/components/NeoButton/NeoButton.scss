@@ -85,6 +85,17 @@
     }
   }
 
+  &--link {
+    border: none !important;
+    @include ktheme() {
+      color: theme('k-grey');
+      &:hover {
+        color: theme('k-accentHover');
+        background: none;
+      }
+    }
+  }
+
   &.no-shadow {
     box-shadow: none;
   }
