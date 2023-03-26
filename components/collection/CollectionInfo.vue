@@ -15,7 +15,7 @@
       <NeoButton
         v-if="hasSeeAllDescriptionOption"
         variant="link"
-        class="no-shadow is-underlined"
+        class="no-shadow is-underlined has-text-left p-0"
         :label="$t('showMore')"
         @click.native="hasSeeAllDescriptionOption = false" />
     </div>

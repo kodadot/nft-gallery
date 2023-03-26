@@ -91,7 +91,7 @@
       color: theme('k-grey');
       text-underline-offset: 0.25rem;
       &:hover {
-        color: theme('k-accentHover');
+        color: theme('text-color');
         background: none;
       }
     }
