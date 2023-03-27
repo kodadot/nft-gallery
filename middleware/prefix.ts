@@ -9,7 +9,8 @@ export default function ({ store, route }): void {
 
   if (
     store.getters.currentUrlPrefix !== prefix &&
-    (prefix || isAnyChainPrefixInPath)
+    prefix &&
+    isAnyChainPrefixInPath
   ) {
     store.dispatch('setUrlPrefix', prefix)
   }
