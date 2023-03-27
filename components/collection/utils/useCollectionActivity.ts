@@ -9,6 +9,11 @@ import {
   Owners,
 } from './types'
 
+export const mintInteraction = () => {
+  const { urlPrefix } = usePrefix()
+  return urlPrefix.value === 'rmrk2' ? Interaction.MINT : Interaction.MINTNFT
+}
+
 const getOffers = (nfts): Offer[] => {
   return nfts
     .map((nft) =>
@@ -97,11 +102,11 @@ const preProccessForFindingFlippers = (interactions: InteractionWithNFT[]) => {
   const NFTS: NFTMap = {}
 
   interactions.forEach((event) => {
-    if (event.interaction === Interaction.MINTNFT) {
+    if (event.interaction === mintInteraction()) {
       NFTS[event.nft.id] = {
         owner: event.caller,
         nft: event.nft,
-        latestInteraction: Interaction.MINTNFT,
+        latestInteraction: mintInteraction(),
         latestPrice: 0,
       }
     }

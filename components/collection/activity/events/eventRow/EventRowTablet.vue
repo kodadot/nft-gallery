@@ -33,7 +33,7 @@
         <div class="is-flex is-justify-content-space-between">
           <div
             class="border is-size-7 is-justify-content-center py-1 is-flex is-align-items-center fixed-width fixed-height"
-            :class="interactionColor[event.interaction]">
+            :class="getInteractionColor(event.interaction)">
             {{ interactionName }}
           </div>
           <div>
@@ -81,10 +81,10 @@ import {
   blank,
   getAmount,
   getFromAddress,
+  getInteractionColor,
   getNFTAvatar,
   getToAddress,
-  ineteractionNameMap,
-  interactionColor,
+  interactionNameMap,
 } from './common'
 
 const { urlPrefix } = usePrefix()
@@ -95,7 +95,7 @@ const props = defineProps<{
 const avatar = ref<string>()
 
 const interactionName = computed(
-  () => ineteractionNameMap[props.event.interaction] || props.event.interaction
+  () => interactionNameMap[props.event.interaction] || props.event.interaction
 )
 const amount = computed(() => getAmount(props.event))
 

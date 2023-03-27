@@ -43,6 +43,7 @@ import { Interaction } from '@kodadot1/minimark'
 import { is } from '@/components/shared/filters/filterUtils'
 import { isAnyActivityFilterActive } from '../utils'
 import { useResizeObserver } from '@vueuse/core'
+import { mintInteraction } from '@/components/collection/utils/useCollectionActivity'
 
 const desktop = ref(true)
 const desktopBreakPoint = 1024
@@ -78,7 +79,7 @@ const filteredEvents = computed(() => {
 
   const InteractionToKeep = {
     [Interaction.BUY]: is(query?.sale as string),
-    [Interaction.MINTNFT]: is(query?.mint as string),
+    [mintInteraction()]: is(query?.mint as string),
     [Interaction.LIST]: is(query?.listing as string),
     [Interaction.SEND]: is(query?.transfer as string),
     [OfferInteraction]: is(query?.offer as string),

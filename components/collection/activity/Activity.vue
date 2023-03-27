@@ -32,7 +32,10 @@ import ActivityChart from './Chart.vue'
 import OwnerInsights from './OwnerInsights.vue'
 import Events from './events/Events.vue'
 import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
-import { useCollectionActivity } from '@/components/collection/utils/useCollectionActivity'
+import {
+  mintInteraction,
+  useCollectionActivity,
+} from '@/components/collection/utils/useCollectionActivity'
 import { Interaction } from '@kodadot1/minimark'
 import { useResizeObserver } from '@vueuse/core'
 import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
@@ -54,7 +57,7 @@ const { events, flippers, owners, offers } = useCollectionActivity({
 const InteractionIncluded = [
   Interaction.BUY,
   Interaction.LIST,
-  Interaction.MINTNFT,
+  mintInteraction(),
   Interaction.SEND,
 ]
 

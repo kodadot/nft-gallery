@@ -4,32 +4,35 @@ import {
   Offer,
   OfferInteraction,
 } from '@/components/collection/utils/types'
-import { sanitizeIpfsUrl } from '~~/utils/ipfs'
-import { processSingleMetadata } from '~~/utils/cachingStrategy'
-import { NFTMetadata } from '~~/components/rmrk/service/scheme'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { processSingleMetadata } from '@/utils/cachingStrategy'
+import { NFTMetadata } from '@/components/rmrk/service/scheme'
+import { mintInteraction } from '@/components/collection/utils/useCollectionActivity'
 
-export const ineteractionNameMap = {
+export const interactionNameMap = {
   BUY: 'Sale',
   LIST: 'List',
   MINTNFT: 'Mint',
+  MINT: 'Mint',
   SEND: 'Transfer',
   Offer: 'Offer',
 }
 export const blank = '--'
 
-export const interactionColor = {
-  [Interaction.MINTNFT]: 'k-yellow',
-  [Interaction.LIST]: 'k-blueaccent',
-  [Interaction.BUY]: 'k-pink',
-  [OfferInteraction]: 'k-greenaccent',
-  [Interaction.SEND]: 'background-color',
-}
+export const getInteractionColor = (interaction: string) =>
+  ({
+    [mintInteraction()]: 'k-yellow',
+    [Interaction.LIST]: 'k-blueaccent',
+    [Interaction.BUY]: 'k-pink',
+    [OfferInteraction]: 'k-greenaccent',
+    [Interaction.SEND]: 'background-color',
+  }[interaction])
 
 export const getAmount = (
   event: InteractionWithNFT | Offer
 ): string | number => {
   switch (event.interaction) {
-    case Interaction.MINT:
+    case mintInteraction():
       return blank
     case Interaction.LIST:
     case Interaction.BUY:
@@ -43,7 +46,7 @@ export const getAmount = (
 
 export const getFromAddress = (event: InteractionWithNFT | Offer): string => {
   const interaction = event.interaction
-  if (interaction === Interaction.MINTNFT || interaction === Interaction.LIST) {
+  if (interaction === mintInteraction() || interaction === Interaction.LIST) {
     return blank
   }
   if (interaction === Interaction.BUY || interaction === Interaction.SEND) {
@@ -58,7 +61,7 @@ export const getFromAddress = (event: InteractionWithNFT | Offer): string => {
 export const getToAddress = (event: InteractionWithNFT | Offer): string => {
   const interaction = event.interaction
   if (
-    interaction === Interaction.MINTNFT ||
+    interaction === mintInteraction() ||
     interaction === Interaction.LIST ||
     interaction === Interaction.BUY
   ) {
