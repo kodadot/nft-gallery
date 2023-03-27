@@ -22,7 +22,7 @@
         </div>
       </div>
       <hr class="mb-40" :class="{ 'my-40': !isBreadCrumbsShowing }" />
-      <Events :events="sortedEvents" />
+      <Events :events="sortedEventsWithOffersDesc" />
     </div>
   </div>
 </template>
@@ -65,7 +65,8 @@ const filteredEvents = computed(() =>
 )
 const withOffers = computed(() => [...filteredEvents.value, ...offers.value])
 
-const sortedEvents = computed(() =>
+// newest events first (bigger timestamp first)
+const sortedEventsWithOffersDesc = computed(() =>
   withOffers.value.sort((a, b) => b.timestamp - a.timestamp)
 )
 

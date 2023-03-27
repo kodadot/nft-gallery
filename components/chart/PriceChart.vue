@@ -132,11 +132,11 @@ const getPriceChartData = () => {
     )?.getContext('2d')
     if (ctx) {
       const commonStyle = {
-        tension: 0,
+        tension: 0.2,
         pointRadius: 6,
         pointHoverRadius: 6,
         pointHoverBackgroundColor: isDarkMode.value ? '#181717' : 'white',
-        borderJoinStyle: 'miter' as const,
+        borderJoinStyle: 'round' as const,
         radius: 0,
         pointStyle: 'rect',
         borderWidth: 1,
@@ -243,7 +243,7 @@ const getPriceChartData = () => {
                 callback: (value) => {
                   return `${Number(value).toFixed(2)}  `
                 },
-                maxTicksLimit: 7,
+                stepSize: 1,
                 color: lineColor.value,
               },
               grid: {
