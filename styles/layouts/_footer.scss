@@ -99,6 +99,7 @@
 
     @include touch {
       flex-direction: column;
+      flex-wrap: nowrap;
       height: 4.4rem;
     }
     @include ktheme() {
@@ -114,6 +115,10 @@
       padding-top: 0;
       padding-bottom: 0;
       line-height: 1;
+
+      @include touch {
+        flex-basis: 100%;
+      }
 
       @include ktheme() {
         background: theme('background-color') !important;
@@ -143,7 +148,7 @@
         border-top: 1px solid;
         padding: 0;
         justify-content: center;
-
+        flex-basis: 100%;
       }
     }
   }
