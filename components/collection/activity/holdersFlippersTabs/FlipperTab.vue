@@ -27,7 +27,7 @@
         <div class="is-flex is-justify-content-space-between">
           <span class="is-size-7 k-grey">{{ $t('activity.bestFlip') }}</span>
           <span :class="{ 'k-green': bestFlip > 0, 'k-red': bestFlip < 0 }">{{
-            bestFlip === 0 ? '--' : `${bestFlip.toFixed(4)}%`
+            bestFlip === 0 ? '--' : `${format(bestFlip)}%`
           }}</span>
         </div>
         <div class="is-flex is-justify-content-space-between">
@@ -73,6 +73,11 @@ const toggleNFTDetails = (flipperId: string) => {
 }
 
 const flippers = computed(() => Object.entries(props.flippers || {}))
+
+const format = (number: number) => {
+  const isInteger = Number.isInteger(number)
+  return isInteger ? number.toString() : number.toFixed(4)
+}
 
 // map of flipper id to bolean, is the NFT details section of that flipper open or nor
 // {id0: false, id1: true, id3: false, ...}
