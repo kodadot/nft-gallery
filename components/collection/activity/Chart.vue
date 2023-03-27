@@ -28,7 +28,8 @@ const toDataPoint = (e: ActivityInteraction): DataPoint => ({
 const sortAsc = (events: DataPoint[]) =>
   events.sort((a, b) => a.timestamp - b.timestamp)
 
-const displayValue = (val: number) => val * Math.pow(10, -12)
+const displayValue = (val: number) =>
+  Number((val * Math.pow(10, -12)).toFixed(4))
 
 const buyEvents = computed(() =>
   sortAsc(
