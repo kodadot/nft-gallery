@@ -29,7 +29,7 @@ export default function () {
 
     if (!$config.public.dev) {
       return chainList.filter(
-        (urlPrefix) => !getChainTestList().includes(`${urlPrefix.value}`)
+        (urlPrefix) => !getChainTestList().includes(String(urlPrefix.value))
       )
     }
 
