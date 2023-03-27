@@ -86,7 +86,14 @@ export const getChainNameByPrefix = (prefix: string) => {
 
 // TODO: move @kodadot1/static under nft-gallery
 // https://github.com/kodadot/packages/issues/112
-const chainPrefixes: Prefix[] = ['bsx', 'ksm', 'snek', 'movr', 'glmr', 'rmrk2']
+export const chainPrefixes: Prefix[] = [
+  'bsx',
+  'ksm',
+  'snek',
+  'movr',
+  'glmr',
+  'rmrk2',
+]
 
 const infos = {
   bsx: 'basilisk',
