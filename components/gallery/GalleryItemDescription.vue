@@ -117,8 +117,9 @@ const properties = computed(() => {
     )
   }
 
-  const attributes =
-    nftMetadata.value?.attributes || nftMetadata.value?.meta.attributes || []
+  const attributes = (nftMetadata.value?.attributes ||
+    nftMetadata.value?.meta.attributes ||
+    []) as Array<{ trait_type: string; value: string; key?: string }>
   return attributes.map((attr) => {
     return {
       trait_type: attr.trait_type || attr.key,
