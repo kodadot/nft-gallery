@@ -14,8 +14,7 @@
       </div>
       <NeoButton
         v-if="hasSeeAllDescriptionOption"
-        variant="link"
-        class="no-shadow is-underlined has-text-left p-0"
+        class="no-shadow is-text is-underlined has-text-left p-0"
         :label="seeAllDescription ? $t('showLess') : $t('showMore')"
         @click.native="toggleSeeAllDescription" />
     </div>

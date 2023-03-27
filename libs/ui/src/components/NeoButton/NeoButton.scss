@@ -85,7 +85,7 @@
     }
   }
 
-  &--link {
+  &.is-text {
     border: none !important;
     width: min-content;
     @include ktheme() {
