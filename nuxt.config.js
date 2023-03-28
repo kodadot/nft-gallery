@@ -266,12 +266,6 @@ export default defineNuxtConfig({
       autoRegister: true,
       workboxVersion: '6.5.4',
     },
-
-    // according to Google using purpose ['any', 'maskable'] is discouraged
-    icon: {
-      source: 'static/icon.png',
-      purpose: ['any'],
-    },
   },
 
   i18n: {
