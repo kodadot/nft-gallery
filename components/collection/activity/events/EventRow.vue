@@ -6,7 +6,10 @@
 </template>
 
 <script setup lang="ts">
-import { InteractionWithNFT, Offer } from '@/components/collection/utils/types'
+import {
+  InteractionWithNFT,
+  Offer,
+} from '@/composables/collectionActivity/types'
 import EventRowDesktop from './eventRow/EventRowDesktop.vue'
 import EventRowTablet from './eventRow/EventRowTablet.vue'
 

@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
-import { Owners } from '@/components/collection/utils/types'
+import { Owners } from '@/composables/collectionActivity/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { NeoIcon } from '@kodadot1/brick'
 

@@ -70,7 +70,6 @@
 </template>
 
 <script setup lang="ts">
-import { Flippers } from '@/components/collection/utils/types'
 import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { NeoIcon } from '@kodadot1/brick'
@@ -78,6 +77,7 @@ import format from './format'
 
 import MoreNFTS from './NFTsDetaislDropdown.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
+import { Flippers } from '@/composables/collectionActivity/types'
 
 const toggleNFTDetails = (flipperId: string) => {
   const isOpen = isNFTDetailsOpen.value[flipperId]

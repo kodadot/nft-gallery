@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import HoldersTab from './ownerInsightsTabs/HolderTab.vue'
 import FlippersTab from './ownerInsightsTabs/FlipperTab.vue'
-import { Flippers, Owners } from '@/components/collection/utils/types'
+import { Flippers, Owners } from '@/composables/collectionActivity/types'
 
 enum Tabs {
   holders,

@@ -3,11 +3,11 @@ import {
   InteractionWithNFT,
   Offer,
   OfferInteraction,
-} from '@/components/collection/utils/types'
+} from '@/composables/collectionActivity/types'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
-import { mintInteraction } from '@/components/collection/utils/useCollectionActivity/helpers'
+import { mintInteraction } from '~~/composables/collectionActivity/helpers'
 
 export const interactionNameMap = {
   BUY: 'Sale',

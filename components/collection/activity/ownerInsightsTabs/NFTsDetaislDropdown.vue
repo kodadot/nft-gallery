@@ -9,7 +9,7 @@
 import {
   FlipEvent,
   NFTExcludingEvents,
-} from '@/components/collection/utils/types'
+} from '@/composables/collectionActivity/types'
 import Flipper from './NFTSDetailsDropdown/Flipper.vue'
 import Holder from './NFTSDetailsDropdown/Holder.vue'
 

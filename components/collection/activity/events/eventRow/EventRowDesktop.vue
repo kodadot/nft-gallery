@@ -81,7 +81,10 @@
 </template>
 
 <script setup lang="ts">
-import { InteractionWithNFT, Offer } from '@/components/collection/utils/types'
+import {
+  InteractionWithNFT,
+  Offer,
+} from '@/composables/collectionActivity/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
