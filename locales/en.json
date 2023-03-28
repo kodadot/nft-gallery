@@ -62,6 +62,8 @@
   "passion": "Passion Feed",
   "beta": "Beta",
   "go back": "Go Back",
+  "showMore": "Show More",
+  "showLess": "Show Less",
   "search": {
     "seeAll": "See All",
     "rankings": "Rankings",
@@ -692,7 +694,9 @@
     "invalidAmount": "Amount must be higher than 0.01 KSM",
     "haveNoToS": "Have no permission to use the asset",
     "smallDisplay": "Small Display",
-    "largeDisplay": "Large Display"
+    "largeDisplay": "Large Display",
+    "emptyAddress": "Receiver address cannot be empty",
+    "emptyListAmount": "Amount should be greater than 0"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",

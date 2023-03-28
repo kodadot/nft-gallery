@@ -14,7 +14,7 @@ runs:
       name: Install pnpm
       id: pnpm-install
       with:
-        version: latest
+        version: 7
 
     - name: Get pnpm store directory
       id: pnpm-cache
