@@ -10,7 +10,11 @@ import {
   Owners,
 } from '../types'
 
-// Internal functions
+export const mintInteraction = () => {
+  const { urlPrefix } = usePrefix()
+  return urlPrefix.value === 'rmrk2' ? Interaction.MINT : Interaction.MINTNFT
+}
+
 const flipperInitialValue = {
   flips: [],
   bestFlip: 0,
@@ -83,13 +87,6 @@ const updateOwnerWithNewNft = ({
       : owner.lastActivityTimestamp
   owner.nfts = [...owner.nfts, nft]
   return owner
-}
-
-// Exported functions
-
-export const mintInteraction = () => {
-  const { urlPrefix } = usePrefix()
-  return urlPrefix.value === 'rmrk2' ? Interaction.MINT : Interaction.MINTNFT
 }
 
 export const getOffers = (nfts): Offer[] => {
