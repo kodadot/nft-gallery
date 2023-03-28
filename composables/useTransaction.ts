@@ -1,8 +1,8 @@
 import { Interaction } from '@kodadot1/minimark'
 
 import {
-  dangerMessage,
   successMessage as successNotification,
+  warningMessage,
 } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { execBuyTx } from './transaction/transactionBuy'
@@ -66,7 +66,7 @@ const useExecuteTransaction = () => {
       successNotification(message)
     }
 
-    const errorCb = () => dangerMessage(errorMessage || 'Failed!')
+    const errorCb = () => warningMessage(errorMessage || 'Failed!')
 
     howAboutToExecute(accountId.value, cb, arg, successCb, errorCb)
   }

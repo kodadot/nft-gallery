@@ -208,7 +208,7 @@ const submit = async (
       errorMessage: $i18n.t('transaction.item.error') as string,
     })
   } catch (e: any) {
-    showNotification(`[OFFER::ERR] ${e}`, notificationTypes.danger)
+    showNotification(`[OFFER::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
   }
 }
