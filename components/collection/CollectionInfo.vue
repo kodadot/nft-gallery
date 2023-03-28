@@ -10,11 +10,13 @@
         </nuxt-link>
       </div>
       <div class="overflow-wrap">
-        <vue-markdown
-          :source="
-            collectionInfo?.meta.description?.replaceAll('\n', '  \n') || ''
-          " />
+        <vue-markdown :source="visibleDescription" />
       </div>
+      <NeoButton
+        v-if="hasSeeAllDescriptionOption"
+        class="no-shadow is-text is-underlined has-text-left p-0"
+        :label="seeAllDescription ? $t('showLess') : $t('showMore')"
+        @click.native="toggleSeeAllDescription" />
     </div>
     <div>
       <div class="columns is-mobile">
@@ -54,6 +56,7 @@ import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
+import { NeoButton } from '@kodadot1/brick'
 
 import {
   useCollectionDetails,
@@ -63,7 +66,6 @@ import {
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
-
 const collectionId = computed(() => route.params.id)
 const chain = computed(
   () =>
@@ -71,10 +73,34 @@ const chain = computed(
       .text
 )
 const address = computed(() => collectionInfo.value?.currentOwner)
-
+const seeAllDescription = ref(false)
+const DESCRIPTION_MAX_LENGTH = 210
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: collectionId.value,
 })
+
+const toggleSeeAllDescription = () => {
+  seeAllDescription.value = !seeAllDescription.value
+}
+
+const hasSeeAllDescriptionOption = computed(() => {
+  return (
+    (collectionInfo.value?.meta?.description?.length || 0) >
+    DESCRIPTION_MAX_LENGTH
+  )
+})
+
+const visibleDescription = computed(() => {
+  const desc = collectionInfo.value?.meta?.description
+
+  return (
+    (!hasSeeAllDescriptionOption.value || seeAllDescription.value
+      ? desc
+      : desc?.slice(0, DESCRIPTION_MAX_LENGTH)
+    )?.replaceAll('\n', '  \n') || ''
+  )
+})
+
 const { stats } = useCollectionDetails({ collectionId: collectionId.value })
 </script>
 
