@@ -34,7 +34,7 @@ importers:
       '@kevinmarrec/nuxt-pwa': 0.15.0
       '@kodadot1/brick': workspace:*
       '@kodadot1/minimark': ^0.0.1-rc.10
-      '@kodadot1/static': 0.0.1-rc.0
+      '@kodadot1/static': workspace:*
       '@kodadot1/sub-api': 0.1.1-alpha.5
       '@kodadot1/vuex-options': 0.0.5-rc.4
       '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27889410.9247608
@@ -4315,7 +4315,7 @@ packages:
       globby: 13.1.3
       hash-sum: 2.0.0
       ignore: 5.2.4
-      jiti: 1.17.1
+      jiti: 1.17.2
       knitwork: 1.0.0
       lodash.template: 4.5.0
       mlly: 1.1.1
@@ -16025,10 +16025,6 @@ packages:
       '@types/node': 18.14.6
       merge-stream: 2.0.0
       supports-color: 7.2.0
-
-  /jiti/1.17.1:
-    resolution: {integrity: sha512-NZIITw8uZQFuzQimqjUxIrIcEdxYDFIe/0xYfIlVXTkiBjjyBEvgasj5bb0/cHtPRD/NziPbT312sFrkI5ALpw==}
-    hasBin: true
 
   /jiti/1.17.2:
     resolution: {integrity: sha512-Xf0nU8+8wuiQpLcqdb2HRyHqYwGk2Pd+F7kstyp20ZuqTyCmB9dqpX2NxaxFc1kovraa2bG6c1RL3W7XfapiZg==}

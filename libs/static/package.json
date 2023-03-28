@@ -2,7 +2,7 @@
   "name": "@kodadot1/static",
   "version": "0.0.1-rc.0",
   "description": "",
-  "repository": "kodadot/packages",
+  "repository": "kodadot/nft-gallery",
   "license": "MIT",
   "sideEffects": false,
   "type": "module",
