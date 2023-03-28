@@ -3,6 +3,7 @@ import { Interaction } from '@kodadot1/minimark'
 import {
   Flippers,
   InteractionWithNFT,
+  NFTHistoryState,
   NFTMap,
   Offer,
   OfferInteraction,
@@ -56,6 +57,11 @@ const summerizeFlips = (flips) => {
     flips,
   }
 }
+
+const getLatestPrice = (previousNFTState: NFTHistoryState) =>
+  previousNFTState.latestInteraction === Interaction.BUY
+    ? previousNFTState.latestPrice
+    : 0
 
 const getOffers = (nfts): Offer[] => {
   return nfts
@@ -184,11 +190,7 @@ const getFlippers = (interactions: InteractionWithNFT[]): Flippers => {
 
       //nft has been bought from previous owner -> previous owner is the flipper
 
-      const flipperHistory = flippers[PreviousNFTState.owner].flips
-      const boughtPrice =
-        PreviousNFTState.latestInteraction === Interaction.BUY
-          ? PreviousNFTState.latestPrice
-          : 0
+      const boughtPrice = getLatestPrice(PreviousNFTState)
       const profit =
         boughtPrice > 0 ? (baseInfo.soldPrice / boughtPrice) * 100 : 0
       const thisFlip = {
@@ -197,13 +199,16 @@ const getFlippers = (interactions: InteractionWithNFT[]): Flippers => {
         profit,
       }
 
-      flippers[PreviousNFTState.owner].flips = [...flipperHistory, thisFlip]
+      flippers[PreviousNFTState.owner].flips = [
+        ...flippers[PreviousNFTState.owner].flips,
+        thisFlip,
+      ]
 
       // update last state of NFT
       NFTS[nftId] = {
         ...PreviousNFTState,
         owner: interaction.caller,
-        latestInteraction: interaction.interaction,
+        latestInteraction: Interaction.BUY,
         latestPrice: parseInt(interaction.meta),
       }
     }

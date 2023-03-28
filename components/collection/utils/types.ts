@@ -50,13 +50,15 @@ export type Offer = {
   interaction: string
   nft: NFTExcludingEvents
 }
+
+export type NFTHistoryState = {
+  owner: string
+  nft: NFTExcludingEvents
+  latestInteraction: Interaction
+  latestPrice: number
+}
 export type NFTMap = {
-  [nftId: string]: {
-    owner: string
-    nft: NFTExcludingEvents
-    latestInteraction: Interaction
-    latestPrice: number
-  }
+  [nftId: string]: NFTHistoryState
 }
 export type FlipEvent = {
   nft: NFTExcludingEvents
