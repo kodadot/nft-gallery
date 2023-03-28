@@ -7,7 +7,7 @@ import {
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
-import { mintInteraction } from '@/components/collection/utils/useCollectionActivity'
+import { mintInteraction } from '@/components/collection/utils/useCollectionActivity/helpers'
 
 export const interactionNameMap = {
   BUY: 'Sale',

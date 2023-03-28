@@ -43,7 +43,7 @@ import { Interaction } from '@kodadot1/minimark'
 import { is } from '@/composables/useReplaceUrl'
 import { isAnyActivityFilterActive } from '../utils'
 import { useResizeObserver } from '@vueuse/core'
-import { mintInteraction } from '@/components/collection/utils/useCollectionActivity'
+import { mintInteraction } from '@/components/collection/utils/useCollectionActivity/helpers'
 
 const desktop = ref(true)
 const desktopBreakPoint = 1024

@@ -32,14 +32,12 @@ import ActivityChart from './ActivityChart.vue'
 import OwnerInsights from './OwnerInsights.vue'
 import Events from './events/Events.vue'
 import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
-import {
-  mintInteraction,
-  useCollectionActivity,
-} from '@/components/collection/utils/useCollectionActivity'
+import { useCollectionActivity } from '@/components/collection/utils/useCollectionActivity/useCollectionActivity'
 import { Interaction } from '@kodadot1/minimark'
 import { useResizeObserver } from '@vueuse/core'
 import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
 import { isAnyActivityFilterActive } from './utils'
+import { mintInteraction } from '@/components/collection/utils/useCollectionActivity/helpers'
 const mobileBreakpoint = 800
 const route = useRoute()
 const tablet = ref(true)

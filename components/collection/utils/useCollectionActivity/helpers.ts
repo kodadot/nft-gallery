@@ -1,5 +1,5 @@
-import { sum } from '@/utils/math'
 import { Interaction } from '@kodadot1/minimark'
+import { sum } from '@/utils/math'
 import {
   Flippers,
   InteractionWithNFT,
@@ -8,8 +8,9 @@ import {
   Offer,
   OfferInteraction,
   Owners,
-} from './types'
+} from '../types'
 
+// Internal functions
 const flipperInitialValue = {
   flips: [],
   bestFlip: 0,
@@ -19,11 +20,6 @@ const flipperInitialValue = {
   totalsold: 0,
 }
 
-export const mintInteraction = () => {
-  const { urlPrefix } = usePrefix()
-  return urlPrefix.value === 'rmrk2' ? Interaction.MINT : Interaction.MINTNFT
-}
-
 const newOwnerEntry = (lastActivityTimestamp, nft) => ({
   nftCount: 1,
   totalBought: 0,
@@ -31,20 +27,30 @@ const newOwnerEntry = (lastActivityTimestamp, nft) => ({
   lastActivityTimestamp,
   nfts: [nft],
 })
-const updateOwnerWithNewNft = ({
-  owner,
-  latestInteraction,
-  lastestTimeStamp,
-  nft,
-}) => {
-  owner.nftCount++
-  owner.totalBought += parseInt(latestInteraction.meta)
-  owner.lastActivityTimestamp =
-    lastestTimeStamp > owner.lastActivityTimestamp
-      ? lastestTimeStamp
-      : owner.lastActivityTimestamp
-  owner.nfts = [...owner.nfts, nft]
-  return owner
+
+const preProccessForFindingFlippers = (interactions: InteractionWithNFT[]) => {
+  const changeHandsInteractions: InteractionWithNFT[] = []
+  const NFTS: NFTMap = {}
+
+  interactions.forEach((event) => {
+    if (event.interaction === mintInteraction()) {
+      NFTS[event.nft.id] = {
+        owner: event.caller,
+        nft: event.nft,
+        latestInteraction: mintInteraction(),
+        latestPrice: 0,
+      }
+    }
+
+    if (
+      event.interaction === Interaction.SEND ||
+      event.interaction === Interaction.BUY
+    ) {
+      changeHandsInteractions.push(event)
+    }
+  })
+
+  return { NFTS, changeHandsInteractions }
 }
 
 const summerizeFlips = (flips) => {
@@ -63,7 +69,30 @@ const getLatestPrice = (previousNFTState: NFTHistoryState) =>
     ? previousNFTState.latestPrice
     : 0
 
-const getOffers = (nfts): Offer[] => {
+const updateOwnerWithNewNft = ({
+  owner,
+  latestInteraction,
+  lastestTimeStamp,
+  nft,
+}) => {
+  owner.nftCount++
+  owner.totalBought += parseInt(latestInteraction.meta)
+  owner.lastActivityTimestamp =
+    lastestTimeStamp > owner.lastActivityTimestamp
+      ? lastestTimeStamp
+      : owner.lastActivityTimestamp
+  owner.nfts = [...owner.nfts, nft]
+  return owner
+}
+
+// Exported functions
+
+export const mintInteraction = () => {
+  const { urlPrefix } = usePrefix()
+  return urlPrefix.value === 'rmrk2' ? Interaction.MINT : Interaction.MINTNFT
+}
+
+export const getOffers = (nfts): Offer[] => {
   return nfts
     .map((nft) =>
       nft.offers.map((offer) => ({
@@ -77,7 +106,7 @@ const getOffers = (nfts): Offer[] => {
     .flat()
 }
 
-const getOwners = (nfts) => {
+export const getOwners = (nfts) => {
   const owners: Owners = {}
 
   nfts.forEach((nft) => {
@@ -126,74 +155,49 @@ const getOwners = (nfts) => {
   return owners
 }
 
-const preProccessForFindingFlippers = (interactions: InteractionWithNFT[]) => {
-  const changeHandsInteractions: InteractionWithNFT[] = []
-  const NFTS: NFTMap = {}
-
-  interactions.forEach((event) => {
-    if (event.interaction === mintInteraction()) {
-      NFTS[event.nft.id] = {
-        owner: event.caller,
-        nft: event.nft,
-        latestInteraction: mintInteraction(),
-        latestPrice: 0,
-      }
-    }
-
-    if (
-      event.interaction === Interaction.SEND ||
-      event.interaction === Interaction.BUY
-    ) {
-      changeHandsInteractions.push(event)
-    }
-  })
-
-  return { NFTS, changeHandsInteractions }
-}
-
-const getFlippers = (interactions: InteractionWithNFT[]): Flippers => {
+export const getFlippers = (interactions: InteractionWithNFT[]): Flippers => {
   const { NFTS, changeHandsInteractions } =
     preProccessForFindingFlippers(interactions)
 
+  // Create an object that will hold all the flipper data
   const flippers: Flippers = {}
 
+  // Loop through all the change hands interactions
   changeHandsInteractions.forEach((interaction) => {
     if (interaction.interaction === Interaction.SEND) {
+      // NFT has been sent from one address to another
       NFTS[interaction.nft.id].owner = interaction.meta
       NFTS[interaction.nft.id].latestInteraction = Interaction.SEND
     }
     if (interaction.interaction === Interaction.BUY) {
-      //it's a Flip!
+      // NFT has been bought, it's a Flip!
 
       const nftId = interaction.nft.id
       const PreviousNFTState = NFTS[nftId]
-      const baseInfo = {
-        nft: NFTS[nftId].nft,
+      const boughtPrice = getLatestPrice(PreviousNFTState)
+      // Calculate profit
+      const profit =
+        boughtPrice > 0 ? (parseInt(interaction.meta) / boughtPrice) * 100 : 0
+
+      // Create the new FlipEvent object
+      const thisFlip = {
+        nft: PreviousNFTState.nft,
         soldPrice: parseInt(interaction.meta),
         soldTo: interaction.caller,
         sellTimeStamp: new Date(interaction.timestamp).getTime(),
-      }
-      if (flippers[PreviousNFTState.owner] === undefined) {
-        flippers[PreviousNFTState.owner] = flipperInitialValue
-      }
-
-      //nft has been bought from previous owner -> previous owner is the flipper
-
-      const boughtPrice = getLatestPrice(PreviousNFTState)
-      const profit =
-        boughtPrice > 0 ? (baseInfo.soldPrice / boughtPrice) * 100 : 0
-      const thisFlip = {
-        ...baseInfo,
         boughtPrice,
         profit,
       }
 
-      flippers[PreviousNFTState.owner].flips = [
-        ...flippers[PreviousNFTState.owner].flips,
-        thisFlip,
-      ]
+      // Check if the previous owner is already a flipper, if not initialize them
+      if (flippers[PreviousNFTState.owner] === undefined) {
+        flippers[PreviousNFTState.owner] = flipperInitialValue
+      }
 
-      // update last state of NFT
+      // Add the new FlipEvent to the previous owner's flips array
+      flippers[PreviousNFTState.owner].flips.push(thisFlip)
+
+      // Update the NFT state
       NFTS[nftId] = {
         ...PreviousNFTState,
         owner: interaction.caller,
@@ -207,64 +211,4 @@ const getFlippers = (interactions: InteractionWithNFT[]): Flippers => {
     flippers[flipperId] = summerizeFlips(flips)
   })
   return flippers
-}
-
-export const useCollectionActivity = ({ collectionId }) => {
-  const { urlPrefix } = usePrefix()
-  const events = ref<InteractionWithNFT[]>([])
-  const owners = ref<Owners>()
-  const flippers = ref<Flippers>()
-  const offers = ref<Offer[]>([])
-
-  const queryPrefix = urlPrefix.value === 'bsx' ? 'chain-bsx' : 'subsquid'
-
-  const { data } = useGraphql({
-    queryPrefix,
-    queryName: 'collectionActivityEvents',
-    variables: {
-      id: collectionId,
-    },
-  })
-
-  watch(data, (result) => {
-    if (result?.collection) {
-      // flat events for chart
-      const interactions: InteractionWithNFT[] = result.collection.nfts
-        .map((nft) =>
-          nft.events.map((e) => ({
-            ...e,
-            timestamp: new Date(e.timestamp).getTime(),
-            nft: { ...nft, events: undefined },
-          }))
-        )
-        .flat()
-      events.value = interactions
-
-      if (urlPrefix.value === 'bsx') {
-        offers.value = getOffers(result.collection.nfts)
-      }
-
-      // not to repeat ref names
-      const ownersTemp = getOwners(result.collection.nfts)
-      const flippersTemp = getFlippers(interactions)
-
-      const flipperdIds = Object.keys(flippersTemp)
-      const OwnersIds = Object.keys(ownersTemp)
-
-      flipperdIds.forEach((id) => {
-        if (OwnersIds.includes(id)) {
-          ownersTemp[id].totalSold = flippersTemp[id].totalsold
-        }
-      })
-
-      owners.value = ownersTemp
-      flippers.value = flippersTemp
-    }
-  })
-  return {
-    events,
-    owners,
-    flippers,
-    offers,
-  }
 }
