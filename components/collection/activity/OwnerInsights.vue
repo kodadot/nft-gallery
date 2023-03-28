@@ -22,8 +22,8 @@
 </template>
 
 <script setup lang="ts">
-import HoldersTab from './holdersFlippersTabs/HolderTab.vue'
-import FlippersTab from './holdersFlippersTabs/FlipperTab.vue'
+import HoldersTab from './ownerInsightsTabs/HolderTab.vue'
+import FlippersTab from './ownerInsightsTabs/FlipperTab.vue'
 import { Flippers, Owners } from '@/components/collection/utils/types'
 
 enum Tabs {
@@ -39,8 +39,6 @@ const activeTab = ref(Tabs.holders)
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
 .fixed-height {
   height: 350px;
 }

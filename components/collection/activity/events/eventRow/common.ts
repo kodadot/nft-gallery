@@ -25,7 +25,7 @@ export const getInteractionColor = (interaction: string) =>
     [Interaction.LIST]: 'k-blueaccent',
     [Interaction.BUY]: 'k-pink',
     [OfferInteraction]: 'k-greenaccent',
-    [Interaction.SEND]: 'background-color',
+    [Interaction.SEND]: 'theme-background-color',
   }[interaction])
 
 export const getAmount = (

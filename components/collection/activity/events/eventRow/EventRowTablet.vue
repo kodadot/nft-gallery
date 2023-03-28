@@ -115,8 +115,6 @@ const getAvatar = async () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
-
 .fixed-width {
   width: 66px;
 }
@@ -130,28 +128,5 @@ const getAvatar = async () => {
 
 .gap {
   gap: 1rem;
-}
-.k-pink {
-  @include ktheme() {
-    background-color: theme('k-pink');
-  }
-}
-
-.k-yellow {
-  @include ktheme() {
-    background-color: theme('k-yellow');
-  }
-}
-
-.background-color {
-  @include ktheme() {
-    background-color: theme('background-color');
-  }
-}
-
-.k-blueaccent {
-  @include ktheme() {
-    background-color: theme('k-blueaccent');
-  }
 }
 </style>

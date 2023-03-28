@@ -34,9 +34,13 @@
           <span class="is-size-7 has-text-grey">{{
             $t('activity.bestFlip')
           }}</span>
-          <span :class="{ 'k-green': bestFlip > 0, 'k-red': bestFlip < 0 }">{{
-            bestFlip === 0 ? '--' : `${format(bestFlip)}%`
-          }}</span>
+          <span
+            :class="{
+              'has-text-k-green': bestFlip > 0,
+              'has-text-k-red': bestFlip < 0,
+            }"
+            >{{ bestFlip === 0 ? '--' : `${format(bestFlip)}%` }}</span
+          >
         </div>
         <div class="is-flex is-justify-content-space-between">
           <span class="is-size-7 has-text-grey">{{
@@ -46,7 +50,7 @@
         </div>
         <div>
           <div
-            class="is-size-7 k-blue is-clickable"
+            class="is-size-7 has-text-k-blue is-clickable"
             @click="toggleNFTDetails(flipperId)">
             {{ $t('activity.nftDetails') }}
             <NeoIcon
@@ -70,8 +74,9 @@ import { Flippers } from '@/components/collection/utils/types'
 import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { NeoIcon } from '@kodadot1/brick'
+import format from './format'
 
-import MoreNFTS from './moreNFTS.vue'
+import MoreNFTS from './NFTsDetaislDropdown.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 const toggleNFTDetails = (flipperId: string) => {
@@ -82,11 +87,6 @@ const toggleNFTDetails = (flipperId: string) => {
   }
 }
 const flippers = computed(() => Object.entries(props.flippers || {}))
-
-const format = (number: number) => {
-  const isInteger = Number.isInteger(number)
-  return isInteger ? number.toString() : number.toFixed(4)
-}
 
 // map of flipper id to bolean, is the NFT details section of that flipper open or nor
 // {id0: false, id1: true, id3: false, ...}
@@ -105,29 +105,10 @@ const props = defineProps<{
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
 .gap {
   gap: 0.5rem;
 }
 .hide-last-hr:last-child > hr {
   display: none;
-}
-.is-blue {
-  &:hover {
-    @include ktheme() {
-      color: theme('k-blue-hover');
-    }
-  }
-}
-
-.k-green {
-  @include ktheme() {
-    color: theme('k-green');
-  }
-}
-.k-red {
-  @include ktheme() {
-    color: theme('k-red');
-  }
 }
 </style>

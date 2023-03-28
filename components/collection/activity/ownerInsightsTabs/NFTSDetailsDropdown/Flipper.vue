@@ -21,9 +21,13 @@
           <span class="is-size-7 has-text-grey">{{
             $t('activity.profit')
           }}</span>
-          <span :class="{ 'k-green': profit > 0, 'k-red': profit < 0 }">{{
-            profit === 0 ? '--' : `${profit.toFixed(4)}%`
-          }}</span>
+          <span
+            :class="{
+              'has-text-k-green': profit > 0,
+              'has-text-k-red': profit < 0,
+            }"
+            >{{ profit === 0 ? '--' : `${format(profit)}%` }}</span
+          >
         </div>
         <div class="is-flex is-justify-content-space-between no-wrap">
           <span class="is-size-7 has-text-grey">{{
@@ -46,6 +50,7 @@ import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { FlipEvent } from '@/components/collection/utils/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
+import format from '../format'
 
 const props = defineProps<{
   flips: (FlipEvent & { avatar?: string })[]
@@ -80,30 +85,11 @@ const processNFTImages = async () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
-
 .mr-2rem {
   margin-right: 1.5rem;
 }
 
 .-mx-5 {
   margin: 0 -1.5rem !important;
-}
-.k-green {
-  @include ktheme() {
-    color: theme('k-green');
-  }
-}
-.k-red {
-  @include ktheme() {
-    color: theme('k-red');
-  }
-}
-.is-hoverable {
-  @include ktheme() {
-    &:hover {
-      background-color: theme('k-accentlight2');
-    }
-  }
 }
 </style>

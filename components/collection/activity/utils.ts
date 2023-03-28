@@ -1,4 +1,4 @@
-import { readParam } from '@/components/shared/filters/filterUtils'
+import { readParam } from '@/composables/useReplaceUrl'
 
 export type DataPoint = {
   timestamp: number

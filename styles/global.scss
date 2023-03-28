@@ -302,3 +302,67 @@ hr {
     border: 1px solid theme('border-color')
   }
 }
+
+
+//colors
+
+.has-text-k-green {
+  @include ktheme() {
+    color: theme('k-green');
+  }
+}
+.has-text-k-red {
+  @include ktheme() {
+    color: theme('k-red');
+  }
+}
+
+.has-text-k-blue {
+  @include ktheme() {
+    color: theme('k-blue');
+  }
+  &:hover {
+    @include ktheme() {
+      color: theme('k-blue-hover');
+    }
+  }
+}
+
+.k-pink {
+  @include ktheme() {
+    background-color: theme('k-pink');
+  }
+}
+.k-greenaccent {
+  @include ktheme() {
+    background-color: theme('k-greenaccent');
+  }
+}
+
+.k-yellow {
+  @include ktheme() {
+    background-color: theme('k-yellow');
+  }
+}
+.theme-background-color {
+  @include ktheme() {
+    background-color: theme('background-color');
+  }
+}
+
+.k-blueaccent {
+  @include ktheme() {
+    background-color: theme('k-blueaccent');
+  }
+}
+
+//hover
+
+.is-hoverable {
+  @include ktheme() {
+    &:hover {
+      background-color: theme('k-accentlight2');
+    }
+  }
+}
+

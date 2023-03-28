@@ -40,7 +40,7 @@ import {
 import EventRow from './EventRow.vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { Interaction } from '@kodadot1/minimark'
-import { is } from '@/components/shared/filters/filterUtils'
+import { is } from '@/composables/useReplaceUrl'
 import { isAnyActivityFilterActive } from '../utils'
 import { useResizeObserver } from '@vueuse/core'
 import { mintInteraction } from '@/components/collection/utils/useCollectionActivity'
@@ -114,7 +114,3 @@ const handleIntersection = (entries: IntersectionObserverEntry[]) => {
 const sentinel = ref<HTMLDivElement | null>(null)
 useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>
-
-<style scoped lang="scss">
-@import '@/styles/abstracts/variables';
-</style>

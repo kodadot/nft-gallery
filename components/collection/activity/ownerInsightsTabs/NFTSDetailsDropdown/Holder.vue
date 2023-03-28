@@ -64,20 +64,11 @@ const processNFTImages = async () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
-
 .mr-2rem {
   margin-right: 2rem;
 }
 
 .-mx-5 {
   margin: 0 -1.5rem !important;
-}
-.is-hoverable {
-  @include ktheme() {
-    &:hover {
-      background-color: theme('k-accentlight2');
-    }
-  }
 }
 </style>

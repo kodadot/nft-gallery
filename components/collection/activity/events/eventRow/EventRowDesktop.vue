@@ -123,8 +123,6 @@ const getAvatar = async () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
-
 .fixed-width {
   width: 66px;
 }
@@ -139,34 +137,7 @@ const getAvatar = async () => {
   height: 50px !important;
   max-width: none !important;
 }
-.k-pink {
-  @include ktheme() {
-    background-color: theme('k-pink');
-  }
-}
-.k-greenaccent {
-  @include ktheme() {
-    background-color: theme('k-greenaccent');
-  }
-}
 
-.k-yellow {
-  @include ktheme() {
-    background-color: theme('k-yellow');
-  }
-}
-
-.background-color {
-  @include ktheme() {
-    background-color: theme('background-color');
-  }
-}
-
-.k-blueaccent {
-  @include ktheme() {
-    background-color: theme('k-blueaccent');
-  }
-}
 .elipsis {
   text-overflow: ellipsis;
 }

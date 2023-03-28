@@ -34,7 +34,7 @@
         </div>
         <div>
           <div
-            class="is-size-7 k-blue is-clickable"
+            class="is-size-7 has-text-k-blue is-clickable"
             @click="toggleNFTDetails(holderId)">
             {{ $t('activity.nftDetails') }}
             <NeoIcon
@@ -59,7 +59,7 @@ import { Owners } from '@/components/collection/utils/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { NeoIcon } from '@kodadot1/brick'
 
-import MoreNFTS from './moreNFTS.vue'
+import MoreNFTS from './NFTsDetaislDropdown.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 const toggleNFTDetails = (flipperId: string) => {
@@ -90,21 +90,10 @@ const props = defineProps<{
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
 .gap {
   gap: 0.5rem;
 }
 .hide-last-hr:last-child > hr {
   display: none;
-}
-.k-blue {
-  @include ktheme() {
-    color: theme('k-blue');
-  }
-  &:hover {
-    @include ktheme() {
-      color: theme('k-blue-hover');
-    }
-  }
 }
 </style>

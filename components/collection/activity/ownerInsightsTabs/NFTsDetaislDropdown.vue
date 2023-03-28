@@ -10,8 +10,8 @@ import {
   FlipEvent,
   NFTExcludingEvents,
 } from '@/components/collection/utils/types'
-import Flipper from './moreNFTs/Flipper.vue'
-import Holder from './moreNFTs/Holder.vue'
+import Flipper from './NFTSDetailsDropdown/Flipper.vue'
+import Holder from './NFTSDetailsDropdown/Holder.vue'
 
 withDefaults(
   defineProps<{
