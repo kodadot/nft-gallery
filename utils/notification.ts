@@ -1,5 +1,5 @@
 import { NotificationProgrammatic as Notification } from 'buefy'
-import { captureException } from '@sentry/browser'
+import { captureMessage } from '@sentry/browser'
 import consola from 'consola'
 
 export type NotificationType = { type: string; actionText: string }
@@ -33,7 +33,7 @@ export const showNotification = (
 ): void => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
-    captureException(new Error(String(message)))
+    captureMessage(String(message))
     return
   }
   Notification.open({
