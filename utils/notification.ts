@@ -34,7 +34,7 @@ export const showNotification = (
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
     captureMessage(String(message))
-    return void 0
+    return
   }
   Notification.open({
     duration: 10000,
