@@ -6,7 +6,8 @@ import { Prefix } from './types'
 export const BLOCK_EXPLORER_WITH_QUERY = ['snek']
 
 export const chainPropListOf = (prefix: Prefix | string): ChainProperties => {
-  return CHAINS[prefix]
+  const oldPrefix = prefix === 'rmrk' ? 'ksm' : prefix
+  return CHAINS[oldPrefix]
 }
 
 export const ss58Of = (prefix: Prefix | string): number => {
