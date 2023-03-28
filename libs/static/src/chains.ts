@@ -1,3 +1,4 @@
+import { NAMES } from './names'
 import type { ChainProperties, Config, Option, Prefix } from './types'
 
 export const toChainProperty = (
@@ -56,7 +57,7 @@ export const chainInfo = {
 export const chainList = (): Option[] => {
   return chainPrefixes.map((prefix) => ({
     info: chainInfo[prefix],
-    text: chainInfo[prefix],
+    text: NAMES[prefix],
     value: prefix === 'ksm' ? 'rmrk' : prefix,
   }))
 }
