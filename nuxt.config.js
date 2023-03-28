@@ -262,7 +262,6 @@ export default defineNuxtConfig({
       background_color: '#181717',
       theme_color: '#181717',
       start_url: '/',
-      icons: manifestIcons,
     },
     workbox: {
       // enabled: true, // enable this to use workbox in localhost
