@@ -1,5 +1,5 @@
-query offerListByNftId($id: String!) {
-  offers(where: { nft: { id_eq: $id } }) {
+query offerListByNftId($id: String!, $orderBy: [OfferOrderByInput!]) {
+  offers(where: { nft: { id_eq: $id } }, orderBy: $orderBy) {
     id
     caller
     expiration
