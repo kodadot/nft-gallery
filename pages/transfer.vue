@@ -168,7 +168,7 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { useFiatStore } from '@/stores/fiat'
 
-import { getExplorer, hasExplorer } from '@/components/rmrk/Profile/utils'
+import { getExplorer, hasExplorer } from '@kodadot1/static'
 import { emptyObject } from '@kodadot1/minimark'
 
 type Target = 'target' | `target${number}`

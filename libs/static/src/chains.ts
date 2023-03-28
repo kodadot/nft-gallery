@@ -1,5 +1,11 @@
 import { NAMES } from './names'
-import type { ChainProperties, Config, Option, Prefix } from './types'
+import type {
+  BackwardPrefix,
+  ChainProperties,
+  Config,
+  Option,
+  Prefix,
+} from './types'
 
 export const toChainProperty = (
   ss58Format: number,
@@ -61,3 +67,6 @@ export const chainList = (): Option[] => {
     value: prefix === 'ksm' ? 'rmrk' : prefix,
   }))
 }
+
+export const oldKsm = (prefix: BackwardPrefix): Prefix =>
+  prefix === 'rmrk' ? 'ksm' : prefix
