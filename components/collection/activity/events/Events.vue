@@ -1,7 +1,7 @@
 <template>
   <div ref="eventsContainer">
     <div v-if="events.length > 0">
-      <div v-if="desktop" class="columns is-size-7 k-grey">
+      <div v-if="desktop" class="columns is-size-7 has-text-grey">
         <div class="column">
           <span>{{ $t('activity.event.item') }}</span>
         </div>
@@ -117,10 +117,4 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
-
-.k-grey {
-  @include ktheme() {
-    color: theme('k-grey');
-  }
-}
 </style>

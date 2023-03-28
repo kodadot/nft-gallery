@@ -18,17 +18,21 @@
       <div
         class="is-flex is-flex-direction-column is-justify-content-space-between mt-3">
         <div class="is-flex is-justify-content-space-between no-wrap">
-          <span class="is-size-7 k-grey">{{ $t('activity.profit') }}</span>
+          <span class="is-size-7 has-text-grey">{{
+            $t('activity.profit')
+          }}</span>
           <span :class="{ 'k-green': profit > 0, 'k-red': profit < 0 }">{{
             profit === 0 ? '--' : `${profit.toFixed(4)}%`
           }}</span>
         </div>
         <div class="is-flex is-justify-content-space-between no-wrap">
-          <span class="is-size-7 k-grey">{{ $t('activity.bought') }}</span>
+          <span class="is-size-7 has-text-grey">{{
+            $t('activity.bought')
+          }}</span>
           <Money :value="boughtPrice" />
         </div>
         <div class="is-flex is-justify-content-space-between no-wrap">
-          <span class="is-size-7 k-grey">{{ $t('activity.sold') }}</span>
+          <span class="is-size-7 has-text-grey">{{ $t('activity.sold') }}</span>
           <Money :value="soldPrice" />
         </div>
       </div>
@@ -81,11 +85,7 @@ const processNFTImages = async () => {
 .mr-2rem {
   margin-right: 1.5rem;
 }
-.k-grey {
-  @include ktheme() {
-    color: theme('k-grey');
-  }
-}
+
 .-mx-5 {
   margin: 0 -1.5rem !important;
 }

@@ -16,7 +16,7 @@
       </div>
       <div class="is-flex is-flex-direction-column">
         {{ name }}
-        <span class="is-size-7 k-grey">{{
+        <span class="is-size-7 has-text-grey">{{
           timeAgo(new Date(updatedAt).getTime())
         }}</span>
       </div>
@@ -69,11 +69,7 @@ const processNFTImages = async () => {
 .mr-2rem {
   margin-right: 2rem;
 }
-.k-grey {
-  @include ktheme() {
-    color: theme('k-grey');
-  }
-}
+
 .-mx-5 {
   margin: 0 -1.5rem !important;
 }

@@ -10,20 +10,26 @@
           :avatar-size="35"
           class="has-text-weight-bold" />
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">{{ $t('activity.owned') }}</span>
+          <span class="is-size-7 has-text-grey">{{
+            $t('activity.owned')
+          }}</span>
           <span>{{ holdings.nftCount }}</span>
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">{{ $t('activity.totalBought') }}</span>
+          <span class="is-size-7 has-text-grey">{{
+            $t('activity.totalBought')
+          }}</span>
           <Money :value="holdings.totalBought" />
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">{{ $t('activity.totalSold') }}</span>
+          <span class="is-size-7 has-text-grey">{{
+            $t('activity.totalSold')
+          }}</span>
           <Money v-if="holdings.totalSold > 0" :value="holdings.totalSold" />
           <span v-else>--</span>
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">{{ $t('activity.date') }}</span>
+          <span class="is-size-7 has-text-grey">{{ $t('activity.date') }}</span>
           <span>{{ timeAgo(holdings.lastActivityTimestamp) }}</span>
         </div>
         <div>
@@ -99,11 +105,6 @@ const props = defineProps<{
     @include ktheme() {
       color: theme('k-blue-hover');
     }
-  }
-}
-.k-grey {
-  @include ktheme() {
-    color: theme('k-grey');
   }
 }
 </style>

@@ -13,25 +13,33 @@
           :avatar-size="35"
           class="has-text-weight-bold" />
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">{{ $t('activity.owned') }}</span>
+          <span class="is-size-7 has-text-grey">{{
+            $t('activity.owned')
+          }}</span>
           <span>{{ owned }}</span>
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">{{ $t('activity.totalBought') }}</span>
+          <span class="is-size-7 has-text-grey">{{
+            $t('activity.totalBought')
+          }}</span>
           <Money :value="totalBought" />
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">{{ $t('activity.totalSold') }}</span>
+          <span class="is-size-7 has-text-grey">{{
+            $t('activity.totalSold')
+          }}</span>
           <Money :value="totalsold" />
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">{{ $t('activity.bestFlip') }}</span>
+          <span class="is-size-7 has-text-grey">{{
+            $t('activity.bestFlip')
+          }}</span>
           <span :class="{ 'k-green': bestFlip > 0, 'k-red': bestFlip < 0 }">{{
             bestFlip === 0 ? '--' : `${format(bestFlip)}%`
           }}</span>
         </div>
         <div class="is-flex is-justify-content-space-between">
-          <span class="is-size-7 k-grey">{{
+          <span class="is-size-7 has-text-grey">{{
             $t('activity.latestActivity')
           }}</span>
           <span class="no-wrap">{{ timeAgo(latestflipTimestamp) }}</span>
@@ -104,21 +112,14 @@ const props = defineProps<{
 .hide-last-hr:last-child > hr {
   display: none;
 }
-.k-blue {
-  @include ktheme() {
-    color: theme('k-blue');
-  }
+.is-blue {
   &:hover {
     @include ktheme() {
       color: theme('k-blue-hover');
     }
   }
 }
-.k-grey {
-  @include ktheme() {
-    color: theme('k-grey');
-  }
-}
+
 .k-green {
   @include ktheme() {
     color: theme('k-green');
