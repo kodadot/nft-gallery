@@ -69,6 +69,7 @@
     "@google/model-viewer": "^1.12.1",
     "@kodadot1/brick": "workspace:*",
     "@kodadot1/minimark": "^0.0.1-rc.10",
+    "@kodadot1/static": "0.0.1-rc.0",
     "@kodadot1/sub-api": "0.1.1-alpha.5",
     "@kodadot1/vuex-options": "0.0.5-rc.4",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
