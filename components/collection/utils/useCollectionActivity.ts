@@ -9,9 +9,52 @@ import {
   Owners,
 } from './types'
 
+const flipperInitialValue = {
+  flips: [],
+  bestFlip: 0,
+  latestflipTimestamp: 0,
+  owned: 0,
+  totalBought: 0,
+  totalsold: 0,
+}
+
 export const mintInteraction = () => {
   const { urlPrefix } = usePrefix()
   return urlPrefix.value === 'rmrk2' ? Interaction.MINT : Interaction.MINTNFT
+}
+
+const newOwnerEntry = (lastActivityTimestamp, nft) => ({
+  nftCount: 1,
+  totalBought: 0,
+  totalSold: 0,
+  lastActivityTimestamp,
+  nfts: [nft],
+})
+const updateOwnerWithNewNft = ({
+  owner,
+  latestInteraction,
+  lastestTimeStamp,
+  nft,
+}) => {
+  owner.nftCount++
+  owner.totalBought += parseInt(latestInteraction.meta)
+  owner.lastActivityTimestamp =
+    lastestTimeStamp > owner.lastActivityTimestamp
+      ? lastestTimeStamp
+      : owner.lastActivityTimestamp
+  owner.nfts = [...owner.nfts, nft]
+  return owner
+}
+
+const summerizeFlips = (flips) => {
+  return {
+    owned: flips.length,
+    totalBought: sum(flips.map((flip) => flip.boughtPrice)),
+    totalsold: sum(flips.map((flip) => flip.soldPrice)),
+    bestFlip: Math.max(...flips.map((flip) => flip.profit)),
+    latestflipTimestamp: Math.max(...flips.map((flip) => flip.sellTimeStamp)),
+    flips,
+  }
 }
 
 const getOffers = (nfts): Offer[] => {
@@ -50,23 +93,19 @@ const getOwners = (nfts) => {
       const owner = owners[nft.currentOwner]
       if (owner) {
         // update entry
-        owner.nftCount++
-        owner.totalBought += parseInt(latestInteraction.meta)
-        owner.lastActivityTimestamp =
-          lastestTimeStamp > owner.lastActivityTimestamp
-            ? lastestTimeStamp
-            : owner.lastActivityTimestamp
-        owner.nfts = [...owner.nfts, nftExcludingEvents]
+        owners[nft.currentOwner] = updateOwnerWithNewNft({
+          owner,
+          latestInteraction,
+          lastestTimeStamp,
+          nft,
+        })
         return
       }
       // new owner entry
-      owners[nft.currentOwner] = {
-        nftCount: 1,
-        totalBought: parseInt(latestInteraction.meta),
-        totalSold: 0,
-        lastActivityTimestamp: lastestTimeStamp,
-        nfts: [nftExcludingEvents],
-      }
+      owners[nft.currentOwner] = newOwnerEntry(
+        lastestTimeStamp,
+        nftExcludingEvents
+      )
       return
     }
 
@@ -77,22 +116,17 @@ const getOwners = (nfts) => {
 
     if (owner) {
       // update entry
-      owner.nftCount++
-      owner.lastActivityTimestamp =
-        mintTimeStamp > owner.lastActivityTimestamp
-          ? mintTimeStamp
-          : owner.lastActivityTimestamp
-      owner.nfts = [...owner.nfts, nftExcludingEvents]
+
+      owners[nft.currentOwner] = updateOwnerWithNewNft({
+        owner,
+        latestInteraction: mintInteraction,
+        lastestTimeStamp: mintTimeStamp,
+        nft,
+      })
       return
     }
     // new owner entry
-    owners[nft.currentOwner] = {
-      nftCount: 1,
-      totalBought: 0,
-      totalSold: 0,
-      lastActivityTimestamp: mintTimeStamp,
-      nfts: [nftExcludingEvents],
-    }
+    owners[nft.currentOwner] = newOwnerEntry(mintTimeStamp, nftExcludingEvents)
   })
   return owners
 }
@@ -145,14 +179,7 @@ const getFlippers = (interactions: InteractionWithNFT[]): Flippers => {
         sellTimeStamp: new Date(interaction.timestamp).getTime(),
       }
       if (flippers[PreviousNFTState.owner] === undefined) {
-        flippers[PreviousNFTState.owner] = {
-          flips: [],
-          bestFlip: 0,
-          latestflipTimestamp: 0,
-          owned: 0,
-          totalBought: 0,
-          totalsold: 0,
-        }
+        flippers[PreviousNFTState.owner] = flipperInitialValue
       }
 
       //nft has been bought from previous owner -> previous owner is the flipper
@@ -183,14 +210,7 @@ const getFlippers = (interactions: InteractionWithNFT[]): Flippers => {
   })
 
   Object.entries(flippers).forEach(([flipperId, { flips }]) => {
-    flippers[flipperId] = {
-      owned: flips.length,
-      totalBought: sum(flips.map((flip) => flip.boughtPrice)),
-      totalsold: sum(flips.map((flip) => flip.soldPrice)),
-      bestFlip: Math.max(...flips.map((flip) => flip.profit)),
-      latestflipTimestamp: Math.max(...flips.map((flip) => flip.sellTimeStamp)),
-      flips,
-    }
+    flippers[flipperId] = summerizeFlips(flips)
   })
   return flippers
 }
