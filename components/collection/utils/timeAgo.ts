@@ -5,10 +5,16 @@ const capitalizeFirstLetter = (str: string): string => {
 }
 
 export const timeAgo = (timestamp: number): string => {
-  const { $i18n } = useNuxtApp()
   const timeSince = formatDistanceToNow(timestamp, {
     addSuffix: true,
     includeSeconds: true,
   })
-  return `${capitalizeFirstLetter(timeSince)} ${$i18n.t('time.ago')}`
+
+  // Split the string into words, capitalize the first letter of each word, and join the words back together
+  const capitalizedTimeSince = timeSince
+    .split(' ')
+    .map(capitalizeFirstLetter)
+    .join(' ')
+
+  return capitalizedTimeSince
 }
