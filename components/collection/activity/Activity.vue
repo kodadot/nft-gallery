@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import ActivityChart from './Chart.vue'
+import ActivityChart from './ActivityChart.vue'
 import OwnerInsights from './OwnerInsights.vue'
 import Events from './events/Events.vue'
 import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'

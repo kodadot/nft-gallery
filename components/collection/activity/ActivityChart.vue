@@ -9,7 +9,7 @@
 import { ActivityInteraction } from '@/components/rmrk/service/scheme'
 import { Interaction } from '@kodadot1/minimark'
 import PriceChart from '@/components/chart/PriceChart.vue'
-import { DataPoint, bin } from './utils'
+import { bin, displayValue, sortAsc, toDataPoint } from './utils'
 
 const props = withDefaults(
   defineProps<{
@@ -19,17 +19,6 @@ const props = withDefaults(
     events: () => [],
   }
 )
-
-const toDataPoint = (e: ActivityInteraction): DataPoint => ({
-  timestamp: e.timestamp,
-  value: parseInt(e.meta),
-})
-
-const sortAsc = (events: DataPoint[]) =>
-  events.sort((a, b) => a.timestamp - b.timestamp)
-
-const displayValue = (val: number) =>
-  Number((val * Math.pow(10, -12)).toFixed(4))
 
 const buyEvents = computed(() =>
   sortAsc(

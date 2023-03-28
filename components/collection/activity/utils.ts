@@ -12,6 +12,20 @@ export interface BinSize {
   minutes?: number
 }
 
+export const toDataPoint = (e: {
+  timestamp: number
+  meta: string
+}): DataPoint => ({
+  timestamp: e.timestamp,
+  value: parseInt(e.meta),
+})
+
+export const sortAsc = (events: DataPoint[]) =>
+  events.sort((a, b) => a.timestamp - b.timestamp)
+
+export const displayValue = (val: number) =>
+  Number((val * Math.pow(10, -12)).toFixed(4))
+
 const binSizeToMillis = (binSize: BinSize): number => {
   const millisInMinute = 60 * 1000
   const millisInHour = 60 * millisInMinute
