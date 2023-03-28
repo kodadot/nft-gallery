@@ -1,6 +1,7 @@
 import { defineNuxtConfig } from '@nuxt/bridge'
 import SentryWebpackPlugin from '@sentry/webpack-plugin'
 
+import { manifestIcons } from './utils/config/pwa'
 import { apolloClientConfig } from './utils/constants'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
@@ -260,18 +261,15 @@ export default defineNuxtConfig({
       short_name: 'KodaDot',
       background_color: '#181717',
       theme_color: '#181717',
+      start_url: '/',
+      icons: manifestIcons,
     },
     workbox: {
       // enabled: true, // enable this to use workbox in localhost
       autoRegister: true,
       workboxVersion: '6.5.4',
     },
-
-    // according to Google using purpose ['any', 'maskable'] is discouraged
-    icon: {
-      source: 'static/icon.png',
-      purpose: ['any'],
-    },
+    icon: false,
   },
 
   i18n: {
