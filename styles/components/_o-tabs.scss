@@ -11,7 +11,6 @@
       font-family: 'Work Sans';
       font-size: 1rem;
       &-default {
-        border-right: 0;
         padding: 8px;
 
 
@@ -19,6 +18,7 @@
         @include ktheme() {
           border: 1px solid theme('border-color');
           color: theme('text-color');
+          border-right: 0;
           &--active {
             background-color: theme('background-color-inverse');
             color: theme('text-color-inverse');
