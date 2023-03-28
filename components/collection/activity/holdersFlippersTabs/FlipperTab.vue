@@ -62,16 +62,17 @@ import { Flippers } from '@/components/collection/utils/types'
 import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { NeoIcon } from '@kodadot1/brick'
-import { set } from 'vue'
 
 import MoreNFTS from './moreNFTS.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 const toggleNFTDetails = (flipperId: string) => {
   const isOpen = isNFTDetailsOpen.value[flipperId]
-  set(isNFTDetailsOpen.value, flipperId, !isOpen)
+  isNFTDetailsOpen.value = {
+    ...isNFTDetailsOpen.value,
+    [flipperId]: !isOpen,
+  }
 }
-
 const flippers = computed(() => Object.entries(props.flippers || {}))
 
 const format = (number: number) => {

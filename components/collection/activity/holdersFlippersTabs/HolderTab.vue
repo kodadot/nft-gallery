@@ -52,14 +52,16 @@ import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
 import { Owners } from '@/components/collection/utils/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { NeoIcon } from '@kodadot1/brick'
-import { set } from 'vue'
 
 import MoreNFTS from './moreNFTS.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 
-const toggleNFTDetails = (holderId: string) => {
-  const isOpen = isNFTDetailsOpen.value[holderId]
-  set(isNFTDetailsOpen.value, holderId, !isOpen)
+const toggleNFTDetails = (flipperId: string) => {
+  const isOpen = isNFTDetailsOpen.value[flipperId]
+  isNFTDetailsOpen.value = {
+    ...isNFTDetailsOpen.value,
+    [flipperId]: !isOpen,
+  }
 }
 
 const holders = computed(() => Object.entries(props.owners || {}))
