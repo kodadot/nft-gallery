@@ -83,6 +83,7 @@ const getOwners = (nfts) => {
   nfts.forEach((nft) => {
     const interactions = nft.events.map((e) => e.interaction)
     const { events, ...nftExcludingEvents } = nft
+    const owner = owners[nft.currentOwner]
 
     if (interactions.includes(Interaction.CONSUME)) {
       // no owner
@@ -96,43 +97,31 @@ const getOwners = (nfts) => {
       const latestInteraction = events[events.length - 1]
       const lastestTimeStamp = new Date(latestInteraction.timestamp).getTime()
 
-      const owner = owners[nft.currentOwner]
-      if (owner) {
-        // update entry
-        owners[nft.currentOwner] = updateOwnerWithNewNft({
-          owner,
-          latestInteraction,
-          lastestTimeStamp,
-          nft,
-        })
-        return
-      }
-      // new owner entry
-      owners[nft.currentOwner] = newOwnerEntry(
-        lastestTimeStamp,
-        nftExcludingEvents
-      )
+      owners[nft.currentOwner] =
+        owner === undefined
+          ? newOwnerEntry(lastestTimeStamp, nftExcludingEvents)
+          : updateOwnerWithNewNft({
+              owner,
+              latestInteraction,
+              lastestTimeStamp,
+              nft,
+            })
       return
     }
 
     // nft isn't consumed and it hasn't change hands => it is owned by it's creator
     const mintInteraction = events[0]
     const mintTimeStamp = new Date(mintInteraction.timestamp).getTime()
-    const owner = owners[nft.currentOwner]
 
-    if (owner) {
-      // update entry
-
-      owners[nft.currentOwner] = updateOwnerWithNewNft({
-        owner,
-        latestInteraction: mintInteraction,
-        lastestTimeStamp: mintTimeStamp,
-        nft,
-      })
-      return
-    }
-    // new owner entry
-    owners[nft.currentOwner] = newOwnerEntry(mintTimeStamp, nftExcludingEvents)
+    owners[nft.currentOwner] =
+      owner === undefined
+        ? newOwnerEntry(mintTimeStamp, nftExcludingEvents)
+        : updateOwnerWithNewNft({
+            owner,
+            latestInteraction: mintInteraction,
+            lastestTimeStamp: mintTimeStamp,
+            nft,
+          })
   })
   return owners
 }
