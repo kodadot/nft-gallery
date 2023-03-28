@@ -50,7 +50,7 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoSidebar } from '@kodadot1/brick'
-import useReplaceUrl, { is } from '@/components/shared/filters/filterUtils'
+import useReplaceUrl, { is } from '@/composables/useReplaceUrl'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 import { useAcivityFiltersStore } from '@/stores/activityFilters'
 import { usePreferencesStore } from '@/stores/preferences'
