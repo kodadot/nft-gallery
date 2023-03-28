@@ -55,15 +55,14 @@
       <o-table-column v-slot="props" field="action">
         <NeoSecondaryButton
           v-if="
-            (props.row.caller === accountId || isOwner) &&
-            props.row.status === OfferStatusType.ACTIVE
+            (props.row.caller === accountId || isOwner) && isActive(props.row)
           "
           variant="primary"
           @click.native="onWithdrawOffer(props.row.caller)"
           >Cancel</NeoSecondaryButton
         >
         <NeoSecondaryButton
-          v-if="isOwner && props.row.status === OfferStatusType.ACTIVE"
+          v-if="isOwner && isActive(props.row)"
           variant="info"
           @click.native="onAcceptOffer(props.row.caller)"
           >Accept</NeoSecondaryButton
@@ -104,6 +103,10 @@ const dprops = defineProps<{
 }>()
 
 const isOwner = computed(() => checkOwner(dprops.account, accountId.value))
+
+const isActive = (row) =>
+  row.status === OfferStatusType.ACTIVE &&
+  expirationTime(row.expiration) !== 'Expired'
 
 const { accountId } = useAuth()
 
