@@ -85,6 +85,19 @@
     }
   }
 
+  &.is-text {
+    border: none !important;
+    width: min-content;
+    @include ktheme() {
+      color: theme('k-grey');
+      text-underline-offset: 0.25rem;
+      &:hover {
+        color: theme('text-color');
+        background: none;
+      }
+    }
+  }
+
   &.no-shadow {
     box-shadow: none;
   }
