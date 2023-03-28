@@ -147,7 +147,7 @@ export default class OffersUserTable extends mixins(
         )
       })
     } catch (e: any) {
-      showNotification(`[OFFER::ERR] ${e}`, notificationTypes.danger)
+      showNotification(`[OFFER::ERR] ${e}`, notificationTypes.warn)
       this.$consola.error(e)
       this.isLoading = false
     }
