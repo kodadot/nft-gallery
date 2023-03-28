@@ -19,7 +19,7 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxi prepare && pnpm -F static build && cross-env PORT=9090 nuxi dev",
+    "dev": "nuxi prepare && cross-env PORT=9090 nuxi dev",
     "dev-docker": "npx nuxi dev",
     "dev-experimental": "nuxi dev --hostname localhost --port 9090",
     "build": "nuxi build --modern",
@@ -36,7 +36,7 @@
     "test:e2e-gui": "cypress open --project tests",
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
-    "prepare": "nuxi prepare && husky install"
+    "prepare": "nuxi prepare && pnpm -F static build && husky install"
   },
   "husky": {
     "hooks": {
