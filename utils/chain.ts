@@ -1,4 +1,6 @@
 import { ENDPOINTS } from '@kodadot1/vuex-options'
+import { NAMES } from '@kodadot1/static'
+import type { Option, Prefix } from '@kodadot1/static'
 
 const prefixes: Record<string, number> = {
   polkadot: 0,
@@ -80,4 +82,32 @@ export const getChainNameByPrefix = (prefix: string) => {
     return 'kusama'
   }
   return prefix
+}
+
+// TODO: move @kodadot1/static under nft-gallery
+// https://github.com/kodadot/packages/issues/112
+export const chainPrefixes: Prefix[] = [
+  'bsx',
+  'ksm',
+  'snek',
+  'movr',
+  'glmr',
+  'rmrk2',
+]
+
+const infos = {
+  bsx: 'basilisk',
+  ksm: 'kusama',
+  snek: 'snek',
+  movr: 'moonriver',
+  glmr: 'moonbeam',
+  rmrk2: 'rmrk',
+}
+
+export const availablePrefixes = (): Option[] => {
+  return chainPrefixes.map((prefix) => ({
+    info: infos[prefix],
+    text: NAMES[prefix],
+    value: prefix === 'ksm' ? 'rmrk' : prefix,
+  }))
 }

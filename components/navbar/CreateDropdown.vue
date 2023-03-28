@@ -101,35 +101,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import { getChainTestList } from '@/utils/constants'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
+<script lang="ts" setup>
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
-import AuthMixin from '@/utils/mixins/authMixin'
 
-@Component({
-  components: {
-    MobileExpandableSection,
-  },
-})
-export default class NavbarCreate extends mixins(PrefixMixin, AuthMixin) {
-  @Prop({ type: String }) chain!: string
-  @Prop({ type: Boolean, default: false }) isMobile!: boolean
+defineProps<{
+  chain: string
+  isMobile: boolean
+}>()
 
-  get redesign() {
-    return useExperiments().redesign.value
-  }
-
-  get options() {
-    const availableUrlPrefixes = this.$store.getters['availableUrlPrefixes']
-
-    if (!this.$config.public.dev) {
-      return availableUrlPrefixes.filter(
-        (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
-      )
-    }
-    return availableUrlPrefixes
-  }
-}
+const { urlPrefix } = usePrefix()
+const { accountId } = useAuth()
+const { redesign } = useExperiments()
 </script>
