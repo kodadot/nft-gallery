@@ -26,7 +26,7 @@
     "locales:check": "node ./script/checkLocale.mjs",
     "start": "nuxi preview",
     "start:static": "npx --yes serve@14.2.0 -L -l 9090 -s dist",
-    "generate:pnpm": "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm generate",
+    "generate:pnpm": "npx pnpm@latest-7 i --store=node_modules/.pnpm-store && npx pnpm@latest-7 generate",
     "generate": "node ./script/substack.mjs && cross-env NITRO_PRESET=netlify nuxi generate",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",

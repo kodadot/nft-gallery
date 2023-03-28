@@ -4,7 +4,7 @@
 
 [build]
   # This will be your default build command.
-  command = "npm i -g pnpm && npm run generate:pnpm"
+  command = "pnpm run generate:pnpm"
   # This is the directory that you are publishing from.
   publish = "dist"
   # This is where Netlify will look for your lambda functions.
