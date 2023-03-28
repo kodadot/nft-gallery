@@ -1,5 +1,6 @@
 import { isAfter, subHours } from 'date-fns'
 
+import { useIdentityMintStore } from '@/stores/identityMint'
 import { formatToNow } from '@/utils/format/time'
 import { Interaction } from '@/components/rmrk/service/scheme'
 
@@ -61,7 +62,7 @@ const cacheTotalCount = ({ data, totalCreated, totalCollected, totalSold }) => {
 }
 
 export default function useIdentityStats({ address }) {
-  const { $store } = useNuxtApp()
+  const identityMintStore = useIdentityMintStore()
 
   const totalCollected = ref(0)
   const totalCreated = ref(0)
@@ -79,7 +80,7 @@ export default function useIdentityStats({ address }) {
   const startedMinting = computed(() => formatToNow(firstMintDate.value))
   const lastBought = computed(() => formatToNow(lastBoughtDate.value))
 
-  const handleNFTStats = async ({ data, type }) => {
+  const handleNFTStats = ({ data, type }) => {
     totalCreated.value = whichData({ data, type: 'created' })
     totalCollected.value = whichData({ data, type: 'collected' })
     totalSold.value = whichData({ data, type: 'sold' })
@@ -98,15 +99,15 @@ export default function useIdentityStats({ address }) {
 
     firstMintDate.value = cacheData.firstMintDate
 
-    await $store.dispatch('identityMint/setIdentity', {
-      address: address,
+    identityMintStore.setIdentity({
+      address,
       cacheData,
     })
   }
 
   const fetchNFTStats = () => {
     // if cache exist and within 12h
-    const data = $store.getters['identityMint/getIdentityMintFor'](address)
+    const data = identityMintStore.getIdentityMintFor(address)
     if (data?.updatedAt && isAfter(data.updatedAt, subHours(Date.now(), 12))) {
       return handleNFTStats({ data, type: 'cache' })
     }
