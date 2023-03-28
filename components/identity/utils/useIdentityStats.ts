@@ -80,7 +80,7 @@ export default function useIdentityStats({ address }) {
   const startedMinting = computed(() => formatToNow(firstMintDate.value))
   const lastBought = computed(() => formatToNow(lastBoughtDate.value))
 
-  const handleNFTStats = async ({ data, type }) => {
+  const handleNFTStats = ({ data, type }) => {
     totalCreated.value = whichData({ data, type: 'created' })
     totalCollected.value = whichData({ data, type: 'collected' })
     totalSold.value = whichData({ data, type: 'sold' })
