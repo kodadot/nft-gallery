@@ -115,6 +115,7 @@ const { data, refetch } = useGraphql({
   queryPrefix: 'chain-bsx',
   variables: {
     id: dprops.nftId,
+    orderBy: ['expiration_DESC', 'price_DESC'],
   },
   options: {
     fetchPolicy: 'network-only',
