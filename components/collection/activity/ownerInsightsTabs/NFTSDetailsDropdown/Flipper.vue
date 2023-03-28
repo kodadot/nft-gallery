@@ -11,8 +11,8 @@
           :alt="nft.name"
           width="40"
           height="40"
-          class="border mr-2rem" />
-        <img v-else src="/placeholder.webp" class="border mr-2rem" />
+          class="border mr-4" />
+        <img v-else src="/placeholder.webp" class="border mr-5" />
         <span>{{ nft.name }}</span>
       </div>
       <div
@@ -48,9 +48,9 @@
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
-import { FlipEvent } from '@/components/collection/utils/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
-import format from '../format'
+import { FlipEvent } from '@/composables/collectionActivity/types'
+import { format } from '@/components/collection/activity/utils'
 
 const props = defineProps<{
   flips: (FlipEvent & { avatar?: string })[]
@@ -85,10 +85,6 @@ const processNFTImages = async () => {
 </script>
 
 <style scoped lang="scss">
-.mr-2rem {
-  margin-right: 1.5rem;
-}
-
 .-mx-5 {
   margin: 0 -1.5rem !important;
 }

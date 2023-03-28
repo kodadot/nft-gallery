@@ -8,7 +8,7 @@ import {
   Offer,
   OfferInteraction,
   Owners,
-} from '../../components/collection/utils/types'
+} from './types'
 
 export const mintInteraction = () => {
   const { urlPrefix } = usePrefix()

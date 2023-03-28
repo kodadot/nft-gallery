@@ -1,9 +1,4 @@
-import {
-  Flippers,
-  InteractionWithNFT,
-  Offer,
-  Owners,
-} from '../../components/collection/utils/types'
+import { Flippers, InteractionWithNFT, Offer, Owners } from './types'
 import { getFlippers, getOffers, getOwners } from './helpers'
 
 export const useCollectionActivity = ({ collectionId }) => {

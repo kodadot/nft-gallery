@@ -22,7 +22,6 @@
 </template>
 
 <script lang="ts" setup>
-import useReplaceUrl from '@/composables/useReplaceUrl'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 
 const route = useRoute()

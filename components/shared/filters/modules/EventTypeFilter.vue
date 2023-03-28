@@ -35,7 +35,6 @@
 </template>
 
 <script lang="ts" setup>
-import useReplaceUrl from '@/composables/useReplaceUrl'
 import { NeoCheckbox } from '@kodadot1/brick'
 import { useAcivityFiltersStore } from '@/stores/activityFilters'
 

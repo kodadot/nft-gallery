@@ -78,3 +78,8 @@ export const bin = (data: DataPoint[], binSize: BinSize): DataPoint[] => {
 
   return bins.filter((bin) => !isNaN(bin.value))
 }
+
+export const format = (number: number) => {
+  const isInteger = Number.isInteger(number)
+  return isInteger ? number.toString() : number.toFixed(4)
+}

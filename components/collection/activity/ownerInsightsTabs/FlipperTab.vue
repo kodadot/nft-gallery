@@ -73,7 +73,7 @@
 import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { NeoIcon } from '@kodadot1/brick'
-import format from './format'
+import { format } from '@/components/collection/activity/utils'
 
 import MoreNFTS from './NFTsDetaislDropdown.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
