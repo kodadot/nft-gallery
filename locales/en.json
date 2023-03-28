@@ -886,15 +886,7 @@
     "chart": "Chart"
   },
   "time": {
-    "ago": "Ago",
-    "second": "Second",
-    "seconds": "Seconds",
-    "minute": "Minute",
-    "minutes": "Minutes",
-    "hour": "Hour",
-    "hours": "Hours",
-    "day": "Day",
-    "days": "Days"
+    "ago": "Ago"
   },
   "activity": {
     "listed": "Listed",
