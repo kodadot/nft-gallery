@@ -51,7 +51,7 @@
   },
   "engines": {
     "npm": "please-use-pnpm",
-    "pnpm": "7",
+    "pnpm": "8",
     "node": "^v16.19.1"
   },
   "prettier": {
