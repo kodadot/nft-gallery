@@ -1,5 +1,5 @@
 <template>
-  <div v-if="ready" class="-mx-5">
+  <div v-if="ready" class="">
     <div
       v-for="{ avatar, boughtPrice, soldPrice, profit, nft } in flips"
       :key="nft.id"
@@ -11,7 +11,7 @@
           :alt="nft.name"
           width="40"
           height="40"
-          class="border mr-4" />
+          class="border mr-5" />
         <img v-else src="/placeholder.webp" class="border mr-5" />
         <span>{{ nft.name }}</span>
       </div>
@@ -83,9 +83,3 @@ const processNFTImages = async () => {
   }
 }
 </script>
-
-<style scoped lang="scss">
-.-mx-5 {
-  margin: 0 -1.5rem !important;
-}
-</style>

@@ -1,10 +1,10 @@
 <template>
-  <div v-if="ready" class="-mx-5">
+  <div v-if="ready" class="">
     <div
       v-for="{ avatar, id, name, updatedAt } in nfts"
       :key="id"
       class="is-flex pt-2 px-5 is-justify-content-start is-hoverable">
-      <div class="mr-2rem">
+      <div class="mr-5">
         <img
           v-if="avatar"
           :src="avatar"
@@ -12,7 +12,7 @@
           width="40"
           height="40"
           class="border" />
-        <img v-else src="/placeholder.webp" class="border" />
+        <img v-else src="/placeholder.webp" class="border mr-5" />
       </div>
       <div class="is-flex is-flex-direction-column">
         {{ name }}
@@ -28,7 +28,7 @@
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
-import { NFTExcludingEvents } from '@/components/collection/utils/types'
+import { NFTExcludingEvents } from '@/composables/collectionActivity/types'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 const props = defineProps<{
@@ -62,13 +62,3 @@ const processNFTImages = async () => {
   }
 }
 </script>
-
-<style scoped lang="scss">
-.mr-2rem {
-  margin-right: 2rem;
-}
-
-.-mx-5 {
-  margin: 0 -1.5rem !important;
-}
-</style>
