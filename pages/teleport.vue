@@ -329,7 +329,7 @@ export default class Transfer extends mixins(
     } catch (e) {
       this.$consola.error('[ERR: TRANSFER SUBMIT]', e)
       if (e instanceof Error) {
-        showNotification(e.message, notificationTypes.danger)
+        showNotification(e.message, notificationTypes.warn)
       }
     }
   }
@@ -341,12 +341,12 @@ export default class Transfer extends mixins(
       const { docs, name, section } = decoded
       showNotification(
         `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-        notificationTypes.danger
+        notificationTypes.warn
       )
     } else {
       showNotification(
         `[ERR] ${dispatchError.toString()}`,
-        notificationTypes.danger
+        notificationTypes.warn
       )
     }
 

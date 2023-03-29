@@ -97,7 +97,7 @@ const submitAll = async () => {
   } catch (error) {
     showNotification(
       'Error: ' + (error as Error).message,
-      notificationTypes.danger
+      notificationTypes.warn
     )
   } finally {
     isLoading.value = false

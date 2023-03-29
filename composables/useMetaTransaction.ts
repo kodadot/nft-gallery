@@ -76,7 +76,7 @@ function useMetaTransaction() {
           notificationTypes.warn
         )
       } else {
-        showNotification(e.toString(), notificationTypes.danger)
+        showNotification(e.toString(), notificationTypes.warn)
       }
       isLoading.value = false
       tx.value = undefined
@@ -90,12 +90,12 @@ function useMetaTransaction() {
       const { docs, name, section } = decoded
       showNotification(
         `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-        notificationTypes.danger
+        notificationTypes.warn
       )
     } else {
       showNotification(
         `[ERR] ${dispatchError.toString()}`,
-        notificationTypes.danger
+        notificationTypes.warn
       )
     }
 

@@ -194,7 +194,7 @@ export default class CreateCollection extends mixins(
         },
       })
     } catch (e: any) {
-      showNotification(`[ERR] ${e}`, notificationTypes.danger)
+      showNotification(`[ERR] ${e}`, notificationTypes.warn)
       this.$consola.error(e)
       this.isLoading = false
     }
