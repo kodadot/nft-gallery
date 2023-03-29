@@ -14,3 +14,12 @@
     }
   }
 }
+
+.notices {
+  .bar {
+    height: 13px;
+    @include ktheme() {
+      border: 1px solid theme('k-shade');
+    }
+  }
+}

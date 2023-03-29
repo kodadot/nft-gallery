@@ -1,18 +1,21 @@
 <template>
-  <div v-if="!hasDisplayedCookieBanner">
+  <div v-if="!hasDisplayedCookieBanner" class="cookie-banner">
     <transition name="slide">
       <div class="notices is-bottom">
-        <div role="alertdialog" class="snackbar is-success is-bottom-right">
-          <div class="text">{{ $t('cookies.notice') }}</div>
-          <div class="action is-light is-cancel">
+        <div
+          role="alertdialog"
+          class="snackbar is-success is-bottom-right py-2 px-4">
+          <div class="">{{ $t('cookies.notice') }}</div>
+          <!-- <div class="action is-light is-cancel">
             <button class="button" @click="declineCookies">
               {{ $t('cookies.decline') }}
             </button>
-          </div>
+          </div> -->
+          <div class="bar ml-4 mr-4" />
           <div class="action is-success">
-            <button class="button" @click="acceptCookies">
+            <a class="has-text-weight-bold" @click="acceptCookies">
               {{ $t('cookies.accept') }}
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -39,3 +42,11 @@ const declineCookies = () => {
   hasDisplayedCookieBanner.value = true
 }
 </script>
+
+<style lang="scss">
+.cookie-banner {
+  .snackbar {
+    height: 2.188rem;
+  }
+}
+</style>
