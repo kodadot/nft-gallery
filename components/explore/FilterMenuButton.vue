@@ -1,5 +1,5 @@
 <template>
-  <div class="field has-addons is-flex is-align-items-center" data-cy="tabs">
+  <div class="has-addons is-flex is-align-items-center" data-cy="tabs">
     <div>
       <a
         class="is-hidden-mobile"
@@ -29,7 +29,11 @@ const route = useRoute()
 const preferencesStore = usePreferencesStore()
 
 const disabled = computed(() => {
-  const allowedList = ['prefix-explore-items', 'prefix-collection-id']
+  const allowedList = [
+    'prefix-explore-items',
+    'prefix-collection-id',
+    'prefix-collection-id-activity',
+  ]
 
   return !allowedList.includes(route.name || '')
 })

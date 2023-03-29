@@ -7,7 +7,7 @@
       link="u">
       <Identity v-if="address" :address="address" />
       <template #extra>
-        <Avatar :size="24" :value="address" class="mr-2" />
+        <Avatar :size="avatarSize || 24" :value="address" class="mr-2" />
       </template>
     </LinkResolver>
     <template v-if="showTwitter">
@@ -48,6 +48,7 @@ export default class ProfileLink extends mixins(PrefixMixin) {
   @Prop(Boolean) public showTwitter!: boolean
   @Prop(Boolean) public showDiscord!: boolean
   @Prop(Boolean) public showDotscanner!: boolean
+  @Prop() public avatarSize!: number
   get shortendId(): string {
     return shortAddress(this.address)
   }

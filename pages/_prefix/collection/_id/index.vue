@@ -17,7 +17,7 @@ import Items from '@/components/items/Items.vue'
 import { useHistoryStore } from '@/stores/history'
 import { usePreferencesStore } from '@/stores/preferences'
 
-type CurrentCollection = {
+export type CurrentCollection = {
   name: string
   numberOfItems: number
   image: string
