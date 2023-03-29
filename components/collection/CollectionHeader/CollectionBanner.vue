@@ -27,7 +27,9 @@ import type { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
+import { generateCollectionImage } from '@/utils/seoImageGenerator'
 
+const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const { data } = useGraphql({
   queryName: 'collectionById',
@@ -61,6 +63,24 @@ watchEffect(async () => {
       collectionAvatar.value = metaImage
     }
   }
+})
+
+const meta = computed(() => {
+  return $seoMeta({
+    title: collectionName.value,
+    type: 'profile',
+    description: data.value?.collectionEntity.meta?.description,
+    url: route.path,
+    image: generateCollectionImage(
+      collectionName.value,
+      data.value?.nftEntitiesConnection.totalCount,
+      collectionAvatar.value
+    ),
+  })
+})
+useNuxt2Meta({
+  title: collectionName,
+  meta,
 })
 </script>
 
