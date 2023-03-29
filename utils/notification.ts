@@ -66,4 +66,4 @@ export const successMessage = (msg) =>
 export const warningMessage = (msg) =>
   showNotification(`[WARN] ${msg}`, notificationTypes.warn)
 export const dangerMessage = (msg) =>
-  showNotification(`[ERR] ${msg}`, notificationTypes.danger)
+  showNotification(`[ERR] ${msg}`, notificationTypes.warn)
