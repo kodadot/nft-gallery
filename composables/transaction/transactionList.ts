@@ -1,7 +1,7 @@
 import { Interaction, createInteraction } from '@kodadot1/minimark'
 
 import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
-import { dangerMessage } from '@/utils/notification'
+import { warningMessage } from '@/utils/notification'
 
 import type { ActionList } from './types'
 
@@ -9,7 +9,7 @@ function isListTxValid(item: ActionList) {
   const meta = Number(item.price)
 
   if (Math.sign(meta) === -1) {
-    dangerMessage('Price is not valid')
+    warningMessage('Price is not valid')
     return false
   }
 

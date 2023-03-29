@@ -236,7 +236,7 @@ export default class AvailableActions extends mixins(
           },
           (err) => {
             execResultValue(tx)
-            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
+            showNotification(`[ERR] ${err.hash}`, notificationTypes.warn)
             this.selectedAction = NFTAction.NONE
             this.isLoading = false
           },
@@ -261,7 +261,7 @@ export default class AvailableActions extends mixins(
         )
       )
     } catch (e) {
-      showNotification(`[ERR] ${e}`, notificationTypes.danger)
+      showNotification(`[ERR] ${e}`, notificationTypes.warn)
       this.$consola.error(e)
       this.isLoading = false
     }

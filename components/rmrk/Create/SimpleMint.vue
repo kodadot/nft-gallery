@@ -563,7 +563,7 @@ export default class SimpleMint extends mixins(
       )
     } catch (e) {
       if (e instanceof Error) {
-        showNotification(e.toString(), notificationTypes.danger)
+        showNotification(e.toString(), notificationTypes.warn)
         this.isLoading = false
       }
     }
@@ -592,7 +592,7 @@ export default class SimpleMint extends mixins(
       // )
 
       if (!onlyNfts.length) {
-        showNotification('Can not send empty NFTs', notificationTypes.danger)
+        showNotification('Can not send empty NFTs', notificationTypes.warn)
         return
       }
 
@@ -668,7 +668,7 @@ export default class SimpleMint extends mixins(
       )
     } catch (e) {
       if (e instanceof Error) {
-        showNotification(e.message, notificationTypes.danger)
+        showNotification(e.message, notificationTypes.warn)
         this.isLoading = false
       }
     }
@@ -681,12 +681,12 @@ export default class SimpleMint extends mixins(
       const { docs, name, section } = decoded
       showNotification(
         `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-        notificationTypes.danger
+        notificationTypes.warn
       )
     } else {
       showNotification(
         `[ERR] ${dispatchError.toString()}`,
-        notificationTypes.danger
+        notificationTypes.warn
       )
     }
 
@@ -711,7 +711,7 @@ export default class SimpleMint extends mixins(
         )
 
       if (!onlyNfts.length) {
-        showNotification('Can not list empty NFTs', notificationTypes.danger)
+        showNotification('Can not list empty NFTs', notificationTypes.warn)
         return
       }
 
@@ -759,7 +759,7 @@ export default class SimpleMint extends mixins(
       )
     } catch (e) {
       if (e instanceof Error) {
-        showNotification(e.message, notificationTypes.danger)
+        showNotification(e.message, notificationTypes.warn)
         this.isLoading = false
       }
     }
