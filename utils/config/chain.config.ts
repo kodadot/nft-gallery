@@ -1,48 +1,13 @@
-import { AssetItem } from '~~/components/bsx/Asset/types'
+import { CHAINS } from '@kodadot1/static'
+import { AssetItem } from '@/components/bsx/Asset/types'
 import { ChainProperties } from '../api/Query'
-import { Config, Prefix } from './types'
-
-export const toChainProperty = (
-  ss58Format: number,
-  tokenDecimals: number,
-  tokenSymbol: string,
-  blockExplorer?: string
-): ChainProperties => {
-  return {
-    ss58Format,
-    tokenDecimals,
-    tokenSymbol,
-    blockExplorer,
-  }
-}
-
-const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
-  2,
-  12,
-  'KSM',
-  'https://kusama.subscan.io/'
-)
+import { Prefix } from './types'
 
 export const BLOCK_EXPLORER_WITH_QUERY = ['snek']
 
-const chainPropertyMap: Config<ChainProperties> = {
-  rmrk: DEFAULT_CHAIN_PROPERTIES,
-  rmrk2: DEFAULT_CHAIN_PROPERTIES,
-  bsx: toChainProperty(10041, 12, 'BSX', 'https://basilisk.subscan.io/'),
-  snek: toChainProperty(
-    10041,
-    12,
-    'BSX',
-    'https://calamar.play.hydration.cloud/rococo%20basilisk/search?query='
-  ),
-  statemine: DEFAULT_CHAIN_PROPERTIES,
-  westmint: DEFAULT_CHAIN_PROPERTIES,
-  movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
-  glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
-}
-
 export const chainPropListOf = (prefix: Prefix | string): ChainProperties => {
-  return chainPropertyMap[prefix]
+  const oldPrefix = prefix === 'rmrk' ? 'ksm' : prefix
+  return CHAINS[oldPrefix]
 }
 
 export const ss58Of = (prefix: Prefix | string): number => {

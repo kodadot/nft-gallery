@@ -71,7 +71,7 @@ const submit = async () => {
     isLoading.value = false
   } catch (error) {
     console.error(error)
-    showNotification('Error claiming your POAP', notificationTypes.danger)
+    showNotification('Error claiming your POAP', notificationTypes.warn)
     isLoading.value = false
   }
 }

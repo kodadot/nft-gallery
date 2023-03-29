@@ -226,7 +226,7 @@ export default class CreativeMint extends mixins(
       )
     } catch (e) {
       if (e instanceof Error) {
-        showNotification(e.toString(), notificationTypes.danger)
+        showNotification(e.toString(), notificationTypes.warn)
         this.isLoading = false
       }
     }

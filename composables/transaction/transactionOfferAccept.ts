@@ -1,4 +1,4 @@
-import { dangerMessage } from '@/utils/notification'
+import { warningMessage } from '@/utils/notification'
 import { tokenIdToRoute } from '@/components/unique/utils'
 
 import type { ActionWithdrawOffer } from './types'
@@ -18,6 +18,6 @@ export function execAcceptOfferTx(
       arg: args,
     })
   } catch (error) {
-    dangerMessage(error)
+    warningMessage(error)
   }
 }
