@@ -6,15 +6,13 @@
           role="alertdialog"
           class="snackbar is-success is-bottom-right py-2 px-4">
           <div class="">{{ $t('cookies.notice') }}</div>
-          <!-- <div class="action is-light is-cancel">
-            <button class="button" @click="declineCookies">
-              {{ $t('cookies.decline') }}
-            </button>
-          </div> -->
           <div class="bar ml-4 mr-4" />
           <div class="action is-success">
             <a class="has-text-weight-bold" @click="acceptCookies">
               {{ $t('cookies.accept') }}
+            </a>
+            <a class="has-text-weight-bold ml-3" @click="declineCookies">
+              {{ $t('cookies.decline') }}
             </a>
           </div>
         </div>
