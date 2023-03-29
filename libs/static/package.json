@@ -1,7 +1,7 @@
 {
   "name": "@kodadot1/static",
-  "version": "0.0.1-rc.0",
-  "description": "",
+  "version": "0.0.1-rc.1",
+  "description": "Static constants in the KodaDot development",
   "repository": "kodadot/nft-gallery",
   "license": "MIT",
   "sideEffects": false,
