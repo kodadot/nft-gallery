@@ -81,3 +81,5 @@ export const getChainNameByPrefix = (prefix: string) => {
   }
   return prefix
 }
+
+export const isProduction = window.location.host === 'kodadot.xyz'

@@ -9,6 +9,7 @@ import {
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { sortItemListByIds } from '@/utils/sorting'
 import { correctPrefix } from '@/utils/uniquery'
+import { isProduction } from '@/utils/chain'
 
 export const useCarouselUrl = () => {
   const { urlPrefix } = usePrefix()
@@ -26,13 +27,14 @@ interface Types {
   type: 'latestSales' | 'newestList'
 }
 
+const limit = isProduction ? 15 : 8
 const nftEventVariables = {
   latestSales: {
-    limit: 30,
+    limit: limit,
     event: 'BUY',
   },
   newestList: {
-    limit: 30,
+    limit: limit,
     event: 'LIST',
   },
 }
@@ -85,7 +87,12 @@ export const useCarouselNftEvents = ({ type }: Types) => {
       const bsxNfts = await flattenNFT(dataBsx.value, 'bsx')
       const rmrk2Nfts = await flattenNFT(dataRmrk2.value, 'rmrk2')
 
-      const data = [...rmrkNfts, ...snekNfts, ...bsxNfts, ...rmrk2Nfts]
+      const data = [...rmrkNfts, ...bsxNfts]
+
+      if (!isProduction) {
+        data.push(...snekNfts)
+        data.push(...rmrk2Nfts)
+      }
 
       nfts.value = data.sort((a, b) => b.unixTime - a.unixTime).slice(0, 30)
     }
