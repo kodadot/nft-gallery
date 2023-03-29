@@ -28,7 +28,6 @@
 </template>
 
 <script lang="ts" setup>
-import useReplaceUrl from './useReplaceUrl'
 import { NeoCheckbox } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 

@@ -16,7 +16,7 @@
           <section class="pt-5">
             <div class="container is-fluid mobile-padding">
               <CollectionInfo />
-              <hr />
+              <hr class="mb-0" />
             </div>
           </section>
         </div>
@@ -36,7 +36,7 @@
 
 <script lang="ts" setup>
 import ExploreTabsFilterSort from '@/components/explore/Controls.vue'
-import MobileFilter from '@/components/explore/MobileFilter.vue'
+import MobileFilter from '@/components/shared/filters/MobileFilter.vue'
 import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
 import CollectionInfo from '@/components/collection/CollectionInfo.vue'
 

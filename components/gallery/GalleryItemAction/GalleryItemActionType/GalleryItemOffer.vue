@@ -112,7 +112,7 @@ const root = ref<Vue<Record<string, string>>>()
 const connected = computed(() => Boolean(accountId.value))
 
 const balance = computed<string>(() => {
-  if (urlPrefix.value == 'rmrk') {
+  if (urlPrefix.value == 'rmrk' || urlPrefix.value == 'rmrk2') {
     return $store.getters.getAuthBalance
   }
   return $store.getters.getTokenBalanceOf(tokenId.value)
@@ -122,7 +122,6 @@ const { data } = useGraphql({
   queryPrefix: 'chain-bsx',
   variables: {
     id: props.nftId,
-    account: props.account,
   },
 })
 
