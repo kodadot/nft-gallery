@@ -1,27 +1,8 @@
 import { getVolume } from '@/utils/math'
-import { CollectionMetadata, NFT } from '@/components/rmrk/service/scheme'
+import { NFT } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { chainsSupportingOffers } from './useCollectionDetails.config'
-
-type Stats = {
-  listedCount?: number
-  collectionLength?: number
-  collectionFloorPrice?: number
-  bestOffer?: number
-  uniqueOwners?: number
-  uniqueOwnersPercent?: string
-  collectionTradedVolumeNumber?: bigint
-}
-
-export type CollectionEntityMinimal = {
-  id: string
-  issuer: string
-  meta: CollectionMetadata
-  metadata: string
-  name: string
-  currentOwner: string
-  type: string
-}
+import { Stats } from './types'
 
 const differentOwner = (nft: {
   issuer: string

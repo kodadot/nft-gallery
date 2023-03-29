@@ -18,8 +18,15 @@
             <b-icon icon="x" @click.native="onClose" />
           </a>
         </div>
-        <StatusFilter data-model="store" expanded />
-        <PriceFilter data-model="store" expanded />
+        <EventTypeFilter
+          v-if="isCollectionActivityTab"
+          data-model="store"
+          expanded />
+        <StatusFilter v-else data-model="store" expanded />
+        <PriceFilter
+          v-if="!isCollectionActivityTab"
+          data-model="store"
+          expanded />
       </div>
 
       <div class="buttons-container px-4 py-3 border-top">
@@ -43,16 +50,24 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoSidebar } from '@kodadot1/brick'
-import PriceFilter from './filters/PriceFilter.vue'
-import StatusFilter from './filters/StatusFilter.vue'
-import useReplaceUrl from './filters/useReplaceUrl'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
+import { useAcivityFiltersStore } from '@/stores/activityFilters'
 import { usePreferencesStore } from '@/stores/preferences'
+import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
+import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
+import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
 
 const route = useRoute()
 const preferencesStore = usePreferencesStore()
 const exploreFiltersStore = useExploreFiltersStore()
-const { replaceUrl } = useReplaceUrl()
+const activityFiltersStore = useAcivityFiltersStore()
+
+const isCollectionActivityTab = computed(
+  () => route.name === 'prefix-collection-id-activity'
+)
+const { replaceUrl } = useReplaceUrl({
+  resetPage: !isCollectionActivityTab.value,
+})
 
 const emit = defineEmits(['resetPage'])
 
@@ -65,37 +80,82 @@ const onClose = () => {
 
 const closeFilterModal = () => preferencesStore.setMobileFilterCollapse(false)
 
-const syncFromUrl = () => {
+const syncFromUrlOnActivityTab = () => {
+  const sale = is(route.query?.sale?.toString()),
+    offer = is(route.query?.offer?.toString()),
+    listing = is(route.query?.listing?.toString()),
+    mint = is(route.query?.mint?.toString()),
+    transfer = is(route.query?.transfer?.toString())
+
+  activityFiltersStore.setFilters({ sale, offer, listing, mint, transfer })
+}
+const syncFromUrlOnGrid = () => {
   const listed = route.query?.listed?.toString() === 'true',
-    owned = route.query?.owned?.toString() === 'true',
-    min = Number(route.query?.min) || undefined,
-    max = Number(route.query?.max) || undefined
+    owned = route.query?.owned?.toString() === 'true'
 
   exploreFiltersStore.setListed(listed)
   exploreFiltersStore.setOwned(owned)
-  exploreFiltersStore.setPriceRange({ min, max })
 }
 
-// TODO: move this to pinia
-const resetFilters = () => {
-  // set store to defaults
-  const statusDefaults = {
-    listed: false,
-    owned: false,
+const syncFromUrl = () => {
+  const min = Number(route.query?.min) || undefined,
+    max = Number(route.query?.max) || undefined
+
+  if (isCollectionActivityTab.value) {
+    syncFromUrlOnActivityTab()
+    activityFiltersStore.setPriceRange({ min, max })
+  } else {
+    syncFromUrlOnGrid()
+    exploreFiltersStore.setPriceRange({ min, max })
   }
-  exploreFiltersStore.setListed(statusDefaults.listed)
-  exploreFiltersStore.setOwned(statusDefaults.owned)
-  // price
+}
+
+const resetFilterOnAcivityTab = () => {
+  const statusDefaults = {
+    sale: undefined,
+    offer: undefined,
+    listing: undefined,
+    mint: undefined,
+    transfer: undefined,
+  }
+
   const priceDefaults = {
     min: undefined,
     max: undefined,
   }
-  exploreFiltersStore.setPriceRange(priceDefaults)
+  activityFiltersStore.setFilters(statusDefaults)
 
+  activityFiltersStore.setPriceRange(priceDefaults)
   replaceUrl({
     ...statusDefaults,
     ...priceDefaults,
   })
+}
+const resetFilters = () => {
+  if (isCollectionActivityTab.value) {
+    resetFilterOnAcivityTab()
+  } else {
+    const statusDefaults = {
+      listed: false,
+      owned: false,
+    }
+
+    exploreFiltersStore.setListed(statusDefaults.listed)
+    exploreFiltersStore.setOwned(statusDefaults.owned)
+
+    // price
+    const priceDefaults = {
+      min: undefined,
+      max: undefined,
+    }
+    exploreFiltersStore.setPriceRange(priceDefaults)
+
+    replaceUrl({
+      ...statusDefaults,
+      ...priceDefaults,
+    })
+  }
+
   emit('resetPage')
   closeFilterModal()
 }
@@ -104,14 +164,19 @@ const applyFilters = () => {
   // status filters
   const statusFilters = exploreFiltersStore.getStatusFilters
   const priceRangeFilter = exploreFiltersStore.getPriceRange
+  const eventTypeFilter = activityFiltersStore.getEventTypeFilters
 
   // apply to URL
-  replaceUrl({ ...statusFilters, ...priceRangeFilter })
+  if (isCollectionActivityTab.value) {
+    replaceUrl({ ...eventTypeFilter, ...priceRangeFilter })
+  } else {
+    replaceUrl({ ...statusFilters, ...priceRangeFilter })
+  }
   emit('resetPage')
   closeFilterModal()
 }
 
-watch(() => route.query, syncFromUrl)
+watch(() => route.query, syncFromUrl, { immediate: true })
 </script>
 
 <style lang="scss" scoped>

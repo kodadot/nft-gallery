@@ -176,13 +176,18 @@ export type EntityWithId = {
   name: string
 }
 
-export interface Interaction {
-  blockNumber: string | number
-  caller: string
-  currentOwner: string
+interface BaseInteraction {
   id: string
   interaction: string
   meta: string
+}
+export interface ActivityInteraction extends BaseInteraction {
+  timestamp: number
+}
+export interface Interaction extends BaseInteraction {
+  blockNumber: string | number
+  caller: string
+  currentOwner: string
   timestamp: string
 }
 

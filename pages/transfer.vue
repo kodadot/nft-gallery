@@ -168,7 +168,7 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { useFiatStore } from '@/stores/fiat'
 
-import { getExplorer, hasExplorer } from '@/components/rmrk/Profile/utils'
+import { getExplorer, hasExplorer } from '@kodadot1/static'
 import { emptyObject } from '@kodadot1/minimark'
 
 type Target = 'target' | `target${number}`
@@ -377,7 +377,7 @@ export default class Transfer extends mixins(
       )
     } catch (e: any) {
       if (e.message === 'Cancelled') {
-        showNotification(e.message, notificationTypes.danger)
+        showNotification(e.message, notificationTypes.warn)
         this.isLoading = false
         return
       }
@@ -399,7 +399,7 @@ export default class Transfer extends mixins(
       } else {
         this.$consola.error('[ERR: TRANSFER SUBMIT]', e)
         if (e instanceof Error) {
-          showNotification(e.message, notificationTypes.danger)
+          showNotification(e.message, notificationTypes.warn)
         }
       }
     }
@@ -412,12 +412,12 @@ export default class Transfer extends mixins(
       const { docs, name, section } = decoded
       showNotification(
         `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-        notificationTypes.danger
+        notificationTypes.warn
       )
     } else {
       showNotification(
         `[ERR] ${dispatchError.toString()}`,
-        notificationTypes.danger
+        notificationTypes.warn
       )
     }
 

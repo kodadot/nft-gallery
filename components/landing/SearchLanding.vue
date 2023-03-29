@@ -22,7 +22,7 @@
         id="networkList"
         class="is-flex is-justify-content-center is-flex-wrap-wrap is-align-items-baseline">
         <a
-          v-for="chain in chainList"
+          v-for="chain in availableChains"
           :key="chain.value"
           :class="['m-2', 'chain-option active']"
           @click="switchChain(chain.value)">
@@ -39,13 +39,10 @@
 </template>
 
 <script lang="ts" setup>
-import { Option } from '@kodadot1/vuex-options/dist/types'
-
-import { getChainTestList } from '~/utils/constants'
-
 const { urlPrefix } = usePrefix()
 const { $store, $router } = useNuxtApp()
 const { isDarkMode } = useTheme()
+const { availableChains } = useChain()
 
 const chainText = (chain: string) => {
   if (chain.includes('[Beta]')) {
@@ -66,13 +63,6 @@ const landingImage = computed(() => {
       '/landing-shape-header-right-light.svg',
     ]
   }
-})
-
-const chainList = computed(() => {
-  const availableUrlPrefixes: Option[] = $store.getters['availableUrlPrefixes']
-  return availableUrlPrefixes.filter(
-    (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
-  )
 })
 
 const switchChain = (value) => {
