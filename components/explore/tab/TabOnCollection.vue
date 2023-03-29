@@ -14,6 +14,6 @@
 <script setup lang="ts">
 const route = useRoute()
 
-const toItem = `/${route.params.prefix}/collection/${route.params.id}?redesign=true`
+const toItem = `/${route.params.prefix}/collection/${route.params.id}`
 const toActivity = `/${route.params.prefix}/collection/${route.params.id}/activity`
 </script>
