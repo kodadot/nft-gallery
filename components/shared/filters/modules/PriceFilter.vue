@@ -72,7 +72,6 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 import { fromDecimals, toDecimals } from '@/utils/math'
-import useReplaceUrl from './useReplaceUrl'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
 const exploreFiltersStore = useExploreFiltersStore()

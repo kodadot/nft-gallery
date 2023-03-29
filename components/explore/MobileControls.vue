@@ -3,11 +3,11 @@
     <ExploreTabs />
     <div class="explore-menu is-flex">
       <FilterMenuButton />
-      <ExploreOffer class="is-flex-grow-1" />
+      <ExploreOffer v-if="!isActivityTab" class="is-flex-grow-1" />
       <ExploreChain
         v-if="!route.name?.includes('prefix-collection-id')"
         class="flex-grow-1" />
-      <ExploreSort />
+      <ExploreSort v-if="!isActivityTab" />
     </div>
   </div>
 </template>
@@ -20,6 +20,10 @@ import ExploreOffer from './ExploreOffer.vue'
 import FilterMenuButton from './FilterMenuButton.vue'
 
 const route = useRoute()
+
+const isActivityTab = computed(() =>
+  route.name?.includes('prefix-collection-id-activity')
+)
 </script>
 
 <style lang="scss" scoped>

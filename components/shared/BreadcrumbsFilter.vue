@@ -42,12 +42,16 @@
 </template>
 
 <script lang="ts" setup>
-import useReplaceUrl from '@/components/explore/filters/useReplaceUrl'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
 const route = useRoute()
-const { replaceUrl } = useReplaceUrl()
+const isCollectionActivityTab = computed(
+  () => route.name === 'prefix-collection-id-activity'
+)
+const { replaceUrl } = useReplaceUrl({
+  resetPage: !isCollectionActivityTab.value,
+})
 const { $i18n } = useNuxtApp()
 const isItemsExplore = computed(() => route.path.includes('/explore/items'))
 
@@ -73,7 +77,7 @@ const clearAllFilters = () => {
     if (['search', 'min', 'max'].includes(key)) {
       return { ...filters, [key]: undefined }
     }
-    return { ...filters, [key]: 'false' }
+    return { ...filters, [key]: isCollectionActivityTab ? undefined : 'false' }
   }, {})
 
   replaceUrl(clearedFilters)
@@ -82,6 +86,11 @@ const clearAllFilters = () => {
 const queryMapTranslation = {
   listed: $i18n.t('sort.listed'),
   owned: $i18n.t('sort.own'),
+  sale: $i18n.t('filters.sale'),
+  offer: $i18n.t('filters.offer'),
+  listing: $i18n.t('filters.listing'),
+  mint: $i18n.t('filters.mint'),
+  transfer: $i18n.t('filters.transfer'),
 }
 
 onMounted(() => {
