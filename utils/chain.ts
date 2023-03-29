@@ -97,3 +97,5 @@ export const availablePrefixes = (): Option[] => {
 
   return chains
 }
+
+export const isProduction = window.location.host === 'kodadot.xyz'
