@@ -1,10 +1,3 @@
-<!--
- * @Description:
- * @Author: Floyd Li (floyd.li@outlook.com)
- * @Date: 2023-03-24 16:10:46
- * @LastEditors: Floyd Li (floyd.li@outlook.com)
- * @LastEditTime: 2023-03-25 17:49:29
--->
 <template>
   <div>
     <div v-if="warn">
