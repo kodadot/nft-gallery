@@ -17,7 +17,7 @@
     <template v-else-if="!hideIdentityPopover && !isMobileDevice">
       <IdentityPopover v-if="address">
         <template #trigger>
-          {{ name }}
+          <span>{{ name }}</span>
         </template>
       </IdentityPopover>
     </template>
