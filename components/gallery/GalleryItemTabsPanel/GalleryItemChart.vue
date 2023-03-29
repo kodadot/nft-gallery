@@ -1,6 +1,9 @@
 <template>
   <div>
-    <PriceChart class="mt-4" :price-chart-data="priceChartData" />
+    <PriceChart
+      class="mt-4"
+      :price-chart-data="priceChartData"
+      :chart-height="chartHeight" />
     <LazyGalleryHistory
       class="is-hidden"
       :events="nftEvents"
@@ -14,6 +17,7 @@ import PriceChart from '@/components/chart/PriceChart.vue'
 
 defineProps<{
   nftEvents?: Interaction[]
+  chartHeight?: string
 }>()
 const priceChartData = ref<[Date, number][][]>([])
 

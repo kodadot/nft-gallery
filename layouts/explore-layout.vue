@@ -36,7 +36,7 @@
 
 <script lang="ts" setup>
 import ExploreTabsFilterSort from '@/components/explore/Controls.vue'
-import MobileFilter from '@/components/explore/MobileFilter.vue'
+import MobileFilter from '@/components/shared/filters/MobileFilter.vue'
 import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
 import CollectionInfo from '@/components/collection/CollectionInfo.vue'
 
