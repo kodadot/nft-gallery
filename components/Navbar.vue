@@ -77,6 +77,7 @@
         id="NavChainSelect"
         class="navbar-chain custom-navbar-item"
         data-cy="chain-select" />
+      <NotificationBoxButton @closeBurgerMenu="closeBurgerMenu" />
       <template v-if="isMobile">
         <MobileLanguageOption v-if="!account" />
         <MobileExpandableSection
@@ -150,6 +151,7 @@ import ChainSelectDropdown from '~/components/navbar/ChainSelectDropdown.vue'
 import StatsDropdown from '~/components/navbar/StatsDropdown.vue'
 import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
 import ConnectWalletButton from '~/components/shared/ConnectWalletButton.vue'
+import NotificationBoxButton from '~/components/navbar/NotificationBoxButton.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { BModalConfig } from 'buefy/types/components'
 import type Vue from 'vue'
