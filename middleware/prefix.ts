@@ -1,4 +1,4 @@
-import { chainPrefixes } from '@/utils/chain'
+import { chainPrefixes } from '@kodadot1/static'
 
 export default function ({ store, route }): void {
   const prefix = route.params.prefix || route.path.split('/')[1]

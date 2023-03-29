@@ -51,15 +51,20 @@
           @focus="toggleInputFocused"
           @blur="toggleInputFocused" />
       </div>
-      <NeoButton
-        data-cy="apply"
-        :disabled="!isValidFilter(range.min, range.max)"
-        no-shadow
-        variant="k-accent"
-        expanded
-        @click.native="apply">
-        {{ $t('general.apply') }}
-      </NeoButton>
+      <div class="is-flex">
+        <div class="unit mr-2 is-flex is-align-items-center py-1 px-3">
+          {{ unit }}
+        </div>
+        <NeoButton
+          data-cy="apply"
+          :disabled="!isValidFilter(range.min, range.max)"
+          no-shadow
+          variant="k-accent"
+          expanded
+          @click.native="apply">
+          {{ $t('general.apply') }}
+        </NeoButton>
+      </div>
     </form>
   </b-collapse>
 </template>
@@ -87,7 +92,7 @@ const props = withDefaults(
 )
 
 const route = useRoute()
-const { decimals } = useChain()
+const { decimals, unit } = useChain()
 
 const range =
   props.dataModel === 'query'
@@ -110,8 +115,6 @@ const apply = () => {
   if (props.dataModel === 'store') {
     applyToStore()
   }
-
-  range.value = { min: undefined, max: undefined }
 }
 
 const applyToStore = () => {
@@ -168,6 +171,13 @@ const toggleInputFocused = (): void => {
     }
   }
 }
+
+.unit {
+  @include ktheme() {
+    border: 1px solid theme('text-color');
+  }
+}
+
 .input-focused {
   @include ktheme() {
     box-shadow: 0 0 0 1px theme('k-blue');
