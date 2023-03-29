@@ -70,7 +70,7 @@ const collectionId = computed(() => route.params.id)
 const chain = computed(
   () =>
     availableChains.value.find((chain) => chain.value === route.params.prefix)
-      .text
+      ?.text
 )
 const address = computed(() => collectionInfo.value?.currentOwner)
 const seeAllDescription = ref(false)
