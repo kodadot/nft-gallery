@@ -149,6 +149,7 @@ export default defineNuxtConfig({
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
+    '~/plugins/vueLazyLoad',
   ],
 
   router: {
