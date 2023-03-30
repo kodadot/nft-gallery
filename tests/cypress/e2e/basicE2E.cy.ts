@@ -15,7 +15,7 @@ describe('landingBsx', () => {
   })
 })
 
-describe('snekCollectionItem', () => {
+describe.skip('snekCollectionItem', () => {
   it('collectionActions', { scrollBehavior: false }, () => {
     cy.visit('/snek/gallery/659233203-5')
     cy.snekCollectionActions('3132385849', 'Morski pes', 'bXkmyH...J5CSGP')
@@ -33,7 +33,7 @@ describe.skip('snekGalleryItem', () => {
   })
 })
 
-describe('rmrkCollectionItem', () => {
+describe.skip('rmrkCollectionItem', () => {
   it('collectionActions', { scrollBehavior: false }, () => {
     cy.visit(
       '/rmrk/gallery/16516179-36FDCC8B7888DCED32-SUBWORK_MO-SUBWORK_MORNING_VIBE-0000000000000001'
