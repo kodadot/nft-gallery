@@ -45,7 +45,7 @@ export const URLS = {
     snekRococo: 'https://squid.subsquid.io/snekk/v/004/graphql',
     click: 'https://squid.subsquid.io/click/v/002/graphql',
     antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
-    rmrk: 'https://squid.subsquid.io/rubick/v/009-rc0/graphql',
+    marck: 'https://squid.subsquid.io/marck/graphql',
     replicate: 'https://replicate.kodadot.workers.dev/',
   },
   providers: {
@@ -63,6 +63,7 @@ export const apolloClientConfig = {
   movr: toApolloEndpoint(URLS.koda.click),
   snek: toApolloEndpoint(URLS.koda.snekRococo),
   glmr: toApolloEndpoint(URLS.koda.antick),
+  rmrk2: toApolloEndpoint(URLS.koda.marck),
 }
 
 export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [
