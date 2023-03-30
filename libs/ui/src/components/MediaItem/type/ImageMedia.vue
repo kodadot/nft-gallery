@@ -6,8 +6,8 @@
       'is-detail': isDetail,
     }">
     <img
+      v-lazy="src"
       class="is-block image-media__image"
-      :src="src"
       :alt="alt"
       data-cy="type-image" />
   </figure>

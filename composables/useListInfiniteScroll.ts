@@ -35,7 +35,7 @@ export default function ({
   const scrollItemHeight = ref(300)
   const itemsPerRow = ref(4)
   const scrollItemSizeInit = ref(false)
-  const first = ref(defaultFirst || 20)
+  const first = ref(defaultFirst || 40)
   const total = ref(0)
   const isFetchingData = ref(false)
 
@@ -44,11 +44,21 @@ export default function ({
   useInfiniteScroll(
     containerRef,
     () => {
-      if (canLoadNextPage.value && total.value > 0) {
+      if (canLoadNextPage.value) {
         reachBottomHandler()
       }
     },
-    { distance: 1600 }
+    { distance: 0 }
+  )
+
+  useInfiniteScroll(
+    containerRef,
+    () => {
+      if (canLoadNextPage.value) {
+        prefetchNextPage()
+      }
+    },
+    { distance: 2000 }
   )
 
   const scrollContainerId = ref(
@@ -59,7 +69,8 @@ export default function ({
   )
 
   const canLoadNextPage = computed(
-    () => endPage.value < Math.ceil(total.value / first.value)
+    () =>
+      endPage.value < Math.ceil(total.value / first.value) && total.value > 0
   )
 
   const pageHeight = computed(
