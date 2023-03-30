@@ -90,7 +90,7 @@ Published under [MIT License](./LICENSE).
 [npm-version-href]: https://npmjs.com/package/@kodadot1/static
 [npm-downloads-src]: https://img.shields.io/npm/dm/@kodadot1/static?style=flat-square
 [npm-downloads-href]: https://npmjs.com/package/@kodadot1/static
-[github-actions-src]: https://img.shields.io/github/actions/workflow/status/unjs/@kodadot1/static/ci.yml?branch=main&style=flat-square
-[github-actions-href]: https://github.com/unjs/@kodadot1/static/actions?query=workflow%3Aci
-[codecov-src]: https://img.shields.io/codecov/c/gh/unjs/@kodadot1/static/main?style=flat-square
-[codecov-href]: https://codecov.io/gh/unjs/@kodadot1/static
+[github-actions-src]: https://img.shields.io/github/actions/workflow/status/@kodadot1/static/ci.yml?branch=main&style=flat-square
+[github-actions-href]: https://github.com/@kodadot1/static/actions?query=workflow%3Aci
+[codecov-src]: https://img.shields.io/codecov/c/gh/@kodadot1/static/main?style=flat-square
+[codecov-href]: https://codecov.io/gh/@kodadot1/static
