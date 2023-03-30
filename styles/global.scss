@@ -358,7 +358,7 @@ hr {
 
 //hover
 
-.is-hoverable {
+.is-hoverable-item {
   @include ktheme() {
     &:hover {
       background-color: theme('k-accentlight2');

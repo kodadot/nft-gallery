@@ -11,11 +11,31 @@ flowchart TD
   KodaDot --> HyperGate 
   KodaDot --> Netlify
   HyperGate --> image_worker
+  HyperGate --> ssr-opengraphcard
+  HyperGate --> infura
+  HyperGate --> offchain_workers
   SubSquid --> Kusama_relay_chain
   SubSquid --> Basilisk_parachain
   SubSquid --> MoonBeam_parachain
   SubSquid --> MoonRiver_parachain
-
+  SubSquid --> Gear_parachain
+  SubSquid --> Ethereum_L2_Arbitrum
+  SubSquid --> Manta_parachain
+  SubSquid --> Ajuna_parachain
+  SubSquid --> Astar_parachain
+  Kusama_relay_chain --> rmrk1
+  Kusama_relay_chain --> rmrk2
+  Basilisk_parachain --> BSX_NFT_Pallete
+  MoonBeam_parachain --> erc721
+  MoonBeam_parachain --> erc1155
+  MoonRiver_parachain --> erc721
+  MoonRiver_parachain --> erc1155
+  Gear_parachain --> NFT_Base_Marketplace_ink_wasm
+  Astar_parachain --> RMRK_ink_wasm
+  Ethereum_L2_Arbitrum --> erc721
+  Manta_parachain --> zkNFT_pallete
+  Manta_parachain --> zkSBT_pallete
+  Ajuna_parachain --> Ajuna_NFT_Pallete
 ```
 
 ## Pace of development
