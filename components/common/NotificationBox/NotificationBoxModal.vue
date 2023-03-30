@@ -25,13 +25,15 @@
             v-else
             no-shadow
             class="button-rounded"
-            @click.native="showFilter = !showFilter">
+            @click.native="onClickDone">
             Done
             <NeoIcon icon="check" size="small" />
           </NeoButton>
         </div>
         <div v-if="showFilter" class="filter-option">
-          <div class="is-flex is-flex-direction-column pb-4">
+          <div
+            v-if="collections.length > 0"
+            class="is-flex is-flex-direction-column pb-4">
             <span class="is-size-7 has-text-grey mb-2">By collection</span>
             <div class="is-flex filter-list">
               <div
@@ -39,10 +41,10 @@
                 :key="`${item}-${index}`"
                 class="filter-item px-3 py-1 no-wrap"
                 :class="{
-                  activated: filters.collection.includes(item),
+                  activated: isInFilter('collection', item),
                 }"
                 @click="toggleFilter('collection', item)">
-                {{ item }}
+                {{ item.name }}
               </div>
             </div>
           </div>
@@ -50,14 +52,14 @@
             <span class="is-size-7 has-text-grey mb-2">By event</span>
             <div class="is-flex filter-list">
               <div
-                v-for="(item, index) in events"
+                v-for="(item, index) in eventTypes"
                 :key="`${item}-${index}`"
                 class="filter-item px-3 py-1 no-wrap"
                 :class="{
-                  activated: filters.event.includes(item),
+                  activated: isInFilter('event', item),
                 }"
                 @click="toggleFilter('event', item)">
-                {{ item }}
+                {{ item.name }}
               </div>
             </div>
           </div>
@@ -68,48 +70,66 @@
               v-for="(item, index) in filters.collection"
               :key="`${item}-${index}`"
               class="filter-item no-wrap mr-1 px-3 py-1">
-              {{ item }}
+              {{ item.name }}
               <NeoIcon
                 icon="xmark"
-                @click.native="toggleFilter('collection', item)" />
+                @click.native="removeFilter('collection', item)" />
             </div>
             <div
               v-for="(item, index) in filters.event"
               :key="`${item}-${index}`"
               class="filter-item no-wrap px-3 py-1">
-              {{ item }}
+              {{ item.name }}
               <NeoIcon
                 icon="xmark"
-                @click.native="toggleFilter('event', item)" />
+                @click.native="removeFilter('event', item)" />
             </div>
           </div>
         </div>
       </div>
-      <div class="is-flex is-flex-direction-column">
+      <div v-if="displayedEvents.length === 0" class="empty-tip">
+        Don't wait for notifications, <br />make your own buzz with your art.
+      </div>
+      <div v-else class="is-flex is-flex-direction-column">
         <NotificationItem
-          v-for="(nft, index) in nfts"
-          :key="`${nft.id}-${index}`"
-          :nft="nft" />
+          v-for="(event, index) in displayedEvents"
+          :key="`${event.id}-${index}`"
+          :event="event" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Event, FilterOption } from './types'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import NotificationItem from './NotificationItem.vue'
 
-// for test
-import { useCarouselNftEvents } from '@/components/carousel/utils/useCarousel'
-const { nfts } = useCarouselNftEvents({ type: 'newestList' })
-console.log('🚀 ~ file: NotificationBoxModal.vue:48 ~ nfts:', nfts.value)
-// test end
+import { useNotification } from './useNotification'
 
-const collections = ref(['Collection 1', 'Collection 2', 'Collection 3'])
+type FilterType = 'collection' | 'event'
 
-const events = ref(['Sale', 'Offer', 'Accepted Offer'])
+const eventTypes = ref<FilterOption[]>([
+  {
+    id: 'BUY',
+    name: 'BUY',
+  },
+  {
+    id: 'Offer',
+    name: 'Offer',
+  },
+  {
+    id: 'Accepted Offer',
+    name: 'Accepted Offer',
+  },
+])
 
 const { $store, $i18n } = useNuxtApp()
+
+const { collections, events: allEvents } = useNotification(
+  'CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd'
+)
+// const { collections, nfts } = useNotification($store.getters.getAuthAddress)
 
 const showFilter = ref(false)
 
@@ -118,21 +138,57 @@ const isFilterEmpty = computed(
     filters.value.collection.length === 0 && filters.value.event.length === 0
 )
 
-const filters = ref({
+const filters = ref<{
+  collection: FilterOption[]
+  event: FilterOption[]
+}>({
   collection: [],
   event: [],
 })
 
-const toggleFilter = (key: 'collection' | 'event', target: string) => {
-  if (filters.value[key].includes(target)) {
-    const index = filters.value[key].indexOf(target)
+const isInFilter = (key: FilterType, target: FilterOption) => {
+  return filters.value[key].some((x) => x.id === target.id)
+}
+
+const toggleFilter = (key: FilterType, target: FilterOption) => {
+  if (isInFilter(key, target)) {
+    const index = filters.value[key].findIndex((x) => x.id === target.id)
     filters.value[key].splice(index, 1)
   } else {
     filters.value[key].push(target)
   }
 }
 
-const { urlPrefix } = usePrefix()
+const displayedEvents = ref<Event[]>([])
+const doSearch = () => {
+  const { collection, event } = filters.value
+  displayedEvents.value = allEvents.value
+  if (collection.length > 0) {
+    displayedEvents.value = displayedEvents.value.filter((item) =>
+      collection.some((x) => x.id === item.nft.collection.id)
+    )
+  }
+  if (event.length > 0) {
+    displayedEvents.value = displayedEvents.value.filter((item) =>
+      event.some((x) => x.id === item.interaction)
+    )
+  }
+}
+
+const onClickDone = () => {
+  doSearch()
+  showFilter.value = false
+}
+
+const removeFilter = (key: FilterType, target: FilterOption) => {
+  toggleFilter(key, target)
+  doSearch()
+}
+
+watch(allEvents, doSearch, {
+  immediate: true,
+})
+
 const emit = defineEmits(['close'])
 </script>
 
@@ -226,6 +282,12 @@ const emit = defineEmits(['close'])
             border: 1px solid theme('k-primary');
           }
         }
+      }
+    }
+    .empty-tip {
+      @include ktheme() {
+        color: theme('k-grey');
+        text-align: center;
       }
     }
   }

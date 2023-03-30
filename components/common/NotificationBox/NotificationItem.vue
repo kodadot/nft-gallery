@@ -1,6 +1,14 @@
 <template>
-  <div class="is-flex mb-5">
+  <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`" class="is-flex mb-5">
     <img
+      v-if="avatar"
+      :src="avatar"
+      :alt="event.nft.name"
+      width="50"
+      height="50"
+      class="border image-size" />
+    <img
+      v-else
       src="/placeholder.webp"
       width="50"
       height="50"
@@ -8,10 +16,10 @@
     <div class="notify-content ml-5 is-flex is-flex-direction-column">
       <div class="is-flex is-justify-content-space-between">
         <div class="nft-name mr-4 has-text-weight-bold is-ellipsis">
-          {{ nft.name }}
+          {{ event.nft.name }}
         </div>
         <div class="nft-price is-ellipsis">
-          <Money :value="nft.price" />
+          <Money :value="event.nft.price" />
         </div>
       </div>
       <div class="is-flex is-justify-content-space-between">
@@ -19,33 +27,45 @@
           <div class="height-50px is-flex is-align-items-center">
             <div
               class="event-type mr-4 border is-size-7 is-justify-content-center px-4 py-1 is-flex is-align-items-center k-blueaccent">
-              BUY
+              {{ event.interaction }}
             </div>
           </div>
         </div>
         <div class="is-ellipsis">
-          {{ nft.timestamp }}
+          {{ formatToNow(new Date(event.timestamp)) }}
         </div>
       </div>
     </div>
-  </div>
+  </nuxt-link>
 </template>
 
 <script setup lang="ts">
-import type { CarouselNFT } from '@/components/base/types'
+import { Event } from './types'
+import { InteractionWithNFT } from '@/composables/collectionActivity/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
 
-// import { formatToNow } from '@/utils/format/time'
+import { formatToNow } from '@/utils/format/time'
 
-// import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { getNFTAvatar } from '@/components/collection/activity/events/eventRow/common'
+
+const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
-  nft: CarouselNFT
+  event: Event
 }>()
 
-// const { urlPrefix } = usePrefix()
+const avatar = ref<string>()
+onMounted(() => {
+  getAvatar()
+})
 
-console.log('nft -> ', props.nft)
+const getAvatar = async () => {
+  if (props.event) {
+    avatar.value = await getNFTAvatar(
+      props.event as unknown as InteractionWithNFT
+    )
+  }
+}
 </script>
 
 <style scoped lang="scss">

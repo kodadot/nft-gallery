@@ -1,0 +1,21 @@
+query eventListByAccount($account: String!) {
+  events(where: { caller_eq: $account }, orderBy: timestamp_DESC, limit: 30) {
+    id
+    interaction
+    timestamp
+    caller
+    nft {
+      name
+      id
+      metadata
+      price
+      meta {
+        id
+        image
+      }
+      collection {
+        id
+      }
+    }
+  }
+}
