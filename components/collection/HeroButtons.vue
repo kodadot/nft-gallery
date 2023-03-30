@@ -67,10 +67,10 @@
               </NeoDropdownItem>
             </div>
             <div v-else>
-              <NeoDropdownItem>
+              <NeoDropdownItem disabled>
                 {{ $i18n.t('moreActions.reportNFT') }}
               </NeoDropdownItem>
-              <NeoDropdownItem>
+              <NeoDropdownItem disabled>
                 <div class="is-flex">
                   {{ $i18n.t('moreActions.download') }}
                   <b-icon icon="download" class="pl-3" />
