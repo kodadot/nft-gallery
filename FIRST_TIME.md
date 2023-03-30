@@ -165,7 +165,7 @@ async function submit() {
       cb,
       arg,
       () => infoMessage(successMessage || 'Success!'),
-      () => dangerMessage(errorMessage || 'Failed!')
+      () => warningMessage(errorMessage || 'Failed!')
     )
   }
 

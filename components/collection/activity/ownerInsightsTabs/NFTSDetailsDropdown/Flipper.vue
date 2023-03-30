@@ -3,7 +3,7 @@
     <div
       v-for="{ avatar, boughtPrice, soldPrice, profit, nft } in flips"
       :key="nft.id"
-      class="is-flex py-2 px-5 is-justify-content-start is-hoverable is-flex-direction-column">
+      class="is-flex py-2 px-5 is-justify-content-start is-hoverable-item is-flex-direction-column">
       <div class="is-flex">
         <img
           v-if="avatar"

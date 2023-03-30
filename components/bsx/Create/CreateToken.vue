@@ -298,7 +298,7 @@ export default class CreateToken extends mixins(
           this.submit(retryCount + 1)
         } else {
           // finally fail
-          showNotification(e.toString(), notificationTypes.danger)
+          showNotification(e.toString(), notificationTypes.warn)
         }
       }
     }
