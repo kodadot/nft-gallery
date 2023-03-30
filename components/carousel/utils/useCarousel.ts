@@ -39,7 +39,15 @@ const nftEventVariables = {
   },
 }
 
+const disableChainsOnProduction = ['snek', 'rmrk2']
+
 const useChainEvents = (chain, type) => {
+  if (isProduction && disableChainsOnProduction.includes(chain)) {
+    return {
+      data: ref(undefined),
+    }
+  }
+
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: 'lastNftListByEvent',
@@ -78,12 +86,7 @@ export const useCarouselNftEvents = ({ type }: Types) => {
     const bsxNfts = await flattenNFT(dataBsx.value, 'bsx')
     const rmrk2Nfts = await flattenNFT(dataRmrk2.value, 'rmrk2')
 
-    const data = [...rmrkNfts, ...bsxNfts]
-
-    if (!isProduction) {
-      data.push(...snekNfts)
-      data.push(...rmrk2Nfts)
-    }
+    const data = [...rmrkNfts, ...bsxNfts, ...snekNfts, ...rmrk2Nfts]
 
     nfts.value = data.sort((a, b) => b.unixTime - a.unixTime).slice(0, 30)
   })
