@@ -1,26 +1,26 @@
 <template>
   <div class="redirect-card p-4">
     <div class="redirect-header has-text-weight-bold pb-2 mb-4">
-      {{ $t('redirect.title') }}
+      {{ props.i18n.t('redirect.title') }}
     </div>
     <div class="mb-4">
       <p class="mb-2">
-        {{ $t('redirect.leavingTips') }}
+        {{ props.i18n.t('redirect.leavingTips') }}
       </p>
       <p class="link mb-2">{{ props.url }}</p>
       <p>
-        {{ $t('redirect.safetyTips') }}
+        {{ props.i18n.t('redirect.safetyTips') }}
       </p>
     </div>
     <div class="is-flex">
       <NeoButton
         class="mr-2"
         no-shadow
-        :label="$t('redirect.continue')"
+        :label="props.i18n.t('redirect.continue')"
         @click.native="handleRedirect" />
       <NeoButton
         no-shadow
-        :label="$t('redirect.stay')"
+        :label="props.i18n.t('redirect.stay')"
         variant="k-accent"
         @click.native="emit('close')" />
     </div>
@@ -33,6 +33,9 @@ import { NeoButton } from '@kodadot1/brick'
 const emit = defineEmits(['close'])
 const props = defineProps<{
   url: string
+  i18n: {
+    t: (key: string) => string
+  }
 }>()
 
 const handleRedirect = () => {

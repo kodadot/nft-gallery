@@ -14,6 +14,7 @@ function isWhiteList(url: string) {
 }
 
 export const useRedirectModal = (target: string) => {
+  const { $i18n } = useNuxtApp()
   const _dom = document.querySelector(target) || document.body
   const handleLink = (event: Event) => {
     let target = event.target as HTMLLinkElement
@@ -34,6 +35,7 @@ export const useRedirectModal = (target: string) => {
       customClass: 'redirect-modal',
       props: {
         url,
+        i18n: $i18n,
       },
     } as unknown as BModalConfig)
   }
