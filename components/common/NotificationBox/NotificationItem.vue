@@ -26,7 +26,8 @@
         <div>
           <div class="height-50px is-flex is-align-items-center">
             <div
-              class="event-type mr-4 border is-size-7 is-justify-content-center px-4 py-1 is-flex is-align-items-center k-blueaccent">
+              class="event-type mr-4 border is-size-7 is-justify-content-center px-4 py-1 is-flex is-align-items-center"
+              :class="getInteractionColor(event.interaction)">
               {{ event.interaction }}
             </div>
           </div>
@@ -46,7 +47,10 @@ import Money from '@/components/shared/format/ChainMoney.vue'
 
 import { formatToNow } from '@/utils/format/time'
 
-import { getNFTAvatar } from '@/components/collection/activity/events/eventRow/common'
+import {
+  getInteractionColor,
+  getNFTAvatar,
+} from '@/components/collection/activity/events/eventRow/common'
 
 const { urlPrefix } = usePrefix()
 

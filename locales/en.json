@@ -1284,8 +1284,10 @@
     }
   },
   "filters": {
+    "buy": "Buy",
     "sale": "Sale",
     "offer": "Offer",
+    "acceptedOffer": "Accepted offer",
     "listing": "Listing",
     "mint": "Mint",
     "transfer": "Transfer"

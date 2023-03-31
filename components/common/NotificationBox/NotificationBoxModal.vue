@@ -107,28 +107,29 @@
 <script setup lang="ts">
 import { Event, FilterOption } from './types'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { Interaction } from '@kodadot1/minimark'
 import NotificationItem from './NotificationItem.vue'
-
 import { useNotification } from './useNotification'
 
-type FilterType = 'collection' | 'event'
+const { $i18n, $store } = useNuxtApp()
 
+type FilterType = 'collection' | 'event'
 const eventTypes = ref<FilterOption[]>([
   {
-    id: 'BUY',
-    name: 'BUY',
+    id: Interaction.BUY,
+    name: $i18n.t('filters.buy'),
   },
   {
+    // TODO
     id: 'Offer',
-    name: 'Offer',
+    name: $i18n.t('filters.offer'),
   },
   {
+    // TODO
     id: 'Accepted Offer',
-    name: 'Accepted Offer',
+    name: $i18n.t('filters.acceptedOffer'),
   },
 ])
-
-const { $store } = useNuxtApp()
 
 const { collections, events: allEvents } = useNotification(
   'CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd'
