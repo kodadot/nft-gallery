@@ -1256,5 +1256,12 @@
         }
       }
     }
+  },
+  "redirect":{
+    "title":"Leaving Kodadot",
+    "leavingTips":"You are going outside KodaDot to external website",
+    "safetyTips":"Be sure that it's safe!",
+    "continue":"Continue",
+    "stay":"Stay"
   }
 }
