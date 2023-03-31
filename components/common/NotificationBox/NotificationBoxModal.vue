@@ -25,7 +25,7 @@
             v-else
             no-shadow
             class="button-rounded"
-            @click.native="onClickDone">
+            @click.native="showFilter = !showFilter">
             {{ $t('notification.done') }}
             <NeoIcon icon="check" size="small" />
           </NeoButton>
@@ -169,10 +169,7 @@ const doSearch = () => {
     )
   }
 }
-const onClickDone = () => {
-  doSearch()
-  showFilter.value = false
-}
+
 const removeFilter = (key: FilterType, target: FilterOption) => {
   toggleFilter(key, target)
   doSearch()
@@ -180,6 +177,7 @@ const removeFilter = (key: FilterType, target: FilterOption) => {
 watch(allEvents, doSearch, {
   immediate: true,
 })
+watch(filters, doSearch, { deep: true })
 const emit = defineEmits(['close'])
 </script>
 
