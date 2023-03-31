@@ -1304,5 +1304,12 @@
     "byCollection": "By collection",
     "byEvent": "By event",
     "emptyTip": "Don't wait for notifications, <br/>make your own buzz with your art."
+  },
+  "redirect": {
+    "title": "Leaving Kodadot",
+    "leavingTips": "You are going outside KodaDot to external website",
+    "safetyTips": "Be sure that it's safe!",
+    "continue": "Continue",
+    "stay": "Stay"
   }
 }
