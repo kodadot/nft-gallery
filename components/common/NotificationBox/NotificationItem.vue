@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="is-ellipsis">
-          {{ formatToNow(new Date(event.timestamp)) }}
+          {{ formatToNow(new Date(event.timestamp), false) }}
         </div>
       </div>
     </div>

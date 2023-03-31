@@ -35,6 +35,6 @@ export const endDate = (seconds: number): string => {
   return parseDate(addSeconds(new Date(), seconds))
 }
 
-export const formatToNow = (date: Date): string => {
-  return formatDistanceToNowStrict(new Date(date), { addSuffix: true })
+export const formatToNow = (date: Date, addSuffix = true): string => {
+  return formatDistanceToNowStrict(new Date(date), { addSuffix: addSuffix })
 }
