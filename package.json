@@ -181,6 +181,8 @@
     "overrides": {
       "vue-server-renderer": "2.7.14",
       "vue-template-compiler": "2.7.14",
+      "highlight.js": "10.4.1",
+      "markdown-it": "12.3.2",
       "h3": "1.1.0"
     },
     "patchedDependencies": {

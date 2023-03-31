@@ -3,6 +3,8 @@ lockfileVersion: 5.4
 overrides:
   vue-server-renderer: 2.7.14
   vue-template-compiler: 2.7.14
+  highlight.js: 10.4.1
+  markdown-it: 12.3.2
   h3: 1.1.0
 
 patchedDependencies:
@@ -9566,7 +9568,6 @@ packages:
 
   /argparse/2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
-    dev: true
 
   /arr-diff/4.0.0:
     resolution: {integrity: sha512-YVIQ82gZPGBebQV/a8dar4AitzCQs0jjXwMPZllpXMaGjXPYVUawSxQrRsjhjupyVxEvbHgUmIhKVlND+j02kA==}
@@ -12512,13 +12513,8 @@ packages:
       ansi-colors: 4.1.3
     dev: true
 
-  /entities/1.1.2:
-    resolution: {integrity: sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==}
-    dev: false
-
   /entities/2.1.0:
     resolution: {integrity: sha512-hCx1oky9PFrJ611mf0ifBLBRW8lUUVRlFolb5gWRfIELabBlbp9xZvrqZLZAs+NxFnbfQoeGd8wDkygjg7U85w==}
-    dev: true
 
   /entities/2.2.0:
     resolution: {integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==}
@@ -15040,10 +15036,8 @@ packages:
     resolution: {integrity: sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==}
     dev: false
 
-  /highlight.js/9.18.5:
-    resolution: {integrity: sha512-a5bFyofd/BHCX52/8i8uJkjr9DYwXIPnM/plwI6W7ezItLGqzt7X2G2nXuYSfsIJdkwwj/g9DG1LkcGJI/dDoA==}
-    deprecated: Support has ended for 9.x series. Upgrade to @latest
-    requiresBuild: true
+  /highlight.js/10.4.1:
+    resolution: {integrity: sha512-yR5lWvNz7c85OhVAEAeFhVCc/GV4C30Fjzc/rCP0aCWzc1UUOPUk55dK/qdwTZHBvMZo+eZ2jpk62ndX/xMFlg==}
     dev: false
 
   /histoire/0.15.9_vite@3.2.5:
@@ -16417,17 +16411,10 @@ packages:
   /lines-and-columns/1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
-  /linkify-it/2.2.0:
-    resolution: {integrity: sha512-GnAl/knGn+i1U/wjBz3akz2stz+HrHLsxMwHQGofCDfPvlf+gDKN58UtfmUquTY4/MXeE2x7k19KQmeoZi94Iw==}
-    dependencies:
-      uc.micro: 1.0.6
-    dev: false
-
   /linkify-it/3.0.3:
     resolution: {integrity: sha512-ynTsyrFSdE5oZ/O9GEf00kPngmOfVwazR5GKDq6EYfhlpFug3J2zybX56a2PRRpc9P+FuSoGNAwjlbDs9jJBPQ==}
     dependencies:
       uc.micro: 1.0.6
-    dev: true
 
   /lint-staged/12.5.0:
     resolution: {integrity: sha512-BKLUjWDsKquV/JuIcoQW4MSAI3ggwEImF1+sB4zaKvyVx1wBk3FsG7UK9bpnmBTN1pm7EH2BBcMwINJzCRv12g==}
@@ -16987,18 +16974,6 @@ packages:
       linkify-it: 3.0.3
       mdurl: 1.0.1
       uc.micro: 1.0.6
-    dev: true
-
-  /markdown-it/8.4.2:
-    resolution: {integrity: sha512-GcRz3AWTqSUphY3vsUqQSFMbgR38a4Lh3GWlHRh/7MRwz8mcu9n2IO7HOh+bXHrR9kOPDl5RNCaEsrneb+xhHQ==}
-    hasBin: true
-    dependencies:
-      argparse: 1.0.10
-      entities: 1.1.2
-      linkify-it: 2.2.0
-      mdurl: 1.0.1
-      uc.micro: 1.0.6
-    dev: false
 
   /matcher/3.0.0:
     resolution: {integrity: sha512-OkeDaAZ/bQCxeFAozM55PKcKU0yJMPGifLwV4Qgjitu+5MoAfSQN4lsLJeXZ1b8w0x+/Emda6MZgXS1jvsapng==}
@@ -23253,8 +23228,8 @@ packages:
     resolution: {integrity: sha512-nVe6aLVZyGFOdi1UtZTE/ss/trcBvCs3MoI3RE/BZ9nV0tfIR5//jARa0Zuw25UaZyOwY5Fz/4Cq5vZYQJm7SA==}
     dependencies:
       '@iktakahiro/markdown-it-katex': github.com/iktakahiro/markdown-it-katex/fd03d2d21dbc02c73c8e651abd5386af076a1440
-      highlight.js: 9.18.5
-      markdown-it: 8.4.2
+      highlight.js: 10.4.1
+      markdown-it: 12.3.2
       markdown-it-abbr: 1.0.4
       markdown-it-container: 2.0.0
       markdown-it-deflist: 2.1.0
@@ -24055,7 +24030,7 @@ packages:
     dev: true
 
   github.com/iktakahiro/markdown-it-katex/fd03d2d21dbc02c73c8e651abd5386af076a1440:
-    resolution: {tarball: https://codeload.github.com/iktakahiro/markdown-it-katex/tar.gz/fd03d2d21dbc02c73c8e651abd5386af076a1440}
+    resolution: {commit: fd03d2d21dbc02c73c8e651abd5386af076a1440, repo: git+ssh://git@github.com/iktakahiro/markdown-it-katex.git, type: git}
     name: '@iktakahiro/markdown-it-katex'
     version: 4.0.1
     dependencies:
