@@ -1,9 +1,8 @@
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { ChainProperties } from '@/utils/api/Query'
-import { getChainTestList } from '@/utils/constants'
+import { availablePrefixes } from '@/utils/chain'
 
 export default function () {
-  const { $store, $config } = useNuxtApp()
   const { urlPrefix, tokenId, assets } = usePrefix()
   const { symbol } = assets(tokenId.value)
 
@@ -23,17 +22,7 @@ export default function () {
     return urlPrefix.value !== 'snek' && urlPrefix.value !== 'bsx'
   })
 
-  const availableChains = computed(() => {
-    const availableUrlPrefixes = $store.getters['availableUrlPrefixes']
-
-    if (!$config.public.dev) {
-      return availableUrlPrefixes.filter(
-        (urlPrefix) => !getChainTestList().includes(urlPrefix.value)
-      )
-    }
-
-    return availableUrlPrefixes
-  })
+  const availableChains = computed(() => availablePrefixes())
 
   const chainSymbol = computed(() => {
     return ['rmrk', 'rmrk2'].includes(urlPrefix.value) ? unit.value : symbol

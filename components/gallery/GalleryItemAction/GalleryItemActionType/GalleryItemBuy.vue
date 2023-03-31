@@ -61,9 +61,9 @@ import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 import { onClickOutside } from '@vueuse/core'
 import {
-  dangerMessage,
   notificationTypes,
   showNotification,
+  warningMessage,
 } from '@/utils/notification'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { tokenIdToRoute } from '@/components/unique/utils'
@@ -103,7 +103,7 @@ const label = computed(() =>
 )
 
 const balance = computed<string>(() => {
-  if (urlPrefix.value == 'rmrk') {
+  if (['rmrk', 'rmrk2'].includes(urlPrefix.value)) {
     return $store.getters.getAuthBalance
   }
   return $store.getters.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
@@ -188,7 +188,7 @@ const handleBuy = async () => {
       errorMessage: $i18n.t('transaction.buy.error'),
     })
   } catch (error) {
-    dangerMessage(error)
+    warningMessage(error)
   } finally {
     showNotification(`[${actionLabel}] ${itemId}`, notificationTypes.success)
     emit('buy-success')

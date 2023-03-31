@@ -75,9 +75,9 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import {
-  dangerMessage,
   notificationTypes,
   showNotification,
+  warningMessage,
 } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import {
@@ -253,7 +253,7 @@ export default class CreateToken extends mixins(
       })
     } catch (e) {
       if (e instanceof Error) {
-        dangerMessage(e)
+        warningMessage(e)
       }
     }
   }
@@ -276,7 +276,7 @@ export default class CreateToken extends mixins(
         )
 
       if (!onlyNfts.length) {
-        showNotification('Can not list empty NFTs', notificationTypes.danger)
+        showNotification('Can not list empty NFTs', notificationTypes.warn)
         return
       }
 
@@ -297,7 +297,7 @@ export default class CreateToken extends mixins(
         }
       )
     } catch (e) {
-      showNotification((e as Error).message, notificationTypes.danger)
+      showNotification((e as Error).message, notificationTypes.warn)
     }
   }
 

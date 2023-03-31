@@ -1,5 +1,6 @@
 import { defineNuxtConfig } from '@nuxt/bridge'
 import SentryWebpackPlugin from '@sentry/webpack-plugin'
+import { manifestIcons } from './utils/config/pwa'
 
 import { apolloClientConfig } from './utils/constants'
 
@@ -108,7 +109,6 @@ export default defineNuxtConfig({
       },
       { rel: 'icon', sizes: '32x32', href: '/favicon-32x32.png' },
       { rel: 'icon', sizes: '16x16', href: '/favicon-16x16.png' },
-      { rel: 'manifest', href: '/site.webmanifest' },
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@600;700&display=swap',
@@ -259,20 +259,17 @@ export default defineNuxtConfig({
     manifest: {
       name: 'KodaDot - Polkadot NFT explorer',
       short_name: 'KodaDot',
-      background_color: '#181717',
-      theme_color: '#181717',
+      background_color: '#ffffff',
+      theme_color: '#ffffff',
+      start_url: '/',
+      icons: manifestIcons,
     },
     workbox: {
       // enabled: true, // enable this to use workbox in localhost
       autoRegister: true,
       workboxVersion: '6.5.4',
     },
-
-    // according to Google using purpose ['any', 'maskable'] is discouraged
-    icon: {
-      source: 'static/icon.png',
-      purpose: ['any'],
-    },
+    icon: false,
   },
 
   i18n: {

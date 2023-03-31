@@ -16,7 +16,7 @@
     </span>
     <hr aria-role="menuitem" class="dropdown-divider my-4" />
     <span
-      v-for="option in options.slice(0, 3)"
+      v-for="option in availableChains.slice(0, 3)"
       :key="option.value"
       :class="[
         'menu-item',
@@ -31,21 +31,9 @@
 </template>
 
 <script lang="ts" setup>
-import { getChainTestList } from '~/utils/constants'
-
-const { $store, $config, $router } = useNuxtApp()
+const { $store, $router } = useNuxtApp()
 const { urlPrefix } = usePrefix()
-
-const options = computed(() => {
-  const availableUrlPrefixes = $store.getters['availableUrlPrefixes']
-
-  if (!$config.public.dev) {
-    return availableUrlPrefixes.filter(
-      (urlPrefix) => !getChainTestList().includes(urlPrefix.value as string)
-    )
-  }
-  return availableUrlPrefixes
-})
+const { availableChains } = useChain()
 
 const selectedChain = $store.getters.getSettings['urlPrefix']
 

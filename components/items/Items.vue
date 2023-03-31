@@ -6,6 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import SidebarFilter from '@/components/explore/SidebarFilter.vue'
+import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
 import ItemsGrid from './ItemsGrid/ItemsGrid.vue'
 </script>
