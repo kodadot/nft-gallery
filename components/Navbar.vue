@@ -77,7 +77,10 @@
         id="NavChainSelect"
         class="navbar-chain custom-navbar-item"
         data-cy="chain-select" />
-      <NotificationBoxButton @closeBurgerMenu="closeBurgerMenu" />
+      <NotificationBoxButton
+        v-if="account"
+        :show-label="isMobile"
+        @closeBurgerMenu="closeBurgerMenu" />
       <template v-if="isMobile">
         <MobileLanguageOption v-if="!account" />
         <MobileExpandableSection

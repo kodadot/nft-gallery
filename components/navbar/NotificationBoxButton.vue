@@ -1,9 +1,8 @@
 <template>
-  <NeoIcon
-    ref="root"
-    icon="bell"
-    class="navbar-item"
-    @click.native="toggleNotificationModal" />
+  <a class="navbar-item" @click.stop="toggleNotificationModal">
+    <span v-if="props.showLabel">{{ $t('notification.notifications') }}</span>
+    <NeoIcon ref="root" icon="bell" class="icon" />
+  </a>
 </template>
 
 <script setup lang="ts">
@@ -13,9 +12,10 @@ import { BModalComponent, BModalConfig } from 'buefy/types/components'
 import type Vue from 'vue'
 import { ModalProgrammatic as Modal } from 'buefy'
 
-const { $store, $buefy, $nextTick } = useNuxtApp()
 const root = ref<Vue<Record<string, string>>>()
-
+const props = defineProps<{
+  showLabel: boolean
+}>()
 const emit = defineEmits(['closeBurgerMenu'])
 const modal = ref<BModalComponent | null>()
 
@@ -27,8 +27,11 @@ function toggleNotificationModal() {
   } else {
     modal.value = Modal.open({
       parent: root?.value,
+      onCancel: () => {
+        modal.value = null
+      },
       ...NotificationBoxModalConfig,
-    } as any as BModalConfig)
+    } as unknown as BModalConfig)
   }
 }
 </script>
