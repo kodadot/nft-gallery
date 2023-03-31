@@ -132,9 +132,8 @@ const eventTypes = ref<FilterOption[]>([
 ])
 
 const { collections, events: allEvents } = useNotification(
-  'CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd'
+  $store.getters.getAuthAddress
 )
-// const { collections, nfts } = useNotification($store.getters.getAuthAddress)
 
 const showFilter = ref(false)
 
