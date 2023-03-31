@@ -94,13 +94,7 @@ const lineColor = computed(() => {
   }
 })
 
-const gridColor = computed(() => {
-  if (isDarkMode.value) {
-    return '#6b6b6b'
-  } else {
-    return '#cccccc'
-  }
-})
+const gridColor = computed(() => isDarkMode.value ? '#6b6b6b' : '#cccccc')
 
 const displayChartData = computed(() => {
   if (props.priceChartData) {
