@@ -1,6 +1,6 @@
 <template>
   <div
-    class="carousel-media is-flex-grow-1"
+    class="carousel-media"
     :class="{ 'carousel-media-collection': isCollection }">
     <nuxt-link :to="urlOf({ id: item.id, url, chain: item.chain })">
       <PreviewMediaResolver
