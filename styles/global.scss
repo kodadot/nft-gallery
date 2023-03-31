@@ -1,6 +1,7 @@
 html {
   height: 100%;
 }
+
 body,
 div#__nuxt,
 div#__layout,
@@ -106,6 +107,9 @@ body {
 .container.is-fluid {
   padding-left: $fluid-container-padding;
   padding-right: $fluid-container-padding;
+  @include ktheme() {
+    background-color: theme('background-color');
+  }
 }
 
 .control-label {
@@ -300,10 +304,9 @@ hr {
 }
 .border {
   @include ktheme() {
-    border: 1px solid theme('border-color')
+    border: 1px solid theme('border-color');
   }
 }
-
 
 //colors
 
@@ -366,4 +369,3 @@ hr {
     }
   }
 }
-
