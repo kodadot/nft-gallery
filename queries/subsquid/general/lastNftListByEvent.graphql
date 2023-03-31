@@ -1,8 +1,8 @@
 query lastNftListByEvent($limit: Float!, $event: String!) {
   events: lastEvent(limit: $limit, offset: 0, interaction: $event) {
-    meta: value
+    price: value
     timestamp
-    nftId: id
+    id
     name
     issuer
     currentOwner

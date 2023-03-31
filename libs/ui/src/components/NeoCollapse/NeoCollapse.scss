@@ -1,0 +1,57 @@
+@import '../../scss/variable.scss';
+
+.neo-collapse {
+  .collapse-content {
+    &:hover {
+      @include ktheme() {
+        background-color: theme('k-primaryLight');
+      }
+    }
+  }
+
+  .active-collpase {
+    @include ktheme() {
+      background-color: theme('background-color-inverse');
+      .card-header-title,
+      .card-header-icon {
+        color: theme('text-color-inverse');
+      }
+    }
+  }
+
+  &.card {
+    max-width: 100%;
+    position: relative;
+    border-radius: 0;
+    box-shadow: none;
+    @include ktheme() {
+      border-bottom: 1px solid theme('border-color');
+    }
+  }
+
+  .card-header {
+    border-radius: 0;
+  }
+
+  .card-header-title {
+    font-weight: 700;
+    padding: 0.75rem;
+    margin: 0;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+    background-color: transparent;
+    @include ktheme() {
+      color: theme('text-color');
+    }
+  }
+
+  &.disabled {
+    pointer-events: none;
+    cursor: inherit;
+    @include ktheme() {
+      background-color: theme('k-shade');
+    }
+  }
+}
