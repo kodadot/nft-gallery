@@ -2,7 +2,7 @@
   <div class="notification-modal-container is-flex is-flex-direction-column">
     <header class="modal-card-head mb-4">
       <span class="modal-card-title is-size-6 has-text-weight-bold">
-        Notifications
+        {{ $t('notification.notifications') }}
       </span>
       <a class="is-flex is-align-items-center" @click="emit('close')">
         <NeoIcon icon="close" />
@@ -12,13 +12,13 @@
       <div class="notification-filter pb-5">
         <div
           class="is-flex is-justify-content-space-between is-align-items-center pb-4">
-          <span> Filters </span>
+          <span> {{ $t('notification.filters') }} </span>
           <NeoButton
             v-if="!showFilter"
             no-shadow
             class="button-rounded"
             @click.native="showFilter = !showFilter">
-            Add
+            {{ $t('notification.add') }}
             <NeoIcon icon="plus" size="small" />
           </NeoButton>
           <NeoButton
@@ -26,7 +26,7 @@
             no-shadow
             class="button-rounded"
             @click.native="onClickDone">
-            Done
+            {{ $t('notification.done') }}
             <NeoIcon icon="check" size="small" />
           </NeoButton>
         </div>
@@ -34,7 +34,9 @@
           <div
             v-if="collections.length > 0"
             class="is-flex is-flex-direction-column pb-4">
-            <span class="is-size-7 has-text-grey mb-2">By collection</span>
+            <span class="is-size-7 has-text-grey mb-2">
+              {{ $t('notification.byCollection') }}
+            </span>
             <div class="is-flex filter-list">
               <div
                 v-for="(item, index) in collections"
@@ -49,7 +51,9 @@
             </div>
           </div>
           <div class="is-flex is-flex-direction-column pb-4">
-            <span class="is-size-7 has-text-grey mb-2">By event</span>
+            <span class="is-size-7 has-text-grey mb-2">{{
+              $t('notification.byEvent')
+            }}</span>
             <div class="is-flex filter-list">
               <div
                 v-for="(item, index) in eventTypes"
@@ -88,7 +92,7 @@
         </div>
       </div>
       <div v-if="displayedEvents.length === 0" class="empty-tip">
-        Don't wait for notifications, <br />make your own buzz with your art.
+        <p v-html="$t('notification.emptyTip')"></p>
       </div>
       <div v-else class="is-flex is-flex-direction-column">
         <NotificationItem
@@ -124,7 +128,7 @@ const eventTypes = ref<FilterOption[]>([
   },
 ])
 
-const { $store, $i18n } = useNuxtApp()
+const { $store } = useNuxtApp()
 
 const { collections, events: allEvents } = useNotification(
   'CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd'

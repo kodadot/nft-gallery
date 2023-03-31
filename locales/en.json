@@ -1289,6 +1289,14 @@
     "listing": "Listing",
     "mint": "Mint",
     "transfer": "Transfer"
-
+  },
+  "notification": {
+    "notifications": "Notifications",
+    "filters": "Filters",
+    "add": "Add",
+    "done": "Done",
+    "byCollection": "By collection",
+    "byEvent": "By event",
+    "emptyTip": "Don't wait for notifications, <br/>make your own buzz with your art."
   }
 }
