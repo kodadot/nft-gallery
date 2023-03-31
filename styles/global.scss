@@ -27,7 +27,7 @@ body {
     }
     &:hover {
       @include ktheme() {
-        color: theme('k-hovergrey');
+        color: theme('link-hover');
       }
     }
   }

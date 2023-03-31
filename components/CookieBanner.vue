@@ -4,7 +4,7 @@
       <div class="notices is-bottom is-flex w-100 is-align-items-center">
         <div
           role="alertdialog"
-          class="snackbar is-success is-bottom-left py-2 px-4">
+          class="snackbar is-success is-bottom-left py-2 px-4 mb-3">
           <div>
             <div class="">{{ $t('cookies.notice') }}</div>
           </div>
