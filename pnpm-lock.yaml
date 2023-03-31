@@ -124,7 +124,6 @@ importers:
       vue-eslint-parser: ^9.1.0
       vue-gtag-next: ^1.14.0
       vue-infinite-loading: ^2.4.5
-      vue-lazyload: ^1.3.4
       vue-markdown-render: ^1.1.3
       vue-social-sharing: ^3.0.9
       vue-tippy: ^4.16.1
@@ -188,7 +187,6 @@ importers:
       vue-class-component: 7.2.6_vue@2.7.14
       vue-clipboard2: 0.3.3
       vue-infinite-loading: 2.4.5_vue@2.7.14
-      vue-lazyload: 1.3.4
       vue-markdown-render: 1.1.3
       vue-social-sharing: 3.0.9_vue@2.7.14
       vue-tippy: 4.16.1_vue@2.7.14
@@ -1074,7 +1072,7 @@ packages:
       '@babel/helper-member-expression-to-functions': 7.21.0
       '@babel/helper-optimise-call-expression': 7.18.6
       '@babel/template': 7.20.7
-      '@babel/traverse': 7.21.0
+      '@babel/traverse': 7.21.3
       '@babel/types': 7.21.3
     transitivePeerDependencies:
       - supports-color
@@ -2124,29 +2122,12 @@ packages:
       '@babel/helper-hoist-variables': 7.18.6
       '@babel/helper-split-export-declaration': 7.18.6
       '@babel/parser': 7.21.1
-      '@babel/types': 7.21.0
-      debug: 4.3.4
-      globals: 11.12.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@babel/traverse/7.21.0:
-    resolution: {integrity: sha512-Xdt2P1H4LKTO8ApPfnO1KmzYMFpp7D/EinoXzLYN/cHcBNrVCAkAtGUcXnHXrl/VGktureU6fkQrHSBE2URfoA==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/code-frame': 7.18.6
-      '@babel/generator': 7.21.3
-      '@babel/helper-environment-visitor': 7.18.9
-      '@babel/helper-function-name': 7.21.0
-      '@babel/helper-hoist-variables': 7.18.6
-      '@babel/helper-split-export-declaration': 7.18.6
-      '@babel/parser': 7.21.3
       '@babel/types': 7.21.3
       debug: 4.3.4
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /@babel/traverse/7.21.3:
     resolution: {integrity: sha512-XLyopNeaTancVitYZe2MlUEvgKb6YVVPXzofHgqHijCImG33b/uTurMS488ht/Hbsb2XK3U2BnSTxKVNGV3nGQ==}
@@ -22648,8 +22629,8 @@ packages:
       terser:
         optional: true
     dependencies:
-      esbuild: 0.15.18
-      postcss: 8.4.21
+      esbuild: 0.15.12
+      postcss: 8.4.18
       resolve: 1.22.1
       rollup: 2.79.1
       sass: 1.59.3
@@ -22684,8 +22665,8 @@ packages:
         optional: true
     dependencies:
       '@types/node': 18.14.6
-      esbuild: 0.15.18
-      postcss: 8.4.21
+      esbuild: 0.15.12
+      postcss: 8.4.18
       resolve: 1.22.1
       rollup: 2.79.1
       sass: 1.59.3
@@ -23018,10 +22999,6 @@ packages:
       vue: ^2.6.10
     dependencies:
       vue: 2.7.14
-    dev: false
-
-  /vue-lazyload/1.3.4:
-    resolution: {integrity: sha512-K0frbPQJuvFHVpdl/ov5CqCR/CHWeLGs8E8V1d/09DIETqBjeGhC1fLMmwUy3Go2Yd/VX610AZ7Mdn4B54592Q==}
     dev: false
 
   /vue-loader/15.10.0_mi7kfaeh4nmupiqclubmvzt3ru:
