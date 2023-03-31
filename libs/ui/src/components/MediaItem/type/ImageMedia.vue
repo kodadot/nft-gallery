@@ -5,10 +5,12 @@
       'is-square image': !original,
       'is-detail': isDetail,
     }">
-    <img
-      v-lazy="src"
+    <nuxt-img
+      :src="src"
       class="is-block image-media__image"
+      :placeholder="placeholder"
       :alt="alt"
+      loading="lazy"
       data-cy="type-image" />
   </figure>
 </template>
@@ -20,6 +22,11 @@ defineProps<{
   original: boolean
   isDetail?: boolean
 }>()
+
+const { isDarkMode } = useTheme()
+const placeholder = computed(() => {
+  return isDarkMode.value ? '/placeholder.webp' : '/placeholder-white.webp'
+})
 </script>
 
 <style>

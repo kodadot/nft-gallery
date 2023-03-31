@@ -24,7 +24,8 @@
       "cypress",
       "cypress-file-upload",
       "cypress-real-events",
-      "@nuxtjs/sentry"
+      "@nuxtjs/sentry",
+      "@nuxt/image"
     ]
   },
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]
