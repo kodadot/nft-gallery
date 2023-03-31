@@ -68,6 +68,7 @@ const chainName = computed(() => {
     rmrk: 'Kusama',
     snek: 'Snek (Rococo)',
     bsx: 'Basilisk',
+    rmrk2: 'Rmrk2',
   }
 
   return name[props.item.chain || urlPrefix.value]
