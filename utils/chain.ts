@@ -86,6 +86,8 @@ export const getChainNameByPrefix = (prefix: string) => {
   return prefix
 }
 
+export const isProduction = window.location.host === 'kodadot.xyz'
+
 export const availablePrefixes = (): Option[] => {
   const chains = chainList()
 

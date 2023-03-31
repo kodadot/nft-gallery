@@ -1,5 +1,6 @@
 <template>
   <CarouselIndex
+    :key="nfts.length"
     data-cy="latest-sales"
     :title="$t('general.latestSales')"
     :subtitle="`${$t('general.latestSalesheading')} ${urlPrefix}`"

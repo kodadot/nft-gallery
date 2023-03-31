@@ -3,7 +3,7 @@
     <div
       v-for="{ avatar, id, name, updatedAt } in nfts"
       :key="id"
-      class="is-flex pt-2 px-5 is-justify-content-start is-hoverable">
+      class="is-flex pt-2 px-5 is-justify-content-start is-hoverable-item">
       <div class="mr-5">
         <img
           v-if="avatar"
