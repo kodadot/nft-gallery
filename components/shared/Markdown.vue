@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import VueMarkdown from 'vue-markdown'
+import VueMarkdown from 'vue-markdown-v2'
 import Prism from 'prismjs'
 import 'prismjs/themes/prism-okaidia.css' // theme
 
