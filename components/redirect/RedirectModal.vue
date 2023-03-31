@@ -59,6 +59,7 @@ const handleRedirect = () => {
     }
   }
   p.link {
+    word-break: break-all;
     @include ktheme() {
       color: theme('k-blue');
     }
