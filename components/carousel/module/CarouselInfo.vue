@@ -50,6 +50,7 @@ import type { CarouselNFT } from '@/components/base/types'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 import { useCarouselUrl } from '../utils/useCarousel'
+import { NAMES } from '@/libs/static/src/names'
 
 const CollectionDetailsPopover = defineAsyncComponent(
   () =>
@@ -64,14 +65,7 @@ const { urlOf } = useCarouselUrl()
 const url = inject('itemUrl', 'gallery') as string
 const isCollection = inject<boolean>('isCollection', false)
 const chainName = computed(() => {
-  const name = {
-    rmrk: 'Kusama',
-    snek: 'Snek (Rococo)',
-    bsx: 'Basilisk',
-    rmrk2: 'Rmrk2',
-  }
-
-  return name[props.item.chain || urlPrefix.value]
+  return NAMES[props.item.chain || urlPrefix.value]
 })
 
 const showPrice = computed((): boolean => {

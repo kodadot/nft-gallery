@@ -1,4 +1,4 @@
-export type Prefix = 'bsx' | 'glmr' | 'ksm' | 'movr' | 'rmrk2' | 'snek'
+export type Prefix = 'bsx' | 'glmr' | 'ksm' | 'movr' | 'rmrk2' | 'snek' | 'rmrk'
 // | 'statemine'
 // | 'westmint'
 
