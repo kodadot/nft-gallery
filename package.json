@@ -87,7 +87,6 @@
     "@sgratzl/chartjs-chart-boxplot": "^3.10.0",
     "apollo-boost": "^0.4.9",
     "axios": "^0.27.2",
-    "babel-runtime": "^6.26.0",
     "buefy": "^0.9.23",
     "chart.js": "^3.9.1",
     "chartjs-adapter-date-fns": "^2.0.1",
