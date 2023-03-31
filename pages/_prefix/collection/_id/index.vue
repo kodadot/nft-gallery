@@ -1,73 +1,30 @@
 <template>
   <div
-    v-if="redesign"
     class="container is-fluid"
     :class="{ 'sidebar-padding-left': isSidebarOpen }">
     <Items />
   </div>
-  <CollectionItem v-else />
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
-import { generateCollectionImage } from '~/utils/seoImageGenerator'
-import ExperimentMixin from '@/utils/mixins/experimentMixin'
 import Items from '@/components/items/Items.vue'
-import { useHistoryStore } from '@/stores/history'
 import { usePreferencesStore } from '@/stores/preferences'
 
-type CurrentCollection = {
-  name: string
-  numberOfItems: number
-  image: string
-  description: string
-}
-
-@Component<CollectionItemPage>({
-  name: 'CollectionItemPage',
+export default {
   components: {
-    CollectionItem,
     Items,
   },
-  layout(context) {
-    return context.query.redesign === 'true' ? 'explore-layout' : 'default'
-  },
-  head() {
-    const title = this.currentlyViewedCollection.name
-    const metaData = {
-      title,
-      type: 'profile',
-      description: this.currentlyViewedCollection.description,
-      url: this.$route.path,
-      image: this.image,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
-  },
-})
-export default class CollectionItemPage extends mixins(ExperimentMixin) {
-  private historyStore = useHistoryStore()
-  get preferencesStore() {
-    return usePreferencesStore()
-  }
-  get isSidebarOpen() {
-    return this.preferencesStore.getsidebarFilterCollapse
-  }
-
-  get currentlyViewedCollection(): CurrentCollection {
-    return this.historyStore.getCurrentlyViewedCollection
-  }
-
-  get image(): string {
-    return generateCollectionImage(
-      this.currentlyViewedCollection.name,
-      this.currentlyViewedCollection.numberOfItems,
-      this.currentlyViewedCollection.image
+  layout: 'explore-layout',
+  setup() {
+    const preferencesStore = usePreferencesStore()
+    const isSidebarOpen = computed(
+      () => preferencesStore.getsidebarFilterCollapse
     )
-  }
+
+    return {
+      isSidebarOpen,
+    }
+  },
 }
 </script>
 

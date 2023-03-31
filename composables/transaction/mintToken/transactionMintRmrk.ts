@@ -28,7 +28,7 @@ export async function execMintRmrk(
     .token.selectedCollection as MintedCollectionKusama
   const { edition, name, postfix } = item.token
 
-  const metadata = await constructMeta(item)
+  const metadata = await constructMeta(item, { enableCarbonOffset: true })
 
   const mint = createMultipleNFT(
     edition,

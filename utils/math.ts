@@ -21,6 +21,9 @@ export function pairListBuyEvent(events: Interaction[]): Interaction[] {
   }
 }
 
+export const sum = (array: number[]): number =>
+  array.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+
 export function getSum(list: Array<number | number>): bigint | number {
   return list
     .map((x) => x)

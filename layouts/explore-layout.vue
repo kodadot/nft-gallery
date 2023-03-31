@@ -12,7 +12,7 @@
       <div v-else>
         <!-- new header component for collection here -->
         <div v-if="isCollection">
-          <CollectionBanner />
+          <CollectionBanner :key="route.path" />
           <section class="pt-5">
             <div class="container is-fluid mobile-padding">
               <CollectionInfo />
@@ -36,7 +36,7 @@
 
 <script lang="ts" setup>
 import ExploreTabsFilterSort from '@/components/explore/Controls.vue'
-import MobileFilter from '@/components/explore/MobileFilter.vue'
+import MobileFilter from '@/components/shared/filters/MobileFilter.vue'
 import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
 import CollectionInfo from '@/components/collection/CollectionInfo.vue'
 

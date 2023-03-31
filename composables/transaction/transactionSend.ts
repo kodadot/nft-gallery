@@ -3,7 +3,7 @@ import { Interaction, createInteraction } from '@kodadot1/minimark'
 
 import { ss58Of } from '@/utils/config/chain.config'
 import correctFormat from '@/utils/ss58Format'
-import { dangerMessage } from '@/utils/notification'
+import { warningMessage } from '@/utils/notification'
 import { tokenIdToRoute } from '@/components/unique/utils'
 
 import type { ActionSend } from './types'
@@ -15,12 +15,12 @@ function checkTsxSend(item: ActionSend) {
   )
 
   if (!isAddress(item.address)) {
-    dangerMessage('Invalid address')
+    warningMessage('Invalid address')
     return false
   }
 
   if (err) {
-    dangerMessage(err)
+    warningMessage(err)
     return false
   }
 

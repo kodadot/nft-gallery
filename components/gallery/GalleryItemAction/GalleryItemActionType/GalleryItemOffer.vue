@@ -82,7 +82,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import { onClickOutside } from '@vueuse/core'
-import { dangerMessage } from '@/utils/notification'
+import { warningMessage } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { simpleDivision } from '@/utils/balance'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
@@ -175,7 +175,7 @@ async function confirm2() {
       errorMessage: $i18n.t('transaction.item.error') as string,
     })
   } catch (error) {
-    dangerMessage(error)
+    warningMessage(error)
   } finally {
     active.value = false
     confirm.value = false
