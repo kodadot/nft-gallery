@@ -1,5 +1,6 @@
 <template>
   <CarouselIndex
+    :key="nfts.length"
     :title="$t('general.newestListHeading')"
     :subtitle="$t('general.newestListDesc')"
     :nfts="nfts"
