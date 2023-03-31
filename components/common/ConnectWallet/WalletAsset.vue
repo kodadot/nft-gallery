@@ -45,6 +45,7 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 import { useWalletStore } from '@/stores/wallet'
+import { useIdentityStore } from '@/stores/identity'
 import { clearSession } from '@/utils/cachingStrategy'
 import useIdentity from '@/components/identity/utils/useIdentity'
 
@@ -59,18 +60,14 @@ const ProfileAssetsList = defineAsyncComponent(
 )
 const totalValue = ref(0)
 const walletStore = useWalletStore()
+const identityStore = useIdentityStore()
+const { urlPrefix } = usePrefix()
+const { $i18n } = useNuxtApp()
 
-const walletName = computed(() => walletStore.wallet.name)
 const emit = defineEmits(['back'])
 
-const { urlPrefix } = usePrefix()
-
-const { $store, $i18n } = useNuxtApp()
-const account = computed(() => $store.getters.getAuthAddress)
-
-watch(account, (val) => {
-  $store.dispatch('setAuth', { address: val })
-})
+const account = computed(() => identityStore.auth.address)
+const walletName = computed(() => walletStore.wallet.name)
 
 const { shortenedAddress } = useIdentity({
   address: account,
@@ -78,7 +75,7 @@ const { shortenedAddress } = useIdentity({
 })
 
 const disconnect = () => {
-  $store.dispatch('setAuth', { address: '' }) // null not working
+  identityStore.resetAuth()
   clearSession()
 }
 

@@ -56,7 +56,7 @@ async function subscribeTokens(
     const realKusamaTokenId = prefix === 'bsx' || prefix === 'rmrk' ? '1' : '5'
     return await api.query.tokens.accounts.multi(
       [[address, realKusamaTokenId]],
-      ([ksm]: any[]) =>
+      ([ksm]: unknown[]) =>
         cb({
           [realKusamaTokenId]: free(ksm),
         })
@@ -67,7 +67,7 @@ async function subscribeTokens(
 }
 
 // Disabling namespace to match with the original repo
-export const namespaced = false
+// export const namespaced = false
 
 import { defineStore } from 'pinia'
 
@@ -103,7 +103,17 @@ export const useIdentityStore = defineStore('identity', {
     },
     setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: emptyObject<BalanceMap>() }
+      console.log('fetching balance...')
       this.fetchBalance({ address: authRequest.address })
+      // TODO: useLocaleStorage
+      localStorage.setItem('kodaauth', authRequest.address)
+    },
+    resetAuth() {
+      this.auth = {
+        ...emptyObject<Auth>(),
+        balance: emptyObject<BalanceMap>(),
+        tokens: emptyObject<BalanceMap>(),
+      }
     },
     setBalance(prefix: string, balance: string) {
       this.auth.balance[prefix] = balance
@@ -130,6 +140,11 @@ export const useIdentityStore = defineStore('identity', {
       const { urlPrefix } = usePrefix()
       const directEndpoint = getChainEndpointByPrefix(urlPrefix.value)
       const endpoint = String(apiUrl || directEndpoint)
+
+      console.log(address)
+      console.log(urlPrefix)
+      console.log(endpoint)
+
       if (!address) {
         balanceSub()
         tokenSub()

@@ -83,19 +83,22 @@
 import { SupportedWallets } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { useIdentityStore } from '@/stores/identity'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset'
 
-const { $store, $i18n } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const hasSelectedWalletProvider = ref(false)
-const account = ref<string>($store.getters.getAuthAddress)
 const forceWalletSelect = ref(false)
+const identityStore = useIdentityStore()
 
 const setForceWalletSelect = () => {
   forceWalletSelect.value = true
 }
 
+// const account = ref<string>(identityStore.auth.address)
+const account = computed(() => identityStore.auth.address)
 const showAccount = computed(() => account.value && !forceWalletSelect.value)
 
 const wallets = SupportedWallets()
@@ -108,9 +111,11 @@ const headerTitle = computed(() =>
       : 'walletConnect.warning'
   )
 )
-const setAccount = (addr: string) => {
+const setAccount = (account) => {
   forceWalletSelect.value = false
-  account.value = addr
+  // account.value = addr
+
+  identityStore.setAuth(account)
 }
 const installedWallet = computed(() => {
   return wallets.filter((wallet) => wallet.installed)
@@ -129,7 +134,6 @@ const toggleShowUninstalledWallet = () => {
 }
 watch(account, (account) => {
   forceWalletSelect.value = false
-  $store.dispatch('setAuth', { address: account })
   localStorage.setItem('kodaauth', account)
   if (selectedWalletProvider.value) {
     localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
