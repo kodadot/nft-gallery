@@ -157,7 +157,7 @@ export default function ({
 
   const prefetchNextPage = async () => {
     updateCurrentPage()
-    if (endPage.value - currentPage.value <= 3 && canLoadNextPage.value) {
+    if (endPage.value - currentPage.value <= 4 && canLoadNextPage.value) {
       await fetchNextPage()
     }
   }
