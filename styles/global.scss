@@ -1,5 +1,9 @@
 html {
   height: 100%;
+  background-color: $white;
+  &.dark-mode {
+    background-color: $scheme-main;
+  }
 }
 
 body,
@@ -10,9 +14,6 @@ main {
   // block hover, click events
   z-index: 100;
   height: 100%;
-  @include ktheme() {
-    background: theme('background-color');
-  }
 }
 
 main {
@@ -107,9 +108,6 @@ body {
 .container.is-fluid {
   padding-left: $fluid-container-padding;
   padding-right: $fluid-container-padding;
-  @include ktheme() {
-    background-color: theme('background-color');
-  }
 }
 
 .control-label {
