@@ -59,6 +59,9 @@ export const isAnyActivityFilterActive = (): boolean => {
 }
 
 export const bin = (data: DataPoint[], binSize: BinSize): DataPoint[] => {
+  if (data.length === 0) {
+    return data
+  }
   const binSizeMillis = binSizeToMillis(binSize)
 
   const firstTimestamp = data[0].timestamp
