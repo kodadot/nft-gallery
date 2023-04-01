@@ -86,7 +86,7 @@ export default function ({
       if (scrollItem && container) {
         scrollItemHeight.value = scrollItem.clientHeight
         itemsPerRow.value = Math.max(
-          Math.ceil(container.clientWidth / scrollItem.clientWidth),
+          Math.floor(container.clientWidth / scrollItem.clientWidth),
           1
         )
         scrollItemSizeInit.value = true
@@ -157,7 +157,7 @@ export default function ({
 
   const prefetchNextPage = async () => {
     updateCurrentPage()
-    if (endPage.value - currentPage.value <= 4 && canLoadNextPage.value) {
+    if (endPage.value - currentPage.value <= 3 && canLoadNextPage.value) {
       await fetchNextPage()
     }
   }
