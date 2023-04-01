@@ -15,18 +15,20 @@
       </span>
     </span>
     <hr aria-role="menuitem" class="dropdown-divider my-4" />
-    <span
-      v-for="option in availableChains.slice(0, 3)"
-      :key="option.value"
-      :class="[
-        'menu-item',
-        'mr-2',
-        { 'is-active': selectedChain === option.value },
-      ]"
-      :value="option.value"
-      @click="setSelectedChain(option.value)">
-      {{ option.text }}
-    </span>
+    <div>
+      <span
+        v-for="option in availableChains"
+        :key="option.value"
+        :class="[
+          'menu-item',
+          'mr-2',
+          { 'is-active': selectedChain === option.value },
+        ]"
+        :value="option.value"
+        @click="setSelectedChain(option.value)">
+        {{ option.text }}
+      </span>
+    </div>
   </div>
 </template>
 

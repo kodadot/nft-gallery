@@ -90,7 +90,6 @@ export const isProduction = window.location.host === 'kodadot.xyz'
 
 export const availablePrefixes = (): Option[] => {
   const chains = chainList()
-
   if (window.location.hostname === 'kodadot.xyz') {
     return chains.filter(
       (chain) => !disableChainListOnProductionEnv.includes(String(chain.value))
