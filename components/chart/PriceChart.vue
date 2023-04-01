@@ -94,7 +94,7 @@ const lineColor = computed(() => {
   }
 })
 
-const gridColor = computed(() => isDarkMode.value ? '#6b6b6b' : '#cccccc')
+const gridColor = computed(() => (isDarkMode.value ? '#6b6b6b' : '#cccccc'))
 
 const displayChartData = computed(() => {
   if (props.priceChartData) {
@@ -246,7 +246,7 @@ const getPriceChartData = () => {
                 callback: (value) => {
                   return `${Number(value).toFixed(2)}  `
                 },
-                stepSize: 1,
+                stepSize: 4,
                 color: lineColor.value,
               },
               grid: {
