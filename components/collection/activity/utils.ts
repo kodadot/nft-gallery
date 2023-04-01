@@ -59,7 +59,7 @@ export const isAnyActivityFilterActive = (): boolean => {
 }
 
 export const bin = (data: DataPoint[], binSize: BinSize): DataPoint[] => {
-  if (data.length === 0) {
+  if (data.length < 2) {
     return data
   }
   const binSizeMillis = binSizeToMillis(binSize)
