@@ -51,16 +51,6 @@ export default function ({
     { distance: 0 }
   )
 
-  useInfiniteScroll(
-    containerRef,
-    () => {
-      if (canLoadNextPage.value) {
-        prefetchNextPage()
-      }
-    },
-    { distance: 2000 }
-  )
-
   const scrollContainerId = ref(
     defaultScrollContainerId ?? INFINITE_SCROLL_CONTAINER_ID
   )
