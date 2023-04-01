@@ -29,7 +29,7 @@ body {
     }
     &:hover {
       @include ktheme() {
-        color: theme('k-hovergrey');
+        color: theme('link-hover');
       }
     }
   }
@@ -257,8 +257,12 @@ hr {
 
 .snackbar {
   @include ktheme() {
+    border-radius: 0;
     color: theme('text-color');
     background: theme('background-color');
+    box-shadow: theme('primary-shadow');
+    border: 1px solid theme('border-color');
+
     .button {
       background-color: theme('k-accentlight2') !important;
       color: theme('text-color') !important;

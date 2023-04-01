@@ -36,7 +36,7 @@ importers:
       '@kodadot1/minimark': ^0.0.1-rc.10
       '@kodadot1/static': workspace:*
       '@kodadot1/sub-api': 0.1.1-alpha.5
-      '@kodadot1/vuex-options': 0.0.5-rc.4
+      '@kodadot1/vuex-options': 0.0.6-rc.0
       '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27889410.9247608
       '@nuxt/test-utils': ^0.2.2
       '@nuxt/types': ^2.16.3
@@ -143,7 +143,7 @@ importers:
       '@kodadot1/minimark': 0.0.1-rc.10
       '@kodadot1/static': link:libs/static
       '@kodadot1/sub-api': 0.1.1-alpha.5
-      '@kodadot1/vuex-options': 0.0.5-rc.4
+      '@kodadot1/vuex-options': 0.0.6-rc.0
       '@nuxtjs/apollo': 4.0.1-rc.5_zx6syyqvk5l2ayydo6dy4sw7j4
       '@nuxtjs/i18n': 7.3.1_vue@2.7.14
       '@nuxtjs/sentry': 7.1.4_vue@2.7.14
@@ -3822,8 +3822,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@kodadot1/vuex-options/0.0.5-rc.4:
-    resolution: {integrity: sha512-2kxP7/TVIG6xl3oc+Hed8WriDXKWTy249oiufkdYtk/Qz9uynpbWhOu8u7hRIg5RVp0wrfT0nTdklJ9FbvG5Cg==}
+  /@kodadot1/vuex-options/0.0.6-rc.0:
+    resolution: {integrity: sha512-9VT0RDlHVOcHhSboss0NaQJ/a43wlLSB2SBGE4ObrT25r8qHMEvbzdq64PmT+Qm5k+LBXyHmXKWGytLnG/UPiA==}
     dependencies:
       '@polkadot/networks': 10.4.1
     dev: false
@@ -5455,7 +5455,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.21.0
       '@polkadot/util': 10.4.1
-      '@substrate/ss58-registry': 1.38.0
+      '@substrate/ss58-registry': 1.39.0
     dev: false
 
   /@polkadot/networks/10.4.2:
@@ -7343,10 +7343,6 @@ packages:
       - utf-8-validate
     dev: false
     optional: true
-
-  /@substrate/ss58-registry/1.38.0:
-    resolution: {integrity: sha512-sHiVRWekGMRZAjPukN9/W166NM6D5wtHcK6RVyLy66kg3CHNZ1BXfpXcjOiXSwhbd7guQFDEwnOVaDrbk1XL1g==}
-    dev: false
 
   /@substrate/ss58-registry/1.39.0:
     resolution: {integrity: sha512-qZYpuE6n+mwew+X71dOur/CbMXj6rNW27o63JeJwdQH/GvcSKm3JLNhd+bGzwUKg0D/zD30Qc6p4JykArzM+tA==}
