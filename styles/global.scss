@@ -371,3 +371,73 @@ hr {
     }
   }
 }
+
+.dialog {
+  .modal-background {
+    background-color: transparent;
+  }
+
+  .modal-card {
+    top: 100px;
+    position: absolute;
+    left: 0;
+    @include ktheme() {
+      border: 1px solid theme('border-color');
+      box-shadow: theme('primary-shadow');
+    }
+  }
+
+  .modal-card-foot {
+    border-top: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .modal-card-body,
+  .modal-card,
+  .modal-card-foot {
+    @include ktheme() {
+      color: theme('text-color');
+      background-color: theme('background-color');
+    }
+
+    .button {
+      border-radius: 0;
+      font-weight: 400 !important;
+      text-transform: capitalize;
+      @include ktheme() {
+        border: 1px solid theme('border-color');
+        color: theme('text-color');
+        background: theme('background-color');
+        box-shadow: theme('primary-shadow');
+        &:hover {
+          background: theme('k-accentHover') !important;
+          color: theme('black');
+        }
+      }
+    }
+
+    .modal-card-foot:before {
+      content: ' ';
+      width: 121px;
+      height: 1px;
+      vertical-align: super;
+      display: inline-block;
+      @include ktheme() {
+        background-color: theme('k-red');
+      }
+    }
+    
+    .modal-card-foot:after {
+      content: ' ';
+      width: 121px;
+      height: 1px;
+      vertical-align: super;
+      display: inline-block;
+      @include ktheme() {
+        background-color: theme('k-accent');
+      }
+    }
+  }
+}

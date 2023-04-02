@@ -1,5 +1,5 @@
-import { NotificationProgrammatic as Notification } from 'buefy'
 import consola from 'consola'
+import { DialogProgrammatic as Dialog } from 'buefy'
 
 import { clearSession } from '@/utils/cachingStrategy'
 
@@ -16,19 +16,15 @@ export default async () => {
           'For more details, visit https://pwa.nuxtjs.org/'
       )
 
-      if (event.isUpdate) {
+      if (event.isUpdate || true) {
         consola.info('New content is available, please refresh.')
-        const notif = Notification.open({
-          message: 'New version is ready. Close to upgrade.',
-          queue: false,
-          type: 'is-info is-dark',
-          position: 'is-top-left',
-          indefinite: true,
-          hasIcon: true,
-        })
-
-        notif.$on('close', () => {
-          clearSession()
+        Dialog.alert({
+          message: 'The new version of Kodadot is here!',
+          confirmText: 'Upgrade',
+          type: 'is-success',
+          onConfirm: async () => {
+            clearSession()
+          },
         })
       }
     })
