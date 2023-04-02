@@ -7,7 +7,6 @@
     }">
     <img
       :src="src"
-      loading="lazy"
       class="is-block image-media__image"
       :alt="alt"
       data-cy="type-image"
