@@ -68,10 +68,9 @@ import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 import VueMarkdown from 'vue-markdown-render'
 import { usePreferencesStore } from '@/stores/preferences'
 import { SwipeDirection, useSwipe } from '@vueuse/core'
-
 import { useRedirectModal } from '@/components/redirect/useRedirectModal'
-useRedirectModal('.massmint-markdown')
 
+useRedirectModal('.massmint-markdown')
 const router = useRouter()
 const { urlPrefix } = usePrefix()
 const { $i18n, $consola } = useNuxtApp()
