@@ -5,6 +5,7 @@ overrides:
   vue-template-compiler: 2.7.14
   highlight.js: 10.4.1
   markdown-it: 12.3.2
+  '@iktakahiro/markdown-it-katex': 3.1.0
   h3: 1.1.0
 
 patchedDependencies:
@@ -3240,6 +3241,12 @@ packages:
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
+
+  /@iktakahiro/markdown-it-katex/3.1.0:
+    resolution: {integrity: sha512-Im2hih9ZkUqnUP7FhK0DTkGEVHgKNQ3BNQlbiBreWjSFPxysdylP1Ns5hLvoO+IdI1drhiiip/54VP8Gs3fLvw==}
+    dependencies:
+      katex: 0.10.2
+    dev: false
 
   /@interlay/interbtc-types/1.11.0:
     resolution: {integrity: sha512-bn3XjyRlXyhe1QKUHx5IEQJDNC6LoSCJJIkTnSp5xm52GRBEWgHOvLAnfJi3gyj7A3lV/yA2Xjqf294bZgMmfw==}
@@ -15425,8 +15432,8 @@ packages:
     resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
     dev: true
 
-  /katex/0.12.0:
-    resolution: {integrity: sha512-y+8btoc/CK70XqcHqjxiGWBOeIL8upbS0peTPXTvgrh21n1RiWWcIpSWM+4uXq+IAgNh9YYQWdc7LVDPDAEEAg==}
+  /katex/0.10.2:
+    resolution: {integrity: sha512-cQOmyIRoMloCoSIOZ1+gEwsksdJZ1EW4SWm3QzxSza/QsnZr6D4U1V9S4q+B/OLm2OQ8TCBecQ8MaIfnScI7cw==}
     hasBin: true
     dependencies:
       commander: 2.20.3
@@ -22324,7 +22331,7 @@ packages:
   /vue-markdown-v2/0.1.7:
     resolution: {integrity: sha512-nVe6aLVZyGFOdi1UtZTE/ss/trcBvCs3MoI3RE/BZ9nV0tfIR5//jARa0Zuw25UaZyOwY5Fz/4Cq5vZYQJm7SA==}
     dependencies:
-      '@iktakahiro/markdown-it-katex': github.com/iktakahiro/markdown-it-katex/fd03d2d21dbc02c73c8e651abd5386af076a1440
+      '@iktakahiro/markdown-it-katex': 3.1.0
       highlight.js: 10.4.1
       markdown-it: 12.3.2
       markdown-it-abbr: 1.0.4
@@ -23099,11 +23106,3 @@ packages:
       compress-commons: 4.1.1
       readable-stream: 3.6.2
     dev: true
-
-  github.com/iktakahiro/markdown-it-katex/fd03d2d21dbc02c73c8e651abd5386af076a1440:
-    resolution: {commit: fd03d2d21dbc02c73c8e651abd5386af076a1440, repo: git+ssh://git@github.com/iktakahiro/markdown-it-katex.git, type: git}
-    name: '@iktakahiro/markdown-it-katex'
-    version: 4.0.1
-    dependencies:
-      katex: 0.12.0
-    dev: false
