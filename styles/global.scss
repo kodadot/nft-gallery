@@ -382,6 +382,7 @@ hr {
     top: 100px;
     position: absolute;
     left: 0;
+    pointer-events: all;
     @include ktheme() {
       border: 1px solid theme('border-color');
       box-shadow: theme('primary-shadow');
