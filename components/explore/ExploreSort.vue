@@ -62,7 +62,9 @@ const router = useRouter()
 const { $i18n } = useNuxtApp()
 
 const isActive = ref(false)
-const isItems = computed(() => route.path.includes('items'))
+const isItems = computed(
+  () => route.path.includes('items') || route.path.includes('collection')
+)
 const options = computed(() => {
   return isItems.value
     ? NFT_SQUID_SORT_CONDITION_LIST
