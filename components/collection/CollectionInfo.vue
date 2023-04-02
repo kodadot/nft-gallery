@@ -19,15 +19,15 @@
         @click.native="toggleSeeAllDescription" />
     </div>
     <div>
-      <div class="columns is-mobile">
-        <div class="column">
+      <div class="columns pt-3">
+        <div class="column pt-0 mobile-column-padding-bottom">
           <CollectionInfoLine :title="$t('activity.network')" :value="chain" />
           <CollectionInfoLine title="Items" :value="stats.collectionLength" />
           <CollectionInfoLine
             :title="$t('series.owners')"
             :value="stats.uniqueOwners" />
         </div>
-        <div class="column">
+        <div class="column pt-0">
           <CollectionInfoLine :title="$t('activity.floor')">
             <CommonTokenMoney
               :value="stats.collectionFloorPrice"
@@ -117,6 +117,10 @@ const { stats } = useCollectionDetails({ collectionId: collectionId.value })
 @include mobile {
   .mobile-flex-direction-column {
     flex-direction: column;
+  }
+
+  .mobile-column-padding-bottom {
+    padding-bottom: 0;
   }
 
   .max-width {
