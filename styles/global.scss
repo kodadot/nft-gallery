@@ -1,6 +1,11 @@
 html {
   height: 100%;
+  background-color: $white;
+  &.dark-mode {
+    background-color: $scheme-main;
+  }
 }
+
 body,
 div#__nuxt,
 div#__layout,
@@ -8,9 +13,7 @@ main {
   //without this, footer image is above main contents
   // block hover, click events
   z-index: 100;
-  @include ktheme() {
-    background: theme('background-color');
-  }
+  height: 100%;
 }
 
 main {
@@ -303,10 +306,9 @@ hr {
 }
 .border {
   @include ktheme() {
-    border: 1px solid theme('border-color')
+    border: 1px solid theme('border-color');
   }
 }
-
 
 //colors
 
@@ -369,4 +371,3 @@ hr {
     }
   }
 }
-
