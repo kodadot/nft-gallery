@@ -66,8 +66,8 @@ import {
 } from './utils/useCollectionDetails'
 
 import { useRedirectModal } from '@/components/redirect/useRedirectModal'
-useRedirectModal('.collection-info-markdown')
 
+useRedirectModal('.collection-info-markdown')
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
