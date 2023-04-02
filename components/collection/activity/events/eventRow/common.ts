@@ -46,13 +46,13 @@ export const getAmount = (
 
 export const getFromAddress = (event: InteractionWithNFT | Offer): string => {
   const interaction = event.interaction
-  if (interaction === mintInteraction() || interaction === Interaction.LIST) {
+  if (interaction === mintInteraction()) {
     return blank
   }
   if (interaction === Interaction.BUY || interaction === Interaction.SEND) {
     return (event as InteractionWithNFT).currentOwner
   }
-  if (interaction === OfferInteraction) {
+  if (interaction === OfferInteraction || interaction === Interaction.LIST) {
     return (event as Offer).caller
   }
   return blank
@@ -60,11 +60,7 @@ export const getFromAddress = (event: InteractionWithNFT | Offer): string => {
 
 export const getToAddress = (event: InteractionWithNFT | Offer): string => {
   const interaction = event.interaction
-  if (
-    interaction === mintInteraction() ||
-    interaction === Interaction.LIST ||
-    interaction === Interaction.BUY
-  ) {
+  if (interaction === mintInteraction() || interaction === Interaction.BUY) {
     return event.caller
   }
   if (interaction === Interaction.SEND) {
