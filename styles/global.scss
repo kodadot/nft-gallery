@@ -373,6 +373,7 @@ hr {
 }
 
 .dialog {
+  pointer-events: none;
   .modal-background {
     background-color: transparent;
   }
