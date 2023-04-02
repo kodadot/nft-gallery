@@ -1,6 +1,6 @@
-import { Config } from './types'
+import { BackwardPrefix } from './types'
 
-export const NAMES: Config<string> = {
+export const NAMES: Record<BackwardPrefix, string> = {
   bsx: 'Basilisk',
   glmr: 'Moonbeam [Beta]',
   ksm: 'Kusama',
