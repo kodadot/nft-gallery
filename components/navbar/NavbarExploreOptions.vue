@@ -19,11 +19,7 @@
       <span
         v-for="option in availableChains"
         :key="option.value"
-        :class="[
-          'menu-item',
-          'mr-2',
-          { 'is-active': selectedChain === option.value },
-        ]"
+        :class="['menu-item', 'mr-2']"
         :value="option.value"
         @click="setSelectedChain(option.value)">
         {{ option.text }}
@@ -33,14 +29,11 @@
 </template>
 
 <script lang="ts" setup>
-const { $store, $router } = useNuxtApp()
+const { $router } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
 
-const selectedChain = $store.getters.getSettings['urlPrefix']
-
 const setSelectedChain = (value) => {
-  $store.dispatch('setUrlPrefix', value)
-  $router.push({ path: `/${value}` })
+  $router.push({ path: `/${value}/explore` })
 }
 </script>
