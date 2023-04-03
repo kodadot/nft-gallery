@@ -32,10 +32,8 @@ export const useRedirectModal = (target: string) => {
 
   const handleLink = (event: Event) => {
     let ele = event.target as HTMLLinkElement
-    if (ele.closest('a') !== null) {
-      // to handle elements wrapped by <a>
-      ele = ele.closest('a') as unknown as HTMLLinkElement
-    }
+    // to handle elements wrapped by <a>
+    ele = (ele.closest('a') as unknown as HTMLLinkElement) ?? ele
     if (ele.href && isExternal(ele.href) && !isWhiteList(ele.href)) {
       event.stopPropagation()
       event.preventDefault()

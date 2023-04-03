@@ -45,7 +45,6 @@ const handleRedirect = () => {
 
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
-@import '@/styles/abstracts/animations';
 
 .redirect-card {
   box-shadow: var(--card-box-shadow);
