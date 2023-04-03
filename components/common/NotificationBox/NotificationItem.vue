@@ -1,5 +1,7 @@
 <template>
-  <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`" class="is-flex mb-5">
+  <nuxt-link
+    :to="`/${urlPrefix}/gallery/${event.nft.id}`"
+    class="is-flex notify-item">
     <img
       v-if="avatar"
       :src="avatar"
@@ -67,6 +69,17 @@ const getAvatar = async () => {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/abstracts/variables';
+
+.notify-item {
+  padding: 0.75rem 2rem;
+  &:hover {
+    @include ktheme() {
+      color: theme('text-color');
+      background-color: theme('k-accentlight2');
+    }
+  }
+}
 .notify-content {
   flex: 1;
   overflow: auto;

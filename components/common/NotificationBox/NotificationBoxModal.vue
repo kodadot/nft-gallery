@@ -41,7 +41,7 @@
               <div
                 v-for="(item, index) in collections"
                 :key="`${item}-${index}`"
-                class="filter-item px-3 py-1 mb-1 no-wrap"
+                class="filter-item button-rounded px-3 py-1 mb-1 no-wrap"
                 :class="{
                   activated: collectionFilter?.id === item.id,
                 }"
@@ -58,7 +58,7 @@
               <div
                 v-for="(item, index) in eventTypes"
                 :key="`${item}-${index}`"
-                class="filter-item px-3 py-1 no-wrap"
+                class="filter-item button-rounded px-3 py-1 no-wrap"
                 :class="{
                   activated: eventFilter.some((x) => x.id === item.id),
                 }"
@@ -70,19 +70,19 @@
         </div>
         <div v-if="!showFilter && !isFilterEmpty" class="filter-option">
           <div class="is-flex filter-display-list pb-3 is-flex-wrap-wrap">
-            <div
+            <NeoTag
               v-if="collectionFilter"
-              class="filter-item no-wrap mr-1 px-3 py-1 mb-1">
+              class="no-wrap mr-1 mb-1"
+              @close="collectionFilter = null">
               {{ collectionFilter.name }}
-              <NeoIcon icon="xmark" @click.native="collectionFilter = null" />
-            </div>
-            <div
+            </NeoTag>
+            <NeoTag
               v-for="event in eventFilter"
               :key="event.id"
-              class="filter-item no-wrap px-3 py-1 mb-1">
+              class="no-wrap mb-1 mr-1"
+              @close="toggleEventFilter(event)">
               {{ event.name }}
-              <NeoIcon icon="xmark" @click.native="toggleEventFilter(event)" />
-            </div>
+            </NeoTag>
           </div>
         </div>
       </div>
@@ -102,6 +102,8 @@
 <script setup lang="ts">
 import { Event, FilterOption } from './types'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import NeoTag from '@/components/shared/gallery/NeoTag.vue'
+
 import { Interaction } from '@kodadot1/minimark'
 import NotificationItem from './NotificationItem.vue'
 import { useNotification } from './useNotification'
@@ -212,7 +214,7 @@ const emit = defineEmits(['close'])
       }
     }
     .modal-card-body {
-      padding: 0rem 2rem 1rem 2rem;
+      padding: 0rem 0rem 1rem 0rem;
       display: block;
       @include ktheme() {
         background-color: theme('background-color');
@@ -223,6 +225,8 @@ const emit = defineEmits(['close'])
       flex-grow: 0;
       position: sticky;
       top: 0;
+      padding-right: 2rem;
+      padding-left: 2rem;
       @include ktheme() {
         background-color: theme('background-color');
       }
@@ -235,7 +239,6 @@ const emit = defineEmits(['close'])
         border-radius: 2rem;
       }
       .filter-item {
-        border-radius: 2rem;
         cursor: pointer;
         margin-right: 0.25rem;
         &:last-child {
@@ -246,18 +249,13 @@ const emit = defineEmits(['close'])
         .filter-item {
           @include ktheme() {
             border: 1px solid theme('k-shade');
-          }
-          &.activated {
-            @include ktheme() {
+            &:hover {
+              border-color: theme('border-color');
+            }
+            &.activated {
+              color: theme('black');
               background-color: theme('k-shade');
             }
-          }
-        }
-      }
-      .filter-display-list {
-        .filter-item {
-          @include ktheme() {
-            border: 1px solid theme('k-primary');
           }
         }
       }
