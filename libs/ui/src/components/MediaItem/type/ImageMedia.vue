@@ -30,7 +30,7 @@ const placeholder = computed(() => {
 const onError = (e: Event) => {
   const target = e.target as HTMLImageElement
   if (target) {
-    $consola.log('image load error', e)
+    $consola.log('[KODADOT::IMAGE] unable to load', e)
     target.src = placeholder.value
   }
 }
