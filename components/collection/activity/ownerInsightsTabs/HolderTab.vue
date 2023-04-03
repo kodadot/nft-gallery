@@ -71,7 +71,12 @@ const toggleNFTDetails = (flipperId: string) => {
   }
 }
 
-const holders = computed(() => Object.entries(props.owners || {}))
+const holders = computed(() =>
+  Object.entries(props.owners || {}).sort(
+    // sort by nft count: highest first
+    (a, b) => b[1].nftCount - a[1].nftCount
+  )
+)
 
 // map of owner id to bolean, is the NFT details section of that owner open or nor
 // {id0: false, id1: true, id3: false, ...}
