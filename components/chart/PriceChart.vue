@@ -246,7 +246,7 @@ const getPriceChartData = () => {
                 callback: (value) => {
                   return `${Number(value).toFixed(2)}  `
                 },
-                stepSize: 4,
+                stepSize: 3,
                 color: lineColor.value,
               },
               grid: {
