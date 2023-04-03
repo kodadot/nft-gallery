@@ -11,7 +11,19 @@ function isExternal(url: string) {
 function isWhiteList(url: string) {
   const urlObj = new URL(url)
   const redirectHost = urlObj.host.toLocaleLowerCase()
-  return EXTERNAL_LINK_WHITELIST.includes(redirectHost)
+  return EXTERNAL_LINK_WHITELIST.some((link) => {
+    // fuzzy matching
+    if (link.startsWith('*')) {
+      return (
+        // match ".kodadot.xyz", prevent match "fakekodadot.xyz"
+        redirectHost.endsWith(link.substring(1)) ||
+        // match kodadot.xyz
+        redirectHost === link.substring(2)
+      )
+    } else {
+      return redirectHost === link
+    }
+  })
 }
 
 const showModal = (url: string, i18n: VueI18n) => {
