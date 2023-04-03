@@ -1007,7 +1007,7 @@
     "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction."
   },
   "cookies": {
-    "notice": "We use third-party 🍪 in order to personalize your site experience",
+    "notice": "We use cookies for better service",
     "accept": "Accept",
     "decline": "Decline"
   },
@@ -1293,5 +1293,12 @@
     "listing": "Listing",
     "mint": "Mint",
     "transfer": "Transfer"
+  },
+  "redirect":{
+    "title":"Leaving Kodadot",
+    "leavingTips":"You are going outside KodaDot to external website",
+    "safetyTips":"Be sure that it's safe!",
+    "continue":"Continue",
+    "stay":"Stay"
   }
 }

@@ -83,7 +83,7 @@
     "@polkadot/ui-keyring": "^2.12.1",
     "@polkadot/vue-identicon": "^2.12.1",
     "@ramp-network/ramp-instant-sdk": "^3.2.3",
-    "@sentry/browser": "7.30.0",
+    "@sentry/browser": "7.42.0",
     "@sgratzl/chartjs-chart-boxplot": "^3.10.0",
     "apollo-boost": "^0.4.9",
     "axios": "^0.27.2",
