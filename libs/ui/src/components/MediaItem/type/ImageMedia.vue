@@ -15,22 +15,24 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
+import consola from 'consola'
+
+const props = defineProps<{
   src?: string
   alt?: string
   original: boolean
   isDetail?: boolean
+  isDarkMode?: boolean
 }>()
-const { $consola } = useNuxtApp()
-const { isDarkMode } = useTheme()
+
 const placeholder = computed(() => {
-  return isDarkMode.value ? '/placeholder.webp' : '/placeholder-white.webp'
+  return props.isDarkMode ? '/placeholder.webp' : '/placeholder-white.webp'
 })
 
 const onError = (e: Event) => {
   const target = e.target as HTMLImageElement
   if (target) {
-    $consola.log('[KODADOT::IMAGE] unable to load', e)
+    consola.log('[KODADOT::IMAGE] unable to load', e)
     target.src = placeholder.value
   }
 }
