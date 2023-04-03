@@ -29,13 +29,12 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import VueI18n from 'vue-i18n/types'
 
 const emit = defineEmits(['close'])
 const props = defineProps<{
   url: string
-  i18n: {
-    t: (key: string) => string
-  }
+  i18n: VueI18n
 }>()
 
 const handleRedirect = () => {
