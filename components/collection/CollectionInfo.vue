@@ -19,15 +19,15 @@
         @click.native="toggleSeeAllDescription" />
     </div>
     <div>
-      <div class="columns is-mobile">
-        <div class="column">
+      <div class="is-flex gap mobile-flex-direction-column mobile-no-gap">
+        <div>
           <CollectionInfoLine :title="$t('activity.network')" :value="chain" />
           <CollectionInfoLine title="Items" :value="stats.collectionLength" />
           <CollectionInfoLine
             :title="$t('series.owners')"
             :value="stats.uniqueOwners" />
         </div>
-        <div class="column">
+        <div>
           <CollectionInfoLine :title="$t('activity.floor')">
             <CommonTokenMoney
               :value="stats.collectionFloorPrice"
@@ -119,6 +119,9 @@ const { stats } = useCollectionDetails({ collectionId: collectionId.value })
     flex-direction: column;
   }
 
+  .mobile-no-gap {
+    gap: 0;
+  }
   .max-width {
     max-width: 100%;
   }
