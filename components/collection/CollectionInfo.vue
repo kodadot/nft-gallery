@@ -10,7 +10,9 @@
         </nuxt-link>
       </div>
       <div class="overflow-wrap">
-        <vue-markdown :source="visibleDescription" />
+        <vue-markdown
+          class="collection-info-markdown"
+          :source="visibleDescription" />
       </div>
       <NeoButton
         v-if="hasSeeAllDescriptionOption"
@@ -63,6 +65,9 @@ import {
   useCollectionMinimal,
 } from './utils/useCollectionDetails'
 
+import { useRedirectModal } from '@/components/redirect/useRedirectModal'
+
+useRedirectModal('.collection-info-markdown')
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
