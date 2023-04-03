@@ -37,15 +37,15 @@
             <span class="is-size-7 has-text-grey mb-2">
               {{ $t('notification.byCollection') }}
             </span>
-            <div class="is-flex filter-list">
+            <div class="is-flex is-flex-wrap-wrap filter-list">
               <div
                 v-for="(item, index) in collections"
                 :key="`${item}-${index}`"
-                class="filter-item px-3 py-1 no-wrap"
+                class="filter-item px-3 py-1 mb-1 no-wrap"
                 :class="{
-                  activated: isInFilter('collection', item),
+                  activated: collectionFilter?.id === item.id,
                 }"
-                @click="toggleFilter('collection', item)">
+                @click="toggleCollectionFilter(item)">
                 {{ item.name }}
               </div>
             </div>
@@ -54,39 +54,34 @@
             <span class="is-size-7 has-text-grey mb-2">{{
               $t('notification.byEvent')
             }}</span>
-            <div class="is-flex filter-list">
+            <div class="is-flex is-flex-wrap-wrap filter-list">
               <div
                 v-for="(item, index) in eventTypes"
                 :key="`${item}-${index}`"
                 class="filter-item px-3 py-1 no-wrap"
                 :class="{
-                  activated: isInFilter('event', item),
+                  activated: eventFilter.some((x) => x.id === item.id),
                 }"
-                @click="toggleFilter('event', item)">
+                @click="toggleEventFilter(item)">
                 {{ item.name }}
               </div>
             </div>
           </div>
         </div>
         <div v-if="!showFilter && !isFilterEmpty" class="filter-option">
-          <div class="is-flex filter-display-list pb-4">
+          <div class="is-flex filter-display-list pb-3 is-flex-wrap-wrap">
             <div
-              v-for="(item, index) in filters.collection"
-              :key="`${item}-${index}`"
-              class="filter-item no-wrap mr-1 px-3 py-1">
-              {{ item.name }}
-              <NeoIcon
-                icon="xmark"
-                @click.native="removeFilter('collection', item)" />
+              v-if="collectionFilter"
+              class="filter-item no-wrap mr-1 px-3 py-1 mb-1">
+              {{ collectionFilter.name }}
+              <NeoIcon icon="xmark" @click.native="collectionFilter = null" />
             </div>
             <div
-              v-for="(item, index) in filters.event"
-              :key="`${item}-${index}`"
-              class="filter-item no-wrap px-3 py-1">
-              {{ item.name }}
-              <NeoIcon
-                icon="xmark"
-                @click.native="removeFilter('event', item)" />
+              v-for="event in eventFilter"
+              :key="event.id"
+              class="filter-item no-wrap px-3 py-1 mb-1">
+              {{ event.name }}
+              <NeoIcon icon="xmark" @click.native="toggleEventFilter(event)" />
             </div>
           </div>
         </div>
@@ -110,8 +105,9 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark'
 import NotificationItem from './NotificationItem.vue'
 import { useNotification } from './useNotification'
+
 const { $i18n, $store } = useNuxtApp()
-type FilterType = 'collection' | 'event'
+
 const eventTypes = ref<FilterOption[]>([
   {
     id: Interaction.BUY,
@@ -128,56 +124,56 @@ const eventTypes = ref<FilterOption[]>([
     name: $i18n.t('filters.acceptedOffer'),
   },
 ])
+
 const { collections, events: allEvents } = useNotification(
   $store.getters.getAuthAddress
 )
-const showFilter = ref(false)
-const isFilterEmpty = computed(
-  () =>
-    filters.value.collection.length === 0 && filters.value.event.length === 0
-)
-const filters = ref<{
-  collection: FilterOption[]
-  event: FilterOption[]
-}>({
-  collection: [],
-  event: [],
-})
-const isInFilter = (key: FilterType, target: FilterOption) => {
-  return filters.value[key].some((x) => x.id === target.id)
-}
-const toggleFilter = (key: FilterType, target: FilterOption) => {
-  if (isInFilter(key, target)) {
-    const index = filters.value[key].findIndex((x) => x.id === target.id)
-    filters.value[key].splice(index, 1)
+
+const collectionFilter = ref<FilterOption | null>(null)
+const toggleCollectionFilter = (target: FilterOption) => {
+  if (collectionFilter.value?.id === target.id) {
+    collectionFilter.value = null
   } else {
-    filters.value[key].push(target)
-  }
-}
-const displayedEvents = ref<Event[]>([])
-const doSearch = () => {
-  const { collection, event } = filters.value
-  displayedEvents.value = allEvents.value
-  if (collection.length > 0) {
-    displayedEvents.value = displayedEvents.value.filter((item) =>
-      collection.some((x) => x.id === item.nft.collection.id)
-    )
-  }
-  if (event.length > 0) {
-    displayedEvents.value = displayedEvents.value.filter((item) =>
-      event.some((x) => x.id === item.interaction)
-    )
+    collectionFilter.value = target
   }
 }
 
-const removeFilter = (key: FilterType, target: FilterOption) => {
-  toggleFilter(key, target)
-  doSearch()
+const eventFilter = ref<FilterOption[]>([])
+const toggleEventFilter = (target: FilterOption) => {
+  const index = eventFilter.value.findIndex(
+    (x: FilterOption) => x.id === target.id
+  )
+  if (index === -1) {
+    eventFilter.value.push(target)
+  } else {
+    eventFilter.value.splice(index, 1)
+  }
 }
+
+const showFilter = ref(false)
+const isFilterEmpty = computed(
+  () => !collectionFilter.value && eventFilter.value.length === 0
+)
+
+const displayedEvents = ref<Event[]>([])
+
+const doSearch = () => {
+  displayedEvents.value = allEvents.value.filter(
+    (item) =>
+      (!collectionFilter.value ||
+        collectionFilter.value.id === item.nft.collection.id) &&
+      (eventFilter.value.length === 0 ||
+        eventFilter.value.some((x) => x.id === item.interaction))
+  )
+}
+
 watch(allEvents, doSearch, {
   immediate: true,
 })
-watch(filters, doSearch, { deep: true })
+
+watch(collectionFilter, doSearch, { deep: true })
+watch(eventFilter, doSearch, { deep: true })
+
 const emit = defineEmits(['close'])
 </script>
 
@@ -247,7 +243,6 @@ const emit = defineEmits(['close'])
         }
       }
       .filter-list {
-        overflow-x: auto;
         .filter-item {
           @include ktheme() {
             border: 1px solid theme('k-shade');
@@ -260,7 +255,6 @@ const emit = defineEmits(['close'])
         }
       }
       .filter-display-list {
-        overflow-x: auto;
         .filter-item {
           @include ktheme() {
             border: 1px solid theme('k-primary');
