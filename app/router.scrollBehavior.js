@@ -6,6 +6,7 @@ export default function (to) {
     'prefix-collection-id-activity',
     'prefix-explore-items',
     'prefix-explore-collectibles',
+    'prefix-u-id',
   ]
 
   if (disableScrollToTop.includes(toPath)) {
