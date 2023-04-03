@@ -27,6 +27,7 @@
       </div>
     </DynamicGrid>
     <EmptyResult v-if="total === 0" />
+    <ScrollTopButton />
   </div>
 </template>
 
