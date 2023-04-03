@@ -1,5 +1,5 @@
 query eventListByAccount($account: String!) {
-  events(where: { caller_eq: $account }, orderBy: timestamp_DESC) {
+  events(where: { caller_eq: $account }, orderBy: timestamp_DESC, limit: 30) {
     id
     interaction
     timestamp
