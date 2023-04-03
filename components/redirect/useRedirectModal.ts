@@ -2,6 +2,7 @@ import RedirectModal from './RedirectModal.vue'
 import { EXTERNAL_LINK_WHITELIST } from '@/utils/constants'
 import { ModalProgrammatic as Modal } from 'buefy'
 import { BModalConfig } from 'buefy/types/components'
+import VueI18n from 'vue-i18n/types'
 
 function isExternal(url: string) {
   return !url.startsWith(window.location.origin)
@@ -13,31 +14,33 @@ function isWhiteList(url: string) {
   return EXTERNAL_LINK_WHITELIST.includes(redirectHost)
 }
 
+const showModal = (url: string, i18n: VueI18n) => {
+  Modal.open({
+    component: RedirectModal,
+    canCancel: true,
+    customClass: 'redirect-modal',
+    props: {
+      url,
+      i18n,
+    },
+  } as unknown as BModalConfig)
+}
+
 export const useRedirectModal = (target: string) => {
   const { $i18n } = useNuxtApp()
   const _dom = document.querySelector(target) || document.body
+
   const handleLink = (event: Event) => {
-    let target = event.target as HTMLLinkElement
-    if (target.closest('a') !== null) {
+    let ele = event.target as HTMLLinkElement
+    if (ele.closest('a') !== null) {
       // to handle elements wrapped by <a>
-      target = target.closest('a') as unknown as HTMLLinkElement
+      ele = ele.closest('a') as unknown as HTMLLinkElement
     }
-    if (target.href && isExternal(target.href) && !isWhiteList(target.href)) {
+    if (ele.href && isExternal(ele.href) && !isWhiteList(ele.href)) {
       event.stopPropagation()
       event.preventDefault()
-      showModal(target.href)
+      showModal(ele.href, $i18n)
     }
-  }
-  const showModal = (url: string) => {
-    Modal.open({
-      component: RedirectModal,
-      canCancel: true,
-      customClass: 'redirect-modal',
-      props: {
-        url,
-        i18n: $i18n,
-      },
-    } as unknown as BModalConfig)
   }
 
   onMounted(() => {
