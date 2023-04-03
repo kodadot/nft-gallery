@@ -50,6 +50,8 @@ body:
       label: At which address did you encounter bug?
       multiple: true
       options:
+        - rmrk2.kodadot.xyz
+        - canary.kodadot.xyz
         - beta.kodadot.xyz
         - kodadot.xyz
   - type: dropdown
