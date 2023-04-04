@@ -28,7 +28,7 @@
           <div v-if="amount === blank">
             {{ blank }}
           </div>
-          <Money v-else :value="amount" />
+          <CommonTokenMoney v-else :value="amount" />
         </div>
         <div class="is-flex is-justify-content-space-between">
           <div
@@ -77,7 +77,6 @@ import {
   InteractionWithNFT,
   Offer,
 } from '@/composables/collectionActivity/types'
-import Money from '@/components/shared/format/ChainMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import {

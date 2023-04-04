@@ -23,13 +23,13 @@
             <span class="is-size-7 has-text-grey">{{
               $t('activity.totalBought')
             }}</span>
-            <Money :value="totalBought" />
+            <CommonTokenMoney :value="totalBought" />
           </div>
           <div class="is-flex is-justify-content-space-between">
             <span class="is-size-7 has-text-grey">{{
               $t('activity.totalSold')
             }}</span>
-            <Money :value="totalsold" />
+            <CommonTokenMoney :value="totalsold" />
           </div>
           <div class="is-flex is-justify-content-space-between">
             <span class="is-size-7 has-text-grey">{{
@@ -72,7 +72,6 @@
 
 <script setup lang="ts">
 import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
-import Money from '@/components/shared/format/ChainMoney.vue'
 import { NeoIcon } from '@kodadot1/brick'
 import { format } from '@/components/collection/activity/utils'
 

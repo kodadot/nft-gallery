@@ -17,13 +17,15 @@
             <span class="is-size-7 has-text-grey">{{
               $t('activity.totalBought')
             }}</span>
-            <Money :value="holdings.totalBought" />
+            <CommonTokenMoney :value="holdings.totalBought" />
           </div>
           <div class="is-flex is-justify-content-space-between">
             <span class="is-size-7 has-text-grey">{{
               $t('activity.totalSold')
             }}</span>
-            <Money v-if="holdings.totalSold > 0" :value="holdings.totalSold" />
+            <CommonTokenMoney
+              v-if="holdings.totalSold > 0"
+              :value="holdings.totalSold" />
             <span v-else>--</span>
           </div>
           <div class="is-flex is-justify-content-space-between">
@@ -57,7 +59,6 @@
 <script setup lang="ts">
 import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
 import { Owners } from '@/composables/collectionActivity/types'
-import Money from '@/components/shared/format/ChainMoney.vue'
 import { NeoIcon } from '@kodadot1/brick'
 
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
