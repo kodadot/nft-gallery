@@ -7,6 +7,7 @@
         :src="nft.image"
         :animation-src="nft.animationUrl"
         :mime-type="nft.mimeType"
+        :is-dark-mode="isDarkMode"
         :title="nft?.name" />
     </nuxt-link>
     <div
@@ -70,6 +71,7 @@ withDefaults(
     showPrice: boolean
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
+    isDarkMode?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,
