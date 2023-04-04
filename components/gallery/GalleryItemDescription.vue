@@ -98,7 +98,9 @@ import VueMarkdown from 'vue-markdown-render'
 import { DisablableTab } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
+import { useRedirectModal } from '@/components/redirect/useRedirectModal'
 
+useRedirectModal('.gallery-item-desc-markdown')
 const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
