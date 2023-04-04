@@ -1,5 +1,11 @@
 import { Event, FilterOption } from './types'
 
+export const Interaction = {
+  SALE: 'SALE',
+  OFFER: 'OFFER',
+  ACCEPTED_OFFER: 'ACCEPTED_OFFER',
+}
+
 export const useNotification = (account: string) => {
   const collections = ref<FilterOption[]>([])
   const events = ref<Event[]>([])
@@ -15,6 +21,11 @@ export const useNotification = (account: string) => {
     queryName: 'eventListByAccount',
     variables: {
       account,
+      interaction: [
+        Interaction.SALE,
+        Interaction.OFFER,
+        Interaction.ACCEPTED_OFFER,
+      ],
     },
   })
 
