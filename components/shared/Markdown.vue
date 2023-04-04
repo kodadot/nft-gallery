@@ -7,7 +7,7 @@
 
 <script lang="ts" setup>
 import VueMarkdown from 'vue-markdown-render'
-import hljs, { HighlightOptions } from 'highlight.js'
+import hljs from 'highlight.js'
 import { useRedirectModal } from '@/components/redirect/useRedirectModal'
 defineProps<{
   source: string
