@@ -30,15 +30,11 @@ export const useNotification = (account: string) => {
   })
 
   watch(collectionData, (result) => {
-    if (result.collectionEntities) {
-      collections.value = result.collectionEntities
-    }
+    collections.value = result.collectionEntities ?? []
   })
 
   watch(eventsData, (result) => {
-    if (result.events) {
-      events.value = result.events
-    }
+    events.value = result.events ?? []
   })
 
   return {
