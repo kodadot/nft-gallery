@@ -17,7 +17,7 @@
     <hr aria-role="menuitem" class="dropdown-divider my-4" />
     <div>
       <span
-        v-for="option in availableChains"
+        v-for="option in filteredChains"
         :key="option.value"
         :class="['menu-item', 'mr-2']"
         :value="option.value"
@@ -32,6 +32,12 @@
 const { $router } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
+
+const filteredChains = computed(() => {
+  return availableChains?.value.filter((chain) => {
+    return ['rmrk2', 'bsx', 'rmrk'].includes(chain.value)
+  })
+})
 
 const setSelectedChain = (value) => {
   $router.push({ path: `/${value}/explore` })

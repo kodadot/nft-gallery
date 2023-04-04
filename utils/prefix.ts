@@ -4,7 +4,7 @@ export function getDenyList(prefix: string): string[] | undefined {
   switch (prefix) {
     case 'rmrk':
     case 'rmrk2':
-      return denyList
+      return x
     case 'bsx':
     case 'snek':
       return bsxDenyList
