@@ -54,7 +54,7 @@
     <div class="columns is-centered">
       <div class="column is-8 has-text-centered">
         <p class="content">
-          <VueMarkdown class="collection-info-markdown" :source="description" />
+          <Markdown :source="description" />
           <CollapseWrapper
             v-if="attributes && attributes.length"
             visible="collapse.collection.attributes.show"
@@ -99,14 +99,13 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { tokenIdToRoute } from '../../utils'
-import { useRedirectModal } from '@/components/redirect/useRedirectModal'
 
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/shared/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-  VueMarkdown: () => import('vue-markdown-render'),
+  Markdown: () => import('@/components/shared/Markdown.vue'),
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
   TransferCollection: () =>
@@ -179,7 +178,6 @@ export default class CollectionItem extends mixins(
       this.loadMagic()
       this.subscribe(api.query.uniques.class, [this.id], this.observeOwner)
     })
-    useRedirectModal('.collection-info-markdown')
   }
 
   protected observeOwner(data: Option<ClassDetails>) {
