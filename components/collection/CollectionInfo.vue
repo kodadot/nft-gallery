@@ -62,6 +62,9 @@ import {
   useCollectionMinimal,
 } from './utils/useCollectionDetails'
 
+const stats = ref()
+const collectionInfo = ref()
+
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
@@ -74,9 +77,6 @@ const chain = computed(
 const address = computed(() => collectionInfo.value?.currentOwner)
 const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210
-const { collection: collectionInfo } = useCollectionMinimal({
-  collectionId: collectionId.value,
-})
 
 const toggleSeeAllDescription = () => {
   seeAllDescription.value = !seeAllDescription.value
@@ -100,7 +100,18 @@ const visibleDescription = computed(() => {
   )
 })
 
-const { stats } = useCollectionDetails({ collectionId: collectionId.value })
+const getData = () => {
+  const { stats: statsData } = useCollectionDetails({
+    collectionId: collectionId.value,
+  })
+  stats.value = statsData
+  const { collection: collectionData } = useCollectionMinimal({
+    collectionId: collectionId.value,
+  })
+  collectionInfo.value = collectionData
+}
+
+watch(collectionId, getData, { immediate: true })
 </script>
 
 <style lang="scss" scoped>
