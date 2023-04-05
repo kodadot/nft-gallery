@@ -65,7 +65,7 @@
           <NFTsDetaislDropdown :flips="flips" variant="Flippers" />
         </div>
       </div>
-      <hr class="m-3" />
+      <hr class="my-3 mx-5" />
     </div>
   </div>
 </template>
