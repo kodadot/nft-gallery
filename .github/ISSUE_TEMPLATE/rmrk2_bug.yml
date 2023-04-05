@@ -1,7 +1,7 @@
 name: RMRK2 Bug Report
 description: Create a report to help us improve RMRK2 in KodaDot
 title: "Be descriptive and short"
-labels: ["rmrk", "bug"]
+labels: ["rmrk2", "bug", "p2"]
 body:
   - type: markdown
     attributes:
@@ -50,6 +50,8 @@ body:
       label: At which address did you encounter bug?
       multiple: true
       options:
+        - rmrk2.kodadot.xyz
+        - canary.kodadot.xyz
         - beta.kodadot.xyz
         - kodadot.xyz
   - type: dropdown

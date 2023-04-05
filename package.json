@@ -36,7 +36,7 @@
     "test:e2e-gui": "cypress open --project tests",
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
-    "prepare": "nuxi prepare && husky install"
+    "prepare": "nuxi prepare && pnpm -F static build && husky install"
   },
   "husky": {
     "hooks": {
@@ -52,7 +52,7 @@
   "engines": {
     "npm": "please-use-pnpm",
     "pnpm": "7",
-    "node": "^v16.19.1"
+    "node": "^16"
   },
   "prettier": {
     "semi": false,
@@ -69,9 +69,9 @@
     "@google/model-viewer": "^1.12.1",
     "@kodadot1/brick": "workspace:*",
     "@kodadot1/minimark": "^0.0.1-rc.10",
-    "@kodadot1/static": "0.0.1-rc.0",
+    "@kodadot1/static": "workspace:*",
     "@kodadot1/sub-api": "0.1.1-alpha.5",
-    "@kodadot1/vuex-options": "0.0.5-rc.4",
+    "@kodadot1/vuex-options": "0.0.6-rc.0",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.3.1",
     "@nuxtjs/sentry": "^7.1.4",
@@ -83,7 +83,7 @@
     "@polkadot/ui-keyring": "^2.12.1",
     "@polkadot/vue-identicon": "^2.12.1",
     "@ramp-network/ramp-instant-sdk": "^3.2.3",
-    "@sentry/browser": "7.30.0",
+    "@sentry/browser": "7.42.0",
     "@sgratzl/chartjs-chart-boxplot": "^3.10.0",
     "apollo-boost": "^0.4.9",
     "axios": "^0.27.2",

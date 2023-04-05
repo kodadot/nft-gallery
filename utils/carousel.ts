@@ -62,19 +62,11 @@ export const setCarouselMetadata = async (nfts): Promise<CarouselNFT[]> => {
 
 export const convertLastEventFlatNft = (e: LastEvent) => {
   return {
-    id: e.nftId,
-    metadata: e.metadata,
-    issuer: e.issuer,
-    currentOwner: e.currentOwner,
-    timestamp: e.timestamp,
-    name: e.name,
-    price: e.meta,
+    ...e,
     meta: {
       id: e.metadata,
       image: e.image,
-      animationUrl: e.animationUrl ? sanitizeIpfsUrl(e.animationUrl) : null,
+      animationUrl: e.animationUrl,
     },
-    collectionId: e.collectionId,
-    collectionName: e.collectionName,
   }
 }

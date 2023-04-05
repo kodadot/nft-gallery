@@ -1,8 +1,11 @@
 <template>
   <div class="explore is-flex is-flex-wrap-wrap">
-    <FilterMenuButton />
-    <ExploreTabs />
-    <div class="explore-menu is-flex">
+    <div class="is-flex is-align-content-center gap">
+      <FilterMenuButton />
+      <ExploreTabs />
+    </div>
+
+    <div v-if="!isActivityTab" class="explore-menu is-flex">
       <ExploreSort />
       <ExploreOffer class="is-flex-grow-1" />
       <ExploreChain v-if="!route.name?.includes('prefix-collection-id')" />
@@ -24,11 +27,17 @@ const route = useRoute()
 const isCollection = computed(() =>
   route.name?.includes('prefix-explore-collectibles')
 )
+const isActivityTab = computed(() =>
+  route.name?.includes('prefix-collection-id-activity')
+)
 </script>
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
+.gap {
+  gap: 1.5rem;
+}
 .explore {
   gap: 1.5rem;
 

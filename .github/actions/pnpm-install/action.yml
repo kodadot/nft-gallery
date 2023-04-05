@@ -30,14 +30,6 @@ runs:
         restore-keys: |
           ${{ runner.os }}-pnpm-store-
 
-    - name: Remove PWA/Icons
-      shell: bash
-      run: rm -rf ./.nuxt/pwa
-
     - name: Install dependencies
       shell: bash
       run: pnpm install
-
-    - name: Remove PWA/Icons
-      shell: bash
-      run: rm -rf ./.nuxt/pwa

@@ -45,7 +45,7 @@ export const URLS = {
     snekRococo: 'https://squid.subsquid.io/snekk/v/004/graphql',
     click: 'https://squid.subsquid.io/click/v/002/graphql',
     antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
-    rmrk: 'https://squid.subsquid.io/rubick/v/009-rc0/graphql',
+    rmrk: 'https://squid.subsquid.io/marck/graphql',
     replicate: 'https://replicate.kodadot.workers.dev/',
   },
   providers: {
@@ -110,3 +110,5 @@ export const getChainTestList = () => {
 }
 
 export const MIN_OFFER_PRICE = 0.01
+
+export const EXTERNAL_LINK_WHITELIST = ['*.kodadot.xyz']

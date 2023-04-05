@@ -237,7 +237,7 @@ export default class AdminPanel extends mixins(
         )
       )
     } catch (e) {
-      showNotification((e as Error).toString(), notificationTypes.danger)
+      showNotification((e as Error).toString(), notificationTypes.warn)
       this.isLoading = false
     }
   }
@@ -249,12 +249,12 @@ export default class AdminPanel extends mixins(
       const { docs, name, section } = decoded
       showNotification(
         `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-        notificationTypes.danger
+        notificationTypes.warn
       )
     } else {
       showNotification(
         `[ERR] ${dispatchError.toString()}`,
-        notificationTypes.danger
+        notificationTypes.warn
       )
     }
 

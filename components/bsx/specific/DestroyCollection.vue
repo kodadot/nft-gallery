@@ -79,7 +79,7 @@ export default class DestroyCollection extends mixins(
         }
       )
     } catch (e: any) {
-      showNotification(`[DESTROY::ERR] ${e}`, notificationTypes.danger)
+      showNotification(`[DESTROY::ERR] ${e}`, notificationTypes.warn)
       this.$consola.error(e)
       this.isLoading = false
     }
