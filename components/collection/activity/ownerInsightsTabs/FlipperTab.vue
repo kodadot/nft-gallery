@@ -13,7 +13,7 @@
             :address="flipperId"
             :avatar-size="35"
             class="has-text-weight-bold" />
-          <div class="is-flex is-justify-content-space-between">
+          <div class="is-flex is-justify-content-space-between mt-2">
             <span class="is-size-7 has-text-grey">{{
               $t('activity.owned')
             }}</span>
@@ -65,7 +65,7 @@
           <NFTsDetaislDropdown :flips="flips" variant="Flippers" />
         </div>
       </div>
-      <hr class="my-3" />
+      <hr class="my-3 mx-5" />
     </div>
   </div>
 </template>
