@@ -22,8 +22,8 @@
         </div>
       </div>
       <EventRow
-        v-for="event in displayedEvents"
-        :key="event.timestamp"
+        v-for="(event, i) in displayedEvents"
+        :key="i"
         :variant="variant"
         :event="event" />
       <div ref="sentinel" />
