@@ -173,11 +173,6 @@ const route = useRoute()
 
 // const account = computed(() => identityStore.auth.address)
 const account = computed(() => identityStore.getAuthAddress)
-// const account = ref(identityStore.auth.address)
-
-onMounted(() => {
-  console.log(account)
-})
 
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')

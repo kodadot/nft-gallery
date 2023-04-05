@@ -167,6 +167,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { useFiatStore } from '@/stores/fiat'
+import { useIdentityStore } from '@/stores/identity'
 
 import { getExplorer, hasExplorer } from '@kodadot1/static'
 import { emptyObject } from '@kodadot1/minimark'
@@ -208,6 +209,10 @@ export default class Transfer extends mixins(
     return useFiatStore()
   }
 
+  get identityStore() {
+    return useIdentityStore()
+  }
+
   get isApiConnected() {
     return this.$store.getters.getApiConnected
   }
@@ -245,8 +250,9 @@ export default class Transfer extends mixins(
   }
 
   get balance(): string {
-    return this.$store.getters.getAuthBalance
+    return this.identityStore.getAuthBalance(this.urlPrefix)
   }
+
   protected addAddress() {
     this.destinationAddresses.push('')
   }

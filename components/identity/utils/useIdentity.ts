@@ -76,7 +76,7 @@ export default function useIdentity({
     displayName({ customNameOption, identity, shortenedAddress })
   )
 
-  const whichIdentity = async (addr) => {
+  const whichIdentity = async (addr: string) => {
     isFetchingIdentity.value = true
 
     // better if get data from indexer

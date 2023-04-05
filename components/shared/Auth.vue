@@ -12,6 +12,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { useIdentityStore } from '@/stores/identity'
 
 const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
@@ -31,12 +32,16 @@ export default class Auth extends Vue {
     }
   }
 
+  get identityStore() {
+    return useIdentityStore()
+  }
+
   set account(account: string) {
-    this.$store.dispatch('setAuth', { address: account })
+    this.identityStore.setAuth({ address: account })
   }
 
   get account() {
-    return this.$store.getters.getAuthAddress
+    return this.identityStore.getAuthAddress
   }
 }
 </script>

@@ -228,6 +228,7 @@ import AuthMixin from '~/utils/mixins/authMixin'
 import { useFiatStore } from '@/stores/fiat'
 import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
+import { useIdentityStore } from '@/stores/identity'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -280,16 +281,28 @@ export default class SimpleMint extends mixins(
   protected balanceNotEnough = false
   protected haveNoToS = false
 
-  private fiatStore = useFiatStore()
-  private pinningStore = usePinningStore()
-  private preferencesStore = usePreferencesStore()
-
   @Ref('nftUpload') readonly nftUpload
   @Ref('nftNameInput') readonly nftNameInput
   @Ref('nftSymbolInput') readonly nftSymbolInput
 
   layout() {
     return 'centered-half-layout'
+  }
+
+  get fiatStore() {
+    return useFiatStore()
+  }
+
+  get pinningStore() {
+    return usePinningStore()
+  }
+
+  get preferencesStore() {
+    return usePreferencesStore()
+  }
+
+  get identityStore() {
+    return useIdentityStore()
   }
 
   get balanceNotEnoughMessage() {
@@ -467,7 +480,7 @@ export default class SimpleMint extends mixins(
   }
 
   get balance(): string {
-    return this.$store.getters.getAuthBalance
+    return this.identityStore.getAuthBalance(this.urlPrefix)
   }
 
   get isMintDisabled(): boolean {

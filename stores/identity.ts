@@ -24,9 +24,9 @@ type ChangeAddressRequest = {
 
 export interface Auth {
   address: string
-  source: 'keyring' | 'extension' | 'ledger'
-  balance: BalanceMap
-  tokens: BalanceMap // <id, amount>
+  source?: 'keyring' | 'extension' | 'ledger'
+  balance?: BalanceMap
+  tokens?: BalanceMap // <id, amount>
 }
 
 export interface IdentityStruct {
