@@ -14,7 +14,7 @@
         {{ $t('flippers') }}
       </div>
     </div>
-    <div class="py-4 px-5 limit-height is-scrollable">
+    <div class="py-4 limit-height is-scrollable">
       <HoldersTab v-if="activeTab === Tabs.holders" :owners="owners" />
       <FlippersTab v-if="activeTab === Tabs.flippers" :flippers="flippers" />
     </div>

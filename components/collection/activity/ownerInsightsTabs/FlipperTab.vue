@@ -8,7 +8,7 @@
       :key="flipperId"
       class="hide-last-hr">
       <div class="is-flex is-flex-direction-column gap">
-        <div>
+        <div class="px-5">
           <ProfileLink
             :address="flipperId"
             :avatar-size="35"
@@ -65,7 +65,7 @@
           <NFTsDetaislDropdown :flips="flips" variant="Flippers" />
         </div>
       </div>
-      <hr class="my-3" />
+      <hr class="m-3" />
     </div>
   </div>
 </template>

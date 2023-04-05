@@ -2,7 +2,7 @@
   <div>
     <div v-for="[holderId, holdings] in holders" :key="holderId" class="">
       <div class="is-flex is-flex-direction-column gap">
-        <div>
+        <div class="px-5">
           <ProfileLink
             :address="holderId"
             :avatar-size="35"
@@ -49,7 +49,7 @@
           <NFTsDetaislDropdown :holder-nfts="holdings.nfts" variant="Holders" />
         </div>
       </div>
-      <hr class="my-3" />
+      <hr class="my-3 mx-5" />
     </div>
   </div>
 </template>
