@@ -70,6 +70,7 @@ import { tokenIdToRoute } from '@/components/unique/utils'
 import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { useIdentityStore } from '@/stores/identity'
 
 import Vue from 'vue'
 
@@ -91,10 +92,11 @@ const props = withDefaults(
 const { urlPrefix, client } = usePrefix()
 const { accountId } = useAuth()
 const root = ref<Vue<Record<string, string>>>()
-const { $store, $apollo, $i18n, $buefy, $route } = useNuxtApp()
+const { $apollo, $i18n, $buefy, $route } = useNuxtApp()
 const emit = defineEmits(['buy-success'])
 const actionLabel = $i18n.t('nft.action.buy')
 
+const identityStore = useIdentityStore()
 const { transaction, status, isLoading } = useTransaction()
 const connected = computed(() => Boolean(accountId.value))
 const active = ref(false)
@@ -102,11 +104,11 @@ const label = computed(() =>
   active.value ? $i18n.t('nft.action.confirm') : $i18n.t('nft.action.buy')
 )
 
-const balance = computed<string>(() => {
+const balance = computed(() => {
   if (['rmrk', 'rmrk2'].includes(urlPrefix.value)) {
-    return $store.getters.getAuthBalance
+    return identityStore.getAuthBalance
   }
-  return $store.getters.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
+  return identityStore.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
 })
 const disabled = computed(() => {
   if (!(props.nftPrice && balance.value) || !connected.value) {

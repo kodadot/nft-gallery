@@ -233,6 +233,7 @@ import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { useLangStore } from '@/stores/lang'
 import { useWalletStore } from '@/stores/wallet'
+import { useIdentityStore } from '@/stores/identity'
 
 const components = {
   Avatar,
@@ -275,6 +276,10 @@ export default class ProfileDropdown extends mixins(
     return langsFlagsList
   }
 
+  get identityStore() {
+    return useIdentityStore()
+  }
+
   get langStore() {
     return useLangStore()
   }
@@ -289,11 +294,11 @@ export default class ProfileDropdown extends mixins(
   }
 
   get account() {
-    return this.$store.getters.getAuthAddress
+    return this.identityStore.getAuthAddress
   }
 
   set account(account: string) {
-    this.$store.dispatch('setAuth', { address: account })
+    this.identityStore.setAuth({ address: account })
   }
 
   public toggleWalletConnectModal(): void {
@@ -320,7 +325,7 @@ export default class ProfileDropdown extends mixins(
   }
 
   public disconnect() {
-    this.$store.dispatch('setAuth', { address: '' }) // null not working
+    this.identityStore.resetAuth()
     clearSession()
   }
 

@@ -105,10 +105,10 @@ const SubmitButton = defineAsyncComponent(
 
 type IdentityFields = Record<string, string>
 
-const { $store, $i18n } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { apiUrl, apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
+const { accountId, balance } = useAuth()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
   useMetaTransaction()
 const identity = ref<Record<string, string>>({
@@ -187,8 +187,6 @@ const onSuccess = (block: string) => {
     notificationTypes.success
   )
 }
-
-const balance = computed(() => $store.getters.getAuthBalance)
 
 const disabled = computed(
   () => Object.values(identity.value).filter((val) => val).length === 0

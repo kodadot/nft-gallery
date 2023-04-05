@@ -89,6 +89,7 @@ import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { MIN_OFFER_PRICE } from '@/utils/constants'
+import { useIdentityStore } from '@/stores/identity'
 import Vue from 'vue'
 
 const Loader = defineAsyncComponent(
@@ -104,18 +105,19 @@ const props = defineProps<{
 
 const { apiInstance } = useApi()
 const { urlPrefix, tokenId } = usePrefix()
-const { $store, $route, $i18n, $buefy } = useNuxtApp()
+const { $route, $i18n, $buefy } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
 const { accountId } = useAuth()
 const { decimals } = useChain()
+const identityStore = useIdentityStore()
 const root = ref<Vue<Record<string, string>>>()
 const connected = computed(() => Boolean(accountId.value))
 
-const balance = computed<string>(() => {
+const balance = computed(() => {
   if (urlPrefix.value == 'rmrk' || urlPrefix.value == 'rmrk2') {
-    return $store.getters.getAuthBalance
+    return identityStore.getAuthBalance
   }
-  return $store.getters.getTokenBalanceOf(tokenId.value)
+  return identityStore.getTokenBalanceOf(tokenId.value)
 })
 const { data } = useGraphql({
   queryName: 'offerHighest',

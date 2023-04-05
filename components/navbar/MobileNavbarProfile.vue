@@ -26,6 +26,7 @@
 <script lang="ts" setup>
 import { clearSession } from '~/utils/cachingStrategy'
 import { NeoButton } from '@kodadot1/brick'
+import { useIdentityStore } from '@/stores/identity'
 
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/IdentityIndex.vue')
@@ -34,14 +35,15 @@ const ConnectWalletButton = defineAsyncComponent(
   () => import('@/components/shared/ConnectWalletButton.vue')
 )
 
-const { $store, $emit } = useNuxtApp()
-const account = $store.getters.getAuthAddress
+const { $emit } = useNuxtApp()
+const identityStore = useIdentityStore()
+const account = identityStore.getAuthAddress
 
 const closeBurgerMenu = (): void => {
   $emit('closeBurgerMenu')
 }
 const disconnect = () => {
-  $store.dispatch('setAuth', { address: '' }) // null not working
+  identityStore.resetAuth()
   clearSession()
 }
 </script>

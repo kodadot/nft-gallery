@@ -1,4 +1,5 @@
 import { Component, Vue } from 'nuxt-property-decorator'
+import { useIdentityStore } from '@/stores/identity'
 
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
@@ -7,15 +8,19 @@ import { Component, Vue } from 'nuxt-property-decorator'
  */
 @Component
 export default class AuthMixin extends Vue {
+  get identityStore() {
+    return useIdentityStore()
+  }
+
   get accountId() {
-    return this.$store.getters.getAuthAddress
+    return this.identityStore.getAuthAddress
   }
 
   get isLogIn() {
-    return Boolean(this.$store.getters.getAuthAddress)
+    return Boolean(this.identityStore.getAuthAddress)
   }
 
   get balance(): string {
-    return this.$store.getters.getAuthBalance
+    return String(this.identityStore.auth.balance) || '0'
   }
 }

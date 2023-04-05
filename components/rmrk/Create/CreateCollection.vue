@@ -106,7 +106,8 @@ export default class CreateCollection extends mixins(
   }
 
   get balance(): string {
-    return this.$store.getters.getAuthBalance
+    const { balance } = useAuth()
+    return balance.value
   }
 
   get isMintDisabled(): boolean {

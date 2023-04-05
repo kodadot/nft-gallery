@@ -1,4 +1,5 @@
 import { useFiatStore } from '@/stores/fiat'
+import { useIdentityStore } from '@/stores/identity'
 import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 
 export type Token = 'BSX' | 'KSM'
@@ -12,13 +13,13 @@ export const ksmToBsx = (value: number): number => {
 
 export const getBalance = (token?: Token): number => {
   const { balance } = useAuth()
-  const { $store } = useNuxtApp()
   const { tokenId } = usePrefix()
+  const identityStore = useIdentityStore()
 
   if (token === 'KSM') {
-    return $store.getters.getTokenBalanceOf(tokenId.value)
+    return Number(identityStore.getTokenBalanceOf(tokenId.value))
   }
-  return balance.value
+  return Number(balance.value)
 }
 
 export const getDeposit = (token: Token, depositInKSM: number): number => {

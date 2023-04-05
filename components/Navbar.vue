@@ -171,10 +171,11 @@ const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
 const route = useRoute()
 
-const account = computed(() => identityStore.auth.address)
+// const account = computed(() => identityStore.auth.address)
+const account = computed(() => identityStore.getAuthAddress)
+// const account = ref(identityStore.auth.address)
 
-watch(account, () => {
-  console.log('wtf')
+onMounted(() => {
   console.log(account)
 })
 
