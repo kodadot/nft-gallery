@@ -26,10 +26,7 @@
               {{ event.nft.name }}
             </div>
           </nuxt-link>
-          <div v-if="amount === blank">
-            {{ blank }}
-          </div>
-          <Money v-else :value="amount" />
+          <Money v-if="amount !== blank" :value="amount" />
         </div>
         <div
           class="is-flex is-justify-content-space-between is-align-items-center">
