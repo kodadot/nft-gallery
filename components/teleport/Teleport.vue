@@ -242,7 +242,7 @@ const sendXCM = async () => {
       resetStatus()
     },
     (dispatchError) => {
-      showNotification(dispatchError.toString(), notificationTypes.danger)
+      showNotification(dispatchError.toString(), notificationTypes.warn)
       isLoading.value = false
     },
     ({ txHash }) => {

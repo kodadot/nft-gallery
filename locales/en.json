@@ -15,9 +15,12 @@
   "account": "Account",
   "accounts": "Accounts",
   "amount": "Amount",
+  "uploaded": "uploaded",
+  "chooseFile": "Choose File",
   "transfer": "Transfer",
   "chart": "Chart",
   "holders": "Holders",
+  "flippers": "Flippers",
   "assets": "Assets",
   "incomingOffers": "Incoming Offers",
   "transform": "Transform",
@@ -59,6 +62,9 @@
   "createNftExplainer": "If your collection was minted recently and it doesn't show up here, please wait, it will show up in the selector below shortly",
   "passion": "Passion Feed",
   "beta": "Beta",
+  "go back": "Go Back",
+  "showMore": "Show More",
+  "showLess": "Show Less",
   "search": {
     "seeAll": "See All",
     "rankings": "Rankings",
@@ -564,7 +570,6 @@
       "sn_ASC": "Serial Number Ascending",
       "listed": "Buy now",
       "sortBy": "Sort By",
-
       "EMOTES_COUNT_DESC": "Most reacted",
       "BLOCK_NUMBER_DESC": "Recently Created",
       "BLOCK_NUMBER_ASC": "Oldest",
@@ -633,7 +638,10 @@
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
       "create": "Create collection",
-      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
+      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
+      "massmintDrop": "Drop your file here or click to upload.",
+      "formats": "Supported formats:",
+      "compressZip": "Compress your Art files into a .ZIP file."
     },
     "nft": {
       "name": {
@@ -687,7 +695,9 @@
     "invalidAmount": "Amount must be higher than 0.01 KSM",
     "haveNoToS": "Have no permission to use the asset",
     "smallDisplay": "Small Display",
-    "largeDisplay": "Large Display"
+    "largeDisplay": "Large Display",
+    "emptyAddress": "Receiver address cannot be empty",
+    "emptyListAmount": "Amount should be greater than 0"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
@@ -883,6 +893,9 @@
     "history": "History",
     "chart": "Chart"
   },
+  "time": {
+    "ago": "Ago"
+  },
   "activity": {
     "listed": "Listed",
     "totalItems": "Σ Items",
@@ -898,7 +911,25 @@
     "bestOffer": "Best Offer",
     "volume": "Volume",
     "network": "Network",
-    "creator": "Creator"
+    "creator": "Creator",
+    "owned": "Owned",
+    "totalBought": "Total Bought",
+    "totalSold": "Total Sold",
+    "date": "Date",
+    "bestFlip": "Best Flip",
+    "latestActivity": "LatestActivity",
+    "nftDetails": "NFT Details",
+    "profit": "Profit",
+    "bought": "Bought",
+    "sold": "Sold",
+    "event": {
+      "item": "Item",
+      "event": "Event",
+      "amount": "Amount",
+      "from": "From",
+      "to": "To",
+      "time": "Time"
+    }
   },
   "profileStats": {
     "listed": "Listed",
@@ -976,7 +1007,7 @@
     "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction."
   },
   "cookies": {
-    "notice": "We use third-party 🍪 in order to personalize your site experience",
+    "notice": "We use cookies for better service",
     "accept": "Accept",
     "decline": "Decline"
   },
@@ -1135,14 +1166,12 @@
     "qrCode": "QR Code",
     "twitter": "Share on Twitter"
   },
-
   "moreActions": {
     "download": "Download",
     "reportNFT": "Report NFT",
     "delete": "Delete",
     "customize": "Customize"
   },
-
   "collectionCard": {
     "volume": "Volume",
     "items": "Items"
@@ -1254,7 +1283,22 @@
           "content": "In order to use the Mass Mint feature **you need to have an NFT collection created**\nto which you will mint all of your NFTs.\n\nIf you don’t have a collection created yet, you will be able to create one in the Miss Mint."
         }
       }
-    }
+    },
+    "uploadPics": "Upload Pictures",
+    "uploadDesc": "Upload Description File (Optional)"
+  },
+  "filters": {
+    "sale": "Sale",
+    "offer": "Offer",
+    "listing": "Listing",
+    "mint": "Mint",
+    "transfer": "Transfer"
+  },
+  "redirect":{
+    "title":"Leaving Kodadot",
+    "leavingTips":"You are going outside KodaDot to external website",
+    "safetyTips":"Be sure that it's safe!",
+    "continue":"Continue",
+    "stay":"Stay"
   }
-
 }

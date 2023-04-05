@@ -13,7 +13,7 @@
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
 
-    <DynamicGrid v-slot="slotProps" :class="scrollContainerId" class="mt-5">
+    <DynamicGrid :id="scrollContainerId" v-slot="slotProps" class="mt-5">
       <div
         v-for="(nft, index) in nfts"
         :key="`${nft.id}=${index}`"
@@ -26,6 +26,8 @@
           " />
       </div>
     </DynamicGrid>
+    <EmptyResult v-if="total === 0" />
+    <ScrollTopButton />
   </div>
 </template>
 

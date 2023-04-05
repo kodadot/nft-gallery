@@ -46,7 +46,7 @@ function useSearchOwner() {
 
   return {
     owner: computed(() => {
-      return route.query.owned && accountId.value
+      return route.query.owned === 'true' && accountId.value
         ? [{ currentOwner_eq: accountId.value }]
         : []
     }),

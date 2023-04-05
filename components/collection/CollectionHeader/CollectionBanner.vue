@@ -16,7 +16,7 @@
           </div>
           <h1 class="collection-banner-name">{{ collectionName }}</h1>
         </div>
-        <HeroButtons class="is-align-self-flex-end" />
+        <HeroButtons class="is-hidden-mobile is-align-self-flex-end" />
       </div>
     </section>
   </div>
@@ -26,8 +26,10 @@
 import type { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import HeroButtons from './HeroButtons.vue'
+import HeroButtons from '@/components/collection/HeroButtons.vue'
+import { generateCollectionImage } from '@/utils/seoImageGenerator'
 
+const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const { data } = useGraphql({
   queryName: 'collectionById',
@@ -61,6 +63,24 @@ watchEffect(async () => {
       collectionAvatar.value = metaImage
     }
   }
+})
+
+const meta = computed(() => {
+  return $seoMeta({
+    title: collectionName.value,
+    type: 'profile',
+    description: data.value?.collectionEntity.meta?.description,
+    url: route.path,
+    image: generateCollectionImage(
+      collectionName.value,
+      data.value?.nftEntitiesConnection.totalCount,
+      collectionAvatar.value
+    ),
+  })
+})
+useNuxt2Meta({
+  title: collectionName,
+  meta,
 })
 </script>
 
@@ -112,6 +132,7 @@ watchEffect(async () => {
       display: block;
       width: 5.5rem;
       height: 5.5rem;
+      border: 1px solid;
     }
   }
 

@@ -125,7 +125,7 @@ export default class Appreciation extends mixins(
         )
       })
     } catch (e) {
-      showNotification(`[ERR] ${e}`, notificationTypes.danger)
+      showNotification(`[ERR] ${e}`, notificationTypes.warn)
       this.$consola.error(e)
     }
   }

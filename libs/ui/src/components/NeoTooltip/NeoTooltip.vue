@@ -1,7 +1,7 @@
 <template>
   <o-tooltip
     v-if="active"
-    append-to-body
+    :append-to-body="appendToBody"
     class="neo-tooltip"
     :position="position"
     :label="label"
@@ -24,10 +24,12 @@ export interface Props {
   label: string | LocaleMessage
   position?: 'top' | 'bottom' | 'left' | 'right'
   active?: boolean
+  appendToBody?: boolean
 }
 withDefaults(defineProps<Props>(), {
   position: 'top',
   active: true,
+  appendToBody: true,
 })
 </script>
 

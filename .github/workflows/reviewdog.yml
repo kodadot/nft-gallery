@@ -11,27 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: latest
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-
-      - name: Install Dependencies
-        run: pnpm install
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
 
       - name: Run eslint with reviewdog
         uses: reviewdog/action-eslint@v1.16.0

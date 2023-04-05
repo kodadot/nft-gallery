@@ -2,6 +2,7 @@
   <div
     class="is-flex is-justify-content-space-between mobile-flex-direction-column gap">
     <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
+      <HeroButtons class="is-hidden-tablet" />
       <div v-if="collectionInfo?.currentOwner" class="is-flex mb-2">
         <div class="mr-2">{{ $t('activity.creator') }}</div>
         <nuxt-link :to="`/${urlPrefix}/u/${address}`" class="has-text-link">
@@ -9,19 +10,26 @@
         </nuxt-link>
       </div>
       <div class="overflow-wrap">
-        {{ collectionInfo?.meta.description }}
+        <vue-markdown
+          class="collection-info-markdown"
+          :source="visibleDescription" />
       </div>
+      <NeoButton
+        v-if="hasSeeAllDescriptionOption"
+        class="no-shadow is-text is-underlined has-text-left p-0"
+        :label="seeAllDescription ? $t('showLess') : $t('showMore')"
+        @click.native="toggleSeeAllDescription" />
     </div>
     <div>
-      <div class="columns is-mobile">
-        <div class="column">
+      <div class="is-flex gap mobile-flex-direction-column mobile-no-gap">
+        <div>
           <CollectionInfoLine :title="$t('activity.network')" :value="chain" />
           <CollectionInfoLine title="Items" :value="stats.collectionLength" />
           <CollectionInfoLine
             :title="$t('series.owners')"
             :value="stats.uniqueOwners" />
         </div>
-        <div class="column">
+        <div>
           <CollectionInfoLine :title="$t('activity.floor')">
             <CommonTokenMoney
               :value="stats.collectionFloorPrice"
@@ -45,30 +53,72 @@
   </div>
 </template>
 <script setup lang="ts">
+import VueMarkdown from 'vue-markdown-render'
 import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
+import HeroButtons from '@/components/collection/HeroButtons.vue'
+import { NeoButton } from '@kodadot1/brick'
+
 import {
   useCollectionDetails,
   useCollectionMinimal,
 } from './utils/useCollectionDetails'
 
+import { useRedirectModal } from '@/components/redirect/useRedirectModal'
+
+useRedirectModal('.collection-info-markdown')
+
+const stats = ref()
+const collectionInfo = ref()
+
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
-
 const collectionId = computed(() => route.params.id)
 const chain = computed(
   () =>
     availableChains.value.find((chain) => chain.value === route.params.prefix)
-      .text
+      ?.text
 )
 const address = computed(() => collectionInfo.value?.currentOwner)
+const seeAllDescription = ref(false)
+const DESCRIPTION_MAX_LENGTH = 210
 
-const { collection: collectionInfo } = useCollectionMinimal({
-  collectionId: collectionId.value,
+const toggleSeeAllDescription = () => {
+  seeAllDescription.value = !seeAllDescription.value
+}
+
+const hasSeeAllDescriptionOption = computed(() => {
+  return (
+    (collectionInfo.value?.meta?.description?.length || 0) >
+    DESCRIPTION_MAX_LENGTH
+  )
 })
-const { stats } = useCollectionDetails({ collectionId: collectionId.value })
+
+const visibleDescription = computed(() => {
+  const desc = collectionInfo.value?.meta?.description
+
+  return (
+    (!hasSeeAllDescriptionOption.value || seeAllDescription.value
+      ? desc
+      : desc?.slice(0, DESCRIPTION_MAX_LENGTH)
+    )?.replaceAll('\n', '  \n') || ''
+  )
+})
+
+const getData = () => {
+  const { stats: statsData } = useCollectionDetails({
+    collectionId: collectionId.value,
+  })
+  stats.value = statsData
+  const { collection: collectionData } = useCollectionMinimal({
+    collectionId: collectionId.value,
+  })
+  collectionInfo.value = collectionData
+}
+
+watch(collectionId, getData, { immediate: true })
 </script>
 
 <style lang="scss" scoped>
@@ -86,6 +136,9 @@ const { stats } = useCollectionDetails({ collectionId: collectionId.value })
     flex-direction: column;
   }
 
+  .mobile-no-gap {
+    gap: 0;
+  }
   .max-width {
     max-width: 100%;
   }

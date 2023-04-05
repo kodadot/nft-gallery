@@ -12,13 +12,18 @@ import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import { preheatFileFromIPFS } from '@/utils/ipfs'
 import { ActionMintToken } from '../types'
 
-export async function constructMeta(item: ActionMintToken): Promise<string> {
+export async function constructMeta(
+  item: ActionMintToken,
+  options?: {
+    enableCarbonOffset?: boolean
+  }
+): Promise<string> {
   const pinningStore = usePinningStore()
   const preferencesStore = usePreferencesStore()
   const { accountId } = useAuth()
   const { $consola } = useNuxtApp()
   const { file, name, description, secondFile, tags, nsfw } = item.token
-
+  const { enableCarbonOffset = false } = options || {}
   if (!file) {
     throw new ReferenceError('No file found!')
   }
@@ -41,7 +46,9 @@ export async function constructMeta(item: ActionMintToken): Promise<string> {
   const attributes = [
     ...(tags || []),
     ...nsfwAttribute(nsfw),
-    ...offsetAttribute(preferencesStore.getHasCarbonOffset),
+    ...(enableCarbonOffset
+      ? offsetAttribute(preferencesStore.getHasCarbonOffset)
+      : []),
   ]
 
   const meta = createMetadata(

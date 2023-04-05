@@ -1,0 +1,32 @@
+query collectionActivityEvents($id: String!) {
+  collection: collectionEntityById(id: $id) {
+    id
+    nfts {
+      events(orderBy: timestamp_ASC) {
+        timestamp
+        meta
+        interaction
+        id
+        caller
+        currentOwner
+      }
+      offers {
+        caller
+        expiration
+        status
+        price
+        updatedAt
+      }
+      currentOwner
+      name
+      price
+      metadata
+      meta {
+        id
+        image
+      }
+      updatedAt
+      id
+    }
+  }
+}

@@ -1,4 +1,8 @@
 import { ENDPOINTS } from '@kodadot1/vuex-options'
+import { chainList } from '@kodadot1/static'
+import { disableChainListOnProductionEnv } from './constants'
+
+import type { Option } from '@kodadot1/static'
 
 const prefixes: Record<string, number> = {
   polkadot: 0,
@@ -80,4 +84,18 @@ export const getChainNameByPrefix = (prefix: string) => {
     return 'kusama'
   }
   return prefix
+}
+
+export const isProduction = window.location.host === 'kodadot.xyz'
+
+export const availablePrefixes = (): Option[] => {
+  const chains = chainList()
+
+  if (window.location.hostname === 'kodadot.xyz') {
+    return chains.filter(
+      (chain) => !disableChainListOnProductionEnv.includes(String(chain.value))
+    )
+  }
+
+  return chains
 }

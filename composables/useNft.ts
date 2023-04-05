@@ -1,6 +1,7 @@
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
+import { getMimeType } from '@/utils/gallery/media'
 
 export type ItemResources = {
   mediaUri?: string
@@ -24,13 +25,16 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
   }
 }
 
-function getRmrk2Resources(nft: NFTWithMetadata) {
+async function getRmrk2Resources(nft: NFTWithMetadata) {
   const thumb = nft.resources && nft.resources[0].thumb
   const src = nft.resources && nft.resources[0].src
+  const image = sanitizeIpfsUrl(thumb || src || '')
+  const type = await getMimeType(image)
 
   return {
     ...getGeneralMetadata(nft),
-    image: sanitizeIpfsUrl(thumb || src || ''),
+    image,
+    type,
   }
 }
 
@@ -59,7 +63,7 @@ export async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
 
   // if it's rmrk2, we need to check `resources` field
   if (prefix === 'rmrk2' && nft.resources?.length) {
-    return getRmrk2Resources(nft)
+    return await getRmrk2Resources(nft)
   }
 
   return await getProcessMetadata(nft)

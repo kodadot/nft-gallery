@@ -98,7 +98,9 @@ import VueMarkdown from 'vue-markdown-render'
 import { DisablableTab } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
+import { useRedirectModal } from '@/components/redirect/useRedirectModal'
 
+useRedirectModal('.gallery-item-desc-markdown')
 const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
@@ -117,7 +119,15 @@ const properties = computed(() => {
     )
   }
 
-  return nftMetadata.value?.attributes
+  const attributes = (nftMetadata.value?.attributes ||
+    nftMetadata.value?.meta.attributes ||
+    []) as Array<{ trait_type: string; value: string; key?: string }>
+  return attributes.map((attr) => {
+    return {
+      trait_type: attr.trait_type || attr.key,
+      value: attr.value,
+    }
+  })
 })
 
 const propertiesTabDisabled = computed(() => {
