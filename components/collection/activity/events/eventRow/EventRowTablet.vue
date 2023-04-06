@@ -26,7 +26,7 @@
               {{ event.nft.name }}
             </div>
           </nuxt-link>
-          <Money v-if="amount !== blank" :value="amount" />
+          <CommonTokenMoney v-if="amount !== blank" :value="amount" />
         </div>
         <div
           class="is-flex is-justify-content-space-between is-align-items-center">
@@ -76,7 +76,6 @@ import {
   InteractionWithNFT,
   Offer,
 } from '@/composables/collectionActivity/types'
-import Money from '@/components/shared/format/ChainMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import {
