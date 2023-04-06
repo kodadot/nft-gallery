@@ -10,9 +10,7 @@
         </nuxt-link>
       </div>
       <div class="overflow-wrap">
-        <vue-markdown
-          class="collection-info-markdown"
-          :source="visibleDescription" />
+        <Markdown :source="visibleDescription" />
       </div>
       <NeoButton
         v-if="hasSeeAllDescriptionOption"
@@ -53,7 +51,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import VueMarkdown from 'vue-markdown-render'
 import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
@@ -64,10 +61,6 @@ import {
   useCollectionDetails,
   useCollectionMinimal,
 } from './utils/useCollectionDetails'
-
-import { useRedirectModal } from '@/components/redirect/useRedirectModal'
-
-useRedirectModal('.collection-info-markdown')
 
 const stats = ref()
 const collectionInfo = ref()
