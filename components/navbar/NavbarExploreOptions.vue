@@ -19,7 +19,7 @@
       <span
         v-for="option in filteredChains"
         :key="option.value"
-        :class="['menu-item', 'mr-2']"
+        :class="menu-item mr-2"
         :value="option.value"
         @click="setSelectedChain(option.value)">
         {{ option.text }}
