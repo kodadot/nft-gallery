@@ -1,7 +1,8 @@
 import { Event, FilterOption } from './types'
+import { Interaction as _Interaction } from '@kodadot1/minimark'
 
 export const Interaction = {
-  SALE: 'SALE',
+  SALE: _Interaction.BUY,
   OFFER: 'OFFER',
   ACCEPTED_OFFER: 'ACCEPTED_OFFER',
 }
