@@ -1,10 +1,22 @@
 import { Event, FilterOption } from './types'
 import { Interaction as _Interaction } from '@kodadot1/minimark'
+import { sortedEventByDate } from '@/utils/sorting'
 
 export const Interaction = {
   SALE: _Interaction.BUY,
-  OFFER: 'OFFER',
-  ACCEPTED_OFFER: 'ACCEPTED_OFFER',
+  OFFER: 'CREATE',
+  ACCEPTED_OFFER: 'ACCEPT',
+}
+
+export const getInteractionName = (key: string) => {
+  const { $i18n } = useNuxtApp()
+  const nampMap = {
+    [Interaction.SALE]: $i18n.t('filters.sale'),
+    [Interaction.OFFER]: $i18n.t('filters.offer'),
+    [Interaction.ACCEPTED_OFFER]: $i18n.t('filters.acceptedOffer'),
+  }
+
+  return nampMap[key]
 }
 
 export const useNotification = (account: string) => {
@@ -18,15 +30,11 @@ export const useNotification = (account: string) => {
       account,
     },
   })
-  const { data: eventsData } = useGraphql({
-    queryName: 'eventListByAccount',
+
+  const { data: eventData } = useGraphql({
+    queryName: 'notificationsByAccount',
     variables: {
       account,
-      interaction: [
-        Interaction.SALE,
-        Interaction.OFFER,
-        Interaction.ACCEPTED_OFFER,
-      ],
     },
   })
 
@@ -34,8 +42,18 @@ export const useNotification = (account: string) => {
     collections.value = result.collectionEntities ?? []
   })
 
-  watch(eventsData, (result) => {
-    events.value = result.events ?? []
+  watch(eventData, (result) => {
+    const offerEvents = result.offerEvents.map((event) => ({
+      ...event,
+      nft: {
+        ...event.offer.nft,
+        price: event.offer.price,
+      },
+    }))
+    events.value = sortedEventByDate(
+      [...result.events, ...offerEvents],
+      'ASC'
+    ) as unknown as Event[]
   })
 
   return {

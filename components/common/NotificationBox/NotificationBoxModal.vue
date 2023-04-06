@@ -56,14 +56,14 @@
             }}</span>
             <div class="is-flex is-flex-wrap-wrap filter-list">
               <div
-                v-for="(item, index) in eventTypes"
-                :key="`${item}-${index}`"
+                v-for="event in eventTypes"
+                :key="event"
                 class="filter-item button-rounded px-3 py-1 no-wrap"
                 :class="{
-                  activated: eventFilter.some((x) => x.id === item.id),
+                  activated: eventFilter.includes(event),
                 }"
-                @click="toggleEventFilter(item)">
-                {{ item.name }}
+                @click="toggleEventFilter(event)">
+                {{ getInteractionName(event) }}
               </div>
             </div>
           </div>
@@ -78,10 +78,10 @@
             </NeoTag>
             <NeoTag
               v-for="event in eventFilter"
-              :key="event.id"
+              :key="event"
               class="no-wrap mb-1 mr-1"
               @close="toggleEventFilter(event)">
-              {{ event.name }}
+              {{ getInteractionName(event) }}
             </NeoTag>
           </div>
         </div>
@@ -105,23 +105,18 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 
 import NotificationItem from './NotificationItem.vue'
-import { Interaction, useNotification } from './useNotification'
+import {
+  Interaction,
+  getInteractionName,
+  useNotification,
+} from './useNotification'
 
-const { $i18n, $store } = useNuxtApp()
+const { $store } = useNuxtApp()
 
-const eventTypes = ref<FilterOption[]>([
-  {
-    id: Interaction.SALE,
-    name: $i18n.t('filters.sale'),
-  },
-  {
-    id: Interaction.OFFER,
-    name: $i18n.t('filters.offer'),
-  },
-  {
-    id: Interaction.ACCEPTED_OFFER,
-    name: $i18n.t('filters.acceptedOffer'),
-  },
+const eventTypes = ref<string[]>([
+  Interaction.SALE,
+  Interaction.OFFER,
+  Interaction.ACCEPTED_OFFER,
 ])
 
 const { collections, events: allEvents } = useNotification(
@@ -137,11 +132,9 @@ const toggleCollectionFilter = (target: FilterOption) => {
   }
 }
 
-const eventFilter = ref<FilterOption[]>([])
-const toggleEventFilter = (target: FilterOption) => {
-  const index = eventFilter.value.findIndex(
-    (x: FilterOption) => x.id === target.id
-  )
+const eventFilter = ref<string[]>([])
+const toggleEventFilter = (target) => {
+  const index = eventFilter.value.findIndex((x) => x === target)
   if (index === -1) {
     eventFilter.value.push(target)
   } else {
@@ -162,7 +155,7 @@ const doSearch = () => {
       (!collectionFilter.value ||
         collectionFilter.value.id === item.nft.collection.id) &&
       (eventFilter.value.length === 0 ||
-        eventFilter.value.some((x) => x.id === item.interaction))
+        eventFilter.value.some((x) => x === item.interaction))
   )
 }
 

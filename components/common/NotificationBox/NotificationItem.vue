@@ -30,7 +30,7 @@
             <div
               class="event-type mr-4 border is-size-7 is-justify-content-center px-4 py-1 is-flex is-align-items-center"
               :class="getInteractionColor(event.interaction)">
-              {{ event.interaction }}
+              {{ getInteractionName(event.interaction) }}
             </div>
           </div>
         </div>
@@ -44,6 +44,7 @@
 
 <script setup lang="ts">
 import { Event } from './types'
+import { getInteractionName } from './useNotification'
 import { InteractionWithNFT } from '@/composables/collectionActivity/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { formatToNow } from '@/utils/format/time'

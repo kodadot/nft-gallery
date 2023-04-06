@@ -1,0 +1,57 @@
+query notificationsByAccount($account: String!, $limit: Int = 30) {
+  # get sale event
+  events(
+    limit: $limit
+    where: { currentOwner_eq: $account, interaction_eq: BUY }
+    orderBy: timestamp_DESC
+  ) {
+    id
+    interaction
+    timestamp
+    currentOwner
+    nft {
+      name
+      id
+      metadata
+      price
+      meta {
+        id
+        image
+      }
+      collection {
+        id
+      }
+    }
+  }
+  # get offer and offer_accept events
+  offerEvents(
+    limit: $limit
+    where: {
+      currentOwner_eq: $account
+      AND: { interaction_eq: CREATE, AND: { offer: { status_eq: ACTIVE } } }
+      OR: { interaction_eq: ACCEPT, AND: { offer: { status_eq: ACCEPTED } } }
+    }
+    orderBy: timestamp_DESC
+  ) {
+    id
+    interaction
+    timestamp
+    currentOwner
+    offer {
+      price
+      nft {
+        name
+        id
+        metadata
+        price
+        meta {
+          id
+          image
+        }
+        collection {
+          id
+        }
+      }
+    }
+  }
+}
