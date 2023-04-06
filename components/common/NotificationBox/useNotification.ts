@@ -22,7 +22,6 @@ export const getInteractionName = (key: string) => {
 export const useNotification = (account: string) => {
   const collections = ref<FilterOption[]>([])
   const events = ref<Event[]>([])
-  const nfts = ref([])
 
   const { data: collectionData } = useGraphql({
     queryName: 'collectionByAccount',
@@ -59,6 +58,5 @@ export const useNotification = (account: string) => {
   return {
     collections,
     events,
-    nfts,
   }
 }

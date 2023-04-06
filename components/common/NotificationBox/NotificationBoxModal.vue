@@ -119,9 +119,8 @@ const eventTypes = ref<string[]>([
   Interaction.ACCEPTED_OFFER,
 ])
 
-const { collections, events: allEvents } = useNotification(
-  $store.getters.getAuthAddress
-)
+const collections = ref<FilterOption[]>([])
+const allEvents = ref<Event[]>([])
 
 const collectionFilter = ref<FilterOption | null>(null)
 const toggleCollectionFilter = (target: FilterOption) => {
@@ -159,6 +158,13 @@ const doSearch = () => {
   )
 }
 
+const getNotifications = () => {
+  const { collections: collectionData, events: allEventsData } =
+    useNotification($store.getters.getAuthAddress)
+  collections.value = collectionData as unknown as FilterOption[]
+  allEvents.value = allEventsData as unknown as Event[]
+}
+
 watch(allEvents, doSearch, {
   immediate: true,
 })
@@ -166,6 +172,8 @@ watch(allEvents, doSearch, {
 watch(collectionFilter, doSearch, { deep: true })
 watch(eventFilter, doSearch, { deep: true })
 
+const { urlPrefix } = usePrefix()
+watch(urlPrefix, getNotifications, { immediate: true })
 const emit = defineEmits(['close'])
 </script>
 
