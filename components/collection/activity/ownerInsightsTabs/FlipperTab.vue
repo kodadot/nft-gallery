@@ -13,7 +13,7 @@
             :address="flipperId"
             :avatar-size="35"
             class="has-text-weight-bold" />
-          <div class="is-flex is-justify-content-space-between">
+          <div class="is-flex is-justify-content-space-between mt-2">
             <span class="is-size-7 has-text-grey">{{
               $t('activity.owned')
             }}</span>
@@ -23,13 +23,13 @@
             <span class="is-size-7 has-text-grey">{{
               $t('activity.totalBought')
             }}</span>
-            <Money :value="totalBought" />
+            <CommonTokenMoney :value="totalBought" />
           </div>
           <div class="is-flex is-justify-content-space-between">
             <span class="is-size-7 has-text-grey">{{
               $t('activity.totalSold')
             }}</span>
-            <Money :value="totalsold" />
+            <CommonTokenMoney :value="totalsold" />
           </div>
           <div class="is-flex is-justify-content-space-between">
             <span class="is-size-7 has-text-grey">{{
@@ -65,14 +65,13 @@
           <NFTsDetaislDropdown :flips="flips" variant="Flippers" />
         </div>
       </div>
-      <hr class="my-3" />
+      <hr class="my-3 mx-5" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
-import Money from '@/components/shared/format/ChainMoney.vue'
 import { NeoIcon } from '@kodadot1/brick'
 import { format } from '@/components/collection/activity/utils'
 

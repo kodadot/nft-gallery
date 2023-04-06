@@ -1,6 +1,6 @@
 <template>
   <div v-if="route.name?.includes('prefix-collection-id')">
-    <NeoTooltip label="Coming Soon" position="bottom">
+    <NeoTooltip label="Coming Soon" position="bottom" :append-to-body="false">
       <NeoButton label="Make Collection Offer" disabled class="offer w-100" />
     </NeoTooltip>
   </div>
