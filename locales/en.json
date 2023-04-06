@@ -1310,6 +1310,7 @@
     "done": "Done",
     "byCollection": "By collection",
     "byEvent": "By event",
-    "emptyTip": "Don't wait for notifications, <br/>make your own buzz with your art."
+    "emptyTipLine1": "Don't wait for notifications,",
+    "emptyTipLine2": "make your own buzz with your art."
   }
 }

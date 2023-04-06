@@ -87,7 +87,8 @@
         </div>
       </div>
       <div v-if="displayedEvents.length === 0" class="empty-tip">
-        <p v-html="$t('notification.emptyTip')"></p>
+        <p>{{ $t('notification.emptyTipLine1') }}</p>
+        <p>{{ $t('notification.emptyTipLine2') }}</p>
       </div>
       <div v-else class="is-flex is-flex-direction-column">
         <NotificationItem
