@@ -10,9 +10,7 @@
         </nuxt-link>
       </div>
       <div class="overflow-wrap">
-        <vue-markdown
-          class="collection-info-markdown"
-          :source="visibleDescription" />
+        <Markdown :source="visibleDescription" />
       </div>
       <NeoButton
         v-if="hasSeeAllDescriptionOption"
@@ -53,7 +51,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import VueMarkdown from 'vue-markdown-render'
 import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
@@ -65,9 +62,9 @@ import {
   useCollectionMinimal,
 } from './utils/useCollectionDetails'
 
-import { useRedirectModal } from '@/components/redirect/useRedirectModal'
+const stats = ref()
+const collectionInfo = ref()
 
-useRedirectModal('.collection-info-markdown')
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
@@ -80,9 +77,6 @@ const chain = computed(
 const address = computed(() => collectionInfo.value?.currentOwner)
 const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210
-const { collection: collectionInfo } = useCollectionMinimal({
-  collectionId: collectionId.value,
-})
 
 const toggleSeeAllDescription = () => {
   seeAllDescription.value = !seeAllDescription.value
@@ -106,7 +100,18 @@ const visibleDescription = computed(() => {
   )
 })
 
-const { stats } = useCollectionDetails({ collectionId: collectionId.value })
+const getData = () => {
+  const { stats: statsData } = useCollectionDetails({
+    collectionId: collectionId.value,
+  })
+  stats.value = statsData
+  const { collection: collectionData } = useCollectionMinimal({
+    collectionId: collectionId.value,
+  })
+  collectionInfo.value = collectionData
+}
+
+watch(collectionId, getData, { immediate: true })
 </script>
 
 <style lang="scss" scoped>
