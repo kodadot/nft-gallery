@@ -143,6 +143,7 @@ const getPriceChartData = () => {
         radius: 0,
         pointStyle: 'rect',
         borderWidth: 1,
+        lineTension: 0,
       }
       const chart = new ChartJS(ctx, {
         type: 'line',
@@ -177,7 +178,6 @@ const getPriceChartData = () => {
               },
             },
           },
-
           plugins: {
             customCanvasBackgroundColor: {
               color: isDarkMode.value ? '#181717' : 'white',
@@ -246,7 +246,7 @@ const getPriceChartData = () => {
                 callback: (value) => {
                   return `${Number(value).toFixed(2)}  `
                 },
-                stepSize: 4,
+                stepSize: 3,
                 color: lineColor.value,
               },
               grid: {

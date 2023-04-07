@@ -852,7 +852,7 @@
   },
   "hot": {
     "label": "Hot",
-    "title": "Recently KUSAMA Sales In One Week",
+    "title": "Recent KUSAMA Sales In One Week",
     "subtitle": "Featuring the recently sold NFTs on Kusama"
   },
   "spotlight": {
@@ -1293,5 +1293,12 @@
     "listing": "Listing",
     "mint": "Mint",
     "transfer": "Transfer"
+  },
+  "redirect":{
+    "title":"Leaving Kodadot",
+    "leavingTips":"You are going outside KodaDot to external website",
+    "safetyTips":"Be sure that it's safe!",
+    "continue":"Continue",
+    "stay":"Stay"
   }
 }
