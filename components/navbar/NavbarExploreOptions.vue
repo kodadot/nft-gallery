@@ -15,30 +15,31 @@
       </span>
     </span>
     <hr aria-role="menuitem" class="dropdown-divider my-4" />
-    <span
-      v-for="option in availableChains.slice(0, 3)"
-      :key="option.value"
-      :class="[
-        'menu-item',
-        'mr-2',
-        { 'is-active': selectedChain === option.value },
-      ]"
-      :value="option.value"
-      @click="setSelectedChain(option.value)">
-      {{ option.text }}
-    </span>
+    <div>
+      <span
+        v-for="option in filteredChains"
+        :key="option.value"
+        class="menu-item mr-2"
+        :value="option.value"
+        @click="setSelectedChain(option.value)">
+        {{ option.text }}
+      </span>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-const { $store, $router } = useNuxtApp()
+const { $router } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
 
-const selectedChain = $store.getters.getSettings['urlPrefix']
+const filteredChains = computed(() => {
+  return availableChains?.value.filter((chain) => {
+    return ['rmrk2', 'bsx', 'rmrk'].includes(chain.value)
+  })
+})
 
 const setSelectedChain = (value) => {
-  $store.dispatch('setUrlPrefix', value)
-  $router.push({ path: `/${value}` })
+  $router.push({ path: `/${value}/explore` })
 }
 </script>

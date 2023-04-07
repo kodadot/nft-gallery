@@ -29,8 +29,8 @@ const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
 )
 
 export const CHAINS: Config<ChainProperties> = {
+  rmrk: DEFAULT_CHAIN_PROPERTIES,
   ksm: DEFAULT_CHAIN_PROPERTIES,
-  rmrk2: DEFAULT_CHAIN_PROPERTIES,
   bsx: toChainProperty(10_041, 12, 'BSX', 'https://basilisk.subscan.io/'),
   snek: toChainProperty(
     10_041,
@@ -44,29 +44,32 @@ export const CHAINS: Config<ChainProperties> = {
 
 export const chainPrefixes: Prefix[] = [
   'bsx',
-  'ksm',
+  'rmrk',
   'snek',
   'movr',
   'glmr',
-  'rmrk2',
+  'ksm',
 ]
 
 export const chainInfo = {
   bsx: 'basilisk',
-  ksm: 'kusama',
+  rmrk: 'kusama',
   snek: 'snek',
   movr: 'moonriver',
   glmr: 'moonbeam',
-  rmrk2: 'rmrk',
+  ksm: 'rmrk',
 }
 
 export const chainList = (): Option[] => {
   return chainPrefixes.map((prefix) => ({
     info: chainInfo[prefix],
     text: NAMES[prefix],
-    value: prefix === 'ksm' ? 'rmrk' : prefix,
+    value: prefix === 'ksm' ? 'rmrk2' : prefix,
   }))
 }
 
-export const oldKsm = (prefix: BackwardPrefix): Prefix =>
-  prefix === 'rmrk' ? 'ksm' : prefix
+// TODO: our url prefix still rmrk2
+// e.g: https://kodadot.xyz/rmrk2/explore/items
+export const rmrk2ToKsm = (prefix: BackwardPrefix): Prefix => {
+  return prefix === 'rmrk2' ? 'ksm' : prefix
+}
