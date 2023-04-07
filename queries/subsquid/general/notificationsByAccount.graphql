@@ -22,8 +22,11 @@ query notificationsByAccount($account: String!, $limit: Int = 30) {
     limit: $limit
     where: {
       currentOwner_eq: $account
-      AND: { interaction_eq: CREATE, AND: { offer: { status_eq: ACTIVE } } }
-      OR: { interaction_eq: ACCEPT, AND: { offer: { status_eq: ACCEPTED } } }
+      AND: {
+        interaction_eq: CREATE
+        offer: { status_eq: ACTIVE }
+        OR: { interaction_eq: ACCEPT, offer: { status_eq: ACCEPTED } }
+      }
     }
     orderBy: timestamp_DESC
   ) {
