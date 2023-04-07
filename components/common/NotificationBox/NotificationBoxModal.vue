@@ -173,8 +173,9 @@ watch(allEvents, doSearch, {
 watch(collectionFilter, doSearch, { deep: true })
 watch(eventFilter, doSearch, { deep: true })
 
-const { urlPrefix } = usePrefix()
-watch(urlPrefix, getNotifications, { immediate: true })
+watch(() => $store.getters.currentUrlPrefix, getNotifications, {
+  immediate: true,
+})
 const emit = defineEmits(['close'])
 </script>
 
