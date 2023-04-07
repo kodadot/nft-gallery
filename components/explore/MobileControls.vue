@@ -2,7 +2,8 @@
   <div class="explore is-flex is-flex-wrap-wrap">
     <ExploreTabs />
     <div class="explore-menu is-flex">
-      <FilterMenuButton />
+      <FilterMenuButton v-if="!isActivityTab" />
+      <FilterFloatButton v-if="isActivityTab" />
       <ExploreOffer v-if="!isActivityTab" class="is-flex-grow-1" />
       <ExploreChain
         v-if="!route.name?.includes('prefix-collection-id')"
@@ -18,6 +19,7 @@ import ExploreSort from './ExploreSort.vue'
 import ExploreChain from './ExploreChain.vue'
 import ExploreOffer from './ExploreOffer.vue'
 import FilterMenuButton from './FilterMenuButton.vue'
+import FilterFloatButton from './FilterFloatButton.vue'
 
 const route = useRoute()
 
