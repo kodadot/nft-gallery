@@ -23,7 +23,7 @@
           </div>
         </NeoTooltip>
         <div class="nft-price is-ellipsis">
-          <Money :value="event.nft.price" />
+          <Money :value="event.meta" />
         </div>
       </div>
       <div class="is-flex is-justify-content-space-between">

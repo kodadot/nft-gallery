@@ -12,6 +12,7 @@ query notificationsByAccount($account: String!, $limit: Int = 30) {
     interaction
     timestamp
     currentOwner
+    meta
     nft {
       ...subsquidNft
       ...nftDetails
@@ -34,8 +35,8 @@ query notificationsByAccount($account: String!, $limit: Int = 30) {
     interaction
     timestamp
     currentOwner
+    meta
     offer {
-      price
       nft {
         ...subsquidNft
         ...nftDetails
