@@ -1,16 +1,11 @@
 import type { CarouselNFT } from '@/components/base/types'
-
+import type { Interaction } from '@/components/rmrk/service/scheme'
 export type FilterOption = {
   id: string
   name: string
 }
 
-export type Event = {
-  id: string
-  interaction: string
-  timestamp: string
-  caller: string
-  meta: number
+export declare interface Event extends Interaction {
   nft: CarouselNFT & {
     meta: {
       name: string

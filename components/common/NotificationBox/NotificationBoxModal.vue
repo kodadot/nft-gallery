@@ -181,9 +181,6 @@ const emit = defineEmits(['close'])
 
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
-.no-wrap {
-  white-space: nowrap;
-}
 .rounded {
   border-radius: 2rem;
   overflow: hidden;

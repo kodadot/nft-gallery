@@ -33,5 +33,3 @@ function toggleNotificationModal() {
   }
 }
 </script>
-
-<style scoped></style>
