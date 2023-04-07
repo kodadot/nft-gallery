@@ -2,7 +2,7 @@ export type Prefix = 'bsx' | 'glmr' | 'rmrk' | 'movr' | 'ksm' | 'snek'
 // | 'statemine'
 // | 'westmint'
 
-export type BackwardPrefix = 'rmrk' & Prefix
+export type BackwardPrefix = Prefix | 'rmrk2'
 
 export type Squid = 'rubick' | 'snekk' | 'click' | 'antick' | 'marck'
 
