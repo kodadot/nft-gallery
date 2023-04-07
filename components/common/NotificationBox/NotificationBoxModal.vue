@@ -231,6 +231,7 @@ const emit = defineEmits(['close'])
       top: 0;
       padding-right: 2rem;
       padding-left: 2rem;
+      z-index: 1;
       @include ktheme() {
         background-color: theme('background-color');
       }

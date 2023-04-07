@@ -14,9 +14,14 @@
       class="border image is-48x48" />
     <div class="notify-content ml-5 is-flex is-flex-direction-column">
       <div class="is-flex is-justify-content-space-between">
-        <div class="nft-name mr-4 has-text-weight-bold is-ellipsis">
-          {{ displayName }}
-        </div>
+        <NeoTooltip
+          :label="displayName"
+          :append-to-body="false"
+          class="nft-name mr-4 has-text-weight-bold">
+          <div class="is-ellipsis">
+            {{ displayName }}
+          </div>
+        </NeoTooltip>
         <div class="nft-price is-ellipsis">
           <Money :value="event.nft.price" />
         </div>
@@ -25,8 +30,13 @@
         <div>
           <div class="height-50px is-flex is-align-items-center">
             <div
-              class="event-type mr-4 border is-size-7 is-justify-content-center px-4 py-1 is-flex is-align-items-center"
-              :class="getInteractionColor(event.interaction)">
+              class="event-type mr-4 border is-size-7 is-justify-content-center py-1 is-flex is-align-items-center"
+              :class="[
+                getInteractionColor(event.interaction),
+                event.interaction === Interaction.ACCEPTED_OFFER
+                  ? 'px-2'
+                  : 'px-4',
+              ]">
               {{ getInteractionName(event.interaction) }}
             </div>
           </div>
@@ -41,7 +51,12 @@
 
 <script setup lang="ts">
 import { Event } from './types'
-import { getInteractionColor, getInteractionName } from './useNotification'
+import { NeoTooltip } from '@kodadot1/brick'
+import {
+  Interaction,
+  getInteractionColor,
+  getInteractionName,
+} from './useNotification'
 import { InteractionWithNFT } from '@/composables/collectionActivity/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { formatToNow } from '@/utils/format/time'
@@ -81,7 +96,7 @@ const displayName = computed(() => props.event.nft.name || props.event.nft.id)
 }
 .notify-content {
   flex: 1;
-  overflow: auto;
+  overflow: visible;
 }
 .nft-price {
   overflow: auto;
