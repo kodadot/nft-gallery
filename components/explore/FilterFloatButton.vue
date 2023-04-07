@@ -1,8 +1,8 @@
 <template>
   <div class="fixed-bottom-middle has-min-width">
     <NeoButton expanded @click.native="openMobileFilters">
-      {{ $t('general.filters') }}
-      <span v-if="numOfActiveFilters">: {{ numOfActiveFilters }}</span>
+      {{ $t('general.filters')
+      }}<span v-if="numOfActiveFilters">: {{ numOfActiveFilters }}</span>
     </NeoButton>
   </div>
 </template>
