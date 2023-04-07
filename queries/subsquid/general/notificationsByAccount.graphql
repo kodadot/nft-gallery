@@ -1,3 +1,6 @@
+#import "../../fragments/subsquidNft.graphql"
+#import "../../fragments/nftDetails.graphql"
+
 query notificationsByAccount($account: String!, $limit: Int = 30) {
   # get sale event
   events(
@@ -10,17 +13,8 @@ query notificationsByAccount($account: String!, $limit: Int = 30) {
     timestamp
     currentOwner
     nft {
-      name
-      id
-      metadata
-      price
-      meta {
-        id
-        image
-      }
-      collection {
-        id
-      }
+      ...subsquidNft
+      ...nftDetails
     }
   }
   # get offer and offer_accept events
@@ -40,17 +34,8 @@ query notificationsByAccount($account: String!, $limit: Int = 30) {
     offer {
       price
       nft {
-        name
-        id
-        metadata
-        price
-        meta {
-          id
-          image
-        }
-        collection {
-          id
-        }
+        ...subsquidNft
+        ...nftDetails
       }
     }
   }

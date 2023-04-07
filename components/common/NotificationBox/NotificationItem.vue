@@ -18,7 +18,7 @@
     <div class="notify-content ml-5 is-flex is-flex-direction-column">
       <div class="is-flex is-justify-content-space-between">
         <div class="nft-name mr-4 has-text-weight-bold is-ellipsis">
-          {{ event.nft.name }}
+          {{ event.nft.name || event.nft.id }}
         </div>
         <div class="nft-price is-ellipsis">
           <Money :value="event.nft.price" />
