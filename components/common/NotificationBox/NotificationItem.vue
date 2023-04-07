@@ -76,7 +76,7 @@ const displayName = computed(() => props.event.nft.name || props.event.nft.id)
     }
   }
   img {
-    object-fit: contain;
+    object-fit: cover;
   }
 }
 .notify-content {
