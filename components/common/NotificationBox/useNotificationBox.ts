@@ -2,6 +2,6 @@ import NotificationBoxModal from './NotificationBoxModal.vue'
 
 export const NotificationBoxModalConfig = {
   component: NotificationBoxModal,
-  canCancel: true,
+  canCancel: 'outside',
   customClass: 'notification-box-modal',
 }

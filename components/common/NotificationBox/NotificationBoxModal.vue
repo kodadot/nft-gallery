@@ -153,7 +153,7 @@ const doSearch = () => {
   displayedEvents.value = allEvents.value.filter(
     (item) =>
       (!collectionFilter.value ||
-        collectionFilter.value.id === item.nft.collection.id) &&
+        collectionFilter.value.id === item.nft.collection?.id) &&
       (eventFilter.value.length === 0 ||
         eventFilter.value.some((x) => x === item.interaction))
   )
@@ -273,6 +273,7 @@ const emit = defineEmits(['close'])
 .notification-box-modal {
   .modal-content {
     border: none !important;
+    box-shadow: none !important;
   }
   .modal-background {
     background-color: rgba(0, 0, 0, 0.17) !important;
