@@ -7,7 +7,7 @@
     fixed-top
     mobile-burger
     spaced
-    wrapper-class="container is-fluid">
+    :wrapper-class="{ container: true, 'is-fluid': !isMobile }">
     <template #brand>
       <b-navbar-item :to="{ path: '/' }" class="logo" tag="nuxt-link">
         <img
