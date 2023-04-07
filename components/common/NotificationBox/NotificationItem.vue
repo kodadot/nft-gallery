@@ -44,14 +44,11 @@
 
 <script setup lang="ts">
 import { Event } from './types'
-import { getInteractionName } from './useNotification'
+import { getInteractionColor, getInteractionName } from './useNotification'
 import { InteractionWithNFT } from '@/composables/collectionActivity/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { formatToNow } from '@/utils/format/time'
-import {
-  getInteractionColor,
-  getNFTAvatar,
-} from '@/components/collection/activity/events/eventRow/common'
+import { getNFTAvatar } from '@/components/collection/activity/events/eventRow/common'
 const { urlPrefix } = usePrefix()
 const props = defineProps<{
   event: Event
@@ -80,6 +77,11 @@ const getAvatar = async () => {
       background-color: theme('k-accentlight2');
     }
   }
+  img.image-size {
+    height: 50px;
+    width: 50px;
+    object-fit: contain;
+  }
 }
 .notify-content {
   flex: 1;
@@ -95,5 +97,6 @@ const getAvatar = async () => {
 .event-type {
   line-height: 0.75rem;
   border-radius: 2rem;
+  white-space: nowrap;
 }
 </style>

@@ -10,13 +10,23 @@ export const Interaction = {
 
 export const getInteractionName = (key: string) => {
   const { $i18n } = useNuxtApp()
-  const nampMap = {
+  const nameMap = {
     [Interaction.SALE]: $i18n.t('filters.sale'),
     [Interaction.OFFER]: $i18n.t('filters.offer'),
     [Interaction.ACCEPTED_OFFER]: $i18n.t('filters.acceptedOffer'),
   }
 
-  return nampMap[key]
+  return nameMap[key]
+}
+
+export const getInteractionColor = (key: string) => {
+  const colorMap = {
+    [Interaction.SALE]: 'k-pink',
+    [Interaction.OFFER]: 'k-greenaccent',
+    [Interaction.ACCEPTED_OFFER]: 'k-blueaccent',
+  }
+
+  return colorMap[key]
 }
 
 export const useNotification = (account: string) => {
