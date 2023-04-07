@@ -11,5 +11,9 @@ export type Event = {
   timestamp: string
   caller: string
   meta: number
-  nft: CarouselNFT
+  nft: CarouselNFT & {
+    meta: {
+      name: string
+    }
+  }
 }

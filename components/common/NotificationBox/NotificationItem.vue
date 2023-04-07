@@ -76,7 +76,9 @@ const getAvatar = async () => {
     )
   }
 }
-const displayName = computed(() => props.event.nft.name || props.event.nft.id)
+const displayName = computed(
+  () => props.event.nft.meta.name || props.event.nft.id
+)
 </script>
 
 <style scoped lang="scss">

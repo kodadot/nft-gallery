@@ -30,8 +30,15 @@ export const getInteractionColor = (key: string) => {
 }
 
 export const useNotification = (account: string) => {
+  const { apiInstance } = useApi()
   const collections = ref<FilterOption[]>([])
   const events = ref<Event[]>([])
+
+  async function currentBlock() {
+    const api = await apiInstance.value
+    const block = await api.rpc.chain.getHeader()
+    return block.number.toNumber()
+  }
 
   const { data: collectionData } = useGraphql({
     queryName: 'collectionByAccount',
@@ -51,14 +58,20 @@ export const useNotification = (account: string) => {
     collections.value = result.collectionEntities ?? []
   })
 
-  watch(eventData, (result) => {
-    const offerEvents = result.offerEvents.map((event) => ({
-      ...event,
-      nft: {
-        ...event.offer.nft,
-        price: event.offer.price,
-      },
-    }))
+  watch(eventData, async (result) => {
+    const currentBlockNumber = await currentBlock()
+    const offerEvents = result.offerEvents
+      .map((event) => ({
+        ...event,
+        nft: {
+          ...event.offer.nft,
+        },
+      }))
+      .filter(
+        (event) =>
+          event.interaction === Interaction.OFFER &&
+          Number(event.offer.expiration) < Number(currentBlockNumber)
+      )
     events.value = sortedEventByDate(
       [...result.events, ...offerEvents],
       'ASC'
