@@ -5,20 +5,17 @@
     <img
       v-if="avatar"
       :src="avatar"
-      :alt="event.nft.name"
-      width="50"
-      height="50"
-      class="border image-size" />
+      :alt="displayName"
+      class="border image is-48x48" />
     <img
       v-else
       src="/placeholder.webp"
-      width="50"
-      height="50"
-      class="border image-size" />
+      :alt="displayName"
+      class="border image is-48x48" />
     <div class="notify-content ml-5 is-flex is-flex-direction-column">
       <div class="is-flex is-justify-content-space-between">
         <div class="nft-name mr-4 has-text-weight-bold is-ellipsis">
-          {{ event.nft.name || event.nft.id }}
+          {{ displayName }}
         </div>
         <div class="nft-price is-ellipsis">
           <Money :value="event.nft.price" />
@@ -64,6 +61,7 @@ const getAvatar = async () => {
     )
   }
 }
+const displayName = computed(() => props.event.nft.name || props.event.nft.id)
 </script>
 
 <style scoped lang="scss">
@@ -77,9 +75,7 @@ const getAvatar = async () => {
       background-color: theme('k-accentlight2');
     }
   }
-  img.image-size {
-    height: 50px;
-    width: 50px;
+  img {
     object-fit: contain;
   }
 }
