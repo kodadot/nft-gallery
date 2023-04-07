@@ -41,7 +41,7 @@
               <div
                 v-for="(item, index) in collections"
                 :key="`${item}-${index}`"
-                class="filter-item button-rounded px-3 py-1 mb-1 no-wrap"
+                class="filter-item rounded px-3 py-1 mb-1 no-wrap"
                 :class="{
                   activated: collectionFilter?.id === item.id,
                 }"
@@ -58,7 +58,7 @@
               <div
                 v-for="event in eventTypes"
                 :key="event"
-                class="filter-item button-rounded px-3 py-1 no-wrap"
+                class="filter-item rounded px-3 py-1 no-wrap"
                 :class="{
                   activated: eventFilter.includes(event),
                 }"
@@ -72,14 +72,14 @@
           <div class="is-flex filter-display-list pb-3 is-flex-wrap-wrap">
             <NeoTag
               v-if="collectionFilter"
-              class="no-wrap mr-1 mb-1"
+              class="no-wrap mr-1 mb-1 rounded"
               @close="collectionFilter = null">
               {{ collectionFilter.name }}
             </NeoTag>
             <NeoTag
               v-for="event in eventFilter"
               :key="event"
-              class="no-wrap mb-1 mr-1"
+              class="no-wrap mb-1 mr-1 rounded"
               @close="toggleEventFilter(event)">
               {{ getInteractionName(event) }}
             </NeoTag>
@@ -184,6 +184,10 @@ const emit = defineEmits(['close'])
 .no-wrap {
   white-space: nowrap;
 }
+.rounded {
+  border-radius: 2rem;
+  overflow: hidden;
+}
 .notification-box-modal {
   .notification-modal-container {
     position: fixed;
@@ -235,9 +239,7 @@ const emit = defineEmits(['close'])
           border-bottom: 1px solid theme('k-grey');
         }
       }
-      .button-rounded {
-        border-radius: 2rem;
-      }
+
       .filter-item {
         cursor: pointer;
         margin-right: 0.25rem;
