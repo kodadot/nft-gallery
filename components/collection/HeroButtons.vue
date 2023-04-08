@@ -104,7 +104,6 @@ import {
 import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import useIdentity from '@/components/identity/utils/useIdentity'
-import { OModal } from '@oruga-ui/oruga'
 
 const route = useRoute()
 const { accountId } = useAuth()
