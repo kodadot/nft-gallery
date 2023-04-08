@@ -4,8 +4,8 @@
     :class="{ 'has-gap': !isActivityTab }">
     <ExploreTabs />
     <div class="explore-menu is-flex">
-      <FilterMenuButton v-if="!isActivityTab" />
       <FilterFloatButton v-if="isActivityTab" />
+      <FilterMenuButton v-else />
       <ExploreOffer v-if="!isActivityTab" class="is-flex-grow-1" />
       <ExploreChain
         v-if="!route.name?.includes('prefix-collection-id')"
