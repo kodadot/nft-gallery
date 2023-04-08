@@ -1,15 +1,17 @@
 <template>
-  <div class="notification-modal-container is-flex is-flex-direction-column">
-    <header class="modal-card-head mb-4">
-      <span class="modal-card-title is-size-6 has-text-weight-bold">
+  <div
+    class="notification-modal-container theme-background-color border-left is-flex is-flex-direction-column">
+    <header
+      class="py-4 px-2rem is-flex is-justify-content-space-between border-bottom mb-4">
+      <span class="control-label is-size-6 has-text-weight-bold">
         {{ $t('notification.notifications') }}
       </span>
       <a class="is-flex is-align-items-center" @click="emit('close')">
         <NeoIcon icon="close" />
       </a>
     </header>
-    <div class="modal-card-body">
-      <div class="notification-filter pb-5">
+    <div class="px-0 pt-0 pb-3 theme-background-color">
+      <div class="notification-filter theme-background-color px-2rem pb-5">
         <div
           class="is-flex is-justify-content-space-between is-align-items-center pb-4">
           <span> {{ $t('notification.filters') }} </span>
@@ -41,7 +43,7 @@
               <div
                 v-for="(item, index) in collections"
                 :key="`${item}-${index}`"
-                class="filter-item rounded px-3 py-1 mb-1 no-wrap"
+                class="filter-item rounded is-clickable px-3 mr-1 py-1 mb-1 no-wrap"
                 :class="{
                   activated: collectionFilter?.id === item.id,
                 }"
@@ -58,7 +60,7 @@
               <div
                 v-for="event in eventTypes"
                 :key="event"
-                class="filter-item rounded px-3 py-1 no-wrap"
+                class="filter-item rounded is-clickable px-3 mr-1 py-1 no-wrap"
                 :class="{
                   activated: eventFilter.includes(event),
                 }"
@@ -181,6 +183,14 @@ const emit = defineEmits(['close'])
 
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
+.py-2rem {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.px-2rem {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
 .rounded {
   border-radius: 2rem;
   overflow: hidden;
@@ -198,40 +208,17 @@ const emit = defineEmits(['close'])
       padding-top: 58px;
       max-width: 100vw;
     }
-    @include ktheme() {
-      background: theme('background-color');
-      border-left: 1px solid theme('border-color');
-    }
-    .modal-card-title {
-      @include ktheme() {
-        color: theme('text-color');
-      }
-    }
+
     .modal-card-head {
       background: unset;
-      padding: 1rem 2rem;
-      @include ktheme() {
-        border-bottom: 1px solid theme('border-color');
-      }
     }
-    .modal-card-body {
-      padding: 0rem 0rem 1rem 0rem;
-      display: block;
-      @include ktheme() {
-        background-color: theme('background-color');
-      }
-    }
+
     .notification-filter {
       flex-shrink: 0;
       flex-grow: 0;
       position: sticky;
       top: 0;
-      padding-right: 2rem;
-      padding-left: 2rem;
       z-index: 1;
-      @include ktheme() {
-        background-color: theme('background-color');
-      }
       & > div:last-child {
         @include ktheme() {
           border-bottom: 1px solid theme('k-grey');
@@ -239,8 +226,6 @@ const emit = defineEmits(['close'])
       }
 
       .filter-item {
-        cursor: pointer;
-        margin-right: 0.25rem;
         &:last-child {
           margin-right: 0;
         }
