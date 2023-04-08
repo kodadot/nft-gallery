@@ -49,7 +49,7 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
         }
       )
       const cb = hasOffers.value
-        ? api.tx.utility.batchAll
+        ? api.tx.utility.batch
         : getApiCall(api, item.urlPrefix, Interaction.CONSUME)
       const arg = hasOffers.value
         ? [[...offerWithdrawArgs, api.tx.nft.burn(collectionId, tokenId)]]
