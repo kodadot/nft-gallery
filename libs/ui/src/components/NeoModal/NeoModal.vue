@@ -16,7 +16,7 @@ const props = defineProps<{
 
 const emit = defineEmits(['close'])
 
-let isImageModalActive = useVModel(props, 'value')
+const isImageModalActive = useVModel(props, 'value')
 
 const updateClose = () => {
   emit('close', false)
