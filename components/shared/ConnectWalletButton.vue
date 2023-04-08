@@ -21,17 +21,7 @@ export default class ConnectWalletButton extends Vue {
   private modal: { close: () => void; isActive?: boolean } | null = null
 
   public toggleWalletConnectModal(): void {
-    if (this.modal?.isActive) {
-      this.modal.close()
-      this.modal = null
-      return
-    }
-    this.modal = this.$buefy.modal.open({
-      parent: this,
-      ...ConnectWalletModalConfig,
-    })
-
-    this.$emit('closeBurgerMenu')
+    this.$emit('toggleConnectModal')
   }
 }
 </script>

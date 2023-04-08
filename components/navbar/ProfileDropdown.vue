@@ -165,7 +165,7 @@
         class="button-connect-wallet px-4"
         variant="k-accent"
         no-shadow
-        @closeBurgerMenu="closeBurgerMenu" />
+        @toggleConnectModal="toggleWalletConnectModal" />
     </div>
 
     <b-dropdown
