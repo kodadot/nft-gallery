@@ -311,6 +311,11 @@
     height: 12px;
   }
   .navbar-explore {
+
+    .dropdown-menu {
+      max-width: 22.563rem;
+    }
+    
     .dropdown-item {
       padding: 23px 32px;
     }
