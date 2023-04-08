@@ -1,5 +1,7 @@
 <template>
-  <div class="explore is-flex is-flex-wrap-wrap">
+  <div
+    class="explore is-flex is-flex-wrap-wrap"
+    :class="{ 'has-gap': !isActivityTab }">
     <ExploreTabs />
     <div class="explore-menu is-flex">
       <FilterMenuButton v-if="!isActivityTab" />
@@ -32,15 +34,20 @@ const isActivityTab = computed(() =>
 @import '@/styles/abstracts/variables';
 
 .explore {
-  gap: 1.5rem;
+  &.has-gap {
+    gap: 1.5rem;
+  }
 
   &-menu {
     gap: 1.5rem;
   }
 
   @include mobile {
-    gap: 1rem;
     flex-direction: column;
+
+    &.has-gap {
+      gap: 1rem;
+    }
 
     &-menu {
       gap: 1rem;
