@@ -1,8 +1,5 @@
 <template>
-  <o-modal
-    class="neo-modal"
-    :active.sync="isImageModalActive"
-    @close="updateClose">
+  <o-modal class="neo-modal" :active.sync="isModalActive" @close="updateClose">
     <slot />
   </o-modal>
 </template>
@@ -16,7 +13,7 @@ const props = defineProps<{
 
 const emit = defineEmits(['close'])
 
-const isImageModalActive = useVModel(props, 'value')
+const isModalActive = useVModel(props, 'value')
 
 const updateClose = () => {
   emit('close', false)
