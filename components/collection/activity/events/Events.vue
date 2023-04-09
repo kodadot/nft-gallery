@@ -21,6 +21,13 @@
           <span>{{ $t('activity.event.time') }}</span>
         </div>
       </div>
+      <div
+        class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center mt-6">
+        <span class="has-text-weight-bold">{{ $t('activity.noResults') }}</span>
+        <span class="is-size-7 has-text-grey">{{
+          $t('activity.noResultsSub')
+        }}</span>
+      </div>
       <EventRow
         v-for="(event, i) in displayedEvents"
         :key="i"
