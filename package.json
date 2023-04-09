@@ -79,7 +79,7 @@
     "@paraspell/sdk": "0.0.25",
     "@pinia/nuxt": "^0.4.7",
     "@polkadot/extension-dapp": "^0.44.9",
-    "@polkadot/extension-inject": "^0.44.9",
+    "@polkadot/extension-inject": "^0.45.3",
     "@polkadot/ui-keyring": "^2.12.1",
     "@polkadot/vue-identicon": "^2.12.1",
     "@ramp-network/ramp-instant-sdk": "^3.2.3",
