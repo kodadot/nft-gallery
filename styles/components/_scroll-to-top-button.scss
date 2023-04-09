@@ -1,5 +1,5 @@
 .scroll-top-button {
-  position: fixed;
+  position: fixed !important;
   right: 24px;
   bottom: 100px;
   width: 35px;
@@ -15,9 +15,8 @@
     &:hover {
       background: theme('k-accentHover');
       .icon {
-        color: theme('black')!important;
+        color: theme('black') !important;
       }
     }
-    
   }
 }
