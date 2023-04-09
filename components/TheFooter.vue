@@ -104,6 +104,11 @@ const menu: Menu[] = [
     url: '/jobs',
   },
   {
+    name: $i18n.t('merchshop'),
+    url: 'https://shop.kodadot.xyz',
+    external: true,
+  },
+  {
     name: $i18n.t('contribute'),
     url: '/contribute',
   },
@@ -118,10 +123,16 @@ const menu: Menu[] = [
     external: true,
   },
   {
+    name: $i18n.t('artist ambassador'),
+    url: 'https://docs.kodadot.xyz/artist-ambassador.html#conditions-%F0%9F%94%8D',
+    external: true,
+  },
+  {
     name: $i18n.t('press kit'),
     url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
     external: true,
   },
+
   {
     name: $i18n.t('ambassador program'),
     url: 'https://docs.kodadot.xyz/ambassador-program/ambassador-intro.html#the-opportunity',
