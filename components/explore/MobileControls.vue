@@ -21,7 +21,7 @@ import ExploreSort from './ExploreSort.vue'
 import ExploreChain from './ExploreChain.vue'
 import ExploreOffer from './ExploreOffer.vue'
 import FilterMenuButton from './FilterMenuButton.vue'
-import FilterFloatButton from '../collection/activity/FilterFloatButton.vue'
+import FilterFloatButton from '@/components/collection/activity/FilterFloatButton.vue'
 
 const route = useRoute()
 
