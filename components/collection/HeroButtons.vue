@@ -81,7 +81,7 @@
         </NeoDropdown>
       </div>
     </div>
-    <b-modal v-model="QRModalActive">
+    <NeoModal v-model="QRModalActive" @close="QRModalActive = false">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">{{ collection?.name }}</p>
@@ -90,12 +90,17 @@
           <QRCode :text="currentURL" color="#db2980" bg-color="#000" />
         </div>
       </div>
-    </b-modal>
+    </NeoModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
+import {
+  NeoButton,
+  NeoDropdown,
+  NeoDropdownItem,
+  NeoModal,
+} from '@kodadot1/brick'
 import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import useIdentity from '@/components/identity/utils/useIdentity'
