@@ -19,7 +19,7 @@
           :append-to-body="false"
           :delay="1000"
           class="nft-name mr-4">
-          <div class="is-ellipsis is-inline-block">
+          <div class="is-ellipsis min-max-width">
             {{ displayName }}
           </div>
         </NeoTooltip>
@@ -85,8 +85,9 @@ const displayName = computed(
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
 
-.is-inline-block {
-  display: inline-block;
+.min-max-width {
+  width: fit-content;
+  max-width: 100%;
 }
 .notify-item {
   padding: 0.75rem 2rem;
