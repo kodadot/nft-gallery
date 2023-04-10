@@ -1,5 +1,8 @@
 <template>
-  <a v-if="showBtn" class="scroll-top-button button" @click="scrollToTop">
+  <a
+    v-if="showBtn"
+    class="scroll-top-button button is-justify-content-center"
+    @click="scrollToTop">
     <b-icon
       icon="chevron-up"
       size="is-small"
