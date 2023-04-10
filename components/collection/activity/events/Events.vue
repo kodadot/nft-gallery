@@ -23,11 +23,11 @@
       </div>
       <div
         v-if="!displayedEvents.length"
-        class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center mt-6">
-        <span class="has-text-weight-bold">{{ $t('activity.noResults') }}</span>
-        <span class="is-size-7 has-text-grey">{{
-          $t('activity.noResultsSub')
+        class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center pt-6 pb-6">
+        <span class="has-text-weight-bold is-size-5">{{
+          $t('activity.noResults')
         }}</span>
+        <span class="has-text-grey">{{ $t('activity.noResultsSub') }}</span>
       </div>
       <EventRow
         v-for="(event, i) in displayedEvents"
