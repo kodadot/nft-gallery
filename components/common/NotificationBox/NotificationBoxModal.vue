@@ -119,10 +119,13 @@ const eventTypes = ref<string[]>([
   Interaction.OFFER,
   Interaction.ACCEPTED_OFFER,
 ])
+const collectionFilter = ref<FilterOption | null>(null)
+const eventFilter = ref<string[]>([])
+const showFilter = ref(false)
+const emit = defineEmits(['close'])
 
 const { collections, events: allEvents } = useNotification()
 
-const collectionFilter = ref<FilterOption | null>(null)
 const toggleCollectionFilter = (target: FilterOption) => {
   if (collectionFilter.value?.id === target.id) {
     collectionFilter.value = null
@@ -131,7 +134,6 @@ const toggleCollectionFilter = (target: FilterOption) => {
   }
 }
 
-const eventFilter = ref<string[]>([])
 const toggleEventFilter = (target) => {
   const index = eventFilter.value.findIndex((x) => x === target)
   if (index === -1) {
@@ -141,7 +143,6 @@ const toggleEventFilter = (target) => {
   }
 }
 
-const showFilter = ref(false)
 const isFilterEmpty = computed(
   () => !collectionFilter.value && eventFilter.value.length === 0
 )
@@ -155,8 +156,6 @@ const displayedEvents = computed(() =>
         eventFilter.value.some((x) => x === item.interaction))
   )
 )
-
-const emit = defineEmits(['close'])
 </script>
 
 <style scoped lang="scss">
