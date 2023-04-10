@@ -44,6 +44,7 @@
 <script lang="ts" setup>
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
 
 const route = useRoute()
 const isCollectionActivityTab = computed(
@@ -55,18 +56,7 @@ const { replaceUrl } = useReplaceUrl({
 const { $i18n } = useNuxtApp()
 const isItemsExplore = computed(() => route.path.includes('/explore/items'))
 
-const breads = computed(() => {
-  const query = { ...route.query, redesign: undefined }
-
-  const activeFilters = Object.entries(query).filter(
-    ([key, value]) =>
-      (key === 'search' && Boolean(value)) ||
-      (key === 'min' && value) ||
-      (key === 'max' && value) ||
-      value === 'true'
-  )
-  return Object.fromEntries(activeFilters)
-})
+const breads = useActiveRouterFilters()
 
 const isAnyFilterActive = computed(() =>
   Boolean(Object.keys(breads.value).length)
