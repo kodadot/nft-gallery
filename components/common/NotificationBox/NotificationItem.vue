@@ -19,7 +19,7 @@
           :append-to-body="false"
           :delay="1000"
           class="nft-name mr-4">
-          <div class="is-ellipsis min-max-width">
+          <div class="is-ellipsis min-max-widt has-text-weight-bold">
             {{ displayName }}
           </div>
         </NeoTooltip>
