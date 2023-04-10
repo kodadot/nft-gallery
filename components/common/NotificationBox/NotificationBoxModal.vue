@@ -103,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { Event, FilterOption } from './types'
+import { FilterOption } from './types'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 
@@ -114,16 +114,13 @@ import {
   useNotification,
 } from './useNotification'
 
-const { $store } = useNuxtApp()
-
 const eventTypes = ref<string[]>([
   Interaction.SALE,
   Interaction.OFFER,
   Interaction.ACCEPTED_OFFER,
 ])
 
-const collections = ref<FilterOption[]>([])
-const allEvents = ref<Event[]>([])
+const { collections, events: allEvents } = useNotification()
 
 const collectionFilter = ref<FilterOption | null>(null)
 const toggleCollectionFilter = (target: FilterOption) => {
@@ -149,35 +146,16 @@ const isFilterEmpty = computed(
   () => !collectionFilter.value && eventFilter.value.length === 0
 )
 
-const displayedEvents = ref<Event[]>([])
-
-const doSearch = () => {
-  displayedEvents.value = allEvents.value.filter(
+const displayedEvents = computed(() =>
+  allEvents.value.filter(
     (item) =>
       (!collectionFilter.value ||
         collectionFilter.value.id === item.nft.collection?.id) &&
       (eventFilter.value.length === 0 ||
         eventFilter.value.some((x) => x === item.interaction))
   )
-}
+)
 
-const getNotifications = () => {
-  const { collections: collectionData, events: allEventsData } =
-    useNotification($store.getters.getAuthAddress)
-  collections.value = collectionData as unknown as FilterOption[]
-  allEvents.value = allEventsData as unknown as Event[]
-}
-
-watch(allEvents, doSearch, {
-  immediate: true,
-})
-
-watch(collectionFilter, doSearch, { deep: true })
-watch(eventFilter, doSearch, { deep: true })
-
-watch(() => $store.getters.currentUrlPrefix, getNotifications, {
-  immediate: true,
-})
 const emit = defineEmits(['close'])
 </script>
 

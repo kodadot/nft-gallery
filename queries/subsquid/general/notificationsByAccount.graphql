@@ -16,29 +16,4 @@ query notificationsByAccount($account: String!, $limit: Int = 30) {
       ...subsquidNft
     }
   }
-  # get offer and offer_accept events
-  offerEvents(
-    limit: $limit
-    where: {
-      currentOwner_eq: $account
-      AND: { interaction_eq: CREATE, offer: { status_eq: ACTIVE } }
-      OR: {
-        caller_eq: $account
-        AND: { interaction_eq: ACCEPT, offer: { status_eq: ACCEPTED } }
-      }
-    }
-    orderBy: timestamp_DESC
-  ) {
-    id
-    interaction
-    timestamp
-    currentOwner
-    meta
-    offer {
-      expiration
-      nft {
-        ...subsquidNft
-      }
-    }
-  }
 }
