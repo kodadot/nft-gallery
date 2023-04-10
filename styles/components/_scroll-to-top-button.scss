@@ -3,9 +3,9 @@
   right: 24px;
   bottom: 100px;
   width: 35px;
-  height: 35px;
+  height: 35px !important;
   z-index: 998;
-  border-radius: 0;
+  border-radius: 0 !important;
 
   @include ktheme() {
     box-shadow: theme('primary-shadow');
