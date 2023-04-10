@@ -138,7 +138,8 @@ watch(account, (account) => {
   }
   if (
     getRedirectToRmrk2HostnameWhitelist().includes(toDefaultAddress(account)) &&
-    !location.hostname.startsWith('rmrk2.')
+    !location.hostname.startsWith('rmrk2.') &&
+    !location.hostname.startsWith('rmrk.')
   ) {
     window.open(`${location.protocol}//rmrk2.${location.host}`, '_self')
   }
