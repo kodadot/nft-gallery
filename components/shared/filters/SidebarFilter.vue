@@ -1,9 +1,17 @@
 <template>
-  <div :class="{ 'bordered sticky': open }" class="is-hidden-mobile">
+  <div
+    :class="{ 'bordered sticky': open, 'sidebar-wide': isExploreCollections }"
+    class="is-hidden-mobile">
     <NeoSidebar :reduce="false" :open="open" fullheight>
       <EventTypeFilter v-if="isCollectionActivityTab" expanded fluid-padding />
-      <StatusFilter v-else expanded fluid-padding />
-      <PriceFilter v-if="!isCollectionActivityTab" fluid-padding />
+      <StatusFilter
+        v-if="!isCollectionActivityTab && !isExploreCollections"
+        expanded
+        fluid-padding />
+      <PriceFilter
+        v-if="!isCollectionActivityTab && !isExploreCollections"
+        fluid-padding />
+      <PopularCollections v-if="isExploreCollections" expanded fluid-padding />
     </NeoSidebar>
   </div>
 </template>
@@ -13,6 +21,7 @@ import { NeoSidebar } from '@kodadot1/brick'
 import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
 import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
 import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
+import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 const route = useRoute()
 
@@ -20,6 +29,9 @@ const preferencesStore = usePreferencesStore()
 const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 const isCollectionActivityTab = computed(
   () => route.name === 'prefix-collection-id-activity'
+)
+const isExploreCollections = computed(
+  () => route.name === 'prefix-explore-collectibles'
 )
 </script>
 

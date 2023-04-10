@@ -31,6 +31,7 @@ const preferencesStore = usePreferencesStore()
 const disabled = computed(() => {
   const allowedList = [
     'prefix-explore-items',
+    'prefix-explore-collectibles',
     'prefix-collection-id',
     'prefix-collection-id-activity',
   ]
