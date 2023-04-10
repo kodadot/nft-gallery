@@ -39,6 +39,8 @@
   "multipleNFTS": "Multiple NFT's",
   "about": "About",
   "ambassador program": "Ambassador Program",
+  "artist ambassador": "Artist Ambassador",
+  "merchshop": "MerchShop",
   "press kit": "Press Kit",
   "careers": "Careers",
   "contribute": "Contribute",
@@ -1288,17 +1290,29 @@
     "uploadDesc": "Upload Description File (Optional)"
   },
   "filters": {
+    "buy": "Buy",
     "sale": "Sale",
     "offer": "Offer",
+    "acceptedOffer": "Accepted offer",
     "listing": "Listing",
     "mint": "Mint",
     "transfer": "Transfer"
   },
-  "redirect":{
-    "title":"Leaving Kodadot",
-    "leavingTips":"You are going outside KodaDot to external website",
-    "safetyTips":"Be sure that it's safe!",
-    "continue":"Continue",
-    "stay":"Stay"
+  "redirect": {
+    "title": "Leaving Kodadot",
+    "leavingTips": "You are going outside KodaDot to external website",
+    "safetyTips": "Be sure that it's safe!",
+    "continue": "Continue",
+    "stay": "Stay"
+  },
+  "notification": {
+    "notifications": "Notifications",
+    "filters": "Filters",
+    "add": "Add",
+    "done": "Done",
+    "byCollection": "By collection",
+    "byEvent": "By event",
+    "emptyTipLine1": "Don't wait for notifications,",
+    "emptyTipLine2": "make your own buzz with your art."
   }
 }

@@ -304,6 +304,11 @@ hr {
     border-top: 1px solid theme('border-color');
   }
 }
+.border-left {
+  @include ktheme() {
+    border-left: 1px solid theme('border-color');
+  }
+}
 .border {
   @include ktheme() {
     border: 1px solid theme('border-color');

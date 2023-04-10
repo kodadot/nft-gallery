@@ -1,8 +1,11 @@
 <template>
-  <div class="explore is-flex is-flex-wrap-wrap">
+  <div
+    class="explore is-flex is-flex-wrap-wrap"
+    :class="{ 'has-gap': !isActivityTab }">
     <ExploreTabs />
     <div class="explore-menu is-flex">
-      <FilterMenuButton />
+      <FilterFloatButton v-if="isActivityTab" />
+      <FilterMenuButton v-else />
       <ExploreOffer v-if="!isActivityTab" class="is-flex-grow-1" />
       <ExploreChain
         v-if="!route.name?.includes('prefix-collection-id')"
@@ -18,6 +21,7 @@ import ExploreSort from './ExploreSort.vue'
 import ExploreChain from './ExploreChain.vue'
 import ExploreOffer from './ExploreOffer.vue'
 import FilterMenuButton from './FilterMenuButton.vue'
+import FilterFloatButton from '@/components/collection/activity/FilterFloatButton.vue'
 
 const route = useRoute()
 
@@ -30,15 +34,20 @@ const isActivityTab = computed(() =>
 @import '@/styles/abstracts/variables';
 
 .explore {
-  gap: 1.5rem;
+  &.has-gap {
+    gap: 1.5rem;
+  }
 
   &-menu {
     gap: 1.5rem;
   }
 
   @include mobile {
-    gap: 1rem;
     flex-direction: column;
+
+    &.has-gap {
+      gap: 1rem;
+    }
 
     &-menu {
       gap: 1rem;
