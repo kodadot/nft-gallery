@@ -20,9 +20,10 @@ export default class ConnectWalletButton extends Vue {
   @Prop({ default: 'primary' }) public variant!: NeoButtonVariant
   @Prop({ default: false }) public noShadow!: boolean
   private modal: { close: () => void; isActive?: boolean } | null = null
+  private isMobile = ref(window.innerWidth < 1024)
 
   public toggleWalletConnectModal(): void {
-    if (isMobileDevice) {
+    if (this.isMobile) {
       if (this.modal?.isActive) {
         this.modal.close()
         this.modal = null

@@ -307,7 +307,7 @@ export default class ProfileDropdown extends mixins(
       ...ConnectWalletModalConfig,
     })
 
-    this.$emit('closeBurgerMenu')
+    this.closeBurgerMenu()
   }
 
   setUserLang(value: string) {
