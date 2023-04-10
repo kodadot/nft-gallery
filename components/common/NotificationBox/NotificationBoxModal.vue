@@ -88,15 +88,20 @@
           </div>
         </div>
       </div>
-      <div v-if="displayedEvents.length === 0" class="empty-tip">
-        <p>{{ $t('notification.emptyTipLine1') }}</p>
-        <p>{{ $t('notification.emptyTipLine2') }}</p>
+      <div v-if="loading" class="empty-tip">
+        <p>{{ $t('notification.loadingTip') }}</p>
       </div>
-      <div v-else class="is-flex is-flex-direction-column">
-        <NotificationItem
-          v-for="(event, index) in displayedEvents"
-          :key="`${event.id}-${index}`"
-          :event="event" />
+      <div v-else>
+        <div v-if="allEvents.length === 0" class="empty-tip">
+          <p>{{ $t('notification.emptyTipLine1') }}</p>
+          <p>{{ $t('notification.emptyTipLine2') }}</p>
+        </div>
+        <div v-else class="is-flex is-flex-direction-column">
+          <NotificationItem
+            v-for="(event, index) in displayedEvents"
+            :key="`${event.id}-${index}`"
+            :event="event" />
+        </div>
       </div>
     </div>
   </div>
@@ -124,7 +129,7 @@ const eventFilter = ref<string[]>([])
 const showFilter = ref(false)
 const emit = defineEmits(['close'])
 
-const { collections, events: allEvents } = useNotification()
+const { collections, events: allEvents, loading } = useNotification()
 
 const toggleCollectionFilter = (target: FilterOption) => {
   if (collectionFilter.value?.id === target.id) {

@@ -48,7 +48,7 @@ export const useNotification = () => {
       account: accountId.value,
     },
   })
-  const { data: eventData } = useGraphql({
+  const { data: eventData, loading } = useGraphql({
     queryPrefix:
       urlPrefix.value === 'bsx' || urlPrefix.value === 'snek'
         ? 'chain-bsx'
@@ -86,5 +86,6 @@ export const useNotification = () => {
   return {
     collections,
     events,
+    loading,
   }
 }
