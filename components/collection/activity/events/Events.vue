@@ -23,7 +23,7 @@
       </div>
       <div
         v-if="!displayedEvents.length"
-        class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center pt-6 pb-6">
+        class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center py-6">
         <span class="has-text-weight-bold is-size-5">{{
           $t('activity.noResults')
         }}</span>
