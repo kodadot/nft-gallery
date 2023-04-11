@@ -3,9 +3,18 @@ import { getKusamaAssetId } from '@/utils/api/bsx/query'
 export default function () {
   const { $store } = useNuxtApp()
   const route = useRoute()
+  const storage = useLocalStorage('urlPrefix', { selected: 'bsx' })
 
-  const prefix = ref(route.params.prefix || $store.getters.currentUrlPrefix)
-  const urlPrefix = computed<string>(() => prefix.value || 'bsx')
+  const prefix = ref(
+    route.params.prefix ||
+      route.path.split('/')[1] ||
+      storage.value.selected ||
+      $store.getters.currentUrlPrefix
+  )
+  const urlPrefix = computed<string>(() => {
+    storage.value = { selected: prefix.value }
+    return prefix.value
+  })
 
   const client = computed<string>(() => {
     return urlPrefix.value === 'rmrk' ? 'subsquid' : urlPrefix.value
