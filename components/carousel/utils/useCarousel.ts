@@ -143,7 +143,7 @@ export const useCarouselRelated = ({ collectionId }) => {
   const { urlPrefix } = usePrefix()
   const { data } = useGraphql({
     queryName: 'collectionEntityById',
-    queryPrefix: urlPrefix.value === 'ksm' ? 'chain-rmrk2' : 'subsquid',
+    queryPrefix: urlPrefix.value === 'ksm' ? 'chain-ksm' : 'subsquid',
     variables: {
       id: collectionId,
       nftId: $route.params.id,
