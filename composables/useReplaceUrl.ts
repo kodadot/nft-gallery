@@ -1,5 +1,3 @@
-import { remove } from 'cypress/types/lodash'
-
 export const replaceBooleanWithStrings = (
   obj: Record<string, string | null | boolean | undefined | number>
 ): Record<string, string | null | undefined> => {
