@@ -35,7 +35,7 @@ const { availableChains } = useChain()
 
 const filteredChains = computed(() => {
   return availableChains?.value.filter((chain) => {
-    return ['rmrk2', 'bsx', 'rmrk'].includes(chain.value)
+    return ['ksm', 'bsx', 'rmrk'].includes(chain.value)
   })
 })
 

@@ -45,7 +45,7 @@ export const useGalleryItem = () => {
 
   const queryPath = {
     rmrk: 'chain-rmrk',
-    rmrk2: 'chain-rmrk2',
+    ksm: 'chain-ksm',
   }
 
   const { urlPrefix } = usePrefix()

@@ -12,7 +12,7 @@ import {
 
 export const mintInteraction = () => {
   const { urlPrefix } = usePrefix()
-  return urlPrefix.value === 'rmrk2' ? Interaction.MINT : Interaction.MINTNFT
+  return urlPrefix.value === 'ksm' ? Interaction.MINT : Interaction.MINTNFT
 }
 
 const flipperInitialValue = {
