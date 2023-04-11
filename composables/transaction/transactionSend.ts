@@ -60,7 +60,7 @@ export function execSendTx(item: ActionSend, api, executeTransaction) {
     return
   }
 
-  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'rmrk2') {
+  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
     execSendRmrk(item, api, executeTransaction)
   }
 
