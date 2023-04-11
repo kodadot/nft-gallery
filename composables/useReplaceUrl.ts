@@ -1,3 +1,5 @@
+import { remove } from 'cypress/types/lodash'
+
 export const replaceBooleanWithStrings = (
   obj: Record<string, string | null | boolean | undefined | number>
 ): Record<string, string | null | undefined> => {
@@ -41,7 +43,7 @@ export default function (
       ...replaceBooleanWithStrings(queryCondition),
     }
     if (resetPage) {
-      query.page = '1'
+      delete query.page
     }
     router
       .replace({
