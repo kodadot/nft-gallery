@@ -312,7 +312,7 @@ export default class Search extends mixins(
     }
     this.$router
       .replace({
-        path: this.isExplorePage
+        path: !this.isExplorePage
           ? String(this.$route.path)
           : `/${this.urlPrefix}/explore/items`,
         query: {
