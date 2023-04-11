@@ -25,7 +25,7 @@ function getPath(prefix: string) {
     case 'chain-rmrk':
       return 'subsquid/rmrk/'
     case 'chain-ksm':
-      return 'subsquid/rmrk2/'
+      return 'subsquid/ksm/'
     default:
       return ''
   }
