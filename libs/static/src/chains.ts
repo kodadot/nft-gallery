@@ -58,6 +58,6 @@ export const chainList = (): Option[] => {
   return chainPrefixes.map((prefix) => ({
     info: chainInfo[prefix],
     text: NAMES[prefix],
-    value: prefix === 'ksm' ? 'rmrk2' : prefix,
+    value: prefix === 'ksm' ? 'ksm' : prefix,
   }))
 }
