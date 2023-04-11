@@ -7,7 +7,7 @@ export function execMintCollection(
   api,
   executeTransaction
 ) {
-  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'rmrk2') {
+  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
     return execMintCollectionRmrk(item, api, executeTransaction)
   }
 
