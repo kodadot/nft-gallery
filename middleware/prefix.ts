@@ -4,7 +4,7 @@ export const rmrk2ChainPrefixesInHostname = ['ksm', 'rmrk']
 
 export default function ({ store, route }): void {
   const prefix = route.params.prefix || route.path.split('/')[1]
-  const chains = ['ksm', ...chainPrefixes]
+  const chains = [...chainPrefixes]
   const isAnyChainPrefixInPath = chains.some((prefix) =>
     route.path.includes(prefix)
   )
