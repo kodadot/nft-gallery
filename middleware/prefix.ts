@@ -1,6 +1,6 @@
 import { chainPrefixes } from '@kodadot1/static'
 
-export const rmrk2ChainPrefixesInHostname = ['ksm', 'rmrk']
+export const rmrk2ChainPrefixesInHostname = ['rmrk2', 'rmrk']
 
 export default function ({ store, route }): void {
   const prefix = route.params.prefix || route.path.split('/')[1]
