@@ -1,11 +1,5 @@
 import { NAMES } from './names'
-import type {
-  BackwardPrefix,
-  ChainProperties,
-  Config,
-  Option,
-  Prefix,
-} from './types'
+import type { ChainProperties, Config, Option, Prefix } from './types'
 
 export const toChainProperty = (
   ss58Format: number,
