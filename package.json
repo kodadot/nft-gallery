@@ -164,7 +164,6 @@
     "husky": "^7.0.4",
     "jsdom": "^19.0.0",
     "lint-staged": "^12.5.0",
-    "netlify-lambda": "^2.0.16",
     "prettier": "^2.8.7",
     "raw-loader": "^4.0.2",
     "sass": "^1.61.0",
