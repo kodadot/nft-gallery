@@ -67,9 +67,3 @@ export const chainList = (): Option[] => {
     value: prefix === 'ksm' ? 'rmrk2' : prefix,
   }))
 }
-
-// TODO: our url prefix still rmrk2
-// e.g: https://kodadot.xyz/rmrk2/explore/items
-export const rmrk2ToKsm = (prefix: BackwardPrefix): Prefix => {
-  return prefix === 'rmrk2' ? 'ksm' : prefix
-}
