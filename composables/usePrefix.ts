@@ -1,9 +1,10 @@
+import { DEFAULT_PREFIX } from '@kodadot1/static'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 export default function () {
   const { $store } = useNuxtApp()
   const route = useRoute()
-  const storage = useLocalStorage('urlPrefix', { selected: 'bsx' })
+  const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
 
   const prefix = ref(
     route.params.prefix ||
