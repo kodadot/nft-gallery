@@ -12,9 +12,9 @@ export default class LandingPage extends Vue {
   middleware({ store, redirect }) {
     // If the user is not authenticated
     const prefix = store.getters.currentUrlPrefix
-    if (prefix !== 'rmrk2') {
-      this.$consola.log('Not RMRK2')
-      store.dispatch('setUrlPrefix', 'rmrk2')
+    if (prefix !== 'ksm') {
+      this.$consola.log('Not KSM/RMRK2')
+      store.dispatch('setUrlPrefix', 'ksm')
     }
     setTimeout(() => redirect('/'))
   }
