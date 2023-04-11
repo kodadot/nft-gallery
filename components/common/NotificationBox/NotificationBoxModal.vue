@@ -1,12 +1,13 @@
 <template>
   <div
+    v-if="isOpen"
     class="notification-modal-container theme-background-color border-left is-flex is-flex-direction-column">
     <header
       class="py-4 px-2rem is-flex is-justify-content-space-between border-bottom mb-4">
       <span class="control-label is-size-6 has-text-weight-bold">
         {{ $t('notification.notifications') }}
       </span>
-      <a class="is-flex is-align-items-center" @click="emit('close')">
+      <a class="is-flex is-align-items-center" @click="closeModal">
         <NeoIcon icon="close" />
       </a>
     </header>
@@ -111,6 +112,7 @@
 import { FilterOption } from './types'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
+import { usePreferencesStore } from '@/stores/preferences'
 
 import NotificationItem from './NotificationItem.vue'
 import {
@@ -127,7 +129,24 @@ const eventTypes = ref<string[]>([
 const collectionFilter = ref<FilterOption | null>(null)
 const eventFilter = ref<string[]>([])
 const showFilter = ref(false)
+const prefrencesStore = usePreferencesStore()
+const isOpen = computed({
+  get: () => prefrencesStore.getNotificationBoxCollapse,
+  set: (value) => prefrencesStore.setNotificationBoxCollapse(value),
+})
 const emit = defineEmits(['close'])
+
+// properly close modal when being closed from outside,e.g. by changeing chain
+watch(isOpen, (newValue, oldValue) => {
+  if (newValue === false && oldValue === true) {
+    emit('close')
+  }
+})
+
+const closeModal = () => {
+  isOpen.value = false
+  emit('close')
+}
 
 const { collections, events: allEvents, loading } = useNotification()
 
