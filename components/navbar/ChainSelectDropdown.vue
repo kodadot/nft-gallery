@@ -20,10 +20,11 @@ import { getChainNameByPrefix } from '@/utils/chain'
 
 const { availableChains } = useChain()
 const { $store } = useNuxtApp()
+const { urlPrefix } = usePrefix()
 const router = useRouter()
 
 const selected = computed({
-  get: () => $store.getters.getSettings['urlPrefix'],
+  get: () => urlPrefix.value,
   set: (value) => {
     $store.dispatch('setUrlPrefix', value)
     router.push({ path: `/${value}` })

@@ -6,8 +6,7 @@ export default function ({ store, route }): void {
   const { urlPrefix } = usePrefix()
 
   const prefix = urlPrefix.value
-  const chains = [...chainPrefixes]
-  const isAnyChainPrefixInPath = chains.includes(prefix)
+  const isAnyChainPrefixInPath = chainPrefixes.includes(prefix)
   const rmrk2ChainPrefixInHostname = rmrk2ChainPrefixesInHostname.find(
     (prefix) => location.hostname.startsWith(`${prefix}.`)
   )
