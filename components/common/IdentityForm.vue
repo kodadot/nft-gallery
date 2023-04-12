@@ -121,13 +121,7 @@ const identity = ref<Record<string, string>>({
   legal: '',
 })
 const deposit = ref('0')
-
-const inputLengthLimit = computed(() => {
-  if (urlPrefix.value === 'bsx' || urlPrefix.value === 'snek') {
-    return 32
-  }
-  return undefined
-})
+const inputLengthLimit = ref(42)
 
 onBeforeMount(async () => {
   onApiConnect(apiUrl.value, async (api) => {
