@@ -1,21 +1,13 @@
 <template>
-  <div
-    class="container is-fluid"
-    :class="{ 'sidebar-padding-left': isSidebarOpen }">
-    <div class="is-flex is-align-self-flex-start">
-      <SidebarFilter />
-      <CollectionList />
-    </div>
+  <div class="container is-fluid">
+    <CollectionList />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import ExperimentMixin from '@/utils/mixins/experimentMixin'
-import { usePreferencesStore } from '@/stores/preferences'
-import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
+import { Component, Vue } from 'nuxt-property-decorator'
 
-const components = { SidebarFilter }
+const components = {}
 
 @Component<ExploreCollectibles>({
   components,
@@ -37,25 +29,5 @@ const components = { SidebarFilter }
     }
   },
 })
-export default class ExploreCollectibles extends mixins(ExperimentMixin) {
-  get preferencesStore() {
-    return usePreferencesStore()
-  }
-  get isSidebarOpen() {
-    return this.preferencesStore.getsidebarFilterCollapse
-  }
-}
+export default class ExploreCollectibles extends Vue {}
 </script>
-<style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
-.sidebar-padding-left {
-  padding-left: 0;
-}
-
-@include mobile {
-  .sidebar-padding-left {
-    padding-left: $fluid-container-padding-mobile;
-  }
-}
-</style>

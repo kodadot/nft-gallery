@@ -15,24 +15,27 @@
       </div>
     </template>
     <div class="p-4 width-320">
-      <b-field>
-        <NeoCheckbox v-model="listed">
-          <div class="is-flex">
-            <img
-              src="/placeholder.webp"
-              class="border image-size"
-              width="32"
-              height="32" />
-            <div class="is-flex is-flex-direction-column">
-              <span>Collection Name</span>
-              <div class="is-flex is-flex-justify-content-space-between">
-                <span> Owners: 233 </span>
-                <span> Kusama </span>
+      <o-field
+        v-for="collection in collections"
+        :key="collection.id"
+        class="min-width-0 is-flex">
+        <NeoCheckbox v-model="listed" class="mr-0"> </NeoCheckbox>
+        <div class="is-flex is-align-items-center filter-container min-width-0">
+          <img src="/placeholder.webp" class="image is-32x32 border mr-2" />
+          <div class="is-flex is-flex-direction-column min-width-0">
+            <NeoTooltip :label="collection.meta.name" :append-to-body="false">
+              <div class="is-ellipsis no-wrap">
+                {{ collection.meta.name }}
               </div>
+            </NeoTooltip>
+            <div
+              class="is-flex is-justify-content-space-between is-size-7 has-text-grey">
+              <div>Owners: {{ collection.nftCount }}</div>
+              <div>{{ collection.chain }}</div>
             </div>
           </div>
-        </NeoCheckbox>
-      </b-field>
+        </div>
+      </o-field>
       <b-field>
         <NeoCheckbox v-model="owned" :disabled="!accountId">
           {{ $t('sort.own') }}</NeoCheckbox
@@ -43,13 +46,18 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoCheckbox } from '@kodadot1/brick'
+import { NeoCheckbox, NeoTooltip } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
+import { usePopularCollections } from './usePopularCollections'
+import { OField } from '@oruga-ui/oruga'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
 const { accountId } = useAuth()
 const { replaceUrl: replaceURL } = useReplaceUrl()
+
+const { collections } = usePopularCollections()
+console.log('🚀 ~ file: PopularCollections.vue:60 ~ collections:', collections)
 
 type DataModel = 'query' | 'store'
 
@@ -95,8 +103,11 @@ const applyToUrl = (queryCondition: { [key: string]: any }) => {
   emit('resetPage')
 }
 </script>
-<style scoped>
-.width-320 {
-  width: 320px;
+<style lang="scss">
+.min-width-0 {
+  min-width: 0;
+}
+.min-width-0 .o-field__body {
+  min-width: 0;
 }
 </style>

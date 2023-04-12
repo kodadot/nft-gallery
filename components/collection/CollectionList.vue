@@ -1,5 +1,5 @@
 <template>
-  <div class="collections is-flex-grow-1">
+  <div class="collections">
     <div
       class="is-flex is-flex-direction-row is-justify-content-space-between py-5">
       <BreadcrumbsFilter />

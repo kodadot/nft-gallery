@@ -1,17 +1,13 @@
 <template>
-  <div
-    :class="{ 'bordered sticky': open, 'sidebar-wide': isExploreCollections }"
-    class="is-hidden-mobile">
+  <div :class="{ 'bordered sticky': open }" class="is-hidden-mobile">
     <NeoSidebar :reduce="false" :open="open" fullheight>
       <EventTypeFilter v-if="isCollectionActivityTab" expanded fluid-padding />
-      <StatusFilter
-        v-if="!isCollectionActivityTab && !isExploreCollections"
+      <StatusFilter v-else expanded fluid-padding />
+      <PriceFilter v-if="!isCollectionActivityTab" fluid-padding />
+      <PopularCollections
+        v-if="!isCollectionActivityTab"
         expanded
         fluid-padding />
-      <PriceFilter
-        v-if="!isCollectionActivityTab && !isExploreCollections"
-        fluid-padding />
-      <PopularCollections v-if="isExploreCollections" expanded fluid-padding />
     </NeoSidebar>
   </div>
 </template>
@@ -29,9 +25,6 @@ const preferencesStore = usePreferencesStore()
 const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 const isCollectionActivityTab = computed(
   () => route.name === 'prefix-collection-id-activity'
-)
-const isExploreCollections = computed(
-  () => route.name === 'prefix-explore-collectibles'
 )
 </script>
 
