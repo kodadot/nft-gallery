@@ -79,6 +79,13 @@ import { format } from '@/components/collection/activity/utils'
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { Flippers } from '@/composables/collectionActivity/types'
+const props = defineProps<{
+  flippers?: Flippers
+}>()
+const target = ref<HTMLElement | null>(null)
+const offset = ref(4)
+
+const flippers = computed(() => Object.entries(props.flippers || {}))
 
 const toggleNFTDetails = (flipperId: string) => {
   const isOpen = isNFTDetailsOpen.value[flipperId]
@@ -87,10 +94,6 @@ const toggleNFTDetails = (flipperId: string) => {
     [flipperId]: !isOpen,
   }
 }
-const target = ref<HTMLElement | null>(null)
-const offset = ref(4)
-
-const flippers = computed(() => Object.entries(props.flippers || {}))
 
 useIntersectionObserver(target, ([{ isIntersecting }]) => {
   if (isIntersecting) {
@@ -109,10 +112,6 @@ const isFlipperMoreNFTSectionOpen = flippers.value.reduce(
   {}
 )
 const isNFTDetailsOpen = ref(isFlipperMoreNFTSectionOpen)
-
-const props = defineProps<{
-  flippers?: Flippers
-}>()
 </script>
 
 <style lang="scss" scoped>
