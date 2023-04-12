@@ -314,9 +314,7 @@ export default class Search extends mixins(
     const { page, ...restQuery } = this.$route.query
     this.$router
       .replace({
-        path: this.isExplorePage
-          ? String(this.$route.path)
-          : `/${this.urlPrefix}/explore/items`,
+        path: this.$route.path,
         query: {
           ...restQuery,
           search: this.searchQuery || this.$route.query.search || undefined,
