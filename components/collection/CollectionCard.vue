@@ -33,9 +33,10 @@ const image = ref('')
 
 onMounted(async () => {
   const metadata = (await processSingleMetadata(
-    props.collection.metadata,
-    true
+    props.collection.metadata
   )) as Metadata
-  image.value = sanitizeIpfsUrl(metadata.image || '')
+  image.value = sanitizeIpfsUrl(
+    metadata.image || metadata.thumbnailUri || metadata.mediaUri || ''
+  )
 })
 </script>
