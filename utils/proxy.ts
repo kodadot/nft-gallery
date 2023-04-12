@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { APIKeys, pinFileToIPFS } from '@/utils/pinata'
-import { justHash } from '@kodadot1/minimark'
+import { justHash } from '@kodadot1/minimark/utils'
 import { extractCid } from './ipfs'
 import { URLS } from './constants'
 
