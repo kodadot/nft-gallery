@@ -89,7 +89,8 @@ const toggleCollection = (collectionId: string) => {
 
 const getSearchParam = () => {
   if (props.dataModel === 'query') {
-    checkedCollection.value = route.query?.collection?.split(',') || []
+    checkedCollection.value =
+      route.query?.collection?.split(',').filter((x) => !!x) || []
   } else {
     checkedCollection.value = exploreFiltersStore.collection || []
   }
@@ -109,6 +110,14 @@ const applyToUrl = (queryCondition: { [key: string]: any }) => {
 }
 
 getSearchParam()
+
+watch(() => {
+  if (props.dataModel === 'query') {
+    return route.query?.collection
+  } else {
+    return exploreFiltersStore.collection
+  }
+}, getSearchParam)
 </script>
 <style lang="scss" scoped>
 .min-width-0 {

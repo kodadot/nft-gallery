@@ -24,6 +24,16 @@
         {{ `${$t('Max')}:` }}
         <CommonTokenMoney :value="value" />
       </NeoTag>
+      <template v-else-if="key === 'collection'">
+        <NeoTag
+          v-for="item in collections"
+          :key="`${key}-${item.id}`"
+          class="control d"
+          @close="removeCollection(item.id)">
+          {{ item.meta.name }}
+        </NeoTag>
+      </template>
+
       <NeoTag
         v-else
         :key="key"
@@ -44,6 +54,10 @@
 <script lang="ts" setup>
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import {
+  Collection,
+  useCollectionMap,
+} from '@/components/shared/filters/modules/usePopularCollections'
 
 const route = useRoute()
 const isCollectionActivityTab = computed(
@@ -68,10 +82,25 @@ const breads = computed(() => {
   )
   return Object.fromEntries(activeFilters)
 })
-console.log(
-  '🚀 ~ file: BreadcrumbsFilter.vue:70 ~ breads ~ breads:',
-  breads.value
-)
+
+const collectionMap = useCollectionMap()
+const collections = ref<Collection[]>([])
+
+watch([collectionMap, breads], () => {
+  if (breads.value.collection && collectionMap.value?.length > 0) {
+    collections.value = breads.value.collection
+      .split(',')
+      .map((id) => {
+        return collectionMap.value.find((x) => x.id === id)
+      })
+      .filter((x) => x && x.id)
+  }
+})
+
+const removeCollection = (id) => {
+  const ids = collections.value.filter((x) => x.id !== id).map((x) => x.id)
+  replaceUrl({ collection: ids.join(',') })
+}
 
 const isAnyFilterActive = computed(() =>
   Boolean(Object.keys(breads.value).length)

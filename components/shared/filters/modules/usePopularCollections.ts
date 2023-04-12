@@ -1,9 +1,25 @@
 import { POPULAR_COLLECTIONS } from './constants'
+import { CollectionEntityMinimal } from '@/components/collection/utils/types'
+const collectionMap = ref<CollectionEntityMinimal[]>([])
+
+export type Collection = CollectionEntityMinimal & {
+  nftCount: number
+  chain: string
+  meta: {
+    name: string
+  }
+}
+
+export const useCollectionMap = () => {
+  return collectionMap
+}
 
 export const usePopularCollections = () => {
-  const collections = ref<any[]>([])
+  const collections = ref<Collection[]>([])
   const resArr = ref<any[]>([])
-  const loadingMap = reactive({})
+  const loadingMap = reactive<{
+    [key: string]: { value: boolean }
+  }>({})
 
   for (const [clientName, ids] of Object.entries(POPULAR_COLLECTIONS)) {
     const { data, loading } = useGraphql({
@@ -29,6 +45,7 @@ export const usePopularCollections = () => {
           }))
         })
         .flat()
+      collectionMap.value = collections.value
     }
   })
 
