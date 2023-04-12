@@ -98,11 +98,12 @@ const selectedSort = computed({
 })
 
 function onChange(selected) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { page, ...restQuery } = route.query
   router.push({
     path: route.fullPath,
     query: {
-      ...route.query,
-      page: '1',
+      ...restQuery,
       sort: removeDuplicateSortKeys(selected),
     },
   })

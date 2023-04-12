@@ -33,14 +33,14 @@ const selected = computed(() =>
 
 function onSwitchChain(chain) {
   $store.dispatch('setUrlPrefix', chain)
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { page, ...restQuery } = route.query
   router.push({
     params: {
       prefix: chain,
     },
     query: {
-      ...route.query,
-      page: '1',
+      ...restQuery,
     },
   })
 }
