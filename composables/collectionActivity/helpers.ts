@@ -1,4 +1,4 @@
-import { Interaction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark/v1'
 import { sum } from '@/utils/math'
 import {
   Flippers,
