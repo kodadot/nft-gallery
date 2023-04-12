@@ -1,7 +1,7 @@
 import type { ApiPromise } from '@polkadot/api'
 import { identityOf, onApiConnect } from '@kodadot1/sub-api'
 import { Registration } from '@polkadot/types/interfaces/identity/types'
-
+import { defineStore } from 'pinia'
 import consola from 'consola'
 import { emptyObject } from '@/utils/empty'
 import { formatAddress } from '@/utils/account'
@@ -66,11 +66,6 @@ async function subscribeTokens(
   return Promise.resolve(() => void 0)
 }
 
-// Disabling namespace to match with the original repo
-// export const namespaced = false
-
-import { defineStore } from 'pinia'
-
 export const useIdentityStore = defineStore('identity', {
   state: (): IdentityStruct => ({
     identities: emptyObject<IdentityMap>(),
@@ -103,10 +98,9 @@ export const useIdentityStore = defineStore('identity', {
     },
     setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: emptyObject<BalanceMap>() }
-      console.log('fetching balance...')
+      consola.log('fetching balance...')
       this.fetchBalance({ address: authRequest.address })
-      // TODO: useLocaleStorage
-      localStorage.setItem('kodaauth', authRequest.address)
+      useLocalStorage('kodaauth', authRequest.address)
     },
     resetAuth() {
       this.auth = {
@@ -125,8 +119,7 @@ export const useIdentityStore = defineStore('identity', {
       if (this.auth.address) {
         const address = formatAddress(this.auth.address, ss58Prefix)
         this.auth.address = address
-        // TODO: useLocaleStorage
-        localStorage.setItem('kodaauth', address)
+        useLocalStorage('kodaauth', address)
       }
     },
     setCorrectAddressBalance(apiUrl: string) {
@@ -141,9 +134,9 @@ export const useIdentityStore = defineStore('identity', {
       const directEndpoint = getChainEndpointByPrefix(urlPrefix.value)
       const endpoint = String(apiUrl || directEndpoint)
 
-      console.log(address)
-      console.log(urlPrefix)
-      console.log(endpoint)
+      consola.log(address)
+      consola.log(urlPrefix)
+      consola.log(endpoint)
 
       if (!address) {
         balanceSub()

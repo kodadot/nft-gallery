@@ -107,7 +107,6 @@ type IdentityFields = Record<string, string>
 
 const { $i18n } = useNuxtApp()
 const { apiUrl, apiInstance } = useApi()
-const { urlPrefix } = usePrefix()
 const { accountId, balance } = useAuth()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
   useMetaTransaction()
@@ -121,13 +120,7 @@ const identity = ref<Record<string, string>>({
   legal: '',
 })
 const deposit = ref('0')
-
-const inputLengthLimit = computed(() => {
-  if (urlPrefix.value === 'bsx' || urlPrefix.value === 'snek') {
-    return 32
-  }
-  return undefined
-})
+const inputLengthLimit = ref(32)
 
 onBeforeMount(async () => {
   onApiConnect(apiUrl.value, async (api) => {

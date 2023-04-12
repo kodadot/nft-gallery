@@ -113,9 +113,9 @@ const identityStore = useIdentityStore()
 const root = ref<Vue<Record<string, string>>>()
 const connected = computed(() => Boolean(accountId.value))
 
-const balance = computed(() => {
-  if (urlPrefix.value == 'rmrk' || urlPrefix.value == 'rmrk2') {
-    return identityStore.getAuthBalance
+const balance = computed<string>(() => {
+  if (urlPrefix.value == 'rmrk' || urlPrefix.value == 'ksm') {
+    return identityStore.getAuthBalance()
   }
   return identityStore.getTokenBalanceOf(tokenId.value)
 })

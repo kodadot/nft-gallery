@@ -1,11 +1,5 @@
 import { NAMES } from './names'
-import type {
-  BackwardPrefix,
-  ChainProperties,
-  Config,
-  Option,
-  Prefix,
-} from './types'
+import type { ChainProperties, Config, Option, Prefix } from './types'
 
 export const toChainProperty = (
   ss58Format: number,
@@ -42,6 +36,8 @@ export const CHAINS: Config<ChainProperties> = {
   glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
 }
 
+export const DEFAULT_PREFIX: Prefix = 'bsx'
+
 export const chainPrefixes: Prefix[] = [
   'bsx',
   'rmrk',
@@ -64,12 +60,6 @@ export const chainList = (): Option[] => {
   return chainPrefixes.map((prefix) => ({
     info: chainInfo[prefix],
     text: NAMES[prefix],
-    value: prefix === 'ksm' ? 'rmrk2' : prefix,
+    value: prefix,
   }))
-}
-
-// TODO: our url prefix still rmrk2
-// e.g: https://kodadot.xyz/rmrk2/explore/items
-export const rmrk2ToKsm = (prefix: BackwardPrefix): Prefix => {
-  return prefix === 'rmrk2' ? 'ksm' : prefix
 }

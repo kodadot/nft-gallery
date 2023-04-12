@@ -1,0 +1,21 @@
+@import '../../scss/variable.scss';
+@import '../../scss/animation.scss';
+
+.neo-modal {
+  .o-modal__content {
+    @include ktheme() {
+      box-shadow: theme('primary-shadow');
+      border: 1px solid theme('border-color');
+      color: theme('text-color');
+      background: theme('background-color');
+    }
+  }
+
+  .o-modal__overlay {
+    background-color: rgba(0, 0, 0, 0.17);
+  }
+
+  .card {
+    border-radius: 0;
+  }
+}

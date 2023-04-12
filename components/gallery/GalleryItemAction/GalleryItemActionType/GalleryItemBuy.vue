@@ -104,9 +104,9 @@ const label = computed(() =>
   active.value ? $i18n.t('nft.action.confirm') : $i18n.t('nft.action.buy')
 )
 
-const balance = computed(() => {
-  if (['rmrk', 'rmrk2'].includes(urlPrefix.value)) {
-    return identityStore.getAuthBalance
+const balance = computed<string>(() => {
+  if (['rmrk', 'ksm'].includes(urlPrefix.value)) {
+    return identityStore.getAuthBalance()
   }
   return identityStore.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
 })

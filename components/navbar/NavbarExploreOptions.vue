@@ -29,17 +29,18 @@
 </template>
 
 <script lang="ts" setup>
-const { $router } = useNuxtApp()
+const { $router, $store } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
 
 const filteredChains = computed(() => {
   return availableChains?.value.filter((chain) => {
-    return ['rmrk2', 'bsx', 'rmrk'].includes(chain.value)
+    return ['ksm', 'bsx', 'rmrk'].includes(chain.value as string)
   })
 })
 
 const setSelectedChain = (value) => {
+  $store.dispatch('setUrlPrefix', value)
   $router.push({ path: `/${value}/explore` })
 }
 </script>
