@@ -1,9 +1,7 @@
-import { DisplayType, Interaction } from '@kodadot1/minimark'
-export interface Attribute {
-  display_type: DisplayType
-  trait_type: string
-  value: number | string
-}
+import { Interaction } from '@kodadot1/minimark/v1'
+import { Attribute } from '@kodadot1/minimark/common'
+
+export { Attribute }
 
 export interface CollectionMetadata {
   description?: string
