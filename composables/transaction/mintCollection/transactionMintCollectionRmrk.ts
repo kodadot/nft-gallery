@@ -3,10 +3,10 @@ import { ExecuteTransactionParams } from '@/composables/useTransaction'
 import { constructMeta } from './constructMeta'
 import {
   Interaction,
-  asSystemRemark,
   createCollection,
-  createMintInteaction,
-} from '@kodadot1/minimark'
+  createMintInteraction,
+} from '@kodadot1/minimark/v1'
+import { asSystemRemark } from '@kodadot1/minimark/common'
 import { canSupport } from '@/utils/support'
 
 export async function execMintCollectionRmrk(
@@ -14,7 +14,7 @@ export async function execMintCollectionRmrk(
   api,
   executeTransaction: (p: ExecuteTransactionParams) => void
 ) {
-  const { version } = useRmrkVersion()
+  // const { version } = useRmrkVersion()
   const { accountId } = useAuth()
   const { $i18n } = useNuxtApp()
 
@@ -28,7 +28,7 @@ export async function execMintCollectionRmrk(
     metadata,
     nftCount
   )
-  const mintInteraction = createMintInteaction(Interaction.MINT, version, mint)
+  const mintInteraction = createMintInteraction(Interaction.MINT, mint)
 
   const cb = api.tx.utility.batchAll
   const hasSupport = true
