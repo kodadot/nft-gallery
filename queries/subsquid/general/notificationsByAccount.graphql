@@ -1,0 +1,19 @@
+#import "../../fragments/subsquidNft.graphql"
+
+query notificationsByAccount($account: String!, $limit: Int = 30) {
+  # get sale event
+  events(
+    limit: $limit
+    where: { currentOwner_eq: $account, interaction_eq: BUY }
+    orderBy: timestamp_DESC
+  ) {
+    id
+    interaction
+    timestamp
+    currentOwner
+    meta
+    nft {
+      ...subsquidNft
+    }
+  }
+}

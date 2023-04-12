@@ -303,7 +303,6 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
         .replace({
           path: String(this.$route.path),
           query: {
-            page: '1',
             search: this.name,
           },
         })

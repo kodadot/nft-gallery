@@ -95,14 +95,19 @@ export default function ({
   useScroll(window, { onScroll: updateCurrentPage, throttle: 1000 })
   useResizeObserver(document.body, onResize)
 
-  const replaceUrlPage = (page: string) => {
-    if (page === route.query.page) {
+  const replaceUrlPage = (targetPage: string) => {
+    if (targetPage === route.query.page) {
       return
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { page, ...restQuery } = route.query
     router
       .replace({
         path: String(route.path),
-        query: { ...route.query, page },
+        query:
+          targetPage === '1'
+            ? { ...restQuery }
+            : { ...restQuery, page: targetPage },
       })
       .catch($consola.warn)
   }

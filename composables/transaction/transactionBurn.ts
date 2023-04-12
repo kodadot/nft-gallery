@@ -13,7 +13,7 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
     })
   }
 
-  if (item.urlPrefix === 'rmrk2') {
+  if (item.urlPrefix === 'ksm') {
     executeTransaction({
       cb: api.tx.system.remark,
       arg: [createInteraction('BURN' as any, '2.0.0', item.nftId, '')],

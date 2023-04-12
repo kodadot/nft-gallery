@@ -26,11 +26,11 @@
         </div>
       </div>
       <div class="footer-container-info is-flex is-flex-direction-column">
-        <h4 class="subtitle is-5">KodaDot</h4>
+        <h4 class="subtitle is-5">Marketplace</h4>
         <div>
-          <ul class="footer-container-info-list">
+          <ul class="">
             <li
-              v-for="item in menu"
+              v-for="item in menuMarketplace"
               :key="item.url"
               class="footer-container-info-list-item">
               <a
@@ -50,6 +50,32 @@
           </ul>
         </div>
       </div>
+      <div class="footer-container-info is-flex is-flex-direction-column">
+        <h4 class="subtitle is-5">KodaDot</h4>
+        <div>
+          <ul>
+            <li
+              v-for="item in menuKodadot"
+              :key="item.url"
+              class="footer-container-info-list-item">
+              <a
+                v-if="item.external"
+                :href="item.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="is-flex is-align-items-center">
+                {{ item.name }}
+                <b-icon icon="external-link-alt" class="ml-1" size="is-small">
+                </b-icon>
+              </a>
+              <nuxt-link v-else :to="item.url">
+                {{ item.name }}
+              </nuxt-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+
       <div class="footer-container-socials is-flex is-flex-direction-column">
         <h4 class="subtitle is-5">
           {{ $t('footer.join') }}
@@ -90,27 +116,10 @@ interface Menu {
 const { $i18n } = useNuxtApp()
 const { isDarkMode } = useTheme()
 
-const menu: Menu[] = [
-  {
-    name: $i18n.t('about'),
-    url: '/about',
-  },
+const menuMarketplace: Menu[] = [
   {
     name: $i18n.t('faq.page'),
     url: '/rmrk/faq',
-  },
-  {
-    name: $i18n.t('careers'),
-    url: '/jobs',
-  },
-  {
-    name: $i18n.t('contribute'),
-    url: '/contribute',
-  },
-  {
-    name: $i18n.t('referralProgram'),
-    url: 'https://docs.kodadot.xyz/referral-program.html',
-    external: true,
   },
   {
     name: $i18n.t('documentation'),
@@ -118,10 +127,43 @@ const menu: Menu[] = [
     external: true,
   },
   {
+    name: $i18n.t('contribute'),
+    url: '/contribute',
+  },
+]
+
+const menuKodadot: Menu[] = [
+  {
+    name: $i18n.t('about'),
+    url: '/about',
+  },
+  {
+    name: $i18n.t('careers'),
+    url: '/jobs',
+  },
+  {
+    name: $i18n.t('merchshop'),
+    url: 'https://shop.kodadot.xyz',
+    external: true,
+  },
+
+  {
+    name: $i18n.t('referralProgram'),
+    url: 'https://docs.kodadot.xyz/referral-program.html',
+    external: true,
+  },
+
+  {
+    name: $i18n.t('artist ambassador'),
+    url: 'https://docs.kodadot.xyz/artist-ambassador.html#conditions-%F0%9F%94%8D',
+    external: true,
+  },
+  {
     name: $i18n.t('press kit'),
     url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
     external: true,
   },
+
   {
     name: $i18n.t('ambassador program'),
     url: 'https://docs.kodadot.xyz/ambassador-program/ambassador-intro.html#the-opportunity',

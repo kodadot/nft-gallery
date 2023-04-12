@@ -108,7 +108,7 @@ const activeTab = ref('0')
 
 const properties = computed(() => {
   // we have different format between rmrk2 and the other chains
-  if (urlPrefix.value === 'rmrk2') {
+  if (urlPrefix.value === 'ksm') {
     return Object.entries(nftMetadata.value?.properties || {}).map(
       ([key, value]) => {
         return {

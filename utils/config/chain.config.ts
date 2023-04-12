@@ -1,24 +1,24 @@
-import { CHAINS, rmrk2ToKsm } from '@kodadot1/static'
+import { CHAINS } from '@kodadot1/static'
 import { AssetItem } from '@/components/bsx/Asset/types'
 import { ChainProperties } from '../api/Query'
 
-import type { BackwardPrefix } from '@kodadot1/static'
+import type { Prefix } from '@kodadot1/static'
 
 export const BLOCK_EXPLORER_WITH_QUERY = ['snek']
 
-export const chainPropListOf = (prefix: BackwardPrefix): ChainProperties => {
-  return CHAINS[rmrk2ToKsm(prefix)]
+export const chainPropListOf = (prefix: Prefix): ChainProperties => {
+  return CHAINS[prefix]
 }
 
-export const ss58Of = (prefix: BackwardPrefix): number => {
+export const ss58Of = (prefix: Prefix): number => {
   return chainPropListOf(prefix).ss58Format
 }
 
-export const blockExplorerOf = (prefix: BackwardPrefix): string | undefined => {
+export const blockExplorerOf = (prefix: Prefix): string | undefined => {
   return chainPropListOf(prefix).blockExplorer
 }
 
-export const chainAssetOf = (prefix: BackwardPrefix): AssetItem => {
+export const chainAssetOf = (prefix: Prefix): AssetItem => {
   const { tokenDecimals: decimals, tokenSymbol: symbol } =
     chainPropListOf(prefix)
   return {
