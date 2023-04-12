@@ -98,7 +98,6 @@ export const useIdentityStore = defineStore('identity', {
     },
     setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: emptyObject<BalanceMap>() }
-      consola.log('fetching balance...')
       this.fetchBalance({ address: authRequest.address })
       useLocalStorage('kodaauth', authRequest.address)
     },
@@ -129,14 +128,9 @@ export const useIdentityStore = defineStore('identity', {
       }
     },
     fetchBalance({ address, apiUrl }: ChangeAddressRequest) {
-      // useApi()
       const { urlPrefix } = usePrefix()
       const directEndpoint = getChainEndpointByPrefix(urlPrefix.value)
       const endpoint = String(apiUrl || directEndpoint)
-
-      consola.log(address)
-      consola.log(urlPrefix)
-      consola.log(endpoint)
 
       if (!address) {
         balanceSub()
