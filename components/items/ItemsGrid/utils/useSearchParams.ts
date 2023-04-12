@@ -74,6 +74,8 @@ function useSearchByUserId() {
     userId: computed(() => {
       return route.name === 'prefix-u-id'
         ? [{ issuer_eq: route.params.id }]
+        : route.query.collection
+        ? [{ collection: { id_in: route.query.collection.split(',') } }]
         : []
     }),
   }

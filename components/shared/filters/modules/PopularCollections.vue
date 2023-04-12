@@ -15,16 +15,21 @@
       </div>
     </template>
     <div class="p-4 width-320">
-      <o-field
-        v-for="collection in collections"
-        :key="collection.id"
-        class="min-width-0 is-flex">
-        <NeoCheckbox v-model="listed" class="mr-0"> </NeoCheckbox>
-        <div class="is-flex is-align-items-center filter-container min-width-0">
-          <img src="/placeholder.webp" class="image is-32x32 border mr-2" />
-          <div class="is-flex is-flex-direction-column min-width-0">
+      <o-field v-for="collection in collections" :key="collection.id">
+        <NeoCheckbox
+          :value="checkedCollection.includes(collection.id)"
+          class="mr-0"
+          @input="toggleCollection(collection.id)">
+        </NeoCheckbox>
+        <div
+          class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
+          <img
+            :src="sanitizeIpfsUrl(collection.meta.image)"
+            class="image is-32x32 border mr-2" />
+          <div
+            class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
             <NeoTooltip :label="collection.meta.name" :append-to-body="false">
-              <div class="is-ellipsis no-wrap">
+              <div class="is-ellipsis">
                 {{ collection.meta.name }}
               </div>
             </NeoTooltip>
@@ -36,11 +41,6 @@
           </div>
         </div>
       </o-field>
-      <b-field>
-        <NeoCheckbox v-model="owned" :disabled="!accountId">
-          {{ $t('sort.own') }}</NeoCheckbox
-        >
-      </b-field>
     </div>
   </b-collapse>
 </template>
@@ -50,14 +50,13 @@ import { NeoCheckbox, NeoTooltip } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 import { usePopularCollections } from './usePopularCollections'
 import { OField } from '@oruga-ui/oruga'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
-const { accountId } = useAuth()
 const { replaceUrl: replaceURL } = useReplaceUrl()
 
 const { collections } = usePopularCollections()
-console.log('🚀 ~ file: PopularCollections.vue:60 ~ collections:', collections)
 
 type DataModel = 'query' | 'store'
 
@@ -76,38 +75,43 @@ const props = withDefaults(
 
 const emit = defineEmits(['resetPage'])
 
-const listed =
-  props.dataModel === 'query'
-    ? computed({
-        get: () => route.query?.listed?.toString() === 'true',
-        set: (value) => applyToUrl({ listed: String(value) }),
-      })
-    : computed({
-        get: () => exploreFiltersStore.listed,
-        set: (value) => exploreFiltersStore.setListed(value),
-      })
+const checkedCollection = ref<string[]>([])
 
-const owned =
-  props.dataModel === 'query'
-    ? computed({
-        get: () => route.query?.owned?.toString() === 'true',
-        set: (value) => applyToUrl({ owned: String(value) }),
-      })
-    : computed({
-        get: () => exploreFiltersStore.owned,
-        set: (value) => exploreFiltersStore.setOwned(value),
-      })
+const toggleCollection = (collectionId: string) => {
+  const index = checkedCollection.value.indexOf(collectionId)
+  if (index > -1) {
+    checkedCollection.value.splice(index, 1)
+  } else {
+    checkedCollection.value.push(collectionId)
+  }
+  toggleSearchParam()
+}
+
+const getSearchParam = () => {
+  if (props.dataModel === 'query') {
+    checkedCollection.value = route.query?.collection?.split(',') || []
+  } else {
+    checkedCollection.value = exploreFiltersStore.collection || []
+  }
+}
+
+const toggleSearchParam = () => {
+  if (props.dataModel === 'query') {
+    applyToUrl({ collection: checkedCollection.value.join(',') })
+  } else {
+    exploreFiltersStore.setCollection(checkedCollection.value)
+  }
+}
 
 const applyToUrl = (queryCondition: { [key: string]: any }) => {
   replaceURL(queryCondition)
   emit('resetPage')
 }
+
+getSearchParam()
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .min-width-0 {
-  min-width: 0;
-}
-.min-width-0 .o-field__body {
   min-width: 0;
 }
 </style>

@@ -40,6 +40,8 @@ const isCollectionActivityTab = computed(
   top: 84px;
   height: calc(100vh - 84px);
   margin-right: $fluid-container-padding;
+  overflow-y: auto;
+  flex-shrink: 0;
 }
 
 .o-side {

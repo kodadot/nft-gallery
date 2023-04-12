@@ -63,10 +63,15 @@ const breads = computed(() => {
       (key === 'search' && Boolean(value)) ||
       (key === 'min' && value) ||
       (key === 'max' && value) ||
+      (key === 'collection' && value) ||
       value === 'true'
   )
   return Object.fromEntries(activeFilters)
 })
+console.log(
+  '🚀 ~ file: BreadcrumbsFilter.vue:70 ~ breads ~ breads:',
+  breads.value
+)
 
 const isAnyFilterActive = computed(() =>
   Boolean(Object.keys(breads.value).length)

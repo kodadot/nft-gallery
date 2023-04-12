@@ -67,6 +67,8 @@ const {
 })
 
 const resetPage = useDebounceFn(() => {
+  console.log(2333)
+
   gotoPage(1)
 }, 500)
 

@@ -77,6 +77,7 @@ export function useFetchSearch({
       () => route.query.min,
       () => route.query.max,
       () => route.query.owned,
+      () => route.query.collection,
     ],
     () => {
       resetSearch()
