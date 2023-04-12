@@ -1,5 +1,8 @@
 <template>
-  <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
+  <o-tabs
+    v-model="activeTab"
+    expanded
+    content-class="o-tabs__content--fixed gallery-item-tab-panel">
     <!-- offers -->
     <DisablableTab
       value="0"
@@ -65,3 +68,13 @@ watchEffect(() => {
   collectionId.value = nft.value?.collection.id || ''
 })
 </script>
+
+<style lang="scss">
+@import '@/styles/abstracts/variables';
+
+.o-tabs__content--fixed.gallery-item-tab-panel {
+  @include mobile {
+    height: 28rem;
+  }
+}
+</style>
