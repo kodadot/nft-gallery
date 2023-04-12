@@ -28,7 +28,7 @@
           </nuxt-link>
         </b-tooltip>
       </b-dropdown-item>
-      <template v-if="chain === 'rmrk'">
+      <template v-if="chain === 'rmrk' || chain === 'ksm'">
         <b-dropdown-item has-link>
           <b-tooltip
             position="is-left"
@@ -66,7 +66,7 @@
         tag="nuxt-link">
         {{ $t('waifu') }}
       </b-navbar-item>
-      <template v-if="chain === 'rmrk'">
+      <template v-if="chain === 'rmrk' || chain === 'ksm'">
         <b-navbar-item
           data-cy="simple"
           :to="`/${urlPrefix}/mint`"
