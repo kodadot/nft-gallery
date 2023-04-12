@@ -1,7 +1,7 @@
 <template>
   <div v-if="ready" class="">
     <div
-      v-for="{ avatar, id, name, updatedAt } in nfts"
+      v-for="{ avatar, id, name, updatedAt } in displayedNFTs"
       :key="id"
       class="is-flex pt-2 px-5 is-justify-content-start is-hoverable-item">
       <div class="mr-5">
@@ -11,8 +11,13 @@
           :alt="name"
           width="40"
           height="40"
-          class="border" />
-        <img v-else src="/placeholder.webp" class="border mr-5" />
+          class="border image-size" />
+        <img
+          v-else
+          src="/placeholder.webp"
+          class="border mr-5 image-size"
+          width="40"
+          height="40" />
       </div>
       <div class="is-flex is-flex-direction-column">
         {{ name }}
@@ -21,6 +26,7 @@
         }}</span>
       </div>
     </div>
+    <div ref="target" />
   </div>
 </template>
 
@@ -38,13 +44,20 @@ const props = defineProps<{
 const nfts = ref(props.nfts)
 const ready = ref(false)
 
-onMounted(() => {
-  processNFTImages()
+const target = ref<HTMLElement | null>(null)
+const offset = ref(4)
+
+useIntersectionObserver(target, ([{ isIntersecting }]) => {
+  if (isIntersecting) {
+    offset.value += 4
+  }
 })
+
+const displayedNFTs = computed(() => nfts.value.slice(0, offset.value))
 
 const processNFTImages = async () => {
   if (props.nfts) {
-    const promises = props.nfts.map(async (nft, i) => {
+    const promises = displayedNFTs.value.map(async (nft, i) => {
       let avatar
       if (nft.meta?.image) {
         avatar = sanitizeIpfsUrl(nft.meta.image)
@@ -53,7 +66,7 @@ const processNFTImages = async () => {
         avatar = sanitizeIpfsUrl(meta?.image)
       }
 
-      nfts.value[i].avatar = avatar
+      displayedNFTs.value[i].avatar = avatar
     })
 
     await Promise.all(promises)
@@ -61,4 +74,19 @@ const processNFTImages = async () => {
     ready.value = true
   }
 }
+
+watch(
+  offset,
+  () => {
+    processNFTImages()
+  },
+  { immediate: true }
+)
 </script>
+
+<style lang="scss" scoped>
+.image-size {
+  width: 40px !important;
+  height: 40px !important;
+}
+</style>
