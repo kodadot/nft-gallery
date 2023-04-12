@@ -576,7 +576,8 @@ export default class SimpleMint extends mixins(
     originalBlockNumber: string
   ): Promise<void> {
     try {
-      const { version, price } = this
+      // TODO: WORK WITH V2
+      const { price } = this
       const addresses = this.parseAddresses
       showNotification(`[APP] Sending NFTs to ${addresses.length} adresses`)
 

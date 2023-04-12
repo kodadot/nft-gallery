@@ -261,7 +261,7 @@ export default class CreateToken extends mixins(
     try {
       const api = await this.useApi()
 
-      const { version, price } = this
+      const { price } = this
       const balance = formatBalance(price, {
         decimals: this.decimals,
         withUnit: this.unit,

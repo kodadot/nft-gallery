@@ -4,7 +4,8 @@ import {
   createMintInteraction,
   createMultipleNFT,
 } from '@kodadot1/minimark/v1'
-
+// TODO: use v2
+// import {  Interaction as NewInteraction, createInteraction  } from '@kodadot1/minimark/v2'
 import { canSupport } from '@/utils/support'
 
 import { basicUpdateFunction } from '@/components/unique/NftUtils'
@@ -20,7 +21,6 @@ export async function execMintRmrk(
   executeTransaction: (p: ExecuteTransactionParams) => void
 ) {
   const { accountId } = useAuth()
-  const { version } = useRmrkVersion()
   const preferences = usePreferencesStore()
   const { $i18n } = useNuxtApp()
 
