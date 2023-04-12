@@ -78,7 +78,7 @@ const displayedFlips = computed(() => flips.value.slice(0, offset.value))
 
 const processNFTImages = async () => {
   if (props.flips) {
-    const promises = props.flips.map(async ({ nft }, i) => {
+    const promises = displayedFlips.value.map(async ({ nft }, i) => {
       let avatar
       if (nft.meta?.image) {
         avatar = sanitizeIpfsUrl(nft.meta.image)
