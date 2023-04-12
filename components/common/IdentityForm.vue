@@ -107,7 +107,6 @@ type IdentityFields = Record<string, string>
 
 const { $store, $i18n } = useNuxtApp()
 const { apiUrl, apiInstance } = useApi()
-const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
   useMetaTransaction()
@@ -121,7 +120,6 @@ const identity = ref<Record<string, string>>({
   legal: '',
 })
 const deposit = ref('0')
-
 const inputLengthLimit = ref(32)
 
 onBeforeMount(async () => {
