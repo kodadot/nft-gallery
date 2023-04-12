@@ -22,7 +22,7 @@
 import groupBy from '@/utils/groupBy'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { Interaction, createInteraction } from '@kodadot1/minimark'
+import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
 import emojiUnicode from 'emoji-unicode'
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { VEmojiPicker } from 'v-emoji-picker'
@@ -88,7 +88,7 @@ export default class Appreciation extends mixins(
     const emote = emojiUnicode(emoji.data).split(' ')[0].toUpperCase()
     if (emote) {
       showNotification(`[EMOTE] Selected ${emoji.data} or ${emote}`)
-      const rmrk = createInteraction(Interaction.EMOTE, version, nftId, emote)
+      const rmrk = createInteraction(Interaction.EMOTE, nftId, emote)
       await this.submit(rmrk)
     } else {
       showNotification('[EMOTE] Unable to emote', notificationTypes.warn)
