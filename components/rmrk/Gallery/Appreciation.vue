@@ -20,9 +20,12 @@
 
 <script lang="ts">
 import groupBy from '@/utils/groupBy'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
+import {
+  Interaction as NewInteraction,
+  createInteraction as createNewInteraction,
+} from '@kodadot1/minimark/v2'
 import emojiUnicode from 'emoji-unicode'
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { VEmojiPicker } from 'v-emoji-picker'
@@ -41,7 +44,6 @@ import EmotionList from './EmotionList.vue'
 })
 export default class Appreciation extends mixins(
   MetaTransactionMixin,
-  RmrkVersionMixin,
   UseApiMixin
 ) {
   @Prop({ type: Array }) public emotes!: Emote[]
@@ -50,6 +52,7 @@ export default class Appreciation extends mixins(
   @Prop({ type: String }) public nftId!: string
   @Prop(Boolean) public burned!: boolean
   @Prop(Boolean) public simple!: boolean // submit heart directly
+  @Prop({ type: String, default: '1.0.0' }) public version!: string
 
   protected showDialog = false
 
@@ -88,7 +91,13 @@ export default class Appreciation extends mixins(
     const emote = emojiUnicode(emoji.data).split(' ')[0].toUpperCase()
     if (emote) {
       showNotification(`[EMOTE] Selected ${emoji.data} or ${emote}`)
-      const rmrk = createInteraction(Interaction.EMOTE, nftId, emote)
+      const rmrk =
+        version === '2.0.0'
+          ? createNewInteraction({
+              action: NewInteraction.EMOTE,
+              payload: { id: nftId, value: emote, namespace: 'RMRK2' },
+            })
+          : createInteraction(Interaction.EMOTE, nftId, emote)
       await this.submit(rmrk)
     } else {
       showNotification('[EMOTE] Unable to emote', notificationTypes.warn)
