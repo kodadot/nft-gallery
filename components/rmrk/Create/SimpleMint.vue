@@ -205,15 +205,11 @@ import exec, {
   execResultValue,
   txCb,
 } from '@/utils/transactionExecutor'
-import {
-  Attribute,
-  Interaction,
-  createInteraction,
-  createMetadata,
-  findUniqueSymbol,
-  mapAsSystemRemark,
-  unSanitizeIpfsUrl,
-} from '@kodadot1/minimark'
+import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
+import { Attribute, mapAsSystemRemark } from '@kodadot1/minimark/common'
+import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
+
+import { findUniqueSymbol } from '@kodadot1/minimark/shared'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { formatBalance } from '@polkadot/util'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
@@ -611,12 +607,7 @@ export default class SimpleMint extends mixins(
           ? onlyNfts
               .slice(outOfTheNamesForTheRemarks.length)
               .map((nft) =>
-                createInteraction(
-                  Interaction.LIST,
-                  version,
-                  nft.id,
-                  String(price)
-                )
+                createInteraction(Interaction.LIST, nft.id, String(price))
               )
           : []
 
