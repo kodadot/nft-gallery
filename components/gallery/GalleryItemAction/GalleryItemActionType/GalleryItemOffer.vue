@@ -112,7 +112,7 @@ const root = ref<Vue<Record<string, string>>>()
 const connected = computed(() => Boolean(accountId.value))
 
 const balance = computed<string>(() => {
-  if (urlPrefix.value == 'rmrk' || urlPrefix.value == 'rmrk2') {
+  if (urlPrefix.value == 'rmrk' || urlPrefix.value == 'ksm') {
     return $store.getters.getAuthBalance
   }
   return $store.getters.getTokenBalanceOf(tokenId.value)

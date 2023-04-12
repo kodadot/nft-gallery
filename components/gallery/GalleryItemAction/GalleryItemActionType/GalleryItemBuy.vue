@@ -103,7 +103,7 @@ const label = computed(() =>
 )
 
 const balance = computed<string>(() => {
-  if (['rmrk', 'rmrk2'].includes(urlPrefix.value)) {
+  if (['rmrk', 'ksm'].includes(urlPrefix.value)) {
     return $store.getters.getAuthBalance
   }
   return $store.getters.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))

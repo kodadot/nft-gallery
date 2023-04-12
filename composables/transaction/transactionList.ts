@@ -22,7 +22,7 @@ export function execListTx(item: ActionList, api, executeTransaction) {
     return
   }
 
-  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'rmrk2') {
+  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
     const version = item.urlPrefix === 'rmrk' ? '1.0.0' : '2.0.0'
     executeTransaction({
       cb: api.tx.system.remark,

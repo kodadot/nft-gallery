@@ -36,7 +36,7 @@ function execBuyBasilisk(item: ActionBuy, api, executeTransaction) {
 }
 
 export function execBuyTx(item: ActionBuy, api, executeTransaction) {
-  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'rmrk2') {
+  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
     execBuyRmrk(item, api, executeTransaction)
   }
 

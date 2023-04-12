@@ -62,7 +62,7 @@ export async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
   }
 
   // if it's rmrk2, we need to check `resources` field
-  if (prefix === 'rmrk2' && nft.resources?.length) {
+  if (prefix === 'ksm' && nft.resources?.length) {
     return await getRmrk2Resources(nft)
   }
 

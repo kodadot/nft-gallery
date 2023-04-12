@@ -12,7 +12,7 @@ const createAttributes = (item: ActionMintCollection) => {
       display_type: null,
     }))
   }
-  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'rmrk2') {
+  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
     return []
   }
 

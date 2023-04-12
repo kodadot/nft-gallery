@@ -1,5 +1,6 @@
 import { DEFAULT_PREFIX } from '@kodadot1/static'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
+import type { Prefix } from '@kodadot1/static'
 
 export default function () {
   const { $store } = useNuxtApp()
@@ -12,7 +13,7 @@ export default function () {
       storage.value.selected ||
       $store.getters.currentUrlPrefix
   )
-  const urlPrefix = computed<string>(() => {
+  const urlPrefix = computed<Prefix>(() => {
     storage.value = { selected: prefix.value }
     return prefix.value
   })

@@ -6,7 +6,7 @@ export default function ({ store, route }): void {
   const { urlPrefix } = usePrefix()
 
   const prefix = urlPrefix.value
-  const chains = ['rmrk2', ...chainPrefixes]
+  const chains = [...chainPrefixes]
   const isAnyChainPrefixInPath = chains.includes(prefix)
   const rmrk2ChainPrefixInHostname = rmrk2ChainPrefixesInHostname.find(
     (prefix) => location.hostname.startsWith(`${prefix}.`)
@@ -29,7 +29,7 @@ export default function ({ store, route }): void {
         '_self'
       )
     } else if (store.getters.currentUrlPrefix !== rmrk2ChainPrefixInHostname) {
-      store.dispatch('setUrlPrefix', 'rmrk2')
+      store.dispatch('setUrlPrefix', 'ksm')
     }
   } else if (
     store.getters.currentUrlPrefix !== prefix &&

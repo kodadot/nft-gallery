@@ -1,5 +1,4 @@
-import { rmrk2ToKsm } from './chains'
-import type { BackwardPrefix, Prefix } from './types'
+import type { Prefix } from './types'
 
 export const SERVICES: Record<string, string> = {
   directUpload: 'https://direct-upload.w.kodadot.xyz/',
@@ -19,10 +18,10 @@ export const EXPLORERS: Record<Prefix, string> = {
   glmr: 'https://moonbeam.subscan.io/account/',
 }
 
-export const hasExplorer = (prefix: BackwardPrefix): boolean => {
-  return EXPLORERS[rmrk2ToKsm(prefix)] !== undefined
+export const hasExplorer = (prefix: Prefix): boolean => {
+  return EXPLORERS[prefix] !== undefined
 }
 
-export const getExplorer = (prefix: BackwardPrefix, id: string) => {
-  return EXPLORERS[rmrk2ToKsm(prefix)] + id
+export const getExplorer = (prefix: Prefix, id: string) => {
+  return EXPLORERS[prefix] + id
 }
