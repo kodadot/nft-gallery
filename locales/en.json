@@ -1315,6 +1315,7 @@
     "byCollection": "By collection",
     "byEvent": "By event",
     "emptyTipLine1": "Don't wait for notifications,",
-    "emptyTipLine2": "make your own buzz with your art."
+    "emptyTipLine2": "make your own buzz with your art.",
+    "loadingTip": "Loading Your Notifications..."
   }
 }
