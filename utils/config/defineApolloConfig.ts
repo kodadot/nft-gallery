@@ -9,7 +9,7 @@ const toClient = (value: string): string => {
     case 'kusama':
       return 'rmrk'
     case 'rmrk':
-      return 'rmrk2'
+      return 'ksm'
     default:
       return value
   }
