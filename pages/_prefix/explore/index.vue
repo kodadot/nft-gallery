@@ -1,19 +1,12 @@
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+<template>
+  <!-- empty template, to remove warning "[Vue warn]: Failed to mount component: template or render function not defined." -->
+  <div></div>
+</template>
 
-@Component({
-  components: {},
+<script lang="ts" setup>
+const router = useRouter()
+
+onBeforeMount(() => {
+  router.replace(`${window.location.pathname}/collectibles`)
 })
-export default class LandingPage extends Vue {
-  layout() {
-    return 'full-width-layout'
-  }
-
-  middleware({ store, redirect }) {
-    // If the user is not authenticated
-    const prefix = store.getters.currentUrlPrefix
-
-    setTimeout(() => redirect(`/${prefix}/explore/collectibles`))
-  }
-}
 </script>

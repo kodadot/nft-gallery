@@ -36,6 +36,8 @@ export const CHAINS: Config<ChainProperties> = {
   glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
 }
 
+export const DEFAULT_PREFIX: Prefix = 'bsx'
+
 export const chainPrefixes: Prefix[] = [
   'bsx',
   'rmrk',
