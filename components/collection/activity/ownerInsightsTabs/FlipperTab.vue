@@ -4,7 +4,7 @@
       v-for="[
         flipperId,
         { bestFlip, owned, totalBought, totalsold, latestflipTimestamp, flips },
-      ] in flippers"
+      ] in displayedFlippers"
       :key="flipperId"
       class="hide-last-hr">
       <div class="is-flex is-flex-direction-column gap">
@@ -67,6 +67,7 @@
       </div>
       <hr class="my-3 mx-5" />
     </div>
+    <div ref="target" />
   </div>
 </template>
 
@@ -86,14 +87,24 @@ const toggleNFTDetails = (flipperId: string) => {
     [flipperId]: !isOpen,
   }
 }
+const target = ref<HTMLElement | null>(null)
+const offset = ref(4)
+
 const flippers = computed(() => Object.entries(props.flippers || {}))
 
+useIntersectionObserver(target, ([{ isIntersecting }]) => {
+  if (isIntersecting) {
+    offset.value += 4
+  }
+})
+
+const displayedFlippers = computed(() => flippers.value.slice(0, offset.value))
 // map of flipper id to bolean, is the NFT details section of that flipper open or nor
 // {id0: false, id1: true, id3: false, ...}
 const isFlipperMoreNFTSectionOpen = flippers.value.reduce(
-  (accumelator, [holderId, _]) => ({
+  (accumelator, [flipperId, _]) => ({
     ...accumelator,
-    [holderId]: false,
+    [flipperId]: false,
   }),
   {}
 )
