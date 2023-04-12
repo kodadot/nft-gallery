@@ -1,7 +1,7 @@
 import { Interaction } from '@kodadot1/minimark/v1'
-import { Attribute } from '@kodadot1/minimark/common'
+import { Attribute as IAttribute } from '@kodadot1/minimark/common'
 
-export { Attribute }
+export type Attribute = IAttribute
 
 export interface CollectionMetadata {
   description?: string
