@@ -81,12 +81,11 @@ import {
 } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import {
-  Attribute,
   CreatedNFT,
   Interaction,
-  asSystemRemark,
   createInteraction,
-} from '@kodadot1/minimark'
+} from '@kodadot1/minimark/v1'
+import { Attribute, asSystemRemark } from '@kodadot1/minimark/common'
 import { formatBalance } from '@polkadot/util'
 import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { unwrapSafe } from '~/utils/uniquery'
@@ -271,9 +270,7 @@ export default class CreateToken extends mixins(
 
       const onlyNfts = remarks
         .map((nft) => toNFTId(nft, originalBlockNumber))
-        .map((id) =>
-          createInteraction(Interaction.LIST, version, id, String(price))
-        )
+        .map((id) => createInteraction(Interaction.LIST, id, String(price)))
 
       if (!onlyNfts.length) {
         showNotification('Can not list empty NFTs', notificationTypes.warn)
