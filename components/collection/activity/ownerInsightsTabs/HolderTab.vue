@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-for="[holderId, holdings] in holders" :key="holderId" class="">
+    <div
+      v-for="[holderId, holdings] in displayedHolders"
+      :key="holderId"
+      class="">
       <div class="is-flex is-flex-direction-column gap">
         <div class="px-5">
           <ProfileLink
@@ -53,6 +56,7 @@
       </div>
       <hr class="my-3 mx-5" />
     </div>
+    <div ref="target" />
   </div>
 </template>
 
@@ -64,13 +68,15 @@ import { NeoIcon } from '@kodadot1/brick'
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 
-const toggleNFTDetails = (flipperId: string) => {
-  const isOpen = isNFTDetailsOpen.value[flipperId]
+const toggleNFTDetails = (holderId: string) => {
+  const isOpen = isNFTDetailsOpen.value[holderId]
   isNFTDetailsOpen.value = {
     ...isNFTDetailsOpen.value,
-    [flipperId]: !isOpen,
+    [holderId]: !isOpen,
   }
 }
+const target = ref<HTMLElement | null>(null)
+const offset = ref(4)
 
 const holders = computed(() =>
   Object.entries(props.owners || {}).sort(
@@ -78,6 +84,14 @@ const holders = computed(() =>
     (a, b) => b[1].nftCount - a[1].nftCount
   )
 )
+
+useIntersectionObserver(target, ([{ isIntersecting }]) => {
+  if (isIntersecting) {
+    offset.value += 4
+  }
+})
+
+const displayedHolders = computed(() => holders.value.slice(0, offset.value))
 
 // map of owner id to bolean, is the NFT details section of that owner open or nor
 // {id0: false, id1: true, id3: false, ...}
