@@ -39,7 +39,7 @@ const nftEventVariables = {
   },
 }
 
-const disableChainsOnProduction = ['snek', 'ksm']
+const disableChainsOnProduction = ['snek']
 
 const useChainEvents = (chain, type) => {
   if (isProduction && disableChainsOnProduction.includes(chain)) {
