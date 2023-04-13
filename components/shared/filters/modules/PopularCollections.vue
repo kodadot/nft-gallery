@@ -19,7 +19,7 @@
         <NeoCheckbox
           :value="checkedCollection.includes(collection.id)"
           class="mr-0"
-          @input="toggleCollection(collection.id)">
+          @input="toggleCollection(collection)">
         </NeoCheckbox>
         <div
           class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
@@ -28,9 +28,11 @@
             class="image is-32x32 border mr-2" />
           <div
             class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
-            <NeoTooltip :label="collection.meta.name" :append-to-body="false">
+            <NeoTooltip
+              :label="collection.meta.name || collection.id"
+              :append-to-body="false">
               <div class="is-ellipsis">
-                {{ collection.meta.name }}
+                {{ collection.meta.name || collection.id }}
               </div>
             </NeoTooltip>
             <div
@@ -48,15 +50,18 @@
 <script lang="ts" setup>
 import { NeoCheckbox, NeoTooltip } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
-import { usePopularCollections } from './usePopularCollections'
+import { Collection, usePopularCollections } from './usePopularCollections'
 import { OField } from '@oruga-ui/oruga'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
+const router = useRouter()
 const { replaceUrl: replaceURL } = useReplaceUrl()
 const { collections } = usePopularCollections()
 const { availableChains } = useChain()
+const { urlPrefix } = usePrefix()
+const { $store } = useNuxtApp()
 
 const getChainName = (chain: string): string => {
   return availableChains.value.find((x) => x.value === chain)?.text || ''
@@ -81,14 +86,27 @@ const emit = defineEmits(['resetPage'])
 
 const checkedCollection = ref<string[]>([])
 
-const toggleCollection = (collectionId: string) => {
-  const index = checkedCollection.value.indexOf(collectionId)
+const toggleCollection = (collection: Collection) => {
+  const index = checkedCollection.value.indexOf(collection.id)
   if (index > -1) {
     checkedCollection.value.splice(index, 1)
   } else {
-    checkedCollection.value.push(collectionId)
+    checkedCollection.value.push(collection.id)
   }
-  toggleSearchParam()
+  if (urlPrefix.value !== collection.chain) {
+    let redirectPath = route.path.split('/')
+    redirectPath.splice(1, 1, collection.chain)
+    $store.dispatch('setUrlPrefix', collection.chain)
+    router.push({
+      path: redirectPath.join('/'),
+      query: {
+        ...route.query,
+        collection: checkedCollection.value.join(','),
+      },
+    })
+  } else {
+    toggleSearchParam()
+  }
 }
 
 const getSearchParam = () => {
