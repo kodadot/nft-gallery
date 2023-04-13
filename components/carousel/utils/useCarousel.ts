@@ -9,7 +9,7 @@ import {
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { sortItemListByIds } from '@/utils/sorting'
 import { correctPrefix } from '@/utils/uniquery'
-import { isProduction } from '@/utils/chain'
+import { isBeta, isProduction } from '@/utils/chain'
 
 export const useCarouselUrl = () => {
   const { urlPrefix } = usePrefix()
@@ -39,10 +39,17 @@ const nftEventVariables = {
   },
 }
 
-const disableChainsOnProduction = ['snek']
+const disableChainsOnProduction = ['snek', 'ksm']
+const disableChainsOnBeta = ['snek']
 
 const useChainEvents = (chain, type) => {
   if (isProduction && disableChainsOnProduction.includes(chain)) {
+    return {
+      data: ref(undefined),
+    }
+  }
+
+  if (isBeta && disableChainsOnBeta.includes(chain)) {
     return {
       data: ref(undefined),
     }

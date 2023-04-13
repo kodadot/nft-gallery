@@ -86,9 +86,8 @@ export const getChainNameByPrefix = (prefix: string) => {
   return prefix
 }
 
-export const isProduction =
-  window.location.hostname === 'kodadot.xyz' ||
-  window.location.hostname === 'beta.kodadot.xyz'
+export const isProduction = window.location.hostname === 'kodadot.xyz'
+export const isBeta = window.location.hostname === 'beta.kodadot.xyz'
 
 export const availablePrefixes = (): Option[] => {
   const chains = chainList()
