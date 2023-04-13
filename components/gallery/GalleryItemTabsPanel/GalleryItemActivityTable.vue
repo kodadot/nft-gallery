@@ -61,6 +61,12 @@
             <Identity :address="props.row.currentOwner" />
           </nuxt-link>
         </div>
+        <nuxt-link
+          v-else-if="props.row.interaction === 'SEND'"
+          :to="`/${urlPrefix}/u/${props.row.meta}`"
+          class="has-text-link">
+          <Identity :address="props.row.meta" />
+        </nuxt-link>
       </o-table-column>
 
       <!-- date -->
@@ -101,7 +107,7 @@ const { decimals, unit } = useChain()
 const { urlPrefix, tokenId, assets } = usePrefix()
 
 const interaction =
-  urlPrefix.value === 'rmrk2'
+  urlPrefix.value === 'ksm'
     ? dprops.interactions.filter((i) => i !== 'MINTNFT' && i !== 'CONSUME')
     : dprops.interactions
 
@@ -146,7 +152,7 @@ watchEffect(() => {
 
 const formatPrice = (price) => {
   const { symbol } = assets(tokenId.value)
-  const tokenSymbol = ['rmrk', 'rmrk2'].includes(urlPrefix.value)
+  const tokenSymbol = ['rmrk', 'ksm'].includes(urlPrefix.value)
     ? unit.value
     : symbol
 

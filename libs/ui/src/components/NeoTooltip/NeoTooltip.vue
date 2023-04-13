@@ -5,6 +5,7 @@
     class="neo-tooltip"
     :position="position"
     :label="label"
+    :delay="delay"
     @click.native.stop>
     <slot>
       <div />
@@ -25,11 +26,13 @@ export interface Props {
   position?: 'top' | 'bottom' | 'left' | 'right'
   active?: boolean
   appendToBody?: boolean
+  delay?: number
 }
 withDefaults(defineProps<Props>(), {
   position: 'top',
   active: true,
   appendToBody: true,
+  delay: undefined,
 })
 </script>
 

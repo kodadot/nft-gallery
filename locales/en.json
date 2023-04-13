@@ -39,6 +39,8 @@
   "multipleNFTS": "Multiple NFT's",
   "about": "About",
   "ambassador program": "Ambassador Program",
+  "artist ambassador": "Artist Ambassador",
+  "merchshop": "MerchShop",
   "press kit": "Press Kit",
   "careers": "Careers",
   "contribute": "Contribute",
@@ -929,7 +931,9 @@
       "from": "From",
       "to": "To",
       "time": "Time"
-    }
+    },
+    "noResults": "Looks Like There's Nothing Here Yet",
+    "noResultsSub": "Check back later or reset your filters"
   },
   "profileStats": {
     "listed": "Listed",
@@ -1311,6 +1315,7 @@
     "byCollection": "By collection",
     "byEvent": "By event",
     "emptyTipLine1": "Don't wait for notifications,",
-    "emptyTipLine2": "make your own buzz with your art."
+    "emptyTipLine2": "make your own buzz with your art.",
+    "loadingTip": "Loading Your Notifications..."
   }
 }

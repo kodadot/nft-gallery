@@ -1,6 +1,6 @@
 import correctFormat from '~/utils/ss58Format'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
-import { Interaction, createInteraction } from '@kodadot1/minimark'
+import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
 import { useChainStore } from '@/stores/chain'
 
 export type ShuffleFunction = (arr: string[]) => string[]

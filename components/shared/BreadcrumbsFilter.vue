@@ -58,6 +58,7 @@ import {
   Collection,
   useCollectionMap,
 } from '@/components/shared/filters/modules/usePopularCollections'
+import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
 
 const route = useRoute()
 const isCollectionActivityTab = computed(
@@ -69,19 +70,7 @@ const { replaceUrl } = useReplaceUrl({
 const { $i18n } = useNuxtApp()
 const isItemsExplore = computed(() => route.path.includes('/explore/items'))
 
-const breads = computed(() => {
-  const query = { ...route.query, redesign: undefined }
-
-  const activeFilters = Object.entries(query).filter(
-    ([key, value]) =>
-      (key === 'search' && Boolean(value)) ||
-      (key === 'min' && value) ||
-      (key === 'max' && value) ||
-      (key === 'collection' && value) ||
-      value === 'true'
-  )
-  return Object.fromEntries(activeFilters)
-})
+const breads = useActiveRouterFilters()
 
 const collectionMap = useCollectionMap()
 const collections = ref<Collection[]>([])

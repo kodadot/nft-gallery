@@ -85,7 +85,8 @@
 </template>
 
 <script lang="ts">
-import { Attribute, emptyArray } from '@kodadot1/minimark'
+import { emptyArray } from '@kodadot1/minimark/utils'
+import { Attribute } from '@kodadot1/minimark/common'
 import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 

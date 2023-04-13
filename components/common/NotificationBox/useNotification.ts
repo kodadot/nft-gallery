@@ -1,5 +1,5 @@
 import { Event, FilterOption } from './types'
-import { Interaction as _Interaction } from '@kodadot1/minimark'
+import { Interaction as _Interaction } from '@kodadot1/minimark/v1'
 import { sortedEventByDate } from '@/utils/sorting'
 
 export const Interaction = {
@@ -29,8 +29,10 @@ export const getInteractionColor = (key: string) => {
   return colorMap[key]
 }
 
-export const useNotification = (account: string) => {
+export const useNotification = () => {
   const { apiInstance } = useApi()
+  const { accountId } = useAuth()
+  const { urlPrefix } = usePrefix()
   const collections = ref<FilterOption[]>([])
   const events = ref<Event[]>([])
 
@@ -43,14 +45,17 @@ export const useNotification = (account: string) => {
   const { data: collectionData } = useGraphql({
     queryName: 'collectionByAccount',
     variables: {
-      account,
+      account: accountId.value,
     },
   })
-
-  const { data: eventData } = useGraphql({
+  const { data: eventData, loading } = useGraphql({
+    queryPrefix:
+      urlPrefix.value === 'bsx' || urlPrefix.value === 'snek'
+        ? 'chain-bsx'
+        : 'subsquid',
     queryName: 'notificationsByAccount',
     variables: {
-      account,
+      account: accountId.value,
     },
   })
 
@@ -60,7 +65,7 @@ export const useNotification = (account: string) => {
 
   watch(eventData, async (result) => {
     const currentBlockNumber = await currentBlock()
-    const offerEvents = result.offerEvents
+    const offerEvents = (result.offerEvents ?? [])
       .map((event) => ({
         ...event,
         nft: {
@@ -70,7 +75,7 @@ export const useNotification = (account: string) => {
       .filter(
         (event) =>
           event.interaction === Interaction.OFFER &&
-          Number(event.offer.expiration) < Number(currentBlockNumber)
+          Number(event.offer.expiration) > Number(currentBlockNumber)
       )
     events.value = sortedEventByDate(
       [...result.events, ...offerEvents],
@@ -81,5 +86,6 @@ export const useNotification = (account: string) => {
   return {
     collections,
     events,
+    loading,
   }
 }

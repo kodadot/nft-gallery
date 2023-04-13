@@ -1,7 +1,7 @@
 import { $fetch, FetchError } from 'ohmyfetch'
 import { URLS } from '../utils/constants'
 import consola from 'consola'
-import { Metadata } from '@kodadot1/minimark'
+import { Metadata } from '@kodadot1/minimark/common'
 
 const BASE_URL = URLS.koda.nftStorage
 
