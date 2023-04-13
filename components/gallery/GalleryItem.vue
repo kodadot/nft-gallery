@@ -29,7 +29,8 @@
             :mime-type="nftMimeType"
             :title="nftMetadata?.name"
             is-detail
-            :original="isMobile" />
+            :original="isMobile"
+            :placeholder="placeholder" />
         </div>
       </div>
       <div class="py-6 column">
@@ -130,6 +131,7 @@ const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
+const { isDarkMode } = useTheme()
 
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
@@ -149,6 +151,9 @@ const canPreview = computed(() =>
   [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
     resolveMedia(nftMimeType.value)
   )
+)
+const placeholder = computed(() =>
+  isDarkMode ? '/placeholder.webp' : '/placeholder-white.webp'
 )
 
 const onNFTBought = () => {

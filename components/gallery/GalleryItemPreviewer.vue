@@ -15,6 +15,7 @@
       <MediaItem
         class="gallery-item-media"
         :src="nftImage"
+        :placeholder="placeholder"
         :animation-src="nftAnimation"
         :mime-type="nftMimeType"
         :title="nft?.name || nft?.id"
@@ -28,12 +29,16 @@ import { useVModel } from '@vueuse/core'
 import { MediaItem, NeoButton, NeoIcon } from '@kodadot1/brick'
 import { useGalleryItem } from './useGalleryItem'
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
+const { isDarkMode } = useTheme()
 
 const props = defineProps<{
   value: boolean
 }>()
 const emit = defineEmits(['input'])
 const isFullscreen = useVModel(props, 'value', emit)
+const placeholder = computed(() =>
+  isDarkMode ? '/placeholder.webp' : '/placeholder-white.webp'
+)
 </script>
 
 <style lang="scss" scoped>
