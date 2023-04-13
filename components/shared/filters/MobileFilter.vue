@@ -27,6 +27,7 @@
           v-if="!isCollectionActivityTab"
           data-model="store"
           expanded />
+        <PopularCollections v-if="!isCollectionActivityTab" expanded />
       </div>
 
       <div class="buttons-container px-4 py-3 border-top">
@@ -56,6 +57,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
 import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
 import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
+import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
 
 const route = useRoute()
 const preferencesStore = usePreferencesStore()
