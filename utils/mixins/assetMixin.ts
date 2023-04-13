@@ -12,7 +12,7 @@ export default class AssetMixin extends Vue {
     return useAssetsStore()
   }
 
-  assetIdOf(id: string) {
-    return this.assetsStore.getAssetById(id)
+  assetIdOf(id: string | number) {
+    return this.assetsStore.getAssetById(String(id))
   }
 }
