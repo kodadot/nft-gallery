@@ -20,5 +20,4 @@ export const POPULAR_COLLECTIONS = {
     'dac5c7f54029d0e73c-XCHIMPZ',
     'be15890524c6e9b359-TRUSTED',
   ],
-  bsx: ['2973817177'],
 }
