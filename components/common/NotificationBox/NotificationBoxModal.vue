@@ -1,12 +1,13 @@
 <template>
   <div
+    v-if="isOpen"
     class="notification-modal-container theme-background-color border-left is-flex is-flex-direction-column">
     <header
       class="py-4 px-2rem is-flex is-justify-content-space-between border-bottom mb-4">
       <span class="control-label is-size-6 has-text-weight-bold">
         {{ $t('notification.notifications') }}
       </span>
-      <a class="is-flex is-align-items-center" @click="emit('close')">
+      <a class="is-flex is-align-items-center" @click="closeModal">
         <NeoIcon icon="close" />
       </a>
     </header>
@@ -18,7 +19,7 @@
           <NeoButton
             v-if="!showFilter"
             no-shadow
-            class="button-rounded"
+            class="rounded"
             @click.native="showFilter = !showFilter">
             {{ $t('notification.add') }}
             <NeoIcon icon="plus" size="small" />
@@ -26,7 +27,7 @@
           <NeoButton
             v-else
             no-shadow
-            class="button-rounded"
+            class="rounded"
             @click.native="showFilter = !showFilter">
             {{ $t('notification.done') }}
             <NeoIcon icon="check" size="small" />
@@ -88,24 +89,30 @@
           </div>
         </div>
       </div>
-      <div v-if="displayedEvents.length === 0" class="empty-tip">
-        <p>{{ $t('notification.emptyTipLine1') }}</p>
-        <p>{{ $t('notification.emptyTipLine2') }}</p>
+      <div v-if="loading" class="empty-tip">
+        <p>{{ $t('notification.loadingTip') }}</p>
       </div>
-      <div v-else class="is-flex is-flex-direction-column">
-        <NotificationItem
-          v-for="(event, index) in displayedEvents"
-          :key="`${event.id}-${index}`"
-          :event="event" />
+      <div v-else>
+        <div v-if="allEvents.length === 0" class="empty-tip">
+          <p>{{ $t('notification.emptyTipLine1') }}</p>
+          <p>{{ $t('notification.emptyTipLine2') }}</p>
+        </div>
+        <div v-else class="is-flex is-flex-direction-column">
+          <NotificationItem
+            v-for="(event, index) in displayedEvents"
+            :key="`${event.id}-${index}`"
+            :event="event" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Event, FilterOption } from './types'
+import { FilterOption } from './types'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
+import { usePreferencesStore } from '@/stores/preferences'
 
 import NotificationItem from './NotificationItem.vue'
 import {
@@ -114,18 +121,35 @@ import {
   useNotification,
 } from './useNotification'
 
-const { $store } = useNuxtApp()
-
 const eventTypes = ref<string[]>([
   Interaction.SALE,
   Interaction.OFFER,
   Interaction.ACCEPTED_OFFER,
 ])
-
-const collections = ref<FilterOption[]>([])
-const allEvents = ref<Event[]>([])
-
 const collectionFilter = ref<FilterOption | null>(null)
+const eventFilter = ref<string[]>([])
+const showFilter = ref(false)
+const prefrencesStore = usePreferencesStore()
+const isOpen = computed({
+  get: () => prefrencesStore.getNotificationBoxCollapse,
+  set: (value) => prefrencesStore.setNotificationBoxCollapse(value),
+})
+const emit = defineEmits(['close'])
+
+// properly close modal when being closed from outside,e.g. by changeing chain
+watch(isOpen, (newValue, oldValue) => {
+  if (newValue === false && oldValue === true) {
+    emit('close')
+  }
+})
+
+const closeModal = () => {
+  isOpen.value = false
+  emit('close')
+}
+
+const { collections, events: allEvents, loading } = useNotification()
+
 const toggleCollectionFilter = (target: FilterOption) => {
   if (collectionFilter.value?.id === target.id) {
     collectionFilter.value = null
@@ -134,7 +158,6 @@ const toggleCollectionFilter = (target: FilterOption) => {
   }
 }
 
-const eventFilter = ref<string[]>([])
 const toggleEventFilter = (target) => {
   const index = eventFilter.value.findIndex((x) => x === target)
   if (index === -1) {
@@ -144,41 +167,19 @@ const toggleEventFilter = (target) => {
   }
 }
 
-const showFilter = ref(false)
 const isFilterEmpty = computed(
   () => !collectionFilter.value && eventFilter.value.length === 0
 )
 
-const displayedEvents = ref<Event[]>([])
-
-const doSearch = () => {
-  displayedEvents.value = allEvents.value.filter(
+const displayedEvents = computed(() =>
+  allEvents.value.filter(
     (item) =>
       (!collectionFilter.value ||
         collectionFilter.value.id === item.nft.collection?.id) &&
       (eventFilter.value.length === 0 ||
         eventFilter.value.some((x) => x === item.interaction))
   )
-}
-
-const getNotifications = () => {
-  const { collections: collectionData, events: allEventsData } =
-    useNotification($store.getters.getAuthAddress)
-  collections.value = collectionData as unknown as FilterOption[]
-  allEvents.value = allEventsData as unknown as Event[]
-}
-
-watch(allEvents, doSearch, {
-  immediate: true,
-})
-
-watch(collectionFilter, doSearch, { deep: true })
-watch(eventFilter, doSearch, { deep: true })
-
-watch(() => $store.getters.currentUrlPrefix, getNotifications, {
-  immediate: true,
-})
-const emit = defineEmits(['close'])
+)
 </script>
 
 <style scoped lang="scss">

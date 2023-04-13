@@ -101,7 +101,7 @@ const { decimals, unit } = useChain()
 const { urlPrefix, tokenId, assets } = usePrefix()
 
 const interaction =
-  urlPrefix.value === 'rmrk2'
+  urlPrefix.value === 'ksm'
     ? dprops.interactions.filter((i) => i !== 'MINTNFT' && i !== 'CONSUME')
     : dprops.interactions
 
@@ -146,7 +146,7 @@ watchEffect(() => {
 
 const formatPrice = (price) => {
   const { symbol } = assets(tokenId.value)
-  const tokenSymbol = ['rmrk', 'rmrk2'].includes(urlPrefix.value)
+  const tokenSymbol = ['rmrk', 'ksm'].includes(urlPrefix.value)
     ? unit.value
     : symbol
 

@@ -12,17 +12,17 @@ import {
 
 export const mintInteraction = () => {
   const { urlPrefix } = usePrefix()
-  return urlPrefix.value === 'rmrk2' ? Interaction.MINT : Interaction.MINTNFT
+  return urlPrefix.value === 'ksm' ? Interaction.MINT : Interaction.MINTNFT
 }
 
-const flipperInitialValue = {
+const flipperInitialState = () => ({
   flips: [],
   bestFlip: 0,
   latestflipTimestamp: 0,
   owned: 0,
   totalBought: 0,
   totalsold: 0,
-}
+})
 
 const newOwnerEntry = (lastActivityTimestamp, nft) => ({
   nftCount: 1,
@@ -188,7 +188,7 @@ export const getFlippers = (interactions: InteractionWithNFT[]): Flippers => {
 
       // Check if the previous owner is already a flipper, if not initialize them
       if (flippers[PreviousNFTState.owner] === undefined) {
-        flippers[PreviousNFTState.owner] = flipperInitialValue
+        flippers[PreviousNFTState.owner] = flipperInitialState()
       }
 
       // Add the new FlipEvent to the previous owner's flips array

@@ -39,16 +39,6 @@
             </nuxt-link>
           </b-tooltip>
         </b-dropdown-item>
-        <b-dropdown-item has-link>
-          <b-tooltip
-            position="is-left"
-            :label="$t('createDropdown.aiPowered')"
-            class="navbar-item-tooltip">
-            <nuxt-link data-cy="creative" :to="`/${urlPrefix}/creative`">
-              {{ $t('creative') }}
-            </nuxt-link>
-          </b-tooltip>
-        </b-dropdown-item>
       </template>
       <b-dropdown-item v-if="redesign" has-link>
         <b-tooltip
@@ -82,12 +72,6 @@
           :to="`/${urlPrefix}/mint`"
           tag="nuxt-link">
           {{ $t('simple') }}
-        </b-navbar-item>
-        <b-navbar-item
-          data-cy="creative"
-          :to="`/${urlPrefix}/creative`"
-          tag="nuxt-link">
-          {{ $t('creative') }}
         </b-navbar-item>
       </template>
       <b-navbar-item
