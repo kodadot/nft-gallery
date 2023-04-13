@@ -4,7 +4,7 @@
       v-if="events.length"
       :data="events"
       hoverable
-      class="py-5 activity-table-container">
+      class="py-5 padding-top-mobile">
       <!-- event name -->
       <o-table-column
         v-slot="props"
