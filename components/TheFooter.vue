@@ -90,7 +90,30 @@
               class="is-flex"
               rel="noopener noreferrer"
               :aria-label="item.name">
+              <!-- substack doesnt have a font awesome icon -->
+              <svg
+                v-if="item.icon === 'substack'"
+                width="16"
+                height="16"
+                viewBox="0 0 448 512"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_6104_83750)">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M0 0H448V62.804H0V0ZM0 229.083H448V511.471L223.954 385.808L0 511.471V229.083ZM0 114.541H448V177.345H0V114.541Z"
+                    fill="currentColor" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_6104_83750">
+                    <rect width="448" height="511.471" fill="currentColor" />
+                  </clipPath>
+                </defs>
+              </svg>
+
               <b-icon
+                v-else
                 :pack="item.name == 'Swag' ? 'fas' : 'fab'"
                 :icon="item.icon"
                 size="is-small"
@@ -173,39 +196,40 @@ const menuKodadot: Menu[] = [
 
 const socials = [
   {
-    name: 'Discord',
-    url: 'https://discord.gg/u6ymnbz4PR',
-    icon: 'discord',
-  },
-  {
-    name: 'Reddit',
-    url: 'https://www.reddit.com/r/KodaDot',
-    icon: 'reddit-alien',
-  },
-  {
     name: 'Twitter',
     url: 'https://twitter.com/KodaDot',
     icon: 'twitter',
   },
   {
-    name: 'Instagram',
-    url: 'https://instagram.com/kodadot.xyz',
-    icon: 'instagram',
+    name: 'Discord',
+    url: 'https://discord.gg/u6ymnbz4PR',
+    icon: 'discord',
   },
   {
-    name: 'Swag',
-    url: 'https://shop.kodadot.xyz',
-    icon: 'shop',
+    name: 'Substack',
+    url: 'https://kodadot.substack.com',
+    icon: 'substack',
+  },
+  {
+    name: 'Medium',
+    url: 'https://medium.com/kodadot',
+    icon: 'medium',
   },
   {
     name: 'Youtube',
     url: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/',
     icon: 'youtube',
   },
+
   {
-    name: 'Medium',
-    url: 'https://medium.com/kodadot',
-    icon: 'medium',
+    name: 'Instagram',
+    url: 'https://instagram.com/kodadot.xyz',
+    icon: 'instagram',
+  },
+  {
+    name: 'Reddit',
+    url: 'https://www.reddit.com/r/KodaDot',
+    icon: 'reddit-alien',
   },
 ]
 const goToSocials = (url): void => {
