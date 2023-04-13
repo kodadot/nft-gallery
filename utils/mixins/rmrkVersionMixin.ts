@@ -1,5 +1,4 @@
-import { Component, mixins } from 'nuxt-property-decorator'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
@@ -7,6 +6,6 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
  * class ExtendedClass extends mixins(SubscribeMixin) {
  */
 @Component
-export default class RmrkVersionMixin extends mixins(PrefixMixin) {
-  public version = this.urlPrefix === 'rmrk' ? '1.0.0' : '2.0.0'
+export default class RmrkVersionMixin extends Vue {
+  public version = '1.0.0'
 }

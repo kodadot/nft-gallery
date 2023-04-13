@@ -28,7 +28,7 @@
           </nuxt-link>
         </b-tooltip>
       </b-dropdown-item>
-      <template v-if="chain === 'rmrk' || chain === 'ksm'">
+      <template v-if="chain === 'rmrk'">
         <b-dropdown-item has-link>
           <b-tooltip
             position="is-left"
