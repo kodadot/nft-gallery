@@ -74,7 +74,7 @@ const flattenNFT = async (data, chain) => {
 
   const events = data.events.map(convertLastEventFlatNft)
   const listOfNfts = await formatNFT(events, chain)
-  return await setCarouselMetadata(listOfNfts)
+  return setCarouselMetadata(listOfNfts)
 }
 
 export const useCarouselNftEvents = ({ type }: Types) => {
@@ -100,7 +100,7 @@ export const useCarouselNftEvents = ({ type }: Types) => {
 
   return {
     nfts,
-    ids: computed(() => nfts.value.map((nft) => nft.id)),
+    ids: computed(() => nfts.value.map((nft) => nft.id).join()),
   }
 }
 
