@@ -175,15 +175,15 @@ const menuKodadot: Menu[] = [
     url: 'https://docs.kodadot.xyz/referral-program.html',
     external: true,
   },
+  {
+    name: $i18n.t('press kit'),
+    url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
+    external: true,
+  },
 
   {
     name: $i18n.t('artist ambassador'),
     url: 'https://docs.kodadot.xyz/artist-ambassador.html#conditions-%F0%9F%94%8D',
-    external: true,
-  },
-  {
-    name: $i18n.t('press kit'),
-    url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
     external: true,
   },
 
