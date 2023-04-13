@@ -176,7 +176,6 @@ const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
 const route = useRoute()
 
-// const account = computed(() => identityStore.auth.address)
 const account = computed(() => identityStore.getAuthAddress)
 
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))

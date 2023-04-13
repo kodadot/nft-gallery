@@ -66,7 +66,7 @@ const { $i18n } = useNuxtApp()
 
 const emit = defineEmits(['back'])
 
-const account = computed(() => identityStore.auth.address)
+const account = computed(() => identityStore.getAuthAddress)
 const walletName = computed(() => walletStore.wallet.name)
 
 const { shortenedAddress } = useIdentity({

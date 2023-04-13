@@ -21,6 +21,6 @@ export default class AuthMixin extends Vue {
   }
 
   get balance(): string {
-    return String(this.identityStore.auth.balance) || '0'
+    return this.identityStore.getAuthBalance
   }
 }

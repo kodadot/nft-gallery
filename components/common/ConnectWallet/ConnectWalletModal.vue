@@ -99,8 +99,7 @@ const setForceWalletSelect = () => {
   forceWalletSelect.value = true
 }
 
-// const account = ref<string>(identityStore.auth.address)
-const account = computed(() => identityStore.auth.address)
+const account = computed(() => identityStore.getAuthAddress)
 const showAccount = computed(() => account.value && !forceWalletSelect.value)
 
 const wallets = SupportedWallets()
