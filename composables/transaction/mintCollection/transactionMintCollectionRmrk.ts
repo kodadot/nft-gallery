@@ -18,7 +18,7 @@ export async function execMintCollectionRmrk(
   api,
   executeTransaction: (p: ExecuteTransactionParams) => void
 ) {
-  const { isRemark, isV2 } = useRmrkVersion()
+  const { isV2 } = useRmrkVersion()
   const { accountId } = useAuth()
   const { $i18n } = useNuxtApp()
 
