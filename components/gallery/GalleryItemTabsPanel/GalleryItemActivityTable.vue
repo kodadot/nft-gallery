@@ -1,6 +1,10 @@
 <template>
   <div class="gallery-item-activity-table is-flex is-flex-direction-column">
-    <o-table v-if="events.length" :data="events" hoverable>
+    <o-table
+      v-if="events.length"
+      :data="events"
+      hoverable
+      class="py-5 activity-table-container">
       <!-- event name -->
       <o-table-column
         v-slot="props"
@@ -158,14 +162,11 @@ const formatPrice = (price) => {
 
 .gallery-item-activity-table {
   overflow-y: auto;
+}
 
-  & .o-table__root {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-
-    @include mobile {
-      padding-top: 0;
-    }
+@include mobile {
+  .activity-table-container {
+    padding-top: 0 !important;
   }
 }
 </style>
