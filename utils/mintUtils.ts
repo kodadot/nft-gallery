@@ -1,7 +1,7 @@
 import { MassMintNFT } from '@/components/rmrk/service/scheme'
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/components/rmrk/utils'
-import { Attribute } from '@kodadot1/minimark'
+import { Attribute } from '@kodadot1/minimark/common'
 import consola from 'consola'
 type Range = [number, number]
 
