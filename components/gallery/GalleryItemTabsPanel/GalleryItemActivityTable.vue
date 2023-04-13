@@ -165,7 +165,7 @@ const formatPrice = (price) => {
 }
 
 @include mobile {
-  .activity-table-container {
+  .padding-top-mobile {
     padding-top: 0 !important;
   }
 }
