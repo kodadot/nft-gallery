@@ -37,7 +37,7 @@
             </NeoTooltip>
             <div
               class="is-flex is-justify-content-space-between is-size-7 has-text-grey">
-              <div>{{ $t('search.owners') }}: {{ collection.nftCount }}</div>
+              <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
               <div>{{ getChainName(collection.chain) }}</div>
             </div>
           </div>

@@ -41,6 +41,7 @@ export const usePopularCollections = () => {
           const chain = Object.keys(POPULAR_COLLECTIONS)[index]
           return data.value?.collectionEntities?.map((item) => ({
             chain,
+            owners: new Set(item.nfts.map((x) => x.currentOwner)).size,
             ...item,
           }))
         })

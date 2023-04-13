@@ -1,7 +1,9 @@
 query collectionByIds($ids: [String!]) {
   collectionEntities(where: { id_in: $ids }, orderBy: updatedAt_DESC) {
     id
-    nftCount
+    nfts {
+      currentOwner
+    }
     meta {
       image
       name
