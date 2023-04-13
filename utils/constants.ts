@@ -1,4 +1,3 @@
-import { isProduction } from './chain'
 import defineApolloConfig, {
   toApolloEndpoint,
 } from './config/defineApolloConfig'
@@ -104,7 +103,9 @@ export const disableChainListOnProductionEnv = [
 export const chainTestList = ['westend', 'westmint']
 
 export const getChainTestList = () => {
-  return isProduction ? disableChainListOnProductionEnv : chainTestList
+  return window.location.hostname === 'kodadot.xyz'
+    ? disableChainListOnProductionEnv
+    : chainTestList
 }
 
 export const MIN_OFFER_PRICE = 0.01
