@@ -7,7 +7,7 @@
     <template #trigger="{ open }">
       <div class="is-flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">
-          Popular Collections
+          {{ $t('general.popularCollectionsHeading') }}
         </p>
         <a class="card-header-icon">
           <b-icon :icon="open ? 'minus' : 'plus'" />
@@ -35,8 +35,8 @@
             </NeoTooltip>
             <div
               class="is-flex is-justify-content-space-between is-size-7 has-text-grey">
-              <div>Owners: {{ collection.nftCount }}</div>
-              <div>{{ collection.chain }}</div>
+              <div>{{ $t('search.owners') }}: {{ collection.nftCount }}</div>
+              <div>{{ getChainName(collection.chain) }}</div>
             </div>
           </div>
         </div>
@@ -55,8 +55,12 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
 const { replaceUrl: replaceURL } = useReplaceUrl()
-
 const { collections } = usePopularCollections()
+const { availableChains } = useChain()
+
+const getChainName = (chain: string): string => {
+  return availableChains.value.find((x) => x.value === chain)?.text || ''
+}
 
 type DataModel = 'query' | 'store'
 
