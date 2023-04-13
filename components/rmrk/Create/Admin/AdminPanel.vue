@@ -70,11 +70,8 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
-import {
-  Interaction,
-  createInteraction,
-  mapAsSystemRemark,
-} from '@kodadot1/minimark'
+import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
+import { mapAsSystemRemark } from '@kodadot1/minimark/common'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import UseApiMixin from '~/utils/mixins/useApiMixin'

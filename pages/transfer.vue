@@ -169,7 +169,7 @@ import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { useFiatStore } from '@/stores/fiat'
 
 import { getExplorer, hasExplorer } from '@kodadot1/static'
-import { emptyObject } from '@kodadot1/minimark'
+import { emptyObject } from '@kodadot1/minimark/utils'
 
 type Target = 'target' | `target${number}`
 type TargetMap = Record<Target, string>

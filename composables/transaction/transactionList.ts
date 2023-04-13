@@ -1,4 +1,8 @@
-import { Interaction, createInteraction } from '@kodadot1/minimark'
+import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
+import {
+  Interaction as NewInteraction,
+  createInteraction as createNewInteraction,
+} from '@kodadot1/minimark/v2'
 
 import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
 import { warningMessage } from '@/utils/notification'
@@ -23,10 +27,16 @@ export function execListTx(item: ActionList, api, executeTransaction) {
   }
 
   if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
-    const version = item.urlPrefix === 'rmrk' ? '1.0.0' : '2.0.0'
+    const interaction =
+      item.urlPrefix === 'rmrk'
+        ? createInteraction(Interaction.LIST, item.nftId, meta)
+        : createNewInteraction({
+            action: NewInteraction.LIST,
+            payload: { id: item.nftId, price: meta },
+          })
     executeTransaction({
       cb: api.tx.system.remark,
-      arg: [createInteraction(Interaction.LIST, version, item.nftId, meta)],
+      arg: [interaction],
       successMessage: item.successMessage,
       errorMessage: item.errorMessage,
     })
