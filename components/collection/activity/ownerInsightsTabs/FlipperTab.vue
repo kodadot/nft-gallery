@@ -82,7 +82,7 @@
 
     <div
       v-else
-      class="is-flex is-justify-content-center is-align-items-center pt-6 px-4">
+      class="is-flex is-justify-content-center is-align-items-center pt-6">
       <div class="has-text-grey">
         {{ $t('activity.noFlips') }}
       </div>
