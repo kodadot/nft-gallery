@@ -376,3 +376,53 @@ hr {
     }
   }
 }
+// Define a list of values for the margin and padding helpers
+$spacing-values: (
+  0,
+  0.25rem,
+  0.5rem,
+  0.75rem,
+  1rem,
+  1.5rem,
+  2rem,
+  2.5rem,
+  3rem
+);
+
+// Define a map of margin and padding direction abbreviations
+$spacing-directions: (
+  t: top,
+  r: right,
+  b: bottom,
+  l: left,
+  x: left right,
+  y: top bottom
+);
+
+// Loop through the margin and padding properties
+@each $prop in (margin, padding) {
+  $prop-abbrev: str-slice($prop, 1, 1);
+
+  // Loop through the margin and padding directions
+  @each $dir, $long-dir in $spacing-directions {
+    // Generate classes for each value in the $spacing-values list
+    @each $value in $spacing-values {
+      // Generate class names based on the property, direction, and value
+      $class-name: #{$dir}-#{index($spacing-values, $value) - 1};
+      // Generate the CSS rule for the class
+      .#{$prop-abbrev}#{$class-name} {
+        @if $dir == "x" {
+          #{$prop}-left: $value !important;
+          #{$prop}-right: $value !important;
+        } @else if $dir == "y" {
+          #{$prop}-top: $value !important;
+          #{$prop}-bottom: $value !important;
+        } @else {
+          #{$prop}-#{$long-dir}: $value !important;
+        }
+      }
+    }
+  }
+}
+
+
