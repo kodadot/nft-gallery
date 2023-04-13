@@ -1,5 +1,5 @@
 export const POPULAR_COLLECTIONS = {
-  rmrk2: [
+  ksm: [
     'be15890524c6e9b359-WIZARD',
     '66241b171becfd500e-EGG',
     '342f12106eab6d904c-YOUDLE',
