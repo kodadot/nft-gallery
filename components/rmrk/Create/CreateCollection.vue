@@ -59,7 +59,7 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { Interaction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark/v1'
 import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { BaseCollectionType } from '@/composables/transaction/types'
 

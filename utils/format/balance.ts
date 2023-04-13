@@ -1,4 +1,4 @@
-import { trimAll } from '@kodadot1/minimark'
+import { trimAll } from '@kodadot1/minimark/utils'
 import BN from 'bn.js'
 import { formatBalance } from '@polkadot/util'
 
