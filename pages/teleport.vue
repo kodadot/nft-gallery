@@ -226,7 +226,7 @@ export default class Transfer extends mixins(
   }
 
   get balance(): string {
-    return this.identityStore.getAuthBalance(this.urlPrefix)
+    return this.identityStore.getAuthBalance
   }
 
   protected onAmountFieldChange() {

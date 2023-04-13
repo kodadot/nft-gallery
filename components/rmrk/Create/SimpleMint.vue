@@ -480,7 +480,7 @@ export default class SimpleMint extends mixins(
   }
 
   get balance(): string {
-    return this.identityStore.getAuthBalance(this.urlPrefix)
+    return this.identityStore.getAuthBalance
   }
 
   get isMintDisabled(): boolean {

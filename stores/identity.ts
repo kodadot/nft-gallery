@@ -79,16 +79,23 @@ export const useIdentityStore = defineStore('identity', {
     availableIdentities: (state) => state.identities,
     getAuth: (state) => state.auth,
     getAuthAddress: (state) => state.auth.address,
+    getIdentityFor: (state) => (address: string) => state.identities[address],
+    getTokenBalanceOf: (state) => (tokenId: string) =>
+      state.auth.tokens ? state.auth.tokens[tokenId] || '0' : '0',
+    getAuthBalance: (state) => {
+      const { urlPrefix } = usePrefix()
+      return state.auth.balance
+        ? state.auth.balance[urlPrefix.value] || '0'
+        : '0'
+    },
   },
   actions: {
-    getIdentityFor(address: string) {
-      return this.identities[address]
-    },
-    getAuthBalance({ setting: { urlPrefix } }) {
-      return this.auth.balance[urlPrefix] || '0'
-    },
-    getTokenBalanceOf(tokenId: string) {
-      return this.auth.tokens ? this.auth.tokens[tokenId] || '0' : '0'
+    resetAuth() {
+      this.auth = {
+        ...emptyObject<Auth>(),
+        balance: emptyObject<BalanceMap>(),
+        tokens: emptyObject<BalanceMap>(),
+      }
     },
     setIdentity(identityRequest: IdenityRequest) {
       const { address, identity } = identityRequest
@@ -100,13 +107,6 @@ export const useIdentityStore = defineStore('identity', {
       this.auth = { ...authRequest, balance: emptyObject<BalanceMap>() }
       this.fetchBalance({ address: authRequest.address })
       useLocalStorage('kodaauth', authRequest.address)
-    },
-    resetAuth() {
-      this.auth = {
-        ...emptyObject<Auth>(),
-        balance: emptyObject<BalanceMap>(),
-        tokens: emptyObject<BalanceMap>(),
-      }
     },
     setBalance(prefix: string, balance: string) {
       this.auth.balance[prefix] = balance
