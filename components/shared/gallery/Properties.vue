@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { Attribute } from '@kodadot1/minimark'
+import { Attribute } from '@kodadot1/minimark/common'
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { emptyArray } from '~/utils/empty'
 

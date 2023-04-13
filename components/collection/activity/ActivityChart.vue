@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { ActivityInteraction } from '@/components/rmrk/service/scheme'
-import { Interaction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark/v1'
 import PriceChart from '@/components/chart/PriceChart.vue'
 import { bin, displayValue, sortAsc, toDataPoint } from './utils'
 

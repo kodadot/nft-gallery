@@ -1,4 +1,4 @@
-import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
+import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
 import {
   nsfwAttribute,
   offsetAttribute,
