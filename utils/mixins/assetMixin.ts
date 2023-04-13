@@ -1,5 +1,5 @@
 import { Component, Vue } from 'nuxt-property-decorator'
-import { TokenProperty } from '~/store/assets'
+import { useAssetsStore } from '~/stores/assets'
 
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
@@ -8,7 +8,11 @@ import { TokenProperty } from '~/store/assets'
  */
 @Component
 export default class AssetMixin extends Vue {
-  get assetIdOf(): (id: string | number) => TokenProperty {
-    return this.$store.getters['assets/getAssetById']
+  get assetsStore() {
+    return useAssetsStore()
+  }
+
+  assetIdOf(id: string) {
+    return this.assetsStore.getAssetById(id)
   }
 }

@@ -1,20 +1,8 @@
 import { GetterTree, MutationTree, Store } from 'vuex'
-import { ss58Of } from '@/utils/config/chain.config'
 
 type VuexAction = {
   type: string
   payload: string
-}
-
-const formatPlugin = (store: Store<null>): void => {
-  store.subscribeAction(({ type, payload }: VuexAction) => {
-    if (type === 'setUrlPrefix' && payload) {
-      store.dispatch('setCorrectAddressFormat', ss58Of(payload))
-      if (['snek', 'bsx'].includes(payload)) {
-        store.dispatch('assets/fetchAssetList', payload)
-      }
-    }
-  })
 }
 
 const balancePlugin = (store: Store<null>): void => {
@@ -64,4 +52,4 @@ export const getters: GetterTree<IndexState, IndexState> = {
   },
 }
 
-export const plugins = [formatPlugin, balancePlugin]
+export const plugins = [balancePlugin]
