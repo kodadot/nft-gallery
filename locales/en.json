@@ -933,6 +933,7 @@
       "time": "Time"
     },
     "noResults": "Looks Like There's Nothing Here Yet",
+    "noFlips": " Looks like it's quiet in here!",
     "noResultsSub": "Check back later or reset your filters"
   },
   "profileStats": {
