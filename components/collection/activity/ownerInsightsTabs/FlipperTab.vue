@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="flippers.length > 0">
+    <div v-if="flippers.length">
       <div
         v-for="[
           flipperId,
