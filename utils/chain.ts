@@ -1,6 +1,5 @@
 import { ENDPOINTS } from '@kodadot1/vuex-options'
 import { chainList } from '@kodadot1/static'
-import { disableChainListOnProductionEnv } from './constants'
 
 import type { Option } from '@kodadot1/static'
 
@@ -86,8 +85,20 @@ export const getChainNameByPrefix = (prefix: string) => {
   return prefix
 }
 
-export const isProduction = window.location.hostname === 'kodadot.xyz'
-export const isBeta = window.location.hostname === 'beta.kodadot.xyz'
+export const isProduction = window.location.hostname === 'kodadot.com'
+export const isBeta = window.location.hostname === 'beta.kodadot.com'
+
+export const disableChainListOnBetaEnv = [
+  'westend',
+  'westmint',
+  'movr',
+  'glmr',
+  'snek',
+]
+export const disableChainListOnProductionEnv = [
+  ...disableChainListOnBetaEnv,
+  'ksm',
+]
 
 export const availablePrefixes = (): Option[] => {
   const chains = chainList()
@@ -95,6 +106,12 @@ export const availablePrefixes = (): Option[] => {
   if (isProduction) {
     return chains.filter(
       (chain) => !disableChainListOnProductionEnv.includes(String(chain.value))
+    )
+  }
+
+  if (isBeta) {
+    return chains.filter(
+      (chain) => !disableChainListOnBetaEnv.includes(String(chain.value))
     )
   }
 
