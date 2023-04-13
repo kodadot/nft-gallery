@@ -310,14 +310,13 @@ export default class Search extends mixins(
     if (pathName && pathName !== this.$route.path) {
       return
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { page, ...restQuery } = this.$route.query
     this.$router
       .replace({
-        path: this.isExplorePage
-          ? String(this.$route.path)
-          : `/${this.urlPrefix}/explore/items`,
+        path: this.$route.path,
         query: {
-          page: '1',
-          ...this.$route.query,
+          ...restQuery,
           search: this.searchQuery || this.$route.query.search || undefined,
           ...queryCondition,
         },

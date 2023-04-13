@@ -28,7 +28,7 @@
         </b-dropdown-item>
       </b-dropdown>
       <b-dropdown
-        v-if="chain === 'rmrk' || chain === 'rmrk2'"
+        v-if="chain === 'rmrk' || chain === 'ksm'"
         data-cy="stats"
         :triggers="['click']">
         <template #trigger>
@@ -74,7 +74,7 @@
             {{ $t('series.label') }}
           </b-navbar-item>
         </template>
-        <template v-if="chain === 'rmrk' || chain === 'rmrk2'">
+        <template v-if="chain === 'rmrk' || chain === 'ksm'">
           <b-navbar-item data-cy="spotlight" to="/spotlight" tag="nuxt-link">
             {{ $t('spotlight.page') }}
           </b-navbar-item>
