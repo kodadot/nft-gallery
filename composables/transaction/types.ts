@@ -1,4 +1,5 @@
-import { Attribute, Interaction } from '@kodadot1/minimark'
+import { Attribute } from '@kodadot1/minimark/common'
+import { Interaction } from '@kodadot1/minimark/v1'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
 import { Royalty } from '@/utils/royalty'

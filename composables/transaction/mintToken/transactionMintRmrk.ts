@@ -1,18 +1,19 @@
 import {
   CreatedNFT,
   Interaction,
-  asSystemRemark,
-  createMintInteaction,
+  createMintInteraction,
   createMultipleNFT,
-} from '@kodadot1/minimark'
-
+} from '@kodadot1/minimark/v1'
+// TODO: use v2
+// import {  Interaction as NewInteraction, createInteraction  } from '@kodadot1/minimark/v2'
 import { canSupport } from '@/utils/support'
 
 import { basicUpdateFunction } from '@/components/unique/NftUtils'
-import { usePreferencesStore } from '@/stores/preferences'
 import { ExecuteTransactionParams } from '@/composables/useTransaction'
-import { constructMeta } from './constructMeta'
+import { usePreferencesStore } from '@/stores/preferences'
+import { asSystemRemark } from '@kodadot1/minimark/common'
 import { ActionMintToken, MintedCollectionKusama } from '../types'
+import { constructMeta } from './constructMeta'
 
 export async function execMintRmrk(
   item: ActionMintToken,
@@ -20,7 +21,6 @@ export async function execMintRmrk(
   executeTransaction: (p: ExecuteTransactionParams) => void
 ) {
   const { accountId } = useAuth()
-  const { version } = useRmrkVersion()
   const preferences = usePreferencesStore()
   const { $i18n } = useNuxtApp()
 
@@ -42,7 +42,7 @@ export async function execMintRmrk(
   const createdNFTs = ref<CreatedNFT[]>(mint)
 
   const mintInteraction = mint.map((nft) =>
-    createMintInteaction(Interaction.MINTNFT, version, nft)
+    createMintInteraction(Interaction.MINTNFT, nft)
   )
 
   const enabledFees: boolean =

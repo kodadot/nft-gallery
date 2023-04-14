@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
-import { Interaction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark/v1'
 import { downloadImage } from '@/utils/download'
 import { ipfsToCf } from '@/utils/ipfs'
 
