@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { emptyArray } from '@kodadot1/minimark'
+import { emptyArray } from '@kodadot1/minimark/utils'
 import { AssetItem } from './types'
 
 const Money = defineAsyncComponent(

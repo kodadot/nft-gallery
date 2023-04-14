@@ -1,25 +1,25 @@
 <template>
   <CommonHolderTable
-    :tableRowsOption="flipperTableRowList"
-    :groupKeyOption="groupKeyOption"
-    openOnDefault
-    dateHeaderLabel="Last Activity"
-    :nameHeaderLabel="nameHeaderLabel"
-    saleHeaderLabel="Sold"
-    defaultSortOption="Percentage"
-    displayPercentage
-    isFlipper
-    :collapseTitleOption="$t('Flipper')"
-    hideCollapse />
+    :table-rows-option="flipperTableRowList"
+    :group-key-option="groupKeyOption"
+    open-on-default
+    date-header-label="Last Activity"
+    :name-header-label="nameHeaderLabel"
+    sale-header-label="Sold"
+    default-sort-option="Percentage"
+    display-percentage
+    is-flipper
+    :collapse-title-option="$t('Flipper')"
+    hide-collapse />
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { Interaction as EventInteraction } from '../service/scheme'
 import { TableRow } from '@/components/rmrk/Gallery/Holder/Holder.vue'
 import { parseDate } from '@/components/rmrk/Gallery/Holder/helper'
 import { formatDistanceToNow } from 'date-fns'
-import { Interaction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark/v1'
 
 const components = {
   CommonHolderTable: () =>

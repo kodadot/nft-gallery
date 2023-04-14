@@ -379,9 +379,16 @@ export default defineNuxtConfig({
       })
 
       config.module.rules.push({
+        test: /node_modules\/@kodadot1\/minimark\/dist\/.+\.mjs$/,
+        loader: require.resolve('babel-loader'),
+        query: { compact: true },
+      })
+
+      config.module.rules.push({
         test: /\.js$/,
         loader: require.resolve('@open-wc/webpack-import-meta-loader'),
       })
+
       config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js'
       config.node = {
         fs: 'empty',
