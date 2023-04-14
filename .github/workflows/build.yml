@@ -1,4 +1,4 @@
-name: Lint, Build & Test workflow
+name: Test & Build app
 
 on:
   workflow_dispatch:
@@ -20,10 +20,7 @@ jobs:
         run: pnpm test
 
   build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
