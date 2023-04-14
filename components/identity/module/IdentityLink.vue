@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { getExplorer } from '@kodadot1/static'
-import type { BackwardPrefix } from '@kodadot1/static'
+import type { Prefix } from '@kodadot1/static'
 
 type Address = string | GenericAccountId | undefined
 
@@ -37,7 +37,7 @@ const { $buefy } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
 const explorerLink = computed(() =>
-  getExplorer(urlPrefix.value as BackwardPrefix, String(props.address))
+  getExplorer(urlPrefix.value as Prefix, String(props.address))
 )
 
 const toast = (message: string) => {

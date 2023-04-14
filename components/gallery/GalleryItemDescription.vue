@@ -12,7 +12,7 @@
         </nuxt-link>
       </div>
 
-      <vue-markdown
+      <Markdown
         :source="nftMetadata?.description?.replaceAll('\n', '  \n') || ''"
         class="gallery-item-desc-markdown" />
     </o-tab-item>
@@ -94,11 +94,13 @@
 import { OTabItem, OTable, OTableColumn, OTabs } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import VueMarkdown from 'vue-markdown-render'
+
 import { DisablableTab } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
+import { useRedirectModal } from '@/components/redirect/useRedirectModal'
 
+useRedirectModal('.gallery-item-desc-markdown')
 const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
@@ -106,7 +108,7 @@ const activeTab = ref('0')
 
 const properties = computed(() => {
   // we have different format between rmrk2 and the other chains
-  if (urlPrefix.value === 'rmrk2') {
+  if (urlPrefix.value === 'ksm') {
     return Object.entries(nftMetadata.value?.properties || {}).map(
       ([key, value]) => {
         return {

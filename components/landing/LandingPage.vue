@@ -12,7 +12,7 @@
     </section>
 
     <!-- top collections -->
-    <section v-if="showCarousel" class="py-6 instance">
+    <section v-if="showCarousel && urlPrefix !== 'ksm'" class="py-6 instance">
       <div class="container is-fluid">
         <LazyTopCollections class="my-5" />
       </div>
@@ -43,7 +43,7 @@ const { urlPrefix } = usePrefix()
 const showCarousel = computed(() => {
   return (
     urlPrefix.value === 'rmrk' ||
-    urlPrefix.value === 'rmrk2' ||
+    urlPrefix.value === 'ksm' ||
     urlPrefix.value === 'snek' ||
     urlPrefix.value === 'bsx'
   )

@@ -5,6 +5,7 @@
       :src="properSrc"
       :animation-src="animationSrc"
       :alt="title"
+      :is-dark-mode="isDarkMode"
       :original="original"
       :is-detail="isDetail" />
   </div>
@@ -44,6 +45,10 @@ export default {
       default: false,
     },
     isDetail: {
+      type: Boolean,
+      default: false,
+    },
+    isDarkMode: {
       type: Boolean,
       default: false,
     },

@@ -2,7 +2,7 @@ import { MediaType, RMRK } from './types'
 import { Interaction as EventInteraction } from './service/scheme'
 import { NFT, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
-import { Interaction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark/v1'
 
 export type PriceDataType = [date: Date, value: number]
 

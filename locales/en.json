@@ -15,6 +15,8 @@
   "account": "Account",
   "accounts": "Accounts",
   "amount": "Amount",
+  "uploaded": "uploaded",
+  "chooseFile": "Choose File",
   "transfer": "Transfer",
   "chart": "Chart",
   "holders": "Holders",
@@ -37,6 +39,8 @@
   "multipleNFTS": "Multiple NFT's",
   "about": "About",
   "ambassador program": "Ambassador Program",
+  "artist ambassador": "Artist Ambassador",
+  "merchshop": "MerchShop",
   "press kit": "Press Kit",
   "careers": "Careers",
   "contribute": "Contribute",
@@ -568,7 +572,6 @@
       "sn_ASC": "Serial Number Ascending",
       "listed": "Buy now",
       "sortBy": "Sort By",
-
       "EMOTES_COUNT_DESC": "Most reacted",
       "BLOCK_NUMBER_DESC": "Recently Created",
       "BLOCK_NUMBER_ASC": "Oldest",
@@ -637,7 +640,10 @@
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
       "create": "Create collection",
-      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
+      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
+      "massmintDrop": "Drop your file here or click to upload.",
+      "formats": "Supported formats:",
+      "compressZip": "Compress your Art files into a .ZIP file."
     },
     "nft": {
       "name": {
@@ -848,7 +854,7 @@
   },
   "hot": {
     "label": "Hot",
-    "title": "Recently KUSAMA Sales In One Week",
+    "title": "Recent KUSAMA Sales In One Week",
     "subtitle": "Featuring the recently sold NFTs on Kusama"
   },
   "spotlight": {
@@ -925,7 +931,10 @@
       "from": "From",
       "to": "To",
       "time": "Time"
-    }
+    },
+    "noResults": "Looks Like There's Nothing Here Yet",
+    "noFlips": "Looks like it's quiet in here",
+    "noResultsSub": "Check back later or reset your filters"
   },
   "profileStats": {
     "listed": "Listed",
@@ -1003,7 +1012,7 @@
     "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction."
   },
   "cookies": {
-    "notice": "We use third-party 🍪 in order to personalize your site experience",
+    "notice": "We use cookies for better service",
     "accept": "Accept",
     "decline": "Decline"
   },
@@ -1162,14 +1171,12 @@
     "qrCode": "QR Code",
     "twitter": "Share on Twitter"
   },
-
   "moreActions": {
     "download": "Download",
     "reportNFT": "Report NFT",
     "delete": "Delete",
     "customize": "Customize"
   },
-
   "collectionCard": {
     "volume": "Volume",
     "items": "Items"
@@ -1281,14 +1288,35 @@
           "content": "In order to use the Mass Mint feature **you need to have an NFT collection created**\nto which you will mint all of your NFTs.\n\nIf you don’t have a collection created yet, you will be able to create one in the Miss Mint."
         }
       }
-    }
+    },
+    "uploadPics": "Upload Pictures",
+    "uploadDesc": "Upload Description File (Optional)"
   },
   "filters": {
+    "buy": "Buy",
     "sale": "Sale",
     "offer": "Offer",
+    "acceptedOffer": "Accepted offer",
     "listing": "Listing",
     "mint": "Mint",
     "transfer": "Transfer"
-
+  },
+  "redirect": {
+    "title": "Leaving Kodadot",
+    "leavingTips": "You are going outside KodaDot to external website",
+    "safetyTips": "Be sure that it's safe!",
+    "continue": "Continue",
+    "stay": "Stay"
+  },
+  "notification": {
+    "notifications": "Notifications",
+    "filters": "Filters",
+    "add": "Add",
+    "done": "Done",
+    "byCollection": "By collection",
+    "byEvent": "By event",
+    "emptyTipLine1": "Don't wait for notifications,",
+    "emptyTipLine2": "make your own buzz with your art.",
+    "loadingTip": "Loading Your Notifications..."
   }
 }

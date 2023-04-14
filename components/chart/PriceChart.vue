@@ -93,6 +93,9 @@ const lineColor = computed(() => {
     return '#181717'
   }
 })
+
+const gridColor = computed(() => (isDarkMode.value ? '#6b6b6b' : '#cccccc'))
+
 const displayChartData = computed(() => {
   if (props.priceChartData) {
     const timeRangeValue = selectedTimeRange.value.value
@@ -140,6 +143,7 @@ const getPriceChartData = () => {
         radius: 0,
         pointStyle: 'rect',
         borderWidth: 1,
+        lineTension: 0,
       }
       const chart = new ChartJS(ctx, {
         type: 'line',
@@ -174,7 +178,6 @@ const getPriceChartData = () => {
               },
             },
           },
-
           plugins: {
             customCanvasBackgroundColor: {
               color: isDarkMode.value ? '#181717' : 'white',
@@ -224,7 +227,7 @@ const getPriceChartData = () => {
               grid: {
                 drawOnChartArea: false,
                 borderColor: lineColor.value,
-                color: lineColor.value,
+                color: gridColor.value,
               },
               ticks: {
                 callback: (value) => {
@@ -243,12 +246,12 @@ const getPriceChartData = () => {
                 callback: (value) => {
                   return `${Number(value).toFixed(2)}  `
                 },
-                stepSize: 1,
+                stepSize: 3,
                 color: lineColor.value,
               },
               grid: {
                 drawTicks: false,
-                color: '#ccc',
+                color: gridColor.value,
                 borderColor: lineColor.value,
               },
             },

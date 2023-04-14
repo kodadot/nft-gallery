@@ -10,7 +10,7 @@
         </nuxt-link>
       </div>
       <div class="overflow-wrap">
-        <vue-markdown :source="visibleDescription" />
+        <Markdown :source="visibleDescription" />
       </div>
       <NeoButton
         v-if="hasSeeAllDescriptionOption"
@@ -19,15 +19,15 @@
         @click.native="toggleSeeAllDescription" />
     </div>
     <div>
-      <div class="columns is-mobile">
-        <div class="column">
+      <div class="is-flex gap mobile-flex-direction-column mobile-no-gap">
+        <div>
           <CollectionInfoLine :title="$t('activity.network')" :value="chain" />
           <CollectionInfoLine title="Items" :value="stats.collectionLength" />
           <CollectionInfoLine
             :title="$t('series.owners')"
             :value="stats.uniqueOwners" />
         </div>
-        <div class="column">
+        <div>
           <CollectionInfoLine :title="$t('activity.floor')">
             <CommonTokenMoney
               :value="stats.collectionFloorPrice"
@@ -51,7 +51,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import VueMarkdown from 'vue-markdown-render'
 import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
@@ -62,6 +61,9 @@ import {
   useCollectionDetails,
   useCollectionMinimal,
 } from './utils/useCollectionDetails'
+
+const stats = ref()
+const collectionInfo = ref()
 
 const route = useRoute()
 const { urlPrefix } = usePrefix()
@@ -75,9 +77,6 @@ const chain = computed(
 const address = computed(() => collectionInfo.value?.currentOwner)
 const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210
-const { collection: collectionInfo } = useCollectionMinimal({
-  collectionId: collectionId.value,
-})
 
 const toggleSeeAllDescription = () => {
   seeAllDescription.value = !seeAllDescription.value
@@ -101,7 +100,18 @@ const visibleDescription = computed(() => {
   )
 })
 
-const { stats } = useCollectionDetails({ collectionId: collectionId.value })
+const getData = () => {
+  const { stats: statsData } = useCollectionDetails({
+    collectionId: collectionId.value,
+  })
+  stats.value = statsData
+  const { collection: collectionData } = useCollectionMinimal({
+    collectionId: collectionId.value,
+  })
+  collectionInfo.value = collectionData
+}
+
+watch(collectionId, getData, { immediate: true })
 </script>
 
 <style lang="scss" scoped>
@@ -119,6 +129,9 @@ const { stats } = useCollectionDetails({ collectionId: collectionId.value })
     flex-direction: column;
   }
 
+  .mobile-no-gap {
+    gap: 0;
+  }
   .max-width {
     max-width: 100%;
   }

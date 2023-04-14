@@ -1,5 +1,6 @@
 <template>
   <CarouselIndex
+    :key="ids"
     :title="$t('general.newestListHeading')"
     :subtitle="$t('general.newestListDesc')"
     :nfts="nfts"
@@ -12,5 +13,5 @@
 import { useCarouselNftEvents } from './utils/useCarousel'
 
 const { urlPrefix } = usePrefix()
-const { nfts } = useCarouselNftEvents({ type: 'newestList' })
+const { nfts, ids } = useCarouselNftEvents({ type: 'newestList' })
 </script>

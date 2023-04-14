@@ -93,21 +93,6 @@ export const NFT_SQUID_SORT_COLLECTIONS: string[] = [
   'supply_DESC',
 ]
 
-export const disableChainListOnProductionEnv = [
-  'westend',
-  'westmint',
-  'movr',
-  'glmr',
-  'snek',
-  'rmrk2',
-]
-
-export const chainTestList = ['westend', 'westmint']
-
-export const getChainTestList = () => {
-  return window.location.hostname === 'kodadot.xyz'
-    ? disableChainListOnProductionEnv
-    : chainTestList
-}
-
 export const MIN_OFFER_PRICE = 0.01
+
+export const EXTERNAL_LINK_WHITELIST = ['*.kodadot.xyz']

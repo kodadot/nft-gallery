@@ -1,6 +1,11 @@
 html {
   height: 100%;
+  background-color: $white;
+  &.dark-mode {
+    background-color: $scheme-main;
+  }
 }
+
 body,
 div#__nuxt,
 div#__layout,
@@ -8,9 +13,7 @@ main {
   //without this, footer image is above main contents
   // block hover, click events
   z-index: 100;
-  @include ktheme() {
-    background: theme('background-color');
-  }
+  height: 100%;
 }
 
 main {
@@ -27,7 +30,7 @@ body {
     }
     &:hover {
       @include ktheme() {
-        color: theme('k-hovergrey');
+        color: theme('link-hover');
       }
     }
   }
@@ -52,6 +55,10 @@ body {
         color: theme('placeholder-color') !important;
       }
     }
+  }
+
+  .taginput-container.is-focusable {
+    height: auto !important;
   }
 
   .select {
@@ -252,8 +259,12 @@ hr {
 
 .snackbar {
   @include ktheme() {
+    border-radius: 0;
     color: theme('text-color');
     background: theme('background-color');
+    box-shadow: theme('primary-shadow');
+    border: 1px solid theme('border-color');
+
     .button {
       background-color: theme('k-accentlight2') !important;
       color: theme('text-color') !important;
@@ -297,12 +308,16 @@ hr {
     border-top: 1px solid theme('border-color');
   }
 }
-.border {
+.border-left {
   @include ktheme() {
-    border: 1px solid theme('border-color')
+    border-left: 1px solid theme('border-color');
   }
 }
-
+.border {
+  @include ktheme() {
+    border: 1px solid theme('border-color');
+  }
+}
 
 //colors
 
@@ -358,11 +373,10 @@ hr {
 
 //hover
 
-.is-hoverable {
+.is-hoverable-item {
   @include ktheme() {
     &:hover {
       background-color: theme('k-accentlight2');
     }
   }
 }
-

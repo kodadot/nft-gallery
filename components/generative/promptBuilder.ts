@@ -1,11 +1,8 @@
 import { $fetch } from 'ohmyfetch'
 import { PredictionStatus } from '@/services/replicate'
 import { pinImageSafe } from '@/utils/safePin'
-import {
-  Attribute,
-  createMetadata,
-  unSanitizeIpfsUrl,
-} from '@kodadot1/minimark'
+import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
+import { Attribute } from '@kodadot1/minimark/common'
 import { pinJson } from '@/services/nftStorage'
 import { preheatFileFromIPFS } from '@/utils/ipfs'
 

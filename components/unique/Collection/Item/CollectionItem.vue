@@ -54,7 +54,7 @@
     <div class="columns is-centered">
       <div class="column is-8 has-text-centered">
         <p class="content">
-          <VueMarkdown :source="description" />
+          <Markdown :source="description" />
           <CollapseWrapper
             v-if="attributes && attributes.length"
             visible="collapse.collection.attributes.show"
@@ -105,7 +105,7 @@ const components = {
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/shared/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-  VueMarkdown: () => import('vue-markdown-render'),
+  Markdown: () => import('@/components/shared/Markdown.vue'),
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
   TransferCollection: () =>

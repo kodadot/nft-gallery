@@ -16,7 +16,7 @@ export const useMassMint = () => {
   const { urlPrefix } = usePrefix()
   const queryPath = {
     rmrk: 'chain-rmrk',
-    rmrk2: 'chain-rmrk2',
+    ksm: 'chain-ksm',
   }
 
   const doFetch = async () => {

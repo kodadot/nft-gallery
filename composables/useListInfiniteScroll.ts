@@ -35,21 +35,17 @@ export default function ({
   const scrollItemHeight = ref(300)
   const itemsPerRow = ref(4)
   const scrollItemSizeInit = ref(false)
-  const first = ref(defaultFirst || 20)
+  const first = ref(defaultFirst || 40)
   const total = ref(0)
   const isFetchingData = ref(false)
 
   const containerRef = ref<Window>(window)
 
-  useInfiniteScroll(
-    containerRef,
-    () => {
-      if (canLoadNextPage.value && total.value > 0) {
-        reachBottomHandler()
-      }
-    },
-    { distance: 1600 }
-  )
+  useInfiniteScroll(containerRef, () => {
+    if (canLoadNextPage.value) {
+      reachBottomHandler()
+    }
+  })
 
   const scrollContainerId = ref(
     defaultScrollContainerId ?? INFINITE_SCROLL_CONTAINER_ID
@@ -59,7 +55,8 @@ export default function ({
   )
 
   const canLoadNextPage = computed(
-    () => endPage.value < Math.ceil(total.value / first.value)
+    () =>
+      endPage.value < Math.ceil(total.value / first.value) && total.value > 0
   )
 
   const pageHeight = computed(
@@ -85,7 +82,7 @@ export default function ({
       if (scrollItem && container) {
         scrollItemHeight.value = scrollItem.clientHeight
         itemsPerRow.value = Math.max(
-          Math.ceil(container.clientWidth / scrollItem.clientWidth),
+          Math.floor(container.clientWidth / scrollItem.clientWidth),
           1
         )
         scrollItemSizeInit.value = true
@@ -98,14 +95,19 @@ export default function ({
   useScroll(window, { onScroll: updateCurrentPage, throttle: 1000 })
   useResizeObserver(document.body, onResize)
 
-  const replaceUrlPage = (page: string) => {
-    if (page === route.query.page) {
+  const replaceUrlPage = (targetPage: string) => {
+    if (targetPage === route.query.page) {
       return
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { page, ...restQuery } = route.query
     router
       .replace({
         path: String(route.path),
-        query: { ...route.query, page },
+        query:
+          targetPage === '1'
+            ? { ...restQuery }
+            : { ...restQuery, page: targetPage },
       })
       .catch($consola.warn)
   }

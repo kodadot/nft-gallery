@@ -1,5 +1,5 @@
 import { ActionMintCollection, CollectionToMintBasilisk } from '../types'
-import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
+import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
 import { pinJson } from '@/services/nftStorage'
 import { usePinningStore } from '@/stores/pinning'
 import { uploadDirect } from '@/utils/directUpload'
@@ -12,7 +12,7 @@ const createAttributes = (item: ActionMintCollection) => {
       display_type: null,
     }))
   }
-  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'rmrk2') {
+  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
     return []
   }
 
