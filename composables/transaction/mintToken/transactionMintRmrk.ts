@@ -35,8 +35,9 @@ export async function execMintRmrk(
 
   const metadata = await constructMeta(item, { enableCarbonOffset: true })
   const updateNameFn = postfix && edition > 1 ? basicUpdateFunction : undefined
-  const createMutipleNFTFn = isV2.value ? createMultipleItem : createMultipleNFT
-  const mint = createMutipleNFTFn(
+  const mintFunction = isV2.value ? createMultipleItem : createMultipleNFT
+
+  const mint = mintFunction(
     edition,
     accountId.value,
     collectionId,
