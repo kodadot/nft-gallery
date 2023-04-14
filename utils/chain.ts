@@ -79,9 +79,6 @@ export const getChainEndpointByPrefix = (prefix: string) => {
 }
 
 export const getChainNameByPrefix = (prefix: string) => {
-  if (prefix === 'rmrk') {
-    return 'kusama'
-  }
   return prefix
 }
 
