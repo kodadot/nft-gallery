@@ -94,13 +94,14 @@ const toggleCollection = (collection: Collection) => {
     checkedCollection.value.push(collection.id)
   }
   if (urlPrefix.value !== collection.chain) {
-    let redirectPath = route.path.split('/')
-    redirectPath.splice(1, 1, collection.chain)
     $store.dispatch('setUrlPrefix', collection.chain)
+    const { page, ...restQuery } = route.query
     router.push({
-      path: redirectPath.join('/'),
+      params: {
+        prefix: collection.chain,
+      },
       query: {
-        ...route.query,
+        ...restQuery,
         collection: checkedCollection.value.join(','),
       },
     })
