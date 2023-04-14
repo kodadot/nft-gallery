@@ -33,7 +33,7 @@ importers:
       '@google/model-viewer': ^1.12.1
       '@kevinmarrec/nuxt-pwa': 0.15.0
       '@kodadot1/brick': workspace:*
-      '@kodadot1/minimark': ^0.1.6-rc.0
+      '@kodadot1/minimark': ^0.1.7-rc.0
       '@kodadot1/static': workspace:*
       '@kodadot1/sub-api': 0.1.1-alpha.5
       '@kodadot1/vuex-options': 0.1.0-rc.0
@@ -139,7 +139,7 @@ importers:
       '@fortawesome/vue-fontawesome': 2.0.10_ny3late7fnkog2navmg3xzdxky
       '@google/model-viewer': 1.12.1
       '@kodadot1/brick': link:libs/ui
-      '@kodadot1/minimark': 0.1.6-rc.0
+      '@kodadot1/minimark': 0.1.7-rc.0
       '@kodadot1/static': link:libs/static
       '@kodadot1/sub-api': 0.1.1-alpha.5
       '@kodadot1/vuex-options': 0.1.0-rc.0
@@ -3861,8 +3861,8 @@ packages:
     engines: {node: '>=14.0'}
     dev: false
 
-  /@kodadot1/minimark/0.1.6-rc.0:
-    resolution: {integrity: sha512-Jb3Z5/FJppjsFbbTbA7leH1sbE9/9Gub0qcBfX/MZDoYYfx+LolBURjHlp9c2l+xELieCoTT2G+IbcBq3xCU8A==}
+  /@kodadot1/minimark/0.1.7-rc.0:
+    resolution: {integrity: sha512-lo7vnBr6QWOH+XAY+daUOxWWPlhw7O1Ild3/7+3PX+ZAveTIP/aINTeXpN2E/NDhhM7wG4sX8/rivHMV0KyY3Q==}
     dependencies:
       '@polkadot/api': 10.1.4
       '@polkadot/keyring': 11.1.1
