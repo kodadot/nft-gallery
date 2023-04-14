@@ -1,6 +1,6 @@
 import { POPULAR_COLLECTIONS } from './constants'
 import { CollectionEntityMinimal } from '@/components/collection/utils/types'
-const collectionMap = ref<CollectionEntityMinimal[]>([])
+const collectionArray = ref<CollectionEntityMinimal[]>([])
 
 export type Collection = CollectionEntityMinimal & {
   nftCount: number
@@ -10,8 +10,8 @@ export type Collection = CollectionEntityMinimal & {
   }
 }
 
-export const useCollectionMap = () => {
-  return collectionMap
+export const useCollectionArray = () => {
+  return collectionArray
 }
 
 export const usePopularCollections = () => {
@@ -46,7 +46,7 @@ export const usePopularCollections = () => {
           }))
         })
         .flat()
-      collectionMap.value = collections.value
+      collectionArray.value = collections.value
     }
   })
 

@@ -28,7 +28,7 @@
         <NeoTag
           v-for="item in collections"
           :key="`${key}-${item.id}`"
-          class="control d"
+          class="control"
           @close="removeCollection(item.id)">
           {{ item.meta.name }}
         </NeoTag>
@@ -56,7 +56,7 @@ import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import {
   Collection,
-  useCollectionMap,
+  useCollectionArray,
 } from '@/components/shared/filters/modules/usePopularCollections'
 import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
 
@@ -72,21 +72,19 @@ const isItemsExplore = computed(() => route.path.includes('/explore/items'))
 
 const breads = useActiveRouterFilters()
 
-const collectionMap = useCollectionMap()
+const collectionArray = useCollectionArray()
 const collections = ref<Collection[]>([])
 
-watch([collectionMap, breads], () => {
-  if (breads.value.collection && collectionMap.value?.length > 0) {
+watch([collectionArray, breads], () => {
+  if (breads.value.collection && collectionArray.value?.length > 0) {
     collections.value = breads.value.collection
       .split(',')
-      .map((id) => {
-        return collectionMap.value.find((x) => x.id === id)
-      })
-      .filter((x) => x && x.id)
+      .map((id) => collectionArray.value.find((x) => x.id === id))
+      .filter((x) => x && x.id) as Collection[]
   }
 })
 
-const removeCollection = (id) => {
+const removeCollection = (id: string) => {
   const ids = collections.value.filter((x) => x.id !== id).map((x) => x.id)
   replaceUrl({ collection: ids.join(',') })
 }

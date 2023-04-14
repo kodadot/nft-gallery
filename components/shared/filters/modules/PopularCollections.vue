@@ -14,7 +14,7 @@
         </a>
       </div>
     </template>
-    <div class="p-4 width-320">
+    <div class="p-4">
       <o-field v-for="collection in collections" :key="collection.id">
         <NeoCheckbox
           :value="checkedCollection.includes(collection.id)"
@@ -112,7 +112,7 @@ const toggleCollection = (collection: Collection) => {
 const getSearchParam = () => {
   if (props.dataModel === 'query') {
     checkedCollection.value =
-      route.query?.collection?.split(',').filter((x) => !!x) || []
+      (route.query?.collection as string)?.split(',').filter((x) => !!x) || []
   } else {
     checkedCollection.value = exploreFiltersStore.collection || []
   }
@@ -131,15 +131,19 @@ const applyToUrl = (queryCondition: { [key: string]: any }) => {
   emit('resetPage')
 }
 
-getSearchParam()
-
-watch(() => {
-  if (props.dataModel === 'query') {
-    return route.query?.collection
-  } else {
-    return exploreFiltersStore.collection
+watch(
+  () => {
+    if (props.dataModel === 'query') {
+      return route.query?.collection
+    } else {
+      return exploreFiltersStore.collection
+    }
+  },
+  getSearchParam,
+  {
+    immediate: true,
   }
-}, getSearchParam)
+)
 </script>
 <style lang="scss" scoped>
 .min-width-0 {
