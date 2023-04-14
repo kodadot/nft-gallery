@@ -56,7 +56,6 @@
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { Interaction } from '@kodadot1/minimark/v1'
@@ -73,7 +72,6 @@ const components = {
 
 @Component({ components })
 export default class CreateCollection extends mixins(
-  RmrkVersionMixin,
   MetaTransactionMixin,
   AuthMixin,
   UseApiMixin
