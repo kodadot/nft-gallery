@@ -166,20 +166,29 @@
     }
   },
   "sort": {
-    "EMOTES_COUNT_DESC": "Les plus réagis",
-    "BLOCK_NUMBER_DESC": "Nouveau",
-    "BLOCK_NUMBER_ASC": "Ancien",
-    "UPDATED_AT_DESC": "Dernier échange",
-    "UPDATED_AT_ASC": "Longtemps sans interaction",
     "blockNumber_DESC": "Nouveau",
     "blockNumber_ASC": "Ancien",
-    "updatedAt_DESC": "Dernier échange",
-    "updatedAt_ASC": "Longtemps sans interaction",
-    "PRICE_DESC": "Prix descendant",
-    "PRICE_ASC": "Prix ascendant",
-    "SN_ASC": "Numéro de série ascendant",
+    "updatedAt_DESC": "Récemment interagi",
+    "updatedAt_ASC": "Peu populaire",
+    "price_DESC": "Prix : du plus haut au plus bas",
+    "price_ASC": "Prix : du plus bas au plus haut",
+    "sn_ASC": "Numéro de série ascendant",
     "listed": "En vente",
-    "own": "Possédé"
+    "own": "Possédé",
+    "clearAll": "Tout effacer",
+    "collection": {
+      "blockNumber_DESC": "Nouveau",
+      "blockNumber_ASC": "Ancien",
+      "updatedAt_DESC": "Récemment interagi",
+      "updatedAt_ASC": "Peu populaire",
+      "supply_DESC": "Most Supply",
+      "supply_ASC": "Least Supply",
+      "price_DESC": "Prix : du plus haut au plus bas",
+      "price_ASC": "Prix : du plus bas au plus haut",
+      "sn_ASC": "Numéro de série ascendant",
+      "listed": "En vente",
+      "sortBy": "Trier par"
+    }
   },
   "mint": {
     "submit": "Cliquez pour créer des NFT(s)",
