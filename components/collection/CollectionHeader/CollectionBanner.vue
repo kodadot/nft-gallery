@@ -4,7 +4,7 @@
     :style="{ backgroundImage: `url(${collectionAvatar})` }">
     <div class="collection-banner-shadow"></div>
 
-    <section class="h-full py-6">
+    <section class="h-full py-8">
       <div class="container is-fluid collection-banner-content">
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">

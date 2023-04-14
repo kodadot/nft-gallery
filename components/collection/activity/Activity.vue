@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <hr class="mb-40" :class="{ 'my-40': !isBreadCrumbsShowing }" />
+      <hr class="mb-7" :class="{ 'my-7': !isBreadCrumbsShowing }" />
       <Events :events="sortedEventsWithOffersDesc" />
     </div>
   </div>
@@ -83,12 +83,6 @@ useResizeObserver(wrapper, (entry) => {
 <style lang="scss" scoped>
 .gap {
   gap: 2.5rem;
-}
-.my-40 {
-  margin: 2.5rem 0;
-}
-.mb-40 {
-  margin-bottom: 2.5rem;
 }
 .is-flex-basis-two-thirds {
   flex-basis: 66.6%;

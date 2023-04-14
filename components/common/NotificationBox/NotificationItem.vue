@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     :to="`/${urlPrefix}/gallery/${event.nft.id}`"
-    class="is-flex notify-item">
+    class="is-flex py-3 px-6">
     <img
       v-if="avatar"
       :src="avatar"
@@ -89,7 +89,6 @@ const displayName = computed(
   max-width: 8rem;
 }
 .notify-item {
-  padding: 0.75rem 2rem;
   &:hover {
     @include ktheme() {
       color: theme('text-color');
