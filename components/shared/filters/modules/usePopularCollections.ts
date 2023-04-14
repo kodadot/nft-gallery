@@ -3,10 +3,19 @@ import { CollectionEntityMinimal } from '@/components/collection/utils/types'
 const collectionArray = ref<CollectionEntityMinimal[]>([])
 
 export type Collection = CollectionEntityMinimal & {
-  nftCount: number
+  owners: number
   chain: string
   meta: {
     name: string
+  }
+  nfts: {
+    currentOwner: string
+  }[]
+}
+
+type QueryResult = {
+  value: {
+    collectionEntities: Collection[]
   }
 }
 
@@ -16,7 +25,7 @@ export const useCollectionArray = () => {
 
 export const usePopularCollections = () => {
   const collections = ref<Collection[]>([])
-  const resArr = ref<any[]>([])
+  const resArr = ref<QueryResult[]>([])
   const loadingMap = reactive<{
     [key: string]: { value: boolean }
   }>({})
@@ -35,14 +44,14 @@ export const usePopularCollections = () => {
 
   // Aoid using Array as root value for reactive() as it cannot be tracked in watch() or watchEffect(). Use ref() instead. This is a Vue-2-only limitation.
   watch(loadingMap, (val) => {
-    if (Object.entries(val).every(([client, loading]) => !loading.value)) {
+    if (Object.entries(val).every(([, loading]) => !loading.value)) {
       collections.value = resArr.value
         .map((data, index) => {
           const chain = Object.keys(POPULAR_COLLECTIONS)[index]
           return data.value?.collectionEntities?.map((item) => ({
-            chain,
-            owners: new Set(item.nfts.map((x) => x.currentOwner)).size,
             ...item,
+            owners: new Set(item.nfts.map((x) => x.currentOwner)).size,
+            chain,
           }))
         })
         .flat()
