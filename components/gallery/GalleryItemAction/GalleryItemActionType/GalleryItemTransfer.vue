@@ -38,7 +38,7 @@ import { onClickOutside } from '@vueuse/core'
 import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
-import { Interaction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark/v1'
 
 const { transaction, status, isLoading } = useTransaction()
 const { $route, $i18n } = useNuxtApp()

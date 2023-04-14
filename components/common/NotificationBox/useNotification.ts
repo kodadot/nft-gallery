@@ -1,5 +1,5 @@
 import { Event, FilterOption } from './types'
-import { Interaction as _Interaction } from '@kodadot1/minimark'
+import { Interaction as _Interaction } from '@kodadot1/minimark/v1'
 import { sortedEventByDate } from '@/utils/sorting'
 
 export const Interaction = {

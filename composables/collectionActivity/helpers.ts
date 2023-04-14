@@ -1,4 +1,4 @@
-import { Interaction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark/v1'
 import { sum } from '@/utils/math'
 import {
   Flippers,
@@ -161,45 +161,46 @@ export const getFlippers = (interactions: InteractionWithNFT[]): Flippers => {
 
   // Loop through all the change hands interactions
   changeHandsInteractions.forEach((interaction) => {
+    const nftId = interaction.nft.id
+    const PreviousNFTState = NFTS[nftId]
     if (interaction.interaction === Interaction.SEND) {
       // NFT has been sent from one address to another
-      NFTS[interaction.nft.id].owner = interaction.meta
-      NFTS[interaction.nft.id].latestInteraction = Interaction.SEND
+      PreviousNFTState.owner = interaction.meta
+      PreviousNFTState.latestInteraction = Interaction.SEND
     }
+
     if (interaction.interaction === Interaction.BUY) {
-      // NFT has been bought, it's a Flip!
-
-      const nftId = interaction.nft.id
-      const PreviousNFTState = NFTS[nftId]
-      const boughtPrice = getLatestPrice(PreviousNFTState)
-      // Calculate profit
-      const profit =
-        boughtPrice > 0 ? (parseInt(interaction.meta) / boughtPrice) * 100 : 0
-
-      // Create the new FlipEvent object
-      const thisFlip = {
-        nft: PreviousNFTState.nft,
-        soldPrice: parseInt(interaction.meta),
-        soldTo: interaction.caller,
-        sellTimeStamp: new Date(interaction.timestamp).getTime(),
-        boughtPrice,
-        profit,
-      }
-
-      // Check if the previous owner is already a flipper, if not initialize them
-      if (flippers[PreviousNFTState.owner] === undefined) {
-        flippers[PreviousNFTState.owner] = flipperInitialState()
-      }
-
-      // Add the new FlipEvent to the previous owner's flips array
-      flippers[PreviousNFTState.owner].flips.push(thisFlip)
-
       // Update the NFT state
       NFTS[nftId] = {
         ...PreviousNFTState,
         owner: interaction.caller,
         latestInteraction: Interaction.BUY,
         latestPrice: parseInt(interaction.meta),
+      }
+      if (PreviousNFTState.latestInteraction === Interaction.BUY) {
+        // NFT has been bought, and previous interaction is also a buy => it's a Flip!
+        const boughtPrice = getLatestPrice(PreviousNFTState)
+        // Calculate profit
+        const profit =
+          boughtPrice > 0 ? (parseInt(interaction.meta) / boughtPrice) * 100 : 0
+
+        // Create the new FlipEvent object
+        const thisFlip = {
+          nft: PreviousNFTState.nft,
+          soldPrice: parseInt(interaction.meta),
+          soldTo: interaction.caller,
+          sellTimeStamp: new Date(interaction.timestamp).getTime(),
+          boughtPrice,
+          profit,
+        }
+
+        // Check if the previous owner is already a flipper, if not initialize them
+        if (flippers[PreviousNFTState.owner] === undefined) {
+          flippers[PreviousNFTState.owner] = flipperInitialState()
+        }
+
+        // Add the new FlipEvent to the previous owner's flips array
+        flippers[PreviousNFTState.owner].flips.push(thisFlip)
       }
     }
   })
