@@ -2,6 +2,7 @@ import { CreatedNFT } from '@kodadot1/minimark/v1'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { ItemResources } from '@/composables/useNft'
 import { Attribute } from '@kodadot1/minimark/common'
+import { toNFTId as toItemId } from '@kodadot1/minimark/shared'
 
 export interface CompletePack extends BasePack {
   collections: Collection[]
@@ -250,12 +251,10 @@ export const toNFTId = (
   nft: CreatedNFT,
   blocknumber: string | number
 ): string => {
-  const { collection, instance, sn } = nft
-  if (!collection || !instance || !sn) {
-    throw new ReferenceError('[APP] toNFTId: invalid nft')
-  }
+  const { collection, sn } = nft
+  const symbol: string = nft.instance || (nft as any).symbol
 
-  return `${blocknumber}-${collection}-${instance}-${sn}`
+  return toItemId(collection, symbol, sn, blocknumber)
 }
 
 export const computeAndUpdateNft = (
