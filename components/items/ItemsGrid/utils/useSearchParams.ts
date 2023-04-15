@@ -59,17 +59,19 @@ function useSearchByCollectionId() {
 
   return {
     collectionId: computed(() => {
-      return route.name === 'prefix-collection-id'
-        ? [{ collection: { id_eq: route.params.id } }]
-        : route.query.collection
-        ? [
-            {
-              collection: {
-                id_in: (route.query.collection as string).split(','),
-              },
+      if (route.name === 'prefix-collection-id') {
+        return [{ collection: { id_eq: route.params.id } }]
+      }
+      if (route.query.collection) {
+        return [
+          {
+            collection: {
+              id_in: (route.query.collection as string).split(','),
             },
-          ]
-        : []
+          },
+        ]
+      }
+      return []
     }),
   }
 }
