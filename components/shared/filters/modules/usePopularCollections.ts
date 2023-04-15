@@ -19,6 +19,19 @@ type QueryResult = {
   }
 }
 
+function handleResult(result: QueryResult[]): Collection[] {
+  return result
+    .map((data, index) => {
+      const chain = Object.keys(POPULAR_COLLECTIONS)[index]
+      return data.value?.collectionEntities?.map((item) => ({
+        ...item,
+        owners: new Set(item.nfts.map((x) => x.currentOwner)).size,
+        chain,
+      }))
+    })
+    .flat()
+}
+
 export const useCollectionArray = () => {
   return collectionArray
 }
@@ -45,16 +58,7 @@ export const usePopularCollections = () => {
   // Aoid using Array as root value for reactive() as it cannot be tracked in watch() or watchEffect(). Use ref() instead. This is a Vue-2-only limitation.
   watch(loadingMap, (val) => {
     if (Object.entries(val).every(([, loading]) => !loading.value)) {
-      collections.value = resArr.value
-        .map((data, index) => {
-          const chain = Object.keys(POPULAR_COLLECTIONS)[index]
-          return data.value?.collectionEntities?.map((item) => ({
-            ...item,
-            owners: new Set(item.nfts.map((x) => x.currentOwner)).size,
-            chain,
-          }))
-        })
-        .flat()
+      collections.value = handleResult(resArr.value)
       collectionArray.value = collections.value
     }
   })
