@@ -85,7 +85,7 @@ import {
 } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { MintedCollection, useMassMint } from './useMassMint'
-import UploadPicture from '@/components/massmint/UploadPicture/UploadPicture.vue'
+import UploadPicture from './uploadCompressedMedia/UploadCompressedMedia.vue'
 
 const preferencesStore = usePreferencesStore()
 const { $consola } = useNuxtApp()

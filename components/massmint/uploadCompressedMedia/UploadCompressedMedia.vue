@@ -4,9 +4,8 @@
       <template #title> {{ $t('massmint.uploadPics') }}</template>
       <template #content>
         <DropUpload
-          preview
           :label="$t('mint.collection.massmintDrop')"
-          accept=".zip, .gltf"
+          accept=".zip"
           @input="selectedFile" />
       </template>
     </NeoCollapse>
@@ -25,9 +24,7 @@ withDefaults(
   }
 )
 
-const DropUpload = defineAsyncComponent(
-  () => import('@/components/shared/upload/DropUpload.vue')
-)
+const DropUpload = defineAsyncComponent(() => import('./DropUpload.vue'))
 
 const selectedFile = (file) => {
   console.log('selected file', file)
