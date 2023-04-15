@@ -71,7 +71,7 @@
     "@kodadot1/minimark": "^0.0.1-rc.10",
     "@kodadot1/static": "workspace:*",
     "@kodadot1/sub-api": "0.1.1-alpha.5",
-    "@kodadot1/vuex-options": "0.0.6-rc.0",
+    "@kodadot1/vuex-options": "0.1.2-rc.0",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.3.1",
     "@nuxtjs/sentry": "^7.1.4",
