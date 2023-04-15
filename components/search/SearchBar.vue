@@ -111,7 +111,8 @@ export default class SearchBar extends mixins(
   }
 
   get showDefaultSuggestions() {
-    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'bsx'
+    const supportedChains = ['rmrk', 'bsx', 'ksm']
+    return supportedChains.includes(this.urlPrefix)
   }
 }
 </script>
