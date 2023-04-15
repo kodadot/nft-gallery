@@ -17,7 +17,7 @@
     <div class="p-4">
       <o-field v-for="collection in collections" :key="collection.id">
         <NeoCheckbox
-          :value="checkedCollection.includes(collection.id)"
+          :value="checkedCollections.includes(collection.id)"
           class="mr-0"
           @input="toggleCollection(collection)">
         </NeoCheckbox>
@@ -84,14 +84,14 @@ const props = withDefaults(
 
 const emit = defineEmits(['resetPage'])
 
-const checkedCollection = ref<string[]>([])
+const checkedCollections = ref<string[]>([])
 
 const toggleCollection = (collection: Collection) => {
-  const index = checkedCollection.value.indexOf(collection.id)
+  const index = checkedCollections.value.indexOf(collection.id)
   if (index > -1) {
-    checkedCollection.value.splice(index, 1)
+    checkedCollections.value.splice(index, 1)
   } else {
-    checkedCollection.value.push(collection.id)
+    checkedCollections.value.push(collection.id)
   }
   if (urlPrefix.value !== collection.chain) {
     $store.dispatch('setUrlPrefix', collection.chain)
@@ -102,7 +102,7 @@ const toggleCollection = (collection: Collection) => {
       },
       query: {
         ...restQuery,
-        collection: checkedCollection.value.join(','),
+        collection: checkedCollections.value.join(','),
       },
     })
   } else {
@@ -112,18 +112,18 @@ const toggleCollection = (collection: Collection) => {
 
 const getSearchParam = () => {
   if (props.dataModel === 'query') {
-    checkedCollection.value =
+    checkedCollections.value =
       (route.query?.collection as string)?.split(',').filter((x) => !!x) || []
   } else {
-    checkedCollection.value = exploreFiltersStore.collection || []
+    checkedCollections.value = exploreFiltersStore.collections || []
   }
 }
 
 const toggleSearchParam = () => {
   if (props.dataModel === 'query') {
-    applyToUrl({ collection: checkedCollection.value.join(',') })
+    applyToUrl({ collection: checkedCollections.value.join(',') })
   } else {
-    exploreFiltersStore.setCollection(checkedCollection.value)
+    exploreFiltersStore.setCollections(checkedCollections.value)
   }
 }
 
@@ -137,7 +137,7 @@ watch(
     if (props.dataModel === 'query') {
       return route.query?.collection
     } else {
-      return exploreFiltersStore.collection
+      return exploreFiltersStore.collections
     }
   },
   getSearchParam,
