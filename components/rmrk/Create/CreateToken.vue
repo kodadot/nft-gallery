@@ -85,6 +85,7 @@ import {
   Interaction,
   createInteraction,
 } from '@kodadot1/minimark/v1'
+import { CreatedNFT as NewCreatedNFT } from '@kodadot1/minimark/v2'
 import { Attribute, asSystemRemark } from '@kodadot1/minimark/common'
 import { formatBalance } from '@polkadot/util'
 import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
