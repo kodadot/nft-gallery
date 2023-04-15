@@ -1,5 +1,5 @@
 <template>
-  <div class="py-6">
+  <div class="py-8">
     <OnBoarding />
   </div>
 </template>

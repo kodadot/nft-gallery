@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-6">
+  <div class="mt-8">
     <div v-if="status === 'show'">
       <div
         class="is-flex is-align-items-center is-justify-content-space-between">
