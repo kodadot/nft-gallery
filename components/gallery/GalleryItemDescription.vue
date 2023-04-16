@@ -56,10 +56,10 @@
         <p>{{ urlPrefix }}</p>
       </div>
       <div
-        v-if="urlPrefix === 'rmrk' || urlPrefix === 'ksm'"
+        v-if="version"
         class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.version') }}</p>
-        <p>{{ isV2 ? '2.0' : '1.0' }}</p>
+        <p>{{ version }}</p>
       </div>
       <!-- <div class="is-flex is-justify-content-space-between">
         <p>Token Standard</p>
