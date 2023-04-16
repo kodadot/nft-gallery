@@ -1,17 +1,5 @@
 import { POPULAR_COLLECTIONS } from './constants'
 import { CollectionEntityMinimal } from '@/components/collection/utils/types'
-const collectionArray = ref<CollectionEntityMinimal[]>([])
-
-export type Collection = CollectionEntityMinimal & {
-  owners: number
-  chain: string
-  meta: {
-    name: string
-  }
-  nfts: {
-    currentOwner: string
-  }[]
-}
 
 type QueryResult = {
   value: {
@@ -32,8 +20,17 @@ function handleResult(result: QueryResult[]): Collection[] {
     .flat()
 }
 
-export const useCollectionArray = () => {
-  return collectionArray
+export const collectionArray = ref<CollectionEntityMinimal[]>([])
+
+export type Collection = CollectionEntityMinimal & {
+  owners: number
+  chain: string
+  meta: {
+    name: string
+  }
+  nfts: {
+    currentOwner: string
+  }[]
 }
 
 export const usePopularCollections = () => {
@@ -57,10 +54,12 @@ export const usePopularCollections = () => {
 
   // Aoid using Array as root value for reactive() as it cannot be tracked in watch() or watchEffect(). Use ref() instead. This is a Vue-2-only limitation.
   watch(loadingMap, (val) => {
-    if (Object.entries(val).every(([, loading]) => !loading.value)) {
-      collections.value = handleResult(resArr.value)
-      collectionArray.value = collections.value
-    }
+    Object.keys(val).forEach((key) => {
+      if (!loadingMap[key].value) {
+        collections.value = collections.value.concat(handleResult(resArr.value))
+        collectionArray.value = collections.value
+      }
+    })
   })
 
   return {

@@ -56,7 +56,7 @@ import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import {
   Collection,
-  useCollectionArray,
+  collectionArray,
 } from '@/components/shared/filters/modules/usePopularCollections'
 import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
 
@@ -72,7 +72,6 @@ const isItemsExplore = computed(() => route.path.includes('/explore/items'))
 
 const breads = useActiveRouterFilters()
 
-const collectionArray = useCollectionArray()
 const collections = ref<Collection[]>([])
 
 watch([collectionArray, breads], () => {
@@ -80,7 +79,7 @@ watch([collectionArray, breads], () => {
     collections.value = breads.value.collection
       .split(',')
       .map((id) => collectionArray.value.find((x) => x.id === id))
-      .filter((x) => x && x.id) as Collection[]
+      .filter((x) => x?.id) as Collection[]
   }
 })
 
