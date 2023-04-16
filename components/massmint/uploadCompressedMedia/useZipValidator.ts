@@ -18,7 +18,26 @@ export interface ValidityResult {
   warnings: WarningObject[]
 }
 
-const validFormats = ['png']
+const validFormats = [
+  'bmp',
+  'gif',
+  'jpg',
+  'jpeg',
+  'png',
+  'svg',
+  'tiff',
+  'webp',
+  'mp4',
+  'ogv',
+  'mov',
+  'qt',
+  'webm',
+  'glb',
+  'gltf',
+  'flac',
+  'mp3',
+  'json',
+]
 
 const toMegaBytes = (bytes: number) => bytes / Math.pow(1024, 2)
 
@@ -102,16 +121,6 @@ export function useZipFileValidator(zipFilePath: string) {
   }
 
   processZipFile()
-
-  watch(loading, (loadingValue) => {
-    console.log('loading', loadingValue)
-    if (!loadingValue) {
-      console.log('validFiles', validFiles.value)
-      console.log('warnings', warnings.value)
-      console.log('totalFiles', totalFiles.value)
-      console.log('allValid', allValid.value)
-    }
-  })
 
   return { validFiles, warnings, loading, totalFiles, allValid }
 }

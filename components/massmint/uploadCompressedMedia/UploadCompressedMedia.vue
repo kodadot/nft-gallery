@@ -1,19 +1,24 @@
 <template>
   <div>
     <NeoCollapse :disabled="disabled">
-      <template #title> {{ $t('massmint.uploadPics') }}</template>
+      <div>
+        {{ $t('massmint.uploadPics') }}
+        <NeoIcon
+          v-if="showCheckmark"
+          icon="circle-check"
+          size="small"
+          variant="success"
+          class="ml-3" />
+      </div>
       <template #content>
-        <DropUpload
-          :label="$t('mint.collection.massmintDrop')"
-          accept=".zip"
-          @input="selectedFile" />
+        <DropUpload @fileSelected="onFileSelected" />
       </template>
     </NeoCollapse>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoCollapse } from '@kodadot1/brick'
+import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 
 withDefaults(
   defineProps<{
@@ -24,9 +29,11 @@ withDefaults(
   }
 )
 
+const showCheckmark = ref(false)
+
 const DropUpload = defineAsyncComponent(() => import('./DropUpload.vue'))
 
-const selectedFile = (file) => {
-  console.log('selected file', file)
+const onFileSelected = (ready, zipData) => {
+  showCheckmark.value = ready
 }
 </script>
