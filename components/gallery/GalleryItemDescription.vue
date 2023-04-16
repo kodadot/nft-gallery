@@ -111,7 +111,7 @@ const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
 const activeTab = ref('0')
-const { isV2 } = useRmrkVersion()
+const { version } = useRmrkVersion()
 
 const properties = computed(() => {
   // we have different format between rmrk2 and the other chains
