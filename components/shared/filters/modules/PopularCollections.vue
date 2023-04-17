@@ -18,7 +18,8 @@
       <o-field v-for="collection in collections" :key="collection.id">
         <NeoCheckbox
           :value="checkedCollections.includes(collection.id)"
-          class="mr-0"
+          class="mr-0 w-100"
+          label-class="is-flex-grow-1"
           @input="toggleCollection(collection)">
           <div
             class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
@@ -29,7 +30,8 @@
               class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
               <NeoTooltip
                 :label="collection.meta.name || collection.id"
-                :append-to-body="false">
+                append-to-body
+                :delay="1000">
                 <div class="is-ellipsis">
                   {{ collection.meta.name || collection.id }}
                 </div>
@@ -121,21 +123,21 @@ const getSearchParam = () => {
 
 const toggleSearchParam = () => {
   if (props.dataModel === 'query') {
-    applyToUrl({ collection: checkedCollections.value.join(',') })
+    applyToUrl()
   } else {
     exploreFiltersStore.setCollections(checkedCollections.value)
   }
 }
 
-const applyToUrl = (queryCondition: { [key: string]: any }) => {
-  replaceURL(queryCondition)
+const applyToUrl = () => {
+  replaceURL({ collection: checkedCollections.value.join(',') })
   emit('resetPage')
 }
 
 watch(
   () => {
     if (props.dataModel === 'query') {
-      return route.query?.collection
+      return (route.query?.collection as string)?.split(',')
     } else {
       return exploreFiltersStore.collections
     }
@@ -149,5 +151,11 @@ watch(
 <style lang="scss" scoped>
 .min-width-0 {
   min-width: 0;
+}
+:deep .neo-checkbox > span {
+  max-width: calc(100% - 1rem);
+  .o-tip__trigger {
+    max-width: 100%;
+  }
 }
 </style>

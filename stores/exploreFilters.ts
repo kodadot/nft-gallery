@@ -19,7 +19,11 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     collections: undefined,
   }),
   getters: {
-    getStatusFilters: (state) => ({ listed: state.listed, owned: state.owned }),
+    getStatusFilters: (state) => ({
+      listed: state.listed,
+      owned: state.owned,
+      collection: state.collections?.toString(),
+    }),
     getPriceRange: (state) => ({ min: state.min, max: state.max }),
   },
   actions: {

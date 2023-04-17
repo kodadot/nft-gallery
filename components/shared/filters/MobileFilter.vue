@@ -27,7 +27,10 @@
           v-if="!isCollectionActivityTab"
           data-model="store"
           expanded />
-        <PopularCollections v-if="!isCollectionActivityTab" expanded />
+        <PopularCollections
+          v-if="!isCollectionActivityTab"
+          data-model="store"
+          expanded />
       </div>
 
       <div class="buttons-container px-4 py-3 border-top">
@@ -93,10 +96,12 @@ const syncFromUrlOnActivityTab = () => {
 }
 const syncFromUrlOnGrid = () => {
   const listed = route.query?.listed?.toString() === 'true',
-    owned = route.query?.owned?.toString() === 'true'
+    owned = route.query?.owned?.toString() === 'true',
+    collections = (route.query?.collection as string)?.split(',')
 
   exploreFiltersStore.setListed(listed)
   exploreFiltersStore.setOwned(owned)
+  exploreFiltersStore.setCollections(collections)
 }
 
 const syncFromUrl = () => {
@@ -140,10 +145,12 @@ const resetFilters = () => {
     const statusDefaults = {
       listed: false,
       owned: false,
+      collection: undefined,
     }
 
     exploreFiltersStore.setListed(statusDefaults.listed)
     exploreFiltersStore.setOwned(statusDefaults.owned)
+    exploreFiltersStore.setCollections(statusDefaults.collection)
 
     // price
     const priceDefaults = {
