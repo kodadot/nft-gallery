@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="is-flex is-align-items-center mb-6 px-6">
+    <div class="is-flex is-align-items-center mb-8 px-8">
       <div
         class="is-size-1-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
         {{ $t('massmint.onboarding.pageTitle') }}
@@ -46,7 +46,7 @@
       </Transition>
     </div>
 
-    <div class="is-flex is-justify-content-center my-6">
+    <div class="is-flex is-justify-content-center my-8">
       <span
         v-for="(card, index) in cards"
         :key="index"

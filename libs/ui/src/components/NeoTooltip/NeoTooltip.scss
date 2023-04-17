@@ -1,7 +1,6 @@
 @import '../../scss/variable.scss';
 
 .neo-tooltip {
-  width: 100%;
   $tooltip-distance: calc(20px + 100%);
   @media screen and (max-width: 768px) {
     $tooltip-distance: calc(16px + 100%);

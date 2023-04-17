@@ -1,9 +1,9 @@
-# One Stop Shop for your Polkadot NFTs 
+# One Stop Shop for your Polkadot NFTs
 
 ![](https://github.com/kodadot/kodadot-presskit/blob/main/v3/KODA_v3.png?raw=true)
 
 # Contributing
-[![Lint, Build & Test workflow](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml) [![cypress](https://github.com/kodadot/nft-gallery/actions/workflows/e2e.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/e2e.yml) [![Reviewdog](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml)
+[![Test & Build app](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml) [![cypress](https://github.com/kodadot/nft-gallery/actions/workflows/e2e.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/e2e.yml) [![Reviewdog](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml)
 
 ![image](https://user-images.githubusercontent.com/5887929/217076362-464e1293-8a2d-43ee-829f-fba17408e4c3.png)
 
