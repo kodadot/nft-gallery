@@ -67,7 +67,7 @@ const onFileSelected = (file) => {
         loading: loadingZip,
         validFiles,
         warnings,
-      } = await useZipFileValidator(zipFilePath)
+      } = useZipFileValidator(zipFilePath)
       watch(loadingZip, (isLoading) => {
         loading.value = isLoading
         if (!isLoading) {
@@ -83,6 +83,7 @@ const onFileSelected = (file) => {
             )
           }
           showCheckmark.value = true
+          console.log('validFiles', validFiles.value)
           emit('zipLoaded', {
             validFiles: validFiles.value,
             areAllFilesValid: allValid.value,

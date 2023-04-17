@@ -81,6 +81,8 @@ const selectCollection = (collection) => {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
 .dropdown-width {
   width: 30rem;
 }

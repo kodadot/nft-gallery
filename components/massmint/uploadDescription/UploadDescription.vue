@@ -60,7 +60,7 @@ const onFileSelected = (file) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = async () => {
-      const filePath = reader.result as string
+      // const filePath = reader.result as string
 
       // process the file
 

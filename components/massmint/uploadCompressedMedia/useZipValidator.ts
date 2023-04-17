@@ -41,6 +41,19 @@ const validFormats = [
 
 const toMegaBytes = (bytes: number) => bytes / Math.pow(1024, 2)
 
+const isFileSizeTooLarge = (size: number): boolean =>
+  toMegaBytes(size) > MAX_UPLOADED_FILE_SIZE
+
+const getFileExtension = (name: string): string => {
+  const lastDotIndex = name.lastIndexOf('.')
+  return lastDotIndex !== -1
+    ? name.substring(lastDotIndex + 1).toLowerCase()
+    : ''
+}
+
+const isValidFileExtension = (extension: string): boolean =>
+  validFormats.includes(extension)
+
 async function checkZipFileValidity(entries: {
   [key: string]: ZipEntry
 }): Promise<ValidityResult> {
@@ -56,29 +69,15 @@ async function checkZipFileValidity(entries: {
       continue
     }
 
-    if (toMegaBytes(entry.size) > MAX_UPLOADED_FILE_SIZE) {
+    if (isFileSizeTooLarge(entry.size)) {
       warnings.push({
         name,
         reason: 'File size exceeds maximum limit',
       })
       continue
     }
-
-    const lastDotIndex = name.lastIndexOf('.')
-    if (lastDotIndex === -1) {
-      warnings.push({
-        name,
-        reason: 'File does not have an extension',
-      })
-      continue
-    }
-
-    const fileExtension = name
-      .substring(name.lastIndexOf('.') + 1)
-      .toLowerCase()
-    const isValidExtension = validFormats.includes(fileExtension)
-
-    if (!isValidExtension) {
+    const fileExtension = getFileExtension(name)
+    if (!isValidFileExtension(fileExtension)) {
       warnings.push({
         name,
         reason: `Invalid file format (${fileExtension})`,
