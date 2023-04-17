@@ -15,7 +15,10 @@
       </div>
     </template>
     <div class="p-4">
-      <o-field v-for="collection in collections" :key="collection.id">
+      <o-field
+        v-for="collection in collections"
+        :key="collection.id"
+        class="mb-2">
         <NeoCheckbox
           :value="checkedCollections.includes(collection.id)"
           class="mr-0 w-100"
