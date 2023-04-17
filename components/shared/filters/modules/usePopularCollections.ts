@@ -58,6 +58,7 @@ export const usePopularCollections = () => {
       if (!loadingMap[key].value) {
         collections.value = collections.value.concat(handleResult(resArr.value))
         collectionArray.value = collections.value
+        delete loadingMap[key]
       }
     })
   })
