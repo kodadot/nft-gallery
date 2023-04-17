@@ -90,6 +90,8 @@ export const NFT_SQUID_SORT_COLLECTIONS: string[] = [
   'updatedAt_ASC',
   'supply_DESC',
   'supply_ASC',
+  'volume_DESC',
+  'volume_ASC',
 ]
 
 export const MIN_OFFER_PRICE = 0.01

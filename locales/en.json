@@ -559,6 +559,8 @@
       "updatedAt_ASC": "Unpopular",
       "supply_DESC": "Most Supply",
       "supply_ASC": "Least Supply",
+      "volume_DESC": "Most Volume",
+      "volume_ASC": "Least Volume",
       "price_DESC": "Price: High to Low",
       "price_ASC": "Price: Low to High",
       "sn_ASC": "Serial Number Ascending",
