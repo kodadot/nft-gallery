@@ -33,7 +33,8 @@
           expanded />
       </div>
 
-      <div class="buttons-container px-4 py-3 border-top">
+      <div
+        class="buttons-container px-4 py-3 border-top theme-background-color">
         <NeoButton
           label="Reset All"
           variant="primary"
@@ -197,6 +198,8 @@ watch(() => route.query, syncFromUrl, { immediate: true })
   position: absolute;
 }
 .buttons-container {
+  position: sticky;
+  bottom: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
