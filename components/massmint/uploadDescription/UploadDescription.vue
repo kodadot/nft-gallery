@@ -2,7 +2,7 @@
   <div>
     <NeoCollapse :disabled="disabled">
       <div class="is-flex">
-        {{ $t('massmint.uploadPics') }}
+        {{ $t('massmint.uploadDesc') }}
         <NeoIcon
           v-if="showCheckmark"
           icon="circle-check"
@@ -13,12 +13,12 @@
       </div>
       <template #content>
         <DragDrop
-          accept=".zip"
+          accept=".txt,.json,.csv"
           :loading="loading"
           @fileSelected="onFileSelected">
           <template #title>
             <span class="mb-4 has-text-left">{{
-              $t('massmint.uploadzipTip')
+              $t('massmint.uploadDescriptionTip')
             }}</span>
             <span class="has-text-left"
               ><b>{{ $t('massmint.supportedFormats') }}</b>
@@ -33,8 +33,6 @@
 
 <script setup lang="ts">
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
-import { useZipFileValidator } from './useZipValidator'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import DragDrop from '../../shared/DragDrop.vue'
 
 withDefaults(
@@ -49,46 +47,30 @@ withDefaults(
 const loading = ref(false)
 const showCheckmark = ref(false)
 
-const acceptedMediaFormatsString =
-  'BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON'
+const acceptedMediaFormatsString = '.TXT, .CSV, .JSON'
 
-const emit = defineEmits(['zipLoaded'])
+const emit = defineEmits(['fileLoaded'])
 
 const onFileSelected = (file) => {
   showCheckmark.value = false
-  if (file && file.type === 'application/zip') {
+
+  // replace true with check for valid file type
+  if (true) {
     loading.value = true
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = async () => {
-      const zipFilePath = reader.result as string
-      const {
-        allValid,
-        loading: loadingZip,
-        validFiles,
-        warnings,
-      } = await useZipFileValidator(zipFilePath)
-      watch(loadingZip, (isLoading) => {
-        loading.value = isLoading
-        if (!isLoading) {
-          if (warnings.value.length > 0) {
-            const fileNames = warnings.value
-              .map(({ name }) => name)
-              .join(',   ')
+      const filePath = reader.result as string
 
-            showNotification(fileNames, notificationTypes.warn)
-            showNotification(
-              `${warnings.value.length} files were not uploaded`,
-              notificationTypes.warn
-            )
-          }
-          showCheckmark.value = true
-          emit('zipLoaded', {
-            validFiles: validFiles.value,
-            areAllFilesValid: allValid.value,
-          })
-        }
-      })
+      // process the file
+
+      //dummy load time
+
+      setTimeout(() => {
+        loading.value = false
+        showCheckmark.value = true
+        emit('fileLoaded')
+      }, 2000)
     }
 
     reader.onerror = () => {
