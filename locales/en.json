@@ -542,15 +542,7 @@
     }
   },
   "sort": {
-    "EMOTES_COUNT_DESC": "Most reacted",
-    "BLOCK_NUMBER_DESC": "Recently Created",
-    "BLOCK_NUMBER_ASC": "Oldest",
-    "UPDATED_AT_DESC": "Recently Interacted",
-    "UPDATED_AT_ASC": "Unpopular",
-    "PRICE_DESC": "Price: High to Low",
-    "PRICE_ASC": "Price: Low to High",
-    "SN_ASC": "Serial Number Ascending",
-    "blockNumber_DESC": "Recently Created",
+    "blockNumber_DESC": "Newest",
     "blockNumber_ASC": "Oldest",
     "updatedAt_DESC": "Recently Interacted",
     "updatedAt_ASC": "Unpopular",
@@ -561,8 +553,8 @@
     "own": "Own",
     "clearAll": "Clear All",
     "collection": {
-      "blockNumber_DESC": "New first",
-      "blockNumber_ASC": "Old first",
+      "blockNumber_DESC": "Newest",
+      "blockNumber_ASC": "Oldest",
       "updatedAt_DESC": "Recently Interacted",
       "updatedAt_ASC": "Unpopular",
       "supply_DESC": "Most Supply",
@@ -571,15 +563,7 @@
       "price_ASC": "Price: Low to High",
       "sn_ASC": "Serial Number Ascending",
       "listed": "Buy now",
-      "sortBy": "Sort By",
-      "EMOTES_COUNT_DESC": "Most reacted",
-      "BLOCK_NUMBER_DESC": "Recently Created",
-      "BLOCK_NUMBER_ASC": "Oldest",
-      "UPDATED_AT_DESC": "Recently Interacted",
-      "UPDATED_AT_ASC": "Unpopular",
-      "PRICE_DESC": "Price: High to Low",
-      "PRICE_ASC": "Price: Low to High",
-      "SN_ASC": "Serial Number Ascending"
+      "sortBy": "Sort By"
     }
   },
   "query": {
@@ -933,6 +917,7 @@
       "time": "Time"
     },
     "noResults": "Looks Like There's Nothing Here Yet",
+    "noFlips": "Looks like it's quiet in here",
     "noResultsSub": "Check back later or reset your filters"
   },
   "profileStats": {
@@ -1203,6 +1188,7 @@
       "contractAddress": "Contract Address",
       "creator": "Creator",
       "blockchain": "Blockchain",
+      "version": "Version",
       "tokenStandard": "Token Standard",
       "royalties": "Royalties",
       "media": "Media",

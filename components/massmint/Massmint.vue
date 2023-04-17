@@ -1,7 +1,7 @@
 <template>
   <div>
-    <section class="is-flex pb-6 is-flex-wrap-wrap row-gap">
-      <NeoButton class="mr-6" @click.native="toOnborading">
+    <section class="is-flex pb-8 is-flex-wrap-wrap row-gap">
+      <NeoButton class="mr-8" @click.native="toOnborading">
         <NeoIcon icon="arrow-left" size="small" class="mr-1" />
         {{ $t('massmint.backToOnbaording') }}
       </NeoButton>
@@ -17,7 +17,7 @@
     </section>
     <hr class="m-0" />
     <section
-      class="pt-6 is-flex is-flex-direction-column is-align-items-center">
+      class="pt-8 is-flex is-flex-direction-column is-align-items-center">
       <p class="mb-4">{{ $t('massmint.chooseCollection') }}</p>
       <NeoDropdown
         class="dropdown-width"
@@ -70,7 +70,7 @@
         </template>
       </NeoDropdown>
     </section>
-    <section class="collpase-massmint-container">
+    <section class="collpase-massmint-container mt-7">
       <UploadPicture :disabled="!selectedCollection" />
     </section>
   </div>
@@ -142,7 +142,6 @@ const toOnborading = () => {
   width: 100%;
 }
 .collpase-massmint-container {
-  margin-top: 40px;
   @include ktheme() {
     background-color: theme('background-color');
     color: theme('text-color');

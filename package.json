@@ -68,10 +68,10 @@
     "@fortawesome/vue-fontawesome": "^2.0.10",
     "@google/model-viewer": "^1.12.1",
     "@kodadot1/brick": "workspace:*",
-    "@kodadot1/minimark": "^0.1.6-rc.0",
+    "@kodadot1/minimark": "^0.1.7-rc.0",
     "@kodadot1/static": "workspace:*",
     "@kodadot1/sub-api": "0.1.1-alpha.5",
-    "@kodadot1/vuex-options": "0.1.0-rc.0",
+    "@kodadot1/vuex-options": "0.1.2-rc.0",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.3.1",
     "@nuxtjs/sentry": "^7.1.11",
@@ -173,7 +173,7 @@
     "vitest": "^0.30.0",
     "vue-debounce-decorator": "^1.0.1",
     "vue-eslint-parser": "^9.1.1",
-    "vue-gtag-next": "^1.14.0",
+    "vue-gtag": "^2.0.1",
     "wait-on": "^6.0.1"
   },
   "pnpm": {

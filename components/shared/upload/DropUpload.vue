@@ -19,7 +19,7 @@
             <div class="content has-text-centered">
               <div
                 v-if="!file"
-                class="main-label mb-6 is-flex is-flex-direction-column">
+                class="main-label mb-8 is-flex is-flex-direction-column">
                 <span class="mb-4 has-text-left">{{
                   $t('mint.collection.compressZip')
                 }}</span>
@@ -38,10 +38,10 @@
               </div>
               <NeoIcon v-if="hasError" icon="eye-slash" size="is-large" />
 
-              <p v-if="!file" class="description mt-6">
+              <p v-if="!file" class="description mt-8">
                 {{ label }}
               </p>
-              <div v-else class="is-flex is-align-items-center mt-6">
+              <div v-else class="is-flex is-align-items-center mt-8">
                 <span class="description mr-5">
                   {{ file.name }} {{ $t('uploaded') }}
                 </span>

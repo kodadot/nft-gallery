@@ -3,7 +3,7 @@
     v-if="isOpen"
     class="notification-modal-container theme-background-color border-left is-flex is-flex-direction-column">
     <header
-      class="py-4 px-2rem is-flex is-justify-content-space-between border-bottom mb-4">
+      class="py-4 px-6 is-flex is-justify-content-space-between border-bottom mb-4">
       <span class="control-label is-size-6 has-text-weight-bold">
         {{ $t('notification.notifications') }}
       </span>
@@ -12,7 +12,7 @@
       </a>
     </header>
     <div class="px-0 pt-0 pb-3 theme-background-color">
-      <div class="notification-filter theme-background-color px-2rem pb-5">
+      <div class="notification-filter theme-background-color px-6 pb-5">
         <div
           class="is-flex is-justify-content-space-between is-align-items-center pb-4">
           <span> {{ $t('notification.filters') }} </span>
@@ -184,14 +184,6 @@ const displayedEvents = computed(() =>
 
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
-.py-2rem {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-}
-.px-2rem {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
 .rounded {
   border-radius: 2rem;
   overflow: hidden;

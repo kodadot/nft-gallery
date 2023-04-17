@@ -2,6 +2,7 @@ import { Config, Prefix } from './types'
 
 const hasCreate: Config<boolean> = {
   rmrk: true,
+  ksm: true,
   bsx: true,
   statemine: true,
   westmint: true,
