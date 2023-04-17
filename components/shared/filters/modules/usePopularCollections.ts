@@ -20,7 +20,7 @@ function handleResult(result: QueryResult[]): Collection[] {
     .flat()
 }
 
-export const collectionArray = ref<CollectionEntityMinimal[]>([])
+export const collectionArray = ref<Collection[]>([])
 
 export type Collection = CollectionEntityMinimal & {
   owners: number

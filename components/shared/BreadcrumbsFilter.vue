@@ -72,16 +72,15 @@ const isItemsExplore = computed(() => route.path.includes('/explore/items'))
 
 const breads = useActiveRouterFilters()
 
-const collections = ref<Collection[]>([])
+const collectionIdList = computed(
+  () => breads.value.collection?.split(',') || []
+)
 
-watch([collectionArray, breads], () => {
-  if (breads.value.collection && collectionArray.value?.length > 0) {
-    collections.value = breads.value.collection
-      .split(',')
-      .map((id) => collectionArray.value.find((x) => x.id === id))
-      .filter((x) => x?.id) as Collection[]
-  }
-})
+const collections = computed<Collection[]>(() =>
+  collectionArray.value?.filter((x) =>
+    collectionIdList.value?.find((id) => x.id === id)
+  )
+)
 
 const removeCollection = (id: string) => {
   const ids = collections.value.filter((x) => x.id !== id).map((x) => x.id)
