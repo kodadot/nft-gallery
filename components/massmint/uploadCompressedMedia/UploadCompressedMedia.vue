@@ -83,7 +83,6 @@ const onFileSelected = (file) => {
             )
           }
           showCheckmark.value = true
-          console.log('validFiles', validFiles.value)
           emit('zipLoaded', {
             validFiles: validFiles.value,
             areAllFilesValid: allValid.value,
