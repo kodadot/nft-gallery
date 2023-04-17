@@ -29,7 +29,7 @@
         {{ collection.name || collection.id }}
       </NeoDropdownItem>
       <NeoDropdownItem class="dropdown-width" has-link>
-        <nuxt-link :to="`/${urlPrefix}/create`" class="w-100">
+        <nuxt-link :to="`/${urlPrefix}/create`" class="w-full">
           <div class="w-full">
             <NeoIcon icon="plus" size="small" class="mr-1" />
             {{ $t('massmint.createNewCollection') }}
@@ -81,8 +81,6 @@ const selectCollection = (collection) => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
 .dropdown-width {
   width: 30rem;
 }

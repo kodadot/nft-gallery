@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
-import DragDrop from '../../shared/DragDrop.vue'
+import DragDrop from '@/components/shared/DragDrop.vue'
 
 withDefaults(
   defineProps<{

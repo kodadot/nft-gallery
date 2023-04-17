@@ -35,7 +35,7 @@
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 import { useZipFileValidator } from './useZipValidator'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import DragDrop from '../../shared/DragDrop.vue'
+import DragDrop from '@/components/shared/DragDrop.vue'
 
 withDefaults(
   defineProps<{
