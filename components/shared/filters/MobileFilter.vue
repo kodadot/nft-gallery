@@ -98,7 +98,7 @@ const syncFromUrlOnActivityTab = () => {
 const syncFromUrlOnGrid = () => {
   const listed = route.query?.listed?.toString() === 'true',
     owned = route.query?.owned?.toString() === 'true',
-    collections = (route.query?.collection as string)?.split(',')
+    collections = (route.query?.collections as string)?.split(',')
 
   exploreFiltersStore.setListed(listed)
   exploreFiltersStore.setOwned(owned)
@@ -146,12 +146,12 @@ const resetFilters = () => {
     const statusDefaults = {
       listed: false,
       owned: false,
-      collection: undefined,
+      collections: undefined,
     }
 
     exploreFiltersStore.setListed(statusDefaults.listed)
     exploreFiltersStore.setOwned(statusDefaults.owned)
-    exploreFiltersStore.setCollections(statusDefaults.collection)
+    exploreFiltersStore.setCollections(statusDefaults.collections)
 
     // price
     const priceDefaults = {

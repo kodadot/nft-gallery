@@ -59,14 +59,23 @@ function useSearchByCollectionId() {
 
   return {
     collectionId: computed(() => {
-      if (route.name === 'prefix-collection-id') {
-        return [{ collection: { id_eq: route.params.id } }]
-      }
-      if (route.query.collection) {
+      return route.name === 'prefix-collection-id'
+        ? [{ collection: { id_eq: route.params.id } }]
+        : []
+    }),
+  }
+}
+
+function useSearchByCollections() {
+  const route = useRoute()
+
+  return {
+    collections: computed(() => {
+      if (route.query.collections) {
         return [
           {
             collection: {
-              id_in: (route.query.collection as string).split(','),
+              id_in: (route.query.collections as string).split(','),
             },
           },
         ]
@@ -95,6 +104,7 @@ export function useSearchParams() {
   const { owner } = useSearchOwner()
   const { collectionId } = useSearchByCollectionId()
   const { userId } = useSearchByUserId()
+  const { collections } = useSearchByCollections()
 
   const searchParams = computed(() => {
     return [
@@ -103,6 +113,7 @@ export function useSearchParams() {
       ...owner.value,
       ...collectionId.value,
       ...userId.value,
+      ...collections.value,
     ]
   })
 

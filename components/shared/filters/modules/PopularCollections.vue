@@ -107,7 +107,7 @@ const toggleCollection = (collection: Collection) => {
       },
       query: {
         ...restQuery,
-        collection: checkedCollections.value.join(','),
+        collections: checkedCollections.value.join(','),
       },
     })
   } else {
@@ -118,7 +118,7 @@ const toggleCollection = (collection: Collection) => {
 const getSearchParam = () => {
   if (props.dataModel === 'query') {
     checkedCollections.value =
-      (route.query?.collection as string)?.split(',').filter((x) => !!x) || []
+      (route.query?.collections as string)?.split(',').filter((x) => !!x) || []
   } else {
     checkedCollections.value = exploreFiltersStore.collections || []
   }
@@ -133,14 +133,14 @@ const toggleSearchParam = () => {
 }
 
 const applyToUrl = () => {
-  replaceURL({ collection: checkedCollections.value.join(',') })
+  replaceURL({ collections: checkedCollections.value.join(',') })
   emit('resetPage')
 }
 
 watch(
   () => {
     if (props.dataModel === 'query') {
-      return (route.query?.collection as string)?.split(',')
+      return (route.query?.collections as string)?.split(',')
     } else {
       return exploreFiltersStore.collections
     }

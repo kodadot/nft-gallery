@@ -22,7 +22,7 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     getStatusFilters: (state) => ({
       listed: state.listed,
       owned: state.owned,
-      collection: state.collections?.toString(),
+      collections: state.collections?.toString(),
     }),
     getPriceRange: (state) => ({ min: state.min, max: state.max }),
   },

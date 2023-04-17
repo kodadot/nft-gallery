@@ -24,7 +24,7 @@
         {{ `${$t('Max')}:` }}
         <CommonTokenMoney :value="value" />
       </NeoTag>
-      <template v-else-if="key === 'collection'">
+      <template v-else-if="key === 'collections'">
         <NeoTag
           v-for="item in collections"
           :key="`${key}-${item.id}`"
@@ -73,7 +73,7 @@ const isItemsExplore = computed(() => route.path.includes('/explore/items'))
 const breads = useActiveRouterFilters()
 
 const collectionIdList = computed(
-  () => breads.value.collection?.split(',') || []
+  () => breads.value.collections?.split(',') || []
 )
 
 const collections = computed<Collection[]>(() =>
@@ -84,7 +84,7 @@ const collections = computed<Collection[]>(() =>
 
 const removeCollection = (id: string) => {
   const ids = collections.value.filter((x) => x.id !== id).map((x) => x.id)
-  replaceUrl({ collection: ids.join(',') })
+  replaceUrl({ collections: ids.join(',') })
 }
 
 const isAnyFilterActive = computed(() =>
