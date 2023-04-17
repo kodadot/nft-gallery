@@ -8,5 +8,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
  */
 @Component
 export default class RmrkVersionMixin extends mixins(PrefixMixin) {
-  public version = this.urlPrefix === 'rmrk' ? '1.0.0' : '2.0.0'
+  get version() {
+    return this.urlPrefix === 'rmrk' ? '1.0.0' : '2.0.0'
+  }
 }
