@@ -20,28 +20,28 @@
           :value="checkedCollections.includes(collection.id)"
           class="mr-0"
           @input="toggleCollection(collection)">
-        </NeoCheckbox>
-        <div
-          class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
-          <img
-            :src="sanitizeIpfsUrl(collection.meta.image)"
-            class="image is-32x32 border mr-2" />
           <div
-            class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
-            <NeoTooltip
-              :label="collection.meta.name || collection.id"
-              :append-to-body="false">
-              <div class="is-ellipsis">
-                {{ collection.meta.name || collection.id }}
-              </div>
-            </NeoTooltip>
+            class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
+            <img
+              :src="sanitizeIpfsUrl(collection.meta.image)"
+              class="image is-32x32 border mr-2" />
             <div
-              class="is-flex is-justify-content-space-between is-size-7 has-text-grey">
-              <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
-              <div>{{ getChainName(collection.chain) }}</div>
+              class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
+              <NeoTooltip
+                :label="collection.meta.name || collection.id"
+                :append-to-body="false">
+                <div class="is-ellipsis">
+                  {{ collection.meta.name || collection.id }}
+                </div>
+              </NeoTooltip>
+              <div
+                class="is-flex is-justify-content-space-between is-size-7 has-text-grey">
+                <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
+                <div>{{ getChainName(collection.chain) }}</div>
+              </div>
             </div>
           </div>
-        </div>
+        </NeoCheckbox>
       </o-field>
     </div>
   </b-collapse>
