@@ -39,7 +39,7 @@ export default defineNuxtConfig({
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'KodaDot - One Stop Shopw for Polkadot NFTs',
+    title: 'KodaDot - One Stop Shop for Polkadot NFTs',
     titleTemplate: '%s | One Stop Shop for Polkadot NFTs',
     htmlAttrs: {
       lang: 'en',
