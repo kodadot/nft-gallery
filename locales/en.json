@@ -1188,6 +1188,7 @@
       "contractAddress": "Contract Address",
       "creator": "Creator",
       "blockchain": "Blockchain",
+      "version": "Version",
       "tokenStandard": "Token Standard",
       "royalties": "Royalties",
       "media": "Media",
