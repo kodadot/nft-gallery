@@ -7,15 +7,21 @@ type QueryResult = {
   }
 }
 
-function handleResult(result: QueryResult[], index: number): Collection[] {
+function handleResult(
+  collections: Collection[],
+  result: QueryResult[],
+  index: number
+): Collection[] {
   const chain = Object.keys(POPULAR_COLLECTIONS)[index]
-  return (
+  const newCollections =
     result[index].value?.collectionEntities?.map((item) => ({
       ...item,
       owners: new Set(item.nfts.map((x) => x.currentOwner)).size,
       chain,
     })) || []
-  )
+  return collections
+    .concat(newCollections)
+    .sort((a, b) => a.meta.name.localeCompare(b.meta.name))
 }
 
 export const collectionArray = ref<Collection[]>([])
@@ -54,9 +60,7 @@ export const usePopularCollections = () => {
   watch(loadingMap, (val) => {
     Object.keys(val).forEach((key, index) => {
       if (!loadingMap[key].value) {
-        collections.value = collections.value
-          .concat(handleResult(resArr.value, index))
-          .sort((a, b) => a.meta.name.localeCompare(b.meta.name))
+        collections.value = handleResult(collections.value, resArr.value, index)
         collectionArray.value = collections.value
         delete loadingMap[key]
       }
