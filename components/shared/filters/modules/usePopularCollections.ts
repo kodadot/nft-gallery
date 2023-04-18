@@ -40,17 +40,13 @@ export type Collection = CollectionEntityMinimal & {
 export const usePopularCollections = () => {
   const collections = ref<Collection[]>([])
   const resArr = ref<QueryResult[]>([])
-  const loadingMap = reactive<{
-    [key: string]: { value: boolean }
-  }>({})
+  const loadingMap = reactive<{ [key: string]: { value: boolean } }>({})
 
   for (const [clientName, ids] of Object.entries(POPULAR_COLLECTIONS)) {
     const { data, loading } = useGraphql({
       queryName: 'collectionByIds',
       clientName,
-      variables: {
-        ids,
-      },
+      variables: { ids },
     })
     loadingMap[clientName] = loading
     resArr.value.push(data)
@@ -67,7 +63,5 @@ export const usePopularCollections = () => {
     })
   })
 
-  return {
-    collections,
-  }
+  return { collections }
 }
