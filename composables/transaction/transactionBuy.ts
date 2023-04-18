@@ -6,8 +6,8 @@ import {
 } from '@kodadot1/minimark/v2'
 
 import { getApiCall } from '@/utils/gallery/abstractCalls'
+import { isRoyaltyValid } from '@/utils/royalty'
 import { payRoyaltyTx, somePercentFromTX } from '@/utils/support'
-import { isRoyaltyValid } from '~~/utils/royalty'
 import type { ActionBuy } from './types'
 
 function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
