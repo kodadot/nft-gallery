@@ -168,8 +168,3 @@ export const getSanitizer = (
 
   return (link) => link
 }
-
-export const ipfsToCf = (ipfsUrl: string): string => {
-  const cid = extractCid(ipfsUrl)
-  return `${CF_IMAGE_URL}${cid}/public`
-}
