@@ -52,6 +52,8 @@ export type ActionBuy = {
   currentOwner: string
   successMessage?: string
   errorMessage?: string
+  royalty?: number
+  recipient?: string
 }
 
 export type ActionList = {

@@ -79,12 +79,16 @@ const props = withDefaults(
     currentOwner?: string
     collectionId?: string
     nftPrice?: string
+    royalty?: number
+    recipient?: string
   }>(),
   {
     nftId: '',
     currentOwner: '',
     collectionId: '',
     nftPrice: '',
+    royalty: 0,
+    recipient: '',
   }
 )
 
@@ -184,6 +188,8 @@ const handleBuy = async () => {
       nftId: $route.params.id,
       tokenId: $route.params.id,
       urlPrefix: urlPrefix.value,
+      recipient: props.recipient,
+      royalty: props.royalty,
       successMessage: $i18n.t('mint.successNewNfts'),
       errorMessage: $i18n.t('transaction.buy.error'),
     })
