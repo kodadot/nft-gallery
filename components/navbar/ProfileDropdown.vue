@@ -165,7 +165,7 @@
         class="button-connect-wallet px-4"
         variant="k-accent"
         no-shadow
-        @closeBurgerMenu="closeBurgerMenu" />
+        @toggleConnectModal="toggleWalletConnectModal" />
     </div>
 
     <b-dropdown
@@ -300,6 +300,7 @@ export default class ProfileDropdown extends mixins(
   }
 
   public toggleWalletConnectModal(): void {
+    console.log('test')
     if (this.modal?.isActive) {
       this.modal.close()
       this.modal = null
@@ -310,6 +311,10 @@ export default class ProfileDropdown extends mixins(
       ...ConnectWalletModalConfig,
     })
 
+    this.closeBurgerMenu()
+  }
+
+  public closeBurgerMenu(): void {
     this.$emit('closeBurgerMenu')
   }
 
@@ -371,6 +376,10 @@ const toggleWalletConnectModal = () => {
     parent: root?.value,
     ...ConnectWalletModalConfig,
   } as unknown as BModalConfig)
+  emit('closeBurgerMenu')
+}
+
+const closeBurgerMenu = () => {
   emit('closeBurgerMenu')
 }
 
