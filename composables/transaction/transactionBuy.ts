@@ -36,7 +36,7 @@ function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
 
   executeTransaction({
     cb: api.tx.utility.batchAll,
-    arg: [...arg],
+    arg: [arg],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
   })
