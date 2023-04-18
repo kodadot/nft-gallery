@@ -15,19 +15,15 @@
   }
 
   .top-collections-item {
-    animation: cardHoverOut 0.3s ease-out;
     @include ktheme() {
       background: theme('background-color');
       color: theme('text-color');
-      border: 1px solid theme('border-color');
-    }
-
-    &:hover {
-      box-shadow: var(--card-box-shadow);
-      animation: cardHoverIn 0.3s ease-in;
+      border: 1px solid theme('card-border-color');
+      &:hover {
+        border-color: theme('border-color');}
+      }
     }
   }
-}
 
 .top-collection-controls.buttons .control {
   border: 1px solid black;
