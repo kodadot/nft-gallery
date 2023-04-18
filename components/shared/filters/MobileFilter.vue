@@ -28,7 +28,7 @@
           data-model="store"
           expanded />
         <PopularCollections
-          v-if="!isCollectionActivityTab"
+          v-if="!isCollectionActivityTab && !isCollectionDetail"
           data-model="store"
           expanded />
       </div>
@@ -71,6 +71,9 @@ const activityFiltersStore = useAcivityFiltersStore()
 const isCollectionActivityTab = computed(
   () => route.name === 'prefix-collection-id-activity'
 )
+
+const isCollectionDetail = computed(() => route.name === 'prefix-collection-id')
+
 const { replaceUrl } = useReplaceUrl({
   resetPage: !isCollectionActivityTab.value,
 })

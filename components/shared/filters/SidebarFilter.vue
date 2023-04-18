@@ -5,7 +5,7 @@
       <StatusFilter v-else expanded fluid-padding />
       <PriceFilter v-if="!isCollectionActivityTab" fluid-padding />
       <PopularCollections
-        v-if="!isCollectionActivityTab"
+        v-if="!isCollectionActivityTab && !isCollectionDetail"
         expanded
         fluid-padding />
     </NeoSidebar>
@@ -26,6 +26,7 @@ const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 const isCollectionActivityTab = computed(
   () => route.name === 'prefix-collection-id-activity'
 )
+const isCollectionDetail = computed(() => route.name === 'prefix-collection-id')
 </script>
 
 <style lang="scss" scoped>
