@@ -54,9 +54,9 @@ export const usePopularCollections = () => {
   watch(loadingMap, (val) => {
     Object.keys(val).forEach((key, index) => {
       if (!loadingMap[key].value) {
-        collections.value = collections.value.concat(
-          handleResult(resArr.value, index)
-        )
+        collections.value = collections.value
+          .concat(handleResult(resArr.value, index))
+          .sort((a, b) => a.meta.name.localeCompare(b.meta.name))
         collectionArray.value = collections.value
         delete loadingMap[key]
       }
