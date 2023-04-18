@@ -1,12 +1,7 @@
 <template>
   <p v-if="accountId" class="subtitle is-size-6">
     <span>{{ $t('general.balance') }}: </span>
-    <TokenMoney
-      v-if="tokenId"
-      :value="realBalance"
-      :token-id="tokenId"
-      inline />
-    <Money v-else :value="realBalance" inline />
+    <Money :value="realBalance" inline />
   </p>
 </template>
 
@@ -31,6 +26,6 @@ const identityStore = useIdentityStore()
 const realBalance = computed(() => identityStore.getAuthBalance)
 
 onMounted(() => {
-  console.log(realBalance)
+  console.log(realBalance.value)
 })
 </script>

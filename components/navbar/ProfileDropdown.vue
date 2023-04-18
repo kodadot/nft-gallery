@@ -292,6 +292,12 @@ export default class ProfileDropdown extends mixins(
   }
 
   get account() {
+    console.log(this.identityStore.getAuthAddress)
+    if (this.identityStore.getAuthAddress) {
+      this.identityStore.fetchBalance({
+        address: this.identityStore.getAuthAddress,
+      })
+    }
     return this.identityStore.getAuthAddress
   }
 
@@ -300,7 +306,6 @@ export default class ProfileDropdown extends mixins(
   }
 
   public toggleWalletConnectModal(): void {
-    console.log('test')
     if (this.modal?.isActive) {
       this.modal.close()
       this.modal = null

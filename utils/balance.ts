@@ -46,8 +46,6 @@ export function subscribeBalance(
   cb: (value: string) => void
 ): UnsubscribePromise {
   return api.derive.balances.all(address, ({ availableBalance }) => {
-    console.log(address)
-    console.log(availableBalance)
     cb(availableBalance.toString())
   })
 }

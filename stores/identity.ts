@@ -105,9 +105,9 @@ export const useIdentityStore = defineStore('identity', {
         this.identities[address] = identity
       }
     },
-    setAuth(authRequest: Auth) {
+    async setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: emptyObject<BalanceMap>() }
-      this.fetchBalance({ address: authRequest.address })
+      await this.fetchBalance({ address: authRequest.address })
       useLocalStorage('kodaauth', authRequest.address)
     },
     setBalance(prefix: string, balance: string) {
@@ -131,10 +131,10 @@ export const useIdentityStore = defineStore('identity', {
         useLocalStorage('kodaauth', address)
       }
     },
-    setCorrectAddressBalance(apiUrl: string) {
+    async setCorrectAddressBalance(apiUrl: string) {
       if (this.auth.address) {
         const address = this.auth.address
-        this.fetchBalance({ address, apiUrl })
+        await this.fetchBalance({ address, apiUrl })
       }
     },
     // fetchBalance({ address, apiUrl }: ChangeAddressRequest) {

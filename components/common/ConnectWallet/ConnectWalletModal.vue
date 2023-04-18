@@ -133,9 +133,10 @@ const emit = defineEmits(['close'])
 const toggleShowUninstalledWallet = () => {
   showUninstalledWallet.value = !showUninstalledWallet.value
 }
-watch(account, (account) => {
+watch(account, async (account) => {
   forceWalletSelect.value = false
   localStorage.setItem('kodaauth', account)
+  await identityStore.fetchBalance({ address: account })
   if (selectedWalletProvider.value) {
     localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
   }
