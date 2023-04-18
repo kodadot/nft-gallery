@@ -49,3 +49,8 @@ export default class SearchResultItem extends Vue {
   @Prop({ type: String, default: '' }) public image!: string
 }
 </script>
+<style scoped>
+.media-left :deep img {
+  max-height: 100%;
+}
+</style>
