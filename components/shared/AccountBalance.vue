@@ -10,30 +10,27 @@
   </p>
 </template>
 
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import AuthMixin from '@/utils/mixins/authMixin'
+<script setup lang="ts">
 import { useIdentityStore } from '@/stores/identity'
 
-const components = {
-  Money: () => import('@/components/shared/format/Money.vue'),
-  TokenMoney: () => import('@/components/bsx/format/TokenMoney.vue'),
-}
+const Money = defineAsyncComponent(
+  () => import('@/components/shared/format/Money.vue')
+)
+const TokenMoney = defineAsyncComponent(
+  () => import('@/components/bsx/format/TokenMoney.vue')
+)
 
-@Component({ components })
-export default class AccountBalance extends mixins(AuthMixin) {
-  @Prop({ type: String, default: '' }) readonly tokenId!: string
+// not used? not needed?
+defineProps<{
+  tokenId?: string
+}>()
 
-  get identityStore() {
-    return useIdentityStore()
-  }
+const { accountId } = useAuth()
+const identityStore = useIdentityStore()
 
-  get realBalance(): string {
-    return !this.tokenId ? this.balance : this.balanceOf(this.tokenId)
-  }
+const realBalance = computed(() => identityStore.getAuthBalance)
 
-  balanceOf(id: string) {
-    return this.identityStore.getTokenBalanceOf(id)
-  }
-}
+onMounted(() => {
+  console.log(realBalance)
+})
 </script>

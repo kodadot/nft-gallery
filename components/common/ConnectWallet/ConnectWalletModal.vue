@@ -2,7 +2,7 @@
   <div class="wallet-modal-container is-flex is-flex-direction-column">
     <header class="modal-card-head mb-4">
       <b-button
-        v-show="hasSelectedWalletProvider"
+        v-if="hasSelectedWalletProvider"
         type="is-text"
         class="mr-2 is-no-border"
         icon-left="chevron-left"
@@ -79,7 +79,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { SupportedWallets } from '@/utils/config/wallets'
 import { getRedirectToRmrk2HostnameWhitelist } from '@/utils/config/whitelist'
 import { toDefaultAddress } from '@/utils/account'

@@ -165,7 +165,7 @@
         class="button-connect-wallet px-4"
         variant="k-accent"
         no-shadow
-        @toggleConnectModal="toggleWalletConnectModal" />
+        @closeBurgerMenu="closeBurgerMenu" />
     </div>
 
     <b-dropdown
@@ -227,8 +227,6 @@ import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
-import { clearSession } from '@/utils/cachingStrategy'
-import { getKusamaAssetId } from '~~/utils/api/bsx/query'
 import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { useLangStore } from '@/stores/lang'
@@ -312,7 +310,7 @@ export default class ProfileDropdown extends mixins(
       ...ConnectWalletModalConfig,
     })
 
-    this.closeBurgerMenu()
+    this.$emit('closeBurgerMenu')
   }
 
   setUserLang(value: string) {
@@ -322,11 +320,6 @@ export default class ProfileDropdown extends mixins(
 
   public toggleLanguageMenu() {
     this.$refs.languageDropdown?.toggle()
-  }
-
-  public disconnect() {
-    this.identityStore.resetAuth()
-    clearSession()
   }
 
   public showRampSDK(): void {
@@ -340,17 +333,59 @@ export default class ProfileDropdown extends mixins(
     }).show()
   }
 
-  protected closeBurgerMenu(): void {
-    this.$emit('closeBurgerMenu')
-  }
-  get tokens() {
-    return ['', getKusamaAssetId(this.urlPrefix)]
-  }
   get isSnekOrBsx() {
     return this.chain === 'snek' || this.chain === 'bsx'
   }
-  get userWalletName(): string {
-    return this.walletStore.wallet.name
-  }
 }
 </script>
+
+<!-- <script setup lang="ts">
+import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
+import { BModalComponent, BModalConfig } from 'buefy/types/components'
+import type Vue from 'vue'
+import { ModalProgrammatic as Modal } from 'buefy'
+import { langsFlags } from '@/utils/config/i18n'
+import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { useLangStore } from '@/stores/lang'
+
+const { accountId } = useAuth()
+const { isDarkMode } = useTheme()
+const { urlPrefix } = usePrefix()
+const langStore = useLangStore()
+const modal = ref<BModalComponent | null>()
+const root = ref<Vue<Record<string, string>>>()
+const emit = defineEmits(['closeBurgerMenu'])
+const toggleLanguageMenu = ref(false)
+
+const profileIcon = computed(() => isDarkMode.value ? '/profile-dark.svg' : '/profile.svg')
+const isSnekOrBsx = computed(() => urlPrefix.value === 'snek' || urlPrefix.value === 'bsx')
+const userLang = computed(() => langStore.language.userLang)
+
+const toggleWalletConnectModal = () => {
+  if (modal.value?.isActive) {
+    modal.value.close()
+    modal.value = null
+    return
+  }
+  modal.value = Modal.open({
+    parent: root?.value,
+    ...ConnectWalletModalConfig,
+  } as unknown as BModalConfig)
+  emit('closeBurgerMenu')
+}
+
+const setUserLang = (value: string) => {
+  langStore.setLanguage({ userLang: value })
+}
+
+const showRampSDK = () => {
+  new RampInstantSDK({
+    defaultAsset: 'KSM', // todo: prefix
+    userAddress: accountId.value,
+    hostAppName: 'KodaDot',
+    hostApiKey: 'a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc', // env
+    hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
+    variant: 'desktop',
+  }).show()
+}
+</script> -->

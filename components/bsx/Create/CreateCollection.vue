@@ -20,8 +20,7 @@
           </p>
         </b-field>
         <b-field>
-          <AccountBalance
-            :token-id="feesToken === 'KSM' ? tokenId : undefined" />
+          <AccountBalance />
         </b-field>
         <b-field>
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />

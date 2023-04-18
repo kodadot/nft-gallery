@@ -53,7 +53,8 @@ async function subscribeTokens(
   cb: (value: BalanceMap) => void
 ): UnsubscribePromise {
   if (api.query.tokens) {
-    const realKusamaTokenId = prefix === 'bsx' || prefix === 'rmrk' ? '1' : '5'
+    const realKusamaTokenId =
+      prefix === 'bsx' || prefix === 'rmrk' || prefix === 'ksm' ? '1' : '5'
     return await api.query.tokens.accounts.multi(
       [[address, realKusamaTokenId]],
       ([ksm]: unknown[]) =>
@@ -73,6 +74,7 @@ export const useIdentityStore = defineStore('identity', {
       ...emptyObject<Auth>(),
       balance: emptyObject<BalanceMap>(),
       tokens: emptyObject<BalanceMap>(),
+      address: localStorage.getItem('kodaauth') || '',
     },
   }),
   getters: {
@@ -109,7 +111,15 @@ export const useIdentityStore = defineStore('identity', {
       useLocalStorage('kodaauth', authRequest.address)
     },
     setBalance(prefix: string, balance: string) {
-      this.auth.balance[prefix] = balance
+      if (this.auth.balance) {
+        this.auth.balance[prefix] = balance
+      }
+    },
+    setPrefixBalance(balance: string) {
+      const { urlPrefix } = usePrefix()
+      if (this.auth.balance) {
+        this.auth.balance[urlPrefix.value] = balance
+      }
     },
     setTokenListBalance(request: BalanceMap) {
       this.auth.tokens = request
@@ -149,7 +159,7 @@ export const useIdentityStore = defineStore('identity', {
           }
 
           balanceSub = await subscribeBalance(api, address, (balance) => {
-            this.setBalance(urlPrefix.value, balance)
+            this.setPrefixBalance(balance)
           })
 
           tokenSub = await subscribeTokens(
