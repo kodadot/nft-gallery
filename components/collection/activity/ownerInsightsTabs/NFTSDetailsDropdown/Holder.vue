@@ -1,8 +1,9 @@
 <template>
   <div v-if="ready" class="">
-    <div
+    <nuxt-link
       v-for="{ avatar, id, name, updatedAt } in displayedNFTs"
       :key="id"
+      :to="`/${urlPrefix}/gallery/${id}`"
       class="is-flex pt-2 px-5 is-justify-content-start is-hoverable-item">
       <div class="mr-5">
         <img
@@ -25,7 +26,7 @@
           timeAgo(new Date(updatedAt).getTime())
         }}</span>
       </div>
-    </div>
+    </nuxt-link>
     <div ref="target" />
   </div>
 </template>
@@ -52,6 +53,8 @@ useIntersectionObserver(target, ([{ isIntersecting }]) => {
     offset.value += 4
   }
 })
+
+const { urlPrefix } = usePrefix()
 
 const displayedNFTs = computed(() => nfts.value.slice(0, offset.value))
 
