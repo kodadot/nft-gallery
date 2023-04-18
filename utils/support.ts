@@ -4,6 +4,8 @@ import { pubKeyToAddress } from './account'
 import correctFormat from './ss58Format'
 import { Extrinsic } from './transactionExecutor'
 import type { ApiPromise } from '@polkadot/api'
+import api from './fetch'
+import { RoyaltyInfo } from '@kodadot1/minimark/v2'
 
 const BACKUP_PUBKEY =
   '0x9866ec0c1204773a4b95a1b374d838b5820f704a65deeaafb97f4ab96c351158' // payout bot
@@ -43,6 +45,15 @@ export const feeTx = (api: ApiPromise, price: string): Extrinsic => {
 export const somePercentFromTX = (api: ApiPromise, price: number | string) => {
   const fee = Number(price) * PERCENT
   return asBalanceTransfer(api, resolveSupportAddress(api), fee)
+}
+
+export const payRoyaltyTx = (
+  api: ApiPromise,
+  price: number | string,
+  royalty: RoyaltyInfo
+) => {
+  const fee = Number(price) * (royalty.percent / 100)
+  return asBalanceTransfer(api, royalty.receiver, fee)
 }
 
 const getTokenDecimals = (api: ApiPromise): number => {
