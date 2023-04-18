@@ -142,7 +142,8 @@ const { isDarkMode } = useTheme()
 const menuMarketplace: Menu[] = [
   {
     name: $i18n.t('faq.page'),
-    url: '/rmrk/faq',
+    url: 'https://hello.kodadot.xyz/knowledgebase/general-1/faq',
+    external: true,
   },
   {
     name: $i18n.t('documentation'),
@@ -158,7 +159,8 @@ const menuMarketplace: Menu[] = [
 const menuKodadot: Menu[] = [
   {
     name: $i18n.t('about'),
-    url: '/about',
+    url: 'https://hello.kodadot.xyz/knowledgebase/general/faq',
+    external: true,
   },
   {
     name: $i18n.t('careers'),
@@ -172,7 +174,7 @@ const menuKodadot: Menu[] = [
 
   {
     name: $i18n.t('referralProgram'),
-    url: 'https://docs.kodadot.xyz/referral-program.html',
+    url: 'https://hello.kodadot.xyz/knowledgebase/technical/kodadots-programs/artist-referral-program',
     external: true,
   },
   {
@@ -183,13 +185,13 @@ const menuKodadot: Menu[] = [
 
   {
     name: $i18n.t('artist ambassador'),
-    url: 'https://docs.kodadot.xyz/artist-ambassador.html#conditions-%F0%9F%94%8D',
+    url: 'https://hello.kodadot.xyz/knowledgebase/technical/kodadots-programs/artist-ambassadot-program',
     external: true,
   },
 
   {
     name: $i18n.t('ambassador program'),
-    url: 'https://docs.kodadot.xyz/ambassador-program/ambassador-intro.html#the-opportunity',
+    url: 'https://hello.kodadot.xyz/knowledgebase/technical/kodadots-programs/artist-ambassadot-program',
     external: true,
   },
 ]
