@@ -590,10 +590,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     if (!nfts) {
       return 0
     }
-    return nfts
-      .map((x) => Number(x.price))
-      .sort()
-      .at(0)
+return Math.min(...nfts.map(nft => Number(nft.price)))
   }
 
   @Watch('name')
