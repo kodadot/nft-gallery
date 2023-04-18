@@ -37,17 +37,20 @@
     position: absolute;
     left: 0rem;
     top: -6rem;
+    pointer-events: none;
   }
 
   .landing-shapes {
     z-index: 1;
     overflow: hidden;
+    pointer-events: none;
   }
 
   .landing-search-right {
     position: absolute;
     right: 0rem;
     top: -6rem;
+    pointer-events: none;
   }
 
   .chain-option {
