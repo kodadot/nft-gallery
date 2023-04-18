@@ -26,7 +26,20 @@
                 <div
                   class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
                   <span class="main-title name">{{ item.name }}</span>
-                  <span>{{ urlPrefix.toUpperCase() }}</span>
+                  <span class="has-text-grey">
+                    {{ urlPrefix.toUpperCase() }}
+                  </span>
+                </div>
+                <div
+                  class="is-flex is-flex-direction-row is-justify-content-space-between pr-2">
+                  <span>
+                    {{ $t('activity.floor') }}:
+                    <Money :value="getFloorPrice(item.nfts)" inline />
+                  </span>
+                  <span class="has-text-grey">
+                    {{ $t('search.units') }}:
+                    {{ item.nfts?.length || 0 }}
+                  </span>
                 </div>
               </template>
             </SearchResultItem>
@@ -571,6 +584,16 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       )
       this.isCollectionResultLoading = false
     }
+  }
+
+  getFloorPrice(nfts) {
+    if (!nfts) {
+      return 0
+    }
+    return nfts
+      .map((x) => Number(x.price))
+      .sort()
+      .at(0)
   }
 
   @Watch('name')
