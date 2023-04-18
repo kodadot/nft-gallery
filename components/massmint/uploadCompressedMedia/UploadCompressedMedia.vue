@@ -76,9 +76,7 @@ const onFileSelected = (file) => {
               .map(({ name }) => name)
               .join(',   ')
 
-            showNotification(fileNames, notificationTypes.warn)
-            showNotification(
-              `${warnings.value.length} files were not uploaded`,
+            showNotification(`${fileNames}  ${warnings.value.length} files were not uploaded`,
               notificationTypes.warn
             )
           }
