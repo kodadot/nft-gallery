@@ -26,7 +26,7 @@
         :disabled="!selectedCollection"
         @zipLoaded="onMediaZipLoaded" />
       <UploadDescription :disabled="!mediaLoaded" />
-      <OverviewTable :disabled="!mediaLoaded" :nfts="validNftMediaFiles" />
+      <OverviewTable :disabled="!mediaLoaded" :nfts="nftimages" />
     </section>
   </div>
 </template>
@@ -49,7 +49,7 @@ const { urlPrefix } = usePrefix()
 const tabs = ['Collection', 'NFT', 'Mass Mint']
 
 const selectedCollection = ref<MintedCollection>()
-const validNftMediaFiles = ref<{ name: string; imageUrl: string }[]>([])
+const nftimages = ref<{ imageUrl: string }[]>([])
 const mediaLoaded = ref(false)
 
 const onCollectionSelected = (collection) => {
@@ -66,7 +66,7 @@ const toOnborading = () => {
 }
 
 const onMediaZipLoaded = ({ validFiles, areAllFilesValid }) => {
-  validNftMediaFiles.value = validFiles
+  nftimages.value = validFiles.map((file) => ({ imageUrl: file.imageUrl }))
   mediaLoaded.value = true
 }
 </script>
