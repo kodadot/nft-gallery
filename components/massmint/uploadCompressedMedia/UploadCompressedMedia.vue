@@ -37,6 +37,8 @@ import { useZipFileValidator } from './useZipValidator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import DragDrop from '@/components/shared/DragDrop.vue'
 
+const { $consola } = useNuxtApp()
+
 withDefaults(
   defineProps<{
     disabled?: boolean
@@ -76,7 +78,8 @@ const onFileSelected = (file) => {
               .map(({ name }) => name)
               .join(',   ')
 
-            showNotification(`${fileNames}  ${warnings.value.length} files were not uploaded`,
+            showNotification(
+              `${fileNames}  ${warnings.value.length} files were not uploaded`,
               notificationTypes.warn
             )
           }
@@ -90,10 +93,10 @@ const onFileSelected = (file) => {
     }
 
     reader.onerror = () => {
-      console.error('Error reading zip file.')
+      $consola.error('Error reading zip file.')
     }
   } else {
-    console.error('Invalid file type.')
+    $consola.error('Invalid file type.')
   }
 }
 </script>

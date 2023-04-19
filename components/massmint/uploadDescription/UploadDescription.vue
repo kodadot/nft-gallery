@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 import DragDrop from '@/components/shared/DragDrop.vue'
+const { $consola } = useNuxtApp()
 
 withDefaults(
   defineProps<{
@@ -74,10 +75,10 @@ const onFileSelected = (file) => {
     }
 
     reader.onerror = () => {
-      console.error('Error reading zip file.')
+      $consola.error('Error reading zip file.')
     }
   } else {
-    console.error('Invalid file type.')
+    $consola.error('Invalid file type.')
   }
 }
 </script>
