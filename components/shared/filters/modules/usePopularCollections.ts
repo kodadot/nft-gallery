@@ -9,12 +9,12 @@ type QueryResult = {
 
 function handleResult(
   collections: Collection[],
-  result: QueryResult[],
+  result: QueryResult,
   index: number
 ): Collection[] {
   const chain = Object.keys(POPULAR_COLLECTIONS)[index]
   const newCollections =
-    result[index].value?.collectionEntities?.map((item) => ({
+    result.value?.collectionEntities?.map((item) => ({
       ...item,
       owners: new Set(item.nfts.map((nft) => nft.currentOwner)).size,
       chain,
@@ -39,26 +39,32 @@ export type Collection = CollectionEntityMinimal & {
 
 export const usePopularCollections = () => {
   const collections = ref<Collection[]>([])
-  const resArr = ref<QueryResult[]>([])
-  const loadingMap = reactive<{ [key: string]: { value: boolean } }>({})
+  const chainData = reactive<{
+    [clientName: string]: {
+      loading: { value: boolean }
+      queryResult: QueryResult | null
+    }
+  }>({})
 
   for (const [clientName, ids] of Object.entries(POPULAR_COLLECTIONS)) {
-    const { data, loading } = useGraphql({
+    const { data: queryResult, loading } = useGraphql({
       queryName: 'collectionByIds',
       clientName,
       variables: { ids },
     })
-    loadingMap[clientName] = loading
-    resArr.value.push(data)
+    chainData[clientName] = { loading, queryResult }
   }
 
   // Aoid using Array as root value for reactive() as it cannot be tracked in watch() or watchEffect(). Use ref() instead. This is a Vue-2-only limitation.
-  watch(loadingMap, (val) => {
-    Object.keys(val).forEach((key, index) => {
-      if (!loadingMap[key].value) {
-        collections.value = handleResult(collections.value, resArr.value, index)
+  watch(chainData, (val) => {
+    Object.keys(val).forEach((chain, index) => {
+      const { loading, queryResult } = chainData[chain]
+      // not best but better than add an extra flag...
+      if (!loading.value && queryResult !== null) {
+        collections.value = handleResult(collections.value, queryResult, index)
         collectionArray.value = collections.value
-        delete loadingMap[key]
+        // clear queryResult, prevent to be processed again
+        chainData[chain].queryResult = null
       }
     })
   })
