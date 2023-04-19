@@ -33,7 +33,10 @@
                 <div class="is-flex is-justify-content-space-between pr-2">
                   <span>
                     {{ $t('activity.floor') }}:
-                    <Money :value="getFloorPrice(item.nfts)" inline />
+                    <Money
+                      :value="getFloorPrice(item.nfts)"
+                      :unit-symbol="chainSymbol"
+                      inline />
                   </span>
                   <span class="has-text-grey">
                     {{ $t('search.units') }}:
@@ -92,7 +95,10 @@
                   <span class="name">{{ item.collection?.name }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('offer.price') }}:
-                    <Money :value="item.price" inline />
+                    <Money
+                      :value="item.price"
+                      :unit-symbol="chainSymbol"
+                      inline />
                   </span>
                 </div>
               </template>
@@ -307,6 +313,11 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       Collections: this.collectionSuggestion,
       NFTs: this.nftSuggestion,
     }
+  }
+
+  get chainSymbol() {
+    const { chainSymbol } = useChain()
+    return chainSymbol.value
   }
 
   public updateSearchUrl() {
