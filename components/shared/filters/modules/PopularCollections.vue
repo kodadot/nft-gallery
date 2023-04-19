@@ -70,7 +70,7 @@ const { urlPrefix } = usePrefix()
 const { $store } = useNuxtApp()
 
 const getChainName = (chain: string): string => {
-  return availableChains.value.find((x) => x.value === chain)?.text || ''
+  return availableChains.value.find((item) => item.value === chain)?.text || ''
 }
 
 type DataModel = 'query' | 'store'
