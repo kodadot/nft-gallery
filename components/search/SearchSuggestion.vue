@@ -21,7 +21,7 @@
             :value="item"
             :class="`link-item ${idx === selectedIndex ? 'selected-item' : ''}`"
             @click="gotoCollectionItem(item)">
-            <SearchResultItem :image="item.image">
+            <SearchResultItem :image="item.image || item.mediaUri">
               <template #content>
                 <div
                   class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
@@ -584,6 +584,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
           ...collections[i],
           ...meta,
           image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
+          mediaUri: getSanitizer(meta.mediaUri || '')(meta.mediaUri || ''),
         })
       })
       this.collectionResult = collectionWithImages
