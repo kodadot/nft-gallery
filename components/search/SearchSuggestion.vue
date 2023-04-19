@@ -31,7 +31,7 @@
                   </span>
                 </div>
                 <div
-                  class="is-flex is-flex-direction-row is-justify-content-space-between pr-2">
+                  class="is-flex is-justify-content-space-between pr-2">
                   <span>
                     {{ $t('activity.floor') }}:
                     <Money :value="getFloorPrice(item.nfts)" inline />
