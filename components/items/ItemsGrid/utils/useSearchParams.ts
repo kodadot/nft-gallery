@@ -1,3 +1,4 @@
+import { getCollectionIds } from '@/utils/queryParams'
 // search items by keywords
 function useSearchKeywords() {
   const route = useRoute()
@@ -75,7 +76,7 @@ function useSearchByCollections() {
         return [
           {
             collection: {
-              id_in: (route.query.collections as string).split(','),
+              id_in: getCollectionIds(),
             },
           },
         ]

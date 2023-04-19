@@ -62,6 +62,7 @@ import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
 import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
 import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
 import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
+import { getCollectionIds } from '@/utils/queryParams'
 
 const route = useRoute()
 const preferencesStore = usePreferencesStore()
@@ -101,7 +102,7 @@ const syncFromUrlOnActivityTab = () => {
 const syncFromUrlOnGrid = () => {
   const listed = route.query?.listed?.toString() === 'true',
     owned = route.query?.owned?.toString() === 'true',
-    collections = (route.query?.collections as string)?.split(',')
+    collections = getCollectionIds()
 
   exploreFiltersStore.setListed(listed)
   exploreFiltersStore.setOwned(owned)

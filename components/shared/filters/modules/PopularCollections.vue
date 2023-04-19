@@ -58,6 +58,7 @@ import { useExploreFiltersStore } from '@/stores/exploreFilters'
 import { Collection, usePopularCollections } from './usePopularCollections'
 import { OField } from '@oruga-ui/oruga'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { getCollectionIds } from '@/utils/queryParams'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
@@ -117,9 +118,7 @@ const toggleCollection = (collection: Collection) => {
 
 const getSearchParam = () => {
   if (props.dataModel === 'query') {
-    checkedCollections.value =
-      (route.query?.collections as string)?.split(',').filter((id) => !!id) ||
-      []
+    checkedCollections.value = getCollectionIds().filter((id) => !!id) || []
   } else {
     checkedCollections.value = exploreFiltersStore.collections || []
   }
@@ -141,7 +140,7 @@ const applyToUrl = () => {
 watch(
   () => {
     if (props.dataModel === 'query') {
-      return (route.query?.collections as string)?.split(',')
+      return getCollectionIds()
     } else {
       return exploreFiltersStore.collections
     }
