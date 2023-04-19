@@ -26,6 +26,33 @@ KodaDot, an NFT gallery that aims to be builder-owned and the ultimate public go
 - Strong communication skills for effective collaboration with the community and team
 - Familiarity with KodaDot's coding conventions and recommendations
 
+## Quality Assurance
+
+To have a faster pace of development, as our current pace of pull-requests was hitting 250 pull-requests in February on a monthly average, we've realized we need more people to participate and to share more humble and honest feedback with developers on their work.
+
+The result would be that we could deliver user experience quality in a shorter time window. It's pretty natural that developers sometimes miss delivering the 100% specification in an issue or something breaks. It happens, and no need to make drama out of it. Everyone is learning.
+
+Until we have e2e tests complete on KodaDot, we would like to happily reward your participation for your input on our pull-requests to the codebase.
+
+To participate, you must respect our code of conduct below.
+
+## Code of Conduct
+
+- Demonstrating empathy and kindness toward other people
+- Being respectful of differing opinions, viewpoints, and experiences
+- Giving and gracefully accepting constructive feedback
+- Accepting responsibility and apologizing to those affected by our mistakes, and learning from the experience
+- Focusing on what is best not just for us as individuals, but for the overall community
+- You can read more about our [CODE_OF_CONDUCT](https://github.com/kodadot/nft-gallery/blob/main/CODE_OF_CONDUCT.md)
+
+## Rewards
+
+Once we are satisfied with your approach, we can give you rewards for reviewing our pull-requests.
+
+This is still undergoing the thought process and experiment to establish a fixed amount of rewards for participation.
+
+The base range where we value your contribution is around $20-$50. If there is an opportunity for you to be a technical contributor and make origin pull-request suggestions (what and why should be done another way), the possibility raises up to $100.
+
 ## Opportunities at KodaDot
 
 - Full-time Quality Assurance Specialist
@@ -44,7 +71,7 @@ To be considered for these positions, candidates should have:
 
 ## How to apply?
 
-KodaDot offers paid interviews, valuing your time and contributions. You will be paid for completed pull requests (10-20) that are successfully merged. To start, focus on tackling issues with p1 or p2 labels, as they are often challenging and showcase your abilities. If you have any questions, feel free to [contact damsky](https://t.me/helloitsdamsky) on telegram. 
+KodaDot offers paid interviews, valuing your time and contributions. You will be paid for completed pull requests (10-20) that are successfully merged. To start, focus on tackling issues with p1 or p2 labels, as they are often challenging and showcase your abilities.
 
 ## Next stage
 
