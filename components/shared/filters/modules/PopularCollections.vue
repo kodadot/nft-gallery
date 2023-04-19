@@ -118,7 +118,8 @@ const toggleCollection = (collection: Collection) => {
 const getSearchParam = () => {
   if (props.dataModel === 'query') {
     checkedCollections.value =
-      (route.query?.collections as string)?.split(',').filter((x) => !!x) || []
+      (route.query?.collections as string)?.split(',').filter((id) => !!id) ||
+      []
   } else {
     checkedCollections.value = exploreFiltersStore.collections || []
   }

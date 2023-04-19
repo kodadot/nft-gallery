@@ -77,13 +77,15 @@ const collectionIdList = computed(
 )
 
 const collections = computed<Collection[]>(() =>
-  collectionArray.value?.filter((x) =>
-    collectionIdList.value?.find((id) => x.id === id)
+  collectionArray.value?.filter((collection) =>
+    collectionIdList.value?.find((id) => collection.id === id)
   )
 )
 
 const removeCollection = (id: string) => {
-  const ids = collections.value.filter((x) => x.id !== id).map((x) => x.id)
+  const ids = collections.value
+    .filter((collection) => collection.id !== id)
+    .map((collection) => collection.id)
   replaceUrl({ collections: ids.join(',') })
 }
 

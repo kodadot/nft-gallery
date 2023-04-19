@@ -16,7 +16,7 @@ function handleResult(
   const newCollections =
     result[index].value?.collectionEntities?.map((item) => ({
       ...item,
-      owners: new Set(item.nfts.map((x) => x.currentOwner)).size,
+      owners: new Set(item.nfts.map((nft) => nft.currentOwner)).size,
       chain,
     })) || []
   return collections
