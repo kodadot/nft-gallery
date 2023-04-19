@@ -27,10 +27,7 @@
           v-if="!isCollectionActivityTab"
           data-model="store"
           expanded />
-        <PopularCollections
-          v-if="!isCollectionActivityTab && !isCollectionDetail"
-          data-model="store"
-          expanded />
+        <PopularCollections v-if="isExploreItems" data-model="store" expanded />
       </div>
 
       <div
@@ -73,7 +70,7 @@ const isCollectionActivityTab = computed(
   () => route.name === 'prefix-collection-id-activity'
 )
 
-const isCollectionDetail = computed(() => route.name === 'prefix-collection-id')
+const isExploreItems = computed(() => route.name === 'prefix-explore-items')
 
 const { replaceUrl } = useReplaceUrl({
   resetPage: !isCollectionActivityTab.value,
