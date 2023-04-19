@@ -30,8 +30,7 @@
                     {{ urlPrefix.toUpperCase() }}
                   </span>
                 </div>
-                <div
-                  class="is-flex is-justify-content-space-between pr-2">
+                <div class="is-flex is-justify-content-space-between pr-2">
                   <span>
                     {{ $t('activity.floor') }}:
                     <Money :value="getFloorPrice(item.nfts)" inline />
@@ -590,7 +589,12 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     if (!nfts) {
       return 0
     }
-return Math.min(...nfts.map(nft => Number(nft.price)))
+    // floor price should be greater than zero.
+    const priceArr = nfts.filter((nft) => Number(nft.price) > 0)
+    if (priceArr.length === 0) {
+      return 0
+    }
+    return Math.min(...priceArr.map((nft) => Number(nft.price)))
   }
 
   @Watch('name')
