@@ -61,12 +61,14 @@ async function checkZipFileValidity(entries: {
   const warnings: WarningObject[] = []
 
   for (const [name, entry] of Object.entries(entries)) {
+    let isEntryValid = true
+
     if (entry.isDirectory) {
       warnings.push({
         name,
         reason: 'is a directory',
       })
-      continue
+      isEntryValid = false
     }
 
     if (isFileSizeTooLarge(entry.size)) {
@@ -74,21 +76,25 @@ async function checkZipFileValidity(entries: {
         name,
         reason: 'File size exceeds maximum limit',
       })
-      continue
+      isEntryValid = false
     }
+
     const fileExtension = getFileExtension(name)
     if (!isValidFileExtension(fileExtension)) {
       warnings.push({
         name,
         reason: `Invalid file format (${fileExtension})`,
       })
-      continue
+      isEntryValid = false
     }
 
-    validFiles.push({
-      name,
-      url: URL.createObjectURL(await entry.blob()),
-    })
+    if (isEntryValid) {
+      const file: FileObject = {
+        name,
+        url: URL.createObjectURL(await entry.blob()),
+      }
+      validFiles.push(file)
+    }
   }
 
   return {
