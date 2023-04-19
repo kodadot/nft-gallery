@@ -33,7 +33,9 @@
                 <div class="is-flex is-justify-content-space-between pr-2">
                   <span>
                     {{ $t('activity.floor') }}:
+                    <span v-if="getFloorPrice(item.nfts) === 0"> -- </span>
                     <Money
+                      v-else
                       :value="getFloorPrice(item.nfts)"
                       :unit-symbol="chainSymbol"
                       inline />
@@ -597,8 +599,8 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     }
   }
 
-  getFloorPrice(nfts) {
-    if (!nfts) {
+  getFloorPrice(nfts: NFTWithMeta[] | undefined) {
+    if (!nfts || !nfts.length) {
       return 0
     }
     // floor price should be greater than zero.
