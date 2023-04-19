@@ -4,6 +4,7 @@
     drag-drop
     native
     expanded
+    class="hover-color"
     :accept="accept"
     @input="onFileSelected">
     <div class="has-text-centered is-flex is-justify-content-center p-5">
@@ -85,6 +86,8 @@ const onFileSelected = (file: File) => {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
 .icon-size {
   font-size: 3.5rem;
 }
@@ -96,12 +99,7 @@ const onFileSelected = (file: File) => {
 .limit-width {
   max-width: 25rem;
 }
-</style>
-
-<style lang="scss">
-@import '@/styles/abstracts/variables';
-
-.o-upl__draggable--hovered {
+.hover-color:deep .o-upl__draggable--hovered {
   @include ktheme() {
     background-color: theme('k-primaryLight');
   }
