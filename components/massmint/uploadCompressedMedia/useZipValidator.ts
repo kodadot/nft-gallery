@@ -18,7 +18,7 @@ export interface ValidityResult {
   warnings: WarningObject[]
 }
 
-const validFormats = [
+export const validFormats = [
   'bmp',
   'gif',
   'jpg',

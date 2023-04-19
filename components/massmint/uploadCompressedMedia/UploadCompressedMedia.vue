@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
-import { useZipFileValidator } from './useZipValidator'
+import { useZipFileValidator, validFormats } from './useZipValidator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import DragDrop from '@/components/shared/DragDrop.vue'
 
@@ -51,8 +51,9 @@ withDefaults(
 const loading = ref(false)
 const showCheckmark = ref(false)
 
-const acceptedMediaFormatsString =
-  'BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON'
+const acceptedMediaFormatsString = validFormats
+  .map((format) => format.toUpperCase())
+  .join(', ')
 
 const emit = defineEmits(['zipLoaded'])
 
