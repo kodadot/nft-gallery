@@ -131,7 +131,7 @@ const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
-const { isDarkMode } = useTheme()
+const { placeholder } = useTheme()
 
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
@@ -151,9 +151,6 @@ const canPreview = computed(() =>
   [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
     resolveMedia(nftMimeType.value)
   )
-)
-const placeholder = computed(() =>
-  isDarkMode ? '/placeholder.webp' : '/placeholder-white.webp'
 )
 
 const onNFTBought = () => {

@@ -15,11 +15,7 @@ import type { NftCardVariant } from '@kodadot1/brick'
 import type { NFTWithMetadata } from '@/composables/useNft'
 
 const { urlPrefix } = usePrefix()
-const { isDarkMode } = useTheme()
-
-const placeholder = computed(() =>
-  isDarkMode ? '/placeholder.webp' : '/placeholder-white.webp'
-)
+const { placeholder } = useTheme()
 
 const props = defineProps<{
   nft: NFTWithMetadata
