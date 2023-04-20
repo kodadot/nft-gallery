@@ -286,6 +286,8 @@ export default class CreateToken extends mixins(
           price: this.price,
           postfix: this.postfix,
           tags: this.attributes,
+          royalty: this.royalty,
+          hasRoyalty: this.hasRoyalty,
         },
       })
     } catch (e) {

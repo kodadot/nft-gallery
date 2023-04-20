@@ -23,8 +23,8 @@ const cprops = withDefaults(
   defineProps<{
     visible: string
     hidden: string
-    bottom: boolean
-    isSelectable: boolean
+    bottom?: boolean
+    isSelectable?: boolean
   }>(),
   {
     visible: 'Show',

@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import { Attribute } from '../service/scheme'
+import { Attribute } from '@kodadot1/minimark/common'
 
 const components = {
   AttributeInput: () => import('./AttributeInput.vue'),
