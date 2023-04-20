@@ -29,6 +29,8 @@ $themes: (
     'placeholder-color': #cccccc,
     'primary-shadow': 4px 4px black,
     'disabled': #f3f3f3,
+    'card-border-color': #999999,
+    'card-hover-opacity': 0.85
   ),
   'dark-mode': (
     'white': #ffffff,
@@ -60,6 +62,8 @@ $themes: (
     'placeholder-color': #cccccc,
     'primary-shadow': 4px 4px white,
     'disabled': #191718,
+    'card-border-color': #6b6b6b,
+    'card-hover-opacity': 0.8,
   ),
 );
 

@@ -15,9 +15,14 @@ export default function () {
     }
   }
 
+  const placeholder = computed(() => {
+    return isDarkMode.value ? '/placeholder.webp' : '/placeholder-white.webp'
+  })
+
   return {
     isDarkMode,
     isLightMode: computed(() => !isDarkMode.value),
     toggleColorMode,
+    placeholder,
   }
 }

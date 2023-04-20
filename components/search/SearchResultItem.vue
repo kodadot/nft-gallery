@@ -5,12 +5,12 @@
         <b-skeleton
           v-if="isLoading"
           circle
-          width="48px"
-          height="48px"></b-skeleton>
+          width="64px"
+          height="64px"></b-skeleton>
         <BasicImage
           v-else
           rounded
-          custom-class="is-48x48 image-outline"
+          custom-class="is-64x64 image-outline"
           :src="image" />
       </div>
       <div
@@ -49,3 +49,8 @@ export default class SearchResultItem extends Vue {
   @Prop({ type: String, default: '' }) public image!: string
 }
 </script>
+<style scoped>
+.media-left :deep img {
+  max-height: 100%;
+}
+</style>

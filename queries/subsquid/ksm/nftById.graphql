@@ -5,6 +5,8 @@ query nftById($id: String!) {
   nftEntity: nftEntityById(id: $id) {
     ...nft
     ...nftDetails
+    royalty
+    recipient
     collection {
       id
       name
