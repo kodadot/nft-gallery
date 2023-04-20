@@ -54,7 +54,7 @@ export const useGalleryItem = (nftId?: string) => {
     queryName: 'nftById',
     queryPrefix: queryPath[urlPrefix.value],
     variables: {
-      id: id,
+      id,
     },
     options: {
       fetchPolicy: 'network-only',
