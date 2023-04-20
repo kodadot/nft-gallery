@@ -21,7 +21,7 @@
             :value="item"
             :class="`link-item ${idx === selectedIndex ? 'selected-item' : ''}`"
             @click="gotoCollectionItem(item)">
-            <SearchResultItem :image="item.image || item.mediaUri">
+            <SearchResultItem :image="item.image">
               <template #content>
                 <div
                   class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
@@ -211,7 +211,7 @@ import {
   CollectionWithMeta,
   NFTWithMeta,
 } from '@/components/rmrk/service/scheme'
-import { getSanitizer } from '@/utils/ipfs'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { logError, mapNFTorCollectionMetadata } from '~/utils/mappers'
 import { processMetadata } from '~/utils/cachingStrategy'
@@ -361,7 +361,10 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
             collectionResult.push({
               ...collections[i],
               ...meta,
-              image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
+              image: sanitizeIpfsUrl(
+                meta.image || meta.mediaUri || '',
+                'image'
+              ),
             })
           }
         )
@@ -545,9 +548,9 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
         nftResult.push({
           ...nftList[i],
           ...meta,
-          image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
-          animation_url: getSanitizer(meta.animation_url || '')(
-            meta.animation_url || ''
+          image: sanitizeIpfsUrl(
+            meta.image || meta.animation_url || meta.mediaUri || '',
+            'image'
           ),
         })
       })
@@ -585,8 +588,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
         collectionWithImages.push({
           ...collections[i],
           ...meta,
-          image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
-          mediaUri: getSanitizer(meta.mediaUri || '')(meta.mediaUri || ''),
+          image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
         })
       })
       this.collectionResult = collectionWithImages
