@@ -1,13 +1,9 @@
 <template>
   <div class="search-result-item" :class="{ 'loading-item': isLoading }">
     <div class="media">
-      <div class="media-left">
-        <b-skeleton
-          v-if="isLoading"
-          circle
-          width="64px"
-          height="64px"></b-skeleton>
-        <BasicImage v-else custom-class="is-64x64 image-outline" :src="image" />
+      <div class="media-left" :class="{ border: !isLoading }">
+        <b-skeleton v-if="isLoading" width="64px" height="64px"></b-skeleton>
+        <BasicImage v-else custom-class="is-64x64" :src="image" />
       </div>
       <div
         v-if="isLoading"

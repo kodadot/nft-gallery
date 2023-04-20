@@ -255,13 +255,6 @@
     padding: 0px $desktop-padding-x;
   }
 
-  .image-outline {
-    border-radius: 0;
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-    }
-  }
-
   .search-history {
     margin-top: 20px;
     cursor: pointer;
