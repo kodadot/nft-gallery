@@ -1,11 +1,10 @@
 <template>
   <div v-if="ready" class="">
-    <nuxt-link
+    <div
       v-for="{ avatar, boughtPrice, soldPrice, profit, nft } in displayedFlips"
       :key="nft.id"
-      :to="`/${urlPrefix}/gallery/${nft.id}`"
       class="is-flex py-2 px-5 is-justify-content-start is-hoverable-item is-flex-direction-column">
-      <div class="is-flex">
+      <nuxt-link class="is-flex" :to="`/${urlPrefix}/gallery/${nft.id}`">
         <img
           v-if="avatar"
           :src="avatar"
@@ -20,7 +19,7 @@
           width="40"
           height="40" />
         <span>{{ nft.name }}</span>
-      </div>
+      </nuxt-link>
       <div
         class="is-flex is-flex-direction-column is-justify-content-space-between mt-3">
         <div class="is-flex is-justify-content-space-between no-wrap">
@@ -46,7 +45,7 @@
           <Money :value="soldPrice" />
         </div>
       </div>
-    </nuxt-link>
+    </div>
     <div ref="target" />
   </div>
 </template>
