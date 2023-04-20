@@ -111,7 +111,14 @@ export default class SearchBar extends mixins(
   }
 
   get showDefaultSuggestions() {
-    const supportedChains = ['rmrk', 'bsx', 'ksm']
+    const supportedChains = [
+      'rmrk',
+      'bsx',
+      'ksm',
+      'snek',
+      // TODO: other chains below got 400 error, check on devtools network panel.
+      // 'movr', 'glmr'
+    ]
     return supportedChains.includes(this.urlPrefix)
   }
 }
