@@ -4,6 +4,7 @@
     class="neo-checkbox"
     :native-value="checkboxValue"
     :disabled="disabled"
+    :label-class="labelClass"
     @input="updateValue">
     <slot />
   </o-checkbox>
@@ -14,6 +15,7 @@ import { OCheckbox } from '@oruga-ui/oruga'
 const props = defineProps<{
   disabled?: boolean
   value: boolean
+  labelClass?: string
 }>()
 
 const emit = defineEmits(['input'])
