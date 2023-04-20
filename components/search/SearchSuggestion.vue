@@ -21,12 +21,29 @@
             :value="item"
             :class="`link-item ${idx === selectedIndex ? 'selected-item' : ''}`"
             @click="gotoCollectionItem(item)">
-            <SearchResultItem :image="item.image">
+            <SearchResultItem :image="item.image || item.mediaUri">
               <template #content>
                 <div
                   class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
                   <span class="main-title name">{{ item.name }}</span>
-                  <span>{{ urlPrefix.toUpperCase() }}</span>
+                  <span class="has-text-grey">
+                    {{ urlPrefix.toUpperCase() }}
+                  </span>
+                </div>
+                <div class="is-flex is-justify-content-space-between pr-2">
+                  <span>
+                    {{ $t('activity.floor') }}:
+                    <span v-if="getFloorPrice(item.nfts) === 0"> -- </span>
+                    <Money
+                      v-else
+                      :value="getFloorPrice(item.nfts)"
+                      :unit-symbol="chainSymbol"
+                      inline />
+                  </span>
+                  <span class="has-text-grey">
+                    {{ $t('search.units') }}:
+                    {{ item.nfts?.length || 0 }}
+                  </span>
                 </div>
               </template>
             </SearchResultItem>
@@ -80,7 +97,10 @@
                   <span class="name">{{ item.collection?.name }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('offer.price') }}:
-                    <Money :value="item.price" inline />
+                    <Money
+                      :value="item.price"
+                      :unit-symbol="chainSymbol"
+                      inline />
                   </span>
                 </div>
               </template>
@@ -295,6 +315,11 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       Collections: this.collectionSuggestion,
       NFTs: this.nftSuggestion,
     }
+  }
+
+  get chainSymbol() {
+    const { chainSymbol } = useChain()
+    return chainSymbol.value
   }
 
   public updateSearchUrl() {
@@ -561,6 +586,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
           ...collections[i],
           ...meta,
           image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
+          mediaUri: getSanitizer(meta.mediaUri || '')(meta.mediaUri || ''),
         })
       })
       this.collectionResult = collectionWithImages
@@ -571,6 +597,18 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       )
       this.isCollectionResultLoading = false
     }
+  }
+
+  getFloorPrice(nfts: NFTWithMeta[] | undefined) {
+    if (!nfts || !nfts.length) {
+      return 0
+    }
+    // floor price should be greater than zero.
+    const priceArr = nfts.filter((nft) => Number(nft.price) > 0)
+    if (priceArr.length === 0) {
+      return 0
+    }
+    return Math.min(...priceArr.map((nft) => Number(nft.price)))
   }
 
   @Watch('name')

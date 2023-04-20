@@ -55,6 +55,12 @@
         <p>{{ $t('tabs.tabDetails.blockchain') }}</p>
         <p>{{ urlPrefix }}</p>
       </div>
+      <div
+        v-if="version"
+        class="is-flex is-justify-content-space-between">
+        <p>{{ $t('tabs.tabDetails.version') }}</p>
+        <p>{{ version }}</p>
+      </div>
       <!-- <div class="is-flex is-justify-content-space-between">
         <p>Token Standard</p>
         <p>--</p>
@@ -105,6 +111,7 @@ const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
 const activeTab = ref('0')
+const { version } = useRmrkVersion()
 
 const properties = computed(() => {
   // we have different format between rmrk2 and the other chains
