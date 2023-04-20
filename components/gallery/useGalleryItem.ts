@@ -41,7 +41,7 @@ export const useGalleryItem = (nftId?: string) => {
   const nftMetadata = ref<NFTWithMetadata>()
 
   const { params } = useRoute()
-  params.item = nftId || params.item
+  const id = nftId || params.id
   // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
 
   const queryPath = {
@@ -54,7 +54,7 @@ export const useGalleryItem = (nftId?: string) => {
     queryName: 'nftById',
     queryPrefix: queryPath[urlPrefix.value],
     variables: {
-      id: params.id,
+      id: id,
     },
     options: {
       fetchPolicy: 'network-only',
@@ -62,7 +62,7 @@ export const useGalleryItem = (nftId?: string) => {
   })
 
   useSubscriptionGraphql({
-    query: `   nft: nftEntityById(id: "${params.id}") {
+    query: `   nft: nftEntityById(id: "${id}") {
       id
       currentOwner
       price
@@ -77,7 +77,7 @@ export const useGalleryItem = (nftId?: string) => {
   watch(data as unknown as NFTData, async (newData) => {
     const nftEntity = newData?.nftEntity
     if (!nftEntity) {
-      $consola.log(`NFT with id ${params.id} not found. Fallback to RPC Node`)
+      $consola.log(`NFT with id ${id} not found. Fallback to RPC Node`)
       return
     }
 
@@ -110,17 +110,5 @@ export const useGalleryItem = (nftId?: string) => {
     nftAnimation,
     nftMimeType,
     nftMetadata,
-  }
-}
-
-export const useGalleryUrl = () => {
-  const { urlPrefix } = usePrefix()
-
-  const urlOf = ({ id = '', url = '', chain = '' }): string => {
-    return `/${chain || urlPrefix.value}/${url}/${id}`
-  }
-
-  return {
-    urlOf,
   }
 }

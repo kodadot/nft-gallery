@@ -95,14 +95,7 @@
     <!-- parent tab -->
     <div v-if="parent">
       <o-tab-item value="3" :label="$t('tabs.parent')" class="p-5">
-        <nuxt-link
-          :to="
-            urlOf({
-              id: parent?.nft.value?.id,
-              url: parentUrl,
-              chain: urlPrefix,
-            })
-          ">
+        <nuxt-link :to="parentNftUrl">
           <MediaItem
             :key="parent?.nftImage"
             :class="{
@@ -131,7 +124,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import { DisablableTab, MediaItem } from '@kodadot1/brick'
 
-import { useGalleryItem, useGalleryUrl } from './useGalleryItem'
+import { useGalleryItem } from './useGalleryItem'
 import { useRedirectModal } from '@/components/redirect/useRedirectModal'
 
 import { MediaType } from '@/components/rmrk/types'
@@ -143,12 +136,18 @@ const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
 const activeTab = ref('0')
 const { version } = useRmrkVersion()
-const { urlOf } = useGalleryUrl()
-const parentUrl = inject('itemUrl', 'gallery') as string
 
 const parent = computed(() => {
   if (nft.value?.parent?.id) {
     return useGalleryItem(nft.value?.parent?.id)
+  }
+})
+
+const parentNftUrl = computed(() => {
+  if (parent) {
+    const url = inject('itemUrl', 'gallery') as string
+
+    return `/${urlPrefix.value}/${url}/${parent.value?.nft.value?.id}`
   }
 })
 

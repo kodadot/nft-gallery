@@ -1,18 +1,10 @@
 #import "./fragments/nft.graphql"
 #import "./fragments/nftDetails.graphql"
-#import "./fragments/baseMeta.graphql"
 
 query nftById($id: String!) {
   nFTEntity(id: $id) {
     ...nft
     ...nftDetails
-    parent {
-      ...nft
-      ...nftDetails
-      meta {
-        ...baseMeta
-      }
-    }
     collection {
       id
       name
