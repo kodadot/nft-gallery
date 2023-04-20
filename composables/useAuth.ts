@@ -1,7 +1,6 @@
 import { useIdentityStore } from '@/stores/identity'
 
 export default function () {
-  // const { $store } = useNuxtApp()
   const identityStore = useIdentityStore()
 
   const accountId = computed(() => identityStore.getAuthAddress)

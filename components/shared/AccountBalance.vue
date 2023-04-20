@@ -11,21 +11,8 @@ import { useIdentityStore } from '@/stores/identity'
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
-const TokenMoney = defineAsyncComponent(
-  () => import('@/components/bsx/format/TokenMoney.vue')
-)
-
-// not used? not needed?
-defineProps<{
-  tokenId?: string
-}>()
 
 const { accountId } = useAuth()
 const identityStore = useIdentityStore()
-
 const realBalance = computed(() => identityStore.getAuthBalance)
-
-onMounted(() => {
-  console.log(realBalance.value)
-})
 </script>

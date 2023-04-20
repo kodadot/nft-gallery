@@ -1,16 +1,10 @@
 import type { ApiPromise } from '@polkadot/api'
-import { balanceOf, identityOf, onApiConnect } from '@kodadot1/sub-api'
+import { balanceOf, identityOf } from '@kodadot1/sub-api'
 import { Registration } from '@polkadot/types/interfaces/identity/types'
 import { defineStore } from 'pinia'
 import consola from 'consola'
 import { emptyObject } from '@/utils/empty'
 import { formatAddress } from '@/utils/account'
-import { getChainEndpointByPrefix } from '@/utils/chain'
-import {
-  Unsubscribe,
-  UnsubscribePromise,
-  subscribeBalance,
-} from '@/utils/balance'
 
 export interface IdentityMap {
   [address: string]: Registration
@@ -39,32 +33,8 @@ export interface IdenityRequest {
   identity: Registration
 }
 
-const balanceSub: Unsubscribe = () => void 0
-const tokenSub: Unsubscribe = () => void 0
-
 function free({ free }: any) {
   return free.toString()
-}
-
-async function subscribeTokens(
-  api: ApiPromise,
-  address: string,
-  prefix: string,
-  cb: (value: BalanceMap) => void
-): UnsubscribePromise {
-  if (api.query.tokens) {
-    const realKusamaTokenId =
-      prefix === 'bsx' || prefix === 'rmrk' || prefix === 'ksm' ? '1' : '5'
-    return await api.query.tokens.accounts.multi(
-      [[address, realKusamaTokenId]],
-      ([ksm]: unknown[]) =>
-        cb({
-          [realKusamaTokenId]: free(ksm),
-        })
-    )
-  }
-
-  return Promise.resolve(() => void 0)
 }
 
 export const useIdentityStore = defineStore('identity', {
@@ -137,45 +107,6 @@ export const useIdentityStore = defineStore('identity', {
         await this.fetchBalance({ address, apiUrl })
       }
     },
-    // fetchBalance({ address, apiUrl }: ChangeAddressRequest) {
-    //   const { urlPrefix } = usePrefix()
-    //   const directEndpoint = getChainEndpointByPrefix(urlPrefix.value)
-    //   const endpoint = String(apiUrl || directEndpoint)
-
-    //   if (!address) {
-    //     balanceSub()
-    //     tokenSub()
-    //     return
-    //   }
-
-    //   onApiConnect(endpoint, async (api) => {
-    //     try {
-    //       if (balanceSub) {
-    //         balanceSub()
-    //       }
-
-    //       if (tokenSub) {
-    //         tokenSub()
-    //       }
-
-    //       balanceSub = await subscribeBalance(api, address, (balance) => {
-    //         console.log(balance)
-    //         this.setPrefixBalance(balance)
-    //       })
-
-    //       tokenSub = await subscribeTokens(
-    //         api,
-    //         address,
-    //         urlPrefix.value,
-    //         (balance) => {
-    //           this.setTokenListBalance(balance)
-    //         }
-    //       )
-    //     } catch (e) {
-    //       consola.error('[ERR: BALANCE]', e)
-    //     }
-    //   })
-    // },
     async fetchBalance({ address }: ChangeAddressRequest) {
       const { apiInstance } = useApi()
       try {
