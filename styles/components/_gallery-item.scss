@@ -13,6 +13,18 @@
   }
 }
 
+.gallery-parent-item {
+    max-height: 240px;
+    max-width: 240px;
+    margin: 0 auto;
+
+    &__name {
+      padding-top: 0.25rem;
+      width: fit-content;
+      margin: 0 auto;
+    }
+}
+
 .gallery-item {
   .media-object {
     @include ktheme() {

@@ -31,7 +31,7 @@ const whichAsset = (data) => {
   }
 }
 
-export const useGalleryItem = () => {
+export const useGalleryItem = (nftId?: string) => {
   const { $consola } = useNuxtApp()
   const historyStore = useHistoryStore()
   const nft = ref<NFT>()
@@ -41,6 +41,7 @@ export const useGalleryItem = () => {
   const nftMetadata = ref<NFTWithMetadata>()
 
   const { params } = useRoute()
+  params.item = nftId || params.item
   // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
 
   const queryPath = {
@@ -109,5 +110,17 @@ export const useGalleryItem = () => {
     nftAnimation,
     nftMimeType,
     nftMetadata,
+  }
+}
+
+export const useGalleryUrl = () => {
+  const { urlPrefix } = usePrefix()
+
+  const urlOf = ({ id = '', url = '', chain = '' }): string => {
+    return `/${chain || urlPrefix.value}/${url}/${id}`
+  }
+
+  return {
+    urlOf,
   }
 }

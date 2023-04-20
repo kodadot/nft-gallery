@@ -1170,6 +1170,7 @@
     "noPropertiesForNFT": "No Properties for this NFT",
     "description": "Description",
     "details": "Details",
+    "parent": "Parent",
     "offers": "Offers",
     "offersDisabled": "Offers Are Not Available on this chain",
     "activity": "Activity",
