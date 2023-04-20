@@ -185,7 +185,7 @@ const menuKodadot: Menu[] = [
 
   {
     name: $i18n.t('artist ambassador'),
-    url: 'https://hello.kodadot.xyz/knowledgebase/technical/kodadots-programs/artist-ambassadot-program',
+    url: 'https://hello.kodadot.xyz/knowledgebase/technical/kodadots-programs/artist-ambassador-program',
     external: true,
   },
 
