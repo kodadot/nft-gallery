@@ -1,23 +1,42 @@
-import { createInteraction } from '@kodadot1/minimark'
 import { tokenIdToRoute } from '@/components/unique/utils'
+import { createInteraction } from '@kodadot1/minimark/v1'
+import {
+  Interaction as NewInteraction,
+  createInteraction as createNewInteraction,
+} from '@kodadot1/minimark/v2'
 
-import type { ActionBuy } from './types'
-import { somePercentFromTX } from '@/utils/support'
 import { getApiCall } from '@/utils/gallery/abstractCalls'
+import { isRoyaltyValid } from '@/utils/royalty'
+import { payRoyaltyTx, somePercentFromTX } from '@/utils/support'
+import type { ActionBuy } from './types'
 
 function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
-  const version = item.urlPrefix === 'rmrk' ? '1.0.0' : '2.0.0'
-  const rmrk = createInteraction(item.interaction, version, item.nftId, '')
+  const isOldRemark = item.urlPrefix === 'rmrk'
+  const rmrk = isOldRemark
+    ? createInteraction(item.interaction, item.nftId, '')
+    : createNewInteraction({
+        action: NewInteraction[item.interaction],
+        payload: { id: item.nftId },
+      })
+
+  const arg = [
+    api.tx.system.remark(rmrk),
+    api.tx.balances.transfer(item.currentOwner, item.price),
+    somePercentFromTX(api, item.price),
+  ]
+
+  const royalty = {
+    amount: Number(item.royalty),
+    address: item.recipient || '',
+  }
+
+  if (isRoyaltyValid(royalty)) {
+    arg.push(payRoyaltyTx(api, item.price, royalty))
+  }
 
   executeTransaction({
     cb: api.tx.utility.batchAll,
-    arg: [
-      [
-        api.tx.system.remark(rmrk),
-        api.tx.balances.transfer(item.currentOwner, item.price),
-        somePercentFromTX(api, item.price),
-      ],
-    ],
+    arg: [arg],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
   })

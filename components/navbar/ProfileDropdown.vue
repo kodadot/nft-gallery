@@ -165,7 +165,7 @@
         class="button-connect-wallet px-4"
         variant="k-accent"
         no-shadow
-        @closeBurgerMenu="closeBurgerMenu" />
+        @toggleConnectModal="toggleWalletConnectModal" />
     </div>
 
     <b-dropdown
@@ -307,7 +307,7 @@ export default class ProfileDropdown extends mixins(
       ...ConnectWalletModalConfig,
     })
 
-    this.$emit('closeBurgerMenu')
+    this.closeBurgerMenu()
   }
 
   setUserLang(value: string) {

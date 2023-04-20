@@ -1,31 +1,26 @@
-
 .carousel-agnostic {
   @import './carousel-arrows';
   .keen-slider {
     padding-bottom: 16px;
   }
 
-
   .carousel-item {
     @include ktheme() {
       background: theme('background-color');
-
-      border: 1px solid theme('border-color');
+      border: 1px solid theme('card-border-color');
       &:hover {
-        box-shadow: theme('primary-shadow');
-        opacity: 1 !important;
-        animation: cardHoverIn 0.3s ease-in;
+        border-color: theme('border-color');
+        .carousel-media {
+          opacity: theme('card-hover-opacity');}
       }
     }
-    transition: box-shadow 0.4s, opacity 0.4s;
-    animation: cardHoverOut 0.3s ease-out;
   }
 
   .carousel-media {
     display: grid;
     align-items: center;
     @include ktheme() {
-      border-bottom: 1px solid theme('border-color');
+      border-bottom: 1px solid theme('card-border-color');
     }
     &-collection {
       border-bottom: none !important;
@@ -33,7 +28,7 @@
 
       a {
         @include ktheme() {
-          border: 1px solid theme('border-color');
+          border: 1px solid theme('card-border-color');
         }
 
         display: block;

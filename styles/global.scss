@@ -57,6 +57,10 @@ body {
     }
   }
 
+  .taginput-container.is-focusable {
+    height: auto !important;
+  }
+
   .select {
     &:not(.is-multiple):not(.is-loading)::after {
       @include ktheme() {

@@ -23,7 +23,7 @@
       </div>
       <div
         v-if="!displayedEvents.length"
-        class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center py-6">
+        class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center py-8">
         <span class="has-text-weight-bold is-size-5 has-text-centered">{{
           $t('activity.noResults')
         }}</span>
@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import EventRow from './EventRow.vue'
 import { useIntersectionObserver } from '@vueuse/core'
-import { Interaction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark/v1'
 import { isAnyActivityFilterActive } from '../utils'
 import { useResizeObserver } from '@vueuse/core'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'

@@ -39,8 +39,8 @@ export default defineNuxtConfig({
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'KodaDot - NFT Market Explorer',
-    titleTemplate: '%s | Low Carbon NFTs',
+    title: 'KodaDot - One Stop Shop for Polkadot NFTs',
+    titleTemplate: '%s | One Stop Shop for Polkadot NFTs',
     htmlAttrs: {
       lang: 'en',
     },
@@ -380,9 +380,16 @@ export default defineNuxtConfig({
       })
 
       config.module.rules.push({
+        test: /node_modules\/@kodadot1\/minimark\/dist\/.+\.mjs$/,
+        loader: require.resolve('babel-loader'),
+        query: { compact: true },
+      })
+
+      config.module.rules.push({
         test: /\.js$/,
         loader: require.resolve('@open-wc/webpack-import-meta-loader'),
       })
+
       config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js'
       config.node = {
         fs: 'empty',

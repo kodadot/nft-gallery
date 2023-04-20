@@ -79,7 +79,8 @@
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
-import { Attribute, Interaction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark/v1'
+import { Attribute } from '@kodadot1/minimark/common'
 
 import { onApiConnect } from '@kodadot1/sub-api'
 import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
@@ -286,6 +287,8 @@ export default class CreateToken extends mixins(
           price: this.price,
           postfix: this.postfix,
           tags: this.attributes,
+          royalty: this.royalty,
+          hasRoyalty: this.hasRoyalty,
         },
       })
     } catch (e) {
