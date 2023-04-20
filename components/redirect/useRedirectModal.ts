@@ -29,7 +29,7 @@ function isWhiteList(url: string) {
 const showModal = (url: string, i18n: VueI18n) => {
   Modal.open({
     component: RedirectModal,
-    canCancel: true,
+    canCancel: ['outside', 'escape'],
     customClass: 'redirect-modal',
     props: {
       url,
