@@ -256,7 +256,6 @@
   }
 
   .image-outline {
-    border-radius: 50%;
     @include ktheme() {
       border: 1px solid theme('border-color');
     }

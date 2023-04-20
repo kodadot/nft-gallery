@@ -7,11 +7,7 @@
           circle
           width="64px"
           height="64px"></b-skeleton>
-        <BasicImage
-          v-else
-          rounded
-          custom-class="is-64x64 image-outline"
-          :src="image" />
+        <BasicImage v-else custom-class="is-64x64 image-outline" :src="image" />
       </div>
       <div
         v-if="isLoading"
