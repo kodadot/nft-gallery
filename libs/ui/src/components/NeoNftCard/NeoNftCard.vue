@@ -1,6 +1,6 @@
 <template>
   <div class="nft-card">
-    <nuxt-link :to="`/${prefix}/gallery/${nft.id}`">
+    <a :href="`/${prefix}/gallery/${nft.id}`">
       <MediaItem
         :key="nft.image"
         class="nft-media"
@@ -54,7 +54,7 @@
           >
         </div>
       </div>
-    </nuxt-link>
+    </a>
   </div>
 </template>
 
