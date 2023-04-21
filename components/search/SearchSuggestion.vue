@@ -26,7 +26,24 @@
                 <div
                   class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
                   <span class="main-title name">{{ item.name }}</span>
-                  <span>{{ urlPrefix.toUpperCase() }}</span>
+                  <span class="has-text-grey">
+                    {{ urlPrefix.toUpperCase() }}
+                  </span>
+                </div>
+                <div class="is-flex is-justify-content-space-between pr-2">
+                  <span>
+                    {{ $t('activity.floor') }}:
+                    <span v-if="getFloorPrice(item.nfts) === 0"> -- </span>
+                    <Money
+                      v-else
+                      :value="getFloorPrice(item.nfts)"
+                      :unit-symbol="chainSymbol"
+                      inline />
+                  </span>
+                  <span class="has-text-grey">
+                    {{ $t('search.units') }}:
+                    {{ item.nfts?.length || 0 }}
+                  </span>
                 </div>
               </template>
             </SearchResultItem>
@@ -80,7 +97,10 @@
                   <span class="name">{{ item.collection?.name }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('offer.price') }}:
-                    <Money :value="item.price" inline />
+                    <Money
+                      :value="item.price"
+                      :unit-symbol="chainSymbol"
+                      inline />
                   </span>
                 </div>
               </template>
@@ -191,7 +211,7 @@ import {
   CollectionWithMeta,
   NFTWithMeta,
 } from '@/components/rmrk/service/scheme'
-import { getSanitizer } from '@/utils/ipfs'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { logError, mapNFTorCollectionMetadata } from '~/utils/mappers'
 import { processMetadata } from '~/utils/cachingStrategy'
@@ -297,6 +317,11 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     }
   }
 
+  get chainSymbol() {
+    const { chainSymbol } = useChain()
+    return chainSymbol.value
+  }
+
   public updateSearchUrl() {
     if (this.name) {
       this.$router
@@ -336,7 +361,10 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
             collectionResult.push({
               ...collections[i],
               ...meta,
-              image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
+              image: sanitizeIpfsUrl(
+                meta.image || meta.mediaUri || '',
+                'image'
+              ),
             })
           }
         )
@@ -520,9 +548,9 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
         nftResult.push({
           ...nftList[i],
           ...meta,
-          image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
-          animation_url: getSanitizer(meta.animation_url || '')(
-            meta.animation_url || ''
+          image: sanitizeIpfsUrl(
+            meta.image || meta.animation_url || meta.mediaUri || '',
+            'image'
           ),
         })
       })
@@ -560,7 +588,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
         collectionWithImages.push({
           ...collections[i],
           ...meta,
-          image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
+          image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
         })
       })
       this.collectionResult = collectionWithImages
@@ -571,6 +599,18 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       )
       this.isCollectionResultLoading = false
     }
+  }
+
+  getFloorPrice(nfts: NFTWithMeta[] | undefined) {
+    if (!nfts || !nfts.length) {
+      return 0
+    }
+    // floor price should be greater than zero.
+    const priceArr = nfts.filter((nft) => Number(nft.price) > 0)
+    if (priceArr.length === 0) {
+      return 0
+    }
+    return Math.min(...priceArr.map((nft) => Number(nft.price)))
   }
 
   @Watch('name')

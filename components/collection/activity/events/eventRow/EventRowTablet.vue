@@ -12,7 +12,7 @@
             class="border image-size" />
           <img
             v-else
-            src="/placeholder.webp"
+            :src="placeholder"
             class="border image-size"
             width="50"
             height="50" />
@@ -89,6 +89,7 @@ import {
 } from './common'
 
 const { urlPrefix } = usePrefix()
+const { placeholder } = useTheme()
 const props = defineProps<{
   event: InteractionWithNFT | Offer
 }>()

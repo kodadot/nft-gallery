@@ -8,6 +8,8 @@
       :nft-price="nft?.price"
       :collection-id="nft?.collection.id"
       :current-owner="nft?.currentOwner"
+      :royalty="nft?.royalty"
+      :recipient="nft?.recipient"
       @buy-success="emit('buy-success')" />
 
     <!-- highest offer -->

@@ -4,6 +4,7 @@
       <EventTypeFilter v-if="isCollectionActivityTab" expanded fluid-padding />
       <StatusFilter v-else expanded fluid-padding />
       <PriceFilter v-if="!isCollectionActivityTab" fluid-padding />
+      <PopularCollections v-if="isExploreItems" expanded fluid-padding />
     </NeoSidebar>
   </div>
 </template>
@@ -13,6 +14,7 @@ import { NeoSidebar } from '@kodadot1/brick'
 import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
 import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
 import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
+import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 const route = useRoute()
 
@@ -21,6 +23,7 @@ const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 const isCollectionActivityTab = computed(
   () => route.name === 'prefix-collection-id-activity'
 )
+const isExploreItems = computed(() => route.name === 'prefix-explore-items')
 </script>
 
 <style lang="scss" scoped>
@@ -35,6 +38,8 @@ const isCollectionActivityTab = computed(
   top: 84px;
   height: calc(100vh - 84px);
   margin-right: $fluid-container-padding;
+  overflow-y: auto;
+  flex-shrink: 0;
 }
 
 .o-side {

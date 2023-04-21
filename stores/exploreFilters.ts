@@ -7,6 +7,7 @@ interface State {
   // price
   min: number | undefined
   max: number | undefined
+  collections: string[] | undefined
 }
 
 export const useExploreFiltersStore = defineStore('exploreFilters', {
@@ -15,9 +16,14 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     owned: false,
     min: undefined,
     max: undefined,
+    collections: undefined,
   }),
   getters: {
-    getStatusFilters: (state) => ({ listed: state.listed, owned: state.owned }),
+    getStatusFilters: (state) => ({
+      listed: state.listed,
+      owned: state.owned,
+      collections: state.collections?.toString(),
+    }),
     getPriceRange: (state) => ({ min: state.min, max: state.max }),
   },
   actions: {
@@ -36,6 +42,9 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     setPriceRange(payload) {
       this.min = payload.min
       this.max = payload.max
+    },
+    setCollections(payload) {
+      this.collections = payload
     },
   },
 })

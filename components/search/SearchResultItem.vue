@@ -1,17 +1,9 @@
 <template>
   <div class="search-result-item" :class="{ 'loading-item': isLoading }">
     <div class="media">
-      <div class="media-left">
-        <b-skeleton
-          v-if="isLoading"
-          circle
-          width="48px"
-          height="48px"></b-skeleton>
-        <BasicImage
-          v-else
-          rounded
-          custom-class="is-48x48 image-outline"
-          :src="image" />
+      <div class="media-left" :class="{ border: !isLoading }">
+        <b-skeleton v-if="isLoading" width="64px" height="64px"></b-skeleton>
+        <BasicImage v-else custom-class="is-64x64" :src="image" />
       </div>
       <div
         v-if="isLoading"
@@ -49,3 +41,8 @@ export default class SearchResultItem extends Vue {
   @Prop({ type: String, default: '' }) public image!: string
 }
 </script>
+<style scoped>
+.media-left :deep img {
+  max-height: 100%;
+}
+</style>

@@ -1,6 +1,6 @@
-**Thank you for your contribution** to the [KodaDot NFT gallery](https://kodadot.xyz).
+**Thank you for your contribution** to the [KodaDot - One Stop Shop for Polkadot NFTs](https://kodadot.xyz).
 
-👇 \_ Let's make a quick check before the contribution.
+👇 __ Let's make a quick check before the contribution.
 
 ## PR Type
 
@@ -11,7 +11,7 @@
 ## Context
 
 - [ ] Closes #<issue_number>
-- [ ] Requires deployment <>
+- [ ] Requires deployment <snek/rubick/worker>
 
 #### Before submitting pull request, please make sure:
 
@@ -19,11 +19,10 @@
 - [ ] I've merged recent default branch -- **main** and I've no conflicts
 - [ ] I've tried to respect high code quality standards
 - [ ] I've didn't break any original functionality
-- [ ] I've posted a screenshot of demonstrated change in this PR
 
 #### Optional
 
-- [ ] I've tested it at </bsx/collection>
+- [ ] I've tested it at </ksm/collection>
 - [ ] I've tested PR on mobile
 - [ ] I've written unit tests 🧪
 - [ ] I've found edge cases
@@ -39,3 +38,8 @@
 ## Screenshot 📸
 
 - [ ] My fix has changed **something** on UI; a screenshot is best to understand changes for others.
+
+## Copilot Summary
+copilot:summary
+
+copilot:poem
