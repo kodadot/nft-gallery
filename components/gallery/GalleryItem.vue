@@ -12,12 +12,30 @@
       <div class="column is-two-fifths">
         <div class="is-relative">
           <a
-            v-if="canPreview"
+            v-if="canPreview && !nftResources?.length"
             class="fullscreen-button is-justify-content-center is-align-items-center"
             @click="isFullscreen = true">
             <NeoIcon icon="expand" />
           </a>
+          <div v-if="nftResources?.length" class="gallery-media-carousel">
+            <o-carousel
+              :overlay="overlayCarousel"
+              @click="overlayCarousel = !overlayCarousel">
+              <o-carousel-item
+                v-for="(resource, index) in nftResources"
+                :key="index">
+                <section>
+                  <MediaItem
+                    :key="resource.src"
+                    :src="resource.src"
+                    is-detail
+                    :original="isMobile" />
+                </section>
+              </o-carousel-item>
+            </o-carousel>
+          </div>
           <MediaItem
+            v-else
             :key="nftImage"
             :class="{
               'is-flex is-align-items-center is-justify-content-center h-audio':
@@ -32,6 +50,7 @@
             :original="isMobile" />
         </div>
       </div>
+
       <div class="py-8 column">
         <div
           class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
@@ -104,11 +123,13 @@
       data-cy="carousel-related" />
 
     <CarouselTypeVisited class="mt-8" />
+
     <GalleryItemPreviewer v-model="isFullscreen" />
   </section>
 </template>
 
 <script setup lang="ts">
+import { OCarousel, OCarouselItem } from '@oruga-ui/oruga'
 import { IdentityItem, MediaItem, NeoIcon } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
@@ -131,7 +152,7 @@ const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 
-const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
+const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
   useGalleryItem()
 const collection = computed(() => nft.value?.collection)
 const isMobile = ref(window.innerWidth < 768)
@@ -143,6 +164,7 @@ const tabs = {
 }
 const activeTab = ref(tabs.offers)
 const showCongratsMessage = ref(false)
+const overlayCarousel = ref(false)
 
 const isFullscreen = ref(false)
 const canPreview = computed(() =>
@@ -265,5 +287,46 @@ $break-point-width: 930px;
 
 .h-audio {
   height: 70%;
+}
+</style>
+
+<style lang="scss">
+@import '@/styles/abstracts/variables';
+
+.gallery-media-carousel {
+  .o-car {
+    &__item {
+      overflow: hidden;
+    }
+
+    &__overlay {
+      @include ktheme() {
+        background: theme('background-color');
+      }
+    }
+
+    &__indicators {
+      margin-top: 1rem;
+    }
+
+    &__indicator {
+      margin: 0 0.25rem;
+
+      &__item {
+        @include ktheme() {
+          background: theme('background-color-inverse');
+          border: theme('background-color-inverse');
+        }
+        border-radius: 50%;
+
+        &--active {
+          @include ktheme() {
+            background: theme('k-primary');
+            border: theme('k-primary');
+          }
+        }
+      }
+    }
+  }
 }
 </style>

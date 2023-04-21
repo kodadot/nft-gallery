@@ -1,7 +1,7 @@
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getMimeType } from '@/utils/gallery/media'
 import { useHistoryStore } from '@/stores/history'
-import { getNftMetadata } from '@/composables/useNft'
+import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
@@ -39,6 +39,7 @@ export const useGalleryItem = () => {
   const nftAnimation = ref('')
   const nftMimeType = ref('')
   const nftMetadata = ref<NFTWithMetadata>()
+  const nftResources = ref<NftResources[]>()
 
   const { params } = useRoute()
   // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
@@ -82,6 +83,14 @@ export const useGalleryItem = () => {
 
     nft.value = nftEntity
 
+    nftResources.value = nftEntity.resources?.map((resource) => {
+      return {
+        ...resource,
+        src: sanitizeIpfsUrl(resource.src),
+        thumb: sanitizeIpfsUrl(resource.thumb),
+      }
+    })
+    console.log(nftResources.value)
     nftMetadata.value = await getNftMetadata(nftEntity, urlPrefix.value)
     nftMimeType.value = await whichMimeType(nftMetadata.value)
 
@@ -109,5 +118,6 @@ export const useGalleryItem = () => {
     nftAnimation,
     nftMimeType,
     nftMetadata,
+    nftResources,
   }
 }
