@@ -4,7 +4,7 @@
       v-for="{ avatar, id, name, updatedAt } in displayedNFTs"
       :key="id"
       :to="`/${urlPrefix}/gallery/${id}`"
-      class="is-flex pt-2 px-5 is-justify-content-start is-hoverable-item">
+      class="is-flex pt-2 px-5 is-justify-content-start is-hoverable-item hoverable-lable-color">
       <div class="mr-5">
         <img
           v-if="avatar"
@@ -91,5 +91,9 @@ watch(
 .image-size {
   width: 40px !important;
   height: 40px !important;
+}
+
+.hoverable-lable-color {
+  color: inherit !important;
 }
 </style>
