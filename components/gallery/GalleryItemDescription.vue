@@ -144,7 +144,7 @@ const parent = computed(() => {
 })
 
 const parentNftUrl = computed(() => {
-  if (parent) {
+  if (parent.value) {
     const url = inject('itemUrl', 'gallery') as string
 
     return `/${urlPrefix.value}/${url}/${parent.value?.nft.value?.id}`
