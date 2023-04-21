@@ -3,19 +3,7 @@
     <div class="is-flex height-50px line-height-1">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
         <div class="mr-5">
-          <img
-            v-if="avatar"
-            :src="avatar"
-            :alt="event.nft.name"
-            width="50"
-            height="50"
-            class="border image-size" />
-          <img
-            v-else
-            :src="placeholder"
-            class="border image-size"
-            width="50"
-            height="50" />
+          <EventRowAvatar :avatar="avatar" :name="event.nft.name" />
         </div>
       </nuxt-link>
       <div
@@ -87,9 +75,9 @@ import {
   getToAddress,
   interactionNameMap,
 } from './common'
+import EventRowAvatar from './EventRowAvatar.vue'
 
 const { urlPrefix } = usePrefix()
-const { placeholder } = useTheme()
 const props = defineProps<{
   event: InteractionWithNFT | Offer
 }>()
@@ -122,10 +110,6 @@ const getAvatar = async () => {
 }
 .fixed-height {
   height: 22px;
-}
-.image-size {
-  width: 50px !important;
-  height: 50px !important;
 }
 .height-50px {
   height: 50px;
