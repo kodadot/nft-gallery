@@ -90,7 +90,6 @@ export const useGalleryItem = () => {
         thumb: sanitizeIpfsUrl(resource.thumb),
       }
     })
-    console.log(nftResources.value)
     nftMetadata.value = await getNftMetadata(nftEntity, urlPrefix.value)
     nftMimeType.value = await whichMimeType(nftMetadata.value)
 
