@@ -16,18 +16,21 @@
             <div class="column">Operation</div>
           </div>
           <div
-            v-for="(nft, index) in displayedNFTS"
-            :key="index"
+            v-for="nft in displayedNFTS"
+            :key="nft.id"
             class="columns border-bottom m-0 py-2 px-4">
             <div class="column is-flex is-align-items-center">
-              {{ index + 1 }}
+              {{ nft.id }}
             </div>
             <div class="column is-flex is-align-items-center">
               <img :src="nft.imageUrl" class="image is-48x48 border" />
             </div>
             <div class="column is-flex is-align-items-center">
-              <div v-if="nft.name">{{ nft.name }}</div>
-              <div v-else class="has-text-k-red">* Name Required</div>
+              <div
+                :class="{ 'has-text-k-red': !nft.name }"
+                @click="openSideBarWith(nft)">
+                {{ nft.name || '* Name Required' }}
+              </div>
             </div>
             <div class="column is-flex is-align-items-center">
               {{ nft.description || 'description' }}
@@ -56,29 +59,24 @@
 <script setup lang="ts">
 import { NeoCollapse } from '@kodadot1/brick'
 import { useIntersectionObserver } from '@vueuse/core'
-
-export type Status = 'Ok' | 'Incomplete' | 'Description'
-
-export type NFT = {
-  imageUrl: string
-  name?: string
-  description?: string
-  price?: number
-  status?: Status
-}
-
-export type NFTS = NFT[]
+import { NFT, NFTS, Status } from './types'
 
 const offset = ref(10)
 const sentinel = ref<HTMLDivElement | null>(null)
+const emit = defineEmits(['openSideBarWith'])
+
+const openSideBarWith = (nft: NFT) => {
+  emit('openSideBarWith', nft)
+}
 
 const props = withDefaults(
   defineProps<{
     disabled?: boolean
-    nfts: NFTS
+    nfts?: NFTS
   }>(),
   {
     disabled: false,
+    nfts: undefined,
   }
 )
 
@@ -92,7 +90,7 @@ const statusClass = (status?: Status) => {
   return status ? statusMap[status] : ''
 }
 
-const processNFTRow = (nft: NFT): NFT => {
+const addStatus = (nft: NFT): NFT => {
   let status: Status = 'Ok'
   if (!nft.description) {
     status = 'Description'
@@ -105,14 +103,9 @@ const processNFTRow = (nft: NFT): NFT => {
     status,
   }
 }
-const displayedNFTS = ref<NFT[]>(
-  props.nfts.slice(offset.value).map(processNFTRow)
+const displayedNFTS = computed<NFT[]>(() =>
+  Object.values(props.nfts).slice(0, offset.value).map(addStatus)
 )
-
-watch(offset, (next, prev) => {
-  const newRows = props.nfts.slice(prev, next).map(processNFTRow)
-  displayedNFTS.value = displayedNFTS.value.concat(newRows)
-})
 
 const handleIntersection = (entries: IntersectionObserverEntry[]) => {
   const target = entries[0]

@@ -7,7 +7,9 @@
     :expand-on-hover="expandOnHover"
     :reduce="reduce"
     :open="open"
+    :right="right"
     :overlay="overlay"
+    :can-cancel="canCancel"
     :on-cancel="onCancel">
     <slot />
   </o-sidebar>
@@ -23,10 +25,11 @@ defineProps<{
   fullwidth?: boolean
   reduce?: boolean
   open?: boolean
+  right?: boolean
   overlay?: boolean
-  canCancel?: Array<string>
+  canCancel?: Array<string> | boolean
   onCancel?: () => void
-  position?: 'fixed' | 'absoulte' | 'static'
+  position?: 'fixed' | 'absolute' | 'static'
 }>()
 </script>
 
