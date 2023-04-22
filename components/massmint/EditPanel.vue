@@ -43,7 +43,7 @@
                 v-model="price"
                 class="is-flex is-flex-grow-2 field-height" />
               <div
-                class="border is-flex is-flex-grow-1 field-height is-justify-content-center is-align-items-center">
+                class="border-top border-right border-bottom is-flex is-flex-grow-1 field-height is-justify-content-center is-align-items-center">
                 KSM
               </div>
             </div>
@@ -145,11 +145,19 @@ const save = () => {
 
   .o-input__textarea {
     height: 10rem;
+
+    @include ktheme() {
+      border: 1px solid theme('text-color');
+      background-color: theme('background-color');
+      color: theme('text-color');
+    }
   }
 
   input {
     @include ktheme() {
       border: 1px solid theme('text-color');
+      background-color: theme('background-color');
+      color: theme('text-color');
     }
   }
 }

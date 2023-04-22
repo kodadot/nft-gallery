@@ -61,7 +61,7 @@
             <div class="column is-flex is-align-items-center">
               <div class="height-50px is-flex is-align-items-center">
                 <div
-                  class="border is-size-7 is-justify-content-center py-1 my-2 is-flex is-align-items-center fixed-width fixed-height"
+                  class="border is-size-7 is-justify-content-center py-1 my-2 is-flex is-align-items-center fixed-width"
                   :class="statusClass(nft.status)">
                   {{ nft.status }}
                 </div>
@@ -119,9 +119,9 @@ const deleteNFT = (nft: NFT) => {
 
 const statusClass = (status?: Status) => {
   const statusMap: { [status: string]: string } = {
-    Ok: 'has-background-success',
-    Incomplete: 'has-background-danger',
-    Description: 'has-background-warning	',
+    Ok: 'k-green',
+    Incomplete: 'k-red',
+    Description: 'k-yellow',
   }
 
   return status ? statusMap[status] : ''
@@ -158,10 +158,6 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 
 .fixed-width {
   width: 80px;
-}
-
-.fixed-height {
-  height: 22px;
 }
 
 .height-50px {

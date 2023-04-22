@@ -313,6 +313,11 @@ hr {
     border-left: 1px solid theme('border-color');
   }
 }
+.border-right {
+  @include ktheme() {
+    border-right: 1px solid theme('border-color');
+  }
+}
 .border {
   @include ktheme() {
     border: 1px solid theme('border-color');
@@ -357,6 +362,18 @@ hr {
 .k-yellow {
   @include ktheme() {
     background-color: theme('k-yellow');
+  }
+}
+
+
+.k-green {
+  @include ktheme() {
+    background-color: theme('k-green');
+  }
+}
+.k-red {
+  @include ktheme() {
+    background-color: theme('k-red');
   }
 }
 .theme-background-color {
