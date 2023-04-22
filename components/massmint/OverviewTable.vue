@@ -6,7 +6,7 @@
       </div>
       <template #content>
         <div class="limit-height">
-          <div class="columns m-0 px-4 py-3 border-bottom">
+          <div class="columns is-mobile m-0 px-4 py-3 border-bottom">
             <div class="column">#</div>
             <div class="column">{{ $t('massmint.image') }}</div>
             <div class="column">{{ $t('massmint.name') }}</div>
@@ -18,7 +18,7 @@
           <div
             v-for="nft in displayedNFTS"
             :key="nft.id"
-            class="columns border-bottom m-0 py-2 px-4">
+            class="columns is-mobile border-bottom m-0 py-2 px-4">
             <div class="column is-flex is-align-items-center">
               {{ nft.id }}
             </div>
