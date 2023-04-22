@@ -37,7 +37,7 @@
     <EditPanel
       :nft="nftBeingEdited"
       :open="sideBarOpen"
-      @close="closeSideBar"
+      @close="sideBarOpen = false"
       @save="updateNFT" />
     <div class="mt-6 is-flex is-justify-content-center w-full">
       <NeoButton
@@ -45,7 +45,7 @@
         :label="mintButtonLabel"
         variant="k-accent"
         :disabled="!mediaLoaded"
-        @click.native="openMintModal" />
+        @click.native="openReviewModal" />
     </div>
     <DeleteModal
       v-if="nftInDeleteModal"
@@ -62,7 +62,12 @@
       v-model="overViewModalOpen"
       :num-missing-descriptions="numberOfMissingDescriptions"
       :num-nfts="Object.keys(NFTS).length"
-      @close="overViewModalOpen = false" />
+      @close="overViewModalOpen = false"
+      @mint="startMint" />
+    <MintingModal
+      v-model="mintModalOpen"
+      :loading="isMinting"
+      @close="mintModalOpen = false" />
   </div>
 </template>
 
@@ -79,6 +84,7 @@ import { NFT } from './types'
 import MissingInfoModal from './modals/MissingInfoModal.vue'
 import ReviewModal from './modals/ReviewModal.vue'
 import DeleteModal from './modals/DeleteModal.vue'
+import MintingModal from './modals/MintingModal.vue'
 
 const preferencesStore = usePreferencesStore()
 const { $consola, $i18n } = useNuxtApp()
@@ -86,19 +92,24 @@ const router = useRouter()
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 
+const selectedCollection = ref<MintedCollection>()
+const NFTS = ref<{ [nftId: string]: NFT }>({})
+const mediaLoaded = ref(false)
+
 const nftBeingEdited = ref<NFT>()
 const nftInDeleteModal = ref<NFT>()
 const sideBarOpen = ref(false)
 const deleteModalOpen = ref(false)
+const missingInfoModalOpen = ref(false)
+const overViewModalOpen = ref(false)
+const mintModalOpen = ref(false)
+const isMinting = ref(false)
 const numberOfMissingNames = computed(
   () => Object.values(NFTS.value).filter((nft) => !nft.name).length
 )
 const numberOfMissingDescriptions = computed(
   () => Object.values(NFTS.value).filter((nft) => !nft.description).length
 )
-
-const missingInfoModalOpen = ref(false)
-const overViewModalOpen = ref(false)
 
 const openSideBarWith = (nft: NFT) => {
   nftBeingEdited.value = nft
@@ -113,7 +124,7 @@ const closeDeleteModal = () => {
   nftInDeleteModal.value = undefined
 }
 
-const openMintModal = () => {
+const openReviewModal = () => {
   if (numberOfMissingNames.value > 0) {
     missingInfoModalOpen.value = true
     return
@@ -121,14 +132,18 @@ const openMintModal = () => {
   overViewModalOpen.value = true
 }
 
-const closeSideBar = () => {
-  sideBarOpen.value = false
-}
-const tabs = ['Collection', 'NFT', 'Mass Mint']
+const startMint = () => {
+  overViewModalOpen.value = false
+  mintModalOpen.value = true
+  isMinting.value = true
 
-const selectedCollection = ref<MintedCollection>()
-const NFTS = ref<{ [nftId: string]: NFT }>({})
-const mediaLoaded = ref(false)
+  // fake mint
+  setTimeout(() => {
+    isMinting.value = false
+  }, 5000)
+}
+
+const tabs = ['Collection', 'NFT', 'Mass Mint']
 
 const onCollectionSelected = (collection) => {
   selectedCollection.value = collection

@@ -35,7 +35,7 @@
             :label="$t('massmint.yesMint')"
             :variant="mintBtnVariant"
             class="min-width is-flex is-flex-grow-1"
-            @click.native="emit('close')" />
+            @click.native="emit('mint')" />
           <NeoButton
             :label="$t('massmint.cancel')"
             :variant="cancelBtnVariant"
@@ -65,7 +65,7 @@ const cancelBtnVariant = computed(() =>
 
 const isModalActive = useVModel(props, 'value')
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'mint'])
 </script>
 
 <style lang="scss" scoped>
