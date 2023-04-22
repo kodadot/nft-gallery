@@ -10,7 +10,7 @@
             <div class="column">#</div>
             <div class="column">Image</div>
             <div class="column">Name</div>
-            <div class="column">Description</div>
+            <div class="column is-3">Description</div>
             <div class="column">Price</div>
             <div class="column">Status</div>
             <div class="column">Operation</div>
@@ -27,16 +27,34 @@
             </div>
             <div class="column is-flex is-align-items-center">
               <div
-                :class="{ 'has-text-k-red': !nft.name }"
+                class="is-clickable"
+                :class="{
+                  'has-text-k-red': !nft.name,
+                  'has-text-grey': nft.name,
+                }"
                 @click="openSideBarWith(nft)">
-                {{ nft.name || '* Name Required' }}
+                {{ nft.name || '*Name Required' }}
+              </div>
+            </div>
+            <div class="column is-3 is-flex is-align-items-center">
+              <div
+                class="is-clickable"
+                :class="{
+                  'has-text-k-red': !nft.description,
+                  'clip-text has-text-grey': nft.description,
+                }"
+                @click="openSideBarWith(nft)">
+                {{ nft.description || 'Description Missing' }}
               </div>
             </div>
             <div class="column is-flex is-align-items-center">
-              {{ nft.description || 'description' }}
-            </div>
-            <div class="column is-flex is-align-items-center">
-              {{ nft.price || 0 }}
+              <div class="is-clickable" @click="openSideBarWith(nft)">
+                <CommonTokenMoney
+                  v-if="nft.price"
+                  :value="nft.price * Math.pow(10, 12)"
+                  class="has-text-grey" />
+                <div v-else class="has-text-k-red">Price Missing</div>
+              </div>
             </div>
             <div class="column is-flex is-align-items-center">
               <div class="height-50px is-flex is-align-items-center">
@@ -47,7 +65,16 @@
                 </div>
               </div>
             </div>
-            <div class="column is-flex is-align-items-center">Operation</div>
+            <div class="column is-flex is-align-items-center">
+              <NeoIcon
+                class="is-clickable"
+                icon="edit"
+                @click.native="openSideBarWith(nft)" />
+              <NeoIcon
+                class="is-clickable ml-3"
+                icon="trash"
+                @click.native="deleteNFT(nft)" />
+            </div>
           </div>
           <div ref="sentinel" />
         </div>
@@ -57,17 +84,13 @@
 </template>
 
 <script setup lang="ts">
-import { NeoCollapse } from '@kodadot1/brick'
+import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 import { useIntersectionObserver } from '@vueuse/core'
 import { NFT, NFTS, Status } from './types'
 
 const offset = ref(10)
 const sentinel = ref<HTMLDivElement | null>(null)
-const emit = defineEmits(['openSideBarWith'])
-
-const openSideBarWith = (nft: NFT) => {
-  emit('openSideBarWith', nft)
-}
+const emit = defineEmits(['openSideBarWith', 'delete'])
 
 const props = withDefaults(
   defineProps<{
@@ -80,11 +103,23 @@ const props = withDefaults(
   }
 )
 
+const displayedNFTS = computed<NFT[]>(() =>
+  Object.values(props.nfts).slice(0, offset.value).map(addStatus)
+)
+
+const openSideBarWith = (nft: NFT) => {
+  emit('openSideBarWith', nft)
+}
+
+const deleteNFT = (nft: NFT) => {
+  emit('delete', nft)
+}
+
 const statusClass = (status?: Status) => {
   const statusMap: { [status: string]: string } = {
     Ok: 'has-background-success',
-    Incomplete: 'has-background-warning',
-    Description: 'has-background-danger	',
+    Incomplete: 'has-background-danger',
+    Description: 'has-background-warning	',
   }
 
   return status ? statusMap[status] : ''
@@ -95,7 +130,7 @@ const addStatus = (nft: NFT): NFT => {
   if (!nft.description) {
     status = 'Description'
   }
-  if (!nft.name || !nft.price) {
+  if (!nft.name) {
     status = 'Incomplete'
   }
   return {
@@ -103,9 +138,6 @@ const addStatus = (nft: NFT): NFT => {
     status,
   }
 }
-const displayedNFTS = computed<NFT[]>(() =>
-  Object.values(props.nfts).slice(0, offset.value).map(addStatus)
-)
 
 const handleIntersection = (entries: IntersectionObserverEntry[]) => {
   const target = entries[0]
@@ -137,5 +169,13 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 //colums overrides
 .column {
   padding: 0;
+  padding-right: 0.25rem;
+}
+
+.clip-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 90%;
 }
 </style>

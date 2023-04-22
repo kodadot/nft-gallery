@@ -6,41 +6,53 @@
     position="fixed"
     :open="open"
     :can-cancel="true"
-    :on-cancel="onClose">
+    :on-cancel="closePanel">
     <div
-      class="border-left theme-background-color navbar-margin px-6 pb-7 pt-3 is-flex is-flex-direction-column is-align-items-center">
-      <div class="is-flex w-full">
-        <div class="is-flex is-justify-content-center is-flex-grow-1">
-          Edit #{{ nft?.id }}
-        </div>
-        <NeoIcon
-          icon="close"
-          size="small"
-          class="is-clickable"
-          @click.native="onClose" />
-      </div>
-      <img :src="nft?.imageUrl" class="image is-128x128 border k-shadow my-5" />
-      <div class="form w-full">
-        <o-field label="Name" class="w-full mb-5">
-          <o-input v-model="name" />
-        </o-field>
-        <o-field label="Description" class="w-full mb-5">
-          <o-input v-model="description" type="textarea" />
-        </o-field>
-        <o-field label="Price" class="w-full">
-          <div class="is-flex">
-            <o-input v-model="price" class="is-flex is-flex-grow-2" />
-            <div
-              class="border is-flex is-flex-grow-1 py-3 is-justify-content-center">
-              KSM
-            </div>
+      class="border-left theme-background-color navbar-margin p-5 is-flex is-flex-direction-column is-align-items-center is-justify-content-space-between h-full">
+      <div
+        class="is-flex w-full is-flex-direction-column is-justify-content-space-between is-align-items-center">
+        <div class="is-flex w-full">
+          <div class="is-flex is-justify-content-center is-flex-grow-1">
+            Edit #{{ nft?.id }}
           </div>
-        </o-field>
+          <NeoIcon
+            icon="close"
+            size="small"
+            class="is-clickable"
+            @click.native="closePanel" />
+        </div>
+        <img :src="nft?.imageUrl" class="image is-half border k-shadow my-5" />
+        <div class="form w-full">
+          <o-field
+            label="Name"
+            class="w-full mb-5 placholder-color"
+            :class="{ 'red-border': !name }">
+            <o-input
+              v-model="name"
+              placeholder="*Required"
+              class="field-height" />
+          </o-field>
+          <o-field label="Description" class="w-full mb-5">
+            <o-input v-model="description" type="textarea" />
+          </o-field>
+          <o-field label="Price" class="w-full">
+            <div class="is-flex">
+              <o-input
+                v-model="price"
+                class="is-flex is-flex-grow-2 field-height" />
+              <div
+                class="border is-flex is-flex-grow-1 field-height is-justify-content-center is-align-items-center">
+                KSM
+              </div>
+            </div>
+          </o-field>
+        </div>
       </div>
       <NeoButton
-        class="mt-6 w-full"
+        class="w-full"
         label="Save"
         variant="k-accent"
+        :disabled="!name"
         @click.native="save" />
     </div>
   </NeoSidebar>
@@ -86,7 +98,7 @@ const price = computed({
 
 const emit = defineEmits(['close', 'save'])
 
-const onClose = () => {
+const closePanel = () => {
   internalNfT.value = {}
   emit('close')
 }
@@ -97,13 +109,28 @@ const save = () => {
     ...internalNfT.value,
   }
   emit('save', nft)
-  onClose()
+  closePanel()
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
 .navbar-margin {
   margin-top: 83px;
+}
+
+.field-height {
+  height: 2rem;
+
+  :deep input {
+    height: 100%;
+  }
+}
+
+.image.is-half {
+  width: 45%;
+  height: auto;
 }
 
 .w-500px:deep .o-side__content {
@@ -117,6 +144,32 @@ const save = () => {
 
   .o-input__textarea {
     height: 10rem;
+  }
+
+  input {
+    @include ktheme() {
+      border: 1px solid theme('text-color');
+    }
+  }
+}
+
+.o-field--focused:deep {
+  input,
+  textarea {
+    border-radius: 0;
+    outline: none;
+  }
+}
+
+.placholder-color:deep input::placeholder {
+  @include ktheme() {
+    color: theme('k-red');
+  }
+}
+
+.red-border:deep input {
+  @include ktheme() {
+    border-color: theme('k-red');
   }
 }
 </style>

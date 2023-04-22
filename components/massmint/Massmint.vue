@@ -30,7 +30,8 @@
         <OverviewTable
           :disabled="!mediaLoaded"
           :nfts="NFTS"
-          @openSideBarWith="openSideBarWith" />
+          @openSideBarWith="openSideBarWith"
+          @delete="openDeleteModalWith" />
       </section>
     </div>
     <EditPanel
@@ -38,11 +39,35 @@
       :open="sideBarOpen"
       @close="closeSideBar"
       @save="updateNFT" />
+    <NeoModal v-model="deleteModalOpen" @close="closeDeleteModal">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-flex is-justify-content-center">
+            {{
+              `Are You sure You Want To Delete ${
+                nftInDeleteModal?.name || ''
+              } #${nftInDeleteModal?.id}`
+            }}
+          </p>
+        </header>
+        <div class="card-content is-flex is-justify-content-center">
+          <NeoButton
+            class="mr-3 is-flex is-flex-grow-1"
+            label="Yes, Delete"
+            @click.native="deleteNFT(nftInDeleteModal)" />
+          <NeoButton
+            label="Cancel"
+            variant="k-accent"
+            class="is-flex is-flex-grow-1"
+            @click.native="closeDeleteModal" />
+        </div>
+      </div>
+    </NeoModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { MintedCollection } from './useMassMint'
 import UploadMediaZip from './uploadCompressedMedia/UploadCompressedMedia.vue'
@@ -59,18 +84,25 @@ const route = useRoute()
 const { urlPrefix } = usePrefix()
 
 const nftBeingEdited = ref<NFT>()
+const nftInDeleteModal = ref<NFT>()
 const sideBarOpen = ref(false)
+const deleteModalOpen = ref(false)
 
 const openSideBarWith = (nft: NFT) => {
   nftBeingEdited.value = nft
   sideBarOpen.value = true
 }
+const openDeleteModalWith = (nft: NFT) => {
+  nftInDeleteModal.value = nft
+  deleteModalOpen.value = true
+}
+const closeDeleteModal = () => {
+  deleteModalOpen.value = false
+  nftInDeleteModal.value = undefined
+}
 
 const closeSideBar = () => {
   sideBarOpen.value = false
-}
-const updateNFT = (nft: NFT) => {
-  NFTS.value[nft.id] = nft
 }
 const tabs = ['Collection', 'NFT', 'Mass Mint']
 
@@ -80,6 +112,22 @@ const mediaLoaded = ref(false)
 
 const onCollectionSelected = (collection) => {
   selectedCollection.value = collection
+}
+
+const updateNFT = (nft: NFT) => {
+  NFTS.value[nft.id] = nft
+}
+
+const deleteNFT = (nft?: NFT) => {
+  if (!nft) {
+    return
+  }
+  NFTS.value = Object.values(NFTS.value)
+    .filter((n) => n.id !== nft.id)
+    .map((nft, i) => ({ ...nft, id: i + 1 }))
+    .reduce((acc, nft) => ({ ...acc, [nft.id]: nft }), {})
+
+  closeDeleteModal()
 }
 
 const toOnborading = () => {
