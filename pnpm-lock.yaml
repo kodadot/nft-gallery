@@ -111,6 +111,7 @@ importers:
       setimmediate: ^1.0.5
       slugify: ^1.6.6
       typescript: ^4.9.5
+      unzipit: ^1.4.3
       v-emoji-picker: ^2.3.3
       vite-plugin-vue2: ^2.0.3
       vitest: ^0.30.1
@@ -179,6 +180,7 @@ importers:
       ohmyfetch: 0.4.21
       setimmediate: 1.0.5
       slugify: 1.6.6
+      unzipit: 1.4.3
       v-emoji-picker: 2.3.3_vue@2.7.14
       vue: 2.7.14
       vue-apollo: 3.1.0_graphql-tag@2.12.6
@@ -22970,6 +22972,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /unzipit/1.4.3:
+    resolution: {integrity: sha512-gsq2PdJIWWGhx5kcdWStvNWit9FVdTewm4SEG7gFskWs+XCVaULt9+BwuoBtJiRE8eo3L1IPAOrbByNLtLtIlg==}
+    engines: {node: '>=12'}
+    dependencies:
+      uzip-module: 1.0.3
+    dev: false
+
   /upath/1.2.0:
     resolution: {integrity: sha512-aZwGpamFO61g3OlfT7OQCHqhGnW43ieH9WZeP7QxN/G/jS4jfqUkZxoryvJgVPEcrl5NL/ggHsSmLMHuH64Lhg==}
     engines: {node: '>=4'}
@@ -23117,6 +23126,10 @@ packages:
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
+
+  /uzip-module/1.0.3:
+    resolution: {integrity: sha512-AMqwWZaknLM77G+VPYNZLEruMGWGzyigPK3/Whg99B3S6vGHuqsyl5ZrOv1UUF3paGK1U6PM0cnayioaryg/fA==}
+    dev: false
 
   /v-emoji-picker/2.3.3_vue@2.7.14:
     resolution: {integrity: sha512-GLuBowVCwKjGRVQ+DJvP6SVFhLIlyvQTBgwlrBuwPX7wt7xi+fdWxmFtyJDBEp/2/xI1aS6Y2lXvse9Cf2vIzA==}

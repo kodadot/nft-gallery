@@ -7,7 +7,7 @@
         :src="nft.image"
         :animation-src="nft.animationUrl"
         :mime-type="nft.mimeType"
-        :is-dark-mode="isDarkMode"
+        :placeholder="placeholder"
         :title="nft?.name" />
       <div
         class="nft-media-info is-flex is-flex-direction-column"
@@ -72,7 +72,7 @@ withDefaults(
     showPrice: boolean
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
-    isDarkMode?: boolean
+    placeholder: string
   }>(),
   {
     collectionPopoverShowDelay: 500,

@@ -10,7 +10,7 @@
           <BasicImage
             custom-class="is-48x48 image-outline"
             rounded
-            :src="collection.image || '/placeholder.webp'" />
+            :src="collection.image || placeholder" />
         </div>
         <div class="px-2 is-flex is-flex-direction-column">
           <div class="has-text-weight-bold no-wrap">
@@ -86,6 +86,7 @@ const BasicMoney = defineAsyncComponent(
 )
 
 const { urlPrefix } = usePrefix()
+const { placeholder } = useTheme()
 const fiatStore = useFiatStore()
 const props = defineProps<{
   collection: CollectionEntityWithVolumes

@@ -14,7 +14,7 @@
           class="border image-size" />
         <img
           v-else
-          src="/placeholder.webp"
+          :src="placeholder"
           class="border mr-5 image-size"
           width="40"
           height="40" />
@@ -37,6 +37,7 @@ import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { NFTExcludingEvents } from '@/composables/collectionActivity/types'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 
+const { placeholder } = useTheme()
 const props = defineProps<{
   nfts: (NFTExcludingEvents & { avatar?: string })[]
 }>()

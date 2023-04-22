@@ -108,6 +108,7 @@
     "ohmyfetch": "^0.4.21",
     "setimmediate": "^1.0.5",
     "slugify": "^1.6.6",
+    "unzipit": "^1.4.3",
     "v-emoji-picker": "^2.3.3",
     "vue": "2.7.14",
     "vue-apollo": "^3.1.0",
