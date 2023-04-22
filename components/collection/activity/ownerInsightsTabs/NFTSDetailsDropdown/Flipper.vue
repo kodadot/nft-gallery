@@ -14,7 +14,7 @@
           class="border mr-5 image-size" />
         <img
           v-else
-          src="/placeholder.webp"
+          :src="placeholder"
           class="border mr-5 image-size"
           width="40"
           height="40" />
@@ -58,6 +58,7 @@ import Money from '@/components/shared/format/ChainMoney.vue'
 import { FlipEvent } from '@/composables/collectionActivity/types'
 import { format } from '@/components/collection/activity/utils'
 
+const { placeholder } = useTheme()
 const props = defineProps<{
   flips: (FlipEvent & { avatar?: string })[]
 }>()
