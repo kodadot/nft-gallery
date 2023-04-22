@@ -39,7 +39,15 @@
       :open="sideBarOpen"
       @close="closeSideBar"
       @save="updateNFT" />
-    <NeoModal v-model="deleteModalOpen" @close="closeDeleteModal">
+    <div class="mt-6 is-flex is-justify-content-center w-full">
+      <NeoButton
+        class="is-flex is-flex-grow-1 limit-width"
+        :label="mintButtonLabel"
+        variant="k-accent"
+        :disabled="!mediaLoaded"
+        @click.native="openMintModal" />
+    </div>
+    <NeoModal v-model="deleteModalOpen" scroll="clip" @close="closeDeleteModal">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title is-flex is-justify-content-center">
@@ -63,6 +71,12 @@
         </div>
       </div>
     </NeoModal>
+
+    <MissingInfoModal
+      v-model="missingInfoModalOpen"
+      :number-of-missing-names="numberOfMissingNames"
+      :number-of-missing-descriptions="numberOfMissingDescriptions"
+      @close="missingInfoModalOpen = false" />
   </div>
 </template>
 
@@ -76,6 +90,7 @@ import OverviewTable from './OverviewTable.vue'
 import ChooseCollectionDropdown from './ChooseCollectionDropdown.vue'
 import EditPanel from './EditPanel.vue'
 import { NFT } from './types'
+import MissingInfoModal from './modals/MissingInfoModal.vue'
 
 const preferencesStore = usePreferencesStore()
 const { $consola } = useNuxtApp()
@@ -87,6 +102,14 @@ const nftBeingEdited = ref<NFT>()
 const nftInDeleteModal = ref<NFT>()
 const sideBarOpen = ref(false)
 const deleteModalOpen = ref(false)
+const numberOfMissingNames = computed(
+  () => Object.values(NFTS.value).filter((nft) => !nft.name).length
+)
+const numberOfMissingDescriptions = computed(
+  () => Object.values(NFTS.value).filter((nft) => !nft.description).length
+)
+
+const missingInfoModalOpen = ref(false)
 
 const openSideBarWith = (nft: NFT) => {
   nftBeingEdited.value = nft
@@ -101,6 +124,13 @@ const closeDeleteModal = () => {
   nftInDeleteModal.value = undefined
 }
 
+const openMintModal = () => {
+  if (numberOfMissingNames.value > 0) {
+    missingInfoModalOpen.value = true
+    return
+  }
+}
+
 const closeSideBar = () => {
   sideBarOpen.value = false
 }
@@ -113,6 +143,13 @@ const mediaLoaded = ref(false)
 const onCollectionSelected = (collection) => {
   selectedCollection.value = collection
 }
+
+const mintButtonLabel = computed(() => {
+  if (!mediaLoaded.value) {
+    return 'Mint NFTs'
+  }
+  return `Mint (${Object.keys(NFTS.value).length}) NFTs`
+})
 
 const updateNFT = (nft: NFT) => {
   NFTS.value[nft.id] = nft
@@ -150,9 +187,12 @@ const onMediaZipLoaded = ({
   mediaLoaded.value = true
 }
 </script>
-
 <style lang="scss" scoped>
 .row-gap {
   row-gap: 2rem;
+}
+
+.limit-width {
+  max-width: 45rem;
 }
 </style>

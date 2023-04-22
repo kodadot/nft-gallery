@@ -1,5 +1,9 @@
 <template>
-  <o-modal class="neo-modal" :active.sync="isModalActive" @close="updateClose">
+  <o-modal
+    class="neo-modal"
+    :scroll="scroll"
+    :active.sync="isModalActive"
+    @close="updateClose">
     <slot />
   </o-modal>
 </template>
@@ -9,6 +13,7 @@ import { OModal } from '@oruga-ui/oruga'
 
 const props = defineProps<{
   value: boolean
+  scroll?: 'clip' | 'keep'
 }>()
 
 const emit = defineEmits(['close'])
