@@ -5,16 +5,16 @@
         v-if="loading"
         class="is-flex is-flex-direction-column is-align-items-center">
         <img src="/preloader.svg" width="200" />
-        <span class="mt-6">Minting Your NFTS...</span>
+        <span class="mt-6">{{ $t('massmint.mintingYourNFTs') }}</span>
       </div>
       <div
         v-else
         class="is-flex is-flex-direction-column is-align-items-center">
         <NeoIcon icon="circle-check" class="check-icon has-text-k-green" />
-        <span class="mt-4">All of your NFTs were successfuly minted.</span>
+        <span class="mt-4">{{ $t('massmint.mintDone') }}</span>
         <div class="is-flex w-full is-justify-content-center pt-5 px-7">
           <NeoButton
-            :label="'Done'"
+            :label="$t('massmint.done')"
             variant="k-accent"
             class="is-flex is-flex-grow-1"
             @click.native="emit('close')" />

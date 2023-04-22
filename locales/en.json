@@ -1305,7 +1305,10 @@
     "reviewTtile": "Final Mass Mint Overview",
     "willBeMinted": "Will Be Minted",
     "reallyProcceed": "Do You Really Want To Proceed?",
-    "yesMint": "Yes, Mint NFTS"
+    "yesMint": "Yes, Mint NFTS",
+    "mintingYourNFTs": "Minting Your NFTs...",
+    "mintDone": "All of your NFTs were successfuly minted.",
+    "done": "Done"
   },
   "filters": {
     "buy": "Buy",
