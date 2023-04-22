@@ -47,41 +47,27 @@
         :disabled="!mediaLoaded"
         @click.native="openMintModal" />
     </div>
-    <NeoModal v-model="deleteModalOpen" scroll="clip" @close="closeDeleteModal">
-      <div class="card">
-        <header class="card-header">
-          <p class="card-header-title is-flex is-justify-content-center">
-            {{
-              `Are You sure You Want To Delete ${
-                nftInDeleteModal?.name || ''
-              } #${nftInDeleteModal?.id}`
-            }}
-          </p>
-        </header>
-        <div class="card-content is-flex is-justify-content-center">
-          <NeoButton
-            class="mr-3 is-flex is-flex-grow-1"
-            label="Yes, Delete"
-            @click.native="deleteNFT(nftInDeleteModal)" />
-          <NeoButton
-            label="Cancel"
-            variant="k-accent"
-            class="is-flex is-flex-grow-1"
-            @click.native="closeDeleteModal" />
-        </div>
-      </div>
-    </NeoModal>
-
+    <DeleteModal
+      v-if="nftInDeleteModal"
+      v-model="deleteModalOpen"
+      :nft="nftInDeleteModal"
+      @close="closeDeleteModal"
+      @delete="deleteNFT" />
     <MissingInfoModal
       v-model="missingInfoModalOpen"
-      :number-of-missing-names="numberOfMissingNames"
-      :number-of-missing-descriptions="numberOfMissingDescriptions"
+      :num-missing-names="numberOfMissingNames"
+      :num-missing-descriptions="numberOfMissingDescriptions"
       @close="missingInfoModalOpen = false" />
+    <ReviewModal
+      v-model="overViewModalOpen"
+      :num-missing-descriptions="numberOfMissingDescriptions"
+      :num-nfts="Object.keys(NFTS).length"
+      @close="overViewModalOpen = false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { MintedCollection } from './useMassMint'
 import UploadMediaZip from './uploadCompressedMedia/UploadCompressedMedia.vue'
@@ -91,6 +77,8 @@ import ChooseCollectionDropdown from './ChooseCollectionDropdown.vue'
 import EditPanel from './EditPanel.vue'
 import { NFT } from './types'
 import MissingInfoModal from './modals/MissingInfoModal.vue'
+import ReviewModal from './modals/ReviewModal.vue'
+import DeleteModal from './modals/DeleteModal.vue'
 
 const preferencesStore = usePreferencesStore()
 const { $consola } = useNuxtApp()
@@ -110,6 +98,7 @@ const numberOfMissingDescriptions = computed(
 )
 
 const missingInfoModalOpen = ref(false)
+const overViewModalOpen = ref(false)
 
 const openSideBarWith = (nft: NFT) => {
   nftBeingEdited.value = nft
@@ -129,6 +118,7 @@ const openMintModal = () => {
     missingInfoModalOpen.value = true
     return
   }
+  overViewModalOpen.value = true
 }
 
 const closeSideBar = () => {
