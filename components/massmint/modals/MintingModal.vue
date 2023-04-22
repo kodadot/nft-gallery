@@ -1,5 +1,9 @@
 <template>
-  <NeoModal v-model="isModalActive" scroll="clip" :can-cancel="!loading">
+  <NeoModal
+    v-model="isModalActive"
+    scroll="clip"
+    :can-cancel="!loading"
+    @close="emit('close')">
     <div class="p-7">
       <div
         v-if="loading"
