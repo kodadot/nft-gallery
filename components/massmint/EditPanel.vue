@@ -13,7 +13,7 @@
         class="is-flex w-full is-flex-direction-column is-justify-content-space-between is-align-items-center">
         <div class="is-flex w-full">
           <div class="is-flex is-justify-content-center is-flex-grow-1">
-            Edit #{{ nft?.id }}
+            {{ $t('massmint.edit') }} #{{ nft?.id }}
           </div>
           <NeoIcon
             icon="close"
@@ -24,18 +24,18 @@
         <img :src="nft?.imageUrl" class="image is-half border k-shadow my-5" />
         <div class="form w-full">
           <o-field
-            label="Name"
+            :label="$t('massmint.name')"
             class="w-full mb-5 placholder-color"
             :class="{ 'red-border': !name }">
             <o-input
               v-model="name"
-              placeholder="*Required"
+              :placeholder="'*' + $t('massmint.required')"
               class="field-height" />
           </o-field>
-          <o-field label="Description" class="w-full mb-5">
+          <o-field :label="$t('massmint.description')" class="w-full mb-5">
             <o-input v-model="description" type="textarea" />
           </o-field>
-          <o-field label="Price" class="w-full">
+          <o-field :label="$t('massmint.price')" class="w-full">
             <div class="is-flex">
               <o-input
                 v-model="price"
@@ -50,7 +50,7 @@
       </div>
       <NeoButton
         class="w-full"
-        label="Save"
+        :label="$t('massmint.save')"
         variant="k-accent"
         :disabled="!name"
         @click.native="save" />

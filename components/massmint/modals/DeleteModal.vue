@@ -3,16 +3,21 @@
     <div class="card">
       <header class="card-header">
         <p class="card-header-title is-flex is-justify-content-center">
-          {{ `Are You sure You Want To Delete ${nft?.name || ''} #${nft?.id}` }}
+          {{
+            $t('massmint.areYouSureDelete', {
+              name: nft.name || '',
+              id: nft.id,
+            })
+          }}
         </p>
       </header>
       <div class="card-content is-flex">
         <NeoButton
           class="mr-3 is-flex is-flex-grow-1"
-          label="Yes, Delete"
+          :label="$t('massmint.yesDelete')"
           @click.native="deleteNFT(nft)" />
         <NeoButton
-          label="Cancel"
+          :label="$t('massmint.cancel')"
           variant="k-accent"
           class="is-flex is-flex-grow-1"
           @click.native="emit('close')" />

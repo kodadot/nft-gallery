@@ -3,31 +3,38 @@
     <div class="px-5">
       <header class="card-header border-bottom">
         <p class="card-header-title is-flex is-justify-content-center px-0">
-          Some Images are missing required information
+          {{ $t('massmint.missingRequiredInfo') }}
         </p>
       </header>
       <div class="card-content">
         <div>
           <div class="has-text-weight-bold has-text-k-red">
-            <span>Required</span>
+            <span>{{ $t('massmint.required') }}</span>
             <ul class="ml-4">
-              <li>Incomplete {{ numMissingNames }} NFTs</li>
+              <li>
+                {{ $t('massmint.incompleteNfts', { count: numMissingNames }) }}
+              </li>
             </ul>
           </div>
           <div v-if="numMissingDescriptions" class="has-text-k-red mt-3">
-            <span>Optional</span>
+            <span>{{ $t('massmint.optional') }}</span>
             <ul class="ml-4">
-              <li>Missing Description {{ numMissingDescriptions }} NFTs</li>
+              <li>
+                {{
+                  $t('massmint.missingDescription', {
+                    count: numMissingDescriptions,
+                  })
+                }}
+              </li>
             </ul>
           </div>
           <div class="mt-3 limit-note-width">
-            NOTE: You cannot mint unless you fill in the required information or
-            delete incomplete files.
+            {{ $t('massmint.cantMintNote') }}
           </div>
         </div>
         <div class="is-flex is-justify-content-center pt-5">
           <NeoButton
-            label="Go Back"
+            :label="$t('massmint.goBack')"
             variant="k-accent"
             class="is-flex is-flex-grow-1"
             @click.native="emit('close')" />

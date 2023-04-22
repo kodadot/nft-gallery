@@ -81,7 +81,7 @@ import ReviewModal from './modals/ReviewModal.vue'
 import DeleteModal from './modals/DeleteModal.vue'
 
 const preferencesStore = usePreferencesStore()
-const { $consola } = useNuxtApp()
+const { $consola, $i18n } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
 const { urlPrefix } = usePrefix()
@@ -136,9 +136,11 @@ const onCollectionSelected = (collection) => {
 
 const mintButtonLabel = computed(() => {
   if (!mediaLoaded.value) {
-    return 'Mint NFTs'
+    return $i18n.t('massmint.mintNFTs')
   }
-  return `Mint (${Object.keys(NFTS.value).length}) NFTs`
+  return $i18n.t('massmint.mintNumOfNFTs', {
+    count: Object.keys(NFTS.value).length,
+  })
 })
 
 const updateNFT = (nft: NFT) => {

@@ -8,12 +8,12 @@
         <div class="limit-height">
           <div class="columns m-0 px-4 py-3 border-bottom">
             <div class="column">#</div>
-            <div class="column">Image</div>
-            <div class="column">Name</div>
-            <div class="column is-3">Description</div>
-            <div class="column">Price</div>
-            <div class="column">Status</div>
-            <div class="column">Operation</div>
+            <div class="column">{{ $t('massmint.image') }}</div>
+            <div class="column">{{ $t('massmint.name') }}</div>
+            <div class="column is-3">{{ $t('massmint.description') }}</div>
+            <div class="column">{{ $t('massmint.price') }}</div>
+            <div class="column">{{ $t('massmint.status') }}</div>
+            <div class="column">{{ $t('massmint.operation') }}</div>
           </div>
           <div
             v-for="nft in displayedNFTS"
@@ -33,7 +33,7 @@
                   'has-text-grey': nft.name,
                 }"
                 @click="openSideBarWith(nft)">
-                {{ nft.name || '*Name Required' }}
+                {{ nft.name || '*' + $t('massmint.nameRequired') }}
               </div>
             </div>
             <div class="column is-3 is-flex is-align-items-center">
@@ -44,7 +44,7 @@
                   'clip-text has-text-grey': nft.description,
                 }"
                 @click="openSideBarWith(nft)">
-                {{ nft.description || 'Description Missing' }}
+                {{ nft.description || $t('massmint.descriptionMissing') }}
               </div>
             </div>
             <div class="column is-flex is-align-items-center">
@@ -53,7 +53,9 @@
                   v-if="nft.price"
                   :value="nft.price * Math.pow(10, 12)"
                   class="has-text-grey" />
-                <div v-else class="has-text-k-red">Price Missing</div>
+                <div v-else class="has-text-k-red">
+                  {{ $t('massmint.priceMissing') }}
+                </div>
               </div>
             </div>
             <div class="column is-flex is-align-items-center">
