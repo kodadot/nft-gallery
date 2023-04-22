@@ -2,7 +2,7 @@
   <NeoSidebar
     fullheight
     right
-    class="w-500px"
+    class="sidebar-width"
     position="fixed"
     :open="open"
     :can-cancel="true"
@@ -21,7 +21,9 @@
             class="is-clickable"
             @click.native="closePanel" />
         </div>
-        <img :src="nft?.imageUrl" class="image is-half border k-shadow my-5" />
+        <img
+          :src="nft?.imageUrl"
+          class="image is-128x128 cover border k-shadow my-5" />
         <div class="form w-full">
           <o-field
             :label="$t('massmint.name')"
@@ -128,12 +130,11 @@ const save = () => {
   }
 }
 
-.image.is-half {
-  width: 45%;
-  height: auto;
+.cover {
+  object-fit: cover;
 }
 
-.w-500px:deep .o-side__content {
+.sidebar-width:deep .o-side__content {
   width: 35%;
 }
 
