@@ -23,6 +23,10 @@ export default function () {
     return prefix.value
   })
 
+  const setUrlPrefix = (prefix) => {
+    storage.value = { selected: prefix }
+  }
+
   const client = computed<string>(() => {
     return urlPrefix.value === 'rmrk' ? 'subsquid' : urlPrefix.value
   })
@@ -35,6 +39,7 @@ export default function () {
 
   return {
     urlPrefix,
+    setUrlPrefix,
     client,
     tokenId,
     assets,
