@@ -20,6 +20,8 @@
           <div v-if="isResources" class="gallery-item-carousel">
             <o-carousel
               :overlay="overlayCarousel"
+              indicators-class="mt-4"
+              indicator-item-class="mx-1"
               @click="overlayCarousel = !overlayCarousel">
               <o-carousel-item
                 v-for="resource in nftResources"
@@ -308,13 +310,7 @@ $break-point-width: 930px;
       }
     }
 
-    &__indicators {
-      margin-top: 1rem;
-    }
-
     &__indicator {
-      margin: 0 0.25rem;
-
       &__item {
         @include ktheme() {
           background: theme('background-color-inverse');
