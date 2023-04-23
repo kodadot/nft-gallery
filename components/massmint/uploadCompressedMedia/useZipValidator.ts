@@ -62,7 +62,6 @@ async function checkZipFileValidity(entries: {
 
   for (const [name, entry] of Object.entries(entries)) {
     let isEntryValid = true
-    console.log('entry', entry)
 
     if (entry.isDirectory || name.includes('/')) {
       warnings.push({
