@@ -68,22 +68,32 @@ Cypress.Commands.add('snekGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/snek/gallery/${nftId}`)
   cy.waitForNetworkIdle('POST', '*', 1000)
   cy.get('[data-cy="money"]').should('contain', 'KSM')
-  cy.get('[data-cy="BUY"]').should('be.disabled')
-  cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
-  cy.get('[data-cy="offer-list"]').should('contain', 'Offers')
-  cy.get('[data-cy="offer-list"]').click()
-  cy.get('[data-cy="history"]').should('contain', 'History')
-  cy.get('[data-cy="history"]').click()
-  cy.get('[data-cy="select-event"]').select('🖼 MINT')
-  cy.get('[data-label="Type"]').should('contain', '🖼 MINT')
-  cy.get('[data-label="From"]').should('contain', `${creator}`)
-  cy.get('[data-label="Amount"]').should('contain', '-')
+  cy.get('[data-cy="item-buy"]').should('be.disabled')
+  cy.get('[data-cy="make-offer"]').should('not.be.disabled')
+  cy.get('[data-cy="gallery-item-tabs"]').within(() => {
+    cy.get('[role="tab"]').eq(0).should('contain', 'Offers')
+    cy.get('[role="tab"]').eq(0).click()
+    cy.get('[role="tab"]').eq(1).should('contain', 'Activity')
+    cy.get('[role="tab"]').eq(1).click()
+  })
+  cy.get('[data-cy="events-filter"] .events-checkbox-active')
+    .as('active-filter')
+    .click({
+      multiple: true,
+    })
+  cy.get('@active-filter').click()
+  cy.get('[data-cy="mints"]').click()
+  cy.get('.gallery-item-activity-table').within(() => {
+    cy.get('[data-label="Event"]').should('contain', 'mintnft')
+    cy.get('[data-label="From"]').should('contain', `${creator}`)
+    cy.get('[data-label="Price"]').should('be', '')
+  })
 })
 
 Cypress.Commands.add('snekGalleryUnlistedItemActions', (nftId) => {
   cy.visit(`/snek/gallery/${nftId}`)
   cy.waitForNetworkIdle('POST', '*', 1000)
-  cy.get('[data-cy="MAKE_OFFER"]').should('be.disabled')
+  cy.get('[data-cy="make-offer"]').should('not.be.disabled')
 })
 
 Cypress.Commands.add('checkCollectionActions', (nftName, creator) => {
