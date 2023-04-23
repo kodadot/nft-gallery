@@ -44,7 +44,7 @@ describe('rmrkCollectionItem', () => {
   })
 })
 
-describe.skip('rmrkGalleryItem', () => {
+describe('rmrkGalleryItem', () => {
   it('galleryListedItemActions', () => {
     cy.loginWithKeyring()
     cy.visit(
