@@ -31,7 +31,10 @@
 
       <div class="is-flex">
         <NeoDropdown append-to-body>
-          <NeoButton icon="share-alt" class="square-32 mr-3" />
+          <NeoButton
+            icon="share-alt"
+            class="square-32 mr-3"
+            data-cy="share-button" />
           <template #items>
             <NeoDropdownItem
               v-clipboard:copy="currentCollectionUrl"
@@ -56,7 +59,10 @@
         </NeoDropdown>
 
         <NeoDropdown append-to-body>
-          <NeoButton icon="ellipsis-vertical" class="square-32" />
+          <NeoButton
+            icon="ellipsis-vertical"
+            class="square-32"
+            data-cy="more-actions-button" />
           <template #items>
             <div v-if="isOwner">
               <NeoDropdownItem>
