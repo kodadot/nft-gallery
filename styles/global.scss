@@ -365,7 +365,6 @@ hr {
   }
 }
 
-
 .k-green {
   @include ktheme() {
     background-color: theme('k-green');
@@ -374,6 +373,11 @@ hr {
 .k-red {
   @include ktheme() {
     background-color: theme('k-red');
+  }
+}
+.k-redaccent {
+  @include ktheme() {
+    background-color: theme('k-redaccent');
   }
 }
 .theme-background-color {

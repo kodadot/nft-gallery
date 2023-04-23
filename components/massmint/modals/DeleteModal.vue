@@ -1,8 +1,8 @@
 <template>
   <NeoModal v-model="isModalActive" scroll="clip" @close="emit('close')">
-    <div class="card">
-      <header class="card-header">
-        <p class="card-header-title is-flex is-justify-content-center">
+    <div class="p-7">
+      <header class="">
+        <p class="is-flex is-justify-content-center is-size-4">
           {{
             $t('massmint.areYouSureDelete', {
               name: nft.name || '',
@@ -11,7 +11,7 @@
           }}
         </p>
       </header>
-      <div class="card-content is-flex">
+      <div class="is-flex mt-6">
         <NeoButton
           class="mr-3 is-flex is-flex-grow-1"
           :label="$t('massmint.yesDelete')"

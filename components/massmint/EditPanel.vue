@@ -2,6 +2,7 @@
   <NeoSidebar
     fullheight
     right
+    overlay
     class="sidebar-width"
     position="fixed"
     :open="open"
@@ -27,15 +28,20 @@
         <div class="form w-full">
           <o-field
             :label="$t('massmint.name')"
-            class="w-full mb-5 placholder-color"
+            class="w-full mb-4 placholder-color"
             :class="{ 'red-border': !name }">
             <o-input
               v-model="name"
               :placeholder="'*' + $t('massmint.required')"
               class="field-height" />
           </o-field>
-          <o-field :label="$t('massmint.description')" class="w-full mb-5">
-            <o-input v-model="description" type="textarea" />
+          <o-field :label="$t('massmint.description')" class="w-full mb-4">
+            <o-input
+              v-model="description"
+              type="textarea"
+              has-counter
+              maxlength="500" />
+            <!-- <div>{{ description.length }}/500</div> -->
           </o-field>
           <o-field :label="$t('massmint.price')" class="w-full">
             <div class="is-flex">
@@ -123,7 +129,7 @@ const save = () => {
 }
 
 .field-height {
-  height: 2rem;
+  height: 3rem;
 
   :deep input {
     height: 100%;
@@ -135,22 +141,29 @@ const save = () => {
 }
 
 .sidebar-width:deep .o-side__content {
-  width: 35%;
+  width: 30%;
 }
 
 .form:deep {
   .o-field__label {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .o-input__textarea {
     height: 10rem;
+    padding: 0.5rem;
 
     @include ktheme() {
       border: 1px solid theme('text-color');
       background-color: theme('background-color');
       color: theme('text-color');
     }
+  }
+
+  .o-input__counter {
+    position: relative;
+    top: -1.2rem;
+    right: 0.5rem;
   }
 
   input {
@@ -159,6 +172,7 @@ const save = () => {
       background-color: theme('background-color');
       color: theme('text-color');
     }
+    padding: 0.5rem;
   }
 }
 

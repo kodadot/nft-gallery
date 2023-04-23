@@ -7,23 +7,27 @@
       <template #content>
         <div class="limit-height">
           <div class="columns is-mobile m-0 px-4 py-3 border-bottom">
-            <div class="column">#</div>
-            <div class="column">{{ $t('massmint.image') }}</div>
-            <div class="column">{{ $t('massmint.name') }}</div>
-            <div class="column is-3">{{ $t('massmint.description') }}</div>
-            <div class="column">{{ $t('massmint.price') }}</div>
-            <div class="column">{{ $t('massmint.status') }}</div>
-            <div class="column">{{ $t('massmint.operation') }}</div>
+            <div class="column has-text-grey">#</div>
+            <div class="column has-text-grey">{{ $t('massmint.image') }}</div>
+            <div class="column has-text-grey">{{ $t('massmint.name') }}</div>
+            <div class="column is-3 has-text-grey">
+              {{ $t('massmint.description') }}
+            </div>
+            <div class="column has-text-grey">{{ $t('massmint.price') }}</div>
+            <div class="column has-text-grey">{{ $t('massmint.status') }}</div>
+            <div class="column has-text-grey">
+              {{ $t('massmint.operation') }}
+            </div>
           </div>
           <div
             v-for="nft in displayedNFTS"
             :key="nft.id"
             class="columns is-mobile border-bottom m-0 py-2 px-4">
-            <div class="column is-flex is-align-items-center">
+            <div class="column is-flex is-align-items-center has-text-grey">
               {{ nft.id }}
             </div>
             <div class="column is-flex is-align-items-center">
-              <img :src="nft.imageUrl" class="image is-48x48 border" />
+              <img :src="nft.imageUrl" class="image is-48x48 border cover" />
             </div>
             <div class="column is-flex is-align-items-center">
               <div
@@ -67,7 +71,7 @@
                 </div>
               </div>
             </div>
-            <div class="column is-flex is-align-items-center">
+            <div class="column is-flex is-align-items-center has-text-grey">
               <NeoIcon
                 class="is-clickable"
                 icon="edit"
@@ -119,8 +123,8 @@ const deleteNFT = (nft: NFT) => {
 
 const statusClass = (status?: Status) => {
   const statusMap: { [status: string]: string } = {
-    Ok: 'k-green',
-    Incomplete: 'k-red',
+    Ok: 'k-greenaccent',
+    Incomplete: 'k-redaccent',
     Description: 'k-yellow',
   }
 
@@ -151,6 +155,18 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/abstracts/variables';
+
+.border-bottom {
+  @include ktheme() {
+    border-color: theme('k-shade');
+  }
+}
+
+.cover {
+  object-fit: cover;
+}
+
 .limit-height {
   max-height: 30rem;
   overflow-y: auto;

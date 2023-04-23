@@ -1,8 +1,8 @@
 <template>
   <NeoModal v-model="isModalActive" scroll="clip" @close="emit('close')">
-    <div class="px-5">
-      <header class="card-header border-bottom">
-        <p class="card-header-title is-flex is-justify-content-center px-0">
+    <div class="p-5">
+      <header class="border-bottom">
+        <p class="is-flex is-justify-content-center pb-2 is-size-5">
           {{ $t('massmint.reviewTtile') }}
         </p>
       </header>
