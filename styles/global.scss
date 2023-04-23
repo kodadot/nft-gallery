@@ -409,3 +409,9 @@ hr {
     box-shadow: theme('primary-shadow');
   }
 }
+
+// flex helper - makes flex items equal width
+
+.is-flex-1 {
+  flex: 1;
+}

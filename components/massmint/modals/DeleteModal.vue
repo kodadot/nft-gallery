@@ -13,13 +13,13 @@
       </header>
       <div class="is-flex mt-6">
         <NeoButton
-          class="mr-3 is-flex is-flex-grow-1"
+          class="mr-3 is-flex is-flex-grow-1 is-flex-1"
           :label="$t('massmint.yesDelete')"
           @click.native="deleteNFT(nft)" />
         <NeoButton
           :label="$t('massmint.cancel')"
           variant="k-accent"
-          class="is-flex is-flex-grow-1"
+          class="is-flex is-flex-grow-1 is-flex-1"
           @click.native="emit('close')" />
       </div>
     </div>

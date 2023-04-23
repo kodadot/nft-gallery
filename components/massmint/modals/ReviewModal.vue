@@ -34,12 +34,12 @@
           <NeoButton
             :label="$t('massmint.yesMint')"
             :variant="mintBtnVariant"
-            class="min-width is-flex is-flex-grow-1"
+            class="min-width is-flex is-flex-1"
             @click.native="emit('mint')" />
           <NeoButton
             :label="$t('massmint.cancel')"
             :variant="cancelBtnVariant"
-            class="min-width ml-5 is-flex is-flex-grow-1"
+            class="min-width ml-5 is-flex is-flex-1"
             @click.native="emit('close')" />
         </div>
       </div>
