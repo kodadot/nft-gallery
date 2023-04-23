@@ -76,7 +76,9 @@ Cypress.Commands.add('snekGalleryListedItemActions', (nftId, creator) => {
     cy.get('[role="tab"]').eq(1).should('contain', 'Activity')
     cy.get('[role="tab"]').eq(1).click()
   })
-  cy.get('[data-cy="events-filter"] input[type="checkbox"]').uncheck()
+  cy.get('[data-cy="events-filter"] input[type="checkbox"]').uncheck({
+    force: true,
+  })
   cy.get('[data-cy="mints"]').click()
   cy.get('.gallery-item-activity-table').within(() => {
     cy.get('[data-label="Event"]').should('contain', 'mintnft')
