@@ -12,18 +12,18 @@
       <div class="column is-two-fifths">
         <div class="is-relative">
           <a
-            v-if="canPreview && !nftResources?.length"
+            v-if="canPreview && !isResources"
             class="fullscreen-button is-justify-content-center is-align-items-center"
             @click="isFullscreen = true">
             <NeoIcon icon="expand" />
           </a>
-          <div v-if="nftResources?.length" class="gallery-media-carousel">
+          <div v-if="isResources" class="gallery-item-carousel">
             <o-carousel
               :overlay="overlayCarousel"
               @click="overlayCarousel = !overlayCarousel">
               <o-carousel-item
-                v-for="(resource, index) in nftResources"
-                :key="index">
+                v-for="resource in nftResources"
+                :key="resource.id">
                 <section>
                   <MediaItem
                     :key="resource.src"
@@ -167,6 +167,9 @@ const tabs = {
 const activeTab = ref(tabs.offers)
 const showCongratsMessage = ref(false)
 const overlayCarousel = ref(false)
+const isResources = computed(
+  () => nftResources.value && nftResources.value?.length > 1
+)
 
 const isFullscreen = ref(false)
 const canPreview = computed(() =>
@@ -290,13 +293,11 @@ $break-point-width: 930px;
 .h-audio {
   height: 70%;
 }
-</style>
 
-<style lang="scss">
 @import '@/styles/abstracts/variables';
 
-.gallery-media-carousel {
-  .o-car {
+.gallery-item-carousel {
+  :deep .o-car {
     &__item {
       overflow: hidden;
     }
