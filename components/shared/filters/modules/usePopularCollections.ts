@@ -1,4 +1,4 @@
-import { POPULAR_COLLECTIONS } from './constants'
+import { POPULAR_COLLECTIONS as ALL_POPULAR_COLLECTIONS } from './constants'
 import { CollectionEntityMinimal } from '@/components/collection/utils/types'
 
 type QueryResult = {
@@ -10,9 +10,8 @@ type QueryResult = {
 function handleResult(
   collections: Collection[],
   result: QueryResult,
-  index: number
+  chain: string
 ): Collection[] {
-  const chain = Object.keys(POPULAR_COLLECTIONS)[index]
   const newCollections =
     result.value?.collectionEntities?.map((item) => ({
       ...item,
@@ -22,6 +21,13 @@ function handleResult(
   return collections
     .concat(newCollections)
     .sort((a, b) => a.meta.name.localeCompare(b.meta.name))
+}
+
+function getCollections(chain: string): { [chain: string]: string[] } {
+  if (ALL_POPULAR_COLLECTIONS[chain]) {
+    return { [chain]: ALL_POPULAR_COLLECTIONS[chain] }
+  }
+  return {}
 }
 
 export const collectionArray = ref<Collection[]>([])
@@ -37,7 +43,7 @@ export type Collection = CollectionEntityMinimal & {
   }[]
 }
 
-export const usePopularCollections = () => {
+export const usePopularCollections = (chain: string) => {
   const collections = ref<Collection[]>([])
   const chainData = reactive<{
     [clientName: string]: {
@@ -45,7 +51,7 @@ export const usePopularCollections = () => {
       queryResult: QueryResult | null
     }
   }>({})
-
+  const POPULAR_COLLECTIONS = getCollections(chain)
   for (const [clientName, ids] of Object.entries(POPULAR_COLLECTIONS)) {
     const { data: queryResult, loading } = useGraphql({
       queryName: 'collectionByIds',
@@ -57,11 +63,11 @@ export const usePopularCollections = () => {
 
   // Aoid using Array as root value for reactive() as it cannot be tracked in watch() or watchEffect(). Use ref() instead. This is a Vue-2-only limitation.
   watch(chainData, (val) => {
-    Object.keys(val).forEach((chain, index) => {
+    Object.keys(val).forEach((chain) => {
       const { loading, queryResult } = chainData[chain]
       // not best but better than add an extra flag...
       if (!loading.value && queryResult !== null) {
-        collections.value = handleResult(collections.value, queryResult, index)
+        collections.value = handleResult(collections.value, queryResult, chain)
         collectionArray.value = collections.value
         // clear queryResult, prevent to be processed again
         chainData[chain].queryResult = null
