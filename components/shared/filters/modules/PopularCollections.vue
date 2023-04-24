@@ -1,6 +1,5 @@
 <template>
   <b-collapse
-    v-if="collections.length > 0"
     :open="expanded"
     animation="slide"
     class="border-bottom"
@@ -15,7 +14,7 @@
         </a>
       </div>
     </template>
-    <div class="p-4">
+    <div v-if="collections.length > 0" class="p-4">
       <o-field
         v-for="collection in collections"
         :key="collection.id"
@@ -49,6 +48,9 @@
           </div>
         </NeoCheckbox>
       </o-field>
+    </div>
+    <div v-else class="p-4 is-size-6 has-text-grey">
+      {{ $t('general.noPopularCollections') }}
     </div>
   </b-collapse>
 </template>

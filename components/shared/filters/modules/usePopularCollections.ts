@@ -25,9 +25,7 @@ function handleResult(
 
 function getCollections(chain: string): { [chain: string]: string[] } {
   if (ALL_POPULAR_COLLECTIONS[chain]) {
-    return {
-      [chain]: ALL_POPULAR_COLLECTIONS[chain],
-    }
+    return { [chain]: ALL_POPULAR_COLLECTIONS[chain] }
   }
   return {}
 }
