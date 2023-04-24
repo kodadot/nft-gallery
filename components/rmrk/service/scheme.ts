@@ -173,6 +173,7 @@ export interface NFT extends ItemResources {
   royalty?: number
   recipient?: string
   meta?: NFTMetadata
+  parent?: NFT
 }
 
 export type EntityWithId = {
