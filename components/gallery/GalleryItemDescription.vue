@@ -186,6 +186,10 @@ const propertiesTabDisabled = computed(() => {
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
 
+onMounted(() => {
+  useRedirectModal('.gallery-item-desc-markdown')
+})
+
 watchEffect(async () => {
   if (nft.value?.metadata) {
     const sanitizeMetadata = sanitizeIpfsUrl(nft.value?.metadata)

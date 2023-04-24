@@ -12,7 +12,7 @@
               v-if="collectionAvatar"
               :src="collectionAvatar"
               :alt="collectionName" />
-            <img v-else src="/placeholder.webp" />
+            <img v-else :src="placeholder" />
           </div>
           <h1 class="collection-banner-name">{{ collectionName }}</h1>
         </div>
@@ -30,6 +30,7 @@ import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 
 const { $seoMeta } = useNuxtApp()
+const { placeholder } = useTheme()
 const route = useRoute()
 const { data } = useGraphql({
   queryName: 'collectionById',

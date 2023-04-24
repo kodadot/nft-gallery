@@ -104,6 +104,7 @@ importers:
       nuxt-edge: 2.16.0-27720022.54e852f
       nuxt-property-decorator: ^2.9.1
       ohmyfetch: ^0.4.21
+      pinia-plugin-persistedstate: ^3.1.0
       prettier: ^2.8.7
       raw-loader: ^4.0.2
       sass: ^1.62.0
@@ -111,6 +112,7 @@ importers:
       setimmediate: ^1.0.5
       slugify: ^1.6.6
       typescript: ^4.9.5
+      unzipit: ^1.4.3
       v-emoji-picker: ^2.3.3
       vite-plugin-vue2: ^2.0.3
       vitest: ^0.30.1
@@ -177,8 +179,10 @@ importers:
       nuxt-edge: 2.16.0-27720022.54e852f_stgnfuekanqoxv2sawfe5zt2vu
       nuxt-property-decorator: 2.9.1_vue@2.7.14+vuex@3.6.2
       ohmyfetch: 0.4.21
+      pinia-plugin-persistedstate: 3.1.0
       setimmediate: 1.0.5
       slugify: 1.6.6
+      unzipit: 1.4.3
       v-emoji-picker: 2.3.3_vue@2.7.14
       vue: 2.7.14
       vue-apollo: 3.1.0_graphql-tag@2.12.6
@@ -18968,6 +18972,12 @@ packages:
     resolution: {integrity: sha512-eW/gHNMlxdSP6dmG6uJip6FXN0EQBwm2clYYd8Wul42Cwu/DK8HEftzsapcNdYe2MfLiIwZqsDk2RDEsTE79hA==}
     engines: {node: '>=10'}
 
+  /pinia-plugin-persistedstate/3.1.0:
+    resolution: {integrity: sha512-8UN+vYMEPBdgNLwceY08mi5olI0wkYaEb8b6hD6xW7SnBRuPydWHlEhZvUWgNb/ibuf4PvufpvtS+dmhYjJQOw==}
+    peerDependencies:
+      pinia: ^2.0.0
+    dev: false
+
   /pinia/2.0.34_hwpzsh6pnvsm3pjf2zi526hnzq:
     resolution: {integrity: sha512-cgOoGUiyqX0SSgX8XelK9+Ri4XA2/YyNtgjogwfzIx1g7iZTaZPxm7/bZYMCLU2qHRiHhxG7SuQO0eBacFNc2Q==}
     peerDependencies:
@@ -21307,7 +21317,7 @@ packages:
       detect-libc: 2.0.1
       node-addon-api: 5.1.0
       prebuild-install: 7.1.1
-      semver: 7.3.8
+      semver: 7.4.0
       simple-get: 4.0.1
       tar-fs: 2.1.1
       tunnel-agent: 0.6.0
@@ -22970,6 +22980,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /unzipit/1.4.3:
+    resolution: {integrity: sha512-gsq2PdJIWWGhx5kcdWStvNWit9FVdTewm4SEG7gFskWs+XCVaULt9+BwuoBtJiRE8eo3L1IPAOrbByNLtLtIlg==}
+    engines: {node: '>=12'}
+    dependencies:
+      uzip-module: 1.0.3
+    dev: false
+
   /upath/1.2.0:
     resolution: {integrity: sha512-aZwGpamFO61g3OlfT7OQCHqhGnW43ieH9WZeP7QxN/G/jS4jfqUkZxoryvJgVPEcrl5NL/ggHsSmLMHuH64Lhg==}
     engines: {node: '>=4'}
@@ -23117,6 +23134,10 @@ packages:
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
+
+  /uzip-module/1.0.3:
+    resolution: {integrity: sha512-AMqwWZaknLM77G+VPYNZLEruMGWGzyigPK3/Whg99B3S6vGHuqsyl5ZrOv1UUF3paGK1U6PM0cnayioaryg/fA==}
+    dev: false
 
   /v-emoji-picker/2.3.3_vue@2.7.14:
     resolution: {integrity: sha512-GLuBowVCwKjGRVQ+DJvP6SVFhLIlyvQTBgwlrBuwPX7wt7xi+fdWxmFtyJDBEp/2/xI1aS6Y2lXvse9Cf2vIzA==}

@@ -67,6 +67,7 @@
   "go back": "Go Back",
   "showMore": "Show More",
   "showLess": "Show Less",
+  "dropUpload": "Drop your file here or click to select.",
   "search": {
     "seeAll": "See All",
     "rankings": "Rankings",
@@ -624,10 +625,7 @@
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
       "create": "Create collection",
-      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
-      "massmintDrop": "Drop your file here or click to upload.",
-      "formats": "Supported formats:",
-      "compressZip": "Compress your Art files into a .ZIP file."
+      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
     },
     "nft": {
       "name": {
@@ -1250,6 +1248,7 @@
     "massmint": "Simplified process to create multiple NFT's for your collection"
   },
   "massmint": {
+    "overviewTable": "Overview Table",
     "backToOnbaording": "Back To Onboarding",
     "chooseCollection": "Choose a collection to which you want to mint",
     "selectCollection": "Select Collection",
@@ -1276,6 +1275,9 @@
       }
     },
     "uploadPics": "Upload Pictures",
+    "uploadzipTip": "Compress your Art files into a .ZIP file.",
+    "uploadDescriptionTip": "Upload your Description file.",
+    "supportedFormats": "Supported formats:",
     "uploadDesc": "Upload Description File (Optional)"
   },
   "filters": {
