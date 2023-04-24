@@ -12,7 +12,7 @@ export { type NeoButtonVariant } from './types'
 export { type NftCardVariant } from './types'
 
 export { default as TheButton } from './components/TheButton/TheButton.vue'
-export { default as DisablableTab } from './components/DisablableTab/DisablableTab'
+export { default as DisabledTab } from './components/DisabledTab/DisabledTab'
 export { default as NeoTooltip } from './components/NeoTooltip/NeoTooltip'
 export { default as NeoNftCard } from './components/NeoNftCard/NeoNftCard'
 export { default as NeoTab } from './components/NeoTab/NeoTab'

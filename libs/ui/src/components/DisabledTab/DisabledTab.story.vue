@@ -6,16 +6,16 @@
           v-model="activeTab"
           expanded
           content-class="o-tabs__content--fixed">
-          <DisablableTab
+          <DisabledTab
             disabled
             value="0"
             label="Disabled"
             disabled-tooltip="Not Available" />
-          <DisablableTab value="1" label="Enabled">
+          <DisabledTab value="1" label="Enabled">
             <div>
               {{ tabContent }}
             </div>
-          </DisablableTab>
+          </DisabledTab>
         </o-tabs>
       </div>
     </Variant>
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import DisablableTab from './DisablableTab.vue'
+import DisabledTab from './DisabledTab.vue'
 import { OTabs } from '@oruga-ui/oruga'
 import { ref } from 'vue'
 
