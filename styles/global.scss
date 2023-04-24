@@ -57,6 +57,14 @@ body {
     }
   }
 
+  .field {
+    .input,
+    select,
+    textarea {
+      border-color: #dbdbdb;
+    }
+  }
+
   .taginput-container.is-focusable {
     height: auto !important;
   }
