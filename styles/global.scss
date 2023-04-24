@@ -57,6 +57,10 @@ body {
     }
   }
 
+  .taginput-container.is-focusable {
+    height: auto !important;
+  }
+
   .select {
     &:not(.is-multiple):not(.is-loading)::after {
       @include ktheme() {
@@ -374,5 +378,13 @@ hr {
     &:hover {
       background-color: theme('k-accentlight2');
     }
+  }
+}
+
+//shadow
+
+.k-shadow {
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
   }
 }

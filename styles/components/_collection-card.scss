@@ -1,18 +1,16 @@
 .collection-card {
   font-family: 'Work Sans';
   border-radius: 0;
-  animation: cardHoverOut 0.3s ease-out;
   box-shadow: none;
 
   @include ktheme() {
-    border: 1px solid theme('border-color');
+    border: 1px solid theme('card-border-color');
     color: theme('text-color');
-  }
-
-  &:hover {
-    animation: cardHoverIn 0.3s ease-in;
-    @include ktheme() {
-      box-shadow: theme('primary-shadow');
+    &:hover {
+      border-color: theme('border-color');
+      .collection-card__image-wrapper {
+        opacity: theme('card-hover-opacity');
+      }
     }
   }
   cursor: pointer;
@@ -29,7 +27,7 @@
       @include ktheme() {
         border: 6px solid theme('text-color-inverse');
         img {
-          border: 1px solid theme('border-color');
+          border: 1px solid theme('card-border-color');
         }
       }
     }
@@ -45,8 +43,8 @@
       height: $header-height;
 
       @include ktheme() {
-        border-top: 1px solid theme('border-color');
-        border-bottom: 1px solid theme('border-color');
+        border-top: 1px solid theme('card-border-color');
+        border-bottom: 1px solid theme('card-border-color');
       }
 
       &-image-wrapper {
@@ -57,7 +55,7 @@
 
         @include ktheme() {
           background: theme('background-color');
-          border-top: 1px solid theme('border-color');
+          border-top: 1px solid theme('card-border-color');
         }
 
         &::before,
@@ -71,7 +69,7 @@
           z-index: 1;
 
           @include ktheme() {
-            background: theme('background-color-inverse');
+            background: theme('card-border-color');
           }
         }
         &::after {

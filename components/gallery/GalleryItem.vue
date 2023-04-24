@@ -29,10 +29,11 @@
             :mime-type="nftMimeType"
             :title="nftMetadata?.name"
             is-detail
-            :original="isMobile" />
+            :original="isMobile"
+            :placeholder="placeholder" />
         </div>
       </div>
-      <div class="py-6 column">
+      <div class="py-8 column">
         <div
           class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
           <!-- title section -->
@@ -60,7 +61,7 @@
             </div>
 
             <div
-              class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4 pt-6">
+              class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4 pt-8">
               <IdentityItem
                 v-if="nft?.issuer"
                 class="gallery-avatar mr-4"
@@ -99,11 +100,11 @@
 
     <CarouselTypeRelated
       v-if="nft?.collection.id"
-      class="mt-6"
+      class="mt-8"
       :collection-id="nft?.collection.id"
       data-cy="carousel-related" />
 
-    <CarouselTypeVisited class="mt-6" />
+    <CarouselTypeVisited class="mt-8" />
     <GalleryItemPreviewer v-model="isFullscreen" />
   </section>
 </template>
@@ -130,6 +131,7 @@ const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
+const { placeholder } = useTheme()
 
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()

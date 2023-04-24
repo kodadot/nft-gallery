@@ -2,31 +2,26 @@
 @import '../../scss/animation.scss';
 
 .nft-card {
-  animation: cardHoverOut 0.3s ease-out;
   @include ktheme() {
     background: theme('background-color');
-  }
-  &:hover {
-    @include ktheme() {
-      box-shadow: theme('primary-shadow');
+    border: 1px solid theme('card-border-color');
+    &:hover {
+      border: 1px solid theme('border-color');
+      .nft-media {
+        opacity: theme('card-hover-opacity');}
     }
-    animation: cardHoverIn 0.3s ease-in;
   }
 }
 .nft-media {
-  border-bottom: none !important;
   box-shadow: none;
   @include ktheme() {
-    border: 1px solid theme('border-color');
+    border-bottom: 1px solid theme('card-border-color');
   }
 }
 
 .nft-media-info {
   padding: 13px;
   min-height: 102px;
-  @include ktheme() {
-    border: 1px solid theme('border-color');
-  }
   &__minimal {
     padding:9px;
     min-height: 76px;

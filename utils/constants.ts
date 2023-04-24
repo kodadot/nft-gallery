@@ -70,9 +70,9 @@ export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [
   'blockNumber_ASC',
   'updatedAt_DESC',
   'updatedAt_ASC',
-  'price_DESC',
   'price_ASC',
-  'sn_ASC',
+  'price_DESC',
+  // 'sn_ASC',
 ]
 
 export const NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER: string[] = [
@@ -84,29 +84,13 @@ export const NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER: string[] = [
 ]
 
 export const NFT_SQUID_SORT_COLLECTIONS: string[] = [
-  'blockNumber_ASC',
   'blockNumber_DESC',
-  'updatedAt_ASC',
+  'blockNumber_ASC',
   'updatedAt_DESC',
-  'supply_ASC',
+  'updatedAt_ASC',
   'supply_DESC',
+  'supply_ASC',
 ]
-
-export const disableChainListOnProductionEnv = [
-  'westend',
-  'westmint',
-  'movr',
-  'glmr',
-  'snek',
-]
-
-export const chainTestList = ['westend', 'westmint']
-
-export const getChainTestList = () => {
-  return window.location.hostname === 'kodadot.xyz'
-    ? disableChainListOnProductionEnv
-    : chainTestList
-}
 
 export const MIN_OFFER_PRICE = 0.01
 

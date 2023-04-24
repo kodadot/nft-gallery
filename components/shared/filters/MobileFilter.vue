@@ -27,9 +27,11 @@
           v-if="!isCollectionActivityTab"
           data-model="store"
           expanded />
+        <PopularCollections v-if="isExploreItems" data-model="store" expanded />
       </div>
 
-      <div class="buttons-container px-4 py-3 border-top">
+      <div
+        class="buttons-container px-4 py-3 border-top theme-background-color">
         <NeoButton
           label="Reset All"
           variant="primary"
@@ -56,6 +58,8 @@ import { usePreferencesStore } from '@/stores/preferences'
 import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
 import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
 import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
+import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
+import { getCollectionIds } from '@/utils/queryParams'
 
 const route = useRoute()
 const preferencesStore = usePreferencesStore()
@@ -65,6 +69,9 @@ const activityFiltersStore = useAcivityFiltersStore()
 const isCollectionActivityTab = computed(
   () => route.name === 'prefix-collection-id-activity'
 )
+
+const isExploreItems = computed(() => route.name === 'prefix-explore-items')
+
 const { replaceUrl } = useReplaceUrl({
   resetPage: !isCollectionActivityTab.value,
 })
@@ -91,10 +98,12 @@ const syncFromUrlOnActivityTab = () => {
 }
 const syncFromUrlOnGrid = () => {
   const listed = route.query?.listed?.toString() === 'true',
-    owned = route.query?.owned?.toString() === 'true'
+    owned = route.query?.owned?.toString() === 'true',
+    collections = getCollectionIds()
 
   exploreFiltersStore.setListed(listed)
   exploreFiltersStore.setOwned(owned)
+  exploreFiltersStore.setCollections(collections)
 }
 
 const syncFromUrl = () => {
@@ -138,10 +147,12 @@ const resetFilters = () => {
     const statusDefaults = {
       listed: false,
       owned: false,
+      collections: undefined,
     }
 
     exploreFiltersStore.setListed(statusDefaults.listed)
     exploreFiltersStore.setOwned(statusDefaults.owned)
+    exploreFiltersStore.setCollections(statusDefaults.collections)
 
     // price
     const priceDefaults = {
@@ -188,6 +199,8 @@ watch(() => route.query, syncFromUrl, { immediate: true })
   position: absolute;
 }
 .buttons-container {
+  position: sticky;
+  bottom: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;

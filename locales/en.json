@@ -67,6 +67,7 @@
   "go back": "Go Back",
   "showMore": "Show More",
   "showLess": "Show Less",
+  "dropUpload": "Drop your file here or click to select.",
   "search": {
     "seeAll": "See All",
     "rankings": "Rankings",
@@ -542,15 +543,7 @@
     }
   },
   "sort": {
-    "EMOTES_COUNT_DESC": "Most reacted",
-    "BLOCK_NUMBER_DESC": "Recently Created",
-    "BLOCK_NUMBER_ASC": "Oldest",
-    "UPDATED_AT_DESC": "Recently Interacted",
-    "UPDATED_AT_ASC": "Unpopular",
-    "PRICE_DESC": "Price: High to Low",
-    "PRICE_ASC": "Price: Low to High",
-    "SN_ASC": "Serial Number Ascending",
-    "blockNumber_DESC": "Recently Created",
+    "blockNumber_DESC": "Newest",
     "blockNumber_ASC": "Oldest",
     "updatedAt_DESC": "Recently Interacted",
     "updatedAt_ASC": "Unpopular",
@@ -561,8 +554,8 @@
     "own": "Own",
     "clearAll": "Clear All",
     "collection": {
-      "blockNumber_DESC": "New first",
-      "blockNumber_ASC": "Old first",
+      "blockNumber_DESC": "Newest",
+      "blockNumber_ASC": "Oldest",
       "updatedAt_DESC": "Recently Interacted",
       "updatedAt_ASC": "Unpopular",
       "supply_DESC": "Most Supply",
@@ -571,15 +564,7 @@
       "price_ASC": "Price: Low to High",
       "sn_ASC": "Serial Number Ascending",
       "listed": "Buy now",
-      "sortBy": "Sort By",
-      "EMOTES_COUNT_DESC": "Most reacted",
-      "BLOCK_NUMBER_DESC": "Recently Created",
-      "BLOCK_NUMBER_ASC": "Oldest",
-      "UPDATED_AT_DESC": "Recently Interacted",
-      "UPDATED_AT_ASC": "Unpopular",
-      "PRICE_DESC": "Price: High to Low",
-      "PRICE_ASC": "Price: Low to High",
-      "SN_ASC": "Serial Number Ascending"
+      "sortBy": "Sort By"
     }
   },
   "query": {
@@ -640,10 +625,7 @@
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
       "create": "Create collection",
-      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
-      "massmintDrop": "Drop your file here or click to upload.",
-      "formats": "Supported formats:",
-      "compressZip": "Compress your Art files into a .ZIP file."
+      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
     },
     "nft": {
       "name": {
@@ -933,6 +915,7 @@
       "time": "Time"
     },
     "noResults": "Looks Like There's Nothing Here Yet",
+    "noFlips": "Looks like it's quiet in here",
     "noResultsSub": "Check back later or reset your filters"
   },
   "profileStats": {
@@ -1203,6 +1186,7 @@
       "contractAddress": "Contract Address",
       "creator": "Creator",
       "blockchain": "Blockchain",
+      "version": "Version",
       "tokenStandard": "Token Standard",
       "royalties": "Royalties",
       "media": "Media",
@@ -1263,6 +1247,7 @@
     "massmint": "Simplified process to create multiple NFT's for your collection"
   },
   "massmint": {
+    "overviewTable": "Overview Table",
     "backToOnbaording": "Back To Onboarding",
     "chooseCollection": "Choose a collection to which you want to mint",
     "selectCollection": "Select Collection",
@@ -1289,6 +1274,9 @@
       }
     },
     "uploadPics": "Upload Pictures",
+    "uploadzipTip": "Compress your Art files into a .ZIP file.",
+    "uploadDescriptionTip": "Upload your Description file.",
+    "supportedFormats": "Supported formats:",
     "uploadDesc": "Upload Description File (Optional)"
   },
   "filters": {

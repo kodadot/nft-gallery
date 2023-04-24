@@ -1,16 +1,21 @@
 import { DEFAULT_PREFIX } from '@kodadot1/static'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { useAssetsStore } from '@/stores/assets'
+import { availablePrefixes } from '@/utils/chain'
+
 import type { Prefix } from '@kodadot1/static'
 
 export default function () {
   const { $store } = useNuxtApp()
   const route = useRoute()
   const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
-
+  const availablePrefixesList = availablePrefixes()
+  const initialPrefixFromPath = availablePrefixesList.find(
+    (prefixValue) => prefixValue.value === route.path.split('/')[1]
+  )?.value
   const prefix = ref(
     route.params.prefix ||
-      route.path.split('/')[1] ||
+      initialPrefixFromPath ||
       storage.value.selected ||
       $store.getters.currentUrlPrefix
   )
@@ -18,6 +23,10 @@ export default function () {
     storage.value = { selected: prefix.value }
     return prefix.value
   })
+
+  const setUrlPrefix = (prefix) => {
+    storage.value = { selected: prefix }
+  }
 
   const client = computed<string>(() => {
     return urlPrefix.value === 'rmrk' ? 'subsquid' : urlPrefix.value
@@ -31,6 +40,7 @@ export default function () {
 
   return {
     urlPrefix,
+    setUrlPrefix,
     client,
     tokenId,
     assets,

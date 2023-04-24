@@ -55,6 +55,10 @@
         <p>{{ $t('tabs.tabDetails.blockchain') }}</p>
         <p>{{ urlPrefix }}</p>
       </div>
+      <div v-if="version" class="is-flex is-justify-content-space-between">
+        <p>{{ $t('tabs.tabDetails.version') }}</p>
+        <p>{{ version }}</p>
+      </div>
       <!-- <div class="is-flex is-justify-content-space-between">
         <p>Token Standard</p>
         <p>--</p>
@@ -100,11 +104,11 @@ import { DisablableTab } from '@kodadot1/brick'
 import { useGalleryItem } from './useGalleryItem'
 import { useRedirectModal } from '@/components/redirect/useRedirectModal'
 
-useRedirectModal('.gallery-item-desc-markdown')
 const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
 const activeTab = ref('0')
+const { version } = useRmrkVersion()
 
 const properties = computed(() => {
   // we have different format between rmrk2 and the other chains
@@ -140,6 +144,10 @@ const propertiesTabDisabled = computed(() => {
 
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
+
+onMounted(() => {
+  useRedirectModal('.gallery-item-desc-markdown')
+})
 
 watchEffect(async () => {
   if (nft.value?.metadata) {
