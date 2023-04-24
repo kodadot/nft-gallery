@@ -55,18 +55,19 @@
           </template>
         </NeoDropdown>
 
-        <NeoDropdown append-to-body>
+        <NeoDropdown v-if="!isOwner" append-to-body>
           <NeoButton icon="ellipsis-vertical" class="square-32" />
           <template #items>
-            <div v-if="isOwner">
+            <!-- related: https://github.com/kodadot/nft-gallery/issues/5792 -->
+            <!-- <div v-if="isOwner">
               <NeoDropdownItem>
                 {{ $i18n.t('moreActions.delete') }}
               </NeoDropdownItem>
               <NeoDropdownItem>
                 {{ $i18n.t('moreActions.customize') }}
               </NeoDropdownItem>
-            </div>
-            <div v-else>
+            </div> -->
+            <div>
               <NeoDropdownItem disabled>
                 {{ $i18n.t('moreActions.reportNFT') }}
               </NeoDropdownItem>
