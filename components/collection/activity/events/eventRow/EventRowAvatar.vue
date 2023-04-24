@@ -3,24 +3,28 @@
     v-if="avatar"
     :src="avatar"
     :alt="name"
-    width="50"
-    height="50"
     class="border image-size"
+    :style="customStyle"
     @error="onError" />
   <img
     v-else
     :src="placeholder"
-    class="border image-size"
-    width="50"
-    height="50" />
+    :style="customStyle"
+    class="border image-size" />
 </template>
 
 <script setup lang="ts">
 const { placeholder } = useTheme()
-defineProps<{
+const props = defineProps<{
   avatar?: string
   name: string
+  size: number
 }>()
+
+const customStyle = computed(() => ({
+  width: `${props.size}px`,
+  height: `${props.size}px`,
+}))
 
 const onError = (e: Event) => {
   const target = e.target as HTMLImageElement
@@ -32,8 +36,6 @@ const onError = (e: Event) => {
 
 <style scoped lang="scss">
 .image-size {
-  width: 50px !important;
-  height: 50px !important;
   max-width: none !important;
 }
 </style>

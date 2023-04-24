@@ -1,21 +1,23 @@
 <template>
-  <div class="columns mb-2">
-    <div class="column">
+  <div class="columns mb-2 is-1">
+    <div class="column is-overflow-hidden">
       <div class="is-flex is-align-items-center">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
           class="height-50px">
-          <EventRowAvatar :avatar="avatar" :name="event.nft.name" />
+          <EventRowAvatar :avatar="avatar" :name="event.nft.name" :size="50" />
         </nuxt-link>
-        <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
-          <div class="ml-5 has-text-weight-bold is-clipped elipsis">
+        <nuxt-link
+          class="is-ellipsis is-inline-block"
+          :to="`/${urlPrefix}/gallery/${event.nft.id}`">
+          <span class="ml-5 has-text-weight-bold is-clipped">
             {{ event.nft.name }}
-          </div>
+          </span>
         </nuxt-link>
       </div>
     </div>
 
-    <div class="column">
+    <div class="is-flex is-align-items-center fixed-width-100px">
       <div class="height-50px is-flex is-align-items-center">
         <div
           class="border is-size-7 is-justify-content-center py-1 my-2 is-flex is-align-items-center fixed-width fixed-height"
@@ -117,14 +119,16 @@ const getAvatar = async () => {
 .fixed-width {
   width: 66px;
 }
+.fixed-width-100px {
+  width: 100px;
+}
+.is-overflow-hidden {
+  overflow: hidden;
+}
 .fixed-height {
   height: 22px;
 }
 .height-50px {
   height: 50px;
-}
-
-.elipsis {
-  text-overflow: ellipsis;
 }
 </style>

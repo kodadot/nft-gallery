@@ -1,11 +1,11 @@
 <template>
   <div ref="eventsContainer">
     <div v-if="events.length > 0">
-      <div v-if="desktop" class="columns is-size-7 has-text-grey">
+      <div v-if="desktop" class="columns is-1 is-size-7 has-text-grey">
         <div class="column">
           <span>{{ $t('activity.event.item') }}</span>
         </div>
-        <div class="column">
+        <div class="is-flex is-align-items-center fixed-width-100px">
           <span>{{ $t('activity.event.event') }}</span>
         </div>
         <div class="column">
@@ -121,3 +121,8 @@ const handleIntersection = (entries: IntersectionObserverEntry[]) => {
 const sentinel = ref<HTMLDivElement | null>(null)
 useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>
+<style scoped lang="scss">
+.fixed-width-100px {
+  width: 100px;
+}
+</style>

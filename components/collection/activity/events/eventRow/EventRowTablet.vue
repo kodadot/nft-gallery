@@ -1,59 +1,51 @@
 <template>
-  <div class="mb-5">
-    <div class="is-flex height-50px line-height-1">
+  <div class="mb-6 is-flex is-flex-direction-column gap-10px">
+    <div class="is-flex height-70px line-height-1">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
         <div class="mr-5">
-          <EventRowAvatar :avatar="avatar" :name="event.nft.name" />
+          <EventRowAvatar :avatar="avatar" :name="event.nft.name" :size="70" />
         </div>
       </nuxt-link>
       <div
-        class="is-flex is-flex-direction-column is-flex-grow-1 is-justify-content-space-between">
-        <div class="is-flex is-justify-content-space-between">
-          <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
-            <div class="has-text-weight-bold is-clipped elipsis">
-              {{ event.nft.name }}
-            </div>
-          </nuxt-link>
-          <CommonTokenMoney v-if="amount !== blank" :value="amount" />
-        </div>
+        class="is-flex is-flex-direction-column is-justify-content-center gap-10px is-flex-grow-1">
+        <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
+          <div class="has-text-weight-bold is-clipped elipsis">
+            {{ event.nft.name }}
+          </div>
+        </nuxt-link>
+
         <div
-          class="is-flex is-justify-content-space-between is-align-items-center">
-          <div
-            class="border is-size-7 is-justify-content-center py-1 is-flex is-align-items-center fixed-width fixed-height"
-            :class="getInteractionColor(event.interaction)">
-            {{ interactionName }}
-          </div>
-          <div>
-            {{ timeAgo(event.timestamp) }}
-          </div>
+          class="border is-size-7 is-justify-content-center is-flex is-align-items-center fixed-width fixed-height"
+          :class="getInteractionColor(event.interaction)">
+          {{ interactionName }}
         </div>
       </div>
     </div>
-    <div class="is-flex mt-4 gap">
-      <div class="is-flex is-align-items-center">
+    <div class="is-flex">
+      <div class="is-flex is-justify-content-space-between is-flex-grow-1">
+        <CommonTokenMoney v-if="amount !== blank" :value="amount" />
+        <span v-else>
+          {{ blank }}
+        </span>
+        <span>
+          {{ timeAgo(event.timestamp) }}
+        </span>
+      </div>
+    </div>
+
+    <div class="is-flex gap">
+      <div v-if="fromAddress !== blank" class="is-flex is-align-items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.from') }}:</span>
-        <nuxt-link
-          v-if="fromAddress !== blank"
-          :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="has-text-link">
+        <nuxt-link :to="`/${urlPrefix}/u/${fromAddress}`" class="has-text-link">
           <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
         </nuxt-link>
-        <div v-else>
-          {{ blank }}
-        </div>
       </div>
 
-      <div class="is-flex is-align-items-center">
+      <div v-if="toAddress !== blank" class="is-flex is-align-items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.to') }}:</span>
-        <nuxt-link
-          v-if="toAddress !== blank"
-          :to="`/${urlPrefix}/u/${toAddress}`"
-          class="has-text-link">
+        <nuxt-link :to="`/${urlPrefix}/u/${toAddress}`" class="has-text-link">
           <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
         </nuxt-link>
-        <div v-else>
-          {{ blank }}
-        </div>
       </div>
     </div>
   </div>
@@ -111,11 +103,15 @@ const getAvatar = async () => {
 .fixed-height {
   height: 22px;
 }
-.height-50px {
-  height: 50px;
+.height-70px {
+  height: 70px;
 }
 .line-height-1 {
   line-height: 1;
+}
+
+.gap-10px {
+  gap: 10px;
 }
 
 .gap {
