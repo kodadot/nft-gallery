@@ -12,12 +12,12 @@
       <div class="column is-two-fifths">
         <div class="is-relative">
           <a
-            v-if="canPreview && !isResources"
+            v-if="canPreview && !hasResources"
             class="fullscreen-button is-justify-content-center is-align-items-center"
             @click="isFullscreen = true">
             <NeoIcon icon="expand" />
           </a>
-          <div v-if="isResources" class="gallery-item-carousel">
+          <div v-if="hasResources" class="gallery-item-carousel">
             <o-carousel
               :overlay="overlayCarousel"
               indicators-class="mt-4"
@@ -169,7 +169,7 @@ const tabs = {
 const activeTab = ref(tabs.offers)
 const showCongratsMessage = ref(false)
 const overlayCarousel = ref(false)
-const isResources = computed(
+const hasResources = computed(
   () => nftResources.value && nftResources.value?.length > 1
 )
 
@@ -295,8 +295,6 @@ $break-point-width: 930px;
 .h-audio {
   height: 70%;
 }
-
-@import '@/styles/abstracts/variables';
 
 .gallery-item-carousel {
   :deep .o-car {
