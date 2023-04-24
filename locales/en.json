@@ -976,7 +976,8 @@
     "searchPlaceholder": "Search by Collection or NFT",
     "tagsAdd": "Type and press enter to add your own",
     "chooseWallet": "Choose your",
-    "noAssets": "There are currently no assets in this wallet."
+    "noAssets": "There are currently no assets in this wallet.",
+    "noPopularCollections": "There are no popular collections now."
   },
   "helper": {
     "seeMore": "See More",
