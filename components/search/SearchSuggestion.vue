@@ -14,6 +14,9 @@
             :key="item"
             is-loading />
         </div>
+        <div v-else-if="!collectionSuggestion.length" class="mx-6 mt-4">
+          {{ $t('search.collectionNotFound', [name]) }}
+        </div>
         <div v-else>
           <div
             v-for="(item, idx) in collectionSuggestion"
@@ -77,6 +80,9 @@
             v-for="item in searchSuggestionEachTypeMaxNum"
             :key="item"
             is-loading />
+        </div>
+        <div v-else-if="!nftSuggestion.length" class="mx-6 mt-4">
+          {{ $t('search.nftNotFound', [name]) }}
         </div>
         <div v-else>
           <div
