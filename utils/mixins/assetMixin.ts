@@ -1,5 +1,5 @@
 import { Component, Vue } from 'nuxt-property-decorator'
-import { useAssetsStore } from '~/stores/assets'
+import { useAssetsStore } from '@/stores/assets'
 
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
