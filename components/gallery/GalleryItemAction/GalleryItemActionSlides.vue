@@ -91,8 +91,34 @@ defineProps<{
     &-active {
       width: 100%;
     }
-    &-content {
+    &-content,
+    &-content > * {
       width: 100%;
+    }
+  }
+}
+
+@include until-widescreen {
+  .slide {
+    width: 100%;
+    align-items: stretch;
+    &:not(.slide-active) {
+      .slide-action {
+        flex: 1;
+        button {
+          width: 100%;
+        }
+      }
+      .slide-content {
+        display: none;
+      }
+    }
+    .slide-content {
+      height: auto;
+      & > div,
+      input {
+        height: 100%;
+      }
     }
   }
 }

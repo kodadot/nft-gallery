@@ -1,13 +1,6 @@
 @import '../../scss/variable.scss';
 
 .neo-collapse {
-  .collapse-content {
-    &:hover {
-      @include ktheme() {
-        background-color: theme('k-primaryLight');
-      }
-    }
-  }
 
   .active-collpase {
     @include ktheme() {
@@ -40,7 +33,7 @@
   }
 
   .card-content {
-    padding: 1.5rem;
+    padding: 0;
     background-color: transparent;
     @include ktheme() {
       color: theme('text-color');

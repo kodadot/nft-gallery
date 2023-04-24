@@ -41,7 +41,7 @@ export default function (
       ...replaceBooleanWithStrings(queryCondition),
     }
     if (resetPage) {
-      query.page = '1'
+      delete query.page
     }
     router
       .replace({

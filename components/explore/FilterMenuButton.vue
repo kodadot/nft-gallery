@@ -24,9 +24,11 @@
 import { NeoButton } from '@kodadot1/brick'
 import ActiveCount from './ActiveCount.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
 
 const route = useRoute()
 const preferencesStore = usePreferencesStore()
+const activeFilters = useActiveRouterFilters()
 
 const disabled = computed(() => {
   const allowedList = [
@@ -42,14 +44,9 @@ const isSidebarFiltersOpen = computed(
   () => preferencesStore.getsidebarFilterCollapse
 )
 
-const numOfActiveFilters = computed(() => {
-  const query = { ...route.query, redesign: undefined }
-  const activeFilters = Object.entries(query).filter(
-    ([key, value]) => (key === 'search' && Boolean(value)) || value === 'true'
-  )
-
-  return activeFilters.length
-})
+const numOfActiveFilters = computed(
+  () => Object.keys(activeFilters.value).length
+)
 
 const toggleSidebarFilters = () =>
   preferencesStore.setSidebarFilterCollapse(!isSidebarFiltersOpen.value)

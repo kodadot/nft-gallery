@@ -15,6 +15,7 @@
       <MediaItem
         class="gallery-item-media"
         :src="nftImage"
+        :placeholder="placeholder"
         :animation-src="nftAnimation"
         :mime-type="nftMimeType"
         :title="nft?.name || nft?.id"
@@ -28,6 +29,7 @@ import { useVModel } from '@vueuse/core'
 import { MediaItem, NeoButton, NeoIcon } from '@kodadot1/brick'
 import { useGalleryItem } from './useGalleryItem'
 const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
+const { placeholder } = useTheme()
 
 const props = defineProps<{
   value: boolean
@@ -40,6 +42,7 @@ const isFullscreen = useVModel(props, 'value', emit)
 @import '@/styles/abstracts/variables';
 
 .gallery-item-modal {
+  position: fixed;
   :deep &-content {
     height: calc(100% - $navbar-desktop-min-height + 1px) !important;
     margin-top: calc($navbar-desktop-min-height - 1px) !important;

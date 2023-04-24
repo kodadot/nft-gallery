@@ -5,19 +5,7 @@
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
           class="height-50px">
-          <img
-            v-if="avatar"
-            :src="avatar"
-            :alt="event.nft.name"
-            width="50"
-            height="50"
-            class="border image-size" />
-          <img
-            v-else
-            src="/placeholder.webp"
-            class="border image-size"
-            width="50"
-            height="50" />
+          <EventRowAvatar :avatar="avatar" :name="event.nft.name" />
         </nuxt-link>
         <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
           <div class="ml-5 has-text-weight-bold is-clipped elipsis">
@@ -42,7 +30,7 @@
         <div v-if="amount === blank">
           {{ blank }}
         </div>
-        <Money v-else :value="amount" />
+        <CommonTokenMoney v-else :value="amount" />
       </div>
     </div>
 
@@ -85,7 +73,6 @@ import {
   InteractionWithNFT,
   Offer,
 } from '@/composables/collectionActivity/types'
-import Money from '@/components/shared/format/ChainMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import {
@@ -97,6 +84,7 @@ import {
   getToAddress,
   interactionNameMap,
 } from './common'
+import EventRowAvatar from './EventRowAvatar.vue'
 
 const { urlPrefix } = usePrefix()
 const props = defineProps<{
@@ -134,11 +122,6 @@ const getAvatar = async () => {
 }
 .height-50px {
   height: 50px;
-}
-.image-size {
-  width: 50px !important;
-  height: 50px !important;
-  max-width: none !important;
 }
 
 .elipsis {

@@ -1,10 +1,10 @@
-import { Config } from './types'
+import { Prefix } from './types'
 
-export const NAMES: Config<string> = {
+export const NAMES: Record<Prefix, string> = {
   bsx: 'Basilisk',
   glmr: 'Moonbeam [Beta]',
-  ksm: 'Kusama',
+  rmrk: 'Kusama',
+  ksm: 'RMRK2',
   movr: 'Moonriver [Beta]',
-  rmrk2: 'RMRK 2.0 [Beta]',
   snek: 'Snek [Rococo]',
 }

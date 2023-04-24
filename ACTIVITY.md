@@ -53,9 +53,9 @@ flowchart TD
 
 [Peak on recent activity over KodaDot](https://repo-tracker.com/r/gh/kodadot/nft-gallery)
 
-![image](https://user-images.githubusercontent.com/5887929/225908767-f550b6f9-8456-451e-a669-702e2554ae0e.png)
+![image](https://user-images.githubusercontent.com/5887929/232563230-85fcda10-2cd8-46a2-b4aa-a0f1261a0660.png)
 
-![image](https://user-images.githubusercontent.com/5887929/225908704-4095abae-cf01-473b-8458-59a19dab272a.png)
+![image](https://user-images.githubusercontent.com/5887929/232563299-39e84aa1-19c8-4031-9488-6813f74f65f3.png)
 
 ## We're constantly growing!
 
@@ -93,6 +93,6 @@ Check out KodaDot's [monthly statistics](https://github.com/kodadot/nft-gallery/
 ### New Issues and pull requests 
 - https://www.repotrends.com/kodadot/nft-gallery
 
-![image](https://user-images.githubusercontent.com/5887929/225909152-395aaaf8-dbc4-4210-9cce-a4ad6066e87b.png)
+![image](https://user-images.githubusercontent.com/5887929/232562963-f7f42c34-89ea-4783-8dad-a426dd91c262.png)
 
 

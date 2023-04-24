@@ -24,7 +24,7 @@
         <b-dropdown-item has-link aria-role="menuitem">
           <nuxt-link to="/settings">{{ $t('settings') }}</nuxt-link>
         </b-dropdown-item>
-        <template v-if="chain === 'rmrk' || chain === 'rmrk2'">
+        <template v-if="chain === 'rmrk' || chain === 'ksm'">
           <b-dropdown-item has-link aria-role="menuitem">
             <a @click="showRampSDK">
               {{ $t('credit') }}
@@ -165,7 +165,7 @@
         class="button-connect-wallet px-4"
         variant="k-accent"
         no-shadow
-        @closeBurgerMenu="closeBurgerMenu" />
+        @toggleConnectModal="toggleWalletConnectModal" />
     </div>
 
     <b-dropdown
@@ -307,7 +307,7 @@ export default class ProfileDropdown extends mixins(
       ...ConnectWalletModalConfig,
     })
 
-    this.$emit('closeBurgerMenu')
+    this.closeBurgerMenu()
   }
 
   setUserLang(value: string) {

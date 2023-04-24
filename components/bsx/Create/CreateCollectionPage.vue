@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-6">
+  <div class="mb-8">
     <CreateCollection @created="onCollectionCreated" />
   </div>
 </template>

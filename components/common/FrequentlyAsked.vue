@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1
-      class="has-text-weight-bold text__stroked heading heading-is-6 is-size-1-mobile mb-6">
+      class="has-text-weight-bold text__stroked heading heading-is-6 is-size-1-mobile mb-8">
       {{ $t('faq.title') }}
     </h1>
 
     <p
-      class="faq__box heading is-size-4-mobile is-size-3-tablet has-text-weight-bold mb-6">
+      class="faq__box heading is-size-4-mobile is-size-3-tablet has-text-weight-bold mb-8">
       {{ $t('faq.box_heading1') }} <br />
       {{ $t('faq.box_heading2') }} <br />
       <nuxt-link :to="{ name: 'tutorials' }">

@@ -57,6 +57,10 @@ body {
     }
   }
 
+  .taginput-container.is-focusable {
+    height: auto !important;
+  }
+
   .select {
     &:not(.is-multiple):not(.is-loading)::after {
       @include ktheme() {
@@ -304,6 +308,11 @@ hr {
     border-top: 1px solid theme('border-color');
   }
 }
+.border-left {
+  @include ktheme() {
+    border-left: 1px solid theme('border-color');
+  }
+}
 .border {
   @include ktheme() {
     border: 1px solid theme('border-color');
@@ -369,5 +378,13 @@ hr {
     &:hover {
       background-color: theme('k-accentlight2');
     }
+  }
+}
+
+//shadow
+
+.k-shadow {
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
   }
 }

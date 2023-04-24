@@ -5,7 +5,7 @@
         activeWrapper && hasWrapper ? { maxHeight: `${rowHeight}px` } : null,
       ]"
       :class="{ 'description-wrapper': activeWrapper && hasWrapper }">
-      <VueMarkdown :source="text" class="markdown-wrapper" />
+      <Markdown :source="text" />
     </div>
     <div class="has-text-centered">
       <a v-if="hasWrapper" @click.prevent="toggleDescription">
@@ -18,10 +18,10 @@
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import { useRedirectModal } from '@/components/redirect/useRedirectModal'
+import Markdown from '@/components/shared/Markdown'
 
 const components = {
-  VueMarkdown: () => import('vue-markdown-render'),
+  Markdown,
 }
 
 @Component({ components })
@@ -35,6 +35,9 @@ export default class DescriptionWrapper extends mixins(KeyboardEventsMixin) {
     this.initKeyboardEventHandler({
       e: this.bindExpandEvents,
     })
+  }
+
+  public mounted() {
     useRedirectModal('.markdown-wrapper')
   }
 

@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <hr class="mb-40" :class="{ 'my-40': !isBreadCrumbsShowing }" />
+      <hr class="mb-7" :class="{ 'my-7': !isBreadCrumbsShowing }" />
       <Events :events="sortedEventsWithOffersDesc" />
     </div>
   </div>
@@ -32,7 +32,7 @@ import ActivityChart from './ActivityChart.vue'
 import OwnerInsights from './OwnerInsights.vue'
 import Events from './events/Events.vue'
 import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
-import { Interaction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark/v1'
 import { useResizeObserver } from '@vueuse/core'
 import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
 import { isAnyActivityFilterActive } from './utils'
@@ -83,12 +83,6 @@ useResizeObserver(wrapper, (entry) => {
 <style lang="scss" scoped>
 .gap {
   gap: 2.5rem;
-}
-.my-40 {
-  margin: 2.5rem 0;
-}
-.mb-40 {
-  margin-bottom: 2.5rem;
 }
 .is-flex-basis-two-thirds {
   flex-basis: 66.6%;

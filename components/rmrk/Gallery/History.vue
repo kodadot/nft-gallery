@@ -121,7 +121,7 @@
 <script lang="ts">
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { Interaction } from '@kodadot1/minimark'
+import { Interaction } from '@kodadot1/minimark/v1'
 import { formatDistanceToNow } from 'date-fns'
 
 import { exist } from '@/components/search/exist'

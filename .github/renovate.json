@@ -32,6 +32,10 @@
     {
       "matchUpdateTypes": ["major", "pin"],
       "enabled": false
+    },
+    {
+      "packageNames": ["node"],
+      "enabled": false
     }
   ]
 }

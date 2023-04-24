@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
-import useLocalStorage from '@/composables/useLocalStorage'
 
 interface State {
   sidebarFilterCollapseOpen: boolean
   mobileFilterCollapseOpen: boolean
+  notificationBoxCollapseOpen: boolean
   layoutClass: string
   galleryLayoutClass: string
   advancedUI: boolean
@@ -27,14 +27,12 @@ interface State {
   // Mass Mint
   visitedOnboarding: boolean
 }
-const massMintLocalStorage = useLocalStorage('massmint', {
-  visitedOnboarding: false,
-})
 
 export const usePreferencesStore = defineStore('preferences', {
   state: (): State => ({
     sidebarFilterCollapseOpen: true,
     mobileFilterCollapseOpen: false,
+    notificationBoxCollapseOpen: false,
     layoutClass: 'is-one-quarter-desktop is-one-third-tablet',
     galleryLayoutClass:
       'is-one-quarter-desktop is-one-third-tablet is-half-mobile',
@@ -55,11 +53,12 @@ export const usePreferencesStore = defineStore('preferences', {
     enableAllArtwork: true,
     enableGyroEffect: false,
     gridSize: 'small',
-    visitedOnboarding: massMintLocalStorage.value.visitedOnboarding,
+    visitedOnboarding: false,
   }),
   getters: {
     getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,
     getMobileFilterCollapse: (state) => state.mobileFilterCollapseOpen,
+    getNotificationBoxCollapse: (state) => state.notificationBoxCollapseOpen,
     getLayoutClass: (state) => state.layoutClass,
     getGalleryLayoutClass: (state) => state.galleryLayoutClass,
     getTheatreView: (state) => state.theatreView,
@@ -85,6 +84,9 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setMobileFilterCollapse(payload) {
       this.mobileFilterCollapseOpen = payload
+    },
+    setNotificationBoxCollapse(payload) {
+      this.notificationBoxCollapseOpen = payload
     },
     setLayoutClass(payload) {
       this.layoutClass = payload
@@ -156,7 +158,7 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setVisitedOnboarding(payload: boolean) {
       this.visitedOnboarding = payload
-      massMintLocalStorage.value = { visitedOnboarding: payload }
     },
   },
+  persist: true,
 })

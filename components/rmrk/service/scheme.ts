@@ -1,6 +1,7 @@
-import { Attribute, CreatedNFT } from '@kodadot1/minimark'
+import { CreatedNFT } from '@kodadot1/minimark/v1'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { ItemResources } from '@/composables/useNft'
+import { Attribute } from '@kodadot1/minimark/common'
 
 export interface CompletePack extends BasePack {
   collections: Collection[]
@@ -54,6 +55,8 @@ export interface Metadata {
   image?: string
   image_data?: string
   type?: string
+  thumbnailUri?: string
+  mediaUri?: string
 }
 
 export interface NFTMetadata extends Metadata, ItemResources {
@@ -168,6 +171,7 @@ export interface NFT extends ItemResources {
   emoteCount?: number
   emotes?: Emote[]
   royalty?: number
+  recipient?: string
   meta?: NFTMetadata
 }
 

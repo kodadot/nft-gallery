@@ -39,8 +39,8 @@ export default defineNuxtConfig({
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'KodaDot - NFT Market Explorer',
-    titleTemplate: '%s | Low Carbon NFTs',
+    title: 'KodaDot - One Stop Shop for Polkadot NFTs',
+    titleTemplate: '%s | One Stop Shop for Polkadot NFTs',
     htmlAttrs: {
       lang: 'en',
     },
@@ -138,10 +138,10 @@ export default defineNuxtConfig({
     { src: '~/plugins/endpoint', mode: 'client' },
     { src: '~/plugins/seoMetaGenerator', mode: 'client' },
     { src: '~/plugins/keyboardEvents', mode: 'client' },
-    { src: '~/plugins/userBalance', mode: 'client' },
     { src: '~/plugins/icons', mode: 'client' },
     { src: '~/plugins/consola', mode: 'client' },
     { src: '~/plugins/assets', mode: 'client' },
+    { src: '~/plugins/piniaPersistedState', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
@@ -380,9 +380,16 @@ export default defineNuxtConfig({
       })
 
       config.module.rules.push({
+        test: /node_modules\/@kodadot1\/minimark\/dist\/.+\.mjs$/,
+        loader: require.resolve('babel-loader'),
+        query: { compact: true },
+      })
+
+      config.module.rules.push({
         test: /\.js$/,
         loader: require.resolve('@open-wc/webpack-import-meta-loader'),
       })
+
       config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js'
       config.node = {
         fs: 'empty',

@@ -7,10 +7,6 @@
       :collections="collections"
       :show-explainer-text="showExplainerText">
       <template #main>
-        <AttributeTagInput
-          key="tags"
-          v-model="tags"
-          placeholder="Get discovered easier through tags" />
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <BasicSwitch key="listed" v-model="listed" label="mint.listForSale" />
 
@@ -25,6 +21,16 @@
           :step="0.1"
           class="mb-3"
           @input="updatePrice" />
+
+        <div v-show="base.selectedCollection" key="attributes">
+          <CustomAttributeInput
+            v-model="tags"
+            :max="10"
+            class="mb-3"
+            visible="collapse.collection.attributes.show"
+            hidden="collapse.collection.attributes.hide" />
+        </div>
+
         <b-message
           v-if="hasPrice"
           key="message"
@@ -33,6 +39,14 @@
           icon="exclamation-triangle">
           {{ $t('warning.newTransactionWhilePriceSet') }}
         </b-message>
+
+        <template v-if="version === '2.0.0'">
+          <BasicSwitch
+            key="hasRoyalty"
+            v-model="hasRoyalty"
+            label="mint.listWithRoyalty" />
+          <RoyaltyForm v-if="hasRoyalty" key="royalty" v-bind.sync="royalty" />
+        </template>
       </template>
       <template #footer>
         <b-field key="advanced">
@@ -81,23 +95,25 @@ import {
 } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import {
-  Attribute,
   CreatedNFT,
   Interaction,
-  asSystemRemark,
   createInteraction,
-} from '@kodadot1/minimark'
+} from '@kodadot1/minimark/v1'
+import { Attribute, asSystemRemark } from '@kodadot1/minimark/common'
 import { formatBalance } from '@polkadot/util'
 import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
-import { unwrapSafe } from '~/utils/uniquery'
+import { unwrapSafe } from '@/utils/uniquery'
 import { toNFTId } from '../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
 import { Ref as RefType } from 'vue'
 import { MintedCollectionKusama } from '@/composables/transaction/types'
+import { Royalty } from '@/utils/royalty'
 
 const components = {
   AttributeTagInput: () =>
     import('@/components/rmrk/Create/AttributeTagInput.vue'),
+  CustomAttributeInput: () =>
+    import('@/components/rmrk/Create/CustomAttributeInput.vue'),
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -106,6 +122,7 @@ const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
+  RoyaltyForm: () => import('@/components/bsx/Create/RoyaltyForm.vue'),
 }
 
 @Component({ components })
@@ -133,6 +150,12 @@ export default class CreateToken extends mixins(
   public listed = true
   public postfix = true
   public balanceNotEnough = false
+
+  public hasRoyalty = true
+  public royalty: Royalty = {
+    amount: 0.15,
+    address: '',
+  }
 
   private preferencesStore = usePreferencesStore()
 
@@ -232,6 +255,8 @@ export default class CreateToken extends mixins(
           nsfw: this.nsfw,
           postfix: this.postfix,
           price: this.price.toString(),
+          royalty: this.royalty,
+          hasRoyalty: this.hasRoyalty,
         },
       })) as {
         createdNFTs: RefType<CreatedNFT[]>
@@ -262,7 +287,7 @@ export default class CreateToken extends mixins(
     try {
       const api = await this.useApi()
 
-      const { version, price } = this
+      const { price } = this
       const balance = formatBalance(price, {
         decimals: this.decimals,
         withUnit: this.unit,
@@ -271,9 +296,7 @@ export default class CreateToken extends mixins(
 
       const onlyNfts = remarks
         .map((nft) => toNFTId(nft, originalBlockNumber))
-        .map((id) =>
-          createInteraction(Interaction.LIST, version, id, String(price))
-        )
+        .map((id) => createInteraction(Interaction.LIST, id, String(price)))
 
       if (!onlyNfts.length) {
         showNotification('Can not list empty NFTs', notificationTypes.warn)

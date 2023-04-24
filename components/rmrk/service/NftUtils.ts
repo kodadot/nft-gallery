@@ -3,7 +3,8 @@ import { generateId } from '../service/Consolidator'
 import { Collection, NFT, NFTWithMeta, SimpleNFT } from './scheme'
 import slugify from 'slugify'
 import { RmrkWithMetaType } from './scheme'
-import { UpdateFunction, upperTrim } from '@kodadot1/minimark'
+import { upperTrim } from '@kodadot1/minimark/utils'
+import { UpdateFunction } from '@kodadot1/minimark/common'
 
 export type MintType = {
   collection: Collection

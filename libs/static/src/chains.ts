@@ -1,11 +1,5 @@
 import { NAMES } from './names'
-import type {
-  BackwardPrefix,
-  ChainProperties,
-  Config,
-  Option,
-  Prefix,
-} from './types'
+import type { ChainProperties, Config, Option, Prefix } from './types'
 
 export const toChainProperty = (
   ss58Format: number,
@@ -29,8 +23,8 @@ const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
 )
 
 export const CHAINS: Config<ChainProperties> = {
+  rmrk: DEFAULT_CHAIN_PROPERTIES,
   ksm: DEFAULT_CHAIN_PROPERTIES,
-  rmrk2: DEFAULT_CHAIN_PROPERTIES,
   bsx: toChainProperty(10_041, 12, 'BSX', 'https://basilisk.subscan.io/'),
   snek: toChainProperty(
     10_041,
@@ -42,31 +36,30 @@ export const CHAINS: Config<ChainProperties> = {
   glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
 }
 
+export const DEFAULT_PREFIX: Prefix = 'bsx'
+
 export const chainPrefixes: Prefix[] = [
   'bsx',
-  'ksm',
+  'rmrk',
   'snek',
   'movr',
   'glmr',
-  'rmrk2',
+  'ksm',
 ]
 
 export const chainInfo = {
   bsx: 'basilisk',
-  ksm: 'kusama',
+  rmrk: 'kusama',
   snek: 'snek',
   movr: 'moonriver',
   glmr: 'moonbeam',
-  rmrk2: 'rmrk',
+  ksm: 'rmrk',
 }
 
 export const chainList = (): Option[] => {
   return chainPrefixes.map((prefix) => ({
     info: chainInfo[prefix],
     text: NAMES[prefix],
-    value: prefix === 'ksm' ? 'rmrk' : prefix,
+    value: prefix,
   }))
 }
-
-export const oldKsm = (prefix: BackwardPrefix): Prefix =>
-  prefix === 'rmrk' ? 'ksm' : prefix

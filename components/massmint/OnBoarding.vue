@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="is-flex is-align-items-center mb-6 px-6">
+    <div class="is-flex is-align-items-center mb-8 px-8">
       <div
         class="is-size-1-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
         {{ $t('massmint.onboarding.pageTitle') }}
@@ -27,7 +27,7 @@
               {{ card.title }}
             </p>
             <div class="content is-size-4-tablet is-size-5-mobile">
-              <VueMarkdown class="massmint-markdown" :source="card.content" />
+              <Markdown :source="card.content" />
             </div>
           </div>
         </div>
@@ -46,7 +46,7 @@
       </Transition>
     </div>
 
-    <div class="is-flex is-justify-content-center my-6">
+    <div class="is-flex is-justify-content-center my-8">
       <span
         v-for="(card, index) in cards"
         :key="index"
@@ -65,12 +65,9 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
-import VueMarkdown from 'vue-markdown-render'
 import { usePreferencesStore } from '@/stores/preferences'
 import { SwipeDirection, useSwipe } from '@vueuse/core'
-import { useRedirectModal } from '@/components/redirect/useRedirectModal'
 
-useRedirectModal('.massmint-markdown')
 const router = useRouter()
 const { urlPrefix } = usePrefix()
 const { $i18n, $consola } = useNuxtApp()

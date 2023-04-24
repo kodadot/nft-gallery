@@ -35,7 +35,7 @@ export function useFetchSearch({
     }
     isFetchingData.value = true
 
-    const queryPath = client.value === 'rmrk2' ? 'chain-rmrk2' : client.value
+    const queryPath = client.value === 'ksm' ? 'chain-ksm' : client.value
     const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
     const result = await $apollo.query({
       query: query.default,
@@ -77,6 +77,7 @@ export function useFetchSearch({
       () => route.query.min,
       () => route.query.max,
       () => route.query.owned,
+      () => route.query.collections,
     ],
     () => {
       resetSearch()

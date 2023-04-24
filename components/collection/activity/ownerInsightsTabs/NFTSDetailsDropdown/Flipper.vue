@@ -1,20 +1,25 @@
 <template>
   <div v-if="ready" class="">
     <div
-      v-for="{ avatar, boughtPrice, soldPrice, profit, nft } in flips"
+      v-for="{ avatar, boughtPrice, soldPrice, profit, nft } in displayedFlips"
       :key="nft.id"
       class="is-flex py-2 px-5 is-justify-content-start is-hoverable-item is-flex-direction-column">
-      <div class="is-flex">
+      <nuxt-link class="is-flex" :to="`/${urlPrefix}/gallery/${nft.id}`">
         <img
           v-if="avatar"
           :src="avatar"
           :alt="nft.name"
           width="40"
           height="40"
-          class="border mr-5" />
-        <img v-else src="/placeholder.webp" class="border mr-5" />
+          class="border mr-5 image-size" />
+        <img
+          v-else
+          :src="placeholder"
+          class="border mr-5 image-size"
+          width="40"
+          height="40" />
         <span>{{ nft.name }}</span>
-      </div>
+      </nuxt-link>
       <div
         class="is-flex is-flex-direction-column is-justify-content-space-between mt-3">
         <div class="is-flex is-justify-content-space-between no-wrap">
@@ -41,6 +46,7 @@
         </div>
       </div>
     </div>
+    <div ref="target" />
   </div>
 </template>
 
@@ -52,6 +58,7 @@ import Money from '@/components/shared/format/ChainMoney.vue'
 import { FlipEvent } from '@/composables/collectionActivity/types'
 import { format } from '@/components/collection/activity/utils'
 
+const { placeholder } = useTheme()
 const props = defineProps<{
   flips: (FlipEvent & { avatar?: string })[]
 }>()
@@ -59,13 +66,21 @@ const props = defineProps<{
 const flips = ref(props.flips)
 const ready = ref(false)
 
-onMounted(() => {
-  processNFTImages()
+const target = ref<HTMLElement | null>(null)
+const offset = ref(4)
+
+const { urlPrefix } = usePrefix()
+useIntersectionObserver(target, ([{ isIntersecting }]) => {
+  if (isIntersecting) {
+    offset.value += 4
+  }
 })
+
+const displayedFlips = computed(() => flips.value.slice(0, offset.value))
 
 const processNFTImages = async () => {
   if (props.flips) {
-    const promises = props.flips.map(async ({ nft }, i) => {
+    const promises = displayedFlips.value.map(async ({ nft }, i) => {
       let avatar
       if (nft.meta?.image) {
         avatar = sanitizeIpfsUrl(nft.meta.image)
@@ -82,4 +97,19 @@ const processNFTImages = async () => {
     ready.value = true
   }
 }
+
+watch(
+  offset,
+  () => {
+    processNFTImages()
+  },
+  { immediate: true }
+)
 </script>
+
+<style lang="scss" scoped>
+.image-size {
+  width: 40px !important;
+  height: 40px !important;
+}
+</style>
