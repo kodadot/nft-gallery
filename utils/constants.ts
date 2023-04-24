@@ -8,6 +8,7 @@ export const denyList = [
   'Go6QNymw2HicMi64uiQSPyiXy68wM7dvujwR8bDJ13exPTM', // 18+ manga porn
   'DinoPQrFS2u4NgEk18v6W5QH1SBmHKYUPJGjZUV4JLPj2rd', // Guardians DINO
   'EfPxwVvLpSV4VG5sNZUacTE3UJgcgBHtuWuHxuJkPmmkwTe', // Malicious activity
+  'H1scXqBBis6xobc9tSWjqAiHAe8X71xcgkbau8xgWm2xc2a', // AI NSFW
 ]
 
 export const statemineDenyList = [

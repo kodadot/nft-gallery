@@ -380,3 +380,11 @@ hr {
     }
   }
 }
+
+//shadow
+
+.k-shadow {
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+  }
+}
