@@ -104,6 +104,7 @@ importers:
       nuxt-edge: 2.16.0-27720022.54e852f
       nuxt-property-decorator: ^2.9.1
       ohmyfetch: ^0.4.21
+      pinia-plugin-persistedstate: ^3.1.0
       prettier: ^2.8.7
       raw-loader: ^4.0.2
       sass: ^1.62.0
@@ -178,6 +179,7 @@ importers:
       nuxt-edge: 2.16.0-27720022.54e852f_stgnfuekanqoxv2sawfe5zt2vu
       nuxt-property-decorator: 2.9.1_vue@2.7.14+vuex@3.6.2
       ohmyfetch: 0.4.21
+      pinia-plugin-persistedstate: 3.1.0
       setimmediate: 1.0.5
       slugify: 1.6.6
       unzipit: 1.4.3
@@ -18970,6 +18972,12 @@ packages:
     resolution: {integrity: sha512-eW/gHNMlxdSP6dmG6uJip6FXN0EQBwm2clYYd8Wul42Cwu/DK8HEftzsapcNdYe2MfLiIwZqsDk2RDEsTE79hA==}
     engines: {node: '>=10'}
 
+  /pinia-plugin-persistedstate/3.1.0:
+    resolution: {integrity: sha512-8UN+vYMEPBdgNLwceY08mi5olI0wkYaEb8b6hD6xW7SnBRuPydWHlEhZvUWgNb/ibuf4PvufpvtS+dmhYjJQOw==}
+    peerDependencies:
+      pinia: ^2.0.0
+    dev: false
+
   /pinia/2.0.34_hwpzsh6pnvsm3pjf2zi526hnzq:
     resolution: {integrity: sha512-cgOoGUiyqX0SSgX8XelK9+Ri4XA2/YyNtgjogwfzIx1g7iZTaZPxm7/bZYMCLU2qHRiHhxG7SuQO0eBacFNc2Q==}
     peerDependencies:
@@ -21309,7 +21317,7 @@ packages:
       detect-libc: 2.0.1
       node-addon-api: 5.1.0
       prebuild-install: 7.1.1
-      semver: 7.3.8
+      semver: 7.4.0
       simple-get: 4.0.1
       tar-fs: 2.1.1
       tunnel-agent: 0.6.0

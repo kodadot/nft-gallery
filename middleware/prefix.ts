@@ -3,10 +3,10 @@ import { chainPrefixes } from '@kodadot1/static'
 export const rmrk2ChainPrefixesInHostname = ['rmrk2', 'rmrk']
 
 export default function ({ store, route }): void {
-  const { urlPrefix } = usePrefix()
+  const prefixInPath = route.params.prefix || route.path.split('/')[1]
+  const { setUrlPrefix, urlPrefix } = usePrefix()
 
-  const prefix = urlPrefix.value
-  const isAnyChainPrefixInPath = chainPrefixes.includes(prefix)
+  const isAnyChainPrefixInPath = chainPrefixes.includes(prefixInPath)
   const rmrk2ChainPrefixInHostname = rmrk2ChainPrefixesInHostname.find(
     (prefix) => location.hostname.startsWith(`${prefix}.`)
   )
@@ -14,11 +14,7 @@ export default function ({ store, route }): void {
   if (rmrk2ChainPrefixInHostname) {
     // fixed chain domain (for example: rmrk2.kodadot.xyz)
 
-    if (
-      isAnyChainPrefixInPath &&
-      prefix &&
-      prefix !== rmrk2ChainPrefixInHostname
-    ) {
+    if (isAnyChainPrefixInPath && prefixInPath && prefixInPath !== 'ksm') {
       window.open(
         // multi-chain domain (for example: kodadot.xyz)
         `${window.location.origin.replace(
@@ -27,14 +23,15 @@ export default function ({ store, route }): void {
         )}${route.fullPath}`,
         '_self'
       )
-    } else if (store.getters.currentUrlPrefix !== rmrk2ChainPrefixInHostname) {
+    } else if (urlPrefix.value !== 'ksm') {
       store.dispatch('setUrlPrefix', 'ksm')
+      setUrlPrefix('ksm')
     }
   } else if (
-    store.getters.currentUrlPrefix !== prefix &&
-    prefix &&
+    urlPrefix.value !== prefixInPath &&
+    prefixInPath &&
     isAnyChainPrefixInPath
   ) {
-    store.dispatch('setUrlPrefix', prefix)
+    store.dispatch('setUrlPrefix', prefixInPath)
   }
 }
