@@ -1,5 +1,6 @@
 <template>
   <b-collapse
+    v-if="collections.length > 0"
     :open="expanded"
     animation="slide"
     class="border-bottom"
@@ -64,10 +65,10 @@ const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
 const router = useRouter()
 const { replaceUrl: replaceURL } = useReplaceUrl()
-const { collections } = usePopularCollections()
 const { availableChains } = useChain()
 const { urlPrefix } = usePrefix()
 const { $store } = useNuxtApp()
+const { collections } = usePopularCollections(urlPrefix.value)
 
 const getChainName = (chain: string): string => {
   return availableChains.value.find((item) => item.value === chain)?.text || ''
