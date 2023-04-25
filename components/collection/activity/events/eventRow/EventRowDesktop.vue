@@ -5,7 +5,7 @@
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
           class="height-50px">
-          <EventRowAvatar :avatar="avatar" :name="event.nft.name" :size="50" />
+          <NeoAvatar :avatar="avatar" :name="event.nft.name" :size="50" />
         </nuxt-link>
         <nuxt-link
           class="is-ellipsis is-inline-block"
@@ -86,7 +86,8 @@ import {
   getToAddress,
   interactionNameMap,
 } from './common'
-import EventRowAvatar from './EventRowAvatar.vue'
+
+import { NeoAvatar } from '@kodadot1/brick'
 
 const { urlPrefix } = usePrefix()
 const props = defineProps<{

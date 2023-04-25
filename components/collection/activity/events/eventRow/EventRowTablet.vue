@@ -3,7 +3,7 @@
     <div class="is-flex height-70px line-height-1">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
         <div class="mr-5">
-          <EventRowAvatar :avatar="avatar" :name="event.nft.name" :size="70" />
+          <NeoAvatar :avatar="avatar" :name="event.nft.name" :size="70" />
         </div>
       </nuxt-link>
       <div
@@ -73,7 +73,7 @@ import {
   getToAddress,
   interactionNameMap,
 } from './common'
-import EventRowAvatar from './EventRowAvatar.vue'
+import { NeoAvatar } from '@kodadot1/brick'
 
 const { urlPrefix } = usePrefix()
 const props = defineProps<{

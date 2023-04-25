@@ -3,20 +3,20 @@
     v-if="avatar"
     :src="avatar"
     :alt="name"
-    class="border image-size"
+    class="border neo-avatar"
     :style="customStyle"
     @error="onError" />
   <img
     v-else
     :src="placeholder"
     :style="customStyle"
-    class="border image-size" />
+    class="border neo-avatar" />
 </template>
 
 <script setup lang="ts">
-const { placeholder } = useTheme()
 const props = defineProps<{
   avatar?: string
+  placeholder: string
   name: string
   size: number
 }>()
@@ -29,13 +29,11 @@ const customStyle = computed(() => ({
 const onError = (e: Event) => {
   const target = e.target as HTMLImageElement
   if (target) {
-    target.src = placeholder.value
+    target.src = props.placeholder
   }
 }
 </script>
 
-<style scoped lang="scss">
-.image-size {
-  max-width: none !important;
-}
+<style lang="scss">
+@import './NeoAvatar.scss';
 </style>
