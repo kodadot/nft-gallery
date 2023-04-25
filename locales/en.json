@@ -77,8 +77,8 @@
     "landingTitle2": "Collect",
     "landingTitle3": "And Sell",
     "landingSubtitle": "Kusama NFTS",
-    "collectionNotFound": "Our search agents did not found anything with '{0}' in collection name",
-    "nftNotFound": "Our search agents did not found anything with '{0}' in NFT name"
+    "collectionNotFound": "Our search agents did not found anything with \"{0}\" in collection name",
+    "nftNotFound": "Our search agents did not found anything with \"{0}\" in NFT name"
   },
   "topCollections": {
     "timeFrames": {
