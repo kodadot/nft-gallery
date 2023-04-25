@@ -1,6 +1,6 @@
 <template>
-  <div class="columns mb-2 is-1">
-    <div class="column is-overflow-hidden">
+  <div class="columns mb-2">
+    <div class="column is-clipped">
       <div class="is-flex is-align-items-center">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div class="is-flex is-align-items-center fixed-width-100px">
+    <div class="column is-1">
       <div class="height-50px is-flex is-align-items-center">
         <div
           class="border is-size-7 is-justify-content-center py-1 my-2 is-flex is-align-items-center fixed-width fixed-height"
@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div class="column">
+    <div class="column is-ellipsis">
       <div class="height-50px is-flex is-align-items-center">
         <div v-if="amount === blank">
           {{ blank }}
@@ -119,12 +119,7 @@ const getAvatar = async () => {
 .fixed-width {
   width: 66px;
 }
-.fixed-width-100px {
-  width: 100px;
-}
-.is-overflow-hidden {
-  overflow: hidden;
-}
+
 .fixed-height {
   height: 22px;
 }

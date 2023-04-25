@@ -8,10 +8,12 @@
       </nuxt-link>
       <div
         class="is-flex is-flex-direction-column is-justify-content-center gap-10px is-flex-grow-1">
-        <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
-          <div class="has-text-weight-bold is-clipped elipsis">
+        <nuxt-link
+          class="is-ellipsis is-inline-block mobile-fixed-width"
+          :to="`/${urlPrefix}/gallery/${event.nft.id}`">
+          <span class="has-text-weight-bold">
             {{ event.nft.name }}
-          </div>
+          </span>
         </nuxt-link>
 
         <div
@@ -36,14 +38,18 @@
     <div class="is-flex gap">
       <div v-if="fromAddress !== blank" class="is-flex is-align-items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.from') }}:</span>
-        <nuxt-link :to="`/${urlPrefix}/u/${fromAddress}`" class="has-text-link">
+        <nuxt-link
+          :to="`/${urlPrefix}/u/${fromAddress}`"
+          class="has-text-link is-ellipsis">
           <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
         </nuxt-link>
       </div>
 
       <div v-if="toAddress !== blank" class="is-flex is-align-items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.to') }}:</span>
-        <nuxt-link :to="`/${urlPrefix}/u/${toAddress}`" class="has-text-link">
+        <nuxt-link
+          :to="`/${urlPrefix}/u/${toAddress}`"
+          class="has-text-link is-ellipsis">
           <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
         </nuxt-link>
       </div>
@@ -97,8 +103,15 @@ const getAvatar = async () => {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/abstracts/variables';
+
 .fixed-width {
   width: 66px;
+}
+.mobile-fixed-width {
+  @include mobile {
+    width: 240px;
+  }
 }
 .fixed-height {
   height: 22px;
