@@ -40,7 +40,7 @@ describe('rmrkCollectionItem', () => {
       '/rmrk/gallery/16516179-36FDCC8B7888DCED32-SUBWORK_MO-SUBWORK_MORNING_VIBE-0000000000000001'
     )
     cy.visit('/rmrk/collection/36FDCC8B7888DCED32-SUBWORK_MO')
-    cy.checkCollectionActions('Subwork morning vibe', 'KodaDot_stewards')
+    cy.checkCollectionActions('Subwork morning vibe', 'DpRVpD...o6PA1a')
   })
 })
 
