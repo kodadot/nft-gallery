@@ -29,7 +29,8 @@
             :mime-type="nftMimeType"
             :title="nftMetadata?.name"
             is-detail
-            :original="isMobile" />
+            :original="isMobile"
+            :placeholder="placeholder" />
         </div>
       </div>
       <div class="py-8 column">
@@ -130,6 +131,7 @@ const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
+const { placeholder } = useTheme()
 
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()

@@ -5,7 +5,7 @@
       :src="properSrc"
       :animation-src="animationSrc"
       :alt="title"
-      :is-dark-mode="isDarkMode"
+      :placeholder="placeholder"
       :original="original"
       :is-detail="isDetail" />
   </div>
@@ -15,7 +15,6 @@
 import { defineAsyncComponent } from 'vue'
 
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
-import placeholder from '@/static/placeholder.webp'
 
 const SUFFIX = 'Media'
 
@@ -24,7 +23,7 @@ export default {
     src: {
       // for mimeType image please use this props
       type: String,
-      default: placeholder,
+      default: '',
     },
     animationSrc: {
       // other than image please use this props instead
@@ -48,9 +47,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    isDarkMode: {
-      type: Boolean,
-      default: false,
+    placeholder: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -78,7 +77,7 @@ export default {
       return this.components[resolveMedia(type) + SUFFIX]
     },
     properSrc() {
-      return this.src || placeholder
+      return this.src || this.placeholder
     },
   },
   watch: {

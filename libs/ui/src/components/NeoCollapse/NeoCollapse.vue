@@ -12,7 +12,7 @@
         :class="{ 'active-collpase': props.open }">
         <p
           class="card-header-title is-flex is-justify-content-center is-align-items-center is-flex-grow-1">
-          <slot name="title" />
+          <slot />
         </p>
         <a
           class="card-header-icon is-flex is-justify-content-center is-align-items-center">

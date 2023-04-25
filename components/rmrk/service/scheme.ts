@@ -171,7 +171,9 @@ export interface NFT extends ItemResources {
   emoteCount?: number
   emotes?: Emote[]
   royalty?: number
+  recipient?: string
   meta?: NFTMetadata
+  parent?: NFT
 }
 
 export type EntityWithId = {

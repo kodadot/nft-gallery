@@ -9,7 +9,7 @@
       class="border image is-48x48" />
     <img
       v-else
-      src="/placeholder.webp"
+      :src="placeholder"
       :alt="displayName"
       class="border image is-48x48" />
     <div class="notify-content ml-5 is-flex is-flex-direction-column">
@@ -62,7 +62,9 @@ import { InteractionWithNFT } from '@/composables/collectionActivity/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { formatToNow } from '@/utils/format/time'
 import { getNFTAvatar } from '@/components/collection/activity/events/eventRow/common'
+
 const { urlPrefix } = usePrefix()
+const { placeholder } = useTheme()
 const props = defineProps<{
   event: Event
 }>()
