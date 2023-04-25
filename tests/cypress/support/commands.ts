@@ -93,7 +93,8 @@ Cypress.Commands.add('snekGalleryUnlistedItemActions', (nftId) => {
   cy.get('[data-cy="make-offer"]').should('not.be.disabled')
 })
 
-Cypress.Commands.add('checkCollectionActions', (nftName, creator) => {
+Cypress.Commands.add('checkCollectionActions', (url, nftName, creator) => {
+  cy.visit(url)
   cy.waitForNetworkIdle('POST', '*', 1000)
   cy.get('[data-cy="0"]').should('be.visible')
   cy.get('[data-cy="nft-name"]').contains(nftName)
@@ -157,10 +158,12 @@ declare global {
 
       /**
        * @desc checks all of the actions available when interacted with collection
+       * @param url
        * @param nftName
        * @param creator
        */
       checkCollectionActions(
+        url: string,
         nftName: string,
         creator: string
       ): Chainable<Element>
