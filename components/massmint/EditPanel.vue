@@ -16,10 +16,12 @@
           <div class="is-flex is-justify-content-center is-flex-grow-1">
             {{ $t('massmint.edit') }} #{{ nft?.id }}
           </div>
-          <NeoIcon
+
+          <NeoButton
             icon="close"
-            size="small"
-            class="is-clickable"
+            size="medium"
+            variant="icon"
+            no-shadow
             @click.native="closePanel" />
         </div>
         <img
@@ -171,6 +173,7 @@ const save = () => {
       background-color: theme('background-color');
       color: theme('text-color');
     }
+
     padding: 0.5rem;
   }
 }
