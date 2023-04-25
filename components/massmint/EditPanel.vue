@@ -41,7 +41,6 @@
               type="textarea"
               has-counter
               maxlength="500" />
-            <!-- <div>{{ description.length }}/500</div> -->
           </o-field>
           <o-field :label="$t('massmint.price')" class="w-full">
             <div class="is-flex">
