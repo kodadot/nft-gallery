@@ -5,7 +5,11 @@
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
           class="height-50px">
-          <NeoAvatar :avatar="avatar" :name="event.nft.name" :size="50" />
+          <NeoAvatar
+            :avatar="avatar"
+            :placeholder="placeholder"
+            :name="event.nft.name"
+            :size="50" />
         </nuxt-link>
         <nuxt-link
           class="is-ellipsis is-inline-block"
@@ -95,6 +99,7 @@ const props = defineProps<{
 }>()
 
 const avatar = ref<string>()
+const { placeholder } = useTheme()
 
 const interactionName = computed(
   () => interactionNameMap[props.event.interaction] || props.event.interaction

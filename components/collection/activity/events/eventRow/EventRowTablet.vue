@@ -3,7 +3,11 @@
     <div class="is-flex height-70px line-height-1">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
         <div class="mr-5">
-          <NeoAvatar :avatar="avatar" :name="event.nft.name" :size="70" />
+          <NeoAvatar
+            :avatar="avatar"
+            :placeholder="placeholder"
+            :name="event.nft.name"
+            :size="70" />
         </div>
       </nuxt-link>
       <div
@@ -81,7 +85,7 @@ const props = defineProps<{
 }>()
 
 const avatar = ref<string>()
-
+const { placeholder } = useTheme()
 const interactionName = computed(
   () => interactionNameMap[props.event.interaction] || props.event.interaction
 )
