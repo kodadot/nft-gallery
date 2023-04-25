@@ -6,15 +6,6 @@ query nftById($id: String!) {
   nftEntity: nftEntityById(id: $id) {
     ...nft
     ...nftDetails
-    parent {
-      ...nft
-      ...nftDetails
-      meta {
-        image
-        animation_url: animationUrl
-        ...baseMeta
-      }
-    }
     collection {
       id
       name
