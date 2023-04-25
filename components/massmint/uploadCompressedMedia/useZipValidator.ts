@@ -51,6 +51,8 @@ const getFileExtension = (name: string): string => {
     : ''
 }
 
+const isMacOsHiddenFile = (name: string): boolean => name.startsWith('__MACOSX')
+
 const isValidFileExtension = (extension: string): boolean =>
   validFormats.includes(extension)
 
@@ -62,8 +64,11 @@ async function checkZipFileValidity(entries: {
 
   for (const [name, entry] of Object.entries(entries)) {
     let isEntryValid = true
+    if (isMacOsHiddenFile(name)) {
+      isEntryValid = false
+    }
 
-    if (entry.isDirectory || name.includes('/')) {
+    if (isEntryValid && (entry.isDirectory || name.includes('/'))) {
       warnings.push({
         name,
         reason: 'is a directory',
@@ -71,7 +76,7 @@ async function checkZipFileValidity(entries: {
       isEntryValid = false
     }
 
-    if (isFileSizeTooLarge(entry.size)) {
+    if (isEntryValid && isFileSizeTooLarge(entry.size)) {
       warnings.push({
         name,
         reason: 'File size exceeds maximum limit',
@@ -80,7 +85,7 @@ async function checkZipFileValidity(entries: {
     }
 
     const fileExtension = getFileExtension(name)
-    if (!isValidFileExtension(fileExtension)) {
+    if (isEntryValid && !isValidFileExtension(fileExtension)) {
       warnings.push({
         name,
         reason: `Invalid file format (${fileExtension})`,
