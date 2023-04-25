@@ -35,6 +35,9 @@ export default class DescriptionWrapper extends mixins(KeyboardEventsMixin) {
     this.initKeyboardEventHandler({
       e: this.bindExpandEvents,
     })
+  }
+
+  public mounted() {
     useRedirectModal('.markdown-wrapper')
   }
 
