@@ -35,7 +35,8 @@ export default {
   mounted() {
     setInterval(() => {
       this.loading = !this.loading
-    }, 3 * 1000)
+    }, 10 * 1000)
+    clearInterval()
   },
 }
 </script>
