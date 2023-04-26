@@ -140,7 +140,6 @@ const offersAdditionals = ref({})
 const currentBlock = ref(0)
 
 const getOffersDetails = (id: string) => {
-  console.log('ffersAdditionals.value[id]', offersAdditionals.value[id])
   return offersAdditionals.value[id]
 }
 
