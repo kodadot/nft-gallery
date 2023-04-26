@@ -11,7 +11,12 @@
         opacity: theme('card-hover-opacity');}
     }
   }
+
+  a:hover {
+    color: unset !important;
+  }
 }
+
 .nft-media {
   box-shadow: none;
   @include ktheme() {
