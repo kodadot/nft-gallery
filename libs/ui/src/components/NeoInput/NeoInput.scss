@@ -1,0 +1,48 @@
+@import '../../scss/theme.scss';
+
+.neo-field {
+  &--error:deep .o-input {
+    @include ktheme() {
+      border-color: theme('k-red') !important;
+    }
+    &::placeholder {
+      @include ktheme() {
+        color: theme('k-red') !important;
+      }
+    }
+  }
+  &:deep {
+    .o-field__label {
+      margin-bottom: 0.5rem;
+    }
+  }
+  &.o-field--focused:deep {
+    input,
+    textarea {
+      border-radius: 0;
+      outline: none;
+    }
+  }
+}
+
+.neo-input:deep {
+  .o-input {
+    padding: 0.5rem;
+    height: 3rem;
+    @include ktheme() {
+      border: 1px solid theme('text-color');
+      background-color: theme('background-color');
+      color: theme('text-color');
+    }
+    &__counter {
+      position: relative;
+      top: -1.2rem;
+      right: 0.5rem;
+    }
+    &__textarea {
+      height: var(--neo-input-height);
+    }
+  }
+
+  --neo-input-height: initial;
+}
