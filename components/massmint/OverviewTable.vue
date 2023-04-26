@@ -6,7 +6,8 @@
       </div>
       <template #content>
         <div class="limit-height">
-          <div class="columns is-mobile m-0 px-4 py-3 border-bottom">
+          <div
+            class="columns is-variable is-1 is-mobile m-0 px-4 py-1 border-bottom">
             <div class="column has-text-grey">#</div>
             <div class="column has-text-grey">{{ $t('massmint.image') }}</div>
             <div class="column has-text-grey">{{ $t('massmint.name') }}</div>
@@ -22,7 +23,7 @@
           <div
             v-for="nft in displayedNFTS"
             :key="nft.id"
-            class="columns is-mobile border-bottom m-0 py-2 px-4">
+            class="columns is-variable is-1 is-mobile border-bottom m-0 py-1 px-4">
             <div class="column is-flex is-align-items-center has-text-grey">
               {{ nft.id }}
             </div>
@@ -178,12 +179,6 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 
 .height-50px {
   height: 50px;
-}
-
-//colums overrides
-.column {
-  padding: 0;
-  padding-right: 0.25rem;
 }
 
 .clip-text {
