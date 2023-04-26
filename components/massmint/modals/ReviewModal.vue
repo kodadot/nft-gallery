@@ -8,23 +8,19 @@
       </header>
       <div class="card-content">
         <div>
-          <ul class="ml-4">
-            <li>
-              <span class="has-text-weight-bold">{{ numNfts }} NFTs </span>
-              {{ $t('massmint.willBeMinted') }}
-            </li>
-          </ul>
+          <span class="has-text-weight-bold"> • {{ numNfts }} NFTs </span>
+          {{ $t('massmint.willBeMinted') }}
+
           <div v-if="numMissingDescriptions" class="has-text-k-red mt-3">
-            <span>{{ $t('massmint.note') }}</span>
-            <ul class="ml-4">
-              <li>
-                {{
-                  $t('massmint.missingDescription', {
-                    count: numMissingDescriptions,
-                  })
-                }}
-              </li>
-            </ul>
+            <div>{{ $t('massmint.note') }}</div>
+            <div class="pl-3">
+              •
+              {{
+                $t('massmint.missingDescription', {
+                  count: numMissingDescriptions,
+                })
+              }}
+            </div>
           </div>
           <div class="mt-3 limit-note-width">
             {{ $t('massmint.reallyProcceed') }}
@@ -69,10 +65,6 @@ const emit = defineEmits(['close', 'mint'])
 </script>
 
 <style lang="scss" scoped>
-li {
-  list-style-type: disc;
-}
-
 .limit-note-width {
   max-width: 20rem;
 }

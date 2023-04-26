@@ -9,24 +9,23 @@
       <div class="card-content">
         <div>
           <div class="has-text-weight-bold has-text-k-red">
-            <span>{{ $t('massmint.required') }}</span>
-            <ul class="ml-4">
-              <li>
-                {{ $t('massmint.incompleteNfts', { count: numMissingNames }) }}
-              </li>
-            </ul>
+            <div>{{ $t('massmint.required') }}</div>
+
+            <div class="pl-3">
+              • {{ $t('massmint.incompleteNfts', { count: numMissingNames }) }}
+            </div>
           </div>
           <div v-if="numMissingDescriptions" class="has-text-k-red mt-3">
-            <span>{{ $t('massmint.optional') }}</span>
-            <ul class="ml-4">
-              <li>
-                {{
-                  $t('massmint.missingDescription', {
-                    count: numMissingDescriptions,
-                  })
-                }}
-              </li>
-            </ul>
+            <div>{{ $t('massmint.optional') }}</div>
+
+            <div class="pl-3">
+              •
+              {{
+                $t('massmint.missingDescription', {
+                  count: numMissingDescriptions,
+                })
+              }}
+            </div>
           </div>
           <div class="mt-3 limit-note-width">
             {{ $t('massmint.cantMintNote') }}
@@ -59,10 +58,6 @@ const emit = defineEmits(['close'])
 </script>
 
 <style lang="scss" scoped>
-li {
-  list-style-type: disc;
-}
-
 .limit-note-width {
   max-width: 20rem;
 }
