@@ -32,5 +32,5 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="scss">
-@import './DisabledTab.scss';
+@import './DisablableTab.scss';
 </style>

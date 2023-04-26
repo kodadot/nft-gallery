@@ -18,7 +18,7 @@
     </o-tab-item>
 
     <!-- properties tab -->
-    <DisabledTab
+    <DisablableTab
       value="1"
       :disabled="propertiesTabDisabled"
       :label="$t('tabs.properties')"
@@ -34,7 +34,7 @@
           {{ props.row.value }}
         </o-table-column>
       </o-table>
-    </DisabledTab>
+    </DisablableTab>
 
     <!-- details tab -->
     <o-tab-item value="2" :label="$t('tabs.details')" class="p-5">
@@ -99,7 +99,7 @@ import { OTabItem, OTable, OTableColumn, OTabs } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
-import { DisabledTab } from '@kodadot1/brick'
+import { DisablableTab } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 import { useRedirectModal } from '@/components/redirect/useRedirectModal'

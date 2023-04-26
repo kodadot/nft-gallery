@@ -4,7 +4,7 @@
     expanded
     content-class="o-tabs__content--fixed gallery-item-tab-panel">
     <!-- offers -->
-    <DisabledTab
+    <DisablableTab
       value="0"
       :disabled="offersDisabled"
       :label="$t('tabs.offers')"
@@ -19,7 +19,7 @@
         :collection-id="nft?.collection.id"
         :nft-id="nft?.id"
         :account="nft?.currentOwner" />
-    </DisabledTab>
+    </DisablableTab>
 
     <!-- activity -->
     <o-tab-item value="1" :label="$t('tabs.activity')">
@@ -40,7 +40,7 @@ import { useGalleryItem } from '../useGalleryItem'
 import GalleryItemActivity from './GalleryItemActivity.vue'
 import GalleryItemChart from './GalleryItemChart.vue'
 import GalleryItemOffers from './GalleryItemOffers.vue'
-import { DisabledTab } from '@kodadot1/brick'
+import { DisablableTab } from '@kodadot1/brick'
 const props = withDefaults(
   defineProps<{
     activeTab?: string
