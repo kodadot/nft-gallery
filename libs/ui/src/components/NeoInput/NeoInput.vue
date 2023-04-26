@@ -12,7 +12,7 @@ import { OInput } from '@oruga-ui/oruga'
 import { useVModel } from '@vueuse/core'
 
 const props = defineProps<{
-  value: string
+  value: string | number
   height?: number | string
 }>()
 const emit = defineEmits(['input'])

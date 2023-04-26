@@ -13,7 +13,7 @@ import { OField } from '@oruga-ui/oruga'
 
 defineProps<{
   label: string
-  error: boolean
+  error?: boolean
 }>()
 </script>
 
