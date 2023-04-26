@@ -35,8 +35,7 @@
             :error="!name">
             <NeoInput
               v-model="name"
-              :placeholder="'*' + $t('massmint.required')"
-              @update:modelValue="(v) => (name = v)" />
+              :placeholder="'*' + $t('massmint.required')" />
           </NeoField>
           <NeoField :label="$t('massmint.description')" class="w-full mb-4">
             <NeoInput
@@ -44,8 +43,7 @@
               type="textarea"
               has-counter
               maxlength="500"
-              height="10rem"
-              @update:modelValue="(v) => (description = v)" />
+              height="10rem" />
           </NeoField>
           <NeoField :label="$t('massmint.price')" class="w-full">
             <div class="is-flex">
@@ -53,8 +51,7 @@
                 v-model="price"
                 type="number"
                 step="any"
-                class="is-flex is-flex-grow-2"
-                @update:modelValue="(v) => (price = v)" />
+                class="is-flex is-flex-grow-2" />
               <div
                 class="border-top border-right border-bottom px-5 is-flex is-flex-grow-1 is-justify-content-center is-align-items-center">
                 KSM

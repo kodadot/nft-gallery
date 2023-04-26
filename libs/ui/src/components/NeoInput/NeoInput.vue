@@ -1,9 +1,10 @@
 <template>
   <o-input
-    v-model="model"
+    v-model="inputValue"
     class="neo-input"
     v-bind="$attrs"
-    :style="heightStyle" />
+    :style="heightStyle"
+    @input="updateValue" />
 </template>
 
 <script lang="ts" setup>
@@ -11,10 +12,15 @@ import { OInput } from '@oruga-ui/oruga'
 import { useVModel } from '@vueuse/core'
 
 const props = defineProps<{
-  modelValue: string
+  value: string
   height?: number | string
 }>()
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['input'])
+
+const inputValue = useVModel(props, 'value')
+const updateValue = (event) => {
+  emit('input', event)
+}
 
 const heightStyle = computed(() => {
   if (props.height) {
@@ -25,8 +31,6 @@ const heightStyle = computed(() => {
   }
   return {}
 })
-
-const model = useVModel(props, 'modelValue', emit)
 </script>
 
 <style lang="scss" scoped>
