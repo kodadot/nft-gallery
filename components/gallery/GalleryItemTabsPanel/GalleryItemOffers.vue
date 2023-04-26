@@ -3,7 +3,10 @@
     <Loader v-model="isLoading" :status="status" />
     <o-table v-if="offers?.length" :data="offers" hoverable>
       <!-- token price -->
-      <o-table-column v-slot="props" field="id" :label="$t('offer.price')">
+      <o-table-column
+        v-slot="props"
+        field="id"
+        :label="`${$t(`offer.price`)} (KSM)`">
         {{ getOffersDetails(props.row.id).token }}
       </o-table-column>
 
@@ -137,6 +140,7 @@ const offersAdditionals = ref({})
 const currentBlock = ref(0)
 
 const getOffersDetails = (id: string) => {
+  console.log('ffersAdditionals.value[id]', offersAdditionals.value[id])
   return offersAdditionals.value[id]
 }
 
@@ -232,9 +236,10 @@ watch(
 
       offersData.offers.map((offer) => {
         const price = formatPrice(offer.price)
-        const { symbol } = assets(tokenId.value)
+        /** hiding symbol temporarily */
+        // const { symbol } = assets(tokenId.value)
 
-        const token = `${price} ${symbol}`
+        const token = `${price}`
         const usd = `$${Math.round(Number(price) * ksmPrice)}`
         const floorDifference = getPercentage(Number(price), Number(floorPrice))
 

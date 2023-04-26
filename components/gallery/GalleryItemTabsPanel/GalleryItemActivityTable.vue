@@ -19,7 +19,7 @@
         v-slot="props"
         width="20%"
         field="meta"
-        :label="$t('tabs.tabActivity.price')">
+        :label="`${$t(`tabs.tabActivity.price`)} (KSM)`">
         <p v-if="Number(props.row.meta)">
           {{ formatPrice(props.row.meta) }}
         </p>
@@ -155,12 +155,13 @@ watchEffect(() => {
 })
 
 const formatPrice = (price) => {
-  const { symbol } = assets(tokenId.value)
-  const tokenSymbol = ['rmrk', 'ksm'].includes(urlPrefix.value)
-    ? unit.value
-    : symbol
+  /** hiding unit temporarily */
+  // const { symbol } = assets(tokenId.value)
+  // const tokenSymbol = ['rmrk', 'ksm'].includes(urlPrefix.value)
+  //   ? unit.value
+  //   : symbol
 
-  return formatBalance(price, decimals.value, tokenSymbol)
+  return formatBalance(price, decimals.value, false)
 }
 </script>
 <style lang="scss" scoped>
