@@ -4,11 +4,6 @@
   &--disabled {
     // overide o-tabs-item
     cursor: auto !important;
-<<<<<<< Updated upstream
-    pointer-events: all !important;
-=======
-    // pointer-events: all !important;
->>>>>>> Stashed changes
     opacity: unset !important;
     // mimick opacity (opacity prevents hover form triggering tooltip)
 
