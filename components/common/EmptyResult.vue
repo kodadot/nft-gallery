@@ -1,10 +1,41 @@
 <template>
-  <section class="section has-text-centered">
-    <div class="title is-4">
-      {{ $t('general.searchNoResultsTitle') }}
-    </div>
-    <div class="subtitle is-6">
-      {{ $t('general.searchNoResultsText') }}
+  <section>
+    <div class="card" aria-id="contentIdForA11y3">
+      <div class="card-header" role="button" aria-controls="contentIdForA11y3">
+        <p class="card-header-title">
+          <template v-if="!loading">Component</template>
+          <b-skeleton size="is-large" :active="loading"></b-skeleton>
+        </p>
+      </div>
+      <footer class="card-footer">
+        <a class="card-footer-item">
+          <template v-if="!loading">Save</template>
+          <b-skeleton size="is-large" :active="loading"></b-skeleton>
+        </a>
+        <a class="card-footer-item">
+          <template v-if="!loading">Edit</template>
+          <b-skeleton size="is-large" :active="loading"></b-skeleton>
+        </a>
+        <a class="card-footer-item">
+          <template v-if="!loading">Delete</template>
+          <b-skeleton size="is-large" :active="loading"></b-skeleton>
+        </a>
+      </footer>
     </div>
   </section>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      loading: true,
+    }
+  },
+  mounted() {
+    setInterval(() => {
+      this.loading = !this.loading
+    }, 3 * 1000)
+  },
+}
+</script>
