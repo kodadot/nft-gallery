@@ -1300,7 +1300,7 @@
     "save": "Save",
     "note": "Note",
     "required": "Required",
-    "areYouSureDelete": "Are you sure you want to delete {name} #{id}?",
+    "areYouSureDelete": "Are you sure you want to delete",
     "yesDelete": "Yes, Delete",
     "cancel": "Cancel",
     "goBack": "Go Back",

@@ -1,25 +1,28 @@
 <template>
   <NeoModal v-model="isModalActive" scroll="clip" @close="emit('close')">
-    <div class="p-7">
-      <header class="">
-        <p class="is-flex is-justify-content-center is-size-4">
-          {{
-            $t('massmint.areYouSureDelete', {
-              name: nft.name || '',
-              id: nft.id,
-            })
-          }}
-        </p>
-      </header>
+    <div class="p-6 modal-width">
+      <div
+        class="is-flex is-justify-content-center is-size-5 pb-4 border-bottom border-grey">
+        <span>
+          {{ $t('massmint.areYouSureDelete') }}
+          <br />
+          <span class="has-text-weight-bold">
+            “{{ nft.name }} #{{ nft.id }}”
+          </span>
+          ?
+        </span>
+      </div>
       <div class="is-flex mt-6">
         <NeoButton
-          class="mr-3 is-flex is-flex-grow-1 is-flex-1"
+          class="mr-3 is-flex is-flex-grow-1 is-flex-1 btn-height"
+          no-shadow
           :label="$t('massmint.yesDelete')"
           @click.native="deleteNFT(nft)" />
         <NeoButton
           :label="$t('massmint.cancel')"
+          no-shadow
           variant="k-accent"
-          class="is-flex is-flex-grow-1 is-flex-1"
+          class="is-flex is-flex-grow-1 is-flex-1 btn-height"
           @click.native="emit('close')" />
       </div>
     </div>
@@ -45,11 +48,5 @@ const deleteNFT = (nft: NFT) => {
 </script>
 
 <style lang="scss" scoped>
-li {
-  list-style-type: disc;
-}
-
-.limit-note-width {
-  max-width: 20rem;
-}
+@import './modals.scss';
 </style>

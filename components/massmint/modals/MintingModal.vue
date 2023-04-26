@@ -16,11 +16,12 @@
         class="is-flex is-flex-direction-column is-align-items-center">
         <NeoIcon icon="circle-check" class="check-icon has-text-k-green" />
         <span class="mt-4">{{ $t('massmint.mintDone') }}</span>
-        <div class="is-flex w-full is-justify-content-center pt-5 px-7">
+        <div class="is-flex w-full is-justify-content-center pt-6 px-7">
           <NeoButton
             :label="$t('massmint.done')"
             variant="k-accent"
-            class="is-flex is-flex-grow-1"
+            no-shadow
+            class="is-flex is-flex-grow-1 btn-height"
             @click.native="emit('close')" />
         </div>
       </div>
@@ -42,6 +43,7 @@ const emit = defineEmits(['close'])
 </script>
 
 <style lang="scss" scoped>
+@import './modals.scss';
 .check-icon {
   font-size: 2.5rem;
 }

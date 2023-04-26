@@ -1,0 +1,18 @@
+@import '@/styles/abstracts/variables';
+
+.border-grey {
+    @include ktheme() {
+        border-color: theme('k-shade')
+    }
+}
+
+.limit-note-width {
+    max-width: 20rem;
+  }
+
+  .modal-width {
+    width: 26rem;
+  }
+  .btn-height {
+    height: 3.25rem;
+  }
