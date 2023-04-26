@@ -68,7 +68,7 @@
                 <div
                   class="border is-size-7 is-justify-content-center py-1 my-2 is-flex is-align-items-center fixed-width"
                   :class="statusClass(nft.status)">
-                  {{ nft.status }}
+                  {{ statusTranslation(nft.status) }}
                 </div>
               </div>
             </div>
@@ -94,7 +94,7 @@
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 import { useIntersectionObserver } from '@vueuse/core'
 import { NFT, NFTS, Status } from './types'
-
+import { statusClass, statusTranslation } from './useMassMint'
 const offset = ref(10)
 const sentinel = ref<HTMLDivElement | null>(null)
 const emit = defineEmits(['openSideBarWith', 'delete'])
@@ -122,23 +122,13 @@ const deleteNFT = (nft: NFT) => {
   emit('delete', nft)
 }
 
-const statusClass = (status?: Status) => {
-  const statusMap: { [status: string]: string } = {
-    Ok: 'k-greenaccent',
-    Incomplete: 'k-redaccent',
-    Description: 'k-yellow',
-  }
-
-  return status ? statusMap[status] : ''
-}
-
 const addStatus = (nft: NFT): NFT => {
-  let status: Status = 'Ok'
+  let status: Status = Status.Ok
   if (!nft.description) {
-    status = 'Description'
+    status = Status.Description
   }
   if (!nft.name) {
-    status = 'Incomplete'
+    status = Status.Incomplete
   }
   return {
     ...nft,

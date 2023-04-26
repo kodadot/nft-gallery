@@ -1,11 +1,26 @@
-import { BaseMintedCollection } from '../base/types'
 import { unwrapSafe } from '@/utils/uniquery'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import shouldUpdate from '@/utils/shouldUpdate'
+import { MintedCollection, Status } from './types'
 
-export type MintedCollection = BaseMintedCollection & {
-  name?: string
-  lastIndexUsed: number
+export const statusTranslation = (status?: Status): string => {
+  const { $i18n } = useNuxtApp()
+  const statusTranslationMap: Record<Status, string> = {
+    [Status.Ok]: $i18n.t('ok'),
+    [Status.Incomplete]: $i18n.t('incomplete'),
+    [Status.Description]: $i18n.t('description'),
+  }
+  return status ? statusTranslationMap[status] : ''
+}
+
+export const statusClass = (status?: Status) => {
+  const statusMap: Record<Status, string> = {
+    [Status.Ok]: 'k-greenaccent',
+    [Status.Incomplete]: 'k-redaccent',
+    [Status.Description]: 'k-yellow',
+  }
+
+  return status ? statusMap[status] : ''
 }
 
 export const useMassMint = () => {
