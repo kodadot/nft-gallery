@@ -28,7 +28,7 @@
         <img
           :src="nft?.imageUrl"
           class="image is-128x128 cover border k-shadow my-5" />
-        <div class="form w-full">
+        <form class="w-full">
           <NeoField
             :label="$t('massmint.name')"
             class="w-full mb-4 placholder-color"
@@ -58,7 +58,7 @@
               </div>
             </div>
           </NeoField>
-        </div>
+        </form>
       </div>
       <NeoButton
         class="w-full"
