@@ -35,6 +35,7 @@
             :error="!name">
             <NeoInput
               v-model="name"
+              required
               :placeholder="'*' + $t('massmint.required')" />
           </NeoField>
           <NeoField :label="$t('massmint.description')" class="w-full mb-4">
