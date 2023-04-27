@@ -1,6 +1,7 @@
 <template>
   <o-input
     v-model="inputValue"
+    :placeholder="placeholder"
     class="neo-input"
     v-bind="$attrs"
     :style="heightStyle"
@@ -14,6 +15,7 @@ import { useVModel } from '@vueuse/core'
 const props = defineProps<{
   value: string | number
   height?: number | string
+  placeholder?: string
 }>()
 const emit = defineEmits(['input'])
 
@@ -33,6 +35,6 @@ const heightStyle = computed(() => {
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import './NeoInput.scss';
 </style>
