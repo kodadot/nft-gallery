@@ -6,7 +6,8 @@
       </div>
       <template #content>
         <div class="limit-height">
-          <div class="columns is-mobile m-0 px-4 py-3 border-bottom">
+          <div
+            class="columns is-variable is-1 is-mobile m-0 px-4 py-1 border-bottom">
             <div class="column has-text-grey">#</div>
             <div class="column has-text-grey">{{ $t('massmint.image') }}</div>
             <div class="column has-text-grey">{{ $t('massmint.name') }}</div>
@@ -22,7 +23,7 @@
           <div
             v-for="nft in displayedNFTS"
             :key="nft.id"
-            class="columns is-mobile border-bottom m-0 py-2 px-4">
+            class="columns is-variable is-1 is-mobile border-bottom m-0 py-1 px-4">
             <div class="column is-flex is-align-items-center has-text-grey">
               {{ nft.id }}
             </div>
@@ -67,18 +68,23 @@
                 <div
                   class="border is-size-7 is-justify-content-center py-1 my-2 is-flex is-align-items-center fixed-width"
                   :class="statusClass(nft.status)">
-                  {{ nft.status }}
+                  {{ statusTranslation(nft.status) }}
                 </div>
               </div>
             </div>
             <div class="column is-flex is-align-items-center has-text-grey">
-              <NeoIcon
-                class="is-clickable"
+              <NeoButton
                 icon="edit"
+                class="has-text-grey"
+                variant="icon"
+                no-shadow
                 @click.native="openSideBarWith(nft)" />
-              <NeoIcon
-                class="is-clickable ml-3"
+
+              <NeoButton
                 icon="trash"
+                class="has-text-grey ml-3"
+                variant="icon"
+                no-shadow
                 @click.native="deleteNFT(nft)" />
             </div>
           </div>
@@ -90,10 +96,10 @@
 </template>
 
 <script setup lang="ts">
-import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoCollapse } from '@kodadot1/brick'
 import { useIntersectionObserver } from '@vueuse/core'
 import { NFT, NFTS, Status } from './types'
-
+import { statusClass, statusTranslation } from './useMassMint'
 const offset = ref(10)
 const sentinel = ref<HTMLDivElement | null>(null)
 const emit = defineEmits(['openSideBarWith', 'delete'])
@@ -121,23 +127,13 @@ const deleteNFT = (nft: NFT) => {
   emit('delete', nft)
 }
 
-const statusClass = (status?: Status) => {
-  const statusMap: { [status: string]: string } = {
-    Ok: 'k-greenaccent',
-    Incomplete: 'k-redaccent',
-    Description: 'k-yellow',
-  }
-
-  return status ? statusMap[status] : ''
-}
-
 const addStatus = (nft: NFT): NFT => {
-  let status: Status = 'Ok'
+  let status: Status = Status.Ok
   if (!nft.description) {
-    status = 'Description'
+    status = Status.Description
   }
   if (!nft.name) {
-    status = 'Incomplete'
+    status = Status.Incomplete
   }
   return {
     ...nft,
@@ -178,12 +174,6 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 
 .height-50px {
   height: 50px;
-}
-
-//colums overrides
-.column {
-  padding: 0;
-  padding-right: 0.25rem;
 }
 
 .clip-text {

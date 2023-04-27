@@ -1,44 +1,43 @@
 <template>
   <NeoModal v-model="isModalActive" scroll="clip" @close="emit('close')">
-    <div class="px-5">
-      <header class="card-header border-bottom">
-        <p class="card-header-title is-flex is-justify-content-center px-0">
+    <div class="p-6 modal-width">
+      <div class="border-bottom border-grey">
+        <p
+          class="has-text-weight-bold pb-4 is-size-5 is-flex is-justify-content-center px-0">
           {{ $t('massmint.missingRequiredInfo') }}
         </p>
-      </header>
-      <div class="card-content">
-        <div>
-          <div class="has-text-weight-bold has-text-k-red">
-            <span>{{ $t('massmint.required') }}</span>
-            <ul class="ml-4">
-              <li>
-                {{ $t('massmint.incompleteNfts', { count: numMissingNames }) }}
-              </li>
-            </ul>
-          </div>
-          <div v-if="numMissingDescriptions" class="has-text-k-red mt-3">
-            <span>{{ $t('massmint.optional') }}</span>
-            <ul class="ml-4">
-              <li>
-                {{
-                  $t('massmint.missingDescription', {
-                    count: numMissingDescriptions,
-                  })
-                }}
-              </li>
-            </ul>
-          </div>
-          <div class="mt-3 limit-note-width">
-            {{ $t('massmint.cantMintNote') }}
+      </div>
+      <div class="pt-4">
+        <div class="has-text-weight-bold has-text-k-red">
+          <div>{{ $t('massmint.required') }}</div>
+
+          <div class="pl-3">
+            • {{ $t('massmint.incompleteNfts', { count: numMissingNames }) }}
           </div>
         </div>
-        <div class="is-flex is-justify-content-center pt-5">
-          <NeoButton
-            :label="$t('massmint.goBack')"
-            variant="k-accent"
-            class="is-flex is-flex-grow-1"
-            @click.native="emit('close')" />
+        <div v-if="numMissingDescriptions" class="has-text-k-red mt-3">
+          <div>{{ $t('massmint.optional') }}</div>
+
+          <div class="pl-3">
+            •
+            {{
+              $t('massmint.missingDescription', {
+                count: numMissingDescriptions,
+              })
+            }}
+          </div>
         </div>
+        <div class="mt-6 limit-note-width">
+          {{ $t('massmint.cantMintNote') }}
+        </div>
+      </div>
+      <div class="is-flex is-justify-content-center pt-5 px-8">
+        <NeoButton
+          :label="$t('massmint.goBack')"
+          variant="k-accent"
+          no-shadow
+          class="is-flex is-flex-grow-1 btn-height"
+          @click.native="emit('close')" />
       </div>
     </div>
   </NeoModal>
@@ -59,11 +58,5 @@ const emit = defineEmits(['close'])
 </script>
 
 <style lang="scss" scoped>
-li {
-  list-style-type: disc;
-}
-
-.limit-note-width {
-  max-width: 20rem;
-}
+@import './modals.scss';
 </style>

@@ -66,6 +66,9 @@
   "beta": "Beta",
   "go back": "Go Back",
   "showMore": "Show More",
+  "ok": "OK",
+  "incomplete": "Incomplete",
+  "description": "Description",
   "showLess": "Show Less",
   "dropUpload": "Drop your file here or click to select.",
   "search": {
@@ -76,7 +79,9 @@
     "landingTitle1": "Discover,",
     "landingTitle2": "Collect",
     "landingTitle3": "And Sell",
-    "landingSubtitle": "Kusama NFTS"
+    "landingSubtitle": "Kusama NFTS",
+    "collectionNotFound": "Our search agents did not found anything with \"{0}\" in collection name",
+    "nftNotFound": "Our search agents did not found anything with \"{0}\" in NFT name"
   },
   "topCollections": {
     "timeFrames": {
@@ -1297,7 +1302,7 @@
     "save": "Save",
     "note": "Note",
     "required": "Required",
-    "areYouSureDelete": "Are you sure you want to delete {name} #{id}?",
+    "areYouSureDelete": "Are you sure you want to delete",
     "yesDelete": "Yes, Delete",
     "cancel": "Cancel",
     "goBack": "Go Back",

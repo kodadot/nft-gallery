@@ -1,0 +1,61 @@
+@import '../../scss/variable.scss';
+@import '../../scss/theme.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+
+
+$input-border-radius: 0;
+$input-height: 3rem;
+$input-padding: 0.5rem;
+$input-textarea-padding: 0.5rem;
+
+@import '@oruga-ui/oruga/src/scss/components/field.scss';
+@import '@oruga-ui/oruga/src/scss/components/input.scss';
+
+.neo-field {
+  &--error .o-input {
+    @include ktheme() {
+      border-color: theme('k-red') !important;
+    }
+    &::placeholder {
+      @include ktheme() {
+        color: theme('k-red') !important;
+      }
+    }
+  }
+
+    .o-field__label {
+      margin-bottom: 0.5rem;
+      font-weight: 400;
+    }
+
+  &.o-field--focused {
+    input,
+    textarea {
+      outline: none;
+    }
+  }
+}
+
+.neo-input {
+  .o-input {
+
+    @include ktheme() {
+      border: 1px solid theme('text-color');
+      background-color: theme('background-color');
+      color: theme('text-color');
+    }
+    &__counter {
+      position: relative;
+      top: -1.3rem;
+      right: 0.7rem;
+    }
+    &__textarea {
+      height: var(--neo-input-height);
+    }
+  }
+
+  --neo-input-height: initial;
+}

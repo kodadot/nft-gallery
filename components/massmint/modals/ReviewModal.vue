@@ -1,45 +1,43 @@
 <template>
   <NeoModal v-model="isModalActive" scroll="clip" @close="emit('close')">
-    <div class="p-5">
-      <header class="border-bottom">
-        <p class="is-flex is-justify-content-center pb-2 is-size-5">
+    <div class="p-6 modal-width">
+      <div class="border-bottom border-grey">
+        <p class="is-flex is-justify-content-center pb-4 is-size-5">
           {{ $t('massmint.reviewTtile') }}
         </p>
-      </header>
-      <div class="card-content">
+      </div>
+      <div class="pt-4">
         <div>
-          <ul class="ml-4">
-            <li>
-              <span class="has-text-weight-bold">{{ numNfts }} NFTs </span>
-              {{ $t('massmint.willBeMinted') }}
-            </li>
-          </ul>
-          <div v-if="numMissingDescriptions" class="has-text-k-red mt-3">
-            <span>{{ $t('massmint.note') }}</span>
-            <ul class="ml-4">
-              <li>
-                {{
-                  $t('massmint.missingDescription', {
-                    count: numMissingDescriptions,
-                  })
-                }}
-              </li>
-            </ul>
+          <span class="has-text-weight-bold"> • {{ numNfts }} NFTs </span>
+          {{ $t('massmint.willBeMinted') }}
+
+          <div v-if="numMissingDescriptions" class="has-text-k-red mt-4">
+            <div>{{ $t('massmint.note') }}</div>
+            <div class="pl-3">
+              •
+              {{
+                $t('massmint.missingDescription', {
+                  count: numMissingDescriptions,
+                })
+              }}
+            </div>
           </div>
-          <div class="mt-3 limit-note-width">
+          <div class="mt-6 limit-note-width">
             {{ $t('massmint.reallyProcceed') }}
           </div>
         </div>
-        <div class="is-flex pt-5">
+        <div class="is-flex pt-6">
           <NeoButton
             :label="$t('massmint.yesMint')"
             :variant="mintBtnVariant"
-            class="min-width is-flex is-flex-1"
+            no-shadow
+            class="min-width btn-height is-flex is-flex-1"
             @click.native="emit('mint')" />
           <NeoButton
             :label="$t('massmint.cancel')"
             :variant="cancelBtnVariant"
-            class="min-width ml-5 is-flex is-flex-1"
+            no-shadow
+            class="min-width ml-5 btn-height is-flex is-flex-1"
             @click.native="emit('close')" />
         </div>
       </div>
@@ -69,13 +67,7 @@ const emit = defineEmits(['close', 'mint'])
 </script>
 
 <style lang="scss" scoped>
-li {
-  list-style-type: disc;
-}
-
-.limit-note-width {
-  max-width: 20rem;
-}
+@import './modals.scss';
 
 .min-width {
   min-width: 10rem;
