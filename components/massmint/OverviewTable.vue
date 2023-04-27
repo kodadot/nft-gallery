@@ -28,7 +28,11 @@
               {{ nft.id }}
             </div>
             <div class="column is-flex is-align-items-center">
-              <img :src="nft.imageUrl" class="image is-48x48 border cover" />
+              <NeoAvatar
+                :avatar="nft.imageUrl"
+                :name="nft.name || `${nft.id}`"
+                :size="48"
+                :placeholder="placeholder" />
             </div>
             <div class="column is-flex is-align-items-center">
               <div
@@ -97,10 +101,12 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoCollapse } from '@kodadot1/brick'
+import { NeoAvatar, NeoButton, NeoCollapse } from '@kodadot1/brick'
 import { useIntersectionObserver } from '@vueuse/core'
 import { NFT, NFTS, Status } from './types'
 import { statusClass, statusTranslation } from './useMassMint'
+const { placeholder } = useTheme()
+
 const offset = ref(10)
 const sentinel = ref<HTMLDivElement | null>(null)
 const emit = defineEmits(['openSideBarWith', 'delete'])
