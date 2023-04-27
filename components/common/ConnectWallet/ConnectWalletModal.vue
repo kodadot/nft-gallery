@@ -148,11 +148,4 @@ const emit = defineEmits(['close'])
 const toggleShowUninstalledWallet = () => {
   showUninstalledWallet.value = !showUninstalledWallet.value
 }
-// watch(account, async (account) => {
-//   console.log('WATCH ACCOUNT CHANGE')
-//   console.log(account)
-//   forceWalletSelect.value = false
-//   await identityStore.fetchBalance({ address: account })
-
-// })
 </script>
