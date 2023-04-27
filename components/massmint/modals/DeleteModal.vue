@@ -16,12 +16,12 @@
         <NeoButton
           class="mr-3 is-flex is-flex-grow-1 is-flex-1 btn-height"
           no-shadow
+          variant="k-accent"
           :label="$t('massmint.yesDelete')"
           @click.native="deleteNFT(nft)" />
         <NeoButton
           :label="$t('massmint.cancel')"
           no-shadow
-          variant="k-accent"
           class="is-flex is-flex-grow-1 is-flex-1 btn-height"
           @click.native="emit('close')" />
       </div>

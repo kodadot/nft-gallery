@@ -16,7 +16,7 @@
             </div>
             <div class="column has-text-grey">{{ $t('massmint.price') }}</div>
             <div class="column has-text-grey">{{ $t('massmint.status') }}</div>
-            <div class="column has-text-grey">
+            <div class="column has-text-grey is-flex is-justify-content-end">
               {{ $t('massmint.operation') }}
             </div>
           </div>
@@ -72,7 +72,8 @@
                 </div>
               </div>
             </div>
-            <div class="column is-flex is-align-items-center has-text-grey">
+            <div
+              class="column is-flex is-align-items-center has-text-grey is-justify-content-end">
               <NeoButton
                 icon="edit"
                 class="has-text-grey"
