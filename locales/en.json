@@ -67,6 +67,7 @@
   "go back": "Go Back",
   "showMore": "Show More",
   "showLess": "Show Less",
+  "dropUpload": "Drop your file here or click to select.",
   "search": {
     "seeAll": "See All",
     "rankings": "Rankings",
@@ -75,7 +76,9 @@
     "landingTitle1": "Discover,",
     "landingTitle2": "Collect",
     "landingTitle3": "And Sell",
-    "landingSubtitle": "Kusama NFTS"
+    "landingSubtitle": "Kusama NFTS",
+    "collectionNotFound": "Our search agents did not found anything with \"{0}\" in collection name",
+    "nftNotFound": "Our search agents did not found anything with \"{0}\" in NFT name"
   },
   "topCollections": {
     "timeFrames": {
@@ -624,10 +627,7 @@
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
       "create": "Create collection",
-      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
-      "massmintDrop": "Drop your file here or click to upload.",
-      "formats": "Supported formats:",
-      "compressZip": "Compress your Art files into a .ZIP file."
+      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
     },
     "nft": {
       "name": {
@@ -978,7 +978,8 @@
     "searchPlaceholder": "Search by Collection or NFT",
     "tagsAdd": "Type and press enter to add your own",
     "chooseWallet": "Choose your",
-    "noAssets": "There are currently no assets in this wallet."
+    "noAssets": "There are currently no assets in this wallet.",
+    "noPopularCollections": "There are no popular collections now."
   },
   "helper": {
     "seeMore": "See More",
@@ -1170,6 +1171,7 @@
     "noPropertiesForNFT": "No Properties for this NFT",
     "description": "Description",
     "details": "Details",
+    "parent": "Parent",
     "offers": "Offers",
     "offersDisabled": "Offers Are Not Available on this chain",
     "activity": "Activity",
@@ -1249,6 +1251,7 @@
     "massmint": "Simplified process to create multiple NFT's for your collection"
   },
   "massmint": {
+    "overviewTable": "Overview Table",
     "backToOnbaording": "Back To Onboarding",
     "chooseCollection": "Choose a collection to which you want to mint",
     "selectCollection": "Select Collection",
@@ -1275,6 +1278,9 @@
       }
     },
     "uploadPics": "Upload Pictures",
+    "uploadzipTip": "Compress your Art files into a .ZIP file.",
+    "uploadDescriptionTip": "Upload your Description file.",
+    "supportedFormats": "Supported formats:",
     "uploadDesc": "Upload Description File (Optional)"
   },
   "filters": {

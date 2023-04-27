@@ -57,6 +57,14 @@ body {
     }
   }
 
+  .field {
+    .input,
+    select,
+    textarea {
+      border-color: #dbdbdb;
+    }
+  }
+
   .taginput-container.is-focusable {
     height: auto !important;
   }
@@ -378,5 +386,13 @@ hr {
     &:hover {
       background-color: theme('k-accentlight2');
     }
+  }
+}
+
+//shadow
+
+.k-shadow {
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
   }
 }

@@ -2,7 +2,7 @@
   <div class="wallet-modal-container is-flex is-flex-direction-column">
     <header class="modal-card-head mb-4">
       <b-button
-        v-if="hasSelectedWalletProvider"
+        v-show="hasSelectedWalletProvider"
         type="is-text"
         class="mr-2 is-no-border"
         icon-left="chevron-left"
@@ -85,7 +85,7 @@ import { getRedirectToRmrk2HostnameWhitelist } from '@/utils/config/whitelist'
 import { toDefaultAddress } from '@/utils/account'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import { useIdentityStore } from '@/stores/identity'
+import { Auth, useIdentityStore } from '@/stores/identity'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset'
 
@@ -99,7 +99,7 @@ const setForceWalletSelect = () => {
   forceWalletSelect.value = true
 }
 
-const account = computed(() => identityStore.getAuthAddress)
+const account = computed(() => identityStore.auth.address)
 const showAccount = computed(() => account.value && !forceWalletSelect.value)
 
 const wallets = SupportedWallets()
@@ -112,11 +112,26 @@ const headerTitle = computed(() =>
       : 'walletConnect.warning'
   )
 )
-const setAccount = (account) => {
+const setAccount = (account: Auth) => {
   forceWalletSelect.value = false
-  // account.value = addr
-
   identityStore.setAuth(account)
+
+  if (selectedWalletProvider.value) {
+    localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
+  }
+  if (
+    getRedirectToRmrk2HostnameWhitelist().includes(
+      toDefaultAddress(account.address)
+    ) &&
+    !location.hostname.startsWith('rmrk2.') &&
+    !location.hostname.startsWith('rmrk.')
+  ) {
+    window.open(`${location.protocol}//rmrk2.${location.host}`, '_self')
+  }
+}
+const setUserAuthValue = () => {
+  hasUserWalletAuth.value = true
+  localStorage.setItem('user_auth_wallet_add', true.toString())
 }
 const installedWallet = computed(() => {
   return wallets.filter((wallet) => wallet.installed)
@@ -133,24 +148,11 @@ const emit = defineEmits(['close'])
 const toggleShowUninstalledWallet = () => {
   showUninstalledWallet.value = !showUninstalledWallet.value
 }
-watch(account, async (account) => {
-  forceWalletSelect.value = false
-  localStorage.setItem('kodaauth', account)
-  await identityStore.fetchBalance({ address: account })
-  if (selectedWalletProvider.value) {
-    localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
-  }
-  if (
-    getRedirectToRmrk2HostnameWhitelist().includes(toDefaultAddress(account)) &&
-    !location.hostname.startsWith('rmrk2.') &&
-    !location.hostname.startsWith('rmrk.')
-  ) {
-    window.open(`${location.protocol}//rmrk2.${location.host}`, '_self')
-  }
-})
+// watch(account, async (account) => {
+//   console.log('WATCH ACCOUNT CHANGE')
+//   console.log(account)
+//   forceWalletSelect.value = false
+//   await identityStore.fetchBalance({ address: account })
 
-const setUserAuthValue = () => {
-  localStorage.setItem('user_auth_wallet_add', true.toString())
-  hasUserWalletAuth.value = true
-}
+// })
 </script>

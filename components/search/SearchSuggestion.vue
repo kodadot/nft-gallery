@@ -14,6 +14,9 @@
             :key="item"
             is-loading />
         </div>
+        <div v-else-if="!collectionSuggestion.length" class="mx-6 mt-4">
+          {{ $t('search.collectionNotFound', [name]) }}
+        </div>
         <div v-else>
           <div
             v-for="(item, idx) in collectionSuggestion"
@@ -26,7 +29,24 @@
                 <div
                   class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
                   <span class="main-title name">{{ item.name }}</span>
-                  <span>{{ urlPrefix.toUpperCase() }}</span>
+                  <span class="has-text-grey">
+                    {{ urlPrefix.toUpperCase() }}
+                  </span>
+                </div>
+                <div class="is-flex is-justify-content-space-between pr-2">
+                  <span>
+                    {{ $t('activity.floor') }}:
+                    <span v-if="getFloorPrice(item.nfts) === 0"> -- </span>
+                    <Money
+                      v-else
+                      :value="getFloorPrice(item.nfts)"
+                      :unit-symbol="chainSymbol"
+                      inline />
+                  </span>
+                  <span class="has-text-grey">
+                    {{ $t('search.units') }}:
+                    {{ item.nfts?.length || 0 }}
+                  </span>
                 </div>
               </template>
             </SearchResultItem>
@@ -61,6 +81,9 @@
             :key="item"
             is-loading />
         </div>
+        <div v-else-if="!nftSuggestion.length" class="mx-6 mt-4">
+          {{ $t('search.nftNotFound', [name]) }}
+        </div>
         <div v-else>
           <div
             v-for="(item, idx) in nftSuggestion"
@@ -80,7 +103,10 @@
                   <span class="name">{{ item.collection?.name }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('offer.price') }}:
-                    <Money :value="item.price" inline />
+                    <Money
+                      :value="item.price"
+                      :unit-symbol="chainSymbol"
+                      inline />
                   </span>
                 </div>
               </template>
@@ -94,7 +120,18 @@
             query: { ...$route.query },
           }">
           <div :class="loadMoreItemClassName" @click="seeAllButtonHandler">
-            {{ $t('search.seeAll') }} <span class="info-arrow">--></span>
+            {{ $t('search.seeAll') }}
+            <svg
+              class="ml-1"
+              width="28"
+              height="8"
+              viewBox="0 0 28 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M27.3536 4.35355C27.5488 4.15829 27.5488 3.84171 27.3536 3.64645L24.1716 0.464466C23.9763 0.269204 23.6597 0.269204 23.4645 0.464466C23.2692 0.659728 23.2692 0.976311 23.4645 1.17157L26.2929 4L23.4645 6.82843C23.2692 7.02369 23.2692 7.34027 23.4645 7.53553C23.6597 7.7308 23.9763 7.7308 24.1716 7.53553L27.3536 4.35355ZM0 4.5H27V3.5H0V4.5Z"
+                fill="currentColor" />
+            </svg>
           </div>
         </nuxt-link>
       </b-tab-item>
@@ -191,7 +228,7 @@ import {
   CollectionWithMeta,
   NFTWithMeta,
 } from '@/components/rmrk/service/scheme'
-import { getSanitizer } from '@/utils/ipfs'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { logError, mapNFTorCollectionMetadata } from '~/utils/mappers'
 import { processMetadata } from '~/utils/cachingStrategy'
@@ -297,6 +334,11 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     }
   }
 
+  get chainSymbol() {
+    const { chainSymbol } = useChain()
+    return chainSymbol.value
+  }
+
   public updateSearchUrl() {
     if (this.name) {
       this.$router
@@ -336,7 +378,10 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
             collectionResult.push({
               ...collections[i],
               ...meta,
-              image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
+              image: sanitizeIpfsUrl(
+                meta.image || meta.mediaUri || '',
+                'image'
+              ),
             })
           }
         )
@@ -520,9 +565,9 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
         nftResult.push({
           ...nftList[i],
           ...meta,
-          image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
-          animation_url: getSanitizer(meta.animation_url || '')(
-            meta.animation_url || ''
+          image: sanitizeIpfsUrl(
+            meta.image || meta.animation_url || meta.mediaUri || '',
+            'image'
           ),
         })
       })
@@ -560,7 +605,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
         collectionWithImages.push({
           ...collections[i],
           ...meta,
-          image: getSanitizer(meta.image || '', 'image')(meta.image || ''),
+          image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
         })
       })
       this.collectionResult = collectionWithImages
@@ -571,6 +616,18 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       )
       this.isCollectionResultLoading = false
     }
+  }
+
+  getFloorPrice(nfts: NFTWithMeta[] | undefined) {
+    if (!nfts || !nfts.length) {
+      return 0
+    }
+    // floor price should be greater than zero.
+    const priceArr = nfts.filter((nft) => Number(nft.price) > 0)
+    if (priceArr.length === 0) {
+      return 0
+    }
+    return Math.min(...priceArr.map((nft) => Number(nft.price)))
   }
 
   @Watch('name')

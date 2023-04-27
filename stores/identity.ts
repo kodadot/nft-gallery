@@ -1,4 +1,3 @@
-import type { ApiPromise } from '@polkadot/api'
 import { balanceOf, identityOf } from '@kodadot1/sub-api'
 import { Registration } from '@polkadot/types/interfaces/identity/types'
 import { defineStore } from 'pinia'
@@ -31,10 +30,6 @@ export interface IdentityStruct {
 export interface IdenityRequest {
   address: string
   identity: Registration
-}
-
-function free({ free }: any) {
-  return free.toString()
 }
 
 export const useIdentityStore = defineStore('identity', {

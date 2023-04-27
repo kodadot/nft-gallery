@@ -71,6 +71,7 @@ import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { useIdentityStore } from '@/stores/identity'
+import { usePreferencesStore } from '@/stores/preferences'
 
 import Vue from 'vue'
 
@@ -97,6 +98,8 @@ const { urlPrefix, client } = usePrefix()
 const { accountId } = useAuth()
 const root = ref<Vue<Record<string, string>>>()
 const { $apollo, $i18n, $buefy, $route } = useNuxtApp()
+const preferencesStore = usePreferencesStore()
+
 const emit = defineEmits(['buy-success'])
 const actionLabel = $i18n.t('nft.action.buy')
 
@@ -105,7 +108,11 @@ const { transaction, status, isLoading } = useTransaction()
 const connected = computed(() => Boolean(accountId.value))
 const active = ref(false)
 const label = computed(() =>
-  active.value ? $i18n.t('nft.action.confirm') : $i18n.t('nft.action.buy')
+  active.value
+    ? $i18n.t('nft.action.confirm')
+    : $i18n.t(
+        preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy'
+      )
 )
 
 const balance = computed<string>(() => {
