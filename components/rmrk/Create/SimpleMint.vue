@@ -234,7 +234,7 @@ const components = {
   Support,
   AttributeTagInput: () => import('./AttributeTagInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
+  Money: () => import('@/components/shared/format/BasicMoney.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
