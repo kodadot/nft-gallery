@@ -1,4 +1,4 @@
-import { Entry, extractEntriesFromTxtFile } from './parseTxt'
+import { Entry, parseCsv, parseTxt } from './parsers'
 import { readTextFile } from './readTextFile'
 
 async function readFileAndExtractEntries(
@@ -11,16 +11,14 @@ async function readFileAndExtractEntries(
   }
   const fileContents = await readTextFile(file)
 
-  console.log('fileContents', fileContents)
-
   let entries: Record<string, Entry> | undefined
   switch (extension) {
     case 'txt':
-      entries = await extractEntriesFromTxtFile(fileContents)
+      entries = parseTxt(fileContents)
       break
-    // case 'csv':
-    //   entries = await readCsvFile(file)
-    //   break
+    case 'csv':
+      entries = parseCsv(fileContents)
+      break
     // case 'json':
     //   entries = await readJsonFile(file)
     //   break
