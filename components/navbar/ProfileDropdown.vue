@@ -292,12 +292,6 @@ export default class ProfileDropdown extends mixins(
   }
 
   get account() {
-    if (this.identityStore.getAuthAddress) {
-      console.log('fetching balance...')
-      this.identityStore.fetchBalance({
-        address: this.identityStore.getAuthAddress,
-      })
-    }
     return this.identityStore.getAuthAddress
   }
 

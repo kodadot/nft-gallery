@@ -90,6 +90,15 @@ const setTotalValue = (value: number) => {
   totalValue.value = value
 }
 
+onMounted(() => {
+  if (identityStore.getAuthAddress) {
+    console.log('fetching balance...')
+    identityStore.fetchBalance({
+      address: identityStore.getAuthAddress,
+    })
+  }
+})
+
 watch(urlPrefix, () => {
   setTotalValue(0)
 })
