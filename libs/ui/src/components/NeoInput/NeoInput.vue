@@ -10,7 +10,6 @@
 
 <script lang="ts" setup>
 import { OInput } from '@oruga-ui/oruga'
-import { useVModel } from '@vueuse/core'
 
 const props = defineProps<{
   value: string | number
