@@ -73,13 +73,18 @@
               </div>
             </div>
             <div class="column is-flex is-align-items-center has-text-grey">
-              <NeoIcon
-                class="is-clickable"
+              <NeoButton
                 icon="edit"
+                class="has-text-grey"
+                variant="icon"
+                no-shadow
                 @click.native="openSideBarWith(nft)" />
-              <NeoIcon
-                class="is-clickable ml-3"
+
+              <NeoButton
                 icon="trash"
+                class="has-text-grey ml-3"
+                variant="icon"
+                no-shadow
                 @click.native="deleteNFT(nft)" />
             </div>
           </div>
@@ -91,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoCollapse, NeoIcon } from '@kodadot1/brick'
 import { useIntersectionObserver } from '@vueuse/core'
 import { NFT, NFTS, Status } from './types'
 import { statusClass, statusTranslation } from './useMassMint'
