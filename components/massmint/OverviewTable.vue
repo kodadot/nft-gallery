@@ -96,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoCollapse, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoCollapse } from '@kodadot1/brick'
 import { useIntersectionObserver } from '@vueuse/core'
 import { NFT, NFTS, Status } from './types'
 import { statusClass, statusTranslation } from './useMassMint'
