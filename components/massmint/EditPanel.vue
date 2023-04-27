@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-model-argument -->
 <template>
   <NeoSidebar
     fullheight
