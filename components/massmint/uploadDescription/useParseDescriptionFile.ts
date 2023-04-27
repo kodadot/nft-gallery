@@ -1,4 +1,4 @@
-import { Entry, parseCsv, parseTxt } from './parsers'
+import { Entry, parseCsv, parseJson, parseTxt } from './parsers'
 import { readTextFile } from './readTextFile'
 
 async function readFileAndExtractEntries(
@@ -19,36 +19,13 @@ async function readFileAndExtractEntries(
     case 'csv':
       entries = parseCsv(fileContents)
       break
-    // case 'json':
-    //   entries = await readJsonFile(file)
-    //   break
+    case 'json':
+      entries = parseJson(fileContents)
+      break
     default:
       console.warn(`Skipping file ${file.name}: Invalid extension`)
       return undefined
   }
-
-  //   if (!entries || entries.length === 0) {
-  //     console.warn(`Skipping file ${file.name}: No entries found`)
-  //     return undefined
-  //   }
-
-  //   const validatedEntries: { [key: string]: Entry } = {}
-  //   for (let i = 0; i < entries.length; i++) {
-  //     const entry = entries[i]
-  //     const validationErrors = validateEntry(entry)
-  //     if (validationErrors.length === 0) {
-  //       validatedEntries[entry.fileName] = entry
-  //     } else {
-  //       console.warn(
-  //         `Skipping entry in file ${file.name}: ${validationErrors.join(', ')}`
-  //       )
-  //     }
-  //   }
-
-  //   if (Object.keys(validatedEntries).length === 0) {
-  //     console.warn(`Skipping file ${file.name}: No valid entries found`)
-  //     return undefined
-  //   }
 
   return entries
 }
