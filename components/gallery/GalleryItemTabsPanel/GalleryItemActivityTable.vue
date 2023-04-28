@@ -19,7 +19,7 @@
         v-slot="props"
         width="20%"
         field="meta"
-        :label="`${$t(`tabs.tabActivity.price`)} (${unit})`">
+        :label="`${$t(`tabs.tabActivity.price`)} (${chainSymbol})`">
         <p v-if="Number(props.row.meta)">
           {{ formatPrice(props.row.meta) }}
         </p>
@@ -107,7 +107,7 @@ const dprops = defineProps<{
   interactions: string[]
 }>()
 
-const { decimals, unit } = useChain()
+const { decimals, chainSymbol } = useChain()
 const { urlPrefix, tokenId, assets } = usePrefix()
 
 const interaction =
