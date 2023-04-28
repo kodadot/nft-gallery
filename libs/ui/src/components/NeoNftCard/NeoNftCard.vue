@@ -26,12 +26,12 @@
             :nft="nft"
             class="is-ellipsis">
             <template #trigger>
-              <nuxt-link
+              <a
                 :title="nft.collectionName || nft.collection.name"
-                :to="`/${prefix}/collection/${nft.collection.id}`"
+                :href="`/${prefix}/collection/${nft.collection.id}`"
                 class="is-size-7 nft-info-collection-name">
                 {{ nft.collection.name || '--' }}
-              </nuxt-link>
+              </a>
             </template>
           </CollectionDetailsPopover>
         </div>
