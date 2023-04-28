@@ -34,8 +34,8 @@
 <script setup lang="ts">
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 import DragDrop from '@/components/shared/DragDrop.vue'
-const { $consola } = useNuxtApp()
 import { useParseDescriptionFile } from './useParseDescriptionFile'
+import { runTests } from './test'
 
 withDefaults(
   defineProps<{
@@ -63,6 +63,9 @@ const onFileSelected = (file: File) => {
   watch(isLoading, (loadingDescFile) => {
     loading.value = loadingDescFile
     showCheckmark.value = !loadingDescFile
+    if (!loadingDescFile && !error.value) {
+      emit('fileLoaded', entries.value)
+    }
   })
 }
 </script>

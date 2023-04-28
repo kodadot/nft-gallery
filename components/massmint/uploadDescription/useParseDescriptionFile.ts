@@ -1,9 +1,25 @@
 import { Entry, parseCsv, parseJson, parseTxt } from './parsers'
-import { readTextFile } from './readTextFile'
 
-async function readFileAndExtractEntries(
+const readTextFile = (file: File): Promise<string> => {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result)
+      } else {
+        reject(new Error('Unable to read file'))
+      }
+    }
+    reader.onerror = () => {
+      reject(new Error('Unable to read file'))
+    }
+    reader.readAsText(file)
+  })
+}
+
+const readFileAndExtractEntries = async (
   file: File
-): Promise<{ [key: string]: Entry } | undefined> {
+): Promise<{ [key: string]: Entry } | undefined> => {
   const extension = file.name.split('.').pop()?.toLowerCase()
   if (!extension) {
     console.warn(`Skipping file ${file.name}: Invalid extension`)
