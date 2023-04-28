@@ -9,20 +9,6 @@ export type Entry = {
   currency?: string
 }
 
-const isTxtFileValid = (fileData: string): boolean => {
-  const invalidFileNameRegex = /file\s*:\s*[:\n]/gi
-  const invalidNameRegex = /(?:\r?\n\s*)name\s*:\s*[\r\n]/gi
-  const invalidDescriptionRegex = /(?:\r?\n\s*)description\s*:\s*[\r\n]/gi
-  const invalidPriceRegex = /(?:\r?\n\s*)price\s*:\s*[^\d.,\s]/gi
-
-  const invalidFileName = invalidFileNameRegex.test(fileData)
-  const invalidName = invalidNameRegex.test(fileData)
-  const invalidDescription = invalidDescriptionRegex.test(fileData)
-  const invalidPrice = invalidPriceRegex.test(fileData)
-
-  return !(invalidFileName || invalidName || invalidDescription || invalidPrice)
-}
-
 const isValidLine = (line: string, numOfValues = 4) => {
   const values = line.split(',')
   if (values.length !== numOfValues) {
@@ -54,10 +40,7 @@ export function parseTxt(
   fileContent: string
 ): Record<string, Entry> | undefined {
   const fileData = fileContent.trim()
-  if (!isTxtFileValid(fileData)) {
-    console.error('Invalid TXT file structure')
-    return undefined
-  }
+  const blocks = fileData.split(/(?:\r?\n\s*){2,}/)
 
   // matches colon with optional whitespace before/after
   const colon = '\\s*:\\s*'
@@ -88,18 +71,41 @@ export function parseTxt(
     'gi'
   )
   const entries: Record<string, Entry> = {}
+  for (const block of blocks) {
+    const match = entryRegex.exec(block)
 
-  let matches
-  while ((matches = entryRegex.exec(fileData))) {
-    const [, fileName, title, description, price, currency] = matches
-    const normalizedPrice = parseFloat(price.replace(',', '')) // Remove thousands separators (comma) and convert to a number
-    entries[fileName.trim()] = {
-      fileName: fileName.trim(),
-      title: title.trim(),
-      description: description.trim(),
-      price: normalizedPrice,
-      currency: currency ? currency.trim() : undefined,
-      valid: true,
+    if (match) {
+      const [, fileName, title, description, price, currency] = match
+      const normalizedPrice = parseFloat(price.replace(',', ''))
+      entries[fileName.trim()] = {
+        fileName: fileName.trim(),
+        title: title.trim(),
+        description: description.trim(),
+        price: normalizedPrice,
+        currency: currency ? currency.trim() : undefined,
+        valid: true,
+      }
+    } else {
+      console.error('Invalid block', block)
+
+      const fileNameRegex = new RegExp(
+        String.raw`(?:file${colon})([^:\n]+)`,
+        'i'
+      )
+      const fileNameMatch = fileNameRegex.exec(block)
+
+      if (fileNameMatch) {
+        const [, fileName] = fileNameMatch
+        entries[fileName.trim()] = {
+          fileName: fileName.trim(),
+          title: '',
+          description: '',
+          price: 0,
+          valid: false,
+        }
+      } else {
+        console.error('Unable to extract file name from invalid block')
+      }
     }
   }
 
