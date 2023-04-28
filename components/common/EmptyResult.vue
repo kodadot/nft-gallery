@@ -1,27 +1,20 @@
 <template>
   <section>
-    <div class="card" aria-id="contentIdForA11y3">
-      <div class="card-header" role="button" aria-controls="contentIdForA11y3">
-        <p class="card-header-title">
-          <template v-if="!loading">Component</template>
-          <b-skeleton size="is-large" :active="loading"></b-skeleton>
-        </p>
-      </div>
-      <footer class="card-footer">
-        <a class="card-footer-item">
-          <template v-if="!loading">Save</template>
-          <b-skeleton size="is-large" :active="loading"></b-skeleton>
-        </a>
-        <a class="card-footer-item">
-          <template v-if="!loading">Edit</template>
-          <b-skeleton size="is-large" :active="loading"></b-skeleton>
-        </a>
-        <a class="card-footer-item">
-          <template v-if="!loading">Delete</template>
-          <b-skeleton size="is-large" :active="loading"></b-skeleton>
-        </a>
-      </footer>
+    <div class="block">
+      <b-field grouped group-multiline>
+        <div class="control">
+          <b-switch v-model="animated">Animated</b-switch>
+        </div>
+      </b-field>
     </div>
+
+    <b-skeleton width="20%" :animated="animated"></b-skeleton>
+
+    <b-skeleton width="40%" :animated="animated"></b-skeleton>
+
+    <b-skeleton width="80%" :animated="animated"></b-skeleton>
+
+    <b-skeleton :animated="animated"></b-skeleton>
   </section>
 </template>
 
@@ -29,14 +22,8 @@
 export default {
   data() {
     return {
-      loading: true,
+      animated: true,
     }
-  },
-  mounted() {
-    setInterval(() => {
-      this.loading = !this.loading
-    }, 10 * 1000)
-    clearInterval()
   },
 }
 </script>
