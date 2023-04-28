@@ -6,7 +6,7 @@
       <o-table-column
         v-slot="props"
         field="id"
-        :label="`${$t(`offer.price`)} (KSM)`">
+        :label="`${$t(`offer.price`)} (${unit})`">
         {{ getOffersDetails(props.row.id).token }}
       </o-table-column>
 
@@ -95,7 +95,7 @@ const { $i18n, $consola } = useNuxtApp()
 
 const { apiInstance } = useApi()
 const { urlPrefix, tokenId, assets } = usePrefix()
-const { decimals } = useChain()
+const { decimals, unit } = useChain()
 
 const { transaction, status, isLoading } = useTransaction()
 

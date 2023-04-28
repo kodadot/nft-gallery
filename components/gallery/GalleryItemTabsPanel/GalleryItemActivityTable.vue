@@ -19,7 +19,7 @@
         v-slot="props"
         width="20%"
         field="meta"
-        :label="`${$t(`tabs.tabActivity.price`)} (KSM)`">
+        :label="`${$t(`tabs.tabActivity.price`)} (${unit})`">
         <p v-if="Number(props.row.meta)">
           {{ formatPrice(props.row.meta) }}
         </p>
