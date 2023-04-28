@@ -19,15 +19,6 @@ const isValidLine = (line: string, numOfValues = 4) => {
     // Invalid file extension
     return false
   }
-  if (typeof values[1] !== 'string' || typeof values[2] !== 'string') {
-    // Invalid title or description
-    return false
-  }
-  const parsedPrice = parseFloat(values[3])
-  if (isNaN(parsedPrice)) {
-    // Invalid price
-    return false
-  }
 
   return true
 }
@@ -36,28 +27,12 @@ const removeQuotes = (str: string) => {
   return str.replace(/^['"](.*)['"]$/g, '$1')
 }
 
-const parsePrice = (str: string) => {
-  const priceRegex =
-    /^(?<price>\d{1,3}(?:[.,]\d{3})*(?:\.\d+)?)(?:\s*(?<currency>.+))?$/
-  const priceMatch = priceRegex.exec(str)
-  if (priceMatch) {
-    const price = parseFloat(priceMatch.groups?.price.replace(',', '') || '')
-    const currency = priceMatch.groups?.currency?.trim()
-    return { price, currency }
-  }
-  return null
-}
-
 /**
  * Parses a single line of text and extracts the field name and its value.
  *
  * The function takes a line of text as input and matches it against a regular
  * expression to identify the field name (file, name, description, or price)
  * and the value associated with it.
- *
- * The regular expression used in this function includes:
- *  - A named capture group "fieldName" to extract the field name
- *  - The colon delimiter between the field name and value, with optional surrounding whitespace
  *
  * Example:
  *  Input: "name: Beautiful Landscape"
@@ -88,11 +63,6 @@ function parseField(
  *
  * The function takes a string as input and matches it against a regular
  * expression to extract the price and currency.
- *
- * The regular expression used in this function includes:
- *  - A named capture group "price" to extract the price value
- *  - A named capture group "currency" to extract the currency value
- *
  */
 
 function parsePriceAndCurrency(fieldValue: string): {
@@ -116,6 +86,7 @@ function parsePriceAndCurrency(fieldValue: string): {
 export function parseTxt(
   fileContent: string
 ): Record<string, Entry> | undefined {
+  const { $consola } = useNuxtApp()
   const fileData = fileContent.trim()
   const blocks = fileData.split(/(?:\r?\n\s*){2,}/)
 
@@ -150,12 +121,12 @@ export function parseTxt(
         valid: true,
       }
     } else {
-      console.error('Unable to extract file name from invalid block')
+      $consola.error('Unable to extract file name from invalid block')
     }
   }
 
   if (Object.keys(entries).length === 0) {
-    console.error('Invalid TXT file structure')
+    $consola.error('Invalid TXT file structure')
     return undefined
   }
 
@@ -163,6 +134,8 @@ export function parseTxt(
 }
 
 export function parseCsv(csvData: string): Record<string, Entry> {
+  const { $consola } = useNuxtApp()
+
   const entries: Record<string, Entry> = {}
   const lines = csvData.trim().split('\n')
   const firstLine = lines[0]
@@ -179,7 +152,7 @@ export function parseCsv(csvData: string): Record<string, Entry> {
 
     //Check that header contains expected fields
     if (!csvHeaders.every((header) => expectedHeaders.includes(header))) {
-      console.error('CSV file has incorrect header fields.', csvHeaders)
+      $consola.error('CSV file has incorrect header fields.', csvHeaders)
     }
     for (let i = startIndex; i < lines.length; i++) {
       const line = lines[i].trim()
@@ -198,23 +171,13 @@ export function parseCsv(csvData: string): Record<string, Entry> {
       for (const [j, header] of csvHeaders.entries()) {
         try {
           const value = values[j]?.trim()
-          console.log('value', value)
-          switch (header) {
-            case 'file':
-              entry.file = value
-              break
-            case 'name':
-              entry.name = value
-              break
-            case 'description':
-              entry.description = value
-              break
-            case 'price':
-              entry.price = parseFloat(value)
-              break
+          if (header === 'price') {
+            entry.price = parseFloat(value)
+          } else {
+            entry[header] = value
           }
         } catch (e) {
-          console.error(e)
+          $consola.error(e)
         }
       }
 
@@ -228,7 +191,6 @@ export function parseCsv(csvData: string): Record<string, Entry> {
 
   for (let i = startIndex; i < lines.length; i++) {
     const line = lines[i].trim()
-    console.log('line', line)
     const valid = isValidLine(line)
 
     const values = line.split(',').map((value) => removeQuotes(value.trim()))
@@ -247,6 +209,8 @@ export function parseCsv(csvData: string): Record<string, Entry> {
 }
 
 export function parseJson(jsonData: string): Record<string, Entry> {
+  const { $consola } = useNuxtApp()
+
   try {
     const data = JSON.parse(jsonData)
 
@@ -257,7 +221,6 @@ export function parseJson(jsonData: string): Record<string, Entry> {
     const entries: Record<string, Entry> = {}
 
     data.forEach((item) => {
-      const { file, name, description, price } = item
       const entry: Entry = {
         file: '',
         name: '',
@@ -266,47 +229,36 @@ export function parseJson(jsonData: string): Record<string, Entry> {
         valid: false,
       }
 
-      if (!file) {
-        console.error(`Invalid item in JSON file: ${JSON.stringify(item)}`)
-        entries[file] = {
+      if (!item.file) {
+        $consola.error(`Invalid item in JSON file: ${JSON.stringify(item)}`)
+        entries[item.file] = {
           ...entry,
           file: '',
           valid: false,
         }
         return
       }
-      if (!name || !description || !price) {
-        console.error(
-          `Missing required fields in JSON file: ${JSON.stringify(item)}`
-        )
-        entries[file] = {
-          ...entry,
-          file: file,
-          valid: false,
-        }
-        return
-      }
 
-      const parsedPrice = parseFloat(price)
+      const parsedPrice = parseFloat(item?.price || '')
 
       if (Number.isNaN(parsedPrice)) {
-        console.error(
+        $consola.error(
           `Invalid price value in JSON file: ${JSON.stringify(item)}`
         )
-        entries[file] = {
+        entries[item.file] = {
           ...entry,
-          file: file,
-          name: name,
-          description,
-          valid: false,
+          file: item.file,
+          name: item.name,
+          description: item.description,
+          valid: true,
         }
         return
       }
 
-      entries[file] = {
-        file: file,
-        name: name,
-        description,
+      entries[item.file] = {
+        file: item.file,
+        name: item.name,
+        description: item.description,
         price: parsedPrice,
         valid: true,
       }
@@ -314,7 +266,7 @@ export function parseJson(jsonData: string): Record<string, Entry> {
 
     return entries
   } catch (error) {
-    console.error(`Error parsing JSON file: ${error}`)
+    $consola.error(`Error parsing JSON file: ${error}`)
     return {}
   }
 }

@@ -20,9 +20,11 @@ const readTextFile = (file: File): Promise<string> => {
 const readFileAndExtractEntries = async (
   file: File
 ): Promise<{ [key: string]: Entry } | undefined> => {
+  const { $consola } = useNuxtApp()
+
   const extension = file.name.split('.').pop()?.toLowerCase()
   if (!extension) {
-    console.warn(`Skipping file ${file.name}: Invalid extension`)
+    $consola.warn(`Skipping file ${file.name}: Invalid extension`)
     return undefined
   }
   const fileContents = await readTextFile(file)
@@ -39,7 +41,7 @@ const readFileAndExtractEntries = async (
       entries = parseJson(fileContents)
       break
     default:
-      console.warn(`Skipping file ${file.name}: Invalid extension`)
+      $consola.warn(`Skipping file ${file.name}: Invalid extension`)
       return undefined
   }
 
@@ -55,7 +57,6 @@ export const useParseDescriptionFile = (file: File) => {
     loading.value = true
     try {
       entries.value = await readFileAndExtractEntries(file)
-      console.log('entries', entries.value)
     } catch (e: any) {
       error.value = e
     } finally {

@@ -35,7 +35,6 @@
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 import DragDrop from '@/components/shared/DragDrop.vue'
 import { useParseDescriptionFile } from './useParseDescriptionFile'
-import { runTests } from './test'
 
 withDefaults(
   defineProps<{
