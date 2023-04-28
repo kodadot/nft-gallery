@@ -108,7 +108,7 @@ const dprops = defineProps<{
 }>()
 
 const { decimals, chainSymbol } = useChain()
-const { urlPrefix, tokenId, assets } = usePrefix()
+const { urlPrefix } = usePrefix()
 
 const interaction =
   urlPrefix.value === 'ksm'
@@ -155,12 +155,6 @@ watchEffect(() => {
 })
 
 const formatPrice = (price) => {
-  /** hiding unit temporarily */
-  // const { symbol } = assets(tokenId.value)
-  // const tokenSymbol = ['rmrk', 'ksm'].includes(urlPrefix.value)
-  //   ? unit.value
-  //   : symbol
-
   return formatBalance(price, decimals.value, false)
 }
 </script>

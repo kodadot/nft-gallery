@@ -94,7 +94,7 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 const { $i18n, $consola } = useNuxtApp()
 
 const { apiInstance } = useApi()
-const { urlPrefix, tokenId, assets } = usePrefix()
+const { urlPrefix } = usePrefix()
 const { decimals, chainSymbol } = useChain()
 
 const { transaction, status, isLoading } = useTransaction()
@@ -235,10 +235,8 @@ watch(
 
       offersData.offers.map((offer) => {
         const price = formatPrice(offer.price)
-        /** hiding symbol temporarily */
-        // const { symbol } = assets(tokenId.value)
 
-        const token = `${price}`
+        const token = price
         const usd = `$${Math.round(Number(price) * ksmPrice)}`
         const floorDifference = getPercentage(Number(price), Number(floorPrice))
 
