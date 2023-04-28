@@ -4,7 +4,7 @@
       v-for="{ avatar, boughtPrice, soldPrice, profit, nft } in displayedFlips"
       :key="nft.id"
       class="is-flex py-2 px-5 is-justify-content-start is-hoverable-item is-flex-direction-column">
-      <div class="is-flex">
+      <nuxt-link class="is-flex" :to="`/${urlPrefix}/gallery/${nft.id}`">
         <img
           v-if="avatar"
           :src="avatar"
@@ -19,7 +19,7 @@
           width="40"
           height="40" />
         <span>{{ nft.name }}</span>
-      </div>
+      </nuxt-link>
       <div
         class="is-flex is-flex-direction-column is-justify-content-space-between mt-3">
         <div class="is-flex is-justify-content-space-between no-wrap">
@@ -69,6 +69,7 @@ const ready = ref(false)
 const target = ref<HTMLElement | null>(null)
 const offset = ref(4)
 
+const { urlPrefix } = usePrefix()
 useIntersectionObserver(target, ([{ isIntersecting }]) => {
   if (isIntersecting) {
     offset.value += 4

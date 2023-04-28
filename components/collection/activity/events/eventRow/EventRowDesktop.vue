@@ -1,33 +1,27 @@
 <template>
   <div class="columns mb-2">
-    <div class="column">
+    <div class="column is-clipped">
       <div class="is-flex is-align-items-center">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
           class="height-50px">
-          <img
-            v-if="avatar"
-            :src="avatar"
-            :alt="event.nft.name"
-            width="50"
-            height="50"
-            class="border image-size" />
-          <img
-            v-else
-            :src="placeholder"
-            class="border image-size"
-            width="50"
-            height="50" />
+          <NeoAvatar
+            :avatar="avatar"
+            :placeholder="placeholder"
+            :name="event.nft.name"
+            :size="50" />
         </nuxt-link>
-        <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
-          <div class="ml-5 has-text-weight-bold is-clipped elipsis">
+        <nuxt-link
+          class="is-ellipsis is-inline-block"
+          :to="`/${urlPrefix}/gallery/${event.nft.id}`">
+          <span class="ml-5 has-text-weight-bold is-clipped">
             {{ event.nft.name }}
-          </div>
+          </span>
         </nuxt-link>
       </div>
     </div>
 
-    <div class="column">
+    <div class="column is-1">
       <div class="height-50px is-flex is-align-items-center">
         <div
           class="border is-size-7 is-justify-content-center py-1 my-2 is-flex is-align-items-center fixed-width fixed-height"
@@ -37,7 +31,7 @@
       </div>
     </div>
 
-    <div class="column">
+    <div class="column is-ellipsis">
       <div class="height-50px is-flex is-align-items-center">
         <div v-if="amount === blank">
           {{ blank }}
@@ -97,13 +91,15 @@ import {
   interactionNameMap,
 } from './common'
 
+import { NeoAvatar } from '@kodadot1/brick'
+
 const { urlPrefix } = usePrefix()
-const { placeholder } = useTheme()
 const props = defineProps<{
   event: InteractionWithNFT | Offer
 }>()
 
 const avatar = ref<string>()
+const { placeholder } = useTheme()
 
 const interactionName = computed(
   () => interactionNameMap[props.event.interaction] || props.event.interaction
@@ -129,19 +125,11 @@ const getAvatar = async () => {
 .fixed-width {
   width: 66px;
 }
+
 .fixed-height {
   height: 22px;
 }
 .height-50px {
   height: 50px;
-}
-.image-size {
-  width: 50px !important;
-  height: 50px !important;
-  max-width: none !important;
-}
-
-.elipsis {
-  text-overflow: ellipsis;
 }
 </style>

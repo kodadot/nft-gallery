@@ -141,6 +141,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/icons', mode: 'client' },
     { src: '~/plugins/consola', mode: 'client' },
     { src: '~/plugins/assets', mode: 'client' },
+    { src: '~/plugins/piniaPersistedState', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
