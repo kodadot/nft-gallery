@@ -52,6 +52,7 @@ export default class ModalWrapper extends Vue {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/abstracts/variables';
 .modal-wrapper-button__right {
   float: right;
 }
@@ -59,6 +60,14 @@ export default class ModalWrapper extends Vue {
   position: fixed;
   &.is-active {
     z-index: 1001;
+  }
+  :deep .modal-content {
+    @include ktheme() {
+      background-color: theme('background-color');
+    }
+    .card {
+      box-shadow: none;
+    }
   }
 }
 :deep .modal-close {
