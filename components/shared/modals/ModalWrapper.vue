@@ -65,7 +65,7 @@ export default class ModalWrapper extends Vue {
     @include ktheme() {
       background-color: theme('background-color');
     }
-    .card {
+    .modal-card {
       box-shadow: none;
     }
   }
