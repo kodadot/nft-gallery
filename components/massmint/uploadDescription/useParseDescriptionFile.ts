@@ -1,4 +1,7 @@
-import { Entry, parseCsv, parseJson, parseTxt } from './parsers'
+import { Entry } from './parsers/common'
+import { parseCsv } from './parsers/parseCsv'
+import { parseJson } from './parsers/parseJson'
+import { parseTxt } from './parsers/parseTxt'
 
 const readTextFile = (file: File): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
