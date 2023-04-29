@@ -136,62 +136,46 @@ export function parseTxt(
   return entries
 }
 
-export function parseCsv(csvData: string): Record<string, Entry> {
+function parseCsvWithHeaders(lines, csvHeaders): Record<string, Entry> {
   const { $consola } = useNuxtApp()
-
   const entries: Record<string, Entry> = {}
-  const lines = csvData.trim().split('\n')
-  const firstLine = lines[0]
-  const extensionRegex = new RegExp(`\\.${validFormats.join('|')}$`, 'i')
-  const expectedHeaders = ['file', 'name', 'description', 'price']
 
-  const hasHeader = firstLine.match(extensionRegex) === null
-  const startIndex = hasHeader ? 1 : 0
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim()
+    const values = line.split(',').map((value) => removeQuotes(value.trim()))
 
-  if (hasHeader) {
-    const csvHeaders = lines[0]
-      .split(',')
-      .map((header) => header.trim().toLowerCase())
-
-    //Check that header contains expected fields
-    if (!csvHeaders.every((header) => expectedHeaders.includes(header))) {
-      $consola.error('CSV file has incorrect header fields.', csvHeaders)
+    const entry: Partial<Entry> = {
+      file: undefined,
+      name: undefined,
+      description: undefined,
+      price: undefined,
     }
-    for (let i = startIndex; i < lines.length; i++) {
-      const line = lines[i].trim()
-      const values = line.split(',').map((value) => removeQuotes(value.trim()))
 
-      const entry: Partial<Entry> = {
-        file: undefined,
-        name: undefined,
-        description: undefined,
-        price: undefined,
-      }
-
-      for (const [j, header] of csvHeaders.entries()) {
-        try {
-          const value = values[j]?.trim()
-          if (header === 'price') {
-            entry.price = parseFloat(value) || undefined
-          } else {
-            entry[header] = value === '' ? undefined : value
-          }
-        } catch (e) {
-          $consola.error(e)
+    for (const [j, header] of csvHeaders.entries()) {
+      try {
+        const value = values[j]?.trim()
+        if (header === 'price') {
+          entry.price = parseFloat(value) || undefined
+        } else {
+          entry[header] = value || undefined
         }
+      } catch (e) {
+        $consola.error(e)
       }
-      entry.valid = isValidEntry(entry)
-      entries[entry.file as string] = entry as Entry
     }
-    return entries
+
+    entry.valid = isValidEntry(entry)
+    entries[entry.file as string] = entry as Entry
   }
 
-  // no header
-  // assuming the following order: file, name, description, price
+  return entries
+}
 
-  for (let i = startIndex; i < lines.length; i++) {
-    const line = lines[i].trim()
+function parseCsvWithoutHeaders(lines): Record<string, Entry> {
+  const entries: Record<string, Entry> = {}
 
+  for (const line_ of lines) {
+    const line = line_.trim()
     const values = line.split(',').map((value) => removeQuotes(value.trim()))
     const [file, name, description, price] = values.map((v) => v.trim())
 
@@ -201,14 +185,38 @@ export function parseCsv(csvData: string): Record<string, Entry> {
       description: description === '' ? undefined : description,
       price: parseFloat(price) || undefined,
     }
-    const valid = isValidEntry(entry)
     entries[file] = {
       ...entry,
-      valid,
+      valid: isValidEntry(entry),
     }
   }
 
   return entries
+}
+
+export function parseCsv(csvData: string): Record<string, Entry> {
+  const { $consola } = useNuxtApp()
+
+  const lines = csvData.trim().split('\n')
+  const firstLine = lines[0]
+  const extensionRegex = new RegExp(`\\.${validFormats.join('|')}$`, 'i')
+  const expectedHeaders = ['file', 'name', 'description', 'price']
+
+  const hasHeader = !extensionRegex.test(firstLine)
+
+  if (hasHeader) {
+    const csvHeaders = lines[0]
+      .split(',')
+      .map((header) => header.trim().toLowerCase())
+
+    // Check that header contains expected fields
+    if (!csvHeaders.every((header) => expectedHeaders.includes(header))) {
+      $consola.error('CSV file has incorrect header fields.', csvHeaders)
+    }
+
+    return parseCsvWithHeaders(lines, csvHeaders)
+  }
+  return parseCsvWithoutHeaders(lines)
 }
 
 export function parseJson(jsonData: string): Record<string, Entry> {
