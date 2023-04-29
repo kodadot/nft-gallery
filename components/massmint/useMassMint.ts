@@ -9,6 +9,8 @@ export const statusTranslation = (status?: Status): string => {
     [Status.Ok]: $i18n.t('ok'),
     [Status.Incomplete]: $i18n.t('incomplete'),
     [Status.Description]: $i18n.t('description'),
+    [Status.Price]: $i18n.t('price'),
+    [Status.Optional]: $i18n.t('optional'),
   }
   return status ? statusTranslationMap[status] : ''
 }
@@ -18,6 +20,8 @@ export const statusClass = (status?: Status) => {
     [Status.Ok]: 'k-greenaccent',
     [Status.Incomplete]: 'k-redaccent',
     [Status.Description]: 'k-yellow',
+    [Status.Price]: 'k-yellow',
+    [Status.Optional]: 'k-yellow',
   }
 
   return status ? statusMap[status] : ''

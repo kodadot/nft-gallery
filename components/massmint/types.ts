@@ -9,6 +9,8 @@ export enum Status {
   Ok = 'Ok',
   Incomplete = 'Incomplete',
   Description = 'Description',
+  Price = 'Price',
+  Optional = 'Optional',
 }
 
 export type NFT = {

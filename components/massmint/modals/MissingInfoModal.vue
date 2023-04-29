@@ -26,6 +26,14 @@
               })
             }}
           </div>
+          <div class="pl-3">
+            •
+            {{
+              $t('massmint.missingPrice', {
+                count: numMissingPrices,
+              })
+            }}
+          </div>
         </div>
         <div class="mt-6 limit-note-width">
           {{ $t('massmint.cantMintNote') }}
@@ -50,6 +58,7 @@ const props = defineProps<{
   value: boolean
   numMissingNames: number
   numMissingDescriptions: number
+  numMissingPrices: number
 }>()
 
 const isModalActive = useVModel(props, 'value')

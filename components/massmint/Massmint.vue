@@ -42,10 +42,17 @@
     <div class="mt-6 is-flex is-justify-content-center w-full">
       <NeoButton
         class="is-flex is-flex-grow-1 limit-width"
-        :label="mintButtonLabel"
         variant="k-accent"
+        size="large"
         :disabled="!mediaLoaded"
-        @click.native="openReviewModal" />
+        @click.native="openReviewModal">
+        <span class="is-size-5"
+          >{{ $t('massmint.mintNFTs') }}
+          <span v-if="numOfValidNFTs" class="has-text-weight-bold">
+            ({{ numOfValidNFTs }})
+          </span>
+        </span>
+      </NeoButton>
     </div>
     <DeleteModal
       v-if="nftInDeleteModal"
@@ -57,10 +64,12 @@
       v-model="missingInfoModalOpen"
       :num-missing-names="numberOfMissingNames"
       :num-missing-descriptions="numberOfMissingDescriptions"
+      :num-missing-prices="numberOfMissingPrices"
       @close="missingInfoModalOpen = false" />
     <ReviewModal
       v-model="overViewModalOpen"
       :num-missing-descriptions="numberOfMissingDescriptions"
+      :num-missing-prices="numberOfMissingPrices"
       :num-nfts="Object.keys(NFTS).length"
       @close="overViewModalOpen = false"
       @mint="startMint" />
@@ -74,20 +83,19 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
-import { MintedCollection } from './useMassMint'
 import UploadMediaZip from './uploadCompressedMedia/UploadCompressedMedia.vue'
 import UploadDescription from './uploadDescription/UploadDescription.vue'
 import OverviewTable from './OverviewTable.vue'
 import ChooseCollectionDropdown from './ChooseCollectionDropdown.vue'
 import EditPanel from './EditPanel.vue'
-import { NFT } from './types'
+import { MintedCollection, NFT } from './types'
 import MissingInfoModal from './modals/MissingInfoModal.vue'
 import ReviewModal from './modals/ReviewModal.vue'
 import DeleteModal from './modals/DeleteModal.vue'
 import MintingModal from './modals/MintingModal.vue'
 
 const preferencesStore = usePreferencesStore()
-const { $consola, $i18n } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
 const { urlPrefix } = usePrefix()
@@ -107,8 +115,16 @@ const isMinting = ref(false)
 const numberOfMissingNames = computed(
   () => Object.values(NFTS.value).filter((nft) => !nft.name).length
 )
+
+const numOfValidNFTs = computed(
+  () => Object.values(NFTS.value).length - numberOfMissingNames.value
+)
 const numberOfMissingDescriptions = computed(
   () => Object.values(NFTS.value).filter((nft) => !nft.description).length
+)
+
+const numberOfMissingPrices = computed(
+  () => Object.values(NFTS.value).filter((nft) => !nft.price).length
 )
 
 const openSideBarWith = (nft: NFT) => {
@@ -148,15 +164,6 @@ const tabs = ['Collection', 'NFT', 'Mass Mint']
 const onCollectionSelected = (collection) => {
   selectedCollection.value = collection
 }
-
-const mintButtonLabel = computed(() => {
-  if (!mediaLoaded.value) {
-    return $i18n.t('massmint.mintNFTs')
-  }
-  return $i18n.t('massmint.mintNumOfNFTs', {
-    count: Object.keys(NFTS.value).length,
-  })
-})
 
 const updateNFT = (nft: NFT) => {
   NFTS.value[nft.id] = nft
