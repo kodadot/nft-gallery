@@ -14,7 +14,7 @@
       </b-button>
     </slot>
     <b-modal :active.sync="isModalActive">
-      <div class="card">
+      <div class="card modal-card">
         <header class="card-header">
           <p class="card-header-title">
             {{ label || title }}
@@ -51,8 +51,27 @@ export default class ModalWrapper extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .modal-wrapper-button__right {
   float: right;
+}
+.modal {
+  position: fixed;
+  &.is-active {
+    z-index: 1001;
+  }
+}
+:deep .modal-close {
+  height: 40px;
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  width: 40px;
+}
+.modal-card {
+  text-align: center;
+}
+.card-header-title {
+  display: inline;
 }
 </style>
