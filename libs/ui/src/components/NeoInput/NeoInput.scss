@@ -29,6 +29,9 @@ $input-textarea-padding: 0.5rem;
     .o-field__label {
       margin-bottom: 0.5rem;
       font-weight: 400;
+      @include ktheme() {
+        color: theme('text-color');
+      }
     }
 
   &.o-field--focused {

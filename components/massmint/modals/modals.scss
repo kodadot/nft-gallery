@@ -16,3 +16,9 @@
   .btn-height {
     height: 3.25rem;
   }
+
+  @include touch() {
+    .modal-width {
+      width: unset
+    }
+  }

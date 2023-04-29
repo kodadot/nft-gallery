@@ -345,6 +345,12 @@ hr {
   }
 }
 
+.has-text-k-orange {
+  @include ktheme() {
+    color: theme('k-orange');
+  }
+}
+
 .has-text-k-blue {
   @include ktheme() {
     color: theme('k-blue');

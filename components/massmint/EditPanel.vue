@@ -24,9 +24,12 @@
             no-shadow
             @click.native="closePanel" />
         </div>
-        <img
-          :src="nft?.imageUrl"
-          class="image is-128x128 cover border k-shadow my-5" />
+        <NeoAvatar
+          :avatar="nft?.imageUrl"
+          :name="nft?.name || `${nft?.id}`"
+          :size="128"
+          :placeholder="placeholder"
+          class="my-5" />
         <form class="w-full">
           <NeoField
             :label="$t('massmint.name')"
@@ -71,8 +74,16 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoField, NeoInput, NeoSidebar } from '@kodadot1/brick'
+import {
+  NeoAvatar,
+  NeoButton,
+  NeoField,
+  NeoInput,
+  NeoSidebar,
+} from '@kodadot1/brick'
 import { NFT } from './types'
+const { placeholder } = useTheme()
+
 const props = defineProps<{
   nft?: NFT
   open: boolean

@@ -21,6 +21,14 @@
                 })
               }}
             </div>
+            <div class="pl-3">
+              •
+              {{
+                $t('massmint.missingPrice', {
+                  count: numMissingPrices,
+                })
+              }}
+            </div>
           </div>
           <div class="mt-6 limit-note-width">
             {{ $t('massmint.reallyProcceed') }}
@@ -52,6 +60,7 @@ const props = defineProps<{
   value: boolean
   numNfts: number
   numMissingDescriptions: number
+  numMissingPrices: number
 }>()
 
 const mintBtnVariant = computed(() =>

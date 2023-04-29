@@ -89,7 +89,7 @@
         <div v-if="!$fetchState.pending" class="has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
-        <b-skeleton :active="$fetchState.pending" />
+        <NeoSkeleton :active="$fetchState.pending" />
       </template>
     </b-table>
   </div>
@@ -98,6 +98,7 @@
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import { NeoSkeleton } from '@kodadot1/brick'
 
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
@@ -113,6 +114,7 @@ const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   BasicPopup: () => import('@/components/shared/view/BasicPopup.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
+  NeoSkeleton,
 }
 
 @Component({ components })
