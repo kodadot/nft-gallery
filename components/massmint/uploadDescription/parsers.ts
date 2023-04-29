@@ -9,14 +9,17 @@ export type Entry = {
   currency?: string
 }
 
-const isValidLine = (line: string, numOfValues = 4) => {
-  const values = line.split(',')
-  if (values.length !== numOfValues) {
-    // Invalid line
+const validFileExtension = (stringWithFileName: string): boolean => {
+  const extensionRegex = new RegExp(`\\.(${validFormats.join('|')})$`, 'i')
+  return extensionRegex.test(stringWithFileName)
+}
+
+const isValidEntry = (entry: Partial<Entry>): boolean => {
+  if (!entry.file || !validFileExtension(entry.file)) {
     return false
   }
-  if (!values[0].match(new RegExp(`\\.(${validFormats.join('|')})$`, 'i'))) {
-    // Invalid file extension
+
+  if (!entry.name && !entry.description && entry.price === undefined) {
     return false
   }
 
@@ -118,7 +121,7 @@ export function parseTxt(
         description: entry.description || undefined,
         price: entry.price || undefined,
         currency: entry.currency || undefined,
-        valid: true,
+        valid: isValidEntry(entry),
       }
     } else {
       $consola.error('Unable to extract file name from invalid block')
@@ -156,32 +159,29 @@ export function parseCsv(csvData: string): Record<string, Entry> {
     }
     for (let i = startIndex; i < lines.length; i++) {
       const line = lines[i].trim()
-
       const values = line.split(',').map((value) => removeQuotes(value.trim()))
-      const valid = isValidLine(line)
 
-      const entry: Entry = {
-        file: '',
-        name: '',
-        description: '',
-        price: NaN,
-        valid,
+      const entry: Partial<Entry> = {
+        file: undefined,
+        name: undefined,
+        description: undefined,
+        price: undefined,
       }
 
       for (const [j, header] of csvHeaders.entries()) {
         try {
           const value = values[j]?.trim()
           if (header === 'price') {
-            entry.price = parseFloat(value)
+            entry.price = parseFloat(value) || undefined
           } else {
-            entry[header] = value
+            entry[header] = value === '' ? undefined : value
           }
         } catch (e) {
           $consola.error(e)
         }
       }
-
-      entries[entry.file] = entry
+      entry.valid = isValidEntry(entry)
+      entries[entry.file as string] = entry as Entry
     }
     return entries
   }
@@ -191,16 +191,19 @@ export function parseCsv(csvData: string): Record<string, Entry> {
 
   for (let i = startIndex; i < lines.length; i++) {
     const line = lines[i].trim()
-    const valid = isValidLine(line)
 
     const values = line.split(',').map((value) => removeQuotes(value.trim()))
-    const [fileName, title, description, price] = values.map((v) => v.trim())
+    const [file, name, description, price] = values.map((v) => v.trim())
 
-    entries[fileName || ''] = {
-      file: fileName,
-      name: title,
-      description,
-      price: parseFloat(price),
+    const entry = {
+      file,
+      name: name === '' ? undefined : name,
+      description: description === '' ? undefined : description,
+      price: parseFloat(price) || undefined,
+    }
+    const valid = isValidEntry(entry)
+    entries[file] = {
+      ...entry,
       valid,
     }
   }
@@ -221,15 +224,14 @@ export function parseJson(jsonData: string): Record<string, Entry> {
     const entries: Record<string, Entry> = {}
 
     data.forEach((item) => {
-      const entry: Entry = {
-        file: '',
-        name: '',
-        description: '',
-        price: NaN,
-        valid: false,
+      const entry: Partial<Entry> = {
+        file: item.file || undefined,
+        name: item.name || undefined,
+        description: item.description || undefined,
+        price: item.price !== undefined ? parseFloat(item.price) : undefined,
       }
 
-      if (!item.file) {
+      if (!entry.file) {
         $consola.error(`Invalid item in JSON file: ${JSON.stringify(item)}`)
         entries[item.file] = {
           ...entry,
@@ -238,29 +240,10 @@ export function parseJson(jsonData: string): Record<string, Entry> {
         }
         return
       }
-
-      const parsedPrice = parseFloat(item?.price || '')
-
-      if (Number.isNaN(parsedPrice)) {
-        $consola.error(
-          `Invalid price value in JSON file: ${JSON.stringify(item)}`
-        )
-        entries[item.file] = {
-          ...entry,
-          file: item.file,
-          name: item.name,
-          description: item.description,
-          valid: true,
-        }
-        return
-      }
-
+      const valid = isValidEntry(entry)
       entries[item.file] = {
-        file: item.file,
-        name: item.name,
-        description: item.description,
-        price: parsedPrice,
-        valid: true,
+        ...(entry as Entry),
+        valid,
       }
     })
 

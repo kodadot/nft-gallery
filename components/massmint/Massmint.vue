@@ -96,7 +96,6 @@ import ReviewModal from './modals/ReviewModal.vue'
 import DeleteModal from './modals/DeleteModal.vue'
 import MintingModal from './modals/MintingModal.vue'
 import { Entry } from './uploadDescription/parsers'
-import { MintedCollection } from './types'
 
 const preferencesStore = usePreferencesStore()
 const { $consola } = useNuxtApp()
