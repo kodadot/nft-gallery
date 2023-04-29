@@ -60,8 +60,8 @@ export const useParseDescriptionFile = (file: File) => {
     loading.value = true
     try {
       entries.value = await readFileAndExtractEntries(file)
-    } catch (e: any) {
-      error.value = e
+    } catch (e) {
+      error.value = e as Error
     } finally {
       loading.value = false
     }
