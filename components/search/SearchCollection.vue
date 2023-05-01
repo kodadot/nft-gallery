@@ -55,8 +55,6 @@ import { usePreferencesStore } from '@/stores/preferences'
 @Component({
   components: {
     Sort: () => import('./SearchSortDropdown.vue'),
-    TypeTagInput: () => import('./TypeTagInput.vue'),
-    Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   },
 })
