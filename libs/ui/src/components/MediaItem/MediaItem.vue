@@ -7,7 +7,19 @@
       :alt="title"
       :placeholder="placeholder"
       :original="original"
+      :is-n-s-f-w="isNSFW"
       :is-detail="isDetail" />
+    <div
+      v-if="isNSFW && isNSFWBlurredLayer"
+      class="nsfw-blur is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
+      <NeoIcon icon="eye-slash" class="mb-3" />
+      <span class="heading-nsfw">Explicit/sensitive content</span>
+      <span class="nsfw-desc"
+        >Mature audiences only. Please confirm your age and consent to
+        proceed.</span
+      >
+      <span class="nsfw-content" @click="showContent()">Show Content</span>
+    </div>
   </div>
 </template>
 
@@ -15,10 +27,14 @@
 import { defineAsyncComponent } from 'vue'
 
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
+import NeoIcon from './../NeoIcon/NeoIcon.vue'
 
 const SUFFIX = 'Media'
 
 export default {
+  components: {
+    NeoIcon,
+  },
   props: {
     src: {
       // for mimeType image please use this props
@@ -39,6 +55,11 @@ export default {
       default: 'KodaDot NFT',
     },
     original: {
+      // original size of the image
+      type: Boolean,
+      default: false,
+    },
+    isNSFW: {
       // original size of the image
       type: Boolean,
       default: false,
@@ -69,6 +90,7 @@ export default {
         ),
         Media: defineAsyncComponent(() => import('./type/UnknownMedia.vue')),
       },
+      isNSFWBlurredLayer: true,
     }
   },
   computed: {
@@ -94,6 +116,35 @@ export default {
         this.defaultMimeType = await getMimeType(this.animationSrc)
       }
     },
+    showContent() {
+      this.isNSFWBlurredLayer = false
+    },
   },
 }
 </script>
+
+<style lang="scss">
+.nsfw-blur {
+  backdrop-filter: blur(60px);
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  color: #fff;
+  text-transform: capitalize;
+
+  .heading-nsfw {
+    font-weight: 700;
+  }
+  .nsfw-desc {
+    max-width: 18.75rem;
+    text-align: center;
+  }
+
+  .nsfw-content {
+    cursor: pointer;
+    bottom: 3.125rem;
+    position: absolute;
+  }
+}
+</style>
