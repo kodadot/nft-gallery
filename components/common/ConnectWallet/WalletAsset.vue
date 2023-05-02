@@ -68,6 +68,9 @@ const emit = defineEmits(['back'])
 
 const account = computed(() => identityStore.getAuthAddress)
 const walletName = computed(() => walletStore.wallet.name)
+const isSnekOrBsx = computed(
+  () => urlPrefix.value === 'snek' || urlPrefix.value === 'bsx'
+)
 
 const { shortenedAddress } = useIdentity({
   address: account,
@@ -83,17 +86,14 @@ const backToWallet = () => {
   emit('back')
 }
 
-const isSnekOrBsx = computed(
-  () => urlPrefix.value === 'snek' || urlPrefix.value === 'bsx'
-)
 const setTotalValue = (value: number) => {
   totalValue.value = value
 }
 
-onMounted(() => {
+onMounted(async () => {
   if (identityStore.getAuthAddress) {
     console.log('fetching balance...')
-    identityStore.fetchBalance({
+    await identityStore.fetchBalance({
       address: identityStore.getAuthAddress,
     })
   }

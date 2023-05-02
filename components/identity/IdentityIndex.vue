@@ -57,7 +57,6 @@ const {
   twitter,
   discord,
   name,
-  whichIdentity,
 } = useIdentity({
   address: props.address,
   customNameOption: props.customNameOption,
@@ -80,11 +79,4 @@ watch(identity, () => {
     emit('change', identity.value)
   }
 })
-
-watch(
-  () => props.address,
-  (newAddress) => {
-    whichIdentity(newAddress)
-  }
-)
 </script>

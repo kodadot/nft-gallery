@@ -108,7 +108,6 @@ export const useIdentityStore = defineStore('identity', {
         const api = await apiInstance.value
         const balance = await balanceOf(api, address)
         if (balance) {
-          console.log(balance)
           this.setPrefixBalance(balance)
         }
       } catch (e) {
@@ -130,4 +129,5 @@ export const useIdentityStore = defineStore('identity', {
       }
     },
   },
+  persist: true,
 })
