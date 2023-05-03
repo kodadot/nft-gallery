@@ -1,6 +1,7 @@
 export default ({ store }): void => {
-  const prefix = store.getters.currentUrlPrefix
-  if (['snek', 'bsx'].includes(prefix)) {
-    store.dispatch('assets/fetchAssetList', prefix)
+  const { urlPrefix } = usePrefix()
+
+  if (['snek', 'bsx'].includes(urlPrefix.value)) {
+    store.dispatch('assets/fetchAssetList', urlPrefix.value)
   }
 }

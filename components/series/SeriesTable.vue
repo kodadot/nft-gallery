@@ -83,7 +83,7 @@
             :alt="props.row.name"
             ratio="1by1"
             rounded />
-          <b-skeleton :active="isLoading" circle width="48px" height="48px" />
+          <NeoSkeleton :active="isLoading" circle width="48px" height="48px" />
         </div>
       </b-table-column>
 
@@ -97,7 +97,7 @@
           :to="`/${urlPrefix}/collection/${props.row.id}`">
           {{ props.row.name }}
         </nuxt-link>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -110,7 +110,7 @@
         <template v-if="!isLoading">
           <Money :value="props.row.volume" inline hide-unit />
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -137,7 +137,7 @@
             }}
           </div>
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <!-- <b-table-column
@@ -164,7 +164,7 @@
             }}
           </div>
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column> -->
 
       <b-table-column
@@ -191,7 +191,7 @@
             }}
           </div>
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -204,7 +204,7 @@
         <template v-if="!isLoading">
           <Money :value="props.row.floorPrice" inline hide-unit />
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -216,7 +216,7 @@
         <template v-if="!isLoading">
           <Money :value="props.row.averagePrice" inline hide-unit />
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -229,7 +229,7 @@
         <template v-if="!isLoading">
           <Money :value="props.row.highestSale" inline hide-unit />
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -240,7 +240,7 @@
         cell-class="is-vcentered"
         sortable>
         <template v-if="!isLoading">{{ props.row.buys }}</template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -253,7 +253,7 @@
         <template v-if="!isLoading">
           {{ props.row.sold }}
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -266,7 +266,7 @@
         <template v-if="!isLoading">
           {{ props.row.total }}
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -278,7 +278,7 @@
         <template v-if="!isLoading">
           {{ Math.ceil(props.row.rank) }}
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -290,7 +290,7 @@
         <template v-if="!isLoading">
           {{ Math.ceil(props.row.emoteCount) }}
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -304,7 +304,7 @@
           target="_blank">
           <b-icon icon="chart-line"> </b-icon>
         </nuxt-link>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -318,14 +318,14 @@
           target="_blank">
           <b-icon icon="list-ul"> </b-icon>
         </nuxt-link>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
       <b-table-column
         v-slot="props"
         cell-class="is-vcentered has-text-centered history"
         field="buyHistory"
         :label="$t('series.buyHistory')">
-        <b-skeleton v-if="isLoading" :active="isLoading" />
+        <NeoSkeleton v-if="isLoading" :active="isLoading" />
         <PulseChart
           v-else
           :id="props.row.id"
@@ -336,7 +336,7 @@
         <div v-if="!isLoading" class="has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </template>
     </b-table>
   </div>
