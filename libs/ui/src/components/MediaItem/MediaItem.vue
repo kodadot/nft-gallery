@@ -122,7 +122,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scopednv>
+<style lang="scss" scoped>
 .nsfw-blur {
   backdrop-filter: blur(60px);
   position: absolute;

@@ -260,10 +260,6 @@ export default class Transfer extends mixins(
 
   protected onAmountFieldChange() {
     /* calculating usd value on the basis of price entered */
-    console.log(
-      'this.fiatStore.getCurrentKSMValue',
-      this.fiatStore.getCurrentKSMValue
-    )
     if (this.price) {
       this.usdValue = calculateUsdFromKsm(
         Number(this.fiatStore.getCurrentKSMValue),
