@@ -136,7 +136,6 @@ export default class SearchBar extends mixins(
   public onInputBlur(): void {
     this.$emit('blur')
     this.inputFocused = false
-    this.enableSearchInCollection = true
   }
 
   private bindSearchEvents(event) {
@@ -153,11 +152,11 @@ export default class SearchBar extends mixins(
     this.searchRef.isActive = false
   }
 
-  @Watch('isSearchInCollectionMode')
+  @Watch('isSearchInCollectionMode', { immediate: true })
   private onSearchInCollectionModeChanged() {
     const { replaceUrl } = useReplaceUrl()
     replaceUrl({
-      collections: this.isSearchInCollectionMode
+      collectionId: this.isSearchInCollectionMode
         ? this.$route.params.id
         : undefined,
     })
