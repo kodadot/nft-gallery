@@ -14,6 +14,11 @@ describe('BalanceInput.vue', () => {
   vi.useFakeTimers()
 
   beforeAll(() => {
+    ;(window as any).usePrefix = () => ({
+      urlPrefix: {
+        value: 'rmrk',
+      },
+    })
     wrapper = mount(BalanceInput, {
       propsData: {
         min: 10,
@@ -35,11 +40,6 @@ describe('BalanceInput.vue', () => {
             prefix: 'rmrk',
           },
         },
-        usePrefix: () => ({
-          urlPrefix: {
-            value: 'rmrk',
-          },
-        }),
       },
       localVue,
     })

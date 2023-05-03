@@ -13,6 +13,11 @@ describe('BalanceInput.vue', () => {
   vi.useFakeTimers()
 
   beforeAll(() => {
+    ;(window as any).usePrefix = () => ({
+      urlPrefix: {
+        value: 'rmrk',
+      },
+    })
     wrapper = mount(BasicBalanceInput, {
       propsData: {
         min: 10,
