@@ -1,8 +1,10 @@
 <template>
-  <figure class="b-image-wrapper is-1by1">
+  <figure
+    class="b-image-wrapper image is-1by1"
+    :style="{ 'padding-top': '100%' }"
+    :class="customClass">
     <transition name="fade">
       <img
-        v-if="src"
         :src="src || placeholder"
         :alt="alt"
         :class="['has-ratio', { 'is-rounded': rounded }]"
