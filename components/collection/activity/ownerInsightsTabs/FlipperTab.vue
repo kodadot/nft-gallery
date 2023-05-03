@@ -32,7 +32,6 @@
                 $t('activity.totalBought')
               }}</span>
               <CommonTokenMoney :value="totalBought" />
-              {{ calculateUsdFromKsm(30, totalBought) }}
             </div>
             <div class="is-flex is-justify-content-space-between">
               <span class="is-size-7 has-text-grey">{{
@@ -99,14 +98,12 @@ import { format } from '@/components/collection/activity/utils'
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { Flippers } from '@/composables/collectionActivity/types'
-import { calculateUsdFromKsm } from '~~/utils/calculation'
-import { useFiatStore } from '~~/stores/fiat'
+
 const props = defineProps<{
   flippers?: Flippers
 }>()
 const target = ref<HTMLElement | null>(null)
 const offset = ref(4)
-const fiatStore = useFiatStore()
 
 const flippers = computed(() => Object.entries(props.flippers || {}))
 
@@ -133,10 +130,6 @@ const isFlipperMoreNFTSectionOpen = flippers.value.reduce(
     [flipperId]: false,
   }),
   {}
-)
-
-const usdValue = computed(() =>
-  calculateUsdFromKsm(100000, fiatStore.getCurrentKSMValue as number)
 )
 
 const isNFTDetailsOpen = ref(isFlipperMoreNFTSectionOpen)
