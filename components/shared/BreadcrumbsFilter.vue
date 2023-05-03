@@ -84,10 +84,7 @@ const collections = computed<Collection[]>(() =>
   )
 )
 
-const isCollectionSearchMode = computed(() => {
-  return useCollectionSearch().isCollectionSearchMode
-})
-
+const { isCollectionSearchMode } = useCollectionSearch()
 const removeCollection = (id: string) => {
   const ids = collections.value
     .filter((collection) => collection.id !== id)
