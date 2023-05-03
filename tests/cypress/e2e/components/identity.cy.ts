@@ -38,13 +38,14 @@ describe('Identity.vue component', () => {
 
         // back to rmrk
         cy.visit(`/rmrk/u/${address}`)
+        cy.waitForNetworkIdle('+(HEAD|GET|POST)', '*', 1000)
         cy.contains('[data-cy="identity"]', name).realHover()
         cy.get('.tippy-popper')
           .should('exist')
           .then(() => {
             cy.getCy('identity-clipboard').realClick()
             cy.getCy('identity-display').should('contain.text', name)
-            cy.get('[data-cy="identity-twitter"]')
+            cy.getCy('identity-twitter')
               .should('have.attr', 'href')
               .and('include', `https://twitter.com/${twitter}`)
             cy.getCy('identity-collected').should(
