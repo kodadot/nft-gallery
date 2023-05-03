@@ -1,6 +1,15 @@
 <template>
   <div class="nft-card">
-    <nuxt-link :to="`/${prefix}/gallery/${nft.id}`">
+    <nuxt-link
+      :to="{
+        path: `/${prefix}/gallery/${nft.id}`,
+        query: { unlockable: unlockable || undefined },
+      }">
+      <img
+        v-if="unlockable && unloackableIcon"
+        class="unloackable-icon"
+        :src="unloackableIcon"
+        alt="Unlockable Icon" />
       <MediaItem
         :key="nft.image"
         class="nft-media"
@@ -72,10 +81,13 @@ withDefaults(
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
     placeholder: string
+    unlockable?: boolean
+    unloackableIcon?: string
   }>(),
   {
     collectionPopoverShowDelay: 500,
     variant: 'primary',
+    unloackableIcon: undefined,
   }
 )
 </script>

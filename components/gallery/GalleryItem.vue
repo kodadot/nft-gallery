@@ -81,9 +81,17 @@
 
           <!-- LINE DIVIDER -->
           <hr />
+          <UnlockableTag
+            v-if="isUnlockable && isMobile"
+            :nft="nft"
+            class="mt-4" />
 
           <!-- price section -->
           <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
+          <UnlockableTag
+            v-if="isUnlockable && !isMobile"
+            :nft="nft"
+            class="mt-7" />
         </div>
       </div>
     </div>
@@ -126,6 +134,8 @@ import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
+import UnlockableTag from './UnlockableTag.vue'
+import { useWindowSize } from '@vueuse/core'
 
 const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
@@ -136,7 +146,9 @@ const { placeholder } = useTheme()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()
 const collection = computed(() => nft.value?.collection)
-const isMobile = ref(window.innerWidth < 768)
+
+const breakPointWidth = 930
+const isMobile = computed(() => useWindowSize().width.value < breakPointWidth)
 
 const tabs = {
   offers: '0',
@@ -176,6 +188,9 @@ onMounted(() => {
     router.replace({ query: {} })
   })
 })
+
+// change when there is api for unloackable
+const isUnlockable = computed(() => route.query.unlockable === 'true')
 
 const title = computed(() => nftMetadata.value?.name || '')
 const meta = computed(() => {
