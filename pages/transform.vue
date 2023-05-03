@@ -32,7 +32,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import transform from '@/utils/urlTransformer'
-import { exist } from '@/components/search/exist'
+import { exist } from '@/utils/exist'
 
 @Component({
   components: {

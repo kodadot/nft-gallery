@@ -120,7 +120,7 @@ import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vu
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import GalleryItemPreviewer from './GalleryItemPreviewer.vue'
 
-import { exist } from '@/components/search/exist'
+import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'

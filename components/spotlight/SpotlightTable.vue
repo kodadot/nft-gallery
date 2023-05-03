@@ -196,7 +196,7 @@ import {
   today,
 } from '@/components/series/utils'
 import { SortType } from '@/components/series/types'
-import { exist } from '@/components/search/exist'
+import { exist } from '@/utils/exist'
 import { getRandomIntInRange } from '@/components/rmrk/utils'
 
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'

@@ -78,7 +78,7 @@ import {
   mixins,
 } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { exist, existArray } from './exist'
+import { exist, existArray } from '@/utils/exist'
 import { SearchQuery } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
