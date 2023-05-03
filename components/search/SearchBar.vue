@@ -143,6 +143,9 @@ export default class SearchBar extends mixins(
   public onInputBlur(): void {
     this.$emit('blur')
     this.inputFocused = false
+    if (!this.name) {
+      this.enableSearchInCollection = true
+    }
   }
 
   private bindSearchEvents(event) {
