@@ -9,10 +9,6 @@ import { ChainProperties } from '../api/Query'
  */
 @Component
 export default class ChainMixin extends PrefixMixin {
-  get urlPrefix() {
-    return usePrefix().urlPrefix.value
-  }
-
   get chainProperties(): ChainProperties {
     return chainPropListOf(this.urlPrefix)
   }
