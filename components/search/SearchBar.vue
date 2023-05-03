@@ -83,6 +83,7 @@ export default class SearchBar extends mixins(
   @VModel({ type: String }) name!: string
   @Ref('searchRef') readonly searchRef
   @Ref('searchSuggestionRef') readonly searchSuggestionRef
+  private isMobile = window.innerWidth < 1024
   private enableSearchInCollection = true
   public inputFocused = false
 
@@ -97,7 +98,9 @@ export default class SearchBar extends mixins(
   }
 
   get isSearchInCollectionMode() {
-    return this.enableSearchInCollection && this.isCollectionPage
+    return (
+      this.enableSearchInCollection && this.isCollectionPage && !this.isMobile
+    )
   }
 
   get placeholderContent() {
