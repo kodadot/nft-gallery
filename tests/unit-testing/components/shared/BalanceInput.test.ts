@@ -35,6 +35,11 @@ describe('BalanceInput.vue', () => {
             prefix: 'rmrk',
           },
         },
+        usePrefix: () => ({
+          urlPrefix: {
+            value: 'rmrk',
+          },
+        }),
       },
       localVue,
     })
