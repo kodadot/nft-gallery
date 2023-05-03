@@ -5,6 +5,7 @@
         v-if="key === 'search'"
         :key="key"
         class="control"
+        :is-blue-tag="isCollectionSearchMode"
         @close="removeBread('search')">
         {{ `${$t('general.search')}: ${value}` }}
       </NeoTag>
@@ -59,6 +60,7 @@ import {
   collectionArray,
 } from '@/components/shared/filters/modules/usePopularCollections'
 import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
+import { useCollectionSearch } from '../search/utils/useCollectionSearch'
 
 const route = useRoute()
 const isCollectionActivityTab = computed(
@@ -81,6 +83,10 @@ const collections = computed<Collection[]>(() =>
     collectionIdList.value?.find((id) => collection.id === id)
   )
 )
+
+const isCollectionSearchMode = computed(() => {
+  return useCollectionSearch().isCollectionSearchMode
+})
 
 const removeCollection = (id: string) => {
   const ids = collections.value

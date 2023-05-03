@@ -4,6 +4,9 @@
     attached
     closable
     class="neo-tag pl-3 pr-1"
+    :class="{
+      'is-blue-tag': isBlueTag,
+    }"
     aria-close-label="clear filter"
     @close="onClose">
     <slot></slot>
@@ -11,6 +14,10 @@
 </template>
 
 <script lang="ts" setup>
+defineProps<{
+  isBlueTag?: boolean
+}>()
+
 const emit = defineEmits(['close'])
 const onClose = () => {
   emit('close')
@@ -27,6 +34,16 @@ const onClose = () => {
   &:hover {
     @include ktheme() {
       background-color: theme('k-accentlight2');
+    }
+  }
+
+  &.is-blue-tag {
+    @include ktheme() {
+      border: 1px solid theme('k-blue');
+
+      &:hover {
+        background-color: theme('blue-tag-hover-bg');
+      }
     }
   }
 
