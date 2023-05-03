@@ -69,6 +69,7 @@ import {
 import { SearchQuery } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import { useWindowSize } from '@vueuse/core'
 
 @Component({
   components: {
@@ -83,7 +84,6 @@ export default class SearchBar extends mixins(
   @VModel({ type: String }) name!: string
   @Ref('searchRef') readonly searchRef
   @Ref('searchSuggestionRef') readonly searchSuggestionRef
-  private isMobile = window.innerWidth < 1024
   private enableSearchInCollection = true
   public inputFocused = false
 
@@ -93,12 +93,8 @@ export default class SearchBar extends mixins(
     })
   }
 
-  mounted() {
-    window.addEventListener('resize', this.onResize)
-  }
-
-  beforeDestroy() {
-    window.removeEventListener('resize', this.onResize)
+  get isMobile() {
+    return useWindowSize().width.value < 1024
   }
 
   get isCollectionPage() {
@@ -125,10 +121,6 @@ export default class SearchBar extends mixins(
     if (this.isSearchInCollectionMode && !this.name) {
       this.enableSearchInCollection = false
     }
-  }
-
-  private onResize() {
-    this.isMobile = window.innerWidth < 1024
   }
 
   @Emit('enter')
