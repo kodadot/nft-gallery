@@ -93,6 +93,14 @@ export default class SearchBar extends mixins(
     })
   }
 
+  mounted() {
+    window.addEventListener('resize', this.onResize)
+  }
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onResize)
+  }
+
   get isCollectionPage() {
     return this.$route.name === 'prefix-collection-id'
   }
@@ -117,6 +125,10 @@ export default class SearchBar extends mixins(
     if (this.isSearchInCollectionMode && !this.name) {
       this.enableSearchInCollection = false
     }
+  }
+
+  private onResize() {
+    this.isMobile = window.innerWidth < 1024
   }
 
   @Emit('enter')
