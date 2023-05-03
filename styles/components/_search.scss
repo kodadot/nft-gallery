@@ -91,6 +91,24 @@
 .search-bar-container {
   position: relative;
 
+  .search-bar-collection-search {
+    z-index: 2;
+    position: absolute;
+    left: 41px;
+    top: 9px;
+    height: 23px;
+    gap: 0.35rem;
+    cursor: default;
+    span {
+      height: 21px;
+      padding: 0 14px;
+      border-radius: 68px;
+      @include ktheme() {
+        background: theme('collection-search-tag-bg');
+      }
+    }
+  }
+
   .search-bar-bg {
     position: absolute;
     width: 100%;
@@ -164,6 +182,13 @@
       }
     }
   }
+
+  &.is-collection-search {
+    input {
+      padding-left: 226px !important;
+    }
+  }
+
 }
 
 .search-suggestion-container {

@@ -85,7 +85,7 @@ import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import ChainMixin from '~/utils/mixins/chainMixin'
 import { usePreferencesStore } from '@/stores/preferences'
-
+import { useCollectionSearch } from '@/components/search/utils/useCollectionSearch'
 const SearchPageRoutePathList = ['collectibles', 'items']
 
 @Component({
@@ -327,7 +327,8 @@ export default class Search extends mixins(
   }
 
   redirectToGalleryPageIfNeed(params?: Record<string, string>) {
-    if (!this.isExplorePage) {
+    const { isCollectionSearchMode } = useCollectionSearch()
+    if (!this.isExplorePage && !isCollectionSearchMode.value) {
       this.$router.push({
         path: `/${this.urlPrefix}/explore/items`,
         query: {
