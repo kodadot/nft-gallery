@@ -43,7 +43,7 @@
         <div v-if="!$fetchState.pending" class="has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
-        <b-skeleton :active="$fetchState.pending" />
+        <NeoSkeleton :active="$fetchState.pending" />
       </template>
     </b-table>
   </div>
@@ -56,6 +56,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import groupBy from 'lodash/groupBy'
 import sortBy from 'lodash/sortBy'
 import { RowHot, SubsquidHotNft } from './types'
+import { NeoSkeleton } from '@kodadot1/brick'
 
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
@@ -63,7 +64,9 @@ import formatBalance from '@/utils/format/balance'
 import { getVolume } from '@/utils/math'
 import { lastweekDate } from '@/components/series/utils'
 
-@Component({})
+@Component({
+  NeoSkeleton,
+})
 export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
   protected data: RowHot[] = []
   private toKSM(amount) {
