@@ -1159,7 +1159,7 @@
   },
   "moreActions": {
     "download": "Download",
-    "reportNFT": "Report NFT",
+    "reportCollection": "Report Collection",
     "delete": "Delete",
     "customize": "Customize"
   },
