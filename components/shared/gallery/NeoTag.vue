@@ -42,7 +42,7 @@ const onClose = () => {
       border: 1px solid theme('k-blue');
 
       &:hover {
-        background-color: theme('blue-tag-hover-bg');
+        background-color: theme('blue-light-hover-color');
       }
     }
   }
