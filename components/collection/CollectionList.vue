@@ -24,7 +24,7 @@
         <CollectionCard :is-loading="isLoading" :collection="collection" />
       </div>
     </DynamicGrid>
-    <EmptyResult v-if="total === 0" />
+    <LoadingStatus v-if="total !== 0" />
     <ScrollTopButton />
   </div>
 </template>
