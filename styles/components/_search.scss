@@ -100,9 +100,9 @@
     gap: 0.35rem;
     cursor: default;
     span {
-      height: 21px;
-      padding: 0 14px;
-      border-radius: 68px;
+      height: 1.25rem;
+      padding: 0 1rem;
+      border-radius: 4rem;
       @include ktheme() {
         background: theme('blue-accent-bg-color');
       }
