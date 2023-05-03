@@ -59,7 +59,6 @@ export default {
       default: false,
     },
     isLewd: {
-      // original size of the image
       type: Boolean,
       default: false,
     },
