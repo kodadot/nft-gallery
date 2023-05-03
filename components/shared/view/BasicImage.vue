@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <b-image
     :src="src || placeholder"
     :src-fallback="placeholder"
@@ -12,6 +12,24 @@
       <NeoSkeleton full-size no-margin :circle="rounded" />
     </template>
   </b-image>
+</template> -->
+<template>
+  <figure class="b-image-wrapper is-1by1">
+    <transition name="fade">
+      <img
+        v-if="src"
+        :src="src || placeholder"
+        :alt="alt"
+        :class="['has-ratio', { 'is-rounded': rounded }]"
+        @load="onImageLoad"
+        @error="onImageError" />
+    </transition>
+    <transition name="fade">
+      <slot v-if="!loaded" name="placeholder">
+        <NeoSkeleton full-size no-margin :circle="rounded" />
+      </slot>
+    </transition>
+  </figure>
 </template>
 
 <script lang="ts" setup>
@@ -19,14 +37,18 @@ import { NeoSkeleton } from '@kodadot1/brick'
 
 const { $consola } = useNuxtApp()
 const { placeholder } = useTheme()
-defineProps({
+const props = defineProps({
   src: { type: String, default: '' },
   alt: { type: String, default: 'KodaDot NFT minted multimedia' },
   customClass: { type: String, default: '' },
   rounded: Boolean,
 })
+const loaded = ref(false)
 
-function onImageError(ev: Event, src: string) {
-  $consola.error('[BasicImage] to load:', src, ev)
+function onImageLoad() {
+  loaded.value = true
+}
+function onImageError(ev: Event) {
+  $consola.error('[BasicImage] to load:', props.src, ev)
 }
 </script>

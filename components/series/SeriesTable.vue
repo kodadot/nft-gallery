@@ -77,7 +77,7 @@
         header-class="front-stack-layer"
         cell-class="is-vcentered">
         <div class="image is-48x48 mb-2">
-          <b-image
+          <img
             v-if="!isLoading"
             :src="props.row.image"
             :alt="props.row.name"

@@ -1,5 +1,5 @@
 <template>
-  <b-image
+  <img
     ratio="1by1"
     class="image"
     :class="[
@@ -8,7 +8,7 @@
     ]"
     :src="src"
     alt="Some Image"
-    @click.native="handleClick"></b-image>
+    @click.native="handleClick" />
 </template>
 
 <script setup lang="ts">
