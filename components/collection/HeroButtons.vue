@@ -68,13 +68,7 @@
             </div>
             <div v-else>
               <NeoDropdownItem disabled>
-                {{ $i18n.t('moreActions.reportNFT') }}
-              </NeoDropdownItem>
-              <NeoDropdownItem disabled>
-                <div class="is-flex">
-                  {{ $i18n.t('moreActions.download') }}
-                  <b-icon icon="download" class="pl-3" />
-                </div>
+                {{ $i18n.t('moreActions.reportCollection') }}
               </NeoDropdownItem>
             </div>
           </template>
