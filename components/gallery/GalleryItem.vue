@@ -12,7 +12,7 @@
       <div class="column is-two-fifths">
         <div class="is-relative">
           <a
-            v-if="canPreview && !mediaItemRef?.isNSFWBlurredLayer"
+            v-if="canPreview && !mediaItemRef?.isLewdBlurredLayer"
             class="fullscreen-button is-justify-content-center is-align-items-center"
             @click="isFullscreen = true">
             <NeoIcon icon="expand" />
@@ -31,7 +31,7 @@
             :title="nftMetadata?.name"
             is-detail
             :original="isMobile"
-            :is-n-s-f-w="galleryDescriptionRef?.isNSFW"
+            :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder" />
         </div>
       </div>
@@ -134,8 +134,8 @@ const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 const { placeholder } = useTheme()
-const mediaItemRef = ref<{ isNSFWBlurredLayer: boolean } | null>(null)
-const galleryDescriptionRef = ref<{ isNSFW: boolean } | null>(null)
+const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
+const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
   useGalleryItem()

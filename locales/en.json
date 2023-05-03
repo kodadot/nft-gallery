@@ -1309,5 +1309,10 @@
     "emptyTipLine1": "Don't wait for notifications,",
     "emptyTipLine2": "make your own buzz with your art.",
     "loadingTip": "Loading Your Notifications..."
+  },
+  "lewd": {
+    "explicit": "Explicit/sensitive content",
+    "explicitDesc": "Mature audiences only. Please confirm your age and consent to proceed.",
+    "showContent": "Show Content"
   }
 }

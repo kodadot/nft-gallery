@@ -7,18 +7,17 @@
       :alt="title"
       :placeholder="placeholder"
       :original="original"
-      :is-n-s-f-w="isNSFW"
+      :is-lewd="isLewd"
       :is-detail="isDetail" />
     <div
-      v-if="isNSFW && isNSFWBlurredLayer"
+      v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
       <NeoIcon icon="eye-slash" class="mb-3" />
-      <span class="heading-nsfw">Explicit/sensitive content</span>
-      <span class="nsfw-desc"
-        >Mature audiences only. Please confirm your age and consent to
-        proceed.</span
-      >
-      <span class="nsfw-content" @click="showContent()">Show Content</span>
+      <span class="heading-nsfw"> {{ $t('lewd.explicit') }} </span>
+      <span class="nsfw-desc">{{ $t('lewd.explicitDesc') }}</span>
+      <span class="nsfw-content" @click="showContent()">{{
+        $t('lewd.showContent')
+      }}</span>
     </div>
   </div>
 </template>
@@ -59,7 +58,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    isNSFW: {
+    isLewd: {
       // original size of the image
       type: Boolean,
       default: false,
@@ -90,7 +89,7 @@ export default {
         ),
         Media: defineAsyncComponent(() => import('./type/UnknownMedia.vue')),
       },
-      isNSFWBlurredLayer: true,
+      isLewdBlurredLayer: true,
     }
   },
   computed: {
@@ -117,13 +116,13 @@ export default {
       }
     },
     showContent() {
-      this.isNSFWBlurredLayer = false
+      this.isLewdBlurredLayer = false
     },
   },
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scopednv>
 .nsfw-blur {
   backdrop-filter: blur(60px);
   position: absolute;
