@@ -339,9 +339,6 @@ importers:
       sass-loader:
         specifier: ^10.4.1
         version: 10.4.1(sass@1.62.0)
-      sharp:
-        specifier: 0.31.3
-        version: 0.31.3
       typescript:
         specifier: ^4.9.5
         version: 4.9.5
