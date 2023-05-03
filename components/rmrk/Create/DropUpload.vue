@@ -55,13 +55,11 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Ref, Vue } from 'nuxt-property-decorator'
-import Tooltip from '@/components/shared/Tooltip.vue'
 import MediaResolver from '@/components/media/MediaResolver.vue'
 import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
 
 @Component({
   components: {
-    Tooltip,
     MediaResolver,
   },
 })

@@ -3,89 +3,38 @@
     <div class="label">
       {{ $t('Minting Settings') }}
     </div>
-    <b-field>
-      <Support v-model="hasSupport" :show-price="false">
-        <template #tooltip>
-          <Tooltip
-            :label="$t('support.tooltip')"
-            iconsize="is-small"
-            buttonsize="is-small"
-            tooltipsize="is-medium" />
-        </template>
-      </Support>
-    </b-field>
-    <b-field>
+    <div class="py-2">
+      <Support v-model="hasSupport" :show-price="false" />
+    </div>
+    <div class="py-2">
       <Support
         v-model="hasCarbonOffset"
         :price="1"
         :active-message="$t('carbonOffset.carbonOffsetYes')"
-        :passive-message="$t('carbonOffset.carbonOffsetNo')">
-        <template #tooltip>
-          <Tooltip
-            iconsize="is-small"
-            buttonsize="is-small"
-            tooltipsize="is-large">
-            <template #content>
-              {{ $t('carbonOffset.tooltip') }}
-              (<a
-                class="has-text-black is-underlined"
-                href="https://kodadot.xyz/carbonless"
-                >https://kodadot.xyz/carbonless</a
-              >)
-            </template>
-          </Tooltip>
-        </template>
-      </Support>
-    </b-field>
-    <ArweaveUploadSwitch v-model="arweaveUpload">
-      <template #tooltip>
-        <Tooltip
-          :label="$t('arweave.tooltip')"
-          iconsize="is-small"
-          buttonsize="is-small"
-          tooltipsize="is-medium" />
-      </template>
-    </ArweaveUploadSwitch>
+        :passive-message="$t('carbonOffset.carbonOffsetNo')" />
+    </div>
+    <div class="py-2">
+      <ArweaveUploadSwitch v-model="arweaveUpload" />
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+import ArweaveUploadSwitch from '@/components/rmrk/Create/ArweaveUploadSwitch.vue'
+import Support from '@/components/shared/Support.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
-@Component({
-  components: {
-    ArweaveUploadSwitch: () =>
-      import('@/components/rmrk/Create/ArweaveUploadSwitch.vue'),
-    Support: () => import('@/components/shared/Support.vue'),
-    Tooltip: () => import('@/components/shared/Tooltip.vue'),
-  },
+const preferencesStore = usePreferencesStore()
+const hasSupport = computed({
+  get: () => preferencesStore.hasSupport,
+  set: (value) => preferencesStore.setHasSupport(value),
 })
-export default class Minting extends Vue {
-  private preferencesStore = usePreferencesStore()
-
-  get hasSupport(): boolean {
-    return this.preferencesStore.hasSupport
-  }
-
-  set hasSupport(value: boolean) {
-    this.preferencesStore.setHasSupport(value)
-  }
-
-  get hasCarbonOffset() {
-    return this.preferencesStore.getHasCarbonOffset
-  }
-
-  set hasCarbonOffset(value: boolean) {
-    this.preferencesStore.setHasCarbonOffset(value)
-  }
-
-  get arweaveUpload(): boolean {
-    return this.preferencesStore.arweaveUpload
-  }
-
-  set arweaveUpload(value: boolean) {
-    this.preferencesStore.setArweaveUpload(value)
-  }
-}
+const hasCarbonOffset = computed({
+  get: () => preferencesStore.getHasCarbonOffset,
+  set: (value) => preferencesStore.setHasCarbonOffset(value),
+})
+const arweaveUpload = computed({
+  get: () => preferencesStore.arweaveUpload,
+  set: (value) => preferencesStore.setArweaveUpload(value),
+})
 </script>
