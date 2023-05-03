@@ -1,18 +1,3 @@
-<!-- <template>
-  <b-image
-    :src="src || placeholder"
-    :src-fallback="placeholder"
-    :alt="alt"
-    ratio="1by1"
-    :class="customClass"
-    :rounded="rounded"
-    data-cy="type-image"
-    @error="onImageError">
-    <template #placeholder>
-      <NeoSkeleton full-size no-margin :circle="rounded" />
-    </template>
-  </b-image>
-</template> -->
 <template>
   <figure class="b-image-wrapper is-1by1">
     <transition name="fade">
