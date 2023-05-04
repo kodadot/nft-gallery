@@ -108,7 +108,7 @@
         v-clipboard:copy="getUrl()"
         type="is-primary"
         @click="toast($t('toast.urlCopy'))">
-        <NeoIcon size="is-small" pack="fas" icon="link" />
+        <NeoIcon pack="fas" icon="link" />
       </b-button>
       <b-button
         v-if="hasAddress"
