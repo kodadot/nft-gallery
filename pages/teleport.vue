@@ -5,7 +5,7 @@
       v-if="$route.query.target"
       :to="`/${urlPrefix}/u/${destinationAddress}`"
       class="pl-4 is-flex is-align-items-center">
-      <NeoIcon icon="chevron-left" size="is-small" class="mr-2" />
+      <NeoIcon icon="chevron-left" class="mr-2" />
       {{ $t('teleport.artistProfile') }}
     </nuxt-link>
     <p class="title is-size-3">
