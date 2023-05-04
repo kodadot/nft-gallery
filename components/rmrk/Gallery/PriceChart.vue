@@ -13,8 +13,7 @@
           {{ $t('chart') }}
         </p>
         <a class="card-header-icon">
-          <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'">
-          </NeoIcon>
+          <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
         </a>
       </div>
     </template>
