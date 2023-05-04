@@ -79,7 +79,7 @@
             network="whatsapp"
             :url="realworldFullPath"
             :title="$t(label)">
-            <NeoIcon size="is-large" pack="fab" icon="whatsapp" />
+            <NeoIcon size="large" pack="fab" icon="whatsapp" />
           </ShareNetwork>
           <ShareNetwork
             tag="button"
