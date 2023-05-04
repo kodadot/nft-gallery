@@ -7,7 +7,7 @@
         @click="toggleSidebarFilters">
         <NeoIcon
           :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
-          size="is-medium" />
+          size="medium" />
       </a>
       <div class="is-hidden-tablet is-relative">
         <NeoButton
