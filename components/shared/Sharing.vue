@@ -87,7 +87,7 @@
             network="email"
             :url="realworldFullPath"
             :title="$t(label)">
-            <NeoIcon size="is-large" pack="fas" icon="envelope" />
+            <NeoIcon size="large" pack="fas" icon="envelope" />
           </ShareNetwork>
         </template>
         <p class="control">
