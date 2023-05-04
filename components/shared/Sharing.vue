@@ -46,7 +46,7 @@
             :url="realworldFullPath"
             :title="$t(label)"
             twitter-user="KodaDot">
-            <NeoIcon size="is-large" pack="fab" icon="twitter" />
+            <NeoIcon size="large" pack="fab" icon="twitter" />
           </ShareNetwork>
           <ShareNetwork
             tag="button"
