@@ -19,7 +19,7 @@
           @input="createInput">
           <section class="section">
             <div class="content has-text-centered">
-              <NeoIcon v-if="!file && !url" :icon="icon" size="is-large" />
+              <NeoIcon v-if="!file && !url" :icon="icon" size="large" />
               <div v-if="url && !isModelMedia" @click.prevent>
                 <MediaResolver
                   :src="url"
