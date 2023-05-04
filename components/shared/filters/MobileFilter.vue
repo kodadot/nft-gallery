@@ -15,7 +15,7 @@
             {{ $t('general.filters') }}
           </p>
           <a class="card-header-icon">
-            <b-icon icon="x" @click.native="onClose" />
+            <NeoIcon icon="x" @click.native="onClose" />
           </a>
         </div>
         <EventTypeFilter
@@ -60,6 +60,7 @@ import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter
 import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
 import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
 import { getCollectionIds } from '@/utils/queryParams'
+import { NeoIcon } from '@kodadot1/brick'
 
 const route = useRoute()
 const preferencesStore = usePreferencesStore()

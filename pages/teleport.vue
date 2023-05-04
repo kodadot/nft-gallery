@@ -5,7 +5,7 @@
       v-if="$route.query.target"
       :to="`/${urlPrefix}/u/${destinationAddress}`"
       class="pl-4 is-flex is-align-items-center">
-      <b-icon icon="chevron-left" size="is-small" class="mr-2" />
+      <NeoIcon icon="chevron-left" size="is-small" class="mr-2" />
       {{ $t('teleport.artistProfile') }}
     </nuxt-link>
     <p class="title is-size-3">
@@ -76,7 +76,7 @@
         v-clipboard:copy="getUrl()"
         type="is-primary"
         @click="toast($t('toast.urlCopy'))">
-        <b-icon size="is-small" pack="fas" icon="link" />
+        <NeoIcon size="is-small" pack="fas" icon="link" />
       </b-button>
       <b-button
         v-if="destinationAddress"
@@ -128,6 +128,7 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 
 import { useFiatStore } from '@/stores/fiat'
+import { NeoIcon } from '@kodadot1/brick'
 
 @Component({
   components: {
@@ -142,6 +143,7 @@ import { useFiatStore } from '@/stores/fiat'
     Money: () => import('@/components/shared/format/Money.vue'),
     DisabledInput: () => import('@/components/shared/DisabledInput.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+    NeoIcon,
   },
 })
 export default class Transfer extends mixins(

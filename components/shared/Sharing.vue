@@ -9,7 +9,7 @@
           :type="btnType"
           :class="btnClass"
           @click="downloadImage()">
-          <b-icon pack="fas" icon="download" />
+          <NeoIcon pack="fas" icon="download" />
         </b-button>
       </p>
 
@@ -19,7 +19,7 @@
           :class="btnClass"
           :type="btnType"
           @click="toast($t('toast.urlCopy'))">
-          <b-icon pack="fas" icon="link" />
+          <NeoIcon pack="fas" icon="link" />
         </b-button>
       </p>
 
@@ -46,7 +46,7 @@
             :url="realworldFullPath"
             :title="$t(label)"
             twitter-user="KodaDot">
-            <b-icon size="is-large" pack="fab" icon="twitter" />
+            <NeoIcon size="is-large" pack="fab" icon="twitter" />
           </ShareNetwork>
           <ShareNetwork
             tag="button"
@@ -54,7 +54,7 @@
             network="telegram"
             :url="realworldFullPath"
             :title="$t(label)">
-            <b-icon size="is-large" pack="fab" icon="telegram" />
+            <NeoIcon size="is-large" pack="fab" icon="telegram" />
           </ShareNetwork>
           <ShareNetwork
             tag="button"
@@ -63,7 +63,7 @@
             :hashtags="hashtags"
             :url="realworldFullPath"
             :title="$t(label)">
-            <b-icon size="is-large" pack="fab" icon="facebook" />
+            <NeoIcon size="is-large" pack="fab" icon="facebook" />
           </ShareNetwork>
           <ShareNetwork
             tag="button"
@@ -71,7 +71,7 @@
             network="messenger"
             :url="realworldFullPath"
             :title="$t(label)">
-            <b-icon size="is-large" pack="fab" icon="facebook-messenger" />
+            <NeoIcon size="is-large" pack="fab" icon="facebook-messenger" />
           </ShareNetwork>
           <ShareNetwork
             tag="button"
@@ -79,7 +79,7 @@
             network="whatsapp"
             :url="realworldFullPath"
             :title="$t(label)">
-            <b-icon size="is-large" pack="fab" icon="whatsapp" />
+            <NeoIcon size="is-large" pack="fab" icon="whatsapp" />
           </ShareNetwork>
           <ShareNetwork
             tag="button"
@@ -87,12 +87,12 @@
             network="email"
             :url="realworldFullPath"
             :title="$t(label)">
-            <b-icon size="is-large" pack="fas" icon="envelope" />
+            <NeoIcon size="is-large" pack="fas" icon="envelope" />
           </ShareNetwork>
         </template>
         <p class="control">
           <b-button :type="btnType" :class="btnClass">
-            <b-icon pack="fas" icon="share" />
+            <NeoIcon pack="fas" icon="share" />
           </b-button>
         </p>
       </b-tooltip>

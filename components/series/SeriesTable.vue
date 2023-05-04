@@ -302,7 +302,7 @@
           v-if="!isLoading"
           :to="`/${urlPrefix}/collection/${props.row.id}?tab=chart&locate=true`"
           target="_blank">
-          <b-icon icon="chart-line"> </b-icon>
+          <NeoIcon icon="chart-line"> </NeoIcon>
         </nuxt-link>
         <NeoSkeleton :active="isLoading" />
       </b-table-column>
@@ -316,7 +316,7 @@
           v-if="!isLoading"
           :to="`/${urlPrefix}/collection/${props.row.id}?tab=history&locate=true`"
           target="_blank">
-          <b-icon icon="list-ul"> </b-icon>
+          <NeoIcon icon="list-ul"> </NeoIcon>
         </nuxt-link>
         <NeoSkeleton :active="isLoading" />
       </b-table-column>

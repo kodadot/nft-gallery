@@ -15,8 +15,8 @@
             {{ collapseTitleOption || $t('holders') }}
           </p>
           <a class="card-header-icon">
-            <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
-            </b-icon>
+            <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'">
+            </NeoIcon>
           </a>
         </div>
       </template>
@@ -175,10 +175,12 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { parseDate, parsePriceForItem } from './helper'
 import { Interaction as EventInteraction } from '../../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoIcon } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
+  NeoIcon,
 }
 
 export type NftHolderEvent = {

@@ -3,7 +3,7 @@
     v-if="showBtn"
     class="scroll-top-button button is-justify-content-center"
     @click="scrollToTop">
-    <b-icon
+    <NeoIcon
       icon="chevron-up"
       size="is-small"
       :type="$colorMode.value === 'dark' ? 'is-white' : 'is-black'" />

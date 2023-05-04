@@ -9,7 +9,8 @@
     </div>
     <div class="has-text-centered">
       <a v-if="hasWrapper" @click.prevent="toggleDescription">
-        <b-icon :icon="activeWrapper ? 'chevron-down' : 'chevron-up'"></b-icon>
+        <NeoIcon
+          :icon="activeWrapper ? 'chevron-down' : 'chevron-up'"></NeoIcon>
       </a>
     </div>
   </div>
@@ -19,9 +20,11 @@
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import Markdown from '@/components/shared/Markdown'
+import { NeoIcon } from '@kodadot1/brick'
 
 const components = {
   Markdown,
+  NeoIcon,
 }
 
 @Component({ components })

@@ -25,7 +25,7 @@
             </nuxt-link>
             <nuxt-link :to="`/${urlPrefix}/u/${collection.issuer}`">
               <div class="is-size-7 icon-text">
-                <b-icon icon="palette" />
+                <NeoIcon icon="palette" />
                 <Identity
                   :address="collection.issuer"
                   class="force-clip is-ellipsis" />
@@ -39,6 +39,7 @@
 </template>
 
 <script lang="ts" setup>
+import { NeoIcon } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 

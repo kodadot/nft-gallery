@@ -7,7 +7,7 @@
         <b-tooltip
           :label="$i18n.t('identity.fundsReserve')"
           position="is-bottom">
-          <b-icon icon="info-circle" />
+          <NeoIcon icon="info-circle" pack="fas" size="small" />
         </b-tooltip>
       </p>
 
@@ -89,6 +89,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { onApiConnect } from '@kodadot1/sub-api'
 import { hexToString, isHex } from '@polkadot/util'
 import { Data } from '@polkadot/types'
+import { NeoIcon } from '@kodadot1/brick'
 const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 const BasicInput = defineAsyncComponent(
   () => import('@/components/shared/form/BasicInput.vue')

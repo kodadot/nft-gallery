@@ -63,7 +63,7 @@
           v-if="!isLoading && imageVisible"
           id="theatre-view"
           @click="toggleView">
-          <b-icon :icon="viewMode === 'default' ? 'image' : 'cube'"> </b-icon>
+          <NeoIcon :icon="viewMode === 'default' ? 'image' : 'cube'"> </NeoIcon>
         </button>
         <button
           v-if="!isLoading && imageVisible"
@@ -71,7 +71,7 @@
           :class="{ fullscreen: isFullScreenView }"
           @keyup.esc="minimize"
           @click="toggleFullScreen">
-          <b-icon :icon="isFullScreenView ? 'compress' : 'expand'"> </b-icon>
+          <NeoIcon :icon="isFullScreenView ? 'compress' : 'expand'"> </NeoIcon>
         </button>
         <button
           v-if="!isLoading && imageVisible"
@@ -79,7 +79,7 @@
           :class="{ tile: isTileView }"
           @click="toggleTileView"
           @keyup.esc="exitTileView">
-          <b-icon :icon="isTileView ? 'compress' : 'table'"> </b-icon>
+          <NeoIcon :icon="isTileView ? 'compress' : 'table'"> </NeoIcon>
         </button>
       </div>
     </div>
@@ -95,9 +95,11 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import { isMobileDevice } from '~/utils/extension'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoIcon } from '@kodadot1/brick'
 
 const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+  NeoIcon,
 }
 
 const directives = {

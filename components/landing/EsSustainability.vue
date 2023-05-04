@@ -6,7 +6,7 @@
           <div class="columns">
             <div class="column is-6 is-offset-3">
               <h1 class="title is-1">
-                <b-icon icon="leaf" />
+                <NeoIcon icon="leaf" />
                 Sustentabilidad de KodaDot
               </h1>
               <h1 class="subtitle">micro-dao-bedrock-bootstrap-experimento</h1>
@@ -136,7 +136,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-
+import { NeoIcon } from '@kodadot1/brick'
 @Component<EsSustainibility>({
   // TODO refactor via i18n
   // metaInfo() {
@@ -151,6 +151,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
   //     ]
   //   }
   // }
+  components: { NeoIcon },
 })
 export default class EsSustainibility extends Vue {}
 </script>

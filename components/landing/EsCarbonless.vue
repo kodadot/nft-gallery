@@ -6,7 +6,7 @@
           <div class="columns">
             <div class="column is-6 is-offset-3">
               <h1 class="title is-1">
-                <b-icon icon="leaf" />
+                <NeoIcon icon="leaf" />
                 Movimiento NFT Sin Emisiones de Carbono
               </h1>
               <h1 class="subtitle">
@@ -185,6 +185,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import { NeoIcon } from '@kodadot1/brick'
 
 @Component<EsCarbonless>({
   // TODO refactor via i18n
@@ -203,7 +204,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
   //     ]
   //   }
   // },
-  components: {},
+  components: { NeoIcon },
 })
 export default class EsCarbonless extends Vue {}
 </script>

@@ -1,7 +1,7 @@
 <template>
   <section>
     <h1 class="title is-1">
-      <b-icon icon="leaf" />
+      <NeoIcon icon="leaf" />
       Carbonless NFT Movement
     </h1>
     <h1 class="subtitle">
@@ -149,3 +149,12 @@
     </p>
   </section>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import { NeoIcon } from '@kodadot1/brick'
+@Component<Carbonless>({
+  components: { NeoIcon },
+})
+export default class Carbonless extends Vue {}
+</script>

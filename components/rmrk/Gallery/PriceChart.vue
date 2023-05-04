@@ -13,7 +13,8 @@
           {{ $t('chart') }}
         </p>
         <a class="card-header-icon">
-          <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'"> </b-icon>
+          <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'">
+          </NeoIcon>
         </a>
       </div>
     </template>
@@ -34,10 +35,10 @@ import zoomPlugin from 'chartjs-plugin-zoom'
 import { getChartData } from '@/utils/chart'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-
+import { NeoIcon } from '@kodadot1/brick'
 Chart.register(zoomPlugin)
 
-const components = {}
+const components = { NeoIcon }
 
 @Component({ components })
 export default class PriceChart extends mixins(

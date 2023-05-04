@@ -50,7 +50,7 @@
       <p class="label">
         {{ $t('delegate') }}
         <span>
-          <a class="has-text-danger"><b-icon icon="times"> </b-icon></a>
+          <a class="has-text-danger"><NeoIcon icon="times"> </NeoIcon></a>
         </span>
       </p>
       <p class="subtitle is-size-6">
@@ -73,6 +73,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { emptyObject } from '@/utils/empty'
 import isShareMode from '@/utils/isShareMode'
 import { NeoSkeleton } from '@kodadot1/brick'
+import { NeoIcon } from '@kodadot1/brick'
 
 const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
@@ -81,6 +82,7 @@ const components = {
       '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
     ),
   NeoSkeleton,
+  NeoIcon,
 }
 
 @Component({ components })

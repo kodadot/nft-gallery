@@ -19,10 +19,10 @@
         <template #trigger="props">
           <div class="is-flex is-align-items-center">
             <a class="has-text-primary" :href="'#' + qa[0].replace(/ /g, '-')">
-              <b-icon
+              <NeoIcon
                 :icon="!props.open ? 'chevron-down' : 'chevron-up'"
                 class="mr-4">
-              </b-icon>
+              </NeoIcon>
             </a>
             <h3
               class="heading is-size-5-mobile is-size-4-tablet has-text-weight-semibold">
@@ -40,8 +40,13 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { NeoIcon } from '@kodadot1/brick'
 
-@Component({})
+@Component({
+  components: {
+    NeoIcon,
+  },
+})
 export default class FrequentlyAsked extends Vue {
   public faqQuestionsAnswers: any = []
 

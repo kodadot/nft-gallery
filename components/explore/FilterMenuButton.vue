@@ -5,7 +5,7 @@
         class="is-hidden-mobile"
         :class="{ disabled: disabled }"
         @click="toggleSidebarFilters">
-        <b-icon
+        <NeoIcon
           :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
           size="is-medium" />
       </a>
@@ -25,6 +25,7 @@ import { NeoButton } from '@kodadot1/brick'
 import ActiveCount from './ActiveCount.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
+import { NeoIcon } from '@kodadot1/brick'
 
 const route = useRoute()
 const preferencesStore = usePreferencesStore()

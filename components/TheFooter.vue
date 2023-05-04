@@ -40,8 +40,12 @@
                 rel="noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <b-icon icon="external-link-alt" class="ml-1" size="is-small">
-                </b-icon>
+                <NeoIcon
+                  icon="external-link-alt"
+                  class="ml-1"
+                  size="is-small"
+                  pack="fas">
+                </NeoIcon>
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -65,8 +69,12 @@
                 rel="noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <b-icon icon="external-link-alt" class="ml-1" size="is-small">
-                </b-icon>
+                <NeoIcon
+                  icon="external-link-alt"
+                  class="ml-1"
+                  size="is-small"
+                  pack="fas">
+                </NeoIcon>
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -112,12 +120,11 @@
                 </defs>
               </svg>
 
-              <b-icon
+              <NeoIcon
                 v-else
                 :pack="item.name == 'Swag' ? 'fas' : 'fab'"
                 :icon="item.icon"
-                size="is-small"
-                :type="isDarkMode ? 'is-white' : 'is-black'" />
+                size="is-small" />
             </a>
           </li>
         </ul>
@@ -129,6 +136,7 @@
 
 <script lang="ts" setup>
 import { TranslateResult } from 'vue-i18n/types'
+import { NeoIcon } from '@kodadot1/brick'
 
 interface Menu {
   name: TranslateResult

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="title is-1">
-      <b-icon icon="leaf" />
+      <NeoIcon icon="leaf" />
       Sustainability of KodaDot
     </h1>
     <h1 class="subtitle">micro-dao-bedrock-boostrap experiment</h1>
@@ -106,7 +106,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-
+import { NeoIcon } from '@kodadot1/brick'
 @Component<Sustainibility>({
   head() {
     const metaData = {
@@ -119,6 +119,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
       meta: [...this.$seoMeta(metaData)],
     }
   },
+  components: { NeoIcon },
 })
 export default class Sustainibility extends Vue {
   layout() {

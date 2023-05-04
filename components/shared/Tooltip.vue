@@ -9,9 +9,9 @@
       square
       :triggers="['hover', 'click']">
       <b-button type="is-dark" :size="buttonsize">
-        <b-icon :size="iconsize" icon="info" />
+        <NeoIcon :size="iconsize" icon="info" />
       </b-button>
-      <template v-slot:content>
+      <template #content>
         <slot name="content" />
       </template>
     </b-tooltip>

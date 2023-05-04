@@ -7,9 +7,9 @@
       :class="{ 'is-unselectable': !isSelectable }">
       <template #trigger="props">
         <a aria-controls="contentIdForA11y1" class="mb-2">
-          <b-icon
+          <NeoIcon
             class="collapse-icon"
-            :icon="!props.open ? 'eye' : 'eye-slash'"></b-icon>
+            :icon="!props.open ? 'eye' : 'eye-slash'"></NeoIcon>
           <span class="pl-1">{{ $t(!props.open ? visible : hidden) }}</span>
         </a>
       </template>
@@ -19,6 +19,8 @@
 </template>
 
 <script lang="ts" setup>
+import { NeoIcon } from '@kodadot1/brick'
+
 const cprops = withDefaults(
   defineProps<{
     visible: string

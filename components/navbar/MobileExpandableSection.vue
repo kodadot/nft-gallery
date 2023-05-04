@@ -2,13 +2,13 @@
   <div v-if="!isOpened" class="navbar-item" @click.stop="isOpened = !isOpened">
     <span>
       {{ title }}
-      <b-icon v-if="icon" :icon="icon" :pack="iconFamily" />
+      <NeoIcon v-if="icon" :icon="icon" :pack="iconFamily" />
     </span>
-    <b-icon class="icon--right" icon="chevron-right" pack="fas" />
+    <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
   </div>
   <div v-else class="navbar-item--fullpage">
     <div class="navbar-item navbar-item--reverse" @click.stop="close">
-      <b-icon icon="chevron-left" pack="fas" />
+      <NeoIcon icon="chevron-left" pack="fas" />
       {{ title }}
     </div>
     <div :class="{ 'navbar-item': !noPadding }" class="navbar-item-body">
@@ -18,6 +18,8 @@
 </template>
 
 <script lang="ts" setup>
+import { NeoIcon } from '@kodadot1/brick'
+
 defineProps({
   title: {
     type: String,
