@@ -11,18 +11,20 @@
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths">
         <div class="is-relative">
+          <!-- preview button -->
           <a
-            v-if="canPreview && !hasResources"
+            v-if="canPreview"
             class="fullscreen-button is-justify-content-center is-align-items-center"
             @click="isFullscreen = true">
             <NeoIcon icon="expand" />
           </a>
+
+          <!-- media item -->
           <div v-if="hasResources" class="gallery-item-carousel">
             <o-carousel
-              :overlay="overlayCarousel"
+              v-model="activeCarousel"
               indicators-class="mt-4"
-              indicator-item-class="mx-1"
-              @click="overlayCarousel = !overlayCarousel">
+              indicator-item-class="mx-1">
               <o-carousel-item
                 v-for="resource in nftResources"
                 :key="resource.id">
@@ -127,7 +129,7 @@
 
     <CarouselTypeVisited class="mt-8" />
 
-    <GalleryItemPreviewer v-model="isFullscreen" />
+    <GalleryItemPreviewer v-model="isFullscreen" :item-src="previewItemSrc" />
   </section>
 </template>
 
@@ -168,16 +170,25 @@ const tabs = {
 }
 const activeTab = ref(tabs.offers)
 const showCongratsMessage = ref(false)
-const overlayCarousel = ref(false)
-const hasResources = computed(
-  () => nftResources.value && nftResources.value?.length > 1
-)
 
 const isFullscreen = ref(false)
 const canPreview = computed(() =>
   [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
     resolveMedia(nftMimeType.value)
   )
+)
+
+const activeCarousel = ref(0)
+const activeCarouselImage = computed(() => {
+  const resource = nftResources.value?.[activeCarousel.value]
+  return resource?.src || 'placeholder.webp'
+})
+const hasResources = computed(
+  () => nftResources.value && nftResources.value?.length > 1
+)
+
+const previewItemSrc = computed(
+  () => (hasResources.value && activeCarouselImage.value) || nftImage.value
 )
 
 const onNFTBought = () => {
