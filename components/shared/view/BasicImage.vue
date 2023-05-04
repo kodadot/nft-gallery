@@ -38,10 +38,8 @@ const props = withDefaults(
 const imageSrc = ref(props.src)
 const loaded = ref(false)
 
-function onImageLoad() {
-  loaded.value = true
-}
-function onImageError(ev: Event) {
+const onImageLoad = () => (loaded.value = true)
+const onImageError = (ev: Event) => {
   $consola.error('[BasicImage] to load:', props.src, ev)
   imageSrc.value = placeholder.value
 }
@@ -49,6 +47,6 @@ function onImageError(ev: Event) {
 
 <style lang="scss" scoped>
 .image-wrapper {
-  padding-top: '100%';
+  padding-top: 100%;
 }
 </style>
