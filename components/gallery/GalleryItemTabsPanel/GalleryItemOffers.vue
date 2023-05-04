@@ -3,7 +3,10 @@
     <Loader v-model="isLoading" :status="status" />
     <o-table v-if="offers?.length" :data="offers" hoverable>
       <!-- token price -->
-      <o-table-column v-slot="props" field="id" :label="$t('offer.price')">
+      <o-table-column
+        v-slot="props"
+        field="id"
+        :label="`${$t(`offer.price`)} (${chainSymbol})`">
         {{ getOffersDetails(props.row.id).token }}
       </o-table-column>
 
@@ -91,8 +94,8 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 const { $i18n, $consola } = useNuxtApp()
 
 const { apiInstance } = useApi()
-const { urlPrefix, tokenId, assets } = usePrefix()
-const { decimals } = useChain()
+const { urlPrefix } = usePrefix()
+const { decimals, chainSymbol } = useChain()
 
 const { transaction, status, isLoading } = useTransaction()
 
@@ -232,9 +235,8 @@ watch(
 
       offersData.offers.map((offer) => {
         const price = formatPrice(offer.price)
-        const { symbol } = assets(tokenId.value)
 
-        const token = `${price} ${symbol}`
+        const token = price
         const usd = `$${Math.round(Number(price) * ksmPrice)}`
         const floorDifference = getPercentage(Number(price), Number(floorPrice))
 
