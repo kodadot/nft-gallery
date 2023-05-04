@@ -150,11 +150,6 @@
   </section>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-@Component<Carbonless>({
-  components: { NeoIcon },
-})
-export default class Carbonless extends Vue {}
 </script>
