@@ -3,10 +3,7 @@
     v-if="showBtn"
     class="scroll-top-button button is-justify-content-center"
     @click="scrollToTop">
-    <NeoIcon
-      icon="chevron-up"
-      size="is-small"
-      :type="$colorMode.value === 'dark' ? 'is-white' : 'is-black'" />
+    <NeoIcon icon="chevron-up" />
   </a>
 </template>
 
@@ -14,8 +11,13 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { SHOW_SCROLL_TOP_BUTTON_HEIGHT } from '@/utils/constants'
+import { NeoIcon } from '@kodadot1/brick'
 
-@Component({})
+@Component({
+  components: {
+    NeoIcon,
+  },
+})
 export default class ScrollTopButton extends Vue {
   public showBtn = false
 

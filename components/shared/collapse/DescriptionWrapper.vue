@@ -9,8 +9,7 @@
     </div>
     <div class="has-text-centered">
       <a v-if="hasWrapper" @click.prevent="toggleDescription">
-        <NeoIcon
-          :icon="activeWrapper ? 'chevron-down' : 'chevron-up'"></NeoIcon>
+        <NeoIcon :icon="activeWrapper ? 'chevron-down' : 'chevron-up'" />
       </a>
     </div>
   </div>

@@ -40,12 +40,7 @@
                 rel="noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon
-                  icon="external-link-alt"
-                  class="ml-1"
-                  size="is-small"
-                  pack="fas">
-                </NeoIcon>
+                <NeoIcon icon="external-link-alt" class="ml-1" pack="fas" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -69,12 +64,7 @@
                 rel="noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon
-                  icon="external-link-alt"
-                  class="ml-1"
-                  size="is-small"
-                  pack="fas">
-                </NeoIcon>
+                <NeoIcon icon="external-link-alt" class="ml-1" pack="fas" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -123,8 +113,7 @@
               <NeoIcon
                 v-else
                 :pack="item.name == 'Swag' ? 'fas' : 'fab'"
-                :icon="item.icon"
-                size="is-small" />
+                :icon="item.icon" />
             </a>
           </li>
         </ul>

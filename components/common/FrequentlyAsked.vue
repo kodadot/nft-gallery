@@ -21,8 +21,7 @@
             <a class="has-text-primary" :href="'#' + qa[0].replace(/ /g, '-')">
               <NeoIcon
                 :icon="!props.open ? 'chevron-down' : 'chevron-up'"
-                class="mr-4">
-              </NeoIcon>
+                class="mr-4" />
             </a>
             <h3
               class="heading is-size-5-mobile is-size-4-tablet has-text-weight-semibold">

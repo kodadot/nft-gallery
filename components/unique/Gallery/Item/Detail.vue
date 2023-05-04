@@ -50,7 +50,7 @@
       <p class="label">
         {{ $t('delegate') }}
         <span>
-          <a class="has-text-danger"><NeoIcon icon="times"> </NeoIcon></a>
+          <a class="has-text-danger"><NeoIcon icon="times" /> </a>
         </span>
       </p>
       <p class="subtitle is-size-6">

@@ -9,7 +9,7 @@
         <a aria-controls="contentIdForA11y1" class="mb-2">
           <NeoIcon
             class="collapse-icon"
-            :icon="!props.open ? 'eye' : 'eye-slash'"></NeoIcon>
+            :icon="!props.open ? 'eye' : 'eye-slash'" />
           <span class="pl-1">{{ $t(!props.open ? visible : hidden) }}</span>
         </a>
       </template>

@@ -151,7 +151,7 @@
         class="is-flex is-align-items-center is-justify-content-space-between mb-1 search-history-item"
         @click="goToExploreResults(item)">
         <div class="is-flex is-align-items-center">
-          <NeoIcon icon="history" size="is-small" />
+          <NeoIcon icon="history" />
           <div class="ml-3 history-label">{{ item.name }}</div>
         </div>
         <div

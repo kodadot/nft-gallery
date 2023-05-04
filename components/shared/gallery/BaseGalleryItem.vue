@@ -63,7 +63,7 @@
           v-if="!isLoading && imageVisible"
           id="theatre-view"
           @click="toggleView">
-          <NeoIcon :icon="viewMode === 'default' ? 'image' : 'cube'"> </NeoIcon>
+          <NeoIcon :icon="viewMode === 'default' ? 'image' : 'cube'" />
         </button>
         <button
           v-if="!isLoading && imageVisible"
@@ -71,7 +71,7 @@
           :class="{ fullscreen: isFullScreenView }"
           @keyup.esc="minimize"
           @click="toggleFullScreen">
-          <NeoIcon :icon="isFullScreenView ? 'compress' : 'expand'"> </NeoIcon>
+          <NeoIcon :icon="isFullScreenView ? 'compress' : 'expand'" />
         </button>
         <button
           v-if="!isLoading && imageVisible"
@@ -79,7 +79,7 @@
           :class="{ tile: isTileView }"
           @click="toggleTileView"
           @keyup.esc="exitTileView">
-          <NeoIcon :icon="isTileView ? 'compress' : 'table'"> </NeoIcon>
+          <NeoIcon :icon="isTileView ? 'compress' : 'table'" />
         </button>
       </div>
     </div>

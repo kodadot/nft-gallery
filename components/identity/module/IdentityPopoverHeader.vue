@@ -13,18 +13,17 @@
         <NeoIcon
           v-clipboard:copy="address"
           icon="copy"
-          size="is-small"
-          class="is-link is-clickable"
+          class="has-text-link is-clickable"
           data-cy="identity-clipboard"
           @click.native="toast('Copied to clipboard')" />
       </div>
       <a
-        v-if="identity?.twitte"
+        v-if="identity?.twitter"
         :href="`https://twitter.com/${identity?.twitter}`"
         target="_blank"
         rel="noopener noreferrer"
         data-cy="identity-twitter">
-        <NeoIcon pack="fab" icon="twitter" class="is-link" />
+        <NeoIcon pack="fab" icon="twitter" class="has-text-link" />
       </a>
     </div>
   </div>
@@ -70,12 +69,6 @@ const toast = (message: string) => {
     @include ktheme() {
       color: theme('k-grey');
     }
-  }
-}
-
-.is-link {
-  @include ktheme() {
-    color: theme('k-blue');
   }
 }
 </style>
