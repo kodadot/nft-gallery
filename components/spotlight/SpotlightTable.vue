@@ -48,7 +48,7 @@
             <Identity :address="props.row.id" />
           </nuxt-link>
         </template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <NeoSkeleton :active="isLoading"> </NeoSkeleton>
       </b-table-column>
 
       <b-table-column
@@ -58,7 +58,7 @@
         :label="$t('spotlight.sold')"
         sortable>
         <template v-if="!isLoading">{{ props.row.sold }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <NeoSkeleton :active="isLoading"> </NeoSkeleton>
       </b-table-column>
 
       <b-table-column
@@ -74,7 +74,7 @@
         <template v-if="!isLoading" #default="props">{{
           props.row.unique
         }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <NeoSkeleton :active="isLoading"> </NeoSkeleton>
       </b-table-column>
 
       <b-table-column
@@ -90,7 +90,7 @@
         <template v-if="!isLoading" #default="props">{{
           props.row.uniqueCollectors
         }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <NeoSkeleton :active="isLoading"> </NeoSkeleton>
       </b-table-column>
 
       <b-table-column
@@ -100,7 +100,7 @@
         :label="$t('spotlight.total')"
         sortable>
         <template v-if="!isLoading">{{ props.row.total }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <NeoSkeleton :active="isLoading"> </NeoSkeleton>
       </b-table-column>
 
       <b-table-column
@@ -112,7 +112,7 @@
         <template v-if="!isLoading">
           <Money :value="props.row.averagePrice" inline hide-unit />
         </template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <NeoSkeleton :active="isLoading"> </NeoSkeleton>
       </b-table-column>
 
       <b-table-column
@@ -122,7 +122,7 @@
         :label="$t('spotlight.count')"
         sortable>
         <template v-if="!isLoading">{{ props.row.count }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <NeoSkeleton :active="isLoading"> </NeoSkeleton>
       </b-table-column>
 
       <b-table-column
@@ -134,7 +134,7 @@
         <template v-if="!isLoading"
           ><Money :value="props.row.volume" inline hide-unit
         /></template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <NeoSkeleton :active="isLoading"> </NeoSkeleton>
       </b-table-column>
 
       <b-table-column
@@ -150,7 +150,7 @@
         <template v-if="!isLoading" #default="props">{{
           Math.ceil(props.row.rank * 100) / 100
         }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <NeoSkeleton :active="isLoading"> </NeoSkeleton>
       </b-table-column>
 
       <b-table-column
@@ -158,7 +158,7 @@
         cell-class="is-vcentered has-text-centered history"
         field="soldHistory"
         :label="$t('spotlight.soldHistory')">
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
         <PulseChart
           v-if="!isLoading"
           :id="props.row.id"
@@ -175,7 +175,7 @@
         <div v-if="!isLoading" class="has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <NeoSkeleton :active="isLoading"> </NeoSkeleton>
       </template>
     </b-table>
   </div>
@@ -185,6 +185,7 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
+import { NeoSkeleton } from '@kodadot1/brick'
 
 import {
   axisLize,
@@ -216,6 +217,7 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   SpotlightDetail: () => import('./SpotlightDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+  NeoSkeleton,
 }
 
 @Component({ components })

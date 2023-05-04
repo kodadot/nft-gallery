@@ -20,7 +20,7 @@
           </nuxt-link>
         </template>
       </CollectionDetailsPopover>
-      <b-skeleton :active="isLoading"></b-skeleton>
+      <NeoSkeleton :active="isLoading"></NeoSkeleton>
     </p>
     <p class="label">
       {{ $t('creator') }}
@@ -32,7 +32,7 @@
         show-twitter
         show-discord />
     </p>
-    <b-skeleton :active="isLoading"></b-skeleton>
+    <NeoSkeleton :active="isLoading"></NeoSkeleton>
     <template v-if="nft.issuer !== nft.currentOwner">
       <p class="label">
         {{ $t('owner') }}
@@ -44,7 +44,7 @@
           show-twitter
           show-discord />
       </p>
-      <b-skeleton :active="isLoading"></b-skeleton>
+      <NeoSkeleton :active="isLoading"></NeoSkeleton>
     </template>
     <template v-if="nft.delegate">
       <p class="label">
@@ -58,7 +58,7 @@
           data-cy="item-delegate"
           :address="nft.delegate"
           show-twitter />
-        <b-skeleton :active="isLoading"></b-skeleton>
+        <NeoSkeleton :active="isLoading"></NeoSkeleton>
       </p>
     </template>
   </div>
@@ -72,6 +72,7 @@ import { NFTWithMeta } from '@/components/rmrk/service/scheme'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { emptyObject } from '@/utils/empty'
 import isShareMode from '@/utils/isShareMode'
+import { NeoSkeleton } from '@kodadot1/brick'
 
 const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
@@ -79,6 +80,7 @@ const components = {
     import(
       '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
     ),
+  NeoSkeleton,
 }
 
 @Component({ components })

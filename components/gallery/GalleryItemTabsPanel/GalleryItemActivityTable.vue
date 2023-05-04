@@ -19,7 +19,7 @@
         v-slot="props"
         width="20%"
         field="meta"
-        :label="$t('tabs.tabActivity.price')">
+        :label="`${$t(`tabs.tabActivity.price`)} (${chainSymbol})`">
         <p v-if="Number(props.row.meta)">
           {{ formatPrice(props.row.meta) }}
         </p>
@@ -85,16 +85,16 @@
       </o-table-column>
     </o-table>
     <div v-else-if="loading" class="p-5">
-      <o-skeleton animated size="large"></o-skeleton>
+      <NeoSkeleton animated size="large" :count="3"></NeoSkeleton>
     </div>
     <div v-else class="p-5">{{ $t('tabs.tabActivity.empty') }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { OSkeleton, OTable, OTableColumn, OTooltip } from '@oruga-ui/oruga'
+import { OTable, OTableColumn, OTooltip } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
-
+import { NeoSkeleton } from '@kodadot1/brick'
 import { formatToNow } from '@/utils/format/time'
 import formatBalance from '@/utils/format/balance'
 import { parseDate } from '@/utils/datetime'
@@ -107,8 +107,8 @@ const dprops = defineProps<{
   interactions: string[]
 }>()
 
-const { decimals, unit } = useChain()
-const { urlPrefix, tokenId, assets } = usePrefix()
+const { decimals, chainSymbol } = useChain()
+const { urlPrefix } = usePrefix()
 
 const interaction =
   urlPrefix.value === 'ksm'
@@ -155,12 +155,7 @@ watchEffect(() => {
 })
 
 const formatPrice = (price) => {
-  const { symbol } = assets(tokenId.value)
-  const tokenSymbol = ['rmrk', 'ksm'].includes(urlPrefix.value)
-    ? unit.value
-    : symbol
-
-  return formatBalance(price, decimals.value, tokenSymbol)
+  return formatBalance(price, decimals.value, false)
 }
 </script>
 <style lang="scss" scoped>

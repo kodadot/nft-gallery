@@ -20,5 +20,7 @@ export { default as NeoTabItem } from './components/NeoTab/NeoTabItem'
 export { default as NeoIcon } from './components/NeoIcon/NeoIcon'
 export { default as NeoCollapse } from './components/NeoCollapse/NeoCollapse'
 export { default as NeoModal } from './components/NeoModal/NeoModal'
+export { default as NeoSkeleton } from './components/NeoSkeleton/NeoSkeleton'
+export { default as NeoAvatar } from './components/NeoAvatar/NeoAvatar'
 
 export { default as Neo } from '@oruga-ui/oruga'
