@@ -63,7 +63,7 @@
             :hashtags="hashtags"
             :url="realworldFullPath"
             :title="$t(label)">
-            <NeoIcon size="is-large" pack="fab" icon="facebook" />
+            <NeoIcon size="large" pack="fab" icon="facebook" />
           </ShareNetwork>
           <ShareNetwork
             tag="button"
