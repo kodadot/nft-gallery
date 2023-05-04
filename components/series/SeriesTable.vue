@@ -316,7 +316,7 @@
           v-if="!isLoading"
           :to="`/${urlPrefix}/collection/${props.row.id}?tab=history&locate=true`"
           target="_blank">
-          <NeoIcon icon="list-ul"> </NeoIcon>
+          <NeoIcon icon="list-ul" />
         </nuxt-link>
         <NeoSkeleton :active="isLoading" />
       </b-table-column>
