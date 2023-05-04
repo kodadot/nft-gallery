@@ -45,7 +45,7 @@ describe('rmrkCollectionItem', () => {
     cy.checkCollectionActions(
       '/rmrk/collection/36FDCC8B7888DCED32-SUBWORK_MO',
       'Subwork morning vibe',
-      'DpRVpD...o6PA1a'
+      'KodaDot_stewards'
     )
   })
 })

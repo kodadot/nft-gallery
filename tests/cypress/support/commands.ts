@@ -83,7 +83,7 @@ Cypress.Commands.add('snekGalleryListedItemActions', (nftId, creator) => {
   cy.get('.gallery-item-activity-table').within(() => {
     cy.get('[data-label="Event"]').should('contain', 'mintnft')
     cy.get('[data-label="From"]').should('contain', `${creator}`)
-    cy.get('[data-label="Price"]').should('have.text', '')
+    cy.get('[data-label^="Price"]').should('have.text', '')
   })
 })
 
