@@ -302,7 +302,7 @@
           v-if="!isLoading"
           :to="`/${urlPrefix}/collection/${props.row.id}?tab=chart&locate=true`"
           target="_blank">
-          <NeoIcon icon="chart-line"> </NeoIcon>
+          <NeoIcon icon="chart-line" />
         </nuxt-link>
         <NeoSkeleton :active="isLoading" />
       </b-table-column>
