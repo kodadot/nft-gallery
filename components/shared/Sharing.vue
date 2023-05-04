@@ -54,7 +54,7 @@
             network="telegram"
             :url="realworldFullPath"
             :title="$t(label)">
-            <NeoIcon size="is-large" pack="fab" icon="telegram" />
+            <NeoIcon size="large" pack="fab" icon="telegram" />
           </ShareNetwork>
           <ShareNetwork
             tag="button"
