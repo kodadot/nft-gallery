@@ -145,7 +145,6 @@ interface Menu {
 }
 
 const { $i18n } = useNuxtApp()
-const { isDarkMode } = useTheme()
 
 const menuMarketplace: Menu[] = [
   {
