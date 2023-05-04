@@ -92,7 +92,6 @@ const setTotalValue = (value: number) => {
 
 onMounted(() => {
   if (identityStore.getAuthAddress) {
-    console.log('fetching balance...')
     identityStore.fetchBalance({
       address: identityStore.getAuthAddress,
     })

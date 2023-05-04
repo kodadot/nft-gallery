@@ -63,6 +63,7 @@ export const useIdentityStore = defineStore('identity', {
         balance: emptyObject<BalanceMap>(),
         tokens: emptyObject<BalanceMap>(),
       }
+      localStorage.removeItem('kodaauth')
     },
     setIdentity(identityRequest: IdenityRequest) {
       const { address, identity } = identityRequest
@@ -73,7 +74,7 @@ export const useIdentityStore = defineStore('identity', {
     async setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: emptyObject<BalanceMap>() }
       await this.fetchBalance({ address: authRequest.address })
-      useLocalStorage('kodaauth', authRequest.address)
+      localStorage.setItem('kodaauth', authRequest.address)
     },
     setBalance(prefix: string, balance: string) {
       if (this.auth.balance) {
@@ -93,7 +94,7 @@ export const useIdentityStore = defineStore('identity', {
       if (this.auth.address) {
         const address = formatAddress(this.auth.address, ss58Prefix)
         this.auth.address = address
-        useLocalStorage('kodaauth', address)
+        localStorage.setItem('kodaauth', address)
       }
     },
     async setCorrectAddressBalance(apiUrl: string) {
