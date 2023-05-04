@@ -12,6 +12,10 @@
         opacity: theme('card-hover-opacity');}
     }
   }
+
+  a:hover {
+    color: unset !important;
+  }
 }
 .unloackable-icon { 
   position: absolute;
