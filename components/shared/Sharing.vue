@@ -71,7 +71,7 @@
             network="messenger"
             :url="realworldFullPath"
             :title="$t(label)">
-            <NeoIcon size="is-large" pack="fab" icon="facebook-messenger" />
+            <NeoIcon size="large" pack="fab" icon="facebook-messenger" />
           </ShareNetwork>
           <ShareNetwork
             tag="button"
