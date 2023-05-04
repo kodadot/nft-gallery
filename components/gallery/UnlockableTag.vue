@@ -1,14 +1,13 @@
 <template>
-  <NeoTooltip
-    :active="!isOwner"
-    label="unlock-able content is revealed after purchase"
-    :append-to-body="true">
-    <div
-      class="unlockable-container is-flex border py-2 px-6 is-justify-content-space-between">
+  <div
+    class="unlockable-container is-flex border py-2 px-6 is-justify-content-space-between">
+    <NeoTooltip :active="!isOwner" :label="$t('unlockable.tooltip')" multiline>
       <div class="is-flex is-align-items-center">
-        <img class="mr-2" :src="unloackableIcon" alt="Unlockable Icon" />
-        <span class="has-text-grey is-size-7">Unlock-Able item</span>
+        <img class="mr-2" :src="unlockableIcon" alt="Unlockable Icon" />
+        <span class="has-text-grey is-size-7">{{ $t('unlockable.item') }}</span>
       </div>
+    </NeoTooltip>
+    <div class="is-flex is-align-items-center">
       <nuxt-link
         v-if="isOwner"
         :to="{
@@ -16,36 +15,35 @@
           query: { unlockable: true },
         }"
         class="has-text-link">
-        {{ `Claim ${isMobile ? '' : 'Physical'} Drop` }}
+        {{
+          isMobile
+            ? $t('unlockable.claimDrop')
+            : $t('unlockable.claimPhysicalDrop')
+        }}
       </nuxt-link>
-
-      <span v-else>Owner Only</span>
+      <span v-else>{{ $t('unlockable.ownerOnly') }}</span>
     </div>
-  </NeoTooltip>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import unloackableDark from '@/assets/unlockable-dark.svg'
-import unloackable from '@/assets/unlockable.svg'
 import { NeoTooltip } from '@kodadot1/brick'
 import { isOwner as checkOwner } from '@/utils/account'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { useWindowSize } from '@vueuse/core'
+import { useUnlockableIcon } from '@/composables/useUnlockableIcon'
 
 const props = defineProps<{
   nft: NFT | undefined
 }>()
 
-const { isDarkMode } = useTheme()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const isMobile = computed(() => useWindowSize().width.value < 768)
+const { unlockableIcon } = useUnlockableIcon()
 
 const isOwner = computed(() =>
   checkOwner(props.nft?.currentOwner, accountId.value)
-)
-const unloackableIcon = computed(() =>
-  isDarkMode.value ? unloackableDark : unloackable
 )
 </script>
 

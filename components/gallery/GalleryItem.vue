@@ -189,7 +189,6 @@ onMounted(() => {
   })
 })
 
-// change when there is api for unloackable
 const isUnlockable = computed(() => route.query.unlockable === 'true')
 
 const title = computed(() => nftMetadata.value?.name || '')

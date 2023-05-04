@@ -7,7 +7,7 @@
     :show-price="Number(nft?.price) > 0"
     :variant="variant"
     :unlockable="unlockable"
-    :unloackable-icon="unloackableIcon" />
+    :unloackable-icon="unlockableIcon" />
 </template>
 
 <script setup lang="ts">
@@ -15,15 +15,11 @@ import { NeoNftCard } from '@kodadot1/brick'
 
 import type { NftCardVariant } from '@kodadot1/brick'
 import type { NFTWithMetadata } from '@/composables/useNft'
-import unloackableDark from '@/assets/unlockable-dark.svg'
-import unloackable from '@/assets/unlockable.svg'
+import { useUnlockableIcon } from '@/composables/useUnlockableIcon'
 
 const { urlPrefix } = usePrefix()
-const { placeholder, isDarkMode } = useTheme()
-
-const unloackableIcon = computed(() =>
-  isDarkMode.value ? unloackableDark : unloackable
-)
+const { placeholder } = useTheme()
+const { unlockableIcon } = useUnlockableIcon()
 
 const props = defineProps<{
   nft: NFTWithMetadata
