@@ -27,7 +27,7 @@
                   :preview="false"
                   @error="hasError = true" />
               </div>
-              <NeoIcon v-if="hasError" icon="eye-slash" size="is-large" />
+              <NeoIcon v-if="hasError" icon="eye-slash" size="large" />
               <p v-if="!file">
                 {{ label }}
               </p>
