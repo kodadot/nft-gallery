@@ -24,15 +24,15 @@
         <div class="is-flex is-justify-content-space-between box-container">
           <b-field grouped group-multiline>
             <div class="control">
-              <b-checkbox v-model="showDetailIcon">NFT Details</b-checkbox>
+              <NeoCheckbox v-model="showDetailIcon">NFT Details</NeoCheckbox>
             </div>
             <div
               v-for="(column, index) in columnsVisible"
               :key="index"
               class="control">
-              <b-checkbox v-model="column.display">
+              <NeoCheckbox v-model="column.display">
                 {{ column.title }}
-              </b-checkbox>
+              </NeoCheckbox>
             </div>
           </b-field>
         </div>
@@ -167,6 +167,7 @@ import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { formatDistanceToNow } from 'date-fns'
+import { NeoCheckbox } from '@kodadot1/brick'
 
 import ChainMixin from '@/utils/mixins/chainMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'

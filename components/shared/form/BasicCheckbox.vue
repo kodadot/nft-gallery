@@ -1,13 +1,14 @@
 <template>
   <b-field>
-    <b-checkbox v-model="isChecked" :disabled="disabled">
+    <NeoCheckbox v-model="isChecked" :disabled="disabled">
       {{ $t(label) }}
-    </b-checkbox>
+    </NeoCheckbox>
   </b-field>
 </template>
 
 <script lang="ts">
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
+import { NeoCheckbox } from '@kodadot1/brick'
 
 @Component
 export default class BasicCheckbox extends Vue {
