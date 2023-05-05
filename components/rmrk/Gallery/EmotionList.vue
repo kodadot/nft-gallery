@@ -33,6 +33,7 @@ import orderBy from 'lodash/orderBy'
 import { Emotion } from '../service/scheme'
 import EmotionModal from './EmotionModal.vue'
 import { NeoIcon } from '@kodadot1/brick'
+
 const issuerId = (emotion: Emotion) => emotion.caller
 
 interface GroupedEmotion {
