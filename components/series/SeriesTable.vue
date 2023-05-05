@@ -78,7 +78,6 @@
         cell-class="is-vcentered">
         <div class="image is-48x48 mb-2">
           <BasicImage :src="props.row.image" :alt="props.row.name" rounded />
-          <!-- <NeoSkeleton :active="isLoading" circle width="48px" height="48px" /> -->
         </div>
       </b-table-column>
 
