@@ -199,8 +199,7 @@ const submit = async (
   maker: string,
   interaction:
     | typeof ShoppingActions.WITHDRAW_OFFER
-    | typeof ShoppingActions.ACCEPT_OFFER,
-  onSuccess?: () => void
+    | typeof ShoppingActions.ACCEPT_OFFER
 ) => {
   try {
     await transaction({

@@ -43,6 +43,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
+  type: undefined,
   id: '',
   isButtonHidden: false,
 })
