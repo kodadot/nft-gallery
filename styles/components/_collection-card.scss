@@ -89,7 +89,7 @@
       line-height: $header-height;
       &:hover {
         @include ktheme() {
-          color: theme('k-grey');
+          color: theme('link-hover');
         }
       }
     }
