@@ -13,7 +13,7 @@
         class="nft-media-info is-flex is-flex-direction-column"
         :class="`nft-media-info__${variant}`">
         <div class="is-flex is-flex-direction-column">
-          <span class="is-ellipsis has-text-weight-bold">{{
+          <span class="is-ellipsis has-text-weight-bold" data-cy="nft-name">{{
             nft.name || '--'
           }}</span>
 
