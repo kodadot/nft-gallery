@@ -182,11 +182,11 @@ const formatOfferStatus = (status: OfferStatusType, expiration: number) => {
 }
 
 const onWithdrawOffer = async (caller: string) => {
-  await submit(caller, ShoppingActions.WITHDRAW_OFFER, refetch)
+  await submit(caller, ShoppingActions.WITHDRAW_OFFER)
 }
 
 const onAcceptOffer = async (caller: string) => {
-  await submit(caller, ShoppingActions.ACCEPT_OFFER, refetch)
+  await submit(caller, ShoppingActions.ACCEPT_OFFER)
 }
 
 onMounted(async () => {
