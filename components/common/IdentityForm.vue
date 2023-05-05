@@ -90,6 +90,7 @@ import { onApiConnect } from '@kodadot1/sub-api'
 import { hexToString, isHex } from '@polkadot/util'
 import { Data } from '@polkadot/types'
 import { NeoIcon } from '@kodadot1/brick'
+
 const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 const BasicInput = defineAsyncComponent(
   () => import('@/components/shared/form/BasicInput.vue')
