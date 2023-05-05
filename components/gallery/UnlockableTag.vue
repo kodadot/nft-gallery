@@ -8,19 +8,18 @@
       </div>
     </NeoTooltip>
     <div class="is-flex is-align-items-center">
-      <nuxt-link
-        v-if="isOwner"
-        :to="{
-          path: `/${urlPrefix}/gallery/${nft.id}`,
-          query: { unlockable: true },
-        }"
+      <a
+        v-if="isOwner && link"
+        :href="link"
+        target="_blank"
+        rel="noopener noreferrer"
         class="has-text-link">
         {{
           isMobile
             ? $t('unlockable.claimDrop')
             : $t('unlockable.claimPhysicalDrop')
         }}
-      </nuxt-link>
+      </a>
       <span v-else>{{ $t('unlockable.ownerOnly') }}</span>
     </div>
   </div>
@@ -35,10 +34,10 @@ import { useUnlockableIcon } from '@/composables/useUnlockableIcon'
 
 const props = defineProps<{
   nft: NFT | undefined
+  link: string | undefined
 }>()
 
 const { accountId } = useAuth()
-const { urlPrefix } = usePrefix()
 const isMobile = computed(() => useWindowSize().width.value < 768)
 const { unlockableIcon } = useUnlockableIcon()
 
