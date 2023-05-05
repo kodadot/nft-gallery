@@ -6,6 +6,7 @@
         <template #action>
           <NeoTooltip
             :active="isTransferButtonDisabled"
+            :append-to-body="true"
             position="bottom"
             :label="$t('tooltip.emptyAddress')">
             <NeoButton

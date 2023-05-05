@@ -14,11 +14,7 @@
       class="border image is-48x48" />
     <div class="notify-content ml-5 is-flex is-flex-direction-column">
       <div class="is-flex is-justify-content-space-between">
-        <NeoTooltip
-          :label="displayName"
-          :append-to-body="false"
-          :delay="1000"
-          class="nft-name mr-4">
+        <NeoTooltip :label="displayName" :delay="1000" class="nft-name mr-4">
           <div class="is-ellipsis max-width has-text-weight-bold">
             {{ displayName }}
           </div>

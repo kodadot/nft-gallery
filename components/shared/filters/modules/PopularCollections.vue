@@ -33,7 +33,6 @@
               class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
               <NeoTooltip
                 :label="collection.meta.name || collection.id"
-                :append-to-body="false"
                 :delay="1000">
                 <div class="is-ellipsis">
                   {{ collection.meta.name || collection.id }}
