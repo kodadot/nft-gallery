@@ -84,12 +84,14 @@
           <UnlockableTag
             v-if="isUnlockable && isMobile"
             :nft="nft"
+            :link="unlockLink"
             class="mt-4" />
 
           <!-- price section -->
           <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
           <UnlockableTag
             v-if="isUnlockable && !isMobile"
+            :link="unlockLink"
             :nft="nft"
             class="mt-7" />
         </div>
@@ -189,7 +191,7 @@ onMounted(() => {
   })
 })
 
-const isUnlockable = computed(() => route.query.unlockable === 'true')
+const { isUnlockable, unlockLink } = useUnlockable(collection)
 
 const title = computed(() => nftMetadata.value?.name || '')
 const meta = computed(() => {
