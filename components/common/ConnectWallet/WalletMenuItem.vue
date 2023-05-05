@@ -8,7 +8,7 @@
       <div
         class="is-flex is-justify-content-space-between is-align-items-center">
         <span>
-          <img
+          <BasicImage
             :src="wallet.img"
             class="is-32x32 is-inline-block"
             style="vertical-align: middle" />
@@ -66,6 +66,7 @@ import { formatAddress } from '@/utils/account'
 import shortAddress from '@/utils/shortAddress'
 import { useWalletStore } from '@/stores/wallet'
 import { NeoIcon } from '@kodadot1/brick'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 defineProps<{
   wallet: BaseDotsamaWallet
