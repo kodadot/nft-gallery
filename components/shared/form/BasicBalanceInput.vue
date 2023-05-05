@@ -1,6 +1,6 @@
 <template>
-  <b-field :label="$t(label)">
-    <b-input
+  <NeoField :label="$t(label)">
+    <NeoInput
       ref="balance"
       v-model="metaValue"
       type="number"
@@ -18,7 +18,7 @@
         unit
       }}</span>
     </p>
-  </b-field>
+  </NeoField>
 </template>
 
 <script lang="ts">
@@ -32,8 +32,14 @@ import {
 } from 'nuxt-property-decorator'
 
 import { balanceFrom, simpleDivision } from '@/utils/balance'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
-@Component
+@Component({
+  components: {
+    NeoField,
+    NeoInput,
+  },
+})
 export default class BasicBalanceInput extends Vue {
   // Dev: make vValue required
   @VModel() vValue!: string | number

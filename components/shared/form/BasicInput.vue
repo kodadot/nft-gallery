@@ -1,6 +1,6 @@
 <template>
-  <b-field :label="$i18n.t(label)">
-    <b-input
+  <NeoField :label="$i18n.t(label)">
+    <NeoInput
       ref="input"
       :value="value"
       :placeholder="placeholder"
@@ -18,11 +18,12 @@
         <span class="has-text-primary is-italic">{{ message }}</span>
       </transition>
     </template>
-  </b-field>
+  </NeoField>
 </template>
 
 <script lang="ts" setup>
 import type { BInput } from 'buefy/dist/components/input'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
 const { $i18n } = useNuxtApp()
 

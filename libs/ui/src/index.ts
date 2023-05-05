@@ -22,5 +22,7 @@ export { default as NeoCollapse } from './components/NeoCollapse/NeoCollapse'
 export { default as NeoModal } from './components/NeoModal/NeoModal'
 export { default as NeoSkeleton } from './components/NeoSkeleton/NeoSkeleton'
 export { default as NeoAvatar } from './components/NeoAvatar/NeoAvatar'
+export { default as NeoInput } from './components/NeoInput/NeoInput'
+export { default as NeoField } from './components/NeoField/NeoField'
 
 export { default as Neo } from '@oruga-ui/oruga'

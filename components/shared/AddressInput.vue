@@ -1,14 +1,14 @@
 <template>
   <div>
-    <b-field :type="type" :message="err" :label="$t(label)">
-      <b-input
+    <NeoField :type="type" :message="err" :label="$t(label)">
+      <NeoInput
         ref="address"
         v-model="inputValue"
         :icon-right="iconRight"
         icon-right-clickable
         @input="handleInput"
         @icon-right-click="clearIconClick" />
-    </b-field>
+    </NeoField>
   </div>
 </template>
 
@@ -19,8 +19,14 @@ import { Debounce } from 'vue-debounce-decorator'
 import { Component, Emit, Prop, Ref, mixins } from 'nuxt-property-decorator'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { ss58Of } from '@/utils/config/chain.config'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
-@Component({})
+@Component({
+  components: {
+    NeoField,
+    NeoInput,
+  },
+})
 export default class AddressInput extends mixins(PrefixMixin) {
   @Prop(String) public value!: string
   private err: string | null = ''

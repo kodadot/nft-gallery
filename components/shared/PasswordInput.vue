@@ -1,21 +1,27 @@
 <template>
-  <b-field
+  <NeoField
     v-if="accountLocked"
     label="password 🤫 magic spell"
     class="password-wrapper">
-    <b-input
+    <NeoInput
       :value="value"
       type="password"
       password-reveal
       @input="handlePassword" />
-  </b-field>
+  </NeoField>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
 import { isAccountLocked } from '@/utils/account'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
-@Component
+@Component({
+  components: {
+    NeoField,
+    NeoInput,
+  },
+})
 export default class PasswordInput extends Vue {
   @Prop() public value!: string
   @Prop({ default: '' }) public account!: string

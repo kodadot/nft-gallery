@@ -1,31 +1,37 @@
 <template>
-  <b-field grouped>
+  <NeoField grouped>
     <p v-if="!disabled" class="control">
       <b-button size="is-medium" icon-left="times" @click="remove" />
     </p>
-    <b-field label="Trait" expanded>
-      <b-input
+    <NeoField label="Trait">
+      <NeoInput
         v-model="vKey"
         placeholder="Background"
         expanded
         :disabled="disabled"
         spellcheck="true" />
-    </b-field>
-    <b-field label="Value" expanded>
-      <b-input
+    </NeoField>
+    <NeoField label="Value">
+      <NeoInput
         v-model="vValue"
         placeholder="Dark"
         expanded
         spellcheck="true"
         :disabled="disabled" />
-    </b-field>
-  </b-field>
+    </NeoField>
+  </NeoField>
 </template>
 
 <script lang="ts">
 import { Component, Emit, Prop, PropSync, Vue } from 'nuxt-property-decorator'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
-@Component
+@Component({
+  components: {
+    NeoField,
+    NeoInput,
+  },
+})
 export default class AttributeInput extends Vue {
   @Prop(Number) index!: number
   @Prop(Boolean) disabled!: boolean

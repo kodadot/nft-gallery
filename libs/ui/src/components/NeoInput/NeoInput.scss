@@ -1,0 +1,23 @@
+@import '../../scss/variable.scss';
+@import '../../scss/theme.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+
+.neo-input {
+  @include ktheme() {
+    border: 1px solid theme('border-color');
+  }
+  .o-input {
+    font-size: 1rem;
+    height: 100%;
+    outline: none;
+    padding: 9px 5px;
+    border: none;
+    @include ktheme() {
+      color: theme('text-color');
+      background-color: theme('background-color');
+    }
+  }
+}

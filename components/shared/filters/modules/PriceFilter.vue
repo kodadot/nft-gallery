@@ -18,9 +18,9 @@
       <div
         class="is-flex input-container mb-4"
         :class="[inputFocused ? 'input-focused' : '']">
-        <b-input
+        <NeoInput
           v-model="range.min"
-          custom-class="input-sidebar"
+          class="input-sidebar"
           type="number"
           min="0"
           step="any"
@@ -40,9 +40,9 @@
               fill="currentColor" />
           </svg>
         </div>
-        <b-input
+        <NeoInput
           v-model="range.max"
-          custom-class="input-sidebar"
+          class="input-sidebar"
           min="0"
           step="any"
           type="number"
@@ -70,7 +70,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoInput } from '@kodadot1/brick'
 import { fromDecimals, toDecimals } from '@/utils/math'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
@@ -163,8 +163,10 @@ const toggleInputFocused = (): void => {
   @include ktheme() {
     border: 1px solid theme('text-color');
   }
+
   .input-sidebar {
     border: none !important;
+    height: 2.5rem;
     &:focus {
       border: none !important;
       box-shadow: none !important;

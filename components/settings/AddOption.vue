@@ -3,9 +3,9 @@
     <label
       ><b>Add {{ label }}</b></label
     >
-    <b-field class="add-option-wrapper">
-      <b-input v-model="text" placeholder="Name" />
-      <b-input
+    <NeoField class="add-option-wrapper">
+      <NeoInput v-model="text" placeholder="Name" />
+      <NeoInput
         v-model="value"
         placeholder="wss://kusama-rpc.polkadot.io/"
         expanded />
@@ -18,14 +18,20 @@
           Add
         </b-button>
       </p>
-    </b-field>
+    </NeoField>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Provide, Emit, Prop } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Provide, Vue } from 'nuxt-property-decorator'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
-@Component
+@Component({
+  components: {
+    NeoField,
+    NeoInput,
+  },
+})
 export default class AddOption extends Vue {
   @Prop() public label!: string
   @Provide() private value = ''

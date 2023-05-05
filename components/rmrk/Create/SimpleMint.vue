@@ -112,14 +112,14 @@
         <p v-show="syncVisible" class="sub-title is-6 has-text-warning">
           {{ $t('mint.expert.countGlitch', [parseAddresses.length]) }}
         </p>
-        <b-field :label="$t('mint.expert.batchSend')">
-          <b-input
+        <NeoField :label="$t('mint.expert.batchSend')">
+          <NeoInput
             v-model="batchAdresses"
             type="textarea"
             :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
             spellcheck="true"
-            data-cy="input-batch-address"></b-input>
-        </b-field>
+            data-cy="input-batch-address" />
+        </NeoField>
         <BasicSlider
           v-model="distribution"
           label="action.distributionCount"
@@ -224,6 +224,7 @@ import AuthMixin from '~/utils/mixins/authMixin'
 import { useFiatStore } from '@/stores/fiat'
 import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -240,6 +241,8 @@ const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   BasicSlider: () => import('@/components/shared/form/BasicSlider.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
+  NeoField,
+  NeoInput,
 }
 
 @Component<SimpleMint>({
