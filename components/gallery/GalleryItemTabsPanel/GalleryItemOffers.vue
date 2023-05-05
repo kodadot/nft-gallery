@@ -110,7 +110,7 @@ const isActive = (row) =>
 
 const { accountId } = useAuth()
 
-const { data, refetch } = useGraphql({
+const { data } = useGraphql({
   queryName: 'offerListByNftId',
   queryPrefix: 'chain-bsx',
   variables: {
