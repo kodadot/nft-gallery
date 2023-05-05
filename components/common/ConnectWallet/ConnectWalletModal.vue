@@ -48,7 +48,7 @@
       <div class="mb-5">
         {{ $i18n.t('walletConnect.authText') }}
       </div>
-      <b-field>
+      <NeoField>
         <NeoButton
           size="medium"
           variant="k-accent"
@@ -59,7 +59,7 @@
             <NeoIcon class="ml-2" icon="chevron-right" />
           </span>
         </NeoButton>
-      </b-field>
+      </NeoField>
     </section>
 
     <footer v-if="!showAccount" class="px-5 py-4">
@@ -87,6 +87,7 @@ import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset'
+import { NeoField } from '@kodadot1/brick'
 
 const { $store, $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()

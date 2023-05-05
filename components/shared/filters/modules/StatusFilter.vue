@@ -15,20 +15,20 @@
       </div>
     </template>
     <div class="p-4">
-      <b-field>
+      <NeoField>
         <NeoCheckbox v-model="listed"> {{ $t('sort.listed') }}</NeoCheckbox>
-      </b-field>
-      <b-field>
+      </NeoField>
+      <NeoField>
         <NeoCheckbox v-model="owned" :disabled="!accountId">
           {{ $t('sort.own') }}</NeoCheckbox
         >
-      </b-field>
+      </NeoField>
     </div>
   </b-collapse>
 </template>
 
 <script lang="ts" setup>
-import { NeoCheckbox } from '@kodadot1/brick'
+import { NeoCheckbox, NeoField } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
 const exploreFiltersStore = useExploreFiltersStore()

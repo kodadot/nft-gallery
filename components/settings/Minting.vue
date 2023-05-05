@@ -3,7 +3,7 @@
     <div class="label">
       {{ $t('Minting Settings') }}
     </div>
-    <b-field>
+    <NeoField>
       <Support v-model="hasSupport" :show-price="false">
         <template #tooltip>
           <Tooltip
@@ -13,8 +13,8 @@
             tooltipsize="is-medium" />
         </template>
       </Support>
-    </b-field>
-    <b-field>
+    </NeoField>
+    <NeoField>
       <Support
         v-model="hasCarbonOffset"
         :price="1"
@@ -36,7 +36,7 @@
           </Tooltip>
         </template>
       </Support>
-    </b-field>
+    </NeoField>
     <ArweaveUploadSwitch v-model="arweaveUpload">
       <template #tooltip>
         <Tooltip
@@ -52,6 +52,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoField } from '@kodadot1/brick'
 
 @Component({
   components: {
@@ -59,6 +60,7 @@ import { usePreferencesStore } from '@/stores/preferences'
       import('@/components/rmrk/Create/ArweaveUploadSwitch.vue'),
     Support: () => import('@/components/shared/Support.vue'),
     Tooltip: () => import('@/components/shared/Tooltip.vue'),
+    NeoField,
   },
 })
 export default class Minting extends Vue {

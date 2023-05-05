@@ -7,14 +7,14 @@
       Create NFT Collectibles
     </h2>
     <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
-    <b-field>
+    <NeoField>
       <div>
         {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
       </div>
-    </b-field>
-    <b-field>
+    </NeoField>
+    <NeoField>
       <Auth />
-    </b-field>
+    </NeoField>
 
     <MetadataUpload
       ref="nftUpload"
@@ -60,13 +60,13 @@
       :placeholder="$t('mint.nft.description.placeholder')"
       data-cy="input-description" />
 
-    <b-field :label="$t('Edition')" class="mt-5" data-cy="input-edition">
+    <NeoField :label="$t('Edition')" class="mt-5" data-cy="input-edition">
       <b-numberinput
         v-model="rmrkMint.max"
         placeholder="1 is minumum"
         expanded
         :min="1"></b-numberinput>
-    </b-field>
+    </NeoField>
 
     <MetadataUpload
       v-if="secondaryFileVisible"
@@ -94,13 +94,13 @@
       </p>
     </div>
 
-    <b-field>
+    <NeoField>
       <PasswordInput
         v-model="password"
         :account="accountId"
         data-cy="input-password" />
-    </b-field>
-    <b-field>
+    </NeoField>
+    <NeoField>
       <CollapseWrapper
         v-if="rmrkMint.max > 1"
         visible="mint.expert.show"
@@ -124,7 +124,7 @@
           v-model="distribution"
           label="action.distributionCount"
           data-cy="input-distribution" />
-        <b-field v-show="syncVisible">
+        <NeoField v-show="syncVisible">
           <b-button
             outlined
             icon-left="sync"
@@ -132,7 +132,7 @@
             @click="syncEdition"
             >{{ $t('mint.expert.sync', [actualDistribution]) }}</b-button
           >
-        </b-field>
+        </NeoField>
         <BasicSwitch
           v-model="random"
           label="action.random"
@@ -142,14 +142,17 @@
           label="mint.expert.postfix"
           data-cy="input-hashtag" />
       </CollapseWrapper>
-    </b-field>
+    </NeoField>
     <BasicSwitch v-model="nsfw" label="mint.nfsw" data-cy="input-nsfw" />
-    <b-field type="is-danger" :message="haveNoToSMessage">
+    <NeoField type="is-danger" :message="haveNoToSMessage">
       <b-switch v-model="hasToS" :rounded="false" data-cy="input-tos">
         {{ $t('termOfService.accept') }}
       </b-switch>
-    </b-field>
-    <b-field v-if="isLogIn" type="is-danger" :message="balanceNotEnoughMessage">
+    </NeoField>
+    <NeoField
+      v-if="isLogIn"
+      type="is-danger"
+      :message="balanceNotEnoughMessage">
       <b-button
         type="is-primary"
         icon-left="paper-plane"
@@ -158,13 +161,13 @@
         @click="sub">
         {{ $t('mint.submit') }}
       </b-button>
-    </b-field>
-    <b-field>
+    </NeoField>
+    <NeoField>
       <b-icon icon="calculator" />
       <span class="pr-2">{{ $t('mint.estimated') }}</span>
       <Money :value="estimated" inline data-cy="fee" />
       <span class="pl-2"> ({{ getUsdFromKsm().toFixed(2) }} USD) </span>
-    </b-field>
+    </NeoField>
   </section>
 </template>
 

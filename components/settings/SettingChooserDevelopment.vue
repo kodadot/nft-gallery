@@ -1,6 +1,6 @@
 <template>
   <div class="setting-chooser-wrapper">
-    <b-field :label="label">
+    <NeoField :label="label">
       <b-select v-model="selected" :placeholder="label" expanded>
         <option
           v-for="option in options"
@@ -9,14 +9,19 @@
           {{ option.text }}
         </option>
       </b-select>
-    </b-field>
+    </NeoField>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { NeoField } from '@kodadot1/brick'
 
-@Component({})
+@Component({
+  components: {
+    NeoField,
+  },
+})
 export default class SettingChooserDevelopment extends Vue {
   @Prop() public label!: string
   @Prop() public selector!: string

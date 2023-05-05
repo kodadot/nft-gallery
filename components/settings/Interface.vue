@@ -49,7 +49,7 @@
         </div>
         <Layout :disabled="!enabledAdvancedUI" position="is-left" />
       </div>
-      <b-field :label="$t('Gallery Items Per Page')" class="field-width">
+      <NeoField :label="$t('Gallery Items Per Page')" class="field-width">
         <b-select
           v-model="galleryItemsPerPage"
           expanded
@@ -61,8 +61,8 @@
             {{ option }}
           </option>
         </b-select>
-      </b-field>
-      <b-field :label="$t('Collections Per Page')" class="field-width">
+      </NeoField>
+      <NeoField :label="$t('Collections Per Page')" class="field-width">
         <b-select
           v-model="collectionsPerPage"
           expanded
@@ -74,8 +74,8 @@
             {{ option }}
           </option>
         </b-select>
-      </b-field>
-      <b-field :label="$t('preferences.exploreTabOrder')" class="field-width">
+      </NeoField>
+      <NeoField :label="$t('preferences.exploreTabOrder')" class="field-width">
         <b-select
           v-model="exploreTabOrder"
           expanded
@@ -87,7 +87,7 @@
             {{ option }}
           </option>
         </b-select>
-      </b-field>
+      </NeoField>
     </div>
   </div>
 </template>
@@ -95,11 +95,13 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoField } from '@kodadot1/brick'
 
 @Component({
   components: {
     BasicCheckbox: () => import('@/components/shared/form/BasicCheckbox.vue'),
     Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
+    NeoField,
   },
 })
 export default class Interface extends Vue {

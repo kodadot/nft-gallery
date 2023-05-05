@@ -16,7 +16,7 @@
       @page-change="onPageChange"
       @sort="onSort">
       <template #top-left>
-        <b-field class="mb-0">
+        <NeoField class="mb-0">
           <div class="control is-flex">
             <b-switch v-model="onlyWithIdentity" :rounded="false">
               {{ $t('spotlight.filter_accounts') }}
@@ -29,7 +29,7 @@
               {{ $t('passion') }}
             </b-switch> -->
           </div>
-        </b-field>
+        </NeoField>
         <b-button
           class="ml-2 magicBtn is-bordered-light"
           :title="$t('tooltip.random')"
@@ -185,7 +185,7 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { NeoSkeleton } from '@kodadot1/brick'
+import { NeoField, NeoSkeleton } from '@kodadot1/brick'
 
 import {
   axisLize,
@@ -218,6 +218,7 @@ const components = {
   SpotlightDetail: () => import('./SpotlightDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   NeoSkeleton,
+  NeoField,
 }
 
 @Component({ components })

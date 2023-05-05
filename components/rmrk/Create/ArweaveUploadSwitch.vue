@@ -1,5 +1,5 @@
 <template>
-  <b-field>
+  <NeoField>
     <b-switch v-model="checkedValue" :rounded="false">
       <div class="is-flex is-align-items-center">
         <span class="mr-2">
@@ -8,13 +8,18 @@
         <slot name="tooltip" />
       </div>
     </b-switch>
-  </b-field>
+  </NeoField>
 </template>
 
 <script lang="ts">
-import { Component, Vue, ModelSync } from 'nuxt-property-decorator'
+import { Component, ModelSync, Vue } from 'nuxt-property-decorator'
+import { NeoField } from '@kodadot1/brick'
 
-@Component({})
+@Component({
+  components: {
+    NeoField,
+  },
+})
 export default class ArweaveUploadSwitch extends Vue {
   @ModelSync('value', 'input', { type: Boolean })
   readonly checkedValue!: boolean

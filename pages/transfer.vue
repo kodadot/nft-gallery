@@ -15,9 +15,9 @@
       >
     </p>
 
-    <b-field>
+    <NeoField>
       <Auth />
-    </b-field>
+    </NeoField>
 
     <div v-if="targets && hasBlockExplorer" class="mb-3">
       {{ $t('teleport.donationSentTo') }}
@@ -33,19 +33,19 @@
     </div>
 
     <div class="is-flex is-align-items-center">
-      <b-field>
+      <NeoField>
         {{ $t('general.balance') }}
         <Money :value="balance" inline />
-      </b-field>
+      </NeoField>
     </div>
 
     <div
       v-for="(destinationAddress, index) in destinationAddresses"
       :key="destinationAddress">
       <div class="is-flex">
-        <b-field class="is-flex-grow-1">
+        <NeoField class="is-flex-grow-1">
           <AddressInput v-model="destinationAddresses[index]" :strict="false" />
-        </b-field>
+        </NeoField>
         <b-button
           v-show="index == destinationAddresses.length - 1"
           type="is-primary"
@@ -67,20 +67,20 @@
         :value="correctAddress(destinationAddress)" />
     </div>
     <div class="container mb-3">
-      <b-field>
+      <NeoField>
         <BalanceInput
           v-model="price"
           :label="$t('amount')"
           :calculate="false"
           @input="onAmountFieldChange" />
-      </b-field>
-      <b-field v-if="isKSM">
+      </NeoField>
+      <NeoField v-if="isKSM">
         <ReadOnlyBalanceInput
           v-model="usdValue"
           :label-input="$t('teleport.usdInput')"
           label="USD"
           @input="onUSDFieldChange" />
-      </b-field>
+      </NeoField>
     </div>
 
     <div class="buttons">
@@ -170,6 +170,7 @@ import { useFiatStore } from '@/stores/fiat'
 
 import { getExplorer, hasExplorer } from '@kodadot1/static'
 import { emptyObject } from '@kodadot1/minimark/utils'
+import { NeoField } from '@kodadot1/brick'
 
 type Target = 'target' | `target${number}`
 type TargetMap = Record<Target, string>
@@ -185,6 +186,7 @@ type TargetMap = Record<Target, string>
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     DisabledInput: () => import('@/components/shared/DisabledInput.vue'),
+    NeoField,
   },
 })
 export default class Transfer extends mixins(

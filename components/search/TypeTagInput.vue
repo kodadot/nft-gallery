@@ -1,5 +1,5 @@
 <template>
-  <b-field>
+  <NeoField>
     <b-taginput
       v-model="tags"
       :data="allTags"
@@ -11,13 +11,17 @@
       open-on-focus
       type="is-primary"
       @input="handleInput" />
-  </b-field>
+  </NeoField>
 </template>
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
-
-@Component({})
+import { NeoField } from '@kodadot1/brick'
+@Component({
+  components: {
+    NeoField,
+  },
+})
 export default class TypeTagInput extends Vue {
   private allTags: string[] = ['audio', 'video', 'image', 'gif', 'svg']
   @Prop() public value!: string

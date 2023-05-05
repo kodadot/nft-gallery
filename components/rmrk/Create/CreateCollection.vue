@@ -6,15 +6,15 @@
       ref="collectionForm"
       protective-margin>
       <template #header>
-        <b-field>
+        <NeoField>
           <div>
             {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
           </div>
-        </b-field>
+        </NeoField>
       </template>
       <template #main>
         <BasicSwitch v-model="unlimited" label="mint.unlimited" />
-        <b-field
+        <NeoField
           v-if="!unlimited"
           class="mt-1"
           :label="$t('Maximum NFTs in collection')">
@@ -22,7 +22,7 @@
             v-model="max"
             placeholder="1 is minumum"
             :min="1"></b-numberinput>
-        </b-field>
+        </NeoField>
         <BasicInput
           ref="symbolInput"
           v-model="symbol"
@@ -37,7 +37,7 @@
       </template>
 
       <template #footer>
-        <b-field
+        <NeoField
           v-if="isLogIn"
           type="is-danger"
           :message="balanceNotEnoughMessage">
@@ -46,7 +46,7 @@
             label="create collection"
             :loading="isLoading"
             @click="submit" />
-        </b-field>
+        </NeoField>
       </template>
     </BaseCollectionForm>
   </div>
@@ -61,6 +61,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { BaseCollectionType } from '@/composables/transaction/types'
+import { NeoField } from '@kodadot1/brick'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -68,6 +69,7 @@ const components = {
   BaseCollectionForm: () => import('@/components/base/BaseCollectionForm.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
+  NeoField,
 }
 
 @Component({ components })

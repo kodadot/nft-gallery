@@ -13,29 +13,29 @@
       </div>
     </template>
     <div class="p-4">
-      <b-field>
+      <NeoField>
         <NeoCheckbox v-model="sale">{{ $t('filters.sale') }}</NeoCheckbox>
-      </b-field>
-      <b-field>
+      </NeoField>
+      <NeoField>
         <NeoCheckbox v-model="offer">{{ $t('filters.offer') }}</NeoCheckbox>
-      </b-field>
-      <b-field>
+      </NeoField>
+      <NeoField>
         <NeoCheckbox v-model="listing">{{ $t('filters.listing') }}</NeoCheckbox>
-      </b-field>
-      <b-field>
+      </NeoField>
+      <NeoField>
         <NeoCheckbox v-model="mint">{{ $t('filters.mint') }}</NeoCheckbox>
-      </b-field>
-      <b-field>
+      </NeoField>
+      <NeoField>
         <NeoCheckbox v-model="transfer">{{
           $t('filters.transfer')
         }}</NeoCheckbox>
-      </b-field>
+      </NeoField>
     </div>
   </b-collapse>
 </template>
 
 <script lang="ts" setup>
-import { NeoCheckbox } from '@kodadot1/brick'
+import { NeoCheckbox, NeoField } from '@kodadot1/brick'
 import { useAcivityFiltersStore } from '@/stores/activityFilters'
 
 const activityFiltersStore = useAcivityFiltersStore()

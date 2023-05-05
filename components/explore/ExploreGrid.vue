@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-field>
+    <NeoField>
       <p class="control">
         <NeoButton
           icon-left="grid-2"
@@ -19,13 +19,14 @@
           :active="gridSize === 'small'"
           @click.native="changeGridLayout(largeGridLayout, 'small')" />
       </p>
-    </b-field>
+    </NeoField>
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoField } from '@kodadot1/brick'
 
 const preferencesStore = usePreferencesStore()
 

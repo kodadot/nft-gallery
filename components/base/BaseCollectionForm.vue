@@ -4,9 +4,9 @@
       {{ $t(label) }}
     </h2>
     <slot name="header"></slot>
-    <b-field>
+    <NeoField>
       <Auth />
-    </b-field>
+    </NeoField>
 
     <MetadataUpload
       ref="collectionImage"
@@ -45,11 +45,13 @@
 
 <script lang="ts">
 import { Component, Prop, PropSync, Ref, Vue } from 'nuxt-property-decorator'
+import { NeoField } from '@kodadot1/brick'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
   MetadataUpload: () => import('@/components/rmrk/Create/DropUpload.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
+  NeoField,
 }
 
 @Component({ components })

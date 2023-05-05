@@ -1,6 +1,6 @@
 <template>
   <div class="content field-group-container">
-    <b-field grouped group-multiline>
+    <NeoField grouped group-multiline>
       <Sort
         class="control"
         :value="sortBy"
@@ -41,7 +41,7 @@
           :message="$t('tooltip.own')" />
         <slot />
       </div>
-    </b-field>
+    </NeoField>
   </div>
 </template>
 

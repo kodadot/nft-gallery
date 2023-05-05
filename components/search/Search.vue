@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="columns mb-0">
-      <b-field class="column is-8 mb-0 mr-2" :class="searchColumnClass">
+      <NeoField class="column is-8 mb-0 mr-2" :class="searchColumnClass">
         <b-button
           v-if="!hideFilter"
           icon-left="filter"
@@ -29,8 +29,8 @@
             <PriceRange inline />
           </div>
         </div>
-      </b-field>
-      <b-field
+      </NeoField>
+      <NeoField
         v-if="!hideFilter"
         expanded
         position="is-right"
@@ -42,7 +42,7 @@
           class="is-hidden-tablet mr-2"
           @click="isVisible = !isVisible" />
         <slot />
-      </b-field>
+      </NeoField>
     </div>
     <b-collapse
       v-model="isVisible"
@@ -85,6 +85,7 @@ import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import ChainMixin from '~/utils/mixins/chainMixin'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoField } from '@kodadot1/brick'
 
 const SearchPageRoutePathList = ['collectibles', 'items']
 
@@ -97,6 +98,7 @@ const SearchPageRoutePathList = ['collectibles', 'items']
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
     PriceRange: () => import('@/components/shared/format/PriceRange.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
+    NeoField,
   },
 })
 export default class Search extends mixins(

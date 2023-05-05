@@ -49,7 +49,7 @@
         </template>
       </template>
       <template #footer>
-        <b-field key="advanced">
+        <NeoField key="advanced">
           <CollapseWrapper
             v-if="base.edition > 1"
             visible="mint.expert.show"
@@ -60,8 +60,8 @@
               class="mt-3"
               label="mint.expert.postfix" />
           </CollapseWrapper>
-        </b-field>
-        <b-field
+        </NeoField>
+        <NeoField
           v-if="isLogIn"
           key="submit"
           type="is-danger"
@@ -71,7 +71,7 @@
             label="mint.submit"
             :loading="isLoading"
             @click="submit()" />
-        </b-field>
+        </NeoField>
       </template>
     </BaseTokenForm>
   </div>
@@ -108,6 +108,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { Ref as RefType } from 'vue'
 import { MintedCollectionKusama } from '@/composables/transaction/types'
 import { Royalty } from '@/utils/royalty'
+import { NeoField } from '@kodadot1/brick'
 
 const components = {
   AttributeTagInput: () =>
@@ -123,6 +124,7 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   RoyaltyForm: () => import('@/components/bsx/Create/RoyaltyForm.vue'),
+  NeoField,
 }
 
 @Component({ components })

@@ -2,9 +2,9 @@
   <div>
     <slot name="header"></slot>
 
-    <b-field>
+    <NeoField>
       <Auth />
-    </b-field>
+    </NeoField>
 
     <CollectionSelect
       v-model="vSelectedCollection"
@@ -79,6 +79,7 @@ import { Component, Prop, PropSync, Ref, Vue } from 'nuxt-property-decorator'
 import { MediaType } from '../rmrk/types'
 import { resolveMedia } from '../rmrk/utils'
 import { BaseMintedCollection as MintedCollection } from './types'
+import { NeoField } from '@kodadot1/brick'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -87,6 +88,7 @@ const components = {
   BasicNumberInput: () =>
     import('@/components/shared/form/BasicNumberInput.vue'),
   CollectionSelect: () => import('@/components/base/CollectionSelect.vue'),
+  NeoField,
 }
 
 @Component({ components })

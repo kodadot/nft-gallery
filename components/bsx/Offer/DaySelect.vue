@@ -1,20 +1,25 @@
 <template>
-  <b-field :label="$t('offer.daySelectLabel')">
+  <NeoField :label="$t('offer.daySelectLabel')">
     <b-select
-      placeholder="$t('offer.daySelectPlaceholder')"
       v-model="selectedDays"
+      placeholder="$t('offer.daySelectPlaceholder')"
       expanded>
-      <option v-for="option in days" :value="option" :key="option">
+      <option v-for="option in days" :key="option" :value="option">
         {{ option }} {{ $t('offer.days') }}
       </option>
     </b-select>
-  </b-field>
+  </NeoField>
 </template>
 
 <script lang="ts">
-import { Component, Vue, VModel, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
+import { NeoField } from '@kodadot1/brick'
 
-@Component({})
+@Component({
+  components: {
+    NeoField,
+  },
+})
 export default class DaySelect extends Vue {
   @VModel({ default: 14 }) selectedDays!: number
   @Prop({ type: Array, default: () => [] }) days!: number[]
