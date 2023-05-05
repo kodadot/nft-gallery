@@ -24,13 +24,13 @@ const { placeholder } = useTheme()
 const props = withDefaults(
   defineProps<{
     src: string
-    alt: string
+    alt?: string
     customClass?: string
     rounded?: boolean
   }>(),
   {
     src: '',
-    alt: 'KodaDot NFT minted multimedia',
+    alt: '',
     customClass: '',
   }
 )
