@@ -135,7 +135,7 @@ const submit = async () => {
       clearInterval(timeout)
       if (generation.status === 'succeeded') {
         emit('select', generation)
-        logPrediction(predictRequest.id, prompt).catch(console.error)
+        // logPrediction(predictRequest.id, prompt).catch(console.error)
       }
     }
   }, 2500)
