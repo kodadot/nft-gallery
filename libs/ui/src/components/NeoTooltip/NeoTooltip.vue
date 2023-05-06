@@ -2,6 +2,7 @@
   <o-tooltip
     v-if="active"
     :append-to-body="appendToBody"
+    :multiline="multiline"
     class="neo-tooltip"
     :position="position"
     :label="label"
@@ -27,12 +28,14 @@ export interface Props {
   active?: boolean
   appendToBody?: boolean
   delay?: number
+  multiline?: boolean
 }
 withDefaults(defineProps<Props>(), {
   position: 'top',
   active: true,
   appendToBody: true,
   delay: undefined,
+  multiline: false,
 })
 </script>
 
