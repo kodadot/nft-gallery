@@ -9,7 +9,7 @@ export const INDEXERS: Config<SquidEndpoint> = {
   glmr: 'https://squid.subsquid.io/click/v/002/graphql',
   rmrk: 'https://squid.subsquid.io/rubick/graphql',
   movr: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
-  ksm: 'https://squid.subsquid.io/marck/graphql',
+  ksm: 'https://squid.subsquid.io/marck/v/v2/graphql',
   snek: 'https://squid.subsquid.io/snekk/v/004/graphql',
 }
 
