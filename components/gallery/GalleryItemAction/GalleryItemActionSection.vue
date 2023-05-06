@@ -9,6 +9,7 @@
         data-cy="item-price">
         <div
           v-if="Number(price)"
+          data-cy="money"
           class="gallery-action-section-price has-text-weight-bold">
           {{ priceChain }}
         </div>
