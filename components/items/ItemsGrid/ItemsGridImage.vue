@@ -6,7 +6,6 @@
     :prefix="urlPrefix"
     :show-price="Number(nft?.price) > 0"
     :variant="variant"
-    :unlockable="isUnlockable"
     :unloackable-icon="unlockableIcon" />
 </template>
 
@@ -26,5 +25,4 @@ const props = defineProps<{
 }>()
 
 const { nft } = useNft(props.nft)
-const { isUnlockable } = useUnlockable(nft)
 </script>
