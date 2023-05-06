@@ -13,6 +13,7 @@
             size="large"
             variant="k-blue"
             class="full-width-action-button"
+            data-cy="make-offer"
             no-shadow
             @click.native="toggleActive" />
         </template>
