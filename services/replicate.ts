@@ -6,6 +6,8 @@ const BASE_URL = URLS.koda.replicate
 const VERSION =
   '42a996d39a96aedc57b2e0aa8105dea39c9c89d9d266caf6bb4327a1c191b061'
 export const OUTPUTS = 4
+const NEGATIVE_PROMPT =
+  'lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, artist name'
 
 type Option<T> = T | null
 
@@ -63,7 +65,7 @@ export const predict = async (
     version: VERSION,
     input: {
       prompt: object,
-      negative_prompt: 'bad eyes, ugly hands',
+      negative_prompt: NEGATIVE_PROMPT,
       width: 512,
       height: 512,
       num_outputs: OUTPUTS,
