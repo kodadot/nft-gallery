@@ -24,8 +24,7 @@
           :variant="
             (slotProps.isMobileVariant || slotProps.grid === 'small') &&
             'minimal'
-          "
-          :unlockable="index < 5" />
+          " />
       </div>
     </DynamicGrid>
     <EmptyResult v-if="total === 0" />
