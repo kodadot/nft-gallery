@@ -11,11 +11,16 @@
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
+
     <DynamicGrid
       :id="scrollContainerId"
       grid-size="medium"
       :default-width="{ small: 16 * 15, medium: 16 * 20, large: 16 * 25 }"
       :mobile-variant="false">
+      <template v-if="isLoading">
+        <CollectionCardSkeleton v-for="n in SKELETON_COUNT" :key="n" />
+      </template>
+
       <div
         v-for="(collection, index) in collections"
         :key="collection.id"
@@ -24,7 +29,7 @@
         <CollectionCard :is-loading="isLoading" :collection="collection" />
       </div>
     </DynamicGrid>
-    <EmptyResult v-if="total === 0" />
+    <EmptyResult v-if="total === 0 && !isLoading" />
     <ScrollTopButton />
   </div>
 </template>
@@ -36,7 +41,10 @@ import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
+import CollectionCardSkeleton from '@/components/collection/CollectionCardSkeleton.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+
+const SKELETON_COUNT = 4
 
 const route = useRoute()
 const { $apollo } = useNuxtApp()

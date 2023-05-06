@@ -14,6 +14,16 @@
       @click="reachTopHandler" />
 
     <DynamicGrid :id="scrollContainerId" v-slot="slotProps" class="my-5">
+      <template v-if="isLoading">
+        <NeoNftCardSkeleton
+          v-for="n in SKELETON_COUNT"
+          :key="n"
+          :variant="
+            (slotProps.isMobileVariant || slotProps.grid === 'small') &&
+            'minimal'
+          " />
+      </template>
+
       <div
         v-for="(nft, index) in nfts"
         :key="`${nft.id}=${index}`"
@@ -27,15 +37,18 @@
           " />
       </div>
     </DynamicGrid>
-    <EmptyResult v-if="total === 0" />
+    <EmptyResult v-if="total === 0 && !isLoading" />
     <ScrollTopButton />
   </div>
 </template>
 
 <script setup lang="ts">
+import { NeoNftCardSkeleton } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
+
+const SKELETON_COUNT = 4
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {
