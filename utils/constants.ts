@@ -39,6 +39,7 @@ export const URLS = {
     directUpload: 'https://direct-upload.kodadot.workers.dev/',
     estuary: 'https://pinning.kodadot.workers.dev/',
     nftStorage: 'https://nft-storage.kodadot.workers.dev/',
+    keywise: 'https://keywise.kodadot.workers.dev/',
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
     rubick: 'https://squid.subsquid.io/rubick/graphql',
