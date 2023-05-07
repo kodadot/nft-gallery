@@ -2,7 +2,7 @@
   <section>
     <br />
     <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-3">Mint your {{ NAME }} waifu</p>
+    <p class="title is-size-3">Mint your {{ NAME }} {{ form.gender }}</p>
 
     <p class="title is-size-4">I want to be</p>
     <RadioSelect v-model="form.gender" :options="gender" />
@@ -63,7 +63,6 @@
 
 <script setup lang="ts">
 import { PredictionStatus, getPrediction, predict } from '@/services/replicate'
-import { logPrediction } from '@/services/supabase'
 import { emptyObject } from '@/utils/empty'
 import {
   accessories,
@@ -72,7 +71,6 @@ import {
   filmTypes,
   framing,
   gender,
-  inspirations,
   inspiredBy,
   lights,
   styles,
@@ -135,7 +133,7 @@ const submit = async () => {
       clearInterval(timeout)
       if (generation.status === 'succeeded') {
         emit('select', generation)
-        logPrediction(predictRequest.id, prompt).catch(console.error)
+        // logPrediction(predictRequest.id, prompt).catch(console.error)
       }
     }
   }, 2500)
