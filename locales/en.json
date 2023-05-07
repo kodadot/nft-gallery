@@ -1314,5 +1314,12 @@
     "explicit": "Explicit/sensitive content",
     "explicitDesc": "Mature audiences only. Please confirm your age and consent to proceed.",
     "showContent": "Show Content"
+  },
+  "unlockable": {
+    "tooltip": "unlock-able content is revealed after purchase",
+    "item": "Unlock-Able item",
+    "ownerOnly": "Owner Only",
+    "claimDrop": "Claim Drop",
+    "claimPhysicalDrop": "Claim Physical Drop" 
   }
 }
