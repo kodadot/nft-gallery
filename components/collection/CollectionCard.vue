@@ -1,6 +1,8 @@
 <template>
-  <div class="collection-card card">
-    <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
+  <div class="collection-card card" :class="{ loading: isLoading }">
+    <nuxt-link
+      v-if="!isLoading"
+      :to="`/${urlPrefix}/collection/${collection.id}`">
       <BasicImage
         :src="image"
         :alt="collection.name"
@@ -11,6 +13,11 @@
         :name="collection.name || ''"
         :image="image" />
     </nuxt-link>
+
+    <template v-else>
+      <b-skeleton :rounded="false" height="112px" />
+      <CollectionDetail :is-loading="true" :nfts="[]" name="" />
+    </template>
   </div>
 </template>
 
@@ -25,13 +32,19 @@ import type { Metadata } from '@/components/rmrk/service/scheme'
 
 const { urlPrefix } = usePrefix()
 
-const props = defineProps<{
+interface Props {
+  isLoading?: boolean
   collection: CollectionWithMeta
-}>()
+}
 
+const props = defineProps<Props>()
 const image = ref('')
 
 onMounted(async () => {
+  if (props.isLoading) {
+    return
+  }
+
   const metadata = (await processSingleMetadata(
     props.collection.metadata
   )) as Metadata

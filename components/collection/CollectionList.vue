@@ -18,7 +18,10 @@
       :default-width="{ small: 16 * 15, medium: 16 * 20, large: 16 * 25 }"
       :mobile-variant="false">
       <template v-if="isLoading">
-        <CollectionCardSkeleton v-for="n in SKELETON_COUNT" :key="n" />
+        <CollectionCard
+          v-for="n in SKELETON_COUNT"
+          :key="n"
+          :is-loading="true" />
       </template>
 
       <div
@@ -26,7 +29,7 @@
         :key="collection.id"
         :class="scrollItemClassName"
         :data-cy="`collection-index-${index}`">
-        <CollectionCard :is-loading="isLoading" :collection="collection" />
+        <CollectionCard :collection="collection" />
       </div>
     </DynamicGrid>
     <EmptyResult v-if="total === 0 && !isLoading" />
@@ -41,7 +44,6 @@ import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
-import CollectionCardSkeleton from '@/components/collection/CollectionCardSkeleton.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const SKELETON_COUNT = 4

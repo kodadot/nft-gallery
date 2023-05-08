@@ -6,14 +6,18 @@
   @include ktheme() {
     border: 1px solid theme('card-border-color');
     color: theme('text-color');
-    &:hover {
+    &:not(.loading):hover {
       border-color: theme('border-color');
       .collection-card__image-wrapper {
         opacity: theme('card-hover-opacity');
       }
     }
   }
-  cursor: pointer;
+
+  &:not(.loading) {
+    cursor: pointer;
+  }
+
   a:hover {
     color: unset !important;
   }
