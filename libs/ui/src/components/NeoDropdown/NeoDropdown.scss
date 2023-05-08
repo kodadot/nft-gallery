@@ -26,14 +26,12 @@ $dropdown-item-hover-background-color: #ffe5f3;
     }
   }
 
-  &.is-active {
+  &.is-active,
+  &--active {
     @include ktheme() {
       color: theme('text-color-inverse')!important;
       background: theme('background-color-inverse')!important;
     }
-  }
-  &--active {
-    background: inherit;
   }
 }
 
