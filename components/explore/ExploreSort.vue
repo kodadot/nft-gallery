@@ -33,6 +33,7 @@
         :key="option"
         aria-role="listitem"
         class="is-flex"
+        :data-cy="option"
         :value="option">
         <span>
           {{

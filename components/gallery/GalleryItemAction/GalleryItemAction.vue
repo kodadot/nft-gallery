@@ -45,7 +45,7 @@ import GalleryItemPriceOffer from './GalleryItemActionType/GalleryItemOffer.vue'
 import GalleryItemPriceRelist from './GalleryItemActionType/GalleryItemRelist.vue'
 import GalleryItemPriceTransfer from './GalleryItemActionType/GalleryItemTransfer.vue'
 
-import { NFT } from '~~/components/rmrk/service/scheme'
+import { NFT } from '@/components/rmrk/service/scheme'
 const props = defineProps<{
   nft: NFT | undefined
 }>()
