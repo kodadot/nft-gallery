@@ -1,4 +1,4 @@
-import { INDEXERS } from '@kodadot1/vuex-options'
+import { APOLLO_ENDPOINTS } from '@/libs/static'
 
 type Endpoint = {
   httpEndpoint: string
@@ -19,12 +19,4 @@ export const toApolloEndpoint = (httpEndpoint: string): Endpoint => ({
   httpEndpoint,
 })
 
-export default () => {
-  const configs = {}
-
-  INDEXERS.map((option) => {
-    configs[toClient(option.info)] = toApolloEndpoint(String(option.value))
-  })
-
-  return configs
-}
+export default () => APOLLO_ENDPOINTS
