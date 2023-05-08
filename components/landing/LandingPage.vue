@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Prefix } from '@/libs/static'
+import type { Prefix } from '@kodadot1/static'
 
 const prefixes: Prefix[] = ['rmrk', 'ksm', 'snek', 'bsx']
 const { urlPrefix } = usePrefix()

@@ -1,4 +1,4 @@
-import { APOLLO_ENDPOINTS, toApolloEndpoint } from '@/libs/static'
+import { APOLLO_ENDPOINTS, toApolloEndpoint } from '@kodadot1/static'
 
 export { toApolloEndpoint }
 
