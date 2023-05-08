@@ -18,7 +18,7 @@
           :icon="icon"
           class="icon-size has-text-grey py-3"
           size="large"
-          icon-pack="fas" />
+          pack="fas" />
         <p class="has-text-grey mt-8">
           {{ subtitle }}
         </p>
