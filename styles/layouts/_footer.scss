@@ -48,7 +48,7 @@
       grid-gap: 10px;
 
       &-item {
-        a:hover{
+        a:hover {
           @include ktheme() {
             color: theme('link-hover');
           }
@@ -61,7 +61,6 @@
   }
 
   &-socials {
-
     @include mobile {
       align-items: center !important;
     }
@@ -77,14 +76,9 @@
           box-shadow: theme('primary-shadow');
           &:hover {
             background: theme('k-accentHover');
-            .icon {
-              color: theme('black')!important;
+            .icon, .o-icon {
+              color: theme('black') !important;
             }
-          }
-        }
-        .icon {
-          svg {
-            height: 16px;
           }
         }
       }
@@ -94,8 +88,6 @@
   #custom-substack-embed .custom-substack-widget {
     border-radius: 0;
     height: 2.2rem;
-
-
 
     @include touch {
       flex-direction: column;

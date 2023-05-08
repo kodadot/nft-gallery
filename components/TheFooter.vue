@@ -85,7 +85,7 @@
             class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center mr-2"
             @click="goToSocials(item.url)">
             <a
-              class="is-flex"
+              class="is-flex icon"
               rel="noopener noreferrer"
               :aria-label="item.name">
               <!-- substack doesnt have a font awesome icon -->
