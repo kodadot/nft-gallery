@@ -23,7 +23,7 @@
       </div>
     </b-button>
     <div
-      v-if="(isAuth && walletAccounts.length === 0) || true"
+      v-if="isAuth && walletAccounts.length === 0"
       class="pl-5 pt-2 pb-2 is-flex is-align-items-center auth-tip">
       <NeoIcon icon="spinner-third" pack="fad" />
       <span class="has-text-grey is-size-7 pl-4">
