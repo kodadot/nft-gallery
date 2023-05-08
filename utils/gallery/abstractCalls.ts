@@ -50,7 +50,7 @@ export function getApiCall(
 
 function getActionsByPrefix(prefix: string): CallDictionary {
   switch (prefix) {
-    case 'statemine':
+    case 'stmn':
       return uniqueActionResolver
     case 'bsx':
     case 'snek':

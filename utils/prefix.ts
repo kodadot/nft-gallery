@@ -8,7 +8,7 @@ export function getDenyList(prefix: string): string[] | undefined {
     case 'bsx':
     case 'snek':
       return bsxDenyList
-    case 'statemine':
+    case 'stmn':
     case 'westmint':
       return statemineDenyList
     default:
@@ -22,7 +22,7 @@ export function isRemark(prefix: string): boolean {
 
 export function getSupportedClient(prefix: string): 'subquery' | 'subsquid' {
   switch (prefix) {
-    case 'statemine':
+    case 'stmn':
     case 'westmint':
     case 'rmrk':
       return 'subquery'
@@ -39,7 +39,7 @@ export function prefixBuildOnText(prefix: string): string {
     case 'bsx':
     case 'snek':
       return 'Basilisk NFT Pallet'
-    case 'statemine':
+    case 'stmn':
     case 'westmint':
       return 'Statemine Unique Pallet'
     case 'movr':

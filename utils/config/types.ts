@@ -1,7 +1,7 @@
 export type Prefix =
   | 'rmrk'
   | 'bsx'
-  | 'statemine'
+  | 'stmn'
   | 'westmint'
   | 'movr'
   | 'snek'
