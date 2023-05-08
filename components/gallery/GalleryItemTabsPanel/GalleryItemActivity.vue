@@ -1,7 +1,9 @@
 <template>
   <div class="gallery-activity-events-wrapper is-flex is-flex-direction-column">
     <div class="events p-5 is-flex is-flex-direction-column">
-      <div class="events-filter is-flex is-flex-wrap-wrap">
+      <div
+        class="events-filter is-flex is-flex-wrap-wrap"
+        data-cy="events-filter">
         <a
           class="is-capitalized is-flex is-align-items-center"
           @click="checkAll">
@@ -12,6 +14,7 @@
           v-for="(value, name) in filters"
           :key="name"
           class="is-clickable is-capitalized events-checkbox-container"
+          :data-cy="name"
           :class="cssActive(value)">
           <input
             :id="name"
