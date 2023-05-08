@@ -36,6 +36,6 @@ describe('PREFIX TEST', (): void => {
   it.skip('can correctly match /statemine/create', () => {
     const routeName = 'statemine-create'
     const result = prefixMatcher(routeName)
-    expect(result).toBe('statemine')
+    expect(result).toBe('stmn')
   })
 })
