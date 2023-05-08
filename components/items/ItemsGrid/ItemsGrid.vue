@@ -15,9 +15,10 @@
 
     <DynamicGrid :id="scrollContainerId" v-slot="slotProps" class="my-5">
       <template v-if="isLoading">
-        <NeoNftCardSkeleton
+        <NeoNftCard
           v-for="n in SKELETON_COUNT"
           :key="n"
+          :is-loading="true"
           :variant="
             (slotProps.isMobileVariant || slotProps.grid === 'small') &&
             'minimal'
@@ -43,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoNftCardSkeleton } from '@kodadot1/brick'
+import { NeoNftCard } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
