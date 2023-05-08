@@ -7,7 +7,7 @@
         <b-tooltip
           :label="$i18n.t('identity.fundsReserve')"
           position="is-bottom">
-          <NeoIcon icon="info-circle" pack="fas" size="small" />
+          <NeoIcon icon="info-circle" pack="fas" />
         </b-tooltip>
       </p>
 
