@@ -16,8 +16,8 @@ function getPath(prefix: string) {
     case 'snek':
     case 'subsquid':
     case 'ksm':
-      return 'subsquid/general/'
     case 'stmn':
+      return 'subsquid/general/'
     case 'westmint':
       return 'unique/'
     case 'chain-bsx':
