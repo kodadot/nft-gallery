@@ -18,29 +18,31 @@ import {
 import { basicUpdateFunction } from '@/components/unique/NftUtils'
 import { ExecuteTransactionParams } from '@/composables/useTransaction'
 import { usePreferencesStore } from '@/stores/preferences'
-import { asSystemRemark } from '@kodadot1/minimark/common'
-import { ActionMintToken, MintedCollectionKusama } from '../types'
+import { Extrinsic, asSystemRemark } from '@kodadot1/minimark/common'
+import { ActionMintToken, TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
+import { BaseMintedCollection } from '@/components/base/types'
 
-export async function execMintRmrk(
-  item: ActionMintToken,
-  api,
-  executeTransaction: (p: ExecuteTransactionParams) => void
-) {
+const processSingleTokenToMint = async (
+  token: TokenToMint,
+  api
+): Promise<{
+  arg: string | Extrinsic[]
+  createdNFTs: CreatedNFT[] | NewCreatedNFT[]
+}> => {
   const { accountId } = useAuth()
   const preferences = usePreferencesStore()
-  const { $i18n } = useNuxtApp()
   const { isV2 } = useRmrkVersion()
 
-  const { id: collectionId, alreadyMinted: collectionAlreadyMinted } = item
-    .token.selectedCollection as MintedCollectionKusama
-  const { edition, name, postfix, royalty, hasRoyalty } = item.token
+  const { id: collectionId, alreadyMinted: collectionAlreadyMinted } =
+    token.selectedCollection as BaseMintedCollection
+  const { edition, name, postfix, royalty, hasRoyalty } = token
 
-  const metadata = await constructMeta(item, { enableCarbonOffset: true })
+  const metadata = await constructMeta(token, { enableCarbonOffset: true })
   const updateNameFn = postfix && edition > 1 ? basicUpdateFunction : undefined
   const mintFunction = isV2.value ? createMultipleItem : createMultipleNFT
-  let onChainProperties = convertAttributesToProperties(item.token.tags)
+  let onChainProperties = convertAttributesToProperties(token.tags)
   const addRoyalty =
     royalty !== undefined && isRoyaltyValid(royalty) && hasRoyalty
       ? makeRoyalty({ receiver: royalty.address, percent: royalty.amount })
@@ -63,7 +65,6 @@ export async function execMintRmrk(
     collectionAlreadyMinted,
     updateNameFn
   )
-  const createdNFTs = ref<CreatedNFT[] | NewCreatedNFT[]>(mint)
 
   const mintInteraction = mint.map((nft) => {
     return isV2.value
@@ -83,30 +84,66 @@ export async function execMintRmrk(
 
   const isSingle = mintInteraction.length === 1 && !enabledFees
 
-  const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
-
-  const args = isSingle
-    ? [mintInteraction[0]]
-    : [
-        [
+  return {
+    arg: isSingle
+      ? mintInteraction[0]
+      : [
           ...mintInteraction.map((nft) => asSystemRemark(api, nft)),
           ...(await canSupport(api, enabledFees, feeMultiplier)),
         ],
-      ]
+    createdNFTs: mint,
+  }
+}
+
+const getArgs = async (item: ActionMintToken, api) => {
+  const tokens = Array.isArray(item.token) ? item.token : [item.token]
+
+  const argsAndNftsArray = await Promise.all(
+    tokens.map((token) => {
+      return processSingleTokenToMint(token, api).catch((e) => {
+        console.log('Error:', e)
+      })
+    })
+  )
+
+  const args = argsAndNftsArray.map((argsAndNfts) => argsAndNfts?.arg).flat()
+  const createdNFTs = ref(
+    argsAndNftsArray.map((argsAndNfts) => argsAndNfts?.createdNFTs).flat()
+  )
+  return {
+    args,
+    createdNFTs,
+  }
+}
+
+export async function execMintRmrk(
+  item: ActionMintToken,
+  api,
+  executeTransaction: (p: ExecuteTransactionParams) => void
+) {
+  const { $i18n } = useNuxtApp()
+  const { args, createdNFTs } = await getArgs(item, api)
+
+  const nameInNotifications = Array.isArray(item.token)
+    ? item.token.map((t) => t.name).join(', ')
+    : item.token.name
+
+  const isSingle = args.length === 1
+  const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
 
   executeTransaction({
     cb,
-    arg: args,
+    arg: [args],
     successMessage:
       item.successMessage ||
       ((blockNumber) =>
         $i18n.t('mint.mintNFTSuccess', {
-          name: item.token.name,
+          name: nameInNotifications,
           block: blockNumber,
         })),
     errorMessage:
       item.errorMessage ||
-      $i18n.t('mint.ErrorCreateNewNft', { name: item.token.name }),
+      $i18n.t('mint.ErrorCreateNewNft', { name: nameInNotifications }),
   })
   return {
     createdNFTs,

@@ -18,11 +18,11 @@ export type MintedCollectionBasilisk = BaseMintedCollection & {
   lastIndexUsed: number
 }
 export interface TokenToMint
-  extends BaseTokenType<MintedCollectionBasilisk | MintedCollectionKusama> {
+  extends BaseTokenType<MintedCollectionBasilisk | BaseMintedCollection> {
   tags: Attribute[]
   nsfw: boolean
   postfix: boolean
-  price?: string
+  price?: string | number
   royalty?: Royalty
   hasRoyalty?: boolean
 }
@@ -105,7 +105,7 @@ export type ActionAcceptOffer = {
 export interface ActionMintToken {
   interaction: Interaction.MINTNFT
   urlPrefix: string
-  token: TokenToMint
+  token: TokenToMint | TokenToMint[]
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }

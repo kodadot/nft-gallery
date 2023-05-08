@@ -86,10 +86,7 @@ const onFileSelected = (file) => {
           }
           showCheckmark.value = true
           emit('zipLoaded', {
-            validFiles: validFiles.value.map(({ name, url }) => ({
-              name,
-              imageUrl: url,
-            })),
+            validFiles: validFiles.value,
             areAllFilesValid: allValid.value,
           })
         }

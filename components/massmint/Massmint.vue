@@ -88,11 +88,13 @@ import UploadDescription from './uploadDescription/UploadDescription.vue'
 import OverviewTable from './OverviewTable.vue'
 import ChooseCollectionDropdown from './ChooseCollectionDropdown.vue'
 import EditPanel from './EditPanel.vue'
-import { MintedCollection, NFT } from './types'
+import { Collection, NFT, NFTToMint } from './types'
 import MissingInfoModal from './modals/MissingInfoModal.vue'
 import ReviewModal from './modals/ReviewModal.vue'
 import DeleteModal from './modals/DeleteModal.vue'
 import MintingModal from './modals/MintingModal.vue'
+import { FileObject } from './uploadCompressedMedia/useZipValidator'
+import { mint } from './useMassMint'
 
 const preferencesStore = usePreferencesStore()
 const { $consola } = useNuxtApp()
@@ -100,7 +102,7 @@ const router = useRouter()
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 
-const selectedCollection = ref<MintedCollection>()
+const selectedCollection = ref<Collection>()
 const NFTS = ref<{ [nftId: string]: NFT }>({})
 const mediaLoaded = ref(false)
 
@@ -149,14 +151,15 @@ const openReviewModal = () => {
 }
 
 const startMint = () => {
-  overViewModalOpen.value = false
-  mintModalOpen.value = true
-  isMinting.value = true
+  // overViewModalOpen.value = false
+  // mintModalOpen.value = true
+  // isMinting.value = true
 
+  mint(
+    Object.values(NFTS.value) as NFTToMint[],
+    selectedCollection.value as Collection
+  )
   // fake mint
-  setTimeout(() => {
-    isMinting.value = false
-  }, 5000)
 }
 
 const tabs = ['Collection', 'NFT', 'Mass Mint']
@@ -190,13 +193,9 @@ const toOnborading = () => {
     .catch($consola.warn)
 }
 
-const onMediaZipLoaded = ({
-  validFiles,
-}: {
-  validFiles: { name: string; imageUrl: string }[]
-}) => {
+const onMediaZipLoaded = ({ validFiles }: { validFiles: FileObject[] }) => {
   NFTS.value = validFiles
-    .map(({ imageUrl }, i) => ({ imageUrl, id: i + 1 }))
+    .map((file, i) => ({ ...file, id: i + 1 }))
     .reduce((acc, nft) => ({ ...acc, [nft.id]: nft }), {})
   mediaLoaded.value = true
 }

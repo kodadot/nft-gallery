@@ -1,27 +1,21 @@
-import type { ActionMintToken, MintedCollectionBasilisk } from '../types'
+import type {
+  ActionMintToken,
+  MintedCollectionBasilisk,
+  TokenToMint,
+} from '../types'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { constructMeta } from './constructMeta'
 import { ExecuteTransactionParams } from '@/composables/useTransaction'
+import { BaseMintedCollection } from '@/components/base/types'
 
-export async function execMintBasilisk(
-  item: ActionMintToken,
+const prepareTokenMintArgs = async (
+  token: TokenToMint,
   api,
-  executeTransaction: (p: ExecuteTransactionParams) => void
-) {
-  const { $i18n } = useNuxtApp()
-
-  const {
-    id: collectionId,
-    alreadyMinted: collectionAlreadyMinted,
-    lastIndexUsed,
-  } = item.token.selectedCollection as MintedCollectionBasilisk
-  const { price, royalty, hasRoyalty } = item.token
-
-  const metadata = await constructMeta(item)
-
-  const cb = api.tx.utility.batchAll
-
-  const nextId = Math.max(lastIndexUsed + 1, collectionAlreadyMinted + 1)
+  nextId: number
+) => {
+  const { id: collectionId } = token.selectedCollection as BaseMintedCollection
+  const { price, royalty, hasRoyalty } = token
+  const metadata = await constructMeta(token)
 
   const create = api.tx.nft.mint(collectionId, nextId, metadata)
 
@@ -42,20 +36,50 @@ export async function execMintBasilisk(
         ]
       : []
 
-  const args = [[create, ...list, ...addRoyalty]]
+  return [create, ...list, ...addRoyalty]
+}
+
+const getArgs = async (item: ActionMintToken, api) => {
+  const tokens = Array.isArray(item.token) ? item.token : [item.token]
+
+  const arg = (
+    await Promise.all(
+      tokens.map((token, i) => {
+        const { alreadyMinted, lastIndexUsed } =
+          token.selectedCollection as MintedCollectionBasilisk
+        const nextId = Math.max(lastIndexUsed, alreadyMinted) + i + 1
+        return prepareTokenMintArgs(token, api, nextId)
+      })
+    )
+  ).flat()
+
+  return [arg]
+}
+
+export async function execMintBasilisk(
+  item: ActionMintToken,
+  api,
+  executeTransaction: (p: ExecuteTransactionParams) => void
+) {
+  const { $i18n } = useNuxtApp()
+  const args = await getArgs(item, api)
+
+  const nameInNotifications = Array.isArray(item.token)
+    ? item.token.map((t) => t.name).join(', ')
+    : item.token.name
 
   executeTransaction({
-    cb,
+    cb: api.tx.utility.batchAll,
     arg: args,
     successMessage:
       item.successMessage ||
       ((blockNumber) =>
         $i18n.t('mint.mintNFTSuccess', {
-          name: item.token.name,
+          name: nameInNotifications,
           block: blockNumber,
         })),
     errorMessage:
       item.errorMessage ||
-      $i18n.t('mint.ErrorCreateNewNft', { name: item.token.name }),
+      $i18n.t('mint.ErrorCreateNewNft', { name: nameInNotifications }),
   })
 }

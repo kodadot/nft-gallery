@@ -1,7 +1,9 @@
 import { unwrapSafe } from '@/utils/uniquery'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import shouldUpdate from '@/utils/shouldUpdate'
-import { MintedCollection, Status } from './types'
+import { Collection, NFTToMint, Status } from './types'
+import { Interaction } from '@kodadot1/minimark/v1'
+import { TokenToMint } from '~~/composables/transaction/types'
 
 export const statusTranslation = (status?: Status): string => {
   const { $i18n } = useNuxtApp()
@@ -28,14 +30,14 @@ export const statusClass = (status?: Status) => {
 }
 
 export const useMassMint = () => {
-  const collectionsEntites = ref<MintedCollection[]>()
+  const collectionsEntites = ref<Collection[]>()
   const collections = ref()
   const { $consola, $apollo } = useNuxtApp()
   const { accountId, isLogIn } = useAuth()
   const { urlPrefix } = usePrefix()
   const queryPath = {
     rmrk: 'chain-rmrk',
-    ksm: 'chain-ksm',
+    ksm: 'chain-rmrk',
   }
 
   const doFetch = async () => {
@@ -57,7 +59,13 @@ export const useMassMint = () => {
       data: { collectionEntities },
     } = data
 
-    collections.value = collectionEntities
+    // collections.value = collectionEntities
+
+    collections.value = collectionEntities.map((collection) => ({
+      ...collection,
+      lastIndexUsed: Number(collection.nfts?.at(0)?.index || 0),
+      alreadyMinted: collection.nfts?.length,
+    }))
   }
 
   doFetch()
@@ -69,6 +77,7 @@ export const useMassMint = () => {
   })
 
   watch(collections, () => {
+    console.log('collections', collections.value)
     if (!collections) {
       $consola.log(`collections for account ${accountId.value} not found`)
       return
@@ -80,4 +89,34 @@ export const useMassMint = () => {
   return {
     collectionsEntites,
   }
+}
+
+// composable function the recieves one nft and performs transaction using useTransaction composable
+
+export const mint = (nfts: NFTToMint[], collection: Collection) => {
+  const { blockNumber, transaction, isLoading } = useTransaction()
+
+  const tokens: TokenToMint[] = nfts.map((nft) => ({
+    file: nft.file,
+    name: nft.name,
+    description: nft.description || '',
+    edition: 1,
+    secondFile: null,
+    selectedCollection: collection,
+    price: nft.price === undefined ? 0 : nft.price * Math.pow(10, 12),
+    nsfw: false,
+    postfix: true,
+    tags: [],
+    royalty: {
+      amount: 0.15,
+      address: '',
+    },
+    hasRoyalty: true,
+  }))
+
+  transaction({
+    interaction: Interaction.MINTNFT,
+    urlPrefix: usePrefix().urlPrefix.value,
+    token: tokens,
+  })
 }
