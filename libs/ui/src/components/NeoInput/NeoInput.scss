@@ -5,6 +5,10 @@
 @import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
 @import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
 
+
+@import '@oruga-ui/oruga/src/scss/components/field.scss';
+@import '@oruga-ui/oruga/src/scss/components/input.scss';
+
 .neo-input {
   @include ktheme() {
     border: 1px solid theme('border-color');
