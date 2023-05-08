@@ -37,15 +37,11 @@
 </template>
 
 <script lang="ts" setup>
+import type { Prefix } from '@/libs/static'
+
+const prefixes: Prefix[] = ['rmrk', 'ksm', 'snek', 'bsx']
 const { urlPrefix } = usePrefix()
 
 // currently only supported on rmrk and snek
-const showCarousel = computed(() => {
-  return (
-    urlPrefix.value === 'rmrk' ||
-    urlPrefix.value === 'ksm' ||
-    urlPrefix.value === 'snek' ||
-    urlPrefix.value === 'bsx'
-  )
-})
+const showCarousel = computed(() => prefixes.includes(urlPrefix.value))
 </script>
