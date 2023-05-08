@@ -34,6 +34,7 @@ export const CHAINS: Config<ChainProperties> = {
   ),
   movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
   glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
+  stmn: DEFAULT_CHAIN_PROPERTIES,
 }
 
 export const DEFAULT_PREFIX: Prefix = 'bsx'
@@ -47,13 +48,14 @@ export const chainPrefixes: Prefix[] = [
   'ksm',
 ]
 
-export const chainInfo = {
+export const chainInfo: Record<Prefix, string> = {
   bsx: 'basilisk',
   rmrk: 'kusama',
   snek: 'snek',
   movr: 'moonriver',
   glmr: 'moonbeam',
   ksm: 'rmrk',
+  stmn: 'statemine',
 }
 
 export const chainList = (): Option[] => {

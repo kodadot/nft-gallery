@@ -1,8 +1,7 @@
-export type Prefix = 'bsx' | 'glmr' | 'rmrk' | 'movr' | 'ksm' | 'snek'
-// | 'statemine'
+export type Prefix = 'bsx' | 'glmr' | 'rmrk' | 'movr' | 'ksm' | 'snek' | 'stmn'
 // | 'westmint'
 
-export type Squid = 'rubick' | 'snekk' | 'click' | 'antick' | 'marck'
+export type Squid = 'rubick' | 'snekk' | 'click' | 'antick' | 'marck' | 'stick'
 
 export type Config<T = boolean> = Record<Prefix, T>
 
