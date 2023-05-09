@@ -1,8 +1,4 @@
-import type {
-  ActionMintToken,
-  MintedCollectionBasilisk,
-  TokenToMint,
-} from '../types'
+import type { ActionMintToken, MintedCollection, TokenToMint } from '../types'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { constructMeta } from './constructMeta'
 import { ExecuteTransactionParams } from '@/composables/useTransaction'
@@ -46,7 +42,7 @@ const getArgs = async (item: ActionMintToken, api) => {
     await Promise.all(
       tokens.map((token, i) => {
         const { alreadyMinted, lastIndexUsed } =
-          token.selectedCollection as MintedCollectionBasilisk
+          token.selectedCollection as MintedCollection
         const nextId = Math.max(lastIndexUsed, alreadyMinted) + i + 1
         return prepareTokenMintArgs(token, api, nextId)
       })
