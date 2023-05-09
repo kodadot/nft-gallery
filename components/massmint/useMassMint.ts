@@ -1,9 +1,9 @@
 import { unwrapSafe } from '@/utils/uniquery'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import shouldUpdate from '@/utils/shouldUpdate'
-import { Collection, NFTToMint, Status } from './types'
+import { NFTToMint, Status } from './types'
 import { Interaction } from '@kodadot1/minimark/v1'
-import { TokenToMint } from '~~/composables/transaction/types'
+import { MintedCollection, TokenToMint } from '@/composables/transaction/types'
 
 export const statusTranslation = (status?: Status): string => {
   const { $i18n } = useNuxtApp()
@@ -30,7 +30,7 @@ export const statusClass = (status?: Status) => {
 }
 
 export const useMassMint = () => {
-  const collectionsEntites = ref<Collection[]>()
+  const collectionsEntites = ref<MintedCollection[]>()
   const collections = ref()
   const { $consola, $apollo } = useNuxtApp()
   const { accountId, isLogIn } = useAuth()
@@ -77,7 +77,6 @@ export const useMassMint = () => {
   })
 
   watch(collections, () => {
-    console.log('collections', collections.value)
     if (!collections) {
       $consola.log(`collections for account ${accountId.value} not found`)
       return
@@ -93,7 +92,7 @@ export const useMassMint = () => {
 
 // composable function the recieves one nft and performs transaction using useTransaction composable
 
-export const mint = (nfts: NFTToMint[], collection: Collection) => {
+export const mint = (nfts: NFTToMint[], collection: MintedCollection) => {
   const { blockNumber, transaction, isLoading } = useTransaction()
 
   const tokens: TokenToMint[] = nfts.map((nft) => ({
@@ -107,11 +106,6 @@ export const mint = (nfts: NFTToMint[], collection: Collection) => {
     nsfw: false,
     postfix: true,
     tags: [],
-    royalty: {
-      amount: 0.15,
-      address: '',
-    },
-    hasRoyalty: true,
   }))
 
   transaction({

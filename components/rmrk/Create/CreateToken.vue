@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
+import { BaseTokenType } from '@/components/base/types'
 import collectionForMint from '@/queries/subsquid/rmrk/collectionForMint.graphql'
 
 import { DETAIL_TIMEOUT } from '@/utils/constants'
@@ -106,8 +106,8 @@ import { unwrapSafe } from '@/utils/uniquery'
 import { toNFTId } from '../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
 import { Ref as RefType } from 'vue'
-import { MintedCollectionKusama } from '@/composables/transaction/types'
 import { Royalty } from '@/utils/royalty'
+import { MintedCollectionKusama } from '@/composables/transaction/types'
 
 const components = {
   AttributeTagInput: () =>
@@ -134,7 +134,7 @@ export default class CreateToken extends mixins(
   AuthMixin,
   UseApiMixin
 ) {
-  public base: BaseTokenType<BaseMintedCollection> = {
+  public base: BaseTokenType = {
     name: '',
     file: null,
     description: '',

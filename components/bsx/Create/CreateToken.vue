@@ -100,8 +100,8 @@ import { Royalty } from '@/utils/royalty'
 import { fetchCollectionMetadata } from '@/utils/ipfs'
 import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { usePreferencesStore } from '@/stores/preferences'
-import { MintedCollectionBasilisk } from '~~/composables/transaction/types'
 import { Token, getBalance, getDeposit, getFeesToken } from './utils'
+import { MintedCollection } from '@/composables/transaction/types'
 
 const components = {
   CustomAttributeInput: () =>
@@ -133,7 +133,7 @@ export default class CreateToken extends mixins(
   @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
   private preferencesStore = usePreferencesStore()
 
-  public base: BaseTokenType<MintedCollectionBasilisk> = {
+  public base: BaseTokenType = {
     name: '',
     file: null,
     description: '',
@@ -141,7 +141,7 @@ export default class CreateToken extends mixins(
     edition: 1,
     secondFile: null,
   }
-  public collections: MintedCollectionBasilisk[] = []
+  public collections: MintedCollection[] = []
   public postfix = true
   public deposit = '0'
   public attributes: Attribute[] = []

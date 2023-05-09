@@ -88,13 +88,14 @@ import UploadDescription from './uploadDescription/UploadDescription.vue'
 import OverviewTable from './OverviewTable.vue'
 import ChooseCollectionDropdown from './ChooseCollectionDropdown.vue'
 import EditPanel from './EditPanel.vue'
-import { Collection, NFT, NFTToMint } from './types'
+import { NFT, NFTToMint } from './types'
 import MissingInfoModal from './modals/MissingInfoModal.vue'
 import ReviewModal from './modals/ReviewModal.vue'
 import DeleteModal from './modals/DeleteModal.vue'
 import MintingModal from './modals/MintingModal.vue'
 import { FileObject } from './uploadCompressedMedia/useZipValidator'
 import { mint } from './useMassMint'
+import { MintedCollection } from '@/composables/transaction/types'
 
 const preferencesStore = usePreferencesStore()
 const { $consola } = useNuxtApp()
@@ -102,7 +103,7 @@ const router = useRouter()
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 
-const selectedCollection = ref<Collection>()
+const selectedCollection = ref<MintedCollection>()
 const NFTS = ref<{ [nftId: string]: NFT }>({})
 const mediaLoaded = ref(false)
 
@@ -157,7 +158,7 @@ const startMint = () => {
 
   mint(
     Object.values(NFTS.value) as NFTToMint[],
-    selectedCollection.value as Collection
+    selectedCollection.value as MintedCollection
   )
   // fake mint
 }

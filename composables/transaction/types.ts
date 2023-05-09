@@ -1,7 +1,7 @@
 import { Attribute } from '@kodadot1/minimark/common'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { ShoppingActions } from '@/utils/shoppingActions'
-import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
+import { BaseTokenType } from '@/components/base/types'
 import { Royalty } from '@/utils/royalty'
 
 export type BaseCollectionType = {
@@ -10,15 +10,19 @@ export type BaseCollectionType = {
   description: string
 }
 
-export type MintedCollectionKusama = BaseMintedCollection & {
+export type MintedCollection = {
+  id: string
+  alreadyMinted: number
+  metadata: string
+  name?: string
+  lastIndexUsed: number
+}
+
+export type MintedCollectionKusama = MintedCollection & {
   max: number
   symbol: string
 }
-export type MintedCollectionBasilisk = BaseMintedCollection & {
-  lastIndexUsed: number
-}
-export interface TokenToMint
-  extends BaseTokenType<MintedCollectionBasilisk | BaseMintedCollection> {
+export interface TokenToMint extends BaseTokenType<MintedCollection> {
   tags: Attribute[]
   nsfw: boolean
   postfix: boolean

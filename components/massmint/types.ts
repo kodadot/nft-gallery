@@ -1,12 +1,3 @@
-export type Collection = {
-  lastIndexUsed: number
-  alreadyMinted: number
-  id: string
-  metadata: string
-  max?: number
-  name?: string
-}
-
 export enum Status {
   Ok = 'Ok',
   Incomplete = 'Incomplete',
