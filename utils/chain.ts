@@ -96,21 +96,11 @@ export const disableChainListOnBetaEnv = [
   'glmr',
   'snek',
 ]
-export const disableChainListOnProductionEnv = [
-  ...disableChainListOnBetaEnv,
-  'ksm',
-]
 
 export const availablePrefixes = (): Option[] => {
   const chains = chainList()
 
-  if (isProduction) {
-    return chains.filter(
-      (chain) => !disableChainListOnProductionEnv.includes(String(chain.value))
-    )
-  }
-
-  if (isBeta) {
+  if (isProduction || isBeta) {
     return chains.filter(
       (chain) => !disableChainListOnBetaEnv.includes(String(chain.value))
     )
