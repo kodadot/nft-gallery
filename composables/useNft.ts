@@ -3,12 +3,15 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { getMimeType } from '@/utils/gallery/media'
 
+export type NftResources = {
+  id: string
+  src?: string
+  thumb?: string
+}
+
 export type ItemResources = {
   mediaUri?: string
-  resources?: {
-    src?: string
-    thumb?: string
-  }[]
+  resources?: NftResources[]
 }
 
 export type NFTWithMetadata = NFT &
