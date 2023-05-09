@@ -3,6 +3,11 @@
     class="neo-modal"
     scroll="clip"
     :active.sync="isModalActive"
+    :destroy-on-hide="destroyOnHide"
+    :can-cancel="canCancel"
+    :full-screen="fullScreen"
+    :content-class="contentClass"
+    :root-class="rootClass"
     @close="updateClose">
     <slot />
   </o-modal>
@@ -13,6 +18,11 @@ import { OModal } from '@oruga-ui/oruga'
 
 const props = defineProps<{
   value: boolean
+  destroyOnHide: boolean
+  canCancel: boolean
+  fullScreen: boolean
+  contentClass: boolean
+  rootClass: boolean
 }>()
 
 const emit = defineEmits(['close'])
