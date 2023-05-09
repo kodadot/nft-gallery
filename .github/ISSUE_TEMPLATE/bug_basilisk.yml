@@ -1,7 +1,7 @@
-name: 🐞 Bug Report
-description: Create a report to help us improve KodaDot
+name: 🐞🐍 Bug Report Basilisk 
+description: Create a report to help us improve KodaDot on Basilisk
 title: "Be descriptive and short"
-labels: ["bug"]
+labels: ["A-basilisk", "bug"]
 body:
   - type: markdown
     attributes:
@@ -12,8 +12,7 @@ body:
     attributes:
       label: What happened?
       description: Tell us, what happened?
-      placeholder: Tell us what you've seen!
-
+      placeholder: Tell us what you seen!
     validations:
       required: true
   - type: textarea
@@ -29,7 +28,7 @@ body:
     attributes:
       label: Expected Behavior
       description: A clear and concise description of what you expected to happen.
-      placeholder: I've expected ...
+      placeholder: I have expected ...
     validations:
       required: true
   - type: dropdown
@@ -38,13 +37,13 @@ body:
       label: What browsers are you seeing the problem on?
       multiple: true
       options:
-        - Desktop Chrome
-        - Desktop Firefox
-        - Desktop Safari
+        - Chrome
+        - Firefox
+        - Safari
+        - Microsoft Edge
         - Mobile Android Chrome
-        - Mobile iOS Safari (WebKit)
+        - Mobile iOS Safari
         - Mobile Firefox
-        - Other
   - type: dropdown
     id: beta-yes-no
     attributes:
@@ -63,24 +62,14 @@ body:
         - "Yes"
         - "No"
   - type: dropdown
-    id: chain-selector
+    id: wallet-selector
     attributes:
-      label: Which wallet you are using?
+      label: Which wallet you are using? 
       multiple: true
       options:
         - PolkadotJS
         - Talisman
         - SubWallet
-        - Nova Wallet
-  - type: dropdown
-    id: wallet-selector
-    attributes:
-      label: At which chain did you encounter bug?
-      multiple: true
-      options:
-        - Basilisk
-        - MoonSama
-        - Kusama
   - type: textarea
     id: Screenshots
     attributes:
@@ -95,12 +84,12 @@ body:
       label: Relevant log output
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
       render: shell
-
+      
   - type: textarea
     id: rewardaddress
     attributes:
       label: Payment link for reward
-      description: Whenever you will be actively participating to get your bug fixed, helping elaborating and testing to get bug mitigated, you are eliglible for recieving reward. Read more how to share your address for reciving rewards https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#sharing-your-address-to-receive-reward
+      description: Whenever you will be actively participating to get your bug fixed, helping elaborating and testing to get bug mitigated, you are eliglible for recieving reward. Read more how to share your address for reciving rewards https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#sharing-your-address-to-receive-reward 
       value: "https://kodadot.xyz/transfer/?target=%3CMy_Kusama_Address_check_https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#creating-your-ksm-address%3E"
   - type: checkboxes
     id: terms

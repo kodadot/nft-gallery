@@ -1,5 +1,9 @@
 <template>
-  <o-modal class="neo-modal" :active.sync="isModalActive" @close="updateClose">
+  <o-modal
+    class="neo-modal"
+    scroll="clip"
+    :active.sync="isModalActive"
+    @close="updateClose">
     <slot />
   </o-modal>
 </template>
