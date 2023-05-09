@@ -113,7 +113,7 @@ const isActive = (row) =>
 
 const { accountId } = useAuth()
 
-const { data, refetch } = useGraphql({
+const { data } = useGraphql({
   queryName: 'offerListByNftId',
   queryPrefix: 'chain-bsx',
   variables: {
@@ -185,11 +185,11 @@ const formatOfferStatus = (status: OfferStatusType, expiration: number) => {
 }
 
 const onWithdrawOffer = async (caller: string) => {
-  await submit(caller, ShoppingActions.WITHDRAW_OFFER, refetch)
+  await submit(caller, ShoppingActions.WITHDRAW_OFFER)
 }
 
 const onAcceptOffer = async (caller: string) => {
-  await submit(caller, ShoppingActions.ACCEPT_OFFER, refetch)
+  await submit(caller, ShoppingActions.ACCEPT_OFFER)
 }
 
 onMounted(async () => {
@@ -202,8 +202,7 @@ const submit = async (
   maker: string,
   interaction:
     | typeof ShoppingActions.WITHDRAW_OFFER
-    | typeof ShoppingActions.ACCEPT_OFFER,
-  onSuccess?: () => void
+    | typeof ShoppingActions.ACCEPT_OFFER
 ) => {
   try {
     await transaction({
