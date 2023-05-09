@@ -99,13 +99,15 @@ const processSingleTokenToMint = async (
 const getArgs = async (item: ActionMintToken, api) => {
   const tokens = Array.isArray(item.token) ? item.token : [item.token]
 
-  const argsAndNftsArray = await Promise.all(
-    tokens.map((token) => {
-      return processSingleTokenToMint(token, api).catch((e) => {
-        console.log('Error:', e)
+  const argsAndNftsArray = (
+    await Promise.all(
+      tokens.map((token) => {
+        return processSingleTokenToMint(token, api).catch((e) => {
+          console.log('Error:', e)
+        })
       })
-    })
-  )
+    )
+  ).filter(Boolean)
 
   const args = argsAndNftsArray.map((argsAndNfts) => argsAndNfts?.arg).flat()
   const createdNFTs = ref(

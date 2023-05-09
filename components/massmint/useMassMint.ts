@@ -2,9 +2,15 @@ import { unwrapSafe } from '@/utils/uniquery'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { NFTToMint, Status } from './types'
-import { Interaction } from '@kodadot1/minimark/v1'
-import { MintedCollection, TokenToMint } from '@/composables/transaction/types'
+import { CreatedNFT, Interaction } from '@kodadot1/minimark/v1'
+import {
+  MintedCollection,
+  TokenToList,
+  TokenToMint,
+} from '@/composables/transaction/types'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
+import { Ref } from 'vue'
+import { toNFTId } from '../rmrk/service/scheme'
 
 export const statusTranslation = (status?: Status): string => {
   const { $i18n } = useNuxtApp()
@@ -93,32 +99,12 @@ export const useMassMint = () => {
 
 // composable function the recieves one nft and performs transaction using useTransaction composable
 
-export const mint = (nfts: NFTToMint[], collection: MintedCollection) => {
-  const { blockNumber, transaction, isLoading, status } = useTransaction()
-  const numOfNftsInCollections = ref<number>()
+const subscribeToCollectionUpdates = (collectionId: string) => {
   const collectionUpdated = ref(false)
-
-  const tokens: TokenToMint[] = nfts.map((nft) => ({
-    file: nft.file,
-    name: nft.name,
-    description: nft.description || '',
-    edition: 1,
-    secondFile: null,
-    selectedCollection: collection,
-    price: nft.price === undefined ? 0 : nft.price * Math.pow(10, 12),
-    nsfw: false,
-    postfix: true,
-    tags: [],
-  }))
-
-  transaction({
-    interaction: Interaction.MINTNFT,
-    urlPrefix: usePrefix().urlPrefix.value,
-    token: tokens,
-  })
+  const numOfNftsInCollections = ref<number>()
 
   useSubscriptionGraphql({
-    query: `  collection: collectionEntityById(id: "${collection.id}") {
+    query: `  collection: collectionEntityById(id: "${collectionId}") {
       id
       name
       nfts(
@@ -144,6 +130,130 @@ export const mint = (nfts: NFTToMint[], collection: MintedCollection) => {
       }
     },
   })
+
+  return collectionUpdated
+}
+
+const listForSell = (mintedNFts: TokenToList[]) => {
+  const { blockNumber, transaction, isLoading, status } = useTransaction()
+  const { urlPrefix } = usePrefix()
+
+  transaction({
+    interaction: Interaction.LIST,
+    urlPrefix: urlPrefix.value,
+    token: mintedNFts,
+    // successMessage: $i18n.t('transaction.price.success') as string,
+    // errorMessage: $i18n.t('transaction.price.error') as string,
+  })
+  return {
+    blockNumber,
+    isLoading,
+    status,
+  }
+}
+
+const getListForSellItems = (
+  createdNFTs: CreatedNFT[],
+  tokens: TokenToMint[],
+  blockNumber: string
+) => {
+  return createdNFTs
+    .map((nft: CreatedNFT) => {
+      const matchingToken = tokens.find(
+        (token) =>
+          token.name === nft?.name &&
+          token?.selectedCollection?.id === nft.collection
+      )
+
+      if (matchingToken === undefined) {
+        console.error('matching token not found', nft)
+        return
+      }
+      if (matchingToken.price === undefined) {
+        return
+      }
+      const nftId = toNFTId(nft, blockNumber)
+      if (nftId === undefined) {
+        return
+      }
+      return {
+        nftId,
+        price: matchingToken.price,
+      }
+    })
+    .filter(Boolean) as TokenToList[]
+}
+
+export const mint = (nfts: NFTToMint[], collection: MintedCollection) => {
+  const { blockNumber, transaction, isLoading, status } = useTransaction()
+  const collectionUpdated = ref(false)
+
+  const { urlPrefix } = usePrefix()
+
+  const tokens: TokenToMint[] = nfts.map((nft) => ({
+    file: nft.file,
+    name: nft.name,
+    description: nft.description || '',
+    edition: 1,
+    secondFile: null,
+    selectedCollection: collection,
+    price: nft.price === undefined ? 0 : nft.price * Math.pow(10, 12),
+    nsfw: false,
+    postfix: true,
+    tags: [],
+  }))
+
+  const kusamaMintAndList = async () => {
+    const { createdNFTs } = (await transaction({
+      interaction: Interaction.MINTNFT,
+      urlPrefix: usePrefix().urlPrefix.value,
+      token: tokens,
+    })) as {
+      createdNFTs: Ref<CreatedNFT[]>
+    }
+    const itemsToList = ref<TokenToList[]>()
+    const listForSellResults = ref<{
+      isLoading: Ref<boolean>
+      status: Ref<string>
+    }>()
+
+    watch([blockNumber, createdNFTs], () => {
+      if (blockNumber.value && createdNFTs.value && !itemsToList.value) {
+        itemsToList.value = getListForSellItems(
+          createdNFTs.value,
+          tokens,
+          blockNumber.value
+        )
+        listForSellResults.value = listForSell(itemsToList.value)
+      }
+    })
+    watchEffect(() => {
+      if (listForSellResults.value) {
+        status.value = listForSellResults.value.status.value
+        isLoading.value = listForSellResults.value.isLoading.value
+
+        if (listForSellResults.value.isLoading.value === false) {
+          collectionUpdated.value = true
+        }
+      }
+    })
+  }
+
+  if (urlPrefix.value === 'bsx' || urlPrefix.value === 'snek') {
+    transaction({
+      interaction: Interaction.MINTNFT,
+      urlPrefix: usePrefix().urlPrefix.value,
+      token: tokens,
+    })
+    const collectionUpdatedTemp = subscribeToCollectionUpdates(collection.id)
+    watch(collectionUpdatedTemp, (isDone) => {
+      collectionUpdated.value = isDone
+    })
+  }
+
+  if (urlPrefix.value === 'ksm' || urlPrefix.value === 'rmrk') {
+    kusamaMintAndList()
+  }
 
   return {
     blockNumber,

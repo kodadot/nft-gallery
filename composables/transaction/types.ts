@@ -60,11 +60,15 @@ export type ActionBuy = {
   recipient?: string
 }
 
+export type TokenToList = {
+  price: string
+  nftId: string
+}
+
 export type ActionList = {
   interaction: Interaction.LIST
   urlPrefix: string
-  price: string
-  nftId: string
+  token: TokenToList | TokenToList[]
   successMessage?: string
   errorMessage?: string
 }
