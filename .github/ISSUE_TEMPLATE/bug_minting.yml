@@ -1,0 +1,113 @@
+name: 🐞⛏️ Bug Report Minting
+description: Create a report to help us improve minting on KodaDot
+title: "Be descriptive and short"
+labels: ["bug", "A-minting"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Tell us, what happened?
+      placeholder: Tell us what you've seen!
+
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Please reproduce in steps
+      description: Tells us steps how to reproduce the bug behaviour
+      placeholder: Go to ... Click on .... See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+      placeholder: I've expected ...
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Desktop Chrome
+        - Desktop Firefox
+        - Desktop Safari
+        - Mobile Android Chrome
+        - Mobile iOS Safari (WebKit)
+        - Mobile Firefox
+        - Other
+  - type: dropdown
+    id: beta-yes-no
+    attributes:
+      label: At which address did you encounter bug?
+      multiple: true
+      options:
+        - canary.kodadot.xyz
+        - beta.kodadot.xyz
+        - kodadot.xyz
+  - type: dropdown
+    id: logged-in
+    attributes:
+      label: Are you logged in?
+      multiple: false
+      options:
+        - "Yes"
+        - "No"
+  - type: dropdown
+    id: chain-selector
+    attributes:
+      label: Which wallet you are using?
+      multiple: true
+      options:
+        - PolkadotJS
+        - Talisman
+        - SubWallet
+        - Nova Wallet
+  - type: dropdown
+    id: wallet-selector
+    attributes:
+      label: At which chain did you encounter bug?
+      multiple: true
+      options:
+        - Basilisk
+        - Kusama
+        - MoonBeam
+        - RMRK2
+  - type: textarea
+    id: Screenshots
+    attributes:
+      label: Screenshots
+      description: Screenshot/Video is worth more than debug logs!
+      placeholder: Paste from your clipboard or upload screenshots/video
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+
+  - type: textarea
+    id: rewardaddress
+    attributes:
+      label: Payment link for reward
+      description: Whenever you will be actively participating to get your bug fixed, helping elaborating and testing to get bug mitigated, you are eliglible for recieving reward. Read more how to share your address for reciving rewards https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#sharing-your-address-to-receive-reward
+      value: "https://kodadot.xyz/transfer/?target=%3CMy_Kusama_Address_check_https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#creating-your-ksm-address%3E"
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
