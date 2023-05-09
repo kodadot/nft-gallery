@@ -63,6 +63,7 @@ const walletStore = useWalletStore()
 const identityStore = useIdentityStore()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
+const { $consola } = useNuxtApp()
 
 const emit = defineEmits(['back'])
 
@@ -92,10 +93,13 @@ const setTotalValue = (value: number) => {
 
 onMounted(() => {
   if (identityStore.getAuthAddress) {
+    $consola.log('fetching balance...')
+    $consola.log(urlPrefix.value)
     identityStore.fetchBalance({
       address: identityStore.getAuthAddress,
     })
-    console.log(identityStore.auth.balance[urlPrefix.value])
+    $consola.log(identityStore.auth.balance)
+    $consola.log(identityStore.auth.balance[urlPrefix.value])
   }
 })
 
