@@ -15,10 +15,12 @@
             • {{ $t('massmint.incompleteNfts', { count: numMissingNames }) }}
           </div>
         </div>
-        <div v-if="numMissingDescriptions" class="has-text-k-red mt-3">
+        <div
+          v-if="numMissingDescriptions || numMissingPrices"
+          class="has-text-k-red mt-3">
           <div>{{ $t('massmint.optional') }}</div>
 
-          <div class="pl-3">
+          <div v-if="numberOfMissingDescriptions" class="pl-3">
             •
             {{
               $t('massmint.missingDescription', {
@@ -26,7 +28,7 @@
               })
             }}
           </div>
-          <div class="pl-3">
+          <div v-if="numMissingNames" class="pl-3">
             •
             {{
               $t('massmint.missingPrice', {
