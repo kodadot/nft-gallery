@@ -1,7 +1,7 @@
 <template>
   <o-modal
     class="neo-modal"
-    :scroll="scroll"
+    scroll="clip"
     :active.sync="isModalActive"
     :can-cancel="canCancel"
     @close="updateClose">
@@ -15,12 +15,10 @@ import { OModal } from '@oruga-ui/oruga'
 const props = withDefaults(
   defineProps<{
     value: boolean
-    scroll?: 'clip' | 'keep'
     canCancel?: string[] | boolean
   }>(),
   {
     canCancel: true,
-    scroll: 'keep',
   }
 )
 
