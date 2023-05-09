@@ -1,7 +1,7 @@
 name: 🐞 Bug Report Basilisk 
 description: Create a report to help us improve KodaDot on Basilisk
 title: "Be descriptive and short"
-labels: ["🐍 - basilisk", "bug"]
+labels: ["A-basilisk", "bug"]
 body:
   - type: markdown
     attributes:
