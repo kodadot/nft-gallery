@@ -83,9 +83,3 @@ const collectionTradedVolumeNumber = computed((): bigint => {
   return getVolume(saleEvents.value)
 })
 </script>
-
-<style lang="scss" scoped>
-.collection-detail__header-image-wrapper .b-skeleton {
-  height: 100%;
-}
-</style>

@@ -116,8 +116,4 @@ withDefaults(
 .top-0 {
   top: 0;
 }
-
-.image .b-skeleton {
-  height: 100%;
-}
 </style>
