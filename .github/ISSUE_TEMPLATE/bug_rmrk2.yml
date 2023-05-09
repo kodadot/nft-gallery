@@ -1,5 +1,5 @@
 name: 🐞 Bug Report RMRK2 
-description: Create a report to help us improve RMRK2 in KodaDot
+description: Create a report to help us improve KodaDot on RMRK2
 title: "Be descriptive and short"
 labels: ["rmrk2", "bug", "p2"]
 body:
