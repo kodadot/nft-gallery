@@ -80,8 +80,10 @@ function updatePrice() {
     transaction({
       interaction: Interaction.LIST,
       urlPrefix: urlPrefix.value,
-      price: price.value && String(calculateBalance(price.value)),
-      nftId: props.nftId,
+      token: {
+        price: price.value && String(calculateBalance(price.value)),
+        nftId: props.nftId,
+      },
       successMessage: $i18n.t('transaction.price.success') as string,
       errorMessage: $i18n.t('transaction.price.error') as string,
     })
