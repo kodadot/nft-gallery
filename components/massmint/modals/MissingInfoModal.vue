@@ -20,7 +20,7 @@
           class="has-text-k-red mt-3">
           <div>{{ $t('massmint.optional') }}</div>
 
-          <div v-if="numberOfMissingDescriptions" class="pl-3">
+          <div v-if="numMissingDescriptions" class="pl-3">
             •
             {{
               $t('massmint.missingDescription', {
