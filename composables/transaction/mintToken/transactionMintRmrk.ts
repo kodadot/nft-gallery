@@ -23,6 +23,7 @@ import { ActionMintToken, TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { BaseMintedCollection } from '@/components/base/types'
+import { Ref } from 'vue'
 
 const processSingleTokenToMint = async (
   token: TokenToMint,
@@ -119,9 +120,13 @@ const getArgs = async (item: ActionMintToken, api) => {
 export async function execMintRmrk(
   item: ActionMintToken,
   api,
-  executeTransaction: (p: ExecuteTransactionParams) => void
+  executeTransaction: (p: ExecuteTransactionParams) => void,
+  isLoading: Ref<boolean>,
+  status: Ref<string>
 ) {
   const { $i18n } = useNuxtApp()
+  isLoading.value = true
+  status.value = 'loader.ipfs'
   const { args, createdNFTs } = await getArgs(item, api)
 
   const nameInNotifications = Array.isArray(item.token)

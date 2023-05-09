@@ -3,6 +3,7 @@ import { isRoyaltyValid } from '@/utils/royalty'
 import { constructMeta } from './constructMeta'
 import { ExecuteTransactionParams } from '@/composables/useTransaction'
 import { BaseMintedCollection } from '@/components/base/types'
+import { Ref } from 'vue'
 
 const prepareTokenMintArgs = async (
   token: TokenToMint,
@@ -55,9 +56,13 @@ const getArgs = async (item: ActionMintToken, api) => {
 export async function execMintBasilisk(
   item: ActionMintToken,
   api,
-  executeTransaction: (p: ExecuteTransactionParams) => void
+  executeTransaction: (p: ExecuteTransactionParams) => void,
+  isLoading: Ref<boolean>,
+  status: Ref<string>
 ) {
   const { $i18n } = useNuxtApp()
+  isLoading.value = true
+  status.value = 'loader.ipfs'
   const args = await getArgs(item, api)
 
   const nameInNotifications = Array.isArray(item.token)

@@ -4,6 +4,7 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import { NFTToMint, Status } from './types'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { MintedCollection, TokenToMint } from '@/composables/transaction/types'
+import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 
 export const statusTranslation = (status?: Status): string => {
   const { $i18n } = useNuxtApp()
@@ -93,7 +94,9 @@ export const useMassMint = () => {
 // composable function the recieves one nft and performs transaction using useTransaction composable
 
 export const mint = (nfts: NFTToMint[], collection: MintedCollection) => {
-  const { blockNumber, transaction, isLoading } = useTransaction()
+  const { blockNumber, transaction, isLoading, status } = useTransaction()
+  const numOfNftsInCollections = ref<number>()
+  const collectionUpdated = ref(false)
 
   const tokens: TokenToMint[] = nfts.map((nft) => ({
     file: nft.file,
@@ -113,4 +116,39 @@ export const mint = (nfts: NFTToMint[], collection: MintedCollection) => {
     urlPrefix: usePrefix().urlPrefix.value,
     token: tokens,
   })
+
+  useSubscriptionGraphql({
+    query: `  collection: collectionEntityById(id: "${collection.id}") {
+      id
+      name
+      nfts(
+        orderBy: [updatedAt_DESC]
+        where: { burned_eq: false }
+      ) {
+        id
+        name
+        sn
+  
+      }
+    }`,
+    onChange: ({ data }) => {
+      const collection = data.collection
+      const currentNumberOfNts = collection.nfts.length
+      if (numOfNftsInCollections.value === undefined) {
+        numOfNftsInCollections.value = currentNumberOfNts
+        return
+      }
+
+      if (currentNumberOfNts > numOfNftsInCollections.value) {
+        collectionUpdated.value = true
+      }
+    },
+  })
+
+  return {
+    blockNumber,
+    isLoading,
+    status,
+    collectionUpdated,
+  }
 }

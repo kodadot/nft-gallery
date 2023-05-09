@@ -106,7 +106,13 @@ export const useTransaction = () => {
       [ShoppingActions.ACCEPT_OFFER]: () =>
         execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
       [ShoppingActions.MINTNFT]: () =>
-        execMintToken(item as ActionMintToken, api, executeTransaction),
+        execMintToken(
+          item as ActionMintToken,
+          api,
+          executeTransaction,
+          isLoading,
+          status
+        ),
       [ShoppingActions.MINT]: () =>
         execMintCollection(
           item as ActionMintCollection,
