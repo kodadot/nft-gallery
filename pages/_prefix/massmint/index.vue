@@ -12,7 +12,7 @@ const components = { Massmint }
 })
 export default class MassmintPage extends Vue {
   head() {
-    const title = 'Low minting fees and carbonless NFTs'
+    const title = 'Kodadot | Massmint'
     const metaData = {
       title,
       type: 'profile',
