@@ -19,7 +19,7 @@
         v-slot="props"
         width="20%"
         field="meta"
-        :label="$t('tabs.tabActivity.price')">
+        :label="`${$t(`tabs.tabActivity.price`)} (${chainSymbol})`">
         <p v-if="Number(props.row.meta)">
           {{ formatPrice(props.row.meta) }}
         </p>
@@ -107,8 +107,8 @@ const dprops = defineProps<{
   interactions: string[]
 }>()
 
-const { decimals, unit } = useChain()
-const { urlPrefix, tokenId, assets } = usePrefix()
+const { decimals, chainSymbol } = useChain()
+const { urlPrefix } = usePrefix()
 
 const interaction =
   urlPrefix.value === 'ksm'
@@ -155,12 +155,7 @@ watchEffect(() => {
 })
 
 const formatPrice = (price) => {
-  const { symbol } = assets(tokenId.value)
-  const tokenSymbol = ['rmrk', 'ksm'].includes(urlPrefix.value)
-    ? unit.value
-    : symbol
-
-  return formatBalance(price, decimals.value, tokenSymbol)
+  return formatBalance(price, decimals.value, false)
 }
 </script>
 <style lang="scss" scoped>
