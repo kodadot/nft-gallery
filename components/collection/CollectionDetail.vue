@@ -7,17 +7,15 @@
           :src="image"
           :alt="name"
           custom-class="collection-card__image-wrapper-sub p-1" />
-        <div v-else class="w-full h-full collection-card__image-wrapper-sub">
-          <b-skeleton
-            :rounded="false"
-            height="100%"
-            width="100%"
-            position="is-centered" />
+        <div
+          v-else
+          class="is-relative w-full h-full collection-card__image-wrapper-sub p-1">
+          <NeoSkeleton :no-margin="true" :rounded="false" :full-size="true" />
         </div>
       </div>
       <span v-if="!isLoading" class="collection-detail__name">{{ name }}</span>
       <span v-else class="collection-detail__name">
-        <b-skeleton size="is-medium" width="100px" />
+        <NeoSkeleton :no-margin="true" size="medium" width="100px" />
       </span>
     </div>
     <div
@@ -48,13 +46,14 @@
         v-for="n in DESC_SKELETON_COUNT"
         :key="n"
         class="is-flex is-align-items-center detail-item column px-5">
-        <b-skeleton size="is-medium" position="is-centered" width="100%" />
+        <NeoSkeleton :no-margin="true" size="medium" position="centered" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { NeoSkeleton } from '@kodadot1/brick'
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
 import { getVolume } from '@/utils/math'
 import BasicImage from '@/components/shared/view/BasicImage.vue'

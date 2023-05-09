@@ -15,13 +15,14 @@
     </nuxt-link>
 
     <template v-else>
-      <b-skeleton :rounded="false" height="112px" />
+      <NeoSkeleton :no-margin="true" :rounded="false" height="112px" />
       <CollectionDetail :is-loading="true" :nfts="[]" name="" />
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
+import { NeoSkeleton } from '@kodadot1/brick'
 import { CollectionWithMeta } from '@/components/rmrk/service/scheme'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { processSingleMetadata } from '@/utils/cachingStrategy'

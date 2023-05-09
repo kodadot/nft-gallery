@@ -68,14 +68,12 @@
     <template v-else>
       <div class="media-object nft-media">
         <div class="is-square image">
-          <div class="is-absolute top-0 w-full h-full">
-            <b-skeleton :rounded="false" height="100%" width="100%" />
-          </div>
+          <NeoSkeleton :rounded="false" :full-size="true" :no-margin="true" />
         </div>
       </div>
       <div :class="`nft-media-info__${variant}`">
-        <b-skeleton width="100%" />
-        <b-skeleton size="is-small" width="100px" />
+        <NeoSkeleton size="medium" :no-margin="true" />
+        <NeoSkeleton size="small" :no-margin="true" width="100px" />
       </div>
     </template>
   </div>
@@ -86,7 +84,7 @@ import MediaItem from '../MediaItem/MediaItem.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { NftCardVariant } from '@kodadot1/brick'
+import { NeoSkeleton, NftCardVariant } from '@kodadot1/brick'
 
 withDefaults(
   defineProps<{
