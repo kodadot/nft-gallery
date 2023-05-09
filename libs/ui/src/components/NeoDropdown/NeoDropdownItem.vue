@@ -3,7 +3,6 @@
     aria-role="listitem"
     :disabled="disabled"
     :class="{ 'is-active': active }"
-    :value="NaN"
     class="neo-dropdown-item"
     v-bind="$attrs">
     {{ item }}
