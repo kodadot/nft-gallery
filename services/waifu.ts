@@ -1,17 +1,11 @@
 import { $fetch, FetchError } from 'ohmyfetch'
 
-const BASE_URL = 'https://mtwfjfuiknglhfozmotu.functions.supabase.co/'
-const ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10d2ZqZnVpa25nbGhmb3ptb3R1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgyMDIwMTcsImV4cCI6MTk4Mzc3ODAxN30.XCLXzu-TCPLo5nHgOWMHzb5quWE8npMolw9IgESsliQ'
+const BASE_URL = 'https://waifu-me.kodadot.workers.dev'
 
-type Option<T> = T | null
-const ref = 'spring_mints'
+const table = 'mints'
 
 const api = $fetch.create({
   baseURL: BASE_URL,
-  headers: {
-    Authorization: 'Bearer ' + ANON_KEY,
-  },
 })
 
 type MintResponse = any
@@ -24,12 +18,12 @@ export const sendWaifu = async (
   image: string
 ): Promise<MintResponse> => {
   const body = {
-    email,
+    address: email,
     metadata: url,
     image,
-    ref,
+    table,
   }
-  const value = await api<typeof body>('mint-me', {
+  const value = await api<typeof body>('mint', {
     method: 'POST',
     body,
   }).catch((error: FetchError) => {
@@ -43,7 +37,7 @@ export const claimWaifu = async (claimId: string, address: string) => {
     claimId,
     address,
     email: '',
-    ref,
+    table,
   }
   const value = await api<typeof body>('claim-me', {
     method: 'POST',
