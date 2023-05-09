@@ -13,7 +13,7 @@
         <template v-if="label">{{ label }}</template>
       </b-button>
     </slot>
-    <b-modal :active.sync="isModalActive">
+    <NeoModal v-model="isModalActive" @close="isModalActive = false">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">
@@ -21,37 +21,40 @@
           </p>
           <slot name="hint" />
         </header>
-        <div class="card-content">
+        <div class="card-content has-text-centered">
           <slot></slot>
         </div>
       </div>
-    </b-modal>
+    </NeoModal>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+import { NeoModal } from '@kodadot1/brick'
+interface Props {
+  label: string
+  title: string
+  icon: string
+  type?: string
+  expanded: boolean
+  isRight: boolean
+  id: string
+  isButtonHidden: boolean
+}
 
-@Component
-export default class ModalWrapper extends Vue {
-  @Prop(String) public label!: string
-  @Prop(String) public title!: string
-  @Prop(String) public icon!: string
-  @Prop(String) public type?: string
-  @Prop(Boolean) public expanded!: boolean
-  @Prop(Boolean) public isRight!: boolean
-  @Prop({ default: '' }) public id!: string
-  @Prop({ default: false }) public isButtonHidden!: boolean
+withDefaults(defineProps<Props>(), {
+  type: undefined,
+  id: '',
+  isButtonHidden: false,
+})
 
-  private isModalActive = false
-
-  protected handleOpen() {
-    this.isModalActive = true
-  }
+const isModalActive = ref(false)
+const handleOpen = () => {
+  isModalActive.value = true
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .modal-wrapper-button__right {
   float: right;
 }
