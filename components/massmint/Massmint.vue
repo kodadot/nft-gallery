@@ -178,7 +178,7 @@ const startMint = () => {
       if (isLoadingOldV && !isLoadingV && statusV === 'loader.finalized') {
         mintModalOpen.value = false
         showNotification(
-          'You will go to collection page in a moment...',
+          'You will go to collection page in a moment....',
           notificationTypes.success
         )
       }
