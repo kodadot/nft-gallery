@@ -42,36 +42,40 @@ export const useCollectionForMint = () => {
     if (!isLogIn.value) {
       return
     }
-    try {
-      const prefix = queryPath[urlPrefix.value] || urlPrefix.value
-      const query = await resolveQueryPath(prefix, 'collectionForMint')
-      const data = await $apollo.query({
-        query: query.default,
-        client: urlPrefix.value,
-        variables: {
-          account: accountId.value,
-        },
-        fetchPolicy: 'network-only',
-      })
 
-      const {
-        data: { collectionEntities },
-      } = data
+    const prefix = queryPath[urlPrefix.value] || urlPrefix.value
+    const query = await resolveQueryPath(prefix, 'collectionForMint')
+    const data = await $apollo.query({
+      query: query.default,
+      client: urlPrefix.value,
+      variables: {
+        account: accountId.value,
+      },
+      fetchPolicy: 'network-only',
+    })
 
-      collections.value = collectionEntities
-    } catch (error) {
-      $consola.error(
-        `Error fetching collections for account ${accountId.value}:`,
-        error
-      )
-    }
+    const {
+      data: { collectionEntities },
+    } = data
+
+    collections.value = collectionEntities
   }
 
-  void doFetch()
+  doFetch().catch((error) => {
+    $consola.error(
+      `Error fetching collections for account ${accountId.value}:`,
+      error
+    )
+  })
 
   watch(accountId, (newId, oldId) => {
     if (shouldUpdate(newId, oldId)) {
-      void doFetch()
+      doFetch().catch((error) => {
+        $consola.error(
+          `Error fetching collections for account ${accountId.value}:`,
+          error
+        )
+      })
     }
   })
 
