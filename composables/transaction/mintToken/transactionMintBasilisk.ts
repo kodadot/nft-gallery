@@ -1,6 +1,6 @@
 import type {
   ActionMintToken,
-  ExecMintParams,
+  MintTokenParams,
   MintedCollection,
   TokenToMint,
 } from '../types'
@@ -66,7 +66,7 @@ export async function execMintBasilisk({
   executeTransaction,
   isLoading,
   status,
-}: ExecMintParams) {
+}: MintTokenParams) {
   const { $i18n } = useNuxtApp()
   isLoading.value = true
   status.value = 'loader.ipfs'

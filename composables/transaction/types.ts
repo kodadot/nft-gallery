@@ -138,7 +138,7 @@ export type Actions =
   | ActionMintToken
   | ActionMintCollection
 
-export interface ExecMintParams {
+export interface MintTokenParams {
   item: ActionMintToken
   api: any
   executeTransaction: (p: ExecuteTransactionParams) => void

@@ -1,14 +1,14 @@
 import { execMintRmrk } from './mintToken/transactionMintRmrk'
 import { execMintBasilisk } from './mintToken/transactionMintBasilisk'
-import { ActionMintToken } from './types'
+import { MintTokenParams } from './types'
 
-export function execMintToken(
-  item: ActionMintToken,
+export function execMintToken({
+  item,
   api,
   executeTransaction,
   isLoading,
-  status
-) {
+  status,
+}: MintTokenParams) {
   if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
     return execMintRmrk({ item, api, executeTransaction, isLoading, status })
   }
