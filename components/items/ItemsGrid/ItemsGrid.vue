@@ -46,10 +46,15 @@
 <script setup lang="ts">
 import { NeoNftCard } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
+import { useWindowSize } from '@vueuse/core'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 
-const SKELETON_COUNT = 4
+const breakPointWidth = 1024
+const isSmallScreen = computed(
+  () => useWindowSize().width.value < breakPointWidth
+)
+const SKELETON_COUNT = isSmallScreen.value ? 4 : 14
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {

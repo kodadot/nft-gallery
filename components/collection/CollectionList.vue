@@ -39,16 +39,21 @@ import { Collection } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from '@/components/search/types'
 import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
+import { useWindowSize } from '@vueuse/core'
 import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-
-const SKELETON_COUNT = 4
 
 const route = useRoute()
 const { $apollo } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const preferencesStore = usePreferencesStore()
+
+const breakPointWidth = 1024
+const isSmallScreen = computed(
+  () => useWindowSize().width.value < breakPointWidth
+)
+const SKELETON_COUNT = isSmallScreen.value ? 4 : 12
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
