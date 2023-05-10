@@ -19,11 +19,17 @@ export default class ConnectWalletButton extends Vue {
   @Prop({ default: 'general.connect' }) public label!: string // i18
   @Prop({ default: 'primary' }) public variant!: NeoButtonVariant
   @Prop({ default: false }) public noShadow!: boolean
+  @Prop({ default: false }) public modalToggleDisabled!: boolean
   private modal: { close: () => void; isActive?: boolean } | null = null
   private isMobile = ref(window.innerWidth < 1024)
 
   public toggleWalletConnectModal(): void {
     if (this.isMobile) {
+      this.$emit('closeBurgerMenu')
+    } else {
+      this.$emit('toggleConnectModal')
+    }
+    if (!this.modalToggleDisabled) {
       if (this.modal?.isActive) {
         this.modal.close()
         this.modal = null
@@ -33,9 +39,6 @@ export default class ConnectWalletButton extends Vue {
         parent: this,
         ...ConnectWalletModalConfig,
       })
-      this.$emit('closeBurgerMenu')
-    } else {
-      this.$emit('toggleConnectModal')
     }
   }
 }
