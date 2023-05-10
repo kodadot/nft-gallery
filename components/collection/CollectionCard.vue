@@ -15,7 +15,7 @@
     </nuxt-link>
 
     <template v-else>
-      <NeoSkeleton :no-margin="true" :rounded="false" height="112px" />
+      <NeoSkeleton no-margin :rounded="false" height="112px" />
       <CollectionDetail :is-loading="true" :nfts="[]" name="" />
     </template>
   </div>

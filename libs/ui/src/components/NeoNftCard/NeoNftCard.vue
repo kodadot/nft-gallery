@@ -68,12 +68,12 @@
     <template v-else>
       <div class="media-object nft-media">
         <div class="is-square image">
-          <NeoSkeleton :rounded="false" :full-size="true" :no-margin="true" />
+          <NeoSkeleton :rounded="false" full-size no-margin />
         </div>
       </div>
       <div :class="`nft-media-info__${variant}`">
-        <NeoSkeleton size="medium" :no-margin="true" />
-        <NeoSkeleton size="small" :no-margin="true" width="100px" />
+        <NeoSkeleton size="medium" no-margin />
+        <NeoSkeleton size="small" no-margin width="100px" />
       </div>
     </template>
   </div>

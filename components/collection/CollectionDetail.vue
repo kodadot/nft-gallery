@@ -10,12 +10,12 @@
         <div
           v-else
           class="is-relative w-full h-full collection-card__image-wrapper-sub p-1">
-          <NeoSkeleton :no-margin="true" :rounded="false" :full-size="true" />
+          <NeoSkeleton no-margin :rounded="false" full-size />
         </div>
       </div>
       <span v-if="!isLoading" class="collection-detail__name">{{ name }}</span>
       <span v-else class="collection-detail__name">
-        <NeoSkeleton :no-margin="true" size="medium" width="100px" />
+        <NeoSkeleton no-margin size="medium" width="100px" />
       </span>
     </div>
     <div
@@ -46,7 +46,7 @@
         v-for="n in DESC_SKELETON_COUNT"
         :key="n"
         class="is-flex is-align-items-center detail-item column px-5">
-        <NeoSkeleton :no-margin="true" size="medium" position="centered" />
+        <NeoSkeleton no-margin size="medium" position="centered" />
       </div>
     </div>
   </div>

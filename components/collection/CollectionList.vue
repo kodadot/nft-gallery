@@ -18,10 +18,7 @@
       :default-width="{ small: 16 * 15, medium: 16 * 20, large: 16 * 25 }"
       :mobile-variant="false">
       <template v-if="isLoading">
-        <CollectionCard
-          v-for="n in SKELETON_COUNT"
-          :key="n"
-          :is-loading="true" />
+        <CollectionCard v-for="n in SKELETON_COUNT" :key="n" is-loading />
       </template>
 
       <div

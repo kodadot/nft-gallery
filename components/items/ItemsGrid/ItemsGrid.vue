@@ -18,7 +18,7 @@
         <NeoNftCard
           v-for="n in SKELETON_COUNT"
           :key="n"
-          :is-loading="true"
+          is-loading
           :variant="
             (slotProps.isMobileVariant || slotProps.grid === 'small') &&
             'minimal'
