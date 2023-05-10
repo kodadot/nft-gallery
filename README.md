@@ -39,6 +39,6 @@ You'll find our goals for KodaDot upcoming future!
 #### Feel free to donate to our [KodaDot_Guild_Rewards](https://beta.kodadot.xyz/transfer?target=G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar&usdamount=1000&donation=true) which already funded over $200k ([~1740 $KSM](https://dotscanner.com/Kusama/account/G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar)) to notable contributing members
 
 # Stay Tuned for Updates!
-- Follow us on [Twitter](https://twitter.com/KodaDot), [Instagram](https://instagram.com/kodadot.xyz), [Youtube](https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA), [SubStack](https://kodadot.substack.com/) and [Medium](https://medium.com/kodadot)
-- Join our [Discord](https://discord.gg/u6ymnbz4PR)
-- Love our merchandise designs and haven't been on our physical events? You can now order it to [your home at our K-shop](https://shop.kodadot.xyz) and support us!
+- Follow us on [Twitter](https://twitter.com/KodaDot), [Youtube](https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA), [SubStack](https://kodadot.substack.com/) and [Medium](https://blog.kodadot.xyz), [Instagram](https://instagram.com/kodadot.xyz),
+- Join our [Telegram KodaDot Ecosystem](https://t.me/kodadot_eco), [Discord](https://discord.gg/u6ymnbz4PR)
+- [Pick your T-shirt in KodaDot Swag Shop](https://shop.kodadot.xyz), use voucher `readme100` to get 100% OFF, first 10 redemptions only. 

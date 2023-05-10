@@ -16,6 +16,6 @@ const route = useRoute()
 // somehow, button disabled wrapped in tooltip is bigger by 2px vertically 🤔
 // we can remove this once the button enabled
 .offer {
-  padding: 6px 12px;
+  padding: 5px 12px;
 }
 </style>
