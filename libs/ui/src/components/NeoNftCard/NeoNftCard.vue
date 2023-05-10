@@ -108,12 +108,4 @@ withDefaults(
 
 <style lang="scss" scoped>
 @import './NeoNftCard.scss';
-
-.is-absolute {
-  position: absolute;
-}
-
-.top-0 {
-  top: 0;
-}
 </style>
