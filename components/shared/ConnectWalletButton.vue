@@ -10,7 +10,6 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 import { ConnectWalletModalConfig } from '../common/ConnectWallet/useConnectWallet'
-import { isMobileDevice } from '@/utils/extension'
 
 @Component({
   components: { NeoButton },
@@ -29,6 +28,7 @@ export default class ConnectWalletButton extends Vue {
     } else {
       this.$emit('toggleConnectModal')
     }
+
     if (!this.modalToggleDisabled) {
       if (this.modal?.isActive) {
         this.modal.close()
