@@ -22,7 +22,8 @@ export { default as NeoCollapse } from './components/NeoCollapse/NeoCollapse.vue
 export { default as NeoModal } from './components/NeoModal/NeoModal.vue'
 export { default as NeoSkeleton } from './components/NeoSkeleton/NeoSkeleton.vue'
 export { default as NeoAvatar } from './components/NeoAvatar/NeoAvatar.vue'
-
+export { default as NeoField } from './components/NeoInput/NeoField.vue'
+export { default as NeoInput } from './components/NeoInput/NeoInput.vue'
 export { default as NeoCarousel } from './components/NeoCarousel/NeoCarousel.vue'
 export { default as NeoCarouselItem } from './components/NeoCarousel/NeoCarouselItem.vue'
 
