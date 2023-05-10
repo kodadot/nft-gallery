@@ -11,6 +11,8 @@ import {
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import { Ref } from 'vue'
 import { toNFTId } from '../rmrk/service/scheme'
+import { min } from 'cypress/types/lodash'
+import { s } from 'vitest/dist/types-e3c9754d'
 
 export const statusTranslation = (status?: Status): string => {
   const { $i18n } = useNuxtApp()
@@ -184,10 +186,82 @@ const getListForSellItems = (
     .filter(Boolean) as TokenToList[]
 }
 
+const mintKusama = async (tokens) => {
+  const { blockNumber, transaction, isLoading, status } = useTransaction()
+  const { urlPrefix } = usePrefix()
+  const { createdNFTs } = (await transaction({
+    interaction: Interaction.MINTNFT,
+    urlPrefix: urlPrefix.value,
+    token: tokens,
+  })) as {
+    createdNFTs: Ref<CreatedNFT[]>
+  }
+
+  return {
+    blockNumber,
+    isLoading,
+    status,
+    createdNFTs,
+  }
+}
+
+const kusamaMintAndList = (tokens) => {
+  const status = ref('')
+  const isLoading = ref(false)
+  const collectionUpdated = ref(true)
+  const itemsToList = ref<TokenToList[]>()
+  const blockNumber = ref<string>()
+
+  const listForSellResults = {
+    isLoading: ref(false),
+    status: ref(''),
+    blockNumber: ref<string>(),
+  }
+
+  onMounted(async () => {
+    const { blockNumber: mintBlockNumber, createdNFTs } = await mintKusama(
+      tokens
+    )
+    watch([mintBlockNumber, createdNFTs], () => {
+      if (mintBlockNumber.value && createdNFTs.value) {
+        itemsToList.value = getListForSellItems(
+          createdNFTs.value,
+          tokens,
+          mintBlockNumber.value
+        )
+
+        const {
+          blockNumber: listBlockNumber,
+          isLoading: isLoadingList,
+          status: listStatus,
+        } = listForSell(itemsToList.value)
+        listForSellResults.blockNumber.value = listBlockNumber.value
+        listForSellResults.isLoading.value = isLoadingList.value
+        listForSellResults.status.value = listStatus.value
+      }
+    })
+
+    watchEffect(() => {
+      if (listForSellResults.isLoading.value === false) {
+        status.value = listForSellResults.status.value
+        isLoading.value = listForSellResults.isLoading.value
+        collectionUpdated.value = true
+        blockNumber.value = listForSellResults.blockNumber.value
+      }
+    })
+  })
+
+  return {
+    status,
+    isLoading,
+    collectionUpdated,
+    blockNumber,
+  }
+}
+
 export const mint = (nfts: NFTToMint[], collection: MintedCollection) => {
   const { blockNumber, transaction, isLoading, status } = useTransaction()
   const collectionUpdated = ref(false)
-
   const { urlPrefix } = usePrefix()
 
   const tokens: TokenToMint[] = nfts.map((nft) => ({
@@ -202,47 +276,37 @@ export const mint = (nfts: NFTToMint[], collection: MintedCollection) => {
     postfix: true,
     tags: [],
   }))
+  const willItList = tokens.some(
+    (token) => token.price && Number(token.price) > 0
+  )
+  const isBsx = urlPrefix.value === 'bsx' || urlPrefix.value === 'snek'
 
-  const kusamaMintAndList = async () => {
-    const { createdNFTs } = (await transaction({
-      interaction: Interaction.MINTNFT,
-      urlPrefix: usePrefix().urlPrefix.value,
-      token: tokens,
-    })) as {
-      createdNFTs: Ref<CreatedNFT[]>
+  if (willItList) {
+    if (isBsx) {
+      transaction({
+        interaction: Interaction.MINTNFT,
+        urlPrefix: urlPrefix.value,
+        token: tokens,
+      })
+      const collectionUpdatedTemp = subscribeToCollectionUpdates(collection.id)
+      watch(collectionUpdatedTemp, (isDone) => {
+        collectionUpdated.value = isDone
+      })
+    } else {
+      // kusama
+      const mintAndListResults = kusamaMintAndList(tokens)
+      watch(mintAndListResults.collectionUpdated, (isDone) => {
+        collectionUpdated.value = isDone
+        isLoading.value = mintAndListResults.isLoading.value
+        status.value = mintAndListResults.status.value
+        blockNumber.value = mintAndListResults.blockNumber.value
+      })
     }
-    const itemsToList = ref<TokenToList[]>()
-    const listForSellResults = ref<{
-      isLoading: Ref<boolean>
-      status: Ref<string>
-    }>()
-
-    watch([blockNumber, createdNFTs], () => {
-      if (blockNumber.value && createdNFTs.value && !itemsToList.value) {
-        itemsToList.value = getListForSellItems(
-          createdNFTs.value,
-          tokens,
-          blockNumber.value
-        )
-        listForSellResults.value = listForSell(itemsToList.value)
-      }
-    })
-    watchEffect(() => {
-      if (listForSellResults.value) {
-        status.value = listForSellResults.value.status.value
-        isLoading.value = listForSellResults.value.isLoading.value
-
-        if (listForSellResults.value.isLoading.value === false) {
-          collectionUpdated.value = true
-        }
-      }
-    })
-  }
-
-  if (urlPrefix.value === 'bsx' || urlPrefix.value === 'snek') {
+  } else {
+    //nothing to list, just mint
     transaction({
       interaction: Interaction.MINTNFT,
-      urlPrefix: usePrefix().urlPrefix.value,
+      urlPrefix: urlPrefix.value,
       token: tokens,
     })
     const collectionUpdatedTemp = subscribeToCollectionUpdates(collection.id)
@@ -250,11 +314,6 @@ export const mint = (nfts: NFTToMint[], collection: MintedCollection) => {
       collectionUpdated.value = isDone
     })
   }
-
-  if (urlPrefix.value === 'ksm' || urlPrefix.value === 'rmrk') {
-    kusamaMintAndList()
-  }
-
   return {
     blockNumber,
     isLoading,
