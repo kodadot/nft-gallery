@@ -48,15 +48,13 @@
 <script lang="ts">
 import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { exist } from './exist'
+import { exist } from '@/utils/exist'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { usePreferencesStore } from '@/stores/preferences'
 
 @Component({
   components: {
     Sort: () => import('./SearchSortDropdown.vue'),
-    TypeTagInput: () => import('./TypeTagInput.vue'),
-    Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   },
 })

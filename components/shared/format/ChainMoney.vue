@@ -1,26 +1,25 @@
 <template>
   <BasicMoney
     :value="value"
-    :unit="unit"
+    :unit="chainSymbol"
     :decimals="decimals"
     :inline="inline"
     :hide-unit="hideUnit" />
 </template>
 
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
+<script setup lang="ts">
 import BasicMoney from '@/components/shared/format/BasicMoney.vue'
-import ChainMixin from '@/utils/mixins/chainMixin'
 
-@Component({
-  components: {
-    BasicMoney,
-  },
-})
-export default class Money extends mixins(ChainMixin) {
-  @Prop({ default: '0' }) readonly value: number | string | undefined
+const { chainSymbol, decimals } = useChain()
 
-  @Prop(Boolean) readonly inline!: boolean
-  @Prop(Boolean) readonly hideUnit!: boolean
-}
+withDefaults(
+  defineProps<{
+    value: number | string | undefined
+    inline?: boolean
+    hideUnit?: boolean
+  }>(),
+  {
+    value: '0',
+  }
+)
 </script>
