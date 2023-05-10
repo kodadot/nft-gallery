@@ -98,9 +98,9 @@ import ReviewModal from './modals/ReviewModal.vue'
 import DeleteModal from './modals/DeleteModal.vue'
 import MintingModal from './modals/MintingModal.vue'
 import { FileObject } from './uploadCompressedMedia/useZipValidator'
-import { mint } from './useMassMint'
 import { MintedCollection } from '@/composables/transaction/types'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import { useMassMint } from './useMassMint'
 
 const preferencesStore = usePreferencesStore()
 const { $consola } = useNuxtApp()
@@ -164,7 +164,7 @@ const startMint = () => {
   mintModalOpen.value = true
   isMinting.value = true
 
-  const { isLoading, status, collectionUpdated } = mint(
+  const { isLoading, status, collectionUpdated } = useMassMint(
     Object.values(NFTS.value) as NFTToMint[],
     selectedCollection.value as MintedCollection
   )
