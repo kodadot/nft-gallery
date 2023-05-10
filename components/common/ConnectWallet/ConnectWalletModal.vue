@@ -81,8 +81,6 @@
 
 <script lang="ts" setup>
 import { SupportedWallets } from '@/utils/config/wallets'
-import { getRedirectToRmrk2HostnameWhitelist } from '@/utils/config/whitelist'
-import { toDefaultAddress } from '@/utils/account'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem'
@@ -135,13 +133,6 @@ watch(account, (account) => {
   localStorage.setItem('kodaauth', account)
   if (selectedWalletProvider.value) {
     localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
-  }
-  if (
-    getRedirectToRmrk2HostnameWhitelist().includes(toDefaultAddress(account)) &&
-    !location.hostname.startsWith('rmrk2.') &&
-    !location.hostname.startsWith('rmrk.')
-  ) {
-    window.open(`${location.protocol}//rmrk2.${location.host}`, '_self')
   }
 })
 
