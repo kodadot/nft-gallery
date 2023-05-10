@@ -68,6 +68,7 @@ export interface NFTMetadata extends Metadata, ItemResources {
   type?: string
   image_ar?: string
   properties?: Record<string, { value: string; type: string }>
+  unlockable?: boolean
 }
 
 export type CollectionMetadata = Metadata
@@ -173,6 +174,7 @@ export interface NFT extends ItemResources {
   royalty?: number
   recipient?: string
   meta?: NFTMetadata
+  parent?: NFT
 }
 
 export type EntityWithId = {

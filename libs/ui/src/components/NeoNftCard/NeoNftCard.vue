@@ -1,6 +1,14 @@
 <template>
   <div class="nft-card">
-    <nuxt-link :to="`/${prefix}/gallery/${nft.id}`">
+    <a
+      :href="`/${prefix}/gallery/${nft.id}${
+        unlockable ? '?unlockable=' + unlockable : ''
+      }`">
+      <img
+        v-if="unlockable && unloackableIcon"
+        class="unloackable-icon"
+        :src="unloackableIcon"
+        alt="Unlockable Icon" />
       <MediaItem
         :key="nft.image"
         class="nft-media"
@@ -9,51 +17,52 @@
         :mime-type="nft.mimeType"
         :placeholder="placeholder"
         :title="nft?.name" />
-    </nuxt-link>
-    <div
-      class="nft-media-info is-flex is-flex-direction-column"
-      :class="`nft-media-info__${variant}`">
-      <div class="is-flex is-flex-direction-column">
-        <span class="is-ellipsis has-text-weight-bold">{{
-          nft.name || '--'
-        }}</span>
-
-        <CollectionDetailsPopover
-          v-if="
-            variant !== 'minimal' && (nft.collection.name || nft.collection.id)
-          "
-          :show-delay="collectionPopoverShowDelay"
-          :nft="nft"
-          class="is-ellipsis">
-          <template #trigger>
-            <nuxt-link
-              :title="nft.collectionName || nft.collection.name"
-              :to="`/${prefix}/collection/${nft.collection.id}`"
-              class="is-size-7 nft-info-collection-name">
-              {{ nft.collection.name || '--' }}
-            </nuxt-link>
-          </template>
-        </CollectionDetailsPopover>
-      </div>
-
       <div
-        class="is-flex is-align-items-center mt-2 is-ellipsis nft-media-info-footer"
-        :class="[
-          showPrice
-            ? 'is-justify-content-space-between'
-            : 'is-justify-content-end',
-        ]">
-        <CommonTokenMoney
-          v-if="showPrice"
-          :value="nft.price"
-          data-cy="card-money" />
-        <span
-          v-if="variant !== 'minimal'"
-          class="chain-name is-capitalized is-size-7"
-          >{{ getChainNameByPrefix(prefix) }}</span
-        >
+        class="nft-media-info is-flex is-flex-direction-column"
+        :class="`nft-media-info__${variant}`">
+        <div class="is-flex is-flex-direction-column">
+          <span class="is-ellipsis has-text-weight-bold" data-cy="nft-name">{{
+            nft.name || '--'
+          }}</span>
+
+          <CollectionDetailsPopover
+            v-if="
+              variant !== 'minimal' &&
+              (nft.collection.name || nft.collection.id)
+            "
+            :show-delay="collectionPopoverShowDelay"
+            :nft="nft"
+            class="is-ellipsis">
+            <template #trigger>
+              <a
+                :title="nft.collectionName || nft.collection.name"
+                :href="`/${prefix}/collection/${nft.collection.id}`"
+                class="is-size-7 nft-info-collection-name">
+                {{ nft.collection.name || '--' }}
+              </a>
+            </template>
+          </CollectionDetailsPopover>
+        </div>
+
+        <div
+          class="is-flex is-align-items-center mt-2 is-ellipsis nft-media-info-footer"
+          :class="[
+            showPrice
+              ? 'is-justify-content-space-between'
+              : 'is-justify-content-end',
+          ]">
+          <CommonTokenMoney
+            v-if="showPrice"
+            :value="nft.price"
+            data-cy="card-money" />
+          <span
+            v-if="variant !== 'minimal'"
+            class="chain-name is-capitalized is-size-7"
+            >{{ getChainNameByPrefix(prefix) }}</span
+          >
+        </div>
       </div>
-    </div>
+    </a>
   </div>
 </template>
 
@@ -72,10 +81,13 @@ withDefaults(
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
     placeholder: string
+    unlockable?: boolean
+    unloackableIcon?: string
   }>(),
   {
     collectionPopoverShowDelay: 500,
     variant: 'primary',
+    unloackableIcon: undefined,
   }
 )
 </script>

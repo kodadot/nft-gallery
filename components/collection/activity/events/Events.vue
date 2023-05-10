@@ -5,7 +5,7 @@
         <div class="column">
           <span>{{ $t('activity.event.item') }}</span>
         </div>
-        <div class="column">
+        <div class="column is-1">
           <span>{{ $t('activity.event.event') }}</span>
         </div>
         <div class="column">
