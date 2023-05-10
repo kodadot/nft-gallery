@@ -1,9 +1,12 @@
-import type { ActionMintToken, MintedCollection, TokenToMint } from '../types'
+import type {
+  ActionMintToken,
+  ExecMintParams,
+  MintedCollection,
+  TokenToMint,
+} from '../types'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { constructMeta } from './constructMeta'
-import { ExecuteTransactionParams } from '@/composables/useTransaction'
 import { BaseMintedCollection } from '@/components/base/types'
-import { Ref } from 'vue'
 
 const prepareTokenMintArgs = async (
   token: TokenToMint,
@@ -37,6 +40,8 @@ const prepareTokenMintArgs = async (
 }
 
 const getArgs = async (item: ActionMintToken, api) => {
+  const { $consola } = useNuxtApp()
+
   const tokens = Array.isArray(item.token) ? item.token : [item.token]
 
   const arg = (
@@ -45,7 +50,9 @@ const getArgs = async (item: ActionMintToken, api) => {
         const { alreadyMinted, lastIndexUsed } =
           token.selectedCollection as MintedCollection
         const nextId = Math.max(lastIndexUsed, alreadyMinted) + i + 1
-        return prepareTokenMintArgs(token, api, nextId)
+        return prepareTokenMintArgs(token, api, nextId).catch((e) => {
+          $consola.error('Error:', e)
+        })
       })
     )
   ).flat()
@@ -53,13 +60,13 @@ const getArgs = async (item: ActionMintToken, api) => {
   return [arg]
 }
 
-export async function execMintBasilisk(
-  item: ActionMintToken,
+export async function execMintBasilisk({
+  item,
   api,
-  executeTransaction: (p: ExecuteTransactionParams) => void,
-  isLoading: Ref<boolean>,
-  status: Ref<string>
-) {
+  executeTransaction,
+  isLoading,
+  status,
+}: ExecMintParams) {
   const { $i18n } = useNuxtApp()
   isLoading.value = true
   status.value = 'loader.ipfs'

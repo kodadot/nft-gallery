@@ -159,6 +159,7 @@ const getListForSellItems = (
   tokens: TokenToMint[],
   blockNumber: string
 ) => {
+  const { $consola } = useNuxtApp()
   return createdNFTs
     .map((nft: CreatedNFT) => {
       const matchingToken = tokens.find(
@@ -168,7 +169,7 @@ const getListForSellItems = (
       )
 
       if (matchingToken === undefined) {
-        console.error('matching token not found', nft)
+        $consola.error('matching token not found', nft)
         return
       }
       if (matchingToken.price === undefined) {
@@ -264,6 +265,27 @@ export const mint = (nfts: NFTToMint[], collection: MintedCollection) => {
   const collectionUpdated = ref(false)
   const { urlPrefix } = usePrefix()
 
+  const simpleMint = () => {
+    transaction({
+      interaction: Interaction.MINTNFT,
+      urlPrefix: urlPrefix.value,
+      token: tokens,
+    })
+    const collectionUpdatedTemp = subscribeToCollectionUpdates(collection.id)
+    let watchTriggered = false
+
+    watch(collectionUpdatedTemp, (isDone) => {
+      watchTriggered = true
+      collectionUpdated.value = isDone
+    })
+
+    setTimeout(() => {
+      if (!watchTriggered) {
+        collectionUpdated.value = true
+      }
+    }, 10000)
+  }
+
   const tokens: TokenToMint[] = nfts.map((nft) => ({
     file: nft.file,
     name: nft.name,
@@ -283,15 +305,7 @@ export const mint = (nfts: NFTToMint[], collection: MintedCollection) => {
 
   if (willItList) {
     if (isBsx) {
-      transaction({
-        interaction: Interaction.MINTNFT,
-        urlPrefix: urlPrefix.value,
-        token: tokens,
-      })
-      const collectionUpdatedTemp = subscribeToCollectionUpdates(collection.id)
-      watch(collectionUpdatedTemp, (isDone) => {
-        collectionUpdated.value = isDone
-      })
+      simpleMint()
     } else {
       // kusama
       const mintAndListResults = kusamaMintAndList(tokens)
@@ -304,15 +318,7 @@ export const mint = (nfts: NFTToMint[], collection: MintedCollection) => {
     }
   } else {
     //nothing to list, just mint
-    transaction({
-      interaction: Interaction.MINTNFT,
-      urlPrefix: urlPrefix.value,
-      token: tokens,
-    })
-    const collectionUpdatedTemp = subscribeToCollectionUpdates(collection.id)
-    watch(collectionUpdatedTemp, (isDone) => {
-      collectionUpdated.value = isDone
-    })
+    simpleMint()
   }
   return {
     blockNumber,

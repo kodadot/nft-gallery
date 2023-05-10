@@ -3,6 +3,8 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { BaseTokenType } from '@/components/base/types'
 import { Royalty } from '@/utils/royalty'
+import { ExecuteTransactionParams } from '../useTransaction'
+import { Ref } from 'vue'
 
 export type BaseCollectionType = {
   name: string
@@ -135,3 +137,11 @@ export type Actions =
   | ActionWithdrawOffer
   | ActionMintToken
   | ActionMintCollection
+
+export interface ExecMintParams {
+  item: ActionMintToken
+  api: any
+  executeTransaction: (p: ExecuteTransactionParams) => void
+  isLoading: Ref<boolean>
+  status: Ref<string>
+}

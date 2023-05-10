@@ -10,10 +10,16 @@ export function execMintToken(
   status
 ) {
   if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
-    return execMintRmrk(item, api, executeTransaction, isLoading, status)
+    return execMintRmrk({ item, api, executeTransaction, isLoading, status })
   }
 
   if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
-    return execMintBasilisk(item, api, executeTransaction, isLoading, status)
+    return execMintBasilisk({
+      item,
+      api,
+      executeTransaction,
+      isLoading,
+      status,
+    })
   }
 }

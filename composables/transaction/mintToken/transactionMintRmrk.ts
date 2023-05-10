@@ -16,14 +16,12 @@ import {
 } from '@kodadot1/minimark/v2'
 
 import { basicUpdateFunction } from '@/components/unique/NftUtils'
-import { ExecuteTransactionParams } from '@/composables/useTransaction'
 import { usePreferencesStore } from '@/stores/preferences'
 import { Extrinsic, asSystemRemark } from '@kodadot1/minimark/common'
-import { ActionMintToken, TokenToMint } from '../types'
+import { ActionMintToken, ExecMintParams, TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { BaseMintedCollection } from '@/components/base/types'
-import { Ref } from 'vue'
 
 const processSingleTokenToMint = async (
   token: TokenToMint,
@@ -97,13 +95,14 @@ const processSingleTokenToMint = async (
 }
 
 const getArgs = async (item: ActionMintToken, api) => {
+  const { $consola } = useNuxtApp()
   const tokens = Array.isArray(item.token) ? item.token : [item.token]
 
   const argsAndNftsArray = (
     await Promise.all(
       tokens.map((token) => {
         return processSingleTokenToMint(token, api).catch((e) => {
-          console.log('Error:', e)
+          $consola.error('Error:', e)
         })
       })
     )
@@ -119,13 +118,13 @@ const getArgs = async (item: ActionMintToken, api) => {
   }
 }
 
-export async function execMintRmrk(
-  item: ActionMintToken,
+export async function execMintRmrk({
+  item,
   api,
-  executeTransaction: (p: ExecuteTransactionParams) => void,
-  isLoading: Ref<boolean>,
-  status: Ref<string>
-) {
+  executeTransaction,
+  isLoading,
+  status,
+}: ExecMintParams) {
   const { $i18n } = useNuxtApp()
   isLoading.value = true
   status.value = 'loader.ipfs'
