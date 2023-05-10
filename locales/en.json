@@ -432,6 +432,14 @@
         "placeholder": "3-5 character long name",
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
+      "logo": {
+        "label": "Collection logo",
+        "message": "This image will also be used for navigation. Image with size 300 x 300 recommended "
+      },
+      "banner": {
+        "label": "Collection banner",
+        "message": "Name of your collection. It will be visible in the gallery"
+      },
       "create": "Create collection",
       "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
     },
