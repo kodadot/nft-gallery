@@ -25,6 +25,13 @@ const curatedCollection = {
     // '2075be44ea4b9e422d-🐺', // WolfAngryClub
     // '7cf9daa38281a57331-BSS', // Spaceships (ClownWorldHouse)
   ],
+  ksm: [
+    '3629a3ff458d113e25-PUNK', // RMRK Punks
+    '3e6f301b0a0b1a0e4e-MRWH', // Mr Whitehole
+    '2644199cf3652aaa78-KK01', // Kusama Kings
+    'be15890524c6e9b359-WIZARD', // Manta Wizard
+    'e63e926f7db5997e5c-STGR', // STARGAZER
+  ],
 }
 
 type Collections = CarouselNFT & SomethingWithMeta
