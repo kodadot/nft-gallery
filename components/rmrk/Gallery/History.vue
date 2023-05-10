@@ -124,7 +124,7 @@ import { Debounce } from 'vue-debounce-decorator'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { formatDistanceToNow } from 'date-fns'
 
-import { exist } from '@/components/search/exist'
+import { exist } from '@/utils/exist'
 
 import ChainMixin from '@/utils/mixins/chainMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
