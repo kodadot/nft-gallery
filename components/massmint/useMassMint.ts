@@ -67,11 +67,11 @@ export const useCollectionForMint = () => {
     }
   }
 
-  doFetch()
+  void doFetch()
 
   watch(accountId, (newId, oldId) => {
     if (shouldUpdate(newId, oldId)) {
-      doFetch()
+      void doFetch()
     }
   })
 

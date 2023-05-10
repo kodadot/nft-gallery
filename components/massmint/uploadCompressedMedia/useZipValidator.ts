@@ -110,6 +110,8 @@ async function checkZipFileValidity(entries: {
 }
 
 export function useZipFileValidator(zipFilePath: string) {
+  const { $consola } = useNuxtApp()
+
   const validFiles = ref<FileObject[]>([])
   const warnings = ref<WarningObject[]>([])
   const loading = ref<boolean>(true)
@@ -130,7 +132,9 @@ export function useZipFileValidator(zipFilePath: string) {
     allValid.value = validFilesValue.length === totalFilesValue
   }
 
-  processZipFile()
+  processZipFile().catch((error) => {
+    $consola.error('Error processing zip file:', error)
+  })
 
   return { validFiles, warnings, loading, totalFiles, allValid }
 }
