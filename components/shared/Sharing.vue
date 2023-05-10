@@ -248,7 +248,7 @@ export default class Sharing extends Vue {
   }
 }
 
-.qr-basic button {
+.qr-basic > button {
   border: none !important;
   background-color: transparent !important;
 

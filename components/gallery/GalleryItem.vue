@@ -13,7 +13,7 @@
         <div class="is-relative">
           <!-- preview button -->
           <a
-            v-if="canPreview"
+            v-if="canPreview && !mediaItemRef?.isLewdBlurredLayer"
             class="fullscreen-button is-justify-content-center is-align-items-center"
             @click="isFullscreen = true">
             <NeoIcon icon="expand" />
@@ -41,6 +41,7 @@
           <MediaItem
             v-else
             :key="nftImage"
+            ref="mediaItemRef"
             :class="{
               'is-flex is-align-items-center is-justify-content-center h-audio':
                 resolveMedia(nftMimeType) == MediaType.AUDIO,
@@ -52,6 +53,7 @@
             :title="nftMetadata?.name"
             is-detail
             :original="isMobile"
+            :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder" />
         </div>
       </div>
@@ -123,7 +125,7 @@
 
     <div class="columns is-variable is-6 mt-5">
       <div class="column is-two-fifths">
-        <GalleryItemDescription />
+        <GalleryItemDescription ref="galleryDescriptionRef" />
       </div>
 
       <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
@@ -155,7 +157,7 @@ import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vu
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import GalleryItemPreviewer from './GalleryItemPreviewer.vue'
 
-import { exist } from '@/components/search/exist'
+import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
@@ -169,6 +171,8 @@ const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 const { placeholder } = useTheme()
+const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
+const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
   useGalleryItem()

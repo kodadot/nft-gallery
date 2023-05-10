@@ -37,7 +37,7 @@ export const CHAINS: Config<ChainProperties> = {
   stmn: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/'),
 }
 
-export const DEFAULT_PREFIX: Prefix = 'bsx'
+export const DEFAULT_PREFIX: Prefix = 'ksm'
 
 export const chainPrefixes: Prefix[] = [
   'bsx',
