@@ -141,6 +141,13 @@ const parent = computed(() => {
     return useGalleryItem(nft.value?.parent?.id)
   }
 })
+const isLewd = computed(() => {
+  return Boolean(properties.value?.find((item) => {
+    return item.trait_type === 'NSFW'
+  }))
+})
+
+defineExpose({ isLewd })
 
 const parentNftUrl = computed(() => {
   if (parent.value) {
