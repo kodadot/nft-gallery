@@ -11,8 +11,6 @@ import {
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import { Ref } from 'vue'
 import { toNFTId } from '../rmrk/service/scheme'
-import { min } from 'cypress/types/lodash'
-import { s } from 'vitest/dist/types-e3c9754d'
 
 export const statusTranslation = (status?: Status): string => {
   const { $i18n } = useNuxtApp()
@@ -139,13 +137,14 @@ const subscribeToCollectionUpdates = (collectionId: string) => {
 const listForSell = (mintedNFts: TokenToList[]) => {
   const { blockNumber, transaction, isLoading, status } = useTransaction()
   const { urlPrefix } = usePrefix()
+  const { $i18n } = useNuxtApp()
 
   transaction({
     interaction: Interaction.LIST,
     urlPrefix: urlPrefix.value,
     token: mintedNFts,
-    // successMessage: $i18n.t('transaction.price.success') as string,
-    // errorMessage: $i18n.t('transaction.price.error') as string,
+    successMessage: $i18n.t('transaction.price.success') as string,
+    errorMessage: $i18n.t('transaction.price.error') as string,
   })
   return {
     blockNumber,
@@ -165,7 +164,7 @@ const getListForSellItems = (
       const matchingToken = tokens.find(
         (token) =>
           token.name === nft?.name &&
-          token?.selectedCollection?.id === nft.collection
+          token.selectedCollection?.id === nft.collection
       )
 
       if (matchingToken === undefined) {
