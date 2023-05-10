@@ -122,18 +122,10 @@ export const useMassMint = (
       token: tokens,
     })
     const collectionUpdatedTemp = subscribeToCollectionUpdates(collection.id)
-    let watchTriggered = false
 
     watch(collectionUpdatedTemp, (isDone) => {
-      watchTriggered = true
       collectionUpdated.value = isDone
     })
-
-    setTimeout(() => {
-      if (!watchTriggered) {
-        collectionUpdated.value = true
-      }
-    }, 10000)
   }
 
   const willItList = tokens.some(
