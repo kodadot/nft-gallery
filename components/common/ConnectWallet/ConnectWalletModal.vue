@@ -81,8 +81,6 @@
 
 <script setup lang="ts">
 import { SupportedWallets } from '@/utils/config/wallets'
-import { getRedirectToRmrk2HostnameWhitelist } from '@/utils/config/whitelist'
-import { toDefaultAddress } from '@/utils/account'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { Auth, useIdentityStore } from '@/stores/identity'
@@ -119,15 +117,6 @@ const setAccount = (account: Auth) => {
   if (selectedWalletProvider.value) {
     localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
   }
-  if (
-    getRedirectToRmrk2HostnameWhitelist().includes(
-      toDefaultAddress(account.address)
-    ) &&
-    !location.hostname.startsWith('rmrk2.') &&
-    !location.hostname.startsWith('rmrk.')
-  ) {
-    window.open(`${location.protocol}//rmrk2.${location.host}`, '_self')
-  }
 }
 const setUserAuthValue = () => {
   hasUserWalletAuth.value = true
@@ -148,4 +137,8 @@ const emit = defineEmits(['close'])
 const toggleShowUninstalledWallet = () => {
   showUninstalledWallet.value = !showUninstalledWallet.value
 }
+
+watch(account, (account) => {
+  setAccount({ address: account })
+})
 </script>

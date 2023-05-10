@@ -3,6 +3,7 @@
     class="neo-modal"
     scroll="clip"
     :active.sync="isModalActive"
+    :can-cancel="canCancel"
     @close="updateClose">
     <slot />
   </o-modal>
@@ -11,9 +12,15 @@
 <script lang="ts" setup>
 import { OModal } from '@oruga-ui/oruga'
 
-const props = defineProps<{
-  value: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    value: boolean
+    canCancel?: string[] | boolean
+  }>(),
+  {
+    canCancel: true,
+  }
+)
 
 const emit = defineEmits(['close'])
 

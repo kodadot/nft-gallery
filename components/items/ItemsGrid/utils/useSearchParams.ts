@@ -80,6 +80,14 @@ function useSearchByCollections() {
             },
           },
         ]
+      } else if (route.query.collectionId) {
+        return [
+          {
+            collection: {
+              id_eq: route.query.collectionId,
+            },
+          },
+        ]
       }
       return []
     }),

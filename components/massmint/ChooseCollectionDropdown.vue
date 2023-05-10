@@ -58,12 +58,13 @@ import {
   NeoDropdownItem,
   NeoIcon,
 } from '@kodadot1/brick'
-import { MintedCollection, useMassMint } from './useMassMint'
+import { MintedCollection } from './types'
+import { useCollectionForMint } from './useMassMint'
 
 const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
 
-const { collectionsEntites } = useMassMint()
+const { collectionsEntites } = useCollectionForMint()
 const isDropdownopen = ref(false)
 const selectedCollection = ref<MintedCollection>()
 const emit = defineEmits(['selectedCollection'])
