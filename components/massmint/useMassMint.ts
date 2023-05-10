@@ -61,21 +61,18 @@ export const useCollectionForMint = () => {
     collections.value = collectionEntities
   }
 
-  doFetch().catch((error) => {
-    $consola.error(
-      `Error fetching collections for account ${accountId.value}:`,
-      error
-    )
-  })
+  const doFetchWithErrorHandling = () =>
+    doFetch().catch((error) => {
+      $consola.error(
+        `Error fetching collections for account ${accountId.value}:`,
+        error
+      )
+    })
+  doFetchWithErrorHandling()
 
   watch(accountId, (newId, oldId) => {
     if (shouldUpdate(newId, oldId)) {
-      doFetch().catch((error) => {
-        $consola.error(
-          `Error fetching collections for account ${accountId.value}:`,
-          error
-        )
-      })
+      doFetchWithErrorHandling()
     }
   })
 
