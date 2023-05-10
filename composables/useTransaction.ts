@@ -28,12 +28,20 @@ import type {
   Actions,
 } from './transaction/types'
 import { execMintCollection } from './transaction/transactionMintCollection'
+import { Ref } from 'vue'
 
 export type ExecuteTransactionParams = {
   cb: (...params: any[]) => Extrinsic
   arg: any[]
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
+}
+export interface MintTokenParams {
+  item: ActionMintToken
+  api: any
+  executeTransaction: (p: ExecuteTransactionParams) => void
+  isLoading: Ref<boolean>
+  status: Ref<string>
 }
 
 const resolveSuccessMessage = (
@@ -106,13 +114,13 @@ export const useTransaction = () => {
       [ShoppingActions.ACCEPT_OFFER]: () =>
         execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
       [ShoppingActions.MINTNFT]: () =>
-        execMintToken(
-          item as ActionMintToken,
+        execMintToken({
+          item: item as ActionMintToken,
           api,
           executeTransaction,
           isLoading,
-          status
-        ),
+          status,
+        }),
       [ShoppingActions.MINT]: () =>
         execMintCollection(
           item as ActionMintCollection,

@@ -102,6 +102,19 @@ export const useMassMint = (
   const collectionUpdated = ref(false)
   const { urlPrefix } = usePrefix()
 
+  const tokens: TokenToMint[] = nfts.map((nft) => ({
+    file: nft.file,
+    name: nft.name,
+    description: nft.description || '',
+    edition: 1,
+    secondFile: null,
+    selectedCollection: collection,
+    price: nft.price === undefined ? 0 : nft.price * Math.pow(10, 12),
+    nsfw: false,
+    postfix: true,
+    tags: [],
+  }))
+
   const simpleMint = () => {
     transaction({
       interaction: Interaction.MINTNFT,
@@ -123,18 +136,6 @@ export const useMassMint = (
     }, 10000)
   }
 
-  const tokens: TokenToMint[] = nfts.map((nft) => ({
-    file: nft.file,
-    name: nft.name,
-    description: nft.description || '',
-    edition: 1,
-    secondFile: null,
-    selectedCollection: collection,
-    price: nft.price === undefined ? 0 : nft.price * Math.pow(10, 12),
-    nsfw: false,
-    postfix: true,
-    tags: [],
-  }))
   const willItList = tokens.some(
     (token) => token.price && Number(token.price) > 0
   )

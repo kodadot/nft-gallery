@@ -137,11 +137,3 @@ export type Actions =
   | ActionWithdrawOffer
   | ActionMintToken
   | ActionMintCollection
-
-export interface MintTokenParams {
-  item: ActionMintToken
-  api: any
-  executeTransaction: (p: ExecuteTransactionParams) => void
-  isLoading: Ref<boolean>
-  status: Ref<string>
-}

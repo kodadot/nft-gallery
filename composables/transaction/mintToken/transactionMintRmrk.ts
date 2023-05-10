@@ -18,10 +18,11 @@ import {
 import { basicUpdateFunction } from '@/components/unique/NftUtils'
 import { usePreferencesStore } from '@/stores/preferences'
 import { Extrinsic, asSystemRemark } from '@kodadot1/minimark/common'
-import { ActionMintToken, MintTokenParams, TokenToMint } from '../types'
+import { ActionMintToken, TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { BaseMintedCollection } from '@/components/base/types'
+import { MintTokenParams } from '@/composables/useTransaction'
 
 const processSingleTokenToMint = async (
   token: TokenToMint,

@@ -1,6 +1,6 @@
 import { execMintRmrk } from './mintToken/transactionMintRmrk'
 import { execMintBasilisk } from './mintToken/transactionMintBasilisk'
-import { MintTokenParams } from './types'
+import { MintTokenParams } from '../useTransaction'
 
 export function execMintToken({
   item,

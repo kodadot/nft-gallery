@@ -73,14 +73,14 @@ export const getListForSellItems = (
 
       if (matchingToken === undefined) {
         $consola.error('matching token not found', nft)
-        return
+        return undefined
       }
       if (matchingToken.price === undefined) {
-        return
+        return undefined
       }
       const nftId = toNFTId(nft, blockNumber)
       if (nftId === undefined) {
-        return
+        return undefined
       }
       return {
         nftId,
