@@ -1,8 +1,7 @@
 import { ENDPOINTS } from '@kodadot1/vuex-options'
 import { ENDPOINT_MAP } from '@kodadot1/static'
 import { chainList } from '@kodadot1/static'
-
-// import type { Option } from '@kodadot1/vuex-options'
+import type { Option } from '@kodadot1/static'
 
 const prefixes: Record<string, number> = {
   polkadot: 0,
@@ -96,7 +95,7 @@ export const disableChainListOnBetaEnv = [
   'snek',
 ]
 
-export const availablePrefixes = (): any[] => {
+export const availablePrefixes = (): Option[] => {
   const chains = chainList()
 
   if (isProduction || isBeta) {
