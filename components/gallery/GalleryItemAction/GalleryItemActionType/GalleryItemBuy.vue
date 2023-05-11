@@ -200,11 +200,11 @@ const handleBuy = async () => {
       successMessage: $i18n.t('mint.successNewNfts'),
       errorMessage: $i18n.t('transaction.buy.error'),
     })
-  } catch (error) {
-    warningMessage(error)
-  } finally {
+
     showNotification(`[${actionLabel}] ${itemId}`, notificationTypes.success)
     emit('buy-success')
+  } catch (error) {
+    warningMessage(error)
   }
 }
 
