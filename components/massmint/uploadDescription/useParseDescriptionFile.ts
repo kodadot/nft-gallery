@@ -52,22 +52,22 @@ const readFileAndExtractEntries = async (
 }
 
 export const useParseDescriptionFile = (file: File) => {
+  const { $consola } = useNuxtApp()
   const entries = ref<{ [key: string]: Entry } | undefined>(undefined)
   const loading = ref<boolean>(false)
   const error = ref<Error | undefined>(undefined)
 
   const parseDescriptionFile = async (file: File) => {
     loading.value = true
-    try {
-      entries.value = await readFileAndExtractEntries(file)
-    } catch (e) {
-      error.value = e as Error
-    } finally {
-      loading.value = false
-    }
+    entries.value = await readFileAndExtractEntries(file)
+    loading.value = false
   }
 
-  parseDescriptionFile(file)
+  parseDescriptionFile(file).catch((e) => {
+    $consola.error('Error parsing description file', e)
+    error.value = e as Error
+    loading.value = false
+  })
 
   return {
     entries,
