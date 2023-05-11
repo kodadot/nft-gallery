@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import NFTUtils, { NFTAction } from '@/components/unique/NftUtils'
-import nftById from '@/queries/nftById.graphql'
+import nftById from '@/queries/subsquid/general/nftById.graphql'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'

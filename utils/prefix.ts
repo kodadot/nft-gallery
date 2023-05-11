@@ -20,20 +20,6 @@ export function isRemark(prefix: string): boolean {
   return prefix === 'rmrk'
 }
 
-export function getSupportedClient(prefix: string): 'subquery' | 'subsquid' {
-  switch (prefix) {
-    case 'statemine':
-    case 'westmint':
-    case 'rmrk':
-      return 'subquery'
-    case 'bsx':
-    case 'snek':
-      return 'subsquid'
-    default:
-      return 'subsquid'
-  }
-}
-
 export function prefixBuildOnText(prefix: string): string {
   switch (prefix) {
     case 'bsx':

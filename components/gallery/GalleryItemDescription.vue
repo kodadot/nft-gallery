@@ -142,9 +142,11 @@ const parent = computed(() => {
   }
 })
 const isLewd = computed(() => {
-  return Boolean(properties.value?.find((item) => {
-    return item.trait_type === 'NSFW'
-  }))
+  return Boolean(
+    properties.value?.find((item) => {
+      return item.trait_type === 'NSFW'
+    })
+  )
 })
 
 defineExpose({ isLewd })
