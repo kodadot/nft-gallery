@@ -5,7 +5,7 @@
       <BreadcrumbsFilter />
 
       <div v-if="total">{{ total }} {{ $t('items') }}</div>
-      <div v-else-if="isLoading" class="skeleton-fixed-width">
+      <div v-else-if="isLoading" class="skeleton-container-fixed-width">
         <NeoSkeleton no-margin />
       </div>
     </div>
@@ -174,7 +174,7 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-.skeleton-fixed-width {
+.skeleton-container-fixed-width {
   width: 80px;
 }
 </style>
