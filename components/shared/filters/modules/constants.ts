@@ -23,6 +23,8 @@ export const POPULAR_COLLECTIONS = {
     '702baf9434daae9f53-INKPIONEERS1', //ink! Pioneers Collection 1
     'a0c4801b6dbf04c674-P1Z70', //420 Kusama Club
     '3629a3ff458d113e25-PUNK', //RMRK Punks
+    '3a4100ce6c6ae0292c-KDGN', // Kusama Dragons
+    '7e982817a2d2575031-C6N4I', // Ku*
   ],
   bsx: [
     '1865909717', //Berliner
