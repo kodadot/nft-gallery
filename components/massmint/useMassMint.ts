@@ -27,7 +27,7 @@ export const statusClass = (status?: Status) => {
   return status ? statusMap[status] : ''
 }
 
-export const useMassMint = () => {
+export const useCollectionForMint = () => {
   const collectionsEntites = ref<MintedCollection[]>()
   const collections = ref()
   const { $consola, $apollo } = useNuxtApp()
@@ -42,6 +42,7 @@ export const useMassMint = () => {
     if (!isLogIn.value) {
       return
     }
+
     const prefix = queryPath[urlPrefix.value] || urlPrefix.value
     const query = await resolveQueryPath(prefix, 'collectionForMint')
     const data = await $apollo.query({
@@ -60,11 +61,18 @@ export const useMassMint = () => {
     collections.value = collectionEntities
   }
 
-  doFetch()
+  const doFetchWithErrorHandling = () =>
+    doFetch().catch((error) => {
+      $consola.error(
+        `Error fetching collections for account ${accountId.value}:`,
+        error
+      )
+    })
+  doFetchWithErrorHandling()
 
   watch(accountId, (newId, oldId) => {
     if (shouldUpdate(newId, oldId)) {
-      doFetch()
+      doFetchWithErrorHandling()
     }
   })
 
