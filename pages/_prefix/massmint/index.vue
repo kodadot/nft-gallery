@@ -25,6 +25,9 @@ export default class MassmintPage extends Vue {
       meta: [...this.$seoMeta(metaData)],
     }
   }
+  layout() {
+    return 'noFooter'
+  }
   middleware({ store, redirect }) {
     const prefix = store.getters.currentUrlPrefix
 

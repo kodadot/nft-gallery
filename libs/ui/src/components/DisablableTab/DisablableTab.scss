@@ -4,10 +4,11 @@
   &--disabled {
     // overide o-tabs-item
     cursor: auto !important;
-    pointer-events: all !important;
     opacity: unset !important;
     // mimick opacity (opacity prevents hover form triggering tooltip)
-
+    .neo-tooltip {
+      pointer-events: all;
+    }
     @include ktheme() {
       color: rgba($color: theme('text-color'), $alpha: 0.5) !important;
     }
