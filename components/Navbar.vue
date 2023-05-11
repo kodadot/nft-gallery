@@ -67,6 +67,13 @@
         :is-mobile="isMobile"
         :chain="urlPrefix" />
 
+      <!-- commenting as part of #5889-->
+      <!-- <StatsDropdown
+        class="navbar-stats custom-navbar-item"
+        data-cy="stats"
+        :is-mobile="isMobile"
+        :chain="urlPrefix" /> -->
+
       <ChainSelectDropdown
         v-if="!isMobile"
         id="NavChainSelect"
@@ -146,6 +153,7 @@ import ColorModeButton from '~/components/common/ColorModeButton.vue'
 import MobileLanguageOption from '~/components/navbar/MobileLanguageOption.vue'
 import { createVisible } from '@/utils/config/permision.config'
 import ChainSelectDropdown from '~/components/navbar/ChainSelectDropdown.vue'
+import StatsDropdown from '~/components/navbar/StatsDropdown.vue'
 import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
 import ConnectWalletButton from '~/components/shared/ConnectWalletButton.vue'
 import NotificationBoxButton from '~/components/navbar/NotificationBoxButton.vue'
