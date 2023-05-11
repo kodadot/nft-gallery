@@ -1,6 +1,14 @@
 <template>
   <div class="nft-card">
-    <a :href="`/${prefix}/gallery/${nft.id}`">
+    <a
+      :href="`/${prefix}/gallery/${nft.id}${
+        unlockable ? '?unlockable=' + unlockable : ''
+      }`">
+      <img
+        v-if="unlockable && unloackableIcon"
+        class="unloackable-icon"
+        :src="unloackableIcon"
+        alt="Unlockable Icon" />
       <MediaItem
         :key="nft.image"
         class="nft-media"
@@ -73,10 +81,13 @@ withDefaults(
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
     placeholder: string
+    unlockable?: boolean
+    unloackableIcon?: string
   }>(),
   {
     collectionPopoverShowDelay: 500,
     variant: 'primary',
+    unloackableIcon: undefined,
   }
 )
 </script>

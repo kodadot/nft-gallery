@@ -78,7 +78,7 @@ import {
   mixins,
 } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { exist, existArray } from './exist'
+import { exist, existArray } from '@/utils/exist'
 import { SearchQuery } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
@@ -87,6 +87,7 @@ import ChainMixin from '~/utils/mixins/chainMixin'
 import { usePreferencesStore } from '@/stores/preferences'
 import { NeoField } from '@kodadot1/brick'
 
+import { useCollectionSearch } from '@/components/search/utils/useCollectionSearch'
 const SearchPageRoutePathList = ['collectibles', 'items']
 
 @Component({
@@ -329,7 +330,8 @@ export default class Search extends mixins(
   }
 
   redirectToGalleryPageIfNeed(params?: Record<string, string>) {
-    if (!this.isExplorePage) {
+    const { isCollectionSearchMode } = useCollectionSearch()
+    if (!this.isExplorePage && !isCollectionSearchMode.value) {
       this.$router.push({
         path: `/${this.urlPrefix}/explore/items`,
         query: {
