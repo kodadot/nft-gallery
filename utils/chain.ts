@@ -1,7 +1,6 @@
-import { ENDPOINTS } from '@kodadot1/vuex-options'
-import { ENDPOINT_MAP } from '@kodadot1/static'
-import { chainList } from '@kodadot1/static'
 import type { Option } from '@kodadot1/static'
+import { ENDPOINT_MAP, chainList } from '@kodadot1/static'
+import { ENDPOINTS } from '@kodadot1/vuex-options'
 
 const prefixes: Record<string, number> = {
   polkadot: 0,
