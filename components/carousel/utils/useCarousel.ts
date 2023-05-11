@@ -39,7 +39,7 @@ const nftEventVariables = {
   },
 }
 
-const disableChainsOnProduction = ['snek', 'ksm']
+const disableChainsOnProduction = ['snek']
 const disableChainsOnBeta = ['snek']
 
 const useChainEvents = (chain, type) => {
