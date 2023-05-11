@@ -16,8 +16,8 @@
     </template>
     <div v-if="collections.length > 0" class="p-4">
       <o-field
-        v-for="collection in collections"
-        :key="collection.id"
+        v-for="(collection, index) in collections"
+        :key="`${collection.id}-${textOverflowData[index].isCut}`"
         class="mb-2">
         <NeoCheckbox
           :value="checkedCollections.includes(collection.id)"
@@ -31,11 +31,13 @@
               class="image is-32x32 border mr-2" />
             <div
               class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
+              {{ textOverflowData[index].isCut }}
               <NeoTooltip
+                :active="textOverflowData[index].isCut"
                 :label="collection.meta.name || collection.id"
                 :append-to-body="false"
                 :delay="1000">
-                <div class="is-ellipsis">
+                <div :ref="assignRefAndUpdate" class="is-ellipsis">
                   {{ collection.meta.name || collection.id }}
                 </div>
               </NeoTooltip>
@@ -62,6 +64,7 @@ import { Collection, usePopularCollections } from './usePopularCollections'
 import { OField } from '@oruga-ui/oruga'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getCollectionIds } from '@/utils/queryParams'
+import { useTextOverflow } from '@/composables/useTextOverflow'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
@@ -75,6 +78,33 @@ const { collections } = usePopularCollections(urlPrefix.value)
 const getChainName = (chain: string): string => {
   return availableChains.value.find((item) => item.value === chain)?.text || ''
 }
+const { textOverflowData, assignRefAndUpdate } = useTextOverflow()
+// const ellipsisDivs = ref<HTMLDivElement[]>([])
+// const isTextCutShort = ref<boolean[]>([])
+
+// const assignRefAndUpdate = (el: HTMLDivElement | null, index: number) => {
+//   if (el) {
+//     ellipsisDivs.value[index] = el
+//     nextTick(() => {
+//       updateIsTextCutShort(index)
+//     })
+//   }
+// }
+
+// const updateIsTextCutShort = (index: number) => {
+//   const div = ellipsisDivs.value[index]
+//   if (div) {
+//     console.log('div.scrollWidth', div.scrollWidth)
+//     console.log('div.clientWidth', div.clientWidth)
+//     console.log('div.scrollWidth > div.clientWidth', div.scrollWidth > div.clientWidth)
+//     isTextCutShort.value[index] = div.scrollWidth > div.clientWidth
+//   }
+// }
+
+// watch(collections, () => {
+//   ellipsisDivs.value = Array(collections.value.length).fill(null)
+//   isTextCutShort.value = Array(collections.value.length).fill(false)
+// })
 
 type DataModel = 'query' | 'store'
 
