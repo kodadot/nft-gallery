@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import shouldUpdate from '@/utils/shouldUpdate'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import nftSimpleListByAccount from '@/queries/nftSimpleListByAccount.graphql'
@@ -40,10 +40,10 @@ export default class SpotlightDetail extends mixins(PrefixMixin) {
     })
 
     const {
-      data: { nFTEntities },
+      data: { nftEntities },
     } = nfts
 
-    this.nfts = nFTEntities?.nodes || []
+    this.nfts = nftEntities || []
   }
 
   @Watch('account', { immediate: true })
