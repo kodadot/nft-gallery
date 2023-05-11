@@ -1,9 +1,6 @@
 <template>
   <div class="nft-card">
-    <a
-      :href="`/${prefix}/gallery/${nft.id}${
-        unlockable ? '?unlockable=' + unlockable : ''
-      }`">
+    <component :is="link" :[bindKey]="`/${prefix}/gallery/${nft.id}`">
       <img
         v-if="unlockable && unloackableIcon"
         class="unloackable-icon"
@@ -62,7 +59,7 @@
           >
         </div>
       </div>
-    </a>
+    </component>
   </div>
 </template>
 
@@ -83,11 +80,15 @@ withDefaults(
     placeholder: string
     unlockable?: boolean
     unloackableIcon?: string
+    link?: string
+    bindKey?: string
   }>(),
   {
     collectionPopoverShowDelay: 500,
     variant: 'primary',
     unloackableIcon: undefined,
+    link: 'a',
+    bindKey: 'href',
   }
 )
 </script>
