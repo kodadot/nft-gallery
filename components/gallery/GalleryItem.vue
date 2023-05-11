@@ -11,14 +11,37 @@
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths">
         <div class="is-relative">
+          <!-- preview button -->
           <a
-            v-if="canPreview"
+            v-if="canPreview && !mediaItemRef?.isLewdBlurredLayer"
             class="fullscreen-button is-justify-content-center is-align-items-center"
             @click="isFullscreen = true">
             <NeoIcon icon="expand" />
           </a>
+
+          <!-- media item -->
+          <div v-if="hasResources" class="gallery-item-carousel">
+            <o-carousel
+              v-model="activeCarousel"
+              indicators-class="mt-4"
+              indicator-item-class="mx-1">
+              <o-carousel-item
+                v-for="resource in nftResources"
+                :key="resource.id">
+                <section>
+                  <MediaItem
+                    :key="resource.src"
+                    :src="resource.src"
+                    is-detail
+                    :original="isMobile" />
+                </section>
+              </o-carousel-item>
+            </o-carousel>
+          </div>
           <MediaItem
+            v-else
             :key="nftImage"
+            ref="mediaItemRef"
             :class="{
               'is-flex is-align-items-center is-justify-content-center h-audio':
                 resolveMedia(nftMimeType) == MediaType.AUDIO,
@@ -30,9 +53,11 @@
             :title="nftMetadata?.name"
             is-detail
             :original="isMobile"
+            :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder" />
         </div>
       </div>
+
       <div class="py-8 column">
         <div
           class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
@@ -81,16 +106,26 @@
 
           <!-- LINE DIVIDER -->
           <hr />
+          <UnlockableTag
+            v-if="isUnlockable && isMobile"
+            :nft="nft"
+            :link="unlockLink"
+            class="mt-4" />
 
           <!-- price section -->
           <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
+          <UnlockableTag
+            v-if="isUnlockable && !isMobile"
+            :link="unlockLink"
+            :nft="nft"
+            class="mt-7" />
         </div>
       </div>
     </div>
 
     <div class="columns is-variable is-6 mt-5">
       <div class="column is-two-fifths">
-        <GalleryItemDescription />
+        <GalleryItemDescription ref="galleryDescriptionRef" />
       </div>
 
       <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
@@ -105,11 +140,13 @@
       data-cy="carousel-related" />
 
     <CarouselTypeVisited class="mt-8" />
-    <GalleryItemPreviewer v-model="isFullscreen" />
+
+    <GalleryItemPreviewer v-model="isFullscreen" :item-src="previewItemSrc" />
   </section>
 </template>
 
 <script setup lang="ts">
+import { OCarousel, OCarouselItem } from '@oruga-ui/oruga'
 import { IdentityItem, MediaItem, NeoIcon } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
@@ -120,23 +157,29 @@ import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vu
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import GalleryItemPreviewer from './GalleryItemPreviewer.vue'
 
-import { exist } from '@/components/search/exist'
+import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
+import UnlockableTag from './UnlockableTag.vue'
+import { useWindowSize } from '@vueuse/core'
 
 const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 const { placeholder } = useTheme()
+const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
+const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 
-const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType } =
+const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
   useGalleryItem()
 const collection = computed(() => nft.value?.collection)
-const isMobile = ref(window.innerWidth < 768)
+
+const breakPointWidth = 930
+const isMobile = computed(() => useWindowSize().width.value < breakPointWidth)
 
 const tabs = {
   offers: '0',
@@ -151,6 +194,19 @@ const canPreview = computed(() =>
   [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
     resolveMedia(nftMimeType.value)
   )
+)
+
+const activeCarousel = ref(0)
+const activeCarouselImage = computed(() => {
+  const resource = nftResources.value?.[activeCarousel.value]
+  return resource?.src || 'placeholder.webp'
+})
+const hasResources = computed(
+  () => nftResources.value && nftResources.value?.length > 1
+)
+
+const previewItemSrc = computed(
+  () => (hasResources.value && activeCarouselImage.value) || nftImage.value
 )
 
 const onNFTBought = () => {
@@ -176,6 +232,8 @@ onMounted(() => {
     router.replace({ query: {} })
   })
 })
+
+const { isUnlockable, unlockLink } = useUnlockable(collection)
 
 const title = computed(() => nftMetadata.value?.name || '')
 const meta = computed(() => {
@@ -267,5 +325,36 @@ $break-point-width: 930px;
 
 .h-audio {
   height: 70%;
+}
+
+.gallery-item-carousel {
+  :deep .o-car {
+    &__item {
+      overflow: hidden;
+    }
+
+    &__overlay {
+      @include ktheme() {
+        background: theme('background-color');
+      }
+    }
+
+    &__indicator {
+      &__item {
+        @include ktheme() {
+          background: theme('background-color-inverse');
+          border: theme('background-color-inverse');
+        }
+        border-radius: 50%;
+
+        &--active {
+          @include ktheme() {
+            background: theme('k-primary');
+            border: theme('k-primary');
+          }
+        }
+      }
+    }
+  }
 }
 </style>
