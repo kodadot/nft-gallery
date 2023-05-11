@@ -1,7 +1,8 @@
 import { ENDPOINTS } from '@kodadot1/vuex-options'
+import { ENDPOINT_MAP } from '@kodadot1/static'
 import { chainList } from '@kodadot1/static'
 
-import type { Option } from '@kodadot1/static'
+// import type { Option } from '@kodadot1/vuex-options'
 
 const prefixes: Record<string, number> = {
   polkadot: 0,
@@ -71,11 +72,9 @@ export const getChainPrefixByUrl = (url: string): string | undefined => {
 }
 
 export const getChainEndpointByPrefix = (prefix: string) => {
-  const endpoint = ENDPOINTS.find((node) => {
-    return node.info === prefix
-  })
+  const endpoint: string | undefined = ENDPOINT_MAP[prefix]
 
-  return endpoint?.value
+  return endpoint
 }
 
 export const getChainNameByPrefix = (prefix: string) => {
@@ -97,7 +96,7 @@ export const disableChainListOnBetaEnv = [
   'snek',
 ]
 
-export const availablePrefixes = (): Option[] => {
+export const availablePrefixes = (): any[] => {
   const chains = chainList()
 
   if (isProduction || isBeta) {
