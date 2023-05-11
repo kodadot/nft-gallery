@@ -50,7 +50,7 @@ export const uniqueParamResolver = (
     SEND: [collectionId, tokenId, meta],
     CONSUME: [collectionId, tokenId, currentOwner],
     BUY: [collectionId, tokenId, meta],
-    LIST: [collectionId, tokenId, meta, ''],
+    LIST: [collectionId, tokenId, meta, undefined],
   }
 
   return actions[selectedAction]
