@@ -1,8 +1,31 @@
 import { CreatedNFT, Interaction } from '@kodadot1/minimark/v1'
-import { TokenToList, TokenToMint } from '@/composables/transaction/types'
+import {
+  MintedCollection,
+  TokenToList,
+  TokenToMint,
+} from '@/composables/transaction/types'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import { Ref } from 'vue'
 import { toNFTId } from '../rmrk/service/scheme'
+import { NFTToMint } from './types'
+
+export const createTokensToMint = (
+  nfts: NFTToMint[],
+  collection: MintedCollection
+): TokenToMint[] => {
+  return nfts.map((nft) => ({
+    file: nft.file,
+    name: nft.name,
+    description: nft.description || '',
+    edition: 1,
+    secondFile: null,
+    selectedCollection: collection,
+    price: nft.price === undefined ? 0 : nft.price * Math.pow(10, 12),
+    nsfw: false,
+    postfix: true,
+    tags: [],
+  }))
+}
 export const subscribeToCollectionUpdates = (collectionId: string) => {
   const collectionUpdated = ref(false)
   const numOfNftsInCollections = ref<number>()

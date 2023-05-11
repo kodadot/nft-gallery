@@ -3,8 +3,9 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { NFTToMint, Status } from './types'
 import { Interaction } from '@kodadot1/minimark/v1'
-import { MintedCollection, TokenToMint } from '@/composables/transaction/types'
+import { MintedCollection } from '@/composables/transaction/types'
 import {
+  createTokensToMint,
   kusamaMintAndList,
   subscribeToCollectionUpdates,
 } from './mintingHelpers'
@@ -110,18 +111,7 @@ export const useMassMint = (
   const collectionUpdated = ref(false)
   const { urlPrefix } = usePrefix()
 
-  const tokens: TokenToMint[] = nfts.map((nft) => ({
-    file: nft.file,
-    name: nft.name,
-    description: nft.description || '',
-    edition: 1,
-    secondFile: null,
-    selectedCollection: collection,
-    price: nft.price === undefined ? 0 : nft.price * Math.pow(10, 12),
-    nsfw: false,
-    postfix: true,
-    tags: [],
-  }))
+  const tokens = createTokensToMint(nfts, collection)
 
   const simpleMint = () => {
     transaction({
