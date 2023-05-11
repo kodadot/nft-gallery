@@ -11,6 +11,6 @@ export default function ({ store, redirect, route }): void {
   }
 
   if (route.path.includes('/rmrk2/')) {
-    return redirect(route.path.replace('/rmrk2/', '/ksm/'))
+    return redirect(window.location.href.replace('/rmrk2/', '/ksm/'))
   }
 }
