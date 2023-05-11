@@ -1,0 +1,13 @@
+#import "./fragments/nft.graphql"
+#import "./fragments/nftDetails.graphql"
+
+query nftSimpleListByAccount($account: String!, $first: Int!) {
+  nftEntities(
+    where: { issuer_eq: $account, name_not_contains: "kanaria" }
+    orderBy: blockNumber_DESC
+    limit: $first
+  ) {
+    ...nft
+    ...nftDetails
+  }
+}

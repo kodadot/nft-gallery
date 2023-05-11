@@ -1,0 +1,17 @@
+query collectionByAccountWithTokens($account: String!) {
+  collectionEntities(where: {currentOwner_eq: $account supply_gt: 0}, orderBy: blockNumber_DESC) {
+    id
+    name
+    max
+    metadata
+    symbol
+    nftCount
+    available: supply
+    nfts(where: {currentOwner_eq: $account, burned_eq: false}) {
+      id
+      price
+      burned
+    }
+  }
+}
+
