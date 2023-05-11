@@ -4,10 +4,12 @@ type CallDictionary = Record<string, [string, string]>
 export const uniqueActionResolver: CallDictionary = {
   SEND: ['uniques', 'transfer'],
   CONSUME: ['uniques', 'burn'],
-  DELEGATE: ['uniques', 'approveTransfer'],
-  FREEZE: ['uniques', 'freeze'],
-  THAW: ['uniques', 'thaw'],
-  REVOKE: ['uniques', 'cancelApproval'],
+  BUY: ['uniques', 'buyItem'],
+  LIST: ['uniques', 'setPrice'],
+  // DELEGATE: ['uniques', 'approveTransfer'],
+  // FREEZE: ['uniques', 'freeze'],
+  // THAW: ['uniques', 'thaw'],
+  // REVOKE: ['uniques', 'cancelApproval'],
 }
 
 export const bsxActionResolver: CallDictionary = {
@@ -37,6 +39,23 @@ export const bsxParamResolver = (
   return actions[selectedAction]
 }
 
+export const uniqueParamResolver = (
+  id: string,
+  selectedAction: string,
+  meta: string | number,
+  currentOwner?: string
+): any[] => {
+  const [collectionId, tokenId] = id.split('-')
+  const actions = {
+    SEND: [collectionId, tokenId, meta],
+    CONSUME: [collectionId, tokenId, currentOwner],
+    BUY: [collectionId, tokenId, meta],
+    LIST: [collectionId, tokenId, meta, ''],
+  }
+
+  return actions[selectedAction]
+}
+
 export function getApiCall(
   api: ApiPromise,
   prefix: string,
@@ -45,6 +64,8 @@ export function getApiCall(
   const actionResolver = getActionsByPrefix(prefix)
   const [module, method] =
     actionResolver[selectedAction] || new Error('Action not found')
+  console.log(module, method)
+  console.log(api.tx.uniques)
   return api.tx[module][method]
 }
 
