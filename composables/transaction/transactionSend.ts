@@ -1,19 +1,15 @@
-import { checkAddress, isAddress } from '@polkadot/util-crypto'
+import { getApiCall, uniqueParamResolver } from '@/utils/gallery/abstractCalls'
 import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
 import {
   Interaction as NewInteraction,
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
-import {
-  bsxParamResolver,
-  getApiCall,
-  uniqueParamResolver,
-} from '@/utils/gallery/abstractCalls'
+import { checkAddress, isAddress } from '@polkadot/util-crypto'
 
-import { ss58Of } from '@/utils/config/chain.config'
-import correctFormat from '@/utils/ss58Format'
-import { warningMessage } from '@/utils/notification'
 import { tokenIdToRoute } from '@/components/unique/utils'
+import { ss58Of } from '@/utils/config/chain.config'
+import { warningMessage } from '@/utils/notification'
+import correctFormat from '@/utils/ss58Format'
 
 import type { ActionSend } from './types'
 
