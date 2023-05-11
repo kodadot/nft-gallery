@@ -13,14 +13,11 @@
       @click="reachTopHandler" />
 
     <DynamicGrid
+      v-if="!isLoading && total"
       :id="scrollContainerId"
       grid-size="medium"
-      :default-width="{ small: 16 * 15, medium: 16 * 20, large: 16 * 25 }"
+      :default-width="GRID_DEFAULT_WIDTH"
       :mobile-variant="false">
-      <template v-if="isLoading">
-        <CollectionCard v-for="n in SKELETON_COUNT" :key="n" is-loading />
-      </template>
-
       <div
         v-for="(collection, index) in collections"
         :key="collection.id"
@@ -29,7 +26,18 @@
         <CollectionCard :collection="collection" />
       </div>
     </DynamicGrid>
-    <EmptyResult v-if="total === 0 && !isLoading" />
+
+    <DynamicGrid
+      v-else-if="isLoading"
+      :id="scrollContainerId"
+      grid-size="medium"
+      :default-width="GRID_DEFAULT_WIDTH"
+      :mobile-variant="false">
+      <CollectionCard v-for="n in SKELETON_COUNT" :key="n" is-loading />
+    </DynamicGrid>
+
+    <EmptyResult v-else />
+
     <ScrollTopButton />
   </div>
 </template>
@@ -54,6 +62,8 @@ const isSmallScreen = computed(
   () => useWindowSize().width.value < breakPointWidth
 )
 const SKELETON_COUNT = isSmallScreen.value ? 4 : 12
+
+const GRID_DEFAULT_WIDTH = { small: 16 * 15, medium: 16 * 20, large: 16 * 25 }
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)

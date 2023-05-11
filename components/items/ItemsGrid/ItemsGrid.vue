@@ -13,18 +13,11 @@
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
 
-    <DynamicGrid :id="scrollContainerId" v-slot="slotProps" class="my-5">
-      <template v-if="isLoading">
-        <NeoNftCard
-          v-for="n in SKELETON_COUNT"
-          :key="n"
-          is-loading
-          :variant="
-            (slotProps.isMobileVariant || slotProps.grid === 'small') &&
-            'minimal'
-          " />
-      </template>
-
+    <DynamicGrid
+      v-if="total !== 0 && !isLoading"
+      :id="scrollContainerId"
+      v-slot="slotProps"
+      class="my-5">
       <div
         v-for="(nft, index) in nfts"
         :key="`${nft.id}=${index}`"
@@ -38,7 +31,22 @@
           " />
       </div>
     </DynamicGrid>
-    <EmptyResult v-if="total === 0 && !isLoading" />
+
+    <DynamicGrid
+      v-else-if="isLoading"
+      :id="scrollContainerId"
+      v-slot="slotProps"
+      class="my-5">
+      <NeoNftCard
+        v-for="n in SKELETON_COUNT"
+        :key="n"
+        is-loading
+        :variant="
+          (slotProps.isMobileVariant || slotProps.grid === 'small') && 'minimal'
+        " />
+    </DynamicGrid>
+
+    <EmptyResult v-else />
     <ScrollTopButton />
   </div>
 </template>
