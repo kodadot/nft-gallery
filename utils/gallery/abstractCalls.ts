@@ -64,8 +64,6 @@ export function getApiCall(
   const actionResolver = getActionsByPrefix(prefix)
   const [module, method] =
     actionResolver[selectedAction] || new Error('Action not found')
-  console.log(module, method)
-  console.log(api.tx.uniques)
   return api.tx[module][method]
 }
 
