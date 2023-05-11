@@ -2,15 +2,12 @@
 #import "./fragments/nftDetails.graphql"
 
 query nftSimpleListByAccount($account: String!, $first: Int!) {
-  nFTEntities(
-    filter: { issuer: { equalTo: $account }, name: { notLike: "%Kanaria%" } }
-    orderBy: BLOCK_NUMBER_DESC
-    first: $first
+  nftEntities(
+    where: { issuer_eq: $account, name_not_contains: "kanaria" }
+    orderBy: blockNumber_DESC
+    limit: $first
   ) {
-    totalCount
-    nodes {
-      ...nft
-      ...nftDetails
-    }
+    ...nft
+    ...nftDetails
   }
 }
