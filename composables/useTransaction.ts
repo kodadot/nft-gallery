@@ -13,7 +13,6 @@ import { execMakeOfferTx } from './transaction/transactionOffer'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMintToken } from './transaction/transactionMintToken'
-import { Extrinsic } from '@/utils/transactionExecutor'
 
 import type {
   ActionAcceptOffer,
@@ -26,23 +25,9 @@ import type {
   ActionSend,
   ActionWithdrawOffer,
   Actions,
+  ExecuteTransactionParams,
 } from './transaction/types'
 import { execMintCollection } from './transaction/transactionMintCollection'
-import { Ref } from 'vue'
-
-export type ExecuteTransactionParams = {
-  cb: (...params: any[]) => Extrinsic
-  arg: any[]
-  successMessage?: string | ((blockNumber: string) => string)
-  errorMessage?: string
-}
-export interface MintTokenParams {
-  item: ActionMintToken
-  api: any
-  executeTransaction: (p: ExecuteTransactionParams) => void
-  isLoading: Ref<boolean>
-  status: Ref<string>
-}
 
 const resolveSuccessMessage = (
   block: string,

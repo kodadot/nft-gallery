@@ -25,7 +25,7 @@ const createKusamaInteraction = (item: ActionList) => {
 
   const createSingleInteraction = (token: TokenToList, urlPrefix) => {
     if (!isListTxValid(token)) {
-      return
+      return undefined
     }
     const interaction =
       urlPrefix === 'rmrk'

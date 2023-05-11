@@ -3,8 +3,24 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { BaseTokenType } from '@/components/base/types'
 import { Royalty } from '@/utils/royalty'
-import { ExecuteTransactionParams } from '../useTransaction'
+import { Extrinsic } from '@/utils/transactionExecutor'
+import type { ApiPromise } from '@polkadot/api'
 import { Ref } from 'vue'
+
+export type ExecuteTransactionParams = {
+  cb: (...params: any[]) => Extrinsic
+  arg: any[]
+  successMessage?: string | ((blockNumber: string) => string)
+  errorMessage?: string
+}
+
+export interface MintTokenParams {
+  item: ActionMintToken
+  api: ApiPromise
+  executeTransaction: (p: ExecuteTransactionParams) => void
+  isLoading: Ref<boolean>
+  status: Ref<string>
+}
 
 export type BaseCollectionType = {
   name: string

@@ -1,8 +1,12 @@
-import type { ActionMintToken, MintedCollection, TokenToMint } from '../types'
+import type {
+  ActionMintToken,
+  MintTokenParams,
+  MintedCollection,
+  TokenToMint,
+} from '../types'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { constructMeta } from './constructMeta'
 import { BaseMintedCollection } from '@/components/base/types'
-import { MintTokenParams } from '@/composables/useTransaction'
 
 const prepareTokenMintArgs = async (
   token: TokenToMint,
