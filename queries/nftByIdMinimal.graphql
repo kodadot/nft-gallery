@@ -1,8 +1,0 @@
-query nftByIdMinimal($id: String!) {
-  nft: nFTEntity(id: $id) {
-    id
-    currentOwner
-    price
-    events
-  }
-}
