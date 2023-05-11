@@ -4,7 +4,9 @@
     :prefix="urlPrefix"
     :show-price="showPrice"
     :variant="variant"
-    :placeholder="placeholder" />
+    :placeholder="placeholder"
+    link="nuxt-link"
+    bind-key="to" />
 </template>
 
 <script lang="ts" setup>
