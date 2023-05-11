@@ -31,6 +31,9 @@ const curatedCollection = {
     '2644199cf3652aaa78-KK01', // Kusama Kings
     'be15890524c6e9b359-WIZARD', // Manta Wizard
     'e63e926f7db5997e5c-STGR', // STARGAZER
+    'b45943b4edbf6f5c0f-SKYLAB_ARTEMIS_R4VENS', // The Artemis Project - Code R4VEN
+    '22708b368d163c8007-CITY', // The City
+    '7092505797a30ccf48-NEON BABES', // Neon Babes
   ],
 }
 
