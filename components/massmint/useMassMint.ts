@@ -48,6 +48,7 @@ export const useCollectionForMint = () => {
     if (!isLogIn.value) {
       return
     }
+
     const prefix = queryPath[urlPrefix.value] || urlPrefix.value
     const query = await resolveQueryPath(prefix, 'collectionForMint')
     const data = await $apollo.query({
@@ -72,11 +73,18 @@ export const useCollectionForMint = () => {
     }))
   }
 
-  doFetch()
+  const doFetchWithErrorHandling = () =>
+    doFetch().catch((error) => {
+      $consola.error(
+        `Error fetching collections for account ${accountId.value}:`,
+        error
+      )
+    })
+  doFetchWithErrorHandling()
 
   watch(accountId, (newId, oldId) => {
     if (shouldUpdate(newId, oldId)) {
-      doFetch()
+      doFetchWithErrorHandling()
     }
   })
 
