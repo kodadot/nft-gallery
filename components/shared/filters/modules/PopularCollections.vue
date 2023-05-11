@@ -17,7 +17,7 @@
     <div v-if="collections.length > 0" class="p-4">
       <o-field
         v-for="(collection, index) in collections"
-        :key="`${collection.id}-${textOverflowData[index].isCut}`"
+        :key="`${collection.id}-${isCutArray[index].value}`"
         class="mb-2">
         <NeoCheckbox
           :value="checkedCollections.includes(collection.id)"
@@ -31,13 +31,14 @@
               class="image is-32x32 border mr-2" />
             <div
               class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
-              {{ textOverflowData[index].isCut }}
               <NeoTooltip
-                :active="textOverflowData[index].isCut"
+                :active="isCutArray[index].value"
                 :label="collection.meta.name || collection.id"
                 :append-to-body="false"
                 :delay="1000">
-                <div :ref="assignRefAndUpdate" class="is-ellipsis">
+                <div
+                  :ref="(el) => assignRefAndUpdateArray(el, index)"
+                  class="is-ellipsis">
                   {{ collection.meta.name || collection.id }}
                 </div>
               </NeoTooltip>
@@ -78,33 +79,15 @@ const { collections } = usePopularCollections(urlPrefix.value)
 const getChainName = (chain: string): string => {
   return availableChains.value.find((item) => item.value === chain)?.text || ''
 }
-const { textOverflowData, assignRefAndUpdate } = useTextOverflow()
-// const ellipsisDivs = ref<HTMLDivElement[]>([])
-// const isTextCutShort = ref<boolean[]>([])
+const isCutArray = computed(() => collections.value.map(() => ref(false)))
 
-// const assignRefAndUpdate = (el: HTMLDivElement | null, index: number) => {
-//   if (el) {
-//     ellipsisDivs.value[index] = el
-//     nextTick(() => {
-//       updateIsTextCutShort(index)
-//     })
-//   }
-// }
-
-// const updateIsTextCutShort = (index: number) => {
-//   const div = ellipsisDivs.value[index]
-//   if (div) {
-//     console.log('div.scrollWidth', div.scrollWidth)
-//     console.log('div.clientWidth', div.clientWidth)
-//     console.log('div.scrollWidth > div.clientWidth', div.scrollWidth > div.clientWidth)
-//     isTextCutShort.value[index] = div.scrollWidth > div.clientWidth
-//   }
-// }
-
-// watch(collections, () => {
-//   ellipsisDivs.value = Array(collections.value.length).fill(null)
-//   isTextCutShort.value = Array(collections.value.length).fill(false)
-// })
+const assignRefAndUpdateArray = (el, index) => {
+  const { assignRefAndUpdate, isCut } = useTextOverflow()
+  assignRefAndUpdate(el)
+  watch(isCut, () => {
+    isCutArray.value[index].value = isCut.value
+  })
+}
 
 type DataModel = 'query' | 'store'
 

@@ -1,38 +1,27 @@
-import { nextTick, ref } from 'vue'
+import { ComponentPublicInstance, Ref, nextTick, ref } from 'vue'
 
 export function useTextOverflow() {
-  const textOverflowData = ref<
-    Array<{ div: HTMLDivElement | null; isCut: boolean }>
-  >([])
+  const element: Ref<HTMLElement | null> = ref(null)
+  const isCut: Ref<boolean> = ref(false)
 
-  const assignRefAndUpdate = (el: HTMLDivElement | null) => {
-    if (el) {
-      const index = textOverflowData.value.findIndex(
-        (item) => item.div === null
-      )
-      if (index !== -1) {
-        textOverflowData.value[index].div = el
-        nextTick(() => {
-          updateIsTextCutShort(index)
-        })
-      } else {
-        textOverflowData.value.push({ div: el, isCut: false })
-        nextTick(() => {
-          updateIsTextCutShort(textOverflowData.value.length - 1)
-        })
-      }
+  const assignRefAndUpdate = (el: Element | ComponentPublicInstance | null) => {
+    if (el && el instanceof HTMLElement) {
+      element.value = el
+      updateIsTextCutShort()
     }
   }
 
-  const updateIsTextCutShort = (index: number) => {
-    const div = textOverflowData.value[index].div
-    if (div) {
-      textOverflowData.value[index].isCut = div.scrollWidth > div.clientWidth
-    }
+  const updateIsTextCutShort = () => {
+    nextTick(() => {
+      const el = element.value
+      if (el && el.scrollWidth && el.clientWidth) {
+        isCut.value = el.scrollWidth > el.clientWidth
+      }
+    })
   }
 
   return {
-    textOverflowData,
     assignRefAndUpdate,
+    isCut,
   }
 }
