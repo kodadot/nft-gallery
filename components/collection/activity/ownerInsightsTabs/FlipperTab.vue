@@ -98,6 +98,7 @@ import { format } from '@/components/collection/activity/utils'
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { Flippers } from '@/composables/collectionActivity/types'
+
 const props = defineProps<{
   flippers?: Flippers
 }>()
@@ -130,6 +131,7 @@ const isFlipperMoreNFTSectionOpen = flippers.value.reduce(
   }),
   {}
 )
+
 const isNFTDetailsOpen = ref(isFlipperMoreNFTSectionOpen)
 </script>
 
