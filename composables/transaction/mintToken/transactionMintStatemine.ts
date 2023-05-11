@@ -24,12 +24,14 @@ export async function execMintStatemine(
 
   const create = api.tx.uniques.mint(collectionId, nextId, metadata)
 
+  const meta = api.tx.uniques.setMetadata(collectionId, nextId, metadata, false)
+
   const list =
     Number(price) > 0
       ? [api.tx.uniques.setPrice(collectionId, nextId, price)]
       : []
 
-  const args = [[create, ...list]]
+  const args = [[create, meta, ...list]]
 
   executeTransaction({
     cb,
