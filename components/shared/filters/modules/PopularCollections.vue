@@ -82,10 +82,10 @@ const getChainName = (chain: string): string => {
 const isCutArray = computed(() => collections.value.map(() => ref(false)))
 
 const assignRefAndUpdateArray = (el, index) => {
-  const { assignRefAndUpdate, isCut } = useTextOverflow()
-  assignRefAndUpdate(el)
-  watch(isCut, () => {
-    isCutArray.value[index].value = isCut.value
+  const { assignRef, isTextCut } = useTextOverflow()
+  assignRef(el)
+  watch(isTextCut, () => {
+    isCutArray.value[index].value = isTextCut.value
   })
 }
 
