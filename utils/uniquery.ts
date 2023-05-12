@@ -34,7 +34,7 @@ export function unwrapId(
 }
 
 export function correctPrefix(prefix: string): string {
-  return prefix === 'rmrk' ? 'subsquid' : prefix
+  return prefix
 }
 
 export function ifRMRK<T>(prefix: string, first: T, second: T): T {
