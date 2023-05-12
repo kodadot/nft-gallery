@@ -115,9 +115,9 @@
           @click.stop="openWalletConnectModal">
           <span>
             {{ $t('wallet') }}
-            <b-icon icon="wallet" />
+            <NeoIcon icon="wallet" />
           </span>
-          <b-icon class="icon--right" icon="chevron-right" pack="fas" />
+          <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
         </div>
         <ColorModeButton class="navbar-item" />
 
@@ -158,6 +158,7 @@ import NotificationBoxButton from '~/components/navbar/NotificationBoxButton.vue
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { BModalConfig } from 'buefy/types/components'
 import type Vue from 'vue'
+import { NeoIcon } from '@kodadot1/brick'
 
 const { $store, $buefy, $nextTick } = useNuxtApp()
 const root = ref<Vue<Record<string, string>>>()

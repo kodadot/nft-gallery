@@ -4,6 +4,7 @@
     :append-to-body="appendToBody"
     :multiline="multiline"
     class="neo-tooltip"
+    :style="{ '--computed-font-size': computedFontSize }"
     :position="position"
     :label="label"
     :delay="delay"
@@ -26,16 +27,25 @@ export interface Props {
   label: string | LocaleMessage
   position?: 'top' | 'bottom' | 'left' | 'right'
   active?: boolean
+  multiline?: boolean
   appendToBody?: boolean
   delay?: number
-  multiline?: boolean
+  fontSize?: string | number
 }
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   position: 'top',
   active: true,
-  appendToBody: true,
-  delay: undefined,
   multiline: false,
+  appendToBody: false,
+  delay: undefined,
+  fontSize: '1rem',
+})
+
+const computedFontSize = computed(() => {
+  if (typeof props.fontSize === 'number') {
+    return `${props.fontSize}px`
+  }
+  return props.fontSize
 })
 </script>
 
