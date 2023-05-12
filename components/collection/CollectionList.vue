@@ -36,7 +36,7 @@
       grid-size="medium"
       :default-width="GRID_DEFAULT_WIDTH"
       :mobile-variant="false">
-      <CollectionCard v-for="n in SKELETON_COUNT" :key="n" is-loading />
+      <CollectionCard v-for="n in skeletonCount" :key="n" is-loading />
     </DynamicGrid>
 
     <EmptyResult v-else />
@@ -51,7 +51,6 @@ import { Collection } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from '@/components/search/types'
 import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
-import { useWindowSize } from '@vueuse/core'
 import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
 import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
@@ -61,12 +60,6 @@ const route = useRoute()
 const { $apollo } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const preferencesStore = usePreferencesStore()
-
-const breakPointWidth = 1024
-const isSmallScreen = computed(
-  () => useWindowSize().width.value < breakPointWidth
-)
-const SKELETON_COUNT = isSmallScreen.value ? 4 : 12
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
@@ -150,6 +143,8 @@ const {
   gotoPage,
   fetchPageData,
 })
+
+const skeletonCount = first.value
 
 const handleResult = async ({ data }: any, loadDirection = 'down') => {
   total.value = data.stats.totalCount

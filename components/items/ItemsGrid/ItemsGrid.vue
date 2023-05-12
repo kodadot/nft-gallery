@@ -42,7 +42,7 @@
       v-slot="slotProps"
       class="my-5">
       <NeoNftCard
-        v-for="n in SKELETON_COUNT"
+        v-for="n in skeletonCount"
         :key="n"
         is-loading
         :variant="
@@ -58,15 +58,8 @@
 <script setup lang="ts">
 import { NeoNftCard, NeoSkeleton } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
-import { useWindowSize } from '@vueuse/core'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
-
-const breakPointWidth = 1024
-const isSmallScreen = computed(
-  () => useWindowSize().width.value < breakPointWidth
-)
-const SKELETON_COUNT = isSmallScreen.value ? 4 : 14
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {
@@ -97,6 +90,8 @@ const {
   gotoPage,
   fetchPageData,
 })
+
+const skeletonCount = first.value
 
 const resetPage = useDebounceFn(() => {
   gotoPage(1)
