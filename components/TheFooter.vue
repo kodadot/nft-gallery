@@ -40,8 +40,7 @@
                 rel="noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <b-icon icon="external-link-alt" class="ml-1" size="is-small">
-                </b-icon>
+                <NeoIcon icon="external-link-alt" class="ml-1" pack="fas" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -65,8 +64,7 @@
                 rel="noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <b-icon icon="external-link-alt" class="ml-1" size="is-small">
-                </b-icon>
+                <NeoIcon icon="external-link-alt" class="ml-1" pack="fas" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -87,7 +85,7 @@
             class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center mr-2"
             @click="goToSocials(item.url)">
             <a
-              class="is-flex"
+              class="is-flex icon"
               rel="noopener noreferrer"
               :aria-label="item.name">
               <!-- substack doesnt have a font awesome icon -->
@@ -112,12 +110,10 @@
                 </defs>
               </svg>
 
-              <b-icon
+              <NeoIcon
                 v-else
                 :pack="item.name == 'Swag' ? 'fas' : 'fab'"
-                :icon="item.icon"
-                size="is-small"
-                :type="isDarkMode ? 'is-white' : 'is-black'" />
+                :icon="item.icon" />
             </a>
           </li>
         </ul>
@@ -129,6 +125,7 @@
 
 <script lang="ts" setup>
 import { TranslateResult } from 'vue-i18n/types'
+import { NeoIcon } from '@kodadot1/brick'
 
 interface Menu {
   name: TranslateResult
@@ -137,7 +134,6 @@ interface Menu {
 }
 
 const { $i18n } = useNuxtApp()
-const { isDarkMode } = useTheme()
 
 const menuMarketplace: Menu[] = [
   {
