@@ -50,12 +50,6 @@
 <script lang="ts" setup>
 import { NeoField, NeoInput } from '@kodadot1/brick'
 
-import DragDrop from '@/components/shared/DragDrop.vue'
-
-const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
-)
-
 const MetadataUpload = defineAsyncComponent(
   () => import('@/components/rmrk/Create/DropUpload.vue')
 )
@@ -64,5 +58,4 @@ const name = ref('')
 const description = ref('')
 const logo = ref<File | null>(null)
 const image = ref<File | null>(null)
-const loading = ref(false)
 </script>
