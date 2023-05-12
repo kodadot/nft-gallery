@@ -275,7 +275,7 @@ import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
 import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator.graphql'
 
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
-import { exist } from '@/components/search/exist'
+import { exist } from '@/utils/exist'
 
 const tabNameWithoutCollections = ['holdings', 'gains']
 

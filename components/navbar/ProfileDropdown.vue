@@ -165,6 +165,7 @@
         class="button-connect-wallet px-4"
         variant="k-accent"
         no-shadow
+        :modal-toggle-disabled="true"
         @toggleConnectModal="toggleWalletConnectModal" />
     </div>
 

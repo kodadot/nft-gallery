@@ -1,3 +1,4 @@
+import path from 'path'
 import { defineNuxtConfig } from '@nuxt/bridge'
 import SentryWebpackPlugin from '@sentry/webpack-plugin'
 import { manifestIcons } from './utils/config/pwa'
@@ -381,7 +382,11 @@ export default defineNuxtConfig({
 
       config.module.rules.push({
         test: /\.js$/,
-        loader: require.resolve('@open-wc/webpack-import-meta-loader'),
+        include: [path.resolve(__dirname, 'node_modules')],
+        use: [
+          { loader: require.resolve('@open-wc/webpack-import-meta-loader') },
+          { loader: require.resolve('babel-loader') },
+        ],
       })
 
       config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js'

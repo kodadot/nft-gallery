@@ -16,7 +16,9 @@
           class="is-flex is-justify-content-center px-0"
           :active="selectedTimeRange.value === range.value"
           :value="selectedTimeRange"
-          @click.native="setTimeRange(range)">
+          @click.native="
+            setTimeRange({ value: range.value, label: range.label })
+          ">
           {{ range.label }}
         </NeoDropdownItem>
       </template>
