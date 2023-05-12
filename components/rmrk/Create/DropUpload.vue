@@ -19,7 +19,7 @@
           @input="createInput">
           <section class="section">
             <div class="content has-text-centered">
-              <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
+              <NeoIcon v-if="!file && !url" :icon="icon" size="large" />
               <div v-if="url && !isModelMedia" @click.prevent>
                 <MediaResolver
                   :src="url"
@@ -27,7 +27,7 @@
                   :preview="false"
                   @error="hasError = true" />
               </div>
-              <b-icon v-if="hasError" icon="eye-slash" size="is-large" />
+              <NeoIcon v-if="hasError" icon="eye-slash" size="large" />
               <p v-if="!file">
                 {{ label }}
               </p>
@@ -57,10 +57,12 @@
 import { Component, Emit, Prop, Ref, Vue } from 'nuxt-property-decorator'
 import MediaResolver from '@/components/media/MediaResolver.vue'
 import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
+import { NeoIcon } from '@kodadot1/brick'
 
 @Component({
   components: {
     MediaResolver,
+    NeoIcon,
   },
 })
 export default class DropUpload extends Vue {

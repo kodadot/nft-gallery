@@ -13,6 +13,7 @@
             size="large"
             variant="k-blue"
             class="full-width-action-button"
+            data-cy="make-offer"
             no-shadow
             @click.native="toggleActive" />
         </template>
@@ -20,6 +21,7 @@
           <NeoTooltip
             v-if="active && !confirm"
             :active="insufficientBalance || offerPriceInvalid"
+            append-to-body
             :label="
               insufficientBalance
                 ? $t('tooltip.notEnoughBalance')

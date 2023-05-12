@@ -18,6 +18,7 @@
 <script lang="ts">
 import { TranslateResult } from 'vue-i18n'
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
+import { NeoTooltip } from '@kodadot1/brick'
 
 @Component
 export default class BasicSwitch extends Vue {
@@ -31,7 +32,7 @@ export default class BasicSwitch extends Vue {
   @Prop(Boolean) public disabled!: boolean
 
   get componentName(): string {
-    return this.message ? 'b-tooltip' : 'span'
+    return this.message ? NeoTooltip : 'span'
   }
 
   get properLabel(): TranslateResult {

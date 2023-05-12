@@ -7,48 +7,48 @@
         </div>
       </template>
       <b-dropdown-item has-link>
-        <b-tooltip
-          position="is-left"
+        <NeoTooltip
+          position="left"
           :label="$t('createDropdown.start')"
           class="navbar-item-tooltip">
           <nuxt-link data-cy="classic" :to="`/${urlPrefix}/create`">
             {{ $t('classic') }}
           </nuxt-link>
-        </b-tooltip>
+        </NeoTooltip>
       </b-dropdown-item>
 
       <b-dropdown-item has-link>
-        <b-tooltip
+        <NeoTooltip
           v-if="chain === 'bsx' && accountId"
-          position="is-left"
+          position="left"
           :label="$t('createDropdown.waifu')"
           class="navbar-item-tooltip">
           <nuxt-link data-cy="waifu" :to="`/${urlPrefix}/waifu`">
             {{ $t('navbar.create.waifu') }}
           </nuxt-link>
-        </b-tooltip>
+        </NeoTooltip>
       </b-dropdown-item>
       <template v-if="chain === 'rmrk'">
         <b-dropdown-item has-link>
-          <b-tooltip
-            position="is-left"
+          <NeoTooltip
+            position="left"
             :label="$t('createDropdown.simplifiedNft')"
             class="navbar-item-tooltip">
             <nuxt-link data-cy="simple" :to="`/${urlPrefix}/mint`">
               {{ $t('simple') }}
             </nuxt-link>
-          </b-tooltip>
+          </NeoTooltip>
         </b-dropdown-item>
       </template>
       <b-dropdown-item v-if="redesign" has-link>
-        <b-tooltip
-          position="is-left"
+        <NeoTooltip
+          position="left"
           :label="$t('createDropdown.massmint')"
           class="navbar-item-tooltip">
           <nuxt-link data-cy="massmint" :to="`/${urlPrefix}/massmint`">
             {{ $t('multipleNFTS') }}
           </nuxt-link>
-        </b-tooltip>
+        </NeoTooltip>
       </b-dropdown-item>
     </b-dropdown>
 
@@ -87,6 +87,7 @@
 
 <script lang="ts" setup>
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
+import { NeoTooltip } from '@kodadot1/brick'
 
 defineProps<{
   chain: string

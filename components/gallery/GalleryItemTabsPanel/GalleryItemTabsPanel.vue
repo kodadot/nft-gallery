@@ -2,10 +2,12 @@
   <o-tabs
     v-model="activeTab"
     expanded
+    data-cy="gallery-item-tabs"
     content-class="o-tabs__content--fixed gallery-item-tab-panel">
     <!-- offers -->
     <DisablableTab
       value="0"
+      data-cy="offer-list"
       :disabled="offersDisabled"
       :label="$t('tabs.offers')"
       :disabled-tooltip="$t('tabs.offersDisabled')">
@@ -22,7 +24,7 @@
     </DisablableTab>
 
     <!-- activity -->
-    <o-tab-item value="1" :label="$t('tabs.activity')">
+    <o-tab-item value="1" :label="$t('tabs.activity')" data-cy="offer-activity">
       <GalleryItemActivity v-if="nft?.id" :nft-id="nft?.id" />
     </o-tab-item>
 

@@ -67,9 +67,9 @@
         :label="$t('spotlight.unique')"
         sortable>
         <template #header="{ column }">
-          <b-tooltip :label="$t('spotlight.uniqueItemsTooltip')" dashed>
+          <NeoTooltip :label="$t('spotlight.uniqueItemsTooltip')" dashed>
             {{ column.label }}
-          </b-tooltip>
+          </NeoTooltip>
         </template>
         <template v-if="!isLoading" #default="props">{{
           props.row.unique
@@ -83,9 +83,9 @@
         :label="$t('spotlight.uniqueCollectors')"
         sortable>
         <template #header="{ column }">
-          <b-tooltip :label="$t('spotlight.uniqueCollectorsTooltip')" dashed>
+          <NeoTooltip :label="$t('spotlight.uniqueCollectorsTooltip')" dashed>
             {{ column.label }}
-          </b-tooltip>
+          </NeoTooltip>
         </template>
         <template v-if="!isLoading" #default="props">{{
           props.row.uniqueCollectors
@@ -143,9 +143,9 @@
         :label="$t('spotlight.score')"
         numeric>
         <template #header="{ column }">
-          <b-tooltip :label="$t('spotlight.scoreCalc')" dashed>
+          <NeoTooltip :label="$t('spotlight.scoreCalc')" dashed>
             {{ column.label }}
-          </b-tooltip>
+          </NeoTooltip>
         </template>
         <template v-if="!isLoading" #default="props">{{
           Math.ceil(props.row.rank * 100) / 100
@@ -185,7 +185,7 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { NeoSkeleton } from '@kodadot1/brick'
+import { NeoSkeleton, NeoTooltip } from '@kodadot1/brick'
 
 import {
   axisLize,
@@ -196,7 +196,7 @@ import {
   today,
 } from '@/components/series/utils'
 import { SortType } from '@/components/series/types'
-import { exist } from '@/components/search/exist'
+import { exist } from '@/utils/exist'
 import { getRandomIntInRange } from '@/components/rmrk/utils'
 
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
@@ -218,6 +218,7 @@ const components = {
   SpotlightDetail: () => import('./SpotlightDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   NeoSkeleton,
+  NeoTooltip,
 }
 
 @Component({ components })

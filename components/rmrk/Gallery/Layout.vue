@@ -1,7 +1,7 @@
 <template>
   <div class="content is-hidden-mobile">
     <b-field :position="position">
-      <b-tooltip :label="$t('tooltip.largeDisplay')">
+      <NeoTooltip :label="$t('tooltip.largeDisplay')">
         <b-radio-button
           v-model="preferenceLayout"
           type="is-primary"
@@ -10,11 +10,11 @@
           :disabled="disabled"
           data-cy="large-display">
           <span>
-            <b-icon icon="th-large" />
+            <NeoIcon icon="th-large" />
           </span>
         </b-radio-button>
-      </b-tooltip>
-      <b-tooltip :label="$t('tooltip.smallDisplay')">
+      </NeoTooltip>
+      <NeoTooltip :label="$t('tooltip.smallDisplay')">
         <b-radio-button
           v-model="preferenceLayout"
           type="is-primary"
@@ -23,10 +23,10 @@
           :disabled="disabled"
           data-cy="small-display">
           <span>
-            <b-icon icon="th" />
+            <NeoIcon icon="th" />
           </span>
         </b-radio-button>
-      </b-tooltip>
+      </NeoTooltip>
     </b-field>
   </div>
 </template>
@@ -35,8 +35,9 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { RmrkType } from '@/components/rmrk/service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
-@Component({})
+@Component({ components: { NeoIcon, NeoTooltip } })
 export default class Layout extends Vue {
   @Prop({ default: 'nftDetail' }) public type!: string
   @Prop({ default: 'rmrk/detail' }) public link!: string

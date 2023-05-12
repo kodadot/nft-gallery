@@ -5,7 +5,9 @@ import { URLS } from '../utils/constants'
 const BASE_URL = URLS.koda.replicate
 const VERSION =
   '42a996d39a96aedc57b2e0aa8105dea39c9c89d9d266caf6bb4327a1c191b061'
-export const OUTPUTS = '4'
+export const OUTPUTS = 4
+const NEGATIVE_PROMPT =
+  'lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, artist name'
 
 type Option<T> = T | null
 
@@ -49,11 +51,11 @@ export type PredictionStatus = {
 export type Input = {
   prompt: string
   negative_prompt?: string
-  width: Option<string>
-  height: Option<string>
-  num_outputs: Option<string>
-  guidance_scale: Option<string>
-  num_inference_steps: Option<string>
+  width: Option<number>
+  height: Option<number>
+  num_outputs: Option<number>
+  guidance_scale: Option<number>
+  num_inference_steps: Option<number>
 }
 
 export const predict = async (
@@ -63,12 +65,12 @@ export const predict = async (
     version: VERSION,
     input: {
       prompt: object,
-      negative_prompt: 'bad eyes, ugly hands',
-      width: '512',
-      height: '512',
+      negative_prompt: NEGATIVE_PROMPT,
+      width: 512,
+      height: 512,
       num_outputs: OUTPUTS,
-      guidance_scale: '7',
-      num_inference_steps: '50',
+      guidance_scale: 7,
+      num_inference_steps: 50,
     },
   }
   const value = await api<PredictionRequestStatus>('predict', {

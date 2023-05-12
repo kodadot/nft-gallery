@@ -1,26 +1,22 @@
+@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
 @import '../../scss/variable.scss';
 
+$tooltip-content-zindex: 101;
+$tooltip-content-font-size: var(--computed-font-size, 1rem);
+$tooltip-content-padding: 0.25rem 0.5rem;
+$tooltip-content-radius-large: 0;
+$tooltip-content-box-shadow: none;
+$tooltip-content-multiline-width: 15rem;
+$tooltip-content-max-width: fit-content;
+$tooltip-arrow-margin: 1rem;
+
+@import '@oruga-ui/oruga/src/scss/components/tooltip.scss';
+
 .neo-tooltip {
-  $tooltip-distance: calc(20px + 100%);
-  @media screen and (max-width: 768px) {
-    $tooltip-distance: calc(16px + 100%);
-  }
-  .o-tip__trigger{
-     > * {
-    height: 100%;
-    font-size: inherit;
-    font-family: inherit;
-  }
-}
-
   .o-tip__content {
-    font-size: max(min(2vw, 1rem), 0.45rem);
-    box-shadow: none;
-    border: 1px solid;
-    border-radius: 0;
-    padding: 4px 8px;
-    font-family: 'Work Sans';
-
     @include ktheme() {
       color: theme('text-color');
       border-color: theme('text-color');
@@ -30,30 +26,7 @@
         color: theme('text-color');
       }
     }
-
-    &--top {
-      bottom: $tooltip-distance;
-    }
-    &--bottom {
-      top: $tooltip-distance;
-    }
-    &--left {
-      right: $tooltip-distance;
-    }
-    &--right {
-      left: $tooltip-distance;
-    }
   }
-  // .o-tip__trigger {
-  //   &:after {
-  //     content: '';
-  //     position: absolute;
-  //     top: -10px;
-  //     bottom: -10px;
-  //     left: -10px;
-  //     right: -10px;
-  //   }
-  // }
 }
 
 .wrapper {
