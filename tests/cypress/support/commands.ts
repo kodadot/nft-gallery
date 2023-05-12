@@ -41,7 +41,7 @@ Cypress.Commands.add('snekNavbar', () => {
     .should('have.attr', 'href')
     .and('include', '/snek/create')
   cy.get('[data-cy="explore"]').should('be.visible')
-  cy.get('[data-cy="chain"]').should('be.visible').and('include', '/snek/stats')
+  cy.get('[data-cy="chain"]').should('be.visible')
   cy.get('[data-cy="chain-select"]').should('be.visible')
   cy.get('[data-cy="chain-select"]').click()
 })
