@@ -16,14 +16,23 @@
 <script lang="ts" setup>
 import { OModal } from '@oruga-ui/oruga'
 
-const props = defineProps<{
-  value: boolean
-  destroyOnHide: boolean
-  canCancel: boolean
-  fullScreen: boolean
-  contentClass: boolean
-  rootClass: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    value: boolean
+    destroyOnHide?: boolean
+    canCancel?: boolean
+    fullScreen?: boolean
+    contentClass?: boolean
+    rootClass?: boolean
+  }>(),
+  {
+    destroyOnHide: true,
+    canCancel: true,
+    fullScreen: false,
+    contentClass: false,
+    rootClass: false,
+  }
+)
 
 const emit = defineEmits(['close'])
 
