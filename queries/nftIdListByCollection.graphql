@@ -1,9 +1,0 @@
-query nftListByCollection($id: String!) {
-  nftEntities: nFTEntities(
-    filter: { collectionId: { equalTo: $id }, burned: { distinctFrom: true } }
-  ) {
-    nodes {
-      id
-    }
-  }
-}
