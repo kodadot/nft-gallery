@@ -6,7 +6,9 @@
     :prefix="urlPrefix"
     :show-price="Number(nft?.price) > 0"
     :variant="variant"
-    :unloackable-icon="unlockableIcon" />
+    :unloackable-icon="unlockableIcon"
+    link="nuxt-link"
+    bind-key="to" />
 </template>
 
 <script setup lang="ts">

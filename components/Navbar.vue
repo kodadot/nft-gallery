@@ -66,11 +66,13 @@
         data-cy="create"
         :is-mobile="isMobile"
         :chain="urlPrefix" />
-      <StatsDropdown
+
+      <!-- commenting as part of #5889-->
+      <!-- <StatsDropdown
         class="navbar-stats custom-navbar-item"
         data-cy="stats"
         :is-mobile="isMobile"
-        :chain="urlPrefix" />
+        :chain="urlPrefix" /> -->
 
       <ChainSelectDropdown
         v-if="!isMobile"
@@ -115,9 +117,9 @@
           @click.stop="openWalletConnectModal">
           <span>
             {{ $t('wallet') }}
-            <b-icon icon="wallet" />
+            <NeoIcon icon="wallet" />
           </span>
-          <b-icon class="icon--right" icon="chevron-right" pack="fas" />
+          <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
         </div>
         <ColorModeButton class="navbar-item" />
 
@@ -151,7 +153,6 @@ import ColorModeButton from '~/components/common/ColorModeButton.vue'
 import MobileLanguageOption from '~/components/navbar/MobileLanguageOption.vue'
 import { createVisible } from '@/utils/config/permision.config'
 import ChainSelectDropdown from '~/components/navbar/ChainSelectDropdown.vue'
-import StatsDropdown from '~/components/navbar/StatsDropdown.vue'
 import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
 import ConnectWalletButton from '~/components/shared/ConnectWalletButton.vue'
 import NotificationBoxButton from '~/components/navbar/NotificationBoxButton.vue'
@@ -159,6 +160,7 @@ import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useC
 import { useIdentityStore } from '@/stores/identity'
 import { BModalConfig } from 'buefy/types/components'
 import type Vue from 'vue'
+import { NeoIcon } from '@kodadot1/brick'
 
 const { $buefy, $nextTick } = useNuxtApp()
 const root = ref<Vue<Record<string, string>>>()

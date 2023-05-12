@@ -105,5 +105,11 @@ onMounted(() => {
 
 watch(urlPrefix, () => {
   setTotalValue(0)
+  console.log('########')
+  console.log('########')
+  console.log('changed')
+  console.log('########')
+  console.log('########')
+  console.log('########')
 })
 </script>
