@@ -14,7 +14,8 @@
 
   &__title {
     @include ktheme() {
-      color: theme('k-accent');
+      color: theme('k-primary');
+      background-color: transparent;
     }
   }
 
@@ -23,7 +24,7 @@
       background-image: linear-gradient(
         to left,
         theme('k-grey') 50%,
-        theme('k-accent') 50%
+        theme('k-primary') 50%
       );
     }
   }
@@ -31,9 +32,9 @@
   &__nav-item-active {
     .o-steps__marker {
       @include ktheme() {
-        color: theme('k-accent');
+        color: theme('k-primary');
         background-color: theme('black');
-        border-color: theme('k-accent');
+        border-color: theme('k-primary');
       }
     }
   }
@@ -41,7 +42,7 @@
   &__nav-item-previous {
     .o-steps__marker {
       @include ktheme() {
-        background-color: theme('k-accent');
+        background-color: theme('k-primary');
         color: theme('text-color');
       }
     }
