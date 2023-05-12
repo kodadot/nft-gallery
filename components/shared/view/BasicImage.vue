@@ -50,5 +50,8 @@ const onImageError = (ev: Event) => {
 <style lang="scss" scoped>
 .image-wrapper {
   padding-top: 100%;
+  img {
+    object-fit: cover;
+  }
 }
 </style>
