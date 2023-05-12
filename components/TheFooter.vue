@@ -155,6 +155,11 @@ const menuMarketplace: Menu[] = [
     url: 'https://hello.kodadot.xyz/be-part-of-kodadot/join-as-a-developer',
     external: true,
   },
+  {
+    name: $i18n.t('tutorial'),
+    url: 'https://hello.kodadot.xyz/tutorial/',
+    external: true,
+  },
 ]
 
 const menuKodadot: Menu[] = [
