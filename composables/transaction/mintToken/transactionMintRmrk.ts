@@ -6,6 +6,7 @@ import {
   createMultipleNFT,
 } from '@kodadot1/minimark/v1'
 import {
+  IProperties,
   CreatedNFT as NewCreatedNFT,
   Interaction as NewInteraction,
   convertAttributesToProperties,
@@ -23,25 +24,8 @@ import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { BaseMintedCollection } from '@/components/base/types'
 
-const processSingleTokenToMint = async (
-  token: TokenToMint,
-  api
-): Promise<{
-  arg: string | Extrinsic[]
-  createdNFTs: CreatedNFT[] | NewCreatedNFT[]
-}> => {
-  const { accountId } = useAuth()
-  const preferences = usePreferencesStore()
-  const { isV2 } = useRmrkVersion()
-
-  const { id: collectionId, alreadyMinted: collectionAlreadyMinted } =
-    token.selectedCollection as BaseMintedCollection
-  const { edition, name, postfix, royalty, hasRoyalty } = token
-
-  const metadata = await constructMeta(token, { enableCarbonOffset: true })
-  const updateNameFn = postfix && edition > 1 ? basicUpdateFunction : undefined
-  const mintFunction = isV2.value ? createMultipleItem : createMultipleNFT
-  let onChainProperties = convertAttributesToProperties(token.tags)
+const getOnChainProperties = ({ tags, royalty, hasRoyalty }: TokenToMint) => {
+  let onChainProperties = convertAttributesToProperties(tags)
   const addRoyalty =
     royalty !== undefined && isRoyaltyValid(royalty) && hasRoyalty
       ? makeRoyalty({ receiver: royalty.address, percent: royalty.amount })
@@ -54,32 +38,75 @@ const processSingleTokenToMint = async (
       addRoyalty
     )
   }
+  return onChainProperties
+}
 
-  const mint = mintFunction(
+const getMintFunction = (isV2: boolean) =>
+  isV2 ? createMultipleItem : createMultipleNFT
+
+const getUpdateNameFn = (token: TokenToMint) =>
+  token.postfix && token.edition > 1 ? basicUpdateFunction : undefined
+
+const createMintObject = (token: TokenToMint, metadata, updateNameFn) => {
+  const { isV2 } = useRmrkVersion()
+  const { accountId } = useAuth()
+  const { edition, name, selectedCollection } = token
+  const { alreadyMinted, id } = selectedCollection as BaseMintedCollection
+
+  const mintFunction = getMintFunction(isV2.value)
+  return mintFunction(
     edition,
     accountId.value,
-    collectionId,
+    id,
     name,
     metadata,
-    collectionAlreadyMinted,
+    alreadyMinted,
     updateNameFn
   )
+}
 
-  const mintInteraction = mint.map((nft) => {
-    return isV2.value
-      ? createInteraction({
-          action: NewInteraction.MINT,
-          payload: { value: { ...nft, properties: onChainProperties } },
-        })
-      : createMintInteraction(Interaction.MINTNFT, nft)
-  })
+const createMintInteractionObject = (
+  mint: CreatedNFT[] | NewCreatedNFT[],
+  onChainProperties: IProperties
+) => {
+  const { isV2 } = useRmrkVersion()
 
+  if (isV2.value) {
+    return mint.map((nft) =>
+      createInteraction({
+        action: NewInteraction.MINT,
+        payload: { value: { ...nft, properties: onChainProperties } },
+      })
+    )
+  }
+  return mint.map((nft) => createMintInteraction(Interaction.MINTNFT, nft))
+}
+
+const calculateFees = () => {
+  const preferences = usePreferencesStore()
   const enabledFees: boolean =
     preferences.getHasSupport || preferences.getHasCarbonOffset
 
   const feeMultiplier =
     Number(preferences.getHasSupport) +
     2 * Number(preferences.getHasCarbonOffset)
+
+  return { enabledFees, feeMultiplier }
+}
+
+const processSingleTokenToMint = async (
+  token: TokenToMint,
+  api
+): Promise<{
+  arg: string | Extrinsic[]
+  createdNFTs: CreatedNFT[] | NewCreatedNFT[]
+}> => {
+  const metadata = await constructMeta(token, { enableCarbonOffset: true })
+  const onChainProperties = getOnChainProperties(token)
+  const mint = createMintObject(token, metadata, getUpdateNameFn(token))
+  const mintInteraction = createMintInteractionObject(mint, onChainProperties)
+
+  const { enabledFees, feeMultiplier } = calculateFees()
 
   const isSingle = mintInteraction.length === 1 && !enabledFees
 
