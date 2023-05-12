@@ -7,53 +7,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../scss/theme.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
-@import '@oruga-ui/oruga/src/scss/components/steps';
-
-.o-steps {
-  &__marker {
-    @include ktheme() {
-      color: theme('black');
-    }
-  }
-
-  &__title {
-    @include ktheme() {
-      color: theme('k-accent');
-    }
-  }
-
-  &__divider {
-    @include ktheme() {
-      background-image: linear-gradient(
-        to left,
-        theme('k-grey') 50%,
-        theme('k-accent') 50%
-      );
-    }
-  }
-
-  &__nav-item-active {
-    .o-steps__marker {
-      @include ktheme() {
-        color: theme('k-accent');
-        background-color: theme('black');
-        border-color: theme('k-accent');
-      }
-    }
-  }
-
-  &__nav-item-previous {
-    .o-steps__marker {
-      @include ktheme() {
-        background-color: theme('k-accent');
-        color: theme('text-color');
-      }
-    }
-  }
-}
+@import './NeoSteps.scss';
 </style>
