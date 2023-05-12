@@ -141,7 +141,7 @@ const { isDarkMode } = useTheme()
 
 const menuMarketplace: Menu[] = [
   {
-    name: $i18n.t('faq.page'),
+    name: $i18n.t('faq'),
     url: 'https://hello.kodadot.xyz/ecosystem/faq',
     external: true,
   },
@@ -152,7 +152,8 @@ const menuMarketplace: Menu[] = [
   },
   {
     name: $i18n.t('contribute'),
-    url: '/contribute',
+    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/join-as-a-developer',
+    external: true,
   },
 ]
 
