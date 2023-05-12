@@ -138,13 +138,7 @@ export default class AdminPanel extends mixins(
       data: { collectionEntities },
     } = collections
 
-    this.collections = collectionEntities.nodes
-      ?.map((ce: any) => ({
-        ...ce,
-        available: ce.nfts?.totalCount,
-        nfts: ce.nfts?.nodes?.map((n: AdminNFT) => n),
-      }))
-      .filter((ce: MintedCollection) => ce.available > 0)
+    this.collections = collectionEntities
   }
 
   @Watch('accountId', { immediate: true })

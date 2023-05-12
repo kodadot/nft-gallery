@@ -20,7 +20,7 @@ function handleResult(
     })) || []
   return collections
     .concat(newCollections)
-    .sort((a, b) => a.meta.name.localeCompare(b.meta.name))
+    .sort((a, b) => a.meta.name?.localeCompare(b.meta.name))
 }
 
 function getCollections(chain: string): { [chain: string]: string[] } {
