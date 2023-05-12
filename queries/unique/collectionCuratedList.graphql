@@ -1,9 +1,0 @@
-#import "../fragments/collection.graphql"
-
-query collectionCuratedList {
-  collectionEntities(orderBy: BLOCK_NUMBER_DESC, first: 5) {
-    nodes {
-	  ...collection
-    }
-  }
-}
