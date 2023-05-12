@@ -45,7 +45,7 @@ importers:
         specifier: ^0.1.9
         version: 0.1.9(@polkadot/api@10.6.1)
       '@kodadot1/static':
-        specifier: 0.0.2
+        specifier: workspace:*
         version: link:libs/static
       '@kodadot1/sub-api':
         specifier: ^0.1.2
