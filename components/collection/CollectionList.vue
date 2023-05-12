@@ -54,6 +54,7 @@ import collectionListWithSearch from '@/queries/subsquid/general/collectionListW
 import { useWindowSize } from '@vueuse/core'
 import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
+import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const route = useRoute()
@@ -66,8 +67,6 @@ const isSmallScreen = computed(
   () => useWindowSize().width.value < breakPointWidth
 )
 const SKELETON_COUNT = isSmallScreen.value ? 4 : 12
-
-const GRID_DEFAULT_WIDTH = { small: 16 * 15, medium: 16 * 20, large: 16 * 25 }
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
