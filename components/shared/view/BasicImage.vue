@@ -39,7 +39,6 @@ const imageSrc = ref(props.src)
 const loaded = ref(false)
 
 const onImageLoad = () => {
-  $consola.log('[BasicImage] load:', props.src)
   loaded.value = true
 }
 const onImageError = (ev: Event) => {

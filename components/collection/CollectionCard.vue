@@ -1,15 +1,17 @@
 <template>
   <div class="collection-card card">
     <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
-      <BasicImage
-        :src="image"
-        :alt="collection.name"
-        custom-class="collection-card__image-wrapper" />
+      <template v-if="!isLoadingMeta">
+        <BasicImage
+          :src="image"
+          :alt="collection.name"
+          custom-class="collection-card__image-wrapper" />
 
-      <CollectionDetail
-        :nfts="collection.nfts || []"
-        :name="collection.name || ''"
-        :image="image" />
+        <CollectionDetail
+          :nfts="collection.nfts || []"
+          :name="collection.name || ''"
+          :image="image" />
+      </template>
     </nuxt-link>
   </div>
 </template>
@@ -30,13 +32,16 @@ const props = defineProps<{
 }>()
 
 const image = ref('')
+const isLoadingMeta = ref(false)
 
 onMounted(async () => {
+  isLoadingMeta.value = true
   const metadata = (await processSingleMetadata(
     props.collection.metadata
   )) as Metadata
   image.value = sanitizeIpfsUrl(
     metadata.image || metadata.thumbnailUri || metadata.mediaUri || ''
   )
+  isLoadingMeta.value = false
 })
 </script>
