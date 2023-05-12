@@ -26,5 +26,6 @@ export { default as NeoField } from './components/NeoInput/NeoField.vue'
 export { default as NeoInput } from './components/NeoInput/NeoInput.vue'
 export { default as NeoCarousel } from './components/NeoCarousel/NeoCarousel.vue'
 export { default as NeoCarouselItem } from './components/NeoCarousel/NeoCarouselItem.vue'
+export { default as NeoLoading } from './components/NeoLoading/NeoLoading.vue'
 
 export { default as Neo } from '@oruga-ui/oruga'

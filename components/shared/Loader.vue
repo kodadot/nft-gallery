@@ -1,5 +1,5 @@
 <template>
-  <b-loading v-model="isLoading" is-full-page :can-cancel="canCancel">
+  <NeoLoading v-model="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container">
       <figure>
         <img class="loading-icon" :src="placeholder" />
@@ -21,14 +21,15 @@
         </div>
       </div>
     </div>
-  </b-loading>
+  </NeoLoading>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { randomIntegerBetween } from '@/utils/calculation'
+import { NeoLoading } from '@kodadot1/brick'
 
-@Component({})
+@Component({ components: { NeoLoading } })
 export default class Loader extends Vue {
   @Prop(String) public status!: string
   @Prop(Boolean) public value!: boolean
