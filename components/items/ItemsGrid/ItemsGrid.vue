@@ -4,7 +4,11 @@
       <div
         class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
         <BreadcrumbsFilter />
-        <div v-show="total">{{ total }} {{ $t('items') }}</div>
+
+        <div v-if="total">{{ total }} {{ $t('items') }}</div>
+        <div v-else-if="isLoading" class="skeleton-container-fixed-width">
+          <NeoSkeleton no-margin />
+        </div>
       </div>
       <hr class="my-0" />
     </div>
@@ -52,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoNftCard } from '@kodadot1/brick'
+import { NeoNftCard, NeoSkeleton } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import { useWindowSize } from '@vueuse/core'
 import ItemsGridImage from './ItemsGridImage.vue'
@@ -115,3 +119,9 @@ onBeforeMount(async () => {
   isLoading.value = false
 })
 </script>
+
+<style lang="scss" scoped>
+.skeleton-container-fixed-width {
+  width: 80px;
+}
+</style>

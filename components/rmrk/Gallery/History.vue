@@ -15,8 +15,7 @@
             {{ $t('history.label') }}
           </p>
           <a class="card-header-icon">
-            <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
-            </b-icon>
+            <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
           </a>
         </div>
       </template>
@@ -124,7 +123,7 @@ import { Debounce } from 'vue-debounce-decorator'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { formatDistanceToNow } from 'date-fns'
 
-import { exist } from '@/components/search/exist'
+import { exist } from '@/utils/exist'
 
 import ChainMixin from '@/utils/mixins/chainMixin'
 import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
@@ -141,12 +140,14 @@ import {
 import shortAddress from '@/utils/shortAddress'
 
 import { Interaction as EventInteraction } from '../service/scheme'
+import { NeoIcon } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
+  NeoIcon,
 }
 
 type TableRowItem = {

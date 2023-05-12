@@ -4,7 +4,10 @@
       class="is-flex is-flex-direction-row is-justify-content-space-between py-5">
       <BreadcrumbsFilter />
 
-      <div v-show="total">{{ total }} {{ $t('items') }}</div>
+      <div v-if="total">{{ total }} {{ $t('items') }}</div>
+      <div v-else-if="isLoading" class="skeleton-container-fixed-width">
+        <NeoSkeleton no-margin />
+      </div>
     </div>
     <hr class="mt-0" />
 
@@ -43,6 +46,7 @@
 </template>
 
 <script lang="ts" setup>
+import { NeoSkeleton } from '@kodadot1/brick'
 import { Collection } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from '@/components/search/types'
 import 'lazysizes'
@@ -190,3 +194,9 @@ watch(
   }
 )
 </script>
+
+<style lang="scss" scoped>
+.skeleton-container-fixed-width {
+  width: 80px;
+}
+</style>

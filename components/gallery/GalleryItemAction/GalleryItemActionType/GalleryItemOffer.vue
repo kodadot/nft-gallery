@@ -21,6 +21,7 @@
           <NeoTooltip
             v-if="active && !confirm"
             :active="insufficientBalance || offerPriceInvalid"
+            append-to-body
             :label="
               insufficientBalance
                 ? $t('tooltip.notEnoughBalance')
