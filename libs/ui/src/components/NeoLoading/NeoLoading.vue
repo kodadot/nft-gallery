@@ -2,7 +2,7 @@
   <o-loading
     :active.sync="isLoadingActive"
     :can-cancel="canCancel"
-    :overlay-class="'neo-loading-overlay'"
+    overlay-class="neo-loading-overlay"
     :is-full-page="isFullPage">
     <slot />
   </o-loading>
