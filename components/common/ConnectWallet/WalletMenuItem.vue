@@ -25,7 +25,7 @@
     <div
       v-if="isAuth && walletAccounts.length === 0"
       class="pl-5 pt-2 pb-2 is-flex is-align-items-center auth-tip">
-      <NeoIcon icon="spinner-third" icon-pack="fad" />
+      <NeoIcon icon="spinner-third" pack="fad" />
       <span class="has-text-grey is-size-7 pl-4">
         {{ $i18n.t('walletConnect.authTip') }}
       </span>
@@ -39,7 +39,7 @@
         <a
           class="pl-5 is-flex is-align-items-center"
           :value="option.address"
-          @click="emitAccountChange(option.address)">
+          @click="emitAccountChange(option)">
           <Avatar
             :size="33"
             :value="option.address"
@@ -80,10 +80,10 @@ const emit = defineEmits(['setWallet', 'setAccount'])
 const walletStore = useWalletStore()
 const isAuth = ref(false)
 
-const emitAccountChange = (address: string): void => {
-  emit('setAccount', address)
+const emitAccountChange = (account): void => {
+  emit('setAccount', account)
   const walletName = walletAccounts.value.find(
-    (wallet) => wallet.address === address
+    (wallet) => wallet.address === account.address
   )?.name
   walletStore.setWalletName({ name: walletName })
 }

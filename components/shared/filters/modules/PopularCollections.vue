@@ -10,7 +10,7 @@
           {{ $t('general.popularCollectionsHeading') }}
         </p>
         <a class="card-header-icon">
-          <b-icon :icon="open ? 'minus' : 'plus'" />
+          <NeoIcon :icon="open ? 'minus' : 'plus'" />
         </a>
       </div>
     </template>
@@ -33,7 +33,6 @@
               class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
               <NeoTooltip
                 :label="collection.meta.name || collection.id"
-                :append-to-body="false"
                 :delay="1000">
                 <div class="is-ellipsis">
                   {{ collection.meta.name || collection.id }}
@@ -62,6 +61,7 @@ import { Collection, usePopularCollections } from './usePopularCollections'
 import { OField } from '@oruga-ui/oruga'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getCollectionIds } from '@/utils/queryParams'
+import { NeoIcon } from '@kodadot1/brick'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
