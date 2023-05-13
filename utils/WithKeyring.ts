@@ -6,9 +6,10 @@ import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types'
 import { enableExtension } from '@/utils/extension'
 import correctFormat from '@/utils/ss58Format'
 
-import { web3Accounts, isWeb3Injected } from '@polkadot/extension-dapp'
+import { isWeb3Injected, web3Accounts } from '@polkadot/extension-dapp'
 import { getPrefixByStoreUrl } from '@/utils/chain'
 import ChainMixin from './mixins/chainMixin'
+import { useIdentityStore } from '@/stores/identity'
 
 export type KeyringAccount = KeyringPair | InjectedAccountWithMeta
 
@@ -51,8 +52,12 @@ export default class WithKeyring extends ChainMixin {
     // }
   }
 
+  get identityStore() {
+    return useIdentityStore()
+  }
+
   get accountId() {
-    return this.$store.getters.getAuthAddress
+    return this.identityStore.getAuthAddress
   }
 
   get getSettings() {
