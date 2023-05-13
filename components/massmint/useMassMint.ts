@@ -68,13 +68,8 @@ export const useCollectionForMint = () => {
         error
       )
     })
-  doFetchWithErrorHandling()
 
-  watch(accountId, (newId, oldId) => {
-    if (shouldUpdate(newId, oldId)) {
-      doFetchWithErrorHandling()
-    }
-  })
+  watch(accountId, doFetchWithErrorHandling, { immediate: true })
 
   watch(collections, () => {
     if (!collections) {
