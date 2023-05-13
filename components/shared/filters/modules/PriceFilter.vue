@@ -10,7 +10,7 @@
           {{ $t('tabs.tabActivity.price') }}
         </p>
         <a class="card-header-icon">
-          <b-icon :icon="open ? 'minus' : 'plus'" />
+          <NeoIcon :icon="open ? 'minus' : 'plus'" />
         </a>
       </div>
     </template>
@@ -73,6 +73,7 @@
 import { NeoButton } from '@kodadot1/brick'
 import { fromDecimals, toDecimals } from '@/utils/math'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
+import { NeoIcon } from '@kodadot1/brick'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const { replaceUrl } = useReplaceUrl()

@@ -739,11 +739,7 @@
     "totalSoldItems": "Σ sold items",
     "totalHoldingsBoughtValues": "KSM spend for holdings nfts"
   },
-  "tutorial": {
-    "create": "1. Create polkadot js account",
-    "ksm": "2. Get KSM",
-    "mint": "3. Minting"
-  },
+  "tutorial": "Tutorial",
   "general": {
     "apply": "Apply",
     "resetAll": "Reset All",
