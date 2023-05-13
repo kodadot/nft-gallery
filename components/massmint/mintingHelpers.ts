@@ -113,16 +113,19 @@ export const getListForSellItems = (
     .filter(Boolean) as TokenToList[]
 }
 
-export const mintKusama = async (tokens) => {
+export const mintKusama = (tokens) => {
   const { blockNumber, transaction, isLoading, status } = useTransaction()
   const { urlPrefix } = usePrefix()
-  const { createdNFTs } = (await transaction({
+  const createdNFTs = ref<CreatedNFT[]>()
+  transaction({
     interaction: Interaction.MINTNFT,
     urlPrefix: urlPrefix.value,
     token: tokens,
-  })) as {
-    createdNFTs: Ref<CreatedNFT[]>
-  }
+  }).then((result) => {
+    if (typeof result === 'object' && result?.createdNFTs) {
+      createdNFTs.value = result?.createdNFTs.value as CreatedNFT[]
+    }
+  })
 
   return {
     blockNumber,
@@ -134,48 +137,57 @@ export const mintKusama = async (tokens) => {
 
 export const kusamaMintAndList = (tokens) => {
   const status = ref('')
-  const isLoading = ref(false)
-  const collectionUpdated = ref(true)
+  const isLoading = ref(true)
+  const collectionUpdated = ref(false)
   const itemsToList = ref<TokenToList[]>()
   const blockNumber = ref<string>()
 
-  const listForSellResults = {
-    isLoading: ref(false),
-    status: ref(''),
-    blockNumber: ref<string>(),
-  }
+  const listForSellResults = reactive<{
+    isLoading: boolean
+    status: string
+    blockNumber: string | undefined
+  }>({
+    isLoading: true,
+    status: '',
+    blockNumber: undefined,
+  })
 
-  onMounted(async () => {
-    const { blockNumber: mintBlockNumber, createdNFTs } = await mintKusama(
-      tokens
-    )
-    watch([mintBlockNumber, createdNFTs], () => {
-      if (mintBlockNumber.value && createdNFTs.value) {
-        itemsToList.value = getListForSellItems(
-          createdNFTs.value,
-          tokens,
-          mintBlockNumber.value
-        )
+  const {
+    blockNumber: mintBlockNumber,
+    createdNFTs,
+    status: mintStatus,
+  } = mintKusama(tokens)
+  watch([mintBlockNumber, createdNFTs, mintStatus], () => {
+    status.value = mintStatus.value
+    if (mintBlockNumber.value && createdNFTs.value) {
+      itemsToList.value = getListForSellItems(
+        createdNFTs.value,
+        tokens,
+        mintBlockNumber.value
+      )
+    }
+  })
 
-        const {
-          blockNumber: listBlockNumber,
-          isLoading: isLoadingList,
-          status: listStatus,
-        } = listForSell(itemsToList.value)
-        listForSellResults.blockNumber.value = listBlockNumber.value
-        listForSellResults.isLoading.value = isLoadingList.value
-        listForSellResults.status.value = listStatus.value
-      }
-    })
+  watch(itemsToList, () => {
+    if (itemsToList.value) {
+      const {
+        blockNumber: listBlockNumber,
+        isLoading: isLoadingList,
+        status: listStatus,
+      } = listForSell(itemsToList.value)
+      listForSellResults.blockNumber = listBlockNumber.value
+      listForSellResults.isLoading = isLoadingList.value
+      listForSellResults.status = listStatus.value
+    }
+  })
 
-    watchEffect(() => {
-      if (listForSellResults.isLoading.value === false) {
-        status.value = listForSellResults.status.value
-        isLoading.value = listForSellResults.isLoading.value
-        collectionUpdated.value = true
-        blockNumber.value = listForSellResults.blockNumber.value
-      }
-    })
+  watchEffect(() => {
+    if (listForSellResults.blockNumber !== undefined) {
+      status.value = listForSellResults.status
+      isLoading.value = listForSellResults.isLoading
+      collectionUpdated.value = true
+      blockNumber.value = listForSellResults.blockNumber
+    }
   })
 
   return {

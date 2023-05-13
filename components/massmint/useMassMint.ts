@@ -137,8 +137,8 @@ export const useMassMint = (
     } else {
       // kusama
       const mintAndListResults = kusamaMintAndList(tokens)
-      watch(mintAndListResults.collectionUpdated, (isDone) => {
-        collectionUpdated.value = isDone
+      watchEffect(() => {
+        collectionUpdated.value = mintAndListResults.collectionUpdated.value
         isLoading.value = mintAndListResults.isLoading.value
         status.value = mintAndListResults.status.value
         blockNumber.value = mintAndListResults.blockNumber.value
