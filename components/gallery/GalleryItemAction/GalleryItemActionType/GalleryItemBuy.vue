@@ -117,7 +117,7 @@ const label = computed(() =>
 )
 
 const balance = computed<string>(() => {
-  if (['rmrk', 'ksm'].includes(urlPrefix.value)) {
+  if (['rmrk', 'ksm', 'stmn'].includes(urlPrefix.value)) {
     return identityStore.getAuthBalance
   }
   return identityStore.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
@@ -191,7 +191,7 @@ const handleBuy = async () => {
   }
 
   try {
-    transaction({
+    await transaction({
       interaction: ShoppingActions.BUY,
       currentOwner: props.currentOwner,
       price: props.nftPrice,
@@ -203,11 +203,11 @@ const handleBuy = async () => {
       successMessage: $i18n.t('mint.successNewNfts'),
       errorMessage: $i18n.t('transaction.buy.error'),
     })
-  } catch (error) {
-    warningMessage(error)
-  } finally {
+
     showNotification(`[${actionLabel}] ${itemId}`, notificationTypes.success)
     emit('buy-success')
+  } catch (error) {
+    warningMessage(error)
   }
 }
 
