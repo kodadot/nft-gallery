@@ -5,12 +5,11 @@
 @import '../../scss/variable.scss';
 
 $tooltip-content-zindex: 101;
-$tooltip-content-font-size: var(--computed-font-size, 1rem);
+$tooltip-content-font-size: var(--font-size, 1rem);
 $tooltip-content-padding: 0.25rem 0.5rem;
 $tooltip-content-radius-large: 0;
 $tooltip-content-box-shadow: none;
-$tooltip-content-multiline-width: 15rem;
-$tooltip-content-max-width: fit-content;
+$tooltip-content-multiline-width: var(--multiline-width, 10rem);
 $tooltip-arrow-margin: 1rem;
 
 @import '@oruga-ui/oruga/src/scss/components/tooltip.scss';

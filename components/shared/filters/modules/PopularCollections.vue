@@ -34,6 +34,7 @@
               <NeoTooltip
                 :active="isCutArray[index].value"
                 :label="collection.meta.name || collection.id"
+                multiline
                 :delay="1000">
                 <div
                   :ref="(el) => assignRefAndUpdateArray(el, index)"
