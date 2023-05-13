@@ -8,9 +8,10 @@
       <div
         class="is-flex is-justify-content-space-between is-align-items-center">
         <span>
-          <BasicImage
+          <img
             :src="wallet.img"
-            class="is-32x32 is-inline-block"
+            :alt="wallet.extensionName"
+            width="32"
             style="vertical-align: middle" />
           <span class="is-size-6 ml-2 is-capitalized">{{ wallet.name }}</span>
         </span>
