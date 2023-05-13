@@ -1,6 +1,5 @@
 import { unwrapSafe } from '@/utils/uniquery'
 import resolveQueryPath from '@/utils/queryPathResolver'
-import shouldUpdate from '@/utils/shouldUpdate'
 import { MintedCollection, Status } from './types'
 
 export const statusTranslation = (status?: Status): string => {
