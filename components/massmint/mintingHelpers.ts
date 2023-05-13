@@ -5,7 +5,6 @@ import {
   TokenToMint,
 } from '@/composables/transaction/types'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import { Ref } from 'vue'
 import { toNFTId } from '../rmrk/service/scheme'
 import { NFTToMint } from './types'
 
