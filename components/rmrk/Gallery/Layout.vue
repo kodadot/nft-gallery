@@ -10,7 +10,7 @@
           :disabled="disabled"
           data-cy="large-display">
           <span>
-            <b-icon icon="th-large" />
+            <NeoIcon icon="th-large" />
           </span>
         </b-radio-button>
       </b-tooltip>
@@ -23,7 +23,7 @@
           :disabled="disabled"
           data-cy="small-display">
           <span>
-            <b-icon icon="th" />
+            <NeoIcon icon="th" />
           </span>
         </b-radio-button>
       </b-tooltip>
@@ -35,8 +35,9 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { RmrkType } from '@/components/rmrk/service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoIcon } from '@kodadot1/brick'
 
-@Component({})
+@Component({ components: { NeoIcon } })
 export default class Layout extends Vue {
   @Prop({ default: 'nftDetail' }) public type!: string
   @Prop({ default: 'rmrk/detail' }) public link!: string

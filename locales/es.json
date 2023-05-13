@@ -612,11 +612,7 @@
     "totalSoldItems": "Σ artículos vendidos",
     "totalHoldingsBoughtValues": "Valores Totales de KSM para NFTs de acciones"
   },
-  "tutorial": {
-    "create": "1. Crear cuenta de polkadot js",
-    "ksm": "2. Obtener KSM",
-    "mint": "3. Minting"
-  },
+  "tutorial": "Tutorial",
   "general": {
     "apply": "Aplicar",
     "using": "usando",
