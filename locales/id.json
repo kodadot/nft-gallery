@@ -380,11 +380,7 @@
     "score": "Skor",
     "emoteCount": "Emotes"
   },
-  "tutorial": {
-    "create": "1. Buat akun polkadot js",
-    "ksm": "2. Dapatkan KSM",
-    "mint": "3. Minting"
-  },
+  "tutorial": "Tutorial",
   "general": {
     "balance": "Saldo",
     "submit": "Kirim",

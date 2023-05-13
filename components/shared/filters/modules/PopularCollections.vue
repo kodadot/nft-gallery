@@ -10,7 +10,7 @@
           {{ $t('general.popularCollectionsHeading') }}
         </p>
         <a class="card-header-icon">
-          <b-icon :icon="open ? 'minus' : 'plus'" />
+          <NeoIcon :icon="open ? 'minus' : 'plus'" />
         </a>
       </div>
     </template>
@@ -34,7 +34,6 @@
               <NeoTooltip
                 :active="isCutArray[index].value"
                 :label="collection.meta.name || collection.id"
-                :append-to-body="false"
                 :delay="1000">
                 <div
                   :ref="(el) => assignRefAndUpdateArray(el, index)"
@@ -66,6 +65,7 @@ import { OField } from '@oruga-ui/oruga'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getCollectionIds } from '@/utils/queryParams'
 import { useTextOverflow } from '@/composables/useTextOverflow'
+import { NeoIcon } from '@kodadot1/brick'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
