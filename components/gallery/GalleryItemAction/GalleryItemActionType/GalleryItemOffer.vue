@@ -91,8 +91,8 @@ import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { MIN_OFFER_PRICE } from '@/utils/constants'
-import { useIdentityStore } from '@/stores/identity'
 import Vue from 'vue'
+import { getAsssetBalance } from '@/utils/api/bsx/query'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/shared/Loader.vue')
@@ -106,21 +106,27 @@ const props = defineProps<{
 }>()
 
 const { apiInstance } = useApi()
-const { urlPrefix, tokenId } = usePrefix()
+const { urlPrefix } = usePrefix()
 const { $route, $i18n, $buefy } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
 const { accountId } = useAuth()
 const { decimals } = useChain()
-const identityStore = useIdentityStore()
 const root = ref<Vue<Record<string, string>>>()
 const connected = computed(() => Boolean(accountId.value))
 
-const balance = computed<string>(() => {
-  if (urlPrefix.value == 'rmrk' || urlPrefix.value == 'ksm') {
-    return identityStore.getAuthBalance
-  }
-  return identityStore.getTokenBalanceOf(tokenId.value)
+const balance = ref<string>('0')
+onMounted(() => {
+  fetchBalance()
 })
+
+const fetchBalance = async () => {
+  const { apiInstance } = useApi()
+  const api = await apiInstance.value
+  getAsssetBalance(api, accountId.value, '1').then((data) => {
+    balance.value = data
+  })
+}
+
 const { data } = useGraphql({
   queryName: 'offerHighest',
   queryPrefix: 'chain-bsx',
