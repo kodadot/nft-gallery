@@ -6,6 +6,8 @@
     :destroy-on-hide="destroyOnHide"
     :can-cancel="canCancel"
     :full-screen="fullScreen"
+    :content-class="contentClass"
+    :root-class="rootClass"
     @close="updateClose">
     <slot />
   </o-modal>
@@ -20,11 +22,15 @@ const props = withDefaults(
     destroyOnHide?: boolean
     canCancel?: boolean
     fullScreen?: boolean
+    contentClass?: string
+    rootClass?: string
   }>(),
   {
     destroyOnHide: true,
     canCancel: true,
     fullScreen: false,
+    contentClass: '',
+    rootClass: '',
   }
 )
 
