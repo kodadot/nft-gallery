@@ -164,23 +164,25 @@ const startMint = () => {
   mintModalOpen.value = true
   isMinting.value = true
 
-  const { isLoading, status, collectionUpdated, error } = useMassMint(
+  const { isLoading, status, collectionUpdated, isError } = useMassMint(
     Object.values(NFTS.value) as NFTToMint[],
     selectedCollection.value as MintedCollection
   )
 
   watch(
-    [isLoading, status, collectionUpdated, error],
+    [isLoading, status, collectionUpdated, isError],
     ([isLoadingV, statusV], [isLoadingOldV]) => {
       isMinting.value = isLoadingV
       mintStatus.value = statusV
 
-      if (isLoadingOldV && !isLoadingV && !error.value) {
+      if (isLoadingOldV && !isLoadingV) {
         mintModalOpen.value = false
-        showNotification(
-          'You will go to collection page in a moment....',
-          notificationTypes.success
-        )
+        if (!isError.value) {
+          showNotification(
+            'You will go to collection page in a moment....',
+            notificationTypes.success
+          )
+        }
       }
 
       //redirect to collection page when collection is updated

@@ -61,7 +61,8 @@ export const subscribeToCollectionUpdates = (collectionId: string) => {
 }
 
 export const listForSell = (mintedNFts: TokenToList[]) => {
-  const { blockNumber, transaction, isLoading, status } = useTransaction()
+  const { blockNumber, transaction, isLoading, status, isError } =
+    useTransaction()
   const { urlPrefix } = usePrefix()
   const { $i18n } = useNuxtApp()
 
@@ -76,6 +77,7 @@ export const listForSell = (mintedNFts: TokenToList[]) => {
     blockNumber,
     isLoading,
     status,
+    isError,
   }
 }
 
@@ -113,7 +115,7 @@ export const getListForSellItems = (
 }
 
 export const mintKusama = (tokens) => {
-  const { blockNumber, transaction, isLoading, status, error } =
+  const { blockNumber, transaction, isLoading, status, isError } =
     useTransaction()
   const { urlPrefix } = usePrefix()
   const createdNFTs = ref<CreatedNFT[]>()
@@ -132,7 +134,7 @@ export const mintKusama = (tokens) => {
     isLoading,
     status,
     createdNFTs,
-    error,
+    isError,
   }
 }
 
@@ -140,58 +142,44 @@ export const kusamaMintAndList = (tokens) => {
   const status = ref('')
   const isLoading = ref(true)
   const collectionUpdated = ref(false)
-  const itemsToList = ref<TokenToList[]>()
   const blockNumber = ref<string>()
-
-  const listForSellResults = reactive<{
-    isLoading: boolean
-    status: string
-    blockNumber: string | undefined
-  }>({
-    isLoading: true,
-    status: '',
-    blockNumber: undefined,
-  })
+  const isError = ref(false)
 
   const {
     blockNumber: mintBlockNumber,
     createdNFTs,
     status: mintStatus,
-    error,
+    isError: mintIsError,
   } = mintKusama(tokens)
-  watch([mintBlockNumber, createdNFTs, mintStatus, error], () => {
+  watch([mintBlockNumber, createdNFTs, mintStatus, mintIsError], () => {
     status.value = mintStatus.value
-    if (error.value) {
+    blockNumber.value = mintBlockNumber.value
+    isError.value = mintIsError.value
+
+    if (mintIsError.value) {
       isLoading.value = false
     }
     if (mintBlockNumber.value && createdNFTs.value) {
-      itemsToList.value = getListForSellItems(
-        createdNFTs.value,
-        tokens,
-        mintBlockNumber.value
-      )
-    }
-  })
-
-  watch(itemsToList, () => {
-    if (itemsToList.value) {
       const {
         blockNumber: listBlockNumber,
-        isLoading: isLoadingList,
+        isLoading: listIsLoading,
         status: listStatus,
-      } = listForSell(itemsToList.value)
-      listForSellResults.blockNumber = listBlockNumber.value
-      listForSellResults.isLoading = isLoadingList.value
-      listForSellResults.status = listStatus.value
-    }
-  })
+        isError: listIsError,
+      } = listForSell(
+        getListForSellItems(createdNFTs.value, tokens, mintBlockNumber.value)
+      )
 
-  watchEffect(() => {
-    if (listForSellResults.blockNumber !== undefined) {
-      status.value = listForSellResults.status
-      isLoading.value = listForSellResults.isLoading
-      collectionUpdated.value = true
-      blockNumber.value = listForSellResults.blockNumber
+      watchEffect(() => {
+        status.value = listStatus.value
+        blockNumber.value = listBlockNumber.value
+        isError.value = listIsError.value
+        if (!listIsLoading.value || listIsError.value) {
+          isLoading.value = false
+        }
+        if (listBlockNumber.value !== undefined) {
+          collectionUpdated.value = true
+        }
+      })
     }
   })
 
@@ -200,6 +188,6 @@ export const kusamaMintAndList = (tokens) => {
     isLoading,
     collectionUpdated,
     blockNumber,
-    error,
+    isError,
   }
 }

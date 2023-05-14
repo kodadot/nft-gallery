@@ -42,8 +42,13 @@ const resolveSuccessMessage = (
 const useExecuteTransaction = () => {
   const { accountId } = useAuth()
   const error = ref(false)
-  const { howAboutToExecute, isLoading, status, initTransactionLoader } =
-    useMetaTransaction()
+  const {
+    howAboutToExecute,
+    isLoading,
+    status,
+    initTransactionLoader,
+    isError,
+  } = useMetaTransaction()
   const blockNumber = ref<string>()
 
   const executeTransaction = ({
@@ -61,7 +66,6 @@ const useExecuteTransaction = () => {
     }
 
     const errorCb = () => {
-      error.value = true
       warningMessage(errorMessage || 'Failed!')
     }
 
@@ -74,12 +78,13 @@ const useExecuteTransaction = () => {
     error,
     executeTransaction,
     blockNumber,
+    isError,
   }
 }
 
 export const useTransaction = () => {
   const { apiInstance } = useApi()
-  const { isLoading, status, executeTransaction, blockNumber, error } =
+  const { isLoading, status, executeTransaction, blockNumber, isError } =
     useExecuteTransaction()
 
   const transaction = async (item: Actions) => {
@@ -127,6 +132,6 @@ export const useTransaction = () => {
     status,
     transaction,
     blockNumber,
-    error,
+    isError,
   }
 }
