@@ -207,7 +207,7 @@
         :key="lang.value"
         aria-role="listitem"
         has-link
-        :value="userLang"
+        :value="lang.value"
         :class="{ 'is-active': userLang === lang.value }"
         @click="setUserLang(lang.value)">
         <a
@@ -343,58 +343,3 @@ export default class ProfileDropdown extends mixins(
   }
 }
 </script>
-
-<!-- <script setup lang="ts">
-import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
-import { BModalComponent, BModalConfig } from 'buefy/types/components'
-import type Vue from 'vue'
-import { ModalProgrammatic as Modal } from 'buefy'
-import { langsFlags } from '@/utils/config/i18n'
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
-import { useLangStore } from '@/stores/lang'
-
-const { accountId } = useAuth()
-const { isDarkMode } = useTheme()
-const { urlPrefix } = usePrefix()
-const langStore = useLangStore()
-const modal = ref<BModalComponent | null>()
-const root = ref<Vue<Record<string, string>>>()
-const emit = defineEmits(['closeBurgerMenu'])
-const toggleLanguageMenu = ref(false)
-
-const profileIcon = computed(() => isDarkMode.value ? '/profile-dark.svg' : '/profile.svg')
-const isSnekOrBsx = computed(() => urlPrefix.value === 'snek' || urlPrefix.value === 'bsx')
-const userLang = computed(() => langStore.language.userLang)
-
-const toggleWalletConnectModal = () => {
-  if (modal.value?.isActive) {
-    modal.value.close()
-    modal.value = null
-    return
-  }
-  modal.value = Modal.open({
-    parent: root?.value,
-    ...ConnectWalletModalConfig,
-  } as unknown as BModalConfig)
-  emit('closeBurgerMenu')
-}
-
-const closeBurgerMenu = () => {
-  emit('closeBurgerMenu')
-}
-
-const setUserLang = (value: string) => {
-  langStore.setLanguage({ userLang: value })
-}
-
-const showRampSDK = () => {
-  new RampInstantSDK({
-    defaultAsset: 'KSM', // todo: prefix
-    userAddress: accountId.value,
-    hostAppName: 'KodaDot',
-    hostApiKey: 'a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc', // env
-    hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
-    variant: 'desktop',
-  }).show()
-}
-</script> -->
