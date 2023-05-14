@@ -107,7 +107,8 @@ export const useMassMint = (
   nfts: NFTToMint[],
   collection: MintedCollection
 ) => {
-  const { blockNumber, transaction, isLoading, status } = useTransaction()
+  const { blockNumber, transaction, isLoading, status, error } =
+    useTransaction()
   const collectionUpdated = ref(false)
   const { urlPrefix } = usePrefix()
 
@@ -142,6 +143,7 @@ export const useMassMint = (
         isLoading.value = mintAndListResults.isLoading.value
         status.value = mintAndListResults.status.value
         blockNumber.value = mintAndListResults.blockNumber.value
+        error.value = mintAndListResults.error.value
       })
     }
   } else {
@@ -153,5 +155,6 @@ export const useMassMint = (
     isLoading,
     status,
     collectionUpdated,
+    error,
   }
 }

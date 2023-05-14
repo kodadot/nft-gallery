@@ -113,7 +113,8 @@ export const getListForSellItems = (
 }
 
 export const mintKusama = (tokens) => {
-  const { blockNumber, transaction, isLoading, status } = useTransaction()
+  const { blockNumber, transaction, isLoading, status, error } =
+    useTransaction()
   const { urlPrefix } = usePrefix()
   const createdNFTs = ref<CreatedNFT[]>()
   transaction({
@@ -131,6 +132,7 @@ export const mintKusama = (tokens) => {
     isLoading,
     status,
     createdNFTs,
+    error,
   }
 }
 
@@ -155,9 +157,13 @@ export const kusamaMintAndList = (tokens) => {
     blockNumber: mintBlockNumber,
     createdNFTs,
     status: mintStatus,
+    error,
   } = mintKusama(tokens)
-  watch([mintBlockNumber, createdNFTs, mintStatus], () => {
+  watch([mintBlockNumber, createdNFTs, mintStatus, error], () => {
     status.value = mintStatus.value
+    if (error.value) {
+      isLoading.value = false
+    }
     if (mintBlockNumber.value && createdNFTs.value) {
       itemsToList.value = getListForSellItems(
         createdNFTs.value,
@@ -194,5 +200,6 @@ export const kusamaMintAndList = (tokens) => {
     isLoading,
     collectionUpdated,
     blockNumber,
+    error,
   }
 }
