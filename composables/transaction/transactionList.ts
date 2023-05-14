@@ -4,7 +4,11 @@ import {
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
 
-import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
+import {
+  bsxParamResolver,
+  getApiCall,
+  uniqueParamResolver,
+} from '@/utils/gallery/abstractCalls'
 import { warningMessage } from '@/utils/notification'
 
 import type { ActionList, TokenToList } from './types'
@@ -90,5 +94,14 @@ export function execListTx(item: ActionList, api, executeTransaction) {
         errorMessage: item.errorMessage,
       })
     }
+  }
+
+  if (item.urlPrefix === 'stmn') {
+    executeTransaction({
+      cb: getApiCall(api, item.urlPrefix, Interaction.LIST),
+      arg: uniqueParamResolver(item.nftId, Interaction.LIST, meta),
+      successMessage: item.successMessage,
+      errorMessage: item.errorMessage,
+    })
   }
 }
