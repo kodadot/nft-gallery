@@ -8,11 +8,14 @@
 import { mnemonicGenerate } from '@polkadot/util-crypto'
 import keyring from '@polkadot/ui-keyring'
 import { ss58Of } from '@/utils/config/chain.config'
+import { useIdentityStore } from '@/stores/identity'
+
+const identityStore = useIdentityStore()
 
 const { urlPrefix } = usePrefix()
 const mockAddress = ref(false)
 
-onMounted(() => {
+onMounted(async () => {
   const mnemonic = mnemonicGenerate(12)
   const { pair } = keyring.addUri(mnemonic, '', {
     name: 'mnemonic acc',
@@ -24,17 +27,12 @@ onMounted(() => {
   const account = pair.address
 
   localStorage.setItem('kodaauth', account)
+  await identityStore.setAuth({
+    address: account,
+    balance: {},
+    tokens: {},
+  })
 
-  setTimeout(() => {
-    localStorage.setItem(
-      'identity',
-      JSON.stringify({
-        auth: { address: account, balance: {}, tokens: {} },
-        identities: {},
-      })
-    )
-
-    mockAddress.value = true
-  }, 1000)
+  mockAddress.value = true
 })
 </script>

@@ -84,8 +84,8 @@ import { SupportedWallets } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { Auth, useIdentityStore } from '@/stores/identity'
-import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem'
-import WalletAsset from '@/components/common/ConnectWallet/WalletAsset'
+import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
+import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
