@@ -125,7 +125,6 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { DisablableTab, MediaItem } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
-import { useRedirectModal } from '@/components/redirect/useRedirectModal'
 
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
@@ -193,10 +192,6 @@ const propertiesTabDisabled = computed(() => {
 
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
-
-onMounted(() => {
-  useRedirectModal('.gallery-item-desc-markdown')
-})
 
 watchEffect(async () => {
   if (nft.value?.metadata) {
