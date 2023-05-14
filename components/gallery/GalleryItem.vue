@@ -32,8 +32,7 @@
                   <MediaItem
                     :key="resource.src"
                     :src="resource.src"
-                    is-detail
-                    :original="isMobile" />
+                    is-detail />
                 </section>
               </o-carousel-item>
             </o-carousel>
@@ -52,7 +51,6 @@
             :mime-type="nftMimeType"
             :title="nftMetadata?.name"
             is-detail
-            :original="isMobile"
             :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder" />
         </div>
