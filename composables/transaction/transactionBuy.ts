@@ -54,6 +54,18 @@ function execBuyBasilisk(item: ActionBuy, api, executeTransaction) {
   })
 }
 
+function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
+  const { id, item: token } = tokenIdToRoute(item.nftId)
+
+  // TODO: implement tx fees #5130
+  executeTransaction({
+    cb: getApiCall(api, item.urlPrefix, item.interaction),
+    arg: [id, token, item.price],
+    successMessage: item.successMessage,
+    errorMessage: item.errorMessage,
+  })
+}
+
 export function execBuyTx(item: ActionBuy, api, executeTransaction) {
   if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
     execBuyRmrk(item, api, executeTransaction)
@@ -61,5 +73,9 @@ export function execBuyTx(item: ActionBuy, api, executeTransaction) {
 
   if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
     execBuyBasilisk(item, api, executeTransaction)
+  }
+
+  if (item.urlPrefix === 'stmn') {
+    execBuyStatemine(item, api, executeTransaction)
   }
 }
