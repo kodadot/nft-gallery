@@ -3,18 +3,36 @@
     <div class="label">
       {{ $t('Minting Settings') }}
     </div>
-    <div class="py-2">
+    <div class="py-2 is-flex">
       <Support v-model="hasSupport" :show-price="false" />
+      <NeoTooltip
+        :label="$i18n.t('support.tooltip')"
+        position="bottom"
+        multiline>
+        <NeoIcon icon="info-circle" pack="fas" />
+      </NeoTooltip>
     </div>
-    <div class="py-2">
+    <div class="py-2 is-flex">
       <Support
         v-model="hasCarbonOffset"
         :price="1"
         :active-message="$t('carbonOffset.carbonOffsetYes')"
         :passive-message="$t('carbonOffset.carbonOffsetNo')" />
+      <NeoTooltip
+        :label="$i18n.t('carbonOffset.tooltip')"
+        position="bottom"
+        multiline>
+        <NeoIcon icon="info-circle" pack="fas" />
+      </NeoTooltip>
     </div>
-    <div class="py-2">
+    <div class="py-2 is-flex">
       <ArweaveUploadSwitch v-model="arweaveUpload" />
+      <NeoTooltip
+        :label="$i18n.t('arweave.tooltip')"
+        position="bottom"
+        multiline>
+        <NeoIcon icon="info-circle" pack="fas" />
+      </NeoTooltip>
     </div>
   </div>
 </template>
@@ -23,6 +41,7 @@
 import ArweaveUploadSwitch from '@/components/rmrk/Create/ArweaveUploadSwitch.vue'
 import Support from '@/components/shared/Support.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
 const preferencesStore = usePreferencesStore()
 const hasSupport = computed({
