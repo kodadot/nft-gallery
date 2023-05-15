@@ -34,7 +34,7 @@ export const useCollectionForMint = () => {
   const { urlPrefix } = usePrefix()
   const queryPath = {
     rmrk: 'chain-rmrk',
-    ksm: 'chain-ksm',
+    ksm: 'chain-rmrk',
   }
 
   const doFetch = async () => {
