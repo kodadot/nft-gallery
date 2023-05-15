@@ -237,6 +237,10 @@ For crafting much better culture and Developer Experience, we reccomend some ext
 
 This repository has a [code of conduct](CODE_OF_CONDUCT.md). This repository has a code of conduct, and I will remove things that do not respect it.
 
+### Getting Error `Error: error:0308010C:digital envelope routines::unsupported`
+
+Ensure to set `NODE_OPTIONS=--openssl-legacy-provider` in your environment variables. Ref: https://github.com/webpack/webpack/issues/14532#issuecomment-947012063
+
 ## Follow us
 
 - [Twitter @KodaDot](https://twitter.com/kodadot)
