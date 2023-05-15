@@ -392,9 +392,6 @@ export default class Transfer extends mixins(
       const availableNodesByPrefix: { value: string }[] =
         this.$store.getters['availableNodesByPrefix']
       const availableUrls = availableNodesByPrefix.map((node) => node.value)
-      if (usedNodeUrls.length === 0) {
-        usedNodeUrls.push(this.$store.getters.getSettings['apiUrl'])
-      }
       if (usedNodeUrls.length < availableUrls.length) {
         const nextTryUrls = availableUrls.filter(
           (url) => !usedNodeUrls.includes(url)

@@ -44,12 +44,8 @@ export default class WithKeyring extends ChainMixin {
       ss58Format:
         correctFormat(ss58Forever) >= 0
           ? correctFormat(ss58Forever)
-          : correctFormat(this.prefixByStore),
+          : correctFormat('0'),
     })
-
-    // if ((!this.accountId || ss58Changed) && this.importedAccounts?.length && process.env.VUE_APP_KEYRING) {
-    //   this.$store.dispatch('setAuth', { address: this.importedAccounts[0]?.address });
-    // }
   }
 
   get identityStore() {
@@ -58,14 +54,6 @@ export default class WithKeyring extends ChainMixin {
 
   get accountId() {
     return this.identityStore.getAuthAddress
-  }
-
-  get getSettings() {
-    return this.$store.getters.getSettings?.apiUrl
-  }
-
-  get prefixByStore() {
-    return correctFormat(getPrefixByStoreUrl(this.getSettings()))
   }
 
   public allAcctounts(): KeyringAccount[] {
