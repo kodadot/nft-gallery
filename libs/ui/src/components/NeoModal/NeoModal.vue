@@ -22,15 +22,15 @@ const props = withDefaults(
     destroyOnHide?: boolean
     canCancel?: boolean
     fullScreen?: boolean
-    contentClass?: boolean
-    rootClass?: boolean
+    contentClass?: string
+    rootClass?: string
   }>(),
   {
     destroyOnHide: true,
     canCancel: true,
     fullScreen: false,
-    contentClass: false,
-    rootClass: false,
+    contentClass: '',
+    rootClass: '',
   }
 )
 

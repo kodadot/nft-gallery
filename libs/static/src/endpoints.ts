@@ -20,6 +20,15 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
   movr: ['wss://wss.api.moonriver.moonbeam.network'],
   ksm: KUSAMA_ENDPOINTS,
   snek: ['wss://basilisk-rococo-rpc.play.hydration.cloud'],
+  stmn: [
+    'wss://statemine-rpc.polkadot.io',
+    'wss://statemine-rpc.dwellir.com',
+    'wss://sys.ibp.network/statemine',
+    'wss://sys.dotters.network/statemine',
+    'wss://rpc-statemine.luckyfriday.io',
+    'wss://statemine.api.onfinality.io/public-ws',
+    'wss://statemine.public.curie.radiumblock.co/ws',
+  ],
 }
 
 export const ENDPOINT_MAP: Config<WS_URL> = {
@@ -29,4 +38,5 @@ export const ENDPOINT_MAP: Config<WS_URL> = {
   movr: 'wss://wss.api.moonriver.moonbeam.network',
   ksm: KUSAMA_ENDPOINTS[0],
   snek: 'wss://basilisk-rococo-rpc.play.hydration.cloud',
+  stmn: 'wss://statemine-rpc.polkadot.io',
 }
