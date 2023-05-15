@@ -1,6 +1,6 @@
 **Thank you for your contribution** to the [KodaDot - One Stop Shop for Polkadot NFTs](https://kodadot.xyz).
 
-👇 __ Let's make a quick check before the contribution.
+👇 \_\_ Let's make a quick check before the contribution.
 
 ## PR Type
 
@@ -29,7 +29,7 @@
 
 #### Had issue bounty label?
 
-- [ ] Fill up your KSM address: [Payout](https://beta.kodadot.xyz/transfer/?target=<My_Kusama_Address_check_https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#creating-your-ksm-address>)
+- [ ] Fill up your KSM address: [Payout](https://beta.kodadot.xyz/ksm/transfer/?target=<My_Kusama_Address_check_https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#creating-your-ksm-address>)
 
 #### Community participation
 
@@ -40,6 +40,7 @@
 - [ ] My fix has changed **something** on UI; a screenshot is best to understand changes for others.
 
 ## Copilot Summary
+
 copilot:summary
 
 copilot:poem
