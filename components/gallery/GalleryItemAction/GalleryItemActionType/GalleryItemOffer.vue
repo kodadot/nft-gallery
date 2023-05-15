@@ -106,7 +106,7 @@ const props = defineProps<{
 }>()
 
 const { apiInstance } = useApi()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, tokenId } = usePrefix()
 const { $route, $i18n, $buefy } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
 const { accountId } = useAuth()
@@ -122,7 +122,7 @@ onMounted(() => {
 const fetchBalance = async () => {
   const { apiInstance } = useApi()
   const api = await apiInstance.value
-  getAsssetBalance(api, accountId.value, '1').then((data) => {
+  getAsssetBalance(api, accountId.value, tokenId.value).then((data) => {
     balance.value = data
   })
 }
