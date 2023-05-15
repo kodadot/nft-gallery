@@ -59,7 +59,10 @@ const emit = defineEmits(['zipLoaded'])
 
 const onFileSelected = (file) => {
   showCheckmark.value = false
-  if (file && file.type === 'application/zip') {
+  const fileExtension = file.name.split('.').pop()
+  console.log('fileExtension', fileExtension)
+  console.log('file.type', file.type)
+  if (file && (file.type === 'application/zip' || fileExtension === 'zip')) {
     loading.value = true
     const reader = new FileReader()
     reader.readAsDataURL(file)
