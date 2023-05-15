@@ -58,11 +58,10 @@ const acceptedMediaFormatsString = validFormats
 const emit = defineEmits(['zipLoaded'])
 
 const onFileSelected = (file) => {
+  const zipMimeTypes = ['application/zip', 'application/x-zip-compressed']
   showCheckmark.value = false
-  const fileExtension = file.name.split('.').pop()
-  console.log('fileExtension', fileExtension)
-  console.log('file.type', file.type)
-  if (file && (file.type === 'application/zip' || fileExtension === 'zip')) {
+
+  if (file && zipMimeTypes.includes(file.type)) {
     loading.value = true
     const reader = new FileReader()
     reader.readAsDataURL(file)
