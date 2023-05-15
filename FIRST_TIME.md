@@ -7,7 +7,7 @@ We are using a `pnpm` workspace, as installing things via npm **will result in b
 ### Prerequisites 🎒
 
 ```MD
-node >=16.14.0
+node >=18
 pnpm
 ```
 
