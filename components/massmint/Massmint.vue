@@ -103,7 +103,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { useMassMint } from './useMassMint'
 
 const preferencesStore = usePreferencesStore()
-const { $consola } = useNuxtApp()
+const { $consola, $i18n } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
 const { urlPrefix } = usePrefix()
@@ -177,9 +177,9 @@ const startMint = () => {
 
       if (isLoadingOldV && !isLoadingV) {
         mintModalOpen.value = false
-        if (!isError.value) {
+        if (!isError.value && statusV !== 'loader.sign') {
           showNotification(
-            'You will go to collection page in a moment....',
+            $i18n.t('massmint.continueToCollectionPage'),
             notificationTypes.success
           )
         }

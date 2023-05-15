@@ -25,21 +25,18 @@ export const createTokensToMint = (
     tags: [],
   }))
 }
-export const subscribeToCollectionUpdates = (collectionId: string) => {
+export const subscribeToCollectionLengthUpdates = (collectionId: string) => {
   const collectionUpdated = ref(false)
   const numOfNftsInCollections = ref<number>()
 
   useSubscriptionGraphql({
     query: `  collection: collectionEntityById(id: "${collectionId}") {
         id
-        name
         nfts(
           orderBy: [updatedAt_DESC]
           where: { burned_eq: false }
         ) {
           id
-          name
-          sn
     
         }
       }`,
@@ -61,10 +58,22 @@ export const subscribeToCollectionUpdates = (collectionId: string) => {
 }
 
 export const listForSell = (mintedNFts: TokenToList[]) => {
-  const { blockNumber, transaction, isLoading, status, isError } =
-    useTransaction()
+  const isLoading = ref(true)
+  const {
+    blockNumber,
+    transaction,
+    isLoading: tempIsLoading,
+    status,
+    isError,
+  } = useTransaction()
   const { urlPrefix } = usePrefix()
   const { $i18n } = useNuxtApp()
+
+  watch(tempIsLoading, (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      isLoading.value = newVal
+    }
+  })
 
   transaction({
     interaction: Interaction.LIST,
@@ -160,14 +169,17 @@ export const kusamaMintAndList = (tokens) => {
       isLoading.value = false
     }
     if (mintBlockNumber.value && createdNFTs.value) {
+      const listForSellItems = getListForSellItems(
+        createdNFTs.value,
+        tokens,
+        mintBlockNumber.value
+      )
       const {
         blockNumber: listBlockNumber,
         isLoading: listIsLoading,
         status: listStatus,
         isError: listIsError,
-      } = listForSell(
-        getListForSellItems(createdNFTs.value, tokens, mintBlockNumber.value)
-      )
+      } = listForSell(listForSellItems)
 
       watchEffect(() => {
         status.value = listStatus.value

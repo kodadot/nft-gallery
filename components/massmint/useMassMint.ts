@@ -7,7 +7,7 @@ import { MintedCollection } from '@/composables/transaction/types'
 import {
   createTokensToMint,
   kusamaMintAndList,
-  subscribeToCollectionUpdates,
+  subscribeToCollectionLengthUpdates,
 } from './mintingHelpers'
 
 export const statusTranslation = (status?: Status): string => {
@@ -120,9 +120,8 @@ export const useMassMint = (
       urlPrefix: urlPrefix.value,
       token: tokens,
     })
-    const collectionUpdatedTemp = subscribeToCollectionUpdates(collection.id)
 
-    watch(collectionUpdatedTemp, (isDone) => {
+    watch(subscribeToCollectionLengthUpdates(collection.id), (isDone) => {
       collectionUpdated.value = isDone
     })
   }

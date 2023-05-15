@@ -1067,6 +1067,7 @@
     "selectCollection": "Select Collection",
     "createNewCollection": "Create New Collection",
     "noCollection": "No Collection",
+    "continueToCollectionPage": "You will go to collection page in a moment...",
     "onboarding": {
       "pageTitle": "Mass Mint Onboarding",
       "skip": "Skip",
