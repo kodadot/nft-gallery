@@ -65,7 +65,7 @@
           >Cancel</NeoSecondaryButton
         >
         <NeoSecondaryButton
-          v-if="isOwner && isActive(props.row)"
+          v-if="isOwner && isActiveAndNotExpired(props.row)"
           variant="info"
           @click.native="onAcceptOffer(props.row.caller)"
           >Accept</NeoSecondaryButton
@@ -107,7 +107,9 @@ const dprops = defineProps<{
 
 const isOwner = computed(() => checkOwner(dprops.account, accountId.value))
 
-const isActive = (row) =>
+const isActive = (row) => row.status === OfferStatusType.ACTIVE
+
+const isActiveAndNotExpired = (row) =>
   row.status === OfferStatusType.ACTIVE &&
   expirationTime(row.expiration) !== 'Expired'
 
