@@ -1,6 +1,6 @@
 ## Rewards
 
-To scale our development and operations, we prefer paid trials to know developers better and fit the team. The more your PRs gets merged to `main` branch,the  **more-likely you'll be part of the inner team.**
+To scale our development and operations, we prefer paid trials to know developers better and fit the team. The more your PRs gets merged to `main` branch,the **more-likely you'll be part of the inner team.**
 On-demand or part-time contributions are welcome, and we will reward them in $KSM.
 
 KodaDot has started on [Kusama.network](https://kusama.network), and we prefer to pay out for your work in $KSM, which is the native cryptocurrency of Kusama network, [Polkadot's Canary network](https://polkadot.network) with bearing value.
@@ -11,11 +11,11 @@ To create your KSM address in safely and long-term manner, we recommend you to g
 
 ### Sharing your address to receive the reward
 
-After creating an account, you can visit [KodaDot Transfer](https://kodadot.xyz/transfer) to make a payment link. Entering an amount like 100 USD and clicking the button **COPY REWARD ME LINK** will copy the link to your clipboard, and you can share it with us, like whenever you are filling up a bug report or submitting pull-request
+After creating an account, you can visit [KodaDot Transfer](https://kodadot.xyz/ksm/transfer) to make a payment link. Entering an amount like 100 USD and clicking the button **COPY REWARD ME LINK** will copy the link to your clipboard, and you can share it with us, like whenever you are filling up a bug report or submitting pull-request
 
 your receiving address should be looks like this
 
-`https://kodadot.xyz/transfer?target=${your address}&usdamount=100&donation=true`
+`https://kodadot.xyz/ksm/transfer?target=${your address}&usdamount=100&donation=true`
 
 ### Switching account/network
 
@@ -31,7 +31,7 @@ Check `balances` under your _[accounts](https://polkadot.js.org/apps/#/accounts)
 
 Our typical payout structure for bounties is per label on the issue. Here is the table for an overview
 
-***The reward amount is in USD, paid in KSM***
+**_The reward amount is in USD, paid in KSM_**
 
 |                              $                               |                          $$                           |                                $$$                                |                              $$$$                               |                                         $$$$$                                          |
 | :----------------------------------------------------------: | :---------------------------------------------------: | :---------------------------------------------------------------: | :-------------------------------------------------------------: | :------------------------------------------------------------------------------------: |
