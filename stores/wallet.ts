@@ -20,5 +20,4 @@ export const useWalletStore = defineStore('wallet', {
       this.wallet = Object.assign(this.wallet, payload)
     },
   },
-  persist: true,
 })
