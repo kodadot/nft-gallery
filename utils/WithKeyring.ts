@@ -7,7 +7,6 @@ import { enableExtension } from '@/utils/extension'
 import correctFormat from '@/utils/ss58Format'
 
 import { isWeb3Injected, web3Accounts } from '@polkadot/extension-dapp'
-import { getPrefixByStoreUrl } from '@/utils/chain'
 import ChainMixin from './mixins/chainMixin'
 import { useIdentityStore } from '@/stores/identity'
 
