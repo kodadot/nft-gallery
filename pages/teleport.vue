@@ -370,7 +370,7 @@ export default class Transfer extends mixins(
   }
 
   protected generatePaymentLink(): string {
-    return `${window.location.origin}/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`
+    return `${window.location.origin}/${this.urlPrefix}/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`
   }
 
   protected shareInTweet() {

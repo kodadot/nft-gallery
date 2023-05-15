@@ -445,7 +445,7 @@ export default class Transfer extends mixins(
     } else {
       addressQueryString = new URLSearchParams(this.targets).toString()
     }
-    return `${window.location.origin}/transfer?${addressQueryString}&usdamount=${this.usdValue}&donation=true`
+    return `${window.location.origin}/${this.urlPrefix}/transfer?${addressQueryString}&usdamount=${this.usdValue}&donation=true`
   }
 
   protected shareInTweet() {
