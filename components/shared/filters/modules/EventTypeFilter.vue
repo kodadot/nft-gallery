@@ -8,7 +8,7 @@
       <div class="is-flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">Event Type</p>
         <a class="card-header-icon">
-          <b-icon :icon="open ? 'minus' : 'plus'" />
+          <NeoIcon :icon="open ? 'minus' : 'plus'" />
         </a>
       </div>
     </template>
@@ -37,6 +37,7 @@
 <script lang="ts" setup>
 import { NeoCheckbox } from '@kodadot1/brick'
 import { useAcivityFiltersStore } from '@/stores/activityFilters'
+import { NeoIcon } from '@kodadot1/brick'
 
 const activityFiltersStore = useAcivityFiltersStore()
 const route = useRoute()

@@ -1,11 +1,12 @@
 <template>
-  <b-modal
+  <NeoModal
     v-model="isFullscreen"
     :destroy-on-hide="false"
     :can-cancel="false"
     full-screen
-    custom-class="gallery-item-modal"
-    custom-content-class="gallery-item-modal-content">
+    root-class="gallery-item-modal"
+    content-class="gallery-item-modal-content"
+    @close="isFullscreen = false">
     <NeoButton class="back-button" @click.native="emit('input', false)">
       <NeoIcon icon="chevron-left" />
       {{ $t('go back') }}
@@ -14,25 +15,26 @@
     <div class="gallery-item-modal-container">
       <MediaItem
         class="gallery-item-media"
-        :src="nftImage"
+        :src="itemSrc"
         :placeholder="placeholder"
         :animation-src="nftAnimation"
         :mime-type="nftMimeType"
         :title="nft?.name || nft?.id"
         original />
     </div>
-  </b-modal>
+  </NeoModal>
 </template>
 
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'
-import { MediaItem, NeoButton, NeoIcon } from '@kodadot1/brick'
+import { MediaItem, NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
 import { useGalleryItem } from './useGalleryItem'
-const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
+const { nft, nftAnimation, nftMimeType } = useGalleryItem()
 const { placeholder } = useTheme()
 
 const props = defineProps<{
   value: boolean
+  itemSrc: string
 }>()
 const emit = defineEmits(['input'])
 const isFullscreen = useVModel(props, 'value', emit)

@@ -41,6 +41,7 @@ function onSwitchChain(chain) {
     },
     query: {
       ...restQuery,
+      collections: null,
     },
   })
 }

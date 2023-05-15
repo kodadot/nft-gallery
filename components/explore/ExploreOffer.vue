@@ -1,6 +1,6 @@
 <template>
   <div v-if="route.name?.includes('prefix-collection-id')">
-    <NeoTooltip label="Coming Soon" position="bottom" :append-to-body="false">
+    <NeoTooltip label="Coming Soon" position="bottom">
       <NeoButton label="Make Collection Offer" disabled class="offer w-100" />
     </NeoTooltip>
   </div>
@@ -16,6 +16,6 @@ const route = useRoute()
 // somehow, button disabled wrapped in tooltip is bigger by 2px vertically 🤔
 // we can remove this once the button enabled
 .offer {
-  padding: 6px 12px;
+  padding: 5px 12px;
 }
 </style>

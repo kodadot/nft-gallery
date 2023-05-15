@@ -79,25 +79,25 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { SupportedWallets } from '@/utils/config/wallets'
-import { getRedirectToRmrk2HostnameWhitelist } from '@/utils/config/whitelist'
-import { toDefaultAddress } from '@/utils/account'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { Auth, useIdentityStore } from '@/stores/identity'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset'
 
-const { $store, $i18n } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const hasSelectedWalletProvider = ref(false)
-const account = ref<string>($store.getters.getAuthAddress)
 const forceWalletSelect = ref(false)
+const identityStore = useIdentityStore()
 
 const setForceWalletSelect = () => {
   forceWalletSelect.value = true
 }
 
+const account = computed(() => identityStore.auth.address)
 const showAccount = computed(() => account.value && !forceWalletSelect.value)
 
 const wallets = SupportedWallets()
@@ -110,9 +110,17 @@ const headerTitle = computed(() =>
       : 'walletConnect.warning'
   )
 )
-const setAccount = (addr: string) => {
+const setAccount = (account: Auth) => {
   forceWalletSelect.value = false
-  account.value = addr
+  identityStore.setAuth(account)
+
+  if (selectedWalletProvider.value) {
+    localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
+  }
+}
+const setUserAuthValue = () => {
+  hasUserWalletAuth.value = true
+  localStorage.setItem('user_auth_wallet_add', true.toString())
 }
 const installedWallet = computed(() => {
   return wallets.filter((wallet) => wallet.installed)
@@ -129,24 +137,8 @@ const emit = defineEmits(['close'])
 const toggleShowUninstalledWallet = () => {
   showUninstalledWallet.value = !showUninstalledWallet.value
 }
-watch(account, (account) => {
-  forceWalletSelect.value = false
-  $store.dispatch('setAuth', { address: account })
-  localStorage.setItem('kodaauth', account)
-  if (selectedWalletProvider.value) {
-    localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
-  }
-  if (
-    getRedirectToRmrk2HostnameWhitelist().includes(toDefaultAddress(account)) &&
-    !location.hostname.startsWith('rmrk2.') &&
-    !location.hostname.startsWith('rmrk.')
-  ) {
-    window.open(`${location.protocol}//rmrk2.${location.host}`, '_self')
-  }
-})
 
-const setUserAuthValue = () => {
-  localStorage.setItem('user_auth_wallet_add', true.toString())
-  hasUserWalletAuth.value = true
-}
+watch(account, (account) => {
+  setAccount({ address: account })
+})
 </script>
