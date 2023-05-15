@@ -1,9 +1,11 @@
-export default function () {
-  const { $store } = useNuxtApp()
+import { useIdentityStore } from '@/stores/identity'
 
-  const accountId = computed(() => $store.getters.getAuthAddress)
-  const isLogIn = computed(() => Boolean($store.getters.getAuthAddress))
-  const balance = computed(() => $store.getters.getAuthBalance)
+export default function () {
+  const identityStore = useIdentityStore()
+
+  const accountId = computed(() => identityStore.getAuthAddress)
+  const isLogIn = computed(() => Boolean(identityStore.getAuthAddress))
+  const balance = computed(() => identityStore.getAuthBalance)
 
   return {
     accountId,
