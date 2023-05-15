@@ -102,7 +102,7 @@
             cell-class="short-identity__table"
             field="Date"
             label="Date">
-            <NeoTooltip :label="props.row.Date" position="right" append-to-body>
+            <NeoTooltip :label="props.row.Date" position="right" multiline>
               <BlockExplorerLink
                 :block-id="props.row.Block"
                 :text="props.row.Time" />

@@ -81,9 +81,7 @@
         expanded>
         <b-tab-item value="nft" :header-class="{ 'is-hidden': !totalCreated }">
           <template #header>
-            <NeoTooltip
-              :label="`${$t('tooltip.created')} ${labelDisplayName}`"
-              append-to-body>
+            <NeoTooltip :label="`${$t('tooltip.created')} ${labelDisplayName}`">
               {{ $t('profile.created') }}
               <span class="tab-counter">{{ totalCreated }}</span>
             </NeoTooltip>
@@ -101,8 +99,7 @@
           :header-class="{ 'is-hidden': !totalCollections }">
           <template #header>
             <NeoTooltip
-              :label="`${$t('tooltip.collections')} ${labelDisplayName}`"
-              append-to-body>
+              :label="`${$t('tooltip.collections')} ${labelDisplayName}`">
               {{ $t('collections') }}
               <span class="tab-counter">{{ totalCollections }}</span>
             </NeoTooltip>
@@ -159,9 +156,7 @@
         </b-tab-item>
         <b-tab-item value="sold" :header-class="{ 'is-hidden': !totalSold }">
           <template #header>
-            <NeoTooltip
-              :label="`${$t('tooltip.sold')} ${labelDisplayName}`"
-              append-to-body>
+            <NeoTooltip :label="`${$t('tooltip.sold')} ${labelDisplayName}`">
               {{ $t('profile.sold') }}
               <span class="tab-counter">{{ totalSold }}</span>
             </NeoTooltip>
@@ -178,8 +173,7 @@
           :header-class="{ 'is-hidden': !totalCollected }">
           <template #header>
             <NeoTooltip
-              :label="`${$t('tooltip.collected')} ${labelDisplayName}`"
-              append-to-body>
+              :label="`${$t('tooltip.collected')} ${labelDisplayName}`">
               {{ $t('profile.collected') }}
               <span class="tab-counter">{{ totalCollected }}</span>
             </NeoTooltip>
@@ -197,8 +191,7 @@
           :header-class="{ 'is-hidden': !totalHoldings }">
           <template #header>
             <NeoTooltip
-              :label="`${$t('tooltip.holdings')} ${labelDisplayName}`"
-              append-to-body>
+              :label="`${$t('tooltip.holdings')} ${labelDisplayName}`">
               {{ $t('profile.holdings') }}
               <span class="tab-counter">{{ totalHoldings }}</span>
             </NeoTooltip>
@@ -210,9 +203,7 @@
           value="gains"
           :header-class="{ 'is-hidden': !totalGains }">
           <template #header>
-            <NeoTooltip
-              :label="`${$t('tooltip.gains')} ${labelDisplayName}`"
-              append-to-body>
+            <NeoTooltip :label="`${$t('tooltip.gains')} ${labelDisplayName}`">
               {{ $t('profile.gains') }}
               <span class="tab-counter">{{ totalGains }}</span>
             </NeoTooltip>

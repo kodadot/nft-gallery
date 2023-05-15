@@ -6,7 +6,7 @@
       type="is-outlined"
       class="emoji-box mb-2"
       @click="$emit('selected', emoji.parsed)">
-      <NeoTooltip append-to-body>
+      <NeoTooltip>
         {{ emoji.parsed }}
         <span class="ml-1">{{ emoji.count }}</span>
         <template #content>
