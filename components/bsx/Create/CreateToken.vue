@@ -54,8 +54,7 @@
           </p>
         </NeoField>
         <NeoField key="balance">
-          <AccountBalance
-            :token-id="feesToken === 'KSM' ? tokenId : undefined" />
+          <AccountBalance />
         </NeoField>
         <NeoField key="token">
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />

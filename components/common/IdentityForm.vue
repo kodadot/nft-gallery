@@ -7,7 +7,7 @@
         <b-tooltip
           :label="$i18n.t('identity.fundsReserve')"
           position="is-bottom">
-          <b-icon icon="info-circle" />
+          <NeoIcon icon="info-circle" pack="fas" />
         </b-tooltip>
       </p>
 
@@ -88,7 +88,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { onApiConnect } from '@kodadot1/sub-api'
 import { hexToString, isHex } from '@polkadot/util'
 import { Data } from '@polkadot/types'
-import { NeoField, NeoInput } from '@kodadot1/brick'
+import { NeoField, NeoIcon, NeoInput } from '@kodadot1/brick'
 
 const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 const BasicInput = defineAsyncComponent(
@@ -106,9 +106,9 @@ const SubmitButton = defineAsyncComponent(
 
 type IdentityFields = Record<string, string>
 
-const { $store, $i18n } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { apiUrl, apiInstance } = useApi()
-const { accountId } = useAuth()
+const { accountId, balance } = useAuth()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
   useMetaTransaction()
 const identity = ref<Record<string, string>>({
@@ -181,8 +181,6 @@ const onSuccess = (block: string) => {
     notificationTypes.success
   )
 }
-
-const balance = computed(() => $store.getters.getAuthBalance)
 
 const disabled = computed(
   () => Object.values(identity.value).filter((val) => val).length === 0

@@ -10,14 +10,14 @@
           {{ $t('general.popularCollectionsHeading') }}
         </p>
         <a class="card-header-icon">
-          <b-icon :icon="open ? 'minus' : 'plus'" />
+          <NeoIcon :icon="open ? 'minus' : 'plus'" />
         </a>
       </div>
     </template>
     <div v-if="collections.length > 0" class="p-4">
       <o-field
-        v-for="collection in collections"
-        :key="collection.id"
+        v-for="(collection, index) in collections"
+        :key="`${collection.id}-${isCutArray[index].value}`"
         class="mb-2">
         <NeoCheckbox
           :value="checkedCollections.includes(collection.id)"
@@ -32,10 +32,13 @@
             <div
               class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
               <NeoTooltip
+                :active="isCutArray[index].value"
                 :label="collection.meta.name || collection.id"
-                :append-to-body="false"
+                multiline
                 :delay="1000">
-                <div class="is-ellipsis">
+                <div
+                  :ref="(el) => assignRefAndUpdateArray(el, index)"
+                  class="is-ellipsis">
                   {{ collection.meta.name || collection.id }}
                 </div>
               </NeoTooltip>
@@ -62,6 +65,8 @@ import { Collection, usePopularCollections } from './usePopularCollections'
 import { OField } from '@oruga-ui/oruga'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getCollectionIds } from '@/utils/queryParams'
+import { useTextOverflow } from '@/composables/useTextOverflow'
+import { NeoIcon } from '@kodadot1/brick'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
@@ -74,6 +79,15 @@ const { collections } = usePopularCollections(urlPrefix.value)
 
 const getChainName = (chain: string): string => {
   return availableChains.value.find((item) => item.value === chain)?.text || ''
+}
+const isCutArray = computed(() => collections.value.map(() => ref(false)))
+
+const assignRefAndUpdateArray = (el, index) => {
+  const { assignRef, isTextCut } = useTextOverflow()
+  assignRef(el)
+  watch(isTextCut, () => {
+    isCutArray.value[index].value = isTextCut.value
+  })
 }
 
 type DataModel = 'query' | 'store'

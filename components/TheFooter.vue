@@ -40,8 +40,7 @@
                 rel="noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <b-icon icon="external-link-alt" class="ml-1" size="is-small">
-                </b-icon>
+                <NeoIcon icon="external-link-alt" class="ml-1" pack="fas" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -65,8 +64,7 @@
                 rel="noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <b-icon icon="external-link-alt" class="ml-1" size="is-small">
-                </b-icon>
+                <NeoIcon icon="external-link-alt" class="ml-1" pack="fas" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -87,7 +85,7 @@
             class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center mr-2"
             @click="goToSocials(item.url)">
             <a
-              class="is-flex"
+              class="is-flex icon"
               rel="noopener noreferrer"
               :aria-label="item.name">
               <!-- substack doesnt have a font awesome icon -->
@@ -112,12 +110,10 @@
                 </defs>
               </svg>
 
-              <b-icon
+              <NeoIcon
                 v-else
                 :pack="item.name == 'Swag' ? 'fas' : 'fab'"
-                :icon="item.icon"
-                size="is-small"
-                :type="isDarkMode ? 'is-white' : 'is-black'" />
+                :icon="item.icon" />
             </a>
           </li>
         </ul>
@@ -129,6 +125,7 @@
 
 <script lang="ts" setup>
 import { TranslateResult } from 'vue-i18n/types'
+import { NeoIcon } from '@kodadot1/brick'
 
 interface Menu {
   name: TranslateResult
@@ -137,12 +134,11 @@ interface Menu {
 }
 
 const { $i18n } = useNuxtApp()
-const { isDarkMode } = useTheme()
 
 const menuMarketplace: Menu[] = [
   {
-    name: $i18n.t('faq.page'),
-    url: 'https://hello.kodadot.xyz/knowledgebase/general-1/faq',
+    name: $i18n.t('faq'),
+    url: 'https://hello.kodadot.xyz/ecosystem/faq',
     external: true,
   },
   {
@@ -152,14 +148,20 @@ const menuMarketplace: Menu[] = [
   },
   {
     name: $i18n.t('contribute'),
-    url: '/contribute',
+    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/join-as-a-developer',
+    external: true,
+  },
+  {
+    name: $i18n.t('tutorial'),
+    url: 'https://hello.kodadot.xyz/tutorial/',
+    external: true,
   },
 ]
 
 const menuKodadot: Menu[] = [
   {
     name: $i18n.t('about'),
-    url: 'https://hello.kodadot.xyz/knowledgebase/general/faq',
+    url: 'https://hello.kodadot.xyz/about-us/who-are-we',
     external: true,
   },
   {
@@ -174,7 +176,7 @@ const menuKodadot: Menu[] = [
 
   {
     name: $i18n.t('referralProgram'),
-    url: 'https://hello.kodadot.xyz/knowledgebase/technical/kodadots-programs/artist-referral-program',
+    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/artist-referral-program',
     external: true,
   },
   {
@@ -185,13 +187,13 @@ const menuKodadot: Menu[] = [
 
   {
     name: $i18n.t('artist ambassador'),
-    url: 'https://hello.kodadot.xyz/knowledgebase/technical/kodadots-programs/artist-ambassador-program',
+    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/artist-ambassador-program',
     external: true,
   },
 
   {
     name: $i18n.t('ambassador program'),
-    url: 'https://hello.kodadot.xyz/knowledgebase/technical/kodadots-programs/ambassador-program',
+    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/ambassador-program',
     external: true,
   },
 ]

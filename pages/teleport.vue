@@ -5,7 +5,7 @@
       v-if="$route.query.target"
       :to="`/${urlPrefix}/u/${destinationAddress}`"
       class="pl-4 is-flex is-align-items-center">
-      <b-icon icon="chevron-left" size="is-small" class="mr-2" />
+      <NeoIcon icon="chevron-left" class="mr-2" />
       {{ $t('teleport.artistProfile') }}
     </nuxt-link>
     <p class="title is-size-3">
@@ -76,7 +76,7 @@
         v-clipboard:copy="getUrl()"
         type="is-primary"
         @click="toast($t('toast.urlCopy'))">
-        <b-icon size="is-small" pack="fas" icon="link" />
+        <NeoIcon pack="fas" icon="link" />
       </b-button>
       <b-button
         v-if="destinationAddress"
@@ -128,7 +128,8 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 
 import { useFiatStore } from '@/stores/fiat'
-import { NeoField } from '@kodadot1/brick'
+import { NeoField, NeoIcon } from '@kodadot1/brick'
+import { useIdentityStore } from '@/stores/identity'
 
 @Component({
   components: {
@@ -144,6 +145,7 @@ import { NeoField } from '@kodadot1/brick'
     DisabledInput: () => import('@/components/shared/DisabledInput.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     NeoField,
+    NeoIcon,
   },
 })
 export default class Transfer extends mixins(
@@ -188,6 +190,10 @@ export default class Transfer extends mixins(
     return useFiatStore()
   }
 
+  get identityStore() {
+    return useIdentityStore()
+  }
+
   layout() {
     return 'centered-half-layout'
   }
@@ -223,7 +229,7 @@ export default class Transfer extends mixins(
   }
 
   get balance(): string {
-    return this.$store.getters.getAuthBalance
+    return this.identityStore.getAuthBalance
   }
 
   protected onAmountFieldChange() {
@@ -365,7 +371,7 @@ export default class Transfer extends mixins(
   }
 
   protected generatePaymentLink(): string {
-    return `${window.location.origin}/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`
+    return `${window.location.origin}/${this.urlPrefix}/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`
   }
 
   protected shareInTweet() {
