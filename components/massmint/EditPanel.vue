@@ -90,31 +90,43 @@ const props = defineProps<{
 }>()
 
 const internalNfT = ref<Partial<NFT>>({})
+const dirty = ref({ name: false, description: false, price: false })
+
 const name = computed({
-  get: () => internalNfT.value.name || props.nft?.name || '',
+  get: () =>
+    dirty.value.name ? internalNfT.value.name : props.nft?.name || '',
   set: (value) => {
     internalNfT.value = {
       ...internalNfT.value,
       name: value,
     }
+    dirty.value.name = true
   },
 })
+
 const description = computed({
-  get: () => internalNfT.value.description || props.nft?.description || '',
+  get: () =>
+    dirty.value.description
+      ? internalNfT.value.description
+      : props.nft?.description || '',
   set: (value) => {
     internalNfT.value = {
       ...internalNfT.value,
       description: value,
     }
+    dirty.value.description = true
   },
 })
+
 const price = computed({
-  get: () => internalNfT.value.price || props.nft?.price || '',
+  get: () =>
+    dirty.value.price ? internalNfT.value.price : props.nft?.price || '',
   set: (value) => {
     internalNfT.value = {
       ...internalNfT.value,
       price: Number(value),
     }
+    dirty.value.price = true
   },
 })
 
@@ -122,6 +134,7 @@ const emit = defineEmits(['close', 'save'])
 
 const closePanel = () => {
   internalNfT.value = {}
+  dirty.value = { name: false, description: false, price: false }
   emit('close')
 }
 
