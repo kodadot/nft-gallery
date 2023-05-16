@@ -3,24 +3,10 @@ import { EXTERNAL_LINK_WHITELIST } from '@/utils/constants'
 import { ModalProgrammatic as Modal } from 'buefy'
 import { BModalConfig } from 'buefy/types/components'
 import VueI18n from 'vue-i18n/types'
-
-function isExternal(url: string) {
-  return !url.startsWith(window.location.origin)
-}
-
-const convertSingularCollectionUrlToKodadotUrl = (url: string) => {
-  const urlObj = new URL(url)
-  const pathname = urlObj.pathname
-  if (
-    urlObj.hostname === 'singular.app' &&
-    pathname.startsWith('/collections/')
-  ) {
-    const regex = new RegExp('/collections/(kusama/)?', 'g')
-    const collectionId = pathname.replace(regex, '')
-    return `${location.origin}/ksm/collection/${collectionId}`
-  }
-  return url
-}
+import {
+  convertSingularCollectionUrlToKodadotUrl,
+  isExternal,
+} from '@/utils/url'
 
 function isWhiteList(url: string) {
   const urlObj = new URL(url)

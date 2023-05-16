@@ -12,9 +12,7 @@
         </nuxt-link>
       </div>
 
-      <Markdown
-        :source="nftMetadata?.description?.replaceAll('\n', '  \n') || ''"
-        class="gallery-item-desc-markdown" />
+      <Markdown :source="descSource" class="gallery-item-desc-markdown" />
     </o-tab-item>
 
     <!-- properties tab -->
@@ -129,12 +127,19 @@ import { useGalleryItem } from './useGalleryItem'
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
 
+import { replaceSingularCollectionUrlByText } from '@/utils/url'
+
 const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
   useGalleryItem()
 const activeTab = ref('0')
 const { version } = useRmrkVersion()
 
+const descSource = computed(() => {
+  return replaceSingularCollectionUrlByText(
+    nftMetadata.value?.description?.replaceAll('\n', '  \n') || ''
+  )
+})
 const parent = computed(() => {
   if (nft.value?.parent?.id) {
     return useGalleryItem(nft.value?.parent?.id)
