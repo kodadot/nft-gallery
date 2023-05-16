@@ -24,9 +24,8 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoField } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoField } from '@kodadot1/brick'
 
 const preferencesStore = usePreferencesStore()
 
