@@ -19,7 +19,7 @@
         </template>
         <template #action>
           <NeoTooltip
-            v-if="active && !confirm"
+            v-if="!confirm"
             :active="insufficientBalance || offerPriceInvalid"
             append-to-body
             :label="

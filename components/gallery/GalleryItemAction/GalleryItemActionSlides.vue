@@ -140,6 +140,10 @@ defineProps<{
     z-index: 2;
   }
 
+  .slide-action .neo-tooltip {
+    position: relative;
+  }
+
   .full-width-action-button {
     width: 100%;
     height: 100%;
