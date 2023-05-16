@@ -6,20 +6,11 @@
           role="alertdialog"
           class="snackbar is-success is-bottom-left py-2 px-4 mb-3">
           <div>
-            <!-- <i18n-t keypath="cookies" tag="label" for="notice">
-              see <a href="/cookie-policy" target="_blank">{{ "Cookie policy" }}</a> for details.
-            </i18n-t> -->
-
-            <div>
-              {{ $t('cookies.notice') }}, see
-              <nuxt-link
-                to="/cookie-notice"
-                target="_blank"
-                class="is-underlined"
-                >Cookie Policy</nuxt-link
-              >
-              for details.
-            </div>
+            {{ $t('cookies.notice') }}, see
+            <nuxt-link to="/cookie-notice" target="_blank" class="is-underlined"
+              >Cookie Policy</nuxt-link
+            >
+            for details.
           </div>
           <div class="bar ml-4 mr-4" />
           <div class="action is-success">
