@@ -120,6 +120,20 @@ export default defineNuxtConfig({
         src: 'https://kit.fontawesome.com/54f29b7997.js',
         crossorigin: 'anonymous',
       },
+      {
+        src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
+        async: true,
+      },
+      {
+        innerHTML: `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', ${process.env.GOOGLE_ANALYTICS_ID});
+      `,
+        type: 'text/javascript',
+      },
     ],
   },
 
