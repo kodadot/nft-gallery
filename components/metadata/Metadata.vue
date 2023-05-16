@@ -17,9 +17,16 @@
       v-if="chainProperties.genesisHash"
       label="Genesis Hash"
       :value="chainProperties.genesisHash?.toString() || ''" />
+    <NeoButton @click="refresh"> Clear Cache & Reload </NeoButton>
   </div>
 </template>
 
 <script setup lang="ts">
+import { NeoButton } from '@kodadot1/brick'
+
 const { chainProperties } = useChain()
+const refresh = () => {
+  window.sessionStorage.removeItem('vuex')
+  window.location.reload()
+}
 </script>
