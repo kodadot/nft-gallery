@@ -178,7 +178,7 @@
       :toggle="toggleLanguageMenu">
       <b-dropdown-item
         aria-role="listitem"
-        class="is-active is-flex is-align-items-center"
+        class="is-active is-flex is-align-items-center language-heading is-size-6"
         @click="toggleLanguageMenu">
         {{ $t('profileMenu.language') }}
         <svg
