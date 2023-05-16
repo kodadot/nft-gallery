@@ -6,7 +6,7 @@
   @include ktheme() {
     background: theme('background-color');
     border: 1px solid theme('card-border-color');
-    &:hover {
+    &:not(.loading):hover {
       border: 1px solid theme('border-color');
       .nft-media {
         opacity: theme('card-hover-opacity');}
@@ -17,7 +17,7 @@
     color: unset !important;
   }
 }
-.unloackable-icon { 
+.unloackable-icon {
   position: absolute;
   top: 1rem;
   right: 1rem;
