@@ -113,7 +113,7 @@ const isActive = (row) =>
 
 const { accountId } = useAuth()
 
-const { data } = useGraphql({
+const { data, refetch } = useGraphql({
   queryName: 'offerListByNftId',
   queryPrefix: 'chain-bsx',
   variables: {
@@ -123,6 +123,17 @@ const { data } = useGraphql({
   options: {
     fetchPolicy: 'network-only',
   },
+})
+
+useSubscriptionGraphql({
+  query: `offers(where: { nft: { id_eq: "${dprops.nftId}" } }) {
+    id
+    caller
+    expiration
+    price
+    status
+  }`,
+  onChange: refetch,
 })
 
 const { data: dataCollection } = useGraphql({

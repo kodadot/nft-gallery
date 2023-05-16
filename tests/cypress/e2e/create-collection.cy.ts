@@ -3,6 +3,7 @@ const chains = ['bsx', 'snek', 'rmrk']
 chains.forEach((chain) => {
   it(`should trigger create collection button on ${chain}`, () => {
     cy.visit('/e2e-login')
+    cy.getCy('mockAddress').should('have.text', 'true')
     cy.visit(`/${chain}/create`)
 
     // select image

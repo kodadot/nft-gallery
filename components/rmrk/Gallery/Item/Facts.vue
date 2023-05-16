@@ -10,7 +10,7 @@
           {{ $t('facts') }}
         </p>
         <a class="card-header-icon">
-          <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
+          <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
         </a>
       </div>
     </template>

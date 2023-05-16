@@ -1,9 +1,9 @@
 <template>
-  <div class="nft-card">
-    <a
-      :href="`/${prefix}/gallery/${nft.id}${
-        unlockable ? '?unlockable=' + unlockable : ''
-      }`">
+  <div class="nft-card" :class="{ loading: isLoading }">
+    <component
+      :is="link"
+      v-if="!isLoading"
+      :[bindKey]="`/${prefix}/gallery/${nft.id}`">
       <img
         v-if="unlockable && unloackableIcon"
         class="unloackable-icon"
@@ -62,7 +62,19 @@
           >
         </div>
       </div>
-    </a>
+    </component>
+
+    <template v-else>
+      <div class="media-object nft-media">
+        <div class="is-square image">
+          <NeoSkeleton :rounded="false" full-size no-margin />
+        </div>
+      </div>
+      <div :class="`nft-media-info__${variant}`">
+        <NeoSkeleton size="medium" no-margin />
+        <NeoSkeleton size="small" no-margin width="100px" />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -71,10 +83,11 @@ import MediaItem from '../MediaItem/MediaItem.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { NftCardVariant } from '@kodadot1/brick'
+import { NeoSkeleton, NftCardVariant } from '@kodadot1/brick'
 
 withDefaults(
   defineProps<{
+    isLoading?: boolean
     nft: NFT
     prefix: string
     showPrice: boolean
@@ -83,11 +96,15 @@ withDefaults(
     placeholder: string
     unlockable?: boolean
     unloackableIcon?: string
+    link?: string
+    bindKey?: string
   }>(),
   {
     collectionPopoverShowDelay: 500,
     variant: 'primary',
     unloackableIcon: undefined,
+    link: 'a',
+    bindKey: 'href',
   }
 )
 </script>

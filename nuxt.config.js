@@ -1,3 +1,4 @@
+import path from 'path'
 import { defineNuxtConfig } from '@nuxt/bridge'
 import SentryWebpackPlugin from '@sentry/webpack-plugin'
 import { manifestIcons } from './utils/config/pwa'
@@ -118,6 +119,20 @@ export default defineNuxtConfig({
       {
         src: 'https://kit.fontawesome.com/54f29b7997.js',
         crossorigin: 'anonymous',
+      },
+      {
+        src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
+        async: true,
+      },
+      {
+        innerHTML: `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', ${process.env.GOOGLE_ANALYTICS_ID});
+      `,
+        type: 'text/javascript',
       },
     ],
   },
@@ -374,20 +389,18 @@ export default defineNuxtConfig({
       })
 
       config.module.rules.push({
-        test: /node_modules\/@substrate\/smoldot-light\/dist\/mjs\/.+\.js$/,
-        loader: require.resolve('babel-loader'),
-        query: { compact: true },
-      })
-
-      config.module.rules.push({
-        test: /node_modules\/@kodadot1\/minimark\/dist\/.+\.mjs$/,
+        test: /\.mjs$/,
         loader: require.resolve('babel-loader'),
         query: { compact: true },
       })
 
       config.module.rules.push({
         test: /\.js$/,
-        loader: require.resolve('@open-wc/webpack-import-meta-loader'),
+        include: [path.resolve(__dirname, 'node_modules')],
+        use: [
+          { loader: require.resolve('@open-wc/webpack-import-meta-loader') },
+          { loader: require.resolve('babel-loader') },
+        ],
       })
 
       config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js'

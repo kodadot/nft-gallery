@@ -21,6 +21,7 @@
           <NeoTooltip
             v-if="active && !confirm"
             :active="insufficientBalance || offerPriceInvalid"
+            append-to-body
             :label="
               insufficientBalance
                 ? $t('tooltip.notEnoughBalance')
@@ -91,6 +92,7 @@ import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { MIN_OFFER_PRICE } from '@/utils/constants'
 import Vue from 'vue'
+import { getAsssetBalance } from '@/utils/api/bsx/query'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/shared/Loader.vue')
@@ -105,19 +107,26 @@ const props = defineProps<{
 
 const { apiInstance } = useApi()
 const { urlPrefix, tokenId } = usePrefix()
-const { $store, $route, $i18n, $buefy } = useNuxtApp()
+const { $route, $i18n, $buefy } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
 const { accountId } = useAuth()
 const { decimals } = useChain()
 const root = ref<Vue<Record<string, string>>>()
 const connected = computed(() => Boolean(accountId.value))
 
-const balance = computed<string>(() => {
-  if (urlPrefix.value == 'rmrk' || urlPrefix.value == 'ksm') {
-    return $store.getters.getAuthBalance
-  }
-  return $store.getters.getTokenBalanceOf(tokenId.value)
+const balance = ref<string>('0')
+onMounted(() => {
+  fetchBalance()
 })
+
+const fetchBalance = async () => {
+  const { apiInstance } = useApi()
+  const api = await apiInstance.value
+  getAsssetBalance(api, accountId.value, tokenId.value).then((data) => {
+    balance.value = data
+  })
+}
+
 const { data } = useGraphql({
   queryName: 'offerHighest',
   queryPrefix: 'chain-bsx',

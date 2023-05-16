@@ -4,31 +4,19 @@
 @import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
 @import '../../scss/variable.scss';
 
-$tooltip-content-zindex: 1000;
-$tooltip-content-font-size: 1rem;
+$tooltip-content-zindex: 101;
+$tooltip-content-font-size: var(--font-size, 1rem);
 $tooltip-content-padding: 0.25rem 0.5rem;
 $tooltip-content-radius-large: 0;
 $tooltip-content-box-shadow: none;
-$tooltip-content-multiline-width: 15rem;
+$tooltip-content-max-width: 25rem;
+$tooltip-content-multiline-width: var(--multiline-width, 10rem);
 $tooltip-arrow-margin: 1rem;
 
 @import '@oruga-ui/oruga/src/scss/components/tooltip.scss';
 
-
 .neo-tooltip {
-
-  .o-tip__trigger{
-     > * {
-    height: 100%;
-    font-size: inherit;
-    font-family: inherit;
-  }
-}
-
   .o-tip__content {
-    border: 1px solid;
-    font-family: 'Work Sans';
-
     @include ktheme() {
       color: theme('text-color');
       border-color: theme('text-color');
@@ -38,7 +26,6 @@ $tooltip-arrow-margin: 1rem;
         color: theme('text-color');
       }
     }
-
   }
 }
 
