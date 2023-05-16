@@ -43,7 +43,7 @@ export default class WithKeyring extends ChainMixin {
       ss58Format:
         correctFormat(ss58Forever) >= 0
           ? correctFormat(ss58Forever)
-          : correctFormat('0'),
+          : correctFormat('2'),
     })
   }
 
