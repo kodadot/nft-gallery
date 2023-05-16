@@ -26,6 +26,7 @@
                 ? $t('tooltip.notEnoughBalance')
                 : $t('tooltip.invalidAmount')
             "
+            append-to-body
             multiline>
             <NeoButton
               :disabled="disabledConfirmBtn"

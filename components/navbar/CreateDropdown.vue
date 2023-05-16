@@ -10,7 +10,7 @@
         <NeoTooltip
           position="left"
           :label="$t('createDropdown.start')"
-          class="navbar-item-tooltip">
+          multiline>
           <nuxt-link data-cy="classic" :to="`/${urlPrefix}/create`">
             {{ $t('classic') }}
           </nuxt-link>
@@ -22,7 +22,7 @@
           v-if="chain === 'bsx' && accountId"
           position="left"
           :label="$t('createDropdown.waifu')"
-          class="navbar-item-tooltip">
+          multiline>
           <nuxt-link data-cy="waifu" :to="`/${urlPrefix}/waifu`">
             {{ $t('navbar.create.waifu') }}
           </nuxt-link>
@@ -33,7 +33,7 @@
           <NeoTooltip
             position="left"
             :label="$t('createDropdown.simplifiedNft')"
-            class="navbar-item-tooltip">
+            multiline>
             <nuxt-link data-cy="simple" :to="`/${urlPrefix}/mint`">
               {{ $t('simple') }}
             </nuxt-link>
@@ -44,7 +44,7 @@
         <NeoTooltip
           position="left"
           :label="$t('createDropdown.massmint')"
-          class="navbar-item-tooltip">
+          multiline>
           <nuxt-link data-cy="massmint" :to="`/${urlPrefix}/massmint`">
             {{ $t('multipleNFTS') }}
           </nuxt-link>

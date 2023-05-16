@@ -17,6 +17,7 @@
             v-if="!active"
             :active="disabled"
             :label="$t('tooltip.notEnoughBalance')"
+            append-to-body
             multiline>
             <NeoButton
               :label="label"
