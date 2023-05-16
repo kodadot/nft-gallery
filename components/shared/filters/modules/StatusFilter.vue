@@ -28,9 +28,8 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoCheckbox } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoCheckbox, NeoIcon } from '@kodadot1/brick'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
