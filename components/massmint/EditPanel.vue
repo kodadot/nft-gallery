@@ -92,43 +92,25 @@ const props = defineProps<{
 const internalNfT = ref<Partial<NFT>>({})
 const dirty = ref({ name: false, description: false, price: false })
 
-const name = computed({
-  get: () =>
-    dirty.value.name ? internalNfT.value.name : props.nft?.name || '',
-  set: (value) => {
-    internalNfT.value = {
-      ...internalNfT.value,
-      name: value,
-    }
-    dirty.value.name = true
-  },
-})
+const createField = (fieldName) =>
+  computed({
+    get: () =>
+      dirty.value[fieldName]
+        ? internalNfT.value[fieldName]
+        : props.nft?.[fieldName] || '',
+    set: (value) => {
+      internalNfT.value = {
+        ...internalNfT.value,
+        [fieldName]:
+          fieldName === 'price' && value !== '' ? Number(value) : value,
+      }
+      dirty.value[fieldName] = true
+    },
+  })
 
-const description = computed({
-  get: () =>
-    dirty.value.description
-      ? internalNfT.value.description
-      : props.nft?.description || '',
-  set: (value) => {
-    internalNfT.value = {
-      ...internalNfT.value,
-      description: value,
-    }
-    dirty.value.description = true
-  },
-})
-
-const price = computed({
-  get: () =>
-    dirty.value.price ? internalNfT.value.price : props.nft?.price || '',
-  set: (value) => {
-    internalNfT.value = {
-      ...internalNfT.value,
-      price: Number(value),
-    }
-    dirty.value.price = true
-  },
-})
+const name = createField('name')
+const description = createField('description')
+const price = createField('price')
 
 const emit = defineEmits(['close', 'save'])
 
