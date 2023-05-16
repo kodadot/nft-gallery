@@ -51,6 +51,7 @@ interface Emoji {
   components: {
     Identity: () => import('@/components/identity/IdentityIndex.vue'),
     NeoIcon,
+    NeoTooltip,
   },
 })
 export default class EmotionList extends Vue {
