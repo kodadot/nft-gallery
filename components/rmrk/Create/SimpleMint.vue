@@ -151,7 +151,7 @@
     </NeoField>
     <NeoField
       v-if="isLogIn"
-      type="is-danger"
+      variant="danger"
       :message="balanceNotEnoughMessage">
       <b-button
         type="is-primary"
