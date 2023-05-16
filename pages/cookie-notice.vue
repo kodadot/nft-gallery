@@ -4,9 +4,9 @@
       Cookie Policy
     </h2>
 
-    <time>Last updated May 16, 2023</time>
+    <time class="mb-6">Last updated May 16, 2023</time>
 
-    <p class="mb-2">
+    <p class="mb-4">
       This Cookie Policy explains how KodaDot ("Company," "we," "us," and "our")
       uses cookies and similar technologies to recognize you when you visit our
       website at https://kodadot.xyz ("Website"). It explains what these
@@ -14,21 +14,21 @@
       our use of them.
     </p>
 
-    <p class="mb-2">
+    <p class="mb-4">
       In some cases we may use cookies to collect personal information, or that
       becomes personal information if we combine it with other information.
     </p>
 
-    <h3>What are cookies?</h3>
+    <h3 class="heading heading-is-2">What are cookies?</h3>
 
-    <p class="mb-2">
+    <p class="mb-4">
       Cookies are small data files that are placed on your computer or mobile
       device when you visit a website. Cookies are widely used by website owners
       in order to make their websites work, or to work more efficiently, as well
       as to provide reporting information.
     </p>
 
-    <p class="mb-2">
+    <p class="mb-4">
       Cookies set by the website owner (in this case, KodaDot ) are called
       "first-party cookies." Cookies set by parties other than the website owner
       are called "third-party cookies." Third-party cookies enable third-party
@@ -38,9 +38,9 @@
       the website in question and also when it visits certain other websites.
     </p>
 
-    <h3>Why do we use cookies?</h3>
+    <h3 class="heading heading-is-2">Why do we use cookies?</h3>
 
-    <p class="mb-2">
+    <p class="mb-4">
       We use first- and third-party cookies for several reasons. Some cookies
       are required for technical reasons in order for our Website to operate,
       and we refer to these as "essential" or "strictly necessary" cookies.
@@ -50,9 +50,9 @@
       purposes. This is described in more detail below.
     </p>
 
-    <h3>How can I control cookies?</h3>
+    <h3 class="heading heading-is-2">How can I control cookies?</h3>
 
-    <p class="mb-2">
+    <p class="mb-4">
       You have the right to decide whether to accept or reject cookies. You can
       exercise your cookie rights by setting your preferences in the Cookie
       Consent Manager. The Cookie Consent Manager allows you to select which
@@ -60,7 +60,7 @@
       rejected as they are strictly necessary to provide you with services.
     </p>
 
-    <p class="mb-2">
+    <p class="mb-4">
       The Cookie Consent Manager can be found in the notification banner and on
       our website. If you choose to reject cookies, you may still use our
       website though your access to some functionality and areas of our website
@@ -68,32 +68,11 @@
       accept or refuse cookies.
     </p>
 
-    <p class="mb-2">
-      The specific types of first- and third-party cookies served through our
-      Website and the purposes they perform are described in the table below
-      (please note that the specific cookies served may vary depending on the
-      specific Online Properties you visit):
-    </p>
+    <h3 class="heading heading-is-2">
+      How can I control cookies on my browser?
+    </h3>
 
-    <p class="mb-2">
-      Unclassified cookies: These are cookies that have not yet been
-      categorized. We are in the process of classifying these cookies with the
-      help of their providers. Name: sentryReplaySession Purpose: improving
-      frontend instance for users Provider: kodadot.xyz Service: sentry Country:
-      United States Type: html_session_storage Expires in: session Name:
-      nuxt-color-mode Purpose: color scheme Provider: kodadot.xyz Service:
-      kodadot-settings Country: United States Type: html_local_storage Expires
-      in: persistent Name: preferences Purpose: personalization experience
-      Provider: kodadot.xyz Service: kodadot-settings Country: United States
-      Type: html_local_storage Expires in: persistent Name: lang Purpose:
-      personalization experience Service : kodadot-settings Provider:
-      kodadot.xyz Service: kodadot-settings Country: United States Type:
-      http_cookie Expires in: 11 months 30 days
-    </p>
-
-    <h3>How can I control cookies on my browser?</h3>
-
-    <p class="mb-2">
+    <p class="mb-4">
       As the means by which you can refuse cookies through your web browser
       controls vary from browser to browser, you should visit your browser's
       help menu for more information. The following is information about how to
@@ -101,17 +80,19 @@
     </p>
 
     <ul>
-      <li>Chrome</li>
-      <li>Internet Explorer</li>
-      <li>Firefox</li>
-      <li>Safari</li>
-      <li>Edge</li>
-      <li>Opera</li>
+      <li>• Chrome</li>
+      <li>• Internet Explorer</li>
+      <li>• Firefox</li>
+      <li>• Safari</li>
+      <li>• Edge</li>
+      <li>• Opera</li>
     </ul>
 
-    <h3>What about other tracking technologies, like web beacons?</h3>
+    <h3 class="heading heading-is-2">
+      What about other tracking technologies, like web beacons?
+    </h3>
 
-    <p class="mb-2">
+    <p class="mb-4">
       Cookies are not the only way to recognize or track visitors to a website.
       We may use other, similar technologies from time to time, like web beacons
       (sometimes called "tracking pixels" or "clear gifs"). These are tiny
@@ -126,14 +107,16 @@
       function properly, and so declining cookies will impair their functioning.
     </p>
 
-    <h3>Do you use Flash cookies or Local Shared Objects?</h3>
-    <p class="mb-2">
+    <h3 class="heading heading-is-2">
+      Do you use Flash cookies or Local Shared Objects?
+    </h3>
+    <p class="mb-4">
       Websites may also use so-called "Flash Cookies" (also known as Local
       Shared Objects or "LSOS") to, among other things, collect and store
       information about your use of our services, fraud prevention, and for
       other site operations.
     </p>
-    <p class="mb-2">
+    <p class="mb-4">
       If you do not want Flash Cookies stored on your computer, you can adjust
       the settings of your Flash player to block Flash Cookies storage using the
       tools contained in the Website Storage Settings Panel. You can also
@@ -145,16 +128,16 @@
       Player 8 and later) how to block Flash Cookies that are not being
       delivered by the operator of the page you are on at the time).
     </p>
-    <p class="mb-2">
+    <p class="mb-4">
       Please note that setting the Flash Player to restrict or limit acceptance
       of Flash Cookies may reduce or impede the functionality of some Flash
       applications, including, potentially, Flash applications used in
       connection with our services or online content.
     </p>
 
-    <h3>Do you serve targeted advertising?</h3>
+    <h3 class="heading heading-is-2">Do you serve targeted advertising?</h3>
 
-    <p class="mb-2">
+    <p class="mb-4">
       Third parties may serve cookies on your computer or mobile device to serve
       advertising through our Website. These companies may use information about
       your visits to this and other websites in order to provide relevant
@@ -169,9 +152,11 @@
       these.
     </p>
 
-    <h3>How often will you update this Cookie Policy?</h3>
+    <h3 class="heading heading-is-2">
+      How often will you update this Cookie Policy?
+    </h3>
 
-    <p class="mb-2">
+    <p class="mb-4">
       We may update this Cookie Policy from time to time in order to reflect,
       for example, changes to the cookies we use or for other operational,
       legal, or regulatory reasons. Please therefore revisit this Cookie Policy
@@ -179,14 +164,14 @@
       technologies.
     </p>
 
-    <p class="mb-2">
+    <p class="mb-4">
       The date at the top of this Cookie Policy indicates when it was last
       updated.
     </p>
 
-    <h3>Where can I get further information?</h3>
+    <h3 class="heading heading-is-2">Where can I get further information?</h3>
 
-    <p class="mb-2">
+    <p class="mb-4">
       If you have any questions about our use of cookies or other technologies,
       please email us at info@kodadot.xyz
     </p>
