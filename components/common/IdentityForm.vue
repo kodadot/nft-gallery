@@ -4,7 +4,10 @@
     <form>
       <p class="title is-size-3">
         {{ $i18n.t('identity.set') }}
-        <NeoTooltip :label="$i18n.t('identity.fundsReserve')" position="bottom">
+        <NeoTooltip
+          :label="$i18n.t('identity.fundsReserve')"
+          position="bottom"
+          multiline>
           <NeoIcon icon="info-circle" pack="fas" />
         </NeoTooltip>
       </p>

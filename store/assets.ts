@@ -41,7 +41,6 @@ export const actions: ActionTree<TokenState, TokenState> = {
       assetList: [chainAssetOf(prefix)],
     }))
 
-
     const tokenMap: TokenMap = Object.fromEntries(
       assetList.map(({ id, decimals, symbol }) => [
         id,

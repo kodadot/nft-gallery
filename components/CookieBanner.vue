@@ -6,7 +6,11 @@
           role="alertdialog"
           class="snackbar is-success is-bottom-left py-2 px-4 mb-3">
           <div>
-            <div class="">{{ $t('cookies.notice') }}</div>
+            {{ $t('cookies.notice') }}, see
+            <nuxt-link to="/cookie-notice" target="_blank" class="is-underlined"
+              >Cookie Policy</nuxt-link
+            >
+            for details.
           </div>
           <div class="bar ml-4 mr-4" />
           <div class="action is-success">
@@ -47,6 +51,7 @@ const declineCookies = () => {
 .cookie-banner {
   .snackbar {
     height: 2.188rem;
+    max-width: 720px;
 
     @media screen and (max-width: 768px) {
       height: auto;
