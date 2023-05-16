@@ -45,7 +45,9 @@
           <nuxt-link :to="`/${urlPrefix}/assets`">{{ $t('assets') }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
-          <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
+          <nuxt-link :to="`/${urlPrefix}/transfer`">{{
+            $t('transfer')
+          }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
           <nuxt-link to="/teleport-bridge"
