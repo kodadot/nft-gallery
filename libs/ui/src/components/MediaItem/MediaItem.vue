@@ -88,7 +88,7 @@ export default {
         ),
         Media: defineAsyncComponent(() => import('./type/UnknownMedia.vue')),
       },
-      isLewdBlurredLayer: true,
+      isLewdBlurredLayer: this.isLewd,
     }
   },
   computed: {
