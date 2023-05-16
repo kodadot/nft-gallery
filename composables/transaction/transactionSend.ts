@@ -1,14 +1,15 @@
-import { checkAddress, isAddress } from '@polkadot/util-crypto'
+import { getApiCall, uniqueParamResolver } from '@/utils/gallery/abstractCalls'
 import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
 import {
   Interaction as NewInteraction,
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
+import { checkAddress, isAddress } from '@polkadot/util-crypto'
 
-import { ss58Of } from '@/utils/config/chain.config'
-import correctFormat from '@/utils/ss58Format'
-import { warningMessage } from '@/utils/notification'
 import { tokenIdToRoute } from '@/components/unique/utils'
+import { ss58Of } from '@/utils/config/chain.config'
+import { warningMessage } from '@/utils/notification'
+import correctFormat from '@/utils/ss58Format'
 
 import type { ActionSend } from './types'
 
@@ -63,6 +64,17 @@ function execSendBasilisk(item: ActionSend, api, executeTransaction) {
   })
 }
 
+// note: price is automatically set to 0
+// https://github.com/paritytech/substrate/blob/e6a13b807a88d25aa1cd0d320edb9412c3692c67/frame/uniques/src/functions.rs#LL58C2-L58C51
+function execSendStatemine(item: ActionSend, api, executeTransaction) {
+  executeTransaction({
+    cb: getApiCall(api, item.urlPrefix, Interaction.SEND),
+    arg: uniqueParamResolver(item.nftId, Interaction.SEND, item.address),
+    successMessage: item.successMessage,
+    errorMessage: item.errorMessage,
+  })
+}
+
 export function execSendTx(item: ActionSend, api, executeTransaction) {
   if (!checkTsxSend(item)) {
     return
@@ -74,5 +86,9 @@ export function execSendTx(item: ActionSend, api, executeTransaction) {
 
   if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
     execSendBasilisk(item, api, executeTransaction)
+  }
+
+  if (item.urlPrefix === 'stmn') {
+    execSendStatemine(item, api, executeTransaction)
   }
 }

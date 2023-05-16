@@ -1,9 +1,6 @@
 <template>
   <section>
     <b-tabs v-model="activeTab">
-      <b-tab-item label="General" value="general">
-        <General />
-      </b-tab-item>
       <b-tab-item label="Metadata" value="metadata">
         <Metadata />
       </b-tab-item>
@@ -20,33 +17,20 @@
   </section>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import General from '@/components/settings/General.vue'
+<script lang="ts" setup>
 import Interface from '@/components/settings/Interface.vue'
 import Minting from '@/components/settings/Minting.vue'
 import Metadata from '@/components/metadata/Metadata.vue'
 import KeyboardShortcuts from '@/components/settings/KeyboardShortcuts.vue'
 
-@Component({
-  components: {
-    General,
-    Metadata,
-    Interface,
-    Minting,
-    KeyboardShortcuts,
+const { $route, $router } = useNuxtApp()
+const activeTab = computed({
+  get: () => $route.query.tab || 'metadata',
+  set: (value) => {
+    $route.query.page = ''
+    $router.replace({
+      query: { tab: value },
+    })
   },
 })
-export default class Settings extends Vue {
-  get activeTab(): string {
-    return (this.$route.query.tab as string) || 'general'
-  }
-
-  set activeTab(val) {
-    this.$route.query.page = ''
-    this.$router.replace({
-      query: { tab: val },
-    })
-  }
-}
 </script>
