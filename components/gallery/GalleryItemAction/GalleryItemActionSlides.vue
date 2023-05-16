@@ -44,6 +44,11 @@ defineProps<{
       font-size: 1rem !important;
       height: 100% !important;
     }
+
+    .o-btn {
+      font-size: 1rem;
+      height: 100%;
+    }
   }
 
   &-content {
