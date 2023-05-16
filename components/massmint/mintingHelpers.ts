@@ -114,6 +114,7 @@ export const getListForSellItems = (
       const nftId = getNftId(
         {
           ...nft,
+          name: nft.name.toUpperCase().replace(/ /g, '_'),
           collection: matchingToken.selectedCollection as EntityWithId,
         },
         blockNumber
