@@ -5,7 +5,7 @@
       v-if="$route.query.target"
       :to="`/${urlPrefix}/u/${correctAddress}`"
       class="pl-4 is-flex is-align-items-center">
-      <b-icon icon="chevron-left" size="is-small" class="mr-2" />
+      <NeoIcon icon="chevron-left" class="mr-2" />
       {{ $t('teleport.artistProfile') }}
     </nuxt-link>
     <p class="title is-size-3">
@@ -108,7 +108,7 @@
         v-clipboard:copy="getUrl()"
         type="is-primary"
         @click="toast($t('toast.urlCopy'))">
-        <b-icon size="is-small" pack="fas" icon="link" />
+        <NeoIcon pack="fas" icon="link" />
       </b-button>
       <b-button
         v-if="hasAddress"
@@ -167,9 +167,11 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { useFiatStore } from '@/stores/fiat'
+import { useIdentityStore } from '@/stores/identity'
 
 import { getExplorer, hasExplorer } from '@kodadot1/static'
 import { emptyObject } from '@kodadot1/minimark/utils'
+import { NeoIcon } from '@kodadot1/brick'
 
 type Target = 'target' | `target${number}`
 type TargetMap = Record<Target, string>
@@ -185,6 +187,7 @@ type TargetMap = Record<Target, string>
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     DisabledInput: () => import('@/components/shared/DisabledInput.vue'),
+    NeoIcon,
   },
 })
 export default class Transfer extends mixins(
@@ -206,6 +209,10 @@ export default class Transfer extends mixins(
 
   get fiatStore() {
     return useFiatStore()
+  }
+
+  get identityStore() {
+    return useIdentityStore()
   }
 
   get isApiConnected() {
@@ -245,8 +252,9 @@ export default class Transfer extends mixins(
   }
 
   get balance(): string {
-    return this.$store.getters.getAuthBalance
+    return this.identityStore.getAuthBalance
   }
+
   protected addAddress() {
     this.destinationAddresses.push('')
   }
@@ -440,7 +448,7 @@ export default class Transfer extends mixins(
     } else {
       addressQueryString = new URLSearchParams(this.targets).toString()
     }
-    return `${window.location.origin}/transfer?${addressQueryString}&usdamount=${this.usdValue}&donation=true`
+    return `${window.location.origin}/${this.urlPrefix}/transfer?${addressQueryString}&usdamount=${this.usdValue}&donation=true`
   }
 
   protected shareInTweet() {

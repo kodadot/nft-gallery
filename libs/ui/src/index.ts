@@ -28,4 +28,6 @@ export { default as NeoCarousel } from './components/NeoCarousel/NeoCarousel.vue
 export { default as NeoCarouselItem } from './components/NeoCarousel/NeoCarouselItem.vue'
 export { default as NeoLoading } from './components/NeoLoading/NeoLoading.vue'
 
+export { default as NeoDatepicker } from './components/NeoDatepicker/NeoDatepicker.vue'
+
 export { default as Neo } from '@oruga-ui/oruga'

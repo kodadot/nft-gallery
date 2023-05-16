@@ -160,7 +160,7 @@
       </b-button>
     </b-field>
     <b-field>
-      <b-icon icon="calculator" />
+      <NeoIcon icon="calculator" />
       <span class="pr-2">{{ $t('mint.estimated') }}</span>
       <Money :value="estimated" inline data-cy="fee" />
       <span class="pl-2"> ({{ getUsdFromKsm().toFixed(2) }} USD) </span>
@@ -224,6 +224,8 @@ import AuthMixin from '~/utils/mixins/authMixin'
 import { useFiatStore } from '@/stores/fiat'
 import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
+import { useIdentityStore } from '@/stores/identity'
+import { NeoIcon } from '@kodadot1/brick'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -240,6 +242,7 @@ const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   BasicSlider: () => import('@/components/shared/form/BasicSlider.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
+  NeoIcon,
 }
 
 @Component<SimpleMint>({
@@ -276,16 +279,28 @@ export default class SimpleMint extends mixins(
   protected balanceNotEnough = false
   protected haveNoToS = false
 
-  private fiatStore = useFiatStore()
-  private pinningStore = usePinningStore()
-  private preferencesStore = usePreferencesStore()
-
   @Ref('nftUpload') readonly nftUpload
   @Ref('nftNameInput') readonly nftNameInput
   @Ref('nftSymbolInput') readonly nftSymbolInput
 
   layout() {
     return 'centered-half-layout'
+  }
+
+  get fiatStore() {
+    return useFiatStore()
+  }
+
+  get pinningStore() {
+    return usePinningStore()
+  }
+
+  get preferencesStore() {
+    return usePreferencesStore()
+  }
+
+  get identityStore() {
+    return useIdentityStore()
   }
 
   get balanceNotEnoughMessage() {
@@ -463,7 +478,7 @@ export default class SimpleMint extends mixins(
   }
 
   get balance(): string {
-    return this.$store.getters.getAuthBalance
+    return this.identityStore.getAuthBalance
   }
 
   get isMintDisabled(): boolean {
