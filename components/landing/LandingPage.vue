@@ -4,29 +4,33 @@
       <LazySearchLanding />
     </section>
 
-    <!-- spotlight -->
-    <section v-if="showCarousel" class="py-8 instance">
-      <div class="container is-fluid">
-        <LazyCarouselTypeSpotlight />
-      </div>
-    </section>
+    <template v-if="showCarousel">
+      <!-- spotlight -->
+      <section class="py-8 instance">
+        <div class="container is-fluid">
+          <LazyCarouselTypeSpotlight />
+        </div>
+      </section>
 
-    <!-- top collections -->
-    <section v-if="showCarousel && urlPrefix !== 'ksm'" class="py-8 instance">
-      <div class="container is-fluid">
-        <LazyTopCollections class="my-5" />
-      </div>
-    </section>
+      <!-- top collections -->
+      <section
+        v-if="urlPrefix !== 'ksm' && urlPrefix !== 'stmn'"
+        class="py-8 instance">
+        <div class="container is-fluid">
+          <LazyTopCollections class="my-5" />
+        </div>
+      </section>
 
-    <section v-if="showCarousel" class="py-8 instance">
-      <div class="container is-fluid">
-        <!-- new listings -->
-        <LazyCarouselTypeNewestList />
+      <section class="py-8 instance">
+        <div class="container is-fluid">
+          <!-- new listings -->
+          <LazyCarouselTypeNewestList />
 
-        <!-- latest sales -->
-        <LazyCarouselTypeLatestSales class="mt-8" />
-      </div>
-    </section>
+          <!-- latest sales -->
+          <LazyCarouselTypeLatestSales class="mt-8" />
+        </div>
+      </section>
+    </template>
 
     <section class="py-8 instance instance-accent">
       <div class="container is-fluid footer-landing-container">
@@ -37,15 +41,11 @@
 </template>
 
 <script lang="ts" setup>
+import type { Prefix } from '@kodadot1/static'
+
+const prefixes: Prefix[] = ['rmrk', 'ksm', 'snek', 'bsx', 'stmn']
 const { urlPrefix } = usePrefix()
 
 // currently only supported on rmrk and snek
-const showCarousel = computed(() => {
-  return (
-    urlPrefix.value === 'rmrk' ||
-    urlPrefix.value === 'ksm' ||
-    urlPrefix.value === 'snek' ||
-    urlPrefix.value === 'bsx'
-  )
-})
+const showCarousel = computed(() => prefixes.includes(urlPrefix.value))
 </script>

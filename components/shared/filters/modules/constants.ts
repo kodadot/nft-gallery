@@ -25,6 +25,8 @@ export const POPULAR_COLLECTIONS = {
     '3629a3ff458d113e25-PUNK', //RMRK Punks
     '3a4100ce6c6ae0292c-KDGN', // Kusama Dragons
     '7e982817a2d2575031-C6N4I', // Ku*
+    'c8d5ea648c93514667-MSHRMTPIA', // Mushroom Topia
+    '8453d0ccb4cb7e9e59-A51', // Alien Ant Pharm
   ],
   bsx: [
     '1865909717', //Berliner

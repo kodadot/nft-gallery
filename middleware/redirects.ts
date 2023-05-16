@@ -13,4 +13,7 @@ export default function ({ store, redirect, route }): void {
   if (route.path.includes('/rmrk2/')) {
     return redirect(window.location.href.replace('/rmrk2/', '/ksm/'))
   }
+  if (route.path.startsWith('/transfer')) {
+    return redirect(window.location.href.replace('/transfer', '/ksm/transfer'))
+  }
 }
