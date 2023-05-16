@@ -5,7 +5,7 @@ import {
   TokenToMint,
 } from '@/composables/transaction/types'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import { toNFTId } from '../rmrk/service/scheme'
+import { EntityWithId, getNftId } from '../rmrk/service/scheme'
 import { NFTToMint } from './types'
 
 export const createTokensToMint = (
@@ -111,7 +111,13 @@ export const getListForSellItems = (
       if (matchingToken.price === undefined) {
         return undefined
       }
-      const nftId = toNFTId(nft, blockNumber)
+      const nftId = getNftId(
+        {
+          ...nft,
+          collection: matchingToken.selectedCollection as EntityWithId,
+        },
+        blockNumber
+      )
       if (nftId === undefined) {
         return undefined
       }
