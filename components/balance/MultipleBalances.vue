@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="balance">
-      <div class="balance-row balance-title is-size-7">
+      <div class="balance-row has-text-grey is-size-7">
         <div>Chain</div>
         <div class="has-text-right">Balance</div>
         <div class="has-text-right">Token</div>
@@ -166,12 +166,6 @@ onMounted(async () => {
 
     & > * {
       flex: 1;
-    }
-  }
-
-  &-title {
-    @include ktheme() {
-      color: theme('k-grey');
     }
   }
 }
