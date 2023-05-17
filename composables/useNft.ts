@@ -8,6 +8,7 @@ export type NftResources = {
   src?: string
   thumb?: string
   mimeType?: string
+  animation?: string
 }
 
 export type ItemResources = {

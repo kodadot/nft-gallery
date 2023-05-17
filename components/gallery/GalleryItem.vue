@@ -33,6 +33,7 @@
                     :key="resource.src"
                     :src="resource.src"
                     :mime-type="resource.mimeType"
+                    :animation-src="resource.animation"
                     is-detail
                     :original="isMobile" />
                 </section>
@@ -83,7 +84,7 @@
                   </CollectionDetailsPopover>
                 </h2>
               </div>
-              <GalleryItemButton />
+              <!-- <GalleryItemButton /> -->
             </div>
 
             <div
@@ -114,7 +115,7 @@
             class="mt-4" />
 
           <!-- price section -->
-          <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
+          <!-- <GalleryItemAction :nft="nft" @buy-success="onNFTBought" /> -->
           <UnlockableTag
             v-if="isUnlockable && !isMobile"
             :link="unlockLink"
@@ -123,7 +124,7 @@
         </div>
       </div>
     </div>
-
+    <!--
     <div class="columns is-variable is-6 mt-5">
       <div class="column is-two-fifths">
         <GalleryItemDescription ref="galleryDescriptionRef" />
@@ -132,7 +133,7 @@
       <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
         <GalleryItemTabsPanel :active-tab="activeTab" />
       </div>
-    </div>
+    </div> -->
 
     <!-- <CarouselTypeRelated
       v-if="nft?.collection.id"
@@ -142,7 +143,7 @@
 
     <CarouselTypeVisited class="mt-8" /> -->
 
-    <GalleryItemPreviewer v-model="isFullscreen" :item-src="previewItemSrc" />
+    <!-- <GalleryItemPreviewer v-model="isFullscreen" :item-src="previewItemSrc" /> -->
   </section>
 </template>
 
