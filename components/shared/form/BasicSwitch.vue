@@ -32,7 +32,7 @@ export default class BasicSwitch extends Vue {
   @Prop(Boolean) public disabled!: boolean
 
   get componentName(): string {
-    return this.message ? NeoTooltip : 'span'
+    return this.message ? 'NeoTooltip' : 'span'
   }
 
   get properLabel(): TranslateResult {
