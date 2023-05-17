@@ -32,6 +32,7 @@
                   <MediaItem
                     :key="resource.src"
                     :src="resource.src"
+                    :mime-type="resource.mimeType"
                     is-detail
                     :original="isMobile" />
                 </section>
@@ -133,13 +134,13 @@
       </div>
     </div>
 
-    <CarouselTypeRelated
+    <!-- <CarouselTypeRelated
       v-if="nft?.collection.id"
       class="mt-8"
       :collection-id="nft?.collection.id"
       data-cy="carousel-related" />
 
-    <CarouselTypeVisited class="mt-8" />
+    <CarouselTypeVisited class="mt-8" /> -->
 
     <GalleryItemPreviewer v-model="isFullscreen" :item-src="previewItemSrc" />
   </section>
@@ -231,6 +232,10 @@ onMounted(() => {
     congratsNewNft.value = val ? val : ''
     router.replace({ query: {} })
   })
+  console.log(nftMetadata.value)
+  console.log(nftMimeType.value)
+  console.log(nft.value)
+  console.log(nftResources.value)
 })
 
 const { isUnlockable, unlockLink } = useUnlockable(collection)
