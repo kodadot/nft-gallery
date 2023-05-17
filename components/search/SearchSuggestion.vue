@@ -235,10 +235,12 @@ import { processMetadata } from '~/utils/cachingStrategy'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
 import { RowSeries } from '~/components/series/types'
+import { NeoIcon } from '@kodadot1/brick'
 
 @Component({
   components: {
     Money: () => import('@/components/shared/format/Money.vue'),
+    NeoIcon,
   },
 })
 export default class SearchSuggestion extends mixins(PrefixMixin) {
