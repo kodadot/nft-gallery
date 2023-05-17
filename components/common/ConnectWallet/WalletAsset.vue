@@ -14,17 +14,18 @@
     <hr class="my-2" />
 
     <div>
-      <ProfileAssetsList v-if="isSnekOrBsx" @totalValueChange="setTotalValue" />
-      <AccountBalance v-else class="is-size-7" />
+      <ProfileAssetsList v-if="isSnek" @totalValueChange="setTotalValue" />
+      <MultipleBalances v-else />
     </div>
 
-    <hr class="my-2" />
-
-    <div
-      v-if="totalValue"
-      class="is-flex is-justify-content-space-between is-align-items-center my-1">
-      <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
-      <span> ${{ totalValue.toFixed(2) }} </span>
+    <div v-if="isSnek">
+      <hr class="my-2" />
+      <div
+        v-if="totalValue"
+        class="is-flex is-justify-content-space-between is-align-items-center my-1">
+        <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
+        <span> ${{ totalValue.toFixed(2) }} </span>
+      </div>
     </div>
     <div
       class="buttons is-justify-content-space-between is-flex-wrap-nowrap my-2">
@@ -52,8 +53,8 @@ import useIdentity from '@/components/identity/utils/useIdentity'
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/module/IdentityLink.vue')
 )
-const AccountBalance = defineAsyncComponent(
-  () => import('@/components/shared/AccountBalance.vue')
+const MultipleBalances = defineAsyncComponent(
+  () => import('@/components/balance/MultipleBalances.vue')
 )
 const ProfileAssetsList = defineAsyncComponent(
   () => import('@/components/rmrk/Profile/ProfileAssetsList.vue')
@@ -69,9 +70,7 @@ const emit = defineEmits(['back'])
 
 const account = computed(() => identityStore.getAuthAddress)
 const walletName = computed(() => walletStore.wallet.name)
-const isSnekOrBsx = computed(
-  () => urlPrefix.value === 'snek' || urlPrefix.value === 'bsx'
-)
+const isSnek = computed(() => urlPrefix.value === 'snek')
 
 const { shortenedAddress } = useIdentity({
   address: account,
