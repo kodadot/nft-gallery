@@ -84,7 +84,7 @@
                   </CollectionDetailsPopover>
                 </h2>
               </div>
-              <!-- <GalleryItemButton /> -->
+              <GalleryItemButton />
             </div>
 
             <div
@@ -115,7 +115,7 @@
             class="mt-4" />
 
           <!-- price section -->
-          <!-- <GalleryItemAction :nft="nft" @buy-success="onNFTBought" /> -->
+          <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
           <UnlockableTag
             v-if="isUnlockable && !isMobile"
             :link="unlockLink"
@@ -124,7 +124,7 @@
         </div>
       </div>
     </div>
-    <!--
+
     <div class="columns is-variable is-6 mt-5">
       <div class="column is-two-fifths">
         <GalleryItemDescription ref="galleryDescriptionRef" />
@@ -133,17 +133,17 @@
       <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
         <GalleryItemTabsPanel :active-tab="activeTab" />
       </div>
-    </div> -->
+    </div>
 
-    <!-- <CarouselTypeRelated
+    <CarouselTypeRelated
       v-if="nft?.collection.id"
       class="mt-8"
       :collection-id="nft?.collection.id"
       data-cy="carousel-related" />
 
-    <CarouselTypeVisited class="mt-8" /> -->
+    <CarouselTypeVisited class="mt-8" />
 
-    <!-- <GalleryItemPreviewer v-model="isFullscreen" :item-src="previewItemSrc" /> -->
+    <GalleryItemPreviewer v-model="isFullscreen" :item-src="previewItemSrc" />
   </section>
 </template>
 
@@ -233,10 +233,6 @@ onMounted(() => {
     congratsNewNft.value = val ? val : ''
     router.replace({ query: {} })
   })
-  console.log(nftMetadata.value)
-  console.log(nftMimeType.value)
-  console.log(nft.value)
-  console.log(nftResources.value)
 })
 
 const { isUnlockable, unlockLink } = useUnlockable(collection)
