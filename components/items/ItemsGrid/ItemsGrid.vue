@@ -17,7 +17,11 @@
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
 
-    <DynamicGrid :id="scrollContainerId" v-slot="slotProps" class="my-5">
+    <DynamicGrid
+      v-if="total !== 0 && !isLoading"
+      :id="scrollContainerId"
+      v-slot="slotProps"
+      class="my-5">
       <div
         v-for="(nft, index) in nfts"
         :key="`${nft.id}=${index}`"
@@ -31,13 +35,28 @@
           " />
       </div>
     </DynamicGrid>
-    <EmptyResult v-if="total === 0" />
+
+    <DynamicGrid
+      v-else-if="isLoading"
+      :id="scrollContainerId"
+      v-slot="slotProps"
+      class="my-5">
+      <NeoNftCard
+        v-for="n in skeletonCount"
+        :key="n"
+        is-loading
+        :variant="
+          (slotProps.isMobileVariant || slotProps.grid === 'small') && 'minimal'
+        " />
+    </DynamicGrid>
+
+    <EmptyResult v-else />
     <ScrollTopButton />
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoSkeleton } from '@kodadot1/brick'
+import { NeoNftCard, NeoSkeleton } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
@@ -71,6 +90,8 @@ const {
   gotoPage,
   fetchPageData,
 })
+
+const skeletonCount = first.value
 
 const resetPage = useDebounceFn(() => {
   gotoPage(1)

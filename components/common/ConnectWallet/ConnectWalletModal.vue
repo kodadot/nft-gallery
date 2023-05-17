@@ -84,15 +84,19 @@ import { SupportedWallets } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { Auth, useIdentityStore } from '@/stores/identity'
-import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem'
-import WalletAsset from '@/components/common/ConnectWallet/WalletAsset'
 import { NeoField } from '@kodadot1/brick'
+import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
+import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const hasSelectedWalletProvider = ref(false)
 const forceWalletSelect = ref(false)
+const { $store } = useNuxtApp()
 const identityStore = useIdentityStore()
+
+// urlPrefix from usePrefix() would not update inside modal component
+const urlPrefix = computed(() => $store.getters.currentUrlPrefix)
 
 const setForceWalletSelect = () => {
   forceWalletSelect.value = true
@@ -141,5 +145,9 @@ const toggleShowUninstalledWallet = () => {
 
 watch(account, (account) => {
   setAccount({ address: account })
+})
+
+watch([urlPrefix], () => {
+  emit('close')
 })
 </script>

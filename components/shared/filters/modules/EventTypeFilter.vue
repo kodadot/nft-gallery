@@ -35,9 +35,8 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoCheckbox, NeoField } from '@kodadot1/brick'
 import { useAcivityFiltersStore } from '@/stores/activityFilters'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoCheckbox, NeoField, NeoIcon } from '@kodadot1/brick'
 
 const activityFiltersStore = useAcivityFiltersStore()
 const route = useRoute()

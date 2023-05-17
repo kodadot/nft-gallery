@@ -14,20 +14,33 @@
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
+
     <DynamicGrid
+      v-if="!isLoading && total"
       :id="scrollContainerId"
       grid-size="medium"
-      :default-width="{ small: 16 * 15, medium: 16 * 20, large: 16 * 25 }"
+      :default-width="GRID_DEFAULT_WIDTH"
       :mobile-variant="false">
       <div
         v-for="(collection, index) in collections"
         :key="collection.id"
         :class="scrollItemClassName"
         :data-cy="`collection-index-${index}`">
-        <CollectionCard :is-loading="isLoading" :collection="collection" />
+        <CollectionCard :collection="collection" />
       </div>
     </DynamicGrid>
-    <EmptyResult v-if="total === 0" />
+
+    <DynamicGrid
+      v-else-if="isLoading"
+      :id="scrollContainerId"
+      grid-size="medium"
+      :default-width="GRID_DEFAULT_WIDTH"
+      :mobile-variant="false">
+      <CollectionCard v-for="n in skeletonCount" :key="n" is-loading />
+    </DynamicGrid>
+
+    <EmptyResult v-else />
+
     <ScrollTopButton />
   </div>
 </template>
@@ -40,6 +53,7 @@ import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
+import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const route = useRoute()
@@ -129,6 +143,8 @@ const {
   gotoPage,
   fetchPageData,
 })
+
+const skeletonCount = first.value
 
 const handleResult = async ({ data }: any, loadDirection = 'down') => {
   total.value = data.stats.totalCount
