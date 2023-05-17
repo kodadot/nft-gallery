@@ -103,7 +103,7 @@ function calculateUsd(amount: string, token = 'KSM') {
 }
 
 async function getBalance(chainName, token = 'KSM', tokenId = 0) {
-  const currentAddress = 'CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd'
+  const currentAddress = accountId.value
   const prefix = mapToPrefix[chainName]
   const chain = CHAINS[prefix]
 
