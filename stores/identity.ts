@@ -20,8 +20,7 @@ export interface IdentityMap {
   [address: string]: Registration
 }
 
-type NumericId = `${number}`
-type Key = Prefix | string | NumericId
+type Key = Prefix | string | number
 type BalanceMap<T extends Key = string> = Record<T, string>
 type ChangeAddressRequest = {
   address: string
@@ -32,7 +31,7 @@ export interface Auth {
   address: string
   source?: 'keyring' | 'extension' | 'ledger'
   balance?: BalanceMap<Prefix>
-  tokens?: BalanceMap<NumericId> // <id, amount>
+  tokens?: BalanceMap<number> // <id, amount>
 }
 
 export interface IdentityStruct {
