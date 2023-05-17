@@ -9,11 +9,7 @@
       </div>
 
       <div v-for="(chain, key) in availableChains" :key="key" class="is-size-7">
-        <div
-          v-for="token in chain"
-          :key="token.token"
-          class="balance-row"
-          :class="{ 'has-text-weight-bold': token.selected }">
+        <div v-for="token in chain" :key="token.token" class="balance-row">
           <div>{{ key }}</div>
           <div class="has-text-right">
             {{ token.balance }}
