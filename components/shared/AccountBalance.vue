@@ -11,7 +11,7 @@ import { useIdentityStore } from '@/stores/identity'
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
-const { urlPrefix } = usePrefix()
+
 const { accountId } = useAuth()
 const identityStore = useIdentityStore()
 const realBalance = computed(() => identityStore.getAuthBalance)
