@@ -9,7 +9,7 @@ interface State {
 export const useWalletStore = defineStore('wallet', {
   state: (): State => ({
     wallet: {
-      name: '',
+      name: localStorage.getItem('walletname') || '',
     },
   }),
   getters: {
@@ -18,6 +18,7 @@ export const useWalletStore = defineStore('wallet', {
   actions: {
     setWalletName(payload) {
       this.wallet = Object.assign(this.wallet, payload)
+      localStorage.setItem('walletname', payload.name)
     },
   },
 })

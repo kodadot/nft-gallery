@@ -69,7 +69,7 @@ const { $consola } = useNuxtApp()
 const emit = defineEmits(['back'])
 
 const account = computed(() => identityStore.getAuthAddress)
-const walletName = computed(() => walletStore.wallet.name)
+const walletName = computed(() => walletStore.getWalletName)
 const isSnek = computed(() => urlPrefix.value === 'snek')
 
 const { shortenedAddress } = useIdentity({
@@ -93,22 +93,13 @@ const setTotalValue = (value: number) => {
 onMounted(async () => {
   if (identityStore.getAuthAddress) {
     $consola.log('fetching balance...')
-    $consola.log(urlPrefix.value)
     await identityStore.fetchBalance({
       address: identityStore.getAuthAddress,
     })
-    $consola.log(identityStore.auth.balance)
-    $consola.log(identityStore.auth.balance?.[urlPrefix.value])
   }
 })
 
 watch(urlPrefix, () => {
   setTotalValue(0)
-  console.log('########')
-  console.log('########')
-  console.log('changed')
-  console.log('########')
-  console.log('########')
-  console.log('########')
 })
 </script>
