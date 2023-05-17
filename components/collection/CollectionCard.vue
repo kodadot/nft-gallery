@@ -8,16 +8,15 @@
         :alt="collection.name"
         custom-class="collection-card__image-wrapper" />
 
-        <CollectionDetail
-          :nfts="collection.nfts || []"
-          :name="collection.name || ''"
-          :image="image" />
-      </template>
+      <CollectionDetail
+        :nfts="collection.nfts || []"
+        :name="collection.name || ''"
+        :image="image" />
     </nuxt-link>
 
     <template v-else>
       <NeoSkeleton no-margin :rounded="false" height="112px" />
-      <CollectionDetail :is-loading="true" :nfts="[]" name="" />
+      <CollectionDetail is-loading :nfts="[]" name="" />
     </template>
   </div>
 </template>
