@@ -90,15 +90,15 @@ const setTotalValue = (value: number) => {
   totalValue.value = value
 }
 
-onMounted(() => {
+onMounted(async () => {
   if (identityStore.getAuthAddress) {
     $consola.log('fetching balance...')
     $consola.log(urlPrefix.value)
-    identityStore.fetchBalance({
+    await identityStore.fetchBalance({
       address: identityStore.getAuthAddress,
     })
     $consola.log(identityStore.auth.balance)
-    $consola.log(identityStore.auth.balance[urlPrefix.value])
+    $consola.log(identityStore.auth.balance?.[urlPrefix.value])
   }
 })
 
