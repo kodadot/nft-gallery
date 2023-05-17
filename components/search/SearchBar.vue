@@ -1,6 +1,6 @@
 <template>
   <div class="search-bar-container">
-    <b-autocomplete
+    <NeoAutocomplete
       ref="searchRef"
       v-model="name"
       class="gallery-search"
@@ -8,7 +8,7 @@
       :placeholder="placeholderContent"
       icon="search"
       :open-on-focus="showDefaultSuggestions"
-      dropdown-position="bottom"
+      menu-position="bottom"
       expanded
       @blur="onInputBlur"
       @focus="onInputFocus"
@@ -26,7 +26,7 @@
           @close="closeDropDown">
         </SearchSuggestion>
       </template>
-    </b-autocomplete>
+    </NeoAutocomplete>
     <div class="search-bar-bg"></div>
     <div
       v-if="isSearchInCollectionMode"
@@ -70,10 +70,12 @@ import { SearchQuery } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { useWindowSize } from '@vueuse/core'
+import { NeoAutocomplete } from '@kodadot1/brick'
 
 @Component({
   components: {
     SearchSuggestion: () => import('./SearchSuggestion.vue'),
+    NeoAutocomplete,
   },
 })
 export default class SearchBar extends mixins(
