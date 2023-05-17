@@ -2,18 +2,6 @@
   <div>
     <Loader :value="isLoading" />
     <b-field grouped>
-      <!-- <b-field class="mb-0" position="is-left">
-        <div class="control is-flex">
-          <b-switch
-            v-if="isLogIn"
-            class="gallery-switch"
-            v-model="hasPassionFeed"
-            :rounded="false">
-            {{ $t('passion') }}
-          </b-switch>
-        </div>
-      </b-field> -->
-
       <b-field class="has-text-right" expanded>
         <b-select v-model="nbRows">
           <option value="10">10</option>
