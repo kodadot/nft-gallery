@@ -25,7 +25,7 @@
         <NeoField>
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
         </NeoField>
-        <NeoField type="is-danger" :message="balanceNotEnoughMessage">
+        <NeoField variant="danger" :message="balanceNotEnoughMessage">
           <SubmitButton
             expanded
             label="create collection"

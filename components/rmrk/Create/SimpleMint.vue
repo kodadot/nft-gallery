@@ -144,7 +144,7 @@
       </CollapseWrapper>
     </NeoField>
     <BasicSwitch v-model="nsfw" label="mint.nfsw" data-cy="input-nsfw" />
-    <NeoField type="is-danger" :message="haveNoToSMessage">
+    <NeoField variant="danger" :message="haveNoToSMessage">
       <b-switch v-model="hasToS" :rounded="false" data-cy="input-tos">
         {{ $t('termOfService.accept') }}
       </b-switch>

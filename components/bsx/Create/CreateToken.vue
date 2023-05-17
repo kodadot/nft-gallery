@@ -61,7 +61,7 @@
         </NeoField>
         <NeoField
           key="submit"
-          type="is-danger"
+          variant="danger"
           :message="balanceNotEnoughMessage">
           <SubmitButton
             expanded

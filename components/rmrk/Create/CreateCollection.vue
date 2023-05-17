@@ -39,7 +39,7 @@
       <template #footer>
         <NeoField
           v-if="isLogIn"
-          type="is-danger"
+          variant="danger"
           :message="balanceNotEnoughMessage">
           <SubmitButton
             expanded
