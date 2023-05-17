@@ -32,4 +32,7 @@ export { default as NeoSteps } from './components/NeoSteps/NeoSteps.vue'
 export { default as NeoStepItem } from './components/NeoSteps/NeoStepItem.vue'
 export { default as NeoDatepicker } from './components/NeoDatepicker/NeoDatepicker.vue'
 
+export { default as NeoRadio } from './components/NeoRadio/NeoRadio.vue'
+export { default as NeoRadioButton } from './components/NeoRadio/NeoRadioButton.vue'
+
 export { default as Neo } from '@oruga-ui/oruga'
