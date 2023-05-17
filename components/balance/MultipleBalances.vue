@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="balance">
-      <div class="balance-row">
+      <div class="balance-row balance-title is-size-7">
         <div>Chain</div>
         <div class="has-text-right">Balance</div>
         <div class="has-text-right">Token</div>
@@ -103,7 +103,7 @@ function calculateUsd(amount: string, token = 'KSM') {
 }
 
 async function getBalance(chainName, token = 'KSM', tokenId = 0) {
-  const currentAddress = accountId.value
+  const currentAddress = 'CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd'
   const prefix = mapToPrefix[chainName]
   const chain = CHAINS[prefix]
 
@@ -144,15 +144,21 @@ async function getBalance(chainName, token = 'KSM', tokenId = 0) {
 
 onMounted(async () => {
   await fiatStore.fetchFiatPrice()
-  await getBalance('Kusama')
-  await getBalance('Statemine')
-  await getBalance('Basilisk', 'BSX')
-  await getBalance('Basilisk', 'KSM', 1)
-  status.value = 'done'
+
+  Promise.all([
+    getBalance('Kusama'),
+    getBalance('Statemine'),
+    getBalance('Basilisk', 'BSX'),
+    getBalance('Basilisk', 'KSM', 1),
+  ]).then(() => {
+    status.value = 'done'
+  })
 })
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/abstracts/variables';
+
 .balance {
   &-row {
     display: flex;
@@ -160,6 +166,12 @@ onMounted(async () => {
 
     & > * {
       flex: 1;
+    }
+  }
+
+  &-title {
+    @include ktheme() {
+      color: theme('k-grey');
     }
   }
 }
