@@ -1,34 +1,35 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <b-steps
+    <NeoSteps
       v-model="currentStep"
       :rounded="false"
       mobile-mode="minimalist"
       :has-navigation="false">
-      <b-step-item step="1" label="Mint" :clickable="isStepsClickable">
+      <NeoStepItem step="1" label="Mint" :clickable="isStepsClickable">
         <GenerativeMint @select="handlePrediction" @submit="handleBuilder" />
-      </b-step-item>
+      </NeoStepItem>
 
-      <b-step-item step="2" label="Select" :clickable="isStepsClickable">
+      <NeoStepItem step="2" label="Select" :clickable="isStepsClickable">
         <ImageSelectGrid
           :predicion="predicion"
           :selected="image"
           @select="handleImageSelect" />
-      </b-step-item>
+      </NeoStepItem>
 
-      <b-step-item
+      <NeoStepItem
         step="3"
         label="Finish"
         :clickable="isStepsClickable"
         :type="{ 'is-success': true }">
         <CongratsView @select="clearAll" />
-      </b-step-item>
-    </b-steps>
+      </NeoStepItem>
+    </NeoSteps>
   </div>
 </template>
 
 <script setup lang="ts">
+import { NeoStepItem, NeoSteps } from '@kodadot1/brick'
 import { PredictionStatus } from '@/services/replicate'
 import { sendWaifu } from '@/services/waifu'
 import { emptyObject } from '@/utils/empty'
