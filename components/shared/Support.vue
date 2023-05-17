@@ -1,19 +1,20 @@
 <template>
-  <b-switch v-model="model" :type="type" :rounded="false">
+  <NeoSwitch v-model="model" :type="type" :rounded="false">
     <div class="is-flex is-align-items-center">
       <span class="mr-2">
         {{ value ? `${$t(activeMessage)}${priceString}` : $t(passiveMessage) }}
       </span>
       <slot name="tooltip" />
     </div>
-  </b-switch>
+  </NeoSwitch>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { round } from '@/utils/support'
+import { NeoSwitch } from '@kodadot1/brick'
 
-@Component({})
+@Component({ components: { NeoSwitch } })
 export default class Support extends Vue {
   @Prop() public value!: boolean
   @Prop({ type: Boolean, default: true }) public showPrice?: boolean

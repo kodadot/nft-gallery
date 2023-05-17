@@ -8,7 +8,7 @@
       v-for="lang in langsFlags"
       :key="lang.value"
       :class="{ 'is-active': userLang === lang.value }"
-      :value="userLang"
+      :value="lang.value"
       aria-role="listitem"
       has-link
       @click="setUserLang(lang.value)">

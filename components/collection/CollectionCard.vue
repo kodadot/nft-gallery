@@ -1,11 +1,12 @@
 <template>
-  <div class="collection-card card">
-    <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
-      <template v-if="!isLoadingMeta">
-        <BasicImage
-          :src="image"
-          :alt="collection.name"
-          custom-class="collection-card__image-wrapper" />
+  <div class="collection-card card" :class="{ loading: isLoading }">
+    <nuxt-link
+      v-if="!isLoading"
+      :to="`/${urlPrefix}/collection/${collection.id}`">
+      <BasicImage
+        :src="image"
+        :alt="collection.name"
+        custom-class="collection-card__image-wrapper" />
 
         <CollectionDetail
           :nfts="collection.nfts || []"
@@ -13,10 +14,16 @@
           :image="image" />
       </template>
     </nuxt-link>
+
+    <template v-else>
+      <NeoSkeleton no-margin :rounded="false" height="112px" />
+      <CollectionDetail :is-loading="true" :nfts="[]" name="" />
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
+import { NeoSkeleton } from '@kodadot1/brick'
 import { CollectionWithMeta } from '@/components/rmrk/service/scheme'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
@@ -27,15 +34,19 @@ import type { Metadata } from '@/components/rmrk/service/scheme'
 
 const { urlPrefix } = usePrefix()
 
-const props = defineProps<{
+interface Props {
+  isLoading?: boolean
   collection: CollectionWithMeta
-}>()
+}
 
+const props = defineProps<Props>()
 const image = ref('')
-const isLoadingMeta = ref(false)
 
 onMounted(async () => {
-  isLoadingMeta.value = true
+  if (props.isLoading) {
+    return
+  }
+
   const metadata = (await processSingleMetadata(
     props.collection.metadata
   )) as Metadata
