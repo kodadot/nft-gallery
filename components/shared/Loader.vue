@@ -63,7 +63,7 @@ export default class Loader extends Vue {
   }
 
   get isLoading() {
-    return this.value
+    return true
   }
 
   set isLoading(value: boolean) {
