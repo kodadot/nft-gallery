@@ -36,6 +36,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import { CHAINS, ENDPOINT_MAP } from '@kodadot1/static'
 import { NeoSkeleton } from '@kodadot1/brick'
+import { balanceOf } from '@kodadot1/sub-api'
 
 import format from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
@@ -124,8 +125,8 @@ async function getBalance(chainName, token = 'KSM', tokenId = 0) {
       false
     )
   } else {
-    const { data: balance } = await api.query.system.account(prefixAddress)
-    currentBalance = format(balance.free, chain.tokenDecimals, false)
+    const balance = await balanceOf(api, prefixAddress)
+    currentBalance = format(balance, chain.tokenDecimals, false)
   }
 
   const balance = delimiter(currentBalance)
