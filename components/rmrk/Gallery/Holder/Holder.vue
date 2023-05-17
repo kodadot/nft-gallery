@@ -23,15 +23,15 @@
         <div class="is-flex is-justify-content-space-between box-container">
           <b-field grouped group-multiline>
             <div class="control">
-              <b-checkbox v-model="showDetailIcon">NFT Details</b-checkbox>
+              <NeoCheckbox v-model="showDetailIcon">NFT Details</NeoCheckbox>
             </div>
             <div
               v-for="(column, index) in columnsVisible"
               :key="index"
               class="control">
-              <b-checkbox v-model="column.display">
+              <NeoCheckbox v-model="column.display">
                 {{ column.title }}
-              </b-checkbox>
+              </NeoCheckbox>
             </div>
           </b-field>
         </div>
@@ -174,12 +174,13 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { parseDate, parsePriceForItem } from './helper'
 import { Interaction as EventInteraction } from '../../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoCheckbox, NeoIcon } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
   NeoIcon,
+  NeoCheckbox,
 }
 
 export type NftHolderEvent = {
