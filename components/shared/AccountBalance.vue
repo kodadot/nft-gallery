@@ -14,5 +14,5 @@ const Money = defineAsyncComponent(
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const identityStore = useIdentityStore()
-const realBalance = computed(() => identityStore.auth.balance[urlPrefix.value])
+const realBalance = computed(() => identityStore.getAuthBalance)
 </script>
