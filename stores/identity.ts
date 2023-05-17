@@ -4,12 +4,25 @@ import { defineStore } from 'pinia'
 import consola from 'consola'
 import { emptyObject } from '@/utils/empty'
 import { formatAddress } from '@/utils/account'
+import { Prefix } from '@kodadot1/static'
+
+const DEFAULT_BALANCE_STATE = {
+  bsx: '0',
+  ksm: '0',
+  rmrk: '0',
+  snek: '0',
+  stmn: '0',
+  glmr: '0',
+  movr: '0',
+}
 
 export interface IdentityMap {
   [address: string]: Registration
 }
 
-type BalanceMap = Record<string, string>
+type NumericId = `${number}`
+type Key = Prefix | string | NumericId
+type BalanceMap<T extends Key = string> = Record<T, string>
 type ChangeAddressRequest = {
   address: string
   apiUrl?: string
@@ -18,8 +31,8 @@ type ChangeAddressRequest = {
 export interface Auth {
   address: string
   source?: 'keyring' | 'extension' | 'ledger'
-  balance?: BalanceMap
-  tokens?: BalanceMap // <id, amount>
+  balance?: BalanceMap<Prefix>
+  tokens?: BalanceMap<NumericId> // <id, amount>
 }
 
 export interface IdentityStruct {
@@ -37,8 +50,11 @@ export const useIdentityStore = defineStore('identity', {
     identities: emptyObject<IdentityMap>(),
     auth: {
       ...emptyObject<Auth>(),
-      balance: emptyObject<BalanceMap>(),
-      tokens: emptyObject<BalanceMap>(),
+      balance: DEFAULT_BALANCE_STATE,
+      tokens: {
+        '1': '0',
+        '5': '0',
+      },
       address: localStorage.getItem('kodaauth') || '',
     },
   }),
@@ -60,7 +76,7 @@ export const useIdentityStore = defineStore('identity', {
     resetAuth() {
       this.auth = {
         ...emptyObject<Auth>(),
-        balance: emptyObject<BalanceMap>(),
+        balance: DEFAULT_BALANCE_STATE,
         tokens: emptyObject<BalanceMap>(),
       }
       localStorage.removeItem('kodaauth')
@@ -72,7 +88,7 @@ export const useIdentityStore = defineStore('identity', {
       }
     },
     async setAuth(authRequest: Auth) {
-      this.auth = { ...authRequest, balance: emptyObject<BalanceMap>() }
+      this.auth = { ...authRequest, balance: DEFAULT_BALANCE_STATE }
       await this.fetchBalance({ address: authRequest.address })
       localStorage.setItem('kodaauth', authRequest.address)
     },
