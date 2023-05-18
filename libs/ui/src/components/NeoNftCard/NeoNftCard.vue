@@ -70,7 +70,7 @@
           <NeoSkeleton :rounded="false" full-size no-margin />
         </div>
       </div>
-      <div :class="`nft-media-info nft-media-info__${variant}`">
+      <div class="nft-media-info" :class="`nft-media-info__${variant}`">
         <NeoSkeleton size="medium" no-margin />
         <div v-if="variant !== 'minimal'" class="is-flex mt-2">
           <NeoSkeleton
