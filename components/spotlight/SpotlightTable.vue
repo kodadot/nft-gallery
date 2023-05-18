@@ -18,16 +18,9 @@
       <template #top-left>
         <NeoField class="mb-0">
           <div class="control is-flex">
-            <b-switch v-model="onlyWithIdentity" :rounded="false">
+            <NeoSwitch v-model="onlyWithIdentity" :rounded="false">
               {{ $t('spotlight.filter_accounts') }}
-            </b-switch>
-            <!-- <b-switch
-              v-if="isLogIn"
-              class="gallery-switch"
-              v-model="hasPassionFeed"
-              :rounded="false">
-              {{ $t('passion') }}
-            </b-switch> -->
+            </NeoSwitch>
           </div>
         </NeoField>
         <b-button
@@ -185,8 +178,7 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { NeoField, NeoSkeleton } from '@kodadot1/brick'
-
+import { NeoField, NeoSkeleton, NeoSwitch } from '@kodadot1/brick'
 import {
   axisLize,
   defaultEvents,
@@ -219,6 +211,7 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   NeoSkeleton,
   NeoField,
+  NeoSwitch,
 }
 
 @Component({ components })

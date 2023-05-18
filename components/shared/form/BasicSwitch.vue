@@ -1,6 +1,6 @@
 <template>
   <NeoField>
-    <b-switch
+    <NeoSwitch
       v-model="isSwitched"
       :rounded="false"
       :size="size"
@@ -11,19 +11,16 @@
       <component :is="componentName" :label="message">
         {{ properLabel }}
       </component>
-    </b-switch>
+    </NeoSwitch>
   </NeoField>
 </template>
 
 <script lang="ts">
 import { TranslateResult } from 'vue-i18n'
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
-import { NeoField } from '@kodadot1/brick'
-@Component({
-  components: {
-    NeoField,
-  },
-})
+import { NeoField, NeoSwitch } from '@kodadot1/brick'
+
+@Component({ components: { NeoSwitch, NeoField } })
 export default class BasicSwitch extends Vue {
   @VModel({ type: Boolean, required: true }) isSwitched!: string
   @Prop({ type: String, required: true }) label!: string

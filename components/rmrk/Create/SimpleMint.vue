@@ -145,9 +145,9 @@
     </NeoField>
     <BasicSwitch v-model="nsfw" label="mint.nfsw" data-cy="input-nsfw" />
     <NeoField variant="danger" :message="haveNoToSMessage">
-      <b-switch v-model="hasToS" :rounded="false" data-cy="input-tos">
+      <NeoSwitch v-model="hasToS" :rounded="false" data-cy="input-tos">
         {{ $t('termOfService.accept') }}
-      </b-switch>
+      </NeoSwitch>
     </NeoField>
     <NeoField
       v-if="isLogIn"
@@ -227,7 +227,7 @@ import AuthMixin from '~/utils/mixins/authMixin'
 import { useFiatStore } from '@/stores/fiat'
 import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoField, NeoIcon, NeoInput } from '@kodadot1/brick'
+import { NeoField, NeoIcon, NeoInput, NeoSwitch } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
 
 const components = {
@@ -248,6 +248,7 @@ const components = {
   NeoField,
   NeoInput,
   NeoIcon,
+  NeoSwitch,
 }
 
 @Component<SimpleMint>({

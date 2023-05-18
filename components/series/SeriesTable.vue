@@ -2,47 +2,6 @@
   <div>
     <Loader :value="isLoading" />
     <NeoField grouped>
-      <!-- <NeoField class="mb-0" position="is-left">
-        <div class="control is-flex">
-          <b-switch
-            v-if="isLogIn"
-            class="gallery-switch"
-            v-model="hasPassionFeed"
-            :rounded="false">
-            {{ $t('passion') }}
-          </b-switch>
-        </div>
-      </NeoField> -->
-
-      <!-- <NeoField
-        position="is-left"
-        expanded
-      >
-        <b-radio-button
-          v-model="nbDays"
-          native-value="24"
-          type="is-outlined"
-        >
-          24h
-        </b-radio-button>
-
-        <b-radio-button
-          v-model="nbDays"
-          native-value="7"
-          type="is-outlined"
-        >
-          7d
-        </b-radio-button>
-
-        <b-radio-button
-          v-model="nbDays"
-          native-value="30"
-          type="is-outlined"
-        >
-          30d
-        </b-radio-button>
-      </NeoField> -->
-
       <NeoField class="has-text-right" expanded>
         <b-select v-model="nbRows">
           <option value="10">10</option>
