@@ -69,11 +69,11 @@
         field="timestamp"
         :label="$t('sales.tableDate')">
         <div>
-          <b-tooltip :label="props.row.date">
+          <NeoTooltip :label="props.row.date">
             <BlockExplorerLink
               :text="props.row.relDate"
               :block-id="props.row.blockNumber" />
-          </b-tooltip>
+          </NeoTooltip>
         </div>
       </b-table-column>
 
@@ -98,7 +98,7 @@
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import { NeoSkeleton } from '@kodadot1/brick'
+import { NeoSkeleton, NeoTooltip } from '@kodadot1/brick'
 
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
@@ -115,6 +115,7 @@ const components = {
   BasicPopup: () => import('@/components/shared/view/BasicPopup.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
   NeoSkeleton,
+  NeoTooltip,
 }
 
 @Component({ components })
