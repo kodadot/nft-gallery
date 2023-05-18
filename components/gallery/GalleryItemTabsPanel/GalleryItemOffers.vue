@@ -110,8 +110,7 @@ const isOwner = computed(() => checkOwner(dprops.account, accountId.value))
 const isActive = (row) => row.status === OfferStatusType.ACTIVE
 
 const isActiveAndNotExpired = (row) =>
-  isActive(row) &&
-  expirationTime(row.expiration) !== 'Expired'
+  isActive(row) && expirationTime(row.expiration) !== 'Expired'
 
 const { accountId } = useAuth()
 

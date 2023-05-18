@@ -7,6 +7,7 @@
           <NeoTooltip
             :active="isTransferButtonDisabled"
             append-to-body
+            multiline
             position="bottom"
             :label="$t('tooltip.emptyAddress')">
             <NeoButton
