@@ -145,9 +145,9 @@
     </b-field>
     <BasicSwitch v-model="nsfw" label="mint.nfsw" data-cy="input-nsfw" />
     <b-field type="is-danger" :message="haveNoToSMessage">
-      <b-switch v-model="hasToS" :rounded="false" data-cy="input-tos">
+      <NeoSwitch v-model="hasToS" :rounded="false" data-cy="input-tos">
         {{ $t('termOfService.accept') }}
-      </b-switch>
+      </NeoSwitch>
     </b-field>
     <b-field v-if="isLogIn" type="is-danger" :message="balanceNotEnoughMessage">
       <b-button
@@ -225,13 +225,12 @@ import { useFiatStore } from '@/stores/fiat'
 import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useIdentityStore } from '@/stores/identity'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoIcon, NeoSwitch } from '@kodadot1/brick'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
   MetadataUpload: () => import('./DropUpload.vue'),
   PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
-  Tooltip: () => import('@/components/shared/Tooltip.vue'),
   Support,
   AttributeTagInput: () => import('./AttributeTagInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
@@ -243,6 +242,7 @@ const components = {
   BasicSlider: () => import('@/components/shared/form/BasicSlider.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
   NeoIcon,
+  NeoSwitch,
 }
 
 @Component<SimpleMint>({

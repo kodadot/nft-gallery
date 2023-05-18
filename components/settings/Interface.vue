@@ -3,13 +3,13 @@
     <div class="label">
       {{ $t('user interface mode') }}
     </div>
-    <b-switch v-model="enabledAdvancedUI" size="is-medium" :rounded="false">
+    <NeoSwitch v-model="enabledAdvancedUI" size="is-medium" :rounded="false">
       {{
         enabledAdvancedUI
           ? $t('advanced user interface')
           : $t('basic user interface')
       }}
-    </b-switch>
+    </NeoSwitch>
     <div class="box">
       <div>
         <NeoCheckbox v-model="theatreView" :disabled="!enabledAdvancedUI">
@@ -107,11 +107,12 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoCheckbox } from '@kodadot1/brick'
+import { NeoCheckbox, NeoSwitch } from '@kodadot1/brick'
 
 @Component({
   components: {
     Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
+    NeoSwitch,
     NeoCheckbox,
   },
 })

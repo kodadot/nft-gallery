@@ -67,6 +67,8 @@ const useChainEvents = (chain, type) => {
   }
 }
 
+const sortNftByTime = (data) => data.sort((a, b) => b.unixTime - a.unixTime)
+
 const flattenNFT = async (data, chain) => {
   if (!data?.events.length) {
     return []
@@ -74,7 +76,8 @@ const flattenNFT = async (data, chain) => {
 
   const events = data.events.map(convertLastEventFlatNft)
   const listOfNfts = await formatNFT(events, chain)
-  return setCarouselMetadata(listOfNfts)
+  const listOfNftsWithMetadata = await setCarouselMetadata(listOfNfts)
+  return sortNftByTime(listOfNftsWithMetadata)
 }
 
 export const useCarouselNftEvents = ({ type }: Types) => {
@@ -96,14 +99,14 @@ export const useCarouselNftEvents = ({ type }: Types) => {
     const stmnNfts = await flattenNFT(dataStmn.value, 'stmn')
 
     const data = [
-      ...rmrkNfts,
-      ...bsxNfts,
-      ...snekNfts,
-      ...rmrk2Nfts,
       ...stmnNfts,
+      ...rmrk2Nfts,
+      ...snekNfts,
+      ...bsxNfts,
+      ...rmrkNfts,
     ]
 
-    nfts.value = data.sort((a, b) => b.unixTime - a.unixTime).slice(0, 30)
+    nfts.value = data.slice(0, 30)
   })
 
   return {
