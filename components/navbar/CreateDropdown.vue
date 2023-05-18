@@ -66,7 +66,7 @@
         tag="nuxt-link">
         {{ $t('waifu') }}
       </b-navbar-item>
-      <template v-if="chain === 'rmrk' || chain === 'ksm'">
+      <template v-if="chain === 'rmrk'">
         <b-navbar-item
           data-cy="simple"
           :to="`/${urlPrefix}/mint`"
