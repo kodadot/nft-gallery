@@ -4,7 +4,11 @@ import {
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
 
-import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
+import {
+  bsxParamResolver,
+  getApiCall,
+  uniqueParamResolver,
+} from '@/utils/gallery/abstractCalls'
 import type { ActionConsume } from './types'
 
 export function execBurnTx(item: ActionConsume, api, executeTransaction) {
@@ -70,6 +74,15 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
         successMessage: item.successMessage,
         errorMessage: item.errorMessage,
       })
+    })
+  }
+
+  if (item.urlPrefix === 'stmn') {
+    executeTransaction({
+      cb: getApiCall(api, item.urlPrefix, Interaction.CONSUME),
+      arg: uniqueParamResolver(item.nftId, Interaction.CONSUME, ''),
+      successMessage: item.successMessage,
+      errorMessage: item.errorMessage,
     })
   }
 }

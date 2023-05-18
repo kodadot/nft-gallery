@@ -45,6 +45,7 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 import { useWalletStore } from '@/stores/wallet'
+import { useIdentityStore } from '@/stores/identity'
 import { clearSession } from '@/utils/cachingStrategy'
 import useIdentity from '@/components/identity/utils/useIdentity'
 
@@ -59,18 +60,18 @@ const ProfileAssetsList = defineAsyncComponent(
 )
 const totalValue = ref(0)
 const walletStore = useWalletStore()
+const identityStore = useIdentityStore()
+const { urlPrefix } = usePrefix()
+const { $i18n } = useNuxtApp()
+const { $consola } = useNuxtApp()
 
-const walletName = computed(() => walletStore.wallet.name)
 const emit = defineEmits(['back'])
 
-const { urlPrefix } = usePrefix()
-
-const { $store, $i18n } = useNuxtApp()
-const account = computed(() => $store.getters.getAuthAddress)
-
-watch(account, (val) => {
-  $store.dispatch('setAuth', { address: val })
-})
+const account = computed(() => identityStore.getAuthAddress)
+const walletName = computed(() => walletStore.getWalletName)
+const isSnekOrBsx = computed(
+  () => urlPrefix.value === 'snek' || urlPrefix.value === 'bsx'
+)
 
 const { shortenedAddress } = useIdentity({
   address: account,
@@ -78,7 +79,7 @@ const { shortenedAddress } = useIdentity({
 })
 
 const disconnect = () => {
-  $store.dispatch('setAuth', { address: '' }) // null not working
+  identityStore.resetAuth()
   clearSession()
 }
 
@@ -86,12 +87,18 @@ const backToWallet = () => {
   emit('back')
 }
 
-const isSnekOrBsx = computed(
-  () => urlPrefix.value === 'snek' || urlPrefix.value === 'bsx'
-)
 const setTotalValue = (value: number) => {
   totalValue.value = value
 }
+
+onMounted(() => {
+  if (identityStore.getAuthAddress) {
+    $consola.log('fetching balance...')
+    identityStore.fetchBalance({
+      address: identityStore.getAuthAddress,
+    })
+  }
+})
 
 watch(urlPrefix, () => {
   setTotalValue(0)

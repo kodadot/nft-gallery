@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:16
+FROM node:18
 
 RUN npm i -g pnpm
 WORKDIR /app

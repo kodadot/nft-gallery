@@ -2,47 +2,6 @@
   <div>
     <Loader :value="isLoading" />
     <b-field grouped>
-      <!-- <b-field class="mb-0" position="is-left">
-        <div class="control is-flex">
-          <b-switch
-            v-if="isLogIn"
-            class="gallery-switch"
-            v-model="hasPassionFeed"
-            :rounded="false">
-            {{ $t('passion') }}
-          </b-switch>
-        </div>
-      </b-field> -->
-
-      <!-- <b-field
-        position="is-left"
-        expanded
-      >
-        <b-radio-button
-          v-model="nbDays"
-          native-value="24"
-          type="is-outlined"
-        >
-          24h
-        </b-radio-button>
-
-        <b-radio-button
-          v-model="nbDays"
-          native-value="7"
-          type="is-outlined"
-        >
-          7d
-        </b-radio-button>
-
-        <b-radio-button
-          v-model="nbDays"
-          native-value="30"
-          type="is-outlined"
-        >
-          30d
-        </b-radio-button>
-      </b-field> -->
-
       <b-field class="has-text-right" expanded>
         <b-select v-model="nbRows">
           <option value="10">10</option>
@@ -302,7 +261,7 @@
           v-if="!isLoading"
           :to="`/${urlPrefix}/collection/${props.row.id}?tab=chart&locate=true`"
           target="_blank">
-          <b-icon icon="chart-line"> </b-icon>
+          <NeoIcon icon="chart-line" />
         </nuxt-link>
         <NeoSkeleton :active="isLoading" />
       </b-table-column>
@@ -316,7 +275,7 @@
           v-if="!isLoading"
           :to="`/${urlPrefix}/collection/${props.row.id}?tab=history&locate=true`"
           target="_blank">
-          <b-icon icon="list-ul"> </b-icon>
+          <NeoIcon icon="list-ul" />
         </nuxt-link>
         <NeoSkeleton :active="isLoading" />
       </b-table-column>

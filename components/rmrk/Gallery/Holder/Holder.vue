@@ -15,8 +15,7 @@
             {{ collapseTitleOption || $t('holders') }}
           </p>
           <a class="card-header-icon">
-            <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
-            </b-icon>
+            <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
           </a>
         </div>
       </template>
@@ -24,15 +23,15 @@
         <div class="is-flex is-justify-content-space-between box-container">
           <b-field grouped group-multiline>
             <div class="control">
-              <b-checkbox v-model="showDetailIcon">NFT Details</b-checkbox>
+              <NeoCheckbox v-model="showDetailIcon">NFT Details</NeoCheckbox>
             </div>
             <div
               v-for="(column, index) in columnsVisible"
               :key="index"
               class="control">
-              <b-checkbox v-model="column.display">
+              <NeoCheckbox v-model="column.display">
                 {{ column.title }}
-              </b-checkbox>
+              </NeoCheckbox>
             </div>
           </b-field>
         </div>
@@ -116,11 +115,11 @@
             field="Timestamp"
             :label="dateHeaderLabel"
             sortable>
-            <b-tooltip :label="props.row.Date" position="is-right">
+            <NeoTooltip :label="props.row.Date" position="right">
               <BlockExplorerLink
                 :text="props.row.Time"
                 :block-id="props.row.Block" />
-            </b-tooltip>
+            </NeoTooltip>
           </b-table-column>
           <template slot="detail" slot-scope="props">
             <tr v-for="item in props.row.Items" :key="item.Item.id">
@@ -150,9 +149,9 @@
                 {{ item.Percentage | toPercent('-') }}
               </td>
               <td v-show="columnsVisible['Date'].display">
-                <b-tooltip :label="item.Date" position="is-right">
+                <NeoTooltip :label="item.Date" position="right">
                   <BlockExplorerLink :text="item.Time" :block-id="item.Block" />
-                </b-tooltip>
+                </NeoTooltip>
               </td>
             </tr>
           </template>
@@ -175,10 +174,14 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { parseDate, parsePriceForItem } from './helper'
 import { Interaction as EventInteraction } from '../../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoCheckbox, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
+  NeoIcon,
+  NeoTooltip,
+  NeoCheckbox,
 }
 
 export type NftHolderEvent = {
