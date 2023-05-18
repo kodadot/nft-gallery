@@ -60,9 +60,9 @@
         :label="$t('spotlight.unique')"
         sortable>
         <template #header="{ column }">
-          <b-tooltip :label="$t('spotlight.uniqueItemsTooltip')" dashed>
+          <NeoTooltip :label="$t('spotlight.uniqueItemsTooltip')" dashed>
             {{ column.label }}
-          </b-tooltip>
+          </NeoTooltip>
         </template>
         <template v-if="!isLoading" #default="props">{{
           props.row.unique
@@ -76,9 +76,9 @@
         :label="$t('spotlight.uniqueCollectors')"
         sortable>
         <template #header="{ column }">
-          <b-tooltip :label="$t('spotlight.uniqueCollectorsTooltip')" dashed>
+          <NeoTooltip :label="$t('spotlight.uniqueCollectorsTooltip')" dashed>
             {{ column.label }}
-          </b-tooltip>
+          </NeoTooltip>
         </template>
         <template v-if="!isLoading" #default="props">{{
           props.row.uniqueCollectors
@@ -136,9 +136,9 @@
         :label="$t('spotlight.score')"
         numeric>
         <template #header="{ column }">
-          <b-tooltip :label="$t('spotlight.scoreCalc')" dashed>
+          <NeoTooltip :label="$t('spotlight.scoreCalc')" dashed>
             {{ column.label }}
-          </b-tooltip>
+          </NeoTooltip>
         </template>
         <template v-if="!isLoading" #default="props">{{
           Math.ceil(props.row.rank * 100) / 100
@@ -178,7 +178,8 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { NeoField, NeoSkeleton, NeoSwitch } from '@kodadot1/brick'
+import { NeoField, NeoSkeleton, NeoSwitch, NeoTooltip } from '@kodadot1/brick'
+
 import {
   axisLize,
   defaultEvents,
@@ -212,6 +213,7 @@ const components = {
   NeoSkeleton,
   NeoField,
   NeoSwitch,
+  NeoTooltip,
 }
 
 @Component({ components })

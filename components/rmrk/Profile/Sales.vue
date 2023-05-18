@@ -57,14 +57,11 @@
             cell-class="short-identity__table"
             field="Date"
             label="Date">
-            <b-tooltip
-              :label="props.row.Date"
-              position="is-right"
-              append-to-body>
+            <NeoTooltip :label="props.row.Date" position="right" multiline>
               <BlockExplorerLink
                 :text="props.row.Time"
                 :block-id="props.row.Block" />
-            </b-tooltip>
+            </NeoTooltip>
           </b-table-column>
         </b-table>
       </div>
@@ -77,6 +74,7 @@ import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { DocumentNode } from 'graphql'
 import { formatDistanceToNow } from 'date-fns'
+import { NeoTooltip } from '@kodadot1/brick'
 
 import { exist } from '@/utils/exist'
 
@@ -94,6 +92,7 @@ const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
+  NeoTooltip,
 }
 
 type TableRowItem = {

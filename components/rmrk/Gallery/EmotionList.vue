@@ -6,7 +6,7 @@
       type="is-outlined"
       class="emoji-box mb-2"
       @click="$emit('selected', emoji.parsed)">
-      <b-tooltip append-to-body>
+      <NeoTooltip>
         {{ emoji.parsed }}
         <span class="ml-1">{{ emoji.count }}</span>
         <template #content>
@@ -14,7 +14,7 @@
             <Identity :address="issuer" />
           </div>
         </template>
-      </b-tooltip>
+      </NeoTooltip>
     </b-button>
 
     <b-button
@@ -32,7 +32,7 @@ import orderBy from 'lodash/orderBy'
 
 import { Emotion } from '../service/scheme'
 import EmotionModal from './EmotionModal.vue'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
 const issuerId = (emotion: Emotion) => emotion.caller
 
@@ -51,6 +51,7 @@ interface Emoji {
   components: {
     Identity: () => import('@/components/identity/IdentityIndex.vue'),
     NeoIcon,
+    NeoTooltip,
   },
 })
 export default class EmotionList extends Vue {

@@ -3,91 +3,57 @@
     <div class="label">
       {{ $t('Minting Settings') }}
     </div>
-    <NeoField>
-      <Support v-model="hasSupport" :show-price="false">
-        <template #tooltip>
-          <Tooltip
-            :label="$t('support.tooltip')"
-            iconsize="is-small"
-            buttonsize="is-small"
-            tooltipsize="is-medium" />
-        </template>
-      </Support>
-    </NeoField>
-    <NeoField>
+    <div class="py-2 is-flex">
+      <Support v-model="hasSupport" :show-price="false" />
+      <NeoTooltip
+        :label="$i18n.t('support.tooltip')"
+        position="bottom"
+        multiline>
+        <NeoIcon icon="info-circle" pack="fas" />
+      </NeoTooltip>
+    </div>
+    <div class="py-2 is-flex">
       <Support
         v-model="hasCarbonOffset"
         :price="1"
         :active-message="$t('carbonOffset.carbonOffsetYes')"
-        :passive-message="$t('carbonOffset.carbonOffsetNo')">
-        <template #tooltip>
-          <Tooltip
-            iconsize="is-small"
-            buttonsize="is-small"
-            tooltipsize="is-large">
-            <template #content>
-              {{ $t('carbonOffset.tooltip') }}
-              (<a
-                class="has-text-black is-underlined"
-                href="https://kodadot.xyz/carbonless"
-                >https://kodadot.xyz/carbonless</a
-              >)
-            </template>
-          </Tooltip>
-        </template>
-      </Support>
-    </NeoField>
-    <ArweaveUploadSwitch v-model="arweaveUpload">
-      <template #tooltip>
-        <Tooltip
-          :label="$t('arweave.tooltip')"
-          iconsize="is-small"
-          buttonsize="is-small"
-          tooltipsize="is-medium" />
-      </template>
-    </ArweaveUploadSwitch>
+        :passive-message="$t('carbonOffset.carbonOffsetNo')" />
+      <NeoTooltip
+        :label="$i18n.t('carbonOffset.tooltip')"
+        position="bottom"
+        multiline>
+        <NeoIcon icon="info-circle" pack="fas" />
+      </NeoTooltip>
+    </div>
+    <div class="py-2 is-flex">
+      <ArweaveUploadSwitch v-model="arweaveUpload" />
+      <NeoTooltip
+        :label="$i18n.t('arweave.tooltip')"
+        position="bottom"
+        multiline>
+        <NeoIcon icon="info-circle" pack="fas" />
+      </NeoTooltip>
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+import ArweaveUploadSwitch from '@/components/rmrk/Create/ArweaveUploadSwitch.vue'
+import Support from '@/components/shared/Support.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoField } from '@kodadot1/brick'
+import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    ArweaveUploadSwitch: () =>
-      import('@/components/rmrk/Create/ArweaveUploadSwitch.vue'),
-    Support: () => import('@/components/shared/Support.vue'),
-    Tooltip: () => import('@/components/shared/Tooltip.vue'),
-    NeoField,
-  },
+const preferencesStore = usePreferencesStore()
+const hasSupport = computed({
+  get: () => preferencesStore.hasSupport,
+  set: (value) => preferencesStore.setHasSupport(value),
 })
-export default class Minting extends Vue {
-  private preferencesStore = usePreferencesStore()
-
-  get hasSupport(): boolean {
-    return this.preferencesStore.hasSupport
-  }
-
-  set hasSupport(value: boolean) {
-    this.preferencesStore.setHasSupport(value)
-  }
-
-  get hasCarbonOffset() {
-    return this.preferencesStore.getHasCarbonOffset
-  }
-
-  set hasCarbonOffset(value: boolean) {
-    this.preferencesStore.setHasCarbonOffset(value)
-  }
-
-  get arweaveUpload(): boolean {
-    return this.preferencesStore.arweaveUpload
-  }
-
-  set arweaveUpload(value: boolean) {
-    this.preferencesStore.setArweaveUpload(value)
-  }
-}
+const hasCarbonOffset = computed({
+  get: () => preferencesStore.getHasCarbonOffset,
+  set: (value) => preferencesStore.setHasCarbonOffset(value),
+})
+const arweaveUpload = computed({
+  get: () => preferencesStore.arweaveUpload,
+  set: (value) => preferencesStore.setArweaveUpload(value),
+})
 </script>

@@ -82,11 +82,11 @@
         field="expirationBlock"
         :label="$t('offer.expiration')"
         sortable>
-        <b-tooltip
+        <NeoTooltip
           v-if="!isExpired(props.row.expiration)"
           :label="calcExpirationDate(props.row.expiration)">
           {{ calcExpirationTime(props.row.expiration) }}
-        </b-tooltip>
+        </NeoTooltip>
         <span v-else>
           {{ calcExpirationTime(props.row.expiration) }}
         </span>
@@ -99,7 +99,7 @@
         width="120"
         sortable>
         <div class="buttons">
-          <b-tooltip
+          <NeoTooltip
             v-if="isOwner"
             :label="$t('offer.expired')"
             :active="calcExpirationTime(props.row.expiration) === 'expired'"
@@ -110,7 +110,7 @@
               icon-left="money-bill"
               :disabled="calcExpirationTime(props.row.expiration) === 'expired'"
               @click="tellFrens(props.row.caller, false)" />
-          </b-tooltip>
+          </NeoTooltip>
           <b-button
             v-if="props.row.caller === accountId || isOwner"
             type="is-orange"
@@ -159,11 +159,13 @@ import { Offer } from './types'
 import OfferMixin from '@/utils/mixins/offerMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
+import { NeoTooltip } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/bsx/format/TokenMoney.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
+  NeoTooltip,
 }
 
 @Component({ components, filters: { formatDistanceToNow } })
