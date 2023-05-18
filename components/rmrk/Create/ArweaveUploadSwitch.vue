@@ -13,17 +13,9 @@
 
 <script lang="ts">
 import { Component, ModelSync, Vue } from 'nuxt-property-decorator'
-import { NeoField } from '@kodadot1/brick'
+import { NeoField, NeoSwitch } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    NeoField,
-  },
-})
-
-import { NeoSwitch } from '@kodadot1/brick'
-
-@Component({ components: { NeoSwitch } })
+@Component({ components: { NeoSwitch, NeoField } })
 export default class ArweaveUploadSwitch extends Vue {
   @ModelSync('value', 'input', { type: Boolean })
   readonly checkedValue!: boolean
