@@ -102,14 +102,11 @@
             cell-class="short-identity__table"
             field="Date"
             label="Date">
-            <b-tooltip
-              :label="props.row.Date"
-              position="is-right"
-              append-to-body>
+            <NeoTooltip :label="props.row.Date" position="right" multiline>
               <BlockExplorerLink
                 :block-id="props.row.Block"
                 :text="props.row.Time" />
-            </b-tooltip>
+            </NeoTooltip>
           </b-table-column>
         </b-table>
       </div>
@@ -140,7 +137,7 @@ import {
 import shortAddress from '@/utils/shortAddress'
 
 import { Interaction as EventInteraction } from '../service/scheme'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
@@ -148,6 +145,7 @@ const components = {
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   NeoIcon,
+  NeoTooltip,
 }
 
 type TableRowItem = {

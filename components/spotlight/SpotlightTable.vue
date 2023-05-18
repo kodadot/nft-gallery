@@ -18,16 +18,9 @@
       <template #top-left>
         <b-field class="mb-0">
           <div class="control is-flex">
-            <b-switch v-model="onlyWithIdentity" :rounded="false">
+            <NeoSwitch v-model="onlyWithIdentity" :rounded="false">
               {{ $t('spotlight.filter_accounts') }}
-            </b-switch>
-            <!-- <b-switch
-              v-if="isLogIn"
-              class="gallery-switch"
-              v-model="hasPassionFeed"
-              :rounded="false">
-              {{ $t('passion') }}
-            </b-switch> -->
+            </NeoSwitch>
           </div>
         </b-field>
         <b-button
@@ -67,9 +60,9 @@
         :label="$t('spotlight.unique')"
         sortable>
         <template #header="{ column }">
-          <b-tooltip :label="$t('spotlight.uniqueItemsTooltip')" dashed>
+          <NeoTooltip :label="$t('spotlight.uniqueItemsTooltip')" dashed>
             {{ column.label }}
-          </b-tooltip>
+          </NeoTooltip>
         </template>
         <template v-if="!isLoading" #default="props">{{
           props.row.unique
@@ -83,9 +76,9 @@
         :label="$t('spotlight.uniqueCollectors')"
         sortable>
         <template #header="{ column }">
-          <b-tooltip :label="$t('spotlight.uniqueCollectorsTooltip')" dashed>
+          <NeoTooltip :label="$t('spotlight.uniqueCollectorsTooltip')" dashed>
             {{ column.label }}
-          </b-tooltip>
+          </NeoTooltip>
         </template>
         <template v-if="!isLoading" #default="props">{{
           props.row.uniqueCollectors
@@ -143,9 +136,9 @@
         :label="$t('spotlight.score')"
         numeric>
         <template #header="{ column }">
-          <b-tooltip :label="$t('spotlight.scoreCalc')" dashed>
+          <NeoTooltip :label="$t('spotlight.scoreCalc')" dashed>
             {{ column.label }}
-          </b-tooltip>
+          </NeoTooltip>
         </template>
         <template v-if="!isLoading" #default="props">{{
           Math.ceil(props.row.rank * 100) / 100
@@ -185,7 +178,7 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { NeoSkeleton } from '@kodadot1/brick'
+import { NeoSkeleton, NeoSwitch, NeoTooltip } from '@kodadot1/brick'
 
 import {
   axisLize,
@@ -218,6 +211,8 @@ const components = {
   SpotlightDetail: () => import('./SpotlightDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   NeoSkeleton,
+  NeoSwitch,
+  NeoTooltip,
 }
 
 @Component({ components })
