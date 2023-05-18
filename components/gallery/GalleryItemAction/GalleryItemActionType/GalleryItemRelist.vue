@@ -6,8 +6,9 @@
         <template #action>
           <NeoTooltip
             :active="isListDisabled"
+            :label="$t('tooltip.emptyListAmount')"
             append-to-body
-            :label="$t('tooltip.emptyListAmount')">
+            multiline>
             <NeoButton
               :label="
                 isListed
