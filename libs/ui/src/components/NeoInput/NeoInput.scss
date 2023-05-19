@@ -46,9 +46,13 @@ $input-textarea-padding: 0.5rem;
   .o-input {
 
     @include ktheme() {
-      border: 1px solid theme('text-color');
+      border: 1px solid theme('k-grey');
       background-color: theme('background-color');
       color: theme('text-color');
+
+      &:focus {
+        border: 1px solid theme('text-color');  
+      }
     }
     &__counter {
       position: relative;
