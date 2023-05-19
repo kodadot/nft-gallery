@@ -1,5 +1,22 @@
 <template>
   <figure
+    v-if="equippedNftImages && equippedNftImages.length !== 0"
+    class="image-container"
+    :class="{
+      'is-square image': !original,
+      'is-detail': isDetail,
+    }">
+    <img
+      v-for="(image, key) in equippedNftImages"
+      :key="key"
+      :src="image"
+      class="is-block image-media__image"
+      :alt="alt"
+      data-cy="type-image"
+      @error="onError" />
+  </figure>
+  <figure
+    v-else
     class="image-container"
     :class="{
       'is-square image': !original,
@@ -24,6 +41,7 @@ const props = defineProps<{
   placeholder: string
   isDetail?: boolean
   isDarkMode?: boolean
+  equippedNftImages?: string[]
 }>()
 
 const onError = (e: Event) => {

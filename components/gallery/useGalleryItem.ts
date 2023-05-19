@@ -40,6 +40,7 @@ export const useGalleryItem = (nftId?: string) => {
   const nftMimeType = ref('')
   const nftMetadata = ref<NFTWithMetadata>()
   const nftResources = ref<NftResources[]>()
+  const equippedNftImages = ref<string[]>([])
 
   const { params } = useRoute()
   const id = nftId || params.id
@@ -84,6 +85,7 @@ export const useGalleryItem = (nftId?: string) => {
 
     nft.value = nftEntity
 
+    await useEquippedNftImages(nftEntity, equippedNftImages)
     nftResources.value = nftEntity.resources?.map((resource) => {
       return {
         ...resource,
@@ -119,5 +121,6 @@ export const useGalleryItem = (nftId?: string) => {
     nftMimeType,
     nftMetadata,
     nftResources,
+    equippedNftImages,
   }
 }

@@ -54,7 +54,8 @@
             is-detail
             :original="isMobile"
             :is-lewd="galleryDescriptionRef?.isLewd"
-            :placeholder="placeholder" />
+            :placeholder="placeholder"
+            :equipped-nft-images="equippedNftImages" />
         </div>
       </div>
 
@@ -174,8 +175,15 @@ const { placeholder } = useTheme()
 const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 
-const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
-  useGalleryItem()
+const {
+  nft,
+  nftMetadata,
+  nftImage,
+  nftAnimation,
+  nftMimeType,
+  nftResources,
+  equippedNftImages,
+} = useGalleryItem()
 const collection = computed(() => nft.value?.collection)
 
 const breakPointWidth = 930

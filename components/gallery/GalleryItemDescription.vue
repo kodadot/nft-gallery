@@ -105,6 +105,7 @@
             :animation-src="parent?.nftAnimation.value"
             :mime-type="parent?.nftMimeType.value"
             :title="parent?.nftMetadata?.value?.name"
+            :equipped-nft-images="equippedNftImages"
             is-detail />
           <p class="gallery-parent-item__name">
             {{ parent?.nftMetadata?.value?.name }}
@@ -130,8 +131,14 @@ import { resolveMedia } from '@/utils/gallery/media'
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
 const { urlPrefix } = usePrefix()
-const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
-  useGalleryItem()
+const {
+  nft,
+  nftMimeType,
+  nftMetadata,
+  nftImage,
+  nftAnimation,
+  equippedNftImages,
+} = useGalleryItem()
 const activeTab = ref('0')
 const { version } = useRmrkVersion()
 

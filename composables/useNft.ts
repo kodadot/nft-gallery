@@ -2,6 +2,7 @@ import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { getMimeType } from '@/utils/gallery/media'
+import { Ref } from 'vue'
 
 export type NftResources = {
   id: string
@@ -70,6 +71,45 @@ export async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
   }
 
   return await getProcessMetadata(nft)
+}
+
+export async function useEquippedNftImages(
+  nft: NFTWithMetadata,
+  equippedNftImages: Ref<string[]>
+) {
+  const item = ref<NFTWithMetadata>(nft)
+  const { urlPrefix } = usePrefix()
+
+  const queryPath = {
+    rmrk: 'chain-rmrk',
+    ksm: 'chain-ksm',
+  }
+
+  // fetch all equipped nft images
+  const { data } = useGraphql({
+    queryName: 'itemInventory',
+    queryPrefix: queryPath[urlPrefix.value],
+    variables: {
+      id: item.value.id,
+    },
+  })
+
+  watch(
+    data as unknown as {
+      childListByNftId: { image: string; z: number }[]
+    },
+    async (newData) => {
+      const rawImages = newData?.childListByNftId
+
+      if (!rawImages) {
+        return
+      }
+
+      equippedNftImages.value = rawImages
+        .sort((item1, item2) => (item1.z < item2.z ? -1 : 1))
+        .map((item) => sanitizeIpfsUrl(item.image))
+    }
+  )
 }
 
 export default function useNftMetadata(nft: NFTWithMetadata) {

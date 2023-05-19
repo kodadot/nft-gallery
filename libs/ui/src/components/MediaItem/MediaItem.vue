@@ -8,7 +8,8 @@
       :placeholder="placeholder"
       :original="original"
       :is-lewd="isLewd"
-      :is-detail="isDetail" />
+      :is-detail="isDetail"
+      :equipped-nft-images="equippedNftImages" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
@@ -23,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent } from 'vue'
+import { PropType, defineAsyncComponent } from 'vue'
 
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
 import NeoIcon from './../NeoIcon/NeoIcon.vue'
@@ -69,6 +70,10 @@ export default {
     placeholder: {
       type: String,
       default: '',
+    },
+    equippedNftImages: {
+      type: Array as PropType<string[]>,
+      default: () => [],
     },
   },
   data() {

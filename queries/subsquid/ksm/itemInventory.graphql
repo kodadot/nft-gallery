@@ -1,0 +1,13 @@
+query itemInventory($id: String!) {
+   childListByNftId(id: $id) {
+    id
+    name
+    image
+    media
+    pending
+    resourceMetadata
+    resourceSrc
+    resourceThumb
+    z
+  }
+}
