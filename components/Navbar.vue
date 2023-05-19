@@ -79,6 +79,14 @@
         id="NavChainSelect"
         class="navbar-chain custom-navbar-item"
         data-cy="chain-select" />
+
+      <MobileExpandableSection
+        v-if="isMobile"
+        no-padding
+        :title="$t('chainSelect', [chainName])">
+        <NavbarChainOptions />
+      </MobileExpandableSection>
+
       <NotificationBoxButton
         v-if="account"
         :show-label="isMobile"
@@ -143,6 +151,7 @@
 <script lang="ts" setup>
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
 import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
+import NavbarChainOptions from '@/components/navbar/NavbarChainOptions.vue'
 import ProfileDropdown from '~/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import ExploreDropdown from '~/components/navbar/ExploreDropdown.vue'
@@ -161,6 +170,7 @@ import { useIdentityStore } from '@/stores/identity'
 import { BModalConfig } from 'buefy/types/components'
 import type Vue from 'vue'
 import { NeoIcon } from '@kodadot1/brick'
+import { getChainNameByPrefix } from '~~/utils/chain'
 
 const { $buefy, $nextTick } = useNuxtApp()
 const root = ref<Vue<Record<string, string>>>()
@@ -254,6 +264,8 @@ const closeBurgerMenu = () => {
 const handleResize = () => {
   isMobile.value = window.innerWidth < 1024
 }
+
+const chainName = computed(() => getChainNameByPrefix(urlPrefix.value))
 
 onMounted(() => {
   window.addEventListener('scroll', onScroll)
