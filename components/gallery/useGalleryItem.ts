@@ -5,6 +5,7 @@ import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
+import useCachedGraphql from '@/composables/useCachedGraphql'
 
 interface NFTData {
   nftEntity?: NFTWithMetadata
@@ -51,32 +52,23 @@ export const useGalleryItem = (nftId?: string) => {
   }
 
   const { urlPrefix } = usePrefix()
-  const { data, refetch } = useGraphql({
+
+  const DoFetch = useCachedGraphql({
+    queryPrefix: queryPath[urlPrefix.value] || urlPrefix.value,
     queryName: 'nftById',
-    queryPrefix: queryPath[urlPrefix.value],
-    variables: {
-      id,
-    },
+    variables: { id },
     options: {
       fetchPolicy: 'network-only',
     },
   })
 
-  useSubscriptionGraphql({
-    query: `   nft: nftEntityById(id: "${id}") {
-      id
-      currentOwner
-      price
-      burned
-      events {
-        id
-      }
-    }`,
-    onChange: refetch,
-  })
+  const queryResult = DoFetch<NFTData>()
+  const refetchFn = ref<() => void>(() => undefined)
 
-  watch(data as unknown as NFTData, async (newData) => {
-    const nftEntity = newData?.nftEntity
+  watchEffect(async () => {
+    const { data, refetch } = queryResult
+    refetchFn.value = refetch
+    const nftEntity = data.value?.nftEntity
     if (!nftEntity) {
       $consola.log(`NFT with id ${id} not found. Fallback to RPC Node`)
       return
@@ -110,6 +102,19 @@ export const useGalleryItem = (nftId?: string) => {
       mimeType: nftMimeType.value,
       prefix: urlPrefix,
     })
+  })
+
+  useSubscriptionGraphql({
+    query: `   nft: nftEntityById(id: "${id}") {
+      id
+      currentOwner
+      price
+      burned
+      events {
+        id
+      }
+    }`,
+    onChange: refetchFn.value,
   })
 
   return {
