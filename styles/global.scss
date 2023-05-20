@@ -90,10 +90,6 @@ body {
     font-size: calc(1rem * 0.75);
   }
 
-  .loading-overlay .loading-background {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-
   .orientation {
     perspective: 30em;
   }
@@ -109,10 +105,6 @@ body {
   }
 
   .message.is-primary .message-body {
-    color: $primary;
-  }
-
-  .b-steps .steps .step-items .step-item .step-details .step-title {
     color: $primary;
   }
 }

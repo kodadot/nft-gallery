@@ -21,12 +21,13 @@
           <NeoTooltip
             v-if="!confirm"
             :active="insufficientBalance || offerPriceInvalid"
-            append-to-body
             :label="
               insufficientBalance
                 ? $t('tooltip.notEnoughBalance')
                 : $t('tooltip.invalidAmount')
-            ">
+            "
+            append-to-body
+            multiline>
             <NeoButton
               :disabled="disabledConfirmBtn"
               label="Confirm 1/2"
