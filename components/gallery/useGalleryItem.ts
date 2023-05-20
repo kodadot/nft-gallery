@@ -60,6 +60,7 @@ export const useGalleryItem = (nftId?: string) => {
     options: {
       fetchPolicy: 'network-only',
     },
+    staleTime: 3000,
   })
 
   const queryResult = DoFetch<NFTData>()
@@ -114,7 +115,11 @@ export const useGalleryItem = (nftId?: string) => {
         id
       }
     }`,
-    onChange: refetchFn.value,
+    onChange: () => {
+      if (queryResult.isStale.value) {
+        queryResult.refetch()
+      }
+    },
   })
 
   return {

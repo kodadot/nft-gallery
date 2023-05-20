@@ -16,6 +16,7 @@ export default function ({
   clientName = '',
   variables = {},
   options = {},
+  staleTime = 1000,
 }) {
   const { $apollo, $consola } = useNuxtApp()
   const { prefix, client } = useQueryParams({ queryPrefix, clientName })
@@ -39,7 +40,11 @@ export default function ({
 
   function doFetch<T>() {
     const variablesId = Object.values(variables).join()
-    const queryResult = useQuery<T>([prefix, queryName, variablesId], fetcher)
+    const queryResult = useQuery<T>({
+      queryKey: [prefix, queryName, variablesId],
+      queryFn: fetcher,
+      staleTime: staleTime,
+    })
 
     if (queryResult.isError) {
       $consola.error(queryResult.error)
