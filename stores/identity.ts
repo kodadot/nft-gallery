@@ -5,6 +5,7 @@ import consola from 'consola'
 import { emptyObject } from '@/utils/empty'
 import { formatAddress } from '@/utils/account'
 import { Prefix } from '@kodadot1/static'
+import Vue from 'vue'
 
 const DEFAULT_BALANCE_STATE = {
   bsx: '0',
@@ -27,6 +28,26 @@ type ChangeAddressRequest = {
   apiUrl?: string
 }
 
+type ChainType = 'kusama' | 'basilisk' | 'statemine'
+type ChainDetail = {
+  balance: string
+  nativeBalance: string
+  usd: string
+  selected: boolean
+  address: string
+}
+type ChainToken = Partial<Record<'ksm' | 'bsx', ChainDetail>>
+
+interface MultiBalances {
+  address: string
+  chains: Partial<Record<ChainType, ChainToken>>
+}
+
+const DEFAULT_MULTI_BALANCE_STATE: MultiBalances = {
+  address: '',
+  chains: {},
+}
+
 export interface Auth {
   address: string
   source?: 'keyring' | 'extension' | 'ledger'
@@ -37,6 +58,7 @@ export interface Auth {
 export interface IdentityStruct {
   identities: IdentityMap
   auth: Auth
+  multiBalances: MultiBalances
 }
 
 export interface IdenityRequest {
@@ -56,6 +78,7 @@ export const useIdentityStore = defineStore('identity', {
       },
       address: localStorage.getItem('kodaauth') || '',
     },
+    multiBalances: DEFAULT_MULTI_BALANCE_STATE,
   }),
   getters: {
     availableIdentities: (state) => state.identities,
@@ -70,6 +93,28 @@ export const useIdentityStore = defineStore('identity', {
         ? state.auth.balance[urlPrefix.value] || '0'
         : '0'
     },
+    getTotalUsd: (state) => {
+      if (
+        state.multiBalances &&
+        Object.values(state.multiBalances?.chains || 0).length > 0
+      ) {
+        return Object.values(state.multiBalances.chains)
+          .flatMap((chain) => Object.values(chain))
+          .reduce((total, token) => total + parseFloat(token.usd), 0)
+      }
+
+      return 0
+    },
+    getStatusMultiBalances: (state) => {
+      let sum = 0
+      for (const key in state.multiBalances.chains) {
+        if (state.multiBalances.chains.hasOwnProperty(key)) {
+          sum += Object.keys(state.multiBalances.chains[key]).length
+        }
+      }
+
+      return sum < 4 ? 'loading' : 'done'
+    },
   },
   actions: {
     resetAuth() {
@@ -78,6 +123,8 @@ export const useIdentityStore = defineStore('identity', {
         balance: DEFAULT_BALANCE_STATE,
         tokens: emptyObject<BalanceMap>(),
       }
+      Vue.set(this.multiBalances, 'address', '')
+      Vue.set(this.multiBalances, 'chains', {})
       localStorage.removeItem('kodaauth')
     },
     setIdentity(identityRequest: IdenityRequest) {
@@ -88,6 +135,8 @@ export const useIdentityStore = defineStore('identity', {
     },
     async setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: DEFAULT_BALANCE_STATE }
+      Vue.set(this.multiBalances, 'address', '')
+      Vue.set(this.multiBalances, 'chains', {})
       await this.fetchBalance({ address: authRequest.address })
       localStorage.setItem('kodaauth', authRequest.address)
     },
@@ -142,6 +191,19 @@ export const useIdentityStore = defineStore('identity', {
         }
       } catch (e) {
         consola.error('[FETCH IDENTITY] Unable to get identity', e)
+      }
+    },
+    setMultiBalances({ address, chains, chainType }) {
+      this.multiBalances = {
+        ...this.multiBalances,
+        address,
+        chains: {
+          ...this.multiBalances.chains,
+          [chainType]: {
+            ...this.multiBalances.chains[chainType],
+            ...chains[chainType],
+          },
+        },
       }
     },
   },
