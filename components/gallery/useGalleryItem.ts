@@ -64,11 +64,9 @@ export const useGalleryItem = (nftId?: string) => {
   })
 
   const queryResult = DoFetch<NFTData>()
-  const refetchFn = ref<() => void>(() => undefined)
 
   watchEffect(async () => {
-    const { data, refetch } = queryResult
-    refetchFn.value = refetch
+    const { data } = queryResult
     const nftEntity = data.value?.nftEntity
     if (!nftEntity) {
       $consola.log(`NFT with id ${id} not found. Fallback to RPC Node`)
