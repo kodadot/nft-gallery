@@ -26,7 +26,7 @@ export default function ({
       const query = await resolveQueryPath(prefix, queryName)
       const result = await $apollo.query({
         query: query.default,
-        client: client,
+        client,
         variables,
         ...options,
       })
@@ -43,7 +43,7 @@ export default function ({
     const queryResult = useQuery<T>({
       queryKey: [prefix, queryName, variablesId],
       queryFn: fetcher,
-      staleTime: staleTime,
+      staleTime,
     })
 
     if (queryResult.isError) {
