@@ -57,6 +57,7 @@ export interface Metadata {
   type?: string
   thumbnailUri?: string
   mediaUri?: string
+  chain?: string
 }
 
 export interface NFTMetadata extends Metadata, ItemResources {
