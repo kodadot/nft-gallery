@@ -1,0 +1,15 @@
+@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+@import '../../scss/variable.scss';
+
+.o-acp__menu {
+  margin-top: 1rem;
+  @include ktheme() {
+    box-shadow: theme('primary-shadow');
+    border: 1px solid theme('border-color');
+    color: theme('text-color');
+    background: theme('background-color');
+  }
+}

@@ -4,11 +4,12 @@
     <form>
       <p class="title is-size-3">
         {{ $i18n.t('identity.set') }}
-        <b-tooltip
+        <NeoTooltip
           :label="$i18n.t('identity.fundsReserve')"
-          position="is-bottom">
+          position="bottom"
+          multiline>
           <NeoIcon icon="info-circle" pack="fas" />
-        </b-tooltip>
+        </NeoTooltip>
       </p>
 
       <p v-if="accountId" class="subtitle is-size-6">
@@ -89,7 +90,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { onApiConnect } from '@kodadot1/sub-api'
 import { hexToString, isHex } from '@polkadot/util'
 import { Data } from '@polkadot/types'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
 const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 const BasicInput = defineAsyncComponent(
