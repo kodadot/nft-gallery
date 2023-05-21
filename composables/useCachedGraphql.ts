@@ -1,15 +1,6 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { useQuery } from '@tanstack/vue-query'
 
-const useQueryParams = ({ queryPrefix, clientName }) => {
-  const { client } = usePrefix()
-
-  return {
-    prefix: queryPrefix || client.value,
-    client: clientName || client.value,
-  }
-}
-
 export default function ({
   queryPrefix = '',
   queryName,
