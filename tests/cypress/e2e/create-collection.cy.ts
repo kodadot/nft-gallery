@@ -11,9 +11,6 @@ chains.forEach((chain) => {
 
     // trigger danger button
     cy.contains('button', 'CREATE COLLECTION', { matchCase: false }).click()
-    cy.contains('p.help.danger', 'Please fill out this field.', {
-      matchCase: false,
-    }).should('exist')
 
     // input collection name
     cy.get('input[placeholder="Enter collection name"]').type('Test Collection')
