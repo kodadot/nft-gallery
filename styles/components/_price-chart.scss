@@ -13,7 +13,7 @@
 
     position: absolute;
     right: 10px;
-    top: -12px;
+    top: -8px;
     font-size: $font-size;
 
     .o-drop__menu {
@@ -33,6 +33,13 @@
       height: $height;
       min-width: $width;
       font-size: $font-size;
+    }
+
+    @include until(400px) {
+      .o-drop__menu, .time-range-button {
+        width: 70px;
+        min-width: 70px;
+      }
     }
   }
 }
