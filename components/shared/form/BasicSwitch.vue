@@ -18,9 +18,9 @@
 <script lang="ts">
 import { TranslateResult } from 'vue-i18n'
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
-import { NeoSwitch } from '@kodadot1/brick'
+import { NeoSwitch, NeoTooltip } from '@kodadot1/brick'
 
-@Component({ components: { NeoSwitch } })
+@Component({ components: { NeoSwitch, NeoTooltip } })
 export default class BasicSwitch extends Vue {
   @VModel({ type: Boolean, required: true }) isSwitched!: string
   @Prop({ type: String, required: true }) label!: string
@@ -32,7 +32,7 @@ export default class BasicSwitch extends Vue {
   @Prop(Boolean) public disabled!: boolean
 
   get componentName(): string {
-    return this.message ? 'b-tooltip' : 'span'
+    return this.message ? 'NeoTooltip' : 'span'
   }
 
   get properLabel(): TranslateResult {
