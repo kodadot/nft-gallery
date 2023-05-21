@@ -94,6 +94,7 @@ export const useGalleryItem = (nftId?: string) => {
     nftMetadata.value = await getNftMetadata(nftEntity, urlPrefix.value)
     nftMimeType.value = await whichMimeType(nftMetadata.value)
 
+    console.log(nftMimeType)
     const asset = whichAsset(nftMetadata.value)
     nftImage.value = asset.image
     nftAnimation.value = asset.animation_url
