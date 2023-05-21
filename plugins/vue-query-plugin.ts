@@ -1,5 +1,5 @@
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
-import Vue from 'vue'
 
-const queryClient = new QueryClient()
-Vue.use(VueQueryPlugin, { queryClient })
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.use(VueQueryPlugin, { queryClient: new QueryClient() })
+})
