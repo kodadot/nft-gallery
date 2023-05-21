@@ -1,4 +1,4 @@
-query offerListByNftId($id: String!, $orderBy: [OfferOrderByInput!]) {
+query acceptableOfferListByNftId($id: String!, $orderBy: [OfferOrderByInput!]) {
   offers(where: { nft: { id_eq: $id }, status_eq: ACTIVE }, orderBy: $orderBy) {
     id
     caller
