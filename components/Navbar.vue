@@ -52,13 +52,14 @@
       </div>
     </template>
     <template #end>
-      <ExploreDropdown
-        v-if="!isMobile"
-        class="navbar-explore custom-navbar-item"
-        data-cy="explore" />
       <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
         <NavbarExploreOptions />
       </MobileExpandableSection>
+
+      <ExploreDropdown
+        v-else
+        class="navbar-explore custom-navbar-item"
+        data-cy="explore" />
 
       <CreateDropdown
         v-show="isCreateVisible"
@@ -74,18 +75,18 @@
         :is-mobile="isMobile"
         :chain="urlPrefix" /> -->
 
-      <ChainSelectDropdown
-        v-if="!isMobile"
-        id="NavChainSelect"
-        class="navbar-chain custom-navbar-item"
-        data-cy="chain-select" />
-
       <MobileExpandableSection
         v-if="isMobile"
         no-padding
         :title="$t('chainSelect', [chainName])">
         <NavbarChainOptions />
       </MobileExpandableSection>
+
+      <ChainSelectDropdown
+        v-else
+        id="NavChainSelect"
+        class="navbar-chain custom-navbar-item"
+        data-cy="chain-select" />
 
       <NotificationBoxButton
         v-if="account"
