@@ -90,7 +90,6 @@ export const useGalleryItem = (nftId?: string) => {
         src: sanitizeIpfsUrl(resource.meta.animationUrl || resource.src),
         thumb: sanitizeIpfsUrl(resource.thumb || resource.meta.image),
         animation: sanitizeIpfsUrl(resource.meta.animationUrl),
-        // mimeType: await getMimeType(sanitizeIpfsUrl(resource.meta.animationUrl || resource.src)),
       }
     })
 
