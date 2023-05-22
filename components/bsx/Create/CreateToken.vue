@@ -164,10 +164,6 @@ export default class CreateToken extends mixins(
     this.balanceInput.checkValidity()
   }
 
-  get hasPrice() {
-    return Number(this.price)
-  }
-
   get balanceOfToken() {
     return getBalance(this.feesToken)
   }
