@@ -3,15 +3,17 @@
     <nuxt-link
       v-if="!isLoading"
       :to="`/${urlPrefix}/collection/${collection.id}`">
-      <BasicImage
-        :src="image"
-        :alt="collection.name"
-        custom-class="collection-card__image-wrapper" />
+      <template v-if="!isLoadingMeta">
+        <BasicImage
+          :src="image"
+          :alt="collection.name"
+          custom-class="collection-card__image-wrapper" />
 
-      <CollectionDetail
-        :nfts="collection.nfts || []"
-        :name="collection.name || ''"
-        :image="image" />
+        <CollectionDetail
+          :nfts="collection.nfts || []"
+          :name="collection.name || ''"
+          :image="image" />
+      </template>
     </nuxt-link>
 
     <template v-else>
@@ -32,6 +34,7 @@ import CollectionDetail from './CollectionDetail.vue'
 import type { Metadata } from '@/components/rmrk/service/scheme'
 
 const { urlPrefix } = usePrefix()
+const isLoadingMeta = ref(false)
 
 interface Props {
   isLoading?: boolean
@@ -46,6 +49,7 @@ onMounted(async () => {
     return
   }
 
+  isLoadingMeta.value = true
   const metadata = (await processSingleMetadata(
     props.collection.metadata
   )) as Metadata
