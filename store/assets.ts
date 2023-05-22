@@ -4,7 +4,6 @@ import { chainAssetOf } from '@/utils/config/chain.config'
 import { useApollo } from '@/utils/config/useApollo'
 import { emptyObject } from '@kodadot1/minimark/utils'
 import { Prefix } from '@kodadot1/static'
-import { ApolloClientMethods } from 'vue-apollo/types/vue-apollo'
 import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
 
 export type TokenProperty = {
