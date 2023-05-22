@@ -6,7 +6,6 @@ import { emptyObject } from '@/utils/empty'
 import { formatAddress } from '@/utils/account'
 import { Prefix } from '@kodadot1/static'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import Vue from 'vue'
 
 const DEFAULT_BALANCE_STATE = {
   bsx: '0',
@@ -141,8 +140,8 @@ export const useIdentityStore = defineStore('identity', {
       localStorage.removeItem('kodaauth')
     },
     resetMultipleBalances() {
-      Vue.set(this.multiBalances, 'address', '')
-      Vue.set(this.multiBalances, 'chains', {})
+      this.multiBalances.address = ''
+      this.multiBalances.chains = {}
     },
     setIdentity(identityRequest: IdenityRequest) {
       const { address, identity } = identityRequest
