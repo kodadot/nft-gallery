@@ -10,6 +10,7 @@
       type="is-primary"
       class="collection-radio-btn"
       :class="{ 'column is-half': separated }"
+      :rounded="rounded"
       @input="handleInput">
       <span><b>NONE</b></span>
     </NeoRadioButton>
@@ -21,6 +22,7 @@
       type="is-primary"
       class="collection-radio-btn"
       :class="{ 'column is-half': separated }"
+      :rounded="rounded"
       @input="handleInput">
       <span>{{ option }}</span>
     </NeoRadioButton>
@@ -37,6 +39,7 @@ defineProps<{
   options: string[]
   showEmpty?: boolean
   separated?: boolean
+  rounded?: boolean
 }>()
 
 const handleInput = (value: string) => {
