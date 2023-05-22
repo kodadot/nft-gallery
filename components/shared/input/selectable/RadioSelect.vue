@@ -12,7 +12,7 @@
       :class="{ 'column is-half': separated }"
       :rounded="rounded"
       @input="handleInput">
-      <span><b>NONE</b></span>
+      <span><b>NONE 🚫</b></span>
     </NeoRadioButton>
     <NeoRadioButton
       v-for="option in options"
