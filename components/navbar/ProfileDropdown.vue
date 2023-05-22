@@ -222,19 +222,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Ref, mixins } from 'nuxt-property-decorator'
-import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 import { NeoButton } from '@kodadot1/brick'
+import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
+import { Component, Prop, Ref, mixins } from 'nuxt-property-decorator'
 
-import Avatar from '@/components/shared/Avatar.vue'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import AuthMixin from '@/utils/mixins/authMixin'
-import useApiMixin from '@/utils/mixins/useApiMixin'
-import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import Avatar from '@/components/shared/Avatar.vue'
+import { useIdentityStore } from '@/stores/identity'
 import { useLangStore } from '@/stores/lang'
 import { useWalletStore } from '@/stores/wallet'
-import { useIdentityStore } from '@/stores/identity'
+import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
+import AuthMixin from '@/utils/mixins/authMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import useApiMixin from '@/utils/mixins/useApiMixin'
 
 const components = {
   Avatar,
