@@ -49,12 +49,14 @@ const nonZeroAssetList = computed(() => {
 const assetList = ref<AssetItem[]>([])
 const loadAssets = async () => {
   try {
-    const { assetList: newAssetList } = await useApollo<
-      any,
-      AssetListQueryResponse
-    >($apollo as any, urlPrefix.value, assetListByIdList, {
-      ids: ['0', getKusamaAssetId(client.value), '6'],
-    })
+    const { assetList: newAssetList } = await useApollo<AssetListQueryResponse>(
+      $apollo,
+      urlPrefix.value,
+      assetListByIdList,
+      {
+        ids: ['0', getKusamaAssetId(client.value), '6'],
+      }
+    )
     assetList.value = newAssetList
     await fetchAccountBalance()
   } catch (e) {

@@ -3,6 +3,8 @@ import assetListQuery from '@/queries/subsquid/bsx/assetList.graphql'
 import { chainAssetOf } from '@/utils/config/chain.config'
 import { useApollo } from '@/utils/config/useApollo'
 import { emptyObject } from '@kodadot1/minimark/utils'
+import { Prefix } from '@kodadot1/static'
+import { ApolloClientMethods } from 'vue-apollo/types/vue-apollo'
 import { ActionTree, Commit, GetterTree, MutationTree } from 'vuex'
 
 export type TokenProperty = {
@@ -30,11 +32,11 @@ export const mutations: MutationTree<TokenState> = {
 export const actions: ActionTree<TokenState, TokenState> = {
   async fetchAssetList(
     { commit }: { commit: Commit; state: TokenState },
-    prefix: string
+    prefix: Prefix
   ) {
-    const client = this.app.apolloProvider.clients[prefix]
-    const { assetList } = await useApollo<any, AssetListQueryResponse>(
-      client,
+    const { $apollo } = useNuxtApp()
+    const { assetList } = await useApollo<AssetListQueryResponse>(
+      $apollo,
       prefix,
       assetListQuery
     ).catch(() => ({

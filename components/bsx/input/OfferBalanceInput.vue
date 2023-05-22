@@ -37,7 +37,7 @@ export default class OfferBalanceInput extends mixins(ApiUrlMixin) {
 
   // TODO: rework into the store
   async fetch() {
-    const { asset } = await useApollo<this, { asset: AssetItem }>(
+    const { asset } = await useApollo<{ asset: AssetItem }>(
       this.$apollo,
       this.prefix,
       assetById,

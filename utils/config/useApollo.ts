@@ -1,12 +1,13 @@
 import { DocumentNode } from 'graphql'
-import type { DollarApollo } from 'vue-apollo/types/vue-apollo'
-import type { ApolloClient } from 'apollo-client'
+import type { ApolloClientMethods } from 'vue-apollo/types/vue-apollo'
+import type { OperationVariables } from 'apollo-client/core/types'
 
-export function useApollo<A, T = any>(
-  $apollo: DollarApollo<A> | ApolloClient<A>,
+export async function useApollo<T>(
+  $apollo: ApolloClientMethods,
   client: string,
   query: DocumentNode,
-  variables?: any
+  variables?: OperationVariables
 ): Promise<T> {
-  return $apollo.query<T>({ query, variables, client }).then(({ data }) => data)
+  const { data } = await $apollo.query<T>({ query, variables, client })
+  return data
 }
