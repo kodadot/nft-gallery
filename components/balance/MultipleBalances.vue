@@ -60,9 +60,9 @@ const identityStore = useIdentityStore()
 const { multiBalances } = storeToRefs(identityStore)
 
 const mapToPrefix = {
-  Kusama: 'ksm',
-  Basilisk: 'bsx',
-  Statemine: 'stmn',
+  kusama: 'ksm',
+  basilisk: 'bsx',
+  statemine: 'stmn',
 }
 
 function delimiter(amount: string | number) {
@@ -97,7 +97,6 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
   const currentAddress = accountId.value
   const prefix = mapToPrefix[chainName]
   const chain = CHAINS[prefix]
-  const chainType = chainName.toLowerCase()
 
   const defaultAddress = toDefaultAddress(currentAddress)
   const publicKey = decodeAddress(currentAddress)
@@ -125,7 +124,7 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
   }
 
   let selectedTokenId = String(tokenId)
-  if (chainName === 'Basilisk') {
+  if (chainName === 'basilisk') {
     selectedTokenId = await getAssetIdByAccount(api, prefixAddress)
   }
 
@@ -135,7 +134,7 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
   identityStore.setMultiBalances({
     address: defaultAddress,
     chains: {
-      [chainType]: {
+      [chainName]: {
         [token.toLowerCase()]: {
           address: prefixAddress,
           balance,
@@ -145,7 +144,7 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
         },
       },
     },
-    chainType,
+    chainName,
   })
 
   await wsProvider.disconnect()
@@ -154,12 +153,10 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
 onMounted(async () => {
   await fiatStore.fetchFiatPrice()
 
-  Promise.all([
-    getBalance('Kusama'),
-    getBalance('Statemine'),
-    getBalance('Basilisk', 'BSX'),
-    getBalance('Basilisk', 'KSM', Number(getKusamaAssetId('bsx'))),
-  ])
+  getBalance('kusama')
+  getBalance('statemine')
+  getBalance('basilisk', 'BSX')
+  getBalance('basilisk', 'KSM', Number(getKusamaAssetId('bsx')))
 })
 </script>
 

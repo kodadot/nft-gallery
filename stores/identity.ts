@@ -108,7 +108,9 @@ export const useIdentityStore = defineStore('identity', {
     getStatusMultiBalances: (state) => {
       let sum = 0
       for (const key in state.multiBalances.chains) {
-        if (state.multiBalances.chains.hasOwnProperty(key)) {
+        if (
+          Object.prototype.hasOwnProperty.call(state.multiBalances.chains, key)
+        ) {
           sum += Object.keys(state.multiBalances.chains[key]).length
         }
       }
@@ -195,15 +197,15 @@ export const useIdentityStore = defineStore('identity', {
         consola.error('[FETCH IDENTITY] Unable to get identity', e)
       }
     },
-    setMultiBalances({ address, chains, chainType }) {
+    setMultiBalances({ address, chains, chainName }) {
       this.multiBalances = {
         ...this.multiBalances,
         address,
         chains: {
           ...this.multiBalances.chains,
-          [chainType]: {
-            ...this.multiBalances.chains[chainType],
-            ...chains[chainType],
+          [chainName]: {
+            ...this.multiBalances.chains[chainName],
+            ...chains[chainName],
           },
         },
       }
