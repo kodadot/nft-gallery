@@ -28,15 +28,6 @@
             hidden="collapse.collection.attributes.hide" />
         </div>
 
-        <NeoMessage
-          v-if="hasPrice"
-          key="message"
-          type="is-primary"
-          has-icon
-          icon="exclamation-triangle">
-          {{ $t('warning.newTransactionWhilePriceSet') }}
-        </NeoMessage>
-
         <BasicSwitch
           key="hasRoyalty"
           v-model="hasRoyalty"
@@ -110,7 +101,6 @@ import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { usePreferencesStore } from '@/stores/preferences'
 import { MintedCollectionBasilisk } from '~~/composables/transaction/types'
 import { Token, getBalance, getDeposit, getFeesToken } from './utils'
-import { NeoMessage } from '@kodadot1/brick'
 
 const components = {
   CustomAttributeInput: () =>
@@ -129,7 +119,6 @@ const components = {
     import('@/components/bsx/specific/MultiPaymentFeeButton.vue'),
   TokenBalanceInput: () =>
     import('@/components/bsx/input/TokenBalanceInput.vue'),
-  NeoMessage,
 }
 
 @Component({ components })
