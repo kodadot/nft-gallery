@@ -31,14 +31,14 @@
             hidden="collapse.collection.attributes.hide" />
         </div>
 
-        <b-message
+        <NeoMessage
           v-if="hasPrice"
           key="message"
           type="is-primary"
           has-icon
           icon="exclamation-triangle">
           {{ $t('warning.newTransactionWhilePriceSet') }}
-        </b-message>
+        </NeoMessage>
 
         <template v-if="version === '2.0.0'">
           <BasicSwitch
@@ -108,6 +108,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { Ref as RefType } from 'vue'
 import { MintedCollectionKusama } from '@/composables/transaction/types'
 import { Royalty } from '@/utils/royalty'
+import { NeoMessage } from '@kodadot1/brick'
 
 const components = {
   AttributeTagInput: () =>
@@ -123,6 +124,7 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   RoyaltyForm: () => import('@/components/bsx/Create/RoyaltyForm.vue'),
+  NeoMessage,
 }
 
 @Component({ components })
