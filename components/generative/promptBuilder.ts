@@ -23,8 +23,8 @@ const OF = 'of'
 const BY = 'by'
 const COMMA = ','
 
-export const NAME = 'Bled spring'
-export const COLLECTION_ID = '6052023'
+export const NAME = 'Split summer'
+export const COLLECTION_ID = '2252023'
 
 export const buildPrompt = (options: Options): string => {
   const { gender, framing, art, style, having, wearing, lighting, inspiredBy } =
