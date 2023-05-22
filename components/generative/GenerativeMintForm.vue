@@ -10,7 +10,7 @@
     <p class="title is-size-5">on</p>
     <RadioSelect v-model="form.art" separated :options="art" rounded />
 
-    <p class="title is-size-5">using</p>
+    <p class="title is-size-5">by method</p>
     <RadioSelect
       v-model="form.style"
       :options="isPhoto ? filmTypes : styles"
