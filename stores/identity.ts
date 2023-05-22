@@ -123,9 +123,12 @@ export const useIdentityStore = defineStore('identity', {
         balance: DEFAULT_BALANCE_STATE,
         tokens: emptyObject<BalanceMap>(),
       }
+      this.resetMultipleBalances()
+      localStorage.removeItem('kodaauth')
+    },
+    resetMultipleBalances() {
       Vue.set(this.multiBalances, 'address', '')
       Vue.set(this.multiBalances, 'chains', {})
-      localStorage.removeItem('kodaauth')
     },
     setIdentity(identityRequest: IdenityRequest) {
       const { address, identity } = identityRequest
@@ -135,8 +138,7 @@ export const useIdentityStore = defineStore('identity', {
     },
     async setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: DEFAULT_BALANCE_STATE }
-      Vue.set(this.multiBalances, 'address', '')
-      Vue.set(this.multiBalances, 'chains', {})
+      this.resetMultipleBalances()
       await this.fetchBalance({ address: authRequest.address })
       localStorage.setItem('kodaauth', authRequest.address)
     },

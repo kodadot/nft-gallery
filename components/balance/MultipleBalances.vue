@@ -152,16 +152,14 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
 }
 
 onMounted(async () => {
-  if (identityStore.getStatusMultiBalances !== 'done') {
-    await fiatStore.fetchFiatPrice()
+  await fiatStore.fetchFiatPrice()
 
-    Promise.all([
-      getBalance('Kusama'),
-      getBalance('Statemine'),
-      getBalance('Basilisk', 'BSX'),
-      getBalance('Basilisk', 'KSM', Number(getKusamaAssetId('bsx'))),
-    ])
-  }
+  Promise.all([
+    getBalance('Kusama'),
+    getBalance('Statemine'),
+    getBalance('Basilisk', 'BSX'),
+    getBalance('Basilisk', 'KSM', Number(getKusamaAssetId('bsx'))),
+  ])
 })
 </script>
 
