@@ -3,10 +3,10 @@
     <Loader v-model="isLoading" :status="status" />
     <NeoSteps
       v-model="currentStep"
-      :rounded="false"
+      rounded
       mobile-mode="minimalist"
       :has-navigation="false">
-      <NeoStepItem step="1" label="Mint" :clickable="isStepsClickable">
+      <NeoStepItem step="1" label="Generate" :clickable="isStepsClickable">
         <GenerativeMint @select="handlePrediction" @submit="handleBuilder" />
       </NeoStepItem>
 
