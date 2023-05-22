@@ -47,7 +47,7 @@ import { balanceOf } from '@kodadot1/sub-api'
 import format from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
-import { getAssetIdByAccount, getKusamaAssetId } from '@/utils/api/bsx/query'
+import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
 import { useIdentityStore } from '@/stores/identity'
@@ -57,7 +57,7 @@ import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 const { accountId } = useAuth()
 
 const identityStore = useIdentityStore()
-const { multiBalances } = storeToRefs(identityStore)
+const { multiBalances, multiBalanceAssets } = storeToRefs(identityStore)
 
 const mapToPrefix = {
   kusama: 'ksm',
@@ -153,10 +153,9 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
 onMounted(async () => {
   await fiatStore.fetchFiatPrice()
 
-  getBalance('kusama')
-  getBalance('statemine')
-  getBalance('basilisk', 'BSX')
-  getBalance('basilisk', 'KSM', Number(getKusamaAssetId('bsx')))
+  multiBalanceAssets.value.forEach((item) => {
+    getBalance(item.chain, item.token, Number(item.tokenId))
+  })
 })
 </script>
 

@@ -5,6 +5,7 @@ import consola from 'consola'
 import { emptyObject } from '@/utils/empty'
 import { formatAddress } from '@/utils/account'
 import { Prefix } from '@kodadot1/static'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import Vue from 'vue'
 
 const DEFAULT_BALANCE_STATE = {
@@ -59,6 +60,11 @@ export interface IdentityStruct {
   identities: IdentityMap
   auth: Auth
   multiBalances: MultiBalances
+  multiBalanceAssets: {
+    chain: ChainType
+    token?: string
+    tokenId?: string
+  }[]
 }
 
 export interface IdenityRequest {
@@ -79,6 +85,12 @@ export const useIdentityStore = defineStore('identity', {
       address: localStorage.getItem('kodaauth') || '',
     },
     multiBalances: DEFAULT_MULTI_BALANCE_STATE,
+    multiBalanceAssets: [
+      { chain: 'kusama' },
+      { chain: 'statemine' },
+      { chain: 'basilisk', token: 'BSX' },
+      { chain: 'basilisk', token: 'KSM', tokenId: getKusamaAssetId('bsx') },
+    ],
   }),
   getters: {
     availableIdentities: (state) => state.identities,
@@ -106,16 +118,16 @@ export const useIdentityStore = defineStore('identity', {
       return 0
     },
     getStatusMultiBalances: (state) => {
-      let sum = 0
+      let totalAssets = 0
       for (const key in state.multiBalances.chains) {
         if (
           Object.prototype.hasOwnProperty.call(state.multiBalances.chains, key)
         ) {
-          sum += Object.keys(state.multiBalances.chains[key]).length
+          totalAssets += Object.keys(state.multiBalances.chains[key]).length
         }
       }
 
-      return sum < 4 ? 'loading' : 'done'
+      return totalAssets < state.multiBalanceAssets.length ? 'loading' : 'done'
     },
   },
   actions: {
