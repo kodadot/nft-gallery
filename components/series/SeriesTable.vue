@@ -2,47 +2,6 @@
   <div>
     <Loader :value="isLoading" />
     <b-field grouped>
-      <!-- <b-field class="mb-0" position="is-left">
-        <div class="control is-flex">
-          <b-switch
-            v-if="isLogIn"
-            class="gallery-switch"
-            v-model="hasPassionFeed"
-            :rounded="false">
-            {{ $t('passion') }}
-          </b-switch>
-        </div>
-      </b-field> -->
-
-      <!-- <b-field
-        position="is-left"
-        expanded
-      >
-        <b-radio-button
-          v-model="nbDays"
-          native-value="24"
-          type="is-outlined"
-        >
-          24h
-        </b-radio-button>
-
-        <b-radio-button
-          v-model="nbDays"
-          native-value="7"
-          type="is-outlined"
-        >
-          7d
-        </b-radio-button>
-
-        <b-radio-button
-          v-model="nbDays"
-          native-value="30"
-          type="is-outlined"
-        >
-          30d
-        </b-radio-button>
-      </b-field> -->
-
       <b-field class="has-text-right" expanded>
         <b-select v-model="nbRows">
           <option value="10">10</option>
@@ -83,7 +42,7 @@
             :alt="props.row.name"
             ratio="1by1"
             rounded />
-          <b-skeleton :active="isLoading" circle width="48px" height="48px" />
+          <NeoSkeleton :active="isLoading" circle width="48px" height="48px" />
         </div>
       </b-table-column>
 
@@ -97,7 +56,7 @@
           :to="`/${urlPrefix}/collection/${props.row.id}`">
           {{ props.row.name }}
         </nuxt-link>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -110,7 +69,7 @@
         <template v-if="!isLoading">
           <Money :value="props.row.volume" inline hide-unit />
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -137,7 +96,7 @@
             }}
           </div>
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <!-- <b-table-column
@@ -164,7 +123,7 @@
             }}
           </div>
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column> -->
 
       <b-table-column
@@ -191,7 +150,7 @@
             }}
           </div>
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -204,7 +163,7 @@
         <template v-if="!isLoading">
           <Money :value="props.row.floorPrice" inline hide-unit />
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -216,7 +175,7 @@
         <template v-if="!isLoading">
           <Money :value="props.row.averagePrice" inline hide-unit />
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -229,7 +188,7 @@
         <template v-if="!isLoading">
           <Money :value="props.row.highestSale" inline hide-unit />
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -240,7 +199,7 @@
         cell-class="is-vcentered"
         sortable>
         <template v-if="!isLoading">{{ props.row.buys }}</template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -253,7 +212,7 @@
         <template v-if="!isLoading">
           {{ props.row.sold }}
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -266,7 +225,7 @@
         <template v-if="!isLoading">
           {{ props.row.total }}
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -278,7 +237,7 @@
         <template v-if="!isLoading">
           {{ Math.ceil(props.row.rank) }}
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -290,7 +249,7 @@
         <template v-if="!isLoading">
           {{ Math.ceil(props.row.emoteCount) }}
         </template>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -302,9 +261,9 @@
           v-if="!isLoading"
           :to="`/${urlPrefix}/collection/${props.row.id}?tab=chart&locate=true`"
           target="_blank">
-          <b-icon icon="chart-line"> </b-icon>
+          <NeoIcon icon="chart-line" />
         </nuxt-link>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -316,16 +275,16 @@
           v-if="!isLoading"
           :to="`/${urlPrefix}/collection/${props.row.id}?tab=history&locate=true`"
           target="_blank">
-          <b-icon icon="list-ul"> </b-icon>
+          <NeoIcon icon="list-ul" />
         </nuxt-link>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </b-table-column>
       <b-table-column
         v-slot="props"
         cell-class="is-vcentered has-text-centered history"
         field="buyHistory"
         :label="$t('series.buyHistory')">
-        <b-skeleton v-if="isLoading" :active="isLoading" />
+        <NeoSkeleton v-if="isLoading" :active="isLoading" />
         <PulseChart
           v-else
           :id="props.row.id"
@@ -336,7 +295,7 @@
         <div v-if="!isLoading" class="has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
-        <b-skeleton :active="isLoading" />
+        <NeoSkeleton :active="isLoading" />
       </template>
     </b-table>
   </div>
@@ -346,7 +305,7 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 
 import { Collection, NFTMetadata } from '@/components/rmrk/service/scheme'
-import { exist } from '@/components/search/exist'
+import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import AuthMixin from '@/utils/mixins/authMixin'

@@ -1,4 +1,4 @@
 {
-  "extends": ["eslint-config-unjs"],
+  "extends": ["plugin:vue/recommended", "prettier"],
   "rules": {}
 }

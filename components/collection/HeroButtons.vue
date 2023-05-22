@@ -31,7 +31,10 @@
 
       <div class="is-flex">
         <NeoDropdown append-to-body>
-          <NeoButton icon="share-alt" class="square-32 mr-3" />
+          <NeoButton
+            icon="share-alt"
+            class="square-32 mr-3"
+            data-cy="share-button" />
           <template #items>
             <NeoDropdownItem
               v-clipboard:copy="currentCollectionUrl"
@@ -55,26 +58,25 @@
           </template>
         </NeoDropdown>
 
-        <NeoDropdown append-to-body>
-          <NeoButton icon="ellipsis-vertical" class="square-32" />
+        <NeoDropdown v-if="!isOwner" append-to-body>
+          <NeoButton
+            icon="ellipsis-vertical"
+            class="square-32"
+            data-cy="more-actions-button" />
+
           <template #items>
-            <div v-if="isOwner">
+            <!-- related: https://github.com/kodadot/nft-gallery/issues/5792 -->
+            <!-- <div v-if="isOwner">
               <NeoDropdownItem>
                 {{ $i18n.t('moreActions.delete') }}
               </NeoDropdownItem>
               <NeoDropdownItem>
                 {{ $i18n.t('moreActions.customize') }}
               </NeoDropdownItem>
-            </div>
-            <div v-else>
+            </div> -->
+            <div>
               <NeoDropdownItem disabled>
-                {{ $i18n.t('moreActions.reportNFT') }}
-              </NeoDropdownItem>
-              <NeoDropdownItem disabled>
-                <div class="is-flex">
-                  {{ $i18n.t('moreActions.download') }}
-                  <b-icon icon="download" class="pl-3" />
-                </div>
+                {{ $i18n.t('moreActions.reportCollection') }}
               </NeoDropdownItem>
             </div>
           </template>

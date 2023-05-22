@@ -45,7 +45,9 @@
           <nuxt-link :to="`/${urlPrefix}/assets`">{{ $t('assets') }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
-          <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
+          <nuxt-link :to="`/${urlPrefix}/transfer`">{{
+            $t('transfer')
+          }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
           <nuxt-link to="/teleport-bridge"
@@ -165,6 +167,7 @@
         class="button-connect-wallet px-4"
         variant="k-accent"
         no-shadow
+        :modal-toggle-disabled="true"
         @toggleConnectModal="toggleWalletConnectModal" />
     </div>
 
@@ -206,7 +209,7 @@
         :key="lang.value"
         aria-role="listitem"
         has-link
-        :value="userLang"
+        :value="lang.value"
         :class="{ 'is-active': userLang === lang.value }"
         @click="setUserLang(lang.value)">
         <a
@@ -227,12 +230,11 @@ import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
-import { clearSession } from '@/utils/cachingStrategy'
-import { getKusamaAssetId } from '~~/utils/api/bsx/query'
 import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { useLangStore } from '@/stores/lang'
 import { useWalletStore } from '@/stores/wallet'
+import { useIdentityStore } from '@/stores/identity'
 
 const components = {
   Avatar,
@@ -275,6 +277,10 @@ export default class ProfileDropdown extends mixins(
     return langsFlagsList
   }
 
+  get identityStore() {
+    return useIdentityStore()
+  }
+
   get langStore() {
     return useLangStore()
   }
@@ -289,11 +295,11 @@ export default class ProfileDropdown extends mixins(
   }
 
   get account() {
-    return this.$store.getters.getAuthAddress
+    return this.identityStore.getAuthAddress
   }
 
   set account(account: string) {
-    this.$store.dispatch('setAuth', { address: account })
+    this.identityStore.setAuth({ address: account })
   }
 
   public toggleWalletConnectModal(): void {
@@ -310,6 +316,10 @@ export default class ProfileDropdown extends mixins(
     this.closeBurgerMenu()
   }
 
+  public closeBurgerMenu(): void {
+    this.$emit('closeBurgerMenu')
+  }
+
   setUserLang(value: string) {
     this.$i18n.locale = value
     this.langStore.setLanguage({ userLang: value })
@@ -317,11 +327,6 @@ export default class ProfileDropdown extends mixins(
 
   public toggleLanguageMenu() {
     this.$refs.languageDropdown?.toggle()
-  }
-
-  public disconnect() {
-    this.$store.dispatch('setAuth', { address: '' }) // null not working
-    clearSession()
   }
 
   public showRampSDK(): void {
@@ -335,17 +340,8 @@ export default class ProfileDropdown extends mixins(
     }).show()
   }
 
-  protected closeBurgerMenu(): void {
-    this.$emit('closeBurgerMenu')
-  }
-  get tokens() {
-    return ['', getKusamaAssetId(this.urlPrefix)]
-  }
   get isSnekOrBsx() {
     return this.chain === 'snek' || this.chain === 'bsx'
-  }
-  get userWalletName(): string {
-    return this.walletStore.wallet.name
   }
 }
 </script>

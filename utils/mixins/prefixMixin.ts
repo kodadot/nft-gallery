@@ -9,11 +9,11 @@ import { getKusamaAssetId } from '@/utils/api/bsx/query'
 @Component
 export default class PrefixMixin extends Vue {
   get urlPrefix() {
-    return this.$route.params.prefix || this.$store.getters.currentUrlPrefix
+    return usePrefix().urlPrefix.value
   }
 
   get client(): string {
-    return this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix
+    return this.urlPrefix
   }
 
   get isMoonriver(): boolean {

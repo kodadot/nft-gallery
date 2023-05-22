@@ -1,17 +1,4 @@
-import { GetterTree, MutationTree, Store } from 'vuex'
-
-type VuexAction = {
-  type: string
-  payload: string
-}
-
-const balancePlugin = (store: Store<null>): void => {
-  store.subscribeAction(({ type, payload }: VuexAction) => {
-    if (type === 'setApiUrl' && payload) {
-      store.dispatch('setCorrectAddressBalance', payload)
-    }
-  })
-}
+import { GetterTree, MutationTree } from 'vuex'
 
 export const state = () => ({
   loading: false,
@@ -51,5 +38,3 @@ export const getters: GetterTree<IndexState, IndexState> = {
     return state.isApiConnected
   },
 }
-
-export const plugins = [balancePlugin]

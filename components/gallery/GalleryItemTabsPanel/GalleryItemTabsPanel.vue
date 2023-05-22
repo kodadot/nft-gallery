@@ -2,27 +2,24 @@
   <o-tabs
     v-model="activeTab"
     expanded
+    data-cy="gallery-item-tabs"
     content-class="o-tabs__content--fixed gallery-item-tab-panel">
     <!-- offers -->
     <DisablableTab
       value="0"
+      data-cy="offer-list"
       :disabled="offersDisabled"
       :label="$t('tabs.offers')"
       :disabled-tooltip="$t('tabs.offersDisabled')">
       <GalleryItemOffers
-        v-if="
-          !['rmrk', 'ksm'].includes(urlPrefix) &&
-          nft?.collection.id &&
-          nft?.id &&
-          nft.currentOwner
-        "
+        v-if="isSnek && nft?.collection.id && nft?.id && nft.currentOwner"
         :collection-id="nft?.collection.id"
         :nft-id="nft?.id"
         :account="nft?.currentOwner" />
     </DisablableTab>
 
     <!-- activity -->
-    <o-tab-item value="1" :label="$t('tabs.activity')">
+    <o-tab-item value="1" :label="$t('tabs.activity')" data-cy="offer-activity">
       <GalleryItemActivity v-if="nft?.id" :nft-id="nft?.id" />
     </o-tab-item>
 
@@ -56,6 +53,8 @@ const { offersDisabled } = useChain()
 
 const activeTab = ref('0')
 const collectionId = ref('')
+
+const isSnek = computed(() => ['bsx', 'snek'].includes(urlPrefix.value))
 
 watchEffect(() => {
   if (props.activeTab) {

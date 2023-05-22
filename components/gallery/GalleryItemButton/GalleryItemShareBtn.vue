@@ -18,7 +18,7 @@
       </template>
     </NeoDropdown>
 
-    <b-modal v-model="isModalActive">
+    <NeoModal v-model="isModalActive" @close="isModalActive = false">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">QR Code</p>
@@ -30,12 +30,17 @@
             bg-color="#000" />
         </div>
       </div>
-    </b-modal>
+    </NeoModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
+import {
+  NeoButton,
+  NeoDropdown,
+  NeoDropdownItem,
+  NeoModal,
+} from '@kodadot1/brick'
 import { isMobileDevice } from '@/utils/extension'
 
 const QRCode = () => import('@/components/shared/QRCode.vue')

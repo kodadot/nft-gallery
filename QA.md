@@ -84,3 +84,11 @@ Our hiring process prioritizes cultural fit and teamwork. We are interested in c
 Upon joining our team, KodaDot offers competitive pay based on your location, skill set, experience, code quality, and availability. Annual compensation ranges between $40,000 to $160,000.
 
 Are you ready to shape the future of the NFT space with KodaDot? Choose your path, and together, let's make an impact in the NFT gallery world!
+
+## Reach out
+
+For more information, feel free to get in touch with our Head of Operations, Damsky.
+
+- https://t.me/helloitsdamsky
+- cryptodamsky@protonmail.com
+- Discord: damsky | KodaDot#0879

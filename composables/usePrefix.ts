@@ -29,7 +29,7 @@ export default function () {
   }
 
   const client = computed<string>(() => {
-    return urlPrefix.value === 'rmrk' ? 'subsquid' : urlPrefix.value
+    return urlPrefix.value
   })
 
   const tokenId = computed(() => getKusamaAssetId(urlPrefix.value))

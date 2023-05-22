@@ -38,12 +38,12 @@
           </div>
         </div>
         <div class="px-2" style="width: 60%">
-          <b-skeleton width="70%" />
-          <b-skeleton width="20%" size="is-small" />
+          <NeoSkeleton width="70%" />
+          <NeoSkeleton width="20%" size="small" />
         </div>
         <div class="is-pulled-right has-text-right px-4" style="width: 20%">
-          <b-skeleton width="80%" position="is-right" />
-          <b-skeleton width="70%" size="is-small" position="is-right" />
+          <NeoSkeleton width="80%" position="right" />
+          <NeoSkeleton width="70%" size="small" position="right" />
         </div>
       </div>
     </div>
@@ -60,8 +60,7 @@
 <script lang="ts" setup>
 import { TimeRange, TimeRangeOption } from '@/components/series/types'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
-
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
 import TopCollectionsItem from './TopCollectionsItem.vue'
 import { useTopCollections } from './utils/useTopCollections'
 import { useFiatStore } from '@/stores/fiat'

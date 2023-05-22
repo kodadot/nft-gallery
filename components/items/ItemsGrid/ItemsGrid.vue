@@ -4,7 +4,11 @@
       <div
         class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
         <BreadcrumbsFilter />
-        <div v-show="total">{{ total }} {{ $t('items') }}</div>
+
+        <div v-if="total">{{ total }} {{ $t('items') }}</div>
+        <div v-else-if="isLoading" class="skeleton-container-fixed-width">
+          <NeoSkeleton no-margin />
+        </div>
       </div>
       <hr class="my-0" />
     </div>
@@ -13,10 +17,15 @@
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
 
-    <DynamicGrid :id="scrollContainerId" v-slot="slotProps" class="my-5">
+    <DynamicGrid
+      v-if="total !== 0 && !isLoading"
+      :id="scrollContainerId"
+      v-slot="slotProps"
+      class="my-5">
       <div
         v-for="(nft, index) in nfts"
         :key="`${nft.id}=${index}`"
+        :data-cy="index"
         :class="scrollItemClassName">
         <ItemsGridImage
           :nft="nft"
@@ -26,12 +35,28 @@
           " />
       </div>
     </DynamicGrid>
-    <EmptyResult v-if="total === 0" />
+
+    <DynamicGrid
+      v-else-if="isLoading"
+      :id="scrollContainerId"
+      v-slot="slotProps"
+      class="my-5">
+      <NeoNftCard
+        v-for="n in skeletonCount"
+        :key="n"
+        is-loading
+        :variant="
+          (slotProps.isMobileVariant || slotProps.grid === 'small') && 'minimal'
+        " />
+    </DynamicGrid>
+
+    <EmptyResult v-else />
     <ScrollTopButton />
   </div>
 </template>
 
 <script setup lang="ts">
+import { NeoNftCard, NeoSkeleton } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
@@ -66,6 +91,8 @@ const {
   fetchPageData,
 })
 
+const skeletonCount = first.value
+
 const resetPage = useDebounceFn(() => {
   gotoPage(1)
 }, 500)
@@ -87,3 +114,9 @@ onBeforeMount(async () => {
   isLoading.value = false
 })
 </script>
+
+<style lang="scss" scoped>
+.skeleton-container-fixed-width {
+  width: 80px;
+}
+</style>

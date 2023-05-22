@@ -12,9 +12,7 @@
         </nuxt-link>
       </div>
 
-      <Markdown
-        :source="nftMetadata?.description?.replaceAll('\n', '  \n') || ''"
-        class="gallery-item-desc-markdown" />
+      <Markdown :source="descSource" class="gallery-item-desc-markdown" />
     </o-tab-item>
 
     <!-- properties tab -->
@@ -125,10 +123,11 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { DisablableTab, MediaItem } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
-import { useRedirectModal } from '@/components/redirect/useRedirectModal'
 
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
+
+import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
 const { urlPrefix } = usePrefix()
 const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
@@ -136,11 +135,25 @@ const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
 const activeTab = ref('0')
 const { version } = useRmrkVersion()
 
+const descSource = computed(() => {
+  return replaceSingularCollectionUrlByText(
+    nftMetadata.value?.description?.replaceAll('\n', '  \n') || ''
+  )
+})
 const parent = computed(() => {
   if (nft.value?.parent?.id) {
     return useGalleryItem(nft.value?.parent?.id)
   }
 })
+const isLewd = computed(() => {
+  return Boolean(
+    properties.value?.find((item) => {
+      return item.trait_type === 'NSFW'
+    })
+  )
+})
+
+defineExpose({ isLewd })
 
 const parentNftUrl = computed(() => {
   if (parent.value) {
@@ -184,10 +197,6 @@ const propertiesTabDisabled = computed(() => {
 
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
-
-onMounted(() => {
-  useRedirectModal('.gallery-item-desc-markdown')
-})
 
 watchEffect(async () => {
   if (nft.value?.metadata) {

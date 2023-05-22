@@ -13,7 +13,12 @@ describe('simple mint in rmrk', () => {
     cy.waitForNetworkIdle('POST', '*', 1000)
 
     // fee should zero at first
-    cy.get('[data-cy="fee"] span').should('have.text', '\n    0\n    KSM\n  ')
+    cy.get('[data-cy="fee"]')
+      .invoke('text')
+      .then((text) => {
+        const cleanedText = text.trim().replace(/\s+/g, ' ')
+        expect(cleanedText).to.equal('0 KSM')
+      })
 
     // upload
     cy.get('[data-cy="input-upload"] [type="file"]').attachFile(
@@ -104,10 +109,12 @@ describe('simple mint in rmrk', () => {
     cy.get('[data-cy="input-tos"] [type="checkbox"]').check({ force: true })
     cy.get('[data-cy="input-tos"] [type="checkbox"]').should('be.checked')
 
-    // uncomment once this resolved https://github.com/kodadot/nft-gallery/issues/3966
-    // cy.get('[data-cy="fee"] span').should(
-    //   'not.have.text',
-    //   '\n    0\n    KSM\n  '
-    // )
+    // related issue https://github.com/kodadot/nft-gallery/issues/3966
+    cy.get('[data-cy="fee"]')
+      .invoke('text')
+      .then((text) => {
+        const cleanedText = text.trim().replace(/\s+/g, ' ')
+        expect(cleanedText).to.not.equal('0 KSM')
+      })
   })
 })
