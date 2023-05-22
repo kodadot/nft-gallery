@@ -5,16 +5,17 @@
     <p class="title is-size-3">Mint your {{ NAME }} {{ form.gender }}</p>
 
     <p class="title is-size-4">I want to be</p>
-    <RadioSelect v-model="form.gender" :options="gender" />
+    <RadioSelect v-model="form.gender" separated :options="gender" rounded />
 
     <p class="title is-size-5">on</p>
-    <RadioSelect v-model="form.art" :options="art" />
+    <RadioSelect v-model="form.art" separated :options="art" rounded />
 
     <p class="title is-size-5">using</p>
     <RadioSelect
       v-model="form.style"
       :options="isPhoto ? filmTypes : styles"
       separated
+      rounded
       show-empty />
 
     <p class="title is-size-5">displaying</p>
@@ -22,27 +23,31 @@
       v-model="form.framing"
       :options="framing"
       separated
-      show-empty />
+      show-empty
+      rounded />
 
     <p class="title is-size-5">having</p>
     <RadioSelect
       v-model="form.having"
       :options="accessories"
       separated
-      show-empty />
+      show-empty
+      rounded />
 
     <p class="title is-size-5">wearing</p>
     <RadioSelect
       v-model="form.wearing"
       :options="clothes"
       separated
-      show-empty />
+      show-empty
+      rounded />
 
     <p class="title is-size-5">in light</p>
     <RadioSelect
       v-model="form.lighting"
       :options="lights"
       separated
+      rounded
       show-empty />
 
     <p class="title is-size-5">art inspired by</p>
@@ -50,6 +55,7 @@
       v-model="form.inspiredBy"
       :options="inspiredBy"
       separated
+      rounded
       show-empty />
 
     <SubmitButton
