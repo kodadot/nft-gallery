@@ -270,7 +270,7 @@
     .is-active > a {
       @include ktheme() {
         color: theme('text-color-inverse') !important;
-        background: theme('background-color-inverse');
+        background: theme('text-color');
         &:hover {
           background: theme('text-color') !important;
         }
@@ -309,7 +309,6 @@
     height: 12px;
   }
   .navbar-explore {
-
     .dropdown-menu {
       max-width: 22.563rem;
     }
@@ -442,5 +441,9 @@
     @include ktheme() {
       color: theme('k-grey');
     }
+  }
+
+  .language-heading {
+    height: 2.5rem;
   }
 }

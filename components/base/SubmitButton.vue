@@ -1,21 +1,23 @@
 <template>
-  <b-field>
-    <b-button
+  <NeoField>
+    <NeoButton
       :type="type"
       :icon-left="icon"
       :disabled="disabled"
       :loading="loading"
       :expanded="expanded"
       outlined
-      @click="$emit('click')">
+      @click.native="$emit('click')">
       <slot>
         {{ $t(label) }}
       </slot>
-    </b-button>
-  </b-field>
+    </NeoButton>
+  </NeoField>
 </template>
 
 <script setup lang="ts">
+import { NeoButton, NeoField } from '@kodadot1/brick'
+
 export interface Props {
   disabled?: boolean
   expanded?: boolean
