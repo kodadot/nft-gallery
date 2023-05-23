@@ -19,7 +19,7 @@
 
       <b-dropdown-item has-link>
         <NeoTooltip
-          v-if="chain === 'bsx' && accountId"
+          v-if="chain === 'bsx'"
           position="left"
           :label="$t('createDropdown.waifu')"
           multiline>
@@ -60,7 +60,7 @@
         {{ $t('classic') }}
       </b-navbar-item>
       <b-navbar-item
-        v-if="chain === 'bsx' && accountId"
+        v-if="chain === 'bsx'"
         data-cy="waifu"
         :to="`/${urlPrefix}/waifu`"
         tag="nuxt-link">
