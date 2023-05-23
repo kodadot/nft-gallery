@@ -28,7 +28,7 @@ const { $i18n } = useNuxtApp()
 
 withDefaults(
   defineProps<{
-    value: string
+    value?: string
     label: string
     placeholder: string
     expanded?: boolean
@@ -39,6 +39,7 @@ withDefaults(
     disabled?: boolean
   }>(),
   {
+    value: '',
     expanded: false,
     type: '',
     message: '',

@@ -14,17 +14,18 @@
     <hr class="my-2" />
 
     <div>
-      <ProfileAssetsList v-if="isSnekOrBsx" @totalValueChange="setTotalValue" />
-      <AccountBalance v-else class="is-size-7" />
+      <ProfileAssetsList v-if="isSnek" @totalValueChange="setTotalValue" />
+      <MultipleBalances v-else />
     </div>
 
-    <hr class="my-2" />
-
-    <div
-      v-if="totalValue"
-      class="is-flex is-justify-content-space-between is-align-items-center my-1">
-      <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
-      <span> ${{ totalValue.toFixed(2) }} </span>
+    <div v-if="isSnek">
+      <hr class="my-2" />
+      <div
+        v-if="totalValue"
+        class="is-flex is-justify-content-space-between is-align-items-center my-1">
+        <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
+        <span> ${{ totalValue.toFixed(2) }} </span>
+      </div>
     </div>
     <div
       class="buttons is-justify-content-space-between is-flex-wrap-nowrap my-2">
@@ -45,32 +46,31 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 import { useWalletStore } from '@/stores/wallet'
+import { useIdentityStore } from '@/stores/identity'
 import { clearSession } from '@/utils/cachingStrategy'
 import useIdentity from '@/components/identity/utils/useIdentity'
 
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/module/IdentityLink.vue')
 )
-const AccountBalance = defineAsyncComponent(
-  () => import('@/components/shared/AccountBalance.vue')
+const MultipleBalances = defineAsyncComponent(
+  () => import('@/components/balance/MultipleBalances.vue')
 )
 const ProfileAssetsList = defineAsyncComponent(
   () => import('@/components/rmrk/Profile/ProfileAssetsList.vue')
 )
 const totalValue = ref(0)
 const walletStore = useWalletStore()
+const identityStore = useIdentityStore()
+const { urlPrefix } = usePrefix()
+const { $i18n } = useNuxtApp()
+const { $consola } = useNuxtApp()
 
-const walletName = computed(() => walletStore.wallet.name)
 const emit = defineEmits(['back'])
 
-const { urlPrefix } = usePrefix()
-
-const { $store, $i18n } = useNuxtApp()
-const account = computed(() => $store.getters.getAuthAddress)
-
-watch(account, (val) => {
-  $store.dispatch('setAuth', { address: val })
-})
+const account = computed(() => identityStore.getAuthAddress)
+const walletName = computed(() => walletStore.getWalletName)
+const isSnek = computed(() => urlPrefix.value === 'snek')
 
 const { shortenedAddress } = useIdentity({
   address: account,
@@ -78,7 +78,7 @@ const { shortenedAddress } = useIdentity({
 })
 
 const disconnect = () => {
-  $store.dispatch('setAuth', { address: '' }) // null not working
+  identityStore.resetAuth()
   clearSession()
 }
 
@@ -86,12 +86,18 @@ const backToWallet = () => {
   emit('back')
 }
 
-const isSnekOrBsx = computed(
-  () => urlPrefix.value === 'snek' || urlPrefix.value === 'bsx'
-)
 const setTotalValue = (value: number) => {
   totalValue.value = value
 }
+
+onMounted(async () => {
+  if (identityStore.getAuthAddress) {
+    $consola.log('fetching balance...')
+    await identityStore.fetchBalance({
+      address: identityStore.getAuthAddress,
+    })
+  }
+})
 
 watch(urlPrefix, () => {
   setTotalValue(0)

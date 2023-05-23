@@ -1,14 +1,33 @@
-import { BaseMintedCollection } from '../base/types'
 import { unwrapSafe } from '@/utils/uniquery'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import shouldUpdate from '@/utils/shouldUpdate'
+import { MintedCollection, Status } from './types'
 
-export type MintedCollection = BaseMintedCollection & {
-  name?: string
-  lastIndexUsed: number
+export const statusTranslation = (status?: Status): string => {
+  const { $i18n } = useNuxtApp()
+  const statusTranslationMap: Record<Status, string> = {
+    [Status.Ok]: $i18n.t('ok'),
+    [Status.Incomplete]: $i18n.t('incomplete'),
+    [Status.Description]: $i18n.t('description'),
+    [Status.Price]: $i18n.t('price'),
+    [Status.Optional]: $i18n.t('optional'),
+  }
+  return status ? statusTranslationMap[status] : ''
 }
 
-export const useMassMint = () => {
+export const statusClass = (status?: Status) => {
+  const statusMap: Record<Status, string> = {
+    [Status.Ok]: 'k-greenaccent',
+    [Status.Incomplete]: 'k-redaccent',
+    [Status.Description]: 'k-yellow',
+    [Status.Price]: 'k-yellow',
+    [Status.Optional]: 'k-yellow',
+  }
+
+  return status ? statusMap[status] : ''
+}
+
+export const useCollectionForMint = () => {
   const collectionsEntites = ref<MintedCollection[]>()
   const collections = ref()
   const { $consola, $apollo } = useNuxtApp()
@@ -23,6 +42,7 @@ export const useMassMint = () => {
     if (!isLogIn.value) {
       return
     }
+
     const prefix = queryPath[urlPrefix.value] || urlPrefix.value
     const query = await resolveQueryPath(prefix, 'collectionForMint')
     const data = await $apollo.query({
@@ -41,11 +61,18 @@ export const useMassMint = () => {
     collections.value = collectionEntities
   }
 
-  doFetch()
+  const doFetchWithErrorHandling = () =>
+    doFetch().catch((error) => {
+      $consola.error(
+        `Error fetching collections for account ${accountId.value}:`,
+        error
+      )
+    })
+  doFetchWithErrorHandling()
 
   watch(accountId, (newId, oldId) => {
     if (shouldUpdate(newId, oldId)) {
-      doFetch()
+      doFetchWithErrorHandling()
     }
   })
 

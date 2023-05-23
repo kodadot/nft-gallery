@@ -80,11 +80,10 @@ watch(identity, () => {
     emit('change', identity.value)
   }
 })
-
 watch(
   () => props.address,
   (newAddress) => {
-    whichIdentity(newAddress)
+    whichIdentity(newAddress as string)
   }
 )
 </script>

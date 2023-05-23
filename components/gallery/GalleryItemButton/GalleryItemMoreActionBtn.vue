@@ -34,7 +34,7 @@ const { transaction, isLoading, status } = useTransaction()
 const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
-  mimeType: string
+  mimeType?: string
   name?: string
   ipfsImage?: string
   currentOwner?: string

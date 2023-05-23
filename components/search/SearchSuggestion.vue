@@ -151,7 +151,7 @@
         class="is-flex is-align-items-center is-justify-content-space-between mb-1 search-history-item"
         @click="goToExploreResults(item)">
         <div class="is-flex is-align-items-center">
-          <b-icon icon="history" size="is-small" />
+          <NeoIcon icon="history" />
           <div class="ml-3 history-label">{{ item.name }}</div>
         </div>
         <div
@@ -235,10 +235,12 @@ import { processMetadata } from '~/utils/cachingStrategy'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
 import { RowSeries } from '~/components/series/types'
+import { NeoIcon } from '@kodadot1/brick'
 
 @Component({
   components: {
     Money: () => import('@/components/shared/format/Money.vue'),
+    NeoIcon,
   },
 })
 export default class SearchSuggestion extends mixins(PrefixMixin) {

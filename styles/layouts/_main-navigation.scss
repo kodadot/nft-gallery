@@ -212,15 +212,13 @@
     }
   }
 
-  .b-tooltip {
-    width: 100%;
-  }
-
   .search-navbar {
     box-shadow: none;
     width: min-content;
     min-width: 100px;
-
+    @include ktheme() {
+      color: theme('text-color');
+    }
     .dropdown-menu {
       > .dropdown-content {
         width: 550px;
@@ -272,7 +270,7 @@
     .is-active > a {
       @include ktheme() {
         color: theme('text-color-inverse') !important;
-        background: theme('background-color-inverse');
+        background: theme('text-color');
         &:hover {
           background: theme('text-color') !important;
         }
@@ -311,11 +309,10 @@
     height: 12px;
   }
   .navbar-explore {
-
     .dropdown-menu {
       max-width: 22.563rem;
     }
-    
+
     .dropdown-item {
       padding: 23px 32px;
     }
@@ -444,5 +441,9 @@
     @include ktheme() {
       color: theme('k-grey');
     }
+  }
+
+  .language-heading {
+    height: 2.5rem;
   }
 }

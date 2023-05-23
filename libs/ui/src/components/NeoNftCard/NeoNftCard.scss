@@ -2,15 +2,26 @@
 @import '../../scss/animation.scss';
 
 .nft-card {
+  position: relative;
   @include ktheme() {
     background: theme('background-color');
     border: 1px solid theme('card-border-color');
-    &:hover {
+    &:not(.loading):hover {
       border: 1px solid theme('border-color');
       .nft-media {
         opacity: theme('card-hover-opacity');}
     }
   }
+
+  a:hover {
+    color: unset !important;
+  }
+}
+.unloackable-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
 }
 .nft-media {
   box-shadow: none;

@@ -71,6 +71,25 @@
     }
   }
 
+  &--icon {
+    @include ktheme() {
+      border: none;
+      padding: 0;
+      height: min-content;
+      &:hover {
+        background: transparent;
+        color: theme('link-hover');
+      }
+    }
+    &.o-btn--disabled {
+      opacity: unset;
+
+      @include ktheme() {
+        color: theme('k-grey');
+      }
+    }
+  }
+
   &--connect-dropdown {
     width: 120px;
     height: 40px;

@@ -1,5 +1,6 @@
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import { getChainEndpointByPrefix } from '@/utils/chain'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
@@ -7,11 +8,9 @@ import { getChainEndpointByPrefix } from '@/utils/chain'
  * class ExtendedClass extends Mixins(ActualMixin) {
  */
 @Component
-export default class ApiUrlMixin extends Vue {
+export default class ApiUrlMixin extends mixins(PrefixMixin) {
   get apiUrl() {
-    const endpoint = getChainEndpointByPrefix(
-      this.$store.getters.currentUrlPrefix
-    )
-    return endpoint || this.$store.getters.getSettings['apiUrl']
+    const endpoint: string = getChainEndpointByPrefix(this.urlPrefix) || ''
+    return endpoint
   }
 }

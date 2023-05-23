@@ -39,14 +39,15 @@ export const URLS = {
     directUpload: 'https://direct-upload.kodadot.workers.dev/',
     estuary: 'https://pinning.kodadot.workers.dev/',
     nftStorage: 'https://nft-storage.kodadot.workers.dev/',
+    keywise: 'https://keywise.kodadot.workers.dev/',
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
     rubick: 'https://squid.subsquid.io/rubick/graphql',
-    snek: 'https://squid.subsquid.io/snekk/v/005/graphql',
+    snek: 'https://squid.subsquid.io/snekk/graphql',
     snekRococo: 'https://squid.subsquid.io/snekk/v/004/graphql',
     click: 'https://squid.subsquid.io/click/v/002/graphql',
     antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
-    rmrk: 'https://squid.subsquid.io/marck/graphql',
+    marck: 'https://squid.subsquid.io/marck/graphql',
     replicate: 'https://replicate.kodadot.workers.dev/',
   },
   providers: {
@@ -64,6 +65,7 @@ export const apolloClientConfig = {
   movr: toApolloEndpoint(URLS.koda.click),
   snek: toApolloEndpoint(URLS.koda.snekRococo),
   glmr: toApolloEndpoint(URLS.koda.antick),
+  rmrk2: toApolloEndpoint(URLS.koda.marck),
 }
 
 export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [

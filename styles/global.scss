@@ -10,7 +10,7 @@ body,
 div#__nuxt,
 div#__layout,
 main {
-  //without this, footer image is above main contents
+  // without this, footer image is above main contents
   // block hover, click events
   z-index: 100;
   height: 100%;
@@ -90,10 +90,6 @@ body {
     font-size: calc(1rem * 0.75);
   }
 
-  .loading-overlay .loading-background {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-
   .orientation {
     perspective: 30em;
   }
@@ -109,10 +105,6 @@ body {
   }
 
   .message.is-primary .message-body {
-    color: $light-text;
-  }
-
-  .b-steps .steps .step-items .step-item .step-details .step-title {
     color: $primary;
   }
 }
@@ -321,6 +313,11 @@ hr {
     border-left: 1px solid theme('border-color');
   }
 }
+.border-right {
+  @include ktheme() {
+    border-right: 1px solid theme('border-color');
+  }
+}
 .border {
   @include ktheme() {
     border: 1px solid theme('border-color');
@@ -337,6 +334,12 @@ hr {
 .has-text-k-red {
   @include ktheme() {
     color: theme('k-red');
+  }
+}
+
+.has-text-k-orange {
+  @include ktheme() {
+    color: theme('k-orange');
   }
 }
 
@@ -367,6 +370,22 @@ hr {
     background-color: theme('k-yellow');
   }
 }
+
+.k-green {
+  @include ktheme() {
+    background-color: theme('k-green');
+  }
+}
+.k-red {
+  @include ktheme() {
+    background-color: theme('k-red');
+  }
+}
+.k-redaccent {
+  @include ktheme() {
+    background-color: theme('k-redaccent');
+  }
+}
 .theme-background-color {
   @include ktheme() {
     background-color: theme('background-color');
@@ -395,4 +414,10 @@ hr {
   @include ktheme() {
     box-shadow: theme('primary-shadow');
   }
+}
+
+// flex helper - makes flex items equal width
+
+.is-flex-1 {
+  flex: 1;
 }

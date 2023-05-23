@@ -4,38 +4,56 @@
       class="is-flex is-flex-direction-row is-justify-content-space-between py-5">
       <BreadcrumbsFilter />
 
-      <div v-show="total">{{ total }} {{ $t('items') }}</div>
+      <div v-if="total">{{ total }} {{ $t('items') }}</div>
+      <div v-else-if="isLoading" class="skeleton-container-fixed-width">
+        <NeoSkeleton no-margin />
+      </div>
     </div>
     <hr class="mt-0" />
 
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
+
     <DynamicGrid
+      v-if="!isLoading && total"
       :id="scrollContainerId"
       grid-size="medium"
-      :default-width="{ small: 16 * 15, medium: 16 * 20, large: 16 * 25 }"
+      :default-width="GRID_DEFAULT_WIDTH"
       :mobile-variant="false">
       <div
         v-for="(collection, index) in collections"
         :key="collection.id"
         :class="scrollItemClassName"
         :data-cy="`collection-index-${index}`">
-        <CollectionCard :is-loading="isLoading" :collection="collection" />
+        <CollectionCard :collection="collection" />
       </div>
     </DynamicGrid>
-    <EmptyResult v-if="total === 0" />
+
+    <DynamicGrid
+      v-else-if="isLoading"
+      :id="scrollContainerId"
+      grid-size="medium"
+      :default-width="GRID_DEFAULT_WIDTH"
+      :mobile-variant="false">
+      <CollectionCard v-for="n in skeletonCount" :key="n" is-loading />
+    </DynamicGrid>
+
+    <EmptyResult v-else />
+
     <ScrollTopButton />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { NeoSkeleton } from '@kodadot1/brick'
 import { Collection } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from '@/components/search/types'
 import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
+import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const route = useRoute()
@@ -126,6 +144,8 @@ const {
   fetchPageData,
 })
 
+const skeletonCount = first.value
+
 const handleResult = async ({ data }: any, loadDirection = 'down') => {
   total.value = data.stats.totalCount
   const newCollections = data.collectionEntities.map((e: any) => ({
@@ -168,3 +188,9 @@ watch(
   }
 )
 </script>
+
+<style lang="scss" scoped>
+.skeleton-container-fixed-width {
+  width: 80px;
+}
+</style>

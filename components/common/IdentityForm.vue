@@ -4,11 +4,12 @@
     <form>
       <p class="title is-size-3">
         {{ $i18n.t('identity.set') }}
-        <b-tooltip
+        <NeoTooltip
           :label="$i18n.t('identity.fundsReserve')"
-          position="is-bottom">
-          <b-icon icon="info-circle" />
-        </b-tooltip>
+          position="bottom"
+          multiline>
+          <NeoIcon icon="info-circle" pack="fas" />
+        </NeoTooltip>
       </p>
 
       <p v-if="accountId" class="subtitle is-size-6">
@@ -89,6 +90,8 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { onApiConnect } from '@kodadot1/sub-api'
 import { hexToString, isHex } from '@polkadot/util'
 import { Data } from '@polkadot/types'
+import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+
 const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 const BasicInput = defineAsyncComponent(
   () => import('@/components/shared/form/BasicInput.vue')
@@ -105,9 +108,9 @@ const SubmitButton = defineAsyncComponent(
 
 type IdentityFields = Record<string, string>
 
-const { $store, $i18n } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { apiUrl, apiInstance } = useApi()
-const { accountId } = useAuth()
+const { accountId, balance } = useAuth()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
   useMetaTransaction()
 const identity = ref<Record<string, string>>({
@@ -180,8 +183,6 @@ const onSuccess = (block: string) => {
     notificationTypes.success
   )
 }
-
-const balance = computed(() => $store.getters.getAuthBalance)
 
 const disabled = computed(
   () => Object.values(identity.value).filter((val) => val).length === 0

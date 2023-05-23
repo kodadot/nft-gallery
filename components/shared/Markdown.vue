@@ -14,9 +14,7 @@ defineProps<{
   source: string
 }>()
 
-onMounted(() => {
-  useRedirectModal('.content-markdown')
-})
+useRedirectModal('.content-markdown')
 
 const highlightOptions = {
   html: true,
