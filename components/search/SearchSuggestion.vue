@@ -36,16 +36,16 @@
                 <div class="is-flex is-justify-content-space-between pr-2">
                   <span>
                     {{ $t('activity.floor') }}:
-                    <span v-if="getFloorPrice(item.nfts) === 0"> -- </span>
+                    <span v-if="item.floorPrice === 0"> -- </span>
                     <Money
                       v-else
-                      :value="getFloorPrice(item.nfts)"
+                      :value="item.floorPrice"
                       :unit-symbol="chainSymbol"
                       inline />
                   </span>
                   <span class="has-text-grey">
                     {{ $t('search.units') }}:
-                    {{ item.nfts?.length || 0 }}
+                    {{ item.totalCount || 0 }}
                   </span>
                 </div>
               </template>
@@ -237,6 +237,7 @@ import { unwrapSafe } from '~/utils/uniquery'
 import { RowSeries } from '~/components/series/types'
 import { NeoIcon } from '@kodadot1/brick'
 import { fetchCollectionSuggestion } from './utils/collectionSearch'
+import { chainAssetOf } from '@/utils/config/chain.config'
 
 @Component({
   components: {
@@ -456,7 +457,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       this.insertNewHistory()
     }
     const prefix = item.chain || this.urlPrefix
-    this.$router.push(`/${prefix}/collection/${item.id}`)
+    this.$router.push(`/${prefix}/collection/${item.collection_id || item.id}`)
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
@@ -603,14 +604,44 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
           ),
         })
       })
-      this.collectionResult = collectionWithImages
-      this.isCollectionResultLoading = false
+      await Promise.all([
+        ...collectionWithImages.map(async (collection) => {
+          return this.fetchCollectionStats(collection)
+        }),
+      ]).then(() => {
+        this.collectionResult = collectionWithImages
+        this.isCollectionResultLoading = false
+      })
     } catch (e) {
       logError(e, (msg) =>
         this.$consola.warn('[PREFETCH] Unable fo fetch', msg)
       )
       this.isCollectionResultLoading = false
     }
+  }
+
+  async fetchCollectionStats(collection: CollectionWithMeta) {
+    return new Promise(async (resolve) => {
+      const client = collection?.chain || this.client
+      const queryCollection = await resolveQueryPath(
+        client === 'ksm' ? 'chain-rmrk' : 'subsquid',
+        'collectionStatsById'
+      )
+      const { data } = await this.$apollo.query({
+        query: queryCollection.default,
+        client: collection?.chain,
+        variables: {
+          id: collection.collection_id,
+        },
+      })
+
+      collection.totalCount = data.stats.base.length
+      collection.floorPrice = Math.min(
+        ...data.stats.listed.map((item) => parseInt(item.price))
+      )
+
+      resolve(collection)
+    })
   }
 
   getFloorPrice(nfts: NFTWithMeta[] | undefined) {
