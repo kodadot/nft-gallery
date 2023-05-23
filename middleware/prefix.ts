@@ -1,6 +1,7 @@
 import { chainPrefixes } from '@kodadot1/static'
 import { useIdentityStore } from '@/stores/identity'
 import { ss58Of } from '@/utils/config/chain.config'
+import consola from 'consola'
 
 export const rmrk2ChainPrefixesInHostname = ['rmrk2', 'rmrk']
 
@@ -38,5 +39,9 @@ export default function ({ store, route }): void {
     store.dispatch('setUrlPrefix', prefixInPath)
   }
 
-  identityStore.setCorrectAddressFormat(ss58Of(urlPrefix.value))
+  try {
+    identityStore.setCorrectAddressFormat(ss58Of(urlPrefix.value))
+  } catch {
+    consola.warn('Invalid chain prefix')
+  }
 }
