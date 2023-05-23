@@ -26,9 +26,9 @@ export function getVideoThumbnail(
   height = 200
 ) {
   return new Promise((resolve, reject) => {
-    let video = document.createElement('video')
-    let canvas = document.createElement('canvas')
-    let context = canvas.getContext('2d')
+    const video = document.createElement('video')
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
 
     canvas.width = width
     canvas.height = height
@@ -37,7 +37,7 @@ export function getVideoThumbnail(
     video.src = videoUrl
     video.addEventListener(
       'loadedmetadata',
-      function () {
+      () => {
         video.currentTime = seekTime
       },
       false
@@ -45,7 +45,7 @@ export function getVideoThumbnail(
 
     video.addEventListener(
       'seeked',
-      function () {
+      () => {
         context?.drawImage(
           video,
           0,
@@ -57,14 +57,14 @@ export function getVideoThumbnail(
           canvas.width,
           canvas.height
         )
-        let img = canvas.toDataURL()
+        const img = canvas.toDataURL()
         resolve(img)
       },
       false
     )
 
-    video.addEventListener('error', function () {
-      reject('Error loading video')
+    video.addEventListener('error', () => {
+      reject(new Error('Error loading video'))
     })
   })
 }
