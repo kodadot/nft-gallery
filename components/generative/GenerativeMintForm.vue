@@ -3,16 +3,17 @@
     <Loader v-model="isLoading" :status="status" />
 
     <p class="title is-size-4 is-capitalized">I want to be</p>
-    <RadioSelect v-model="form.gender" :options="gender" multiline />
+    <RadioSelect v-model="form.gender" :options="gender" rounded multiline />
 
     <p class="title is-size-4 is-capitalized">on</p>
-    <RadioSelect v-model="form.art" :options="art" separated />
+    <RadioSelect v-model="form.art" :options="art" rounded separated />
 
-    <p class="title is-size-4 is-capitalized">using</p>
+    <p class="title is-size-4 is-capitalized">by method</p>
     <RadioSelect
       v-model="form.style"
       :options="isPhoto ? filmTypes : styles"
       separated
+      rounded
       show-empty />
 
     <p class="title is-size-4 is-capitalized">displaying</p>
@@ -20,27 +21,31 @@
       v-model="form.framing"
       :options="framing"
       separated
-      show-empty />
+      show-empty
+      rounded />
 
     <p class="title is-size-4 is-capitalized">having</p>
     <RadioSelect
       v-model="form.having"
       :options="accessories"
       separated
-      show-empty />
+      show-empty
+      rounded />
 
     <p class="title is-size-4 is-capitalized">wearing</p>
     <RadioSelect
       v-model="form.wearing"
       :options="clothes"
       separated
-      show-empty />
+      show-empty
+      rounded />
 
     <p class="title is-size-4 is-capitalized">in light</p>
     <RadioSelect
       v-model="form.lighting"
       :options="lights"
       separated
+      rounded
       show-empty />
 
     <p class="title is-size-4 is-capitalized">art inspired by</p>
@@ -48,6 +53,7 @@
       v-model="form.inspiredBy"
       :options="inspiredBy"
       separated
+      rounded
       show-empty />
 
     <SubmitButton
@@ -74,14 +80,12 @@ import {
   lights,
   styles,
 } from './options'
-import { NAME, Options, buildPrompt } from './promptBuilder'
+import { Options, buildPrompt } from './promptBuilder'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/shared/Loader.vue')
 )
-// const BasicInput = defineAsyncComponent(
-//   () => import('@/components/shared/form/BasicInput.vue')
-// )
+
 const SubmitButton = defineAsyncComponent(
   () => import('@/components/base/SubmitButton.vue')
 )

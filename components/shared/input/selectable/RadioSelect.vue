@@ -8,9 +8,9 @@
       :value="value"
       native-value=""
       :class="{ 'column is-half': separated, column: multiline }"
-      rounded
+      :rounded="rounded"
       @input="handleInput">
-      <span><b>NONE</b></span>
+      <span><b>NONE 🚫</b></span>
     </NeoRadioButton>
     <NeoRadioButton
       v-for="option in options"
@@ -18,7 +18,7 @@
       :value="value"
       :native-value="option"
       :class="{ 'column is-half': separated, column: multiline }"
-      rounded
+      :rounded="rounded"
       @input="handleInput">
       <span>{{ option }}</span>
     </NeoRadioButton>
@@ -36,6 +36,7 @@ defineProps<{
   showEmpty?: boolean
   separated?: boolean
   multiline?: boolean
+  rounded?: boolean
 }>()
 
 const handleInput = (value: string) => {
