@@ -215,16 +215,9 @@ export default class Transfer extends mixins(
     return useIdentityStore()
   }
 
-  get isApiConnected() {
-    return this.$store.getters.getApiConnected
-  }
   get disabled(): boolean {
     return (
-      !this.hasAddress ||
-      !this.price ||
-      !this.accountId ||
-      !this.isApiConnected ||
-      this.$nuxt.isOffline
+      !this.hasAddress || !this.price || !this.accountId || this.$nuxt.isOffline
     )
   }
   get ss58Format(): number {
@@ -261,9 +254,6 @@ export default class Transfer extends mixins(
 
   protected created() {
     this.fiatStore.fetchFiatPrice().then(this.checkQueryParams)
-    onApiConnect(this.apiUrl, async (api) => {
-      this.$store.commit('setApiConnected', api.isConnected)
-    })
   }
 
   protected onAmountFieldChange() {
