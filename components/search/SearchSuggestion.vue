@@ -237,7 +237,6 @@ import { unwrapSafe } from '~/utils/uniquery'
 import { RowSeries } from '~/components/series/types'
 import { NeoIcon } from '@kodadot1/brick'
 import { fetchCollectionSuggestion } from './utils/collectionSearch'
-import { chainAssetOf } from '@/utils/config/chain.config'
 
 @Component({
   components: {
@@ -622,14 +621,14 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
 
   async fetchCollectionStats(collection: CollectionWithMeta) {
     return new Promise(async (resolve) => {
-      const client = collection?.chain || this.client
+      const client = collection.chain || this.client
       const queryCollection = await resolveQueryPath(
         client === 'ksm' ? 'chain-rmrk' : 'subsquid',
         'collectionStatsById'
       )
       const { data } = await this.$apollo.query({
         query: queryCollection.default,
-        client: collection?.chain,
+        client,
         variables: {
           id: collection.collection_id,
         },
