@@ -5,7 +5,6 @@ import { chainAssetOf } from '@/utils/config/chain.config'
 import { useApollo } from '@/utils/config/useApollo'
 import { emptyObject } from '@kodadot1/minimark/utils'
 
-// export type TokenState = ReturnType<typeof state>
 export type TokenProperty = {
   id: string
   decimals: number
