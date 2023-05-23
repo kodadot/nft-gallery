@@ -1,15 +1,14 @@
 <template>
   <component
-    :is="separated ? 'div' : 'b-field'"
+    :is="separated || multiline ? 'div' : 'b-field'"
     v-if="options"
-    :class="{ 'columns is-multiline': separated }">
+    :class="{ 'columns is-multiline': separated || multiline }">
     <NeoRadioButton
       v-if="showEmpty"
       :value="value"
       native-value=""
-      type="is-primary"
-      class="collection-radio-btn"
-      :class="{ 'column is-half': separated }"
+      :class="{ 'column is-half': separated, column: multiline }"
+      rounded
       @input="handleInput">
       <span><b>NONE</b></span>
     </NeoRadioButton>
@@ -18,9 +17,8 @@
       :key="option"
       :value="value"
       :native-value="option"
-      type="is-primary"
-      class="collection-radio-btn"
-      :class="{ 'column is-half': separated }"
+      :class="{ 'column is-half': separated, column: multiline }"
+      rounded
       @input="handleInput">
       <span>{{ option }}</span>
     </NeoRadioButton>
@@ -37,6 +35,7 @@ defineProps<{
   options: string[]
   showEmpty?: boolean
   separated?: boolean
+  multiline?: boolean
 }>()
 
 const handleInput = (value: string) => {

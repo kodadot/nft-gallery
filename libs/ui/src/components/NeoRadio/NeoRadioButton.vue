@@ -75,17 +75,16 @@ export default {
     display: flex;
 
     &.button {
+      text-transform: capitalize;
       @include ktheme() {
-        border-color: theme('k-primary');
-        border-right: none;
-        border-bottom: none;
-        border-left: none;
+        border-color: theme('black');
       }
     }
 
     &.is-selected {
       @include ktheme() {
-        background-color: theme('k-primary');
+        color: theme('white');
+        background-color: theme('black');
       }
     }
 

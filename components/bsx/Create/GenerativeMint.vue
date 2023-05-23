@@ -3,10 +3,12 @@
     <Loader v-model="isLoading" :status="status" />
     <NeoSteps
       v-model="currentStep"
-      :rounded="false"
+      rounded
       mobile-mode="minimalist"
       :has-navigation="false">
-      <NeoStepItem step="1" label="Mint" :clickable="isStepsClickable">
+      <hr />
+
+      <NeoStepItem step="1" label="Generate" :clickable="isStepsClickable">
         <GenerativeMint @select="handlePrediction" @submit="handleBuilder" />
       </NeoStepItem>
 
@@ -52,7 +54,7 @@ const CongratsView = defineAsyncComponent(
   () => import('@/components/generative/CongratsView.vue')
 )
 
-const isStepsClickable = ref(true)
+const isStepsClickable = ref(false)
 const currentStep = ref<number>(0)
 const predicion = ref<PredictionStatus>(emptyObject<PredictionStatus>())
 const builder = ref<Options>(emptyObject<Options>())
