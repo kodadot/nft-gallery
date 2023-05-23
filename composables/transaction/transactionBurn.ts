@@ -43,7 +43,7 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
     )
     const hasOffers = ref(false)
     const { data } = useGraphql({
-      queryName: 'offerListByNftId',
+      queryName: 'acceptableOfferListByNftId',
       queryPrefix: 'chain-bsx',
       variables: {
         id: item.nftId,
@@ -62,7 +62,7 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
         }
       )
       const cb = hasOffers.value
-        ? api.tx.utility.batch
+        ? api.tx.utility.batchAll
         : getApiCall(api, item.urlPrefix, Interaction.CONSUME)
       const arg = hasOffers.value
         ? [[...offerWithdrawArgs, api.tx.nft.burn(collectionId, tokenId)]]

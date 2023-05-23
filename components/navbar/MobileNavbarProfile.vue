@@ -24,9 +24,10 @@
 </template>
 
 <script lang="ts" setup>
-import { clearSession } from '~/utils/cachingStrategy'
 import { NeoButton } from '@kodadot1/brick'
+
 import { useIdentityStore } from '@/stores/identity'
+import { clearSession } from '@/utils/cachingStrategy'
 
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/IdentityIndex.vue')
