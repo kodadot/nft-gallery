@@ -7,7 +7,7 @@
       :loading="loading"
       :expanded="expanded"
       outlined
-      @click="$emit('click')">
+      @click.native="$emit('click')">
       <slot>
         {{ $t(label) }}
       </slot>
