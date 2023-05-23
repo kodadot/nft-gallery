@@ -17,8 +17,12 @@
           @select="handleImageSelect" />
       </NeoStepItem>
 
+      <NeoStepItem step="3" label="Contact" :clickable="isStepsClickable">
+        <ContactForm @select="handleMailSubmit" />
+      </NeoStepItem>
+
       <NeoStepItem
-        step="3"
+        step="4"
         label="Finish"
         :clickable="isStepsClickable"
         :type="{ 'is-success': true }">
@@ -48,12 +52,16 @@ const ImageSelectGrid = defineAsyncComponent(
   () => import('@/components/generative/ImageSelectGrid.vue')
 )
 
+const ContactForm = defineAsyncComponent(
+  () => import('@/components/generative/ContactForm.vue')
+)
+
 const CongratsView = defineAsyncComponent(
   () => import('@/components/generative/CongratsView.vue')
 )
 
 const isStepsClickable = ref(true)
-const currentStep = ref<number>(0)
+const currentStep = ref<number>(1)
 const predicion = ref<PredictionStatus>(emptyObject<PredictionStatus>())
 const builder = ref<Options>(emptyObject<Options>())
 const image = ref<string>('')
@@ -64,19 +72,19 @@ const { accountId } = useAuth()
 
 const handlePrediction = (generation: PredictionStatus) => {
   predicion.value = generation
-  goToStep(1)
+  goToStep(2)
 }
 
 const handleImageSelect = (imageURI: string) => {
   image.value = imageURI
-  goToStep(2)
-  handleMailSubmit(accountId.value)
+  goToStep(3)
+  // handleMailSubmit(accountId.value)
 }
 
 const handleMailSubmit = (mail: string) => {
   email.value = mail
   submitAll()
-  goToStep(3)
+  goToStep(4)
 }
 
 const handleBuilder = (options: Options) => {
