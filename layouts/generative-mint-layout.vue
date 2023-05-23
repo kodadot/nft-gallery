@@ -3,7 +3,7 @@
     <Navbar />
     <main class="is-flex-grow-1">
       <section class="hero is-medium is-link">
-        <div class="hero-body landing-search">
+        <div class="hero-body">
           <h1 class="subtitle has-text-centered has-text-weight-bold is-size-3">
             Mint Your Bled Spring Waifu
           </h1>
@@ -43,3 +43,18 @@ useNuxt2Meta({
   ],
 })
 </script>
+
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+.hero .subtitle {
+  letter-spacing: -0.02em;
+  @include ktheme() {
+    color: theme('text-color-inverse');
+    text-shadow: 1px 1px 0 theme('text-color'), 1px -1px 0 theme('text-color'),
+      -1px 1px 0 theme('text-color'), -1px -1px 0 theme('text-color'),
+      1px 0px 0 theme('text-color'), 0px 1px 0 theme('text-color'),
+      -1px 0px 0 theme('text-color'), 0px -1px 0 theme('text-color'),
+      4px 4px theme('text-color');
+  }
+}
+</style>
