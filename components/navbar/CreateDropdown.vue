@@ -86,8 +86,9 @@
 </template>
 
 <script lang="ts" setup>
-import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
 import { NeoTooltip } from '@kodadot1/brick'
+
+import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
 
 defineProps<{
   chain: string
