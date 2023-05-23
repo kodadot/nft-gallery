@@ -8,7 +8,7 @@
       loop
       autoplay
       muted
-      :src="animationSrc"
+      :src="animationSrc || src"
       controlslist="nodownload"
       data-cy="type-video"
       :title="alt" />
@@ -18,6 +18,7 @@
 <script lang="ts" setup>
 defineProps<{
   animationSrc?: string
+  src?: string
   alt?: string
 }>()
 </script>
