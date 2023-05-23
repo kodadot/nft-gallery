@@ -40,7 +40,7 @@ export const CHAINS: Config<ChainProperties> = {
 
 export const DEFAULT_PREFIX: Prefix = 'ksm'
 
-export const chainPrefixes: Readonly<Prefix[]> = [
+export const chainPrefixes: Prefix[] = [
   'bsx',
   'rmrk',
   'snek',
@@ -49,7 +49,7 @@ export const chainPrefixes: Readonly<Prefix[]> = [
   'ksm',
   'stmn',
   'dot',
-] as const
+]
 
 export const chainInfo: Record<Prefix, string> = {
   bsx: 'basilisk',
