@@ -8,10 +8,11 @@
       <div class="container is-fluid collection-banner-content">
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">
-            <img
+            <MediaItem
               v-if="collectionAvatar"
               :src="collectionAvatar"
-              :alt="collectionName" />
+              :title="collectionName"
+              root-classes="" />
             <img v-else :src="placeholder" />
           </div>
           <h1 class="collection-banner-name">{{ collectionName }}</h1>
@@ -24,6 +25,8 @@
 
 <script setup lang="ts">
 import type { NFTMetadata } from '@/components/rmrk/service/scheme'
+
+import { MediaItem } from '@kodadot1/brick'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
@@ -129,7 +132,8 @@ useNuxt2Meta({
       box-shadow: theme('primary-shadow');
     }
 
-    img {
+    img,
+    > * {
       display: block;
       width: 5.5rem;
       height: 5.5rem;

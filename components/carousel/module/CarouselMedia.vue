@@ -8,18 +8,18 @@
         :src="item.animationUrl"
         :poster="imageSrc || ''"
         :metadata="item.metadata" />
-      <BasicImage
+      <MediaItem
         v-else
         :src="imageSrc"
-        :alt="item.name"
-        custom-class="carousel__image-wrapper" />
+        :title="item.name"
+        :root-classes="`carousel__image-wrapper`" />
     </nuxt-link>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { MediaItem } from '@kodadot1/brick'
 import PreviewMediaResolver from '@/components/media/PreviewMediaResolver.vue'
-import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 import type { CarouselNFT } from '@/components/base/types'
 import type { NFTWithMetadata } from '@/composables/useNft'

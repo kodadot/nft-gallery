@@ -1,5 +1,5 @@
 <template>
-  <div class="media-object">
+  <div :class="rootClasses">
     <component
       :is="resolveComponent"
       :src="properSrc"
@@ -69,6 +69,10 @@ export default {
     placeholder: {
       type: String,
       default: '',
+    },
+    rootClasses: {
+      type: String,
+      default: 'media-object',
     },
   },
   data() {
