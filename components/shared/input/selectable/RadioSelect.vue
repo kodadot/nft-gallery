@@ -2,7 +2,7 @@
   <component
     :is="separated || multiline ? 'div' : 'b-field'"
     v-if="options"
-    :class="{ 'columns is-multiline': separated || multiline }">
+    :class="{ 'columns is-multiline is-mobile': separated || multiline }">
     <NeoRadioButton
       v-if="showEmpty"
       :value="value"
