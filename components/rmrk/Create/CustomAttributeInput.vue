@@ -1,83 +1,72 @@
 <template>
   <CollapseWrapper :visible="visible" :hidden="hidden">
     <div
-      v-for="(attribute, index) in prefixAttributes"
-      :key="attribute['trait_type']"
-      class="custom-attribute-input mt-4 mb-4">
-      <AttributeInput
-        disabled
-        v-bind.sync="prefixAttributes[index]"
-        :index="index" />
-    </div>
-    <div
       v-for="(attribute, index) in attributes"
       :key="index"
-      class="custom-attribute-input mt-4 mb-4">
+      class="custom-attribute-input my-4">
       <AttributeInput
         v-bind.sync="attributes[index]"
         :index="index"
         @remove="removeAttribute" />
     </div>
-    <b-button
-      type="is-light"
-      outlined
+    <NeoButton
+      no-shadow
       class="mt-2"
       :disabled="disabled"
       icon-left="plus"
-      @click="addAttribute"
-      >Add Attribute</b-button
-    >
+      @click.native="addAttribute">
+      Add Attribute
+    </NeoButton>
   </CollapseWrapper>
 </template>
 
-<script lang="ts">
-import { Component, Emit, Prop, Vue, Watch } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { Attribute } from '@kodadot1/minimark/common'
+import { NeoButton } from '@kodadot1/brick'
+import AttributeInput from './AttributeInput.vue'
 
-const components = {
-  AttributeInput: () => import('./AttributeInput.vue'),
-  CollapseWrapper: () =>
-    import('@/components/shared/collapse/CollapseWrapper.vue'),
-}
-
-@Component({ components })
-export default class CustomAttributeInput extends Vue {
-  @Prop({ type: Number, default: 0 }) max!: number
-  @Prop({ type: String, default: 'collapse.collection.attributes.show' })
-  visible!: string
-  @Prop({ type: String, default: 'collapse.collection.attributes.hide' })
-  hidden!: string
-  public attributes: Attribute[] = []
-  @Prop({ type: Array, default: () => [] })
-  public prefixAttributes!: Attribute[]
-
-  addAttribute(): void {
-    if (!this.max || (this.max && this.attributes.length < this.max)) {
-      this.attributes.push({
-        value: '',
-        trait_type: '',
-      })
-    }
+const props = withDefaults(
+  defineProps<{
+    max: number
+    visible: string
+    hidden: string
+  }>(),
+  {
+    max: 0,
+    visible: 'collapse.collection.attributes.show',
+    hidden: 'collapse.collection.attributes.hide',
   }
+)
 
-  get disabled(): boolean {
-    return this.max > 0 && this.attributes.length === this.max
-  }
+const attributes = ref([])
 
-  removeAttribute(index: number): void {
-    this.attributes.splice(index, 1)
-  }
+const disabled = computed(
+  () => props.max > 0 && attributes.value.length === props.max
+)
 
-  @Watch('attributes', { deep: true })
-  onAttributesChange(attributes: Attribute[]): void {
-    this.handleInput(attributes)
-  }
-
-  @Emit('input')
-  handleInput(attributes: Attribute[]): Attribute[] {
-    return attributes
+const addAttribute = () => {
+  if (!props.max || (props.max && attributes.value.length < props.max)) {
+    attributes.value.push({
+      value: '',
+      trait_type: '',
+    })
   }
 }
+
+const removeAttribute = (index: number) => {
+  attributes.value.splice(index, 1)
+}
+
+const emit = defineEmits(['input'])
+
+const handleInput = (attributes: Attribute[]) => emit('input', attributes)
+
+watch(attributes, () => {
+  if (attributes.value) {
+    console.log(attributes.value)
+    handleInput(attributes.value)
+  }
+})
 </script>
 
 <style scoped>
