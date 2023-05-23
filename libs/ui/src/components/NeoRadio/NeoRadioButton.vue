@@ -34,6 +34,7 @@ export default {
       default: 'is-primary',
     },
     expanded: Boolean,
+    rounded: Boolean,
   },
   data() {
     return {
@@ -52,6 +53,8 @@ export default {
           'is-selected': this.isSelected,
           'is-disabled': this.disabled,
           'is-focused': this.isFocused,
+          'is-loading': this.loading,
+          'is-rounded': this.rounded,
         },
       ]
     },
@@ -61,6 +64,7 @@ export default {
 
 <style lang="scss">
 @import '../../scss/_theme.scss';
+@import '../../scss/variable.scss';
 
 .neo-radio-button {
   input[type='radio'] {
@@ -83,6 +87,10 @@ export default {
       @include ktheme() {
         background-color: theme('k-primary');
       }
+    }
+
+    &.is-rounded {
+      border-radius: $radius-rounded;
     }
   }
 }

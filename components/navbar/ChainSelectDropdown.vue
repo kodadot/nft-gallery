@@ -16,8 +16,8 @@
 </template>
 
 <script lang="ts" setup>
-import { getChainNameByPrefix } from '@/utils/chain'
 import { usePreferencesStore } from '@/stores/preferences'
+import { getChainNameByPrefix } from '@/utils/chain'
 
 const { availableChains } = useChain()
 const { $store } = useNuxtApp()
