@@ -38,8 +38,8 @@ const props = withDefaults(
   }
 )
 
+const emit = defineEmits(['input'])
 const attributes = ref([])
-
 const disabled = computed(
   () => props.max > 0 && attributes.value.length === props.max
 )
@@ -52,20 +52,11 @@ const addAttribute = () => {
     })
   }
 }
-
-const removeAttribute = (index: number) => {
-  attributes.value.splice(index, 1)
-}
-
-const emit = defineEmits(['input'])
-
+const removeAttribute = (index: number) => attributes.value.splice(index, 1)
 const handleInput = (attributes: Attribute[]) => emit('input', attributes)
 
-watch(attributes, () => {
-  if (attributes.value) {
-    console.log(attributes.value)
-    handleInput(attributes.value)
-  }
+watch(attributes.value, () => {
+  handleInput(attributes.value)
 })
 </script>
 
