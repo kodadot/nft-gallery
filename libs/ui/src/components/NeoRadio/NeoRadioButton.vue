@@ -79,14 +79,14 @@ export default {
     &.button {
       text-transform: capitalize;
       @include ktheme() {
-        border-color: theme('black');
+        border-color: theme('background-color-inverse');
       }
     }
 
     &.is-selected {
       @include ktheme() {
-        color: theme('white');
-        background-color: theme('black');
+        color: theme('text-color-inverse');
+        background-color: theme('background-color-inverse');
       }
     }
 
