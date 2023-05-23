@@ -8,11 +8,19 @@
       :has-navigation="false">
       <hr />
 
-      <NeoStepItem step="1" label="Generate" :clickable="isStepsClickable">
+      <NeoStepItem
+        step="1"
+        icon="check"
+        label="Generate"
+        :clickable="isStepsClickable">
         <GenerativeMint @select="handlePrediction" @submit="handleBuilder" />
       </NeoStepItem>
 
-      <NeoStepItem step="2" label="Select" :clickable="isStepsClickable">
+      <NeoStepItem
+        step="2"
+        icon="check"
+        label="Select"
+        :clickable="isStepsClickable">
         <ImageSelectGrid
           :predicion="predicion"
           :selected="image"
@@ -21,6 +29,7 @@
 
       <NeoStepItem
         step="3"
+        icon="check"
         label="Finish"
         :clickable="isStepsClickable"
         :type="{ 'is-success': true }">

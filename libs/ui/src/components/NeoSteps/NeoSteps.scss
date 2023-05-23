@@ -12,9 +12,10 @@ $steps-active-color: #6188E7;
 $steps-previous-color: #6188E7;
 $steps-divider-height: 2px;
 
-$steps-marker-background: $grey-light !default;
+$steps-marker-background: #fff;
+$steps-marker-border: .2em solid $grey-light !default;
+
 $steps-marker-color: $primary-invert !default;
-$steps-marker-border: .2em solid #fff !default;
 $steps-marker-font-weight: 700 !default;
 $steps-marker-rounded-border-radius: $base-rounded-border-radius !default;
 $steps-color: $grey-lighter !default;
