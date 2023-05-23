@@ -28,12 +28,12 @@ const handleClick = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/_variables';
 .is-selected {
-  border: 2px $primary solid;
+  border: 4px $link solid;
 }
 .selectable-image:hover {
-  border: 2px $lightpink solid;
+  border: 4px $link-light solid;
   cursor: pointer;
 }
 
