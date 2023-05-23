@@ -2,6 +2,7 @@
   <component
     :is="resolveComponent"
     v-if="src"
+    style="height: 100%"
     :src="src"
     :poster="poster || placeholder"
     :description="description"
