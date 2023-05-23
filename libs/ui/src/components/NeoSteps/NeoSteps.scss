@@ -4,7 +4,6 @@
 @import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
 @import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
 
-
 $steps-details-background-color: hsla(0, 0, 0, 0);
 $steps-details-padding: .5em !default;
 $steps-font-size: .85rem;
@@ -23,32 +22,5 @@ $steps-vertical-padding: 1em 0 !default;
 $steps-item-line-height: $base-line-height !default;
 $steps-link-color: hsl(0, 0%, 29%) !default;
 $steps-content-padding: 1rem !default;
-
-// .o-steps {
-//   &__marker {
-//     @include ktheme() {
-//       color: theme('black');
-//     }
-//   }
-
-//   &__nav-item-active {
-//     .o-steps__marker {
-//       @include ktheme() {
-//         color: theme('k-primary');
-//         background-color: theme('black');
-//         border-color: theme('k-primary');
-//       }
-//     }
-//   }
-
-//   &__nav-item-previous {
-//     .o-steps__marker {
-//       @include ktheme() {
-//         background-color: theme('k-primary');
-//         color: theme('text-color');
-//       }
-//     }
-//   }
-// }
 
 @import '@oruga-ui/oruga/src/scss/components/steps';
