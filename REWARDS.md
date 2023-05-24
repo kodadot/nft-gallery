@@ -15,7 +15,7 @@ After creating an account, you can visit [KodaDot Transfer](https://kodadot.xyz/
 
 your receiving address should be looks like this
 
-`https://kodadot.xyz/ksm/transfer?target=${your address}&usdamount=100&donation=true`
+`https://kodadot.xyz/dot/transfer?target=${your address}&usdamount=100&donation=true`
 
 ### Switching account/network
 
