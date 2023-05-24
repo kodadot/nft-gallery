@@ -55,10 +55,6 @@ import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { Options, buildMetadata } from '@/components/generative/promptBuilder'
 
-const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
-)
-
 const GenerativeMint = defineAsyncComponent(
   () => import('@/components/generative/GenerativeMintForm.vue')
 )
@@ -92,7 +88,6 @@ const handlePrediction = (generation: PredictionStatus) => {
 const handleImageSelect = (imageURI: string) => {
   image.value = imageURI
   goToStep(3)
-  // handleMailSubmit(accountId.value)
 }
 
 const handleMailSubmit = (mail: string) => {

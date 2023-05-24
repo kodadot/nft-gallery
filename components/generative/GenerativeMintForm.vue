@@ -107,6 +107,7 @@ const form = reactive<Options>({
   lighting: '',
 })
 
+const { $consola } = useNuxtApp()
 const isLoading = ref(false)
 const status = ref('')
 const predictionId = ref('')
@@ -121,13 +122,13 @@ const submit = async () => {
   isLoading.value = true
   status.value = 'predicting'
   const prompt = buildPrompt(form)
-  console.log('prompt', prompt)
+  $consola.log('prompt', prompt)
   const predictRequest = await predict(prompt)
   emit('submit', form)
 
   const timeout = setInterval(async () => {
     const generation = await getPrediction(predictRequest.id)
-    console.log('status', status)
+    $consola.log('status', status.value)
     predicion.value = generation
     status.value = 'loader.generative.' + generation.status
     if (generation.status === 'failed' || generation.status === 'succeeded') {
