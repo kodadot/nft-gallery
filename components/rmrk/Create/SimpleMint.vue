@@ -11,12 +11,13 @@
     <Auth />
 
     <MetadataUpload
-      ref="collectionImage"
-      v-model="vFile"
+      ref="nftUpload"
+      v-model="file"
       required
       :label="$t('mint.nft.drop')"
       expanded
       preview
+      data-cy="input-upload"
       accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg" />
 
     <BasicInput
