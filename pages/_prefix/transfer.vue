@@ -10,8 +10,8 @@
     </nuxt-link>
     <p class="title is-size-3">
       {{ $t('transfer') }} {{ unit }}
-      <span v-if="isKSM" class="has-text-primary"
-        >${{ fiatStore.getCurrentKSMValue }}</span
+      <span class="has-text-primary"
+        >${{ fiatStore.getCurrentTokenValue(unit) }}</span
       >
     </p>
 
@@ -74,7 +74,7 @@
           :calculate="false"
           @input="onAmountFieldChange" />
       </b-field>
-      <b-field v-if="isKSM">
+      <b-field>
         <ReadOnlyBalanceInput
           v-model="usdValue"
           :label-input="$t('teleport.usdInput')"
@@ -270,7 +270,7 @@ export default class Transfer extends mixins(
     /* calculating usd value on the basis of price entered */
     if (this.price) {
       this.usdValue = calculateUsdFromKsm(
-        Number(this.fiatStore.getCurrentKSMValue),
+        Number(this.fiatStore.getCurrentTokenValue(this.unit)),
         this.price
       )
     } else {
@@ -282,7 +282,7 @@ export default class Transfer extends mixins(
     /* calculating price value on the basis of usd entered */
     if (this.usdValue) {
       this.price = calculateKsmFromUsd(
-        Number(this.fiatStore.getCurrentKSMValue),
+        Number(this.fiatStore.getCurrentTokenValue(this.unit)),
         this.usdValue
       )
     } else {
@@ -317,7 +317,7 @@ export default class Transfer extends mixins(
       this.usdValue = Number(query.usdamount)
 
       this.price = calculateKsmFromUsd(
-        Number(this.fiatStore.getCurrentKSMValue),
+        Number(this.fiatStore.getCurrentTokenValue(this.unit)),
         this.usdValue
       )
     }

@@ -52,7 +52,7 @@ export const useRedirectModal = (target: string) => {
 
     if (href && isExternal(href) && !isWhiteList(href)) {
       showModal(href, $i18n)
-    } else {
+    } else if (href) {
       window.open(href, '_blank')
     }
   }
