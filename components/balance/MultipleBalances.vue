@@ -63,12 +63,14 @@ const availableChains = reactive<Chain>({
   Kusama: [],
   Statemine: [],
   Basilisk: [],
+  Polkadot: [],
 })
 
 const mapToPrefix = {
   Kusama: 'ksm',
   Basilisk: 'bsx',
   Statemine: 'stmn',
+  Polkadot: 'dot',
 }
 
 function delimiter(amount: string | number) {
@@ -91,16 +93,9 @@ function calculateUsd(amount: string, token = 'KSM') {
 
   const amountToNumber = Number(amount.replace(/\,/g, ''))
 
-  if (token === 'KSM') {
-    return calculateExactUsdFromToken(
-      amountToNumber,
-      Number(fiatStore.getCurrentKSMValue)
-    )
-  }
-
   return calculateExactUsdFromToken(
     amountToNumber,
-    Number(fiatStore.getCurrentBSXValue)
+    Number(fiatStore.getCurrentTokenValue(token))
   )
 }
 
@@ -156,6 +151,7 @@ onMounted(async () => {
   Promise.all([
     getBalance('Kusama'),
     getBalance('Statemine'),
+    getBalance('Polkadot', 'DOT'),
     getBalance('Basilisk', 'BSX'),
     getBalance('Basilisk', 'KSM', Number(getKusamaAssetId('bsx'))),
   ]).then(() => {

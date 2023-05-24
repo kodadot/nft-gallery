@@ -29,6 +29,7 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
     'wss://statemine.api.onfinality.io/public-ws',
     'wss://statemine.public.curie.radiumblock.co/ws',
   ],
+  dot: ['wss://rpc.polkadot.io'],
 }
 
 export const ENDPOINT_MAP: Config<WS_URL> = {
@@ -39,4 +40,5 @@ export const ENDPOINT_MAP: Config<WS_URL> = {
   ksm: KUSAMA_ENDPOINTS[0],
   snek: 'wss://basilisk-rococo-rpc.play.hydration.cloud',
   stmn: 'wss://statemine-rpc.polkadot.io',
+  dot: 'wss://rpc.polkadot.io',
 }
