@@ -45,7 +45,7 @@ const disabled = computed(
 )
 
 const addAttribute = () => {
-  if (!props.max || (attributes.value.length < props.max)) {
+  if (!props.max || attributes.value.length < props.max) {
     attributes.value.push({
       value: '',
       trait_type: '',
