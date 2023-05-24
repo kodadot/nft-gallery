@@ -20,7 +20,9 @@
     </NeoField>
     <div v-if="hasFocus && message">
       <transition name="fade">
-        <span class="has-text-primary is-italic is-size-7">{{ message }}</span>
+        <div class="has-text-primary is-italic is-size-7 mb-3 mt-1">
+          {{ message }}
+        </div>
       </transition>
     </div>
   </div>
