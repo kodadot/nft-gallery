@@ -30,6 +30,7 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
     'wss://statemine.public.curie.radiumblock.co/ws',
   ],
   dot: ['wss://rpc.polkadot.io'],
+  stt: ['wss://statemint-rpc.polkadot.io'],
 }
 
 export const ENDPOINT_MAP: Config<WS_URL> = {
@@ -41,4 +42,5 @@ export const ENDPOINT_MAP: Config<WS_URL> = {
   snek: 'wss://basilisk-rococo-rpc.play.hydration.cloud',
   stmn: 'wss://statemine-rpc.polkadot.io',
   dot: 'wss://rpc.polkadot.io',
+  stt: 'wss://statemint-rpc.polkadot.io',
 }

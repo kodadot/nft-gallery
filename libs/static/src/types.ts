@@ -7,6 +7,7 @@ export type Prefix =
   | 'snek'
   | 'stmn'
   | 'dot'
+  | 'stt'
 // | 'westmint'
 
 export type Squid = 'rubick' | 'snekk' | 'click' | 'antick' | 'marck' | 'stick'
