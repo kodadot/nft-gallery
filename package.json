@@ -19,7 +19,7 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxi prepare && cross-env PORT=9090 nuxi dev",
+    "dev": "nuxi prepare && cross-env NODE_OPTIONS=--openssl-legacy-provider PORT=9090 nuxi dev",
     "dev-docker": "npx nuxi dev",
     "dev-experimental": "nuxi dev --hostname localhost --port 9090",
     "build": "nuxi build --modern",
@@ -70,7 +70,7 @@
     "@google/model-viewer": "^1.12.1",
     "@kodadot1/brick": "workspace:*",
     "@kodadot1/minimark": "^0.1.9",
-    "@kodadot1/static": "workspace:*",
+    "@kodadot1/static": "0.0.3-rc.3",
     "@kodadot1/sub-api": "^0.1.2",
     "@kodadot1/vuex-options": "0.1.5-beta.0",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
