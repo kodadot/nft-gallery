@@ -17,8 +17,7 @@
       :label="$t('mint.nft.drop')"
       expanded
       preview
-      data-cy="input-upload"
-      accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg" />
+      data-cy="input-upload" />
 
     <BasicInput
       ref="nftNameInput"
