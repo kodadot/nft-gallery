@@ -30,7 +30,7 @@ import { NeoField, NeoInput } from '@kodadot1/brick'
 export default class AddressInput extends mixins(PrefixMixin) {
   @Prop(String) public value!: string
   private err: string | null = ''
-  @Prop({ type: String, default: 'insert address' }) public label!: string
+  @Prop({ type: String, default: 'Insert Address' }) public label!: string
   @Prop(Boolean) public emptyOnError!: boolean
   @Prop({ type: Boolean, default: true }) public strict!: boolean
   @Prop({ type: String, default: '' }) public icon?: string

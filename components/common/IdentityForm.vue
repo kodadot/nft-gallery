@@ -38,7 +38,7 @@
         v-model="identity.email"
         type="email"
         :maxlength="inputLengthLimit"
-        :label="$i18n.t('email')"
+        :label="$i18n.t('Email')"
         placeholder="somebody@example.com"
         expanded />
 

@@ -1,24 +1,29 @@
 <template>
-  <NeoField :label="$i18n.t(label)">
-    <NeoInput
-      ref="input"
-      :value="value"
-      :placeholder="placeholder"
-      :expanded="expanded"
-      :maxlength="maxlength"
-      :required="required"
-      :disabled="disabled"
-      :type="type"
-      :pattern="!value && required ? `^\\S+` : '.*'"
-      @blur="hasFocus = false"
-      @focus="hasFocus = true"
-      @input="handleInput" />
-    <template v-if="hasFocus && message" #message>
+  <div>
+    <NeoField
+      :label="$i18n.t(label)"
+      :class="{ 'o-field__message-hide': hasFocus && message }">
+      <NeoInput
+        ref="input"
+        :value="value"
+        :placeholder="placeholder"
+        :expanded="expanded"
+        :maxlength="maxlength"
+        :required="required"
+        :disabled="disabled"
+        :has-counter="hasCounter"
+        :type="type"
+        :pattern="!value && required ? `^\\S+` : '.*'"
+        @blur="hasFocus = false"
+        @focus="hasFocus = true"
+        @input="handleInput" />
+    </NeoField>
+    <div v-if="hasFocus && message">
       <transition name="fade">
-        <span class="has-text-primary is-italic">{{ message }}</span>
+        <span class="has-text-primary is-italic is-size-7">{{ message }}</span>
       </transition>
-    </template>
-  </NeoField>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -38,6 +43,7 @@ withDefaults(
     type?: string
     required?: boolean
     disabled?: boolean
+    hasCounter?: boolean
   }>(),
   {
     value: '',
@@ -46,6 +52,7 @@ withDefaults(
     message: '',
     required: false,
     disabled: false,
+    hasCounter: true,
     maxlength: undefined,
   }
 )
