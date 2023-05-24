@@ -15,6 +15,7 @@ const DEFAULT_BALANCE_STATE = {
   stmn: '0',
   glmr: '0',
   movr: '0',
+  dot: '0',
 }
 
 export interface IdentityMap {
@@ -28,7 +29,7 @@ type ChangeAddressRequest = {
   apiUrl?: string
 }
 
-type ChainType = 'kusama' | 'basilisk' | 'statemine'
+type ChainType = 'polkadot' | 'kusama' | 'basilisk' | 'statemine'
 type ChainDetail = {
   balance: string
   nativeBalance: string
@@ -36,7 +37,7 @@ type ChainDetail = {
   selected: boolean
   address: string
 }
-type ChainToken = Partial<Record<'ksm' | 'bsx', ChainDetail>>
+type ChainToken = Partial<Record<'dot' | 'ksm' | 'bsx', ChainDetail>>
 
 interface MultiBalances {
   address: string
@@ -87,6 +88,7 @@ export const useIdentityStore = defineStore('identity', {
     multiBalanceAssets: [
       { chain: 'kusama' },
       { chain: 'statemine' },
+      { chain: 'polkadot', token: 'DOT' },
       { chain: 'basilisk', token: 'BSX' },
       { chain: 'basilisk', token: 'KSM', tokenId: getKusamaAssetId('bsx') },
     ],

@@ -60,6 +60,7 @@ const identityStore = useIdentityStore()
 const { multiBalances, multiBalanceAssets } = storeToRefs(identityStore)
 
 const mapToPrefix = {
+  polkadot: 'dot',
   kusama: 'ksm',
   basilisk: 'bsx',
   statemine: 'stmn',
@@ -85,11 +86,7 @@ function calculateUsd(amount: string, token = 'KSM') {
 
   return calculateExactUsdFromToken(
     amountToNumber,
-    Number(
-      token === 'KSM'
-        ? fiatStore.getCurrentKSMValue
-        : fiatStore.getCurrentBSXValue
-    )
+    Number(fiatStore.getCurrentTokenValue(token))
   )
 }
 
