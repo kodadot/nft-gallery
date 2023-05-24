@@ -8,7 +8,7 @@ export type Prefix =
   | 'stmn'
   | 'dot'
   | 'stt'
-// | 'westmint'
+// | 'wst'
 
 export type Squid =
   | 'rubick'
