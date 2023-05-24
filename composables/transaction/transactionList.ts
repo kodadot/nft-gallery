@@ -55,7 +55,7 @@ export function execListTx(item: ActionList, api, executeTransaction) {
     })
   }
 
-  if (item.urlPrefix === 'stmn') {
+  if (item.urlPrefix === 'stmn' || item.urlPrefix === 'stt') {
     executeTransaction({
       cb: getApiCall(api, item.urlPrefix, Interaction.LIST),
       arg: uniqueParamResolver(item.nftId, Interaction.LIST, meta),
