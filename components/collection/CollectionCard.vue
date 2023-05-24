@@ -1,7 +1,7 @@
 <template>
   <div class="collection-card card" :class="{ loading: isLoading }">
     <nuxt-link
-      v-if="!isLoading"
+      v-if="!isLoading && collection"
       :to="`/${urlPrefix}/collection/${collection.id}`">
       <template v-if="!isLoadingMeta">
         <BasicImage
@@ -38,14 +38,14 @@ const isLoadingMeta = ref(false)
 
 interface Props {
   isLoading?: boolean
-  collection: CollectionWithMeta
+  collection?: CollectionWithMeta
 }
 
 const props = defineProps<Props>()
 const image = ref('')
 
 onMounted(async () => {
-  if (props.isLoading) {
+  if (props.isLoading || !props.collection) {
     return
   }
 

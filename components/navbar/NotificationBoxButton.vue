@@ -7,31 +7,34 @@
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
-import { NotificationBoxModalConfig } from '@/components/common/NotificationBox/useNotificationBox'
+import { ModalProgrammatic as Modal } from 'buefy'
 import { BModalComponent, BModalConfig } from 'buefy/types/components'
 import type Vue from 'vue'
-import { ModalProgrammatic as Modal } from 'buefy'
+
+import { NotificationBoxModalConfig } from '@/components/common/NotificationBox/useNotificationBox'
 import { usePreferencesStore } from '@/stores/preferences'
+
 const root = ref<Vue<Record<string, string>>>()
 const props = defineProps<{
   showLabel: boolean
 }>()
 const emit = defineEmits(['closeBurgerMenu'])
 const modal = ref<BModalComponent | null>()
-const prefrencesStore = usePreferencesStore()
+const preferencesStore = usePreferencesStore()
+
 function toggleNotificationModal() {
   emit('closeBurgerMenu')
   if (modal.value) {
     modal.value.close()
     modal.value = null
-    prefrencesStore.setNotificationBoxCollapse(false)
+    preferencesStore.setNotificationBoxCollapse(false)
   } else {
-    prefrencesStore.setNotificationBoxCollapse(true)
+    preferencesStore.setNotificationBoxCollapse(true)
     modal.value = Modal.open({
       parent: root?.value,
       onCancel: () => {
         modal.value = null
-        prefrencesStore.setNotificationBoxCollapse(false)
+        preferencesStore.setNotificationBoxCollapse(false)
       },
       ...NotificationBoxModalConfig,
     } as unknown as BModalConfig)
