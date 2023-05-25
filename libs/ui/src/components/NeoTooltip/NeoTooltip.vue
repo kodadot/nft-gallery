@@ -11,7 +11,7 @@
     :position="position"
     :label="label"
     :delay="delay"
-    @click.native.stop>
+    @click.native="handleClick">
     <slot>
       <div />
     </slot>
@@ -35,6 +35,7 @@ export interface Props {
   delay?: number
   fontSize?: string | number
   multilineWidth?: string | number
+  stopEvents?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   position: 'top',
@@ -44,6 +45,7 @@ const props = withDefaults(defineProps<Props>(), {
   delay: undefined,
   fontSize: '1rem',
   multilineWidth: '10rem',
+  stopEvents: false,
 })
 
 const fontSize = computed(() => {
@@ -59,6 +61,12 @@ const multilineWidth = computed(() => {
   }
   return props.multilineWidth
 })
+
+const handleClick = (event: MouseEvent) => {
+  if (props.stopEvents) {
+    event.stopPropagation()
+  }
+}
 </script>
 
 <style lang="scss">

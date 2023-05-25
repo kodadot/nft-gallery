@@ -57,6 +57,7 @@ export interface Metadata {
   type?: string
   thumbnailUri?: string
   mediaUri?: string
+  chain?: string
 }
 
 export interface NFTMetadata extends Metadata, ItemResources {
@@ -119,6 +120,9 @@ export interface CollectionWithMeta
     CollectionMetadata,
     Arweave {
   nfts?: NFT[]
+  collection_id?: string
+  totalCount?: number
+  floorPrice?: number
 }
 
 export interface NFTWithMeta extends NFT, NFTMetadata, Arweave {}

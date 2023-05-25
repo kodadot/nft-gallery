@@ -3,48 +3,24 @@
 @import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
 @import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
 @import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+
+$steps-details-background-color: hsla(0, 0%, 0%, 0);
+$steps-details-padding: .5em !default;
+$steps-font-size: .85rem;
+$steps-active-color: #6188E7;
+$steps-previous-color: #6188E7;
+$steps-divider-height: 2px;
+
+$steps-marker-background: #fff;
+$steps-marker-border: .2em solid $grey-light !default;
+
+$steps-marker-color: $primary-invert !default;
+$steps-marker-font-weight: 700 !default;
+$steps-marker-rounded-border-radius: $base-rounded-border-radius !default;
+$steps-color: $grey-lighter !default;
+$steps-vertical-padding: 1em 0 !default;
+$steps-item-line-height: $base-line-height !default;
+$steps-link-color: hsl(0, 0%, 29%) !default;
+$steps-content-padding: 1rem !default;
+
 @import '@oruga-ui/oruga/src/scss/components/steps';
-
-.o-steps {
-  &__marker {
-    @include ktheme() {
-      color: theme('black');
-    }
-  }
-
-  &__title {
-    @include ktheme() {
-      color: theme('k-primary');
-      background-color: transparent;
-    }
-  }
-
-  &__divider {
-    @include ktheme() {
-      background-image: linear-gradient(
-        to left,
-        theme('k-grey') 50%,
-        theme('k-primary') 50%
-      );
-    }
-  }
-
-  &__nav-item-active {
-    .o-steps__marker {
-      @include ktheme() {
-        color: theme('k-primary');
-        background-color: theme('black');
-        border-color: theme('k-primary');
-      }
-    }
-  }
-
-  &__nav-item-previous {
-    .o-steps__marker {
-      @include ktheme() {
-        background-color: theme('k-primary');
-        color: theme('text-color');
-      }
-    }
-  }
-}
