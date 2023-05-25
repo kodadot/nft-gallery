@@ -26,7 +26,9 @@
         <UploadMediaZip
           :disabled="!selectedCollection"
           @zipLoaded="onMediaZipLoaded" />
-        <UploadDescription :disabled="!mediaLoaded" />
+        <UploadDescription
+          :disabled="!mediaLoaded"
+          @fileLoaded="onDescriptionLoaded" />
         <OverviewTable
           :disabled="!mediaLoaded"
           :nfts="NFTS"
@@ -93,6 +95,7 @@ import MissingInfoModal from './modals/MissingInfoModal.vue'
 import ReviewModal from './modals/ReviewModal.vue'
 import DeleteModal from './modals/DeleteModal.vue'
 import MintingModal from './modals/MintingModal.vue'
+import { Entry } from './uploadDescription/parsers'
 
 const preferencesStore = usePreferencesStore()
 const { $consola } = useNuxtApp()
@@ -196,9 +199,30 @@ const onMediaZipLoaded = ({
   validFiles: { name: string; imageUrl: string }[]
 }) => {
   NFTS.value = validFiles
-    .map(({ imageUrl }, i) => ({ imageUrl, id: i + 1 }))
+    .map(({ imageUrl, name }, i) => ({ imageUrl, fileName: name, id: i + 1 }))
     .reduce((acc, nft) => ({ ...acc, [nft.id]: nft }), {})
   mediaLoaded.value = true
+}
+
+const onDescriptionLoaded = (entries: Record<string, Entry>) => {
+  // create a map of nft filename to id
+  const nftFileNameToId = Object.values(NFTS.value).reduce(
+    (acc, nft) => ({ ...acc, [nft.fileName]: nft.id }),
+    {}
+  )
+  Object.values(entries).forEach((entry) => {
+    if (!entry.valid) {
+      return
+    }
+    const nftId = nftFileNameToId[entry.file]
+    if (!nftId) {
+      return
+    }
+    NFTS.value[nftId] = {
+      ...NFTS.value[nftId],
+      ...entry,
+    }
+  })
 }
 </script>
 <style lang="scss" scoped>
