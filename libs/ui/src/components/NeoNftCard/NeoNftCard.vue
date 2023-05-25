@@ -2,7 +2,7 @@
   <div class="nft-card" :class="{ loading: isLoading }">
     <component
       :is="link"
-      v-if="!isLoading"
+      v-if="!isLoading && nft"
       :[bindKey]="`/${prefix}/gallery/${nft.id}`">
       <img
         v-if="unlockable && unloackableIcon"
@@ -70,9 +70,18 @@
           <NeoSkeleton :rounded="false" full-size no-margin />
         </div>
       </div>
-      <div :class="`nft-media-info__${variant}`">
+      <div class="nft-media-info" :class="`nft-media-info__${variant}`">
         <NeoSkeleton size="medium" no-margin />
-        <NeoSkeleton size="small" no-margin width="100px" />
+        <div v-if="variant !== 'minimal'" class="is-flex mt-2">
+          <NeoSkeleton
+            size="small"
+            position="centered"
+            no-margin
+            width="150px" />
+        </div>
+        <div class="is-flex mt-4">
+          <NeoSkeleton size="small" no-margin width="100px" />
+        </div>
       </div>
     </template>
   </div>
@@ -88,12 +97,12 @@ import { NeoSkeleton, NftCardVariant } from '@kodadot1/brick'
 withDefaults(
   defineProps<{
     isLoading?: boolean
-    nft: NFT
-    prefix: string
-    showPrice: boolean
+    nft?: NFT
+    prefix?: string
+    showPrice?: boolean
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
-    placeholder: string
+    placeholder?: string
     unlockable?: boolean
     unloackableIcon?: string
     link?: string
