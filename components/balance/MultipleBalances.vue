@@ -13,7 +13,7 @@
         :key="key"
         class="is-size-7">
         <div v-for="(detail, token) in chain" :key="token" class="balance-row">
-          <div>{{ key.toUpperCase() }}</div>
+          <div class="is-capitalized">{{ key }}</div>
           <div class="has-text-right">
             {{ detail?.balance }}
           </div>
@@ -60,6 +60,7 @@ const identityStore = useIdentityStore()
 const { multiBalances, multiBalanceAssets } = storeToRefs(identityStore)
 
 const mapToPrefix = {
+  polkadot: 'dot',
   kusama: 'ksm',
   basilisk: 'bsx',
   statemine: 'stmn',
@@ -85,11 +86,7 @@ function calculateUsd(amount: string, token = 'KSM') {
 
   return calculateExactUsdFromToken(
     amountToNumber,
-    Number(
-      token === 'KSM'
-        ? fiatStore.getCurrentKSMValue
-        : fiatStore.getCurrentBSXValue
-    )
+    Number(fiatStore.getCurrentTokenValue(token))
   )
 }
 
