@@ -52,8 +52,8 @@ importers:
         specifier: ^0.1.2
         version: 0.1.2
       '@kodadot1/vuex-options':
-        specifier: 0.1.5-beta.0
-        version: 0.1.5-beta.0
+        specifier: 0.1.5
+        version: 0.1.5
       '@nuxtjs/apollo':
         specifier: ^4.0.1-rc.5
         version: 4.0.1-rc.5(graphql-tag@2.12.6)(graphql-ws@5.13.1)(typescript@4.9.5)
@@ -3723,8 +3723,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@kodadot1/vuex-options@0.1.5-beta.0:
-    resolution: {integrity: sha512-Yjdwxn6BSEDjmvthrOmEP1f7CBBBJ3FIMksebciijk50w0rDyhWqlEGPPMUsVASWj3b+j63+Psf8LA1IJOJRCQ==}
+  /@kodadot1/vuex-options@0.1.5:
+    resolution: {integrity: sha512-FXAOJK5GlFctJWtGgfKnHL+WSCzBtKC4XlyOuosJvfrBXrGump6vGYaPnQWyajC0qtgFis8j1Sva8NnmxaYoFg==}
     dependencies:
       '@polkadot/networks': 12.2.1
     dev: false
@@ -6279,7 +6279,7 @@ packages:
       '@polkadot/x-textencoder': 12.2.1
       '@types/bn.js': 5.1.1
       bn.js: 5.2.1
-      tslib: 2.5.0
+      tslib: 2.5.2
     dev: false
 
   /@polkadot/util@6.11.1:
@@ -6723,7 +6723,7 @@ packages:
     engines: {node: '>=16'}
     dependencies:
       '@polkadot/x-global': 12.2.1
-      tslib: 2.5.0
+      tslib: 2.5.2
     dev: false
 
   /@polkadot/x-bigint@8.7.1:
@@ -6792,7 +6792,7 @@ packages:
     resolution: {integrity: sha512-JNMziAZjvfzMrXASuBPCvSzEqlhsgw0x95SOBtqJWsxmbCMAiZbYAC51vI1B9Z9wiKuzPtSh9Sk7YHsUOGCrIQ==}
     engines: {node: '>=16'}
     dependencies:
-      tslib: 2.5.0
+      tslib: 2.5.2
     dev: false
 
   /@polkadot/x-global@6.11.1:
@@ -6903,7 +6903,7 @@ packages:
     engines: {node: '>=16'}
     dependencies:
       '@polkadot/x-global': 12.2.1
-      tslib: 2.5.0
+      tslib: 2.5.2
     dev: false
 
   /@polkadot/x-textdecoder@6.11.1:
@@ -6943,7 +6943,7 @@ packages:
     engines: {node: '>=16'}
     dependencies:
       '@polkadot/x-global': 12.2.1
-      tslib: 2.5.0
+      tslib: 2.5.2
     dev: false
 
   /@polkadot/x-textencoder@6.11.1:
