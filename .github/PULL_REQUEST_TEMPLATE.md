@@ -29,7 +29,7 @@
 
 #### Had issue bounty label?
 
-- [ ] Fill up your KSM address: [Payout](https://beta.kodadot.xyz/ksm/transfer/?target=<My_Kusama_Address_check_https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#creating-your-ksm-address>)
+- [ ] Fill up your KSM address: [Payout](https://beta.kodadot.xyz/dot/transfer/?target=<My_Kusama_Address_check_https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#creating-your-ksm-address>)
 
 #### Community participation
 
