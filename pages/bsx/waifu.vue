@@ -11,7 +11,7 @@ import GenerativeMint from '@/components/bsx/Create/GenerativeMint.vue'
     GenerativeMint,
   },
   layout() {
-    return 'centered-half-layout'
+    return 'generative-mint-layout'
   },
   head() {
     const title = 'KodaDot | Low fees and low carbon minting'
