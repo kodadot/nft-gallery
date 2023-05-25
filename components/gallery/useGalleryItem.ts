@@ -84,15 +84,18 @@ export const useGalleryItem = (nftId?: string) => {
 
     nft.value = nftEntity
 
-    nftResources.value = nftEntity.resources?.map((resource) => {
+    const resources = nftEntity.resources?.map((resource) => {
       return {
         ...resource,
-        src: sanitizeIpfsUrl(resource.src),
-        thumb: sanitizeIpfsUrl(resource.thumb),
+        src: sanitizeIpfsUrl(resource.meta.animationUrl || resource.src),
+        thumb: sanitizeIpfsUrl(resource.thumb || resource.meta.image),
+        animation: sanitizeIpfsUrl(resource.meta.animationUrl),
       }
     })
+
     nftMetadata.value = await getNftMetadata(nftEntity, urlPrefix.value)
     nftMimeType.value = await whichMimeType(nftMetadata.value)
+    nftResources.value = resources
 
     const asset = whichAsset(nftMetadata.value)
     nftImage.value = asset.image
