@@ -13,7 +13,7 @@
         :key="key"
         class="is-size-7">
         <div v-for="(detail, token) in chain" :key="token" class="balance-row">
-          <div>{{ key.toUpperCase() }}</div>
+          <div class="is-capitalized">{{ key }}</div>
           <div class="has-text-right">
             {{ detail?.balance }}
           </div>
