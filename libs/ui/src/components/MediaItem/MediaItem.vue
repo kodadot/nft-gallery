@@ -1,5 +1,5 @@
 <template>
-  <div class="media-object">
+  <div class="media-object" style="height: 100%">
     <component
       :is="resolveComponent"
       :src="properSrc"
