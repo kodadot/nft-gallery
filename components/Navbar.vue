@@ -52,14 +52,16 @@
       </div>
     </template>
     <template #end>
-      <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
-        <NavbarExploreOptions />
-      </MobileExpandableSection>
+      <template v-if="isExploreVisible">
+        <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
+          <NavbarExploreOptions />
+        </MobileExpandableSection>
 
-      <ExploreDropdown
-        v-else
-        class="navbar-explore custom-navbar-item"
-        data-cy="explore" />
+        <ExploreDropdown
+          v-else
+          class="navbar-explore custom-navbar-item"
+          data-cy="explore" />
+      </template>
 
       <CreateDropdown
         v-show="isCreateVisible"
@@ -173,7 +175,7 @@ import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { createVisible } from '@/utils/config/permision.config'
+import { createVisible, explorerVisible } from '@/utils/config/permision.config'
 
 const { $buefy, $nextTick } = useNuxtApp()
 const root = ref<Vue<Record<string, string>>>()
@@ -194,6 +196,7 @@ const route = useRoute()
 const account = computed(() => identityStore.getAuthAddress)
 
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
+const isExploreVisible = computed(() => explorerVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')
 
 const logoSrc = computed(() => (isDarkMode.value ? KodaBetaDark : KodaBeta))

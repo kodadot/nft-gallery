@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClasses">
+  <div :class="rootClasses" style="height: 100%">
     <component
       :is="resolveComponent"
       :src="properSrc"
