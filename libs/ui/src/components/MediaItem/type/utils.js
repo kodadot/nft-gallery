@@ -5,14 +5,14 @@ export const store = reactive({
   getItem(key) {
     return new Promise((resolve) => {
       this.queue = this.queue.then(() => {
-        resolve(localStorage.getItem(key))
+        resolve(sessionStorage.getItem(key))
       })
     })
   },
   setItem(key, value) {
     return new Promise((resolve) => {
       this.queue = this.queue.then(() => {
-        localStorage.setItem(key, value)
+        sessionStorage.setItem(key, value)
         resolve()
       })
     })
