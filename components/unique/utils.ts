@@ -15,6 +15,8 @@ export const tokenIdToRoute = (
 
 const correctId = (id: string): string => id.replace(LEGACY_PREFIX, '')
 
+export const isLegacy = (id: string): boolean => LEGACY_PREFIX.test(id)
+
 export const createTokenId = (collection: string, id: string): string =>
   `${collection}-${id}`
 
