@@ -12,7 +12,7 @@
         v-else
         :src="imageSrc"
         :title="item.name"
-        :root-classes="`carousel__image-wrapper`" />
+        root-classes="carousel__image-wrapper" />
     </nuxt-link>
   </div>
 </template>

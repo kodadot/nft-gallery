@@ -12,7 +12,7 @@
               v-if="collectionAvatar"
               :src="collectionAvatar"
               :title="collectionName"
-              root-classes="" />
+              root-classes="image" />
             <img v-else :src="placeholder" />
           </div>
           <h1 class="collection-banner-name">{{ collectionName }}</h1>
