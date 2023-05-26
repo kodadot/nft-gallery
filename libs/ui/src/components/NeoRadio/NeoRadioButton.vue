@@ -73,19 +73,20 @@ export default {
 
   label {
     display: flex;
+    align-items: center;
+    justify-content: center;
 
     &.button {
+      text-transform: capitalize;
       @include ktheme() {
-        border-color: theme('k-primary');
-        border-right: none;
-        border-bottom: none;
-        border-left: none;
+        border-color: theme('background-color-inverse');
       }
     }
 
     &.is-selected {
       @include ktheme() {
-        background-color: theme('k-primary');
+        color: theme('text-color-inverse');
+        background-color: theme('background-color-inverse');
       }
     }
 

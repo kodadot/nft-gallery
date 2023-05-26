@@ -5,6 +5,7 @@ import consola from 'consola'
 import { emptyObject } from '@/utils/empty'
 import { formatAddress } from '@/utils/account'
 import { Prefix } from '@kodadot1/static'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 const DEFAULT_BALANCE_STATE = {
   bsx: '0',
@@ -14,6 +15,7 @@ const DEFAULT_BALANCE_STATE = {
   stmn: '0',
   glmr: '0',
   movr: '0',
+  dot: '0',
 }
 
 export interface IdentityMap {
@@ -27,6 +29,26 @@ type ChangeAddressRequest = {
   apiUrl?: string
 }
 
+type ChainType = 'polkadot' | 'kusama' | 'basilisk' | 'statemine'
+type ChainDetail = {
+  balance: string
+  nativeBalance: string
+  usd: string
+  selected: boolean
+  address: string
+}
+type ChainToken = Partial<Record<'dot' | 'ksm' | 'bsx', ChainDetail>>
+
+interface MultiBalances {
+  address: string
+  chains: Partial<Record<ChainType, ChainToken>>
+}
+
+const DEFAULT_MULTI_BALANCE_STATE: MultiBalances = {
+  address: '',
+  chains: {},
+}
+
 export interface Auth {
   address: string
   source?: 'keyring' | 'extension' | 'ledger'
@@ -37,6 +59,12 @@ export interface Auth {
 export interface IdentityStruct {
   identities: IdentityMap
   auth: Auth
+  multiBalances: MultiBalances
+  multiBalanceAssets: {
+    chain: ChainType
+    token?: string
+    tokenId?: string
+  }[]
 }
 
 export interface IdenityRequest {
@@ -56,6 +84,14 @@ export const useIdentityStore = defineStore('identity', {
       },
       address: localStorage.getItem('kodaauth') || '',
     },
+    multiBalances: DEFAULT_MULTI_BALANCE_STATE,
+    multiBalanceAssets: [
+      { chain: 'kusama' },
+      { chain: 'statemine' },
+      { chain: 'polkadot', token: 'DOT' },
+      { chain: 'basilisk', token: 'BSX' },
+      { chain: 'basilisk', token: 'KSM', tokenId: getKusamaAssetId('bsx') },
+    ],
   }),
   getters: {
     availableIdentities: (state) => state.identities,
@@ -70,6 +106,30 @@ export const useIdentityStore = defineStore('identity', {
         ? state.auth.balance[urlPrefix.value] || '0'
         : '0'
     },
+    getTotalUsd: (state) => {
+      if (
+        state.multiBalances &&
+        Object.values(state.multiBalances?.chains || 0).length > 0
+      ) {
+        return Object.values(state.multiBalances.chains)
+          .flatMap((chain) => Object.values(chain))
+          .reduce((total, token) => total + parseFloat(token.usd), 0)
+      }
+
+      return 0
+    },
+    getStatusMultiBalances: (state) => {
+      let totalAssets = 0
+      for (const key in state.multiBalances.chains) {
+        if (
+          Object.prototype.hasOwnProperty.call(state.multiBalances.chains, key)
+        ) {
+          totalAssets += Object.keys(state.multiBalances.chains[key]).length
+        }
+      }
+
+      return totalAssets < state.multiBalanceAssets.length ? 'loading' : 'done'
+    },
   },
   actions: {
     resetAuth() {
@@ -78,7 +138,12 @@ export const useIdentityStore = defineStore('identity', {
         balance: DEFAULT_BALANCE_STATE,
         tokens: emptyObject<BalanceMap>(),
       }
+      this.resetMultipleBalances()
       localStorage.removeItem('kodaauth')
+    },
+    resetMultipleBalances() {
+      this.multiBalances.address = ''
+      this.multiBalances.chains = {}
     },
     setIdentity(identityRequest: IdenityRequest) {
       const { address, identity } = identityRequest
@@ -88,6 +153,7 @@ export const useIdentityStore = defineStore('identity', {
     },
     async setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: DEFAULT_BALANCE_STATE }
+      this.resetMultipleBalances()
       await this.fetchBalance({ address: authRequest.address })
       localStorage.setItem('kodaauth', authRequest.address)
     },
@@ -142,6 +208,19 @@ export const useIdentityStore = defineStore('identity', {
         }
       } catch (e) {
         consola.error('[FETCH IDENTITY] Unable to get identity', e)
+      }
+    },
+    setMultiBalances({ address, chains, chainName }) {
+      this.multiBalances = {
+        ...this.multiBalances,
+        address,
+        chains: {
+          ...this.multiBalances.chains,
+          [chainName]: {
+            ...this.multiBalances.chains[chainName],
+            ...chains[chainName],
+          },
+        },
       }
     },
   },

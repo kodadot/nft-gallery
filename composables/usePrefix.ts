@@ -1,5 +1,6 @@
 import { DEFAULT_PREFIX } from '@kodadot1/static'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
+import { useAssetsStore } from '@/stores/assets'
 import { availablePrefixes } from '@/utils/chain'
 
 import type { Prefix } from '@kodadot1/static'
@@ -34,7 +35,10 @@ export default function () {
   const tokenId = computed(() => getKusamaAssetId(urlPrefix.value))
 
   const assets = (id: string | number) => {
-    return $store.getters['assets/getAssetById'](id)
+    if (prefix.value === 'snek' || prefix.value === 'bsx') {
+      useAssetsStore().fetchAssetList()
+    }
+    return useAssetsStore().getAssetById(String(id))
   }
 
   return {
