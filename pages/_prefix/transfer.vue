@@ -150,7 +150,7 @@
 
 <script lang="ts">
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
-import Connector, { onApiConnect } from '@kodadot1/sub-api'
+import Connector from '@kodadot1/sub-api'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
 
