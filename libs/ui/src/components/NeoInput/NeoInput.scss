@@ -13,7 +13,6 @@ $input-textarea-padding: 0.5rem;
 @import '@oruga-ui/oruga/src/scss/components/field.scss';
 @import '@oruga-ui/oruga/src/scss/components/input.scss';
 
-
 .o-field {
   margin-bottom: 0.75rem;
   &--error .o-input {
@@ -76,6 +75,12 @@ $input-textarea-padding: 0.5rem;
     }
     &__textarea {
       height: var(--neo-input-height);
+    }
+  }
+
+  .o-icon--danger {
+    &.o-input__icon-right {
+      display: none;
     }
   }
 
