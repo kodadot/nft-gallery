@@ -12,6 +12,17 @@ export const uniqueActionResolver: CallDictionary = {
   // REVOKE: ['uniques', 'cancelApproval'],
 }
 
+export const nftActionResolver: CallDictionary = {
+  SEND: ['nfts', 'transfer'],
+  CONSUME: ['nfts', 'burn'],
+  BUY: ['nfts', 'buyItem'],
+  LIST: ['nfts', 'setPrice'],
+  // DELEGATE: ['uniques', 'approveTransfer'],
+  // FREEZE: ['uniques', 'freeze'],
+  // THAW: ['uniques', 'thaw'],
+  // REVOKE: ['uniques', 'cancelApproval'],
+}
+
 export const bsxActionResolver: CallDictionary = {
   SEND: ['nft', 'transfer'],
   CONSUME: ['nft', 'burn'],
@@ -59,18 +70,19 @@ export const uniqueParamResolver = (
 export function getApiCall(
   api: ApiPromise,
   prefix: string,
-  selectedAction: string
+  selectedAction: string,
+  legacy = false
 ) {
-  const actionResolver = getActionsByPrefix(prefix)
+  const actionResolver = getActionsByPrefix(prefix, legacy)
   const [module, method] =
     actionResolver[selectedAction] || new Error('Action not found')
   return api.tx[module][method]
 }
 
-function getActionsByPrefix(prefix: string): CallDictionary {
+function getActionsByPrefix(prefix: string, legacy = false): CallDictionary {
   switch (prefix) {
     case 'stmn':
-      return uniqueActionResolver
+      return legacy ? uniqueActionResolver : nftActionResolver
     case 'bsx':
     case 'snek':
       return bsxActionResolver
