@@ -64,18 +64,6 @@ describe('simple mint in rmrk', () => {
     // price
     cy.get('[data-cy="input-price"] input').clear().type('123')
 
-    // password, if exists
-    cy.get('body').then(($body) => {
-      if ($body.find('[data-cy="input-password"]').length) {
-        cy.get('[data-cy="input-password"]').type('1234five')
-        cy.get('[data-cy="input-password"] .is-clickable').click()
-        cy.get('[data-cy="input-password"] input').should(
-          'have.value',
-          '1234five'
-        )
-      }
-    })
-
     // advance settings
     cy.get('[data-cy="input-advance-settings"]').find('a').click()
 

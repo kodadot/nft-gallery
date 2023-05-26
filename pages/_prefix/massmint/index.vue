@@ -28,11 +28,9 @@ export default class MassmintPage extends Vue {
   layout() {
     return 'noFooter'
   }
-  middleware({ store, redirect }) {
-    const prefix = store.getters.currentUrlPrefix
-
+  middleware({ redirect, params }) {
     if (!usePreferencesStore().getVisitedOnboarding) {
-      setTimeout(() => redirect(`/${prefix}/massmint/onboarding`))
+      setTimeout(() => redirect(`/${params.prefix}/massmint/onboarding`))
     }
   }
 }

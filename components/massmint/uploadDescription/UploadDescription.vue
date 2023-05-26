@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 import DragDrop from '@/components/shared/DragDrop.vue'
-const { $consola } = useNuxtApp()
+import { useParseDescriptionFile } from './useParseDescriptionFile'
 
 withDefaults(
   defineProps<{
@@ -52,34 +52,20 @@ const acceptedMediaFormatsString = '.TXT, .CSV, .JSON'
 
 const emit = defineEmits(['fileLoaded'])
 
-const onFileSelected = (file) => {
+const onFileSelected = (file: File) => {
   showCheckmark.value = false
+  loading.value = true
 
   // replace true with check for valid file type
-  if (true) {
-    loading.value = true
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = async () => {
-      // const filePath = reader.result as string
+  const { entries, error, loading: isLoading } = useParseDescriptionFile(file)
 
-      // process the file
-
-      //dummy load time
-
-      setTimeout(() => {
-        loading.value = false
-        showCheckmark.value = true
-        emit('fileLoaded')
-      }, 2000)
+  watch(isLoading, (loadingDescFile) => {
+    loading.value = loadingDescFile
+    showCheckmark.value = !loadingDescFile
+    if (!loadingDescFile && !error.value) {
+      emit('fileLoaded', entries.value)
     }
-
-    reader.onerror = () => {
-      $consola.error('Error reading zip file.')
-    }
-  } else {
-    $consola.error('Invalid file type.')
-  }
+  })
 }
 </script>
 <style lang="scss" scoped>
