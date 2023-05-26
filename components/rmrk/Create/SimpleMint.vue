@@ -1,26 +1,20 @@
 <template>
   <section>
-    <br />
     <Loader v-model="isLoading" :status="status" />
-    <h2 class="title is-size-3">
-      <!-- {{ $t('mint.context') }} -->
-      Create NFT Collectibles
-    </h2>
+    <h1 class="title is-size-3">Create NFT Collectibles</h1>
     <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
-    <NeoField>
-      <div>
-        {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
-      </div>
-    </NeoField>
-    <NeoField>
-      <Auth />
-    </NeoField>
+
+    <div class="py-2">
+      {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
+    </div>
+
+    <Auth />
 
     <MetadataUpload
       ref="nftUpload"
       v-model="file"
       required
-      :label="$t('mint.nft.simpleDrop')"
+      :label="$t('mint.nft.drop')"
       expanded
       preview
       data-cy="input-upload" />
@@ -88,18 +82,13 @@
       expanded
       data-cy="input-price"
       @input="updateMeta" />
+
     <div class="content mt-3">
       <p>
         Hint: Setting the price now requires making an additional transaction.
       </p>
     </div>
 
-    <NeoField>
-      <PasswordInput
-        v-model="password"
-        :account="accountId"
-        data-cy="input-password" />
-    </NeoField>
     <NeoField>
       <CollapseWrapper
         v-if="rmrkMint.max > 1"
@@ -151,16 +140,13 @@
     </NeoField>
     <NeoField
       v-if="isLogIn"
-      variant="danger"
+      type="is-danger"
       :message="balanceNotEnoughMessage">
-      <b-button
-        type="is-primary"
-        icon-left="paper-plane"
+      <SubmitButton
+        expanded
+        label="mint.submit"
         :loading="isLoading"
-        outlined
-        @click="sub">
-        {{ $t('mint.submit') }}
-      </b-button>
+        @click="sub()" />
     </NeoField>
     <NeoField>
       <NeoIcon icon="calculator" />
@@ -233,7 +219,6 @@ import { useIdentityStore } from '@/stores/identity'
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
   MetadataUpload: () => import('./DropUpload.vue'),
-  PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
   Support,
   AttributeTagInput: () => import('./AttributeTagInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
@@ -244,10 +229,11 @@ const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   BasicSlider: () => import('@/components/shared/form/BasicSlider.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
-  NeoField,
-  NeoInput,
+  SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   NeoIcon,
   NeoSwitch,
+  NeoField,
+  NeoInput,
 }
 
 @Component<SimpleMint>({

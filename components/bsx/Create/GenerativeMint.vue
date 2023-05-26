@@ -6,23 +6,38 @@
       rounded
       mobile-mode="minimalist"
       :has-navigation="false">
-      <NeoStepItem step="1" label="Generate" :clickable="isStepsClickable">
+      <hr />
+
+      <NeoStepItem
+        step="1"
+        icon="check"
+        label="Generate"
+        :clickable="isStepsClickable">
         <GenerativeMint @select="handlePrediction" @submit="handleBuilder" />
       </NeoStepItem>
 
-      <NeoStepItem step="2" label="Select" :clickable="isStepsClickable">
+      <NeoStepItem
+        step="2"
+        icon="check"
+        label="Select"
+        :clickable="isStepsClickable">
         <ImageSelectGrid
           :predicion="predicion"
           :selected="image"
           @select="handleImageSelect" />
       </NeoStepItem>
 
-      <NeoStepItem step="3" label="Contact" :clickable="isStepsClickable">
+      <NeoStepItem
+        step="3"
+        icon="check"
+        label="Contact"
+        :clickable="isStepsClickable">
         <ContactForm @select="handleMailSubmit" />
       </NeoStepItem>
 
       <NeoStepItem
         step="4"
+        icon="check"
         label="Finish"
         :clickable="isStepsClickable"
         :type="{ 'is-success': true }">
@@ -40,10 +55,6 @@ import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { Options, buildMetadata } from '@/components/generative/promptBuilder'
 
-const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
-)
-
 const GenerativeMint = defineAsyncComponent(
   () => import('@/components/generative/GenerativeMintForm.vue')
 )
@@ -60,7 +71,7 @@ const CongratsView = defineAsyncComponent(
   () => import('@/components/generative/CongratsView.vue')
 )
 
-const isStepsClickable = ref(true)
+const isStepsClickable = ref(false)
 const currentStep = ref<number>(1)
 const predicion = ref<PredictionStatus>(emptyObject<PredictionStatus>())
 const builder = ref<Options>(emptyObject<Options>())
@@ -68,7 +79,6 @@ const image = ref<string>('')
 const email = ref('')
 const isLoading = ref(false)
 const status = ref('')
-const { accountId } = useAuth()
 
 const handlePrediction = (generation: PredictionStatus) => {
   predicion.value = generation
@@ -78,7 +88,6 @@ const handlePrediction = (generation: PredictionStatus) => {
 const handleImageSelect = (imageURI: string) => {
   image.value = imageURI
   goToStep(3)
-  // handleMailSubmit(accountId.value)
 }
 
 const handleMailSubmit = (mail: string) => {
