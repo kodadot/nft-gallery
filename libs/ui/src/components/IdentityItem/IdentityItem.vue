@@ -1,7 +1,18 @@
 <template>
   <div class="is-flex is-align-items-center">
     <Avatar :size="48" :value="account" />
-    <div class="p-3">
+    <div v-if="variant === 'button'" class="p-3">
+      <div class="has-text-weight-bold">{{ label }}</div>
+      <NeoButton
+        no-shadow
+        rounded
+        class="mt-1"
+        tag="nuxt-link"
+        :to="`/${prefix}/u/${account}`"
+        >{{ buttonLabel }}</NeoButton
+      >
+    </div>
+    <div v-else class="p-3">
       <div class="has-text-grey is-size-6">
         {{ label }}
       </div>
@@ -16,12 +27,23 @@
 
 <script lang="ts" setup>
 import { defineAsyncComponent } from 'vue'
+import NeoButton from '../NeoButton/NeoButton.vue'
+
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/IdentityIndex.vue')
 )
-defineProps<{
-  label: string
-  account: string
-  prefix: string
-}>()
+
+withDefaults(
+  defineProps<{
+    label: string
+    account: string
+    prefix: string
+    variant?: 'normal' | 'button'
+    buttonLabel?: string
+  }>(),
+  {
+    variant: 'normal',
+    buttonLabel: 'View Profile',
+  }
+)
 </script>

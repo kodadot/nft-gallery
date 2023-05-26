@@ -87,6 +87,8 @@ import { Auth, useIdentityStore } from '@/stores/identity'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 
+const { redesign } = useExperiments()
+
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const hasSelectedWalletProvider = ref(false)
@@ -105,15 +107,19 @@ const account = computed(() => identityStore.auth.address)
 const showAccount = computed(() => account.value && !forceWalletSelect.value)
 
 const wallets = SupportedWallets()
-const headerTitle = computed(() =>
-  $i18n.t(
+const headerTitle = computed(() => {
+  if (redesign.value) {
+    return $i18n.t('profile.page')
+  }
+
+  return $i18n.t(
     account.value
       ? 'walletConnect.walletDetails'
       : hasUserWalletAuth
       ? 'walletConnect.walletHeading'
       : 'walletConnect.warning'
   )
-)
+})
 const setAccount = (account: Auth) => {
   forceWalletSelect.value = false
   identityStore.setAuth(account)

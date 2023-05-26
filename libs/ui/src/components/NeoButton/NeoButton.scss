@@ -120,6 +120,12 @@
   &.no-shadow {
     box-shadow: none;
   }
+
+  &--rounded {
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+  }
 }
 
 .is-fixed-width {
