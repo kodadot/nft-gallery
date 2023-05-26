@@ -38,4 +38,7 @@ export { default as NeoAutocomplete } from './components/NeoAutocomplete/NeoAuto
 export { default as NeoRadio } from './components/NeoRadio/NeoRadio.vue'
 export { default as NeoRadioButton } from './components/NeoRadio/NeoRadioButton.vue'
 
+export { default as NeoTable } from './components/NeoTable/NeoTable.vue'
+export { default as NeoTableColumn } from './components/NeoTable/NeoTableColumn.vue'
+
 export { default as Neo } from '@oruga-ui/oruga'

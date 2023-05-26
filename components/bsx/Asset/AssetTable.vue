@@ -1,55 +1,49 @@
 <template>
   <div class="offer-table-container">
-    <b-table
+    <NeoTable
       :data="assetList"
       :class="{ scrollable: assetList.length > 0 }"
       pagination-position="top">
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="formatPrice"
         width="120"
-        :label="$t('mint.collection.symbol.label')"
+        :label="$t('general.token')"
         sortable>
         {{ props.row.symbol }}
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="formatPrice"
         :label="$t('asset.table.balance')"
         sortable>
         <Money :value="props.row.balance" inline hide-unit />
-      </b-table-column>
-      <b-table-column
-        v-slot="props"
-        cell-class="is-vcentered is-narrow"
-        :label="$t('offer.action')">
+      </NeoTableColumn>
+      <NeoTableColumn v-slot="props" :label="$t('offer.action')">
         <span v-if="props.row.id === currentAsset">
           {{ $t('asset.action.alreadyDefault') }}
         </span>
-        <b-button
+        <NeoButton
           v-else
-          type="is-success"
-          outlined
           icon-left="money-bill"
           @click="tellFrens(props.row.id)">
           {{ $t('asset.action.default') }}
-        </b-button>
-      </b-table-column>
+        </NeoButton>
+      </NeoTableColumn>
 
       <template #empty>
         <div class="has-text-centered">
           {{ $t('asset.table.empty') }}
         </div>
       </template>
-    </b-table>
+    </NeoTable>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { emptyArray } from '@kodadot1/minimark/utils'
+import { NeoButton, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 import { AssetItem } from './types'
 
 const Money = defineAsyncComponent(
