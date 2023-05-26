@@ -73,7 +73,7 @@ const route = useRoute()
 const router = useRouter()
 const { replaceUrl: replaceURL } = useReplaceUrl()
 const { availableChains } = useChain()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, setUrlPrefix } = usePrefix()
 const { $store } = useNuxtApp()
 const { collections } = usePopularCollections(urlPrefix.value)
 
@@ -117,8 +117,8 @@ const toggleCollection = (collection: Collection) => {
     checkedCollections.value.push(collection.id)
   }
   if (urlPrefix.value !== collection.chain) {
-    $store.dispatch('setUrlPrefix', collection.chain)
-    const { page, ...restQuery } = route.query
+    setUrlPrefix(collection.chain)
+    const { ...restQuery } = route.query
     router.push({
       params: {
         prefix: collection.chain,
