@@ -74,7 +74,6 @@ const router = useRouter()
 const { replaceUrl: replaceURL } = useReplaceUrl()
 const { availableChains } = useChain()
 const { urlPrefix, setUrlPrefix } = usePrefix()
-const { $store } = useNuxtApp()
 const { collections } = usePopularCollections(urlPrefix.value)
 
 const getChainName = (chain: string): string => {
