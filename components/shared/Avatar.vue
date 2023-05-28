@@ -16,3 +16,10 @@ withDefaults(
   }
 )
 </script>
+
+<style lang="scss" scoped>
+.avatar {
+  border: 1px solid black;
+  border-radius: 50%;
+}
+</style>

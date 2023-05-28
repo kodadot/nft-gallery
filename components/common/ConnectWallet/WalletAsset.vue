@@ -14,7 +14,7 @@
 
     <WalletAssetNfts v-if="redesign" />
 
-    <hr class="my-2" />
+    <hr class="my-4" />
 
     <div>
       <ProfileAssetsList v-if="isSnek" @totalValueChange="setTotalValue" />
@@ -22,7 +22,7 @@
     </div>
 
     <div v-if="isSnek">
-      <hr class="my-2" />
+      <hr class="my-4" />
       <div
         v-if="totalValue"
         class="is-flex is-justify-content-space-between is-align-items-center my-1">

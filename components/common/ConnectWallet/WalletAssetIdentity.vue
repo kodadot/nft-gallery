@@ -6,36 +6,30 @@
       :prefix="urlPrefix"
       variant="button" />
     <div class="is-flex is-flex-direction-column">
-      <a v-clipboard:copy="account" @click="toast()">
-        <i class="fa-sharp fa-light fa-copy"></i>
+      <a v-clipboard:copy="account" @click="toast('Copied to clipboard')">
+        <NeoIcon icon="copy" />
       </a>
       <hr class="my-1" />
       <a @click="logout()">
-        <i class="fa-sharp fa-light fa-right-from-bracket"></i>
+        <NeoIcon icon="right-from-bracket" />
       </a>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { IdentityItem } from '@kodadot1/brick'
+import { IdentityItem, NeoIcon } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
 import useIdentity from '@/components/identity/utils/useIdentity'
 
 const identityStore = useIdentityStore()
 const { urlPrefix } = usePrefix()
-const { $buefy } = useNuxtApp()
+const { toast } = useToast()
 const { display, shortenedAddress } = useIdentity({
   address: identityStore.getAuthAddress,
 })
 
 const account = computed(() => identityStore.getAuthAddress)
-const toast = () => {
-  $buefy.toast.open({
-    message: 'Copied to clipboard',
-    type: 'is-neo',
-  })
-}
 
 const logout = () => {
   identityStore.resetAuth()

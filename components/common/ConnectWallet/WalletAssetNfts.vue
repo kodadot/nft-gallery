@@ -2,24 +2,22 @@
   <div v-if="nfts.length">
     <hr class="my-2" />
     <p class="has-text-grey is-size-7 mb-2">Recent NFTs</p>
-    <div class="nfts">
+    <div class="nfts is-flex is-justify-content-space-between">
       <MediaItem
         v-for="nft in nfts"
         :key="nft.meta.id"
-        :src="sanitizeIpfsUrl(nft.meta.image)"
-        original />
+        :src="sanitizeIpfsUrl(nft.meta.image)" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useIdentityStore } from '@/stores/identity'
 import { MediaItem } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import type { NFTWithMetadata } from '@/composables/useNft'
 
-const identityStore = useIdentityStore()
+const { accountId } = useAuth()
 
 const { data } = useGraphql({
   queryPrefix: 'subsquid',
@@ -28,7 +26,7 @@ const { data } = useGraphql({
     first: 3,
     search: [
       {
-        currentOwner_eq: identityStore.getAuthAddress,
+        currentOwner_eq: accountId.value,
       },
     ],
   },
@@ -47,9 +45,6 @@ watchEffect(() => {
 @import '@/styles/abstracts/variables';
 
 .nfts {
-  display: flex;
-  justify-content: space-between;
-
   & > * {
     @include ktheme() {
       border: 1px solid theme('k-grey');
