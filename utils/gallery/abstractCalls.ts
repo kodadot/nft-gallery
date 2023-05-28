@@ -69,6 +69,27 @@ export const uniqueParamResolver = (
   return actions[selectedAction]
 }
 
+export const nftParamResolver = (
+  id: string,
+  selectedAction: string,
+  meta: string | number,
+  _currentOwner?: string
+): any[] => {
+  const sanitized = correctId(id)
+  const [collectionId, tokenId] = sanitized.split('-')
+  const actions = {
+    SEND: [collectionId, tokenId, meta],
+    CONSUME: [collectionId, tokenId],
+    BUY: [collectionId, tokenId, meta],
+    LIST: [collectionId, tokenId, meta, undefined],
+  }
+
+  return actions[selectedAction]
+}
+
+export const assetHubParamResolver = (legacy: boolean) =>
+  legacy ? uniqueParamResolver : nftParamResolver
+
 export function getApiCall(
   api: ApiPromise,
   prefix: string,
