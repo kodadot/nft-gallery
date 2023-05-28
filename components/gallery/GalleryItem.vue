@@ -71,6 +71,7 @@
               <div class="name-container">
                 <h1 class="title" data-cy="item-title">
                   {{ nftMetadata?.name }}
+                  <span v-if="nft?.burned" class="has-text-danger">「🔥」</span>
                 </h1>
                 <h2 class="subtitle" data-cy="item-collection">
                   <CollectionDetailsPopover
@@ -86,7 +87,7 @@
                   </CollectionDetailsPopover>
                 </h2>
               </div>
-              <GalleryItemButton />
+              <GalleryItemButton v-if="!nft?.burned" />
             </div>
 
             <div
@@ -110,19 +111,21 @@
 
           <!-- LINE DIVIDER -->
           <hr />
-          <UnlockableTag
-            v-if="isUnlockable && isMobile"
-            :nft="nft"
-            :link="unlockLink"
-            class="mt-4" />
+          <template v-if="!nft?.burned">
+            <UnlockableTag
+              v-if="isUnlockable && isMobile"
+              :nft="nft"
+              :link="unlockLink"
+              class="mt-4" />
 
-          <!-- price section -->
-          <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
-          <UnlockableTag
-            v-if="isUnlockable && !isMobile"
-            :link="unlockLink"
-            :nft="nft"
-            class="mt-7" />
+            <!-- price section -->
+            <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
+            <UnlockableTag
+              v-if="isUnlockable && !isMobile"
+              :link="unlockLink"
+              :nft="nft"
+              class="mt-7" />
+          </template>
         </div>
       </div>
     </div>
