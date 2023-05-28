@@ -4,10 +4,11 @@ import {
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
 
+import { isLegacy } from '@/components/unique/utils'
 import {
+  assetHubParamResolver,
   bsxParamResolver,
   getApiCall,
-  uniqueParamResolver,
 } from '@/utils/gallery/abstractCalls'
 import type { ActionConsume } from './types'
 
@@ -78,9 +79,11 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
   }
 
   if (item.urlPrefix === 'stmn' || item.urlPrefix === 'stt') {
+    const legacy = isLegacy(item.nftId)
+    const paramResolver = assetHubParamResolver(legacy)
     executeTransaction({
       cb: getApiCall(api, item.urlPrefix, Interaction.CONSUME),
-      arg: uniqueParamResolver(item.nftId, Interaction.CONSUME, ''),
+      arg: paramResolver(item.nftId, Interaction.CONSUME, ''),
       successMessage: item.successMessage,
       errorMessage: item.errorMessage,
     })
