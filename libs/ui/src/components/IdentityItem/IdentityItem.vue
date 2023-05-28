@@ -2,13 +2,12 @@
   <div class="is-flex is-align-items-center">
     <Avatar :size="48" :value="account" />
     <div v-if="variant === 'button'" class="identity-item-button pl-3">
-      <div class="has-text-weight-bold identity-item-button-label">
+      <div class="has-text-weight-bold identity-item-button-label mb-1">
         {{ label }}
       </div>
       <NeoButton
         no-shadow
         rounded
-        class="mt-1"
         tag="nuxt-link"
         size="small"
         :to="`/${prefix}/u/${account}`"

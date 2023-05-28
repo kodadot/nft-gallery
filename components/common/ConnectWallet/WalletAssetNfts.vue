@@ -1,13 +1,16 @@
 <template>
   <div v-if="nfts.length">
-    <hr class="my-2" />
+    <hr class="my-4" />
     <p class="has-text-grey is-size-7 mb-2">Recent NFTs</p>
-    <div class="nfts is-flex is-justify-content-space-between">
-      <MediaItem
+    <div class="nfts">
+      <a
         v-for="nft in nfts.slice(0, 3)"
         :key="nft.meta.id"
-        :src="sanitizeIpfsUrl(nft.meta.image)"
-        :mime-type="nft.type" />
+        :href="`/${urlPrefix}/gallery/${nft.id}`">
+        <MediaItem
+          :src="sanitizeIpfsUrl(nft.meta.image)"
+          :mime-type="nft.type" />
+      </a>
     </div>
   </div>
 </template>
@@ -61,11 +64,19 @@ watchEffect(() => {
 @import '@/styles/abstracts/variables';
 
 .nfts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+
   & > * {
     @include ktheme() {
       border: 1px solid theme('k-grey');
+
+      &:hover {
+        border-color: theme('border-color');
+        opacity: 0.85;
+      }
     }
-    width: 30%;
   }
 }
 </style>

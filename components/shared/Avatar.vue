@@ -18,8 +18,12 @@ withDefaults(
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
 .avatar {
-  border: 1px solid black;
+  @include ktheme() {
+    border: 1px solid theme('border-color');
+  }
   border-radius: 50%;
 }
 </style>
