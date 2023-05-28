@@ -1,4 +1,5 @@
 import type { ApiPromise } from '@polkadot/api'
+import { correctId } from '@/components/unique/utils'
 type CallDictionary = Record<string, [string, string]>
 
 export const uniqueActionResolver: CallDictionary = {
@@ -56,7 +57,8 @@ export const uniqueParamResolver = (
   meta: string | number,
   currentOwner?: string
 ): any[] => {
-  const [collectionId, tokenId] = id.split('-')
+  const sanitized = correctId(id)
+  const [collectionId, tokenId] = sanitized.split('-')
   const actions = {
     SEND: [collectionId, tokenId, meta],
     CONSUME: [collectionId, tokenId, currentOwner],
