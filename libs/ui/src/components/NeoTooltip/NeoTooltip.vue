@@ -4,11 +4,14 @@
     :append-to-body="appendToBody"
     :multiline="multiline"
     class="neo-tooltip"
-    :style="{ '--computed-font-size': computedFontSize }"
+    :style="{
+      '--font-size': fontSize,
+      '--multiline-width': multilineWidth,
+    }"
     :position="position"
     :label="label"
     :delay="delay"
-    @click.native.stop>
+    @click.native="handleClick">
     <slot>
       <div />
     </slot>
@@ -31,6 +34,8 @@ export interface Props {
   appendToBody?: boolean
   delay?: number
   fontSize?: string | number
+  multilineWidth?: string | number
+  stopEvents?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   position: 'top',
@@ -39,14 +44,29 @@ const props = withDefaults(defineProps<Props>(), {
   appendToBody: false,
   delay: undefined,
   fontSize: '1rem',
+  multilineWidth: '10rem',
+  stopEvents: false,
 })
 
-const computedFontSize = computed(() => {
+const fontSize = computed(() => {
   if (typeof props.fontSize === 'number') {
     return `${props.fontSize}px`
   }
   return props.fontSize
 })
+
+const multilineWidth = computed(() => {
+  if (typeof props.multilineWidth === 'number') {
+    return `${props.multilineWidth}px`
+  }
+  return props.multilineWidth
+})
+
+const handleClick = (event: MouseEvent) => {
+  if (props.stopEvents) {
+    event.stopPropagation()
+  }
+}
 </script>
 
 <style lang="scss">

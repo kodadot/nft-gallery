@@ -1,43 +1,59 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <b-steps
+    <NeoSteps
       v-model="currentStep"
-      :rounded="false"
+      rounded
       mobile-mode="minimalist"
       :has-navigation="false">
-      <b-step-item step="1" label="Mint" :clickable="isStepsClickable">
-        <GenerativeMint @select="handlePrediction" @submit="handleBuilder" />
-      </b-step-item>
+      <hr />
 
-      <b-step-item step="2" label="Select" :clickable="isStepsClickable">
+      <NeoStepItem
+        step="1"
+        icon="check"
+        label="Generate"
+        :clickable="isStepsClickable">
+        <GenerativeMint @select="handlePrediction" @submit="handleBuilder" />
+      </NeoStepItem>
+
+      <NeoStepItem
+        step="2"
+        icon="check"
+        label="Select"
+        :clickable="isStepsClickable">
         <ImageSelectGrid
           :predicion="predicion"
           :selected="image"
           @select="handleImageSelect" />
-      </b-step-item>
+      </NeoStepItem>
 
-      <b-step-item
+      <NeoStepItem
         step="3"
+        icon="check"
+        label="Contact"
+        :clickable="isStepsClickable">
+        <ContactForm @select="handleMailSubmit" />
+      </NeoStepItem>
+
+      <NeoStepItem
+        step="4"
+        icon="check"
         label="Finish"
         :clickable="isStepsClickable"
         :type="{ 'is-success': true }">
         <CongratsView @select="clearAll" />
-      </b-step-item>
-    </b-steps>
+      </NeoStepItem>
+    </NeoSteps>
   </div>
 </template>
 
 <script setup lang="ts">
+import { NeoStepItem, NeoSteps } from '@kodadot1/brick'
 import { PredictionStatus } from '@/services/replicate'
 import { sendWaifu } from '@/services/waifu'
 import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { Options, buildMetadata } from '@/components/generative/promptBuilder'
-
-const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
-)
 
 const GenerativeMint = defineAsyncComponent(
   () => import('@/components/generative/GenerativeMintForm.vue')
@@ -47,35 +63,37 @@ const ImageSelectGrid = defineAsyncComponent(
   () => import('@/components/generative/ImageSelectGrid.vue')
 )
 
+const ContactForm = defineAsyncComponent(
+  () => import('@/components/generative/ContactForm.vue')
+)
+
 const CongratsView = defineAsyncComponent(
   () => import('@/components/generative/CongratsView.vue')
 )
 
-const isStepsClickable = ref(true)
-const currentStep = ref<number>(0)
+const isStepsClickable = ref(false)
+const currentStep = ref<number>(1)
 const predicion = ref<PredictionStatus>(emptyObject<PredictionStatus>())
 const builder = ref<Options>(emptyObject<Options>())
 const image = ref<string>('')
 const email = ref('')
 const isLoading = ref(false)
 const status = ref('')
-const { accountId } = useAuth()
 
 const handlePrediction = (generation: PredictionStatus) => {
   predicion.value = generation
-  goToStep(1)
+  goToStep(2)
 }
 
 const handleImageSelect = (imageURI: string) => {
   image.value = imageURI
-  goToStep(2)
-  handleMailSubmit(accountId.value)
+  goToStep(3)
 }
 
 const handleMailSubmit = (mail: string) => {
   email.value = mail
   submitAll()
-  goToStep(3)
+  goToStep(4)
 }
 
 const handleBuilder = (options: Options) => {

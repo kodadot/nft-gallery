@@ -1,40 +1,42 @@
 <template>
   <component
-    :is="separated ? 'div' : 'b-field'"
+    :is="separated || multiline ? 'div' : 'b-field'"
     v-if="options"
-    :class="{ 'columns is-multiline': separated }">
-    <b-radio-button
+    :class="{ 'columns is-multiline is-mobile': separated || multiline }">
+    <NeoRadioButton
       v-if="showEmpty"
       :value="value"
       native-value=""
-      type="is-primary"
-      class="collection-radio-btn"
-      :class="{ 'column is-half': separated }"
+      :class="{ 'column is-half': separated, column: multiline }"
+      :rounded="rounded"
       @input="handleInput">
-      <span><b>NONE</b></span>
-    </b-radio-button>
-    <b-radio-button
+      <span><b>NONE 🚫</b></span>
+    </NeoRadioButton>
+    <NeoRadioButton
       v-for="option in options"
       :key="option"
       :value="value"
       :native-value="option"
-      type="is-primary"
-      class="collection-radio-btn"
-      :class="{ 'column is-half': separated }"
+      :class="{ 'column is-half': separated, column: multiline }"
+      :rounded="rounded"
       @input="handleInput">
       <span>{{ option }}</span>
-    </b-radio-button>
+    </NeoRadioButton>
   </component>
 </template>
 
 <script setup lang="ts">
+import { NeoRadioButton } from '@kodadot1/brick'
+
 const emit = defineEmits(['input'])
 
-const props = defineProps<{
+defineProps<{
   value: string
   options: string[]
   showEmpty?: boolean
   separated?: boolean
+  multiline?: boolean
+  rounded?: boolean
 }>()
 
 const handleInput = (value: string) => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="media-object">
+  <div class="media-object" style="height: 100%">
     <component
       :is="resolveComponent"
       :src="properSrc"
@@ -88,7 +88,7 @@ export default {
         ),
         Media: defineAsyncComponent(() => import('./type/UnknownMedia.vue')),
       },
-      isLewdBlurredLayer: true,
+      isLewdBlurredLayer: this.isLewd,
     }
   },
   computed: {

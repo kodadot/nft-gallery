@@ -1,60 +1,65 @@
 <template>
   <section>
-    <br />
     <Loader v-model="isLoading" :status="status" />
-    <p class="title is-size-3">Mint your {{ NAME }} {{ form.gender }}</p>
 
-    <p class="title is-size-4">I want to be</p>
-    <RadioSelect v-model="form.gender" :options="gender" />
+    <p class="title is-size-4 is-capitalized">I want to be</p>
+    <RadioSelect v-model="form.gender" :options="gender" rounded multiline />
 
-    <p class="title is-size-5">on</p>
-    <RadioSelect v-model="form.art" :options="art" />
+    <p class="title is-size-4 is-capitalized">on</p>
+    <RadioSelect v-model="form.art" :options="art" rounded separated />
 
-    <p class="title is-size-5">using</p>
+    <p class="title is-size-4 is-capitalized">by method</p>
     <RadioSelect
       v-model="form.style"
       :options="isPhoto ? filmTypes : styles"
       separated
+      rounded
       show-empty />
 
-    <p class="title is-size-5">displaying</p>
+    <p class="title is-size-4 is-capitalized">displaying</p>
     <RadioSelect
       v-model="form.framing"
       :options="framing"
       separated
-      show-empty />
+      show-empty
+      rounded />
 
-    <p class="title is-size-5">having</p>
+    <p class="title is-size-4 is-capitalized">having</p>
     <RadioSelect
       v-model="form.having"
       :options="accessories"
       separated
-      show-empty />
+      show-empty
+      rounded />
 
-    <p class="title is-size-5">wearing</p>
+    <p class="title is-size-4 is-capitalized">wearing</p>
     <RadioSelect
       v-model="form.wearing"
       :options="clothes"
       separated
-      show-empty />
+      show-empty
+      rounded />
 
-    <p class="title is-size-5">in light</p>
+    <p class="title is-size-4 is-capitalized">in light</p>
     <RadioSelect
       v-model="form.lighting"
       :options="lights"
       separated
+      rounded
       show-empty />
 
-    <p class="title is-size-5">art inspired by</p>
+    <p class="title is-size-4 is-capitalized">art inspired by</p>
     <RadioSelect
       v-model="form.inspiredBy"
       :options="inspiredBy"
       separated
+      rounded
       show-empty />
 
     <SubmitButton
-      icon="plus"
-      label="generate"
+      size="medium"
+      icon="arrows-spin"
+      label="Generate Image"
       :loading="isLoading"
       expanded
       @click="submit" />
@@ -75,14 +80,12 @@ import {
   lights,
   styles,
 } from './options'
-import { NAME, Options, buildPrompt } from './promptBuilder'
+import { Options, buildPrompt } from './promptBuilder'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/shared/Loader.vue')
 )
-// const BasicInput = defineAsyncComponent(
-//   () => import('@/components/shared/form/BasicInput.vue')
-// )
+
 const SubmitButton = defineAsyncComponent(
   () => import('@/components/base/SubmitButton.vue')
 )
@@ -104,6 +107,7 @@ const form = reactive<Options>({
   lighting: '',
 })
 
+const { $consola } = useNuxtApp()
 const isLoading = ref(false)
 const status = ref('')
 const predictionId = ref('')
@@ -118,13 +122,13 @@ const submit = async () => {
   isLoading.value = true
   status.value = 'predicting'
   const prompt = buildPrompt(form)
-  console.log('prompt', prompt)
+  $consola.log('prompt', prompt)
   const predictRequest = await predict(prompt)
   emit('submit', form)
 
   const timeout = setInterval(async () => {
     const generation = await getPrediction(predictRequest.id)
-    console.log('status', status)
+    $consola.log('status', status.value)
     predicion.value = generation
     status.value = 'loader.generative.' + generation.status
     if (generation.status === 'failed' || generation.status === 'succeeded') {

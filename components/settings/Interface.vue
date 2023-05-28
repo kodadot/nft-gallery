@@ -3,46 +3,58 @@
     <div class="label">
       {{ $t('user interface mode') }}
     </div>
-    <b-switch v-model="enabledAdvancedUI" size="is-medium" :rounded="false">
+    <NeoSwitch v-model="enabledAdvancedUI" size="is-medium" :rounded="false">
       {{
         enabledAdvancedUI
           ? $t('advanced user interface')
           : $t('basic user interface')
       }}
-    </b-switch>
+    </NeoSwitch>
     <div class="box">
-      <BasicCheckbox
-        v-model="theatreView"
-        :disabled="!enabledAdvancedUI"
-        label="preferences.theater" />
-      <BasicCheckbox
-        v-model="compactGalleryItem"
-        :disabled="!enabledAdvancedUI"
-        label="preferences.fold.history" />
-      <BasicCheckbox
-        v-model="compactCollection"
-        :disabled="!enabledAdvancedUI"
-        label="preferences.fold.description" />
-      <BasicCheckbox
-        v-model="replaceBuyNowWithYolo"
-        :disabled="!enabledAdvancedUI"
-        label="preferences.yolo" />
-      <BasicCheckbox
-        v-model="showPriceValue"
-        :disabled="!enabledAdvancedUI"
-        label="preferences.priceVisible" />
-      <BasicCheckbox
-        v-model="showMintTime"
-        :disabled="!enabledAdvancedUI"
-        label="preferences.mintTimeVisible" />
-      <BasicCheckbox
-        v-model="enableAllArtworks"
-        :disabled="!enabledAdvancedUI"
-        label="preferences.loadAllArtworks" />
-      <BasicCheckbox
-        v-model="enableGyroEffect"
-        :disabled="!enabledAdvancedUI"
-        label="preferences.enableGyroEffect" />
+      <div>
+        <NeoCheckbox v-model="theatreView" :disabled="!enabledAdvancedUI">
+          {{ $t('preferences.theater') }}
+        </NeoCheckbox>
+      </div>
+      <div>
+        <NeoCheckbox
+          v-model="compactGalleryItem"
+          :disabled="!enabledAdvancedUI">
+          {{ $t('preferences.fold.history') }}
+        </NeoCheckbox>
+      </div>
+      <div>
+        <NeoCheckbox v-model="compactCollection" :disabled="!enabledAdvancedUI">
+          {{ $t('preferences.fold.description') }}
+        </NeoCheckbox>
+      </div>
+      <div>
+        <NeoCheckbox
+          v-model="replaceBuyNowWithYolo"
+          :disabled="!enabledAdvancedUI">
+          {{ $t('preferences.yolo') }}
+        </NeoCheckbox>
+      </div>
+      <div>
+        <NeoCheckbox v-model="showPriceValue" :disabled="!enabledAdvancedUI">
+          {{ $t('preferences.priceVisible') }}
+        </NeoCheckbox>
+      </div>
+      <div>
+        <NeoCheckbox v-model="showMintTime" :disabled="!enabledAdvancedUI">
+          {{ $t('preferences.mintTimeVisible') }}
+        </NeoCheckbox>
+      </div>
+      <div>
+        <NeoCheckbox v-model="enableAllArtworks" :disabled="!enabledAdvancedUI">
+          {{ $t('preferences.loadAllArtworks') }}
+        </NeoCheckbox>
+      </div>
+      <div>
+        <NeoCheckbox v-model="enableGyroEffect" :disabled="!enabledAdvancedUI">
+          {{ $t('preferences.enableGyroEffect') }}
+        </NeoCheckbox>
+      </div>
       <div class="layout-wrapper">
         <div class="label">
           {{ $t('Layout Options') }}
@@ -95,11 +107,13 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoCheckbox, NeoSwitch } from '@kodadot1/brick'
 
 @Component({
   components: {
-    BasicCheckbox: () => import('@/components/shared/form/BasicCheckbox.vue'),
     Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
+    NeoSwitch,
+    NeoCheckbox,
   },
 })
 export default class Interface extends Vue {

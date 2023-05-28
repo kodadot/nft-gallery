@@ -49,6 +49,7 @@ export const URLS = {
     antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
     marck: 'https://squid.subsquid.io/marck/graphql',
     replicate: 'https://replicate.kodadot.workers.dev/',
+    search: 'https://polysearch.w.kodadot.xyz',
   },
   providers: {
     coingecko: 'https://api.coingecko.com/api/v3',

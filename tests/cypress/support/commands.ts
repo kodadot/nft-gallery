@@ -19,6 +19,7 @@ Cypress.Commands.add('getCy', (selector, ...args) => {
 Cypress.Commands.add('loginWithKeyring', () => {
   cy.visit('/')
   cy.visit('/e2e-login')
+  cy.getCy('mockAddress').should('have.text', 'true')
   cy.waitForNetworkIdle('POST', '*', 1000)
 })
 

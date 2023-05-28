@@ -3,12 +3,11 @@ import type { ApiPromise } from '@polkadot/api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
 
 export default function () {
-  const { $store } = useNuxtApp()
   const { urlPrefix } = usePrefix()
 
   const apiUrl = computed(() => {
-    const endpoint = getChainEndpointByPrefix(urlPrefix.value)
-    return endpoint || $store.getters.getSettings['apiUrl']
+    const endpoint: string = getChainEndpointByPrefix(urlPrefix.value) || ''
+    return endpoint
   })
 
   const apiInstance = computed<Promise<ApiPromise>>(() =>

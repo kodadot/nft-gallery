@@ -30,22 +30,22 @@
                   class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
                   <span class="main-title name">{{ item.name }}</span>
                   <span class="has-text-grey">
-                    {{ urlPrefix.toUpperCase() }}
+                    {{ item.chain }}
                   </span>
                 </div>
                 <div class="is-flex is-justify-content-space-between pr-2">
                   <span>
                     {{ $t('activity.floor') }}:
-                    <span v-if="getFloorPrice(item.nfts) === 0"> -- </span>
+                    <span v-if="item.floorPrice === 0"> -- </span>
                     <Money
                       v-else
-                      :value="getFloorPrice(item.nfts)"
+                      :value="item.floorPrice"
                       :unit-symbol="chainSymbol"
                       inline />
                   </span>
                   <span class="has-text-grey">
                     {{ $t('search.units') }}:
-                    {{ item.nfts?.length || 0 }}
+                    {{ item.totalCount || 0 }}
                   </span>
                 </div>
               </template>
@@ -235,10 +235,13 @@ import { processMetadata } from '~/utils/cachingStrategy'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
 import { RowSeries } from '~/components/series/types'
+import { NeoIcon } from '@kodadot1/brick'
+import { fetchCollectionSuggestion } from './utils/collectionSearch'
 
 @Component({
   components: {
     Money: () => import('@/components/shared/format/Money.vue'),
+    NeoIcon,
   },
 })
 export default class SearchSuggestion extends mixins(PrefixMixin) {
@@ -452,7 +455,8 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     if (this.searchString) {
       this.insertNewHistory()
     }
-    this.$router.push(`/${this.urlPrefix}/collection/${item.id}`)
+    const prefix = item.chain || this.urlPrefix
+    this.$router.push(`/${prefix}/collection/${item.collection_id || item.id}`)
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
@@ -579,23 +583,11 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       )
       this.isNFTResultLoading = false
     }
+
     try {
-      const query = await resolveQueryPath(
-        this.client,
-        'collectionListWithSearch'
-      )
-
-      const collectionResult = this.$apollo.query({
-        query: query.default,
-        client: this.client,
-        variables: this.queryVariables,
-      })
-
-      const {
-        data: { collectionEntities },
-      } = await collectionResult
-      const collections = unwrapSafe(
-        collectionEntities.slice(0, this.searchSuggestionEachTypeMaxNum)
+      const collections = await fetchCollectionSuggestion(
+        this.query.search,
+        this.searchSuggestionEachTypeMaxNum
       )
 
       const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
@@ -605,17 +597,50 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
         collectionWithImages.push({
           ...collections[i],
           ...meta,
-          image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
+          image: sanitizeIpfsUrl(
+            collections[i].image || collections[i].mediaUri || '',
+            'image'
+          ),
         })
       })
-      this.collectionResult = collectionWithImages
-      this.isCollectionResultLoading = false
+      await Promise.all([
+        ...collectionWithImages.map(async (collection) => {
+          return this.fetchCollectionStats(collection)
+        }),
+      ]).then(() => {
+        this.collectionResult = collectionWithImages
+        this.isCollectionResultLoading = false
+      })
     } catch (e) {
       logError(e, (msg) =>
         this.$consola.warn('[PREFETCH] Unable fo fetch', msg)
       )
       this.isCollectionResultLoading = false
     }
+  }
+
+  async fetchCollectionStats(collection: CollectionWithMeta) {
+    return new Promise(async (resolve) => {
+      const client = collection.chain || this.client
+      const queryCollection = await resolveQueryPath(
+        client === 'ksm' ? 'chain-rmrk' : 'subsquid',
+        'collectionStatsById'
+      )
+      const { data } = await this.$apollo.query({
+        query: queryCollection.default,
+        client,
+        variables: {
+          id: collection.collection_id,
+        },
+      })
+
+      collection.totalCount = data.stats.base.length
+      collection.floorPrice = Math.min(
+        ...data.stats.listed.map((item) => parseInt(item.price))
+      )
+
+      resolve(collection)
+    })
   }
 
   getFloorPrice(nfts: NFTWithMeta[] | undefined) {

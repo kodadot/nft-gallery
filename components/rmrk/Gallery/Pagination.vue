@@ -16,7 +16,7 @@
       aria-current-label="Current page"
       @change="onPageChange">
     </b-pagination>
-    <b-tooltip :label="$t('tooltip.random') + ' (g+r)'">
+    <NeoTooltip :label="$t('tooltip.random') + ' (g+r)'">
       <b-button
         v-if="hasMagicBtn"
         class="ml-2 magicBtn is-bordered-light share-button"
@@ -25,7 +25,7 @@
         icon-left="dice"
         @click="goToRandomPage">
       </b-button>
-    </b-tooltip>
+    </NeoTooltip>
   </div>
 </template>
 
@@ -34,8 +34,13 @@ import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { getRandomIntInRange } from '../utils'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import { NeoTooltip } from '@kodadot1/brick'
 
-@Component({})
+@Component({
+  components: {
+    NeoTooltip,
+  },
+})
 export default class Pagination extends mixins(KeyboardEventsMixin) {
   @Prop() value!: number
   @Prop() public total!: number

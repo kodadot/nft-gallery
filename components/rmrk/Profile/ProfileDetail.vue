@@ -81,12 +81,12 @@
         expanded>
         <b-tab-item value="nft" :header-class="{ 'is-hidden': !totalCreated }">
           <template #header>
-            <b-tooltip
+            <NeoTooltip
               :label="`${$t('tooltip.created')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.created') }}
               <span class="tab-counter">{{ totalCreated }}</span>
-            </b-tooltip>
+            </NeoTooltip>
           </template>
           <PaginatedCardList
             :id="id"
@@ -100,12 +100,12 @@
           value="collection"
           :header-class="{ 'is-hidden': !totalCollections }">
           <template #header>
-            <b-tooltip
+            <NeoTooltip
               :label="`${$t('tooltip.collections')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('collections') }}
               <span class="tab-counter">{{ totalCollections }}</span>
-            </b-tooltip>
+            </NeoTooltip>
           </template>
           <div class="is-flex is-justify-content-flex-end">
             <Layout class="mr-5" @change="onResize" />
@@ -159,12 +159,12 @@
         </b-tab-item>
         <b-tab-item value="sold" :header-class="{ 'is-hidden': !totalSold }">
           <template #header>
-            <b-tooltip
+            <NeoTooltip
               :label="`${$t('tooltip.sold')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.sold') }}
               <span class="tab-counter">{{ totalSold }}</span>
-            </b-tooltip>
+            </NeoTooltip>
           </template>
           <PaginatedCardList
             :id="id"
@@ -177,12 +177,12 @@
           value="collected"
           :header-class="{ 'is-hidden': !totalCollected }">
           <template #header>
-            <b-tooltip
+            <NeoTooltip
               :label="`${$t('tooltip.collected')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.collected') }}
               <span class="tab-counter">{{ totalCollected }}</span>
-            </b-tooltip>
+            </NeoTooltip>
           </template>
           <PaginatedCardList
             :id="id"
@@ -196,12 +196,12 @@
           value="holdings"
           :header-class="{ 'is-hidden': !totalHoldings }">
           <template #header>
-            <b-tooltip
+            <NeoTooltip
               :label="`${$t('tooltip.holdings')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.holdings') }}
               <span class="tab-counter">{{ totalHoldings }}</span>
-            </b-tooltip>
+            </NeoTooltip>
           </template>
           <Holding :account-id="id" />
         </b-tab-item>
@@ -210,12 +210,12 @@
           value="gains"
           :header-class="{ 'is-hidden': !totalGains }">
           <template #header>
-            <b-tooltip
+            <NeoTooltip
               :label="`${$t('tooltip.gains')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.gains') }}
               <span class="tab-counter">{{ totalGains }}</span>
-            </b-tooltip>
+            </NeoTooltip>
           </template>
           <UserGainHistory :account-id="id" />
         </b-tab-item>
@@ -276,6 +276,7 @@ import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator
 
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
 import { exist } from '@/utils/exist'
+import { NeoTooltip } from '@kodadot1/brick'
 
 const tabNameWithoutCollections = ['holdings', 'gains']
 
@@ -301,6 +302,7 @@ const components = {
   OffersUserTable: () => import('@/components/bsx/Offer/OffersUserTable.vue'),
   Sales: () => import('@/components/rmrk/Profile/Sales.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
+  NeoTooltip,
 }
 
 @Component<ProfileDetail>({

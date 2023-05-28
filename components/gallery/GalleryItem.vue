@@ -13,7 +13,11 @@
         <div class="is-relative">
           <!-- preview button -->
           <a
-            v-if="canPreview && !mediaItemRef?.isLewdBlurredLayer"
+            v-if="
+              canPreview &&
+              !mediaItemRef?.isLewdBlurredLayer &&
+              !hasAnimatedResources
+            "
             class="fullscreen-button is-justify-content-center is-align-items-center"
             @click="isFullscreen = true">
             <NeoIcon icon="expand" />
@@ -28,12 +32,12 @@
               <o-carousel-item
                 v-for="resource in nftResources"
                 :key="resource.id">
-                <section>
-                  <MediaItem
-                    :key="resource.src"
-                    :src="resource.src"
-                    is-detail />
-                </section>
+                <MediaItem
+                  :key="resource.src"
+                  :src="resource.src"
+                  :mime-type="resource.mimeType"
+                  :animation-src="resource.animation"
+                  is-detail />
               </o-carousel-item>
             </o-carousel>
           </div>
@@ -201,6 +205,12 @@ const activeCarouselImage = computed(() => {
 })
 const hasResources = computed(
   () => nftResources.value && nftResources.value?.length > 1
+)
+const hasAnimatedResources = computed(
+  () =>
+    nftResources.value &&
+    nftResources.value?.length > 1 &&
+    nftResources.value[1].animation
 )
 
 const previewItemSrc = computed(

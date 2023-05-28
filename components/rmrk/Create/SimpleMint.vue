@@ -1,26 +1,20 @@
 <template>
   <section>
-    <br />
     <Loader v-model="isLoading" :status="status" />
-    <h2 class="title is-size-3">
-      <!-- {{ $t('mint.context') }} -->
-      Create NFT Collectibles
-    </h2>
+    <h1 class="title is-size-3">Create NFT Collectibles</h1>
     <p class="subtitle is-size-7">{{ $t('general.using') }} {{ version }}</p>
-    <b-field>
-      <div>
-        {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
-      </div>
-    </b-field>
-    <b-field>
-      <Auth />
-    </b-field>
+
+    <div class="py-2">
+      {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
+    </div>
+
+    <Auth />
 
     <MetadataUpload
       ref="nftUpload"
       v-model="file"
       required
-      :label="$t('mint.nft.simpleDrop')"
+      :label="$t('mint.nft.drop')"
       expanded
       preview
       data-cy="input-upload" />
@@ -88,18 +82,13 @@
       expanded
       data-cy="input-price"
       @input="updateMeta" />
+
     <div class="content mt-3">
       <p>
         Hint: Setting the price now requires making an additional transaction.
       </p>
     </div>
 
-    <b-field>
-      <PasswordInput
-        v-model="password"
-        :account="accountId"
-        data-cy="input-password" />
-    </b-field>
     <b-field>
       <CollapseWrapper
         v-if="rmrkMint.max > 1"
@@ -145,19 +134,16 @@
     </b-field>
     <BasicSwitch v-model="nsfw" label="mint.nfsw" data-cy="input-nsfw" />
     <b-field type="is-danger" :message="haveNoToSMessage">
-      <b-switch v-model="hasToS" :rounded="false" data-cy="input-tos">
+      <NeoSwitch v-model="hasToS" :rounded="false" data-cy="input-tos">
         {{ $t('termOfService.accept') }}
-      </b-switch>
+      </NeoSwitch>
     </b-field>
     <b-field v-if="isLogIn" type="is-danger" :message="balanceNotEnoughMessage">
-      <b-button
-        type="is-primary"
-        icon-left="paper-plane"
+      <SubmitButton
+        expanded
+        label="mint.submit"
         :loading="isLoading"
-        outlined
-        @click="sub">
-        {{ $t('mint.submit') }}
-      </b-button>
+        @click="sub()" />
     </b-field>
     <b-field>
       <NeoIcon icon="calculator" />
@@ -225,13 +211,11 @@ import { useFiatStore } from '@/stores/fiat'
 import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useIdentityStore } from '@/stores/identity'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoIcon, NeoSwitch } from '@kodadot1/brick'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
   MetadataUpload: () => import('./DropUpload.vue'),
-  PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
-  Tooltip: () => import('@/components/shared/Tooltip.vue'),
   Support,
   AttributeTagInput: () => import('./AttributeTagInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
@@ -242,7 +226,9 @@ const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   BasicSlider: () => import('@/components/shared/form/BasicSlider.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
+  SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   NeoIcon,
+  NeoSwitch,
 }
 
 @Component<SimpleMint>({

@@ -8,7 +8,7 @@
       v-for="lang in langsFlags"
       :key="lang.value"
       :class="{ 'is-active': userLang === lang.value }"
-      :value="userLang"
+      :value="lang.value"
       aria-role="listitem"
       has-link
       @click="setUserLang(lang.value)">
@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts" setup>
-import { langsFlags } from '@/utils/config/i18n'
 import { useLangStore } from '@/stores/lang'
+import { langsFlags } from '@/utils/config/i18n'
 
 const MobileExpandableSection = defineAsyncComponent(
   () => import('@/components/navbar/MobileExpandableSection.vue')
