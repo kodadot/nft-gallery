@@ -88,7 +88,7 @@ export function execSendTx(item: ActionSend, api, executeTransaction) {
     execSendBasilisk(item, api, executeTransaction)
   }
 
-  if (item.urlPrefix === 'stmn') {
+  if (item.urlPrefix === 'stmn' || item.urlPrefix === 'stt') {
     execSendStatemine(item, api, executeTransaction)
   }
 }
