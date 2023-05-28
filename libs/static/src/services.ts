@@ -18,6 +18,7 @@ export const EXPLORERS: Record<Prefix, string> = {
   glmr: 'https://moonbeam.subscan.io/account/',
   stmn: 'https://statemine.subscan.io/account/',
   dot: 'https://polkadot.subscan.io/account/',
+  stt: 'https://statemint.subscan.io/account/',
 }
 
 export const hasExplorer = (prefix: Prefix): boolean => {

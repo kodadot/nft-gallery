@@ -7,9 +7,17 @@ export type Prefix =
   | 'snek'
   | 'stmn'
   | 'dot'
-// | 'westmint'
+  | 'stt'
+// | 'wst'
 
-export type Squid = 'rubick' | 'snekk' | 'click' | 'antick' | 'marck' | 'stick'
+export type Squid =
+  | 'rubick'
+  | 'snekk'
+  | 'click'
+  | 'antick'
+  | 'marck'
+  | 'stick'
+  | 'speck'
 
 export type Config<T = boolean> = Record<Prefix, T>
 
