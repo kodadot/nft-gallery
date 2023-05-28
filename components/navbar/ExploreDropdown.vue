@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { isMobileDevice } from '~/utils/extension'
+import { isMobileDevice } from '@/utils/extension'
 
 const NavbarExploreOptions = defineAsyncComponent(
   () => import('./NavbarExploreOptions.vue')

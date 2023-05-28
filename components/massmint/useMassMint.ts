@@ -1,6 +1,5 @@
 import { unwrapSafe } from '@/utils/uniquery'
 import resolveQueryPath from '@/utils/queryPathResolver'
-import shouldUpdate from '@/utils/shouldUpdate'
 import { MintedCollection, Status } from './types'
 
 export const statusTranslation = (status?: Status): string => {
@@ -35,7 +34,7 @@ export const useCollectionForMint = () => {
   const { urlPrefix } = usePrefix()
   const queryPath = {
     rmrk: 'chain-rmrk',
-    ksm: 'chain-ksm',
+    ksm: 'chain-rmrk',
   }
 
   const doFetch = async () => {
@@ -68,13 +67,8 @@ export const useCollectionForMint = () => {
         error
       )
     })
-  doFetchWithErrorHandling()
 
-  watch(accountId, (newId, oldId) => {
-    if (shouldUpdate(newId, oldId)) {
-      doFetchWithErrorHandling()
-    }
-  })
+  watch(accountId, doFetchWithErrorHandling, { immediate: true })
 
   watch(collections, () => {
     if (!collections) {

@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts" setup>
-import { langsFlags } from '@/utils/config/i18n'
 import { useLangStore } from '@/stores/lang'
+import { langsFlags } from '@/utils/config/i18n'
 
 const MobileExpandableSection = defineAsyncComponent(
   () => import('@/components/navbar/MobileExpandableSection.vue')

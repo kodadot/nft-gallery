@@ -97,7 +97,7 @@
 </template>
 <script lang="ts" setup>
 const MobileExpandableSection = defineAsyncComponent(
-  () => import('@/components/navbar/MobileExpandableSection.vue')
+  () => import('./MobileExpandableSection.vue')
 )
 const { accountId } = useAuth()
 

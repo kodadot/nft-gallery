@@ -184,6 +184,11 @@ const getPriceChartData = () => {
             customCanvasBackgroundColor: {
               color: isDarkMode.value ? '#181717' : 'white',
             },
+            legend: {
+              labels: {
+                usePointStyle: true,
+              },
+            },
             tooltip: {
               callbacks: {
                 label: function (context) {

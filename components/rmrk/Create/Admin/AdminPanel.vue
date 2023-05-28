@@ -42,9 +42,6 @@
       <BasicSwitch v-model="listed" label="action.omitListed" />
 
       <b-field>
-        <PasswordInput v-model="password" :account="accountId" />
-      </b-field>
-      <b-field>
         <b-button
           type="is-primary"
           icon-left="paper-plane"
@@ -94,7 +91,6 @@ const needMeta: Record<string, string> = {
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
-  PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   NoCollection: () => import('@/components/shared/wrapper/NoCollection.vue'),

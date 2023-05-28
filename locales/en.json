@@ -71,6 +71,7 @@
   "description": "Description",
   "showLess": "Show Less",
   "dropUpload": "Drop your file here or click to select.",
+  "chainSelect": "Select Chain ({0})",
   "search": {
     "searchCollection": "Search Collection",
     "seeAll": "See All",
@@ -755,6 +756,9 @@
     "asset": "Asset",
     "using": "using",
     "balance": "Balance",
+    "chain": "Chain",
+    "token": "Token",
+    "usd": "USD",
     "connect": "Connect",
     "connect_wallet": "Connect your wallet",
     "change_account": "Change account",
