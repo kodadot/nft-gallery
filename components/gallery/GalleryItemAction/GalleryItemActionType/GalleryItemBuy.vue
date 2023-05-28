@@ -22,7 +22,7 @@
             <NeoButton
               :label="label"
               size="large"
-              class="full-width-action-button action-button"
+              class="full-width-action-button"
               variant="k-accent"
               :disabled="disabled"
               no-shadow

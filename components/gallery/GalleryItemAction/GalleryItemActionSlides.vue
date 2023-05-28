@@ -44,6 +44,11 @@ defineProps<{
       font-size: 1rem !important;
       height: 100% !important;
     }
+
+    .o-btn {
+      font-size: 1rem;
+      height: 100%;
+    }
   }
 
   &-content {
@@ -96,17 +101,6 @@ defineProps<{
       width: 100%;
     }
   }
-
-  .full-width-action-button {
-    width: 100%;
-    position: absolute;
-    z-index: 2;
-  }
-
-  .action-button {
-    height: 100%;
-    font-size: 1rem;
-  }
 }
 
 @include until-widescreen {
@@ -148,6 +142,14 @@ defineProps<{
 
   .slide-action .neo-tooltip {
     position: relative;
+  }
+
+  .full-width-action-button {
+    width: 100%;
+    height: 100%;
+    font-size: 1rem;
+    position: absolute;
+    z-index: 2;
   }
 
   @include until-widescreen {
