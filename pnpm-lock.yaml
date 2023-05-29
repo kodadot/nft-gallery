@@ -46,8 +46,8 @@ importers:
         specifier: ^0.1.9
         version: 0.1.9(@polkadot/api@10.6.1)
       '@kodadot1/static':
-        specifier: 0.0.3-rc.3
-        version: 0.0.3-rc.3
+        specifier: 0.0.3-rc.4
+        version: 0.0.3-rc.4
       '@kodadot1/sub-api':
         specifier: ^0.1.2
         version: 0.1.2
@@ -3850,8 +3850,8 @@ packages:
       slugify: 1.6.6
     dev: false
 
-  /@kodadot1/static@0.0.3-rc.3:
-    resolution: {integrity: sha512-h2Ul0OiO75T9eq9v9lCIYr2/Gj5BdgPnBa7wZQdRAJUjaCY19eNakWz4PENb34m8ZFKLcpSwHPCkSffx8rNLkQ==}
+  /@kodadot1/static@0.0.3-rc.4:
+    resolution: {integrity: sha512-2p0BAx2ABIGq3uVCBIeSRfLuhuEHL1b2583tzv40q1NPfYwvtZmQMvrzRDtTnz6Bh3qegBam46oaadj53/78bQ==}
     dev: false
 
   /@kodadot1/sub-api@0.1.2:
@@ -17757,7 +17757,6 @@ packages:
 
   /object-inspect@1.12.2:
     resolution: {integrity: sha512-z+cPxW0QGUp0mcqcsgQyLVRDoXFQbXOwBaqyF7VIgI4TWNQsDHrBpUQslRmIfAoYWdYzs6UlKJtB2XJpTaNSpQ==}
-    dev: true
 
   /object-inspect@1.12.3:
     resolution: {integrity: sha512-geUvdk7c+eizMNUDkRpW1wJwgfOiOeHbxBR/hLXK1aT6zmVSO0jsQcs7fj6MGw89jC/cjGfLcNOrtMYtGqm81g==}
@@ -20579,7 +20578,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       get-intrinsic: 1.2.0
-      object-inspect: 1.12.3
+      object-inspect: 1.12.2
     dev: false
 
   /siginfo@2.0.0:

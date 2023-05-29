@@ -11,7 +11,7 @@ export const INDEXERS: Config<SquidEndpoint> = {
   movr: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
   ksm: 'https://squid.subsquid.io/marck/v/v2/graphql',
   snek: 'https://squid.subsquid.io/sneck/graphql',
-  stmn: 'https://squid.subsquid.io/stick/v/v1/graphql',
+  stmn: 'https://squid.subsquid.io/stick/v/v3/graphql',
   dot: 'https://squid.subsquid.io/rubick/graphql', // TODO: change to dot indexer when available
   stt: 'https://squid.subsquid.io/speck/v/v1/graphql',
 }
