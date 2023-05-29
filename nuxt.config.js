@@ -238,6 +238,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     ['@pinia/nuxt', { disableVuex: false }],
+    'nuxt-simple-sitemap',
   ],
 
   sentry: {
@@ -325,6 +326,11 @@ export default defineNuxtConfig({
   apollo: {
     clientConfigs: apolloClientConfig,
     // https://github.com/nuxt-community/apollo-module#options
+  },
+
+  sitemap: {
+    // automatically chunk into multiple sitemaps
+    sitemaps: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

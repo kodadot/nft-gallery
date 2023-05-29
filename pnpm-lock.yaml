@@ -165,6 +165,9 @@ importers:
       nuxt-property-decorator:
         specifier: ^2.9.1
         version: 2.9.1(vue@2.7.14)(vuex@3.6.2)
+      nuxt-simple-sitemap:
+        specifier: ^2.6.1
+        version: 2.6.1
       ohmyfetch:
         specifier: ^0.4.21
         version: 0.4.21
@@ -10904,7 +10907,6 @@ packages:
   /chalk@5.2.0:
     resolution: {integrity: sha512-ree3Gqw/nazQAPuJJEy+avdl7QfZMcUvmHIKgEZkGL+xOBzRvup5Hxo6LHuMceSxOabuJLJm5Yp/92R9eMmMvA==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
-    dev: true
 
   /change-case@4.1.2:
     resolution: {integrity: sha512-bSxY2ws9OtviILG1EiY5K7NNxkqg/JnRnFxLtKQ96JaviiIxi7djMrSd0ECT9AC+lttClmYwKw53BWpOMblo7A==}
@@ -17734,6 +17736,23 @@ packages:
       - vuex
     dev: false
 
+  /nuxt-simple-sitemap@2.6.1:
+    resolution: {integrity: sha512-V5PPYgUGNspKJ95Ihm1ZgIhLKTnSJ2v4PY99SVjZUikWpRJjPBi/1xb1BzkYHDE5PFEYc6QNUKWnaNDoLtxZpA==}
+    dependencies:
+      '@nuxt/kit': 3.5.0
+      chalk: 5.2.0
+      defu: 6.1.2
+      escape-string-regexp: 5.0.0
+      globby: 13.1.4
+      knitwork: 1.0.0
+      pathe: 1.1.0
+      radix3: 1.0.1
+      ufo: 1.1.2
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+    dev: false
+
   /nwsapi@2.2.1:
     resolution: {integrity: sha512-JYOWTeFoS0Z93587vRJgASD5Ut11fYl5NyihP3KrYBvMe1FRRs6RN7m20SA/16GM4P6hTnZjT+UmDOt38UeXNg==}
     dev: true
@@ -19711,7 +19730,6 @@ packages:
 
   /radix3@1.0.1:
     resolution: {integrity: sha512-y+AcwZ3HcUIGc9zGsNVf5+BY/LxL+z+4h4J3/pp8jxSmy1STaCocPS3qrj4tA5ehUSzqtqK+0Aygvz/r/8vy4g==}
-    dev: true
 
   /randombytes@2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
