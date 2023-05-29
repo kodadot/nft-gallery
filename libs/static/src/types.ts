@@ -18,6 +18,7 @@ export type Squid =
   | 'marck'
   | 'stick'
   | 'speck'
+  | 'sneck'
 
 export type Config<T = boolean> = Record<Prefix, T>
 
