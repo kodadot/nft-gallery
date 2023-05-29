@@ -36,6 +36,7 @@ export const CHAINS: Config<ChainProperties> = {
   glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
   stmn: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/'),
   dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/'),
+  stt: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/'),
 }
 
 export const DEFAULT_PREFIX: Prefix = 'ksm'
@@ -49,6 +50,7 @@ export const chainPrefixes: Prefix[] = [
   'ksm',
   'stmn',
   'dot',
+  'stt',
 ]
 
 export const chainInfo: Record<Prefix, string> = {
@@ -60,6 +62,7 @@ export const chainInfo: Record<Prefix, string> = {
   ksm: 'rmrk',
   stmn: 'statemine',
   dot: 'polkadot',
+  stt: 'statemint',
 }
 
 export const chainList = (): Option[] => {
