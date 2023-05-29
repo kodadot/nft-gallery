@@ -37,8 +37,7 @@
                   :src="resource.src"
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
-                  is-detail
-                  :original="isMobile" />
+                  is-detail />
               </o-carousel-item>
             </o-carousel>
           </div>
@@ -56,7 +55,6 @@
             :mime-type="nftMimeType"
             :title="nftMetadata?.name"
             is-detail
-            :original="isMobile"
             :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder" />
         </div>
