@@ -41,11 +41,16 @@ export default function () {
     return useAssetsStore().getAssetById(String(id))
   }
 
+  const isBasilisk = computed(
+    () => prefix.value === 'bsx' || prefix.value === 'snek'
+  )
+
   return {
     urlPrefix,
     setUrlPrefix,
     client,
     tokenId,
     assets,
+    isBasilisk,
   }
 }

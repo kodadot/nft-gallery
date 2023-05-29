@@ -38,6 +38,9 @@ const { data } = useGraphql({
       },
     ],
   },
+  options: {
+    fetchPolicy: 'cache-first',
+  },
 })
 
 const nfts = ref<NFTWithMetadata[]>([])
