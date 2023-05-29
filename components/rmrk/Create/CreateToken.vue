@@ -108,7 +108,6 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { Ref as RefType } from 'vue'
 import { Royalty } from '@/utils/royalty'
 import { MintedCollectionKusama } from '@/composables/transaction/types'
-import { Royalty } from '@/utils/royalty'
 import { NeoMessage } from '@kodadot1/brick'
 
 const components = {
