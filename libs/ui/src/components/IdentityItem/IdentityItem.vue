@@ -11,8 +11,9 @@
         tag="nuxt-link"
         size="small"
         :to="`/${prefix}/u/${account}`"
-        >{{ buttonLabel }}</NeoButton
-      >
+        icon="arrow-right-long">
+        {{ buttonLabel }}
+      </NeoButton>
     </div>
     <div v-else class="p-3">
       <div class="has-text-grey is-size-6">
