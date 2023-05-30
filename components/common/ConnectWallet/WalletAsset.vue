@@ -1,6 +1,6 @@
 <template>
   <div class="is-flex is-flex-direction-column wallet-asset">
-    <WalletAssetSetIdentity v-if="!display" />
+    <WalletAssetSetIdentity v-if="!display && redesign" />
 
     <div class="is-flex is-flex-direction-column wallet-asset-container mt-4">
       <WalletAssetIdentity v-if="redesign" />
