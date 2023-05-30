@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 import DragDrop from '@/components/shared/DragDrop.vue'
-import { useParseDescriptionFile } from './useParseDescriptionFile'
+import { useParseDescriptionFile } from '@/composables/useParseDescriptionFile'
 
 withDefaults(
   defineProps<{
@@ -56,7 +56,6 @@ const onFileSelected = (file: File) => {
   showCheckmark.value = false
   loading.value = true
 
-  // replace true with check for valid file type
   const { entries, error, loading: isLoading } = useParseDescriptionFile(file)
 
   watch(isLoading, (loadingDescFile) => {
