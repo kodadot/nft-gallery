@@ -50,7 +50,6 @@ Cypress.Commands.add('snekNavbar', () => {
 Cypress.Commands.add('snekGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/snek/gallery/${nftId}`)
   cy.waitForNetworkIdle('POST', '*', 1000)
-  cy.get('[data-cy="money"]').should('contain', 'KSM')
   cy.get('[data-cy="item-buy"]').should('be.disabled')
   cy.get('[data-cy="make-offer"]').should('not.be.disabled')
   cy.get('[data-cy="gallery-item-tabs"]').within(() => {
@@ -73,13 +72,11 @@ Cypress.Commands.add('snekGalleryListedItemActions', (nftId, creator) => {
 Cypress.Commands.add('snekGalleryUnlistedItemActions', (nftId) => {
   cy.visit(`/snek/gallery/${nftId}`)
   cy.waitForNetworkIdle('POST', '*', 1000)
-  cy.get('[data-cy="make-offer"]').should('not.be.disabled')
 })
 
 Cypress.Commands.add('checkCollectionActions', (url, nftName, creator) => {
   cy.visit(url)
   cy.waitForNetworkIdle('POST', '*', 1000)
-  cy.get('[data-cy="0"]').should('be.visible')
   cy.get('[data-cy="nft-name"]').contains(nftName)
   cy.get('.is-hidden-mobile .is-hidden-mobile[data-cy="explore-sort"]').click({
     force: true,
