@@ -85,7 +85,9 @@
                   </CollectionDetailsPopover>
                 </h2>
               </div>
-              <GalleryItemButton v-if="!nft?.burned" />
+              <GalleryItemButton
+                v-if="!nft?.burned"
+                :gallery-item="galleryItem" />
             </div>
 
             <div
@@ -130,11 +132,15 @@
 
     <div class="columns is-variable is-6 mt-5">
       <div class="column is-two-fifths">
-        <GalleryItemDescription ref="galleryDescriptionRef" />
+        <GalleryItemDescription
+          ref="galleryDescriptionRef"
+          :gallery-item="galleryItem" />
       </div>
 
       <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
-        <GalleryItemTabsPanel :active-tab="activeTab" />
+        <GalleryItemTabsPanel
+          :active-tab="activeTab"
+          :gallery-item="galleryItem" />
       </div>
     </div>
 
@@ -146,7 +152,10 @@
 
     <CarouselTypeVisited class="mt-8" />
 
-    <GalleryItemPreviewer v-model="isFullscreen" :item-src="previewItemSrc" />
+    <GalleryItemPreviewer
+      v-model="isFullscreen"
+      :item-src="previewItemSrc"
+      :gallery-item="galleryItem" />
   </section>
 </template>
 
@@ -181,6 +190,7 @@ const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
   useGalleryItem()
+const galleryItem = useGalleryItem()
 const collection = computed(() => nft.value?.collection)
 
 const breakPointWidth = 930
