@@ -1,52 +1,42 @@
 <template>
   <div class="keyboard-shortcuts">
-    <b-collapse
+    <NeoCollapse
       v-for="(collapse, index) of collapses"
       :key="index"
-      class="card bordered"
       animation="slide"
       :open="isOpen == index"
       @open="isOpen = index">
-      <template #trigger="props">
-        <div class="card-header" role="button">
-          <p class="card-header-title">
-            {{ collapse.title }}
-          </p>
-          <a class="card-header-icon">
-            <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
-          </a>
-        </div>
-      </template>
-      <div class="card-content">
-        <div class="content">
-          <NeoTable :data="data[collapse.key]">
-            <NeoTableColumn v-slot="props" field="shortcut" label="Shortcut">
-              <div>
-                <span
-                  v-for="(shortcut, idx) in props.row.shortcut.split('+')"
-                  :key="shortcut">
-                  <kbd class="keyboard-shortcut-kbd">
-                    {{ shortcut }}
-                  </kbd>
-                  <span v-if="idx < props.row.shortcut.split('+').length - 1">
-                    +
-                  </span>
-                </span>
-              </div>
-            </NeoTableColumn>
-            <NeoTableColumn v-slot="props" field="action" label="Action">
-              {{ props.row.action }}
-            </NeoTableColumn>
-          </NeoTable>
-        </div>
+      <div>
+        {{ collapse.title }}
       </div>
-    </b-collapse>
+      <template #content>
+        <NeoTable :data="data[collapse.key]">
+          <NeoTableColumn v-slot="props" field="shortcut" label="Shortcut">
+            <div>
+              <span
+                v-for="(shortcut, idx) in props.row.shortcut.split('+')"
+                :key="shortcut">
+                <kbd class="keyboard-shortcut-kbd">
+                  {{ shortcut }}
+                </kbd>
+                <span v-if="idx < props.row.shortcut.split('+').length - 1">
+                  +
+                </span>
+              </span>
+            </div>
+          </NeoTableColumn>
+          <NeoTableColumn v-slot="props" field="action" label="Action">
+            {{ props.row.action }}
+          </NeoTableColumn>
+        </NeoTable>
+      </template>
+    </NeoCollapse>
   </div>
 </template>
 
 <script lang="ts" setup>
 import '@/styles/components/_keyboard-shortcut.scss'
-import { NeoTable, NeoTableColumn } from '@kodadot1/brick'
+import { NeoCollapse, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 
 const isOpen = ref(0)
 const collapses = ref([
