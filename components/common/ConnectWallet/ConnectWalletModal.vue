@@ -91,11 +91,8 @@ const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const hasSelectedWalletProvider = ref(false)
 const forceWalletSelect = ref(false)
-const { $store } = useNuxtApp()
 const identityStore = useIdentityStore()
-
-// urlPrefix from usePrefix() would not update inside modal component
-const urlPrefix = computed(() => $store.getters.currentUrlPrefix)
+const { urlPrefix } = usePrefix()
 
 const setForceWalletSelect = () => {
   forceWalletSelect.value = true
