@@ -29,7 +29,9 @@
           <UploadMediaZip
             :disabled="!selectedCollection"
             @zipLoaded="onMediaZipLoaded" />
-          <UploadDescription :disabled="!mediaLoaded" />
+          <UploadDescription
+            :disabled="!mediaLoaded"
+            @fileLoaded="onDescriptionLoaded" />
           <OverviewTable
             :disabled="!mediaLoaded"
             :nfts="NFTS"
@@ -101,6 +103,7 @@ import { FileObject } from './uploadCompressedMedia/useZipValidator'
 import { MintedCollection } from '@/composables/transaction/types'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { useMassMint } from '@/composables/useMassMint'
+import { Entry } from './uploadDescription/parsers/common'
 
 const preferencesStore = usePreferencesStore()
 const { $consola, $i18n } = useNuxtApp()
@@ -231,6 +234,29 @@ const onMediaZipLoaded = ({ validFiles }: { validFiles: FileObject[] }) => {
     .map((file, i) => ({ ...file, id: i + 1 }))
     .reduce((acc, nft) => ({ ...acc, [nft.id]: nft }), {})
   mediaLoaded.value = true
+}
+const onDescriptionLoaded = (entries: Record<string, Entry>) => {
+  // create a map of nft filename to id
+  const nftFileNameToId = Object.values(NFTS.value).reduce(
+    (acc, nft) => ({ ...acc, [nft.file.name]: nft.id }),
+    {}
+  )
+  console.log('nftFileNameToId', nftFileNameToId)
+  Object.values(entries).forEach((entry) => {
+    console.log('entry', entry)
+    if (!entry.valid) {
+      return
+    }
+    const nftId = nftFileNameToId[entry.file]
+    if (!nftId) {
+      return
+    }
+    const { file: _, ...restOfEntry } = entry
+    NFTS.value[nftId] = {
+      ...NFTS.value[nftId],
+      ...restOfEntry,
+    }
+  })
 }
 </script>
 <style lang="scss" scoped>
