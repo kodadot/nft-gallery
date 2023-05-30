@@ -101,8 +101,8 @@ import DeleteModal from './modals/DeleteModal.vue'
 import MintingModal from './modals/MintingModal.vue'
 import { MintedCollection } from '@/composables/transaction/types'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { Entry } from './uploadDescription/parsers/common'
 import { useMassMint } from '@/composables/massmint/useMassMint'
+import { Entry } from '@/composables/massmint/parsers/common'
 import { FileObject } from '@/composables/massmint/useZipValidator'
 
 const preferencesStore = usePreferencesStore()
@@ -241,9 +241,7 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
     (acc, nft) => ({ ...acc, [nft.file.name]: nft.id }),
     {}
   )
-  console.log('nftFileNameToId', nftFileNameToId)
   Object.values(entries).forEach((entry) => {
-    console.log('entry', entry)
     if (!entry.valid) {
       return
     }
