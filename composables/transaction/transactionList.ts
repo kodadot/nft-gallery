@@ -5,12 +5,13 @@ import {
 } from '@kodadot1/minimark/v2'
 
 import {
+  assetHubParamResolver,
   bsxParamResolver,
   getApiCall,
-  uniqueParamResolver,
 } from '@/utils/gallery/abstractCalls'
 import { warningMessage } from '@/utils/notification'
 
+import { isLegacy } from '@/components/unique/utils'
 import type { ActionList } from './types'
 
 function isListTxValid(item: ActionList) {
@@ -55,10 +56,12 @@ export function execListTx(item: ActionList, api, executeTransaction) {
     })
   }
 
-  if (item.urlPrefix === 'stmn') {
+  if (item.urlPrefix === 'stmn' || item.urlPrefix === 'stt') {
+    const legacy = isLegacy(item.nftId)
+    const paramResolver = assetHubParamResolver(legacy)
     executeTransaction({
       cb: getApiCall(api, item.urlPrefix, Interaction.LIST),
-      arg: uniqueParamResolver(item.nftId, Interaction.LIST, meta),
+      arg: paramResolver(item.nftId, Interaction.LIST, meta),
       successMessage: item.successMessage,
       errorMessage: item.errorMessage,
     })

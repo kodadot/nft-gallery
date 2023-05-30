@@ -1,14 +1,21 @@
 import BN from 'bn.js'
+const LEGACY_PREFIX = /^u-/
 
 export const tokenIdToRoute = (
   tokenId: string
 ): { id: string; item: string } => {
-  const [collection, item] = tokenId.split('-')
+  const sanitized = correctId(tokenId)
+  const [collection, item] = sanitized.split('-')
+
   return {
     id: collection,
     item,
   }
 }
+
+export const correctId = (id: string): string => id.replace(LEGACY_PREFIX, '')
+
+export const isLegacy = (id: string): boolean => LEGACY_PREFIX.test(id)
 
 export const createTokenId = (collection: string, id: string): string =>
   `${collection}-${id}`

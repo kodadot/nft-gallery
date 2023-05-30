@@ -13,7 +13,9 @@
           <NeoSkeleton no-margin :rounded="false" full-size />
         </div>
       </div>
-      <span v-if="!isLoading" class="collection-detail__name">{{ name }}</span>
+      <span v-if="!isLoading" class="collection-detail__name" :title="name">{{
+        name
+      }}</span>
       <span v-else class="collection-detail__name">
         <NeoSkeleton no-margin size="medium" width="100px" />
       </span>
