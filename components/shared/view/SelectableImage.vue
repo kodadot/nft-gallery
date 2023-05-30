@@ -1,17 +1,17 @@
 <template>
-  <b-image
-    ratio="1by1"
-    class="image"
+  <BasicImage
     :class="[
       disabled ? 'selectable-image-disabled' : 'selectable-image',
       { 'is-selected': selected },
     ]"
     :src="src"
     alt="Some Image"
-    @click.native="handleClick"></b-image>
+    @click.native="handleClick" />
 </template>
 
 <script setup lang="ts">
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+
 const props = defineProps<{
   src: string
   index: number

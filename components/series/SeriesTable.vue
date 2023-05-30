@@ -36,13 +36,7 @@
         header-class="front-stack-layer"
         cell-class="is-vcentered">
         <div class="image is-48x48 mb-2">
-          <b-image
-            v-if="!isLoading"
-            :src="props.row.image"
-            :alt="props.row.name"
-            ratio="1by1"
-            rounded />
-          <NeoSkeleton :active="isLoading" circle width="48px" height="48px" />
+          <BasicImage :src="props.row.image" :alt="props.row.name" rounded />
         </div>
       </b-table-column>
 
@@ -332,6 +326,7 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   NeoField,
+  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 
 @Component({ components })
