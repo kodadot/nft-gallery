@@ -19,28 +19,19 @@
 import { MediaItem } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getNftMetadata } from '@/composables/useNft'
+import { getMimeType } from '@/utils/gallery/media'
 
 import type { NFTWithMetadata } from '@/composables/useNft'
-import { getMimeType } from '~~/utils/gallery/media'
 
 const { accountId } = useAuth()
-const { client, urlPrefix } = usePrefix()
+const { urlPrefix } = usePrefix()
 
-const queryPrefix = client.value === 'ksm' ? 'chain-ksm' : client.value
-const { data } = useGraphql({
-  queryPrefix,
-  queryName: 'nftListWithSearch',
-  variables: {
-    first: 10,
-    search: [
-      {
-        currentOwner_eq: accountId.value,
-      },
-    ],
-  },
-  options: {
-    fetchPolicy: 'cache-first',
-  },
+const { data } = useSearchNfts({
+  search: [
+    {
+      currentOwner_eq: accountId.value,
+    },
+  ],
 })
 
 const nfts = ref<NFTWithMetadata[]>([])
