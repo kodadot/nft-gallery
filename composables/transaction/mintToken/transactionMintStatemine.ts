@@ -16,20 +16,27 @@ export async function execMintStatemine(
   } = item.token.selectedCollection as MintedCollectionBasilisk
   const { price } = item.token
 
+  const { accountId } = useAuth()
+
   const metadata = await constructMeta(item)
 
   const cb = api.tx.utility.batchAll
 
   const nextId = Math.max(lastIndexUsed + 1, collectionAlreadyMinted + 1)
 
-  const create = api.tx.uniques.mint(collectionId, nextId, metadata)
+  const create = api.tx.nfts.mint(
+    collectionId,
+    nextId,
+    accountId.value,
+    undefined
+  )
 
-  const meta = api.tx.uniques.setMetadata(collectionId, nextId, metadata, false)
+  const meta = api.tx.nfts.setMetadata(collectionId, nextId, metadata)
 
   const list =
-    Number(price) > 0
-      ? [api.tx.uniques.setPrice(collectionId, nextId, price)]
-      : []
+    Number(price) > 0 ? [api.tx.nfts.setPrice(collectionId, nextId, price)] : []
+
+  // TODO: add royalty via setAttribute
 
   const args = [[create, meta, ...list]]
 

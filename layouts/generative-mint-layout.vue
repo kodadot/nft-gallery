@@ -5,7 +5,7 @@
       <section class="hero is-medium is-link">
         <div class="hero-body">
           <h1 class="subtitle has-text-centered has-text-weight-bold is-size-3">
-            Mint Your Bled Spring Waifu
+            Mint Your {{ NAME }} Waifu
           </h1>
         </div>
       </section>
@@ -30,6 +30,7 @@
 </template>
 
 <script lang="ts" setup>
+import { NAME } from '@/components/generative/promptBuilder'
 const { $config } = useNuxtApp()
 const route = useRoute()
 

@@ -1,6 +1,6 @@
 <template>
-  <ModalWrapper icon="trash" :title="title" isRight>
-    <template v-slot:default>
+  <ModalWrapper icon="trash" :title="title" is-right>
+    <template #default>
       <Loader v-model="isLoading" :status="status" />
       <div class="buttons">
         <b-button type="is-danger" expanded outlined @click="clearMeta"
@@ -10,8 +10,8 @@
           type="is-danger"
           expanded
           outlined
-          @click="clearAttrs"
           :disabled="!hasAttributes"
+          @click="clearAttrs"
           >Remove ALL attributes</b-button
         >
       </div>
@@ -22,7 +22,7 @@
 <script lang="ts">
 import { emptyArray } from '@/utils/empty'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { showNotification } from '~/utils/notification'
 import { Attribute } from '../../types'
 
