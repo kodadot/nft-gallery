@@ -1,6 +1,14 @@
 <template>
   <div class="is-flex is-align-items-center">
+    <a
+      v-if="account && redesign"
+      class="navbar-item"
+      role="button"
+      @click="toggleWalletConnectModal">
+      <Avatar :value="account" class="navbar__avatar-icon" :size="27" />
+    </a>
     <b-dropdown
+      v-else
       position="is-bottom-left"
       aria-role="menu"
       :triggers="['hover']">
@@ -88,7 +96,7 @@
     </b-dropdown>
 
     <a
-      v-if="account"
+      v-if="account && !redesign"
       class="navbar-item"
       role="button"
       @click="toggleWalletConnectModal">
@@ -161,8 +169,7 @@
         </defs>
       </svg>
     </a>
-
-    <div v-else>
+    <div v-if="!account">
       <ConnectWalletButton
         class="button-connect-wallet px-4"
         variant="k-accent"
@@ -235,6 +242,7 @@ import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import AuthMixin from '@/utils/mixins/authMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import useApiMixin from '@/utils/mixins/useApiMixin'
+import ExperimentMixin from '@/utils/mixins/experimentMixin'
 
 const components = {
   Avatar,
@@ -254,7 +262,8 @@ const components = {
 export default class ProfileDropdown extends mixins(
   PrefixMixin,
   AuthMixin,
-  useApiMixin
+  useApiMixin,
+  ExperimentMixin
 ) {
   @Prop() public value!: any
   @Prop() public showIncomingOffers!: boolean
@@ -308,6 +317,8 @@ export default class ProfileDropdown extends mixins(
       this.modal = null
       return
     }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     this.modal = this.$buefy.modal.open({
       parent: this,
       ...ConnectWalletModalConfig,
@@ -326,6 +337,8 @@ export default class ProfileDropdown extends mixins(
   }
 
   public toggleLanguageMenu() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     this.$refs.languageDropdown?.toggle()
   }
 

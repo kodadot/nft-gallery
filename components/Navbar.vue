@@ -97,7 +97,7 @@
       <template v-if="isMobile">
         <MobileLanguageOption v-if="!account" />
         <MobileExpandableSection
-          v-if="account"
+          v-if="account && !redesign"
           :no-padding="true"
           :title="$t('account')"
           icon="user-circle"
@@ -126,13 +126,17 @@
           v-if="account"
           class="navbar-item"
           @click.stop="openWalletConnectModal">
-          <span>
+          <span v-if="redesign">
+            {{ $t('account') }}
+            <NeoIcon icon="user-circle" />
+          </span>
+          <span v-else>
             {{ $t('wallet') }}
             <NeoIcon icon="wallet" />
           </span>
           <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
         </div>
-        <ColorModeButton class="navbar-item" />
+        <ColorModeButton v-if="!redesign" class="navbar-item" />
 
         <div v-if="!account" id="NavProfile">
           <ConnectWalletButton
@@ -188,6 +192,7 @@ const isMobile = ref(window.innerWidth < 1024)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
+const { redesign } = useExperiments()
 
 const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
