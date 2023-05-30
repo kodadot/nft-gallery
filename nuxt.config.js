@@ -1,4 +1,5 @@
 import path from 'path'
+import * as fs from 'fs'
 import { defineNuxtConfig } from '@nuxt/bridge'
 import SentryWebpackPlugin from '@sentry/webpack-plugin'
 import { manifestIcons } from './utils/config/pwa'
@@ -326,6 +327,10 @@ export default defineNuxtConfig({
   apollo: {
     clientConfigs: apolloClientConfig,
     // https://github.com/nuxt-community/apollo-module#options
+  },
+
+  sitemap: {
+    hostname: process.env.BASE_URL || 'http://localhost:9090',
   },
 
   hooks: {
