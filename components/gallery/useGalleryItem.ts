@@ -5,10 +5,19 @@ import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
-import useCachedGraphql from '@/composables/useCachedGraphql'
+import { Ref } from '@nuxt/bridge/dist/runtime/composables'
 
 interface NFTData {
   nftEntity?: NFTWithMetadata
+}
+
+export interface GalleryItem {
+  nft: Ref<NFT | undefined>
+  nftMimeType: Ref<string>
+  nftMetadata: Ref<NFTWithMetadata | undefined>
+  nftAnimation: Ref<string>
+  nftImage: Ref<string>
+  nftResources: Ref<NftResources[] | undefined>
 }
 
 const whichMimeType = async (data) => {
@@ -32,7 +41,7 @@ const whichAsset = (data) => {
   }
 }
 
-export const useGalleryItem = (nftId?: string) => {
+export const useGalleryItem = (nftId?: string): GalleryItem => {
   const { $consola } = useNuxtApp()
   const historyStore = useHistoryStore()
   const nft = ref<NFT>()
@@ -49,26 +58,35 @@ export const useGalleryItem = (nftId?: string) => {
   const queryPath = {
     rmrk: 'chain-rmrk',
     ksm: 'chain-ksm',
-    stmn: 'chain-stmn',
   }
 
   const { urlPrefix } = usePrefix()
-
-  const DoFetch = useCachedGraphql({
-    queryPrefix: queryPath[urlPrefix.value] || urlPrefix.value,
+  const { data, refetch } = useGraphql({
     queryName: 'nftById',
-    variables: { id },
+    queryPrefix: queryPath[urlPrefix.value],
+    variables: {
+      id,
+    },
     options: {
       fetchPolicy: 'network-only',
     },
-    staleTime: 3000,
   })
 
-  const queryResult = DoFetch<NFTData>()
+  useSubscriptionGraphql({
+    query: `   nft: nftEntityById(id: "${id}") {
+      id
+      currentOwner
+      price
+      burned
+      events {
+        id
+      }
+    }`,
+    onChange: refetch,
+  })
 
-  watchEffect(async () => {
-    const { data } = queryResult
-    const nftEntity = data.value?.nftEntity
+  watch(data as unknown as NFTData, async (newData) => {
+    const nftEntity = newData?.nftEntity
     if (!nftEntity) {
       $consola.log(`NFT with id ${id} not found. Fallback to RPC Node`)
       return
@@ -105,23 +123,6 @@ export const useGalleryItem = (nftId?: string) => {
       mimeType: nftMimeType.value,
       prefix: urlPrefix,
     })
-  })
-
-  useSubscriptionGraphql({
-    query: `   nft: nftEntityById(id: "${id}") {
-      id
-      currentOwner
-      price
-      burned
-      events {
-        id
-      }
-    }`,
-    onChange: () => {
-      if (queryResult.isStale.value) {
-        queryResult.refetch()
-      }
-    },
   })
 
   return {
