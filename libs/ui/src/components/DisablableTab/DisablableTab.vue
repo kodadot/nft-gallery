@@ -1,7 +1,7 @@
 <template>
   <o-tab-item :value="value" class="py-5" :label="label" :disabled="disabled">
     <template #header>
-      <NeoTooltip v-if="disabled" :label="disabledTooltip">
+      <NeoTooltip v-if="disabled" :label="disabledTooltip" stop-events>
         {{ label }}
       </NeoTooltip>
 

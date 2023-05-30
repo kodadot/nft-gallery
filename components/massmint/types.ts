@@ -14,6 +14,7 @@ export enum Status {
 }
 
 export type NFT = {
+  fileName: string
   id: number
   imageUrl: string
   name?: string

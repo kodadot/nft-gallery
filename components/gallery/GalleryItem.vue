@@ -13,7 +13,11 @@
         <div class="is-relative">
           <!-- preview button -->
           <a
-            v-if="canPreview && !mediaItemRef?.isLewdBlurredLayer"
+            v-if="
+              canPreview &&
+              !mediaItemRef?.isLewdBlurredLayer &&
+              !hasAnimatedResources
+            "
             class="fullscreen-button is-justify-content-center is-align-items-center"
             @click="isFullscreen = true">
             <NeoIcon icon="expand" />
@@ -28,13 +32,12 @@
               <o-carousel-item
                 v-for="resource in nftResources"
                 :key="resource.id">
-                <section>
-                  <MediaItem
-                    :key="resource.src"
-                    :src="resource.src"
-                    is-detail
-                    :original="isMobile" />
-                </section>
+                <MediaItem
+                  :key="resource.src"
+                  :src="resource.src"
+                  :mime-type="resource.mimeType"
+                  :animation-src="resource.animation"
+                  is-detail />
               </o-carousel-item>
             </o-carousel>
           </div>
@@ -52,7 +55,6 @@
             :mime-type="nftMimeType"
             :title="nftMetadata?.name"
             is-detail
-            :original="isMobile"
             :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder" />
         </div>
@@ -67,6 +69,7 @@
               <div class="name-container">
                 <h1 class="title" data-cy="item-title">
                   {{ nftMetadata?.name }}
+                  <span v-if="nft?.burned" class="has-text-danger">「🔥」</span>
                 </h1>
                 <h2 class="subtitle" data-cy="item-collection">
                   <CollectionDetailsPopover
@@ -82,7 +85,7 @@
                   </CollectionDetailsPopover>
                 </h2>
               </div>
-              <GalleryItemButton />
+              <GalleryItemButton v-if="!nft?.burned" />
             </div>
 
             <div
@@ -106,19 +109,21 @@
 
           <!-- LINE DIVIDER -->
           <hr />
-          <UnlockableTag
-            v-if="isUnlockable && isMobile"
-            :nft="nft"
-            :link="unlockLink"
-            class="mt-4" />
+          <template v-if="!nft?.burned">
+            <UnlockableTag
+              v-if="isUnlockable && isMobile"
+              :nft="nft"
+              :link="unlockLink"
+              class="mt-4" />
 
-          <!-- price section -->
-          <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
-          <UnlockableTag
-            v-if="isUnlockable && !isMobile"
-            :link="unlockLink"
-            :nft="nft"
-            class="mt-7" />
+            <!-- price section -->
+            <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
+            <UnlockableTag
+              v-if="isUnlockable && !isMobile"
+              :link="unlockLink"
+              :nft="nft"
+              class="mt-7" />
+          </template>
         </div>
       </div>
     </div>
@@ -203,6 +208,12 @@ const activeCarouselImage = computed(() => {
 })
 const hasResources = computed(
   () => nftResources.value && nftResources.value?.length > 1
+)
+const hasAnimatedResources = computed(
+  () =>
+    nftResources.value &&
+    nftResources.value?.length > 1 &&
+    nftResources.value[1].animation
 )
 
 const previewItemSrc = computed(

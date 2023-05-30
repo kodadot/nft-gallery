@@ -3,12 +3,7 @@
     <div class="columns is-centered">
       <div class="column is-half has-text-centered">
         <div class="container image is-128x128 mb-2">
-          <b-image
-            v-if="!isLoading"
-            :src="image"
-            :alt="name"
-            ratio="1by1"
-            rounded></b-image>
+          <BasicImage v-if="!isLoading" :src="image" :alt="name" rounded />
         </div>
         <h1 class="title is-2">
           {{ name }}
@@ -101,6 +96,7 @@ import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { tokenIdToRoute } from '../../utils'
 
 const components = {
+  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/shared/Sharing.vue'),

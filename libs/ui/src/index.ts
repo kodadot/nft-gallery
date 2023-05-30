@@ -27,6 +27,7 @@ export { default as NeoInput } from './components/NeoInput/NeoInput.vue'
 export { default as NeoCarousel } from './components/NeoCarousel/NeoCarousel.vue'
 export { default as NeoCarouselItem } from './components/NeoCarousel/NeoCarouselItem.vue'
 export { default as NeoLoading } from './components/NeoLoading/NeoLoading.vue'
+export { default as NeoMessage } from './components/NeoMessage/NeoMessage.vue'
 
 export { default as NeoSwitch } from './components/NeoSwitch/NeoSwitch.vue'
 export { default as NeoSteps } from './components/NeoSteps/NeoSteps.vue'

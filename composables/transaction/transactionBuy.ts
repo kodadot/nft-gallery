@@ -1,4 +1,4 @@
-import { tokenIdToRoute } from '@/components/unique/utils'
+import { isLegacy, tokenIdToRoute } from '@/components/unique/utils'
 import { createInteraction } from '@kodadot1/minimark/v1'
 import {
   Interaction as NewInteraction,
@@ -55,11 +55,12 @@ function execBuyBasilisk(item: ActionBuy, api, executeTransaction) {
 }
 
 function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
+  const legacy = isLegacy(item.nftId)
   const { id, item: token } = tokenIdToRoute(item.nftId)
 
   // TODO: implement tx fees #5130
   executeTransaction({
-    cb: getApiCall(api, item.urlPrefix, item.interaction),
+    cb: getApiCall(api, item.urlPrefix, item.interaction, legacy),
     arg: [id, token, item.price],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
@@ -75,7 +76,7 @@ export function execBuyTx(item: ActionBuy, api, executeTransaction) {
     execBuyBasilisk(item, api, executeTransaction)
   }
 
-  if (item.urlPrefix === 'stmn') {
+  if (item.urlPrefix === 'stmn' || item.urlPrefix === 'stt') {
     execBuyStatemine(item, api, executeTransaction)
   }
 }
