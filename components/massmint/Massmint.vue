@@ -190,9 +190,9 @@ const startMint = () => {
 
       //redirect to collection page when collection is updated
       if (collectionUpdated.value) {
-        router.push({
-          path: `/${urlPrefix.value}/collection/${selectedCollection.value?.id}`,
-        })
+        navigateTo(
+          `/${urlPrefix.value}/collection/${selectedCollection.value?.id}`
+        )
       }
     }
   )
