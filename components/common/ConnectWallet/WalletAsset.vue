@@ -1,6 +1,8 @@
 <template>
   <div class="is-flex is-flex-direction-column wallet-asset">
-    <div class="is-flex is-flex-direction-column wallet-asset-container">
+    <WalletAssetSetIdentity v-if="!display" />
+
+    <div class="is-flex is-flex-direction-column wallet-asset-container mt-4">
       <WalletAssetIdentity v-if="redesign" />
       <div v-else>
         <div>
@@ -63,6 +65,7 @@ import WalletAssetIdentity from './WalletAssetIdentity.vue'
 import WalletAssetNfts from './WalletAssetNfts.vue'
 import WalletAssetPortfolio from './WalletAssetPortfolio.vue'
 import WalletAssetMenu from './WalletAssetMenu.vue'
+import WalletAssetSetIdentity from './WalletAssetSetIdentity.vue'
 
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/module/IdentityLink.vue')
@@ -89,7 +92,7 @@ const account = computed(() => identityStore.getAuthAddress)
 const walletName = computed(() => walletStore.getWalletName)
 const isSnek = computed(() => urlPrefix.value === 'snek')
 
-const { shortenedAddress } = useIdentity({
+const { shortenedAddress, display } = useIdentity({
   address: account.value,
 })
 

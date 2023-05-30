@@ -1,6 +1,6 @@
 <template>
   <div class="wallet-modal-container is-flex is-flex-direction-column">
-    <header class="modal-card-head mb-4">
+    <header class="modal-card-head">
       <b-button
         v-show="hasSelectedWalletProvider"
         type="is-text"
