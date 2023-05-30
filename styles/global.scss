@@ -234,7 +234,7 @@ body {
 hr {
   height: 1px;
   @include ktheme() {
-    background: theme('k-grey');
+    background: theme('k-shade');
   }
 }
 

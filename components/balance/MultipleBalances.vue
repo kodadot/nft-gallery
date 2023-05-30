@@ -29,7 +29,7 @@
 
     <hr class="my-2" />
     <p
-      class="is-flex is-justify-content-space-between is-align-items-center my-1">
+      class="is-flex is-justify-content-space-between is-align-items-flex-end my-1">
       <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
       <span>${{ delimiter(identityStore.getTotalUsd) }}</span>
     </p>
