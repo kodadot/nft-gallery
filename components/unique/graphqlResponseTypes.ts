@@ -35,4 +35,3 @@ export type NFTEntitiesWithCount<T> = {
 export type WithData<T> = {
   data: T
 }
-

@@ -1,17 +1,19 @@
 <template>
-  <b-image
-    :src="src || placeholder"
-    :src-fallback="placeholder"
-    :alt="alt"
-    ratio="1by1"
-    :class="customClass"
-    :rounded="rounded"
-    data-cy="type-image"
-    @error="onImageError">
-    <template #placeholder>
-      <NeoSkeleton full-size no-margin :circle="rounded" />
-    </template>
-  </b-image>
+  <figure class="image-wrapper image is-1by1" :class="customClass">
+    <transition name="fade">
+      <img
+        :src="imageSrc || placeholder"
+        :alt="alt"
+        :class="['has-ratio', { 'is-rounded': rounded }]"
+        @load="onImageLoad"
+        @error="onImageError" />
+    </transition>
+    <transition name="fade">
+      <slot v-if="!loaded" name="placeholder">
+        <NeoSkeleton full-size no-margin :circle="rounded" />
+      </slot>
+    </transition>
+  </figure>
 </template>
 
 <script lang="ts" setup>
@@ -19,14 +21,37 @@ import { NeoSkeleton } from '@kodadot1/brick'
 
 const { $consola } = useNuxtApp()
 const { placeholder } = useTheme()
-defineProps({
-  src: { type: String, default: '' },
-  alt: { type: String, default: 'KodaDot NFT minted multimedia' },
-  customClass: { type: String, default: '' },
-  rounded: Boolean,
-})
+const props = withDefaults(
+  defineProps<{
+    src: string
+    alt?: string
+    customClass?: string
+    rounded?: boolean
+  }>(),
+  {
+    src: '',
+    alt: '',
+    customClass: '',
+  }
+)
 
-function onImageError(ev: Event, src: string) {
-  $consola.error('[BasicImage] to load:', src, ev)
+const imageSrc = ref(props.src)
+const loaded = ref(false)
+
+const onImageLoad = () => {
+  loaded.value = true
+}
+const onImageError = (ev: Event) => {
+  $consola.error('[BasicImage] to load:', props.src, ev)
+  imageSrc.value = placeholder.value
 }
 </script>
+
+<style lang="scss" scoped>
+.image-wrapper {
+  padding-top: 100%;
+  img {
+    object-fit: cover;
+  }
+}
+</style>

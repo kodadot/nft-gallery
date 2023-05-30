@@ -120,6 +120,23 @@
   &.no-shadow {
     box-shadow: none;
   }
+
+  &--rounded {
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    @include ktheme() {
+      border-color: theme('k-shade');
+      color: theme('border-color');
+    }
+
+    &:hover {
+      background-color: transparent !important;
+      @include ktheme() {
+        border-color: theme('border-color');
+        color: theme('border-color');
+      }
+    }
+  }
 }
 
 .is-fixed-width {
