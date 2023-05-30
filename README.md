@@ -46,7 +46,7 @@ You'll find our goals for KodaDot upcoming future!
 
 #### Please ⭐️ **star** and **share** this repository! This exposes us to other builders and creators in the space.
 
-- Feel free to donate to our [KodaDot_Guild_Rewards](https://beta.kodadot.xyz/dot/transfer?target=14SprTXXg5Bdgj8qV6ds57mevDwAib4SKLg6R8Lc6TzeDcLa&usdamount=1000&donation=true) which has already **funded over $451k @ $200/KSM ([~2258 $KSM]**(https://dotscanner.com/Kusama/account/G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar)) to notable contributing members. 
+- Feel free to donate to our [KodaDot_Guild_Rewards](https://beta.kodadot.xyz/dot/transfer?target=14SprTXXg5Bdgj8qV6ds57mevDwAib4SKLg6R8Lc6TzeDcLa&usdamount=1000&donation=true) which has already **funded over $451k @ $200/KSM** [~2258 $KSM](https://dotscanner.com/Kusama/account/G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar) to notable contributing members. 
 - Now we are moving with funding contributors from Kusama [to Polkadot](https://dotscanner.com/Polkadot/account/14SprTXXg5Bdgj8qV6ds57mevDwAib4SKLg6R8Lc6TzeDcLa)
 
 # Stay Tuned for Updates!
