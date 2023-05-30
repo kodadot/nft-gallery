@@ -90,8 +90,7 @@ const walletName = computed(() => walletStore.getWalletName)
 const isSnek = computed(() => urlPrefix.value === 'snek')
 
 const { shortenedAddress } = useIdentity({
-  address: account,
-  customNameOption: '',
+  address: account.value,
 })
 
 const disconnect = () => {
