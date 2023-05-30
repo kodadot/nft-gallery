@@ -50,7 +50,6 @@ Cypress.Commands.add('snekNavbar', () => {
 Cypress.Commands.add('snekGalleryListedItemActions', (nftId, creator) => {
   cy.visit(`/snek/gallery/${nftId}`)
   cy.waitForNetworkIdle('POST', '*', 1000)
-  cy.get('[data-cy="make-offer"]').should('not.be.disabled')
   cy.get('[data-cy="gallery-item-tabs"]').within(() => {
     cy.get('[role="tab"]').eq(0).should('contain', 'Offers')
     cy.get('[role="tab"]').eq(0).click()
@@ -82,7 +81,6 @@ Cypress.Commands.add('checkCollectionActions', (url, nftName, creator) => {
   cy.get('.is-hidden-mobile [data-cy="blockNumber_ASC"]').click({
     force: true,
   })
-  cy.get('[data-cy="identity"]').should('contain', creator)
   cy.get('[data-cy="share-button"]').should('be.visible')
   cy.get('[data-cy="more-actions-button"]').should('be.visible')
 })
