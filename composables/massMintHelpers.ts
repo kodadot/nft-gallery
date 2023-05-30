@@ -5,8 +5,8 @@ import {
   TokenToMint,
 } from '@/composables/transaction/types'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import { EntityWithId, getNftId } from '../rmrk/service/scheme'
-import { NFTToMint } from './types'
+import { EntityWithId, getNftId } from '../components/rmrk/service/scheme'
+import { NFTToMint } from '../components/massmint/types'
 
 export const createTokensToMint = (
   nfts: NFTToMint[],

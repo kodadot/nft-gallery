@@ -1,14 +1,13 @@
 import { unwrapSafe } from '@/utils/uniquery'
 import resolveQueryPath from '@/utils/queryPathResolver'
-import shouldUpdate from '@/utils/shouldUpdate'
-import { NFTToMint, Status } from './types'
+import { NFTToMint, Status } from '../components/massmint/types'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { MintedCollection } from '@/composables/transaction/types'
 import {
   createTokensToMint,
   kusamaMintAndList,
   subscribeToCollectionLengthUpdates,
-} from './mintingHelpers'
+} from './massMintHelpers'
 
 export const statusTranslation = (status?: Status): string => {
   const { $i18n } = useNuxtApp()

@@ -100,7 +100,7 @@ import MintingModal from './modals/MintingModal.vue'
 import { FileObject } from './uploadCompressedMedia/useZipValidator'
 import { MintedCollection } from '@/composables/transaction/types'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { useMassMint } from './useMassMint'
+import { useMassMint } from '@/composables/useMassMint'
 
 const preferencesStore = usePreferencesStore()
 const { $consola, $i18n } = useNuxtApp()
