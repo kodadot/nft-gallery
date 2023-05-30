@@ -108,9 +108,6 @@ importers:
       '@sgratzl/chartjs-chart-boxplot':
         specifier: ^3.10.0
         version: 3.10.0(chart.js@3.9.1)
-      '@tanstack/vue-query':
-        specifier: ^4.29.7
-        version: 4.29.7(vue@2.7.14)
       apollo-boost:
         specifier: ^0.4.9
         version: 0.4.9(graphql@16.6.0)
@@ -5819,14 +5816,6 @@ packages:
       tslib: 2.5.2
     dev: false
 
-  /@polkadot/types-support@10.7.1:
-    resolution: {integrity: sha512-E7bJfqI9ajCsidRjHiIHTil6av+M+LVfiO9viPjA4PhMp6RIuH6jZ9xUZ6S6hM25zqDwnxtGjx3CPARAx6dwLg==}
-    engines: {node: '>=16'}
-    dependencies:
-      '@polkadot/util': 12.2.1
-      tslib: 2.5.0
-    dev: false
-
   /@polkadot/types-support@7.15.1:
     resolution: {integrity: sha512-FIK251ffVo+NaUXLlaJeB5OvT7idDd3uxaoBM6IwsS87rzt2CcWMyCbu0uX89AHZUhSviVx7xaBxfkGEqMePWA==}
     engines: {node: '>=14.0.0'}
@@ -7318,33 +7307,6 @@ packages:
     dependencies:
       defer-to-connect: 2.0.1
     dev: true
-
-  /@tanstack/match-sorter-utils@8.8.4:
-    resolution: {integrity: sha512-rKH8LjZiszWEvmi01NR72QWZ8m4xmXre0OOwlRGnjU01Eqz/QnN+cqpty2PJ0efHblq09+KilvyR7lsbzmXVEw==}
-    engines: {node: '>=12'}
-    dependencies:
-      remove-accents: 0.4.2
-    dev: false
-
-  /@tanstack/query-core@4.29.7:
-    resolution: {integrity: sha512-GXG4b5hV2Loir+h2G+RXhJdoZhJLnrBWsuLB2r0qBRyhWuXq9w/dWxzvpP89H0UARlH6Mr9DiVj4SMtpkF/aUA==}
-    dev: false
-
-  /@tanstack/vue-query@4.29.7(vue@2.7.14):
-    resolution: {integrity: sha512-dVk2s5zcEtkDiNV4EFvKRiTnldNCcWh4P57QmxuBNZrJ2bncumVoWO1PAO8uPfucHV0qZtFWDyzXzHyrdkHK7g==}
-    peerDependencies:
-      '@vue/composition-api': ^1.1.2
-      vue: ^2.5.0 || ^3.0.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-    dependencies:
-      '@tanstack/match-sorter-utils': 8.8.4
-      '@tanstack/query-core': 4.29.7
-      '@vue/devtools-api': 6.5.0
-      vue: 2.7.14
-      vue-demi: 0.13.11(vue@2.7.14)
-    dev: false
 
   /@tootallnate/once@2.0.0:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
@@ -13425,6 +13387,7 @@ packages:
 
   /file-uri-to-path@1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    requiresBuild: true
 
   /filelist@1.0.4:
     resolution: {integrity: sha512-w1cEuf3S+DrLCQL7ET6kz+gmlJdbq9J7yXCSjK/OZCPA+qEN1WyF4ZAf0YYJa4/shHJra2t/d/r8SV4Ji+x+8Q==}
@@ -16686,6 +16649,7 @@ packages:
 
   /nan@2.17.0:
     resolution: {integrity: sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==}
+    requiresBuild: true
     dev: false
     optional: true
 
@@ -19419,10 +19383,6 @@ packages:
       invariant: 2.2.4
     transitivePeerDependencies:
       - encoding
-    dev: false
-
-  /remove-accents@0.4.2:
-    resolution: {integrity: sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==}
     dev: false
 
   /remove-trailing-separator@1.1.0:
