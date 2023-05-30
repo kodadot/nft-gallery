@@ -64,7 +64,7 @@ const bindCopyEvents = (event) => {
   }
 }
 
-const listenGlobalKeyboardEvents = (app, store) => {
+const listenGlobalKeyboardEvents = (app) => {
   document.addEventListener('keydown', (event: KeyboardEvent) => {
     if (shouldIgnoreKeyDownEvent(event)) {
       return
@@ -72,7 +72,7 @@ const listenGlobalKeyboardEvents = (app, store) => {
 
     keysPressed[event.key] = true
     if (keysPressed['g']) {
-      bindGoToEvents(event, app, store)
+      bindGoToEvents(event, app)
     }
     if (keysPressed['c']) {
       bindCopyEvents(event)
@@ -91,6 +91,6 @@ const listenGlobalKeyboardEvents = (app, store) => {
   })
 }
 
-export default ({ app, store }): void => {
-  listenGlobalKeyboardEvents(app, store)
+export default ({ app }): void => {
+  listenGlobalKeyboardEvents(app)
 }
