@@ -98,13 +98,31 @@ export function execListTx(item: ActionList, api, executeTransaction) {
   }
 
   if (item.urlPrefix === 'stmn' || item.urlPrefix === 'stt') {
-    const legacy = isLegacy(item.nftId)
-    const paramResolver = assetHubParamResolver(legacy)
-    executeTransaction({
-      cb: getApiCall(api, item.urlPrefix, Interaction.LIST),
-      arg: paramResolver(item.nftId, Interaction.LIST, meta),
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
+    if (isSingle) {
+      const token = item.token as TokenToList
+      const legacy = isLegacy(token.nftId)
+      const paramResolver = assetHubParamResolver(legacy)
+      executeTransaction({
+        cb: getApiCall(api, item.urlPrefix, Interaction.LIST),
+        arg: paramResolver(token.nftId, Interaction.LIST, token.price),
+        successMessage: item.successMessage,
+        errorMessage: item.errorMessage,
+      })
+    } else {
+      const tokens = item.token as TokenToList[]
+      const cb = getApiCall(api, item.urlPrefix, Interaction.LIST)
+      const args = tokens.map((token) => {
+        const legacy = isLegacy(token.nftId)
+        const paramResolver = assetHubParamResolver(legacy)
+        return cb(...paramResolver(token.nftId, Interaction.LIST, token.price))
+      })
+
+      executeTransaction({
+        cb: api.tx.utility.batchAll,
+        arg: [args],
+        successMessage: item.successMessage,
+        errorMessage: item.errorMessage,
+      })
+    }
   }
 }
