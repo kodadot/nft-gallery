@@ -124,10 +124,12 @@ export const useMassMint = (
   const willItList = tokens.some(
     (token) => token.price && Number(token.price) > 0
   )
-  const isBsx = urlPrefix.value === 'bsx' || urlPrefix.value === 'snek'
+  const isBsx = computed(
+    () => urlPrefix.value === 'bsx' || urlPrefix.value === 'snek'
+  )
 
   if (willItList) {
-    if (isBsx) {
+    if (isBsx.value) {
       simpleMint()
     } else {
       // kusama
