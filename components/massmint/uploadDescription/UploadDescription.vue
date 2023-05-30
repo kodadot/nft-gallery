@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 import DragDrop from '@/components/shared/DragDrop.vue'
-import { useParseDescriptionFile } from '@/composables/useParseDescriptionFile'
+import { useParseDescriptionFile } from '@/composables/massmint/useParseDescriptionFile'
 
 withDefaults(
   defineProps<{

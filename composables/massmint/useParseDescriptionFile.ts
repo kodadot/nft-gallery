@@ -1,7 +1,7 @@
-import { Entry } from '../components/massmint/uploadDescription/parsers/common'
-import { parseCsv } from '../components/massmint/uploadDescription/parsers/parseCsv'
-import { parseJson } from '../components/massmint/uploadDescription/parsers/parseJson'
-import { parseTxt } from '../components/massmint/uploadDescription/parsers/parseTxt'
+import { Entry } from '../../components/massmint/uploadDescription/parsers/common'
+import { parseCsv } from '../../components/massmint/uploadDescription/parsers/parseCsv'
+import { parseJson } from '../../components/massmint/uploadDescription/parsers/parseJson'
+import { parseTxt } from '../../components/massmint/uploadDescription/parsers/parseTxt'
 
 const readTextFile = (file: File): Promise<string> => {
   return new Promise<string>((resolve, reject) => {

@@ -58,8 +58,8 @@ import {
   NeoDropdownItem,
   NeoIcon,
 } from '@kodadot1/brick'
-import { useCollectionForMint } from '@/composables/useMassMint'
 import { MintedCollection } from '@/composables/transaction/types'
+import { useCollectionForMint } from '@/composables/massmint/useMassMint'
 
 const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()

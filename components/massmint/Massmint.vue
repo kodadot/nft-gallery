@@ -99,11 +99,11 @@ import MissingInfoModal from './modals/MissingInfoModal.vue'
 import ReviewModal from './modals/ReviewModal.vue'
 import DeleteModal from './modals/DeleteModal.vue'
 import MintingModal from './modals/MintingModal.vue'
-import { FileObject } from './uploadCompressedMedia/useZipValidator'
 import { MintedCollection } from '@/composables/transaction/types'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { useMassMint } from '@/composables/useMassMint'
 import { Entry } from './uploadDescription/parsers/common'
+import { useMassMint } from '@/composables/massmint/useMassMint'
+import { FileObject } from '@/composables/massmint/useZipValidator'
 
 const preferencesStore = usePreferencesStore()
 const { $consola, $i18n } = useNuxtApp()

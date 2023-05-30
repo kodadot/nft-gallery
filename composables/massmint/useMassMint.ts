@@ -1,6 +1,6 @@
 import { unwrapSafe } from '@/utils/uniquery'
 import resolveQueryPath from '@/utils/queryPathResolver'
-import { NFTToMint, Status } from '../components/massmint/types'
+import { NFTToMint, Status } from '../../components/massmint/types'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { MintedCollection } from '@/composables/transaction/types'
 import {
