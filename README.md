@@ -10,7 +10,7 @@
 
 #### Is this your first time contributing? Set up your local environment [here](FIRST_TIME.md)
 
-Before submitting your pull request, read up on our [documentation](https://docs.kodadot.xyz) and make sure it follows:
+Before submitting your pull request, read up on our [documentation](https://developers.kodadot.xyz) and make sure it follows:
 
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Contribution Guidelines](CONTRIBUTING.md)
@@ -28,13 +28,16 @@ We [reward](REWARDS.md) our contributors in $KSM for their time and effort with 
 
 You'll find our goals for KodaDot upcoming future!
 
-- [Beta Roadmap](https://github.com/orgs/kodadot/projects/4/views/1)
-- Test out KodaDot's [Beta](https://beta.kodadot.xyz/)
+- [Roadmap](https://hello.kodadot.xyz/ecosystem/roadmap-and-upcoming-features)
+- Test out KodaDot's dragons channels
+  - [Beta](https://beta.kodadot.xyz/)
+  - [Canary](https://canary.kodadot.xyz/)
 
 # Writings
 
-- Read about [our progress](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours) with KodaDot.
-- Read about KodaDot's [newest features](https://docs.kodadot.xyz/writings.html)
+- Read about [who we are in KodaDot?](https://hello.kodadot.xyz/about-us/who-are-we)
+- Read about KodaDot's [newest alpha products](https://hello.kodadot.xyz/about-us/alpha-products)
+- Read about [KodaDot's Merchandise Shop success.](https://hello.kodadot.xyz/fandom-toolbox/audience-growth/merchandise-shop)
 - Read on the ever-evolving states of our [data storage](https://medium.com/kodadot/on-the-past-present-and-future-of-data-storage-at-kodadot-7634a0c32530)
 - Read up on our efforts to be a [public good](https://medium.com/kodadot/on-sustaining-open-source-as-a-public-good-a3e8c36e67d6)
 - Get a glimpse into our [contributor culture](https://medium.com/kodadot/contributor-culture-at-kodadot-665243d3d6a6)
@@ -43,7 +46,8 @@ You'll find our goals for KodaDot upcoming future!
 
 #### Please ⭐️ **star** and **share** this repository! This exposes us to other builders and creators in the space.
 
-#### Feel free to donate to our [KodaDot_Guild_Rewards](https://beta.kodadot.xyz/ksm/transfer?target=G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar&usdamount=1000&donation=true) which already funded over $200k ([~1740 $KSM](https://dotscanner.com/Kusama/account/G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar)) to notable contributing members
+- Feel free to donate to our [KodaDot_Guild_Rewards](https://beta.kodadot.xyz/dot/transfer?target=14SprTXXg5Bdgj8qV6ds57mevDwAib4SKLg6R8Lc6TzeDcLa&usdamount=1000&donation=true) which has already **funded over $451k @ $200/KSM** [~2258 $KSM](https://dotscanner.com/Kusama/account/G29NScLSew5zqwmJAPupvJWDCDkpxKUhDnMeVdD2BBcnHar) to notable contributing members. 
+- Now we are moving with funding contributors from Kusama [to Polkadot](https://dotscanner.com/Polkadot/account/14SprTXXg5Bdgj8qV6ds57mevDwAib4SKLg6R8Lc6TzeDcLa)
 
 # Stay Tuned for Updates!
 

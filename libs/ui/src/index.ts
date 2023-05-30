@@ -27,6 +27,7 @@ export { default as NeoInput } from './components/NeoInput/NeoInput.vue'
 export { default as NeoCarousel } from './components/NeoCarousel/NeoCarousel.vue'
 export { default as NeoCarouselItem } from './components/NeoCarousel/NeoCarouselItem.vue'
 export { default as NeoLoading } from './components/NeoLoading/NeoLoading.vue'
+export { default as NeoMessage } from './components/NeoMessage/NeoMessage.vue'
 
 export { default as NeoSwitch } from './components/NeoSwitch/NeoSwitch.vue'
 export { default as NeoSteps } from './components/NeoSteps/NeoSteps.vue'
@@ -36,5 +37,8 @@ export { default as NeoAutocomplete } from './components/NeoAutocomplete/NeoAuto
 
 export { default as NeoRadio } from './components/NeoRadio/NeoRadio.vue'
 export { default as NeoRadioButton } from './components/NeoRadio/NeoRadioButton.vue'
+
+export { default as NeoTable } from './components/NeoTable/NeoTable.vue'
+export { default as NeoTableColumn } from './components/NeoTable/NeoTableColumn.vue'
 
 export { default as Neo } from '@oruga-ui/oruga'

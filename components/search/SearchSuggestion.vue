@@ -30,22 +30,36 @@
                   class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
                   <span class="main-title name">{{ item.name }}</span>
                   <span class="has-text-grey">
-                    {{ urlPrefix.toUpperCase() }}
+                    {{ item.chain }}
                   </span>
                 </div>
                 <div class="is-flex is-justify-content-space-between pr-2">
-                  <span>
+                  <NeoSkeleton
+                    v-if="item.floorPrice === undefined"
+                    :count="1"
+                    :width="100"
+                    :height="22"
+                    size="medium"
+                    active />
+                  <span v-else>
                     {{ $t('activity.floor') }}:
-                    <span v-if="getFloorPrice(item.nfts) === 0"> -- </span>
+                    <span v-if="item.floorPrice === 0"> -- </span>
                     <Money
                       v-else
-                      :value="getFloorPrice(item.nfts)"
+                      :value="item.floorPrice"
                       :unit-symbol="chainSymbol"
                       inline />
                   </span>
-                  <span class="has-text-grey">
+                  <NeoSkeleton
+                    v-if="item.totalCount === undefined"
+                    :count="1"
+                    :width="100"
+                    :height="22"
+                    size="medium"
+                    active />
+                  <span v-else class="has-text-grey">
                     {{ $t('search.units') }}:
-                    {{ item.nfts?.length || 0 }}
+                    {{ item.totalCount || 0 }}
                   </span>
                 </div>
               </template>
@@ -236,11 +250,16 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
 import { RowSeries } from '~/components/series/types'
 import { NeoIcon } from '@kodadot1/brick'
+import { fetchCollectionSuggestion } from './utils/collectionSearch'
+import { NeoSkeleton } from '@kodadot1/brick'
+
+import Vue from 'vue'
 
 @Component({
   components: {
     Money: () => import('@/components/shared/format/Money.vue'),
     NeoIcon,
+    NeoSkeleton,
   },
 })
 export default class SearchSuggestion extends mixins(PrefixMixin) {
@@ -454,7 +473,8 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     if (this.searchString) {
       this.insertNewHistory()
     }
-    this.$router.push(`/${this.urlPrefix}/collection/${item.id}`)
+    const prefix = item.chain || this.urlPrefix
+    this.$router.push(`/${prefix}/collection/${item.collection_id || item.id}`)
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
@@ -532,7 +552,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     })
   }
 
-  @Debounce(50)
+  @Debounce(200)
   async updateSuggestion(value: string) {
     //To handle empty string
     if (!value) {
@@ -546,7 +566,11 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     this.isNFTResultLoading = true
     this.query.search = value
     this.searchString = value
+    this.updateNftSuggestion()
+    this.updateCollectionSuggestion(value)
+  }
 
+  async updateNftSuggestion() {
     try {
       const queryNft = await resolveQueryPath(this.client, 'nftListWithSearch')
       const nfts = this.$apollo.query({
@@ -581,36 +605,32 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       )
       this.isNFTResultLoading = false
     }
+  }
+
+  async updateCollectionSuggestion(value: string) {
     try {
-      const query = await resolveQueryPath(
-        this.client,
-        'collectionListWithSearch'
-      )
-
-      const collectionResult = this.$apollo.query({
-        query: query.default,
-        client: this.client,
-        variables: this.queryVariables,
-      })
-
-      const {
-        data: { collectionEntities },
-      } = await collectionResult
-      const collections = unwrapSafe(
-        collectionEntities.slice(0, this.searchSuggestionEachTypeMaxNum)
+      const collections = await fetchCollectionSuggestion(
+        value,
+        this.searchSuggestionEachTypeMaxNum
       )
 
       const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
 
-      const collectionWithImages: CollectionWithMeta[] = []
+      const collectionWithImagesList: CollectionWithMeta[] = []
       await processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
-        collectionWithImages.push({
+        const collectionWithImages = {
           ...collections[i],
           ...meta,
-          image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
-        })
+          image: sanitizeIpfsUrl(
+            collections[i].image || collections[i].mediaUri || '',
+            'image'
+          ),
+        }
+        collectionWithImagesList.push(collectionWithImages)
+
+        this.fetchCollectionStats(collectionWithImages, i)
       })
-      this.collectionResult = collectionWithImages
+      this.collectionResult = collectionWithImagesList
       this.isCollectionResultLoading = false
     } catch (e) {
       logError(e, (msg) =>
@@ -618,6 +638,36 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       )
       this.isCollectionResultLoading = false
     }
+  }
+
+  async fetchCollectionStats(collection: CollectionWithMeta, index: number) {
+    return new Promise(async (resolve) => {
+      const client = collection.chain || this.client
+      const queryCollection = await resolveQueryPath(
+        client === 'ksm' ? 'chain-rmrk' : 'subsquid',
+        'collectionStatsById'
+      )
+      const { data } = await this.$apollo.query({
+        query: queryCollection.default,
+        client,
+        variables: {
+          id: collection.collection_id,
+        },
+      })
+
+      collection.totalCount = data.stats.base.length
+      collection.floorPrice = Math.min(
+        ...data.stats.listed.map((item) => parseInt(item.price))
+      )
+
+      if (
+        this.collectionResult[index]?.collection_id === collection.collection_id
+      ) {
+        Vue.set(this.collectionResult, index, collection)
+      }
+
+      resolve(collection)
+    })
   }
 
   getFloorPrice(nfts: NFTWithMeta[] | undefined) {

@@ -81,7 +81,7 @@ $text: #f8f4f6;
 $link: #6188e7;
 // $link: $primary;
 // $link-invert: findColorInvert($link);
-// $link-light: findLightColor($link);
+$link-light: findLightColor($link);
 // $link-dark: findDarkColor($link);
 // $link-visited: $purple;
 

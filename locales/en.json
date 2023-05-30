@@ -71,6 +71,7 @@
   "description": "Description",
   "showLess": "Show Less",
   "dropUpload": "Drop your file here or click to select.",
+  "chainSelect": "Select Chain ({0})",
   "search": {
     "searchCollection": "Search Collection",
     "seeAll": "See All",
@@ -357,7 +358,7 @@
     "updatedAt_ASC": "Unpopular",
     "price_DESC": "Price: High to Low",
     "price_ASC": "Price: Low to High",
-    "sn_ASC": "Serial Number Ascending",
+    "sn_ASC": "Alphabetically",
     "listed": "Buy now",
     "own": "Own",
     "clearAll": "Clear All",
@@ -370,7 +371,7 @@
       "supply_ASC": "Least Supply",
       "price_DESC": "Price: High to Low",
       "price_ASC": "Price: Low to High",
-      "sn_ASC": "Serial Number Ascending",
+      "sn_ASC": "Alphabetically",
       "listed": "Buy now",
       "sortBy": "Sort By"
     }

@@ -1,4 +1,5 @@
 import path from 'path'
+import * as fs from 'fs'
 import { defineNuxtConfig } from '@nuxt/bridge'
 import SentryWebpackPlugin from '@sentry/webpack-plugin'
 import { manifestIcons } from './utils/config/pwa'
@@ -148,14 +149,12 @@ export default defineNuxtConfig({
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/vuex-persist', mode: 'client' },
     { src: '~/plugins/polkadot', mode: 'client' },
     { src: '~/plugins/endpoint', mode: 'client' },
     { src: '~/plugins/seoMetaGenerator', mode: 'client' },
     { src: '~/plugins/keyboardEvents', mode: 'client' },
     { src: '~/plugins/icons', mode: 'client' },
     { src: '~/plugins/consola', mode: 'client' },
-    { src: '~/plugins/assets', mode: 'client' },
     { src: '~/plugins/piniaPersistedState', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
@@ -241,6 +240,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     ['@pinia/nuxt', { disableVuex: false }],
+    '@nuxtjs/sitemap',
   ],
 
   sentry: {
@@ -328,6 +328,23 @@ export default defineNuxtConfig({
   apollo: {
     clientConfigs: apolloClientConfig,
     // https://github.com/nuxt-community/apollo-module#options
+  },
+
+  sitemap: {
+    hostname: process.env.BASE_URL || 'http://localhost:9090',
+  },
+
+  hooks: {
+    sitemap: {
+      generate: {
+        done(nuxtInstance) {
+          fs.copyFileSync(
+            `${nuxtInstance.options.generate.dir}/sitemap.xml`,
+            'static/sitemap.xml'
+          )
+        },
+      },
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

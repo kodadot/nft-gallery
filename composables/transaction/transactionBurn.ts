@@ -4,10 +4,11 @@ import {
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
 
+import { isLegacy } from '@/components/unique/utils'
 import {
+  assetHubParamResolver,
   bsxParamResolver,
   getApiCall,
-  uniqueParamResolver,
 } from '@/utils/gallery/abstractCalls'
 import type { ActionConsume } from './types'
 
@@ -43,7 +44,7 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
     )
     const hasOffers = ref(false)
     const { data } = useGraphql({
-      queryName: 'offerListByNftId',
+      queryName: 'acceptableOfferListByNftId',
       queryPrefix: 'chain-bsx',
       variables: {
         id: item.nftId,
@@ -62,7 +63,7 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
         }
       )
       const cb = hasOffers.value
-        ? api.tx.utility.batch
+        ? api.tx.utility.batchAll
         : getApiCall(api, item.urlPrefix, Interaction.CONSUME)
       const arg = hasOffers.value
         ? [[...offerWithdrawArgs, api.tx.nft.burn(collectionId, tokenId)]]
@@ -77,10 +78,12 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
     })
   }
 
-  if (item.urlPrefix === 'stmn') {
+  if (item.urlPrefix === 'stmn' || item.urlPrefix === 'stt') {
+    const legacy = isLegacy(item.nftId)
+    const paramResolver = assetHubParamResolver(legacy)
     executeTransaction({
       cb: getApiCall(api, item.urlPrefix, Interaction.CONSUME),
-      arg: uniqueParamResolver(item.nftId, Interaction.CONSUME, ''),
+      arg: paramResolver(item.nftId, Interaction.CONSUME, ''),
       successMessage: item.successMessage,
       errorMessage: item.errorMessage,
     })

@@ -8,4 +8,6 @@ export const NAMES: Record<Prefix, string> = {
   movr: 'Moonriver [Beta]',
   snek: 'Snek [Rococo]',
   stmn: 'Statemine [Beta]',
+  dot: 'Polkadot',
+  stt: 'Statemint [Beta]',
 }

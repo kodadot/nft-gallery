@@ -52,13 +52,16 @@
       </div>
     </template>
     <template #end>
-      <ExploreDropdown
-        v-if="!isMobile"
-        class="navbar-explore custom-navbar-item"
-        data-cy="explore" />
-      <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
-        <NavbarExploreOptions />
-      </MobileExpandableSection>
+      <template v-if="isExploreVisible">
+        <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
+          <NavbarExploreOptions />
+        </MobileExpandableSection>
+
+        <ExploreDropdown
+          v-else
+          class="navbar-explore custom-navbar-item"
+          data-cy="explore" />
+      </template>
 
       <CreateDropdown
         v-show="isCreateVisible"
@@ -74,11 +77,19 @@
         :is-mobile="isMobile"
         :chain="urlPrefix" /> -->
 
+      <MobileExpandableSection
+        v-if="isMobile"
+        no-padding
+        :title="$t('chainSelect', [chainName])">
+        <NavbarChainOptions />
+      </MobileExpandableSection>
+
       <ChainSelectDropdown
-        v-if="!isMobile"
+        v-else
         id="NavChainSelect"
         class="navbar-chain custom-navbar-item"
         data-cy="chain-select" />
+
       <NotificationBoxButton
         v-if="account"
         :show-label="isMobile"
@@ -141,26 +152,30 @@
 </template>
 
 <script lang="ts" setup>
-import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
-import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
-import ProfileDropdown from '~/components/navbar/ProfileDropdown.vue'
-import Search from '@/components/search/Search.vue'
-import ExploreDropdown from '~/components/navbar/ExploreDropdown.vue'
-import CreateDropdown from '~/components/navbar/CreateDropdown.vue'
-import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
-import KodaBeta from '@/assets/Koda_Beta.svg'
-import ColorModeButton from '~/components/common/ColorModeButton.vue'
-import MobileLanguageOption from '~/components/navbar/MobileLanguageOption.vue'
-import { createVisible } from '@/utils/config/permision.config'
-import ChainSelectDropdown from '~/components/navbar/ChainSelectDropdown.vue'
-import MobileNavbarProfile from '~/components/navbar/MobileNavbarProfile.vue'
-import ConnectWalletButton from '~/components/shared/ConnectWalletButton.vue'
-import NotificationBoxButton from '~/components/navbar/NotificationBoxButton.vue'
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
-import { useIdentityStore } from '@/stores/identity'
+import { NeoIcon } from '@kodadot1/brick'
 import { BModalConfig } from 'buefy/types/components'
 import type Vue from 'vue'
-import { NeoIcon } from '@kodadot1/brick'
+
+import KodaBeta from '@/assets/Koda_Beta.svg'
+import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
+import ColorModeButton from '@/components/common/ColorModeButton.vue'
+import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
+import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
+import ExploreDropdown from '@/components/navbar/ExploreDropdown.vue'
+import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
+import MobileLanguageOption from '@/components/navbar/MobileLanguageOption.vue'
+import MobileNavbarProfile from '@/components/navbar/MobileNavbarProfile.vue'
+import NavbarChainOptions from '@/components/navbar/NavbarChainOptions.vue'
+import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
+import NotificationBoxButton from '@/components/navbar/NotificationBoxButton.vue'
+import ProfileDropdown from '@/components/navbar/ProfileDropdown.vue'
+import Search from '@/components/search/Search.vue'
+import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
+
+import { useIdentityStore } from '@/stores/identity'
+import { getChainNameByPrefix } from '@/utils/chain'
+import { createVisible, explorerVisible } from '@/utils/config/permision.config'
 
 const { $buefy, $nextTick } = useNuxtApp()
 const root = ref<Vue<Record<string, string>>>()
@@ -181,6 +196,7 @@ const route = useRoute()
 const account = computed(() => identityStore.getAuthAddress)
 
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
+const isExploreVisible = computed(() => explorerVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')
 
 const logoSrc = computed(() => (isDarkMode.value ? KodaBetaDark : KodaBeta))
@@ -254,6 +270,8 @@ const closeBurgerMenu = () => {
 const handleResize = () => {
   isMobile.value = window.innerWidth < 1024
 }
+
+const chainName = computed(() => getChainNameByPrefix(urlPrefix.value))
 
 onMounted(() => {
   window.addEventListener('scroll', onScroll)
