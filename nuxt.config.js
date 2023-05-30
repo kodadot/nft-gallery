@@ -1,4 +1,5 @@
 import path from 'path'
+import * as fs from 'fs'
 import { defineNuxtConfig } from '@nuxt/bridge'
 import SentryWebpackPlugin from '@sentry/webpack-plugin'
 import { manifestIcons } from './utils/config/pwa'
@@ -238,6 +239,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     ['@pinia/nuxt', { disableVuex: false }],
+    '@nuxtjs/sitemap',
   ],
 
   sentry: {
@@ -325,6 +327,23 @@ export default defineNuxtConfig({
   apollo: {
     clientConfigs: apolloClientConfig,
     // https://github.com/nuxt-community/apollo-module#options
+  },
+
+  sitemap: {
+    hostname: process.env.BASE_URL || 'http://localhost:9090',
+  },
+
+  hooks: {
+    sitemap: {
+      generate: {
+        done(nuxtInstance) {
+          fs.copyFileSync(
+            `${nuxtInstance.options.generate.dir}/sitemap.xml`,
+            'static/sitemap.xml'
+          )
+        },
+      },
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
