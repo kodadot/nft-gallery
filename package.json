@@ -76,6 +76,7 @@
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.3.1",
     "@nuxtjs/sentry": "^7.3.0",
+    "@nuxtjs/sitemap": "thisismydesign/sitemap-module#cd4dc22293b9b67e8ebb5b3c49840e67c108e312",
     "@oruga-ui/oruga": "^0.6.0",
     "@paraspell/sdk": "^1.1.8",
     "@pinia/nuxt": "^0.4.11",
