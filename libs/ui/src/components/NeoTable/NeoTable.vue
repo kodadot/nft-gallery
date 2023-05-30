@@ -18,7 +18,18 @@ $table-border-radius: 0;
 $table-th-border: 0;
 $table-td-border: 0;
 $table-th-font-weight: 400;
-$table-th-color: #999999;
+
+.o-table {
+  @include ktheme() {
+    color: theme('text-color');
+    background-color: theme('background-color');
+
+    th {
+      color: theme('k-grey');
+      background-color: theme('background-color');
+    }
+  }
+}
 
 @import '@oruga-ui/oruga/src/scss/components/_table.scss';
 </style>
