@@ -1,7 +1,7 @@
 <template>
   <div
     class="collection-banner"
-    :style="{ backgroundImage: `url(${collectionAvatar})` }">
+    :style="{ backgroundImage: `url(${unloackableBanner})` }">
     <div class="collection-banner-shadow"></div>
 
     <section class="h-full py-8">
@@ -9,10 +9,8 @@
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">
             <img
-              v-if="collectionAvatar"
-              :src="collectionAvatar"
-              :alt="collectionName" />
-            <img v-else :src="placeholder" />
+              src="https://replicate.delivery/pbxt/Cxfhi4qeTNvn6kcrrKlvL1YUPBKeAmbNrrf2ATtPVd6o5gDEB/out-1.png"
+              alt="avatar" />
           </div>
           <h1 class="collection-banner-name">Waifu t-shirt free mint</h1>
         </div>
@@ -28,6 +26,7 @@ import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/unlockable/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
+import unloackableBanner from '@/assets/unlockable-banner.svg'
 
 const { $seoMeta } = useNuxtApp()
 const { placeholder } = useTheme()

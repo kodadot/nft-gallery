@@ -4,7 +4,9 @@
     <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
       <HeroButtons class="is-hidden-tablet" />
       <div class="is-flex mb-2">
-        <div class="mr-2">about collection</div>
+        <div class="mr-2 has-text-weight-bold is-size-5 mt-6 mb-1">
+          About Collection
+        </div>
       </div>
       <div class="overflow-wrap">
         <Markdown :source="visibleDescription" />
@@ -23,8 +25,6 @@
 <script setup lang="ts">
 import HeroButtons from '@/components/collection/unlockable/HeroButtons.vue'
 import { NeoButton } from '@kodadot1/brick'
-
-const collectionInfo = ref()
 
 const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210

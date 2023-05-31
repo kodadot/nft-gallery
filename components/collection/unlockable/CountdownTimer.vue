@@ -18,7 +18,7 @@ import { useKeenSlider } from 'keen-slider/vue.es'
 
 const animation = { duration: 20000, easing: (t) => t }
 
-const countDownDate = new Date('Jun 20, 2024 10:00:00').getTime()
+const countDownDate = new Date('Jun 20, 2023 10:00:00').getTime()
 const hours = ref(0)
 const minutes = ref(0)
 const seconds = ref(0)
