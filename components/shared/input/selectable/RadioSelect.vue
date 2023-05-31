@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="separated || multiline ? 'div' : 'b-field'"
+    :is="separated || multiline ? 'div' : 'NeoField'"
     v-if="options"
     :class="{ 'columns is-multiline is-mobile': separated || multiline }">
     <NeoRadioButton

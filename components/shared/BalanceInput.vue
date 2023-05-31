@@ -1,12 +1,12 @@
 <template>
   <div class="arguments-wrapper">
-    <b-field
+    <NeoField
       :label="$t(label)"
       class="balance"
-      :type="checkZeroFailed ? 'is-danger' : ''">
+      :variant="checkZeroFailed ? 'danger' : ''">
       <div class="field-body">
         <div class="field has-addons">
-          <b-input
+          <NeoInput
             ref="balance"
             v-model="inputValue"
             :required="required"
@@ -32,7 +32,7 @@
       </div>
       <p v-if="checkZeroFailed" class="help is-danger">
         {{ $t('tooltip.needToSetValidPrice') }}
-      </p></b-field
+      </p></NeoField
     >
   </div>
 </template>
@@ -50,8 +50,14 @@ import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
 import ChainMixin from '@/utils/mixins/chainMixin'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
-@Component
+@Component({
+  components: {
+    NeoField,
+    NeoInput,
+  },
+})
 export default class BalanceInput extends mixins(ChainMixin) {
   @Prop({ type: Number, default: 0 }) value!: number
   @Prop({ default: 'amount' }) public label!: string

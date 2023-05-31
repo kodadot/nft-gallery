@@ -1,10 +1,12 @@
 <template>
-  <b-field :label="label" :expanded="expanded">
-    <b-input :value="value" :readonly="readonly" disabled></b-input>
-  </b-field>
+  <NeoField :label="label" :expanded="expanded">
+    <NeoInput :value="value" :readonly="readonly" disabled></NeoInput>
+  </NeoField>
 </template>
 
 <script lang="ts" setup>
+import { NeoField, NeoInput } from '@kodadot1/brick'
+
 withDefaults(
   defineProps<{
     label: string
