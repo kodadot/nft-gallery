@@ -6,7 +6,6 @@ import { availablePrefixes } from '@/utils/chain'
 import type { Prefix } from '@kodadot1/static'
 
 export default function () {
-  const { $store } = useNuxtApp()
   const route = useRoute()
   const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
   const availablePrefixesList = availablePrefixes()
@@ -14,13 +13,10 @@ export default function () {
     (prefixValue) => prefixValue.value === route.path.split('/')[1]
   )?.value
   const prefix = ref(
-    route.params.prefix ||
-      initialPrefixFromPath ||
-      storage.value.selected ||
-      $store.getters.currentUrlPrefix
+    route.params.prefix || initialPrefixFromPath || storage.value.selected
   )
   const urlPrefix = computed<Prefix>(() => {
-    storage.value = { selected: prefix.value }
+    storage.value = { selected: prefix.value as Prefix }
     return prefix.value
   })
 
