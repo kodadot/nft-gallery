@@ -2,14 +2,14 @@
   <div
     class="wallet-asset-container mt-4 is-flex is-flex-direction-column is-justify-content-space-between">
     <div>
-      <nuxt-link
+      <a
         v-for="menu in menus"
         :key="menu.label"
-        :to="menu.to"
+        :href="menu.to"
         class="wallet-asset-menu">
         <span>{{ menu.label }}</span>
         <NeoIcon icon="angle-right" class="has-text-grey" />
-      </nuxt-link>
+      </a>
     </div>
     <div
       class="wallet-asset-footer is-flex is-justify-content-space-between py-4 is-size-7 has-text-grey">
@@ -25,6 +25,7 @@
           ref="languageDropdown"
           position="is-top-left"
           aria-role="menu"
+          :mobile-modal="true"
           :toggle="toggleLanguageMenu">
           <b-dropdown-item
             v-for="lang in langsFlags"
@@ -38,10 +39,10 @@
           </b-dropdown-item>
         </b-dropdown>
       </div>
-      <nuxt-link to="/settings" class="has-text-grey">
+      <a href="/settings" class="has-text-grey">
         <NeoIcon icon="gear" />
         <span>{{ $t('settings') }}</span>
-      </nuxt-link>
+      </a>
     </div>
   </div>
 </template>
@@ -152,6 +153,14 @@ const toggleLanguageMenu = () => {
           }
         }
       }
+    }
+  }
+
+  @include tablet {
+    // manually center dropdown menu, because no props "postition" to center it
+    :deep .dropdown-menu {
+      transform: translateX(50px);
+      bottom: 150%;
     }
   }
 }

@@ -3,9 +3,9 @@
     <NeoButton
       no-shadow
       rounded
-      tag="nuxt-link"
+      tag="a"
       size="small"
-      :to="`/${urlPrefix}/u/${accountId}`"
+      :href="`/${urlPrefix}/assets`"
       icon="arrow-right-long">
       Portfolio View
     </NeoButton>
