@@ -188,9 +188,9 @@ const { placeholder } = useTheme()
 const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 
-const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
-  useGalleryItem()
 const galleryItem = useGalleryItem()
+const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
+  galleryItem
 const collection = computed(() => nft.value?.collection)
 
 const breakPointWidth = 930
