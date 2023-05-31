@@ -29,8 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-const { $router, $store } = useNuxtApp()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, setUrlPrefix } = usePrefix()
 const { availableChains } = useChain()
 
 const filteredChains = computed(() => {
@@ -40,7 +39,7 @@ const filteredChains = computed(() => {
 })
 
 const setSelectedChain = (value) => {
-  $store.dispatch('setUrlPrefix', value)
-  $router.push({ path: `/${value}/explore` })
+  setUrlPrefix(value)
+  navigateTo(`/${value}/explore`)
 }
 </script>

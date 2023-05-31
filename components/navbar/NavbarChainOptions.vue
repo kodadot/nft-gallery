@@ -16,15 +16,12 @@
 import { usePreferencesStore } from '@/stores/preferences'
 
 const { availableChains } = useChain()
-const { $store } = useNuxtApp()
 const { setUrlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
-const router = useRouter()
 
 const changeChain = (value) => {
-  setUrlPrefix(value)
-  $store.dispatch('setUrlPrefix', value)
-  router.push({ path: `/${value}` })
   preferencesStore.setNotificationBoxCollapse(false)
+  setUrlPrefix(value)
+  navigateTo(`/${value}`)
 }
 </script>

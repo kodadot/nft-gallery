@@ -34,7 +34,14 @@
                   </span>
                 </div>
                 <div class="is-flex is-justify-content-space-between pr-2">
-                  <span>
+                  <NeoSkeleton
+                    v-if="item.floorPrice === undefined"
+                    :count="1"
+                    :width="100"
+                    :height="22"
+                    size="medium"
+                    active />
+                  <span v-else>
                     {{ $t('activity.floor') }}:
                     <span v-if="item.floorPrice === 0"> -- </span>
                     <Money
@@ -43,7 +50,14 @@
                       :unit-symbol="chainSymbol"
                       inline />
                   </span>
-                  <span class="has-text-grey">
+                  <NeoSkeleton
+                    v-if="item.totalCount === undefined"
+                    :count="1"
+                    :width="100"
+                    :height="22"
+                    size="medium"
+                    active />
+                  <span v-else class="has-text-grey">
                     {{ $t('search.units') }}:
                     {{ item.totalCount || 0 }}
                   </span>
@@ -237,11 +251,15 @@ import { unwrapSafe } from '~/utils/uniquery'
 import { RowSeries } from '~/components/series/types'
 import { NeoIcon } from '@kodadot1/brick'
 import { fetchCollectionSuggestion } from './utils/collectionSearch'
+import { NeoSkeleton } from '@kodadot1/brick'
+
+import Vue from 'vue'
 
 @Component({
   components: {
     Money: () => import('@/components/shared/format/Money.vue'),
     NeoIcon,
+    NeoSkeleton,
   },
 })
 export default class SearchSuggestion extends mixins(PrefixMixin) {
@@ -534,7 +552,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     })
   }
 
-  @Debounce(50)
+  @Debounce(200)
   async updateSuggestion(value: string) {
     //To handle empty string
     if (!value) {
@@ -548,7 +566,11 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     this.isNFTResultLoading = true
     this.query.search = value
     this.searchString = value
+    this.updateNftSuggestion()
+    this.updateCollectionSuggestion(value)
+  }
 
+  async updateNftSuggestion() {
     try {
       const queryNft = await resolveQueryPath(this.client, 'nftListWithSearch')
       const nfts = this.$apollo.query({
@@ -583,34 +605,33 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       )
       this.isNFTResultLoading = false
     }
+  }
 
+  async updateCollectionSuggestion(value: string) {
     try {
       const collections = await fetchCollectionSuggestion(
-        this.query.search,
+        value,
         this.searchSuggestionEachTypeMaxNum
       )
 
       const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
 
-      const collectionWithImages: CollectionWithMeta[] = []
+      const collectionWithImagesList: CollectionWithMeta[] = []
       await processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
-        collectionWithImages.push({
+        const collectionWithImages = {
           ...collections[i],
           ...meta,
           image: sanitizeIpfsUrl(
             collections[i].image || collections[i].mediaUri || '',
             'image'
           ),
-        })
+        }
+        collectionWithImagesList.push(collectionWithImages)
+
+        this.fetchCollectionStats(collectionWithImages, i)
       })
-      await Promise.all([
-        ...collectionWithImages.map(async (collection) => {
-          return this.fetchCollectionStats(collection)
-        }),
-      ]).then(() => {
-        this.collectionResult = collectionWithImages
-        this.isCollectionResultLoading = false
-      })
+      this.collectionResult = collectionWithImagesList
+      this.isCollectionResultLoading = false
     } catch (e) {
       logError(e, (msg) =>
         this.$consola.warn('[PREFETCH] Unable fo fetch', msg)
@@ -619,7 +640,7 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     }
   }
 
-  async fetchCollectionStats(collection: CollectionWithMeta) {
+  async fetchCollectionStats(collection: CollectionWithMeta, index: number) {
     return new Promise(async (resolve) => {
       const client = collection.chain || this.client
       const queryCollection = await resolveQueryPath(
@@ -638,6 +659,12 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
       collection.floorPrice = Math.min(
         ...data.stats.listed.map((item) => parseInt(item.price))
       )
+
+      if (
+        this.collectionResult[index]?.collection_id === collection.collection_id
+      ) {
+        Vue.set(this.collectionResult, index, collection)
+      }
 
       resolve(collection)
     })

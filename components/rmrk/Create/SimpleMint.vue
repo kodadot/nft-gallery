@@ -54,13 +54,13 @@
       :placeholder="$t('mint.nft.description.placeholder')"
       data-cy="input-description" />
 
-    <b-field :label="$t('Edition')" class="mt-5" data-cy="input-edition">
+    <NeoField :label="$t('Edition')" class="mt-5" data-cy="input-edition">
       <b-numberinput
         v-model="rmrkMint.max"
         placeholder="1 is minumum"
         expanded
         :min="1"></b-numberinput>
-    </b-field>
+    </NeoField>
 
     <MetadataUpload
       v-if="secondaryFileVisible"
@@ -89,7 +89,7 @@
       </p>
     </div>
 
-    <b-field>
+    <NeoField>
       <CollapseWrapper
         v-if="rmrkMint.max > 1"
         visible="mint.expert.show"
@@ -101,19 +101,19 @@
         <p v-show="syncVisible" class="sub-title is-6 has-text-warning">
           {{ $t('mint.expert.countGlitch', [parseAddresses.length]) }}
         </p>
-        <b-field :label="$t('mint.expert.batchSend')">
-          <b-input
+        <NeoField :label="$t('mint.expert.batchSend')">
+          <NeoInput
             v-model="batchAdresses"
             type="textarea"
             :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
             spellcheck="true"
-            data-cy="input-batch-address"></b-input>
-        </b-field>
+            data-cy="input-batch-address" />
+        </NeoField>
         <BasicSlider
           v-model="distribution"
           label="action.distributionCount"
           data-cy="input-distribution" />
-        <b-field v-show="syncVisible">
+        <NeoField v-show="syncVisible">
           <b-button
             outlined
             icon-left="sync"
@@ -121,7 +121,7 @@
             @click="syncEdition"
             >{{ $t('mint.expert.sync', [actualDistribution]) }}</b-button
           >
-        </b-field>
+        </NeoField>
         <BasicSwitch
           v-model="random"
           label="action.random"
@@ -131,26 +131,29 @@
           label="mint.expert.postfix"
           data-cy="input-hashtag" />
       </CollapseWrapper>
-    </b-field>
+    </NeoField>
     <BasicSwitch v-model="nsfw" label="mint.nfsw" data-cy="input-nsfw" />
-    <b-field type="is-danger" :message="haveNoToSMessage">
+    <NeoField variant="danger" :message="haveNoToSMessage">
       <NeoSwitch v-model="hasToS" :rounded="false" data-cy="input-tos">
         {{ $t('termOfService.accept') }}
       </NeoSwitch>
-    </b-field>
-    <b-field v-if="isLogIn" type="is-danger" :message="balanceNotEnoughMessage">
+    </NeoField>
+    <NeoField
+      v-if="isLogIn"
+      type="is-danger"
+      :message="balanceNotEnoughMessage">
       <SubmitButton
         expanded
         label="mint.submit"
         :loading="isLoading"
         @click="sub()" />
-    </b-field>
-    <b-field>
+    </NeoField>
+    <NeoField>
       <NeoIcon icon="calculator" />
       <span class="pr-2">{{ $t('mint.estimated') }}</span>
       <Money :value="estimated" inline data-cy="fee" />
       <span class="pl-2"> ({{ getUsdFromKsm().toFixed(2) }} USD) </span>
-    </b-field>
+    </NeoField>
   </section>
 </template>
 
@@ -210,8 +213,8 @@ import AuthMixin from '~/utils/mixins/authMixin'
 import { useFiatStore } from '@/stores/fiat'
 import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
+import { NeoField, NeoIcon, NeoInput, NeoSwitch } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
-import { NeoIcon, NeoSwitch } from '@kodadot1/brick'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -229,6 +232,8 @@ const components = {
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   NeoIcon,
   NeoSwitch,
+  NeoField,
+  NeoInput,
 }
 
 @Component<SimpleMint>({

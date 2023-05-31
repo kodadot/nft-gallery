@@ -312,14 +312,14 @@
     "UPDATED_AT_ASC": "Impopular",
     "PRICE_DESC": "Precio: de mayor a menor",
     "PRICE_ASC": "Precio: de menor a mayor",
-    "SN_ASC": "Numero de Serie Creciente",
+    "SN_ASC": "Alfabéticamente",
     "blockNumber_DESC": "Recién creado",
     "blockNumber_ASC": "El más antiguo",
     "updatedAt_DESC": "Interactuado recientemente",
     "updatedAt_ASC": "Impopular",
     "price_DESC": "Precio: de mayor a menor",
     "price_ASC": "Precio: de menor a mayor",
-    "sn_ASC": "Numero de Serie Creciente",
+    "sn_ASC": "Alfabéticamente",
     "listed": "Compre ahora",
     "own": "En posesión",
     "collection": {
@@ -329,7 +329,7 @@
       "updatedAt_ASC": "Impopular",
       "price_DESC": "Precio: de mayor a menor",
       "price_ASC": "Precio: de menor a mayor",
-      "sn_ASC": "Numero de Serie Creciente",
+      "sn_ASC": "Alfabéticamente",
       "listed": "Compre ahora",
 
       "EMOTES_COUNT_DESC": "El mas reaccionado",
@@ -339,7 +339,7 @@
       "UPDATED_AT_ASC": "Impopular",
       "PRICE_DESC": "Precio: de mayor a menor",
       "PRICE_ASC": "Precio: de menor a mayor",
-      "SN_ASC": "Numero de Serie Creciente"
+      "SN_ASC": "Alfabéticamente"
     }
   },
   "query": {

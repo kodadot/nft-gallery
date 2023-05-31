@@ -8,9 +8,9 @@
 - [ ] Feature
 - [ ] Refactoring
 
-## Needs QA check
+## Needs Design check
 
-- @kodadot/qa-guild please review
+- @exezbcz please review
 
 ## Context
 

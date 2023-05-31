@@ -1,6 +1,7 @@
 <template>
   <div class="is-flex is-flex-direction-column wallet-asset">
-    <div>
+    <WalletAssetIdentity v-if="redesign" />
+    <div v-else>
       <div>
         {{ walletName }}
       </div>
@@ -11,7 +12,9 @@
         show-clipboard />
     </div>
 
-    <hr class="my-2" />
+    <WalletAssetNfts v-if="redesign" />
+
+    <hr class="my-4" />
 
     <div>
       <ProfileAssetsList v-if="isSnek" @totalValueChange="setTotalValue" />
@@ -19,7 +22,7 @@
     </div>
 
     <div v-if="isSnek">
-      <hr class="my-2" />
+      <hr class="my-4" />
       <div
         v-if="totalValue"
         class="is-flex is-justify-content-space-between is-align-items-center my-1">
@@ -49,6 +52,8 @@ import { useWalletStore } from '@/stores/wallet'
 import { useIdentityStore } from '@/stores/identity'
 import { clearSession } from '@/utils/cachingStrategy'
 import useIdentity from '@/components/identity/utils/useIdentity'
+import WalletAssetIdentity from './WalletAssetIdentity.vue'
+import WalletAssetNfts from './WalletAssetNfts.vue'
 
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/module/IdentityLink.vue')
@@ -59,6 +64,9 @@ const MultipleBalances = defineAsyncComponent(
 const ProfileAssetsList = defineAsyncComponent(
   () => import('@/components/rmrk/Profile/ProfileAssetsList.vue')
 )
+
+const { redesign } = useExperiments()
+
 const totalValue = ref(0)
 const walletStore = useWalletStore()
 const identityStore = useIdentityStore()

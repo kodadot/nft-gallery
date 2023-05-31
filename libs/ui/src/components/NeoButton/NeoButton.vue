@@ -13,6 +13,8 @@
     :icon-pack="iconPack"
     :label="label"
     class="is-neo"
+    :rounded="rounded"
+    :tag="tag"
     v-bind="$attrs">
     <slot />
   </o-button>
@@ -33,6 +35,8 @@ const props = defineProps<{
   fixedWidth?: boolean
   noShadow?: boolean
   variant?: NeoButtonVariant
+  rounded?: boolean
+  tag?: string
 }>()
 
 const iconPack = computed(() => props?.iconPack || 'fa-sharp')

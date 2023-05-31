@@ -3,9 +3,9 @@
     <p class="title is-size-3">
       Claiming does not work yet another mail will come
     </p>
-    <b-field>
+    <NeoField>
       <Auth />
-    </b-field>
+    </NeoField>
     <template v-if="isLogIn">
       <BasicInput
         v-model="token"
@@ -29,6 +29,7 @@
 import { getWaifuById } from '@/services/supabase'
 import { claimWaifu } from '@/services/waifu'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import { NeoField } from '@kodadot1/brick'
 
 const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 
