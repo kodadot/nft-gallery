@@ -30,17 +30,19 @@
               {{ $t('credit') }}
             </a>
           </b-dropdown-item>
-          <b-dropdown-item has-link aria-role="menuitem">
-            <nuxt-link :to="{ name: 'identity' }">
-              {{ $t('identity.page') }}
+        </template>
+        <b-dropdown-item has-link aria-role="menuitem">
+          <nuxt-link :to="{ name: 'identity' }">
+            {{ $t('identity.page') }}
+          </nuxt-link>
+        </b-dropdown-item>
+        <template v-if="chain === 'rmrk' || chain === 'ksm' || chain === 'dot'">
+          <b-dropdown-item v-if="isSnekOrBsx" has-link aria-role="menuitem">
+            <nuxt-link :to="`/${urlPrefix}/incomingoffers`"
+              >{{ $t('incomingOffers') }}
             </nuxt-link>
           </b-dropdown-item>
         </template>
-        <b-dropdown-item v-if="isSnekOrBsx" has-link aria-role="menuitem">
-          <nuxt-link :to="`/${urlPrefix}/incomingoffers`"
-            >{{ $t('incomingOffers') }}
-          </nuxt-link>
-        </b-dropdown-item>
         <b-dropdown-item v-if="isSnekOrBsx" has-link aria-role="menuitem">
           <nuxt-link :to="`/${urlPrefix}/assets`">{{ $t('assets') }}</nuxt-link>
         </b-dropdown-item>
