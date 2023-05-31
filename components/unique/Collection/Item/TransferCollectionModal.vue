@@ -2,13 +2,13 @@
   <ModalWrapper icon="paper-plane" title="Transfer collection" is-right>
     <template #default>
       <Loader v-model="isLoading" :status="status" />
-      <b-field>
+      <NeoField>
         <Auth />
-      </b-field>
-      <b-field>
+      </NeoField>
+      <NeoField>
         <AddressInput v-model="destinationAddress" :strict="false" />
-      </b-field>
-      <b-field>
+      </NeoField>
+      <NeoField>
         <b-button
           type="is-primary"
           icon-left="paper-plane"
@@ -19,7 +19,7 @@
           @click="submit">
           {{ $t('general.submit') }}
         </b-button>
-      </b-field>
+      </NeoField>
     </template>
   </ModalWrapper>
 </template>
@@ -29,11 +29,13 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import { isAddress } from '@polkadot/util-crypto'
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { showNotification } from '@/utils/notification'
+import { NeoField } from '@kodadot1/brick'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   ModalWrapper: () => import('@/components/shared/modals/ModalWrapper.vue'),
+  NeoField,
 }
 
 @Component({

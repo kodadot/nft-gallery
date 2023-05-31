@@ -1,19 +1,24 @@
 <template>
-  <b-field class="mt-4" :label="$t(label)" label-position="">
+  <NeoField class="mt-4" :label="$t(label)" label-position="">
     <b-slider
       v-model="vValue"
       :min="min"
       :max="max"
       :ticks="ticks"
-      :customFormatter="customFormatter"
+      :custom-formatter="customFormatter"
       :lazy="lazy" />
-  </b-field>
+  </NeoField>
 </template>
 
 <script lang="ts">
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
+import { NeoField } from '@kodadot1/brick'
 
-@Component
+@Component({
+  components: {
+    NeoField,
+  },
+})
 export default class BasicSlider extends Vue {
   @VModel({ type: Number, required: true }) vValue!: number
   @Prop({ type: String, required: true }) label!: string

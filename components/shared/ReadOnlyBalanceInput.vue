@@ -1,7 +1,7 @@
 <template>
   <div class="arguments-wrapper">
-    <b-field :label="$t(labelInput)" class="balance">
-      <b-input
+    <NeoField :label="$t(labelInput)" class="balance">
+      <NeoInput
         v-model="inputValue"
         type="number"
         step="0.001"
@@ -10,7 +10,7 @@
       <div class="option">
         {{ label }}
       </div>
-    </b-field>
+    </NeoField>
   </div>
 </template>
 
@@ -20,8 +20,14 @@ import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
 import ChainMixin from '@/utils/mixins/chainMixin'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
-@Component
+@Component({
+  components: {
+    NeoField,
+    NeoInput,
+  },
+})
 export default class ReadOnlyBalanceInput extends mixins(ChainMixin) {
   @Prop({ type: [Number, String], default: 0 }) value!: number
   protected units: Unit[] = defaultUnits

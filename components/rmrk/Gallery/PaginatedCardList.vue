@@ -5,14 +5,14 @@
       v-bind.sync="searchQuery"
       @resetPage="resetPage">
       <Layout class="mr-5" @change="onResize" />
-      <b-field>
+      <NeoField>
         <Pagination
           v-model="currentValue"
           has-magic-btn
           simple
           replace
           :total="total" />
-      </b-field>
+      </NeoField>
     </Search>
     <InfiniteLoading
       v-if="startPage > 1 && !isLoading && total > 0"
@@ -37,6 +37,7 @@ import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { Debounce } from 'vue-debounce-decorator'
 import shouldUpdate from '~/utils/shouldUpdate'
+import { NeoField } from '@kodadot1/brick'
 
 const components = {
   GalleryItemCardList: () =>
@@ -46,6 +47,7 @@ const components = {
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
+  NeoField,
 }
 
 @Component({ components })
