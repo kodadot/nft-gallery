@@ -1,7 +1,7 @@
 <template>
   <section>
     <Loader v-model="isLoading" :status="status" />
-    <form>
+    <form @submit.prevent>
       <p class="title is-size-3">
         {{ $i18n.t('identity.set') }}
         <NeoTooltip
@@ -122,7 +122,7 @@ const identity = ref<Record<string, string>>({
   legal: '',
 })
 const deposit = ref('0')
-const inputLengthLimit = ref(32)
+const inputLengthLimit = ref('32')
 
 onBeforeMount(async () => {
   onApiConnect(apiUrl.value, async (api) => {
