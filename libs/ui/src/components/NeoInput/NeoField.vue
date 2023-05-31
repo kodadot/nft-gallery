@@ -1,22 +1,16 @@
-<template>
-  <o-field
-    class="neo-field"
-    :class="{ 'neo-field--error': error }"
-    :label="label"
-    v-bind="$attrs">
-    <slot />
-  </o-field>
-</template>
-
-<script setup lang="ts">
+<script lang="ts">
 import { OField } from '@oruga-ui/oruga'
 
-defineProps<{
-  label?: string
-  error?: boolean
-}>()
+export default {
+  mixins: [OField],
+  computed: {
+    classes() {
+      return ['neo-field']
+    },
+  },
+}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import './NeoInput.scss';
 </style>
