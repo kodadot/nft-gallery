@@ -13,8 +13,9 @@ export default function () {
   const initialPrefixFromPath = availablePrefixesList.find(
     (prefixValue) => prefixValue.value === route.path.split('/')[1]
   )?.value
-  const prefix = ref(
-    route.params.prefix ||
+  const prefix = computed(
+    () =>
+      route.params.prefix ||
       initialPrefixFromPath ||
       storage.value.selected ||
       $store.getters.currentUrlPrefix
