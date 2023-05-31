@@ -41,11 +41,13 @@
       <NeoDropdownItem disabled class="dropdown-width">
         {{ $t('massmint.noCollection') }}
       </NeoDropdownItem>
-      <NeoDropdownItem class="dropdown-width">
-        <div class="w-full">
-          <NeoIcon icon="plus" size="small" class="mr-1" />
-          {{ $t('massmint.createNewCollection') }}
-        </div>
+      <NeoDropdownItem class="dropdown-width" has-link>
+        <nuxt-link :to="`/${urlPrefix}/create`" class="w-full">
+          <div class="w-full">
+            <NeoIcon icon="plus" size="small" class="mr-1" />
+            {{ $t('massmint.createNewCollection') }}
+          </div>
+        </nuxt-link>
       </NeoDropdownItem>
     </template>
   </NeoDropdown>
