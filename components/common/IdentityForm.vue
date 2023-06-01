@@ -124,7 +124,7 @@ const identity = ref<Record<string, string>>({
   legal: '',
 })
 const deposit = ref('0')
-const inputLengthLimit = ref('32')
+const inputLengthLimit = ref(32)
 
 onBeforeMount(async () => {
   onApiConnect(apiUrl.value, async (api) => {
