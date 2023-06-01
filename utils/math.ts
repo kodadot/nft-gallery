@@ -78,22 +78,3 @@ export function toDecimals(value: number, decimals: number): number {
 export function fromDecimals(value: number, decimals: number): number {
   return value / 10 ** decimals
 }
-
-export function median(values: number[], sorted = false) {
-  const sortedValues = sorted ? values : [...values.sort((a, b) => a - b)]
-  const half = Math.floor(sortedValues.length / 2)
-  if (sortedValues.length % 2) {
-    // odd length of array
-    return sortedValues[half]
-  }
-  // even length of array
-  return (sortedValues[half - 1] + sortedValues[half]) / 2.0
-}
-
-//  median absolute deviation (MAD)
-// https://en.wikipedia.org/wiki/Median_absolute_deviation
-export function mediaAbsoluteDeviation(values: number[]) {
-  const med = median(values)
-  const devs = values.map((value) => Math.abs(value - med))
-  return median(devs)
-}

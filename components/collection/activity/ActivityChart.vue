@@ -9,13 +9,7 @@
 import { ActivityInteraction } from '@/components/rmrk/service/scheme'
 import { Interaction } from '@kodadot1/minimark/v1'
 import PriceChart from '@/components/chart/PriceChart.vue'
-import {
-  bin,
-  displayValue,
-  removeOutliers,
-  sortAsc,
-  toDataPoint,
-} from './utils'
+import { bin, displayValue, sortAsc, toDataPoint } from './utils'
 
 const props = withDefaults(
   defineProps<{
@@ -33,14 +27,13 @@ const buyEvents = computed(() =>
       .map(toDataPoint)
   )
 )
-const listEvents = computed(() => {
-  const listDataPoints = sortAsc(
+const listEvents = computed(() =>
+  sortAsc(
     props.events
       .filter((e) => e.interaction === Interaction.LIST)
       .map(toDataPoint)
   )
-  return listDataPoints
-})
+)
 
 const chartData = computed(() => {
   const buyBins = bin(buyEvents.value, { days: 1 })

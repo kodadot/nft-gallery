@@ -1,5 +1,4 @@
 import { readParam } from '@/composables/useReplaceUrl'
-import { mediaAbsoluteDeviation, median } from '@/utils/math'
 
 export type DataPoint = {
   timestamp: number
@@ -86,20 +85,4 @@ export const bin = (data: DataPoint[], binSize: BinSize): DataPoint[] => {
 export const format = (number: number) => {
   const isInteger = Number.isInteger(number)
   return isInteger ? number.toString() : number.toFixed(4)
-}
-
-export const removeOutliers = (
-  data: DataPoint[],
-  outlierThresholdScale = 0.75
-): DataPoint[] => {
-  const values = data.map((d) => d.value)
-  const med = median(values)
-  const medianAbsDev = mediaAbsoluteDeviation(values)
-  const THRESHOLD = med + outlierThresholdScale * medianAbsDev
-
-  return data.filter(({ value }) => {
-    const deviation = Math.abs(value - med)
-
-    return deviation < THRESHOLD
-  })
 }
