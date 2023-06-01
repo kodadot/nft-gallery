@@ -31,10 +31,7 @@
             </a>
           </b-dropdown-item>
         </template>
-        <b-dropdown-item
-          v-if="chain === 'rmrk' || chain === 'ksm' || chain === 'dot'"
-          has-link
-          aria-role="menuitem">
+        <b-dropdown-item v-if="!isMoonriver" has-link aria-role="menuitem">
           <nuxt-link :to="{ name: 'identity' }">
             {{ $t('identity.page') }}
           </nuxt-link>
