@@ -53,9 +53,12 @@ export const chainPrefixes: Prefix[] = [
   'stt',
 ]
 export const chainPrefixesMap = chainPrefixes.reduce(
-  (acc, prefix) => ({ ...acc, [prefix]: prefix }),
-  {} as Record<Prefix, Prefix>
-)
+  (acc: Partial<Record<Prefix, Prefix>>, prefix: Prefix) => ({
+    ...acc,
+    [prefix]: prefix,
+  }),
+  {}
+) as Record<Prefix, Prefix>
 
 export const chainInfo: Record<Prefix, string> = {
   bsx: 'basilisk',
