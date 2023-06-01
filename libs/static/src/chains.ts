@@ -52,6 +52,10 @@ export const chainPrefixes: Prefix[] = [
   'dot',
   'stt',
 ]
+export const chainPrefixesMap = chainPrefixes.reduce(
+  (acc, prefix) => ({ ...acc, [prefix]: prefix }),
+  {} as Record<Prefix, Prefix>
+)
 
 export const chainInfo: Record<Prefix, string> = {
   bsx: 'basilisk',
