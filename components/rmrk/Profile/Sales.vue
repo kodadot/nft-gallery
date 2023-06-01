@@ -16,45 +16,45 @@
             enable-listen-keyboard-event
             preserve-scroll />
         </div>
-        <b-table :data="showList" class="mb-4" hoverable custom-row-key="ID">
-          <b-table-column
+        <NeoTable :data="showList" class="mb-4" hoverable custom-row-key="ID">
+          <NeoTableColumn
             v-slot="props"
             field="Collection"
             label="Collection"
-            cell-class="type-table">
+            class="type-table">
             <nuxt-link
               :to="`/${urlPrefix}/collection/${props.row.Collection.id}`">
               {{ props.row.Collection.name }}
             </nuxt-link>
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
             field="Nft"
             label="Nft"
-            cell-class="type-table">
+            class="type-table">
             <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.Nft.id}`">
               {{ props.row.Nft.name }}
             </nuxt-link>
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
-            cell-class="short-identity__table"
+            class="short-identity__table"
             field="Buyer"
             label="Buyer">
             <nuxt-link :to="`/${urlPrefix}/u/${props.row.Buyer}`">
               <Identity :address="props.row.Buyer" />
             </nuxt-link>
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
-            cell-class="short-identity__table"
+            class="short-identity__table"
             field="Amount"
             label="Amount">
             {{ props.row.Amount }}
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
-            cell-class="short-identity__table"
+            class="short-identity__table"
             field="Date"
             label="Date">
             <NeoTooltip :label="props.row.Date" position="right" multiline>
@@ -62,8 +62,8 @@
                 :text="props.row.Time"
                 :block-id="props.row.Block" />
             </NeoTooltip>
-          </b-table-column>
-        </b-table>
+          </NeoTableColumn>
+        </NeoTable>
       </div>
     </b-collapse>
   </div>
@@ -74,7 +74,7 @@ import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { DocumentNode } from 'graphql'
 import { formatDistanceToNow } from 'date-fns'
-import { NeoTooltip } from '@kodadot1/brick'
+import { NeoTable, NeoTableColumn, NeoTooltip } from '@kodadot1/brick'
 
 import { exist } from '@/utils/exist'
 
@@ -92,6 +92,8 @@ const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
+  NeoTable,
+  NeoTableColumn,
   NeoTooltip,
 }
 

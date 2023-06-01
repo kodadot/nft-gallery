@@ -6,11 +6,11 @@
     :is-button-hidden="true">
     <template #default>
       <div class="is-flex is-justify-content-space-between">
-        <b-table v-for="type in types" :key="type" :data="updateData[type]">
-          <b-table-column v-slot="props" field="text" :label="labels[type]">
+        <NeoTable v-for="ktype in types" :key="ktype" :data="updateData[ktype]">
+          <NeoTableColumn v-slot="props" field="text" :label="labels[ktype]">
             {{ props.row.text }}
-          </b-table-column>
-          <b-table-column v-slot="props" field="shortcut">
+          </NeoTableColumn>
+          <NeoTableColumn v-slot="props" field="shortcut">
             <div>
               <span
                 v-for="(shortcut, index) in props.row.shortcut.split('+')"
@@ -23,8 +23,8 @@
                 </span>
               </span>
             </div>
-          </b-table-column>
-        </b-table>
+          </NeoTableColumn>
+        </NeoTable>
       </div>
     </template>
     <template #hint>
@@ -38,6 +38,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import '@/styles/components/_keyboard-shortcut.scss'
+import { NeoTable, NeoTableColumn } from '@kodadot1/brick'
 
 interface DifferentTypeShortCuts {
   navigation: { text: string; shortcut: string }[]
@@ -55,6 +56,8 @@ interface DifferentTypeName {
   name: 'KeyboardShortcutsModal',
   components: {
     ModalWrapper: () => import('./ModalWrapper.vue'),
+    NeoTable,
+    NeoTableColumn,
   },
 })
 export default class KeyboardShortcutsModal extends Vue {

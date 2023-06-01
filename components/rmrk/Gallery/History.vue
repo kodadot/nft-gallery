@@ -40,66 +40,66 @@
             enable-listen-keyboard-event
             preserve-scroll />
         </div>
-        <b-table :data="showList" class="mb-4" hoverable custom-row-key="ID">
-          <b-table-column
+        <NeoTable :data="showList" class="mb-4" hoverable custom-row-key="ID">
+          <NeoTableColumn
             v-slot="props"
             field="Type"
             label="Type"
-            cell-class="type-table">
+            class="type-table">
             {{ getEventDisplayName(props.row.Type) }}
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-if="displayItem"
             v-slot="props"
-            cell-class="short-identity__table"
+            class="short-identity__table"
             field="Item"
             label="Item">
             <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.Item.id}`">
               {{ props.row.Item.name || props.row.Item.id }}
             </nuxt-link>
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
-            cell-class="short-identity__table"
+            class="short-identity__table"
             field="From"
             label="From">
             <nuxt-link :to="`/${urlPrefix}/u/${props.row.From}`">
               <Identity :address="props.row.From" />
             </nuxt-link>
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
             :visible="isToColumnVisible"
-            cell-class="short-identity__table"
+            class="short-identity__table"
             field="To"
             label="To">
             <nuxt-link :to="`/${urlPrefix}/u/${props.row.toString}`">
               <Identity :address="props.row.To" />
             </nuxt-link>
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
-            cell-class="short-identity__table"
+            class="short-identity__table"
             field="Amount"
             label="Amount">
             <div v-if="parseInt(props.row.Amount)">
               <CommonTokenMoney :value="props.row.Amount" />
             </div>
             <div v-else>-</div>
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
-            cell-class="short-identity__table"
+            class="short-identity__table"
             :visible="isPercentageColumnVisible"
             field="Percentage"
             label="Percentage">
             <span :class="percentageTextClassName(props.row.Percentage)">
               {{ props.row.Percentage | toPercent('-') }}
             </span>
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
-            cell-class="short-identity__table"
+            class="short-identity__table"
             field="Date"
             label="Date">
             <NeoTooltip :label="props.row.Date" position="right" multiline>
@@ -107,8 +107,8 @@
                 :block-id="props.row.Block"
                 :text="props.row.Time" />
             </NeoTooltip>
-          </b-table-column>
-        </b-table>
+          </NeoTableColumn>
+        </NeoTable>
       </div>
     </b-collapse>
   </div>
@@ -137,7 +137,7 @@ import {
 import shortAddress from '@/utils/shortAddress'
 
 import { Interaction as EventInteraction } from '../service/scheme'
-import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoIcon, NeoTable, NeoTableColumn, NeoTooltip } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
