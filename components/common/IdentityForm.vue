@@ -108,6 +108,8 @@ const SubmitButton = defineAsyncComponent(
 type IdentityFields = Record<string, string>
 
 const { $i18n } = useNuxtApp()
+import { useIdentityStore } from '@/stores/identity'
+
 const { apiUrl, apiInstance } = useApi()
 const { accountId, balance } = useAuth()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
@@ -129,6 +131,7 @@ onBeforeMount(async () => {
     deposit.value = api.consts.identity?.basicDeposit?.toString()
     identity.value = await fetchIdentity(accountId.value)
   })
+  useIdentityStore().fetchBalance({ address: accountId.value })
 })
 
 const enhanceIdentityData = (): Record<string, any> => {
