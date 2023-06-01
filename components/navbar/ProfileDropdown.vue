@@ -50,7 +50,7 @@
           }}</nuxt-link>
         </b-dropdown-item>
         <b-dropdown-item has-link aria-role="menuitem">
-          <nuxt-link :to="`/${urlPrefix}/teleport-bridge`"
+          <nuxt-link :to="`/${urlPrefix}/teleport`"
             >{{ $t('navbar.teleportBridge') }}
           </nuxt-link>
         </b-dropdown-item>
