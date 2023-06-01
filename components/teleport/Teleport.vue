@@ -47,7 +47,7 @@
       <div class="mb-5">
         <h1 class="has-text-weight-bold">{{ $i18n.t('teleport.to') }}</h1>
         <TeleportTabs
-          :tabs="ToTabs"
+          :tabs="toTabs"
           :value="toChain"
           @select="onToChainChange" />
       </div>
@@ -80,7 +80,6 @@
 </template>
 
 <script setup lang="ts">
-import { ApiPromise, WsProvider } from '@polkadot/api'
 import { web3Enable } from '@polkadot/extension-dapp'
 import '@polkadot/api-augment'
 import { toDefaultAddress } from '@/utils/account'
@@ -107,11 +106,11 @@ import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { useIdentityStore } from '@/stores/identity'
+import { ApiFactory } from '@kodadot1/sub-api'
 
 const getApi = (from: Chain) => {
-  return ApiPromise.create({
-    provider: new WsProvider(getChainEndpointByPrefix(chainToPrefixMap[from])),
-  })
+  const endpoint = getChainEndpointByPrefix(chainToPrefixMap[from]) as string
+  return ApiFactory.useApiInstance(endpoint)
 }
 
 const { accountId } = useAuth()
