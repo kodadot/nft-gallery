@@ -43,11 +43,6 @@ describe('BalanceInput.vue', () => {
         $config: {
           prefix: 'rmrk',
         },
-        $store: {
-          getters: {
-            currentUrlPrefix: 'rmrk',
-          },
-        },
       },
       localVue,
     })
