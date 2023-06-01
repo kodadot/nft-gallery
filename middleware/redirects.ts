@@ -1,12 +1,12 @@
-export default function ({ store, redirect, route }): void {
-  const prefix = store.getters.currentUrlPrefix
+export default function ({ redirect, route }): void {
+  const { urlPrefix } = usePrefix()
 
-  if (route.path.startsWith(`/${prefix}`)) {
+  if (route.path.startsWith(`/${urlPrefix.value}`)) {
     if (route.path.endsWith('collections')) {
-      return redirect(`/${prefix}/explore/collectibles`)
+      return redirect(`/${urlPrefix.value}/explore/collectibles`)
     }
     if (route.path.endsWith('gallery')) {
-      return redirect(`/${prefix}/explore/items`)
+      return redirect(`/${urlPrefix.value}/explore/items`)
     }
   }
 
