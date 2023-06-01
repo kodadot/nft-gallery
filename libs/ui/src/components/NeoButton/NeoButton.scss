@@ -104,6 +104,22 @@
     }
   }
 
+  &--unlockable{
+    height: 40px;
+    width: min-content !important;
+    border-radius: 4rem;
+    box-shadow: none !important;
+    @include ktheme() {
+
+      background: theme('background-color');
+      &:hover {
+        background-color: theme('k-accentHover');
+        color: theme('black');
+        border: 1px solid theme('border-color');
+      }
+    }
+  }
+
   &.is-text {
     border: none !important;
     width: min-content;

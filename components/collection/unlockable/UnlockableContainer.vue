@@ -41,6 +41,7 @@
             bold stroke ima. Outline move object scale bold stroke imaOutline
             move object scale bold stroke ima
           </div>
+          <NeoButton variant="unlockable" class="mt-2"> Learn More </NeoButton>
         </div>
       </div>
     </div>
@@ -51,6 +52,8 @@
 import CollectionInfo from '@/components/collection/unlockable/CollectionInfo'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer'
+import { NeoButton } from '@kodadot1/brick'
+
 import ImageSlider from '@/components/collection/unlockable/ImageSlider'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
 </script>
