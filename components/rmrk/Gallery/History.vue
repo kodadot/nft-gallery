@@ -145,6 +145,8 @@ const components = {
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   NeoIcon,
+  NeoTable,
+  NeoTableColumn,
   NeoTooltip,
 }
 
