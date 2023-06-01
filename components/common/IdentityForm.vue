@@ -71,7 +71,8 @@
         expanded />
 
       <p class="subtitle is-size-6">
-        {{ $i18n.t('identity.deposit') }} <Money :value="deposit" inline />
+        {{ $i18n.t('identity.deposit') }}
+        <Money :value="deposit" inline />
       </p>
 
       <SubmitButton
@@ -131,7 +132,10 @@ onBeforeMount(async () => {
     deposit.value = api.consts.identity?.basicDeposit?.toString()
     identity.value = await fetchIdentity(accountId.value)
   })
-  useIdentityStore().fetchBalance({ address: accountId.value })
+  const identityStore = useIdentityStore()
+  if (Number(identityStore.getAuthBalance) === 0) {
+    identityStore.fetchBalance({ address: accountId.value })
+  }
 })
 
 const enhanceIdentityData = (): Record<string, any> => {
