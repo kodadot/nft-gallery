@@ -146,7 +146,7 @@ const fromTabs = [
     value: Chain.STATEMINE,
   },
 ]
-const ToTabs = [
+const toTabs = [
   {
     label: Chain.KUSAMA,
     value: Chain.KUSAMA,
