@@ -256,13 +256,6 @@ const getTransaction = async () => {
     to: getToChain(),
   })
   if (telportType === TeleprtType.RelayToPara) {
-    // print out all args of builder
-    console.log(
-      'Chain[toChain.value.toUpperCase()]',
-      Chain[toChain.value.toUpperCase()]
-    )
-    console.log('amountValue', amountValue)
-    console.log('toAddress.value', toAddress.value)
     return paraspell
       .Builder(api)
       .to(Chain[toChain.value.toUpperCase()])
