@@ -39,7 +39,7 @@ const listEvents = computed(() => {
       .filter((e) => e.interaction === Interaction.LIST)
       .map(toDataPoint)
   )
-  return removeOutliers(listDataPoints)
+  return listDataPoints
 })
 
 const chartData = computed(() => {
