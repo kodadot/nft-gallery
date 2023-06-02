@@ -1,19 +1,24 @@
 <template>
   <!-- NeoTag -->
-  <b-tag
+  <div
     attached
     closable
-    class="neo-tag pl-3 pr-1"
+    class="neo-tag tag p-3"
     :class="{
       'is-blue-tag': isBlueTag,
-    }"
-    aria-close-label="clear filter"
-    @close="onClose">
+    }">
     <slot></slot>
-  </b-tag>
+    <NeoIcon
+      aria-close-label="clear filter"
+      icon="xmark"
+      class="ml-2 is-clickable cross-icon"
+      @click.native="onClose" />
+  </div>
 </template>
 
 <script lang="ts" setup>
+import { NeoIcon } from '~~/libs/ui/src'
+
 defineProps<{
   isBlueTag?: boolean
 }>()
@@ -28,9 +33,20 @@ const onClose = () => {
 @import '@/styles/abstracts/variables';
 
 .neo-tag {
+  border-radius: 0 !important;
+  background: transparent;
+  font-size: 1rem !important;
   @include ktheme() {
     border: 1px solid theme('k-primary');
+    background-color: theme('background-color');
+
+    .cross-icon {
+      &:hover {
+        color: theme('k-grey');
+      }
+    }
   }
+
   &:hover {
     @include ktheme() {
       background-color: theme('k-accentlight2');
@@ -51,7 +67,6 @@ const onClose = () => {
     margin-bottom: 0;
     padding: 0;
     background-color: inherit;
-    font-size: 16px;
 
     @include ktheme() {
       color: theme('text-color');
