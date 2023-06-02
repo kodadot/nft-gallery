@@ -39,7 +39,7 @@ const onClose = () => {
   @include ktheme() {
     border: 1px solid theme('k-primary');
     background-color: theme('background-color');
-
+    color: theme('text-color');
     .cross-icon {
       &:hover {
         color: theme('k-grey');

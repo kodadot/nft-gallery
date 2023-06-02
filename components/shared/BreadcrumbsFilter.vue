@@ -132,9 +132,3 @@ const removeBread = (key: string) => {
   replaceUrl({ [key]: undefined })
 }
 </script>
-
-<style lang="scss">
-.filters-tag .tag {
-  color: initial;
-}
-</style>
