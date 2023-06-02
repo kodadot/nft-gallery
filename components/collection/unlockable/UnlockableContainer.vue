@@ -72,7 +72,7 @@
           <div class="my-5">
             <NeoButton
               class="mb-2 mt-4 mint-button"
-              variant="primary"
+              variant="k-accent"
               :disabled="mintButtonDisabled"
               label="Mint"
               @click.native="hanldeSubmitMint" />
@@ -101,6 +101,7 @@
               10 exclusive items.</span
             >
           </div>
+          <UnlockableSchedule />
         </div>
         <div class="column is-6 pt-5 is-flex is-justify-content-center">
           <ImageSlider v-if="imageList.length" :image-list="imageList" />
@@ -147,6 +148,7 @@ import UnlockableTag from '@/components/collection/unlockable/UnlockableTag'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer'
 import { NeoButton } from '@kodadot1/brick'
 import ImageSlider from '@/components/collection/unlockable/ImageSlider'
+import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { OSlider } from '@oruga-ui/oruga'

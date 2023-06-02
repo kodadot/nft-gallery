@@ -1,13 +1,16 @@
 <template>
   <div ref="wrapper" class="px-4 py-4 keen-slider">
     <div
-      v-for="(item, index) in [1, 2, 3]"
+      v-for="(item, index) in [1, 2, 3, 4]"
       :key="index"
-      class="keen-slider__slide mr-4">
-      <span class="mr-4 has-text-grey">Mint Phase Ends In</span
-      ><span
-        >{{ hours }} Hours : {{ minutes }} Minutes : {{ seconds }} Seconds</span
-      >
+      class="keen-slider__slide mr-4 is-flex no-wrap">
+      <div v-for="item in [1, 2, 3]" :key="item" class="mr-6 no-wrap">
+        <span class="mr-4 has-text-grey">Mint Phase Ends In</span
+        ><span
+          >{{ hours }} Hours : {{ minutes }} Minutes :
+          {{ seconds }} Seconds</span
+        >
+      </div>
     </div>
   </div>
 </template>
