@@ -6,20 +6,20 @@
         :key="image"
         :src="image"
         class="keen-slider__slide" />
-
-      <Transition name="fade">
-        <div
-          v-if="sliderSettings.leftArrowValid"
-          class="arrow arrow-left"
-          @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)"></div>
-      </Transition>
-      <Transition name="fade">
-        <div
-          v-if="sliderSettings.rightArrowValid"
-          class="arrow arrow-right"
-          @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)"></div>
-      </Transition>
     </div>
+
+    <Transition name="fade">
+      <div
+        v-if="sliderSettings.leftArrowValid"
+        class="arrow arrow-left"
+        @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)"></div>
+    </Transition>
+    <Transition name="fade">
+      <div
+        v-if="sliderSettings.rightArrowValid"
+        class="arrow arrow-right"
+        @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)"></div>
+    </Transition>
     <div ref="thumbnail" class="keen-slider thumbnail">
       <div v-for="image in imageList" :key="image" class="keen-slider__slide">
         <img :src="image" />
@@ -31,19 +31,11 @@
 <script setup lang="ts">
 import { useKeenSlider } from 'keen-slider/vue.es'
 import 'keen-slider/keen-slider.min.css'
-const imageList = [
-  'https://replicate.delivery/pbxt/PyQofrsc39W0LCzBel4ofvwStvZinbywkMoH1aNZ9wwer5EEB/out-0.png',
-  'https://replicate.delivery/pbxt/PtCm0mP3PBY5BdYKo1kqwmMmlgZl4V9uZzeGC5K624z7MngIA/out-0.png',
-  'https://replicate.delivery/pbxt/7900WedrZPyzFK5VI8Sb4K0NZ1JEt6TMRf2XpT1EBSmOaOBRA/out-0.png',
-  'https://replicate.delivery/pbxt/xZ6WzuO5VNqFJNhgMwR4mpE3COFh8GRpkSio3NvQdLdmDOQE/out-0.png',
-  'https://replicate.delivery/pbxt/Cxfhi4qeTNvn6kcrrKlvL1YUPBKeAmbNrrf2ATtPVd6o5gDEB/out-1.png',
-  'https://replicate.delivery/pbxt/JRefeymjem3mpQY4fHABatiApzEoJhSxzFXvf5zD00dnmDOQE/out-2.png',
-  'https://replicate.delivery/pbxt/oxnUi6H6sqa3G94GLgmN9gnFrmce5agGMlOqV6vfd5xbO4ARA/out-3.png',
-  'https://replicate.delivery/pbxt/T11jVf2EUExMdCqnjx5xH72WWWPedvZM82RrEbaADq8CaOBRA/out-0.png',
-  'https://replicate.delivery/pbxt/pamnM0QmQTbaDZasPiOievPg0ekfW2X2B23WbsuqgeveobHIC/out-0.png',
-  'https://replicate.delivery/pbxt/9sfHL1QbXjUGZqvJZBfyS90ZVR1souUUL03QsVWTYxPId7ARA/out-1.png',
-  'https://replicate.delivery/pbxt/m2MagsaOVSYuMxbgv32b3bDaTtD0ZCVaA17eRO42KklkudgIA/out-2.png',
-]
+
+defineProps<{
+  imageList: string[]
+}>()
+
 function ThumbnailPlugin(main) {
   return (slider) => {
     function removeActive() {
@@ -77,7 +69,7 @@ function ThumbnailPlugin(main) {
 }
 
 const [container, slider] = useKeenSlider({})
-const [thumbnail] = useKeenSlider(
+const [thumbnail, sliderThumbnail] = useKeenSlider(
   {
     initial: 0,
     slides: {

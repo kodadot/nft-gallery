@@ -29,59 +29,9 @@ import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import unloackableBanner from '@/assets/unlockable-banner.svg'
 
 const { $seoMeta } = useNuxtApp()
-const { placeholder } = useTheme()
-const route = useRoute()
-const { data } = useGraphql({
-  queryName: 'collectionById',
-  variables: {
-    id: route.params.id,
-  },
-})
 
 const collectionAvatar = ref('')
 const collectionName = ref('--')
-
-watchEffect(async () => {
-  const collection = data.value?.collectionEntity
-  const metadata = collection?.metadata
-  const image = collection?.meta?.image
-  const name = collection?.name
-
-  if (image && name) {
-    collectionAvatar.value = sanitizeIpfsUrl(image)
-    collectionName.value = name
-  } else {
-    const meta = (await processSingleMetadata(metadata)) as NFTMetadata
-    const metaImage = sanitizeIpfsUrl(meta?.image)
-    const metaName = meta?.name
-
-    if (metaName) {
-      collectionName.value = metaName
-    }
-
-    if (metaImage) {
-      collectionAvatar.value = metaImage
-    }
-  }
-})
-
-const meta = computed(() => {
-  return $seoMeta({
-    title: collectionName.value,
-    type: 'profile',
-    description: data.value?.collectionEntity.meta?.description,
-    url: route.path,
-    image: generateCollectionImage(
-      collectionName.value,
-      data.value?.nftEntitiesConnection.totalCount,
-      collectionAvatar.value
-    ),
-  })
-})
-useNuxt2Meta({
-  title: collectionName,
-  meta,
-})
 </script>
 
 <style scoped lang="scss">

@@ -48,5 +48,19 @@ export const claimWaifu = async (claimId: string, address: string) => {
 
   return value
 }
+export const getLatestWaifuImages = async () => {
+  const value = await api<{ result: { id: string; output: string }[] }>(
+    'latest',
+    {
+      method: 'GET',
+    }
+  ).catch((error: FetchError) => {
+    throw new Error(
+      `[WAIFU::IMAGE] Unable to fetch image for reasons ${error.data}`
+    )
+  })
+
+  return value
+}
 
 export default api

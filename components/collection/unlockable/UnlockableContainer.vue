@@ -7,10 +7,102 @@
         <div class="column is-6 mobile-padding">
           <CollectionInfo />
           <hr class="mb-4" />
+
+          <div
+            class="is-flex is-justify-content-space-between is-align-items-center my-5">
+            <span class="">Total available items</span>
+            <span class=""
+              >{{ totalAvailableMintCount }} / {{ totalCount }}</span
+            >
+          </div>
           <UnlockableTag />
+
+          <div>
+            <div
+              class="is-flex is-justify-content-space-between is-align-items-center my-5">
+              <span class="has-text-weight-bold is-size-5">First Phase</span
+              ><span
+                v-if="!mintButtonDisabled"
+                class="is-flex is-align-items-center"
+                ><svg
+                  width="42"
+                  height="43"
+                  viewBox="0 0 42 43"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="21" cy="21.2302" r="6" fill="#FF7AC3" />
+                  <g filter="url(#filter0_f_394_6126)">
+                    <circle cx="21" cy="21.7302" r="6" fill="#FF7AC3" />
+                  </g>
+                  <defs>
+                    <filter
+                      id="filter0_f_394_6126"
+                      x="0"
+                      y="0.730164"
+                      width="42"
+                      height="42"
+                      filterUnits="userSpaceOnUse"
+                      color-interpolation-filters="sRGB">
+                      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                      <feBlend
+                        mode="normal"
+                        in="SourceGraphic"
+                        in2="BackgroundImageFix"
+                        result="shape" />
+                      <feGaussianBlur
+                        stdDeviation="7.5"
+                        result="effect1_foregroundBlur_394_6126" />
+                    </filter>
+                  </defs>
+                </svg>
+                Open</span
+              >
+            </div>
+            <div
+              class="is-flex is-justify-content-space-between is-align-items-center">
+              <span>Free</span
+              ><span class="has-text-weight-bold">
+                {{ currentMintedCount }} / {{ MAX_PER_WINDOW }} Minted</span
+              >
+            </div>
+          </div>
+          <div class="my-5">
+            <o-slider :value="currentMintedCount * 10" disabled></o-slider>
+          </div>
+          <div class="my-5">
+            <NeoButton
+              class="mb-2 mt-4 mint-button"
+              variant="primary"
+              :disabled="mintButtonDisabled"
+              label="Mint" />
+            <div class="is-flex is-align-items-center mt-2">
+              <svg
+                width="20"
+                height="21"
+                class="mr-2"
+                viewBox="0 0 20 21"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M10 2.73016C14.4062 2.73016 18 6.32391 18 10.7302C18 15.1677 14.4062 18.7302 10 18.7302C5.5625 18.7302 2 15.1677 2 10.7302C2 9.07391 2.5 7.54266 3.375 6.26141L3.78125 5.63641L5.03125 6.48016L4.59375 7.10516C3.90625 8.13641 3.5 9.38641 3.5 10.7302C3.5 14.3239 6.40625 17.2302 10 17.2302C13.5625 17.2302 16.5 14.3239 16.5 10.7302C16.5 7.41766 13.9688 4.66766 10.75 4.29266V5.98016V6.73016H9.25V5.98016V3.48016V2.73016H10ZM8.03125 7.69891H8L10.5 10.1989L11.0312 10.7302L10 11.7927L9.46875 11.2614L6.96875 8.76141L6.4375 8.23016L7.5 7.16766L8.03125 7.69891Z"
+                  fill="currentColor" />
+              </svg>
+              {{ timeFromNow }}
+            </div>
+          </div>
+
+          <div class="my-5">
+            <span class="has-text-weight-bold is-size-5">Schedule</span>
+          </div>
+          <div>
+            <span
+              >We will have a 10-minute window every hour, each featuring only
+              10 exclusive items.</span
+            >
+          </div>
         </div>
         <div class="column is-6 pt-5 is-flex is-justify-content-center">
-          <ImageSlider />
+          <ImageSlider v-if="imageList.length" :image-list="imageList" />
         </div>
       </div>
       <hr class="text-color my-4" />
@@ -53,14 +145,77 @@ import CollectionInfo from '@/components/collection/unlockable/CollectionInfo'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer'
 import { NeoButton } from '@kodadot1/brick'
-
 import ImageSlider from '@/components/collection/unlockable/ImageSlider'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
+import { getLatestWaifuImages } from '@/services/waifu'
+import { OSlider } from '@oruga-ui/oruga'
+import { timeAgo } from '@/components/collection/utils/timeAgo'
+import { collectionId, countDownTime } from './const'
+const imageList = ref<string[]>([])
+const MAX_PER_WINDOW = 10
+const { urlPrefix } = usePrefix()
+onMounted(async () => {
+  const res = await getLatestWaifuImages()
+  imageList.value = res.result.map((item) => item.output)
+})
+
+const mintStartTime = new Date('May 1, 2021 10:00:00').getTime()
+const windowRange = [
+  new Date(mintStartTime),
+  // new Date(mintStartTime + 60 * 60 * 1000),
+  new Date('Jun 5, 2024 10:00:00'),
+]
+
+const { data: collectionData } = useGraphql({
+  queryName: 'collectionById',
+  variables: {
+    id: collectionId,
+  },
+})
+const totalCount = 300
+const totalAvailableMintCount = computed(
+  () =>
+    totalCount - (collectionData.value?.nftEntitiesConnection?.totalCount || 0)
+)
+
+const { data, refetch } = useGraphql({
+  queryName: 'collectionMintedBetween',
+  clientName: urlPrefix.value,
+  variables: {
+    id: '5' || collectionId, // for test
+    from: windowRange[0],
+    to: windowRange[1],
+  },
+})
+
+useSubscriptionGraphql({
+  query: `query mintedBetween($id: "${collectionId}", $from: ${windowRange[0]}, $to: ${windowRange[1]}) {
+  minted: nftEntitiesConnection(orderBy: createdAt_DESC, where: { collection: {id_eq: $id}, createdAt_gte: $from, createdAt_lte: $to}) {
+    count: totalCount
+  }
+}`,
+  onChange: refetch,
+})
+
+const mintedCount = computed(() => data.value?.minted?.count || 0)
+
+const currentMintedCount = computed(() =>
+  Math.min(mintedCount.value, MAX_PER_WINDOW)
+)
+
+const mintButtonDisabled = computed(
+  () => currentMintedCount.value >= MAX_PER_WINDOW
+)
+const timeFromNow = computed(() => timeAgo(countDownTime))
 </script>
 
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
 
 .unlockable-container {
+  .mint-button {
+    width: 14rem;
+    height: 3.5rem;
+  }
 }
 </style>

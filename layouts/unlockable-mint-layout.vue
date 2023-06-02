@@ -20,6 +20,7 @@ const { $config } = useNuxtApp()
 const route = useRoute()
 
 useNuxt2Meta({
+  title: 'Unlockable',
   link: [
     {
       hid: 'canonical',

@@ -37,7 +37,7 @@
             data-cy="share-button" />
           <template #items>
             <NeoDropdownItem
-              v-clipboard:copy="currentCollectionUrl"
+              v-clipboard:copy="currentUrl"
               @click.native="toast(`${$i18n.t('toast.urlCopy')}`)">
               {{ $i18n.t('share.copyLink') }}
             </NeoDropdownItem>
@@ -49,7 +49,7 @@
                 tag="div"
                 network="twitter"
                 :hashtags="hashtags"
-                :url="currentCollectionUrl"
+                :url="currentUrl"
                 :title="sharingLabel"
                 twitter-user="KodaDot">
                 {{ $i18n.t('share.twitter') }}
@@ -65,10 +65,7 @@
           <p class="card-header-title">{{ collection?.name }}</p>
         </header>
         <div class="card-content">
-          <QRCode
-            :text="currentCollectionUrl"
-            color="#db2980"
-            bg-color="#000" />
+          <QRCode :text="currentUrl" color="#db2980" bg-color="#000" />
         </div>
       </div>
     </NeoModal>
@@ -82,42 +79,13 @@ import {
   NeoDropdownItem,
   NeoModal,
 } from '@kodadot1/brick'
-import { isOwner as checkOwner } from '@/utils/account'
-import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
-import useIdentity from '@/components/identity/utils/useIdentity'
 
-const route = useRoute()
-const { accountId } = useAuth()
-const { urlPrefix } = usePrefix()
 const { $i18n, $buefy } = useNuxtApp()
-const collectionId = computed(() => route.params.id)
-const currentCollectionUrl = computed(
-  () =>
-    `${window.location.origin}/${urlPrefix.value}/collection/${collectionId.value}`
-)
-const { collection } = useCollectionMinimal({
-  collectionId: collectionId.value,
-})
-const collectionIssuer = computed(() => collection.value?.issuer)
-
-const { discord, twitter, instagram, whichIdentity } = useIdentity({
-  address: collectionIssuer.value,
-})
+const currentUrl = computed(() => window.location.href)
 
 const openUrl = (url: string) => {
   window.open(url, '_blank')
 }
-
-watch(collectionIssuer, () => {
-  whichIdentity(collectionIssuer.value)
-})
-
-const displaySeperator = computed(
-  () => discord.value || twitter.value || instagram.value
-)
-const isOwner = computed(() =>
-  checkOwner(collection.value?.currentOwner, accountId.value)
-)
 
 const QRModalActive = ref(false)
 
