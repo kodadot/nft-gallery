@@ -3,6 +3,7 @@ import { $fetch, FetchError } from 'ohmyfetch'
 const BASE_URL = 'https://waifu-me.kodadot.workers.dev'
 
 const table = 'mints'
+const campaign = 'corn'
 
 const api = $fetch.create({
   baseURL: BASE_URL,
@@ -58,6 +59,22 @@ export const getLatestWaifuImages = async () => {
     throw new Error(
       `[WAIFU::IMAGE] Unable to fetch image for reasons ${error.data}`
     )
+  })
+
+  return value
+}
+
+export const doWaifu = async (address: string, url: string, image: string) => {
+  const body = {
+    address,
+    metadata: url,
+    image,
+  }
+  const value = await api<typeof body>(`do/${campaign}`, {
+    method: 'POST',
+    body,
+  }).catch((error: FetchError) => {
+    throw new Error(`[WAIFU::DO] Unable to CAMPAIGN for reasons ${error.data}`)
   })
 
   return value

@@ -1,5 +1,5 @@
 <template>
-  <div class="unlockable-image-slider">
+  <div class="unlockable-image-slider mt-6">
     <div ref="container" class="keen-slider">
       <img
         v-for="image in imageList"
