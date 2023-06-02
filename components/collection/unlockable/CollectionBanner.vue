@@ -12,7 +12,7 @@
               src="https://replicate.delivery/pbxt/Cxfhi4qeTNvn6kcrrKlvL1YUPBKeAmbNrrf2ATtPVd6o5gDEB/out-1.png"
               alt="avatar" />
           </div>
-          <h1 class="collection-banner-name">Waifu t-shirt free mint</h1>
+          <h1 class="collection-banner-name">Waifu T-Shirt Free Mint</h1>
         </div>
         <HeroButtons class="is-hidden-mobile is-align-self-flex-end" />
       </div>

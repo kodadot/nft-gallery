@@ -74,7 +74,8 @@
               class="mb-2 mt-4 mint-button"
               variant="primary"
               :disabled="mintButtonDisabled"
-              label="Mint" />
+              label="Mint"
+              @click.native="hanldeSubmitMint" />
             <div class="is-flex is-align-items-center mt-2">
               <svg
                 width="20"
@@ -147,10 +148,14 @@ import CountdownTimer from '@/components/collection/unlockable/CountdownTimer'
 import { NeoButton } from '@kodadot1/brick'
 import ImageSlider from '@/components/collection/unlockable/ImageSlider'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
-import { getLatestWaifuImages } from '@/services/waifu'
+import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { OSlider } from '@oruga-ui/oruga'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { collectionId, countDownTime } from './const'
+import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
+import { pinJson } from '@/services/nftStorage'
+import { preheatFileFromIPFS } from '@/utils/ipfs'
+
 const imageList = ref<string[]>([])
 const MAX_PER_WINDOW = 10
 const { urlPrefix } = usePrefix()
@@ -207,6 +212,35 @@ const mintButtonDisabled = computed(
   () => currentMintedCount.value >= MAX_PER_WINDOW
 )
 const timeFromNow = computed(() => timeAgo(countDownTime))
+
+const hanldeSubmitMint = async () => {
+  const name = 'Corn Waifu'
+  const description =
+    'This anime waifu loves corn with butter and salt. Please dont microwave your corn, cook it like a normal person. Boil salty water and add corn - cook 15 minutes. Your anime waifu will make you a popcorn if you defeat her in a final battle. Only true winner can enjoy good dinner in a form of corn'
+  const image = imageList.value[0]
+  const imageHash = 'todo'
+  const meta = createMetadata(
+    name,
+    description,
+    imageHash,
+    undefined,
+    [],
+    'kodadot.xyz',
+    'image/png'
+  )
+
+  const metaHash = await pinJson(meta, image)
+
+  preheatFileFromIPFS(metaHash)
+  const hash = unSanitizeIpfsUrl(metaHash)
+
+  const { accountId } = useAuth()
+  const res = await doWaifu(accountId.value, hash, image)
+
+  if (res) {
+    // check minting status
+  }
+}
 </script>
 
 <style scoped lang="scss">
