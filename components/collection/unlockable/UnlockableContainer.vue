@@ -159,11 +159,15 @@ import { pinJson } from '@/services/nftStorage'
 import { preheatFileFromIPFS } from '@/utils/ipfs'
 
 const imageList = ref<string[]>([])
+const resultList = ref<any[]>([])
+const selectedImage = ref('')
 const MAX_PER_WINDOW = 10
 const { urlPrefix } = usePrefix()
 onMounted(async () => {
   const res = await getLatestWaifuImages()
   imageList.value = res.result.map((item) => item.output)
+  resultList.value = res.result
+  selectedImage.value = imageList.value.at(0) || ''
 })
 
 const mintStartTime = new Date('May 1, 2023 10:00:00').getTime()
@@ -220,8 +224,8 @@ const hanldeSubmitMint = async () => {
   const name = 'Corn Waifu'
   const description =
     'This anime waifu loves corn with butter and salt. Please dont microwave your corn, cook it like a normal person. Boil salty water and add corn - cook 15 minutes. Your anime waifu will make you a popcorn if you defeat her in a final battle. Only true winner can enjoy good dinner in a form of corn'
-  const image = imageList.value[0]
-  const imageHash = 'todo'
+  const image = selectedImage.value
+  const imageHash = resultList.value.find((x) => x.output === image)?.image // GET FROM resultList
   const meta = createMetadata(
     name,
     description,
@@ -232,7 +236,7 @@ const hanldeSubmitMint = async () => {
     'image/png'
   )
 
-  const metaHash = await pinJson(meta, image)
+  const metaHash = await pinJson(meta, 'claimable')
 
   preheatFileFromIPFS(metaHash)
   const hash = unSanitizeIpfsUrl(metaHash)
