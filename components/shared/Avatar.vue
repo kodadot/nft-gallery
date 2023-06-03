@@ -16,3 +16,14 @@ withDefaults(
   }
 )
 </script>
+
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
+.avatar {
+  @include ktheme() {
+    border: 1px solid theme('border-color');
+  }
+  border-radius: 50%;
+}
+</style>

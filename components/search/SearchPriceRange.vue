@@ -1,24 +1,22 @@
 <template>
   <div>
-    <b-field class="columns mb-0">
-      <b-input
+    <NeoField class="columns mb-0">
+      <NeoInput
         v-model="range[0]"
         type="number"
         min="0"
         step="any"
         class="column is-2"
         :placeholder="$t('query.priceRange.minPrice')"
-        data-cy="input-min">
-      </b-input>
-      <b-input
+        data-cy="input-min" />
+      <NeoInput
         v-model="range[1]"
         min="0"
         step="any"
         type="number"
         class="column is-2"
         :placeholder="$t('query.priceRange.maxPrice')"
-        data-cy="input-max">
-      </b-input>
+        data-cy="input-max" />
       <div class="column is-1">
         <b-button
           class="is-primary"
@@ -28,7 +26,7 @@
           {{ $t('general.apply') }}
         </b-button>
       </div>
-    </b-field>
+    </NeoField>
     <p v-if="applyDisabled" class="help is-danger">
       {{ $t('query.priceRange.priceValidation') }}
     </p>
@@ -37,8 +35,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-
-@Component({})
+import { NeoField, NeoInput } from '@kodadot1/brick'
+@Component({
+  components: {
+    NeoField,
+    NeoInput,
+  },
+})
 export default class SearchPriceRange extends Vue {
   @Prop({ type: Array, required: false, default: () => [undefined, undefined] })
   public range!: [number | string | undefined, number | string | undefined]

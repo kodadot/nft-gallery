@@ -48,7 +48,7 @@
       <div class="mb-5">
         {{ $i18n.t('walletConnect.authText') }}
       </div>
-      <b-field>
+      <NeoField>
         <NeoButton
           size="medium"
           variant="k-accent"
@@ -59,7 +59,7 @@
             <NeoIcon class="ml-2" icon="chevron-right" />
           </span>
         </NeoButton>
-      </b-field>
+      </NeoField>
     </section>
 
     <footer v-if="!showAccount" class="px-5 py-4">
@@ -84,18 +84,18 @@ import { SupportedWallets } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { Auth, useIdentityStore } from '@/stores/identity'
+import { NeoField } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
+
+const { redesign } = useExperiments()
 
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const hasSelectedWalletProvider = ref(false)
 const forceWalletSelect = ref(false)
-const { $store } = useNuxtApp()
 const identityStore = useIdentityStore()
-
-// urlPrefix from usePrefix() would not update inside modal component
-const urlPrefix = computed(() => $store.getters.currentUrlPrefix)
+const { urlPrefix } = usePrefix()
 
 const setForceWalletSelect = () => {
   forceWalletSelect.value = true
@@ -105,15 +105,19 @@ const account = computed(() => identityStore.auth.address)
 const showAccount = computed(() => account.value && !forceWalletSelect.value)
 
 const wallets = SupportedWallets()
-const headerTitle = computed(() =>
-  $i18n.t(
+const headerTitle = computed(() => {
+  if (redesign.value) {
+    return $i18n.t('profile.page')
+  }
+
+  return $i18n.t(
     account.value
       ? 'walletConnect.walletDetails'
       : hasUserWalletAuth
       ? 'walletConnect.walletHeading'
       : 'walletConnect.warning'
   )
-)
+})
 const setAccount = (account: Auth) => {
   forceWalletSelect.value = false
   identityStore.setAuth(account)

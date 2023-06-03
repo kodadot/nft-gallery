@@ -27,7 +27,7 @@
 - [ ] I've written unit tests 🧪
 - [ ] I've found edge cases
 
-#### Had issue bounty label?
+#### Did your issue had any of the "$" label on it?
 
 - [ ] Fill up your DOT address: [Payout](https://canary.kodadot.xyz/dot/transfer/?target=<My_Polkadot_Address_check_https://github.com/kodadot/nft-gallery/blob/main/REWARDS.md#creating-your-dot-address>)
 
