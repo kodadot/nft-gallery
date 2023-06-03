@@ -61,7 +61,7 @@ export type ActionList = {
   urlPrefix: string
   price: string
   nftId: string
-  successMessage?: string
+  successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }
 

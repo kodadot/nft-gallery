@@ -94,12 +94,9 @@ import {
   warningMessage,
 } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
-import {
-  CreatedNFT,
-  Interaction,
-  createInteraction,
-} from '@kodadot1/minimark/v1'
-import { Attribute, asSystemRemark } from '@kodadot1/minimark/common'
+import { CreatedNFT, Interaction } from '@kodadot1/minimark/v1'
+import { CreatedNFT as CreatedNFTV2 } from '@kodadot1/minimark/v2'
+import { Attribute } from '@kodadot1/minimark/common'
 import { formatBalance } from '@polkadot/util'
 import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { unwrapSafe } from '@/utils/uniquery'
@@ -271,7 +268,7 @@ export default class CreateToken extends mixins(
             setTimeout(
               () =>
                 this.listForSale(
-                  createdNFTs.value,
+                  createdNFTs.value[0],
                   blockNumber.value as string
                 ),
               300
@@ -286,42 +283,51 @@ export default class CreateToken extends mixins(
     }
   }
 
-  public async listForSale(remarks: CreatedNFT[], originalBlockNumber: string) {
+  public async listForSale(
+    createdNFT: CreatedNFT | CreatedNFTV2,
+    originalBlockNumber: string
+  ) {
     try {
-      const api = await this.useApi()
+      const { transaction, status, isLoading, blockNumber } = useTransaction()
 
-      const { price } = this
-      const balance = formatBalance(price, {
+      watch([isLoading, status], () => {
+        this.isLoading = isLoading.value
+        if (Boolean(status.value)) {
+          this.status = status.value
+        }
+      })
+
+      const balance = formatBalance(this.price, {
         decimals: this.decimals,
         withUnit: this.unit,
       })
-      showNotification(`[💰] Listing NFT to sale for ${balance}`)
 
-      const onlyNfts = remarks
-        .map((nft) => toNFTId(nft, originalBlockNumber))
-        .map((id) => createInteraction(Interaction.LIST, id, String(price)))
-
-      if (!onlyNfts.length) {
+      if (!createdNFT) {
         showNotification('Can not list empty NFTs', notificationTypes.warn)
         return
       }
 
-      const cb = api.tx.utility.batchAll
-      const args = onlyNfts.map((rmrk) => asSystemRemark(api, rmrk))
+      showNotification(`[💰] Listing NFT to sale for ${balance}`)
+      const nftId = toNFTId(createdNFT, originalBlockNumber)
 
       this.isLoading = true
-      await this.howAboutToExecute(
-        this.accountId,
-        cb,
-        [args],
-        (blockNumber) => {
-          showNotification(
-            `[💰] Listed ${this.base.name} for ${balance} in block ${blockNumber}`,
-            notificationTypes.success
-          )
-          this.navigateToDetail(remarks[0], originalBlockNumber)
+      transaction({
+        interaction: Interaction.LIST,
+        urlPrefix: this.urlPrefix,
+        price: this.price.toString(),
+        nftId,
+        successMessage: (blockNumber) =>
+          `[💰] Listed ${this.base.name} for ${balance} in block ${blockNumber}`,
+      })
+
+      watch([isLoading, blockNumber], () => {
+        if (!isLoading.value && blockNumber.value) {
+          this.navigateToDetail({
+            nftId,
+            nftName: this.base.name,
+          })
         }
-      )
+      })
     } catch (e) {
       showNotification((e as Error).message, notificationTypes.warn)
     }
@@ -331,14 +337,14 @@ export default class CreateToken extends mixins(
     // TODO: implement
   }
 
-  protected navigateToDetail(nft: CreatedNFT, blockNumber: string) {
+  protected navigateToDetail({ nftId, nftName }) {
     showNotification(
       `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
     )
     const go = () =>
       this.$router.push({
-        path: `/rmrk/gallery/${toNFTId(nft, blockNumber)}`,
-        query: { congratsNft: nft.name },
+        path: `/${this.urlPrefix}/gallery/${nftId}`,
+        query: { congratsNft: nftName },
       })
     setTimeout(go, DETAIL_TIMEOUT)
   }
