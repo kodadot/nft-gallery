@@ -30,11 +30,11 @@ const components = { OnBoarding }
       meta: [...this.$seoMeta(metaData)],
     }
   },
-  middleware({ store, redirect }) {
-    const prefix = store.getters.currentUrlPrefix
+  middleware() {
+    const { urlPrefix } = usePrefix()
 
     if (usePreferencesStore().getVisitedOnboarding) {
-      setTimeout(() => redirect(`/${prefix}/massmint`))
+      navigateTo(`/${urlPrefix.value}/massmint`)
     }
   },
 })
