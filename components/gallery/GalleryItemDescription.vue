@@ -166,7 +166,7 @@ const parentNftUrl = computed(() => {
 const properties = computed(() => {
   // we have different format between rmrk2 and the other chains
   if (urlPrefix.value === 'ksm') {
-    return Object.entries(nftMetadata.value?.properties || {}).map(
+    return Object.entries(nftMetadata.value?.meta?.attributes || {}).map(
       ([key, value]) => {
         return {
           trait_type: key,
