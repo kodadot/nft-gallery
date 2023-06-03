@@ -26,7 +26,6 @@
     padding-top: 83px;
     max-width: 360px;
     width: 100%;
-    overflow: auto;
 
     @include mobile {
       border-left: none !important;
@@ -150,6 +149,7 @@
 
     section {
       height: 100%;
+      overflow-y: auto;
     }
   }
 

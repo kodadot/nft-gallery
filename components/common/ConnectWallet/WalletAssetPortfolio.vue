@@ -1,14 +1,17 @@
 <template>
   <div class="is-flex is-align-items-center is-justify-content-space-between">
-    <NeoButton
-      no-shadow
-      rounded
-      tag="a"
-      size="small"
-      :href="`/${urlPrefix}/assets`"
-      icon="arrow-right-long">
-      Portfolio View
-    </NeoButton>
+    <div>
+      <NeoButton
+        v-if="isBasilisk"
+        no-shadow
+        rounded
+        tag="a"
+        size="small"
+        :href="`/${urlPrefix}/assets`"
+        icon="arrow-right-long">
+        Portfolio View
+      </NeoButton>
+    </div>
 
     <a class="has-text-grey is-size-7" @click="showRampSDK">+ Add Funds</a>
   </div>
@@ -18,7 +21,7 @@
 import { NeoButton } from '@kodadot1/brick'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
-const { urlPrefix } = usePrefix()
+const { urlPrefix, isBasilisk } = usePrefix()
 const { accountId } = useAuth()
 
 const showRampSDK = () => {
