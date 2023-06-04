@@ -1,5 +1,6 @@
 <template>
   <div class="unlockable-container">
+    <Loader v-model="isLoading" :status="status" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
@@ -156,13 +157,20 @@ import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { collectionId, countDownTime } from './const'
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
 import { pinJson } from '@/services/nftStorage'
-import { preheatFileFromIPFS } from '@/utils/ipfs'
+import { createUnlockableMetadata, getRandomInt } from './utils'
+
+const Loader = defineAsyncComponent(
+  () => import('@/components/shared/Loader.vue')
+)
 
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
 const selectedImage = ref('')
 const MAX_PER_WINDOW = 10
 const { urlPrefix } = usePrefix()
+const isLoading = ref(false)
+const status = ref('')
+
 onMounted(async () => {
   const res = await getLatestWaifuImages()
   imageList.value = res.result.map((item) => item.output)
@@ -221,32 +229,23 @@ const mintButtonDisabled = computed(
 const timeFromNow = computed(() => timeAgo(countDownTime))
 
 const hanldeSubmitMint = async () => {
-  const name = 'Corn Waifu'
-  const description =
-    'This anime waifu loves corn with butter and salt. Please dont microwave your corn, cook it like a normal person. Boil salty water and add corn - cook 15 minutes. Your anime waifu will make you a popcorn if you defeat her in a final battle. Only true winner can enjoy good dinner in a form of corn'
-  const image = selectedImage.value
-  const imageHash = resultList.value.find((x) => x.output === image)?.image // GET FROM resultList
-  const meta = createMetadata(
-    name,
-    description,
-    imageHash,
-    undefined,
-    [],
-    'kodadot.xyz',
-    'image/png'
-  )
+  isLoading.value = true
 
-  const metaHash = await pinJson(meta, 'claimable')
-
-  preheatFileFromIPFS(metaHash)
-  const hash = unSanitizeIpfsUrl(metaHash)
+  const image = resultList.value.at(
+    getRandomInt(resultList.value.length)
+  )?.image
+  const hash = await createUnlockableMetadata(image)
 
   const { accountId } = useAuth()
   const res = await doWaifu(accountId.value, hash, image)
 
+  console.log(res)
+
   if (res) {
     // check minting status
   }
+
+  isLoading.value = false
 }
 </script>
 
