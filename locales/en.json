@@ -62,6 +62,8 @@
   "I am helping to cover costs": "I am helping to cover costs",
   "I do not want to support": "I do not want to support",
   "createNftExplainer": "If your collection was minted recently and it doesn't show up here, please wait, it will show up in the selector below shortly",
+  "selectCollection": "Select Collection",
+  "selectCollectionDescription": "Select collection where do you want mint your token",
   "passion": "Passion Feed",
   "beta": "Beta",
   "go back": "Go Back",

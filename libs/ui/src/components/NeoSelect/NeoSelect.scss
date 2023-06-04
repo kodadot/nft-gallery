@@ -1,0 +1,41 @@
+@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+@import '../../scss/variable.scss';
+
+$select-padding: 0.5rem;
+
+@import '@oruga-ui/oruga/src/scss/components/select.scss';
+.neo-select {
+  .o-field {
+    position: relative;
+    .o-field__label {
+      position: absolute;
+      top: 0.25rem;
+      z-index: 5;
+      left: 1em;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      @include ktheme() {
+        color: theme('k-primary');
+      }
+    }
+  }
+
+  .o-ctrl-sel {
+    display: inline-block;
+    width: 100%;
+    .o-sel {
+      height: 3.25rem;
+      width: 100%;
+      padding-top: calc(1.625em - 0.5625rem);
+      padding-bottom: 1px;
+      height: 3.25em;
+      @include ktheme() {
+        color: theme('text-color');
+      }
+    }
+  }
+}
