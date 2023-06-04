@@ -178,11 +178,11 @@ onMounted(async () => {
   selectedImage.value = imageList.value.at(0) || ''
 })
 
-const mintStartTime = new Date('May 1, 2023 10:00:00').getTime()
+const mintStartTime = new Date('Jun 4, 2023 10:00:00').getTime()
 const windowRange = [
   new Date(mintStartTime),
   // new Date(mintStartTime + 60 * 60 * 1000),
-  new Date('Jun 14, 2023 10:00:00'),
+  new Date('Jun 7, 2023 10:00:00'),
 ]
 
 const { data: collectionData } = useGraphql({
