@@ -70,8 +70,8 @@ importers:
         specifier: ^0.6.0
         version: 0.6.0(vue@2.7.14)
       '@paraspell/sdk':
-        specifier: ^1.1.8
-        version: 1.1.8(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1)
+        specifier: ^1.1.9
+        version: 1.1.9(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1)
       '@pinia/nuxt':
         specifier: ^0.4.11
         version: 0.4.11(typescript@4.9.5)(vue@2.7.14)
@@ -692,7 +692,7 @@ packages:
     resolution: {integrity: sha512-46MJZZo9y3o4kmhBVc7zW7i8dtR1oIK/sdO5NcfcZRhTGYi+KKJRtHNgsU6c4VUcJmUNV/LQdebD/9Dlv4K+Tg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.17.10
+      '@babel/types': 7.22.4
       '@jridgewell/gen-mapping': 0.1.1
       jsesc: 2.5.2
     dev: false
@@ -4852,8 +4852,8 @@ packages:
       '@open-web3/orml-type-definitions': 2.0.1
     dev: false
 
-  /@paraspell/sdk@1.1.8(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1):
-    resolution: {integrity: sha512-r7VEiULulEEgvphre9fko+gknuu7pBWHyRYX/fk1V65CEUOgMct8dJAfzj7WOoYHwW/XXOCVYwoHDnxQORx8Lg==}
+  /@paraspell/sdk@1.1.9(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1):
+    resolution: {integrity: sha512-Dbkm57YKxgErF8mY+YX+WkT13GiG2Z1G7k+zuSsTLgrtZ4VSLHVd0ZxIDwdPZvoHkVjuDaRmmhwfjVZzK21log==}
     peerDependencies:
       '@polkadot/api': ^10.6.1
       '@polkadot/api-base': ^10.6.1
@@ -16648,6 +16648,7 @@ packages:
 
   /nan@2.17.0:
     resolution: {integrity: sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==}
+    requiresBuild: true
     dev: false
     optional: true
 
