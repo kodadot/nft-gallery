@@ -105,7 +105,10 @@
           <UnlockableSchedule />
         </div>
         <div class="column is-6 pt-5 is-flex is-justify-content-center">
-          <ImageSlider v-if="imageList.length" :image-list="imageList" />
+          <ImageSlider
+            v-if="imageList.length"
+            :image-list="imageList"
+            @select="handleSelectImage" />
         </div>
       </div>
       <hr class="text-color my-4" />
@@ -174,7 +177,6 @@ onMounted(async () => {
   const res = await getLatestWaifuImages()
   imageList.value = res.result.map((item) => item.output)
   resultList.value = res.result
-  selectedImage.value = imageList.value.at(0) || ''
 })
 
 const mintStartTime = new Date('Jun 4, 2023 10:00:00').getTime()
@@ -183,6 +185,10 @@ const windowRange = [
   // new Date(mintStartTime + 60 * 60 * 1000),
   new Date('Jun 7, 2023 10:00:00'),
 ]
+
+const handleSelectImage = (image: string) => {
+  selectedImage.value = image
+}
 
 const { data: collectionData } = useGraphql({
   queryName: 'collectionById',
@@ -233,9 +239,10 @@ const handleSubmitMint = async () => {
   }
   isLoading.value = true
 
-  const image = resultList.value.at(
-    getRandomInt(resultList.value.length)
-  )?.image
+  const image =
+    resultList.value.find((item) => item.output === selectedImage.value)
+      ?.image || resultList.value[0]?.image
+
   const hash = await createUnlockableMetadata(image)
 
   const { accountId } = useAuth()

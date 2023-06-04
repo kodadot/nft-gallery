@@ -31,8 +31,9 @@
 <script setup lang="ts">
 import { useKeenSlider } from 'keen-slider/vue.es'
 import 'keen-slider/keen-slider.min.css'
+const emit = defineEmits(['select'])
 
-defineProps<{
+const props = defineProps<{
   imageList: string[]
 }>()
 
@@ -51,6 +52,7 @@ function ThumbnailPlugin(main) {
       slider.slides.forEach((slide, idx) => {
         slide.addEventListener('click', () => {
           main.value.moveToIdx(idx)
+          emit('select', props.imageList[idx])
         })
       })
     }
@@ -123,6 +125,13 @@ const sliderSettings = computed(() => {
     img {
       height: 136px;
       width: 136px;
+    }
+    &.active {
+      img {
+        @include ktheme() {
+          border: 3px solid theme('border-color');
+        }
+      }
     }
   }
 }
