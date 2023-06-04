@@ -76,7 +76,7 @@
               variant="k-accent"
               :disabled="mintButtonDisabled"
               label="Mint"
-              @click.native="hanldeSubmitMint" />
+              @click.native="handleSubmitMint" />
             <div class="is-flex is-align-items-center mt-2">
               <svg
                 width="20"
@@ -155,9 +155,8 @@ import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { OSlider } from '@oruga-ui/oruga'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { collectionId, countDownTime } from './const'
-import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
-import { pinJson } from '@/services/nftStorage'
 import { createUnlockableMetadata, getRandomInt } from './utils'
+const { toast } = useToast()
 
 const Loader = defineAsyncComponent(
   () => import('@/components/shared/Loader.vue')
@@ -228,7 +227,10 @@ const mintButtonDisabled = computed(
 )
 const timeFromNow = computed(() => timeAgo(countDownTime))
 
-const hanldeSubmitMint = async () => {
+const handleSubmitMint = async () => {
+  if (isLoading.value) {
+    return false
+  }
   isLoading.value = true
 
   const image = resultList.value.at(
@@ -237,15 +239,13 @@ const hanldeSubmitMint = async () => {
   const hash = await createUnlockableMetadata(image)
 
   const { accountId } = useAuth()
-  const res = await doWaifu(accountId.value, hash, image)
-
-  console.log(res)
-
-  if (res) {
-    // check minting status
-  }
-
-  isLoading.value = false
+  await doWaifu(accountId.value, hash, image)
+    .catch(() => {
+      toast('failed to mint')
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 </script>
 
