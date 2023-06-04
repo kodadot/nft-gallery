@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="(item, index) in phaseList" :key="index" class="r my-6">
+    <div v-for="(item, index) in phaseList" :key="index" class="r mt-5">
       <div
         class="is-flex is-justify-content-space-between is-align-items-center">
         <div class="is-flex is-align-items-center">
@@ -91,7 +91,7 @@
           </svg>
         </div>
       </div>
-      <div v-if="item.expand">
+      <div v-if="item.expand" class="hsa-border-left mt-4 pl-5">
         <div
           class="is-flex is-justify-content-space-between is-align-items-center">
           <div>
@@ -155,4 +155,9 @@ const getStatusName = (status: 'close' | 'open' | 'upcoming') => {
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables.scss';
+.hsa-border-left {
+  @include ktheme() {
+    border-left: 1px solid theme('k-shade');
+  }
+}
 </style>

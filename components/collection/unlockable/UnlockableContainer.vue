@@ -5,7 +5,7 @@
     <div class="container is-fluid">
       <div class="is-flex columns">
         <div class="column is-6 mobile-padding">
-          <CollectionInfo />
+          <UnlockableCollectionInfo />
           <hr class="mb-4" />
 
           <div
@@ -143,7 +143,7 @@
 </template>
 
 <script setup lang="ts">
-import CollectionInfo from '@/components/collection/unlockable/CollectionInfo'
+import UnlockableCollectionInfo from '@/components/collection/unlockable/CollectionInfo'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer'
 import { NeoButton } from '@kodadot1/brick'

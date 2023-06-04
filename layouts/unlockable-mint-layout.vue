@@ -3,7 +3,7 @@
     <Navbar />
 
     <main class="is-flex-grow-1">
-      <CollectionBanner :key="route.path" />
+      <UnlockableCollectionBanner :key="route.path" />
       <hr class="text-color my-0" />
       <Nuxt />
     </main>
@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import CollectionBanner from '@/components/collection/unlockable/CollectionBanner.vue'
+import UnlockableCollectionBanner from '@/components/collection/unlockable/CollectionBanner.vue'
 import CollectionInfo from '@/components/collection/unlockable/CollectionInfo.vue'
 
 const { $config } = useNuxtApp()
