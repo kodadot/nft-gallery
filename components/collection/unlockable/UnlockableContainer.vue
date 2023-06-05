@@ -147,18 +147,18 @@
 </template>
 
 <script setup lang="ts">
-import UnlockableCollectionInfo from '@/components/collection/unlockable/CollectionInfo'
-import UnlockableTag from '@/components/collection/unlockable/UnlockableTag'
-import CountdownTimer from '@/components/collection/unlockable/CountdownTimer'
+import UnlockableCollectionInfo from '@/components/collection/unlockable/CollectionInfo.vue'
+import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
+import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import { NeoButton } from '@kodadot1/brick'
-import ImageSlider from '@/components/collection/unlockable/ImageSlider'
-import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule'
+import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
+import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { OSlider } from '@oruga-ui/oruga'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { collectionId, countDownTime } from './const'
-import { createUnlockableMetadata, getRandomInt } from './utils'
+import { createUnlockableMetadata } from './utils'
 const { toast } = useToast()
 
 const Loader = defineAsyncComponent(
@@ -191,7 +191,7 @@ const handleSelectImage = (image: string) => {
 }
 
 const { data: collectionData } = useGraphql({
-  queryName: 'collectionById',
+  queryName: 'unlockableCollectionById',
   variables: {
     id: collectionId,
   },

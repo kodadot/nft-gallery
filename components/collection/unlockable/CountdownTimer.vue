@@ -1,7 +1,7 @@
 <template>
   <div ref="wrapper" class="px-4 py-4 keen-slider">
     <div
-      v-for="(item, index) in [1, 2, 3, 4]"
+      v-for="(section, index) in [1, 2, 3, 4]"
       :key="index"
       class="keen-slider__slide mr-4 is-flex no-wrap">
       <div v-for="item in [1, 2, 3]" :key="item" class="mr-6 no-wrap">

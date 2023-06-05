@@ -14,7 +14,6 @@
 
 <script lang="ts" setup>
 import UnlockableCollectionBanner from '@/components/collection/unlockable/CollectionBanner.vue'
-import CollectionInfo from '@/components/collection/unlockable/CollectionInfo.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()

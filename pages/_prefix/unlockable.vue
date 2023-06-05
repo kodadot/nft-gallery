@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import UnlockableContainer from '@/components/collection/unlockable/UnlockableContainer'
+import UnlockableContainer from '@/components/collection/unlockable/UnlockableContainer.vue'
 export default {
   components: {
     UnlockableContainer,

@@ -71,7 +71,7 @@ function ThumbnailPlugin(main) {
 }
 
 const [container, slider] = useKeenSlider({})
-const [thumbnail, sliderThumbnail] = useKeenSlider(
+const [thumbnail] = useKeenSlider(
   {
     initial: 0,
     slides: {
@@ -84,7 +84,7 @@ const [thumbnail, sliderThumbnail] = useKeenSlider(
 
 const sliderSettings = computed(() => {
   if (slider.value) {
-    const { track, options, slides } = slider.value
+    const { track, slides } = slider.value
     const abs = Number(track.details.abs)
     const perView = Number(4)
     const leftArrowValid = abs !== 0

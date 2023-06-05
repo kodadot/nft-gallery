@@ -3,7 +3,7 @@
 #import "../../fragments/subsquidNft.graphql"
 #import "../../fragments/baseMeta.graphql"
 
-query collectionById(
+query unlockableCollectionById(
   $id: String!
   $search: [NFTEntityWhereInput!]
   $orderBy: NFTEntityOrderByInput = blockNumber_DESC
@@ -14,6 +14,7 @@ query collectionById(
     ...collection
     ...collectionDetails
     createdAt
+    max
     meta {
       ...baseMeta
     }

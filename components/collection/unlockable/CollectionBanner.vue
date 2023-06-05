@@ -21,17 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import type { NFTMetadata } from '@/components/rmrk/service/scheme'
-import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/unlockable/HeroButtons.vue'
-import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import unloackableBanner from '@/assets/unlockable-banner.svg'
-
-const { $seoMeta } = useNuxtApp()
-
-const collectionAvatar = ref('')
-const collectionName = ref('--')
 </script>
 
 <style scoped lang="scss">

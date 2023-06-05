@@ -3,33 +3,6 @@
     <div
       class="hero-buttons is-flex is-justify-content-flex-start is-align-items-end px-2">
       <div class="is-flex">
-        <NeoButton
-          v-if="twitter"
-          icon="twitter"
-          icon-pack="fab"
-          class="square-32"
-          @click.native="openUrl(`https://twitter.com/${twitter}`)" />
-
-        <NeoButton
-          v-if="instagram"
-          icon="instagram"
-          icon-pack="fab"
-          class="square-32"
-          @click.native="openUrl(`https://instagram.com/${instagram}`)" />
-
-        <NeoButton
-          v-if="discord"
-          class="square-32"
-          icon-pack="fab"
-          icon="discord"
-          @click.native="openUrl(`https://discord.com/users/${discord}`)" />
-      </div>
-
-      <div
-        v-if="displaySeperator"
-        class="vertical-seperator mx-4 is-hidden-mobile" />
-
-      <div class="is-flex">
         <NeoDropdown append-to-body>
           <NeoButton
             icon="share-alt"
@@ -61,9 +34,6 @@
     </div>
     <NeoModal v-model="QRModalActive" @close="QRModalActive = false">
       <div class="card">
-        <header class="card-header">
-          <p class="card-header-title">{{ collection?.name }}</p>
-        </header>
         <div class="card-content">
           <QRCode :text="currentUrl" color="#db2980" bg-color="#000" />
         </div>
@@ -82,10 +52,6 @@ import {
 
 const { $i18n, $buefy } = useNuxtApp()
 const currentUrl = computed(() => window.location.href)
-
-const openUrl = (url: string) => {
-  window.open(url, '_blank')
-}
 
 const QRModalActive = ref(false)
 
@@ -113,13 +79,5 @@ const toast = (message: string) => {
 .square-32 {
   width: 32px;
   height: 32px;
-}
-.vertical-seperator {
-  height: 24px;
-  margin-bottom: 4px;
-  width: 1px;
-  @include ktheme() {
-    background-color: theme('border-color');
-  }
 }
 </style>
