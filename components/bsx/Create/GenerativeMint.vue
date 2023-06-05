@@ -85,8 +85,6 @@ const email = ref('')
 const isLoading = ref(false)
 const status = ref('')
 
-const { urlPrefix } = usePrefix()
-
 const handlePrediction = (generation: PredictionStatus) => {
   predicion.value = generation
   goToStep(2)
@@ -122,8 +120,6 @@ const submitAll = async () => {
         address: email.value,
         metadata,
         image: image.value,
-        chain: urlPrefix.value,
-        collection: COLLECTION_ID,
       },
       CAMPAIGN
     )

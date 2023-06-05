@@ -53,14 +53,8 @@ type DoRequest = {
   address: string
   metadata: string
   image: string
-  collection: string
-  chain: string
 }
-export const doWaifu = async (request: DoRequest, campaign: string) => {
-  const body = {
-    ...request,
-    campaign,
-  }
+export const doWaifu = async (body: DoRequest, campaign: string) => {
   const value = await api<{ ok: boolean; data: typeof body }>(
     `do/${campaign}`,
     {
