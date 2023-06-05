@@ -8,6 +8,7 @@
       </template>
       <b-dropdown-item has-link>
         <NeoTooltip
+          v-if="chain !== 'stmn'"
           position="left"
           :label="$t('createDropdown.start')"
           multiline>
@@ -19,7 +20,7 @@
 
       <b-dropdown-item has-link>
         <NeoTooltip
-          v-if="chain === 'bsx'"
+          v-if="chain === 'stmn'"
           position="left"
           :label="$t('createDropdown.waifu')"
           multiline>
@@ -54,13 +55,14 @@
 
     <MobileExpandableSection v-else :no-padding="true" :title="$t('create')">
       <b-navbar-item
+        v-if="chain !== 'stmn'"
         data-cy="classic"
         :to="`/${urlPrefix}/create`"
         tag="nuxt-link">
         {{ $t('classic') }}
       </b-navbar-item>
       <b-navbar-item
-        v-if="chain === 'bsx'"
+        v-if="chain === 'stmn'"
         data-cy="waifu"
         :to="`/${urlPrefix}/waifu`"
         tag="nuxt-link">

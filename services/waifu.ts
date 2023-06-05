@@ -82,4 +82,23 @@ export const doWaifu = async (address: string, url: string, image: string) => {
   return value
 }
 
+type DoRequest = {
+  address: string
+  metadata: string
+  image: string
+}
+export const doWaifu = async (body: DoRequest, campaign: string) => {
+  const value = await api<{ ok: boolean; data: typeof body }>(
+    `do/${campaign}`,
+    {
+      method: 'POST',
+      body,
+    }
+  ).catch((error: FetchError) => {
+    throw new Error(`[WAIFU::DO] Unable to CAMPAIGN for reasons ${error.data}`)
+  })
+
+  return value
+}
+
 export default api
