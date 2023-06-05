@@ -214,11 +214,9 @@ const { data, refetch } = useGraphql({
 })
 
 useSubscriptionGraphql({
-  query: `query mintedBetween($id: "${collectionId}", $from: ${windowRange[0]}, $to: ${windowRange[1]}) {
-  minted: nftEntitiesConnection(orderBy: createdAt_DESC, where: { collection: {id_eq: $id}, createdAt_gte: $from, createdAt_lte: $to}) {
+  query: `minted: nftEntitiesConnection(orderBy: "createdAt_DESC", where: { collection: {id_eq: "${collectionId}"}, createdAt_gte: "${windowRange[0]}", createdAt_lte: "${windowRange[1]}"}) {
     count: totalCount
-  }
-}`,
+  }`,
   onChange: refetch,
 })
 
