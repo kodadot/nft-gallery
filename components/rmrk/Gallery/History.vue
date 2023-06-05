@@ -102,7 +102,7 @@
             class="short-identity__table"
             field="Date"
             label="Date">
-            <NeoTooltip :label="props.row.Date" position="right" multiline>
+            <NeoTooltip :label="props.row.Date" position="bottom" multiline>
               <BlockExplorerLink
                 :block-id="props.row.Block"
                 :text="props.row.Time" />
