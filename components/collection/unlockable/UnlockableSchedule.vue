@@ -103,7 +103,7 @@
         <div
           class="is-flex is-justify-content-space-between is-align-items-center">
           <div>
-            <span class="has-text-grey">From</span> 10:10PM
+            <span class="has-text-grey">To</span> 10:10PM
             <span class="has-text-grey">UTC+1</span>
           </div>
           <span class="">10 NFTs</span>
@@ -114,6 +114,8 @@
 </template>
 
 <script lang="ts" setup>
+import { isAfter, isBefore } from 'date-fns'
+
 const phaseList: {
   title: string
   status: 'close' | 'open' | 'upcoming'
@@ -150,6 +152,10 @@ const getStatusName = (status: 'close' | 'open' | 'upcoming') => {
     case 'upcoming':
       return 'Upcoming'
   }
+}
+
+const isActive = (from: Date, to: Date) => {
+  const now = new Date(Date.now())
 }
 </script>
 
