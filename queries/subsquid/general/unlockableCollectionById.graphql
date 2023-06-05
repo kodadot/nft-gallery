@@ -15,6 +15,7 @@ query unlockableCollectionById(
     ...collectionDetails
     createdAt
     max
+    nftCount
     meta {
       ...baseMeta
     }

@@ -214,8 +214,8 @@ const { data, refetch } = useGraphql({
 })
 
 useSubscriptionGraphql({
-  query: `minted: nftEntitiesConnection(orderBy: "createdAt_DESC", where: { collection: {id_eq: "${collectionId}"}, createdAt_gte: "${windowRange[0]}", createdAt_lte: "${windowRange[1]}"}) {
-    count: totalCount
+  query: `collectionEntityById(id: "${collectionId}") {
+    nftCount
   }`,
   onChange: refetch,
 })

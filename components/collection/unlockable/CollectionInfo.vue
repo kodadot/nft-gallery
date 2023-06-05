@@ -60,9 +60,9 @@ const hasSeeAllDescriptionOption = computed(() => {
 
 const visibleDescription = computed(() => {
   return (
-    ((!hasSeeAllDescriptionOption.value || seeAllDescription.value)
+    (!hasSeeAllDescriptionOption.value || seeAllDescription.value
       ? source
-      : source?.slice(0, DESCRIPTION_MAX_LENGTH)
+      : source.slice(0, DESCRIPTION_MAX_LENGTH)
     )?.replaceAll('\n', '  \n') || ''
   )
 })
