@@ -26,15 +26,17 @@ const COMMA = ','
 export const NAME = 'Prague summer'
 export const COLLECTION_ID = '7'
 export const BACKGROUND = 'Prague'
+export const CAMPAIGN = 'prag'
+export const PREDICATE = 'smiling anime'
 
 export const buildPrompt = (options: Options): string => {
-  const { gender, framing, art, style, having, wearing, lighting, inspiredBy } =
-    options
+  const { gender, framing, art, style, having, wearing, lighting } = options
   const prompt = [
     framing,
     style || '',
     art,
     OF,
+    PREDICATE,
     gender,
     having ? `having ${having}${COMMA}` : '',
     wearing ? `wearing ${wearing}${COMMA}` : '',
