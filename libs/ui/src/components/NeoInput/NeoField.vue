@@ -12,5 +12,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import './NeoInput.scss';
+@import './NeoField.scss';
 </style>
