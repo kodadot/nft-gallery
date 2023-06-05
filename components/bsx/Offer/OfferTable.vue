@@ -133,7 +133,7 @@
         </p>
       </NeoTableColumn>
       <template #empty>
-        <div class="has-text-centered">
+        <div class="w-100 has-text-centered">
           {{ $t('nft.offer.empty') }}
         </div>
       </template>

@@ -32,7 +32,7 @@
       </NeoTableColumn>
 
       <template #empty>
-        <div v-if="!$fetchState.pending" class="has-text-centered">
+        <div v-if="!$fetchState.pending" class="w-100 has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="$fetchState.pending" />
@@ -56,10 +56,14 @@ import formatBalance from '@/utils/format/balance'
 import { getVolume } from '@/utils/math'
 import { lastweekDate } from '@/components/series/utils'
 
-@Component({
+const components = {
   NeoSkeleton,
   NeoTable,
   NeoTableColumn,
+}
+
+@Component({
+  components,
 })
 export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
   protected data: RowHot[] = []

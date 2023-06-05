@@ -82,7 +82,7 @@
       </NeoTableColumn>
 
       <template #empty>
-        <div v-if="!$fetchState.pending" class="has-text-centered">
+        <div v-if="!$fetchState.pending" class="w-100 has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="$fetchState.pending" />

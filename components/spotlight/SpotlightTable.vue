@@ -165,7 +165,7 @@
       </template>
 
       <template #empty>
-        <div v-if="!isLoading" class="has-text-centered">
+        <div v-if="!isLoading" class="w-100 has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="isLoading"> </NeoSkeleton>
