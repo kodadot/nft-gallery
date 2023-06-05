@@ -31,8 +31,11 @@ import unloackableBanner from '@/assets/unlockable-banner.svg'
 .collection-banner {
   background-repeat: no-repeat;
   background-size: cover;
-  height: 560px;
   position: relative;
+
+  @include desktop {
+    height: 560px;
+  }
 
   @include ktheme() {
     border-bottom: 1px solid theme('border-color');
