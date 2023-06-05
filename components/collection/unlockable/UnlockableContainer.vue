@@ -74,7 +74,7 @@
             <NeoButton
               class="mb-2 mt-4 mint-button"
               variant="k-accent"
-              :disabled="mintButtonDisabled"
+              :disabled="mintButtonDisabled || !isLogIn"
               label="Mint"
               @click.native="handleSubmitMint" />
             <div class="is-flex is-align-items-center mt-2">
@@ -158,7 +158,7 @@ import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { OSlider } from '@oruga-ui/oruga'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { collectionId, countDownTime } from './const'
-import { createUnlockableMetadata } from './utils'
+import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
 const { toast } = useToast()
 
 const Loader = defineAsyncComponent(
@@ -172,6 +172,9 @@ const MAX_PER_WINDOW = 10
 const { urlPrefix } = usePrefix()
 const isLoading = ref(false)
 const status = ref('')
+const { accountId, isLogIn } = useAuth()
+
+console.log('account', isLogIn, accountId)
 
 onMounted(async () => {
   const res = await getLatestWaifuImages()
@@ -244,7 +247,14 @@ const handleSubmitMint = async () => {
   const hash = await createUnlockableMetadata(image)
 
   const { accountId } = useAuth()
-  await doWaifu(accountId.value, hash, image)
+  await doWaifu(
+    {
+      address: accountId.value,
+      metadata: hash,
+      image: image,
+    },
+    UNLOCKABLE_CAMPAIGN
+  )
     .catch(() => {
       toast('failed to mint')
     })
