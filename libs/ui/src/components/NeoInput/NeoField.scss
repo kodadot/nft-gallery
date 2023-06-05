@@ -36,13 +36,6 @@ $field-label-font-weight: 700;
     }
   }
 
-  &.o-field__message-hide {
-    margin-bottom: 0 !important;
-    .o-field__message {
-      display: none;
-    }
-  }
-
   .o-field__message-danger {
     @include ktheme() {
       color: theme('k-red');

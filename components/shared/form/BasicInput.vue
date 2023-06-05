@@ -1,8 +1,6 @@
 <template>
   <div>
-    <NeoField
-      :label="$i18n.t(label)"
-      :class="{ 'o-field__message-hide': message }">
+    <NeoField :label="$i18n.t(label)">
       <template v-if="message" #label>
         <div>{{ $i18n.t(label) }}</div>
         <div class="has-text-weight-light is-size-7 mb-3">
