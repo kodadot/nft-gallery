@@ -46,14 +46,14 @@
 import HeroButtons from '@/components/collection/unlockable/HeroButtons.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { collectionId } from './const'
+import { UNLOCKABLE_DESC } from './utils'
 const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210
 const { urlPrefix } = usePrefix()
 const toggleSeeAllDescription = () => {
   seeAllDescription.value = !seeAllDescription.value
 }
-const source =
-  'This anime waifu loves corn with butter and salt. Please dont microwave your corn, cook it like a normal person. Boil salty water and add corn - cook 15 minutes. Your anime waifu will make you a popcorn if you defeat her in a final battle. Only true winner can enjoy good dinner in a form of corn'
+const source = UNLOCKABLE_DESC
 const hasSeeAllDescriptionOption = computed(() => {
   return (source.length || 0) > DESCRIPTION_MAX_LENGTH
 })

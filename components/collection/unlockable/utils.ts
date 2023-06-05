@@ -2,14 +2,17 @@ import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
 import { preheatFileFromIPFS } from '@/utils/ipfs'
 import { pinJson } from '@/services/nftStorage'
 
-export const UNLOCKABLE_CAMPAIGN = 'corn'
+export const UNLOCKABLE_CAMPAIGN = 'prg'
+export const UNLOCKABLE_NAME = 'Prague Waifu'
+export const UNLOCKABLE_DESC = `
+  Enjoy your time in Prague Blockchain Week in a good mood,
+  and invite this incredibly beautiful waifu for a cup of coffee.
+  Add her to your collection today
+`
 
 export async function createUnlockableMetadata(imageHash: string) {
-  const name = 'Prague Waifu'
-  const description = `This anime waifu loves corn with butter and salt.
-    Please dont microwave your corn, cook it like a normal person. Boil salty water and add corn - cook 15 minutes.
-    Your anime waifu will make you a popcorn if you defeat her in a final battle.
-    Only true winner can enjoy good dinner in a form of corn`
+  const name = UNLOCKABLE_NAME
+  const description = UNLOCKABLE_DESC
 
   const meta = createMetadata(
     name,
