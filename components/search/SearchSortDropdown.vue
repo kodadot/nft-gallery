@@ -1,5 +1,5 @@
 <template>
-  <b-field>
+  <NeoField>
     <b-dropdown
       v-if="multipleSelect"
       v-model="selectedAction"
@@ -33,7 +33,7 @@
         }}
       </option>
     </b-select>
-  </b-field>
+  </NeoField>
 </template>
 
 <script lang="ts">
@@ -43,8 +43,13 @@ import {
   NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER,
 } from '@/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { NeoField } from '@kodadot1/brick'
 
-@Component
+@Component({
+  components: {
+    NeoField,
+  },
+})
 export default class SearchSortDropdown extends mixins(PrefixMixin) {
   @VModel({ type: [Array, String] }) selectedAction!: string | string[]
   @Prop(Array) public sortOption?: string[]

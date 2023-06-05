@@ -2,34 +2,34 @@ import { shouldIgnoreKeyDownEvent } from '@/utils/keyboardEvents'
 
 const keysPressed = {}
 
-const bindGoToEvents = (event, app, store) => {
-  const account: string = store.getters.getAuthAddress
-  const urlPrefix: string = store.getters.currentUrlPrefix
+const bindGoToEvents = (event, app) => {
+  const { accountId } = useAuth()
+  const { urlPrefix } = usePrefix()
 
   let path = ''
   let query = {}
 
   switch (event.key) {
     case 'a':
-      if (urlPrefix && account) {
-        path = `/${urlPrefix}/u/${account}`
+      if (urlPrefix.value && accountId.value) {
+        path = `/${urlPrefix.value}/u/${accountId.value}`
       }
       break
     case 'c':
-      if (urlPrefix && account) {
-        path = `/${urlPrefix}/u/${account}`
+      if (urlPrefix.value && accountId.value) {
+        path = `/${urlPrefix.value}/u/${accountId.value}`
         query = { tab: 'collected' }
       }
       break
     case 's':
-      if (urlPrefix && account) {
-        path = `/${urlPrefix}/u/${account}`
+      if (urlPrefix.value && accountId.value) {
+        path = `/${urlPrefix.value}/u/${accountId.value}`
         query = { tab: 'sold' }
       }
       break
     case 'm':
-      if (urlPrefix) {
-        path = `/${urlPrefix}/mint`
+      if (urlPrefix.value) {
+        path = `/${urlPrefix.value}/mint`
       }
       break
     case 't':
@@ -64,7 +64,7 @@ const bindCopyEvents = (event) => {
   }
 }
 
-const listenGlobalKeyboardEvents = (app, store) => {
+const listenGlobalKeyboardEvents = (app) => {
   document.addEventListener('keydown', (event: KeyboardEvent) => {
     if (shouldIgnoreKeyDownEvent(event)) {
       return
@@ -72,7 +72,7 @@ const listenGlobalKeyboardEvents = (app, store) => {
 
     keysPressed[event.key] = true
     if (keysPressed['g']) {
-      bindGoToEvents(event, app, store)
+      bindGoToEvents(event, app)
     }
     if (keysPressed['c']) {
       bindCopyEvents(event)
@@ -91,6 +91,6 @@ const listenGlobalKeyboardEvents = (app, store) => {
   })
 }
 
-export default ({ app, store }): void => {
-  listenGlobalKeyboardEvents(app, store)
+export default ({ app }): void => {
+  listenGlobalKeyboardEvents(app)
 }
