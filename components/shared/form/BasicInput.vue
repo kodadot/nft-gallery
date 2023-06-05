@@ -2,7 +2,13 @@
   <div>
     <NeoField
       :label="$i18n.t(label)"
-      :class="{ 'o-field__message-hide': hasFocus && message }">
+      :class="{ 'o-field__message-hide': message }">
+      <template v-if="message" #label>
+        <div>{{ $i18n.t(label) }}</div>
+        <div class="has-text-weight-light is-size-7 mb-3">
+          {{ message }}
+        </div>
+      </template>
       <NeoInput
         ref="input"
         :value="value"
@@ -18,13 +24,6 @@
         @focus="hasFocus = true"
         @input="handleInput" />
     </NeoField>
-    <div v-if="hasFocus && message">
-      <transition name="fade">
-        <div class="has-text-primary is-italic is-size-7 mb-3 mt-1">
-          {{ message }}
-        </div>
-      </transition>
-    </div>
   </div>
 </template>
 
@@ -73,15 +72,3 @@ const handleInput = (value: string) => {
 
 defineExpose({ checkValidity })
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
