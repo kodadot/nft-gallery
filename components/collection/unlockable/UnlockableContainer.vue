@@ -131,12 +131,22 @@
             How unlockable item works
           </div>
           <div>
-            Figma ipsum component variant main layer. Scrolling outline pixel
-            vertical figma editor object content blur. Outline move object scale
-            bold stroke ima. Outline move object scale bold stroke imaOutline
-            move object scale bold stroke ima
+            Experience the excitement of unlocking hidden rewards! Get your
+            hands on exclusive merchandise (and an NFT!) linked to unlockable
+            content. For the next ten hours, the fastest ten individuals can
+            mint their very own anime waifu character NFT for free. Simply log
+            in with your wallet, click on the "Mint" button, and sign the
+            transaction. Afterward, check your profile to find the NFT and click
+            "Unlockable Content" to reveal the surprise. Follow the schedule so
+            you don't miss this!
           </div>
-          <NeoButton variant="unlockable" class="mt-2"> Learn More </NeoButton>
+          <a
+            href="https://hello.kodadot.xyz/fandom-toolbox/audience-growth/unlockables"
+            target="_blank">
+            <NeoButton variant="unlockable" class="mt-2">
+              Learn More
+            </NeoButton>
+          </a>
         </div>
         <div class="column">
           <img :src="unloackableBanner" alt="Unlockable" />
