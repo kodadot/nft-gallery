@@ -3,8 +3,8 @@
     <div
       v-for="(section, index) in [1, 2, 3, 4]"
       :key="index"
-      class="keen-slider__slide mr-4 is-flex no-wrap">
-      <div v-for="item in [1, 2, 3]" :key="item" class="mr-6 no-wrap">
+      class="keen-slider__slide is-flex no-wrap">
+      <div class="no-wrap">
         <span class="mr-4 has-text-grey">Mint Phase Ends In</span
         ><span
           >{{ hours }} Hours : {{ minutes }} Minutes :
@@ -25,10 +25,14 @@ const hours = ref(0)
 const minutes = ref(0)
 const seconds = ref(0)
 const timer = ref()
-
 const [wrapper] = useKeenSlider({
   loop: true,
   renderMode: 'performance',
+  slides: {
+    origin: 'center',
+    perView: window.outerWidth / 500,
+    spacing: 10,
+  },
   drag: false,
   created(s) {
     s.moveToIdx(1, true, animation)
