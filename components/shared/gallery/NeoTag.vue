@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '~~/libs/ui/src'
+import { NeoIcon } from '@kodadot1/brick'
 
 defineProps<{
   isBlueTag?: boolean
