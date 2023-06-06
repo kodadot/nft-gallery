@@ -199,7 +199,7 @@ const menuMarketplace: Menu[] = [
     external: true,
   },
   {
-    name: $i18n.t('faq'),
+    name: $i18n.t('FAQ'),
     url: 'https://hello.kodadot.xyz/ecosystem/faq',
     external: true,
   },
