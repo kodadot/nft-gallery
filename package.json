@@ -36,7 +36,7 @@
     "test:e2e-gui": "cypress open --project tests",
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
-    "prepare": "nuxi prepare && pnpm -F static build && husky install"
+    "prepare": "pnpm -F static build && nuxi prepare && husky install"
   },
   "husky": {
     "hooks": {
@@ -59,7 +59,7 @@
     "bracketSameLine": true,
     "singleQuote": true
   },
-  "packageManager": "pnpm@8.3.1",
+  "packageManager": "pnpm@8.6.0",
   "dependencies": {
     "@chenfengyuan/vue-qrcode": "1",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
@@ -70,7 +70,7 @@
     "@google/model-viewer": "^1.12.1",
     "@kodadot1/brick": "workspace:*",
     "@kodadot1/minimark": "^0.1.9",
-    "@kodadot1/static": "0.0.3-rc.4",
+    "@kodadot1/static": "workspace:*",
     "@kodadot1/sub-api": "^0.1.2",
     "@kodadot1/vuex-options": "0.1.5",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
