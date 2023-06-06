@@ -219,6 +219,7 @@ const menuKodadot: Menu[] = [
   {
     name: $i18n.t('careers'),
     url: 'https://hello.kodadot.xyz/be-part-of-kodadot/join-as-a-developer/hiring',
+    external: true,
   },
   {
     name: $i18n.t('merchshop'),
