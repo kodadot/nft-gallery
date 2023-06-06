@@ -34,7 +34,7 @@
             has-link
             :value="lang.value"
             :class="{ 'is-active': langStore.getUserLang === lang.value }"
-            @click="langStore.setLanguage(lang.value)">
+            @click="langStore.setLanguage({ userLang: lang.value })">
             <a>{{ lang.flag }} {{ lang.label }}</a>
           </b-dropdown-item>
         </b-dropdown>
@@ -76,7 +76,7 @@ onMounted(() => {
   if (isBasilisk.value) {
     menus.value.push({
       label: 'Incoming Offers',
-      to: `/${urlPrefix.value}/incoming-offers`,
+      to: `/${urlPrefix.value}/incomingoffers`,
     })
 
     menus.value.push({

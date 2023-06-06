@@ -127,7 +127,7 @@
           class="navbar-item"
           @click.stop="openWalletConnectModal">
           <span v-if="redesign">
-            {{ $t('account') }}
+            {{ $t('profile.page') }}
             <NeoIcon icon="user-circle" />
           </span>
           <span v-else>
