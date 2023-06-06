@@ -4,8 +4,8 @@
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
-      <div class="is-flex columns">
-        <div class="column is-6 mobile-padding">
+      <div class="columns is-desktop">
+        <div class="column is-half-desktop mobile-padding">
           <UnlockableCollectionInfo />
           <hr class="mb-4" />
 
@@ -104,7 +104,7 @@
           </div>
           <!-- <UnlockableSchedule /> -->
         </div>
-        <div class="column is-6 pt-5 is-flex is-justify-content-center">
+        <div class="column pt-5 is-flex is-justify-content-center">
           <ImageSlider
             v-if="imageList.length"
             :image-list="imageList"
@@ -112,12 +112,9 @@
         </div>
       </div>
       <hr class="text-color my-4" />
-      <div class="is-flex columns">
-        <div class="column is-6">
-          <img :src="unloackableBanner" alt="Unlockable" />
-        </div>
+      <div class="columns is-desktop">
         <div
-          class="column is-6 is-flex is-flex-direction-column is-justify-content-center">
+          class="column is-half-desktop is-flex is-flex-direction-column is-justify-content-center order-1">
           <div
             class="is-flex is-align-items-center has-text-weight-bold is-size-6 mb-2">
             <svg
@@ -140,6 +137,9 @@
             move object scale bold stroke ima
           </div>
           <NeoButton variant="unlockable" class="mt-2"> Learn More </NeoButton>
+        </div>
+        <div class="column">
+          <img :src="unloackableBanner" alt="Unlockable" />
         </div>
       </div>
     </div>
@@ -272,5 +272,9 @@ const handleSubmitMint = async () => {
     width: 14rem;
     height: 3.5rem;
   }
+}
+
+.order-1 {
+  order: 1;
 }
 </style>
