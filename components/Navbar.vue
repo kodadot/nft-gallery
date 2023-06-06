@@ -136,7 +136,7 @@
           </span>
           <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
         </div>
-        <ColorModeButton v-if="!redesign" class="navbar-item" />
+        <ColorModeButton v-if="!account && !redesign" class="navbar-item" />
 
         <div v-if="!account" id="NavProfile">
           <ConnectWalletButton
