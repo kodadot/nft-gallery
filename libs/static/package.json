@@ -38,6 +38,5 @@
     "typescript": "^4.9.5",
     "unbuild": "^1.2.1",
     "vitest": "^0.31.1"
-  },
-  "packageManager": "pnpm@7.27.0"
+  }
 }
