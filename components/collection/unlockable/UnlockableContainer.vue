@@ -74,7 +74,7 @@
             <NeoButton
               class="mb-2 mt-4 mint-button"
               variant="k-accent"
-              :disabled="mintButtonDisabled || !isLogIn || counts?.nft?.count"
+              :disabled="mintButtonDisabled || !isLogIn || hasUserMinted"
               label="Mint"
               @click.native="handleSubmitMint" />
             <div class="is-flex is-align-items-center mt-2">
@@ -202,6 +202,8 @@ const { data: counts } = useGraphql({
     account: accountId.value,
   },
 })
+
+const hasUserMinted = computed(() => counts.value?.nft?.count > 0)
 
 const totalCount = computed(() => collectionData.value?.max || 300)
 const totalAvailableMintCount = computed(
