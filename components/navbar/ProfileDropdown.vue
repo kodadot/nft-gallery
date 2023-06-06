@@ -88,132 +88,51 @@
   </div>
 </template>
 
-<script lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
-import { Component, Prop, Ref, mixins } from 'nuxt-property-decorator'
-
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+<script lang="ts" setup>
+import { NeoIcon } from '@kodadot1/brick'
 import Avatar from '@/components/shared/Avatar.vue'
 import { useIdentityStore } from '@/stores/identity'
 import { useLangStore } from '@/stores/lang'
-import { useWalletStore } from '@/stores/wallet'
 import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
-import AuthMixin from '@/utils/mixins/authMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import useApiMixin from '@/utils/mixins/useApiMixin'
+import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import type { BModalConfig } from 'buefy/types/components'
 
-const components = {
-  Avatar,
-  NeoButton,
-  NeoIcon,
-  ConnectWalletButton: () =>
-    import('@/components/shared/ConnectWalletButton.vue'),
-  Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
-  SimpleAccountBalance: () =>
-    import('@/components/shared/SimpleAccountBalance.vue'),
-  ColorModeButton: () => import('@/components/common/ColorModeButton.vue'),
-  ProfileAssetsList: () =>
-    import('@/components/rmrk/Profile/ProfileAssetsList.vue'),
+const { $buefy } = useNuxtApp()
+const identityStore = useIdentityStore()
+const langStore = useLangStore()
+const instance = getCurrentInstance()
+const { isDarkMode } = useTheme()
+
+const languageDropdown = ref(null)
+const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
+
+const account = computed(() => identityStore.getAuthAddress)
+const profileIcon = computed(() =>
+  isDarkMode.value ? '/profile-dark.svg' : '/profile.svg'
+)
+const langsFlags = computed(() => langsFlagsList)
+const userLang = computed(() => langStore.language.userLang)
+
+const setUserLang = (value: string) => {
+  langStore.setLanguage({ userLang: value })
 }
 
-@Component({ components })
-export default class ProfileDropdown extends mixins(
-  PrefixMixin,
-  AuthMixin,
-  useApiMixin
-) {
-  @Prop() public value!: any
-  @Prop() public showIncomingOffers!: boolean
-  @Prop() public chain!: string
-  @Ref('languageDropdown') readonly languageDropdown
-  private modal: { close: () => void; isActive?: boolean } | null = null
-
-  get isDarkMode() {
-    return (
-      this.$colorMode.preference === 'dark' ||
-      document.documentElement.className.includes('dark-mode')
-    )
+const toggleWalletConnectModal = () => {
+  if (modal.value?.isActive) {
+    modal.value.close()
+    modal.value = null
+    return
   }
 
-  get profileIcon() {
-    return this.isDarkMode ? '/profile-dark.svg' : '/profile.svg'
-  }
+  modal.value = $buefy.modal.open({
+    parent: instance?.proxy,
+    ...ConnectWalletModalConfig,
+  } as unknown as BModalConfig)
+}
 
-  get langsFlags(): { value: string; flag: string; label: string }[] {
-    return langsFlagsList
-  }
-
-  get identityStore() {
-    return useIdentityStore()
-  }
-
-  get langStore() {
-    return useLangStore()
-  }
-
-  get walletStore() {
-    return useWalletStore()
-  }
-
-  get userLang(): string {
-    this.$i18n.locale = this.langStore.language.userLang
-    return this.langStore.language.userLang
-  }
-
-  get account() {
-    return this.identityStore.getAuthAddress
-  }
-
-  set account(account: string) {
-    this.identityStore.setAuth({ address: account })
-  }
-
-  public toggleWalletConnectModal(): void {
-    if (this.modal?.isActive) {
-      this.modal.close()
-      this.modal = null
-      return
-    }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    this.modal = this.$buefy.modal.open({
-      parent: this,
-      ...ConnectWalletModalConfig,
-    })
-
-    this.closeBurgerMenu()
-  }
-
-  public closeBurgerMenu(): void {
-    this.$emit('closeBurgerMenu')
-  }
-
-  setUserLang(value: string) {
-    this.$i18n.locale = value
-    this.langStore.setLanguage({ userLang: value })
-  }
-
-  public toggleLanguageMenu() {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    this.$refs.languageDropdown?.toggle()
-  }
-
-  public showRampSDK(): void {
-    new RampInstantSDK({
-      defaultAsset: 'KSM', // todo: prefix
-      userAddress: this.account,
-      hostAppName: 'KodaDot',
-      hostApiKey: 'a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc', // env
-      hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
-      variant: 'desktop',
-    }).show()
-  }
-
-  get isSnekOrBsx() {
-    return this.chain === 'snek' || this.chain === 'bsx'
-  }
+const toggleLanguageMenu = () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  languageDropdown.value?.toggle()
 }
 </script>

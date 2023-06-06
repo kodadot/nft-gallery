@@ -182,7 +182,7 @@ const openWalletConnectModal = (): void => {
   $buefy.modal.open({
     parent: root?.value,
     ...ConnectWalletModalConfig,
-  } as any as BModalConfig)
+  } as unknown as BModalConfig)
 }
 
 watch([isBurgerMenuOpened], () => {
