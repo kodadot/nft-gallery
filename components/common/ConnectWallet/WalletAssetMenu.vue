@@ -25,7 +25,7 @@
           ref="languageDropdown"
           position="is-top-left"
           aria-role="menu"
-          :mobile-modal="true"
+          mobile-modal
           :toggle="toggleLanguageMenu">
           <b-dropdown-item
             v-for="lang in langsFlags"
