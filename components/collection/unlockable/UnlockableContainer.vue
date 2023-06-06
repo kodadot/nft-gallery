@@ -74,7 +74,7 @@
             <NeoButton
               class="mb-2 mt-4 mint-button"
               variant="k-accent"
-              :disabled="mintButtonDisabled || !isLogIn"
+              :disabled="mintButtonDisabled || !isLogIn || !minted"
               label="Mint"
               @click.native="handleSubmitMint" />
             <div class="is-flex is-align-items-center mt-2">
@@ -174,8 +174,7 @@ const { urlPrefix } = usePrefix()
 const isLoading = ref(false)
 const status = ref('')
 const { accountId, isLogIn } = useAuth()
-
-console.log('account', isLogIn, accountId)
+const minted = ref(false)
 
 onMounted(async () => {
   const res = await getLatestWaifuImages()
@@ -196,6 +195,28 @@ const { data: collectionData } = useGraphql({
     id: collectionId,
   },
 })
+
+watch(
+  accountId,
+  (account) => {
+    if (!account) {
+      return
+    }
+
+    console.log('counts', account)
+    const { data } = useGraphql({
+      queryName: 'nftOwnedCountByCollectionId',
+      variables: {
+        id: collectionId,
+        account,
+      },
+    })
+
+    minted.value = Boolean(data.value?.nft.count)
+  },
+  { immediate: true }
+)
+
 const totalCount = computed(() => collectionData.value?.max || 300)
 const totalAvailableMintCount = computed(
   () =>
