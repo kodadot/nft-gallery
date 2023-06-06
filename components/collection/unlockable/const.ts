@@ -1,3 +1,6 @@
-export const countDownTime = new Date('Jun 5, 2023 17:00:00').getTime()
+import { endOfHour } from 'date-fns'
+
+const now = new Date()
+export const countDownTime = endOfHour(now).getTime()
 
 export const collectionId = '8'
