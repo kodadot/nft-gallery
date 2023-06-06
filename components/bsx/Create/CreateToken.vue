@@ -35,7 +35,7 @@
         <RoyaltyForm v-if="hasRoyalty" key="royalty" v-bind.sync="royalty" />
       </template>
       <template #footer>
-        <b-field key="advanced">
+        <NeoField key="advanced">
           <CollapseWrapper
             v-if="base.edition > 1"
             visible="mint.expert.show"
@@ -46,29 +46,29 @@
               class="mt-3"
               label="mint.expert.postfix" />
           </CollapseWrapper>
-        </b-field>
-        <b-field key="deposit">
+        </NeoField>
+        <NeoField key="deposit">
           <p class="has-text-weight-medium is-size-6 has-text-info">
             {{ $t('mint.deposit') }}:
             <Money :value="deposit" :token-id="tokenId" inline />
           </p>
-        </b-field>
-        <b-field key="balance">
+        </NeoField>
+        <NeoField key="balance">
           <AccountBalance />
-        </b-field>
-        <b-field key="token">
+        </NeoField>
+        <NeoField key="token">
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
-        </b-field>
-        <b-field
+        </NeoField>
+        <NeoField
           key="submit"
-          type="is-danger"
+          variant="danger"
           :message="balanceNotEnoughMessage">
           <SubmitButton
             expanded
             label="mint.submit"
             :loading="isLoading"
             @click="submit()" />
-        </b-field>
+        </NeoField>
       </template>
     </BaseTokenForm>
   </div>
@@ -101,6 +101,7 @@ import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
 import { usePreferencesStore } from '@/stores/preferences'
 import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 import { MintedCollection } from '@/composables/transaction/types'
+import { NeoField } from '@kodadot1/brick'
 
 const components = {
   CustomAttributeInput: () =>
@@ -119,6 +120,7 @@ const components = {
     import('@/components/bsx/specific/MultiPaymentFeeButton.vue'),
   TokenBalanceInput: () =>
     import('@/components/bsx/input/TokenBalanceInput.vue'),
+  NeoField,
 }
 
 @Component({ components })

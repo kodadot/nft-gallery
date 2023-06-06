@@ -1,16 +1,16 @@
 <template>
   <div>
     <Loader :value="isLoading" />
-    <b-field grouped>
-      <b-field class="has-text-right" expanded>
+    <NeoField grouped>
+      <NeoField class="has-text-right" expanded>
         <b-select v-model="nbRows">
           <option value="10">10</option>
           <option value="20">20</option>
           <option value="50">50</option>
           <option value="100">100</option>
         </b-select>
-      </b-field>
-    </b-field>
+      </NeoField>
+    </NeoField>
 
     <b-table
       sticky-header
@@ -319,11 +319,13 @@ import {
   toSort,
   today,
 } from './utils'
+import { NeoField } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+  NeoField,
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 

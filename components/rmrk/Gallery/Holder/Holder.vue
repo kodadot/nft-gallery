@@ -21,7 +21,7 @@
       </template>
       <div class="box">
         <div class="is-flex is-justify-content-space-between box-container">
-          <b-field grouped group-multiline>
+          <NeoField grouped group-multiline>
             <div class="control">
               <NeoCheckbox v-model="showDetailIcon">NFT Details</NeoCheckbox>
             </div>
@@ -33,7 +33,7 @@
                 {{ column.title }}
               </NeoCheckbox>
             </div>
-          </b-field>
+          </NeoField>
         </div>
         <b-table
           :data="showList"
@@ -174,11 +174,12 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { parseDate, parsePriceForItem } from './helper'
 import { Interaction as EventInteraction } from '../../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoCheckbox, NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoCheckbox, NeoField, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
+  NeoField,
   NeoIcon,
   NeoTooltip,
   NeoCheckbox,
