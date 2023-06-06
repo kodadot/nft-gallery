@@ -74,7 +74,7 @@
             <NeoButton
               class="mb-2 mt-4 mint-button"
               variant="k-accent"
-              :disabled="mintButtonDisabled || !isLogIn || counts.nft.count"
+              :disabled="mintButtonDisabled || !isLogIn || counts?.nft?.count"
               label="Mint"
               @click.native="handleSubmitMint" />
             <div class="is-flex is-align-items-center mt-2">
