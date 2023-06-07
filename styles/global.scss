@@ -44,6 +44,7 @@ body {
     }
   }
 
+  .input,
   select,
   .taginput-container {
     @include ktheme() {
@@ -51,6 +52,21 @@ body {
       color: theme('text-color') !important;
       &::placeholder {
         color: theme('placeholder-color') !important;
+      }
+    }
+  }
+
+  .field {
+    .input {
+      @include ktheme() {
+        border-radius: 0;
+        border: 1px solid theme('k-grey-fix');
+        background-color: theme('background-color');
+        color: theme('text-color');
+
+        &:focus {
+          border: 1px solid theme('text-color');
+        }
       }
     }
   }
