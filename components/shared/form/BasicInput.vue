@@ -24,7 +24,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { BInput } from 'buefy/dist/components/input'
 import { NeoField, NeoInput } from '@kodadot1/brick'
 
 const { $i18n } = useNuxtApp()
@@ -56,7 +55,7 @@ withDefaults(
 
 const hasFocus = ref(false)
 const emit = defineEmits(['input'])
-const input = ref<BInput>(null)
+const input = ref(null)
 
 function checkValidity() {
   return input.value?.checkHtml5Validity()

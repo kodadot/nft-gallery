@@ -44,9 +44,7 @@ body {
     }
   }
 
-  .input,
   select,
-  textarea,
   .taginput-container {
     @include ktheme() {
       background-color: theme('background-color') !important;
@@ -54,14 +52,6 @@ body {
       &::placeholder {
         color: theme('placeholder-color') !important;
       }
-    }
-  }
-
-  .field {
-    .input,
-    select,
-    textarea {
-      border-color: #dbdbdb;
     }
   }
 
@@ -153,25 +143,6 @@ body {
 
 .w-100 {
   width: 100% !important;
-}
-
-.b-radio.radio.button.is-selected {
-  @include ktheme() {
-    background-color: theme('k-primary');
-  }
-}
-.b-radio.is-selected {
-  @include ktheme() {
-    background-color: theme('k-primary');
-    color: theme('black');
-  }
-}
-
-.collection-radio-btn .b-radio.radio.button {
-  border: none !important;
-  @include ktheme() {
-    border-top: 1px solid theme('k-primary') !important;
-  }
 }
 
 .short-identity__table {
