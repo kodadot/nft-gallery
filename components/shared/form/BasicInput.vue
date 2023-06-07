@@ -1,28 +1,26 @@
 <template>
-  <div>
-    <NeoField :label="$i18n.t(label)">
-      <template v-if="message" #label>
-        <div>{{ $i18n.t(label) }}</div>
-        <div class="has-text-weight-light is-size-7 mb-3">
-          {{ message }}
-        </div>
-      </template>
-      <NeoInput
-        ref="input"
-        :value="value"
-        :placeholder="placeholder"
-        :expanded="expanded"
-        :maxlength="maxlength"
-        :required="required"
-        :disabled="disabled"
-        :has-counter="hasCounter"
-        :type="type"
-        :pattern="!value && required ? `^\\S+` : '.*'"
-        @blur="hasFocus = false"
-        @focus="hasFocus = true"
-        @input="handleInput" />
-    </NeoField>
-  </div>
+  <NeoField :label="$i18n.t(label)">
+    <template v-if="message" #label>
+      <div>{{ $i18n.t(label) }}</div>
+      <div class="has-text-weight-light is-size-7 mb-3">
+        {{ message }}
+      </div>
+    </template>
+    <NeoInput
+      ref="input"
+      :value="value"
+      :placeholder="placeholder"
+      :expanded="expanded"
+      :maxlength="maxlength"
+      :required="required"
+      :disabled="disabled"
+      :has-counter="hasCounter"
+      :type="type"
+      :pattern="!value && required ? `^\\S+` : '.*'"
+      @blur="hasFocus = false"
+      @focus="hasFocus = true"
+      @input="handleInput" />
+  </NeoField>
 </template>
 
 <script lang="ts" setup>
