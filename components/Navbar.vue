@@ -101,11 +101,12 @@
           class="navbar-item"
           @click.stop="openWalletConnectModal">
           <span>
-            {{ $t('account') }}
+            {{ $t('profile.page') }}
             <NeoIcon icon="user-circle" />
           </span>
           <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
         </div>
+        <ColorModeButton v-if="!account" class="navbar-item" />
 
         <div v-if="!account" id="NavProfile">
           <ConnectWalletButton
