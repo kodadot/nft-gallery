@@ -30,7 +30,7 @@ const [wrapper] = useKeenSlider({
   renderMode: 'performance',
   slides: {
     origin: 'center',
-    perView: window.outerWidth / 500,
+    perView: window.innerWidth / 500,
     spacing: 10,
   },
   drag: false,
