@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import UnlockableCollectionBanner from '~~/components/collection/unlockable/UnlockableCollectionBanner.vue'
+import UnlockableCollectionBanner from '@/components/collection/unlockable/UnlockableCollectionBanner.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()
