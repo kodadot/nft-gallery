@@ -2,11 +2,11 @@
   <div
     class="is-flex is-justify-content-space-between mobile-flex-direction-column gap">
     <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
-      <HeroButtons class="is-hidden-tablet" />
-      <div class="is-flex mb-2">
-        <div class="mr-2 has-text-weight-bold is-size-5 mt-6 mb-1">
+      <div class="is-flex mt-6 is-justify-content-space-between mb-2">
+        <div class="mr-2 has-text-weight-bold is-size-5 mb-1">
           About Collection
         </div>
+        <HeroButtons class="is-hidden-tablet" />
       </div>
       <div class="overflow-wrap">
         <Markdown :source="visibleDescription" />
@@ -17,11 +17,12 @@
           class="no-shadow is-text has-text-left p-0"
           :label="seeAllDescription ? $t('showLess') : $t('showMore')"
           @click.native="toggleSeeAllDescription" />
+        <div v-else />
 
         <nuxt-link
           :to="`/${urlPrefix}/collection/${collectionId}`"
           target="_blank">
-          <NeoButton variant="unlockable" class="has-text-left">
+          <NeoButton variant="unlockable" class="has-text-left mt-4">
             View Collection
             <svg
               width="12"
