@@ -3,27 +3,24 @@
 @import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
 @import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
 
-// $inputitems-background-color: $input-background-color !default;
-// $inputitems-border-color: $grey-lighter !default;
-// $inputitems-border-radius: $base-border-radius !default;
-// $inputitems-line-height: $base-line-height !default;
-// $inputitems-item-background-color: $primary !default;
-// $inputitems-item-color: $primary-invert !default;
-// $inputitems-item-border-radius: $base-border-radius !default;
-
-// $inputitems-height: calc(2em - 1px) !default;
-// $inputitems-padding: calc(.275em - 1px) 0 0 !default;
-// $inputitems-border-style: solid !default;
-// $inputitems-border-width: 1px !default;
-// $inputitems-color: #363636 !default;
-// $inputitems-box-shadow: inset 0 1px 2px hsla(0,0%,4%,.1) !default;
-// $inputitems-max-width: 100% !default;
-// $inputitems-width: 100% !default;
-// $inputitems-counter-font-size: .75rem !default;
-// $inputitems-counter-margin: .25rem 0 0 .5rem !default;
-// $inputitems-item-margin: 0 0 0 0.275em !default;
-// $inputitems-item-padding: 0 .75em 0 .75em !default;
-// $inputitems-margin-icon-to-text: .1875em !default;
+$inputitems-border-radius: 0;
+$inputitems-item-border-radius: 0;
 
 @import '../NeoInput/NeoInput.scss';
 @import '@oruga-ui/oruga/src/scss/components/inputitems.scss';
+
+.neo-inputitems {
+  .o-inputit__container {
+    outline: none;
+    box-shadow: none;
+    @include ktheme() {
+      border: 1px solid theme('k-grey-fix');
+      background-color: theme('background-color');
+      color: theme('text-color');
+
+      &:focus {
+        border: 1px solid theme('text-color');
+      }
+    }
+  }
+}
