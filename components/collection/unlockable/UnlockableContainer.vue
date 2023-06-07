@@ -157,7 +157,7 @@
 </template>
 
 <script setup lang="ts">
-import UnlockableCollectionInfo from '@/components/collection/unlockable/CollectionInfo.vue'
+import UnlockableCollectionInfo from '~~/components/collection/unlockable/UnlockableCollectionInfo.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import { NeoButton } from '@kodadot1/brick'
