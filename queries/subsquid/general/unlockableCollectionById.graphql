@@ -1,0 +1,44 @@
+#import "../../fragments/collection.graphql"
+#import "../../fragments/collectionDetails.graphql"
+#import "../../fragments/subsquidNft.graphql"
+#import "../../fragments/baseMeta.graphql"
+
+query unlockableCollectionById(
+  $id: String!
+  $search: [NFTEntityWhereInput!]
+  $orderBy: NFTEntityOrderByInput = blockNumber_DESC
+  $first: Int
+  $offset: Int
+) {
+  collectionEntity: collectionEntityById(id: $id) {
+    ...collection
+    ...collectionDetails
+    createdAt
+    max
+    nftCount
+    meta {
+      ...baseMeta
+    }
+    nfts(
+      orderBy: [$orderBy, blockNumber_DESC]
+      limit: $first
+      offset: $offset
+      where: { burned_eq: false, AND: $search }
+    ) {
+      id
+      metadata
+      name
+      price
+      burned
+      currentOwner
+      ...subsquidNft
+    }
+  }
+
+  nftEntitiesConnection(
+    orderBy: id_ASC
+    where: { burned_eq: false, collection: { id_eq: $id }, AND: $search }
+  ) {
+    totalCount
+  }
+}
