@@ -74,7 +74,7 @@
             <NeoButton
               class="mb-2 mt-4 mint-button"
               variant="k-accent"
-              :disabled="mintButtonDisabled || !isLogIn"
+              :disabled="mintButtonDisabled || !isLogIn || hasUserMinted"
               label="Mint"
               @click.native="handleSubmitMint" />
             <div class="is-flex is-align-items-center mt-2">
@@ -131,12 +131,22 @@
             How unlockable item works
           </div>
           <div>
-            Figma ipsum component variant main layer. Scrolling outline pixel
-            vertical figma editor object content blur. Outline move object scale
-            bold stroke ima. Outline move object scale bold stroke imaOutline
-            move object scale bold stroke ima
+            Experience the excitement of unlocking hidden rewards! Get your
+            hands on exclusive merchandise (and an NFT!) linked to unlockable
+            content. For the next ten hours, the fastest ten individuals can
+            mint their very own anime waifu character NFT for free. Simply log
+            in with your wallet, click on the "Mint" button, and sign the
+            transaction. Afterward, check your profile to find the NFT and click
+            "Unlockable Content" to reveal the surprise. Follow the schedule so
+            you don't miss this!
           </div>
-          <NeoButton variant="unlockable" class="mt-2"> Learn More </NeoButton>
+          <a
+            href="https://hello.kodadot.xyz/fandom-toolbox/audience-growth/unlockables"
+            target="_blank">
+            <NeoButton variant="unlockable" class="mt-2">
+              Learn More
+            </NeoButton>
+          </a>
         </div>
         <div class="column">
           <img :src="unloackableBanner" alt="Unlockable" />
@@ -147,7 +157,7 @@
 </template>
 
 <script setup lang="ts">
-import UnlockableCollectionInfo from '@/components/collection/unlockable/CollectionInfo.vue'
+import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import { NeoButton } from '@kodadot1/brick'
@@ -159,6 +169,7 @@ import { OSlider } from '@oruga-ui/oruga'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { collectionId, countDownTime } from './const'
 import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
+import { endOfHour, startOfHour } from 'date-fns'
 const { toast } = useToast()
 
 const Loader = defineAsyncComponent(
@@ -174,20 +185,14 @@ const isLoading = ref(false)
 const status = ref('')
 const { accountId, isLogIn } = useAuth()
 
-console.log('account', isLogIn, accountId)
-
 onMounted(async () => {
   const res = await getLatestWaifuImages()
   imageList.value = res.result.map((item) => item.output)
   resultList.value = res.result
 })
 
-const mintStartTime = new Date('Jun 4, 2023 10:00:00').getTime()
-const windowRange = [
-  new Date(mintStartTime),
-  // new Date(mintStartTime + 60 * 60 * 1000),
-  new Date('Jun 7, 2023 10:00:00'),
-]
+const now = new Date()
+const windowRange = [startOfHour(now), endOfHour(now)]
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
@@ -199,6 +204,17 @@ const { data: collectionData } = useGraphql({
     id: collectionId,
   },
 })
+
+const { data: counts } = useGraphql({
+  queryName: 'nftOwnedCountByCollectionId',
+  variables: {
+    id: collectionId,
+    account: accountId.value,
+  },
+})
+
+const hasUserMinted = computed(() => counts.value?.nft?.count > 0)
+
 const totalCount = computed(() => collectionData.value?.max || 300)
 const totalAvailableMintCount = computed(
   () =>

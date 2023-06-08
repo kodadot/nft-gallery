@@ -5,9 +5,14 @@ import { pinJson } from '@/services/nftStorage'
 export const UNLOCKABLE_CAMPAIGN = 'prg'
 export const UNLOCKABLE_NAME = 'Prague Waifu'
 export const UNLOCKABLE_DESC = `
-  Enjoy your time in Prague Blockchain Week in a good mood,
-  and invite this incredibly beautiful waifu for a cup of coffee.
-  Add her to your collection today
+  This anime waifu is a demonstration of unlockables at [KodaDot](https://kodadot.xyz)
+
+  Owner of this item has **access to $50 voucher**, which can be claimed in **[KodaShop](https://shop.kodadot.xyz)**.
+  KodaMerch is then shipped right to your door step.
+
+  It's **limited supply** and **only first 60 can claim** this voucher.
+
+  Enjoy and be quick 😉
 `
 
 export async function createUnlockableMetadata(imageHash: string) {
