@@ -9,9 +9,7 @@
       <hr class="my-4" />
 
       <div>
-        <ProfileAssetsList v-if="isSnek" @totalValueChange="setTotalValue" />
-        <MultipleBalances v-else />
-
+        <MultipleBalances />
         <WalletAssetPortfolio />
       </div>
 
@@ -42,9 +40,6 @@ import WalletAssetSetIdentity from './WalletAssetSetIdentity.vue'
 const MultipleBalances = defineAsyncComponent(
   () => import('@/components/balance/MultipleBalances.vue')
 )
-const ProfileAssetsList = defineAsyncComponent(
-  () => import('@/components/rmrk/Profile/ProfileAssetsList.vue')
-)
 
 const totalValue = ref(0)
 const identityStore = useIdentityStore()
@@ -59,10 +54,6 @@ const { display } = useIdentity({
   address: account.value,
 })
 
-const setTotalValue = (value: number) => {
-  totalValue.value = value
-}
-
 onMounted(async () => {
   if (identityStore.getAuthAddress) {
     $consola.log('fetching balance...')
@@ -70,9 +61,5 @@ onMounted(async () => {
       address: identityStore.getAuthAddress,
     })
   }
-})
-
-watch(urlPrefix, () => {
-  setTotalValue(0)
 })
 </script>

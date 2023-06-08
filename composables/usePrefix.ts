@@ -44,6 +44,8 @@ export default function () {
     () => prefix.value === 'bsx' || prefix.value === 'snek'
   )
 
+  const isTestnet = computed(() => prefix.value === 'snek')
+
   return {
     urlPrefix,
     setUrlPrefix,
@@ -51,5 +53,6 @@ export default function () {
     tokenId,
     assets,
     isBasilisk,
+    isTestnet,
   }
 }
