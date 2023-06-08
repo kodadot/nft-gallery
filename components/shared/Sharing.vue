@@ -1,6 +1,6 @@
 <template>
   <div class="share">
-    <b-field position="is-right">
+    <NeoField position="is-right">
       <slot />
 
       <p class="control">
@@ -96,7 +96,7 @@
           </b-button>
         </p>
       </b-tooltip>
-    </b-field>
+    </NeoField>
   </div>
 </template>
 
@@ -105,9 +105,11 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { IFrame, emptyIframe } from '../../components/rmrk/types'
 import { downloadImage } from '~/utils/download'
 import { useHistoryStore } from '@/stores/history'
+import { NeoField } from '@kodadot1/brick'
 
 const components = {
   ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
+  NeoField,
 }
 @Component({
   components,

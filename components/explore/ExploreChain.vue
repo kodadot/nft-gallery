@@ -23,8 +23,7 @@ import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 
 const route = useRoute()
 const router = useRouter()
-const { $store } = useNuxtApp()
-
+const { setUrlPrefix } = usePrefix()
 const { availableChains } = useChain()
 const isActive = ref(false)
 const selected = computed(() =>
@@ -32,9 +31,8 @@ const selected = computed(() =>
 )
 
 function onSwitchChain(chain) {
-  $store.dispatch('setUrlPrefix', chain)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { page, ...restQuery } = route.query
+  setUrlPrefix(chain)
+  const { ...restQuery } = route.query
   router.push({
     params: {
       prefix: chain,

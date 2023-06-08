@@ -104,6 +104,22 @@
     }
   }
 
+  &--unlockable{
+    height: 40px;
+    width: min-content !important;
+    border-radius: 4rem;
+    box-shadow: none !important;
+    @include ktheme() {
+
+      background: theme('background-color');
+      &:hover {
+        background-color: theme('k-accentHover');
+        color: theme('black');
+        border: 1px solid theme('border-color');
+      }
+    }
+  }
+
   &.is-text {
     border: none !important;
     width: min-content;
@@ -119,6 +135,23 @@
 
   &.no-shadow {
     box-shadow: none;
+  }
+
+  &--rounded {
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    @include ktheme() {
+      border-color: theme('k-shade');
+      color: theme('border-color');
+    }
+
+    &:hover {
+      background-color: transparent !important;
+      @include ktheme() {
+        border-color: theme('border-color');
+        color: theme('border-color');
+      }
+    }
   }
 }
 

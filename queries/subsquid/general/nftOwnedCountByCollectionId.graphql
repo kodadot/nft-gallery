@@ -1,0 +1,8 @@
+query nftOwnedCountByCollectionId($id: String!, $account: String!) {
+  nft: nftEntitiesConnection(
+    orderBy: blockNumber_ASC
+    where: { collection: { id_eq: $id }, currentOwner_eq: $account }
+  ) {
+    count: totalCount
+  }
+}

@@ -5,7 +5,6 @@
 @import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
 @import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
 
-
 $input-border-radius: 0;
 $input-height: 3rem;
 $input-padding: 0.5rem;
@@ -14,7 +13,8 @@ $input-textarea-padding: 0.5rem;
 @import '@oruga-ui/oruga/src/scss/components/field.scss';
 @import '@oruga-ui/oruga/src/scss/components/input.scss';
 
-.neo-field {
+.o-field {
+  margin-bottom: 0.75rem;
   &--error .o-input {
     @include ktheme() {
       border-color: theme('k-red') !important;
@@ -26,13 +26,13 @@ $input-textarea-padding: 0.5rem;
     }
   }
 
-    .o-field__label {
-      margin-bottom: 0.5rem;
-      font-weight: 400;
-      @include ktheme() {
-        color: theme('text-color');
-      }
+  .o-field__label {
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    @include ktheme() {
+      color: theme('text-color');
     }
+  }
 
   &.o-field--focused {
     input,
@@ -40,15 +40,33 @@ $input-textarea-padding: 0.5rem;
       outline: none;
     }
   }
+
+  &.o-field__message-hide {
+    margin-bottom: 0 !important;
+    .o-field__message {
+      display: none;
+    }
+  }
+
+  .o-field__message-danger {
+    @include ktheme() {
+      color: theme('k-red');
+    }
+  }
 }
 
 .neo-input {
   .o-input {
-
+    outline: none;
+    box-shadow: none;
     @include ktheme() {
-      border: 1px solid theme('text-color');
+      border: 1px solid theme('k-grey-fix');
       background-color: theme('background-color');
       color: theme('text-color');
+
+      &:focus {
+        border: 1px solid theme('text-color');
+      }
     }
     &__counter {
       position: relative;
@@ -57,6 +75,12 @@ $input-textarea-padding: 0.5rem;
     }
     &__textarea {
       height: var(--neo-input-height);
+    }
+  }
+
+  .o-icon--danger {
+    &.o-input__icon-right {
+      display: none;
     }
   }
 

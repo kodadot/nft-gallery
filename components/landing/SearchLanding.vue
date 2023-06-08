@@ -39,8 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-const { urlPrefix } = usePrefix()
-const { $store, $router } = useNuxtApp()
+const { urlPrefix, setUrlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const { availableChains } = useChain()
 
@@ -69,7 +68,7 @@ const switchChain = (value) => {
   if (value === urlPrefix.value) {
     return
   }
-  $store.dispatch('setUrlPrefix', value)
-  $router.push({ path: `/${value}/explore/collectibles` })
+  setUrlPrefix(value)
+  navigateTo(`/${value}/explore/collectibles`)
 }
 </script>

@@ -48,13 +48,13 @@
       rounded
       show-empty />
 
-    <p class="title is-size-4 is-capitalized">art inspired by</p>
+    <!-- <p class="title is-size-4 is-capitalized">art inspired by</p>
     <RadioSelect
       v-model="form.inspiredBy"
       :options="inspiredBy"
       separated
       rounded
-      show-empty />
+      show-empty /> -->
 
     <SubmitButton
       size="medium"
