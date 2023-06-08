@@ -29,7 +29,7 @@
     </template>
     <template #hint>
       <p class="box has-text-right is-size-7">
-        press <b-tag type="is-primary" rounded>?</b-tag> to open shortcuts menu
+        press <kbd type="is-primary" rounded>?</kbd> to open shortcuts menu
       </p>
     </template>
   </ModalWrapper>
