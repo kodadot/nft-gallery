@@ -1,12 +1,16 @@
 <template>
-  <b-button
-    type="is-bordered-light share-button"
+  <NeoButton
+    style="width: 40px"
+    no-shadow
     icon-left="gift"
-    @click="goToTransfer">
-  </b-button>
+    icon-pack="fas"
+    @click.native="goToTransfer">
+  </NeoButton>
 </template>
 
 <script lang="ts" setup>
+import { NeoButton } from '@kodadot1/brick'
+
 const props = defineProps<{
   address: string
 }>()
