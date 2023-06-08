@@ -72,9 +72,10 @@
           </div>
           <div class="my-5">
             <NeoButton
+              ref="root"
               class="mb-2 mt-4 mint-button"
               variant="k-accent"
-              :disabled="mintButtonDisabled || !isLogIn || hasUserMinted"
+              :disabled="mintButtonDisabled || hasUserMinted"
               label="Mint"
               @click.native="handleSubmitMint" />
             <div class="is-flex is-align-items-center mt-2">
@@ -170,11 +171,16 @@ import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { collectionId, countDownTime } from './const'
 import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
+import type Vue from 'vue'
+import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+
 const { toast } = useToast()
 
 const Loader = defineAsyncComponent(
   () => import('@/components/shared/Loader.vue')
 )
+const { $buefy } = useNuxtApp()
+const root = ref<Vue<Record<string, string>>>()
 
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
@@ -251,6 +257,13 @@ const mintButtonDisabled = computed(
 const timeFromNow = computed(() => timeAgo(countDownTime))
 
 const handleSubmitMint = async () => {
+  if (!isLogIn.value) {
+    $buefy.modal.open({
+      parent: root?.value,
+      ...ConnectWalletModalConfig,
+    })
+    return
+  }
   if (isLoading.value) {
     return false
   }
