@@ -51,16 +51,14 @@
         <div v-if="hasBlockExplorer" class="is-flex is-justify-content-right">
           <div v-for="network in networks" :key="network.alt" class="control">
             <NeoButton class="share-button" no-shadow>
-              <span class="o-icon">
-                <a
-                  :href="`${network.url}${id}`"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  <figure class="image is-16x16">
-                    <img :alt="network.alt" :src="network.img" />
-                  </figure>
-                </a>
-              </span>
+              <a
+                :href="`${network.url}${id}`"
+                target="_blank"
+                rel="noopener noreferrer">
+                <figure class="image is-16x16">
+                  <img :alt="network.alt" :src="network.img" />
+                </figure>
+              </a>
             </NeoButton>
           </div>
         </div>
