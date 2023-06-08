@@ -170,8 +170,8 @@ const { $i18n } = useNuxtApp()
 
 const menuIncentives: Menu[] = [
   {
-    name: $i18n.t('referralProgram'),
-    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/artist-referral-program',
+    name: $i18n.t('ambassador program'),
+    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/ambassador-program',
     external: true,
   },
   {
@@ -181,21 +181,16 @@ const menuIncentives: Menu[] = [
   },
 
   {
-    name: $i18n.t('ambassador program'),
-    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/ambassador-program',
+    name: $i18n.t('referralProgram'),
+    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/artist-referral-program',
     external: true,
   },
 ]
 
 const menuMarketplace: Menu[] = [
   {
-    name: $i18n.t('documentation'),
-    url: 'https://docs.kodadot.xyz/',
-    external: true,
-  },
-  {
-    name: $i18n.t('contribute'),
-    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/join-as-a-developer',
+    name: $i18n.t('developers'),
+    url: 'https://developers.kodadot.xyz',
     external: true,
   },
   {
