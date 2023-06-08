@@ -1,5 +1,5 @@
 <template>
-  <NeoField :label="$t('Tags')" addons="false">
+  <NeoField :label="$t('Tags')" :addons="false">
     <NeoInputitems
       id="search_tag"
       v-model="tags"
@@ -12,6 +12,7 @@
       has-counter
       allow-new
       allow-autocomplete
+      expanded
       @update:modelValue="handleInput">
       <template #header>
         <b>{{ $t('general.tagsAdd') }}</b>
@@ -30,7 +31,7 @@ const allTags = ref(['audio', 'video', 'image', 'music', 'abstract'])
 
 const props = withDefaults(
   defineProps<{
-    attr: Attribute[]
+    attr?: []
     max?: number
     placeholder?: string
     simple?: boolean

@@ -9,18 +9,25 @@ $inputitems-item-border-radius: 0;
 @import '../NeoInput/NeoInput.scss';
 @import '@oruga-ui/oruga/src/scss/components/inputitems.scss';
 
-.neo-inputitems {
-  .o-inputit__container {
-    outline: none;
-    box-shadow: none;
-    @include ktheme() {
-      border: 1px solid theme('k-grey-fix');
-      background-color: theme('background-color');
-      color: theme('text-color');
+.o-inputit__container {
+	outline: none;
+	box-shadow: none;
+	@include ktheme() {
+		border: 1px solid theme('k-grey-fix');
+		background-color: theme('background-color');
+		color: theme('text-color');
 
-      &:focus {
-        border: 1px solid theme('text-color');
-      }
-    }
-  }
+		.o-input {
+		background-color: theme('background-color');
+		color: theme('text-color');
+		}
+
+		&:focus {
+		border: 1px solid theme('text-color');
+		}
+	}
+}
+
+.o-acp__menu{
+	width: 100%!important;
 }
