@@ -28,7 +28,7 @@
       <div class="footer-container-info is-flex is-flex-direction-column">
         <h4 class="subtitle is-5">Incentives</h4>
         <div>
-          <ul class="is-flex is-flex-direction-column is-align-items-center">
+          <ul class="footer-container-list">
             <li
               v-for="item in menuIncentives"
               :key="item.url"
@@ -55,7 +55,7 @@
       <div class="footer-container-info is-flex is-flex-direction-column">
         <h4 class="subtitle is-5">Marketplace</h4>
         <div>
-          <ul class="is-flex is-flex-direction-column is-align-items-center">
+          <ul class="footer-container-list">
             <li
               v-for="item in menuMarketplace"
               :key="item.url"
@@ -82,7 +82,7 @@
       <div class="footer-container-info is-flex is-flex-direction-column">
         <h4 class="subtitle is-5">KodaDot</h4>
         <div>
-          <ul class="is-flex is-flex-direction-column is-align-items-center">
+          <ul class="footer-container-list">
             <li
               v-for="item in menuKodadot"
               :key="item.url"
