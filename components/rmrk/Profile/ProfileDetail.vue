@@ -364,11 +364,6 @@ export default class ProfileDetail extends mixins(
   private myNftCount = 0
   protected networks = [
     {
-      url: 'https://dotscanner.com/Kusama/account/',
-      als: 'dotscanner',
-      img: '/dotscanner.svg',
-    },
-    {
       url: 'https://sub.id/#/',
       als: 'subid',
       img: '/subid.svg',

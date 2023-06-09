@@ -10,12 +10,11 @@
 const props = defineProps<{
   address: string
 }>()
-
-const { $router } = useNuxtApp()
+const router = useRouter()
 
 function goToTransfer() {
-  $router.push({
-    name: 'transfer',
+  router.push({
+    path: '/ksm/transfer',
     query: { target: props.address, usdamount: '10', donation: 'true' },
   })
 }
