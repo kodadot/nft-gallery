@@ -1,26 +1,26 @@
 <template>
-  <NeoDropdown
-    class="dropdown-width"
-    :disabled="!isLogIn"
-    @active-change="toggleOpen">
-    <NeoButton
-      v-if="!selectedCollection"
-      class="dropdown-width"
-      :label="$t('massmint.selectCollection')"
-      :icon="isDropdownopen ? 'chevron-up' : 'chevron-down'" />
-    <NeoButton
-      v-else
-      class="dropdown-width"
-      :icon="isDropdownopen ? 'chevron-up' : 'chevron-down'">
-      {{ selectedCollection.name || selectedCollection.id }}
-      <NeoIcon
-        v-if="selectedCollection"
-        icon="circle-check"
-        size="small"
-        variant="success"
-        class="ml-3" />
-    </NeoButton>
-    <template v-if="collectionsEntites?.length" #items>
+  <NeoDropdown class="dropdown-width" :disabled="!isLogIn">
+    <template #trigger="{ active }">
+      <NeoButton
+        v-if="!selectedCollection"
+        class="dropdown-width"
+        :label="$t('massmint.selectCollection')"
+        :icon="active ? 'chevron-up' : 'chevron-down'" />
+      <NeoButton
+        v-else
+        class="dropdown-width"
+        :icon="active ? 'chevron-up' : 'chevron-down'">
+        {{ selectedCollection.name || selectedCollection.id }}
+        <NeoIcon
+          v-if="selectedCollection"
+          icon="circle-check"
+          size="small"
+          variant="success"
+          class="ml-3" />
+      </NeoButton>
+    </template>
+
+    <template v-if="collectionsEntites?.length">
       <NeoDropdownItem
         v-for="collection in collectionsEntites"
         :key="collection.id"
@@ -37,7 +37,7 @@
         </nuxt-link>
       </NeoDropdownItem>
     </template>
-    <template v-else #items>
+    <template v-else>
       <NeoDropdownItem disabled class="dropdown-width">
         {{ $t('massmint.noCollection') }}
       </NeoDropdownItem>
@@ -67,7 +67,6 @@ const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
 
 const { collectionsEntites } = useCollectionForMint()
-const isDropdownopen = ref(false)
 const selectedCollection = ref<MintedCollection>()
 const emit = defineEmits(['selectedCollection'])
 
@@ -75,9 +74,6 @@ watch(accountId, () => {
   selectedCollection.value = undefined
 })
 
-const toggleOpen = () => {
-  isDropdownopen.value = !isDropdownopen.value
-}
 const selectCollection = (collection) => {
   selectedCollection.value = collection
   emit('selectedCollection', collection)

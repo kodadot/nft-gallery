@@ -86,9 +86,11 @@ export type TokenToList = {
 export type ActionList = {
   interaction: Interaction.LIST
   urlPrefix: string
-  token: TokenToList | TokenToList[]
   successMessage?: string
   errorMessage?: string
+  token?: TokenToList | TokenToList[]
+  nftId?: string
+  price?: string
 }
 
 export type ActionSend = {

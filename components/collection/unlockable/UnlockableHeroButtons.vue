@@ -3,32 +3,34 @@
     <div
       class="hero-buttons is-flex is-justify-content-flex-start is-align-items-end px-2">
       <div class="is-flex">
-        <NeoDropdown append-to-body>
-          <NeoButton
-            icon="share-alt"
-            class="square-32 mr-3"
-            data-cy="share-button" />
-          <template #items>
-            <NeoDropdownItem
-              v-clipboard:copy="currentUrl"
-              @click.native="toast(`${$i18n.t('toast.urlCopy')}`)">
-              {{ $i18n.t('share.copyLink') }}
-            </NeoDropdownItem>
-            <NeoDropdownItem @click.native="QRModalActive = true">
-              {{ $i18n.t('share.qrCode') }}
-            </NeoDropdownItem>
-            <NeoDropdownItem>
-              <ShareNetwork
-                tag="div"
-                network="twitter"
-                :hashtags="hashtags"
-                :url="currentUrl"
-                :title="sharingLabel"
-                twitter-user="KodaDot">
-                {{ $i18n.t('share.twitter') }}
-              </ShareNetwork>
-            </NeoDropdownItem>
+        <NeoDropdown position="bottom-left" append-to-body>
+          <template #trigger="{ active }">
+            <NeoButton
+              icon="share-alt"
+              class="square-32 mr-3"
+              data-cy="share-button"
+              :active="active" />
           </template>
+
+          <NeoDropdownItem
+            v-clipboard:copy="currentUrl"
+            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            {{ $i18n.t('share.copyLink') }}
+          </NeoDropdownItem>
+          <NeoDropdownItem @click="QRModalActive = true">
+            {{ $i18n.t('share.qrCode') }}
+          </NeoDropdownItem>
+          <NeoDropdownItem>
+            <ShareNetwork
+              tag="div"
+              network="twitter"
+              :hashtags="hashtags"
+              :url="currentUrl"
+              :title="sharingLabel"
+              twitter-user="KodaDot">
+              {{ $i18n.t('share.twitter') }}
+            </ShareNetwork>
+          </NeoDropdownItem>
         </NeoDropdown>
       </div>
     </div>

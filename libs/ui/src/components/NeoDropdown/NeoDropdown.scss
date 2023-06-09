@@ -27,7 +27,8 @@ $dropdown-item-hover-background-color: #ffe5f3;
   }
 
   &.is-active,
-  &--active {
+  &--active,
+  &[active="true"] {
     @include ktheme() {
       color: theme('text-color-inverse')!important;
       background: theme('background-color-inverse')!important;
@@ -41,15 +42,5 @@ $dropdown-item-hover-background-color: #ffe5f3;
     border: 1px solid theme('border-color');
     color: theme('text-color');
     background: theme('background-color');
-  }
-}
-
-.o-drop-active {
-  .is-neo,
-  .is-neo:hover {
-    @include ktheme() {
-      color: theme('text-color-inverse');
-      background: theme('background-color-inverse');
-    }
   }
 }

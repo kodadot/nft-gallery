@@ -1,23 +1,26 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <NeoDropdown>
-      <NeoButton class="icon-action" icon="ellipsis-vertical" />
-
-      <template #items>
-        <NeoDropdownItem
-          v-if="mimeType?.includes('image') && ipfsImage"
-          item="Download"
-          @click.native="downloadMedia" />
-        <template v-if="accountId === currentOwner">
-          <NeoDropdownItem item="Burn" @click.native="burn" />
-          <NeoDropdownItem
-            v-if="price !== '0'"
-            item="Delist"
-            @click.native="unlist" />
-        </template>
-        <NeoDropdownItem disabled item="Report" />
+    <NeoDropdown position="bottom-left">
+      <template #trigger="{ active }">
+        <NeoButton
+          class="icon-action"
+          icon="ellipsis-vertical"
+          :active="active" />
       </template>
+
+      <NeoDropdownItem
+        v-if="mimeType?.includes('image') && ipfsImage"
+        @click="downloadMedia">
+        Download
+      </NeoDropdownItem>
+      <template v-if="accountId === currentOwner">
+        <NeoDropdownItem @click="burn">Burn</NeoDropdownItem>
+        <NeoDropdownItem v-if="price !== '0'" @click="unlist">
+          Delist
+        </NeoDropdownItem>
+      </template>
+      <NeoDropdownItem disabled>Report</NeoDropdownItem>
     </NeoDropdown>
   </div>
 </template>
