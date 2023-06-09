@@ -50,16 +50,16 @@
       <div class="column has-text-right">
         <div v-if="hasBlockExplorer" class="is-flex is-justify-content-right">
           <div v-for="network in networks" :key="network.alt" class="control">
-            <NeoButton class="share-button" no-shadow>
-              <a
-                :href="`${network.url}${id}`"
-                target="_blank"
-                rel="noopener noreferrer">
+            <a
+              :href="`${network.url}${id}`"
+              target="_blank"
+              rel="noopener noreferrer">
+              <NeoButton class="share-button" no-shadow>
                 <figure class="image is-16x16">
                   <img :alt="network.alt" :src="network.img" />
                 </figure>
-              </a>
-            </NeoButton>
+              </NeoButton>
+            </a>
           </div>
         </div>
         <div class="is-flex is-justify-content-right">
@@ -363,11 +363,6 @@ export default class ProfileDetail extends mixins(
 
   private myNftCount = 0
   protected networks = [
-    {
-      url: 'https://dotscanner.com/Kusama/account/',
-      als: 'dotscanner',
-      img: '/dotscanner.svg',
-    },
     {
       url: 'https://sub.id/#/',
       als: 'subid',
