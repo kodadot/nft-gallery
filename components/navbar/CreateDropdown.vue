@@ -1,12 +1,13 @@
 <template>
   <div>
-    <b-dropdown v-if="!isMobile" aria-role="list" :triggers="['click']">
+    <NeoDropdown v-if="!isMobile" aria-role="list" :triggers="['click']">
       <template #trigger>
         <div class="navbar-item">
           {{ $t('create') }}
         </div>
       </template>
-      <b-dropdown-item has-link>
+
+      <NeoDropdownItem has-link>
         <NeoTooltip
           v-if="chain !== 'stmn'"
           position="left"
@@ -16,11 +17,10 @@
             {{ $t('classic') }}
           </nuxt-link>
         </NeoTooltip>
-      </b-dropdown-item>
+      </NeoDropdownItem>
 
-      <b-dropdown-item has-link>
+      <NeoDropdownItem v-if="chain === 'stmn'" has-link>
         <NeoTooltip
-          v-if="chain === 'stmn'"
           position="left"
           :label="$t('createDropdown.waifu')"
           multiline>
@@ -28,9 +28,10 @@
             {{ $t('navbar.create.waifu') }}
           </nuxt-link>
         </NeoTooltip>
-      </b-dropdown-item>
+      </NeoDropdownItem>
+
       <template v-if="chain === 'rmrk'">
-        <b-dropdown-item has-link>
+        <NeoDropdownItem has-link>
           <NeoTooltip
             position="left"
             :label="$t('createDropdown.simplifiedNft')"
@@ -39,9 +40,9 @@
               {{ $t('simple') }}
             </nuxt-link>
           </NeoTooltip>
-        </b-dropdown-item>
+        </NeoDropdownItem>
       </template>
-      <b-dropdown-item v-if="redesign" has-link>
+      <NeoDropdownItem v-if="redesign" has-link>
         <NeoTooltip
           position="left"
           :label="$t('createDropdown.massmint')"
@@ -50,8 +51,8 @@
             {{ $t('multipleNFTS') }}
           </nuxt-link>
         </NeoTooltip>
-      </b-dropdown-item>
-    </b-dropdown>
+      </NeoDropdownItem>
+    </NeoDropdown>
 
     <MobileExpandableSection v-else :no-padding="true" :title="$t('create')">
       <b-navbar-item
@@ -88,7 +89,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoTooltip } from '@kodadot1/brick'
+import { NeoDropdown, NeoDropdownItem, NeoTooltip } from '@kodadot1/brick'
 
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
 
@@ -98,6 +99,5 @@ defineProps<{
 }>()
 
 const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
 const { redesign } = useExperiments()
 </script>

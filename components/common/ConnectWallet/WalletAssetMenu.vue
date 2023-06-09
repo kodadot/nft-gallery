@@ -21,13 +21,13 @@
       <div @click="toggleLanguageMenu">
         <NeoIcon icon="globe" />
         <span>{{ $t('profileMenu.language') }}</span>
-        <b-dropdown
+        <NeoDropdown
           ref="languageDropdown"
-          position="is-top-left"
+          position="top-left"
           aria-role="menu"
           mobile-modal
           :toggle="toggleLanguageMenu">
-          <b-dropdown-item
+          <NeoDropdownItem
             v-for="lang in langsFlags"
             :key="lang.value"
             aria-role="listitem"
@@ -35,9 +35,9 @@
             :value="lang.value"
             :class="{ 'is-active': langStore.getUserLang === lang.value }"
             @click="langStore.setLanguage({ userLang: lang.value })">
-            <a>{{ lang.flag }} {{ lang.label }}</a>
-          </b-dropdown-item>
-        </b-dropdown>
+            <span>{{ lang.flag }} {{ lang.label }}</span>
+          </NeoDropdownItem>
+        </NeoDropdown>
       </div>
       <a href="/settings" class="has-text-grey">
         <NeoIcon icon="gear" />
@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import { langsFlags } from '@/utils/config/i18n'
 import { useLangStore } from '@/stores/lang'
 
@@ -158,7 +158,7 @@ const toggleLanguageMenu = () => {
 
   @include tablet {
     // manually center dropdown menu, because no props "postition" to center it
-    :deep .dropdown-menu {
+    :deep .o-drop__menu {
       transform: translateX(50px);
       bottom: 150%;
     }

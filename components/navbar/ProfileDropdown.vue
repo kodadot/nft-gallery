@@ -8,7 +8,7 @@
       <Avatar :value="account" class="navbar__avatar-icon" :size="27" />
     </a>
     <div v-else class="is-flex is-align-items-center">
-      <b-dropdown
+      <NeoDropdown
         position="is-bottom-left"
         aria-role="menu"
         :triggers="['hover']">
@@ -18,15 +18,15 @@
           </a>
         </template>
 
-        <b-dropdown-item has-link aria-role="menuitem">
+        <NeoDropdownItem has-link aria-role="menuitem">
           <a class="is-flex is-align-items-center" @click="toggleLanguageMenu">
             {{ $t('profileMenu.language') }}&nbsp;<NeoIcon icon="globe" />
           </a>
-        </b-dropdown-item>
-        <b-dropdown-item has-link aria-role="menuitem">
+        </NeoDropdownItem>
+        <NeoDropdownItem has-link aria-role="menuitem">
           <ColorModeButton />
-        </b-dropdown-item>
-      </b-dropdown>
+        </NeoDropdownItem>
+      </NeoDropdown>
 
       <div v-if="!account">
         <ConnectWalletButton
@@ -38,12 +38,12 @@
       </div>
     </div>
 
-    <b-dropdown
+    <NeoDropdown
       ref="languageDropdown"
       position="is-bottom-left"
       aria-role="menu"
       :toggle="toggleLanguageMenu">
-      <b-dropdown-item
+      <NeoDropdownItem
         aria-role="listitem"
         class="is-active is-flex is-align-items-center language-heading is-size-6"
         @click="toggleLanguageMenu">
@@ -69,9 +69,9 @@
             stroke-linecap="round"
             stroke-linejoin="round" />
         </svg>
-      </b-dropdown-item>
+      </NeoDropdownItem>
 
-      <b-dropdown-item
+      <NeoDropdownItem
         v-for="lang in langsFlags"
         :key="lang.value"
         aria-role="listitem"
@@ -83,13 +83,13 @@
           >{{ lang.flag }}
           {{ lang.label }}
         </a>
-      </b-dropdown-item>
-    </b-dropdown>
+      </NeoDropdownItem>
+    </NeoDropdown>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import Avatar from '@/components/shared/Avatar.vue'
 import { useIdentityStore } from '@/stores/identity'
 import { useLangStore } from '@/stores/lang'
