@@ -109,6 +109,14 @@ const sliderSettings = computed(() => {
 
 .unlockable-image-slider {
   width: 580px;
+
+  @include mobile {
+    width: 100%;
+    max-width: 560px;
+  }
+  @include tablet-only {
+    width: 768px;
+  }
   img {
     @include ktheme() {
       border: 1px solid theme('border-color');
@@ -117,14 +125,32 @@ const sliderSettings = computed(() => {
   .keen-slider__slide {
     height: 580px;
     width: 580px;
+    object-fit: cover;
+    @include tablet-only {
+      width: 768px;
+    }
+    @include mobile {
+      width: 100%;
+    }
   }
   .thumbnail .keen-slider__slide {
     margin-top: 10px;
     height: 136px;
     width: 136px;
+    @include tablet-only {
+      width: calc(768px / 4);
+    }
+    @include mobile {
+      width: 25%;
+      max-width: 136px;
+    }
     img {
       height: 136px;
       width: 136px;
+      @include touch {
+        width: calc(100% - 8px);
+      }
+      object-fit: cover;
     }
     &.active {
       img {
