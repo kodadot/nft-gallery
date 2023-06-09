@@ -1,7 +1,8 @@
 <template>
   <NeoField :label="$t(label)">
-    <b-numberinput
+    <NeoInput
       v-model="vValue"
+      type="number"
       :placeholder="placeholder"
       :expanded="expanded"
       :step="step"

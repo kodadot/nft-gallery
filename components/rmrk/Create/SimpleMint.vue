@@ -55,11 +55,12 @@
       data-cy="input-description" />
 
     <NeoField :label="$t('Edition')" class="mt-5" data-cy="input-edition">
-      <b-numberinput
+      <NeoInput
         v-model="rmrkMint.max"
+        type="number"
         placeholder="1 is minumum"
         expanded
-        :min="1"></b-numberinput>
+        :min="1" />
     </NeoField>
 
     <MetadataUpload
