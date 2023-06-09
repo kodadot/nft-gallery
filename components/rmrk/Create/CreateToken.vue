@@ -106,8 +106,8 @@ import { unwrapSafe } from '@/utils/uniquery'
 import { toNFTId } from '../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
 import { Ref as RefType } from 'vue'
-import { MintedCollectionKusama } from '@/composables/transaction/types'
 import { Royalty } from '@/utils/royalty'
+import { MintedCollectionKusama } from '@/composables/transaction/types'
 import { NeoField, NeoMessage } from '@kodadot1/brick'
 
 const components = {
@@ -137,7 +137,7 @@ export default class CreateToken extends mixins(
   AuthMixin,
   UseApiMixin
 ) {
-  public base: BaseTokenType<MintedCollectionKusama> = {
+  public base: BaseTokenType = {
     name: '',
     file: null,
     description: '',

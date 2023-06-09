@@ -1,0 +1,12 @@
+query collectionMintedBetween($id: String, $from: DateTime, $to: DateTime) {
+  minted: nftEntitiesConnection(
+    orderBy: createdAt_DESC
+    where: {
+      collection: { id_eq: $id }
+      createdAt_gte: $from
+      createdAt_lte: $to
+    }
+  ) {
+    count: totalCount
+  }
+}

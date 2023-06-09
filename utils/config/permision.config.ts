@@ -4,7 +4,7 @@ const hasCreate: Config<boolean> = {
   rmrk: true,
   ksm: true,
   bsx: true,
-  stmn: false,
+  stmn: true,
   movr: false,
   glmr: false,
   snek: true,
