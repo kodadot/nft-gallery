@@ -1,4 +1,4 @@
-import { validFormats } from '@/components/massmint/uploadCompressedMedia/useZipValidator'
+import { validFormats } from '@/composables/massmint/useZipValidator'
 
 export type Entry = {
   file: string

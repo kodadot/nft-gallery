@@ -1,6 +1,13 @@
 import { unwrapSafe } from '@/utils/uniquery'
 import resolveQueryPath from '@/utils/queryPathResolver'
-import { MintedCollection, Status } from './types'
+import { NFTToMint, Status } from '../../components/massmint/types'
+import { Interaction } from '@kodadot1/minimark/v1'
+import { MintedCollection } from '@/composables/transaction/types'
+import {
+  createTokensToMint,
+  kusamaMintAndList,
+  subscribeToCollectionLengthUpdates,
+} from './massMintHelpers'
 
 export const statusTranslation = (status?: Status): string => {
   const { $i18n } = useNuxtApp()
@@ -57,7 +64,13 @@ export const useCollectionForMint = () => {
       data: { collectionEntities },
     } = data
 
-    collections.value = collectionEntities
+    // collections.value = collectionEntities
+
+    collections.value = collectionEntities.map((collection) => ({
+      ...collection,
+      lastIndexUsed: Number(collection.nfts?.at(0)?.index || 0),
+      alreadyMinted: collection.nfts?.length,
+    }))
   }
 
   const doFetchWithErrorHandling = () =>
@@ -81,5 +94,62 @@ export const useCollectionForMint = () => {
 
   return {
     collectionsEntites,
+  }
+}
+
+export const useMassMint = (
+  nfts: NFTToMint[],
+  collection: MintedCollection
+) => {
+  const { blockNumber, transaction, isLoading, status, isError } =
+    useTransaction()
+  const collectionUpdated = ref(false)
+  const { urlPrefix } = usePrefix()
+
+  const tokens = createTokensToMint(nfts, collection)
+
+  const simpleMint = () => {
+    transaction({
+      interaction: Interaction.MINTNFT,
+      urlPrefix: urlPrefix.value,
+      token: tokens,
+    })
+
+    watch(subscribeToCollectionLengthUpdates(collection.id), (isDone) => {
+      collectionUpdated.value = isDone
+    })
+  }
+
+  const willItList = tokens.some(
+    (token) => token.price && Number(token.price) > 0
+  )
+  const isBsx = computed(
+    () => urlPrefix.value === 'bsx' || urlPrefix.value === 'snek'
+  )
+
+  if (willItList) {
+    if (isBsx.value) {
+      simpleMint()
+    } else {
+      // kusama
+      const mintAndListResults = kusamaMintAndList(tokens)
+      watchEffect(() => {
+        collectionUpdated.value = mintAndListResults.collectionUpdated.value
+        isLoading.value = mintAndListResults.isLoading.value
+        status.value = mintAndListResults.status.value
+        blockNumber.value = mintAndListResults.blockNumber.value
+        isError.value = mintAndListResults.isError.value
+      })
+    }
+  } else {
+    //nothing to list, just mint
+    simpleMint()
+  }
+  return {
+    blockNumber,
+    isLoading,
+    status,
+    collectionUpdated,
+    isError,
   }
 }

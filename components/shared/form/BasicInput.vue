@@ -41,7 +41,7 @@ withDefaults(
     placeholder: string
     expanded?: boolean
     message?: string
-    maxlength?: string
+    maxlength?: string | number
     type?: string
     required?: boolean
     disabled?: boolean

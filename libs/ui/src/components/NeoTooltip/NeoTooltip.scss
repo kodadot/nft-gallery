@@ -27,6 +27,12 @@ $tooltip-arrow-margin: 1rem;
       }
     }
   }
+
+  .o-tip__trigger > * {
+    font-size: inherit !important;
+    font-family: inherit !important;
+    height: 100%;
+  }
 }
 
 .wrapper {

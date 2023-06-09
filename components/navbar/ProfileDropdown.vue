@@ -38,12 +38,13 @@
               {{ $t('credit') }}
             </a>
           </b-dropdown-item>
-          <b-dropdown-item has-link aria-role="menuitem">
-            <nuxt-link :to="{ name: 'identity' }">
-              {{ $t('identity.page') }}
-            </nuxt-link>
-          </b-dropdown-item>
         </template>
+        <b-dropdown-item v-if="!isMoonriver" has-link aria-role="menuitem">
+          <nuxt-link :to="{ name: 'identity' }">
+            {{ $t('identity.page') }}
+          </nuxt-link>
+        </b-dropdown-item>
+
         <b-dropdown-item v-if="isSnekOrBsx" has-link aria-role="menuitem">
           <nuxt-link :to="`/${urlPrefix}/incomingoffers`"
             >{{ $t('incomingOffers') }}
