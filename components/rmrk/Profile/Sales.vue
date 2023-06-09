@@ -6,65 +6,63 @@
       :class="hideCollapse ? 'collapseHidden' : 'bordered'"
       animation="slide"
       aria-id="contentIdForHistory">
-      <div class="box">
-        <div>
-          <Pagination
-            v-model="currentPage"
-            :total="total"
-            :per-page="itemsPerPage"
-            replace
-            enable-listen-keyboard-event
-            preserve-scroll />
-        </div>
-        <NeoTable :data="showList" class="mb-4" hoverable custom-row-key="ID">
-          <NeoTableColumn
-            v-slot="props"
-            field="Collection"
-            label="Collection"
-            class="type-table">
-            <nuxt-link
-              :to="`/${urlPrefix}/collection/${props.row.Collection.id}`">
-              {{ props.row.Collection.name }}
-            </nuxt-link>
-          </NeoTableColumn>
-          <NeoTableColumn
-            v-slot="props"
-            field="Nft"
-            label="Nft"
-            class="type-table">
-            <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.Nft.id}`">
-              {{ props.row.Nft.name }}
-            </nuxt-link>
-          </NeoTableColumn>
-          <NeoTableColumn
-            v-slot="props"
-            class="short-identity__table"
-            field="Buyer"
-            label="Buyer">
-            <nuxt-link :to="`/${urlPrefix}/u/${props.row.Buyer}`">
-              <Identity :address="props.row.Buyer" />
-            </nuxt-link>
-          </NeoTableColumn>
-          <NeoTableColumn
-            v-slot="props"
-            class="short-identity__table"
-            field="Amount"
-            label="Amount">
-            {{ props.row.Amount }}
-          </NeoTableColumn>
-          <NeoTableColumn
-            v-slot="props"
-            class="short-identity__table"
-            field="Date"
-            label="Date">
-            <NeoTooltip :label="props.row.Date" position="left">
-              <BlockExplorerLink
-                :text="props.row.Time"
-                :block-id="props.row.Block" />
-            </NeoTooltip>
-          </NeoTableColumn>
-        </NeoTable>
+      <div>
+        <Pagination
+          v-model="currentPage"
+          :total="total"
+          :per-page="itemsPerPage"
+          replace
+          enable-listen-keyboard-event
+          preserve-scroll />
       </div>
+      <NeoTable :data="showList" class="mb-4" hoverable custom-row-key="ID">
+        <NeoTableColumn
+          v-slot="props"
+          field="Collection"
+          label="Collection"
+          class="type-table">
+          <nuxt-link
+            :to="`/${urlPrefix}/collection/${props.row.Collection.id}`">
+            {{ props.row.Collection.name }}
+          </nuxt-link>
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          field="Nft"
+          label="Nft"
+          class="type-table">
+          <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.Nft.id}`">
+            {{ props.row.Nft.name }}
+          </nuxt-link>
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          class="short-identity__table"
+          field="Buyer"
+          label="Buyer">
+          <nuxt-link :to="`/${urlPrefix}/u/${props.row.Buyer}`">
+            <Identity :address="props.row.Buyer" />
+          </nuxt-link>
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          class="short-identity__table"
+          field="Amount"
+          label="Amount">
+          {{ props.row.Amount }}
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          class="short-identity__table"
+          field="Date"
+          label="Date">
+          <NeoTooltip :label="props.row.Date" position="left">
+            <BlockExplorerLink
+              :text="props.row.Time"
+              :block-id="props.row.Block" />
+          </NeoTooltip>
+        </NeoTableColumn>
+      </NeoTable>
     </b-collapse>
   </div>
 </template>
