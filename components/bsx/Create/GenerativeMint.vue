@@ -58,7 +58,6 @@ import {
   Options,
   buildMetadata,
 } from '@/components/generative/promptBuilder'
-import { COLLECTION_ID } from '@/components/generative/promptBuilder'
 
 const GenerativeMint = defineAsyncComponent(
   () => import('@/components/generative/GenerativeMintForm.vue')
