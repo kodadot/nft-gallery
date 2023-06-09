@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import HeroButtons from '@/components/collection/unlockable/HeroButtons.vue'
+import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import unloackableBanner from '@/assets/unlockable-banner.svg'
 </script>
 

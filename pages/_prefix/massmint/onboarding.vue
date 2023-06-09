@@ -17,7 +17,7 @@ const components = { OnBoarding }
     return 'full-width-layout'
   },
   head() {
-    const title = 'Low minting fees and carbonless NFTs'
+    const title = 'Kodadot | Massmint'
     const metaData = {
       title,
       type: 'profile',

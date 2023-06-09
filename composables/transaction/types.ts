@@ -1,8 +1,26 @@
 import { Attribute } from '@kodadot1/minimark/common'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { ShoppingActions } from '@/utils/shoppingActions'
-import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
+import { BaseTokenType } from '@/components/base/types'
 import { Royalty } from '@/utils/royalty'
+import { Extrinsic } from '@/utils/transactionExecutor'
+import type { ApiPromise } from '@polkadot/api'
+import { Ref } from 'vue'
+
+export type ExecuteTransactionParams = {
+  cb: (...params: any[]) => Extrinsic
+  arg: any[]
+  successMessage?: string | ((blockNumber: string) => string)
+  errorMessage?: string
+}
+
+export interface MintTokenParams {
+  item: ActionMintToken
+  api: ApiPromise
+  executeTransaction: (p: ExecuteTransactionParams) => void
+  isLoading: Ref<boolean>
+  status: Ref<string>
+}
 
 export type BaseCollectionType = {
   name: string
@@ -10,19 +28,23 @@ export type BaseCollectionType = {
   description: string
 }
 
-export type MintedCollectionKusama = BaseMintedCollection & {
+export type MintedCollection = {
+  id: string
+  alreadyMinted: number
+  metadata: string
+  name?: string
+  lastIndexUsed: number
+}
+
+export type MintedCollectionKusama = MintedCollection & {
   max: number
   symbol: string
 }
-export type MintedCollectionBasilisk = BaseMintedCollection & {
-  lastIndexUsed: number
-}
-export interface TokenToMint
-  extends BaseTokenType<MintedCollectionBasilisk | MintedCollectionKusama> {
+export interface TokenToMint extends BaseTokenType<MintedCollection> {
   tags: Attribute[]
   nsfw: boolean
   postfix: boolean
-  price?: string
+  price?: string | number
   royalty?: Royalty
   hasRoyalty?: boolean
 }
@@ -56,11 +78,15 @@ export type ActionBuy = {
   recipient?: string
 }
 
+export type TokenToList = {
+  price: string
+  nftId: string
+}
+
 export type ActionList = {
   interaction: Interaction.LIST
   urlPrefix: string
-  price: string
-  nftId: string
+  token: TokenToList | TokenToList[]
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }
@@ -105,7 +131,7 @@ export type ActionAcceptOffer = {
 export interface ActionMintToken {
   interaction: Interaction.MINTNFT
   urlPrefix: string
-  token: TokenToMint
+  token: TokenToMint | TokenToMint[]
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }

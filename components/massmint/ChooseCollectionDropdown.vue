@@ -41,11 +41,13 @@
       <NeoDropdownItem disabled class="dropdown-width">
         {{ $t('massmint.noCollection') }}
       </NeoDropdownItem>
-      <NeoDropdownItem class="dropdown-width">
-        <div class="w-full">
-          <NeoIcon icon="plus" size="small" class="mr-1" />
-          {{ $t('massmint.createNewCollection') }}
-        </div>
+      <NeoDropdownItem class="dropdown-width" has-link>
+        <nuxt-link :to="`/${urlPrefix}/create`" class="w-full">
+          <div class="w-full">
+            <NeoIcon icon="plus" size="small" class="mr-1" />
+            {{ $t('massmint.createNewCollection') }}
+          </div>
+        </nuxt-link>
       </NeoDropdownItem>
     </template>
   </NeoDropdown>
@@ -58,8 +60,8 @@ import {
   NeoDropdownItem,
   NeoIcon,
 } from '@kodadot1/brick'
-import { MintedCollection } from './types'
-import { useCollectionForMint } from './useMassMint'
+import { MintedCollection } from '@/composables/transaction/types'
+import { useCollectionForMint } from '@/composables/massmint/useMassMint'
 
 const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
