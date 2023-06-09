@@ -35,7 +35,7 @@
             </div>
           </NeoField>
         </div>
-        <b-table
+        <NeoTable
           :data="showList"
           class="mb-4"
           hoverable
@@ -52,7 +52,7 @@
           aria-current-label="Current page"
           :current-page.sync="currentPage"
           :default-sort="[defaultSortOption, 'desc']">
-          <b-table-column
+          <NeoTableColumn
             v-slot="props"
             :visible="columnsVisible['Name'].display"
             :field="groupKey"
@@ -72,8 +72,8 @@
                 :address="props.row.Item.collection.issuer"
                 :custom-name-option="props.row.Item.collection.name" />
             </nuxt-link>
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
             :visible="columnsVisible['Amount'].display"
             numeric
@@ -81,24 +81,24 @@
             label="Amount"
             sortable>
             {{ props.row.Amount }}
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
             :visible="columnsVisible['Bought'].display"
             field="Bought"
             label="Bought"
             sortable>
             {{ props.row.BoughtFormatted }}
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
             :visible="columnsVisible['Sale'].display"
             field="Sale"
             :label="saleHeaderLabel"
             sortable>
             {{ props.row.SaleFormatted }}
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-if="displayPercentage"
             v-slot="props"
             :visible="columnsVisible['Percentage'].display"
@@ -108,19 +108,19 @@
             <span :class="percentageTextClassName(props.row.Percentage)">
               {{ props.row.Percentage | toPercent('-') }}
             </span>
-          </b-table-column>
-          <b-table-column
+          </NeoTableColumn>
+          <NeoTableColumn
             v-slot="props"
             :visible="columnsVisible['Date'].display"
             field="Timestamp"
             :label="dateHeaderLabel"
             sortable>
-            <NeoTooltip :label="props.row.Date" position="right">
+            <NeoTooltip :label="props.row.Date" position="left">
               <BlockExplorerLink
                 :text="props.row.Time"
                 :block-id="props.row.Block" />
             </NeoTooltip>
-          </b-table-column>
+          </NeoTableColumn>
           <template slot="detail" slot-scope="props">
             <tr v-for="item in props.row.Items" :key="item.Item.id">
               <td v-if="showDetailIcon"></td>
@@ -149,13 +149,13 @@
                 {{ item.Percentage | toPercent('-') }}
               </td>
               <td v-show="columnsVisible['Date'].display">
-                <NeoTooltip :label="item.Date" position="right">
+                <NeoTooltip :label="item.Date" position="left">
                   <BlockExplorerLink :text="item.Time" :block-id="item.Block" />
                 </NeoTooltip>
               </td>
             </tr>
           </template>
-        </b-table>
+        </NeoTable>
       </div>
     </b-collapse>
   </div>
@@ -174,7 +174,14 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { parseDate, parsePriceForItem } from './helper'
 import { Interaction as EventInteraction } from '../../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoCheckbox, NeoField, NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import {
+  NeoCheckbox,
+  NeoField,
+  NeoIcon,
+  NeoTable,
+  NeoTableColumn,
+  NeoTooltip,
+} from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
@@ -183,6 +190,8 @@ const components = {
   NeoIcon,
   NeoTooltip,
   NeoCheckbox,
+  NeoTable,
+  NeoTableColumn,
 }
 
 export type NftHolderEvent = {

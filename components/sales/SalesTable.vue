@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader :value="$fetchState.pending" />
-    <NeoTable :data="data" hoverable class="series-sticky-header">
+    <NeoTable :data="data" hoverable>
       <NeoTableColumn v-slot="props" position="centered" field="idx" label="N°">
         {{ props.row.idx }}
       </NeoTableColumn>
@@ -65,7 +65,7 @@
         field="timestamp"
         :label="$t('sales.tableDate')">
         <div>
-          <NeoTooltip :label="props.row.date">
+          <NeoTooltip :label="props.row.date" position="left">
             <BlockExplorerLink
               :text="props.row.relDate"
               :block-id="props.row.blockNumber" />
@@ -123,7 +123,7 @@ const components = {
 
 @Component({ components })
 export default class SalesTable extends mixins(PrefixMixin) {
-  protected data: RowSales[] = []
+  public data: RowSales[] = []
 
   async fetch() {
     await this.fetchSalesFeed()
@@ -164,13 +164,6 @@ export default class SalesTable extends mixins(PrefixMixin) {
 .history {
   width: 200px;
   height: 100px;
-}
-
-.series-sticky-header th {
-  top: 120px;
-  position: sticky;
-  background: $frosted-glass-background;
-  backdrop-filter: $frosted-glass-backdrop-filter;
 }
 
 .front-stack-layer {

@@ -344,7 +344,7 @@ export default class History extends mixins(
 
       event['Block'] = String(newEvent['blockNumber'])
 
-      // ID for b-table: Use a unique key of your data Object for each row.
+      // ID for table: Use a unique key of your data Object for each row.
       event['ID'] = newEvent['timestamp'] + newEvent['id']
 
       // Push to chart data

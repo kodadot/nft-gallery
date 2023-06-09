@@ -57,7 +57,7 @@
             class="short-identity__table"
             field="Date"
             label="Date">
-            <NeoTooltip :label="props.row.Date" position="right" multiline>
+            <NeoTooltip :label="props.row.Date" position="left">
               <BlockExplorerLink
                 :text="props.row.Time"
                 :block-id="props.row.Block" />
@@ -262,7 +262,7 @@ export default class Sales extends mixins(
 
       event['Block'] = String(newEvent['blockNumber'])
 
-      // ID for b-table: Use a unique key of your data Object for each row.
+      // ID for table: Use a unique key of your data Object for each row.
       event['ID'] = newEvent['timestamp'] + newEvent['id']
       // Push to chart data
       chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])
