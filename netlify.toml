@@ -1,10 +1,9 @@
 [build.environment]
   NODE_VERSION = "18"
-  NPM_FLAGS = "--version" # prevent Netlify npm install
 
 [build]
   # This will be your default build command.
-  command = "pnpm run generate:pnpm"
+  command = "pnpm run generate"
   # This is the directory that you are publishing from.
   publish = "dist"
   # This is where Netlify will look for your lambda functions.
@@ -19,10 +18,10 @@
    targetPort = 9090
 
 [context.deploy-preview]
-command = 'export BASE_URL=$DEPLOY_PRIME_URL && env && npm run generate:pnpm'
+command = 'export BASE_URL=$DEPLOY_PRIME_URL && env && pnpm run generate'
 
 [context.production]
-command = 'export BASE_URL=$URL && env && npm run generate:pnpm'
+command = 'export BASE_URL=$URL && env && pnpm run generate'
 
 [[redirects]]
   from = "/*"
