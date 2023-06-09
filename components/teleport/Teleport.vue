@@ -153,10 +153,12 @@ const toTabs = [
   {
     label: Chain.BASILISK,
     value: Chain.BASILISK,
+    disabled: computed(() => fromChain.value === Chain.STATEMINE),
   },
   {
     label: Chain.STATEMINE,
     value: Chain.STATEMINE,
+    disabled: computed(() => fromChain.value === Chain.BASILISK),
   },
 ]
 

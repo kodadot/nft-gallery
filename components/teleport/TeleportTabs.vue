@@ -6,6 +6,8 @@
         :key="tab.value"
         class="teleport-tabs-button"
         tag="nuxt-link"
+        :disabled="tab.disabled?.value"
+        :variant="tab.disabled?.value && 'disabled-secondary'"
         :active="value === tab.value"
         to=""
         @click.native="emit('select', tab.value)">
@@ -18,10 +20,12 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import { ComputedRef } from '@nuxt/bridge/dist/runtime/composables'
 
 type Tab = {
   label: string
   value: string
+  disabled?: ComputedRef<boolean>
 }
 defineProps<{
   tabs: Tab[]

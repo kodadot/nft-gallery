@@ -71,6 +71,16 @@
     }
   }
 
+  &--disabled-secondary {
+    &.o-btn--disabled {
+      opacity: unset;
+      @include ktheme() {
+        color: theme('k-grey');
+        border-color: theme('k-grey');
+      }
+    }
+  }
+
   &--icon {
     @include ktheme() {
       border: none;
@@ -104,13 +114,12 @@
     }
   }
 
-  &--unlockable{
+  &--unlockable {
     height: 40px;
     width: min-content !important;
     border-radius: 4rem;
     box-shadow: none !important;
     @include ktheme() {
-
       background: theme('background-color');
       &:hover {
         background-color: theme('k-accentHover');
