@@ -65,7 +65,7 @@
         <div class="is-flex is-justify-content-right">
           <ShowQRModal
             :address="realworldFullPath"
-            :title="'sharing.profile'" />
+            :title="$t('sharing.profile')" />
           <DonationButton :address="id" />
         </div>
       </div>

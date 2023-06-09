@@ -4,7 +4,8 @@
     no-shadow
     icon-left="gift"
     icon-pack="fas"
-    @click.native="goToTransfer">
+    tag="nuxt-link"
+    :to="`/${urlPrefix}/transfer?target=${props.address}&usdamount=10&donation=true`">
   </NeoButton>
 </template>
 
@@ -15,12 +16,5 @@ const props = defineProps<{
   address: string
 }>()
 
-const { $router } = useNuxtApp()
-
-function goToTransfer() {
-  $router.push({
-    name: 'transfer',
-    query: { target: props.address, usdamount: '10', donation: 'true' },
-  })
-}
+const { urlPrefix } = usePrefix()
 </script>
