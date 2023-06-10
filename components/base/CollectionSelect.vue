@@ -16,23 +16,34 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, defineProps, ref } from 'vue'
+import { defineEmits, defineProps } from 'vue'
 import { BaseMintedCollection as MintedCollection } from './types'
-import { NeoField, NeoSelect } from '@kodadot1/brick'
+import { NeoSelect } from '@kodadot1/brick'
 import { useIdentityStore } from '~~/stores/identity'
+import { useModelWrapper } from '~~/composables/useModelWrapper'
+
+const props = defineProps({
+  collections: {
+    type: Array as () => MintedCollection[],
+    default: () => [],
+  },
+  showExplainerText: {
+    type: Boolean,
+    default: true,
+  },
+  modelValue: {
+    type: Object as () => MintedCollection | null,
+    default: null,
+  },
+})
+
+const emit = defineEmits(['update:modelValue', 'update:super'])
+
+const selectedCollection = useModelWrapper(props, emit)
 
 const identityStore = useIdentityStore()
 
 const isLogIn = computed(() => Boolean(identityStore.getAuthAddress))
-
-const props = defineProps<{
-  collections: MintedCollection[]
-  showExplainerText?: boolean
-}>()
-
-defineEmits<{
-  'update:selectedCollection': (value: MintedCollection) => void
-}>()
 
 const selectOptions = computed(() => [
   { text: '--', value: '' },
@@ -41,25 +52,4 @@ const selectOptions = computed(() => [
     text: collection.name || collection.id,
   })),
 ])
-
-const selectedCollection = ref<MintedCollection | null>(null)
 </script>
-
-<!-- <script lang="ts">
-import { Component, Prop, VModel, mixins } from 'nuxt-property-decorator'
-import AuthMixin from '~/utils/mixins/authMixin'
-import { BaseMintedCollection as MintedCollection } from './types'
-import { NeoField, NeoSelect } from '@kodadot1/brick'
-
-
-
-@Component({
-  components: {
-    NeoField,
-  },
-})
-export default class CollectionSelect extends mixins(AuthMixin) {
-  @VModel({ default: null }) selectedCollection!: MintedCollection
-  @Prop({ type: Array, default: () => [] }) collections!: MintedCollection[]
-  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
-} -->
