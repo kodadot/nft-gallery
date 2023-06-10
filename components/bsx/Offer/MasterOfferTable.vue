@@ -20,17 +20,11 @@
     </div>
     <Loader v-model="isLoading" :status="status" />
     <section>
-      <b-select
+      <NeoSelect
         v-model="selectedOfferType"
         class="mb-2"
-        :disabled="isOfferDropdownDisabled">
-        <option
-          v-for="option in getOfferTypeOptions()"
-          :key="option.type"
-          :value="option.type">
-          {{ option.label }}
-        </option>
-      </b-select>
+        :disabled="isOfferDropdownDisabled"
+        :options="getOfferTypeOptions()" />
       <template v-if="selectedOfferType === SelectedOfferType.CREATED">
         <OffersUserTable :offers="createdOffers" :owner-id="''" hide-toggle />
       </template>
@@ -129,16 +123,16 @@ export default class MasterOfferTable extends mixins(
   public getOfferTypeOptions() {
     return [
       {
-        type: SelectedOfferType.ALL,
-        label: 'All Offers',
+        value: SelectedOfferType.ALL,
+        text: 'All Offers',
       },
       {
-        type: SelectedOfferType.CREATED,
-        label: 'Offers Created',
+        value: SelectedOfferType.CREATED,
+        text: 'Offers Created',
       },
       {
-        type: SelectedOfferType.INCOMING,
-        label: 'Offers Incoming',
+        value: SelectedOfferType.INCOMING,
+        text: 'Offers Incoming',
       },
     ]
   }
