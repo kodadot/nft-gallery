@@ -1,13 +1,9 @@
 <template>
   <div>
-    <b-select v-if="!offersListed" v-model="selectedStatus">
-      <option
-        v-for="option in getUniqType(offers)"
-        :key="option.type"
-        :value="option.type">
-        {{ option.value }}
-      </option>
-    </b-select>
+    <NeoSelect
+      v-if="!offersListed"
+      v-model="selectedStatus"
+      :options="statusOptions" />
     <BasicSwitch
       v-if="!hideToggle"
       v-model="offersListed"
@@ -106,6 +102,7 @@ const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+  NeoSelect: () => import('@kodadot1/brick'),
 }
 
 @Component({ components, filters: { formatDistanceToNow } })
@@ -122,6 +119,13 @@ export default class OffersUserTable extends mixins(
 
   @Prop({ type: String, default: '' }) public ownerId!: string
   @Prop({ type: Boolean, default: false }) public hideToggle!: boolean
+
+  get statusOptions() {
+    return this.getUniqType(this.offers).map((item) => ({
+      value: item.type,
+      text: item.value,
+    }))
+  }
 
   @Emit('offersListUpdate')
   public updateList(data) {
