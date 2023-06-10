@@ -152,13 +152,13 @@ import { Offer } from './types'
 import OfferMixin from '@/utils/mixins/offerMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { NeoTooltip } from '@kodadot1/brick'
+import { NeoSelect, NeoTooltip } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/bsx/format/TokenMoney.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  NeoSelect: () => import('@kodadot1/brick'),
+  NeoSelect,
   NeoTooltip,
 }
 

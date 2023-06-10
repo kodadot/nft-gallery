@@ -95,14 +95,14 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
-
+import { NeoSelect } from '@kodadot1/brick'
 import { Offer } from './types'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  NeoSelect: () => import('@kodadot1/brick'),
+  NeoSelect,
 }
 
 @Component({ components, filters: { formatDistanceToNow } })

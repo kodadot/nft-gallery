@@ -21,17 +21,11 @@
       </template>
       <div class="box">
         <div class="is-flex is-justify-content-space-between box-container">
-          <b-select
+          <NeoSelect
             v-model="selectedEvent"
             placeholder="Select an event"
-            data-cy="select-event">
-            <option
-              v-for="option in uniqType"
-              :key="option.type"
-              :value="option.type">
-              {{ option.value }}
-            </option>
-          </b-select>
+            data-cy="select-event"
+            :options="eventOptions" />
           <Pagination
             v-model="currentPage"
             :total="total"
@@ -137,7 +131,7 @@ import {
 import shortAddress from '@/utils/shortAddress'
 
 import { Interaction as EventInteraction } from '../service/scheme'
-import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoIcon, NeoSelect, NeoTooltip } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
@@ -146,6 +140,7 @@ const components = {
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   NeoIcon,
   NeoTooltip,
+  NeoSelect,
 }
 
 type TableRowItem = {
@@ -219,6 +214,13 @@ export default class History extends mixins(
   get showList(): TableRow[] {
     const endIndex = this.currentPage * this.itemsPerPage
     return this.data.slice(endIndex - this.itemsPerPage, endIndex)
+  }
+
+  get eventOptions() {
+    return this.uniqType.map((item) => ({
+      value: item.type,
+      text: item.value,
+    }))
   }
 
   getEventDisplayName(type: Interaction) {
