@@ -61,45 +61,29 @@
         </div>
         <Layout :disabled="!enabledAdvancedUI" position="is-left" />
       </div>
-      <NeoField :label="$t('Gallery Items Per Page')" class="field-width">
-        <b-select
-          v-model="galleryItemsPerPage"
-          expanded
-          :disabled="!enabledAdvancedUI">
-          <option
-            v-for="option in paginationOptions"
-            :key="option"
-            :value="option">
-            {{ option }}
-          </option>
-        </b-select>
-      </NeoField>
-      <NeoField :label="$t('Collections Per Page')" class="field-width">
-        <b-select
-          v-model="collectionsPerPage"
-          expanded
-          :disabled="!enabledAdvancedUI">
-          <option
-            v-for="option in paginationOptions"
-            :key="option"
-            :value="option">
-            {{ option }}
-          </option>
-        </b-select>
-      </NeoField>
-      <NeoField :label="$t('preferences.exploreTabOrder')" class="field-width">
-        <b-select
-          v-model="exploreTabOrder"
-          expanded
-          :disabled="!enabledAdvancedUI">
-          <option
-            v-for="option in exploreTabOptions"
-            :key="option"
-            :value="option">
-            {{ option }}
-          </option>
-        </b-select>
-      </NeoField>
+      <NeoSelect
+        v-model="galleryItemsPerPage"
+        expanded
+        :disabled="!enabledAdvancedUI"
+        :label="$t('Gallery Items Per Page')"
+        :options="paginationOptions"
+        class="field-width" />
+
+      <NeoSelect
+        v-model="collectionsPerPage"
+        expanded
+        :disabled="!enabledAdvancedUI"
+        :label="$t('Collections Per Page')"
+        :options="paginationOptions"
+        class="field-width" />
+
+      <NeoSelect
+        v-model="exploreTabOrder"
+        expanded
+        :disabled="!enabledAdvancedUI"
+        :label="$t('preferences.exploreTabOrder')"
+        :options="exploreTabOptions"
+        class="field-width" />
     </div>
   </div>
 </template>
@@ -107,7 +91,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoCheckbox, NeoField, NeoSwitch } from '@kodadot1/brick'
+import { NeoCheckbox, NeoField, NeoSelect, NeoSwitch } from '@kodadot1/brick'
 
 @Component({
   components: {
@@ -115,11 +99,18 @@ import { NeoCheckbox, NeoField, NeoSwitch } from '@kodadot1/brick'
     NeoField,
     NeoSwitch,
     NeoCheckbox,
+    NeoSelect,
   },
 })
 export default class Interface extends Vue {
-  public paginationOptions = [9, 12, 24, 36]
-  public exploreTabOptions = ['GALLERY', 'COLLECTION']
+  public paginationOptions = [9, 12, 24, 36].map((i) => ({
+    value: i,
+    text: i,
+  }))
+  public exploreTabOptions = ['GALLERY', 'COLLECTION'].map((i) => ({
+    value: i,
+    text: i,
+  }))
   private preferencesStore = usePreferencesStore()
 
   get enabledAdvancedUI(): boolean {
