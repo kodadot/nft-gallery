@@ -1,27 +1,35 @@
 <template>
-  <NeoField :label="$t('offer.daySelectLabel')">
-    <b-select
-      v-model="selectedDays"
-      placeholder="$t('offer.daySelectPlaceholder')"
-      expanded>
-      <option v-for="option in days" :key="option" :value="option">
-        {{ option }} {{ $t('offer.days') }}
-      </option>
-    </b-select>
-  </NeoField>
+  <NeoSelect
+    v-model="selectedDays"
+    :label="$t('offer.daySelectLabel')"
+    :placeholder="$t('offer.daySelectPlaceholder')"
+    :options="selectOptions"
+    expanded />
 </template>
 
-<script lang="ts">
-import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
-import { NeoField } from '@kodadot1/brick'
+<script lang="ts" setup>
+import { NeoSelect } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    NeoField,
+const props = defineProps({
+  days: {
+    type: Array as () => number[],
+    default: () => [],
+  },
+  modelValue: {
+    type: Number,
+    default: 14,
   },
 })
-export default class DaySelect extends Vue {
-  @VModel({ default: 14 }) selectedDays!: number
-  @Prop({ type: Array, default: () => [] }) days!: number[]
-}
+
+const emit = defineEmits(['update:modelValue'])
+
+const selectedDays = useVModel(props, 'modelValue', emit)
+
+const selectOptions = computed(() => [
+  { text: '--', value: '' },
+  ...props.days.map((day) => ({
+    value: day,
+    text: day,
+  })),
+])
 </script>

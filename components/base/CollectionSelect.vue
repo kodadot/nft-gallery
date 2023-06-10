@@ -20,7 +20,6 @@ import { defineEmits, defineProps } from 'vue'
 import { BaseMintedCollection as MintedCollection } from './types'
 import { NeoSelect } from '@kodadot1/brick'
 import { useIdentityStore } from '~~/stores/identity'
-import { useModelWrapper } from '~~/composables/useModelWrapper'
 
 const props = defineProps({
   collections: {
@@ -39,7 +38,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'update:super'])
 
-const selectedCollection = useModelWrapper(props, emit)
+const selectedCollection = useVModel(props, 'modelValue', emit)
 
 const identityStore = useIdentityStore()
 
