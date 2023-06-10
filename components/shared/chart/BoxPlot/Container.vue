@@ -4,11 +4,12 @@
       <div
         class="is-flex is-align-items-center is-justify-content-space-between">
         <p class="label mb-0">Box Plot Chart</p>
-        <b-select :value="selectedRange" @input="selectRange($event)">
-          <option v-for="option in range" :key="option" :value="option">
-            {{ option.charAt(0).toUpperCase() + option.slice(1) }}
-          </option>
-        </b-select>
+        <NeoSelect
+          data-testid="box-plot-select"
+          :model-value="selectedRange"
+          :options="rangeOptions"
+          @update:modelValue="selectRange" />
+        />
       </div>
       <Canvas
         type="boxplot"
@@ -25,6 +26,7 @@ import format from 'date-fns/format'
 import { filterOutliers } from '@/utils/chart'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import containerOptions from './containerOptions'
+import { NeoSelect } from '@kodadot1/brick'
 
 // types
 import { CollectionChartData as ChartData } from '@/utils/chart'
@@ -33,6 +35,7 @@ import type { ChartDataset } from 'chart.js'
 @Component({
   components: {
     Canvas: () => import('~/components/shared/chart/BoxPlot/Canvas.vue'),
+    NeoSelect,
   },
 })
 export default class BoxPlotContainer extends mixins(ChainMixin) {
@@ -71,6 +74,13 @@ export default class BoxPlotContainer extends mixins(ChainMixin) {
     }
 
     return 'yearly'
+  }
+
+  get rangeOptions() {
+    return this.range.map((item) => ({
+      label: item.charAt(0).toUpperCase() + item.slice(1),
+      value: item,
+    }))
   }
 
   get chartOptions() {
