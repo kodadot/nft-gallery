@@ -1,7 +1,10 @@
 <template>
   <NeoField :message="description" class="neo-select">
     <o-field :label="label">
-      <o-select :placeholder="placeholder" icon-right="chevron-down">
+      <o-select
+        :placeholder="placeholder"
+        :class="{ 'with-label': !!label }"
+        icon-right="chevron-down">
         <option
           v-for="(option, index) in options"
           :key="index"

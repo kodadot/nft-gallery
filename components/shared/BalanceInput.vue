@@ -18,15 +18,12 @@
             data-testid="balance-input"
             @input="handleInput" />
           <p class="control balance">
-            <b-select
-              :value="selectedUnit"
-              :disabled="!calculate"
+            <NeoSelect
               data-testid="balance-input-select"
-              @input="handleUnitChange">
-              <option v-for="u in units" :key="u.value" :value="u.value">
-                {{ u.name }}
-              </option>
-            </b-select>
+              :model-value="selectedUnit"
+              :disabled="!calculate"
+              :options="unitOptions"
+              @update:modelValue="handleUnitChange" />
           </p>
         </div>
       </div>
@@ -50,12 +47,13 @@ import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
 import ChainMixin from '@/utils/mixins/chainMixin'
-import { NeoField, NeoInput } from '@kodadot1/brick'
+import { NeoField, NeoInput, NeoSelect } from '@kodadot1/brick'
 
 @Component({
   components: {
     NeoField,
     NeoInput,
+    NeoSelect,
   },
 })
 export default class BalanceInput extends mixins(ChainMixin) {
@@ -72,6 +70,13 @@ export default class BalanceInput extends mixins(ChainMixin) {
   protected units: Unit[] = defaultUnits
   private selectedUnit = 1
   private internalValue = this.value || 0
+
+  get unitOptions() {
+    return this.units.map((unit) => ({
+      value: unit.value,
+      text: unit.name,
+    }))
+  }
 
   get minWithUnit(): number {
     return this.min / this.selectedUnit
