@@ -89,7 +89,7 @@
                   d="M10 2.73016C14.4062 2.73016 18 6.32391 18 10.7302C18 15.1677 14.4062 18.7302 10 18.7302C5.5625 18.7302 2 15.1677 2 10.7302C2 9.07391 2.5 7.54266 3.375 6.26141L3.78125 5.63641L5.03125 6.48016L4.59375 7.10516C3.90625 8.13641 3.5 9.38641 3.5 10.7302C3.5 14.3239 6.40625 17.2302 10 17.2302C13.5625 17.2302 16.5 14.3239 16.5 10.7302C16.5 7.41766 13.9688 4.66766 10.75 4.29266V5.98016V6.73016H9.25V5.98016V3.48016V2.73016H10ZM8.03125 7.69891H8L10.5 10.1989L11.0312 10.7302L10 11.7927L9.46875 11.2614L6.96875 8.76141L6.4375 8.23016L7.5 7.16766L8.03125 7.69891Z"
                   fill="currentColor" />
               </svg>
-              {{ timeFromNow }}
+              {{ leftTime }}
             </div>
           </div>
 
@@ -140,13 +140,14 @@
             "Unlockable Content" to reveal the surprise. Follow the schedule so
             you don't miss this!
           </div>
-          <a
+          <NeoButton
+            tag="a"
             href="https://hello.kodadot.xyz/fandom-toolbox/audience-growth/unlockables"
-            target="_blank">
-            <NeoButton variant="unlockable" class="mt-2">
-              Learn More
-            </NeoButton>
-          </a>
+            target="_blank"
+            variant="unlockable"
+            class="mt-2">
+            Learn More
+          </NeoButton>
         </div>
         <div class="column">
           <img :src="unloackableBanner" alt="Unlockable" />
@@ -166,15 +167,19 @@ import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { OSlider } from '@oruga-ui/oruga'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { collectionId, countDownTime } from './const'
 import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
-const { toast } = useToast()
+import type Vue from 'vue'
+import { useCountDown } from './utils/useCountDown'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/shared/Loader.vue')
 )
+
+const { toast } = useToast()
+const { $buefy } = useNuxtApp()
+const root = ref<Vue<Record<string, string>>>()
 
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
@@ -184,11 +189,19 @@ const { urlPrefix } = usePrefix()
 const isLoading = ref(false)
 const status = ref('')
 const { accountId, isLogIn } = useAuth()
+const { hours, minutes, seconds } = useCountDown(countDownTime)
 
 onMounted(async () => {
   const res = await getLatestWaifuImages()
   imageList.value = res.result.map((item) => item.output)
   resultList.value = res.result
+})
+
+const leftTime = computed(() => {
+  const hoursLeft = hours.value ? `${hours.value} Hour ` : ''
+  const minutesLeft = minutes.value ? `${minutes.value} Minute ` : ''
+  const secondsLeft = seconds.value ? `${seconds.value} Sec ` : ''
+  return `${hoursLeft}${minutesLeft}${secondsLeft}Left`
 })
 
 const now = new Date()
@@ -248,7 +261,6 @@ const currentMintedCount = computed(() =>
 const mintButtonDisabled = computed(
   () => currentMintedCount.value >= MAX_PER_WINDOW
 )
-const timeFromNow = computed(() => timeAgo(countDownTime))
 
 const handleSubmitMint = async () => {
   if (isLoading.value) {
