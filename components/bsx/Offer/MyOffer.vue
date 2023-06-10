@@ -5,14 +5,7 @@
         {{ $t('myOffer.bsxTitle') }}
       </h1>
     </div>
-    <b-select v-model="selectedStatus">
-      <option
-        v-for="option in getUniqType(offers)"
-        :key="option.type"
-        :value="option.type">
-        {{ option.value }}
-      </option>
-    </b-select>
+    <NeoSelect v-model="selectedStatus" :options="offerStatusOptions" />
     <Loader v-model="isLoading" :status="status" />
     <b-table :data="displayOffers(offers)">
       <b-table-column
@@ -111,6 +104,7 @@ import { Offer, OfferResponse } from './types'
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
+  NeoSelect: () => import('@kodadot1/brick'),
 }
 
 @Component({
@@ -125,6 +119,13 @@ export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
 
   get targetAddress() {
     return this.destinationAddress || this.accountId
+  }
+
+  get offerStatusOptions() {
+    return this.getUniqType(this.offers).map((option) => ({
+      text: option.value,
+      value: option.type,
+    }))
   }
 
   mounted() {

@@ -71,6 +71,7 @@ const components = {
   OffersUserTable: () => import('@/components/bsx/Offer/OffersUserTable.vue'),
   MyOffer: () => import('@/components/bsx/Offer/MyOffer.vue'),
   OfferTable: () => import('@/components/bsx/Offer/OfferTable.vue'),
+  NeoSelect: () => import('@kodadot1/brick'),
 }
 
 @Component({ components })
