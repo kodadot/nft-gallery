@@ -10,14 +10,7 @@
       <div v-if="headerText" class="has-text-centered offer-title mb-2">
         {{ headerText }}
       </div>
-      <b-select v-model="selectedStatus">
-        <option
-          v-for="option in getUniqType(offers)"
-          :key="option.type"
-          :value="option.type">
-          {{ option.value }}
-        </option>
-      </b-select>
+      <NeoSelect v-model="selectedStatus" :options="statusOptions" />
       <b-table-column
         v-if="displayCollection"
         v-slot="props"
@@ -165,6 +158,7 @@ const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/bsx/format/TokenMoney.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
+  NeoSelect: () => import('@kodadot1/brick'),
   NeoTooltip,
 }
 
@@ -187,6 +181,13 @@ export default class OfferTable extends mixins(OfferMixin, PrefixMixin) {
       caller,
       withdraw,
     }
+  }
+
+  get statusOptions() {
+    return this.getUniqType(this.offers).map((offer) => ({
+      text: offer.value,
+      value: offer.type,
+    }))
   }
 
   get assetId() {
