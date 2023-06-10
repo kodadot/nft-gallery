@@ -2,14 +2,7 @@
   <div>
     <Loader :value="isLoading" />
     <NeoField grouped>
-      <NeoField class="has-text-right" expanded>
-        <b-select v-model="nbRows">
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </b-select>
-      </NeoField>
+      <NeoSelect v-model="nbRows" :options="rowsOptions" expanded />
     </NeoField>
 
     <b-table
@@ -319,13 +312,14 @@ import {
   toSort,
   today,
 } from './utils'
-import { NeoField } from '@kodadot1/brick'
+import { NeoField, NeoSelect } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   NeoField,
+  NeoSelect,
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 
@@ -455,6 +449,15 @@ export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
       this.$consola.error(e)
       return []
     }
+  }
+
+  get rowsOptions() {
+    return [
+      { value: '10', label: '10' },
+      { value: '20', label: '20' },
+      { value: '50', label: '50' },
+      { value: '100', label: '100' },
+    ]
   }
 
   public onSort(field: string, order: string) {
