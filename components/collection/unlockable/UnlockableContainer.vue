@@ -170,7 +170,6 @@ import { OSlider } from '@oruga-ui/oruga'
 import { collectionId, countDownTime } from './const'
 import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
-import type Vue from 'vue'
 import { useCountDown } from './utils/useCountDown'
 
 const Loader = defineAsyncComponent(
@@ -178,8 +177,6 @@ const Loader = defineAsyncComponent(
 )
 
 const { toast } = useToast()
-const { $buefy } = useNuxtApp()
-const root = ref<Vue<Record<string, string>>>()
 
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
