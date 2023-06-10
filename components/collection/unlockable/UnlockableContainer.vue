@@ -97,8 +97,8 @@
             <span class="has-text-weight-bold is-size-5">Schedule</span>
           </div>
           <div>
-            <span
-              >We will have a 10-minute window every hour, each featuring only
+            <span>
+              We will have a 60-minute window every phase, each featuring only
               10 exclusive items.</span
             >
           </div>
@@ -144,7 +144,7 @@
             tag="a"
             href="https://hello.kodadot.xyz/fandom-toolbox/audience-growth/unlockables"
             target="_blank"
-            variant="unlockable"
+            variant="secondary"
             class="mt-2">
             Learn More
           </NeoButton>
@@ -198,10 +198,11 @@ onMounted(async () => {
 })
 
 const leftTime = computed(() => {
-  const hoursLeft = hours.value ? `${hours.value} Hour ` : ''
-  const minutesLeft = minutes.value ? `${minutes.value} Minute ` : ''
-  const secondsLeft = seconds.value ? `${seconds.value} Sec ` : ''
-  return `${hoursLeft}${minutesLeft}${secondsLeft}Left`
+  const hoursLeft = hours.value > 0 ? `${hours.value} Hour ` : ''
+  const minutesLeft = minutes.value > 0 ? `${minutes.value} Minute ` : ''
+  const secondsLeft = seconds.value > 0 ? `${seconds.value} Sec ` : ''
+  const isFinish = !hoursLeft && !minutesLeft && !secondsLeft
+  return isFinish ? 'Finished' : `${hoursLeft}${minutesLeft}${secondsLeft}Left`
 })
 
 const now = new Date()

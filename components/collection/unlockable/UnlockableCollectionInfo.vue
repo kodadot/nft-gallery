@@ -20,12 +20,12 @@
         <div v-else />
 
         <NeoButton
-          variant="unlockable"
+          variant="secondary"
           tag="nuxt-link"
           :to="`/${urlPrefix}/collection/${collectionId}`"
           target="_blank"
-          class="has-text-left">
-          View Collection
+          class="has-text-left is-flex is-align-items-center">
+          <span>View Collection</span>
           <svg
             width="12"
             height="12"
