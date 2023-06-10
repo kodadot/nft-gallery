@@ -1,5 +1,8 @@
-import type { ActionMintCollection, CollectionToMintKusama } from '../types'
-import { ExecuteTransactionParams } from '@/composables/useTransaction'
+import type {
+  ActionMintCollection,
+  CollectionToMintKusama,
+  ExecuteTransactionParams,
+} from '../types'
 import { constructMeta } from './constructMeta'
 import {
   Interaction,

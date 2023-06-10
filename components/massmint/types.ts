@@ -1,10 +1,3 @@
-import { BaseMintedCollection } from '../base/types'
-
-export type MintedCollection = BaseMintedCollection & {
-  name?: string
-  lastIndexUsed: number
-}
-
 export enum Status {
   Ok = 'Ok',
   Incomplete = 'Incomplete',
@@ -14,13 +7,20 @@ export enum Status {
 }
 
 export type NFT = {
-  fileName: string
   id: number
   imageUrl: string
   name?: string
+  file: File
   description?: string
   price?: number
   status?: Status
+}
+
+export type NFTToMint = {
+  name: string
+  file: File
+  description?: string
+  price?: number
 }
 
 export type NFTS = { [id: string]: NFT }
