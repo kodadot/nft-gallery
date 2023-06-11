@@ -13,7 +13,6 @@ import { execMakeOfferTx } from './transaction/transactionOffer'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMintToken } from './transaction/transactionMintToken'
-import { Extrinsic } from '@/utils/transactionExecutor'
 
 import type {
   ActionAcceptOffer,
@@ -26,15 +25,9 @@ import type {
   ActionSend,
   ActionWithdrawOffer,
   Actions,
+  ExecuteTransactionParams,
 } from './transaction/types'
 import { execMintCollection } from './transaction/transactionMintCollection'
-
-export type ExecuteTransactionParams = {
-  cb: (...params: any[]) => Extrinsic
-  arg: any[]
-  successMessage?: string | ((blockNumber: string) => string)
-  errorMessage?: string
-}
 
 const resolveSuccessMessage = (
   block: string,
@@ -48,8 +41,14 @@ const resolveSuccessMessage = (
 
 const useExecuteTransaction = () => {
   const { accountId } = useAuth()
-  const { howAboutToExecute, isLoading, status, initTransactionLoader } =
-    useMetaTransaction()
+  const error = ref(false)
+  const {
+    howAboutToExecute,
+    isLoading,
+    status,
+    initTransactionLoader,
+    isError,
+  } = useMetaTransaction()
   const blockNumber = ref<string>()
 
   const executeTransaction = ({
@@ -66,7 +65,9 @@ const useExecuteTransaction = () => {
       successNotification(message)
     }
 
-    const errorCb = () => warningMessage(errorMessage || 'Failed!')
+    const errorCb = () => {
+      warningMessage(errorMessage || 'Failed!')
+    }
 
     howAboutToExecute(accountId.value, cb, arg, successCb, errorCb)
   }
@@ -74,14 +75,16 @@ const useExecuteTransaction = () => {
   return {
     isLoading,
     status,
+    error,
     executeTransaction,
     blockNumber,
+    isError,
   }
 }
 
 export const useTransaction = () => {
   const { apiInstance } = useApi()
-  const { isLoading, status, executeTransaction, blockNumber } =
+  const { isLoading, status, executeTransaction, blockNumber, isError } =
     useExecuteTransaction()
 
   const transaction = async (item: Actions) => {
@@ -106,7 +109,13 @@ export const useTransaction = () => {
       [ShoppingActions.ACCEPT_OFFER]: () =>
         execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
       [ShoppingActions.MINTNFT]: () =>
-        execMintToken(item as ActionMintToken, api, executeTransaction),
+        execMintToken({
+          item: item as ActionMintToken,
+          api,
+          executeTransaction,
+          isLoading,
+          status,
+        }),
       [ShoppingActions.MINT]: () =>
         execMintCollection(
           item as ActionMintCollection,
@@ -123,5 +132,6 @@ export const useTransaction = () => {
     status,
     transaction,
     blockNumber,
+    isError,
   }
 }

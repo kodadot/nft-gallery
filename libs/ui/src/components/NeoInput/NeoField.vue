@@ -4,13 +4,13 @@ import { OField } from '@oruga-ui/oruga'
 export default {
   mixins: [OField],
   computed: {
-    classes() {
-      return ['neo-field']
-    },
+    // classes() {
+    //   return ['neo-field']
+    // },
   },
 }
 </script>
 
 <style lang="scss">
-@import './NeoInput.scss';
+@import './NeoField.scss';
 </style>
