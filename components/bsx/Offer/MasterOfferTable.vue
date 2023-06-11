@@ -50,17 +50,19 @@
 </template>
 
 <script lang="ts">
+import { NeoSelect } from '@kodadot1/brick'
+import { isAddress } from '@polkadot/util-crypto'
 import { Component, mixins } from 'nuxt-property-decorator'
+
+import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
 import AuthMixin from '~/utils/mixins/authMixin'
+import ChainMixin from '~/utils/mixins/chainMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
-import { Offer, OfferResponse } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
-import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
 import { notificationTypes, showNotification } from '~/utils/notification'
-import { isAddress } from '@polkadot/util-crypto'
-import ChainMixin from '~/utils/mixins/chainMixin'
 import { SelectedOfferType } from '~/utils/offerStatus'
+import { Offer, OfferResponse } from './types'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -71,7 +73,7 @@ const components = {
   OffersUserTable: () => import('@/components/bsx/Offer/OffersUserTable.vue'),
   MyOffer: () => import('@/components/bsx/Offer/MyOffer.vue'),
   OfferTable: () => import('@/components/bsx/Offer/OfferTable.vue'),
-  NeoSelect: () => import('@kodadot1/brick'),
+  NeoSelect,
 }
 
 @Component({ components })

@@ -89,8 +89,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Watch, mixins } from 'nuxt-property-decorator'
+import { NeoSelect } from '@kodadot1/brick'
 import { formatDistanceToNow } from 'date-fns'
+import { Component, Emit, Prop, Watch, mixins } from 'nuxt-property-decorator'
 
 import { tokenIdToRoute } from '@/components/unique/utils'
 
@@ -104,7 +105,7 @@ import { Offer, OfferResponse } from './types'
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  NeoSelect: () => import('@kodadot1/brick'),
+  NeoSelect,
 }
 
 @Component({
