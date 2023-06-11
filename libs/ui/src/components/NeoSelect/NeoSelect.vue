@@ -3,7 +3,7 @@
     <o-field :label="label">
       <o-select
         :placeholder="placeholder"
-        :class="{ 'with-label': !!label }"
+        :class="{ 'with-label': hasLabel }"
         icon-right="chevron-down">
         <option
           v-for="(option, index) in options"
@@ -20,12 +20,26 @@
 import { OField, OSelect } from '@oruga-ui/oruga'
 import NeoField from '../NeoInput/NeoField.vue'
 
-defineProps<{
-  label?: string
-  placeholder?: string
-  description?: string
-  options: { value: string; text: string }[]
-}>()
+const props = defineProps({
+  label: {
+    type: String,
+    default: '',
+  },
+  placeholder: {
+    type: String,
+    default: '',
+  },
+  description: {
+    type: String,
+    default: '',
+  },
+  options: {
+    type: () => [] as { value: string; text: string }[],
+    required: true,
+  },
+})
+
+const hasLabel = computed(() => props.label.length > 0)
 </script>
 
 <style lang="scss">
