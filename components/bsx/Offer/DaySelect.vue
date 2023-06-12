@@ -1,14 +1,15 @@
 <template>
-  <NeoSelect
-    v-model="selectedDays"
-    :label="$t('offer.daySelectLabel')"
-    :placeholder="$t('offer.daySelectPlaceholder')"
-    :options="days"
-    expanded />
+  <NeoField :label="$t('offer.daySelectLabel')">
+    <NeoSelect
+      v-model="selectedDays"
+      :placeholder="$t('offer.daySelectPlaceholder')"
+      :options="days"
+      expanded />
+  </NeoField>
 </template>
 
 <script lang="ts" setup>
-import { NeoSelect } from '@kodadot1/brick'
+import { NeoField, NeoSelect } from '@kodadot1/brick'
 
 const props = defineProps({
   days: {

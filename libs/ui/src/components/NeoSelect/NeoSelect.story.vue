@@ -1,11 +1,14 @@
 <template>
   <Story>
-    <NeoSelect :label="label" :placeholder="placeholder" :options="options" />
+    <NeoField :label="label">
+      <NeoSelect :placeholder="placeholder" :options="options" />
+    </NeoField>
   </Story>
 </template>
 
 <script lang="ts" setup>
 import NeoSelect from './NeoSelect.vue'
+import NeoField from '../NeoInput/NeoField.vue'
 
 const label = 'Select something'
 const placeholder = 'Select...'

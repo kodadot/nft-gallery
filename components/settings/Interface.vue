@@ -61,29 +61,32 @@
         </div>
         <Layout :disabled="!enabledAdvancedUI" position="is-left" />
       </div>
-      <NeoSelect
-        v-model="galleryItemsPerPage"
-        expanded
-        :disabled="!enabledAdvancedUI"
-        :label="$t('Gallery Items Per Page')"
-        :options="paginationOptions"
-        class="field-width" />
+      <NeoField :label="$t('Gallery Items Per Page')">
+        <NeoSelect
+          v-model="galleryItemsPerPage"
+          expanded
+          :disabled="!enabledAdvancedUI"
+          :options="paginationOptions"
+          class="field-width" />
+      </NeoField>
 
-      <NeoSelect
-        v-model="collectionsPerPage"
-        expanded
-        :disabled="!enabledAdvancedUI"
-        :label="$t('Collections Per Page')"
-        :options="paginationOptions"
-        class="field-width" />
+      <NeoField :label="$t('Collections Per Page')">
+        <NeoSelect
+          v-model="collectionsPerPage"
+          expanded
+          :disabled="!enabledAdvancedUI"
+          :options="paginationOptions"
+          class="field-width" />
+      </NeoField>
 
-      <NeoSelect
-        v-model="exploreTabOrder"
-        expanded
-        :disabled="!enabledAdvancedUI"
-        :label="$t('preferences.exploreTabOrder')"
-        :options="exploreTabOptions"
-        class="field-width" />
+      <NeoField :label="$t('preferences.exploreTabOrder')">
+        <NeoSelect
+          v-model="exploreTabOrder"
+          expanded
+          :disabled="!enabledAdvancedUI"
+          :options="exploreTabOptions"
+          class="field-width" />
+      </NeoField>
     </div>
   </div>
 </template>
