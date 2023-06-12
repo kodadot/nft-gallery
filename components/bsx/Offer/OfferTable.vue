@@ -10,7 +10,11 @@
       <div v-if="headerText" class="has-text-centered offer-title mb-2">
         {{ headerText }}
       </div>
-      <NeoSelect v-model="selectedStatus" :options="statusOptions" />
+      <NeoSelect
+        v-model="selectedStatus"
+        :options="getUniqType(offers)"
+        text-key="value"
+        value-key="type" />
       <b-table-column
         v-if="displayCollection"
         v-slot="props"
@@ -181,13 +185,6 @@ export default class OfferTable extends mixins(OfferMixin, PrefixMixin) {
       caller,
       withdraw,
     }
-  }
-
-  get statusOptions() {
-    return this.getUniqType(this.offers).map((offer) => ({
-      text: offer.value,
-      value: offer.type,
-    }))
   }
 
   get assetId() {

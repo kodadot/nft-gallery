@@ -5,7 +5,11 @@
         {{ $t('myOffer.bsxTitle') }}
       </h1>
     </div>
-    <NeoSelect v-model="selectedStatus" :options="offerStatusOptions" />
+    <NeoSelect
+      v-model="selectedStatus"
+      :options="getUniqType(offers)"
+      text-key="value"
+      value-key="type" />
     <Loader v-model="isLoading" :status="status" />
     <b-table :data="displayOffers(offers)">
       <b-table-column
@@ -120,13 +124,6 @@ export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
 
   get targetAddress() {
     return this.destinationAddress || this.accountId
-  }
-
-  get offerStatusOptions() {
-    return this.getUniqType(this.offers).map((option) => ({
-      text: option.value,
-      value: option.type,
-    }))
   }
 
   mounted() {

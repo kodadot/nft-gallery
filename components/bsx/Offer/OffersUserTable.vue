@@ -3,7 +3,9 @@
     <NeoSelect
       v-if="!offersListed"
       v-model="selectedStatus"
-      :options="statusOptions" />
+      :options="getUniqType(offers)"
+      text-key="value"
+      value-key="type" />
     <BasicSwitch
       v-if="!hideToggle"
       v-model="offersListed"
@@ -97,6 +99,7 @@ import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { NeoSelect } from '@kodadot1/brick'
 import { Offer } from './types'
+import { mapToSelectOption } from '@/utils/mappers'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
@@ -119,13 +122,6 @@ export default class OffersUserTable extends mixins(
 
   @Prop({ type: String, default: '' }) public ownerId!: string
   @Prop({ type: Boolean, default: false }) public hideToggle!: boolean
-
-  get statusOptions() {
-    return this.getUniqType(this.offers).map((item) => ({
-      value: item.type,
-      text: item.value,
-    }))
-  }
 
   @Emit('offersListUpdate')
   public updateList(data) {

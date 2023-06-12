@@ -103,14 +103,8 @@ import { NeoCheckbox, NeoField, NeoSelect, NeoSwitch } from '@kodadot1/brick'
   },
 })
 export default class Interface extends Vue {
-  public paginationOptions = [9, 12, 24, 36].map((i) => ({
-    value: i,
-    text: i,
-  }))
-  public exploreTabOptions = ['GALLERY', 'COLLECTION'].map((i) => ({
-    value: i,
-    text: i,
-  }))
+  public paginationOptions = [9, 12, 24, 36]
+  public exploreTabOptions = ['GALLERY', 'COLLECTION']
   private preferencesStore = usePreferencesStore()
 
   get enabledAdvancedUI(): boolean {

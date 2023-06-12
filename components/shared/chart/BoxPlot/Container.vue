@@ -7,7 +7,9 @@
         <NeoSelect
           data-testid="box-plot-select"
           :model-value="selectedRange"
-          :options="rangeOptions"
+          :options="range"
+          :text-key="(item) => item.charAt(0).toUpperCase() + item.slice(1)"
+          :value-key="(item) => item"
           @update:modelValue="selectRange" />
         />
       </div>

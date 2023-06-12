@@ -2,7 +2,7 @@
   <div>
     <Loader :value="isLoading" />
     <NeoField grouped>
-      <NeoSelect v-model="nbRows" :options="rowsOptions" expanded />
+      <NeoSelect v-model="nbRows" :options="rowOptions" expanded />
     </NeoField>
 
     <b-table
@@ -294,6 +294,7 @@ import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Collection, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { mapToSelectOption } from '@/utils/mappers'
 
 import AuthMixin from '@/utils/mixins/authMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
@@ -313,6 +314,7 @@ import {
   today,
 } from './utils'
 import { NeoField, NeoSelect } from '@kodadot1/brick'
+import { ROW_OPTIONS } from './consts'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
@@ -347,6 +349,8 @@ export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
     })
     await this.fetchCollectionsSeries(Number(this.nbRows))
   }
+
+  rowOptions = () => ROW_OPTIONS
 
   private async seriesQueryParams(limit, sort) {
     const queryVars = {
@@ -449,15 +453,6 @@ export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
       this.$consola.error(e)
       return []
     }
-  }
-
-  get rowsOptions() {
-    return [
-      { value: '10', text: '10' },
-      { value: '20', text: '20' },
-      { value: '50', text: '50' },
-      { value: '100', text: '100' },
-    ]
   }
 
   public onSort(field: string, order: string) {

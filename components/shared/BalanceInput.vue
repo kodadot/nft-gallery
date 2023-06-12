@@ -20,10 +20,12 @@
           <p class="control balance">
             <NeoSelect
               data-testid="balance-input-select"
-              :model-value="selectedUnit"
+              :value="selectedUnit"
               :disabled="!calculate"
-              :options="unitOptions"
-              @update:modelValue="handleUnitChange" />
+              :options="units"
+              text-key="name"
+              value-key="value"
+              @input="handleUnitChange" />
           </p>
         </div>
       </div>
@@ -48,6 +50,7 @@ import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { NeoField, NeoInput, NeoSelect } from '@kodadot1/brick'
+import { mapToSelectOption } from '@/utils/mappers'
 
 @Component({
   components: {
@@ -70,13 +73,6 @@ export default class BalanceInput extends mixins(ChainMixin) {
   protected units: Unit[] = defaultUnits
   private selectedUnit = 1
   private internalValue = this.value || 0
-
-  get unitOptions() {
-    return this.units.map((unit) => ({
-      value: unit.value,
-      text: unit.name,
-    }))
-  }
 
   get minWithUnit(): number {
     return this.min / this.selectedUnit

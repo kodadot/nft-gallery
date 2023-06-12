@@ -15,7 +15,9 @@
       <NeoSelect
         :value="selectedCollection"
         :placeholder="$t('selectCollection')"
-        :options="selectOptions"
+        :options="collections"
+        :text-key="(collection) => collection.name || collection.id"
+        :value-key="(collection) => collection"
         expanded
         @input="changeOption" />
     </NeoField>
@@ -49,13 +51,6 @@ const selectedCollection = computed({
 })
 
 const { isLogIn } = useAuth()
-
-const selectOptions = computed(() => [
-  ...props.collections.map((collection) => ({
-    value: collection,
-    text: collection.name || collection.id,
-  })),
-])
 
 const changeOption = (collection: MintedCollection | null) => {
   selectedCollection.value = collection

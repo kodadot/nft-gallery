@@ -27,7 +27,11 @@
       :placeholder="$t('sort.collection.sortBy')"
       class="select-dropdown"
       data-cy="collection-sort-by"
-      :options="actionOptions" />
+      :options="actions"
+      :text-key="
+        (action) =>
+          isCollection ? $t('sort.collection.' + action) : $t('sort.' + action)
+      " />
   </NeoField>
 </template>
 
@@ -54,15 +58,6 @@ export default class SearchSortDropdown extends mixins(PrefixMixin) {
 
   get actions(): string[] {
     return this.sortOption || this.sort
-  }
-
-  get actionOptions() {
-    return this.actions.map((action) => ({
-      value: action,
-      text: this.isCollection
-        ? this.$t('sort.collection.' + action)
-        : this.$t('sort.' + action),
-    }))
   }
 
   get sort(): string[] {

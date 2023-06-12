@@ -25,7 +25,9 @@
             v-model="selectedEvent"
             placeholder="Select an event"
             data-cy="select-event"
-            :options="eventOptions" />
+            :options="uniqType"
+            text-key="value"
+            value-key="type" />
           <Pagination
             v-model="currentPage"
             :total="total"
@@ -214,13 +216,6 @@ export default class History extends mixins(
   get showList(): TableRow[] {
     const endIndex = this.currentPage * this.itemsPerPage
     return this.data.slice(endIndex - this.itemsPerPage, endIndex)
-  }
-
-  get eventOptions() {
-    return this.uniqType.map((item) => ({
-      value: item.type,
-      text: item.value,
-    }))
   }
 
   getEventDisplayName(type: Interaction) {

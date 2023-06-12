@@ -3,7 +3,7 @@
     v-model="selectedDays"
     :label="$t('offer.daySelectLabel')"
     :placeholder="$t('offer.daySelectPlaceholder')"
-    :options="selectOptions"
+    :options="days"
     expanded />
 </template>
 
@@ -24,12 +24,4 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const selectedDays = useVModel(props, 'modelValue', emit)
-
-const selectOptions = computed(() => [
-  { text: '--', value: '' },
-  ...props.days.map((day) => ({
-    value: day,
-    text: day,
-  })),
-])
 </script>
