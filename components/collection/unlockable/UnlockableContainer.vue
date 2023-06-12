@@ -287,7 +287,7 @@ const mintCountAvailable = computed(
 const mintButtonDisabled = computed(() =>
   Boolean(!mintCountAvailable.value || hasUserMinted.value)
 )
-console.log('jarsen mintButtonDisabled', mintButtonDisabled)
+
 const scrollToTop = () => {
   window.scroll({
     top: 0,
