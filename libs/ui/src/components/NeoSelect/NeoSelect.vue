@@ -43,8 +43,6 @@ const props = defineProps({
   },
 })
 
-console.log('Value', props.value)
-console.log('Options', props.options)
 
 const mapToSelectOption = (value) => {
   if (typeof value === 'object') {
