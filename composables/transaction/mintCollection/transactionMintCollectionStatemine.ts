@@ -1,5 +1,4 @@
-import { ExecuteTransactionParams } from '@/composables/useTransaction'
-import type { ActionMintCollection } from '../types'
+import type { ActionMintCollection, ExecuteTransactionParams } from '../types'
 // import { constructMeta } from './constructMeta'
 import { useNewCollectionId } from './useNewCollectionId'
 import { createArgsForNftPallet } from './utils'

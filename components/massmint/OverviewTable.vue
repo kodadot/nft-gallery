@@ -104,7 +104,10 @@
 import { NeoAvatar, NeoButton, NeoCollapse } from '@kodadot1/brick'
 import { useIntersectionObserver } from '@vueuse/core'
 import { NFT, NFTS, Status } from './types'
-import { statusClass, statusTranslation } from './useMassMint'
+import {
+  statusClass,
+  statusTranslation,
+} from '@/composables/massmint/useMassMint'
 const { placeholder } = useTheme()
 
 const offset = ref(10)
