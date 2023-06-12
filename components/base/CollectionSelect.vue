@@ -5,21 +5,21 @@
         {{ $t('createNftExplainer') }}
       </small>
     </div>
-    <NeoSelect
-      v-model="selectedCollection"
-      :label="$t('collection')"
-      :placeholder="$t('selectCollection')"
-      :description="$t('selectCollectionDescription')"
-      :options="selectOptions"
-      expanded />
+    <NeoField :message="$t('selectCollectionDescription')">
+      <NeoSelect
+        v-model="selectedCollection"
+        :label="$t('collection')"
+        :placeholder="$t('selectCollection')"
+        :options="selectOptions"
+        expanded />
+    </NeoField>
   </div>
 </template>
 
 <script setup lang="ts">
 import { defineEmits, defineProps } from 'vue'
 import { BaseMintedCollection as MintedCollection } from './types'
-import { NeoSelect } from '@kodadot1/brick'
-import { useIdentityStore } from '~~/stores/identity'
+import { NeoField, NeoSelect } from '@kodadot1/brick'
 
 const props = defineProps({
   collections: {
@@ -40,9 +40,7 @@ const emit = defineEmits(['update:modelValue', 'update:super'])
 
 const selectedCollection = useVModel(props, 'modelValue', emit)
 
-const identityStore = useIdentityStore()
-
-const isLogIn = computed(() => Boolean(identityStore.getAuthAddress))
+const { isLogIn } = useAuth()
 
 const selectOptions = computed(() => [
   { text: '--', value: '' },

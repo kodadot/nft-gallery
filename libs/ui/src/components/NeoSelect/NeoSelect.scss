@@ -8,7 +8,11 @@ $select-padding: 0.5rem;
 
 @import '@oruga-ui/oruga/src/scss/components/select.scss';
 .neo-select {
-  .o-field {
+  &.is-expanded .o-ctrl-sel {
+    width: 100%;
+  }
+  &.o-field {
+    max-width: 100%;
     position: relative;
     .o-field__label {
       position: absolute;
@@ -26,7 +30,7 @@ $select-padding: 0.5rem;
 
   .o-ctrl-sel {
     display: inline-block;
-    width: 100%;
+    max-width: 100%;
     .o-sel {
       height: 3.25rem;
       width: 100%;
