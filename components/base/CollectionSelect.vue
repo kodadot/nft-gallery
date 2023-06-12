@@ -58,7 +58,6 @@ const selectOptions = computed(() => [
 ])
 
 const changeOption = (collection: MintedCollection | null) => {
-  console.log('changeOption', collection)
   selectedCollection.value = collection
 }
 </script>

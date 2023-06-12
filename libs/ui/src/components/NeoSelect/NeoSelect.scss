@@ -5,26 +5,17 @@
 @import '../../scss/variable.scss';
 
 $select-padding: 0.5rem;
+$select-height: 3.25em;
+$select-border-radius: 0;
 
 @import '@oruga-ui/oruga/src/scss/components/select.scss';
 .neo-select.o-ctrl-sel {
   display: inline-block;
   max-width: 100%;
 
-  &.is-expanded {
-    width: 100%;
-  }
   .o-sel {
-    height: 3.25rem;
-    width: 100%;
-    height: 3.25em;
     @include ktheme() {
       color: theme('text-color');
     }
-  }
-
-  &.with-label .o-sel {
-    padding-top: calc(1.625em - 0.5625rem);
-    padding-bottom: 1px;
   }
 }

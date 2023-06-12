@@ -3,7 +3,7 @@
     v-model="selected"
     :placeholder="placeholder"
     class="neo-select"
-    :class="{ 'is-expanded': expanded }"
+    :class="{ 'o-ctrl-sel--expanded': expanded }"
     icon-right="chevron-down">
     <option
       v-for="(option, index) in options"
