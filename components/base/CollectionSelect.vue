@@ -13,10 +13,11 @@
         </div>
       </template>
       <NeoSelect
-        v-model="selectedCollection"
+        :value="selectedCollection"
         :placeholder="$t('selectCollection')"
         :options="selectOptions"
-        expanded />
+        expanded
+        @input="changeOption" />
     </NeoField>
   </div>
 </template>
@@ -34,23 +35,30 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  modelValue: {
+  value: {
     type: Object as () => MintedCollection | null,
     default: null,
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['input'])
 
-const selectedCollection = useVModel(props, 'modelValue', emit)
+const selectedCollection = computed({
+  get: () => props.value,
+  set: (value) => emit('input', value),
+})
 
 const { isLogIn } = useAuth()
 
 const selectOptions = computed(() => [
-  { text: '--', value: '' },
   ...props.collections.map((collection) => ({
     value: collection,
     text: collection.name || collection.id,
   })),
 ])
+
+const changeOption = (collection: MintedCollection | null) => {
+  console.log('changeOption', collection)
+  selectedCollection.value = collection
+}
 </script>

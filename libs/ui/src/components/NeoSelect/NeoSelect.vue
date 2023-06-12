@@ -16,7 +16,6 @@
 
 <script setup>
 import { OSelect } from '@oruga-ui/oruga'
-import { useVModel } from '@vueuse/core'
 const props = defineProps({
   placeholder: {
     type: String,
