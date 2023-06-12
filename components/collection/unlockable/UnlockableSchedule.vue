@@ -65,37 +65,40 @@
         </div>
         <div class="is-flex is-align-items-center">
           <span class="mr-2">{{ getStatusName(item.status) }}</span>
+          <span
+            class="is-flex"
+            @click="phaseList[index].expand = !phaseList[index].expand">
+            <svg
+              v-if="item.expand"
+              width="20"
+              height="21"
+              viewBox="0 0 20 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M10 15.7927L9.46875 15.2614L3.46875 9.26141L2.9375 8.73016L4 7.66766L4.53125 8.19891L10 13.6989L15.4688 8.23016L16 7.69891L17.0625 8.73016L16.5312 9.26141L10.5312 15.2614L10 15.7927Z"
+                fill="currentColor" />
+            </svg>
 
-          <svg
-            v-if="item.expand"
-            width="20"
-            height="21"
-            viewBox="0 0 20 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M10 15.7927L9.46875 15.2614L3.46875 9.26141L2.9375 8.73016L4 7.66766L4.53125 8.19891L10 13.6989L15.4688 8.23016L16 7.69891L17.0625 8.73016L16.5312 9.26141L10.5312 15.2614L10 15.7927Z"
-              fill="currentColor" />
-          </svg>
-
-          <svg
-            v-else
-            width="20"
-            height="21"
-            viewBox="0 0 20 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M15.0312 10.7302L14.5 11.2614L8.53125 17.2614L8 17.7927L6.9375 16.7302L7.46875 16.1989L12.9375 10.7302L7.46875 5.26141L6.9375 4.73016L8 3.69891L8.53125 4.23016L14.5312 10.1989L15.0625 10.7302H15.0312Z"
-              fill="currentColor" />
-          </svg>
+            <svg
+              v-else
+              width="20"
+              height="21"
+              viewBox="0 0 20 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M15.0312 10.7302L14.5 11.2614L8.53125 17.2614L8 17.7927L6.9375 16.7302L7.46875 16.1989L12.9375 10.7302L7.46875 5.26141L6.9375 4.73016L8 3.69891L8.53125 4.23016L14.5312 10.1989L15.0625 10.7302H15.0312Z"
+                fill="currentColor" />
+            </svg>
+          </span>
         </div>
       </div>
       <div v-if="item.expand" class="hsa-border-left mt-4 pl-5">
         <div
           class="is-flex is-justify-content-space-between is-align-items-center">
           <div>
-            <span class="has-text-grey">From</span> 10PM
+            <span class="has-text-grey">From</span> 9AM
             <span class="has-text-grey">UTC+1</span>
           </div>
           <span class="has-text-grey">Available for mint</span>
@@ -103,7 +106,7 @@
         <div
           class="is-flex is-justify-content-space-between is-align-items-center">
           <div>
-            <span class="has-text-grey">To</span> 10:10PM
+            <span class="has-text-grey">To</span> 10PM
             <span class="has-text-grey">UTC+1</span>
           </div>
           <span class="">10 NFTs</span>
@@ -116,11 +119,13 @@
 <script lang="ts" setup>
 import { isAfter, isBefore } from 'date-fns'
 
-const phaseList: {
-  title: string
-  status: 'close' | 'open' | 'upcoming'
-  expand: boolean
-}[] = [
+const phaseList = ref<
+  {
+    title: string
+    status: 'close' | 'open' | 'upcoming'
+    expand: boolean
+  }[]
+>([
   {
     title: 'Zero Phase',
     status: 'close',
@@ -141,7 +146,7 @@ const phaseList: {
     status: 'upcoming',
     expand: false,
   },
-]
+])
 
 const getStatusName = (status: 'close' | 'open' | 'upcoming') => {
   switch (status) {
