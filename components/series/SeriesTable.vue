@@ -2,7 +2,7 @@
   <div>
     <Loader :value="isLoading" />
     <NeoField grouped>
-      <NeoSelect v-model="nbRows" :options="rowOptions" expanded />
+      <NeoSelect v-model="nbRows" :options="rowOptions()" expanded />
     </NeoField>
 
     <b-table
@@ -350,7 +350,9 @@ export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
     await this.fetchCollectionsSeries(Number(this.nbRows))
   }
 
-  rowOptions = () => ROW_OPTIONS
+  public rowOptions() {
+    return ROW_OPTIONS
+  }
 
   private async seriesQueryParams(limit, sort) {
     const queryVars = {
