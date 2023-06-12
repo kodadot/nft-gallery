@@ -1,5 +1,6 @@
 <template>
   <o-select
+    v-model="selected"
     :placeholder="placeholder"
     class="neo-select"
     :class="{ 'is-expanded': expanded }"
@@ -15,8 +16,8 @@
 
 <script setup>
 import { OSelect } from '@oruga-ui/oruga'
-
-defineProps({
+import { useVModel } from '@vueuse/core'
+const props = defineProps({
   placeholder: {
     type: String,
     default: '',
@@ -29,6 +30,17 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  value: {
+    type: String,
+    default: '',
+  },
+})
+
+const emit = defineEmits(['input'])
+
+const selected = computed({
+  get: () => props.value,
+  set: (value) => emit('input', value),
 })
 </script>
 

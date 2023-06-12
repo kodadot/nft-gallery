@@ -453,10 +453,10 @@ export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
 
   get rowsOptions() {
     return [
-      { value: '10', label: '10' },
-      { value: '20', label: '20' },
-      { value: '50', label: '50' },
-      { value: '100', label: '100' },
+      { value: '10', text: '10' },
+      { value: '20', text: '20' },
+      { value: '50', text: '50' },
+      { value: '100', text: '100' },
     ]
   }
 
