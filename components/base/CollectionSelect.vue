@@ -22,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, defineProps } from 'vue'
 import { BaseMintedCollection as MintedCollection } from './types'
 import { NeoField, NeoSelect } from '@kodadot1/brick'
 
