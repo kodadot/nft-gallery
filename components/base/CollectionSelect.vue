@@ -40,7 +40,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue', 'update:super'])
+const emit = defineEmits(['update:modelValue'])
 
 const selectedCollection = useVModel(props, 'modelValue', emit)
 
