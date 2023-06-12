@@ -1,30 +1,22 @@
 <template>
-  <o-field
-    :label="label"
+  <o-select
+    :placeholder="placeholder"
     class="neo-select"
-    :class="{ 'is-expanded': expanded }">
-    <o-select
-      :placeholder="placeholder"
-      :class="{ 'with-label': hasLabel }"
-      icon-right="chevron-down">
-      <option
-        v-for="(option, index) in options"
-        :key="index"
-        :value="option.value">
-        {{ option.text }}
-      </option>
-    </o-select>
-  </o-field>
+    :class="{ 'is-expanded': expanded }"
+    icon-right="chevron-down">
+    <option
+      v-for="(option, index) in options"
+      :key="index"
+      :value="option.value">
+      {{ option.text }}
+    </option>
+  </o-select>
 </template>
 
 <script lang="ts" setup>
-import { OField, OSelect } from '@oruga-ui/oruga'
+import { OSelect } from '@oruga-ui/oruga'
 
-const props = defineProps({
-  label: {
-    type: String,
-    default: '',
-  },
+defineProps({
   placeholder: {
     type: String,
     default: '',
@@ -38,8 +30,6 @@ const props = defineProps({
     default: false,
   },
 })
-
-const hasLabel = computed(() => props.label.length > 0)
 </script>
 
 <style lang="scss">
