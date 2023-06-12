@@ -5,10 +5,15 @@
         {{ $t('createNftExplainer') }}
       </small>
     </div>
-    <NeoField :message="$t('selectCollectionDescription')">
+    <NeoField>
+      <template #label>
+        <div>{{ $t('collection') }}</div>
+        <div class="has-text-weight-light is-size-7 mb-3">
+          {{ $t('selectCollectionDescription') }}
+        </div>
+      </template>
       <NeoSelect
         v-model="selectedCollection"
-        :label="$t('collection')"
         :placeholder="$t('selectCollection')"
         :options="selectOptions"
         expanded />

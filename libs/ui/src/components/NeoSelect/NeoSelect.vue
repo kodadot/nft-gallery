@@ -13,7 +13,7 @@
   </o-select>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { OSelect } from '@oruga-ui/oruga'
 
 defineProps({
@@ -22,7 +22,7 @@ defineProps({
     default: '',
   },
   options: {
-    type: Array as () => { value: string; text: string }[],
+    type: Array,
     required: true,
   },
   expanded: {
