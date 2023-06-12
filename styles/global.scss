@@ -244,6 +244,14 @@ hr {
   }
 }
 
+a.has-text-grey {
+  @include ktheme() {
+    &:hover {
+      color: theme('text-color') !important;
+    }
+  }
+}
+
 .snackbar {
   @include ktheme() {
     border-radius: 0;

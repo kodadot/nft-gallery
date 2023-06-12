@@ -8,6 +8,9 @@ export default function useSearchNfts({ search, first = 10 }) {
       first,
       search,
     },
+    options: {
+      fetchPolicy: 'cache-first',
+    },
   })
 
   return {
