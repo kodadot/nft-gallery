@@ -106,7 +106,7 @@
         <div
           class="is-flex is-justify-content-space-between is-align-items-center">
           <div>
-            <span class="has-text-grey">To</span> 10PM
+            <span class="has-text-grey">To</span> 11PM
             <span class="has-text-grey">UTC+1</span>
           </div>
           <span class="">10 NFTs</span>
