@@ -5,7 +5,10 @@ export default {
   mixins: [OInput],
   computed: {
     rootClasses() {
-      return ['neo-input']
+      return ['neo-input', 'o-ctrl-input']
+    },
+    iconPack() {
+      return 'fas'
     },
   },
 }
