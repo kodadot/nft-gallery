@@ -16,7 +16,10 @@
         :value="selectedCollection"
         :placeholder="$t('selectCollection')"
         :options="collections"
-        :text-key="(collection) => collection.name || collection.id"
+        :text-key="
+          (collection) =>
+            `${collection.name || collection.id} (${collection.totalCount})`
+        "
         :value-key="(collection) => collection"
         expanded
         @input="changeOption" />
