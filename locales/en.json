@@ -474,6 +474,7 @@
       "drop": "Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
     },
     "unlockable": {
+      "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
       "readyIn": "Your mint will be ready in {0}, DO NOT CLOSE THIS WINDOW",
       "alreadyMinted": "🎉 You already have this NFT, check it here"
     }

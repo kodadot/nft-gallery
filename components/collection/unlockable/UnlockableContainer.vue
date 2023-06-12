@@ -110,10 +110,7 @@
             <span class="has-text-weight-bold is-size-5">Schedule</span>
           </div>
           <div>
-            <span>
-              We will have a 60-minute window every phase, each featuring only
-              10 exclusive items.</span
-            >
+            <span> {{ $t('mint.unlockable.phaseIntroduction') }}</span>
           </div>
           <!-- <UnlockableSchedule /> -->
         </div>
