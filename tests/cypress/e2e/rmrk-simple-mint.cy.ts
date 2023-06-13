@@ -26,10 +26,10 @@ describe('simple mint in rmrk', () => {
     )
 
     // name
-    cy.get('[data-cy="input-name"]').type('Hello, World!')
+    cy.get('[data-cy="input-name"] input').type('Hello, World!')
 
     // check symbol
-    cy.get('[data-cy="input-symbol"]').clear().type('HELLOWORLDASDF')
+    cy.get('[data-cy="input-symbol"] input').clear().type('HELLOWORLDASDF')
     cy.get('[data-cy="input-symbol"] input').should('have.value', 'HELLOWORLD')
 
     // description

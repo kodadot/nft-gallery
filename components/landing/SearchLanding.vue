@@ -65,10 +65,9 @@ const landingImage = computed(() => {
 })
 
 const switchChain = (value) => {
-  if (value === urlPrefix.value) {
-    return
+  if (value !== urlPrefix.value) {
+    setUrlPrefix(value)
   }
-  setUrlPrefix(value)
   navigateTo(`/${value}/explore/collectibles`)
 }
 </script>
