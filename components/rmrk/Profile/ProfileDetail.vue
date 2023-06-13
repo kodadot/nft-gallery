@@ -554,9 +554,9 @@ export default class ProfileDetail extends mixins(
     }
   }
 
-get realworldFullPath(): string {
-  return window.location.href
-}
+  get realworldFullPath(): string {
+    return window.location.href
+  }
 
   get isMoonriver(): boolean {
     return this.urlPrefix === 'movr'
