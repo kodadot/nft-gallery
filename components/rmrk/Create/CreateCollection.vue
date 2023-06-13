@@ -21,7 +21,7 @@
           <NeoInput
             v-model="max"
             type="number"
-            placeholder="1 is the minumum"
+            placeholder="1 is the minimum"
             :min="1" />
         </NeoField>
         <BasicInput

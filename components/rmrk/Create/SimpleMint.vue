@@ -58,7 +58,7 @@
       <NeoInput
         v-model="rmrkMint.max"
         type="number"
-        placeholder="1 is the minumum"
+        placeholder="1 is the minimum"
         expanded
         :min="1" />
     </NeoField>
