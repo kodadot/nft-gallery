@@ -1,0 +1,76 @@
+<template>
+  <div
+    v-if="unlockableLandingTagVisible"
+    class="unlockable-landing-tag is-flex border is-justify-content-space-between px-4 mt-6 mx-4">
+    <div class="is-flex is-align-items-center">
+      <svg
+        class="mr-2"
+        width="42"
+        height="42"
+        viewBox="0 0 42 42"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <circle cx="21" cy="20.5" r="6" fill="#FF7AC3" />
+        <g filter="url(#filter0_f_394_6126)">
+          <circle cx="21" cy="21" r="6" fill="#FF7AC3" />
+        </g>
+        <defs>
+          <filter
+            id="filter0_f_394_6126"
+            x="0"
+            y="0"
+            width="42"
+            height="42"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="BackgroundImageFix"
+              result="shape" />
+            <feGaussianBlur
+              stdDeviation="7.5"
+              result="effect1_foregroundBlur_394_6126" />
+          </filter>
+        </defs>
+      </svg>
+
+      <span> Free Unlockable Mint Live </span>
+      <svg
+        class="mx-2"
+        width="15"
+        height="2"
+        viewBox="0 0 15 2"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <line y1="1" x2="15" y2="1" stroke="#CCCCCC" />
+      </svg>
+    </div>
+
+    <nuxt-link
+      class="is-flex is-align-items-center has-text-weight-bold"
+      :to="`/${urlPrefix}/unlockable`">
+      Take Me There!
+    </nuxt-link>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { enableUnlockableMintPrefix } from './const'
+const { urlPrefix } = usePrefix()
+
+const unlockableLandingTagVisible = computed(() =>
+  enableUnlockableMintPrefix.includes(urlPrefix.value)
+)
+</script>
+
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables.scss';
+.unlockable-landing-tag {
+  border-radius: 2rem;
+  @include ktheme() {
+    background-color: theme('background-color');
+  }
+}
+</style>
