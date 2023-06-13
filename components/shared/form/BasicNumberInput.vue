@@ -23,11 +23,12 @@
 
 <script lang="ts">
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
-import { NeoField } from '@kodadot1/brick'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
 @Component({
   components: {
     NeoField,
+    NeoInput,
   },
 })
 export default class BasicNumberInput extends Vue {
