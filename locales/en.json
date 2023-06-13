@@ -46,6 +46,7 @@
   "contribute": "Contribute",
   "qrCode": "QR",
   "documentation": "Documentation",
+  "developers": "Developers",
   "referralProgram": "Referral Program",
   "theatre": "theatre",
   "view": "view",
@@ -472,6 +473,11 @@
       "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)",
       "creativeFailDesc": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
       "drop": "Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
+    },
+    "unlockable": {
+      "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
+      "readyIn": "Your mint will be ready in {0}, DO NOT CLOSE THIS WINDOW",
+      "alreadyMinted": "🎉 You already have this NFT, check it here"
     }
   },
   "tooltip": {
