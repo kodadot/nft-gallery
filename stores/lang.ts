@@ -23,7 +23,7 @@ export const useLangStore = defineStore('lang', {
     setLanguage(payload) {
       const { $i18n } = useNuxtApp()
       $i18n.locale = payload
-      this.language = Object.assign(this.language, payload)
+      this.language = payload
     },
   },
 })

@@ -1,7 +1,7 @@
 <template>
   <section>
     <Loader v-model="isLoading" :status="status" />
-    <form>
+    <form @submit.prevent>
       <p class="title is-size-3">
         {{ $i18n.t('identity.set') }}
         <NeoTooltip
@@ -71,7 +71,8 @@
         expanded />
 
       <p class="subtitle is-size-6">
-        {{ $i18n.t('identity.deposit') }} <Money :value="deposit" inline />
+        {{ $i18n.t('identity.deposit') }}
+        <Money :value="deposit" inline />
       </p>
 
       <SubmitButton
@@ -108,6 +109,8 @@ const SubmitButton = defineAsyncComponent(
 type IdentityFields = Record<string, string>
 
 const { $i18n } = useNuxtApp()
+import { useIdentityStore } from '@/stores/identity'
+
 const { apiUrl, apiInstance } = useApi()
 const { accountId, balance } = useAuth()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
@@ -129,6 +132,10 @@ onBeforeMount(async () => {
     deposit.value = api.consts.identity?.basicDeposit?.toString()
     identity.value = await fetchIdentity(accountId.value)
   })
+  const identityStore = useIdentityStore()
+  if (Number(identityStore.getAuthBalance) === 0) {
+    identityStore.fetchBalance({ address: accountId.value })
+  }
 })
 
 const enhanceIdentityData = (): Record<string, any> => {

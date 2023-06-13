@@ -1,11 +1,17 @@
 <template>
   <div class="unlockable-container">
     <Loader v-model="isLoading" :status="status" />
+    <MessageNotify
+      v-if="justMinted"
+      :duration="60000"
+      :title="$t('mint.success')"
+      :subtitle="$t('mint.unlockable.readyIn', ['60 sec'])"
+      @close="redirectToMyWaifu" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
-      <div class="is-flex columns">
-        <div class="column is-6 mobile-padding">
+      <div class="columns is-desktop">
+        <div class="column is-half-desktop mobile-padding">
           <UnlockableCollectionInfo />
           <hr class="mb-4" />
 
@@ -71,40 +77,44 @@
             <o-slider :value="currentMintedCount * 10" disabled></o-slider>
           </div>
           <div class="my-5">
-            <NeoButton
-              class="mb-2 mt-4 mint-button"
-              variant="k-accent"
-              :disabled="mintButtonDisabled || !isLogIn"
-              label="Mint"
-              @click.native="handleSubmitMint" />
-            <div class="is-flex is-align-items-center mt-2">
-              <svg
-                width="20"
-                height="21"
-                class="mr-2"
-                viewBox="0 0 20 21"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M10 2.73016C14.4062 2.73016 18 6.32391 18 10.7302C18 15.1677 14.4062 18.7302 10 18.7302C5.5625 18.7302 2 15.1677 2 10.7302C2 9.07391 2.5 7.54266 3.375 6.26141L3.78125 5.63641L5.03125 6.48016L4.59375 7.10516C3.90625 8.13641 3.5 9.38641 3.5 10.7302C3.5 14.3239 6.40625 17.2302 10 17.2302C13.5625 17.2302 16.5 14.3239 16.5 10.7302C16.5 7.41766 13.9688 4.66766 10.75 4.29266V5.98016V6.73016H9.25V5.98016V3.48016V2.73016H10ZM8.03125 7.69891H8L10.5 10.1989L11.0312 10.7302L10 11.7927L9.46875 11.2614L6.96875 8.76141L6.4375 8.23016L7.5 7.16766L8.03125 7.69891Z"
-                  fill="currentColor" />
-              </svg>
-              {{ timeFromNow }}
-            </div>
+            <template v-if="!hasUserMinted">
+              <NeoButton
+                class="mb-2 mt-4 mint-button"
+                variant="k-accent"
+                :disabled="mintButtonDisabled || !isLogIn"
+                label="Mint"
+                @click.native="handleSubmitMint" />
+              <div class="is-flex is-align-items-center mt-2">
+                <svg
+                  width="20"
+                  height="21"
+                  class="mr-2"
+                  viewBox="0 0 20 21"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M10 2.73016C14.4062 2.73016 18 6.32391 18 10.7302C18 15.1677 14.4062 18.7302 10 18.7302C5.5625 18.7302 2 15.1677 2 10.7302C2 9.07391 2.5 7.54266 3.375 6.26141L3.78125 5.63641L5.03125 6.48016L4.59375 7.10516C3.90625 8.13641 3.5 9.38641 3.5 10.7302C3.5 14.3239 6.40625 17.2302 10 17.2302C13.5625 17.2302 16.5 14.3239 16.5 10.7302C16.5 7.41766 13.9688 4.66766 10.75 4.29266V5.98016V6.73016H9.25V5.98016V3.48016V2.73016H10ZM8.03125 7.69891H8L10.5 10.1989L11.0312 10.7302L10 11.7927L9.46875 11.2614L6.96875 8.76141L6.4375 8.23016L7.5 7.16766L8.03125 7.69891Z"
+                    fill="currentColor" />
+                </svg>
+                {{ leftTime }}
+              </div>
+            </template>
+            <nuxt-link v-else :to="`/${urlPrefix}/gallery/${hasUserMinted}`">
+              <p class="title is-size-4">
+                [{{ $t('mint.unlockable.alreadyMinted') }}]
+              </p>
+            </nuxt-link>
           </div>
 
           <div class="my-5">
             <span class="has-text-weight-bold is-size-5">Schedule</span>
           </div>
           <div>
-            <span
-              >We will have a 10-minute window every hour, each featuring only
-              10 exclusive items.</span
-            >
+            <span> {{ $t('mint.unlockable.phaseIntroduction') }}</span>
           </div>
           <!-- <UnlockableSchedule /> -->
         </div>
-        <div class="column is-6 pt-5 is-flex is-justify-content-center">
+        <div class="column pt-5 is-flex is-justify-content-center">
           <ImageSlider
             v-if="imageList.length"
             :image-list="imageList"
@@ -112,12 +122,9 @@
         </div>
       </div>
       <hr class="text-color my-4" />
-      <div class="is-flex columns">
-        <div class="column is-6">
-          <img :src="unloackableBanner" alt="Unlockable" />
-        </div>
+      <div class="columns is-desktop">
         <div
-          class="column is-6 is-flex is-flex-direction-column is-justify-content-center">
+          class="column is-half-desktop is-flex is-flex-direction-column is-justify-content-center order-1">
           <div
             class="is-flex is-align-items-center has-text-weight-bold is-size-6 mb-2">
             <svg
@@ -134,12 +141,26 @@
             How unlockable item works
           </div>
           <div>
-            Figma ipsum component variant main layer. Scrolling outline pixel
-            vertical figma editor object content blur. Outline move object scale
-            bold stroke ima. Outline move object scale bold stroke imaOutline
-            move object scale bold stroke ima
+            Experience the excitement of unlocking hidden rewards! Get your
+            hands on exclusive merchandise (and an NFT!) linked to unlockable
+            content. For the next ten hours, the fastest ten individuals can
+            mint their very own anime waifu character NFT for free. Simply log
+            in with your wallet, click on the "Mint" button, and sign the
+            transaction. Afterward, check your profile to find the NFT and click
+            "Unlockable Content" to reveal the surprise. Follow the schedule so
+            you don't miss this!
           </div>
-          <NeoButton variant="unlockable" class="mt-2"> Learn More </NeoButton>
+          <NeoButton
+            tag="a"
+            href="https://hello.kodadot.xyz/fandom-toolbox/audience-growth/unlockables"
+            target="_blank"
+            variant="secondary"
+            class="mt-2">
+            Learn More
+          </NeoButton>
+        </div>
+        <div class="column">
+          <img :src="unloackableBanner" alt="Unlockable" />
         </div>
       </div>
     </div>
@@ -147,7 +168,7 @@
 </template>
 
 <script setup lang="ts">
-import UnlockableCollectionInfo from '@/components/collection/unlockable/CollectionInfo.vue'
+import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import { NeoButton } from '@kodadot1/brick'
@@ -156,14 +177,16 @@ import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { OSlider } from '@oruga-ui/oruga'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { collectionId, countDownTime } from './const'
 import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
-const { toast } = useToast()
+import { endOfHour, startOfHour } from 'date-fns'
+import { useCountDown } from './utils/useCountDown'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/shared/Loader.vue')
 )
+
+const { toast } = useToast()
 
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
@@ -173,8 +196,8 @@ const { urlPrefix } = usePrefix()
 const isLoading = ref(false)
 const status = ref('')
 const { accountId, isLogIn } = useAuth()
-
-console.log('account', isLogIn, accountId)
+const { hours, minutes, seconds } = useCountDown(countDownTime)
+const justMinted = ref('')
 
 onMounted(async () => {
   const res = await getLatestWaifuImages()
@@ -182,12 +205,16 @@ onMounted(async () => {
   resultList.value = res.result
 })
 
-const mintStartTime = new Date('Jun 4, 2023 10:00:00').getTime()
-const windowRange = [
-  new Date(mintStartTime),
-  // new Date(mintStartTime + 60 * 60 * 1000),
-  new Date('Jun 7, 2023 10:00:00'),
-]
+const leftTime = computed(() => {
+  const hoursLeft = hours.value > 0 ? `${hours.value} Hour ` : ''
+  const minutesLeft = minutes.value > 0 ? `${minutes.value} Minute ` : ''
+  const secondsLeft = seconds.value > 0 ? `${seconds.value} Sec ` : ''
+  const isFinish = !hoursLeft && !minutesLeft && !secondsLeft
+  return isFinish ? 'Finished' : `${hoursLeft}${minutesLeft}${secondsLeft}Left`
+})
+
+const now = new Date()
+const windowRange = [startOfHour(now), endOfHour(now)]
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
@@ -199,6 +226,19 @@ const { data: collectionData } = useGraphql({
     id: collectionId,
   },
 })
+
+const { data: stats, refetch: tryAgain } = useGraphql({
+  queryName: 'firstNftOwnedByAccountAndCollectionId',
+  variables: {
+    id: collectionId,
+    account: accountId.value,
+  },
+})
+
+const hasUserMinted = computed(
+  () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value
+)
+
 const totalCount = computed(() => collectionData.value?.max || 300)
 const totalAvailableMintCount = computed(
   () =>
@@ -216,11 +256,17 @@ const { data, refetch } = useGraphql({
   },
 })
 
+const refetchData = () => {
+  console.log('refetch')
+  refetch()
+  tryAgain()
+}
+
 useSubscriptionGraphql({
   query: `collectionEntityById(id: "${collectionId}") {
     nftCount
   }`,
-  onChange: refetch,
+  onChange: refetchData,
 })
 
 const mintedCount = computed(() => data.value?.minted?.count || 0)
@@ -232,7 +278,13 @@ const currentMintedCount = computed(() =>
 const mintButtonDisabled = computed(
   () => currentMintedCount.value >= MAX_PER_WINDOW
 )
-const timeFromNow = computed(() => timeAgo(countDownTime))
+
+const scrollToTop = () => {
+  window.scroll({
+    top: 0,
+    behavior: 'smooth',
+  })
+}
 
 const handleSubmitMint = async () => {
   if (isLoading.value) {
@@ -247,20 +299,28 @@ const handleSubmitMint = async () => {
   const hash = await createUnlockableMetadata(image)
 
   const { accountId } = useAuth()
-  await doWaifu(
-    {
-      address: accountId.value,
-      metadata: hash,
-      image: image,
-    },
-    UNLOCKABLE_CAMPAIGN
-  )
-    .catch(() => {
-      toast('failed to mint')
-    })
-    .finally(() => {
-      isLoading.value = false
-    })
+
+  try {
+    const res = await doWaifu(
+      {
+        address: accountId.value,
+        metadata: hash,
+        image: image,
+      },
+      UNLOCKABLE_CAMPAIGN
+    )
+
+    justMinted.value = `${collectionId}-${res.result.sn}`
+    scrollToTop()
+  } catch (error) {
+    toast('failed to mint')
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const redirectToMyWaifu = () => {
+  navigateTo(`/${urlPrefix.value}/gallery/${justMinted.value}`)
 }
 </script>
 
@@ -272,5 +332,9 @@ const handleSubmitMint = async () => {
     width: 14rem;
     height: 3.5rem;
   }
+}
+
+.order-1 {
+  order: 1;
 }
 </style>
