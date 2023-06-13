@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import { OIcon } from '@oruga-ui/oruga'
 
-const props = defineProps<{
+defineProps<{
   size?: 'small' | 'medium' | 'large'
   icon?: string
   pack?: string
