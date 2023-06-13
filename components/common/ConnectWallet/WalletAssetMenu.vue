@@ -53,7 +53,7 @@ import { langsFlags } from '@/utils/config/i18n'
 import { useLangStore } from '@/stores/lang'
 
 const { urlPrefix } = usePrefix()
-const { isBasilisk } = useIsChain(urlPrefix.value)
+const { isBasilisk } = useIsChain(urlPrefix)
 const { toggleColorMode, isDarkMode } = useTheme()
 
 const langStore = useLangStore()

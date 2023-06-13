@@ -22,7 +22,7 @@ import { NeoButton } from '@kodadot1/brick'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
 const { urlPrefix } = usePrefix()
-const { isBasilisk } = useIsChain(urlPrefix.value)
+const { isBasilisk } = useIsChain(urlPrefix)
 const { accountId } = useAuth()
 
 const showRampSDK = () => {
