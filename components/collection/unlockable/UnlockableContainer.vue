@@ -1,12 +1,6 @@
 <template>
   <div class="unlockable-container">
-    <Loader v-model="isLoading" :status="status" />
-    <MessageNotify
-      v-if="justMinted"
-      :duration="60000"
-      :title="$t('mint.success')"
-      :subtitle="$t('mint.unlockable.readyIn', ['60 sec'])"
-      @close="redirectToMyWaifu" />
+    <Loader v-model="isLoading" :minted="justMinted" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
@@ -183,7 +177,7 @@ import { endOfHour, startOfHour } from 'date-fns'
 import { useCountDown } from './utils/useCountDown'
 
 const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
+  () => import('@/components/collection/unlockable/UnlockableLoader.vue')
 )
 
 const { toast } = useToast()
@@ -194,7 +188,6 @@ const selectedImage = ref('')
 const MAX_PER_WINDOW = 10
 const { urlPrefix } = usePrefix()
 const isLoading = ref(false)
-const status = ref('')
 const { accountId, isLogIn } = useAuth()
 const { hours, minutes, seconds } = useCountDown(countDownTime)
 const justMinted = ref('')
