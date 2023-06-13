@@ -14,6 +14,9 @@ export default {
         },
       ]
     },
+    iconPack() {
+      return 'fas'
+    },
   },
 }
 </script>

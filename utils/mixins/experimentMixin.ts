@@ -10,6 +10,9 @@ export default class ExperimentMixin extends Vue {
   public searchParams = new URLSearchParams(window.location.search)
 
   get redesign() {
-    return this.searchParams.get('redesign') === 'true'
+    return (
+      this.searchParams.get('redesign') === 'true' ||
+      localStorage.getItem('redesign') === 'true'
+    )
   }
 }
