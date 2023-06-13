@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-2">
     <div class="balance">
       <div class="balance-row has-text-grey is-size-7">
         <div>{{ $t('general.chain') }}</div>
@@ -28,8 +28,7 @@
     </div>
 
     <hr class="my-2" />
-    <p
-      class="is-flex is-justify-content-space-between is-align-items-flex-end my-1">
+    <p class="is-flex is-justify-content-space-between is-align-items-flex-end">
       <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
       <span>${{ delimiter(identityStore.getTotalUsd) }}</span>
     </p>
@@ -71,7 +70,7 @@ function delimiter(amount: string | number) {
   const number = parseFloat(formatAmount.replace(/,/g, ''))
 
   return number.toLocaleString('en-US', {
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   })
 }
