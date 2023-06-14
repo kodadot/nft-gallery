@@ -1,51 +1,43 @@
 <template>
   <div>
     <Loader :value="$fetchState.pending" />
-    <b-table :data="data" hoverable class="hot-sticky-header">
-      <b-table-column v-slot="props" label="N°">
+    <NeoTable
+      :data="data"
+      hoverable
+      class="hot-sticky-header"
+      td-class="is-vcentered">
+      <NeoTableColumn v-slot="props" label="N°">
         {{ props.row.id }}
-      </b-table-column>
-      <b-table-column v-slot="props" label="Series Name">
+      </NeoTableColumn>
+      <NeoTableColumn v-slot="props" label="Series Name">
         <nuxt-link :to="`/rmrk/collection/${props.row.collectionId}`">
           {{ props.row.name }}
         </nuxt-link>
-      </b-table-column>
-      <b-table-column v-slot="props" cell-class="is-vcentered" label="Buys">
+      </NeoTableColumn>
+      <NeoTableColumn v-slot="props" label="Buys">
         {{ props.row.buys }}
-      </b-table-column>
-      <b-table-column
-        v-slot="props"
-        cell-class="is-vcentered"
-        label="Total Volume(KSM)">
+      </NeoTableColumn>
+      <NeoTableColumn v-slot="props" label="Total Volume(KSM)">
         {{ props.row.totalVolume }}
-      </b-table-column>
-      <b-table-column
-        v-slot="props"
-        cell-class="is-vcentered"
-        label="Last Sale Size(KSM)">
+      </NeoTableColumn>
+      <NeoTableColumn v-slot="props" label="Last Sale Size(KSM)">
         {{ props.row.latestSoldSize }}
-      </b-table-column>
-      <b-table-column
-        v-slot="props"
-        cell-class="is-vcentered"
-        label="Time Since Last Sale">
+      </NeoTableColumn>
+      <NeoTableColumn v-slot="props" label="Time Since Last Sale">
         {{ props.row.latestSoldTime }}
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
-        v-slot="props"
-        cell-class="is-vcentered"
-        label="Median Time Between Sales">
+      <NeoTableColumn v-slot="props" label="Median Time Between Sales">
         {{ props.row.medianDate }}
-      </b-table-column>
+      </NeoTableColumn>
 
       <template #empty>
-        <div v-if="!$fetchState.pending" class="has-text-centered">
+        <div v-if="!$fetchState.pending" class="w-100 has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="$fetchState.pending" />
       </template>
-    </b-table>
+    </NeoTable>
   </div>
 </template>
 
@@ -56,7 +48,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import groupBy from 'lodash/groupBy'
 import sortBy from 'lodash/sortBy'
 import { RowHot, SubsquidHotNft } from './types'
-import { NeoSkeleton } from '@kodadot1/brick'
+import { NeoSkeleton, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
@@ -64,8 +56,14 @@ import formatBalance from '@/utils/format/balance'
 import { getVolume } from '@/utils/math'
 import { lastweekDate } from '@/components/series/utils'
 
-@Component({
+const components = {
   NeoSkeleton,
+  NeoTable,
+  NeoTableColumn,
+}
+
+@Component({
+  components,
 })
 export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
   protected data: RowHot[] = []

@@ -1,116 +1,90 @@
 <template>
   <div class="block">
-    <b-collapse
-      :open="isOpen"
-      class="card"
-      :class="hideCollapse ? 'collapseHidden' : 'bordered'"
-      animation="slide"
-      aria-id="contentIdForHistory">
-      <template #trigger="props">
-        <div
-          class="card-header"
-          role="button"
-          aria-controls="contentIdForHistory">
-          <p class="card-header-title">
-            {{ $t('history.label') }}
-          </p>
-          <a class="card-header-icon">
-            <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
-          </a>
+    <div class="is-flex is-justify-content-space-between mb-4">
+      <b-select
+        v-model="selectedEvent"
+        placeholder="Select an event"
+        data-cy="select-event">
+        <option
+          v-for="option in uniqType"
+          :key="option.type"
+          :value="option.type">
+          {{ option.value }}
+        </option>
+      </b-select>
+      <Pagination
+        v-model="currentPage"
+        :total="total"
+        :per-page="itemsPerPage"
+        replace
+        enable-listen-keyboard-event
+        preserve-scroll />
+    </div>
+    <NeoTable :data="showList" class="mb-4" hoverable custom-row-key="ID">
+      <NeoTableColumn
+        v-slot="props"
+        field="Type"
+        label="Type"
+        class="type-table">
+        {{ getEventDisplayName(props.row.Type) }}
+      </NeoTableColumn>
+      <NeoTableColumn
+        v-if="displayItem"
+        v-slot="props"
+        class="short-identity__table"
+        field="Item"
+        label="Item">
+        <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.Item.id}`">
+          {{ props.row.Item.name || props.row.Item.id }}
+        </nuxt-link>
+      </NeoTableColumn>
+      <NeoTableColumn
+        v-slot="props"
+        class="short-identity__table"
+        field="From"
+        label="From">
+        <nuxt-link :to="`/${urlPrefix}/u/${props.row.From}`">
+          <Identity :address="props.row.From" />
+        </nuxt-link>
+      </NeoTableColumn>
+      <NeoTableColumn
+        v-slot="props"
+        :visible="isToColumnVisible"
+        class="short-identity__table"
+        field="To"
+        label="To">
+        <nuxt-link :to="`/${urlPrefix}/u/${props.row.toString}`">
+          <Identity :address="props.row.To" />
+        </nuxt-link>
+      </NeoTableColumn>
+      <NeoTableColumn
+        v-slot="props"
+        class="short-identity__table"
+        field="Amount"
+        label="Amount">
+        <div v-if="parseInt(props.row.Amount)">
+          <CommonTokenMoney :value="props.row.Amount" />
         </div>
-      </template>
-      <div class="box">
-        <div class="is-flex is-justify-content-space-between box-container">
-          <b-select
-            v-model="selectedEvent"
-            placeholder="Select an event"
-            data-cy="select-event">
-            <option
-              v-for="option in uniqType"
-              :key="option.type"
-              :value="option.type">
-              {{ option.value }}
-            </option>
-          </b-select>
-          <Pagination
-            v-model="currentPage"
-            :total="total"
-            :per-page="itemsPerPage"
-            replace
-            enable-listen-keyboard-event
-            preserve-scroll />
-        </div>
-        <b-table :data="showList" class="mb-4" hoverable custom-row-key="ID">
-          <b-table-column
-            v-slot="props"
-            field="Type"
-            label="Type"
-            cell-class="type-table">
-            {{ getEventDisplayName(props.row.Type) }}
-          </b-table-column>
-          <b-table-column
-            v-if="displayItem"
-            v-slot="props"
-            cell-class="short-identity__table"
-            field="Item"
-            label="Item">
-            <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.Item.id}`">
-              {{ props.row.Item.name || props.row.Item.id }}
-            </nuxt-link>
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            cell-class="short-identity__table"
-            field="From"
-            label="From">
-            <nuxt-link :to="`/${urlPrefix}/u/${props.row.From}`">
-              <Identity :address="props.row.From" />
-            </nuxt-link>
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            :visible="isToColumnVisible"
-            cell-class="short-identity__table"
-            field="To"
-            label="To">
-            <nuxt-link :to="`/${urlPrefix}/u/${props.row.toString}`">
-              <Identity :address="props.row.To" />
-            </nuxt-link>
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            cell-class="short-identity__table"
-            field="Amount"
-            label="Amount">
-            <div v-if="parseInt(props.row.Amount)">
-              <CommonTokenMoney :value="props.row.Amount" />
-            </div>
-            <div v-else>-</div>
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            cell-class="short-identity__table"
-            :visible="isPercentageColumnVisible"
-            field="Percentage"
-            label="Percentage">
-            <span :class="percentageTextClassName(props.row.Percentage)">
-              {{ props.row.Percentage | toPercent('-') }}
-            </span>
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            cell-class="short-identity__table"
-            field="Date"
-            label="Date">
-            <NeoTooltip :label="props.row.Date" position="right" multiline>
-              <BlockExplorerLink
-                :block-id="props.row.Block"
-                :text="props.row.Time" />
-            </NeoTooltip>
-          </b-table-column>
-        </b-table>
-      </div>
-    </b-collapse>
+        <div v-else>-</div>
+      </NeoTableColumn>
+      <NeoTableColumn
+        v-slot="props"
+        class="short-identity__table"
+        :visible="isPercentageColumnVisible"
+        field="Percentage"
+        label="Percentage">
+        <span :class="percentageTextClassName(props.row.Percentage)">
+          {{ props.row.Percentage | toPercent('-') }}
+        </span>
+      </NeoTableColumn>
+      <NeoTableColumn v-slot="props" field="Date" label="Date">
+        <NeoTooltip :label="props.row.Date" position="left">
+          <BlockExplorerLink
+            :block-id="props.row.Block"
+            :text="props.row.Time" />
+        </NeoTooltip>
+      </NeoTableColumn>
+    </NeoTable>
   </div>
 </template>
 
@@ -137,7 +111,7 @@ import {
 import shortAddress from '@/utils/shortAddress'
 
 import { Interaction as EventInteraction } from '../service/scheme'
-import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoIcon, NeoTable, NeoTableColumn, NeoTooltip } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
@@ -145,6 +119,8 @@ const components = {
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   NeoIcon,
+  NeoTable,
+  NeoTableColumn,
   NeoTooltip,
 }
 
@@ -368,7 +344,7 @@ export default class History extends mixins(
 
       event['Block'] = String(newEvent['blockNumber'])
 
-      // ID for b-table: Use a unique key of your data Object for each row.
+      // ID for table: Use a unique key of your data Object for each row.
       event['ID'] = newEvent['timestamp'] + newEvent['id']
 
       // Push to chart data
