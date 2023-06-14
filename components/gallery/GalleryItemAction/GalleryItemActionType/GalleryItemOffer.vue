@@ -53,7 +53,7 @@
             class="offer is-flex is-justify-content-space-between is-align-items-center">
             <input
               v-model="offerPrice"
-              class="input-price is-flex is-align-items-center"
+              class="input-price is-flex is-align-items-center px-4"
               type="number"
               placeholder="Type Your Offer"
               :min="MIN_OFFER_PRICE" />
