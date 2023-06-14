@@ -55,7 +55,7 @@
               v-model="offerPrice"
               class="input-price is-flex is-align-items-center px-4"
               type="number"
-              placeholder="Type Your Offer"
+              placeholder="Your Offer"
               :min="MIN_OFFER_PRICE" />
             <div class="px-4">KSM</div>
           </div>
