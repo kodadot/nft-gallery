@@ -106,7 +106,7 @@
           <div>
             <span> {{ $t('mint.unlockable.phaseIntroduction') }}</span>
           </div>
-          <!-- <UnlockableSchedule /> -->
+          <UnlockableSchedule />
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
           <ImageSlider
@@ -167,7 +167,7 @@ import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import { NeoButton } from '@kodadot1/brick'
 import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
-// import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
+import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { OSlider } from '@oruga-ui/oruga'
