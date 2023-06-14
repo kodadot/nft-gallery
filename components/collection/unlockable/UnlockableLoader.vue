@@ -5,12 +5,12 @@
       <img :src="unloackableLoaderImg" />
       <div class="is-flex is-flex-direction-column is-align-items-center px-7">
         <div class="has-text-weight-bold my-2">Congratulations</div>
-        <div class="is-size-7">
+        <div>
           Get ready for the big reveal! Your NFT will be visible in just
           <span class="has-text-weight-bold">30 seconds.</span>
         </div>
         <NeoButton
-          class="mb-2 mt-5 loading-button"
+          class="mb-2 mt-4 loading-button"
           variant="secondary"
           tag="nuxt-link"
           :to="`/${urlPrefix}/gallery/${minted}`"
