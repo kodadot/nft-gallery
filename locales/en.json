@@ -477,6 +477,8 @@
     "unlockable": {
       "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
       "readyIn": "Your mint will be ready in {0}, DO NOT CLOSE THIS WINDOW",
+      "viewItem": "View Item",
+      "preparing": "Preparing Your Item...",
       "alreadyMinted": "🎉 You already have this NFT, check it here"
     }
   },
