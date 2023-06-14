@@ -35,13 +35,8 @@ describe('simple mint in rmrk', () => {
     // description
     cy.get('[data-cy="input-description"]').type('this is some description')
 
-    // check edition
-    cy.get('[data-cy="input-edition"] .control.minus button').click({
-      force: true,
-    })
     cy.get('[data-cy="input-edition"] input').should('have.value', 1)
     cy.get('[data-cy="input-advance-settings"]').should('not.exist')
-    cy.get('[data-cy="input-edition"] .control.plus button').click().click()
     cy.get('[data-cy="input-edition"] input').should('have.value', 3)
     cy.get('[data-cy="input-advance-settings"]').should('exist')
 
