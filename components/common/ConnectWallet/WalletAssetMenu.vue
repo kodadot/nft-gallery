@@ -52,7 +52,8 @@ import { NeoIcon } from '@kodadot1/brick'
 import { langsFlags } from '@/utils/config/i18n'
 import { useLangStore } from '@/stores/lang'
 
-const { urlPrefix, isBasilisk } = usePrefix()
+const { urlPrefix } = usePrefix()
+const { isBasilisk } = useIsChain(urlPrefix)
 const { toggleColorMode, isDarkMode } = useTheme()
 
 const langStore = useLangStore()
