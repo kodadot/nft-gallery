@@ -311,10 +311,6 @@ const handleSubmitMint = async () => {
     isLoading.value = false
   }
 }
-
-const redirectToMyWaifu = () => {
-  navigateTo(`/${urlPrefix.value}/gallery/${justMinted.value}`)
-}
 </script>
 
 <style scoped lang="scss">
