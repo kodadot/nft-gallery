@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="unlockableLandingTagVisible"
+    v-if="isUnlockableLandingTagVisible"
     class="unlockable-landing-tag is-flex border is-justify-content-space-between px-4 mt-6 mx-4">
     <div class="is-flex is-align-items-center">
       <svg
@@ -50,19 +50,14 @@
 
     <nuxt-link
       class="is-flex is-align-items-center has-text-weight-bold"
-      :to="`/${urlPrefix}/unlockable`">
+      :to="`/stmn/unlockable`">
       Take Me There!
     </nuxt-link>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { enableUnlockableMintPrefix } from './const'
-const { urlPrefix } = usePrefix()
-
-const unlockableLandingTagVisible = computed(() =>
-  enableUnlockableMintPrefix.includes(urlPrefix.value)
-)
+const isUnlockableLandingTagVisible = true
 </script>
 
 <style lang="scss" scoped>
