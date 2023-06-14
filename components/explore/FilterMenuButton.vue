@@ -1,11 +1,14 @@
 <template>
   <div class="has-addons is-flex is-align-items-center" data-cy="tabs">
     <a
-      :class="[{ disabled: disabled }, 'is-hidden-mobile']"
+      :class="[
+        { disabled: disabled },
+        'is-hidden-mobile is-flex is-align-items-center',
+      ]"
       @click="toggleSidebarFilters">
       <NeoIcon
         :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
-        pack="far"
+        pack="fa-sharp"
         size="medium" />
     </a>
     <div class="is-hidden-tablet is-relative">
