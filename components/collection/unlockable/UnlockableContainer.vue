@@ -175,7 +175,6 @@ import { collectionId, countDownTime } from './const'
 import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
 import { useCountDown } from './utils/useCountDown'
-const { redesign } = useExperiments()
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')
@@ -188,7 +187,7 @@ const resultList = ref<any[]>([])
 const selectedImage = ref('')
 const MAX_PER_WINDOW = 10
 const { urlPrefix } = usePrefix()
-const isLoading = ref(redesign.value || false)
+const isLoading = ref(false)
 const { accountId, isLogIn } = useAuth()
 const { hours, minutes, seconds } = useCountDown(countDownTime)
 const justMinted = ref('')
@@ -197,13 +196,6 @@ onMounted(async () => {
   const res = await getLatestWaifuImages()
   imageList.value = res.result.map((item) => item.output)
   resultList.value = res.result
-
-  // for preview test
-  if (redesign.value) {
-    setTimeout(() => {
-      justMinted.value = '123'
-    }, 5000)
-  }
 })
 
 const leftTime = computed(() => {
