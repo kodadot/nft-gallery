@@ -4,7 +4,6 @@
     class="unlockable-landing-tag is-flex border is-justify-content-space-between px-4 mt-6 mx-4">
     <div class="is-flex is-align-items-center">
       <svg
-        class="mr-2"
         width="42"
         height="42"
         viewBox="0 0 42 42"
@@ -36,7 +35,7 @@
         </defs>
       </svg>
 
-      <span> Free Unlockable Mint Live </span>
+      <span> {{ $t('mint.unlockable.mintLive') }} </span>
       <svg
         class="mx-2"
         width="15"
@@ -50,8 +49,8 @@
 
     <nuxt-link
       class="is-flex is-align-items-center has-text-weight-bold"
-      :to="`/stmn/unlockable`">
-      Take Me There!
+      to="/stmn/unlockable">
+      {{ $t('mint.unlockable.takeMe') }}
     </nuxt-link>
   </div>
 </template>
