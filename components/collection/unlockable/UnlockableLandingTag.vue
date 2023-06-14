@@ -36,15 +36,7 @@
       </svg>
 
       <span> {{ $t('mint.unlockable.mintLive') }} </span>
-      <svg
-        class="mx-2"
-        width="15"
-        height="2"
-        viewBox="0 0 15 2"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <line y1="1" x2="15" y2="1" stroke="#CCCCCC" />
-      </svg>
+      <NeoIcon icon="horizontal-rule" size="small" class="separator mx-2" />
     </div>
 
     <nuxt-link
@@ -56,6 +48,7 @@
 </template>
 
 <script lang="ts" setup>
+import { NeoIcon } from '@kodadot1/brick'
 const isUnlockableLandingTagVisible = true
 </script>
 
@@ -65,6 +58,12 @@ const isUnlockableLandingTagVisible = true
   border-radius: 2rem;
   @include ktheme() {
     background-color: theme('background-color');
+  }
+  .separator {
+    color: $placeholder-color;
+    width: 15px;
+    height: 2px;
+    overflow: hidden;
   }
 }
 </style>
