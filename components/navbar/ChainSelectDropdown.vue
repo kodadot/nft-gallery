@@ -14,8 +14,8 @@
       :value="option.value"
       :class="{ 'is-active': selected === option.value }"
       :data-cy="`chain-dropdown-${option.value}`">
-      {{ option.text }}
-    </b-dropdown-item>
+      {{ option.text }} </b-dropdown-item
+    >
   </b-dropdown>
 </template>
 
