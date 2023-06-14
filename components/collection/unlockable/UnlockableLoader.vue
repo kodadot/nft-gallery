@@ -7,10 +7,10 @@
         <div class="has-text-weight-bold my-2">Congratulations</div>
         <div>
           Get ready for the big reveal! Your NFT will be visible in just
-          <span class="has-text-weight-bold">30 seconds.</span>
+          <span class="has-text-weight-bold">30 seconds</span> on your profile.
         </div>
         <NeoButton
-          class="mb-2 mt-4 loading-button"
+          class="mb-2 mt-4 loading-button is-size-6"
           variant="secondary"
           tag="nuxt-link"
           :to="`/${urlPrefix}/gallery/${minted}`"
