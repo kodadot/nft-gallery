@@ -1,12 +1,6 @@
 <template>
   <div class="unlockable-container">
-    <Loader v-model="isLoading" :status="status" />
-    <MessageNotify
-      v-if="justMinted"
-      :duration="60000"
-      :title="$t('mint.success')"
-      :subtitle="$t('mint.unlockable.readyIn', ['60 sec'])"
-      @close="redirectToMyWaifu" />
+    <Loader v-model="isLoading" :minted="justMinted" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
@@ -112,7 +106,7 @@
           <div>
             <span> {{ $t('mint.unlockable.phaseIntroduction') }}</span>
           </div>
-          <!-- <UnlockableSchedule /> -->
+          <UnlockableSchedule />
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
           <ImageSlider
@@ -173,7 +167,7 @@ import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import { NeoButton } from '@kodadot1/brick'
 import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
-// import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
+import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { OSlider } from '@oruga-ui/oruga'
@@ -183,7 +177,7 @@ import { endOfHour, startOfHour } from 'date-fns'
 import { useCountDown } from './utils/useCountDown'
 
 const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
+  () => import('@/components/collection/unlockable/UnlockableLoader.vue')
 )
 
 const { toast } = useToast()
@@ -194,7 +188,6 @@ const selectedImage = ref('')
 const MAX_PER_WINDOW = 10
 const { urlPrefix } = usePrefix()
 const isLoading = ref(false)
-const status = ref('')
 const { accountId, isLogIn } = useAuth()
 const { hours, minutes, seconds } = useCountDown(countDownTime)
 const justMinted = ref('')
@@ -317,10 +310,6 @@ const handleSubmitMint = async () => {
   } finally {
     isLoading.value = false
   }
-}
-
-const redirectToMyWaifu = () => {
-  navigateTo(`/${urlPrefix.value}/gallery/${justMinted.value}`)
 }
 </script>
 

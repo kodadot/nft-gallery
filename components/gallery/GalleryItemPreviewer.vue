@@ -28,14 +28,19 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'
 import { MediaItem, NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
-import { useGalleryItem } from './useGalleryItem'
-const { nft, nftAnimation, nftMimeType } = useGalleryItem()
+import { GalleryItem } from './useGalleryItem'
 const { placeholder } = useTheme()
 
 const props = defineProps<{
   value: boolean
   itemSrc: string
+  galleryItem: GalleryItem
 }>()
+
+const nft = computed(() => props.galleryItem.nft.value)
+const nftMimeType = computed(() => props.galleryItem.nftMimeType.value)
+const nftAnimation = computed(() => props.galleryItem.nftAnimation.value)
+
 const emit = defineEmits(['input'])
 const isFullscreen = useVModel(props, 'value', emit)
 </script>

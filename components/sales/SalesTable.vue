@@ -1,20 +1,16 @@
 <template>
   <div>
     <Loader :value="$fetchState.pending" />
-    <b-table :data="data" hoverable class="series-sticky-header">
-      <b-table-column
-        v-slot="props"
-        cell-class="is-vcentered"
-        field="idx"
-        label="N°">
+    <NeoTable :data="data" hoverable>
+      <NeoTableColumn v-slot="props" position="centered" field="idx" label="N°">
         {{ props.row.idx }}
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
         field="image"
         label=""
-        header-class="front-stack-layer"
-        cell-class="is-vcentered">
+        class="front-stack-layer"
+        position="centered">
         <div class="image is-48x48">
           <nuxt-link :to="`/rmrk/gallery/${props.row.id}`">
             <BasicPopup placement="top">
@@ -33,72 +29,77 @@
             </BasicPopup>
           </nuxt-link>
         </div>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="name"
         :label="$t('name')">
         <nuxt-link :to="`/rmrk/gallery/${props.row.id}`">
           {{ props.row.name }}
         </nuxt-link>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="collectionId"
         label="Collection">
         <nuxt-link :to="`/rmrk/collection/${props.row.collectionId}`">
           {{ props.row.collectionName }}
         </nuxt-link>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="buyer"
         :label="$t('sales.buyer')">
         <nuxt-link :to="`/rmrk/u/${props.row.buyer}`">
           <Identity :address="props.row.buyer" />
         </nuxt-link>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="timestamp"
         :label="$t('sales.tableDate')">
         <div>
-          <NeoTooltip :label="props.row.date">
+          <NeoTooltip :label="props.row.date" position="left">
             <BlockExplorerLink
               :text="props.row.relDate"
               :block-id="props.row.blockNumber" />
           </NeoTooltip>
         </div>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="salePrice"
         :label="$t('sales.price')">
         <Money :value="props.row.salePrice" inline />
-      </b-table-column>
+      </NeoTableColumn>
 
       <template #empty>
-        <div v-if="!$fetchState.pending" class="has-text-centered">
+        <div v-if="!$fetchState.pending" class="w-100 has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="$fetchState.pending" />
       </template>
-    </b-table>
+    </NeoTable>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import { NeoSkeleton, NeoTooltip } from '@kodadot1/brick'
+import {
+  NeoSkeleton,
+  NeoTable,
+  NeoTableColumn,
+  NeoTooltip,
+} from '@kodadot1/brick'
 
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
@@ -115,12 +116,14 @@ const components = {
   BasicPopup: () => import('@/components/shared/view/BasicPopup.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
   NeoSkeleton,
+  NeoTable,
+  NeoTableColumn,
   NeoTooltip,
 }
 
 @Component({ components })
 export default class SalesTable extends mixins(PrefixMixin) {
-  protected data: RowSales[] = []
+  public data: RowSales[] = []
 
   async fetch() {
     await this.fetchSalesFeed()
@@ -161,13 +164,6 @@ export default class SalesTable extends mixins(PrefixMixin) {
 .history {
   width: 200px;
   height: 100px;
-}
-
-.series-sticky-header th {
-  top: 120px;
-  position: sticky;
-  background: $frosted-glass-background;
-  backdrop-filter: $frosted-glass-backdrop-filter;
 }
 
 .front-stack-layer {
