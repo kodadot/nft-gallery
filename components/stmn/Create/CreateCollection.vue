@@ -1,9 +1,14 @@
 <template>
   <div>
+    <Loader v-model="isLoading" :status="status" />
+
     <h2 class="title is-size-3">
       {{ $t('mint.collection.create') }}
     </h2>
     <form class="w-full">
+      <NeoField>
+        <Auth />
+      </NeoField>
       <NeoField :label="$t('mint.collection.logo.label')" class="w-full mb-4">
         <MetadataUpload
           ref="collectionImage"
@@ -53,6 +58,9 @@ import { NeoField, NeoInput } from '@kodadot1/brick'
 const MetadataUpload = defineAsyncComponent(
   () => import('@/components/rmrk/Create/DropUpload.vue')
 )
+
+const isLoading = ref(false)
+const status = ref('')
 
 const name = ref('')
 const description = ref('')
