@@ -5,3 +5,9 @@
     color: theme('k-green');
   }
 }
+.o-icon--primary {
+  @include ktheme() {
+    color: theme('k-primary');
+  }
+
+}
