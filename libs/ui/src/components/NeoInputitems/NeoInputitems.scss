@@ -5,8 +5,10 @@
 
 $inputitems-border-radius: 0;
 $inputitems-item-border-radius: 0;
+$autocomplete-menu-border-radius: 0;
 
 @import '../NeoInput/NeoInput.scss';
+@import '@oruga-ui/oruga/src/scss/components/autocomplete.scss';
 @import '@oruga-ui/oruga/src/scss/components/inputitems.scss';
 
 .o-inputit__container {
@@ -17,17 +19,12 @@ $inputitems-item-border-radius: 0;
 		background-color: theme('background-color');
 		color: theme('text-color');
 
-		.o-input {
-		background-color: theme('background-color');
-		color: theme('text-color');
-		}
-
 		&:focus {
-		border: 1px solid theme('text-color');
+			border: 1px solid theme('text-color');
 		}
 	}
 }
 
-.o-acp__menu{
+.o-acp__menu {
 	width: 100%!important;
 }

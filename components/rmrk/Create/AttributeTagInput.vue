@@ -6,6 +6,11 @@
       :data="allTags"
       :maxitems="max"
       :placeholder="placeholder"
+      variant="info"
+      item-class="my-3"
+      :autocomplete-classes="{
+        'item-class': 'p-2',
+      }"
       aria-close-label="Delete this tag"
       icon="tag"
       open-on-focus
@@ -31,7 +36,7 @@ const allTags = ref(['audio', 'video', 'image', 'music', 'abstract'])
 
 const props = withDefaults(
   defineProps<{
-    attr?: []
+    attr: []
     max?: number
     placeholder?: string
     simple?: boolean
