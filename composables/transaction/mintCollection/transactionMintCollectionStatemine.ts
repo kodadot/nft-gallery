@@ -1,5 +1,5 @@
 import type { ActionMintCollection, ExecuteTransactionParams } from '../types'
-// import { constructMeta } from './constructMeta'
+import { constructMeta } from './constructMeta'
 import { useNewCollectionId } from './useNewCollectionId'
 import { createArgsForNftPallet } from './utils'
 
@@ -9,22 +9,23 @@ export async function execMintCollectionStatemine(
   executeTransaction: (p: ExecuteTransactionParams) => void
 ) {
   const { $i18n } = useNuxtApp()
-  // const metadata = await constructMeta(item)
+  const metadata = await constructMeta(item)
   const { accountId } = useAuth()
 
   const cb = api.tx.utility.batchAll
+  debugger
 
   const { newCollectionId } = useNewCollectionId()
 
   const createArgs = createArgsForNftPallet(accountId.value)
-  const arg = [
-    [
-      api.tx.nfts.create(...createArgs),
-      // api.tx.nfts.setCollectionMetadata(newCollectionId, metadata), // TODO: we do not know collectionId
-    ],
-  ]
 
   watch(newCollectionId, (id) => {
+    const arg = [
+      [
+        api.tx.nfts.create(...createArgs),
+        api.tx.nfts.setCollectionMetadata(newCollectionId, metadata), // TODO: we do not know collectionId
+      ],
+    ]
     if (id) {
       executeTransaction({
         cb,
