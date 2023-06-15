@@ -13,25 +13,26 @@
     </div>
     <div
       class="wallet-asset-footer is-flex is-justify-content-space-between py-4 is-size-7 has-text-grey">
+      <!-- light/dark mode -->
       <div @click="toggleColorMode">
         <NeoIcon icon="circle-half-stroke" />
         <span v-if="isDarkMode">{{ $t('profileMenu.lightMode') }}</span>
         <span v-else>{{ $t('profileMenu.darkMode') }}</span>
       </div>
-      <div @click="toggleLanguageMenu">
-        <NeoIcon icon="globe" />
-        <span>{{ $t('profileMenu.language') }}</span>
-        <b-dropdown
-          ref="languageDropdown"
-          position="is-top-left"
-          aria-role="menu"
-          mobile-modal
-          :toggle="toggleLanguageMenu">
+
+      <!-- language -->
+      <div data-cy="sidebar-language">
+        <b-dropdown position="is-top-left" aria-role="menu" mobile-modal>
+          <template #trigger>
+            <NeoIcon icon="globe" />
+            <span>{{ $t('profileMenu.language') }}</span>
+          </template>
+
           <b-dropdown-item
             v-for="lang in langsFlags"
             :key="lang.value"
             aria-role="listitem"
-            has-link
+            :data-cy="`sidebar-language-${lang.value}`"
             :value="lang.value"
             :class="{ 'is-active': langStore.getUserLang === lang.value }"
             @click="langStore.setLanguage({ userLang: lang.value })">
@@ -39,6 +40,8 @@
           </b-dropdown-item>
         </b-dropdown>
       </div>
+
+      <!-- settings -->
       <a href="/settings" class="has-text-grey">
         <NeoIcon icon="gear" />
         <span>{{ $t('settings') }}</span>
@@ -86,13 +89,6 @@ onMounted(() => {
     })
   }
 })
-
-const languageDropdown = ref(null)
-const toggleLanguageMenu = () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  languageDropdown.value?.toggle()
-}
 </script>
 
 <style lang="scss" scoped>

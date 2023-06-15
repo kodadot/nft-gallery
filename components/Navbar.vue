@@ -96,49 +96,17 @@
         @closeBurgerMenu="closeBurgerMenu" />
       <template v-if="isMobile">
         <MobileLanguageOption v-if="!account" />
-        <MobileExpandableSection
-          v-if="account && !redesign"
-          :no-padding="true"
-          :title="$t('account')"
-          icon="user-circle"
-          icon-family="fa">
-          <b-navbar-item
-            :to="`/${urlPrefix}/u/${account}`"
-            data-cy="hot"
-            tag="nuxt-link">
-            {{ $t('profile.page') }}
-          </b-navbar-item>
-          <b-navbar-item
-            :to="{ name: 'identity' }"
-            data-cy="hot"
-            tag="nuxt-link">
-            {{ $t('identity.page') }}
-          </b-navbar-item>
-          <b-navbar-item data-cy="hot" tag="nuxt-link" to="/settings">
-            {{ $t('settings') }}
-          </b-navbar-item>
-          <MobileLanguageOption />
-          <MobileNavbarProfile
-            id="NavProfile"
-            @closeBurgerMenu="closeBurgerMenu" />
-        </MobileExpandableSection>
         <div
           v-if="account"
           class="navbar-item"
           @click.stop="openWalletConnectModal">
-          <span v-if="redesign">
+          <span>
             {{ $t('profile.page') }}
             <NeoIcon icon="user-circle" />
           </span>
-          <span v-else>
-            {{ $t('wallet') }}
-            <NeoIcon icon="wallet" />
-          </span>
           <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
         </div>
-        <ColorModeButton
-          v-if="(!account && redesign) || !redesign"
-          class="navbar-item" />
+        <ColorModeButton v-if="!account" class="navbar-item" />
 
         <div v-if="!account" id="NavProfile">
           <ConnectWalletButton
@@ -164,14 +132,12 @@ import type Vue from 'vue'
 
 import KodaBeta from '@/assets/Koda_Beta.svg'
 import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
-import ColorModeButton from '@/components/common/ColorModeButton.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
 import ExploreDropdown from '@/components/navbar/ExploreDropdown.vue'
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
 import MobileLanguageOption from '@/components/navbar/MobileLanguageOption.vue'
-import MobileNavbarProfile from '@/components/navbar/MobileNavbarProfile.vue'
 import NavbarChainOptions from '@/components/navbar/NavbarChainOptions.vue'
 import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
 import NotificationBoxButton from '@/components/navbar/NotificationBoxButton.vue'
@@ -194,7 +160,6 @@ const isMobile = ref(window.innerWidth < 1024)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
-const { redesign } = useExperiments()
 
 const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
@@ -218,7 +183,7 @@ const openWalletConnectModal = (): void => {
   $buefy.modal.open({
     parent: root?.value,
     ...ConnectWalletModalConfig,
-  } as any as BModalConfig)
+  } as unknown as BModalConfig)
 }
 
 watch([isBurgerMenuOpened], () => {
