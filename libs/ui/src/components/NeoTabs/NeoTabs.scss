@@ -1,0 +1,88 @@
+@import '../../scss/_theme.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/_expressions.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/_variables.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/_animations.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/_helpers.scss';
+@import '@oruga-ui/oruga/src/scss/components/_tabs.scss';
+
+.neo-tabs--toggle {
+  @include ktheme() {
+    background: theme('background-color');
+    box-shadow: theme('primary-shadow');
+  }
+}
+
+.o-tabs {
+  &__nav {
+    overflow-x: initial;
+
+    &--toggle {
+      padding-bottom: 0;
+
+      & + .o-tabs__content {
+        @include ktheme() {
+          border: 1px solid theme('border-color');
+          border-top: 0;
+        }
+      }
+    }
+
+    &-item {
+      font-family: 'Work Sans';
+      font-size: 1rem;
+
+      &-toggle {
+        padding: 8px;
+
+        @include ktheme() {
+          border: 1px solid theme('border-color');
+          color: theme('text-color');
+          border-right: 0;
+
+          &--active {
+            background-color: theme('background-color-inverse');
+            color: theme('text-color-inverse');
+          }
+
+          &--disabled {
+            cursor: auto;
+            opacity: unset;
+            color: rgba($color: theme('text-color'), $alpha: 0.5) !important;
+
+            .neo-tooltip {
+              pointer-events: all;
+            }
+
+            &:hover {
+              background-color: inherit !important;
+            }
+          }
+
+          &:hover:not(.o-tabs__nav-item-toggle--active) {
+            background-color: theme('k-accentlight2');
+            border-color: theme('border-color');
+          }
+        }
+      }
+
+      &-wrapper:last-child {
+        button.o-tabs__nav-item-toggle {
+          @include ktheme() {
+            border-right: 1px solid theme('border-color');
+          }
+        }
+      }
+    }
+  }
+
+  .o-tab-item__content {
+    height: 100%;
+  }
+
+  &__content {
+    &--fixed {
+      height: 20rem;
+      overflow-y: auto;
+    }
+  }
+}

@@ -1,7 +1,11 @@
 <template>
-  <o-tabs v-model="activeTab" expanded content-class="o-tabs__content--fixed">
+  <NeoTabs
+    v-model="activeTab"
+    expanded
+    content-class="o-tabs__content--fixed"
+    type="toggle">
     <!-- description tab -->
-    <o-tab-item value="0" :label="$t('tabs.description')" class="p-5">
+    <NeoTabItem value="0" :label="$t('tabs.description')" class="p-5">
       <div class="mb-3 is-flex">
         <span class="mr-2">{{ $t('tabs.tabDescription.made') }}:</span>
         <nuxt-link
@@ -13,14 +17,25 @@
       </div>
 
       <Markdown :source="descSource" class="gallery-item-desc-markdown" />
-    </o-tab-item>
+    </NeoTabItem>
 
     <!-- properties tab -->
-    <DisablableTab
+    <NeoTabItem
       value="1"
       :disabled="propertiesTabDisabled"
-      :label="$t('tabs.properties')"
-      :disabled-tooltip="$t('tabs.noPropertiesForNFT')">
+      :label="$t('tabs.properties')">
+      <template #header>
+        <NeoTooltip
+          v-if="propertiesTabDisabled"
+          :label="$t('tabs.noPropertiesForNFT')"
+          stop-events>
+          {{ $t('tabs.properties') }}
+        </NeoTooltip>
+        <div v-else>
+          {{ $t('tabs.properties') }}
+        </div>
+      </template>
+
       <o-table v-if="properties?.length" :data="properties" hoverable>
         <o-table-column
           v-slot="props"
@@ -32,10 +47,11 @@
           {{ props.row.value }}
         </o-table-column>
       </o-table>
-    </DisablableTab>
+      <div v-else></div>
+    </NeoTabItem>
 
     <!-- details tab -->
-    <o-tab-item value="2" :label="$t('tabs.details')" class="p-5">
+    <NeoTabItem value="2" :label="$t('tabs.details')" class="p-5">
       <!-- <div class="is-flex is-justify-content-space-between">
         <p>Contract Address</p>
         <p>--</p>
@@ -88,11 +104,11 @@
           >{{ metadataMimeType }}</a
         >
       </div>
-    </o-tab-item>
+    </NeoTabItem>
 
     <!-- parent tab -->
     <div v-if="parent">
-      <o-tab-item value="3" :label="$t('tabs.parent')" class="p-5">
+      <NeoTabItem value="3" :label="$t('tabs.parent')" class="p-5">
         <nuxt-link :to="parentNftUrl">
           <MediaItem
             :key="parent?.nftImage"
@@ -110,17 +126,17 @@
             {{ parent?.nftMetadata?.value?.name }}
           </p>
         </nuxt-link>
-      </o-tab-item>
+      </NeoTabItem>
     </div>
-  </o-tabs>
+  </NeoTabs>
 </template>
 
 <script setup lang="ts">
-import { OTabItem, OTable, OTableColumn, OTabs } from '@oruga-ui/oruga'
+import { OTable, OTableColumn } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
-import { DisablableTab, MediaItem } from '@kodadot1/brick'
+import { MediaItem, NeoTabItem, NeoTabs, NeoTooltip } from '@kodadot1/brick'
 
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
