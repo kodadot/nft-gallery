@@ -37,6 +37,7 @@ describe('simple mint in rmrk', () => {
 
     cy.get('[data-cy="input-edition"] input').should('have.value', 1)
     cy.get('[data-cy="input-advance-settings"]').should('not.exist')
+    cy.get('[data-cy="input-edition"] input').clear().type('3')
     cy.get('[data-cy="input-edition"] input').should('have.value', 3)
     cy.get('[data-cy="input-advance-settings"]').should('exist')
 
