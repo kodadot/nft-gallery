@@ -25,17 +25,15 @@
         </template>
 
         <template #content>
-          <div>
-            <input
-              v-model="price"
-              class="input-price pl-3"
-              type="number"
-              :placeholder="
-                isListed
-                  ? `${$i18n.t('transaction.price.new')}`
-                  : `${$i18n.t('transaction.price.list')}`
-              " />
-          </div>
+          <input
+            v-model="price"
+            class="input-price px-4"
+            type="number"
+            :placeholder="
+              isListed
+                ? `${$i18n.t('transaction.price.new')}`
+                : `${$i18n.t('transaction.price.list')}`
+            " />
         </template>
       </GalleryItemActionSlides>
     </GalleryItemPriceSection>

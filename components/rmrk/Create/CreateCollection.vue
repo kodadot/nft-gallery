@@ -18,10 +18,11 @@
           v-if="!unlimited"
           class="mt-1"
           :label="$t('Maximum NFTs in collection')">
-          <b-numberinput
+          <NeoInput
             v-model="max"
-            placeholder="1 is minumum"
-            :min="1"></b-numberinput>
+            type="number"
+            placeholder="1 is the minimum"
+            :min="1" />
         </NeoField>
         <BasicInput
           ref="symbolInput"
@@ -61,7 +62,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { Component, Ref, mixins } from 'nuxt-property-decorator'
 import { BaseCollectionType } from '@/composables/transaction/types'
-import { NeoField } from '@kodadot1/brick'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -70,6 +71,7 @@ const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   NeoField,
+  NeoInput,
 }
 
 @Component({ components })

@@ -9,7 +9,7 @@ export type NeoButtonVariant =
   | 'connect'
   | 'connect-dropdown'
   | 'icon'
-  | 'unlockable'
+  | 'secondary'
   | 'disabled-secondary'
 
 export type NftCardVariant = 'primary' | 'minimal'

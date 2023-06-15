@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { OTabItem, OTabs } from '@oruga-ui/oruga'
 
-import { useGalleryItem } from '../useGalleryItem'
+import { GalleryItem } from '../useGalleryItem'
 import GalleryItemActivity from './GalleryItemActivity.vue'
 import GalleryItemChart from './GalleryItemChart.vue'
 import GalleryItemOffers from './GalleryItemOffers.vue'
@@ -41,6 +41,7 @@ import { DisablableTab } from '@kodadot1/brick'
 const props = withDefaults(
   defineProps<{
     activeTab?: string
+    galleryItem: GalleryItem
   }>(),
   {
     activeTab: '0',
@@ -48,7 +49,7 @@ const props = withDefaults(
 )
 
 const { urlPrefix } = usePrefix()
-const { nft } = useGalleryItem()
+const nft = computed(() => props.galleryItem.nft.value)
 const { offersDisabled } = useChain()
 
 const activeTab = ref('0')

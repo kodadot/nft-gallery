@@ -1,16 +1,34 @@
-<script lang="ts">
+<script>
 import { OField } from '@oruga-ui/oruga'
 
 export default {
   mixins: [OField],
   computed: {
     classes() {
-      return ['neo-field']
+      return [
+        'neo-field',
+        this.computedClass('rootClass', 'o-field'),
+        {
+          [this.computedClass('horizontalClass', 'o-field--horizontal')]:
+            this.horizontal,
+        },
+        {
+          [this.computedClass('mobileClass', 'o-field--mobile')]:
+            this.isMatchMedia,
+        },
+        {
+          [this.computedClass('focusedClass', 'o-field--focused')]:
+            this.isFocused,
+        },
+        {
+          [this.computedClass('filledClass', 'o-field--filled')]: this.isFilled,
+        },
+      ]
     },
   },
 }
 </script>
 
 <style lang="scss">
-@import './NeoInput.scss';
+@import './NeoField.scss';
 </style>

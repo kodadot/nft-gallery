@@ -122,7 +122,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import { DisablableTab, MediaItem } from '@kodadot1/brick'
 
-import { useGalleryItem } from './useGalleryItem'
+import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
@@ -130,8 +130,19 @@ import { resolveMedia } from '@/utils/gallery/media'
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
 const { urlPrefix } = usePrefix()
-const { nft, nftMimeType, nftMetadata, nftImage, nftAnimation } =
-  useGalleryItem()
+
+const props = defineProps<{
+  galleryItem: GalleryItem
+}>()
+
+const getValue = (prop) => computed(() => props.galleryItem[prop].value)
+
+const nft = getValue('nft')
+const nftMetadata = getValue('nftMetadata')
+const nftMimeType = getValue('nftMimeType')
+const nftImage = getValue('nftImage')
+const nftAnimation = getValue('nftAnimation')
+
 const activeTab = ref('0')
 const { version } = useRmrkVersion()
 

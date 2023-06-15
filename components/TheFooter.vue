@@ -26,9 +26,36 @@
         </div>
       </div>
       <div class="footer-container-info is-flex is-flex-direction-column">
+        <h4 class="subtitle is-5">Incentives</h4>
+        <div>
+          <ul class="footer-container-list">
+            <li
+              v-for="item in menuIncentives"
+              :key="item.url"
+              class="footer-container-info-list-item">
+              <a
+                v-if="item.external"
+                :href="item.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="is-flex is-align-items-center">
+                {{ item.name }}
+                <NeoIcon
+                  icon="arrow-up-right"
+                  class="ml-1 has-text-grey"
+                  pack="fas" />
+              </a>
+              <nuxt-link v-else :to="item.url">
+                {{ item.name }}
+              </nuxt-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-container-info is-flex is-flex-direction-column">
         <h4 class="subtitle is-5">Marketplace</h4>
         <div>
-          <ul class="">
+          <ul class="footer-container-list">
             <li
               v-for="item in menuMarketplace"
               :key="item.url"
@@ -40,7 +67,10 @@
                 rel="noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon icon="external-link-alt" class="ml-1" pack="fas" />
+                <NeoIcon
+                  icon="arrow-up-right"
+                  class="ml-1 has-text-grey"
+                  pack="fas" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -52,7 +82,7 @@
       <div class="footer-container-info is-flex is-flex-direction-column">
         <h4 class="subtitle is-5">KodaDot</h4>
         <div>
-          <ul>
+          <ul class="footer-container-list">
             <li
               v-for="item in menuKodadot"
               :key="item.url"
@@ -64,7 +94,10 @@
                 rel="noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon icon="external-link-alt" class="ml-1" pack="fas" />
+                <NeoIcon
+                  icon="arrow-up-right"
+                  class="ml-1 has-text-grey"
+                  pack="fas" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -135,20 +168,34 @@ interface Menu {
 
 const { $i18n } = useNuxtApp()
 
+const menuIncentives: Menu[] = [
+  {
+    name: $i18n.t('ambassador program'),
+    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/ambassador-program',
+    external: true,
+  },
+  {
+    name: $i18n.t('artist ambassador'),
+    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/artist-ambassador-program',
+    external: true,
+  },
+
+  {
+    name: $i18n.t('referralProgram'),
+    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/artist-referral-program',
+    external: true,
+  },
+]
+
 const menuMarketplace: Menu[] = [
   {
-    name: $i18n.t('faq'),
+    name: $i18n.t('developers'),
+    url: 'https://developers.kodadot.xyz',
+    external: true,
+  },
+  {
+    name: $i18n.t('FAQ'),
     url: 'https://hello.kodadot.xyz/ecosystem/faq',
-    external: true,
-  },
-  {
-    name: $i18n.t('documentation'),
-    url: 'https://docs.kodadot.xyz/',
-    external: true,
-  },
-  {
-    name: $i18n.t('contribute'),
-    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/join-as-a-developer',
     external: true,
   },
   {
@@ -166,7 +213,8 @@ const menuKodadot: Menu[] = [
   },
   {
     name: $i18n.t('careers'),
-    url: '/jobs',
+    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/join-as-a-developer/hiring',
+    external: true,
   },
   {
     name: $i18n.t('merchshop'),
@@ -175,25 +223,8 @@ const menuKodadot: Menu[] = [
   },
 
   {
-    name: $i18n.t('referralProgram'),
-    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/artist-referral-program',
-    external: true,
-  },
-  {
     name: $i18n.t('press kit'),
     url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
-    external: true,
-  },
-
-  {
-    name: $i18n.t('artist ambassador'),
-    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/artist-ambassador-program',
-    external: true,
-  },
-
-  {
-    name: $i18n.t('ambassador program'),
-    url: 'https://hello.kodadot.xyz/be-part-of-kodadot/kodadots-programs/ambassador-program',
     external: true,
   },
 ]
