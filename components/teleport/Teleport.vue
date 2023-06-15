@@ -10,7 +10,7 @@
         <TeleportTabs
           :tabs="fromTabs"
           :value="fromChain"
-          @select="onFromChainChange" />
+          @select="onChainChange" />
       </div>
 
       <div class="mb-5 is-flex is-flex-direction-column">
@@ -32,7 +32,7 @@
         </div>
 
         <div
-          v-if="myKsmBalance"
+          v-if="myKsmBalance !== undefined"
           class="is-size-7 is-flex is-justify-content-end is-align-items-center">
           <span class="is-flex is-align-items-center">
             <span class="mr-2">{{ $i18n.t('balance') }}:</span
@@ -49,7 +49,7 @@
         <TeleportTabs
           :tabs="toTabs"
           :value="toChain"
-          @select="onToChainChange" />
+          @select="(chain) => onChainChange(chain, false)" />
       </div>
 
       <div class="mb-5">
@@ -119,7 +119,6 @@ const { $i18n } = useNuxtApp()
 const fiatStore = useFiatStore()
 const identityStore = useIdentityStore()
 
-const chains = ref([Chain.KUSAMA, Chain.BASILISK])
 const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
 const toChain = ref(Chain.BASILISK) //Selected destination parachain
 const amount = ref() //Required amount to be transfered is stored here
@@ -129,6 +128,23 @@ const unsubscribeKusamaBalance = ref()
 const resetStatus = () => {
   amount.value = undefined
   isLoading.value = false
+}
+
+const allowedTransitiosn = {
+  [Chain.KUSAMA]: [Chain.BASILISK, Chain.STATEMINE],
+  [Chain.BASILISK]: [Chain.KUSAMA],
+  [Chain.STATEMINE]: [Chain.KUSAMA],
+}
+const chainBalances = {
+  [Chain.KUSAMA]: () => identityStore.multiBalances.chains.kusama?.ksm?.balance,
+  [Chain.BASILISK]: () =>
+    identityStore.multiBalances.chains.basilisk?.ksm?.balance,
+  [Chain.STATEMINE]: () =>
+    identityStore.multiBalances.chains.statemine?.ksm?.balance,
+}
+
+const isDisabled = (chain: Chain) => {
+  return !allowedTransitiosn[fromChain.value].includes(chain)
 }
 
 const fromTabs = [
@@ -149,42 +165,29 @@ const toTabs = [
   {
     label: Chain.KUSAMA,
     value: Chain.KUSAMA,
+    disabled: computed(() => isDisabled(Chain.KUSAMA)),
   },
   {
     label: Chain.BASILISK,
     value: Chain.BASILISK,
-    disabled: computed(() => fromChain.value === Chain.STATEMINE),
+    disabled: computed(() => isDisabled(Chain.BASILISK)),
   },
   {
     label: Chain.STATEMINE,
     value: Chain.STATEMINE,
-    disabled: computed(() => fromChain.value === Chain.BASILISK),
+    disabled: computed(() => isDisabled(Chain.STATEMINE)),
   },
 ]
 
 const ksmTokenDecimals = computed(() => assets(5).decimals)
 
 const myKsmBalance = computed(() => {
-  let balance = ''
-
-  switch (fromChain.value) {
-    case Chain.KUSAMA:
-      balance = identityStore.multiBalances.chains.kusama?.ksm
-        ?.balance as string
-      break
-    case Chain.BASILISK:
-      balance = identityStore.multiBalances.chains.basilisk?.ksm
-        ?.balance as string
-      break
-    case Chain.STATEMINE:
-      balance = identityStore.multiBalances.chains.statemine?.ksm
-        ?.balance as string
-      break
-    default:
-      throw new Error(`Unsupported chain: ${fromChain.value}`)
+  const getBalance = chainBalances[fromChain.value]
+  if (!getBalance) {
+    throw new Error(`Unsupported chain: ${fromChain.value}`)
   }
-
-  return Number(balance) * Math.pow(10, ksmTokenDecimals.value)
+  const balance = Number(getBalance()) || 0
+  return balance * Math.pow(10, ksmTokenDecimals.value)
 })
 
 const explorerUrl = computed(() => {
@@ -192,13 +195,17 @@ const explorerUrl = computed(() => {
     toAddress.value
   }`
 })
-const getAnotherOption = (val) => {
-  return chains.value.find((chain) => chain !== val) || Chain.KUSAMA
+const getFirstAllowedDestination = (chain: Chain) => {
+  return allowedTransitiosn[chain][0]
 }
-const onFromChainChange = (val) => {
-  fromChain.value = val
-  if (toChain.value === fromChain.value) {
-    toChain.value = getAnotherOption(val)
+
+const onChainChange = (selectedChain, setFrom = true) => {
+  if (setFrom) {
+    fromChain.value = selectedChain
+    toChain.value = getFirstAllowedDestination(selectedChain)
+  } else {
+    toChain.value = selectedChain
+    fromChain.value = getFirstAllowedDestination(selectedChain)
   }
 }
 const getFromChain = (): Chain => {
@@ -208,12 +215,6 @@ const getToChain = (): Chain => {
   return Chain[toChain.value.toUpperCase()] as Chain
 }
 
-const onToChainChange = (val) => {
-  toChain.value = val
-  if (toChain.value === fromChain.value) {
-    fromChain.value = getAnotherOption(val)
-  }
-}
 const getAddressByChain = (chain) => {
   return getss58AddressByPrefix(accountId.value, chainToPrefixMap[chain])
 }
