@@ -14,11 +14,25 @@ describe('BalanceInput.vue', () => {
   vi.useFakeTimers()
 
   beforeAll(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: vi.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      })),
+    })
     ;(window as any).usePrefix = () => ({
       urlPrefix: {
         value: 'rmrk',
       },
     })
+
     wrapper = mount(BalanceInput, {
       propsData: {
         min: 10,
@@ -29,11 +43,6 @@ describe('BalanceInput.vue', () => {
         $t: () => '',
         $config: {
           prefix: 'rmrk',
-        },
-        $store: {
-          getters: {
-            currentUrlPrefix: 'rmrk',
-          },
         },
         $route: {
           params: {

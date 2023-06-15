@@ -11,9 +11,11 @@
           <span class="has-text-weight-bold"> • {{ numNfts }} NFTs </span>
           {{ $t('massmint.willBeMinted') }}
 
-          <div v-if="numMissingDescriptions" class="has-text-k-red mt-4">
+          <div
+            v-if="numMissingDescriptions || numMissingPrices"
+            class="has-text-k-red mt-4">
             <div>{{ $t('massmint.note') }}</div>
-            <div class="pl-3">
+            <div v-if="numMissingDescriptions" class="pl-3">
               •
               {{
                 $t('massmint.missingDescription', {
@@ -21,7 +23,7 @@
                 })
               }}
             </div>
-            <div class="pl-3">
+            <div v-if="numMissingPrices" class="pl-3">
               •
               {{
                 $t('massmint.missingPrice', {

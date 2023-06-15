@@ -1,7 +1,7 @@
 <template>
   <section>
     <Loader v-model="isLoading" :status="status" />
-    <form>
+    <form @submit.prevent>
       <p class="title is-size-3">
         {{ $i18n.t('identity.set') }}
         <NeoTooltip
@@ -18,15 +18,14 @@
         <Money :value="balance" inline />
       </p>
 
-      <b-field label="Handle">
-        <b-input
+      <NeoField label="Handle">
+        <NeoInput
           v-model="identity.display"
           :placeholder="$i18n.t('identity.onChainPlaceholder')"
           :maxlength="inputLengthLimit"
           required
-          :validation-message="$i18n.t('identity.handleRequired')">
-        </b-input>
-      </b-field>
+          :validation-message="$i18n.t('identity.handleRequired')" />
+      </NeoField>
 
       <BasicInput
         v-model="identity.legal"
@@ -39,7 +38,7 @@
         v-model="identity.email"
         type="email"
         :maxlength="inputLengthLimit"
-        :label="$i18n.t('email')"
+        :label="$i18n.t('Email')"
         placeholder="somebody@example.com"
         expanded />
 
@@ -72,7 +71,8 @@
         expanded />
 
       <p class="subtitle is-size-6">
-        {{ $i18n.t('identity.deposit') }} <Money :value="deposit" inline />
+        {{ $i18n.t('identity.deposit') }}
+        <Money :value="deposit" inline />
       </p>
 
       <SubmitButton
@@ -90,7 +90,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { onApiConnect } from '@kodadot1/sub-api'
 import { hexToString, isHex } from '@polkadot/util'
 import { Data } from '@polkadot/types'
-import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoField, NeoIcon, NeoInput, NeoTooltip } from '@kodadot1/brick'
 
 const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 const BasicInput = defineAsyncComponent(
@@ -109,6 +109,8 @@ const SubmitButton = defineAsyncComponent(
 type IdentityFields = Record<string, string>
 
 const { $i18n } = useNuxtApp()
+import { useIdentityStore } from '@/stores/identity'
+
 const { apiUrl, apiInstance } = useApi()
 const { accountId, balance } = useAuth()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
@@ -130,6 +132,10 @@ onBeforeMount(async () => {
     deposit.value = api.consts.identity?.basicDeposit?.toString()
     identity.value = await fetchIdentity(accountId.value)
   })
+  const identityStore = useIdentityStore()
+  if (Number(identityStore.getAuthBalance) === 0) {
+    identityStore.fetchBalance({ address: accountId.value })
+  }
 })
 
 const enhanceIdentityData = (): Record<string, any> => {

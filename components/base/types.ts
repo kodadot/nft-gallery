@@ -5,6 +5,7 @@ export type BaseMintedCollection = {
   alreadyMinted: number
   metadata: string
   name?: string
+  lastIndexUsed: number
 }
 
 export type BaseTokenType<T = BaseMintedCollection> = {

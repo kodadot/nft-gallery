@@ -16,6 +16,7 @@ const DEFAULT_BALANCE_STATE = {
   glmr: '0',
   movr: '0',
   dot: '0',
+  stt: '0',
 }
 
 export interface IdentityMap {
@@ -29,7 +30,12 @@ type ChangeAddressRequest = {
   apiUrl?: string
 }
 
-type ChainType = 'polkadot' | 'kusama' | 'basilisk' | 'statemine'
+type ChainType =
+  | 'polkadot'
+  | 'kusama'
+  | 'basilisk'
+  | 'basilisk-testnet'
+  | 'statemine'
 type ChainDetail = {
   balance: string
   nativeBalance: string
@@ -37,7 +43,7 @@ type ChainDetail = {
   selected: boolean
   address: string
 }
-type ChainToken = Partial<Record<'dot' | 'ksm' | 'bsx', ChainDetail>>
+export type ChainToken = Partial<Record<'dot' | 'ksm' | 'bsx', ChainDetail>>
 
 interface MultiBalances {
   address: string
@@ -60,7 +66,13 @@ export interface IdentityStruct {
   identities: IdentityMap
   auth: Auth
   multiBalances: MultiBalances
+  multiBalanceNetwork: 'main-network' | 'test-network'
   multiBalanceAssets: {
+    chain: ChainType
+    token?: string
+    tokenId?: string
+  }[]
+  multiBalanceAssetsTestnet: {
     chain: ChainType
     token?: string
     tokenId?: string
@@ -85,12 +97,21 @@ export const useIdentityStore = defineStore('identity', {
       address: localStorage.getItem('kodaauth') || '',
     },
     multiBalances: DEFAULT_MULTI_BALANCE_STATE,
+    multiBalanceNetwork: 'main-network',
     multiBalanceAssets: [
       { chain: 'kusama' },
       { chain: 'statemine' },
       { chain: 'polkadot', token: 'DOT' },
       { chain: 'basilisk', token: 'BSX' },
       { chain: 'basilisk', token: 'KSM', tokenId: getKusamaAssetId('bsx') },
+    ],
+    multiBalanceAssetsTestnet: [
+      { chain: 'basilisk-testnet', token: 'BSX' },
+      {
+        chain: 'basilisk-testnet',
+        token: 'KSM',
+        tokenId: getKusamaAssetId('snek'),
+      },
     ],
   }),
   getters: {
@@ -128,7 +149,12 @@ export const useIdentityStore = defineStore('identity', {
         }
       }
 
-      return totalAssets < state.multiBalanceAssets.length ? 'loading' : 'done'
+      const { isTestnet } = usePrefix()
+      const assets = isTestnet.value
+        ? state.multiBalanceAssetsTestnet
+        : state.multiBalanceAssets
+
+      return totalAssets < assets.length ? 'loading' : 'done'
     },
   },
   actions: {
@@ -153,7 +179,6 @@ export const useIdentityStore = defineStore('identity', {
     },
     async setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: DEFAULT_BALANCE_STATE }
-      this.resetMultipleBalances()
       await this.fetchBalance({ address: authRequest.address })
       localStorage.setItem('kodaauth', authRequest.address)
     },

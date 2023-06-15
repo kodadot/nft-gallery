@@ -1,37 +1,27 @@
-<template>
-  <o-input
-    v-model="inputValue"
-    :placeholder="placeholder"
-    class="neo-input"
-    v-bind="$attrs"
-    :style="heightStyle"
-    @input="updateValue" />
-</template>
-
-<script lang="ts" setup>
+<script>
 import { OInput } from '@oruga-ui/oruga'
 
-const props = defineProps<{
-  value: string | number
-  height?: number | string
-  placeholder?: string
-}>()
-const emit = defineEmits(['input'])
-
-const inputValue = useVModel(props, 'value')
-const updateValue = (event) => {
-  emit('input', event)
+export default {
+  mixins: [OInput],
+  props: {
+    iconPack: {
+      type: String,
+      default: 'fas',
+    },
+  },
+  computed: {
+    rootClasses() {
+      return [
+        'neo-input',
+        this.computedClass('rootClass', 'o-ctrl-input'),
+        {
+          [this.computedClass('expandedClass', 'o-ctrl-input--expanded')]:
+            this.expanded,
+        },
+      ]
+    },
+  },
 }
-
-const heightStyle = computed(() => {
-  if (props.height) {
-    return {
-      '--neo-input-height':
-        typeof props.height === 'number' ? `${props.height}px` : props.height,
-    }
-  }
-  return {}
-})
 </script>
 
 <style lang="scss">

@@ -49,7 +49,7 @@
     "updatedAt_ASC": "Peu populaire",
     "price_DESC": "Prix : du plus haut au plus bas",
     "price_ASC": "Prix : du plus bas au plus haut",
-    "sn_ASC": "Numéro de série ascendant",
+    "sn_ASC": "Alphabétiquement",
     "listed": "En vente",
     "own": "Possédé",
     "clearAll": "Tout effacer",
@@ -62,7 +62,7 @@
       "supply_ASC": "Least Supply",
       "price_DESC": "Prix : du plus haut au plus bas",
       "price_ASC": "Prix : du plus bas au plus haut",
-      "sn_ASC": "Numéro de série ascendant",
+      "sn_ASC": "Alphabétiquement",
       "listed": "En vente",
       "sortBy": "Trier par"
     }

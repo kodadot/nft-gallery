@@ -1,30 +1,39 @@
 <template>
-  <div>
-    <b-message class="message-box" :duration="10000" auto-close>
-      <img src="/congrats-message-header.svg" class="congrats-message" />
-      <div class="is-flex is-flex-direction-column">
-        <div class="title is-3 mb-4">
-          {{ title }}
-        </div>
-        <hr class="my-2" />
-        <div
-          class="is-flex is-align-items-center is-justify-content-space-between">
-          <span class="subtitle is-6 mb-0">
-            {{ subtitle }}
-          </span>
-          <Sharing btn-type="is-primary" :enable-download="enableDownload" />
-        </div>
+  <NeoMessage
+    class="message-box"
+    :duration="realDuration"
+    auto-close
+    @close="$emit('close')">
+    <img src="/congrats-message-header.svg" class="congrats-message" />
+    <div class="is-flex is-flex-direction-column">
+      <div class="title is-3 mb-4">
+        {{ title }}
       </div>
-    </b-message>
-  </div>
+      <hr class="my-2" />
+      <div
+        class="is-flex is-align-items-center is-justify-content-space-between">
+        <span class="subtitle is-6 mb-0">
+          {{ subtitle }}
+        </span>
+        <Sharing btn-type="is-primary" :enable-download="enableDownload" />
+      </div>
+    </div>
+  </NeoMessage>
 </template>
 
 <script lang="ts" setup>
-defineProps<{
+import { NeoMessage } from '@kodadot1/brick'
+
+const props = defineProps<{
   title?: string
   subtitle?: string
   enableDownload?: false
+  duration?: number
 }>()
+
+const realDuration = computed(() => {
+  return props.duration || 10000
+})
 </script>
 
 <style lang="scss">
@@ -35,7 +44,7 @@ defineProps<{
   max-width: 500px;
   position: absolute;
   border-radius: 0;
-  top: 0;
+  top: 100px;
   right: 0;
   margin-left: auto;
   margin-right: auto;

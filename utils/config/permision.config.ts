@@ -4,12 +4,12 @@ const hasCreate: Config<boolean> = {
   rmrk: true,
   ksm: true,
   bsx: true,
-  stmn: false,
-  westmint: true,
+  stmn: true,
   movr: false,
   glmr: false,
   snek: true,
   dot: false,
+  stt: false,
 }
 
 const hasExplorer: Config<boolean> = {
@@ -17,11 +17,11 @@ const hasExplorer: Config<boolean> = {
   ksm: true,
   bsx: true,
   stmn: true,
-  westmint: true,
   movr: true,
   glmr: true,
   snek: true,
   dot: false,
+  stt: true,
 }
 
 export const createVisible = (prefix: Prefix | string): boolean => {

@@ -12,7 +12,7 @@ const components = { Massmint }
 })
 export default class MassmintPage extends Vue {
   head() {
-    const title = 'Low minting fees and carbonless NFTs'
+    const title = 'Kodadot | Massmint'
     const metaData = {
       title,
       type: 'profile',
@@ -28,11 +28,9 @@ export default class MassmintPage extends Vue {
   layout() {
     return 'noFooter'
   }
-  middleware({ store, redirect }) {
-    const prefix = store.getters.currentUrlPrefix
-
+  middleware({ redirect, params }) {
     if (!usePreferencesStore().getVisitedOnboarding) {
-      setTimeout(() => redirect(`/${prefix}/massmint/onboarding`))
+      setTimeout(() => redirect(`/${params.prefix}/massmint/onboarding`))
     }
   }
 }

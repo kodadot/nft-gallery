@@ -8,8 +8,8 @@ function resolveQueryPath(
 
 function getPath(prefix: string) {
   switch (prefix) {
-    case 'westmint':
-      return 'unique/'
+    case 'chain-stmn':
+      return 'subsquid/stmn/'
     case 'chain-bsx':
       return 'subsquid/bsx/'
     case 'chain-rmrk':

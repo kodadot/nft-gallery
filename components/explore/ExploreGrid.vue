@@ -1,30 +1,22 @@
 <template>
-  <div>
-    <b-field>
-      <p class="control">
-        <NeoButton
-          icon-left="grid-2"
-          :active="gridSize === 'large'"
-          @click.native="changeGridLayout(smallGridLayout, 'large')" />
-      </p>
-      <p class="control">
-        <NeoButton
-          icon-left="grid"
-          :active="gridSize === 'medium'"
-          @click.native="changeGridLayout(smallGridLayout, 'medium')" />
-      </p>
-      <p class="control">
-        <NeoButton
-          icon-left="grid-4"
-          :active="gridSize === 'small'"
-          @click.native="changeGridLayout(largeGridLayout, 'small')" />
-      </p>
-    </b-field>
-  </div>
+  <NeoField addons-class="mb-0" class="mb-0">
+    <NeoButton
+      icon-left="grid-2"
+      :active="gridSize === 'large'"
+      @click.native="changeGridLayout(smallGridLayout, 'large')" />
+    <NeoButton
+      icon-left="grid"
+      :active="gridSize === 'medium'"
+      @click.native="changeGridLayout(smallGridLayout, 'medium')" />
+    <NeoButton
+      icon-left="grid-4"
+      :active="gridSize === 'small'"
+      @click.native="changeGridLayout(largeGridLayout, 'small')" />
+  </NeoField>
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoField } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const preferencesStore = usePreferencesStore()

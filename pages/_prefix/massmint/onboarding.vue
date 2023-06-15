@@ -17,7 +17,7 @@ const components = { OnBoarding }
     return 'full-width-layout'
   },
   head() {
-    const title = 'Low minting fees and carbonless NFTs'
+    const title = 'Kodadot | Massmint'
     const metaData = {
       title,
       type: 'profile',
@@ -30,11 +30,11 @@ const components = { OnBoarding }
       meta: [...this.$seoMeta(metaData)],
     }
   },
-  middleware({ store, redirect }) {
-    const prefix = store.getters.currentUrlPrefix
+  middleware() {
+    const { urlPrefix } = usePrefix()
 
     if (usePreferencesStore().getVisitedOnboarding) {
-      setTimeout(() => redirect(`/${prefix}/massmint`))
+      navigateTo(`/${urlPrefix.value}/massmint`)
     }
   },
 })

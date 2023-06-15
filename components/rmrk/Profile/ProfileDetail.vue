@@ -50,25 +50,24 @@
       <div class="column has-text-right">
         <div v-if="hasBlockExplorer" class="is-flex is-justify-content-right">
           <div v-for="network in networks" :key="network.alt" class="control">
-            <b-button class="share-button" type="is-bordered-light">
-              <a
-                :href="`${network.url}${id}`"
-                target="_blank"
-                rel="noopener noreferrer">
-                <figure class="image is-24x24">
+            <a
+              :href="`${network.url}${id}`"
+              target="_blank"
+              rel="noopener noreferrer">
+              <NeoButton class="share-button" no-shadow>
+                <figure class="image is-16x16">
                   <img :alt="network.alt" :src="network.img" />
                 </figure>
-              </a>
-            </b-button>
+              </NeoButton>
+            </a>
           </div>
         </div>
-        <Sharing
-          v-if="!sharingVisible"
-          class="mb-2"
-          :label="$t('sharing.profile')"
-          :iframe="iframeSettings">
+        <div class="is-flex is-justify-content-right">
+          <ShowQRModal
+            :address="realworldFullPath"
+            :title="$t('sharing.profile')" />
           <DonationButton :address="id" />
-        </Sharing>
+        </div>
       </div>
     </div>
 
@@ -276,14 +275,13 @@ import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator
 
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
 import { exist } from '@/utils/exist'
-import { NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 
 const tabNameWithoutCollections = ['holdings', 'gains']
 
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
-  Sharing: () => import('@/components/shared/Sharing.vue'),
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   PaginatedCardList: () =>
@@ -302,6 +300,8 @@ const components = {
   OffersUserTable: () => import('@/components/bsx/Offer/OffersUserTable.vue'),
   Sales: () => import('@/components/rmrk/Profile/Sales.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
+  ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
+  NeoButton,
   NeoTooltip,
 }
 
@@ -364,24 +364,14 @@ export default class ProfileDetail extends mixins(
   private myNftCount = 0
   protected networks = [
     {
-      url: 'https://dotscanner.com/Kusama/account/',
-      als: 'dotscanner',
-      img: '/dotscanner.svg',
-    },
-    {
       url: 'https://sub.id/#/',
       als: 'subid',
       img: '/subid.svg',
     },
     {
-      url: 'https://kusama.subscan.io/account/',
+      url: 'https://subscan.io/account/',
       als: 'subscan',
       img: '/subscan.svg',
-    },
-    {
-      url: 'https://polkascan.io/kusama/account/',
-      als: 'polkascan',
-      img: '/polkascan.png',
     },
   ]
 
@@ -557,6 +547,10 @@ export default class ProfileDetail extends mixins(
       this.id = this.$route.params.id
       this.shortendId = shortAddress(this.id)
     }
+  }
+
+  get realworldFullPath(): string {
+    return window.location.href
   }
 
   get isMoonriver(): boolean {

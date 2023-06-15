@@ -1,5 +1,9 @@
 <template>
-  <b-dropdown v-model="selected" aria-role="list" :triggers="['click']">
+  <b-dropdown
+    v-model="selected"
+    aria-role="list"
+    :triggers="['click']"
+    position="is-bottom-left">
     <template #trigger>
       <div class="navbar-item" data-cy="chain">{{ chainName }}</div>
     </template>
@@ -20,18 +24,15 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { getChainNameByPrefix } from '@/utils/chain'
 
 const { availableChains } = useChain()
-const { $store } = useNuxtApp()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const prefrencesStore = usePreferencesStore()
-const router = useRouter()
 
 const selected = computed({
   get: () => urlPrefix.value,
   set: (value) => {
-    setUrlPrefix(value)
-    $store.dispatch('setUrlPrefix', value)
-    router.push({ path: `/${value}` })
     prefrencesStore.setNotificationBoxCollapse(false)
+    setUrlPrefix(value)
+    navigateTo(`/${value}`)
   },
 })
 

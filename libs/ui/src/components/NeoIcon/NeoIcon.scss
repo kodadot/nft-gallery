@@ -1,17 +1,13 @@
 @import '../../scss/theme';
+
 .o-icon--success {
   @include ktheme() {
     color: theme('k-green');
   }
 }
+.o-icon--primary {
+  @include ktheme() {
+    color: theme('k-primary');
+  }
 
-.o-icon--small {
-  font-size: 16px;
-}
-
-.o-icon--medium {
-  font-size: 24px;
-}
-.o-icon--large {
-  font-size: 32px;
 }

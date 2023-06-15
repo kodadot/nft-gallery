@@ -32,6 +32,7 @@
           >
         </a>
       </div>
+      <UnlockableLandingTag />
     </div>
     <img src="/landing-blurred-header-right.png" class="landing-search-right" />
     <img :src="landingImage[1]" class="landing-shapes" />
@@ -39,8 +40,8 @@
 </template>
 
 <script lang="ts" setup>
-const { urlPrefix } = usePrefix()
-const { $store, $router } = useNuxtApp()
+import UnlockableLandingTag from '@/components/collection/unlockable/UnlockableLandingTag.vue'
+const { urlPrefix, setUrlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const { availableChains } = useChain()
 
@@ -66,10 +67,9 @@ const landingImage = computed(() => {
 })
 
 const switchChain = (value) => {
-  if (value === urlPrefix.value) {
-    return
+  if (value !== urlPrefix.value) {
+    setUrlPrefix(value)
   }
-  $store.dispatch('setUrlPrefix', value)
-  $router.push({ path: `/${value}/explore/collectibles` })
+  navigateTo(`/${value}/explore/collectibles`)
 }
 </script>

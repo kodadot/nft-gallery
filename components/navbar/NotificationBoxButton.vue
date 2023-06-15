@@ -1,7 +1,7 @@
 <template>
   <a class="navbar-item" @click.stop="toggleNotificationModal">
     <span v-if="props.showLabel">{{ $t('notification.notifications') }}</span>
-    <NeoIcon ref="root" icon="bell" class="icon" />
+    <NeoIcon ref="root" icon="bell" pack="far" class="icon" />
   </a>
 </template>
 
