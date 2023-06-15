@@ -3,9 +3,7 @@
     <div
       v-if="isEmptyBalanceOnAllChains && !isBalanceLoading"
       class="has-text-grey">
-      You've got zero balance on this address across chains we are monitoring.
-      If you want to buy small amount of crypto, click on Add funds through our
-      verified on-ramp partner.
+      {{ $t('asset.emptyAsset') }}
     </div>
     <div v-else class="balance">
       <div class="balance-row has-text-grey is-size-7">
