@@ -68,7 +68,7 @@
             </div>
           </div>
           <div class="my-5">
-            <o-slider :value="currentMintedCount * 10" disabled></o-slider>
+            <UnlockableSlider :value="currentMintedCount / MAX_PER_WINDOW" />
           </div>
           <div class="my-5">
             <template v-if="!hasUserMinted">
@@ -167,10 +167,10 @@ import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import { NeoButton } from '@kodadot1/brick'
 import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
+import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
-import { OSlider } from '@oruga-ui/oruga'
 import { collectionId, countDownTime } from './const'
 import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
