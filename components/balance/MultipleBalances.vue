@@ -1,37 +1,54 @@
 <template>
-  <div>
-    <div class="balance">
+  <div class="mb-2">
+    <div
+      v-if="isEmptyBalanceOnAllChains && !isBalanceLoading"
+      class="has-text-grey">
+      {{ $t('asset.emptyAsset') }}
+    </div>
+    <div v-else class="balance">
       <div class="balance-row has-text-grey is-size-7">
-        <div>{{ $t('general.chain') }}</div>
-        <div class="has-text-right">{{ $t('general.balance') }}</div>
-        <div class="has-text-right">{{ $t('general.token') }}</div>
-        <div class="has-text-right">{{ $t('general.usd') }}</div>
+        <div class="is-flex-grow-2">{{ $t('general.chain') }}</div>
+        <div class="has-text-right is-flex-grow-1">
+          {{ $t('general.token') }}
+        </div>
+        <div class="has-text-right is-flex-grow-2">
+          {{ $t('general.balance') }}
+        </div>
+        <div class="has-text-right is-flex-grow-2">{{ $t('general.usd') }}</div>
       </div>
 
       <div
         v-for="(chain, key) in multiBalances.chains"
         :key="key"
-        class="is-size-7">
-        <div v-for="(detail, token) in chain" :key="token" class="balance-row">
-          <div class="is-capitalized">{{ key }}</div>
-          <div class="has-text-right">
-            {{ detail?.balance }}
+        class="is-size-6">
+        <div
+          v-for="token in filterEmptyBalanceChains(chain)"
+          :key="token.name"
+          class="balance-row">
+          <div class="is-capitalized is-flex-grow-2">{{ key }}</div>
+          <div class="has-text-right is-flex-grow-1">
+            {{ token.name.toUpperCase() }}
           </div>
-          <div class="has-text-right">{{ token.toUpperCase() }}</div>
-          <div class="has-text-right">${{ delimiter(detail?.usd || '0') }}</div>
+
+          <div class="has-text-right is-flex-grow-2">
+            {{ token.details?.balance }}
+          </div>
+          <div class="has-text-right is-flex-grow-2">
+            ${{ delimiter(token.details?.usd || '0') }}
+          </div>
         </div>
       </div>
 
       <NeoSkeleton
-        v-if="identityStore.getStatusMultiBalances === 'loading'"
+        v-if="isBalanceLoading"
+        data-cy="skeleton-multiple-balances"
         animated />
     </div>
 
     <hr class="my-2" />
-    <p
-      class="is-flex is-justify-content-space-between is-align-items-flex-end my-1">
+    <p class="is-flex is-justify-content-space-between is-align-items-flex-end">
       <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
-      <span>${{ delimiter(identityStore.getTotalUsd) }}</span>
+      <span class="is-size-6">${{ delimiter(identityStore.getTotalUsd) }}</span>
     </p>
   </div>
 </template>
@@ -50,28 +67,59 @@ import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
-import { useIdentityStore } from '@/stores/identity'
+import { ChainToken, useIdentityStore } from '@/stores/identity'
 
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
 const { accountId } = useAuth()
+const { isTestnet } = usePrefix()
 
 const identityStore = useIdentityStore()
-const { multiBalances, multiBalanceAssets } = storeToRefs(identityStore)
+const {
+  multiBalances,
+  multiBalanceAssets,
+  multiBalanceAssetsTestnet,
+  multiBalanceNetwork,
+} = storeToRefs(identityStore)
 
-const mapToPrefix = {
+const networkToPrefix = {
   polkadot: 'dot',
   kusama: 'ksm',
   basilisk: 'bsx',
   statemine: 'stmn',
+  'basilisk-testnet': 'snek',
 }
+
+const isBalanceLoading = computed(
+  () => identityStore.getStatusMultiBalances === 'loading'
+)
+const filterEmptyBalanceChains = (chain: ChainToken = {}) => {
+  const tokens = Object.keys(chain)
+  return tokens
+    .filter((token) => chain[token].balance !== '0')
+    .map((token) => ({
+      name: token,
+      details: chain[token],
+    }))
+}
+
+const isEmptyBalanceOnAllChains = computed(() => {
+  const chains = Object.keys(multiBalances.value.chains)
+  return !chains.some(
+    (chain) =>
+      filterEmptyBalanceChains(multiBalances.value.chains[chain]).length !== 0
+  )
+})
+const currentNetwork = computed(() =>
+  isTestnet.value ? 'test-network' : 'main-network'
+)
 
 function delimiter(amount: string | number) {
   const formatAmount = typeof amount === 'number' ? amount.toString() : amount
   const number = parseFloat(formatAmount.replace(/,/g, ''))
 
   return number.toLocaleString('en-US', {
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   })
 }
@@ -92,7 +140,7 @@ function calculateUsd(amount: string, token = 'KSM') {
 
 async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
   const currentAddress = accountId.value
-  const prefix = mapToPrefix[chainName]
+  const prefix = networkToPrefix[chainName]
   const chain = CHAINS[prefix]
 
   const defaultAddress = toDefaultAddress(currentAddress)
@@ -144,13 +192,23 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
     chainName,
   })
 
+  identityStore.multiBalanceNetwork = currentNetwork.value
+
   await wsProvider.disconnect()
 }
 
 onMounted(async () => {
   await fiatStore.fetchFiatPrice()
 
-  multiBalanceAssets.value.forEach((item) => {
+  if (currentNetwork.value !== multiBalanceNetwork.value) {
+    identityStore.resetMultipleBalances()
+  }
+
+  const assets = isTestnet.value
+    ? multiBalanceAssetsTestnet.value
+    : multiBalanceAssets.value
+
+  assets.forEach((item) => {
     getBalance(item.chain, item.token, Number(item.tokenId))
   })
 })

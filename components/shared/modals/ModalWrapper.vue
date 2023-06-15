@@ -1,17 +1,18 @@
 <template>
   <div :id="id">
     <slot name="trigger" :handle-open="handleOpen">
-      <b-button
-        :type="type"
+      <NeoButton
+        icon-pack="fas"
         :icon-left="icon"
         :expanded="expanded"
         :class="{
           'modal-wrapper-button__right': isRight,
           'is-invisible': isButtonHidden,
         }"
-        @click="handleOpen">
+        no-shadow
+        @click.native="handleOpen">
         <template v-if="label">{{ label }}</template>
-      </b-button>
+      </NeoButton>
     </slot>
     <NeoModal v-model="isModalActive" @close="isModalActive = false">
       <div class="card">
@@ -30,7 +31,8 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoModal } from '@kodadot1/brick'
+
 interface Props {
   label: string
   title: string

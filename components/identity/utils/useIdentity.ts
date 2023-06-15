@@ -60,14 +60,10 @@ const displayName = ({
   return display || shortenedAddress.value
 }
 
-export default function useIdentity({
-  address: initAddress,
-  customNameOption = '',
-}) {
-  const address = ref(initAddress)
+export default function useIdentity({ address = '', customNameOption = '' }) {
   const identity = ref<IdentityFields>({})
   const isFetchingIdentity = ref(false)
-  const shortenedAddress = computed(() => shortAddress(address.value))
+  const shortenedAddress = computed(() => shortAddress(address))
   const twitter = computed(() => identity?.value?.twitter)
   const discord = computed(() => identity?.value?.discord)
   const instagram = computed(() => identity?.value?.instagram)
@@ -83,10 +79,9 @@ export default function useIdentity({
     // reference: https://github.com/kodadot/nft-gallery/issues/3783
     identity.value = await fetchIdentity(addr)
     isFetchingIdentity.value = false
-    address.value = addr
   }
 
-  onMounted(() => address.value && whichIdentity(address.value))
+  onMounted(() => address && whichIdentity(address))
 
   return {
     identity,

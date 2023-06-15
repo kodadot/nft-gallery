@@ -6,18 +6,17 @@ import { availablePrefixes } from '@/utils/chain'
 import type { Prefix } from '@kodadot1/static'
 
 export default function () {
-  const { $store } = useNuxtApp()
   const route = useRoute()
   const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
   const availablePrefixesList = availablePrefixes()
   const initialPrefixFromPath = availablePrefixesList.find(
     (prefixValue) => prefixValue.value === route.path.split('/')[1]
   )?.value
-  const prefix = ref(
-    route.params.prefix ||
-      initialPrefixFromPath ||
-      storage.value.selected ||
-      $store.getters.currentUrlPrefix
+  const prefix = computed<Prefix>(
+    () =>
+      (route.params.prefix ||
+        initialPrefixFromPath ||
+        storage.value.selected) as Prefix
   )
   const urlPrefix = computed<Prefix>(() => {
     storage.value = { selected: prefix.value }
@@ -41,11 +40,14 @@ export default function () {
     return useAssetsStore().getAssetById(String(id))
   }
 
+  const isTestnet = computed(() => prefix.value === 'snek')
+
   return {
     urlPrefix,
     setUrlPrefix,
     client,
     tokenId,
     assets,
+    isTestnet,
   }
 }

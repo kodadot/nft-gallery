@@ -44,11 +44,6 @@ describe('BalanceInput.vue', () => {
         $config: {
           prefix: 'rmrk',
         },
-        $store: {
-          getters: {
-            currentUrlPrefix: 'rmrk',
-          },
-        },
         $route: {
           params: {
             prefix: 'rmrk',

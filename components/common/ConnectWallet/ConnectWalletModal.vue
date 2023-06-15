@@ -1,6 +1,6 @@
 <template>
   <div class="wallet-modal-container is-flex is-flex-direction-column">
-    <header class="modal-card-head mb-4">
+    <header class="modal-card-head">
       <b-button
         v-show="hasSelectedWalletProvider"
         type="is-text"
@@ -8,7 +8,7 @@
         icon-left="chevron-left"
         @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
       <span class="modal-card-title is-size-6 has-text-weight-bold">
-        {{ headerTitle }}
+        {{ $i18n.t('profile.page') }}
       </span>
       <a class="is-flex is-align-items-center" @click="emit('close')">
         <NeoIcon icon="close" />
@@ -88,8 +88,6 @@ import { NeoField } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 
-const { redesign } = useExperiments()
-
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const hasSelectedWalletProvider = ref(false)
@@ -105,19 +103,6 @@ const account = computed(() => identityStore.auth.address)
 const showAccount = computed(() => account.value && !forceWalletSelect.value)
 
 const wallets = SupportedWallets()
-const headerTitle = computed(() => {
-  if (redesign.value) {
-    return $i18n.t('profile.page')
-  }
-
-  return $i18n.t(
-    account.value
-      ? 'walletConnect.walletDetails'
-      : hasUserWalletAuth
-      ? 'walletConnect.walletHeading'
-      : 'walletConnect.warning'
-  )
-})
 const setAccount = (account: Auth) => {
   forceWalletSelect.value = false
   identityStore.setAuth(account)

@@ -1,23 +1,26 @@
 <template>
-  <AdminPanel />
+  <GenerativeMint />
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import AdminPanel from '@/components/rmrk/Create/Admin/AdminPanel.vue'
+import GenerativeMint from '@/components/bsx/Create/GenerativeMint.vue'
 
 @Component({
   components: {
-    AdminPanel,
+    GenerativeMint,
+  },
+  layout() {
+    return 'generative-mint-layout'
   },
   head() {
     const title = 'KodaDot | Low fees and low carbon minting'
     const metaData = {
       title,
-      type: 'profile',
+      type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
-      url: '/rmrk/admin',
-      image: `${this.$config.public.baseUrl}/k_card.png`,
+      url: '/mint',
+      image: `${this.$config.public.baseUrl}/k_card_mint.png`,
     }
     return {
       title,
@@ -25,9 +28,5 @@ import AdminPanel from '@/components/rmrk/Create/Admin/AdminPanel.vue'
     }
   },
 })
-export default class RmrkAdminPage extends Vue {
-  layout() {
-    return 'centered-half-layout'
-  }
-}
+export default class SimpleMintPage extends Vue {}
 </script>
