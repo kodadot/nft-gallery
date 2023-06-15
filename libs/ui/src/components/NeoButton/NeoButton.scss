@@ -75,7 +75,7 @@
     &.o-btn--disabled {
       opacity: unset;
       @include ktheme() {
-        color: theme('k-grey');
+        color: theme('k-grey') !important;
         border-color: theme('k-grey');
       }
     }
