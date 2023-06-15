@@ -1,6 +1,13 @@
 <template>
   <div class="mb-2">
-    <div class="balance">
+    <div
+      v-if="isEmptyBalanceOnAllChains && !isBalanceLoading"
+      class="has-text-grey">
+      You've got zero balance on this address across chains we are monitoring.
+      If you want to buy small amount of crypto, click on Add funds through our
+      verified on-ramp partner.
+    </div>
+    <div v-else class="balance">
       <div class="balance-row has-text-grey is-size-7">
         <div>{{ $t('general.chain') }}</div>
         <div class="has-text-right">{{ $t('general.token') }}</div>
@@ -28,9 +35,7 @@
         </div>
       </div>
 
-      <NeoSkeleton
-        v-if="identityStore.getStatusMultiBalances === 'loading'"
-        animated />
+      <NeoSkeleton v-if="isBalanceLoading" animated />
     </div>
 
     <hr class="my-2" />
@@ -71,6 +76,9 @@ const mapToPrefix = {
   statemine: 'stmn',
 }
 
+const isBalanceLoading = computed(
+  () => identityStore.getStatusMultiBalances === 'loading'
+)
 const filterEmptyBalanceChains = (chain: ChainToken = {}) => {
   const tokens = Object.keys(chain)
   return tokens
@@ -80,6 +88,14 @@ const filterEmptyBalanceChains = (chain: ChainToken = {}) => {
       details: chain[token],
     }))
 }
+
+const isEmptyBalanceOnAllChains = computed(() => {
+  const chains = Object.keys(multiBalances.value.chains)
+  return !chains.some(
+    (chain) =>
+      filterEmptyBalanceChains(multiBalances.value.chains[chain]).length !== 0
+  )
+})
 
 function delimiter(amount: string | number) {
   const formatAmount = typeof amount === 'number' ? amount.toString() : amount
