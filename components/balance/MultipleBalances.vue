@@ -3,22 +3,28 @@
     <div class="balance">
       <div class="balance-row has-text-grey is-size-7">
         <div>{{ $t('general.chain') }}</div>
-        <div class="has-text-right">{{ $t('general.balance') }}</div>
         <div class="has-text-right">{{ $t('general.token') }}</div>
+        <div class="has-text-right">{{ $t('general.balance') }}</div>
         <div class="has-text-right">{{ $t('general.usd') }}</div>
       </div>
 
       <div
         v-for="(chain, key) in multiBalances.chains"
         :key="key"
-        class="is-size-7">
-        <div v-for="(detail, token) in chain" :key="token" class="balance-row">
+        class="is-size-6">
+        <div
+          v-for="token in filterEmptyBalanceChains(chain)"
+          :key="token.name"
+          class="balance-row">
           <div class="is-capitalized">{{ key }}</div>
+          <div class="has-text-right">{{ token.name.toUpperCase() }}</div>
+
           <div class="has-text-right">
-            {{ detail?.balance }}
+            {{ token.details?.balance }}
           </div>
-          <div class="has-text-right">{{ token.toUpperCase() }}</div>
-          <div class="has-text-right">${{ delimiter(detail?.usd || '0') }}</div>
+          <div class="has-text-right">
+            ${{ delimiter(token.details?.usd || '0') }}
+          </div>
         </div>
       </div>
 
@@ -30,7 +36,7 @@
     <hr class="my-2" />
     <p class="is-flex is-justify-content-space-between is-align-items-flex-end">
       <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
-      <span>${{ delimiter(identityStore.getTotalUsd) }}</span>
+      <span class="is-size-6">${{ delimiter(identityStore.getTotalUsd) }}</span>
     </p>
   </div>
 </template>
@@ -49,7 +55,7 @@ import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
-import { useIdentityStore } from '@/stores/identity'
+import { ChainToken, useIdentityStore } from '@/stores/identity'
 
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
@@ -63,6 +69,16 @@ const mapToPrefix = {
   kusama: 'ksm',
   basilisk: 'bsx',
   statemine: 'stmn',
+}
+
+const filterEmptyBalanceChains = (chain: ChainToken = {}) => {
+  const tokens = Object.keys(chain)
+  return tokens
+    .filter((token) => chain[token].balance !== '0')
+    .map((token) => ({
+      name: token,
+      details: chain[token],
+    }))
 }
 
 function delimiter(amount: string | number) {
