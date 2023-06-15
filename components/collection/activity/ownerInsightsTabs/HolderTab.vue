@@ -1,60 +1,73 @@
 <template>
   <div>
-    <div
-      v-for="[holderId, holdings] in displayedHolders"
-      :key="holderId"
-      class="">
-      <div class="is-flex is-flex-direction-column gap">
-        <div class="px-5">
-          <ProfileLink
-            :address="holderId"
-            :avatar-size="35"
-            class="has-text-weight-bold" />
-          <div class="is-flex is-justify-content-space-between mt-2">
-            <span class="is-size-7 has-text-grey">{{
-              $t('activity.owned')
-            }}</span>
-            <span>{{ holdings.nftCount }}</span>
-          </div>
-          <div class="is-flex is-justify-content-space-between">
-            <span class="is-size-7 has-text-grey">{{
-              $t('activity.totalBought')
-            }}</span>
-            <CommonTokenMoney :value="holdings.totalBought" />
-          </div>
-          <div class="is-flex is-justify-content-space-between">
-            <span class="is-size-7 has-text-grey">{{
-              $t('activity.totalSold')
-            }}</span>
-            <CommonTokenMoney
-              v-if="holdings.totalSold > 0"
-              :value="holdings.totalSold" />
-            <span v-else>--</span>
-          </div>
-          <div class="is-flex is-justify-content-space-between">
-            <span class="is-size-7 has-text-grey">{{
-              $t('activity.date')
-            }}</span>
-            <span>{{ timeAgo(holdings.lastActivityTimestamp) }}</span>
-          </div>
-          <div>
-            <div
-              class="is-size-7 has-text-k-blue is-clickable"
-              @click="toggleNFTDetails(holderId)">
-              {{ $t('activity.nftDetails') }}
-              <NeoIcon
-                :icon="
-                  isNFTDetailsOpen[holderId] ? 'chevron-down' : 'chevron-right'
-                " />
+    <template v-if="displayedHolders.length">
+      <div
+        v-for="[holderId, holdings] in displayedHolders"
+        :key="holderId"
+        class="">
+        <div class="is-flex is-flex-direction-column gap">
+          <div class="px-5">
+            <ProfileLink
+              :address="holderId"
+              :avatar-size="35"
+              class="has-text-weight-bold" />
+            <div class="is-flex is-justify-content-space-between mt-2">
+              <span class="is-size-7 has-text-grey">{{
+                $t('activity.owned')
+              }}</span>
+              <span>{{ holdings.nftCount }}</span>
+            </div>
+            <div class="is-flex is-justify-content-space-between">
+              <span class="is-size-7 has-text-grey">{{
+                $t('activity.totalBought')
+              }}</span>
+              <CommonTokenMoney :value="holdings.totalBought" />
+            </div>
+            <div class="is-flex is-justify-content-space-between">
+              <span class="is-size-7 has-text-grey">{{
+                $t('activity.totalSold')
+              }}</span>
+              <CommonTokenMoney
+                v-if="holdings.totalSold > 0"
+                :value="holdings.totalSold" />
+              <span v-else>--</span>
+            </div>
+            <div class="is-flex is-justify-content-space-between">
+              <span class="is-size-7 has-text-grey">{{
+                $t('activity.date')
+              }}</span>
+              <span>{{ timeAgo(holdings.lastActivityTimestamp) }}</span>
+            </div>
+            <div>
+              <div
+                class="is-size-7 has-text-k-blue is-clickable"
+                @click="toggleNFTDetails(holderId)">
+                {{ $t('activity.nftDetails') }}
+                <NeoIcon
+                  :icon="
+                    isNFTDetailsOpen[holderId]
+                      ? 'chevron-down'
+                      : 'chevron-right'
+                  " />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div v-if="isNFTDetailsOpen[holderId]">
-          <NFTsDetaislDropdown :holder-nfts="holdings.nfts" variant="Holders" />
+          <div v-if="isNFTDetailsOpen[holderId]">
+            <NFTsDetaislDropdown
+              :holder-nfts="holdings.nfts"
+              variant="Holders" />
+          </div>
         </div>
+        <hr class="my-3 mx-5" />
       </div>
-      <hr class="my-3 mx-5" />
+    </template>
+    <div
+      v-else
+      class="is-flex is-justify-content-center is-align-items-center pt-6">
+      <div class="has-text-grey">
+        {{ $t('activity.noHolders') }}
+      </div>
     </div>
     <div ref="target" />
   </div>
