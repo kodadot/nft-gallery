@@ -479,6 +479,8 @@
       "readyIn": "Your mint will be ready in {0}, DO NOT CLOSE THIS WINDOW",
       "mintLive": "Free Unlockable Mint Live",
       "takeMe": "Take Me There!",
+      "viewItem": "View Item",
+      "preparing": "Preparing Your Item...",
       "alreadyMinted": "🎉 You already have this NFT, check it here"
     }
   },
