@@ -36,7 +36,11 @@
       </svg>
 
       <span> {{ $t('mint.unlockable.mintLive') }} </span>
-      <NeoIcon icon="horizontal-rule" size="small" class="separator mx-2" />
+      <NeoIcon
+        icon="horizontal-rule"
+        pack="fa-sharp"
+        size="small"
+        class="separator mx-2" />
     </div>
 
     <nuxt-link

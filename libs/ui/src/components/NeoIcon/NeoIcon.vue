@@ -3,6 +3,7 @@
     :pack="pack || 'fas'"
     :icon="icon"
     :size="size || 'small'"
+    :custom-size="customSize"
     :variant="variant" />
 </template>
 
@@ -13,7 +14,8 @@ defineProps<{
   size?: 'small' | 'medium' | 'large'
   icon?: string
   pack?: string
-  variant?: 'success'
+  customSize?: string
+  variant?: 'success' | 'primary'
 }>()
 </script>
 
