@@ -40,11 +40,14 @@ export default function () {
     return useAssetsStore().getAssetById(String(id))
   }
 
+  const isTestnet = computed(() => prefix.value === 'snek')
+
   return {
     urlPrefix,
     setUrlPrefix,
     client,
     tokenId,
     assets,
+    isTestnet,
   }
 }

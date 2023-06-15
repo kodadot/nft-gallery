@@ -3,6 +3,12 @@ import { OInput } from '@oruga-ui/oruga'
 
 export default {
   mixins: [OInput],
+  props: {
+    iconPack: {
+      type: String,
+      default: 'fas',
+    },
+  },
   computed: {
     rootClasses() {
       return [
@@ -13,9 +19,6 @@ export default {
             this.expanded,
         },
       ]
-    },
-    iconPack() {
-      return 'fas'
     },
   },
 }
