@@ -20,10 +20,12 @@ export const useLangStore = defineStore('lang', {
       langsFlags[0].flag,
   },
   actions: {
-    setLanguage(payload) {
+    setLanguage({ userLang }) {
       const { $i18n } = useNuxtApp()
-      $i18n.locale = payload
-      this.language = Object.assign(this.language, payload)
+      $i18n.locale = userLang
+      this.language = {
+        userLang,
+      }
     },
   },
 })

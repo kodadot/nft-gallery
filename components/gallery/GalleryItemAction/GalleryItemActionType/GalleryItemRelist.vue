@@ -25,17 +25,15 @@
         </template>
 
         <template #content>
-          <div>
-            <input
-              v-model="price"
-              class="input-price pl-3"
-              type="number"
-              :placeholder="
-                isListed
-                  ? `${$i18n.t('transaction.price.new')}`
-                  : `${$i18n.t('transaction.price.list')}`
-              " />
-          </div>
+          <input
+            v-model="price"
+            class="input-price px-4"
+            type="number"
+            :placeholder="
+              isListed
+                ? `${$i18n.t('transaction.price.new')}`
+                : `${$i18n.t('transaction.price.list')}`
+            " />
         </template>
       </GalleryItemActionSlides>
     </GalleryItemPriceSection>
@@ -82,8 +80,10 @@ function updatePrice() {
     transaction({
       interaction: Interaction.LIST,
       urlPrefix: urlPrefix.value,
-      price: price.value && String(calculateBalance(price.value)),
-      nftId: props.nftId,
+      token: {
+        price: price.value && String(calculateBalance(price.value)),
+        nftId: props.nftId,
+      },
       successMessage: $i18n.t('transaction.price.success') as string,
       errorMessage: $i18n.t('transaction.price.error') as string,
     })

@@ -40,6 +40,11 @@
   &-info {
     @include mobile {
       align-items: center !important;
+      .footer-container-list {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
     }
 
     &-list {

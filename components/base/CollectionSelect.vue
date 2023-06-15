@@ -5,7 +5,7 @@
         {{ $t('createNftExplainer') }}
       </small>
     </div>
-    <b-field
+    <NeoField
       :label="$t('collection')"
       :message="$t('Select collection where do you want mint your token')">
       <b-select
@@ -17,7 +17,7 @@
           {{ option.name || option.id }} ({{ option.totalCount }})
         </option>
       </b-select>
-    </b-field>
+    </NeoField>
   </div>
 </template>
 
@@ -25,8 +25,13 @@
 import { Component, Prop, VModel, mixins } from 'nuxt-property-decorator'
 import AuthMixin from '~/utils/mixins/authMixin'
 import { BaseMintedCollection as MintedCollection } from './types'
+import { NeoField } from '@kodadot1/brick'
 
-@Component({})
+@Component({
+  components: {
+    NeoField,
+  },
+})
 export default class CollectionSelect extends mixins(AuthMixin) {
   @VModel({ default: null }) selectedCollection!: MintedCollection
   @Prop({ type: Array, default: () => [] }) collections!: MintedCollection[]

@@ -1,52 +1,45 @@
 <template>
   <div>
     <Loader :value="isLoading" />
-    <b-field grouped>
-      <b-field class="has-text-right" expanded>
+    <NeoField grouped>
+      <NeoField class="has-text-right" expanded>
         <b-select v-model="nbRows">
           <option value="10">10</option>
           <option value="20">20</option>
           <option value="50">50</option>
           <option value="100">100</option>
         </b-select>
-      </b-field>
-    </b-field>
+      </NeoField>
+    </NeoField>
 
-    <b-table
+    <NeoTable
       sticky-header
       :data="data"
       :default-sort="[sortBy.field, sortBy.value]"
       default-sort-direction="desc"
       backend-sorting
       hoverable
-      class="series-sticky-header"
       @sort="onSort">
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered"
         field="id"
         label="N°">
         {{ data.indexOf(props.row) + 1 }}
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         field="image"
         label=""
         header-class="front-stack-layer"
         cell-class="is-vcentered">
         <div class="image is-48x48 mb-2">
-          <b-image
-            v-if="!isLoading"
-            :src="props.row.image"
-            :alt="props.row.name"
-            ratio="1by1"
-            rounded />
-          <NeoSkeleton :active="isLoading" circle width="48px" height="48px" />
+          <BasicImage :src="props.row.image" :alt="props.row.name" rounded />
         </div>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered"
         field="id"
@@ -57,9 +50,9 @@
           {{ props.row.name }}
         </nuxt-link>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         field="volume"
         :label="$t('series.volume')"
@@ -70,9 +63,9 @@
           <Money :value="props.row.volume" inline hide-unit />
         </template>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         field="dailyVolume"
         label="24h %"
@@ -97,9 +90,9 @@
           </div>
         </template>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <!-- <b-table-column
+      <!-- <NeoTableColumn
         v-slot="props"
         field="weeklyVolume"
         label="7d %"
@@ -124,9 +117,9 @@
           </div>
         </template>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column> -->
+      </NeoTableColumn> -->
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         field="monthlyVolume"
         label="30d %"
@@ -151,9 +144,9 @@
           </div>
         </template>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         field="floorPrice"
         :label="$t('series.floorprice')"
@@ -164,9 +157,9 @@
           <Money :value="props.row.floorPrice" inline hide-unit />
         </template>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         field="averagePrice"
         :label="$t('series.averagePrice')"
@@ -176,9 +169,9 @@
           <Money :value="props.row.averagePrice" inline hide-unit />
         </template>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         field="highestSale"
         :label="$t('series.highestSale')"
@@ -189,9 +182,9 @@
           <Money :value="props.row.highestSale" inline hide-unit />
         </template>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         field="buys"
         :label="$t('series.buys')"
@@ -200,9 +193,9 @@
         sortable>
         <template v-if="!isLoading">{{ props.row.buys }}</template>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         field="sold"
         :label="$t('series.owners')"
@@ -213,9 +206,9 @@
           {{ props.row.sold }}
         </template>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         field="total"
         :label="$t('series.assets')"
@@ -226,9 +219,9 @@
           {{ props.row.total }}
         </template>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         field="rank"
         :label="$t('series.score')"
@@ -238,9 +231,9 @@
           {{ Math.ceil(props.row.rank) }}
         </template>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         field="emoteCount"
         :label="$t('series.emoteCount')"
@@ -250,9 +243,9 @@
           {{ Math.ceil(props.row.emoteCount) }}
         </template>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered has-text-centered"
         field="chart"
@@ -264,9 +257,9 @@
           <NeoIcon icon="chart-line" />
         </nuxt-link>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered has-text-centered"
         field="history"
@@ -278,8 +271,8 @@
           <NeoIcon icon="list-ul" />
         </nuxt-link>
         <NeoSkeleton :active="isLoading" />
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered has-text-centered history"
         field="buyHistory"
@@ -290,14 +283,14 @@
           :id="props.row.id"
           :labels="props.row.buyHistory.xAxisList"
           :values="props.row.buyHistory.yAxisList" />
-      </b-table-column>
+      </NeoTableColumn>
       <template #empty>
-        <div v-if="!isLoading" class="has-text-centered">
+        <div v-if="!isLoading" class="w-100 has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="isLoading" />
       </template>
-    </b-table>
+    </NeoTable>
   </div>
 </template>
 
@@ -325,11 +318,17 @@ import {
   toSort,
   today,
 } from './utils'
+import { NeoField, NeoIcon, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+  NeoField,
+  NeoIcon,
+  NeoTable,
+  NeoTableColumn,
+  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 
 @Component({ components })
@@ -531,13 +530,6 @@ export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
 .history {
   width: 200px;
   height: 100px;
-}
-
-.series-sticky-header th {
-  top: 120px;
-  position: sticky;
-  background: $frosted-glass-background;
-  backdrop-filter: $frosted-glass-backdrop-filter;
 }
 
 .front-stack-layer {

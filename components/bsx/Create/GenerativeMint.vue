@@ -50,10 +50,14 @@
 <script setup lang="ts">
 import { NeoStepItem, NeoSteps } from '@kodadot1/brick'
 import { PredictionStatus } from '@/services/replicate'
-import { sendWaifu } from '@/services/waifu'
+import { doWaifu } from '@/services/waifu'
 import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { Options, buildMetadata } from '@/components/generative/promptBuilder'
+import {
+  CAMPAIGN,
+  Options,
+  buildMetadata,
+} from '@/components/generative/promptBuilder'
 
 const GenerativeMint = defineAsyncComponent(
   () => import('@/components/generative/GenerativeMintForm.vue')
@@ -110,7 +114,14 @@ const submitAll = async () => {
       predicion.value
     )
     status.value = 'loader.generative.send'
-    await sendWaifu(email.value, metadata, image.value)
+    await doWaifu(
+      {
+        address: email.value,
+        metadata,
+        image: image.value,
+      },
+      CAMPAIGN
+    )
     goToStep(4)
   } catch (error) {
     showNotification(

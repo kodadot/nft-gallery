@@ -19,144 +19,142 @@
           </a>
         </div>
       </template>
-      <div class="box">
-        <div class="is-flex is-justify-content-space-between box-container">
-          <b-field grouped group-multiline>
-            <div class="control">
-              <NeoCheckbox v-model="showDetailIcon">NFT Details</NeoCheckbox>
-            </div>
-            <div
-              v-for="(column, index) in columnsVisible"
-              :key="index"
-              class="control">
-              <NeoCheckbox v-model="column.display">
-                {{ column.title }}
-              </NeoCheckbox>
-            </div>
-          </b-field>
-        </div>
-        <b-table
-          :data="showList"
-          class="mb-4"
-          hoverable
-          custom-row-key="Id"
-          :show-detail-icon="showDetailIcon"
-          :detail-key="groupKey"
-          custom-detail-row
-          detailed
-          paginated
-          :per-page="itemsPerPage"
-          aria-next-label="Next page"
-          aria-previous-label="Previous page"
-          aria-page-label="Page"
-          aria-current-label="Current page"
-          :current-page.sync="currentPage"
-          :default-sort="[defaultSortOption, 'desc']">
-          <b-table-column
-            v-slot="props"
-            :visible="columnsVisible['Name'].display"
-            :field="groupKey"
-            cell-class="short-name-column"
-            :label="nameHeaderLabel">
-            <nuxt-link
-              v-if="groupKey === 'Holder' || groupKey === 'Flipper'"
-              :to="`/${urlPrefix}/u/${props.row[groupKey]}?tab=${
-                groupKey === 'Holder' ? 'holdings' : 'gains'
-              }`">
-              <Identity :address="props.row[groupKey]" />
-            </nuxt-link>
-            <nuxt-link
-              v-else
-              :to="`/${urlPrefix}/collection/${props.row.CollectionId}`">
-              <Identity
-                :address="props.row.Item.collection.issuer"
-                :custom-name-option="props.row.Item.collection.name" />
-            </nuxt-link>
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            :visible="columnsVisible['Amount'].display"
-            numeric
-            field="Amount"
-            label="Amount"
-            sortable>
-            {{ props.row.Amount }}
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            :visible="columnsVisible['Bought'].display"
-            field="Bought"
-            label="Bought"
-            sortable>
-            {{ props.row.BoughtFormatted }}
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            :visible="columnsVisible['Sale'].display"
-            field="Sale"
-            :label="saleHeaderLabel"
-            sortable>
-            {{ props.row.SaleFormatted }}
-          </b-table-column>
-          <b-table-column
-            v-if="displayPercentage"
-            v-slot="props"
-            :visible="columnsVisible['Percentage'].display"
-            field="Percentage"
-            label="Percentage"
-            sortable>
-            <span :class="percentageTextClassName(props.row.Percentage)">
-              {{ props.row.Percentage | toPercent('-') }}
-            </span>
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            :visible="columnsVisible['Date'].display"
-            field="Timestamp"
-            :label="dateHeaderLabel"
-            sortable>
-            <NeoTooltip :label="props.row.Date" position="right">
-              <BlockExplorerLink
-                :text="props.row.Time"
-                :block-id="props.row.Block" />
-            </NeoTooltip>
-          </b-table-column>
-          <template slot="detail" slot-scope="props">
-            <tr v-for="item in props.row.Items" :key="item.Item.id">
-              <td v-if="showDetailIcon"></td>
-              <td
-                v-show="columnsVisible['Name'].display"
-                class="short-name-column">
-                <nuxt-link :to="`/${urlPrefix}/gallery/${item.Item.id}`">
-                  {{ item.Item.name || item.Item.id }}
-                </nuxt-link>
-              </td>
-              <td
-                v-show="columnsVisible['Amount'].display"
-                class="has-text-right">
-                {{ item.Amount }}
-              </td>
-              <td v-show="columnsVisible['Bought'].display">
-                {{ item.BoughtFormatted }}
-              </td>
-              <td v-show="columnsVisible['Sale'].display">
-                {{ item.SaleFormatted }}
-              </td>
-              <td
-                v-if="displayPercentage"
-                v-show="columnsVisible['Percentage'].display"
-                :class="percentageTextClassName(item.Percentage)">
-                {{ item.Percentage | toPercent('-') }}
-              </td>
-              <td v-show="columnsVisible['Date'].display">
-                <NeoTooltip :label="item.Date" position="right">
-                  <BlockExplorerLink :text="item.Time" :block-id="item.Block" />
-                </NeoTooltip>
-              </td>
-            </tr>
-          </template>
-        </b-table>
+      <div class="is-flex is-justify-content-space-between box-container">
+        <NeoField grouped group-multiline>
+          <div class="control">
+            <NeoCheckbox v-model="showDetailIcon">NFT Details</NeoCheckbox>
+          </div>
+          <div
+            v-for="(column, index) in columnsVisible"
+            :key="index"
+            class="control">
+            <NeoCheckbox v-model="column.display">
+              {{ column.title }}
+            </NeoCheckbox>
+          </div>
+        </NeoField>
       </div>
+      <NeoTable
+        :data="showList"
+        class="mb-4"
+        hoverable
+        custom-row-key="Id"
+        :show-detail-icon="showDetailIcon"
+        :detail-key="groupKey"
+        custom-detail-row
+        detailed
+        paginated
+        :per-page="itemsPerPage"
+        aria-next-label="Next page"
+        aria-previous-label="Previous page"
+        aria-page-label="Page"
+        aria-current-label="Current page"
+        :current-page.sync="currentPage"
+        :default-sort="[defaultSortOption, 'desc']">
+        <NeoTableColumn
+          v-slot="props"
+          :visible="columnsVisible['Name'].display"
+          :field="groupKey"
+          cell-class="short-name-column"
+          :label="nameHeaderLabel">
+          <nuxt-link
+            v-if="groupKey === 'Holder' || groupKey === 'Flipper'"
+            :to="`/${urlPrefix}/u/${props.row[groupKey]}?tab=${
+              groupKey === 'Holder' ? 'holdings' : 'gains'
+            }`">
+            <Identity :address="props.row[groupKey]" />
+          </nuxt-link>
+          <nuxt-link
+            v-else
+            :to="`/${urlPrefix}/collection/${props.row.CollectionId}`">
+            <Identity
+              :address="props.row.Item.collection.issuer"
+              :custom-name-option="props.row.Item.collection.name" />
+          </nuxt-link>
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          :visible="columnsVisible['Amount'].display"
+          numeric
+          field="Amount"
+          label="Amount"
+          sortable>
+          {{ props.row.Amount }}
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          :visible="columnsVisible['Bought'].display"
+          field="Bought"
+          label="Bought"
+          sortable>
+          {{ props.row.BoughtFormatted }}
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          :visible="columnsVisible['Sale'].display"
+          field="Sale"
+          :label="saleHeaderLabel"
+          sortable>
+          {{ props.row.SaleFormatted }}
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-if="displayPercentage"
+          v-slot="props"
+          :visible="columnsVisible['Percentage'].display"
+          field="Percentage"
+          label="Percentage"
+          sortable>
+          <span :class="percentageTextClassName(props.row.Percentage)">
+            {{ props.row.Percentage | toPercent('-') }}
+          </span>
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          :visible="columnsVisible['Date'].display"
+          field="Timestamp"
+          :label="dateHeaderLabel"
+          sortable>
+          <NeoTooltip :label="props.row.Date" position="left">
+            <BlockExplorerLink
+              :text="props.row.Time"
+              :block-id="props.row.Block" />
+          </NeoTooltip>
+        </NeoTableColumn>
+        <template slot="detail" slot-scope="props">
+          <tr v-for="item in props.row.Items" :key="item.Item.id">
+            <td v-if="showDetailIcon"></td>
+            <td
+              v-show="columnsVisible['Name'].display"
+              class="short-name-column">
+              <nuxt-link :to="`/${urlPrefix}/gallery/${item.Item.id}`">
+                {{ item.Item.name || item.Item.id }}
+              </nuxt-link>
+            </td>
+            <td
+              v-show="columnsVisible['Amount'].display"
+              class="has-text-right">
+              {{ item.Amount }}
+            </td>
+            <td v-show="columnsVisible['Bought'].display">
+              {{ item.BoughtFormatted }}
+            </td>
+            <td v-show="columnsVisible['Sale'].display">
+              {{ item.SaleFormatted }}
+            </td>
+            <td
+              v-if="displayPercentage"
+              v-show="columnsVisible['Percentage'].display"
+              :class="percentageTextClassName(item.Percentage)">
+              {{ item.Percentage | toPercent('-') }}
+            </td>
+            <td v-show="columnsVisible['Date'].display">
+              <NeoTooltip :label="item.Date" position="left">
+                <BlockExplorerLink :text="item.Time" :block-id="item.Block" />
+              </NeoTooltip>
+            </td>
+          </tr>
+        </template>
+      </NeoTable>
     </b-collapse>
   </div>
 </template>
@@ -174,14 +172,24 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { parseDate, parsePriceForItem } from './helper'
 import { Interaction as EventInteraction } from '../../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoCheckbox, NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import {
+  NeoCheckbox,
+  NeoField,
+  NeoIcon,
+  NeoTable,
+  NeoTableColumn,
+  NeoTooltip,
+} from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
+  NeoField,
   NeoIcon,
   NeoTooltip,
   NeoCheckbox,
+  NeoTable,
+  NeoTableColumn,
 }
 
 export type NftHolderEvent = {

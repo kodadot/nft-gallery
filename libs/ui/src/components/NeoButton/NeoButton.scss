@@ -104,6 +104,25 @@
     }
   }
 
+  &--secondary{
+    height: 22px;
+    line-height: 100%;
+    font-size: 12px;
+    width: min-content !important;
+    border-radius: 4rem;
+    box-shadow: none !important;
+    @include ktheme() {
+      border: 1px solid theme('k-shade');
+      background: theme('background-color');
+
+      &:hover {
+        background: theme('background-color');
+        border: 1px solid theme('text-color');
+        color: theme('text-color');
+      }
+    }
+  }
+
   &.is-text {
     border: none !important;
     width: min-content;
@@ -119,6 +138,23 @@
 
   &.no-shadow {
     box-shadow: none;
+  }
+
+  &--rounded {
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    @include ktheme() {
+      border-color: theme('k-shade');
+      color: theme('border-color');
+    }
+
+    &:hover {
+      background-color: transparent !important;
+      @include ktheme() {
+        border-color: theme('border-color');
+        color: theme('border-color');
+      }
+    }
   }
 }
 

@@ -37,8 +37,7 @@
                   :src="resource.src"
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
-                  is-detail
-                  :original="isMobile" />
+                  is-detail />
               </o-carousel-item>
             </o-carousel>
           </div>
@@ -56,7 +55,6 @@
             :mime-type="nftMimeType"
             :title="nftMetadata?.name"
             is-detail
-            :original="isMobile"
             :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder" />
         </div>
@@ -71,6 +69,7 @@
               <div class="name-container">
                 <h1 class="title" data-cy="item-title">
                   {{ nftMetadata?.name }}
+                  <span v-if="nft?.burned" class="has-text-danger">「🔥」</span>
                 </h1>
                 <h2 class="subtitle" data-cy="item-collection">
                   <CollectionDetailsPopover
@@ -86,7 +85,9 @@
                   </CollectionDetailsPopover>
                 </h2>
               </div>
-              <GalleryItemButton />
+              <GalleryItemButton
+                v-if="!nft?.burned"
+                :gallery-item="galleryItem" />
             </div>
 
             <div
@@ -110,30 +111,36 @@
 
           <!-- LINE DIVIDER -->
           <hr />
-          <UnlockableTag
-            v-if="isUnlockable && isMobile"
-            :nft="nft"
-            :link="unlockLink"
-            class="mt-4" />
+          <template v-if="!nft?.burned">
+            <UnlockableTag
+              v-if="isUnlockable && isMobile"
+              :nft="nft"
+              :link="unlockLink"
+              class="mt-4" />
 
-          <!-- price section -->
-          <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
-          <UnlockableTag
-            v-if="isUnlockable && !isMobile"
-            :link="unlockLink"
-            :nft="nft"
-            class="mt-7" />
+            <!-- price section -->
+            <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
+            <UnlockableTag
+              v-if="isUnlockable && !isMobile"
+              :link="unlockLink"
+              :nft="nft"
+              class="mt-7" />
+          </template>
         </div>
       </div>
     </div>
 
     <div class="columns is-variable is-6 mt-5">
       <div class="column is-two-fifths">
-        <GalleryItemDescription ref="galleryDescriptionRef" />
+        <GalleryItemDescription
+          ref="galleryDescriptionRef"
+          :gallery-item="galleryItem" />
       </div>
 
       <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
-        <GalleryItemTabsPanel :active-tab="activeTab" />
+        <GalleryItemTabsPanel
+          :active-tab="activeTab"
+          :gallery-item="galleryItem" />
       </div>
     </div>
 
@@ -145,7 +152,10 @@
 
     <CarouselTypeVisited class="mt-8" />
 
-    <GalleryItemPreviewer v-model="isFullscreen" :item-src="previewItemSrc" />
+    <GalleryItemPreviewer
+      v-model="isFullscreen"
+      :item-src="previewItemSrc"
+      :gallery-item="galleryItem" />
   </section>
 </template>
 
@@ -178,8 +188,9 @@ const { placeholder } = useTheme()
 const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 
+const galleryItem = useGalleryItem()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
-  useGalleryItem()
+  galleryItem
 const collection = computed(() => nft.value?.collection)
 
 const breakPointWidth = 930

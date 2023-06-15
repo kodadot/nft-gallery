@@ -33,9 +33,12 @@
 
 <script setup lang="ts">
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
-import { useZipFileValidator, validFormats } from './useZipValidator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import DragDrop from '@/components/shared/DragDrop.vue'
+import {
+  useZipFileValidator,
+  validFormats,
+} from '@/composables/massmint/useZipValidator'
 
 const { $consola } = useNuxtApp()
 
@@ -58,8 +61,9 @@ const acceptedMediaFormatsString = validFormats
 const emit = defineEmits(['zipLoaded'])
 
 const onFileSelected = (file) => {
+  const zipMimeTypes = ['application/zip', 'application/x-zip-compressed']
   showCheckmark.value = false
-  if (file && file.type === 'application/zip') {
+  if (file && zipMimeTypes.includes(file.type)) {
     loading.value = true
     const reader = new FileReader()
     reader.readAsDataURL(file)
@@ -86,10 +90,7 @@ const onFileSelected = (file) => {
           }
           showCheckmark.value = true
           emit('zipLoaded', {
-            validFiles: validFiles.value.map(({ name, url }) => ({
-              name,
-              imageUrl: url,
-            })),
+            validFiles: validFiles.value,
             areAllFilesValid: allValid.value,
           })
         }
