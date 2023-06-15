@@ -22,11 +22,7 @@
 
       <!-- language -->
       <div data-cy="sidebar-language">
-        <b-dropdown
-          ref="languageDropdown"
-          position="is-top-left"
-          aria-role="menu"
-          mobile-modal>
+        <b-dropdown position="is-top-left" aria-role="menu" mobile-modal>
           <template #trigger>
             <NeoIcon icon="globe" />
             <span>{{ $t('profileMenu.language') }}</span>
@@ -93,13 +89,6 @@ onMounted(() => {
     })
   }
 })
-
-const languageDropdown = ref(null)
-const toggleLanguageMenu = () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  languageDropdown.value?.toggle()
-}
 </script>
 
 <style lang="scss" scoped>
