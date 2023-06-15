@@ -16,6 +16,7 @@ const DEFAULT_BALANCE_STATE = {
   glmr: '0',
   movr: '0',
   dot: '0',
+  stt: '0',
 }
 
 export interface IdentityMap {
@@ -153,7 +154,6 @@ export const useIdentityStore = defineStore('identity', {
     },
     async setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: DEFAULT_BALANCE_STATE }
-      this.resetMultipleBalances()
       await this.fetchBalance({ address: authRequest.address })
       localStorage.setItem('kodaauth', authRequest.address)
     },

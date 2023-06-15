@@ -1,7 +1,7 @@
 <template>
   <div class="spotlight">
     <Loader :value="isLoading" />
-    <b-table
+    <NeoTable
       :data="computedData"
       :current-page="currentPage"
       :default-sort="[sortBy.field, sortBy.value]"
@@ -31,7 +31,7 @@
           @click="goToRandomPage">
         </b-button>
       </template>
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered"
         field="id"
@@ -42,9 +42,9 @@
           </nuxt-link>
         </template>
         <NeoSkeleton :active="isLoading"> </NeoSkeleton>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered"
         field="sold"
@@ -52,9 +52,9 @@
         sortable>
         <template v-if="!isLoading">{{ props.row.sold }}</template>
         <NeoSkeleton :active="isLoading"> </NeoSkeleton>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         cell-class="is-vcentered"
         field="unique"
         :label="$t('spotlight.unique')"
@@ -68,9 +68,9 @@
           props.row.unique
         }}</template>
         <NeoSkeleton :active="isLoading"> </NeoSkeleton>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         cell-class="is-vcentered"
         field="uniqueCollectors"
         :label="$t('spotlight.uniqueCollectors')"
@@ -84,9 +84,9 @@
           props.row.uniqueCollectors
         }}</template>
         <NeoSkeleton :active="isLoading"> </NeoSkeleton>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered"
         field="total"
@@ -94,9 +94,9 @@
         sortable>
         <template v-if="!isLoading">{{ props.row.total }}</template>
         <NeoSkeleton :active="isLoading"> </NeoSkeleton>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered"
         field="average"
@@ -106,9 +106,9 @@
           <Money :value="props.row.averagePrice" inline hide-unit />
         </template>
         <NeoSkeleton :active="isLoading"> </NeoSkeleton>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered"
         field="collections"
@@ -116,9 +116,9 @@
         sortable>
         <template v-if="!isLoading">{{ props.row.count }}</template>
         <NeoSkeleton :active="isLoading"> </NeoSkeleton>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered"
         field="volume"
@@ -128,9 +128,9 @@
           ><Money :value="props.row.volume" inline hide-unit
         /></template>
         <NeoSkeleton :active="isLoading"> </NeoSkeleton>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         cell-class="is-vcentered"
         field="rank"
         :label="$t('spotlight.score')"
@@ -144,9 +144,9 @@
           Math.ceil(props.row.rank * 100) / 100
         }}</template>
         <NeoSkeleton :active="isLoading"> </NeoSkeleton>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered has-text-centered history"
         field="soldHistory"
@@ -157,7 +157,7 @@
           :id="props.row.id"
           :labels="props.row.soldHistory.xAxisList"
           :values="props.row.soldHistory.yAxisList" />
-      </b-table-column>
+      </NeoTableColumn>
 
       <template #detail="props">
         <SpotlightDetail v-if="props.row.total" :account="props.row.id" />
@@ -165,12 +165,12 @@
       </template>
 
       <template #empty>
-        <div v-if="!isLoading" class="has-text-centered">
+        <div v-if="!isLoading" class="w-100 has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="isLoading"> </NeoSkeleton>
       </template>
-    </b-table>
+    </NeoTable>
   </div>
 </template>
 
@@ -178,7 +178,14 @@
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { NeoField, NeoSkeleton, NeoSwitch, NeoTooltip } from '@kodadot1/brick'
+import {
+  NeoField,
+  NeoSkeleton,
+  NeoSwitch,
+  NeoTable,
+  NeoTableColumn,
+  NeoTooltip,
+} from '@kodadot1/brick'
 
 import {
   axisLize,
@@ -213,6 +220,8 @@ const components = {
   NeoSkeleton,
   NeoField,
   NeoSwitch,
+  NeoTable,
+  NeoTableColumn,
   NeoTooltip,
 }
 
