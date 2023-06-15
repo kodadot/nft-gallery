@@ -10,10 +10,10 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
 import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import { preheatFileFromIPFS } from '@/utils/ipfs'
-import { ActionMintToken } from '../types'
+import { TokenToMint } from '../types'
 
 export async function constructMeta(
-  item: ActionMintToken,
+  tokenToMint: TokenToMint,
   options?: {
     enableCarbonOffset?: boolean
   }
@@ -22,7 +22,7 @@ export async function constructMeta(
   const preferencesStore = usePreferencesStore()
   const { accountId } = useAuth()
   const { $consola } = useNuxtApp()
-  const { file, name, description, secondFile, tags, nsfw } = item.token
+  const { file, name, description, secondFile, tags, nsfw } = tokenToMint
   const { enableCarbonOffset = false } = options || {}
   if (!file) {
     throw new ReferenceError('No file found!')

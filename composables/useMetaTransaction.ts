@@ -20,6 +20,7 @@ function useMetaTransaction() {
   } = useTransactionStatus()
   const { apiInstance } = useAPI()
   const tx = ref<ExecResult>()
+  const isError = ref(false)
 
   const howAboutToExecute = async (
     account: string,
@@ -60,6 +61,7 @@ function useMetaTransaction() {
     tx.value && execResultValue(tx.value)
     onTxError(dispatchError)
     isLoading.value = false
+    isError.value = true
     if (onError) {
       onError()
     }
@@ -109,6 +111,7 @@ function useMetaTransaction() {
     status,
     isLoading,
     stopLoader,
+    isError,
   }
 }
 
