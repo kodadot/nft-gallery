@@ -10,7 +10,7 @@
     :variant="variant"
     :disabled="disabled"
     :expanded="expanded"
-    :icon-pack="iconPack || 'fas'"
+    :icon-pack="iconPack"
     :label="label"
     class="is-neo"
     :rounded="rounded"
@@ -24,7 +24,7 @@
 import { OButton } from '@oruga-ui/oruga'
 import { NeoButtonVariant } from '@kodadot1/brick'
 
-defineProps<{
+const props = defineProps<{
   size?: 'small' | 'medium' | 'large'
   disabled?: boolean
   expanded?: boolean
@@ -39,7 +39,7 @@ defineProps<{
   tag?: string
 }>()
 
-// const iconPack = computed(() => props?.iconPack || 'fa-sharp')
+const iconPack = computed(() => props?.iconPack || 'fa-sharp')
 </script>
 
 <style lang="scss" scoped>
