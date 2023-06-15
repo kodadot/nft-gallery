@@ -24,6 +24,7 @@
 
       <NeoSkeleton
         v-if="identityStore.getStatusMultiBalances === 'loading'"
+        data-cy="skeleton-multiple-balances"
         animated />
     </div>
 
