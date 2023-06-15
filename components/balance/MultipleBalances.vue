@@ -7,10 +7,14 @@
     </div>
     <div v-else class="balance">
       <div class="balance-row has-text-grey is-size-7">
-        <div>{{ $t('general.chain') }}</div>
-        <div class="has-text-right">{{ $t('general.token') }}</div>
-        <div class="has-text-right">{{ $t('general.balance') }}</div>
-        <div class="has-text-right">{{ $t('general.usd') }}</div>
+        <div class="is-flex-grow-2">{{ $t('general.chain') }}</div>
+        <div class="has-text-right is-flex-grow-1">
+          {{ $t('general.token') }}
+        </div>
+        <div class="has-text-right is-flex-grow-2">
+          {{ $t('general.balance') }}
+        </div>
+        <div class="has-text-right is-flex-grow-2">{{ $t('general.usd') }}</div>
       </div>
 
       <div
@@ -21,13 +25,15 @@
           v-for="token in filterEmptyBalanceChains(chain)"
           :key="token.name"
           class="balance-row">
-          <div class="is-capitalized">{{ key }}</div>
-          <div class="has-text-right">{{ token.name.toUpperCase() }}</div>
+          <div class="is-capitalized is-flex-grow-2">{{ key }}</div>
+          <div class="has-text-right is-flex-grow-1">
+            {{ token.name.toUpperCase() }}
+          </div>
 
-          <div class="has-text-right">
+          <div class="has-text-right is-flex-grow-2">
             {{ token.details?.balance }}
           </div>
-          <div class="has-text-right">
+          <div class="has-text-right is-flex-grow-2">
             ${{ delimiter(token.details?.usd || '0') }}
           </div>
         </div>
