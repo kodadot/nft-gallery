@@ -1,25 +1,23 @@
 <template>
   <section>
     <br />
-    <b-tabs v-model="activeTab" destroy-on-hide expanded>
-      <b-tab-item v-for="x in components" :key="x" :label="x">
-        <component
-          :is="x"
-          v-if="components[activeTab] === x"
-          @navigateToCreateNftTab="switchToNft" />
-      </b-tab-item>
-    </b-tabs>
+    <NeoTabs v-model="activeTab" destroy-on-hide expanded>
+      <NeoTabItem v-for="x in components" :key="x" :label="x">
+        <component :is="x" @navigateToCreateNftTab="switchToNft" />
+      </NeoTabItem>
+    </NeoTabs>
   </section>
 </template>
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import CreateMixin from '~/utils/mixins/createMixin'
+import CreateMixin from '@/utils/mixins/createMixin'
+import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
 const Collection = () => import('@/components/rmrk/Create/Create.vue')
 const NFT = () => import('@/components/rmrk/Create/CreateToken.vue')
 
-const components = { Collection, NFT }
+const components = { Collection, NFT, NeoTabItem, NeoTabs }
 
 @Component({ components })
 export default class RmrkCreatePage extends mixins(CreateMixin) {
@@ -27,9 +25,8 @@ export default class RmrkCreatePage extends mixins(CreateMixin) {
     return 'centered-half-layout'
   }
 
-  protected switchToNft() {
+  public switchToNft() {
     this.switchToCreateNFT()
-    this.showExplainerText = true
   }
 }
 </script>

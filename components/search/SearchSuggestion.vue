@@ -1,13 +1,13 @@
 <template>
   <div class="search-suggestion-container" @click="resetSelectedIndex">
-    <b-tabs
+    <NeoTabs
       v-show="name"
       v-model="activeSearchTab"
       destroy-on-hide
       expanded
       class="touch-mt-20"
       @input="resetSelectedIndex">
-      <b-tab-item label="Collections" value="Collections">
+      <NeoTabItem label="Collections" value="Collections">
         <div v-if="isCollectionResultLoading">
           <SearchResultItem
             v-for="item in searchSuggestionEachTypeMaxNum"
@@ -87,8 +87,8 @@
             </svg>
           </div>
         </nuxt-link>
-      </b-tab-item>
-      <b-tab-item label="NFTs" value="NFTs">
+      </NeoTabItem>
+      <NeoTabItem label="NFTs" value="NFTs">
         <div v-if="isNFTResultLoading">
           <SearchResultItem
             v-for="item in searchSuggestionEachTypeMaxNum"
@@ -148,16 +148,16 @@
             </svg>
           </div>
         </nuxt-link>
-      </b-tab-item>
-      <b-tab-item disabled value="User">
+      </NeoTabItem>
+      <NeoTabItem disabled value="User">
         <template #header>
           {{ $t('user') }}
           <span class="small-soon-text">
             {{ $t('soon') }}
           </span>
         </template>
-      </b-tab-item>
-    </b-tabs>
+      </NeoTabItem>
+    </NeoTabs>
     <div v-if="!name" class="search-history">
       <div
         v-for="item in filterSearch"
@@ -184,8 +184,12 @@
         </div>
       </div>
     </div>
-    <b-tabs v-show="!name" v-model="activeTrendingTab" destroy-on-hide expanded>
-      <b-tab-item label="Trending" value="Trending">
+    <NeoTabs
+      v-show="!name"
+      v-model="activeTrendingTab"
+      destroy-on-hide
+      expanded>
+      <NeoTabItem label="Trending" value="Trending">
         <div
           v-for="(item, idx) in defaultCollectionSuggestions"
           :key="item.id"
@@ -227,8 +231,8 @@
             </svg>
           </div>
         </nuxt-link>
-      </b-tab-item>
-    </b-tabs>
+      </NeoTabItem>
+    </NeoTabs>
   </div>
 </template>
 
@@ -249,9 +253,8 @@ import { processMetadata } from '~/utils/cachingStrategy'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '~/utils/uniquery'
 import { RowSeries } from '~/components/series/types'
-import { NeoIcon } from '@kodadot1/brick'
 import { fetchCollectionSuggestion } from './utils/collectionSearch'
-import { NeoSkeleton } from '@kodadot1/brick'
+import { NeoIcon, NeoSkeleton, NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
 import Vue from 'vue'
 
@@ -260,6 +263,8 @@ import Vue from 'vue'
     Money: () => import('@/components/shared/format/Money.vue'),
     NeoIcon,
     NeoSkeleton,
+    NeoTabItem,
+    NeoTabs,
   },
 })
 export default class SearchSuggestion extends mixins(PrefixMixin) {

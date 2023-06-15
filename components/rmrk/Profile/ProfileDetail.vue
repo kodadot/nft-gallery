@@ -72,13 +72,16 @@
     </div>
 
     <section>
-      <b-tabs
+      <NeoTabs
         v-model="activeTab"
         :class="{ 'invisible-tab': sharingVisible }"
         class="tabs-container-mobile"
         destroy-on-hide
         expanded>
-        <b-tab-item value="nft" :header-class="{ 'is-hidden': !totalCreated }">
+        <NeoTabItem
+          value="nft"
+          :header-class="{ 'is-hidden': !totalCreated }"
+          class="py-6">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.created')} ${labelDisplayName}`"
@@ -93,8 +96,9 @@
             :account="id"
             :show-search-bar="true"
             @change="totalCreated = $event" />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
+          class="py-6"
           :label="`Collections - ${totalCollections}`"
           value="collection"
           :header-class="{ 'is-hidden': !totalCollections }">
@@ -132,8 +136,9 @@
             @infinite="reachBottomHandler">
           </InfiniteLoading>
           <ScrollTopButton />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
+          class="py-6"
           :label="`History - ${totalHistory}`"
           value="history"
           :header-class="{ 'is-hidden': !totalHistory }">
@@ -143,8 +148,9 @@
             :open-on-default="isHistoryOpen"
             display-item
             hide-collapse />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
+          class="py-6"
           :label="`Sales - ${totalSales}`"
           value="sales"
           :header-class="{ 'is-hidden': !totalSales }">
@@ -155,8 +161,11 @@
             :events="eventsOfSales"
             :open-on-default="isHistoryOpen"
             hide-collapse />
-        </b-tab-item>
-        <b-tab-item value="sold" :header-class="{ 'is-hidden': !totalSold }">
+        </NeoTabItem>
+        <NeoTabItem
+          value="sold"
+          :header-class="{ 'is-hidden': !totalSold }"
+          class="py-6">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.sold')} ${labelDisplayName}`"
@@ -171,8 +180,9 @@
             :account="id"
             show-search-bar
             @change="totalSold = $event" />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
+          class="py-6"
           value="collected"
           :header-class="{ 'is-hidden': !totalCollected }">
           <template #header>
@@ -189,9 +199,10 @@
             :account="id"
             show-search-bar
             @change="totalCollected = $event" />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
           v-if="isMoonriver"
+          class="py-6"
           value="holdings"
           :header-class="{ 'is-hidden': !totalHoldings }">
           <template #header>
@@ -203,9 +214,10 @@
             </NeoTooltip>
           </template>
           <Holding :account-id="id" />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
           v-if="isMoonriver"
+          class="py-6"
           value="gains"
           :header-class="{ 'is-hidden': !totalGains }">
           <template #header>
@@ -217,9 +229,10 @@
             </NeoTooltip>
           </template>
           <UserGainHistory :account-id="id" />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
           v-if="isBsx || isSnek"
+          class="py-6"
           :label="`Offers Made${
             userOfferList.length ? ' - ' + userOfferList.length : ''
           }`"
@@ -229,8 +242,8 @@
             :owner-id="id"
             hide-collapse
             @offersListUpdate="offersListUpdate" />
-        </b-tab-item>
-      </b-tabs>
+        </NeoTabItem>
+      </NeoTabs>
     </section>
   </section>
 </template>
@@ -275,7 +288,7 @@ import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator
 
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
 import { exist } from '@/utils/exist'
-import { NeoButton, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoTabItem, NeoTabs, NeoTooltip } from '@kodadot1/brick'
 
 const tabNameWithoutCollections = ['holdings', 'gains']
 
@@ -303,6 +316,8 @@ const components = {
   ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
   NeoButton,
   NeoTooltip,
+  NeoTabs,
+  NeoTabItem,
 }
 
 @Component<ProfileDetail>({

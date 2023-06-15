@@ -157,7 +157,7 @@
     padding: 0 50px 0 42px !important;
     height: 2.5rem;
     outline: none;
-    
+
     &::placeholder {
       margin-left: 10px;
       font-weight: 400;
@@ -190,7 +190,6 @@
       padding-left: 14.25rem !important;
     }
   }
-
 }
 
 .search-suggestion-container {
@@ -274,9 +273,6 @@
     }
   }
 
-  .b-tabs:not(:last-child) {
-    margin-bottom: 0;
-  }
   .tabs:not(:last-child) {
     margin-bottom: 0.5rem;
     padding: 0px $desktop-padding-x;

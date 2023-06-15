@@ -1,27 +1,27 @@
 <template>
   <section>
     <br />
-    <b-tabs v-model="activeTab" destroy-on-hide expanded>
-      <b-tab-item v-for="x in components" :key="x" :label="x">
+    <NeoTabs v-model="activeTab" destroy-on-hide expanded>
+      <NeoTabItem v-for="x in components" :key="x" :label="x">
         <component
           :is="x"
-          v-if="components[activeTab] === x"
           :show-explainer-text="showExplainerText"
           @navigateToCreateNftTab="switchToNft" />
-      </b-tab-item>
-    </b-tabs>
+      </NeoTabItem>
+    </NeoTabs>
   </section>
 </template>
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import CreateMixin from '~/utils/mixins/createMixin'
+import CreateMixin from '@/utils/mixins/createMixin'
+import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
 const Collection = () =>
   import('@/components/bsx/Create/CreateCollectionPage.vue')
 const NFT = () => import('@/components/bsx/Create/CreateToken.vue')
 
-const components = { Collection, NFT }
+const components = { Collection, NFT, NeoTabItem, NeoTabs }
 
 @Component<BsxCreatePage>({
   components,
