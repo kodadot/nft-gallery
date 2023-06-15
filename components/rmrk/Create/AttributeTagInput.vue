@@ -10,6 +10,9 @@
       item-class="my-3"
       :autocomplete-classes="{
         'item-class': 'p-2',
+        inputClasses: {
+          inputClass: 'neo-input',
+        },
       }"
       aria-close-label="Delete this tag"
       icon="tag"
