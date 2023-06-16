@@ -44,14 +44,12 @@ $tabs-content-padding: 0;
 
           &:hover:not(.o-tabs__nav-item-default--active) {
             background-color: unset;
-            border-bottom-color: theme('k-redaccent');
+            border-bottom-color: theme('k-primary');
           }
         }
       }
 
       &-toggle {
-        padding: 8px;
-
         @include ktheme() {
           border: 1px solid theme('border-color');
           color: theme('text-color');

@@ -16,7 +16,8 @@
         <NeoTooltip
           v-if="offersDisabled"
           :label="$t('tabs.offersDisabled')"
-          stop-events>
+          stop-events
+          append-to-body>
           {{ $t('tabs.offers') }}
         </NeoTooltip>
         <div v-else>

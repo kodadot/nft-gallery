@@ -28,7 +28,8 @@
         <NeoTooltip
           v-if="propertiesTabDisabled"
           :label="$t('tabs.noPropertiesForNFT')"
-          stop-events>
+          stop-events
+          append-to-body>
           {{ $t('tabs.properties') }}
         </NeoTooltip>
         <div v-else>
