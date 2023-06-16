@@ -1,5 +1,5 @@
 <template>
-  <b-collapse
+  <NeoCollapse
     :open="expanded"
     animation="slide"
     class="border-bottom"
@@ -56,11 +56,11 @@
     <div v-else class="p-4 is-size-6 has-text-grey">
       {{ $t('general.noPopularCollections') }}
     </div>
-  </b-collapse>
+  </NeoCollapse>
 </template>
 
 <script lang="ts" setup>
-import { NeoCheckbox, NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoCheckbox, NeoCollapse, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 import { Collection, usePopularCollections } from './usePopularCollections'
 import { OField } from '@oruga-ui/oruga'
