@@ -78,18 +78,16 @@
         class="tabs-container-mobile"
         destroy-on-hide
         expanded>
-        <NeoTabItem
-          value="nft"
-          :header-class="{ 'is-hidden': !totalCreated }"
-          class="py-6">
+        <NeoTabItem value="nft" :header-class="{ 'is-hidden': !totalCreated }">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.created')} ${labelDisplayName}`"
-              append-to-body>
+              :append-to-body="!isMobile">
               {{ $t('profile.created') }}
               <span class="tab-counter">{{ totalCreated }}</span>
             </NeoTooltip>
           </template>
+
           <PaginatedCardList
             :id="id"
             :query="nftListByIssuer"
@@ -98,14 +96,13 @@
             @change="totalCreated = $event" />
         </NeoTabItem>
         <NeoTabItem
-          class="py-6"
           :label="`Collections - ${totalCollections}`"
           value="collection"
           :header-class="{ 'is-hidden': !totalCollections }">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.collections')} ${labelDisplayName}`"
-              append-to-body>
+              :append-to-body="!isMobile">
               {{ $t('collections') }}
               <span class="tab-counter">{{ totalCollections }}</span>
             </NeoTooltip>
@@ -138,7 +135,6 @@
           <ScrollTopButton />
         </NeoTabItem>
         <NeoTabItem
-          class="py-6"
           :label="`History - ${totalHistory}`"
           value="history"
           :header-class="{ 'is-hidden': !totalHistory }">
@@ -150,7 +146,6 @@
             hide-collapse />
         </NeoTabItem>
         <NeoTabItem
-          class="py-6"
           :label="`Sales - ${totalSales}`"
           value="sales"
           :header-class="{ 'is-hidden': !totalSales }">
@@ -162,14 +157,11 @@
             :open-on-default="isHistoryOpen"
             hide-collapse />
         </NeoTabItem>
-        <NeoTabItem
-          value="sold"
-          :header-class="{ 'is-hidden': !totalSold }"
-          class="py-6">
+        <NeoTabItem value="sold" :header-class="{ 'is-hidden': !totalSold }">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.sold')} ${labelDisplayName}`"
-              append-to-body>
+              :append-to-body="!isMobile">
               {{ $t('profile.sold') }}
               <span class="tab-counter">{{ totalSold }}</span>
             </NeoTooltip>
@@ -182,13 +174,12 @@
             @change="totalSold = $event" />
         </NeoTabItem>
         <NeoTabItem
-          class="py-6"
           value="collected"
           :header-class="{ 'is-hidden': !totalCollected }">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.collected')} ${labelDisplayName}`"
-              append-to-body>
+              :append-to-body="!isMobile">
               {{ $t('profile.collected') }}
               <span class="tab-counter">{{ totalCollected }}</span>
             </NeoTooltip>
@@ -202,13 +193,12 @@
         </NeoTabItem>
         <NeoTabItem
           v-if="isMoonriver"
-          class="py-6"
           value="holdings"
           :header-class="{ 'is-hidden': !totalHoldings }">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.holdings')} ${labelDisplayName}`"
-              append-to-body>
+              :append-to-body="!isMobile">
               {{ $t('profile.holdings') }}
               <span class="tab-counter">{{ totalHoldings }}</span>
             </NeoTooltip>
@@ -217,13 +207,12 @@
         </NeoTabItem>
         <NeoTabItem
           v-if="isMoonriver"
-          class="py-6"
           value="gains"
           :header-class="{ 'is-hidden': !totalGains }">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.gains')} ${labelDisplayName}`"
-              append-to-body>
+              :append-to-body="!isMobile">
               {{ $t('profile.gains') }}
               <span class="tab-counter">{{ totalGains }}</span>
             </NeoTooltip>
@@ -232,7 +221,6 @@
         </NeoTabItem>
         <NeoTabItem
           v-if="isBsx || isSnek"
-          class="py-6"
           :label="`Offers Made${
             userOfferList.length ? ' - ' + userOfferList.length : ''
           }`"
@@ -396,6 +384,8 @@ export default class ProfileDetail extends mixins(
   readonly recentSalesForCreator = recentSalesForCreator
   private openHistory = true
   private openSalesTab = true
+
+  public isMobile = window.innerWidth < 768
 
   created() {
     /*
