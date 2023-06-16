@@ -7,14 +7,13 @@
       multiple
       :mobile-modal="false"
       aria-role="list"
-      :class="{ 'sort-active': isActive }"
       position="bottom-left"
-      @change="onChange"
-      @active-change="isActive = $event">
-      <template #trigger>
+      @change="onChange">
+      <template #trigger="{ active }">
         <NeoButton
+          :active="active"
           type="button"
-          :icon="isActive ? 'chevron-up' : 'chevron-down'"
+          :icon="active ? 'chevron-up' : 'chevron-down'"
           class="has-text-left is-hidden-mobile"
           data-cy="explore-sort">
           {{ $i18n.t('sort.collection.sortBy') }}
@@ -68,7 +67,6 @@ const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { isRemark } = useIsChain(urlPrefix)
 
-const isActive = ref(false)
 const isItems = computed(
   () => route.path.includes('items') || route.path.includes('collection')
 )
