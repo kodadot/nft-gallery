@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="displayedHolders.length">
+    <div v-if="displayedHolders.length">
       <div
         v-for="[holderId, holdings] in displayedHolders"
         :key="holderId"
@@ -61,7 +61,7 @@
         </div>
         <hr class="my-3 mx-5" />
       </div>
-    </template>
+    </div>
     <div
       v-else
       class="is-flex is-justify-content-center is-align-items-center pt-6 px-2">
@@ -69,7 +69,6 @@
         {{ $t('activity.noHolders') }}
       </div>
     </div>
-    <div ref="target" />
   </div>
 </template>
 
