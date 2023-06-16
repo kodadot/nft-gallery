@@ -61,15 +61,27 @@ import ActiveCount from './ActiveCount.vue'
 const route = useRoute()
 const router = useRouter()
 const { $i18n } = useNuxtApp()
+const { urlPrefix } = usePrefix()
+const { isRemark } = useIsChain(urlPrefix)
 
 const isActive = ref(false)
 const isItems = computed(
   () => route.path.includes('items') || route.path.includes('collection')
 )
 const options = computed(() => {
-  return isItems.value
-    ? NFT_SQUID_SORT_CONDITION_LIST
-    : NFT_SQUID_SORT_COLLECTIONS
+  let sortBy: string[]
+
+  if (isItems.value) {
+    sortBy = NFT_SQUID_SORT_CONDITION_LIST
+
+    if (isRemark.value) {
+      sortBy = [...sortBy, 'instance_ASC']
+    }
+  } else {
+    sortBy = NFT_SQUID_SORT_COLLECTIONS
+  }
+
+  return sortBy
 })
 
 function removeDuplicateSortKeys(options: string[]) {

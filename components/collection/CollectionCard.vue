@@ -1,19 +1,17 @@
 <template>
   <div class="collection-card card" :class="{ loading: isLoading }">
     <nuxt-link
-      v-if="!isLoading && collection"
+      v-if="!isLoading && collection && !isLoadingMeta"
       :to="`/${urlPrefix}/collection/${collection.id}`">
-      <template v-if="!isLoadingMeta">
-        <BasicImage
-          :src="image"
-          :alt="collection.name"
-          custom-class="collection-card__image-wrapper" />
+      <BasicImage
+        :src="image"
+        :alt="collection.name"
+        custom-class="collection-card__image-wrapper" />
 
-        <CollectionDetail
-          :nfts="collection.nfts || []"
-          :name="collection.name || ''"
-          :image="image" />
-      </template>
+      <CollectionDetail
+        :nfts="collection.nfts || []"
+        :name="collection.name || ''"
+        :image="image" />
     </nuxt-link>
 
     <template v-else>
