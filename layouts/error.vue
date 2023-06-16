@@ -1,5 +1,5 @@
 <template>
-  <div id="Error" class="box container has-text-centered">
+  <div id="Error" class="container has-text-centered">
     <h1 class="title">{{ error.statusCode }} - {{ headline }}</h1>
     <p class="subtitle">{{ error.message || 'Something went wrong' }}</p>
     <p v-if="error.path" class="subtitle">Path: {{ error.path }}</p>
@@ -17,35 +17,29 @@
         >creating a bug issue with steps and screenshot to reproduce.</a
       >
     </p>
-    <b-button
-      tag="nuxt-link"
-      :to="`/${urlPrefix}/explore/collectibles`"
-      type="is-primary"
-      class="mt-5">
+    <NeoButton tag="nuxt-link" :to="`/${urlPrefix}/explore/collectibles`">
       Explore NFTs and Collections
-    </b-button>
+    </NeoButton>
   </div>
 </template>
-<script lang="ts">
-import { NuxtError } from '@nuxt/types'
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 
-@Component({})
-export default class Error extends mixins(PrefixMixin) {
-  @Prop({ type: Object, required: true }) readonly error!: NuxtError
+<script lang="ts" setup>
+import { NeoButton } from '@kodadot1/brick'
 
-  get headline(): string {
-    switch (this.error?.statusCode) {
-      case 404:
-        return 'Page not found'
-      case 410:
-        return 'Page gone'
-      case 500:
-        return 'Internal Server Error'
-      default:
-        return 'Indexer Error'
-    }
+const props = defineProps({
+  error: Object,
+})
+const { urlPrefix } = usePrefix()
+const headline = computed(() => {
+  switch (props.error?.statusCode) {
+    case 404:
+      return 'Page not found'
+    case 410:
+      return 'Page gone'
+    case 500:
+      return 'Internal Server Error'
+    default:
+      return 'Indexer Error'
   }
-}
+})
 </script>
