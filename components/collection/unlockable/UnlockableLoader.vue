@@ -48,7 +48,6 @@ const props = withDefaults(
 )
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
-
 const isLoading = useVModel(props, 'value')
 
 const postTwitterUrl = computed(
