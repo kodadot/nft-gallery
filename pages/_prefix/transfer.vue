@@ -380,23 +380,11 @@ export default class Transfer extends mixins(
         this.isLoading = false
         return
       }
-      const availableNodesByPrefix: { value: string }[] =
-        this.$store.getters['availableNodesByPrefix']
-      const availableUrls = availableNodesByPrefix.map((node) => node.value)
-      if (usedNodeUrls.length < availableUrls.length) {
-        const nextTryUrls = availableUrls.filter(
-          (url) => !usedNodeUrls.includes(url)
-        )
-        const { getInstance: Api } = Connector
-        // try to connect next possible url
-        await Api().connect(nextTryUrls[0])
-        await this.$store.dispatch('setApiUrl', nextTryUrls[0])
-        this.submit(event, [nextTryUrls[0]].concat(usedNodeUrls))
-      } else {
+
+      if (e instanceof Error) {
         this.$consola.error('[ERR: TRANSFER SUBMIT]', e)
-        if (e instanceof Error) {
-          showNotification(e.message, notificationTypes.warn)
-        }
+        showNotification(e.toString(), notificationTypes.warn)
+        this.isLoading = false
       }
     }
   }
