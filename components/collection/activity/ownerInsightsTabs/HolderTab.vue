@@ -61,6 +61,7 @@
         </div>
         <hr class="my-3 mx-5" />
       </div>
+      <div ref="target" />
     </div>
     <div
       v-else
