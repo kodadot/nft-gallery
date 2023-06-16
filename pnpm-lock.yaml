@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -47,8 +47,8 @@ importers:
         specifier: workspace:*
         version: link:libs/ui
       '@kodadot1/minimark':
-        specifier: ^0.1.9
-        version: 0.1.9(@polkadot/api@10.6.1)
+        specifier: ^0.1.10
+        version: 0.1.10(@polkadot/api@10.6.1)
       '@kodadot1/static':
         specifier: workspace:*
         version: link:libs/static
@@ -3920,14 +3920,14 @@ packages:
     engines: {node: '>=14.0'}
     dev: false
 
-  /@kodadot1/minimark@0.1.9(@polkadot/api@10.6.1):
-    resolution: {integrity: sha512-/ILY6y2wKJfNoTf2De2dIX7r/XzxNfRkizKTmVhZqzPsHsto8PfMsPPkMzQCy1zCYL2QEFzQZhjoamPuqNnN2A==}
+  /@kodadot1/minimark@0.1.10(@polkadot/api@10.6.1):
+    resolution: {integrity: sha512-7BSZvFpaKjjbsexj0mJWlqmXlgfvF/xbIrxrcNuDTr1aCL1RnCqFGSC0nY30cc0qNW8hAUwGo4B4G9a/pr//xg==}
     peerDependencies:
       '@polkadot/api': ~10.x
     dependencies:
       '@polkadot/api': 10.6.1
-      '@polkadot/keyring': 12.2.2
-      '@polkadot/util': 12.2.2
+      '@polkadot/keyring': 12.3.2
+      '@polkadot/util': 12.3.2
       nanoid: 3.3.4
       slugify: 1.6.6
     dev: false
@@ -5494,7 +5494,7 @@ packages:
       '@polkadot/api-augment': 10.8.1
       '@polkadot/api-base': 10.8.1
       '@polkadot/api-derive': 10.8.1
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2
       '@polkadot/rpc-augment': 10.8.1
       '@polkadot/rpc-core': 10.8.1
       '@polkadot/rpc-provider': 10.8.1
@@ -5521,7 +5521,7 @@ packages:
       '@polkadot/api-augment': 10.9.1
       '@polkadot/api-base': 10.9.1
       '@polkadot/api-derive': 10.9.1
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2
       '@polkadot/rpc-augment': 10.9.1
       '@polkadot/rpc-core': 10.9.1
       '@polkadot/rpc-provider': 10.9.1
@@ -5701,11 +5701,9 @@ packages:
       tslib: 2.5.3
     dev: false
 
-  /@polkadot/keyring@12.3.2(@polkadot/util@12.3.2):
+  /@polkadot/keyring@12.3.2:
     resolution: {integrity: sha512-NTdtDeI0DP9l/45hXynNABeP5VB8piw5YR+CbUxK2e36xpJWVXwbcOepzslg5ghE9rs8UKJb30Z/HqTU4sBY0Q==}
     engines: {node: '>=16'}
-    peerDependencies:
-      '@polkadot/util': 12.3.2
     dependencies:
       '@polkadot/util': 12.3.2
       '@polkadot/util-crypto': 12.3.2(@polkadot/util@12.3.2)
@@ -6022,7 +6020,7 @@ packages:
     resolution: {integrity: sha512-4QzT2QzD+320+eT6b79sGAA85Tt3Bb8fQvse4r5Mom2iiBd2SO81vOhxSAOaIe4GUsw25VzFJmsbe7+OObItdg==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2
       '@polkadot/types': 10.9.1
       '@polkadot/types-support': 10.9.1
       '@polkadot/util': 12.3.2
@@ -6365,7 +6363,7 @@ packages:
     resolution: {integrity: sha512-m6UvsvQOZ7sRGbonb6QLs4mZ6TmYKdAXAcHakiJl2xArqsgOghJsKhgaTqcigPkSq4947MXtIkEzdrwFEnkYkQ==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2
       '@polkadot/types-augment': 10.8.1
       '@polkadot/types-codec': 10.8.1
       '@polkadot/types-create': 10.8.1
@@ -6379,7 +6377,7 @@ packages:
     resolution: {integrity: sha512-AG33i2ZGGfq7u+5rkAdGrXAQHHl844/Yv+junH5ZzX69xiCoWO1bH/yzDUNBdpki2GlACWvF9nLYh3F2tVF93w==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2
       '@polkadot/types-augment': 10.9.1
       '@polkadot/types-codec': 10.9.1
       '@polkadot/types-create': 10.9.1

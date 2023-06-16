@@ -1,5 +1,8 @@
-import { CreatedNFT } from '@kodadot1/minimark/v1'
-import { CreatedNFT as CreatedNFTV2 } from '@kodadot1/minimark/v2'
+import { CreatedNFT, toNFTId as toNFTIdV1 } from '@kodadot1/minimark/v1'
+import {
+  CreatedNFT as CreatedNFTV2,
+  toNFTId as toNFTIdV2,
+} from '@kodadot1/minimark/v2'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { ItemResources } from '@/composables/useNft'
 import { Attribute } from '@kodadot1/minimark/common'
@@ -255,29 +258,6 @@ export const getNftId = (
   return `${blocknumber ? blocknumber + '-' : ''}${nft.collection.id}-${
     nft.instance || nft.name
   }-${nft.sn}`
-}
-
-export const toNFTIdV1 = (
-  nft: CreatedNFT,
-  blocknumber: string | number
-): string => {
-  const { collection, instance, sn } = nft
-  if (!collection || !instance || !sn) {
-    throw new ReferenceError('[APP] toNFTId: invalid nft')
-  }
-
-  return `${blocknumber}-${collection}-${instance}-${sn}`
-}
-
-export const toNFTIdV2 = (
-  nft: CreatedNFTV2,
-  blocknumber: string | number
-): string => {
-  const { collection, symbol, sn } = nft
-  if (!collection || !symbol || !sn) {
-    throw new ReferenceError('[APP] toNFTId: invalid nft')
-  }
-  return `${blocknumber}-${collection}-${nft.symbol}-${sn}`
 }
 
 export const toNFTId = (
