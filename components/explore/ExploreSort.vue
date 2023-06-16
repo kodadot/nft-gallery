@@ -1,6 +1,6 @@
 <template>
   <div>
-    <o-dropdown
+    <NeoDropdown
       v-model="selectedSort"
       class="sort"
       :close-on-click="false"
@@ -45,13 +45,17 @@
           class="ml-2"
           icon="check" />
       </NeoDropdownItem>
-    </o-dropdown>
+    </NeoDropdown>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ODropdown } from '@oruga-ui/oruga'
-import { NeoButton, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
+import {
+  NeoButton,
+  NeoDropdown,
+  NeoDropdownItem,
+  NeoIcon,
+} from '@kodadot1/brick'
 import {
   NFT_SQUID_SORT_COLLECTIONS,
   NFT_SQUID_SORT_CONDITION_LIST,
