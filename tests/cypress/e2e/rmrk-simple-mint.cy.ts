@@ -26,22 +26,18 @@ describe('simple mint in rmrk', () => {
     )
 
     // name
-    cy.get('[data-cy="input-name"]').type('Hello, World!')
+    cy.get('[data-cy="input-name"] input').type('Hello, World!')
 
     // check symbol
-    cy.get('[data-cy="input-symbol"]').clear().type('HELLOWORLDASDF')
+    cy.get('[data-cy="input-symbol"] input').clear().type('HELLOWORLDASDF')
     cy.get('[data-cy="input-symbol"] input').should('have.value', 'HELLOWORLD')
 
     // description
     cy.get('[data-cy="input-description"]').type('this is some description')
 
-    // check edition
-    cy.get('[data-cy="input-edition"] .control.minus button').click({
-      force: true,
-    })
     cy.get('[data-cy="input-edition"] input').should('have.value', 1)
     cy.get('[data-cy="input-advance-settings"]').should('not.exist')
-    cy.get('[data-cy="input-edition"] .control.plus button').click().click()
+    cy.get('[data-cy="input-edition"] input').clear().type('3')
     cy.get('[data-cy="input-edition"] input').should('have.value', 3)
     cy.get('[data-cy="input-advance-settings"]').should('exist')
 

@@ -6,65 +6,63 @@
       :class="hideCollapse ? 'collapseHidden' : 'bordered'"
       animation="slide"
       aria-id="contentIdForHistory">
-      <div class="box">
-        <div>
-          <Pagination
-            v-model="currentPage"
-            :total="total"
-            :per-page="itemsPerPage"
-            replace
-            enable-listen-keyboard-event
-            preserve-scroll />
-        </div>
-        <b-table :data="showList" class="mb-4" hoverable custom-row-key="ID">
-          <b-table-column
-            v-slot="props"
-            field="Collection"
-            label="Collection"
-            cell-class="type-table">
-            <nuxt-link
-              :to="`/${urlPrefix}/collection/${props.row.Collection.id}`">
-              {{ props.row.Collection.name }}
-            </nuxt-link>
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            field="Nft"
-            label="Nft"
-            cell-class="type-table">
-            <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.Nft.id}`">
-              {{ props.row.Nft.name }}
-            </nuxt-link>
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            cell-class="short-identity__table"
-            field="Buyer"
-            label="Buyer">
-            <nuxt-link :to="`/${urlPrefix}/u/${props.row.Buyer}`">
-              <Identity :address="props.row.Buyer" />
-            </nuxt-link>
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            cell-class="short-identity__table"
-            field="Amount"
-            label="Amount">
-            {{ props.row.Amount }}
-          </b-table-column>
-          <b-table-column
-            v-slot="props"
-            cell-class="short-identity__table"
-            field="Date"
-            label="Date">
-            <NeoTooltip :label="props.row.Date" position="right" multiline>
-              <BlockExplorerLink
-                :text="props.row.Time"
-                :block-id="props.row.Block" />
-            </NeoTooltip>
-          </b-table-column>
-        </b-table>
+      <div>
+        <Pagination
+          v-model="currentPage"
+          :total="total"
+          :per-page="itemsPerPage"
+          replace
+          enable-listen-keyboard-event
+          preserve-scroll />
       </div>
+      <NeoTable :data="showList" class="mb-4" hoverable custom-row-key="ID">
+        <NeoTableColumn
+          v-slot="props"
+          field="Collection"
+          label="Collection"
+          class="type-table">
+          <nuxt-link
+            :to="`/${urlPrefix}/collection/${props.row.Collection.id}`">
+            {{ props.row.Collection.name }}
+          </nuxt-link>
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          field="Nft"
+          label="Nft"
+          class="type-table">
+          <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.Nft.id}`">
+            {{ props.row.Nft.name }}
+          </nuxt-link>
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          class="short-identity__table"
+          field="Buyer"
+          label="Buyer">
+          <nuxt-link :to="`/${urlPrefix}/u/${props.row.Buyer}`">
+            <Identity :address="props.row.Buyer" />
+          </nuxt-link>
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          class="short-identity__table"
+          field="Amount"
+          label="Amount">
+          {{ props.row.Amount }}
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          class="short-identity__table"
+          field="Date"
+          label="Date">
+          <NeoTooltip :label="props.row.Date" position="left">
+            <BlockExplorerLink
+              :text="props.row.Time"
+              :block-id="props.row.Block" />
+          </NeoTooltip>
+        </NeoTableColumn>
+      </NeoTable>
     </b-collapse>
   </div>
 </template>
@@ -74,7 +72,7 @@ import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { DocumentNode } from 'graphql'
 import { formatDistanceToNow } from 'date-fns'
-import { NeoTooltip } from '@kodadot1/brick'
+import { NeoTable, NeoTableColumn, NeoTooltip } from '@kodadot1/brick'
 
 import { exist } from '@/utils/exist'
 
@@ -92,6 +90,8 @@ const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
+  NeoTable,
+  NeoTableColumn,
   NeoTooltip,
 }
 
@@ -260,7 +260,7 @@ export default class Sales extends mixins(
 
       event['Block'] = String(newEvent['blockNumber'])
 
-      // ID for b-table: Use a unique key of your data Object for each row.
+      // ID for table: Use a unique key of your data Object for each row.
       event['ID'] = newEvent['timestamp'] + newEvent['id']
       // Push to chart data
       chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])

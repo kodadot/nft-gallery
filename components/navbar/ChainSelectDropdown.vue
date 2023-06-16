@@ -1,5 +1,9 @@
 <template>
-  <NeoDropdown v-model="selected" aria-role="list" :triggers="['click']">
+  <NeoDropdown
+    v-model="selected"
+    aria-role="list"
+    :triggers="['click']"
+    position="is-bottom-left">
     <template #trigger>
       <div class="navbar-item" data-cy="chain">{{ chainName }}</div>
     </template>

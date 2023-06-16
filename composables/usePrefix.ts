@@ -40,10 +40,6 @@ export default function () {
     return useAssetsStore().getAssetById(String(id))
   }
 
-  const isBasilisk = computed(
-    () => prefix.value === 'bsx' || prefix.value === 'snek'
-  )
-
   const isTestnet = computed(() => prefix.value === 'snek')
 
   return {
@@ -52,7 +48,6 @@ export default function () {
     client,
     tokenId,
     assets,
-    isBasilisk,
     isTestnet,
   }
 }

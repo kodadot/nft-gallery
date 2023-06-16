@@ -21,13 +21,11 @@
         </template>
 
         <template #content>
-          <div>
-            <input
-              v-model="address"
-              type="text"
-              class="pl-3"
-              :placeholder="`${$i18n.t('transaction.transferTo')}:`" />
-          </div>
+          <input
+            v-model="address"
+            type="text"
+            class="px-4"
+            :placeholder="`${$i18n.t('transaction.transferTo')}:`" />
         </template>
       </GalleryItemActionSlides>
     </div>

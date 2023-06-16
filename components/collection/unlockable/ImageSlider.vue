@@ -151,11 +151,14 @@ const sliderSettings = computed(() => {
         width: calc(100% - 8px);
       }
       object-fit: cover;
+      &:hover {
+        opacity: 0.8;
+      }
     }
     &.active {
       img {
         @include ktheme() {
-          border: 3px solid theme('border-color');
+          border: 3px solid theme('k-blue');
         }
       }
     }

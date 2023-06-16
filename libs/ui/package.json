@@ -14,7 +14,7 @@
     "@vitejs/plugin-vue2": "^2.2.0",
     "eslint": "^8.42.0",
     "eslint-plugin-vue": "^8.7.1",
-    "histoire": "^0.16.1",
+    "histoire": "^0.16.2",
     "vite": "^3.2.7",
     "vue": "2.7.14"
   },
