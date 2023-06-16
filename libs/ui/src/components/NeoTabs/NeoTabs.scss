@@ -10,11 +10,16 @@
     background: theme('background-color');
     box-shadow: theme('primary-shadow');
   }
+
+  .o-tabs__content {
+    padding: 0;
+  }
 }
 
 .o-tabs {
   &__nav {
     overflow: auto;
+    white-space: nowrap;
 
     &--toggle {
       padding-bottom: 0;
