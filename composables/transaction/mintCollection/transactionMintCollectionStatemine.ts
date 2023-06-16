@@ -13,7 +13,6 @@ export async function execMintCollectionStatemine(
   const { accountId } = useAuth()
 
   const cb = api.tx.utility.batchAll
-  debugger
 
   const { newCollectionId } = useNewCollectionId()
 
