@@ -360,6 +360,7 @@
     "price_DESC": "Price: High to Low",
     "price_ASC": "Price: Low to High",
     "sn_ASC": "Alphabetically",
+    "instance_ASC": "Sequence",
     "listed": "Buy now",
     "own": "Own",
     "clearAll": "Clear All",
@@ -477,6 +478,8 @@
     "unlockable": {
       "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
       "readyIn": "Your mint will be ready in {0}, DO NOT CLOSE THIS WINDOW",
+      "mintLive": "Free Unlockable Mint Live",
+      "takeMe": "Take Me There!",
       "viewItem": "View Item",
       "preparing": "Preparing Your Item...",
       "alreadyMinted": "🎉 You already have this NFT, check it here"
@@ -946,7 +949,8 @@
     "table": {
       "balance": "Balance",
       "empty": "There are currently no assets for this user."
-    }
+    },
+    "emptyAsset": "You've got zero balance on this address across chains we are monitoring. If you want to buy small amount of crypto, click on Add funds through our verified on-ramp partner."
   },
   "ramp": {
     "selectAccount": "Select your account and click on buy.",
