@@ -24,6 +24,7 @@
 
       <NeoSkeleton
         v-if="identityStore.getStatusMultiBalances === 'loading'"
+        data-cy="skeleton-multiple-balances"
         animated />
     </div>
 
@@ -54,16 +55,27 @@ import { useIdentityStore } from '@/stores/identity'
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
 const { accountId } = useAuth()
+const { isTestnet } = usePrefix()
 
 const identityStore = useIdentityStore()
-const { multiBalances, multiBalanceAssets } = storeToRefs(identityStore)
+const {
+  multiBalances,
+  multiBalanceAssets,
+  multiBalanceAssetsTestnet,
+  multiBalanceNetwork,
+} = storeToRefs(identityStore)
 
-const mapToPrefix = {
+const networkToPrefix = {
   polkadot: 'dot',
   kusama: 'ksm',
   basilisk: 'bsx',
   statemine: 'stmn',
+  'basilisk-testnet': 'snek',
 }
+
+const currentNetwork = computed(() =>
+  isTestnet.value ? 'test-network' : 'main-network'
+)
 
 function delimiter(amount: string | number) {
   const formatAmount = typeof amount === 'number' ? amount.toString() : amount
@@ -91,7 +103,7 @@ function calculateUsd(amount: string, token = 'KSM') {
 
 async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
   const currentAddress = accountId.value
-  const prefix = mapToPrefix[chainName]
+  const prefix = networkToPrefix[chainName]
   const chain = CHAINS[prefix]
 
   const defaultAddress = toDefaultAddress(currentAddress)
@@ -143,13 +155,23 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
     chainName,
   })
 
+  identityStore.multiBalanceNetwork = currentNetwork.value
+
   await wsProvider.disconnect()
 }
 
 onMounted(async () => {
   await fiatStore.fetchFiatPrice()
 
-  multiBalanceAssets.value.forEach((item) => {
+  if (currentNetwork.value !== multiBalanceNetwork.value) {
+    identityStore.resetMultipleBalances()
+  }
+
+  const assets = isTestnet.value
+    ? multiBalanceAssetsTestnet.value
+    : multiBalanceAssets.value
+
+  assets.forEach((item) => {
     getBalance(item.chain, item.token, Number(item.tokenId))
   })
 })

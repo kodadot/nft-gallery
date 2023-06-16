@@ -30,7 +30,12 @@ type ChangeAddressRequest = {
   apiUrl?: string
 }
 
-type ChainType = 'polkadot' | 'kusama' | 'basilisk' | 'statemine'
+type ChainType =
+  | 'polkadot'
+  | 'kusama'
+  | 'basilisk'
+  | 'basilisk-testnet'
+  | 'statemine'
 type ChainDetail = {
   balance: string
   nativeBalance: string
@@ -61,7 +66,13 @@ export interface IdentityStruct {
   identities: IdentityMap
   auth: Auth
   multiBalances: MultiBalances
+  multiBalanceNetwork: 'main-network' | 'test-network'
   multiBalanceAssets: {
+    chain: ChainType
+    token?: string
+    tokenId?: string
+  }[]
+  multiBalanceAssetsTestnet: {
     chain: ChainType
     token?: string
     tokenId?: string
@@ -86,12 +97,21 @@ export const useIdentityStore = defineStore('identity', {
       address: localStorage.getItem('kodaauth') || '',
     },
     multiBalances: DEFAULT_MULTI_BALANCE_STATE,
+    multiBalanceNetwork: 'main-network',
     multiBalanceAssets: [
       { chain: 'kusama' },
       { chain: 'statemine' },
       { chain: 'polkadot', token: 'DOT' },
       { chain: 'basilisk', token: 'BSX' },
       { chain: 'basilisk', token: 'KSM', tokenId: getKusamaAssetId('bsx') },
+    ],
+    multiBalanceAssetsTestnet: [
+      { chain: 'basilisk-testnet', token: 'BSX' },
+      {
+        chain: 'basilisk-testnet',
+        token: 'KSM',
+        tokenId: getKusamaAssetId('snek'),
+      },
     ],
   }),
   getters: {
@@ -129,7 +149,12 @@ export const useIdentityStore = defineStore('identity', {
         }
       }
 
-      return totalAssets < state.multiBalanceAssets.length ? 'loading' : 'done'
+      const { isTestnet } = usePrefix()
+      const assets = isTestnet.value
+        ? state.multiBalanceAssetsTestnet
+        : state.multiBalanceAssets
+
+      return totalAssets < assets.length ? 'loading' : 'done'
     },
   },
   actions: {
