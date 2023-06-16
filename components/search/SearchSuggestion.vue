@@ -3,7 +3,6 @@
     <NeoTabs
       v-show="name"
       v-model="activeSearchTab"
-      destroy-on-hide
       expanded
       class="touch-mt-20"
       @input="resetSelectedIndex">
@@ -184,11 +183,7 @@
         </div>
       </div>
     </div>
-    <NeoTabs
-      v-show="!name"
-      v-model="activeTrendingTab"
-      destroy-on-hide
-      expanded>
+    <NeoTabs v-show="!name" v-model="activeTrendingTab" expanded>
       <NeoTabItem label="Trending" value="Trending">
         <div
           v-for="(item, idx) in defaultCollectionSuggestions"

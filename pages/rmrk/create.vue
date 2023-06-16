@@ -1,7 +1,7 @@
 <template>
   <section>
     <br />
-    <NeoTabs v-model="activeTab" destroy-on-hide expanded>
+    <NeoTabs v-model="activeTab" expanded>
       <NeoTabItem v-for="x in components" :key="x" :label="x">
         <component
           :is="x"

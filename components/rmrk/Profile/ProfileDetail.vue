@@ -76,7 +76,6 @@
         v-model="activeTab"
         :class="{ 'invisible-tab': sharingVisible }"
         class="tabs-container-mobile"
-        destroy-on-hide
         expanded>
         <NeoTabItem value="nft" :header-class="{ 'is-hidden': !totalCreated }">
           <template #header>
