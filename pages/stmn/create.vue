@@ -18,12 +18,12 @@ import { Component, mixins } from 'nuxt-property-decorator'
 import CreateMixin from '~/utils/mixins/createMixin'
 
 const Collection = () => import('@/components/shared/create/Create.vue')
-const NFT = () => import('@/components/rmrk/Create/CreateToken.vue')
+const NFT = () => import('@/components/stmn/Create/CreateToken.vue')
 
 const components = { Collection, NFT }
 
 @Component({ components })
-export default class RmrkCreatePage extends mixins(CreateMixin) {
+export default class StmnCreatePage extends mixins(CreateMixin) {
   layout() {
     return 'centered-half-layout'
   }

@@ -29,7 +29,9 @@ const prepareTokenMintArgs = async (
   const meta = api.tx.nfts.setMetadata(collectionId, nextId, metadata)
 
   const list =
-    Number(price) > 0 ? [api.tx.nfts.setPrice(collectionId, nextId, price)] : []
+    Number(price) > 0
+      ? [api.tx.nfts.setPrice(collectionId, nextId, price, undefined)]
+      : []
 
   // TODO: add royalty via setAttribute
 

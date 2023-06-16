@@ -22,7 +22,7 @@ export async function execMintCollectionStatemine(
     const arg = [
       [
         api.tx.nfts.create(...createArgs),
-        api.tx.nfts.setCollectionMetadata(newCollectionId, metadata), // TODO: we do not know collectionId
+        api.tx.nfts.setCollectionMetadata(newCollectionId, metadata),
       ],
     ]
     if (id) {
