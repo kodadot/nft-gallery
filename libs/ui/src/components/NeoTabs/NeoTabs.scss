@@ -14,7 +14,7 @@
 
 .o-tabs {
   &__nav {
-    overflow-x: initial;
+    overflow: auto;
 
     &--toggle {
       padding-bottom: 0;
@@ -28,8 +28,23 @@
     }
 
     &-item {
-      font-family: 'Work Sans';
       font-size: 1rem;
+
+      &-default {
+        @include ktheme() {
+          color: theme('text-color');
+
+          &--active {
+            border-bottom-color: theme('k-primary');
+            color: theme('k-primary');
+          }
+
+          &:hover:not(.o-tabs__nav-item-default--active) {
+            background-color: unset;
+            border-bottom-color: theme('k-redaccent');
+          }
+        }
+      }
 
       &-toggle {
         padding: 8px;
