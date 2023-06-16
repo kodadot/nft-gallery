@@ -20,8 +20,8 @@
       </NeoField>
       <NeoField>
         <NeoCheckbox v-model="owned" :disabled="!accountId">
-          {{ $t('sort.own') }}</NeoCheckbox
-        >
+          {{ $t('sort.own') }}
+        </NeoCheckbox>
       </NeoField>
     </div>
   </b-collapse>
