@@ -15,8 +15,8 @@
         <div v-if="minted" class="mt-4">
           Share your success
           <a :href="postTwitterUrl" target="_blank" class="has-text-link"
-            >on Twitter</a
-          >
+            >on Twitter
+          </a>
         </div>
         <NeoButton
           class="mb-2 mt-4 loading-button is-size-6"
