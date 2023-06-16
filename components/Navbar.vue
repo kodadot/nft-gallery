@@ -27,6 +27,7 @@
               ? '/search-mobile-navbar-dark.svg'
               : '/search-mobile-navbar.svg'
           "
+          alt="search"
           @click="showMobileSearchBar" />
 
         <div v-show="openMobileSearchBar">
