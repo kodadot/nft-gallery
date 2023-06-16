@@ -52,6 +52,18 @@
       </div>
     </template>
     <template #end>
+      <nuxt-link to="/stmn/unlockable">
+        <div class="navbar-item" data-cy="drops">
+          {{ $t('drops') }}
+
+          <NeoIcon
+            class="ml-1"
+            icon="fire-flame-curved"
+            custom-size="fa-solid"
+            pack="fa-sharp"
+            variant="primary" />
+        </div>
+      </nuxt-link>
       <template v-if="isExploreVisible">
         <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
           <NavbarExploreOptions />

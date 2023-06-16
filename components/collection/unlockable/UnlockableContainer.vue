@@ -23,7 +23,7 @@
               class="is-flex is-justify-content-space-between is-align-items-center my-5">
               <span class="has-text-weight-bold is-size-5">First Phase</span
               ><span
-                v-if="!mintButtonDisabled"
+                v-if="mintCountAvailable"
                 class="is-flex is-align-items-center"
                 ><svg
                   width="42"
@@ -68,14 +68,15 @@
             </div>
           </div>
           <div class="my-5">
-            <o-slider :value="currentMintedCount * 10" disabled></o-slider>
+            <UnlockableSlider :value="currentMintedCount / MAX_PER_WINDOW" />
           </div>
           <div class="my-5">
             <template v-if="!hasUserMinted">
               <NeoButton
+                ref="root"
                 class="mb-2 mt-4 mint-button"
                 variant="k-accent"
-                :disabled="mintButtonDisabled || !isLogIn"
+                :disabled="mintButtonDisabled"
                 label="Mint"
                 @click.native="handleSubmitMint" />
               <div class="is-flex is-align-items-center mt-2">
@@ -165,20 +166,24 @@
 import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
-import { NeoButton } from '@kodadot1/brick'
 import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
+import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
-import { OSlider } from '@oruga-ui/oruga'
 import { collectionId, countDownTime } from './const'
 import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
+import type Vue from 'vue'
+import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { NeoButton } from '@kodadot1/brick'
 import { useCountDown } from './utils/useCountDown'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')
 )
+const { $buefy } = useNuxtApp()
+const root = ref<Vue<Record<string, string>>>()
 
 const { toast } = useToast()
 
@@ -268,8 +273,12 @@ const currentMintedCount = computed(() =>
   Math.min(mintedCount.value, MAX_PER_WINDOW)
 )
 
-const mintButtonDisabled = computed(
-  () => currentMintedCount.value >= MAX_PER_WINDOW
+const mintCountAvailable = computed(
+  () => currentMintedCount.value < MAX_PER_WINDOW
+)
+
+const mintButtonDisabled = computed(() =>
+  Boolean(!mintCountAvailable.value || hasUserMinted.value)
 )
 
 const scrollToTop = () => {
@@ -280,6 +289,13 @@ const scrollToTop = () => {
 }
 
 const handleSubmitMint = async () => {
+  if (!isLogIn.value) {
+    $buefy.modal.open({
+      parent: root?.value,
+      ...ConnectWalletModalConfig,
+    })
+    return
+  }
   if (isLoading.value) {
     return false
   }
@@ -294,17 +310,18 @@ const handleSubmitMint = async () => {
   const { accountId } = useAuth()
 
   try {
-    const res = await doWaifu(
+    await doWaifu(
       {
         address: accountId.value,
         metadata: hash,
         image: image,
       },
       UNLOCKABLE_CAMPAIGN
-    )
-
-    justMinted.value = `${collectionId}-${res.result.sn}`
-    scrollToTop()
+    ).then((res) => {
+      toast('mint success')
+      justMinted.value = `${collectionId}-${res.result.sn}`
+      scrollToTop()
+    })
   } catch (error) {
     toast('failed to mint')
   } finally {

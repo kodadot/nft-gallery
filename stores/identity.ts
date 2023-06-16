@@ -43,7 +43,7 @@ type ChainDetail = {
   selected: boolean
   address: string
 }
-type ChainToken = Partial<Record<'dot' | 'ksm' | 'bsx', ChainDetail>>
+export type ChainToken = Partial<Record<'dot' | 'ksm' | 'bsx', ChainDetail>>
 
 interface MultiBalances {
   address: string
