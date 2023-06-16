@@ -8,9 +8,9 @@
         <div class="has-text-weight-bold mb-2">Congratulations</div>
         <div class="">
           Get ready for the big reveal! Your NFT will be visible
-          <span class="has-text-weight-bold">{{
-            minted ? 'by now.' : 'in just 30 seconds.'
-          }}</span>
+          <span class="has-text-weight-bold"
+            >{{ minted ? 'by now.' : 'in just 30 seconds.' }}
+          </span>
         </div>
         <div v-if="minted" class="mt-4">
           Share your success
