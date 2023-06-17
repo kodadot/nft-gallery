@@ -28,12 +28,12 @@ const components = [Collection, NFT]
 const activeTab = ref(0)
 const showExplainerText = ref(false)
 
+const switchToCreateNFT = () => {
+  activeTab.value = components.findIndex((component) => component === NFT)
+}
+
 const switchToNft = () => {
   switchToCreateNFT()
   showExplainerText.value = true
-}
-
-const switchToCreateNFT = () => {
-  activeTab.value = components.findIndex((component) => component === NFT)
 }
 </script>
