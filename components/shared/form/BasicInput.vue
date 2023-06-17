@@ -1,6 +1,12 @@
 <template>
-  <b-field :label="$i18n.t(label)">
-    <b-input
+  <NeoField :label="$i18n.t(label)">
+    <template v-if="message" #label>
+      <div>{{ $i18n.t(label) }}</div>
+      <div class="has-text-weight-light is-size-7 mb-3">
+        {{ message }}
+      </div>
+    </template>
+    <NeoInput
       ref="input"
       :value="value"
       :placeholder="placeholder"
@@ -8,21 +14,17 @@
       :maxlength="maxlength"
       :required="required"
       :disabled="disabled"
+      :has-counter="hasCounter"
       :type="type"
       :pattern="!value && required ? `^\\S+` : '.*'"
       @blur="hasFocus = false"
       @focus="hasFocus = true"
       @input="handleInput" />
-    <template v-if="hasFocus && message" #message>
-      <transition name="fade">
-        <span class="has-text-primary is-italic">{{ message }}</span>
-      </transition>
-    </template>
-  </b-field>
+  </NeoField>
 </template>
 
 <script lang="ts" setup>
-import type { BInput } from 'buefy/dist/components/input'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
 const { $i18n } = useNuxtApp()
 
@@ -33,10 +35,11 @@ withDefaults(
     placeholder: string
     expanded?: boolean
     message?: string
-    maxlength?: string
+    maxlength?: string | number
     type?: string
     required?: boolean
     disabled?: boolean
+    hasCounter?: boolean
   }>(),
   {
     value: '',
@@ -45,13 +48,14 @@ withDefaults(
     message: '',
     required: false,
     disabled: false,
+    hasCounter: true,
     maxlength: undefined,
   }
 )
 
 const hasFocus = ref(false)
 const emit = defineEmits(['input'])
-const input = ref<BInput>(null)
+const input = ref(null)
 
 function checkValidity() {
   return input.value?.checkHtml5Validity()
@@ -63,15 +67,3 @@ const handleInput = (value: string) => {
 
 defineExpose({ checkValidity })
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

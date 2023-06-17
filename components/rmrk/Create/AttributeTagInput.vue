@@ -1,54 +1,61 @@
 <template>
-  <b-field :label="$t('Tags')">
-    <b-taginput
+  <NeoField :label="$t('Tags')" :addons="false">
+    <NeoInputitems
       id="search_tag"
       v-model="tags"
-      type="is-grey"
       :data="allTags"
-      :maxtags="max"
-      ellipsis
-      icon="tag"
+      :maxitems="max"
       :placeholder="placeholder"
+      variant="info"
+      item-class="my-3"
+      :autocomplete-classes="{
+        'item-class': 'p-2',
+        inputClasses: {
+          inputClass: 'neo-input',
+        },
+      }"
       aria-close-label="Delete this tag"
-      autocomplete
+      icon="tag"
       open-on-focus
+      has-counter
       allow-new
-      @input="handleInput">
+      allow-autocomplete
+      expanded
+      @update:modelValue="handleInput">
       <template #header>
         <b>{{ $t('general.tagsAdd') }}</b>
       </template>
-    </b-taginput>
-  </b-field>
+    </NeoInputitems>
+  </NeoField>
 </template>
 
-<script lang="ts">
-import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
+<script setup lang="ts">
+import { NeoField, NeoInputitems } from '@kodadot1/brick'
 import { Attribute } from '@kodadot1/minimark/common'
 
 const valueOf = ({ value }: Attribute) => String(value)
 
-@Component({})
-export default class AttributeTagInput extends Vue {
-  private allTags: string[] = ['audio', 'video', 'image', 'music', 'abstract']
-  @Prop() public value!: Attribute[]
-  @Prop({ default: 3 }) public max!: string | number
-  @Prop({ default: 'Select tags or create your own' })
-  public placeholder!: string
-  @Prop(Boolean) public simple!: boolean
+const allTags = ref(['audio', 'video', 'image', 'music', 'abstract'])
 
-  get tags() {
-    return this.simple
-      ? ((this.value || []) as any[] as string[])
-      : (this.value || []).map(valueOf)
+const props = withDefaults(
+  defineProps<{
+    attr: []
+    max?: number
+    placeholder?: string
+    simple?: boolean
+  }>(),
+  {
+    max: 3,
+    placeholder: 'Select tags or create your own',
   }
+)
 
-  set tags(value: string[]) {
-    this.handleInput(value)
-  }
+const tags = computed({
+  get: () => (props.simple ? props.attr || [] : props.attr?.map(valueOf) || []),
+  set: (value) => handleInput(value),
+})
 
-  @Emit('input')
-  handleInput(value: string[]) {
-    return this.simple ? value : value.map((v) => ({ value: v }))
-  }
-}
+// @Emit('input')
+const handleInput = (value) =>
+  props.simple ? value : value.map((v) => ({ value: v }))
 </script>

@@ -1,7 +1,8 @@
 <template>
-  <b-field :label="$t(label)">
-    <b-numberinput
+  <NeoField :label="$t(label)">
+    <NeoInput
       v-model="vValue"
+      type="number"
       :placeholder="placeholder"
       :expanded="expanded"
       :step="step"
@@ -17,13 +18,19 @@
         }}</span>
       </transition>
     </template>
-  </b-field>
+  </NeoField>
 </template>
 
 <script lang="ts">
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 
-@Component
+@Component({
+  components: {
+    NeoField,
+    NeoInput,
+  },
+})
 export default class BasicNumberInput extends Vue {
   // Dev: make vValue required
   @VModel({ type: Number }) vValue!: number

@@ -32,6 +32,7 @@
           >
         </a>
       </div>
+      <UnlockableLandingTag />
     </div>
     <img src="/landing-blurred-header-right.png" class="landing-search-right" />
     <img :src="landingImage[1]" class="landing-shapes" />
@@ -39,6 +40,7 @@
 </template>
 
 <script lang="ts" setup>
+import UnlockableLandingTag from '@/components/collection/unlockable/UnlockableLandingTag.vue'
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const { availableChains } = useChain()
@@ -65,10 +67,9 @@ const landingImage = computed(() => {
 })
 
 const switchChain = (value) => {
-  if (value === urlPrefix.value) {
-    return
+  if (value !== urlPrefix.value) {
+    setUrlPrefix(value)
   }
-  setUrlPrefix(value)
   navigateTo(`/${value}/explore/collectibles`)
 }
 </script>

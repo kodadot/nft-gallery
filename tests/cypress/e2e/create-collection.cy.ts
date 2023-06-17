@@ -11,7 +11,7 @@ chains.forEach((chain) => {
 
     // trigger danger button
     cy.contains('button', 'CREATE COLLECTION', { matchCase: false }).click()
-    cy.contains('p.help.is-danger', 'Please fill out this field.', {
+    cy.contains('p.o-field__message-danger', 'Please fill out this field.', {
       matchCase: false,
     }).should('exist')
 
@@ -30,7 +30,7 @@ chains.forEach((chain) => {
     if (chain === 'rmrk') {
       // trigger insufficient funds
       cy.contains('button', 'CREATE COLLECTION', { matchCase: false }).click()
-      cy.contains('p.help.is-danger', 'Insufficient funds', {
+      cy.contains('p.o-field__message-danger', 'Insufficient funds', {
         matchCase: false,
       }).should('exist')
     }

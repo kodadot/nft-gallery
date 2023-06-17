@@ -19,7 +19,7 @@
         </template>
         <template #action>
           <NeoTooltip
-            v-if="active && !confirm"
+            v-if="!confirm"
             :active="insufficientBalance || offerPriceInvalid"
             :label="
               insufficientBalance
@@ -53,9 +53,9 @@
             class="offer is-flex is-justify-content-space-between is-align-items-center">
             <input
               v-model="offerPrice"
-              class="input-price is-flex is-align-items-center"
+              class="input-price is-flex is-align-items-center px-4"
               type="number"
-              placeholder="Type Your Offer"
+              placeholder="Your Offer"
               :min="MIN_OFFER_PRICE" />
             <div class="px-4">KSM</div>
           </div>

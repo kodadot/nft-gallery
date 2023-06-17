@@ -71,6 +71,16 @@
     }
   }
 
+  &--disabled-secondary {
+    &.o-btn--disabled {
+      opacity: unset;
+      @include ktheme() {
+        color: theme('k-grey') !important;
+        border-color: theme('k-grey');
+      }
+    }
+  }
+
   &--icon {
     @include ktheme() {
       border: none;
@@ -100,6 +110,25 @@
         background-color: theme('k-accentHover');
         color: theme('black');
         border: 1px solid theme('border-color');
+      }
+    }
+  }
+
+  &--secondary{
+    height: 22px;
+    line-height: 100%;
+    font-size: 12px;
+    width: min-content !important;
+    border-radius: 4rem;
+    box-shadow: none !important;
+    @include ktheme() {
+      border: 1px solid theme('k-shade');
+      background: theme('background-color');
+
+      &:hover {
+        background: theme('background-color');
+        border: 1px solid theme('text-color');
+        color: theme('text-color');
       }
     }
   }

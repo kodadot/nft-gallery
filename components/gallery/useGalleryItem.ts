@@ -5,9 +5,19 @@ import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
+import { Ref } from '@nuxt/bridge/dist/runtime/composables'
 
 interface NFTData {
   nftEntity?: NFTWithMetadata
+}
+
+export interface GalleryItem {
+  nft: Ref<NFT | undefined>
+  nftMimeType: Ref<string>
+  nftMetadata: Ref<NFTWithMetadata | undefined>
+  nftAnimation: Ref<string>
+  nftImage: Ref<string>
+  nftResources: Ref<NftResources[] | undefined>
 }
 
 const whichMimeType = async (data) => {
@@ -31,7 +41,7 @@ const whichAsset = (data) => {
   }
 }
 
-export const useGalleryItem = (nftId?: string) => {
+export const useGalleryItem = (nftId?: string): GalleryItem => {
   const { $consola } = useNuxtApp()
   const historyStore = useHistoryStore()
   const nft = ref<NFT>()

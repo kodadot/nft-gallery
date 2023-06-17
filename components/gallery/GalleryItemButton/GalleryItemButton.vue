@@ -13,9 +13,15 @@
 <script setup lang="ts">
 import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
 import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
-import { useGalleryItem } from '../useGalleryItem'
+import { GalleryItem } from '../useGalleryItem'
 
-const { nftMetadata, nftMimeType, nft } = useGalleryItem()
+const props = defineProps<{
+  galleryItem: GalleryItem
+}>()
+
+const nft = computed(() => props.galleryItem.nft.value)
+const nftMimeType = computed(() => props.galleryItem.nftMimeType.value)
+const nftMetadata = computed(() => props.galleryItem.nftMetadata.value)
 </script>
 
 <style scoped lang="scss">

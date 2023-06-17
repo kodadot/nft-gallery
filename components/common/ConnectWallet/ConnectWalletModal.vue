@@ -1,6 +1,6 @@
 <template>
   <div class="wallet-modal-container is-flex is-flex-direction-column">
-    <header class="modal-card-head mb-4">
+    <header class="modal-card-head">
       <b-button
         v-show="hasSelectedWalletProvider"
         type="is-text"
@@ -8,7 +8,7 @@
         icon-left="chevron-left"
         @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
       <span class="modal-card-title is-size-6 has-text-weight-bold">
-        {{ headerTitle }}
+        {{ $i18n.t('profile.page') }}
       </span>
       <a class="is-flex is-align-items-center" @click="emit('close')">
         <NeoIcon icon="close" />
@@ -48,7 +48,7 @@
       <div class="mb-5">
         {{ $i18n.t('walletConnect.authText') }}
       </div>
-      <b-field>
+      <NeoField>
         <NeoButton
           size="medium"
           variant="k-accent"
@@ -59,7 +59,7 @@
             <NeoIcon class="ml-2" icon="chevron-right" />
           </span>
         </NeoButton>
-      </b-field>
+      </NeoField>
     </section>
 
     <footer v-if="!showAccount" class="px-5 py-4">
@@ -84,10 +84,9 @@ import { SupportedWallets } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { Auth, useIdentityStore } from '@/stores/identity'
+import { NeoField } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
-
-const { redesign } = useExperiments()
 
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
@@ -104,19 +103,6 @@ const account = computed(() => identityStore.auth.address)
 const showAccount = computed(() => account.value && !forceWalletSelect.value)
 
 const wallets = SupportedWallets()
-const headerTitle = computed(() => {
-  if (redesign.value) {
-    return $i18n.t('profile.page')
-  }
-
-  return $i18n.t(
-    account.value
-      ? 'walletConnect.walletDetails'
-      : hasUserWalletAuth
-      ? 'walletConnect.walletHeading'
-      : 'walletConnect.warning'
-  )
-})
 const setAccount = (account: Auth) => {
   forceWalletSelect.value = false
   identityStore.setAuth(account)
