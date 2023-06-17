@@ -5,6 +5,7 @@
       :active="gridSize === 'large'"
       @click.native="changeGridLayout(smallGridLayout, 'large')" />
     <NeoButton
+      class="middle-icon"
       icon-left="grid"
       :active="gridSize === 'medium'"
       @click.native="changeGridLayout(smallGridLayout, 'medium')" />
@@ -33,3 +34,10 @@ const changeGridLayout = (layout: string, grid: string) => {
   preferencesStore.setGridSize(grid)
 }
 </script>
+
+<style lang="scss" scoped>
+.middle-icon {
+  border-left: 0 !important;
+  border-right: 0 !important;
+}
+</style>

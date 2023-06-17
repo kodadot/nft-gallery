@@ -6,29 +6,30 @@
           {{ $t('create') }}
         </div>
       </template>
-      <b-dropdown-item has-link>
-        <NeoTooltip
-          v-if="chain !== 'stmn'"
-          position="left"
-          :label="$t('createDropdown.start')"
-          multiline>
-          <nuxt-link data-cy="classic" :to="`/${urlPrefix}/create`">
-            {{ $t('classic') }}
-          </nuxt-link>
-        </NeoTooltip>
-      </b-dropdown-item>
-
-      <b-dropdown-item has-link>
-        <NeoTooltip
-          v-if="chain === 'stmn'"
-          position="left"
-          :label="$t('createDropdown.waifu')"
-          multiline>
-          <nuxt-link data-cy="waifu" :to="`/${urlPrefix}/waifu`">
-            {{ $t('navbar.create.waifu') }}
-          </nuxt-link>
-        </NeoTooltip>
-      </b-dropdown-item>
+      <template v-if="chain !== 'stmn'">
+        <b-dropdown-item has-link>
+          <NeoTooltip
+            position="left"
+            :label="$t('createDropdown.start')"
+            multiline>
+            <nuxt-link data-cy="classic" :to="`/${urlPrefix}/create`">
+              {{ $t('classic') }}
+            </nuxt-link>
+          </NeoTooltip>
+        </b-dropdown-item>
+      </template>
+      <template v-if="chain === 'stmn'">
+        <b-dropdown-item has-link>
+          <NeoTooltip
+            position="left"
+            :label="$t('createDropdown.waifu')"
+            multiline>
+            <nuxt-link data-cy="waifu" :to="`/${urlPrefix}/waifu`">
+              {{ $t('navbar.create.waifu') }}
+            </nuxt-link>
+          </NeoTooltip>
+        </b-dropdown-item>
+      </template>
       <template v-if="chain === 'rmrk'">
         <b-dropdown-item has-link>
           <NeoTooltip
