@@ -264,7 +264,7 @@ export const toNFTId = (
   nft: CreatedNFT | CreatedNFTV2,
   blocknumber: string | number
 ): string => {
-  const nftId = nft['instance']
+  const nftId = nft.hasOwnProperty('instance')
     ? toNFTIdV1(nft as CreatedNFT, blocknumber)
     : toNFTIdV2(nft as CreatedNFTV2, blocknumber)
   return nftId

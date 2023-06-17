@@ -334,7 +334,7 @@ export default class CreateToken extends mixins(
           this.navigateToDetail({
             pageId: isSingle
               ? list[0].nftId
-              : (this.base?.selectedCollection?.id as string),
+              : (this.base.selectedCollection?.id as string),
             nftName: this.base.name,
             toCollectionPage: !isSingle,
           })
