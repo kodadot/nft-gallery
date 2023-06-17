@@ -50,13 +50,16 @@ const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const isLoading = useVModel(props, 'value')
 
+const twitterText = computed(
+  () =>
+    `Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don't miss your chance! \n\n https://kodadot.xyz/stmn/gallery/${props.minted}`
+)
 const postTwitterUrl = computed(
   () =>
     `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      `Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don't miss your chance! \n\n https://kodadot.xyz/stmn/gallery/${props.minted}`
+      twitterText.value
     )}`
 )
-
 const emit = defineEmits(['input'])
 
 const closeLoading = () => {
