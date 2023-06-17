@@ -313,7 +313,6 @@ export default class CreateToken extends mixins(
       }
 
       showNotification(`[💰] Listing NFT to sale for ${balance}`)
-      console.log('createdNFT', createdNFT)
       const list: TokenToList[] = createdNFT.map((nft) => ({
         price: this.price.toString(),
         nftId: toNFTId(nft, originalBlockNumber),
