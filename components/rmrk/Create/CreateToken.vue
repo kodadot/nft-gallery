@@ -104,7 +104,10 @@ import { toNFTId } from '../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
 import { Ref as RefType } from 'vue'
 import { Royalty } from '@/utils/royalty'
-import { MintedCollectionKusama } from '@/composables/transaction/types'
+import {
+  MintedCollectionKusama,
+  TokenToList,
+} from '@/composables/transaction/types'
 import { NeoField, NeoMessage } from '@kodadot1/brick'
 
 const components = {
@@ -251,6 +254,7 @@ export default class CreateToken extends mixins(
         urlPrefix: urlPrefix.value,
         token: {
           ...this.base,
+          edition: Number(this.base.edition),
           tags: this.tags,
           nsfw: this.nsfw,
           postfix: this.postfix,
@@ -268,7 +272,7 @@ export default class CreateToken extends mixins(
             setTimeout(
               () =>
                 this.listForSale(
-                  createdNFTs.value[0],
+                  createdNFTs.value,
                   blockNumber.value as string
                 ),
               300
@@ -284,7 +288,7 @@ export default class CreateToken extends mixins(
   }
 
   public async listForSale(
-    createdNFT: CreatedNFT | CreatedNFTV2,
+    createdNFT: CreatedNFT[] | CreatedNFTV2[],
     originalBlockNumber: string
   ) {
     try {
@@ -308,14 +312,18 @@ export default class CreateToken extends mixins(
       }
 
       showNotification(`[💰] Listing NFT to sale for ${balance}`)
-      const nftId = toNFTId(createdNFT, originalBlockNumber)
-
+      console.log('createdNFT', createdNFT)
+      const list: TokenToList[] = createdNFT.map((nft) => ({
+        price: this.price.toString(),
+        nftId: toNFTId(nft, originalBlockNumber),
+      }))
+      console.log('list', list)
       this.isLoading = true
       transaction({
         interaction: Interaction.LIST,
         urlPrefix: this.urlPrefix,
-        price: this.price.toString(),
-        nftId,
+        token: list,
+
         successMessage: (blockNumber) =>
           `[💰] Listed ${this.base.name} for ${balance} in block ${blockNumber}`,
       })
