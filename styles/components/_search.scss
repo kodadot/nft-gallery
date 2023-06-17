@@ -141,6 +141,12 @@
       padding: 0px;
     }
   }
+
+  .o-acp__item {
+    @include ktheme() {
+      background: theme('background-color');
+    }
+  }
 }
 
 .gallery-search {

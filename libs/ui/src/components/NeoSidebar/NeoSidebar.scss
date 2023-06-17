@@ -2,6 +2,7 @@
 @import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
 @import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
 @import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+@import '@/styles/abstracts/variables';
 
 $sidebar-box-shadow: 0;
 $sidebar-content-background-color: transparent;
@@ -20,4 +21,12 @@ $sidebar-overlay: rgba(0, 0, 0, 0.17);
 
 .is-hidden-mobile.sticky > .o-side {
   width: $sidebar-width;
+}
+
+.o-side {
+  &__content {
+    @include ktheme() {
+      background-color: theme('background-color');
+    }
+  }
 }
