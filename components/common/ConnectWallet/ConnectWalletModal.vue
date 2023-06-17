@@ -15,7 +15,7 @@
       </a>
     </header>
     <section v-if="showAccount">
-      <WalletAsset @back="setForceWalletSelect" />
+      <WalletAsset />
     </section>
     <section v-else-if="hasUserWalletAuth" class="modal-card-body">
       <div class="buttons m-0">
@@ -95,12 +95,8 @@ const forceWalletSelect = ref(false)
 const identityStore = useIdentityStore()
 const { urlPrefix } = usePrefix()
 
-const setForceWalletSelect = () => {
-  forceWalletSelect.value = true
-}
-
 const account = computed(() => identityStore.auth.address)
-const showAccount = computed(() => account.value && !forceWalletSelect.value)
+const showAccount = computed(() => account.value)
 
 const wallets = SupportedWallets()
 const setAccount = (account: Auth) => {
