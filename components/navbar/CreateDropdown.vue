@@ -8,7 +8,6 @@
       </template>
       <b-dropdown-item has-link>
         <NeoTooltip
-          v-if="chain !== 'stmn'"
           position="left"
           :label="$t('createDropdown.start')"
           multiline>
