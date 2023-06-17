@@ -3,11 +3,20 @@
     <div class="loading-container py-2">
       <NeoIcon class="close-icon" icon="close" @click.native="closeLoading" />
       <img :src="unloackableLoaderImg" />
-      <div class="is-flex is-flex-direction-column is-align-items-center px-7">
-        <div class="has-text-weight-bold my-2">Congratulations</div>
-        <div>
-          Get ready for the big reveal! Your NFT will be visible in just
-          <span class="has-text-weight-bold">30 seconds</span> on your profile.
+      <div
+        class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
+        <div class="has-text-weight-bold mb-2">Congratulations</div>
+        <div class="">
+          Get ready for the big reveal! Your NFT will be visible
+          <span class="has-text-weight-bold"
+            >{{ minted ? 'by now.' : 'in just 30 seconds.' }}
+          </span>
+        </div>
+        <div v-if="minted" class="mt-4">
+          Share your success
+          <a :href="postTwitterUrl" target="_blank" class="has-text-link"
+            >on Twitter
+          </a>
         </div>
         <NeoButton
           class="mb-2 mt-4 loading-button is-size-6"
@@ -39,8 +48,18 @@ const props = withDefaults(
 )
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
-
 const isLoading = useVModel(props, 'value')
+
+const twitterText = computed(
+  () =>
+    `Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don't miss your chance! \n\n https://kodadot.xyz/stmn/gallery/${props.minted}`
+)
+const postTwitterUrl = computed(
+  () =>
+    `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      twitterText.value
+    )}`
+)
 const emit = defineEmits(['input'])
 
 const closeLoading = () => {
@@ -61,7 +80,7 @@ const buttonLabel = computed(() =>
   backdrop-filter: $frosted-glass-backdrop-filter;
   margin: 0rem 1rem;
   width: 385px;
-  min-height: 336px;
+  min-height: 356px;
 
   @include ktheme() {
     box-shadow: theme('primary-shadow');

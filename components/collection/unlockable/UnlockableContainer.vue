@@ -192,7 +192,9 @@ const resultList = ref<any[]>([])
 const selectedImage = ref('')
 const MAX_PER_WINDOW = 10
 const { urlPrefix } = usePrefix()
-const isLoading = ref(false)
+const { redesign } = useExperiments()
+
+const isLoading = ref(redesign.value || false)
 const { accountId, isLogIn } = useAuth()
 const { hours, minutes, seconds } = useCountDown(countDownTime)
 const justMinted = ref('')
@@ -201,6 +203,13 @@ onMounted(async () => {
   const res = await getLatestWaifuImages()
   imageList.value = res.result.map((item) => item.output)
   resultList.value = res.result
+
+  // for test
+  if (redesign.value) {
+    setTimeout(() => {
+      justMinted.value = '8-90'
+    }, 5000)
+  }
 })
 
 const leftTime = computed(() => {
