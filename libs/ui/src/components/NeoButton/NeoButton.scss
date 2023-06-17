@@ -71,6 +71,16 @@
     }
   }
 
+  &--disabled-secondary {
+    &.o-btn--disabled {
+      opacity: unset;
+      @include ktheme() {
+        color: theme('k-grey') !important;
+        border-color: theme('k-grey');
+      }
+    }
+  }
+
   &--icon {
     @include ktheme() {
       border: none;
