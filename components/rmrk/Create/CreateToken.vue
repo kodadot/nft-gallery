@@ -80,6 +80,7 @@
 <script lang="ts">
 import { BaseTokenType } from '@/components/base/types'
 import collectionForMint from '@/queries/subsquid/rmrk/collectionForMint.graphql'
+import { Location } from 'vue-router/types/router'
 
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import AuthMixin from '@/utils/mixins/authMixin'
@@ -317,7 +318,8 @@ export default class CreateToken extends mixins(
         price: this.price.toString(),
         nftId: toNFTId(nft, originalBlockNumber),
       }))
-      console.log('list', list)
+
+      const isSingle = list.length === 1
       this.isLoading = true
       transaction({
         interaction: Interaction.LIST,
@@ -331,8 +333,11 @@ export default class CreateToken extends mixins(
       watch([isLoading, blockNumber], () => {
         if (!isLoading.value && blockNumber.value) {
           this.navigateToDetail({
-            nftId,
+            pageId: isSingle
+              ? list[0].nftId
+              : (this.base?.selectedCollection?.id as string),
             nftName: this.base.name,
+            toCollectionPage: !isSingle,
           })
         }
       })
@@ -345,15 +350,28 @@ export default class CreateToken extends mixins(
     // TODO: implement
   }
 
-  protected navigateToDetail({ nftId, nftName }) {
+  protected navigateToDetail({
+    pageId,
+    nftName,
+    toCollectionPage,
+  }: {
+    pageId: string
+    nftName: string
+    toCollectionPage: boolean
+  }) {
     showNotification(
       `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
     )
-    const go = () =>
-      this.$router.push({
-        path: `/${this.urlPrefix}/gallery/${nftId}`,
-        query: { congratsNft: nftName },
-      })
+    const subPath = toCollectionPage ? 'collection' : 'gallery'
+    const go = () => {
+      const navigateTo: Location = {
+        path: `/${this.urlPrefix}/${subPath}/${pageId}`,
+      }
+      if (!toCollectionPage) {
+        navigateTo.query = { congratsNft: nftName }
+      }
+      return this.$router.push(navigateTo)
+    }
     setTimeout(go, DETAIL_TIMEOUT)
   }
 }
