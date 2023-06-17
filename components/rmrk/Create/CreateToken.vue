@@ -81,7 +81,6 @@
 import { BaseTokenType } from '@/components/base/types'
 import collectionForMint from '@/queries/subsquid/rmrk/collectionForMint.graphql'
 import { Location } from 'vue-router/types/router'
-
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
