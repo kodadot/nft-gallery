@@ -13,27 +13,26 @@
   </section>
 </template>
 
-<script lang="ts" setup>
-import { defineAsyncComponent, ref } from 'vue'
+<script lang="ts">
+import { Component, mixins } from 'nuxt-property-decorator'
+import CreateMixin from '~/utils/mixins/createMixin'
 
-const Collection = defineAsyncComponent(
-  () => import('@/components/shared/create/Create.vue')
-)
-const NFT = defineAsyncComponent(
-  () => import('@/components/stmn/Create/CreateToken.vue')
-)
+const Collection = () => import('@/components/shared/create/Create.vue')
+const NFT = () => import('@/components/stmn/Create/CreateToken.vue')
 
-const components = [Collection, NFT]
+const components = { Collection, NFT }
 
-const activeTab = ref(0)
-const showExplainerText = ref(false)
+@Component({ components })
+export default class StmnCreatePage extends mixins(CreateMixin) {
+  layout() {
+    return 'centered-half-layout'
+  }
 
-const switchToCreateNFT = () => {
-  activeTab.value = components.findIndex((component) => component === NFT)
-}
+  public showExplainerText = false
 
-const switchToNft = () => {
-  switchToCreateNFT()
-  showExplainerText.value = true
+  protected switchToNft() {
+    this.switchToCreateNFT()
+    this.showExplainerText = true
+  }
 }
 </script>
