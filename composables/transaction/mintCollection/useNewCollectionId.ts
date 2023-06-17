@@ -10,7 +10,9 @@ export function useNewCollectionId() {
     newCollectionId.value = nextCollectionId
   }
 
-  getCollectionId()
+  getCollectionId().catch((e) => {
+    console.error('Error:', e)
+  })
 
   return {
     newCollectionId,
