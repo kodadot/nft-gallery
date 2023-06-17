@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { BaseTokenType } from '@/components/base/types'
+import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
 import collectionForMint from '@/queries/subsquid/rmrk/collectionForMint.graphql'
 
 import { DETAIL_TIMEOUT } from '@/utils/constants'
@@ -236,6 +236,12 @@ export default class CreateToken extends mixins(
       }
     })
 
+    watch(blockNumber, (block) => {
+      if (block) {
+        this.navigateToDetail()
+      }
+    })
+
     try {
       transaction({
         interaction: Interaction.MINTNFT,
@@ -257,16 +263,23 @@ export default class CreateToken extends mixins(
     }
   }
 
-  // protected navigateToDetail(nft: CreatedNFT, blockNumber: string) {
-  //   showNotification(
-  //     `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
-  //   )
-  //   const go = () =>
-  //     this.$router.push({
-  //       path: `/${this.urlPrefix}/gallery/${toNFTId(nft, blockNumber)}`,
-  //       query: { congratsNft: nft.name },
-  //     })
-  //   setTimeout(go, DETAIL_TIMEOUT)
-  // }
+  protected navigateToDetail() {
+    showNotification(
+      `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+    )
+
+    const selectedCollection = this.base
+      .selectedCollection as BaseMintedCollection
+
+    const nftId = `${selectedCollection.id}-${
+      selectedCollection.lastIndexUsed + 1
+    }`
+    const go = () =>
+      this.$router.push({
+        path: `/${this.urlPrefix}/gallery/${nftId}`,
+        query: { congratsNft: this.base.name },
+      })
+    setTimeout(go, DETAIL_TIMEOUT)
+  }
 }
 </script>
