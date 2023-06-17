@@ -74,7 +74,7 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
 export async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
   // if subsquid already give us the metadata, we don't need to fetch it again
   if (prefix === 'stmn') {
-    return await getProcessMetadata(nft)
+    return getProcessMetadata(nft)
   }
   if (nft.meta && nft.meta.image) {
     return getGeneralMetadata(nft)
@@ -82,10 +82,10 @@ export async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
 
   // if it's rmrk2, we need to check `resources` field
   if (prefix === 'ksm' && nft.resources?.length) {
-    return await getRmrk2Resources(nft)
+    return getRmrk2Resources(nft)
   }
 
-  return await getProcessMetadata(nft)
+  return getProcessMetadata(nft)
 }
 
 export default function useNftMetadata(nft: NFTWithMetadata) {
