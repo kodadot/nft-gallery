@@ -49,6 +49,16 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
   )) as NFTWithMetadata
   const image = sanitizeIpfsUrl(metadata.image || '')
   const animation_url = sanitizeIpfsUrl(metadata.animation_url || '')
+  const getAttributes = () => {
+    const hasMetadataAttributes =
+      metadata.attributes && metadata.attributes.length > 0
+    const hasEmptyNftAttributes =
+      nft.meta.attributes && nft.meta.attributes.length === 0
+
+    return hasMetadataAttributes && hasEmptyNftAttributes
+      ? metadata.attributes
+      : nft.meta.attributes || []
+  }
 
   return {
     ...nft,
@@ -57,11 +67,15 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
     image,
     animation_url,
     type: metadata.type || '',
+    attributes: getAttributes(),
   }
 }
 
 export async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
   // if subsquid already give us the metadata, we don't need to fetch it again
+  if (prefix === 'stmn') {
+    return await getProcessMetadata(nft)
+  }
   if (nft.meta && nft.meta.image) {
     return getGeneralMetadata(nft)
   }
