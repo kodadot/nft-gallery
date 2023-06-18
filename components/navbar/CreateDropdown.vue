@@ -46,7 +46,10 @@
           position="left"
           :label="$t('createDropdown.massmint')"
           multiline>
-          <nuxt-link data-cy="massmint" :to="`/${urlPrefix}/massmint`">
+          <nuxt-link
+            class="pr-1"
+            data-cy="massmint"
+            :to="`/${urlPrefix}/massmint`">
             {{ $t('multipleNFTS') }}
           </nuxt-link>
         </NeoTooltip>
