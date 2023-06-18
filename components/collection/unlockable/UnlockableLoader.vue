@@ -15,7 +15,9 @@
           </span>
           <span v-else>
             will be visible in
-            <span class="has-text-weight-bold"> 30 seconds. </span>
+            <span class="has-text-weight-bold">
+              {{ displaySeconds }} seconds.
+            </span>
           </span>
         </div>
         <div class="mt-4">
@@ -55,6 +57,16 @@ const props = withDefaults(
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const isLoading = useVModel(props, 'value')
+import { useCountDown } from './utils/useCountDown'
+
+const COUNT_DOWN_SECONDS = 30
+const { seconds } = useCountDown(
+  new Date().getTime() + COUNT_DOWN_SECONDS * 1000
+)
+
+const displaySeconds = computed(() => {
+  return seconds.value >= 0 ? seconds.value : 0
+})
 
 const twitterText = computed(
   () =>
