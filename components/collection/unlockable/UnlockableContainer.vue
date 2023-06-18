@@ -194,7 +194,7 @@ const MAX_PER_WINDOW = 10
 const { urlPrefix } = usePrefix()
 const { redesign } = useExperiments()
 
-const isLoading = ref(redesign.value || false)
+const isLoading = ref(false)
 const { accountId, isLogIn } = useAuth()
 const { hours, minutes, seconds } = useCountDown(countDownTime)
 const justMinted = ref('')
@@ -206,6 +206,7 @@ onMounted(async () => {
 
   // for test
   if (redesign.value) {
+    isLoading.value = true
     setTimeout(() => {
       justMinted.value = '8-90'
     }, 5000)
