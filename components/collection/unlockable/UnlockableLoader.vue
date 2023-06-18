@@ -7,12 +7,18 @@
         class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
         <div class="has-text-weight-bold mb-2">{{ $t('mint.success') }}</div>
         <div>
-          Get ready for the big reveal! Your NFT will be visible
-          <span class="has-text-weight-bold"
-            >{{ minted ? 'by now.' : 'in just 30 seconds.' }}
+          Get ready for the big reveal! Your NFT
+
+          <span v-if="minted">
+            is
+            <span class="has-text-weight-bold"> visible now.</span>
+          </span>
+          <span v-else>
+            will be visible in
+            <span class="has-text-weight-bold"> 30 seconds. </span>
           </span>
         </div>
-        <div v-if="minted" class="mt-4">
+        <div class="mt-4">
           Share your success
           <a :href="postTwitterUrl" target="_blank" class="has-text-link"
             >on Twitter
@@ -52,7 +58,7 @@ const isLoading = useVModel(props, 'value')
 
 const twitterText = computed(
   () =>
-    `Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don't miss your chance! \n\n https://kodadot.xyz/stmn/gallery/${props.minted}`
+    "Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don't miss your chance! \n\n https://kodadot.xyz/stmn/unlockable"
 )
 const postTwitterUrl = computed(
   () =>
