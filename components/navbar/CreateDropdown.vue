@@ -10,6 +10,7 @@
         <NeoTooltip
           v-if="chain !== 'stmn'"
           position="left"
+          full-width
           :label="$t('createDropdown.start')"
           multiline>
           <nuxt-link data-cy="classic" :to="`/${urlPrefix}/create`">
@@ -21,6 +22,7 @@
       <b-dropdown-item has-link>
         <NeoTooltip
           v-if="chain === 'stmn'"
+          full-width
           position="left"
           :label="$t('createDropdown.waifu')"
           multiline>
@@ -33,6 +35,7 @@
         <b-dropdown-item has-link>
           <NeoTooltip
             position="left"
+            full-width
             :label="$t('createDropdown.simplifiedNft')"
             multiline>
             <nuxt-link data-cy="simple" :to="`/${urlPrefix}/mint`">
@@ -44,12 +47,10 @@
       <b-dropdown-item v-if="redesign" has-link>
         <NeoTooltip
           position="left"
+          full-width
           :label="$t('createDropdown.massmint')"
           multiline>
-          <nuxt-link
-            class="pr-1"
-            data-cy="massmint"
-            :to="`/${urlPrefix}/massmint`">
+          <nuxt-link data-cy="massmint" :to="`/${urlPrefix}/massmint`">
             {{ $t('multipleNFTS') }}
           </nuxt-link>
         </NeoTooltip>
