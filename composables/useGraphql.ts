@@ -2,7 +2,7 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import type { QueryOptions } from 'apollo-client'
 
-const useQueryParams = ({ queryPrefix, clientName }) => {
+export const useQueryParams = ({ queryPrefix, clientName }) => {
   const { client } = usePrefix()
 
   return {

@@ -15,10 +15,9 @@
       label-color="has-text-success"
       @input="updateList" />
     <Loader v-model="isLoading" :status="status" />
-    <b-table :data="displayOffers(offers)">
-      <b-table-column
+    <NeoTable :data="displayOffers(offers)">
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="nft.name"
         :label="$t('nft.offer.item')"
         sortable>
@@ -29,46 +28,41 @@
             {{ props.row.nft.name || props.row.nft.id }}
           </p>
         </nuxt-link>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="status"
         :label="$t('nft.offer.status')"
         sortable>
         <p>{{ props.row.status || '-' }}</p>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="formatPrice"
         :label="$t('offer.price')"
         sortable>
         <CommonTokenMoney :value="props.row.price" inline />
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="expirationBlock"
         :label="$t('offer.expiration')"
         sortable>
         {{ calcExpirationTime(props.row.expiration) }}
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
         field="createdAt"
-        cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.date')"
-        sortable
-        ><p>
+        sortable>
+        <p>
           {{ timestampOffer(props.row.createdAt) }}
-        </p></b-table-column
-      >
-      <b-table-column
+        </p>
+      </NeoTableColumn>
+      <NeoTableColumn
         v-if="accountId === ownerId"
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         :label="$t('offer.action')"
         width="120">
         <b-button
@@ -77,14 +71,16 @@
           outlined
           icon-left="times"
           @click="withdrawOffer(props.row)" />
-      </b-table-column>
-    </b-table>
+      </NeoTableColumn>
+    </NeoTable>
   </div>
 </template>
 
 <script lang="ts">
 import { emptyArray } from '@kodadot1/minimark/utils'
 import { Attribute } from '@kodadot1/minimark/common'
+import { NeoTable, NeoTableColumn } from '@kodadot1/brick'
+
 import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 
@@ -99,13 +95,14 @@ import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { NeoSelect } from '@kodadot1/brick'
 import { Offer } from './types'
-import { mapToSelectOption } from '@/utils/mappers'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   NeoSelect,
+  NeoTable,
+  NeoTableColumn,
 }
 
 @Component({ components, filters: { formatDistanceToNow } })

@@ -11,12 +11,8 @@
       text-key="value"
       value-key="type" />
     <Loader v-model="isLoading" :status="status" />
-    <b-table :data="displayOffers(offers)">
-      <b-table-column
-        v-slot="props"
-        cell-class="is-vcentered is-narrow"
-        :label="$t('nft.offer.item')"
-        sortable>
+    <NeoTable :data="displayOffers(offers)">
+      <NeoTableColumn v-slot="props" :label="$t('nft.offer.item')" sortable>
         <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.nft.id}`">
           <p
             class="limit-width-text"
@@ -24,36 +20,32 @@
             {{ props.row.nft.name ? props.row.nft.name : props.row.nft.id }}
           </p>
         </nuxt-link>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="formatPrice"
         :label="$t('myOffer.price')"
         sortable>
         <Money :value="props.row.price" inline />
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="caller"
         :label="$t('myOffer.caller')"
         sortable>
         <nuxt-link :to="`/${urlPrefix}/u/${props.row.caller}`">
           <Identity :address="props.row.caller" />
         </nuxt-link>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="expirationBlock"
         :label="$t('offer.expiration')"
         sortable>
         {{ calcExpirationTime(props.row.expiration) }}
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         :label="$t('offer.action')"
         width="120"
         sortable>
@@ -69,33 +61,33 @@
           outlined
           icon-left="money-bill"
           @click="onClick(props.row, false)" />
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
         field="createdAt"
-        cell-class="is-vcentered is-narrow"
         :label="$t('myOffer.date')"
-        sortable
-        ><p>
+        sortable>
+        <p>
           {{
             new Date(props.row.createdAt) |
               formatDistanceToNow({ addSuffix: true })
           }}
-        </p></b-table-column
-      >
+        </p>
+      </NeoTableColumn>
       <template #empty>
-        <div class="has-text-centered">
+        <div class="w-100 has-text-centered">
           {{ $t(isLogIn ? 'myOffer.empty' : 'myOffer.needLogin') }}
         </div>
       </template>
-    </b-table>
+    </NeoTable>
   </div>
 </template>
 
 <script lang="ts">
-import { NeoSelect } from '@kodadot1/brick'
 import { formatDistanceToNow } from 'date-fns'
 import { Component, Emit, Prop, Watch, mixins } from 'nuxt-property-decorator'
+
+import { NeoSelect, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 
 import { tokenIdToRoute } from '@/components/unique/utils'
 
@@ -110,6 +102,8 @@ const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   NeoSelect,
+  NeoTable,
+  NeoTableColumn,
 }
 
 @Component({

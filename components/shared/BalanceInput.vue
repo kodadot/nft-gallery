@@ -50,7 +50,6 @@ import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { NeoField, NeoInput, NeoSelect } from '@kodadot1/brick'
-import { mapToSelectOption } from '@/utils/mappers'
 
 @Component({
   components: {

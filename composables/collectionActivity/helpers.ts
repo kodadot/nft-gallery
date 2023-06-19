@@ -24,12 +24,12 @@ const flipperInitialState = () => ({
   totalsold: 0,
 })
 
-const newOwnerEntry = (lastActivityTimestamp, nft) => ({
-  nftCount: 1,
+const newOwnerEntry = () => ({
+  nftCount: 0,
   totalBought: 0,
   totalSold: 0,
-  lastActivityTimestamp,
-  nfts: [nft],
+  lastActivityTimestamp: -Infinity,
+  nfts: [],
 })
 
 const preProccessForFindingFlippers = (interactions: InteractionWithNFT[]) => {
@@ -75,12 +75,15 @@ const getLatestPrice = (previousNFTState: NFTHistoryState) =>
 
 const updateOwnerWithNewNft = ({
   owner,
-  latestInteraction,
+  latestEvent,
   lastestTimeStamp,
   nft,
 }) => {
   owner.nftCount++
-  owner.totalBought += parseInt(latestInteraction.meta)
+  if (latestEvent.interaction === Interaction.BUY) {
+    owner.totalBought += parseInt(latestEvent.meta)
+  }
+
   owner.lastActivityTimestamp =
     lastestTimeStamp > owner.lastActivityTimestamp
       ? lastestTimeStamp
@@ -108,8 +111,8 @@ export const getOwners = (nfts) => {
 
   nfts.forEach((nft) => {
     const interactions = nft.events.map((e) => e.interaction)
-    const { events, ...nftExcludingEvents } = nft
-    const owner = owners[nft.currentOwner]
+    const { events } = nft
+    const owner = owners[nft.currentOwner] || newOwnerEntry()
 
     if (interactions.includes(Interaction.CONSUME)) {
       // no owner
@@ -120,18 +123,21 @@ export const getOwners = (nfts) => {
       interactions.includes(Interaction.SEND)
     ) {
       // NFT changed hands
-      const latestInteraction = events[events.length - 1]
-      const lastestTimeStamp = new Date(latestInteraction.timestamp).getTime()
+      const latestchangeHandsEvent = events.findLast(
+        (event) =>
+          event.interaction === Interaction.BUY ||
+          event.interaction === Interaction.SEND
+      )
+      const lastestTimeStamp = new Date(
+        latestchangeHandsEvent.timestamp
+      ).getTime()
 
-      owners[nft.currentOwner] =
-        owner === undefined
-          ? newOwnerEntry(lastestTimeStamp, nftExcludingEvents)
-          : updateOwnerWithNewNft({
-              owner,
-              latestInteraction,
-              lastestTimeStamp,
-              nft,
-            })
+      owners[nft.currentOwner] = updateOwnerWithNewNft({
+        owner,
+        latestEvent: latestchangeHandsEvent,
+        lastestTimeStamp,
+        nft,
+      })
       return
     }
 
@@ -139,15 +145,12 @@ export const getOwners = (nfts) => {
     const mintInteraction = events[0]
     const mintTimeStamp = new Date(mintInteraction.timestamp).getTime()
 
-    owners[nft.currentOwner] =
-      owner === undefined
-        ? newOwnerEntry(mintTimeStamp, nftExcludingEvents)
-        : updateOwnerWithNewNft({
-            owner,
-            latestInteraction: mintInteraction,
-            lastestTimeStamp: mintTimeStamp,
-            nft,
-          })
+    owners[nft.currentOwner] = updateOwnerWithNewNft({
+      owner,
+      latestEvent: mintInteraction,
+      lastestTimeStamp: mintTimeStamp,
+      nft,
+    })
   })
   return owners
 }

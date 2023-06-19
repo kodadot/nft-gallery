@@ -26,40 +26,42 @@ describe('simple mint in rmrk', () => {
     )
 
     // name
-    cy.get('[data-cy="input-name"]').type('Hello, World!')
+    cy.get('[data-cy="input-name"] input').type('Hello, World!')
 
     // check symbol
-    cy.get('[data-cy="input-symbol"]').clear().type('HELLOWORLDASDF')
+    cy.get('[data-cy="input-symbol"] input').clear().type('HELLOWORLDASDF')
     cy.get('[data-cy="input-symbol"] input').should('have.value', 'HELLOWORLD')
 
     // description
     cy.get('[data-cy="input-description"]').type('this is some description')
 
-    // check edition
-    cy.get('[data-cy="input-edition"] .control.minus button').click({
-      force: true,
-    })
     cy.get('[data-cy="input-edition"] input').should('have.value', 1)
     cy.get('[data-cy="input-advance-settings"]').should('not.exist')
-    cy.get('[data-cy="input-edition"] .control.plus button').click().click()
+    cy.get('[data-cy="input-edition"] input').clear().type('3')
     cy.get('[data-cy="input-edition"] input').should('have.value', 3)
     cy.get('[data-cy="input-advance-settings"]').should('exist')
 
     // check tags
-    cy.get('[data-cy="input-tags"]').type('tag1, tag2, tag3,')
-    cy.get('[data-cy="input-tags"] [title="tag1"]').should('exist')
-    cy.get('[data-cy="input-tags"] [title="tag2"]').should('exist')
-    cy.get('[data-cy="input-tags"] [title="tag3"]').should('exist')
-    cy.get('[data-cy="input-tags"] [title="tag1"] a').click()
-    cy.get('[data-cy="input-tags"] [title="tag2"] a').click()
-    cy.get('[data-cy="input-tags"] [title="tag3"] a').click()
-    cy.get('[data-cy="input-tags"] [title="tag1"]').should('not.exist')
-    cy.get('[data-cy="input-tags"] [title="tag2"]').should('not.exist')
-    cy.get('[data-cy="input-tags"] [title="tag3"]').should('not.exist')
-    cy.get('[data-cy="input-tags"]').type('tag1{enter}tag2{enter}tag3{enter}')
-    cy.get('[data-cy="input-tags"] [title="tag1"]').should('exist')
-    cy.get('[data-cy="input-tags"] [title="tag2"]').should('exist')
-    cy.get('[data-cy="input-tags"] [title="tag3"]').should('exist')
+    cy.getCy('input-tags').type('tag1, tag2, tag3,')
+    cy.getCy('input-tags').should('contain.text', 'tag1')
+    cy.getCy('input-tags').should('contain.text', 'tag2')
+    cy.getCy('input-tags').should('contain.text', 'tag3')
+    cy.getCy('input-tags')
+      .find('.o-inputit__item:eq(0) .o-icon--clickable')
+      .click()
+    cy.getCy('input-tags')
+      .find('.o-inputit__item:eq(0) .o-icon--clickable')
+      .click()
+    cy.getCy('input-tags')
+      .find('.o-inputit__item:eq(0) .o-icon--clickable')
+      .click()
+    cy.getCy('input-tags').should('not.contain.text', 'tag1')
+    cy.getCy('input-tags').should('not.contain.text', 'tag2')
+    cy.getCy('input-tags').should('not.contain.text', 'tag3')
+    cy.getCy('input-tags').type('tag1{enter}tag2{enter}tag3{enter}')
+    cy.getCy('input-tags').should('contain.text', 'tag1')
+    cy.getCy('input-tags').should('contain.text', 'tag2')
+    cy.getCy('input-tags').should('contain.text', 'tag3')
 
     // price
     cy.get('[data-cy="input-price"] input').clear().type('123')

@@ -1,11 +1,12 @@
 <template>
   <div class="offer-table-container">
-    <b-table
+    <NeoTable
       :data="displayOffers(offers)"
       :paginated="displayOffers(offers).length > itemsPerPage"
       :per-page="itemsPerPage"
       :class="{ scrollable: offers.length > 0 }"
       :current-page.sync="currentPage"
+      td-class="is-vcentered is-narrow"
       pagination-position="top">
       <div v-if="headerText" class="has-text-centered offer-title mb-2">
         {{ headerText }}
@@ -15,10 +16,9 @@
         :options="getUniqType(offers)"
         text-key="value"
         value-key="type" />
-      <b-table-column
+      <NeoTableColumn
         v-if="displayCollection"
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         :label="$t('offer.collection')"
         field="nft.collection.name"
         sortable>
@@ -38,11 +38,10 @@
             }}
           </p>
         </nuxt-link>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-if="isBsxStats"
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         :label="$t('offer.nftName')"
         field="nft.name"
         sortable>
@@ -53,29 +52,26 @@
             {{ props.row.nft.name ? props.row.nft.name : props.row.nft.id }}
           </p>
         </nuxt-link>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="caller"
         :label="$t('offer.caller')"
         sortable>
         <nuxt-link :to="`/${urlPrefix}/u/${props.row.caller}`">
           <Identity :address="props.row.caller" />
         </nuxt-link>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="formatPrice"
         :label="$t('offer.price')"
         sortable>
         <Money :value="props.row.price" :token-id="assetId" inline />
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="expirationBlock"
         :label="$t('offer.expiration')"
         sortable>
@@ -87,11 +83,10 @@
         <span v-else>
           {{ calcExpirationTime(props.row.expiration) }}
         </span>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-if="!isBsxStats"
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         :label="$t('offer.action')"
         width="120"
         sortable>
@@ -115,33 +110,31 @@
             icon-left="times"
             @click="tellFrens(props.row.caller, true)" />
         </div>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-if="isBsxStats"
         v-slot="props"
         field="status"
-        cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.status')"
         sortable>
-        <p>{{ props.row.status }}</p></b-table-column
-      >
-      <b-table-column
+        <p>{{ props.row.status }}</p>
+      </NeoTableColumn>
+      <NeoTableColumn
         v-if="isBsxStats"
         v-slot="props"
         field="createdAt"
-        cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.date')"
-        sortable
-        ><p>
+        sortable>
+        <p>
           {{ new Date(props.row.createdAt) | formatDistanceToNow }}
-        </p></b-table-column
-      >
+        </p>
+      </NeoTableColumn>
       <template #empty>
-        <div class="has-text-centered">
+        <div class="w-100 has-text-centered">
           {{ $t('nft.offer.empty') }}
         </div>
       </template>
-    </b-table>
+    </NeoTable>
   </div>
 </template>
 
@@ -156,13 +149,20 @@ import { Offer } from './types'
 import OfferMixin from '@/utils/mixins/offerMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { NeoSelect, NeoTooltip } from '@kodadot1/brick'
+import {
+  NeoSelect,
+  NeoTable,
+  NeoTableColumn,
+  NeoTooltip,
+} from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Money: () => import('@/components/bsx/format/TokenMoney.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   NeoSelect,
+  NeoTable,
+  NeoTableColumn,
   NeoTooltip,
 }
 

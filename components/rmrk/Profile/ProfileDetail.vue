@@ -369,14 +369,9 @@ export default class ProfileDetail extends mixins(
       img: '/subid.svg',
     },
     {
-      url: 'https://kusama.subscan.io/account/',
+      url: 'https://subscan.io/account/',
       als: 'subscan',
       img: '/subscan.svg',
-    },
-    {
-      url: 'https://polkascan.io/kusama/account/',
-      als: 'polkascan',
-      img: '/polkascan.png',
     },
   ]
 
@@ -554,9 +549,9 @@ export default class ProfileDetail extends mixins(
     }
   }
 
-get realworldFullPath(): string {
-  return window.location.href
-}
+  get realworldFullPath(): string {
+    return window.location.href
+  }
 
   get isMoonriver(): boolean {
     return this.urlPrefix === 'movr'
