@@ -7,23 +7,25 @@
         class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
         <div class="has-text-weight-bold mb-2">{{ $t('mint.success') }}</div>
         <div>
-          Get ready for the big reveal! Your NFT
-
+          {{ $t('mint.unlockable.loader.viewNFT1') }}
           <span v-if="minted">
-            is
-            <span class="has-text-weight-bold"> visible now.</span>
+            {{ $t('mint.unlockable.loader.viewNFTNow2') }}
+            <span class="has-text-weight-bold">
+              {{ $t('mint.unlockable.loader.viewNFTNow3') }}</span
+            >
           </span>
           <span v-else>
-            will be visible in
+            {{ $t('mint.unlockable.loader.viewNFTLater2') }}
             <span class="has-text-weight-bold">
-              {{ displaySeconds }} seconds.
+              {{ displaySeconds }}
+              {{ $t('mint.unlockable.loader.viewNFTLater3') }}
             </span>
           </span>
         </div>
         <div class="mt-4">
-          Share your success
+          {{ $t('mint.unlockable.loader.shareSuccess') }}
           <a :href="postTwitterUrl" target="_blank" class="has-text-link"
-            >on Twitter
+            >{{ $t('mint.unlockable.loader.onTwitter') }}
           </a>
         </div>
         <NeoButton
@@ -70,7 +72,7 @@ const displaySeconds = computed(() => {
 
 const twitterText = computed(
   () =>
-    'Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don\'t miss your chance! \n\n https://kodadot.xyz/stmn/unlockable'
+    "Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don't miss your chance! \n\n https://kodadot.xyz/stmn/unlockable"
 )
 const postTwitterUrl = computed(
   () =>
