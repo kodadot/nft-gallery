@@ -75,6 +75,13 @@
           data-cy="explore" />
       </template>
 
+      <a
+        href="https://hello.kodadot.xyz"
+        target="_blank"
+        class="navbar-item"
+        data-cy="learn">
+        {{ $t('learn') }}
+      </a>
       <CreateDropdown
         v-show="isCreateVisible"
         class="navbar-create custom-navbar-item ml-0"
