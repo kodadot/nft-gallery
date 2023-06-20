@@ -44,7 +44,7 @@
           </NeoTooltip>
         </b-dropdown-item>
       </template>
-      <b-dropdown-item v-if="redesign" has-link>
+      <b-dropdown-item has-link>
         <NeoTooltip
           position="left"
           full-width
@@ -81,7 +81,6 @@
         </b-navbar-item>
       </template>
       <b-navbar-item
-        v-if="redesign"
         data-cy="massmint"
         :to="`/${urlPrefix}/massmint`"
         tag="nuxt-link">
@@ -102,6 +101,4 @@ defineProps<{
 }>()
 
 const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
-const { redesign } = useExperiments()
 </script>
