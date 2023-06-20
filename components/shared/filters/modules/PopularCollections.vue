@@ -15,7 +15,7 @@
       </div>
     </template>
     <div v-if="collections.length > 0" class="p-4">
-      <o-field
+      <NeoField
         v-for="(collection, index) in collections"
         :key="`${collection.id}-${isCutArray[index].value}`"
         class="mb-2">
@@ -50,7 +50,7 @@
             </div>
           </div>
         </NeoCheckbox>
-      </o-field>
+      </NeoField>
     </div>
     <div v-else class="p-4 is-size-6 has-text-grey">
       {{ $t('general.noPopularCollections') }}
@@ -62,11 +62,10 @@
 import { NeoCheckbox, NeoTooltip } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 import { Collection, usePopularCollections } from './usePopularCollections'
-import { OField } from '@oruga-ui/oruga'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getCollectionIds } from '@/utils/queryParams'
 import { useTextOverflow } from '@/composables/useTextOverflow'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoField, NeoIcon } from '@kodadot1/brick'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
