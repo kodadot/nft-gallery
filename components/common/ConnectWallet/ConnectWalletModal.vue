@@ -8,7 +8,11 @@
         icon-left="chevron-left"
         @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
       <span class="modal-card-title is-size-6 has-text-weight-bold">
-        {{ $i18n.t('walletConnect.walletHeading') }}
+        {{
+          showAccount
+            ? $i18n.t('profile.page')
+            : $i18n.t('walletConnect.walletHeading')
+        }}
       </span>
       <a class="is-flex is-align-items-center" @click="emit('close')">
         <NeoIcon icon="close" />
