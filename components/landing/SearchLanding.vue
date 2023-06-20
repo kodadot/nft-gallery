@@ -5,15 +5,17 @@
     <div
       class="is-flex is-flex-direction-column is-align-items-center search-info">
       <h1
-        class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered">
-        <span>{{ $t('search.landingTitle1') }}</span>
-        {{ $t('search.landingTitle2') }}
-        <span> {{ $t('search.landingTitle3') }}</span>
+        class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered is-flex is-flex-wrap-wrap is-justify-content-center is-align-items-center mb-0">
+        {{ $t('search.landingTitle1') }}
+        <span
+          class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered is-capitalized ml-4">
+          {{ $t('search.landingTitle2') }}
+        </span>
       </h1>
-      <span
-        class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered is-capitalized">
-        {{ $t('search.landingSubtitle') }}
-      </span>
+      <h1
+        class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered">
+        {{ $t('search.landingTitle3') }}
+      </h1>
       <LazySearch
         hide-filter
         class="landing-search-bar"
