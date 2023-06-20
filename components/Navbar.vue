@@ -278,3 +278,14 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize)
 })
 </script>
+
+<style lang="scss" scoped>
+:deep .o-drop__item {
+  padding: 1.5rem 2rem;
+  min-width: 18.75rem;
+
+  &:hover {
+    background-color: unset;
+  }
+}
+</style>

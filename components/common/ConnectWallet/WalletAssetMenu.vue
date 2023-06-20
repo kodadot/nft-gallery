@@ -21,25 +21,25 @@
       </div>
 
       <!-- language -->
-      <div data-cy="sidebar-language">
-        <NeoDropdown position="is-top-left" aria-role="menu" mobile-modal>
-          <template #trigger>
+      <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
+        <template #trigger>
+          <div data-cy="sidebar-language">
             <NeoIcon icon="globe" />
             <span>{{ $t('profileMenu.language') }}</span>
-          </template>
+          </div>
+        </template>
 
-          <NeoDropdownItem
-            v-for="lang in langsFlags"
-            :key="lang.value"
-            aria-role="listitem"
-            :data-cy="`sidebar-language-${lang.value}`"
-            :value="lang.value"
-            :class="{ 'is-active': langStore.getUserLang === lang.value }"
-            @click="langStore.setLanguage({ userLang: lang.value })">
-            <span>{{ lang.flag }} {{ lang.label }}</span>
-          </NeoDropdownItem>
-        </NeoDropdown>
-      </div>
+        <NeoDropdownItem
+          v-for="lang in langsFlags"
+          :key="lang.value"
+          aria-role="listitem"
+          :data-cy="`sidebar-language-${lang.value}`"
+          :value="lang.value"
+          :class="{ 'is-active': langStore.getUserLang === lang.value }"
+          @click="langStore.setLanguage({ userLang: lang.value })">
+          <span>{{ lang.flag }} {{ lang.label }}</span>
+        </NeoDropdownItem>
+      </NeoDropdown>
 
       <!-- settings -->
       <a href="/settings" class="has-text-grey">
@@ -127,37 +127,10 @@ onMounted(() => {
     }
   }
 
-  :deep .dropdown-content {
-    padding-top: 0;
-
-    @include ktheme() {
-      .has-link a {
-        color: theme('text-color');
-
-        &:hover {
-          background-color: theme('k-accentlight');
-        }
-      }
-
-      .is-active {
-        background-color: theme('text-color');
-
-        a {
-          color: theme('text-color-inverse');
-
-          &:hover {
-            background-color: theme('text-color');
-          }
-        }
-      }
-    }
-  }
-
   @include tablet {
     // manually center dropdown menu, because no props "postition" to center it
     :deep .o-drop__menu {
       transform: translateX(50px);
-      bottom: 150%;
     }
   }
 }
