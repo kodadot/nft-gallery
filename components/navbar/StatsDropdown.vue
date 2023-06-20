@@ -123,10 +123,3 @@ const showSnekBsxOptions = computed(
   () => props.chain === 'bsx' || props.chain === 'snek'
 )
 </script>
-<style lang="scss">
-.navbar-stats {
-  .dropdown {
-    width: 100%;
-  }
-}
-</style>

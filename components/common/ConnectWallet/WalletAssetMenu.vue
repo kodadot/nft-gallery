@@ -21,25 +21,25 @@
       </div>
 
       <!-- language -->
-      <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
-        <template #trigger>
-          <div data-cy="sidebar-language">
+      <div data-cy="sidebar-language">
+        <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
+          <template #trigger>
             <NeoIcon icon="globe" />
             <span>{{ $t('profileMenu.language') }}</span>
-          </div>
-        </template>
+          </template>
 
-        <NeoDropdownItem
-          v-for="lang in langsFlags"
-          :key="lang.value"
-          aria-role="listitem"
-          :data-cy="`sidebar-language-${lang.value}`"
-          :value="lang.value"
-          :class="{ 'is-active': langStore.getUserLang === lang.value }"
-          @click="langStore.setLanguage({ userLang: lang.value })">
-          <span>{{ lang.flag }} {{ lang.label }}</span>
-        </NeoDropdownItem>
-      </NeoDropdown>
+          <NeoDropdownItem
+            v-for="lang in langsFlags"
+            :key="lang.value"
+            aria-role="listitem"
+            :data-cy="`sidebar-language-${lang.value}`"
+            :value="lang.value"
+            :class="{ 'is-active': langStore.getUserLang === lang.value }"
+            @click="langStore.setLanguage({ userLang: lang.value })">
+            <span>{{ lang.flag }} {{ lang.label }}</span>
+          </NeoDropdownItem>
+        </NeoDropdown>
+      </div>
 
       <!-- settings -->
       <a href="/settings" class="has-text-grey">
