@@ -2,7 +2,7 @@ User-agent: *
 Disallow: */details/
 Disallow: */gallery/
 Disallow: */u/
-Disallow: */transfer/
+Disallow: */transfer
 Disallow: beta.*/
 Disallow: canary.*/
 Disallow: nft.*/
