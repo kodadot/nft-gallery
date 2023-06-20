@@ -227,6 +227,9 @@
   .navbar-explore {
     .menu-item {
       cursor: pointer;
+      @include ktheme() {
+        color: theme('text-color');
+      }
 
       &.is-active {
         font-weight: bold;

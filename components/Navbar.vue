@@ -280,7 +280,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
-:deep .o-drop__item {
+:deep .navbar-explore .o-drop__item {
   padding: 1.5rem 2rem;
   min-width: 18.75rem;
 
