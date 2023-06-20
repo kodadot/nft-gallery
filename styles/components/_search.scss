@@ -10,6 +10,7 @@
 
   .title {
     word-break: keep-all;
+    gap: 1rem;
   }
 
   .subtitle {
@@ -157,7 +158,7 @@
     padding: 0 50px 0 42px !important;
     height: 2.5rem;
     outline: none;
-    
+
     &::placeholder {
       margin-left: 10px;
       font-weight: 400;
