@@ -26,7 +26,6 @@ import { NeoButton } from '@kodadot1/brick'
 
 const { chainProperties } = useChain()
 const refresh = () => {
-  window.sessionStorage.removeItem('vuex')
   window.location.reload()
 }
 </script>
