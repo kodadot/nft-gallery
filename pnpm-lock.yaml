@@ -14,9 +14,6 @@ patchedDependencies:
   '@nuxt/webpack-edge@2.16.0-27720022.54e852f':
     hash: erfbavqcsxdsfzuhctu4pd6xii
     path: patches/@nuxt__webpack-edge@2.16.0-27720022.54e852f.patch
-  vuex@3.6.2:
-    hash: qqzk7obvwc5jewi4v4e35d3zci
-    path: patches/vuex@3.6.2.patch
 
 importers:
 
@@ -171,7 +168,7 @@ importers:
         version: 2.16.0-27720022.54e852f(consola@3.1.0)(typescript@4.9.5)(vue@2.7.14)
       nuxt-property-decorator:
         specifier: ^2.9.1
-        version: 2.9.1(vue@2.7.14)(vuex@3.6.2)
+        version: 2.9.1(vue@2.7.14)
       ohmyfetch:
         specifier: ^0.4.21
         version: 0.4.21
@@ -217,9 +214,6 @@ importers:
       vue-tippy:
         specifier: ^4.16.1
         version: 4.16.1(vue@2.7.14)
-      vuex:
-        specifier: 3.6.2
-        version: 3.6.2(patch_hash=qqzk7obvwc5jewi4v4e35d3zci)(vue@2.7.14)
       workbox-window:
         specifier: ^6.6.0
         version: 6.6.0
@@ -4679,7 +4673,7 @@ packages:
       vue-no-ssr: 1.1.1
       vue-router: 3.6.5(vue@2.7.14)
       vue-template-compiler: 2.7.14
-      vuex: 3.6.2(patch_hash=qqzk7obvwc5jewi4v4e35d3zci)(vue@2.7.14)
+      vuex: 3.6.2(vue@2.7.14)
     dev: false
 
   /@nuxt/vue-renderer-edge@2.16.0-27720022.54e852f:
@@ -5494,7 +5488,7 @@ packages:
       '@polkadot/api-augment': 10.8.1
       '@polkadot/api-base': 10.8.1
       '@polkadot/api-derive': 10.8.1
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/rpc-augment': 10.8.1
       '@polkadot/rpc-core': 10.8.1
       '@polkadot/rpc-provider': 10.8.1
@@ -5521,7 +5515,7 @@ packages:
       '@polkadot/api-augment': 10.9.1
       '@polkadot/api-base': 10.9.1
       '@polkadot/api-derive': 10.9.1
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/rpc-augment': 10.9.1
       '@polkadot/rpc-core': 10.9.1
       '@polkadot/rpc-provider': 10.9.1
@@ -5701,11 +5695,12 @@ packages:
       tslib: 2.5.3
     dev: false
 
-  /@polkadot/keyring@12.3.2(@polkadot/util@12.3.2):
+  /@polkadot/keyring@12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2):
     resolution: {integrity: sha512-NTdtDeI0DP9l/45hXynNABeP5VB8piw5YR+CbUxK2e36xpJWVXwbcOepzslg5ghE9rs8UKJb30Z/HqTU4sBY0Q==}
     engines: {node: '>=16'}
     peerDependencies:
       '@polkadot/util': 12.3.2
+      '@polkadot/util-crypto': 12.3.2
     dependencies:
       '@polkadot/util': 12.3.2
       '@polkadot/util-crypto': 12.3.2(@polkadot/util@12.3.2)
@@ -6022,7 +6017,7 @@ packages:
     resolution: {integrity: sha512-4QzT2QzD+320+eT6b79sGAA85Tt3Bb8fQvse4r5Mom2iiBd2SO81vOhxSAOaIe4GUsw25VzFJmsbe7+OObItdg==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/types': 10.9.1
       '@polkadot/types-support': 10.9.1
       '@polkadot/util': 12.3.2
@@ -6365,7 +6360,7 @@ packages:
     resolution: {integrity: sha512-m6UvsvQOZ7sRGbonb6QLs4mZ6TmYKdAXAcHakiJl2xArqsgOghJsKhgaTqcigPkSq4947MXtIkEzdrwFEnkYkQ==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/types-augment': 10.8.1
       '@polkadot/types-codec': 10.8.1
       '@polkadot/types-create': 10.8.1
@@ -6379,7 +6374,7 @@ packages:
     resolution: {integrity: sha512-AG33i2ZGGfq7u+5rkAdGrXAQHHl844/Yv+junH5ZzX69xiCoWO1bH/yzDUNBdpki2GlACWvF9nLYh3F2tVF93w==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/types-augment': 10.9.1
       '@polkadot/types-codec': 10.9.1
       '@polkadot/types-create': 10.9.1
@@ -18341,13 +18336,13 @@ packages:
       - whiskers
     dev: false
 
-  /nuxt-property-decorator@2.9.1(vue@2.7.14)(vuex@3.6.2):
+  /nuxt-property-decorator@2.9.1(vue@2.7.14):
     resolution: {integrity: sha512-dE2GrrGKZMhv0dHAr+Lmj+JOQfjIouINgF58QNRDFNOZXMJrXxKO5zGqvCRwmx3hxqqwht7TXHdz9w1AnvL2IA==}
     dependencies:
       vue-class-component: 7.2.6(vue@2.7.14)
       vue-property-decorator: 9.1.2(vue-class-component@7.2.6)(vue@2.7.14)
-      vuex-class: 0.3.2(vue-class-component@7.2.6)(vue@2.7.14)(vuex@3.6.2)
-      vuex-module-decorators: 1.2.0(vue@2.7.14)(vuex@3.6.2)
+      vuex-class: 0.3.2(vue-class-component@7.2.6)(vue@2.7.14)
+      vuex-module-decorators: 1.2.0(vue@2.7.14)
     transitivePeerDependencies:
       - vue
       - vuex
@@ -23676,7 +23671,7 @@ packages:
       '@vue/compiler-sfc': 2.7.14
       csstype: 3.1.2
 
-  /vuex-class@0.3.2(vue-class-component@7.2.6)(vue@2.7.14)(vuex@3.6.2):
+  /vuex-class@0.3.2(vue-class-component@7.2.6)(vue@2.7.14):
     resolution: {integrity: sha512-m0w7/FMsNcwJgunJeM+wcNaHzK2KX1K1rw2WUQf7Q16ndXHo7pflRyOV/E8795JO/7fstyjH3EgqBI4h4n4qXQ==}
     peerDependencies:
       vue: ^2.5.0
@@ -23685,10 +23680,9 @@ packages:
     dependencies:
       vue: 2.7.14
       vue-class-component: 7.2.6(vue@2.7.14)
-      vuex: 3.6.2(patch_hash=qqzk7obvwc5jewi4v4e35d3zci)(vue@2.7.14)
     dev: false
 
-  /vuex-module-decorators@1.2.0(vue@2.7.14)(vuex@3.6.2):
+  /vuex-module-decorators@1.2.0(vue@2.7.14):
     resolution: {integrity: sha512-3lHp75qVgrNXUpFKs4J4eRnrxjY3BYUkHwR+ZKvvIycw/7tDwlL0RPuiYLwrHEUBTvJePSZaehZJ0BMTw1/ugQ==}
     engines: {node: '>= 8', npm: '>= 5', yarn: '>= 1'}
     requiresBuild: true
@@ -23697,17 +23691,15 @@ packages:
       vuex: '>=3'
     dependencies:
       vue: 2.7.14
-      vuex: 3.6.2(patch_hash=qqzk7obvwc5jewi4v4e35d3zci)(vue@2.7.14)
     dev: false
 
-  /vuex@3.6.2(patch_hash=qqzk7obvwc5jewi4v4e35d3zci)(vue@2.7.14):
+  /vuex@3.6.2(vue@2.7.14):
     resolution: {integrity: sha512-ETW44IqCgBpVomy520DT5jf8n0zoCac+sxWnn+hMe/CzaSejb/eVw2YToiXYX+Ex/AuHHia28vWTq4goAexFbw==}
     peerDependencies:
       vue: ^2.0.0
     dependencies:
       vue: 2.7.14
     dev: false
-    patched: true
 
   /w3c-hr-time@1.0.2:
     resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}
