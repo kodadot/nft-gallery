@@ -356,7 +356,7 @@ a.has-text-grey {
 }
 
 
-.background-inverse {
+.has-background-inverse {
   @include ktheme() {
     background: theme('text-color');
   }

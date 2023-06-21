@@ -1,7 +1,7 @@
 <template>
-  <div ref="wrapper" class="px-4 py-4 keen-slider background-inverse">
+  <div ref="wrapper" class="p-4 keen-slider has-background-inverse">
     <div
-      v-for="(section, index) in Array(slidesCountOnTimeCountdown).fill(0)"
+      v-for="(_, index) in slidesArray"
       :key="index"
       class="keen-slider__slide is-flex no-wrap">
       <div class="no-wrap">
@@ -24,6 +24,7 @@ import { useCountDown } from './utils/useCountDown'
 const animation = { duration: 30000, easing: (t) => t }
 const getPositiveNumber = (number: number) => Math.max(0, number)
 
+const slidesArray = Array(slidesCountOnTimeCountdown).fill(0)
 const { hours, minutes, seconds } = useCountDown(countDownTime)
 
 const [wrapper] = useKeenSlider({
