@@ -1,0 +1,62 @@
+<template>
+  <div
+    class="tag-container is-flex border py-1 pl-2 pr-3 is-justify-content-space-between is-align-items-center">
+    <img :src="iconSrc" />
+    <span :class="{ 'ml-2': !isMintingLive }">{{ displayText }}</span>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import unlockablePulse from '@/assets/unlockable-pulse.svg'
+import calander from '@/assets/calander.svg'
+const { $i18n } = useNuxtApp()
+const props = defineProps<{
+  dropStartTime: Date
+}>()
+
+const isMintingLive = computed(() => {
+  const now = new Date()
+  return props.dropStartTime <= now
+})
+
+const iconSrc = computed(() => {
+  if (isMintingLive.value) {
+    return unlockablePulse
+  } else {
+    return calander
+  }
+})
+
+const displayText = computed(() => {
+  if (isMintingLive.value) {
+    return 'Minting Live'
+  } else {
+    const options = {
+      day: '2-digit',
+      month: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    } as any
+    return props.dropStartTime.toLocaleString($i18n.locale, options)
+  }
+})
+</script>
+
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables.scss';
+.tag-container {
+  border-radius: 2rem;
+  @include ktheme() {
+    border-color: theme('k-shade');
+    background-color: theme('background-color');
+    color: theme('text-color');
+  }
+}
+
+@include until-widescreen {
+  .unlockable-container {
+    max-width: 100%;
+  }
+}
+</style>
