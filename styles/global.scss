@@ -243,11 +243,7 @@ hr {
     color: theme('k-grey') !important;
   }
 }
-.has-text-grey-inverse {
-  @include ktheme() {
-    color: theme('k-shade') !important;
-  }
-}
+
 .has-text-inverse {
   @include ktheme() {
     color: theme('text-color-inverse');
@@ -362,7 +358,7 @@ a.has-text-grey {
 
 .background-inverse {
   @include ktheme() {
-    background: theme('background-color-inverse');
+    background: theme('text-color');
   }
 }
 
