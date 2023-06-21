@@ -13,7 +13,7 @@ export type BaseTokenType<T = BaseMintedCollection> = {
   file: File | null
   description: string
   selectedCollection: T | null
-  edition: number
+  copies: number
   secondFile: File | null
 }
 
