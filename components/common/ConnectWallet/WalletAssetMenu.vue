@@ -68,7 +68,7 @@ const menus = ref([
   },
   {
     label: 'Teleport Bridge',
-    to: '/teleport-bridge',
+    to: `/${urlPrefix.value}/teleport`,
   },
   {
     label: 'Onchain Identity',
