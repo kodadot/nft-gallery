@@ -10,7 +10,7 @@
         <TeleportTabs
           :tabs="fromTabs"
           :value="fromChain"
-          @select="onFromChainChange" />
+          @select="onChainChange" />
       </div>
 
       <div class="mb-5 is-flex is-flex-direction-column">
@@ -32,7 +32,7 @@
         </div>
 
         <div
-          v-if="myKsmBalance"
+          v-if="myKsmBalance !== undefined"
           class="is-size-7 is-flex is-justify-content-end is-align-items-center">
           <span class="is-flex is-align-items-center">
             <span class="mr-2">{{ $i18n.t('balance') }}:</span
@@ -47,9 +47,9 @@
       <div class="mb-5">
         <h1 class="has-text-weight-bold">{{ $i18n.t('teleport.to') }}</h1>
         <TeleportTabs
-          :tabs="fromTabs"
+          :tabs="toTabs"
           :value="toChain"
-          @select="onToChainChange" />
+          @select="(chain) => onChainChange(chain, false)" />
       </div>
 
       <div class="mb-5">
@@ -80,12 +80,16 @@
 </template>
 
 <script setup lang="ts">
-import { ApiPromise, WsProvider } from '@polkadot/api'
 import { web3Enable } from '@polkadot/extension-dapp'
 import '@polkadot/api-augment'
 import { toDefaultAddress } from '@/utils/account'
 import { getAddress } from '@/utils/extension'
-import { Chain, chainToPrefixMap } from '@/utils/teleport'
+import {
+  Chain,
+  TeleprtType,
+  chainToPrefixMap,
+  whichTeleportType,
+} from '@/utils/teleport'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import useAuth from '@/composables/useAuth'
 import Loader from '@/components/shared/Loader.vue'
@@ -98,37 +102,49 @@ import { txCb } from '@/utils/transactionExecutor'
 import TeleportTabs from './TeleportTabs.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { getss58AddressByPrefix } from '@/utils/account'
-import { getAsssetBalance } from '@/utils/api/bsx/query'
 import { blockExplorerOf } from '@/utils/config/chain.config'
-import { simpleDivision, subscribeBalance } from '@/utils/balance'
+import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
+import { useIdentityStore } from '@/stores/identity'
+import { ApiFactory } from '@kodadot1/sub-api'
 
-const getKusamaApi = async () =>
-  await ApiPromise.create({
-    provider: new WsProvider(getChainEndpointByPrefix('kusama') as string),
-  })
-const getBasiliskApi = async () =>
-  await ApiPromise.create({
-    provider: new WsProvider(getChainEndpointByPrefix('basilisk') as string),
-  })
+const getApi = (from: Chain) => {
+  const endpoint = getChainEndpointByPrefix(chainToPrefixMap[from]) as string
+  return ApiFactory.useApiInstance(endpoint)
+}
 
 const { accountId } = useAuth()
 const { assets } = usePrefix()
 const { $i18n } = useNuxtApp()
 const fiatStore = useFiatStore()
+const identityStore = useIdentityStore()
 
-const chains = ref([Chain.KUSAMA, Chain.BASILISK])
 const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
 const toChain = ref(Chain.BASILISK) //Selected destination parachain
 const amount = ref() //Required amount to be transfered is stored here
-const ksmBalanceOnBasilisk = ref()
-const ksmBalanceOnKusama = ref()
 const currency = ref('KSM') //Selected currency is stored here
 const isLoading = ref(false)
 const unsubscribeKusamaBalance = ref()
 const resetStatus = () => {
   amount.value = undefined
   isLoading.value = false
+}
+
+const allowedTransitiosn = {
+  [Chain.KUSAMA]: [Chain.BASILISK, Chain.STATEMINE],
+  [Chain.BASILISK]: [Chain.KUSAMA],
+  [Chain.STATEMINE]: [Chain.KUSAMA],
+}
+const chainBalances = {
+  [Chain.KUSAMA]: () => identityStore.multiBalances.chains.kusama?.ksm?.balance,
+  [Chain.BASILISK]: () =>
+    identityStore.multiBalances.chains.basilisk?.ksm?.balance,
+  [Chain.STATEMINE]: () =>
+    identityStore.multiBalances.chains.statemine?.ksm?.balance,
+}
+
+const isDisabled = (chain: Chain) => {
+  return !allowedTransitiosn[fromChain.value].includes(chain)
 }
 
 const fromTabs = [
@@ -140,30 +156,65 @@ const fromTabs = [
     label: Chain.BASILISK,
     value: Chain.BASILISK,
   },
+  {
+    label: Chain.STATEMINE,
+    value: Chain.STATEMINE,
+  },
+]
+const toTabs = [
+  {
+    label: Chain.KUSAMA,
+    value: Chain.KUSAMA,
+    disabled: computed(() => isDisabled(Chain.KUSAMA)),
+  },
+  {
+    label: Chain.BASILISK,
+    value: Chain.BASILISK,
+    disabled: computed(() => isDisabled(Chain.BASILISK)),
+  },
+  {
+    label: Chain.STATEMINE,
+    value: Chain.STATEMINE,
+    disabled: computed(() => isDisabled(Chain.STATEMINE)),
+  },
 ]
 
+const ksmTokenDecimals = computed(() => assets(5).decimals)
+
 const myKsmBalance = computed(() => {
-  return fromChain.value === Chain.KUSAMA
-    ? ksmBalanceOnKusama.value
-    : ksmBalanceOnBasilisk.value
+  const getBalance = chainBalances[fromChain.value]
+  if (!getBalance) {
+    throw new Error(`Unsupported chain: ${fromChain.value}`)
+  }
+  const balance = Number(getBalance()) || 0
+  return balance * Math.pow(10, ksmTokenDecimals.value)
 })
+
 const explorerUrl = computed(() => {
   return `${blockExplorerOf(chainToPrefixMap[toChain.value])}account/${
     toAddress.value
   }`
 })
-const getAnotherOption = (val) => {
-  return chains.value.find((chain) => chain !== val) || Chain.KUSAMA
-}
-const onFromChainChange = (val) => {
-  fromChain.value = val
-  toChain.value = getAnotherOption(val)
+const getFirstAllowedDestination = (chain: Chain) => {
+  return allowedTransitiosn[chain][0]
 }
 
-const onToChainChange = (val) => {
-  toChain.value = val
-  fromChain.value = getAnotherOption(val)
+const onChainChange = (selectedChain, setFrom = true) => {
+  if (setFrom) {
+    fromChain.value = selectedChain
+    toChain.value = getFirstAllowedDestination(selectedChain)
+  } else {
+    toChain.value = selectedChain
+    fromChain.value = getFirstAllowedDestination(selectedChain)
+  }
 }
+const getFromChain = (): Chain => {
+  return Chain[fromChain.value.toUpperCase()] as Chain
+}
+const getToChain = (): Chain => {
+  return Chain[toChain.value.toUpperCase()] as Chain
+}
+
 const getAddressByChain = (chain) => {
   return getss58AddressByPrefix(accountId.value, chainToPrefixMap[chain])
 }
@@ -177,26 +228,6 @@ const ksmValue = computed(() =>
   )
 )
 
-const fetchBasiliskBalance = async () => {
-  const api = await getBasiliskApi()
-  getAsssetBalance(api, getAddressByChain(fromChain.value), '1').then(
-    (data) => {
-      ksmBalanceOnBasilisk.value = data
-    }
-  )
-}
-
-const fetchKusamaBalance = async () => {
-  const api = await getKusamaApi()
-  unsubscribeKusamaBalance.value = await subscribeBalance(
-    api,
-    getAddressByChain(Chain.KUSAMA),
-    (...data) => {
-      ksmBalanceOnKusama.value = data[0]
-    }
-  )
-}
-
 const insufficientBalance = computed(
   () => Number(amount.value) > myKsmBalanceWithoutDivision.value
 )
@@ -209,20 +240,52 @@ const isDisabledButton = computed(() => {
   return !amount.value || amount.value <= 0 || insufficientBalance.value
 })
 
-const ksmTokenDecimals = computed(() => assets(5).decimals)
-
 const handleMaxClick = () => {
   amount.value =
     Math.floor((myKsmBalanceWithoutDivision.value || 0) * 10 ** 4) / 10 ** 4
 }
-onMounted(() => {
-  fetchBasiliskBalance()
-  fetchKusamaBalance()
-})
 
 onBeforeUnmount(() => {
   unsubscribeKusamaBalance.value && unsubscribeKusamaBalance.value()
 })
+
+const getTransaction = async () => {
+  const amountValue = amount.value * Math.pow(10, ksmTokenDecimals.value)
+
+  const api = await getApi(getFromChain())
+  const telportType = whichTeleportType({
+    from: getFromChain(),
+    to: getToChain(),
+  })
+  if (telportType === TeleprtType.RelayToPara) {
+    return paraspell
+      .Builder(api)
+      .to(Chain[toChain.value.toUpperCase()])
+      .amount(amountValue)
+      .address(toAddress.value)
+      .build()
+  }
+  if (telportType === TeleprtType.ParaToRelay) {
+    return paraspell
+      .Builder(api)
+      .from(Chain[fromChain.value.toUpperCase()])
+      .currency('KSM')
+      .amount(amountValue)
+      .address(toAddress.value)
+      .build()
+  }
+
+  if (telportType === TeleprtType.ParaToPara) {
+    return paraspell
+      .Builder(api)
+      .from(Chain[fromChain.value.toUpperCase()])
+      .to(Chain[toChain.value.toUpperCase()])
+      .currency('KSM')
+      .amount(amountValue)
+      .address(toAddress.value)
+      .build()
+  }
+}
 
 //Used to create XCM transfer
 const sendXCM = async () => {
@@ -232,7 +295,6 @@ const sendXCM = async () => {
   await web3Enable('Kodadot')
   let isFirstStatus = true
   isLoading.value = true
-  const amountValue = 10 ** ksmTokenDecimals.value * amount.value
   const transactionHandler = txCb(
     (blockHash) => {
       showNotification(
@@ -260,50 +322,27 @@ const sendXCM = async () => {
     showNotification('Cancelled', notificationTypes.warn)
     isLoading.value = false
   }
-  const injector = await getAddress(toDefaultAddress(fromAddress.value))
-  if (fromChain.value === Chain.KUSAMA) {
-    const apiKusama = await getKusamaApi()
-    const promise = paraspell.xcmPallet.transferRelayToPara(
-      apiKusama,
-      Chain.BASILISK,
-      amountValue,
-      toAddress.value
-    )
 
-    promise
-      .signAndSend(
-        fromAddress.value,
-        { signer: injector.signer },
-        transactionHandler
-      )
-      .catch(errorHandler)
-  } else if (fromChain.value === Chain.BASILISK) {
-    const apiBasilisk = await getBasiliskApi()
-
-    const promise = paraspell.xcmPallet.send(
-      apiBasilisk,
-      Chain.BASILISK,
-      currency.value,
-      1,
-      amountValue,
-      toAddress.value
-    )
-
-    promise
-      .signAndSend(
-        fromAddress.value,
-        { signer: injector.signer },
-        transactionHandler
-      )
-      .catch(errorHandler)
+  const promise = await getTransaction()
+  if (promise === undefined) {
+    return
   }
+
+  const injector = await getAddress(toDefaultAddress(fromAddress.value))
+  promise
+    .signAndSend(
+      fromAddress.value,
+      { signer: injector.signer },
+      transactionHandler
+    )
+    .catch(errorHandler)
 }
 </script>
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables.scss';
 
 .teleport-container {
-  max-width: 30rem;
+  max-width: 50rem;
 
   .submit-button {
     width: 100%;
