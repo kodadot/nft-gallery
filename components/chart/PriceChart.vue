@@ -3,7 +3,7 @@
     <span class="chart-y-description is-size-7">
       Price ({{ chainSymbol }})
     </span>
-    <NeoDropdown class="py-0">
+    <NeoDropdown class="py-0" :mobile-modal="false">
       <template #trigger="{ active }">
         <NeoButton
           :label="selectedTimeRange.label"

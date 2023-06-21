@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <NeoDropdown position="bottom-left">
+    <NeoDropdown position="bottom-left" :mobile-modal="false">
       <template #trigger="{ active }">
         <NeoButton
           class="icon-action"
