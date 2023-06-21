@@ -7,9 +7,8 @@
         </div>
       </template>
 
-      <NeoDropdownItem has-link>
+      <NeoDropdownItem v-if="chain !== 'stmn'" has-link>
         <NeoTooltip
-          v-if="chain !== 'stmn'"
           position="left"
           :label="$t('createDropdown.start')"
           multiline>
