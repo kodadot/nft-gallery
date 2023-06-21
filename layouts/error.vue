@@ -16,15 +16,13 @@
         >creating a bug issue with steps and screenshot to reproduce.</a
       >
     </p>
-    <NeoButton tag="nuxt-link" :to="`/${urlPrefix}/explore/collectibles`">
+    <nuxt-link :to="`/${urlPrefix}/explore/collectibles`" class="has-text-link">
       Explore NFTs and Collections
-    </NeoButton>
+    </nuxt-link>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { NeoButton } from '@kodadot1/brick'
-
 const props = defineProps({
   error: Object,
 })
