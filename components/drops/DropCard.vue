@@ -56,7 +56,7 @@
             style="gap: 2rem">
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">Available</span>
-              <span>{{ drop.minted }}/{{ drop.max }}</span>
+              <span>{{ drop.max - drop.minted }}/{{ drop.max }}</span>
             </div>
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">Price</span>
