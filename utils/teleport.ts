@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Prefix } from '@kodadot1/static'
 import type { ApiPromise } from '@polkadot/api'
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types'
 import { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
@@ -24,11 +25,41 @@ const KNOWN_WEIGHTS: Record<string, number> = {
 export enum Chain {
   KUSAMA = 'Kusama',
   BASILISK = 'Basilisk',
+  STATEMINE = 'Statemine',
 }
 
-export const chainToPrefixMap = {
+export const chainToPrefixMap: Record<Chain, Prefix> = {
   [Chain.KUSAMA]: 'rmrk',
   [Chain.BASILISK]: 'bsx',
+  [Chain.STATEMINE]: 'stmn',
+}
+
+export enum TeleprtType {
+  RelayToPara = 'RelayToPara',
+  ParaToRelay = 'ParaToRelay',
+  ParaToPara = 'ParaToPara',
+}
+
+export const whichTeleportType = ({
+  from,
+  to,
+}: {
+  from: Chain
+  to: Chain
+}): TeleprtType => {
+  switch (from) {
+    case Chain.KUSAMA:
+      return TeleprtType.RelayToPara
+
+    case Chain.BASILISK:
+    case Chain.STATEMINE:
+      return to === Chain.KUSAMA
+        ? TeleprtType.ParaToRelay
+        : TeleprtType.ParaToPara
+
+    default:
+      throw new Error(`Unknown chain: ${from}`)
+  }
 }
 
 export function getTeleportWeight(api: ApiPromise): number {

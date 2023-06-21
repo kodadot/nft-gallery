@@ -151,6 +151,8 @@
 <script lang="ts">
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import Connector from '@kodadot1/sub-api'
+import { ALTERNATIVE_ENDPOINT_MAP } from '@kodadot1/static'
+
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
 
@@ -380,9 +382,8 @@ export default class Transfer extends mixins(
         this.isLoading = false
         return
       }
-      const availableNodesByPrefix: { value: string }[] =
-        this.$store.getters['availableNodesByPrefix']
-      const availableUrls = availableNodesByPrefix.map((node) => node.value)
+
+      const availableUrls = ALTERNATIVE_ENDPOINT_MAP[this.urlPrefix]
       if (usedNodeUrls.length < availableUrls.length) {
         const nextTryUrls = availableUrls.filter(
           (url) => !usedNodeUrls.includes(url)
@@ -390,13 +391,13 @@ export default class Transfer extends mixins(
         const { getInstance: Api } = Connector
         // try to connect next possible url
         await Api().connect(nextTryUrls[0])
-        await this.$store.dispatch('setApiUrl', nextTryUrls[0])
-        this.submit(event, [nextTryUrls[0]].concat(usedNodeUrls))
-      } else {
+        this.submit(event, [nextTryUrls[0], ...usedNodeUrls])
+      }
+
+      if (e instanceof Error) {
         this.$consola.error('[ERR: TRANSFER SUBMIT]', e)
-        if (e instanceof Error) {
-          showNotification(e.message, notificationTypes.warn)
-        }
+        showNotification(e.toString(), notificationTypes.warn)
+        this.isLoading = false
       }
     }
   }
