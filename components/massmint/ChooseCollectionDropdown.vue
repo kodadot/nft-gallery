@@ -28,7 +28,7 @@
         @click.native="selectCollection(collection)">
         {{ collection.name || collection.id }}
       </NeoDropdownItem>
-      <NeoDropdownItem class="dropdown-width" has-link>
+      <NeoDropdownItem class="dropdown-width">
         <nuxt-link :to="`/${urlPrefix}/create`" class="w-full">
           <div class="w-full">
             <NeoIcon icon="plus" size="small" class="mr-1" />
@@ -41,7 +41,7 @@
       <NeoDropdownItem disabled class="dropdown-width">
         {{ $t('massmint.noCollection') }}
       </NeoDropdownItem>
-      <NeoDropdownItem class="dropdown-width" has-link>
+      <NeoDropdownItem class="dropdown-width">
         <nuxt-link :to="`/${urlPrefix}/create`" class="w-full">
           <div class="w-full">
             <NeoIcon icon="plus" size="small" class="mr-1" />

@@ -7,46 +7,49 @@
         </div>
       </template>
 
-      <NeoDropdownItem v-if="chain !== 'stmn'" has-link>
+      <NeoDropdownItem v-if="chain !== 'stmn'">
         <NeoTooltip
           position="left"
           :label="$t('createDropdown.start')"
           multiline>
-          <nuxt-link data-cy="classic" :to="`/${urlPrefix}/create`">
+          <nuxt-link data-cy="classic" :to="`/${urlPrefix}/create`" tag="div">
             {{ $t('classic') }}
           </nuxt-link>
         </NeoTooltip>
       </NeoDropdownItem>
 
-      <NeoDropdownItem v-if="chain === 'stmn'" has-link>
+      <NeoDropdownItem v-if="chain === 'stmn'">
         <NeoTooltip
           position="left"
           :label="$t('createDropdown.waifu')"
           multiline>
-          <nuxt-link data-cy="waifu" :to="`/${urlPrefix}/waifu`">
+          <nuxt-link data-cy="waifu" :to="`/${urlPrefix}/waifu`" tag="div">
             {{ $t('navbar.create.waifu') }}
           </nuxt-link>
         </NeoTooltip>
       </NeoDropdownItem>
 
       <template v-if="chain === 'rmrk'">
-        <NeoDropdownItem has-link>
+        <NeoDropdownItem>
           <NeoTooltip
             position="left"
             :label="$t('createDropdown.simplifiedNft')"
             multiline>
-            <nuxt-link data-cy="simple" :to="`/${urlPrefix}/mint`">
+            <nuxt-link data-cy="simple" :to="`/${urlPrefix}/mint`" tag="div">
               {{ $t('simple') }}
             </nuxt-link>
           </NeoTooltip>
         </NeoDropdownItem>
       </template>
-      <NeoDropdownItem v-if="redesign" has-link>
+      <NeoDropdownItem v-if="redesign">
         <NeoTooltip
           position="left"
           :label="$t('createDropdown.massmint')"
           multiline>
-          <nuxt-link data-cy="massmint" :to="`/${urlPrefix}/massmint`">
+          <nuxt-link
+            data-cy="massmint"
+            :to="`/${urlPrefix}/massmint`"
+            tag="div">
             {{ $t('multipleNFTS') }}
           </nuxt-link>
         </NeoTooltip>

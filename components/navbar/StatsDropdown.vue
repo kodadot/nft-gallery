@@ -11,17 +11,17 @@
             {{ $t('stats') }}
           </div>
         </template>
-        <NeoDropdownItem has-link>
+        <NeoDropdownItem>
           <nuxt-link data-cy="global-offers" :to="offersUrl">
             {{ $t('navbar.globalOffers') }}
           </nuxt-link>
         </NeoDropdownItem>
-        <NeoDropdownItem has-link>
+        <NeoDropdownItem>
           <nuxt-link data-cy="offers-stats" :to="statsUrl">
             {{ $t('navbar.offerStats') }}
           </nuxt-link>
         </NeoDropdownItem>
-        <NeoDropdownItem has-link>
+        <NeoDropdownItem>
           <nuxt-link data-cy="series-insight" to="/series-insight">
             Series</nuxt-link
           >
@@ -36,20 +36,20 @@
             {{ $t('stats') }}
           </div>
         </template>
-        <NeoDropdownItem has-link aria-role="menu-item">
+        <NeoDropdownItem aria-role="menu-item">
           <nuxt-link data-cy="spotlight" to="/spotlight">
             {{ $t('spotlight.page') }}
           </nuxt-link>
         </NeoDropdownItem>
-        <NeoDropdownItem has-link>
+        <NeoDropdownItem>
           <nuxt-link data-cy="series-insight" to="/series-insight">
             Series</nuxt-link
           >
         </NeoDropdownItem>
-        <NeoDropdownItem has-link>
+        <NeoDropdownItem>
           <nuxt-link data-cy="sales" to="/sales"> Sales</nuxt-link>
         </NeoDropdownItem>
-        <NeoDropdownItem has-link>
+        <NeoDropdownItem>
           <nuxt-link data-cy="hot" to="/hot"> Hot</nuxt-link>
         </NeoDropdownItem>
       </NeoDropdown>
