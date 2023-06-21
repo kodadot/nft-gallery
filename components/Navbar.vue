@@ -54,7 +54,7 @@
     <template #end>
       <nuxt-link to="/stmn/drops">
         <div class="navbar-item" data-cy="drops">
-          {{ $t('drops') }}
+          {{ $t('drops.drops') }}
 
           <NeoIcon
             class="ml-1"
