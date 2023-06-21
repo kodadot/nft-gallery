@@ -62,10 +62,9 @@ jobs:
 
       - name: Run Cypress
         timeout-minutes: 10
-        uses: Wandalen/wretry.action@v1.0.42
+        uses: cypress-io/github-action@v5
         with:
           command: pnpm start:static & pnpm wait-on http://localhost:9090 && MATRIX=${{ matrix.index }} node tests/cypress/e2e-run-tests.js
-          attempt_limit: 3
 
       - name: Upload Screenshots
         uses: actions/upload-artifact@v3
