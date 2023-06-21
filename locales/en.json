@@ -79,10 +79,9 @@
     "rankings": "Rankings",
     "units": "Units",
     "owners": "Owners",
-    "landingTitle1": "Discover,",
-    "landingTitle2": "Collect",
-    "landingTitle3": "And Sell",
-    "landingSubtitle": "Kusama NFTS",
+    "landingTitle1": "Go To",
+    "landingTitle2": "Polkadot NFT",
+    "landingTitle3": "Marketplace",
     "collectionNotFound": "Our search agents did not found anything with \"{0}\" in collection name",
     "nftNotFound": "Our search agents did not found anything with \"{0}\" in NFT name"
   },
