@@ -40,7 +40,8 @@ export type MintedCollectionKusama = MintedCollection & {
   max: number
   symbol: string
 }
-export interface TokenToMint extends BaseTokenType<MintedCollection> {
+export interface TokenToMint
+  extends BaseTokenType<MintedCollection | MintedCollectionKusama> {
   tags: Attribute[]
   nsfw: boolean
   postfix: boolean

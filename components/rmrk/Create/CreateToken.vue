@@ -51,7 +51,7 @@
       <template #footer>
         <NeoField key="advanced">
           <CollapseWrapper
-            v-if="base.edition > 1"
+            v-if="base.copies > 1"
             visible="mint.expert.show"
             hidden="mint.expert.hide"
             class="mt-3">
@@ -137,12 +137,12 @@ export default class CreateToken extends mixins(
   AuthMixin,
   UseApiMixin
 ) {
-  public base: BaseTokenType = {
+  public base: BaseTokenType<MintedCollectionKusama> = {
     name: '',
     file: null,
     description: '',
     selectedCollection: null,
-    edition: 1,
+    copies: 1,
     secondFile: null,
   }
 
@@ -254,7 +254,7 @@ export default class CreateToken extends mixins(
         urlPrefix: urlPrefix.value,
         token: {
           ...this.base,
-          edition: Number(this.base.edition),
+          copies: Number(this.base.copies),
           tags: this.tags,
           nsfw: this.nsfw,
           postfix: this.postfix,
