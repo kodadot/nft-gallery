@@ -23,9 +23,11 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps({
-  error: Object,
-})
+import type { NuxtError } from '@nuxt/types'
+
+const props = defineProps<{
+  error: NuxtError
+}>()
 const { urlPrefix } = usePrefix()
 const headline = computed(() => {
   switch (props.error?.statusCode) {
