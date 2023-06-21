@@ -29,7 +29,7 @@ const iconSrc = computed(() => {
 
 const displayText = computed(() => {
   if (isMintingLive.value) {
-    return 'Minting Live'
+    return $i18n.t('drops.mintingLive')
   } else {
     const options = {
       day: '2-digit',

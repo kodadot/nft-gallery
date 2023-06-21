@@ -1178,5 +1178,10 @@
     "ownerOnly": "Owner Only",
     "claimDrop": "Claim Drop",
     "claimPhysicalDrop": "Claim Physical Drop"
+  },
+  "drops": {
+    "drops": "Drops",
+    "upcoming": "Upcoming",
+    "mintingLive": "Minting Live"
   }
 }
