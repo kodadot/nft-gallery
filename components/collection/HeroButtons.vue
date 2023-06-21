@@ -30,7 +30,10 @@
         class="vertical-seperator mx-4 is-hidden-mobile" />
 
       <div class="is-flex">
-        <NeoDropdown position="bottom-left" append-to-body>
+        <NeoDropdown
+          position="bottom-left"
+          append-to-body
+          :mobile-modal="false">
           <template #trigger="{ active }">
             <NeoButton
               icon="share-alt"
@@ -60,7 +63,11 @@
           </NeoDropdownItem>
         </NeoDropdown>
 
-        <NeoDropdown v-if="!isOwner" position="bottom-left" append-to-body>
+        <NeoDropdown
+          v-if="!isOwner"
+          position="bottom-left"
+          append-to-body
+          :mobile-modal="false">
           <template #trigger="{ active }">
             <NeoButton
               icon="ellipsis-vertical"
