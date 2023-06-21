@@ -7,6 +7,7 @@
     :style="{
       '--font-size': fontSize,
       '--multiline-width': multilineWidth,
+      width: fullWidth ? '100%' : 'auto',
     }"
     :position="position"
     :label="label"
@@ -35,6 +36,7 @@ export interface Props {
   delay?: number
   fontSize?: string | number
   multilineWidth?: string | number
+  fullWidth?: boolean
   stopEvents?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -43,6 +45,7 @@ const props = withDefaults(defineProps<Props>(), {
   multiline: false,
   appendToBody: false,
   delay: undefined,
+  fullWidth: false,
   fontSize: '1rem',
   multilineWidth: '10rem',
   stopEvents: false,
