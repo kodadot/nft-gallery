@@ -177,26 +177,6 @@ const getItemsWithText = computed(() => props.items.filter(item => item.text) ||
 </script>
 ```
 
-## Vuex Conventions (old, now we're using pinia)
-- each module is defined in its own file -> Explorer Module has its state, actions, mutations, getters defined in `explorer.ts`
-- **mutations** should only be **triggered via actions** and should be named in **SCREAMING_SNAKE_CASE**:
-```typescript
-// action
-setLayoutClass({ commit }: { commit: Commit }, data) {
-    commit('SET_LAYOUT_CLASS', data)
-},
-// mutation
-SET_LAYOUT_CLASS(state: PreferencesState, data) {
-    state.layoutClass = data
-}
-```
-- **state properties** should always be **accessed via getters**:
-```typescript
-get classLayout() {
-    return this.$store.getters['preferences/getLayoutClass']
-}
-```
-
 ## General Conventions
 
 ### brace-style
