@@ -22,10 +22,30 @@ export interface MintTokenParams {
   status: Ref<string>
 }
 
+export interface NftCountMixin {
+  nftCount: number
+}
+
+export interface SymbolMixin {
+  symbol: string
+}
+
 export type BaseCollectionType = {
   name: string
   file: File | null
   description: string
+}
+
+export interface CollectionToMintKusama
+  extends BaseCollectionType,
+    NftCountMixin,
+    SymbolMixin {}
+
+export interface CollectionToMintStatmine
+  extends BaseCollectionType,
+    NftCountMixin {}
+export interface CollectionToMintBasilisk extends BaseCollectionType {
+  tags: Attribute[]
 }
 
 export type MintedCollection = {
@@ -47,26 +67,6 @@ export interface TokenToMint extends BaseTokenType<MintedCollection> {
   price?: string | number
   royalty?: Royalty
   hasRoyalty?: boolean
-}
-
-export interface NftCountMixin {
-  nftCount: number
-}
-
-export interface SymbolMixin {
-  symbol: string
-}
-export interface CollectionToMintKusama
-  extends BaseCollectionType,
-    NftCountMixin,
-    SymbolMixin {}
-
-export interface CollectionToMintStatmine
-  extends BaseCollectionType,
-    NftCountMixin,
-    SymbolMixin {}
-export interface CollectionToMintBasilisk extends BaseCollectionType {
-  tags: Attribute[]
 }
 
 export type ActionConsume = {
@@ -151,7 +151,10 @@ export interface ActionMintToken {
 export interface ActionMintCollection {
   interaction: Interaction.MINT
   urlPrefix: string
-  collection: CollectionToMintBasilisk | CollectionToMintKusama
+  collection:
+    | CollectionToMintBasilisk
+    | CollectionToMintKusama
+    | CollectionToMintStatmine
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }
