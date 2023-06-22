@@ -76,13 +76,13 @@ const base = ref({
 const symbol = ref('')
 const max = ref(1)
 const unlimited = ref(true)
-const balanceNotEnough = ref(false)
 const collectionForm = ref<ComponentWithCheckValidity>()
 const symbolInput = ref<ComponentWithCheckValidity>()
 const isLoading = ref(false)
 const status = ref('')
 const { accountId, balance, isLogIn } = useAuth()
 const emit = defineEmits(['created'])
+const { $i18n } = useNuxtApp()
 
 const checkValidity = () => {
   return (
@@ -92,9 +92,11 @@ const checkValidity = () => {
 
 const rmrkId = ref(generateId(accountId.value, symbol.value))
 
-const balanceNotEnoughMessage = ref('')
-
-const isMintDisabled = ref(Number(balance.value) <= 2)
+const balanceNotEnough = computed(() => Number(balance.value) <= 2)
+const balanceNotEnoughMessage = computed(() =>
+  balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : ''
+)
+const isMintDisabled = computed(() => balanceNotEnough.value)
 
 const submit = async () => {
   if (!checkValidity()) {
@@ -102,7 +104,6 @@ const submit = async () => {
   }
 
   if (isMintDisabled.value) {
-    balanceNotEnough.value = true
     return
   }
 
