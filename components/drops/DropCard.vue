@@ -1,12 +1,11 @@
 <template>
-  <div class="collection-card card">
+  <div class="card-link border card-border-color">
     <nuxt-link
       v-if="drop.collection && !isLoadingMeta"
       :to="`/${urlPrefix}/unlockable`">
       <div
-        class="collection-banner card-height cover"
+        class="card-height cover hover-opacitity"
         :style="{ backgroundImage: `url(${image})` }">
-        <div class="collection-banner-shadow" />
         <section class="h-full is-flex">
           <div
             class="is-align-items-end is-flex is-justify-content-space-between my-6 px-6 w-full"
@@ -22,7 +21,7 @@
           </div>
         </section>
       </div>
-      <div class="p-5">
+      <div class="py-5 px-6">
         <div
           class="is-flex is-justify-content-space-between"
           :class="{
@@ -126,6 +125,12 @@ onMounted(async () => {
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
 
+.card-link {
+  a:hover {
+    color: unset;
+  }
+}
+
 .card-height {
   height: 17rem;
 }
@@ -137,8 +142,14 @@ onMounted(async () => {
   background-repeat: no-repeat;
 }
 
+.hover-opacitity {
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
 .avatar {
-  padding: 0.75rem;
+  padding: 0.5rem;
 
   @include ktheme() {
     border: 1px solid theme('k-shade');
