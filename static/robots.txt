@@ -1,2 +1,13 @@
 User-agent: *
-Disallow:
+Disallow: */collection/
+Disallow: */details/
+Disallow: */gallery/
+Disallow: */u/
+Disallow: */transfer
+Disallow: beta.*/
+Disallow: canary.*/
+Disallow: nft.*/
+Disallow: form.*/
+Disallow: *.w.*/
+
+Sitemap: https://kodadot.xyz/sitemap.xml
