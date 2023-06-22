@@ -1,20 +1,32 @@
+import { getRandomValues } from '@/components/unique/utils'
+import { mapToId } from '@/utils/mappers'
+import { unwrapSafe } from '@/utils/uniquery'
+
 export function useNewCollectionId() {
-  const { apiInstance } = useApi()
   const newCollectionId = ref<number>()
+  const randomNumbers = getRandomValues(10).map(String)
 
-  const getCollectionId = async () => {
-    const api = await apiInstance.value
-    const nextCollectionId = (
-      await api.query.nfts.nextCollectionId()
-    ).value.toNumber()
-    newCollectionId.value = nextCollectionId
-  }
+  const { data, error, loading, refetch } = useGraphql({
+    queryName: 'existingCollectionList',
+    variables: {
+      ids: randomNumbers,
+    },
+  })
 
-  getCollectionId().catch((e) => {
-    console.error('Error:', e)
+  watch(data, () => {
+    if (data.value) {
+      const collectionEntities = data.value.collectionEntities
+      const collectionList = unwrapSafe(collectionEntities)
+      const existingIds = collectionList.map(mapToId)
+      const newId = randomNumbers.find((id) => !existingIds.includes(id))
+      newCollectionId.value = Number(newId)
+    }
   })
 
   return {
     newCollectionId,
+    loading,
+    error,
+    refetch,
   }
 }
