@@ -1,10 +1,10 @@
 <template>
-  <div class="card-link border card-border-color">
+  <div class="drop-card border card-border-color">
     <nuxt-link
       v-if="drop.collection && !isLoadingMeta"
       :to="`/${urlPrefix}/unlockable`">
       <div
-        class="card-height cover hover-opacitity"
+        class="drop-card-banner"
         :style="{ backgroundImage: `url(${image})` }">
         <section class="h-full is-flex">
           <div
@@ -125,27 +125,24 @@ onMounted(async () => {
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
 
-.card-link {
+.drop-card {
   a:hover {
     color: unset;
   }
+  &:hover {
+    .drop-card-banner {
+      opacity: 0.85;
+    }
+  }
+  &-banner {
+    height: 17rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
 }
 
-.card-height {
-  height: 17rem;
-}
 .column-gap {
   gap: 1rem;
-}
-.cover {
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.hover-opacitity {
-  &:hover {
-    opacity: 0.85;
-  }
 }
 
 .avatar {
