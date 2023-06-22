@@ -40,7 +40,8 @@ export type MintedCollectionKusama = MintedCollection & {
   max: number
   symbol: string
 }
-export interface TokenToMint extends BaseTokenType<MintedCollection> {
+export interface TokenToMint
+  extends BaseTokenType<MintedCollection | MintedCollectionKusama> {
   tags: Attribute[]
   nsfw: boolean
   postfix: boolean
@@ -86,9 +87,9 @@ export type TokenToList = {
 export type ActionList = {
   interaction: Interaction.LIST
   urlPrefix: string
-  successMessage?: string
+  token: TokenToList | TokenToList[]
+  successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
-  token?: TokenToList | TokenToList[]
   nftId?: string
   price?: string
 }
