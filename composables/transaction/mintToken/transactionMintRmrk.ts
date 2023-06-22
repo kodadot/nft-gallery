@@ -19,10 +19,14 @@ import {
 import { basicUpdateFunction } from '@/components/unique/NftUtils'
 import { usePreferencesStore } from '@/stores/preferences'
 import { Extrinsic, asSystemRemark } from '@kodadot1/minimark/common'
-import { ActionMintToken, MintTokenParams, TokenToMint } from '../types'
+import {
+  ActionMintToken,
+  MintTokenParams,
+  MintedCollectionKusama,
+  TokenToMint,
+} from '../types'
 import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
-import { BaseMintedCollection } from '@/components/base/types'
 
 const getOnChainProperties = ({ tags, royalty, hasRoyalty }: TokenToMint) => {
   let onChainProperties = convertAttributesToProperties(tags)
@@ -45,17 +49,27 @@ const getMintFunction = (isV2: boolean) =>
   isV2 ? createMultipleItem : createMultipleNFT
 
 const getUpdateNameFn = (token: TokenToMint) =>
-  token.postfix && token.edition > 1 ? basicUpdateFunction : undefined
+  token.postfix && token.copies > 1 ? basicUpdateFunction : undefined
+
+const copiesToMint = (token: TokenToMint): number => {
+  const { copies, selectedCollection } = token
+  const { alreadyMinted, max } = selectedCollection as MintedCollectionKusama
+  const maxAllowedNftsInCollection = max === 0 ? Infinity : max
+  const remaining = maxAllowedNftsInCollection - alreadyMinted
+  return Math.min(copies, remaining)
+}
 
 const createMintObject = (token: TokenToMint, metadata, updateNameFn) => {
   const { isV2 } = useRmrkVersion()
   const { accountId } = useAuth()
-  const { edition, name, selectedCollection } = token
-  const { alreadyMinted, id } = selectedCollection as BaseMintedCollection
+  const { name, selectedCollection } = token
+  const { alreadyMinted, id } = selectedCollection as MintedCollectionKusama
+
+  const numOfCopies = copiesToMint(token)
 
   const mintFunction = getMintFunction(isV2.value)
   return mintFunction(
-    edition,
+    numOfCopies,
     accountId.value,
     id,
     name,
