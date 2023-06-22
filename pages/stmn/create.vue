@@ -17,7 +17,7 @@
 import { Component, mixins } from 'nuxt-property-decorator'
 import CreateMixin from '~/utils/mixins/createMixin'
 
-const Collection = () => import('@/components/shared/create/Create.vue')
+const Collection = () => import('@/components/stmn/Create/CreateCollection.vue')
 const NFT = () => import('@/components/stmn/Create/CreateToken.vue')
 
 const components = { Collection, NFT }
