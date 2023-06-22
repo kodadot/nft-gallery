@@ -180,27 +180,14 @@ const parentNftUrl = computed(() => {
 })
 
 const properties = computed(() => {
-  // we have different format between rmrk2 and the other chains
-  if (urlPrefix.value === 'ksm') {
-    return Object.entries(nftMetadata.value?.properties || {}).map(
-      ([key, value]) => {
-        return {
-          trait_type: key,
-          value: value.value,
-        }
-      }
-    )
-  }
-
   const attributes = (nftMetadata.value?.attributes ||
     nftMetadata.value?.meta.attributes ||
     []) as Array<{ trait_type: string; value: string; key?: string }>
-  return attributes.map((attr) => {
-    return {
-      trait_type: attr.trait_type || attr.key,
-      value: attr.value,
-    }
-  })
+
+  return attributes.map(({ trait_type, key, value }) => ({
+    trait_type: trait_type || key,
+    value,
+  }))
 })
 
 const propertiesTabDisabled = computed(() => {
