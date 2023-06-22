@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="has-text-weight-bold is-size-5 mb-7">
+    <div class="title is-2 mb-7">
       {{ $i18n.t('drops.title') }}
     </div>
     <div v-if="drops.drops.length" class="grid-container">
@@ -15,7 +15,7 @@
           :drop-start-time="drop.dropStartTime" />
       </div>
     </div>
-    <div class="has-text-weight-bold is-size-5 my-7">
+    <div class="title is-2 my-7">
       {{ $i18n.t('drops.upcoming') }}
     </div>
     <div v-if="drops.futureDrops.length" class="grid-container">
