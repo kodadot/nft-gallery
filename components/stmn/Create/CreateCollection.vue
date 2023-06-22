@@ -55,16 +55,16 @@
           height="10rem" />
       </NeoField>
 
-      <NeoField v-if="isLogIn">
+      <NeoField
+        v-if="isLogIn"
+        variant="danger"
+        :message="balanceNotEnoughMessage">
         <SubmitButton
+          :disabled="isMintDisabled"
           expanded
           label="create collection"
           :loading="isLoading"
-          :disabled="isMintDisabled"
           @click="submit" />
-        <span v-if="isMintDisabled" class="is-size-7 has-text-k-red">
-          Balance is not enough
-        </span>
       </NeoField>
     </form>
   </div>
@@ -90,10 +90,12 @@ const description = ref('')
 const logo = ref<File | null>(null)
 
 const { balance, isLogIn } = useAuth()
+const { $i18n } = useNuxtApp()
 
-const isMintDisabled = computed(() => Number(balance.value) <= 2)
-
-const emit = defineEmits(['navigateToCreateNftTab'])
+const balanceNotEnough = computed(() => Number(balance.value) <= 2)
+const balanceNotEnoughMessage = computed(() =>
+  balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : ''
+)
 
 const formIsValid = computed(() => {
   if (!name.value) {
@@ -107,6 +109,12 @@ const formIsValid = computed(() => {
   }
   return true
 })
+
+const isMintDisabled = computed(
+  () => balanceNotEnough.value || !formIsValid.value
+)
+
+const emit = defineEmits(['navigateToCreateNftTab'])
 
 const submit = async () => {
   if (!formIsValid.value || isMintDisabled.value) {
