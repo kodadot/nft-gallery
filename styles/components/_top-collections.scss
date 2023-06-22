@@ -20,19 +20,15 @@
       color: theme('text-color');
       border: 1px solid theme('card-border-color');
       &:hover {
-        border-color: theme('border-color');}
+        border-color: theme('border-color');
       }
     }
   }
-
-.top-collection-controls.buttons .control {
-  border: 1px solid black;
 }
 
 .top-collection-controls.buttons .control:not(:last-of-type) {
   border-right: 0;
 }
-
 
 .has-fixed-width {
   min-width: 98px;
