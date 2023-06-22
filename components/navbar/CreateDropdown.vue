@@ -9,6 +9,7 @@
       <b-dropdown-item has-link>
         <NeoTooltip
           position="left"
+          full-width
           :label="$t('createDropdown.start')"
           multiline>
           <nuxt-link data-cy="classic" :to="`/${urlPrefix}/create`">
@@ -20,6 +21,7 @@
       <b-dropdown-item has-link>
         <NeoTooltip
           v-if="chain === 'stmn'"
+          full-width
           position="left"
           :label="$t('createDropdown.waifu')"
           multiline>
@@ -32,6 +34,7 @@
         <b-dropdown-item has-link>
           <NeoTooltip
             position="left"
+            full-width
             :label="$t('createDropdown.simplifiedNft')"
             multiline>
             <nuxt-link data-cy="simple" :to="`/${urlPrefix}/mint`">
@@ -40,9 +43,10 @@
           </NeoTooltip>
         </b-dropdown-item>
       </template>
-      <b-dropdown-item v-if="redesign" has-link>
+      <b-dropdown-item has-link>
         <NeoTooltip
           position="left"
+          full-width
           :label="$t('createDropdown.massmint')"
           multiline>
           <nuxt-link data-cy="massmint" :to="`/${urlPrefix}/massmint`">
@@ -76,7 +80,6 @@
         </b-navbar-item>
       </template>
       <b-navbar-item
-        v-if="redesign"
         data-cy="massmint"
         :to="`/${urlPrefix}/massmint`"
         tag="nuxt-link">
@@ -97,6 +100,4 @@ defineProps<{
 }>()
 
 const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
-const { redesign } = useExperiments()
 </script>
