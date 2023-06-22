@@ -3,7 +3,7 @@
     <div
       class="hero-buttons is-flex is-justify-content-flex-start is-align-items-end px-2">
       <div class="is-flex">
-        <NeoDropdown position="bottom-left" append-to-body>
+        <NeoDropdown position="bottom-left" :mobile-modal="false">
           <template #trigger="{ active }">
             <NeoButton
               icon="share-alt"
