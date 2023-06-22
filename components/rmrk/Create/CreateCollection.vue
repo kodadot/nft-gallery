@@ -7,7 +7,7 @@
       protective-margin>
       <template #header>
         <NeoField>
-          <div v-if="showCollectionId">
+          <div>
             {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
           </div>
         </NeoField>
@@ -67,15 +67,6 @@ import { NeoField, NeoInput } from '@kodadot1/brick'
 interface ComponentWithCheckValidity extends Vue {
   checkValidity(): boolean
 }
-
-withDefaults(
-  defineProps<{
-    showCollectionId: boolean
-  }>(),
-  {
-    showCollectionId: true,
-  }
-)
 
 const base = ref({
   name: '',
