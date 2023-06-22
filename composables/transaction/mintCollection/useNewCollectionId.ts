@@ -30,3 +30,26 @@ export function useNewCollectionId() {
     refetch,
   }
 }
+
+export function useStatemineNewCollectionId() {
+  const { apiInstance } = useApi()
+  const nextCollectionId = ref<number>()
+  const unsubFn = ref<() => void>()
+
+  const getCollectionId = async () => {
+    const api = await apiInstance.value
+
+    const unsub = await api.query.nfts.nextCollectionId((result) => {
+      nextCollectionId.value = result.unwrap().toNumber()
+    })
+
+    unsubFn.value = unsub
+  }
+
+  getCollectionId()
+
+  return {
+    nextCollectionId,
+    unsubFn,
+  }
+}

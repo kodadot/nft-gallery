@@ -1,6 +1,10 @@
-import type { ActionMintCollection, ExecuteTransactionParams } from '../types'
+import type {
+  ActionMintCollection,
+  CollectionToMintStatmine,
+  ExecuteTransactionParams,
+} from '../types'
 import { constructMeta } from './constructMeta'
-import { useNewCollectionId } from './useNewCollectionId'
+import { useStatemineNewCollectionId } from './useNewCollectionId'
 import { createArgsForNftPallet } from './utils'
 
 export async function execMintCollectionStatemine(
@@ -10,36 +14,52 @@ export async function execMintCollectionStatemine(
 ) {
   const { $i18n } = useNuxtApp()
   const metadata = await constructMeta(item)
+  const { nftCount: maxSupply } = item.collection as CollectionToMintStatmine
   const { accountId } = useAuth()
+  const transectionSent = ref(false)
 
   const cb = api.tx.utility.batchAll
 
-  const { newCollectionId } = useNewCollectionId()
+  const { nextCollectionId, unsubFn } = useStatemineNewCollectionId()
 
-  const createArgs = createArgsForNftPallet(accountId.value)
+  const successCb = (blockNumber: string) => {
+    unsubFn.value && unsubFn.value()
+    if (item.successMessage) {
+      return resolveSuccessMessage(blockNumber, item.successMessage)
+    }
+    return $i18n.t('mint.mintCollectionSuccess', {
+      name: item.collection.name,
+      block: blockNumber,
+    })
+  }
 
-  watch(newCollectionId, (id) => {
+  const errorCb = () => {
+    unsubFn.value && unsubFn.value()
+    return (
+      item.errorMessage ||
+      $i18n.t('mint.ErrorCreateNewNft', { name: item.collection.name })
+    )
+  }
+
+  const createArgs = createArgsForNftPallet(accountId.value, maxSupply)
+
+  watch(nextCollectionId, (id) => {
+    if (!id || transectionSent.value) {
+      return
+    }
     const arg = [
       [
         api.tx.nfts.create(...createArgs),
-        api.tx.nfts.setCollectionMetadata(newCollectionId, metadata),
+        api.tx.nfts.setCollectionMetadata(nextCollectionId, metadata),
       ],
     ]
-    if (id) {
-      executeTransaction({
-        cb,
-        arg,
-        successMessage:
-          item.successMessage ||
-          ((blockNumber) =>
-            $i18n.t('mint.mintCollectionSuccess', {
-              name: item.collection.name,
-              block: blockNumber,
-            })),
-        errorMessage:
-          item.errorMessage ||
-          $i18n.t('mint.ErrorCreateNewNft', { name: item.collection.name }),
-      })
-    }
+
+    transectionSent.value = true
+    executeTransaction({
+      cb,
+      arg,
+      successMessage: successCb,
+      errorMessage: errorCb,
+    })
   })
 }

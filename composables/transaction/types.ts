@@ -11,7 +11,7 @@ export type ExecuteTransactionParams = {
   cb: (...params: any[]) => Extrinsic
   arg: any[]
   successMessage?: string | ((blockNumber: string) => string)
-  errorMessage?: string
+  errorMessage?: string | (() => string)
 }
 
 export interface MintTokenParams {
@@ -49,10 +49,22 @@ export interface TokenToMint extends BaseTokenType<MintedCollection> {
   hasRoyalty?: boolean
 }
 
-export interface CollectionToMintKusama extends BaseCollectionType {
+export interface NftCountMixin {
   nftCount: number
+}
+
+export interface SymbolMixin {
   symbol: string
 }
+export interface CollectionToMintKusama
+  extends BaseCollectionType,
+    NftCountMixin,
+    SymbolMixin {}
+
+export interface CollectionToMintStatmine
+  extends BaseCollectionType,
+    NftCountMixin,
+    SymbolMixin {}
 export interface CollectionToMintBasilisk extends BaseCollectionType {
   tags: Attribute[]
 }
