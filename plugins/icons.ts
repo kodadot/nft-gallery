@@ -18,6 +18,7 @@ import {
   faBookmark,
   faCalculator,
   faCalendar,
+  faCalendarDay,
   faCameraRetro,
   faCaretDown,
   faCaretUp,
@@ -127,6 +128,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
+  faCalendarDay,
   faArrowRight,
   faSort,
   faArrowUpRightFromSquare,
