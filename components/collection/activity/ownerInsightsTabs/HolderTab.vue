@@ -65,8 +65,8 @@
     </div>
     <div
       v-else
-      class="is-flex is-justify-content-center is-align-items-center pt-6 px-2">
-      <div class="has-text-grey">
+      class="is-flex is-justify-content-center is-align-items-center pt-6 px-6">
+      <div class="has-text-grey has-text-centered">
         {{ $t('activity.noHolders') }}
       </div>
     </div>
