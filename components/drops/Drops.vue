@@ -1,7 +1,7 @@
 <template>
   <div ref="container">
     <div class="has-text-weight-bold is-size-5 mb-7">
-      {{ $i18n.t('drops.drops') }}
+      {{ $i18n.t('drops.title') }}
     </div>
     <div v-if="drops.drops.length" class="grid-container">
       <div

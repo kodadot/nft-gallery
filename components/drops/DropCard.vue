@@ -14,10 +14,13 @@
                 variant !== 'large',
             }">
             <div class="avatar">
-              <img v-if="image" :src="image" :alt="drop.collection.name" />
-              <img v-else :src="placeholder" />
+              <BasicImage
+                :src="image"
+                :alt="drop.collection.name"
+                custom-class="avatar-image" />
             </div>
-            <TimeTag class="" :drop-start-time="drop.dropStartTime" />
+
+            <TimeTag :drop-start-time="drop.dropStartTime" />
           </div>
         </section>
       </div>
@@ -58,7 +61,7 @@
               <span>{{ drop.max - drop.minted }}/{{ drop.max }}</span>
             </div>
             <div class="is-flex is-flex-direction-column">
-              <span class="has-text-grey">Price</span>
+              <span class="has-text-grey">{{ $t('price') }}</span>
               <span>{{ price }}</span>
             </div>
           </div>
@@ -77,6 +80,7 @@
 import { NeoSkeleton } from '@kodadot1/brick'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 import type { Metadata } from '@/components/rmrk/service/scheme'
 import { sum } from '@/utils/math'
@@ -85,7 +89,6 @@ import { Drop } from './useDrops'
 
 const { urlPrefix } = usePrefix()
 const isLoadingMeta = ref(false)
-const { placeholder } = useTheme()
 
 interface Props {
   drop: Drop
@@ -104,7 +107,7 @@ const price = computed(() => {
     (props.drop?.collection.nfts || []).map((nft) => Number(nft?.price || 0))
   )
 
-  return totalPrice > 0 ? `${totalPrice}` : 'Free'
+  return totalPrice > 0 ? totalPrice : 'Free'
 })
 
 onMounted(async () => {
@@ -153,7 +156,7 @@ onMounted(async () => {
     background-color: theme('background-color');
   }
 
-  img {
+  &-image {
     display: block;
     width: 5.5rem;
     height: 5.5rem;

@@ -1180,7 +1180,7 @@
     "claimPhysicalDrop": "Claim Physical Drop"
   },
   "drops": {
-    "drops": "Drops",
+    "title": "Drops",
     "upcoming": "Upcoming",
     "mintingLive": "Minting Live"
   }
