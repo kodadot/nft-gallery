@@ -1,5 +1,5 @@
 <template>
-  <div ref="container">
+  <div>
     <div class="has-text-weight-bold is-size-5 mb-7">
       {{ $i18n.t('drops.title') }}
     </div>
@@ -24,10 +24,7 @@
         :key="`${drop.collection.id}=${index}`"
         class="w-full h-full"
         :data-cy="index">
-        <DropCard
-          :drop="drop"
-          :variant="cardVariant"
-          :drop-start-time="drop.dropStartTime" />
+        <DropCard :drop="drop" :drop-start-time="drop.dropStartTime" />
       </div>
     </div>
   </div>
@@ -36,35 +33,7 @@
 <script lang="ts" setup>
 import DropCard from '@/components/drops/DropCard.vue'
 import { collectionId } from '@/components/collection/unlockable/const'
-import { useResizeObserver } from '@vueuse/core'
 import { useDrops } from './useDrops'
-const container = ref<HTMLDivElement | null>(null)
-
-const cardBreakPoints = {
-  large: 500,
-  medium: 400,
-}
-
-const getSizeBasedOnBreakPoints = (
-  width,
-  breakPoints: { [size: string]: number }
-) => {
-  for (const [size, breakPoint] of Object.entries(breakPoints)) {
-    if (width >= breakPoint) {
-      return size
-    }
-  }
-  return 'small'
-}
-
-const cardVariant = ref('large')
-
-useResizeObserver(container, (entries) => {
-  const entry = entries[0]
-  const width = entry.contentRect.width
-
-  cardVariant.value = getSizeBasedOnBreakPoints(width, cardBreakPoints)
-})
 
 const drops = useDrops(collectionId)
 </script>
@@ -72,8 +41,8 @@ const drops = useDrops(collectionId)
 <style lang="scss" scoped>
 .grid-container {
   display: grid;
-  gap: 1rem; /* gap between grid items */
-  grid-template-columns: repeat(1, 1fr); /* 1 column by default */
+  gap: 1rem;
+  grid-template-columns: repeat(1, 1fr);
 }
 
 @media (min-width: 1000px) {

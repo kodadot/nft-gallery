@@ -8,11 +8,7 @@
         :style="{ backgroundImage: `url(${image})` }">
         <section class="h-full is-flex">
           <div
-            class="is-align-items-end is-flex is-justify-content-space-between my-6 px-6 w-full"
-            :class="{
-              'is-flex-direction-column is-align-items-self-start':
-                variant !== 'large',
-            }">
+            class="is-flex is-justify-content-space-between my-6 px-6 w-full flex-direction align-items">
             <div class="avatar">
               <BasicImage
                 :src="image"
@@ -26,15 +22,8 @@
       </div>
       <div class="py-5 px-6">
         <div
-          class="is-flex is-justify-content-space-between"
-          :class="{
-            'is-flex-direction-column column-gap': variant !== 'large',
-          }">
-          <div
-            class="is-flex is-flex-direction-column"
-            :class="{
-              'column-gap': variant !== 'large',
-            }">
+          class="is-flex is-justify-content-space-between flex-direction column-gap">
+          <div class="is-flex is-flex-direction-column column-gap">
             <span class="has-text-weight-bold">{{ drop.collection.name }}</span>
             <div class="is-flex">
               <div class="mr-2 has-text-grey">
@@ -50,12 +39,7 @@
               </nuxt-link>
             </div>
           </div>
-          <div
-            class="is-flex"
-            :class="{
-              'is-justify-content-space-between': variant == 'small',
-            }"
-            style="gap: 2rem">
+          <div class="is-flex justify-content-space-between" style="gap: 2rem">
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">Available</span>
               <span>{{ drop.max - drop.minted }}/{{ drop.max }}</span>
@@ -92,7 +76,6 @@ const isLoadingMeta = ref(false)
 
 interface Props {
   drop: Drop
-  variant: 'large' | 'medium' | 'small'
 }
 
 const props = defineProps<Props>()
@@ -128,6 +111,18 @@ onMounted(async () => {
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
 
+.flex-direction {
+  @include until(560) {
+    flex-direction: column;
+  }
+}
+.align-items {
+  align-items: flex-end;
+  @include until(560) {
+    align-items: flex-start;
+  }
+}
+
 .drop-card {
   a:hover {
     color: unset;
@@ -145,7 +140,14 @@ onMounted(async () => {
 }
 
 .column-gap {
-  gap: 1rem;
+  @include until(560) {
+    gap: 1rem;
+  }
+}
+.justify-content-space-between {
+  @include until(460) {
+    justify-content: space-between;
+  }
 }
 
 .avatar {
