@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NeoCollapse :disabled="disabled">
+    <NeoCollapsible :disabled="disabled">
       <div class="is-flex">
         {{ $t('massmint.overviewTable') }}
       </div>
@@ -96,12 +96,12 @@
           <div ref="sentinel" />
         </div>
       </template>
-    </NeoCollapse>
+    </NeoCollapsible>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoAvatar, NeoButton, NeoCollapse } from '@kodadot1/brick'
+import { NeoAvatar, NeoButton, NeoCollapsible } from '@kodadot1/brick'
 import { useIntersectionObserver } from '@vueuse/core'
 import { NFT, NFTS, Status } from './types'
 import {
