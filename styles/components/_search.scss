@@ -143,8 +143,11 @@
   }
 
   .o-acp__item {
+    padding: 0;
     @include ktheme() {
       background: theme('background-color');
+      color: theme('text-color')!important;
+
     }
   }
 }
