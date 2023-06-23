@@ -88,6 +88,6 @@ export async function execMintStatemine({
         })),
     errorMessage:
       item.errorMessage ||
-      $i18n.t('mint.ErrorCreateNewNft', { name: nameInNotifications }),
+      $i18n.t('mint.errorCreateNewNft', { name: nameInNotifications }),
   })
 }

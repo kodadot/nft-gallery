@@ -37,7 +37,7 @@ export async function execMintCollectionStatemine(
     unsubFn.value && unsubFn.value()
     return (
       item.errorMessage ||
-      $i18n.t('mint.ErrorCreateNewNft', { name: item.collection.name })
+      $i18n.t('mint.errorCreateNewNft', { name: item.collection.name })
     )
   }
 

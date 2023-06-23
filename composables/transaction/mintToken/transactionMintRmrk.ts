@@ -190,7 +190,7 @@ export async function execMintRmrk({
         })),
     errorMessage:
       item.errorMessage ||
-      $i18n.t('mint.ErrorCreateNewNft', { name: nameInNotifications }),
+      $i18n.t('mint.errorCreateNewNft', { name: nameInNotifications }),
   })
   return {
     createdNFTs,
