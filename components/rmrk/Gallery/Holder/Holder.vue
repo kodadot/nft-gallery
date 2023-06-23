@@ -1,6 +1,6 @@
 <template>
   <div class="block">
-    <b-collapse
+    <NeoCollapse
       :open="isOpen"
       class="card"
       :class="hideCollapse ? 'collapseHidden' : 'bordered'"
@@ -155,7 +155,7 @@
           </tr>
         </template>
       </NeoTable>
-    </b-collapse>
+    </NeoCollapse>
   </div>
 </template>
 
@@ -174,6 +174,7 @@ import { Interaction as EventInteraction } from '../../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
 import {
   NeoCheckbox,
+  NeoCollapse,
   NeoField,
   NeoIcon,
   NeoTable,
@@ -190,6 +191,7 @@ const components = {
   NeoCheckbox,
   NeoTable,
   NeoTableColumn,
+  NeoCollapse,
 }
 
 export type NftHolderEvent = {
