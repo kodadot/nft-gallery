@@ -1,5 +1,5 @@
 <template>
-  <b-collapse
+  <NeoCollapse
     :open="expanded"
     animation="slide"
     class="border-bottom"
@@ -31,12 +31,12 @@
         }}</NeoCheckbox>
       </NeoField>
     </div>
-  </b-collapse>
+  </NeoCollapse>
 </template>
 
 <script lang="ts" setup>
 import { useAcivityFiltersStore } from '@/stores/activityFilters'
-import { NeoCheckbox, NeoField, NeoIcon } from '@kodadot1/brick'
+import { NeoCheckbox, NeoCollapse, NeoField, NeoIcon } from '@kodadot1/brick'
 
 const activityFiltersStore = useAcivityFiltersStore()
 const route = useRoute()
