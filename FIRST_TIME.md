@@ -186,8 +186,6 @@ You can change the network in the navbar.
 Currently supported networks are `Basilisk`, `Basilisk-Rococo` and `Kusama`.
 EVM chains such as `MoonBeam` and `MoonRiver` are in read-only mode.
 
-Do you want to add more networks? [Open a PR on vuex-options](https://github.com/kodadot/packages)
-
 ## Running local Polkadot and subquery nodes
 
 To run the complete local environment, we recommend running a [polkadot/Kusama node](https://github.com/paritytech/polkadot).
