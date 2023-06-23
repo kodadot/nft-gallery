@@ -51,7 +51,7 @@
       <template #footer>
         <NeoField key="advanced">
           <CollapseWrapper
-            v-if="base.edition > 1"
+            v-if="base.copies > 1"
             visible="mint.expert.show"
             hidden="mint.expert.hide"
             class="mt-3">
@@ -129,7 +129,7 @@ export default class CreateToken extends mixins(
     file: null,
     description: '',
     selectedCollection: null,
-    edition: 1,
+    copies: 1,
     secondFile: null,
   }
 
