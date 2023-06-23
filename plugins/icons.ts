@@ -128,7 +128,6 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
-  faCalendarDay,
   faArrowRight,
   faSort,
   faArrowUpRightFromSquare,
