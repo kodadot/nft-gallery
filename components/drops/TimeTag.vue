@@ -1,15 +1,17 @@
 <template>
   <div
-    class="tag-container is-flex border py-2 px-3 is-justify-content-space-between is-align-items-center">
-    <img v-if="isMintingLive" :src="unlockablePulse" />
-    <NeoIcon
-      v-else
-      icon="calendar-day"
-      pack="far"
-      variant="k-grey"
-      class="mr-2" />
+    class="tag-container is-flex border py-1 px-2 is-justify-content-space-between is-align-items-center">
+    <div class="icon-box">
+      <img v-if="isMintingLive" :src="unlockablePulse" />
+      <NeoIcon
+        v-else
+        icon="calendar-day"
+        pack="far"
+        variant="k-grey"
+        class="mr-2" />
+    </div>
 
-    <span :class="{ 'pr-1': isMintingLive }">{{ displayText }}</span>
+    <span class="pr-1">{{ displayText }}</span>
   </div>
 </template>
 
@@ -44,6 +46,14 @@ const displayText = computed(() => {
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables.scss';
+
+.icon-box {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .tag-container {
   border-radius: 2rem;
   @include ktheme() {
