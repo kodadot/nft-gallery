@@ -8,7 +8,7 @@
         :style="{ backgroundImage: `url(${image})` }">
         <section class="h-full is-flex">
           <div
-            class="is-flex is-justify-content-space-between my-6 px-6 w-full flex-direction align-items">
+            class="is-flex is-justify-content-space-between p-6 w-full flex-direction align-items">
             <div class="avatar">
               <BasicImage
                 :src="image"
