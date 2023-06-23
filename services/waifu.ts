@@ -9,8 +9,11 @@ const api = $fetch.create({
   baseURL: BASE_URL,
 })
 
-type MintResponse = any
-type ClaimResponse = any
+type MintResponse = Response<any>
+type ClaimResponse = Response<any>
+type Response<T> = {
+  result: T
+}
 
 // URL should be sanitized ipfs://ipfs/Qm...
 export const sendWaifu = async (
@@ -24,7 +27,7 @@ export const sendWaifu = async (
     image,
     table,
   }
-  const value = await api<typeof body>('mint', {
+  const value = await api<Response<typeof body>>('mint', {
     method: 'POST',
     body,
   }).catch((error: FetchError) => {
@@ -81,6 +84,27 @@ export const doWaifu = async (body: DoRequest, campaign: string) => {
     body,
   }).catch((error: FetchError) => {
     throw new Error(`[WAIFU::DO] Unable to CAMPAIGN for reasons ${error.data}`)
+  })
+
+  return value
+}
+
+type UpdateMetadataRequest = {
+  sn: string
+  metadata: string
+}
+
+export const claimUnlockableItem = async (
+  body: UpdateMetadataRequest,
+  claim: string
+) => {
+  const value = await api<Response<typeof body>>(`claim/${claim}`, {
+    method: 'POST',
+    body,
+  }).catch((error: FetchError) => {
+    throw new Error(
+      `[WAIFU::UPDATEMETADATA] Unable to CLAIM for reasons ${error.data}`
+    )
   })
 
   return value
