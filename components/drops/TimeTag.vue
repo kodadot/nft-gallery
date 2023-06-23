@@ -1,10 +1,15 @@
 <template>
   <div
-    class="tag-container is-flex border py-1 pl-2 pr-3 is-justify-content-space-between is-align-items-center">
+    class="tag-container is-flex border py-2 px-3 is-justify-content-space-between is-align-items-center">
     <img v-if="isMintingLive" :src="unlockablePulse" />
-    <NeoIcon v-else icon="calendar-day" />
+    <NeoIcon
+      v-else
+      icon="calendar-day"
+      pack="far"
+      variant="k-grey"
+      class="mr-2" />
 
-    <span :class="{ 'ml-2': !isMintingLive }">{{ displayText }}</span>
+    <span :class="{ 'pr-1': isMintingLive }">{{ displayText }}</span>
   </div>
 </template>
 
