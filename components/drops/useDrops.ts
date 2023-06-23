@@ -1,6 +1,5 @@
 import { CollectionWithMeta } from '../rmrk/service/scheme'
 
-// Define the shape of a Drop
 export interface Drop {
   collection: CollectionWithMeta
   minted: number
@@ -8,7 +7,6 @@ export interface Drop {
   dropStartTime: Date
 }
 
-// Define the shape of the object that will be returned by useDrops
 interface DropsData {
   drops: Drop[]
   futureDrops: Drop[]
@@ -32,7 +30,6 @@ export function useDrops(collectionId: string) {
       const { collectionEntity, nftEntitiesConnection } = collectionData.value
       const now = new Date()
 
-      // Populate drops array
       const drops: Drop[] = []
 
       for (let i = 1; i <= 2; i++) {
@@ -59,7 +56,6 @@ export function useDrops(collectionId: string) {
         })
       }
 
-      // Update dropsData ref
       dropsData.value = {
         drops,
         futureDrops,
