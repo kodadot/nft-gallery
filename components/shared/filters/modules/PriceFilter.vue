@@ -1,5 +1,5 @@
 <template>
-  <b-collapse
+  <NeoCollapse
     :open="expanded"
     animation="slide"
     class="border-bottom"
@@ -66,14 +66,13 @@
         </NeoButton>
       </div>
     </form>
-  </b-collapse>
+  </NeoCollapse>
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoInput } from '@kodadot1/brick'
+import { NeoButton, NeoCollapse, NeoIcon, NeoInput } from '@kodadot1/brick'
 import { fromDecimals, toDecimals } from '@/utils/math'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
-import { NeoIcon } from '@kodadot1/brick'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const { replaceUrl } = useReplaceUrl()

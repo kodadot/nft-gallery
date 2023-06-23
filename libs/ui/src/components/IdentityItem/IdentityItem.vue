@@ -8,9 +8,9 @@
       <NeoButton
         no-shadow
         rounded
-        tag="nuxt-link"
+        tag="a"
         size="small"
-        :to="`/${prefix}/u/${account}`"
+        :href="`/${prefix}/u/${account}`"
         icon="arrow-right-long">
         {{ buttonLabel }}
       </NeoButton>

@@ -457,7 +457,7 @@
         "message": "Description of your NFT. Markdown is supported"
       },
       "edition": {
-        "label": "Edition",
+        "label": "Copies",
         "placeholder": "Minimum is 1",
         "message": "Number of NFTs to be minted"
       },
@@ -481,7 +481,16 @@
       "takeMe": "Take Me There!",
       "viewItem": "View Item",
       "preparing": "Preparing Your Item...",
-      "alreadyMinted": "🎉 You already have this NFT, check it here"
+      "alreadyMinted": "🎉 You already have this NFT, check it here",
+      "loader": {
+        "shareSuccess": "Share your success",
+        "onTwitter": "on Twitter",
+        "viewNFT1": "Get ready for the big reveal! Your NFT",
+        "viewNFTNow2": "is",
+        "viewNFTNow3": "visible now.",
+        "viewNFTLater2": " will be visible in",
+        "viewNFTLater3": "seconds."
+      }
     }
   },
   "tooltip": {
