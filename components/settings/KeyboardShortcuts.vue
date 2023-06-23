@@ -1,6 +1,6 @@
 <template>
   <div class="keyboard-shortcuts">
-    <NeoCollapse
+    <NeoCollapsible
       v-for="(collapse, index) of collapses"
       :key="index"
       animation="slide"
@@ -30,13 +30,13 @@
           </NeoTableColumn>
         </NeoTable>
       </template>
-    </NeoCollapse>
+    </NeoCollapsible>
   </div>
 </template>
 
 <script lang="ts" setup>
 import '@/styles/components/_keyboard-shortcut.scss'
-import { NeoCollapse, NeoTable, NeoTableColumn } from '@kodadot1/brick'
+import { NeoCollapsible, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 
 const isOpen = ref(0)
 const collapses = ref([
