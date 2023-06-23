@@ -71,7 +71,7 @@
         <a
           :href="nftAnimation || nftImage"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="nofollow noopener noreferrer"
           class="has-text-link"
           data-cy="media-link"
           >{{ nftMimeType }}</a
@@ -83,7 +83,7 @@
           class="has-text-link"
           :href="metadataURL"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="nofollow noopener noreferrer"
           data-cy="metadata-link"
           >{{ metadataMimeType }}</a
         >
