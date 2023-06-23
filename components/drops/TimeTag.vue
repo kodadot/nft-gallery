@@ -1,14 +1,9 @@
 <template>
   <div
     class="tag-container is-flex border py-1 px-2 is-justify-content-space-between is-align-items-center">
-    <div class="icon-box">
+    <div class="image is-24x24 has-text-centered">
       <img v-if="isMintingLive" :src="unlockablePulse" />
-      <NeoIcon
-        v-else
-        icon="calendar-day"
-        pack="far"
-        variant="k-grey"
-        class="mr-2" />
+      <NeoIcon v-else icon="calendar-day" pack="far" variant="k-grey" />
     </div>
 
     <span class="pr-1">{{ displayText }}</span>
@@ -46,14 +41,6 @@ const displayText = computed(() => {
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables.scss';
-
-.icon-box {
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .tag-container {
   border-radius: 2rem;
   @include ktheme() {
