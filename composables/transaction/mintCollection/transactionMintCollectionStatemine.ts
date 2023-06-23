@@ -20,10 +20,10 @@ export async function execMintCollectionStatemine(
 
   const cb = api.tx.utility.batchAll
 
-  const { nextCollectionId, unsubFn } = useStatemineNewCollectionId()
+  const { nextCollectionId, unsubscribe } = useStatemineNewCollectionId()
 
   const successCb = (blockNumber: string) => {
-    unsubFn.value && unsubFn.value()
+    unsubscribe.value && unsubscribe.value()
     if (item.successMessage) {
       return resolveSuccessMessage(blockNumber, item.successMessage)
     }
@@ -34,7 +34,7 @@ export async function execMintCollectionStatemine(
   }
 
   const errorCb = () => {
-    unsubFn.value && unsubFn.value()
+    unsubscribe.value && unsubscribe.value()
     return (
       item.errorMessage ||
       $i18n.t('mint.errorCreateNewNft', { name: item.collection.name })

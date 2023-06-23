@@ -34,7 +34,7 @@ export function useNewCollectionId() {
 export function useStatemineNewCollectionId() {
   const { apiInstance } = useApi()
   const nextCollectionId = ref<number>()
-  const unsubFn = ref<() => void>()
+  const unsubscribe = ref<() => void>()
 
   const getCollectionId = async () => {
     const api = await apiInstance.value
@@ -43,13 +43,13 @@ export function useStatemineNewCollectionId() {
       nextCollectionId.value = result.unwrap().toNumber()
     })
 
-    unsubFn.value = unsub
+    unsubscribe.value = unsub
   }
 
   getCollectionId()
 
   return {
     nextCollectionId,
-    unsubFn,
+    unsubscribe,
   }
 }
