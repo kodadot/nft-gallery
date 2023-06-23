@@ -22,11 +22,11 @@ export interface MintTokenParams {
   status: Ref<string>
 }
 
-export interface NftCountMixin {
+export type NftCountType = {
   nftCount: number
 }
 
-export interface SymbolMixin {
+export type SymbolType = {
   symbol: string
 }
 
@@ -36,15 +36,13 @@ export type BaseCollectionType = {
   description: string
 }
 
-export interface CollectionToMintKusama
-  extends BaseCollectionType,
-    NftCountMixin,
-    SymbolMixin {}
+export type CollectionToMintKusama = BaseCollectionType &
+  NftCountType &
+  SymbolType
 
-export interface CollectionToMintStatmine
-  extends BaseCollectionType,
-    NftCountMixin {}
-export interface CollectionToMintBasilisk extends BaseCollectionType {
+export type CollectionToMintStatmine = BaseCollectionType & NftCountType
+
+export type CollectionToMintBasilisk = BaseCollectionType & {
   tags: Attribute[]
 }
 
