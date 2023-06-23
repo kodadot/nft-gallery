@@ -18,7 +18,6 @@ import {
   faBookmark,
   faCalculator,
   faCalendar,
-  faCalendarDay,
   faCameraRetro,
   faCaretDown,
   faCaretUp,
