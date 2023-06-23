@@ -5,7 +5,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits } from 'vue'
 import CreateCollection from './CreateCollection.vue'
 
 const emit = defineEmits(['navigateToCreateNftTab'])

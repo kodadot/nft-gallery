@@ -63,12 +63,14 @@ import BaseCollectionForm from '@/components/base/BaseCollectionForm.vue'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import SubmitButton from '@/components/base/SubmitButton.vue'
 import { NeoField, NeoInput } from '@kodadot1/brick'
+import { BaseCollectionType } from '@/composables/transaction/types'
+import useLoader from '@/composables/useLoader'
 
 interface ComponentWithCheckValidity extends Vue {
   checkValidity(): boolean
 }
 
-const base = ref({
+const base = ref<BaseCollectionType>({
   name: '',
   file: null,
   description: '',
@@ -78,9 +80,8 @@ const max = ref(1)
 const unlimited = ref(true)
 const collectionForm = ref<ComponentWithCheckValidity>()
 const symbolInput = ref<ComponentWithCheckValidity>()
-const isLoading = ref(false)
-const status = ref('')
 const { accountId, balance, isLogIn } = useAuth()
+const { isLoading, status } = useLoader()
 const emit = defineEmits(['created'])
 const { $i18n } = useNuxtApp()
 
@@ -90,7 +91,7 @@ const checkValidity = () => {
   )
 }
 
-const rmrkId = ref(generateId(accountId.value, symbol.value))
+const rmrkId = computed(() => generateId(accountId.value, symbol.value))
 
 const balanceNotEnough = computed(() => Number(balance.value) <= 2)
 const balanceNotEnoughMessage = computed(() =>
