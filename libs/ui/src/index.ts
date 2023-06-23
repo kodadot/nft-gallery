@@ -17,7 +17,7 @@ export { default as NeoNftCard } from './components/NeoNftCard/NeoNftCard.vue'
 export { default as NeoTabs } from './components/NeoTabs/NeoTabs.vue'
 export { default as NeoTabItem } from './components/NeoTabs/NeoTabItem.vue'
 export { default as NeoIcon } from './components/NeoIcon/NeoIcon.vue'
-export { default as NeoCollapse } from './components/NeoCollapse/NeoCollapse.vue'
+export { default as NeoCollapsible } from './components/NeoCollapsible/NeoCollapsible.vue'
 export { default as NeoModal } from './components/NeoModal/NeoModal.vue'
 export { default as NeoSkeleton } from './components/NeoSkeleton/NeoSkeleton.vue'
 export { default as NeoAvatar } from './components/NeoAvatar/NeoAvatar.vue'
@@ -40,5 +40,7 @@ export { default as NeoRadioButton } from './components/NeoRadio/NeoRadioButton.
 
 export { default as NeoTable } from './components/NeoTable/NeoTable.vue'
 export { default as NeoTableColumn } from './components/NeoTable/NeoTableColumn.vue'
+
+export { default as NeoCollapse } from './components/NeoCollapse/NeoCollapse.vue'
 
 export { default as Neo } from '@oruga-ui/oruga'
