@@ -1,5 +1,5 @@
 <template>
-  <b-collapse
+  <NeoCollapse
     :open="expanded"
     animation="slide"
     class="border-bottom"
@@ -20,16 +20,16 @@
       </NeoField>
       <NeoField>
         <NeoCheckbox v-model="owned" :disabled="!accountId">
-          {{ $t('sort.own') }}</NeoCheckbox
-        >
+          {{ $t('sort.own') }}
+        </NeoCheckbox>
       </NeoField>
     </div>
-  </b-collapse>
+  </NeoCollapse>
 </template>
 
 <script lang="ts" setup>
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
-import { NeoCheckbox, NeoField, NeoIcon } from '@kodadot1/brick'
+import { NeoCheckbox, NeoCollapse, NeoField, NeoIcon } from '@kodadot1/brick'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
