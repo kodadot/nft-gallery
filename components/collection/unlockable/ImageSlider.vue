@@ -1,7 +1,7 @@
 <template>
   <div class="unlockable-image-slider mt-6">
     <div
-      class="unlockable-image-tip border px-4 py-2 theme-background-color has-z-index-1">
+      class="unlockable-image-tip border px-4 py-2 theme-background-color has-z-index-1 no-wrap">
       {{ $t('mint.unlockable.imageTip') }}
     </div>
     <div ref="container" class="keen-slider">
@@ -78,7 +78,6 @@ const [container, slider] = useKeenSlider({
 const [thumbnail] = useKeenSlider(
   {
     initial: 0,
-    loop: true,
     slides: {
       perView: 4,
       spacing: 10,
@@ -147,9 +146,11 @@ const sliderSettings = computed(() => {
     object-fit: cover;
     @include tablet-only {
       width: 768px;
+      height: 100%;
     }
     @include mobile {
       width: 100%;
+      height: 100%;
     }
   }
   .thumbnail .keen-slider__slide {
@@ -158,16 +159,17 @@ const sliderSettings = computed(() => {
     width: 136px;
     @include tablet-only {
       width: calc(768px / 4);
+      height: 100%;
     }
     @include mobile {
       width: 25%;
       max-width: 136px;
     }
     img {
-      height: 136px;
-      width: 136px;
-      @include touch {
-        width: calc(100% - 8px);
+      width: 100%;
+      height: 100%;
+      @include mobile {
+        height: min-content;
       }
       object-fit: cover;
       &:hover {
