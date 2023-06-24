@@ -14,7 +14,7 @@ export async function execMintCollectionStatemine(
 ) {
   const { $i18n } = useNuxtApp()
   const metadata = await constructMeta(item)
-  const { nftCount: maxSupply } = item.collection as CollectionToMintStatmine
+  const { nftCount } = item.collection as CollectionToMintStatmine
   const { accountId } = useAuth()
   const transectionSent = ref(false)
 
@@ -40,6 +40,7 @@ export async function execMintCollectionStatemine(
       $i18n.t('mint.errorCreateNewNft', { name: item.collection.name })
     )
   }
+  const maxSupply = nftCount > 0 ? nftCount : undefined
 
   const createArgs = createArgsForNftPallet(accountId.value, maxSupply)
 
