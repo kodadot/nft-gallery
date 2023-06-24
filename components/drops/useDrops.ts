@@ -28,37 +28,30 @@ export function useDrops(collectionId: string) {
   watch(collectionData, () => {
     if (collectionData.value) {
       const { collectionEntity, nftEntitiesConnection } = collectionData.value
-      const now = new Date()
-
       const drops: Drop[] = []
+      drops.push({
+        collection: collectionEntity,
+        minted: nftEntitiesConnection.totalCount,
+        max: collectionEntity.max || 300,
+        dropStartTime: new Date(2023, 5, 6),
+      })
 
-      for (let i = 1; i <= 2; i++) {
-        const pastDate = new Date(now)
-        pastDate.setDate(now.getDate() - i) // i days in the past
-
-        drops.push({
-          collection: collectionEntity,
-          minted: nftEntitiesConnection.totalCount,
-          max: collectionEntity.max || 300,
-          dropStartTime: pastDate,
-        })
-      }
-
-      const futureDrops: Drop[] = []
-      for (let i = 1; i <= 4; i++) {
-        const futureDate = new Date(now)
-        futureDate.setDate(now.getDate() + i * 7) // i weeks in the future
-        futureDrops.push({
-          collection: collectionEntity,
-          minted: nftEntitiesConnection.totalCount,
-          max: collectionEntity.max || 300,
-          dropStartTime: futureDate,
-        })
-      }
+      // const futureDrops: Drop[] = []
+      // for (let i = 1; i <= 4; i++) {
+      //   const futureDate = new Date(now)
+      //   futureDate.setDate(now.getDate() + i * 7) // i weeks in the future
+      //   futureDrops.push({
+      //     collection: collectionEntity,
+      //     minted: nftEntitiesConnection.totalCount,
+      //     max: collectionEntity.max || 300,
+      //     dropStartTime: futureDate,
+      //   })
+      // }
 
       dropsData.value = {
+        ...dropsData.value,
         drops,
-        futureDrops,
+        // futureDrops,
       }
     }
   })
