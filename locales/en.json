@@ -482,6 +482,7 @@
       "viewItem": "View Item",
       "preparing": "Preparing Your Item...",
       "alreadyMinted": "🎉 You already have this NFT, check it here",
+      "imageTip": "Examples Of Possible Drop",
       "loader": {
         "shareSuccess": "Share your success",
         "onTwitter": "on Twitter",
