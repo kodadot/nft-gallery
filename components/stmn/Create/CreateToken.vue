@@ -39,14 +39,6 @@
           icon="exclamation-triangle">
           {{ $t('warning.newTransactionWhilePriceSet') }}
         </NeoMessage>
-
-        <!-- <template v-if="version === '2.0.0'">
-          <BasicSwitch
-            key="hasRoyalty"
-            v-model="hasRoyalty"
-            label="mint.listWithRoyalty" />
-          <RoyaltyForm v-if="hasRoyalty" key="royalty" v-bind.sync="royalty" />
-        </template> -->
       </template>
       <template #footer>
         <NeoField key="advanced">
