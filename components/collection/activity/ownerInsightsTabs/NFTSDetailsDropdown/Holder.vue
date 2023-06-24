@@ -6,19 +6,12 @@
       :to="`/${urlPrefix}/gallery/${id}`"
       class="is-flex pt-2 px-5 is-justify-content-start is-hoverable-item hoverable-lable-color">
       <div class="mr-5">
-        <img
+        <BasicImage
           v-if="avatar"
           :src="avatar"
           :alt="name"
-          width="40"
-          height="40"
           class="border image-size" />
-        <img
-          v-else
-          :src="placeholder"
-          class="border mr-5 image-size"
-          width="40"
-          height="40" />
+        <BasicImage v-else :src="placeholder" class="border mr-5 image-size" />
       </div>
       <div class="is-flex is-flex-direction-column">
         {{ name }}
@@ -37,6 +30,7 @@ import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { NFTExcludingEvents } from '@/composables/collectionActivity/types'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 const { placeholder } = useTheme()
 const props = defineProps<{

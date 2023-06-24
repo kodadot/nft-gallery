@@ -5,19 +5,12 @@
       :key="nft.id"
       class="is-flex py-2 px-5 is-justify-content-start is-hoverable-item is-flex-direction-column">
       <nuxt-link class="is-flex" :to="`/${urlPrefix}/gallery/${nft.id}`">
-        <img
+        <BasicImage
           v-if="avatar"
           :src="avatar"
           :alt="nft.name"
-          width="40"
-          height="40"
           class="border mr-5 image-size" />
-        <img
-          v-else
-          :src="placeholder"
-          class="border mr-5 image-size"
-          width="40"
-          height="40" />
+        <BasicImage v-else :src="placeholder" class="border mr-5 image-size" />
         <span>{{ nft.name }}</span>
       </nuxt-link>
       <div
@@ -57,6 +50,7 @@ import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import { FlipEvent } from '@/composables/collectionActivity/types'
 import { format } from '@/components/collection/activity/utils'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 const { placeholder } = useTheme()
 const props = defineProps<{
