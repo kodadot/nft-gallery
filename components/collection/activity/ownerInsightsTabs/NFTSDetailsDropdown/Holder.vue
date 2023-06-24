@@ -6,12 +6,7 @@
       :to="`/${urlPrefix}/gallery/${id}`"
       class="is-flex pt-2 px-5 is-justify-content-start is-hoverable-item hoverable-lable-color">
       <div class="mr-5">
-        <BasicImage
-          v-if="avatar"
-          :src="avatar"
-          :alt="name"
-          class="border image-size" />
-        <BasicImage v-else :src="placeholder" class="border mr-5 image-size" />
+        <BasicImage :src="avatar" :alt="name" class="border image-size pt-0" />
       </div>
       <div class="is-flex is-flex-direction-column">
         {{ name }}
@@ -64,7 +59,7 @@ const processNFTImages = async () => {
         avatar = sanitizeIpfsUrl(meta?.image)
       }
 
-      displayedNFTs.value[i].avatar = avatar
+      displayedNFTs.value[i].avatar = avatar || placeholder.value
     })
 
     await Promise.all(promises)

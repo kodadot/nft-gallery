@@ -6,11 +6,9 @@
       class="is-flex py-2 px-5 is-justify-content-start is-hoverable-item is-flex-direction-column">
       <nuxt-link class="is-flex" :to="`/${urlPrefix}/gallery/${nft.id}`">
         <BasicImage
-          v-if="avatar"
           :src="avatar"
-          :alt="nft.name"
-          class="border mr-5 image-size" />
-        <BasicImage v-else :src="placeholder" class="border mr-5 image-size" />
+          :alt="nft?.name"
+          class="border mr-5 image-size pt-0" />
         <span>{{ nft.name }}</span>
       </nuxt-link>
       <div
@@ -83,7 +81,7 @@ const processNFTImages = async () => {
         avatar = sanitizeIpfsUrl(meta?.image)
       }
 
-      flips.value[i].avatar = avatar
+      flips.value[i].avatar = avatar || placeholder.value
     })
 
     await Promise.all(promises)
