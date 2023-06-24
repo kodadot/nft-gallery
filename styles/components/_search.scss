@@ -145,9 +145,8 @@
   .o-acp__item {
     padding: 0;
     @include ktheme() {
-      background: theme('background-color');
-      color: theme('text-color')!important;
-
+      background: unset;
+      color: unset!important;
     }
   }
 }
@@ -199,7 +198,6 @@
       padding-left: 14.25rem !important;
     }
   }
-
 }
 
 .search-suggestion-container {
