@@ -75,7 +75,7 @@
         class="is-size-7 has-text-link is-flex is-align-items-center"
         href="https://docs.kodadot.xyz/tutorial-overview.html"
         target="_blank"
-        rel="noopener noreferrer">
+        rel="nofollow noopener noreferrer">
         <NeoIcon class="mr-2" icon="circle-info" />
         {{ $i18n.t('walletConnect.walletLink') }}
       </a>
