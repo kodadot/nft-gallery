@@ -49,11 +49,11 @@ const chartData = computed(() => {
   const binnedBuyEvents = buyBins.map(({ timestamp, value }) => [
     new Date(timestamp),
     displayValue(value),
-  ]) as [Date, number][]
+  ])
   const binnedListEvents = listBins.map(({ timestamp, value }) => [
     new Date(timestamp),
     displayValue(value),
-  ]) as [Date, number][]
+  ])
 
   return [binnedBuyEvents, binnedListEvents]
 })
