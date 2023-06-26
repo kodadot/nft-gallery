@@ -3,8 +3,7 @@ import * as fs from 'fs'
 import { defineNuxtConfig } from '@nuxt/bridge'
 import SentryWebpackPlugin from '@sentry/webpack-plugin'
 import { manifestIcons } from './utils/config/pwa'
-
-import { apolloClientConfig } from './utils/constants'
+import { URLS, apolloClientConfig } from './utils/constants'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -100,6 +99,13 @@ export default defineNuxtConfig({
         property: 'twitter:image',
         content: `${baseUrl}/k_card.png`,
       },
+      baseUrl === URLS.koda.baseUrl
+        ? {}
+        : {
+            hid: 'robots',
+            property: 'robots',
+            content: 'noindex',
+          },
     ],
     link: [
       { rel: 'icon', href: '/favicon.svg' },
