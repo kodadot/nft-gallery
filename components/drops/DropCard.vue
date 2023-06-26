@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-card border card-border-color">
+  <div class="drop-card border">
     <nuxt-link
       v-if="drop.collection && !isLoadingMeta"
       :to="`/${urlPrefix}/unlockable`">
