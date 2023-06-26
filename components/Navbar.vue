@@ -52,7 +52,7 @@
       </div>
     </template>
     <template #end>
-      <nuxt-link to="/stmn/unlockable" rel="nofollow">
+      <nuxt-link to="/stmn/drops/free-drop" rel="nofollow">
         <div class="navbar-item" data-cy="drops">
           {{ $t('drops') }}
 
