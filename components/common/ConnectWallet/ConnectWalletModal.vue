@@ -8,14 +8,18 @@
         icon-left="chevron-left"
         @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
       <span class="modal-card-title is-size-6 has-text-weight-bold">
-        {{ $i18n.t('profile.page') }}
+        {{
+          showAccount
+            ? $i18n.t('profile.page')
+            : $i18n.t('walletConnect.walletHeading')
+        }}
       </span>
       <a class="is-flex is-align-items-center" @click="emit('close')">
         <NeoIcon icon="close" />
       </a>
     </header>
     <section v-if="showAccount">
-      <WalletAsset @back="setForceWalletSelect" />
+      <WalletAsset />
     </section>
     <section v-else-if="hasUserWalletAuth" class="modal-card-body">
       <div class="buttons m-0">
@@ -71,7 +75,7 @@
         class="is-size-7 has-text-link is-flex is-align-items-center"
         href="https://docs.kodadot.xyz/tutorial-overview.html"
         target="_blank"
-        rel="noopener noreferrer">
+        rel="nofollow noopener noreferrer">
         <NeoIcon class="mr-2" icon="circle-info" />
         {{ $i18n.t('walletConnect.walletLink') }}
       </a>
@@ -95,12 +99,8 @@ const forceWalletSelect = ref(false)
 const identityStore = useIdentityStore()
 const { urlPrefix } = usePrefix()
 
-const setForceWalletSelect = () => {
-  forceWalletSelect.value = true
-}
-
 const account = computed(() => identityStore.auth.address)
-const showAccount = computed(() => account.value && !forceWalletSelect.value)
+const showAccount = computed(() => account.value)
 
 const wallets = SupportedWallets()
 const setAccount = (account: Auth) => {

@@ -16,7 +16,7 @@
         v-if="isOwner && link"
         :href="link"
         target="_blank"
-        rel="noopener noreferrer"
+        rel="nofollow noopener noreferrer"
         class="has-text-link">
         {{
           isMobile

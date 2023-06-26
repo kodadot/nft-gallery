@@ -37,7 +37,7 @@
                 v-if="item.external"
                 :href="item.url"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
                 <NeoIcon
@@ -64,7 +64,7 @@
                 v-if="item.external"
                 :href="item.url"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
                 <NeoIcon
@@ -91,7 +91,7 @@
                 v-if="item.external"
                 :href="item.url"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
                 <NeoIcon
@@ -119,7 +119,7 @@
             @click="goToSocials(item.url)">
             <a
               class="is-flex icon"
-              rel="noopener noreferrer"
+              rel="nofollow noopener noreferrer"
               :aria-label="item.name">
               <!-- substack doesnt have a font awesome icon -->
               <svg

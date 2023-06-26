@@ -44,27 +44,6 @@
         <slot />
       </NeoField>
     </div>
-    <b-collapse
-      v-model="isVisible"
-      aria-id="sortAndFilter"
-      animation="opacitySlide">
-      <div class="columns mb-0">
-        <BasicSwitch
-          v-if="!isMoonRiver"
-          v-model="vListed"
-          class="is-flex column is-4"
-          :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
-          size="is-medium"
-          label-color="has-text-success" />
-      </div>
-      <SearchPriceRange
-        v-if="!hideFilter && !isMoonRiver"
-        :range="priceRange"
-        @input="priceRangeChange"></SearchPriceRange>
-      <div v-if="priceRangeDirty" class="is-size-7">
-        <PriceRange inline />
-      </div>
-    </b-collapse>
   </div>
 </template>
 

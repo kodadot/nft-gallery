@@ -11,23 +11,23 @@
       If you think this should't happen, report it to us by
       <a
         target="_blank"
-        rel="noopener noreferrer"
+        rel="nofollow noopener noreferrer"
         href="https://github.com/kodadot/nft-gallery/issues/new?assignees=&labels=bug&template=bug_report.md&title="
         >creating a bug issue with steps and screenshot to reproduce.</a
       >
     </p>
-    <NeoButton tag="nuxt-link" :to="`/${urlPrefix}/explore/collectibles`">
+    <nuxt-link :to="`/${urlPrefix}/explore/collectibles`" class="has-text-link">
       Explore NFTs and Collections
-    </NeoButton>
+    </nuxt-link>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { NeoButton } from '@kodadot1/brick'
+import type { NuxtError } from '@nuxt/types'
 
-const props = defineProps({
-  error: Object,
-})
+const props = defineProps<{
+  error: NuxtError
+}>()
 const { urlPrefix } = usePrefix()
 const headline = computed(() => {
   switch (props.error?.statusCode) {

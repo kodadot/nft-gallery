@@ -21,17 +21,17 @@
       :disabled="propertiesTabDisabled"
       :label="$t('tabs.properties')"
       :disabled-tooltip="$t('tabs.noPropertiesForNFT')">
-      <o-table v-if="properties?.length" :data="properties" hoverable>
-        <o-table-column
+      <NeoTable v-if="properties?.length" :data="properties" hoverable>
+        <NeoTableColumn
           v-slot="props"
           field="trait_type"
           :label="$t('tabs.tabProperties.section')">
           {{ props.row.trait_type }}
-        </o-table-column>
-        <o-table-column v-slot="props" field="value" label="Trait">
+        </NeoTableColumn>
+        <NeoTableColumn v-slot="props" field="value" label="Trait">
           {{ props.row.value }}
-        </o-table-column>
-      </o-table>
+        </NeoTableColumn>
+      </NeoTable>
     </DisablableTab>
 
     <!-- details tab -->
@@ -71,7 +71,7 @@
         <a
           :href="nftAnimation || nftImage"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="nofollow noopener noreferrer"
           class="has-text-link"
           data-cy="media-link"
           >{{ nftMimeType }}</a
@@ -83,7 +83,7 @@
           class="has-text-link"
           :href="metadataURL"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="nofollow noopener noreferrer"
           data-cy="metadata-link"
           >{{ metadataMimeType }}</a
         >
@@ -116,11 +116,16 @@
 </template>
 
 <script setup lang="ts">
-import { OTabItem, OTable, OTableColumn, OTabs } from '@oruga-ui/oruga'
+import { OTabItem, OTabs } from '@oruga-ui/oruga'
+import {
+  DisablableTab,
+  MediaItem,
+  NeoTable,
+  NeoTableColumn,
+} from '@kodadot1/brick'
+
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-
-import { DisablableTab, MediaItem } from '@kodadot1/brick'
 
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
@@ -175,27 +180,14 @@ const parentNftUrl = computed(() => {
 })
 
 const properties = computed(() => {
-  // we have different format between rmrk2 and the other chains
-  if (urlPrefix.value === 'ksm') {
-    return Object.entries(nftMetadata.value?.properties || {}).map(
-      ([key, value]) => {
-        return {
-          trait_type: key,
-          value: value.value,
-        }
-      }
-    )
-  }
-
   const attributes = (nftMetadata.value?.attributes ||
     nftMetadata.value?.meta.attributes ||
     []) as Array<{ trait_type: string; value: string; key?: string }>
-  return attributes.map((attr) => {
-    return {
-      trait_type: attr.trait_type || attr.key,
-      value: attr.value,
-    }
-  })
+
+  return attributes.map(({ trait_type, key, value }) => ({
+    trait_type: trait_type || key,
+    value,
+  }))
 })
 
 const propertiesTabDisabled = computed(() => {

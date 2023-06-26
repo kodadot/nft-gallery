@@ -3,11 +3,30 @@
     <div class="loading-container py-2">
       <NeoIcon class="close-icon" icon="close" @click.native="closeLoading" />
       <img :src="unloackableLoaderImg" />
-      <div class="is-flex is-flex-direction-column is-align-items-center px-7">
-        <div class="has-text-weight-bold my-2">Congratulations</div>
+      <div
+        class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
+        <div class="has-text-weight-bold mb-2">{{ $t('mint.success') }}</div>
         <div>
-          Get ready for the big reveal! Your NFT will be visible in just
-          <span class="has-text-weight-bold">30 seconds</span> on your profile.
+          {{ $t('mint.unlockable.loader.viewNFT1') }}
+          <span v-if="minted">
+            {{ $t('mint.unlockable.loader.viewNFTNow2') }}
+            <span class="has-text-weight-bold">
+              {{ $t('mint.unlockable.loader.viewNFTNow3') }}</span
+            >
+          </span>
+          <span v-else>
+            {{ $t('mint.unlockable.loader.viewNFTLater2') }}
+            <span class="has-text-weight-bold">
+              {{ displaySeconds }}
+              {{ $t('mint.unlockable.loader.viewNFTLater3') }}
+            </span>
+          </span>
+        </div>
+        <div class="mt-4">
+          {{ $t('mint.unlockable.loader.shareSuccess') }}
+          <a :href="postTwitterUrl" target="_blank" class="has-text-link"
+            >{{ $t('mint.unlockable.loader.onTwitter') }}
+          </a>
         </div>
         <NeoButton
           class="mb-2 mt-4 loading-button is-size-6"
@@ -39,8 +58,28 @@ const props = withDefaults(
 )
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
-
 const isLoading = useVModel(props, 'value')
+import { useCountDown } from './utils/useCountDown'
+
+const COUNT_DOWN_SECONDS = 31
+const { seconds } = useCountDown(
+  new Date().getTime() + COUNT_DOWN_SECONDS * 1000
+)
+
+const displaySeconds = computed(() => {
+  return seconds.value >= 0 ? seconds.value : 'few'
+})
+
+const twitterText = computed(
+  () =>
+    "Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don't miss your chance! \n\n https://kodadot.xyz/stmn/unlockable"
+)
+const postTwitterUrl = computed(
+  () =>
+    `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      twitterText.value
+    )}`
+)
 const emit = defineEmits(['input'])
 
 const closeLoading = () => {
@@ -61,7 +100,7 @@ const buttonLabel = computed(() =>
   backdrop-filter: $frosted-glass-backdrop-filter;
   margin: 0rem 1rem;
   width: 385px;
-  min-height: 336px;
+  min-height: 356px;
 
   @include ktheme() {
     box-shadow: theme('primary-shadow');

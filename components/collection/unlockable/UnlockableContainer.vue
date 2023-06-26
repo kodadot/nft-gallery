@@ -171,7 +171,7 @@ import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlide
 import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
-import { collectionId, countDownTime } from './const'
+import { DISPLAY_SLIDE_IMAGE_COUNT, collectionId, countDownTime } from './const'
 import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
 import type Vue from 'vue'
@@ -192,6 +192,7 @@ const resultList = ref<any[]>([])
 const selectedImage = ref('')
 const MAX_PER_WINDOW = 10
 const { urlPrefix } = usePrefix()
+
 const isLoading = ref(false)
 const { accountId, isLogIn } = useAuth()
 const { hours, minutes, seconds } = useCountDown(countDownTime)
@@ -199,7 +200,9 @@ const justMinted = ref('')
 
 onMounted(async () => {
   const res = await getLatestWaifuImages()
-  imageList.value = res.result.map((item) => item.output)
+  imageList.value = res.result
+    .slice(0, DISPLAY_SLIDE_IMAGE_COUNT)
+    .map((item) => item.output)
   resultList.value = res.result
 })
 

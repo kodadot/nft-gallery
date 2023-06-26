@@ -37,12 +37,6 @@
       border-left: 1px solid theme('border-color');
     }
 
-    .modal-card-title {
-      @include ktheme() {
-        color: theme('text-color');
-      }
-    }
-
     .more-option-button {
       margin: 0 34px;
       &:hover {
@@ -166,5 +160,11 @@
         color: theme('k-blue') !important;
       }
     }
+  }
+}
+
+.modal-card-title {
+  @include ktheme() {
+    color: theme('text-color');
   }
 }

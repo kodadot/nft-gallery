@@ -4,7 +4,7 @@
       v-if="showTwitter && twitter"
       :href="`https://twitter.com/${twitter}`"
       target="_blank"
-      rel="noopener noreferrer">
+      rel="nofollow noopener noreferrer">
       <NeoIcon pack="fab" icon="twitter" />
       <span class="aligned">
         {{ twitter }}

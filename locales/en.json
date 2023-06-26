@@ -81,10 +81,9 @@
     "rankings": "Rankings",
     "units": "Units",
     "owners": "Owners",
-    "landingTitle1": "Discover,",
-    "landingTitle2": "Collect",
-    "landingTitle3": "And Sell",
-    "landingSubtitle": "Kusama NFTS",
+    "landingTitle1": "Go To",
+    "landingTitle2": "Polkadot NFT",
+    "landingTitle3": "Marketplace",
     "collectionNotFound": "Our search agents did not found anything with \"{0}\" in collection name",
     "nftNotFound": "Our search agents did not found anything with \"{0}\" in NFT name"
   },
@@ -460,7 +459,7 @@
         "message": "Description of your NFT. Markdown is supported"
       },
       "edition": {
-        "label": "Edition",
+        "label": "Copies",
         "placeholder": "Minimum is 1",
         "message": "Number of NFTs to be minted"
       },
@@ -484,7 +483,17 @@
       "takeMe": "Take Me There!",
       "viewItem": "View Item",
       "preparing": "Preparing Your Item...",
-      "alreadyMinted": "🎉 You already have this NFT, check it here"
+      "alreadyMinted": "🎉 You already have this NFT, check it here",
+      "imageTip": "Examples Of Possible Drop",
+      "loader": {
+        "shareSuccess": "Share your success",
+        "onTwitter": "on Twitter",
+        "viewNFT1": "Get ready for the big reveal! Your NFT",
+        "viewNFTNow2": "is",
+        "viewNFTNow3": "visible now.",
+        "viewNFTLater2": " will be visible in",
+        "viewNFTLater3": "seconds."
+      }
     }
   },
   "tooltip": {
@@ -746,6 +755,7 @@
     },
     "noResults": "Looks Like There's Nothing Here Yet",
     "noFlips": "Looks like it's quiet in here",
+    "noHolders": "Start collecting NFTs and make your mark at the top!",
     "noResultsSub": "Check back later or reset your filters"
   },
   "profileStats": {
