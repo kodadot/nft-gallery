@@ -2,7 +2,9 @@
   <div
     class="carousel-media"
     :class="{ 'carousel-media-collection': isCollection }">
-    <nuxt-link :to="urlOf({ id: item.id, url, chain: item.chain })">
+    <nuxt-link
+      :to="urlOf({ id: item.id, url, chain: item.chain })"
+      rel="nofollow">
       <PreviewMediaResolver
         v-if="item.animationUrl"
         :src="item.animationUrl"
