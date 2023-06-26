@@ -57,7 +57,7 @@
         <a
           :href="explorerUrl"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="nofollow noopener noreferrer"
           class="short-address">
           {{ shortAddress(toAddress) }}
         </a>
