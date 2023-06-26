@@ -6,7 +6,8 @@ import type {
 } from '../types'
 import { TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
-import { copiesToMint } from './utils'
+import { calculateFees, copiesToMint } from './utils'
+import { canSupport } from '@/utils/support'
 
 type id = { id: number }
 
@@ -86,13 +87,34 @@ export const prepTokens = (item: ActionMintToken) => {
   return tokensWithIds
 }
 
+export const getSupportInteraction = (
+  item: ActionMintToken,
+  enabledFees: boolean,
+  feeMultiplier: number,
+  api
+) => {
+  const howManyTimesToChargeSupportFees = Array.isArray(item.token)
+    ? item.token.length
+    : 1
+
+  const totalFees = feeMultiplier * howManyTimesToChargeSupportFees
+  return canSupport(api, enabledFees, totalFees)
+}
+
 const getArgs = async (item: ActionMintToken, api) => {
   const tokens = prepTokens(item)
   const arg = await Promise.all(
     tokens.map((token) => prepareTokenMintArgs(token, api))
   )
+  const { enabledFees, feeMultiplier } = calculateFees()
+  const supportInteraction = await getSupportInteraction(
+    item,
+    enabledFees,
+    feeMultiplier,
+    api
+  )
 
-  return [arg.flat()]
+  return [[...arg.flat(), ...supportInteraction]]
 }
 
 export async function execMintStatemine({

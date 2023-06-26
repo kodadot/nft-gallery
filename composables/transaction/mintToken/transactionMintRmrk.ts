@@ -17,7 +17,6 @@ import {
 } from '@kodadot1/minimark/v2'
 
 import { basicUpdateFunction } from '@/components/unique/NftUtils'
-import { usePreferencesStore } from '@/stores/preferences'
 import { Extrinsic, asSystemRemark } from '@kodadot1/minimark/common'
 import {
   ActionMintToken,
@@ -27,7 +26,7 @@ import {
 } from '../types'
 import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
-import { copiesToMint } from './utils'
+import { calculateFees, copiesToMint } from './utils'
 
 const getOnChainProperties = ({ tags, royalty, hasRoyalty }: TokenToMint) => {
   let onChainProperties = convertAttributesToProperties(tags)
@@ -87,18 +86,6 @@ const createMintInteractionObject = (
     )
   }
   return mint.map((nft) => createMintInteraction(Interaction.MINTNFT, nft))
-}
-
-const calculateFees = () => {
-  const preferences = usePreferencesStore()
-  const enabledFees: boolean =
-    preferences.getHasSupport || preferences.getHasCarbonOffset
-
-  const feeMultiplier =
-    Number(preferences.getHasSupport) +
-    2 * Number(preferences.getHasCarbonOffset)
-
-  return { enabledFees, feeMultiplier }
 }
 
 const processSingleTokenToMint = async (
