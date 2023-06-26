@@ -76,7 +76,6 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { CollectionToMintStatmine } from '@/composables/transaction/types'
 import SubmitButton from '@/components/base/SubmitButton.vue'
-import useLoader from '@/composables/useLoader'
 
 const MetadataUpload = defineAsyncComponent(
   () => import('@/components/rmrk/Create/DropUpload.vue')
