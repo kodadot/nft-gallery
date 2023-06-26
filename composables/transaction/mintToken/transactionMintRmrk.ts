@@ -170,10 +170,11 @@ export async function execMintRmrk({
 
   const isSingle = args.length === 1
   const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
+  const arg = isSingle ? args : [args]
 
   executeTransaction({
     cb,
-    arg: [args],
+    arg,
     successMessage:
       item.successMessage ||
       ((blockNumber) =>
