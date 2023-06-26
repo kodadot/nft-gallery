@@ -20,7 +20,7 @@
     </div>
     <Loader v-model="isLoading" :status="status" />
     <section>
-      <b-select
+      <NeoSelect
         v-model="selectedOfferType"
         class="mb-2"
         :disabled="isOfferDropdownDisabled">
@@ -30,7 +30,7 @@
           :value="option.type">
           {{ option.label }}
         </option>
-      </b-select>
+      </NeoSelect>
       <template v-if="selectedOfferType === SelectedOfferType.CREATED">
         <OffersUserTable :offers="createdOffers" :owner-id="''" hide-toggle />
       </template>
@@ -67,6 +67,7 @@ import { notificationTypes, showNotification } from '~/utils/notification'
 import { isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '~/utils/mixins/chainMixin'
 import { SelectedOfferType } from '~/utils/offerStatus'
+import { NeoSelect } from '@kodadot1/brick'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -77,6 +78,7 @@ const components = {
   OffersUserTable: () => import('@/components/bsx/Offer/OffersUserTable.vue'),
   MyOffer: () => import('@/components/bsx/Offer/MyOffer.vue'),
   OfferTable: () => import('@/components/bsx/Offer/OfferTable.vue'),
+  NeoSelect,
 }
 
 @Component({ components })

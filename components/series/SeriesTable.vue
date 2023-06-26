@@ -3,12 +3,12 @@
     <Loader :value="isLoading" />
     <NeoField grouped>
       <NeoField class="has-text-right" expanded>
-        <b-select v-model="nbRows">
+        <NeoSelect v-model="nbRows">
           <option value="10">10</option>
           <option value="20">20</option>
           <option value="50">50</option>
           <option value="100">100</option>
-        </b-select>
+        </NeoSelect>
       </NeoField>
     </NeoField>
 
@@ -318,7 +318,13 @@ import {
   toSort,
   today,
 } from './utils'
-import { NeoField, NeoIcon, NeoTable, NeoTableColumn } from '@kodadot1/brick'
+import {
+  NeoField,
+  NeoIcon,
+  NeoSelect,
+  NeoTable,
+  NeoTableColumn,
+} from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
@@ -328,6 +334,7 @@ const components = {
   NeoIcon,
   NeoTable,
   NeoTableColumn,
+  NeoSelect,
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 

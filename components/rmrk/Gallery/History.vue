@@ -1,7 +1,7 @@
 <template>
   <div class="block">
     <div class="is-flex is-justify-content-space-between mb-4">
-      <b-select
+      <NeoSelect
         v-model="selectedEvent"
         placeholder="Select an event"
         data-cy="select-event">
@@ -11,7 +11,7 @@
           :value="option.type">
           {{ option.value }}
         </option>
-      </b-select>
+      </NeoSelect>
       <Pagination
         v-model="currentPage"
         :total="total"
@@ -111,7 +111,13 @@ import {
 import shortAddress from '@/utils/shortAddress'
 
 import { Interaction as EventInteraction } from '../service/scheme'
-import { NeoIcon, NeoTable, NeoTableColumn, NeoTooltip } from '@kodadot1/brick'
+import {
+  NeoIcon,
+  NeoSelect,
+  NeoTable,
+  NeoTableColumn,
+  NeoTooltip,
+} from '@kodadot1/brick'
 
 const components = {
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
@@ -122,6 +128,7 @@ const components = {
   NeoTable,
   NeoTableColumn,
   NeoTooltip,
+  NeoSelect,
 }
 
 type TableRowItem = {
