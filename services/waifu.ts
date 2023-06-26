@@ -94,7 +94,7 @@ type UpdateMetadataRequest = {
   metadata: string
 }
 
-export const claimUnlockableItem = async (
+export const claimDropItem = async (
   body: UpdateMetadataRequest,
   claim: string
 ) => {
