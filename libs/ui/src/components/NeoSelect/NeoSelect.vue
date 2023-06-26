@@ -1,8 +1,20 @@
-<script lang="ts">
+<script>
 import { OSelect } from '@oruga-ui/oruga'
 
 export default {
-  extends: OSelect,
+  mixins: [OSelect],
+  computed: {
+    rootClasses() {
+      return [
+        'neo-select',
+        this.computedClass('rootClass', 'o-ctrl-sel'),
+        {
+          [this.computedClass('expandedClass', 'o-ctrl-sel--expanded')]:
+            this.expanded,
+        },
+      ]
+    },
+  },
 }
 </script>
 
