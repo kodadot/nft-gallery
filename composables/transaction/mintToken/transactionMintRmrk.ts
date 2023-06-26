@@ -27,6 +27,7 @@ import {
 } from '../types'
 import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
+import { copiesToMint } from './utils'
 
 const getOnChainProperties = ({ tags, royalty, hasRoyalty }: TokenToMint) => {
   let onChainProperties = convertAttributesToProperties(tags)
@@ -50,14 +51,6 @@ const getMintFunction = (isV2: boolean) =>
 
 const getUpdateNameFn = (token: TokenToMint) =>
   token.postfix && token.copies > 1 ? basicUpdateFunction : undefined
-
-const copiesToMint = (token: TokenToMint): number => {
-  const { copies, selectedCollection } = token
-  const { alreadyMinted, max } = selectedCollection as MintedCollectionKusama
-  const maxAllowedNftsInCollection = max === 0 ? Infinity : max
-  const remaining = maxAllowedNftsInCollection - alreadyMinted
-  return Math.min(copies, remaining)
-}
 
 const createMintObject = (token: TokenToMint, metadata, updateNameFn) => {
   const { isV2 } = useRmrkVersion()

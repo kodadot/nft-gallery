@@ -6,18 +6,59 @@ import type {
 } from '../types'
 import { TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
+import { copiesToMint } from './utils'
 
-const prepareTokenMintArgs = async (
-  token: TokenToMint,
-  api,
-  nextId: number
-) => {
+type id = { id: number }
+
+export const assignIds = <T extends TokenToMint>(tokens: T[]): (T & id)[] => {
+  let lastId = 0
+  return tokens.map((token) => {
+    const { alreadyMinted, lastIndexUsed } =
+      token.selectedCollection as MintedCollection
+
+    // Use the maximum value between lastId and alreadyMinted or lastIndexUsed
+    lastId = Math.max(lastIndexUsed, alreadyMinted, lastId)
+
+    return {
+      ...token,
+      id: ++lastId,
+    }
+  })
+}
+
+export const expandCopies = <T extends TokenToMint>(tokens: T[]): T[] => {
+  return tokens.flatMap((token) => {
+    const copies = copiesToMint(token)
+    if (copies === 1) {
+      return token
+    }
+
+    return Array(copies)
+      .fill(null)
+      .map((_, index) => {
+        return {
+          ...token,
+          name: token.postfix ? `${token.name} #${index + 1}` : token.name,
+        }
+      })
+  })
+}
+
+export const prepareTokenMintArgs = async (token: TokenToMint & id, api) => {
   const { id: collectionId } = token.selectedCollection as BaseMintedCollection
-  const { price } = token
+  const { price, id: nextId } = token
 
   const { accountId } = useAuth()
+  const { $consola } = useNuxtApp()
 
-  const metadata = await constructMeta(token)
+  const metadata = await constructMeta(token).catch((e) => {
+    $consola.error(
+      'Error while constructing metadata for token:\n',
+      token,
+      '\n',
+      e
+    )
+  })
 
   const create = api.tx.nfts.mint(
     collectionId,
@@ -38,25 +79,20 @@ const prepareTokenMintArgs = async (
   return [create, meta, ...list]
 }
 
-const getArgs = async (item: ActionMintToken, api) => {
-  const { $consola } = useNuxtApp()
-
+export const prepTokens = (item: ActionMintToken) => {
   const tokens = Array.isArray(item.token) ? item.token : [item.token]
+  const expandedTokens = expandCopies(tokens)
+  const tokensWithIds = assignIds(expandedTokens)
+  return tokensWithIds
+}
 
-  const arg = (
-    await Promise.all(
-      tokens.map((token, i) => {
-        const { alreadyMinted, lastIndexUsed } =
-          token.selectedCollection as MintedCollection
-        const nextId = Math.max(lastIndexUsed, alreadyMinted) + i + 1
-        return prepareTokenMintArgs(token, api, nextId).catch((e) => {
-          $consola.error('Error:', e)
-        })
-      })
-    )
-  ).flat()
+const getArgs = async (item: ActionMintToken, api) => {
+  const tokens = prepTokens(item)
+  const arg = await Promise.all(
+    tokens.map((token) => prepareTokenMintArgs(token, api))
+  )
 
-  return [arg]
+  return [arg.flat()]
 }
 
 export async function execMintStatemine({
