@@ -13,27 +13,24 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import CreateMixin from '~/utils/mixins/createMixin'
-
 const Collection = () => import('@/components/stmn/Create/CreateCollection.vue')
 const NFT = () => import('@/components/stmn/Create/CreateToken.vue')
 
-const components = { Collection, NFT }
-
-@Component({ components })
-class CreateComponent extends mixins(CreateMixin) {
-  layout() {
-    return 'centered-half-layout'
-  }
-
-  public showExplainerText = false
-
-  protected switchToNft() {
-    this.switchToCreateNFT()
-    this.showExplainerText = true
-  }
+export default {
+  components: {
+    Collection,
+    NFT,
+  },
+  layout: 'centered-half-layout',
+  setup() {
+    const { activeTab, showExplainerText, components, switchToNft } =
+      useCreate()
+    return {
+      activeTab,
+      showExplainerText,
+      components,
+      switchToNft,
+    }
+  },
 }
-
-export default CreateComponent
 </script>
