@@ -30,15 +30,6 @@
             visible="collapse.collection.attributes.show"
             hidden="collapse.collection.attributes.hide" />
         </div>
-
-        <NeoMessage
-          v-if="hasPrice"
-          key="message"
-          type="is-primary"
-          has-icon
-          icon="exclamation-triangle">
-          {{ $t('warning.newTransactionWhilePriceSet') }}
-        </NeoMessage>
       </template>
       <template #footer>
         <NeoField key="advanced">
@@ -194,7 +185,8 @@ export default class CreateToken extends mixins(
   public checkValidity() {
     const balanceInputValid = !this.listed || this.balanceInput.checkValidity()
     const baseTokenFormValid = this.baseTokenForm.checkValidity()
-    return balanceInputValid && baseTokenFormValid
+    const validCopies = this.base.copies > 0
+    return balanceInputValid && baseTokenFormValid && validCopies
   }
 
   get arweaveUpload(): boolean {
@@ -239,6 +231,7 @@ export default class CreateToken extends mixins(
         urlPrefix: urlPrefix.value,
         token: {
           ...this.base,
+          copies: Number(this.base.copies),
           tags: this.tags,
           nsfw: this.nsfw,
           postfix: this.postfix,
