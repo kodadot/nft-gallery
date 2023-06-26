@@ -23,7 +23,7 @@ const NFT = () => import('@/components/stmn/Create/CreateToken.vue')
 const components = { Collection, NFT }
 
 @Component({ components })
-export default class StmnCreatePage extends mixins(CreateMixin) {
+export default class extends mixins(CreateMixin) {
   layout() {
     return 'centered-half-layout'
   }

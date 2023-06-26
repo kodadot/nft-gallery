@@ -105,10 +105,14 @@ const formIsValid = computed(() => {
   if (!logo.value) {
     return false
   }
-  if (max.value < 1 && !unlimited.value) {
-    return false
+  const maxisValid = () => {
+    if (unlimited.value) {
+      return true
+    } else {
+      return max.value > 0
+    }
   }
-  return true
+  return maxisValid()
 })
 
 const isMintDisabled = computed(
@@ -117,7 +121,7 @@ const isMintDisabled = computed(
 
 const emit = defineEmits(['navigateToCreateNftTab'])
 
-const submit = async () => {
+const submit = () => {
   if (!formIsValid.value || isMintDisabled.value) {
     return
   }
@@ -134,7 +138,7 @@ const submit = async () => {
 
   watch([txIsLoading, txStatus], () => {
     isLoading.value = txIsLoading.value
-    if (Boolean(txStatus.value)) {
+    if (txStatus.value) {
       status.value = txStatus.value
     }
   })

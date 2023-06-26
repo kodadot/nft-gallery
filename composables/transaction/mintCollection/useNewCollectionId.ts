@@ -33,6 +33,7 @@ export function useNewCollectionId() {
 
 export function useStatemineNewCollectionId() {
   const { apiInstance } = useApi()
+  const { $consola } = useNuxtApp()
   const nextCollectionId = ref<number>()
   const unsubscribe = ref<() => void>()
 
@@ -46,7 +47,9 @@ export function useStatemineNewCollectionId() {
     unsubscribe.value = unsub
   }
 
-  getCollectionId()
+  getCollectionId().catch((e) => {
+    $consola.error('Error getting collection id', e)
+  })
 
   return {
     nextCollectionId,

@@ -95,7 +95,7 @@ describe('transactionMintStatemine.ts functions', () => {
   })
 
   describe('expandCopies function', () => {
-    it('should expand copies correctly', async () => {
+    it('should expand copies correctly', () => {
       const tokens = [
         {
           copies: 3,
@@ -239,7 +239,7 @@ describe('transactionMintStatemine.ts functions', () => {
       }
 
       const item = {
-        token: token,
+        token,
       }
 
       const result = prepTokens(item)
@@ -263,7 +263,7 @@ describe('transactionMintStatemine.ts functions', () => {
       }
 
       const item = {
-        token: token,
+        token,
       }
 
       const result = prepTokens(item)
