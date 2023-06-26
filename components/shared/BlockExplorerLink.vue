@@ -1,6 +1,6 @@
 <template>
   <span v-if="!hasBlockUrl"> {{ text }}</span>
-  <a v-else target="_blank" rel="noopener noreferrer" :href="blockUrl">
+  <a v-else target="_blank" rel="nofollow noopener noreferrer" :href="blockUrl">
     {{ text }}
   </a>
 </template>
