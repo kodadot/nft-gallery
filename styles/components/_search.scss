@@ -144,10 +144,8 @@
 
   .o-acp__item {
     padding: 0;
-    @include ktheme() {
-      background: unset;
-      color: unset!important;
-    }
+    background: unset;
+    color: unset!important;
   }
 }
 
