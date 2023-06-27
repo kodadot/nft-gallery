@@ -209,9 +209,8 @@ onMounted(async () => {
 const leftTime = computed(() => {
   const hoursLeft = hours.value > 0 ? `${hours.value} Hour ` : ''
   const minutesLeft = minutes.value > 0 ? `${minutes.value} Minute ` : ''
-  const secondsLeft = seconds.value > 0 ? `${seconds.value} Sec ` : ''
-  const isFinish = !hoursLeft && !minutesLeft && !secondsLeft
-  return isFinish ? 'Finished' : `${hoursLeft}${minutesLeft}${secondsLeft}Left`
+  const isFinish = !hoursLeft && !minutesLeft
+  return isFinish ? 'Finished' : `${hoursLeft}${minutesLeft}Left`
 })
 
 const now = new Date()
