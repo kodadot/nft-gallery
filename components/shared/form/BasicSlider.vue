@@ -1,33 +1,36 @@
 <template>
-  <NeoField class="mt-4" :label="$t(label)" label-position="">
-    <b-slider
-      v-model="vValue"
+  <NeoField class="mt-4" :label="$t(label)">
+    <NeoSlider
+      v-model="value"
       :min="min"
       :max="max"
       :ticks="ticks"
-      :custom-formatter="customFormatter"
       :lazy="lazy" />
   </NeoField>
 </template>
 
-<script lang="ts">
-import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
-import { NeoField } from '@kodadot1/brick'
+<script lang="ts" setup>
+import { NeoField, NeoSlider } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    NeoField,
-  },
+const props = withDefaults(
+  defineProps<{
+    label: string
+    min?: number
+    max?: number
+    ticks?: boolean
+    lazy?: boolean
+    modelValue: number
+  }>(),
+  {
+    min: 0,
+    max: 100,
+  }
+)
+
+const emit = defineEmits(['update:modelValue'])
+
+const value = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
 })
-export default class BasicSlider extends Vue {
-  @VModel({ type: Number, required: true }) vValue!: number
-  @Prop({ type: String, required: true }) label!: string
-  @Prop({ type: Number, default: 0 }) min!: number
-  @Prop({ type: Number, default: 100 }) max!: number
-  @Prop(Boolean) ticks!: boolean
-  @Prop(Boolean) lazy!: boolean
-  @Prop({ type: Function, required: false }) customFormatter!: (
-    v: string
-  ) => string
-}
 </script>

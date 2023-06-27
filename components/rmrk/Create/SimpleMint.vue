@@ -111,7 +111,7 @@
             data-cy="input-batch-address" />
         </NeoField>
         <BasicSlider
-          v-model="distribution"
+          :model-value="distribution"
           label="action.distributionCount"
           data-cy="input-distribution" />
         <NeoField v-show="syncVisible">
