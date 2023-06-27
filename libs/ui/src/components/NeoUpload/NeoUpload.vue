@@ -13,10 +13,4 @@ export default {
 @import '@oruga-ui/oruga/src/scss/utilities/_animations.scss';
 @import '@oruga-ui/oruga/src/scss/utilities/_helpers.scss';
 @import '@oruga-ui/oruga/src/scss/components/_upload.scss';
-
-// .o-slide__fill {
-//   @include ktheme() {
-//     background: theme('k-primary');
-//   }
-// }
 </style>
