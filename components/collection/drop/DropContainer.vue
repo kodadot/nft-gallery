@@ -251,7 +251,6 @@ const { data, refetch } = useGraphql({
 const refetchData = () => {
   console.log('refetch')
   refetch()
-  tryAgain()
 }
 
 useSubscriptionGraphql({
