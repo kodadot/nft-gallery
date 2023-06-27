@@ -5,3 +5,5 @@ export const countDownTime = endOfHour(now).getTime()
 
 export const slidesCountOnTimeCountdown = 10
 export const collectionId = '8'
+
+export const DISPLAY_SLIDE_IMAGE_COUNT = 4
