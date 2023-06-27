@@ -103,10 +103,7 @@
           </div>
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
-          <ImageSlider
-            v-if="imageList.length"
-            :image-list="imageList"
-            @select="handleSelectImage" />
+          <ImageSlider v-if="imageList.length" :image-list="imageList" />
         </div>
       </div>
       <hr class="text-color my-4" />
@@ -192,12 +189,10 @@ const { toast } = useToast()
 
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
-const selectedImage = ref('')
-const MAX_PER_WINDOW = 10
 const { urlPrefix } = usePrefix()
 const isLoading = ref(false)
 const { accountId, isLogIn } = useAuth()
-const { hours, minutes, seconds } = useCountDown(countDownTime)
+const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
 
 onMounted(async () => {
@@ -212,13 +207,6 @@ const leftTime = computed(() => {
   const isFinish = !hoursLeft && !minutesLeft
   return isFinish ? 'Finished' : `${hoursLeft}${minutesLeft}Left`
 })
-
-const now = new Date()
-const windowRange = [startOfHour(now), endOfHour(now)]
-
-const handleSelectImage = (image: string) => {
-  selectedImage.value = image
-}
 
 const { data: collectionData } = useGraphql({
   queryName: 'dropCollectionById',
@@ -286,10 +274,10 @@ const scrollToTop = () => {
 
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
-    // $buefy.modal.open({
-    //   parent: root?.value,
-    //   ...ConnectWalletModalConfig,
-    // })
+    $buefy.modal.open({
+      parent: root?.value,
+      ...ConnectWalletModalConfig,
+    })
     return
   }
   if (isLoading.value) {
@@ -305,8 +293,6 @@ const handleSubmitMint = async () => {
     toast('no image')
     return
   }
-  // resultList.value.find((item) => item.output === selectedImage.value)
-  // ?.image || resultList.value[0]?.image
 
   const hash = await createUnlockableMetadata(image)
 
