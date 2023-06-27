@@ -52,7 +52,7 @@
       </div>
     </template>
     <template #end>
-      <nuxt-link to="/stmn/drops">
+      <nuxt-link to="/stmn/drops" rel="nofollow">
         <div class="navbar-item" data-cy="drops">
           {{ $t('drops.title') }}
 
@@ -77,6 +77,7 @@
 
       <a
         href="https://hello.kodadot.xyz"
+        rel="nofollow"
         target="_blank"
         class="navbar-item"
         data-cy="learn">
