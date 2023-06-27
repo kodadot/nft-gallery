@@ -42,6 +42,8 @@ export { default as NeoRadioButton } from './components/NeoRadio/NeoRadioButton.
 export { default as NeoTable } from './components/NeoTable/NeoTable.vue'
 export { default as NeoTableColumn } from './components/NeoTable/NeoTableColumn.vue'
 
+export { default as NeoUpload } from './components/NeoUpload/NeoUpload.vue'
+
 export { default as NeoCollapse } from './components/NeoCollapse/NeoCollapse.vue'
 
 export { default as Neo } from '@oruga-ui/oruga'
