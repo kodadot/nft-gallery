@@ -323,6 +323,13 @@ a.has-text-grey {
   @include ktheme() {
     border: 1px solid theme('border-color');
   }
+
+}
+
+.card-border-color {
+  @include ktheme() {
+    border-color:theme('card-border-color');
+  }
 }
 
 //colors
@@ -428,4 +435,8 @@ a.has-text-grey {
 
 .is-flex-1 {
   flex: 1;
+}
+
+.has-z-index-1 {
+  z-index: 1;
 }

@@ -52,9 +52,9 @@
       </div>
     </template>
     <template #end>
-      <nuxt-link to="/stmn/unlockable">
+      <nuxt-link to="/stmn/drops" rel="nofollow">
         <div class="navbar-item" data-cy="drops">
-          {{ $t('drops') }}
+          {{ $t('drops.title') }}
 
           <NeoIcon
             class="ml-1"
@@ -77,6 +77,7 @@
 
       <a
         href="https://hello.kodadot.xyz"
+        rel="nofollow"
         target="_blank"
         class="navbar-item"
         data-cy="learn">

@@ -15,7 +15,7 @@ defineProps<{
   icon?: string
   pack?: string
   customSize?: string
-  variant?: 'success' | 'primary'
+  variant?: 'success' | 'primary' | 'k-grey'
 }>()
 </script>
 
