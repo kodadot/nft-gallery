@@ -9,10 +9,7 @@
         :key="`${drop.collection.id}=${index}`"
         class="w-full h-full"
         :data-cy="index">
-        <DropCard
-          :drop="drop"
-          :variant="cardVariant"
-          :drop-start-time="drop.dropStartTime" />
+        <DropCard :drop="drop" />
       </div>
     </div>
     <div class="title is-2 my-7">
@@ -24,7 +21,7 @@
         :key="`${drop.collection.id}=${index}`"
         class="w-full h-full"
         :data-cy="index">
-        <DropCard :drop="drop" :drop-start-time="drop.dropStartTime" />
+        <DropCard :drop="drop" />
       </div>
     </div>
     <div v-else class="title is-4 has-text-grey has-text-centered">
