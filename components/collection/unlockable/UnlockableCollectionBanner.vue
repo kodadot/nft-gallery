@@ -8,11 +8,9 @@
       <div class="container is-fluid collection-banner-content">
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">
-            <img
-              src="https://replicate.delivery/pbxt/Cxfhi4qeTNvn6kcrrKlvL1YUPBKeAmbNrrf2ATtPVd6o5gDEB/out-1.png"
-              alt="avatar" />
+            <img :src="image" alt="avatar" />
           </div>
-          <h1 class="collection-banner-name">Waifu T-Shirt Free Mint</h1>
+          <h1 class="collection-banner-name">{{ title }}</h1>
         </div>
         <HeroButtons class="is-hidden-mobile is-align-self-flex-end" />
       </div>
@@ -23,6 +21,28 @@
 <script setup lang="ts">
 import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import unloackableBanner from '@/assets/unlockable-banner.svg'
+
+const props = defineProps<{
+  type: string
+}>()
+
+const title = computed(() => {
+  switch (props.type) {
+    case 'dot-drop':
+      return 'Waifu 1 DOT Mint'
+    default:
+      return 'Waifu T-Shirt Free Mint'
+  }
+})
+
+const image = computed(() => {
+  switch (props.type) {
+    case 'dot-drop':
+      return 'https://replicate.delivery/pbxt/te3utBZeR4kbi0u1Xrsrz6VhZScDhElj9ZFTKQ3fRPRYHTUiA/out-0.png'
+    default:
+      return 'https://replicate.delivery/pbxt/Cxfhi4qeTNvn6kcrrKlvL1YUPBKeAmbNrrf2ATtPVd6o5gDEB/out-1.png'
+  }
+})
 </script>
 
 <style scoped lang="scss">
