@@ -45,7 +45,7 @@
 
     <nuxt-link
       class="is-flex is-align-items-center has-text-weight-bold"
-      to="/stmn/unlockable">
+      to="/stmn/drops/free-drop">
       {{ $t('mint.unlockable.takeMe') }}
     </nuxt-link>
   </div>
