@@ -2,7 +2,7 @@
   <div class="drop-card border card-border-color">
     <nuxt-link
       v-if="drop.collection && !isLoadingMeta"
-      :to="`/${urlPrefix}/unlockable`">
+      :to="`/${urlPrefix}/drops/free-drop`">
       <div
         class="drop-card-banner"
         :style="{ backgroundImage: `url(${image})` }">
