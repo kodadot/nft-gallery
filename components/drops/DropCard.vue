@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-card border">
+  <div class="drop-card border card-border-color">
     <nuxt-link
       v-if="drop.collection && !isLoadingMeta"
       :to="`/${urlPrefix}/unlockable`">
@@ -130,6 +130,9 @@ onMounted(async () => {
   &:hover {
     .drop-card-banner {
       opacity: 0.85;
+    }
+    @include ktheme() {
+      border-color: theme('border-color');
     }
   }
   &-banner {
