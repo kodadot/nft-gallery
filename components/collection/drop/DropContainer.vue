@@ -1,6 +1,6 @@
 <template>
   <div class="unlockable-container">
-    <!-- <Loader v-model="isLoading" :minted="justMinted" /> -->
+    <Loader v-model="isLoading" :minted="justMinted" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
@@ -202,7 +202,8 @@ const { urlPrefix } = usePrefix()
 const { accountId, isLogIn } = useAuth()
 const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
-const { transaction, status, isLoading } = useTransaction()
+const isLoading = ref(false)
+const { transaction } = useTransaction()
 
 const actionLabel = $i18n.t('nft.action.buy')
 
@@ -219,7 +220,7 @@ const leftTime = computed(() => {
   return isFinish ? 'Finished' : `${hoursLeft}${minutesLeft}Left`
 })
 
-const { data: collectionData } = useGraphql({
+const { data: collectionData, refetch: tryAgain } = useGraphql({
   queryName: 'dropCollectionById',
   variables: {
     id: collectionId,
@@ -244,9 +245,9 @@ const { data, refetch } = useGraphql({
   },
 })
 
-const refetchData = () => {
-  console.log('refetch')
-  refetch()
+const refetchData = async () => {
+  await tryAgain()
+  await refetch()
 }
 
 useSubscriptionGraphql({
@@ -294,10 +295,6 @@ const handleBuy = async () => {
     return
   }
 
-  showNotification(
-    $i18n.t('nft.notification.info', { itemId: 'Waifu', action: actionLabel })
-  )
-
   if (!isLogIn.value) {
     $buefy.modal.open({
       parent: root?.value,
@@ -305,6 +302,15 @@ const handleBuy = async () => {
     })
     return
   }
+
+  if (isLoading.value) {
+    return false
+  }
+  isLoading.value = true
+
+  showNotification(
+    $i18n.t('nft.notification.info', { itemId: 'Waifu', action: actionLabel })
+  )
 
   try {
     await transaction({
@@ -326,11 +332,6 @@ const handleBuy = async () => {
 }
 
 const handleSubmitMint = async (tokenId: string) => {
-  if (isLoading.value) {
-    return false
-  }
-  isLoading.value = true
-
   const randomIndex = getRandomInt(imageList.value.length - 1)
   const image = resultList.value.at(randomIndex).image
 
