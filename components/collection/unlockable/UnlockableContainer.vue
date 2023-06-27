@@ -244,7 +244,9 @@ const hasUserMinted = computed(
   () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value
 )
 
-const totalCount = computed(() => collectionData.value?.max || 300)
+const totalCount = computed(
+  () => collectionData.value?.collectionEntity?.max || 300
+)
 const totalAvailableMintCount = computed(
   () =>
     totalCount.value -
