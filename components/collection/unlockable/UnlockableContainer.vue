@@ -172,7 +172,11 @@ import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSch
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { DISPLAY_SLIDE_IMAGE_COUNT, collectionId, countDownTime } from './const'
-import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
+import {
+  UNLOCKABLE_CAMPAIGN,
+  createUnlockableMetadata,
+  getRandomInt,
+} from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
 import type Vue from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
@@ -257,10 +261,10 @@ const { data, refetch } = useGraphql({
   },
 })
 
-const refetchData = () => {
+const refetchData = async () => {
   console.log('refetch')
-  refetch()
-  tryAgain()
+  await refetch()
+  await tryAgain()
 }
 
 useSubscriptionGraphql({
@@ -304,9 +308,8 @@ const handleSubmitMint = async () => {
   }
   isLoading.value = true
 
-  const image =
-    resultList.value.find((item) => item.output === selectedImage.value)
-      ?.image || resultList.value[0]?.image
+  const randomIndex = getRandomInt(imageList.value.length - 1)
+  const image = resultList.value.at(randomIndex).image
 
   const hash = await createUnlockableMetadata(image)
 
