@@ -203,7 +203,6 @@ const { accountId, isLogIn } = useAuth()
 const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
 const isLoading = ref(false)
-const { transaction } = useTransaction()
 
 const actionLabel = $i18n.t('nft.action.buy')
 
@@ -260,8 +259,6 @@ useSubscriptionGraphql({
   onChange: refetchData,
 })
 
-console.log('data', data)
-
 const toBuy = computed<string[]>(() => {
   return data.value?.nfts?.map((x) => x.id)
 })
@@ -312,7 +309,16 @@ const handleBuy = async () => {
     $i18n.t('nft.notification.info', { itemId: 'Waifu', action: actionLabel })
   )
 
+  const { transaction, blockNumber } = useTransaction()
+
   try {
+    watch(blockNumber, async (block) => {
+      if (block) {
+        showNotification(`[${actionLabel}] Waifu`, notificationTypes.success)
+        await handleSubmitMint(tokenId)
+      }
+    })
+
     await transaction({
       interaction: ShoppingActions.BUY,
       currentOwner: MINT_ADDRESS,
@@ -323,9 +329,6 @@ const handleBuy = async () => {
       successMessage: $i18n.t('mint.successNewNfts'),
       errorMessage: $i18n.t('transaction.buy.error'),
     })
-
-    showNotification(`[${actionLabel}] Waifu`, notificationTypes.success)
-    await handleSubmitMint(tokenId)
   } catch (error) {
     warningMessage(error)
   }
