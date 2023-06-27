@@ -23,7 +23,7 @@ import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButton
 import unloackableBanner from '@/assets/unlockable-banner.svg'
 
 const props = defineProps<{
-  type: string
+  type: string | undefined
 }>()
 
 const title = computed(() => {
