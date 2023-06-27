@@ -2,8 +2,8 @@ import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
 import { preheatFileFromIPFS } from '@/utils/ipfs'
 import { pinJson } from '@/services/nftStorage'
 
-export const UNLOCKABLE_CAMPAIGN = 'prg'
-export const UNLOCKABLE_NAME = 'Prague Waifu'
+export const UNLOCKABLE_CAMPAIGN = 'cph'
+export const UNLOCKABLE_NAME = 'Copenhagen Waifu'
 export const UNLOCKABLE_DESC = `
   This anime waifu is a demonstration of unlockables at [KodaDot](https://kodadot.xyz)
 
@@ -32,9 +32,7 @@ export async function createUnlockableMetadata(imageHash: string) {
   const metaHash = await pinJson(meta, 'claimable')
 
   preheatFileFromIPFS(metaHash)
-  const hash = unSanitizeIpfsUrl(metaHash)
-
-  return hash
+  return unSanitizeIpfsUrl(metaHash)
 }
 
 export function getRandomInt(max: number) {
