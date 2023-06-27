@@ -1,0 +1,77 @@
+<template>
+  <Loader v-if="isLoading" v-model="isLoading" />
+  <NeoButton
+    v-else
+    class="mb-2 mt-4 mint-button"
+    variant="secondary"
+    label="Teleport Token"
+    @click.native="handleTokenImport">
+    <b
+      >Missing <Money :value="1e10" inline /> on AssetHub? Click here to
+      teleport them from Relay Chain</b
+    >
+  </NeoButton>
+</template>
+
+<script setup lang="ts">
+import { NeoButton } from '@kodadot1/brick'
+import { ApiFactory } from '@kodadot1/sub-api'
+import { getChainEndpointByPrefix } from '@/utils/chain'
+import { Builder } from '@paraspell/sdk'
+import { txCb } from '@/utils/transactionExecutor'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { getAddress } from '@/utils/extension'
+import { toDefaultAddress } from '@/utils/account'
+
+const { urlPrefix } = usePrefix()
+const { accountId } = useAuth()
+const isLoading = ref(false)
+
+const Money = defineAsyncComponent(
+  () => import('@/components/shared/format/Money.vue')
+)
+
+const getApi = () => {
+  const value = urlPrefix.value === 'stmn' ? 'ksm' : 'dot'
+
+  const endpoint = getChainEndpointByPrefix(value) as string
+  return ApiFactory.useApiInstance(endpoint)
+}
+
+const handleTokenImport = async () => {
+  const api = await getApi()
+  const to = urlPrefix.value === 'stmn' ? 'Statemine' : 'Statemint'
+  const call = Builder(api).to(to).amount(1e10).address(accountId.value).build()
+
+  const transactionHandler = txCb(
+    (blockHash) => {
+      showNotification(
+        `Transaction finalized at blockHash ${blockHash}`,
+        notificationTypes.success
+      )
+
+      isLoading.value = false
+    },
+    (dispatchError) => {
+      showNotification(dispatchError.toString(), notificationTypes.warn)
+      isLoading.value = false
+    }
+  )
+
+  const errorHandler = () => {
+    showNotification('Cancelled', notificationTypes.warn)
+    isLoading.value = false
+  }
+
+  isLoading.value = true
+
+  const injector = await getAddress(toDefaultAddress(accountId.value))
+  call
+    .signAndSend(
+      accountId.value,
+      { signer: injector.signer },
+      transactionHandler
+    )
+    .catch(errorHandler)
+}
+</script>

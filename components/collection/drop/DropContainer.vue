@@ -101,6 +101,7 @@
               </div>
             </div>
           </div>
+          <TokenImportButton />
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
           <ImageSlider v-if="imageList.length" :image-list="imageList" />
@@ -190,6 +191,10 @@ const Loader = defineAsyncComponent(
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
+)
+
+const TokenImportButton = defineAsyncComponent(
+  () => import('@/components/collection/drop/TokenImportButton.vue')
 )
 const { $buefy, $i18n } = useNuxtApp()
 const root = ref<Vue>()
