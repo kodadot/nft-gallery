@@ -7,7 +7,7 @@ export const UNLOCKABLE_NAME = 'Prague Waifu'
 export const UNLOCKABLE_DESC = `
   This anime waifu is a demonstration of unlockables at [KodaDot](https://kodadot.xyz)
 
-  Owner of this item has **access to $50 voucher**, which can be claimed in **[KodaShop](https://shop.kodadot.xyz)**.
+  Owner of this item has **access to $35 voucher**, which can be claimed in **[KodaShop](https://shop.kodadot.xyz)**.
   KodaMerch is then shipped right to your door step.
 
   It's **limited supply** and **only first 60 can claim** this voucher.
