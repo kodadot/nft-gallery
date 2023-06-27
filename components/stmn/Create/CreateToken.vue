@@ -60,210 +60,168 @@
   </div>
 </template>
 
-<script lang="ts">
-import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
-import collectionForMint from '@/queries/subsquid/rmrk/collectionForMint.graphql'
-
-import { DETAIL_TIMEOUT } from '@/utils/constants'
-import AuthMixin from '@/utils/mixins/authMixin'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import UseApiMixin from '@/utils/mixins/useApiMixin'
-import { showNotification, warningMessage } from '@/utils/notification'
-import shouldUpdate from '@/utils/shouldUpdate'
+<script lang="ts" setup>
 import { Interaction } from '@kodadot1/minimark/v1'
-import { Attribute } from '@kodadot1/minimark/common'
-import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
+import { showNotification, warningMessage } from '@/utils/notification'
+import { NeoField } from '@kodadot1/brick'
 import { unwrapSafe } from '@/utils/uniquery'
-import { usePreferencesStore } from '@/stores/preferences'
-import { Royalty } from '@/utils/royalty'
-import { MintedCollectionKusama } from '@/composables/transaction/types'
-import { NeoField, NeoMessage } from '@kodadot1/brick'
+import { DETAIL_TIMEOUT } from '@/utils/constants'
+import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
+import { Max } from '@/composables/transaction/types'
+import { Attribute } from '@kodadot1/minimark/common'
+import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
+import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
+import CollapseWrapper from '@/components/shared/collapse/CollapseWrapper.vue'
+import SubmitButton from '@/components/base/SubmitButton.vue'
 
-const components = {
-  AttributeTagInput: () =>
-    import('@/components/rmrk/Create/AttributeTagInput.vue'),
-  CustomAttributeInput: () =>
-    import('@/components/rmrk/Create/CustomAttributeInput.vue'),
-  CollapseWrapper: () =>
-    import('@/components/shared/collapse/CollapseWrapper.vue'),
-  Loader: () => import('@/components/shared/Loader.vue'),
-  BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-  BaseTokenForm: () => import('@/components/base/BaseTokenForm.vue'),
-  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
-  SubmitButton: () => import('@/components/base/SubmitButton.vue'),
-  RoyaltyForm: () => import('@/components/bsx/Create/RoyaltyForm.vue'),
-  NeoMessage,
-  NeoField,
+const { isLoading, status } = useLoader()
+const { $i18n } = useNuxtApp()
+const router = useRouter()
+const { urlPrefix } = usePrefix()
+const { balance, isLogIn, accountId } = useAuth()
+
+withDefaults(
+  defineProps<{
+    showExplainerText?: boolean
+  }>(),
+  {
+    showExplainerText: false,
+  }
+)
+
+const base = ref<BaseTokenType>({
+  name: '',
+  file: null,
+  description: '',
+  selectedCollection: null,
+  copies: 1,
+  secondFile: null,
+})
+
+const collections = ref<(BaseMintedCollection & Max)[]>([])
+const tags = ref<Attribute[]>([])
+const price = ref(0)
+const nsfw = ref(false)
+const listed = ref(true)
+const postfix = ref(true)
+const balanceNotEnough = ref(false)
+
+//TODO: implement royalty in mintTokenStatemine
+
+// const hasRoyalty = ref(true)
+// const royalty = ref({ amount: 0.15, address: '' })
+
+const balanceInput = ref()
+const baseTokenForm = ref()
+
+const updatePrice = (value) => {
+  price.value = value
 }
 
-@Component({ components })
-export default class CreateToken extends mixins(
-  MetaTransactionMixin,
-  ChainMixin,
-  PrefixMixin,
-  AuthMixin,
-  UseApiMixin
-) {
-  public base: BaseTokenType = {
-    name: '',
-    file: null,
-    description: '',
-    selectedCollection: null,
-    copies: 1,
-    secondFile: null,
-  }
+const balanceNotEnoughMessage = computed(() => {
+  return balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : ''
+})
 
-  public collections: MintedCollectionKusama[] = []
-  public tags: Attribute[] = []
-  public price: string | number = 0
-  public nsfw = false
-  public listed = true
-  public postfix = true
-  public balanceNotEnough = false
+const { data: collectionsData, refetch: refetchCollections } = useGraphql({
+  queryName: 'collectionForMint',
+  variables: { account: accountId.value },
+})
 
-  public hasRoyalty = true
-  public royalty: Royalty = {
-    amount: 0.15,
-    address: '',
-  }
-
-  private preferencesStore = usePreferencesStore()
-
-  @Ref('balanceInput') readonly balanceInput
-  @Ref('baseTokenForm') readonly baseTokenForm
-  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
-
-  public updatePrice(value: string) {
-    this.price = value
-  }
-
-  get hasPrice() {
-    return Number(this.price)
-  }
-
-  get balanceNotEnoughMessage() {
-    return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
-  }
-
-  @Watch('accountId', { immediate: true })
-  hasAccount(value: string, oldVal: string) {
-    if (shouldUpdate(value, oldVal)) {
-      this.fetchCollections()
-    }
-  }
-
-  public async fetchCollections() {
-    const collections = await this.$apollo.query({
-      query: collectionForMint,
-      client: this.client,
-      variables: {
-        account: this.accountId,
-      },
-      fetchPolicy: 'network-only',
-    })
-
-    const {
-      data: { collectionEntities },
-    } = collections
-
-    this.collections = unwrapSafe(collectionEntities)
-      ?.map((ce: any) => ({
+watch(collectionsData, (newData) => {
+  if (newData) {
+    collections.value = unwrapSafe(newData.collectionEntities)
+      ?.map((ce) => ({
         ...ce,
         alreadyMinted: ce.nfts?.length,
         lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
         totalCount: ce.nfts?.filter((nft) => !nft.burned).length,
       }))
-      .filter(
-        (ce: MintedCollectionKusama) =>
-          (ce.max || Infinity) - ce.alreadyMinted > 0
-      )
+      .filter((ce) => (ce.max || Infinity) - ce.alreadyMinted > 0)
+  }
+})
+
+watch(accountId, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
+    refetchCollections({ account: newValue })
+  }
+})
+
+const checkValidity = () => {
+  const balanceInputValid = !listed.value || balanceInput.value.checkValidity()
+  const baseTokenFormValid = baseTokenForm.value.checkValidity()
+  const validCopies = base.value.copies > 0
+  return balanceInputValid && baseTokenFormValid && validCopies
+}
+
+const submit = () => {
+  if (!base.value.selectedCollection) {
+    throw ReferenceError('[MINT] Unable to mint without collection')
+  }
+  if (!base.value.selectedCollection || !checkValidity()) {
+    return
   }
 
-  public checkValidity() {
-    const balanceInputValid = !this.listed || this.balanceInput.checkValidity()
-    const baseTokenFormValid = this.baseTokenForm.checkValidity()
-    const validCopies = this.base.copies > 0
-    return balanceInputValid && baseTokenFormValid && validCopies
+  if (parseFloat(balance.value) === 0) {
+    balanceNotEnough.value = true
+    return
   }
 
-  get arweaveUpload(): boolean {
-    return this.preferencesStore.arweaveUpload
-  }
+  isLoading.value = true
+  status.value = 'loader.ipfs'
 
-  public async submit() {
-    if (!this.base.selectedCollection) {
-      throw ReferenceError('[MINT] Unable to mint without collection')
+  const {
+    transaction,
+    status: transStatus,
+    isLoading: transLoading,
+    blockNumber,
+  } = useTransaction()
+
+  watch([transLoading, transStatus], () => {
+    isLoading.value = transLoading.value
+    status.value = transStatus.value
+  })
+
+  watch(blockNumber, (block) => {
+    if (block) {
+      navigateToDetail()
     }
+  })
 
-    if (!this.checkValidity()) {
-      return
-    }
-
-    if (parseFloat(this.balance) === 0) {
-      this.balanceNotEnough = true
-      return
-    }
-
-    this.isLoading = true
-    this.status = 'loader.ipfs'
-    const { urlPrefix } = usePrefix()
-    const { transaction, status, isLoading, blockNumber } = useTransaction()
-
-    watch([isLoading, status], () => {
-      this.isLoading = isLoading.value
-      if (Boolean(status.value)) {
-        this.status = status.value
-      }
+  try {
+    transaction({
+      interaction: Interaction.MINTNFT,
+      urlPrefix: urlPrefix.value,
+      token: {
+        ...base.value,
+        copies: Number(base.value.copies),
+        tags: tags.value,
+        nsfw: nsfw.value,
+        postfix: postfix.value,
+        price: price.value.toString(),
+        // royalty: royalty.value,
+        // hasRoyalty: hasRoyalty.value,
+      },
     })
+  } catch (e) {
+    warningMessage(e)
+  }
+}
 
-    watch(blockNumber, (block) => {
-      if (block) {
-        this.navigateToDetail()
-      }
+const navigateToDetail = () => {
+  showNotification(
+    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+  )
+
+  const selectedCollection = base.value
+    .selectedCollection as BaseMintedCollection
+  const nftId = `${selectedCollection.id}-${
+    selectedCollection.lastIndexUsed + 1
+  }`
+  const go = () =>
+    router.push({
+      path: `/${urlPrefix}/gallery/${nftId}`,
+      query: { congratsNft: base.value.name },
     })
-
-    try {
-      transaction({
-        interaction: Interaction.MINTNFT,
-        urlPrefix: urlPrefix.value,
-        token: {
-          ...this.base,
-          copies: Number(this.base.copies),
-          tags: this.tags,
-          nsfw: this.nsfw,
-          postfix: this.postfix,
-          price: this.price.toString(),
-          royalty: this.royalty,
-          hasRoyalty: this.hasRoyalty,
-        },
-      })
-    } catch (e) {
-      if (e instanceof Error) {
-        warningMessage(e)
-      }
-    }
-  }
-
-  protected navigateToDetail() {
-    showNotification(
-      `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
-    )
-
-    const selectedCollection = this.base
-      .selectedCollection as BaseMintedCollection
-
-    const nftId = `${selectedCollection.id}-${
-      selectedCollection.lastIndexUsed + 1
-    }`
-    const go = () =>
-      this.$router.push({
-        path: `/${this.urlPrefix}/gallery/${nftId}`,
-        query: { congratsNft: this.base.name },
-      })
-    setTimeout(go, DETAIL_TIMEOUT)
-  }
+  setTimeout(go, DETAIL_TIMEOUT)
 }
 </script>
