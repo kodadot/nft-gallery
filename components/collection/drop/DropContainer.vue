@@ -83,7 +83,7 @@
                   variant="k-accent"
                   :disabled="mintButtonDisabled"
                   label="Mint"
-                  @click.native="handleSubmitMint" />
+                  @click.native="handleBuy" />
                 <div class="is-flex is-align-items-center mt-2">
                   <svg
                     width="20"
@@ -161,19 +161,28 @@ import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlide
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import { claimDropItem, getLatestWaifuImages } from '@/services/waifu'
 import { NeoButton } from '@kodadot1/brick'
-import { endOfHour, startOfHour } from 'date-fns'
 import type Vue from 'vue'
 import {
   UNLOCKABLE_CAMPAIGN,
   createUnlockableMetadata,
+  getRandomInt,
 } from '../unlockable/utils'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import {
+  DROP_CAMPAIGN,
   MINT_ADDRESS,
   collectionId,
   countDownTime,
   pricePerMint,
 } from './const'
+import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import {
+  notificationTypes,
+  showNotification,
+  warningMessage,
+} from '@/utils/notification'
+import { ShoppingActions } from '@/utils/shoppingActions'
+import { tokenIdToRoute } from '@/components/unique/utils'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')
@@ -182,7 +191,7 @@ const Loader = defineAsyncComponent(
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
-const { $buefy } = useNuxtApp()
+const { $buefy, $i18n } = useNuxtApp()
 const root = ref<Vue>()
 
 const { toast } = useToast()
@@ -190,10 +199,12 @@ const { toast } = useToast()
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
 const { urlPrefix } = usePrefix()
-const isLoading = ref(false)
 const { accountId, isLogIn } = useAuth()
 const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
+const { transaction, status, isLoading } = useTransaction()
+
+const actionLabel = $i18n.t('nft.action.buy')
 
 onMounted(async () => {
   const res = await getLatestWaifuImages()
@@ -216,8 +227,6 @@ const { data: collectionData } = useGraphql({
     account: MINT_ADDRESS,
   },
 })
-
-console.log('collectionData', collectionData)
 
 const totalCount = computed(
   () => collectionData.value?.collectionEntity.nftCount || 200
@@ -252,6 +261,10 @@ useSubscriptionGraphql({
 
 console.log('data', data)
 
+const toBuy = computed<string[]>(() => {
+  return data.value?.nfts?.map((x) => x.id)
+})
+
 const mintedCount = computed(
   () => totalCount.value - totalAvailableMintCount.value
 )
@@ -272,7 +285,19 @@ const scrollToTop = () => {
   })
 }
 
-const handleSubmitMint = async () => {
+const handleBuy = async () => {
+  const randomToken = getRandomInt(toBuy.value.length - 1)
+  const tokenId = toBuy.value.at(randomToken)
+
+  if (!tokenId) {
+    warningMessage('UNABLE TO MINT WITHOUT')
+    return
+  }
+
+  showNotification(
+    $i18n.t('nft.notification.info', { itemId: 'Waifu', action: actionLabel })
+  )
+
   if (!isLogIn.value) {
     $buefy.modal.open({
       parent: root?.value,
@@ -280,31 +305,51 @@ const handleSubmitMint = async () => {
     })
     return
   }
+
+  try {
+    await transaction({
+      interaction: ShoppingActions.BUY,
+      currentOwner: MINT_ADDRESS,
+      price: pricePerMint,
+      nftId: tokenId,
+      tokenId: tokenId,
+      urlPrefix: urlPrefix.value,
+      successMessage: $i18n.t('mint.successNewNfts'),
+      errorMessage: $i18n.t('transaction.buy.error'),
+    })
+
+    showNotification(`[${actionLabel}] Waifu`, notificationTypes.success)
+    await handleSubmitMint(tokenId)
+  } catch (error) {
+    warningMessage(error)
+  }
+}
+
+const handleSubmitMint = async (tokenId: string) => {
   if (isLoading.value) {
     return false
   }
   isLoading.value = true
 
-  const randomIndex = Math.floor(Math.random() * imageList.value.length)
-
+  const randomIndex = getRandomInt(imageList.value.length - 1)
   const image = resultList.value.at(randomIndex).image
 
-  if (!image) {
+  if (!image || !tokenId) {
     toast('no image')
     return
   }
 
   const hash = await createUnlockableMetadata(image)
 
-  const { accountId } = useAuth()
+  const { item: sn } = tokenIdToRoute(tokenId)
 
   try {
     await claimDropItem(
       {
         metadata: hash,
-        sn: '1',
+        sn,
       },
-      UNLOCKABLE_CAMPAIGN
+      DROP_CAMPAIGN
     ).then((res) => {
       toast('mint success')
       justMinted.value = `${collectionId}-${res.result.sn}`
