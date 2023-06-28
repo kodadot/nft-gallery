@@ -2,7 +2,7 @@
   <div class="drop-card border card-border-color">
     <nuxt-link
       v-if="drop.collection && !isLoadingMeta"
-      :to="`/${urlPrefix}/drops/free-drop`">
+      :to="`/${correctUrlPrefix}/drops/${correctDropUrl}`">
       <div
         class="drop-card-banner"
         :style="{ backgroundImage: `url(${image})` }">
@@ -30,7 +30,7 @@
                 {{ $t('activity.creator') }}:
               </div>
               <nuxt-link
-                :to="`/${urlPrefix}/u/${drop.collection.issuer}`"
+                :to="`/${correctUrlPrefix}/u/${drop.collection.issuer}`"
                 class="has-text-link">
                 <IdentityIndex
                   ref="identity"
@@ -42,11 +42,15 @@
           <div class="is-flex justify-content-space-between" style="gap: 2rem">
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">Available</span>
-              <span>{{ drop.max - drop.minted }}/{{ drop.max }}</span>
+              <span v-if="price === 'Free'"
+                >{{ drop.max - drop.minted }}/{{ drop.max }}</span
+              >
+              <span v-else>{{ drop.minted }}/{{ drop.max }}</span>
             </div>
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">{{ $t('price') }}</span>
-              <span>{{ price }}</span>
+              <span v-if="price === 'Free'">{{ price }}</span>
+              <span v-else>1 DOT</span>
             </div>
           </div>
         </div>
@@ -76,10 +80,20 @@ const isLoadingMeta = ref(false)
 
 interface Props {
   drop: Drop
+  overrideUrlPrefix?: string
+  dropUrl?: string
 }
 
 const props = defineProps<Props>()
 const image = ref('')
+
+const correctUrlPrefix = computed(() => {
+  return props.overrideUrlPrefix || urlPrefix.value
+})
+
+const correctDropUrl = computed(() => {
+  return props.dropUrl || 'free-drop'
+})
 
 const price = computed(() => {
   if (!props.drop?.collection) {

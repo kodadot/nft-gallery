@@ -11,6 +11,18 @@
         :data-cy="index">
         <DropCard :drop="drop" />
       </div>
+      <template v-if="statemintDrops.drops.length">
+        <div
+          v-for="(drop, index) in statemintDrops.drops"
+          :key="`${drop.collection.id}=${index}`"
+          class="w-full h-full"
+          :data-cy="index">
+          <DropCard
+            :drop="drop"
+            override-url-prefix="stt"
+            drop-url="dot-drop" />
+        </div>
+      </template>
     </div>
     <div class="title is-2 my-7">
       {{ $i18n.t('drops.upcoming') }}
@@ -33,9 +45,14 @@
 <script lang="ts" setup>
 import DropCard from '@/components/drops/DropCard.vue'
 import { collectionId } from '@/components/collection/unlockable/const'
+import { STT_COLLECTION_ID } from '@/components/collection/drop/const'
 import { useDrops } from './useDrops'
 
+const { $i18n } = useNuxtApp()
 const drops = useDrops(collectionId)
+const statemintDrops = useDrops(STT_COLLECTION_ID, 'stt')
+
+console.log('drops', statemintDrops)
 </script>
 
 <style lang="scss" scoped>

@@ -48,14 +48,14 @@
 import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { collectionId } from './const'
-import { UNLOCKABLE_DESC } from './utils'
+import { unlockableDesc } from './utils'
 const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210
 const { urlPrefix } = usePrefix()
 const toggleSeeAllDescription = () => {
   seeAllDescription.value = !seeAllDescription.value
 }
-const source = UNLOCKABLE_DESC
+const source = unlockableDesc(40)
 const hasSeeAllDescriptionOption = computed(() => {
   return (source.length || 0) > DESCRIPTION_MAX_LENGTH
 })
