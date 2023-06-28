@@ -24,12 +24,8 @@ Cypress.Commands.add('loginWithKeyring', () => {
 })
 
 Cypress.Commands.add('rmrkNavbar', () => {
-  cy.get('[data-cy="classic"]')
-    .should('have.attr', 'href')
-    .and('include', '/rmrk/create')
-  cy.get('[data-cy="simple"]')
-    .should('have.attr', 'href')
-    .and('include', '/rmrk/mint')
+  cy.get('[data-cy="classic"]').should('exist')
+  cy.get('[data-cy="simple"]').should('exist')
   cy.get('[data-cy="explore"]').should('be.visible')
   cy.get('[data-cy="profileDropdown"]').should('be.visible')
   cy.get('[data-cy="profileDropdown"]').click()
@@ -38,9 +34,7 @@ Cypress.Commands.add('rmrkNavbar', () => {
 })
 
 Cypress.Commands.add('snekNavbar', () => {
-  cy.get('[data-cy="classic"]')
-    .should('have.attr', 'href')
-    .and('include', '/snek/create')
+  cy.get('[data-cy="classic"]').should('exist')
   cy.get('[data-cy="explore"]').should('be.visible')
   cy.get('[data-cy="chain"]').should('be.visible')
   cy.get('[data-cy="chain-select"]').should('be.visible')

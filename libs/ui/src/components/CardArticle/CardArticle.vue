@@ -1,5 +1,9 @@
 <template>
-  <a class="article" :href="href" target="_blank" rel="noopener noreferrer">
+  <a
+    class="article"
+    :href="href"
+    target="_blank"
+    rel="nofollow noopener noreferrer">
     <div
       class="article-image"
       :style="{ 'background-image': `url(${image})` }" />

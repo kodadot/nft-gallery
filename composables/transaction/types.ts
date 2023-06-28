@@ -90,6 +90,8 @@ export type ActionList = {
   token: TokenToList | TokenToList[]
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
+  nftId?: string
+  price?: string
 }
 
 export type ActionSend = {

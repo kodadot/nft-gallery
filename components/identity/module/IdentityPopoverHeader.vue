@@ -21,7 +21,7 @@
         v-if="identity?.twitter"
         :href="`https://twitter.com/${identity?.twitter}`"
         target="_blank"
-        rel="noopener noreferrer"
+        rel="nofollow noopener noreferrer"
         data-cy="identity-twitter">
         <NeoIcon pack="fab" icon="twitter" class="has-text-link" />
       </a>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a :href="src" target="_blank" rel="noopener noreferrer"
+    <a :href="src" target="_blank" rel="nofollow noopener noreferrer"
       >Unknown animated media, click to download</a
     >
   </div>

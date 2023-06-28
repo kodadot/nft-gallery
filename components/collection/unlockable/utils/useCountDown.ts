@@ -13,6 +13,7 @@ export const useCountDown = (countDownTime: number) => {
     seconds.value = Math.floor((distance % (1000 * 60)) / 1000)
   }
 
+  countdown()
   onMounted(() => {
     timer.value = setInterval(countdown, 1000)
   })

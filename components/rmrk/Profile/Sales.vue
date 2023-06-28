@@ -1,6 +1,6 @@
 <template>
   <div class="block">
-    <b-collapse
+    <NeoCollapse
       :open="isOpen"
       class="card"
       :class="hideCollapse ? 'collapseHidden' : 'bordered'"
@@ -63,7 +63,7 @@
           </NeoTooltip>
         </NeoTableColumn>
       </NeoTable>
-    </b-collapse>
+    </NeoCollapse>
   </div>
 </template>
 
@@ -72,7 +72,12 @@ import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { DocumentNode } from 'graphql'
 import { formatDistanceToNow } from 'date-fns'
-import { NeoTable, NeoTableColumn, NeoTooltip } from '@kodadot1/brick'
+import {
+  NeoCollapse,
+  NeoTable,
+  NeoTableColumn,
+  NeoTooltip,
+} from '@kodadot1/brick'
 
 import { exist } from '@/utils/exist'
 
@@ -93,6 +98,7 @@ const components = {
   NeoTable,
   NeoTableColumn,
   NeoTooltip,
+  NeoCollapse,
 }
 
 type TableRowItem = {

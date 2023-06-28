@@ -54,6 +54,7 @@ const isFullscreen = useVModel(props, 'value', emit)
     height: calc(100% - $navbar-desktop-min-height + 1px) !important;
     margin-top: calc($navbar-desktop-min-height - 1px) !important;
     border: none !important;
+    width: 100%;
     @include mobile {
       height: calc(100% - $navbar-mobile-min-height + 1px) !important;
       margin-top: calc($navbar-mobile-min-height - 1px) !important;
@@ -71,9 +72,12 @@ const isFullscreen = useVModel(props, 'value', emit)
   }
   .back-button {
     position: absolute;
-    right: 2rem;
+    left: 0.75rem;
     top: 2rem;
     z-index: 99;
+    @include desktop {
+      left: $fluid-container-padding;
+    }
   }
   &-container {
     @include ktheme() {
