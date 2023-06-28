@@ -347,7 +347,7 @@ const handleSubmitMint = async (tokenId: string) => {
     return
   }
 
-  const hash = await createUnlockableMetadata(image)
+  const hash = await createUnlockableMetadata(image, 50)
 
   const { item: sn } = tokenIdToRoute(tokenId)
 
