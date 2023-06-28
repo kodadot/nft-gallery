@@ -42,7 +42,10 @@
           <div class="is-flex justify-content-space-between" style="gap: 2rem">
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">Available</span>
-              <span>{{ drop.max - drop.minted }}/{{ drop.max }}</span>
+              <span v-if="price === 'Free'"
+                >{{ drop.max - drop.minted }}/{{ drop.max }}</span
+              >
+              <span v-else>{{ drop.minted }}/{{ drop.max }}</span>
             </div>
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">{{ $t('price') }}</span>
