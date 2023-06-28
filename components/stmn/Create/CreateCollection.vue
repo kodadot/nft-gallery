@@ -51,7 +51,7 @@
 import { NeoField, NeoInput } from '@kodadot1/brick'
 
 const MetadataUpload = defineAsyncComponent(
-  () => import('@/components/rmrk/Create/DropUpload.vue')
+  () => import('@/components/shared/DropUpload.vue')
 )
 
 const name = ref('')
