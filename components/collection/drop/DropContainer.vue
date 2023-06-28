@@ -160,30 +160,27 @@ import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
-import { claimDropItem, getLatestWaifuImages } from '@/services/waifu'
-import { NeoButton } from '@kodadot1/brick'
-import type Vue from 'vue'
-import {
-  UNLOCKABLE_CAMPAIGN,
-  createUnlockableMetadata,
-  getRandomInt,
-} from '../unlockable/utils'
-import { useCountDown } from '../unlockable/utils/useCountDown'
-import {
-  DROP_CAMPAIGN,
-  MINT_ADDRESS,
-  collectionId,
-  countDownTime,
-  pricePerMint,
-} from './const'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { tokenIdToRoute } from '@/components/unique/utils'
+import { claimDropItem, getLatestWaifuImages } from '@/services/waifu'
 import {
   notificationTypes,
   showNotification,
   warningMessage,
 } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
-import { tokenIdToRoute } from '@/components/unique/utils'
+import { NeoButton } from '@kodadot1/brick'
+import type Vue from 'vue'
+import { createUnlockableMetadata, getRandomInt } from '../unlockable/utils'
+import { useCountDown } from '../unlockable/utils/useCountDown'
+import {
+  MINT_ADDRESS,
+  STMN_DROP_CAMPAIGN,
+  STT_COLLECTION_ID,
+  STT_DROP_CAMPAIGN,
+  countDownTime,
+  pricePerMint,
+} from './const'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')
@@ -208,6 +205,7 @@ const { accountId, isLogIn } = useAuth()
 const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
 const isLoading = ref(false)
+const collectionId = STT_COLLECTION_ID
 
 const actionLabel = $i18n.t('nft.action.buy')
 
@@ -358,7 +356,7 @@ const handleSubmitMint = async (tokenId: string) => {
         metadata: hash,
         sn,
       },
-      DROP_CAMPAIGN
+      urlPrefix.value === 'stmn' ? STMN_DROP_CAMPAIGN : STT_DROP_CAMPAIGN
     ).then((res) => {
       toast('mint success')
       justMinted.value = `${collectionId}-${res.result.sn}`
