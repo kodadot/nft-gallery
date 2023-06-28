@@ -12,7 +12,7 @@ interface DropsData {
   futureDrops: Drop[]
 }
 
-export function useDrops(collectionId: string) {
+export function useDrops(collectionId: string, clientName?: string) {
   const dropsData = ref<DropsData>({
     drops: [],
     futureDrops: [],
@@ -20,6 +20,7 @@ export function useDrops(collectionId: string) {
 
   const { data: collectionData } = useGraphql({
     queryName: 'unlockableCollectionById',
+    clientName,
     variables: {
       id: collectionId,
     },
