@@ -10,7 +10,7 @@
             v-if="hasBlockExplorer"
             :href="explorer"
             target="_blank"
-            rel="noopener noreferrer">
+            rel="nofollow noopener noreferrer">
             <Identity
               ref="identity"
               :address="id"
@@ -53,7 +53,7 @@
             <a
               :href="`${network.url}${id}`"
               target="_blank"
-              rel="noopener noreferrer">
+              rel="nofollow noopener noreferrer">
               <NeoButton class="share-button" no-shadow>
                 <figure class="image is-16x16">
                   <img :alt="network.alt" :src="network.img" />

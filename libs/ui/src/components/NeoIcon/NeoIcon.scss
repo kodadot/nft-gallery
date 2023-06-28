@@ -9,5 +9,10 @@
   @include ktheme() {
     color: theme('k-primary');
   }
+}
 
+.o-icon--k-grey {
+  @include ktheme() {
+    color: theme('k-grey');
+  }
 }

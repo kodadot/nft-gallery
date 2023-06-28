@@ -26,7 +26,7 @@
         :key="target"
         :href="addressExplorerUrl(target)"
         target="_blank"
-        rel="noopener noreferrer"
+        rel="nofollow noopener noreferrer"
         class="has-text-weight-bold">
         <Identity ref="identity" :address="target" show-onchain-identity />
       </a>

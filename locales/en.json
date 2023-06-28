@@ -481,7 +481,17 @@
       "takeMe": "Take Me There!",
       "viewItem": "View Item",
       "preparing": "Preparing Your Item...",
-      "alreadyMinted": "🎉 You already have this NFT, check it here"
+      "alreadyMinted": "🎉 You already have this NFT, check it here",
+      "imageTip": "Examples Of Possible Drop",
+      "loader": {
+        "shareSuccess": "Share your success",
+        "onTwitter": "on Twitter",
+        "viewNFT1": "Get ready for the big reveal! Your NFT",
+        "viewNFTNow2": "is",
+        "viewNFTNow3": "visible now.",
+        "viewNFTLater2": " will be visible in",
+        "viewNFTLater3": "seconds."
+      }
     }
   },
   "tooltip": {
@@ -743,6 +753,7 @@
     },
     "noResults": "Looks Like There's Nothing Here Yet",
     "noFlips": "Looks like it's quiet in here",
+    "noHolders": "Start collecting NFTs and make your mark at the top!",
     "noResultsSub": "Check back later or reset your filters"
   },
   "profileStats": {
@@ -1178,5 +1189,11 @@
     "ownerOnly": "Owner Only",
     "claimDrop": "Claim Drop",
     "claimPhysicalDrop": "Claim Physical Drop"
+  },
+  "drops": {
+    "title": "Drops",
+    "upcoming": "Upcoming",
+    "noUpcoming": "Nothing  here yet...",
+    "mintingLive": "Minting Live"
   }
 }
