@@ -225,19 +225,6 @@ hr {
   }
 }
 
-.dropdown-content {
-  border-radius: 0;
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-    border: 1px solid theme('border-color');
-    background: theme('background-color');
-
-    .dropdown-item {
-      color: theme('text-color');
-    }
-  }
-}
-
 .has-text-grey {
   @include ktheme() {
     color: theme('k-grey') !important;
@@ -322,6 +309,13 @@ a.has-text-grey {
 .border {
   @include ktheme() {
     border: 1px solid theme('border-color');
+  }
+
+}
+
+.card-border-color {
+  @include ktheme() {
+    border-color:theme('card-border-color');
   }
 }
 
