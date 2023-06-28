@@ -297,7 +297,7 @@ const handleSubmitMint = async () => {
       },
       UNLOCKABLE_CAMPAIGN
     ).then((res) => {
-      toast('mint success')
+      toast('mint success', 'is-neo', 20000)
       scrollToTop()
       return `${collectionId}-${res.result.sn}`
     })
@@ -305,9 +305,11 @@ const handleSubmitMint = async () => {
     setTimeout(() => {
       isLoading.value = false
       justMinted.value = id
-    }, 40000)
+      toast('You will be redirected in few seconds', 'is-neo', 3000)
+      navigateTo(`/${urlPrefix.value}/gallery/${id}`)
+    }, 44000)
   } catch (error) {
-    toast('failed to mint')
+    toast('failed to mint', 'is-neo', 20000)
     isLoading.value = false
   }
 }
