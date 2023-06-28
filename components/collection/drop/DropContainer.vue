@@ -74,7 +74,7 @@
             <div
               class="is-flex is-justify-content-space-between is-align-items-center">
               <span class="title is-size-4"
-                ><Money :value="pricePerMint" inline
+                ><Money :value="displayPricePerMint" inline
               /></span>
               <div>
                 <NeoButton
@@ -179,6 +179,7 @@ import {
   STT_COLLECTION_ID,
   STT_DROP_CAMPAIGN,
   countDownTime,
+  displayPricePerMint,
   pricePerMint,
 } from './const'
 
@@ -201,7 +202,7 @@ const { toast } = useToast()
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
 const { urlPrefix } = usePrefix()
-const { accountId, isLogIn } = useAuth()
+const { isLogIn } = useAuth()
 const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
 const isLoading = ref(false)
