@@ -32,7 +32,6 @@ import AuthMixin from '~/utils/mixins/authMixin'
 
 const components = {
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  BasicSlider: () => import('@/components/shared/form/BasicSlider.vue'),
   BasicNumberInput: () =>
     import('@/components/shared/form/BasicNumberInput.vue'),
 }
