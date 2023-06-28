@@ -306,7 +306,7 @@ const handleSubmitMint = async () => {
       isLoading.value = false
       justMinted.value = id
       toast('You will be redirected in few seconds', 'is-neo', 3000)
-      navigateTo(`/${urlPrefix.value}/gallery/${id}`)
+      return navigateTo(`/${urlPrefix.value}/gallery/${id}`)
     }, 44000)
   } catch (error) {
     toast('failed to mint', 'is-neo', 20000)
