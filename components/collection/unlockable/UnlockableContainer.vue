@@ -289,7 +289,7 @@ const handleSubmitMint = async () => {
   const { accountId } = useAuth()
 
   try {
-    await doWaifu(
+    const id = await doWaifu(
       {
         address: accountId.value,
         metadata: hash,
@@ -298,12 +298,16 @@ const handleSubmitMint = async () => {
       UNLOCKABLE_CAMPAIGN
     ).then((res) => {
       toast('mint success')
-      justMinted.value = `${collectionId}-${res.result.sn}`
       scrollToTop()
+      return `${collectionId}-${res.result.sn}`
     })
+    // 20s timeout
+    setTimeout(() => {
+      isLoading.value = false
+      justMinted.value = id
+    }, 40000)
   } catch (error) {
     toast('failed to mint')
-  } finally {
     isLoading.value = false
   }
 }
