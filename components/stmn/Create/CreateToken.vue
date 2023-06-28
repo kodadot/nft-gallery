@@ -219,7 +219,7 @@ const navigateToDetail = () => {
   }`
   const go = () =>
     router.push({
-      path: `/${urlPrefix}/gallery/${nftId}`,
+      path: `/${urlPrefix.value}/gallery/${nftId}`,
       query: { congratsNft: base.value.name },
     })
   setTimeout(go, DETAIL_TIMEOUT)
