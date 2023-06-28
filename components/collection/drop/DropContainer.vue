@@ -101,7 +101,7 @@
               </div>
             </div>
           </div>
-          <TokenImportButton />
+          <TokenImportButton v-if="urlPrefix === 'stmn'" />
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
           <ImageSlider v-if="imageList.length" :image-list="imageList" />
