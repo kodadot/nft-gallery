@@ -39,6 +39,8 @@ const image = computed(() => {
   switch (props.type) {
     case 'dot-drop':
       return 'https://replicate.delivery/pbxt/te3utBZeR4kbi0u1Xrsrz6VhZScDhElj9ZFTKQ3fRPRYHTUiA/out-0.png'
+    case 'free-drop':
+      return 'https://replicate.delivery/pbxt/DqeaImcF1W3AcCeBw2EwCxpvss9CBHM2oeZKBBfHMrqSmzpEB/out-0.png'
     default:
       return 'https://replicate.delivery/pbxt/Cxfhi4qeTNvn6kcrrKlvL1YUPBKeAmbNrrf2ATtPVd6o5gDEB/out-1.png'
   }
