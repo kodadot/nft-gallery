@@ -2,13 +2,14 @@
   <Loader v-if="isLoading" v-model="isLoading" />
   <NeoButton
     v-else
+    ref="root"
     class="mb-2 mt-4 mint-button"
     variant="secondary"
     label="Teleport Token"
     @click.native="handleTokenImport">
     <b
-      >Missing <Money :value="1e10" inline /> on AssetHub? Click here to
-      teleport them from Relay Chain</b
+      >Missing <Money :value="displayPricePerMint" inline /> on AssetHub? Click
+      here to teleport them from Relay Chain</b
     >
   </NeoButton>
 </template>
@@ -22,10 +23,15 @@ import { txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
+import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { displayPricePerMint } from './const'
 
 const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
+const { accountId, isLogIn } = useAuth()
 const isLoading = ref(false)
+
+const { $buefy } = useNuxtApp()
+const root = ref<Vue>()
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
@@ -39,6 +45,14 @@ const getApi = () => {
 }
 
 const handleTokenImport = async () => {
+  if (!isLogIn.value) {
+    $buefy.modal.open({
+      parent: root?.value,
+      ...ConnectWalletModalConfig,
+    })
+    return
+  }
+
   const api = await getApi()
   const to = urlPrefix.value === 'stmn' ? 'Statemine' : 'Statemint'
   const call = Builder(api).to(to).amount(1e10).address(accountId.value).build()
