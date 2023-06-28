@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NeoCollapse :disabled="disabled">
+    <NeoCollapsible :disabled="disabled">
       <div class="is-flex">
         {{ $t('massmint.uploadPics') }}
         <NeoIcon
@@ -27,12 +27,12 @@
           </template>
         </DragDrop>
       </template>
-    </NeoCollapse>
+    </NeoCollapsible>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
+import { NeoCollapsible, NeoIcon } from '@kodadot1/brick'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import DragDrop from '@/components/shared/DragDrop.vue'
 import {

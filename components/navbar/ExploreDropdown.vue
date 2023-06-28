@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown :triggers="!isMobileDevice ? ['hover'] : []">
+  <NeoDropdown :triggers="!isMobileDevice ? ['hover'] : []">
     <template #trigger>
       <nuxt-link :to="`/${urlPrefix}/explore/collectibles`">
         <div class="navbar-item" data-cy="explore">
@@ -20,13 +20,14 @@
         </div>
       </nuxt-link>
     </template>
-    <b-dropdown-item aria-role="menuitem" class="is-size-6" custom>
+    <NeoDropdownItem aria-role="menuitem" class="is-size-6" custom>
       <NavbarExploreOptions />
-    </b-dropdown-item>
-  </b-dropdown>
+    </NeoDropdownItem>
+  </NeoDropdown>
 </template>
 
 <script lang="ts" setup>
+import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { isMobileDevice } from '@/utils/extension'
 
 const NavbarExploreOptions = defineAsyncComponent(
