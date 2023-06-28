@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-collapse
+    <NeoCollapse
       :open="isOpen"
       :position="position"
       aria-id="contentIdForA11y1"
@@ -14,12 +14,12 @@
         </a>
       </template>
       <slot class="mt-2"></slot>
-    </b-collapse>
+    </NeoCollapse>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 
 const cprops = withDefaults(
   defineProps<{

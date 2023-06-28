@@ -7,7 +7,7 @@
       </nuxt-link>
     </template>
     <template v-else>
-      <a :href="hrefLink" target="_blank" rel="noopener noreferrer">
+      <a :href="hrefLink" target="_blank" rel="nofollow noopener noreferrer">
         <slot />
       </a>
     </template>

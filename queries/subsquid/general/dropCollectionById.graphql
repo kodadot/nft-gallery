@@ -1,0 +1,16 @@
+query dropCollectionById($id: String!, $account: String, $price: BigInt) {
+  collectionEntity: collectionEntityById(id: $id) {
+    id
+    max
+    nftCount
+    issuer
+  }
+
+  nftEntitiesConnection(
+    orderBy: id_ASC
+    where: { burned_eq: false, collection: { id_eq: $id }, price_eq: $price, currentOwner_eq: $account }
+  ) {
+    totalCount
+  }
+
+}
