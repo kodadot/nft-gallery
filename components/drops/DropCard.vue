@@ -49,8 +49,7 @@
             </div>
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">{{ $t('price') }}</span>
-              <span v-if="price === 'Free'">{{ price }}</span>
-              <span v-else>1 DOT</span>
+              <span>{{ price }}</span>
             </div>
           </div>
         </div>
@@ -96,15 +95,10 @@ const correctDropUrl = computed(() => {
 })
 
 const price = computed(() => {
-  if (!props.drop?.collection) {
-    return ''
+  if (props.dropUrl === 'dot-drop') {
+    return '1 DOT'
   }
-
-  const totalPrice = sum(
-    (props.drop?.collection.nfts || []).map((nft) => Number(nft?.price || 0))
-  )
-
-  return totalPrice > 0 ? totalPrice : 'Free'
+  return 'Free'
 })
 
 onMounted(async () => {
