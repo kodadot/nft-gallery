@@ -11,7 +11,6 @@ export const convertMarkdownToText = (text = ''): string => {
     text = text.replaceAll('**', '')
     text = text.replaceAll('__', '')
     text = text.replaceAll('\n', ' ')
-    text = text.replaceAll('\n', ' ')
 
     const urlsMatch = text.match(/\[\S+\]\(https?:\/\/\S+\)/g)
     if (urlsMatch) {
