@@ -154,12 +154,11 @@ import type Vue from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { NeoButton } from '@kodadot1/brick'
 import { useCountDown } from './utils/useCountDown'
-import { convertMarkdownToText } from '@/utils/markdown'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')
 )
-const { $buefy, $seoMeta } = useNuxtApp()
+const { $buefy } = useNuxtApp()
 const root = ref<Vue<Record<string, string>>>()
 
 const { toast } = useToast()
