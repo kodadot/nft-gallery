@@ -47,8 +47,10 @@
 <script setup lang="ts">
 import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import { NeoButton } from '@kodadot1/brick'
-import { collectionId } from './const'
 import { unlockableDesc } from './utils'
+
+defineProps<{ collectionId: string }>()
+
 const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210
 const { urlPrefix } = usePrefix()
