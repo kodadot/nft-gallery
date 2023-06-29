@@ -346,12 +346,6 @@ const handleBuy = async () => {
 
 const description = unlockableDesc(50)
 
-useNuxt2Meta({
-  meta: $seoMeta({
-    description: convertMarkdownToText(description),
-  }),
-})
-
 const handleSubmitMint = async (tokenId: string) => {
   const randomIndex = getRandomInt(imageList.value.length - 1)
   const image = resultList.value.at(randomIndex).image

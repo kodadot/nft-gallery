@@ -272,12 +272,6 @@ const scrollToTop = () => {
 
 const description = unlockableDesc(40)
 
-useNuxt2Meta({
-  meta: $seoMeta({
-    description: convertMarkdownToText(description),
-  }),
-})
-
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
     $buefy.modal.open({
