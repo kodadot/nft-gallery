@@ -6,7 +6,7 @@
     <div class="container is-fluid">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
-          <UnlockableCollectionInfo />
+          <UnlockableCollectionInfo :collection-id="collectionId" />
           <hr class="mb-4" />
 
           <div
@@ -101,7 +101,7 @@
               </div>
             </div>
           </div>
-          <TokenImportButton v-if="urlPrefix === 'stmn'" />
+          <TokenImportButton />
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
           <ImageSlider v-if="imageList.length" :image-list="imageList" />
