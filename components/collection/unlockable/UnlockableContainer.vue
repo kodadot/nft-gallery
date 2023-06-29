@@ -147,17 +147,19 @@ import {
   UNLOCKABLE_CAMPAIGN,
   createUnlockableMetadata,
   getRandomInt,
+  unlockableDesc,
 } from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
 import type Vue from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { NeoButton } from '@kodadot1/brick'
 import { useCountDown } from './utils/useCountDown'
+import { convertMarkdownToText } from '@/utils/markdown'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')
 )
-const { $buefy } = useNuxtApp()
+const { $buefy, $seoMeta } = useNuxtApp()
 const root = ref<Vue<Record<string, string>>>()
 
 const { toast } = useToast()
@@ -268,6 +270,14 @@ const scrollToTop = () => {
   })
 }
 
+const description = unlockableDesc(40)
+
+useNuxt2Meta({
+  meta: $seoMeta({
+    description: convertMarkdownToText(description),
+  }),
+})
+
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
     $buefy.modal.open({
@@ -284,7 +294,7 @@ const handleSubmitMint = async () => {
   const randomIndex = getRandomInt(imageList.value.length - 1)
   const image = resultList.value.at(randomIndex).image
 
-  const hash = await createUnlockableMetadata(image)
+  const hash = await createUnlockableMetadata(image, description)
 
   const { accountId } = useAuth()
 

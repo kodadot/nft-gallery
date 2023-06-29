@@ -25,6 +25,8 @@ import unloackableBanner from '@/assets/unlockable-banner.svg'
 const props = defineProps<{
   type: string | undefined
 }>()
+const route = useRoute()
+const { $seoMeta } = useNuxtApp()
 
 const title = computed(() => {
   switch (props.type) {
@@ -44,6 +46,17 @@ const image = computed(() => {
     default:
       return 'https://replicate.delivery/pbxt/Cxfhi4qeTNvn6kcrrKlvL1YUPBKeAmbNrrf2ATtPVd6o5gDEB/out-1.png'
   }
+})
+
+const meta = computed(() => {
+  return $seoMeta({
+    title: title.value,
+    url: route.path,
+    image: image.value,
+  })
+})
+useNuxt2Meta({
+  meta,
 })
 </script>
 
