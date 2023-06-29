@@ -1,6 +1,6 @@
 import { MediaType } from '~/components/rmrk/types'
 import { resolveMedia } from '~/utils/gallery/media'
-
+import { convertMarkdownToText } from '@/utils/markdown'
 declare module 'vue/types/vue' {
   // this.$seoMeta inside Vue components
   interface Vue {
@@ -57,7 +57,7 @@ export default function ({ app }, inject): void {
       {
         hid: 'description',
         name: 'description',
-        content: meta?.description || description,
+        content: convertMarkdownToText(meta?.description || description),
       },
       {
         hid: 'og:type',
@@ -82,7 +82,7 @@ export default function ({ app }, inject): void {
       {
         hid: 'og:description',
         property: 'og:description',
-        content: meta?.description || description,
+        content: convertMarkdownToText(meta?.description || description),
       },
       {
         hid: 'og:image',

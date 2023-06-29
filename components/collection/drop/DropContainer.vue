@@ -176,8 +176,6 @@ import {
   getRandomInt,
   unlockableDesc,
 } from '../unlockable/utils'
-import { convertMarkdownToText } from '@/utils/markdown'
-
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import {
   MINT_ADDRESS,
