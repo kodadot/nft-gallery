@@ -31,15 +31,11 @@
 
 <script setup lang="ts">
 import { NeoField, NeoInputitems } from '@kodadot1/brick'
-import { Attribute } from '@kodadot1/minimark/common'
-
-const valueOf = ({ value }: Attribute) => String(value)
 
 const allTags = ref(['audio', 'video', 'image', 'music', 'abstract'])
 
 const props = withDefaults(
   defineProps<{
-    attr: []
     max?: number
     placeholder?: string
     simple?: boolean
@@ -51,7 +47,7 @@ const props = withDefaults(
 )
 
 const tags = computed({
-  get: () => (props.simple ? props.attr || [] : props.attr?.map(valueOf) || []),
+  get: () => [],
   set: (value) => handleInput(value),
 })
 
