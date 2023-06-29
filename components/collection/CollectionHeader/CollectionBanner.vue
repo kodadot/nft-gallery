@@ -28,6 +28,7 @@ import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
+import { convertMarkdownToText } from '@/utils/markdown'
 
 const { $seoMeta } = useNuxtApp()
 const { placeholder } = useTheme()
@@ -70,7 +71,9 @@ const meta = computed(() => {
   return $seoMeta({
     title: collectionName.value,
     type: 'profile',
-    description: data.value?.collectionEntity.meta?.description,
+    description: convertMarkdownToText(
+      data.value?.collectionEntity.meta?.description
+    ),
     url: route.path,
     image: generateCollectionImage(
       collectionName.value,
