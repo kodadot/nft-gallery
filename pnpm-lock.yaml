@@ -106,9 +106,6 @@ importers:
       '@sentry/browser':
         specifier: 7.42.0
         version: 7.42.0
-      '@sgratzl/chartjs-chart-boxplot':
-        specifier: ^3.10.0
-        version: 3.10.0(chart.js@3.9.1)
       apollo-boost:
         specifier: ^0.4.9
         version: 0.4.9(graphql@16.7.1)
@@ -184,9 +181,6 @@ importers:
       unzipit:
         specifier: ^1.4.3
         version: 1.4.3
-      v-emoji-picker:
-        specifier: ^2.3.3
-        version: 2.3.3(vue@2.7.14)
       vue:
         specifier: 2.7.14
         version: 2.7.14
@@ -7913,19 +7907,6 @@ packages:
       - encoding
       - supports-color
     dev: true
-
-  /@sgratzl/boxplots@1.3.0:
-    resolution: {integrity: sha512-2BRWv+WOH58pwzSgP50buoXgxQic+4auz3BF0wiIUXS8D3QGkdBNgsNdQO1754Tm/0uEwly0R3WaCiGnoYWcmA==}
-    dev: false
-
-  /@sgratzl/chartjs-chart-boxplot@3.10.0(chart.js@3.9.1):
-    resolution: {integrity: sha512-+XzmRr9unHzTAMrNVjQ1U6qKid2fEYpV6byC7WIKyU/nT3zB1g98RDuF+z8cFwBjZm/NdVw0uaQYdjHWwHiPbA==}
-    peerDependencies:
-      chart.js: ^3.9.1
-    dependencies:
-      '@sgratzl/boxplots': 1.3.0
-      chart.js: 3.9.1
-    dev: false
 
   /@sideway/address@4.1.4:
     resolution: {integrity: sha512-7vwq+rOHVWjyXxVlR76Agnvhy8I9rpzjosTESvmhNeXOXdZZB15Fl+TI9x1SiHZH5Jv2wTGduSxFDIaq0m3DUw==}
@@ -23064,16 +23045,6 @@ packages:
 
   /uzip-module@1.0.3:
     resolution: {integrity: sha512-AMqwWZaknLM77G+VPYNZLEruMGWGzyigPK3/Whg99B3S6vGHuqsyl5ZrOv1UUF3paGK1U6PM0cnayioaryg/fA==}
-    dev: false
-
-  /v-emoji-picker@2.3.3(vue@2.7.14):
-    resolution: {integrity: sha512-GLuBowVCwKjGRVQ+DJvP6SVFhLIlyvQTBgwlrBuwPX7wt7xi+fdWxmFtyJDBEp/2/xI1aS6Y2lXvse9Cf2vIzA==}
-    peerDependencies:
-      vue: ^2.6.11
-    dependencies:
-      vue: 2.7.14
-      vue-class-component: 7.2.6(vue@2.7.14)
-      vue-property-decorator: 9.1.2(vue-class-component@7.2.6)(vue@2.7.14)
     dev: false
 
   /v8-to-istanbul@9.1.0:
