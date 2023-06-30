@@ -1,5 +1,5 @@
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { getMimeType } from '@/utils/gallery/media'
+import { whichMimeType } from '@/utils/gallery/media'
 import { useHistoryStore } from '@/stores/history'
 import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
@@ -18,20 +18,6 @@ export interface GalleryItem {
   nftAnimation: Ref<string>
   nftImage: Ref<string>
   nftResources: Ref<NftResources[] | undefined>
-}
-
-const whichMimeType = async (data) => {
-  if (data?.type) {
-    return data?.type
-  }
-  if (data?.animation_url) {
-    return await getMimeType(sanitizeIpfsUrl(data.animation_url))
-  }
-  if (data?.image || data?.mediaUri) {
-    return await getMimeType(sanitizeIpfsUrl(data?.image || data?.mediaUri))
-  }
-
-  return ''
 }
 
 const whichAsset = (data) => {

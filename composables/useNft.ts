@@ -1,7 +1,7 @@
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { getMimeType } from '@/utils/gallery/media'
+import { getMimeType, whichMimeType } from '@/utils/gallery/media'
 
 export type NftResources = {
   id: string
@@ -79,7 +79,9 @@ export default function useNftMetadata(nft: NFTWithMetadata) {
   const { urlPrefix } = usePrefix()
 
   onMounted(async () => {
-    item.value = await getNftMetadata(nft, urlPrefix.value)
+    const metadata = await getNftMetadata(nft, urlPrefix.value)
+    const mimeType = await whichMimeType(metadata)
+    item.value = { ...metadata, mimeType } as any
   })
 
   return {

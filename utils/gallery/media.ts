@@ -1,6 +1,7 @@
 import { $fetch } from 'ohmyfetch'
 
 import { MediaType } from '~/components/rmrk/types'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const mediaWithoutImage = [
   MediaType.VIDEO,
@@ -57,6 +58,9 @@ export function resolveMedia(mimeType?: string): MediaType {
   if (/^audio/.test(mimeType)) {
     return MediaType.AUDIO
   }
+  if (/^video/.test(mimeType)) {
+    return MediaType.VIDEO
+  }
 
   const match = mimeType.match(/^[a-z]+/)
 
@@ -76,4 +80,18 @@ export function resolveMedia(mimeType?: string): MediaType {
   })
 
   return result
+}
+
+export const whichMimeType = async (data) => {
+  if (data?.type) {
+    return data?.type
+  }
+  if (data?.animation_url) {
+    return await getMimeType(sanitizeIpfsUrl(data.animation_url))
+  }
+  if (data?.image || data?.mediaUri) {
+    return await getMimeType(sanitizeIpfsUrl(data?.image || data?.mediaUri))
+  }
+
+  return ''
 }

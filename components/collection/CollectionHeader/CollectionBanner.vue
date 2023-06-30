@@ -1,17 +1,22 @@
 <template>
-  <div
-    class="collection-banner"
-    :style="{ backgroundImage: `url(${collectionAvatar})` }">
+  <div class="collection-banner">
+    <BackgroundMedia
+      :src="collectionAvatar"
+      :mime-type="avatarMimeType"
+      :name="collectionName" />
     <div class="collection-banner-shadow"></div>
 
     <section class="h-full py-8">
       <div class="container is-fluid collection-banner-content">
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">
-            <img
+            <MediaItem
               v-if="collectionAvatar"
               :src="collectionAvatar"
-              :alt="collectionName" />
+              :mime-type="avatarMimeType"
+              class="media"
+              preview />
+
             <img v-else :src="placeholder" />
           </div>
           <h1 class="collection-banner-name">{{ collectionName }}</h1>
@@ -27,8 +32,11 @@ import type { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
+import BackgroundMedia from './BackgroundMedia.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
+import { getMimeType } from '@/utils/gallery/media'
+import { MediaItem } from '@kodadot1/brick'
 
 const { $seoMeta } = useNuxtApp()
 const { placeholder } = useTheme()
@@ -41,6 +49,7 @@ const { data } = useGraphql({
 })
 
 const collectionAvatar = ref('')
+const avatarMimeType = ref('')
 const collectionName = ref('--')
 
 watchEffect(async () => {
@@ -51,10 +60,13 @@ watchEffect(async () => {
 
   if (image && name) {
     collectionAvatar.value = sanitizeIpfsUrl(image)
+    avatarMimeType.value = await getMimeType(collectionAvatar.value)
     collectionName.value = name
   } else {
     const meta = (await processSingleMetadata(metadata)) as NFTMetadata
     const metaImage = sanitizeIpfsUrl(meta?.image)
+    avatarMimeType.value = await getMimeType(metaImage)
+
     const metaName = meta?.name
 
     if (metaName) {
@@ -97,6 +109,16 @@ useNuxt2Meta({
   height: 560px;
   position: relative;
 
+  .background-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+
   @include ktheme() {
     border-bottom: 1px solid theme('border-color');
   }
@@ -132,7 +154,7 @@ useNuxt2Meta({
       box-shadow: theme('primary-shadow');
     }
 
-    img {
+    .media {
       display: block;
       width: 5.5rem;
       height: 5.5rem;
