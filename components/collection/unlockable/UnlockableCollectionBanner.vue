@@ -65,7 +65,7 @@ const meta = computed(() => {
   return $seoMeta({
     title: title.value,
     url: route.path,
-    image: generateDropImage(image.value),
+    image: generateDropImage(title.value, image.value),
     description: description.value,
   })
 })
