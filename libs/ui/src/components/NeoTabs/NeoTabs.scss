@@ -48,6 +48,10 @@ $tabs-font-size: 1rem;
           &:hover:not(.o-tabs__nav-item-default--active) {
             background-color: unset;
             border-bottom-color: theme('k-primary');
+
+            .o-tabs__nav-item-text {
+              color: theme('link-hover');
+            }
           }
         }
       }

@@ -11,7 +11,8 @@
       data-cy="offer-list"
       :disabled="offersDisabled"
       :label="$t('tabs.offers')"
-      tag="div">
+      tag="div"
+      class="py-5">
       <template #header>
         <NeoTooltip
           v-if="offersDisabled"
