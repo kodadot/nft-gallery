@@ -22,6 +22,7 @@
 import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import unloackableBanner from '@/assets/unlockable-banner.svg'
 import { unlockableDesc } from '../unlockable/utils'
+import { generateDropImage } from '@/utils/seoImageGenerator'
 
 const props = defineProps<{
   type: string | undefined
@@ -64,11 +65,12 @@ const meta = computed(() => {
   return $seoMeta({
     title: title.value,
     url: route.path,
-    image: image.value,
+    image: generateDropImage(image.value),
     description: description.value,
   })
 })
 useNuxt2Meta({
+  title,
   meta,
 })
 </script>

@@ -18,3 +18,7 @@ export const generateCollectionImage = (
 ) => {
   return generateNftImage(name, `Items:${itemCount}`, image)
 }
+
+export const generateDropImage = (name: string, image: string) => {
+  return generateNftImage('', '', image)
+}
