@@ -83,7 +83,7 @@ import { NeoField } from '@kodadot1/brick'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
-  MetadataUpload: () => import('@/components/rmrk/Create/DropUpload.vue'),
+  MetadataUpload: () => import('@/components/shared/DropUpload.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
   BasicNumberInput: () =>
     import('@/components/shared/form/BasicNumberInput.vue'),
