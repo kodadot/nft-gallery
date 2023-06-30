@@ -110,10 +110,14 @@
             spellcheck="true"
             data-cy="input-batch-address" />
         </NeoField>
-        <BasicSlider
-          v-model="distribution"
-          label="action.distributionCount"
-          data-cy="input-distribution" />
+
+        <NeoField class="mt-4" :label="$t('action.distributionCount')">
+          <NeoSlider
+            v-model="distribution"
+            data-cy="input-distribution"
+            :min="0"
+            :max="100" />
+        </NeoField>
         <NeoField v-show="syncVisible">
           <b-button
             outlined
@@ -214,7 +218,13 @@ import AuthMixin from '~/utils/mixins/authMixin'
 import { useFiatStore } from '@/stores/fiat'
 import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoField, NeoIcon, NeoInput, NeoSwitch } from '@kodadot1/brick'
+import {
+  NeoField,
+  NeoIcon,
+  NeoInput,
+  NeoSlider,
+  NeoSwitch,
+} from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
 
 const components = {
@@ -228,13 +238,13 @@ const components = {
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  BasicSlider: () => import('@/components/shared/form/BasicSlider.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   NeoIcon,
   NeoSwitch,
   NeoField,
   NeoInput,
+  NeoSlider,
 }
 
 @Component<SimpleMint>({

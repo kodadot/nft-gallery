@@ -61,7 +61,7 @@ const { $i18n } = useNuxtApp()
 const isLoading = useVModel(props, 'value')
 import { useCountDown } from './utils/useCountDown'
 
-const COUNT_DOWN_SECONDS = 31
+const COUNT_DOWN_SECONDS = 51
 const { seconds } = useCountDown(
   new Date().getTime() + COUNT_DOWN_SECONDS * 1000
 )

@@ -3,7 +3,7 @@
     <Navbar />
 
     <main class="is-flex-grow-1">
-      <UnlockableCollectionBanner :key="route.path" />
+      <UnlockableCollectionBanner :key="route.path" :type="type" />
       <hr class="text-color my-0" />
       <Nuxt />
     </main>
@@ -17,6 +17,8 @@ import UnlockableCollectionBanner from '@/components/collection/unlockable/Unloc
 
 const { $config } = useNuxtApp()
 const route = useRoute()
+
+const type = computed(() => route.path.split('/').reverse().at(0))
 
 useNuxt2Meta({
   title: 'Unlockable',
