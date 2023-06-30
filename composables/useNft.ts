@@ -15,9 +15,13 @@ export type ItemResources = {
   mediaUri?: string
   resources?: NftResources[]
 }
+type MimeType = {
+  mimeType?: string
+}
 
 export type NFTWithMetadata = NFT &
-  NFTMetadata & { meta: NFTMetadata } & ItemResources
+  NFTMetadata & { meta: NFTMetadata } & ItemResources &
+  MimeType
 
 function getGeneralMetadata(nft: NFTWithMetadata) {
   return {
@@ -81,7 +85,7 @@ export default function useNftMetadata(nft: NFTWithMetadata) {
   onMounted(async () => {
     const metadata = await getNftMetadata(nft, urlPrefix.value)
     const mimeType = await whichMimeType(metadata)
-    item.value = { ...metadata, mimeType } as any
+    item.value = { ...metadata, mimeType }
   })
 
   return {
