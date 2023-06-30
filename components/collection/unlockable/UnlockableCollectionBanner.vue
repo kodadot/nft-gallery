@@ -62,12 +62,14 @@ const description = computed(() => {
 })
 
 const meta = computed(() => {
-  return $seoMeta({
-    title: title.value,
-    url: route.path,
-    image: generateDropImage(title.value, image.value),
-    description: description.value,
-  })
+  return [
+    ...$seoMeta({
+      title: title.value,
+      url: route.path,
+      image: generateDropImage(title.value, image.value),
+      description: description.value,
+    }),
+  ]
 })
 useNuxt2Meta({
   title,

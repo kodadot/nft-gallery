@@ -102,7 +102,7 @@ export default function ({ app }, inject): void {
       {
         hid: 'twitter:description',
         property: 'twitter:description',
-        content: meta?.description || description,
+        content: convertMarkdownToText(meta?.description || description),
       },
       {
         hid: 'twitter:image',
