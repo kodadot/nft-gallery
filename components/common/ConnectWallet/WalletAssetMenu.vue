@@ -22,13 +22,13 @@
 
       <!-- language -->
       <div data-cy="sidebar-language">
-        <b-dropdown position="is-top-left" aria-role="menu" mobile-modal>
+        <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
           <template #trigger>
             <NeoIcon icon="globe" />
             <span>{{ $t('profileMenu.language') }}</span>
           </template>
 
-          <b-dropdown-item
+          <NeoDropdownItem
             v-for="lang in langsFlags"
             :key="lang.value"
             aria-role="listitem"
@@ -36,9 +36,9 @@
             :value="lang.value"
             :class="{ 'is-active': langStore.getUserLang === lang.value }"
             @click="langStore.setLanguage({ userLang: lang.value })">
-            <a>{{ lang.flag }} {{ lang.label }}</a>
-          </b-dropdown-item>
-        </b-dropdown>
+            <span>{{ lang.flag }} {{ lang.label }}</span>
+          </NeoDropdownItem>
+        </NeoDropdown>
       </div>
 
       <!-- settings -->
@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import { langsFlags } from '@/utils/config/i18n'
 import { useLangStore } from '@/stores/lang'
 
@@ -127,37 +127,10 @@ onMounted(() => {
     }
   }
 
-  :deep .dropdown-content {
-    padding-top: 0;
-
-    @include ktheme() {
-      .has-link a {
-        color: theme('text-color');
-
-        &:hover {
-          background-color: theme('k-accentlight');
-        }
-      }
-
-      .is-active {
-        background-color: theme('text-color');
-
-        a {
-          color: theme('text-color-inverse');
-
-          &:hover {
-            background-color: theme('text-color');
-          }
-        }
-      }
-    }
-  }
-
   @include tablet {
     // manually center dropdown menu, because no props "postition" to center it
-    :deep .dropdown-menu {
+    :deep .o-drop__menu {
       transform: translateX(50px);
-      bottom: 150%;
     }
   }
 }

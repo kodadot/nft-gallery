@@ -6,7 +6,7 @@
     <div class="container is-fluid">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
-          <UnlockableCollectionInfo />
+          <UnlockableCollectionInfo :collection-id="collectionId" />
           <hr class="mb-4" />
 
           <div
@@ -24,38 +24,8 @@
               <span class="has-text-weight-bold is-size-5">First Phase</span
               ><span
                 v-if="mintCountAvailable"
-                class="is-flex is-align-items-center"
-                ><svg
-                  width="42"
-                  height="43"
-                  viewBox="0 0 42 43"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="21" cy="21.2302" r="6" fill="#FF7AC3" />
-                  <g filter="url(#filter0_f_394_6126)">
-                    <circle cx="21" cy="21.7302" r="6" fill="#FF7AC3" />
-                  </g>
-                  <defs>
-                    <filter
-                      id="filter0_f_394_6126"
-                      x="0"
-                      y="0.730164"
-                      width="42"
-                      height="42"
-                      filterUnits="userSpaceOnUse"
-                      color-interpolation-filters="sRGB">
-                      <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                      <feBlend
-                        mode="normal"
-                        in="SourceGraphic"
-                        in2="BackgroundImageFix"
-                        result="shape" />
-                      <feGaussianBlur
-                        stdDeviation="7.5"
-                        result="effect1_foregroundBlur_394_6126" />
-                    </filter>
-                  </defs>
-                </svg>
+                class="is-flex is-align-items-center">
+                <img :src="unlockablePulse" />
                 Open</span
               >
             </div>
@@ -170,9 +140,14 @@ import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
 import unloackableBanner from '@/assets/unlockable-introduce.svg'
+import unlockablePulse from '@/assets/unlockable-pulse.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { DISPLAY_SLIDE_IMAGE_COUNT, collectionId, countDownTime } from './const'
-import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
+import {
+  UNLOCKABLE_CAMPAIGN,
+  createUnlockableMetadata,
+  getRandomInt,
+} from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
 import type Vue from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
@@ -240,7 +215,9 @@ const hasUserMinted = computed(
   () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value
 )
 
-const totalCount = computed(() => collectionData.value?.max || 300)
+const totalCount = computed(
+  () => collectionData.value?.collectionEntity?.max || 300
+)
 const totalAvailableMintCount = computed(
   () =>
     totalCount.value -
@@ -257,10 +234,10 @@ const { data, refetch } = useGraphql({
   },
 })
 
-const refetchData = () => {
+const refetchData = async () => {
   console.log('refetch')
-  refetch()
-  tryAgain()
+  await refetch()
+  await tryAgain()
 }
 
 useSubscriptionGraphql({
@@ -304,16 +281,15 @@ const handleSubmitMint = async () => {
   }
   isLoading.value = true
 
-  const image =
-    resultList.value.find((item) => item.output === selectedImage.value)
-      ?.image || resultList.value[0]?.image
+  const randomIndex = getRandomInt(imageList.value.length - 1)
+  const image = resultList.value.at(randomIndex).image
 
   const hash = await createUnlockableMetadata(image)
 
   const { accountId } = useAuth()
 
   try {
-    await doWaifu(
+    const id = await doWaifu(
       {
         address: accountId.value,
         metadata: hash,
@@ -321,13 +297,19 @@ const handleSubmitMint = async () => {
       },
       UNLOCKABLE_CAMPAIGN
     ).then((res) => {
-      toast('mint success')
-      justMinted.value = `${collectionId}-${res.result.sn}`
+      toast('mint success', 'is-neo', 20000)
       scrollToTop()
+      return `${collectionId}-${res.result.sn}`
     })
+    // 40s timeout
+    setTimeout(() => {
+      isLoading.value = false
+      justMinted.value = id
+      toast('You will be redirected in few seconds', 'is-neo', 3000)
+      return navigateTo(`/${urlPrefix.value}/gallery/${id}`)
+    }, 44000)
   } catch (error) {
-    toast('failed to mint')
-  } finally {
+    toast('failed to mint', 'is-neo', 20000)
     isLoading.value = false
   }
 }

@@ -54,11 +54,11 @@
   }
 
   .chain-option {
-    font-weight: 400;
     font-size: 20px;
     line-height: 23px;
     width: max-content;
     font-weight: 700;
+
     &:hover {
       @include ktheme() {
         color: theme('link-hover');
@@ -130,16 +130,10 @@
     pointer-events: none;
   }
 
-  .dropdown-menu {
-    padding-top: 13px;
-
-    .dropdown-content {
-      max-height: 600px;
-    }
-
-    .dropdown-item {
-      padding: 0px;
-    }
+  .o-acp__item {
+    padding: 0;
+    background: unset!important;
+    color: unset!important;
   }
 }
 

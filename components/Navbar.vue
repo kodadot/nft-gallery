@@ -27,6 +27,7 @@
               ? '/search-mobile-navbar-dark.svg'
               : '/search-mobile-navbar.svg'
           "
+          alt="search"
           @click="showMobileSearchBar" />
 
         <div v-show="openMobileSearchBar">
@@ -52,9 +53,9 @@
       </div>
     </template>
     <template #end>
-      <nuxt-link to="/stmn/drops/free-drop" rel="nofollow">
+      <nuxt-link to="/stmn/drops" rel="nofollow">
         <div class="navbar-item" data-cy="drops">
-          {{ $t('drops') }}
+          {{ $t('drops.title') }}
 
           <NeoIcon
             class="ml-1"
@@ -278,3 +279,14 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize)
 })
 </script>
+
+<style lang="scss" scoped>
+:deep .navbar-explore .o-drop__item {
+  padding: 1.5rem 2rem;
+  min-width: 18.75rem;
+
+  &:hover {
+    background-color: unset;
+  }
+}
+</style>

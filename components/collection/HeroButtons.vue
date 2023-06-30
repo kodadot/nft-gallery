@@ -30,43 +30,54 @@
         class="vertical-seperator mx-4 is-hidden-mobile" />
 
       <div class="is-flex">
-        <NeoDropdown append-to-body>
-          <NeoButton
-            icon="share-alt"
-            class="square-32 mr-3"
-            data-cy="share-button" />
-          <template #items>
-            <NeoDropdownItem
-              v-clipboard:copy="currentCollectionUrl"
-              @click.native="toast(`${$i18n.t('toast.urlCopy')}`)">
-              {{ $i18n.t('share.copyLink') }}
-            </NeoDropdownItem>
-            <NeoDropdownItem @click.native="QRModalActive = true">
-              {{ $i18n.t('share.qrCode') }}
-            </NeoDropdownItem>
-            <NeoDropdownItem>
-              <ShareNetwork
-                tag="div"
-                network="twitter"
-                :hashtags="hashtags"
-                :url="currentCollectionUrl"
-                :title="sharingLabel"
-                twitter-user="KodaDot">
-                {{ $i18n.t('share.twitter') }}
-              </ShareNetwork>
-            </NeoDropdownItem>
+        <NeoDropdown
+          position="bottom-left"
+          append-to-body
+          :mobile-modal="false">
+          <template #trigger="{ active }">
+            <NeoButton
+              icon="share-alt"
+              class="square-32 mr-3"
+              data-cy="share-button"
+              :active="active" />
           </template>
+
+          <NeoDropdownItem
+            v-clipboard:copy="currentCollectionUrl"
+            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            {{ $i18n.t('share.copyLink') }}
+          </NeoDropdownItem>
+          <NeoDropdownItem @click="QRModalActive = true">
+            {{ $i18n.t('share.qrCode') }}
+          </NeoDropdownItem>
+          <NeoDropdownItem>
+            <ShareNetwork
+              tag="div"
+              network="twitter"
+              :hashtags="hashtags"
+              :url="currentCollectionUrl"
+              :title="sharingLabel"
+              twitter-user="KodaDot">
+              {{ $i18n.t('share.twitter') }}
+            </ShareNetwork>
+          </NeoDropdownItem>
         </NeoDropdown>
 
-        <NeoDropdown v-if="!isOwner" append-to-body>
-          <NeoButton
-            icon="ellipsis-vertical"
-            class="square-32"
-            data-cy="more-actions-button" />
+        <NeoDropdown
+          v-if="!isOwner"
+          position="bottom-left"
+          append-to-body
+          :mobile-modal="false">
+          <template #trigger="{ active }">
+            <NeoButton
+              icon="ellipsis-vertical"
+              class="square-32"
+              data-cy="more-actions-button"
+              :active="active" />
+          </template>
 
-          <template #items>
-            <!-- related: https://github.com/kodadot/nft-gallery/issues/5792 -->
-            <!-- <div v-if="isOwner">
+          <!-- related: #5792 -->
+          <!-- <div v-if="isOwner">
               <NeoDropdownItem>
                 {{ $i18n.t('moreActions.delete') }}
               </NeoDropdownItem>
@@ -74,12 +85,9 @@
                 {{ $i18n.t('moreActions.customize') }}
               </NeoDropdownItem>
             </div> -->
-            <div>
-              <NeoDropdownItem disabled>
-                {{ $i18n.t('moreActions.reportCollection') }}
-              </NeoDropdownItem>
-            </div>
-          </template>
+          <NeoDropdownItem disabled>
+            {{ $i18n.t('moreActions.reportCollection') }}
+          </NeoDropdownItem>
         </NeoDropdown>
       </div>
     </div>
