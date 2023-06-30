@@ -13,4 +13,10 @@ export default {
 @import '@oruga-ui/oruga/src/scss/utilities/_animations.scss';
 @import '@oruga-ui/oruga/src/scss/utilities/_helpers.scss';
 @import '@oruga-ui/oruga/src/scss/components/_pagination.scss';
+
+.o-pag__link--current {
+  @include ktheme() {
+    background: theme('k-primary');
+  }
+}
 </style>
