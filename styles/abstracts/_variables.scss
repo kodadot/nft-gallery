@@ -138,17 +138,6 @@ $tabs-link-hover-border-bottom-color: lightpink;
 $container-offset: (2 * $gap);
 $container-max-width: $fullhd;
 
-// pagination
-$pagination-border-color: $primary;
-$pagination-hover-border-color: $primary;
-$pagination-focus-border-color: $primary;
-$pagination-current-background-color: $primary;
-$pagination-disabled-color: pink;
-$pagination-disabled-background-color: mediumvioletred;
-$pagination-disabled-border-color: mediumvioletred;
-$pagination-color: $light-text;
-$pagination-active-color: $light-text;
-
 // table
 $table-head-cell-color: $text;
 $table-color: $text;
@@ -185,14 +174,14 @@ $tooltip-content-zindex: 999;
 
 // Define a list of values for the margin and padding helpers
 $spacing-values: (
-  "0": 0, 
-  "1": 0.25rem, 
-  "2": 0.5rem, 
-  "3": 0.75rem, 
-  "4": 1rem, 
-  "5": 1.5rem, 
-  "6": 2rem, 
-  "7": 2.5rem, 
-  "8": 3rem, 
+  "0": 0,
+  "1": 0.25rem,
+  "2": 0.5rem,
+  "3": 0.75rem,
+  "4": 1rem,
+  "5": 1.5rem,
+  "6": 2rem,
+  "7": 2.5rem,
+  "8": 3rem,
   "auto": auto
 ) !default;
