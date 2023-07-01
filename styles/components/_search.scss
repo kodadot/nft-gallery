@@ -130,11 +130,17 @@
     pointer-events: none;
   }
 
-  .o-acp__item {
-    padding: 0;
-    background: unset!important;
-    color: unset!important;
+  .o-acp__menu {
+    max-height: 610px;
+    .o-acp__item {
+      padding: 0;
+      background: unset!important;
+      color: unset!important;
+    }
   }
+
+
+
 }
 
 .gallery-search {
@@ -224,6 +230,7 @@
     max-width: 34ch;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .secondary-info {
@@ -245,26 +252,30 @@
   .tab-content {
     padding-top: 0 !important;
   }
-
-  .tabs li a {
-    display: flex;
-    padding: 10px 0;
-    justify-content: flex-start;
+  .tabs ul {
     @include ktheme() {
       border-bottom-color: theme('placeholder-color');
     }
   }
 
+  .tabs li a {
+    display: flex;
+    padding: 10px 0;
+    justify-content: center;
+
+  }
+
   .tabs li.is-active a {
     font-weight: 700;
     @include ktheme() {
-      border-bottom-color: theme('placeholder-color');
+      border-bottom-color: $lightpink;
       background: theme('background-color');
       color: theme('text-color') !important;
-      &:hover {
-        background: theme('background-color') !important;
-      }
     }
+  }
+
+  .tabs li.is-disabled {
+    opacity: unset;
   }
 
   .b-tabs:not(:last-child) {
