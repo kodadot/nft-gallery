@@ -63,7 +63,7 @@
     </Variant>
 
     <Variant title="NeoRadioButton">
-      <NeoField>
+      <div class="field">
         <NeoRadioButton
           v-model="radioButton"
           native-value="Nope"
@@ -88,7 +88,7 @@
         <NeoRadioButton v-model="radioButton" native-value="Disabled" disabled>
           Disabled
         </NeoRadioButton>
-      </NeoField>
+      </div>
 
       <p class="content">
         <b>Selection:</b>
@@ -100,7 +100,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import NeoField from './NeoField.vue'
 import NeoRadio from './NeoRadio.vue'
 import NeoRadioButton from './NeoRadioButton.vue'
 

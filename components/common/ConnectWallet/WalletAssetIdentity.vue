@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { IdentityItem, NeoIcon } from '@kodadot1/brick'
+import { NeoIcon } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
 import useIdentity from '@/components/identity/utils/useIdentity'
 
