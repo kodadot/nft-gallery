@@ -30,7 +30,7 @@ export async function execMintCollectionBasilisk(
             })),
         errorMessage:
           item.errorMessage ||
-          $i18n.t('mint.ErrorCreateNewNft', { name: item.collection.name }),
+          $i18n.t('mint.errorCreateNewNft', { name: item.collection.name }),
       })
     }
   })
