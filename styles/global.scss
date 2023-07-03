@@ -138,14 +138,6 @@ body {
   }
 }
 
-// global css for pagination
-.pagination-link {
-  border: none !important;
-  @include ktheme() {
-    border-top: 1px solid theme('k-primary') !important;
-  }
-}
-
 /* move to global */
 .is-ellipsis {
   overflow: hidden;
