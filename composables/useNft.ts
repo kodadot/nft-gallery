@@ -52,12 +52,12 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
   const getAttributes = () => {
     const hasMetadataAttributes =
       metadata.attributes && metadata.attributes.length > 0
-    const hasEmptyNftAttributes =
-      nft.meta.attributes && nft.meta.attributes.length === 0
+    const attr = nft?.meta?.attributes || []
+    const hasEmptyNftAttributes = attr.length === 0
 
     return hasMetadataAttributes && hasEmptyNftAttributes
       ? metadata.attributes
-      : nft.meta.attributes || []
+      : attr
   }
 
   return {
