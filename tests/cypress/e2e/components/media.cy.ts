@@ -34,7 +34,7 @@ describe(
   () => {
     mediaType.forEach(({ url, title, collection, type }) => {
       it(`should render ${type} in Media component`, () => {
-        cy.visit(`${url}?redesign=true`)
+        cy.visit(url)
 
         cy.getCy(`type-${type}`)
           .should('exist')
