@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { defineAsyncComponent } from 'vue'
-import NeoButton from '../NeoButton/NeoButton.vue'
+import { NeoButton } from '@kodadot1/brick'
 
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/IdentityIndex.vue')
