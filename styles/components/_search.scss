@@ -262,14 +262,13 @@
     display: flex;
     padding: 10px 0;
     justify-content: center;
+    border: none;
 
   }
 
   .tabs li.is-active a {
     font-weight: 700;
     @include ktheme() {
-      border-bottom-color: $lightpink;
-      background: theme('background-color');
       color: theme('text-color') !important;
     }
   }
