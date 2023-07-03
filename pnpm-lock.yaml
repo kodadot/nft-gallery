@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -71,8 +71,8 @@ importers:
         specifier: ^0.6.0
         version: 0.6.0(vue@2.7.14)
       '@paraspell/sdk':
-        specifier: ^1.1.10
-        version: 1.1.10(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1)
+        specifier: ^1.1.12
+        version: 1.1.12(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1)
       '@pinia/nuxt':
         specifier: ^0.4.11
         version: 0.4.11(typescript@4.9.5)(vue@2.7.14)
@@ -5139,8 +5139,8 @@ packages:
       '@open-web3/orml-type-definitions': 2.0.1
     dev: false
 
-  /@paraspell/sdk@1.1.10(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1):
-    resolution: {integrity: sha512-qhvd041GrGUs2/XMMKFQa4XtoyYDBCF5GkN5LQcMeT1q5vo9hz+mjkgaJcU/scYtbyYKhokLTS/0vtSy9sHO+w==}
+  /@paraspell/sdk@1.1.12(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1):
+    resolution: {integrity: sha512-2Ta3LXo9A/yQDW1OjqnCGCKjWf1L6hWCudH9EcpuB0mJt5WkTsOp84Ifktz+0Rf/7P8JBbUmU5Yg13iSyDdFzw==}
     peerDependencies:
       '@polkadot/api': ^10.6.1
       '@polkadot/api-base': ^10.6.1
