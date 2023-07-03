@@ -6,7 +6,7 @@
 import Identity from '@/components/common/IdentityForm.vue'
 
 export default {
-  name: 'Identity',
+  name: 'IdentityPage',
   components: {
     Identity,
   },
