@@ -3,7 +3,10 @@
     drole="navigation"
     aria-label="main navigation"
     class="navbar is-fixed-top is-spaced"
-    :class="{ 'navbar-shrink': !showTopNavbar }">
+    :class="{
+      'navbar-shrink': !showTopNavbar,
+      'is-active': isMobileNavbarOpen,
+    }">
     <div class="container" :class="{ 'is-fluid': !isMobile }">
       <!-- BRAND -->
       <div class="navbar-brand">
@@ -46,9 +49,11 @@
         <a
           role="button"
           class="navbar-burger"
+          :class="{ 'is-active': isMobileNavbarOpen }"
           aria-label="menu"
           aria-expanded="false"
-          data-target="MainNavbar">
+          data-target="MainNavbar"
+          @click="showMobileNavbar">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -58,7 +63,10 @@
       <!-- END BRAND -->
 
       <!-- MENU -->
-      <div id="MainNavbar" class="navbar-menu">
+      <div
+        id="MainNavbar"
+        class="navbar-menu"
+        :class="{ 'is-active': isMobileNavbarOpen }">
         <!-- NAV START -->
         <div class="navbar-start">
           <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
@@ -204,6 +212,7 @@ const isMobile = ref(window.innerWidth < 1024)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
+const isMobileNavbarOpen = ref(false)
 
 const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
@@ -228,6 +237,10 @@ const openWalletConnectModal = (): void => {
     parent: root?.value,
     ...ConnectWalletModalConfig,
   } as unknown as BModalConfig)
+}
+
+const showMobileNavbar = () => {
+  isMobileNavbarOpen.value = !isMobileNavbarOpen.value
 }
 
 watch([isBurgerMenuOpened], () => {
