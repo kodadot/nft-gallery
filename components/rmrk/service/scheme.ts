@@ -255,7 +255,9 @@ export const getNftId = (
   nft: Pick<NFT, 'blockNumber' | 'collection' | 'instance' | 'name' | 'sn'>,
   blocknumber?: string | number
 ): string => {
-  return `${blocknumber ? blocknumber + '-' : ''}${nft.collection.id}-${
+  const collectionId =
+    typeof nft.collection === 'string' ? nft.collection : nft.collection.id
+  return `${blocknumber ? blocknumber + '-' : ''}${collectionId}-${
     nft.instance || nft.name
   }-${nft.sn}`
 }
