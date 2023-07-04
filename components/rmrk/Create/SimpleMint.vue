@@ -488,7 +488,7 @@ export default class SimpleMint extends mixins(
   }
 
   protected syncEdition(): void {
-    this.rmrkMint.max = this.actualDistribution
+    this.rmrkMint.max = Number(this.actualDistribution)
   }
 
   protected async sub(): Promise<void> {
@@ -506,6 +506,7 @@ export default class SimpleMint extends mixins(
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { accountId, version } = this
+    this.rmrkMint.max = Number(this.rmrkMint.max)
     const api = await this.useApi()
     const toRemark = mapAsSystemRemark(api)
 
