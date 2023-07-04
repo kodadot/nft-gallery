@@ -105,7 +105,7 @@
 
           <a
             href="https://hello.kodadot.xyz"
-            rel="nofollow"
+            rel="nofollow noopener noreferrer"
             target="_blank"
             class="navbar-item"
             data-cy="learn">
