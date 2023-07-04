@@ -488,7 +488,7 @@ export default class SimpleMint extends mixins(
   }
 
   protected syncEdition(): void {
-    this.rmrkMint.max = Number(this.actualDistribution)
+    this.rmrkMint.max = this.actualDistribution
   }
 
   protected async sub(): Promise<void> {
