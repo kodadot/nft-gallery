@@ -1,6 +1,5 @@
 export { default as CardArticle } from './components/CardArticle/CardArticle.vue'
 export { default as MediaItem } from './components/MediaItem/MediaItem.vue'
-export { default as IdentityItem } from './components/IdentityItem/IdentityItem.vue'
 export { default as NeoButton } from './components/NeoButton/NeoButton.vue'
 export { default as NeoSecondaryButton } from './components/NeoSecondaryButton/NeoSecondaryButton.vue'
 export { default as NeoDropdown } from './components/NeoDropdown/NeoDropdown.vue'
@@ -29,6 +28,7 @@ export { default as NeoCarouselItem } from './components/NeoCarousel/NeoCarousel
 export { default as NeoLoading } from './components/NeoLoading/NeoLoading.vue'
 export { default as NeoMessage } from './components/NeoMessage/NeoMessage.vue'
 export { default as NeoSlider } from './components/NeoSlider/NeoSlider.vue'
+export { default as NeoPagination } from './components/NeoPagination/NeoPagination.vue'
 
 export { default as NeoSwitch } from './components/NeoSwitch/NeoSwitch.vue'
 export { default as NeoSteps } from './components/NeoSteps/NeoSteps.vue'
@@ -41,6 +41,8 @@ export { default as NeoRadioButton } from './components/NeoRadio/NeoRadioButton.
 
 export { default as NeoTable } from './components/NeoTable/NeoTable.vue'
 export { default as NeoTableColumn } from './components/NeoTable/NeoTableColumn.vue'
+
+export { default as NeoUpload } from './components/NeoUpload/NeoUpload.vue'
 
 export { default as NeoCollapse } from './components/NeoCollapse/NeoCollapse.vue'
 
