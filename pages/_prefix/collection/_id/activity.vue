@@ -8,56 +8,52 @@
 
 <script lang="ts">
 import Activity from '@/components/collection/activity/Activity.vue'
-import ExperimentMixin from '@/utils/mixins/experimentMixin'
-import { Component, mixins } from 'nuxt-property-decorator'
 import { useHistoryStore } from '@/stores/history'
-import { generateCollectionImage } from '@/utils/seoImageGenerator'
-import { CurrentCollection } from './index.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import { generateCollectionImage } from '@/utils/seoImageGenerator'
 
-@Component<CollectionActivityPage>({
+export default {
   name: 'CollectionActivityPage',
   components: {
     Activity,
   },
-  layout() {
-    return 'explore-layout'
+  layout: 'explore-layout',
+  setup() {
+    const preferencesStore = usePreferencesStore()
+    const isSidebarOpen = computed(
+      () => preferencesStore.getsidebarFilterCollapse
+    )
+
+    return {
+      isSidebarOpen,
+    }
   },
   head() {
-    const title = this.currentlyViewedCollection.name
+    const historyStore = useHistoryStore()
+    const currentlyViewedCollection = computed(
+      () => historyStore.getCurrentlyViewedCollection
+    )
+    const image = computed(() => {
+      return generateCollectionImage(
+        currentlyViewedCollection.value.name,
+        currentlyViewedCollection.value.numberOfItems,
+        currentlyViewedCollection.value.image
+      )
+    })
+    const title = currentlyViewedCollection.value.name
     const metaData = {
       title,
       type: 'profile',
-      description: this.currentlyViewedCollection.description,
+      description: currentlyViewedCollection.value.description,
       url: this.$route.path,
-      image: this.image,
+      image: image.value,
     }
+
     return {
       title,
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class CollectionActivityPage extends mixins(ExperimentMixin) {
-  private historyStore = useHistoryStore()
-  get preferencesStore() {
-    return usePreferencesStore()
-  }
-  get isSidebarOpen() {
-    return this.preferencesStore.getsidebarFilterCollapse
-  }
-
-  get currentlyViewedCollection(): CurrentCollection {
-    return this.historyStore.getCurrentlyViewedCollection
-  }
-
-  get image(): string {
-    return generateCollectionImage(
-      this.currentlyViewedCollection.name,
-      this.currentlyViewedCollection.numberOfItems,
-      this.currentlyViewedCollection.image
-    )
-  }
 }
 </script>
 
