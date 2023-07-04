@@ -1,6 +1,6 @@
 <template>
   <nav
-    drole="navigation"
+role="navigation"
     aria-label="main navigation"
     class="navbar is-fixed-top is-spaced"
     :class="{
