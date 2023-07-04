@@ -5,29 +5,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-
-const components = {}
-
-@Component<ExploreCollectibles>({
-  components,
-  layout() {
-    return 'explore-layout'
-  },
+export default {
+  name: 'ExploreCollectibles',
+  layout: 'explore-layout',
   head() {
+    const { $route } = useNuxtApp()
+    const runtimeConfig = useRuntimeConfig()
     const title = 'Low minting fees and carbonless NFTs'
     const metaData = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: `/${this.$route.params.prefix}/explore/collectibles`,
-      image: `${this.$config.public.baseUrl}/k_card.png`,
+      url: `/${$route.params.prefix}/explore/collectibles`,
+      image: `${runtimeConfig.public.baseUrl}/k_card.png`,
     }
     return {
       title,
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class ExploreCollectibles extends Vue {}
+}
 </script>

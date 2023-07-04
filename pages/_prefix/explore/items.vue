@@ -7,40 +7,41 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import ExperimentMixin from '@/utils/mixins/experimentMixin'
 import Items from '@/components/items/Items.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
-const components = { Items }
+export default {
+  name: 'ExploreItems',
+  components: {
+    Items,
+  },
+  layout: 'explore-layout',
+  setup() {
+    const preferencesStore = usePreferencesStore()
+    const isSidebarOpen = computed(
+      () => preferencesStore.getsidebarFilterCollapse
+    )
 
-@Component<ExploreItems>({
-  components,
-  layout() {
-    return 'explore-layout'
+    return {
+      isSidebarOpen,
+    }
   },
   head() {
+    const { $route } = useNuxtApp()
+    const runtimeConfig = useRuntimeConfig()
     const title = 'Low minting fees and carbonless NFTs'
     const metaData = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: `/${this.$route.params.prefix}/explore/items`,
-      image: `${this.$config.public.baseUrl}/k_card.png`,
+      url: `/${$route.params.prefix}/explore/items`,
+      image: `${runtimeConfig.public.baseUrl}/k_card.png`,
     }
     return {
       title,
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class ExploreItems extends mixins(ExperimentMixin) {
-  get preferencesStore() {
-    return usePreferencesStore()
-  }
-  get isSidebarOpen() {
-    return this.preferencesStore.getsidebarFilterCollapse
-  }
 }
 </script>
 
