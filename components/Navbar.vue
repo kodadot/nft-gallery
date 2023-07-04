@@ -1,6 +1,7 @@
 <template>
   <nav
-role="navigation"
+    ref="root"
+    role="navigation"
     aria-label="main navigation"
     class="navbar is-fixed-top is-spaced"
     :class="{
@@ -19,7 +20,7 @@ role="navigation"
         </nuxt-link>
         <div
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
-          @click="closeBurgerMenu">
+          @click="showMobileNavbar">
           <img
             v-if="showSearchOnNavbar"
             class="mobile-nav-search-btn mr-2"
@@ -141,11 +142,14 @@ role="navigation"
           <NotificationBoxButton
             v-if="account"
             :show-label="isMobile"
-            @closeBurgerMenu="closeBurgerMenu" />
+            @closeBurgerMenu="showMobileNavbar" />
           <template v-if="isMobile">
-            <MobileLanguageOption v-if="!account" />
+            <template v-if="!account">
+              <MobileLanguageOption />
+              <ColorModeButton class="navbar-item" />
+            </template>
             <div
-              v-if="account"
+              v-else
               class="navbar-item"
               @click.stop="openWalletConnectModal">
               <span>
@@ -154,13 +158,12 @@ role="navigation"
               </span>
               <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
             </div>
-            <ColorModeButton v-if="!account" class="navbar-item" />
 
             <div v-if="!account" id="NavProfile">
               <ConnectWalletButton
                 class="button-connect-wallet"
                 variant="connect"
-                @closeBurgerMenu="closeBurgerMenu" />
+                @closeBurgerMenu="showMobileNavbar" />
             </div>
           </template>
           <ProfileDropdown
@@ -231,7 +234,7 @@ const showSearchOnNavbar = computed(
 )
 
 const openWalletConnectModal = (): void => {
-  closeBurgerMenu()
+  showMobileNavbar()
 
   $buefy.modal.open({
     parent: root?.value,

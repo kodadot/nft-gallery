@@ -12,7 +12,6 @@
       :value="lang.value"
       aria-role="listitem"
       has-link
-      href="javascript;"
       @click="setUserLang(lang.value)">
       <div>{{ lang.flag }} {{ lang.label }}</div>
     </a>
