@@ -4,19 +4,18 @@
     :no-padding="true"
     :title="$t('profileMenu.language')"
     icon="globe">
-    <b-navbar-item
+    <a
       v-for="lang in langsFlags"
       :key="lang.value"
+      class="navbar-item"
       :class="{ 'is-active': userLang === lang.value }"
       :value="lang.value"
       aria-role="listitem"
       has-link
+      href="javascript;"
       @click="setUserLang(lang.value)">
-      <a
-        >{{ lang.flag }}
-        {{ lang.label }}
-      </a>
-    </b-navbar-item>
+      <div>{{ lang.flag }} {{ lang.label }}</div>
+    </a>
   </MobileExpandableSection>
 </template>
 

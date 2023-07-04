@@ -1,149 +1,172 @@
 <template>
-  <b-navbar
-    ref="root"
-    :active.sync="isBurgerMenuOpened"
-    :class="{ 'navbar-shrink': !showTopNavbar }"
-    close-on-click
-    fixed-top
-    mobile-burger
-    spaced
-    :wrapper-class="{ container: true, 'is-fluid': !isMobile }">
-    <template #brand>
-      <b-navbar-item :to="{ path: '/' }" class="logo" tag="nuxt-link">
-        <img
-          :src="logoSrc"
-          alt="First NFT market explorer on Kusama and Polkadot"
-          width="143"
-          height="42" />
-      </b-navbar-item>
-      <div
-        class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
-        @click="closeBurgerMenu">
-        <img
-          v-if="showSearchOnNavbar"
-          class="mobile-nav-search-btn mr-2"
-          :src="
-            isDarkMode
-              ? '/search-mobile-navbar-dark.svg'
-              : '/search-mobile-navbar.svg'
-          "
-          alt="search"
-          @click="showMobileSearchBar" />
+  <nav
+    drole="navigation"
+    aria-label="main navigation"
+    class="navbar is-fixed-top is-spaced"
+    :class="{ 'navbar-shrink': !showTopNavbar }">
+    <div class="container" :class="{ 'is-fluid': !isMobile }">
+      <!-- BRAND -->
+      <div class="navbar-brand">
+        <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
+          <img
+            :src="logoSrc"
+            alt="First NFT market explorer on Kusama and Polkadot"
+            width="143"
+            height="42" />
+        </nuxt-link>
+        <div
+          class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
+          @click="closeBurgerMenu">
+          <img
+            v-if="showSearchOnNavbar"
+            class="mobile-nav-search-btn mr-2"
+            :src="
+              isDarkMode
+                ? '/search-mobile-navbar-dark.svg'
+                : '/search-mobile-navbar.svg'
+            "
+            alt="search"
+            @click="showMobileSearchBar" />
 
-        <div v-show="openMobileSearchBar">
-          <div
-            class="fixed-stack is-flex is-align-items-center is-justify-content-space-between p-2">
-            <Search
-              ref="mobilSearchRef"
-              hide-filter
-              class="is-flex-grow-1 mt-3" />
-            <b-button class="cancel-btn" @click="hideMobileSearchBar">
-              {{ $t('cancel') }}
-            </b-button>
+          <div v-show="openMobileSearchBar">
+            <div
+              class="fixed-stack is-flex is-align-items-center is-justify-content-space-between p-2">
+              <Search
+                ref="mobilSearchRef"
+                hide-filter
+                class="is-flex-grow-1 mt-3" />
+              <b-button class="cancel-btn" @click="hideMobileSearchBar">
+                {{ $t('cancel') }}
+              </b-button>
+            </div>
           </div>
         </div>
+
+        <!-- BURGER MENU -->
+        <a
+          role="button"
+          class="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="MainNavbar">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+        <!-- END BURGER MENU -->
       </div>
-    </template>
-    <template #start>
-      <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
-        <Search
-          class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
-          hide-filter
-          search-column-class="is-flex-grow-1" />
-      </div>
-    </template>
-    <template #end>
-      <nuxt-link to="/stmn/drops" rel="nofollow">
-        <div class="navbar-item" data-cy="drops">
-          {{ $t('drops.title') }}
+      <!-- END BRAND -->
 
-          <NeoIcon
-            class="ml-1"
-            icon="fire-flame-curved"
-            custom-size="fa-solid"
-            pack="fa-sharp"
-            variant="primary" />
+      <!-- MENU -->
+      <div id="MainNavbar" class="navbar-menu">
+        <!-- NAV START -->
+        <div class="navbar-start">
+          <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
+            <Search
+              class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
+              hide-filter
+              search-column-class="is-flex-grow-1" />
+          </div>
         </div>
-      </nuxt-link>
-      <template v-if="isExploreVisible">
-        <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
-          <NavbarExploreOptions />
-        </MobileExpandableSection>
+        <!-- END NAV START -->
 
-        <ExploreDropdown
-          v-else
-          class="navbar-explore custom-navbar-item"
-          data-cy="explore" />
-      </template>
+        <!-- NAV END -->
+        <div class="navbar-end">
+          <nuxt-link to="/stmn/drops" rel="nofollow">
+            <div class="navbar-item" data-cy="drops">
+              {{ $t('drops.title') }}
 
-      <a
-        href="https://hello.kodadot.xyz"
-        rel="nofollow"
-        target="_blank"
-        class="navbar-item"
-        data-cy="learn">
-        {{ $t('learn') }}
-      </a>
-      <CreateDropdown
-        v-show="isCreateVisible"
-        class="navbar-create custom-navbar-item ml-0"
-        data-cy="create"
-        :is-mobile="isMobile"
-        :chain="urlPrefix" />
+              <NeoIcon
+                class="ml-1"
+                icon="fire-flame-curved"
+                custom-size="fa-solid"
+                pack="fa-sharp"
+                variant="primary" />
+            </div>
+          </nuxt-link>
+          <template v-if="isExploreVisible">
+            <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
+              <NavbarExploreOptions />
+            </MobileExpandableSection>
 
-      <!-- commenting as part of #5889-->
-      <!-- <StatsDropdown
-        class="navbar-stats custom-navbar-item"
-        data-cy="stats"
-        :is-mobile="isMobile"
-        :chain="urlPrefix" /> -->
+            <ExploreDropdown
+              v-else
+              class="navbar-explore custom-navbar-item"
+              data-cy="explore" />
+          </template>
 
-      <MobileExpandableSection
-        v-if="isMobile"
-        no-padding
-        :title="$t('chainSelect', [chainName])">
-        <NavbarChainOptions />
-      </MobileExpandableSection>
+          <a
+            href="https://hello.kodadot.xyz"
+            rel="nofollow"
+            target="_blank"
+            class="navbar-item"
+            data-cy="learn">
+            {{ $t('learn') }}
+          </a>
+          <CreateDropdown
+            v-show="isCreateVisible"
+            class="navbar-create custom-navbar-item ml-0"
+            data-cy="create"
+            :is-mobile="isMobile"
+            :chain="urlPrefix" />
 
-      <ChainSelectDropdown
-        v-else
-        id="NavChainSelect"
-        class="navbar-chain custom-navbar-item"
-        data-cy="chain-select" />
+          <!-- commenting as part of #5889-->
+          <!-- <StatsDropdown
+          class="navbar-stats custom-navbar-item"
+          data-cy="stats"
+          :is-mobile="isMobile"
+          :chain="urlPrefix" /> -->
 
-      <NotificationBoxButton
-        v-if="account"
-        :show-label="isMobile"
-        @closeBurgerMenu="closeBurgerMenu" />
-      <template v-if="isMobile">
-        <MobileLanguageOption v-if="!account" />
-        <div
-          v-if="account"
-          class="navbar-item"
-          @click.stop="openWalletConnectModal">
-          <span>
-            {{ $t('profile.page') }}
-            <NeoIcon icon="user-circle" />
-          </span>
-          <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
-        </div>
-        <ColorModeButton v-if="!account" class="navbar-item" />
+          <MobileExpandableSection
+            v-if="isMobile"
+            no-padding
+            :title="$t('chainSelect', [chainName])">
+            <NavbarChainOptions />
+          </MobileExpandableSection>
 
-        <div v-if="!account" id="NavProfile">
-          <ConnectWalletButton
-            class="button-connect-wallet"
-            variant="connect"
+          <ChainSelectDropdown
+            v-else
+            id="NavChainSelect"
+            class="navbar-chain custom-navbar-item"
+            data-cy="chain-select" />
+
+          <NotificationBoxButton
+            v-if="account"
+            :show-label="isMobile"
+            @closeBurgerMenu="closeBurgerMenu" />
+          <template v-if="isMobile">
+            <MobileLanguageOption v-if="!account" />
+            <div
+              v-if="account"
+              class="navbar-item"
+              @click.stop="openWalletConnectModal">
+              <span>
+                {{ $t('profile.page') }}
+                <NeoIcon icon="user-circle" />
+              </span>
+              <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
+            </div>
+            <ColorModeButton v-if="!account" class="navbar-item" />
+
+            <div v-if="!account" id="NavProfile">
+              <ConnectWalletButton
+                class="button-connect-wallet"
+                variant="connect"
+                @closeBurgerMenu="closeBurgerMenu" />
+            </div>
+          </template>
+          <ProfileDropdown
+            v-if="!isMobile"
+            id="NavProfile"
+            :chain="urlPrefix"
+            data-cy="profileDropdown"
             @closeBurgerMenu="closeBurgerMenu" />
         </div>
-      </template>
-      <ProfileDropdown
-        v-if="!isMobile"
-        id="NavProfile"
-        :chain="urlPrefix"
-        data-cy="profileDropdown"
-        @closeBurgerMenu="closeBurgerMenu" />
-    </template>
-  </b-navbar>
+        <!-- END NAV END -->
+      </div>
+      <!-- END MENU -->
+    </div>
+  </nav>
 </template>
 
 <script lang="ts" setup>
@@ -269,6 +292,7 @@ const chainName = computed(() => getChainNameByPrefix(urlPrefix.value))
 onMounted(() => {
   window.addEventListener('scroll', onScroll)
   document.body.style.overflowY = 'initial'
+  document.body.className = 'has-navbar-fixed-top has-spaced-navbar-fixed-top'
   window.addEventListener('resize', handleResize)
 })
 
