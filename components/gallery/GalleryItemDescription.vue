@@ -23,7 +23,8 @@
     <NeoTabItem
       value="1"
       :disabled="propertiesTabDisabled"
-      :label="$t('tabs.properties')">
+      :label="$t('tabs.properties')"
+      class="p-5">
       <template #header>
         <NeoTooltip
           v-if="propertiesTabDisabled"

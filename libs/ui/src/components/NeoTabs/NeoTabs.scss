@@ -39,6 +39,7 @@ $tabs-font-size: 1rem;
       &-default {
         @include ktheme() {
           color: theme('text-color');
+          margin-bottom: 1.5rem;
 
           &--active {
             border-bottom-color: theme('k-primary');
@@ -49,7 +50,9 @@ $tabs-font-size: 1rem;
             background-color: unset;
             border-bottom-color: theme('k-primary');
 
-            .o-tabs__nav-item-text {
+            .o-tabs__nav-item-text,
+            span,
+            div {
               color: theme('link-hover');
             }
           }

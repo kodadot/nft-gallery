@@ -12,7 +12,7 @@
       :disabled="offersDisabled"
       :label="$t('tabs.offers')"
       tag="div"
-      class="py-5">
+      class="p-5">
       <template #header>
         <NeoTooltip
           v-if="offersDisabled"
