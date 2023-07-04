@@ -4,18 +4,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import CreateCollection from './CreateCollection.vue'
 
-@Component({
-  components: {
-    CreateCollection,
-  },
-})
-export default class Create extends Vue {
-  onCollectionCreated() {
-    this.$emit('navigateToCreateNftTab')
-  }
+const emit = defineEmits(['navigateToCreateNftTab'])
+
+const onCollectionCreated = () => {
+  emit('navigateToCreateNftTab')
 }
 </script>

@@ -161,7 +161,7 @@
 
 <script setup lang="ts">
 import { OCarousel, OCarouselItem } from '@oruga-ui/oruga'
-import { IdentityItem, MediaItem, NeoIcon } from '@kodadot1/brick'
+import { MediaItem, NeoIcon } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 

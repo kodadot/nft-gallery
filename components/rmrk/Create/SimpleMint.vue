@@ -229,7 +229,7 @@ import { useIdentityStore } from '@/stores/identity'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
-  MetadataUpload: () => import('./DropUpload.vue'),
+  MetadataUpload: () => import('@/components/shared/DropUpload.vue'),
   Support,
   AttributeTagInput: () => import('./AttributeTagInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),

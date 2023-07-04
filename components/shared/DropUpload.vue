@@ -9,7 +9,7 @@
     </div>
     <div class="field">
       <NeoField class="file is-primary">
-        <b-upload
+        <NeoUpload
           ref="upload"
           v-model="file"
           :required="required"
@@ -37,7 +37,7 @@
               </p>
             </div>
           </section>
-        </b-upload>
+        </NeoUpload>
       </NeoField>
       <transition v-if="fileSizeFailed" name="fade">
         <div class="help is-danger">
@@ -57,13 +57,14 @@
 import { Component, Emit, Prop, Ref, Vue } from 'nuxt-property-decorator'
 import MediaResolver from '@/components/media/MediaResolver.vue'
 import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
-import { NeoField, NeoIcon } from '@kodadot1/brick'
+import { NeoField, NeoIcon, NeoUpload } from '@kodadot1/brick'
 
 @Component({
   components: {
     MediaResolver,
     NeoField,
     NeoIcon,
+    NeoUpload,
   },
 })
 export default class DropUpload extends Vue {
