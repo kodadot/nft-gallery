@@ -91,7 +91,7 @@ const SubmitButton = defineAsyncComponent(
 )
 
 const RadioSelect = defineAsyncComponent(
-  () => import('@/components/shared/input/selectable/RadioSelect.vue')
+  () => import('@/components/shared/form/RadioSelect.vue')
 )
 
 const form = reactive<Options>({

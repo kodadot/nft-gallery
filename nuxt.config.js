@@ -137,7 +137,7 @@ export default defineNuxtConfig({
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', ${process.env.GOOGLE_ANALYTICS_ID});
+      gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}');
       `,
         type: 'text/javascript',
       },

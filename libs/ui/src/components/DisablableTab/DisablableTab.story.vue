@@ -34,6 +34,7 @@ const tabContent =
 </script>
 <style lang="scss">
 @import '@oruga-ui/oruga/dist/oruga.min.css';
+@import '../../scss/theme.scss';
 
 .o-tabs {
   @include ktheme() {

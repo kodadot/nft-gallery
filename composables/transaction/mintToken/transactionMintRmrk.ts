@@ -17,7 +17,6 @@ import {
 } from '@kodadot1/minimark/v2'
 
 import { basicUpdateFunction } from '@/components/unique/NftUtils'
-import { usePreferencesStore } from '@/stores/preferences'
 import { Extrinsic, asSystemRemark } from '@kodadot1/minimark/common'
 import {
   ActionMintToken,
@@ -27,6 +26,7 @@ import {
 } from '../types'
 import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
+import { calculateFees, copiesToMint } from './utils'
 
 const getOnChainProperties = ({ tags, royalty, hasRoyalty }: TokenToMint) => {
   let onChainProperties = convertAttributesToProperties(tags)
@@ -50,14 +50,6 @@ const getMintFunction = (isV2: boolean) =>
 
 const getUpdateNameFn = (token: TokenToMint) =>
   token.postfix && token.copies > 1 ? basicUpdateFunction : undefined
-
-const copiesToMint = (token: TokenToMint): number => {
-  const { copies, selectedCollection } = token
-  const { alreadyMinted, max } = selectedCollection as MintedCollectionKusama
-  const maxAllowedNftsInCollection = max === 0 ? Infinity : max
-  const remaining = maxAllowedNftsInCollection - alreadyMinted
-  return Math.min(copies, remaining)
-}
 
 const createMintObject = (token: TokenToMint, metadata, updateNameFn) => {
   const { isV2 } = useRmrkVersion()
@@ -94,18 +86,6 @@ const createMintInteractionObject = (
     )
   }
   return mint.map((nft) => createMintInteraction(Interaction.MINTNFT, nft))
-}
-
-const calculateFees = () => {
-  const preferences = usePreferencesStore()
-  const enabledFees: boolean =
-    preferences.getHasSupport || preferences.getHasCarbonOffset
-
-  const feeMultiplier =
-    Number(preferences.getHasSupport) +
-    2 * Number(preferences.getHasCarbonOffset)
-
-  return { enabledFees, feeMultiplier }
 }
 
 const processSingleTokenToMint = async (
@@ -177,10 +157,11 @@ export async function execMintRmrk({
 
   const isSingle = args.length === 1
   const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
+  const arg = isSingle ? args : [args]
 
   executeTransaction({
     cb,
-    arg: [args],
+    arg,
     successMessage:
       item.successMessage ||
       ((blockNumber) =>
@@ -190,7 +171,7 @@ export async function execMintRmrk({
         })),
     errorMessage:
       item.errorMessage ||
-      $i18n.t('mint.ErrorCreateNewNft', { name: nameInNotifications }),
+      $i18n.t('mint.errorCreateNewNft', { name: nameInNotifications }),
   })
   return {
     createdNFTs,
