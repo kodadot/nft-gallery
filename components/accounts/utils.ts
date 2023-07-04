@@ -45,19 +45,14 @@ export const sendFunction = (
   const randomFn = random ? random : notRandomFunction
   const slice = toDistribute(parsedAddresses.length, distribution)
   const subset = randomFn(Array.from(new Set(parsedAddresses))).slice(0, slice)
-  return (nfts: string[] | AdminNFT[], version: string) => {
+  return (nfts: string[] | AdminNFT[]) => {
     const lessTokensThanAdresses = nfts.length < subset.length
     const final = subset.slice(
       0,
       lessTokensThanAdresses ? nfts.length : undefined
     )
     return final.map((addr, index) =>
-      createInteraction(
-        Interaction.SEND,
-        version,
-        justId(nfts[index]),
-        String(addr)
-      )
+      createInteraction(Interaction.SEND, justId(nfts[index]), String(addr))
     )
   }
 }

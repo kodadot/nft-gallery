@@ -622,10 +622,7 @@ export default class SimpleMint extends mixins(
         addresses,
         this.distribution,
         this.random ? shuffleFunction(await this.fetchRandomSeed()) : undefined
-      )(
-        onlyNfts.map((nft) => nft.id),
-        this.version
-      )
+      )(onlyNfts.map((nft) => nft.id))
       const restOfTheRemarks =
         onlyNfts.length > addresses.length && this.price
           ? onlyNfts
