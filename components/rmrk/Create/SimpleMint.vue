@@ -211,7 +211,12 @@ import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import Vue from 'vue'
 import { unwrapSafe } from '@/utils/uniquery'
 import NFTUtils, { MintType } from '../service/NftUtils'
-import { NFT, NFTMetadata, SimpleNFT, getNftId } from '../service/scheme'
+import {
+  NFTMetadata,
+  RmrkCreatedNft,
+  SimpleNFT,
+  toNFTId,
+} from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
 import AuthMixin from '~/utils/mixins/authMixin'
@@ -590,7 +595,7 @@ export default class SimpleMint extends mixins(
   }
 
   protected async sendBatch(
-    remarks: NFT[],
+    remarks: RmrkCreatedNft[],
     originalBlockNumber: string
   ): Promise<void> {
     try {
@@ -601,7 +606,7 @@ export default class SimpleMint extends mixins(
 
       const onlyNfts = remarks
         .filter(NFTUtils.isNFT)
-        .map((nft) => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
+        .map((nft) => ({ ...nft, id: toNFTId(nft, originalBlockNumber) }))
       // .map(nft =>
       //   NFTUtils.createInteraction('SEND', version, nft.id, String(price))
       // )
@@ -703,9 +708,12 @@ export default class SimpleMint extends mixins(
     this.isLoading = false
   }
 
-  public async listForSale(remarks: NFT[], originalBlockNumber: string) {
+  public async listForSale(
+    remarks: RmrkCreatedNft[],
+    originalBlockNumber: string
+  ) {
     try {
-      const { price, version } = this
+      const { price } = this
       showNotification(
         `[APP] Listing NFT to sale for ${formatBalance(price, {
           decimals: this.decimals,
@@ -715,9 +723,9 @@ export default class SimpleMint extends mixins(
 
       const onlyNfts = remarks
         .filter(NFTUtils.isNFT)
-        .map((nft) => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
+        .map((nft) => ({ ...nft, id: toNFTId(nft, originalBlockNumber) }))
         .map((nft) =>
-          createInteraction(Interaction.LIST, version, nft.id, String(price))
+          createInteraction(Interaction.LIST, nft.id, String(price))
         )
 
       if (!onlyNfts.length) {
@@ -836,13 +844,13 @@ export default class SimpleMint extends mixins(
     return unSanitizeIpfsUrl(metaHash)
   }
 
-  protected navigateToDetail(nft: NFT, blockNumber: string) {
+  protected navigateToDetail(nft: RmrkCreatedNft, blockNumber: string) {
     showNotification(
       `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
     )
     const go = () =>
       this.$router.push({
-        path: `/rmrk/gallery/${getNftId(nft, blockNumber)}`,
+        path: `/rmrk/gallery/${toNFTId(nft, blockNumber)}`,
         query: { congratsNft: nft.name },
       })
     setTimeout(go, DETAIL_TIMEOUT)

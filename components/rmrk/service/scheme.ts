@@ -251,19 +251,19 @@ export interface CollectionEvents {
   }
 }
 
+export type RmrkCreatedNft = CreatedNFT | CreatedNFTV2
+
 export const getNftId = (
   nft: Pick<NFT, 'blockNumber' | 'collection' | 'instance' | 'name' | 'sn'>,
   blocknumber?: string | number
 ): string => {
-  const collectionId =
-    typeof nft.collection === 'string' ? nft.collection : nft.collection.id
-  return `${blocknumber ? blocknumber + '-' : ''}${collectionId}-${
+  return `${blocknumber ? blocknumber + '-' : ''}${nft.collection.id}-${
     nft.instance || nft.name
   }-${nft.sn}`
 }
 
 export const toNFTId = (
-  nft: CreatedNFT | CreatedNFTV2,
+  nft: RmrkCreatedNft,
   blocknumber: string | number
 ): string => {
   const nftId = Object.prototype.hasOwnProperty.call(nft, 'instance')
