@@ -105,7 +105,6 @@ const price = computed(() => {
 })
 
 onMounted(async () => {
-  console.log('props.drop.collection', props.drop.collection)
   if (!props.drop?.collection) {
     return
   }
