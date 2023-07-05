@@ -32,9 +32,11 @@ const userLang = computed(() => {
   $i18n.locale = langStore.language.userLang
   return langStore.language.userLang
 })
+const emit = defineEmits(['closeLanguageOption'])
 
 const setUserLang = (value: string) => {
   langStore.setLanguage({ userLang: value })
   $i18n.locale = value
+  emit('closeLanguageOption')
 }
 </script>

@@ -142,9 +142,10 @@
             v-if="account"
             :show-label="isMobile"
             @closeBurgerMenu="showMobileNavbar" />
+
           <template v-if="isMobile">
             <template v-if="!account">
-              <MobileLanguageOption />
+              <MobileLanguageOption @closeLanguageOption="showMobileNavbar" />
               <ColorModeButton class="navbar-item" />
             </template>
             <div
@@ -165,6 +166,7 @@
                 @closeBurgerMenu="showMobileNavbar" />
             </div>
           </template>
+
           <ProfileDropdown
             v-if="!isMobile"
             id="NavProfile"
