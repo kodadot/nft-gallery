@@ -39,4 +39,3 @@ withDefaults(
   min-height: 18px;
 }
 </style>
->
