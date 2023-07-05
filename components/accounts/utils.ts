@@ -1,6 +1,10 @@
 import correctFormat from '~/utils/ss58Format'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
+import {
+  Interaction as InteractionV2,
+  createInteraction as createInteractionV2,
+} from '@kodadot1/minimark/v2'
 import { useChainStore } from '@/stores/chain'
 
 export type ShuffleFunction = (arr: string[]) => string[]
@@ -46,14 +50,23 @@ export const sendFunction = (
   const slice = toDistribute(parsedAddresses.length, distribution)
   const subset = randomFn(Array.from(new Set(parsedAddresses))).slice(0, slice)
   return (nfts: string[] | AdminNFT[]) => {
+    const { isV2 } = useRmrkVersion()
     const lessTokensThanAdresses = nfts.length < subset.length
     const final = subset.slice(
       0,
       lessTokensThanAdresses ? nfts.length : undefined
     )
-    return final.map((addr, index) =>
-      createInteraction(Interaction.SEND, justId(nfts[index]), String(addr))
-    )
+    return final.map((addr, index) => {
+      const id = justId(nfts[index])
+      const recipient = String(addr)
+      if (isV2.value) {
+        return createInteractionV2({
+          action: InteractionV2.SEND,
+          payload: { id, recipient },
+        })
+      }
+      return createInteraction(Interaction.SEND, id, recipient)
+    })
   }
 }
 
