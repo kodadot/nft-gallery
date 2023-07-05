@@ -9,31 +9,31 @@
   </NeoSwitch>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { round } from '@/utils/support'
 import { NeoSwitch } from '@kodadot1/brick'
 
-@Component({ components: { NeoSwitch } })
-export default class Support extends Vue {
-  @Prop() public value!: boolean
-  @Prop({ type: Boolean, default: true }) public showPrice?: boolean
-  @Prop({ default: 0 }) public price!: number
-  @Prop({ default: 'I am helping to cover costs' })
-  public activeMessage!: string
-  @Prop({ default: 'I do not want to support' }) public passiveMessage!: string
-  @Prop({ default: '' }) public type!: string
-
-  get priceString() {
-    return this.showPrice ? ` ($ ${round(this.price)})` : ''
+const props = withDefaults(
+  defineProps<{
+    value: boolean
+    showPrice?: boolean
+    price?: number
+    activeMessage: string
+    passiveMessage: string
+    type: string
+  }>(),
+  {
+    showPrice: true,
+    price: 0,
+    activeMessage: 'I am helping to cover costs',
+    passiveMessage: 'I do not want to support',
+    type: '',
   }
-
-  get model() {
-    return this.value
-  }
-
-  set model(value: boolean) {
-    this.$emit('input', value)
-  }
-}
+)
+const emit = defineEmits(['input'])
+const priceString = ref(props.showPrice ? ` ($ ${round(props.price)})` : '')
+const model = computed({
+  get: () => props.value,
+  set: (value: boolean) => emit('input', value),
+})
 </script>
