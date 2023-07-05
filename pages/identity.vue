@@ -3,17 +3,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
 import Identity from '@/components/common/IdentityForm.vue'
 
-@Component({
+export default {
+  name: 'IdentityPage',
   components: {
     Identity,
   },
-})
-export default class IdentityPage extends Vue {
-  layout() {
-    return 'centered-half-layout'
-  }
+  layout: 'centered-half-layout',
 }
 </script>

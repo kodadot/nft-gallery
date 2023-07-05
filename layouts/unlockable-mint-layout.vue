@@ -15,21 +15,9 @@
 <script lang="ts" setup>
 import UnlockableCollectionBanner from '@/components/collection/unlockable/UnlockableCollectionBanner.vue'
 
-const { $config } = useNuxtApp()
 const route = useRoute()
 
 const type = computed(() => route.path.split('/').reverse().at(0))
-
-useNuxt2Meta({
-  title: 'Unlockable',
-  link: [
-    {
-      hid: 'canonical',
-      rel: 'canonical',
-      href: $config.public.baseUrl + route.path,
-    },
-  ],
-})
 </script>
 
 <style lang="scss" scoped>

@@ -9,6 +9,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
 import NeoModal from './NeoModal.vue'
 
 const modalActive = ref(true)

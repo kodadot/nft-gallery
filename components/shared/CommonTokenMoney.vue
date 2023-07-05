@@ -10,24 +10,26 @@
   <Money v-else :value="value" :data-cy="dataCy" inline :round="round" />
 </template>
 
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
+<script lang="ts" setup>
+import Money from '@/components/shared/format/Money.vue'
+import TokenMoney from '@/components/bsx/format/TokenMoney.vue'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
-const components = {
-  Money: () => import('@/components/shared/format/Money.vue'),
-  TokenMoney: () => import('@/components/bsx/format/TokenMoney.vue'),
-}
-
-@Component({ components })
-export default class CommonTokenMoney extends mixins(PrefixMixin) {
-  @Prop({ default: '0' }) readonly value!: number | string | undefined
-  @Prop({ default: '' }) readonly customTokenId!: string | undefined
-  @Prop({ type: String, default: '' }) readonly dataCy!: string
-  @Prop({ type: Number, default: 4 }) readonly round!: number
-
-  get currentTokenId() {
-    return this.customTokenId || this.tokenId
+withDefaults(
+  defineProps<{
+    value: number | string | undefined
+    customTokenId?: string | undefined
+    dataCy: string
+    round: number
+  }>(),
+  {
+    value: '0',
+    customTokenId: '',
+    dataCy: '',
+    round: 4,
   }
-}
+)
+
+const { urlPrefix } = usePrefix()
+const tokenId = computed(() => getKusamaAssetId(urlPrefix.value))
 </script>

@@ -30,3 +30,29 @@ export function useNewCollectionId() {
     refetch,
   }
 }
+
+export function useStatemineNewCollectionId() {
+  const { apiInstance } = useApi()
+  const { $consola } = useNuxtApp()
+  const nextCollectionId = ref<number>()
+  const unsubscribe = ref<() => void>()
+
+  const getCollectionId = async () => {
+    const api = await apiInstance.value
+
+    const unsub = await api.query.nfts.nextCollectionId((result) => {
+      nextCollectionId.value = result.unwrap().toNumber()
+    })
+
+    unsubscribe.value = unsub
+  }
+
+  getCollectionId().catch((e) => {
+    $consola.error('Error getting collection id', e)
+  })
+
+  return {
+    nextCollectionId,
+    unsubscribe,
+  }
+}
