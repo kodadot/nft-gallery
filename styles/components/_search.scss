@@ -134,13 +134,10 @@
     max-height: 610px;
     .o-acp__item {
       padding: 0;
-      background: unset!important;
-      color: unset!important;
+      background: unset !important;
+      color: unset !important;
     }
   }
-
-
-
 }
 
 .gallery-search {
@@ -263,7 +260,6 @@
     padding: 10px 0;
     justify-content: center;
     border: none;
-
   }
 
   .tabs li.is-active a {
@@ -273,13 +269,6 @@
     }
   }
 
-  .tabs li.is-disabled {
-    opacity: unset;
-  }
-
-  .b-tabs:not(:last-child) {
-    margin-bottom: 0;
-  }
   .tabs:not(:last-child) {
     margin-bottom: 0.5rem;
     padding: 0px $desktop-padding-x;
