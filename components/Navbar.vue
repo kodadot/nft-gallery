@@ -1,6 +1,5 @@
 <template>
   <nav
-    ref="root"
     role="navigation"
     aria-label="main navigation"
     class="navbar is-fixed-top is-spaced"
@@ -183,7 +182,6 @@
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
 import { BModalConfig } from 'buefy/types/components'
-import type Vue from 'vue'
 
 import KodaBeta from '@/assets/Koda_Beta.svg'
 import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
@@ -205,7 +203,7 @@ import { getChainNameByPrefix } from '@/utils/chain'
 import { createVisible, explorerVisible } from '@/utils/config/permision.config'
 
 const { $buefy, $nextTick } = useNuxtApp()
-const root = ref<Vue<Record<string, string>>>()
+const instance = getCurrentInstance()
 const showTopNavbar = ref(true)
 const openMobileSearchBar = ref(false)
 const fixedTitleNavAppearDistance = ref(85)
@@ -237,7 +235,7 @@ const openWalletConnectModal = (): void => {
   showMobileNavbar()
 
   $buefy.modal.open({
-    parent: root?.value,
+    parent: instance?.proxy,
     ...ConnectWalletModalConfig,
   } as unknown as BModalConfig)
 }
