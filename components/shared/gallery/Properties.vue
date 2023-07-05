@@ -17,23 +17,23 @@
   </CollapseCardWrapper>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { Attribute } from '@kodadot1/minimark/common'
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { emptyArray } from '~/utils/empty'
+import CollapseCardWrapper from '@/components/shared/collapse/CollapseCardWrapper.vue'
 
-const components = {
-  CollapseCardWrapper: () =>
-    import('@/components/shared/collapse/CollapseCardWrapper.vue'),
-}
-
-@Component({ components })
-export default class Properties extends Vue {
-  @Prop({ type: Array, default: () => emptyArray<Attribute>() })
-  public attributes!: Attribute[]
-  @Prop({ type: String, default: 'trait_type' }) public fieldKey!: string
-}
+withDefaults(
+  defineProps<{
+    attributes: Attribute[]
+    fieldKey: string
+  }>(),
+  {
+    attributes: () => emptyArray<Attribute>(),
+    fieldKey: 'trait_type',
+  }
+)
 </script>
+
 <style>
 .properties-attribute-key {
   min-height: 18px;
