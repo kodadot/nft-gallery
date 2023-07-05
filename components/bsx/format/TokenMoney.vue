@@ -19,7 +19,7 @@ const props = withDefaults(
     value: number | string | undefined
     tokenId: string
     inline: boolean
-    hideUnit: boolean
+    hideUnit?: boolean
     round: number
   }>(),
   {
