@@ -19,9 +19,9 @@
         </nuxt-link>
         <div
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
-          @click="showMobileNavbar">
+          @click="closeBurgerMenu">
           <img
-            v-if="showSearchOnNavbar"
+            v-if="isMobileNavbarOpen"
             class="mobile-nav-search-btn mr-2"
             :src="
               isDarkMode
@@ -246,6 +246,10 @@ const showMobileNavbar = () => {
   isMobileNavbarOpen.value = !isMobileNavbarOpen.value
 }
 
+const closeBurgerMenu = () => {
+  isBurgerMenuOpened.value = false
+}
+
 watch([isBurgerMenuOpened], () => {
   setBodyScroll(!isBurgerMenuOpened.value)
 })
@@ -293,10 +297,6 @@ const showMobileSearchBar = () => {
 const hideMobileSearchBar = () => {
   openMobileSearchBar.value = false
   setBodyScroll(true)
-}
-
-const closeBurgerMenu = () => {
-  isBurgerMenuOpened.value = false
 }
 
 const handleResize = () => {
