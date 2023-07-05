@@ -6,7 +6,7 @@
     <div class="container is-fluid">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
-          <UnlockableCollectionInfo />
+          <UnlockableCollectionInfo :collection-id="collectionId" />
           <hr class="mb-4" />
 
           <div
@@ -143,7 +143,12 @@ import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import unlockablePulse from '@/assets/unlockable-pulse.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { DISPLAY_SLIDE_IMAGE_COUNT, collectionId, countDownTime } from './const'
-import { UNLOCKABLE_CAMPAIGN, createUnlockableMetadata } from './utils'
+import {
+  UNLOCKABLE_CAMPAIGN,
+  createUnlockableMetadata,
+  getRandomInt,
+  unlockableDesc,
+} from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
 import type Vue from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
@@ -211,7 +216,9 @@ const hasUserMinted = computed(
   () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value
 )
 
-const totalCount = computed(() => collectionData.value?.max || 300)
+const totalCount = computed(
+  () => collectionData.value?.collectionEntity?.max || 300
+)
 const totalAvailableMintCount = computed(
   () =>
     totalCount.value -
@@ -228,10 +235,10 @@ const { data, refetch } = useGraphql({
   },
 })
 
-const refetchData = () => {
+const refetchData = async () => {
   console.log('refetch')
-  refetch()
-  tryAgain()
+  await refetch()
+  await tryAgain()
 }
 
 useSubscriptionGraphql({
@@ -262,6 +269,8 @@ const scrollToTop = () => {
   })
 }
 
+const description = unlockableDesc(40)
+
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
     $buefy.modal.open({
@@ -275,16 +284,15 @@ const handleSubmitMint = async () => {
   }
   isLoading.value = true
 
-  const image =
-    resultList.value.find((item) => item.output === selectedImage.value)
-      ?.image || resultList.value[0]?.image
+  const randomIndex = getRandomInt(imageList.value.length - 1)
+  const image = resultList.value.at(randomIndex).image
 
-  const hash = await createUnlockableMetadata(image)
+  const hash = await createUnlockableMetadata(image, description)
 
   const { accountId } = useAuth()
 
   try {
-    await doWaifu(
+    const id = await doWaifu(
       {
         address: accountId.value,
         metadata: hash,
@@ -292,13 +300,19 @@ const handleSubmitMint = async () => {
       },
       UNLOCKABLE_CAMPAIGN
     ).then((res) => {
-      toast('mint success')
-      justMinted.value = `${collectionId}-${res.result.sn}`
+      toast('mint success', 'is-neo', 20000)
       scrollToTop()
+      return `${collectionId}-${res.result.sn}`
     })
+    // 40s timeout
+    setTimeout(() => {
+      isLoading.value = false
+      justMinted.value = id
+      toast('You will be redirected in few seconds', 'is-neo', 3000)
+      return navigateTo(`/${urlPrefix.value}/gallery/${id}`)
+    }, 44000)
   } catch (error) {
-    toast('failed to mint')
-  } finally {
+    toast('failed to mint', 'is-neo', 20000)
     isLoading.value = false
   }
 }

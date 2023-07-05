@@ -1,45 +1,29 @@
-<template>
-  <o-dropdown
-    :position="position"
-    :append-to-body="appendToBody"
-    class="neo-dropdown"
-    :class="{ 'o-drop-active': isActive }"
-    :mobile-modal="mobileModal"
-    :disabled="disabled"
-    @active-change="onActiveChange($event)">
-    <template #trigger>
-      <slot />
-    </template>
-    <slot name="items" />
-  </o-dropdown>
-</template>
-
-<script lang="ts" setup>
-import { defineEmits } from 'vue'
+<script>
 import { ODropdown } from '@oruga-ui/oruga'
 
-const isActive = ref(false)
-
-withDefaults(
-  defineProps<{
-    position?: string
-    appendToBody?: boolean
-    mobileModal?: boolean
-    disabled?: boolean
-  }>(),
-  {
-    position: 'bottom-left',
-    appendToBody: false,
-    mobileModal: false,
-    disabled: false,
-  }
-)
-
-const emit = defineEmits(['active-change'])
-
-function onActiveChange(event) {
-  isActive.value = event
-  emit('active-change', event)
+export default {
+  mixins: [ODropdown],
+  computed: {
+    rootClasses() {
+      return [
+        'neo-dropdown',
+        this.computedClass('rootClass', 'o-drop'),
+        {
+          [this.computedClass('disabledClass', 'o-drop--disabled')]:
+            this.disabled,
+        },
+        {
+          [this.computedClass('expandedClass', 'o-drop--expanded')]:
+            this.expanded,
+        },
+        { [this.computedClass('inlineClass', 'o-drop--inline')]: this.inline },
+        {
+          [this.computedClass('mobileClass', 'o-drop--mobile')]:
+            this.isMobileModal && this.isMatchMedia && !this.hoverable,
+        },
+      ]
+    },
+  },
 }
 </script>
 

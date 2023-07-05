@@ -54,11 +54,11 @@
   }
 
   .chain-option {
-    font-weight: 400;
     font-size: 20px;
     line-height: 23px;
     width: max-content;
     font-weight: 700;
+
     &:hover {
       @include ktheme() {
         color: theme('link-hover');
@@ -130,15 +130,12 @@
     pointer-events: none;
   }
 
-  .dropdown-menu {
-    padding-top: 13px;
-
-    .dropdown-content {
-      max-height: 600px;
-    }
-
-    .dropdown-item {
-      padding: 0px;
+  .o-acp__menu {
+    max-height: 610px;
+    .o-acp__item {
+      padding: 0;
+      background: unset !important;
+      color: unset !important;
     }
   }
 }
@@ -190,7 +187,6 @@
       padding-left: 14.25rem !important;
     }
   }
-
 }
 
 .search-suggestion-container {
@@ -231,6 +227,7 @@
     max-width: 34ch;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .secondary-info {
@@ -252,31 +249,26 @@
   .tab-content {
     padding-top: 0 !important;
   }
+  .tabs ul {
+    @include ktheme() {
+      border-bottom-color: theme('placeholder-color');
+    }
+  }
 
   .tabs li a {
     display: flex;
     padding: 10px 0;
-    justify-content: flex-start;
-    @include ktheme() {
-      border-bottom-color: theme('placeholder-color');
-    }
+    justify-content: center;
+    border: none;
   }
 
   .tabs li.is-active a {
     font-weight: 700;
     @include ktheme() {
-      border-bottom-color: theme('placeholder-color');
-      background: theme('background-color');
       color: theme('text-color') !important;
-      &:hover {
-        background: theme('background-color') !important;
-      }
     }
   }
 
-  .b-tabs:not(:last-child) {
-    margin-bottom: 0;
-  }
   .tabs:not(:last-child) {
     margin-bottom: 0.5rem;
     padding: 0px $desktop-padding-x;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!isMobile">
-      <b-dropdown
+      <NeoDropdown
         v-if="showSnekBsxOptions"
         aria-role="list"
         data-cy="stats"
@@ -11,23 +11,23 @@
             {{ $t('stats') }}
           </div>
         </template>
-        <b-dropdown-item has-link>
+        <NeoDropdownItem>
           <nuxt-link data-cy="global-offers" :to="offersUrl">
             {{ $t('navbar.globalOffers') }}
           </nuxt-link>
-        </b-dropdown-item>
-        <b-dropdown-item has-link>
+        </NeoDropdownItem>
+        <NeoDropdownItem>
           <nuxt-link data-cy="offers-stats" :to="statsUrl">
             {{ $t('navbar.offerStats') }}
           </nuxt-link>
-        </b-dropdown-item>
-        <b-dropdown-item has-link>
+        </NeoDropdownItem>
+        <NeoDropdownItem>
           <nuxt-link data-cy="series-insight" to="/series-insight">
             Series</nuxt-link
           >
-        </b-dropdown-item>
-      </b-dropdown>
-      <b-dropdown
+        </NeoDropdownItem>
+      </NeoDropdown>
+      <NeoDropdown
         v-if="chain === 'rmrk' || chain === 'ksm'"
         data-cy="stats"
         :triggers="['click']">
@@ -36,23 +36,23 @@
             {{ $t('stats') }}
           </div>
         </template>
-        <b-dropdown-item has-link aria-role="menu-item">
+        <NeoDropdownItem aria-role="menu-item">
           <nuxt-link data-cy="spotlight" to="/spotlight">
             {{ $t('spotlight.page') }}
           </nuxt-link>
-        </b-dropdown-item>
-        <b-dropdown-item has-link>
+        </NeoDropdownItem>
+        <NeoDropdownItem>
           <nuxt-link data-cy="series-insight" to="/series-insight">
             Series</nuxt-link
           >
-        </b-dropdown-item>
-        <b-dropdown-item has-link>
+        </NeoDropdownItem>
+        <NeoDropdownItem>
           <nuxt-link data-cy="sales" to="/sales"> Sales</nuxt-link>
-        </b-dropdown-item>
-        <b-dropdown-item has-link>
+        </NeoDropdownItem>
+        <NeoDropdownItem>
           <nuxt-link data-cy="hot" to="/hot"> Hot</nuxt-link>
-        </b-dropdown-item>
-      </b-dropdown>
+        </NeoDropdownItem>
+      </NeoDropdown>
     </div>
 
     <MobileExpandableSection v-else :no-padding="true" :title="$t('stats')">
@@ -96,6 +96,8 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
+
 const MobileExpandableSection = defineAsyncComponent(
   () => import('./MobileExpandableSection.vue')
 )
@@ -121,10 +123,3 @@ const showSnekBsxOptions = computed(
   () => props.chain === 'bsx' || props.chain === 'snek'
 )
 </script>
-<style lang="scss">
-.navbar-stats {
-  .dropdown {
-    width: 100%;
-  }
-}
-</style>

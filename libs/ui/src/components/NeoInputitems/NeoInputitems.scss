@@ -30,21 +30,21 @@ $autocomplete-menu-border-radius: 0;
       }
     }
   }
-}
 
-.o-acp__menu {
-  width: 100% !important;
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-    border: 1px solid theme('border-color');
-    background: theme('background-color');
-  }
+  .o-acp__menu {
+    width: 100% !important;
+    @include ktheme() {
+      box-shadow: theme('primary-shadow');
+      border: 1px solid theme('border-color');
+      background: theme('background-color');
+    }
 
-  .o-acp__item {
-    color: inherit;
-    &:hover {
-      @include ktheme() {
-        color: theme('k-hovergrey');
+    .o-acp__item {
+      color: inherit;
+      &:hover {
+        @include ktheme() {
+          color: theme('k-hovergrey');
+        }
       }
     }
   }

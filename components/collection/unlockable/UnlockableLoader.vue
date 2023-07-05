@@ -61,7 +61,7 @@ const { $i18n } = useNuxtApp()
 const isLoading = useVModel(props, 'value')
 import { useCountDown } from './utils/useCountDown'
 
-const COUNT_DOWN_SECONDS = 31
+const COUNT_DOWN_SECONDS = 51
 const { seconds } = useCountDown(
   new Date().getTime() + COUNT_DOWN_SECONDS * 1000
 )
@@ -72,7 +72,7 @@ const displaySeconds = computed(() => {
 
 const twitterText = computed(
   () =>
-    'Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don\'t miss your chance! \n\n https://kodadot.xyz/stmn/drops/free-drop'
+    "Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don't miss your chance! \n\n https://kodadot.xyz/stmn/drops/free-drop"
 )
 const postTwitterUrl = computed(
   () =>

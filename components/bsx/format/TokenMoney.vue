@@ -8,34 +8,28 @@
     :round="round" />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import BasicMoney from '@/components/shared/format/BasicMoney.vue'
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import AssetMixin from '@/utils/mixins/assetMixin'
+import { useAssetsStore } from '@/stores/assets'
 
-@Component({
-  components: {
-    BasicMoney,
-  },
-})
-export default class TokenMoney extends mixins(AssetMixin) {
-  @Prop({ default: '0' }) readonly value: number | string | undefined
-  @Prop({ type: String, default: '5' }) tokenId!: string | number
-
-  @Prop(Boolean) readonly inline!: boolean
-  @Prop(Boolean) readonly hideUnit!: boolean
-  @Prop({ type: Number, default: 4 }) readonly round!: number
-
-  get asset() {
-    return this.assetIdOf(this.tokenId)
+const assetsStore = useAssetsStore()
+const assetIdOf = (id: string | number) => assetsStore.getAssetById(String(id))
+const props = withDefaults(
+  defineProps<{
+    value: number | string | undefined
+    tokenId: string
+    inline: boolean
+    hideUnit?: boolean
+    round: number
+  }>(),
+  {
+    value: '0',
+    tokenId: '5',
+    round: 4,
   }
+)
 
-  get unit() {
-    return this.asset.symbol
-  }
-
-  get decimals() {
-    return this.asset.decimals
-  }
-}
+const asset = computed(() => assetIdOf(props.tokenId))
+const unit = computed(() => asset.symbol)
+const decimals = computed(() => asset.decimals)
 </script>

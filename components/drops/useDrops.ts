@@ -12,7 +12,21 @@ interface DropsData {
   futureDrops: Drop[]
 }
 
-export function useDrops(collectionId: string) {
+const futureDate = new Date()
+futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
+
+const dummyDrop: Drop = {
+  collection: {
+    name: 'Create your own drop page',
+    metadata:
+      'ipfs://ipfs/bafkreidvb2my5vj6jgpbrwa7dfw55tryhfk7um5inuxnz7y7khqse2thjq',
+  } as any,
+  minted: 0,
+  max: 300,
+  dropStartTime: futureDate,
+}
+
+export function useDrops(collectionId: string, clientName?: string) {
   const dropsData = ref<DropsData>({
     drops: [],
     futureDrops: [],
@@ -20,6 +34,7 @@ export function useDrops(collectionId: string) {
 
   const { data: collectionData } = useGraphql({
     queryName: 'unlockableCollectionById',
+    clientName,
     variables: {
       id: collectionId,
     },
@@ -36,22 +51,15 @@ export function useDrops(collectionId: string) {
         dropStartTime: new Date(2023, 5, 6),
       })
 
-      // const futureDrops: Drop[] = []
-      // for (let i = 1; i <= 4; i++) {
-      //   const futureDate = new Date(now)
-      //   futureDate.setDate(now.getDate() + i * 7) // i weeks in the future
-      //   futureDrops.push({
-      //     collection: collectionEntity,
-      //     minted: nftEntitiesConnection.totalCount,
-      //     max: collectionEntity.max || 300,
-      //     dropStartTime: futureDate,
-      //   })
-      // }
+      const futureDrops: Drop[] = []
+      if (!clientName) {
+        futureDrops.push(dummyDrop)
+      }
 
       dropsData.value = {
         ...dropsData.value,
         drops,
-        // futureDrops,
+        futureDrops,
       }
     }
   })

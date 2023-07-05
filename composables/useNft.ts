@@ -49,6 +49,16 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
   )) as NFTWithMetadata
   const image = sanitizeIpfsUrl(metadata.image || '')
   const animation_url = sanitizeIpfsUrl(metadata.animation_url || '')
+  const getAttributes = () => {
+    const hasMetadataAttributes =
+      metadata.attributes && metadata.attributes.length > 0
+    const attr = nft?.meta?.attributes || []
+    const hasEmptyNftAttributes = attr.length === 0
+
+    return hasMetadataAttributes && hasEmptyNftAttributes
+      ? metadata.attributes
+      : attr
+  }
 
   return {
     ...nft,
@@ -57,21 +67,25 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
     image,
     animation_url,
     type: metadata.type || '',
+    attributes: getAttributes(),
   }
 }
 
-export async function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
+export function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
   // if subsquid already give us the metadata, we don't need to fetch it again
+  if (prefix === 'stmn') {
+    return getProcessMetadata(nft)
+  }
   if (nft.meta && nft.meta.image) {
     return getGeneralMetadata(nft)
   }
 
   // if it's rmrk2, we need to check `resources` field
   if (prefix === 'ksm' && nft.resources?.length) {
-    return await getRmrk2Resources(nft)
+    return getRmrk2Resources(nft)
   }
 
-  return await getProcessMetadata(nft)
+  return getProcessMetadata(nft)
 }
 
 export default function useNftMetadata(nft: NFTWithMetadata) {

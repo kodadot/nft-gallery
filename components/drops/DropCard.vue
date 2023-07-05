@@ -1,8 +1,11 @@
 <template>
   <div class="drop-card border card-border-color">
-    <nuxt-link
+    <component
+      :is="externalUrl ? 'a' : 'nuxt-link'"
       v-if="drop.collection && !isLoadingMeta"
-      :to="`/${urlPrefix}/drops/free-drop`">
+      :href="externalUrl"
+      rel="nofollow noopener noreferrer"
+      :to="`/${correctUrlPrefix}/drops/${correctDropUrl}`">
       <div
         class="drop-card-banner"
         :style="{ backgroundImage: `url(${image})` }">
@@ -25,12 +28,12 @@
           class="is-flex is-justify-content-space-between flex-direction column-gap">
           <div class="is-flex is-flex-direction-column column-gap">
             <span class="has-text-weight-bold">{{ drop.collection.name }}</span>
-            <div class="is-flex">
+            <div v-if="drop.collection.issuer" class="is-flex">
               <div class="mr-2 has-text-grey">
                 {{ $t('activity.creator') }}:
               </div>
               <nuxt-link
-                :to="`/${urlPrefix}/u/${drop.collection.issuer}`"
+                :to="`/${correctUrlPrefix}/u/${drop.collection.issuer}`"
                 class="has-text-link">
                 <IdentityIndex
                   ref="identity"
@@ -42,7 +45,10 @@
           <div class="is-flex justify-content-space-between" style="gap: 2rem">
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">Available</span>
-              <span>{{ drop.max - drop.minted }}/{{ drop.max }}</span>
+              <span v-if="price === 'Free'"
+                >{{ drop.max - drop.minted }}/{{ drop.max }}</span
+              >
+              <span v-else>{{ drop.minted }}/{{ drop.max }}</span>
             </div>
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">{{ $t('price') }}</span>
@@ -51,7 +57,7 @@
           </div>
         </div>
       </div>
-    </nuxt-link>
+    </component>
 
     <template v-else>
       <NeoSkeleton no-margin :rounded="false" height="112px" />
@@ -67,7 +73,6 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 import type { Metadata } from '@/components/rmrk/service/scheme'
-import { sum } from '@/utils/math'
 import TimeTag from './TimeTag.vue'
 import { Drop } from './useDrops'
 
@@ -76,21 +81,27 @@ const isLoadingMeta = ref(false)
 
 interface Props {
   drop: Drop
+  overrideUrlPrefix?: string
+  dropUrl?: string
 }
 
 const props = defineProps<Props>()
 const image = ref('')
+const externalUrl = ref('')
+
+const correctUrlPrefix = computed(() => {
+  return props.overrideUrlPrefix || urlPrefix.value
+})
+
+const correctDropUrl = computed(() => {
+  return props.dropUrl || 'free-drop'
+})
 
 const price = computed(() => {
-  if (!props.drop?.collection) {
-    return ''
+  if (props.dropUrl === 'dot-drop') {
+    return '1 DOT'
   }
-
-  const totalPrice = sum(
-    (props.drop?.collection.nfts || []).map((nft) => Number(nft?.price || 0))
-  )
-
-  return totalPrice > 0 ? totalPrice : 'Free'
+  return 'Free'
 })
 
 onMounted(async () => {
@@ -105,6 +116,7 @@ onMounted(async () => {
   image.value = sanitizeIpfsUrl(
     metadata.image || metadata.thumbnailUri || metadata.mediaUri || ''
   )
+  externalUrl.value = metadata.external_url || ''
   isLoadingMeta.value = false
 })
 </script>

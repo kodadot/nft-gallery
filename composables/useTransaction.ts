@@ -29,10 +29,20 @@ import type {
 } from './transaction/types'
 import { execMintCollection } from './transaction/transactionMintCollection'
 
-const resolveSuccessMessage = (
+const resolveMessage = (message?: string | (() => string)) => {
+  if (!message) {
+    return
+  }
+  if (typeof message === 'function') {
+    return message()
+  }
+  return message
+}
+
+export const resolveSuccessMessage = (
   block: string,
-  successMessage?: string | ((blockNumber) => void)
-) => {
+  successMessage?: string | ((blockNumber) => string)
+): string => {
   if (typeof successMessage === 'function') {
     return successMessage(block)
   }
@@ -66,7 +76,8 @@ const useExecuteTransaction = () => {
     }
 
     const errorCb = () => {
-      warningMessage(errorMessage || 'Failed!')
+      const message = resolveMessage(errorMessage) || 'Failed!'
+      warningMessage(message)
     }
 
     howAboutToExecute(accountId.value, cb, arg, successCb, errorCb)
