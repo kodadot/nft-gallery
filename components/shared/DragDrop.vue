@@ -1,5 +1,5 @@
 <template>
-  <o-upload
+  <NeoUpload
     v-model="selectedFile"
     drag-drop
     native
@@ -42,12 +42,12 @@
         </div>
       </div>
     </div>
-  </o-upload>
+  </NeoUpload>
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
-import { OUpload } from '@oruga-ui/oruga'
+import { NeoIcon, NeoUpload } from '@kodadot1/brick'
+
 const { $i18n } = useNuxtApp()
 
 const props = withDefaults(
