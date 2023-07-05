@@ -21,10 +21,14 @@
 <script setup lang="ts">
 import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import unloackableBanner from '@/assets/unlockable-banner.svg'
+import { unlockableDesc } from '../unlockable/utils'
+import { generateDropImage } from '@/utils/seoImageGenerator'
 
 const props = defineProps<{
   type: string | undefined
 }>()
+const route = useRoute()
+const { $seoMeta } = useNuxtApp()
 
 const title = computed(() => {
   switch (props.type) {
@@ -40,10 +44,36 @@ const image = computed(() => {
     case 'dot-drop':
       return 'https://replicate.delivery/pbxt/te3utBZeR4kbi0u1Xrsrz6VhZScDhElj9ZFTKQ3fRPRYHTUiA/out-0.png'
     case 'free-drop':
-      return 'https://replicate.delivery/pbxt/DqeaImcF1W3AcCeBw2EwCxpvss9CBHM2oeZKBBfHMrqSmzpEB/out-0.png'
+      return 'https://replicate.delivery/pbxt/bANqMENrH1LCDdpkhycwYj5nO03pII7TFjpEfTUbTt3uvXmIA/out-2.png'
     default:
       return 'https://replicate.delivery/pbxt/Cxfhi4qeTNvn6kcrrKlvL1YUPBKeAmbNrrf2ATtPVd6o5gDEB/out-1.png'
   }
+})
+
+const description = computed(() => {
+  switch (props.type) {
+    case 'dot-drop':
+      return unlockableDesc(50)
+    case 'free-drop':
+      return unlockableDesc(40)
+    default:
+      return ''
+  }
+})
+
+const meta = computed(() => {
+  return [
+    ...$seoMeta({
+      title: title.value,
+      url: route.path,
+      image: generateDropImage(title.value, image.value),
+      description: description.value,
+    }),
+  ]
+})
+useNuxt2Meta({
+  title,
+  meta,
 })
 </script>
 

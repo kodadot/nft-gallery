@@ -53,7 +53,7 @@
         class="short-identity__table"
         field="To"
         label="To">
-        <nuxt-link :to="`/${urlPrefix}/u/${props.row.toString}`">
+        <nuxt-link :to="`/${urlPrefix}/u/${props.row.To}`">
           <Identity :address="props.row.To" />
         </nuxt-link>
       </NeoTableColumn>

@@ -147,6 +147,7 @@ import {
   UNLOCKABLE_CAMPAIGN,
   createUnlockableMetadata,
   getRandomInt,
+  unlockableDesc,
 } from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
 import type Vue from 'vue'
@@ -268,6 +269,8 @@ const scrollToTop = () => {
   })
 }
 
+const description = unlockableDesc(40)
+
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
     $buefy.modal.open({
@@ -284,7 +287,7 @@ const handleSubmitMint = async () => {
   const randomIndex = getRandomInt(imageList.value.length - 1)
   const image = resultList.value.at(randomIndex).image
 
-  const hash = await createUnlockableMetadata(image)
+  const hash = await createUnlockableMetadata(image, description)
 
   const { accountId } = useAuth()
 

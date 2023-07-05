@@ -161,7 +161,7 @@
 
 <script setup lang="ts">
 import { OCarousel, OCarouselItem } from '@oruga-ui/oruga'
-import { IdentityItem, MediaItem, NeoIcon } from '@kodadot1/brick'
+import { MediaItem, NeoIcon } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 
@@ -170,7 +170,7 @@ import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import GalleryItemPreviewer from './GalleryItemPreviewer.vue'
-
+import { convertMarkdownToText } from '@/utils/markdown'
 import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
@@ -261,7 +261,7 @@ const meta = computed(() => {
   return [
     ...$seoMeta({
       title: title.value,
-      description: nftMetadata.value?.description,
+      description: convertMarkdownToText(nftMetadata.value?.description),
       image: generateNftImage(
         title.value,
         formatBalanceEmptyOnZero(nft.value?.price as string),

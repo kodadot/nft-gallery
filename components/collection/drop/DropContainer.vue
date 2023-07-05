@@ -171,7 +171,11 @@ import {
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { NeoButton } from '@kodadot1/brick'
 import type Vue from 'vue'
-import { createUnlockableMetadata, getRandomInt } from '../unlockable/utils'
+import {
+  createUnlockableMetadata,
+  getRandomInt,
+  unlockableDesc,
+} from '../unlockable/utils'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import {
   MINT_ADDRESS,
@@ -338,6 +342,8 @@ const handleBuy = async () => {
   }
 }
 
+const description = unlockableDesc(50)
+
 const handleSubmitMint = async (tokenId: string) => {
   const randomIndex = getRandomInt(imageList.value.length - 1)
   const image = resultList.value.at(randomIndex).image
@@ -347,7 +353,7 @@ const handleSubmitMint = async (tokenId: string) => {
     return
   }
 
-  const hash = await createUnlockableMetadata(image, 50)
+  const hash = await createUnlockableMetadata(image, description)
 
   const { item: sn } = tokenIdToRoute(tokenId)
 
