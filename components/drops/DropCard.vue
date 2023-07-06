@@ -70,7 +70,6 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 import type { Metadata } from '@/components/rmrk/service/scheme'
-import { sum } from '@/utils/math'
 import TimeTag from './TimeTag.vue'
 import { Drop } from './useDrops'
 
