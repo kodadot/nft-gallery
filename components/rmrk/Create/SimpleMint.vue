@@ -54,11 +54,14 @@
       :placeholder="$t('mint.nft.description.placeholder')"
       data-cy="input-description" />
 
-    <NeoField :label="$t('Edition')" class="mt-5" data-cy="input-edition">
+    <NeoField
+      :label="$t('mint.nft.edition.label')"
+      class="mt-5"
+      data-cy="input-edition">
       <NeoInput
         v-model="rmrkMint.max"
         type="number"
-        placeholder="1 is the minimum"
+        :placeholder="$t('mint.nft.edition.placeholder')"
         expanded
         :min="1" />
     </NeoField>
@@ -211,7 +214,12 @@ import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import Vue from 'vue'
 import { unwrapSafe } from '@/utils/uniquery'
 import NFTUtils, { MintType } from '../service/NftUtils'
-import { NFT, NFTMetadata, SimpleNFT, getNftId } from '../service/scheme'
+import {
+  NFTMetadata,
+  RmrkCreatedNft,
+  SimpleNFT,
+  toNFTId,
+} from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
 import AuthMixin from '~/utils/mixins/authMixin'
@@ -506,6 +514,7 @@ export default class SimpleMint extends mixins(
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { accountId, version } = this
+    this.rmrkMint.max = Number(this.rmrkMint.max)
     const api = await this.useApi()
     const toRemark = mapAsSystemRemark(api)
 
@@ -589,7 +598,7 @@ export default class SimpleMint extends mixins(
   }
 
   protected async sendBatch(
-    remarks: NFT[],
+    remarks: RmrkCreatedNft[],
     originalBlockNumber: string
   ): Promise<void> {
     try {
@@ -600,7 +609,7 @@ export default class SimpleMint extends mixins(
 
       const onlyNfts = remarks
         .filter(NFTUtils.isNFT)
-        .map((nft) => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
+        .map((nft) => ({ ...nft, id: toNFTId(nft, originalBlockNumber) }))
       // .map(nft =>
       //   NFTUtils.createInteraction('SEND', version, nft.id, String(price))
       // )
@@ -616,10 +625,7 @@ export default class SimpleMint extends mixins(
         addresses,
         this.distribution,
         this.random ? shuffleFunction(await this.fetchRandomSeed()) : undefined
-      )(
-        onlyNfts.map((nft) => nft.id),
-        this.version
-      )
+      )(onlyNfts.map((nft) => nft.id))
       const restOfTheRemarks =
         onlyNfts.length > addresses.length && this.price
           ? onlyNfts
@@ -702,9 +708,12 @@ export default class SimpleMint extends mixins(
     this.isLoading = false
   }
 
-  public async listForSale(remarks: NFT[], originalBlockNumber: string) {
+  public async listForSale(
+    remarks: RmrkCreatedNft[],
+    originalBlockNumber: string
+  ) {
     try {
-      const { price, version } = this
+      const { price } = this
       showNotification(
         `[APP] Listing NFT to sale for ${formatBalance(price, {
           decimals: this.decimals,
@@ -714,9 +723,9 @@ export default class SimpleMint extends mixins(
 
       const onlyNfts = remarks
         .filter(NFTUtils.isNFT)
-        .map((nft) => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
+        .map((nft) => ({ ...nft, id: toNFTId(nft, originalBlockNumber) }))
         .map((nft) =>
-          createInteraction(Interaction.LIST, version, nft.id, String(price))
+          createInteraction(Interaction.LIST, nft.id, String(price))
         )
 
       if (!onlyNfts.length) {
@@ -835,13 +844,13 @@ export default class SimpleMint extends mixins(
     return unSanitizeIpfsUrl(metaHash)
   }
 
-  protected navigateToDetail(nft: NFT, blockNumber: string) {
+  protected navigateToDetail(nft: RmrkCreatedNft, blockNumber: string) {
     showNotification(
       `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
     )
     const go = () =>
       this.$router.push({
-        path: `/rmrk/gallery/${getNftId(nft, blockNumber)}`,
+        path: `/rmrk/gallery/${toNFTId(nft, blockNumber)}`,
         query: { congratsNft: nft.name },
       })
     setTimeout(go, DETAIL_TIMEOUT)

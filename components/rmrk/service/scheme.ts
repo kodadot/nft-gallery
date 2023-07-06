@@ -251,6 +251,8 @@ export interface CollectionEvents {
   }
 }
 
+export type RmrkCreatedNft = CreatedNFT | CreatedNFTV2
+
 export const getNftId = (
   nft: Pick<NFT, 'blockNumber' | 'collection' | 'instance' | 'name' | 'sn'>,
   blocknumber?: string | number
@@ -261,7 +263,7 @@ export const getNftId = (
 }
 
 export const toNFTId = (
-  nft: CreatedNFT | CreatedNFTV2,
+  nft: RmrkCreatedNft,
   blocknumber: string | number
 ): string => {
   const nftId = Object.prototype.hasOwnProperty.call(nft, 'instance')
