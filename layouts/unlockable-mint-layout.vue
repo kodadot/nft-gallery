@@ -3,7 +3,7 @@
     <Navbar />
 
     <main class="is-flex-grow-1">
-      <UnlockableCollectionBanner :key="route.path" />
+      <UnlockableCollectionBanner :key="route.path" :type="type" />
       <hr class="text-color my-0" />
       <Nuxt />
     </main>
@@ -15,19 +15,9 @@
 <script lang="ts" setup>
 import UnlockableCollectionBanner from '@/components/collection/unlockable/UnlockableCollectionBanner.vue'
 
-const { $config } = useNuxtApp()
 const route = useRoute()
 
-useNuxt2Meta({
-  title: 'Unlockable',
-  link: [
-    {
-      hid: 'canonical',
-      rel: 'canonical',
-      href: $config.public.baseUrl + route.path,
-    },
-  ],
-})
+const type = computed(() => route.path.split('/').reverse().at(0))
 </script>
 
 <style lang="scss" scoped>

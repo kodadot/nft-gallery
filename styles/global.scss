@@ -100,10 +100,6 @@ body {
     perspective: 30em;
   }
 
-  .b-tabs .tab-content {
-    padding: 1rem 0;
-  }
-
   .money-cursor,
   .money-cursor .button {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>💸</text></svg>"),
@@ -135,14 +131,6 @@ body {
   .container.is-fluid {
     padding-left: $fluid-container-padding-mobile;
     padding-right: $fluid-container-padding-mobile;
-  }
-}
-
-// global css for pagination
-.pagination-link {
-  border: none !important;
-  @include ktheme() {
-    border-top: 1px solid theme('k-primary') !important;
   }
 }
 
@@ -222,19 +210,6 @@ hr {
   height: 1px;
   @include ktheme() {
     background: theme('k-shade');
-  }
-}
-
-.dropdown-content {
-  border-radius: 0;
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-    border: 1px solid theme('border-color');
-    background: theme('background-color');
-
-    .dropdown-item {
-      color: theme('text-color');
-    }
   }
 }
 
@@ -322,6 +297,13 @@ a.has-text-grey {
 .border {
   @include ktheme() {
     border: 1px solid theme('border-color');
+  }
+
+}
+
+.card-border-color {
+  @include ktheme() {
+    border-color:theme('card-border-color');
   }
 }
 

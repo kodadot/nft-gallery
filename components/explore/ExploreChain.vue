@@ -1,19 +1,20 @@
 <template>
   <div>
-    <NeoDropdown position="bottom-right" @active-change="isActive = $event">
-      <NeoButton
-        :label="`Network: ${selected.text}`"
-        :icon="isActive ? 'chevron-up' : 'chevron-down'" />
-
-      <template #items>
-        <NeoDropdownItem
-          v-for="chain in availableChains"
-          :key="chain.value"
-          :active="route.params.prefix === chain.value"
-          @click.native="onSwitchChain(chain.value)">
-          {{ chain.text }}
-        </NeoDropdownItem>
+    <NeoDropdown>
+      <template #trigger="{ active }">
+        <NeoButton
+          :label="`Network: ${selected?.text}`"
+          :icon="active ? 'chevron-up' : 'chevron-down'"
+          :active="active" />
       </template>
+
+      <NeoDropdownItem
+        v-for="chain in availableChains"
+        :key="chain.value"
+        :active="route.params.prefix === chain.value"
+        @click="onSwitchChain(chain.value)">
+        {{ chain.text }}
+      </NeoDropdownItem>
     </NeoDropdown>
   </div>
 </template>
@@ -25,7 +26,7 @@ const route = useRoute()
 const router = useRouter()
 const { setUrlPrefix } = usePrefix()
 const { availableChains } = useChain()
-const isActive = ref(false)
+
 const selected = computed(() =>
   availableChains.value.find((chain) => chain.value === route.params.prefix)
 )
@@ -44,5 +45,3 @@ function onSwitchChain(chain) {
   })
 }
 </script>
-
-<style scoped></style>

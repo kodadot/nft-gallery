@@ -1,6 +1,6 @@
 <template>
   <NeoField>
-    <b-dropdown
+    <NeoDropdown
       v-if="multipleSelect"
       v-model="selectedAction"
       multiple
@@ -13,14 +13,14 @@
           {{ $t('sort.collection.sortBy') }}
         </b-button>
       </template>
-      <b-dropdown-item
+      <NeoDropdownItem
         v-for="action in actions"
         :key="action"
         :value="action"
         :data-cy="$t('sort.' + action)">
         {{ $t('sort.' + action) }}
-      </b-dropdown-item>
-    </b-dropdown>
+      </NeoDropdownItem>
+    </NeoDropdown>
     <NeoSelect
       v-else
       v-model="selectedAction"
@@ -43,12 +43,19 @@ import {
   NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER,
 } from '@/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { NeoField, NeoSelect } from '@kodadot1/brick'
+import {
+  NeoDropdown,
+  NeoDropdownItem,
+  NeoField,
+  NeoSelect,
+} from '@kodadot1/brick'
 
 @Component({
   components: {
     NeoField,
     NeoSelect,
+    NeoDropdown,
+    NeoDropdownItem,
   },
 })
 export default class SearchSortDropdown extends mixins(PrefixMixin) {

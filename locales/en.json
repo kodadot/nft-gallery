@@ -395,7 +395,7 @@
     "success": "Congratulations",
     "successNewNfts": "You have successfully purchased this NFT",
     "successCreateNewNft": "You have successfully created {0}",
-    "ErrorCreateNewNft": "Minting {name} failed",
+    "errorCreateNewNft": "Minting {name} failed",
     "shareWithFriends": "Share {0} with your friends",
     "unlimited": "Unlimited items in your collection",
     "nfsw": "Explicit content (NSFW)",
@@ -1189,5 +1189,11 @@
     "ownerOnly": "Owner Only",
     "claimDrop": "Claim Drop",
     "claimPhysicalDrop": "Claim Physical Drop"
+  },
+  "drops": {
+    "title": "Drops",
+    "upcoming": "Upcoming",
+    "noUpcoming": "Nothing  here yet...",
+    "mintingLive": "Minting Live"
   }
 }

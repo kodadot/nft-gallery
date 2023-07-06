@@ -11,7 +11,7 @@ export type ExecuteTransactionParams = {
   cb: (...params: any[]) => Extrinsic
   arg: any[]
   successMessage?: string | ((blockNumber: string) => string)
-  errorMessage?: string
+  errorMessage?: string | (() => string)
 }
 
 export interface MintTokenParams {
@@ -22,10 +22,30 @@ export interface MintTokenParams {
   status: Ref<string>
 }
 
+export type NftCountType = {
+  nftCount: number
+}
+
+export type Max = { max: number }
+
+export type SymbolType = {
+  symbol: string
+}
+
 export type BaseCollectionType = {
   name: string
   file: File | null
   description: string
+}
+
+export type CollectionToMintKusama = BaseCollectionType &
+  NftCountType &
+  SymbolType
+
+export type CollectionToMintStatmine = BaseCollectionType & NftCountType
+
+export type CollectionToMintBasilisk = BaseCollectionType & {
+  tags: Attribute[]
 }
 
 export type MintedCollection = {
@@ -36,26 +56,17 @@ export type MintedCollection = {
   lastIndexUsed: number
 }
 
-export type MintedCollectionKusama = MintedCollection & {
-  max: number
-  symbol: string
-}
-export interface TokenToMint
-  extends BaseTokenType<MintedCollection | MintedCollectionKusama> {
+export type MintedCollectionKusama = MintedCollection & Max & SymbolType
+
+export type TokenToMint = BaseTokenType<
+  MintedCollection | MintedCollectionKusama
+> & {
   tags: Attribute[]
   nsfw: boolean
   postfix: boolean
   price?: string | number
   royalty?: Royalty
   hasRoyalty?: boolean
-}
-
-export interface CollectionToMintKusama extends BaseCollectionType {
-  nftCount: number
-  symbol: string
-}
-export interface CollectionToMintBasilisk extends BaseCollectionType {
-  tags: Attribute[]
 }
 
 export type ActionConsume = {
@@ -90,6 +101,8 @@ export type ActionList = {
   token: TokenToList | TokenToList[]
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
+  nftId?: string
+  price?: string
 }
 
 export type ActionSend = {
@@ -140,7 +153,10 @@ export interface ActionMintToken {
 export interface ActionMintCollection {
   interaction: Interaction.MINT
   urlPrefix: string
-  collection: CollectionToMintBasilisk | CollectionToMintKusama
+  collection:
+    | CollectionToMintBasilisk
+    | CollectionToMintKusama
+    | CollectionToMintStatmine
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }

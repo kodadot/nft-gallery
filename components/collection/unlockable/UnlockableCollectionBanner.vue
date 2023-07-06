@@ -8,11 +8,9 @@
       <div class="container is-fluid collection-banner-content">
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">
-            <img
-              src="https://replicate.delivery/pbxt/Cxfhi4qeTNvn6kcrrKlvL1YUPBKeAmbNrrf2ATtPVd6o5gDEB/out-1.png"
-              alt="avatar" />
+            <img :src="image" alt="avatar" />
           </div>
-          <h1 class="collection-banner-name">Waifu T-Shirt Free Mint</h1>
+          <h1 class="collection-banner-name">{{ title }}</h1>
         </div>
         <HeroButtons class="is-hidden-mobile is-align-self-flex-end" />
       </div>
@@ -23,6 +21,60 @@
 <script setup lang="ts">
 import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import unloackableBanner from '@/assets/unlockable-banner.svg'
+import { unlockableDesc } from '../unlockable/utils'
+import { generateDropImage } from '@/utils/seoImageGenerator'
+
+const props = defineProps<{
+  type: string | undefined
+}>()
+const route = useRoute()
+const { $seoMeta } = useNuxtApp()
+
+const title = computed(() => {
+  switch (props.type) {
+    case 'dot-drop':
+      return 'Waifu 1 DOT Mint'
+    default:
+      return 'Waifu T-Shirt Free Mint'
+  }
+})
+
+const image = computed(() => {
+  switch (props.type) {
+    case 'dot-drop':
+      return 'https://replicate.delivery/pbxt/te3utBZeR4kbi0u1Xrsrz6VhZScDhElj9ZFTKQ3fRPRYHTUiA/out-0.png'
+    case 'free-drop':
+      return 'https://replicate.delivery/pbxt/bANqMENrH1LCDdpkhycwYj5nO03pII7TFjpEfTUbTt3uvXmIA/out-2.png'
+    default:
+      return 'https://replicate.delivery/pbxt/Cxfhi4qeTNvn6kcrrKlvL1YUPBKeAmbNrrf2ATtPVd6o5gDEB/out-1.png'
+  }
+})
+
+const description = computed(() => {
+  switch (props.type) {
+    case 'dot-drop':
+      return unlockableDesc(50)
+    case 'free-drop':
+      return unlockableDesc(40)
+    default:
+      return ''
+  }
+})
+
+const meta = computed(() => {
+  return [
+    ...$seoMeta({
+      title: title.value,
+      url: route.path,
+      image: generateDropImage(title.value, image.value),
+      description: description.value,
+    }),
+  ]
+})
+useNuxt2Meta({
+  title,
+  meta,
+})
 </script>
 
 <style scoped lang="scss">

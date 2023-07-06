@@ -1,27 +1,26 @@
 <template>
   <div class="common-price-chart">
-    <span class="chart-y-description is-size-7"
-      >Price ({{ chainSymbol }})
+    <span class="chart-y-description is-size-7">
+      Price ({{ chainSymbol }})
     </span>
-    <NeoDropdown class="py-0">
-      <NeoButton
-        :label="selectedTimeRange.label"
-        class="time-range-button"
-        no-shadow />
-
-      <template #items>
-        <NeoDropdownItem
-          v-for="range in timeRangeList"
-          :key="range.value"
-          class="is-flex is-justify-content-center px-0"
-          :active="selectedTimeRange.value === range.value"
-          :value="selectedTimeRange"
-          @click.native="
-            setTimeRange({ value: range.value, label: range.label })
-          ">
-          {{ range.label }}
-        </NeoDropdownItem>
+    <NeoDropdown class="py-0" :mobile-modal="false">
+      <template #trigger="{ active }">
+        <NeoButton
+          :label="selectedTimeRange.label"
+          class="time-range-button"
+          no-shadow
+          :active="active" />
       </template>
+
+      <NeoDropdownItem
+        v-for="range in timeRangeList"
+        :key="range.value"
+        class="is-flex is-justify-content-center px-0 is-align-items-center"
+        :active="selectedTimeRange.value === range.value"
+        :value="selectedTimeRange"
+        @click="setTimeRange({ value: range.value, label: range.label })">
+        {{ range.label }}
+      </NeoDropdownItem>
     </NeoDropdown>
 
     <div :class="{ content: !chartHeight }" :style="heightStyle">
@@ -181,6 +180,8 @@ const getPriceChartData = () => {
             },
           },
           plugins: {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             customCanvasBackgroundColor: {
               color: isDarkMode.value ? '#181717' : 'white',
             },
@@ -271,6 +272,8 @@ const getPriceChartData = () => {
               const { ctx } = chart
               ctx.save()
               ctx.globalCompositeOperation = 'destination-over'
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               ctx.fillStyle = options.color || '#FFFFFF'
               ctx.fillRect(0, 0, chart.width, chart.height)
               ctx.restore()

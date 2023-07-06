@@ -1,21 +1,27 @@
-<template>
-  <o-dropdown-item
-    aria-role="listitem"
-    :disabled="disabled"
-    :class="{ 'is-active': active }"
-    class="neo-dropdown-item"
-    v-bind="$attrs">
-    {{ item }}
-    <slot />
-  </o-dropdown-item>
-</template>
-
-<script lang="ts" setup>
+<script>
 import { ODropdownItem } from '@oruga-ui/oruga'
 
-defineProps<{
-  item?: string
-  disabled?: boolean
-  active?: boolean
-}>()
+export default {
+  mixins: [ODropdownItem],
+  computed: {
+    rootClasses() {
+      return [
+        'neo-dropdown-item',
+        this.computedClass('itemClass', 'o-drop__item'),
+        {
+          [this.computedClass('itemDisabledClass', 'o-drop__item--disabled')]:
+            this.parent.disabled || this.disabled,
+        },
+        {
+          [this.computedClass('itemActiveClass', 'o-drop__item--active')]:
+            this.isActive,
+        },
+      ]
+    },
+  },
+}
 </script>
+
+<style lang="scss">
+@import './NeoDropdown.scss';
+</style>
