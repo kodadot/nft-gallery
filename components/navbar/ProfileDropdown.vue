@@ -95,6 +95,11 @@ const setUserLang = (value: string) => {
 }
 
 const toggleWalletConnectModal = () => {
+  // close all modal
+  document.querySelectorAll('.modal').forEach((modal) => {
+    modal.__vue__?.$vnode?.context?.close()
+  })
+
   if (modal.value?.isActive) {
     modal.value.close()
     modal.value = null

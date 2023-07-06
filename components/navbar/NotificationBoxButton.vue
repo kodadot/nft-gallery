@@ -24,6 +24,12 @@ const preferencesStore = usePreferencesStore()
 
 function toggleNotificationModal() {
   emit('closeBurgerMenu')
+
+  // close all modal
+  document.querySelectorAll('.modal').forEach((modal) => {
+    modal.__vue__?.$vnode?.context?.close()
+  })
+
   if (modal.value) {
     modal.value.close()
     modal.value = null
