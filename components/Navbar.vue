@@ -116,7 +116,8 @@
             class="navbar-create custom-navbar-item ml-0"
             data-cy="create"
             :is-mobile="isMobile"
-            :chain="urlPrefix" />
+            :chain="urlPrefix"
+            @closeMobileNavbar="showMobileNavbar" />
 
           <!-- commenting as part of #5889-->
           <!-- <StatsDropdown
