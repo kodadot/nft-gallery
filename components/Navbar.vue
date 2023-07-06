@@ -94,7 +94,7 @@
           </nuxt-link>
           <template v-if="isExploreVisible">
             <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
-              <NavbarExploreOptions />
+              <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
             </MobileExpandableSection>
 
             <ExploreDropdown
