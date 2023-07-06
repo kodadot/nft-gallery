@@ -8,10 +8,7 @@ import {
 import { useChainStore } from '@/stores/chain'
 
 export type ShuffleFunction = (arr: string[]) => string[]
-export type ProcessFunction = (
-  nfts: string[] | AdminNFT[],
-  version: string
-) => string[]
+export type ProcessFunction = (nfts: string[] | AdminNFT[]) => string[]
 export type SendType = {
   parsedAddresses: string[]
   distribution: number
