@@ -6,9 +6,14 @@ export const generateNftImage = (
   image: string,
   mimeType = ''
 ): string => {
+  const searchParams = new URLSearchParams()
+  price && searchParams.set('price', price)
+  image && searchParams.set('image', image)
+  mimeType && searchParams.set('mime', mimeType)
+
   return `${URLS.koda.seoCard}${encodeURIComponent(
     name
-  )}.jpeg?price=${price}&image=${image}&mime=${mimeType}`
+  )}.jpeg?${searchParams.toString()}`
 }
 
 export const generateCollectionImage = (
@@ -17,4 +22,8 @@ export const generateCollectionImage = (
   image: string
 ) => {
   return generateNftImage(name, `Items:${itemCount}`, image)
+}
+
+export const generateDropImage = (name: string, image: string) => {
+  return generateNftImage(name, '', image)
 }

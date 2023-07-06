@@ -5,40 +5,35 @@
   </a>
 </template>
 
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import {
   BLOCK_EXPLORER_WITH_QUERY,
   blockExplorerOf,
 } from '@/utils/config/chain.config'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
 
-const components = {}
+const { urlPrefix } = usePrefix()
 
-@Component({ components })
-export default class BlockExplorerLink extends mixins(PrefixMixin) {
-  @Prop({ type: String, default: 'subscan' }) public provider!: string
-  @Prop({ type: String, required: true }) public blockId!: string
-  @Prop({ type: String, required: true }) public text!: string
-
-  get blockUrl(): string {
-    if (!this.hasBlockUrl || !this.blockId) {
-      return '#'
-    }
-    if (BLOCK_EXPLORER_WITH_QUERY.includes(this.urlPrefix)) {
-      return this.blockExplorer + this.blockId
-    }
-    return this.blockExplorer + 'block/' + this.blockId
+const props = withDefaults(
+  defineProps<{
+    provider: string
+    blockId: string
+    text: string
+  }>(),
+  {
+    provider: 'subscan',
   }
+)
 
-  get blockExplorer(): string | undefined {
-    return blockExplorerOf(this.urlPrefix)
-  }
+const blockExplorer = computed(() => blockExplorerOf(urlPrefix.value))
+const hasBlockUrl = computed(() => Boolean(blockExplorer.value))
 
-  get hasBlockUrl(): boolean {
-    return Boolean(this.blockExplorer)
+const blockUrl = computed(() => {
+  if (!hasBlockUrl.value || !props.blockId) {
+    return '#'
   }
-}
+  if (BLOCK_EXPLORER_WITH_QUERY.includes(urlPrefix.value)) {
+    return blockExplorer.value + props.blockId
+  }
+  return blockExplorer.value + 'block/' + props.blockId
+})
 </script>
-
-<style scoped></style>
