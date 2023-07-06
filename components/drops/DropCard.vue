@@ -1,7 +1,10 @@
 <template>
   <div class="drop-card border card-border-color">
-    <nuxt-link
+    <component
+      :is="externalUrl ? 'a' : 'nuxt-link'"
       v-if="drop.collection && !isLoadingMeta"
+      :href="externalUrl"
+      rel="nofollow noopener noreferrer"
       :to="`/${correctUrlPrefix}/drops/${correctDropUrl}`">
       <div
         class="drop-card-banner"
@@ -25,7 +28,7 @@
           class="is-flex is-justify-content-space-between flex-direction column-gap">
           <div class="is-flex is-flex-direction-column column-gap">
             <span class="has-text-weight-bold">{{ drop.collection.name }}</span>
-            <div class="is-flex">
+            <div v-if="drop.collection.issuer" class="is-flex">
               <div class="mr-2 has-text-grey">
                 {{ $t('activity.creator') }}:
               </div>
@@ -54,7 +57,7 @@
           </div>
         </div>
       </div>
-    </nuxt-link>
+    </component>
 
     <template v-else>
       <NeoSkeleton no-margin :rounded="false" height="112px" />
@@ -84,6 +87,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const image = ref('')
+const externalUrl = ref('')
 
 const correctUrlPrefix = computed(() => {
   return props.overrideUrlPrefix || urlPrefix.value
@@ -112,6 +116,7 @@ onMounted(async () => {
   image.value = sanitizeIpfsUrl(
     metadata.image || metadata.thumbnailUri || metadata.mediaUri || ''
   )
+  externalUrl.value = metadata.external_url || ''
   isLoadingMeta.value = false
 })
 </script>
