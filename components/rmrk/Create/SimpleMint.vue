@@ -54,11 +54,14 @@
       :placeholder="$t('mint.nft.description.placeholder')"
       data-cy="input-description" />
 
-    <NeoField :label="$t('Edition')" class="mt-5" data-cy="input-edition">
+    <NeoField
+      :label="$t('mint.nft.edition.label')"
+      class="mt-5"
+      data-cy="input-edition">
       <NeoInput
         v-model="rmrkMint.max"
         type="number"
-        placeholder="1 is the minimum"
+        :placeholder="$t('mint.nft.edition.placeholder')"
         expanded
         :min="1" />
     </NeoField>
