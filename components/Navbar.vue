@@ -243,6 +243,7 @@ const openWalletConnectModal = (): void => {
 }
 
 const showMobileNavbar = () => {
+  document.body.classList.toggle('is-clipped')
   isMobileNavbarOpen.value = !isMobileNavbarOpen.value
 }
 
