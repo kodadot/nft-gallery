@@ -21,7 +21,7 @@
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
           @click="closeBurgerMenu">
           <img
-            v-if="isMobileNavbarOpen"
+            v-if="isMobileNavbarOpen || showSearchOnNavbar"
             class="mobile-nav-search-btn mr-2"
             :src="
               isDarkMode
