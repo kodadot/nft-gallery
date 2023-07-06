@@ -34,7 +34,7 @@ it('should render correct twitter opengraph on collection page', () => {
   cy.get('meta[property="twitter:image"]').should(
     'have.attr',
     'content',
-    'https://og-image-green-seven.vercel.app/Luna%20Witches.jpeg?price=Items:11&image=https://image-beta.w.kodadot.xyz/ipfs/bafybeibblf24qqngkfos4j3xpb33kffgqyeucdrcn4z2sn7o5mikwx7itu&mime='
+    'https://og-image-green-seven.vercel.app/Luna%20Witches.jpeg?price=Items%3A11&image=https%3A%2F%2Fimage-beta.w.kodadot.xyz%2Fipfs%2Fbafybeibblf24qqngkfos4j3xpb33kffgqyeucdrcn4z2sn7o5mikwx7itu'
   )
 
   // make sure no duplicate tag

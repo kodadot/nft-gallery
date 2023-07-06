@@ -14,14 +14,17 @@
   </v-tippy>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-
-@Component({})
-export default class BasicPopup extends Vue {
-  @Prop({ default: () => [100, 800] }) delay?: [number, number]
-  @Prop({ type: String, default: 'bottom' }) placement?: string
-}
+<script lang="ts" setup>
+withDefaults(
+  defineProps<{
+    delay?: [number, number]
+    placement?: string
+  }>(),
+  {
+    delay: () => [100, 800],
+    placement: 'bottom',
+  }
+)
 </script>
 
 <style lang="scss" scoped>
