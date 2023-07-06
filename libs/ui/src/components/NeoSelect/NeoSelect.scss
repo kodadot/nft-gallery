@@ -16,6 +16,7 @@ $select-border-radius: 0;
   .o-sel {
     @include ktheme() {
       color: theme('text-color');
+      border-color: theme('k-grey');
     }
   }
 }
