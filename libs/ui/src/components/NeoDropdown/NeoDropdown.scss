@@ -17,7 +17,7 @@ $dropdown-item-hover-background-color: #ffe5f3;
 .o-drop__item {
   @include ktheme() {
     border-bottom: 1px solid theme('border-color');
-    color: theme('text-color');
+    color: theme('text-color')!important;
   }
 
   &:hover {
