@@ -95,21 +95,21 @@ const setUserLang = (value: string) => {
 }
 
 const toggleWalletConnectModal = () => {
+  console.log('close')
   // close all modal
   document.querySelectorAll('.modal').forEach((modal) => {
     modal.__vue__?.$vnode?.context?.close()
   })
 
-  if (modal.value?.isActive) {
+  if (modal.value) {
     modal.value.close()
     modal.value = null
-    return
+  } else {
+    modal.value = $buefy.modal.open({
+      parent: instance?.proxy,
+      ...ConnectWalletModalConfig,
+    } as unknown as BModalConfig)
   }
-
-  modal.value = $buefy.modal.open({
-    parent: instance?.proxy,
-    ...ConnectWalletModalConfig,
-  } as unknown as BModalConfig)
 }
 
 const toggleLanguageMenu = () => {
