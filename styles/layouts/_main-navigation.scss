@@ -86,7 +86,7 @@
 
             @include ktheme() {
               box-shadow: theme('primary-shadow');
-              color: theme('black');
+              color: theme('text-color');
               background: theme('k-primary');
             }
           }
