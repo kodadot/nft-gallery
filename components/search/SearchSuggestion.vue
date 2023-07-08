@@ -9,7 +9,7 @@
       <NeoTabItem
         label="Collections"
         value="Collections"
-        item-header-class="has-text-left	is-block">
+        item-header-class="has-text-left is-block pt-6 pl-6 pb-4">
         <div v-if="isCollectionResultLoading">
           <SearchResultItem
             v-for="item in searchSuggestionEachTypeMaxNum"
@@ -93,7 +93,7 @@
       <NeoTabItem
         label="NFTs"
         value="NFTs"
-        item-header-class="has-text-left	is-block">
+        item-header-class="has-text-left is-block pt-6 pl-6 pb-4">
         <div v-if="isNFTResultLoading">
           <SearchResultItem
             v-for="item in searchSuggestionEachTypeMaxNum"
@@ -157,7 +157,7 @@
       <NeoTabItem
         disabled
         value="User"
-        item-header-class="has-text-left	is-block">
+        item-header-class="has-text-left is-block pt-6 pl-6 pb-4">
         <template #header>
           {{ $t('user') }}
           <span class="small-soon-text">
