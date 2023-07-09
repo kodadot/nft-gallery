@@ -120,6 +120,8 @@ const label = computed(() =>
 const balance = computed<string>(() => {
   if (['rmrk', 'ksm', 'stmn'].includes(urlPrefix.value)) {
     return identityStore.getAuthBalance
+  } else if (urlPrefix.value === 'bsx') {
+    return identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance
   }
   return identityStore.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
 })
