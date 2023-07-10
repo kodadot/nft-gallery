@@ -85,7 +85,7 @@ const selectedOfferType = computed({
   },
 })
 
-const isOfferDropdownDisabled = computed(() => skipUserOffer)
+const isOfferDropdownDisabled = computed(() => skipUserOffer.value)
 
 const OfferTypeOptions = ref([
   {
@@ -150,8 +150,8 @@ const fetchCreatedOffers = async () => {
       burned: false,
     }
 
-    if (!skipUserOffer) {
-      variables.id = destinationAddress || accountId
+    if (!skipUserOffer.value) {
+      variables.id = destinationAddress.value || accountId.value
     }
 
     const { data } = await $apollo.query<OfferResponse>({
@@ -161,7 +161,7 @@ const fetchCreatedOffers = async () => {
     })
     if (data?.offers?.length) {
       createdOffers.value = data.offers
-      if (!skipUserOffer) {
+      if (!skipUserOffer.value) {
         incomingOffers.value = []
       }
     } else {
