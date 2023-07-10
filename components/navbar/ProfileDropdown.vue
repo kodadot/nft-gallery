@@ -73,8 +73,8 @@ import { useLangStore } from '@/stores/lang'
 import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import type { BModalConfig } from 'buefy/types/components'
+import { ModalProgrammatic as Modal } from 'buefy'
 
-const { $buefy } = useNuxtApp()
 const identityStore = useIdentityStore()
 const langStore = useLangStore()
 const instance = getCurrentInstance()
@@ -95,20 +95,18 @@ const setUserLang = (value: string) => {
 }
 
 const toggleWalletConnectModal = () => {
-  // close all modal
-  document.querySelectorAll('.modal').forEach((modal) => {
-    modal.__vue__?.$vnode?.context?.close()
-  })
-
-  if (modal.value) {
-    modal.value.close()
-    modal.value = null
-  } else {
-    modal.value = $buefy.modal.open({
+  if (!document.querySelector('.connect-wallet-modal')) {
+    modal.value = Modal.open({
       parent: instance?.proxy,
       ...ConnectWalletModalConfig,
     } as unknown as BModalConfig)
   }
+
+  // close all modal
+  document.querySelectorAll('.modal').forEach((modal) => {
+    modal.__vue__?.$vnode?.context?.close()
+    modal.remove()
+  })
 }
 
 const toggleLanguageMenu = () => {
