@@ -118,10 +118,19 @@ const label = computed(() =>
 )
 
 const balance = computed<string>(() => {
-  if (['rmrk', 'ksm', 'stmn'].includes(urlPrefix.value)) {
-    return identityStore.getAuthBalance
+  switch (urlPrefix.value) {
+    case 'rmrk':
+    case 'ksm':
+    case 'stmn':
+      return identityStore.getAuthBalance
+    case 'bsx':
+      return identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance
+    case 'snek':
+      return identityStore.multiBalances.chains['basilisk-testnet']?.ksm
+        ?.nativeBalance
+    default:
+      return identityStore.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
   }
-  return identityStore.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
 })
 const disabled = computed(() => {
   if (!(props.nftPrice && balance.value) || !connected.value) {
