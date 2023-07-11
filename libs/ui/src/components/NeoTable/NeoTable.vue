@@ -16,10 +16,8 @@ export default {
 $table-border: 0;
 $table-border-radius: 0;
 $table-td-border: 0;
-$table-td-padding: 0.25rem 1.5rem;
 $table-th-border: 0;
 $table-th-font-weight: 400;
-$table-th-padding: 0 1.5rem 0.5rem 1.5rem;
 
 .o-table {
   @include ktheme() {
