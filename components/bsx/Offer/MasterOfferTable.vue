@@ -28,16 +28,16 @@
           {{ option.label }}
         </option>
       </b-select>
-      <template v-if="selectedOfferType === SelectedOfferType.CREATED">
+      <template v-if="currentOfferType === SelectedOfferType.CREATED">
         <OffersUserTable :offers="createdOffers" :owner-id="''" hide-toggle />
       </template>
-      <div v-show="selectedOfferType === SelectedOfferType.INCOMING">
+      <div v-show="currentOfferType === SelectedOfferType.INCOMING">
         <MyOffer
           :address="accountIdChanged"
           hide-heading
           @offersIncoming="offersIncomingUpdate" />
       </div>
-      <template v-if="selectedOfferType === SelectedOfferType.ALL">
+      <template v-if="currentOfferType === SelectedOfferType.ALL">
         <OfferTable
           :offers="
             skipUserOffer
@@ -75,13 +75,16 @@ const { $apollo, $i18n, $route, $router } = useNuxtApp()
 const { accountId, isLogIn } = useAuth()
 const { client } = usePrefix()
 
+const currentOfferType = ref(SelectedOfferType.ALL)
+
 const selectedOfferType = computed({
-  get: () => $route.query.tab || SelectedOfferType.ALL,
+  get: () => $route.query.tab || currentOfferType.value,
   set: (value) => {
     const { target } = $route.query
-    $router.replace({
+    $router.push({
       query: { target, tab: value },
     })
+    currentOfferType.value = value
   },
 })
 
@@ -108,7 +111,7 @@ const handleAddressUpdate = (target: string) => {
     checkOfferForAddress()
     $router.replace({ query: { target, tab } }).catch(() => null) // null to further not throw navigation errors
   } else {
-    selectedOfferType.value = SelectedOfferType.ALL
+    currentOfferType.value = SelectedOfferType.ALL
     checkOfferForAddress(true)
     $router.replace({ query: { tab } }).catch(() => null) // null to further not throw navigation errors
   }
