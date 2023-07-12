@@ -47,7 +47,7 @@ defineProps<{
   }
 
   &-content {
-    border-left: initial;
+    border-left: initial !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -64,7 +64,7 @@ defineProps<{
     }
 
     input {
-      border-left: 0;
+      border-left: 0 !important;
       height: 54px;
       outline: none;
       width: 100%;
