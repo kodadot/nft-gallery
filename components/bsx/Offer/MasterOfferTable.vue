@@ -8,15 +8,13 @@
         icon="close-circle"
         :strict="false"
         @input="handleAddressUpdate" />
-      <b-button
+      <NeoButton
         v-if="isLogIn"
-        type="is-primary"
         icon-left="paper-plane"
-        class="fill-button"
-        outlined
-        @click="fillUpAddress">
+        class="fill-button mt-6"
+        @click.native="fillUpAddress">
         Fill My Address
-      </b-button>
+      </NeoButton>
     </div>
     <section>
       <b-select
@@ -24,7 +22,7 @@
         class="mb-2"
         :disabled="isOfferDropdownDisabled">
         <option
-          v-for="option in OfferTypeOptions"
+          v-for="option in offerTypeOptions"
           :key="option.type"
           :value="option.type">
           {{ option.label }}
@@ -65,13 +63,15 @@ import OfferTable from '@/components/bsx/Offer/OfferTable.vue'
 import OffersUserTable from '@/components/bsx/Offer/OffersUserTable.vue'
 import MyOffer from '@/components/bsx/Offer/MyOffer.vue'
 
+import { NeoButton } from '@kodadot1/brick'
+
 const createdOffers = ref([])
 const destinationAddress = ref('')
 const accountIdChanged = ref('')
 const incomingOffers = ref([])
 const skipUserOffer = ref(false) // skip fetching with id when this variable is true
 
-const { $apollo, $route, $router } = useNuxtApp()
+const { $apollo, $i18n, $route, $router } = useNuxtApp()
 const { accountId, isLogIn } = useAuth()
 const { client } = usePrefix()
 
@@ -87,18 +87,18 @@ const selectedOfferType = computed({
 
 const isOfferDropdownDisabled = computed(() => skipUserOffer.value)
 
-const OfferTypeOptions = ref([
+const offerTypeOptions = ref([
   {
     type: SelectedOfferType.ALL,
-    label: 'All Offers',
+    label: $i18n.t('offer.allOffers'),
   },
   {
     type: SelectedOfferType.CREATED,
-    label: 'Offers Created',
+    label: $i18n.t('offer.offersCreated'),
   },
   {
     type: SelectedOfferType.INCOMING,
-    label: 'Offers Incoming',
+    label: $i18n.t('offer.incomingOffers'),
   },
 ])
 
