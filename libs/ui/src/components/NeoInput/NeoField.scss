@@ -41,4 +41,10 @@ $field-label-font-weight: 700;
       color: theme('k-red');
     }
   }
+
+  .o-field--addons > :not(:first-child):not(:last-child) button,
+  .o-field--addons > button:not(:first-child):not(:last-child) {
+    border-right: 0;
+    border-left: 0;
+  }
 }

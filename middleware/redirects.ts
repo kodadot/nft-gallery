@@ -1,6 +1,10 @@
 export default function ({ redirect, route }): void {
   const { urlPrefix } = usePrefix()
 
+  if (route.path === '/drops') {
+    return redirect('/stmn/drops')
+  }
+
   if (route.path.startsWith(`/${urlPrefix.value}`)) {
     if (route.path.endsWith('collections')) {
       return redirect(`/${urlPrefix.value}/explore/collectibles`)
