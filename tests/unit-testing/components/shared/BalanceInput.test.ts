@@ -1,12 +1,12 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import Buefy from 'buefy'
+import Oruga from '@oruga-ui/oruga'
 import { expect, it, vi } from 'vitest'
 
 import { units } from '@/params/constants'
 import BalanceInput from '@/components/shared/BalanceInput.vue'
 
 const localVue = createLocalVue()
-localVue.use(Buefy)
+localVue.use(Oruga)
 
 let wrapper, input, options
 
