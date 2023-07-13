@@ -34,6 +34,7 @@ const curatedCollection = {
     'b45943b4edbf6f5c0f-SKYLAB_ARTEMIS_R4VENS', // The Artemis Project - Code R4VEN
     '22708b368d163c8007-CITY', // The City
     '7092505797a30ccf48-NEON BABES', // Neon Babes
+    'B9F14D738824A41D42-TOKUNFT', // Toku NFT
   ],
 }
 

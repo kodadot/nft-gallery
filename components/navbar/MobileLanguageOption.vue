@@ -4,19 +4,17 @@
     :no-padding="true"
     :title="$t('profileMenu.language')"
     icon="globe">
-    <b-navbar-item
+    <a
       v-for="lang in langsFlags"
       :key="lang.value"
+      class="navbar-item"
       :class="{ 'is-active': userLang === lang.value }"
       :value="lang.value"
       aria-role="listitem"
       has-link
       @click="setUserLang(lang.value)">
-      <a
-        >{{ lang.flag }}
-        {{ lang.label }}
-      </a>
-    </b-navbar-item>
+      <div>{{ lang.flag }} {{ lang.label }}</div>
+    </a>
   </MobileExpandableSection>
 </template>
 
@@ -34,9 +32,11 @@ const userLang = computed(() => {
   $i18n.locale = langStore.language.userLang
   return langStore.language.userLang
 })
+const emit = defineEmits(['closeLanguageOption'])
 
 const setUserLang = (value: string) => {
   langStore.setLanguage({ userLang: value })
   $i18n.locale = value
+  emit('closeLanguageOption')
 }
 </script>
