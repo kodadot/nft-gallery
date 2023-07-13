@@ -5,8 +5,12 @@
       v-model="activeSearchTab"
       expanded
       class="touch-mt-20"
+      nav-tabs-class="pt-6 pl-6 pr-6"
       @input="resetSelectedIndex">
-      <NeoTabItem label="Collections" value="Collections">
+      <NeoTabItem
+        label="Collections"
+        value="Collections"
+        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
         <div v-if="isCollectionResultLoading">
           <SearchResultItem
             v-for="item in searchSuggestionEachTypeMaxNum"
@@ -87,7 +91,10 @@
           </div>
         </nuxt-link>
       </NeoTabItem>
-      <NeoTabItem label="NFTs" value="NFTs">
+      <NeoTabItem
+        label="NFTs"
+        value="NFTs"
+        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
         <div v-if="isNFTResultLoading">
           <SearchResultItem
             v-for="item in searchSuggestionEachTypeMaxNum"
@@ -148,7 +155,10 @@
           </div>
         </nuxt-link>
       </NeoTabItem>
-      <NeoTabItem disabled value="User">
+      <NeoTabItem
+        disabled
+        value="User"
+        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
         <template #header>
           {{ $t('user') }}
           <span class="small-soon-text">
