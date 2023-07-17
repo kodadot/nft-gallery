@@ -5,14 +5,14 @@
         {{ $t('myOffer.bsxTitle') }}
       </h1>
     </div>
-    <b-select v-model="selectedStatus">
+    <NeoSelect v-model="selectedStatus">
       <option
         v-for="option in getUniqType(offers)"
         :key="option.type"
         :value="option.type">
         {{ option.value }}
       </option>
-    </b-select>
+    </NeoSelect>
     <Loader v-model="isLoading" :status="status" />
     <NeoTable :data="displayOffers(offers)">
       <NeoTableColumn v-slot="props" :label="$t('nft.offer.item')" sortable>
@@ -90,7 +90,7 @@
 import { Component, Emit, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 
-import { NeoTable, NeoTableColumn } from '@kodadot1/brick'
+import { NeoSelect, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 
 import { tokenIdToRoute } from '@/components/unique/utils'
 
@@ -106,6 +106,7 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   NeoTable,
   NeoTableColumn,
+  NeoSelect,
 }
 
 @Component({

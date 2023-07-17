@@ -36,6 +36,10 @@ const props = withDefaults(
 )
 
 const imageSrc = ref(props.src)
+
+watchEffect(() => {
+  imageSrc.value = props.src
+})
 const loaded = ref(false)
 
 const onImageLoad = () => {

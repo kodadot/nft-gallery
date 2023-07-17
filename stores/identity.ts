@@ -180,7 +180,7 @@ export const useIdentityStore = defineStore('identity', {
     async setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: DEFAULT_BALANCE_STATE }
       await this.fetchBalance({ address: authRequest.address })
-      localStorage.setItem('kodaauth', authRequest.address)
+      localStorage.setItem('kodaauth', authRequest.address || '')
     },
     setBalance(prefix: string, balance: string) {
       if (this.auth.balance) {
