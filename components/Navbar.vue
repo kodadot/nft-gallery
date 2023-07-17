@@ -241,6 +241,12 @@ const openWalletConnectModal = (): void => {
     parent: instance?.proxy,
     ...ConnectWalletModalConfig,
   } as unknown as BModalConfig)
+
+  // close all modal
+  document.querySelectorAll('.modal').forEach((modal) => {
+    modal.__vue__?.$vnode?.context?.close()
+    modal.remove()
+  })
 }
 
 const showMobileNavbar = () => {

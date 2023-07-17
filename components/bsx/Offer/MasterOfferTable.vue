@@ -17,7 +17,7 @@
       </NeoButton>
     </div>
     <section>
-      <b-select
+      <NeoSelect
         v-model="selectedOfferType"
         class="mb-2"
         :disabled="isOfferDropdownDisabled">
@@ -27,7 +27,7 @@
           :value="option.type">
           {{ option.label }}
         </option>
-      </b-select>
+      </NeoSelect>
       <template v-if="currentOfferType === SelectedOfferType.CREATED">
         <OffersUserTable :offers="createdOffers" :owner-id="''" hide-toggle />
       </template>
@@ -63,7 +63,7 @@ import OfferTable from '@/components/bsx/Offer/OfferTable.vue'
 import OffersUserTable from '@/components/bsx/Offer/OffersUserTable.vue'
 import MyOffer from '@/components/bsx/Offer/MyOffer.vue'
 
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoSelect } from '@kodadot1/brick'
 
 const createdOffers = ref([])
 const destinationAddress = ref('')
