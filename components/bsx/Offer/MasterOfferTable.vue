@@ -8,39 +8,36 @@
         icon="close-circle"
         :strict="false"
         @input="handleAddressUpdate" />
-      <b-button
+      <NeoButton
         v-if="isLogIn"
-        type="is-primary"
         icon-left="paper-plane"
-        class="fill-button"
-        outlined
-        @click="fillUpAddress">
+        class="fill-button mt-6"
+        @click.native="fillUpAddress">
         Fill My Address
-      </b-button>
+      </NeoButton>
     </div>
-    <Loader v-model="isLoading" :status="status" />
     <section>
       <NeoSelect
         v-model="selectedOfferType"
         class="mb-2"
         :disabled="isOfferDropdownDisabled">
         <option
-          v-for="option in getOfferTypeOptions()"
+          v-for="option in offerTypeOptions"
           :key="option.type"
           :value="option.type">
           {{ option.label }}
         </option>
       </NeoSelect>
-      <template v-if="selectedOfferType === SelectedOfferType.CREATED">
+      <template v-if="currentOfferType === SelectedOfferType.CREATED">
         <OffersUserTable :offers="createdOffers" :owner-id="''" hide-toggle />
       </template>
-      <div v-show="selectedOfferType === SelectedOfferType.INCOMING">
+      <div v-show="currentOfferType === SelectedOfferType.INCOMING">
         <MyOffer
           :address="accountIdChanged"
           hide-heading
           @offersIncoming="offersIncomingUpdate" />
       </div>
-      <template v-if="selectedOfferType === SelectedOfferType.ALL">
+      <template v-if="currentOfferType === SelectedOfferType.ALL">
         <OfferTable
           :offers="
             skipUserOffer
@@ -55,163 +52,135 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import AuthMixin from '~/utils/mixins/authMixin'
-import MetaTransactionMixin from '~/utils/mixins/metaMixin'
-import { Offer, OfferResponse } from './types'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import SubscribeMixin from '~/utils/mixins/subscribeMixin'
+<script lang="ts" setup>
+import { OfferResponse } from './types'
 import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
 import { notificationTypes, showNotification } from '~/utils/notification'
 import { isAddress } from '@polkadot/util-crypto'
-import ChainMixin from '~/utils/mixins/chainMixin'
 import { SelectedOfferType } from '~/utils/offerStatus'
-import { NeoSelect } from '@kodadot1/brick'
 
-const components = {
-  Loader: () => import('@/components/shared/Loader.vue'),
-  CollapseCardWrapper: () =>
-    import('@/components/shared/collapse/CollapseCardWrapper.vue'),
-  StatsOverview: () => import('~/components/bsx/Offer/StatsOverview.vue'),
-  AddressInput: () => import('@/components/shared/AddressInput.vue'),
-  OffersUserTable: () => import('@/components/bsx/Offer/OffersUserTable.vue'),
-  MyOffer: () => import('@/components/bsx/Offer/MyOffer.vue'),
-  OfferTable: () => import('@/components/bsx/Offer/OfferTable.vue'),
-  NeoSelect,
-}
+import OfferTable from '@/components/bsx/Offer/OfferTable.vue'
+import OffersUserTable from '@/components/bsx/Offer/OffersUserTable.vue'
+import MyOffer from '@/components/bsx/Offer/MyOffer.vue'
 
-@Component({ components })
-export default class MasterOfferTable extends mixins(
-  AuthMixin,
-  MetaTransactionMixin,
-  PrefixMixin,
-  SubscribeMixin,
-  ChainMixin
-) {
-  protected createdOffers: Offer[] = []
-  protected total = 0
-  protected destinationAddress = ''
-  protected accountIdChanged = ''
-  protected incomingOffers: Offer[] = []
-  protected SelectedOfferType = SelectedOfferType
-  protected skipUserOffer = false // skip fetching with id when this variable is true
+import { NeoButton, NeoSelect } from '@kodadot1/brick'
 
-  public async created() {
-    this.checkQueryParams()
-  }
+const createdOffers = ref([])
+const destinationAddress = ref('')
+const accountIdChanged = ref('')
+const incomingOffers = ref([])
+const skipUserOffer = ref(false) // skip fetching with id when this variable is true
 
-  fetch() {
-    this.fetchCreatedOffers()
-  }
+const { $apollo, $i18n, $route, $router } = useNuxtApp()
+const { accountId, isLogIn } = useAuth()
+const { client } = usePrefix()
 
-  get isOfferDropdownDisabled(): boolean {
-    return this.skipUserOffer
-  }
+const currentOfferType = ref(SelectedOfferType.ALL)
 
-  get ss58Format(): number {
-    return this.chainProperties?.ss58Format
-  }
-
-  get selectedOfferType(): string {
-    return (this.$route.query.tab as string) || SelectedOfferType.ALL
-  }
-
-  set selectedOfferType(val) {
-    const { target } = this.$route.query
-    this.$router.replace({
-      query: { target, tab: val },
+const selectedOfferType = computed({
+  get: () => $route.query.tab || currentOfferType.value,
+  set: (value) => {
+    const { target } = $route.query
+    $router.push({
+      query: { target, tab: value },
     })
-  }
+    currentOfferType.value = value
+  },
+})
 
-  public offersIncomingUpdate(data) {
-    this.incomingOffers = data.offers
-  }
+const isOfferDropdownDisabled = computed(() => skipUserOffer.value)
 
-  public getOfferTypeOptions() {
-    return [
-      {
-        type: SelectedOfferType.ALL,
-        label: 'All Offers',
-      },
-      {
-        type: SelectedOfferType.CREATED,
-        label: 'Offers Created',
-      },
-      {
-        type: SelectedOfferType.INCOMING,
-        label: 'Offers Incoming',
-      },
-    ]
-  }
+const offerTypeOptions = ref([
+  {
+    type: SelectedOfferType.ALL,
+    label: $i18n.t('offer.allOffers'),
+  },
+  {
+    type: SelectedOfferType.CREATED,
+    label: $i18n.t('offer.offersCreated'),
+  },
+  {
+    type: SelectedOfferType.INCOMING,
+    label: $i18n.t('offer.incomingOffers'),
+  },
+])
 
-  protected checkQueryParams() {
-    const { query } = this.$route
-    if (query.target) {
-      const hasAddress = isAddress(query.target as string)
-      if (hasAddress) {
-        this.destinationAddress = query.target as string
-        this.accountIdChanged = query.target as string
-      } else {
-        showNotification('Unable to use target address', notificationTypes.warn)
-      }
-    } else {
-      this.skipUserOffer = true
-    }
-  }
-
-  public checkOfferForAddress(skipAddress = false) {
-    this.skipUserOffer = skipAddress
-    this.fetchCreatedOffers()
-    this.accountIdChanged = this.destinationAddress
-  }
-
-  protected async fetchCreatedOffers() {
-    try {
-      let variables: any = {
-        burned: false,
-      }
-
-      if (!this.skipUserOffer) {
-        variables.id = this.destinationAddress || this.accountId
-      }
-
-      const { data } = await this.$apollo.query<OfferResponse>({
-        query: offerListUser,
-        client: this.client,
-        variables: variables,
-      })
-      if (data?.offers?.length) {
-        this.createdOffers = data.offers
-        if (!this.skipUserOffer) {
-          this.incomingOffers = []
-        }
-      } else {
-        this.createdOffers = []
-      }
-    } catch (e) {
-      showNotification(`${e}`, notificationTypes.warn)
-    }
-  }
-
-  protected handleAddressUpdate(target: string) {
-    const { tab } = this.$route.query
-    if (target) {
-      this.checkOfferForAddress()
-      this.$router.replace({ query: { target, tab } }).catch(() => null) // null to further not throw navigation errors
-    } else {
-      this.selectedOfferType = SelectedOfferType.ALL
-      this.checkOfferForAddress(true)
-      this.$router.replace({ query: { tab } }).catch(() => null) // null to further not throw navigation errors
-    }
-  }
-
-  private fillUpAddress() {
-    this.destinationAddress = this.accountId
-    this.handleAddressUpdate(this.accountId)
+const handleAddressUpdate = (target: string) => {
+  const { tab } = $route.query
+  if (target) {
+    checkOfferForAddress()
+    $router.replace({ query: { target, tab } }).catch(() => null) // null to further not throw navigation errors
+  } else {
+    currentOfferType.value = SelectedOfferType.ALL
+    checkOfferForAddress(true)
+    $router.replace({ query: { tab } }).catch(() => null) // null to further not throw navigation errors
   }
 }
+
+const fillUpAddress = () => {
+  destinationAddress.value = accountId.value
+  handleAddressUpdate(accountId.value)
+}
+
+const offersIncomingUpdate = (data) => {
+  incomingOffers.value = data.offers
+}
+
+const checkQueryParams = () => {
+  const { query } = $route
+  if (query.target) {
+    const hasAddress = isAddress(query.target as string)
+    if (hasAddress) {
+      destinationAddress.value = query.target as string
+      accountIdChanged.value = query.target as string
+    } else {
+      showNotification('Unable to use target address', notificationTypes.warn)
+    }
+  } else {
+    skipUserOffer.value = true
+  }
+}
+
+const checkOfferForAddress = (skipAddress = false) => {
+  skipUserOffer.value = skipAddress
+  fetchCreatedOffers()
+  accountIdChanged.value = destinationAddress.value
+}
+
+const fetchCreatedOffers = async () => {
+  try {
+    let variables: any = {
+      burned: false,
+    }
+
+    if (!skipUserOffer.value) {
+      variables.id = destinationAddress.value || accountId.value
+    }
+
+    const { data } = await $apollo.query<OfferResponse>({
+      query: offerListUser,
+      client: client.value,
+      variables: variables,
+    })
+    if (data?.offers?.length) {
+      createdOffers.value = data.offers
+      if (!skipUserOffer.value) {
+        incomingOffers.value = []
+      }
+    } else {
+      createdOffers.value = []
+    }
+  } catch (e) {
+    showNotification(`${e}`, notificationTypes.warn)
+  }
+}
+
+onMounted(() => {
+  checkQueryParams()
+  fetchCreatedOffers()
+})
 </script>
+
 <style scoped>
 .address-input {
   width: 500px;
