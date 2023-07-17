@@ -15,6 +15,7 @@
               :active="tab === 'Mass Mint'"
               :text="tab"
               :to="route.path"
+              :class="{ 'tab-nft': tab === 'NFT' }"
               class="mobile-width" />
           </div>
         </section>
@@ -264,5 +265,14 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
 
 .limit-width {
   max-width: 45rem;
+}
+</style>
+
+<style lang="scss">
+.tab-nft {
+  .explore-tabs-button {
+    border-left: 0 !important;
+    border-right: 0 !important;
+  }
 }
 </style>

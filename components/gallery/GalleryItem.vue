@@ -25,11 +25,11 @@
 
           <!-- media item -->
           <div v-if="hasResources" class="gallery-item-carousel">
-            <o-carousel
+            <NeoCarousel
               v-model="activeCarousel"
               indicators-class="mt-4"
               indicator-item-class="mx-1">
-              <o-carousel-item
+              <NeoCarouselItem
                 v-for="resource in nftResources"
                 :key="resource.id">
                 <MediaItem
@@ -38,8 +38,8 @@
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
                   is-detail />
-              </o-carousel-item>
-            </o-carousel>
+              </NeoCarouselItem>
+            </NeoCarousel>
           </div>
           <MediaItem
             v-else
@@ -160,8 +160,12 @@
 </template>
 
 <script setup lang="ts">
-import { OCarousel, OCarouselItem } from '@oruga-ui/oruga'
-import { MediaItem, NeoIcon } from '@kodadot1/brick'
+import {
+  MediaItem,
+  NeoCarousel,
+  NeoCarouselItem,
+  NeoIcon,
+} from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 

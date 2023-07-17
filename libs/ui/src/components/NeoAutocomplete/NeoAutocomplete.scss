@@ -11,6 +11,7 @@
   }
   &__menu {
     margin-top: 1rem;
+    padding: 0;
     @include ktheme() {
       box-shadow: theme('primary-shadow');
       border: 1px solid theme('border-color');

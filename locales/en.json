@@ -585,6 +585,7 @@
     "accept": "NFT has new a owner",
     "withdraw": "your offer has been withdrawn",
     "burnedToggle": "Show Burned Nfts",
+    "allOffers": "All Offers",
     "offersCreated": "Offers Created",
     "incomingOffers": "Incoming Offers",
     "floorDifferences": "Floor Difference"
