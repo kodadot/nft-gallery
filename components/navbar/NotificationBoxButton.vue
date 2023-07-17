@@ -1,7 +1,7 @@
 <template>
-  <a class="navbar-item" @click.stop="toggleNotificationModal">
+  <a class="navbar-item" @click="toggleNotificationModal">
     <span v-if="props.showLabel">{{ $t('notification.notifications') }}</span>
-    <NeoIcon ref="root" icon="bell" pack="far" class="icon" />
+    <NeoIcon icon="bell" pack="far" class="icon" />
   </a>
 </template>
 
@@ -9,29 +9,24 @@
 import { NeoIcon } from '@kodadot1/brick'
 import { ModalProgrammatic as Modal } from 'buefy'
 import { BModalComponent, BModalConfig } from 'buefy/types/components'
-import type Vue from 'vue'
-
 import { NotificationBoxModalConfig } from '@/components/common/NotificationBox/useNotificationBox'
 import { usePreferencesStore } from '@/stores/preferences'
 
-const root = ref<Vue<Record<string, string>>>()
 const props = defineProps<{
   showLabel: boolean
 }>()
 const emit = defineEmits(['closeBurgerMenu'])
 const modal = ref<BModalComponent | null>()
 const preferencesStore = usePreferencesStore()
+const instance = getCurrentInstance()
 
 function toggleNotificationModal() {
   emit('closeBurgerMenu')
-  if (modal.value) {
-    modal.value.close()
-    modal.value = null
-    preferencesStore.setNotificationBoxCollapse(false)
-  } else {
+
+  if (!document.querySelector('.notification-box-modal')) {
     preferencesStore.setNotificationBoxCollapse(true)
     modal.value = Modal.open({
-      parent: root?.value,
+      parent: instance?.proxy,
       onCancel: () => {
         modal.value = null
         preferencesStore.setNotificationBoxCollapse(false)
@@ -39,5 +34,11 @@ function toggleNotificationModal() {
       ...NotificationBoxModalConfig,
     } as unknown as BModalConfig)
   }
+
+  // close all modal
+  document.querySelectorAll('.modal').forEach((modal) => {
+    modal.__vue__?.$vnode?.context?.close()
+    modal.remove()
+  })
 }
 </script>

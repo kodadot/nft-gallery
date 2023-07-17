@@ -1,6 +1,12 @@
 import { hexToString, isHex } from '@polkadot/util'
 import { generateId } from '../service/Consolidator'
-import { Collection, NFT, NFTWithMeta, SimpleNFT } from './scheme'
+import {
+  Collection,
+  NFT,
+  NFTWithMeta,
+  RmrkCreatedNft,
+  SimpleNFT,
+} from './scheme'
 import slugify from 'slugify'
 import { RmrkWithMetaType } from './scheme'
 import { upperTrim } from '@kodadot1/minimark/utils'
@@ -8,7 +14,7 @@ import { UpdateFunction } from '@kodadot1/minimark/common'
 
 export type MintType = {
   collection: Collection
-  nfts: NFT[]
+  nfts: RmrkCreatedNft[]
 }
 
 export const basicUpdateFunction = (name: string, index: number): string =>
@@ -26,7 +32,7 @@ class NFTUtils {
   }
 
   public static toString(
-    rmrkType: NFT | Collection,
+    rmrkType: RmrkCreatedNft | Collection,
     version = '1.0.0'
   ): string {
     if (NFTUtils.isCollection(rmrkType)) {
@@ -49,7 +55,7 @@ class NFTUtils {
     )}`
   }
 
-  public static encodeNFT(nft: NFT, version: string): string {
+  public static encodeNFT(nft: RmrkCreatedNft, version: string): string {
     return `RMRK::MINTNFT::${version}::${encodeURIComponent(
       JSON.stringify(nft)
     )}`
@@ -106,18 +112,15 @@ class NFTUtils {
     collectionId: string,
     name: string,
     metadata: string
-  ): NFT {
+  ): RmrkCreatedNft {
     const instance = upperTrim(name, true)
     const sn = NFTUtils.nftSerialNumber(index)
     return {
-      events: [],
       name: name.trim(),
       instance,
       transferable: 1,
       collection: collectionId,
       sn,
-      _id: '',
-      id: '',
       metadata,
       currentOwner: caller,
     }
@@ -131,7 +134,7 @@ class NFTUtils {
     metadata: string,
     offset = 0,
     updateName?: UpdateFunction
-  ): NFT[] {
+  ): RmrkCreatedNft[] {
     return Array(max)
       .fill(null)
       .map((_, i) =>
@@ -154,13 +157,13 @@ class NFTUtils {
   }
 
   public static isCollection(
-    object: Collection | NFT | RmrkWithMetaType
+    object: Collection | RmrkCreatedNft | RmrkWithMetaType
   ): object is Collection {
     return 'issuer' in object && 'symbol' in object
   }
 
   public static isNFT(
-    object: Collection | NFT | RmrkWithMetaType
+    object: Collection | RmrkCreatedNft | RmrkWithMetaType
   ): object is NFT | NFTWithMeta {
     return 'currentOwner' in object && 'instance' in object
   }

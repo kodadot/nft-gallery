@@ -40,15 +40,14 @@ $tabs-font-size: 1rem;
         @include ktheme() {
           color: theme('text-color');
           margin-bottom: 1.5rem;
+          border-bottom-color: theme('k-shade');
 
           &--active {
-            border-bottom-color: theme('k-primary');
-            color: theme('k-primary');
+            font-weight: 700;
           }
 
           &:hover:not(.o-tabs__nav-item-default--active) {
             background-color: unset;
-            border-bottom-color: theme('k-primary');
 
             .o-tabs__nav-item-text,
             span,

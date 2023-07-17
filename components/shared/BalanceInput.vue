@@ -18,7 +18,7 @@
             data-testid="balance-input"
             @input="handleInput" />
           <p class="control balance">
-            <b-select
+            <NeoSelect
               :value="selectedUnit"
               :disabled="!calculate"
               data-testid="balance-input-select"
@@ -26,7 +26,7 @@
               <option v-for="u in units" :key="u.value" :value="u.value">
                 {{ u.name }}
               </option>
-            </b-select>
+            </NeoSelect>
           </p>
         </div>
       </div>
@@ -50,12 +50,13 @@ import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
 import ChainMixin from '@/utils/mixins/chainMixin'
-import { NeoField, NeoInput } from '@kodadot1/brick'
+import { NeoField, NeoInput, NeoSelect } from '@kodadot1/brick'
 
 @Component({
   components: {
     NeoField,
     NeoInput,
+    NeoSelect,
   },
 })
 export default class BalanceInput extends mixins(ChainMixin) {

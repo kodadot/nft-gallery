@@ -7,7 +7,7 @@
     :style="{
       '--font-size': fontSize,
       '--multiline-width': multilineWidth,
-      width: fullWidth ? '100%' : 'auto',
+      width: fullWidth ? '100%' : '',
     }"
     :position="position"
     :label="label"
