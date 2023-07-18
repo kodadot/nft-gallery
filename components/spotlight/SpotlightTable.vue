@@ -23,14 +23,6 @@
             </NeoSwitch>
           </div>
         </NeoField>
-        <NeoButton
-          class="ml-2 magicBtn"
-          :title="$t('tooltip.random')"
-          variant="primary"
-          icon-left="dice"
-          no-shadow
-          @click="goToRandomPage">
-        </NeoButton>
       </template>
       <NeoTableColumn
         v-slot="props"
@@ -436,10 +428,6 @@ export default class SpotlightTable extends mixins(
   width: 200px;
   height: 100px;
 }
-.spotlight .magicBtn {
-  position: absolute;
-  right: 0;
-}
 
 .spotlight-sticky-header th {
   top: 120px;
@@ -454,10 +442,6 @@ export default class SpotlightTable extends mixins(
 }
 
 @media only screen and (max-width: 768px) {
-  .spotlight .magicBtn {
-    top: 4rem;
-    position: relative;
-  }
   .spotlight .level-right {
     margin-left: 2rem;
     margin-right: 0rem;
