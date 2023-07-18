@@ -1,7 +1,11 @@
 <template>
   <NeoField grouped>
     <p v-if="!disabled" class="control">
-      <b-button size="is-medium" icon-left="times" @click="remove" />
+      <NeoButton
+        no-shadow
+        size="medium"
+        icon-left="times"
+        @click.native="remove" />
     </p>
     <NeoField label="Trait">
       <NeoInput
@@ -24,10 +28,11 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, PropSync, Vue } from 'nuxt-property-decorator'
-import { NeoField, NeoInput } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
 
 @Component({
   components: {
+    NeoButton,
     NeoField,
     NeoInput,
   },

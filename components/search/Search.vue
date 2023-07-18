@@ -7,14 +7,6 @@
     </div>
     <div class="columns mb-0">
       <NeoField class="column is-8 mb-0 mr-2" :class="searchColumnClass">
-        <b-button
-          v-if="!hideFilter"
-          icon-left="filter"
-          aria-controls="sortAndFilter"
-          type="is-primary is-bordered-light"
-          class="is-hidden-mobile mr-2"
-          data-cy="expand-search"
-          @click="isVisible = !isVisible" />
         <slot name="next-filter"></slot>
         <SearchBarInput
           v-if="!hideSearchInput"
@@ -29,19 +21,6 @@
             <PriceRange inline />
           </div>
         </div>
-      </NeoField>
-      <NeoField
-        v-if="!hideFilter"
-        expanded
-        position="is-right"
-        class="column is-4">
-        <b-button
-          icon-left="filter"
-          aria-controls="sortAndFilter"
-          type="is-primary"
-          class="is-hidden-tablet mr-2"
-          @click="isVisible = !isVisible" />
-        <slot />
       </NeoField>
     </div>
   </div>
