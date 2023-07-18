@@ -1,28 +1,23 @@
 <template>
   <NeoField grouped>
-    <p v-if="!disabled" class="control">
-      <NeoButton
-        no-shadow
-        size="medium"
-        icon-left="times"
-        @click.native="remove" />
-    </p>
-    <NeoField label="Trait">
-      <NeoInput
-        v-model="vKey"
-        placeholder="Background"
-        expanded
-        :disabled="disabled"
-        spellcheck="true" />
-    </NeoField>
-    <NeoField label="Value">
-      <NeoInput
-        v-model="vValue"
-        placeholder="Dark"
-        expanded
-        spellcheck="true"
-        :disabled="disabled" />
-    </NeoField>
+    <NeoButton
+      v-if="!disabled"
+      no-shadow
+      size="medium"
+      icon-left="times"
+      @click.native="remove" />
+    <NeoInput
+      v-model="vKey"
+      placeholder="Section"
+      expanded
+      :disabled="disabled"
+      spellcheck="true" />
+    <NeoInput
+      v-model="vValue"
+      placeholder="Value"
+      expanded
+      spellcheck="true"
+      :disabled="disabled" />
   </NeoField>
 </template>
 

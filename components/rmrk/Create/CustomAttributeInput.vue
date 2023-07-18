@@ -11,7 +11,7 @@
     </div>
     <NeoButton
       no-shadow
-      class="mt-2"
+      class="my-4"
       :disabled="disabled"
       icon-left="plus"
       @click.native="addAttribute">
