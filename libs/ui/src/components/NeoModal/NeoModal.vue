@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { OModal } from '@oruga-ui/oruga'
+import { OModal } from '@oruga-ui/oruga-next'
 
 const props = withDefaults(
   defineProps<{

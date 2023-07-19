@@ -1,5 +1,5 @@
 <script>
-import { OTabs } from '@oruga-ui/oruga'
+import { OTabs } from '@oruga-ui/oruga-next'
 
 export default {
   mixins: [OTabs],
