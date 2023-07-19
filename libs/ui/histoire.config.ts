@@ -1,6 +1,6 @@
 import { defineConfig } from 'histoire'
-import { HstVue } from '@histoire/plugin-vue2'
-import vue from '@vitejs/plugin-vue2'
+import { HstVue } from '@histoire/plugin-vue'
+import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
 export default defineConfig({
