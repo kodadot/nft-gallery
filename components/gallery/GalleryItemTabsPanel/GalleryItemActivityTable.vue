@@ -170,6 +170,11 @@ const formatPrice = (price) => {
 }
 
 @include mobile {
+  .gallery-item-activity-table {
+    td {
+      border-bottom: inherit;
+    }
+  }
   .padding-top-mobile {
     padding-top: 0 !important;
   }
