@@ -36,7 +36,7 @@
     "test:e2e-gui": "cypress open --project tests",
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
-    "prepare": "pnpm -F static build && nuxi prepare && husky install"
+    "prepare": "pnpm -F static build && husky install"
   },
   "husky": {
     "hooks": {
@@ -134,7 +134,6 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-runtime": "^7.22.5",
     "@babel/preset-env": "^7.22.5",
-    "@kevinmarrec/nuxt-pwa": "0.15.0",
     "@nuxt/bridge": "npm:@nuxt/bridge-edge@3.0.0-27889410.9247608",
     "@nuxt/test-utils": "^0.2.2",
     "@nuxt/types": "^2.17.0",

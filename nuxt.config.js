@@ -241,7 +241,7 @@ export default defineNuxtConfig({
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     '@nuxtjs/sentry',
-    '@kevinmarrec/nuxt-pwa',
+    // '@kevinmarrec/nuxt-pwa',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     ['@pinia/nuxt', { disableVuex: false }],
