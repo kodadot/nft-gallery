@@ -169,12 +169,14 @@ const formatPrice = (price) => {
   overflow-y: auto;
 }
 
-@include mobile {
+@include touch {
   .gallery-item-activity-table {
-    td {
-      border-bottom: inherit;
+    :deep .o-table__td {
+      border-bottom: inherit !important;
     }
   }
+}
+@include mobile {
   .padding-top-mobile {
     padding-top: 0 !important;
   }
