@@ -4,7 +4,9 @@
       <p class="label">
         {{ $t('Chart') }}
       </p>
-      <b-button type="is-primary" @click="resetZoom">Reset zoom</b-button>
+      <NeoButton variant="primary" no-shadow @click.native="resetZoom"
+        >Reset zoom</NeoButton
+      >
     </div>
     <div class="chart-container mt-5">
       <LineChart
