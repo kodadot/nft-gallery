@@ -5,8 +5,8 @@ import {
   TokenToMint,
 } from '@/composables/transaction/types'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import { EntityWithId, getNftId } from '../../components/rmrk/service/scheme'
-import { NFTToMint } from '../../components/massmint/types'
+import { EntityWithId, getNftId } from '@/components/rmrk/service/scheme'
+import { NFTToMint } from '@/components/massmint/types'
 
 export const createTokensToMint = (
   nfts: NFTToMint[],
@@ -37,7 +37,7 @@ export const subscribeToCollectionLengthUpdates = (collectionId: string) => {
           where: { burned_eq: false }
         ) {
           id
-    
+
         }
       }`,
     onChange: ({ data }) => {
