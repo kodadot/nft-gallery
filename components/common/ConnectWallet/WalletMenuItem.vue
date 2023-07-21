@@ -1,28 +1,28 @@
 <template>
   <div class="wallet-menu-item">
-    <b-button
-      size="is-medium"
-      expanded
-      class="my-0 is-flex is-justify-content-space-between is-align-items-center"
-      @click="onClickWallet(wallet)">
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center">
-        <span>
-          <img
-            :src="wallet.img"
-            :alt="wallet.extensionName"
-            width="32"
-            style="vertical-align: middle" />
-          <span class="is-size-6 ml-2 is-capitalized">{{ wallet.name }}</span>
-        </span>
+    <button
+      class="button my-0 is-flex is-justify-content-space-between is-align-items-center"
+      @click.native="onClickWallet(wallet)">
+      <span>
+        <div
+          class="is-flex is-justify-content-space-between is-align-items-center">
+          <span>
+            <img
+              :src="wallet.img"
+              :alt="wallet.extensionName"
+              width="32"
+              style="vertical-align: middle" />
+            <span class="is-size-6 ml-2 is-capitalized">{{ wallet.name }}</span>
+          </span>
 
-        <NeoIcon v-if="!wallet.installed" icon="download" />
+          <NeoIcon v-if="!wallet.installed" icon="download" />
 
-        <NeoIcon v-else-if="showAccountList" icon="chevron-down" />
+          <NeoIcon v-else-if="showAccountList" icon="chevron-down" />
 
-        <NeoIcon v-else icon="chevron-right" />
-      </div>
-    </b-button>
+          <NeoIcon v-else icon="chevron-right" />
+        </div>
+      </span>
+    </button>
     <div
       v-if="isAuth && walletAccounts.length === 0"
       class="pl-5 pt-2 pb-2 is-flex is-align-items-center auth-tip">
