@@ -24,16 +24,16 @@ export default function useCreate() {
     showExplainerText.value = true
   }
 
-  watch(activeTab, (newTab) => {
+  watch(activeTab, (newTab: number) => {
     replaceUrl({
-      tab: newTab === 1 ? CreateComponent.NFT : CreateComponent.Collection,
+      tab: newTab === 2 ? CreateComponent.NFT : CreateComponent.Collection,
     })
   })
 
   onMounted(() => {
     const tab = route.query.tab
     if (tab) {
-      activeTab.value = tab === CreateComponent.NFT ? 1 : 0
+      activeTab.value = tab === CreateComponent.NFT ? 2 : 1
     }
   })
 
