@@ -89,15 +89,16 @@
         :loading="isLoading"
         :disabled="disabled"
         no-shadow
+        class="m-1"
         @click.native="submit">
         {{ $t('general.submit') }}
       </NeoButton>
       <NeoButton
         v-if="transactionValue && hasBlockExplorer"
         variant="success"
-        class="ml-4"
         icon-left="external-link-alt"
         no-shadow
+        class="m-1"
         @click.native="getExplorerUrl">
         {{ $t('View Transaction') }} {{ transactionValue.substring(0, 6)
         }}{{ '...' }}
@@ -107,6 +108,7 @@
         v-clipboard:copy="getUrl()"
         variant="primary"
         no-shadow
+        class="m-1"
         @click.native="toast($t('toast.urlCopy'))">
         <NeoIcon pack="fas" icon="link" />
       </NeoButton>
@@ -117,6 +119,7 @@
         icon-left="money-bill"
         :loading="isLoading"
         no-shadow
+        class="m-1"
         @click.native="toast($t('toast.paymentLinkCopy'))">
         {{ $t('Copy Payment link') }}
       </NeoButton>
@@ -127,6 +130,7 @@
         icon-left="wallet"
         :loading="isLoading"
         no-shadow
+        class="m-1"
         @click.native="toast($t('general.copyRewardTooltip'))">
         {{ $t('general.copyRewardLink') }}
       </NeoButton>
