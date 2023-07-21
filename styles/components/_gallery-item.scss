@@ -14,15 +14,15 @@
 }
 
 .gallery-parent-item {
-    max-height: 240px;
-    max-width: 240px;
-    margin: 0 auto;
+  max-height: 240px;
+  max-width: 240px;
+  margin: 0 auto;
 
-    &__name {
-      padding-top: 0.25rem;
-      width: fit-content;
-      margin: 0 auto;
-    }
+  &__name {
+    padding-top: 0.25rem;
+    width: fit-content;
+    margin: 0 auto;
+  }
 }
 
 .gallery-item {
@@ -36,7 +36,6 @@
   .icon-action {
     width: 2.188rem;
   }
-
 }
 
 .gallery-item-desc-markdown {
@@ -54,10 +53,37 @@
     @include ktheme() {
       color: theme('k-blue') !important;
       &:hover {
-        color: theme('k-blue-hover')  !important;
+        color: theme('k-blue-hover') !important;
       }
     }
   }
 
   word-break: 'break-word';
+}
+
+.buy-tooltip {
+  width: max-content !important;
+
+  a {
+    cursor: pointer;
+    @include ktheme() {
+      color: theme('k-blue') !important;
+      &:hover {
+        color: theme('k-blue-hover') !important;
+      }
+    }
+  }
+}
+
+.gallery-item-disabled {
+  @include ktheme() {
+    box-shadow: 4px 4px theme('k-grey');
+    width: 10rem;
+  }
+
+  .neo-tooltip,
+  .is-neo {
+    height: 54px;
+    width: 100%;
+  }
 }

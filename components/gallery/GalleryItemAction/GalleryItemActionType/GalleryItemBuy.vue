@@ -6,53 +6,72 @@
       ref="root"
       title="Price"
       :price="nftPrice">
-      <GalleryItemActionSlides
-        v-if="Number(nftPrice)"
-        ref="actionRef"
-        :active="active"
-        :class="{ 'gallery-item-slides-entry': !active }"
-        :disabled="disabled">
-        <template #entry>
-          <NeoTooltip
-            v-if="!active"
-            :active="disabled"
-            :label="$t('tooltip.notEnoughBalance')"
-            append-to-body
-            multiline>
-            <NeoButton
-              :label="label"
-              size="large"
-              class="full-width-action-button"
-              variant="k-accent"
-              :disabled="disabled"
-              no-shadow
-              data-cy="item-buy"
-              @click.native="onClick" />
-          </NeoTooltip>
-        </template>
+      <div v-if="disabled" class="gallery-item-disabled">
+        <NeoTooltip
+          :active="disabled"
+          content-class="buy-tooltip"
+          position="left"
+          :auto-close="['outside', 'escape']"
+          multiline>
+          <template #content>
+            <div class="is-size-6">
+              {{
+                $t('tooltip.notEnoughBalanceChain', {
+                  chain: urlPrefix.toUpperCase(),
+                })
+              }}
+              <div>
+                {{ $t('tip') }}:
+                <nuxt-link :to="`/${urlPrefix}/teleport`" target="_blank">
+                  {{ $t('useTeleport') }}</nuxt-link
+                >
 
-        <template #action>
+                or
+                <nuxt-link :to="`/${urlPrefix}/transfer`" target="_blank">
+                  {{ $t('addFunds') }}</nuxt-link
+                >
+              </div>
+            </div>
+          </template>
           <NeoButton
             :label="label"
             size="large"
-            fixed-width
             variant="k-accent"
             :disabled="disabled"
             no-shadow
             data-cy="item-buy"
             @click.native="onClick" />
-        </template>
+        </NeoTooltip>
+      </div>
+      <div v-else>
+        <GalleryItemActionSlides
+          v-if="Number(nftPrice)"
+          ref="actionRef"
+          :active="active"
+          :class="{ 'gallery-item-slides-entry': !active }"
+          :disabled="disabled">
+          <template #action>
+            <NeoButton
+              :label="label"
+              size="large"
+              fixed-width
+              variant="k-accent"
+              no-shadow
+              data-cy="item-buy"
+              @click.native="onClick" />
+          </template>
 
-        <template #content>
-          <div class="has-text-centered">
-            {{ $t('nft.buyNFTOn') }}
-            <span class="has-text-weight-bold is-uppercase">{{
-              urlPrefix
-            }}</span>
-          </div>
-        </template>
-      </GalleryItemActionSlides>
-      <div v-else>{{ $t('nft.notListed') }}</div>
+          <template #content>
+            <div class="has-text-centered">
+              {{ $t('nft.buyNFTOn') }}
+              <span class="has-text-weight-bold is-uppercase">{{
+                urlPrefix
+              }}</span>
+            </div>
+          </template>
+        </GalleryItemActionSlides>
+        <div v-else>{{ $t('nft.notListed') }}</div>
+      </div>
     </GalleryItemPriceSection>
   </div>
 </template>
