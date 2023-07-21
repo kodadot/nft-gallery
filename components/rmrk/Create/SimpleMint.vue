@@ -122,13 +122,13 @@
             :max="100" />
         </NeoField>
         <NeoField v-show="syncVisible">
-          <b-button
-            outlined
+          <NeoButton
+            no-shadow
             icon-left="sync"
-            type="is-warning"
-            @click="syncEdition"
-            >{{ $t('mint.expert.sync', [actualDistribution]) }}</b-button
-          >
+            variant="warning"
+            @click.native="syncEdition">
+            {{ $t('mint.expert.sync', [actualDistribution]) }}
+          </NeoButton>
         </NeoField>
         <BasicSwitch
           v-model="random"
@@ -227,6 +227,7 @@ import { useFiatStore } from '@/stores/fiat'
 import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
 import {
+  NeoButton,
   NeoField,
   NeoIcon,
   NeoInput,
@@ -253,6 +254,7 @@ const components = {
   NeoField,
   NeoInput,
   NeoSlider,
+  NeoButton,
 }
 
 @Component<SimpleMint>({

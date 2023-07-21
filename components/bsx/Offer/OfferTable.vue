@@ -99,17 +99,17 @@
             :label="$t('offer.expired')"
             :active="calcExpirationTime(props.row.expiration) === 'expired'"
             class="mr-2">
-            <b-button
-              type="is-success"
-              outlined
+            <NeoButton
+              variant="success"
+              no-shadow
               icon-left="money-bill"
               :disabled="calcExpirationTime(props.row.expiration) === 'expired'"
               @click="tellFrens(props.row.caller, false)" />
           </NeoTooltip>
-          <b-button
+          <NeoButton
             v-if="props.row.caller === accountId || isOwner"
-            type="is-orange"
-            outlined
+            variant="warning"
+            no-shadow
             icon-left="times"
             @click="tellFrens(props.row.caller, true)" />
         </div>
@@ -153,6 +153,7 @@ import OfferMixin from '@/utils/mixins/offerMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import {
+  NeoButton,
   NeoSelect,
   NeoTable,
   NeoTableColumn,
@@ -167,6 +168,7 @@ const components = {
   NeoTableColumn,
   NeoTooltip,
   NeoSelect,
+  NeoButton,
 }
 
 @Component({ components, filters: { formatDistanceToNow } })
