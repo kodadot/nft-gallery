@@ -46,16 +46,15 @@
         <NeoField class="is-flex-grow-1">
           <AddressInput v-model="destinationAddresses[index]" :strict="false" />
         </NeoField>
-        <b-button
+        <NeoButton
           v-show="index == destinationAddresses.length - 1"
-          type="is-primary"
-          size="is-small"
+          variant="primary"
           icon-left="plus"
-          class="ml-2 mt-2"
-          outlined
-          @click="addAddress">
+          class="ml-2 mt-7"
+          no-shadow
+          @click.native="addAddress">
           Add
-        </b-button>
+        </NeoButton>
       </div>
 
       <DisabledInput
@@ -83,67 +82,68 @@
       </NeoField>
     </div>
 
-    <div class="buttons">
-      <b-button
-        type="is-primary"
+    <NeoField grouped group-multiline>
+      <NeoButton
+        variant="primary"
         icon-left="paper-plane"
         :loading="isLoading"
         :disabled="disabled"
-        outlined
-        @click="submit">
+        no-shadow
+        @click.native="submit">
         {{ $t('general.submit') }}
-      </b-button>
-      <b-button
+      </NeoButton>
+      <NeoButton
         v-if="transactionValue && hasBlockExplorer"
-        type="is-success"
+        variant="success"
         class="ml-4"
         icon-left="external-link-alt"
-        outlined
-        @click="getExplorerUrl">
+        no-shadow
+        @click.native="getExplorerUrl">
         {{ $t('View Transaction') }} {{ transactionValue.substring(0, 6)
         }}{{ '...' }}
-      </b-button>
-      <b-button
+      </NeoButton>
+      <NeoButton
         v-if="transactionValue && hasBlockExplorer"
         v-clipboard:copy="getUrl()"
-        type="is-primary"
-        @click="toast($t('toast.urlCopy'))">
+        variant="primary"
+        no-shadow
+        @click.native="toast($t('toast.urlCopy'))">
         <NeoIcon pack="fas" icon="link" />
-      </b-button>
-      <b-button
+      </NeoButton>
+      <NeoButton
         v-if="hasAddress"
         v-clipboard:copy="generatePaymentLink()"
-        type="is-success"
+        variant="success"
         icon-left="money-bill"
         :loading="isLoading"
-        outlined
-        @click="toast($t('toast.paymentLinkCopy'))">
+        no-shadow
+        @click.native="toast($t('toast.paymentLinkCopy'))">
         {{ $t('Copy Payment link') }}
-      </b-button>
-      <b-button
+      </NeoButton>
+      <NeoButton
         v-if="accountId"
         v-clipboard:copy="generatePaymentLink(accountId)"
-        type="is-info"
+        variant="info"
         icon-left="wallet"
         :loading="isLoading"
-        outlined
-        @click="toast($t('general.copyRewardTooltip'))">
+        no-shadow
+        @click.native="toast($t('general.copyRewardTooltip'))">
         {{ $t('general.copyRewardLink') }}
-      </b-button>
-    </div>
+      </NeoButton>
+    </NeoField>
     <div v-if="transactionValue && $route.query.donation">
       <div class="is-size-5">
         🎉 {{ $t('teleport.congratsSupport') }}
         <Identity ref="identity" :address="$route.query.target" />
       </div>
-      <b-button
-        type="is-info"
+      <NeoButton
+        variant="info"
         class="mt-2"
         icon-left="share-square"
-        outlined
-        @click="shareInTweet">
+        no-shadow
+        @click.native="shareInTweet">
         {{ $t('teleport.tweetDonation') }}
-      </b-button>
+      </NeoButton>
     </div>
   </section>
 </template>
@@ -173,7 +173,7 @@ import { useIdentityStore } from '@/stores/identity'
 
 import { getExplorer, hasExplorer } from '@kodadot1/static'
 import { emptyObject } from '@kodadot1/minimark/utils'
-import { NeoField, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoIcon } from '@kodadot1/brick'
 
 type Target = 'target' | `target${number}`
 type TargetMap = Record<Target, string>
@@ -189,6 +189,7 @@ type TargetMap = Record<Target, string>
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     DisabledInput: () => import('@/components/shared/DisabledInput.vue'),
+    NeoButton,
     NeoField,
     NeoIcon,
   },

@@ -52,56 +52,57 @@
     </div>
 
     <div class="buttons">
-      <b-button
-        type="is-primary"
+      <NeoButton
+        variant="primary"
         icon-left="paper-plane"
         :loading="isLoading"
         :disabled="disabled"
-        outlined
-        @click="submit">
+        no-shadow
+        @click.native="submit">
         {{ $t('general.submit') }}
-      </b-button>
-      <b-button
+      </NeoButton>
+      <NeoButton
         v-if="transactionValue"
-        type="is-success"
+        variant="success"
         class="ml-4"
         icon-left="external-link-alt"
-        outlined
-        @click="getExplorerUrl">
+        no-shadow
+        @click.native="getExplorerUrl">
         {{ $t('View Transaction') }} {{ transactionValue.substring(0, 6)
         }}{{ '...' }}
-      </b-button>
-      <b-button
+      </NeoButton>
+      <NeoButton
         v-if="transactionValue"
         v-clipboard:copy="getUrl()"
-        type="is-primary"
-        @click="toast($t('toast.urlCopy'))">
+        variant="primary"
+        no-shadow
+        @click.native="toast($t('toast.urlCopy'))">
         <NeoIcon pack="fas" icon="link" />
-      </b-button>
-      <b-button
+      </NeoButton>
+      <NeoButton
         v-if="destinationAddress"
         v-clipboard:copy="generatePaymentLink()"
-        type="is-success"
+        variant="success"
         icon-left="money-bill"
         :loading="isLoading"
-        outlined
-        @click="toast($t('toast.paymentLinkCopy'))">
+        no-shadow
+        @click.native="toast($t('toast.paymentLinkCopy'))">
         {{ $t('teleport.btnCopyPayment') }}
-      </b-button>
+      </NeoButton>
     </div>
     <div v-if="transactionValue && $route.query.donation">
       <div class="is-size-5">
         🎉 {{ $t('teleport.congratsSupport') }}
         <Identity ref="identity" :address="$route.query.target" />
       </div>
-      <b-button
-        type="is-info"
+      <NeoButton
+        variant="info"
         class="mt-2"
         icon-left="share-square"
-        outlined
-        @click="shareInTweet">
+        no-shadow
+        @click.native="shareInTweet">
         {{ $t('teleport.tweetDonation') }}
-      </b-button>
+      </NeoButton>
     </div>
   </section>
 </template>
@@ -128,7 +129,7 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 
 import { useFiatStore } from '@/stores/fiat'
-import { NeoField, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoIcon } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
 
 @Component({
@@ -144,6 +145,7 @@ import { useIdentityStore } from '@/stores/identity'
     Money: () => import('@/components/shared/format/Money.vue'),
     DisabledInput: () => import('@/components/shared/DisabledInput.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+    NeoButton,
     NeoField,
     NeoIcon,
   },

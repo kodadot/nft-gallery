@@ -2,7 +2,7 @@
   <div class="wallet-menu-item">
     <button
       class="button my-0 is-flex is-justify-content-space-between is-align-items-center"
-      @click.native="onClickWallet(wallet)">
+      @click="onClickWallet(wallet)">
       <span>
         <div
           class="is-flex is-justify-content-space-between is-align-items-center">
