@@ -30,9 +30,6 @@ export default function () {
       : symbol
   })
 
-  const blockExplorer = computed(
-    () => chainProperties.value.blockExplorer ?? 'https://kusama.subscan.io/'
-  )
   return {
     decimals,
     unit,
@@ -40,6 +37,5 @@ export default function () {
     chainProperties,
     availableChains,
     chainSymbol,
-    blockExplorer,
   }
 }

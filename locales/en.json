@@ -889,8 +889,7 @@
     "btnCopyPayment": "Copy Payment link",
     "congratsSupport": "Congratulations for supporting",
     "tweetDonation": "Tweet about your awesome donation",
-    "donationSentTo": "Your donation will be sent to:",
-    "route": "Send {0} From {1} To {2}"
+    "donationSentTo": "Your donation will be sent to:" 
   },
   "preferences": {
     "basic": "basic user interface",
