@@ -26,7 +26,7 @@
                   {{ $t('useTeleport') }}</nuxt-link
                 >
 
-                or
+                {{ $t('or') }}
                 <nuxt-link :to="`/${urlPrefix}/transfer`" target="_blank">
                   {{ $t('addFunds') }}</nuxt-link
                 >
