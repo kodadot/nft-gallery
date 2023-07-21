@@ -294,18 +294,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Watch, mixins } from 'nuxt-property-decorator'
-
-import { Collection, NFTMetadata } from '@/components/rmrk/service/scheme'
+<script lang="ts" setup>
+import { Collection } from '@/components/rmrk/service/scheme'
 import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-
-import AuthMixin from '@/utils/mixins/authMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-
-import { emptyObject } from '@/utils/empty'
-
 import collectionsEvents from '@/queries/rmrk/subsquid/collectionsEvents.graphql'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 
@@ -322,214 +314,197 @@ import {
   NeoField,
   NeoIcon,
   NeoSelect,
+  NeoSkeleton,
   NeoTable,
   NeoTableColumn,
 } from '@kodadot1/brick'
 
-const components = {
-  Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
-  Loader: () => import('@/components/shared/Loader.vue'),
-  NeoField,
-  NeoIcon,
-  NeoTable,
-  NeoTableColumn,
-  NeoSelect,
-  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+const Money = defineAsyncComponent(
+  () => import('@/components/shared/format/Money.vue')
+)
+const BasicImage = defineAsyncComponent(
+  () => import('@/components/shared/view/BasicImage.vue')
+)
+const Loader = defineAsyncComponent(
+  () => import('@/components/shared/Loader.vue')
+)
+
+const route = useRoute()
+const router = useRouter()
+const { $apollo, $consola } = useNuxtApp()
+const { client, urlPrefix } = usePrefix()
+const nbRows = ref('50')
+const nbDays = ref('7')
+const isLoading = ref(false)
+const sortBy = reactive<SortType>({ field: 'volume', value: 'DESC' })
+
+const data = ref<RowSeries[]>([])
+
+const seriesQueryParams = async (limit, sort) => ({
+  limit,
+  offset: 0,
+  orderBy: sort || 'volume_DESC',
+  where: {
+    volume_isNull: false,
+  },
+})
+
+const fetchCollectionEvents = async (ids: string[]) => {
+  if (ids.length === 0) {
+    return []
+  }
+  try {
+    // const today = new Date()
+    const { data } = await $apollo.query<{ events }>({
+      query: collectionsEvents,
+      client: client.value,
+      variables: {
+        ids: ids,
+        and: {
+          interaction_eq: 'BUY',
+        },
+        lte: today,
+        gte: lastmonthDate,
+      },
+    })
+    return data.events
+  } catch (e) {
+    $consola.error(e)
+    return []
+  }
 }
 
-@Component({ components })
-export default class SeriesTable extends mixins(PrefixMixin, AuthMixin) {
-  protected data: RowSeries[] = []
-  protected usersWithIdentity: RowSeries[] = []
-  protected nbDays = '7'
-  protected nbRows = '50'
-  protected sortBy: SortType = { field: 'volume', value: 'DESC' }
-  public isLoading = false
-  public meta: NFTMetadata = emptyObject<NFTMetadata>()
-  // private hasPassionFeed = false
+const fetchCollectionsSeries = async (
+  limit = Number(nbRows.value),
+  sort: string = toSort(sortBy)
+) => {
+  isLoading.value = true
+  const collections = await $apollo.query({
+    query: seriesInsightList,
+    client: client.value,
+    variables: await seriesQueryParams(limit, sort),
+    fetchPolicy: 'cache-first',
+  })
 
-  async created() {
-    exist(this.$route.query.rows, (val) => {
-      this.nbRows = val
+  const {
+    data: { collectionEntities },
+  } = collections
+
+  const defaultBuyEvents = getDateArray(lastmonthDate, today).reduce(
+    (res, date) => {
+      res[date] = 0
+      return res
+    },
+    {}
+  )
+
+  const axisLize = (obj = {}): BuyHistory => ({
+    xAxisList: Object.keys(obj),
+    yAxisList: Object.values(obj),
+  })
+
+  const ids = collectionEntities.map((c: Collection) => c.id)
+
+  const buyEvents = (await fetchCollectionEvents(ids))
+    .map((e) => ({
+      ...e.nft.collection,
+      timestamp: onlyDate(new Date(e.timestamp)),
+    }))
+    .reduce((res, e) => {
+      const { id, timestamp: ts } = e
+      if (!res[id]) {
+        res[id] = Object.assign({}, defaultBuyEvents)
+      }
+      res[id][ts] += 1
+      return res
+    }, {})
+
+  data.value = collectionEntities.map(
+    (e: RowSeries): RowSeries => ({
+      ...e,
+      image: sanitizeIpfsUrl(e.image),
+      rank: e.sold * (e.unique / e.total || 1),
+      averagePrice: calculateAvgPrice(e.volume as string, e.buys),
+      buyHistory: axisLize(
+        Object.assign({}, defaultBuyEvents, buyEvents[e.id] || {})
+      ),
+      emoteCount: e.emoteCount || 0,
     })
-    exist(this.$route.query.period, (val) => {
-      this.nbDays = val
-    })
-    exist(this.$route.query.sort, (val) => {
-      this.sortBy.field = val.slice(1)
-      this.sortBy.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
-    })
-    await this.fetchCollectionsSeries(Number(this.nbRows))
-  }
+  )
 
-  private async seriesQueryParams(limit, sort) {
-    const queryVars = {
-      limit,
-      offset: 0,
-      orderBy: sort || 'volume_DESC',
-      where: {
-        volume_isNull: false,
-      },
-    }
-    // if (this.isLogIn && this.hasPassionFeed) {
-    //   this.passionList = this.passionList.concat(await this.fetchPassionList())
-    //   queryVars.where.issuer_in = this.passionList
-    // }
-
-    return queryVars
-  }
-
-  public async fetchCollectionsSeries(
-    limit = Number(this.nbRows),
-    sort: string = toSort(this.sortBy)
-  ) {
-    this.isLoading = true
-    const collections = await this.$apollo.query({
-      query: seriesInsightList,
-      client: this.client,
-      variables: await this.seriesQueryParams(limit, sort),
-      fetchPolicy: 'cache-first',
-    })
-
-    const {
-      data: { collectionEntities },
-    } = collections
-
-    const defaultBuyEvents = getDateArray(lastmonthDate, today).reduce(
-      (res, date) => {
-        res[date] = 0
-        return res
-      },
-      {}
-    )
-
-    const axisLize = (obj = {}): BuyHistory => ({
-      xAxisList: Object.keys(obj),
-      yAxisList: Object.values(obj),
-    })
-
-    const ids = collectionEntities.map((c: Collection) => c.id)
-
-    const buyEvents = (await this.fetchCollectionEvents(ids))
-      .map((e) => ({
-        ...e.nft.collection,
-        timestamp: onlyDate(new Date(e.timestamp)),
-      }))
-      .reduce((res, e) => {
-        const { id, timestamp: ts } = e
-        if (!res[id]) {
-          res[id] = Object.assign({}, defaultBuyEvents)
-        }
-        res[id][ts] += 1
-        return res
-      }, {})
-
-    this.data = collectionEntities.map(
-      (e: RowSeries): RowSeries => ({
-        ...e,
-        image: sanitizeIpfsUrl(e.image),
-        rank: e.sold * (e.unique / e.total || 1),
-        averagePrice: calculateAvgPrice(e.volume as string, e.buys),
-        buyHistory: axisLize(
-          Object.assign({}, defaultBuyEvents, buyEvents[e.id] || {})
-        ),
-        emoteCount: e.emoteCount || 0,
-      })
-    )
-
-    this.isLoading = false
-  }
-
-  protected async fetchCollectionEvents(ids: string[]) {
-    if (ids.length === 0) {
-      return []
-    }
-    try {
-      // const today = new Date()
-      const { data } = await this.$apollo.query<{ events }>({
-        query: collectionsEvents,
-        client: this.client,
-        variables: {
-          ids: ids,
-          and: {
-            interaction_eq: 'BUY',
-          },
-          lte: today,
-          gte: lastmonthDate,
-        },
-      })
-      return data.events
-    } catch (e) {
-      this.$consola.error(e)
-      return []
-    }
-  }
-
-  public onSort(field: string, order: string) {
-    let sort: SortType = {
-      field: field,
-      value: order === 'desc' ? 'DESC' : 'ASC',
-    }
-    this.$router
-      .replace({
-        path: String(this.$route.path),
-        query: {
-          ...this.$route.query,
-          sort: (order === 'desc' ? '-' : '+') + field,
-        },
-      })
-      .catch((e) => this.$consola.warn(e))
-    this.fetchCollectionsSeries(Number(this.nbRows), toSort(sort))
-  }
-
-  @Watch('nbRows')
-  public onTopRowsChange(value: string) {
-    this.$router
-      .replace({
-        path: String(this.$route.path),
-        query: { ...this.$route.query, rows: value },
-      })
-      .catch((e) => this.$consola.warn(e))
-    this.fetchCollectionsSeries(Number(value))
-  }
-
-  @Watch('nbDays')
-  public onTopDaysChange(value: string) {
-    this.$router
-      .replace({
-        path: String(this.$route.path),
-        query: { ...this.$route.query, period: value },
-      })
-      .catch((e) => this.$consola.warn(e))
-  }
-
-  // @Watch('hasPassionFeed', { immediate: true })
-  // public onHasPassionFeed() {
-  //   this.fetchCollectionsSeries()
-  // }
-
-  public displayVolumePercent(
-    priceNow: number,
-    priceAgo: number,
-    getClass?: boolean
-  ) {
-    /* added getClass for getting the class name for the row
-     * it would be true when you want to return the class name
-     */
-    const vol = ((priceNow - priceAgo) / priceAgo) * 100
-    if (vol === 0 || !parseFloat(String(vol)) || !isFinite(vol)) {
-      return getClass ? '' : '---'
-    }
-    const volumePercent = Math.round(vol * 100) / 100
-
-    if (getClass) {
-      return volumePercent > 0 ? 'has-text-success' : 'has-text-danger'
-    }
-
-    return volumePercent > 0 ? `+${volumePercent}%` : `${volumePercent}%`
-  }
+  isLoading.value = false
 }
+
+onBeforeMount(async () => {
+  exist(route.query.rows, (val) => {
+    nbRows.value = val
+  })
+  exist(route.query.period, (val) => {
+    nbDays.value = val
+  })
+  exist(route.query.sort, (val) => {
+    sortBy.field = val.slice(1)
+    sortBy.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
+  })
+  await fetchCollectionsSeries(Number(nbRows.value))
+})
+
+const onSort = (field: string, order: string) => {
+  let sort: SortType = {
+    field: field,
+    value: order === 'desc' ? 'DESC' : 'ASC',
+  }
+  router
+    .replace({
+      path: String(route.path),
+      query: {
+        ...route.query,
+        sort: (order === 'desc' ? '-' : '+') + field,
+      },
+    })
+    .catch((e) => $consola.warn(e))
+  fetchCollectionsSeries(Number(nbRows.value), toSort(sort))
+}
+
+const displayVolumePercent = (
+  priceNow: number,
+  priceAgo: number,
+  getClass?: boolean
+) => {
+  /* added getClass for getting the class name for the row
+   * it would be true when you want to return the class name
+   */
+  const vol = ((priceNow - priceAgo) / priceAgo) * 100
+  if (vol === 0 || !parseFloat(String(vol)) || !isFinite(vol)) {
+    return getClass ? '' : '---'
+  }
+  const volumePercent = Math.round(vol * 100) / 100
+
+  if (getClass) {
+    return volumePercent > 0 ? 'has-text-success' : 'has-text-danger'
+  }
+
+  return volumePercent > 0 ? `+${volumePercent}%` : `${volumePercent}%`
+}
+
+watch(nbRows, (value: string) => {
+  router
+    .replace({
+      path: String(route.path),
+      query: { ...route.query, rows: value },
+    })
+    .catch((e) => $consola.warn(e))
+  fetchCollectionsSeries(Number(value))
+})
+
+watch(nbDays, (value: string) => {
+  router
+    .replace({
+      path: String(route.path),
+      query: { ...route.query, period: value },
+    })
+    .catch((e) => $consola.warn(e))
+})
 </script>
 <style lang="scss">
 @import '@/styles/abstracts/variables';
