@@ -17,8 +17,6 @@
   </section>
 </template>
 <script lang="ts">
-// import { Component, Vue } from 'nuxt-property-decorator'
-
 export default {
   name: 'Sales',
   head() {
@@ -36,25 +34,4 @@ export default {
     }
   },
 }
-
-// @Component<Sales>({
-//   components: {
-//     Identity: () => import('@/components/identity/IdentityIndex.vue'),
-//   },
-//   head() {
-//     const title = 'Latest KUSAMA Sales'
-//     const metaData = {
-//       title,
-//       type: 'profile',
-//       description: 'Featuring the most recently sold NFTs on RMRK.',
-//       url: './sales.vue',
-//       image: `${this.$config.public.baseUrl}/k_card.png`,
-//     }
-//     return {
-//       title,
-//       meta: [...this.$seoMeta(metaData)],
-//     }
-//   },
-// })
-// export default class Sales extends Vue {}
 </script>
