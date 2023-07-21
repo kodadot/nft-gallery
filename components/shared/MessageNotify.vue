@@ -32,7 +32,6 @@ const route = useRoute()
 const props = defineProps<{
   title?: string
   subtitle?: string
-  enableDownload?: false
   duration?: number
 }>()
 
