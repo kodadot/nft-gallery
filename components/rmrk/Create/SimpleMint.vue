@@ -189,7 +189,6 @@ import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import { emptyObject } from '@/utils/empty'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
@@ -262,7 +261,6 @@ const components = {
 })
 export default class SimpleMint extends mixins(
   SubscribeMixin,
-  RmrkVersionMixin,
   TransactionMixin,
   ChainMixin,
   PrefixMixin,
@@ -433,7 +431,9 @@ export default class SimpleMint extends mixins(
   }
 
   protected async estimateTx() {
-    const { accountId, version } = this
+    const version = useRmrkVersion().version.value
+
+    const { accountId } = this
     const api = await this.useApi()
 
     const toRemark = mapAsSystemRemark(api)
