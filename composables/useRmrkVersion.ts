@@ -3,14 +3,14 @@ import { RemarkVersion } from '@kodadot1/minimark/shared'
 export default function () {
   const { urlPrefix } = usePrefix()
 
-  const version = computed<RemarkVersion>(() => {
+  const version = computed<RemarkVersion | null>(() => {
     switch (urlPrefix.value) {
       case 'rmrk':
         return '1.0.0'
       case 'ksm':
         return '2.0.0'
       default:
-        return '2.0.0'
+        return null
     }
   })
 

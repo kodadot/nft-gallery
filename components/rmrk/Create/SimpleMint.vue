@@ -313,6 +313,10 @@ export default class SimpleMint extends mixins(
     return useIdentityStore()
   }
 
+  get version() {
+    return useRmrkVersion().version.value
+  }
+
   get balanceNotEnoughMessage() {
     return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
   }
@@ -431,9 +435,10 @@ export default class SimpleMint extends mixins(
   }
 
   protected async estimateTx() {
-    const version = useRmrkVersion().version.value
-
-    const { accountId } = this
+    const { accountId, version } = this
+    if (!version) {
+      return
+    }
     const api = await this.useApi()
 
     const toRemark = mapAsSystemRemark(api)
@@ -516,6 +521,9 @@ export default class SimpleMint extends mixins(
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { accountId, version } = this
+    if (!version) {
+      return
+    }
     this.rmrkMint.max = Number(this.rmrkMint.max)
     const api = await this.useApi()
     const toRemark = mapAsSystemRemark(api)
