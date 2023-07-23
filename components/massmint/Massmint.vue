@@ -8,16 +8,6 @@
             <NeoIcon icon="arrow-left" size="small" class="mr-1" />
             {{ $t('massmint.backToOnbaording') }}
           </NeoButton>
-          <div class="is-flex">
-            <TabItem
-              v-for="tab in tabs"
-              :key="tab"
-              :active="tab === 'Mass Mint'"
-              :text="tab"
-              :to="route.path"
-              :class="{ 'tab-nft': tab === 'NFT' }"
-              class="mobile-width" />
-          </div>
         </section>
         <hr class="m-0" />
         <section
@@ -109,7 +99,6 @@ import { FileObject } from '@/composables/massmint/useZipValidator'
 const preferencesStore = usePreferencesStore()
 const { $consola, $i18n } = useNuxtApp()
 const router = useRouter()
-const route = useRoute()
 const { urlPrefix } = usePrefix()
 
 const selectedCollection = ref<MintedCollection>()
@@ -198,8 +187,6 @@ const startMint = () => {
     }
   )
 }
-
-const tabs = ['Collection', 'NFT', 'Mass Mint']
 
 const onCollectionSelected = (collection) => {
   selectedCollection.value = collection
