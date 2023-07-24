@@ -55,6 +55,8 @@ useNuxt2Meta({
 </script>
 
 <style lang="scss">
+@import '@/styles/abstracts/variables';
+
 .article {
   margin: 0 auto;
   max-width: 40rem;
@@ -67,6 +69,7 @@ useNuxt2Meta({
 
   h2 {
     font-size: 1.5rem;
+    font-weight: bold;
     margin-bottom: 1rem;
   }
 
@@ -76,6 +79,16 @@ useNuxt2Meta({
 
   p {
     margin-bottom: 1rem;
+  }
+
+  @include touch {
+    h1 {
+      font-size: 1.75rem;
+    }
+
+    h2 {
+      font-size: 1rem;
+    }
   }
 }
 </style>

@@ -62,6 +62,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/styles/abstracts/variables';
+
 .content {
   margin: 0 auto;
   max-width: 60rem;
@@ -82,6 +84,17 @@ export default {
       font-size: 1.5rem;
       font-weight: 500;
       margin-bottom: 5rem;
+    }
+
+    @include touch {
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+        margin-bottom: 2.5rem;
+      }
     }
   }
 
@@ -106,6 +119,18 @@ export default {
         font-size: 1.25rem;
         font-weight: 700;
         margin-bottom: 1rem;
+      }
+    }
+
+    @include touch {
+      flex-direction: column;
+
+      img {
+        width: 100%;
+      }
+
+      .o-btn {
+        margin-top: 1rem;
       }
     }
   }
