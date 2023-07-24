@@ -38,10 +38,11 @@
 import { NeoButton } from '@kodadot1/brick'
 
 export default {
+  name: 'BlogList',
   components: {
     NeoButton,
   },
-  async asyncData() {
+  asyncData() {
     const resolve = require.context('~/content/blog/', true, /\.md$/)
     const imports = resolve.keys().map((key) => resolve(key))
 
