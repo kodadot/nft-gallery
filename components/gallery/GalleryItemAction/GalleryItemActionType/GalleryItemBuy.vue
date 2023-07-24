@@ -10,7 +10,7 @@
         <NeoTooltip
           :active="disabled"
           content-class="buy-tooltip"
-          position="left"
+          position="top"
           :auto-close="['outside', 'escape']"
           multiline>
           <template #content>
@@ -27,9 +27,8 @@
                 >
 
                 {{ $t('or') }}
-                <nuxt-link :to="`/${urlPrefix}/transfer`" target="_blank">
-                  {{ $t('addFunds') }}</nuxt-link
-                >
+
+                <a @click="showRampSDK"> {{ $t('addFunds') }}</a>
               </div>
             </div>
           </template>
@@ -93,6 +92,7 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { useIdentityStore } from '@/stores/identity'
 import { usePreferencesStore } from '@/stores/preferences'
+import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
 import Vue from 'vue'
 
@@ -135,6 +135,17 @@ const label = computed(() =>
         preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy'
       )
 )
+
+const showRampSDK = () => {
+  new RampInstantSDK({
+    defaultAsset: 'KSM',
+    userAddress: accountId.value,
+    hostAppName: 'KodaDot',
+    hostApiKey: 'a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc', // env
+    hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
+    variant: 'desktop',
+  }).show()
+}
 
 const balance = computed<string>(() => {
   switch (urlPrefix.value) {

@@ -62,8 +62,6 @@
 }
 
 .buy-tooltip {
-  width: max-content !important;
-
   a {
     cursor: pointer;
     @include ktheme() {
@@ -83,7 +81,7 @@
 
   .neo-tooltip,
   .is-neo {
-    height: 54px;
+    height: 3.375rem;
     width: 100%;
   }
 }
