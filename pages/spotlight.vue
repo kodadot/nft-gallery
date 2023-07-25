@@ -17,11 +17,9 @@
   </section>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-
-@Component<Spotlight>({
+export default {
+  name: 'Spotlight',
   components: {
-    Identity: () => import('@/components/identity/IdentityIndex.vue'),
     SpotlightTable: () => import('@/components/spotlight/SpotlightTable.vue'),
   },
   head() {
@@ -38,6 +36,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class Spotlight extends Vue {}
+}
 </script>

@@ -52,18 +52,17 @@
         :label="$t('offer.action')"
         width="120"
         sortable>
-        <b-button
+        <NeoButton
           v-if="props.row.caller === accountId"
-          type="is-orange"
-          outlined
+          no-shadow
           icon-left="times"
-          @click="onClick(props.row, true)" />
-        <b-button
+          @click.native="onClick(props.row, true)" />
+        <NeoButton
           v-else
-          type="is-success"
-          outlined
+          variant="success"
+          no-shadow
           icon-left="money-bill"
-          @click="onClick(props.row, false)" />
+          @click.native="onClick(props.row, false)" />
       </NeoTableColumn>
       <NeoTableColumn
         v-slot="props"
@@ -90,7 +89,7 @@
 import { Component, Emit, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 
-import { NeoSelect, NeoTable, NeoTableColumn } from '@kodadot1/brick'
+import { NeoButton, NeoSelect, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 
 import { tokenIdToRoute } from '@/components/unique/utils'
 
@@ -107,6 +106,7 @@ const components = {
   NeoTable,
   NeoTableColumn,
   NeoSelect,
+  NeoButton,
 }
 
 @Component({
@@ -179,6 +179,7 @@ export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
   }
 }
 </script>
+
 <style scoped>
 .limit-width-text {
   max-width: 50ch;

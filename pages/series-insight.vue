@@ -25,12 +25,16 @@
   </section>
 </template>
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-
-@Component<Series>({
+export default {
+  name: 'Series',
   components: {
     SeriesTable: () => import('@/components/series/SeriesTable.vue'),
+  },
+  setup() {
+    const { urlPrefix } = usePrefix()
+    return {
+      urlPrefix,
+    }
   },
   head() {
     const title = 'NFT artist rank'
@@ -46,6 +50,5 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class Series extends mixins(PrefixMixin) {}
+}
 </script>

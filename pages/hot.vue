@@ -5,9 +5,9 @@
   </section>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+export default {
+  name: 'HotDashboard',
 
-@Component<HotDashboard>({
   head() {
     const title = 'Recently KUSAMA Sales'
     const metaData = {
@@ -22,6 +22,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class HotDashboard extends Vue {}
+}
 </script>
