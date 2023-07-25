@@ -136,11 +136,12 @@ const allowedTransitiosn = {
   [Chain.STATEMINE]: [Chain.KUSAMA],
 }
 const chainBalances = {
-  [Chain.KUSAMA]: () => identityStore.multiBalances.chains.kusama?.ksm?.balance,
+  [Chain.KUSAMA]: () =>
+    identityStore.multiBalances.chains.kusama?.ksm?.nativeBalance,
   [Chain.BASILISK]: () =>
-    identityStore.multiBalances.chains.basilisk?.ksm?.balance,
+    identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance,
   [Chain.STATEMINE]: () =>
-    identityStore.multiBalances.chains.statemine?.ksm?.balance,
+    identityStore.multiBalances.chains.statemine?.ksm?.nativeBalance,
 }
 
 const isDisabled = (chain: Chain) => {
@@ -187,7 +188,8 @@ const myKsmBalance = computed(() => {
     throw new Error(`Unsupported chain: ${fromChain.value}`)
   }
   const balance = Number(getBalance()) || 0
-  return balance * Math.pow(10, ksmTokenDecimals.value)
+
+  return balance
 })
 
 const explorerUrl = computed(() => {

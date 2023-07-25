@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
 import GenerativeMint from '@/components/bsx/Create/GenerativeMint.vue'
 
-@Component({
+export default {
+  name: 'GenerativeMintPage',
   components: {
     GenerativeMint,
   },
@@ -27,6 +27,5 @@ import GenerativeMint from '@/components/bsx/Create/GenerativeMint.vue'
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class SimpleMintPage extends Vue {}
+}
 </script>

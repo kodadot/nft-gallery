@@ -3,12 +3,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-
-@Component({
+export default {
+  name: 'AssetPage',
   components: {
     AssetList: () => import('@/components/bsx/Asset/AssetList.vue'),
   },
-})
-export default class AssetPage extends Vue {}
+}
 </script>

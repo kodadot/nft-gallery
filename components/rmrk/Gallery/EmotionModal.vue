@@ -22,32 +22,30 @@
         </div>
       </div>
 
-      <b-button
+      <NeoButton
         v-if="emotes.length > DISPLAYED_EMOJI"
         class="mt-4"
+        no-shadow
         expanded
-        @click="showAllEmotes()"
-        >Load More</b-button
-      >
+        @click.native="showAllEmotes()">
+        Load More
+      </NeoButton>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Provide, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
+import { NeoButton } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-  },
-})
-export default class EmotionModal extends Vue {
-  @Prop() emotes!: string[]
-  @Provide() DISPLAYED_EMOJI = 10
+const props = defineProps<{
+  emotes: string[]
+}>()
 
-  showAllEmotes() {
-    this.DISPLAYED_EMOJI = this.emotes.length
-  }
+const DISPLAYED_EMOJI = ref(10)
+
+const showAllEmotes = () => {
+  DISPLAYED_EMOJI.value = props.emotes.length
 }
 </script>
 

@@ -23,13 +23,6 @@
             </NeoSwitch>
           </div>
         </NeoField>
-        <b-button
-          class="ml-2 magicBtn is-bordered-light"
-          :title="$t('tooltip.random')"
-          type="is-primary"
-          icon-left="dice"
-          @click="goToRandomPage">
-        </b-button>
       </template>
       <NeoTableColumn
         v-slot="props"
@@ -179,6 +172,7 @@ import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import {
+  NeoButton,
   NeoField,
   NeoSkeleton,
   NeoSwitch,
@@ -217,6 +211,7 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   SpotlightDetail: () => import('./SpotlightDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+  NeoButton,
   NeoSkeleton,
   NeoField,
   NeoSwitch,
@@ -433,10 +428,6 @@ export default class SpotlightTable extends mixins(
   width: 200px;
   height: 100px;
 }
-.spotlight .magicBtn {
-  position: absolute;
-  right: 0;
-}
 
 .spotlight-sticky-header th {
   top: 120px;
@@ -451,10 +442,6 @@ export default class SpotlightTable extends mixins(
 }
 
 @media only screen and (max-width: 768px) {
-  .spotlight .magicBtn {
-    top: 4rem;
-    position: relative;
-  }
   .spotlight .level-right {
     margin-left: 2rem;
     margin-right: 0rem;

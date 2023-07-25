@@ -122,13 +122,13 @@
             :max="100" />
         </NeoField>
         <NeoField v-show="syncVisible">
-          <b-button
-            outlined
+          <NeoButton
+            no-shadow
             icon-left="sync"
-            type="is-warning"
-            @click="syncEdition"
-            >{{ $t('mint.expert.sync', [actualDistribution]) }}</b-button
-          >
+            variant="warning"
+            @click.native="syncEdition">
+            {{ $t('mint.expert.sync', [actualDistribution]) }}
+          </NeoButton>
         </NeoField>
         <BasicSwitch
           v-model="random"
@@ -189,7 +189,6 @@ import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import { emptyObject } from '@/utils/empty'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
@@ -227,6 +226,7 @@ import { useFiatStore } from '@/stores/fiat'
 import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
 import {
+  NeoButton,
   NeoField,
   NeoIcon,
   NeoInput,
@@ -253,6 +253,7 @@ const components = {
   NeoField,
   NeoInput,
   NeoSlider,
+  NeoButton,
 }
 
 @Component<SimpleMint>({
@@ -260,7 +261,6 @@ const components = {
 })
 export default class SimpleMint extends mixins(
   SubscribeMixin,
-  RmrkVersionMixin,
   TransactionMixin,
   ChainMixin,
   PrefixMixin,
@@ -311,6 +311,10 @@ export default class SimpleMint extends mixins(
 
   get identityStore() {
     return useIdentityStore()
+  }
+
+  get version() {
+    return useRmrkVersion().version.value
   }
 
   get balanceNotEnoughMessage() {
@@ -432,6 +436,9 @@ export default class SimpleMint extends mixins(
 
   protected async estimateTx() {
     const { accountId, version } = this
+    if (!version) {
+      return
+    }
     const api = await this.useApi()
 
     const toRemark = mapAsSystemRemark(api)
@@ -514,6 +521,9 @@ export default class SimpleMint extends mixins(
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { accountId, version } = this
+    if (!version) {
+      return
+    }
     this.rmrkMint.max = Number(this.rmrkMint.max)
     const api = await this.useApi()
     const toRemark = mapAsSystemRemark(api)
