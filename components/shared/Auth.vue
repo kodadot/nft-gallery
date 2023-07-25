@@ -25,7 +25,7 @@ const account = computed({
 
 withDefaults(
   defineProps<{
-    size: number
+    size?: number
   }>(),
   {
     size: 24,
