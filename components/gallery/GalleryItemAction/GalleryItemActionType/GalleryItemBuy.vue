@@ -17,7 +17,9 @@
             <div class="is-size-6">
               {{
                 $t('tooltip.notEnoughBalanceChain', {
-                  chain: urlPrefix.toUpperCase(),
+                  chain:
+                    chainInfo[urlPrefix][0].toUpperCase() +
+                    chainInfo[urlPrefix].slice(1),
                 })
               }}
               <div>
@@ -95,6 +97,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
 import Vue from 'vue'
+import { chainInfo } from '@/libs/static/src/chains'
 
 const props = withDefaults(
   defineProps<{
