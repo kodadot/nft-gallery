@@ -2,7 +2,7 @@
   <div>
     <NeoField class="columns mb-0">
       <NeoInput
-        v-model="range[0]"
+        v-model="vrange[0]"
         type="number"
         min="0"
         step="any"
@@ -10,7 +10,7 @@
         :placeholder="$t('query.priceRange.minPrice')"
         data-cy="input-min" />
       <NeoInput
-        v-model="range[1]"
+        v-model="vrange[1]"
         min="0"
         step="any"
         type="number"
@@ -18,13 +18,13 @@
         :placeholder="$t('query.priceRange.maxPrice')"
         data-cy="input-max" />
       <div class="column is-1">
-        <b-button
-          class="is-primary"
+        <NeoButton
+          variant="primary"
           :disabled="applyDisabled"
           data-cy="apply"
-          @click="rangeChange">
+          @click.native="rangeChange">
           {{ $t('general.apply') }}
-        </b-button>
+        </NeoButton>
       </div>
     </NeoField>
     <p v-if="applyDisabled" class="help is-danger">
@@ -33,29 +33,31 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { NeoField, NeoInput } from '@kodadot1/brick'
-@Component({
-  components: {
-    NeoField,
-    NeoInput,
-  },
+<script lang="ts" setup>
+import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
+
+const emit = defineEmits(['input'])
+
+const props = withDefaults(
+  defineProps<{
+    range: [number | string | undefined, number | string | undefined]
+  }>(),
+  {
+    range: () => [undefined, undefined],
+  }
+)
+
+const vrange = computed(() => props.range)
+
+const applyDisabled = computed(() => {
+  const [min, max] = props.range as [string | undefined, string | undefined]
+  if (!min || !max) {
+    return false
+  }
+  return parseFloat(min) > parseFloat(max)
 })
-export default class SearchPriceRange extends Vue {
-  @Prop({ type: Array, required: false, default: () => [undefined, undefined] })
-  public range!: [number | string | undefined, number | string | undefined]
 
-  get applyDisabled(): boolean {
-    const [min, max] = this.range as [string | undefined, string | undefined]
-    if (!min || !max) {
-      return false
-    }
-    return parseFloat(min) > parseFloat(max)
-  }
-
-  public rangeChange(): void {
-    this.$emit('input', this.range)
-  }
+const rangeChange = () => {
+  emit('input', props.range)
 }
 </script>

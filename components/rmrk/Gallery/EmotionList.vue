@@ -1,11 +1,12 @@
 <template>
   <div v-show="emotes" class="buttons mb-2">
-    <b-button
+    <NeoButton
       v-for="emoji in emotes.slice(0, DISPLAYED_EMOJI)"
       :key="emoji.key"
-      type="is-outlined"
+      variant="is-outlined"
+      no-shadow
       class="emoji-box mb-2"
-      @click="$emit('selected', emoji.parsed)">
+      @click.native="$emit('selected', emoji.parsed)">
       <NeoTooltip>
         {{ emoji.parsed }}
         <span class="ml-1">{{ emoji.count }}</span>
@@ -15,14 +16,15 @@
           </div>
         </template>
       </NeoTooltip>
-    </b-button>
+    </NeoButton>
 
-    <b-button
+    <NeoButton
       v-if="emotes.length > 0"
       class="emoji-box mb-2"
-      @click="openEmotionModal()">
+      no-shadow
+      @click.native="openEmotionModal()">
       <NeoIcon pack="fas" icon="info-circle" />
-    </b-button>
+    </NeoButton>
   </div>
 </template>
 
@@ -32,7 +34,7 @@ import orderBy from 'lodash/orderBy'
 
 import { Emotion } from '../service/scheme'
 import EmotionModal from './EmotionModal.vue'
-import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
 const issuerId = (emotion: Emotion) => emotion.caller
 
@@ -52,6 +54,7 @@ interface Emoji {
     Identity: () => import('@/components/identity/IdentityIndex.vue'),
     NeoIcon,
     NeoTooltip,
+    NeoButton,
   },
 })
 export default class EmotionList extends Vue {

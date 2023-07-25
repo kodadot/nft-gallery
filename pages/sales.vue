@@ -17,12 +17,8 @@
   </section>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-
-@Component<Sales>({
-  components: {
-    Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  },
+export default {
+  name: 'Sales',
   head() {
     const title = 'Latest KUSAMA Sales'
     const metaData = {
@@ -37,6 +33,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class Sales extends Vue {}
+}
 </script>

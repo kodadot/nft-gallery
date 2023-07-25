@@ -6,12 +6,13 @@
       multiple
       class="select-dropdown">
       <template #trigger>
-        <b-button
-          type="is-primary"
+        <NeoButton
+          type="primary"
+          no-shadow
           icon-right="caret-down"
           data-cy="gallery-sort-by">
           {{ $t('sort.collection.sortBy') }}
-        </b-button>
+        </NeoButton>
       </template>
       <NeoDropdownItem
         v-for="action in actions"
@@ -44,6 +45,7 @@ import {
 } from '@/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import {
+  NeoButton,
   NeoDropdown,
   NeoDropdownItem,
   NeoField,
@@ -52,6 +54,7 @@ import {
 
 @Component({
   components: {
+    NeoButton,
     NeoField,
     NeoSelect,
     NeoDropdown,

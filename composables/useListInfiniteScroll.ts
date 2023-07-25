@@ -96,7 +96,8 @@ export default function ({
   useResizeObserver(document.body, onResize)
 
   const replaceUrlPage = (targetPage: string) => {
-    if (targetPage === route.query.page) {
+    const isFirstPage = targetPage === '1'
+    if (targetPage === route.query.page || (isFirstPage && !route.query.page)) {
       return
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -104,10 +105,9 @@ export default function ({
     router
       .replace({
         path: String(route.path),
-        query:
-          targetPage === '1'
-            ? { ...restQuery }
-            : { ...restQuery, page: targetPage },
+        query: isFirstPage
+          ? { ...restQuery }
+          : { ...restQuery, page: targetPage },
       })
       .catch($consola.warn)
   }
