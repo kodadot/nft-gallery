@@ -23,7 +23,6 @@
             no-shadow
             rounded
             tag="a"
-            size="small"
             :href="getPermalink(post)"
             icon="arrow-right-long">
             View Article
@@ -100,9 +99,6 @@ export default {
 
   &-list {
     border-radius: 2.5rem;
-    border: 1px solid #000;
-    background: #fff;
-    box-shadow: 4px 4px 0px 0px #000;
     display: flex;
 
     img {
@@ -116,9 +112,19 @@ export default {
       padding: 1.5rem;
 
       &-title {
-        font-size: 1.25rem;
+        font-size: 31px;
         font-weight: 700;
         margin-bottom: 1rem;
+      }
+    }
+
+    @include ktheme() {
+      background-color: theme('k-white');
+      border: 1px solid theme('border-color');
+      box-shadow: 4px 4px 0px 0px theme('border-color');
+
+      img {
+        border-right: 1px solid theme('border-color');
       }
     }
 
@@ -126,7 +132,14 @@ export default {
       flex-direction: column;
 
       img {
+        border-right: none !important;
         width: 100%;
+      }
+
+      &-card {
+        &-title {
+          font-size: 1.5rem;
+        }
       }
 
       .o-btn {

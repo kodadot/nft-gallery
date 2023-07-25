@@ -8,7 +8,7 @@
       </div>
     </div>
     <h1>{{ attributes.title }}</h1>
-    <h2 v-if="attributes.subtitle">{{ attributes.subtitle }}</h2>
+    <p v-if="attributes.subtitle" class="subtitle">{{ attributes.subtitle }}</p>
     <img
       v-if="attributes.image"
       :src="attributes.image"
@@ -61,6 +61,11 @@ useNuxt2Meta({
   margin: 0 auto;
   max-width: 40rem;
 
+  .subtitle {
+    font-size: 25px;
+    margin-bottom: 0;
+  }
+
   h1 {
     font-size: 3rem;
     font-weight: 700;
@@ -74,19 +79,37 @@ useNuxt2Meta({
   }
 
   img {
-    margin-bottom: 1rem;
+    border-radius: 1rem;
+    margin: 2.5rem 0;
   }
 
   p {
+    font-size: 20px;
+    line-height: 30px;
     margin-bottom: 1rem;
   }
 
+  @include ktheme() {
+    .markdown-body {
+      color: theme('k-accentlight2-dark');
+    }
+
+    img {
+      border: 1px solid theme('border-color');
+    }
+  }
+
   @include touch {
+    .subtitle {
+      font-size: 1.25rem;
+    }
+
     h1 {
       font-size: 1.75rem;
     }
 
-    h2 {
+    h2,
+    p {
       font-size: 1rem;
     }
   }
