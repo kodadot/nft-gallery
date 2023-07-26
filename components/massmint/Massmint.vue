@@ -1,79 +1,78 @@
 <template>
   <div>
     <Loader v-model="isMinting" :status="mintStatus" :can-cancel="false" />
-    <div class="pt-4">
-      <div>
-        <section class="is-flex pb-8 is-flex-wrap-wrap row-gap">
-          <NeoButton class="mr-8" @click.native="toOnborading">
-            <NeoIcon icon="arrow-left" size="small" class="mr-1" />
-            {{ $t('massmint.backToOnbaording') }}
-          </NeoButton>
-        </section>
-        <hr class="m-0" />
-        <section
-          class="pt-8 is-flex is-flex-direction-column is-align-items-center">
-          <p class="mb-4">{{ $t('massmint.chooseCollection') }}</p>
-          <ChooseCollectionDropdown
-            @selectedCollection="onCollectionSelected" />
-        </section>
-        <section class="border k-shadow mt-7">
-          <UploadMediaZip
-            :disabled="!selectedCollection"
-            @zipLoaded="onMediaZipLoaded" />
-          <UploadDescription
-            :disabled="!mediaLoaded"
-            @fileLoaded="onDescriptionLoaded" />
-          <OverviewTable
-            :disabled="!mediaLoaded"
-            :nfts="NFTS"
-            @openSideBarWith="openSideBarWith"
-            @delete="openDeleteModalWith" />
-        </section>
-      </div>
-      <EditPanel
-        :nft="nftBeingEdited"
-        :open="sideBarOpen"
-        @close="sideBarOpen = false"
-        @save="updateNFT" />
-      <div class="mt-6 is-flex is-justify-content-center w-full">
-        <NeoButton
-          class="is-flex is-flex-grow-1 limit-width"
-          variant="k-accent"
-          size="large"
-          :disabled="!mediaLoaded"
-          @click.native="openReviewModal">
-          <span class="is-size-5"
-            >{{ $t('massmint.mintNFTs') }}
-            <span v-if="numOfValidNFTs" class="has-text-weight-bold">
-              ({{ numOfValidNFTs }})
-            </span>
-          </span>
+    <div>
+      <section class="is-flex controls">
+        <NeoButton class="left" @click.native="toOnborading">
+          <NeoIcon icon="arrow-left" size="small" class="mr-1" />
+          {{ $t('massmint.backToOnbaording') }}
         </NeoButton>
-      </div>
-      <DeleteModal
-        v-if="nftInDeleteModal"
-        v-model="deleteModalOpen"
-        :nft="nftInDeleteModal"
-        @close="closeDeleteModal"
-        @delete="deleteNFT" />
-      <MissingInfoModal
-        v-model="missingInfoModalOpen"
-        :num-missing-names="numberOfMissingNames"
-        :num-missing-descriptions="numberOfMissingDescriptions"
-        :num-missing-prices="numberOfMissingPrices"
-        @close="missingInfoModalOpen = false" />
-      <ReviewModal
-        v-model="overViewModalOpen"
-        :num-missing-descriptions="numberOfMissingDescriptions"
-        :num-missing-prices="numberOfMissingPrices"
-        :num-nfts="Object.keys(NFTS).length"
-        @close="overViewModalOpen = false"
-        @mint="startMint" />
-      <MintingModal
-        v-model="mintModalOpen"
-        :loading="isMinting"
-        @close="mintModalOpen = false" />
+        <div class="dropdown-container">
+          <div>
+            <p class="mb-4">{{ $t('massmint.chooseCollection') }}</p>
+            <ChooseCollectionDropdown
+              @selectedCollection="onCollectionSelected" />
+          </div>
+        </div>
+      </section>
+
+      <section class="border k-shadow mt-7">
+        <UploadMediaZip
+          :disabled="!selectedCollection"
+          @zipLoaded="onMediaZipLoaded" />
+        <UploadDescription
+          :disabled="!mediaLoaded"
+          @fileLoaded="onDescriptionLoaded" />
+        <OverviewTable
+          :disabled="!mediaLoaded"
+          :nfts="NFTS"
+          @openSideBarWith="openSideBarWith"
+          @delete="openDeleteModalWith" />
+      </section>
     </div>
+    <EditPanel
+      :nft="nftBeingEdited"
+      :open="sideBarOpen"
+      @close="sideBarOpen = false"
+      @save="updateNFT" />
+    <div class="mt-6 is-flex is-justify-content-center w-full">
+      <NeoButton
+        class="is-flex is-flex-grow-1 limit-width"
+        variant="k-accent"
+        size="large"
+        :disabled="!mediaLoaded"
+        @click.native="openReviewModal">
+        <span class="is-size-5"
+          >{{ $t('massmint.mintNFTs') }}
+          <span v-if="numOfValidNFTs" class="has-text-weight-bold">
+            ({{ numOfValidNFTs }})
+          </span>
+        </span>
+      </NeoButton>
+    </div>
+    <DeleteModal
+      v-if="nftInDeleteModal"
+      v-model="deleteModalOpen"
+      :nft="nftInDeleteModal"
+      @close="closeDeleteModal"
+      @delete="deleteNFT" />
+    <MissingInfoModal
+      v-model="missingInfoModalOpen"
+      :num-missing-names="numberOfMissingNames"
+      :num-missing-descriptions="numberOfMissingDescriptions"
+      :num-missing-prices="numberOfMissingPrices"
+      @close="missingInfoModalOpen = false" />
+    <ReviewModal
+      v-model="overViewModalOpen"
+      :num-missing-descriptions="numberOfMissingDescriptions"
+      :num-missing-prices="numberOfMissingPrices"
+      :num-nfts="Object.keys(NFTS).length"
+      @close="overViewModalOpen = false"
+      @mint="startMint" />
+    <MintingModal
+      v-model="mintModalOpen"
+      :loading="isMinting"
+      @close="mintModalOpen = false" />
   </div>
 </template>
 
@@ -246,8 +245,31 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
 }
 </script>
 <style lang="scss" scoped>
-.row-gap {
-  row-gap: 2rem;
+@import '@/styles/abstracts/variables.scss';
+
+.controls {
+  justify-content: center;
+  align-items: flex-end;
+
+  .left {
+    position: absolute;
+    left: 2.5rem;
+  }
+}
+
+@include touch {
+  .controls {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: flex-start;
+
+    .dropdown-container {
+      align-self: center;
+    }
+    .left {
+      position: unset;
+    }
+  }
 }
 
 .limit-width {
