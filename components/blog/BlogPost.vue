@@ -78,6 +78,18 @@ useNuxt2Meta({
     margin-bottom: 1rem;
   }
 
+  h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
   img {
     border-radius: 1rem;
     margin: 2.5rem 0;
@@ -111,6 +123,13 @@ useNuxt2Meta({
     h2,
     p {
       font-size: 1rem;
+    }
+
+    h3 {
+      font-size: 0.9rem;
+    }
+    h4 {
+      font-size: 0.8rem;
     }
   }
 }

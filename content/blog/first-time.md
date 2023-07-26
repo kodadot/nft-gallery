@@ -234,6 +234,7 @@ pnpm lint:quiet
 ```bash
 pnpm lint:fix
 ```
+<br/>
 
 ### Generating changelog
 
