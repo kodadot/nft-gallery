@@ -189,7 +189,6 @@ import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import { emptyObject } from '@/utils/empty'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
@@ -262,7 +261,6 @@ const components = {
 })
 export default class SimpleMint extends mixins(
   SubscribeMixin,
-  RmrkVersionMixin,
   TransactionMixin,
   ChainMixin,
   PrefixMixin,
@@ -313,6 +311,10 @@ export default class SimpleMint extends mixins(
 
   get identityStore() {
     return useIdentityStore()
+  }
+
+  get version() {
+    return useRmrkVersion().version.value
   }
 
   get balanceNotEnoughMessage() {
@@ -434,6 +436,9 @@ export default class SimpleMint extends mixins(
 
   protected async estimateTx() {
     const { accountId, version } = this
+    if (!version) {
+      return
+    }
     const api = await this.useApi()
 
     const toRemark = mapAsSystemRemark(api)
@@ -516,6 +521,9 @@ export default class SimpleMint extends mixins(
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { accountId, version } = this
+    if (!version) {
+      return
+    }
     this.rmrkMint.max = Number(this.rmrkMint.max)
     const api = await this.useApi()
     const toRemark = mapAsSystemRemark(api)
