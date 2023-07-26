@@ -12,7 +12,7 @@ We are using a `pnpm` workspace, as installing things via npm **will result in b
 
 # Hyper start 🚀
 
-### Prerequisites 🎒
+## Prerequisites 🎒
 
 ```MD
 node >=18
@@ -37,7 +37,7 @@ pnpm dev
 
 **KodaDot will be available at [localhost:9090](http://localhost:9090).**
 
-### Starting dev server with the pinning functionality 📦
+## Starting dev server with the pinning functionality 📦
 
 If you want to use the pinning functionality, you must create a `.env` file in your project root.
 
@@ -109,6 +109,7 @@ git fetch --all
 git merge origin/main
 pnpm install
 ```
+<br/>
 
 **1. How can I read some data from the GraphQL?**
 
@@ -143,6 +144,7 @@ Then we can use it like this:
   $consola.log(nft)
 </script>
 ```
+<br/>
 
 **2. How can I read on-chain data from the RPC node?**
 
@@ -159,6 +161,7 @@ Then we can use it like this:
   $consola.log(nft)
 </script>
 ```
+<br/>
 
 **3. How can I make an on-chain transaction?**
 
@@ -187,6 +190,7 @@ Then we can use it like this:
   }
 </script>
 ```
+<br/>
 
 **4. How can I test Kodadot without spending KSM?**
 
@@ -209,9 +213,9 @@ Current Indexers we have/use:
   - Kusama: [rubick](https://github.com/kodadot/rubick)
   - MoonRiver: [click](https://github.com/kodadot/click)
 
-### MISC 🏞
+## MISC 🏞
 
-#### Linting code
+### Linting code
 
 **Show all problems**
 
@@ -231,7 +235,7 @@ pnpm lint:quiet
 pnpm lint:fix
 ```
 
-#### Generating changelog
+### Generating changelog
 
 To generate changelog, use GitHub CLI
 List only merged; if you need limit, use `-L`
