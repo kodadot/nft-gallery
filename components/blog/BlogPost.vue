@@ -68,6 +68,7 @@ useNuxt2Meta({
 
   h1 {
     font-size: 3rem;
+    line-height: 3.5rem;
     font-weight: 700;
     margin: 1rem 0;
   }

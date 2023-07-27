@@ -211,6 +211,8 @@ Current Indexers we have/use:
   - Kusama: [rubick](https://github.com/kodadot/rubick)
   - MoonRiver: [click](https://github.com/kodadot/click)
 
+<br/>
+
 ## MISC 🏞
 
 ### Linting code
