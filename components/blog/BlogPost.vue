@@ -98,6 +98,7 @@ useNuxt2Meta({
   p {
     font-size: 20px;
     line-height: 30px;
+    margin-top: 1rem;
     margin-bottom: 1rem;
   }
 

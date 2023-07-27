@@ -19,7 +19,7 @@ node >=18
 pnpm
 ```
 
-Copy and paste these commands to your terminal:
+Copy and paste these commands to your terminal: (It will clone your project and install all dependencies.)
 
 ```bash
 git clone https://github.com/kodadot/nft-gallery.git nft-gallery
@@ -27,15 +27,13 @@ cd nft-gallery;
 pnpm i;
 ```
 
-It will clone your project and install all dependencies.
-
-to start the server, run:
+To start the server, run:
 
 ```bash
 pnpm dev
 ```
 
-**KodaDot will be available at [localhost:9090](http://localhost:9090).**
+KodaDot will be available at **[localhost:9090](http://localhost:9090).**
 
 ## Starting dev server with the pinning functionality 📦
 
@@ -50,21 +48,21 @@ echo 'NUXT_ENV_KEYRING=true
 
 Functions are located in `src-functions/`
 
-**[You can obtain Master Pinata Keys here](https://app.pinata.cloud/keys)**
+You can obtain Master Pinata Keys **[here](https://app.pinata.cloud/keys)**
 
-you need to install the netlify-cli:
+You need to install the netlify-cli:
 
 ```bash
 npm install netlify-cli -g
 ```
 
-to start the server, run:
+To start the server, run:
 
 ```bash
 netlify dev
 ```
 
-**App will start on [localhost:9000](http://localhost:9000).**
+App will start on **[localhost:9000](http://localhost:9000).**
 
 ## Docker 🐳
 
@@ -87,7 +85,7 @@ docker ps
 
 ### From next time
 
-Run:
+- Run:
 
 ```bash
 docker-compose up
