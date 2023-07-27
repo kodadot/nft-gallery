@@ -1,5 +1,5 @@
 <template>
-  <Transfer v-if="isRedesign" />
+  <Transfer v-if="redesign" />
   <TransferOld v-else />
 </template>
 
@@ -11,17 +11,16 @@ export default {
     Transfer: () => import('@/components/transfer/Transfer.vue'),
     TransferOld: () => import('@/components/transfer/TransferOld.vue'),
   },
+
   layout() {
     return 'centered-half-layout'
   },
-  data() {
-    return {
-      isRedesign: false,
-    }
-  },
-  created() {
+  setup() {
     const { redesign } = useExperiments()
-    this.isRedesign = redesign.value
+
+    return {
+      redesign,
+    }
   },
 }
 </script>

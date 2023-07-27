@@ -1,69 +1,92 @@
 <template>
-  <section>
-    <Loader v-model="isLoading" :status="status" />
-    <nuxt-link
-      v-if="$route.query.target"
-      :to="`/${urlPrefix}/u/${correctAddress}`"
-      class="pl-4 is-flex is-align-items-center">
-      <NeoIcon icon="chevron-left" class="mr-2" />
-      {{ $t('teleport.artistProfile') }}
-    </nuxt-link>
-    <p class="title is-size-3">
-      {{ $t('transfer') }} {{ unit }}
-      <span class="has-text-primary">${{ getCurrentTokenValue(unit) }}</span>
-    </p>
-
-    <NeoField>
-      <Auth />
-    </NeoField>
-
-    <div v-if="targets && hasBlockExplorer" class="mb-3">
-      {{ $t('teleport.donationSentTo') }}
-      <a
-        v-for="target in targets"
-        :key="target"
-        :href="addressExplorerUrl(target)"
-        target="_blank"
-        rel="nofollow noopener noreferrer"
-        class="has-text-weight-bold">
-        <Identity ref="identity" :address="target" show-onchain-identity />
-      </a>
-    </div>
-
-    <div class="is-flex is-align-items-center">
-      <NeoField>
-        {{ $t('general.balance') }}
-        <Money :value="balance" inline />
-      </NeoField>
-    </div>
-
+  <div class="transfer-card py-8 px-6">
     <div
-      v-for="(destinationAddress, index) in destinationAddresses"
-      :key="destinationAddress">
-      <div class="is-flex">
-        <NeoField class="is-flex-grow-1">
-          <AddressInput v-model="destinationAddresses[index]" :strict="false" />
-        </NeoField>
-        <b-button
-          v-show="index == destinationAddresses.length - 1"
-          type="is-primary"
-          size="is-small"
-          icon-left="plus"
-          class="ml-2 mt-2"
-          outlined
-          @click="addAddress">
-          Add
-        </b-button>
+      class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+      <p class="has-text-weight-bold is-size-3">
+        {{ $t('transfer') }} {{ unit }}
+      </p>
+      <NeoDropdown position="bottom-left" append-to-body :mobile-modal="false">
+        <template #trigger="{ active }">
+          <NeoButton
+            icon="ellipsis-vertical"
+            class="square-32 mr-3"
+            :active="active" />
+        </template>
+
+        <NeoDropdownItem
+          v-clipboard:copy="generatePaymentLink(accountId)"
+          @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+          Pay me link
+        </NeoDropdownItem>
+      </NeoDropdown>
+    </div>
+
+    <div class="is-flex mb-2">
+      <div class="token-price py-2 px-4">
+        {{ unit }} ${{ currentTokenValue }}
+      </div>
+    </div>
+
+    <div class="is-flex is-justify-content-space-between">
+      <div class="is-flex is-flex-direction-column">
+        <span class="has-text-weight-bold is-size-6 mb-1">Sender</span>
+        <Auth />
+      </div>
+      <div class="is-flex is-flex-direction-column is-align-items-end">
+        <span class="has-text-weight-bold is-size-6 mb-1">Balance</span>
+        <Money :value="balance" inline />
+        <span class="has-text-grey">≈ ${{ balanceUsdValue }}</span>
+      </div>
+    </div>
+
+    <div class="is-flex">
+      <div class="is-flex-grow-1 mr-2 is-flex is-flex-direction-column">
+        <div class="has-text-weight-bold is-size-6 mb-3">Recipient</div>
+        <div
+          v-for="(destinationAddress, index) in destinationAddresses"
+          :key="destinationAddress"
+          class="mb-3">
+          <AddressInput
+            v-model="destinationAddresses[index]"
+            label=""
+            :strict="false" />
+        </div>
       </div>
 
-      <DisabledInput
-        v-show="
-          correctAddress(destinationAddress) &&
-          correctAddress(destinationAddress) !== destinationAddress
-        "
-        :label="$t('general.correctAddress')"
-        :value="correctAddress(destinationAddress)" />
+      <div class="is-flex is-flex-direction-column">
+        <div class="has-text-weight-bold is-size-6 mb-3">Amount</div>
+        <div
+          v-for="destinationAddress in destinationAddresses"
+          :key="destinationAddress"
+          class="mb-3">
+          <NeoInput
+            v-model="usdValue"
+            type="number"
+            step="0.001"
+            min="0"
+            @input="onUSDFieldChange" />
+        </div>
+      </div>
     </div>
+
+    <!--
+        <DisabledInput
+          v-show="
+            correctAddress(destinationAddress) &&
+            correctAddress(destinationAddress) !== destinationAddress
+          "
+          :label="$t('general.correctAddress')"
+          :value="correctAddress(destinationAddress)" />
+      </div> -->
+    <b-button
+      type="is-primary"
+      size="is-small"
+      icon-left="plus"
+      class="ml-2 mt-2"
+      outlined
+      @click="addAddress">
+      Add
+    </b-button>
     <div class="container mb-3">
       <NeoField>
         <BalanceInput
@@ -82,68 +105,14 @@
     </div>
 
     <div class="buttons">
-      <b-button
-        type="is-primary"
-        icon-left="paper-plane"
-        :loading="isLoading"
+      <NeoButton
+        class="is-flex is-flex-1"
+        variant="k-accent"
         :disabled="disabled"
-        outlined
-        @click="submit">
-        {{ $t('general.submit') }}
-      </b-button>
-      <b-button
-        v-if="transactionValue && hasBlockExplorer"
-        type="is-success"
-        class="ml-4"
-        icon-left="external-link-alt"
-        outlined
-        @click="getExplorerUrl">
-        {{ $t('View Transaction') }} {{ transactionValue.substring(0, 6)
-        }}{{ '...' }}
-      </b-button>
-      <b-button
-        v-if="transactionValue && hasBlockExplorer"
-        v-clipboard:copy="getUrl()"
-        type="is-primary"
-        @click="toast($t('toast.urlCopy'))">
-        <NeoIcon pack="fas" icon="link" />
-      </b-button>
-      <b-button
-        v-if="hasAddress"
-        v-clipboard:copy="generatePaymentLink()"
-        type="is-success"
-        icon-left="money-bill"
-        :loading="isLoading"
-        outlined
-        @click="toast($t('toast.paymentLinkCopy'))">
-        {{ $t('Copy Payment link') }}
-      </b-button>
-      <b-button
-        v-if="accountId"
-        v-clipboard:copy="generatePaymentLink(accountId)"
-        type="is-info"
-        icon-left="wallet"
-        :loading="isLoading"
-        outlined
-        @click="toast($t('general.copyRewardTooltip'))">
-        {{ $t('general.copyRewardLink') }}
-      </b-button>
+        >Continue</NeoButton
+      >
     </div>
-    <div v-if="transactionValue && $route.query.donation">
-      <div class="is-size-5">
-        🎉 {{ $t('teleport.congratsSupport') }}
-        <Identity ref="identity" :address="$route.query.target" />
-      </div>
-      <b-button
-        type="is-info"
-        class="mt-2"
-        icon-left="share-square"
-        outlined
-        @click="shareInTweet">
-        {{ $t('teleport.tweetDonation') }}
-      </b-button>
-    </div>
-  </section>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -156,7 +125,10 @@ import { DispatchError } from '@polkadot/types/interfaces'
 import { calculateKsmFromUsd, calculateUsdFromKsm } from '@/utils/calculation'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { calculateBalance } from '@/utils/format/balance'
+import {
+  calculateBalance,
+  calculateBalanceUsdValue,
+} from '@/utils/format/balance'
 import correctFormat from '@/utils/ss58Format'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 
@@ -165,8 +137,14 @@ import { useIdentityStore } from '@/stores/identity'
 
 import { getExplorer, hasExplorer } from '@kodadot1/static'
 import { emptyObject } from '@kodadot1/minimark/utils'
-import { NeoField, NeoIcon } from '@kodadot1/brick'
-
+import {
+  NeoButton,
+  NeoDropdown,
+  NeoDropdownItem,
+  NeoField,
+  NeoIcon,
+  NeoInput,
+} from '@kodadot1/brick'
 const Identity = defineAsyncComponent(
   () => import('@/components/identity/IdentityIndex.vue')
 )
@@ -238,6 +216,13 @@ const checkQueryParams = () => {
   }
 }
 
+const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
+const balanceUsdValue = computed(() =>
+  calculateBalanceUsdValue(
+    Number(balance) * Number(currentTokenValue.value),
+    decimals.value
+  )
+)
 const onAmountFieldChange = () => {
   /* calculating usd value on the basis of price entered */
   if (price.value) {
@@ -384,13 +369,6 @@ const generatePaymentLink = (address?): string => {
   return `${window.location.origin}/${urlPrefix.value}/transfer?${addressQueryString}&usdamount=${usdValue.value}&donation=true`
 }
 
-const shareInTweet = () => {
-  const text =
-    'I have just helped a really cool creator by donating. Check my donation proof:'
-  const url = `https://twitter.com/intent/tweet?text=${text}&via=KodaDot&url=${getUrl()}`
-  window.open(url, '_blank')
-}
-
 const addAddress = () => {
   destinationAddresses.value.push('')
 }
@@ -430,3 +408,25 @@ watch(usdValue, (usdamount) => {
     .catch(() => null) // null to further not throw navigation errors
 })
 </script>
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
+.transfer-card {
+  max-width: 41rem;
+  @include ktheme() {
+    background-color: theme('background-color');
+    box-shadow: theme('primary-shadow');
+    border: 1px solid theme('border-color');
+  }
+
+  .token-price {
+    border-radius: 3rem;
+
+    @include ktheme() {
+      background-color: theme('background-color-inverse');
+      color: theme('text-color-inverse');
+      border: 1px solid theme('background-color-inverse');
+    }
+  }
+}
+</style>
