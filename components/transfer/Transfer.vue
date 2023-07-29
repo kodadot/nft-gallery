@@ -100,7 +100,7 @@
       <div
         class="is-flex is-justify-content-space-between is-align-items-center">
         {{ $t('transfers.sendSameAmount')
-        }}<NeoTooltip :label="$('transfers.setSameAmount')"
+        }}<NeoTooltip :label="$i18n.t('transfers.setSameAmount')"
           ><NeoIcon class="ml-2" icon="circle-info" pack="far"
         /></NeoTooltip>
       </div>
@@ -201,7 +201,7 @@ const Money = defineAsyncComponent(
 
 const route = useRoute()
 const router = useRouter()
-const { $consola } = useNuxtApp()
+const { $consola, $i18n } = useNuxtApp()
 const { unit, decimals, blockExplorer } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
