@@ -39,15 +39,17 @@
       </div>
     </div>
 
+    <hr class="my-5" />
+
     <div class="is-flex">
       <div class="is-flex-grow-1 mr-2 is-flex is-flex-direction-column">
         <div class="has-text-weight-bold is-size-6 mb-3">Recipient</div>
         <div
-          v-for="(destinationAddress, index) in destinationAddresses"
-          :key="destinationAddress"
+          v-for="(destinationAddress, index) in targetAddresses"
+          :key="index"
           class="mb-3">
           <AddressInput
-            v-model="destinationAddresses[index]"
+            v-model="destinationAddress.address"
             label=""
             :strict="false" />
         </div>
@@ -56,52 +58,88 @@
       <div class="is-flex is-flex-direction-column">
         <div class="has-text-weight-bold is-size-6 mb-3">Amount</div>
         <div
-          v-for="destinationAddress in destinationAddresses"
-          :key="destinationAddress"
+          v-for="(destinationAddress, index) in targetAddresses"
+          :key="index"
           class="mb-3">
           <NeoInput
-            v-model="usdValue"
+            v-if="displayUnit === 'token'"
+            v-model="destinationAddress.token"
             type="number"
             step="0.001"
             min="0"
-            @input="onUSDFieldChange" />
+            icon-right-class="search"
+            @input="onAmountFieldChange(destinationAddress)" />
+          <NeoInput
+            v-else
+            v-model="destinationAddress.usd"
+            type="number"
+            step="0.001"
+            min="0"
+            icon-right-class="search"
+            @input="onUsdFieldChange(destinationAddress)" />
         </div>
       </div>
     </div>
 
-    <!--
-        <DisabledInput
-          v-show="
-            correctAddress(destinationAddress) &&
-            correctAddress(destinationAddress) !== destinationAddress
-          "
-          :label="$t('general.correctAddress')"
-          :value="correctAddress(destinationAddress)" />
-      </div> -->
-    <b-button
-      type="is-primary"
-      size="is-small"
-      icon-left="plus"
-      class="ml-2 mt-2"
-      outlined
+    <div
+      class="mb-5 is-flex is-justify-content-center is-clickable"
       @click="addAddress">
-      Add
-    </b-button>
-    <div class="container mb-3">
-      <NeoField>
-        <BalanceInput
-          v-model="price"
-          :label="$t('amount')"
-          :calculate="false"
-          @input="onAmountFieldChange" />
-      </NeoField>
-      <NeoField>
-        <ReadOnlyBalanceInput
-          v-model="usdValue"
-          :label-input="$t('teleport.usdInput')"
-          label="USD"
-          @input="onUSDFieldChange" />
-      </NeoField>
+      Add recipient
+      <NeoIcon class="ml-2" icon="plus" pack="fas" />
+    </div>
+    <div
+      class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center">
+        Send same amount<NeoTooltip
+          label="Set one amount that will be
+sent to all recipients"
+          ><NeoIcon class="ml-2" icon="circle-info" pack="far"
+        /></NeoTooltip>
+      </div>
+      <NeoSwitch v-model="sendSameAmount" :rounded="false"></NeoSwitch>
+    </div>
+
+    <div
+      class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+      <span class="has-text-weight-bold is-size-6">Displayed units</span>
+      <div class="is-flex is-align-items-center">
+        <span class="is-size-6 mr-1">Transferable: </span>
+        <span
+          v-if="displayUnit === 'token'"
+          class="has-text-weight-bold is-size-6">
+          <Money :value="balance" inline />
+        </span>
+        <span v-else class="has-text-weight-bold is-size-6"
+          >{{ balanceUsdValue }} USD</span
+        >
+      </div>
+    </div>
+
+    <div
+      class="is-flex field has-addons is-flex-grow-1 is-justify-content-center mb-4">
+      <TabItem
+        :active="displayUnit === 'token'"
+        :text="unit"
+        class="transfer-display-unit"
+        @click.native="displayUnit = 'token'" />
+      <TabItem
+        :active="displayUnit === 'usd'"
+        text="USD"
+        class="transfer-display-unit"
+        @click.native="displayUnit = 'usd'" />
+    </div>
+
+    <div
+      class="is-flex is-justify-content-space-between is-align-items-center mb-6">
+      <span class="has-text-weight-bold is-size-6">Total</span>
+      <div class="is-flex is-align-items-center">
+        <span class="is-size-7 has-text-grey mr-1">(${{ totalUsdValue }})</span>
+
+        <span class="has-text-weight-bold is-size-6"
+          >{{ totalTokenAmount }} {{ unit }}</span
+        >
+      </div>
     </div>
 
     <div class="buttons">
@@ -109,6 +147,7 @@
         class="is-flex is-flex-1"
         variant="k-accent"
         :disabled="disabled"
+        @click.native="submit"
         >Continue</NeoButton
       >
     </div>
@@ -119,7 +158,7 @@
 import Connector from '@kodadot1/sub-api'
 import { ALTERNATIVE_ENDPOINT_MAP } from '@kodadot1/static'
 
-import { encodeAddress, isAddress } from '@polkadot/util-crypto'
+import { isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
 
 import { calculateKsmFromUsd, calculateUsdFromKsm } from '@/utils/calculation'
@@ -129,25 +168,21 @@ import {
   calculateBalance,
   calculateBalanceUsdValue,
 } from '@/utils/format/balance'
-import correctFormat from '@/utils/ss58Format'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 
 import { useFiatStore } from '@/stores/fiat'
 import { useIdentityStore } from '@/stores/identity'
 
-import { getExplorer, hasExplorer } from '@kodadot1/static'
 import { emptyObject } from '@kodadot1/minimark/utils'
 import {
   NeoButton,
   NeoDropdown,
   NeoDropdownItem,
-  NeoField,
   NeoIcon,
   NeoInput,
+  NeoSwitch,
+  NeoTooltip,
 } from '@kodadot1/brick'
-const Identity = defineAsyncComponent(
-  () => import('@/components/identity/IdentityIndex.vue')
-)
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
@@ -156,7 +191,7 @@ const Money = defineAsyncComponent(
 const route = useRoute()
 const router = useRouter()
 const { $consola } = useNuxtApp()
-const { chainProperties, unit, decimals, blockExplorer } = useChain()
+const { unit, decimals, blockExplorer } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
@@ -168,19 +203,24 @@ const { toast } = useToast()
 
 type Target = 'target' | `target${number}`
 type TargetMap = Record<Target, string>
+type TargetAddress = {
+  address?: string
+  usd?: number | string
+  token?: number | string
+}
 
-const destinationAddresses = ref([''])
 const transactionValue = ref('')
 const price = ref(0)
 const usdValue = ref(0)
 const targets = ref(emptyObject<TargetMap>())
+const sendSameAmount = ref(false)
+const displayUnit = ref<'token' | 'usd'>('token')
 
-const ss58Format = computed(() => chainProperties.value?.ss58Format)
-const hasAddress = computed(() => Object.keys(targets.value).length > 0)
 const disabled = computed(
-  () => !hasAddress.value || !price.value || !isLogIn.value
+  () => !isLogIn.value || balanceUsdValue.value < totalUsdValue.value
 )
-const hasBlockExplorer = computed(() => hasExplorer(urlPrefix.value))
+
+const targetAddresses = ref<TargetAddress[]>([{}])
 const balance = getAuthBalance
 
 const checkQueryParams = () => {
@@ -199,22 +239,53 @@ const checkQueryParams = () => {
     })
     .map(([_, address]) => address as string)
   if (targets.length > 0) {
-    destinationAddresses.value = targets
+    targetAddresses.value = targets.map((address) => ({
+      address,
+    }))
   }
 
   if (query.amount) {
-    price.value = Number(query.amount)
-  }
-
-  if (query.usdamount) {
-    usdValue.value = Number(query.usdamount)
-
-    price.value = calculateKsmFromUsd(
+    sendSameAmount.value = true
+    targetAddresses.value = targetAddresses.value.map((address) => ({
+      ...address,
+      token: Number(query.amount),
+    }))
+  } else if (query.usdamount) {
+    const usdValue = Number(query.usdamount)
+    const tokenAmount = calculateKsmFromUsd(
       Number(getCurrentTokenValue(unit.value)),
-      usdValue.value
+      usdValue
     )
+    sendSameAmount.value = true
+
+    targetAddresses.value = targetAddresses.value.map((address) => ({
+      ...address,
+      usd: usdValue,
+      token: tokenAmount,
+    }))
   }
 }
+
+watch(sendSameAmount, (value) => {
+  if (value) {
+    const tokenAmount = targetAddresses.value[0]?.token
+    const usdAmount = targetAddresses.value[0]?.usd
+    targetAddresses.value = targetAddresses.value.map((address) => ({
+      ...address,
+      token: tokenAmount,
+      usd: usdAmount,
+    }))
+  }
+})
+
+const totalTokenAmount = computed(() =>
+  targetAddresses.value
+    .reduce((acc, { token }) => acc + (Number(token) || 0), 0)
+    .toFixed(4)
+)
+const totalUsdValue = computed(() =>
+  targetAddresses.value.reduce((acc, { usd }) => acc + (Number(usd) || 0), 0)
+)
 
 const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
 const balanceUsdValue = computed(() =>
@@ -223,34 +294,49 @@ const balanceUsdValue = computed(() =>
     decimals.value
   )
 )
-const onAmountFieldChange = () => {
+const onAmountFieldChange = (target: TargetAddress) => {
   /* calculating usd value on the basis of price entered */
-  if (price.value) {
-    usdValue.value = calculateUsdFromKsm(
-      Number(getCurrentTokenValue(unit.value)),
-      price.value
-    )
-  } else {
-    usdValue.value = 0
+
+  target.usd = target.token
+    ? calculateUsdFromKsm(
+        Number(getCurrentTokenValue(unit.value)),
+        Number(target.token)
+      )
+    : 0
+
+  if (sendSameAmount.value) {
+    unifyAddressAmount(target)
   }
 }
 
-const onUSDFieldChange = () => {
+const onUsdFieldChange = (target: TargetAddress) => {
   /* calculating price value on the basis of usd entered */
-  if (usdValue.value) {
-    price.value = calculateKsmFromUsd(
-      Number(getCurrentTokenValue(unit.value)),
-      usdValue.value
-    )
-  } else {
-    price.value = 0
+  target.token = target.usd
+    ? calculateKsmFromUsd(
+        Number(getCurrentTokenValue(unit.value)),
+        Number(target.usd)
+      )
+    : 0
+
+  if (sendSameAmount.value) {
+    unifyAddressAmount(target)
   }
+}
+
+const unifyAddressAmount = (target: TargetAddress) => {
+  targetAddresses.value = targetAddresses.value.map((address) => ({
+    ...address,
+    token: target.token,
+    usd: target.usd,
+  }))
 }
 
 const submit = async (
   event: any,
   usedNodeUrls: string[] = []
 ): Promise<void> => {
+  showNotification('coming soon')
+  return
   showNotification(`${route.query.target ? 'Sent for Sign' : 'Dispatched'}`)
   initTransactionLoader()
 
@@ -289,7 +375,7 @@ const submit = async (
             notificationTypes.success
           )
 
-          destinationAddresses.value = ['']
+          targetAddresses.value = [{}]
           price.value = 0
           usdValue.value = 0
           if (route.query && !route.query.donation) {
@@ -354,11 +440,6 @@ const onTxError = async (dispatchError: DispatchError): Promise<void> => {
 const getUrl = (): string =>
   urlBuilderTransaction(transactionValue.value, blockExplorer.value)
 
-const getExplorerUrl = (): void => {
-  const url = getUrl()
-  window.open(url, '_blank')
-}
-
 const generatePaymentLink = (address?): string => {
   let addressQueryString: string
   if (address) {
@@ -370,43 +451,25 @@ const generatePaymentLink = (address?): string => {
 }
 
 const addAddress = () => {
-  destinationAddresses.value.push('')
+  targetAddresses.value.push({
+    ...(sendSameAmount.value ? targetAddresses.value[0] : {}),
+    address: '',
+  })
 }
-const correctAddress = (destinationAddress): string =>
-  isAddress(destinationAddress)
-    ? encodeAddress(destinationAddress, correctFormat(ss58Format.value))
-    : ''
-const addressExplorerUrl = (address): string =>
-  getExplorer(urlPrefix.value, address) || '#'
-
 onMounted(() => {
   fetchFiatPrice().then(checkQueryParams)
 })
 
 watch(
-  destinationAddresses,
-  () => {
-    const { usdamount } = route.query
-
-    targets.value = destinationAddresses.value
-      .filter((addr) => isAddress(addr))
-      .reduce(
-        (object, address, i) => ({
-          ...object,
-          [`target${i == 0 ? '' : i}`]: address,
-        }),
-        {} as TargetMap
-      )
-    router.replace({ query: { ...targets.value, usdamount } }).catch(() => null) // null to further not throw navigation errors
-  },
-  { deep: true }
+  () => targetAddresses.value[0].usd,
+  (usdamount) => {
+    router
+      .replace({
+        query: { ...route.query, usdamount: (usdamount || 0).toString() },
+      })
+      .catch(() => null) // null to further not throw navigation errors
+  }
 )
-
-watch(usdValue, (usdamount) => {
-  router
-    .replace({ query: { ...route.query, usdamount: usdamount.toString() } })
-    .catch(() => null) // null to further not throw navigation errors
-})
 </script>
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';

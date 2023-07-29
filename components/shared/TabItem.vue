@@ -14,11 +14,16 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 
-defineProps<{
-  active: boolean
-  text: string
-  to: string
-}>()
+withDefaults(
+  defineProps<{
+    active: boolean
+    text: string
+    to?: string | undefined
+  }>(),
+  {
+    to: '',
+  }
+)
 </script>
 
 <style scoped lang="scss">
@@ -33,6 +38,13 @@ defineProps<{
   }
 
   @include mobile {
+    width: 100%;
+  }
+}
+
+.transfer-display-unit {
+  &.control,
+  .explore-tabs-button {
     width: 100%;
   }
 }
