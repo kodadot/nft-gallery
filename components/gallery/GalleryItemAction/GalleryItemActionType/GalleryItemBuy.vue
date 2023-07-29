@@ -10,16 +10,14 @@
         <NeoTooltip
           :active="disabled"
           content-class="buy-tooltip"
-          position="top"
-          :auto-close="['outside', 'escape']"
+          :position="isMobileDevice ? 'top' : 'left'"
+          :auto-close="!isMobileDevice ? ['outside', 'escape'] : []"
           multiline>
           <template #content>
             <div class="is-size-6">
               {{
                 $t('tooltip.notEnoughBalanceChain', {
-                  chain:
-                    chainInfo[urlPrefix][0].toUpperCase() +
-                    chainInfo[urlPrefix].slice(1),
+                  chain: chainNames[urlPrefix],
                 })
               }}
               <div>
@@ -97,7 +95,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
 import Vue from 'vue'
-import { chainInfo } from '@/libs/static/src/chains'
+import { chainNames } from '@/libs/static/src/chains'
 
 const props = withDefaults(
   defineProps<{
@@ -117,6 +115,7 @@ const props = withDefaults(
     recipient: '',
   }
 )
+const isMobileDevice = ref(window.innerWidth < 1024)
 
 const { urlPrefix, client } = usePrefix()
 const { accountId } = useAuth()

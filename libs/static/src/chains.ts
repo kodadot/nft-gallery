@@ -72,6 +72,18 @@ export const chainInfo: Record<Prefix, string> = {
   stt: 'statemint',
 }
 
+export const chainNames: Record<Prefix, string> = {
+  bsx: 'Basilisk',
+  rmrk: 'Kusama',
+  snek: 'Snek',
+  movr: 'Moonriver',
+  glmr: 'Moonbeam',
+  ksm: 'Kusama',
+  stmn: 'Statemine',
+  dot: 'Polkadot',
+  stt: 'Statemint',
+}
+
 export const chainList = (): Option[] => {
   return chainPrefixes.map((prefix) => ({
     info: chainInfo[prefix],

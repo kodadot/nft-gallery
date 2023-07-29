@@ -62,6 +62,7 @@
 }
 
 .buy-tooltip {
+  width: max-content!important;
   a {
     cursor: pointer;
     @include ktheme() {
