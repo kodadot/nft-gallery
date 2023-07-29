@@ -16,7 +16,7 @@
         <NeoDropdownItem
           v-clipboard:copy="generatePaymentLink(accountId)"
           @click="toast(`${$i18n.t('toast.urlCopy')}`)">
-          Pay me link
+          {{ $t('transfers.payMeLink') }}
         </NeoDropdownItem>
       </NeoDropdown>
     </div>
@@ -29,11 +29,15 @@
 
     <div class="is-flex is-justify-content-space-between">
       <div class="is-flex is-flex-direction-column">
-        <span class="has-text-weight-bold is-size-6 mb-1">Sender</span>
+        <span class="has-text-weight-bold is-size-6 mb-1">{{
+          $t('transfers.sender')
+        }}</span>
         <Auth />
       </div>
       <div class="is-flex is-flex-direction-column is-align-items-end">
-        <span class="has-text-weight-bold is-size-6 mb-1">Balance</span>
+        <span class="has-text-weight-bold is-size-6 mb-1">{{
+          $t('general.balance')
+        }}</span>
         <Money :value="balance" inline />
         <span class="has-text-grey">≈ ${{ balanceUsdValue }}</span>
       </div>
@@ -43,7 +47,9 @@
 
     <div class="is-flex">
       <div class="is-flex-grow-1 mr-2 is-flex is-flex-direction-column">
-        <div class="has-text-weight-bold is-size-6 mb-3">Recipient</div>
+        <div class="has-text-weight-bold is-size-6 mb-3">
+          {{ $t('transfers.recipient') }}
+        </div>
         <div
           v-for="(destinationAddress, index) in targetAddresses"
           :key="index"
@@ -56,7 +62,9 @@
       </div>
 
       <div class="is-flex is-flex-direction-column">
-        <div class="has-text-weight-bold is-size-6 mb-3">Amount</div>
+        <div class="has-text-weight-bold is-size-6 mb-3">
+          {{ $t('amount') }}
+        </div>
         <div
           v-for="(destinationAddress, index) in targetAddresses"
           :key="index"
@@ -84,16 +92,15 @@
     <div
       class="mb-5 is-flex is-justify-content-center is-clickable"
       @click="addAddress">
-      Add recipient
+      {{ $t('transfers.addAddress') }}
       <NeoIcon class="ml-2" icon="plus" pack="fas" />
     </div>
     <div
       class="is-flex is-justify-content-space-between is-align-items-center mb-5">
       <div
         class="is-flex is-justify-content-space-between is-align-items-center">
-        Send same amount<NeoTooltip
-          label="Set one amount that will be
-sent to all recipients"
+        {{ $t('transfers.sendSameAmount')
+        }}<NeoTooltip :label="$('transfers.setSameAmount')"
           ><NeoIcon class="ml-2" icon="circle-info" pack="far"
         /></NeoTooltip>
       </div>
@@ -102,9 +109,11 @@ sent to all recipients"
 
     <div
       class="is-flex is-justify-content-space-between is-align-items-center mb-5">
-      <span class="has-text-weight-bold is-size-6">Displayed units</span>
+      <span class="has-text-weight-bold is-size-6">{{
+        $t('transfers.displayUnit')
+      }}</span>
       <div class="is-flex is-align-items-center">
-        <span class="is-size-6 mr-1">Transferable: </span>
+        <span class="is-size-6 mr-1">{{ $t('transfers.transferable') }}: </span>
         <span
           v-if="displayUnit === 'token'"
           class="has-text-weight-bold is-size-6">
@@ -132,7 +141,9 @@ sent to all recipients"
 
     <div
       class="is-flex is-justify-content-space-between is-align-items-center mb-6">
-      <span class="has-text-weight-bold is-size-6">Total</span>
+      <span class="has-text-weight-bold is-size-6">{{
+        $t('spotlight.total')
+      }}</span>
       <div class="is-flex is-align-items-center">
         <span class="is-size-7 has-text-grey mr-1">(${{ totalUsdValue }})</span>
 
@@ -148,7 +159,7 @@ sent to all recipients"
         variant="k-accent"
         :disabled="disabled"
         @click.native="submit"
-        >Continue</NeoButton
+        >{{ $t('redirect.continue') }}</NeoButton
       >
     </div>
   </div>
