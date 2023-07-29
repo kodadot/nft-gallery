@@ -179,7 +179,6 @@ import {
   calculateBalance,
   calculateBalanceUsdValue,
 } from '@/utils/format/balance'
-import { urlBuilderTransaction } from '@/utils/explorerGuide'
 
 import { useFiatStore } from '@/stores/fiat'
 import { useIdentityStore } from '@/stores/identity'
@@ -202,13 +201,14 @@ const Money = defineAsyncComponent(
 const route = useRoute()
 const router = useRouter()
 const { $consola, $i18n } = useNuxtApp()
-const { unit, decimals, blockExplorer } = useChain()
+const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
+const { redesign } = useExperiments()
 const { getAuthBalance } = useIdentityStore()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
-const { initTransactionLoader, isLoading, resolveStatus, status } =
+const { initTransactionLoader, isLoading, resolveStatus } =
   useTransactionStatus()
 const { toast } = useToast()
 
@@ -346,8 +346,11 @@ const submit = async (
   event: any,
   usedNodeUrls: string[] = []
 ): Promise<void> => {
-  showNotification('coming soon')
-  return
+  if (redesign.value) {
+    showNotification('coming soon')
+    return
+  }
+
   showNotification(`${route.query.target ? 'Sent for Sign' : 'Dispatched'}`)
   initTransactionLoader()
 
@@ -447,9 +450,6 @@ const onTxError = async (dispatchError: DispatchError): Promise<void> => {
 
   isLoading.value = false
 }
-
-const getUrl = (): string =>
-  urlBuilderTransaction(transactionValue.value, blockExplorer.value)
 
 const generatePaymentLink = (address?): string => {
   let addressQueryString: string
