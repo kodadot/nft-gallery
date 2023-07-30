@@ -1,7 +1,8 @@
 <template>
   <div
     v-if="isUnlockableLandingTagVisible"
-    class="unlockable-landing-tag is-flex border is-justify-content-space-between px-4 mt-6 mx-4">
+    class="unlockable-landing-tag is-flex border is-justify-content-space-between is-align-items-center px-4 mt-6"
+    :class="{ 'small-size': isSmallSize }">
     <div class="is-flex is-align-items-center">
       <svg
         width="42"
@@ -35,16 +36,11 @@
         </defs>
       </svg>
 
-      <span> {{ $t('mint.unlockable.mintLive') }} </span>
-      <NeoIcon
-        icon="horizontal-rule"
-        pack="fa-sharp"
-        size="small"
-        class="separator mx-2" />
+      <span> {{ mintLiveText }} </span>
     </div>
-
+    <div class="separator mx-2" />
     <nuxt-link
-      class="is-flex is-align-items-center has-text-weight-bold"
+      class="is-flex is-align-items-center has-text-weight-bold my-2"
       to="/stmn/drops/free-drop">
       {{ $t('mint.unlockable.takeMe') }}
     </nuxt-link>
@@ -52,8 +48,20 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
 const isUnlockableLandingTagVisible = true
+const { $i18n } = useNuxtApp()
+
+const { width } = useWindowSize()
+
+const isSmallSize = computed(() => width.value < 502)
+
+const mintLiveText = computed(() =>
+  $i18n.t(
+    isSmallSize.value
+      ? 'mint.unlockable.mintLiveSmall'
+      : 'mint.unlockable.mintLive'
+  )
+)
 </script>
 
 <style lang="scss" scoped>
@@ -64,10 +72,17 @@ const isUnlockableLandingTagVisible = true
     background-color: theme('background-color');
   }
   .separator {
-    color: $placeholder-color;
+    background: $placeholder-color;
     width: 15px;
-    height: 2px;
-    overflow: hidden;
+    height: 1px;
+  }
+
+  &.small-size {
+    flex-direction: column;
+    border-radius: 1rem;
+    .separator {
+      width: 100%;
+    }
   }
 }
 </style>
