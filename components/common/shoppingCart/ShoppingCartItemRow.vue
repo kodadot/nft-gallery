@@ -47,6 +47,7 @@ import { ShoppingCartItem } from './types'
 
 const { urlPrefix } = usePrefix()
 const hoverRef = ref()
+const avatar = ref<string>()
 const isHovered = useElementHover(hoverRef)
 const emit = defineEmits(['delete'])
 
@@ -61,7 +62,6 @@ const getAvatar = async () => {
   }
 }
 
-const avatar = ref<string>()
 onMounted(() => {
   getAvatar()
 })
