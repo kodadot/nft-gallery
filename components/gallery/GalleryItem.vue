@@ -119,7 +119,7 @@
               class="mt-4" />
 
             <!-- price section -->
-            <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
+            <GalleryItemAction :nft="nft" />
             <UnlockableTag
               v-if="isUnlockable && !isMobile"
               :link="unlockLink"
@@ -183,6 +183,7 @@ import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
 import { useWindowSize } from '@vueuse/core'
+import EventBus from '@/utils/eventBus'
 
 const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
@@ -238,6 +239,7 @@ const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongratsMessage.value = true
 }
+EventBus.on('buy-success', onNFTBought)
 const congratsNewNft = ref('')
 
 const CarouselTypeRelated = defineAsyncComponent(
