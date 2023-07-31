@@ -89,6 +89,9 @@ const balance = computed<string>(() => {
   }
 })
 const disabled = computed(() => {
+  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+    return false
+  }
   if (!(Number(props.nft.price) && balance.value) || !connected.value) {
     return false
   }
