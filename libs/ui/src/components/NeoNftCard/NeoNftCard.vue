@@ -30,7 +30,7 @@
           <span
             class="is-ellipsis has-text-weight-bold"
             data-cy="nft-name"
-            :title="name"
+            :title="nft.name"
             >{{ nft.name || '--' }}</span
           >
 
