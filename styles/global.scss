@@ -415,3 +415,18 @@ a.has-text-grey {
 .has-z-index-1 {
   z-index: 1;
 }
+
+
+.modal {
+  .modal-content {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .modal-background {
+    background-color: rgba(0, 0, 0, 0.17) !important;
+  }
+}
+
+.text-align-center {
+  text-align: center;
+}
