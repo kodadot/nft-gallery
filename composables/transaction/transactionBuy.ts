@@ -9,30 +9,37 @@ import { getApiCall } from '@/utils/gallery/abstractCalls'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { payRoyaltyTx, somePercentFromTX } from '@/utils/support'
 import type { ActionBuy } from './types'
-
 function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
-  const isOldRemark = item.urlPrefix === 'rmrk'
-  const rmrk = isOldRemark
-    ? createInteraction(item.interaction, item.nftId, '')
-    : createNewInteraction({
-        action: NewInteraction[item.interaction],
-        payload: { id: item.nftId },
-      })
+  const nfts = Array.isArray(item.nfts) ? item.nfts : [item.nfts]
 
-  const arg = [
-    api.tx.system.remark(rmrk),
-    api.tx.balances.transfer(item.currentOwner, item.price),
-    somePercentFromTX(api, item.price),
-  ]
+  const arg = nfts
+    .map(({ id: nftId, price, currentOwner, royalty }) => {
+      const isOldRemark = item.urlPrefix === 'rmrk'
+      const rmrk = isOldRemark
+        ? createInteraction(item.interaction, nftId, '')
+        : createNewInteraction({
+            action: NewInteraction[item.interaction],
+            payload: { id: nftId },
+          })
 
-  const royalty = {
-    amount: Number(item.royalty),
-    address: item.recipient || '',
-  }
+      const arg = [
+        api.tx.system.remark(rmrk),
+        api.tx.balances.transfer(currentOwner, price),
+        somePercentFromTX(api, price),
+      ]
 
-  if (isRoyaltyValid(royalty)) {
-    arg.push(payRoyaltyTx(api, item.price, royalty))
-  }
+      const normalizedRoyalty = {
+        amount: Number(royalty?.amount || 0),
+        address: royalty?.address || '',
+      }
+
+      if (isRoyaltyValid(normalizedRoyalty)) {
+        arg.push(payRoyaltyTx(api, price, normalizedRoyalty))
+      }
+
+      return arg
+    })
+    .flat()
 
   executeTransaction({
     cb: api.tx.utility.batchAll,
@@ -43,25 +50,38 @@ function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
 }
 
 function execBuyBasilisk(item: ActionBuy, api, executeTransaction) {
-  const { id, item: token } = tokenIdToRoute(item.nftId)
+  const nfts = Array.isArray(item.nfts) ? item.nfts : [item.nfts]
+
+  const transactions = nfts.map(({ id: nftId }) => {
+    const { id, item: token } = tokenIdToRoute(nftId)
+    const cb = getApiCall(api, item.urlPrefix, item.interaction)
+    const arg = [id, token]
+    return cb(...arg)
+  })
 
   // TODO: implement tx fees #5130
   executeTransaction({
-    cb: getApiCall(api, item.urlPrefix, item.interaction),
-    arg: [id, token],
+    cb: api.tx.utility.batchAll,
+    arg: [transactions],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
   })
 }
 
 function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
-  const legacy = isLegacy(item.nftId)
-  const { id, item: token } = tokenIdToRoute(item.nftId)
+  const nfts = Array.isArray(item.nfts) ? item.nfts : [item.nfts]
+  const transactions = nfts.map(({ id: nftId, price }) => {
+    const legacy = isLegacy(nftId)
+    const { id, item: token } = tokenIdToRoute(nftId)
+    const cb = getApiCall(api, item.urlPrefix, item.interaction, legacy)
+    const arg = [id, token, price]
+    return cb(...arg)
+  })
 
   // TODO: implement tx fees #5130
   executeTransaction({
-    cb: getApiCall(api, item.urlPrefix, item.interaction, legacy),
-    arg: [id, token, item.price],
+    cb: api.tx.utility.batchAll,
+    arg: [transactions],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
   })
