@@ -34,7 +34,11 @@ export function checkInvalidBalanceFilter(value) {
   return value
 }
 
-export function roundTo(value: number | string, limit: number) {
+export function withoutDigitSeparator(value: string) {
+  return value.replace(/,/g, '')
+}
+
+export function roundTo(value: number | string, limit = 2) {
   const number = Number(value.toLocaleString().replace(/,/g, ''))
   const hasDecimals = number % 1 !== 0
   // `undefined` params in toLocaleString() means use host default language
