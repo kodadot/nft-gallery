@@ -8,6 +8,7 @@
       <div v-if="Number(nft.price)" class="is-flex desktop-full-w">
         <div class="is-flex buy-button-width">
           <NeoTooltip
+            class="w-full"
             :active="disabled"
             :label="$t('tooltip.notEnoughBalance')"
             multiline>
