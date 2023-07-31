@@ -44,11 +44,11 @@ export const nftToShoppingCardItem = (nft: NFT): ShoppingCartItem => {
     id: nft.id,
     name: nft.name,
     currentOwner: nft.currentOwner,
-    price: nft.price || '0',
+    price: nft.price ?? '0',
     urlPrefix: urlPrefix.value,
     collection: nft.collection,
     royalty: nft.royalty
-      ? { amount: nft.royalty, address: nft.recipient || '' }
+      ? { amount: nft.royalty, address: nft.recipient ?? '' }
       : undefined,
     addedAt: new Date().getTime(),
     metadata: nft.metadata,

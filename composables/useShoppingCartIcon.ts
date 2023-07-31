@@ -14,7 +14,7 @@ export const useShoppingCartIcon = (nftId?: string) => {
   )
 
   const cartIcon = computed(() => {
-    if (Boolean(nftId)) {
+    if (nftId) {
       return useShoppingCartStore().isItemInCart(nftId as string)
         ? strikedOutShoppingCartIcon.value
         : shoppingCartIcon.value

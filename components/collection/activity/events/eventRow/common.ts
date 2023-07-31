@@ -4,7 +4,7 @@ import {
   Offer,
   OfferInteraction,
 } from '@/composables/collectionActivity/types'
-import { parseNftAvatar } from '@/utils/ipfs'
+import { parseNftAvatar } from '@/utils/nft'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'
 
 export const interactionNameMap = {
@@ -66,6 +66,6 @@ export const getToAddress = (event: InteractionWithNFT | Offer): string => {
   }
   return blank
 }
-export const getNFTAvatar = async (
+export const getNFTAvatar = (
   event: InteractionWithNFT | Offer
 ): Promise<string> => parseNftAvatar(event.nft)

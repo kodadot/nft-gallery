@@ -29,8 +29,8 @@ function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
       ]
 
       const normalizedRoyalty = {
-        amount: Number(royalty?.amount || 0),
-        address: royalty?.address || '',
+        amount: Number(royalty?.amount ?? 0),
+        address: royalty?.address ?? '',
       }
 
       if (isRoyaltyValid(normalizedRoyalty)) {

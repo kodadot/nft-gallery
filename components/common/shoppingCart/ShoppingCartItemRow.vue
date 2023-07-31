@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { parseNftAvatar } from '@/utils/ipfs'
+import { parseNftAvatar } from '@/utils/nft'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import Money from '@/components/shared/format/Money.vue'
 import { useElementHover } from '@vueuse/core'
@@ -55,15 +55,16 @@ const props = defineProps<{
   allowDelete?: boolean
 }>()
 
-const avatar = ref<string>()
-onMounted(() => {
-  getAvatar()
-})
 const getAvatar = async () => {
   if (props.nft) {
     avatar.value = await parseNftAvatar(props.nft)
   }
 }
+
+const avatar = ref<string>()
+onMounted(() => {
+  getAvatar()
+})
 </script>
 
 <style scoped lang="scss">
