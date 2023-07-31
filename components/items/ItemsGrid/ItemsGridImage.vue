@@ -10,21 +10,26 @@
     link="nuxt-link"
     bind-key="to">
     <template #hover-action>
-      <div
-        v-if="!isOwner && Number(nft?.price)"
-        class="w-half is-flex btn-height">
+      <div v-if="!isOwner && Number(nft?.price)" class="w-half is-flex">
         <NeoButton
           :label="buyLabel"
           data-cy="item-buy"
           no-shadow
-          class="is-flex-grow-1"
+          class="is-flex-grow-1 btn-height"
+          :class="{ 'is-size-7 btn-height-minimal': variant === 'minimal' }"
           @click.native.prevent="onClickBuy" />
         <NeoButton
           data-cy="item-add-to-cart"
           no-shadow
-          class="fixed-width p-1 no-border-left hover-color"
+          class="fixed-width p-1 no-border-left hover-color btn-height override-wrapper-width"
+          :class="{
+            'fixed-width-minimal btn-height-minimal': variant === 'minimal',
+          }"
           @click.native.prevent="onClickShoppingCart">
-          <img :src="cartIcon" class="image" />
+          <img
+            :src="cartIcon"
+            class="image"
+            :class="{ 'is-16x16': variant === 'minimal' }" />
         </NeoButton>
       </div>
     </template>
@@ -95,6 +100,11 @@ const onClickShoppingCart = () => {
 .w-half {
   width: 50%;
 }
+:deep .override-wrapper-width {
+  .o-btn__wrapper {
+    width: unset !important;
+  }
+}
 
 .fixed-width {
   min-width: 35px;
@@ -102,6 +112,13 @@ const onClickShoppingCart = () => {
 
 .btn-height {
   height: 35px;
+}
+
+.fixed-width-minimal {
+  min-width: 24px;
+}
+.btn-height-minimal {
+  height: 24px;
 }
 
 .no-border-left {
