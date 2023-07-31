@@ -15,7 +15,7 @@ const { urlPrefix } = usePrefix()
 
 const props = withDefaults(
   defineProps<{
-    provider: string
+    provider?: string
     blockId: string
     text: string
   }>(),
