@@ -35,35 +35,6 @@ pnpm dev
 
 KodaDot will be available at **[localhost:9090](http://localhost:9090).**
 
-## Starting dev server with the pinning functionality 📦
-
-If you want to use the pinning functionality, you must create a `.env` file in your project root.
-
-```bash
-echo 'NUXT_ENV_KEYRING=true
-      PINATA_API_KEY=
-      PINATA_SECRET_API_KEY=
-      PINATA_MASTER=' > .env
-```
-
-Functions are located in `src-functions/`
-
-You can obtain Master Pinata Keys **[here](https://app.pinata.cloud/keys)**
-
-You need to install the netlify-cli:
-
-```bash
-npm install netlify-cli -g
-```
-
-To start the server, run:
-
-```bash
-netlify dev
-```
-
-App will start on **[localhost:9000](http://localhost:9000).**
-
 ## Docker 🐳
 
 If you just want to try out our KodaDot on Kusama and have a complete local set up with a local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed.
@@ -107,6 +78,7 @@ git fetch --all
 git merge origin/main
 pnpm install
 ```
+
 <br/>
 
 **1. How can I read some data from the GraphQL?**
@@ -142,6 +114,7 @@ Then we can use it like this:
   $consola.log(nft)
 </script>
 ```
+
 <br/>
 
 **2. How can I read on-chain data from the RPC node?**
@@ -159,6 +132,7 @@ Then we can use it like this:
   $consola.log(nft)
 </script>
 ```
+
 <br/>
 
 **3. How can I make an on-chain transaction?**
@@ -188,6 +162,7 @@ Then we can use it like this:
   }
 </script>
 ```
+
 <br/>
 
 **4. How can I test Kodadot without spending KSM?**
@@ -209,6 +184,8 @@ Current Indexers we have/use:
 - SubSquid
   - Basilisk: [snek](https://github.com/kodadot/snek)
   - Kusama: [rubick](https://github.com/kodadot/rubick)
+  - Basilisk: [snek](https://github.com/kodadot/snek)
+  - AssetHub: [stick](https://github.com/kodadot/stick)
   - MoonRiver: [click](https://github.com/kodadot/click)
 
 <br/>
@@ -234,6 +211,7 @@ pnpm lint:quiet
 ```bash
 pnpm lint:fix
 ```
+
 <br/>
 
 ### Generating changelog

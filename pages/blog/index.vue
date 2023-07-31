@@ -53,8 +53,7 @@ export default {
     getPermalink(post) {
       const filePath = post.meta.resourcePath
       const fileName = filePath.match(/\/([^/]+)\.\w+$/)[1]
-
-      return `/blog/${fileName}`
+      return fileName
     },
   },
 }
