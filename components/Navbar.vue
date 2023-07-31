@@ -329,12 +329,20 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
-:deep .navbar-explore .o-drop__item {
-  padding: 1.5rem 2rem;
-  min-width: 18.75rem;
+:deep .navbar-explore {
+  .navbar-item {
+    height: 4.5rem;
+  }
+  .o-drop__menu {
+    margin: 0;
+  }
+  .o-drop__item {
+    padding: 1.5rem 2rem;
+    min-width: 18.75rem;
 
-  &:hover {
-    background-color: unset;
+    &:hover {
+      background-color: unset;
+    }
   }
 }
 </style>

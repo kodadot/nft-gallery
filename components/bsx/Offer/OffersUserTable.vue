@@ -67,12 +67,11 @@
         v-slot="props"
         :label="$t('offer.action')"
         width="120">
-        <b-button
+        <NeoButton
           v-if="props.row.status === 'ACTIVE'"
-          type="is-orange"
-          outlined
+          no-shadow
           icon-left="times"
-          @click="withdrawOffer(props.row)" />
+          @click.native="withdrawOffer(props.row)" />
       </NeoTableColumn>
     </NeoTable>
   </div>
@@ -81,7 +80,7 @@
 <script lang="ts">
 import { emptyArray } from '@kodadot1/minimark/utils'
 import { Attribute } from '@kodadot1/minimark/common'
-import { NeoSelect, NeoTable, NeoTableColumn } from '@kodadot1/brick'
+import { NeoButton, NeoSelect, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 
 import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
@@ -105,6 +104,7 @@ const components = {
   NeoTable,
   NeoTableColumn,
   NeoSelect,
+  NeoButton,
 }
 
 @Component({ components, filters: { formatDistanceToNow } })

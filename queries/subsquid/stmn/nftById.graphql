@@ -10,6 +10,10 @@ query nftById($id: String!) {
       id
       name
     }
+    attributes {
+      key: trait
+      value
+    }
     events {
       interaction
       timestamp
