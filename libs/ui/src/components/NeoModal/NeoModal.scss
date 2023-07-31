@@ -10,6 +10,9 @@
       color: theme('text-color');
       background: theme('background-color');
     }
+    &.no-shadow {
+      box-shadow: none;
+    }
   }
 
   .o-modal__overlay {

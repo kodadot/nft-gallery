@@ -6,7 +6,7 @@
     :destroy-on-hide="destroyOnHide"
     :can-cancel="canCancel"
     :full-screen="fullScreen"
-    :content-class="contentClass"
+    :content-class="[contentClass, noShadow ? 'no-shadow' : '']"
     :root-class="rootClass"
     @close="updateClose">
     <slot />
@@ -24,6 +24,7 @@ const props = withDefaults(
     fullScreen?: boolean
     contentClass?: string
     rootClass?: string
+    noShadow?: boolean
   }>(),
   {
     destroyOnHide: true,
@@ -31,6 +32,7 @@ const props = withDefaults(
     fullScreen: false,
     contentClass: '',
     rootClass: '',
+    noShadow: false,
   }
 )
 
