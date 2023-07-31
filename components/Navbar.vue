@@ -38,9 +38,9 @@
                 ref="mobilSearchRef"
                 hide-filter
                 class="is-flex-grow-1 mt-3" />
-              <a class="cancel-btn p-3" @click="hideMobileSearchBar">
+              <button class="cancel-btn p-3" @click="hideMobileSearchBar">
                 {{ $t('cancel') }}
-              </a>
+              </button>
             </div>
           </div>
         </div>

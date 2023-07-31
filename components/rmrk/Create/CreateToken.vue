@@ -86,7 +86,6 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import {
   notificationTypes,
@@ -130,7 +129,6 @@ const components = {
 
 @Component({ components })
 export default class CreateToken extends mixins(
-  RmrkVersionMixin,
   MetaTransactionMixin,
   ChainMixin,
   PrefixMixin,
@@ -168,6 +166,10 @@ export default class CreateToken extends mixins(
 
   public updatePrice(value: string) {
     this.price = value
+  }
+
+  get version() {
+    return useRmrkVersion().version.value
   }
 
   get hasPrice() {

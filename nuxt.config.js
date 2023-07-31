@@ -2,6 +2,8 @@ import path from 'path'
 import * as fs from 'fs'
 import { defineNuxtConfig } from '@nuxt/bridge'
 import SentryWebpackPlugin from '@sentry/webpack-plugin'
+import Mode from 'frontmatter-markdown-loader/mode'
+
 import { manifestIcons } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 
@@ -405,10 +407,17 @@ export default defineNuxtConfig({
         )
       }
 
-      // add markdown loader
+      // add frontmatter-markdown-loader
       config.module.rules.push({
         test: /\.md$/,
-        use: 'raw-loader',
+        include: path.resolve(__dirname, 'content'),
+        loader: 'frontmatter-markdown-loader',
+        options: {
+          mode: [Mode.VUE_COMPONENT, Mode.META],
+          vue: {
+            root: 'markdown-body',
+          },
+        },
       })
 
       config.module.rules.push({
