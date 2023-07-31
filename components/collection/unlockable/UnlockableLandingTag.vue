@@ -2,7 +2,7 @@
   <div
     v-if="isUnlockableLandingTagVisible"
     class="unlockable-landing-tag is-flex border is-justify-content-space-between is-align-items-center px-4 mt-6"
-    :class="{ 'small-size': isSmallSize }">
+    :class="{ 'small-size': smallWidth }">
     <div class="is-flex is-align-items-center">
       <svg
         width="42"
@@ -53,11 +53,11 @@ const { $i18n } = useNuxtApp()
 
 const { width } = useWindowSize()
 
-const isSmallSize = computed(() => width.value < 502)
+const smallWidth = computed(() => width.value < 502)
 
 const mintLiveText = computed(() =>
   $i18n.t(
-    isSmallSize.value
+    smallWidth.value
       ? 'mint.unlockable.mintLiveSmall'
       : 'mint.unlockable.mintLive'
   )
