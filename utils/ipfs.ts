@@ -10,7 +10,6 @@ import {
   arweaveProviders,
   getIPFSProvider,
 } from './config/ipfs'
-import { processSingleMetadata } from './cachingStrategy'
 export const ipfsUrlPrefix = 'ipfs://ipfs/'
 
 export const fastExtract = (ipfsLink?: string): string => {
