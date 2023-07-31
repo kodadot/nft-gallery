@@ -10,6 +10,7 @@ import {
   arweaveProviders,
   getIPFSProvider,
 } from './config/ipfs'
+import { processSingleMetadata } from './cachingStrategy'
 export const ipfsUrlPrefix = 'ipfs://ipfs/'
 
 export const fastExtract = (ipfsLink?: string): string => {
@@ -172,4 +173,20 @@ export const getSanitizer = (
 export const ipfsToCf = (ipfsUrl: string): string => {
   const cid = extractCid(ipfsUrl)
   return `${CF_IMAGE_URL}${cid}/public`
+}
+
+export type EntityWithMeta = {
+  metadata: string
+  meta?: NFTMetadata
+}
+
+export const parseNftAvatar = async (
+  entity: EntityWithMeta
+): Promise<string> => {
+  if (entity.meta?.image) {
+    return sanitizeIpfsUrl(entity.meta.image)
+  } else {
+    const meta = (await processSingleMetadata(entity.metadata)) as NFTMetadata
+    return sanitizeIpfsUrl(meta?.image)
+  }
 }

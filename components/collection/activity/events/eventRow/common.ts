@@ -4,9 +4,7 @@ import {
   Offer,
   OfferInteraction,
 } from '@/composables/collectionActivity/types'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { NFTMetadata } from '@/components/rmrk/service/scheme'
+import { parseNftAvatar } from '@/utils/ipfs'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'
 
 export const interactionNameMap = {
@@ -70,13 +68,4 @@ export const getToAddress = (event: InteractionWithNFT | Offer): string => {
 }
 export const getNFTAvatar = async (
   event: InteractionWithNFT | Offer
-): Promise<string> => {
-  if (event.nft.meta?.image) {
-    return sanitizeIpfsUrl(event.nft.meta.image)
-  } else {
-    const meta = (await processSingleMetadata(
-      event.nft.metadata
-    )) as NFTMetadata
-    return sanitizeIpfsUrl(meta?.image)
-  }
-}
+): Promise<string> => parseNftAvatar(event.nft)
