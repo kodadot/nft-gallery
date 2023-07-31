@@ -70,11 +70,11 @@ const mintLiveText = computed(() =>
   border-radius: 2rem;
   @include ktheme() {
     background-color: theme('background-color');
-  }
-  .separator {
-    background: $placeholder-color;
-    width: 15px;
-    height: 1px;
+    .separator {
+      background: theme('separator-line-color');
+      width: 15px;
+      height: 1px;
+    }
   }
 
   &.small-size {
