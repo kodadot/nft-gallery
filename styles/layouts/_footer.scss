@@ -82,7 +82,7 @@
           &:hover {
             background: theme('k-accentHover');
             .icon, .o-icon {
-              color: theme('black') !important;
+              color: theme('text-color') !important;
             }
           }
         }
