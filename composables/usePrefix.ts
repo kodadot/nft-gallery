@@ -15,8 +15,8 @@ export default function () {
   const prefix = computed<Prefix>(
     () =>
       (route.params.prefix ||
-        initialPrefixFromPath ||
-        storage.value.selected) as Prefix
+        storage.value.selected ||
+        initialPrefixFromPath) as Prefix
   )
   const urlPrefix = computed<Prefix>(() => {
     storage.value = { selected: prefix.value }
