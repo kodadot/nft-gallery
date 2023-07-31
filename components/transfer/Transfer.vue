@@ -1,15 +1,15 @@
 <template>
-  <div class="transfer-card py-8 px-6">
+  <div class="transfer-card theme-background-color k-shadow border py-8 px-6">
     <div
       class="is-flex is-justify-content-space-between is-align-items-center mb-2">
       <p class="has-text-weight-bold is-size-3">
         {{ $t('transfer') }} {{ unit }}
       </p>
-      <NeoDropdown position="bottom-left" append-to-body :mobile-modal="false">
+      <NeoDropdown position="bottom-left" :mobile-modal="false">
         <template #trigger="{ active }">
           <NeoButton
             icon="ellipsis-vertical"
-            class="square-32 mr-3"
+            class="square-32"
             :active="active" />
         </template>
 
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <hr class="my-5" />
+    <hr />
 
     <div class="is-flex">
       <div class="is-flex-grow-1 mr-2 is-flex is-flex-direction-column">
@@ -104,7 +104,7 @@
           ><NeoIcon class="ml-2" icon="circle-info" pack="far"
         /></NeoTooltip>
       </div>
-      <NeoSwitch v-model="sendSameAmount" :rounded="false"></NeoSwitch>
+      <NeoSwitch v-model="sendSameAmount" :rounded="false" />
     </div>
 
     <div
@@ -130,12 +130,12 @@
       <TabItem
         :active="displayUnit === 'token'"
         :text="unit"
-        class="transfer-display-unit"
+        full-width
         @click.native="displayUnit = 'token'" />
       <TabItem
         :active="displayUnit === 'usd'"
         text="USD"
-        class="transfer-display-unit"
+        full-width
         @click.native="displayUnit = 'usd'" />
     </div>
 
@@ -179,7 +179,7 @@ import {
   calculateBalance,
   calculateBalanceUsdValue,
 } from '@/utils/format/balance'
-
+import { getSumOfObjectField } from '@/utils/math'
 import { useFiatStore } from '@/stores/fiat'
 import { useIdentityStore } from '@/stores/identity'
 
@@ -290,12 +290,10 @@ watch(sendSameAmount, (value) => {
 })
 
 const totalTokenAmount = computed(() =>
-  targetAddresses.value
-    .reduce((acc, { token }) => acc + (Number(token) || 0), 0)
-    .toFixed(4)
+  Number(getSumOfObjectField(targetAddresses.value, 'token')).toFixed(4)
 )
 const totalUsdValue = computed(() =>
-  targetAddresses.value.reduce((acc, { usd }) => acc + (Number(usd) || 0), 0)
+  getSumOfObjectField(targetAddresses.value, 'usd')
 )
 
 const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
@@ -487,11 +485,6 @@ watch(
 
 .transfer-card {
   max-width: 41rem;
-  @include ktheme() {
-    background-color: theme('background-color');
-    box-shadow: theme('primary-shadow');
-    border: 1px solid theme('border-color');
-  }
 
   .token-price {
     border-radius: 3rem;

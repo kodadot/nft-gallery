@@ -1,5 +1,5 @@
 <template>
-  <p class="control">
+  <p class="control" :class="{ 'full-width': fullWidth }">
     <NeoButton
       class="explore-tabs-button"
       tag="nuxt-link"
@@ -18,7 +18,8 @@ withDefaults(
   defineProps<{
     active: boolean
     text: string
-    to?: string | undefined
+    to?: string
+    fullWidth?: boolean
   }>(),
   {
     to: '',
@@ -42,7 +43,7 @@ withDefaults(
   }
 }
 
-.transfer-display-unit {
+.full-width {
   &.control,
   .explore-tabs-button {
     width: 100%;
