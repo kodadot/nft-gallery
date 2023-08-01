@@ -34,7 +34,7 @@
     <!-- <div
       v-for="post in posts"
       :key="post.attributes.title"
-      class="content-list">
+      class="content-list mb-5">
       <img :src="post.attributes.image" :alt="post.attributes.title" />
 
       <div class="content-list-card">
@@ -79,7 +79,6 @@ export default {
     getPermalink(post) {
       const filePath = post.meta.resourcePath
       const fileName = filePath.match(/\/([^/]+)\.\w+$/)[1]
-
       return fileName
     },
   },
@@ -125,6 +124,7 @@ export default {
 
   &-list {
     border-radius: 2.5rem;
+    overflow: hidden;
     display: flex;
 
     img {
