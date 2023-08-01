@@ -227,6 +227,11 @@ const menuKodadot: Menu[] = [
     url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
     external: true,
   },
+  {
+    name: $i18n.t('blog'),
+    url: '/blog',
+    external: false,
+  },
 ]
 
 const socials = [
