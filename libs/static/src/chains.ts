@@ -75,7 +75,7 @@ export const chainInfo: Record<Prefix, string> = {
 export const chainNames: Record<Prefix, string> = {
   bsx: 'Basilisk',
   rmrk: 'Kusama',
-  snek: 'Snek',
+  snek: 'Basilisk-testnet',
   movr: 'Moonriver',
   glmr: 'Moonbeam',
   ksm: 'Kusama',
