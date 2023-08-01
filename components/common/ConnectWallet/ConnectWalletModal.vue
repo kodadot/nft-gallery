@@ -1,12 +1,6 @@
 <template>
   <div class="wallet-modal-container is-flex is-flex-direction-column">
     <header class="modal-card-head">
-      <b-button
-        v-show="hasSelectedWalletProvider"
-        type="is-text"
-        class="mr-2 is-no-border"
-        icon-left="chevron-left"
-        @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
       <span class="modal-card-title is-size-6 has-text-weight-bold">
         {{
           showAccount
@@ -94,7 +88,6 @@ import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
-const hasSelectedWalletProvider = ref(false)
 const forceWalletSelect = ref(false)
 const identityStore = useIdentityStore()
 const { urlPrefix } = usePrefix()
