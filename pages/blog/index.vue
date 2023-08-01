@@ -1,11 +1,37 @@
 <template>
   <div class="content">
-    <div class="content-headline">
-      <h1>KodaDot Blog</h1>
-      <p>Let’s explore the NFT universe</p>
+    <div class="content-headline has-text-centered">
+      <h1 class="title is-1">KodaDot Blog</h1>
+      <div class="subtitle has-text-weight-medium">
+        Let’s Explore The NFT Universe
+      </div>
     </div>
 
-    <div
+    <div class="hero-card content-list">
+      <img :src="posts[0].attributes.image" :alt="posts[0].attributes.title" />
+
+      <div class="content-list-card">
+        <div>
+          <div class="card-tag">• {{ posts[0].attributes.tags }}</div>
+          <div class="title is-3">{{ posts[0].attributes.title }}</div>
+          <div class="truncate mb-4">{{ posts[0].attributes.subtitle }}</div>
+        </div>
+
+        <div>
+          <NeoButton
+            no-shadow
+            rounded
+            tag="a"
+            :href="getPermalink(posts[0])"
+            icon="arrow-right-long">
+            View Article
+          </NeoButton>
+        </div>
+      </div>
+    </div>
+
+    <!-- find design in #6419 -->
+    <!-- <div
       v-for="post in posts"
       :key="post.attributes.title"
       class="content-list mb-5">
@@ -13,9 +39,9 @@
 
       <div class="content-list-card">
         <div>
-          <div class="has-text-grey">{{ post.attributes.tags }}</div>
-          <div class="content-list-card-title">{{ post.attributes.title }}</div>
-          <div>{{ post.attributes.subtitle }}</div>
+          <div class="card-tag">• {{ post.attributes.tags }}</div>
+          <div class="title is-3">{{ post.attributes.title }}</div>
+          <div class="truncate mb-4">{{ post.attributes.subtitle }}</div>
         </div>
 
         <div>
@@ -29,7 +55,7 @@
           </NeoButton>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -67,20 +93,20 @@ export default {
   max-width: 60rem;
 
   &-headline {
-    text-align: center;
-
     h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-      color: #fff !important;
-      text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-        -1px -1px 0 #000, 1px 0 0 #000, 0 1px 0 #000, -1px 0 0 #000,
-        0 -1px 0 #000, 4px 4px #000;
+      letter-spacing: -0.02em;
+      @include ktheme() {
+        color: theme('text-color-inverse');
+        text-shadow: 1px 1px 0 theme('text-color'),
+          1px -1px 0 theme('text-color'), -1px 1px 0 theme('text-color'),
+          -1px -1px 0 theme('text-color'), 1px 0px 0 theme('text-color'),
+          0px 1px 0 theme('text-color'), -1px 0px 0 theme('text-color'),
+          0px -1px 0 theme('text-color'), 4px 4px theme('text-color');
+      }
     }
 
-    p {
+    .subtitle {
       font-size: 1.5rem;
-      font-weight: 500;
       margin-bottom: 5rem;
     }
 
@@ -89,7 +115,7 @@ export default {
         font-size: 2rem;
       }
 
-      p {
+      .subtitle {
         font-size: 1rem;
         margin-bottom: 2.5rem;
       }
@@ -110,6 +136,20 @@ export default {
       flex-direction: column;
       justify-content: space-between;
       padding: 1.5rem;
+
+      .card-tag {
+        @include ktheme() {
+          color: theme('k-grey-fix');
+        }
+      }
+
+      .truncate {
+        max-width: 300px;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
 
       &-title {
         font-size: 31px;
