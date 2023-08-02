@@ -6,53 +6,71 @@
       ref="root"
       title="Price"
       :price="nftPrice">
-      <GalleryItemActionSlides
-        v-if="Number(nftPrice)"
-        ref="actionRef"
-        :active="active"
-        :class="{ 'gallery-item-slides-entry': !active }"
-        :disabled="disabled">
-        <template #entry>
-          <NeoTooltip
-            v-if="!active"
-            :active="disabled"
-            :label="$t('tooltip.notEnoughBalance')"
-            append-to-body
-            multiline>
-            <NeoButton
-              :label="label"
-              size="large"
-              class="full-width-action-button"
-              variant="k-accent"
-              :disabled="disabled"
-              no-shadow
-              data-cy="item-buy"
-              @click.native="onClick" />
-          </NeoTooltip>
-        </template>
+      <div v-if="disabled" class="gallery-item-disabled">
+        <NeoTooltip
+          :active="disabled"
+          content-class="buy-tooltip"
+          :position="isMobileDevice ? 'top' : 'left'"
+          :auto-close="!isMobileDevice ? ['outside', 'escape'] : []"
+          multiline>
+          <template #content>
+            <div class="is-size-6">
+              {{
+                $t('tooltip.notEnoughBalanceChain', {
+                  chain: chainNames[urlPrefix],
+                })
+              }}
+              <div>
+                {{ $t('tip') }}:
+                <nuxt-link :to="`/${urlPrefix}/teleport`" target="_blank">
+                  {{ $t('useTeleport') }}</nuxt-link
+                >
 
-        <template #action>
+                {{ $t('or') }}
+
+                <a @click="showRampSDK"> {{ $t('addFunds') }}</a>
+              </div>
+            </div>
+          </template>
           <NeoButton
             :label="label"
             size="large"
-            fixed-width
             variant="k-accent"
             :disabled="disabled"
             no-shadow
             data-cy="item-buy"
             @click.native="onClick" />
-        </template>
+        </NeoTooltip>
+      </div>
+      <div v-else>
+        <GalleryItemActionSlides
+          v-if="Number(nftPrice)"
+          ref="actionRef"
+          :active="active"
+          :class="{ 'gallery-item-slides-entry': !active }"
+          :disabled="disabled">
+          <template #action>
+            <NeoButton
+              :label="label"
+              size="large"
+              fixed-width
+              variant="k-accent"
+              no-shadow
+              data-cy="item-buy"
+              @click.native="onClick" />
+          </template>
 
-        <template #content>
-          <div class="has-text-centered">
-            {{ $t('nft.buyNFTOn') }}
-            <span class="has-text-weight-bold is-uppercase">{{
-              urlPrefix
-            }}</span>
-          </div>
-        </template>
-      </GalleryItemActionSlides>
-      <div v-else>{{ $t('nft.notListed') }}</div>
+          <template #content>
+            <div class="has-text-centered">
+              {{ $t('nft.buyNFTOn') }}
+              <span class="has-text-weight-bold is-uppercase">{{
+                urlPrefix
+              }}</span>
+            </div>
+          </template>
+        </GalleryItemActionSlides>
+        <div v-else>{{ $t('nft.notListed') }}</div>
+      </div>
     </GalleryItemPriceSection>
   </div>
 </template>
@@ -74,8 +92,10 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { useIdentityStore } from '@/stores/identity'
 import { usePreferencesStore } from '@/stores/preferences'
+import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
 import Vue from 'vue'
+import { chainNames } from '@/libs/static/src/chains'
 
 const props = withDefaults(
   defineProps<{
@@ -95,6 +115,7 @@ const props = withDefaults(
     recipient: '',
   }
 )
+const isMobileDevice = ref(window.innerWidth < 1024)
 
 const { urlPrefix, client } = usePrefix()
 const { accountId } = useAuth()
@@ -116,6 +137,17 @@ const label = computed(() =>
         preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy'
       )
 )
+
+const showRampSDK = () => {
+  new RampInstantSDK({
+    defaultAsset: 'KSM',
+    userAddress: accountId.value,
+    hostAppName: 'KodaDot',
+    hostApiKey: 'a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc', // env
+    hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
+    variant: 'desktop',
+  }).show()
+}
 
 const balance = computed<string>(() => {
   switch (urlPrefix.value) {
