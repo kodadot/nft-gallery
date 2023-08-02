@@ -7,7 +7,8 @@
       </div>
     </div>
 
-    <div class="hero-card content-list">
+    <!-- find design in #6419 -->
+    <!-- <div class="hero-card content-list">
       <img :src="posts[0].attributes.image" :alt="posts[0].attributes.title" />
 
       <div class="content-list-card">
@@ -28,13 +29,12 @@
           </NeoButton>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <!-- find design in #6419 -->
-    <!-- <div
+    <div
       v-for="post in posts"
       :key="post.attributes.title"
-      class="content-list mb-5">
+      class="hero-card content-list mb-5">
       <img :src="post.attributes.image" :alt="post.attributes.title" />
 
       <div class="content-list-card">
@@ -55,7 +55,7 @@
           </NeoButton>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -127,10 +127,15 @@ export default {
     border-radius: 2.5rem;
     overflow: hidden;
     display: flex;
+    height: 22rem;
+
+    @include touch {
+      height: auto;
+    }
 
     img {
       width: 40rem;
-      max-height: 20rem;
+      max-height: 22rem;
     }
 
     &-card {
