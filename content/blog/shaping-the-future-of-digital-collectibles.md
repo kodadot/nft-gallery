@@ -1,7 +1,7 @@
 ---
 date: 2022-11-11
 tags: Tokens
-image: '/blog/shaping-the-future-of-digital-collectibles-1.png'
+image: '/blog/shaping-the-future-of-digital-collectibles-1.webp'
 title: 'The Rise of On-Chain NFTs: Shaping the Future of Digital Collectibles'
 subtitle: From the realm of decentralization, a new breed of digital assets has emerged, known as on-chain NFTs. These digital tokens, which are stored directly on the blockchain, are poised to revolutionize the way we deal with digital collectibles.
 ---

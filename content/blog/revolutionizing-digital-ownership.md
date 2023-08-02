@@ -1,7 +1,7 @@
 ---
 date: 2023-05-27
 tags: NFTs
-image: '/blog/revolutionizing-digital-ownership-1.png'
+image: '/blog/revolutionizing-digital-ownership-1.webp'
 title: 'Dynamic NFTs: Revolutionizing Digital Ownership'
 subtitle: In today's digital world, the significance of Dynamic NFTs is on the rise, redefining the landscape of digital ownership and revolutionizing various industries. These innovative tokens have paved the way for a myriad of applications, from gaming and digital art to property tokenization and digital identification.
 ---
@@ -16,7 +16,7 @@ Traditionally, NFTs have been static, meaning once they are minted, their associ
 
 Dynamic NFTs, also known as dNFTs, are a new class of NFTs that can adapt and change in response to external events and data. These tokens are encoded with smart contracts, self-executing programs that trigger changes in the NFT's metadata based on predefined conditions.
 
-<img src="/blog/revolutionizing-digital-ownership-2.png" alt="Dynamic NFTs explained"/>
+<img src="/blog/revolutionizing-digital-ownership-2.webp" alt="Dynamic NFTs explained"/>
 
 Unlike static NFTs that use the ERC-721 token standard, dynamic NFTs leverage the ERC-1155 standard, often referred to as "semi-fungible" as it allows for changes. The flexibility of dynamic NFTs to adjust their metadata presents a host of opportunities, making them a valuable tool for various use cases.
 
@@ -44,7 +44,7 @@ The versatility and adaptability of dynamic NFTs make them a valuable tool for a
 
 In the gaming and metaverse industry, dynamic NFTs can represent in-game items or characters that evolve based on the player's progression. An NFT character, for instance, could have its base stats reflected in its metadata, which changes as the player levels up.
 
-<img src="/blog/revolutionizing-digital-ownership-3.png" alt="Character Progression"/>
+<img src="/blog/revolutionizing-digital-ownership-3.webp" alt="Character Progression"/>
 
 ### Digital Art
 
@@ -54,7 +54,7 @@ In digital art, dynamic NFTs can be used to create artwork that evolves over tim
 
 Dynamic NFTs can also play a crucial role in the tokenization of real estate assets. An NFT representing a property could reflect its maintenance history, age, market value, and more, with the ability to update the metadata as these factors change.
 
-<img src="/blog/revolutionizing-digital-ownership-4.png" alt="Digital Property using dNFT" />
+<img src="/blog/revolutionizing-digital-ownership-4.webp" alt="Digital Property using dNFT" />
 
 ### Sports
 
