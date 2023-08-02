@@ -1,11 +1,10 @@
 <template>
   <section>
-    <br />
     <NeoTabs v-model="activeTab" expanded>
       <NeoTabItem v-for="x in components" :key="x" :label="x">
         <component
           :is="x"
-          :show-explainer-text="showExplainerText"
+          :show-explainer-text="false"
           @navigateToCreateNftTab="switchToNft" />
       </NeoTabItem>
     </NeoTabs>
@@ -13,8 +12,6 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import CreateMixin from '@/utils/mixins/createMixin'
 import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
 const Collection = () => import('@/components/rmrk/Create/Create.vue')
@@ -22,17 +19,38 @@ const NFT = () => import('@/components/rmrk/Create/CreateToken.vue')
 
 const components = { Collection, NFT, NeoTabItem, NeoTabs }
 
-@Component({ components })
-export default class RmrkCreatePage extends mixins(CreateMixin) {
-  layout() {
-    return 'centered-half-layout'
-  }
-
-  public showExplainerText = false
-
-  public switchToNft() {
-    this.switchToCreateNFT()
-    this.showExplainerText = true
-  }
+export default {
+  name: 'RmrkCreatePage',
+  components,
+  layout: 'centered-half-layout',
+  setup() {
+    const { activeTab, components, switchToNft } = useCreate()
+    return {
+      activeTab,
+      components,
+      switchToNft,
+    }
+  },
+  head() {
+    const title = 'KodaDot | Low fees and low carbon minting'
+    const metaData = {
+      title,
+      type: 'article',
+      description: 'Create carbonless NFTs with low on-chain fees',
+      url: '/rmrk/create',
+      image: `${this.$config.public.baseUrl}/k_card.png`,
+    }
+    return {
+      title,
+      link: [
+        {
+          hid: 'canonical',
+          rel: 'canonical',
+          href: this.$root.$config.public.baseUrl + this.$route.path,
+        },
+      ],
+      meta: [...this.$seoMeta(metaData)],
+    }
+  },
 }
 </script>

@@ -1,17 +1,25 @@
+---
+date: 2023-07-01
+tags: Onboarding
+image: https://www.gitbook.com/cdn-cgi/image/width=1280,dpr=2,height=640,fit=contain,format=auto/https%3A%2F%2F1787703220-files.gitbook.io%2F~%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F-MgfLdtGYbRx63ivinWz%252Fsocialpreview%252FBa1dBZZtvOrkCu4nwMOT%252Fcover.png%3Falt%3Dmedia%26token%3D9598f81f-80aa-4e5b-bff5-b612506e6bc7
+title: Your first time contributing to KodaDot
+subtitle: Is this your first time contributing? Set up your local environment here.
+---
+
 We are using a `pnpm` workspace, as installing things via npm **will result in broken dependencies.**
 
 > If you want to know how KodaDot works, go to the [DOCS](https://docs.kodadot.xyz/).
 
 # Hyper start 🚀
 
-### Prerequisites 🎒
+## Prerequisites 🎒
 
 ```MD
 node >=18
 pnpm
 ```
 
-Copy and paste these commands to your terminal:
+Copy and paste these commands to your terminal: (It will clone your project and install all dependencies.)
 
 ```bash
 git clone https://github.com/kodadot/nft-gallery.git nft-gallery
@@ -19,44 +27,13 @@ cd nft-gallery;
 pnpm i;
 ```
 
-It will clone your project and install all dependencies.
-
-to start the server, run:
+To start the server, run:
 
 ```bash
 pnpm dev
 ```
 
-**KodaDot will be available at [localhost:9090](http://localhost:9090).**
-
-### Starting dev server with the pinning functionality 📦
-
-If you want to use the pinning functionality, you must create a `.env` file in your project root.
-
-```bash
-echo 'NUXT_ENV_KEYRING=true
-      PINATA_API_KEY=
-      PINATA_SECRET_API_KEY=
-      PINATA_MASTER=' > .env
-```
-
-Functions are located in `src-functions/`
-
-**[You can obtain Master Pinata Keys here](https://app.pinata.cloud/keys)**
-
-you need to install the netlify-cli:
-
-```bash
-npm install netlify-cli -g
-```
-
-to start the server, run:
-
-```bash
-netlify dev
-```
-
-**App will start on [localhost:9000](http://localhost:9000).**
+KodaDot will be available at **[localhost:9090](http://localhost:9090).**
 
 ## Docker 🐳
 
@@ -65,19 +42,22 @@ If you just want to try out our KodaDot on Kusama and have a complete local set 
 ### First time setup
 
 - Build the docker image
+
 ```bash
 # Make sure you are logged into docker.
 docker-compose up --build
 ```
 
 - To check if the container is up:
+
 ```bash
 docker ps
 ```
 
 ### From next time
 
-Run:
+- Run:
+
 ```bash
 docker-compose up
 ```
@@ -98,6 +78,8 @@ git fetch --all
 git merge origin/main
 pnpm install
 ```
+
+<br/>
 
 **1. How can I read some data from the GraphQL?**
 
@@ -122,60 +104,66 @@ Then we can use it like this:
 
 ```html
 <script lang="ts" setup>
-const { $consola } = useNuxtApp()
-const route = useRoute()
-const { data: nft } = useGraphql({
-  queryName: 'nftById',
-  variables: { id: route.params.id },
-})
+  const { $consola } = useNuxtApp()
+  const route = useRoute()
+  const { data: nft } = useGraphql({
+    queryName: 'nftById',
+    variables: { id: route.params.id },
+  })
 
-$consola.log(nft)
+  $consola.log(nft)
 </script>
 ```
+
+<br/>
 
 **2. How can I read on-chain data from the RPC node?**
 
 ```html
 <script lang="ts" setup>
-const { $consola } = useNuxtApp()
-const { apiInstance } = useApi()
+  const { $consola } = useNuxtApp()
+  const { apiInstance } = useApi()
 
-const collectionId = ref('0')
-const id = ref('0')
-const api = await apiInstance.value
-const nft = await api.query.uniques.asset(collectionId, id)
+  const collectionId = ref('0')
+  const id = ref('0')
+  const api = await apiInstance.value
+  const nft = await api.query.uniques.asset(collectionId, id)
 
-$consola.log(nft)
+  $consola.log(nft)
 </script>
 ```
+
+<br/>
 
 **3. How can I make an on-chain transaction?**
 
 ```html
 <script lang="ts" setup>
-async function submit() {
-  const { accountId } = useAuth()
-  const { howAboutToExecute, isLoading, status, initTransactionLoader } =
-    useMetaTransaction()
+  async function submit() {
+    const { accountId } = useAuth()
+    const { howAboutToExecute, isLoading, status, initTransactionLoader } =
+      useMetaTransaction()
 
-  const executeTransaction = ({ cb, arg, successMessage, errorMessage }) => {
-    initTransactionLoader()
-    howAboutToExecute(
-      accountId.value,
-      cb,
-      arg,
-      () => infoMessage(successMessage || 'Success!'),
-      () => warningMessage(errorMessage || 'Failed!')
-    )
+    const executeTransaction = ({ cb, arg, successMessage, errorMessage }) => {
+      initTransactionLoader()
+      howAboutToExecute(
+        accountId.value,
+        cb,
+        arg,
+        () => infoMessage(successMessage || 'Success!'),
+        () => warningMessage(errorMessage || 'Failed!')
+      )
+    }
+
+    executeTransaction({
+      cb: api.tx.system.remark,
+      arg: ['args'],
+    })
   }
-
-  executeTransaction({
-    cb: api.tx.system.remark,
-    arg: ['args']
-  })
-}
 </script>
 ```
+
+<br/>
 
 **4. How can I test Kodadot without spending KSM?**
 
@@ -196,11 +184,15 @@ Current Indexers we have/use:
 - SubSquid
   - Basilisk: [snek](https://github.com/kodadot/snek)
   - Kusama: [rubick](https://github.com/kodadot/rubick)
+  - Basilisk: [snek](https://github.com/kodadot/snek)
+  - AssetHub: [stick](https://github.com/kodadot/stick)
   - MoonRiver: [click](https://github.com/kodadot/click)
 
-### MISC 🏞
+<br/>
 
-#### Linting code
+## MISC 🏞
+
+### Linting code
 
 **Show all problems**
 
@@ -220,7 +212,9 @@ pnpm lint:quiet
 pnpm lint:fix
 ```
 
-#### Generating changelog
+<br/>
+
+### Generating changelog
 
 To generate changelog, use GitHub CLI
 List only merged; if you need limit, use `-L`
