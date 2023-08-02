@@ -1,55 +1,14 @@
 # One Stop Shop for your Polkadot NFTs
 
-https://bafybeiem5b2uxk336vy3urmd4ynesl7ewgodeekykbafrqxoubigsnpkay.ipfs.w3s.link/InShot_20230801_171745644.mp4
----
-date: 2023-08-01
-tags: Onboarding
-title: A Quick Guide for Keyboard shortcuts on kodadot
-subtitle: Kodadot quick keyboard shortcuts guide for artists and collectors
----
+![](https://github.com/kodadot/kodadot-presskit/blob/main/v3/KODA_v3.png?raw=true)
 
-In this Article we are going explain all of the working keyboard shortcuts on kodadot  **keyboard shortcuts are really helpful for those users who're using kodadot in Desktop mode**
-
-> Before you read this it is recommended to watch the video explanation for better understanding.
-
-
-# keyboard Shortcuts 🚀
-make sure to Press and Hold to use these commands
-
-## 🇬 + 🇦
-This shortcut will redirect you to your artist profile 
-
-## 🇬 + 🇨 
-This shortcut will show you your collected NFTs
-
-## 🇬 + 🇸
-This will show your sold NFTs
-
-## 🇬 + 🇲
-This will redirect you to the NFT minting page where you can create your own NFT
-
-## 🇬 + 🇮
-This will redirect to the top collection page (rankings)
-
-## 🇬 + 🇩
-This will redirect you to the top creators and collectors page (Rankings for active users)
-Featuring the most active collectors and artists on Kodadot.
-
-## 🇬 + 🇺
-This will copy your current page link
-
-## 🇬 + 🇰
-This will let you search NFTs and collections
-
-
-Remember these keyboard shotcuts are the best way of using kodadot so make sure to practice these shortcuts in your everyday life.
 # Contributing
 
 [![Test & Build app](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml) [![cypress](https://github.com/kodadot/nft-gallery/actions/workflows/e2e.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/e2e.yml) [![Reviewdog](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/7d14fab327c632d5f0ce/maintainability)](https://codeclimate.com/github/kodadot/nft-gallery/maintainability)
 
 ![image](https://user-images.githubusercontent.com/5887929/217076362-464e1293-8a2d-43ee-829f-fba17408e4c3.png)
 
-#### Is this your first time contributing? Set up your local environment [here](FIRST_TIME.md)
+#### Is this your first time contributing? Set up your local environment [here](./content/blog/first-time.md)
 
 Before submitting your pull request, read up on our [documentation](https://developers.kodadot.xyz) and make sure it follows:
 
