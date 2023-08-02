@@ -339,6 +339,13 @@ export default defineNuxtConfig({
 
   sitemap: {
     hostname: process.env.BASE_URL || 'http://localhost:9090',
+    routes() {
+      const posts = fs.readdirSync('content/blog')
+
+      return posts
+        .map((post) => post.split('.')[0])
+        .map((post) => `/blog/${post}`)
+    },
   },
 
   hooks: {
