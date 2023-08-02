@@ -1,6 +1,5 @@
 # One Stop Shop for your Polkadot NFTs
 
-![](https://bafybeiem5b2uxk336vy3urmd4ynesl7ewgodeekykbafrqxoubigsnpkay.ipfs.w3s.link/InShot_20230801_171745644.mp4)
 
 ---
 date: 2023-08-01
