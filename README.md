@@ -60,15 +60,6 @@ You'll find our goals for KodaDot upcoming future!
 
 https://github.com/AshutoshSingh72/nft-gallery/assets/78789916/3c4f428c-972f-414c-a900-34d20cc23bf0
 
-title: A Quick Guide for Keyboard shortcuts on kodadot
-subtitle: Kodadot quick keyboard shortcuts guide for artists and collectors
----
-
-In this Article we are going explain all of the working keyboard shortcuts on kodadot  **keyboard shortcuts are really helpful for those users who're using kodadot in Desktop mode**
-
-> Before you read this it is recommended to watch the video explanation for better understanding.
-
-
 # keyboard Shortcuts 🚀
 make sure to Press and Hold to use these commands
 
