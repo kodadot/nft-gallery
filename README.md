@@ -1,6 +1,6 @@
 # One Stop Shop for your Polkadot NFTs
 
-
+(https://github.com/kodadot/nft-gallery/actions/workflows/build.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml) [![cypress](https://github.com/kodadot/nft-gallery/actions/workflows/e2e.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/e2e.yml) [![Reviewdog](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/7d14fab327c632d5f0ce/maintainability)](https://codeclimate.com/github/kodadot/nft-gallery/maintainability)
 ---
 date: 2023-08-01
 tags: Onboarding
