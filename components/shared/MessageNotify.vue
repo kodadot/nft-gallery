@@ -15,7 +15,11 @@
         <span class="subtitle is-6 mb-0">
           {{ subtitle }}
         </span>
-        <Sharing btn-type="is-primary" :enable-download="enableDownload" />
+        <ShowQRModal
+          class="share-option"
+          :address="realworldFullPath"
+          :title="$t('sharing.nft')"
+          type="is-primary" />
       </div>
     </div>
   </NeoMessage>
@@ -24,15 +28,19 @@
 <script lang="ts" setup>
 import { NeoMessage } from '@kodadot1/brick'
 
+const route = useRoute()
 const props = defineProps<{
   title?: string
   subtitle?: string
-  enableDownload?: false
   duration?: number
 }>()
 
 const realDuration = computed(() => {
   return props.duration || 10000
+})
+
+const realworldFullPath = computed(() => {
+  return `${window.location.origin}${route.fullPath}`
 })
 </script>
 
