@@ -36,14 +36,16 @@ const props = withDefaults(
     value: number
     total: number
     perPage?: number
-    simple: boolean
+    simple?: boolean
     replace: boolean
     preserveScroll?: boolean
-    hasMagicBtn: boolean
+    hasMagicBtn?: boolean
     enableListenKeyboardEvent?: boolean
   }>(),
   {
     perPage: 20,
+    hasMagicBtn: false,
+    simple: false,
   }
 )
 const emit = defineEmits(['input'])
