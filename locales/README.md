@@ -6,7 +6,7 @@ You will need [nodejs enviroment](https://nodejs.org/en/download/) and [pnpm](ht
 
 Particular commands you need to write to your terminal
 
-Look up on instructions at [First_Time](https://github.com/kodadot/nft-gallery/blob/main/FIRST_TIME.md#hyper-start-)
+Look up on instructions at [First_Time](https://github.com/kodadot/nft-gallery/blob/main//content/blog/first-time.md#hyper-start-)
 
 1. If it is everything runs, that great!
 2. Now open in your editor your language .json file which is in `langDir`, for Spanish i.e. `es.json`
