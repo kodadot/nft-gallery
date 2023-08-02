@@ -41,7 +41,7 @@ You'll find our goals for KodaDot upcoming future!
 - Read on the ever-evolving states of our [data storage](https://medium.com/kodadot/on-the-past-present-and-future-of-data-storage-at-kodadot-7634a0c32530)
 - Read up on our efforts to be a [public good](https://medium.com/kodadot/on-sustaining-open-source-as-a-public-good-a3e8c36e67d6)
 - Get a glimpse into our [contributor culture](https://medium.com/kodadot/contributor-culture-at-kodadot-665243d3d6a6)
-
+- Read about how to use kodadot keyboard shortcuts [keyboard shortcuts](https://medium.com/@ashutoshrishi844101/quick-guide-for-using-keyboard-shortcuts-on-kodadot-83b427d60145)
 # Support KodaDot
 
 #### Please ⭐️ **star** and **share** this repository! This exposes us to other builders and creators in the space.
@@ -54,41 +54,4 @@ You'll find our goals for KodaDot upcoming future!
 - Follow us on [Twitter](https://twitter.com/KodaDot), [Youtube](https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA), [SubStack](https://kodadot.substack.com/) and [Medium](https://blog.kodadot.xyz), [Instagram](https://instagram.com/kodadot.xyz),
 - Join our [Telegram KodaDot Ecosystem](https://t.me/kodadot_eco), [Discord](https://discord.gg/u6ymnbz4PR)
 - [Pick your T-shirt in KodaDot Swag Shop](https://shop.kodadot.xyz), use voucher `readme100` to get 100% OFF, first 10 redemptions only.
-
-# Quick Guide for using Keyboard shortcuts on kodadot 🚀
-
-
-![Keyboard shortcuts](https://github.com/AshutoshSingh72/nft-gallery/assets/78789916/eb5a29eb-1837-414b-bb51-d06b17e0f192)
-
-
-# keyboard Shortcuts 🚀
-make sure to Press and Hold to use these commands
-
-## 🇬 + 🇦
-This shortcut will redirect you to your artist profile 
-
-## 🇬 + 🇨 
-This shortcut will show you your collected NFTs
-
-## 🇬 + 🇸
-This will show your sold NFTs
-
-## 🇬 + 🇲
-This will redirect you to the NFT minting page where you can create your own NFT
-
-## 🇬 + 🇮
-This will redirect to the top collection page (rankings)
-
-## 🇬 + 🇩
-This will redirect you to the top creators and collectors page (Rankings for active users)
-Featuring the most active collectors and artists on Kodadot.
-
-## 🇬 + 🇺
-This will copy your current page link
-
-## 🇬 + 🇰
-This will let you search NFTs and collections
-
-
-Remember these keyboard shotcuts are the best way of using kodadot so make sure to practice these shortcuts in your everyday life.
 
