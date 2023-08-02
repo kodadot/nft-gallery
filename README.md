@@ -8,7 +8,7 @@
 
 ![image](https://user-images.githubusercontent.com/5887929/217076362-464e1293-8a2d-43ee-829f-fba17408e4c3.png)
 
-#### Is this your first time contributing? Set up your local environment [here](FIRST_TIME.md)
+#### Is this your first time contributing? Set up your local environment [here](./content/blog/first-time.md)
 
 Before submitting your pull request, read up on our [documentation](https://developers.kodadot.xyz) and make sure it follows:
 
