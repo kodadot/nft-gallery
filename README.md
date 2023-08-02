@@ -1,7 +1,43 @@
 # One Stop Shop for your Polkadot NFTs
 
 ![](https://github.com/kodadot/kodadot-presskit/blob/main/v3/KODA_v3.png?raw=true)
+---
 
+In this Article we are going explain all of the working keyboard shortcuts on kodadot  **keyboard shortcuts are really helpful for those users who're using kodadot in Desktop mode**
+
+> Before you read this it is recommended to watch the video explanation for better understanding.
+
+
+# keyboard Shortcuts 🚀
+make sure to Press and Hold to use these commands
+
+## 🇬 + 🇦
+This shortcut will redirect you to your artist profile 
+
+## 🇬 + 🇨 
+This shortcut will show you your collected NFTs
+
+## 🇬 + 🇸
+This will show your sold NFTs
+
+## 🇬 + 🇲
+This will redirect you to the NFT minting page where you can create your own NFT
+
+## 🇬 + 🇮
+This will redirect to the top collection page (rankings)
+
+## 🇬 + 🇩
+This will redirect you to the top creators and collectors page (Rankings for active users)
+Featuring the most active collectors and artists on Kodadot.
+
+## 🇬 + 🇺
+This will copy your current page link
+
+## 🇬 + 🇰
+This will let you search NFTs and collections
+
+
+Remember these keyboard shotcuts are the best way of using kodadot so make sure to practice these shortcuts in your everyday life.
 # Contributing
 
 [![Test & Build app](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml) [![cypress](https://github.com/kodadot/nft-gallery/actions/workflows/e2e.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/e2e.yml) [![Reviewdog](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/7d14fab327c632d5f0ce/maintainability)](https://codeclimate.com/github/kodadot/nft-gallery/maintainability)
