@@ -5,7 +5,7 @@
 ---
 date: 2023-08-01
 tags: Onboarding
-(https://bafybeiem5b2uxk336vy3urmd4ynesl7ewgodeekykbafrqxoubigsnpkay.ipfs.w3s.link/InShot_20230801_171745644.mp4)
+![](https://bafybeiem5b2uxk336vy3urmd4ynesl7ewgodeekykbafrqxoubigsnpkay.ipfs.w3s.link/InShot_20230801_171745644.mp4)
 title: A Quick Guide for Keyboard shortcuts on kodadot
 subtitle: Kodadot quick keyboard shortcuts guide for artists and collectors
 ---
