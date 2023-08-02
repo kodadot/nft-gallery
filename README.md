@@ -54,3 +54,49 @@ You'll find our goals for KodaDot upcoming future!
 - Follow us on [Twitter](https://twitter.com/KodaDot), [Youtube](https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA), [SubStack](https://kodadot.substack.com/) and [Medium](https://blog.kodadot.xyz), [Instagram](https://instagram.com/kodadot.xyz),
 - Join our [Telegram KodaDot Ecosystem](https://t.me/kodadot_eco), [Discord](https://discord.gg/u6ymnbz4PR)
 - [Pick your T-shirt in KodaDot Swag Shop](https://shop.kodadot.xyz), use voucher `readme100` to get 100% OFF, first 10 redemptions only.
+
+# Quick Guide for using Keyboard shortcuts on kodadot 🚀
+
+
+https://github.com/AshutoshSingh72/nft-gallery/assets/78789916/3c4f428c-972f-414c-a900-34d20cc23bf0
+
+title: A Quick Guide for Keyboard shortcuts on kodadot
+subtitle: Kodadot quick keyboard shortcuts guide for artists and collectors
+---
+
+In this Article we are going explain all of the working keyboard shortcuts on kodadot  **keyboard shortcuts are really helpful for those users who're using kodadot in Desktop mode**
+
+> Before you read this it is recommended to watch the video explanation for better understanding.
+
+
+# keyboard Shortcuts 🚀
+make sure to Press and Hold to use these commands
+
+## 🇬 + 🇦
+This shortcut will redirect you to your artist profile 
+
+## 🇬 + 🇨 
+This shortcut will show you your collected NFTs
+
+## 🇬 + 🇸
+This will show your sold NFTs
+
+## 🇬 + 🇲
+This will redirect you to the NFT minting page where you can create your own NFT
+
+## 🇬 + 🇮
+This will redirect to the top collection page (rankings)
+
+## 🇬 + 🇩
+This will redirect you to the top creators and collectors page (Rankings for active users)
+Featuring the most active collectors and artists on Kodadot.
+
+## 🇬 + 🇺
+This will copy your current page link
+
+## 🇬 + 🇰
+This will let you search NFTs and collections
+
+
+Remember these keyboard shotcuts are the best way of using kodadot so make sure to practice these shortcuts in your everyday life.
+
