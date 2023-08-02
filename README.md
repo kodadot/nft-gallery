@@ -58,7 +58,8 @@ You'll find our goals for KodaDot upcoming future!
 # Quick Guide for using Keyboard shortcuts on kodadot 🚀
 
 
-https://github.com/AshutoshSingh72/nft-gallery/assets/78789916/3c4f428c-972f-414c-a900-34d20cc23bf0
+![Keyboard shortcuts](https://github.com/AshutoshSingh72/nft-gallery/assets/78789916/eb5a29eb-1837-414b-bb51-d06b17e0f192)
+
 
 # keyboard Shortcuts 🚀
 make sure to Press and Hold to use these commands
