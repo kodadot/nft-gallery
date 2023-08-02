@@ -66,29 +66,33 @@ useNuxt2Meta({
     margin-bottom: 0;
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    margin: 1rem 0;
+  }
+
   h1 {
     font-size: 3rem;
     line-height: 3.5rem;
     font-weight: 700;
-    margin: 1rem 0;
   }
 
   h2 {
     font-size: 1.5rem;
     font-weight: bold;
-    margin-bottom: 1rem;
   }
 
   h3 {
     font-size: 1.2rem;
     font-weight: bold;
-    margin-bottom: 1rem;
   }
 
   h4 {
     font-size: 1rem;
     font-weight: bold;
-    margin-bottom: 1rem;
   }
 
   img {
@@ -99,8 +103,6 @@ useNuxt2Meta({
   p {
     font-size: 20px;
     line-height: 30px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
   }
 
   @include ktheme() {
