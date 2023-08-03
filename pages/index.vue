@@ -8,5 +8,8 @@ export default {
   components: {
     LandingPage: () => import('@/components/landing/LandingPage.vue'),
   },
+  layout() {
+    return 'full-width-layout'
+  },
 }
 </script>
