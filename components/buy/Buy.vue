@@ -10,7 +10,6 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useFiatStore } from '@/stores/fiat'
-import EventBus from '@/utils/eventBus'
 
 import { warningMessage } from '@/utils/notification'
 import ConfirmPurchaseModal from '@/components/common/ConfirmPurchaseModal.vue'
@@ -18,7 +17,6 @@ import Loader from '@/components/shared/Loader.vue'
 import { TokenToBuy } from '@/composables/transaction/types'
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 const { urlPrefix } = usePrefix()
-
 const shoppingCartStore = useShoppingCartStore()
 const preferencesStore = usePreferencesStore()
 const fiatStore = useFiatStore()
@@ -51,7 +49,7 @@ const ShoppingCartItemToTokenToBuy = (item: ShoppingCartItem): TokenToBuy => {
 
 watchEffect(() => {
   if (isLoading.value === false && status.value === 'loader.finalized') {
-    EventBus.emit('buy-success')
+    preferencesStore.setTriggerBuySuccess(true)
     shoppingCartStore.removeAll()
   }
 })

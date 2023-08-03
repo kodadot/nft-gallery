@@ -11,6 +11,7 @@ interface State {
   notificationBoxCollapseOpen: boolean
   shoppingCartCollapseOpen: boolean
   completePurchaseModal: completePurchaseModalState
+  triggerBuySuccess: boolean
   layoutClass: string
   galleryLayoutClass: string
   advancedUI: boolean
@@ -45,6 +46,7 @@ export const usePreferencesStore = defineStore('preferences', {
       isOpen: false,
       mode: 'shopping-cart',
     },
+    triggerBuySuccess: false,
     layoutClass: 'is-one-quarter-desktop is-one-third-tablet',
     galleryLayoutClass:
       'is-one-quarter-desktop is-one-third-tablet is-half-mobile',
@@ -73,6 +75,7 @@ export const usePreferencesStore = defineStore('preferences', {
     getNotificationBoxCollapse: (state) => state.notificationBoxCollapseOpen,
     getShoppingCartCollapse: (state) => state.shoppingCartCollapseOpen,
     getCompletePurchaseModal: (state) => state.completePurchaseModal,
+    getTriggerBuySuccess: (state) => state.triggerBuySuccess,
     getLayoutClass: (state) => state.layoutClass,
     getGalleryLayoutClass: (state) => state.galleryLayoutClass,
     getTheatreView: (state) => state.theatreView,
@@ -110,6 +113,9 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setCompletePurchaseModalOpen(payload) {
       this.completePurchaseModal.isOpen = payload
+    },
+    setTriggerBuySuccess(payload) {
+      this.triggerBuySuccess = payload
     },
     setLayoutClass(payload) {
       this.layoutClass = payload

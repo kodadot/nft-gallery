@@ -183,7 +183,7 @@ import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
 import { useWindowSize } from '@vueuse/core'
-import EventBus from '@/utils/eventBus'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
@@ -192,11 +192,14 @@ const router = useRouter()
 const { placeholder } = useTheme()
 const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
+const preferencesStore = usePreferencesStore()
 
 const galleryItem = useGalleryItem()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
   galleryItem
 const collection = computed(() => nft.value?.collection)
+
+const triggerBuySuccess = computed(() => preferencesStore.triggerBuySuccess)
 
 const breakPointWidth = 930
 const isMobile = computed(() => useWindowSize().width.value < breakPointWidth)
@@ -239,7 +242,15 @@ const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongratsMessage.value = true
 }
-EventBus.on('buy-success', onNFTBought)
+
+watch(triggerBuySuccess, (value, oldValue) => {
+  console.log('triggerBuySuccess', value, oldValue)
+  if (value && !oldValue) {
+    onNFTBought()
+    preferencesStore.setTriggerBuySuccess(false)
+  }
+})
+
 const congratsNewNft = ref('')
 
 const CarouselTypeRelated = defineAsyncComponent(
