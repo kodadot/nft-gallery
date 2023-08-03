@@ -112,8 +112,8 @@ export default {
 
     return {
       posts: latestPosts,
-      featuredPost: featuredPost,
-      tokensPosts: tokensPosts,
+      featuredPost,
+      tokensPosts,
     }
   },
   methods: {
@@ -171,6 +171,10 @@ export default {
     @include ktheme() {
       border: 1px solid theme('card-border-color');
       background-color: theme('background-color');
+
+      &-cover {
+        border-bottom: 1px solid theme('card-border-color');
+      }
     }
 
     &-cover {
