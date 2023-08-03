@@ -35,7 +35,7 @@
         <span class="has-text-weight-bold is-size-6 mb-1">{{
           $t('transfers.sender')
         }}</span>
-        <div class="is-flex is-align-items-center">
+        <div v-if="accountId" class="is-flex is-align-items-center">
           <Avatar :value="accountId" :size="32" />
           <span class="ml-2">
             <Identity :address="accountId" hide-identity-popover />
@@ -47,6 +47,7 @@
             <NeoIcon icon="copy" />
           </a>
         </div>
+        <Auth v-else />
       </div>
       <div class="is-flex is-flex-direction-column is-align-items-end">
         <span class="has-text-weight-bold is-size-6 mb-1">{{
@@ -121,7 +122,7 @@
       <div
         class="is-flex is-justify-content-space-between is-align-items-center">
         {{ $t('transfers.sendSameAmount')
-        }}<NeoTooltip :label="$i18n.t('transfers.setSameAmount')"
+        }}<NeoTooltip :label="$t('transfers.setSameAmount')"
           ><NeoIcon class="ml-2" icon="circle-info" pack="far"
         /></NeoTooltip>
       </div>
@@ -254,12 +255,20 @@ const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
 
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
-const disabled = computed(
-  () => !isLogIn.value || balanceUsdValue.value < totalUsdValue.value
-)
 
 const targetAddresses = ref<TargetAddress[]>([{}])
+
+const hasValidTarget = computed(() =>
+  targetAddresses.value.some((item) => isAddress(item.address) && item.token)
+)
+
 const balance = getAuthBalance
+const disabled = computed(
+  () =>
+    !isLogIn.value ||
+    balanceUsdValue.value < totalUsdValue.value ||
+    !hasValidTarget.value
+)
 
 const checkQueryParams = () => {
   const { query } = route
