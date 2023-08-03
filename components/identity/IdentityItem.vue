@@ -22,7 +22,9 @@
       <nuxt-link
         class="identity-name has-text-weight-bold"
         :to="`/${prefix}/u/${account}`">
-        <Identity :address="account" />
+        <Identity
+          :address="account"
+          :hide-identity-popover="hideIdentityPopover" />
       </nuxt-link>
     </div>
   </div>
@@ -43,10 +45,12 @@ withDefaults(
     prefix: string
     variant?: 'normal' | 'button'
     buttonLabel?: string
+    hideIdentityPopover?: boolean
   }>(),
   {
     variant: 'normal',
     buttonLabel: 'View Profile',
+    hideIdentityPopover: false,
   }
 )
 </script>
