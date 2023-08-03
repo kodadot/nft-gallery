@@ -1,18 +1,26 @@
 <template>
   <div
     ref="hoverRef"
-    class="is-flex is-justify-content-space-between py-2 px-6 shopping-cart-item">
+    class="is-flex is-justify-content-space-between shopping-cart-item">
     <div class="is-flex is-flex-grow-1 pr-2">
-      <nuxt-link :to="`/${urlPrefix}/gallery/${nft.id}`" class="image is-48x48">
-        <BasicImage :src="avatar" :alt="nft?.name" class="border" />
-      </nuxt-link>
+      <component
+        :is="clickable ? 'nuxt-link' : 'div'"
+        :to="`/${urlPrefix}/gallery/${nft.id}`">
+        <BasicImage
+          :src="avatar"
+          :alt="nft?.name"
+          class="border image is-48x48" />
+      </component>
+
       <div
         class="is-flex is-flex-direction-column is-justify-content-space-between ml-4">
-        <nuxt-link
+        <component
+          :is="clickable ? 'nuxt-link' : 'div'"
           :to="`/${urlPrefix}/gallery/${nft.id}`"
-          class="has-text-weight-bold line-height-1"
-          >{{ nft.name }}</nuxt-link
-        >
+          class="has-text-weight-bold has-text-color line-height-1">
+          {{ nft.name }}
+        </component>
+
         <span class="line-height-1 no-wrap is-clipped">{{
           nft.collection?.name || nft.collection.id
         }}</span>
@@ -54,6 +62,7 @@ const emit = defineEmits(['delete'])
 const props = defineProps<{
   nft: ShoppingCartItem
   allowDelete?: boolean
+  clickable?: boolean
 }>()
 
 const getAvatar = async () => {
