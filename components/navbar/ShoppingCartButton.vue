@@ -1,15 +1,17 @@
 <template>
-  <div class="is-relative">
-    <a class="navbar-item" @click="toggleShoppingCartModal">
-      <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
-      <img :src="shoppingCartIcon" class="image is-24x24" />
-    </a>
-    <ActiveCount
-      v-if="numberOfItems"
-      :count="numberOfItems"
-      rounded
-      class="count-position is-size-7" />
-  </div>
+  <a
+    class="navbar-item is-flex is-align-items-center"
+    @click="toggleShoppingCartModal">
+    <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
+    <div class="is-relative" :class="{ 'ml-2': showLabel }">
+      <img :src="shoppingCartIcon" class="image is-24x24 align" />
+      <ActiveCount
+        v-if="numberOfItems"
+        :count="numberOfItems"
+        rounded
+        class="count-position is-size-7" />
+    </div>
+  </a>
 </template>
 
 <script setup lang="ts">
@@ -52,9 +54,14 @@ function toggleShoppingCartModal() {
 
 <style scoped lang="scss">
 .count-position {
-  right: 0;
-  top: -0.3rem;
+  right: -0.75rem;
+  top: -0.75rem;
   left: unset;
   bottom: unset;
+}
+
+.align {
+  display: inline-flex;
+  vertical-align: middle;
 }
 </style>
