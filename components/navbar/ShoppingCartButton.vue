@@ -19,7 +19,7 @@ import {
   openShoppingCart,
 } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import ActiveCount from '../explore/ActiveCount.vue'
-import { useShoppingCartStore } from '~~/stores/shoppingCart'
+import { useShoppingCartStore } from '@/stores/shoppingCart'
 const { urlPrefix } = usePrefix()
 
 const shoppingCartStore = useShoppingCartStore()
