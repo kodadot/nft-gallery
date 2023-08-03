@@ -119,7 +119,11 @@ function onClick() {
 }
 
 const onClickShoppingCart = () => {
-  shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
+  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+    shoppingCartStore.removeItem(props.nft.id)
+  } else {
+    shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
+  }
 }
 </script>
 <style lang="scss" scoped>
