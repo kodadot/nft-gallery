@@ -106,7 +106,11 @@ const totalNFTsPrice = computed(() =>
   sum(items.value.map((nft) => Number(nft.price)))
 )
 const totalRoyalties = computed(() =>
-  sum(items.value.map((nft) => Number(nft.royalty?.amount ?? 0)))
+  sum(
+    items.value.map(
+      ({ price, royalty }) => (Number(price) * Number(royalty?.amount)) / 100
+    )
+  )
 )
 const disabled = ref(false)
 
