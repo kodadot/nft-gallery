@@ -8,10 +8,31 @@
       <div v-if="Number(nft.price)" class="is-flex desktop-full-w">
         <div class="is-flex buy-button-width">
           <NeoTooltip
-            class="w-full"
             :active="disabled"
-            :label="$t('tooltip.notEnoughBalance')"
+            class="w-full"
+            content-class="buy-tooltip"
+            :position="isMobileDevice ? 'top' : 'left'"
+            :auto-close="!isMobileDevice ? ['outside', 'escape'] : []"
             multiline>
+            <template #content>
+              <div class="is-size-6">
+                {{
+                  $t('tooltip.notEnoughBalanceChain', {
+                    chain: chainNames[urlPrefix],
+                  })
+                }}
+                <div>
+                  {{ $t('tip') }}:
+                  <nuxt-link :to="`/${urlPrefix}/teleport`" target="_blank">
+                    {{ $t('useTeleport') }}</nuxt-link
+                  >
+
+                  {{ $t('or') }}
+
+                  <a @click="showRampSDK"> {{ $t('addFunds') }}</a>
+                </div>
+              </div>
+            </template>
             <NeoButton
               :label="label"
               size="large"
@@ -44,13 +65,16 @@ import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useC
 import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
+import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
 import Vue from 'vue'
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
+import { chainNames } from '@/libs/static/src/chains'
 
 const props = defineProps<{ nft: NFT }>()
+const isMobileDevice = ref(window.innerWidth < 1024)
 
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
@@ -72,6 +96,17 @@ const label = computed(() => {
     preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy'
   )
 })
+
+const showRampSDK = () => {
+  new RampInstantSDK({
+    defaultAsset: 'KSM',
+    userAddress: accountId.value,
+    hostAppName: 'KodaDot',
+    hostApiKey: 'a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc', // env
+    hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
+    variant: 'desktop',
+  }).show()
+}
 
 const balance = computed<string>(() => {
   switch (urlPrefix.value) {
