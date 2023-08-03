@@ -3,6 +3,7 @@ import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 export default function (price: number) {
   const { urlPrefix } = usePrefix()
+  const { $consola } = useNuxtApp()
   const identityStore = useIdentityStore()
   const balance = computed<string>(() => {
     switch (urlPrefix.value) {
@@ -26,6 +27,15 @@ export default function (price: number) {
       return false
     }
     return Number(balance.value) >= price
+  })
+
+  onMounted(async () => {
+    if (identityStore.getAuthAddress) {
+      $consola.log('fetching balance...')
+      await identityStore.fetchBalance({
+        address: identityStore.getAuthAddress,
+      })
+    }
   })
 
   return {
