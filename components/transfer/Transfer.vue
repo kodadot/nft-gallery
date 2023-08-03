@@ -538,7 +538,7 @@ watch(
   }
 
   .fixed-height {
-    height: 66px;
+    height: 51px;
   }
 }
 </style>
