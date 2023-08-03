@@ -121,7 +121,7 @@ const isOpen = computed({
 })
 
 const clearAllItems = () => {
-  shoppingCartStore.removeAll()
+  shoppingCartStore.clear()
 }
 
 const sortedItems = computed(() =>

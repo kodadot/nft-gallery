@@ -70,8 +70,10 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
         localStorage.value = items
       }
     },
-    removeAll() {
+    clear() {
       localStorage.value = []
+      this.itemToBuy = undefined
+      this.items = []
     },
     setItems(payload: ShoppingCartItem[]) {
       localStorage.value = payload
