@@ -18,7 +18,9 @@
       <div class="content-list-card">
         <div>
           <div class="card-tag">• {{ post.attributes.tags }}</div>
-          <div class="title is-4">{{ post.attributes.title }}</div>
+          <p class="title is-4">
+            <a :href="getPermalink(post)">{{ post.attributes.title }}</a>
+          </p>
           <div class="truncate mb-4">{{ post.attributes.subtitle }}</div>
         </div>
 
@@ -32,6 +34,28 @@
             View Article
           </NeoButton>
         </div>
+      </div>
+    </div>
+
+    <!-- article section with 2 grid cols -->
+    <div v-if="redesign">
+      <h2 class="title is-2">Tokens</h2>
+      <div class="content-list-grid content-list-grid-2">
+        <a
+          v-for="post in tokensPosts"
+          :key="post.attributes.title"
+          class="content-board is-block"
+          :href="getPermalink(post)">
+          <div
+            class="content-board-cover"
+            :style="{ backgroundImage: `url(${post.attributes.image})` }"></div>
+          <div class="content-board-text">
+            <p class="has-text-weight-bold">{{ post.attributes.title }}</p>
+            <div class="content-board-subtitle">
+              {{ post.attributes.subtitle }}
+            </div>
+          </div>
+        </a>
       </div>
     </div>
 
@@ -64,6 +88,13 @@ export default {
   name: 'BlogList',
   components: {
     NeoButton,
+  },
+  setup() {
+    const { redesign } = useExperiments()
+
+    return {
+      redesign,
+    }
   },
   asyncData() {
     const resolve = require.context('~/content/blog/', true, /\.md$/)
@@ -139,6 +170,7 @@ export default {
 
     @include ktheme() {
       border: 1px solid theme('card-border-color');
+      background-color: theme('background-color');
     }
 
     &-cover {
@@ -175,6 +207,14 @@ export default {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       grid-gap: 1.5rem;
       margin-bottom: 1.5rem;
+
+      &-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        .content-board-cover {
+          height: 14rem;
+        }
+      }
 
       @include touch {
         grid-template-columns: repeat(1, minmax(0, 1fr));
