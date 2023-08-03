@@ -13,17 +13,16 @@
       </component>
 
       <div
-        class="is-flex is-flex-direction-column is-justify-content-space-between ml-4">
+        class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 limit-width">
         <component
           :is="clickable ? 'nuxt-link' : 'div'"
           :to="`/${urlPrefix}/gallery/${nft.id}`"
-          class="has-text-weight-bold has-text-color line-height-1">
+          class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped ellipsis">
           {{ nft.name }}
         </component>
-
-        <span class="line-height-1 no-wrap is-clipped">{{
-          nft.collection?.name || nft.collection.id
-        }}</span>
+        <div class="line-height-1 no-wrap is-clipped ellipsis">
+          {{ nft.collection?.name || nft.collection.id }}
+        </div>
       </div>
     </div>
 
@@ -85,6 +84,14 @@ onMounted(() => {
       background-color: theme('k-accentlight2');
     }
   }
+}
+
+.limit-width {
+  max-width: 170px;
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
 }
 
 .line-height-1 {
