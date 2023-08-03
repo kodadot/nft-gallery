@@ -22,21 +22,13 @@ query nftListWithSearch(
   ) {
     ...nft
     ...nftDetails
-    royalty
+  
     collection {
       id
       name
     }
     meta {
       ...baseMeta
-    }
-    resources {
-      metadata
-      pending
-      priority
-      slot
-      src
-      thumb
     }
   }
   nftEntitiesConnection(

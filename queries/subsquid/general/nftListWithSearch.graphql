@@ -22,6 +22,7 @@ query nftListWithSearch(
   ) {
     ...nft
     ...nftDetails
+    royalty
     collection {
       id
       name
