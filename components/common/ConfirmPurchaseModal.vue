@@ -18,24 +18,35 @@
           icon="close"
           @click.native="onClose" />
       </header>
-      <div class="px-6 py-4">
+      <div class="px-6 pt-4">
         <div
           class="rounded border shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3">
           <IdentityItem
             v-if="isLogIn"
             :label="$t('confirmPurchase.connectedWith')"
+            hide-identity-popover
             :prefix="urlPrefix"
             :account="accountId"
+            class="identity-name-font-weight-regular"
             data-cy="item-creator" />
         </div>
       </div>
-      <ShoppingCartItemRow v-for="nft in items" :key="nft.id" :nft="nft" />
+      <div class="py-2">
+        <ShoppingCartItemRow
+          v-for="nft in items"
+          :key="nft.id"
+          :nft="nft"
+          class="py-2 px-6" />
+      </div>
       <div class="py-4 mx-6 border-top border-bottom card-border-color">
-        <div class="is-flex is-justify-content-space-between mb-3">
-          {{ $t('confirmPurchase.priceForNFTs') }}
+        <div class="is-flex is-justify-content-space-between mb-2">
+          <span class="is-size-7">{{
+            $t('confirmPurchase.priceForNFTs')
+          }}</span>
           <Money :value="totalNFTsPrice" />
         </div>
-        <div class="is-flex is-justify-content-space-between has-text-grey">
+        <div
+          class="is-flex is-justify-content-space-between has-text-grey is-size-7">
           {{ $t('confirmPurchase.royalties') }}
           <Money :value="totalRoyalties" />
         </div>
@@ -46,11 +57,11 @@
           <Money
             :value="totalNFTsPrice + totalRoyalties"
             class="has-text-grey" />
-          <span class="has-text-weight-bold ml-4"> {{ priceUSD }}$ </span>
+          <span class="has-text-weight-bold ml-2"> {{ priceUSD }}$ </span>
         </div>
       </div>
 
-      <div class="is-flex is-justify-content-space-between py-4 px-6">
+      <div class="is-flex is-justify-content-space-between py-5 px-6">
         <NeoButton
           :label="$t('nft.action.confirm')"
           variant="k-accent"
@@ -144,5 +155,11 @@ const confirm = () => {
 }
 .btn-height {
   height: 3.5rem;
+}
+
+:deep .identity-name-font-weight-regular {
+  .identity-name {
+    font-weight: unset !important;
+  }
 }
 </style>

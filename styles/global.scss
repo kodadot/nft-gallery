@@ -298,7 +298,6 @@ a.has-text-grey {
   @include ktheme() {
     border: 1px solid theme('border-color');
   }
-
 }
 
 .card-border-color {
@@ -306,6 +305,13 @@ a.has-text-grey {
     border-color:theme('card-border-color');
   }
 }
+
+.border-k-shade {
+  @include ktheme() {
+    border-color:  theme('k-shade');
+  }
+}
+
 
 //colors
 
@@ -337,6 +343,11 @@ a.has-text-grey {
   }
 }
 
+.has-text-color {
+  @include ktheme() {
+    color: theme('text-color') !important;
+  }
+}
 
 .has-background-inverse {
   @include ktheme() {
@@ -415,7 +426,6 @@ a.has-text-grey {
 .has-z-index-1 {
   z-index: 1;
 }
-
 
 .modal {
   .modal-content {

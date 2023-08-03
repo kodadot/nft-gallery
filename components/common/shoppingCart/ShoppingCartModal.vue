@@ -15,7 +15,7 @@
       </header>
       <div
         v-if="numberOfItems"
-        class="mx-6 py-4 border-bottom card-border-color is-flex is-justify-content-space-between is-align-items-center">
+        class="mx-6 py-4 border-bottom border-k-shade is-flex is-justify-content-space-between is-align-items-center">
         <span> {{ numberOfItems }} {{ $t('items') }}</span>
 
         <NeoButton
@@ -27,26 +27,28 @@
       </div>
       <div v-if="numberOfItems" class="scroll-y">
         <div
-          class="theme-background-color is-flex is-flex-grow-1 is-flex-direction-column py-1">
+          class="theme-background-color is-flex is-flex-grow-1 is-flex-direction-column py-2">
           <ShoppingCartItemRow
             v-for="item in sortedItems"
             :key="item.id"
             :nft="item"
+            clickable
+            class="px-6 py-2"
             allow-delete
             @delete="shoppingCartStore.removeItem" />
         </div>
         <div
-          class="is-flex is-justify-content-space-between mx-6 py-4 border-top card-border-color">
+          class="is-flex is-justify-content-space-between mx-6 py-4 border-top border-k-shade">
           {{ $t('shoppingCart.total') }}
           <div class="is-flex">
             <Money :value="totalPrice" class="has-text-grey" />
             <span class="has-text-weight-bold ml-4"> ${{ priceUSD }} </span>
           </div>
         </div>
-        <div class="is-flex is-justify-content-center mx-6 pt-4">
+        <div class="is-flex is-justify-content-center mx-6 pt-4 pb-5">
           <NeoButton
             :label="$t('shoppingCart.completePurchase')"
-            :disabled="!accountId || !numberOfItems"
+            :disabled="!numberOfItems"
             class="w-full fixed-height"
             no-shadow
             variant="k-accent"
@@ -99,7 +101,6 @@ import { totalPriceUsd } from './utils'
 
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
-const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const emit = defineEmits(['close'])
 
