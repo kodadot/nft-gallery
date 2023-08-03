@@ -40,7 +40,7 @@ import ExploreTabsFilterSort from '@/components/explore/Controls.vue'
 import MobileFilter from '@/components/shared/filters/MobileFilter.vue'
 import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
 import CollectionInfo from '@/components/collection/CollectionInfo.vue'
-import Buy from '~~/components/buy/Buy.vue'
+import Buy from '@/components/buy/Buy.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()
