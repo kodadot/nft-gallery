@@ -73,8 +73,10 @@ import { NFT } from '@/components/rmrk/service/scheme'
 import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
 import { chainNames } from '@/libs/static/src/chains'
 
+import { useWindowSize } from '@vueuse/core'
+
 const props = defineProps<{ nft: NFT }>()
-const isMobileDevice = ref(window.innerWidth < 1024)
+const isMobileDevice = computed(() => useWindowSize().width.value < 1024)
 
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
