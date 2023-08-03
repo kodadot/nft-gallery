@@ -244,7 +244,6 @@ const onNFTBought = () => {
 }
 
 watch(triggerBuySuccess, (value, oldValue) => {
-  console.log('triggerBuySuccess', value, oldValue)
   if (value && !oldValue) {
     onNFTBought()
     preferencesStore.setTriggerBuySuccess(false)
