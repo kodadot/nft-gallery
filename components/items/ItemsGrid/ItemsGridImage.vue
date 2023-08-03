@@ -37,7 +37,6 @@ import type { NFTWithMetadata } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
-import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import { isOwner as checkOwner } from '@/utils/account'
 
 const { urlPrefix } = usePrefix()
@@ -47,7 +46,6 @@ const { unlockableIcon } = useUnlockableIcon()
 const shoppingCartStore = useShoppingCartStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
-const instance = getCurrentInstance()
 
 const props = defineProps<{
   nft: NFTWithMetadata
@@ -69,15 +67,11 @@ const isOwner = computed(() =>
 )
 
 const onClickBuy = () => {
-  if (shoppingCartStore.isItemInCart(props.nft.id)) {
-    openShoppingCart(instance)
-  } else {
-    shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
-    preferencesStore.setCompletePurchaseModal({
-      isOpen: true,
-      mode: 'buy-now',
-    })
-  }
+  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
+  preferencesStore.setCompletePurchaseModal({
+    isOpen: true,
+    mode: 'buy-now',
+  })
 }
 
 const onClickShoppingCart = () => {
