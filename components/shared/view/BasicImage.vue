@@ -23,7 +23,7 @@ const { $consola } = useNuxtApp()
 const { placeholder } = useTheme()
 const props = withDefaults(
   defineProps<{
-    src: string
+    src?: string
     alt?: string
     customClass?: string
     rounded?: boolean

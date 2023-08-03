@@ -17,7 +17,7 @@ Before you being:
 - We utilize [**Node.js**](https://nodejs.org) as a development tool. To avoid potential compatibility issues, check if you're on the version of **Node.js we support.**
 - Make sure that you use [**pnpm**](https://pnpm.io/installation) as the package manager.
 - Please have a read the [code of conduct](CODE_OF_CONDUCT.md)
-- [Learn how to set up your environment for the first time](FIRST_TIME.md)
+- [Learn how to set up your environment for the first time](/content/blog/first-time.md)
 - Get familiar with our [coding conventions & recommendations](STYLE_GUIDE.md)
 - Read up on our [tech stack](https://medium.com/kodadot/the-tech-stack-at-kodadot-8a83880f8624) to get a better picture of the infrastructure we rely on
 - Familiarise yourself with our [contributor culture](https://medium.com/kodadot/contributor-culture-at-kodadot-665243d3d6a6) to better understand the dynamics by which we operate

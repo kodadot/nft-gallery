@@ -15,20 +15,23 @@ import Money from '@/components/shared/format/Money.vue'
 import TokenMoney from '@/components/bsx/format/TokenMoney.vue'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
-withDefaults(
-  defineProps<{
-    value: number | string | undefined
-    customTokenId?: string | undefined
-    dataCy: string
-    round: number
-  }>(),
-  {
-    value: '0',
-    customTokenId: '',
-    dataCy: '',
-    round: 4,
-  }
-)
+defineProps({
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  value: {
+    type: [Number, String, BigInt],
+    default: '0',
+  },
+  dataCy: {
+    type: String,
+    required: false,
+    default: '',
+  },
+  round: {
+    type: Number,
+    default: 4,
+  },
+})
 
 const { urlPrefix } = usePrefix()
 const tokenId = computed(() => getKusamaAssetId(urlPrefix.value))
