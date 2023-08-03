@@ -16,7 +16,9 @@
         <NeoDropdownItem
           v-clipboard:copy="generatePaymentLink(accountId)"
           @click="toast(`${$i18n.t('toast.urlCopy')}`)">
-          {{ $t('transfers.payMeLink') }}
+          <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
+            $t('transfers.payMeLink')
+          }}
         </NeoDropdownItem>
       </NeoDropdown>
     </div>
