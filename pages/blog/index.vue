@@ -7,40 +7,18 @@
       </div>
     </div>
 
-    <!-- find design in #6419 -->
-    <!-- <div class="hero-card content-list">
-      <img :src="posts[0].attributes.image" :alt="posts[0].attributes.title" />
-
-      <div class="content-list-card">
-        <div>
-          <div class="card-tag">• {{ posts[0].attributes.tags }}</div>
-          <div class="title is-3">{{ posts[0].attributes.title }}</div>
-          <div class="truncate mb-4">{{ posts[0].attributes.subtitle }}</div>
-        </div>
-
-        <div>
-          <NeoButton
-            no-shadow
-            rounded
-            tag="a"
-            :href="getPermalink(posts[0])"
-            icon="arrow-right-long">
-            View Article
-          </NeoButton>
-        </div>
-      </div>
-    </div> -->
-
     <div
-      v-for="post in posts"
+      v-for="post in featuredPost.slice(0, 1)"
       :key="post.attributes.title"
       class="hero-card content-list mb-5">
-      <img :src="post.attributes.image" :alt="post.attributes.title" />
+      <div
+        class="content-list-cover"
+        :style="{ backgroundImage: `url(${post.attributes.image})` }"></div>
 
       <div class="content-list-card">
         <div>
           <div class="card-tag">• {{ post.attributes.tags }}</div>
-          <div class="title is-3">{{ post.attributes.title }}</div>
+          <div class="title is-4">{{ post.attributes.title }}</div>
           <div class="truncate mb-4">{{ post.attributes.subtitle }}</div>
         </div>
 
@@ -55,6 +33,26 @@
           </NeoButton>
         </div>
       </div>
+    </div>
+
+    <!-- article section -->
+    <h2 class="title is-2">Latest Posts</h2>
+    <div class="content-list-grid">
+      <a
+        v-for="post in posts"
+        :key="post.attributes.title"
+        class="content-board is-block"
+        :href="getPermalink(post)">
+        <div
+          class="content-board-cover"
+          :style="{ backgroundImage: `url(${post.attributes.image})` }"></div>
+        <div class="content-board-text">
+          <p class="has-text-weight-bold">{{ post.attributes.title }}</p>
+          <div class="content-board-subtitle">
+            {{ post.attributes.subtitle }}
+          </div>
+        </div>
+      </a>
     </div>
   </div>
 </template>
@@ -71,8 +69,20 @@ export default {
     const resolve = require.context('~/content/blog/', true, /\.md$/)
     const imports = resolve.keys().map((key) => resolve(key))
 
+    const featuredPost = imports.filter(
+      (post) => post.attributes.featured === true
+    )
+
+    const latestPosts = imports.filter((post) => !post.attributes.featured)
+
+    const tokensPosts = imports.filter(
+      (post) => post.attributes.tags === 'Tokens'
+    )
+
     return {
-      posts: imports,
+      posts: latestPosts,
+      featuredPost: featuredPost,
+      tokensPosts: tokensPosts,
     }
   },
   methods: {
@@ -80,7 +90,7 @@ export default {
       const filePath = post.meta.resourcePath
       const fileName = filePath.match(/\/([^/]+)\.\w+$/)[1]
 
-      return fileName
+      return `/blog/${fileName}`
     },
   },
 }
@@ -123,6 +133,33 @@ export default {
     }
   }
 
+  &-board {
+    border-radius: 1rem;
+    overflow: hidden;
+
+    @include ktheme() {
+      border: 1px solid theme('card-border-color');
+    }
+
+    &-cover {
+      background-size: cover;
+      background-position: center;
+      height: 8rem;
+    }
+
+    &-text {
+      padding: 1rem;
+    }
+
+    &-subtitle {
+      max-width: 300px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
   &-list {
     border-radius: 2.5rem;
     overflow: hidden;
@@ -133,7 +170,20 @@ export default {
       height: auto;
     }
 
-    img {
+    &-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-gap: 1.5rem;
+      margin-bottom: 1.5rem;
+
+      @include touch {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+      }
+    }
+
+    &-cover {
+      background-size: cover;
+      background-position: center;
       width: 40rem;
       max-height: 22rem;
     }
@@ -143,6 +193,7 @@ export default {
       flex-direction: column;
       justify-content: space-between;
       padding: 1.5rem;
+      width: 20rem;
 
       .card-tag {
         @include ktheme() {
@@ -170,7 +221,7 @@ export default {
       border: 1px solid theme('border-color');
       box-shadow: 4px 4px 0px 0px theme('border-color');
 
-      img {
+      &-cover {
         border-right: 1px solid theme('border-color');
       }
     }
@@ -178,8 +229,9 @@ export default {
     @include touch {
       flex-direction: column;
 
-      img {
+      &-cover {
         border-right: none !important;
+        height: 20rem;
         width: 100%;
       }
 
