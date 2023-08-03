@@ -3,6 +3,7 @@
     <NeoButton
       class="explore-tabs-button"
       tag="nuxt-link"
+      :no-shadow="noShadow"
       :active="active"
       :to="to"
       :icon="active ? 'check' : ''">
@@ -20,6 +21,7 @@ withDefaults(
     text: string
     to?: string
     fullWidth?: boolean
+    noShadow?: boolean
   }>(),
   {
     to: '',

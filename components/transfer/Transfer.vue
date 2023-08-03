@@ -21,8 +21,9 @@
       </NeoDropdown>
     </div>
 
-    <div class="is-flex mb-2">
-      <div class="token-price py-2 px-4">
+    <div class="is-flex mb-5">
+      <div class="token-price py-2 px-4 is-flex is-align-items-center">
+        <img class="mr-2 is-20x20" :src="tokenIcon" alt="token" />
         {{ unit }} ${{ currentTokenValue }}
       </div>
     </div>
@@ -32,13 +33,28 @@
         <span class="has-text-weight-bold is-size-6 mb-1">{{
           $t('transfers.sender')
         }}</span>
-        <Auth />
+        <div class="is-flex is-align-items-center">
+          <Avatar :value="accountId" :size="32" />
+          <span class="ml-2">
+            <Identity :address="accountId" hide-identity-popover />
+          </span>
+          <a
+            v-clipboard:copy="accountId"
+            class="ml-2"
+            @click="toast('Copied to clipboard')">
+            <NeoIcon icon="copy" />
+          </a>
+        </div>
       </div>
       <div class="is-flex is-flex-direction-column is-align-items-end">
         <span class="has-text-weight-bold is-size-6 mb-1">{{
           $t('general.balance')
         }}</span>
-        <Money :value="balance" inline />
+        <div class="is-flex is-align-items-center">
+          <img class="mr-2 is-32x32" :src="tokenIcon" alt="token" />
+          <Money :value="balance" inline />
+        </div>
+
         <span class="has-text-grey">≈ ${{ balanceUsdValue }}</span>
       </div>
     </div>
@@ -57,6 +73,7 @@
           <AddressInput
             v-model="destinationAddress.address"
             label=""
+            placeholder="Enter wallet address"
             :strict="false" />
         </div>
       </div>
@@ -73,15 +90,17 @@
             v-if="displayUnit === 'token'"
             v-model="destinationAddress.token"
             type="number"
-            step="0.001"
+            placeholder="0"
+            step="0.01"
             min="0"
             icon-right-class="search"
             @input="onAmountFieldChange(destinationAddress)" />
           <NeoInput
             v-else
             v-model="destinationAddress.usd"
+            placeholder="0"
             type="number"
-            step="0.001"
+            step="0.01"
             min="0"
             icon-right-class="search"
             @input="onUsdFieldChange(destinationAddress)" />
@@ -131,11 +150,13 @@
         :active="displayUnit === 'token'"
         :text="unit"
         full-width
+        no-shadow
         @click.native="displayUnit = 'token'" />
       <TabItem
         :active="displayUnit === 'usd'"
         text="USD"
         full-width
+        no-shadow
         @click.native="displayUnit = 'usd'" />
     </div>
 
@@ -153,9 +174,9 @@
       </div>
     </div>
 
-    <div class="buttons">
+    <div class="is-flex">
       <NeoButton
-        class="is-flex is-flex-1"
+        class="is-flex is-flex-1 fixed-height"
         variant="k-accent"
         :disabled="disabled"
         @click.native="submit"
@@ -179,9 +200,11 @@ import {
   calculateBalance,
   calculateBalanceUsdValue,
 } from '@/utils/format/balance'
-import { getSumOfObjectField } from '@/utils/math'
+import { getNumberSumOfObjectField } from '@/utils/math'
 import { useFiatStore } from '@/stores/fiat'
 import { useIdentityStore } from '@/stores/identity'
+import Avatar from '@/components/shared/Avatar.vue'
+import Identity from '@/components/identity/IdentityIndex.vue'
 
 import { emptyObject } from '@kodadot1/minimark/utils'
 import {
@@ -226,7 +249,9 @@ const usdValue = ref(0)
 const targets = ref(emptyObject<TargetMap>())
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
+const { getTokenIconBySymbol } = useIcon()
 
+const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
 const disabled = computed(
   () => !isLogIn.value || balanceUsdValue.value < totalUsdValue.value
 )
@@ -290,10 +315,10 @@ watch(sendSameAmount, (value) => {
 })
 
 const totalTokenAmount = computed(() =>
-  Number(getSumOfObjectField(targetAddresses.value, 'token')).toFixed(4)
+  Number(getNumberSumOfObjectField(targetAddresses.value, 'token')).toFixed(4)
 )
 const totalUsdValue = computed(() =>
-  getSumOfObjectField(targetAddresses.value, 'usd')
+  getNumberSumOfObjectField(targetAddresses.value, 'usd')
 )
 
 const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
@@ -494,6 +519,15 @@ watch(
       color: theme('text-color-inverse');
       border: 1px solid theme('background-color-inverse');
     }
+  }
+
+  .square-32 {
+    width: 32px;
+    height: 32px;
+  }
+
+  .fixed-height {
+    height: 66px;
   }
 }
 </style>
