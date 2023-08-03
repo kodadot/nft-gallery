@@ -41,7 +41,7 @@
           class="is-flex is-justify-content-space-between mx-6 py-4 border-top border-k-shade">
           {{ $t('shoppingCart.total') }}
           <div class="is-flex">
-            <Money :value="totalPrice" class="has-text-grey" />
+            <CommonTokenMoney :value="totalPrice" class="has-text-grey" />
             <span class="has-text-weight-bold ml-4"> ${{ priceUSD }} </span>
           </div>
         </div>
@@ -94,7 +94,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import ShoppingCartItemRow from './ShoppingCartItemRow.vue'
 import { sum } from '@/utils/math'
-import Money from '@/components/shared/format/Money.vue'
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
 import emptyCart from '@/assets/empty-cart.png'
 import { totalPriceUsd } from './utils'

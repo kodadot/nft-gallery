@@ -40,7 +40,7 @@
     </div>
 
     <div v-else class="is-flex is-align-items-end no-wrap line-height-1">
-      <Money :value="nft.price" />
+      <CommonTokenMoney :value="nft.price" />
     </div>
   </div>
 </template>
@@ -48,10 +48,10 @@
 <script setup lang="ts">
 import { parseNftAvatar } from '@/utils/nft'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
-import Money from '@/components/shared/format/Money.vue'
 import { useElementHover } from '@vueuse/core'
 import { NeoButton } from '@kodadot1/brick'
 import { ShoppingCartItem } from './types'
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
 const { urlPrefix } = usePrefix()
 const hoverRef = ref()

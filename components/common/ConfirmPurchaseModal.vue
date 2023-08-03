@@ -43,18 +43,18 @@
           <span class="is-size-7">{{
             $t('confirmPurchase.priceForNFTs')
           }}</span>
-          <Money :value="totalNFTsPrice" />
+          <CommonTokenMoney :value="totalNFTsPrice" />
         </div>
         <div
           class="is-flex is-justify-content-space-between has-text-grey is-size-7">
           {{ $t('confirmPurchase.royalties') }}
-          <Money :value="totalRoyalties" />
+          <CommonTokenMoney :value="totalRoyalties" />
         </div>
       </div>
       <div class="is-flex is-justify-content-space-between py-4 px-6">
         {{ $t('confirmPurchase.youWillPay') }}
         <div class="is-flex">
-          <Money
+          <CommonTokenMoney
             :value="totalNFTsPrice + totalRoyalties"
             class="has-text-grey" />
           <span class="has-text-weight-bold ml-2"> {{ priceUSD }}$ </span>
@@ -78,10 +78,10 @@
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import ShoppingCartItemRow from './shoppingCart/ShoppingCartItemRow.vue'
 import { sum } from '@/utils/math'
-import Money from '@/components/shared/format/Money.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { totalPriceUsd } from './shoppingCart/utils'
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
@@ -108,7 +108,8 @@ const totalNFTsPrice = computed(() =>
 const totalRoyalties = computed(() =>
   sum(
     items.value.map(
-      ({ price, royalty }) => (Number(price) * Number(royalty?.amount)) / 100
+      ({ price, royalty }) =>
+        (Number(price ?? '0') * (royalty?.amount ?? 0)) / 100
     )
   )
 )
