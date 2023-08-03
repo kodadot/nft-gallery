@@ -117,8 +117,8 @@ const disabled = ref(false)
 
 watch(
   () => totalNFTsPrice.value + totalRoyalties.value,
-  (price) => {
-    const { isBalanceEnough } = useIsBalanceEnough(price)
+  async (price) => {
+    const { isBalanceEnough } = await useIsBalanceEnough(price)
     disabled.value = !isBalanceEnough.value || !isLogIn.value
   }
 )

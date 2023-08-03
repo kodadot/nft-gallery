@@ -1,11 +1,12 @@
 import { useIdentityStore } from '@/stores/identity'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
-export default function (price: number) {
+export default async function (price: number) {
   const { urlPrefix } = usePrefix()
   const { $consola } = useNuxtApp()
   const identityStore = useIdentityStore()
-  const balance = computed<string>(() => {
+
+  const getBalance = () => {
     switch (urlPrefix.value) {
       case 'rmrk':
       case 'ksm':
@@ -21,21 +22,28 @@ export default function (price: number) {
           getKusamaAssetId(urlPrefix.value)
         )
     }
-  })
-  const isBalanceEnough = computed(() => {
-    if (!balance.value) {
-      return false
-    }
-    return Number(balance.value) >= price
-  })
+  }
 
-  onMounted(async () => {
-    if (identityStore.getAuthAddress) {
-      $consola.log('fetching balance...')
-      await identityStore.fetchBalance({
-        address: identityStore.getAuthAddress,
-      })
+  const fetchBalance = async () => {
+    if (!balance.value || balance.value === '0') {
+      if (identityStore.getAuthAddress) {
+        $consola.log('fetching balance...')
+        await identityStore.fetchBalance({
+          address: identityStore.getAuthAddress,
+        })
+        balance.value = getBalance()
+      }
     }
+  }
+  const balance = ref(getBalance())
+
+  if (!balance.value || balance.value === '0') {
+    await fetchBalance()
+    balance.value = getBalance()
+  }
+
+  const isBalanceEnough = computed(() => {
+    return Number(balance.value) >= price
   })
 
   return {
