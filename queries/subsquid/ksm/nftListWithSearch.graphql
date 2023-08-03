@@ -23,6 +23,7 @@ query nftListWithSearch(
     ...nft
     ...nftDetails
     royalty
+    recipient
     collection {
       id
       name
