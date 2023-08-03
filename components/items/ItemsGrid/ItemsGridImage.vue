@@ -6,30 +6,24 @@
     :prefix="urlPrefix"
     :show-price="Number(nft?.price) > 0"
     :variant="variant"
+    :class="{ 'in-cart-border': shoppingCartStore.isItemInCart(nft.id) }"
     :unloackable-icon="unlockableIcon"
     link="nuxt-link"
     bind-key="to">
     <template #hover-action>
-      <div v-if="!isOwner && Number(nft?.price)" class="w-half is-flex">
+      <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
         <NeoButton
           :label="buyLabel"
           data-cy="item-buy"
           no-shadow
           class="is-flex-grow-1 btn-height"
-          :class="{ 'is-size-7 btn-height-minimal': variant === 'minimal' }"
           @click.native.prevent="onClickBuy" />
         <NeoButton
           data-cy="item-add-to-cart"
           no-shadow
-          class="fixed-width p-1 no-border-left hover-color btn-height override-wrapper-width"
-          :class="{
-            'fixed-width-minimal btn-height-minimal': variant === 'minimal',
-          }"
+          class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
           @click.native.prevent="onClickShoppingCart">
-          <img
-            :src="cartIcon"
-            class="image"
-            :class="{ 'is-16x16': variant === 'minimal' }" />
+          <img :src="cartIcon" class="image is-16x16" />
         </NeoButton>
       </div>
     </template>
@@ -60,14 +54,11 @@ const props = defineProps<{
   variant?: NftCardVariant
 }>()
 
-const buyLabel = computed(() => {
-  if (shoppingCartStore.isItemInCart(props.nft.id)) {
-    return $i18n.t('shoppingCart.gotToCart')
-  }
-  return $i18n.t(
+const buyLabel = computed(() =>
+  $i18n.t(
     preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'shoppingCart.buyNow'
   )
-})
+)
 
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
@@ -90,7 +81,11 @@ const onClickBuy = () => {
 }
 
 const onClickShoppingCart = () => {
-  shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
+  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+    shoppingCartStore.removeItem(props.nft.id)
+  } else {
+    shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
+  }
 }
 </script>
 
@@ -105,6 +100,12 @@ const onClickShoppingCart = () => {
     width: unset !important;
   }
 }
+.in-cart-border {
+  @include ktheme() {
+    outline: 2px solid theme('k-blue') !important;
+    border-color: transparent !important;
+  }
+}
 
 .fixed-width {
   min-width: 35px;
@@ -112,13 +113,6 @@ const onClickShoppingCart = () => {
 
 .btn-height {
   height: 35px;
-}
-
-.fixed-width-minimal {
-  min-width: 24px;
-}
-.btn-height-minimal {
-  height: 24px;
 }
 
 .no-border-left {
