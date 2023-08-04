@@ -90,6 +90,16 @@
     "collectionNotFound": "Our search agents did not found anything with \"{0}\" in collection name",
     "nftNotFound": "Our search agents did not found anything with \"{0}\" in NFT name"
   },
+  "transfers": {
+    "recipient": "Recipient",
+    "sender": "Sender",
+    "sendSameAmount": "Send same amount",
+    "displayUnit": "Displayed units",
+    "addAddress": "Add recipient",
+    "payMeLink": "Pay me link",
+    "setSameAmount": "Set one amount that will be sent to all recipients",
+    "transferable": "Transferable"
+  },
   "topCollections": {
     "timeFrames": {
       "week": "7 Days",
@@ -797,6 +807,7 @@
     "copyUrl": "Copy URL",
     "openUrl": "Open URL",
     "copyRewardTooltip": "Your reward link copied to clipboard",
+    "copyToClipboard": "Copied to clipboard",
     "copyRewardLink": "Copy Reward Me link",
     "latestSales": "Latest sales",
     "search": "Search",
