@@ -43,7 +43,7 @@
           <a
             v-clipboard:copy="accountId"
             class="ml-2"
-            @click="toast('Copied to clipboard')">
+            @click="toast(`${$i18n.t('general.copyToClipboard')}`)">
             <NeoIcon icon="copy" />
           </a>
         </div>
